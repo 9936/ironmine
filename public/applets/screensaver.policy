@@ -1,0 +1,5 @@
+keystore"file:screensaver.store","JKS"; 
+grantsignedBy"mbq" 
+{ 
+permission java.io.FilePermission"<<ALLFILES>>","read"; 
+}; 
