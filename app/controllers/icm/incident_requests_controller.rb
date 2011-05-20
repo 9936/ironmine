@@ -48,7 +48,7 @@ class Icm::IncidentRequestsController < ApplicationController
     respond_to do |format|
       if @incident_request.save
         process_files(@incident_request)
-        publish_create_incident_request(@incident_request)
+        #publish_create_incident_request(@incident_request)
 
         #add watchers
         if params[:cwatcher] && params[:cwatcher].size > 0
@@ -83,7 +83,6 @@ class Icm::IncidentRequestsController < ApplicationController
     prepared_for_create(@incident_request)
     respond_to do |format|
       if @incident_request.save
-        publish_create_incident_request(@incident_request)
         format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
       else
