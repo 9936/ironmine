@@ -1,6 +1,9 @@
 <div id="testDiv"></div>
 
-<%= link_to "testButton", {}, :href => "javascript:void(0);", :id => "testButton"%>
+<%= link_to "testButton", {},
+            :href => "javascript:void(0);",
+            :id => "testButton",
+            :onclick => "getImg();"%>
 <script type="text/javascript">
   GY.use(function(Y) {
       var testDiv = Y.one("#testDiv");
@@ -8,4 +11,21 @@
 
       testDiv.set("innerHTML", appletStr);
   });
+
+  function reloadImg(){
+      screenSaver.reloadClipboard();
+  }
+
+  function getImg(){
+      alert("!!");
+      var img = screenSaver.getImg();
+      alert(getType(img));
+
+  }
+
+    function getType(o) {
+        var _t;
+        return ((_t = typeof(o)) == "object" ? o==null && "null" || Object.prototype.toString.call(o).slice(8,-1):_t).toLowerCase();
+    }
+
 </script>
