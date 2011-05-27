@@ -115,8 +115,14 @@ module Irm::MyInfoHelper
           <span tabindex="0" id="pageMenuTop" style="">#{current_role_name}</span>
           <div id="pageMenu-arrow"></div>
         </div>
-        <div class="menuContent" >
+         <div class="menuContent" style="padding:10px 15px;padding:0\\9;">
+         <div class="tsidMenu-tr"></div>
+         <div class="tsidMenu-tl"></div>
+         <div class="tsidMenu-tc"></div>
+         <div style="display:block;" class="menuItems">
           #{list_roles(roles)}
+         </div>
+         <div class="tsidMenu-br"></div><div class="tsidMenu-bl"></div><div class="tsidMenu-bc"></div></div>
         </div>
       </span>
     BEGIN_HEML
