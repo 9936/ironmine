@@ -198,6 +198,14 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
+  def get_all_slm_services
+    services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_code = ?",params[:external_system_code])
+
+    services = services_scope.collect{|i| {:label => i[:name], :value => i.catalog_code, :id => i.id}}
+    respond_to do |format|
+      format.json {render :json=>services.to_grid_json([:label, :value],services.count)}
+    end
+  end
 
   def assign_dashboard
     respond_to do |format|

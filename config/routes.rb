@@ -757,6 +757,7 @@ Ironmine::Application.routes.draw do
     #incident_requests
     match '/incident_requests/get_external_systems(.:format)' => "incident_requests#get_external_systems", :via => :get
     match '/incident_requests/get_slm_services(.:format)' => "incident_requests#get_slm_services", :via => :get
+    match '/incident_requests/get_all_slm_services(.:format)' => "incident_requests#get_all_slm_services", :via => :get
     match '/incident_requests(/index)(.:format)' => "incident_requests#index", :via => :get
     match '/incident_requests/:id/edit(.:format)' => "incident_requests#edit", :via => :get
     match '/incident_requests/:id(.:format)' => "incident_requests#update", :via => :put

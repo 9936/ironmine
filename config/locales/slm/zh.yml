@@ -9,6 +9,7 @@ zh:
   label_slm_service_category_description: 描述
   label_slm_service_category_status_meaning: 记录状态
   label_slm_service_category_info: 服务类别信息
+  label_slm_service_category: 服务类别
   #=========================    end service_categories_controller=======================#
   #=========================    slm service_catalogs_controller=======================#
   label_slm_service_catalog_list: 服务列表
@@ -34,6 +35,7 @@ zh:
   label_slm_service_catalog_service_break: 添加时间段
   label_add_service_member: 添加成员
   label_add_service_break: 添加时间段
+  label_slm_service_catalog: 服务
   #=========================    end service_catalogs_controller=======================#
   #=========================    slm service_members_controller=======================#
   label_slm_service_member_list: 服务成员列表

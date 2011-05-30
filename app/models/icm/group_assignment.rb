@@ -36,6 +36,24 @@ class Icm::GroupAssignment < ActiveRecord::Base
         joins("LEFT OUTER JOIN #{Irm::OrganizationsTl.table_name} ot ON ot.language = '#{I18n.locale}' AND o.id = ot.organization_id")
   }
 
+  scope :with_external_system, lambda{
+    select("est.system_name external_system_name").
+        joins("LEFT OUTER JOIN #{Uid::ExternalSystem.table_name} es ON es.external_system_code = #{table_name}.external_system_code").
+        joins("LEFT OUTER JOIN #{Uid::ExternalSystemsTl.table_name} est ON est.external_system_id = es.id AND est.language = '#{I18n.locale}'")
+  }
+
+  scope :with_service_catalog, lambda{
+    select("sct.name service_catalog_name").
+        joins("LEFT OUTER JOIN #{Slm::ServiceCatalog.table_name} sc ON sc.catalog_code = #{table_name}.service_code").
+        joins("LEFT OUTER JOIN #{Slm::ServiceCatalogsTl.table_name} sct ON sct.language = '#{I18n.locale}' AND sc.id = sct.service_catalog_id")
+  }
+
+  scope :with_assign_type, lambda{
+    select("atlvt.meaning assign_type_name").
+        joins("LEFT OUTER JOIN #{Irm::LookupValue.table_name} atlv ON atlv.lookup_code = #{table_name}.assign_type").
+        joins("LEFT OUTER JOIN #{Irm::LookupValuesTl.table_name} atlvt ON atlvt.language = '#{I18n.locale}' AND atlvt.lookup_value_id = atlv.id")
+  }
+
   scope :assignable,lambda{
     joins("JOIN #{Irm::SupportGroup.table_name}  ON #{Irm::SupportGroup.table_name}.group_code = #{table_name}.support_group_code AND #{Irm::SupportGroup.table_name}.oncall_group_flag = 'Y' AND #{Irm::SupportGroup.table_name}.status_code = 'ENABLED'")
   }
@@ -68,13 +86,23 @@ class Icm::GroupAssignment < ActiveRecord::Base
     where("#{table_name}.customer_organization_id = ?", organization_id)
   }
 
-  
+  scope :type_organizational, lambda{
+    where("#{table_name}.assign_type = ?", "ORGANIZATIONAL")
+  }
+
+  scope :type_service, lambda{
+    where("#{table_name}.assign_type = ?", "SERVICE")
+  }
+
   scope :list_all, lambda {
     select("#{table_name}.*").
         with_person.
         with_department.
         with_organizations.
         with_company.
-        with_support_group
+        with_support_group.
+        with_external_system.
+        with_service_catalog.
+        with_assign_type
   }
 end

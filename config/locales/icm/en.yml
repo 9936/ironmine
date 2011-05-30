@@ -185,4 +185,5 @@ en:
   label_icm_group_assignment_c_person: Staff
   label_icm_group_assignment_c_site_group: Site Group
   label_icm_group_assignment_c_site: Site
+  label_icm_group_assignment_type: Assignment Type
   #========================= end icm group_assignments_controller =========================#  
