@@ -3,7 +3,6 @@ module Irm
     class IcmGroupAssignmentJob < Struct.new(:incident_request_id,:assign_options)
       include ActionController::UrlWriter
       def perform
-        Delayed::Worker.logger.debug("GroupAssignmentJob  req_id:#{incident_request_id}  options:#{assign_options}")
         request = Icm::IncidentRequest.find(incident_request_id)
         return if request.support_group_id.present?&&request.support_person_id.present?
         assign_result =  assign_options if  assign_options&&assign_options.is_a?(Hash)
@@ -47,11 +46,9 @@ module Irm
           if r1.any?
             support_group = Irm::SupportGroup.where("group_code = ?", r1.first.support_group_code).first
             assign_result[:support_group_id] = support_group.id if support_group
-            Delayed::Worker.logger.debug("GroupAssignmentJob find group: #{support_group.group_code}")
           end
         end
 
-        
         if assign_result[:support_group_id].present?
           support_group = Irm::SupportGroup.where("id = ?", assign_result[:support_group_id]).first
           unless assign_result[:support_person_id].present?
