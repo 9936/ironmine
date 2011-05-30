@@ -50,7 +50,7 @@
             <tr>
               <td class="labelCol"><label for="assign_type"><%= t :label_icm_group_assignment_type %></label></td>
               <td class="dataCol"><%= f.select :assign_type,
-                                                 options_for_select(Irm::LookupValue.get_lookup_value("ICM_GROUP_ASSIGN_TYPE").collect { |p| [p.wrap_meaning, p.lookup_code]}) %></td>
+                                               options_for_select(Irm::LookupValue.get_lookup_value("ICM_GROUP_ASSIGN_TYPE").collect { |p| [p.wrap_meaning, p.lookup_code]}, @group_assignment.assign_type) %></td>
               <td class="labelCol"></td>
               <td class="dataCol"></td>
             </tr>
