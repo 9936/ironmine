@@ -14,10 +14,11 @@ module Irm
 
           #按服务查找
           r1 = Icm::GroupAssignment.assignable.where(:service_code => request.service_code).type_service
-
+          Delayed::Worker.logger.debug("GroupAssignmentJob find service: #{r1.to_json}")
           #按系统查找
           unless r1.any?
-            r1 = Icm::GroupAssignment.assignable.where(:service_code => nil).where(:external_system_code => request.external_system_code).type_service
+            r1 = Icm::GroupAssignment.assignable.where("service_code is NULL OR service_code = ''").where(:external_system_code => request.external_system_code).type_service
+            Delayed::Worker.logger.debug("GroupAssignmentJob find system: #{r1.to_json}")
           end
 
           #按人员查找
