@@ -260,7 +260,9 @@ a#headerSearchOptionsLink {text-decoration:none;}
     margin-top: 10px;
     text-align: left;
     display:inline-block;
+    display:inline\9;
 }
+.asButton > .menuButton{display:inline;}
 .menuButton div.menuLabel {
     height: 20px;
     line-height: 20px;
