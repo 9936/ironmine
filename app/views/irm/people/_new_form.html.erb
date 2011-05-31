@@ -77,7 +77,7 @@
         <tbody>
              <tr>
                  <td class="labelCol"><label><%=t(:label_irm_person_company)%></label></td>
-                 <td class="dataCol"><%= f.blank_select(:company_id,available_company,{},{:required=>true})%></td>
+                 <td class="dataCol"><%= f.blank_select(:company_id,available_company,{},{:required=>true,:id=>"company_id"})%></td>
                   <td class="labelCol"><label><%=(t :label_irm_person_region_code)%></label></td>
                   <td class="dataCol"><%=f.blank_select :region_code,available_region,{},{:required=>true,:id=>"region_code"}%></td>
              </tr>
@@ -213,7 +213,7 @@
 <% end %>
 <script type="text/javascript">
   GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#company_id",target:["#organization_id","#department_id"]});
+     new Y.CascadeSelect({source: "#company_id",target:["#organization_id"]});
      new Y.CascadeSelect({source: "#organization_id",target:["#department_id"]});
 
      new Y.CascadeSelect({source: "#region_code",target:["#site_group_code","#site_code"]});
