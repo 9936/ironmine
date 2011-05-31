@@ -569,6 +569,7 @@ zh:
   label_irm_location_edit: 编辑地点
   label_irm_company_info: 公司详细信息
   label_irm_company_show: 公司
+  label_irm_company: 公司
   label_irm_location_info: 位置信息
   label_irm_company_support_manager: 支持管理员
   #=========================end irm companies_controller=======================#
@@ -606,6 +607,7 @@ zh:
   label_irm_department_edit: 编辑部门
   label_irm_department_list: 部门列表
   label_irm_department_show: 部门
+  label_irm_department: 部门
   label_irm_department_info: 部门信息
   label_irm_department_function_description: 在公司中的定义部门。
   label_irm_department_departments_tls:

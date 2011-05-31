@@ -41,4 +41,5 @@ class Irm::Department < ActiveRecord::Base
                                                               where("#{Irm::DepartmentsTl.table_name}.language=? AND " +
                                                                     "#{table_name}.company_id = ? AND #{table_name}.organization_id = ?",
                                                                     language,company_id,organization_id)}
+
 end

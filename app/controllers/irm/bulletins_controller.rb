@@ -12,24 +12,24 @@ class Irm::BulletinsController < ApplicationController
     @bulletin = Irm::Bulletin.new(params[:irm_bulletin])
     @bulletin.author_id = Irm::Person.current.id
     @bulletin.page_views = 0
+    access_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"]]
     respond_to do |format|
       if @bulletin.save
-        if params[:accesses] && params[:accesses].size > 0
-          rec_array = []
-          params[:accesses].each do |t|
-            rec_array << t[1]
-          end
-          rec_array = rec_array.uniq
-          bulletin_accesses = []
-          rec_array.each do |t|
-             bulletin_accesses << Irm::BulletinAccess.new({:bulletin_id => @bulletin.id,
-                                                 :access_type => t[:type],
-                                                 :access_id => t[:access_id]})
-          end
-          bulletin_accesses.each do |t|
-            t.save
-          end
+
+        if params[:selected_actions] && params[:selected_actions].present?
+          selected_accesses = params[:selected_actions].split(",")
+
+          selected_accesses.each do |access_str|
+            next unless access_str.strip.present?
+            access = access_str.split("#")
+            access_type = access_types.detect{|i| i[1].eql?(access[0])}
+
+            Irm::BulletinAccess.create({:bulletin_id => @bulletin.id,
+                                        :access_type => access_type[0].name,
+                                        :access_id => access[1]})
+          end if selected_accesses.any?
         end
+
         format.html {
           if(params[:return_url])
             redirect_to params[:return_url]
@@ -51,28 +51,30 @@ class Irm::BulletinsController < ApplicationController
 
   def update
     @bulletin = Irm::Bulletin.find(params[:id])
-
+    access_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"]]
     respond_to do |format|
       if @bulletin.update_attributes(params[:irm_bulletin])
-        @bulletin.bulletin_accesses.each do |t|
-          t.destroy
+
+        if params[:selected_actions] && params[:selected_actions].present?
+          selected_accesses = params[:selected_actions].split(",")
+
+          bulletin_accesses_array = @bulletin.bulletin_accesses.collect{|p| [p.access_type, p.access_id]}
+          bulletin_accesses_array.each do |t|
+            t.destroy unless selected_accesses.include?(t[0]+"#"+t[1])
+          end
+
+          selected_accesses.each do |access_str|
+            next unless access_str.strip.present?
+            access = access_str.split("#")
+            next if bulletin_accesses_array.include?(access)
+            access_type = access_types.detect{|i| i[1].eql?(access[0])}
+
+            Irm::BulletinAccess.create({:bulletin_id => @bulletin.id,
+                                        :access_type => access_type[0].name,
+                                        :access_id => access[1]})
+          end if selected_accesses.any?
         end
-        if params[:accesses] && params[:accesses].size > 0
-          rec_array = []
-          params[:accesses].each do |t|
-            rec_array << t[1]
-          end
-          rec_array = rec_array.uniq
-          bulletin_accesses = []
-          rec_array.each do |t|
-             bulletin_accesses << Irm::BulletinAccess.new({:bulletin_id => @bulletin.id,
-                                                 :access_type => t[:type],
-                                                 :access_id => t[:access_id]})
-          end
-          bulletin_accesses.uniq.each do |t|
-            t.save
-          end
-        end
+
         format.html {
           if(params[:return_url])
             redirect_to params[:return_url]
