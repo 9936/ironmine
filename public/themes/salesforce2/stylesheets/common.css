@@ -958,17 +958,17 @@ table.duel tr.duelList td{
     width: 24px;
 }
 a:hover .rightArrowIcon{
-    background-position: left -20;
+    background-position: left -20px;
 }
 .leftArrowIcon{
     background: url("../images/combobox_arrows_sprite.gif") no-repeat scroll 0 0 transparent;
-    background-position: left -60;
+    background-position: left -60px;
     height: 20px;
     margin: 0 2px;
     width: 24px;
 }
 a:hover .leftArrowIcon{
-    background-position: left -80;
+    background-position: left -80px;
 }
 
 .tsidMenu-tr{float:right\9;height:12px\9;border-top: 1px solid #f9f9f9\9;border-right: 1px solid #86b8c8\9;width: 12px\9;background-color:white\9}
