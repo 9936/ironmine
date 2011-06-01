@@ -20,7 +20,7 @@ module Icm::GroupAssignmentsHelper
   end
 
   def available_ass_support_groups
-    Irm::SupportGroup.multilingual.enabled.collect{|p|[p[:name], p[:group_code]]}
+    Irm::SupportGroup.multilingual.where("oncall_group_flag = ?", Irm::Constant::SYS_YES).enabled.collect{|p|[p[:name], p[:group_code]]}
   end
 
   def available_ass_organizations

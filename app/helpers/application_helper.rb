@@ -89,7 +89,7 @@ module ApplicationHelper
       page_title << content_tag(:h1, params[:title], :class => "pageType")
       page_description << content_tag(:h2, params[:description], :class => "pageDescription")
     end
-    p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
+    p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
     p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
     content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
     pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
@@ -147,7 +147,7 @@ module ApplicationHelper
       page_title << content_tag(:h1, options[:title], :class => "pageType")
       page_description << content_tag(:h2, options[:description], :class => "pageDescription")
     end
-    p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
+    p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
     p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
     content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
     pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
@@ -460,7 +460,7 @@ module ApplicationHelper
   end
 
   def select_tag_alias(name, collection,selected=nil, options = {})
-    choices = options_for_select(collection, selected = nil)
+    choices = options_for_select(collection, selected)
     select_tag(name, choices,options)
   end
 

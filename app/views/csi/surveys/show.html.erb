@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
 <%= app_show_title(:show_data => @survey.title) %>
 
 <div id="ep" class="bDetailBlock bPageBlock">
@@ -146,45 +147,62 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_csi_survey_range_list) %></h2></td>
               <td class="pbButton">
-                <div class="button">
-                  <% unless @survey.enabled? %>
-                    <%= link_to t(:new), {:controller => "csi/survey_ranges", :action => "new", :survey_id => @survey.id}%>
-                  <% end %>
-                </div>
               </td>
             </tr>
           </tbody>
         </table>
      </div>
-    <div id="survey_range" class="datatable" style="width:100%;">
-          <div id="id" style="display:none">
-            <% unless @survey.enabled?  %>
-              <%= icon_link_edit({:controller=>"csi/survey_ranges",:action=>"edit",:survey_id => @survey.id,:id=>"{id}"}) %>&nbsp;
-            <% end %>
-            <%= icon_link_show({:controller=>"csi/survey_ranges",:action=>"show",:survey_id => @survey.id,:id=>"{id}"}) %>&nbsp;
-            <% unless @survey.enabled?  %>
-              <%= icon_link_delete({:controller=>"csi/survey_ranges",:action=>"destroy",:survey_id => @survey.id,:id=>"{id}"},:confirm => t(:label_are_you_sure) ,
-                                      :method => :delete) %>
-            <% end %>
+    <div class="pbBody">
+        <% if @survey_ranges.blank? %>
+        <div style="font-size: 15px;"><%= t(:label_no_data) %></div>
+         <% else %>
+        <div class="datatable">
+          <div class="yui3-widget yui3-datatable">
+            <div class="yui3-datatable-content">
+                <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
+                  <thead class="yui3-datatable-columns">
+                    <tr class="yui3-datatable-first yui3-datatable-last">
+                      <th class="yui3-column">
+                        <div class="yui3-datatable-liner"><%= t(:label_csi_survey_range_range_type) %>
+                        </div>
+                      </th>
+                      <th class="yui3-column">
+                        <div class="yui3-datatable-liner"><%= t(:label_csi_survey_range_name) %>
+                        </div>
+                      </th>
+                      <th class="yui3-column">
+                        <div class="yui3-datatable-liner"><%= t(:label_csi_survey_range_required_flag) %>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="yui3-datatable-data">
+                  <% @survey_ranges.each do |range| %>
+                  <tr id="<%=range%>" class="yui3-datatable-even">
+                    <td class="yui3-column">
+                      <div class='yui3-datatable-liner'>
+                        <%=range[:source_type_name]%>
+                      </div>
+                    </td>
+                    <td class="yui3-column">
+                      <div class='yui3-datatable-liner'>
+                        <%=range[:source_name]%>
+                      </div>
+                    </td>
+                    <td class="yui3-column">
+                      <div class='yui3-datatable-liner'>
+                        <%=check_img(range[:required_flag])%>
+                      </div>
+                    </td>
+                  </tr>
+                  <% end -%>
+                  </tbody>
+                </table>
+            </div>
           </div>
-          <div id="required_flag" style="display:none">
-            <%= check_img("{required_flag}") %>
-          </div>
+        </div>
+        <% end %>
     </div>
-        <%= datatable("survey_range",url_for(:controller=>"csi/survey_ranges",:action=>"get_data",:survey_id=>@survey.id),
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                   { :key => "required_flag", :label => t(:label_csi_survey_range_required_flag), :formatter => "Y.irm.template", :width => "30px" },
-                   { :key => "range_type_meaning", :label => t(:label_csi_survey_range_range_type)},
-                   { :key => "company_name", :label => t(:label_csi_survey_range_range_company)},
-                   { :key => "organization_name", :label => t(:label_csi_survey_range_range_organization)},
-                   { :key => "department_name", :label => t(:label_csi_survey_range_range_department)},
-                   { :key => "role_name", :label => t(:label_csi_survey_range_role)},
-                   { :key => "status_meaning", :label => t(:label_csi_survey_range_status_code), :width => "30px" }],
-                   {:row_perpage=>20})
-        %>
-
-
-
   </div>
 </div>
 

@@ -1,3 +1,4 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
   <%= render :partial => "irm/common/application_title" %>
@@ -40,17 +41,27 @@
                         <%= current_role_menu %>
                         <span class="navLinks" style="float:right">
                           <span class="linkElements">
-                            <a style="margin-right:29px;" href="#" onclick="window.open ('/helpfiles/index.html', 'Ironmine Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');"><%= t :help %></a>
+                            <a style="margin-right:29px;" href="#" onclick="window.open ('/helpfiles/index.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');"><%= t :help %></a>
                           </span>
                         </span>
                         <span id="settingMenu" class="menuParent" style="float:right">
                           <div  class="menuLabel">
                             <span tabindex="0" style="" id="userNavTop" ><%= Irm::Person.current.name %></span>
+                            <div class="menuLabel-tr"></div>
+                            <div class="menuLabel-tl"></div>
                             <div id="settingMenu-arrow"></div>
                           </div>
                           <div class="menuContent" >
+                            <div class="tsidMenu-tr"></div>
+                            <div class="tsidMenu-tl"></div>
+                            <div class="tsidMenu-tc"></div>
+                            <div class="menuItems">
                             <%= setting_menu%>
                             <div class="menuItem"><%= link_to(t(:label_irm_common_logout),logout_url) %></div>
+                            </div>
+                            <div class="tsidMenu-br"></div>
+                            <div class="tsidMenu-bl"></div>
+                            <div class="tsidMenu-bc"></div>
                           </div>
                         </span>
                         <%= current_company_access_menu %>

@@ -77,6 +77,7 @@ zh:
   test: 测试
   duel_selectable: 可选项
   duel_selected: 已选择项
+  else: 否则
   #常用语句
   notice_account_invalid_creditentials: 用户名或密码错误
   successfully_updated: 已经成功更新数据
@@ -568,6 +569,7 @@ zh:
   label_irm_location_edit: 编辑地点
   label_irm_company_info: 公司详细信息
   label_irm_company_show: 公司
+  label_irm_company: 公司
   label_irm_location_info: 位置信息
   label_irm_company_support_manager: 支持管理员
   #=========================end irm companies_controller=======================#
@@ -605,6 +607,7 @@ zh:
   label_irm_department_edit: 编辑部门
   label_irm_department_list: 部门列表
   label_irm_department_show: 部门
+  label_irm_department: 部门
   label_irm_department_info: 部门信息
   label_irm_department_function_description: 在公司中的定义部门。
   label_irm_department_departments_tls:
@@ -668,6 +671,7 @@ zh:
   label_irm_site_status_code: 记录状态
   label_irm_site_show: 地点
   label_action_select_site: 选择地点
+  label_irm_site: 地点
   #=========================end irm site_groups_controller=======================#
   #=========================end irm flex_values_controller=======================#
   #=========================irm general_category_controller=======================#
@@ -1163,4 +1167,67 @@ zh:
   label_irm_wf_mail_alert_selected_recipients: 已添加的收件人
   label_irm_wf_mail_alert_recipient_notice: 请选收件人类型，并选择收件人，添加到收件人列表；注意：请不要重复添加！
   #========================  end wf mail alert====================
-
+  #======================== wf approval process====================
+  label_irm_wf_approval_process_info: 审批流程信息
+  label_irm_wf_approval_process_name: 名称
+  label_irm_wf_approval_process_process_order: 过程顺序
+  label_irm_wf_approval_process_process_code: 编码
+  label_irm_wf_approval_process_mail_template: 审批通知邮件模板
+  label_irm_wf_approval_process_allow_submitter_recal: 允许提交人调回批准请求
+  label_irm_wf_approval_process_description: 描述
+  label_irm_wf_approval_process_filter: 指定条目条件
+  label_irm_wf_approval_process_editable_and_next_approver: 指定批准人字段和记录可编辑性属性
+  label_irm_wf_approval_process_next_approver: 选择用于自动传送批准的字段
+  label_irm_wf_approval_process_next_approver_mode: 下一个批准人的自动确定方式
+  label_irm_wf_approval_process_record_editability: 记录可编辑性属性
+  label_irm_wf_approval_process_submit: 指定初始提交人
+  label_irm_wf_approval_process_init_submiter: 初始提交人
+  label_irm_wf_approval_process_submit_config: 提交设置
+  label_irm_wf_approval_process: 审批流程
+  label_irm_wf_approval_process_new: 创建新的审批流程
+  label_irm_wf_approval_process_manage: 管理审批流程
+  label_irm_wf_approval_process_active_list: 已启用的批准过程
+  label_irm_wf_approval_process_disable_list: 未启用的批准过程
+  label_irm_wf_approval_process_bo_code: 业务对像
+  label_irm_person: 人员
+  label_irm_role: 角色
+  label_related_person: 相关人员
+  label_irm_wf_approval_process_display_history_flag: 审批页面显示审批历史
+  label_irm_wf_approval_process_evaluate: 条件
+  label_irm_wf_approval_action_ap_submit_actions: 初始提交操作
+  label_irm_wf_approval_action_ap_final_approval_actions: 最终批准操作
+  label_irm_wf_approval_action_ap_final_reject_actions: 最终拒绝操作
+  label_irm_wf_approval_action_ap_recall_actions: 调回操作
+  label_irm_wf_approval_process_add_exists_action: 添加现有的
+  label_irm_wf_approval_add_actions: 添加新的
+  label_irm_wf_approval_action_ap_step_approval_actions: 批准操作
+  label_irm_wf_approval_action_ap_step_reject_actions: 拒绝操作
+  label_irm_wf_approval_process_reorder: 重新排序
+  #========================end  wf approval process====================
+  #======================== wf approval step====================
+  label_irm_wf_approval_step: 审批步骤
+  label_irm_wf_approval_step_new: 创建审批步骤
+  label_irm_wf_approval_step_process: 审批流程
+  label_irm_wf_approval_step_name: 名称
+  label_irm_wf_approval_step_step_code: 编码
+  label_irm_wf_approval_step_description: 描述
+  label_irm_wf_approval_step_step_number: 步骤编号
+  label_irm_wf_approval_step_filter_config: 指定步骤条件
+  label_irm_wf_approval_step_filter: 条件
+  label_irm_wf_approval_step_evaluate_mode_all: 所有记录都应进入此步骤。
+  label_irm_wf_approval_step_evaluate_mode_all_filter: 如果满足以下条件，则进入此步骤,否则
+  label_irm_wf_approval_step_validate_step_number: 必须大于%{min}小于%{max}
+  label_irm_wf_approval_step_select_approver: 选择批准人
+  label_irm_wf_approval_ste_approver_type: 审批人类型
+  label_irm_wf_approval_step_approver: 审批人
+  label_irm_wf_approval_step_allow_delegation_approve: 允许代理审批
+  label_irm_wf_approval_step_approver_mode_by_approver: 允许提交人手动选择批准人
+  label_irm_wf_approval_step_approver_mode_process_default: 使用之前审批人的用户字段自动分配
+  label_irm_wf_approval_step_approver_mode_auto: 自动分配至批准人
+  label_irm_wf_approval_step_multiple_approver_mode: 当选择多个批准人时
+  label_irm_wf_approval_step_multiple_approver_mode_first_approved: 基于 首次 回复的批准或拒绝
+  label_irm_wf_approval_step_multiple_approver_mode_all_approved: 要求所有选定批准人的 一致 批准
+  label_irm_wf_approval_step_reject_behavior: 拒绝行为
+  label_irm_wf_approval_step_reject_behavior_step_reject: 只执行此步骤的拒绝操作并将批准请求发回到最近的批准人。（返回 1 步）
+  label_irm_wf_approval_step_reject_behavior_process_reject: 执行此步骤的所有拒绝操作和所有最终拒绝操作。（最终拒绝）
+  #======================== wf approval step====================

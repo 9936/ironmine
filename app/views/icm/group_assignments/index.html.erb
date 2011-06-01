@@ -28,11 +28,14 @@
         </div>
         <%= datatable("group_assignments_list",url_for(:action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
+                       {:key=>"support_group_name",:label=>t(:label_irm_support_group_show),:sortable=>true,:searchable=>true},
+                       {:key=>"assign_type_name",:label => t(:label_icm_group_assignment_type)},
                        {:key=>"company_name",:label=>t(:label_irm_company_name),:sortable=>true,:searchable=>true},
                        {:key=>"organization_name",:label=>t(:label_irm_organization),:sortable=>true, :searchable => true},
                        {:key=>"department_name",:label=>t(:label_irm_location_department),:sortable=>true, :searchable => true},
                        {:key=>"person_name",:label=>t(:label_irm_person),:sortable=>true, :searchable => true},
-                       {:key=>"support_group_name",:label=>t(:label_irm_support_group_show),:sortable=>true,:searchable=>true},
+                       {:key=>"external_system_name", :label=>t(:label_uid_external_system)},
+                       {:key=>"service_catalog_name", :label=>t(:label_slm_service_catalog)},
                        {:key=>"status_code",:label=>t(:active),:width=>"40px",:formatter=>"Y.irm.template"}
                        ],{:paginator_box=>"groupAssignPaginator"})%>
         <div id="groupAssignPaginator"></div>

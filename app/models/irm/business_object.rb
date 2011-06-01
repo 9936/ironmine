@@ -191,4 +191,16 @@ class Irm::BusinessObject < ActiveRecord::Base
     host = Irm::SystemParametersManager.emission_email_address.to_s.gsub(%r{^.*@}, '')
     "<#{hash}@#{host}>"
   end
+
+  def self.class_name_to_code(class_name)
+    class_name.underscore.gsub("\/","__").upcase
+  end
+
+  def self.code_to_class_name(code)
+    code.downcase.gsub("__","\/").camelize
+  end
+
+  def self.class_name_to_meaning(class_name)
+    I18n.t("label_"+class_name.underscore.gsub("/","_"))
+  end
 end

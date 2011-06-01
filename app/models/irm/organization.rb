@@ -25,6 +25,7 @@ class Irm::Organization < ActiveRecord::Base
                                                           "v1.meaning status_meaning,v2.name company_name").
                                                    joins(",irm_lookup_values_vl v1").
                                                    joins(",irm_companies_vl v2").
+
                                                    where("v1.lookup_type='SYSTEM_STATUS_CODE' AND v1.lookup_code = #{table_name}.status_code AND "+
                                                          "#{table_name}.company_id = v2.id AND v2.language=? AND "+
                                                          "v1.language=?",language,language)}
@@ -34,4 +35,7 @@ class Irm::Organization < ActiveRecord::Base
                                                               where("#{Irm::OrganizationsTl.table_name}.language=? and " +
                                                                     "#{Irm::Organization.table_name}.company_id = ?",
                                                                     language,company_id)}
+  def to_s
+    self.company_name + "-" + self.name
+  end
 end

@@ -61,7 +61,9 @@ class Icm::GroupAssignmentsController < ApplicationController
     group_assignments,count = paginate(group_assignments_scope)
 
     respond_to do |format|
-      format.json  {render :json => to_jsonp(group_assignments.to_grid_json([:company_name,:department_name, :organization_name, :person_name, :support_group_name, :status_code], count)) }
+      format.json  {render :json => to_jsonp(group_assignments.to_grid_json(
+                                                 [:company_name,:department_name, :organization_name, :assign_type_name,
+                                                  :person_name, :support_group_name, :status_code, :service_catalog_name, :external_system_name], count)) }
     end    
   end
 

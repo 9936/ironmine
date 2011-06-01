@@ -12,6 +12,7 @@ en:
   label_slm_service_category_description: Description
   label_slm_service_category_status_meaning: Status Meaning
   label_slm_service_category_info: Service Category Info
+  label_slm_service_category: Service Category
   #=========================    end service_categories_controller=======================#
   #=========================    slm service_catalogs_controller=======================#
   label_slm_service_catalog_list: Service List
@@ -37,6 +38,7 @@ en:
   label_slm_service_catalog_service_break: Break
   label_add_service_member: Add Member
   label_add_service_break: Add Break
+  label_slm_service_catalog: Service
   #=========================    end service_catalogs_controller=======================#
   #=========================    slm service_breaks_controller=======================#
   label_slm_service_member_list: Service Member List
