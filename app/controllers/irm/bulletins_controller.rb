@@ -58,21 +58,23 @@ class Irm::BulletinsController < ApplicationController
         if params[:selected_actions] && params[:selected_actions].present?
           selected_accesses = params[:selected_actions].split(",")
 
-          bulletin_accesses_array = @bulletin.bulletin_accesses.collect{|p| [p.access_type, p.access_id]}
-          bulletin_accesses_array.each do |t|
-            t.destroy unless selected_accesses.include?(t[0]+"#"+t[1])
+          bulletin_access_records = @survey.survey_ranges
+          bulletin_access_records.each do |t|
+            type_short = access_types.detect{|i| i[0].name.eql?(t.access_type)}
+            t.destroy unless selected_accesses.include?(type_short[1]+"#"+t.access_id.to_s)
           end
+          bulletin_accesses_array = @bulletin.bulletin_accesses.collect{|p| [p.access_type, p.access_id]}
 
           selected_accesses.each do |access_str|
             next unless access_str.strip.present?
             access = access_str.split("#")
-            next if bulletin_accesses_array.include?(access)
             access_type = access_types.detect{|i| i[1].eql?(access[0])}
+            next if bulletin_accesses_array.include?([access_type[0].name, access[1].to_i])
 
             Irm::BulletinAccess.create({:bulletin_id => @bulletin.id,
                                         :access_type => access_type[0].name,
                                         :access_id => access[1]})
-          end if selected_accesses.any?
+          end
         end
 
         format.html {

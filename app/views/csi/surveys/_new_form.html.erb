@@ -123,117 +123,72 @@
       </span>
       <h3><%=t(:label_csi_survey_range)%></h3>
     </div>
+
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label for="survey_range_required_flag"><%=t(:label_csi_survey_range_required_flag)%></label></td>
-              <td class="dataCol"><%=check_box_tag "required_flag", "Y", :id=>"survey_range_required_flag"%></td>
-              <td class="labelCol"></td>
-              <td class="dataCol"></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label for="survey_range_range_type"><%=t(:label_csi_survey_range_range_type)%></label></td>
-              <td class="dataCol"><%=select_tag "range_type",
-                                              nullable_options_for_select(available_lookup_type("CSI_SURVEY_RANGE_TYPE"), ""),
-                                              {:id=>"range_type"}%></td>
-              <td class="labelCol"><label for="survey_range_role_id"><%=t(:label_csi_survey_range_role)%></label></td>
-              <td class="dataCol"><%=blank_select_tag "role_id",available_roles,
-                                              {:id=>"role_id"}%></td>
-
+              <td class="labelCol"><label for="actionType"><%=t(:label_irm_wf_rule_action_type)%></label></td>
+              <td class="dataCol" colspan="3" style="width:82%">
+                <div class="actonType">
+                     <label><%= t(:search) %></label>
+                </div>
+                <div class="actonType">
+                  <select id="actionType">
+                    <option value="C"><%= t(:label_irm_company) %></option>
+                    <option value="O"><%= t(:label_irm_organization) %></option>
+                    <option value="D"><%= t(:label_irm_department) %></option>
+                    <option value="R"><%= t(:label_irm_role) %></option>
+                    <option value="S"><%= t(:label_irm_site) %></option>
+                  </select>
+                </div>
+                <div class="actonType">
+                  <input type="text" size="30" id="duelQuery"/>
+                </div>
+                <div class="actonType">
+                   <div class="button"><a href="javascript:void(0)" id="duelSearch"><%=t(:search) %></a></div>
+                </div>
+              </td>
             </tr>
-
-            <tr>
-              <td class="labelCol"><label for="survey_range_company"><%=t(:label_csi_survey_range_range_company)%></label></td>
-              <td class="dataCol"><%=select_tag "range_company_id",
-                                              nullable_options_for_select(available_ass_companies, ""),
-                                              {:id=>"ass_company"}%></td>
-              <td class="labelCol"><label for="survey_range_site_id"><%=t(:label_csi_survey_range_site)%></label></td>
-              <td class="dataCol"><%=select_tag "site_id",
-                                              nullable_options_for_select(available_sites, ""),
-                                              {:id=>"site_id"}%></td>
-            </tr>
-
-            <tr>
-              <td class="labelCol"><label for="ass_organization"><%=t(:label_irm_location_organization)%></label></td>
-              <td class="dataCol"><%=select_tag "range_organization_id",
-                                              nullable_options_for_select([],nil),
-                                              {:id=>"ass_organization",
-                                               :depend=>"ass_company",
-                                               :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                               :href=>url_for(:controller=>"icm/group_assignments",:action=>"get_customer_organizations",:format=>"json",:customer_company_id=>"{ass_company}")}%></td>
+            <tr id="actions">
               <td class="labelCol"></td>
-              <td class="dataCol"></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="ass_department"><%=t(:label_irm_location_department)%></label></td>
-              <td class="dataCol"><%=select_tag "range_department_id",
-                                              nullable_options_for_select([],nil),
-                                              {:id=>"ass_department",
-                                               :depend=>"ass_organization",
-                                               :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                               :href=>url_for(:controller=>"icm/group_assignments",:action=>"get_customer_departments",:format=>"json",:customer_organization_id=>"{ass_organization}")}%></td>
-              <td class="labelCol"></td>
-              <td class="dataCol"></td>
-            </tr>
-            <tr>
-              <td class="labelCol"></td>
-              <td class="dataCol"><div class="button" style="float:right"><%= link_to t(:add), {}, {:href => "javascript:void(0);", :id => "add_range"}%></div></td>
-              <td class="labelCol"></td>
-              <td class="dataCol"></td>
+              <td class="dataCol" colspan="3" width="82%">
+                <table class="duel">
+                  <tr class="duelTitle">
+                    <th><%= t(:duel_selectable)%></th>
+                    <th></th>
+                    <th><%= t(:duel_selected)%></th>
+                  </tr>
+                  <tr class="duelList">
+                    <td class="sourceCell">
+                      <%= select_tag_alias(:source,ava_survey_ranges,nil,{:id=>"source",:multiple=>true,:size=>14}) %>
+                    </td>
+                    <td class="buttonCell">
+                      <div class="text"><%= t(:add) %></div>
+                      <div class="text">
+                        <a href="javascript:void(0)" id="duelAdd"><img title="<%= t(:add) %>" class="rightArrowIcon" alt="<%= t(:add) %>" src="<%= theme_image_path("s.gif") %>"></a>
+                      </div>
+                      <div class="text">
+                        <a href="javascript:void(0)" id="duelRemove"><img title="<%= t(:delete) %>" class="leftArrowIcon" alt="<%= t(:delete) %>" src="<%= theme_image_path("s.gif") %>"></a>
+                      </div>
+                      <div class="duelingText"><%= t(:delete) %></div>
+                    </td>
+                    <td class="targetCell">
+                      <%= hidden_field_tag(:selected_actions, "", {:id=>"selectedActions"}) %>
+                      <%= select_tag_alias(:target,[],nil,{:id=>"target",:multiple=>true,:size=>14}) %>
+                    </td>
+                  </tr>
+                </table>
+              </td>
             </tr>
         </tbody>
       </table>
-    </div>
-
-    <!-- Added Ranges List -->
-    <div class="pbSubsection">
-        <div class="datatable">
-          <div class="yui3-widget yui3-datatable">
-            <div class="yui3-datatable-content">
-              <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
-                <thead class="yui3-datatable-columns">
-                    <tr class="yui3-datatable-first yui3-datatable-last">
-                      <th class="yui3-column">
-                        <div class="yui3-datatable-liner"><%= t(:operation) %>
-                        </div>
-                      </th>
-                      <th class="yui3-column">
-                        <div class="yui3-datatable-liner"><%=t(:label_csi_survey_range_required_flag)%>
-                        </div>
-                      </th>
-                      <th class="yui3-column">
-                        <div class="yui3-datatable-liner"><%=t(:label_csi_survey_range_range_type)%>
-                        </div>
-                      </th>
-                      <th class="yui3-column">
-                        <div class="yui3-datatable-liner"><%=t(:label_csi_survey_range_range_company)%>
-                        </div>
-                      </th>
-                      <th class="yui3-column">
-                        <div class="yui3-datatable-liner"><%=t(:label_csi_survey_range_range_organization)%>
-                        </div>
-                      </th>
-                      <th class="yui3-column">
-                        <div class="yui3-datatable-liner"><%=t(:label_csi_survey_range_range_department)%>
-                        </div>
-                      </th>
-                      <th class="yui3-column">
-                        <div class="yui3-datatable-liner"><%=t(:label_csi_survey_range_role)%>
-                        </div>
-                      </th>
-                      <th class="yui3-column">
-                        <div class="yui3-datatable-liner"><%=t(:label_csi_survey_range_site)%>
-                        </div>
-                      </th>
-                    </tr>
-                </thead>
-                <tbody class="yui3-datatable-data" id="result_list">
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
     </div>
   </div>
   <div class="pbBottomButtons">
@@ -255,120 +210,21 @@
 <%= calendar_view("id_closed_datatime","id_closed_datatime","cal") %>
 
 <script type="text/javascript">
-  var counter = 0;
-
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#ass_company",target:["#ass_organization"]});
-     new Y.CascadeSelect({source: "#ass_organization",target:["#ass_department"]});
-     new Y.CascadeSelect({source: "#ass_department",target:["#ass_people"]});
+  GY.use("duelselect",function(Y){
+    var duelselect = new Y.DuelSelect({source:"#source",target:"#target",valueNode:"#selectedActions",type:Y.one("#actionType").get("value"),addButton:"#duelAdd",removeButton:"#duelRemove"});
+    Y.one("#actionType").on("change",function(e){
+      Y.one("#duelQuery").set("value","");
+      duelselect.filter(Y.one("#actionType").get("value"),Y.one("#duelQuery").get("value"));
+    });
+    Y.one("#duelSearch").on("click",function(e){
+      duelselect.filter(Y.one("#actionType").get("value"),Y.one("#duelQuery").get("value"));
+    });
+    Y.one("#duelQuery").on("keydown",function(e){
+      if(e.keyCode==13){
+          e.preventDefault();
+          duelselect.filter(Y.one("#actionType").get("value"),Y.one("#duelQuery").get("value"));
+      }
+    });
   });
-
-  GY.use("event", function(Y){
-      Y.on("click", function(e){
-        var required_flag = "";
-        var range_type = "";
-        var range_type_value = "";
-        var role_id = "";
-        var role_id_value = "";
-        var ass_company = "";
-        var ass_company_value = "";
-        var site_id = "";
-        var site_id_value = "";
-        var ass_organization = "";
-        var ass_organization_value = "";
-        var ass_department = "";
-        var ass_department_value = "";
-        if (Y.one("#required_flag").get("checked"))
-        {
-            required_flag = "Y"
-        }
-        else
-        {
-            required_flag = "N"
-        }
-        Y.one("#range_type").get("options").each( function() {
-           if (this.get('selected') && this.get('value') != '')
-           {
-               range_type_value  = this.get('value');
-               range_type = this.get('text');
-           }
-        });
-
-        if (range_type_value == "")
-        {
-            alert("<%= t(:label_csi_survey_range_select_range_type)%>");
-            return;
-        }
-
-        Y.one("#role_id").get("options").each( function() {
-           if (this.get('selected') && this.get('value') != '')
-           {
-               role_id_value  = this.get('value');
-               role_id = this.get('text');
-           }
-        });
-
-        Y.one("#ass_company").get("options").each( function() {
-           if (this.get('selected') && this.get('value') != '')
-           {
-               ass_company_value  = this.get('value');
-               ass_company = this.get('text');
-           }
-        });
-
-        Y.one("#site_id").get("options").each( function() {
-           if (this.get('selected') && this.get('value') != '')
-           {
-               site_id_value  = this.get('value');
-               site_id = this.get('text');
-           }
-        });
-
-        Y.one("#ass_organization").get("options").each( function() {
-           if (this.get('selected') && this.get('value') != '')
-           {
-               ass_organization_value  = this.get('value');
-               ass_organization = this.get('text');
-           }
-        });
-
-        Y.one("#ass_department").get("options").each( function() {
-           if (this.get('selected') && this.get('value') != '')
-           {
-               ass_department_value  = this.get('value');
-               ass_department = this.get('text');
-           }
-        });
-
-        var node = Y.Node.create(
-                "<tr id='tr_" + counter + "' class='yui3-datatable-even'>" +
-                "<td class='yui3-column'><div class='yui3-datatable-liner'><a href='javascript:void(0);' onclick='delete_row(" + counter + ")'><%= t(:delete)%></a></div></td>" +
-                "<td class='yui3-column'><div class='yui3-datatable-liner'><img width='21' height='14' src='/themes/salesforce2/images/" + required_flag + ".png' class='checkImg'></div></td>" +
-                "<td class='yui3-column'><div class='yui3-datatable-liner'>" + range_type + "</div></td>" +
-                "<td class='yui3-column'><div class='yui3-datatable-liner'>" + ass_company + "</div></td>" +
-                "<td class='yui3-column'><div class='yui3-datatable-liner'>" + ass_organization + "</div></td>" +
-                "<td class='yui3-column'><div class='yui3-datatable-liner'>" + ass_department + "</div></td>" +
-                "<td class='yui3-column'><div class='yui3-datatable-liner'>" + role_id + "</div></td>" +
-                "<td class='yui3-column'><div class='yui3-datatable-liner'>" + site_id + "</div></td>" +
-                "<input type='hidden' name='ranges[" + counter + "][required_flag]' value='" + required_flag+ "'>" +
-                "<input type='hidden' name='ranges[" + counter + "][range_type]' value='" + range_type_value+ "'>" +
-                "<input type='hidden' name='ranges[" + counter + "][ass_company]' value='" + ass_company_value+ "'>" +
-                "<input type='hidden' name='ranges[" + counter + "][ass_organization]' value='" + ass_organization_value+ "'>" +
-                "<input type='hidden' name='ranges[" + counter + "][ass_department]' value='" + ass_department_value+ "'>" +
-                "<input type='hidden' name='ranges[" + counter + "][role_id]' value='" + role_id_value+ "'>" +
-                "<input type='hidden' name='ranges[" + counter + "][site_id]' value='" + site_id_value+ "'>" +
-                "</tr>");
-        counter ++;
-        Y.one("#result_list").appendChild(node);
-      }, "#add_range");
-  });
-
-  function delete_row(r)
-  {
-      GY.use(function(Y){
-        Y.one("#tr_" + r).remove();
-      });
-  }
-
 </script>
 <%= calendar_view("date1","date1","cal1")%>

@@ -32,6 +32,62 @@ class Csi::SurveyRange < ActiveRecord::Base
                         joins("left outer join irm_roles_vl v6 ON v6.id = #{table_name}.role_id AND v6.language = v1.language").
                         joins("left outer join irm_sites_vl v7 ON v7.id = #{table_name}.site_id AND v7.language = v1.language")
 
+  scope :with_company, lambda{
+    select("ct.name source_name, '#{I18n.t("label_"+Irm::Company.name.underscore.gsub("\/","_"))}' source_type_name").
+        joins(",#{Irm::Company.table_name} c, #{Irm::CompaniesTl.table_name} ct").
+        where("c.id = ct.company_id").
+        where("ct.language=?",I18n.locale).
+        where("c.id=#{table_name}.source_id").
+        where("#{table_name}.source_type=?", Irm::Company.name)
+  }
+
+  scope :with_organization, lambda{
+    select("concat(oc.name, '-', ot.name) source_name, '#{I18n.t("label_"+Irm::Organization.name.underscore.gsub("\/","_"))}' source_type_name").
+        joins(",#{Irm::Organization.table_name} o,#{Irm::OrganizationsTl.table_name} ot,#{Irm::CompaniesTl.table_name} oc").
+        where("o.id = ot.organization_id").
+        where("ot.language=?",I18n.locale).
+        where("o.id=#{table_name}.source_id").
+        where("#{table_name}.source_type=?", Irm::Organization.name).
+        where("oc.language=ot.language").
+        where("oc.company_id=o.company_id")
+
+  }
+
+  scope :with_department, lambda{
+    select("concat(dc.name, '-', do.name, '-', dt.name) source_name, '#{I18n.t("label_"+Irm::Department.name.underscore.gsub("\/","_"))}' source_type_name").
+        joins(",#{Irm::Department.table_name} d, #{Irm::DepartmentsTl.table_name} dt, #{Irm::OrganizationsTl.table_name} do, #{Irm::CompaniesTl.table_name} dc").
+        where("d.id = dt.department_id").
+        where("dt.language=?",I18n.locale).
+        where("d.id = #{table_name}.source_id").
+        where("#{table_name}.source_type=?",Irm::Department.name).
+        where("dc.company_id=d.company_id").
+        where("do.language=dc.language").
+        where("do.language=dt.language").
+        where("do.organization_id=d.organization_id")
+  }
+
+  scope :with_role, lambda{
+    select("rt.name source_name, '#{I18n.t("label_"+Irm::Role.name.underscore.gsub("\/","_"))}' source_type_name").
+        joins(",#{Irm::Role.table_name} r, #{Irm::RolesTl.table_name} rt").
+        where("r.id = rt.role_id").
+        where("rt.language=?",I18n.locale).
+        where("r.id = #{table_name}.source_id").
+        where("#{table_name}.source_type=?",Irm::Role.name)
+  }
+
+  scope :with_site, lambda{
+    select("st.name source_name, '#{I18n.t("label_"+Irm::Site.name.underscore.gsub("\/","_"))}' source_type_name").
+        joins(",#{Irm::Site.table_name} s, #{Irm::SitesTl.table_name} st").
+        where("s.id = st.site_id").
+        where("st.language=?",I18n.locale).
+        where("s.id = #{table_name}.source_id").
+        where("#{table_name}.source_type=?",Irm::Site.name)
+  }
+
+  scope :select_all, lambda{|survey_id|
+    select("#{table_name}.*").where("#{table_name}.survey_id=?",survey_id)
+  }
+
   def self.query_range_person_count(survey_id)
     Csi::SurveyMember.query_by_survey_id(survey_id).count
   end
@@ -39,24 +95,32 @@ class Csi::SurveyRange < ActiveRecord::Base
 
   def person_ids
     person_ids = []
-    if self.range_type == "ORGANIZATION"
-      if self.range_department_id.present?
-        person_ids << Irm::Person.enabled.select("id").where("department_id = ?", self.range_department_id).collect{|i| i.id}
-      elsif self.range_organization_id.present?
-        person_ids << Irm::Person.enabled.select("id").where("organization_id = ?", self.range_organization_id).collect{|i| i.id}
-      elsif self.range_company_id.present?
-        person_ids << Irm::Person.enabled.select("id").where("company_id = ?", self.range_company_id).collect{|i| i.id}
-      end
-    elsif self.range_type == "ROLE"&&self.role_id.present?
-      person_ids << Irm::PersonRole.select("person_id").where(:role_id=>self.role_id).collect{|i| i.person_id}
-    #elsif self.range_type == "SITE"
-    #  Irm::Location.where("department_id IS NULL").where("organization_id IS NULL").each do |loc|
-    #    people << Irm::Person.where("company_id = ?", loc.company_id)
-    #  end
+
+    case self.source_type
+      when Irm::Company.name
+        person_ids << Irm::Person.enabled.select("id").where("company_id=?",self.source_id).collect{|i| i.id}
+      when Irm::Organization.name
+        person_ids << Irm::Person.enabled.select("id").where("organization_id = ?", self.source_id).collect{|i| i.id}
+      when Irm::Department.name
+        person_ids << Irm::Person.enabled.select("id").where("department_id = ?", self.source_id).collect{|i| i.id}
+      when Irm::Role.name
+        person_ids << Irm::PersonRole.select("person_id").where(:role_id => self.source_id).collect{|i| i.person_id}
+      when Irm::Site.name
+
     end
+
     person_ids.flatten!
     person_ids.uniq!
     person_ids
+  end
+
+  def self.list_all(survey_id)
+    result = Csi::SurveyRange.select_all(survey_id).with_company +
+        Csi::SurveyRange.select_all(survey_id).with_organization +
+        Csi::SurveyRange.select_all(survey_id).with_department +
+        Csi::SurveyRange.select_all(survey_id).with_role +
+        Csi::SurveyRange.select_all(survey_id).with_site
+    result
   end
 
   #acts_as_recently_objects(:title => "title",

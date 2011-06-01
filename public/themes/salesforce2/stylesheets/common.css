@@ -969,9 +969,8 @@ a:hover .rightArrowIcon{
     margin: 0 2px;
     width: 24px;
 }
-a:hover .leftArrowIcon{
-    background-position: left -80px;
-}
+a:hover .leftArrowIcon{background-position: left -80px;}
+div.actonType{float:left;}
 
 .tsidMenu-tr{float:right\9;height:12px\9;border-top: 1px solid #f9f9f9\9;border-right: 1px solid #86b8c8\9;width: 12px\9;background-color:white\9}
 .tsidMenu-tl{height:13px\9;float:left\9;width: 12px\9;background-image:url("../images/header_mutton.png")\9;background-position:-3px -72px\9;}
