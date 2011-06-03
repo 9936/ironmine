@@ -86,4 +86,29 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
     self.save
 
   end
+
+  def rule_filter
+    @rule_filter ||= Irm::RuleFilter.query_by_source(Irm::WfApprovalProcess.name,self.id).first
+  end
+
+  def submitter_include?(submitter_id,bo_instance = nil)
+    self.wf_approval_submitters.each do |submitter|
+      return true if submitter.include_person?(submitter_id,bo_instance)
+    end
+    false
+  end
+
+
+
+
+
+  def self.match(wf_process_instance)
+    business_object = Irm::BusinessObject.where(:bo_model_name=>wf_process_instance.bo_model_name).first
+    self.enabled.where(:bo_code=>business_object.business_object_code).each do |process|
+      bo_instance = process.rule_filter.generate_scope.where(:id=>wf_process_instance.bo_id).first
+      next unless bo_instance
+      return process if process.submitter_include?(wf_process_instance.submitter_id,bo_instance)
+    end
+    nil
+  end
 end

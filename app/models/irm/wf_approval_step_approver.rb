@@ -34,7 +34,7 @@ class Irm::WfApprovalStepApprover < ActiveRecord::Base
     "#{type_name}: #{approver_name}"
   end
 
-  def person_ids(bo)
+  def person_ids(bo=nil)
     person_ids = []
     case self.approver_type
       when "RELATED_PERSON"

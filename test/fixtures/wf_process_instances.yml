@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  process_id: 1
+  bo_id: 1
+  bo_model_name: MyString
+  bo_description: MyString
+  submitter_id: 1
+  process_status_code: MyString
+
+two:
+  process_id: 1
+  bo_id: 1
+  bo_model_name: MyString
+  bo_description: MyString
+  submitter_id: 1
+  process_status_code: MyString

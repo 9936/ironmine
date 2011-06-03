@@ -4,6 +4,8 @@ class Irm::WfApprovalStep < ActiveRecord::Base
 
 
   has_many :wf_approval_step_approvers,:foreign_key => :step_id
+
+
   query_extend
   before_save :check_attribute
   after_save :setup_process_step_number,:check_attribute
@@ -90,6 +92,100 @@ class Irm::WfApprovalStep < ActiveRecord::Base
     self.destroy
   end
 
+
+  def rule_filter
+    @rule_filter ||= Irm::RuleFilter.query_by_source(self.class.name,self.id).first
+  end
+
+  def auto_approval_result(bo_id)
+    bo_instance = self.rule_filter.generate_scope.where(:id=>bo_id).first
+    if bo_instance
+      return nil
+    else
+      if self.step_number.to_i.eql?(1)
+        return self.evaluate_result
+      else
+        return "NEXT_STEP"
+      end
+    end
+  end
+
+  # step approvers
+  def auto_approver_ids(bo_id)
+    unless "AUTO_APPROVER".eql?(self.approver_mode)
+      return nil
+    end
+    bo_instance = self.rule_filter.generate_scope.where(:id=>bo_id).first
+    person_ids = []
+    wf_approval_step_approvers.each do |approver|
+      person_ids += approver.person_ids(bo_instance)
+    end
+    person_ids.uniq
+  end
+
+
+  def process_default_approver_ids(person_id)
+    unless "PROCESS_DEFAULT".eql?(self.approver_mode)
+      return nil
+    end
+    business_object = Irm::BusinessObject.where(:business_object_code=>"IRM_PEOPLE").first
+    person = eval(business_object.generate_query(true)).where(:id=>person_id).first
+    person_id = Irm::BusinessObject.attribute_of(person,Irm::WfApprovalProcess.query_by_step(self.id).first.next_approver_mode)
+    return person_id
+  end
+
+
+  # create step instance for process instance
+  def create_step_instance(wf_process_instance)
+    bo_instance = self.rule_filter.generate_scope.where(:id=>wf_process_instance.bo_id).first
+    batch_id = Time.now.to_i
+    if bo_instance
+      case self.approver_mode
+        when "SELECT_BY_SUMBITTER"
+          unless wf_process_instance.next_approver_id.present?
+            raise Wf::MissingSelectApproverError,self.id
+          end
+          Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>wf_process_instance.next_approver_id)
+          wf_process_instance.update_attribute(:next_approver_id,nil)
+        when "PROCESS_DEFAULT"
+          default_approver_id = self.process_default_approver_ids(Irm::Person.current.id)
+          unless default_approver_id.present?
+            raise Wf::MissingDefaultApproverError,self.id
+          end
+          Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>default_approver_id)
+        when "AUTO_APPROVER"
+          auto_approvers =  auto_approver_ids(wf_process_instance.bo_id)
+          unless auto_approvers.any?
+            raise Wf::MissingAutoApproverError,self.id
+          end
+          auto_approvers.each do  |approver_id|
+            Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>approver_id)
+          end
+      end
+    else
+      if self.step_number.to_i.eql?(1)
+        case self.evaluate_result
+          when "APPROVAL"
+            Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id).approved_process("FILTER_AUTO_APPROVED")
+          when "REJECT"
+            Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id).reject_process("FILTER_AUTO_REJECT")
+          when "NEXT_STEP"
+            Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id).go_next_step("FILTER_AUTO_NEXT_STEP")
+        end
+      else
+        Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id).go_next_step("FILTER_AUTO_NEXT_STEP")
+      end
+    end
+  end
+
+
+  def execute_approved_actions(process_instance)
+
+  end
+
+  def execute_reject_actions(process_instance)
+
+  end
 
   def validate_step_number
     max_number = self.class.where(:process_id=>self.process_id).count+1

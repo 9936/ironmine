@@ -178,7 +178,7 @@ class Irm::WfApprovalProcessesController < ApplicationController
   # DELETE /wf_approval_processes/1.xml
   def destroy
     @wf_approval_process = Irm::WfApprovalProcess.find(params[:id])
-    @wf_approval_process.destroy
+    @wf_approval_process.delete_self
 
     respond_to do |format|
       format.html { redirect_back_or_default({:action=>"index"}) }

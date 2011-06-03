@@ -984,3 +984,19 @@ a:hover .leftArrowIcon{
 .menuParent .menuLabelClick .menuLabel-tl{width:12px\9; height: 24px\9; position:absolute\9; left:0\9; top: 0\9;background-image:url("../images/header_mutton.png")\9;background-position:left -200px\9; }
 .menuParent .menuLabelHover span{background:white\9; padding:0 18px 0 3px\9; line-height: 22px\9; border-top:1px solid #8ec3d4\9;border-bottom:1px solid #8ec3d4\9;}
 .menuParent .menuLabelClick span{background:white\9; padding:0 18px 0 3px\9; line-height: 24px\9; border-top:1px solid #8ec3d4\9;}
+
+
+/*****************************process**************************************/
+tbody.processInfoEven tr.yui3-datatable-even{
+    background-color: #FFFFFF;
+}
+tbody.processInfoOdd tr.yui3-datatable-even{
+    background-color: #FFFFFF;
+}
+tbody.processInfoOdd tr.processInstance,tbody.processInfoEven tr.processInstance{
+    background-color: #8A9EBE;
+}
+tbody.processInfoOdd tr.stepDef,tbody.processInfoEven tr.stepDef{
+    background-color: #DAE0E2;
+}
+

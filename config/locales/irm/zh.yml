@@ -1200,6 +1200,8 @@ zh:
   label_irm_wf_approval_action_ap_step_approval_actions: 批准操作
   label_irm_wf_approval_action_ap_step_reject_actions: 拒绝操作
   label_irm_wf_approval_process_reorder: 重新排序
+  label_irm_wf_approval_process_can_not_find_next_approver: 无法找到下一步骤审批人
+  label_irm_wf_approval_process_can_not_find_match_process: 无法找到适用的审批流程
   #========================end  wf approval process====================
   #======================== wf approval step====================
   label_irm_wf_approval_step: 审批步骤
@@ -1212,7 +1214,7 @@ zh:
   label_irm_wf_approval_step_filter_config: 指定步骤条件
   label_irm_wf_approval_step_filter: 条件
   label_irm_wf_approval_step_evaluate_mode_all: 所有记录都应进入此步骤。
-  label_irm_wf_approval_step_evaluate_mode_all_filter: 如果满足以下条件，则进入此步骤,否则
+  label_irm_wf_approval_step_evaluate_mode_all_filter: 如果满足以下条件，则进入此步骤
   label_irm_wf_approval_step_validate_step_number: 必须大于%{min}小于%{max}
   label_irm_wf_approval_step_select_approver: 选择批准人
   label_irm_wf_approval_ste_approver_type: 审批人类型
@@ -1228,3 +1230,32 @@ zh:
   label_irm_wf_approval_step_reject_behavior_step_reject: 只执行此步骤的拒绝操作并将批准请求发回到最近的批准人。（返回 1 步）
   label_irm_wf_approval_step_reject_behavior_process_reject: 执行此步骤的所有拒绝操作和所有最终拒绝操作。（最终拒绝）
   #======================== wf approval step====================
+  #======================== wf process instance====================
+  label_irm_process_instance_submit_error: 无法提交待审批
+  label_irm_step_instance_step: 审批步骤
+  label_irm_process_instance_process: 审批流程
+  label_irm_wf_process_instance_select_next_approver: 选择下一步审批人
+  label_irm_wf_process_instance_next_approver: 下一步审批人
+  label_irm_wf_step_instance_submit: 批准/拒绝批准请求
+  label_irm_wf_step_instance_comment: 注释
+  label_irm_wf_step_instance_approved: 批准
+  label_irm_wf_step_instance_reject: 拒绝
+  label_irm_wf_process_instance_next_created_at: 时间
+  label_irm_wf_step_instance_approval_status_code: 状态
+  label_irm_wf_step_instance_assign_approver: 分配审批人
+  label_irm_wf_step_instance_actual_approver: 实际审批人
+  label_irm_wf_process_instance_global_status: 总体状态
+  label_irm_wf_process_approval_history: 审批历史
+  label_irm_wf_step_instance_reassign: 转交
+  label_irm_wf_step_instance_approve_or_reject: 审批通过/拒绝
+  label_irm_wf_step_instance_reassing_approver: 转交审批人
+  label_irm_wf_process_instance_submit: 提交待审批
+  label_irm_wf_process_instance_recall: 回调审批
+  label_irm_wf_process_instance_bo_instance: 相关项
+  label_irm_wf_process_instance_bo_model_name: 类型
+  label_irm_wf_process_instance_submitter_name: 提交人
+  label_irm_wf_process_instance_submitted_at: 提交日期
+  label_irm_wf_process_instance_end_at: 结束日期
+  #======================== end wf process instance====================
+
+

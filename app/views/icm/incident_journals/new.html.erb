@@ -1,2 +1,3 @@
 <%= page_title("",t(:label_icm_reply)) %>
 <%= render 'new_form'%>
+<%= approval_history(@incident_request.id,Icm::IncidentRequest.name) %>

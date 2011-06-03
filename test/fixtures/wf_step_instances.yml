@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  process_instance_id: 1
+  step_id: 1
+  assign_approver_id: 1
+  actual_approver_id: 1
+  approval_status_code: MyString
+  comment: MyString
+
+two:
+  process_instance_id: 1
+  step_id: 1
+  assign_approver_id: 1
+  actual_approver_id: 1
+  approval_status_code: MyString
+  comment: MyString

@@ -54,6 +54,30 @@ class Irm::WfApprovalSubmitter < ActiveRecord::Base
       when "PERSON"
         person_ids = [self.submitter_id]
     end
+    person_ids
+  end
+
+
+  def include_person?(s_id,bo_instance)
+    case self.submitter_type
+      when "RELATED_PERSON"
+        if bo_instance
+          value = Irm::BusinessObject.attribute_of(bo_instance,self.submitter_id)
+          if value.present?
+            if value.is_a?(Array)
+              return value.include?(s_id)
+            else
+              return s_id.eql?(value)
+            end
+          end
+        end
+      when "ROLE"
+        person_ids = Irm::PersonRole.where(:role_id=>self.submitter_id).collect{|i| i.person_id}
+       return person_ids.include?(s_id)
+      when "PERSON"
+        return s_id.eql?(self.submitter_id)
+    end
+    return false
   end
 
 end
