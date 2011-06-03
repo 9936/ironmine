@@ -1256,6 +1256,9 @@ zh:
   label_irm_wf_process_instance_submitter_name: 提交人
   label_irm_wf_process_instance_submitted_at: 提交日期
   label_irm_wf_process_instance_end_at: 结束日期
+  label_irm_wf_my_process_step_instance: 待审批项
+  label_action_submit: 提交审批
+  label_action_reassign: 转交
   #======================== end wf process instance====================
 
 
