@@ -108,7 +108,9 @@ class Irm::BusinessObject < ActiveRecord::Base
 
   end
 
-
+  def approval_attributes
+    self.object_attributes.multilingual.enabled.where(:approval_page_field_flag=>Irm::Constant::SYS_YES)
+  end
 
 
   private
@@ -166,6 +168,9 @@ class Irm::BusinessObject < ActiveRecord::Base
     end
     model_query
   end
+
+
+
 
   def self.attribute_of(bo,attribute_name)
     value = nil
