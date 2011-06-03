@@ -14,7 +14,8 @@ module Ironmine
           default_options = { :show  =>{:controller=>self.name.pluralize.underscore,:action=>"show",:id=>:id},
                               :edit  =>{:controller=>self.name.pluralize.underscore,:action=>"edit",:id=>:id},
                               :index =>{:controller=>self.name.pluralize.underscore,:action=>"index"},
-                              :new   =>{:controller=>self.name.pluralize.underscore,:action=>"new"}
+                              :new   =>{:controller=>self.name.pluralize.underscore,:action=>"new"},
+                              :title => :title
                               }
           # 多语言配置项
           cattr_accessor :urlable_options
@@ -38,9 +39,23 @@ module Ironmine
           url_options
         end
 
+        def urlable_title
+          title_field = urlable_options[:title]
+          if(self.respond_to?(title_field.to_sym))
+            return self.send(title_field.to_sym)
+          end
+          ""
+        end
+
 
         module ClassMethods
-
+          def urlable_url_options(action,options={})
+            url_options = urlable_options[action.to_sym].dup
+            url_options.each do |key,value|
+              url_options[key] = options[value] if value.is_a?(Symbol)
+            end
+            url_options
+          end
         end
       end
     end
