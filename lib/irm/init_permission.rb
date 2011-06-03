@@ -101,11 +101,6 @@ Irm::AccessControl.map do |map|
                                      "irm/support_group_members"=>["select_person", "create","delete_from_person","new_from_person","get_person_support_group","create_from_person"]}
 
   #=====permission ===================
-  #===================irm/identities============================
-  #["index", "edit", "update", "new", "create", "get_data", "show"]
-  map.function :view_identities,{"irm/identities"=>["index", "show", "get_data"]}
-  map.function :create_identities,{"irm/identities"=>["new", "create"]}
-  map.function :edit_identities,{"irm/identities"=>["edit", "update"]}
 
   #===================irm/roles============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
@@ -123,11 +118,6 @@ Irm::AccessControl.map do |map|
   map.function :edit_report_groups,{"irm/report_groups"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
   map.function :add_report_to_group,{"irm/report_group_members"=>["new", "create"]}
 
-  #===================irm/scripts============================
-  #["index", "get_data", "edit", "update", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]
-  map.function :view_scripts,{"irm/scripts"=>["index", "show", "get_data"]}
-  map.function :create_scripts,{"irm/scripts"=>["new", "create"]}
-  map.function :edit_scripts,{"irm/scripts"=>["edit", "update", "update", "multilingual_edit", "multilingual_update"]}
 
   #===================irm/mail_templates============================
   #["new", "get_data", "create", "copy", "copy_template", "test_mail_template", "index", "edit", "update", "destroy", "show", "get_script_context_fields", "get_mail_templates"]
@@ -166,17 +156,7 @@ Irm::AccessControl.map do |map|
   map.function :view_reports,{"irm/reports"=>["index", "show", "get_data"]}
   map.function :create_reports,{"irm/reports"=>["new", "create"]}
   map.function :edit_reports,{"irm/reports"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
-  #===================irm/actions============================
-  #["index", "get_data", "edit", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]
-  map.function :view_actions,{"irm/actions"=>["index", "show", "get_data"]}
-  map.function :create_actions,{"irm/actions"=>["new", "create"]}
-  map.function :edit_actions,{"irm/actions"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
-  #===================irm/conditions============================
-  #["index", "get_data", "edit", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]
-  map.function :view_conditions,{"irm/conditions"=>["index", "show", "get_data"]}
-  map.function :create_conditions,{"irm/conditions"=>["new", "create"]}
-  map.function :edit_conditions,{"irm/conditions"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
-  #===================irm/currencies============================
+ #===================irm/currencies============================
   #["index", "get_data", "edit", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]
   map.function :view_currencies,{"irm/currencies"=>["index", "show", "get_data"]}
   map.function :create_currencies,{"irm/currencies"=>["new", "create"]}
@@ -316,7 +296,11 @@ Irm::AccessControl.map do |map|
   map.function :edit_wf_approval_processes,{"irm/wf_approval_processes"=>["edit", "update", "destroy_action", "add_exists_action", "save_exists_action", "reorder"],
                                             "irm/wf_approval_steps"=>["edit", "update"]}
 
-  #map.function :view_wf_approval_steps,{}
-  #map.function :create_wf_approval_steps,{}
-  #map.function :edit_wf_approval_steps,{}
+  #===================irm/wf_process_instances============================
+  #["submit", "recall"]
+  #===================irm/wf_step_instances============================
+  #["show", "reassign", "submit", "save_reassign"]
+  map.function :wf_process_approval,{"irm/wf_step_instances"=>["show", "reassign", "submit", "save_reassign"],
+                                     "irm/wf_process_instances"=>["submit", "recall"]}
+
 end
