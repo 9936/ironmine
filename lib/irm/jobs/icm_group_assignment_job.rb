@@ -3,7 +3,6 @@ module Irm
     class IcmGroupAssignmentJob < Struct.new(:incident_request_id,:assign_options)
       include ActionController::UrlWriter
       def perform
-        Delayed::Worker.logger.debug("GroupAssignmentJob  req_id:#{incident_request_id}  options:#{assign_options}")
         request = Icm::IncidentRequest.find(incident_request_id)
         return if request.support_group_id.present?&&request.support_person_id.present?
         assign_result =  assign_options if  assign_options&&assign_options.is_a?(Hash)
@@ -11,19 +10,29 @@ module Irm
         person = Irm::Person.find(request.requested_by)
         unless request.support_group_id.present?||assign_result[:support_group_id].present?
           assign_result[:support_person_id] = nil
+
+          #按服务查找
+          r1 = Icm::GroupAssignment.assignable.where(:service_code => request.service_code).type_service
+          #按系统查找
+          unless r1.any?
+            r1 = Icm::GroupAssignment.assignable.where("service_code is NULL OR service_code = ''").where(:external_system_code => request.external_system_code).type_service
+          end
+
           #按人员查找
-          r1 = Icm::GroupAssignment.assignable.query_by_person(person.id)
+          unless r1.any?
+            r1 = Icm::GroupAssignment.assignable.query_by_person(person.id).type_organizational
+          end
 
           #按部门查找
           unless r1.any?
-            r1 = Icm::GroupAssignment.where(:customer_person_id=>nil).assignable.query_by_department(person.department_id)
+            r1 = Icm::GroupAssignment.where(:customer_person_id=>nil).assignable.query_by_department(person.department_id).type_organizational
           end
 
           #按组织查找
           unless r1.any?
             r1 = Icm::GroupAssignment.assignable.where(:customer_person_id=>nil).
                                       where(:customer_department_id=>nil).
-                                      query_by_organization(person.organization_id)
+                                      query_by_organization(person.organization_id).type_organizational
           end
 
           #按公司查找
@@ -31,17 +40,15 @@ module Irm
             r1 = Icm::GroupAssignment.assignable.where(:customer_person_id=>nil).
                                       where(:customer_department_id=>nil).
                                       where(:customer_organization_id=>nil).
-                                      query_by_company(person.company_id)
+                                      query_by_company(person.company_id).type_organizational
           end
 
           if r1.any?
             support_group = Irm::SupportGroup.where("group_code = ?", r1.first.support_group_code).first
             assign_result[:support_group_id] = support_group.id if support_group
-            Delayed::Worker.logger.debug("GroupAssignmentJob find group: #{support_group.group_code}")
           end
         end
 
-        
         if assign_result[:support_group_id].present?
           support_group = Irm::SupportGroup.where("id = ?", assign_result[:support_group_id]).first
           unless assign_result[:support_person_id].present?

@@ -60,6 +60,10 @@ class Irm::Company < ActiveRecord::Base
   def global?
     false
   end
+
+  def self.to_s
+    I18n.t(:label_irm_company_show)
+  end
 end
 
 

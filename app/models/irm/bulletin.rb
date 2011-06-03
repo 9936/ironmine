@@ -20,47 +20,45 @@ class Irm::Bulletin < ActiveRecord::Base
   }
 
   scope :query_accessible_with_companies, lambda{|companies|
-    select("ct.name name, 'COMPANY' type").
+    select("ct.name name, '#{Irm::Company.name}' type").
     joins(",#{Irm::BulletinAccess.table_name} bac").
         joins(",#{Irm::CompaniesTl.table_name} ct").
         where("ct.language = ?", I18n.locale).
         where("ct.company_id = bac.access_id").
         where("bac.bulletin_id = #{table_name}.id").
-        where("bac.access_type = ?", "COMPANY").
+        where("bac.access_type = ?", Irm::Company.name).
         where("bac.access_id IN (?)", companies.collect(&:id) + [''])
   }
 
   scope :query_accessible_with_department, lambda{|department_id|
-    select("dt.name name, 'DEPARTMENT' type").
+    select("dt.name name, '#{Irm::Department.name}' type").
     joins(",#{Irm::BulletinAccess.table_name} bad").
         joins(",#{Irm::DepartmentsTl.table_name} dt").
         where("dt.language = ?", I18n.locale).
         where("dt.department_id = bad.access_id").
-        where("bad.access_type = ?", "DEPARTMENT").
+        where("bad.access_type = ?", Irm::Department.name).
         where("bad.bulletin_id = #{table_name}.id").
         where("bad.access_id = ?", department_id)
-#    joins("LEFT OUTER JOIN #{Irm::BulletinAccess} bad ON bad.bulletin_id = #{table_name}.id AND bad.access_type = 'DEPARTMENT'").
-#        joins("LEFT OUTER JOIN #{Irm::DepartmentsTl} dp ON bad.access_id = dp.department_id AND dp.department_id = #{department_id} AND dp.language = '#{I18n.locale}'")
   }
 
   scope :query_accessible_with_organization, lambda{|organization_id|
-    select("ot.name name, 'ORGANIZATION' type").
+    select("ot.name name, '#{Irm::Organization.name}' type").
         joins(",#{Irm::BulletinAccess.table_name} bao").
         joins(",#{Irm::OrganizationsTl.table_name} ot").
         where("ot.language = ?", I18n.locale).
         where("ot.organization_id = bao.access_id").
-        where("bao.access_type=?", "ORGANIZATION").
+        where("bao.access_type=?", Irm::Organization.name).
         where("bao.bulletin_id = #{table_name}.id").
         where("bao.access_id = ?", organization_id)
   }
   scope :query_accessible_with_roles, lambda{|roles|
-    select("rt.name name, 'ROLE' type").
+    select("rt.name name, '#{Irm::Role.name}' type").
     joins(",#{Irm::BulletinAccess.table_name} bar").
         joins(",#{Irm::RolesTl.table_name} rt").
         where("rt.language = ?", I18n.locale).
         where("rt.role_id = bar.access_id").
         where("bar.bulletin_id = #{table_name}.id").
-        where("bar.access_type = ?", "ROLE").
+        where("bar.access_type = ?", Irm::Role.name).
         where("bar.access_id IN (?)", roles.collect(&:id) + [''] )
   }
 

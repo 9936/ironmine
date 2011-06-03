@@ -260,7 +260,9 @@ a#headerSearchOptionsLink {text-decoration:none;}
     margin-top: 10px;
     text-align: left;
     display:inline-block;
+    display:inline\9;
 }
+.asButton > .menuButton{display:inline;}
 .menuButton div.menuLabel {
     height: 20px;
     line-height: 20px;
@@ -958,18 +960,17 @@ table.duel tr.duelList td{
     width: 24px;
 }
 a:hover .rightArrowIcon{
-    background-position: left -20;
+    background-position: left -20px;
 }
 .leftArrowIcon{
     background: url("../images/combobox_arrows_sprite.gif") no-repeat scroll 0 0 transparent;
-    background-position: left -60;
+    background-position: left -60px;
     height: 20px;
     margin: 0 2px;
     width: 24px;
 }
-a:hover .leftArrowIcon{
-    background-position: left -80;
-}
+a:hover .leftArrowIcon{background-position: left -80px;}
+div.actonType{float:left;}
 
 .tsidMenu-tr{float:right\9;height:12px\9;border-top: 1px solid #f9f9f9\9;border-right: 1px solid #86b8c8\9;width: 12px\9;background-color:white\9}
 .tsidMenu-tl{height:13px\9;float:left\9;width: 12px\9;background-image:url("../images/header_mutton.png")\9;background-position:-3px -72px\9;}
@@ -983,6 +984,7 @@ a:hover .leftArrowIcon{
 .menuParent .menuLabelClick .menuLabel-tr{width:12px\9; height: 24px\9; position:absolute\9; right:0\9; top: 0\9;background-image:url("../images/header_mutton.png")\9;background-position:right -200px\9; }
 .menuParent .menuLabelClick .menuLabel-tl{width:12px\9; height: 24px\9; position:absolute\9; left:0\9; top: 0\9;background-image:url("../images/header_mutton.png")\9;background-position:left -200px\9; }
 .menuParent .menuLabelHover span{background:white\9; padding:0 18px 0 3px\9; line-height: 22px\9; border-top:1px solid #8ec3d4\9;border-bottom:1px solid #8ec3d4\9;}
+.menuParent .menuLabelClick span{background:white\9; padding:0 18px 0 3px\9; line-height: 24px\9; border-top:1px solid #8ec3d4\9;}
 .menuParent .menuLabelClick span{background:white\9; padding:0 18px 0 3px\9; line-height: 24px\9; border-top:1px solid #8ec3d4\9;}
 
 

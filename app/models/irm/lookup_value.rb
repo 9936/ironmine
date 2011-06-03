@@ -16,10 +16,10 @@ class Irm::LookupValue < ActiveRecord::Base
   scope :query_by_lookup_type,lambda{|lookup_type|where(:lookup_type=>lookup_type)}
   scope :query_by_lookup_code,lambda{|lookup_code|where(:lookup_code=>lookup_code)}
 
-  scope :query_wrap_info,lambda{|language| select("#{table_name}.*,#{Irm::LookupValuesTl.table_name}.meaning,#{Irm::LookupValuesTl.table_name}.description,"+
+  scope :query_wrap_info,lambda{|language| select("#{table_name}.*,v1.meaning,v1.description,"+
                                                           "v1.meaning status_meaning").
-                                                   joins(",irm_lookup_values_vl v1").
-                                                   where("v1.lookup_type='SYSTEM_STATUS_CODE' AND v1.lookup_code = #{table_name}.status_code AND "+
+                                                   joins(",#{Irm::LookupValuesTl.table_name} v1").
+                                                   where("#{table_name}.lookup_type='SYSTEM_STATUS_CODE' AND v1.lookup_value_id = #{table_name}.id AND "+
                                                          "v1.language=?",language)}
 
   def self.check_lookup_code_exist(lookup_type,lookup_code)
@@ -45,5 +45,9 @@ class Irm::LookupValue < ActiveRecord::Base
 
   def wrap_meaning
     self[:meaning]
+  end
+
+  def self.get_lookup_value(lookup_type)
+    Irm::LookupValue.multilingual.query_by_lookup_type(lookup_type)
   end
 end
