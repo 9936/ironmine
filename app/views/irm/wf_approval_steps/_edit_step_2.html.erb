@@ -42,9 +42,13 @@
                         <div class="floatLeft">
                             <label for="filterValue"><%=t(:label_irm_wf_approval_step_evaluate_mode_all_filter)%></label>
                         </div>
+                        <% if @wf_approval_step.step_number.to_i.eql?(1) %>
                         <div class="floatLeft">
-                            <%= f.select(:evaluate_result,available_wf_step_evaluate_result) %>
+                            ,<%=t(:else)%><%= f.select(:evaluate_result,available_wf_step_evaluate_result) %>
                         </div>
+                        <% else %>
+                            <%= f.hidden_field(:evaluate_result,:value=>"NEXT_STEP") %>
+                        <% end %>
                       </td>
                     </tr>
                     <tr class="showTR" refValue="FILTER" style="display:none">
