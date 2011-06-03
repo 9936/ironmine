@@ -24,6 +24,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   acts_as_searchable(:direct =>"query_by_request_number",
                      :all=>"search",
                      :show_url  => {:controller=>"icm/incident_journals",:action=>"new",:request_id=>:id})
+  acts_as_urlable(:show=>{:controller=>"icm/incident_journals",:action=>"new",:request_id=>:id},:title=>:title)
 
   before_validation_on_create  :setup_priority
   # 查询当天新建的事故单，根据数量生成序列号
