@@ -9,3 +9,5 @@ public/upload/**
 Gemfile.lock
 **/Thumbs.db
 index
+Capfile
+config/deploy.rb
