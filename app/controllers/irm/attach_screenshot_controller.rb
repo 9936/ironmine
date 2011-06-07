@@ -9,7 +9,8 @@ class Irm::AttachScreenshotController < ApplicationController
                                             :category_id => 0,
                                             :description => "")
     Irm::AttachmentVersion.update_attachment_by_version(@container,version)
-
+    Logger.error("+++++++++++++++++++++" + params.to_json)
+    Logger.error("+++++++++++++++++++++" + version.to_json)
     respond_to do |format|
       if version && version.url.present?
         #format.html{ render :text => "<img src=#{version.url}>"}
