@@ -666,7 +666,7 @@ Ironmine::Application.routes.draw do
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id/edit(.:format)' => "wf_approval_steps#edit", :via => [:get,:post,:put]
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id(.:format)' => "wf_approval_steps#update", :via => :put
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id/destroy(.:format)' => "wf_approval_steps#destroy", :via => :delete
-<<<<<<< HEAD
+
     # wf process instance
     match '/wf_process_instances/submit(.:format)' => "wf_process_instances#submit", :via => [:get,:post]
     match '/wf_process_instances/:id/recall(.:format)' => "wf_process_instances#recall", :via => :get
@@ -676,10 +676,9 @@ Ironmine::Application.routes.draw do
     match '/wf_step_instances/:id/reassign(.:format)' => "wf_step_instances#reassign", :via => :get
     match '/wf_step_instances/submit(.:format)' => "wf_step_instances#submit", :via => [:post,:put]
     match '/wf_step_instances/save_reassign(.:format)' => "wf_step_instances#save_reassign", :via => :put
-=======
+
     #screen saver
     match '/attach_screenshot(/index)(.:format)' => "attach_screenshot#index", :via => :post
->>>>>>> applet
   end
 
   scope :module => "icm" do
