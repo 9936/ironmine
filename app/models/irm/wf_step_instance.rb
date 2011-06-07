@@ -3,6 +3,8 @@ class Irm::WfStepInstance < ActiveRecord::Base
 
   attr_accessor :process_step,:next_approver_id
 
+  belongs_to :wf_process_instance,:foreign_key => :process_instance_id
+
   scope :with_assign_approver,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} assign_approver ON assign_approver.id = #{table_name}.assign_approver_id").
     select("assign_approver.full_name assign_approver_name")
@@ -49,7 +51,6 @@ class Irm::WfStepInstance < ActiveRecord::Base
 
 
   def approved(person_id=nil)
-    process_instance = Irm::WfProcessInstance.find(self.process_instance_id)
     current_step = Irm::WfApprovalStep.find(self.step_id)
     if "AUTO_APPROVER".eql?(current_step.approver_mode)
       case current_step.multiple_approver_mode
@@ -69,16 +70,15 @@ class Irm::WfStepInstance < ActiveRecord::Base
 
     next_step = Irm::WfApprovalStep.where(:process_id=>current_step.process_id,:step_number=>current_step.step_number+1).first
     if next_step
-      next_step.create_step_instance(process_instance)
-      current_step.execute_approved_actions(process_instance)
+      next_step.create_step_instance(wf_process_instance)
+      execute_approved_actions
     else
-      current_step.execute_approved_actions(process_instance)
-      process_instance.approved
+      execute_approved_actions
+      wf_process_instance.approved
     end
   end
 
   def reject(person_id=nil)
-    process_instance = Irm::WfProcessInstance.find(self.process_instance_id)
     current_step = Irm::WfApprovalStep.find(self.step_id)
     if "AUTO_APPROVER".eql?(current_step.approver_mode)&&current_step.multiple_approver_mode
       self.update_attributes(:approval_status_code=>"REJECT",:actual_approver_id=>person_id,:end_at=>Time.now)
@@ -92,37 +92,34 @@ class Irm::WfStepInstance < ActiveRecord::Base
     case current_step.reject_behavior
       when "REJECT_STEP"
         next_step = Irm::WfApprovalStep.where(:process_id=>current_step.process_id,:step_number=>1).first
-        next_step.create_step_instance(process_instance)
-        current_step.execute_reject_actions(process_instance)
+        next_step.create_step_instance(wf_process_instance)
+        execute_reject_actions
       when "REJECT_PROCESS"
-        current_step.execute_reject_actions(process_instance)
-        process_instance.reject
+        execute_reject_actions
+        wf_process_instance.reject
     end
 
   end
 
   def go_next_step(code,person_id=nil,comment="")
-    process_instance = Irm::WfProcessInstance.find(self.process_instance_id)
     current_step = Irm::WfApprovalStep.find(self.step_id)
     next_step = Irm::WfApprovalStep.where(:process_id=>current_step.process_id,:step_number=>current_step.step_number+1).first
     if next_step
-      next_step.create_step_instance(process_instance)
+      next_step.create_step_instance(wf_process_instance)
     else
-      process_instance.approved
+      wf_process_instance.approved
     end
     self.update_attributes(:approval_status_code=>code,:actual_approver_id=>person_id,:end_at=>Time.now)
   end
 
 
   def approved_process(code,person_id=nil,comment="")
-    process_instance = Irm::WfProcessInstance.find(self.process_instance_id)
-    process_instance.approved
+    wf_process_instance.approved
     self.update_attributes(:approval_status_code=>code,:actual_approver_id=>person_id,:end_at=>Time.now)
   end
 
   def reject_process(code,person_id=nil,comment="")
-    process_instance = Irm::WfProcessInstance.find(self.process_instance_id)
-    process_instance.reject
+    wf_process_instance.reject
     self.update_attributes(:approval_status_code=>code,:actual_approver_id=>person_id,:end_at=>Time.now)
   end
 
@@ -135,4 +132,17 @@ class Irm::WfStepInstance < ActiveRecord::Base
     Irm::WfStepInstance.create(:process_instance_id=>self.process_instance_id,:batch_id=>self.batch_id,:step_id=>self.step_id,:assign_approver_id=>self.next_approver_id)
   end
 
+
+
+  def execute_approved_actions
+    Irm::WfApprovalAction.step_approved_actions(self.wf_process_instance.process_id,self.step_id).each do |action|
+      Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new({:bo_id=>self.wf_process_instance.bo_id,:bo_code=>self.wf_process_instance.business_object.business_object_code,:action_id=>action.action_id,:action_type=>action.action_type}))
+    end
+  end
+
+  def execute_reject_actions
+    Irm::WfApprovalAction.step_reject_actions(self.wf_process_instance.process_id,self.step_id).each do |action|
+      Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new({:bo_id=>self.wf_process_instance.bo_id,:bo_code=>self.wf_process_instance.business_object.business_object_code,:action_id=>action.action_id,:action_type=>action.action_type}))
+    end
+  end
 end

@@ -2,6 +2,9 @@ class Irm::WfProcessInstance < ActiveRecord::Base
   set_table_name :irm_wf_process_instances
   query_extend
 
+  belongs_to :wf_approval_process,:foreign_key => :process_id
+  has_many :wf_step_instances
+
   scope :with_process,lambda{
     joins("JOIN #{Irm::WfApprovalProcess.table_name} process ON process.id = #{table_name}.process_id").
     select("process.name process_name")
@@ -12,6 +15,10 @@ class Irm::WfProcessInstance < ActiveRecord::Base
     select(" process_status.meaning process_status_code_name")
   }
 
+  scope :with_business_object,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} bo ON bo.bo_model_name =  #{table_name}.bo_model_name AND bo.language= '#{language}'").
+    select(" bo.name bo_name,bo.business_object_code bo_code")
+  }
 
   def self.list_all
     select("#{table_name}.*").with_process.with_process_status_code(I18n.locale)
@@ -51,6 +58,7 @@ class Irm::WfProcessInstance < ActiveRecord::Base
       step = Irm::WfApprovalStep.where(:process_id=>self.process_id,:step_number=>1).first
       step.create_step_instance(self)
       self.update_attribute(:next_approver_id,nil)
+      execute_submitted_actions
   end
 
 
@@ -82,16 +90,28 @@ class Irm::WfProcessInstance < ActiveRecord::Base
   end
 
   def execute_final_approved_actions
-
+    Irm::WfApprovalAction.approved_actions(self.process_id).each do |action|
+      Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new({:bo_id=>self.bo_id,:bo_code=>self.business_object.business_object_code,:action_id=>action.action_id,:action_type=>action.action_type}))
+    end
   end
 
   def execute_final_reject_actions
-
+    Irm::WfApprovalAction.reject_actions(self.process_id).each do |action|
+      Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new({:bo_id=>self.bo_id,:bo_code=>self.business_object.business_object_code,:action_id=>action.action_id,:action_type=>action.action_type}))
+    end
   end
 
 
   def execute_recall_actions
+    Irm::WfApprovalAction.recall_actions(self.process_id).each do |action|
+      Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new({:bo_id=>self.bo_id,:bo_code=>self.business_object.business_object_code,:action_id=>action.action_id,:action_type=>action.action_type}))
+    end
+  end
 
+  def execute_submitted_actions
+    Irm::WfApprovalAction.submitted_actions(self.process_id).each do |action|
+      Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new({:bo_id=>self.bo_id,:bo_code=>self.business_object.business_object_code,:action_id=>action.action_id,:action_type=>action.action_type}))
+    end
   end
 
 end

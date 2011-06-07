@@ -179,14 +179,6 @@ class Irm::WfApprovalStep < ActiveRecord::Base
   end
 
 
-  def execute_approved_actions(process_instance)
-
-  end
-
-  def execute_reject_actions(process_instance)
-
-  end
-
   def validate_step_number
     max_number = self.class.where(:process_id=>self.process_id).count+1
     if self.step_number.to_i<1||self.step_number.to_i>max_number
