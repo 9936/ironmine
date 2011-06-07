@@ -1005,5 +1005,7 @@ tbody.processInfoOdd tr.stepDef,tbody.processInfoEven tr.stepDef{
 .yui-toolbar-uploadImageFormClipboard .yui-toolbar-icon {
     background-position: 0 -756px !important;
     left: 5px !important;
+    background-position: 0 -756px \9;
+    left: 5px \9;
 }
 
