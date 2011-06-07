@@ -39,4 +39,10 @@ class TemplateMailer < ActionMailer::Base
 
     mail(send_options)
   end
+
+
+  # receive email from inbox
+  def receive(email)
+    ActiveSupport::Notifications.instrument("mail.receive", :email=>email)
+  end
 end
