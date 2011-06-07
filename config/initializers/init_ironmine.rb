@@ -58,6 +58,20 @@ module Ironmine
 
    EMAIL_FROM = "root.ironmine@gmail.com"
 
+   MAIL_RECEIVE_TYPE = :imap
+   POP3_MAIL_OPTIONS = {
+       :username => 'rootironmine@163.com',
+       :password => 'handhand',
+       :host   => 'pop3.163.com',
+       :port     => 110
+   }
+   IMAP_MAIL_OPTIONS = {
+       :username => 'root.ironmine@gmail.com',
+       :password => 'handhand',
+       :host   => 'imap.gmail.com',
+       :port     => 993,
+       :ssl    => true
+   }
    #attachment url,path
 #   ATTACHMENT_URL = "/upload/:class/:id/:style/:basename.:extension"
 #   ATTACHMENT_PATH = ":rails_root/public/upload/:class/:id/:style/:basename.:extension"
