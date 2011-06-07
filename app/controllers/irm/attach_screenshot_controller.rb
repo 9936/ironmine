@@ -12,7 +12,8 @@ class Irm::AttachScreenshotController < ApplicationController
 
     respond_to do |format|
       if version && version.url.present?
-        format.html{ render :text => "<img src=#{version.url}>"}
+        #format.html{ render :text => "<img src=#{version.url}>"}
+        format.html{ render :text => params.to_json}
       else
         format.html{ render :text => "NA"}
       end
