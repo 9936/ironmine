@@ -1,31 +1,20 @@
-<div id="testDiv"></div>
-
-<%= link_to "testButton", {},
-            :href => "javascript:void(0);",
-            :id => "testButton",
-            :onclick => "getImg();"%>
+<div id="attach_applet"></div>
+<%= url_for(:only_path => false, :controller => "irm/attach_screenshot", :action => 'index')%>
 <script type="text/javascript">
-  GY.use(function(Y) {
-      var testDiv = Y.one("#testDiv");
-      var appletStr = '<applet id="screenSaver" name="screenSaver" code="ScreenSaver.class" archive="applets/ScreenSaver.jar" width="640" height="480"> Java applet that draws animated bubbles. </applet>';
-
-      testDiv.set("innerHTML", appletStr);
-  });
-
-  function reloadImg(){
-      screenSaver.reloadClipboard();
-  }
-
-  function getImg(){
-      alert("!!");
-      var img = screenSaver.getImg();
-      alert(getType(img));
-
-  }
-
-    function getType(o) {
-        var _t;
-        return ((_t = typeof(o)) == "object" ? o==null && "null" || Object.prototype.toString.call(o).slice(8,-1):_t).toLowerCase();
+    function showAttachScreen() {
+        document.getElementById('attach_applet').style.display = 'block';
+        document.getElementById('attach_applet').innerHTML = '<applet code="com.handchina.ironmine.ScreenSaver.class" archive="/applets/ScreenSaver.jar" height="600" width="700" MAYSCRIPT>'+
+                                                             '<param name="label.image" value="<%= t(:label_image) %>">' +
+                                                             '<param name="label.button.paste" value="<%= t(:label_button_paste) %>">' +
+                                                             '<param name="label.button.attach" value="<%= t(:button_attach) %>">' +
+                                                             '<param name="label.button.cancel" value="<%= t(:button_cancel) %>">' +
+                                                             '<param name="error.close.msg" value="<%= t(:error_close_msg) %>">' +
+                                                             '<param name="error.close.title" value="<%= t(:error_close_title) %>">' +
+                                                             '<param name="attach.url" value="<%= url_for(:only_path => false, :controller => "irm/attach_screenshot", :action => 'index')%>">' +
+                                                             '<param name="error.attach.msg" value="<%= t(:error_attach_msg) %>">' +
+                                                             '<param name="error.attach.title" value="<%= t(:error_attach_title) %>">'	 +
+                                                             '<param name="rss.key" value="_">'	 +
+                                                             'Applet</applet>';
     }
-
+    showAttachScreen();
 </script>

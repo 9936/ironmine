@@ -1,0 +1,72 @@
+<style type="text/css">
+body{background-color:#f2f2f2}
+</style>
+<div id="attach_applet"></div>
+<%= url_for(:only_path => false, :controller => "irm/attach_screenshot", :action => 'index')%>
+<script type="text/javascript">
+    function showAttachScreen() {
+        document.getElementById('attach_applet').style.display = 'block';
+        var _app = navigator.appName;
+
+        if (_app == 'Microsoft Internet Explorer') {
+            document.getElementById('attach_applet').innerHTML = '<OBJECT name="ScreenSaver"'
+                                                                + 'classid = "clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"'
+                                                                + 'codebase = "/applets/jre-1_5_0_22-windows-i586-p.exe#Version=5,0,22,3"'
+                                                                + 'WIDTH = "600" HEIGHT = "400" >'
+                                                                + '<PARAM NAME = CODE VALUE = "com.handchina.ironmine.ScreenSaver.class" >'
+                                                                + '<PARAM NAME = ARCHIVE VALUE = "/applets/ScreenSaver.jar" >'
+                                                                + '<PARAM NAME = "type" VALUE = "application/x-java-applet;version=1.5.0_22">' +
+                                                                 '<PARAM name="label.image" value="<%= t(:label_image) %>">' +
+                                                                 '<PARAM name="label.button.paste" value="<%= t(:label_button_paste) %>">' +
+                                                                 '<PARAM name="label.button.attach" value="<%= t(:button_attach) %>">' +
+                                                                 '<PARAM name="label.button.cancel" value="<%= t(:button_cancel) %>">' +
+                                                                 '<PARAM name="error.close.msg" value="<%= t(:error_close_msg) %>">' +
+                                                                 '<PARAM name="error.close.title" value="<%= t(:error_close_title) %>">' +
+                                                                 '<PARAM name="attach.url" value="<%= url_for(:only_path => false, :controller => "irm/attach_screenshot", :action => 'index')%>">' +
+                                                                 '<PARAM name="error.attach.msg" value="<%= t(:error_attach_msg) %>">' +
+                                                                 '<PARAM name="error.attach.title" value="<%= t(:error_attach_title) %>">'	 +
+                                                                 '<PARAM name="rss.key" value="_">'
+                                                                + '<COMMENT>'
+                                                                + '<EMBED'
+                                                                + 'type="application/x-java-applet;jpi-version=1.5.0_22"'
+                                                                + 'CODE="com.handchina.ironmine.ScreenSaver.class"'
+                                                                + 'ARCHIVE="/applets/ScreenSaver.jar"'
+                                                                + 'WIDTH="600"'
+                                                                + 'HEIGHT="400"'
+                                                                + 'pluginspage="/applets/jre-1_5_0_22-windows-i586-p.exe">'
+                                                                + '<NOEMBED>'
+                                                                + '无法安装JAVA运行环境,请下载 jre 5.0'
+                                                                + '</noembed>'
+                                                                + '</EMBED>'
+                                                                + '</COMMENT>'
+                                                                + '</OBJECT>';
+        }
+        else {
+            document.getElementById('attach_applet').innerHTML = '<applet code="com.handchina.ironmine.ScreenSaver.class" archive="/applets/ScreenSaver.jar" height="400" width="600" MAYSCRIPT>'+
+                                                                 '<param name="label.image" value="<%= t(:label_image) %>">' +
+                                                                 '<param name="label.button.paste" value="<%= t(:label_button_paste) %>">' +
+                                                                 '<param name="label.button.attach" value="<%= t(:button_attach) %>">' +
+                                                                 '<param name="label.button.cancel" value="<%= t(:button_cancel) %>">' +
+                                                                 '<param name="error.close.msg" value="<%= t(:error_close_msg) %>">' +
+                                                                 '<param name="error.close.title" value="<%= t(:error_close_title) %>">' +
+                                                                 '<param name="attach.url" value="<%= url_for(:only_path => false, :controller => "irm/attach_screenshot", :action => 'index')%>">' +
+                                                                 '<param name="error.attach.msg" value="<%= t(:error_attach_msg) %>">' +
+                                                                 '<param name="error.attach.title" value="<%= t(:error_attach_title) %>">'	 +
+                                                                 '<param name="rss.key" value="_">'	 +
+                                                                 'Applet</applet>';
+        }
+
+
+    }
+    showAttachScreen();
+
+    function addAttachScreen(file_path)
+    {
+        parent.finishAttach(file_path);
+    }
+
+    function hideAttachScreen()
+    {
+        parent.cancelAttach();
+    }
+</script>

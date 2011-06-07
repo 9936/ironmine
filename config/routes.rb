@@ -8,6 +8,7 @@ Ironmine::Application.routes.draw do
     match 'logout'=>'common#logout',:as=>:logout
     match 'forgot_password' => "common#forgot_password"
     match 'common/search_options' => "common#search_options"
+    match 'common/upload_screen_shot' => "common#upload_screen_shot"
     match 'search(/index)(.:format)'=>"search#index",:via=>[:get,:post]
     #lookup_types
     match '/lookup_types/new(.:format)'=>"lookup_types#new",:via=>:get
@@ -665,7 +666,8 @@ Ironmine::Application.routes.draw do
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id/edit(.:format)' => "wf_approval_steps#edit", :via => [:get,:post,:put]
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id(.:format)' => "wf_approval_steps#update", :via => :put
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id/destroy(.:format)' => "wf_approval_steps#destroy", :via => :delete
-
+    #screen saver
+    match '/attach_screenshot(/index)(.:format)' => "attach_screenshot#index", :via => :post
   end
 
   scope :module => "icm" do

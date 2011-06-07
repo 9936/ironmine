@@ -123,6 +123,7 @@ en:
   search_options: Search Options
   input_keyword_you_want_to_search: Input keyword you want to search
   display_all: Show All
+  upload_from_clipboard: Upload Image From Clipboard
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
@@ -1017,3 +1018,15 @@ en:
   label_irm_formula_function_syntax_miss_parameter: Please fill formula textarea
   label_irm_formula_function_syntax_return_value: The syntax of formula is right,return value is
   #======================== end wf field updates====================
+
+  #======================== screen saver ===========================
+  label_screenshots: Screenshots
+  label_add_another_screenshot: Add another screenshot
+  label_button_paste: Paste image from clipboard
+  label_image: Screenshot
+  button_attach: Attach
+  button_cancel: Cancel
+  error_close_msg: Can not close applet, {0}
+  error_close_title: Error
+  error_attach_msg: Error, {0}
+  error_attach_title: Attaching error
