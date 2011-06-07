@@ -117,6 +117,7 @@ zh:
   search_options: 搜索选项
   input_keyword_you_want_to_search: 请输入你要搜索的关键词
   display_all: 全部显示
+  upload_from_clipboard: 从剪贴板上传图片
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型
@@ -1233,6 +1234,7 @@ zh:
   label_irm_wf_approval_step_reject_behavior_step_reject: 只执行此步骤的拒绝操作并将批准请求发回到最近的批准人。（返回 1 步）
   label_irm_wf_approval_step_reject_behavior_process_reject: 执行此步骤的所有拒绝操作和所有最终拒绝操作。（最终拒绝）
   #======================== wf approval step====================
+
   #======================== wf process instance====================
   label_irm_process_instance_submit_error: 无法提交待审批
   label_irm_step_instance_step: 审批步骤
@@ -1264,4 +1266,14 @@ zh:
   label_action_reassign: 转交
   #======================== end wf process instance====================
 
-
+  #======================== screen saver ===========================
+  label_screenshots: 从剪切板插入截图
+  label_add_another_screenshot: Add another screenshot
+  label_button_paste: 从剪切板获得图片
+  label_image: 屏幕截图
+  button_attach: 插入截图
+  button_cancel: 取消
+  error_close_msg: 关闭Applet错误, {0}
+  error_close_title: 错误
+  error_attach_msg: 错误, {0}
+  error_attach_title: 上传错误

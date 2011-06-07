@@ -150,8 +150,9 @@
 <script type="text/javascript">
 
 GY.use('irm','node','substitute','yui2-editor', function(Y) {
-  var YAHOO = Y.YUI2;
-  var editor = new YAHOO.widget.Editor('msgEditor', {
+    var YAHOO = Y.YUI2;
+
+    var editor = new YAHOO.widget.Editor('msgEditor', {
         height:'100px',
         width:'80%',
         toolbar: {
@@ -163,6 +164,7 @@ GY.use('irm','node','substitute','yui2-editor', function(Y) {
                         { type: 'push', label: 'Underline', value: 'underline' },
                         { type: 'push', label: 'Create an Unordered List', value: 'insertunorderedlist' },
 	                    { type: 'push', label: 'Create an Ordered List', value: 'insertorderedlist' },
+                        { type: 'push', label: 'Upload Image From Clipboard', value: 'uploadImageFormClipboard', id: 'uploadImageFormClipboard' },
                         { type: 'color', label: 'Font Color', value: 'forecolor', disabled: true },
                         { type: 'color', label: 'Background Color', value: 'backcolor', disabled: true }
                     ]
@@ -170,6 +172,27 @@ GY.use('irm','node','substitute','yui2-editor', function(Y) {
             ]
         }
     });
+
+    var dialog = new Y.YUI2.widget.Dialog("container_applet_upload", {
+        visible: true,
+        context: [Y.one("#uploadImageFormClipboard"), "tl", "bl"],
+        draggable: true,
+        close: true
+    });
+
+    editor.on('toolbarLoaded', function() {
+        this.toolbar.on('uploadImageFormClipboardClick', function(o) {
+              if (Y.one("#container_applet_upload_c")){
+                Y.one("#container_applet_upload_c").remove();
+              }
+              dialog.setBody("<iframe frameborder=0 scrolling='no'  src='/common/upload_screen_shot' style='height:400px;width:620px;'></iframe>");
+              dialog.setHeader('<%= t :upload_from_clipboard%>');
+              dialog.render(document.body);
+              dialog.center();
+              dialog.show();
+        });
+    }, editor, true);
+
     editor.render();
 
     Y.all("#new_bulletin_submit").on("click",function(){
