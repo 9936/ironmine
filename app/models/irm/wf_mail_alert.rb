@@ -46,11 +46,11 @@ class Irm::WfMailAlert < ActiveRecord::Base
   def perform(bo)
     recipient_ids = self.all_recipients(bo)
 
-    params = {:object_params=>{self.bo_code.downcase.to_sym=>Irm::BusinessObject.to_hash(bo)}}
+    params = {:object_params=>Irm::BusinessObject.liquid_attributes(bo,true)}
 
     mail_options = {}
     mail_options.merge!(:from=>self.from_email) if self.from_email.present?
-    mail_options.merge!(:message_id=>Irm::BusinessObject.mail_message_id(bo))
+    mail_options.merge!(:message_id=>Irm::BusinessObject.mail_message_id(bo,"mailalert"))
     params.merge!(:mail_options=>mail_options)
     header_options = {}
     header_options.merge!({"References"=>Irm::BusinessObject.mail_message_id(self)})
