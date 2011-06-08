@@ -45,17 +45,22 @@ class Irm::WfMailAlert < ActiveRecord::Base
 
   def perform(bo)
     recipient_ids = self.all_recipients(bo)
-
+    # template params
     params = {:object_params=>Irm::BusinessObject.liquid_attributes(bo,true)}
-
+    # mail options
     mail_options = {}
     mail_options.merge!(:from=>self.from_email) if self.from_email.present?
     mail_options.merge!(:message_id=>Irm::BusinessObject.mail_message_id(bo,"mailalert"))
     params.merge!(:mail_options=>mail_options)
+
+    # header options
     header_options = {}
     header_options.merge!({"References"=>Irm::BusinessObject.mail_message_id(self)})
     params.merge!(:header_options=>header_options)
+
+    # template 　
     mail_template = Irm::MailTemplate.query_by_template_code(self.mail_template_code).first
+
     # loop send mail
     recipient_ids.each do |pid|
       mail_template.deliver_to(params.merge(:to_person_ids=>[pid]))
