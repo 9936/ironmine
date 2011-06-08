@@ -8,6 +8,7 @@ class Irm::AttachScreenshotController < ApplicationController
                                             :source_id => 0,
                                             :category_id => 0,
                                             :description => "")
+    version.save
     Irm::AttachmentVersion.update_attachment_by_version(@container,version)
     respond_to do |format|
       if version && version.url.present?
