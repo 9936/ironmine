@@ -1,5 +1,6 @@
 class Irm::AttachScreenshotController < ApplicationController
   skip_before_filter :verify_authenticity_token
+
   def index
     @container=Irm::Attachment.create()
     version = Irm::AttachmentVersion.create(:data => params[:attachments],
@@ -8,16 +9,14 @@ class Irm::AttachScreenshotController < ApplicationController
                                             :source_id => 0,
                                             :category_id => 0,
                                             :description => "")
-    version.save
     Irm::AttachmentVersion.update_attachment_by_version(@container,version)
     respond_to do |format|
       if version && version.url.present?
         #format.html{ render :text => "<img src=#{version.url}>"}
-        format.html{ render :text => params.to_json}
+        format.html{ render :text => version.errors}
       else
-        format.html{ render :text => "NA"}
+        format.html{ render :text => version.errors}
       end
-
     end
   end
 
