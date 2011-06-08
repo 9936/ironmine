@@ -12,10 +12,10 @@ class Irm::AttachScreenshotController < ApplicationController
     Irm::AttachmentVersion.update_attachment_by_version(@container,version)
     respond_to do |format|
       if version && version.url.present?
-        #format.html{ render :text => "<img src=#{version.url}>"}
-        format.html{ render :text => version.errors}
+        format.html{ render :text => "<img src=#{version.url}>"}
+#        format.html{ render :text => version.errors}
       else
-        format.html{ render :text => version.errors}
+        format.html{ render :text => "NA"}
       end
     end
   end
