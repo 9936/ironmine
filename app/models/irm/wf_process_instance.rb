@@ -31,23 +31,41 @@ class Irm::WfProcessInstance < ActiveRecord::Base
       return process
     end
   end
-  # next step of process
-  def next_step(step_number)
+
+  # 找到下一个需要审批人审批的审批步骤，跳过自动审批的步骤
+  def next_approvable_step(step_number)
     current_step_number = step_number
-    process_step = Irm::WfApprovalStep.where(:process_id=>self.process_id,:step_number=>current_step_number).first
-    while process_step.present?&&"NEXT_STEP".eql?(process_step.auto_approval_result(self.bo_id))
-      current_step_number = process_step.step_number+1
-      process_step = Irm::WfApprovalStep.where(:process_id=>self.process_id,:step_number=>current_step_number).first
+    current_step = Irm::WfApprovalStep.where(:process_id=>self.process_id,:step_number=>current_step_number).first
+    while current_step.present?&&"NEXT_STEP".eql?(current_step.auto_approval_result(self.bo_id))
+      current_step_number = current_step.step_number+1
+      current_step = Irm::WfApprovalStep.where(:process_id=>self.process_id,:step_number=>current_step_number).first
     end
-    if process_step.present?
-      return process_step
+    if current_step.present?
+      return current_step
     else
       return nil
     end
   end
 
 
+  # 模拟审批，从而得到下一步审批步骤，要求step_number对应的步骤是需要人审批的
+  def simulate_approve_next_step(step_number,approval_result="APPROVED")
+    current_step_number = step_number
+    case approval_result
+      when "APPROVED"
+        next_approvable_step(current_step_number+1)
+      when "REJECT"
+        current_step = Irm::WfApprovalStep.where(:process_id=>self.process_id,:step_number=>current_step_number).first
+        if current_step.reject_behavior.eql?("REJECT_PROCESS")
+          return nil
+        else
+          next_approvable_step(1)
+        end
+    end
+  end
 
+
+  # 提交审批
   def submit
       if self.bo_instance.respond_to?(:urlable_title)
         self.bo_description  = self.bo_instance.send(:urlable_title)

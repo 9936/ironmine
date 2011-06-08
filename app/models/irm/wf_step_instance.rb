@@ -38,19 +38,8 @@ class Irm::WfStepInstance < ActiveRecord::Base
   end
 
 
-  def self.new_step_instance(wf_process_instance,step_number)
-    business_object = Irm::BusinessObject.where(:bo_model_name=>wf_process_instance.bo_model_name).first
-    step = Irm::WfStep.where(:process_id=>wf_process_instance.process_id,:step_number=>step_number)
-    self.class.enabled.where(:bo_code=>business_object.business_object_code).each do |process|
-      bo_instance = process.rule_filter.generate_scope.where(:id=>wf_process_instance.bo_id).first
-      next unless bo_instance
-      return process if process.submitter_include?(wf_process_instance.submitter_id,bo_instance)
-    end
-    nil
-  end
-
-
   def approved(person_id=nil)
+    return unless check_approvable(person_id)
     current_step = Irm::WfApprovalStep.find(self.step_id)
     if "AUTO_APPROVER".eql?(current_step.approver_mode)
       case current_step.multiple_approver_mode
@@ -79,6 +68,7 @@ class Irm::WfStepInstance < ActiveRecord::Base
   end
 
   def reject(person_id=nil)
+    return unless check_approvable(person_id)
     current_step = Irm::WfApprovalStep.find(self.step_id)
     if "AUTO_APPROVER".eql?(current_step.approver_mode)&&current_step.multiple_approver_mode
       self.update_attributes(:approval_status_code=>"REJECT",:actual_approver_id=>person_id,:end_at=>Time.now)
@@ -145,4 +135,10 @@ class Irm::WfStepInstance < ActiveRecord::Base
       Delayed::Job.enqueue(Irm::Jobs::ActionProcessJob.new({:bo_id=>self.wf_process_instance.bo_id,:bo_code=>self.wf_process_instance.business_object.business_object_code,:action_id=>action.action_id,:action_type=>action.action_type}))
     end
   end
+
+  private
+  def check_approvable(person_id)
+    person_id&&person_id.eql?(self.assign_approver_id)&&self.approval_status_code.eql?("PENDING")
+  end
+
 end

@@ -4,7 +4,7 @@ class Irm::WfApprovalStep < ActiveRecord::Base
 
 
   has_many :wf_approval_step_approvers,:foreign_key => :step_id
-
+  belongs_to :wf_approval_process,:foreign_key => :process_id
 
   query_extend
   before_save :check_attribute
@@ -215,6 +215,8 @@ class Irm::WfApprovalStep < ActiveRecord::Base
   def check_attribute
     if self.step_number.eql?(1)
       self.reject_behavior = "REJECT_PROCESS"
+    else
+      self.evaluate_result = "NEXT_STEP"
     end
   end
   private  :check_attribute
