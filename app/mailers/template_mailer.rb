@@ -2,7 +2,7 @@ require "iconv"
 class TemplateMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
-  default :from => Irm::SystemParametersManager.emission_email_address
+  default :from => Irm::MailManager.default_email_from
   #
   # 使用邮件模板发送邮件
   #
