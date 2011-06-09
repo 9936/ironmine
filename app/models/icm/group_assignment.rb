@@ -1,108 +1,35 @@
 class Icm::GroupAssignment < ActiveRecord::Base
   set_table_name :icm_group_assignments
+  has_many :group_assignment_details,:dependent => :destroy
+  validates_uniqueness_of :support_group_code
 
-  scope :with_company, lambda {
-    select("ct.name company_name").
-        joins("LEFT OUTER JOIN #{Irm::Company.table_name} c ON c.id = #{table_name}.customer_company_id").
-        joins("LEFT OUTER JOIN #{Irm::CompaniesTl.table_name} ct ON ct.language = '#{I18n.locale}' AND c.id = ct.company_id")
-  }
-  scope :with_department, lambda {
-    select("dt.name department_name").
-        joins("LEFT OUTER JOIN #{Irm::Department.table_name} d ON d.id = #{table_name}.customer_department_id").
-        joins("LEFT OUTER JOIN #{Irm::DepartmentsTl.table_name} dt ON dt.language = '#{I18n.locale}' AND d.id = dt.department_id")
-  }
-  scope :with_site, lambda {
-    select("st.name site_name").
-        joins("LEFT OUTER JOIN #{Irm::Site.table_name} s ON s.site_code = #{table_name}.customer_site_code").
-        joins("LEFT OUTER JOIN #{Irm::SitesTl.table_name} st ON st.language = '#{I18n.locale}' AND s.id = st.site_id")
-  }
-  scope :with_site_group, lambda {
-    select("sgt.name site_group_name").
-        joins("LEFT OUTER JOIN #{Irm::SiteGroup.table_name} sg ON sg.group_code = #{table_name}.customer_site_group_code").
-        joins("LEFT OUTER JOIN #{Irm::SiteGroupsTl.table_name} sgt ON sgt.language = '#{I18n.locale}' AND sg.id = sgt.site_group_id")
-  }
-  scope :with_person, lambda {
-    select("concat(ps.last_name, ps.first_name) person_name").
-        joins("LEFT OUTER JOIN #{Irm::Person.table_name} ps ON ps.id = #{table_name}.customer_person_id")
-  }
   scope :with_support_group, lambda {
-    select("sut.name support_group_name").
-        joins("LEFT OUTER JOIN #{Irm::SupportGroup.table_name} su ON su.group_code = #{table_name}.support_group_code").
-        joins("LEFT OUTER JOIN #{Irm::SupportGroupsTl.table_name} sut ON sut.language = '#{I18n.locale}' AND su.id = sut.support_group_id")
-  }
-  scope :with_organizations, lambda {
-    select("ot.name organization_name").
-        joins("LEFT OUTER JOIN #{Irm::Organization.table_name} o ON o.id = #{table_name}.customer_organization_id").
-        joins("LEFT OUTER JOIN #{Irm::OrganizationsTl.table_name} ot ON ot.language = '#{I18n.locale}' AND o.id = ot.organization_id")
-  }
-
-  scope :with_external_system, lambda{
-    select("est.system_name external_system_name").
-        joins("LEFT OUTER JOIN #{Uid::ExternalSystem.table_name} es ON es.external_system_code = #{table_name}.external_system_code").
-        joins("LEFT OUTER JOIN #{Uid::ExternalSystemsTl.table_name} est ON est.external_system_id = es.id AND est.language = '#{I18n.locale}'")
-  }
-
-  scope :with_service_catalog, lambda{
-    select("sct.name service_catalog_name").
-        joins("LEFT OUTER JOIN #{Slm::ServiceCatalog.table_name} sc ON sc.catalog_code = #{table_name}.service_code").
-        joins("LEFT OUTER JOIN #{Slm::ServiceCatalogsTl.table_name} sct ON sct.language = '#{I18n.locale}' AND sc.id = sct.service_catalog_id")
-  }
-
-  scope :with_assign_type, lambda{
-    select("atlvt.meaning assign_type_name").
-        joins("LEFT OUTER JOIN #{Irm::LookupValue.table_name} atlv ON atlv.lookup_code = #{table_name}.assign_type").
-        joins("LEFT OUTER JOIN #{Irm::LookupValuesTl.table_name} atlvt ON atlvt.language = '#{I18n.locale}' AND atlvt.lookup_value_id = atlv.id")
+    select("sgt.name support_group_name,"+
+           "v2.name company_name,v3.name organization_name,"+
+           "v4.meaning support_role_name,sg.vendor_group_flag,sg.oncall_group_flag").
+    joins(",irm_companies_vl v2").
+    joins(",irm_organizations_vl v3").
+    joins(",irm_lookup_values_vl v4").
+    joins(",#{Irm::SupportGroup.table_name} sg").
+    joins(",#{Irm::SupportGroupsTl.table_name} sgt").
+    where("v4.lookup_type='IRM_SUPPORT_ROLE' AND v4.lookup_code = sg.support_role_code AND "+
+          "sg.company_id = v2.id AND v2.language=? AND "+
+          "sg.organization_id = v3.id AND v3.language=? AND "+
+          "v4.language=?",
+          I18n.locale,I18n.locale,I18n.locale).
+    where("#{table_name}.support_group_code = sg.group_code").
+    where("sgt.support_group_id = sg.id").where("sgt.language = ?", I18n.locale)
   }
 
   scope :assignable,lambda{
     joins("JOIN #{Irm::SupportGroup.table_name}  ON #{Irm::SupportGroup.table_name}.group_code = #{table_name}.support_group_code AND #{Irm::SupportGroup.table_name}.oncall_group_flag = 'Y' AND #{Irm::SupportGroup.table_name}.status_code = 'ENABLED'")
   }
 
-  scope :query_by_company, lambda{|company_id|
-    where("#{table_name}.customer_company_id = ?", company_id)
-  }
-
-  scope :query_by_department, lambda{|department_id|
-    where("#{table_name}.customer_department_id = ?", department_id)
-  }
-
-  scope :query_by_sites, lambda{|sites|
-    where("#{table_name}.customer_site_code IN (?)", sites.collect(&:site_code) + [''])
-  }
-
-  scope :query_by_site_groups, lambda{|site_groups|
-    where("#{table_name}.customer_site_group_code IN (?)", site_groups.collect(&:group_code) + [''])
-  }
-
-  scope :query_by_person, lambda {|person_id|
-    where("#{table_name}.customer_person_id = ?", person_id)
-  }
-
   scope :query_by_support_groups, lambda{|support_group_id|
     where("#{table_name}.support_group_code = ?", support_group_id)
   }
 
-  scope :query_by_organization, lambda{|organization_id|
-    where("#{table_name}.customer_organization_id = ?", organization_id)
-  }
-
-  scope :type_organizational, lambda{
-    where("#{table_name}.assign_type = ?", "ORGANIZATIONAL")
-  }
-
-  scope :type_service, lambda{
-    where("#{table_name}.assign_type = ?", "SERVICE")
-  }
-
   scope :list_all, lambda {
-    select("#{table_name}.*").
-        with_person.
-        with_department.
-        with_organizations.
-        with_company.
-        with_support_group.
-        with_external_system.
-        with_service_catalog.
-        with_assign_type
+    select("#{table_name}.*").with_support_group
   }
 end

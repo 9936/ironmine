@@ -521,8 +521,6 @@ Ironmine::Application.routes.draw do
     match '/bulletins/get_data(.:format)' => "bulletins#get_data"
     match '/bulletins/index(.:format)' => "bulletins#index"
     match '/bulletins/:id/show(.:format)' => "bulletins#show", :via => :get
-    match '/bulletins/get_ava_departments' => "bulletins#get_ava_departments", :via => :get
-    match '/bulletins/get_ava_organizations' => "bulletins#get_ava_organizations", :via => :get
 
     match '/watchers/:watchable_id/add_watcher(.:format)' => "watchers#add_watcher"
     match '/watchers/delete_watcher(.:format)' => "watchers#delete_watcher"
@@ -818,11 +816,6 @@ Ironmine::Application.routes.draw do
     match '/group_assignments/create(.:format)' => "group_assignments#create", :via => :post
     match '/group_assignments/get_data(.:format)' => "group_assignments#get_data"
     match '/group_assignments/:id/destroy(.:format)' => "group_assignments#destroy"
-    match '/group_assignments/get_customer_departments(.:format)' => "group_assignments#get_customer_departments", :via => :get
-    match '/group_assignments/get_customer_sites(.:format)' => "group_assignments#get_customer_sites", :via => :get
-    match '/group_assignments/get_customer_site_groups(.:format)' => "group_assignments#get_customer_site_groups", :via => :get
-    match '/group_assignments/get_customer_people(.:format)' => "group_assignments#get_customer_people", :via => :get
-    match '/group_assignments/get_customer_organizations(.:format)' => "group_assignments#get_customer_organizations", :via => :get
   end
 
   scope :module => "cms" do
