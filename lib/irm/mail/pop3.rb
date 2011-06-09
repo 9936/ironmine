@@ -3,7 +3,7 @@ module Irm::Mail
   module POP3
     class << self
       def check(pop_options={}, options={})
-        mail_options  = (Ironmine::POP3_MAIL_OPTIONS||{}).dup
+        mail_options  = (Irm::MailManager.pop_receive_options||{}).dup
         mail_options.merge!(pop_options)
         host = mail_options[:host] || '127.0.0.1'
         port = mail_options[:port] || '110'
@@ -22,9 +22,7 @@ module Irm::Mail
               message_id = (message =~ /^Message-ID: (.*)/ ? $1 : '').strip
               in_reply_to =  (message =~ /^In-Reply-To: <(.*)>/ ? $1 : '').strip
               next unless in_reply_to.start_with?("ironmine")
-              receive_result = TemplateMailer.receive(message)
-              puts "receive_result===================#{receive_result}"
-              if receive_result
+              if TemplateMailer.receive(message)
                 msg.delete
                 logger.debug "--> Message #{message_id} processed and deleted from the server" if logger && logger.debug?
               else

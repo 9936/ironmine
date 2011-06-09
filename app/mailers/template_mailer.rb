@@ -57,9 +57,11 @@ class TemplateMailer < ActionMailer::Base
   def receive(email)
     in_reply_to = email.in_reply_to
     bodies =  clear_message_body(email)
-    ActiveSupport::Notifications.instrument("mail.receive", {:email=>email,:parsed_email=>{:message_id=>email.message_id,
-                                                                                           :in_reply_to=>in_reply_to,
-                                                                                           :bodies=>bodies}})
+    parsed_email= {:message_id=>email.message_id,:in_reply_to=>in_reply_to,:bodies=>bodies}
+    #ActiveSupport::Notifications.instrument("mail.receive", {:email=>email,:parsed_email=>{:message_id=>email.message_id,
+    #                                                                                       :in_reply_to=>in_reply_to,
+    #                                                                                       :bodies=>bodies}})
+    return Irm::MailManager.process_mail(email,parsed_email)
   end
 
 
