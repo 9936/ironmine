@@ -16,6 +16,9 @@ module Irm::Mail
         imap.select(folder)
         imap.search(['NOT', 'SEEN']).each do |message_id|
           msg = imap.fetch(message_id,'RFC822')[0].attr['RFC822']
+          envelope = imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
+          next unless envelope&&envelope.in_reply_to&&in_reply_to.start_with?("ironmine")
+
           logger.debug "Receiving message #{message_id}" if logger && logger.debug?
           if TemplateMailer.receive(msg)
             logger.debug "Message #{message_id} successfully received" if logger && logger.debug?

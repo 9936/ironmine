@@ -56,8 +56,6 @@ module Ironmine
 
    PORT = "8282"
 
-   EMAIL_FROM = "root.ironmine@gmail.com"
-
    MAIL_RECEIVE_TYPE = :imap
    POP3_MAIL_OPTIONS = {
        :username => 'rootironmine@163.com',

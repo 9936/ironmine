@@ -211,7 +211,7 @@ class Irm::BusinessObject < ActiveRecord::Base
   def self.mail_message_id(bo_instance,identity="bo")
     timestamp = bo_instance.send(bo_instance.respond_to?(:created_at) ? :created_at : :updated_at)
     hash = "ironmine.#{identity}.#{bo_instance.class.name.underscore}.#{bo_instance.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
-    host = Irm::SystemParametersManager.emission_email_address.to_s.gsub(%r{^.*@}, '')
+    host = Irm::MailManager.default_email_from.to_s.gsub(%r{^.*@}, '')
     "<#{hash}@#{host}>"
   end
 

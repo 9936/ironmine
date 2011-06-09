@@ -1,4 +1,5 @@
 class Irm::Railtie < Rails::Railtie
+
   # subscribe receive mail event and process approval email
   ActiveSupport::Notifications.subscribe do |*args|
     event = ActiveSupport::Notifications::Event.new(*args)

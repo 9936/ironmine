@@ -42,5 +42,9 @@ module Ironmine
     config.filter_parameters += [:password]
     #由于资源文件根据locale，i18n会读取不同的语言的资源文件然后加载到内存中
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+
+    # add mail config
+    config.ironmine = ActiveSupport::OrderedOptions.new
+
   end
 end
