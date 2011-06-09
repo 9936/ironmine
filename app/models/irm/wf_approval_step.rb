@@ -145,21 +145,24 @@ class Irm::WfApprovalStep < ActiveRecord::Base
           unless wf_process_instance.next_approver_id.present?
             raise Wf::MissingSelectApproverError,self.id
           end
-          Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>wf_process_instance.next_approver_id)
+          step_instance = Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>wf_process_instance.next_approver_id)
           wf_process_instance.update_attribute(:next_approver_id,nil)
+          Delayed::Job.enqueue(Irm::Jobs::ApprovalMailJob.new(step_instance.id))
         when "PROCESS_DEFAULT"
           default_approver_id = self.process_default_approver_ids(Irm::Person.current.id)
           unless default_approver_id.present?
             raise Wf::MissingDefaultApproverError,self.id
           end
-          Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>default_approver_id)
+          step_instance = Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>default_approver_id)
+          Delayed::Job.enqueue(Irm::Jobs::ApprovalMailJob.new(step_instance.id))
         when "AUTO_APPROVER"
           auto_approvers =  auto_approver_ids(wf_process_instance.bo_id)
           unless auto_approvers.any?
             raise Wf::MissingAutoApproverError,self.id
           end
           auto_approvers.each do  |approver_id|
-            Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>approver_id)
+            step_instance = Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>approver_id)
+            Delayed::Job.enqueue(Irm::Jobs::ApprovalMailJob.new(step_instance.id))
           end
       end
     else

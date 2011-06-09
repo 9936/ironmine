@@ -21,7 +21,7 @@ module Irm
           approve_able = false
         end
 
-        unless approve_able
+        if approve_able
           next_step = process_instance.simulate_approve_next_step(step.step_number)
           if next_step&&next_step.approver_mode.eql?("SELECT_BY_SUMBITTER")
             approve_able = false
