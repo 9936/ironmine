@@ -3,7 +3,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
 
   belongs_to :attachment
 
-  has_attached_file :data,:styles => {:thumb=> "60x60>",
+  has_attached_file :data,:whiny => false, :styles => {:thumb=> "60x60>",
                                       :small => "100x100>",
                                       :url => Irm::Constant::ATTACHMENT_URL,
                                       :path => Irm::Constant::ATTACHMENT_PATH }

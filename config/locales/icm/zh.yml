@@ -184,4 +184,5 @@ zh:
   label_icm_group_assignment_c_site_group: 地点组
   label_icm_group_assignment_c_site: 地点
   label_icm_group_assignment_type: 分派维度
+  label_icm_group_assignment_detail: 指派对象
   #========================= end icm group_assignments_controller =========================#

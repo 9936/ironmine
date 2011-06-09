@@ -186,4 +186,5 @@ en:
   label_icm_group_assignment_c_site_group: Site Group
   label_icm_group_assignment_c_site: Site
   label_icm_group_assignment_type: Assignment Type
+  label_icm_group_assignment_detail: Assigned Target
   #========================= end icm group_assignments_controller =========================#  

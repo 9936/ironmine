@@ -69,12 +69,12 @@
 <script type="text/javascript">
   function save(){
     document.file_form.action = "create";
-    file_form.submit();
+    document.file_form.submit();
   }
 
   function save_and_new(){
     document.file_form.action = "create?act=next";
-    file_form.submit();
+    document.file_form.submit();
   }
 </script>    
 <% end %>

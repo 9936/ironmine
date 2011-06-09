@@ -1,0 +1,5 @@
+keystore"file:screensaver.store","JKS"; 
+grantsignedBy"ironmine"
+{ 
+permission java.io.FilePermission"<<ALLFILES>>","read"; 
+}; 

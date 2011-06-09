@@ -8,6 +8,7 @@ Ironmine::Application.routes.draw do
     match 'logout'=>'common#logout',:as=>:logout
     match 'forgot_password' => "common#forgot_password"
     match 'common/search_options' => "common#search_options"
+    match 'common/upload_screen_shot' => "common#upload_screen_shot"
     match 'search(/index)(.:format)'=>"search#index",:via=>[:get,:post]
     #lookup_types
     match '/lookup_types/new(.:format)'=>"lookup_types#new",:via=>:get
@@ -520,8 +521,6 @@ Ironmine::Application.routes.draw do
     match '/bulletins/get_data(.:format)' => "bulletins#get_data"
     match '/bulletins/index(.:format)' => "bulletins#index"
     match '/bulletins/:id/show(.:format)' => "bulletins#show", :via => :get
-    match '/bulletins/get_ava_departments' => "bulletins#get_ava_departments", :via => :get
-    match '/bulletins/get_ava_organizations' => "bulletins#get_ava_organizations", :via => :get
 
     match '/watchers/:watchable_id/add_watcher(.:format)' => "watchers#add_watcher"
     match '/watchers/delete_watcher(.:format)' => "watchers#delete_watcher"
@@ -665,6 +664,7 @@ Ironmine::Application.routes.draw do
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id/edit(.:format)' => "wf_approval_steps#edit", :via => [:get,:post,:put]
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id(.:format)' => "wf_approval_steps#update", :via => :put
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id/destroy(.:format)' => "wf_approval_steps#destroy", :via => :delete
+
     # wf process instance
     match '/wf_process_instances/submit(.:format)' => "wf_process_instances#submit", :via => [:get,:post]
     match '/wf_process_instances/:id/recall(.:format)' => "wf_process_instances#recall", :via => :get
@@ -674,6 +674,9 @@ Ironmine::Application.routes.draw do
     match '/wf_step_instances/:id/reassign(.:format)' => "wf_step_instances#reassign", :via => :get
     match '/wf_step_instances/submit(.:format)' => "wf_step_instances#submit", :via => [:post,:put]
     match '/wf_step_instances/save_reassign(.:format)' => "wf_step_instances#save_reassign", :via => :put
+
+    #screen saver
+    match '/attach_screenshot(/index)(.:format)' => "attach_screenshot#index", :via => :post
   end
 
   scope :module => "icm" do
@@ -813,11 +816,6 @@ Ironmine::Application.routes.draw do
     match '/group_assignments/create(.:format)' => "group_assignments#create", :via => :post
     match '/group_assignments/get_data(.:format)' => "group_assignments#get_data"
     match '/group_assignments/:id/destroy(.:format)' => "group_assignments#destroy"
-    match '/group_assignments/get_customer_departments(.:format)' => "group_assignments#get_customer_departments", :via => :get
-    match '/group_assignments/get_customer_sites(.:format)' => "group_assignments#get_customer_sites", :via => :get
-    match '/group_assignments/get_customer_site_groups(.:format)' => "group_assignments#get_customer_site_groups", :via => :get
-    match '/group_assignments/get_customer_people(.:format)' => "group_assignments#get_customer_people", :via => :get
-    match '/group_assignments/get_customer_organizations(.:format)' => "group_assignments#get_customer_organizations", :via => :get
   end
 
   scope :module => "cms" do
