@@ -70,15 +70,15 @@ Ironmine::Application.configure do
 		:authentication => :login
   }
   # config for receive mail
-  config.ironmine.mail_receive_method = :pop
+  config.ironmine.mail_receive_method = :imap
   config.ironmine.mail_receive_interval = '5m'
-  #config.ironmine.mail_receive_imap = {
-  #  :username => 'root.ironmine@gmail.com',
-  #  :password => 'handhand',
-  #  :host   => 'imap.gmail.com',
-  #  :port     => 993,
-  #  :ssl    => true
-  #}
+  config.ironmine.mail_receive_imap = {
+    :username => 'root.ironmine@gmail.com',
+    :password => 'handhand',
+    :host   => 'imap.gmail.com',
+    :port     => 993,
+    :ssl    => true
+  }
   config.ironmine.mail_receive_pop = {
     :username => 'rootironmine@163.com',
     :password => 'handhand',
