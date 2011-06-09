@@ -1,6 +1,6 @@
 class Icm::GroupAssignment < ActiveRecord::Base
   set_table_name :icm_group_assignments
-  belongs_to :support_group, :class => "Irm::SupportGroup"
+  belongs_to :support_group, :class_name => "Irm::SupportGroup"
 
   scope :query_service_catalog, lambda{|service_catalog_code|
     joins(",#{Slm::ServiceCatalog.table_name} sc").
