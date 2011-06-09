@@ -71,7 +71,7 @@ Ironmine::Application.configure do
   }
   # config for receive mail
   config.ironmine.mail_receive_method = :pop
-  config.ironmine.mail_receive_interval = '1m'
+  config.ironmine.mail_receive_interval = '5m'
   #config.ironmine.mail_receive_imap = {
   #  :username => 'root.ironmine@gmail.com',
   #  :password => 'handhand',
