@@ -1,3 +1,4 @@
+require "iconv"
 class TemplateMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
@@ -66,9 +67,9 @@ class TemplateMailer < ActionMailer::Base
     regex = Regexp.new("^[> ]*\s*[\r\n].*", Regexp::MULTILINE)
     parts.each do |p|
       if p.content_type == 'text/plain'
-        plain_text_bodies << p.body.decoded.to_s.gsub(regex,"")
+        plain_text_bodies << Iconv.iconv("UTF-8",p.charset, p.body.to_s.gsub(regex,"")).first
       else
-        plain_text_body = strip_tags(p.body.decoded.to_s)
+        plain_text_body = strip_tags(Iconv.iconv("UTF-8",p.charset, p.body.to_s.gsub(regex,"")).first)
         plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
         plain_text_bodies  << plain_text_body
       end
@@ -76,5 +77,5 @@ class TemplateMailer < ActionMailer::Base
 
     plain_text_bodies
   end
-
+  Mail::Part
 end
