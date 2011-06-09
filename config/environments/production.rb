@@ -71,11 +71,18 @@ Ironmine::Application.configure do
   }
   # config for receive mail
   config.ironmine.mail_receive_method = :imap
-  config.ironmine.mail_receive_interval = '5m'
+  config.ironmine.mail_receive_interval = '1m'
+  #config.ironmine.mail_receive_imap = {
+  #  :username => 'root.ironmine@gmail.com',
+  #  :password => 'handhand',
+  #  :host   => 'imap.gmail.com',
+  #  :port     => 993,
+  #  :ssl    => true
+  #}
   config.ironmine.mail_receive_imap = {
-    :username => 'root.ironmine@gmail.com',
+    :username => 'rootironmine@163.com',
     :password => 'handhand',
-    :host   => 'imap.gmail.com',
+    :host   => 'imap.163.com',
     :port     => 993,
     :ssl    => true
   }
