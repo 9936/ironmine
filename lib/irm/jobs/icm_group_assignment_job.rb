@@ -10,35 +10,35 @@ module Irm
         person = Irm::Person.find(request.requested_by)
         unless request.support_group_id.present?||assign_result[:support_group_id].present?
           assign_result[:support_person_id] = nil
-          Icm::GroupAssignment.assignable.each do |ga|
+          Irm::SupportGroup.where(:oncall_group_flag => Irm::Constant::SYS_YES).each do |ga|
             #按服务查找
-            r1 = ga.group_assignment_details.query_service_catalog(request.service_code).where(:source_type => Slm::ServiceCatalog.name)
+            r1 = ga.group_assignments.query_service_catalog(request.service_code).where(:source_type => Slm::ServiceCatalog.name)
             #按系统查找
             unless r1.any?
-              r1 = ga.group_assignment_details.query_external_system(request.external_system_code).where(:source_type => Uid::ExternalSystem.name)
+              r1 = ga.group_assignments.query_external_system(request.external_system_code).where(:source_type => Uid::ExternalSystem.name)
             end
 
             #按人员查找
             unless r1.any?
-              r1 = ga.group_assignment_details.where(:source_type => Irm::Person.name, :source_id => person.id)
+              r1 = ga.group_assignments.where(:source_type => Irm::Person.name, :source_id => person.id)
             end
 
             #按部门查找
             unless r1.any?
-              r1 = ga.group_assignment_details.where(:source_type => Irm::Department.name, :source_id => person.department_id)
+              r1 = ga.group_assignments.where(:source_type => Irm::Department.name, :source_id => person.department_id)
             end
 
             #按组织查找
             unless r1.any?
-              r1 = ga.group_assignment_details.where(:source_type => Irm::Organization.name, :source_id => person.organization_id)
+              r1 = ga.group_assignments.where(:source_type => Irm::Organization.name, :source_id => person.organization_id)
             end
 
             #按公司查找
             unless r1.any?
-              r1 = ga.group_assignment_details.where(:source_type => Irm::Company.name, :source_id => person.company_id)
+              r1 = ga.group_assignments.where(:source_type => Irm::Company.name, :source_id => person.company_id)
             end
             if r1.any?
-              support_group = Irm::SupportGroup.where("group_code = ?", r1.first.group_assignment.support_group_code).first
+              support_group = Irm::SupportGroup.where("group_code = ?", r1.first.support_group.support_group_code).first
               assign_result[:support_group_id] = support_group.id if support_group
             end
           end

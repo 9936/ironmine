@@ -7,7 +7,6 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_group_assignment_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
               </td>
               <td class="pbHelp">
                 <div id="groupAssignmentSearchBox"></div>
@@ -19,8 +18,7 @@
       <div class="pbBody">
         <div id="group_assignments_list" class="datatable" style="width:100%">
           <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>&nbsp;
-            <%= link_to(t(:delete), {:action=>"destroy",:id=>"{id}"}) %>
+            <%= link_to(t(:label_icm_group_assignment_edit),{:action=>"edit",:id=>"{id}"}) %>&nbsp;
           </div>
           <div id="status_code" style="display:none">
             <%= check_img("{status_code}") %>
@@ -34,7 +32,7 @@
         </div>
         <%= datatable("group_assignments_list",url_for(:action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                       {:key=>"support_group_name",:label=>t(:label_irm_support_group_show),:sortable=>true,:searchable=>true,:width=>"200px"},
+                       {:key=>"name",:label=>t(:label_irm_support_group_show),:sortable=>true,:searchable=>true,:width=>"200px"},
                        {:key=>"company_name",:label=>t(:label_irm_support_group_company_name),:sortable=>true,:searchable=>true,:width=>"80px"},
                        {:key=>"organization_name",:label=>t(:label_irm_support_group_organization_name),:sortable=>true,:searchable=>true,:width=>"50px"},
                        {:key=>"support_role_name",:label=>t(:label_irm_support_group_support_role),:sortable=>true,:width=>"50px"},

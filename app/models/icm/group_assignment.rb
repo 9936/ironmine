@@ -1,35 +1,18 @@
 class Icm::GroupAssignment < ActiveRecord::Base
   set_table_name :icm_group_assignments
-  has_many :group_assignment_details,:dependent => :destroy
-  validates_uniqueness_of :support_group_code
+  belongs_to :support_group, :class => "Irm::SupportGroup"
 
-  scope :with_support_group, lambda {
-    select("sgt.name support_group_name,"+
-           "v2.name company_name,v3.name organization_name,"+
-           "v4.meaning support_role_name,sg.vendor_group_flag,sg.oncall_group_flag").
-    joins(",irm_companies_vl v2").
-    joins(",irm_organizations_vl v3").
-    joins(",irm_lookup_values_vl v4").
-    joins(",#{Irm::SupportGroup.table_name} sg").
-    joins(",#{Irm::SupportGroupsTl.table_name} sgt").
-    where("v4.lookup_type='IRM_SUPPORT_ROLE' AND v4.lookup_code = sg.support_role_code AND "+
-          "sg.company_id = v2.id AND v2.language=? AND "+
-          "sg.organization_id = v3.id AND v3.language=? AND "+
-          "v4.language=?",
-          I18n.locale,I18n.locale,I18n.locale).
-    where("#{table_name}.support_group_code = sg.group_code").
-    where("sgt.support_group_id = sg.id").where("sgt.language = ?", I18n.locale)
+  scope :query_service_catalog, lambda{|service_catalog_code|
+    joins(",#{Slm::ServiceCatalog.table_name} sc").
+        select("sc.catalog_code").
+        where("sc.id = #{table_name}.source_id").
+        where("sc.catalog_code = ?", service_catalog_code)
   }
 
-  scope :assignable,lambda{
-    joins("JOIN #{Irm::SupportGroup.table_name}  ON #{Irm::SupportGroup.table_name}.group_code = #{table_name}.support_group_code AND #{Irm::SupportGroup.table_name}.oncall_group_flag = 'Y' AND #{Irm::SupportGroup.table_name}.status_code = 'ENABLED'")
-  }
-
-  scope :query_by_support_groups, lambda{|support_group_id|
-    where("#{table_name}.support_group_code = ?", support_group_id)
-  }
-
-  scope :list_all, lambda {
-    select("#{table_name}.*").with_support_group
+  scope :query_external_system, lambda{|external_system_code|
+    joins(",#{Uid::ExternalSystem.table_name} es").
+        select("es.external_system_code").
+        where("es.id = #{table_name}.source_id").
+        where("es.external_system_code = ?", external_system_code)
   }
 end

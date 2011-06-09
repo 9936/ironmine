@@ -4,6 +4,7 @@ class Irm::SupportGroup < ActiveRecord::Base
   #多语言关系
   attr_accessor :name,:description
   has_many :support_groups_tls,:dependent => :destroy
+  has_many :group_assignments, :dependent => :destroy, :class_name => "Icm::GroupAssignment"
   acts_as_multilingual
 
   validates_presence_of :group_code
