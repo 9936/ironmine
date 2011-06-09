@@ -36,7 +36,7 @@ class Irm::WfProcessInstance < ActiveRecord::Base
   def next_approvable_step(step_number)
     current_step_number = step_number
     current_step = Irm::WfApprovalStep.where(:process_id=>self.process_id,:step_number=>current_step_number).first
-    while current_step.present?&&"NEXT_STEP".eql?(current_step.auto_approval_result(self.bo_id))
+    while current_step.present?&&"NEXT_STEP".eql?(current_step.auto_approval_result(self))
       current_step_number = current_step.step_number+1
       current_step = Irm::WfApprovalStep.where(:process_id=>self.process_id,:step_number=>current_step_number).first
     end

@@ -97,8 +97,8 @@ class Irm::WfApprovalStep < ActiveRecord::Base
     @rule_filter ||= Irm::RuleFilter.query_by_source(self.class.name,self.id).first
   end
 
-  def auto_approval_result(bo_id)
-    bo_instance = self.rule_filter.generate_scope.where(:id=>bo_id).first
+  def auto_approval_result(wf_process_instance)
+    bo_instance = process_instance_bo_instance(wf_process_instance)
     if bo_instance
       return nil
     else
@@ -111,11 +111,11 @@ class Irm::WfApprovalStep < ActiveRecord::Base
   end
 
   # step approvers
-  def auto_approver_ids(bo_id)
+  def auto_approver_ids(wf_process_instance)
     unless "AUTO_APPROVER".eql?(self.approver_mode)
       return nil
     end
-    bo_instance = self.rule_filter.generate_scope.where(:id=>bo_id).first
+    bo_instance = process_instance_bo_instance(wf_process_instance)
     person_ids = []
     wf_approval_step_approvers.each do |approver|
       person_ids += approver.person_ids(bo_instance)
@@ -137,7 +137,7 @@ class Irm::WfApprovalStep < ActiveRecord::Base
 
   # create step instance for process instance
   def create_step_instance(wf_process_instance)
-    bo_instance = self.rule_filter.generate_scope.where(:id=>wf_process_instance.bo_id).first
+    bo_instance = process_instance_bo_instance(wf_process_instance)
     batch_id = Time.now.to_i
     if bo_instance
       case self.approver_mode
@@ -156,7 +156,7 @@ class Irm::WfApprovalStep < ActiveRecord::Base
           step_instance = Irm::WfStepInstance.create(:process_instance_id=>wf_process_instance.id,:batch_id=>batch_id,:step_id=>self.id,:assign_approver_id=>default_approver_id)
           Delayed::Job.enqueue(Irm::Jobs::ApprovalMailJob.new(step_instance.id))
         when "AUTO_APPROVER"
-          auto_approvers =  auto_approver_ids(wf_process_instance.bo_id)
+          auto_approvers =  auto_approver_ids(wf_process_instance)
           unless auto_approvers.any?
             raise Wf::MissingAutoApproverError,self.id
           end
@@ -224,4 +224,13 @@ class Irm::WfApprovalStep < ActiveRecord::Base
   end
   private  :check_attribute
 
+
+  def process_instance_bo_instance(wf_process_instance)
+    bo_instance = wf_process_instance.bo_instance
+    if "FILTER".eql?(self.evaluate_mode)
+      bo_instance = self.rule_filter.generate_scope.where(:id=>wf_process_instance.bo_id).first
+    end
+    return bo_instance
+  end
+  private  :process_instance_bo_instance
 end
