@@ -38,7 +38,7 @@ module Irm
               r1 = ga.group_assignments.where(:source_type => Irm::Company.name, :source_id => person.company_id)
             end
             if r1.any?
-              support_group = Irm::SupportGroup.where("group_code = ?", r1.first.support_group.support_group_code).first
+              support_group = Irm::SupportGroup.where("group_code = ?", r1.first.support_group.group_code).first
               assign_result[:support_group_id] = support_group.id if support_group
             end
           end
