@@ -1,23 +1,4 @@
 module Icm::GroupAssignmentsHelper
-  def available_ass_people
-    Irm::Person.where("1=1").collect{|p|[p.name, p.id]}
-  end
-
-  def available_ass_support_groups
-    Irm::SupportGroup.multilingual.where("oncall_group_flag = ?", Irm::Constant::SYS_YES).enabled.collect{|p|[p[:name], p[:group_code]]}
-  end
-
-  def temp_ava_organizations_edit(company_id)
-    Irm::Organization.multilingual.enabled.where("#{Irm::Organization.table_name}.company_id = ?", company_id).collect{|p|[p[:name], p[:id]]}
-  end
-
-  def temp_ava_departments_edit(organization_id)
-    Irm::Department.multilingual.enabled.where("#{Irm::Department.table_name}.organization_id = ?", organization_id).collect{|p|[p[:name], p[:id]]}
-  end
-
-  def temp_ava_people_edit(department_id)
-    Irm::Person.where("#{Irm::Person.table_name}.department_id = ?", department_id).collect{|p|[p.name, p.id]}
-  end
 
   def ava_group_assignment_targets
     selectable_options = []
@@ -56,9 +37,9 @@ module Icm::GroupAssignmentsHelper
     selectable_options
   end
 
-  def own_group_assignment_targets(assignment_id)
+  def own_group_assignment_targets(group_id)
     assignment_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Person,"P"],[Uid::ExternalSystem, "E"],[Slm::ServiceCatalog, "S"]]
-    own_assignments = Icm::GroupAssignmentDetail.where(:group_assignment_id => assignment_id, :status_code => Irm::Constant::ENABLED)
+    own_assignments = Icm::GroupAssignment.where(:support_group_id => group_id, :status_code => Irm::Constant::ENABLED)
 
     assignments = []
     own_assignments.each do |assignment|
