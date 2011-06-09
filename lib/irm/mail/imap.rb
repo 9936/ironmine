@@ -35,7 +35,7 @@ module Irm::Mail
               end
               imap.copy(message_id, move_on_success)
             end
-            imap.store(message_id, "+FLAGS", [:Seen, :Deleted])
+            imap.store(message_id, "+FLAGS", [:Seen])
           else
             logger.debug "Message #{message_id} can not be processed" if logger && logger.debug?
             imap.store(message_id, "+FLAGS", [:Seen])
@@ -44,7 +44,7 @@ module Irm::Mail
                 imap.create("#{move_on_failure}")
               end
               imap.copy(message_id, move_on_failure)
-              imap.store(message_id, "+FLAGS", [:Deleted])
+              #imap.store(message_id, "+FLAGS", [:Deleted])
             end
           end
         end
