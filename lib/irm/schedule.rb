@@ -69,7 +69,7 @@ module Irm
       logger = Logger.new(File.join(Rails.root, 'log', 'ironmine_scheudle.log'))
       scheduler = Rufus::Scheduler.start_new
 
-      scheduler.every Irm::MailManager.receive_mail_interval do
+      scheduler.every Irm::MailManager.receive_interval do
         logger.debug "schedule receive mail job"
         Irm::MailManager.receive_mail
       end

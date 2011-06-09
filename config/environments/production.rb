@@ -62,5 +62,23 @@ Ironmine::Application.configure do
 		:enable_starttls_auto => true
   }
 
+# config for receive mail
+  config.ironmine.mail_receive_method = :imap
+  config.ironmine.mail_receive_interval = '1m'
+  config.ironmine.mail_receive_imap = {
+    :username => 'root.ironmine@gmail.com',
+    :password => 'handhand',
+    :host   => 'imap.gmail.com',
+    :port     => 993,
+    :ssl    => true
+  }
+  #config.ironmine.mail_receive_pop = {
+  #  :username => 'rootironmine@163.com',
+  #  :password => 'handhand',
+  #  :host   => 'pop3.163.com',
+  #  :port     => 110
+  #}
+
+
   Paperclip.options[:command_path] = '/usr/local/bin'
 end
