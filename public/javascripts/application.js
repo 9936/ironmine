@@ -157,22 +157,16 @@ function add_upload_image_button_to_editor(editor_id)
 }
 
 function finishAttach(file_path){
-    alert("finishing attach");
     GY.use('yui2-editor', function(Y) {
         var myEd = Y.YUI2.widget.EditorInfo.getEditorById('msgEditor');
-        alert("get editor done");
         if (myEd) {
-        alert("into if");
         try {
-            alert("into try");
             myEd.focus();
             myEd.execCommand('inserthtml', file_path);
         }
             catch (e) { alert("couldn't insert content" + e); }
         }
-        alert("starting remove");
         Y.one("#container_applet_upload_c").remove();
-        alert("remove done");
 
     });
 }
