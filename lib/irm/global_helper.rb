@@ -5,7 +5,7 @@ module Irm
 
 
     def absolute_url(options)
-      url_for({:host=>Irm::SystemParametersManager.host_name}.merge(options))
+      url_for({:host=>Irm::SystemParametersManager.host_name,:port=>Irm::SystemParametersManager.host_port}.merge(options))
     end
 
     def url(options)
