@@ -181,19 +181,37 @@ class Irm::BusinessObject < ActiveRecord::Base
     value
   end
 
-  def self.to_hash(bo_instance)
+  def self.liquid_attributes(bo_instance,recursive=false)
+    bo = Irm::BusinessObject.where(:bo_model_name=>bo_instance.class.name).first
+    return {} unless bo
+    origin_attributes = self.attributes_to_hash(bo_instance)
+    result_attributes = {bo.business_object_code.downcase=>origin_attributes}
+    if recursive
+      origin_attributes.values.each do |attr|
+        if attr.is_a?(ActiveRecord::Base)
+          attr_bo = Irm::BusinessObject.where(:bo_model_name=>attr.class.name).first
+          result_attributes.merge!({attr_bo.business_object_code.downcase=>self.attributes_to_hash(attr)})
+        end
+      end
+    end
+    return result_attributes
+  end
+
+
+  def self.attributes_to_hash(bo_instance)
     bo_attributes = Irm::ObjectAttribute.query_by_model_name(bo_instance.class.name)
     attributes_hash = {}
     bo_attributes.each do |boa|
-      attributes_hash.merge!(boa.attribute_name.to_sym=>self.attribute_of(bo_instance,boa.attribute_name))
+      value = self.attribute_of(bo_instance,boa.attribute_name)
+      attributes_hash.merge!(boa.attribute_name.to_sym=>value)
     end
-    attributes_hash
+    return attributes_hash
   end
 
-  def self.mail_message_id(bo_instance)
+  def self.mail_message_id(bo_instance,identity="bo")
     timestamp = bo_instance.send(bo_instance.respond_to?(:created_at) ? :created_at : :updated_at)
-    hash = "ironmine.#{bo_instance.class.name.underscore}.#{bo_instance.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
-    host = Irm::SystemParametersManager.emission_email_address.to_s.gsub(%r{^.*@}, '')
+    hash = "ironmine.#{identity}.#{bo_instance.class.name.underscore}.#{bo_instance.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
+    host = Irm::MailManager.default_email_from.to_s.gsub(%r{^.*@}, '')
     "<#{hash}@#{host}>"
   end
 

@@ -26,7 +26,7 @@ module Irm
             if business_object
               Delayed::Worker.logger.debug("RuleProcessJob  wf_rule id:#{wr.id} find bo:#{business_object}")
               wr.apply(business_object)
-              Irm::WfRuleHistory.create(:event_id=>event.id,:rule_id=>wr.id,:bo_code=>wr.bo_code,:bo_id=>event.business_object_id)
+          x    Irm::WfRuleHistory.create(:event_id=>event.id,:rule_id=>wr.id,:bo_code=>wr.bo_code,:bo_id=>event.business_object_id)
             end
           end
           event.end_at=Time.now

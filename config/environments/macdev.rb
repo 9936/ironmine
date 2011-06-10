@@ -29,14 +29,45 @@ Ironmine::Application.configure do
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
+  #config.action_mailer.smtp_settings = {
+	#	:address => "smtp.gmail.com",
+	#	:port => 587,
+	#	:domain => 'mail.google.com',
+	#	:user_name => 'root.ironmine@gmail.com',
+	#	:password => 'handhand',
+	#	:authentication => 'plain',
+	#	:enable_starttls_auto => true
+  #}
   config.action_mailer.smtp_settings = {
-		:address => "smtp.gmail.com",
-		:port => 587,
-		:domain => 'mail.google.com',
-		:user_name => 'root.ironmine@gmail.com',
+		:address => "smtp.163.com",
+		:port => 25,
+		:domain => 'www.163.com',
+		:user_name => 'rootironmine@163.com',
 		:password => 'handhand',
-		:authentication => 'plain',
-		:enable_starttls_auto => true
+		:authentication => :login
+  }
+  # config for receive mail
+  config.ironmine.mail_receive_method = :imap
+  config.ironmine.mail_receive_interval = '1m'
+  #config.ironmine.mail_receive_imap = {
+  #  :username => 'root.ironmine@gmail.com',
+  #  :password => 'handhand',
+  #  :host   => 'imap.gmail.com',
+  #  :port     => 993,
+  #  :ssl    => true
+  #}
+  config.ironmine.mail_receive_imap = {
+    :username => 'rootironmine@163.com',
+    :password => 'handhand',
+    :host   => 'imap.163.com',
+    :port     => 993,
+    :ssl    => true
+  }
+  config.ironmine.mail_receive_pop = {
+    :username => 'rootironmine@163.com',
+    :password => 'handhand',
+    :host   => 'pop3.163.com',
+    :port     => 110
   }
 
 #  Paperclip.options[:command_path] = '/Users/stanleyliu/work/ImageMagick-6.6.7/bin'

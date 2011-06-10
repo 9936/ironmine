@@ -19,19 +19,6 @@ class Irm::WfProcessInstancesController < ApplicationController
     process = @wf_process_instance.detect_process
     if process
       @wf_process_instance.process_id = process.id
-      #next_step = @wf_process_instance.next_step(1)
-      #if "SELECT_BY_SUMBITTER".eql?(next_step.approver_mode)
-      #  redirect_to({:action=>"edit_approver",:bo_id=>params[:bo_id],:process_id=>process.id,:step_id=>next_step.id}.merge(get_default_url_options([:back_url])))
-      #  return
-      #elsif "PROCESS_DEFAULT".eql?(next_step.approver_mode)
-      #  if !next_step.process_default_approver_ids(Irm::Person.current.id).present?
-      #    @wf_process_instance.errors.add(:submitter_id,t(:label_irm_wf_approval_process_can_not_find_next_approver))
-      #  end
-      #elsif "AUTO_APPROVER".eql?(next_step.approver_mode)
-      #  if next_step.auto_approver_ids.length<1
-      #    @wf_process_instance.errors.add(:submitter_id,t(:label_irm_wf_approval_process_can_not_find_next_approver))
-      #  end
-      #end
       begin
         Irm::WfProcessInstance.transaction do
           @wf_process_instance.submit

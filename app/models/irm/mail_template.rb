@@ -56,8 +56,9 @@ class Irm::MailTemplate < ActiveRecord::Base
 
   # params
   #   mail_options => :from  邮件发关参数
+  #                   :before/after_body
+  #                   :before/after_subject
   #   header_options  邮件头参数，用来传递隐藏信息
-  #   mail_mode   邮件模式，默认为SPLIT,可以选择MERGE模式
   #   object_params  邮件的Liquid参数
   #   to_person_ids  收件人ID
   #   to_emails

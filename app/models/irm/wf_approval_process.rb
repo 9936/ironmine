@@ -8,6 +8,8 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
 
   has_many :wf_approval_submitters,:foreign_key => :process_id
 
+  has_many :wf_approval_step,:foreign_key => :process_id
+
   scope :query_by_step,lambda{|step_id|
     joins("JOIN #{Irm::WfApprovalStep.table_name} ON #{Irm::WfApprovalStep.table_name}.process_id = #{table_name}.id").
     where("#{Irm::WfApprovalStep.table_name}.id = ?",step_id)
