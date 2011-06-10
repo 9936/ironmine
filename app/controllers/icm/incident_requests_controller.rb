@@ -168,6 +168,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def get_external_systems
     external_systems_scope = Uid::ExternalSystem.multilingual.enabled.with_person(params[:requested_by])
+    external_systems_scope = external_systems_scope.uniq
     external_systems = external_systems_scope.collect{|i| {:label=>i[:system_name], :value=>i.external_system_code,:id=>i.id}}
     respond_to do |format|
       format.json {render :json=>external_systems.to_grid_json([:label, :value],external_systems.count)}
