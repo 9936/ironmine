@@ -45,32 +45,14 @@ EventCalendar::CalendarHelper.send(:include, EventCalendar::CalendarHelperEx)
 # 程序中使用的ironmine中的常量，建议配置型的常量放到此处
 module Ironmine
   STORAGE = Irm::DataStorage.instance
-   #应用程序是否以多服务中心模式运行
-#   MULTI_SUBDOMAIN = false
-
-   #系统人员显示模式
-#   PERSON_NAME_FORMAT = :lastname_firstname
+# PERSON_NAME_FORMAT = :lastname_firstname
 
    #应用程序应用的host
    HOST = "zj.hand-china.com"
 
    PORT = "8282"
 
-   MAIL_RECEIVE_TYPE = :imap
-   POP3_MAIL_OPTIONS = {
-       :username => 'rootironmine@163.com',
-       :password => 'handhand',
-       :host   => 'pop3.163.com',
-       :port     => 110
-   }
-   IMAP_MAIL_OPTIONS = {
-       :username => 'root.ironmine@gmail.com',
-       :password => 'handhand',
-       :host   => 'imap.gmail.com',
-       :port     => 993,
-       :ssl    => true
-   }
-   #attachment url,path
+#attachment url,path
 #   ATTACHMENT_URL = "/upload/:class/:id/:style/:basename.:extension"
 #   ATTACHMENT_PATH = ":rails_root/public/upload/:class/:id/:style/:basename.:extension"
 
@@ -86,10 +68,8 @@ Delayed::Worker.sleep_delay = 1
 Delayed::Worker.max_attempts = 3
 #一个job的最长执行时间
 Delayed::Worker.max_run_time = 5.minutes
-#Delayed::Backend::ActiveRecord::Job.class_eval do set_table_name(:irm_delayed_jobs) end
 #数据存储方式
 Delayed::Worker.backend=:active_record
-#puts  "======#{Delayed::Backend::ActiveRecord::Job.table_name}=========#{Delayed::Job.table_name}============"
 
 
 begin
