@@ -110,7 +110,12 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     if self.business_object&&self.business_object.bo_model_name
       pass = true
       begin
-        eval(%(#{self.business_object.bo_model_name}.new.send(:#{self.attribute_name})))
+        method = self.business_object.bo_model_name.constantize.new.public_method(self.attribute_name)
+        if method
+          pass = !method.parameters.detect{|p| p[0].eql?(:req)}.present?
+        else
+          pass = false
+        end
       rescue => text
         pass = false
       end
