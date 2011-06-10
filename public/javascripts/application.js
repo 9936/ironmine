@@ -156,7 +156,7 @@ function add_upload_image_button_to_editor(editor_id)
     });
 }
 
-function addAttachScreen(file_path){
+function finishAttach(file_path){
     alert("finishing attach");
     GY.use('yui2-editor', function(Y) {
         var myEd = Y.YUI2.widget.EditorInfo.getEditorById('msgEditor');
@@ -177,7 +177,7 @@ function addAttachScreen(file_path){
     });
 }
 
-function hideAttachScreen(){
+function cancelAttach(){
     GY.use(function(Y) {
         Y.one("#container_applet_upload_c").remove();
     });
