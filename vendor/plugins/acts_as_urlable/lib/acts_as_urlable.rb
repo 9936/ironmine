@@ -47,6 +47,10 @@ module Ironmine
           ""
         end
 
+        def url
+          Irm::GlobalHelper.instance.absolute_url(urlable_url_options(:show))
+        end
+
 
         module ClassMethods
           def urlable_url_options(action,options={})
@@ -55,6 +59,10 @@ module Ironmine
               url_options[key] = options[value] if value.is_a?(Symbol)
             end
             url_options
+          end
+
+          def url(options={})
+            Irm::GlobalHelper.instance.absolute_url(urlable_url_options(:show,options))
           end
         end
       end
