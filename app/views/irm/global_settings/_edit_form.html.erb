@@ -53,6 +53,13 @@
               </td>
             </tr>
             <tr>
+              <td class="labelCol"><label><%=(@settings.query_by_code("HOST_PORT").first[:name])%></label></td>
+              <td class="data2Col"><%= text_field_tag @settings.query_by_code("HOST_PORT").first[:parameter_code],
+                                                      @settings.query_by_code("HOST_PORT").first[:value],
+                                                      :jrequired => true%>
+              </td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(@settings.query_by_code("EMISSION_EMAIL_ADDRESS").first[:name])%></label></td>
               <td class="data2Col"><%= text_field_tag @settings.query_by_code("EMISSION_EMAIL_ADDRESS").first[:parameter_code],
                                                       @settings.query_by_code("EMISSION_EMAIL_ADDRESS").first[:value],

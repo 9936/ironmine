@@ -28,4 +28,13 @@ class Irm::SystemParameter < ActiveRecord::Base
   scope :query_by_type, lambda{|content_type|
     where("#{table_name}.content_type = ?", content_type)
   }
+
+  def self.get_value_by_code(parameter_code)
+    ret = query_by_code(parameter_code)
+    if ret.any?
+      return ret.first.value
+    else
+      return ""
+    end
+  end
 end
