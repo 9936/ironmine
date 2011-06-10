@@ -4,7 +4,14 @@ module Ironmine
       def self.included(base)
         base.extend ClassMethods
       end
-      SEARCHABLE_ENTITY = {}
+
+      def self.searchable_entity
+        @searchable_entity||{}
+      end
+
+      def self.searchable_entity=(entity)
+        @searchable_entity=entity
+      end
 
       module ClassMethods
         # acts_as_searchable
