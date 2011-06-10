@@ -159,7 +159,6 @@ function add_upload_image_button_to_editor(editor_id)
 function finishAttach(file_path){
     GY.use('yui2-editor', function(Y) {
         var myEd = Y.YUI2.widget.EditorInfo.getEditorById('msgEditor');
-
         if (myEd) {
         try {
             myEd.focus();
