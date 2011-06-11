@@ -15,6 +15,11 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
     where("#{Irm::WfApprovalStep.table_name}.id = ?",step_id)
   }
 
+  scope :with_bo,lambda{|language|
+    joins("JOIN #{Irm::BusinessObject.view_name} ON #{Irm::BusinessObject.view_name}.business_object_code = #{table_name}.bo_code AND #{Irm::BusinessObject.view_name}.language ='#{language}'").
+    select("#{Irm::BusinessObject.view_name}.name bo_name")
+  }
+
   scope :with_mail_template,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::MailTemplate.view_name} mt ON mt.id = #{table_name}.mail_template_id and mt.language='#{language}'").
     select("mt.name mail_template_name")
@@ -30,9 +35,17 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
     select(" next_approver_mode.name next_approver_mode_name")
   }
 
+  scope :query_by_action,lambda{|action_type,action_id|
+    joins("JOIN #{Irm::WfApprovalAction.table_name} action ON action.process_id = #{table_name}.id ").
+    where("action.action_type = ? AND action.action_id = ?",action_type,action_id)
+  }
+
   validates_presence_of :bo_code,:name,:process_code,:mail_template_id,:if=>Proc.new{|i| i.check_step(1)}
   validates_format_of :process_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.process_code.present?}
 
+  def self.select_all
+    select("#{table_name}.*")
+  end
 
   def self.list_all
     select("#{table_name}.*").with_mail_template(I18n.locale).with_record_editability(I18n.locale).with_next_approver_mode(I18n.locale)

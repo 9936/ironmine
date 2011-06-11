@@ -36,6 +36,15 @@ class Irm::WfRule < ActiveRecord::Base
 
   scope :create_edit_every_time,lambda{where(:evaluate_criteria_rule=>"CREATE_EDIT_EVERY_TIME")}
 
+  scope :query_by_action,lambda{|action_type,action_id|
+    joins("JOIN #{Irm::WfRuleAction.table_name} action ON action.rule_id = #{table_name}.id ").
+    where("action.action_type = ? AND action.action_reference_id = ?",action_type,action_id)
+  }
+
+  def self.select_all
+    select("#{table_name}.*")
+  end
+
   def self.list_all
     select("#{table_name}.*").with_bo(I18n.locale).with_evaluate_criteria_rule(I18n.locale).with_evaluate_criteria_mode(I18n.locale)
   end

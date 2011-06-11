@@ -254,4 +254,14 @@ class Irm::WfApprovalProcessesController < ApplicationController
     redirect_to({:action=>"index"})
   end
 
+  def get_data_by_action
+    wf_approval_processes_scope = Irm::WfApprovalProcess.select_all.with_bo(I18n.locale).query_by_action(params[:action_type],params[:action_id])
+    wf_approval_processes_scope = wf_approval_processes_scope.match_value("#{Irm::WfApprovalProcess.table_name}.name",params[:name])
+    wf_approval_processes_scope = wf_approval_processes_scope.match_value("#{Irm::WfApprovalProcess.table_name}.description",params[:description])
+    wf_approval_processes,count = paginate(wf_approval_processes_scope)
+    respond_to do |format|
+      format.json  {render :json => to_jsonp(wf_approval_processes.to_grid_json([:name,:description,:status_code,:bo_name], count)) }
+    end
+  end
+
 end

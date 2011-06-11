@@ -67,3 +67,5 @@
     </div>
   </div>
 </div>
+
+<%= render :partial => "irm/wf_actions/relation_rule_process",:locals => {:action_type=>@wf_field_update.class.name,:action_id=>@wf_field_update.id} %>

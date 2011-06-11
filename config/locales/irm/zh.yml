@@ -1123,7 +1123,11 @@ zh:
   label_irm_todo_task_display_opts_today: 今天
   label_irm_todo_task_display_opts_over_due: 逾期
   label_irm_todo_task_display_opts_next_7_days: 未来7天内
-
+  #======================== end calendar tasks====================
+  #======================== wf actions====================
+  label_irm_wf_action_rules: 使用此操作的工作流规则
+  label_irm_wf_action_processes: 使用此操作的审批流程
+  #======================== end wf actions====================
   #======================== wf field updates====================
   label_irm_wf_field_update: 字段更新
   label_irm_wf_field_update_list: 字段更新列表
@@ -1187,8 +1191,8 @@ zh:
   label_irm_wf_approval_process: 审批流程
   label_irm_wf_approval_process_new: 创建新的审批流程
   label_irm_wf_approval_process_manage: 管理审批流程
-  label_irm_wf_approval_process_active_list: 已启用的批准过程
-  label_irm_wf_approval_process_disable_list: 未启用的批准过程
+  label_irm_wf_approval_process_active_list: 已启用的审批流程
+  label_irm_wf_approval_process_disable_list: 未启用的审批流程
   label_irm_wf_approval_process_bo_code: 业务对像
   label_irm_person: 人员
   label_irm_role: 角色

@@ -1,4 +1,4 @@
-class Irm::WfActionController < ApplicationController
+class Irm::WfActionsController < ApplicationController
   private
   def get_bo_code_from_source_str(source_str)
     return nil unless source_str.present?

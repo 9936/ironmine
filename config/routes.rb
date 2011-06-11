@@ -610,6 +610,7 @@ Ironmine::Application.routes.draw do
     match '/wf_rules/:id/destroy_action(.:format)' => "wf_rules#destroy_action", :via => :delete
     match '/wf_rules/:id/add_exists_action(.:format)' => "wf_rules#add_exists_action", :via => :get
     match '/wf_rules/:id/save_exists_action(.:format)' => "wf_rules#save_exists_action", :via => :post
+    match '/wf_rules/get_data_by_action(.:format)' => "wf_rules#get_data_by_action", :via => :get
 
     # wf_rule_time_triggers
     match '/wf_rules/:rule_id/wf_rule_time_triggers/new(.:format)' => "wf_rule_time_triggers#new", :via => :get
@@ -657,6 +658,8 @@ Ironmine::Application.routes.draw do
     match '/wf_approval_processes/:id/add_exists_action(.:format)' => "wf_approval_processes#add_exists_action", :via => :get
     match '/wf_approval_processes/:id/save_exists_action(.:format)' => "wf_approval_processes#save_exists_action", :via => :post
     match '/wf_approval_processes/reorder(.:format)' => "wf_approval_processes#reorder", :via => :post
+    match '/wf_approval_processes/get_data_by_action(.:format)' => "wf_approval_processes#get_data_by_action", :via => :get
+
     # wf_approval_steps
     match '/wf_approval_steps(/index)(.:format)' => "wf_approval_steps#index", :via => :get
     match '/wf_approval_processes/:process_id/wf_approval_steps/new(.:format)' => "wf_approval_steps#new", :via => [:get,:post,:put]

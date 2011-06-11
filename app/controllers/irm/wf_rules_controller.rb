@@ -181,4 +181,15 @@ class Irm::WfRulesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+
+  def get_data_by_action
+    wf_rules_scope = Irm::WfRule.select_all.with_bo(I18n.locale).query_by_action(params[:action_type],params[:action_id])
+    wf_rules_scope = wf_rules_scope.match_value("#{Irm::WfApprovalProcess.table_name}.name",params[:name])
+    wf_rules_scope = wf_rules_scope.match_value("#{Irm::WfApprovalProcess.table_name}.description",params[:description])
+    wf_rules,count = paginate(wf_rules_scope)
+    respond_to do |format|
+      format.json  {render :json => to_jsonp(wf_rules.to_grid_json([:name,:description,:status_code,:bo_name], count)) }
+    end
+  end
 end

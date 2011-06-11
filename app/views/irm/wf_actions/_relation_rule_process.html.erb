@@ -1,0 +1,88 @@
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_wf_action_rules) %></h2></td>
+              <td class="pbHelp">
+                <div id="actionRuleSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="action_rules" class="datatable" style="width:100%">
+          <div id="id" style="display:none">
+            <%= link_to(t(:show),{:controller => "irm/wf_rules", :action => "show",:id=>"{id}"}) %>
+          </div>
+          <div id="name" style="display:none">
+            <%= link_to("{name}",{:controller => "irm/wf_rules", :action => "show",:id=>"{id}"}) %>
+          </div>
+          <div id="status_code" style="display:none">
+            <%= check_img("{status_code}") %>
+          </div>
+        </div>
+        <%= datatable("action_rules",url_for(:controller => "irm/wf_rules", :action => "get_data_by_action", :action_type => action_type,:action_id=>action_id,:format=>"json"),
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"110px"},
+
+                       { :key => "name", :label => t(:label_irm_wf_rule_name),:formatter=>"Y.irm.template",:searchable=>true,:width=>"200px" },
+
+                       { :key => "description", :label => t(:label_irm_wf_rule_description),:searchable=>true},
+
+                       { :key => "bo_name", :label => t(:label_irm_wf_rule_bo_code),:searchable=>true},
+
+
+                       { :key => "status_code",:formatter=>"Y.irm.template", :label => t(:active)}
+
+                       ],{:paginator_box=>"actionRulePaginator",:search_box=>"actionRuleSearchBox"})%>
+        <div id="actionRulePaginator"></div>
+      </div>
+    </div>
+</div>
+
+
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_wf_action_processes) %></h2></td>
+              <td class="pbHelp">
+                <div id="actionProcessSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="action_process" class="datatable" style="width:100%">
+          <div id="id" style="display:none">
+            <%= link_to(t(:show),{:controller => "irm/wf_approval_processes", :action => "show",:id=>"{id}"}) %>
+          </div>
+          <div id="name" style="display:none">
+            <%= link_to("{name}",{:controller => "irm/wf_approval_processes", :action => "show",:id=>"{id}"}) %>
+          </div>
+          <div id="status_code" style="display:none">
+            <%= check_img("{status_code}") %>
+          </div>
+        </div>
+        <%= datatable("action_process",url_for(:controller => "irm/wf_approval_processes", :action => "get_data_by_action", :action_type => action_type,:action_id=>action_id,:format=>"json"),
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"110px"},
+
+                       { :key => "name", :label => t(:label_irm_wf_approval_process_name),:formatter=>"Y.irm.template",:searchable=>true,:width=>"200px" },
+
+                       { :key => "description", :label => t(:label_irm_wf_approval_process_description),:searchable=>true},
+
+                       { :key => "bo_name", :label => t(:label_irm_wf_rule_bo_code),:searchable=>true},
+
+
+                       { :key => "status_code",:formatter=>"Y.irm.template", :label => t(:active)}
+
+                       ],{:paginator_box=>"actionProcessPaginator",:search_box=>"actionProcessSearchBox"})%>
+        <div id="actionProcessPaginator"></div>
+      </div>
+    </div>
+</div>

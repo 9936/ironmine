@@ -1,4 +1,4 @@
-class Irm::WfMailAlertsController < Irm::WfActionController
+class Irm::WfMailAlertsController < Irm::WfActionsController
   # GET /wf_mail_alerts
   # GET /wf_mail_alerts.xml
   def index

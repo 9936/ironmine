@@ -58,3 +58,5 @@
     </div>
   </div>
 </div>
+
+<%= render :partial => "irm/wf_actions/relation_rule_process",:locals => {:action_type=>@wf_mail_alert.class.name,:action_id=>@wf_mail_alert.id} %>

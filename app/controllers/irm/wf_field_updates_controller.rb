@@ -1,4 +1,4 @@
-class Irm::WfFieldUpdatesController < Irm::WfActionController
+class Irm::WfFieldUpdatesController < Irm::WfActionsController
   # GET /wf_field_updates
   # GET /wf_field_updates.xml
   def index
