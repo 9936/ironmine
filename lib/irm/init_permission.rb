@@ -273,7 +273,9 @@ Irm::AccessControl.map do |map|
   #===================irm/formula_functions============================
   #["formula_function_options", "check_syntax"]
 
-  map.function :view_wf_field_updates,{"irm/wf_field_updates"=>["index", "show","get_data"]}
+  map.function :view_wf_field_updates,{"irm/wf_field_updates"=>["index", "show","get_data"],
+                                       "irm/wf_approval_processes"=>["get_data_by_action"],
+                                       "irm/wf_rules"=>["get_data_by_action"]}
   map.function :create_wf_field_updates,{"irm/wf_field_updates"=>["new", "create","destroy","set_value"],
                                          "irm/formula_functions"=>["formula_function_options", "check_syntax"],
                                          "irm/object_attributes"=>["updateable_columns"]}
@@ -283,10 +285,11 @@ Irm::AccessControl.map do |map|
 
   #===================irm/wf_mail_alerts============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "destroy", "recipient_source"]
-  map.function :view_wf_mail_alerts,{"irm/wf_mail_alerts"=>["index", "show","get_data"]}
+  map.function :view_wf_mail_alerts,{"irm/wf_mail_alerts"=>["index", "show","get_data"],
+                                     "irm/wf_approval_processes"=>["get_data_by_action"],
+                                     "irm/wf_rules"=>["get_data_by_action"]}
   map.function :create_wf_mail_alerts,{"irm/wf_mail_alerts"=>["new", "create","recipient_source","destroy"]}
   map.function :edit_wf_mail_alerts,{"irm/wf_mail_alerts"=>["edit", "update","recipient_source"]}
-
   #===================irm/wf_approval_processes============================
   #["index", "new", "create", "get_data", "edit", "active", "update", "destroy", "show", "destroy_action", "add_exists_action", "save_exists_action", "destroy_action", "reorder"]
   #===================irm/wf_approval_steps============================
