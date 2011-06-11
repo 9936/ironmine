@@ -62,7 +62,7 @@ body{background-color:#f2f2f2}
 
     function addAttachScreen(file_path)
     {
-        parent.finishAttach(file_path);
+        parent.finishAttach(file_path, '<%= @render_target %>');
     }
 
     function hideAttachScreen()

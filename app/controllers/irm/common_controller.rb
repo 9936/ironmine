@@ -21,6 +21,15 @@ class Irm::CommonController < ApplicationController
   def forgot_password
     
   end
+
+  def upload_screen_shot
+    if params[:target] && params[:target].present?
+      @render_target = params[:target]
+    else
+      @render_target = "msgEditor"
+    end
+  end
+
   private
   #验证用户登录是否成功
   #成功,则转向用户的默认页面
