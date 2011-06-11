@@ -292,13 +292,13 @@ GY.use('irm','node','substitute','yui2-editor', function(Y) {
         draggable: true,
         close: true
     });
-
+    var render_target = "incident_request_summary";//如果编辑器相关的text area id不是 msgEditor，则指定render_target参数，并传入iframe
     editor.on('toolbarLoaded', function() {
         this.toolbar.on('uploadImageFormClipboardClick', function(o) {
               if (Y.one("#container_applet_upload_c")){
                 Y.one("#container_applet_upload_c").remove();
               }
-              dialog.setBody("<iframe frameborder=0 scrolling='no'  src='/common/upload_screen_shot' style='height:400px;width:620px;'></iframe>");
+              dialog.setBody("<iframe frameborder=0 scrolling='no'  src='/common/upload_screen_shot?target=" + render_target + "' style='height:400px;width:620px;'></iframe>");
               dialog.setHeader('<%= t :upload_from_clipboard%>');
               dialog.render(document.body);
               dialog.center();

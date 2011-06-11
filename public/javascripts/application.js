@@ -117,48 +117,9 @@ YUI(yuiConfig).use('node-base', 'node-event-delegate', 'io-form','yui2-container
     }
 });
 
-function add_upload_image_button_to_editor(editor_id)
-{
-    GY.use('irm','node','substitute','yui2-editor',function(Y) {
-        var dialog = new Y.YUI2.widget.Dialog("container_applet_upload", {
-            visible: true,
-            context: [Y.one("#uploadImageFormClipboard"), "tl", "bl"],
-            draggable: true,
-            close: true
-        });
-
-        var myEd = Y.YUI2.widget.EditorInfo.getEditorById('msgEditor');
-
-        var oButton = new Y.YUI2.widget.Button(
-        {
-            type: 'push',
-            label: 'Upload Image From Clipboard',
-            value: 'uploadImageFormClipboard',
-            id: 'uploadImageFormClipboard'
-        });
-
-
-        myEd.on('toolbarLoaded', function() {
-            this.toolbar.on('uploadImageFormClipboardClick', function(o) {
-                  if (Y.one("#container_applet_upload_c")){
-                    Y.one("#container_applet_upload_c").remove();
-                  }
-                  dialog.setBody("<iframe frameborder=0 scrolling='no'  src='/common/upload_screen_shot' style='height:400px;width:620px;'></iframe>");
-                  dialog.setHeader('<%= t :upload_from_clipboard%>');
-                  dialog.render(document.body);
-                  dialog.center();
-                  dialog.show();
-            });
-        }, myEd, true);
-
-        myEd.toolbar.addButton(oButton);
-        myEd.render();
-    });
-}
-
-function finishAttach(file_path){
+function finishAttach(file_path, render_target){
     GY.use('yui2-editor', function(Y) {
-        var myEd = Y.YUI2.widget.EditorInfo.getEditorById('msgEditor');
+        var myEd = Y.YUI2.widget.EditorInfo.getEditorById(render_target);
         if (myEd) {
         try {
             myEd.focus();
