@@ -51,8 +51,14 @@ class Irm::WfProcessInstancesController < ApplicationController
 
 
   def recall
+    @wf_process_instance = Irm::WfProcessInstance.select_all.with_submitter.find(params[:id])
+  end
+
+  def execute_recall
     Irm::WfProcessInstance.transaction do
-      Irm::WfProcessInstance.find(params[:id]).recall(Irm::Person.current.id)
+      @wf_process_instance = Irm::WfProcessInstance.find(params[:id])
+      @wf_process_instance.update_attributes(params[:irm_wf_process_instance])
+      @wf_process_instance.recall(Irm::Person.current.id)
     end
     redirect_back_or_default
   end

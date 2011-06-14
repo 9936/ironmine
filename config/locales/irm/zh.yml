@@ -1271,6 +1271,7 @@ zh:
   label_irm_wf_my_process_step_instance: 待审批项
   label_action_submit: 提交审批
   label_action_reassign: 转交
+  label_irm_wf_process_instance_comment: 备注
   label_irm_wf_step_instance_allow_mail_approve: 你可以回复此邮件来完成审批，回复时第一行为APPROVED/REJECT,第二行为回复注释
   label_irm_wf_step_instance_not_allow_mail_approve: 此次审批不接受邮件审批，请登录系统进行审批
   #======================== end wf process instance====================
