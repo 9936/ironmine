@@ -12,6 +12,8 @@ YUI.add('duelselect', function(Y) {
             target:{setter: Y.one},
             addButton:{setter: Y.one},
             removeButton:{setter: Y.one},
+            upButton:{setter: Y.one},
+            downButton:{setter: Y.one},
             type:{value:""},
             query:{value:""},
             valueNode:{setter: Y.one},
@@ -35,14 +37,19 @@ YUI.add('duelselect', function(Y) {
           this._values = this.get("valueNode").get("value").split(",");
         },
         _bindUI: function(){
-            if(this.get("addButton"));
+            if(this.get("addButton"))
               this.get("addButton").on("click",Y.bind(this._add,this));
-            if(this.get("removeButton"));
+            if(this.get("removeButton"))
               this.get("removeButton").on("click",Y.bind(this._remove,this));
+            if(this.get("upButton"))
+              this.get("upButton").on("click",Y.bind(this._up,this));
+            if(this.get("downButton"))
+              this.get("downButton").on("click",Y.bind(this._down,this));
         },
         _syncUI: function(){
             this.get("source").setContent("");
             this.get("target").setContent("");
+            var selectedOptions = new Array(this._values.length);
             for(var i in this._storedOptions){
                 var option = this._storedOptions[i];
                 var selectableOption = option;
@@ -52,12 +59,17 @@ YUI.add('duelselect', function(Y) {
                 if(this._present(this.get("query"))&&option.getAttribute("query").indexOf(this.get("query"))<0){
                   selectableOption = null;
                 }
-                if(Y.Array.indexOf(this._values,option.getAttribute("value"))>-1){
-                  this.get("target").appendChild(option);
+                var valueIndex =  Y.Array.indexOf(this._values,option.getAttribute("value"));
+                if(valueIndex > -1){
+                  selectedOptions[valueIndex] = option;
                   selectableOption = null;
                 }
                 if(selectableOption)
                   this.get("source").appendChild(selectableOption);
+            }
+
+            for(var i in selectedOptions){
+                this.get("target").appendChild(selectedOptions[i]);
             }
         },
         _syncValue: function(){
@@ -80,6 +92,56 @@ YUI.add('duelselect', function(Y) {
           for(var e in this._values){
             if(Y.Array.indexOf(removeValues,this._values[e])<0)
               newValues.push(this._values[e]);
+          }
+          this._values = newValues;
+          this._syncValue();
+          this._syncUI();
+        },
+        _up: function(){
+          var newValues = [];
+          var selectedValues = this._getMultSelectValue(this.get("target"));
+          if(selectedValues.length<1)
+            return;
+          var firstIndex = Y.Array.indexOf(this._values,selectedValues[0]);
+          if(firstIndex == 0)
+            return;
+          for(var i=0;i<firstIndex-1;i++){
+            newValues.push(this._values[i]);
+          }
+          for(var i= 0;i<selectedValues.length;i++){
+            newValues.push(selectedValues[i]);
+          }
+          for(var i=firstIndex-1;i<this._values.length;i++){
+            if(Y.Array.indexOf(selectedValues,this._values[i])<0)
+              newValues.push(this._values[i]);
+          }
+          this._values = newValues;
+          this._syncValue();
+          this._syncUI();
+        },
+        _down: function(){
+          var newValues = [];
+          var selectedValues = this._getMultSelectValue(this.get("target"));
+          if(selectedValues.length<1)
+            return;
+          var firstIndex = Y.Array.indexOf(this._values,selectedValues[0]);
+          if(firstIndex == this._values.length-1)
+            return;
+          for(var i=0;i<firstIndex;i++){
+              newValues.push(this._values[i]);
+          }
+          for(var i=firstIndex+1,addedFirst = true;addedFirst&&i<this._values.length;i++){
+             if(Y.Array.indexOf(selectedValues,this._values[i])<0){
+                newValues.push(this._values[i]);
+                addedFirst = false;
+             }
+          }
+          for(var i= 0;i<selectedValues.length;i++){
+            newValues.push(selectedValues[i]);
+          }
+          for(var i=firstIndex+1;i<this._values.length;i++){
+            if(Y.Array.indexOf(selectedValues,this._values[i])<0&&Y.Array.indexOf(newValues,this._values[i])<0)
+              newValues.push(this._values[i]);
           }
           this._values = newValues;
           this._syncValue();

@@ -35,6 +35,15 @@ module Irm::WfApprovalProcessesHelper
   end
 
 
+  def available_approval_fields(bo_code)
+    values = []
+    if bo_code
+      values += Irm::BusinessObject.where(:business_object_code=>bo_code).first.approval_attributes.collect{|o| [o[:name],o.attribute_name,{:type=>"",:query=>o.name}]}
+    end
+    values
+  end
+
+
   def showable_steps(process_id)
     Irm::WfApprovalStep.list_all.where(:process_id=>process_id).order("step_number")
   end

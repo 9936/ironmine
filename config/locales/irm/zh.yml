@@ -78,6 +78,8 @@ zh:
   duel_selectable: 可选项
   duel_selected: 已选择项
   else: 否则
+  up: 上移
+  down: 下移
   #常用语句
   notice_account_invalid_creditentials: 用户名或密码错误
   successfully_updated: 已经成功更新数据
@@ -1210,6 +1212,8 @@ zh:
   label_irm_wf_approval_process_reorder: 重新排序
   label_irm_wf_approval_process_can_not_find_next_approver: 无法找到下一步骤审批人
   label_irm_wf_approval_process_can_not_find_match_process: 无法找到适用的审批流程
+  label_irm_wf_approval_process_edit_layout: 编辑审批页面布局
+  label_irm_wf_approval_process_select_show_fields: 选择审批页面要显示的字段
   #========================end  wf approval process====================
   #======================== wf approval step====================
   label_irm_wf_approval_step: 审批步骤

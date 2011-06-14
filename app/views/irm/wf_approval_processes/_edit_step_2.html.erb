@@ -3,7 +3,7 @@
 <div  class="bWizardBlock">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
-            <%= t(:step_n_total_m, :n => "2", :m => "2") %>
+            <%= t(:step_n_total_m, :n => "2", :m => "5") %>
         </div>
         <h2>
             <%= t(:step_n, :n => "2") %><%= t(:label_irm_wf_approval_process_filter) %>
@@ -42,7 +42,7 @@
                 <tr>
                   <td class="pbTitle"></td>
                   <td id="bottomButtonRow" class="pbButtonb">
-                    <div class="button"><%= link_to t(:last), {:action => "new",:pre_step=>true},{:class=>"submit"} %></div>
+                    <div class="button"><%= link_to t(:last), {:action => "edit",:pre_step=>true},{:class=>"submit"} %></div>
                     <div class="button"><%= f.submit t :next%></div>
                     <div class="button"><%= link_to t(:cancel), {:action => "index"} %></div>
                   </td>

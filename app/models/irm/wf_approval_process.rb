@@ -51,6 +51,10 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
     select("#{table_name}.*").with_mail_template(I18n.locale).with_record_editability(I18n.locale).with_next_approver_mode(I18n.locale)
   end
 
+  def business_object
+    @business_object ||= Irm::BusinessObject.where(:business_object_code=>self.bo_code).first
+  end
+
   def check_step(stp)
     self.step.nil?||self.step.to_i>=stp
   end

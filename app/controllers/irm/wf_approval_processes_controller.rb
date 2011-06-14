@@ -56,7 +56,7 @@ class Irm::WfApprovalProcessesController < ApplicationController
         @wf_approval_process.step = @wf_approval_process.step.to_i-1
         session[:irm_wf_approval_process][:step] = @wf_approval_process.step
       else
-        if @wf_approval_process.step<4
+        if @wf_approval_process.step<5
           @wf_approval_process.step = @wf_approval_process.step.to_i+1
           session[:irm_wf_approval_process][:step] = @wf_approval_process.step
         end
@@ -105,7 +105,7 @@ class Irm::WfApprovalProcessesController < ApplicationController
         @wf_approval_process.step = @wf_approval_process.step.to_i-1
         session[:irm_wf_approval_process][:step] = @wf_approval_process.step
       else
-        if @wf_approval_process.step<4
+        if @wf_approval_process.step<5
           @wf_approval_process.step = @wf_approval_process.step.to_i+1
           session[:irm_wf_approval_process][:step] = @wf_approval_process.step
         end
