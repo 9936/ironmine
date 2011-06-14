@@ -29,7 +29,7 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-          <% @wf_process_instance.business_object.approval_attributes.each do |attr| %>
+          <% step_instance_approvable_fields(@wf_process_instance).each do |attr| %>
             <tr>
               <td class="labelCol"><label><%=attr[:name]%></label></td>
               <td class="dataCol" colspan="3" width="82%"><%= Irm::BusinessObject.attribute_of(@bo_instance,attr.attribute_name)%></td>
