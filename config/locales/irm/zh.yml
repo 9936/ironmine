@@ -1242,8 +1242,6 @@ zh:
   label_irm_wf_approval_step_reject_behavior_step_reject: 只执行此步骤的拒绝操作并将批准请求发回到最近的批准人。（返回 1 步）
   label_irm_wf_approval_step_reject_behavior_process_reject: 执行此步骤的所有拒绝操作和所有最终拒绝操作。（最终拒绝）
   #======================== wf approval step====================
-
-<<<<<<< HEAD
   #======================== wf process instance====================
   label_irm_process_instance_submit_error: 无法提交待审批
   label_irm_step_instance_step: 审批步骤
