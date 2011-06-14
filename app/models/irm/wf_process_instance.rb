@@ -20,8 +20,17 @@ class Irm::WfProcessInstance < ActiveRecord::Base
     select(" bo.name bo_name,bo.business_object_code bo_code")
   }
 
+  scope :with_submitter,lambda{
+    joins("JOIN #{Irm::Person.table_name} submitter ON submitter.id = #{table_name}.submitter_id").
+    select("submitter.full_name submitter_name")
+  }
+
+  def self.select_all
+    select("#{table_name}.*")
+  end
+
   def self.list_all
-    select("#{table_name}.*").with_process.with_process_status_code(I18n.locale)
+    select("#{table_name}.*").with_process.with_submitter.with_process_status_code(I18n.locale)
   end
 
 

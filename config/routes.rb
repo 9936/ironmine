@@ -673,6 +673,7 @@ Ironmine::Application.routes.draw do
     # wf process instance
     match '/wf_process_instances/submit(.:format)' => "wf_process_instances#submit", :via => [:get,:post]
     match '/wf_process_instances/:id/recall(.:format)' => "wf_process_instances#recall", :via => :get
+    match '/wf_process_instances/:id/execute_recall(.:format)' => "wf_process_instances#execute_recall", :via => :put
 
     # wf step instance
     match '/wf_step_instances/:id/show(.:format)' => "wf_step_instances#show", :via => :get

@@ -149,7 +149,13 @@ class Irm::WfApprovalStep < ActiveRecord::Base
           wf_process_instance.update_attribute(:next_approver_id,nil)
           Delayed::Job.enqueue(Irm::Jobs::ApprovalMailJob.new(step_instance.id))
         when "PROCESS_DEFAULT"
-          default_approver_id = self.process_default_approver_ids(Irm::Person.current.id)
+          last_step_instance = Irm::WfStepInstance.last_approve(wf_process_instance)
+          default_approver_id = nil
+          if last_step_instance
+            default_approver_id = self.process_default_approver_ids(Irm::Person.current.id)
+          else
+            default_approver_id = self.process_default_approver_ids(last_step_instance.assign_approver_id)
+          end
           unless default_approver_id.present?
             raise Wf::MissingDefaultApproverError,self.id
           end

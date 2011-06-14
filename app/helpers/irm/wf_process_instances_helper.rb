@@ -54,7 +54,7 @@ module Irm::WfProcessInstancesHelper
   end
 
   def operations_for(step_instance)
-    if(current_person?(step_instance.assign_approver_id)&&step_instance.approval_status_code.eql?("PENDING"))
+    if(step_instance.approval_status_code.eql?("PENDING")&&(current_person?(step_instance.assign_approver_id)||current_person?(step_instance[:delegate_approver])))
       links = ""
       links << link_to(t(:label_irm_wf_step_instance_reassign),{:controller => "irm/wf_step_instances",:action=>"reassign",:id=>step_instance.id,:back_url=>url_for({})})
       links << "  "
@@ -71,8 +71,15 @@ module Irm::WfProcessInstancesHelper
     end
   end
 
+  def process_instance_relation_bo_link(process_instance)
+    if process_instance[:bo_id]&&process_instance[:bo_model_name]&&process_instance[:bo_description]
+      url_options = process_instance[:bo_model_name].constantize.urlable_url_options(:show,{:id=>process_instance[:bo_id]})
+      return link_to(process_instance[:bo_description],url_options).html_safe
+    end
+  end
+
   def my_approvals
-    step_instances = Irm::WfStepInstance.select_all.with_process_instance(I18n.locale).where(:assign_approver_id=>Irm::Person.current.id,:approval_status_code=>"PENDING")
+    step_instances = Irm::WfStepInstance.select_all.with_assign_approver.with_process_instance(I18n.locale).by_person(Irm::Person.current).where(:approval_status_code=>"PENDING")
     render :partial=>"irm/wf_process_instances/my_approvals",:locals=>{:step_instances=>step_instances}
   end
 end
