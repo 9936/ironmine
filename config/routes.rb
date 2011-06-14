@@ -1,5 +1,7 @@
 Ironmine::Application.routes.draw do
 
+  get "delayed/index"
+
   scope :module => "irm" do
     root :to => "navigations#index"
     match 'login'=>'common#login',:as=>:login
@@ -680,6 +682,13 @@ Ironmine::Application.routes.draw do
 
     #screen saver
     match '/attach_screenshot(/index)(.:format)' => "attach_screenshot#index", :via => :post
+    #
+    #delayed_jobs
+    match '/delayed_jobs(/index)(.:format)' => "delayed_jobs#index", :via => :get
+    match '/delayed_jobs/:id/item_list(.:format)' => "delayed_jobs#item_list", :via => [:get,:post]
+    match '/delayed_jobs/:id/item_view(.:format)' => "delayed_jobs#item_view", :via => [:get,:post]
+    match '/delayed_jobs/get_data(.:format)' => "delayed_jobs#get_data"
+    match '/delayed_jobs/get_item_data(.:format)' => "delayed_jobs#get_item_data"
   end
 
   scope :module => "icm" do
