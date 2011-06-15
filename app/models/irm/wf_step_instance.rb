@@ -5,10 +5,17 @@ class Irm::WfStepInstance < ActiveRecord::Base
 
   belongs_to :wf_process_instance,:foreign_key => :process_instance_id
 
+  belongs_to :wf_approval_step,:foreign_key => :step_id
+
   scope :with_assign_approver,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} assign_approver ON assign_approver.id = #{table_name}.assign_approver_id").
     select("assign_approver.full_name assign_approver_name,assign_approver.delegate_approver")
 
+  }
+
+  scope :with_step,lambda{
+    joins("JOIN #{Irm::WfApprovalStep.table_name} ON #{Irm::WfApprovalStep.table_name}.id = #{table_name}.step_id").
+    select("#{Irm::WfApprovalStep.table_name}.name step_name,#{Irm::WfApprovalStep.table_name}.allow_delegation_approve")
   }
 
   scope :with_actual_approver,lambda{
@@ -30,11 +37,11 @@ class Irm::WfStepInstance < ActiveRecord::Base
 
   scope :by_person,lambda{|person_id|
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} delegate_approver ON delegate_approver.id = #{table_name}.assign_approver_id").
-    where("#{table_name}.assign_approver_id = ? OR delegate_approver.delegate_approver = ?",person_id,person_id)
+    where("#{table_name}.assign_approver_id = ? OR (delegate_approver.delegate_approver = ? AND #{Irm::WfApprovalStep.table_name}.allow_delegation_approve = ?)",person_id,person_id,Irm::Constant::SYS_YES)
   }
 
   def self.list_all
-    select("#{table_name}.*").with_assign_approver.with_actual_approver.with_approval_status_code(I18n.locale)
+    select("#{table_name}.*").with_assign_approver.with_actual_approver.with_step.with_approval_status_code(I18n.locale)
   end
 
   def self.select_all
@@ -152,7 +159,7 @@ class Irm::WfStepInstance < ActiveRecord::Base
   private
   def check_approvable(person_id)
     approve_able = false
-    if person_id&&self.approval_status_code.eql?("PENDING")
+    if person_id&&self.approval_status_code.eql?("PENDING")&&Irm::Constant::SYS_YES.eql?(wf_approval_step.allow_delegation_approve)
       if person_id.eql?(self.assign_approver_id)
         approve_able = true
       else

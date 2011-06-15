@@ -4,6 +4,7 @@ class Irm::WfApprovalStep < ActiveRecord::Base
 
 
   has_many :wf_approval_step_approvers,:foreign_key => :step_id
+  has_many :wf_step_instance,:foreign_key => :step_id
   belongs_to :wf_approval_process,:foreign_key => :process_id
 
   query_extend
