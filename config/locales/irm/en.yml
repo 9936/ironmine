@@ -1110,6 +1110,7 @@ en:
   label_irm_wf_approval_step_multiple_approver_mode_first_approved: 基于 首次 回复的批准或拒绝
   label_irm_wf_approval_step_multiple_approver_mode_all_approved: 要求所有选定批准人的 一致 批准
   label_irm_wf_approval_step_reject_behavior: 拒绝行为
+  label_irm_wf_process_instance_comment: 备注
   label_irm_wf_approval_step_reject_behavior_step_reject: 只执行此步骤的拒绝操作并将批准请求发回到最近的批准人。（返回 1 步）
   label_irm_wf_approval_step_reject_behavior_process_reject: 执行此步骤的所有拒绝操作和所有最终拒绝操作。（最终拒绝）
   #======================== wf approval step====================

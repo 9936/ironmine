@@ -5,6 +5,7 @@ module Irm
       # get the person
       person  = Irm::Person.where(:email_address=>email.from_addrs.to_a.first).first
       return false unless person
+      Irm::Person.current = person
       # get the parsed email
       # use the plain mail message content
       return false unless parsed_email[:bodies].size>0
@@ -35,6 +36,7 @@ module Irm
       else
         return false
       end
+      Irm::Person.current = nil
     end
   end
 end

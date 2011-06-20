@@ -55,6 +55,8 @@ class Irm::WfStepInstancesController < ApplicationController
       rescue Wf::MissingAutoApproverError => error
         @next_step =  Irm::WfApprovalStep.list_all.find(error.message.to_i)
         @wf_step_instance.errors.add(:next_approver_id,t(:label_irm_wf_approval_process_can_not_find_next_approver))
+      rescue Wf::ApproveError => error
+        text = error
     end
 
     respond_to do |format|

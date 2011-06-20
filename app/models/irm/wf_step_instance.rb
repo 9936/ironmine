@@ -5,17 +5,23 @@ class Irm::WfStepInstance < ActiveRecord::Base
 
   belongs_to :wf_process_instance,:foreign_key => :process_instance_id
 
+  belongs_to :wf_approval_step,:foreign_key => :step_id
+
   scope :with_assign_approver,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} assign_approver ON assign_approver.id = #{table_name}.assign_approver_id").
-    select("assign_approver.full_name assign_approver_name")
+    select("assign_approver.full_name assign_approver_name,assign_approver.delegate_approver")
 
+  }
+
+  scope :with_step,lambda{
+    joins("JOIN #{Irm::WfApprovalStep.table_name} ON #{Irm::WfApprovalStep.table_name}.id = #{table_name}.step_id").
+    select("#{Irm::WfApprovalStep.table_name}.name step_name,#{Irm::WfApprovalStep.table_name}.allow_delegation_approve")
   }
 
   scope :with_actual_approver,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} actual_approver ON actual_approver.id = #{table_name}.actual_approver_id").
     select("actual_approver.full_name actual_approver_name")
   }
-
 
   scope :with_approval_status_code,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} approval_status ON approval_status.lookup_type='WF_STEP_INSTANCE_STATUS' AND approval_status.lookup_code = #{table_name}.approval_status_code AND approval_status.language= '#{language}'").
@@ -29,8 +35,13 @@ class Irm::WfStepInstance < ActiveRecord::Base
     select("process_instance.submitter_id,submitter.full_name submitter_name,process_instance.created_at submitted_at,process_instance.bo_id,process_instance.bo_description,process_instance.bo_model_name,bo.name bo_model_meaning")
   }
 
+  scope :by_person,lambda{|person_id|
+    joins("LEFT OUTER JOIN #{Irm::Person.table_name} delegate_approver ON delegate_approver.id = #{table_name}.assign_approver_id").
+    where("#{table_name}.assign_approver_id = ? OR (delegate_approver.delegate_approver = ? AND #{Irm::WfApprovalStep.table_name}.allow_delegation_approve = ?)",person_id,person_id,Irm::Constant::SYS_YES)
+  }
+
   def self.list_all
-    select("#{table_name}.*").with_assign_approver.with_actual_approver.with_approval_status_code(I18n.locale)
+    select("#{table_name}.*").with_assign_approver.with_actual_approver.with_step.with_approval_status_code(I18n.locale)
   end
 
   def self.select_all
@@ -38,8 +49,15 @@ class Irm::WfStepInstance < ActiveRecord::Base
   end
 
 
+  def self.last_approve(process_instance_id)
+    self.where("#{table_name}.approval_status_code IN (?) AND #{table_name}.actual_approver_id = ? AND #{table_name}.process_instance_id = ?",[],Irm::Person.current.id,process_instance_id).order("end_at desc").first
+  end
+
   def approved(person_id=nil)
-    return unless check_approvable(person_id)
+    # rollback
+    unless check_approvable(person_id)
+      raise Wf::RollbackApproveError,self.id
+    end
     current_step = Irm::WfApprovalStep.find(self.step_id)
     if "AUTO_APPROVER".eql?(current_step.approver_mode)
       case current_step.multiple_approver_mode
@@ -68,7 +86,9 @@ class Irm::WfStepInstance < ActiveRecord::Base
   end
 
   def reject(person_id=nil)
-    return unless check_approvable(person_id)
+    unless check_approvable(person_id)
+      raise Wf::RollbackApproveError,self.id
+    end
     current_step = Irm::WfApprovalStep.find(self.step_id)
     if "AUTO_APPROVER".eql?(current_step.approver_mode)&&current_step.multiple_approver_mode
       self.update_attributes(:approval_status_code=>"REJECT",:actual_approver_id=>person_id,:end_at=>Time.now)
@@ -138,7 +158,18 @@ class Irm::WfStepInstance < ActiveRecord::Base
 
   private
   def check_approvable(person_id)
-    person_id&&person_id.eql?(self.assign_approver_id)&&self.approval_status_code.eql?("PENDING")
+    approve_able = false
+    if person_id&&self.approval_status_code.eql?("PENDING")&&Irm::Constant::SYS_YES.eql?(wf_approval_step.allow_delegation_approve)
+      if person_id.eql?(self.assign_approver_id)
+        approve_able = true
+      else
+        delegate_person_id = Irm::Person.find(self.assign_approver_id).delegate_approver
+        if delegate_person_id&&person_id.eql?(delegate_person_id.to_i)
+          approve_able = true
+        end
+      end
+    end
+    return approve_able
   end
 
 end

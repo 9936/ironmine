@@ -41,7 +41,6 @@ class Irm::BusinessObjectsController < ApplicationController
       @rows = 20
       @result_message << "====================Error  message:====================\n"
       @result_message << text.message
-      puts("=====Execute error=========")
     end
   end
 

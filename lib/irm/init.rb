@@ -6,13 +6,14 @@ Irm::MenuManager.reset_menu
 
 module Wf
   class Error < ::StandardError; end
-  class ApproverError < Error
+  class ApproveError < Error
 
   end
 
-  class MissingSelectApproverError < ApproverError; end
-  class MissingDefaultApproverError < ApproverError; end
-  class MissingAutoApproverError < ApproverError; end
+  class MissingSelectApproverError < ApproveError; end
+  class MissingDefaultApproverError < ApproveError; end
+  class MissingAutoApproverError < ApproveError; end
+  class RollbackApproveError < ApproveError; end
 end
 
 
