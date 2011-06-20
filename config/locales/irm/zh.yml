@@ -1287,18 +1287,15 @@ zh:
   error_attach_msg: 错误, {0}
   error_attach_title: 上传错误
   #======================= delayed_jobs step ====================
-  label_irm_delayed_jobs_record: Delayed_jobs日志记录
+  label_irm_delayed_job_info: Delayed Job详细信息
+  label_irm_delayed_jobs_record: Delayed jobs日志记录
   label_irm_delayed_jobs_record_priority: 优先级
-  label_irm_delayed_jobs_record_handler: 保存yaml格式数据
-  label_irm_delayed_jobs_record_run_by: 执行者
+  label_irm_delayed_jobs_record_handler: 处理程序
   label_irm_delayed_jobs_record_run_at: 开始执行时间
   label_irm_delayed_jobs_record_end_at: 执行结束时间
   label_irm_delayed_jobs_record_status: 执行状态
-  label_irm_delayed_jobs_record_status_0: 执行中...
-  label_irm_delayed_jobs_record_status_1: 成功结束
-  label_irm_delayed_jobs_record_status_2: 失败结束
-  label_irm_delayed_jobs_record_item: 错误日志记录
-  label_irm_delayed_jobs_record_item_error_info: 错误信息
+  label_irm_delayed_jobs_record_item: 执行记录
+  label_irm_delayed_jobs_record_item_content: 日志信息
   label_irm_delayed_jobs_record_item_attempt: 尝试次数
   label_irm_delayed_jobs_record_item_record_at: 记录时间
   #======================= end delayed_jobs step ====================

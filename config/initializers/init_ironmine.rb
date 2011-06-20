@@ -62,6 +62,7 @@ end
 
 Delayed::Backend::ActiveRecord::Job.send(:include,Irm::ExtendsLogDelayedJob)
 Delayed::Worker.send(:include,Irm::ExtendsLogDelayedWorker)
+
 #配置delayed_job
 #当job执行失败,是否从队列中删除
 Delayed::Worker.destroy_failed_jobs = false
@@ -74,6 +75,7 @@ Delayed::Worker.max_run_time = 5.minutes
 #数据存储方式
 Delayed::Worker.backend=:active_record
 
+Delayed::Backend::Base::ClassMethods.send(:include, Irm::DelayedJobBaseEx)
 
 begin
   # 初始化模块数据 ，初始化脚本位于lib/模块/init.rb脚本中

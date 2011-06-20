@@ -1155,3 +1155,17 @@ en:
   error_close_title: Error
   error_attach_msg: Error, {0}
   error_attach_title: Attaching error
+
+  #======================= delayed_jobs step ====================
+  label_irm_delayed_job_info: Delayed Job Info
+  label_irm_delayed_jobs_record: Delayed jobs log
+  label_irm_delayed_jobs_record_priority: Priority
+  label_irm_delayed_jobs_record_handler: Handler
+  label_irm_delayed_jobs_record_run_at: Run at
+  label_irm_delayed_jobs_record_end_at: End at
+  label_irm_delayed_jobs_record_status: Status
+  label_irm_delayed_jobs_record_item: Log Item
+  label_irm_delayed_jobs_record_item_content: Log content
+  label_irm_delayed_jobs_record_item_attempt: Attempt
+  label_irm_delayed_jobs_record_item_record_at: Record at
+  #======================= end delayed_jobs step ====================

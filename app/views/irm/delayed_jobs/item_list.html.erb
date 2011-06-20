@@ -1,5 +1,45 @@
 <%= app_title %>
 <div class="listRelatedObject setupBlock">
+
+    <div id="ep" class="bDetailBlock bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_delayed_job_info) %></h2></td>
+              <td class="pbButton">
+                <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div class="pbSubsection">
+          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_irm_delayed_jobs_record_run_at)%></label></td>
+                  <td class="data2Col"><%=@log.run_at.strftime("%F %T")%></td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_irm_delayed_jobs_record_end_at)%></label></td>
+                  <td class="data2Col"><%=@log.end_at.strftime("%F %T") if @log.end_at.present?%></td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_irm_delayed_jobs_record_handler)%></label></td>
+                  <td class="data2Col"><%=raw(@log.handler)%></td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_irm_delayed_jobs_record_item_attempt)%></label></td>
+                  <td class="data2Col"><%=@log.attempts%></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <div class="bPageBlock">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
@@ -7,43 +47,27 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_delayed_jobs_record_item) %></h2></td>
               <td id="topButtonRow" class="pbButton">
-
               </td>
               <td class="pbHelp">
-                <div id="permissionsSearchBox"></div>
+
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+
       <div class="pbBody">
         <div id="delayed_job" class="datatable" style="width:100%;">
           <div id="id" style="display:none">
              <%= link_to(t(:show),{:action=>"item_view",:controller => "irm/delayed_jobs",:id=>"{id}"}) %>
           </div>
-          <div id="error_info" style="display:none">
-            <div id="error_info_{attempt}">{error_info}</div>
-            <script>
-              <!--
-               YUI({filter: 'raw'}).use("node",function(Y){
-                var v =  Y.one("#error_info_{attempt}");
-                if(v){
-                    var str = v.getContent();
-                    v.setContent(str.length > 30 ? str.substring(0,29) + "..." : str);
-                }
-            });
-
-               //-->
-            </script>
-          </div>
          </div>
       </div>
-        <%= datatable("delayed_job",url_for(:action=>"get_item_data",:controller => "irm/delayed_jobs",:id => params[:id]),
-                  [{:key=>"id",:label=>t(:edit),:sortable=>true,:formatter=>"Y.irm.template",:width=>"10%"},
-                   {:key=>"attempt",:label=>t(:label_irm_delayed_jobs_record_item_attempt),:sortable=>true,:width=>"10%"},
-                   {:key=>"error_info",:label=>t(:label_irm_delayed_jobs_record_item_error_info),:formatter=>"Y.irm.template",:sortable=>true,:width=>"70%"},
-                   {:key=>"record_at",:label=>t(:label_irm_delayed_jobs_record_item_record_at),:sortable=>true,:width=>"10%"}],
-                   {:search_box=>"permissionsSearchBox",:paginator_box=>"companiesPaginatorBox"})%>
+        <%= datatable("delayed_job",url_for(:action=>"get_item_data",:controller => "irm/delayed_jobs",:delayed_job_id => @log.delayed_job_id),
+                  [{:key=>"id",:label=>t(:edit),:sortable=>true,:formatter=>"Y.irm.template",:width=>"40px"},
+                   {:key=>"created_at",:label=>t(:label_irm_delayed_jobs_record_item_record_at),:sortable=>true,:width=>"90px"},
+                   {:key=>"job_status",:label=>t(:label_irm_delayed_jobs_record_status),:sortable=>true,:width=>"90px"},
+                   {:key=>"content",:label=>t(:label_irm_delayed_jobs_record_item_content),:sortable=>true,:width=>"400px"}])%>
         <div id="companiesPaginatorBox"></div>
       </div>
     </div>
