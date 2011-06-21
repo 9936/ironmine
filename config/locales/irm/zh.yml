@@ -1288,7 +1288,7 @@ zh:
   error_attach_msg: 错误, {0}
   error_attach_title: 上传错误
   #======================= delayed_jobs step ====================
-  label_irm_delayed_job_info: Delayed Job详细信息
+  label_irm_delayed_job_info: Delayed Job运行信息
   label_irm_delayed_jobs_record: Delayed jobs日志记录
   label_irm_delayed_jobs_record_priority: 优先级
   label_irm_delayed_jobs_record_handler: 处理程序

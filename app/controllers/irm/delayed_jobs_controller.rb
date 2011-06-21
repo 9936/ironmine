@@ -21,7 +21,7 @@ class Irm::DelayedJobsController < ApplicationController
     @item = Irm::DelayedJobLogItem.list_all(params[:delayed_job_id])
     @item, count = paginate(@item)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@item.to_grid_json([:created_at, :content, :id, :job_status], count))}
+      format.json {render :json=>to_jsonp(@item.to_grid_json([:created_at, :content, :id, :job_status, :job_status_name], count))}
     end
   end
 end

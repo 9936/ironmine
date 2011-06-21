@@ -58,15 +58,12 @@
 
       <div class="pbBody">
         <div id="delayed_job" class="datatable" style="width:100%;">
-          <div id="id" style="display:none">
-             <%= link_to(t(:show),{:action=>"item_view",:controller => "irm/delayed_jobs",:id=>"{id}"}) %>
-          </div>
          </div>
       </div>
         <%= datatable("delayed_job",url_for(:action=>"get_item_data",:controller => "irm/delayed_jobs",:delayed_job_id => @log.delayed_job_id),
-                  [{:key=>"id",:label=>t(:edit),:sortable=>true,:formatter=>"Y.irm.template",:width=>"40px"},
+                  [{:key=>"id",:label=>t(:edit),:hidden=>true},
                    {:key=>"created_at",:label=>t(:label_irm_delayed_jobs_record_item_record_at),:sortable=>true,:width=>"90px"},
-                   {:key=>"job_status",:label=>t(:label_irm_delayed_jobs_record_status),:sortable=>true,:width=>"90px"},
+                   {:key=>"job_status_name",:label=>t(:label_irm_delayed_jobs_record_status),:sortable=>true,:width=>"90px"},
                    {:key=>"content",:label=>t(:label_irm_delayed_jobs_record_item_content),:sortable=>true,:width=>"400px"}])%>
         <div id="companiesPaginatorBox"></div>
       </div>
