@@ -573,12 +573,14 @@ Ironmine::Application.routes.draw do
     match '/business_objects/:bo_id/object_attributes/new(.:format)' => "object_attributes#new", :via => [:get,:post,:put]
     match '/business_objects/:bo_id/object_attributes/create(.:format)' => "object_attributes#create", :via => :post
     match '/business_objects/:bo_id/object_attributes/get_data(.:format)' => "object_attributes#get_data"
-    match '/business_objects/:bo_id/object_attributes/:id/edit(.:format)' => "object_attributes#edit", :via => :get
+    match '/business_objects/:bo_id/object_attributes/get_standard_data(.:format)' => "object_attributes#get_standard_data"
+    match '/business_objects/:bo_id/object_attributes/:id/edit(.:format)' => "object_attributes#edit", :via => [:get,:put]
     match '/business_objects/:bo_id/object_attributes/:id(.:format)' => "object_attributes#update", :via => :put
     match '/business_objects/:bo_id/object_attributes/:id/show(.:format)' => "object_attributes#show", :via => :get
     match '/business_objects/:bo_id/object_attributes/:id/delete(.:format)' => "object_attributes#destroy", :via => :delete
     match '/business_objects/:bo_id/object_attributes/:id/multilingual_edit(.:format)' => "object_attributes#multilingual_edit", :via => :get
     match '/business_objects/:bo_id/object_attributes/:id/multilingual_update(.:format)' => "object_attributes#multilingual_update", :via => :put
+    match '/business_objects/:bo_id/object_attributes/:id/change_type(.:format)' => "object_attributes#change_type", :via => :get
     match '/object_attributes/relation_columns(.:format)' => "object_attributes#relation_columns", :via => :get
     match '/object_attributes/selectable_columns(.:format)' => "object_attributes#selectable_columns", :via => :get
     match '/object_attributes/all_columns(.:format)' => "object_attributes#all_columns", :via => :get

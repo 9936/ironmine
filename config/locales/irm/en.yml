@@ -902,6 +902,10 @@ en:
   label_irm_object_attribute_invalid_model_attribute: Missing Attribute In BO
   label_irm_object_attribute_person_flag: Person Attribute
   label_irm_object_attribute_update_flag: Updateable
+  label_irm_object_attribute_change_type_link: Type
+  label_irm_object_attribute_change_type: Change Attribute Type
+  label_irm_object_standard_attributes: Standard Field
+  label_irm_object_custom_attributes: Custom Field
   #======================== object attributes====================
   #======================== list of values====================
   label_irm_list_of_value_list: List of Value
