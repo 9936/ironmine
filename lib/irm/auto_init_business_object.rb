@@ -57,7 +57,7 @@ class Irm::AutoInitBusinessObject
     columns = exists_columns.dup
     object_attributes = bo.object_attributes
     object_attributes.each do |oa|
-      if !oa.attribute_type.eql?("TABLE_COLUMN")
+      if !["TABLE_COLUMN","LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(oa.attribute_type)
         say("NOT TABLE COLUMN  #{bo.bo_model_name}==#{oa.attribute_name}")
         next
       end

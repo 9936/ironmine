@@ -56,7 +56,58 @@
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_object_attributes) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_object_standard_attributes) %></h2></td>
+              <td class="pbButton">
+              </td>
+              <td class="pbHelp">
+                <div id="standardSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="object_standard_attributes" class="datatable" style="width:100%">
+          <div id="id" style="display:none">
+            <%= link_to(t(:edit),{:controller => "irm/object_attributes", :action => "edit", :bo_id => @business_object.id,:id=>"{id}"}) %>
+            <%= link_to(t(:show),{:controller => "irm/object_attributes", :action => "show", :bo_id => @business_object.id,:id=>"{id}"}) %>
+            <%= link_to(t(:label_irm_object_attribute_change_type_link),{:controller => "irm/object_attributes", :action => "change_type", :bo_id => @business_object.id,:id=>"{id}"}) %>
+          </div>
+          <div id="approval_page_field_flag" style="display:none">
+            <%= check_img("{approval_page_field_flag}") %>
+          </div>
+          <div id="filter_flag" style="display:none">
+            <%= check_img("{filter_flag}") %>
+          </div>
+        </div>
+        <%= datatable("object_standard_attributes",url_for(:controller => "irm/object_attributes", :action => "get_standard_data", :bo_id => @business_object.id,:format=>"json"),
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"110px"},
+
+                       { :key => "name", :label => t(:label_irm_object_attribute_name),:searchable=>true,:width=>"200px" },
+
+                       { :key => "attribute_name", :label => t(:label_irm_object_attribute_attribute_name),:searchable=>true},
+
+                       { :key => "attribute_type_name", :label => t(:label_irm_object_attribute_attribute_type)},
+                       { :key => "data_type", :label => t(:label_irm_object_attribute_data_type)},
+                       { :key => "data_length", :label => t(:label_irm_object_attribute_data_length)},
+                       { :key => "filter_flag",:formatter=>"Y.irm.template", :label => t(:label_irm_object_attribute_filter_flag)},
+
+                       { :key => "approval_page_field_flag",:formatter=>"Y.irm.template", :label => t(:label_irm_object_attribute_approval_page_field_flag)}
+
+
+                       ],{:paginator_box=>"standardPaginator",:search_box=>"standardSearchBox"})%>
+        <div id="standardPaginator"></div>
+      </div>
+    </div>
+</div>
+
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_object_custom_attributes) %></h2></td>
               <td class="pbButton">
                 <div class="button"><%= link_to t(:new), {:controller => "irm/object_attributes", :action => "new", :bo_id => @business_object.id}%></div>
               </td>
@@ -72,6 +123,7 @@
           <div id="id" style="display:none">
             <%= link_to(t(:edit),{:controller => "irm/object_attributes", :action => "edit", :bo_id => @business_object.id,:id=>"{id}"}) %>
             <%= link_to(t(:show),{:controller => "irm/object_attributes", :action => "show", :bo_id => @business_object.id,:id=>"{id}"}) %>
+            <%= link_to(t(:label_irm_object_attribute_change_type_link),{:controller => "irm/object_attributes", :action => "change_type", :bo_id => @business_object.id,:id=>"{id}"}) %>
             <%= link_to(t(:delete),{:controller => "irm/object_attributes", :action => "destroy", :bo_id => @business_object.id,:id=>"{id}"},{:method => :delete}) %>
           </div>
           <div id="approval_page_field_flag" style="display:none">
@@ -82,7 +134,7 @@
           </div>
         </div>
         <%= datatable("object_attributes",url_for(:controller => "irm/object_attributes", :action => "get_data", :bo_id => @business_object.id,:format=>"json"),
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"110px"},
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"140px"},
 
                        { :key => "name", :label => t(:label_irm_object_attribute_name),:searchable=>true,:width=>"200px" },
 

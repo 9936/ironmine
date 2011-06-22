@@ -1,9 +1,22 @@
 module Irm::ObjectAttributesHelper
-  def available_attribute_type
+  def newable_attribute_type
+    delete_types = ["TABLE_COLUMN","LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"]
     attribute_types = Irm::LookupValue.query_by_lookup_type("BO_ATTRIBUTE_TYPE").multilingual.collect{|p|[p[:meaning],p[:lookup_code]]}
-    attribute_types.delete_if{|at| at[1].eql?("TABLE_COLUMN")}
+    attribute_types.delete_if{|at| delete_types.include?(at[1])}
     attribute_types
   end
+
+  def changeable_attribute_type
+    attribute_types = Irm::LookupValue.query_by_lookup_type("BO_ATTRIBUTE_TYPE").multilingual.collect{|p|[p[:meaning],p[:lookup_code]]}
+    attribute_types
+  end
+
+  def available_object_attribute_field_type
+    field_types = Irm::LookupValue.query_by_lookup_type("BO_ATTRIBUTE_FIELD_TYPE").multilingual.collect{|p|[p[:meaning],p[:lookup_code]]}
+    field_types
+  end
+
+
   def available_object_attribute(business_object_code=nil)
     object_attributes =[]
     if business_object_code
