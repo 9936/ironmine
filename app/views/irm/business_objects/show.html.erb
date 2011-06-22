@@ -120,16 +120,16 @@
       </div>
       <div class="pbBody">
         <div id="object_attributes" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
+          <div id="id" class="id" style="display:none">
             <%= link_to(t(:edit),{:controller => "irm/object_attributes", :action => "edit", :bo_id => @business_object.id,:id=>"{id}"}) %>
             <%= link_to(t(:show),{:controller => "irm/object_attributes", :action => "show", :bo_id => @business_object.id,:id=>"{id}"}) %>
             <%= link_to(t(:label_irm_object_attribute_change_type_link),{:controller => "irm/object_attributes", :action => "change_type", :bo_id => @business_object.id,:id=>"{id}"}) %>
             <%= link_to(t(:delete),{:controller => "irm/object_attributes", :action => "destroy", :bo_id => @business_object.id,:id=>"{id}"},{:method => :delete}) %>
           </div>
-          <div id="approval_page_field_flag" style="display:none">
+          <div id="approval_page_field_flag" class="approval_page_field_flag" style="display:none">
             <%= check_img("{approval_page_field_flag}") %>
           </div>
-          <div id="filter_flag" style="display:none">
+          <div id="filter_flag" class="filter_flag" style="display:none">
             <%= check_img("{filter_flag}") %>
           </div>
         </div>
