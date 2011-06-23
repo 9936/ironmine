@@ -24,13 +24,13 @@ module Irm
     end
 
     def uuid_to_62(uuid)
-      custom_uuid = uuid[(0..uuid.rindex("-")-1)]
+      custom_uuid = uuid[0..(uuid.rindex("-")-1)]
       number = custom_uuid.split("-").reverse.join("").hex
       rjust_decimal_to_62(number,14)
     end
 
     def uuid_generator
-      @uuid_generator = UUID.new
+      @uuid_generator ||= UUID.new
     end
 
     def generate(table_name)

@@ -16,6 +16,8 @@ class Irm::MachineCode < ActiveRecord::Base
     end
   end
 
+  private :generate_code
+
   def self.code(mac_addr)
     instance = self.where(:machine_addr=>mac_addr).first
     if(instance)

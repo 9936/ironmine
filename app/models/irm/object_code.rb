@@ -14,6 +14,7 @@ class Irm::ObjectCode < ActiveRecord::Base
       self.save
     end
   end
+  private :generate_code
 
   def self.code(table_name)
     instance = self.where(:object_table_name=>table_name).first
