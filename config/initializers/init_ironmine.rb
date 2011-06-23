@@ -27,6 +27,9 @@ ActiveRecord::Base.send(:include,Irm::QueryExtend)
 #扩展ActionRecord::Base,自动生成event
 ActiveRecord::Base.send(:include,Irm::EventGenerator)
 
+#扩展ActionRecord::Base,使用客户化的ID
+ActiveRecord::Base.send(:include,Irm::CustomId)
+
 #扩展link_to,url_for,增加权限验证
 ActionView::Base.send(:include,Irm::UrlHelper)
 
