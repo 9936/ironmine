@@ -692,6 +692,30 @@ Ironmine::Application.routes.draw do
     match '/delayed_jobs/:delayed_job_id/item_view(.:format)' => "delayed_jobs#item_view", :via => [:get,:post]
     match '/delayed_jobs/get_data(.:format)' => "delayed_jobs#get_data"
     match '/delayed_jobs/get_item_data(.:format)' => "delayed_jobs#get_item_data"
+
+    #report type categories
+    match '/report_type_categories(/index)(.:format)' => "report_type_categories#index", :via => :get
+    match '/report_type_categories/:id/edit(.:format)' => "report_type_categories#edit", :via => :get
+    match '/report_type_categories/:id(.:format)' => "report_type_categories#update", :via => :put
+    match '/report_type_categories/new(.:format)' => "report_type_categories#new", :via => :get
+    match '/report_type_categories/create(.:format)' => "report_type_categories#create", :via => :post
+    match '/report_type_categories/get_data(.:format)' => "report_type_categories#get_data"
+    match '/report_type_categories/:id(.:format)' => "report_type_categories#show", :via => :get
+    match '/report_type_categories/:id/multilingual_edit(.:format)' => "report_type_categories#multilingual_edit", :via => :get
+    match '/report_type_categories/:id/multilingual_update(.:format)' => "report_type_categories#multilingual_update", :via => :put
+
+    #report types
+    match '/report_types(/index)(.:format)' => "report_types#index", :via => :get
+    match '/report_types/:id/edit(.:format)' => "report_types#edit", :via => :get
+    match '/report_types/:id(.:format)' => "report_types#update", :via => :put
+    match '/report_types/:id/edit_relation(.:format)' => "report_types#edit_relation", :via => :get
+    match '/report_types/:id/update_relation(.:format)' => "report_types#update_relation", :via => :put
+    match '/report_types/new(.:format)' => "report_types#new", :via => [:get,:post,:put]
+    match '/report_types/create(.:format)' => "report_types#create", :via => :post
+    match '/report_types/get_data(.:format)' => "report_types#get_data"
+    match '/report_types/:id(.:format)' => "report_types#show", :via => :get
+    match '/report_types/:id/multilingual_edit(.:format)' => "report_types#multilingual_edit", :via => :get
+    match '/report_types/:id/multilingual_update(.:format)' => "report_types#multilingual_update", :via => :put
   end
 
   scope :module => "icm" do

@@ -1,0 +1,36 @@
+<%= page_title %>
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_report_type_category_list) %></h2></td>
+              <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+              </td>
+              <td class="pbHelp">
+                <div id="report_type_categoriesSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="report_type_categories" class="datatable" style="width:100%">
+          <div id="id" style="display:none">
+            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
+          </div>
+        </div>
+        <%= datatable("report_type_categories",url_for(:action=>"get_data",:format=>"json"),
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
+                       { :key => "code", :label => t(:label_irm_report_type_category_code)},
+                       { :key => "name", :label => t(:label_irm_report_type_category_name),:searchable=>true },
+                       { :key => "description", :label => t(:label_irm_report_type_category_description)}
+                      ],{:paginator_box=>"report_type_categoriesPaginatorBox",:search_box=>"report_type_categoriesSearchBox"})%>
+        <div id="report_type_categoriesPaginatorBox"></div>
+      </div>
+    </div>
+</div>
+
+

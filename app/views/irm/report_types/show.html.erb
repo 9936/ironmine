@@ -1,0 +1,92 @@
+<style type="text/css">
+
+
+
+</style>
+<%= page_title %>
+
+<div id="ep" class="bDetailBlock bPageBlock">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_report_type) %>:<%=@report_type[:name]%></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @report_type.id}%></div>
+            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_report_type_code)%></label></td>
+              <td class="dataCol"><div><%= @report_type.code %></div></td>
+              <td class="labelCol"><label ><%=t(:label_irm_report_type_category)%></label></td>
+              <td class="dataCol"><div><%= @report_type[:category_name] %></div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_report_type_name)%></label></td>
+              <td class="dataCol"><div><%= @report_type[:name] %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_report_type_description)%></label></td>
+              <td class="dataCol"><div><%= @report_type[:description] %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_report_type_object_relationship) %></h2></td>
+              <td class="pbButton">
+                <div class="button"><%= link_to t(:edit), { :action => "edit_relation", :id => @report_type.id}%></div>
+              </td>
+              <td class="pbHelp">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="objectRelation">
+          <table width="100%">
+            <tr>
+              <td>
+                <% object_index = ["A","B","C","D"]  %>
+                <%@report_type.report_type_objects.select_all.with_bo(I18n.locale).each do |rto| %>
+                  <div class="olevel olevel<%=rto.object_sequence.to_i%>">
+                    <% if rto.object_sequence.to_i ==0  %>
+                      <span class="levelLabel levelLabel<%=rto.object_sequence.to_i%>"><%= rto[:relation_business_object_name] %>(<%=object_index[rto.object_sequence.to_i]%>)</span>
+                    <% else %>
+                      <%= t("label_irm_report_type_object_relationship_#{rto.relationship_type}") %> <span class="levelLabel levelLabel<%=rto.object_sequence.to_i%>"><%= rto[:relation_business_object_name] %>(<%=object_index[rto.object_sequence.to_i]%>)</span>
+                    <% end %>
+                  </div>
+                <% end %>
+              </td>
+              <td>
+                <div>
+                  <img width="190" height="226" id="joinImage" title="Object Relationships" alt="" src="<%=theme_image_path("report/crt_rel_#{@report_type.relationship_image_path}.gif")  %>">
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
