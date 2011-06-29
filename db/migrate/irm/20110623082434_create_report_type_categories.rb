@@ -1,7 +1,6 @@
 class CreateReportTypeCategories < ActiveRecord::Migration
   def self.up
-    create_table "irm_report_type_categories", :force => true,:id=>false do |t|
-      t.string :id,:limit=>22,:null=>false
+    create_table "irm_report_type_categories", :force => true do |t|
       t.string :company_id,:limit=>22,:null=>false
       t.string :code,:limit=>30,null=>false
       t.string  "created_by",:limit=>22,:null=>false
@@ -9,12 +8,12 @@ class CreateReportTypeCategories < ActiveRecord::Migration
       t.datetime "created_at"
       t.datetime "updated_at"
     end
-    execute "ALTER TABLE irm_report_type_categories ADD PRIMARY KEY (id);"
+
+    change_column :irm_report_type_categories_tl, :id, :string,:limit=>22, :null => false
 
     add_index "irm_report_type_categories", "code",:unique=>true, :name => "IRM_REPORT_TYPE_CATEGORIES_U1"
 
-    create_table "irm_report_type_categories_tl", :force => true,:id=>false do |t|
-      t.string  "id",:limit=>22,:null=>false
+    create_table "irm_report_type_categories_tl", :force => true do |t|
       t.string  "report_type_category_id",:limit=>22,:null=>false
       t.string   "language",          :limit => 30,  :null => false
       t.string   "name",              :limit => 150, :null => false
@@ -27,7 +26,7 @@ class CreateReportTypeCategories < ActiveRecord::Migration
       t.datetime "updated_at"
     end
 
-    execute "ALTER TABLE irm_report_type_categories_tl ADD PRIMARY KEY (id);"
+    change_column :irm_report_type_categories_tl, :id, :string,:limit=>22, :null => false
 
     add_index "irm_report_type_categories_tl", ["report_type_category_id", "language"],:unique=>true, :name => "IRM_REPORT_TYPE_CATEGORIES_TL_U1"
 
