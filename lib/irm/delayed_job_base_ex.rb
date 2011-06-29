@@ -8,6 +8,11 @@ module Irm::DelayedJobBaseEx
 
         options[:payload_object] ||= args.shift
 
+        bo_sources = []
+        bo_params = []
+
+        bo_params = args.shift if args.size > 0 && args[0].is_a?(Array)
+
         if args.size > 0
           warn "[DEPRECATION] Passing multiple arguments to `#enqueue` is deprecated. Pass a hash with :priority and :run_at."
           options[:priority] = args.first || options[:priority]
@@ -27,7 +32,39 @@ module Irm::DelayedJobBaseEx
             delayed_job_log.attempts = job.attempts
             delayed_job_log.handler = job.handler
             delayed_job_log.run_at = job.run_at
+
+            delayed_job_log.bo_code = bo_params[0][:bo_code] if bo_params.size > 0
+            delayed_job_log.instance_id = bo_params[0][:instance_id] if bo_params.size > 0
+
             delayed_job_log.save
+
+            #追溯数据来源
+#            v_count = 0
+#
+#            log_item = Irm::DelayedJobLogItem.new()
+#            log_item.delayed_job_id = job.id
+#            log_item.content = ""
+#
+#            bo_params.each do |b|
+#              bo_code = b[:bo_code]
+#              instance_id = b[:instance_id]
+#
+#              if v_count > 0 && bo_code.is_a?(Array)
+#                bo = Irm::BusinessObject.where(:business_object_code => bo_sources[bo_code[0]][0][bo_code[1]]).first
+#                bo_source = eval(bo.bo_model_name).where(:id => instance_id).first
+#              else
+#                bo = Irm::BusinessObject.where(:business_object_code => bo_code).first
+#                bo_source = eval(bo.bo_model_name).where(:id => instance_id).first
+#              end
+#
+#              bo_sources << [bo_source, bo] if bo_source
+#              v_count = v_count + 1
+#
+#              log_item.content << bo.to_json + "||" +  bo_source.to_json + "$$"
+#
+#            end
+#            log_item.job_status = "PARAM"
+#            log_item.save if bo_params.size > 0
 
             log_item = Irm::DelayedJobLogItem.new()
             log_item.delayed_job_id = job.id

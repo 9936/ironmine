@@ -1129,6 +1129,8 @@ zh:
   #======================== wf actions====================
   label_irm_wf_action_rules: 使用此操作的工作流规则
   label_irm_wf_action_processes: 使用此操作的审批流程
+  label_irm_wf_action_name: 操作名称
+  label_irm_wf_action_type: 操作类型
   #======================== end wf actions====================
   #======================== wf field updates====================
   label_irm_wf_field_update: 字段更新
@@ -1299,4 +1301,7 @@ zh:
   label_irm_delayed_jobs_record_item_content: 日志信息
   label_irm_delayed_jobs_record_item_attempt: 尝试次数
   label_irm_delayed_jobs_record_item_record_at: 记录时间
+
+  label_irm_delayed_job_icm_group_assign_monitor: 事故单组指派作业
+  label_irm_delayed_job_ir_rule_process_monitor: 事故单工作流作业
   #======================= end delayed_jobs step ====================

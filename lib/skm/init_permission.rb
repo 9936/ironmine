@@ -29,7 +29,7 @@ Irm::AccessControl.map do |map|
                                    "icm/incident_journals" => ["get_entry_header_data", "apply_entry_header"],
                                    "skm/entry_templates" => ["get_owned_elements_data"],
                                    "skm/file_managements" => ["index", "new", "create", "batch_create", "edit", "update", "show",
-                                                              "get_data", "destroy", "get_version_files", "remove_version_file"]}
+                                                              "get_data", "destroy", "get_version_files"]}
   map.function :create_skm_entries, {"skm/entry_headers" => ["new", "create", "new_step_1", "new_step_2", "new_step_3", "new_step_4", "new_from_icm_request"]}
   map.function :edit_skm_entries, {"skm/entry_headers" => ["edit", "update"]}
 

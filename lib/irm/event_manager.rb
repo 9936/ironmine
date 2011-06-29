@@ -8,7 +8,7 @@ class Irm::EventManager
       event = Irm::Event.create(:bo_code=>bo.business_object_code,:business_object_id=>bo_model_id,:event_code=>"WORKFLOW_EVENT",:event_type=>event_type)
       timestamp = Time.now
       timestamp = 1.minutes.from_now  if "UPDATE".eql?(event_type)
-      Delayed::Job.enqueue(Irm::Jobs::RuleProcessJob.new(event.id),0,timestamp)
+      Delayed::Job.enqueue(Irm::Jobs::RuleProcessJob.new(event.id),[{:bo_code => "IRM_EVENTS", :instance_id => event.id}], 0,timestamp)
     end
 
     def publish(event_options)

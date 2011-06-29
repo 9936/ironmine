@@ -688,8 +688,15 @@ Ironmine::Application.routes.draw do
     match '/delayed_jobs(/index)(.:format)' => "delayed_jobs#index", :via => :get
     match '/delayed_jobs/:delayed_job_id/item_list(.:format)' => "delayed_jobs#item_list", :via => [:get,:post]
     match '/delayed_jobs/:delayed_job_id/item_view(.:format)' => "delayed_jobs#item_view", :via => [:get,:post]
+    match '/delayed_jobs/action_process_monitor' => "delayed_job#action_process_monitor"
     match '/delayed_jobs/get_data(.:format)' => "delayed_jobs#get_data"
     match '/delayed_jobs/get_item_data(.:format)' => "delayed_jobs#get_item_data"
+    match '/delayed_jobs/wf_process_job_monitor(.:format)' => "delayed_jobs#wf_process_job_monitor", :via => [:get, :post]
+    match '/delayed_jobs/icm_group_assign_monitor(.:format)' => "delayed_jobs#icm_group_assign_monitor", :via => [:get, :post]
+    match '/delayed_jobs/ir_rule_process_monitor(.:format)' => "delayed_jobs#ir_rule_process_monitor", :via => [:get, :post]
+
+    match '/monitor_ir_rule_processes/index(.:format)' => "monitor_ir_rule_processes#index", :via => :get
+    match '/monitor_icm_group_assigns/index(.:format)' => "monitor_icm_group_assigns#index", :via => :get
   end
 
   scope :module => "icm" do

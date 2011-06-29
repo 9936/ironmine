@@ -52,11 +52,9 @@ Irm::AccessControl.map do |map|
   #===================icm/group_assignments============================
   #["index", "edit", "update", "new", "create", "get_data", "destroy", "get_customer_departments", "get_customer_sites", "get_customer_site_groups", "get_customer_people", "get_customer_organizations"]
   map.function :view_group_assignments,{"icm/group_assignments"=>["index", "get_data"]}
-  map.function :create_group_assignments,{"icm/group_assignments"=>["new", "create", "get_customer_departments",
-                                                                    "get_customer_people", "get_customer_organizations"],
+  map.function :create_group_assignments,{"icm/group_assignments"=>["new", "create"],
                                           "icm/incident_requests" => ["get_all_slm_services"]}
-  map.function :edit_group_assignments,{"icm/group_assignments"=>["edit", "update", "get_customer_departments",
-                                                                  "get_customer_people", "get_customer_organizations", "get_all_slm_services"],
+  map.function :edit_group_assignments,{"icm/group_assignments"=>["edit", "update"],
                                           "icm/incident_requests" => ["get_all_slm_services"]}
 
   #===================icm/incident_phases============================
