@@ -9,7 +9,7 @@ class CreateReportTypeCategories < ActiveRecord::Migration
       t.datetime "updated_at"
     end
 
-    change_column :irm_report_type_categories_tl, :id, :string,:limit=>22, :null => false
+    change_column :irm_report_type_categories, :id, :string,:limit=>22, :null => false
 
     add_index "irm_report_type_categories", "code",:unique=>true, :name => "IRM_REPORT_TYPE_CATEGORIES_U1"
 
