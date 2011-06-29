@@ -40,6 +40,7 @@ class Irm::ObjectAttributesController < ApplicationController
   # GET /object_attributes/1/edit
   def edit
     @object_attribute = Irm::ObjectAttribute.multilingual.find(params[:id])
+    @object_attribute.attributes = params[:irm_object_attribute] if request.put?&&params[:irm_object_attribute]
   end
 
   # POST /object_attributes
@@ -75,6 +76,11 @@ class Irm::ObjectAttributesController < ApplicationController
     end
   end
 
+
+  def change_type
+    @object_attribute = Irm::ObjectAttribute.multilingual.find(params[:id])
+  end
+
   # DELETE /object_attributes/1
   # DELETE /object_attributes/1.xml
   def destroy
@@ -106,7 +112,25 @@ class Irm::ObjectAttributesController < ApplicationController
   end
 
   def get_data
-    object_attributes_scope = Irm::ObjectAttribute.with_attribute_type(I18n.locale).with_relation_bo(I18n.locale).multilingual.query_by_business_object_code(@business_object.business_object_code).order(:attribute_name)
+    object_attributes_scope = Irm::ObjectAttribute.custom_field.with_attribute_type(I18n.locale).with_relation_bo(I18n.locale).multilingual.query_by_business_object_code(@business_object.business_object_code).order(:attribute_name)
+    object_attributes_scope = object_attributes_scope.match_value("#{Irm::ObjectAttributesTl.table_name}.name",params[:name])
+    object_attributes_scope = object_attributes_scope.match_value("#{Irm::ObjectAttribute.table_name}.attribute_name",params[:attribute_name])
+    object_attributes,count = paginate(object_attributes_scope)
+    respond_to do |format|
+      format.json {render :json=>to_jsonp(object_attributes.to_grid_json([:name,
+                                                                          :approval_page_field_flag,:filter_flag,
+                                                                          :attribute_name,
+                                                                          :attribute_type_name,
+                                                                          :relation_bo_name,
+                                                                          :relation_column,
+                                                                          :data_length,:data_type,
+                                                                          :relation_table_alias_name],count))}
+    end
+  end
+
+
+  def get_standard_data
+    object_attributes_scope = Irm::ObjectAttribute.standard_field.with_attribute_type(I18n.locale).with_relation_bo(I18n.locale).multilingual.query_by_business_object_code(@business_object.business_object_code).order(:attribute_name)
     object_attributes_scope = object_attributes_scope.match_value("#{Irm::ObjectAttributesTl.table_name}.name",params[:name])
     object_attributes_scope = object_attributes_scope.match_value("#{Irm::ObjectAttribute.table_name}.attribute_name",params[:attribute_name])
     object_attributes,count = paginate(object_attributes_scope)

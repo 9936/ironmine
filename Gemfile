@@ -28,6 +28,8 @@ gem 'ri_cal'
 
 gem 'hz2py'
 
+gem 'uuid'
+
 #gem 'composite_primary_keys', '=3.1.0'
 #gem "rmmseg"
 

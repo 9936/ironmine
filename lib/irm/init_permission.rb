@@ -197,12 +197,12 @@ Irm::AccessControl.map do |map|
   #===================irm/object_attributes============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "destroy", "multilingual_edit", "multilingual_update", "relation_columns", "selectable_columns"]
   map.function :view_business_objects,{"irm/business_objects"=>["index", "show", "get_data"],
-                                       "irm/object_attributes"=>["index", "show", "get_data"]}
+                                       "irm/object_attributes"=>["index", "show", "get_data","get_standard_data"]}
   map.function :create_business_objects,{"irm/business_objects"=>["new", "create"],
                                          "irm/object_attributes"=>["new", "create", "selectable_columns", "relation_columns"]}
   map.function :edit_business_objects,{"irm/business_objects"=>["edit", "update", "multilingual_edit", "multilingual_update"],
                                        "irm/object_attributes"=>["edit", "update", "multilingual_edit", "multilingual_update",
-                                                                 "selectable_columns", "relation_columns"]}
+                                                                 "selectable_columns", "relation_columns","change_type"]}
 
   #===================irm/list_of_values============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "multilingual_edit", "multilingual_update", "execute_test", "get_lov_data"]

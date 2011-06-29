@@ -21,7 +21,10 @@
                 <tbody>
                   <tr>
                     <td class="labelCol"><label for="object_attribute_attribute_type"><%=t(:label_irm_object_attribute_name)%></label></td>
-                    <td class="dataCol"><%=f.text_field :name, {:required=>true,:id=>"name"}%></td>
+                    <td class="dataCol">
+                      <%=f.text_field :name, {:required=>true,:id=>"name"}%>
+                      <%= f.hidden_field(:field_type,:value=>"CUSTOMED_FIELD") %>
+                    </td>
                     <td class="labelCol"><label for="object_attribute_attribute_type"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
                     <td class="dataCol"><%=f.text_field :attribute_name, {:required=>true}%></td>
                   </tr>

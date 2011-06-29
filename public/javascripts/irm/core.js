@@ -21,6 +21,9 @@ YUI.add('irm', function(Y) {
     // {tbody, tr, td, classnames, headers, rowindex, record, column, data, value}
     Y.irm.template = function(o){
        var templateNode = this._parentNode.one("#"+o.column.get("key"));
+       if(!templateNode){
+         templateNode = this._parentNode.one("."+o.column.get("key"));
+       }
        if(templateNode){
          return Y.Lang.substitute(unescape(templateNode.get('innerHTML')),o.data);
        }
@@ -30,6 +33,9 @@ YUI.add('irm', function(Y) {
     };
     Y.irm.stemplate = function(o){
        var templateNode = this._parentNode.one("#"+o.column.get("key"));
+       if(!templateNode){
+         templateNode = this._parentNode.one("."+o.column.get("key"));
+       }
        if(templateNode){
          scriptString =  Y.Lang.substitute(unescape(templateNode.get('innerHTML')),o.data);
          return eval(scriptString)
