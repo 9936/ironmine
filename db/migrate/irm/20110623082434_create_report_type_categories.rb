@@ -2,7 +2,7 @@ class CreateReportTypeCategories < ActiveRecord::Migration
   def self.up
     create_table "irm_report_type_categories", :force => true do |t|
       t.string :company_id,:limit=>22,:null=>false
-      t.string :code,:limit=>30,null=>false
+      t.string :code,:limit=>30,:null=>false
       t.string  "created_by",:limit=>22,:null=>false
       t.string  "updated_by",:limit=>22,:null=>false
       t.datetime "created_at"
