@@ -1308,4 +1308,5 @@ zh:
 
   label_irm_delayed_job_icm_group_assign_monitor: 事故单组指派作业
   label_irm_delayed_job_ir_rule_process_monitor: 事故单工作流作业
+  label_action_item_list: 详细记录
   #======================= end delayed_jobs step ====================

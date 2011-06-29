@@ -1178,4 +1178,6 @@ en:
 
   label_irm_delayed_job_icm_group_assign_monitor: IR Group Assignment Job
   label_irm_delayed_job_ir_rule_process_monitor: IR Rule Process Job
+
+  label_action_item_list: Delayed Job Items List
   #======================= end delayed_jobs step ====================

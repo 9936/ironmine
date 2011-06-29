@@ -309,4 +309,5 @@ Irm::AccessControl.map do |map|
 #=================== job monitors ============================
   map.function :icm_group_assign_monitor,{"irm/monitor_icm_group_assigns"=>["index"]}
   map.function :ir_rule_process_monitor,{"irm/monitor_ir_rule_processes"=>["index"]}
+  map.function :delayed_job_logs,{"irm/delayed_jobs"=>["index"]}
 end
