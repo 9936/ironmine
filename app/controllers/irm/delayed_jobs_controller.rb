@@ -24,4 +24,16 @@ class Irm::DelayedJobsController < ApplicationController
       format.json {render :json=>to_jsonp(@item.to_grid_json([:created_at, :content, :id, :job_status, :job_status_name], count))}
     end
   end
+
+  def wf_process_job_monitor
+    @monitor = Irm::DelayedJobLog.wf_process_job_monitor
+  end
+
+  def icm_group_assign_monitor
+    @monitor = Irm::DelayedJobLog.icm_group_assign_monitor
+  end
+
+  def ir_rule_process_monitor
+    @monitor = Irm::DelayedJobLog.ir_rule_process_monitor
+  end
 end

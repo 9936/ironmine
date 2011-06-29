@@ -1031,6 +1031,8 @@ en:
   label_irm_formula_function_syntax_miss_parameter: Please fill formula textarea
   label_irm_formula_function_syntax_return_value: The syntax of formula is right,return value is
   #======================== end wf field updates====================
+  label_irm_wf_action_name: Action Name
+  label_irm_wf_action_type: Action Type
   #======================== wf mail alert====================
   label_irm_wf_mail_alert: 邮件警告
   label_irm_wf_mail_alert_list: 邮件警告列表
@@ -1173,4 +1175,9 @@ en:
   label_irm_delayed_jobs_record_item_content: Log content
   label_irm_delayed_jobs_record_item_attempt: Attempt
   label_irm_delayed_jobs_record_item_record_at: Record at
+
+  label_irm_delayed_job_icm_group_assign_monitor: IR Group Assignment Job
+  label_irm_delayed_job_ir_rule_process_monitor: IR Rule Process Job
+
+  label_action_item_list: Delayed Job Items List
   #======================= end delayed_jobs step ====================

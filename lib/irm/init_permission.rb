@@ -221,8 +221,8 @@ Irm::AccessControl.map do |map|
 
   #====================irm/bulletins ==================================
   map.function :view_bulletins, {"irm/bulletins" => ["index", "show", "get_data"]}
-  map.function :new_bulletins, {"irm/bulletins" => ["new", "create", "get_ava_departments", "get_ava_organizations"]}
-  map.function :edit_bulletins, {"irm/bulletins" => ["edit", "update", "get_ava_departments", "get_ava_organizations"]}
+  map.function :new_bulletins, {"irm/bulletins" => ["new", "create"]}
+  map.function :edit_bulletins, {"irm/bulletins" => ["edit", "update"]}
 
   #====================irm/watchers ========================================
   map.function :view_watchers, {}
@@ -306,4 +306,8 @@ Irm::AccessControl.map do |map|
   map.function :wf_process_approval,{"irm/wf_step_instances"=>["show", "reassign", "submit", "save_reassign"],
                                      "irm/wf_process_instances"=>["submit", "recall"]}
 
+#=================== job monitors ============================
+  map.function :icm_group_assign_monitor,{"irm/monitor_icm_group_assigns"=>["index"]}
+  map.function :ir_rule_process_monitor,{"irm/monitor_ir_rule_processes"=>["index"]}
+  map.function :delayed_job_logs,{"irm/delayed_jobs"=>["index"]}
 end
