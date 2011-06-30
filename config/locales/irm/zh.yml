@@ -120,6 +120,8 @@ zh:
   input_keyword_you_want_to_search: 请输入你要搜索的关键词
   display_all: 全部显示
   upload_from_clipboard: 从剪贴板上传图片
+  created_by: 创建人
+  created_at: 创建时间
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型
@@ -1315,3 +1317,35 @@ zh:
   label_irm_delayed_job_wf_approval_mail_monitor: 审批邮件发送作业
   label_action_item_list: 详细记录
   #======================= end delayed_jobs step ====================
+  #======================= report_type_category  ====================
+  label_irm_report_type_category_list: 报表类别列表
+  label_irm_report_type_category: 报表类别
+  label_irm_report_type_category_code: 编码
+  label_irm_report_type_category_name: 名称
+  label_irm_report_type_category_description: 描述
+  label_irm_report_type_category_new: 新建邮件警告
+  label_irm_report_type_category_edit: 编辑邮件警告
+  #======================= end report_type_category  ====================
+  #======================= report_type  ====================
+  label_irm_report_type: 报表类型
+  label_irm_report_type_list: 报表类型列表
+  label_irm_report_type_new: 新建报表类型
+  label_irm_report_type_edit: 编辑报表类型
+  label_irm_report_type_define: 定义报表类型
+  label_irm_report_type_business_object_select: 选择主业务对像
+  label_irm_report_type_business_object: 主业务对像
+  label_irm_report_type_code: 编码
+  label_irm_report_type_name: 名称
+  label_irm_report_type_description: 描述
+  label_irm_report_type_category: 类别
+  label_irm_report_type_define_record_sets: 定义报表记录集
+  label_irm_report_type_object_relationship: 对像关系
+  label_irm_report_type_click_to_relate_to_other_bo: (点击以相关另一个对象）
+  label_irm_report_type_relate_to: %{master}到 %{detail} 关系
+  label_irm_report_type_relate_inner: 每个 %{master} 记录必须至少有一个相关 %{detail} 记录.
+  label_irm_report_type_relate_outer: %{master} 记录可能有或没有相关 %{detail} 记录.
+  label_irm_report_type_relate_no_detail: 选择的对象没有可以进一步关联的对象。
+  label_irm_report_type_relate_limit: 您最多可以将四个对象关联到自定义报表类型
+  label_irm_report_type_object_relationship_inner: 具有至少一个相关记录
+  label_irm_report_type_object_relationship_outer: 具有或没有相关记录
+  #=======================end report_type  ====================

@@ -1,0 +1,11 @@
+<script type="text/javascript" src="/javascripts/ext4-all.js"></script>
+<%= page_title %>
+<%= render "new_step_#{@report_type.step}"%>
+<script type="text/javascript">
+    Ext.select("form.new_irm_report_type").on("click",function(e){
+      e.preventDefault();
+      Ext.get(this).set({"action":Ext.get(e.target).getAttribute("href")});
+      this.submit();
+    },null,{delegate:"a.submit"})
+
+</script>
