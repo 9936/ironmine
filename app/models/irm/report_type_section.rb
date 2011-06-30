@@ -10,6 +10,7 @@ class Irm::ReportTypeSection < ActiveRecord::Base
       bo = Irm::BusinessObject.multilingual.find(bid)
       section = self.create(:report_type_id=>report_type_id,:name=>bo[:name],:section_sequence=>index)
       bo.object_attributes.each do |oa|
+        next if oa.attribute_type.eql?("MODEL_COLUMN")
         section.report_type_fields.create(:section_id=>section.id,:object_attribute_id=>oa.id,:default_selection_flag=>"N")
       end
     end

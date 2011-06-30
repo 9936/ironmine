@@ -1343,4 +1343,8 @@ zh:
   label_irm_report_type_relate_limit: 您最多可以将四个对象关联到自定义报表类型
   label_irm_report_type_object_relationship_inner: 具有至少一个相关记录
   label_irm_report_type_object_relationship_outer: 具有或没有相关记录
+  label_irm_report_type_usable_fields: 报表可用字段
+  label_irm_report_type_edit_section_layout: 编辑布局
+  label_irm_report_type_usable_field_source: 字段来源
+  label_irm_report_type_usable_count: 选取的字段
   #=======================end report_type  ====================
