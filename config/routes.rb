@@ -697,8 +697,9 @@ Ironmine::Application.routes.draw do
     match '/delayed_jobs/icm_group_assign_monitor(.:format)' => "delayed_jobs#icm_group_assign_monitor", :via => [:get, :post]
     match '/delayed_jobs/ir_rule_process_monitor(.:format)' => "delayed_jobs#ir_rule_process_monitor", :via => [:get, :post]
 
-    match '/monitor_ir_rule_processes/index(.:format)' => "monitor_ir_rule_processes#index", :via => :get
-    match '/monitor_icm_group_assigns/index(.:format)' => "monitor_icm_group_assigns#index", :via => :get
+    match '/monitor_ir_rule_processes(/index)(.:format)' => "monitor_ir_rule_processes#index", :via => :get
+    match '/monitor_icm_group_assigns(/index)(.:format)' => "monitor_icm_group_assigns#index", :via => :get
+    match '/monitor_approval_mails(/index)(.:format)' => "monitor_approval_mails#index", :via => :get
   end
 
   scope :module => "icm" do

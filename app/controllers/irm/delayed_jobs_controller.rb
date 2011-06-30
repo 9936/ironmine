@@ -36,4 +36,8 @@ class Irm::DelayedJobsController < ApplicationController
   def ir_rule_process_monitor
     @monitor = Irm::DelayedJobLog.ir_rule_process_monitor
   end
+
+  def approval_mail_monitor
+    @monitor = Irm::DelayedJobLog.wf_approval_mail_monitor
+  end
 end

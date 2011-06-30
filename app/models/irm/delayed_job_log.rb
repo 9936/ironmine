@@ -23,6 +23,10 @@ class Irm::DelayedJobLog < ActiveRecord::Base
     select("'' action_type, '' action_name, '' action_id")
   }
 
+  scope :with_approval_process, lambda{
+    select("'' approval_process_name, '' bo_name, '' bo_description, '' approval_step_name, '' approver")
+  }
+
   def self.list_all
     select_all.with_job_status.order("created_at DESC")
   end
@@ -88,7 +92,42 @@ class Irm::DelayedJobLog < ActiveRecord::Base
       rescue
         next
       end
+    end
+    ret_logs_new
+  end
 
+  def self.wf_approval_mail_monitor
+    monitor = Irm::DelayedJobLog.
+        select_all.
+        with_approval_process.
+        with_job_status.
+        order("#{Irm::DelayedJobLog.table_name}.created_at DESC")
+    monitor_group = monitor.group_by{|t| YAML.load(t.handler).class.to_s}
+    ret_logs = []
+    monitor_group.each do |handler, logs|
+      if handler == "Irm::Jobs::ApprovalMailJob"
+        ret_logs = logs
+        break
+      end
+    end
+    ret_logs_new = []
+    ret_logs.each do |t|
+#      begin
+        step_instance = Irm::WfStepInstance.where(:id => YAML.load(t.handler).step_instance_id).first
+        approval_step = Irm::WfApprovalStep.where(:id => step_instance.step_id).first
+        process_instance = Irm::WfProcessInstance.where(:id => step_instance.process_instance_id).first
+        approval_process = Irm::WfApprovalProcess.where(:id => process_instance.process_id).first
+        business_object = Irm::BusinessObject.multilingual.where("#{Irm::BusinessObject.table_name}.business_object_code = ?", approval_process.bo_code).first
+
+        t.approval_process_name = approval_process.name
+        t.bo_description = process_instance.bo_description
+        t.approval_step_name = approval_step.name
+        t.bo_name = business_object[:name]
+
+        ret_logs_new << t
+#      rescue
+#        next
+#      end
     end
     ret_logs_new
   end
