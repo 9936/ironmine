@@ -14,13 +14,13 @@
       </div>
       <div class="pbBody">
         <div id="action_rules" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
+          <div id="id"  class="id" style="display:none">
             <%= link_to(t(:show),{:controller => "irm/wf_rules", :action => "show",:id=>"{id}"}) %>
           </div>
-          <div id="name" style="display:none">
+          <div id="name" class="name" style="display:none">
             <%= link_to("{name}",{:controller => "irm/wf_rules", :action => "show",:id=>"{id}"}) %>
           </div>
-          <div id="status_code" style="display:none">
+          <div id="status_code" class="status_code" style="display:none">
             <%= check_img("{status_code}") %>
           </div>
         </div>
@@ -59,13 +59,13 @@
       </div>
       <div class="pbBody">
         <div id="action_process" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
+          <div id="id" class="id" style="display:none">
             <%= link_to(t(:show),{:controller => "irm/wf_approval_processes", :action => "show",:id=>"{id}"}) %>
           </div>
-          <div id="name" style="display:none">
+          <div id="name" class="name" style="display:none">
             <%= link_to("{name}",{:controller => "irm/wf_approval_processes", :action => "show",:id=>"{id}"}) %>
           </div>
-          <div id="status_code" style="display:none">
+          <div id="status_code" class="status_code" style="display:none">
             <%= check_img("{status_code}") %>
           </div>
         </div>
