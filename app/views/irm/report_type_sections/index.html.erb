@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/ext4-all.css"></link>
 
 <%= page_title %>
-<%= form_for(@report_type,:url=>{:action=>"update"},:html=>{:id=>"editFields"},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@report_type,:url=>{:action=>"update",:format=>:js},:html=>{:id=>"editFields"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:relationship_str,:id=>"relationship_str",:value=>@report_type.relationship_str||@report_type.relationship_to_s) %>
 <div id="ep" class="bEditBlock bPageBlock">
   <div class="pbHeader">
