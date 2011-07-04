@@ -38,6 +38,9 @@ class Irm::ReportTypeSectionsController < ApplicationController
     end
     # delete unusable section
     Irm::ReportTypeSection.where(:report_type_id=>@report_type.id).where("id NOT IN (?)",["#"]+exists_section_ids).each{|i| i.destroy}
+    respond_to do |format|
+      format.js {render :json=>{:status=>:ok}.to_json}
+    end
   end
 
 
