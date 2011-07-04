@@ -1,15 +1,5 @@
 Ironmine::Application.routes.draw do
 
-  get "report_type_sections/index"
-
-  get "report_type_sections/new"
-
-  get "report_type_sections/create"
-
-  get "report_type_sections/edit"
-
-  get "report_type_sections/update"
-
   get "delayed/index"
 
   scope :module => "irm" do
@@ -736,7 +726,9 @@ Ironmine::Application.routes.draw do
     match '/report_types/:id/multilingual_update(.:format)' => "report_types#multilingual_update", :via => :put
     # report type sections
     match '/report_type_sections/:report_type_id(/index)(.:format)' => "report_type_sections#index", :via => :get
-
+    match '/report_type_sections/:report_type_id/update(.:format)' => "report_type_sections#update", :via => :post
+    match '/report_type_sections/:report_type_id/field_source(.:format)' => "report_type_sections#field_source", :via => :get
+    match '/report_type_sections/:report_type_id/section_field(.:format)' => "report_type_sections#section_field", :via => :get
   end
 
   scope :module => "icm" do

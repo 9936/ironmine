@@ -2,7 +2,7 @@ class Irm::ReportTypeSection < ActiveRecord::Base
   set_table_name :irm_report_type_sections
 
   belongs_to :report_type
-  has_many :report_type_fields
+  has_many :report_type_fields,:foreign_key => "section_id" , :dependent => :destroy
 
 
   def self.init_fields(bo_ids,report_type_id)

@@ -1,7 +1,7 @@
 class Irm::ReportTypeField < ActiveRecord::Base
   set_table_name :irm_report_type_fields
 
-  belongs_to :report_type_section,:primary_key => "section_id"
+  belongs_to :report_type_section
 
   scope :with_business_attribute,lambda{
     joins("JOIN #{Irm::ObjectAttribute.table_name} ON #{Irm::ObjectAttribute.table_name}.id = #{table_name}.object_attribute_id").
@@ -21,6 +21,8 @@ class Irm::ReportTypeField < ActiveRecord::Base
     joins("JOIN #{Irm::BusinessObject.view_name} ON #{Irm::ObjectAttribute.view_name}.business_object_code = #{Irm::BusinessObject.view_name}.business_object_code AND #{Irm::BusinessObject.view_name}.language='#{language}'").
     select("#{Irm::BusinessObject.view_name}.id business_object_id,#{Irm::BusinessObject.view_name}.name business_object_name,#{Irm::ObjectAttribute.view_name}.name object_attribute_name")
   }
+
+  scope :select_all,lambda{select("#{table_name}.*")}
 
   def self.delete_not_allowed(bo_ids,report_type_id)
     self.with_business_attribute.not_in_bo_ids(bo_ids).query_by_report_type(report_type_id).each do |f|

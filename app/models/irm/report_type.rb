@@ -9,7 +9,7 @@ class Irm::ReportType < ActiveRecord::Base
 
 
   has_many :report_type_objects,:order=>"object_sequence"
-  has_many :report_type_sections
+  has_many :report_type_sections,:order=>"section_sequence"
 
   query_extend
 

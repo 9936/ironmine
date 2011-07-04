@@ -1348,3 +1348,12 @@ zh:
   label_irm_report_type_usable_field_source: 字段来源
   label_irm_report_type_usable_count: 选取的字段
   #=======================end report_type  ====================
+  #======================= report_type  ====================
+  label_irm_report_type_define_field_and_section: 定义报表分区及字段
+  rename: 修改名称
+  label_irm_report_type_section_name: 名称
+  label_irm_report_type_field_default_selection_flag: 默认选择
+  label_irm_report_type_field_business_object: 业务对像
+  label_irm_report_type_field_selectable_attribute: 报表可用字段
+  label_irm_report_type_usable_field_and_section: 报表分区及字段
+  #=======================end report_type  ====================
