@@ -992,6 +992,7 @@ zh:
   label_business_object_list: 业务对像
   label_irm_business_object_business_object_code: 编码
   label_irm_business_object_name: 名称
+  label_irm_business_object_name_full: 业务对象名称
   label_irm_business_object_bo_table_name: 表名
   label_irm_business_object_bo_model_name: Model名称
   label_irm_business_object_auto_generate_flag: 自动生成
@@ -999,6 +1000,7 @@ zh:
   label_irm_business_object_new: 复制业务对像
   label_irm_business_object_edit: 编辑业务对像
   label_irm_business_object_description: 描述
+  label_irm_business_object_description_full: 业务对象描述
   label_irm_business_object_workflow_flag: 启用工作流
   #======================== business objects====================
   #======================== object attributes====================
@@ -1185,6 +1187,7 @@ zh:
   #======================== wf approval process====================
   label_irm_wf_approval_process_info: 审批流程信息
   label_irm_wf_approval_process_name: 名称
+  label_irm_wf_approval_process_name_full: 审批流程名称
   label_irm_wf_approval_process_process_order: 过程顺序
   label_irm_wf_approval_process_process_code: 编码
   label_irm_wf_approval_process_mail_template: 审批通知邮件模板
@@ -1228,6 +1231,7 @@ zh:
   label_irm_wf_approval_step_new: 创建审批步骤
   label_irm_wf_approval_step_process: 审批流程
   label_irm_wf_approval_step_name: 名称
+  label_irm_wf_approval_step_name_full: 审批步骤名称
   label_irm_wf_approval_step_step_code: 编码
   label_irm_wf_approval_step_description: 描述
   label_irm_wf_approval_step_step_number: 步骤编号
@@ -1310,6 +1314,7 @@ zh:
 
   label_irm_delayed_job_icm_group_assign_monitor: 事故单组指派作业
   label_irm_delayed_job_ir_rule_process_monitor: 事故单工作流作业
+  label_irm_delayed_job_wf_approval_mail_monitor: 审批邮件发送作业
   label_action_item_list: 详细记录
   #======================= end delayed_jobs step ====================
   #======================= report_type_category  ====================

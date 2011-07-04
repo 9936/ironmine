@@ -867,6 +867,7 @@ en:
   label_business_object_list: Business Object
   label_irm_business_object_business_object_code: Code
   label_irm_business_object_name: Name
+  label_irm_business_object_name_full: BO Name
   label_irm_business_object_bo_table_name: Table Name
   label_irm_business_object_bo_model_name: Model Name
   label_irm_business_object_auto_generate_flag: Auto Generate
@@ -874,6 +875,7 @@ en:
   label_irm_business_object_new: Copy Business Object
   label_irm_business_object_new: Copy Business Object
   label_irm_business_object_description: Description
+  label_irm_business_object_description_full: BO Description
   label_irm_business_object_workflow_flag: Workflow
   #======================== end business objects====================
   #======================== object attributes====================
@@ -1056,6 +1058,7 @@ en:
   #======================== wf approval process====================
   label_irm_wf_approval_process_info: 审批流程信息
   label_irm_wf_approval_process_name: 名称
+  label_irm_wf_approval_process_name: 审批流程名称
   label_irm_wf_approval_process_process_order: 过程顺序
   label_irm_wf_approval_process_process_code: 编码
   label_irm_wf_approval_process_mail_template: 审批通知邮件模板
@@ -1097,6 +1100,7 @@ en:
   label_irm_wf_approval_step_new: 创建审批步骤
   label_irm_wf_approval_step_process: 审批流程
   label_irm_wf_approval_step_name: 名称
+  label_irm_wf_approval_step_name_full: 审批步骤名称
   label_irm_wf_approval_step_step_code: 编码
   label_irm_wf_approval_step_description: 描述
   label_irm_wf_approval_step_step_number: 步骤编号
@@ -1178,6 +1182,6 @@ en:
 
   label_irm_delayed_job_icm_group_assign_monitor: IR Group Assignment Job
   label_irm_delayed_job_ir_rule_process_monitor: IR Rule Process Job
-
+  label_irm_delayed_job_wf_approval_mail_monitor: Approval Mail Job
   label_action_item_list: Delayed Job Items List
   #======================= end delayed_jobs step ====================

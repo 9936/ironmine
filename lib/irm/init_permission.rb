@@ -3,7 +3,7 @@ Irm::AccessControl.map do |map|
   # 主页
   map.function :home_page,{"irm/home"=>[:index], "irm/calendars" => ["get_full_calendar"]}
   map.function :view_report_lists,{"irm/report_lists"=>["index","get_data"]}
-  map.function :public_function,{"irm/common"=>[:login, :forgot_password], "irm/navigations" => ["access_deny", "combo"], "irm/attach_screenshot" => ["index"]}
+  map.function :public_function,{"irm/demo" => [:index], "irm/common"=>[:login, :forgot_password], "irm/navigations" => ["access_deny", "combo"], "irm/attach_screenshot" => ["index"]}
   map.function :login_function,{ "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_role", "index"],
@@ -306,10 +306,12 @@ Irm::AccessControl.map do |map|
   map.function :wf_process_approval,{"irm/wf_step_instances"=>["show", "reassign", "submit", "save_reassign"],
                                      "irm/wf_process_instances"=>["submit", "recall"]}
 
-#=================== job monitors ============================
+  #=================== job monitors ============================
   map.function :icm_group_assign_monitor,{"irm/monitor_icm_group_assigns"=>["index"]}
   map.function :ir_rule_process_monitor,{"irm/monitor_ir_rule_processes"=>["index"]}
   map.function :delayed_job_logs,{"irm/delayed_jobs"=>["index"]}
+  map.function :approval_mail_monitor,{"irm/monitor_approval_mails"=>["index"]}
+
 
   #===================irm/report_type_categories============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]

@@ -698,8 +698,9 @@ Ironmine::Application.routes.draw do
     match '/delayed_jobs/icm_group_assign_monitor(.:format)' => "delayed_jobs#icm_group_assign_monitor", :via => [:get, :post]
     match '/delayed_jobs/ir_rule_process_monitor(.:format)' => "delayed_jobs#ir_rule_process_monitor", :via => [:get, :post]
 
-    match '/monitor_ir_rule_processes/index(.:format)' => "monitor_ir_rule_processes#index", :via => :get
-    match '/monitor_icm_group_assigns/index(.:format)' => "monitor_icm_group_assigns#index", :via => :get
+    match '/monitor_ir_rule_processes(/index)(.:format)' => "monitor_ir_rule_processes#index", :via => :get
+    match '/monitor_icm_group_assigns(/index)(.:format)' => "monitor_icm_group_assigns#index", :via => :get
+    match '/monitor_approval_mails(/index)(.:format)' => "monitor_approval_mails#index", :via => :get
 
     #report type categories
     match '/report_type_categories(/index)(.:format)' => "report_type_categories#index", :via => :get
@@ -729,6 +730,9 @@ Ironmine::Application.routes.draw do
     match '/report_type_sections/:report_type_id/update(.:format)' => "report_type_sections#update", :via => :post
     match '/report_type_sections/:report_type_id/field_source(.:format)' => "report_type_sections#field_source", :via => :get
     match '/report_type_sections/:report_type_id/section_field(.:format)' => "report_type_sections#section_field", :via => :get
+
+
+    match '/demo(/index)' => 'demo#index'
   end
 
   scope :module => "icm" do
@@ -1126,7 +1130,6 @@ Ironmine::Application.routes.draw do
     match '/service_agreements/:id/match_filter_edit(.:format)' => "service_agreements#match_filter_edit", :via => :get
     match '/service_agreements/:id/match_filter_update(.:format)' => "service_agreements#match_filter_update", :via => :put
   end
-  
-  match '/demo(/index)' => 'demo#index'
+
   themes_for_rails
 end

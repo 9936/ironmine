@@ -33,9 +33,6 @@ module Irm::DelayedJobBaseEx
             delayed_job_log.handler = job.handler
             delayed_job_log.run_at = job.run_at
 
-            delayed_job_log.bo_code = bo_params[0][:bo_code] if bo_params.size > 0
-            delayed_job_log.instance_id = bo_params[0][:instance_id] if bo_params.size > 0
-
             delayed_job_log.save
 
             #追溯数据来源

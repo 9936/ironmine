@@ -19,6 +19,10 @@
           log_item.job_status = "COMPLETE"
           log_item.save
 
+
+          delayed_job_log = Irm::DelayedJobLog.where("delayed_job_id = ?", job.id)
+          delayed_job_log.first.update_attribute(:end_at, Time.now) if delayed_job_log.any?
+
           job.destroy
 
           log_item = Irm::DelayedJobLogItem.new()
@@ -40,6 +44,12 @@
 
         failed(job)
       rescue Exception => error
+        log_item = Irm::DelayedJobLogItem.new()
+        log_item.delayed_job_id = job.id
+        log_item.content = job.last_error
+        log_item.job_status = "ERROR"
+        log_item.save
+
         handle_failed_job(job, error)
         return false  # work failed
     end
