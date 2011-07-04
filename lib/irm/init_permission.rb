@@ -3,7 +3,7 @@ Irm::AccessControl.map do |map|
   # 主页
   map.function :home_page,{"irm/home"=>[:index], "irm/calendars" => ["get_full_calendar"]}
   map.function :view_report_lists,{"irm/report_lists"=>["index","get_data"]}
-  map.function :public_function,{"irm/common"=>[:login, :forgot_password], "irm/navigations" => ["access_deny", "combo"], "irm/attach_screenshot" => ["index"]}
+  map.function :public_function,{"irm/demo" => [:index], "irm/common"=>[:login, :forgot_password], "irm/navigations" => ["access_deny", "combo"], "irm/attach_screenshot" => ["index"]}
   map.function :login_function,{ "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_role", "index"],

@@ -725,6 +725,9 @@ Ironmine::Application.routes.draw do
     match '/report_types/:id(.:format)' => "report_types#show", :via => :get
     match '/report_types/:id/multilingual_edit(.:format)' => "report_types#multilingual_edit", :via => :get
     match '/report_types/:id/multilingual_update(.:format)' => "report_types#multilingual_update", :via => :put
+
+
+    match '/demo(/index)' => 'demo#index'
   end
 
   scope :module => "icm" do
@@ -1122,7 +1125,6 @@ Ironmine::Application.routes.draw do
     match '/service_agreements/:id/match_filter_edit(.:format)' => "service_agreements#match_filter_edit", :via => :get
     match '/service_agreements/:id/match_filter_update(.:format)' => "service_agreements#match_filter_update", :via => :put
   end
-  
-  match '/demo(/index)' => 'demo#index'
+
   themes_for_rails
 end
