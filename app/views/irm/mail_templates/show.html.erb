@@ -19,10 +19,6 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=t(:label_irm_mail_template_entity_code)%></label></td>
-              <td class="data2Col"><%=@mail_template[:context_name]%></td>
-            </tr>
-            <tr>
               <td class="labelCol"><label><%=t(:label_irm_mail_template_template_code)%></label></td>
               <td class="data2Col"><%=@mail_template[:template_code]%></td>
             </tr>
@@ -39,17 +35,20 @@
               <td class="data2Col"><%=@mail_template[:subject]%></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=t(:label_irm_mail_template_from)%></label></td>
-              <td class="data2Col"><%=@mail_template.from%></td>
-            </tr>
-            <tr>
               <td class="labelCol"><label><%=t(:label_irm_mail_template_template_type)%></label></td>
               <td class="data2Col"><%=@mail_template.template_type%></td>
             </tr>
+            <% if("html".eql?(@mail_template.template_type)) %>
             <tr>
               <td class="labelCol"><label><%=t(:label_irm_mail_template_mail_body)%></label></td>
-              <td class="data2Col" colspan="3"><%= text_area_tag "mail_body", @mail_template[:mail_body], :cols => 85, :rows => 12, :disabled => true%></td>
+              <td class="data2Col" colspan="3"><%= @mail_template[:mail_body].html_safe %></td>
             </tr>
+            <% else %>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_irm_mail_template_mail_body)%></label></td>
+              <td class="data2Col" colspan="3"><pre><%= @mail_template[:mail_body] %></pre></td>
+            </tr>
+            <% end %>
         </tbody>
       </table>
     </div>
