@@ -306,9 +306,24 @@ Irm::AccessControl.map do |map|
   map.function :wf_process_approval,{"irm/wf_step_instances"=>["show", "reassign", "submit", "save_reassign"],
                                      "irm/wf_process_instances"=>["submit", "recall"]}
 
-#=================== job monitors ============================
+  #=================== job monitors ============================
   map.function :icm_group_assign_monitor,{"irm/monitor_icm_group_assigns"=>["index"]}
   map.function :ir_rule_process_monitor,{"irm/monitor_ir_rule_processes"=>["index"]}
   map.function :delayed_job_logs,{"irm/delayed_jobs"=>["index"]}
   map.function :approval_mail_monitor,{"irm/monitor_approval_mails"=>["index"]}
+
+
+  #===================irm/report_type_categories============================
+  #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
+  map.function :view_report_type_categories,{"irm/report_type_categories"=>["index", "show"]}
+  map.function :create_report_type_categories,{"irm/report_type_categories"=>["new", "create"]}
+  map.function :edit_report_type_categories,{"irm/report_type_categories"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
+  #===================irm/report_types===========================
+  #["index", "edit", "update", "edit_relation", "update_relation", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
+  #===================irm/report_type_sections============================
+  #["index", "update", "field_source", "section_field"]
+  map.function :view_report_types,{"irm/report_types"=>["index", "show"]}
+  map.function :create_report_types,{"irm/report_types"=>["new", "create"]}
+  map.function :edit_report_types,{"irm/report_types"=>["edit", "update", "edit_relation", "update_relation", "multilingual_edit", "multilingual_update"],"irm/report_type_sections"=>["index", "update", "field_source", "section_field"]}
+
 end

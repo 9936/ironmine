@@ -23,7 +23,16 @@ module Irm::ReportTypesHelper
     Irm::BusinessObject.multilingual.query_detail(bo_id).collect{|i| {:id=>i.id.to_s,:name=>i[:name],:level=>level+1}}
   end
 
-  def report_type_object_relations
-
+  def report_type_fields(report_type)
+    object_stats = []
+    objects = report_type.report_type_objects.select_all.with_bo(I18n.locale).collect{|i| [i[:relation_business_object_name],i.business_object_id]}
+    Irm::ReportTypeField.query_by_report_type(report_type.id).with_bo_object_attribute(I18n.locale).collect{|i| [i[:business_object_name],i[:business_object_id]]}.group_by{|i| [i[0],i[1]]}.each do |key,value|
+      object_stats << [key[0],key[1],value.size]
+      objects.delete_if{|i| i[1].to_s.eql?(key[1].to_s)}
+    end
+    objects.each do |o|
+      object_stats << [o[0],o[1],0]
+    end
+    object_stats
   end
 end
