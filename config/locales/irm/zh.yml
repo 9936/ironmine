@@ -1362,3 +1362,12 @@ zh:
   label_irm_report_type_field_selectable_attribute: 报表可用字段
   label_irm_report_type_usable_field_and_section: 报表分区及字段
   #=======================end report_type  ====================
+  #======================= kanbans ==================================
+  label_irm_kanban: 看板
+  label_irm_kanban_refresh_interval: 刷新间隔
+  label_irm_kanban_owned_lane: 拥有的泳道
+  label_irm_kanban_range: 看板可用范围
+  label_irm_kanban_new: 新建看板
+  label_irm_kanban_edit: 编辑看板
+  label_irm_kanban_range_desc: 只有范围中的人员可以使用该看板
+  #==================================================================

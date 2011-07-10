@@ -1185,3 +1185,12 @@ en:
   label_irm_delayed_job_wf_approval_mail_monitor: Approval Mail Job
   label_action_item_list: Delayed Job Items List
   #======================= end delayed_jobs step ====================
+  #======================= kanbans ==================================
+  label_irm_kanban: Kanban
+  label_irm_kanban_refresh_interval: Refresh Interval
+  label_irm_kanban_owned_lane: Owned Lane
+  label_irm_kanban_range: Range
+  label_irm_kanban_new: New Kanban
+  label_irm_kanban_edit: Edit Kanban
+  label_irm_kanban_range_desc: Only people within the range can use this kanban.
+  #==================================================================

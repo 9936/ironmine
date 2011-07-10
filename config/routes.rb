@@ -733,6 +733,15 @@ Ironmine::Application.routes.draw do
 
 
     match '/demo(/index)' => 'demo#index'
+
+    #kanbans
+    match '/kanbans(/index)(.:format)' => "kanbans#index", :via => :get
+    match '/kanbans/:id/show(.:format)' => "kanbans#show", :via => :get
+    match '/kanbans/get_data(.:format)' => "kanbans#get_data"
+    match '/kanbans/new(.:format)' => "kanbans#new", :via => :get
+    match '/kanbans/create(.:format)' => "kanbans#create", :via => :post
+    match '/kanbans/:id/edit(.:format)' => "kanbans#edit", :via => :get
+    match '/kanbans/:id/update(.:format)' => "kanbans#update", :via => :put
   end
 
   scope :module => "icm" do
