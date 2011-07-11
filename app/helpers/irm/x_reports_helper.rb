@@ -1,4 +1,4 @@
-module Irm::ReportsHelper
+module Irm::XReportsHelper
   def available_report_categories
     Irm::LookupValue.query_by_lookup_type("IRM_REPORT_CATEGORY").multilingual.collect{|m| [m[:meaning], m.lookup_code]}
   end

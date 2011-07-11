@@ -1,4 +1,4 @@
-class Irm::ReportGroupMembersController < ApplicationController
+class Irm::XReportGroupMembersController < ApplicationController
   # GET /report_group_memebers
   # GET /report_group_memebers.xml
   def index
@@ -26,7 +26,7 @@ class Irm::ReportGroupMembersController < ApplicationController
         @report_group_member.report_code.split(",").delete_if{|i| i.blank?}.each do |code|
           Irm::ReportGroupMember.create(:report_code=>code,:group_code=>added_group.group_code)
         end
-        format.html { redirect_to({:controller=>"irm/report_groups",:action=>"show",:id=>params[:group_id]}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller=>"x_report_groups",:action=>"show",:id=>params[:group_id]}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report_group_memeber, :status => :created, :location => @report_group_member }
       else
         @report_group_member.errors.add(:report_code,"")
@@ -44,7 +44,7 @@ class Irm::ReportGroupMembersController < ApplicationController
     @report_group_memeber.destroy
 
     respond_to do |format|
-      format.html { redirect_to({:controller=>"irm/report_groups",:action=>"show",:id=>params[:group_id]}) }
+      format.html { redirect_to({:controller=>"x_report_groups",:action=>"show",:id=>params[:group_id]}) }
       format.xml  { head :ok }
     end
   end
