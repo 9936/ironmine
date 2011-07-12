@@ -1364,10 +1364,27 @@ zh:
   #=======================end report_type  ====================
   #======================= kanbans ==================================
   label_irm_kanban: 看板
-  label_irm_kanban_refresh_interval: 刷新间隔
+  label_irm_kanban_code: 看板编码
+  label_irm_kanban_refresh_interval: 刷新间隔(秒)
   label_irm_kanban_owned_lane: 拥有的泳道
   label_irm_kanban_range: 看板可用范围
   label_irm_kanban_new: 新建看板
   label_irm_kanban_edit: 编辑看板
   label_irm_kanban_range_desc: 只有范围中的人员可以使用该看板
+  label_irm_kanban_add_lane: 添加泳道
+  #==================================================================
+  #======================= lanes ==================================
+  label_irm_lane: 泳道
+  label_irm_lane_code: 泳道编码
+  label_irm_lane_limit: 泳道上限
+  label_irm_lane_cards: 拥有的卡片
+  label_irm_lane_new: 新建泳道
+  label_irm_lane_edit: 编辑泳道
+  #==================================================================
+  #======================= cards ==================================
+  label_irm_card: 卡片
+  label_irm_card_code: 卡片编码
+  label_irm_card_background_color: 背景颜色
+  label_irm_card_font_color: 字体颜色
+  label_irm_system_flag: 系统内置
   #==================================================================

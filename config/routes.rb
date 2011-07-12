@@ -742,6 +742,28 @@ Ironmine::Application.routes.draw do
     match '/kanbans/create(.:format)' => "kanbans#create", :via => :post
     match '/kanbans/:id/edit(.:format)' => "kanbans#edit", :via => :get
     match '/kanbans/:id/update(.:format)' => "kanbans#update", :via => :put
+    match '/kanbans/:id/get_available_lanes(.:format)' => "kanbans#get_available_lanes", :via => :get
+    match '/kanbans/:id/get_owned_lanes(.:format)' => "kanbans#get_owned_lanes", :via => :get
+    match '/kanbans/:id/add_lanes(.:format)' => "kanbans#add_lanes", :via => :post
+    match '/kanbans/:id/select_lanes(.:format)' => "kanbans#select_lanes", :via => :get
+    match '/kanbans/:id/delete_lane(.:format)' => "kanbans#delete_lane", :via => :delete
+    #lanes
+    match '/lanes(/index)(.:format)' => "lanes#index", :via => :get
+    match '/lanes/:id/show(.:format)' => "lanes#show", :via => :get
+    match '/lanes/get_data(.:format)' => "lanes#get_data"
+    match '/lanes/new(.:format)' => "lanes#new", :via => :get
+    match '/lanes/create(.:format)' => "lanes#create", :via => :post
+    match '/lanes/:id/edit(.:format)' => "lanes#edit", :via => :get
+    match '/lanes/:id/update(.:format)' => "lanes#update", :via => :put
+    #cards
+    match '/cards(/index)(.:format)' => "cards#index", :via => :get
+    match '/cards/:id/show(.:format)' => "cards#show", :via => :get
+    match '/cards/get_data(.:format)' => "cards#get_data"
+    match '/cards/new(.:format)' => "cards#new", :via => :get
+    match '/cards/create(.:format)' => "cards#create", :via => :post
+    match '/cards/:id/edit(.:format)' => "cards#edit", :via => :get
+    match '/cards/:id/update(.:format)' => "cards#update", :via => :put
+
   end
 
   scope :module => "icm" do

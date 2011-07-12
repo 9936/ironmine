@@ -31,13 +31,13 @@ module Irm::KanbansHelper
   end
 
   def own_kanban_ranges(kanban_id)
-    assignment_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Person,"P"]]
-    own_assignments = Icm::GroupAssignment.where(:support_group_id => group_id, :status_code => Irm::Constant::ENABLED)
+    assignment_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"],[Irm::Person,"P"]]
+    own_assignments = Irm::KanbanRange.where(:kanban_id => kanban_id, :status_code => Irm::Constant::ENABLED)
 
     assignments = []
     own_assignments.each do |assignment|
-      assignment_type = assignment_types.detect{|i| i[0].name.eql?(assignment.source_type)}
-      assignments<<"#{assignment_type[1]}##{assignment.source_id}"
+      assignment_type = assignment_types.detect{|i| i[0].name.eql?(assignment.range_type)}
+      assignments<<"#{assignment_type[1]}##{assignment.range_id}"
     end
 
     assignments.join(",")

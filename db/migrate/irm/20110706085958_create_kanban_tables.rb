@@ -14,6 +14,8 @@ class CreateKanbanTables < ActiveRecord::Migration
       t.integer :kanban_id
       t.string :name, :limit => 150, :null => false
       t.string :description, :limit =>240
+      t.string :language, :limit => 30
+      t.string :source_lang, :limit => 30
       t.string :status_code, :limit =>30, :null => false, :default => "ENABLED"
       t.integer :created_by
       t.integer :updated_by
@@ -46,6 +48,8 @@ class CreateKanbanTables < ActiveRecord::Migration
       t.integer :lane_id
       t.string :name, :limit =>150, :null => false
       t.string :description, :limit => 240
+      t.string :language, :limit => 30
+      t.string :source_lang, :limit => 30
       t.string :status_code, :limit =>30, :null => false, :default => "ENABLED"
       t.integer :created_by
       t.integer :updated_by
@@ -75,6 +79,8 @@ class CreateKanbanTables < ActiveRecord::Migration
       t.integer :card_id
       t.string :name, :limit => 150, :null => false
       t.string :description, :limit => 240
+      t.string :language, :limit => 30
+      t.string :source_lang, :limit => 30
       t.string :status_code, :limit =>30, :null => false, :default => "ENABLED"
       t.integer :created_by
       t.integer :updated_by

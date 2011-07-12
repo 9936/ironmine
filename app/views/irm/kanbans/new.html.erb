@@ -31,6 +31,10 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
+              <td class="labelCol"><label><%=(t :label_irm_kanban_code)%></label></td>
+              <td class="data2Col"><%=f.text_field :kanban_code, :required=>true, :irm_uppercase => true%></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :name)%></label></td>
               <td class="data2Col"><%=f.text_field :name, :required=>true%></td>
             </tr>
@@ -40,7 +44,7 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_kanban_refresh_interval)%></label></td>
-              <td class="data2Col"><%=f.text_field :refresh_interval, :required=>true, :size =>5%></td>
+              <td class="data2Col"><%=f.text_field :refresh_interval, :required=>true, :size =>5, :irm_number_only => true%></td>
             </tr>
         </tbody>
       </table>
