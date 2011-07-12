@@ -1,0 +1,43 @@
+<%= page_title %>
+<% if @kanban %>
+    <%= form_tag({:action => 'add_lanes',:id => @kanban}) do%>
+        <%= hidden_field_tag "return_url", @return_url%>
+        <div class="srch">
+            <div class="pbHeader">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                    <tr>
+                      <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_select_result) %></h2></td>
+                      <td id="topButtonRow1" class="pbButton">
+                        <div class="button"><%= submit_tag t(:save)%></div>
+                        <% if !@return_url.blank? %>
+                          <div class="button"><%= link_to t(:cancel), @return_url%></div>
+                        <% else %>
+                          <div class="button"><%= link_to t(:cancel), {:action => "show",:id=>@kanban}%></div>
+                        <% end %>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="ep" class="bEditBlock bPageBlock">
+          <div class="pbBody">
+                <div id="available_lanes_list" class="datatable" style="width:100%;">
+                  <div id="id" style="display:none">
+                     <%= check_box_tag "irm_kanban_lanes[ids][]","{irm_lane_id}"%>
+                  </div>
+                </div>
+                <%= datatable("available_lanes_list",url_for(:action=>"get_available_lanes", :id=>@kanban),
+                          [{:key=>"id",:label=>t(:select_ac),:formatter=>"Y.irm.template",:width=>"20px"},
+                           {:key=>"irm_lane_id",:hidden => true},
+                           {:key=>"lane_code",:label=>t(:label_irm_lane_code),:sortable=>true, :width => "15%"},
+                           {:key=>"lane_name",:label=>t(:name),:sortable=>true, :width => "25%"},
+                           {:key=>"lane_description",:label=>t(:description),:sortable=>true},
+                           {:key=>"lane_limit",:label=>t(:label_irm_lane_limit),:sortable=>true, :width => "80px"}
+                           ],
+                           {:row_perpage=>5})%>
+          </div>
+        </div>
+    <% end %>
+<% end %>

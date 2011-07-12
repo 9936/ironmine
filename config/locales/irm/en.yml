@@ -1185,3 +1185,29 @@ en:
   label_irm_delayed_job_wf_approval_mail_monitor: Approval Mail Job
   label_action_item_list: Delayed Job Items List
   #======================= end delayed_jobs step ====================
+  #======================= kanbans ==================================
+  label_irm_kanban: Kanban
+  label_irm_kanban_code: Code
+  label_irm_kanban_refresh_interval: Refresh Interval(s)
+  label_irm_kanban_owned_lane: Owned Lane
+  label_irm_kanban_range: Range
+  label_irm_kanban_new: New Kanban
+  label_irm_kanban_edit: Edit Kanban
+  label_irm_kanban_range_desc: Only people within the range can use this kanban.
+  label_irm_kanban_add_lane: Add Lane
+  #==================================================================
+  #======================= lanes ==================================
+  label_irm_lane: Lane
+  label_irm_lane_code: Line Code
+  label_irm_lane_limit: Card Limit
+  label_irm_lane_cards: Owned Cards
+  label_irm_lane_new: New Lane
+  label_irm_lane_edit: Edit Lane
+  #==================================================================
+  #======================= cards ==================================
+  label_irm_card: Card
+  label_irm_card_code: Card Code
+  label_irm_card_background_color: Background Color
+  label_irm_font_color: Font Color
+  label_irm_system_flag: System Default
+  #==================================================================
