@@ -67,18 +67,18 @@
         <div class="pbBody">
           <div id="owned_lanes_list" class="datatable" style="width:100%;">
             <div id="id" style="display:none">
-              <%= icon_link_remove({:controller=>"irm/kanbans",:action=>"delete_lane",:id=>"{id}"},:confirm => t(:label_are_you_sure) ,
+              <%= icon_link_remove({:controller=>"irm/kanbans",:action=>"delete_lane",:lane_id=>"{irm_lane_id}",:kanban_id => @kanban.id},:confirm => t(:label_are_you_sure) ,
                                       :method => :delete) %>
             </div>
           </div>
           <!-- Begin company access table -->
             <%= datatable("owned_lanes_list",url_for(:controller=>"irm/kanbans",:action=>"get_owned_lanes",:id=>@kanban.id),
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"40px"},
-                               {:key=>"lane_name",:label=>t(:name),:sortable=>true},
-                               {:key=>"lane_description",:label=>t(:description),:sortable=>true},
-                               {:key=>"lane_limit",:label=>t(:label_irm_lane_limit),:sortable=>true}],
-                               {:paginator_box=>"paginator"})%>
-          <div id="paginator"></div>
+                               {:key => "irm_lane_id", :hidden =>true},
+                               {:key=>"lane_code",:label=>t(:label_irm_lane_code),:width => "150px"},
+                               {:key=>"lane_name",:label=>t(:name), :width => "150px"},
+                               {:key=>"lane_description",:label=>t(:description), :width => "200px"},
+                               {:key=>"lane_limit",:label=>t(:label_irm_lane_limit)}])%>
         </div>
         <div class="pbFooter secondaryPalette">
         <div class="bg"></div>

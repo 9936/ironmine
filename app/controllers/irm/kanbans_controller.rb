@@ -99,7 +99,14 @@ class Irm::KanbansController < ApplicationController
   end
 
   def get_available_lanes
+    owned_lanes_scope= Irm::Lane.select_all.without_kanban(params[:id]).enabled
 
+    #    kanbans,count = paginate(owned_lanes_scope)
+    respond_to do |format|
+      format.json {render :json=>to_jsonp(owned_lanes_scope.to_grid_json(
+                                              [:lane_code, :lane_name,:lane_description, :limit],
+                                              50))}
+    end
   end
 
   def get_owned_lanes
@@ -108,16 +115,40 @@ class Irm::KanbansController < ApplicationController
 #    kanbans,count = paginate(owned_lanes_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(owned_lanes_scope.to_grid_json(
-                                              [:irm_lane_id, :lane_code, :name,:description, :lane_limit],
+                                              [:irm_lane_id, :lane_code, :lane_name,:lane_description, :lane_limit],
                                               50))}
     end
   end
 
   def add_lanes
+    return_url=params[:return_url]
+    params[:irm_kanban_lanes][:ids].each do |p|
+      Irm::KanbanLane.create({:kanban_id => params[:id],
+                               :lane_id => p,
+                               :display_sequence => Irm::KanbanLane.max_display_seq(params[:id]) + 1})
+    end
 
+    flash[:notice] = t(:successfully_updated)
+    if return_url.blank?
+      redirect_to({:action=>"add_lanes", :id=> params[:id]})
+    else
+      redirect_to(return_url)
+    end
   end
 
   def select_lanes
+    @return_url= params[:return_url] || request.env['HTTP_REFERER']
     @kanban = Irm::Kanban.find(params[:id])
+  end
+
+  def delete_lane
+    return_url=params[:return_url]
+    kanbanlane = Irm::KanbanLane.where(:kanban_id => params[:kanban_id], :lane_id => params[:lane_id]).first
+    kanbanlane.destroy
+    if return_url.blank?
+      redirect_to({:action=>"show", :id=> params[:kanban_id]})
+    else
+      redirect_to(return_url)
+    end
   end
 end

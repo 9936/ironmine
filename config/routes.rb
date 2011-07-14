@@ -746,7 +746,7 @@ Ironmine::Application.routes.draw do
     match '/kanbans/:id/get_owned_lanes(.:format)' => "kanbans#get_owned_lanes", :via => :get
     match '/kanbans/:id/add_lanes(.:format)' => "kanbans#add_lanes", :via => :post
     match '/kanbans/:id/select_lanes(.:format)' => "kanbans#select_lanes", :via => :get
-    match '/kanbans/:id/delete_lane(.:format)' => "kanbans#delete_lane", :via => :delete
+    match '/kanbans/:kanban_id/:lane_id/delete_lane(.:format)' => "kanbans#delete_lane", :via => :delete
     #lanes
     match '/lanes(/index)(.:format)' => "lanes#index", :via => :get
     match '/lanes/:id/show(.:format)' => "lanes#show", :via => :get

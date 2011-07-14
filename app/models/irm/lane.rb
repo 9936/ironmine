@@ -13,4 +13,17 @@ class Irm::Lane < ActiveRecord::Base
 
   validates_presence_of :lane_code
   validates_uniqueness_of :lane_code
+
+  scope :without_kanban, lambda{|kanban_id|
+    joins(",#{Irm::LanesTl.table_name} lt ").
+        where("lt.lane_id = #{table_name}.id").
+        where("lt.language = ?", I18n.locale).
+        where("NOT EXISTS(SELECT 1 FROM #{Irm::KanbanLane.table_name} kl WHERE kl.kanban_id = ? AND kl.lane_id = #{table_name}.id)", kanban_id).
+        select("lt.name lane_name, lt.description lane_description")
+  }
+
+  scope :select_all, lambda{
+    select("#{table_name}.*")
+  }
+
 end
