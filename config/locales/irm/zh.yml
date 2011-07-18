@@ -1377,14 +1377,23 @@ zh:
   label_irm_lane: 泳道
   label_irm_lane_code: 泳道编码
   label_irm_lane_limit: 泳道上限
-  label_irm_lane_cards: 拥有的卡片
+  label_irm_lane_owned_cards: 拥有的卡片
   label_irm_lane_new: 新建泳道
   label_irm_lane_edit: 编辑泳道
+  label_irm_lane_add_card: 添加卡片
   #==================================================================
   #======================= cards ==================================
   label_irm_card: 卡片
+  label_irm_card_new: 新建卡片
+  label_irm_card_edit: 编辑卡片
+  label_irm_card_rule: 卡片规则
+  label_irm_card_rule_config: 卡片规则设置
   label_irm_card_code: 卡片编码
   label_irm_card_background_color: 背景颜色
   label_irm_card_font_color: 字体颜色
-  label_irm_system_flag: 系统内置
+  label_irm_card_system_flag: 系统内置
+  label_irm_card_title_column: 标题列
+  label_irm_card_date_column: 日期列
+  label_irm_card_description_column: 描述列
+  label_irm_card_column_config: 显示设置
   #==================================================================

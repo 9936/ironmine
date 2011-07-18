@@ -2,6 +2,7 @@ module Irm::BusinessObjectsHelper
   def available_not_exists_model
     Dir["#{Rails.root}/app/models/*/*.rb"].each { |file| require file }
     models = ActiveRecord::Base.send(:subclasses)
+
     models.delete_if{|m| m.table_name.end_with?("s_tl")}
     models = models.collect{|m| m.name}
     exists_models = Irm::BusinessObject.all.collect{|bo| bo.bo_model_name}

@@ -755,11 +755,17 @@ Ironmine::Application.routes.draw do
     match '/lanes/create(.:format)' => "lanes#create", :via => :post
     match '/lanes/:id/edit(.:format)' => "lanes#edit", :via => :get
     match '/lanes/:id/update(.:format)' => "lanes#update", :via => :put
+
+    match '/lanes/:id/select_cards(.:format)' => "lanes#select_cards", :via => :get
+    match '/lanes/:lane_id/:card_id/delete_card(.:format)' => "lanes#delete_card", :via => :delete
+    match '/lanes/:id/get_owned_cards(.:format)' => "lanes#get_owned_cards", :via => :get
+    match '/lanes/:id/add_cards(.:format)' => "lanes#add_cards", :via => :post
+    match '/lanes/:id/get_available_cards(.:format)' => "lanes#get_available_cards", :via => :get
     #cards
     match '/cards(/index)(.:format)' => "cards#index", :via => :get
     match '/cards/:id/show(.:format)' => "cards#show", :via => :get
     match '/cards/get_data(.:format)' => "cards#get_data"
-    match '/cards/new(.:format)' => "cards#new", :via => :get
+    match '/cards/new(.:format)' => "cards#new", :via => [:get,:post,:put]
     match '/cards/create(.:format)' => "cards#create", :via => :post
     match '/cards/:id/edit(.:format)' => "cards#edit", :via => :get
     match '/cards/:id/update(.:format)' => "cards#update", :via => :put

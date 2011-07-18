@@ -45,12 +45,61 @@ class Irm::LanesController < ApplicationController
     lanes,count = paginate(lanes_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(lanes.to_grid_json(
-                                              [:lane_code, :name,:description, :limit,:status_meaning],
+                                              [:lane_code, :name,:description, :limit,:status_meaning, :background_color, :font_color],
                                               count))}
     end
   end
 
   def show
+    @lane = Irm::Lane.multilingual.find(params[:id])
+  end
 
+  def select_cards
+    @return_url= params[:return_url] || request.env['HTTP_REFERER']
+    @lane = Irm::Lane.find(params[:id])
+  end
+
+  def get_owned_cards
+    owned_cards_scope= Irm::Lane.with_cards
+
+    respond_to do |format|
+      format.json {render :json=>to_jsonp(owned_cards_scope.to_grid_json(
+                                              [:irm_card_id, :card_code, :card_name,:card_description, :background_color],50))}
+    end
+  end
+
+  def delete_card
+    return_url=params[:return_url]
+    lanecard = Irm::LaneCard.where(:lane_id => params[:lane_id], :card_id => params[:card_id]).first
+    lanecard.destroy
+    if return_url.blank?
+      redirect_to({:action=>"show", :id=> params[:lane_id]})
+    else
+      redirect_to(return_url)
+    end
+  end
+
+  def add_cards
+    return_url=params[:return_url]
+    params[:irm_lane_cards][:ids].each do |p|
+      Irm::LaneCard.create({:lane_id => params[:id],
+                             :card_id => p})
+    end
+
+    flash[:notice] = t(:successfully_updated)
+    if return_url.blank?
+      redirect_to({:action=>"add_cards", :id=> params[:id]})
+    else
+      redirect_to(return_url)
+    end
+  end
+
+  def get_available_cards
+    owned_cards_scope= Irm::Card.select_all.without_lane(params[:id]).enabled
+    respond_to do |format|
+      format.json {render :json=>to_jsonp(owned_cards_scope.to_grid_json(
+                                              [:card_code, :card_name,:card_description, :background_color],
+                                              50))}
+    end
   end
 end

@@ -25,10 +25,10 @@
       </div>
         <%= datatable("lane_list",url_for(:action=>"get_data"),
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
+                   {:key=>"lane_code",:label=>t(:label_irm_lane_code),:width=>"100px"},
                    {:key=>"name",:label=>t(:name),:width=>"150px"},
                    {:key=>"description",:label=>t(:description),:width=>"250px"},
-                   {:key=>"background_color",:label=>t(:label_irm_card_background_color),:width=>"40px"},
-                   {:key=>"font_color",:label=>t(:label_irm_card_font_color),:width=>"40px"},
+                   {:key=>"limit",:label=>t(:label_irm_lane_limit),:width=>"40px"},
                    {:key=>"status_meaning",:label=>t(:active),:width=>"40px"}])%>
       </div>
     </div>

@@ -1203,11 +1203,20 @@ en:
   label_irm_lane_cards: Owned Cards
   label_irm_lane_new: New Lane
   label_irm_lane_edit: Edit Lane
+  label_irm_lane_add_card: Add Card
   #==================================================================
   #======================= cards ==================================
   label_irm_card: Card
+  label_irm_card_new: New Card
+  label_irm_card_edit: Edit Card
   label_irm_card_code: Card Code
+  label_irm_card_rule: Card Rule
+  label_irm_card_rule_config: Card Rule Config
   label_irm_card_background_color: Background Color
   label_irm_font_color: Font Color
   label_irm_system_flag: System Default
+  label_irm_card_title_column: Title Column
+  label_irm_card_date_column: Date Column
+  label_irm_card_description_column: Description Column
+  label_irm_card_column_config: Column Config
   #==================================================================

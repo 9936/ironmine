@@ -26,4 +26,15 @@ class Irm::Lane < ActiveRecord::Base
     select("#{table_name}.*")
   }
 
+  scope :with_cards, lambda{
+    joins(",#{Irm::Card.table_name} c, #{Irm::CardsTl.table_name} ct, #{Irm::LaneCard.table_name} lc").
+        where("c.id = lc.card_id").
+        where("c.id = ct.card_id").
+        where("lc.lane_id = #{table_name}.id").
+        where("ct.language = ?", I18n.locale).
+        where("c.status_code = ?", Irm::Constant::ENABLED).
+        select("c.card_code card_code, ct.name card_name, ct.description card_description, c.background_color background_color, c.id irm_card_id")
+
+  }
+
 end

@@ -1,0 +1,36 @@
+<%= app_title %>
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_card) %></h2></td>
+              <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+              </td>
+              <td class="pbHelp">
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="card_list" class="datatable" style="width:100%;">
+          <div id="id" style="display:none">
+            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>
+            <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
+          </div>
+        </div>
+        <%= datatable("card_list",url_for(:action=>"get_data"),
+                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
+                   {:key=>"card_code",:label=>t(:label_irm_card_code),:width=>"80px"},
+                   {:key=>"name",:label=>t(:name),:width=>"150px"},
+                   {:key=>"description",:label=>t(:description),:width=>"250px"},
+                   {:key=>"background_color",:label=>t(:label_irm_card_background_color),:width=>"40px"},
+                   {:key=>"font_color",:label=>t(:label_irm_card_font_color),:width=>"40px"},
+                   {:key=>"status_meaning",:label=>t(:active),:width=>"40px"}])%>
+      </div>
+    </div>
+</div>
