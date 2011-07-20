@@ -769,7 +769,8 @@ Ironmine::Application.routes.draw do
     match '/cards/create(.:format)' => "cards#create", :via => :post
     match '/cards/:id/edit(.:format)' => "cards#edit", :via => :get
     match '/cards/:id/update(.:format)' => "cards#update", :via => :put
-
+    match '/cards/:id/edit_rule(.:format)' => "cards#edit_rule", :via => :get
+    match '/cards/:id/update_rule(.:format)' => "cards#update_rule", :via => :put
   end
 
   scope :module => "icm" do

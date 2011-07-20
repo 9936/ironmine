@@ -16,7 +16,6 @@ class Irm::CardsController < ApplicationController
       session[:irm_rule_filter] = nil
       session[:irm_card][:step] = 1
     end
-
     @card = Irm::Card.new(session[:irm_card])
 
     if params[:step].present? && @card.valid?
@@ -38,6 +37,7 @@ class Irm::CardsController < ApplicationController
   end
 
   def create
+    session[:irm_card].merge!(params[:irm_card])
     session[:irm_rule_filter] = params[:irm_rule_filter]
     @card = Irm::Card.new(session[:irm_card])
     @rule_filter = Irm::RuleFilter.new(session[:irm_rule_filter])
@@ -90,5 +90,24 @@ class Irm::CardsController < ApplicationController
   def show
     @card = Irm::Card.multilingual.find(params[:id])
     @rule_filter = Irm::RuleFilter.query_by_source(Irm::Card.name,@card.id).first
+  end
+
+  def edit_rule
+    @card = Irm::Card.multilingual.find(params[:id])
+    @rule_filter = Irm::RuleFilter.query_by_source(Irm::Card.name,@card.id).first
+  end
+
+  def update_rule
+    @card = Irm::Card.multilingual.find(params[:id])
+    @rule_filter = Irm::RuleFilter.query_by_source(Irm::Card.name,@card.id).first
+    respond_to do |format|
+      if @rule_filter.update_attributes(params[:irm_rule_filter])
+        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @rule_filter.errors, :status => :unprocessable_entity }
+      end
+    end
   end
 end

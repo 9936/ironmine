@@ -43,11 +43,18 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_card_background_color)%></label></td>
-              <td class="data2Col"><%=f.select :background_color, options_for_select(card_background_color_list)%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_card_font_color)%></label></td>
-              <td class="data2Col"><%=f.select :font_color, options_for_select(card_background_color_list)%></td>
+              <td class="data2Col">
+                <%= f.hidden_field :background_color, :id => "background_color", :value => "#ffffff"%>
+                <div id="selected_color" style="background-color:white;height:14px;width:50px;display:inline-block;border:solid 1px #000000;"></div>
+                <label for="ava_color">备选颜色</label>
+                <div id="ava_color" style="display:inline;">
+                <% card_background_color_list.each do |b| %>
+                    <a href="javascript:void(0);" style="display:inline" onclick="set_color('<%= b[1]%>')">
+                      <div style="background-color:<%= b[1]%>;width:14px;height:14px;display:inline-block;border:solid 1px #000000;"></div>
+                    </a>
+                <% end %>
+                </div>
+              </td>
             </tr>
             <tr>
               <td class="labelCol"><label for="object_attribute_attribute_type"><%=t(:label_irm_wf_rule_bo_code)%></label></td>
@@ -74,3 +81,12 @@
   </div>
 </div>
 <% end %>
+<script type="text/javascript">
+function set_color(color)
+{
+    GY.use(function(Y){
+        Y.one("#selected_color").setAttribute("style", "background-color:" + color + ";height:14px;width:50px;display:inline-block;border:solid 1px #000000;");
+        Y.one("#background_color").set("value", color);
+    });
+}
+</script>

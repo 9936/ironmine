@@ -1396,4 +1396,6 @@ zh:
   label_irm_card_date_column: 日期列
   label_irm_card_description_column: 描述列
   label_irm_card_column_config: 显示设置
+  label_irm_card_rule_edit: 编辑卡片规则
+  label_action_edit_rule: 编辑卡片规则
   #==================================================================

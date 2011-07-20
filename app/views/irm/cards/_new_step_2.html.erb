@@ -20,15 +20,15 @@
             <tbody>
                 <tr>
                   <td class="labelCol"><label><%=(t :label_irm_card_title_column)%></label></td>
-                  <td class="data2Col"><%=f.select :title_attribute_id, available_selectable_object_attribute(@card.bo_code)%></td>
+                  <td class="data2Col"><%=f.select :title_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
                 </tr>
                 <tr>
                   <td class="labelCol"><label><%=(t :label_irm_card_description_column)%></label></td>
-                  <td class="data2Col"><%=f.select :description_attribute_id, available_selectable_object_attribute(@card.bo_code)%></td>
+                  <td class="data2Col"><%=f.select :description_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
                 </tr>
                 <tr>
                   <td class="labelCol"><label><%=t(:label_irm_card_date_column)%></label></td>
-                  <td class="data2Col"><%=f.select :date_attribute_id, available_selectable_object_attribute(@card.bo_code)%></td>
+                  <td class="data2Col"><%=f.select :date_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
                 </tr>
             </tbody>
           </table>

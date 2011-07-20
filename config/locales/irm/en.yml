@@ -1219,4 +1219,6 @@ en:
   label_irm_card_date_column: Date Column
   label_irm_card_description_column: Description Column
   label_irm_card_column_config: Column Config
+  label_irm_card_rule_edit: Edit Card Rule
+  label_action_edit_rule: Edit Card Rule
   #==================================================================
