@@ -23,6 +23,6 @@ class Irm::Kanban < ActiveRecord::Base
         where("lat.lane_id = la.id").
         where("#{table_name}.id = kl.kanban_id").
         where("la.status_code = ?", Irm::Constant::ENABLED).
-        select("la.lane_code lane_code, lat.name lane_name, lat.description lane_description, la.limit lane_limit, la.id irm_lane_id")
+        select("la.lane_code lane_code, lat.name lane_name, lat.description lane_description, la.limit lane_limit, la.id irm_lane_id, kl.display_sequence display_sequence")
   }
 end

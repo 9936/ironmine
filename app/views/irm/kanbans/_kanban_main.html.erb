@@ -1,0 +1,65 @@
+<style>
+.kanban_body > table{width:100%;}
+.card-div > table{width:160px;height:76px;table-layout:fixed;overflow:hidden;}
+.card-div{height:76px;overflow:hidden;}
+.kanban_body .card{
+    background-color:#f5f2bc;
+    margin:5px;
+    height:90px;
+    width: 160px;
+    border: 1px solid #808080;
+
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+
+    position:relative;
+
+    -moz-box-shadow: 0 2px 4px rgba(127, 127, 127, 0.6);
+    -webkit-box-shadow:rgba(127, 127, 127, 0.6) 0 2px 4px;
+    box-shadow: 0 2px 4px rgba(127, 127, 127, 0.6);
+
+    overflow:hidden;
+}
+.kanban_body .card-title{white-space:nowrap;text-align:center;font-weight:bold;font-size:14px;height:15px;overflow:hidden;text-overflow:ellipsis;}
+.kanban_body .card-content{font-size:12px;overflow:hidden;text-overflow:ellipsis;}
+.kanban_body .card-date{bottom:0;right:5px;position:absolute;color:#a0a0a0;}
+
+.kanban_body .td_l, .kanban_body .td_c, .kanban_body .td_r{height:500px;}
+.kanban_body .td_l{border-right: 1px solid #5bade9;}
+.kanban_body .td_r{border-left: 1px solid #5bade9;}
+.kanban_body .td_c{border-right: 1px solid #5bade9;border-left: 1px solid #5bade9;}
+
+.kanban_body .th_l, .kanban_body .th_c, .kanban_body .th_r{
+    height: 30px;
+    font-size: 18px;
+    vertical-align: middle;
+    font-weight: bold;
+    color: #ffffff;
+    background-color:#2191c0;
+}
+.kanban_body .th_l{border-right: 1px solid #ffffff;}
+.kanban_body .th_r{border-left: 1px solid #ffffff;}
+.kanban_body .th_c{border-right: 1px solid #ffffff;border-left: 1px solid #ffffff;}
+</style>
+
+<div id="kanban_<%= kanban.id%>">
+<%= show_kanban(kanban.id)%>
+</div>
+<script type="text/javascript">
+  function refresh_kanban(){
+      GY.use("io", function(Y){
+        function complete(id, o, args) {
+            var data = o.responseText; // Response data.
+            Y.one("#kanban_<%= kanban.id%>").set('innerHTML', data);
+        }
+      Y.on('io:complete', complete, Y);
+        var uri = "kanbans/<%= kanban.id %>/refresh_my_kanban";
+        var request = Y.io(uri);
+
+      });
+  }
+  setInterval(refresh_kanban, '<%= kanban.refresh_interval * 1000 %>');
+</script>

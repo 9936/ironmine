@@ -42,4 +42,58 @@ module Irm::KanbansHelper
 
     assignments.join(",")
   end
+
+  def show_kanban(kanban_id = 1)
+#    kanban = Irm::Kanban.find(kanban_id)
+
+    lanes = Irm::Lane.multilingual.query_by_kanban(kanban_id).with_sequence
+
+    lanes_tags = ""
+    cards_tags = ""
+    lanes.each do |la|
+      if la == lanes.first
+        position = "l"
+      elsif la == lanes.last
+        position = "r"
+      else
+        position = "c"
+      end
+
+      lanes_tags << content_tag(:th, content_tag(:div, la[:name]), {:align => "center", :class => "th_" + position})
+      ct = ""
+      cards = la.cards.multilingual
+      cards_array = []
+      cards.each do |ca|
+        ca.prepare_card_content(la.limit).collect{|p| [p[:id],
+                                                       p[ca.title_attribute_name.to_sym],
+                                                       p[ca.description_attribute_name.to_sym],
+                                                       p[ca.date_attribute_name.to_sym],
+                                                       ca[:background_color]]}.each do |cap|
+          cards_array << cap
+        end
+      end
+      cards_array.each do |c_array|
+        title_tag = content_tag(:tr, content_tag(:td, c_array[1], :class => "card-title"))
+        description_tag = content_tag(:tr, content_tag(:td, plain_text(c_array[2]), :class => "card-content"))
+        date_tag = content_tag(:div, c_array[3].to_time.strftime("%F %T"), :class => "card-date")
+        ct << content_tag(:a,
+                content_tag(:div,
+                  content_tag(:div, content_tag(:table, raw(title_tag) + raw(description_tag)), :class => "card-div") + raw(date_tag),
+                  {:class => "card", :style => "background-color:" + c_array[4]}), {:href=>"javascript:void(0);"})
+      end
+
+      cards_tags << content_tag(:td, raw(ct), {:class => "td_" + position, :align => "center"})
+    end
+    lanes_tags = content_tag(:tr, raw(lanes_tags))
+    cards_tags = content_tag(:tr, raw(cards_tags))
+
+    kanban_table = content_tag(:table, raw(lanes_tags) + raw(cards_tags), {:cellspacing => "0", :cellpadding => "0"})
+    kanban_main = content_tag(:div, raw(kanban_table), {:class => "kanban_body", :style => "width:100%"})
+
+    kanban_main
+  end
+
+  def current_person_available_kanbans_array
+    Irm::Person.current
+  end
 end

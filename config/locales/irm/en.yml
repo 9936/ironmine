@@ -1195,6 +1195,7 @@ en:
   label_irm_kanban_edit: Edit Kanban
   label_irm_kanban_range_desc: Only people within the range can use this kanban.
   label_irm_kanban_add_lane: Add Lane
+  label_action_select_lanes: Available Lanes
   #==================================================================
   #======================= lanes ==================================
   label_irm_lane: Lane
@@ -1221,4 +1222,5 @@ en:
   label_irm_card_column_config: Column Config
   label_irm_card_rule_edit: Edit Card Rule
   label_action_edit_rule: Edit Card Rule
+  label_action_select_cards: Available Cards
   #==================================================================

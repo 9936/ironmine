@@ -56,4 +56,9 @@ module Irm::CommonHelper
     raw(html_content)
   end
 
+  #去除HTML标签
+  def plain_text(text,replacement=" ")
+    text.gsub(/<[^>]*>/){|html| replacement}
+  end
+
 end

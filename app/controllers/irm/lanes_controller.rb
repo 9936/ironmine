@@ -60,7 +60,7 @@ class Irm::LanesController < ApplicationController
   end
 
   def get_owned_cards
-    owned_cards_scope= Irm::Lane.with_cards
+    owned_cards_scope= Irm::Lane.with_cards(params[:id])
 
     respond_to do |format|
       format.json {render :json=>to_jsonp(owned_cards_scope.to_grid_json(

@@ -26,7 +26,7 @@ class Irm::KanbanLane < ActiveRecord::Base
   end
 
   def next_lane
-    next_lane = Irm::KanbanLane.where(:kanban_id => self.kanban_id).where("display_sequence < ?", self.display_sequence).order("display_sequence ASC").first()
+    next_lane = Irm::KanbanLane.where(:kanban_id => self.kanban_id).where("display_sequence > ?", self.display_sequence).order("display_sequence ASC").first()
     if next_lane then
       next_lane
     else

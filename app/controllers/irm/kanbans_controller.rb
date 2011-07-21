@@ -110,7 +110,7 @@ class Irm::KanbansController < ApplicationController
   end
 
   def get_owned_lanes
-    owned_lanes_scope= Irm::Kanban.with_lanes
+    owned_lanes_scope= Irm::Kanban.with_lanes.order("display_sequence ASC")
 
 #    kanbans,count = paginate(owned_lanes_scope)
     respond_to do |format|
@@ -151,4 +151,46 @@ class Irm::KanbansController < ApplicationController
       redirect_to(return_url)
     end
   end
+
+  def refresh_my_kanban
+    respond_to do |format|
+      format.js {render :refresh_kanban}
+    end
+  end
+
+  def up_lane
+    return_url=params[:return_url]
+    kanbanlane = Irm::KanbanLane.where(:kanban_id => params[:kanban_id], :lane_id => params[:lane_id]).first
+
+    pre_lane = kanbanlane.pre_lane
+    pre_display_sequence = pre_lane.display_sequence
+    cur_display_sequence = kanbanlane.display_sequence
+    kanbanlane.update_attribute(:display_sequence, pre_display_sequence)
+    pre_lane.update_attribute(:display_sequence, cur_display_sequence)
+
+    if return_url.blank?
+      redirect_to({:action=>"show", :id=> params[:kanban_id]})
+    else
+      redirect_to(return_url)
+    end
+  end
+
+  def down_lane
+    return_url=params[:return_url]
+    kanbanlane = Irm::KanbanLane.where(:kanban_id => params[:kanban_id], :lane_id => params[:lane_id]).first
+
+    next_lane = kanbanlane.next_lane
+    next_display_sequence = next_lane.display_sequence
+    cur_display_sequence = kanbanlane.display_sequence
+
+    kanbanlane.update_attribute(:display_sequence, next_display_sequence)
+    next_lane.update_attribute(:display_sequence, cur_display_sequence)
+
+    if return_url.blank?
+      redirect_to({:action=>"show", :id=> params[:kanban_id]})
+    else
+      redirect_to(return_url)
+    end
+  end
+
 end

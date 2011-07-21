@@ -23,11 +23,8 @@ class Irm::Card < ActiveRecord::Base
   }
 
   def prepare_card_content(lane_limit)
-    return_columns = [self.title_attribute_name.to_sym,
-                      self.description_attribute_name.to_sym,
-                      self.date_attribute_name.to_sym]
-    bo = Irm::BusinessObject.where(:business_object_code => self.bo_code).first
-    card_content_scope = eval(bo.generate_query_by_attributes(return_columns,true)).order(self.date_attribute_name + " DESC").limit(lane_limit)
+    filter = Irm::RuleFilter.where(:source_type => Irm::Card.name, :source_id => self.id).first
+    card_content_scope = filter.generate_scope.order(self.date_attribute_name + " DESC").limit(lane_limit)
     card_content_scope
   end
 end

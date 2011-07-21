@@ -1,5 +1,5 @@
 class Irm::DemoController < ApplicationController
   def index
-    puts("+++++++++++++++" + request.remote_ip)
+    @kanban = Irm::Kanban.find(1)
   end
 end
