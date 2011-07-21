@@ -43,11 +43,15 @@
               <td class="data2Col"><%=f.text_area :description, :rows => 4%></td>
             </tr>
             <tr>
+              <td class="labelCol"><label><%=(t :label_irm_card_url)%></label></td>
+              <td class="data2Col"><%=f.text_field :card_url%></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :label_irm_card_background_color)%></label></td>
               <td class="data2Col">
                 <%= f.hidden_field :background_color, :id => "background_color"%>
                 <div id="selected_color" style="background-color:<%= @card.background_color%>;height:14px;width:50px;display:inline-block;border:solid 1px #000000;"></div>
-                <label for="ava_color">备选颜色</label>
+                <label for="ava_color"><%= t :label_irm_card_available_color %></label>
                 <div id="ava_color" style="display:inline;">
                 <% card_background_color_list.each do |b| %>
                     <a href="javascript:void(0);" style="display:inline" onclick="set_color('<%= b[1]%>')">

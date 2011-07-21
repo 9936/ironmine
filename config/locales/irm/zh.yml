@@ -1400,4 +1400,6 @@ zh:
   label_irm_card_rule_edit: 编辑卡片规则
   label_action_edit_rule: 编辑卡片规则
   label_action_select_cards: 可选的卡片
+  label_irm_card_available_color: 备选颜色
+  label_irm_card_url: 卡片链接
   #==================================================================

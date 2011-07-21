@@ -42,6 +42,10 @@
               <td class="data2Col"><%=f.text_area :description, :rows => 4%></td>
             </tr>
             <tr>
+              <td class="labelCol"><label><%=(t :label_irm_card_url)%></label></td>
+              <td class="data2Col"><%=f.text_field :card_url, :required=>true%></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :label_irm_card_background_color)%></label></td>
               <td class="data2Col">
                 <%= f.hidden_field :background_color, :id => "background_color", :value => "#ffffff"%>

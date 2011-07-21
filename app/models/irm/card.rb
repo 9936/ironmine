@@ -23,8 +23,28 @@ class Irm::Card < ActiveRecord::Base
   }
 
   def prepare_card_content(lane_limit)
-    filter = Irm::RuleFilter.where(:source_type => Irm::Card.name, :source_id => self.id).first
-    card_content_scope = filter.generate_scope.order(self.date_attribute_name + " DESC").limit(lane_limit)
+    card_content_scope =
+        case self.card_code
+          when "IR_WAITING_FOR_MY_REPLY"
+            ir_waiting_for_my_reply
+          when "IR_CUSTOMER_REPLIED"
+            ir_customer_replied
+          else
+            filter = Irm::RuleFilter.where(:source_type => Irm::Card.name, :source_id => self.id).first
+            filter.generate_scope.order(self.date_attribute_name + " DESC").limit(lane_limit)
+        end
+
     card_content_scope
+  end
+
+  private
+  #待我回复的事故单
+  def ir_waiting_for_my_reply
+
+  end
+
+  #客户回复后的事故单
+  def ir_customer_replied
+
   end
 end

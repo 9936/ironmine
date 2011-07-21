@@ -1223,4 +1223,6 @@ en:
   label_irm_card_rule_edit: Edit Card Rule
   label_action_edit_rule: Edit Card Rule
   label_action_select_cards: Available Cards
+  label_irm_card_available_color: Available Colors
+  label_irm_card_url: Card Url
   #==================================================================
