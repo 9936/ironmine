@@ -32,7 +32,7 @@ class Irm::Card < ActiveRecord::Base
             ir_customer_replied(lane_limit)
           else
             filter = Irm::RuleFilter.where(:source_type => Irm::Card.name, :source_id => self.id).first
-            filter.generate_scope.order(self.date_attribute_name + " DESC").limit(lane_limit)
+            filter.generate_scope.select("'' card_url").order(self.date_attribute_name + " DESC").limit(lane_limit)
         end
 
     card_content_scope
@@ -42,7 +42,7 @@ class Irm::Card < ActiveRecord::Base
   #新到达待回复的事故单
   def ir_arr_waiting_for_reply(lane_limit = 0)
     ret_scope = []
-    Icm::IncidentRequest.
+    Icm::IncidentRequest.select("'' card_url").
         where("NOT EXISTS(SELECT 1 FROM #{Icm::IncidentJournal.table_name} ij where ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id)").
         where("#{Icm::IncidentRequest.table_name}.support_person_id = ?", Irm::Person.current.id).
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
@@ -58,7 +58,7 @@ class Irm::Card < ActiveRecord::Base
   def ir_customer_replied(lane_limit = 0)
     ret_scope = []
 
-    Icm::IncidentRequest.
+    Icm::IncidentRequest.select("'' card_url").
       select("#{Icm::IncidentRequest.table_name}.*, ij.updated_at ij_updated_at").
       joins(",#{Icm::IncidentJournal.table_name} ij").
       where("ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id").

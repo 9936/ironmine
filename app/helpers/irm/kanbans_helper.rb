@@ -63,23 +63,28 @@ module Irm::KanbansHelper
       cards.each do |ca|
 
         ca_result = ca.prepare_card_content(la.limit)
+
+        ca_result.each do |cr|
+          begin
+           url = ca[:card_url].clone
+           ca[:card_url].scan(/\{\S*\}/).each do |cu|
+             t = cu.clone
+             t2 = cu.clone
+             t2.gsub!(/[\{\}]/,"")
+             url.gsub!(t, cr[t2.to_sym].to_s)
+           end
+           cr[:card_url] = url
+          rescue
+           cr[:card_url] = "javascript:void(0);"
+          end
+        end
+
         ca_result.collect{|p| [p[:id],
                                p[ca.title_attribute_name.to_sym],
                                p[ca.description_attribute_name.to_sym],
                                p[ca.date_attribute_name.to_sym],
                                ca[:background_color],
-                               begin
-                                 url = ca[:card_url]
-                                 ca[:card_url].scan(/\{\S*\}/).each do |cu|
-                                   t = cu.clone
-                                   t2 = cu.clone
-                                   t2.gsub!(/[\{\}]/,"")
-                                   url.gsub!(t, p[t2.to_sym].to_s)
-                                 end
-                                 url
-                               rescue
-                                 "javascript:void(0);"
-                               end
+                               p[:card_url],
                                ]}.each do |cap|
           cards_array << cap
         end
