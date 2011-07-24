@@ -72,7 +72,8 @@ module Irm::KanbansHelper
                                  url = ca[:card_url]
                                  ca[:card_url].scan(/\{\S*\}/).each do |cu|
                                    t = cu.clone
-                                   cu.gsub!(/[\{\}]/,"")
+#                                   t2 = cu.clone
+#                                   t2.gsub!(/[\{\}]/,"")
                                    url.gsub!(t, p[cu.to_sym].to_s)
                                  end
                                  url
