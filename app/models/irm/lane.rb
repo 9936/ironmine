@@ -4,7 +4,7 @@ class Irm::Lane < ActiveRecord::Base
   has_many :lanes_tls, :dependent => :destroy
   acts_as_multilingual
 
-  has_many :kanban_lanes
+  has_many :kanban_lanes,:dependent => :destroy
   has_many :kanbans, :through => :kanban_lanes
   has_many :lane_cards
   has_many :cards, :through => :lane_cards

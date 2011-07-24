@@ -58,6 +58,7 @@ module Irm::CommonHelper
 
   #去除HTML标签
   def plain_text(text,replacement=" ")
+    text = text.to_s
     text.gsub(/<[^>]*>/){|html| replacement}
   end
 

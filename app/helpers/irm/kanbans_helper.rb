@@ -63,7 +63,6 @@ module Irm::KanbansHelper
       cards.each do |ca|
 
         ca_result = ca.prepare_card_content(la.limit)
-
         ca_result.collect{|p| [p[:id],
                                p[ca.title_attribute_name.to_sym],
                                p[ca.description_attribute_name.to_sym],
@@ -84,7 +83,6 @@ module Irm::KanbansHelper
           cards_array << cap
         end
       end
-
       cards_array.each do |c_array|
         title_tag = content_tag(:tr, content_tag(:td, c_array[1], :class => "card-title"))
         description_tag = content_tag(:tr, content_tag(:td, plain_text(c_array[2]), :class => "card-content"))
