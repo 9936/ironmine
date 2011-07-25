@@ -43,7 +43,7 @@ class Irm::Card < ActiveRecord::Base
   def ir_arr_waiting_for_reply(lane_limit = 0)
     ret_scope = []
     Icm::IncidentRequest.select("#{Icm::IncidentRequest.table_name}.*, '' card_url").
-        where("NOT EXISTS(SELECT 1 FROM #{Icm::IncidentJournal.table_name} ij where ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.replied_by = ?)", Irm::Person.current.id).
+#        where("NOT EXISTS(SELECT 1 FROM #{Icm::IncidentJournal.table_name} ij where ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.replied_by = ?)", Irm::Person.current.id).
         where("#{Icm::IncidentRequest.table_name}.support_person_id = ?", Irm::Person.current.id).
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
           if !is.close? && is.need_customer_reply == Irm::Constant::SYS_NO
