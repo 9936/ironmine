@@ -12,9 +12,7 @@ class Irm::PermissionChecker
       return false unless Irm::Person.current.logged?
       login_functions = Irm::MenuManager.login_functions
       return true if assigned_to_functions.detect{|f| login_functions.include?(f)}
-      return Irm::Person.current.allowed_to?(assigned_to_functions)||self.allow_to_report(url_options)
-    else
-      return self.allow_to_report(url_options)
+      return Irm::Person.current.allowed_to?(assigned_to_functions)
     end
   end
 

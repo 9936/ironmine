@@ -50,6 +50,12 @@ class Irm::Report < ActiveRecord::Base
   }
 
 
+  # 业务对像过滤
+  scope :query_by_bo_name,lambda{|bo_model_name|
+    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.id = #{Irm::ReportType.view_name}.business_object_id ").
+    where("#{Irm::BusinessObject.table_name}.bo_model_name = ?",bo_model_name)
+  }
+
   def check_step(stp)
     self.step.nil?||self.step.to_i>=stp
   end

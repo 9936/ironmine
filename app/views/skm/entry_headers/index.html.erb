@@ -10,7 +10,7 @@
 <% #view_filter("SKM_ENTRY_HEADERS_INDEX_A","entry_headers_list") %>
 <%= render "data_grid" %>
 <% if allow_to_function?(:view_reports) %>
-<%= render "/irm/report_lists/report_category",{:category_code=>"SERVICE_KNOWLEDGE_MANAGE",:options=>{}} %>
+  <%= render :partial => "/irm/reports/report_lists",:locals=>{:bo_model_name=>Skm::EntryHeader.name} %>
 <% end %>
 <%= content_for :sidebar do%>
     <%= render "skm/entry_headers/sidebar_navigate_menu"%>

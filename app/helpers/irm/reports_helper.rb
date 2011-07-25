@@ -269,4 +269,10 @@ module Irm::ReportsHelper
     end  if(fields.size==2)
     grouped_data
   end
+
+
+  def current_reports(bo_name,category="REPORT")
+    folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
+    Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).filter_by_folder_access(Irm::Person.current.id).query_by_bo_name(bo_name)
+  end
 end
