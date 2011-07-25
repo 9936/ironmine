@@ -24,8 +24,8 @@ class AddSystemCardData < ActiveRecord::Migration
                                :description_attribute_name => "summary",
                                :date_attribute_name => "updated_at",
                                :status_code => Irm::Constant::ENABLED,:not_auto_mult=>true)
-    irm_card_2.cards_tls.build(:language=>'zh',:source_lang=>'en',:name=>'新到达的事故单',:description=>'新到达的事故单')
-    irm_card_2.cards_tls.build(:language=>'en',:source_lang=>'en',:name=>'New IR',:description=>'New IR')
+    irm_card_2.cards_tls.build(:language=>'zh',:source_lang=>'en',:name=>'待我回复的事故单',:description=>'待我回复的事故单')
+    irm_card_2.cards_tls.build(:language=>'en',:source_lang=>'en',:name=>'IR waiting for my reply',:description=>'IR waiting for my reply')
     irm_card_2.save
   end
 

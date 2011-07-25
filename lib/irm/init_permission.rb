@@ -3,10 +3,14 @@ Irm::AccessControl.map do |map|
   # 主页
   map.function :home_page,{"irm/home"=>[:index], "irm/calendars" => ["get_full_calendar"]}
   map.function :view_report_lists,{"irm/report_lists"=>["index","get_data"]}
-  map.function :public_function,{"irm/demo" => [:index], "irm/common"=>[:login, :forgot_password], "irm/navigations" => ["access_deny", "combo"], "irm/attach_screenshot" => ["index"]}
+  map.function :public_function,{"irm/demo" => [:index],
+                                 "irm/common"=>[:login, :forgot_password],
+                                 "irm/navigations" => ["access_deny", "combo"],
+                                 "irm/attach_screenshot" => ["index"]}
   map.function :login_function,{ "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_role", "index"],
+                                 "irm/kanbans" => ["refresh_my_kanban"],
                                  "irm/support_group_members"=>["get_options"],"irm/search"=>[:index]}
   #=====common setting===================
   #===================irm/global_settings============================
@@ -326,4 +330,13 @@ Irm::AccessControl.map do |map|
   map.function :create_report_types,{"irm/report_types"=>["new", "create"]}
   map.function :edit_report_types,{"irm/report_types"=>["edit", "update", "edit_relation", "update_relation", "multilingual_edit", "multilingual_update"],"irm/report_type_sections"=>["index", "update", "field_source", "section_field"]}
 
+  map.function :view_kanban,{"irm/kanbans"=>["index", "show", "get_data", "refresh_my_kanban", "get_owned_lanes"],
+                             "irm/lanes" => ["index", "show", "get_data"],
+                             "irm/cards" => ["index", "show", "get_data"]}
+  map.function :create_kanban,{"irm/kanbans"=>["new", "create"],
+                               "irm/lanes" => ["new", "create"],
+                               "irm/cards" => ["new", "create"]}
+  map.function :edit_kanban,{"irm/kanbans"=>["edit", "update", "up_lane", "down_lane", "add_lanes", "delete_lane", "select_lanes", "get_available_lanes"],
+                             "irm/lanes" => ["edit", "update", "delete_card", "select_cards", "get_available_cards"],
+                             "irm/cards" => ["edit", "update", "edit_rule", "update_rule"]}
 end
