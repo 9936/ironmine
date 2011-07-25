@@ -1,8 +1,8 @@
 <%= page_title %>
-<%= render "new_step_#{@report.step}"%>
+<%= render "edit_step_#{@report.step}"%>
 <script type="text/javascript">
   GY.use("node-base",function(Y){
-      Y.one("form.new_irm_report").delegate("click",function(e){
+      Y.one("form.edit_irm_report").delegate("click",function(e){
           e._currentTarget.setAttribute("action",e.target.getAttribute("href"));
 
           e.preventDefault();
