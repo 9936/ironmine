@@ -80,6 +80,11 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     where("#{table_name}.field_type = ? ",'CUSTOMED_FIELD')
   }
 
+  scope :with_business_object_id,lambda{
+    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.business_object_code = #{table_name}.business_object_code").
+    select("#{Irm::BusinessObject.table_name}.id business_object_id")
+  }
+
 
   def select_table_name
     t_name = ""

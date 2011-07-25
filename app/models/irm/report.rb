@@ -1,70 +1,284 @@
 class Irm::Report < ActiveRecord::Base
   set_table_name :irm_reports
+  attr_accessor :step,:report_columns_str
 
-  has_many :report_group_members,:foreign_key=>:report_code,:primary_key=>:report_code
 
   #多语言关系
   attr_accessor :name,:description
   has_many :reports_tls,:dependent => :destroy
   acts_as_multilingual
 
-  validates_presence_of :report_code,:page_controller,:page_action,:category_code
-  validates_uniqueness_of :report_code, :if => Proc.new { |i| !i.report_code.blank? }
-  validates_format_of :report_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.report_code.blank?}
 
+  belongs_to :report_type
+
+  has_many :report_group_columns,:order=>:seq_num,:dependent => :destroy
+  accepts_nested_attributes_for :report_group_columns
+
+  has_many :report_columns,:order=>:seq_num,:dependent => :destroy
+
+  has_many :report_criterions,:order=>:seq_num,:dependent => :destroy
+  accepts_nested_attributes_for :report_criterions
+
+
+  validates_presence_of :report_type_id, :if => Proc.new { |i| i.check_step(1) }
+  validates_presence_of :code, :if => Proc.new { |i| i.check_step(2) }
+  validates_uniqueness_of :code, :if => Proc.new { |i| i.code.present? }
+  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?}
+  validate :validate_raw_condition_clause,:if=> Proc.new{|i| i.raw_condition_clause.present?}
+
+  before_save :set_condition
   #加入activerecord的通用方法和scope
   query_extend
 
-  scope :with_category,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} category ON category.lookup_type='IRM_REPORT_CATEGORY' AND category.lookup_code = #{table_name}.category_code AND category.language= '#{language}'").
-    select(" category.meaning category_name")
+  # 同时查询报表类型
+  scope :with_report_type,lambda{|language|
+    joins("JOIN #{Irm::ReportType.view_name} ON #{Irm::ReportType.view_name}.id = #{table_name}.report_type_id  AND #{Irm::ReportType.view_name}.language = '#{language}'").
+    select("#{Irm::ReportType.view_name}.name report_type_name")
+  }
+  # 查找报表文件夹
+  scope :with_report_folder,lambda{|language|
+    joins("JOIN #{Irm::ReportFolder.view_name} ON #{Irm::ReportFolder.view_name}.id = #{table_name}.report_folder_id  AND #{Irm::ReportFolder.view_name}.language = '#{language}'").
+    select("#{Irm::ReportFolder.view_name}.name report_folder_name ,#{Irm::ReportFolder.view_name}.access_type,#{Irm::ReportFolder.view_name}.member_type")
+  }
+  # 查找当前用户能看到的报表
+  scope :filter_by_folder_access,lambda{|person_id|
+    where("(#{Irm::ReportFolder.view_name}.access_type != ?) OR (#{table_name}.created_by = ?)","FORBID",person_id)
+  }
+  # 按报表文件夹过滤
+  scope :query_by_folders,lambda{|report_folder_ids|
+    where("#{table_name}.report_folder_id IN (?)",report_folder_ids)
   }
 
-  scope :query_by_report_purpose,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} report_purpose ON report_purpose.lookup_type='IRM_REPORT_PURPOSE' AND report_purpose.lookup_code = #{table_name}.report_purpose AND report_purpose.language= '#{language}'").
-    select(" report_purpose.meaning report_purpose_meaning")
-  }
 
-  scope :query_by_group_id,lambda{|group_id|
-    joins("JOIN #{Irm::ReportGroupMember.table_name}  ON  #{Irm::ReportGroupMember.table_name}.report_code = #{table_name}.report_code").
-    joins("JOIN #{Irm::ReportGroup.table_name} ON  #{Irm::ReportGroup.table_name}.group_code = #{Irm::ReportGroupMember.table_name}.group_code").
-    where("#{Irm::ReportGroup.table_name}.id = ?",group_id).
-    select("#{Irm::ReportGroupMember.table_name}.id member_id")
-  }
-
-  scope :not_in_group,lambda{|group_id|
-    where("NOT EXISTS (SELECT 1 FROM #{Irm::ReportGroupMember.table_name} rgm,#{Irm::ReportGroup.table_name} rg WHERE rgm.group_code = rg.group_code AND rgm.report_code = #{table_name}.report_code AND rg.id = ?)",group_id)
-  }
-
-  scope :query_by_favorite_flag,lambda{|favorite_flag| where(:favorite_flag=>favorite_flag)}
-
-  scope :query_by_report_code,lambda{|report_code| where(:report_code=>report_code)}
-
-  scope :query_by_category_code,lambda{|category_code| where(:category_code => category_code)}
-
-  scope :query_by_group_and_category,lambda{|report_group_code,report_purpose,category_code| select("#{table_name}.*").
-                                                     joins(",#{Irm::ReportGroupMember.table_name}").
-                                                     where("#{Irm::ReportGroupMember.table_name}.group_code = ? AND " +
-                                                     "#{Irm::ReportGroupMember.table_name}.report_code = #{table_name}.report_code AND " +
-                                                     "#{table_name}.category_code = ? AND #{table_name}.report_purpose = ?",report_group_code,category_code,report_purpose).
-                                                     order("#{Irm::ReportGroupMember.table_name}.display_sequence asc")
-  }
-
-  scope :query_by_group_codes,lambda{|group_codes|
-    if group_codes.is_a?(Array)
-      group_codes=["#"] if group_codes.length<1
-    else
-      group_codes = [group_codes]
-    end
-    joins("JOIN #{Irm::ReportGroupMember.table_name} ON #{Irm::ReportGroupMember.table_name}.report_code = #{table_name}.report_code").
-    where("#{Irm::ReportGroupMember.table_name}.group_code IN (?)",group_codes)
-  }
-  scope :query_by_report_purpose,lambda{|report_purpose| where(:report_purpose => report_purpose)}
-
-  scope :with_blank_url,lambda{select(" ' ' url ")}
-  def self.list_all
-    multilingual.with_category(I18n.locale)
+  def check_step(stp)
+    self.step.nil?||self.step.to_i>=stp
   end
 
-  
+
+  def prepare_criterions
+    return if self.report_criterions.size>4
+    0.upto 4 do |index|
+      self.report_criterions.build({:seq_num=>index+1})
+    end
+  end
+
+
+  def prepare_group_column
+    return if self.report_group_columns.size>3
+    0.upto 3 do |index|
+      self.report_group_columns.build({:seq_num=>index+1})
+    end
+  end
+
+  #创建 更新报表列
+  def create_columns_from_str
+    return unless self.report_columns_str
+    str_columns = self.report_columns_str.split(",").delete_if{|i| !i.present?}
+    str_column_indexes = str_columns.dup
+    exists_columns = Irm::ReportColumn.where(:report_id=>self.id)
+    exists_columns.each do |column|
+      if str_columns.include?(column.field_id)
+        str_columns.delete(column.field_id)
+        column.update_attribute(:seq_num,str_column_indexes.index(column.field_id)+1)
+      else
+        column.destroy
+      end
+
+    end
+
+    str_columns.each do |column_str|
+      next unless column_str.strip.present?
+      self.report_columns.build(:field_id=>column_str,:seq_num=>str_column_indexes.index(column_str)+1)
+    end if str_columns.any?
+  end
+
+
+  def report_column_array
+    return @report_column_array if @report_column_array
+    @report_column_array = self.report_columns.select_sequence.with_object_attribute.collect{|i| {:seq_num=>i[:seq_num],:business_object_id=>i[:business_object_id],:object_attribute_id=>i[:object_attribute_id],:object_attribute_name=>i[:object_attribute_name],:report_type_field_id=>i[:report_type_field_id],:table_name=>self.report_type.table_name_hash[i[:business_object_id].to_s]}}
+  end
+
+  def report_group_column_array
+    return @report_group_column_array if @report_group_column_array
+    @report_group_column_array = self.report_group_columns.select_sequence.with_object_attribute.collect{|i| {:seq_num=>i[:seq_num],:business_object_id=>i[:business_object_id],:object_attribute_id=>i[:object_attribute_id],:object_attribute_name=>i[:object_attribute_name],:table_name=>self.report_type.table_name_hash[i[:business_object_id].to_s],:group_date_type=>i.group_date_type}}
+  end
+
+
+  def report_type_column_array
+    return @report_type_column_array if @report_type_column_array
+    @report_type_column_array = Irm::ReportTypeField.select_all.query_by_report_type(self.report_type_id).with_bo_object_attribute(I18n.locale).collect{|i| {:field_id=>i[:id],:business_object_id=>i[:business_object_id],:object_attribute_id=>i[:object_attribute_id],:object_attribute_name=>i[:attribute_name],:name=>i[:object_attribute_name],:table_name=>self.report_type.table_name_hash[i[:business_object_id].to_s]}}
+  end
+
+
+
+
+  #分组列数组
+  def group_fields
+    fields = self.report_group_column_array.collect{|i| i if i[:object_attribute_id].present?}.compact
+    fields.collect{|i|
+      column = self.report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}
+      ["#{i[:table_name]}_#{i[:object_attribute_name]}",column[:name],i[:group_date_type]]
+    }
+  end
+
+  #矩阵显示列数组
+  def matrix_field
+    fields = self.report_group_column_array.collect{|i| i if i[:object_attribute_id].present?}
+    matrix_column_header_field = fields[0..1].compact.collect{|i|
+      column = self.report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}
+      ["#{i[:table_name]}_#{i[:object_attribute_name]}",column[:name],i[:group_date_type]]
+    }
+    matrix_row_header_field = fields[2..3].compact.collect{|i|
+      column = self.report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}
+      ["#{i[:table_name]}_#{i[:object_attribute_name]}",column[:name],i[:group_date_type]]
+    }
+    [matrix_column_header_field,matrix_row_header_field]
+  end
+
+
+  # 表格标题
+  def report_header
+    return @report_header if @report_header
+    @report_header = []
+    report_column_array.each do |i|
+      @report_header << ["#{i[:table_name]}_#{i[:object_attribute_name]}",report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}[:name]]
+    end
+    @report_header
+  end
+
+
+  def generate_scope
+    query_scope = eval(generate_query_str).where(where_clause)
+    if(self.filter_company_id.present?)
+      query_scope = query_scope.where("a.company_id=?",self.filter_company_id)
+    end
+    if self.filter_date_field_id
+      date_field = report_type_column_array.detect{|i| i[:field_id].eql?(self.filter_date_field_id)}
+      if(date_field&&self.filter_date_from.present?)
+        query_scope = query_scope.where("#{date_field[:table_name]}.#{date_field[:object_attribute_name]}>=?",self.filter_date_from)
+      end
+      if(date_field&&self.filter_date_to.present?)
+        query_scope = query_scope.where("#{date_field[:table_name]}.#{date_field[:object_attribute_name]}<=?",self.filter_date_to)
+      end
+    end
+    query_scope
+  end
+
+  #报表基础数据
+  def report_meta_data
+    self.generate_scope
+  end
+
+  #报表显示类型
+  #1,数据显示列表
+  #2,数据分组列表
+  #3,矩阵列表
+  def table_show_type
+    return @table_show_type if @table_show_type
+    group_field_ids = report_group_columns.collect{|i| i.field_id}
+    indexes = []
+    group_field_ids.each_with_index do |i,index|
+      if i.present?
+        indexes << index
+      end
+    end
+    if(indexes.size==0)
+      return "COMMON"
+    end
+    if ((indexes.include?(0)||indexes.include?(1))&&!(indexes.include?(2)||indexes.include?(3)))||((indexes.include?(2)||indexes.include?(3))&&!(indexes.include?(0)||indexes.include?(1)))
+      return "GROUP"
+    end
+    if ((indexes.include?(0)||indexes.include?(1))&&(indexes.include?(2)||indexes.include?(3)))
+      return "MATRIX"
+    end
+  end
+
+
+  def editable(member_type,access_type,person_id)
+    if(member_type.present?&&access_type&&person_id.present?)
+      return true if person_id.eql?(self.created_by)
+      if(!member_type.eql?("PRIVATE")&&access_type.eql?("READ_WRITE"))
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
+  private
+  # 检查查询条件
+  def validate_raw_condition_clause
+    # 检查行号
+    seq_nums = self.raw_condition_clause.scan(/\d+/)
+    seq_nums.each do |sq|
+      unless self.report_criterions.detect{|rc| rc.field_id&&!rc.field_id.blank?&&rc.seq_num == sq.to_i}
+        errors.add(:raw_condition_clause,I18n.t(:view_filter_use_invalid_seq_num)+":#{sq}")
+        break
+      end
+    end
+    # 检查关键字
+    key_words = self.raw_condition_clause.scan(/[A-Z]+/)
+    key_words.each do |kw|
+      unless kw.eql?("AND")||kw.eql?("OR")
+        errors.add(:raw_condition_clause,I18n.t(:view_filter_use_invalid_key_word)+":#{kw}")
+        break
+      end
+    end
+    # 检查and or 语法
+    info = ""
+    begin
+      eval(self.raw_condition_clause.downcase)
+    rescue StandardError,SyntaxError, NameError=>text
+          info = text
+    end
+    unless info.blank?
+      errors.add(:raw_condition_clause,I18n.t(:view_filter_use_invalid_syntax))
+    end
+  end
+
+  def set_condition
+    self.condition_clause = generate_condition
+    self.query_str_cache = generate_query_str
+  end
+
+  def generate_condition
+    conditions = {}
+    self.raw_condition_clause||=""
+    report_criterions.each{|rc| conditions.merge!(rc.seq_num=>rc.to_condition(self.report_type.table_name_hash)) if rc.field_id.present?}
+    seq_nums = self.raw_condition_clause.scan(/\d+/)
+    clause = self.raw_condition_clause.dup
+    # 将数据换成带^符号的数字
+    # 防止参数中出现数字出现替换错误
+    seq_nums.each do |sq|
+      clause.gsub!(sq,"^#{sq}")
+    end
+    seq_nums.each do |sq|
+      clause.gsub!("^#{sq}",conditions[sq.to_i])
+    end
+    clause
+  end
+
+  def where_clause
+    where_conditon = self.condition_clause.dup
+    params = where_conditon.scan(/\{\{\S*\}\}/)
+    param_values = []
+    params.each do |p|
+      p.gsub!(/[\{\}]/,"")
+      param_values << eval(p)
+    end
+    params
+    where_conditon.gsub!(/\{\{\S*\}\}/,"?")
+    where_conditon = ([where_conditon]+param_values).flatten
+    where_conditon = where_conditon[0] unless where_conditon.length>1
+    where_conditon
+  end
+
+
+  def generate_query_str
+    select_fields = report_column_array.collect{|i| "#{i[:table_name]}.#{i[:object_attribute_name]} #{i[:table_name]}_#{i[:object_attribute_name]}"}
+    self.report_type.generate_scope<<%Q{.select("#{select_fields.join(",")}")}
+  end
+
 end

@@ -309,7 +309,21 @@ class Irm::Person < ActiveRecord::Base
   end
 
   def hidden_roles
-    roles.where(:hidden_flag=>Irm::Constant::SYS_YES)
+    return @hidden_roles if @hidden_roles
+    @hidden_roles = roles.where(:hidden_flag=>Irm::Constant::SYS_YES)
+  end
+
+  def report_folders
+    return @report_folders if @report_folders
+    role_ids = []
+    role_ids << Irm::Role.current.id if Irm::Role.current
+    hidden_roles.each{|i| role_ids << i.id}
+    role_report_folders = Irm::ReportFolder.multilingual.query_by_roles(role_ids)
+    person_report_folders = Irm::ReportFolder.multilingual.query_by_person(self.id)
+    public_report_folders = Irm::ReportFolder.public
+    @report_folders =  person_report_folders + role_report_folders + public_report_folders
+    @report_folders.uniq!
+    @report_folders
   end
 
 
