@@ -1,0 +1,98 @@
+<style type="text/css">
+  #baseFilter select{
+      min-width: 128px;
+  }
+  #baseFilter tr{
+      vertical-align: top;
+  }
+  #baseFilter td{
+      padding-right: 10px;
+  }
+  #baseFilter label{
+      display: block;
+      margin-top: 28px;
+  }
+  #baseFilter fieldset label{
+      display: block;
+      margin-top: 5px;
+  }
+  #reportData th,td{
+      text-align:left
+  }
+  #reportData th{
+      background-color: #DBF2F9;
+  }
+</style>
+<%= app_title %>
+
+<div id="ep" class="bDetailBlock bPageBlock">
+  <%= form_for(@report,:url=>{:action=>"run"},:builder => LabellingFormBuilder) do |f|%>
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%= @report[:name] %></h2></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
+                <tbody>
+                  <tr>
+                    <td width="30%"></td>
+                    <td></td>
+                    <td>
+                      <label for="filterCompanyId"><%= t(:label_irm_report_filter_company) %></label>
+                      <%=f.blank_select(:filter_company_id,available_company,{},{:id=>"filterCompanyId"})%>
+                    </td>
+                    <td>
+                      <fieldset>
+                        <legend>
+                          <%= t(:label_irm_report_time_range) %>
+                        </legend>
+                        <table>
+                          <tr>
+                            <td colspan="2">
+                              <label for="filterDateField"><%= t(:label_irm_report_filter_date_field) %></label>
+                              <%= f.blank_select(:filter_date_field_id,grouped_options_for_select(available_date_filter_field(@report.report_type_id),@report.filter_date_field_id),{},{:id=>"filterDateField"})%>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                              <%= f.text_field(:filter_date_from,:value=>@filter_date_from,:id=>"filterDateFrom",:size=>12)%>
+                              <%= calendar_view("filterDateFrom","filterDateFrom","cal") %>
+                            </td>
+                            <td>
+                              <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                              <%= f.text_field(:filter_date_to,:value=>@filter_date_to,:id=>"filterDateTo",:size=>12)%>
+                              <%= calendar_view("filterDateTo","filterDateTo","cal") %>
+                            </td>
+                          </tr>
+                        </table>
+                      </fieldset>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+          </td>
+        </tr>
+        <tr>
+          <td id="topButtonRow" class="pbButton" colspan="2">
+            <div class="button"><%= f.submit t :label_irm_report_run%></div>
+            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @report.id}%></div>
+            <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <% end %>
+  <div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <%= render "show_#{@report.table_show_type.downcase}"%>
+    </div>
+  </div>
+</div>
+

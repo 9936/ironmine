@@ -1,0 +1,23 @@
+<style type="text/css">
+  table#reportData td,th{
+       padding: 3px 2px 3px 5px;
+  }
+</style>
+<table id="reportData">
+  <thead>
+    <tr>
+      <% @report.report_header.each do |title| %>
+        <th><strong><%= title[1] %></strong></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @report.report_meta_data.each do |rd| %>
+    <tr>
+      <% @report.report_header.each do |k|  %>
+        <td><%= rd[k[0]] %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
