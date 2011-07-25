@@ -868,9 +868,14 @@ zh:
   label_irm_role_service_role_type: 角色类型
   #=========================end irm roles ===================================
   #========================= irm reports ===================================
+  label_irm_report_step_report_type: 报表类型
+  label_irm_report_step_base_info: 基础信息
+  label_irm_report_step_column: 报表列
+  label_irm_report_step_group: 数据分组
+  label_irm_report_step_data_filter: 数据过滤
   label_irm_report_list: 报表列表
   label_irm_report: 报表
-  label_irm_report_report_code: 报表编码
+  label_irm_report_code: 报表编码
   label_irm_report_name: 报表名称
   label_irm_report_category_code: 报表类别
   label_irm_report_permission_code: 报表页面编码
@@ -882,7 +887,30 @@ zh:
   label_irm_report_edit: 编辑报表
   label_irm_report_page_controller: 页面Controller
   label_irm_report_page_action: 页面Action
+  label_irm_report_choose_report_type: 选择报表类型
+  label_irm_report_choose_display_column: 选择报表列
+  label_irm_report_filter_company: 公司
+  label_irm_report_time_range: 时间范围
+  label_irm_report_filter_date_field: 时间字段
+  label_irm_report_filter_date_from: 从
+  label_irm_report_filter_date_to: 至
+  label_irm_report_base_data_filter: 基本过滤
+  label_irm_report_data_filter: 数据过滤器
+  label_irm_report_detail_display_flag: 显示详细信息
+  label_irm_report_run: 运行报表
+  label_irm_report_report_type: 报表类型
+  label_irm_report_record_count: 记录数
+  label_irm_report_records: 条记录
+  label_irm_report_report_folder: 报表文件夹
+  label_irm_report_create_new: 创建新的自定义报表
   #========================= end irm reports ===================================
+  #========================= irm report column ===================================
+  label_irm_report_setup_group_column_header: 设置数据列 分组
+  label_irm_report_setup_group_row_header: 设置数据行 分组
+  label_irm_report_group_column_field: 分组列
+  label_irm_report_group_column_sort_type: 排序
+  label_irm_report_group_column_group_date_type: 日期分组方式
+  #========================= end irm report column ===================================
   #========================= irm report_groups ===================================
   label_irm_report_group_list: 报表组列表
   label_irm_report_group_group_code: 组编码
@@ -1353,7 +1381,7 @@ zh:
   label_irm_report_type_usable_field_source: 字段来源
   label_irm_report_type_usable_count: 选取的字段
   #=======================end report_type  ====================
-  #======================= report_type  ====================
+  #======================= report_type section ====================
   label_irm_report_type_define_field_and_section: 定义报表分区及字段
   rename: 修改名称
   label_irm_report_type_section_name: 名称
@@ -1361,4 +1389,13 @@ zh:
   label_irm_report_type_field_business_object: 业务对像
   label_irm_report_type_field_selectable_attribute: 报表可用字段
   label_irm_report_type_usable_field_and_section: 报表分区及字段
-  #=======================end report_type  ====================
+  #=======================end report_type section ====================
+  #======================= report_folder ====================
+  label_irm_report_folder: 报表文件夹
+  label_irm_report_folder_new: 新建报表文件夹
+  label_irm_report_folder_create_new_folder: 创建报表文件夹
+  label_irm_report_folder_name: 名称
+  label_irm_report_folder_code: 编码
+  label_irm_report_folder_access_type: 访问类型
+  label_irm_report_folder_member_type: 可访问成员类型
+  #=======================end report_folder ====================

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  code: MyString
+  access_type: MyString
+  member_type: MyString
+
+two:
+  name: MyString
+  code: MyString
+  access_type: MyString
+  member_type: MyString
