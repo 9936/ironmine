@@ -202,7 +202,7 @@ class Irm::Report < ActiveRecord::Base
 
   def editable(member_type,access_type,person_id)
     if(member_type.present?&&access_type&&person_id.present?)
-      return true if person_id.eql?(self.created_by)
+      return true if person_id.to_s.eql?(self.created_by)
       if(!member_type.eql?("PRIVATE")&&access_type.eql?("READ_WRITE"))
         return true
       else
