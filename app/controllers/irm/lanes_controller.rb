@@ -11,7 +11,7 @@ class Irm::LanesController < ApplicationController
     @lane = Irm::Lane.find(params[:id])
 
     respond_to do |format|
-      if @lane.update_attributes(params[:irm_lane])
+      if @lane.update_attributes(params[:irm_lane]) && (@lane.update_attribute(:limit, 10) if @lane.limit.nil? || @lane.limit <= 10)
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -27,6 +27,7 @@ class Irm::LanesController < ApplicationController
 
   def create
     @lane = Irm::Lane.new(params[:irm_lane])
+    @lane.limit = 10 if @lane.limit.nil? || @lane.limit <= 0
     respond_to do |format|
       if @lane.save
         format.html {redirect_to({:action=>"index"}, :notice =>t(:successfully_created))}
@@ -98,8 +99,7 @@ class Irm::LanesController < ApplicationController
     owned_cards_scope= Irm::Card.select_all.without_lane(params[:id]).enabled
     respond_to do |format|
       format.json {render :json=>to_jsonp(owned_cards_scope.to_grid_json(
-                                              [:card_code, :card_name,:card_description, :background_color],
-                                              50))}
+                                          [:card_code, :card_name,:card_description, :background_color],50))}
     end
   end
 
