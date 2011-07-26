@@ -26,6 +26,12 @@ class Irm::KanbansController < ApplicationController
   def create
     @kanban = Irm::Kanban.new(params[:irm_kanban])
     range_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"],[Irm::Person, "P"]]
+
+    #确保刷新时间大于5秒
+    if @kanban.refresh_interval.nil? || @kanban.refresh_interval < 5
+      @kanban.refresh_interval = 5
+    end
+
     respond_to do |format|
       if @kanban.save
         if params[:selected_ranges] && params[:selected_ranges].present?
@@ -54,6 +60,11 @@ class Irm::KanbansController < ApplicationController
   def update
     @kanban = Irm::Kanban.find(params[:id])
     range_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"],[Irm::Person,"P"]]
+
+    #确保刷新时间大于5秒
+    if @kanban.refresh_interval.nil? || @kanban.refresh_interval < 5
+      @kanban.refresh_interval = 5
+    end
 
     respond_to do |format|
       if @kanban.update_attributes(params[:irm_kanban])
