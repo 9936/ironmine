@@ -478,16 +478,29 @@ Ironmine::Application.routes.draw do
     match '/dev_tools/show_missed_permissions(.format)' => 'dev_tools#show_missed_permissions', :via => :get
     match '/dev_tools/missed_permissions_data(.format)' => 'dev_tools#missed_permissions_data', :via => :get
     #reports
-    match '/reports(/index)(.:format)' => "reports#index", :via => :get
-    match '/reports/:id/edit(.:format)' => "reports#edit", :via => :get
+    match '/reports(/index)(.:format)' => "reports#index", :via => [:get,:post,:put]
+    match '/reports/:id/edit(.:format)' => "reports#edit", :via => [:get,:post,:put]
     match '/reports/:id(.:format)' => "reports#update", :via => :put
-    match '/reports/new(.:format)' => "reports#new", :via => :get
+    match '/reports/new(.:format)' => "reports#new", :via => [:get,:post]
+    match '/reports/:id/run(.:format)' => "reports#run", :via => :put
+    match '/reports/operator_value(.:format)' => "reports#operator_value", :via => :get
     match '/reports/create(.:format)' => "reports#create", :via => :post
     match '/reports/get_data(.:format)' => "reports#get_data"
-    match '/reports/:id/show(.:format)' => "reports#show", :via => :get
     match '/reports/:id(.:format)' => "reports#show", :via => :get
     match '/reports/:id/multilingual_edit(.:format)' => "reports#multilingual_edit", :via => :get
     match '/reports/:id/multilingual_update(.:format)' => "reports#multilingual_update", :via => :put
+    match '/reports/:id/destroy(.:format)' => "reports#destroy", :via => :delete
+    match '/reports/:id/edit_custom(.:format)' => "reports#edit_custom", :via => [:get,:post,:put]
+    match '/reports/:id/update_custom(.:format)' => "reports#update_custom", :via => :put
+
+    #report folders
+    match '/report_folders(/index)(.:format)' => "report_folders#index", :via => :get
+    match '/report_folders/:id/edit(.:format)' => "report_folders#edit", :via => :get
+    match '/report_folders/:id(.:format)' => "report_folders#update", :via => :put
+    match '/report_folders/new(.:format)' => "report_folders#new", :via => :get
+    match '/report_folders/create(.:format)' => "report_folders#create", :via => :post
+    match '/report_folders/:id/multilingual_edit(.:format)' => "report_folders#multilingual_edit", :via => :get
+    match '/report_folders/:id/multilingual_update(.:format)' => "report_folders#multilingual_update", :via => :put
     #reports
     match '/report_groups(/index)(.:format)' => "report_groups#index", :via => :get
     match '/report_groups/:id/edit(.:format)' => "report_groups#edit", :via => :get

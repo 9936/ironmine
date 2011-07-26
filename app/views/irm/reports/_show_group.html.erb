@@ -1,0 +1,26 @@
+<style type="text/css">
+  table#reportData td,th{
+       padding: 3px 2px 3px 5px;
+  }
+  tr.group{
+
+  }
+  tr.group1{
+    background-color: #D5DDF3;
+  }
+  tr.group2{
+    background-color: #EFF4FC;
+  }
+  table#reportData tr.group2 td{
+     padding: 3px 2px 3px 30px;
+  }
+  tr.break1{
+    background-color: #D5DDF3;
+  }
+  tr.break2{
+    background-color: #EFF4FC;
+  }
+</style>
+<table id="reportData" cellspacing="0" cellpadding="0" border="0">
+  <%= raw group_report(@report) %>
+</table>

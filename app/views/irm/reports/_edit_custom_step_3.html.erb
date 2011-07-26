@@ -1,0 +1,138 @@
+<style type="text/css">
+  .floatLeft{
+      float:left;
+      vertical-align:middle;
+  }
+</style>
+<%= form_for(@report,:url=>{:action=>"edit_custom"},:builder => LabellingFormBuilder) do |f| %>
+<%= f.hidden_field(:step) %>
+<div  class="bWizardBlock">
+  <%= render :partial => "step_header",:locals => {:step=>@report.step} %>
+  <div class="pbBody">
+    <div class="pbDescription ">
+    </div>
+    <div class="pbWizardBody">
+      <div class="secondaryPalette">
+        <div class="pbBody ">
+            <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+              <h3><%= t(:label_irm_report_choose_display_column) %></h3>
+            </div>
+            <div class="pbSubsection">
+              <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                  <tr>
+                    <td class="labelCol empty">&nbsp;</td>
+                    <td class="dataCol empty">&nbsp;</td>
+                    <td class="labelCol empty">&nbsp;</td>
+                    <td class="dataCol empty">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td class="labelCol"><label for="duelType"><%=t(:label_irm_wf_rule_action_type)%></label></td>
+                    <td class="dataCol" colspan="3" style="width:82%">
+                      <div class="floatLeft">
+                           <label><%= t(:search) %></label>
+                      </div>
+                      <div class="floatLeft">
+                         <%=select_tag_alias :duel_type,available_report_sections(@report.report_type_id),{},:id=>"duelType"%>
+                      </div>
+                      <div class="floatLeft">
+                        <input type="text" size="30" id="duelQuery"/>
+                      </div>
+                      <div class="floatLeft">
+                         <div class="button"><a href="javascript:void(0)" id="duelSearch"><%=t(:search) %></a></div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr id="actions">
+                    <td class="labelCol"></td>
+                    <td class="dataCol" colspan="3" width="82%">
+                      <table class="duel">
+                        <tr class="duelTitle">
+                          <th><%= t(:duel_selectable)%></th>
+                          <th></th>
+                          <th><%= t(:duel_selected)%></th>
+                          <th></th>
+                        </tr>
+                        <tr class="duelList">
+                          <td class="sourceCell">
+                            <%= select_tag_alias(:source,available_report_fields(@report.report_type_id),nil,{:id=>"source",:multiple=>true,:size=>14}) %>
+                          </td>
+                          <td class="buttonCell">
+                            <div class="text"><%= t(:add) %></div>
+                            <div class="text">
+                              <a href="javascript:void(0)" id="duelAdd"><img title="<%= t(:add) %>" class="rightArrowIcon" alt="<%= t(:add) %>" src="<%= theme_image_path("s.gif") %>"></a>
+                            </div>
+                            <div class="text">
+                              <a href="javascript:void(0)" id="duelRemove"><img title="<%= t(:delete) %>" class="leftArrowIcon" alt="<%= t(:delete) %>" src="<%= theme_image_path("s.gif") %>"></a>
+                            </div>
+                            <div class="duelingText"><%= t(:delete) %></div>
+                          </td>
+                          <td class="targetCell">
+                            <%= f.hidden_field(:report_columns_str,:value=>report_column_str(@report),:id=>"report_columns_str") %>
+                            <%= select_tag_alias(:target,[],nil,{:id=>"target",:multiple=>true,:size=>14}) %>
+                          </td>
+                          <td class="buttonCell">
+                            <div class="text"><%= t(:up) %></div>
+                            <div class="text">
+                              <a href="javascript:void(0)" id="duelUp"><img title="<%= t(:up) %>" class="upArrowIcon" alt="<%= t(:add) %>" src="<%= theme_image_path("s.gif") %>"></a>
+                            </div>
+                            <div class="text">
+                              <a href="javascript:void(0)" id="duelDown"><img title="<%= t(:down) %>" class="downArrowIcon" alt="<%= t(:delete) %>" src="<%= theme_image_path("s.gif") %>"></a>
+                            </div>
+                            <div class="duelingText"><%= t(:down) %></div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="labelCol empty">&nbsp;</td>
+                    <td class="dataCol"><%= f.check_box(:detail_display_flag) %><label><%= t(:label_irm_report_detail_display_flag)%></label></td>
+                    <td class="labelCol empty">&nbsp;</td>
+                    <td class="dataCol empty">&nbsp;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="pbWizardFooter">
+        <div class="pbBottomButtons">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td class="pbTitle"></td>
+                  <td id="bottomButtonRow" class="pbButtonb">
+                    <div class="button"><%= link_to t(:last), {:action => "edit_custom",:pre_step=>true},{:class=>"submit"} %></div>
+                    <div class="button"><%= f.submit t :next%></div>
+                    <div class="button"><%= link_to t(:cancel), {:action => "show",:id=>@report.id} %></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+</div>
+<%end%>
+<script type="text/javascript">
+  GY.use("duelselect",function(Y){
+    var duelselect = new Y.DuelSelect({source:"#source",target:"#target",valueNode:"#report_columns_str",type:Y.one("#duelType").get("value"),
+                                       addButton:"#duelAdd",removeButton:"#duelRemove",
+                                       upButton:"#duelUp",downButton:"#duelDown"})
+    Y.one("#duelType").on("change",function(e){
+      Y.one("#duelQuery").set("value","");
+      duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
+    });
+    Y.one("#duelSearch").on("click",function(e){
+      duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
+    });
+    Y.one("#duelQuery").on("keydown",function(e){
+      if(e.keyCode==13){
+          e.preventDefault();
+          duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
+      }
+    });
+  });
+</script>

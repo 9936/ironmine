@@ -1,0 +1,50 @@
+<table class="toolsContent">
+    <tbody>
+        <tr>
+          <td>
+            <div class="toolsContentLeft">
+              <div class="bSubBlock">
+                <h3 class="lbHeader"><%= t(:common_report) %></h3>
+                <div class="lbBody">
+                  <ul>
+                    <% current_reports(bo_model_name).each do |report| %>
+                      <li>
+                        <%= link_to(report[:name],{:controller => "irm/reports",:action=>"show",:id=>report.id}) %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+                <div class="lbBody">
+                  <div class="mainLink">
+                    <%= link_to t(:go_to_report),url_for(:controller=>"irm/reports",
+                                                             :action => "index") %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="toolsContentLeft">
+              <div class="bSubBlock">
+                <h3 class="lbHeader"><%= t(:tool) %></h3>
+                <div class="lbBody">
+                  <ul>
+                    <% current_reports(bo_model_name).each do |report| %>
+                      <li>
+                        <%= link_to(report[:name],{:controller => "irm/reports",:action=>"show",:id=>report.id}) %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+                <div class="lbBody">
+                  <div class="mainLink">
+                     <%= link_to t(:go_to_report),url_for(:controller=>"irm/reports",
+                                                             :action => "index") %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+</table>
