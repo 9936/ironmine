@@ -320,7 +320,7 @@ class Irm::Person < ActiveRecord::Base
     hidden_roles.each{|i| role_ids << i.id}
     role_report_folders = Irm::ReportFolder.multilingual.query_by_roles(role_ids)
     person_report_folders = Irm::ReportFolder.multilingual.query_by_person(self.id)
-    public_report_folders = Irm::ReportFolder.public
+    public_report_folders = Irm::ReportFolder.multilingual.public
     @report_folders =  person_report_folders + role_report_folders + public_report_folders
     @report_folders.uniq!
     @report_folders

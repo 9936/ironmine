@@ -2,24 +2,9 @@ class Irm::ReportFoldersController < ApplicationController
   # GET /report_folders
   # GET /report_folders.xml
   def index
-    @report_folders = Irm::ReportFolder.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @report_folders }
-    end
+    redirect_to({:controller => "irm/reports",:action => "index"})
   end
 
-  # GET /report_folders/1
-  # GET /report_folders/1.xml
-  def show
-    @report_folder = Irm::ReportFolder.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @report_folder }
-    end
-  end
 
   # GET /report_folders/new
   # GET /report_folders/new.xml
@@ -34,7 +19,7 @@ class Irm::ReportFoldersController < ApplicationController
 
   # GET /report_folders/1/edit
   def edit
-    @report_folder = Irm::ReportFolder.find(params[:id])
+    @report_folder = Irm::ReportFolder.multilingual.find(params[:id])
   end
 
   # POST /report_folders
@@ -46,7 +31,7 @@ class Irm::ReportFoldersController < ApplicationController
       if @report_folder.valid?
         @report_folder.create_member_from_str
         @report_folder.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller => "irm/reports",:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report_folder, :status => :created, :location => @report_folder }
       else
         format.html { render :action => "new" }
@@ -58,11 +43,11 @@ class Irm::ReportFoldersController < ApplicationController
   # PUT /report_folders/1
   # PUT /report_folders/1.xml
   def update
-    @report_folder = Irm::ReportFolder.find(params[:id])
+    @report_folder = Irm::ReportFolder.multilingual.find(params[:id])
 
     respond_to do |format|
       if @report_folder.update_attributes(params[:irm_report_folder])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:controller => "irm/reports",:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -92,21 +77,13 @@ class Irm::ReportFoldersController < ApplicationController
     @report_folder.not_auto_mult=true
     respond_to do |format|
       if @report_folder.update_attributes(params[:irm_report_folder])
-        format.html { redirect_to({:action => "show"}, :notice => 'Report folder was successfully updated.') }
+        format.html { redirect_to({:controller => "irm/reports",:action => "show"}, :notice => 'Report folder was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "multilingual_edit" }
         format.xml  { render :xml => @report_folder.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  def get_data
-    report_folders_scope = Irm::ReportFolder.multilingual
-    report_folders_scope = report_folders_scope.match_value("report_folder.name",params[:name])
-    report_folders,count = paginate(report_folders_scope)
-    respond_to do |format|
-      format.json {render :json=>to_jsonp(report_folders.to_grid_json([:name,:description,:status_meaning],count))}
-    end
-  end
 end

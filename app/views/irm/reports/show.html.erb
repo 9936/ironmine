@@ -26,7 +26,7 @@
 <%= app_title %>
 
 <div id="ep" class="bDetailBlock bPageBlock">
-  <%= form_for(@report,:url=>{:action=>"run"},:builder => LabellingFormBuilder) do |f|%>
+  <%= form_for(@report,:url=>{:action=>"run"},:builder => LabellingFormBuilder,:html=>{:id=>"customForm"}) do |f|%>
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -81,6 +81,7 @@
           <td id="topButtonRow" class="pbButton" colspan="2">
             <div class="button"><%= f.submit t :label_irm_report_run%></div>
             <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @report.id}%></div>
+            <div class="button"><%= link_to t(:label_irm_report_custom), {:action => "edit_custom"},{:class=>"submit"} %></div>
             <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
           </td>
@@ -96,3 +97,14 @@
   </div>
 </div>
 
+<script type="text/javascript">
+  GY.use("node-base",function(Y){
+      Y.one("form#customForm").delegate("click",function(e){
+          e._currentTarget.setAttribute("action",e.target.getAttribute("href"));
+
+          e.preventDefault();
+          e._currentTarget.submit();
+      },"a.submit");
+  });
+
+</script>

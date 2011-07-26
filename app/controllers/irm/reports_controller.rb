@@ -75,7 +75,7 @@ class Irm::ReportsController < ApplicationController
   end
 
   def edit
-    @report = Irm::Report.multilingual.find(params[:id])
+    @report = Irm::Report.multilingual.with_report_type(I18n.locale).find(params[:id])
     if params[:irm_report]
       session[:irm_report].merge!(params[:irm_report].symbolize_keys)
     else
@@ -186,6 +186,76 @@ class Irm::ReportsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to({:action=>"index",:folder_id=>folder_id}) }
       format.xml  { head :ok }
+    end
+  end
+
+
+  def edit_custom
+    @report = Irm::Report.multilingual.with_report_type(I18n.locale).find(params[:id])
+    if params[:irm_report]&&params[:irm_report][:step].present?
+      session[:irm_report].merge!(params[:irm_report].symbolize_keys)
+      @report.attributes = session[:irm_report]
+    else
+      session[:irm_report]={:step=>2,:name=>nil,:description=>nil,:code=>nil,:report_type_id=>@report.report_type_id}
+      @report.attributes = session[:irm_report]
+      @report[:name] = nil
+    end
+
+    @report.step = @report.step.to_i if  @report.step.present?
+    validate_result = false
+    if(@report.step>2)
+      validate_result =  request.put?&&params[:irm_report][:step].present?&&@report.valid?
+    else
+      temp_id = @report.clear_id
+      validate_result =  request.put?&&params[:irm_report][:step].present?&&@report.valid?
+      @report.set_id(temp_id)
+    end
+    # validate filter
+    #if request.post?&&@report.step.eql?(2)
+    #  session[:irm_rule_filter] = params[:irm_rule_filter]
+    # @rule_filter = Irm::RuleFilter.new(session[:irm_rule_filter])
+    #  validate_result = validate_result&&@rule_filter.valid?
+    #  @wf_approval_step.evaluate_mode = "FILTER" unless @rule_filter.valid?
+    #end
+
+    if validate_result
+      if(params[:pre_step])&&@report.step>2
+        @report.step = @report.step.to_i-1
+        session[:irm_report][:step] = @report.step
+      else
+        if @report.step<5
+          @report.step = @report.step.to_i+1
+          session[:irm_report][:step] = @report.step
+        end
+      end
+    end
+
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @report }
+    end
+  end
+
+  def update_custom
+    session[:irm_report].merge!(params[:irm_report].symbolize_keys)
+    puts session[:irm_report][:report_group_columns_attributes].class
+    session[:irm_report][:report_group_columns_attributes].each{|key,value| value[:id]=nil}
+    session[:irm_report][:report_criterions_attributes].each{|key,value| value[:id]=nil}
+    @report = Irm::Report.new(session[:irm_report])
+
+    respond_to do |format|
+      if @report.valid?
+         @report.create_columns_from_str
+         @report.save
+         session[:irm_report] = nil
+        format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
+        format.xml  { render :xml => @report, :status => :created, :location => @wf_rule }
+      else
+        puts @report.errors
+        format.html { render :action => "edit_custom" }
+        format.xml  { render :xml => @report.errors, :status => :unprocessable_entity }
+      end
     end
   end
 end

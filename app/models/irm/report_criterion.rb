@@ -29,6 +29,12 @@ class Irm::ReportCriterion < ActiveRecord::Base
     "(#{select_table_name}.#{object_attribute.attribute_name} #{operator_filter_value})"
   end
 
+  def clear_id
+    tmp_id = self.id
+    self.id = ""
+    return tmp_id
+  end
+
   private
   def validate_data_type_filter_value
     # if operator nil

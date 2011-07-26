@@ -1,10 +1,10 @@
 module Irm::ReportFoldersHelper
   def available_report_folder_access_type
-    [["Forbid","FORBID"],["Read Only","READ_ONLY"],["Read/Write","READ_WRITE"]]
+    Irm::LookupValue.query_by_lookup_type("IRM_REPORT_FOLDER_ACCESS_TYPE").multilingual.order_id.collect{|p|[p[:meaning],p[:lookup_code]]}
   end
 
   def available_report_folder_member_type
-    [["all people view","PUBLIC"],["Only Creator","PRIVATE"],["Only member","MEMBER"]]
+    Irm::LookupValue.query_by_lookup_type("IRM_REPORT_FOLDER_MEMBER_TYPE").multilingual.order_id.collect{|p|[p[:meaning],p[:lookup_code]]}
   end
   # =========== for add_exists_action ==================================
   def available_report_folder_viewer_type

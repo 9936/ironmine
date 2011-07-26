@@ -1,0 +1,161 @@
+<style type="text/css">
+  #baseFilter select{
+      min-width: 128px;
+  }
+  #baseFilter tr{
+      vertical-align: top;
+  }
+  #baseFilter td{
+      padding-right: 10px;
+  }
+  #baseFilter label{
+      display: block;
+      margin-top: 28px;
+  }
+  #baseFilter fieldset label{
+      display: block;
+      margin-top: 5px;
+  }
+</style>
+<%= form_for(@report,:url=>{:action=>"update_custom"},:builder => LabellingFormBuilder) do |f| %>
+<%= f.hidden_field(:step) %>
+<div  class="bWizardBlock">
+  <%= render :partial => "step_header",:locals => {:step=>@report.step} %>
+  <% selectable_fields = available_filter_field(@report.report_type_id) %>
+  <div class="pbBody">
+    <div class="pbDescription ">
+    </div>
+    <div class="pbWizardBody">
+      <div class="secondaryPalette">
+        <div class="pbBody ">
+            <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+              <h3><%= t(:label_irm_report_base_data_filter) %></h3>
+            </div>
+            <div class="pbSubsection">
+              <table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
+                <tbody>
+                  <tr>
+                    <td width="30%"></td>
+                    <td></td>
+                    <td>
+                      <label for="filterCompanyId"><%= t(:label_irm_report_filter_company) %></label>
+                      <%=f.blank_select(:filter_company_id,available_company,{},{:id=>"filterCompanyId"})%>
+                    </td>
+                    <td>
+                      <fieldset>
+                        <legend>
+                          <%= t(:label_irm_report_time_range) %>
+                        </legend>
+                        <table>
+                          <tr>
+                            <td colspan="2">
+                              <label for="filterDateField"><%= t(:label_irm_report_filter_date_field) %></label>
+                              <%= f.blank_select(:filter_date_field_id,grouped_options_for_select(available_date_filter_field(@report.report_type_id),@report.filter_date_field_id),{},{:id=>"filterDateField"})%>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                              <%= f.text_field(:filter_date_from,:id=>"filterDateFrom",:size=>12)%>
+                              <%= calendar_view("filterDateFrom","filterDateFrom","cal") %>
+                            </td>
+                            <td>
+                              <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                              <%= f.text_field(:filter_date_to,:id=>"filterDateTo",:size=>12)%>
+                              <%= calendar_view("filterDateTo","filterDateTo","cal") %>
+                            </td>
+                          </tr>
+                        </table>
+                      </fieldset>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div id="head_2_ep" class="pbSubheader tertiaryPalette">
+              <h3><%= t(:label_irm_report_data_filter) %></h3>
+            </div>
+            <div class="pbSubsection" id="filterContent" href="<%= url_for(:action=>"operator_value",:seq_num=>"{seq_num}",:field_id=>"{field_id}") %>">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                  <tr>
+                    <th width="20%"></th>
+                    <th></th>
+                    <th><%=t(:irm_filter_criterions_column_code)%></th>
+                    <th><div style="width:30%;float:left;"><%=t(:irm_filter_criterions_operator_code)%></div> <div style="width:70%;float:left;"><%=t(:irm_filter_criterions_filter_value)%></div></th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                <%= f.fields_for :report_criterions,:normal=>true do |sub_f|%>
+                    <tr>
+                      <td width="20%"></td>
+                      <td width="10px" class="dataCol"><%=sub_f.object.seq_num%>.</td>
+                      <td class="dataCol">
+                        <%=sub_f.hidden_field(:seq_num)%>
+                        <%=sub_f.blank_select(:field_id,grouped_options_for_select(selectable_fields,sub_f.object.field_id),{},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
+                      </td>
+                      <td class="dataCol" id="filter<%=sub_f.object.seq_num%>">
+                        <%= render_report_filter_field(sub_f.object.field_id,sub_f)  %>
+                      </td>
+                    </tr>
+                <%end %>
+                <tr>
+                  <td width="20%"></td>
+                  <td colspan="3" class="dataCol"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
+                </tr>
+                <tr>
+                  <td width="20%"></td>
+                  <td class="dataCol" colspan="3"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause"%></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="pbWizardFooter">
+        <div class="pbBottomButtons">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td class="pbTitle"></td>
+                  <td id="bottomButtonRow" class="pbButtonb">
+                    <div class="button"><%= link_to t(:last), {:action => "edit_custom",:pre_step=>true},{:class=>"submit"} %></div>
+                    <div class="button"><%= f.submit t :save%></div>
+                    <div class="button"><%= link_to t(:cancel), {:action => "show",:id=>@report.id} %></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+</div>
+<%end%>
+<script type="text/javascript">
+  GY.use("irm","gallerydispatcher","substitute",function(Y){
+      Y.on("domready",function(){
+        Y.on('change',Y.irm.rawConditionClause,".filterColumnSelect");
+        Y.on('change', function(e) {
+          var obj;
+          var seq_num = e.currentTarget.getAttribute("ref");
+          if(e.currentTarget.getData("dispatcher")){
+            obj = e.currentTarget.getData("dispatcher")
+          }else{
+
+            obj = new Y.Dispatcher({node:"#filter"+seq_num});
+            e.currentTarget.setData("dispatcher",obj);
+          }
+          var field_id = e.currentTarget.get("value");
+
+          var url = decodeURIComponent(Y.one("#filterContent").getAttribute("href"));
+          url = Y.Lang.substitute(url,{seq_num:seq_num,field_id:field_id});
+
+          obj.set('uri', url);
+
+	    }, '.filterColumnSelect');
+      });
+
+  });
+</script>

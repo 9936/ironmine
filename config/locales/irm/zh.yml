@@ -903,6 +903,7 @@ zh:
   label_irm_report_records: 条记录
   label_irm_report_report_folder: 报表文件夹
   label_irm_report_create_new: 创建新的自定义报表
+  label_irm_report_custom: 自定义
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组
@@ -1396,6 +1397,6 @@ zh:
   label_irm_report_folder_create_new_folder: 创建报表文件夹
   label_irm_report_folder_name: 名称
   label_irm_report_folder_code: 编码
-  label_irm_report_folder_access_type: 访问类型
+  label_irm_report_folder_access_type: 非私有报表访问类型
   label_irm_report_folder_member_type: 可访问成员类型
   #=======================end report_folder ====================

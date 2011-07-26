@@ -69,11 +69,11 @@ module Irm::ReportsHelper
   end
 
   def available_report_group_date_type
-    [["Day","DAY"],["Month","MONTH"],["Year","YEAR"]]
+    Irm::LookupValue.query_by_lookup_type("IRM_REPORT_DATE_GROUP_TYPE").multilingual.order_id.collect{|p|[p[:meaning],p[:lookup_code]]}
   end
 
   def available_report_group_sort_type
-    [["ASC","ASC"],["DESC","DESC"]]
+    Irm::LookupValue.query_by_lookup_type("IRM_REPORT_GROUP_COLUMN_SORT").multilingual.order_id.collect{|p|[p[:meaning],p[:lookup_code]]}
   end
 
   def available_filter_field(report_type_id)

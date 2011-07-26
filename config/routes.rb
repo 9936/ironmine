@@ -490,6 +490,8 @@ Ironmine::Application.routes.draw do
     match '/reports/:id/multilingual_edit(.:format)' => "reports#multilingual_edit", :via => :get
     match '/reports/:id/multilingual_update(.:format)' => "reports#multilingual_update", :via => :put
     match '/reports/:id/destroy(.:format)' => "reports#destroy", :via => :delete
+    match '/reports/:id/edit_custom(.:format)' => "reports#edit_custom", :via => [:get,:post,:put]
+    match '/reports/:id/update_custom(.:format)' => "reports#update_custom", :via => :put
 
     #report folders
     match '/report_folders(/index)(.:format)' => "report_folders#index", :via => :get

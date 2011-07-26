@@ -213,6 +213,17 @@ class Irm::Report < ActiveRecord::Base
     end
   end
 
+
+  def clear_id
+    tmp_id = self.id
+    self.id = ""
+    return tmp_id
+  end
+
+  def set_id(id)
+    self.id = id
+  end
+
   private
   # 检查查询条件
   def validate_raw_condition_clause

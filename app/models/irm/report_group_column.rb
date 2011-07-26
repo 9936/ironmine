@@ -21,10 +21,17 @@ class Irm::ReportGroupColumn < ActiveRecord::Base
   }
 
   def setup_group_date_type
+    return true unless self.field_id.present?
     oa = Irm::ObjectAttribute.find(self.report_type_field.object_attribute_id)
-    unless(oa.data_type.present?&&oa.data_type.eql?("datetime"))
+    unless(oa&&oa.data_type.present?&&oa.data_type.eql?("datetime"))
       self.group_date_type = nil
     end
+  end
+
+  def clear_id
+    tmp_id = self.id
+    self.id = ""
+    return tmp_id
   end
 
 end
