@@ -8,6 +8,9 @@
           <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_card) %></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @card}%></div>
+            <% if @card.system_flag == "N" %>
+                <div class="button"><%= link_to t(:label_irm_card_rule_edit), {:action => "edit_rule", :id => @card}%></div>
+            <% end %>
             <div class="button"><%= link_to t(:back), {:action => "index"} %></div>
           </td>
         </tr>
@@ -32,11 +35,7 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_card_background_color)%></label></td>
-              <td class="dataCol"><%= @card.background_color%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_card_font_color)%></label></td>
-              <td class="dataCol"><%= @card.font_color%></td>
+              <td class="dataCol"><div id="selected_color" style="background-color:<%= @card.background_color%>;height:14px;width:50px;display:inline-block;border:solid 1px #000000;"></div></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :active)%></label></td>
@@ -51,3 +50,5 @@
     </div>
   </div>
 </div>
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@card} %>

@@ -102,4 +102,20 @@ class Irm::LanesController < ApplicationController
                                               50))}
     end
   end
+
+  def multilingual_edit
+    @lane = Irm::Lane.find(params[:id])
+  end
+
+  def multilingual_update
+    @lane = Irm::Lane.find(params[:id])
+    @lane.not_auto_mult=true
+    respond_to do |format|
+      if @card.update_attributes(params[:irm_lane])
+        format.html { render({:action=>"show"}) }
+      else
+        format.html { render({:action=>"multilingual_edit"}) }
+      end
+    end
+  end
 end

@@ -95,6 +95,7 @@ class Irm::CardsController < ApplicationController
   def edit_rule
     @card = Irm::Card.multilingual.find(params[:id])
     @rule_filter = Irm::RuleFilter.query_by_source(Irm::Card.name,@card.id).first
+    @return_url= params[:return_url] || request.env['HTTP_REFERER']
   end
 
   def update_rule
@@ -102,11 +103,32 @@ class Irm::CardsController < ApplicationController
     @rule_filter = Irm::RuleFilter.query_by_source(Irm::Card.name,@card.id).first
     respond_to do |format|
       if @rule_filter.update_attributes(params[:irm_rule_filter])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
-        format.xml  { head :ok }
+        if params[:return_url]
+          format.html { redirect_to(params[:return_url], :notice => t(:successfully_updated)) }
+          format.xml  { head :ok }
+        else
+          format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+          format.xml  { head :ok }
+        end
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @rule_filter.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def multilingual_edit
+    @card = Irm::Card.find(params[:id])
+  end
+
+  def multilingual_update
+    @card = Irm::Card.find(params[:id])
+    @card.not_auto_mult=true
+    respond_to do |format|
+      if @card.update_attributes(params[:irm_card])
+        format.html { render({:action=>"show"}) }
+      else
+        format.html { render({:action=>"multilingual_edit"}) }
       end
     end
   end

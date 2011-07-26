@@ -193,4 +193,19 @@ class Irm::KanbansController < ApplicationController
     end
   end
 
+  def multilingual_edit
+    @kanban = Irm::Kanban.find(params[:id])
+  end
+
+  def multilingual_update
+    @kanban = Irm::Kanban.find(params[:id])
+    @kanban.not_auto_mult=true
+    respond_to do |format|
+      if @kanban.update_attributes(params[:irm_kanban])
+        format.html { render({:action=>"show"}) }
+      else
+        format.html { render({:action=>"multilingual_edit"}) }
+      end
+    end
+  end
 end
