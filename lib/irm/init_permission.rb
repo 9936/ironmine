@@ -108,16 +108,6 @@ Irm::AccessControl.map do |map|
   map.function :create_roles,{"irm/roles"=>["new", "create"]}
   map.function :edit_roles,{"irm/roles"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
 
-  #===================irm/report_groups============================
-  #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
-  #===================irm/report_group_members============================
-  #["index", "new", "get_data", "get_selectable_data", "create", "destroy"]
-  map.function :view_report_groups,{"irm/report_groups"=>["index", "show", "get_data"],
-                                    "irm/report_group_members"=>["index", "get_data", "get_selectable_data"]}
-  map.function :create_report_groups,{"irm/report_groups"=>["new", "create"]}
-  map.function :edit_report_groups,{"irm/report_groups"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
-  map.function :add_report_to_group,{"irm/report_group_members"=>["new", "create"]}
-
 
   #===================irm/mail_templates============================
   #["new", "get_data", "create", "copy", "copy_template", "test_mail_template", "index", "edit", "update", "destroy", "show", "get_script_context_fields", "get_mail_templates"]
@@ -151,11 +141,6 @@ Irm::AccessControl.map do |map|
   map.function :create_functions,{"irm/functions"=>["new", "create", "add_permissions", "add_permissions"]}
   map.function :edit_functions,{"irm/functions"=>["edit", "update"]}
 
-  #===================irm/reports============================
-  #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
-  map.function :view_reports,{"irm/reports"=>["index", "show", "get_data"]}
-  map.function :create_reports,{"irm/reports"=>["new", "create"]}
-  map.function :edit_reports,{"irm/reports"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
  #===================irm/currencies============================
   #["index", "get_data", "edit", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]
   map.function :view_currencies,{"irm/currencies"=>["index", "show", "get_data"]}
@@ -326,4 +311,15 @@ Irm::AccessControl.map do |map|
   map.function :create_report_types,{"irm/report_types"=>["new", "create"]}
   map.function :edit_report_types,{"irm/report_types"=>["edit", "update", "edit_relation", "update_relation", "multilingual_edit", "multilingual_update"],"irm/report_type_sections"=>["index", "update", "field_source", "section_field"]}
 
+
+  #===================irm/reports============================
+  #["index", "edit", "update", "new", "run", "operator_value", "create", "get_data", "show", "multilingual_edit", "multilingual_update", "destroy", "edit_custom", "update_custom"]
+  map.function :view_reports,{"irm/reports"=>["index", "show","run","get_data"]}
+  map.function :create_reports,{"irm/reports"=>["new", "create","operator_value","destroy"]}
+  map.function :edit_reports,{"irm/reports"=>["edit", "update","operator_value", "multilingual_edit", "multilingual_update", "edit_custom", "update_custom"]}
+  #===================irm/report_folders============================
+  #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
+  map.function :view_report_folders,{"irm/report_folders"=>["index", "show"]}
+  map.function :create_report_folders,{"irm/report_folders"=>["new", "create"]}
+  map.function :edit_report_folders,{"irm/report_folders"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
 end
