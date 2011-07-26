@@ -62,7 +62,7 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_report_group_member_list) %></h2></td>
               <td class="pbButton">
-                <div class="button"><%= link_to t(:add), {:controller => "irm/report_group_members", :action => "new", :group_id => @report_group.id}%></div>
+                <div class="button"><%= link_to t(:add), {:controller => "x_report_group_members", :action => "new", :group_id => @report_group.id}%></div>
               </td>
               <td class="pbHelp">
                 <div id="reportGroupMemebersSearchBox"></div>
@@ -74,10 +74,10 @@
       <div class="pbBody">
         <div id="reports" class="datatable" style="width:100%">
           <div id="member_id" style="display:none">
-            <%= link_to(t(:delete),{:controller => "irm/report_group_members", :action => "destroy", :group_id => @report_group.id,:id=>"{member_id}"},{:method => :delete}) %>
+            <%= link_to(t(:delete),{:controller => "x_report_group_members", :action => "destroy", :group_id => @report_group.id,:id=>"{member_id}"},{:method => :delete}) %>
           </div>
         </div>
-        <%= datatable("reports",url_for(:controller => "irm/report_group_members", :action => "get_data", :group_id => @report_group.id,:format=>"json"),
+        <%= datatable("reports",url_for(:controller => "x_report_group_members", :action => "get_data", :group_id => @report_group.id,:format=>"json"),
                       [{:key=>"member_id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"50px"},
 
                        { :key => "report_code", :label => t(:label_irm_report_report_code),:searchable=>true },

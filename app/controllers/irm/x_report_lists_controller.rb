@@ -1,4 +1,4 @@
-class Irm::ReportListsController < ApplicationController
+class Irm::XReportListsController < ApplicationController
   def index
     @report_category = params[:report_category] if params[:report_category]
   end

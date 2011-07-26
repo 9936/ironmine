@@ -1,0 +1,2 @@
+module Irm::XReportGroupMembersHelper
+end

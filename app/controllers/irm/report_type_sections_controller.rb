@@ -53,7 +53,7 @@ class Irm::ReportTypeSectionsController < ApplicationController
       bo_node = {:id=>bo.id,:type=>'business_object',:text=>bo[:name],:bo_id=>bo.id,:leaf=>false,:children=>[]}
       bo.object_attributes.multilingual.each do |oa|
         next if oa.attribute_type.eql?("MODEL_COLUMN")||exclude_object_attribute_ids.include?(oa.id.to_s)
-        bo_node[:children] << {:id=>oa.id,:type=>'object_attribute',:text=>oa[:name],:bo_id=>bo.id,:bo_name=>bo[:name],:boa_id=>oa.id,:default_selection_flag=>false,:leaf=>true}
+        bo_node[:children] << {:id=>oa.id,:type=>'object_attribute',:text=>oa[:name],:bo_id=>bo.id,:bo_name=>bo[:name],:boa_id=>oa.id,:data_type=>oa.data_type,:default_selection_flag=>false,:leaf=>true}
       end
       tree_nodes << bo_node
     end
@@ -69,7 +69,7 @@ class Irm::ReportTypeSectionsController < ApplicationController
     @report_type.report_type_sections.each do |rts|
       section_node = {:id=>rts.id,:type=>"section",:text=>rts.name,:draggable=>false,:leaf=>false,:children=>[]}
       rts.report_type_fields.with_bo_object_attribute(I18n.locale).select_all.each do |rto|
-        section_node[:children] << {:id=>rto.id,:type=>'section_field',:text=>rto[:object_attribute_name],:bo_id=>rto[:business_object_id],:bo_name=>rto[:business_object_name],:boa_id=>rto.object_attribute_id,:default_selection_flag=>Irm::Constant::SYS_YES.eql?(rto.default_selection_flag),:leaf=>true}
+        section_node[:children] << {:id=>rto.id,:type=>'section_field',:text=>rto[:object_attribute_name],:bo_id=>rto[:business_object_id],:bo_name=>rto[:business_object_name],:boa_id=>rto.object_attribute_id,:data_type=>rto[:data_type],:default_selection_flag=>Irm::Constant::SYS_YES.eql?(rto.default_selection_flag),:leaf=>true}
     end
       section_fields << section_node
     end

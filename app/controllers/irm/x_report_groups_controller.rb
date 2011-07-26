@@ -1,4 +1,4 @@
-class Irm::ReportGroupsController < ApplicationController
+class Irm::XReportGroupsController < ApplicationController
   # GET /report_groups
   # GET /report_groups.xml
   def index

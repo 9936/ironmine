@@ -453,7 +453,7 @@ module ApplicationHelper
   end
 
   def blank_select_tag(name, collection,selected=nil, options = {})
-    choices = options_for_select(collection, selected = nil)
+    choices = options_for_select(collection, selected)
     html_options=(options||{}).merge({:include_blank=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
                                  :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"})
     select_tag(name, choices,html_options)

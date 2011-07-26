@@ -1,4 +1,4 @@
-module Irm::ReportListsHelper
+module Irm::XReportListsHelper
   
   def show_category_report(role_code,category_code,options={})
      report_list = ""

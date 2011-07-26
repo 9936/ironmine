@@ -104,4 +104,48 @@ class Irm::ReportType < ActiveRecord::Base
     end
     str
   end
+
+  def table_name_hash
+    return @table_name_hash if @table_name_hash
+    table_names = ["a","b","c","d"]
+    @table_name_hash = {}
+    report_type_objects.each do |rto|
+      @table_name_hash.merge!( {rto.business_object_id=>table_names[rto.object_sequence.to_i]})
+    end
+    @table_name_hash
+  end
+
+  #生成查询语句
+  def generate_scope
+    query_str = {:from=>[],:joins=>[]}
+    table_names = ["a","b","c","d"]
+    report_type_objects.each_with_index do |rto,index|
+      bo = rto.business_object
+      if(index == 0)
+        query_str[:from]<< "(#{eval(bo.generate_query(true)).to_sql}) #{table_names[index]}"
+      else
+        relation_attribute = Irm::ObjectAttribute.where(:relation_bo_code=>report_type_objects[index-1].business_object.business_object_code,
+                                                        :business_object_code=>bo.business_object_code,:attribute_type=>"MASTER_DETAIL_COLUMN").first
+        join_str = ""
+        if(relation_attribute)
+          case rto.relationship_type
+            when "inner"
+              join_str << "JOIN "
+            when "outer"
+              join_str << "LEFT OUTER JOIN "
+          end
+          join_str << "(#{eval(bo.generate_query(true)).to_sql}) #{table_names[index]} ON #{table_names[index-1]}.#{relation_attribute.relation_column}=#{table_names[index]}.#{relation_attribute.attribute_name}"
+          query_str[:joins] << join_str
+        else
+          break
+        end
+
+      end
+    end
+    scope_str = %Q(#{self.class.name}.from("#{query_str[:from].first}"))
+    query_str[:joins].each do |j|
+      scope_str << %Q(.joins("#{j}"))
+    end
+    scope_str
+  end
 end
