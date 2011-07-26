@@ -9,6 +9,8 @@ a {color:#333435;}
 textarea {font-size: 14px;}
 .display-Y{display:inline}
 .display-N{display:none}
+.un-display-Y{display:none}
+.un-display-N{display:inline}
 /***************** top search area ***********************/
 .bPageTitle {margin-bottom:15px;}
 body.detailPage .bPageTitle {margin-bottom:0;}

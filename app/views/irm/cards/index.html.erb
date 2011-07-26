@@ -21,11 +21,14 @@
           <div id="id" style="display:none">
             <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>&nbsp;
             <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>&nbsp;
+            <div class="un-display-<%= "{system_flag}"%>">
             <%= link_to(t(:label_irm_card_rule), {:action=>"edit_rule", :id =>"{id}"})%>
+            </div>
           </div>
         </div>
         <%= datatable("card_list",url_for(:action=>"get_data"),
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"120px"},
+                   {:key=>"system_flag",:hidden => true},
                    {:key=>"card_code",:label=>t(:label_irm_card_code),:width=>"80px"},
                    {:key=>"name",:label=>t(:name),:width=>"150px"},
                    {:key=>"description",:label=>t(:description),:width=>"250px"},
