@@ -139,7 +139,9 @@ class Irm::ReportsController < ApplicationController
   end
 
   def show
-    @report = Irm::Report.multilingual.find(params[:id])
+    folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
+    @report = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).filter_by_folder_access(Irm::Person.current.id).find(params[:id])
+
     @filter_date_from=""
     @filter_date_to=""
     @filter_date_from = @report.filter_date_from.strftime("%Y-%m-%d") if @report.filter_date_from.present?
