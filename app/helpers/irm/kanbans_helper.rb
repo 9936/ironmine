@@ -114,4 +114,9 @@ module Irm::KanbansHelper
   def current_person_available_kanbans_array
     Irm::Person.current
   end
+
+  def available_kanbans
+    kanbans = Irm::Kanban.multilingual.enabled
+    kanbans.collect{|p| [p[:name], p.id]}
+  end
 end

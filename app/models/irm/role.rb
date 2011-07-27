@@ -11,7 +11,9 @@ class Irm::Role < ActiveRecord::Base
 
   has_many :role_functions
   has_many :functions,:through => :role_functions
-  
+
+  has_one :kanban
+
   # 验证权限编码唯一性
   validates_presence_of :role_code
   validates_uniqueness_of :role_code, :if => Proc.new { |i| !i.role_code.blank? }

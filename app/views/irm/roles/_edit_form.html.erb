@@ -66,6 +66,12 @@
               <td class="labelCol"><label><%=(t :active)%></label></td>
               <td class="dataCol"><%=f.select :status_code, available_active_status, {:include_blank => false}%></td>
             </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_kanban)%></label></td>
+              <td class="dataCol"><%=f.blank_select :kanban_id, available_kanbans, {}%></td>
+              <td class="labelCol"></td>
+              <td class="dataCol"></td>
+            </tr>
         </tbody>
       </table>
     </div>
