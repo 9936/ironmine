@@ -12,7 +12,7 @@ class Irm::Role < ActiveRecord::Base
   has_many :role_functions
   has_many :functions,:through => :role_functions
 
-  has_one :kanban
+  belongs_to :kanban
 
   # 验证权限编码唯一性
   validates_presence_of :role_code
