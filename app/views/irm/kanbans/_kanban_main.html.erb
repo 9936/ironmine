@@ -27,7 +27,7 @@
 .kanban_body .card-content{font-size:12px;overflow:hidden;text-overflow:ellipsis;}
 .kanban_body .card-date{bottom:0;right:5px;position:absolute;color:#a0a0a0;}
 
-.kanban_body .td_l, .kanban_body .td_c, .kanban_body .td_r{height:500px;}
+.kanban_body .td_l, .kanban_body .td_c, .kanban_body .td_r{height:180px;}
 .kanban_body .td_l{border-right: 1px solid #5bade9;}
 .kanban_body .td_r{border-left: 1px solid #5bade9;}
 .kanban_body .td_c{border-right: 1px solid #5bade9;border-left: 1px solid #5bade9;}
@@ -45,8 +45,6 @@
 .kanban_body .th_c{border-right: 1px solid #ffffff;border-left: 1px solid #ffffff;}
 </style>
 <% if Irm::Role.current && Irm::Role.current.kanban%>
-<% puts("+++++++++++++++++++++++++" + Irm::Role.current.to_json) %>
-<% puts("+++++++++++++++++++++++++" + Irm::Role.current.kanban.to_json) %>
 <% kanban = Irm::Role.current.kanban %>
 <% else %>
 <% kanban = Irm::Kanban.enabled.first %>
