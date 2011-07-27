@@ -44,7 +44,9 @@
 .kanban_body .th_r{border-left: 1px solid #ffffff;}
 .kanban_body .th_c{border-right: 1px solid #ffffff;border-left: 1px solid #ffffff;}
 </style>
-<% if Irm::Role.current && !Irm::Role.current.kanban.nil?%>
+<% if Irm::Role.current && Irm::Role.current.kanban%>
+<% puts("+++++++++++++++++++++++++" + Irm::Role.current.to_json) %>
+<% puts("+++++++++++++++++++++++++" + Irm::Role.current.kanban.to_json) %>
 <% kanban = Irm::Role.current.kanban %>
 <% else %>
 <% kanban = Irm::Kanban.enabled.first %>

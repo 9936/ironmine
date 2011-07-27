@@ -117,7 +117,7 @@ class Irm::KanbansController < ApplicationController
   end
 
   def get_owned_lanes
-    owned_lanes_scope= Irm::Kanban.with_lanes.order("display_sequence ASC")
+    owned_lanes_scope= Irm::Kanban.where(:id => params[:id]).with_lanes.order("display_sequence ASC")
 
 #    kanbans,count = paginate(owned_lanes_scope)
     respond_to do |format|

@@ -43,7 +43,7 @@ module Irm::KanbansHelper
     assignments.join(",")
   end
 
-  def show_kanban(kanban_id = 1)
+  def show_kanban(kanban_id)
     lanes = Irm::Lane.multilingual.query_by_kanban(kanban_id).with_sequence
     lanes_tags = ""
     cards_tags = ""
