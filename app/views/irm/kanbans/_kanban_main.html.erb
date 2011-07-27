@@ -23,7 +23,7 @@
 
     overflow:hidden;
 }
-.kanban_body .card-title{white-space:nowrap;text-align:center;font-weight:bold;font-size:14px;height:15px;overflow:hidden;text-overflow:ellipsis;}
+.kanban_body .card-title{white-space:nowrap;text-align:left;font-weight:bold;font-size:14px;height:15px;overflow:hidden;text-overflow:ellipsis;}
 .kanban_body .card-content{font-size:12px;overflow:hidden;text-overflow:ellipsis;}
 .kanban_body .card-date{bottom:0;right:5px;position:absolute;color:#a0a0a0;}
 
@@ -44,7 +44,11 @@
 .kanban_body .th_r{border-left: 1px solid #ffffff;}
 .kanban_body .th_c{border-right: 1px solid #ffffff;border-left: 1px solid #ffffff;}
 </style>
-
+<% if Irm::Role.current%>
+<% kanban = Irm::Role.current.kanban %>
+<% else %>
+<% kanban = Irm::Kanban.enabled.first %>
+<% end %>
 <div id="kanban_<%= kanban.id%>">
 <%= show_kanban(kanban.id)%>
 </div>
