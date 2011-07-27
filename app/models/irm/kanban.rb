@@ -7,7 +7,7 @@ class Irm::Kanban < ActiveRecord::Base
   has_many :kanban_ranges, :dependent => :destroy
   has_many :kanban_lanes
   has_many :lanes, :through => :kanban_lanes
-
+  has_many :roles
   validates_presence_of :kanban_code
   validates_uniqueness_of :kanban_code
   acts_as_multilingual
