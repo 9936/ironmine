@@ -103,7 +103,7 @@ module Irm::KanbansHelper
         ct << content_tag(:a,
                 content_tag(:div,
                   content_tag(:div, content_tag(:table, raw(title_tag) + raw(description_tag)), :class => "card-div") + raw(date_tag),
-                  {:class => "card", :style => "background-color:" + c_array[4]}), {:href=>c_array[5]})
+                  {:class => "card", :style => "background-color:" + c_array[4]}), {:href=>c_array[5], :title => c_array[1] + ": " + c_array[2]})
 
         break if c_array == cards_array[la.limit - 1] #超过限制数时跳出
       end
