@@ -1,29 +1,50 @@
 <%= app_title %>
-<%= view_filter("ICM_INCIDENT_REQUEST_INDEX_B","ICM_INCIDENT_REQUESTS","incident_requests") %>
-<div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_incident_request_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-                <div class="button"><%= link_to t(:label_action_assign_dashboard), {:action => "assign_dashboard"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="incident_requestsSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
+<%= view_filter("ICM_INCIDENT_REQUEST_INDEX_B","ICM_INCIDENT_REQUESTS","incident_requests") %>
+
+
+<div class="listRelatedObject setupBlock" id="templateBody" style="display:none" current="kanban">
+    <ul>
+      <li><a id="grid" href="#tab_grid"><%= t :label_icm_incident_request %></a></li>
+      <li><a id="kanban" href="#tab_kanban"><%= t :label_irm_kanban %></a></li>
+    </ul>
+    <div class="bPageBlock">
+      <div id="tab_grid">
+          <div class="pbHeader">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_incident_request_list) %></h2></td>
+                  <td id="topButtonRow" class="pbButton">
+                    <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+                    <div class="button"><%= link_to t(:label_action_assign_dashboard), {:action => "assign_dashboard"}%></div>
+                  </td>
+                  <td class="pbHelp">
+                    <div id="incident_requestsSearchBox"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         <% if Irm::Role.current&&Irm::Role.current.service_role_type.eql?("CUSTOMER") %>
           <%=render(:partial =>"customer_list") %>
         <% else %>
           <%=render(:partial =>"help_desk_list") %>
         <% end %>
+      </div>
+      <div id="tab_kanban">
+        <table class="toolsContent">
+            <tbody>
+                <tr>
+                  <td colspan="2">
+                    <div class="toolsContentRight">
+                      <%= render :partial => "irm/kanbans/kanban_main"%>
+                    </div>
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
     </div>
 </div>
 
@@ -34,3 +55,22 @@
 <% content_for :sidebar do%>
     <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
 <% end %>
+
+
+<script type="text/javascript">
+  GY.use("tabview","node-event-simulate",function(Y){
+    Y.one("#templateBody").setStyle("display","block");
+    var tabview = new Y.TabView({srcNode:'#templateBody',tabIndex:"#kanban"});
+    tabview.render();
+    var currentTab = Y.one("#templateBody").getAttribute("current");
+    Y.one("#templateBody").one("a#"+currentTab).simulate("click");
+    Y.on("change", change_to_grid_tab, "#incident_requestsViewFilter");
+  });
+
+  //点击filter时，切换到列表视图
+  function change_to_grid_tab(e){
+      GY.use("node", function(Y){
+        Y.one("a[id='grid']").simulate("click");
+      });
+  }
+</script>
