@@ -1404,6 +1404,8 @@ zh:
   label_irm_kanban_range_desc: 只有范围中的人员可以使用该看板
   label_irm_kanban_add_lane: 添加泳道
   label_action_select_lanes: 可选泳道
+  label_irm_kanban_name: 看板名称
+  label_irm_kanban_description: 看板描述
   #==================================================================
   #======================= lanes ==================================
   label_irm_lane: 泳道
@@ -1413,6 +1415,8 @@ zh:
   label_irm_lane_new: 新建泳道
   label_irm_lane_edit: 编辑泳道
   label_irm_lane_add_card: 添加卡片
+  label_irm_lane_name: 泳道名称
+  label_irm_lane_description: 泳道描述
   #==================================================================
   #======================= cards ==================================
   label_irm_card: 卡片
@@ -1433,6 +1437,8 @@ zh:
   label_action_select_cards: 可选的卡片
   label_irm_card_available_color: 备选颜色
   label_irm_card_url: 卡片链接
+  label_irm_card_name: 卡片名称
+  label_irm_card_description: 卡片描述
   #==================================================================
   #======================= report_folder ====================
   label_irm_report_folder: 报表文件夹

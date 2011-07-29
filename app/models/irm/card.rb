@@ -32,7 +32,7 @@ class Irm::Card < ActiveRecord::Base
             ir_customer_replied(lane_limit)
           else
             filter = Irm::RuleFilter.where(:source_type => Irm::Card.name, :source_id => self.id).first
-            filter.generate_scope.select("'' card_url").order(self.date_attribute_name + " DESC").limit(lane_limit)
+            filter.generate_scope.select("'' card_url").order(self.date_attribute_name + " DESC")#.limit(lane_limit)
         end
 
     card_content_scope
@@ -48,7 +48,7 @@ class Irm::Card < ActiveRecord::Base
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
           if !is.close? && is.need_customer_reply == Irm::Constant::SYS_NO
             ret_scope << is unless ret_scope.include?(is)
-            break if ret_scope.size == lane_limit
+#            break if ret_scope.size == lane_limit
           end
     end
     ret_scope
@@ -66,7 +66,7 @@ class Irm::Card < ActiveRecord::Base
       order("ij_updated_at DESC").each do |is|
         if !is.close? && is.need_customer_reply == Irm::Constant::SYS_NO
           ret_scope << is unless ret_scope.include?(is)
-          break if ret_scope.size == lane_limit
+#          break if ret_scope.size == lane_limit
         end
     end
     ret_scope

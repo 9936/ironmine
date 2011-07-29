@@ -26,6 +26,12 @@ class Irm::KanbansController < ApplicationController
   def create
     @kanban = Irm::Kanban.new(params[:irm_kanban])
     range_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"],[Irm::Person, "P"]]
+
+    #确保刷新时间大于5秒
+    if @kanban.refresh_interval.nil? || @kanban.refresh_interval < 5
+      @kanban.refresh_interval = 5
+    end
+
     respond_to do |format|
       if @kanban.save
         if params[:selected_ranges] && params[:selected_ranges].present?
@@ -57,6 +63,7 @@ class Irm::KanbansController < ApplicationController
 
     respond_to do |format|
       if @kanban.update_attributes(params[:irm_kanban])
+        @kanban.update_attribute(:refresh_interval, 5) if @kanban.refresh_interval.nil? || @kanban.refresh_interval < 5
         if params[:selected_ranges] && params[:selected_ranges].present?
           selected_ranges = params[:selected_ranges].split(",")
 
@@ -110,7 +117,7 @@ class Irm::KanbansController < ApplicationController
   end
 
   def get_owned_lanes
-    owned_lanes_scope= Irm::Kanban.with_lanes.order("display_sequence ASC")
+    owned_lanes_scope= Irm::Kanban.where(:id => params[:id]).with_lanes.order("display_sequence ASC")
 
 #    kanbans,count = paginate(owned_lanes_scope)
     respond_to do |format|
@@ -193,4 +200,19 @@ class Irm::KanbansController < ApplicationController
     end
   end
 
+  def multilingual_edit
+    @kanban = Irm::Kanban.find(params[:id])
+  end
+
+  def multilingual_update
+    @kanban = Irm::Kanban.find(params[:id])
+    @kanban.not_auto_mult=true
+    respond_to do |format|
+      if @kanban.update_attributes(params[:irm_kanban])
+        format.html { render({:action=>"show"}) }
+      else
+        format.html { render({:action=>"multilingual_edit"}) }
+      end
+    end
+  end
 end

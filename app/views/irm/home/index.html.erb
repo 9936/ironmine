@@ -15,7 +15,8 @@
       </div>
     </div>
     <div class="links">
-      <a onclick="window.open ('/pagehelpfiles/home.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" href="#"><%=t(:current_page_help)%></a></div>
+      <a onclick="window.open ('/pagehelpfiles/home.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" href="#"><%=t(:current_page_help)%></a>
+    </div>
   </div>
 </div>
 <div class="pbSubsection" id="templateBody" style="display:none" current="portal">
@@ -28,20 +29,8 @@
         <table class="toolsContent">
             <tbody>
                 <tr>
-                  <td>
-                    <div class="toolsContentLeft first">
-                      <%= render :partial => "irm/common/over_view" %>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="toolsContentRight first">
-                      <%= render :partial => "irm/todo_tasks/top_data_grid" %>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
                   <td colspan="2">
-                    <div class="toolsContentRight">
+                    <div class="toolsContentRight first">
                       <%= render :partial => "irm/bulletins/bulletin_portlet" %>
                     </div>
                   </td>

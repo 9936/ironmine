@@ -747,6 +747,8 @@ Ironmine::Application.routes.draw do
     match '/kanbans/:id/refresh_my_kanban(.:format)' => "kanbans#refresh_my_kanban"
     match '/kanbans/:kanban_id/:lane_id/up_lane(.:format)' => "kanbans#up_lane", :via => :get
     match '/kanbans/:kanban_id/:lane_id/down_lane(.:format)' => "kanbans#down_lane", :via => :get
+    match '/kanbans/:id/multilingual_edit(.:format)' => "kanbans#multilingual_edit", :via => :get
+    match '/kanbans/:id/multilingual_update(.:format)' => "kanbans#multilingual_update", :via => :put
     #lanes
     match '/lanes(/index)(.:format)' => "lanes#index", :via => :get
     match '/lanes/:id/show(.:format)' => "lanes#show", :via => :get
@@ -761,6 +763,9 @@ Ironmine::Application.routes.draw do
     match '/lanes/:id/get_owned_cards(.:format)' => "lanes#get_owned_cards", :via => :get
     match '/lanes/:id/add_cards(.:format)' => "lanes#add_cards", :via => :post
     match '/lanes/:id/get_available_cards(.:format)' => "lanes#get_available_cards", :via => :get
+    match '/lanes/:id/multilingual_edit(.:format)' => "lanes#multilingual_edit", :via => :get
+    match '/lanes/:id/multilingual_update(.:format)' => "lanes#multilingual_update", :via => :put
+
     #cards
     match '/cards(/index)(.:format)' => "cards#index", :via => :get
     match '/cards/:id/show(.:format)' => "cards#show", :via => :get
@@ -771,6 +776,8 @@ Ironmine::Application.routes.draw do
     match '/cards/:id/update(.:format)' => "cards#update", :via => :put
     match '/cards/:id/edit_rule(.:format)' => "cards#edit_rule", :via => :get
     match '/cards/:id/update_rule(.:format)' => "cards#update_rule", :via => :put
+    match '/cards/:id/multilingual_edit(.:format)' => "cards#multilingual_edit", :via => :get
+    match '/cards/:id/multilingual_update(.:format)' => "cards#multilingual_update", :via => :put
   end
 
   scope :module => "icm" do

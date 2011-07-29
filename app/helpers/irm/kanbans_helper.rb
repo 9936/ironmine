@@ -43,11 +43,13 @@ module Irm::KanbansHelper
     assignments.join(",")
   end
 
-  def show_kanban(kanban_id = 1)
+  def show_kanban(kanban_id)
     lanes = Irm::Lane.multilingual.query_by_kanban(kanban_id).with_sequence
     lanes_tags = ""
     cards_tags = ""
     lanes.each do |la|
+      lane_cards_count = 0
+
       if la == lanes.first
         position = "l"
       elsif la == lanes.last
@@ -56,7 +58,7 @@ module Irm::KanbansHelper
         position = "c"
       end
 
-      lanes_tags << content_tag(:th, content_tag(:div, la[:name]), {:align => "center", :class => "th_" + position})
+
       ct = ""
       cards = la.cards.multilingual
       cards_array = []
@@ -89,6 +91,10 @@ module Irm::KanbansHelper
           cards_array << cap
         end
       end
+      cards_array.sort!{|x, y| y[3] <=> x[3]}
+
+      lane_cards_count = lane_cards_count + cards_array.size
+
       cards_array.each do |c_array|
         title_tag = content_tag(:tr, content_tag(:td, c_array[1], :class => "card-title"))
         description_tag = content_tag(:tr, content_tag(:td, plain_text(c_array[2]), :class => "card-content"))
@@ -97,9 +103,11 @@ module Irm::KanbansHelper
         ct << content_tag(:a,
                 content_tag(:div,
                   content_tag(:div, content_tag(:table, raw(title_tag) + raw(description_tag)), :class => "card-div") + raw(date_tag),
-                  {:class => "card", :style => "background-color:" + c_array[4]}), {:href=>c_array[5]})
-      end
+                  {:class => "card", :style => "background-color:" + c_array[4]}), {:href=>c_array[5], :title => c_array[1] + ": " + c_array[2]})
 
+        break if c_array == cards_array[la.limit - 1] #超过限制数时跳出
+      end
+      lanes_tags << content_tag(:th, content_tag(:div, la[:name] + "(" + lane_cards_count.to_s + "/" + la.limit.to_s + ")"), {:align => "center", :class => "th_" + position})
       cards_tags << content_tag(:td, raw(ct), {:class => "td_" + position, :align => "center"})
     end
     lanes_tags = content_tag(:tr, raw(lanes_tags))
@@ -113,5 +121,10 @@ module Irm::KanbansHelper
 
   def current_person_available_kanbans_array
     Irm::Person.current
+  end
+
+  def available_kanbans
+    kanbans = Irm::Kanban.multilingual.enabled
+    kanbans.collect{|p| [p[:name], p.id]}
   end
 end

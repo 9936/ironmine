@@ -123,7 +123,7 @@
 
   <div class="pbBody">
     <div class="pbSubheader tertiaryPalette first" style="background-color:#aeaeae;padding-left:15px;">
-      <h3>(<%= @incident_request[:incident_status_name] %>)<%=@incident_request[:title]%></h3>
+      <h3>(<%= @incident_request[:incident_status_name] %>)[<%=@incident_request[:request_number]%>]<%=@incident_request[:title]%></h3>
       <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore"><%= t(:label_icm_incident_more_info) %></a>)</div>
     </div>
     <div class="pbSubsection <%="hidden" unless Irm::Constant::SYS_YES.eql?(params[:show_info])%>" id="incidentDetail">

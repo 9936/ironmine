@@ -64,14 +64,17 @@
               <td class="labelCol"><label><%=(t :label_irm_role_hidden_flag)%></label></td>
               <td class="dataCol"><%=f.check_box(:hidden_flag)%></td>
             </tr>
-           <tr>
-
-            </tr>
             <tr>
               <td class="labelCol"><label><%=(t :description)%></label></td>
               <td class="dataCol"><%=f.text_area :description, :rows => 4%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_kanban)%></label></td>
+              <td class="dataCol"><%=f.blank_select :kanban_id, available_kanbans, {}%></td>
+              <td class="labelCol"></td>
+              <td class="dataCol"></td>
             </tr>
         </tbody>
       </table>
