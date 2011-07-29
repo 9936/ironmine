@@ -166,7 +166,7 @@ class Irm::ReportsController < ApplicationController
     else
       folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
     end
-    reports_scope = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).filter_by_folder_access(Irm::Person.current.id)
+    reports_scope = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).with_report_trigger.filter_by_folder_access(Irm::Person.current.id)
     reports_scope,count = paginate(reports_scope)
     reports_scope.each do |i|
       i[:editable_flag] = i.editable(i[:member_type],i[:access_type],Irm::Person.current.id)
@@ -174,6 +174,7 @@ class Irm::ReportsController < ApplicationController
     respond_to do |format|
       format.json {render :json=>to_jsonp(reports_scope.to_grid_json([:name,
                                                                       :editable_flag,
+                                                                      :report_trigger_id,
                                                                       :code,:report_folder_name,
                                                                       :report_type_name,
                                                                       :description],count))}

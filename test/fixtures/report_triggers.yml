@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  person_id: MyString
+  receiver_type: MyString
+  time_mode: MyString
+  start_at: 2011-07-27 11:09:18
+  end_at: 2011-07-27 11:09:18
+
+two:
+  person_id: MyString
+  receiver_type: MyString
+  time_mode: MyString
+  start_at: 2011-07-27 11:09:18
+  end_at: 2011-07-27 11:09:18

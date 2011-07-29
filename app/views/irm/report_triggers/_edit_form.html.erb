@@ -1,0 +1,251 @@
+<style type="text/css">
+  .floatLeft{
+      float:left;
+      vertical-align:middle;
+  }
+</style>
+<%= form_for(@report_trigger,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
+<%= f.hidden_field(:report_id) %>
+<div id="ep" class="bEditBlock bPageBlock">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_report_trigger_new)%></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:back)%></div>
+            <div class="button"><%=link_to(t(:label_irm_report_trigger_delete),{:action=>"destroy",:id=>@report_trigger.id},:confirm => t(:label_are_you_sure) ,:method => :delete) %></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <%= error_for @report_trigger %>
+    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+      <span class="pbSubExtra">
+        <span class="requiredLegend">
+          <span class="requiredExampleOuter">
+            <span class="requiredExample">&nbsp;</span>
+          </span><span class="requiredMark">*</span>
+          <span class="requiredText"> = <%=t(:label_is_required)%></span>
+        </span>
+      </span>
+      <h3><%= t(:label_common_info) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label for="report_trigger_person_id"><%=t(:label_irm_report_trigger_person)%></label></td>
+              <td class="dataCol"><%=f.select :person_id,available_person,
+                                                      {},{:required=>true,:id=>"report_trigger_person_id"}%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="report_trigger_receiver_type"><%=t(:label_irm_report_trigger_receiver_type)%></label></td>
+
+              <td class="dataCol" colspan="3" width="82%">
+                <div>
+                  <span><%=f.radio_button(:receiver_type,"ONLY_SELF",:id=>"receiverType1",:class=>"receiverType")%> <label for="receiverType1"><%=t(:label_irm_report_trigger_receiver_type_only_self)%></label></span>
+                  <span style="padding-left:20px"><%=f.radio_button(:receiver_type,"CHOOSE_STAFF",:id=>"receiverType2",:class=>"receiverType")%> <label for="receiverType2"><%=t(:label_irm_report_trigger_receiver_type_choose_staff)%></label></span>
+                </div>
+              </td>
+            </tr>
+            <tr id="receiverTypeSearch" style="display:none">
+              <td></td>
+              <td class="dataCol" colspan="3" style="width:82%">
+                <div class="floatLeft">
+                     <label><%= t(:search) %></label>
+                </div>
+                <div class="floatLeft">
+                   <%=select_tag_alias :member_type,available_report_receiver_type,{},:id=>"duelType"%>
+                </div>
+                <div class="floatLeft">
+                  <input type="text" size="30" id="duelQuery"/>
+                </div>
+                <div class="floatLeft">
+                   <div class="button"><a href="javascript:void(0)" id="duelSearch"><%=t(:search) %></a></div>
+                </div>
+              </td>
+            </tr>
+            <tr id="receiverTypeDuel" style="display:none">
+              <td class="labelCol"></td>
+              <td class="dataCol" colspan="3" width="82%">
+                <table class="duel">
+                  <tr class="duelTitle">
+                    <th><%= t(:duel_selectable)%></th>
+                    <th></th>
+                    <th><%= t(:duel_selected)%></th>
+                  </tr>
+                  <tr class="duelList">
+                    <td class="sourceCell">
+                      <%= select_tag_alias(:source,available_report_receiver,nil,{:id=>"source",:multiple=>true,:size=>7}) %>
+                    </td>
+                    <td class="buttonCell">
+                      <div class="text"><%= t(:add) %></div>
+                      <div class="text">
+                        <a href="javascript:void(0)" id="duelAdd"><img title="<%= t(:add) %>" class="rightArrowIcon" alt="<%= t(:add) %>" src="<%= theme_image_path("s.gif") %>"></a>
+                      </div>
+                      <div class="text">
+                        <a href="javascript:void(0)" id="duelRemove"><img title="<%= t(:delete) %>" class="leftArrowIcon" alt="<%= t(:delete) %>" src="<%= theme_image_path("s.gif") %>"></a>
+                      </div>
+                      <div class="duelingText"><%= t(:delete) %></div>
+                    </td>
+                    <td class="targetCell">
+                      <%= f.hidden_field(:receiver_str,:value=>"",:id=>"members") %>
+                      <%= select_tag_alias(:target,[],nil,{:id=>"target",:multiple=>true,:size=>7}) %>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="report_trigger_time_mode"><%=t(:label_irm_report_trigger_time_mode)%></label></td>
+              <td class="dataCol" colspan="3" width="82">
+                <table id="recurrences" class="detailList" cellpadding="0" cellspacing="0" border="0" style="background-color: #EEEEEE;">
+                  <tbody>
+                      <tr>
+                        <td class="labelCol"><%= t :label_irm_todo_event_recurrence_frequency %></td>
+                        <td>
+                          <% time_mode_obj = @report_trigger.time_mode_obj %>
+                          <table class="recurrenceTable">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <div style="margin-right:20px;">
+                                    <div><%= radio_button_tag "time_mode_obj[freq]", "DAILY", time_mode_obj[:freq].eql?("DAILY"), :id => "rd",:class=>"freq" %><label for="rd"><%= t :label_irm_todo_event_recurrence_daily %></label></div>
+                                    <div><%= radio_button_tag "time_mode_obj[freq]", "WEEKLY", time_mode_obj[:freq].eql?("WEEKLY"), :id => "rw",:class=>"freq"  %><label for="rw"><%= t :label_irm_todo_event_recurrence_weekly %></label></div>
+                                    <div><%= radio_button_tag "time_mode_obj[freq]", "MONTHLY", time_mode_obj[:freq].eql?("MONTHLY"), :id => "rm",:class=>"freq"  %><label for="rm"><%= t :label_irm_todo_event_recurrence_monthly %></label></div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div id="rd_zone" style="display:none;">
+                                    <div><%= radio_button_tag "time_mode_obj[daily][type]", "EVERYDAY",time_mode_obj[:daily][:type].eql?("EVERYDAY") %><%= t :label_irm_todo_event_recurrence_every_weekday %></div>
+                                    <div><%= radio_button_tag "time_mode_obj[daily][type]", "BYDAY",time_mode_obj[:daily][:type].eql?("BYDAY") %><%= t :label_irm_todo_event_recurrence_every %><%= text_field_tag "time_mode_obj[daily][interval]", time_mode_obj[:daily][:interval], :size => 2%><%= t :label_irm_todo_event_recurrence_day %></div>
+                                  </div>
+                                  <div id="rw_zone" style="display:none;">
+                                    <div><%= raw(t(:label_irm_todo_event_recurrence_every_week, :m => (text_field_tag "time_mode_obj[weekly][interval]", time_mode_obj[:weekly][:interval], :size => 2)))%></div>
+                                    <div>
+                                      <%= check_box_tag "time_mode_obj[weekly][days][]", "SU", time_mode_obj[:weekly][:days].include?("SU"), :id => "recurrence_every_week_su"%><label for="recurrence_every_week_su"><%= (t "date.day_names")[0]%></label>
+                                      <%= check_box_tag "time_mode_obj[weekly][days][]", "MO", time_mode_obj[:weekly][:days].include?("MO"), :id => "recurrence_every_week_mo"%><label for="recurrence_every_week_mo"><%= (t "date.day_names")[1]%></label>
+                                      <%= check_box_tag "time_mode_obj[weekly][days][]", "TU", time_mode_obj[:weekly][:days].include?("TU"), :id => "recurrence_every_week_tu"%><label for="recurrence_every_week_tu"><%= (t "date.day_names")[2]%></label>
+                                      <%= check_box_tag "time_mode_obj[weekly][days][]", "WE", time_mode_obj[:weekly][:days].include?("WE"), :id => "recurrence_every_week_we"%><label for="recurrence_every_week_we"><%= (t "date.day_names")[3]%></label>
+                                      <%= check_box_tag "time_mode_obj[weekly][days][]", "TH", time_mode_obj[:weekly][:days].include?("TH"), :id => "recurrence_every_week_th"%><label for="recurrence_every_week_th"><%= (t "date.day_names")[4]%></label>
+                                      <%= check_box_tag "time_mode_obj[weekly][days][]", "FR", time_mode_obj[:weekly][:days].include?("FR"), :id => "recurrence_every_week_fr"%><label for="recurrence_every_week_fr"><%= (t "date.day_names")[5]%></label>
+                                      <%= check_box_tag "time_mode_obj[weekly][days][]", "SA", time_mode_obj[:weekly][:days].include?("SA"), :id => "recurrence_every_week_sa"%><label for="recurrence_every_week_sa"><%= (t "date.day_names")[6]%></label>
+                                    </div>
+                                  </div>
+                                  <div id="rm_zone" style="display:none;">
+                                    <div><%= radio_button_tag "time_mode_obj[monthly][type]", "DAY","DAY".eql?(time_mode_obj[:monthly][:type]) %><%= raw(t :label_irm_todo_event_recurrence_day_of_every_month,
+                                                                                  :n => (select_tag "time_mode_obj[monthly][day][dayno]", options_for_select(available_month_days,time_mode_obj[:monthly][:day][:dayno])),
+                                                                                  :m => (text_field_tag "time_mode_obj[monthly][day][interval]", time_mode_obj[:monthly][:day][:interval], :size => 2)) %></div>
+                                    <div><%= radio_button_tag "time_mode_obj[monthly][type]", "WEEK","WEEK".eql?(time_mode_obj[:monthly][:type]) %><%= raw(t :label_irm_todo_event_recurrence_weekday_of_every_month,
+                                                                                  :m => (text_field_tag "time_mode_obj[monthly][week][interval]", time_mode_obj[:monthly][:week][:interval], :size => 2),
+                                                                                  :n => (select_tag "time_mode_obj[monthly][week][weekno]", options_for_select(available_todo_events_ordinal,time_mode_obj[:monthly][:week][:weekno])) +
+                                                                                          (select_tag "time_mode_obj[monthly][week][weekday]", options_for_select(available_week_days,time_mode_obj[:monthly][:week][:weekday]))) %></div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="labelCol"><label for="report_trigger_start_at"><%=t(:label_irm_report_trigger_start_at)%></label></td>
+                        <td class="data2Col">
+                           <%= f.text_field(:start_at,:id=>"report_trigger_start_at",:required=>true,:size=>12)%>
+                           <%= calendar_view("report_trigger_start_at","report_trigger_start_at","cal") %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="labelCol"><label for="report_trigger_end_at"><%=t(:label_irm_report_trigger_end_at)%></label></td>
+                        <td class="data2Col">
+                           <%= f.text_field(:end_at,:id=>"report_trigger_end_at",:required=>true,:size=>12)%>
+                           <%= calendar_view("report_trigger_end_at","report_trigger_end_at","cal") %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="labelCol"><label for="report_trigger_start_time"><%=t(:label_irm_report_trigger_start_time)%></label></td>
+                        <td class="data2Col"><%=f.time_select :start_time,:minute_step => 15, :required=>true ,:id=>"report_trigger_start_time"%></td>
+                      </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pbBottomButtons">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"></td>
+          <td id="bottomButtonRow" class="pbButtonb">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:back)%></div>
+            <div class="button"><%=link_to(t(:label_irm_report_trigger_delete),{:action=>"destroy",:id=>@report_trigger.id},:confirm => t(:label_are_you_sure) ,:method => :delete) %></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  GY.use("duelselect",function(Y){
+        //==================common funciton================================
+        function radioDefaultValue(className){
+          if(!Y.one("input."+className+"[checked=checked]"))
+            Y.one("input."+className).simulate("click");
+          else
+            Y.one("input."+className+"[checked=checked]").simulate("click");
+        }
+        //============================receiver type processor========================================
+        Y.on('click', function(e) {
+          if(e.target.get("value")=="CHOOSE_STAFF"){
+            Y.one("#receiverTypeSearch").setStyle("display","");
+            Y.one("#receiverTypeDuel").setStyle("display","");
+          }
+          else{
+            Y.one("#receiverTypeSearch").setStyle("display","none");
+            Y.one("#receiverTypeDuel").setStyle("display","none");
+          }
+
+	    }, '.receiverType');
+
+
+        var duelselect = new Y.DuelSelect({source:"#source",target:"#target",valueNode:"#members",type:Y.one("#duelType").get("value"),addButton:"#duelAdd",removeButton:"#duelRemove"});
+        Y.one("#duelType").on("change",function(e){
+          Y.one("#duelQuery").set("value","");
+          duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
+        });
+        Y.one("#duelSearch").on("click",function(e){
+          duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
+        });
+        Y.one("#duelQuery").on("keydown",function(e){
+          if(e.keyCode==13){
+              e.preventDefault();
+              duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
+          }
+        });
+
+        radioDefaultValue("receiverType");
+
+        //============================end receiver type processor========================================
+        //============================time mode processor========================================
+        Y.on('click', function(e) {
+          Y.one("#rd_zone").setStyle("display","none");
+          Y.one("#rw_zone").setStyle("display","none");
+          Y.one("#rm_zone").setStyle("display","none");
+          Y.one("#"+e.target.get("id")+"_zone").setStyle("display","");
+
+	    }, '.freq');
+        radioDefaultValue("freq");
+        //============================end time mode processor========================================
+  });
+</script>
