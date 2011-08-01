@@ -3,4 +3,4 @@
 <% else %>
     <% kanban = Irm::Kanban.enabled.first %>
 <% end %>
-<%= raw(show_kanban(kanban.id))%>
+<%= raw(show_kanban(kanban.id, @refresh_mode))%>
