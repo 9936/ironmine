@@ -43,7 +43,7 @@ module Irm::KanbansHelper
     assignments.join(",")
   end
 
-  def show_kanban(kanban_id)
+  def show_kanban(kanban_id, mode = "0")
     lanes = Irm::Lane.multilingual.query_by_kanban(kanban_id).with_sequence
     lanes_tags = ""
     cards_tags = ""
@@ -116,7 +116,13 @@ module Irm::KanbansHelper
     kanban_table = content_tag(:table, raw(lanes_tags) + raw(cards_tags), {:cellspacing => "0", :cellpadding => "0"})
     kanban_main = content_tag(:div, raw(kanban_table), {:class => "kanban_body", :style => "width:100%"})
 
-    kanban_main
+    if mode == "0"
+      puts("+++++++++++++++++++abc" + mode.to_s)
+      return kanban_main
+    else
+      puts("+++++++++++++++++++123" + mode.to_s)
+      return ""
+    end
   end
 
   def current_person_available_kanbans_array

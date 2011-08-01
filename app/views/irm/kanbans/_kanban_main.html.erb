@@ -49,21 +49,38 @@
 <% else %>
 <% kanban = Irm::Kanban.enabled.first %>
 <% end %>
+
+<div id="kanban_model">
+  <a href="javascript:void(0);" id="mode_preview" onclick="set_mode(0);">预览模式</a>
+  <a href="javascript:void(0);" id="mode_list" onclick="set_mode(1);">列表模式</a>
+</div>
 <div id="kanban_<%= kanban.id%>">
 <%= show_kanban(kanban.id)%>
 </div>
 <script type="text/javascript">
+  var refresh_mode = 0;
+  var iId;
   function refresh_kanban(){
+      var mode = refresh_mode;
       GY.use("io", function(Y){
         function complete(id, o, args) {
             var data = o.responseText; // Response data.
             Y.one("#kanban_<%= kanban.id%>").set('innerHTML', data);
         }
       Y.on('io:complete', complete, Y);
-        var uri = "kanbans/<%= kanban.id %>/refresh_my_kanban";
+        var uri = "kanbans/<%= kanban.id %>/refresh_my_kanban/" + mode;
         var request = Y.io(uri);
-
       });
   }
-  setInterval(refresh_kanban, '<%= kanban.refresh_interval * 1000 %>');
+
+  function set_mode(mode)
+  {
+      clearInterval(iId);
+      refresh_mode = mode;
+
+      refresh_kanban();
+      iId = setInterval(refresh_kanban, '<%= kanban.refresh_interval * 1000 %>');
+  }
+
+  iId = setInterval(refresh_kanban, '<%= kanban.refresh_interval * 1000 %>');
 </script>
