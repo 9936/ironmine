@@ -79,8 +79,27 @@
         </tr>
         <tr>
           <td id="topButtonRow" class="pbButton" colspan="2">
-            <div class="button"><%= f.submit t :label_irm_report_run%></div>
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @report.id}%></div>
+            <div class="asButton">
+                <span id="runSubmit" class="menuButton">
+                  <div  class="menuLabel">
+                    <span><a><%= t(:label_irm_report_run)  %></a></span>
+                  </div>
+                  <div class="menuContent" >
+                    <div class="menuItem"><%= link_to(t(:label_irm_report_run_immediate),{:action => "run",:back_url=>url_for({})},:class=>"submit") %></div>
+                    <div class="menuItem"><%= link_to(t(:label_irm_report_run_schedule),{:controller => "irm/report_triggers",:action => "new",:report_id=>@report.id,:back_url=>url_for({})}) %></div>
+                  </div>
+                </span>
+                <script type="text/javascript">
+                  GY.use("menubutton",function(Y){
+                    Y.on("domready",function(){
+                      new Y.MenuButton({menuNode:"#runSubmit",dropAlign:["TL","BL"]});
+                    });
+                  });
+                </script>
+            </div>
+            <% if @report.editable(@report[:access_type],@report[:member_type],Irm::Person.current.id) %>
+              <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @report.id}%></div>
+            <% end %>
             <div class="button"><%= link_to t(:label_irm_report_custom), {:action => "edit_custom"},{:class=>"submit"} %></div>
             <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>

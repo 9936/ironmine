@@ -1189,3 +1189,13 @@ div#objectRelation span.levelLabel3 {
 }
 
 /*****************************end irm report type**************************************/
+/*****************************end irm report trigger**************************************/
+.scheduledIcon {
+    background-image: url("../images/schedReport.gif");
+    background-position: left top;
+    height: 16px;
+    margin-right: 0.25em;
+    vertical-align: middle;
+    width: 17px;
+}
+/*****************************end irm report trigger**************************************/

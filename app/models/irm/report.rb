@@ -10,6 +10,7 @@ class Irm::Report < ActiveRecord::Base
 
 
   belongs_to :report_type
+  has_one :report_trigger,:dependent => :destroy
 
   has_many :report_group_columns,:order=>:seq_num,:dependent => :destroy
   accepts_nested_attributes_for :report_group_columns
@@ -54,6 +55,11 @@ class Irm::Report < ActiveRecord::Base
   scope :query_by_bo_name,lambda{|bo_model_name|
     joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.id = #{Irm::ReportType.view_name}.business_object_id ").
     where("#{Irm::BusinessObject.table_name}.bo_model_name = ?",bo_model_name)
+  }
+
+  scope :with_report_trigger,lambda{
+    joins("LEFT OUTER JOIN #{Irm::ReportTrigger.table_name} ON #{Irm::ReportTrigger.table_name}.report_id = #{table_name}.id").
+    select("#{Irm::ReportTrigger.table_name}.id report_trigger_id")
   }
 
   def check_step(stp)

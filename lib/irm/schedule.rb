@@ -68,11 +68,16 @@ module Irm
 
       logger = Logger.new(File.join(Rails.root, 'log', 'ironmine_scheudle.log'))
       scheduler = Rufus::Scheduler.start_new
-
+      # receive email
       scheduler.every Irm::MailManager.receive_interval do
         logger.debug "schedule receive mail job"
         Irm::MailManager.receive_mail
       end
+      # sync report schedule
+      scheduler.cron '0 0 0 * * *' do
+        Irm::ReportTrigger.all.each{|i| i.sync_schedule}
+      end
+
       scheduler.join
 
     rescue => e

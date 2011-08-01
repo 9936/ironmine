@@ -1,0 +1,14 @@
+<style type="text/css">
+  #reportData th,td{
+      text-align:left
+  }
+  #reportData th{
+      background-color: #DBF2F9;
+  }
+</style>
+
+
+<div class="bPageBlock">
+  <%= render "show_#{@report.table_show_type.downcase}"%>
+</div>
+

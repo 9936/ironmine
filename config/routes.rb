@@ -1,5 +1,4 @@
 Ironmine::Application.routes.draw do
-
   get "delayed/index"
 
   scope :module => "irm" do
@@ -501,29 +500,14 @@ Ironmine::Application.routes.draw do
     match '/report_folders/create(.:format)' => "report_folders#create", :via => :post
     match '/report_folders/:id/multilingual_edit(.:format)' => "report_folders#multilingual_edit", :via => :get
     match '/report_folders/:id/multilingual_update(.:format)' => "report_folders#multilingual_update", :via => :put
-    #reports
-    match '/report_groups(/index)(.:format)' => "report_groups#index", :via => :get
-    match '/report_groups/:id/edit(.:format)' => "report_groups#edit", :via => :get
-    match '/report_groups/:id(.:format)' => "report_groups#update", :via => :put
-    match '/report_groups/new(.:format)' => "report_groups#new", :via => :get
-    match '/report_groups/create(.:format)' => "report_groups#create", :via => :post
-    match '/report_groups/get_data(.:format)' => "report_groups#get_data"
-    match '/report_groups/:id(.:format)' => "report_groups#show", :via => :get
-    match '/report_groups/:id/multilingual_edit(.:format)' => "report_groups#multilingual_edit", :via => :get
-    match '/report_groups/:id/multilingual_update(.:format)' => "report_groups#multilingual_update", :via => :put
 
-    #report_lists
-    match '/report_lists/index(.:format)' => "report_lists#index"
-    match '/report_lists/get_data(.:format)' => "report_lists#get_data"
-    #report_groups
-    match '/report_groups/:group_id/members(/index)(.:format)' => "report_group_members#index", :via => :get
-    match '/report_groups/:group_id/members/new(.:format)' => "report_group_members#new", :via => :get
-    match '/report_groups/:group_id/members/get_data(.:format)' => "report_group_members#get_data", :via => :get
-    match '/report_groups/:group_id/members/get_selectable_data(.:format)' => "report_group_members#get_selectable_data", :via => :get
-    match '/report_groups/:group_id/members/create(.:format)' => "report_group_members#create", :via => :post
-    #match '/report_groups/:group_id/members/:id/edit(.:format)' => "report_group_members#create", :via => :post
-    #match '/report_groups/:group_id/members/:id(.:format)' => "report_group_members#update", :via => :put
-    match '/report_groups/:group_id/members/:id/delete(.:format)' => "report_group_members#destroy", :via => :delete
+    #report triggers
+    match '/report_triggers(/index)(.:format)' => "report_triggers#index", :via => :get
+    match '/report_triggers/:id/edit(.:format)' => "report_triggers#edit", :via => :get
+    match '/report_triggers/:id(.:format)' => "report_triggers#update", :via => :put
+    match '/report_triggers/:report_id/new(.:format)' => "report_triggers#new", :via => :get
+    match '/report_triggers/:report_id/create(.:format)' => "report_triggers#create", :via => :post
+    match '/report_triggers/:id/destroy(.:format)' => "report_triggers#destroy", :via => :delete
 
     #common report
     match '/common_reports/rpt_person_login_summary(.:format)' => "common_reports#rpt_person_login_summary"

@@ -904,6 +904,8 @@ zh:
   label_irm_report_report_folder: 报表文件夹
   label_irm_report_create_new: 创建新的自定义报表
   label_irm_report_custom: 自定义
+  label_irm_report_run_immediate: 立即执行
+  label_irm_report_run_schedule: 建立执行计划
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组
@@ -1447,3 +1449,15 @@ zh:
   label_irm_report_folder_access_type: 非私有报表访问类型
   label_irm_report_folder_member_type: 可访问成员类型
   #=======================end report_folder ====================
+  #======================= report_trigger ====================
+  label_irm_report_trigger_new: 新建报表执行计划
+  label_irm_report_trigger_person: 运行报表用户
+  label_irm_report_trigger_receiver_type: 报表邮件发送
+  label_irm_report_trigger_time_mode: 计划时间
+  label_irm_report_trigger_start_at: 开始日期
+  label_irm_report_trigger_end_at:  结束日期
+  label_irm_report_trigger_start_time:  执行时间
+  label_irm_report_trigger_delete: 取消执行计划
+  label_irm_report_trigger_receiver_type_only_self: 仅发送给我
+  label_irm_report_trigger_receiver_type_choose_staff: 发送给选定的人员
+  #=======================end report_trigger ====================
