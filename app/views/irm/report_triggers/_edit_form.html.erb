@@ -95,7 +95,7 @@
                       <div class="duelingText"><%= t(:delete) %></div>
                     </td>
                     <td class="targetCell">
-                      <%= f.hidden_field(:receiver_str,:value=>"",:id=>"members") %>
+                      <%= f.hidden_field(:receiver_str,:value=>report_trigger_receiver_str(@report_trigger),:id=>"members") %>
                       <%= select_tag_alias(:target,[],nil,{:id=>"target",:multiple=>true,:size=>7}) %>
                     </td>
                   </tr>

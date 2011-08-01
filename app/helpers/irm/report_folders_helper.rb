@@ -25,4 +25,11 @@ module Irm::ReportFoldersHelper
   def available_current_report_folder
     Irm::Person.current.report_folders.collect{|i| [i[:name],i.id]}
   end
+
+
+  def report_folder_member_value(report_folder_id)
+    if report_folder_id
+      return Irm::ReportFolderMember.where(:report_folder_id=>report_folder_id).collect{|i| "#{Irm::BusinessObject.class_name_to_code(i[:member_type])}##{i.member_id}"}.join(",")
+    end
+  end
 end

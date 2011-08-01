@@ -9,4 +9,16 @@ module Irm::ReportTriggersHelper
     values +=Irm::Role.multilingual.enabled.collect{|r| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Role.name)}:#{r[:name]}","#{Irm::BusinessObject.class_name_to_code(Irm::Role.name)}##{r.id}",{:type=>Irm::BusinessObject.class_name_to_code(Irm::Role.name),:query=>r[:name]}]}
     values
   end
+
+  def report_trigger_receiver_str(report_trigger)
+    if(report_trigger.receiver_str.present?)
+      return report_trigger.receiver_str
+    end
+    if(report_trigger.report_receivers.any?)
+      return report_trigger.report_receivers.collect{|i| "#{Irm::BusinessObject.class_name_to_code(i[:receiver_type])}##{i.receiver_id}"}.join(",")
+    else
+      return ""
+    end
+  end
+
 end

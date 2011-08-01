@@ -1,6 +1,6 @@
 module Irm::ReportsHelper
   def report_category_type_script
-    report_types = Irm::ReportType.multilingual.collect{|i| [i[:name],i.id,i.category_id]}
+    report_types = Irm::ReportType.multilingual.collect{|i| [i[:name],i.id,i.category_id,i[:description]]}
     report_types_hash = {}
     report_types.each do |rt|
       if(report_types_hash[rt[2]])

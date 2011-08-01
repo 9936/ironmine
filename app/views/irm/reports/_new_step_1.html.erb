@@ -40,9 +40,9 @@
                         <table>
                           <thead>
                             <tr>
-                              <th>select report type</th>
-                              <th></th>
-                              <th></th>
+                              <th><%= t(:label_irm_report_choose_report_category) %></th>
+                              <th><%= t(:label_irm_report_choose_report_type) %></th>
+                              <th><%= t(:label_irm_report_type_description) %></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -54,7 +54,7 @@
                                 <%=f.select :report_type_id,[],{:required=>true},:id=>"reportType",:size=>14%>
                               </td>
                               <td>
-                                <label>fields</label>
+                                <label id="reportTypeDescription"></label>
                               </td>
                             </tr>
                           </tbody>
@@ -97,6 +97,7 @@
                option.setContent(currentDataSets[i][0]);
                option.setAttribute("value",currentDataSets[i][1]);
                option.setAttribute("category_id",currentDataSets[i][2]);
+               option.setAttribute("description",currentDataSets[i][3]);
                Y.one("#reportType").appendChild(option);
            }
            if(Y.one("#reportType option"))
@@ -104,8 +105,12 @@
            Y.one("#reportType").simulate("change");
        });
        Y.one("#reportType").on("change",function(){
-           if(Y.one("#reportType").get("value")&&Y.one("#reportType").get("value")!="")
+           var selectedValue = Y.one("#reportType").get("value")
+           if(selectedValue&&selectedValue!="")
+           {
                Y.one("#saveButton").setStyle("display","");
+               Y.one("#reportTypeDescription").setContent(Y.one("#reportType option[value="+selectedValue+"]").getAttribute("description"));
+           }
            else
                Y.one("#saveButton").setStyle("display","none");
        });
