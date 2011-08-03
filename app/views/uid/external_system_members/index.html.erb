@@ -68,7 +68,7 @@
                 <div class="button"><%= link_to t(:label_uid_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()" %></div>
                 <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_code => @external_system_code},:builder => LabellingFormBuilder) do |f| %>
                     <%= f.hidden_field(:temp_id_string, :value => "") %>
-                    <div class="button"><%= f.submit t(:delete_selected), :confirm => "test"%></div>
+                    <div class="button"><%= f.submit t(:delete_selected), :confirm => t(:label_are_you_sure)%></div>
                 <% end %>
               </td>
               <td class="pbHelp">
