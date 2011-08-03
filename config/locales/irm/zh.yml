@@ -907,6 +907,8 @@ zh:
   label_irm_report_custom: 自定义
   label_irm_report_run_immediate: 立即执行
   label_irm_report_run_schedule: 建立执行计划
+  label_irm_report_choose_report_category: 选择报表类别
+
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组

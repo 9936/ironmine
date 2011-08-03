@@ -91,7 +91,7 @@
                   </tr>
                   <tr class="duelList">
                     <td class="sourceCell">
-                      <%= select_tag_alias(:source,available_report_folder_viewer,nil,{:id=>"source",:multiple=>true,:size=>14}) %>
+                      <%= select_tag_alias(:source,available_report_folder_viewer,nil,{:id=>"source",:multiple=>true,:size=>7}) %>
                     </td>
                     <td class="buttonCell">
                       <div class="text"><%= t(:add) %></div>
@@ -104,8 +104,8 @@
                       <div class="duelingText"><%= t(:delete) %></div>
                     </td>
                     <td class="targetCell">
-                      <%= f.hidden_field(:member_str,:value=>"",:id=>"members") %>
-                      <%= select_tag_alias(:target,[],nil,{:id=>"target",:multiple=>true,:size=>14}) %>
+                      <%= f.hidden_field(:member_str,:value=>@report_folder.member_str||report_folder_member_value(@report_folder.id),:id=>"members") %>
+                      <%= select_tag_alias(:target,[],nil,{:id=>"target",:multiple=>true,:size=>7}) %>
                     </td>
                   </tr>
                 </table>

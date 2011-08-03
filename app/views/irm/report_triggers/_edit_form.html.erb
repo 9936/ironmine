@@ -95,7 +95,7 @@
                       <div class="duelingText"><%= t(:delete) %></div>
                     </td>
                     <td class="targetCell">
-                      <%= f.hidden_field(:receiver_str,:value=>"",:id=>"members") %>
+                      <%= f.hidden_field(:receiver_str,:value=>report_trigger_receiver_str(@report_trigger),:id=>"members") %>
                       <%= select_tag_alias(:target,[],nil,{:id=>"target",:multiple=>true,:size=>7}) %>
                     </td>
                   </tr>
@@ -129,13 +129,13 @@
                                   <div id="rw_zone" style="display:none;">
                                     <div><%= raw(t(:label_irm_todo_event_recurrence_every_week, :m => (text_field_tag "time_mode_obj[weekly][interval]", time_mode_obj[:weekly][:interval], :size => 2)))%></div>
                                     <div>
-                                      <%= check_box_tag "time_mode_obj[weekly][days][]", "SU", time_mode_obj[:weekly][:days].include?("SU"), :id => "recurrence_every_week_su"%><label for="recurrence_every_week_su"><%= (t "date.day_names")[0]%></label>
                                       <%= check_box_tag "time_mode_obj[weekly][days][]", "MO", time_mode_obj[:weekly][:days].include?("MO"), :id => "recurrence_every_week_mo"%><label for="recurrence_every_week_mo"><%= (t "date.day_names")[1]%></label>
                                       <%= check_box_tag "time_mode_obj[weekly][days][]", "TU", time_mode_obj[:weekly][:days].include?("TU"), :id => "recurrence_every_week_tu"%><label for="recurrence_every_week_tu"><%= (t "date.day_names")[2]%></label>
                                       <%= check_box_tag "time_mode_obj[weekly][days][]", "WE", time_mode_obj[:weekly][:days].include?("WE"), :id => "recurrence_every_week_we"%><label for="recurrence_every_week_we"><%= (t "date.day_names")[3]%></label>
                                       <%= check_box_tag "time_mode_obj[weekly][days][]", "TH", time_mode_obj[:weekly][:days].include?("TH"), :id => "recurrence_every_week_th"%><label for="recurrence_every_week_th"><%= (t "date.day_names")[4]%></label>
                                       <%= check_box_tag "time_mode_obj[weekly][days][]", "FR", time_mode_obj[:weekly][:days].include?("FR"), :id => "recurrence_every_week_fr"%><label for="recurrence_every_week_fr"><%= (t "date.day_names")[5]%></label>
                                       <%= check_box_tag "time_mode_obj[weekly][days][]", "SA", time_mode_obj[:weekly][:days].include?("SA"), :id => "recurrence_every_week_sa"%><label for="recurrence_every_week_sa"><%= (t "date.day_names")[6]%></label>
+                                      <%= check_box_tag "time_mode_obj[weekly][days][]", "SU", time_mode_obj[:weekly][:days].include?("SU"), :id => "recurrence_every_week_su"%><label for="recurrence_every_week_su"><%= (t "date.day_names")[0]%></label>
                                     </div>
                                   </div>
                                   <div id="rm_zone" style="display:none;">
