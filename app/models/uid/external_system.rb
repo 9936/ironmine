@@ -5,6 +5,13 @@ class Uid::ExternalSystem < ActiveRecord::Base
   attr_accessor :system_name, :system_description
   acts_as_multilingual({:columns =>[:system_name,:system_description],:required=>[:system_name]})  
 
+  has_many :external_system_people, :class_name => "Uid::ExternalSystemPerson",
+           :foreign_key => "external_system_code",:primary_key => "external_system_code",:dependent => :destroy
+
+  has_many :people, :class_name => "Irm::Person",
+           :finder_sql => "SELECT p.* FROM irm_people p, uid_external_system_people sp, uid_external_systems es " +
+                          "WHERE p.id = sp.person_id AND es.external_system_code = sp.external_system_code"
+
   query_extend
 
   validates_uniqueness_of :external_system_code
@@ -19,5 +26,13 @@ class Uid::ExternalSystem < ActiveRecord::Base
 
   def wrap_system_name
     self[:system_name]
+  end
+
+  def owned_people
+    Irm::Person.
+        with_company(I18n.locale).
+        with_organization(I18n.locale).
+        with_department(I18n.locale).
+        with_external_system(self.external_system_code)
   end
 end
