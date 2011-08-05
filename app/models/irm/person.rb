@@ -38,6 +38,10 @@ class Irm::Person < ActiveRecord::Base
   has_many :company_accesses
   query_extend
 
+  has_many :external_system_people,:class_name => "Uid::ExternalSystemPerson",
+           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
+  has_many :external_systems,:class_name => "Uid::ExternalSystem",:through => "external_system_people"
+
   has_attached_file :avatar,
                     :whiny => false,
                     :url => Irm::Constant::ATTACHMENT_URL,
@@ -179,6 +183,18 @@ class Irm::Person < ActiveRecord::Base
 
   scope :select_all,lambda{
     select("#{table_name}.*,#{Irm::Person.name_to_sql(nil,table_name,"person_name")}")
+  }
+
+  scope :with_external_system, lambda{|external_system_code|
+    select("#{table_name}.*").
+        joins(",#{Uid::ExternalSystemPerson.table_name} esp").
+        where("esp.external_system_code = ?", external_system_code).
+        where("esp.person_id = #{table_name}.id")
+  }
+
+  scope :without_external_system, lambda{|external_system_code|
+    select("#{table_name}.*").
+        where("NOT EXISTS (SELECT * FROM #{Uid::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{table_name}.id AND esp.external_system_code = ?)", external_system_code)
   }
 
   def before_save

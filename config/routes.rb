@@ -1117,6 +1117,12 @@ Ironmine::Application.routes.draw do
     match '/system_user_home(/index)(.:format)' => "system_user_home#index", :via => :get
     #external_user_home
     match '/external_user_home(/index)(.:format)' => "external_user_home#index", :via => :get
+    #external_system_person
+    match '/external_system_members(/index)(.:format)' => "external_system_members#index", :via => :get
+    match '/external_system_members/:external_system_code/get_owned_members_data(.:format)' => "external_system_members#get_owned_members_data", :via => :get
+    match '/external_system_members/:external_system_code/add_people(.:format)' => "external_system_members#add_people"
+    match '/external_system_members/:external_system_code/get_available_people_data(.:format)' => "external_system_members#get_available_people_data"
+    match '/external_system_members/:external_system_code/delete_people(.:format)' => "external_system_members#delete_people"
   end
 
   #service catalog and service level agreement(slm)

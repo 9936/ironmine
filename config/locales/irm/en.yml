@@ -14,6 +14,7 @@ en:
   show: Show
   edit: Edit
   delete: Del
+  delete_selected: Delete Selected
   back: Back
   disable: Disable
   done: Done

@@ -17,6 +17,10 @@ zh:
   label_uid_external_system_status_meaning: 记录状态
   label_uid_external_system:  外部系统
   label_uid_external_system_info: 外部系统信息
+
+  label_uid_external_system_people: 系统人员
+  label_uid_external_system_people_type: 类型
+  label_uid_external_system_add_people: 添加成员
   #=========================    end external_systems_controller=======================#
   #=========================    uid external_systems_controller=======================#
   label_uid_external_login_new: 新建外部登录
