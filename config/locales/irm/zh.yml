@@ -1385,6 +1385,7 @@ zh:
   label_irm_report_type_edit_section_layout: 编辑布局
   label_irm_report_type_usable_field_source: 字段来源
   label_irm_report_type_usable_count: 选取的字段
+  label_action_edit_relation: 定义业务对像关系
   #=======================end report_type  ====================
   #======================= report_type section ====================
   label_irm_report_type_define_field_and_section: 定义报表分区及字段
