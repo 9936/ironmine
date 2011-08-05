@@ -4,7 +4,4 @@ class Irm::MenuEntriesTl < ActiveRecord::Base
 
   validates_presence_of :name
 
-  scope :query_by_menu_entry_id,lambda{|menu_entry_id| where(:menu_entry_id=>menu_entry_id)}
-  scope :query_by_language,lambda{|language| where(:language=>language)}
-
 end

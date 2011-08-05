@@ -8,11 +8,11 @@ class Irm::FunctionGroup < ActiveRecord::Base
 
   query_extend
   # 验证编码唯一性
-  validates_presence_of :group_code
-  validates_uniqueness_of :group_code, :if => Proc.new { |i| !i.group_code.blank? }
-  validates_format_of :group_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.group_code.blank?}
+  validates_presence_of :code
+  validates_uniqueness_of :code, :if => Proc.new { |i| !i.code.blank? }
+  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.code.blank?}
 
-  # 菜单子项
-  has_many :function_group_members,:foreign_key=>"group_code",:primary_key=>"group_code"
-  has_many :functions, :through => :function_group_members
+  has_many :functions
+
+  has_many :menu_entries,:primary_key => :sub_function_group_id,:dependent => :destroy
 end

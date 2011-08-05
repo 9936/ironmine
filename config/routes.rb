@@ -1,4 +1,5 @@
 Ironmine::Application.routes.draw do
+
   get "delayed/index"
 
   scope :module => "irm" do
@@ -778,6 +779,27 @@ Ironmine::Application.routes.draw do
     match '/cards/:id/update_rule(.:format)' => "cards#update_rule", :via => :put
     match '/cards/:id/multilingual_edit(.:format)' => "cards#multilingual_edit", :via => :get
     match '/cards/:id/multilingual_update(.:format)' => "cards#multilingual_update", :via => :put
+
+    #tabs
+    match '/tabs(/index)(.:format)' => "tabs#index", :via => :get
+    match '/tabs/:id/edit(.:format)' => "tabs#edit", :via => :get
+    match '/tabs/:id(.:format)' => "tabs#update", :via => :put
+    match '/tabs/new(.:format)' => "tabs#new", :via => :get
+    match '/tabs/create(.:format)' => "tabs#create", :via => :post
+    match '/tabs/:id/multilingual_edit(.:format)' => "tabs#multilingual_edit", :via => :get
+    match '/tabs/:id/multilingual_update(.:format)' => "tabs#multilingual_update", :via => :put
+    match '/tabs/get_data(.:format)' => "tabs#get_data"
+    match '/tabs/:id/show(.:format)' => "tabs#show", :via => :get
+    #applications
+    match '/applications(/index)(.:format)' => "applications#index", :via => :get
+    match '/applications/:id/edit(.:format)' => "applications#edit", :via => :get
+    match '/applications/:id(.:format)' => "applications#update", :via => :put
+    match '/applications/new(.:format)' => "applications#new", :via => :get
+    match '/applications/create(.:format)' => "applications#create", :via => :post
+    match '/applications/:id/multilingual_edit(.:format)' => "applications#multilingual_edit", :via => :get
+    match '/applications/:id/multilingual_update(.:format)' => "applications#multilingual_update", :via => :put
+    match '/applications/get_data(.:format)' => "applications#get_data"
+    match '/applications/:id/show(.:format)' => "applications#show", :via => :get
   end
 
   scope :module => "icm" do
