@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  business_object_id: MyString
+  function_group_id: MyString
+  style_color: MyString
+  style_image: MyString
+  name: MyString
+  description: MyString
+
+two:
+  business_object_id: MyString
+  function_group_id: MyString
+  style_color: MyString
+  style_image: MyString
+  name: MyString
+  description: MyString

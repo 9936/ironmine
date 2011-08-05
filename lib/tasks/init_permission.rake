@@ -24,12 +24,17 @@ namespace :irm do
      end
      routes.reject!{ |r| r[:path] == "/rails/info/properties" } # skip the route if it's internal info route
      route_permissions = []
+     path_regex = /:([a-z_]+)/
      routes.each do |r|
-       route_permissions<<eval(r[:reqs])
+       params_count = r[:path].scan(path_regex).delete_if{|i| !i.any?||i.first.eql?("format")}.count
+       #r[:path].scan(path_regex).delete_if{|i| !i.any?||i.first.eql?("format")}.count
+       permission_params = eval(r[:reqs])
+       permission_params.merge!({:params_count=>params_count,:direct_get_flag=>r[:verb].include?("GET") ? Irm::Constant::SYS_YES : Irm::Constant::SYS_NO})
+       route_permissions<<permission_params
      end
     end
     functions = Irm::AccessControl.functions
-    function_codes = Irm::Function.all.collect{|f| f.function_code.downcase.to_sym}
+    function_codes = Irm::Function.all.collect{|f| f.code.downcase.to_sym}
     missing_function_codes = functions.keys.collect{|fc| fc if !function_codes.include?(fc)}.compact
     puts "#{BOLD}#{RED}Missing function codes:#{missing_function_codes.to_json}#{CLEAR}"
     Irm::Permission.update_all("status_code = 'UNKNOW'")
@@ -37,16 +42,22 @@ namespace :irm do
       permissions =  function[:permissions]
       permissions.each do |controller,actions|
         actions.each do |action|
-          if !route_permissions.detect{|rp| rp[:controller].eql?(controller)&&rp[:action].eql?(action.to_s)}
+          route_permission = route_permissions.detect{|rp| rp[:controller].eql?(controller)&&rp[:action].eql?(action.to_s)}
+          if route_permission.nil?
             puts "#{BOLD}#{RED}No route match #{controller}/#{action.to_s}#{CLEAR}"
             next
           end
-          permission = Irm::Permission.where(:function_code=>function_code.to_s.upcase,:page_controller=>controller,:page_action=>action.to_s).first
+          permission = Irm::Permission.query_by_function_code(function_code.to_s.upcase).where(:controller=>controller,:action=>action.to_s).readonly(false).first
           if permission
-            permission.update_attributes({:status_code=>"ENABLED"})
+            permission.update_attributes({:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag],:status_code=>"ENABLED"})
           else
-            Irm::Permission.create(:permission_code=>Irm::Permission.url_key(controller,action).upcase[0..29],:function_code=>function_code.to_s.upcase,:page_controller=>controller,:page_action=>action.to_s)
-            puts "Add [#{function_code}]#{Irm::Permission.url_key(controller,action)} to permissions"
+            permission = Irm::Permission.new(:code=>Irm::Permission.url_key(controller,action).upcase,:function_code=>function_code.to_s.upcase,:controller=>controller,:action=>action.to_s,:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag])
+            permission.save
+            if permission.errors.any?
+              puts "#{BOLD}#{RED}Add [#{function_code}]#{controller}/#{action} errors:#{permission.errors}#{CLEAR}"
+            else
+              puts "Add [#{function_code}]#{controller}/#{action} to permissions successful"
+            end
           end
         end
       end
