@@ -506,7 +506,7 @@ zh:
   label_irm_mail_template_content: 模板内容
   label_irm_mail_template_show: 邮件模板
   label_irm_mail_template_parameter_field: 邮件模板参数查询
-  label_irm_mail_template_parameter_bo: 参数业务对像
+  label_irm_mail_template_parameter_bo: 参数业务对象
   label_irm_mail_template_parameter_field_name: 参数名称
   label_irm_mail_template_parameter_field_key: 参数值
   #==================end irm mail_templates_controller=======================#
@@ -908,7 +908,8 @@ zh:
   label_irm_report_run_immediate: 立即执行
   label_irm_report_run_schedule: 建立执行计划
   label_irm_report_choose_report_category: 选择报表类别
-
+  label_action_edit_custom: 自定义
+  label_action_run: 运行
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组
@@ -1023,7 +1024,7 @@ zh:
   label_irm_todo_event_list_view: 事件列表视图
   #======================== end calendar tasks====================
   #======================== business objects====================
-  label_business_object_list: 业务对像
+  label_business_object_list: 业务对象
   label_irm_business_object_business_object_code: 编码
   label_irm_business_object_name: 名称
   label_irm_business_object_name_full: 业务对象名称
@@ -1031,8 +1032,8 @@ zh:
   label_irm_business_object_bo_model_name: Model名称
   label_irm_business_object_auto_generate_flag: 自动生成
   label_irm_business_object_multilingual_flag: 多语言
-  label_irm_business_object_new: 复制业务对像
-  label_irm_business_object_edit: 编辑业务对像
+  label_irm_business_object_new: 复制业务对象
+  label_irm_business_object_edit: 编辑业务对象
   label_irm_business_object_description: 描述
   label_irm_business_object_description_full: 业务对象描述
   label_irm_business_object_workflow_flag: 启用工作流
@@ -1047,8 +1048,8 @@ zh:
   label_irm_object_attribute_relation_bo_code: 关联BO
   label_irm_object_attribute_relation_column: 关联列
   label_irm_object_attribute_relation_table_alias_name: 关联表别名
-  label_irm_object_attribute_new: 新建对像属性
-  label_irm_object_attribute_choose_attribute_type: 选择对像属性类型
+  label_irm_object_attribute_new: 新建对象属性
+  label_irm_object_attribute_choose_attribute_type: 选择对象属性类型
   label_irm_object_attribute_exists_relation_flag: 使用该BO已有关联
   label_irm_object_attribute_relation_type: 关联类型
   label_irm_object_attribute_lov_code: LOV
@@ -1060,7 +1061,7 @@ zh:
   label_irm_object_attribute_description: 描述
   label_irm_object_attributes_test_information: 测试信息
   label_irm_object_attribute_invalid_exists_relation_table: 请填写已经存在的表别名
-  label_irm_object_attribute_invalid_model_attribute: BO对像中无该属性
+  label_irm_object_attribute_invalid_model_attribute: BO对象中无该属性
   label_irm_object_attribute_person_flag: 人员属性
   label_irm_object_attribute_update_flag: 可更新
   label_irm_object_attribute_change_type_link: 类型
@@ -1073,7 +1074,7 @@ zh:
   label_irm_list_of_value_lov_code: 编码
   label_irm_list_of_value_name: 名称
   label_irm_list_of_value_description: 描述
-  label_irm_list_of_value_bo_code: 业务对像
+  label_irm_list_of_value_bo_code: 业务对象
   label_irm_list_of_value_id_column: ID列
   label_irm_list_of_value_value_column: 值列
   label_irm_list_of_value_value_title: 值标题
@@ -1103,7 +1104,7 @@ zh:
   label_irm_wf_rule_list: 工作流规则
   label_irm_wf_rule_new: 新建工作流规则
   label_irm_wf_rule_edit: 编辑工作流规则
-  label_irm_wf_rule_bo_code: 业务对像
+  label_irm_wf_rule_bo_code: 业务对象
   label_irm_wf_rule_name: 名称
   label_irm_wf_rule_rule_code: 编码
   label_irm_wf_rule_evaluate_criteria_rule: 评估规则
@@ -1111,7 +1112,7 @@ zh:
   label_irm_wf_rule_status_code: 状态
   label_irm_wf_rule_evaluation_criteria: 评估规则
   label_irm_wf_rule_filter: 评估过滤规则
-  label_irm_wf_rule_select_bo: 选择工作流规则业务对像
+  label_irm_wf_rule_select_bo: 选择工作流规则业务对象
   label_irm_wf_rule_config: 设置工作流规则
   label_irm_wf_rule_description: 描述
   label_irm_wf_rule_active: 启用
@@ -1177,7 +1178,7 @@ zh:
   #======================== wf field updates====================
   label_irm_wf_field_update: 字段更新
   label_irm_wf_field_update_list: 字段更新列表
-  label_irm_wf_field_update_bo_code: 业务对像
+  label_irm_wf_field_update_bo_code: 业务对象
   label_irm_wf_field_update_name: 名称
   label_irm_wf_field_update_field_update_code: 编码
   label_irm_wf_field_update_description: 描述
@@ -1201,7 +1202,7 @@ zh:
   #======================== wf mail alert====================
   label_irm_wf_mail_alert: 邮件警告
   label_irm_wf_mail_alert_list: 邮件警告列表
-  label_irm_wf_mail_alert_bo_code: 业务对像
+  label_irm_wf_mail_alert_bo_code: 业务对象
   label_irm_wf_mail_alert_name: 名称
   label_irm_wf_mail_alert_mail_alert_code: 编码
   label_irm_wf_mail_alert_description: 描述
@@ -1240,7 +1241,7 @@ zh:
   label_irm_wf_approval_process_manage: 管理审批流程
   label_irm_wf_approval_process_active_list: 已启用的审批流程
   label_irm_wf_approval_process_disable_list: 未启用的审批流程
-  label_irm_wf_approval_process_bo_code: 业务对像
+  label_irm_wf_approval_process_bo_code: 业务对象
   label_irm_person: 人员
   label_irm_role: 角色
   label_related_person: 相关人员
@@ -1366,14 +1367,14 @@ zh:
   label_irm_report_type_new: 新建报表类型
   label_irm_report_type_edit: 编辑报表类型
   label_irm_report_type_define: 定义报表类型
-  label_irm_report_type_business_object_select: 选择主业务对像
-  label_irm_report_type_business_object: 主业务对像
+  label_irm_report_type_business_object_select: 选择主业务对象
+  label_irm_report_type_business_object: 主业务对象
   label_irm_report_type_code: 编码
   label_irm_report_type_name: 名称
   label_irm_report_type_description: 描述
   label_irm_report_type_category: 类别
   label_irm_report_type_define_record_sets: 定义报表记录集
-  label_irm_report_type_object_relationship: 对像关系
+  label_irm_report_type_object_relationship: 对象关系
   label_irm_report_type_click_to_relate_to_other_bo: (点击以相关另一个对象）
   label_irm_report_type_relate_to: %{master}到 %{detail} 关系
   label_irm_report_type_relate_inner: 每个 %{master} 记录必须至少有一个相关 %{detail} 记录.
@@ -1386,13 +1387,14 @@ zh:
   label_irm_report_type_edit_section_layout: 编辑布局
   label_irm_report_type_usable_field_source: 字段来源
   label_irm_report_type_usable_count: 选取的字段
+  label_action_edit_relation: 定义业务对象关系
   #=======================end report_type  ====================
   #======================= report_type section ====================
   label_irm_report_type_define_field_and_section: 定义报表分区及字段
   rename: 修改名称
   label_irm_report_type_section_name: 名称
   label_irm_report_type_field_default_selection_flag: 默认选择
-  label_irm_report_type_field_business_object: 业务对像
+  label_irm_report_type_field_business_object: 业务对象
   label_irm_report_type_field_selectable_attribute: 报表可用字段
   label_irm_report_type_usable_field_and_section: 报表分区及字段
   #=======================end report_type section ====================
