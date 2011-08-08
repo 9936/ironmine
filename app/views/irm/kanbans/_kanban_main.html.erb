@@ -50,10 +50,10 @@
 <% kanban = Irm::Kanban.enabled.first %>
 <% end %>
 
-<div id="kanban_model">
-  <a href="javascript:void(0);" id="mode_preview" onclick="set_mode(0);">预览模式</a>
-  <a href="javascript:void(0);" id="mode_list" onclick="set_mode(1);">列表模式</a>
-</div>
+<!--<div id="kanban_model">-->
+  <!--<a href="javascript:void(0);" id="mode_preview" onclick="set_mode(0);">预览模式</a>-->
+  <!--<a href="javascript:void(0);" id="mode_list" onclick="set_mode(1);">列表模式</a>-->
+<!--</div>-->
 <div id="kanban_<%= kanban.id%>">
 <%= show_kanban(kanban.id)%>
 </div>
