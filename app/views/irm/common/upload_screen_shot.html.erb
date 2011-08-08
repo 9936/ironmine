@@ -12,7 +12,7 @@ body{background-color:#f2f2f2}
             document.getElementById('attach_applet').innerHTML = '<OBJECT name="ScreenSaver"'
                                                                 + 'classid = "clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"'
                                                                 + 'codebase = "/applets/jre-6u25-windows-i586.exe#Version=6,0,25,3"'
-                                                                + 'WIDTH = "600" HEIGHT = "400" >'
+                                                                + 'WIDTH = "400" HEIGHT = "320" >'
                                                                 + '<PARAM NAME = CODE VALUE = "com.handchina.ironmine.ScreenSaver.class" >'
                                                                 + '<PARAM NAME = ARCHIVE VALUE = "/applets/ScreenSaver.jar" >'
                                                                 + '<PARAM NAME = "type" VALUE = "application/x-java-applet;version=1.6.0_25">' +
@@ -31,8 +31,8 @@ body{background-color:#f2f2f2}
                                                                 + 'type="application/x-java-applet;jpi-version=1.6.0_25"'
                                                                 + 'CODE="com.handchina.ironmine.ScreenSaver.class"'
                                                                 + 'ARCHIVE="/applets/ScreenSaver.jar"'
-                                                                + 'WIDTH="600"'
-                                                                + 'HEIGHT="400"'
+                                                                + 'WIDTH="400"'
+                                                                + 'HEIGHT="320"'
                                                                 + 'pluginspage="/applets/jre-6u25-windows-i586.exe">'
                                                                 + '<NOEMBED>'
                                                                 + '无法安装JAVA运行环境,请下载 jre 6.0'
@@ -42,7 +42,7 @@ body{background-color:#f2f2f2}
                                                                 + '</OBJECT>';
         }
         else {
-            document.getElementById('attach_applet').innerHTML = '<applet code="com.handchina.ironmine.ScreenSaver.class" archive="/applets/ScreenSaver.jar" height="400" width="600" MAYSCRIPT>'+
+            document.getElementById('attach_applet').innerHTML = '<applet code="com.handchina.ironmine.ScreenSaver.class" archive="/applets/ScreenSaver.jar" height="320" width="400" MAYSCRIPT>'+
                                                                  '<param name="label.image" value="<%= t(:label_image) %>">' +
                                                                  '<param name="label.button.paste" value="<%= t(:label_button_paste) %>">' +
                                                                  '<param name="label.button.attach" value="<%= t(:button_attach) %>">' +
