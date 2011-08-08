@@ -110,3 +110,11 @@ zh:
   label_skm_rpt_search_key: 关键字搜索分析报表
   label_skm_rpt_show_history: 知识库文章查看分析报表
   label_skm_rpt_apply_history: 事故单应用知识库分析报表
+
+  #========================= skm columns ==========================================
+  label_skm_column: 栏目
+  label_skm_column_code: 栏目编码
+  label_skm_column_parent: 父栏目
+  label_skm_column_new: 创建栏目
+  label_skm_column_edit: 编辑栏目
+  label_skm_column_list: 栏目列表

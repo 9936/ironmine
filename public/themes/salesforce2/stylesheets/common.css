@@ -11,6 +11,7 @@ textarea {font-size: 14px;}
 .display-N{display:none}
 .un-display-Y{display:none}
 .un-display-N{display:inline}
+.screen_shot_frame{height:320px;width:420px;}
 /***************** top search area ***********************/
 .bPageTitle {margin-bottom:15px;}
 body.detailPage .bPageTitle {margin-bottom:0;}

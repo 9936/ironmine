@@ -110,3 +110,11 @@ en:
   label_skm_rpt_search_key: Key words analysis report
   label_skm_rpt_show_history: Entry view history report
   label_skm_rpt_apply_history: Entry used by incident history report
+
+  #========================= skm columns ==========================================
+  label_skm_column: Column
+  label_skm_column_code: Column Code
+  label_skm_column_parent: Parent Column
+  label_skm_column_new: New Column
+  label_skm_column_edit: Edit Column
+  label_skm_column_list: Column List

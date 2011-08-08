@@ -65,22 +65,3 @@
   </div>
 </div>
 <% end %>
-
-<script type="text/javascript">
-  GY.use("duelselect",function(Y){
-    var duelselect = new Y.DuelSelect({source:"#source",target:"#target",valueNode:"#selectedRanges",type:Y.one("#rangeType").get("value"),addButton:"#duelAdd",removeButton:"#duelRemove"});
-    Y.one("#rangeType").on("change",function(e){
-      Y.one("#duelQuery").set("value","");
-      duelselect.filter(Y.one("#rangeType").get("value"),Y.one("#duelQuery").get("value"));
-    });
-    Y.one("#duelSearch").on("click",function(e){
-      duelselect.filter(Y.one("#rangeType").get("value"),Y.one("#duelQuery").get("value"));
-    });
-    Y.one("#duelQuery").on("keydown",function(e){
-      if(e.keyCode==13){
-          e.preventDefault();
-          duelselect.filter(Y.one("#rangeType").get("value"),Y.one("#duelQuery").get("value"));
-      }
-    });
-  });
-</script>

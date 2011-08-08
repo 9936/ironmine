@@ -1,11 +1,11 @@
 <%= setting_title %>
-<%= form_for(@lane,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@column,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="bEditBlock bPageBlock">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_lane_new)%></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_skm_column_new)%></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= f.submit t(:save)%></div>
             <div class="button"><%= link_to t(:cancel), {:action=>"index"}%></div>
@@ -15,7 +15,7 @@
     </table>
   </div>
   <div class="pbBody">
-    <%= error_for @lane%>
+    <%= error_for @column%>
     <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
       <span class="pbSubExtra">
         <span class="requiredLegend">
@@ -31,8 +31,8 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=(t :label_irm_lane_code)%></label></td>
-              <td class="data2Col"><%=@lane.lane_code%></td>
+              <td class="labelCol"><label><%=(t :label_skm_column_code)%></label></td>
+              <td class="data2Col"><%=f.text_field :column_code, :required=>true, :irm_uppercase => true%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :name)%></label></td>
@@ -43,8 +43,8 @@
               <td class="data2Col"><%=f.text_area :description, :rows => 4%></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_irm_lane_limit)%></label></td>
-              <td class="data2Col"><%=f.text_field :limit, :required=>true, :size =>5, :irm_number_only => true%></td>
+              <td class="labelCol"><label><%=(t :label_skm_column_parent)%></label></td>
+              <td class="data2Col"><%=f.text_field :parent_column_id, :size =>5, :irm_number_only => true%></td>
             </tr>
         </tbody>
       </table>
