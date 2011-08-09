@@ -1066,6 +1066,8 @@ Ironmine::Application.routes.draw do
     match '/skm_columns(/index)(.:format)' => "columns#index", :via => :get
     match '/skm_columns/new(.:format)' => "columns#new", :via => :get
     match '/skm_columns/create(.:format)' => "columns#create", :via => :post
+    match '/skm_columns/:id/edit(.:format)' => "columns#edit", :via => :get
+    match '/skm_columns/:id/update(.:format)' => "columns#update", :via => :put
     match '/skm_columns/get_columns_data(.:format)' => "columns#get_columns_data", :via => :get
   end
 

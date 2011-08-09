@@ -44,7 +44,7 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_skm_column_parent)%></label></td>
-              <td class="data2Col"><%=f.text_field :parent_column_id, :size =>5, :irm_number_only => true%></td>
+              <td class="data2Col"><%= lov_field_tag "skm_columns", "SKM_COLUMNS", :id => "parent_column_lov", :value => @column.parent_column_id, :label_required => true %></td>
             </tr>
         </tbody>
       </table>

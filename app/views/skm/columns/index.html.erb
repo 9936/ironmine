@@ -8,7 +8,7 @@
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_skm_entry_status_list) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_skm_column_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
                 <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
               </td>
@@ -38,8 +38,8 @@
                                     <tr>
                                       <td class="pbTitle"></td>
                                       <td class="pbButton">
-                                        <div class="button"><%= link_to t(:edit), {}%></div>
-                                        <div class="button"><%= link_to t(:back), {}%></div>
+                                        <div class="button" id="edit_button"><%= link_to t(:edit), {}, {:onclick => "javascript:void(0)", :href=>"#"}%></div>
+                                        <div class="button" id="new_child_button"><%= link_to t(:label_skm_column_new_child), {}, {:onclick => "javascript:void(0)", :href=>"#"}%></div>
                                       </td>
                                     </tr>
                                   </tbody>
@@ -50,20 +50,16 @@
                                   <table class="detailList" cellpadding="0" cellspacing="0" border="0">
                                     <tbody>
                                         <tr>
-                                          <td class="labelCol"><label><%=(t :label_skm_entry_status_code)%></label></td>
-                                          <td class="data2Col">test</td>
+                                          <td class="labelCol"><label><%=(t :label_skm_column_code)%></label></td>
+                                          <td class="data2Col" id="column_code"></td>
                                         </tr>
                                         <tr>
                                           <td class="labelCol"><label><%=(t :name)%></label></td>
-                                          <td class="data2Col">test</td>
+                                          <td class="data2Col" id="column_name"></td>
                                         </tr>
                                         <tr>
                                           <td class="labelCol"><label><%=t(:description)%></label></td>
-                                          <td class="data2Col">test</td>
-                                        </tr>
-                                        <tr>
-                                          <td class="labelCol"><label><%=(t :label_skm_entry_status_visiable)%></label></td>
-                                          <td class="data2Col"></td>
+                                          <td class="data2Col" id="column_description"></td>
                                         </tr>
                                     </tbody>
                                   </table>
@@ -88,8 +84,19 @@
 Ext.onReady(function() {
     var treeNode = Ext.getDom("tree-div");
 
+    Ext.define('ColumnField', {
+        extend: 'Ext.data.Model',
+        fields: [
+            {name: 'id',type: 'string'},
+            {name: 'text',type: 'string'},
+            {name: 'sc_id',type: 'string'},
+            {name: 'column_name',type: 'string'},
+            {name: 'column_description',type: 'string'},
+            {name: 'sc_code',type: 'string'}
+        ]
+    });
     var store = Ext.create('Ext.data.TreeStore', {
-        model: "ReportTypeField",
+        model: "ColumnField",
         proxy: {type: 'ajax',url:  treeNode.getAttribute("href")}
     });
 
@@ -100,26 +107,16 @@ Ext.onReady(function() {
         renderTo: 'tree-div',
         width: 200,
         height: 250,
-        dockedItems: [{
-            xtype: 'toolbar',
-            items: {
-                text: 'Get checked nodes',
-                handler: function(){
-                    var records = tree.getView().getChecked(),
-                        names = [];
-
-                    Ext.Array.each(records, function(rec){
-                        names.push(rec.get('text'));
-                    });
-
-                    Ext.MessageBox.show({
-                        title: 'Selected Nodes',
-                        msg: names.join('<br />'),
-                        icon: Ext.MessageBox.INFO
-                    });
-                }
+        listeners:{
+            'itemclick':function(view, record, item, index, e){
+                Ext.getDom("column_code").innerHTML = record.get("sc_code");
+                Ext.getDom("column_name").innerHTML = record.get("column_name");
+                Ext.getDom("column_description").innerHTML = record.get("column_description");
+                Ext.getDom("edit_button").innerHTML = "<a href='/skm_columns/" + record.get("sc_id") + "/edit'><%= t :edit%></a>";
+                Ext.getDom("new_child_button").innerHTML = "<a href='/skm_columns/new?parent_column_id=" + record.get("sc_id") +"'><%= t :label_skm_column_new_child%></a>";
             }
-        }]
+        }
     });
+
 });
 </script>

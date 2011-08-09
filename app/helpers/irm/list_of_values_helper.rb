@@ -22,7 +22,7 @@ module Irm::ListOfValuesHelper
     hidden_tag_str = hidden_field_tag(name,value,{:id=>input_node_id})
     if value.present?
       if options.delete(:label_required)
-        label_value = "REQUIRED"
+        label_value = lov.lov_value(value)
       else
         label_value = value
       end
