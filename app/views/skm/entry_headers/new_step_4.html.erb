@@ -1,5 +1,6 @@
 <%= app_title({:description => t(:new)}) %>
 <%= form_for(@entry_header,:url=>{:action=>"new"},:builder => LabellingFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
+<%= f.hidden_field :column_ids %>
 <div class="bWizardBlock bDetailBlock">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
@@ -52,17 +53,17 @@
 <script type="text/javascript">
   function submit_last(){
     document.new_skm_entry_header.action = "new?step=3";
-    new_skm_entry_header.submit();
+    document.new_skm_entry_header.submit();
   }
   function submit_draft(){
     document.new_skm_entry_header.action = "create?status=DRAFT";
-    new_skm_entry_header.submit();
+    document.new_skm_entry_header.submit();
   }
 
   function submit_published(){
     document.new_skm_entry_header.action = "create?status=PUBLISHED";
-    new_skm_entry_header.submit();
-  }        
+    document.new_skm_entry_header.submit();
+  }
 </script>
 <% end %>
 

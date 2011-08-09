@@ -6,7 +6,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   acts_as_searchable
 
-
+  attr_accessor :column_ids
   validates_presence_of :entry_title
   scope :published, where("#{table_name}.entry_status_code = ?", "PUBLISHED")
   scope :draft, where("#{table_name}.entry_status_code = ?", "DRAFT")

@@ -83,6 +83,7 @@ class Skm::EntryHeadersController < ApplicationController
       session[:skm_entry_header].each do |k, v|
         @entry_header[k.to_sym] = v
       end
+      @entry_header.column_ids = session[:skm_entry_header][:column_ids] if session[:skm_entry_header][:column_ids].present?
       @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
     end
   end  
@@ -97,7 +98,6 @@ class Skm::EntryHeadersController < ApplicationController
       t = Skm::EntryDetail.new(v)
       @entry_details << t
     end
-
     #验证上一步的输入正确性
     content_validate_flag = true
     @entry_details.each do |ed|
@@ -170,8 +170,12 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
     @entry_header.version_number = @entry_header.next_version_number
     @entry_header.author_id = Irm::Person.current.id
+    column_ids = params[:skm_entry_header][:column_ids].split(",")
     respond_to do |format|
       if @entry_header.save
+        column_ids.each do |c|
+          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
+        end
         #关联创建过程中关联的文件
         if session[:skm_entry_attachments] && session[:skm_entry_attachments].size > 0
           attachments = Irm::AttachmentVersion.where("id IN (?)", session[:skm_entry_attachments])
