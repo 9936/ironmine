@@ -76,6 +76,12 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
              <tr>
+                 <td class="labelCol"><label><%=t(:label_irm_person_profile)%></label></td>
+                 <td class="dataCol"><%= f.blank_select(:profile_id,available_profile,{},{:required=>true,:id=>"profile_id"})%></td>
+                  <td class="labelCol"><label><%=(t :label_irm_person_role)%></label></td>
+                  <td class="dataCol"><%=f.blank_select :role_id,available_roles,{},{:required=>true,:id=>"role_id"}%></td>
+             </tr>
+             <tr>
                  <td class="labelCol"><label><%=t(:label_irm_person_company)%></label></td>
                  <td class="dataCol"><%= f.blank_select(:company_id,available_company,{},{:required=>true,:id=>"company_id"})%></td>
                   <td class="labelCol"><label><%=(t :label_irm_person_region_code)%></label></td>
