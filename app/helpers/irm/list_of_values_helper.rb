@@ -34,7 +34,7 @@ module Irm::ListOfValuesHelper
     columns <<{:key=>"show_value",:label=>lov[:value_title],:width=>lov.value_column_width}
     columns <<{:key=>"desc_value",:label=>lov[:desc_title],:width=>lov.desc_column_width} if lov.desc_column.present?
 
-    unless lov.addition_column.strip.blank?||lov.addition_column.nil?
+    unless lov.addition_column.nil? || lov.addition_column.strip.blank?
       acs =   lov.addition_column.split("#")
       acws = lov.addition_column_width.split("#")
       acts = lov[:addition_title].split("#")

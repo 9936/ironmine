@@ -976,6 +976,16 @@ zh:
   label_irm_bulletin_selected_organizations: 组织
   label_irm_bulletin_if_access_list_none: 如果没有限制可访问对象，则该公告对所有用户可见
   #======================== end bulletin controller ======================
+  #======================== bu_column controller ======================
+  label_irm_bu_column: 公告栏目
+  label_irm_bu_column_code: 栏目编码
+  label_irm_bu_column_list: 栏目列表
+  label_irm_bu_column_new: 创建栏目
+  label_irm_bu_column_edit: 编辑栏目
+  label_irm_bu_column_parent: 父栏目
+  label_irm_bu_column_new_child: 创建子栏目
+  label_irm_bu_column_choice: 选择栏目
+  #======================== end bu_column controller ======================
   #======================== watcher ======================
   label_irm_watcher: 跟踪者
   label_irm_watcher_new: 添加跟踪者

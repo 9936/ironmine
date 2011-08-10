@@ -30,4 +30,6 @@ Irm::AccessControl.map do |map|
 
   map.function :login_function,{ "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"]}
 
+  map.function :skm_column,{"skm/columns" => ["index", "edit", "update", "new", "create", "get_columns_data"]}
+
 end

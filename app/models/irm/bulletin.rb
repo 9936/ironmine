@@ -4,6 +4,9 @@ class Irm::Bulletin < ActiveRecord::Base
   has_many :bulletin_accesses
   validates_presence_of :title
 
+  has_many :bulletin_columns
+  has_many :bu_columns, :through => :bulletin_columns
+
   scope :with_author, lambda{
     select("concat(pr.last_name, pr.first_name) author")
     joins(",#{Irm::Person.table_name} pr").

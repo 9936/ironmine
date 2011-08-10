@@ -235,8 +235,6 @@ Irm::AccessControl.map do |map|
   map.function :kanban_lane,{"irm/lanes" => ["index", "show", "get_data","new", "create","edit", "update", "delete_card", "select_cards", "get_available_cards"]}
   map.function :kanban_card,{"irm/cards" => ["index", "show", "get_data","new", "create","edit", "update", "edit_rule", "update_rule"]}
 
-
-
   #===================irm/reports============================
   #["index", "edit", "update", "new", "run", "operator_value", "create", "get_data", "show", "multilingual_edit", "multilingual_update", "destroy", "edit_custom", "update_custom"]
   map.function :view_reports,{"irm/reports"=>["index", "show","run","get_data"]}
@@ -260,4 +258,7 @@ Irm::AccessControl.map do |map|
   #===================irm/profiles============================
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
   map.function :profile,{"irm/profiles"=>["index", "show","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+
+  #===================irm/bu_columns============================
+  map.function :bulletin_column,{"irm/bu_columns" => ["index", "edit", "update", "new", "create", "get_columns_data"]}
 end
