@@ -47,6 +47,10 @@ class Skm::EntryHeader < ActiveRecord::Base
       return prefix + num.to_s
   end
 
+  def get_column_ids
+    Skm::EntryColumn.where(:status_code => Irm::Constant::ENABLED).where(:entry_header_id => self.id).collect(&:column_id).join(",")
+  end
+
   def next_version_number
     self.version_number.blank? ? "1" : (self.version_number.to_i + 1)
   end

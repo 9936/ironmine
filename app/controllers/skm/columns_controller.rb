@@ -55,9 +55,7 @@ class Skm::ColumnsController < ApplicationController
 
   def get_columns_data
     tree_nodes = []
-
     @skm_columns = Skm::Column.multilingual.where("LENGTH(parent_column_id) = 0")
-
     @skm_columns.each do |sc|
       is_leaf = sc.is_leaf?
       sc_node = {:id => sc.id, :text => sc[:name], :column_name => sc[:name],
@@ -65,7 +63,7 @@ class Skm::ColumnsController < ApplicationController
                  :sc_code => sc.column_code, :leaf => is_leaf, :children=>[], :checked => false}
       sc_node[:children] = sc.get_child_nodes(params[:with_check])
       sc_node.delete(:children) if sc_node[:children].size == 0
-      sc_node.delete(:checked) unless params[:with_check].present?
+      sc_node.delete(:checked) unless params[:with_check]
       sc_node[:checked] = true if params[:with_check].present? && params[:with_check].split(",").include?(sc.id.to_s)
       tree_nodes << sc_node
     end

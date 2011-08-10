@@ -152,6 +152,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   def edit
     @entry_header = Skm::EntryHeader.find(params[:id])
+    @entry_header.column_ids = @entry_header.get_column_ids
     @return_url=request.env['HTTP_REFERER'] if @return_url
   end
 
@@ -211,6 +212,7 @@ class Skm::EntryHeadersController < ApplicationController
       @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
       @entry_header.version_number = old_header.next_version_number.to_s
       @entry_header.published_date = Time.now
+      column_ids = params[:skm_entry_header][:column_ids].split(",")
       respond_to do |format|
         if @entry_header.save && old_header.save && @entry_header.update_attributes(params[:skm_entry_header])
           params[:skm_entry_details].each do |k, v|
@@ -219,6 +221,17 @@ class Skm::EntryHeadersController < ApplicationController
             detail.update_attributes(v)
             @entry_header.entry_details << detail
           end
+#          owned_column_ids = @entry_header.get_column_ids.split(",")
+#          (owned_column_ids - column_ids).each do |t|
+#            Skm::EntryColumn.where(:entry_header_id => @entry_header.id).where(:column_id => t).each do |ec|
+#              ec.destroy
+#            end
+#          end
+
+          column_ids.each do |t|
+            Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
+          end
+
           if return_url.blank?
             format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
             format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
