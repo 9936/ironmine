@@ -212,7 +212,7 @@ Ironmine::Application.routes.draw do
     match '/ldap_syn_headers/:ah_id/ldap_syn_attributes/:id/delete(.:format)' => "ldap_syn_attributes#destroy", :via => :delete
 
     # navigations
-    match '/navigations/change_role(.:format)'=>"navigations#change_role",:via=>:get
+    match '/navigations/:application_id/change_application(.:format)'=>"navigations#change_application",:via=>:get
     #mail_templates
     match '/mail_templates/new(.:format)'=>"mail_templates#new",:via=>:get
     match '/mail_templates/get_data(.:format)' => "mail_templates#get_data"
@@ -448,7 +448,7 @@ Ironmine::Application.routes.draw do
     match '/locations/create(.:format)' => "locations#create", :via => :post
     # setting
     match '/setting(/index)(.:format)' =>'setting#index'
-    match '/setting/common(.:format)' =>'setting#common'
+    match '/setting/:mi/common(.:format)' =>'setting#common'
     #home
     match '/home(/index)(.:format)' => "home#index", :via => :get
     #user_home
@@ -778,6 +778,38 @@ Ironmine::Application.routes.draw do
     match '/cards/:id/update_rule(.:format)' => "cards#update_rule", :via => :put
     match '/cards/:id/multilingual_edit(.:format)' => "cards#multilingual_edit", :via => :get
     match '/cards/:id/multilingual_update(.:format)' => "cards#multilingual_update", :via => :put
+
+    #tabs
+    match '/tabs(/index)(.:format)' => "tabs#index", :via => :get
+    match '/tabs/:id/edit(.:format)' => "tabs#edit", :via => :get
+    match '/tabs/:id(.:format)' => "tabs#update", :via => :put
+    match '/tabs/new(.:format)' => "tabs#new", :via => :get
+    match '/tabs/create(.:format)' => "tabs#create", :via => :post
+    match '/tabs/:id/multilingual_edit(.:format)' => "tabs#multilingual_edit", :via => :get
+    match '/tabs/:id/multilingual_update(.:format)' => "tabs#multilingual_update", :via => :put
+    match '/tabs/get_data(.:format)' => "tabs#get_data"
+    match '/tabs/:id/show(.:format)' => "tabs#show", :via => :get
+    #applications
+    match '/applications(/index)(.:format)' => "applications#index", :via => :get
+    match '/applications/:id/edit(.:format)' => "applications#edit", :via => :get
+    match '/applications/:id(.:format)' => "applications#update", :via => :put
+    match '/applications/new(.:format)' => "applications#new", :via => :get
+    match '/applications/create(.:format)' => "applications#create", :via => :post
+    match '/applications/:id/multilingual_edit(.:format)' => "applications#multilingual_edit", :via => :get
+    match '/applications/:id/multilingual_update(.:format)' => "applications#multilingual_update", :via => :put
+    match '/applications/get_data(.:format)' => "applications#get_data"
+    match '/applications/:id/show(.:format)' => "applications#show", :via => :get
+
+    #profiles
+    match '/profiles(/index)(.:format)' => "profiles#index", :via => :get
+    match '/profiles/:id/edit(.:format)' => "profiles#edit", :via => :get
+    match '/profiles/:id(.:format)' => "profiles#update", :via => :put
+    match '/profiles/new(.:format)' => "profiles#new", :via => :get
+    match '/profiles/create(.:format)' => "profiles#create", :via => :post
+    match '/profiles/:id/multilingual_edit(.:format)' => "profiles#multilingual_edit", :via => :get
+    match '/profiles/:id/multilingual_update(.:format)' => "profiles#multilingual_update", :via => :put
+    match '/profiles/get_data(.:format)' => "profiles#get_data"
+    match '/profiles/:id/show(.:format)' => "profiles#show", :via => :get
   end
 
   scope :module => "icm" do

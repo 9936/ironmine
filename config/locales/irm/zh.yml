@@ -786,6 +786,8 @@ zh:
   label_action_add_roles: 选择角色
   label_irm_person_add_to_support_group: 加入支持组
   label_irm_person_template_flag: 模板用户
+  label_irm_person_profile: 简档
+  label_irm_person_role: 角色
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: 弹性域
@@ -1466,3 +1468,42 @@ zh:
   label_irm_report_trigger_receiver_type_only_self: 仅发送给我
   label_irm_report_trigger_receiver_type_choose_staff: 发送给选定的人员
   #=======================end report_trigger ====================
+  #======================= tab ====================
+  label_irm_tab_list: 页面标签列表
+  label_irm_tab: 页面标签
+  label_irm_tab_new: 新建页面标签
+  label_irm_tab_edit: 编辑页面标签
+  label_irm_tab_code: 编码
+  label_irm_tab_name: 名称
+  label_irm_tab_description: 描述
+  label_irm_tab_business_object: 业务对像
+  label_irm_tab_function_group: 功能组
+  label_irm_tab_style_image: 图标
+  #=======================end tab====================
+  #======================= tab ====================
+  label_irm_application_list: 应用列表
+  label_irm_application: 应用
+  label_irm_application_new: 新建应用
+  label_irm_application_edit: 编辑应用
+  label_irm_application_name: 名称
+  label_irm_application_description: 描述
+  label_irm_application_business_object: 业务对像
+  label_irm_application_function_group: 功能组
+  label_irm_application_tabs: 可用标签页
+  label_irm_application_default_tab: 默认标签页
+  label_irm_application_code: 编码
+  #=======================end tab====================
+  #======================= profiles ====================
+  label_irm_profile: 简档
+  label_irm_profile_list: 简档列表
+  label_irm_profile_new: 新建
+  label_irm_profile_edit: 编辑
+  label_irm_profile_code: 编码
+  label_irm_profile_name: 名称
+  label_irm_profile_description: 描述
+  label_irm_profile_user_license: 简档类型
+  label_irm_profile_function_list: 功能列表
+  label_irm_profile_application_list: 应用列表
+  label_irm_profile_application_visual: 可见
+  label_irm_profile_application_default: 默认
+  #=======================end profiles ====================
