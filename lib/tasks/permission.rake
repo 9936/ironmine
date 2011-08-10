@@ -19,7 +19,7 @@ namespace :irm do
        route_permissions<<eval(r[:reqs])
      end
     end
-    controllers = Irm::Permission.all.collect{|p| p.page_controller}
+    controllers = Irm::Permission.all.collect{|p| p.controller}
     controllers.uniq!
 
     key = ENV["C"]

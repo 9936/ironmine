@@ -25,9 +25,11 @@ namespace :irm do
      routes.reject!{ |r| r[:path] == "/rails/info/properties" } # skip the route if it's internal info route
      route_permissions = []
      path_regex = /:([a-z_]+)/
+     except_path_regex = /\([\.\/a-z_]*:([a-z_]+)[\/a-z_]*\)/
      routes.each do |r|
-       params_count = r[:path].scan(path_regex).delete_if{|i| !i.any?||i.first.eql?("format")}.count
-       #r[:path].scan(path_regex).delete_if{|i| !i.any?||i.first.eql?("format")}.count
+       params_count = r[:path].scan(path_regex).delete_if{|i| !i.any?}.count
+       except_params_count = r[:path].scan(except_path_regex).delete_if{|i| !i.any?}.count
+       params_count = params_count - except_params_count
        permission_params = eval(r[:reqs])
        permission_params.merge!({:params_count=>params_count,:direct_get_flag=>r[:verb].include?("GET") ? Irm::Constant::SYS_YES : Irm::Constant::SYS_NO})
        route_permissions<<permission_params
@@ -66,5 +68,15 @@ namespace :irm do
     deleted_row = Irm::Permission.delete_all("status_code = 'UNKNOW'")
     puts "#{BOLD}#{RED}Delete #{deleted_row} row#{CLEAR}"
 
+    Irm::FunctionGroup.all.each do |fg|
+      permission = Irm::Permission.query_by_function_group(fg.id).where(:controller=>fg.controller,:action=>fg.action).first
+      if(permission)
+        if(permission.params_count>0||Irm::Constant::SYS_NO.eql?(permission.direct_get_flag))
+          puts "#{BOLD}#{RED}FunctionGroup  [#{fg.id}:#{fg.code}] USE <#{fg.controller}/#{fg.action}> is have params OR can not direct get #{CLEAR}"
+        end
+      else
+        puts "#{BOLD}#{RED}FunctionGroup  [#{fg.id}:#{fg.code}] USE <#{fg.controller}/#{fg.action}> is error #{CLEAR}"
+      end
+    end
   end
 end

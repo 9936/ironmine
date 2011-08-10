@@ -8,7 +8,7 @@ Irm::AccessControl.map do |map|
                                  "irm/attach_screenshot" => ["index"]}
   map.function :login_function,{ "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
-                                 "irm/navigations" => ["change_role", "index"],
+                                 "irm/navigations" => ["change_application", "index"],
                                  "irm/kanbans" => ["refresh_my_kanban"],
                                  "irm/support_group_members"=>["get_options"],"irm/search"=>[:index]}
   #=====common setting===================
@@ -81,7 +81,7 @@ Irm::AccessControl.map do |map|
 
   #===================irm/mail_templates============================
   #["new", "get_data", "create", "copy", "copy_template", "test_mail_template", "index", "edit", "update", "destroy", "show", "get_script_context_fields", "get_mail_templates"]
-  map.function :email_template,{"irm/mail_templates"=>["index", "show", "get_data", "get_script_context_fields",
+  map.function :mail_template,{"irm/mail_templates"=>["index", "show", "get_data", "get_script_context_fields",
                                                             "get_mail_templates","new", "create","edit", "update"],
                                "irm/object_attributes"=>["all_columns"]}
 
@@ -113,19 +113,14 @@ Irm::AccessControl.map do |map|
 
   #===================irm/wf_tasks============================
   #["index", "show_permissions", "show_permissions_data", "show_missed_permissions", "missed_permissions_data"]
-  map.function :view_todo_events,{"irm/todo_events"=>["index", "show", "quick_show", "calendar_view",
+  map.function :todo_event,{"irm/todo_events"=>["index", "show", "quick_show", "calendar_view","new", "create","edit",
+                                                "update","edit_recurrence", "update_recurrence",
                                                 "my_events_index", "get_data", "get_top_data", "my_events_get_data"]}
-  map.function :create_todo_events,{"irm/todo_events"=>["new", "create"]}
-  map.function :edit_todo_events,{"irm/todo_events"=>["edit", "update",
-                                                "edit_recurrence", "update_recurrence"]}
 
   #===================irm/wf_tasks============================
   #["index", "show_permissions", "show_permissions_data", "show_missed_permissions", "missed_permissions_data"]
-  map.function :view_todo_tasks,{"irm/todo_tasks"=>["index", "show",
+  map.function :todo_task,{"irm/todo_tasks"=>["index", "show","new", "create","edit", "update","edit_recurrence", "update_recurrence",
                                                     "my_tasks_index", "get_data","get_top_data", "my_tasks_get_data"]}
-  map.function :create_todo_tasks,{"irm/todo_tasks"=>["new", "create"]}
-  map.function :edit_todo_tasks,{"irm/todo_tasks"=>["edit", "update",
-                                                "edit_recurrence", "update_recurrence"]}
 
   #===================irm/business_objects============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "execute_test", "multilingual_edit", "multilingual_update"]
@@ -149,9 +144,7 @@ Irm::AccessControl.map do |map|
   map.function :my_avatar,{"irm/my_avatar" => ["index","avatar_crop", "edit", "update"]}
 
   #====================irm/bulletins ==================================
-  map.function :view_bulletins, {"irm/bulletins" => ["index", "show", "get_data"]}
-  map.function :new_bulletins, {"irm/bulletins" => ["new", "create"]}
-  map.function :edit_bulletins, {"irm/bulletins" => ["edit", "update"]}
+  map.function :bulletin, {"irm/bulletins" => ["index", "show", "get_data","new", "create","edit", "update"]}
 
   #====================irm/watchers ========================================
   map.function :view_watchers, {}
@@ -162,84 +155,66 @@ Irm::AccessControl.map do |map|
   map.function :workflow_setting,{"irm/wf_settings"=>["index","edit", "update"]}
   #===================irm/wf_rules============================
   #["index", "new", "create", "get_data", "edit", "update", "show"]
-  map.function :view_wf_rules,{"irm/wf_rules"=>["index", "show"]}
-  map.function :create_wf_rules,{"irm/wf_rules"=>["new", "create","add_exists_action","save_exists_action"]}
-  map.function :edit_wf_rules,{"irm/wf_rules"=>["edit", "update","active","add_exists_action","save_exists_action"]}
+  map.function :workflow_rule,{"irm/wf_rules"=>["index", "show","new", "create","add_exists_action","save_exists_action","edit", "update","active","add_exists_action","save_exists_action"]}
 
   #===================irm/ldap_sources============================
   #["index", "edit", "execute_test", "active", "update", "new", "create", "get_data", "show"]
-  map.function :view_ldap_sources,{"irm/ldap_sources"=>["index", "show"]}
-  map.function :create_ldap_sources,{"irm/ldap_sources"=>["new", "create"]}
-  map.function :edit_ldap_sources,{"irm/ldap_sources"=>["edit", "update","active"]}
-
+  map.function :ldap_source,{"irm/ldap_sources"=>["index", "show","new", "create","edit", "update","active"]}
   #===================irm/ldap_auth_headers============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "get_by_ldap_source"]
   #===================irm/ldap_auth_attributes============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "destroy"]
-  map.function :view_ldap_auth_headers,{"irm/ldap_auth_headers"=>["index", "show","get_by_ldap_source"],
-                                        "irm/ldap_auth_attributes"=>["index", "show"]}
-  map.function :create_ldap_auth_headers,{"irm/ldap_auth_headers"=>["new", "create"],
-                                          "irm/ldap_auth_attributes"=>["new", "create"]}
-  map.function :edit_ldap_auth_headers,{"irm/ldap_auth_headers"=>["edit", "update"],
-                                        "irm/ldap_auth_attributes"=>["edit", "update"]}
+  map.function :ldap_user,{"irm/ldap_auth_headers"=>["index", "show","get_by_ldap_source",
+                                                            "new", "create","edit", "update"],
+                                  "irm/ldap_auth_attributes"=>["index", "show","new", "create",
+                                                               "edit", "update"]}
 
 
   #===================irm/ldap_syn_headers============================
   #["index", "edit", "execute_test", "execute_test", "update", "new", "create",  "get_data", "show", "active"]
     #===================irm/ldap_syn_attributes============================
   #["index", "new", "create", "get_data", "edit", "show", "update", "destroy"]
-  map.function :view_ldap_syn_headers,{"irm/ldap_syn_headers"=>["index", "show"],
-                                       "irm/ldap_syn_attributes"=>["index", "show"]}
-  map.function :create_ldap_syn_headers,{"irm/ldap_syn_headers"=>["new", "create"],
-                                         "irm/ldap_auth_headers"=>["get_by_ldap_source"],
-                                         "irm/ldap_syn_attributes"=>["new", "create"]}
-  map.function :edit_ldap_syn_headers,{"irm/ldap_syn_headers"=>["edit", "update","active"],
-                                       "irm/ldap_auth_headers"=>["get_by_ldap_source"],
-                                       "irm/ldap_syn_attributes"=>["edit", "update"]}
+  map.function :ldap_organization,{"irm/ldap_syn_headers"=>["index", "show","new", "create","edit", "update","active"],
+                                 "irm/ldap_auth_headers"=>["get_by_ldap_source"],
+                                 "irm/ldap_syn_attributes"=>["index", "show","new", "create","edit", "update"]}
 
   #===================irm/wf_field_updates============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "destroy", "set_value"]
   #===================irm/formula_functions============================
   #["formula_function_options", "check_syntax"]
 
-  map.function :view_wf_field_updates,{"irm/wf_field_updates"=>["index", "show","get_data"],
+  map.function :workflow_field_update,{"irm/wf_field_updates"=>["index", "show","get_data","new", "create","destroy","set_value","edit", "update"],
                                        "irm/wf_approval_processes"=>["get_data_by_action"],
-                                       "irm/wf_rules"=>["get_data_by_action"]}
-  map.function :create_wf_field_updates,{"irm/wf_field_updates"=>["new", "create","destroy","set_value"],
-                                         "irm/formula_functions"=>["formula_function_options", "check_syntax"],
-                                         "irm/object_attributes"=>["updateable_columns"]}
-  map.function :edit_wf_field_updates,{"irm/wf_field_updates"=>["edit", "update"],
                                        "irm/formula_functions"=>["formula_function_options", "check_syntax"],
+                                       "irm/wf_rules"=>["get_data_by_action"],
                                        "irm/object_attributes"=>["updateable_columns"]}
 
   #===================irm/wf_mail_alerts============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "destroy", "recipient_source"]
-  map.function :view_wf_mail_alerts,{"irm/wf_mail_alerts"=>["index", "show","get_data"],
+  map.function :workflow_mail_alert,{"irm/wf_mail_alerts"=>["index", "show","get_data","new", "create",
+                                                            "recipient_source","destroy","edit", "update","recipient_source"],
                                      "irm/wf_approval_processes"=>["get_data_by_action"],
                                      "irm/wf_rules"=>["get_data_by_action"]}
-  map.function :create_wf_mail_alerts,{"irm/wf_mail_alerts"=>["new", "create","recipient_source","destroy"]}
-  map.function :edit_wf_mail_alerts,{"irm/wf_mail_alerts"=>["edit", "update","recipient_source"]}
   #===================irm/wf_approval_processes============================
   #["index", "new", "create", "get_data", "edit", "active", "update", "destroy", "show", "destroy_action", "add_exists_action", "save_exists_action", "destroy_action", "reorder"]
   #===================irm/wf_approval_steps============================
   #["index", "new", "create", "edit", "update", "destroy"]
-  map.function :view_wf_approval_processes,{"irm/wf_approval_processes"=>["index", "show"],"irm/wf_approval_steps"=>["index"]}
-  map.function :create_wf_approval_processes,{"irm/wf_approval_processes"=>["new", "create"],"irm/wf_approval_steps"=>["new", "create"]}
-  map.function :edit_wf_approval_processes,{"irm/wf_approval_processes"=>["edit", "update", "destroy_action", "add_exists_action", "save_exists_action", "reorder"],
-                                            "irm/wf_approval_steps"=>["edit", "update"]}
+  map.function :workflow_process,{"irm/wf_approval_processes"=>["index", "show","new", "create","edit", "update",
+                                                                "destroy_action", "add_exists_action", "save_exists_action", "reorder"],
+                                  "irm/wf_approval_steps"=>["index","new", "create","edit", "update"]}
 
   #===================irm/wf_process_instances============================
   #["submit", "recall"]
   #===================irm/wf_step_instances============================
   #["show", "reassign", "submit", "save_reassign"]
-  map.function :wf_process_approval,{"irm/wf_step_instances"=>["show", "reassign", "submit", "save_reassign"],
+  map.function :workflow_approval,{"irm/wf_step_instances"=>["show", "reassign", "submit", "save_reassign"],
                                      "irm/wf_process_instances"=>["submit", "recall"]}
 
   #=================== job monitors ============================
-  map.function :icm_group_assign_monitor,{"irm/monitor_icm_group_assigns"=>["index"]}
-  map.function :ir_rule_process_monitor,{"irm/monitor_ir_rule_processes"=>["index"]}
-  map.function :delayed_job_logs,{"irm/delayed_jobs"=>["index"]}
-  map.function :approval_mail_monitor,{"irm/monitor_approval_mails"=>["index"]}
+  map.function :monitor_group_assign,{"irm/monitor_icm_group_assigns"=>["index"]}
+  map.function :monitor_workflow_rule,{"irm/monitor_ir_rule_processes"=>["index"]}
+  map.function :monitor_delayed_jobs,{"irm/delayed_jobs"=>["index"]}
+  map.function :monitor_approve_mail,{"irm/monitor_approval_mails"=>["index"]}
 
 
   #===================irm/report_type_categories============================
@@ -252,15 +227,15 @@ Irm::AccessControl.map do |map|
   map.function :report_type,{"irm/report_types"=>["index", "show","new", "create","edit", "update", "edit_relation", "update_relation", "multilingual_edit", "multilingual_update"],
                              "irm/report_type_sections"=>["index", "update", "field_source", "section_field"]}
 
-  map.function :view_kanban,{"irm/kanbans"=>["index", "show", "get_data", "refresh_my_kanban", "get_owned_lanes"],
-                             "irm/lanes" => ["index", "show", "get_data"],
-                             "irm/cards" => ["index", "show", "get_data"]}
-  map.function :create_kanban,{"irm/kanbans"=>["new", "create"],
-                               "irm/lanes" => ["new", "create"],
-                               "irm/cards" => ["new", "create"]}
-  map.function :edit_kanban,{"irm/kanbans"=>["edit", "update", "up_lane", "down_lane", "add_lanes", "delete_lane", "select_lanes", "get_available_lanes"],
-                             "irm/lanes" => ["edit", "update", "delete_card", "select_cards", "get_available_cards"],
-                             "irm/cards" => ["edit", "update", "edit_rule", "update_rule"]}
+  map.function :kanban,{"irm/kanbans"=>["index", "show", "get_data", "refresh_my_kanban",
+                                        "get_owned_lanes","new", "create","edit", "update",
+                                        "up_lane", "down_lane", "add_lanes", "delete_lane",
+                                        "select_lanes", "get_available_lanes"]
+                             }
+  map.function :kanban_lane,{"irm/lanes" => ["index", "show", "get_data","new", "create","edit", "update", "delete_card", "select_cards", "get_available_cards"]}
+  map.function :kanban_card,{"irm/cards" => ["index", "show", "get_data","new", "create","edit", "update", "edit_rule", "update_rule"]}
+
+
 
   #===================irm/reports============================
   #["index", "edit", "update", "new", "run", "operator_value", "create", "get_data", "show", "multilingual_edit", "multilingual_update", "destroy", "edit_custom", "update_custom"]
@@ -269,7 +244,20 @@ Irm::AccessControl.map do |map|
   map.function :edit_reports,{"irm/reports"=>["edit", "update","operator_value", "multilingual_edit", "multilingual_update", "edit_custom", "update_custom"]}
   #===================irm/report_folders============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
-  map.function :view_report_folders,{"irm/report_folders"=>["index", "show"]}
+  map.function :view_report_folders,{"irm/report_folders"=>["index"]}
   map.function :create_report_folders,{"irm/report_folders"=>["new", "create"]}
   map.function :edit_report_folders,{"irm/report_folders"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
+
+
+  #===================irm/tabs============================
+  #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
+  map.function :tab,{"irm/tabs"=>["index", "show","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+
+  #===================irm/applications============================
+  #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
+  map.function :application,{"irm/applications"=>["index", "show","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+
+  #===================irm/profiles============================
+  #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
+  map.function :profile,{"irm/profiles"=>["index", "show","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
 end
