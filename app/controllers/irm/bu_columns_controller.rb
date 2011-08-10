@@ -61,7 +61,6 @@ class Irm::BuColumnsController < ApplicationController
       sc_node = {:id => sc.id, :text => sc[:name], :column_name => sc[:name],
                  :column_description => sc[:description], :sc_id => sc.id,
                  :sc_code => sc.bu_column_code, :leaf => is_leaf, :children=>[], :checked => false}
-      puts("+++++++++++++++++++++++" + params.to_json)
       sc_node[:children] = sc.get_child_nodes(params[:with_check])
       sc_node.delete(:children) if sc_node[:children].size == 0
       sc_node.delete(:checked) unless params[:with_check]

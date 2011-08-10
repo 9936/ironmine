@@ -7,6 +7,8 @@ class Irm::Bulletin < ActiveRecord::Base
   has_many :bulletin_columns
   has_many :bu_columns, :through => :bulletin_columns
 
+  attr_accessor :column_ids
+
   scope :with_author, lambda{
     select("concat(pr.last_name, pr.first_name) author")
     joins(",#{Irm::Person.table_name} pr").
@@ -117,5 +119,9 @@ class Irm::Bulletin < ActiveRecord::Base
   def self.current_accessible(companies = [])
     bulletins = Irm::Bulletin.select_all.list_accessible(Irm::Person.current.id).collect(&:id)
     bulletins
+  end
+
+  def get_column_ids
+    self.bu_columns.enabled.collect(&:id).join(",")
   end
 end

@@ -1,6 +1,9 @@
 <%= setting_title %>
+<script type="text/javascript" src="/javascripts/ext4-all.js"></script>
+<link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/ext4-all.css"></link>
 <%= form_for(@bulletin,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <%= hidden_field_tag :return_url,@return_url %>
+<%= f.hidden_field :column_ids %>
 <style type="text/css">
   div.actonType{
       float:left;
@@ -53,6 +56,21 @@
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_bulletin_sticky_flag)%></label></td>
               <td class="data2Col"><%=f.check_box :sticky_flag%></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pbBody">
+    <div class="pbSubheader first tertiaryPalette">
+      <h3><%= t(:label_irm_bu_column) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_bu_column_choice)%></label></td>
+              <td class="data2Col"><div id="tree-div" href="<%= url_for(:controller => "irm/bu_columns", :action=>"get_columns_data", :format=>:json) %>"></div></td>
             </tr>
         </tbody>
       </table>
@@ -223,4 +241,45 @@ GY.use('irm','node','substitute','yui2-editor', function(Y) {
       }
     });
   });
+</script>
+
+<script>
+Ext.onReady(function() {
+    var treeNode = Ext.getDom("tree-div");
+
+    Ext.define('ColumnField', {
+        extend: 'Ext.data.Model',
+        fields: [
+            {name: 'id',type: 'string'},
+            {name: 'text',type: 'string'},
+            {name: 'sc_id',type: 'string'},
+            {name: 'column_name',type: 'string'},
+            {name: 'column_description',type: 'string'},
+            {name: 'sc_code',type: 'string'}
+        ]
+    });
+    var store = Ext.create('Ext.data.TreeStore', {
+        model: "ColumnField",
+        proxy: {type: 'ajax',url:  treeNode.getAttribute("href") + "?with_check=<%= @bulletin.column_ids%>"}
+    });
+
+    var tree = Ext.create('Ext.tree.Panel', {
+        store: store,
+        rootVisible: false,
+        useArrows: true,
+        renderTo: 'tree-div',
+        width: 200,
+        height: 80,
+        listeners:{
+            'itemclick':function(view, record, item, index, e){
+                var column_ids = [];
+                Ext.Array.each(tree.getChecked(), function(rec){
+                    column_ids.push(rec.get('id'));
+                });
+                Ext.getDom("irm_bulletin_column_ids").setAttribute("value", column_ids);
+            }
+        }
+    });
+
+});
 </script>
