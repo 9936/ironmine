@@ -93,13 +93,13 @@ module Irm::MyInfoHelper
     access_company_checkbox(accessable_companies)
   end
 
-  # generate role menu
-  def current_role_menu
-    return nil unless Irm::Person.current&&Irm::Role.current
-    roles = Irm::Role.multilingual.not_hidden.query_by_person(Irm::Person.current.id)
-    return nil unless roles.size>1
-    role = ""
-    role_script = <<-BEGIN_SCRIPT
+  # generate application menu
+  def current_application_menu
+    return nil unless Irm::Person.current&&Irm::Person.current.profile
+    applications = Irm::Person.current.profile.ordered_applications
+    return nil unless applications.size>1
+    application = ""
+    application_script = <<-BEGIN_SCRIPT
     <script type="text/javascript">
       GY.use("menubutton",function(Y){
         Y.on("domready",function(){
@@ -108,11 +108,11 @@ module Irm::MyInfoHelper
       });
     </script>
     BEGIN_SCRIPT
-    role << role_script
-    role << <<-BEGIN_HEML
+    application << application_script
+    application << <<-BEGIN_HEML
       <span id="pageMenu" class="menuParent" style="float:right;">
         <div  class="menuLabel">
-          <span tabindex="0" id="pageMenuTop" style="">#{current_role_name}</span>
+          <span tabindex="0" id="pageMenuTop" style="">#{current_application_name}</span>
           <div id="pageMenu-arrow"></div>
         </div>
          <div class="menuContent" style="padding:10px 15px;padding:0\\9;">
@@ -120,27 +120,27 @@ module Irm::MyInfoHelper
          <div class="tsidMenu-tl"></div>
          <div class="tsidMenu-tc"></div>
          <div style="display:block;" class="menuItems">
-          #{list_roles(roles)}
+          #{list_applications(applications)}
          </div>
          <div class="tsidMenu-br"></div><div class="tsidMenu-bl"></div><div class="tsidMenu-bc"></div></div>
         </div>
       </span>
     BEGIN_HEML
 
-    role.html_safe
+    application.html_safe
 
   end
 
-  def current_role_name
-    Irm::Role.multilingual.find(Irm::Role.current.id)[:name]
+  def current_application_name
+    Irm::Application.multilingual.find(Irm::Application.current.id)[:name] if Irm::Application.current
   end
 
   # 生成一级菜单
-  def list_roles(roles)
+  def list_applications(applications)
     links = ""
-    roles.each do |r|
-      next if Irm::Role.current&&r.id.eql?(Irm::Role.current.id)
-      links << content_tag(:span,link_to(r[:name],{:controller=>"irm/navigations",:action=>"change_role",:role_id=>r.id,:top_menu=>r.menu_code}),{:class=>"menuItem"})
+    applications.each do |a|
+      next if Irm::Application.current&&a.id.eql?(Irm::Application.current.id)
+      links << content_tag(:span,link_to(a[:name],{:controller=>"irm/navigations",:action=>"change_application",:application_id=>a.id}),{:class=>"menuItem"})
     end
 
     links.html_safe

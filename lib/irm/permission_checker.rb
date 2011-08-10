@@ -5,7 +5,6 @@ class Irm::PermissionChecker
     url_options.symbolize_keys!
     assigned_to_functions = Irm::MenuManager.permissions[Irm::Permission.url_key(url_options[:page_controller]||url_options[:controller],url_options[:page_action]||url_options[:action])]
     assigned_to_functions||=[]
-    # TODO check all permission   &&assigned_to_functions.any?
     if assigned_to_functions
       public_functions = Irm::MenuManager.public_functions
       return true if assigned_to_functions.detect{|f| public_functions.include?(f)}
@@ -26,22 +25,12 @@ class Irm::PermissionChecker
 
 
   def self.allow_to_function?(function_code)
-    function_code = function_code.to_s.upcase
-    return true if Irm::MenuManager.public_functions.include?(function_code)
+    function = Irm::Function.where(:code=>function_code.to_s.upcase).first
+    return false unless function
+    return true if Irm::MenuManager.public_functions.include?(function.id)
     return false unless Irm::Person.current.logged?
-    return true if Irm::MenuManager.login_functions.include?(function_code)
-    Irm::Person.current.allowed_to?([function_code])
+    return true if Irm::MenuManager.login_functions.include?(function.id)
+    Irm::Person.current.allowed_to?([function.id])
   end
 
-  private
-  def self.allow_to_report(url_options={})
-    return false unless Irm::Person.current.logged?
-    url_options.symbolize_keys!
-    page_controller = url_options[:page_controller]||url_options[:controller]
-    page_action = url_options[:page_action]||url_options[:action]
-    return false unless Irm::MenuManager.reports.include?(Irm::Permission.url_key(page_controller,page_action))
-    assigned_to_report_groups = Irm::ReportGroup.query_by_url(page_controller,page_action).collect{|i| i.group_code}
-    return false unless assigned_to_report_groups.any?
-    Irm::Person.current.allow_to_report_groups?(assigned_to_report_groups)
-  end
 end

@@ -21,7 +21,7 @@ class Irm::Person < ActiveRecord::Base
     :lastname_coma_firstname =>  " CONCAT(\#{alias_table_name}.last_name,',',\#{alias_table_name}.first_name) \#{alias_column_name}"
   }
 
-  belongs_to :identity
+  belongs_to :profile
   validates_presence_of :login_name,:first_name,:email_address,:company_id
   validates_uniqueness_of :login_name, :if => Proc.new { |i| !i.login_name.blank? }
   validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/
@@ -281,32 +281,19 @@ class Irm::Person < ActiveRecord::Base
 
 
   # allow to access functions?
-  def allowed_to?(function_codes)
-    return true if function_codes.detect{|fc| functions.include?(fc)}
-    return true if Irm::Role.current&&Irm::Role.current.allowed_to?(function_codes)
+  def allowed_to?(function_ids)
+    return true if function_ids.detect{|fi| functions.include?(fi)}
     return true if Irm::Person.current.login_name.eql?("admin")
     false
   end
 
-  # allow to access report groups ?
-  def allow_to_report_groups?(report_group_codes)
-    return true if report_groups.detect{|rgc| report_group_codes.include?(rgc)}
-    return if Irm::Role.current&&Irm::report_group_codes.include?(Role.current.group_code)
-    false
-  end
 
   # hidden functions ownned by person
   def functions
-    return @function_codes if @function_codes
-    @function_codes = Irm::Function.query_hidden_functions(self.id).collect{|f| f.function_code}
-    @report_group_codes = Irm::Role.hidden.collect{|r| r.report_group_code}
+    return @function_ids if @function_ids
+    @function_ids = Irm::Function.query_profile(self.profile_id).collect{|i|i.id}
   end
 
-  def report_groups
-    return @report_group_codes if @report_group_codes
-    @function_codes = Irm::Function.query_hidden_functions(self.id).collect{|f| f.function_code}
-    @report_group_codes = Irm::Role.hidden.collect{|r| r.report_group_code}
-  end
 
   def hidden_roles
     return @hidden_roles if @hidden_roles
@@ -368,6 +355,7 @@ class Irm::Person < ActiveRecord::Base
       self.full_name = eval('"' + (PERSON_NAME_FORMATS[:firstname_lastname]) + '"')
       self.full_name_pinyin= Hz2py.do(self.full_name).downcase.gsub(/\s|[^a-z]/,"")
   end
+
   private
   def reprocess_avatar
       avatar.reprocess!
