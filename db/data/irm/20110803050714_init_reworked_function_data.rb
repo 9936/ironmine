@@ -45,6 +45,10 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_language.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'语言',:description=>'语言')
     irm_language.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Language',:description=>'Language')
     irm_language.save
+    irm_currency= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_CUSTOM',:code=>'CURRENCY',:controller=>'irm/currencies',:action=>'index',:not_auto_mult=>true)
+    irm_currency.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'汇率',:description=>'汇率')
+    irm_currency.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Currency',:description=>'Currency')
+    irm_currency.save
     irm_lookup_code= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_CUSTOM',:code=>'LOOKUP_CODE',:controller=>'irm/lookup_types',:action=>'index',:not_auto_mult=>true)
     irm_lookup_code.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'快速编码',:description=>'快速编码')
     irm_lookup_code.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Lookup Code',:description=>'Lookup Code')
@@ -65,6 +69,10 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_product_module.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'产品模块',:description=>'产品模块')
     irm_product_module.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Product Module',:description=>'Product Module')
     irm_product_module.save
+    irm_application= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_CREATE',:code=>'APPLICATION',:controller=>'irm/applications',:action=>'index',:not_auto_mult=>true)
+    irm_application.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'应用',:description=>'应用')
+    irm_application.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Applications',:description=>'Applications')
+    irm_application.save
     irm_business_object= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_CREATE',:code=>'BUSINESS_OBJECT',:controller=>'irm/business_objects',:action=>'index',:not_auto_mult=>true)
     irm_business_object.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'业务对像',:description=>'业务对像')
     irm_business_object.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Business Object',:description=>'Business Object')
@@ -73,10 +81,14 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_list_of_value.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'值列表',:description=>'值列表')
     irm_list_of_value.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'List of Value',:description=>'List of Value')
     irm_list_of_value.save
-    irm_report_category= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_CREATE',:code=>'REPORT_CATEGORY',:controller=>'irm/report_categories',:action=>'index',:not_auto_mult=>true)
-    irm_report_category.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'报表类别',:description=>'报表类别')
-    irm_report_category.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Report Category',:description=>'Report Category')
-    irm_report_category.save
+    irm_tab= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_CREATE',:code=>'TAB',:controller=>'irm/tabs',:action=>'index',:not_auto_mult=>true)
+    irm_tab.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'标签页',:description=>'标签页')
+    irm_tab.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Tabs',:description=>'Tabs')
+    irm_tab.save
+    irm_report_type_category= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_CREATE',:code=>'REPORT_TYPE_CATEGORY',:controller=>'irm/report_type_categories',:action=>'index',:not_auto_mult=>true)
+    irm_report_type_category.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'报表类别',:description=>'报表类别')
+    irm_report_type_category.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Report Category',:description=>'Report Category')
+    irm_report_type_category.save
     irm_report_type= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_CREATE',:code=>'REPORT_TYPE',:controller=>'irm/report_types',:action=>'index',:not_auto_mult=>true)
     irm_report_type.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'报表类型',:description=>'报表类型')
     irm_report_type.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Report Type',:description=>'Report Type')
@@ -121,6 +133,10 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_person.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'用户',:description=>'用户')
     irm_person.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'User',:description=>'User')
     irm_person.save
+    irm_profile= Irm::FunctionGroup.new(:zone_code=>'SYSTME_SETTING',:code=>'PROFILE',:controller=>'irm/profiles',:action=>'index',:not_auto_mult=>true)
+    irm_profile.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'简档',:description=>'简档')
+    irm_profile.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Profile',:description=>'Profile')
+    irm_profile.save
     irm_role= Irm::FunctionGroup.new(:zone_code=>'SYSTME_SETTING',:code=>'ROLE',:controller=>'irm/roles',:action=>'index',:not_auto_mult=>true)
     irm_role.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'角色',:description=>'角色')
     irm_role.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Role',:description=>'Role')
@@ -169,10 +185,10 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     icm_icm_close_reason.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'事故单关闭原因',:description=>'事故单关闭原因')
     icm_icm_close_reason.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Incident Close Reason',:description=>'Incident Close Reason')
     icm_icm_close_reason.save
-    icm_icm_group_assign= Irm::FunctionGroup.new(:zone_code=>'INCIDENT_SETTING',:code=>'ICM_GROUP_ASSIGN',:controller=>'icm/group_assignments',:action=>'index',:not_auto_mult=>true)
-    icm_icm_group_assign.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'事故单组指派',:description=>'事故单组指派')
-    icm_icm_group_assign.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Group Assign',:description=>'Group Assign')
-    icm_icm_group_assign.save
+    icm_icm_group_assignment= Irm::FunctionGroup.new(:zone_code=>'INCIDENT_SETTING',:code=>'ICM_GROUP_ASSIGNMENT',:controller=>'icm/group_assignments',:action=>'index',:not_auto_mult=>true)
+    icm_icm_group_assignment.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'事故单组指派',:description=>'事故单组指派')
+    icm_icm_group_assignment.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Group Assign',:description=>'Group Assign')
+    icm_icm_group_assignment.save
     icm_icm_rule_setting= Irm::FunctionGroup.new(:zone_code=>'INCIDENT_SETTING',:code=>'ICM_RULE_SETTING',:controller=>'icm/rule_settings',:action=>'index',:not_auto_mult=>true)
     icm_icm_rule_setting.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'事故单规则设置',:description=>'事故单规则设置')
     icm_icm_rule_setting.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Rule Setting',:description=>'Rule Setting')
@@ -193,7 +209,7 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     icm_icm_phase.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'事故单阶段',:description=>'事故单阶段')
     icm_icm_phase.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Phase',:description=>'Phase')
     icm_icm_phase.save
-    icm_icm_status= Irm::FunctionGroup.new(:zone_code=>'INCIDENT_SETTING',:code=>'ICM_STATUS',:controller=>'icm/incident_status',:action=>'index',:not_auto_mult=>true)
+    icm_icm_status= Irm::FunctionGroup.new(:zone_code=>'INCIDENT_SETTING',:code=>'ICM_STATUS',:controller=>'icm/incident_statuses',:action=>'index',:not_auto_mult=>true)
     icm_icm_status.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'事故单状态',:description=>'事故单状态')
     icm_icm_status.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Status',:description=>'Status')
     icm_icm_status.save
@@ -209,7 +225,7 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_service_agreement.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'服务协议',:description=>'服务协议')
     irm_service_agreement.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Argeement',:description=>'Argeement')
     irm_service_agreement.save
-    skm_skm_status= Irm::FunctionGroup.new(:zone_code=>'SKM_SETTING',:code=>'SKM_STATUS',:controller=>'skm/entry_status',:action=>'index',:not_auto_mult=>true)
+    skm_skm_status= Irm::FunctionGroup.new(:zone_code=>'SKM_SETTING',:code=>'SKM_STATUS',:controller=>'skm/entry_statuses',:action=>'index',:not_auto_mult=>true)
     skm_skm_status.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'知识库状态',:description=>'知识库状态')
     skm_skm_status.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Status',:description=>'Status')
     skm_skm_status.save
@@ -217,10 +233,14 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     skm_skm_template.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'知识库模板',:description=>'知识库模板')
     skm_skm_template.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Template',:description=>'Template')
     skm_skm_template.save
-    skm_skm_template_elements= Irm::FunctionGroup.new(:zone_code=>'SKM_SETTING',:code=>'SKM_TEMPLATE_ELEMENTS',:controller=>'skm/entry_template_elements',:action=>'index',:not_auto_mult=>true)
-    skm_skm_template_elements.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'知识库模板元素',:description=>'知识库模板元素')
-    skm_skm_template_elements.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Template Element',:description=>'Template Element')
-    skm_skm_template_elements.save
+    skm_skm_template_element= Irm::FunctionGroup.new(:zone_code=>'SKM_SETTING',:code=>'SKM_TEMPLATE_ELEMENT',:controller=>'skm/entry_template_elements',:action=>'index',:not_auto_mult=>true)
+    skm_skm_template_element.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'知识库模板元素',:description=>'知识库模板元素')
+    skm_skm_template_element.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Template Element',:description=>'Template Element')
+    skm_skm_template_element.save
+    skm_skm_setting= Irm::FunctionGroup.new(:zone_code=>'SKM_SETTING',:code=>'SKM_SETTING',:controller=>'skm/settings',:action=>'index',:not_auto_mult=>true)
+    skm_skm_setting.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'知识库设置',:description=>'知识库设置')
+    skm_skm_setting.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Setting',:description=>'Setting')
+    skm_skm_setting.save
     irm_ldap_source= Irm::FunctionGroup.new(:zone_code=>'SYSTME_SETTING',:code=>'LDAP_SOURCE',:controller=>'irm/ldap_sources',:action=>'index',:not_auto_mult=>true)
     irm_ldap_source.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'LDAP源',:description=>'LDAP源')
     irm_ldap_source.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'LDAP Source',:description=>'LDAP Source')
@@ -233,15 +253,15 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_ldap_organization.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'LDAP组织',:description=>'LDAP组织')
     irm_ldap_organization.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'LDAP Organization',:description=>'LDAP Organization')
     irm_ldap_organization.save
-    irm_email_template= Irm::FunctionGroup.new(:zone_code=>'SYSTME_SETTING',:code=>'EMAIL_TEMPLATE',:controller=>'irm/mail_templates',:action=>'index',:not_auto_mult=>true)
-    irm_email_template.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'邮件模板',:description=>'邮件模板')
-    irm_email_template.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Email Template',:description=>'Email Template')
-    irm_email_template.save
-    irm_monitor_workflow_rule= Irm::FunctionGroup.new(:zone_code=>'SYSTME_SETTING',:code=>'MONITOR_WORKFLOW_RULE',:controller=>'irm/monitor_icm_group_assigns',:action=>'index',:not_auto_mult=>true)
+    irm_mail_template= Irm::FunctionGroup.new(:zone_code=>'SYSTME_SETTING',:code=>'MAIL_TEMPLATE',:controller=>'irm/mail_templates',:action=>'index',:not_auto_mult=>true)
+    irm_mail_template.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'邮件模板',:description=>'邮件模板')
+    irm_mail_template.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Email Template',:description=>'Email Template')
+    irm_mail_template.save
+    irm_monitor_workflow_rule= Irm::FunctionGroup.new(:zone_code=>'SYSTME_SETTING',:code=>'MONITOR_WORKFLOW_RULE',:controller=>'irm/monitor_ir_rule_processes',:action=>'index',:not_auto_mult=>true)
     irm_monitor_workflow_rule.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'事故单工作流规则作业',:description=>'事故单工作流规则作业')
     irm_monitor_workflow_rule.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Monitor Workflow Rule',:description=>'Monitor Workflow Rule')
     irm_monitor_workflow_rule.save
-    irm_monitor_group_assign= Irm::FunctionGroup.new(:zone_code=>'SYSTME_SETTING',:code=>'MONITOR_GROUP_ASSIGN',:controller=>'irm/monitor_ir_rule_processes',:action=>'index',:not_auto_mult=>true)
+    irm_monitor_group_assign= Irm::FunctionGroup.new(:zone_code=>'SYSTME_SETTING',:code=>'MONITOR_GROUP_ASSIGN',:controller=>'irm/monitor_icm_group_assigns',:action=>'index',:not_auto_mult=>true)
     irm_monitor_group_assign.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'事故单组指派作业',:description=>'事故单组指派作业')
     irm_monitor_group_assign.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Monitor Group Assign',:description=>'Monitor Group Assign')
     irm_monitor_group_assign.save
@@ -265,7 +285,7 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_kanban_card.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'看板卡片',:description=>'看板卡片')
     irm_kanban_card.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Card',:description=>'Card')
     irm_kanban_card.save
-
+    
     irm_public_function= Irm::Function.new(:function_group_code=>'HOME_PAGE',:code=>'PUBLIC_FUNCTION',:default_flag=>'N',:login_flag => 'N', :public_flag=>'Y',:not_auto_mult=>true)
     irm_public_function.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'公开功能',:description=>'公开功能')
     irm_public_function.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Public Function',:description=>'Public Function')
@@ -278,6 +298,22 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_home_page.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'首页',:description=>'首页')
     irm_home_page.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Home page',:description=>'Home page')
     irm_home_page.save
+    irm_todo_event= Irm::Function.new(:function_group_code=>'HOME_PAGE',:code=>'TODO_EVENT',:default_flag=>'Y',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_todo_event.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'待办事件',:description=>'待办事件')
+    irm_todo_event.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Todo Event',:description=>'Todo Event')
+    irm_todo_event.save
+    irm_todo_task= Irm::Function.new(:function_group_code=>'HOME_PAGE',:code=>'TODO_TASK',:default_flag=>'Y',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_todo_task.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'待办任务',:description=>'待办任务')
+    irm_todo_task.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Todo Task',:description=>'Todo Task')
+    irm_todo_task.save
+    irm_bulletin= Irm::Function.new(:function_group_code=>'HOME_PAGE',:code=>'BULLETIN',:default_flag=>'Y',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_bulletin.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'公告',:description=>'公告')
+    irm_bulletin.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Bulletin',:description=>'Bulletin')
+    irm_bulletin.save
+    irm_workflow_approval= Irm::Function.new(:function_group_code=>'HOME_PAGE',:code=>'WORKFLOW_APPROVAL',:default_flag=>'Y',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_workflow_approval.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'工作流审批',:description=>'工作流审批')
+    irm_workflow_approval.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Workflow Approval',:description=>'Workflow Approval')
+    irm_workflow_approval.save
     icm_view_incident_request= Irm::Function.new(:function_group_code=>'INCIDENT_REQUEST',:code=>'VIEW_INCIDENT_REQUEST',:default_flag=>'Y',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
     icm_view_incident_request.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'查看',:description=>'查看')
     icm_view_incident_request.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'View',:description=>'View')
@@ -394,6 +430,10 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_language.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理语言',:description=>'管理语言')
     irm_language.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Language',:description=>'Manage Language')
     irm_language.save
+    irm_currency= Irm::Function.new(:function_group_code=>'CURRENCY',:code=>'CURRENCY',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_currency.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理汇率',:description=>'管理汇率')
+    irm_currency.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Currency',:description=>'Manage Currency')
+    irm_currency.save
     irm_lookup_code= Irm::Function.new(:function_group_code=>'LOOKUP_CODE',:code=>'LOOKUP_CODE',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
     irm_lookup_code.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理快速编码',:description=>'管理快速编码')
     irm_lookup_code.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Lookup code',:description=>'Manage Lookup code')
@@ -418,6 +458,10 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_product_module.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理产品模块',:description=>'管理产品模块')
     irm_product_module.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Product Module',:description=>'Manage Product Module')
     irm_product_module.save
+    irm_application= Irm::Function.new(:function_group_code=>'APPLICATION',:code=>'APPLICATION',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_application.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理应用',:description=>'管理应用')
+    irm_application.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Application',:description=>'Manage Application')
+    irm_application.save
     irm_business_object= Irm::Function.new(:function_group_code=>'BUSINESS_OBJECT',:code=>'BUSINESS_OBJECT',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
     irm_business_object.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理业务对像',:description=>'管理业务对像')
     irm_business_object.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Business Object',:description=>'Manage Business Object')
@@ -426,10 +470,14 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_list_of_value.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理值列表',:description=>'管理值列表')
     irm_list_of_value.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage List of Value',:description=>'Manage List of Value')
     irm_list_of_value.save
-    irm_report_category= Irm::Function.new(:function_group_code=>'REPORT_CATEGORY',:code=>'REPORT_CATEGORY',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
-    irm_report_category.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理报表类别',:description=>'管理报表类别')
-    irm_report_category.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Report Category',:description=>'Manage Report Category')
-    irm_report_category.save
+    irm_tab= Irm::Function.new(:function_group_code=>'TAB',:code=>'TAB',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_tab.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理标签页',:description=>'管理标签页')
+    irm_tab.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Tab',:description=>'Manage Tab')
+    irm_tab.save
+    irm_report_type_category= Irm::Function.new(:function_group_code=>'REPORT_TYPE_CATEGORY',:code=>'REPORT_TYPE_CATEGORY',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_report_type_category.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理报表类别',:description=>'管理报表类别')
+    irm_report_type_category.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Report Category',:description=>'Manage Report Category')
+    irm_report_type_category.save
     irm_report_type= Irm::Function.new(:function_group_code=>'REPORT_TYPE',:code=>'REPORT_TYPE',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
     irm_report_type.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理报表类型',:description=>'管理报表类型')
     irm_report_type.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Report Type',:description=>'Manage Report Type')
@@ -474,6 +522,10 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_person.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理用户',:description=>'管理用户')
     irm_person.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage User',:description=>'Manage User')
     irm_person.save
+    irm_profile= Irm::Function.new(:function_group_code=>'PROFILE',:code=>'PROFILE',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_profile.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理简档',:description=>'管理简档')
+    irm_profile.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Profile',:description=>'Manage Profile')
+    irm_profile.save
     irm_role= Irm::Function.new(:function_group_code=>'ROLE',:code=>'ROLE',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
     irm_role.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理角色',:description=>'管理角色')
     irm_role.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Role',:description=>'Manage Role')
@@ -522,10 +574,10 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     icm_icm_close_reason.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理事故单关闭原因',:description=>'管理事故单关闭原因')
     icm_icm_close_reason.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Incident Close Reason',:description=>'Manage Incident Close Reason')
     icm_icm_close_reason.save
-    icm_icm_group_assign= Irm::Function.new(:function_group_code=>'ICM_GROUP_ASSIGN',:code=>'ICM_GROUP_ASSIGN',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
-    icm_icm_group_assign.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理事故单组指派',:description=>'管理事故单组指派')
-    icm_icm_group_assign.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Group Assign',:description=>'Manage Group Assign')
-    icm_icm_group_assign.save
+    icm_icm_group_assignment= Irm::Function.new(:function_group_code=>'ICM_GROUP_ASSIGNMENT',:code=>'ICM_GROUP_ASSIGNMENT',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    icm_icm_group_assignment.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理事故单组指派',:description=>'管理事故单组指派')
+    icm_icm_group_assignment.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Group Assign',:description=>'Manage Group Assign')
+    icm_icm_group_assignment.save
     icm_icm_rule_setting= Irm::Function.new(:function_group_code=>'ICM_RULE_SETTING',:code=>'ICM_RULE_SETTING',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
     icm_icm_rule_setting.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理事故单规则设置',:description=>'管理事故单规则设置')
     icm_icm_rule_setting.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Rule Setting',:description=>'Manage Rule Setting')
@@ -570,10 +622,14 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     skm_skm_template.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理知识库模板',:description=>'管理知识库模板')
     skm_skm_template.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Template',:description=>'Manage Template')
     skm_skm_template.save
-    skm_skm_template_elements= Irm::Function.new(:function_group_code=>'SKM_TEMPLATE_ELEMENTS',:code=>'SKM_TEMPLATE_ELEMENTS',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
-    skm_skm_template_elements.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理知识库模板元素',:description=>'管理知识库模板元素')
-    skm_skm_template_elements.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Template Element',:description=>'Manage Template Element')
-    skm_skm_template_elements.save
+    skm_skm_template_element= Irm::Function.new(:function_group_code=>'SKM_TEMPLATE_ELEMENT',:code=>'SKM_TEMPLATE_ELEMENT',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    skm_skm_template_element.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理知识库模板元素',:description=>'管理知识库模板元素')
+    skm_skm_template_element.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Template Element',:description=>'Manage Template Element')
+    skm_skm_template_element.save
+    skm_skm_setting= Irm::Function.new(:function_group_code=>'SKM_SETTING',:code=>'SKM_SETTING',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    skm_skm_setting.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理知识库设置',:description=>'管理知识库设置')
+    skm_skm_setting.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Knowledge Base Setting',:description=>'Manage Knowledge Base Setting')
+    skm_skm_setting.save
     irm_ldap_source= Irm::Function.new(:function_group_code=>'LDAP_SOURCE',:code=>'LDAP_SOURCE',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
     irm_ldap_source.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理LDAP源',:description=>'管理LDAP源')
     irm_ldap_source.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage LDAP Source',:description=>'Manage LDAP Source')
@@ -586,10 +642,10 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_ldap_organization.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理LDAP组织',:description=>'管理LDAP组织')
     irm_ldap_organization.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage LDAP Organization',:description=>'Manage LDAP Organization')
     irm_ldap_organization.save
-    irm_email_template= Irm::Function.new(:function_group_code=>'EMAIL_TEMPLATE',:code=>'EMAIL_TEMPLATE',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
-    irm_email_template.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理邮件模板',:description=>'管理邮件模板')
-    irm_email_template.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Email Template',:description=>'Manage Email Template')
-    irm_email_template.save
+    irm_mail_template= Irm::Function.new(:function_group_code=>'MAIL_TEMPLATE',:code=>'MAIL_TEMPLATE',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
+    irm_mail_template.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理邮件模板',:description=>'管理邮件模板')
+    irm_mail_template.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Email Template',:description=>'Manage Email Template')
+    irm_mail_template.save
     irm_monitor_workflow_rule= Irm::Function.new(:function_group_code=>'MONITOR_WORKFLOW_RULE',:code=>'MONITOR_WORKFLOW_RULE',:default_flag=>'N',:login_flag => 'N', :public_flag=>'N',:not_auto_mult=>true)
     irm_monitor_workflow_rule.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理事故单工作流规则作业',:description=>'管理事故单工作流规则作业')
     irm_monitor_workflow_rule.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Monitor Workflow Rule',:description=>'Manage Monitor Workflow Rule')
@@ -618,6 +674,7 @@ class InitReworkedFunctionData < ActiveRecord::Migration
     irm_kanban_card.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'管理看板卡片',:description=>'管理看板卡片')
     irm_kanban_card.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Manage Card',:description=>'Manage Card')
     irm_kanban_card.save
+    
   end
 
   def self.down

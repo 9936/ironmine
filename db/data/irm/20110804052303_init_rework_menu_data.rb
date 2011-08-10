@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 class InitReworkMenuData < ActiveRecord::Migration
   def self.up
+    top_menu= Irm::Menu.new(:code=>'TOP_MENU',:not_auto_mult=>true)
+    top_menu.menus_tls.build(:language=>'zh',:source_lang=>'en',:name=>'顶级菜单 ',:description=>'顶级菜单 ')
+    top_menu.menus_tls.build(:language=>'en',:source_lang=>'en',:name=>'Top Menu',:description=>'Top Menu')
+    top_menu.save
     personal_profile= Irm::Menu.new(:code=>'PERSONAL_PROFILE',:not_auto_mult=>true)
     personal_profile.menus_tls.build(:language=>'zh',:source_lang=>'en',:name=>'个人简档',:description=>'个人简档')
     personal_profile.menus_tls.build(:language=>'en',:source_lang=>'en',:name=>'Personal Profile',:description=>'Personal Profile')
@@ -90,168 +94,182 @@ class InitReworkMenuData < ActiveRecord::Migration
     kanban_management.menus_tls.build(:language=>'en',:source_lang=>'en',:name=>'Signboard',:description=>'Signboard')
     kanban_management.save
 
-    menu_entiry_3= Irm::MenuEntry.new(:menu_code=>'PERSONAL_PROFILE',:sub_menu_code=>'PERSONAL_SETTING',:sub_function_group_code=>nil,:display_sequence=>10)
+    menu_entiry_3= Irm::MenuEntry.new(:menu_code=>'TOP_MENU',:sub_menu_code=>'PERSONAL_PROFILE',:sub_function_group_code=>nil,:display_sequence=>10)
     menu_entiry_3.save
-    menu_entiry_4= Irm::MenuEntry.new(:menu_code=>'PERSONAL_SETTING',:sub_menu_code=>'PERSON_INFO',:sub_function_group_code=>nil,:display_sequence=>10)
+    menu_entiry_4= Irm::MenuEntry.new(:menu_code=>'PERSONAL_PROFILE',:sub_menu_code=>'PERSONAL_SETTING',:sub_function_group_code=>nil,:display_sequence=>10)
     menu_entiry_4.save
-    menu_entiry_5= Irm::MenuEntry.new(:menu_code=>'PERSON_INFO',:sub_menu_code=>nil,:sub_function_group_code=>'MY_INFO',:display_sequence=>10)
+    menu_entiry_5= Irm::MenuEntry.new(:menu_code=>'PERSONAL_SETTING',:sub_menu_code=>'PERSON_INFO',:sub_function_group_code=>nil,:display_sequence=>10)
     menu_entiry_5.save
-    menu_entiry_6= Irm::MenuEntry.new(:menu_code=>'PERSON_INFO',:sub_menu_code=>nil,:sub_function_group_code=>'MY_PASSWORD',:display_sequence=>20)
+    menu_entiry_6= Irm::MenuEntry.new(:menu_code=>'PERSON_INFO',:sub_menu_code=>nil,:sub_function_group_code=>'MY_INFO',:display_sequence=>10)
     menu_entiry_6.save
-    menu_entiry_7= Irm::MenuEntry.new(:menu_code=>'PERSON_INFO',:sub_menu_code=>nil,:sub_function_group_code=>'MY_AVATAR',:display_sequence=>30)
+    menu_entiry_7= Irm::MenuEntry.new(:menu_code=>'PERSON_INFO',:sub_menu_code=>nil,:sub_function_group_code=>'MY_PASSWORD',:display_sequence=>20)
     menu_entiry_7.save
-    menu_entiry_8= Irm::MenuEntry.new(:menu_code=>'PERSON_INFO',:sub_menu_code=>nil,:sub_function_group_code=>'MY_LOGIN_HISTORY',:display_sequence=>40)
+    menu_entiry_8= Irm::MenuEntry.new(:menu_code=>'PERSON_INFO',:sub_menu_code=>nil,:sub_function_group_code=>'MY_AVATAR',:display_sequence=>30)
     menu_entiry_8.save
-    menu_entiry_9= Irm::MenuEntry.new(:menu_code=>'GLOBAL_SYSTEM_SETTING',:sub_menu_code=>'APPLICATION_SETTING',:sub_function_group_code=>nil,:display_sequence=>10)
+    menu_entiry_9= Irm::MenuEntry.new(:menu_code=>'PERSON_INFO',:sub_menu_code=>nil,:sub_function_group_code=>'MY_LOGIN_HISTORY',:display_sequence=>40)
     menu_entiry_9.save
-    menu_entiry_10= Irm::MenuEntry.new(:menu_code=>'APPLICATION_SETTING',:sub_menu_code=>'GLOBAL_CUSTOM',:sub_function_group_code=>nil,:display_sequence=>10)
+    menu_entiry_10= Irm::MenuEntry.new(:menu_code=>'TOP_MENU',:sub_menu_code=>'GLOBAL_SYSTEM_SETTING',:sub_function_group_code=>nil,:display_sequence=>20)
     menu_entiry_10.save
-    menu_entiry_11= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'GLOBAL_SETTING',:display_sequence=>10)
+    menu_entiry_11= Irm::MenuEntry.new(:menu_code=>'GLOBAL_SYSTEM_SETTING',:sub_menu_code=>'APPLICATION_SETTING',:sub_function_group_code=>nil,:display_sequence=>10)
     menu_entiry_11.save
-    menu_entiry_12= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'LANGUAGE',:display_sequence=>20)
+    menu_entiry_12= Irm::MenuEntry.new(:menu_code=>'APPLICATION_SETTING',:sub_menu_code=>'GLOBAL_CUSTOM',:sub_function_group_code=>nil,:display_sequence=>10)
     menu_entiry_12.save
-    menu_entiry_13= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'LOOKUP_CODE',:display_sequence=>30)
+    menu_entiry_13= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'GLOBAL_SETTING',:display_sequence=>10)
     menu_entiry_13.save
-    menu_entiry_14= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'GENERAL_CATEGORY',:display_sequence=>40)
+    menu_entiry_14= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'LANGUAGE',:display_sequence=>20)
     menu_entiry_14.save
-    menu_entiry_15= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'VALUE_SET',:display_sequence=>50)
+    menu_entiry_15= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'CURRENCY',:display_sequence=>25)
     menu_entiry_15.save
-    menu_entiry_16= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'ID_FLEX',:display_sequence=>60)
+    menu_entiry_16= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'LOOKUP_CODE',:display_sequence=>30)
     menu_entiry_16.save
-    menu_entiry_17= Irm::MenuEntry.new(:menu_code=>'APPLICATION_SETTING',:sub_menu_code=>'GLOBAL_CREATE',:sub_function_group_code=>nil,:display_sequence=>20)
+    menu_entiry_17= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'GENERAL_CATEGORY',:display_sequence=>40)
     menu_entiry_17.save
-    menu_entiry_18= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'PRODUCT_MODULE',:display_sequence=>10)
+    menu_entiry_18= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'VALUE_SET',:display_sequence=>50)
     menu_entiry_18.save
-    menu_entiry_19= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'BUSINESS_OBJECT',:display_sequence=>20)
+    menu_entiry_19= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CUSTOM',:sub_menu_code=>nil,:sub_function_group_code=>'ID_FLEX',:display_sequence=>60)
     menu_entiry_19.save
-    menu_entiry_20= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'LIST_OF_VALUE',:display_sequence=>30)
+    menu_entiry_20= Irm::MenuEntry.new(:menu_code=>'APPLICATION_SETTING',:sub_menu_code=>'GLOBAL_CREATE',:sub_function_group_code=>nil,:display_sequence=>20)
     menu_entiry_20.save
-    menu_entiry_21= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>'REPORT',:sub_function_group_code=>nil,:display_sequence=>40)
+    menu_entiry_21= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'PRODUCT_MODULE',:display_sequence=>10)
     menu_entiry_21.save
-    menu_entiry_22= Irm::MenuEntry.new(:menu_code=>'REPORT',:sub_menu_code=>nil,:sub_function_group_code=>'REPORT_CATEGORY',:display_sequence=>10)
+    menu_entiry_22= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'APPLICATION',:display_sequence=>15)
     menu_entiry_22.save
-    menu_entiry_23= Irm::MenuEntry.new(:menu_code=>'REPORT',:sub_menu_code=>nil,:sub_function_group_code=>'REPORT_TYPE',:display_sequence=>20)
+    menu_entiry_23= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'BUSINESS_OBJECT',:display_sequence=>20)
     menu_entiry_23.save
-    menu_entiry_24= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>'SECURITY_COMPONENT',:sub_function_group_code=>nil,:display_sequence=>50)
+    menu_entiry_24= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'LIST_OF_VALUE',:display_sequence=>30)
     menu_entiry_24.save
-    menu_entiry_25= Irm::MenuEntry.new(:menu_code=>'SECURITY_COMPONENT',:sub_menu_code=>nil,:sub_function_group_code=>'MENU',:display_sequence=>10)
+    menu_entiry_25= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'TAB',:display_sequence=>35)
     menu_entiry_25.save
-    menu_entiry_26= Irm::MenuEntry.new(:menu_code=>'SECURITY_COMPONENT',:sub_menu_code=>nil,:sub_function_group_code=>'FUNCTION_GROUP',:display_sequence=>20)
+    menu_entiry_26= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>'REPORT',:sub_function_group_code=>nil,:display_sequence=>40)
     menu_entiry_26.save
-    menu_entiry_27= Irm::MenuEntry.new(:menu_code=>'SECURITY_COMPONENT',:sub_menu_code=>nil,:sub_function_group_code=>'FUNCTION',:display_sequence=>30)
+    menu_entiry_27= Irm::MenuEntry.new(:menu_code=>'REPORT',:sub_menu_code=>nil,:sub_function_group_code=>'REPORT_TYPE_CATEGORY',:display_sequence=>10)
     menu_entiry_27.save
-    menu_entiry_28= Irm::MenuEntry.new(:menu_code=>'SECURITY_COMPONENT',:sub_menu_code=>nil,:sub_function_group_code=>'PERMISSION',:display_sequence=>40)
+    menu_entiry_28= Irm::MenuEntry.new(:menu_code=>'REPORT',:sub_menu_code=>nil,:sub_function_group_code=>'REPORT_TYPE',:display_sequence=>20)
     menu_entiry_28.save
-    menu_entiry_29= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>'WORKFLOW',:sub_function_group_code=>nil,:display_sequence=>60)
+    menu_entiry_29= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>'SECURITY_COMPONENT',:sub_function_group_code=>nil,:display_sequence=>50)
     menu_entiry_29.save
-    menu_entiry_30= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_RULE',:display_sequence=>10)
+    menu_entiry_30= Irm::MenuEntry.new(:menu_code=>'SECURITY_COMPONENT',:sub_menu_code=>nil,:sub_function_group_code=>'MENU',:display_sequence=>10)
     menu_entiry_30.save
-    menu_entiry_31= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_PROCESS',:display_sequence=>20)
+    menu_entiry_31= Irm::MenuEntry.new(:menu_code=>'SECURITY_COMPONENT',:sub_menu_code=>nil,:sub_function_group_code=>'FUNCTION_GROUP',:display_sequence=>20)
     menu_entiry_31.save
-    menu_entiry_32= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_MAIL_ALERT',:display_sequence=>30)
+    menu_entiry_32= Irm::MenuEntry.new(:menu_code=>'SECURITY_COMPONENT',:sub_menu_code=>nil,:sub_function_group_code=>'FUNCTION',:display_sequence=>30)
     menu_entiry_32.save
-    menu_entiry_33= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_FIELD_UPDATE',:display_sequence=>40)
+    menu_entiry_33= Irm::MenuEntry.new(:menu_code=>'SECURITY_COMPONENT',:sub_menu_code=>nil,:sub_function_group_code=>'PERMISSION',:display_sequence=>40)
     menu_entiry_33.save
-    menu_entiry_34= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_SETTING',:display_sequence=>50)
+    menu_entiry_34= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>'WORKFLOW',:sub_function_group_code=>nil,:display_sequence=>60)
     menu_entiry_34.save
-    menu_entiry_35= Irm::MenuEntry.new(:menu_code=>'GLOBAL_SYSTEM_SETTING',:sub_menu_code=>'MANAGEMENT_SETTING',:sub_function_group_code=>nil,:display_sequence=>20)
+    menu_entiry_35= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_RULE',:display_sequence=>10)
     menu_entiry_35.save
-    menu_entiry_36= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'USER_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>10)
+    menu_entiry_36= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_PROCESS',:display_sequence=>20)
     menu_entiry_36.save
-    menu_entiry_37= Irm::MenuEntry.new(:menu_code=>'USER_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'PERSON',:display_sequence=>10)
+    menu_entiry_37= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_MAIL_ALERT',:display_sequence=>30)
     menu_entiry_37.save
-    menu_entiry_38= Irm::MenuEntry.new(:menu_code=>'USER_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ROLE',:display_sequence=>20)
+    menu_entiry_38= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_FIELD_UPDATE',:display_sequence=>40)
     menu_entiry_38.save
-    menu_entiry_39= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'ORGANIZATION_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>20)
+    menu_entiry_39= Irm::MenuEntry.new(:menu_code=>'WORKFLOW',:sub_menu_code=>nil,:sub_function_group_code=>'WORKFLOW_SETTING',:display_sequence=>50)
     menu_entiry_39.save
-    menu_entiry_40= Irm::MenuEntry.new(:menu_code=>'ORGANIZATION_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'COMPANY',:display_sequence=>10)
+    menu_entiry_40= Irm::MenuEntry.new(:menu_code=>'GLOBAL_SYSTEM_SETTING',:sub_menu_code=>'MANAGEMENT_SETTING',:sub_function_group_code=>nil,:display_sequence=>20)
     menu_entiry_40.save
-    menu_entiry_41= Irm::MenuEntry.new(:menu_code=>'ORGANIZATION_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ORGANIZATION',:display_sequence=>20)
+    menu_entiry_41= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'USER_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>10)
     menu_entiry_41.save
-    menu_entiry_42= Irm::MenuEntry.new(:menu_code=>'ORGANIZATION_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'DEPARTMENT',:display_sequence=>30)
+    menu_entiry_42= Irm::MenuEntry.new(:menu_code=>'USER_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'PERSON',:display_sequence=>10)
     menu_entiry_42.save
-    menu_entiry_43= Irm::MenuEntry.new(:menu_code=>'ORGANIZATION_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SUPPORT_GROUP',:display_sequence=>40)
+    menu_entiry_43= Irm::MenuEntry.new(:menu_code=>'USER_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'PROFILE',:display_sequence=>15)
     menu_entiry_43.save
-    menu_entiry_44= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'SITE_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>30)
+    menu_entiry_44= Irm::MenuEntry.new(:menu_code=>'USER_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ROLE',:display_sequence=>20)
     menu_entiry_44.save
-    menu_entiry_45= Irm::MenuEntry.new(:menu_code=>'SITE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'REGION',:display_sequence=>10)
+    menu_entiry_45= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'ORGANIZATION_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>20)
     menu_entiry_45.save
-    menu_entiry_46= Irm::MenuEntry.new(:menu_code=>'SITE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SITE_GROUP',:display_sequence=>20)
+    menu_entiry_46= Irm::MenuEntry.new(:menu_code=>'ORGANIZATION_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'COMPANY',:display_sequence=>10)
     menu_entiry_46.save
-    menu_entiry_47= Irm::MenuEntry.new(:menu_code=>'SITE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SITE',:display_sequence=>30)
+    menu_entiry_47= Irm::MenuEntry.new(:menu_code=>'ORGANIZATION_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ORGANIZATION',:display_sequence=>20)
     menu_entiry_47.save
-    menu_entiry_48= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'EXTERNAL_SYSTEM_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>40)
+    menu_entiry_48= Irm::MenuEntry.new(:menu_code=>'ORGANIZATION_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'DEPARTMENT',:display_sequence=>30)
     menu_entiry_48.save
-    menu_entiry_49= Irm::MenuEntry.new(:menu_code=>'EXTERNAL_SYSTEM_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SYSTEM',:display_sequence=>10)
+    menu_entiry_49= Irm::MenuEntry.new(:menu_code=>'ORGANIZATION_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SUPPORT_GROUP',:display_sequence=>40)
     menu_entiry_49.save
-    menu_entiry_50= Irm::MenuEntry.new(:menu_code=>'EXTERNAL_SYSTEM_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'EXTERNAL_LOINGID',:display_sequence=>20)
+    menu_entiry_50= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'SITE_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>30)
     menu_entiry_50.save
-    menu_entiry_51= Irm::MenuEntry.new(:menu_code=>'EXTERNAL_SYSTEM_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'LOGIN_MAPPING',:display_sequence=>30)
+    menu_entiry_51= Irm::MenuEntry.new(:menu_code=>'SITE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'REGION',:display_sequence=>10)
     menu_entiry_51.save
-    menu_entiry_52= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'INCIDENT_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>50)
+    menu_entiry_52= Irm::MenuEntry.new(:menu_code=>'SITE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SITE_GROUP',:display_sequence=>20)
     menu_entiry_52.save
-    menu_entiry_53= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_CLOSE_REASON',:display_sequence=>10)
+    menu_entiry_53= Irm::MenuEntry.new(:menu_code=>'SITE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SITE',:display_sequence=>30)
     menu_entiry_53.save
-    menu_entiry_54= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_GROUP_ASSIGN',:display_sequence=>20)
+    menu_entiry_54= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'EXTERNAL_SYSTEM_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>40)
     menu_entiry_54.save
-    menu_entiry_55= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_RULE_SETTING',:display_sequence=>30)
+    menu_entiry_55= Irm::MenuEntry.new(:menu_code=>'EXTERNAL_SYSTEM_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SYSTEM',:display_sequence=>10)
     menu_entiry_55.save
-    menu_entiry_56= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_URGENCE_CODE',:display_sequence=>40)
+    menu_entiry_56= Irm::MenuEntry.new(:menu_code=>'EXTERNAL_SYSTEM_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'EXTERNAL_LOINGID',:display_sequence=>20)
     menu_entiry_56.save
-    menu_entiry_57= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_IMPACT_RANGE',:display_sequence=>50)
+    menu_entiry_57= Irm::MenuEntry.new(:menu_code=>'EXTERNAL_SYSTEM_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'LOGIN_MAPPING',:display_sequence=>30)
     menu_entiry_57.save
-    menu_entiry_58= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_PRIORITY_CODE',:display_sequence=>60)
+    menu_entiry_58= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'INCIDENT_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>50)
     menu_entiry_58.save
-    menu_entiry_59= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_PHASE',:display_sequence=>70)
+    menu_entiry_59= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_CLOSE_REASON',:display_sequence=>10)
     menu_entiry_59.save
-    menu_entiry_60= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_STATUS',:display_sequence=>80)
+    menu_entiry_60= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_GROUP_ASSIGNMENT',:display_sequence=>20)
     menu_entiry_60.save
-    menu_entiry_61= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'SERVICE_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>60)
+    menu_entiry_61= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_RULE_SETTING',:display_sequence=>30)
     menu_entiry_61.save
-    menu_entiry_62= Irm::MenuEntry.new(:menu_code=>'SERVICE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SERVICE_CATEGORY',:display_sequence=>10)
+    menu_entiry_62= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_URGENCE_CODE',:display_sequence=>40)
     menu_entiry_62.save
-    menu_entiry_63= Irm::MenuEntry.new(:menu_code=>'SERVICE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SERVICE_CATALOG',:display_sequence=>20)
+    menu_entiry_63= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_IMPACT_RANGE',:display_sequence=>50)
     menu_entiry_63.save
-    menu_entiry_64= Irm::MenuEntry.new(:menu_code=>'SERVICE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SERVICE_AGREEMENT',:display_sequence=>30)
+    menu_entiry_64= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_PRIORITY_CODE',:display_sequence=>60)
     menu_entiry_64.save
-    menu_entiry_65= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'KNOWLEDGE_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>70)
+    menu_entiry_65= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_PHASE',:display_sequence=>70)
     menu_entiry_65.save
-    menu_entiry_66= Irm::MenuEntry.new(:menu_code=>'KNOWLEDGE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SKM_STATUS',:display_sequence=>10)
+    menu_entiry_66= Irm::MenuEntry.new(:menu_code=>'INCIDENT_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'ICM_STATUS',:display_sequence=>80)
     menu_entiry_66.save
-    menu_entiry_67= Irm::MenuEntry.new(:menu_code=>'KNOWLEDGE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SKM_TEMPLATE',:display_sequence=>20)
+    menu_entiry_67= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'SERVICE_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>60)
     menu_entiry_67.save
-    menu_entiry_68= Irm::MenuEntry.new(:menu_code=>'KNOWLEDGE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SKM_TEMPLATE_ELEMENTS',:display_sequence=>30)
+    menu_entiry_68= Irm::MenuEntry.new(:menu_code=>'SERVICE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SERVICE_CATEGORY',:display_sequence=>10)
     menu_entiry_68.save
-    menu_entiry_69= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'LDAP_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>80)
+    menu_entiry_69= Irm::MenuEntry.new(:menu_code=>'SERVICE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SERVICE_CATALOG',:display_sequence=>20)
     menu_entiry_69.save
-    menu_entiry_70= Irm::MenuEntry.new(:menu_code=>'LDAP_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'LDAP_SOURCE',:display_sequence=>10)
+    menu_entiry_70= Irm::MenuEntry.new(:menu_code=>'SERVICE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SERVICE_AGREEMENT',:display_sequence=>30)
     menu_entiry_70.save
-    menu_entiry_71= Irm::MenuEntry.new(:menu_code=>'LDAP_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'LDAP_USER',:display_sequence=>20)
+    menu_entiry_71= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'KNOWLEDGE_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>70)
     menu_entiry_71.save
-    menu_entiry_72= Irm::MenuEntry.new(:menu_code=>'LDAP_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'LDAP_ORGANIZATION',:display_sequence=>30)
+    menu_entiry_72= Irm::MenuEntry.new(:menu_code=>'KNOWLEDGE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SKM_STATUS',:display_sequence=>10)
     menu_entiry_72.save
-    menu_entiry_73= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'MAIL_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>90)
+    menu_entiry_73= Irm::MenuEntry.new(:menu_code=>'KNOWLEDGE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SKM_TEMPLATE',:display_sequence=>20)
     menu_entiry_73.save
-    menu_entiry_74= Irm::MenuEntry.new(:menu_code=>'MAIL_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'EMAIL_TEMPLATE',:display_sequence=>10)
+    menu_entiry_74= Irm::MenuEntry.new(:menu_code=>'KNOWLEDGE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SKM_TEMPLATE_ELEMENT',:display_sequence=>30)
     menu_entiry_74.save
-    menu_entiry_75= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'MONITOR_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>100)
+    menu_entiry_75= Irm::MenuEntry.new(:menu_code=>'KNOWLEDGE_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'SKM_SETTING',:display_sequence=>40)
     menu_entiry_75.save
-    menu_entiry_76= Irm::MenuEntry.new(:menu_code=>'MONITOR_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'MONITOR_WORKFLOW_RULE',:display_sequence=>10)
+    menu_entiry_76= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'LDAP_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>80)
     menu_entiry_76.save
-    menu_entiry_77= Irm::MenuEntry.new(:menu_code=>'MONITOR_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'MONITOR_GROUP_ASSIGN',:display_sequence=>20)
+    menu_entiry_77= Irm::MenuEntry.new(:menu_code=>'LDAP_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'LDAP_SOURCE',:display_sequence=>10)
     menu_entiry_77.save
-    menu_entiry_78= Irm::MenuEntry.new(:menu_code=>'MONITOR_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'MONITOR_DELAYED_JOBS',:display_sequence=>30)
+    menu_entiry_78= Irm::MenuEntry.new(:menu_code=>'LDAP_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'LDAP_USER',:display_sequence=>20)
     menu_entiry_78.save
-    menu_entiry_79= Irm::MenuEntry.new(:menu_code=>'MONITOR_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'MONITOR_APPROVE_MAIL',:display_sequence=>40)
+    menu_entiry_79= Irm::MenuEntry.new(:menu_code=>'LDAP_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'LDAP_ORGANIZATION',:display_sequence=>30)
     menu_entiry_79.save
-    menu_entiry_80= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'KANBAN_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>110)
+    menu_entiry_80= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'MAIL_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>90)
     menu_entiry_80.save
-    menu_entiry_81= Irm::MenuEntry.new(:menu_code=>'KANBAN_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'KANBAN',:display_sequence=>10)
+    menu_entiry_81= Irm::MenuEntry.new(:menu_code=>'MAIL_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'MAIL_TEMPLATE',:display_sequence=>10)
     menu_entiry_81.save
-    menu_entiry_82= Irm::MenuEntry.new(:menu_code=>'KANBAN_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'KANBAN_LANE',:display_sequence=>20)
+    menu_entiry_82= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'MONITOR_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>100)
     menu_entiry_82.save
-    menu_entiry_83= Irm::MenuEntry.new(:menu_code=>'KANBAN_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'KANBAN_CARD',:display_sequence=>30)
+    menu_entiry_83= Irm::MenuEntry.new(:menu_code=>'MONITOR_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'MONITOR_WORKFLOW_RULE',:display_sequence=>10)
     menu_entiry_83.save
+    menu_entiry_84= Irm::MenuEntry.new(:menu_code=>'MONITOR_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'MONITOR_GROUP_ASSIGN',:display_sequence=>20)
+    menu_entiry_84.save
+    menu_entiry_85= Irm::MenuEntry.new(:menu_code=>'MONITOR_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'MONITOR_DELAYED_JOBS',:display_sequence=>30)
+    menu_entiry_85.save
+    menu_entiry_86= Irm::MenuEntry.new(:menu_code=>'MONITOR_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'MONITOR_APPROVE_MAIL',:display_sequence=>40)
+    menu_entiry_86.save
+    menu_entiry_87= Irm::MenuEntry.new(:menu_code=>'MANAGEMENT_SETTING',:sub_menu_code=>'KANBAN_MANAGEMENT',:sub_function_group_code=>nil,:display_sequence=>110)
+    menu_entiry_87.save
+    menu_entiry_88= Irm::MenuEntry.new(:menu_code=>'KANBAN_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'KANBAN',:display_sequence=>10)
+    menu_entiry_88.save
+    menu_entiry_89= Irm::MenuEntry.new(:menu_code=>'KANBAN_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'KANBAN_LANE',:display_sequence=>20)
+    menu_entiry_89.save
+    menu_entiry_90= Irm::MenuEntry.new(:menu_code=>'KANBAN_MANAGEMENT',:sub_menu_code=>nil,:sub_function_group_code=>'KANBAN_CARD',:display_sequence=>30)
+    menu_entiry_90.save
   end
 
   def self.down
