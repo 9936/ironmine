@@ -221,13 +221,6 @@ class Skm::EntryHeadersController < ApplicationController
             detail.update_attributes(v)
             @entry_header.entry_details << detail
           end
-#          owned_column_ids = @entry_header.get_column_ids.split(",")
-#          (owned_column_ids - column_ids).each do |t|
-#            Skm::EntryColumn.where(:entry_header_id => @entry_header.id).where(:column_id => t).each do |ec|
-#              ec.destroy
-#            end
-#          end
-
           column_ids.each do |t|
             Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
           end
