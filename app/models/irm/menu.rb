@@ -19,7 +19,12 @@ class Irm::Menu < ActiveRecord::Base
   query_extend
 
   scope :top_menu,lambda{
-    where("NOT EXISTS(SELECT 1 FROM #{Irm::MenuEntry.table_name} WHERE #{Irm::MenuEntry.table_name}.sub_menu_code = #{table_name}.menu_code)")
+    where("NOT EXISTS(SELECT 1 FROM #{Irm::MenuEntry.table_name} WHERE #{Irm::MenuEntry.table_name}.sub_menu_id = #{table_name}.id)")
   }
+
+
+  def self.root_menu
+    self.where(:code=>"TOP_MENU").first
+  end
 
 end

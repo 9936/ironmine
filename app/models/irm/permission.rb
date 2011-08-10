@@ -20,6 +20,11 @@ class Irm::Permission < ActiveRecord::Base
     where("#{Irm::Function.table_name}.code = ?",function_code)
   }
 
+  scope :query_by_function_group,lambda{|function_group_id|
+    joins("JOIN #{Irm::Function.table_name} ON #{table_name}.function_id = #{Irm::Function.table_name}.id").
+    where("#{Irm::Function.table_name}.function_group_id = ?",function_group_id)
+  }
+
 
   def setup_parent
     product_code = self.controller.gsub(/\/.*/, "")

@@ -13,7 +13,7 @@ class Irm::ApplicationsController < ApplicationController
   # GET /applications/1
   # GET /applications/1.xml
   def show
-    @application = Irm::Application.find(params[:id])
+    @application = Irm::Application.multilingual.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

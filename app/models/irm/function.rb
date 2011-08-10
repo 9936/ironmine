@@ -21,6 +21,17 @@ class Irm::Function < ActiveRecord::Base
 
   before_save :setup_group
 
+  scope :with_function_group,lambda{|language|
+    joins("JOIN #{Irm::FunctionGroup.view_name} ON #{Irm::FunctionGroup.view_name}.id = #{table_name}.function_group_id AND #{Irm::FunctionGroup.view_name}.language='#{language}'").
+    select("#{Irm::FunctionGroup.view_name}.zone_code,#{Irm::FunctionGroup.view_name}.name function_group_name")
+  }
+
+  scope :query_profile,lambda{|profile_id|
+    joins("JOIN #{Irm::ProfileFunction.table_name} ON #{Irm::ProfileFunction.table_name}.function_id = #{table_name}.id").
+    where("#{Irm::ProfileFunction.table_name}.profile_id = ? ",profile_id)
+
+  }
+
   private
   def setup_group
     if self.function_group_id.nil?&&self.function_group_code.present?

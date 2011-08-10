@@ -7,7 +7,7 @@
         <tr>
           <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_tab) %></h2></td>
           <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @incident_phase}%></div>
+            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @tab}%></div>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
           </td>
         </tr>
@@ -18,44 +18,44 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-                      <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_tab_business_object_id)%></label></td>
-              <td class="dataCol"><div><%= @tab.business_object_id %></div></td>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_tab_code)%></label></td>
+              <td class="dataCol"><div><%= @tab.code %></div></td>
               <td class="labelCol empty"><div>&nbsp;</div></td>
               <td class="dataCol empty"><div>&nbsp;</div></td>
             </tr>
-                      <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_tab_function_group_id)%></label></td>
-              <td class="dataCol"><div><%= @tab.function_group_id %></div></td>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_tab_name)%></label></td>
+              <td class="dataCol"><div><%= @tab[:name] %></div></td>
               <td class="labelCol empty"><div>&nbsp;</div></td>
               <td class="dataCol empty"><div>&nbsp;</div></td>
             </tr>
-                      <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_tab_style_color)%></label></td>
-              <td class="dataCol"><div><%= @tab.style_color %></div></td>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_tab_business_object)%></label></td>
+              <td class="dataCol"><div><%= @tab[:business_object_name] %></div></td>
               <td class="labelCol empty"><div>&nbsp;</div></td>
               <td class="dataCol empty"><div>&nbsp;</div></td>
             </tr>
-                      <tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_tab_function_group)%></label></td>
+              <td class="dataCol"><div><%= @tab[:function_group_name] %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label ><%=t(:label_irm_tab_style_image)%></label></td>
               <td class="dataCol"><div><%= @tab.style_image %></div></td>
               <td class="labelCol empty"><div>&nbsp;</div></td>
               <td class="dataCol empty"><div>&nbsp;</div></td>
             </tr>
-                      <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_tab_name)%></label></td>
-              <td class="dataCol"><div><%= @tab.name %></div></td>
-              <td class="labelCol empty"><div>&nbsp;</div></td>
-              <td class="dataCol empty"><div>&nbsp;</div></td>
-            </tr>
-                      <tr>
+            <tr>
               <td class="labelCol"><label ><%=t(:label_irm_tab_description)%></label></td>
-              <td class="dataCol"><div><%= @tab.description %></div></td>
-              <td class="labelCol empty"><div>&nbsp;</div></td>
-              <td class="dataCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol" colspan="3" style="width:82%"><div><%= @tab.description %></div></td>
             </tr>
-                  </tbody>
+        </tbody>
       </table>
     </div>
   </div>
 </div>
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@tab} %>

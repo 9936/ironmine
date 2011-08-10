@@ -25,4 +25,9 @@ module Irm::ApplicationsHelper
       return nil
     end
   end
+
+
+  def available_applications
+    Irm::Application.multilingual.collect{|i| [i[:name],i.id]}
+  end
 end

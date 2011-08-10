@@ -21,6 +21,12 @@ class Irm::Tab < ActiveRecord::Base
 
   scope :with_function_group,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::FunctionGroup.view_name} ON #{Irm::FunctionGroup.view_name}.id = #{table_name}.function_group_id and #{Irm::FunctionGroup.view_name}.language='#{language}'").
-    select("#{Irm::FunctionGroup.view_name}.name function_group_name")
+    select("#{Irm::FunctionGroup.view_name}.name function_group_name,#{Irm::FunctionGroup.view_name}.controller,#{Irm::FunctionGroup.view_name}.action")
+  }
+
+  scope :query_by_application,lambda{|application_id|
+    joins("JOIN #{Irm::ApplicationTab.table_name} ON #{Irm::ApplicationTab.table_name}.tab_id = #{table_name}.id").
+    where("#{Irm::ApplicationTab.table_name}.application_id = ?",application_id).
+    order("#{Irm::ApplicationTab.table_name}.seq_num")
   }
 end

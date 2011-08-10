@@ -13,7 +13,7 @@ class Irm::TabsController < ApplicationController
   # GET /tabs/1
   # GET /tabs/1.xml
   def show
-    @tab = Irm::Tab.find(params[:id])
+    @tab = Irm::Tab.with_bo(I18n.locale).with_function_group(I18n.locale).multilingual.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,7 +34,7 @@ class Irm::TabsController < ApplicationController
 
   # GET /tabs/1/edit
   def edit
-    @tab = Irm::Tab.find(params[:id])
+    @tab = Irm::Tab.multilingual.find(params[:id])
   end
 
   # POST /tabs
@@ -56,7 +56,7 @@ class Irm::TabsController < ApplicationController
   # PUT /tabs/1
   # PUT /tabs/1.xml
   def update
-    @tab = Irm::Tab.find(params[:id])
+    @tab = Irm::Tab.multilingual.find(params[:id])
 
     respond_to do |format|
       if @Irm::Tab.update_attributes(params[:irm_tab])
@@ -87,9 +87,9 @@ class Irm::TabsController < ApplicationController
 
   def multilingual_update
     @tab = Irm::Tab.find(params[:id])
-    @Irm::Tab.not_auto_mult=true
+    @tab.not_auto_mult=true
     respond_to do |format|
-      if @Irm::Tab.update_attributes(params[:irm_tab])
+      if @tab.update_attributes(params[:irm_tab])
         format.html { redirect_to({:action => "show"}, :notice => 'Tab was successfully updated.') }
         format.xml  { head :ok }
       else

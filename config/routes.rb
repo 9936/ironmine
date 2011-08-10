@@ -1,5 +1,4 @@
 Ironmine::Application.routes.draw do
-
   get "delayed/index"
 
   scope :module => "irm" do
@@ -213,7 +212,7 @@ Ironmine::Application.routes.draw do
     match '/ldap_syn_headers/:ah_id/ldap_syn_attributes/:id/delete(.:format)' => "ldap_syn_attributes#destroy", :via => :delete
 
     # navigations
-    match '/navigations/change_role(.:format)'=>"navigations#change_role",:via=>:get
+    match '/navigations/:application_id/change_application(.:format)'=>"navigations#change_application",:via=>:get
     #mail_templates
     match '/mail_templates/new(.:format)'=>"mail_templates#new",:via=>:get
     match '/mail_templates/get_data(.:format)' => "mail_templates#get_data"
@@ -449,7 +448,7 @@ Ironmine::Application.routes.draw do
     match '/locations/create(.:format)' => "locations#create", :via => :post
     # setting
     match '/setting(/index)(.:format)' =>'setting#index'
-    match '/setting/common(.:format)' =>'setting#common'
+    match '/setting/:mi/common(.:format)' =>'setting#common'
     #home
     match '/home(/index)(.:format)' => "home#index", :via => :get
     #user_home
@@ -800,6 +799,17 @@ Ironmine::Application.routes.draw do
     match '/applications/:id/multilingual_update(.:format)' => "applications#multilingual_update", :via => :put
     match '/applications/get_data(.:format)' => "applications#get_data"
     match '/applications/:id/show(.:format)' => "applications#show", :via => :get
+
+    #profiles
+    match '/profiles(/index)(.:format)' => "profiles#index", :via => :get
+    match '/profiles/:id/edit(.:format)' => "profiles#edit", :via => :get
+    match '/profiles/:id(.:format)' => "profiles#update", :via => :put
+    match '/profiles/new(.:format)' => "profiles#new", :via => :get
+    match '/profiles/create(.:format)' => "profiles#create", :via => :post
+    match '/profiles/:id/multilingual_edit(.:format)' => "profiles#multilingual_edit", :via => :get
+    match '/profiles/:id/multilingual_update(.:format)' => "profiles#multilingual_update", :via => :put
+    match '/profiles/get_data(.:format)' => "profiles#get_data"
+    match '/profiles/:id/show(.:format)' => "profiles#show", :via => :get
   end
 
   scope :module => "icm" do
