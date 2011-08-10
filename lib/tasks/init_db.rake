@@ -1,3 +1,24 @@
+module SchemaStatements
+    def add_column_options!(sql, options) #:nodoc:
+      if options[:collate]
+        sql << " COLLATE #{options[:collate]}"
+      else
+        ci_array = ["id","created_by","updated_by"]
+        if(options[:column]&&"string".eql?(options[:column].type)&&options[:column].name&&(ci_array.include?(options[:column].name.to_s)||options[:column].name.to_s.end_with?("id")))
+          sql << " COLLATE utf8_bin"
+        end
+      end
+      sql << " DEFAULT #{quote(options[:default], options[:column])}" if options_include_default?(options)
+      # must explicitly check for :null to allow change_column to work on migrations
+      if options[:null] == false
+        sql << " NOT NULL"
+      end
+    end
+end
+
+ActiveRecord::ConnectionAdapters::AbstractAdapter.send(:include,SchemaStatements)  if defined? Mysql2
+
+
 # 新增加覆盖原来task的方法
 Rake::TaskManager.class_eval do
   def alias_task(old_name, new_name)

@@ -66,10 +66,10 @@ class Irm::FunctionsController < ApplicationController
 
   def get_data
     functions_scope = Irm::Function.multilingual.status_meaning
-    functions_scope = functions_scope.where(:group_code=>params[:group_code]) if params[:group_code]
+    functions_scope = functions_scope.where(:function_group_id=>params[:function_group_id]) if params[:function_group_id]
     functions,count = paginate(functions_scope)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(functions.to_grid_json([:function_code,:name,:description,:status_meaning, :status_code], count)) }
+      format.json  {render :json => to_jsonp(functions.to_grid_json([:code,:name,:description,:status_meaning, :status_code], count)) }
     end        
   end
 

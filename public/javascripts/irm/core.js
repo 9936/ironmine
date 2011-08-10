@@ -55,8 +55,7 @@ YUI.add('irm', function(Y) {
     };
 
     //设置页面导航树
-    Y.irm.navTree = function(domid,p_current_permissions,p_current_menus){
-        var current_permissions = p_current_permissions;
+    Y.irm.navTree = function(domid,p_current_menus){
         var current_menus = p_current_menus;
         //get default opened menu from cookie
         var menu_cookie = Y.Cookie.get("navTreeMenu");
@@ -74,7 +73,7 @@ YUI.add('irm', function(Y) {
           if(this.hasClass("NavTreeCol")){
             this.removeClass("NavTreeCol");
             this.addClass("NavTreeExp");
-            Y.one('#'+this.getAttribute("real")+"_child").setStyle("display","block");
+            Y.one('#tree_'+this.getAttribute("real")+"_child").setStyle("display","block");
             var menu_code =  this.getAttribute("real");
             var menu_cookie = Y.Cookie.get("navTreeMenu");
             if(menu_cookie.indexOf(menu_code)<0){
@@ -92,7 +91,7 @@ YUI.add('irm', function(Y) {
           else{
             this.removeClass("NavTreeExp");
             this.addClass("NavTreeCol");
-            Y.one('#'+this.getAttribute("real")+"_child").setStyle("display","none");
+            Y.one('#tree_'+this.getAttribute("real")+"_child").setStyle("display","none");
             var menu_code =  this.getAttribute("real");
             var menu_cookie = Y.Cookie.get("navTreeMenu");
             menu_cookie = menu_cookie.replace(","+menu_code,"")
@@ -103,13 +102,6 @@ YUI.add('irm', function(Y) {
         },".NavIconLink")
         //选中当前页面的结点
         Y.one("#"+domid).all(".parent").each(function(n){
-          for(var i = 0;i<current_permissions.length;i++){
-            var selectedNode = n.one("div.setupLeaf[mi='"+current_permissions[i]+"']");
-            if(selectedNode){
-              if(n.one(".NavIconLink")&&n.one(".NavIconLink").hasClass("NavTreeCol"))
-                n.one(".NavIconLink").simulate("click")
-            }
-          }
           for(var i = 0;i<current_menus.length;i++){
             var selectedNode = n.one("a.NavIconLink[real='"+current_menus[i]+"']");
             if(selectedNode){
@@ -118,14 +110,9 @@ YUI.add('irm', function(Y) {
             }
           }
         });
-          for(var i = 0;i<current_permissions.length;i++){
-            var selectedNode = Y.one("#"+domid).one("div.setupLeaf[mi='"+current_permissions[i]+"']");
-            if(selectedNode){
-              selectedNode.addClass("setupHighlightLeaf");
-            }
-          }
           for(var i = 0;i<current_menus.length;i++){
-            var selectedNode = Y.one("#"+domid).one("div.setupLeaf[mi='"+current_menus[i]+"']");
+            Y.log("div.setupLeaf[mi="+current_menus[i]+"]");
+            var selectedNode = Y.one("#"+domid).one("div.setupLeaf[ti="+current_menus[i]+"]");
             if(selectedNode){
               selectedNode.addClass("setupHighlightLeaf");
             }

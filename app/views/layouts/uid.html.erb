@@ -51,7 +51,7 @@
                     <div class="multiforce">
                       <div class="messages"></div>
                       <div>
-                        <%= current_role_menu %>
+                        <%= current_application_menu %>
                         <span class="navLinks" style="float:right">
                           <span class="linkElements">
                             <a style="margin-right:29px;" href="#" onclick="window.open ('/helpfiles/index.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');"><%= t :help %></a>
@@ -118,7 +118,6 @@
                     <%if has_content?(:sidebar) %>
                         <%= yield :sidebar %>
                     <%end%>
-                    <%= function_nav(@page_menus[1]) if@page_menus[1]  %>
                 </div>
             </div>
 

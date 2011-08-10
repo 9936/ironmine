@@ -19,7 +19,8 @@ class ApplicationController < ActionController::Base
   before_filter :check_permission
   before_filter :localization_setup
   before_filter :layout_setup
-  before_filter :menu_setup,:menu_entry_setup
+  before_filter  :prepare_application
+  #before_filter :menu_setup,:menu_entry_setup
 
   # 设置当前用户，为下步检查用户是否登录做准备
   def user_setup
@@ -40,12 +41,11 @@ class ApplicationController < ActionController::Base
   # 设置当前页面访问的人员
   def person_setup
     if(Irm::Person.current)
+      session[:accessable_companies] = []
       # setting current role
-      if(session[:role_id])
-        Irm::Role.current= Irm::Role.enabled.find(session[:role_id])
-      else
-        role = Irm::Role.query_by_person(Irm::Person.current.id).enabled.not_hidden.first
-        Irm::Role.current = role if role
+      if(session[:application_id]&&Irm::Person.current.profile)
+        Irm::Application.current = Irm::Person.current.profile.ordered_applications.detect{|i| i.id.eql?(session[:application_id])}
+
       end
       if Irm::Person.current.logged?
         session[:accessable_companies] ||= Irm::CompanyAccess.query_by_person_id(Irm::Person.current.id).collect{|c| c.accessable_company_id}
@@ -92,23 +92,53 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # 设置当前页面对应的菜单数据
-  def menu_setup
-    if ["json","js","xls","xml"].include?(params[:format])
-      return true
-    end
-    process_menu
+  # 取得当前访问页面对应的function_group,并改变layout
+  def prepare_application
+    function_group_setup
   end
 
-  # 设置当前菜单项
-  def menu_entry_setup
-    if ["json","js","xls","xml"].include?(params[:format])
+  def function_group_setup(controller=params[:controller],action=params[:action])
+    url_options = {:controller=>controller,:action=>action}
+    if request.xhr?||["json","js","xls","xml"].include?((params[:format]||"").downcase)
       return true
     end
 
-    @current_menu_entry = Irm::MenuEntry.multilingual.where(:page_controller=>params[:controller],:page_action=>params[:action]).first
-    @current_menu_entry ||= Irm::MenuEntry.multilingual.where(:page_controller=>params[:controller],:page_action=>"index").first if !"index".eql?(params[:action])
+    function_group = nil
+
+    if Irm::Application.current
+      function_group = Irm::FunctionGroup.query_by_application_id(Irm::Application.current.id).query_by_url(url_options[:controller],url_options[:action]).first
+    end
+
+    if  function_group
+      Irm::FunctionGroup.current = function_group
+      return true
+    end
+
+    # 取得当前用户所能访问的应用
+    current_applications = []
+    current_applications = Irm::Person.current.profile.ordered_applications if Irm::Person.current.profile
+    if current_applications.any?
+      current_applications.each do |ca|
+        function_group = Irm::FunctionGroup.query_by_application_id(ca.id).query_by_url(@page_controller||params[:controller],@page_action||params[:action]).first
+        if function_group
+          Irm::Application.current = ca
+          session[:application_id] = ca.id
+          break
+        end
+      end
+    end
+    if function_group
+      Irm::FunctionGroup.current = function_group
+      return true
+    else
+      menu_function_group = Irm::FunctionGroup.menu_item.query_by_url(@page_controller||params[:controller],@page_action||params[:action]).first
+      if menu_function_group
+        Irm::FunctionGroup.current = menu_function_group
+        self.class.layout "setting"
+      end
+    end
   end
+
   #===========all controller public method============ 
 
   # 设置当前用户
@@ -151,18 +181,45 @@ class ApplicationController < ActionController::Base
 
   # 跳转到系统入口页面
   def redirect_entrance
-      entrance = Irm::MenuManager.menu_showable({:sub_menu_code=>Irm::Role.current.menu_code}) if Irm::Role.current&&Irm::Role.current.menu_code
-      top_menus = Irm::Menu.top_menu.collect{|m| m.menu_code}
-      top_menus.each do |menu_code|
-        next if menu_code.eql?(Irm::Constant::TOP_SETTING_MENU)
-        entrance = Irm::MenuManager.menu_showable({:sub_menu_code=>menu_code}) if !entrance
+    if Irm::Application.current
+      function_groups = Irm::FunctionGroup.query_by_application_id(Irm::Application.current.id)
+      function_groups.each do |fg|
+        url_options = {:controller=>fg.controller,:action=>fg.action}
+        redirect_to(url_options) if Irm::PermissionChecker.allow_to_url?(url_options)
+        return
       end
-      entrance = Irm::MenuManager.menu_showable({:sub_menu_code=>Irm::Constant::TOP_SETTING_MENU}) if !entrance
-      if(entrance)
-        redirect_to({:controller => entrance[:page_controller], :action => entrance[:page_action]})
-      else
-        redirect_to({:controller => 'irm/navigations', :action => 'access_deny'})
+    end
+
+    # 取得当前用户所能访问的应用
+    current_applications = []
+    current_applications = Irm::Person.current.profile.ordered_applications if Irm::Person.current.profile
+    if current_applications.any?
+      # 进入默认应用
+      default_function_groups = Irm::FunctionGroup.query_by_application_id(current_applications.first.id)
+      default_function_groups.each do |fg|
+        url_options = {:controller=>fg.controller,:action=>fg.action}
+        redirect_to(url_options) if Irm::PermissionChecker.allow_to_url?(url_options)
+        return
       end
+
+      # 进入其他应用
+      function_groups = Irm::FunctionGroup.query_by_application_ids(current_applications.collect{|i| i.id})
+      function_groups.each do |fg|
+        url_options = {:controller=>fg.controller,:action=>fg.action}
+        redirect_to(url_options) if Irm::PermissionChecker.allow_to_url?(url_options)
+        return
+      end
+    end
+
+    # 进入设置类页面
+    entrance = Irm::MenuManager.menu_showable({:sub_menu_id=>Irm::Menu.root_menu.id}) if Irm::Menu.root_menu
+    if(entrance)
+      redirect_to({:controller => entrance[:controller], :action => entrance[:action]})
+      return
+    else
+      redirect_to({:controller => 'irm/navigations', :action => 'access_deny'})
+      return
+    end
   end
 
   #进行分页，返回分页后的scope和scope的记录的总记录数
@@ -252,54 +309,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # 菜单显示使用的常量
-  # @menu_permission当前页面上菜单 对应的权限
-  def process_menu(permission=nil)
-    permission ||= {:page_controller=>params[:controller],:page_action=>params[:action]}
-    @menu_permission = permission.dup
-    @setting_menus = default_setting_menus
-    session[:top_menu] = Irm::Role.current.menu_code if Irm::Role.current&&Irm::Role.current.menu_code&&session[:top_menu].nil?
-    session[:top_menu] = params[:top_menu] if params[:top_menu]
-    @page_menus = Irm::MenuManager.parent_menus_by_permission({:page_controller=>permission[:page_controller],:page_action=>permission[:page_action]},session[:top_menu])
-    # 如果不是设置类或业务类角色，则只设置业务菜单，不更改layout
-    if @page_menus[0].nil?
-      @page_menus = (session[:entrance_menu]||default_menus)[0..0]
-      return
-    end
-    if @page_menus[0]&&Irm::Constant::TOP_SETTING_MENU.eql?(@page_menus[0])
-      @setting_menus = @page_menus.dup
-      self.class.layout "setting"
-      @page_menus = (session[:entrance_menu]||default_menus)[0..0]
-      session[:top_menu] = @setting_menus[1] if @page_menus[1]
-    else
-      session[:entrance_menu] = @page_menus.dup if @page_menus.length>1
-      # 保存这一次的菜单路径
-      session[:top_menu] = @page_menus[0] if @page_menus[0]
-    end
-  end
-
-  # 默认菜单
-  def default_menus
-    default_menu_path = [Irm::Constant::TOP_BUSSINESS_MENU]
-    default_menu_path = [Irm::Role.current.menu_code||Irm::Constant::TOP_BUSSINESS_MENU] if Irm::Role.current
-    Irm::MenuManager.sub_entries_by_menu(default_menu_path.first).each do |entry|
-      if("MENU".eql?(entry[:entry_type]))
-        default_menu_path.push(entry[:menu_code])
-      end
-    end
-    default_menu_path
-  end
-
-  # 默认设置菜单
-  def default_setting_menus
-    default_menu_path = [Irm::Constant::TOP_SETTING_MENU]
-    Irm::MenuManager.sub_entries_by_menu(Irm::Constant::TOP_SETTING_MENU).each do |entry|
-      if("MENU".eql?(entry[:entry_type]))
-        default_menu_path.push(entry[:menu_code])
-      end
-    end
-    default_menu_path
-  end
 
   def show_date(options={})
      advance = options[:months_advance]||0
