@@ -517,6 +517,7 @@ Ironmine::Application.routes.draw do
     match '/common_reports/rpt_person_login_summary(.:format)' => "common_reports#rpt_person_login_summary"
     match '/common_reports/get_report_summary(.:format)' => "common_reports#get_report_summary"
 
+    #bulletins
     match '/bulletins/new(.:format)' => "bulletins#new", :via => :get
     match '/bulletins/create(.:format)' => "bulletins#create", :via => :post
     match '/bulletins/:id/edit(.:format)' => "bulletins#edit", :via => :get
@@ -524,6 +525,15 @@ Ironmine::Application.routes.draw do
     match '/bulletins/get_data(.:format)' => "bulletins#get_data"
     match '/bulletins/index(.:format)' => "bulletins#index"
     match '/bulletins/:id/show(.:format)' => "bulletins#show", :via => :get
+
+
+    #bulletin_columns
+    match '/bu_columns(/index)(.:format)' => "bu_columns#index", :via => :get
+    match '/bu_columns/new(.:format)' => "bu_columns#new", :via => :get
+    match '/bu_columns/create(.:format)' => "bu_columns#create", :via => :post
+    match '/bu_columns/:id/edit(.:format)' => "bu_columns#edit", :via => :get
+    match '/bu_columns/:id/update(.:format)' => "bu_columns#update", :via => :put
+    match '/bu_columns/get_columns_data(.:format)' => "bu_columns#get_columns_data", :via => :get
 
     match '/watchers/:watchable_id/add_watcher(.:format)' => "watchers#add_watcher"
     match '/watchers/delete_watcher(.:format)' => "watchers#delete_watcher"

@@ -26,7 +26,7 @@ class Skm::Column < ActiveRecord::Base
                     :leaf => is_leaf, :checked => false, :children => []}
       child_node[:children] = c.get_child_nodes
       child_node.delete(:children) if child_node[:children].size == 0
-      child_node.delete(:checked) unless with_check
+      child_node.delete(:checked) unless with_check.present?
       child_node[:checked] = true if with_check.present? && with_check.split(",").include?(c.id.to_s)
 
       child_nodes << child_node

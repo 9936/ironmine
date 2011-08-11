@@ -60,7 +60,7 @@ class Irm::ListOfValue < ActiveRecord::Base
     column_hash.merge!(self.desc_column=>"desc_value") if self.desc_column.present?
     addition_column.split("#").each do |ac|
       column_hash.merge!({ac=>ac})
-    end unless addition_column.strip.blank?||addition_column.nil?
+    end unless addition_column.nil? || addition_column.strip.blank?
     column_hash
   end
 
@@ -68,7 +68,7 @@ class Irm::ListOfValue < ActiveRecord::Base
     columns = [:id_value,:value,:desc_value]
     addition_column.split("#").each do |ac|
       columns << ac.to_sym
-    end unless addition_column.strip.blank?||addition_column.nil?
+    end unless addition_column.nil? || addition_column.strip.blank?
     columns
   end
 

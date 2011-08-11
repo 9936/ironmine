@@ -122,7 +122,7 @@ class Irm::ListOfValuesController < ApplicationController
     values_scope =  eval(list_of_value.generate_scope(query_params))
     values,count = paginate(values_scope)
     columns = [:id_value,:show_value,:desc_value]
-    unless list_of_value.addition_column.strip.blank?||list_of_value.addition_column.nil?
+    unless list_of_value.addition_column.nil? || list_of_value.addition_column.strip.blank?
       list_of_value.addition_column.split("#").each do |ac|
         columns << ac.to_sym
       end

@@ -13,9 +13,12 @@ class Irm::BulletinsController < ApplicationController
     @bulletin.author_id = Irm::Person.current.id
     @bulletin.page_views = 0
     access_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"]]
+    column_ids = params[:irm_bulletin][:column_ids].split(",")
     respond_to do |format|
       if @bulletin.save
-
+        column_ids.each do |c|
+          Irm::BulletinColumn.create(:bulletin_id => @bulletin.id, :bu_column_id => c)
+        end
         if params[:selected_actions] && params[:selected_actions].present?
           selected_accesses = params[:selected_actions].split(",")
 
@@ -47,14 +50,24 @@ class Irm::BulletinsController < ApplicationController
 
   def edit
     @bulletin = Irm::Bulletin.find(params[:id])
+    @bulletin.column_ids = @bulletin.get_column_ids
   end
 
   def update
     @bulletin = Irm::Bulletin.find(params[:id])
     access_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"]]
+    column_ids = params[:irm_bulletin][:column_ids].split(",")
+    owned_column_ids = @bulletin.get_column_ids.split(",")
     respond_to do |format|
       if @bulletin.update_attributes(params[:irm_bulletin])
-
+        (owned_column_ids - column_ids).each do |c|
+          Irm::BulletinColumn.where(:bulletin_id => @bulletin.id, :bu_column_id => c).each do |t|
+            t.destroy
+          end
+        end
+        (column_ids - owned_column_ids).each do |c|
+          Irm::BulletinColumn.create(:bulletin_id => @bulletin.id, :bu_column_id => c)
+        end
         if params[:selected_actions] && params[:selected_actions].present?
           selected_accesses = params[:selected_actions].split(",")
 
@@ -78,11 +91,11 @@ class Irm::BulletinsController < ApplicationController
         end
 
         format.html {
-          if(params[:return_url])
-            redirect_to params[:return_url]
-          else
-            render "index"
-          end
+#          if(params[:return_url])
+#            redirect_to params[:return_url]
+#          else
+            render :action => "show", :id => @bulletin
+#          end
         }
         format.xml  { head :ok }
       else

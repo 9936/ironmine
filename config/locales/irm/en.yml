@@ -820,6 +820,16 @@ en:
   label_irm_bulletin_selected_organizations: Organization
   label_irm_bulletin_if_access_list_none: Everyone can visit this bulletin if access list did not set anything.
   #======================== end bulletin controller ======================
+  #======================== bu_column controller ======================
+  label_irm_bu_column: Bulletin Column
+  label_irm_bu_column_code: Column Code
+  label_irm_bu_column_list: Column List
+  label_irm_bu_column_new: New Column
+  label_irm_bu_column_edit: Edit Column
+  label_irm_bu_column_parent: Parent Column
+  label_irm_bu_column_new_child: New Child Column
+  label_irm_bu_column_choice: Choose Columns
+  #======================== end bu_column controller ======================
   #======================== watcher ======================
   label_irm_watcher: Watcher
   label_irm_watcher_new: Add Watcher

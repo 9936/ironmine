@@ -19,18 +19,17 @@
     </div>
   </div>
 </div>
-<div class="pbSubsection" id="templateBody" style="display:none" current="portal">
-  <ul>
-      <li><a id="portal" href="#tab_portal"><%= t :my_view %></a></li>
-      <li><a id="calendar_task" href="#tab_calendar_task"><%= t :calendar_task %></a></li>
-  </ul>
-  <div class="bPageBlock">
+<div class="pbSubsection" id="templateBody">
+  <!--<ul>-->
+      <!--<li><a id="portal" href="#tab_portal"><%= t :my_view %></a></li>-->
+      <!--<li><a id="calendar_task" href="#tab_calendar_task"><%= t :calendar_task %></a></li>-->
+  <!--</ul>-->
     <div id="tab_portal">
         <table class="toolsContent">
             <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="toolsContentRight first">
+                    <div class="toolsContentRight">
                       <%= render :partial => "irm/bulletins/bulletin_portlet" %>
                     </div>
                   </td>
@@ -57,10 +56,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div id="tab_calendar_task">
-      <%= render :partial => "irm/calendars/calendar_panel" %>
-    </div>
   </div>
 </div>
 
@@ -223,20 +218,20 @@
       var portal = new Portal({domId:"portalContent",sourceDomId:"portalSource"});
   });
 
-  GY.use("tabview","node-event-simulate",function(Y){
-    Y.one("#templateBody").setStyle("display","block");
-    var tabview = new Y.TabView({srcNode:'#templateBody',tabIndex:"#portal"});
-    tabview.render();
-    var currentTab = Y.one("#templateBody").getAttribute("current");
-    Y.one("#templateBody").one("a#"+currentTab).simulate("click");
-  });
+//  GY.use("tabview","node-event-simulate",function(Y){
+//    Y.one("#templateBody").setStyle("display","block");
+//    var tabview = new Y.TabView({srcNode:'#templateBody',tabIndex:"#portal"});
+//    tabview.render();
+//    var currentTab = Y.one("#templateBody").getAttribute("current");
+//    Y.one("#templateBody").one("a#"+currentTab).simulate("click");
+//  });
 
   //点击事件时,切换到工作日历的tab
-  function change_to_calendar_tab(){
-      GY.use("node", function(Y){
-            Y.one("a[id='calendar_task']").simulate("click");
-      });
-  }
+//  function change_to_calendar_tab(){
+//      GY.use("node", function(Y){
+//            Y.one("a[id='calendar_task']").simulate("click");
+//      });
+//  }
 </script>
 
 <% content_for :sidebar do%>
