@@ -104,7 +104,7 @@ class Csi::SurveyRange < ActiveRecord::Base
       when Irm::Department.name
         person_ids << Irm::Person.enabled.select("id").where("department_id = ?", self.source_id).collect{|i| i.id}
       when Irm::Role.name
-        person_ids << Irm::PersonRole.select("person_id").where(:role_id => self.source_id).collect{|i| i.person_id}
+        person_ids << Irm::Person.select("id").where(:role_id => self.source_id).collect{|i| i.id}
       when Irm::Site.name
 
     end

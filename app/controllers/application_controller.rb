@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   def person_setup
     if(Irm::Person.current)
       session[:accessable_companies] = []
-      # setting current role
+      # setting current application
       if(session[:application_id]&&Irm::Person.current.profile)
         Irm::Application.current = Irm::Person.current.profile.ordered_applications.detect{|i| i.id.eql?(session[:application_id])}
 
@@ -150,8 +150,7 @@ class ApplicationController < ActionController::Base
     else
       Irm::Person.current = Irm::Person.anonymous
       session[:user_id]=nil
-      Irm::Role.current = nil
-      session[:role_id]=nil
+      session[:application_id]=nil
     end
   end
 

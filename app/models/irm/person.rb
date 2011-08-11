@@ -33,8 +33,8 @@ class Irm::Person < ActiveRecord::Base
   validates_presence_of :title,:if => Proc.new { |i| i.validate_as_person? }
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-  has_many :person_roles
-  has_many :roles, :through => :person_roles
+
+
   has_many :company_accesses
   query_extend
 
@@ -125,11 +125,6 @@ class Irm::Person < ActiveRecord::Base
   scope :query_by_department,lambda{|department_id| where(:department_id=>department_id)}
   scope :query_site_id,lambda{|site_id| where(:site_id=>site_id)}
 
-  scope :query_role_id,lambda{|role_id| select("#{table_name}.id").
-                                        joins(:person_roles).
-                                        where("#{Irm::PersonRole.table_name}.role_id = ?",role_id)}
-
-
   scope :with_company,lambda{|language|
     joins("JOIN #{Irm::Company.view_name} ON #{Irm::Company.view_name}.id = #{table_name}.company_id AND #{Irm::Company.view_name}.language = '#{language}'").
     select("#{Irm::Company.view_name}.name company_name")
@@ -196,6 +191,7 @@ class Irm::Person < ActiveRecord::Base
     select("#{table_name}.*").
         where("NOT EXISTS (SELECT * FROM #{Uid::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{table_name}.id AND esp.external_system_code = ?)", external_system_code)
   }
+
 
   def before_save
      #如果password变量值不为空,则修改密码
@@ -311,16 +307,10 @@ class Irm::Person < ActiveRecord::Base
   end
 
 
-  def hidden_roles
-    return @hidden_roles if @hidden_roles
-    @hidden_roles = roles.where(:hidden_flag=>Irm::Constant::SYS_YES)
-  end
-
   def report_folders
     return @report_folders if @report_folders
     role_ids = []
-    role_ids << Irm::Role.current.id if Irm::Role.current
-    hidden_roles.each{|i| role_ids << i.id}
+    role_ids << self.role_id if self.role_id.present?
     role_report_folders = Irm::ReportFolder.multilingual.query_by_roles(role_ids)
     person_report_folders = Irm::ReportFolder.multilingual.query_by_person(self.id)
     public_report_folders = Irm::ReportFolder.multilingual.public

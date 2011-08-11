@@ -50,7 +50,7 @@ class Irm::WfApprovalSubmitter < ActiveRecord::Base
           end
         end
       when "ROLE"
-        person_ids = Irm::PersonRole.where(:role_id=>self.submitter_id).collect{|i| i.person_id}
+        person_ids = Irm::Person.where(:role_id=>self.submitter_id).collect{|i| i.id}
       when "PERSON"
         person_ids = [self.submitter_id]
     end
@@ -72,7 +72,7 @@ class Irm::WfApprovalSubmitter < ActiveRecord::Base
           end
         end
       when "ROLE"
-        person_ids = Irm::PersonRole.where(:role_id=>self.submitter_id).collect{|i| i.person_id}
+        person_ids = Irm::Person.where(:role_id=>self.submitter_id).collect{|i| i.id}
        return person_ids.include?(s_id)
       when "PERSON"
         return s_id.eql?(self.submitter_id)

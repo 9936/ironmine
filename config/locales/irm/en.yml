@@ -746,6 +746,7 @@ en:
   label_irm_role_hidden_flag: Hidden
   label_irm_role_menu_code: Menu
   label_irm_role_service_role_type: Role type
+  label_irm_role_report_to_role: Report To
   #=========================end irm roles ===================================
   #========================= irm reports ===================================
   label_irm_report_list: Report list

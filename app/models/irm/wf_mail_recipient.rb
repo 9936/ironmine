@@ -49,7 +49,7 @@ class Irm::WfMailRecipient < ActiveRecord::Base
           end
         end
       when "ROLE"
-        person_ids = Irm::PersonRole.where(:role_id=>self.recipient_id).collect{|i| i.person_id}
+        person_ids = Irm::Person.where(:role_id=>self.recipient_id).collect{|i| i.id}
       when "PERSON"
         person_ids = [self.recipient_id]
     end

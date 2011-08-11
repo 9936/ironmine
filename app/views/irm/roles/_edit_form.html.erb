@@ -1,13 +1,4 @@
 <%= setting_title %>
-<script type="text/javascript">
-  GY.use("irm","node-base",function(Y){
-    Y.one("#selectableFunctions").delegate('click', function(e){
-       var checkbox = e.currentTarget;
-       var refFieldSet = checkbox.getAttribute("ref");
-       Y.one("#"+refFieldSet).all("input[type=checkbox]").set("checked",checkbox.get("checked"));
-    }, '.selectAll');
-  });
-</script>
 <%= form_for(@role,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="bEditBlock bPageBlock">
   <div class="pbHeader">
@@ -40,66 +31,30 @@
         <tbody>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_role_code)%></label></td>
-              <td class="dataCol"><%= @role.role_code%></td>
-              <td class="labelCol"><label><%=(t :label_irm_role_report_group_code)%></label></td>
-              <td class="dataCol"><%=f.select :report_group_code, available_report_groups, :include_blank => false,:required=>true%></td>
+              <td class="dataCol"><%= @role.code%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
-
             <tr>
               <td class="labelCol"><label><%=(t :name)%></label></td>
               <td class="dataCol"><%=f.text_field :name, :required=>true%></td>
-              <td class="labelCol"><label><%=(t :label_irm_role_menu_code)%></label></td>
-              <td class="dataCol"><%=f.select :menu_code, available_top_menu, {:include_blank => false},:required=>true%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_irm_role_service_role_type)%></label></td>
-              <td class="dataCol"><%=f.select :service_role_type, available_role_types, {:include_blank => false},:required=>true%></td>
-              <td class="labelCol"><label><%=(t :label_irm_role_hidden_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box(:hidden_flag)%></td>
-            </tr>
-           <tr>
-
+              <td class="labelCol"><label><%=(t :label_irm_role_report_to_role)%></label></td>
+              <td class="dataCol"><%=f.blank_select :report_to_role_id, available_parent_role(@role.id), {}%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :description)%></label></td>
-              <td class="dataCol"><%=f.text_area :description, :rows => 4%></td>
-              <td class="labelCol"><label><%=(t :active)%></label></td>
-              <td class="dataCol"><%=f.select :status_code, available_active_status, {:include_blank => false}%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_kanban)%></label></td>
-              <td class="dataCol"><%=f.blank_select :kanban_id, available_kanbans, {}%></td>
-              <td class="labelCol"></td>
-              <td class="dataCol"></td>
+              <td class="dataCol" colspan="4" style="width:82%"><%=f.text_area :description, :rows => 4%></td>
             </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="pbSubheader first tertiaryPalette">
-      <h3><%= t(:label_irm_function_list) %></h3>
-    </div>
-    <div class="pbSubsection" id="selectableFunctions">
-      <% @fgs.each do |group|%>
-          <% next unless @fs[group[:group_code]]&&@fs[group[:group_code]].any?%>
-          <fieldset id="<%= group[:group_code].downcase %>Group"><legend><%= group[:name] %></legend>
-            <% if @fs[group[:group_code]].size>1%>
-                <div  style="float:left;width:33%;"><label>
-                <%= check_box_tag 'select_all',"all" , false,{:ref=>"#{group[:group_code].downcase}Group",:class=>"selectAll"} %>
-                <b><%= t(:select_all) %></b>
-                </label></div>
-            <% end %>
-          <% @fs[group[:group_code]].each do |func| %>
-              <div  style="float:left;width:33%;">
-                <label>
-                  <%= check_box_tag 'role[functions][]', func.id, @role_function_ids.include?(func.id) %>
-                  <%= func[:name] %>
-                </label>
-              </div>
-          <% end  %>
-          </fieldset>
-        <%end%>
-    </div>
 </div>
   <div class="pbBottomButtons">
     <table cellpadding="0" cellspacing="0" border="0">

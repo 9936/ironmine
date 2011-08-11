@@ -466,7 +466,11 @@ Ironmine::Application.routes.draw do
     match '/roles/:id(.:format)' => "roles#update", :via => :put
     match '/roles/new(.:format)' => "roles#new", :via => :get
     match '/roles/create(.:format)' => "roles#create", :via => :post
-    match '/roles/get_data(.:format)' => "roles#get_data"
+    match '/roles/:id/edit_assignment(.:format)' => "roles#edit_assignment", :via => :get
+    match '/roles/:id/update_assignment(.:format)' => "roles#update_assignment", :via => [:put,:post]
+    match '/roles/:id/assignable_people(.:format)' => "roles#assignable_people", :via => :get
+    match '/roles/:id/role_people(.:format)' => "roles#role_people", :via => :get
+
     match '/roles/:id/show(.:format)' => "roles#show", :via => :get
     match '/roles/:id/multilingual_edit(.:format)' => "roles#multilingual_edit", :via => :get
     match '/roles/:id/multilingual_update(.:format)' => "roles#multilingual_update", :via => :put    

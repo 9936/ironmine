@@ -27,7 +27,7 @@
         </div>
         <%= datatable("roles_list",url_for(:controller => "irm/roles", :action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                       {:key=>"role_code",:label=>t(:label_irm_role_code),:sortable=>true, :width => "15%",:searchable=>true},
+                       {:key=>"code",:label=>t(:label_irm_role_code),:sortable=>true, :width => "15%",:searchable=>true},
                        {:key=>"name",:label=>t(:name),:sortable=>true, :width => "20%",:searchable=>true},
                        {:key=>"description",:label=>t(:description),:sortable=>true},
                        {:key=>"status_code",:label=>t(:active),:sortable=>true,:formatter=>"Y.irm.template", :width => "40px"}],

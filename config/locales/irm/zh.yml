@@ -869,6 +869,10 @@ zh:
   label_irm_role_hidden_flag: 隐藏
   label_irm_role_menu_code: 菜单
   label_irm_role_service_role_type: 角色类型
+  label_irm_role_report_to_role: 上级角色
+  label_icm_role_assignable_people_list: 可分配当前角色的人员
+  label_irm_role_people_list: 当前角色下的人员
+  label_irm_role_edit_assignment: 分配人员
   #=========================end irm roles ===================================
   #========================= irm reports ===================================
   label_irm_report_step_report_type: 报表类型
