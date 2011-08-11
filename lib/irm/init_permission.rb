@@ -76,8 +76,7 @@ Irm::AccessControl.map do |map|
 
   #===================irm/roles============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
-  map.function :role,{"irm/roles"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
-
+  map.function :role,{"irm/roles"=>["index", "edit", "update", "new", "create", "edit_assignment", "update_assignment", "assignable_people", "role_people", "show", "multilingual_edit", "multilingual_update"]}
 
   #===================irm/mail_templates============================
   #["new", "get_data", "create", "copy", "copy_template", "test_mail_template", "index", "edit", "update", "destroy", "show", "get_script_context_fields", "get_mail_templates"]
