@@ -22,68 +22,65 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_role_code)%></label></td>
-              <td class="dataCol"><%= @role.role_code%></td>
-              <td class="labelCol"><label><%=(t :label_irm_role_report_group_code)%></label></td>
-              <td class="dataCol"><%=@role[:report_group_name]%></td>
+              <td class="dataCol"><%= @role.code%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
-
             <tr>
               <td class="labelCol"><label><%=(t :name)%></label></td>
-              <td class="dataCol"><%= @role[:name]%></td>
-              <td class="labelCol"><label><%=(t :label_irm_role_menu_code)%></label></td>
-              <td class="dataCol"><%=@role[:menu_name]%></td>
+              <td class="dataCol"><%=@role[:name]%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_irm_role_service_role_type)%></label></td>
-              <td class="dataCol"><%=@role[:role_type_name]%></td>
-              <td class="labelCol"><label><%=(t :label_irm_role_hidden_flag)%></label></td>
-              <td class="dataCol"><%= check_img(@role[:hidden_flag])%></td>
-            </tr>
-           <tr>
-
+              <td class="labelCol"><label><%=(t :label_irm_role_report_to_role)%></label></td>
+              <td class="dataCol"><%=@role[:report_to_role_name]%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :description)%></label></td>
-              <td class="dataCol"><%= @role[:description]%></td>
-              <td class="labelCol"><label><%=(t :active)%></label></td>
-              <td class="dataCol"><%= check_img(@role[:status_code])%></td>
+              <td class="dataCol" colspan="4" style="width:82%"><%=@role[:description]%></td>
             </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
-  <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@role} %>
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@role} %>
+
 <div class="listRelatedObject setupBlock">
     <div class="bPageBlock">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_function_list) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_role_people_list) %></h2></td>
               <td class="pbButton">
+                <div class="button"><%= link_to t(:label_irm_role_edit_assignment), {:action => "edit_assignment", :id => @role.id}%></div>
               </td>
               <td class="pbHelp">
+                <div id="object_attributesSearchBox"></div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="pbBody">
-        <% @fgs.each do |group|%>
-          <% next if !@fs[group[:group_code]]%>
-          <fieldset><legend><%= group[:name] %></legend>
-          <% @fs[group[:group_code]].each do |func| %>
-              <div  style="float:left;width:33%;"><label>
-              <%= check_img("Y") %>
-              <%= func[:name] %>
-              </label></div>
-          <% end if @fs[group[:group_code]] %>
-          </fieldset>
-        <%end%>
+         <div id="people" class="datatable" style="width:100%">
+
+        </div>
+        <%= datatable("people",url_for(:action=>"role_people",:id=>@role.id,:format=>"json"),
+                              [{:key=>"id",:width=>"80px", :hidden => true},
+                               {:key=>"login_name",:label=>t(:label_irm_person_login),:sortable=>true,:searchable=>true,:width=>"80px"},
+                               {:key=>"person_name",:label=>t(:label_irm_person_name),:sortable=>true,:searchable=>true,:width=>"120px"},
+                               {:key=>"email_address",:label=>t(:label_irm_person_email_address),:searchable=>true},
+                               {:key=>"bussiness_phone",:label=>t(:label_irm_person_bussiness_phone),:searchable=>true},
+                               {:key=>"company_name",:label=>t(:label_irm_person_company),:sortable=>true,:searchable=>true}
+                               ],{:row_perpage=>10,:paginator_box=>'peoplePaginatorBox'})%>
+        <div id="peoplePaginatorBox"></div>
       </div>
     </div>
 </div>

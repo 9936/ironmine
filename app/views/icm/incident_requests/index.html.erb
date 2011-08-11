@@ -26,7 +26,7 @@
               </tbody>
             </table>
           </div>
-        <% if Irm::Role.current&&Irm::Role.current.service_role_type.eql?("CUSTOMER") %>
+        <% if Irm::Person.current.profile&&Irm::Person.current.profile.user_license.eql?("REQUESTER") %>
           <%=render(:partial =>"customer_list") %>
         <% else %>
           <%=render(:partial =>"help_desk_list") %>
