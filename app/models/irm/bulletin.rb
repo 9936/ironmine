@@ -86,6 +86,10 @@ class Irm::Bulletin < ActiveRecord::Base
   scope :unsticky, lambda{
     where("#{table_name}.sticky_flag <> 'Y'")
   }
+
+  scope :without_delete, lambda{
+    where("#{table_name}.status_code <> 'DELETE'")
+  }
   def self.list_all
     select_all.with_author
   end

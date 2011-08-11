@@ -120,7 +120,7 @@ class Irm::BulletinsController < ApplicationController
 
   def get_data
 #    bulletins_scope = Irm::Bulletin.list_all
-    rec = Irm::Bulletin.list_accessible(Irm::Person.current.id)
+    rec = Irm::Bulletin.without_delete.list_accessible(Irm::Person.current.id)
 #    bulletins,count = paginate(rec)
     respond_to do |format|
       format.json  {render :json => to_jsonp(rec.to_grid_json([:id, :bulletin_title,:published_date,:page_views,:author], 10)) }
@@ -129,5 +129,15 @@ class Irm::BulletinsController < ApplicationController
 
   def index
 
+  end
+
+  def destroy
+    @bulletin = Irm::Bulletin.find(params[:id])
+    @bulletin.update_attribute(:status_code, "DELETE")
+
+    respond_to do |format|
+      format.html { redirect_to({:controller => "irm/bulletins", :action=>"index"}) }
+      format.xml  { head :ok }
+    end
   end
 end
