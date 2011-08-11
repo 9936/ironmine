@@ -6,6 +6,7 @@
           <td class="pbTitle"><h2 class="mainTitle"></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @bulletin}%></div>
+            <div class="button"><%= link_to t(:delete), {:action => "destroy", :id => @bulletin},:method => :delete,:confirm => t(:label_are_you_sure)%></div>
             <div class="button"><%= link_to t(:back), {:action => "index", :controller => "irm/home"}%></div>
           </td>
         </tr>

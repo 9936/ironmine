@@ -86,6 +86,10 @@ class Irm::Bulletin < ActiveRecord::Base
   scope :unsticky, lambda{
     where("#{table_name}.sticky_flag <> 'Y'")
   }
+
+  scope :without_delete, lambda{
+    where("#{table_name}.status_code <> 'DELETE'")
+  }
   def self.list_all
     select_all.with_author
   end
@@ -95,7 +99,7 @@ class Irm::Bulletin < ActiveRecord::Base
     accesses = Irm::CompanyAccess.query_by_person_id(person_id).collect{|c| c.accessable_company_id}
     accessable_companies = Irm::Company.multilingual.query_by_ids(accesses)
     rec = select_all.with_author.query_accessible_with_companies(accessable_companies).unsticky +
-          select_all.with_author.query_accessible_with_roles(person.roles).unsticky +
+#          select_all.with_author.query_accessible_with_roles(person.roles).unsticky +
           select_all.with_author.query_accessible_with_department(person.department_id).unsticky +
           select_all.with_author.query_accessible_with_organization(person.organization_id).unsticky +
           #我创建的
@@ -104,7 +108,7 @@ class Irm::Bulletin < ActiveRecord::Base
           select_all.with_author.without_access.query_accessible_with_nothing.unsticky
 
     rec_sticky =  select_all_top.with_author.query_accessible_with_companies(accessable_companies).sticky +
-                  select_all_top.with_author.query_accessible_with_roles(person.roles).sticky +
+#                  select_all_top.with_author.query_accessible_with_roles(person.roles).sticky +
                   select_all_top.with_author.query_accessible_with_department(person.department_id).sticky +
                   select_all_top.with_author.query_accessible_with_organization(person.organization_id).sticky +
                   #我创建的
