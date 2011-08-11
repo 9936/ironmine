@@ -75,7 +75,7 @@ class Icm::IncidentStatusesController < ApplicationController
     incident_statuses_scope = incident_statuses_scope.match_value("#{Icm::IncidentStatusesTl.table_name}.name",params[:name])
     incident_statuses,count = paginate(incident_statuses_scope)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(incident_statuses.to_grid_json([:phase_name,:incident_status_code,:name,:display_sequence,:default_flag,:status_meaning], count)) }
+      format.json  {render :json => to_jsonp(incident_statuses.to_grid_json([:phase_name,:incident_status_code,:name,:display_sequence,:close_flag,:default_flag,:status_meaning], count)) }
     end
   end
 

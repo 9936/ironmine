@@ -91,7 +91,10 @@
           </div>
           <div id="default_flag" style="display:none">
             <%= check_img("{default_flag}") %>
-          </div>            
+          </div>
+          <div id="close_flag" style="display:none">
+            <%= check_img("{close_flag}") %>
+          </div>
         </div>
         <%= datatable("incident_status",url_for(:action=>"get_data",:format=>"json"),
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
@@ -100,6 +103,7 @@
                    {:key=>"name",:label=>t(:label_icm_incident_status_name),:sortable=>true,:searchable=>true},
                    {:key=>"display_sequence",:label=>t(:display_sequence),:sortable=>true},
                    {:key=>"default_flag",:label=>t(:default_flag),:sortable=>true,:formatter=>"Y.irm.template", :width => "40px"},
+                   {:key=>"close_flag",:label=>t(:label_icm_incident_close_flag),:sortable=>true,:formatter=>"Y.irm.template", :width => "40px"},
                    {:key=>"status_meaning",:label=>t(:label_irm_script_status_code),:sortable=>true,:width=>"70px"}],
                    {:paginator_box=>"statusPaginator",:search_box=>"incidentStatusesSearchBox"})%>
         <div id="statusPaginator"></div>
