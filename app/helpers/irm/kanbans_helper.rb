@@ -64,7 +64,7 @@ module Irm::KanbansHelper
       cards_array = []
       cards.each do |ca|
 
-        ca_result = ca.prepare_card_content(la.limit)
+        ca_result = ca.prepare_card_content(la.limit, session[:accessable_companies])
 
         ca_result.each do |cr|
           begin
