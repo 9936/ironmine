@@ -1,6 +1,8 @@
 class Icm::IncidentStatus < ActiveRecord::Base
   set_table_name :icm_incident_statuses
 
+  after_save :process_default
+
   #多语言关系
   attr_accessor :name,:description
   has_many :incident_statuses_tls,:dependent => :destroy
@@ -27,4 +29,9 @@ class Icm::IncidentStatus < ActiveRecord::Base
     where("#{table_name}.default_flag = ?" ,flag)
   }
 
+  private
+  def process_default
+    return true unless self.default_flag.eql?(Irm::Constant::SYS_YES)
+    self.class.where("default_flag = ? AND id != ?", Irm::Constant::SYS_YES,self.id).update_all(:default_flag=>Irm::Constant::SYS_NO)
+  end
 end

@@ -85,6 +85,8 @@ zh:
   label_icm_incident_status_info: 事故单状态信息
   label_icm_incident_status_show: 事故单状态
   label_icm_incident_close_flag: 关闭状态
+  label_icm_incident_status_edit_transform: 事故单状态转移
+  label_irm_incident_status_transform_event_error: 错误 在同一行中一种事件只能使用一次
   #========================= end icm incident_statuses_controller=======================#
   #=========================    icm incident_requests_controller=======================#
   label_icm_reply: 回复

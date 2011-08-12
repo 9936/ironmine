@@ -898,7 +898,11 @@ Ironmine::Application.routes.draw do
     match '/incident_statuses/:id/multilingual_edit(.:format)' => "incident_statuses#multilingual_edit", :via => :get
     match '/incident_statuses/:id/multilingual_update(.:format)' => "incident_statuses#multilingual_update", :via => :put
     match '/incident_statuses/get_data(.:format)' => "incident_statuses#get_data"
-    match '/incident_statuses/:id(.:format)' => "incident_statuses#show", :via => :get
+    match '/incident_statuses/:id/show(.:format)' => "incident_statuses#show", :via => :get
+    match '/incident_statuses/edit_transform(.:format)' => "incident_statuses#edit_transform", :via => :get
+    match '/incident_statuses/update_transform(.:format)' => "incident_statuses#update_transform", :via => :post
+
+
     #incident_requests
     match '/incident_requests/get_external_systems(.:format)' => "incident_requests#get_external_systems", :via => :get
     match '/incident_requests/get_slm_services(.:format)' => "incident_requests#get_slm_services", :via => :get
