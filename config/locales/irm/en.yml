@@ -1244,3 +1244,14 @@ en:
   label_irm_card_name: Card Name
   label_irm_card_description: Card Description
   #==================================================================
+
+  #======================= password policies ====================
+  label_irm_psw_policy: Password Policies
+  label_irm_psw_policy_expire_in: User passwords expire in
+  label_irm_psw_policy_enforce_history: Enforce password history
+  label_irm_psw_policy_min_length: Minimum password length
+  label_irm_psw_policy_complexity_requirement: Password complexity requirement
+  label_irm_psw_policy_question_requirement: Passowrd question requirement
+  label_irm_psw_policy_max_attempts: Maximum invalid login attempts
+  label_irm_psw_policy_lockout_period: Lockout effective period
+  #======================= end password policies ====================
