@@ -27,14 +27,12 @@
             <tr>
               <td class="labelCol"><label><%=(t :label_icm_priority_code_name)%></label></td>
               <td class="dataCol"><%= @priority_code[:name]%></td>
-              <td class="labelCol"><label><%=(t :label_icm_priority_code_low_weight_value)%></label></td>
-              <td class="dataCol"><%= @priority_code[:low_weight_value]%></td>
+              <td class="labelCol"><label><%=(t :label_icm_priority_code_weight_values)%></label></td>
+              <td class="dataCol"><%= @priority_code.weight_values%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_icm_priority_code_description)%></label></td>
-              <td class="dataCol"><%= @priority_code[:description]%></td>
-              <td class="labelCol"><label><%=(t :label_icm_priority_code_high_weight_value)%></label></td>
-              <td class="dataCol"><%= @priority_code[:high_weight_value]%></td>
+              <td class="dataCol" colspan="3"><%= @priority_code[:description]%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_icm_priority_code_status_code)%></label></td>

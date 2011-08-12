@@ -42,7 +42,7 @@
               <td class="labelCol"><label  for="urgence_code_name"><%=(t :label_icm_urgence_code_name)%></label></td>
               <td class="dataCol"><%=f.text_field :name, :required=>true%></td>
               <td class="labelCol"><label for="urgence_code_weight_value"><%=(t :label_icm_urgence_code_weight_values)%></label></td>
-              <td class="dataCol"><%=f.text_field :weight_values,:required=>true %></td>
+              <td class="dataCol"><%=@urgence_code.weight_values%></td>
             </tr>
             <tr>
               <td class="labelCol"><label for="urgence_code_display_sequence"><%=(t :display_sequence)%></label></td>

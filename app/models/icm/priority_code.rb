@@ -6,7 +6,7 @@ class Icm::PriorityCode < ActiveRecord::Base
   has_many :priority_codes_tls,:dependent => :destroy
   acts_as_multilingual
 
-  validates_presence_of :priority_code,:company_id,:low_weight_value,:high_weight_value
+  validates_presence_of :priority_code,:weight_values
   validates_uniqueness_of :priority_code, :if => Proc.new { |i| !i.priority_code.blank? }
   validates_format_of :priority_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.priority_code.blank?}
 
@@ -20,7 +20,20 @@ class Icm::PriorityCode < ActiveRecord::Base
   }
 
   scope :query_by_weight_value,lambda{|weight_value|
-    where("#{table_name}.high_weight_value >= ? AND #{table_name}.low_weight_value <= ?",weight_value,weight_value)
+    where("#{table_name}.weight_values = ?",weight_value)
   }
+
+
+  def self.auto_generate
+    priority_count = Icm::ImpactRange.enabled.size+Icm::UrgenceCode.enabled.size
+    max_count = Icm::ImpactRange.all.size+Icm::UrgenceCode.all.size
+    self.where("weight_values>? OR weight_values<1",max_count-1).delete_all
+    self.where("weight_values>?",priority_count-1).update_all(:status_code=>"OFFLINE")
+    1.upto(priority_count-1).each do |i|
+      unless self.where(:weight_values=>i).exists?
+        self.create(:priority_code=>"GRADE_#{i}",:name=>"Grade #{i}",:description=>"Grade #{i}",:weight_values=>i)
+      end
+    end
+  end
 
 end

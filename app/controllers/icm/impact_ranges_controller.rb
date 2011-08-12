@@ -82,7 +82,7 @@ class Icm::ImpactRangesController < ApplicationController
   end
   
   def get_data
-    impact_ranges_scope = Icm::ImpactRange.multilingual.with_company.status_meaning
+    impact_ranges_scope = Icm::ImpactRange.multilingual.with_company.status_meaning.order("display_sequence")
     impact_ranges_scope = impact_ranges_scope.match_value("#{Irm::Company.view_name}.name",params[:company_name])
     impact_ranges_scope = impact_ranges_scope.match_value("#{Icm::ImpactRange.table_name}.impact_code",params[:impact_code])
     impact_ranges_scope = impact_ranges_scope.match_value("#{Icm::ImpactRangesTl.table_name}.name",params[:name])
