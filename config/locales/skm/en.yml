@@ -112,11 +112,11 @@ en:
   label_skm_rpt_apply_history: Entry used by incident history report
 
   #========================= skm columns ==========================================
-  label_skm_column: Column
-  label_skm_column_code: Column Code
-  label_skm_column_parent: Parent Column
-  label_skm_column_new: New Column
-  label_skm_column_edit: Edit Column
-  label_skm_column_list: Column List
+  label_skm_column: Skm Category
+  label_skm_column_code: Category Code
+  label_skm_column_parent: Parent Category
+  label_skm_column_new: New Category
+  label_skm_column_edit: Edit Category
+  label_skm_column_list: Category List
   label_skm_column_new_child: New Child
-  label_skm_column_choice: Set Column
+  label_skm_column_choice: Set Category
