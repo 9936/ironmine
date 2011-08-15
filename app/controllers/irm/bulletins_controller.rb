@@ -81,7 +81,7 @@ class Irm::BulletinsController < ApplicationController
         if params[:selected_actions] && params[:selected_actions].present?
           selected_accesses = params[:selected_actions].split(",")
 
-          bulletin_access_records = @survey.survey_ranges
+          bulletin_access_records = @bulletin.bulletin_accesses
           bulletin_access_records.each do |t|
             type_short = access_types.detect{|i| i[0].name.eql?(t.access_type)}
             t.destroy unless selected_accesses.include?(type_short[1]+"#"+t.access_id.to_s)
