@@ -32,7 +32,7 @@ class Irm::Card < ActiveRecord::Base
             ir_customer_replied(lane_limit, accessable_companies)
           else
             filter = Irm::RuleFilter.where(:source_type => Irm::Card.name, :source_id => self.id).first
-            filter.generate_scope.query_by_company_ids(accessable_companies).select("'' card_url").order(self.date_attribute_name + " DESC")
+            filter.generate_scope.select("'' card_url").order(self.date_attribute_name + " DESC")
         end
     card_content_scope
   end
