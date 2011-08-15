@@ -33,6 +33,16 @@ class Irm::BulletinsController < ApplicationController
           end if selected_accesses.any?
         end
 
+        if params[:file]
+          files = params[:file]
+          #调用方法创建附件
+          begin
+            attached = Irm::AttachmentVersion.create_verison_files(files, "Irm::Bulletin", @bulletin.id)
+          rescue
+            @bulletin.errors << "FILE UPLOAD ERROR"
+          end
+        end
+
         format.html {
           if(params[:return_url])
             redirect_to params[:return_url]
