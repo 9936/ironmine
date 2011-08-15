@@ -449,7 +449,7 @@ module ApplicationHelper
   end
 
   def current_person?(person_id)
-    (person_id&&Irm::Person.current.id.eql?(person_id.to_i))
+    (person_id&&Irm::Person.current.id.to_s.eql?(person_id.to_s))
   end
 
   def blank_select_tag(name, collection,selected=nil, options = {})

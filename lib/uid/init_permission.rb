@@ -6,5 +6,6 @@ Irm::AccessControl.map do |map|
   #                                                              "multilingual_edit",
   #                                                              "multilingual_update"]}
   #
-
+  #===================irm/external_systems============================
+  map.function :password_policy,{"uid/external_systems" => ["index", "update"]}
 end

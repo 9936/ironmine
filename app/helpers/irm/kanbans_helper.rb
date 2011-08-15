@@ -64,7 +64,7 @@ module Irm::KanbansHelper
       cards_array = []
       cards.each do |ca|
 
-        ca_result = ca.prepare_card_content(la.limit)
+        ca_result = ca.prepare_card_content(la.limit, session[:accessable_companies])
 
         ca_result.each do |cr|
           begin
@@ -117,10 +117,8 @@ module Irm::KanbansHelper
     kanban_main = content_tag(:div, raw(kanban_table), {:class => "kanban_body", :style => "width:100%"})
 
     if mode == "0"
-      puts("+++++++++++++++++++abc" + mode.to_s)
       return kanban_main
     else
-      puts("+++++++++++++++++++123" + mode.to_s)
       return ""
     end
   end

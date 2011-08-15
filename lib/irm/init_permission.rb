@@ -262,4 +262,7 @@ Irm::AccessControl.map do |map|
 
   #===================irm/bu_columns============================
   map.function :bulletin_column,{"irm/bu_columns" => ["index", "edit", "update", "new", "create", "get_columns_data"]}
+
+  #===================irm/password_policies============================
+  map.function :password_policy,{"irm/password_policies" => ["index", "update"]}
 end
