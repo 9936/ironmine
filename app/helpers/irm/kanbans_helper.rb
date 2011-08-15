@@ -117,10 +117,8 @@ module Irm::KanbansHelper
     kanban_main = content_tag(:div, raw(kanban_table), {:class => "kanban_body", :style => "width:100%"})
 
     if mode == "0"
-      puts("+++++++++++++++++++abc" + mode.to_s)
       return kanban_main
     else
-      puts("+++++++++++++++++++123" + mode.to_s)
       return ""
     end
   end
