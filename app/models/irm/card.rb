@@ -38,7 +38,7 @@ class Irm::Card < ActiveRecord::Base
   end
 
   private
-  #新到达待回复的事故单
+  #待回复的事故单
   def ir_arr_waiting_for_reply(lane_limit = 0, accessable_companies = [])
     ret_scope = []
     Icm::IncidentRequest.select("#{Icm::IncidentRequest.table_name}.*, '' card_url").
