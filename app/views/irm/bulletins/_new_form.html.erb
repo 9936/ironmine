@@ -163,9 +163,6 @@
           </tr>
         </thead>
         <tbody id="file_body">
-            <tbody id="exist_attachments_list">
-                <%= list_exist_attachments_during_create(@attachments)%>
-            </tbody>
             <tr id="file_0">
               <td class="dataCol"></td>
               <td class="dataCol"><%= link_to t(:delete), {}, {:href => "javascript:void(0);", :onclick => "delete_line(0);"} %></td>

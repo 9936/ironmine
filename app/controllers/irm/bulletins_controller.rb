@@ -150,4 +150,14 @@ class Irm::BulletinsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def remove_exits_attachments
+    @file = Irm::Attachment.where(:latest_version_id => params[:att_id]).first
+    @attachments = Irm::AttachmentVersion.query_all.where(:source_id => bulletin.id).where(:source_type => Irm::Bulletin.name)
+    respond_to do |format|
+      if @file.destroy
+          format.js { render :remove_exits_attachments}
+      end
+    end
+  end
 end
