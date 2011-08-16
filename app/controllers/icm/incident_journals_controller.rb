@@ -1,7 +1,7 @@
 class Icm::IncidentJournalsController < ApplicationController
 
   before_filter :setup_up_incident_request
-  before_filter :backup_incident_request ,:only=>[:create,:update_close,:update_pass]
+  before_filter :backup_incident_request ,:only=>[:create,:update_close,:update_pass,:update_upgrade]
 
   def index
    redirect_to :action=>"new"
@@ -25,6 +25,19 @@ class Icm::IncidentJournalsController < ApplicationController
   def create
     @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+    # 设置回复类开
+    # 1,服务台回复
+    # 2,客户回复
+    if Irm::Person.current.profile&& Irm::Person.current.profile.user_license.eql?("REQUESTER")
+      @incident_journal.reply_type = "CUSTOMER_REPLY"
+    else
+      @incident_journal.reply_type = "SUPPORTER_REPLY"
+    end
+    #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
+    unless @incident_reply.incident_status_id.present?
+      @incident_reply.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+    end
+
     perform_create
     respond_to do |format|
       if @incident_reply.valid? && @incident_request.update_attributes(@incident_reply.attributes)
@@ -51,10 +64,16 @@ class Icm::IncidentJournalsController < ApplicationController
   def update_close
 
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+
+    @incident_request.attributes = params[:icm_incident_request]
+    @incident_journal.reply_type = "CLOSE"
+
+    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+
     perform_create
     respond_to do |format|
-      if @incident_journal.valid?&&@incident_request.update_attributes(params[:icm_incident_request])
-        process_change_attributes([:incident_status_code,:close_reason_code],@incident_request,@incident_request_bak,@incident_journal)
+      if @incident_journal.valid?&&@incident_request.save
+        process_change_attributes([:incident_status_id,:close_reason_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
 
         #关闭事故单时，产生一个与之关联的投票任务
@@ -79,15 +98,59 @@ class Icm::IncidentJournalsController < ApplicationController
 
   def update_pass
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+
+    @incident_request.attributes = params[:icm_incident_request]
+    @incident_journal.reply_type = "PASS"
+
+    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+
+
+
     perform_create(true)
     respond_to do |format|
-      if @incident_journal.valid?&&@incident_request.update_attributes(params[:icm_incident_request])
-        process_change_attributes([:support_group_id,:support_person_id],@incident_request,@incident_request_bak,@incident_journal)
+      if @incident_journal.valid?&&@incident_request.save
+        @incident_request.add_watcher(Irm::Person.find(@incident_request.support_person_id))
+        process_change_attributes([:incident_status_id,:support_group_id,:support_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
         format.html { render :action => "edit_pass" }
+        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+
+  # 升级
+  def edit_upgrade
+    @incident_journal = @incident_request.incident_journals.build()
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @incident_journal }
+    end
+  end
+
+  def update_upgrade
+    @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+
+    @incident_request.attributes = params[:icm_incident_request]
+    @incident_journal.reply_type = "UPGRADE"
+
+    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+
+
+    perform_create(true)
+    respond_to do |format|
+      if @incident_journal.valid?&&@incident_request.support_person_id.present?
+        @incident_request.add_watcher(Irm::Person.find(@incident_request.support_person_id))
+        @incident_journal.save
+        #process_change_attributes([:incident_status_id,:support_group_id,:support_person_id],@incident_request,@incident_request_bak,@incident_journal)
+        process_files(@incident_journal)
+        format.html { redirect_to({:action => "new"}) }
+        format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+      else
+        format.html { render :action => "edit_upgrade" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
@@ -137,12 +200,12 @@ class Icm::IncidentJournalsController < ApplicationController
 
   def perform_create(pass=false)
     @incident_journal.replied_by=Irm::Person.current.id
-    if Irm::Person.current.id.eql?(@incident_request.requested_by)
-      @incident_request.last_request_date = Time.now
-    end
-    if Irm::Person.current.id.eql?(@incident_request.support_person_id)
-      @incident_request.last_response_date = Time.now unless pass
-    end
+    #if Irm::Person.current.id.eql?(@incident_request.requested_by)
+    #  @incident_request.last_request_date = Time.now
+    #end
+    #if Irm::Person.current.id.eql?(@incident_request.support_person_id)
+    #  @incident_request.last_response_date = Time.now unless pass
+    #end
   end
 
   def process_change_attributes(attributes,new_value,old_value,ref_journal)
@@ -164,54 +227,5 @@ class Icm::IncidentJournalsController < ApplicationController
                                                :data=>value[:file],
                                                :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
     end if params[:files]
-  end
-  def publish_create_incident_journal(incident_journal)
-    incident_journal.reload
-    incident_journal = Icm::IncidentJournal.select_all.with_replied_by.find(incident_journal.id)
-    incident_request = Icm::IncidentRequest.list_all.find(incident_journal.incident_request_id)
-    person_ids = [incident_request.submitted_by,incident_request.requested_by,incident_journal.replied_by]+incident_request.person_watchers.collect{|i| i.id}
-    journal_url = url_for({:host=>Irm::Constant::DEFAULT_HOST,
-             :controller=>"icm/incident_journals",
-             :action =>"new",
-             :request_id=>incident_request.id,
-             :anchor=>"journal_#{incident_journal.id}"})
-    Irm::EventManager.publish(:event_code=>"INCIDENT_JOURNAL_NEW",
-                              :params=>{:to_person_ids=>person_ids,
-                                        :journal=>incident_journal.attributes.merge(:url=>journal_url,:change_message=>"not change"),
-                                        :request=>incident_request.attributes})
-  end
-  def publish_pass_incident_request(incident_journal)
-    incident_journal.reload
-    incident_journal = Icm::IncidentJournal.select_all.with_replied_by.find(incident_journal.id)
-    incident_request = Icm::IncidentRequest.list_all.find(incident_journal.incident_request_id)
-    incident_request.person_watchers << Irm::Person.find(@incident_request_bak.support_person_id) if @incident_request_bak.support_person_id
-    person_ids = [incident_request.submitted_by,incident_request.requested_by,incident_journal.replied_by,incident_request.support_person_id]+incident_request.person_watchers.collect{|i| i.id}
-    person_ids.uniq!
-    journal_url = url_for({:host=>Irm::Constant::DEFAULT_HOST,
-             :controller=>"icm/incident_journals",
-             :action =>"new",
-             :request_id=>incident_request.id,
-             :anchor=>"journal_#{incident_journal.id}"})
-    Irm::EventManager.publish(:event_code=>"INCIDENT_REQUEST_PASS",
-                              :params=>{:to_person_ids=>person_ids,
-                                        :journal=>incident_journal.attributes.merge(:url=>journal_url,:change_message=>"not change"),
-                                        :request=>incident_request.attributes})
-  end
-
-  def publish_close_incident_request(incident_journal)
-    incident_journal.reload
-    incident_journal = Icm::IncidentJournal.select_all.with_replied_by.find(incident_journal.id)
-    incident_request = Icm::IncidentRequest.list_all.find(incident_journal.incident_request_id)
-    person_ids = [incident_request.submitted_by,incident_request.requested_by,incident_journal.replied_by]+incident_request.person_watchers.collect{|i| i.id}
-    person_ids.uniq!
-    journal_url = url_for({:host=>Irm::Constant::DEFAULT_HOST,
-             :controller=>"icm/incident_journals",
-             :action =>"new",
-             :request_id=>incident_request.id,
-             :anchor=>"journal_#{incident_journal.id}"})
-    Irm::EventManager.publish(:event_code=>"INCIDENT_REQUEST_CLOSE",
-                              :params=>{:to_person_ids=>person_ids,
-                                        :journal=>incident_journal.attributes.merge(:url=>journal_url,:change_message=>"not change"),
-                                        :request=>incident_request.attributes})
   end
 end

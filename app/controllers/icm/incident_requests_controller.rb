@@ -270,9 +270,10 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_request.submitted_date = Time.now
     incident_request.last_request_date = Time.now
     incident_request.last_response_date = 1.minute.ago
+    incident_request.next_reply_user_license="SUPPORTER"
     incident_request.company_id = Irm::Person.find(incident_request.requested_by).company_id
-    if incident_request.incident_status_code.nil?||incident_request.incident_status_code.blank?
-      incident_request.incident_status_code = Icm::IncidentStatus.query_by_default_flag(Irm::Constant::SYS_YES).query_by_close_flag(Irm::Constant::SYS_NO).order_display.first.incident_status_code
+    if incident_request.incident_status_id.nil?||incident_request.incident_status_id.blank?
+      incident_request.incident_status_id = Icm::IncidentStatus.default_id
     end
     if incident_request.request_type_code.nil?||incident_request.request_type_code.blank?
       incident_request.request_type_code = "REQUESTED_TO_CHANGE"

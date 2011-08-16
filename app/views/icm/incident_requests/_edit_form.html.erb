@@ -167,11 +167,11 @@
             <tr>
               <td class="labelCol"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
               <td class="dataCol">
-                <%=f.select :urgence_code,available_urgence_code,{},{:required=>true,:id=>"incident_request_urgence_code"}%>
+                <%=f.select :urgence_id,available_urgence_code,{},{:required=>true,:id=>"incident_request_urgence_code"}%>
               </td>
               <td class="labelCol"><label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label></td>
               <td class="dataCol">
-                <%=f.select :impact_range_code,available_impact_range,
+                <%=f.select :impact_range_id,available_impact_range,
                                                     {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
               </td>
             </tr>

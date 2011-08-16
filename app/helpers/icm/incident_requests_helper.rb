@@ -47,11 +47,11 @@ module Icm::IncidentRequestsHelper
   end
 
   def available_urgence_code
-    Icm::UrgenceCode.multilingual.order_display.collect{|p|[p[:name],p[:urgency_code]]}
+    Icm::UrgenceCode.multilingual.order_display.collect{|p|[p[:name],p.id]}
   end
 
   def available_impact_range
-    Icm::ImpactRange.multilingual.order_display.collect{|p|[p[:name],p[:impact_code]]}
+    Icm::ImpactRange.multilingual.order_display.collect{|p|[p[:name],p.id]}
   end
 
   def available_priority_code
@@ -63,11 +63,11 @@ module Icm::IncidentRequestsHelper
   end
 
   def available_request_status_code
-    Icm::IncidentStatus.multilingual.query_by_close_flag(Irm::Constant::SYS_NO).order_display.collect{|i|[i[:name],i[:incident_status_code]]}
+    Icm::IncidentStatus.multilingual.query_by_close_flag(Irm::Constant::SYS_NO).order_display.collect{|i|[i[:name],i.id]}
   end
 
   def available_all_request_status_code
-    Icm::IncidentStatus.multilingual.order_display.collect{|i|[i[:name],i[:incident_status_code]]}
+    Icm::IncidentStatus.multilingual.order_display.collect{|i|[i[:name],i.id]}
   end
 
   def available_request_report_source

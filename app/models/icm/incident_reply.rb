@@ -3,7 +3,7 @@ class Icm::IncidentReply
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  attr_accessor :support_group_id, :support_person_id, :incident_status_code
+  attr_accessor :support_group_id, :support_person_id, :incident_status_id
 
 
   def initialize(attributes = {})
@@ -20,7 +20,7 @@ class Icm::IncidentReply
 
   def attributes
     attrs = {}
-    [:support_group_id,:support_person_id,:incident_status_code].each do |key|
+    [:support_group_id,:support_person_id,:incident_status_id].each do |key|
       value = send(key)
       attrs.merge!({key=>value}) if(value&&!value.blank?)
     end

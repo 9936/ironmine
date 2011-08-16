@@ -80,7 +80,7 @@ module Icm::IncidentJournalsHelper
   end
 
   def available_close_code
-    Icm::CloseReason.multilingual.collect{|i|[i[:name],i[:close_code]]}
+    Icm::CloseReason.multilingual.collect{|i|[i[:name],i.id]}
   end
 
   def replied_avatar(journal)
