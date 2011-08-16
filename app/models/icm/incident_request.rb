@@ -3,7 +3,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   has_many :incident_journals
 
-  validates_presence_of :title,:service_code,:requested_by,:submitted_by,:impact_range_code,:urgence_code,:priority_code,:request_type_code,:incident_status_code,:report_source_code
+  validates_presence_of :title,:requested_by,:submitted_by,:impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code
 
   attr_accessor :pass_flag,:close_flag
 
@@ -15,6 +15,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   after_create :generate_request_number
+  before_validation_on_create  :setup_priority
+
+
   acts_as_recently_objects(:title => "title",
                            :target_controller => "icm/incident_journals",
                            :target_action => "new",
@@ -26,14 +29,14 @@ class Icm::IncidentRequest < ActiveRecord::Base
                      :show_url  => {:controller=>"icm/incident_journals",:action=>"new",:request_id=>:id})
   acts_as_urlable(:show=>{:controller=>"icm/incident_journals",:action=>"new",:request_id=>:id},:title=>:title)
 
-  before_validation_on_create  :setup_priority
+
   # 查询当天新建的事故单，根据数量生成序列号
   scope :created_at_today,lambda{|cid|
     where("#{table_name}.created_at > ? AND #{table_name}.id <= ?",Date.today,cid)
   }
   # 查询出优先级
   scope :with_priority,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::PriorityCode.view_name} priority_code ON  #{table_name}.priority_code = priority_code.priority_code AND priority_code.language= '#{language}'").
+    joins("LEFT OUTER JOIN #{Icm::PriorityCode.view_name} priority_code ON  #{table_name}.priority_id = priority_code.id AND priority_code.language= '#{language}'").
     select(" priority_code.name priority_name")
   }
   # 查询出请求类型
@@ -81,12 +84,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   # 查询出紧急度
   scope :with_urgence,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::UrgenceCode.view_name} urgence_code ON  urgence_code.urgency_code = #{table_name}.urgence_code AND urgence_code.language= '#{language}'").
+    joins("LEFT OUTER JOIN #{Icm::UrgenceCode.view_name} urgence_code ON  urgence_code.id = #{table_name}.urgence_id AND urgence_code.language= '#{language}'").
     select(" urgence_code.name urgence_name")
   }
   # 查询出影响度
   scope :with_impact_range,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::ImpactRange.view_name} impact_range ON  impact_range.impact_code = #{table_name}.impact_range_code AND impact_range.language= '#{language}'").
+    joins("LEFT OUTER JOIN #{Icm::ImpactRange.view_name} impact_range ON  impact_range.id = #{table_name}.impact_range_id AND impact_range.language= '#{language}'").
     select(" impact_range.name impact_range_name")
   }
   # 查询出联系人
@@ -101,7 +104,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
   # 查询出事故单状态
   scope :with_incident_status,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::IncidentStatus.view_name} incident_status ON  incident_status.incident_status_code = #{table_name}.incident_status_code AND incident_status.language= '#{language}'").
+    joins("LEFT OUTER JOIN #{Icm::IncidentStatus.view_name} incident_status ON  incident_status.id = #{table_name}.incident_status_id AND incident_status.language= '#{language}'").
     joins("LEFT OUTER JOIN #{Icm::IncidentPhase.view_name} incident_phase ON  incident_phase.phase_code = incident_status.phase_code AND incident_phase.language= '#{language}'").
     select(" incident_status.name incident_status_name,incident_phase.name incident_phase_name ,incident_status.close_flag close_flag")
   }
@@ -239,7 +242,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
       self.close_flag = self[:close_flag]
       return self.close_flag
     end
-    status  = Icm::IncidentStatus.find_by_incident_status_code(self.incident_status_code)
+    status  = Icm::IncidentStatus.query(self.incident_status_id).first
     self.close_flag = status.close_flag if status
     return self.close_flag
   end
@@ -255,6 +258,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
     incident_requests_scope.collect(&:id)
   end
 
+  def sync_priority
+    setup_priority
+    self.save
+  end
+
   private
   def generate_request_number
     count = self.class.count
@@ -263,8 +271,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
   end
 
   def setup_priority
-    self.weight_value = 10
+    urgence = Icm::UrgenceCode.find(self.urgence_id)
+    impact_range = Icm::ImpactRange.find(self.impact_range_id)
+    self.weight_value = urgence.weight_values + impact_range.weight_values-1
     priority = Icm::PriorityCode.query_by_weight_value(self.weight_value).first
-    self.priority_code = priority.priority_code
+    self.priority_id = priority.id
   end
 end

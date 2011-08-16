@@ -48,7 +48,7 @@ class Icm::UrgenceCodesController < ApplicationController
     respond_to do |format|
       if @urgence_code.update_attributes(params[:icm_urgence_code])
         flash[:successful_message] = (t :successfully_updated)
-        format.html { render "index" }
+        format.html { redirect_to( :action=>"index" )}
       else
         format.html { render "edit" }
       end
@@ -82,7 +82,7 @@ class Icm::UrgenceCodesController < ApplicationController
   end
 
   def get_data
-    urgence_codes_scope = Icm::UrgenceCode.multilingual.with_company.status_meaning
+    urgence_codes_scope = Icm::UrgenceCode.multilingual.with_company.status_meaning.order("display_sequence")
     urgence_codes_scope = urgence_codes_scope.match_value("#{Irm::Company.view_name}.name",params[:company_name])
     urgence_codes_scope = urgence_codes_scope.match_value("#{Icm::UrgenceCode.table_name}.urgency_code",params[:urgency_code])
     urgence_codes_scope = urgence_codes_scope.match_value("#{Icm::UrgenceCodesTl.table_name}.name",params[:name])

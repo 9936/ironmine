@@ -27,6 +27,7 @@ zh:
   label_icm_impact_range_edit: 编辑影响度
   #========================= end icm impact_ranges_controller=======================#
   #=========================    icm urgence_codes_controller=======================#
+  label_icm_urgence_code: 紧急度
   label_icm_urgence_code_list: 紧急度列表
   label_icm_urgence_code_new: 新建紧急度
   label_icm_urgence_code_urgency_code: 简称
@@ -43,8 +44,7 @@ zh:
   label_icm_priority_code_list: 优先级列表
   label_icm_priority_code_new: 新建优先级范围
   label_icm_priority_code_company: 公司
-  label_icm_priority_code_low_weight_value: 权重从
-  label_icm_priority_code_high_weight_value: 权重至
+  label_icm_priority_code_weight_values: 权重
   label_icm_priority_code_priority_code: 编码
   label_icm_priority_code_name: 名称
   label_icm_priority_code_description: 描述
@@ -114,11 +114,13 @@ zh:
   label_icm_incident_request_priority: 优先级
   label_icm_incident_request_company: 公司
   label_icm_incident_request_last_date: 最后回应日期
+  label_icm_incident_request_upgrade: 升级
   label_incident_request: 事故单
   label_icm_incident_request_submitted_by: 提交人
   label_icm_incident_request_incident_phase_code: 阶段
   label_icm_incident_request_submitted_date: 提交日期
   label_icm_incident_request_close_reason_code: 关闭原因
+  label_icm_incident_request_close_reason: 关闭原因
   label_icm_wait_for_me_request_count: 待我回复的事故单
   label_icm_reply_today_count: 今天已回复的事故单
   label_icm_request_submitted_today_count: 今天提交的事故单
@@ -132,6 +134,7 @@ zh:
   label_action_assign_dashboard: 分配工作台
   label_icm_incident_request_assignable_list: 待分配事故单
   label_icm_incident_request_assign: 分配
+  label_icm_incident_request_incident_status: 状态
   #========================= end icm incident_requests_controller=======================#
   #=========================    icm incident_journals_controller=======================#
   label_icm_incident_reply_support_group_id: 转交组
@@ -149,6 +152,7 @@ zh:
   label_icm_incident_journal_add_attachment: 添加新附件
   label_icm_incident_journal_close: 关闭事故单
   label_icm_incident_joural_back_to_request: 返回事故单
+  label_icm_incident_journal_upgrade: 升级事故单
   label_icm_reply_title: 于 %{message} 前回复
   label_icm_submit_title: 于 %{message} 前提交
   label_icm_incident_more_info: 更多信息

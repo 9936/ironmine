@@ -1,4 +1,77 @@
 <%= setting_title %>
+<style type="text/css">
+  table.matrix{
+    padding-left: 20px;
+  }
+  table.matrix th{
+    font-weight:bold;
+    padding:5px;
+  }
+  table.matrix td{
+    text-align: center;
+    min-width: 50px;
+    padding:5px;
+    border: solid 1px;
+    border-color:#CBCBCB;
+  }
+  table.matrix th.to{
+    text-align: center;
+  }
+  table.matrix th.from{
+    text-align: right;
+  }
+</style>
+<%= setting_title %>
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_incident_status_edit_transform) %></h2></td>
+              <td  class="pbButton">
+              </td>
+              <td class="pbHelp">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <table class="matrix" cellpadding="0" cellspacing="0" border="0">
+          <% urgence_codes = Icm::UrgenceCode.multilingual.order("display_sequence Desc");
+             impact_ranges = Icm::ImpactRange.multilingual.order("display_sequence Desc");
+             priority_weight_value_hashes = priority_weight_value_hash
+          %>
+          <tbody>
+            <tr>
+              <th></th>
+              <th></th>
+              <th class="to" colspan="<%=urgence_codes.length%>"><%=t(:label_icm_urgence_code)  %></th>
+            </tr>
+            <tr>
+              <th rowspan="<%= impact_ranges.length+1 %>" style="vertical-align:middle;"><%=t(:label_icm_impact_range)  %></th>
+              <th></th>
+              <% urgence_codes.each do |urgency| %>
+                <th class="to"><%= urgency[:name]%></th>
+              <% end %>
+            </tr>
+            <% impact_ranges.each do |impact| %>
+              <tr>
+                <th class="from"><%= impact[:name]%></th>
+                <% urgence_codes.each do |urgency| %>
+                  <td title="<%=impact[:name]%>">
+                    <% current_weight = impact.weight_values+urgency.weight_values-1 %>
+                    <%= current_weight %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
 <div class="listRelatedObject setupBlock">
     <div class="bPageBlock">
       <div class="pbHeader">
@@ -7,7 +80,6 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_priority_code_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
               </td>
               <td class="pbHelp">
                 <div id="priorityCodesSearchBox"></div>
@@ -28,8 +100,7 @@
                    {:key=>"company_name",:label=>t(:label_icm_priority_code_company),:sortable=>true,:searchable=>true},
                    {:key=>"priority_code",:label=>t(:label_icm_priority_code_priority_code),:sortable=>true,:searchable=>true},
                    {:key=>"name",:label=>t(:label_icm_priority_code_name),:sortable=>true,:searchable=>true},
-                   {:key=>"low_weight_value",:label=>t(:label_icm_priority_code_low_weight_value),:sortable=>true},
-                   {:key=>"high_weight_value",:label=>t(:label_icm_priority_code_high_weight_value),:sortable=>true},
+                   {:key=>"weight_values",:label=>t(:label_icm_priority_code_weight_values),:sortable=>true},
                    {:key=>"status_meaning",:label=>t(:label_irm_script_status_code),:sortable=>true,:width=>"70px"}],
                    {:paginator_box=>"priorityPaginator",:search_box=>"priorityCodesSearchBox"})%>
         <div id="priorityPaginator"></div>

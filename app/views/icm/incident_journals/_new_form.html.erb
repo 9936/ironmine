@@ -109,6 +109,9 @@
                 <% if current_person?(@incident_request.support_person_id) %>
                       <div class="grayButton"><%= link_to t(:pass), {:action => "edit_pass"}%></div>
                 <% end %>
+                <% if current_person?(@incident_request.support_person_id) %>
+                      <div class="grayButton"><%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"}%></div>
+                <% end %>
                 <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
                   <div class="grayButton"><%= link_to t(:close), {:action => "edit_close"}%></div>
                 <% end %>
@@ -292,7 +295,7 @@
             <tr>
               <td class="dataCol">
                 <label for="incident_request_incident_status_code"><%=t(:label_icm_incident_reply_incident_status_code)%></label>
-                <%=f.blank_select :incident_status_code,available_request_status_code,
+                <%=f.blank_select :incident_status_id,available_request_status_code,
                                                         {},{:id=>"incident_request_incident_status_code"}%>
               </td>
             </tr>
