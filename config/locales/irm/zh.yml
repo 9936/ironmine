@@ -1521,3 +1521,14 @@ zh:
   label_irm_profile_application_visual: 可见
   label_irm_profile_application_default: 默认
   #=======================end profiles ====================
+
+  #======================= password policies ====================
+  label_irm_psw_policy: 密码策略
+  label_irm_psw_policy_expire_in: 用户密码有效期
+  label_irm_psw_policy_enforce_history: 强制密码历史
+  label_irm_psw_policy_min_length: 最小密码长度
+  label_irm_psw_policy_complexity_requirement: 密码复杂性要求
+  label_irm_psw_policy_question_requirement: 密码提问要求
+  label_irm_psw_policy_max_attempts: 最大无效登陆尝试次数
+  label_irm_psw_policy_lockout_period: 锁定有效期间
+  #======================= end password policies ====================

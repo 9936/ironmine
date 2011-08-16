@@ -824,6 +824,10 @@ Ironmine::Application.routes.draw do
     match '/profiles/:id/multilingual_update(.:format)' => "profiles#multilingual_update", :via => :put
     match '/profiles/get_data(.:format)' => "profiles#get_data"
     match '/profiles/:id/show(.:format)' => "profiles#show", :via => :get
+
+    #password policies
+    match '/password_policies(/index)(.:format)' => "password_policies#index", :via => :get
+    match '/password_policies/:id(.:format)' => "password_policies#update", :via => :put
   end
 
   scope :module => "icm" do
