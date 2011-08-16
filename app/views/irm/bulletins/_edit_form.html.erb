@@ -1,7 +1,7 @@
 <%= setting_title %>
 <script type="text/javascript" src="/javascripts/ext4-all.js"></script>
 <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/ext4-all.css"></link>
-<%= form_for(@bulletin,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@bulletin,:url=>{:action=>"update"},:builder => LabellingFormBuilder, :html => {:multipart => true}) do |f| %>
 <%= hidden_field_tag :return_url,@return_url %>
 <%= f.hidden_field :column_ids %>
 <style type="text/css">
@@ -164,6 +164,7 @@
         </thead>
         <tbody id="file_body">
             <tbody id="exist_attachments_list">
+                <%= list_bulletin_existed_attachments(@bulletin)%>
             </tbody>
             <tr id="file_0">
               <td class="dataCol"></td>

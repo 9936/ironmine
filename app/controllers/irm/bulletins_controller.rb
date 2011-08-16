@@ -100,6 +100,16 @@ class Irm::BulletinsController < ApplicationController
           end
         end
 
+        if params[:file]
+          files = params[:file]
+          #调用方法创建附件
+          begin
+            attached = Irm::AttachmentVersion.create_verison_files(files, "Irm::Bulletin", @bulletin.id)
+          rescue
+            @bulletin.errors << "FILE UPLOAD ERROR"
+          end
+        end
+
         format.html {
 #          if(params[:return_url])
 #            redirect_to params[:return_url]
@@ -153,7 +163,8 @@ class Irm::BulletinsController < ApplicationController
 
   def remove_exits_attachments
     @file = Irm::Attachment.where(:latest_version_id => params[:att_id]).first
-    @attachments = Irm::AttachmentVersion.query_all.where(:source_id => bulletin.id).where(:source_type => Irm::Bulletin.name)
+    @attachments = Irm::AttachmentVersion.query_all.where(:source_id => params[:bulletin_id]).where(:source_type => Irm::Bulletin.name)
+    @bulletin = Irm::Bulletin.find(params[:bulletin_id])
     respond_to do |format|
       if @file.destroy
           format.js { render :remove_exits_attachments}

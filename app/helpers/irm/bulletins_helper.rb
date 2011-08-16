@@ -102,11 +102,13 @@ module Irm::BulletinsHelper
 
   def list_bulletin_existed_attachments(bulletin)
     html = ""
-    attachments = Irm::AttachmentVersion.query_all.where(:source_id => bulletin.id).where(:source_type => Irm::Bulletin.name)
+    attachments = Irm::Attachment.list_all.where("source_id = ? AND source_type = ?", bulletin.id, Irm::Bulletin.name)
     if attachments && attachments.any?
       attachments.each do |a|
         d1 = content_tag(:td, "", :class => "dataCol")
-        d2 = content_tag(:td, link_to(t(:delete), {:controller => "skm/entry_headers", :action => "remove_exits_attachment_during_create", :att_id => a.latest_version_id}, :remote => "true"), :class => "dataCol")
+        d2 = content_tag(:td, link_to(t(:delete),
+                                      {:controller => "irm/bulletins", :action => "remove_exits_attachments",
+                                       :att_id => a.latest_version_id, :bulletin_id => bulletin.id}, :remote => "true", :confirm => t(:label_are_you_sure)), :class => "dataCol")
         d3 = content_tag(:td, a.file_name, :class => "dataCol")
         d4 = content_tag(:td, a.category_name, :class => "dataCol")
         d5 = content_tag(:td, a.description, :class => "dataCol")
