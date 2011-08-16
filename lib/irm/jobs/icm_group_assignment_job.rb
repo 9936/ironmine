@@ -54,7 +54,7 @@ module Irm
         end
         #get the support information
         #generate incident journal
-        if assign_result[:support_group_id].present?&&assign_result[:support_person_id].present?
+        if assign_result[:support_group_id].present?#&&assign_result[:support_person_id].present?
           ActiveRecord::Base.transaction do
             generate_journal(request,assign_result)
           end
@@ -63,16 +63,19 @@ module Irm
       # get the person in the support group
       def setup_support_person(support_group,request)
         assign_result ={}
-        rule_setting = Icm::RuleSetting.list_all.where(:company_id=>request.company_id).first
-        if rule_setting
-          if "LONGEST_TIME_NOT_ASSIGN".eql?(rule_setting.assignment_process_code)
+#        rule_setting = Icm::RuleSetting.list_all.where(:company_id=>request.company_id).first
+        if support_group
+          if "LONGEST_TIME_NOT_ASSIGN".eql?(support_group.assignment_process_code)
             assigner = Irm::SupportGroupMember.query_by_support_group_code(support_group.group_code).
                                                with_person.where("#{Irm::Person.table_name}.assignment_availability_flag = ?",Irm::Constant::SYS_YES).
                                                order("#{Irm::Person.table_name}.last_assigned_date").first
-          else
+          elsif "MINI_OPEN_TASK".eql?(support_group.assignment_process_code)
             assigner = Irm::SupportGroupMember.query_by_support_group_code(support_group.group_code).
                                                with_person.where("#{Irm::Person.table_name}.assignment_availability_flag = ?",Irm::Constant::SYS_YES).
                                                order("#{Irm::Person.table_name}.open_tasks").first
+          else
+            #如果选择了不分配，则不进行支持人员的分配
+            return assign_result
           end
           if assigner
             Delayed::Worker.logger.debug("GroupAssignmentJob find assigner: #{assigner[:person_id]}")

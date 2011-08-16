@@ -26,7 +26,8 @@ class Irm::SupportGroup < ActiveRecord::Base
   #company_id
   scope :query_wrap_info,lambda{|language| select("#{table_name}.id,#{Irm::SupportGroupsTl.table_name}.name,#{Irm::SupportGroupsTl.table_name}.description,"+
                                                           "v1.meaning status_meaning,v2.name company_name,v3.name organization_name,"+
-                                                          "v4.meaning support_role_name,#{table_name}.vendor_group_flag,#{table_name}.oncall_group_flag").
+                                                          "v4.meaning support_role_name,#{table_name}.vendor_group_flag,#{table_name}.oncall_group_flag, v5.meaning assignment_process").
+                                                   joins("LEFT OUTER JOIN irm_lookup_values_vl v5 ON v5.lookup_type='ICM_ASSIGN_PROCESS_TYPE' AND v5.lookup_code = #{table_name}.assignment_process_code AND v5.language='#{I18n.locale}'").
                                                    joins(",irm_lookup_values_vl v1").
                                                    joins(",irm_companies_vl v2").
                                                    joins(",irm_organizations_vl v3").

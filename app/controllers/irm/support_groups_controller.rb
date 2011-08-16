@@ -97,7 +97,7 @@ class Irm::SupportGroupsController < ApplicationController
     respond_to do |format|
       format.json {render :json=>to_jsonp(@support_groups.to_grid_json(['R',:company_name,:organization_name,:group_code,:name,
                                                                   :support_role_name,:vendor_group_flag,
-                                                                  :oncall_group_flag,:status_meaning],
+                                                                  :oncall_group_flag,:status_meaning, :assignment_process],
                                                                  count))}
     end
   end
