@@ -21,6 +21,15 @@ class Icm::UrgenceCode < ActiveRecord::Base
     select("#{Irm::Company.view_name}.name company_name")
   }
 
+  def self.default_id
+    default = self.where(:default_flag=>Irm::Constant::SYS_YES).first
+    if default
+      return default.id
+    else
+      return nil
+    end
+  end
+
   private
   def process_default
     return true if self.default_flag.eql?(Irm::Constant::SYS_NO)||not_process_after_save

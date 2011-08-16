@@ -29,22 +29,22 @@ class Icm::IncidentHistory < ActiveRecord::Base
           real_value = Irm::SupportGroup.multilingual_colmun.find(self.new_value)
           new_meaning = real_value[:name] if real_value
         end
-      when "incident_status_code"
+      when "incident_status_id"
         if old_meaning.nil?
-          real_value = Icm::IncidentStatus.multilingual_colmun.find_by_incident_status_code(self.old_value)
+          real_value = Icm::IncidentStatus.multilingual_colmun.query(self.old_value).first
           old_meaning = real_value[:name] if real_value
         end
         if new_meaning.nil?
-          real_value = Icm::IncidentStatus.multilingual_colmun.find_by_incident_status_code(self.new_value)
+          real_value = Icm::IncidentStatus.multilingual_colmun.query(self.new_value).first
           new_meaning = real_value[:name] if real_value
         end
-      when "close_reason_code"
+      when "close_reason_id"
         if old_meaning.nil?
-          real_value = Icm::CloseReason.multilingual_colmun.find_by_close_code(self.old_value)
+          real_value = Icm::CloseReason.multilingual_colmun.query(self.old_value).first
           old_meaning = real_value[:name] if real_value
         end
         if new_meaning.nil?
-          real_value = Icm::CloseReason.multilingual_colmun.find_by_close_code(self.new_value)
+          real_value = Icm::CloseReason.multilingual_colmun.query(self.new_value).first
           new_meaning = real_value[:name] if real_value
         end
     end

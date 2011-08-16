@@ -29,6 +29,29 @@ class Icm::IncidentStatus < ActiveRecord::Base
     where("#{table_name}.default_flag = ?" ,flag)
   }
 
+
+  def self.transform(from_status_id,event)
+    transform = Icm::StatusTransform.target(from_status_id,event).first
+    if transform
+      return transform.to_status_id
+    else
+      return from_status_id
+    end
+  end
+
+  def self.default_id
+    default = self.where(:default_flag=>Irm::Constant::SYS_YES).first
+    if default
+      return default.id
+    else
+      default = self.all.first
+      if defalut
+        return default.id
+      end
+      return nil
+    end
+  end
+
   private
   def process_default
     return true unless self.default_flag.eql?(Irm::Constant::SYS_YES)

@@ -62,7 +62,7 @@
                 <% urgence_codes.each do |urgency| %>
                   <td title="<%=impact[:name]%>">
                     <% current_weight = impact.weight_values+urgency.weight_values-1 %>
-                    <%= priority_weight_value_hashes[current_weight].present? ? priority_weight_value_hashes[current_weight][:name] : ""  %>
+                    <%= current_weight %>
                   </td>
                 <% end %>
               </tr>
