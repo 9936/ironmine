@@ -1,11 +1,11 @@
 YUI.add("dtpaginator",function(Y){
-    var TB = "<table class='paginator'><tbody><tr><td class='col1'>{record}</td><td class='col2 rowPerPageTD'>{perPage}</td><td class='col3'>{prenext}</td><td class='col4'>{goToPage}</td></tr></tbody></table>";
+    var TB = "<table class='paginator'><tbody><tr><td class='col1'>{record}</td><td class='col2 rowPerPageTD'>{perPage}</td><td class='col3'>{prenext}</td><td class='exportData col4' style='display:none;'>{exportData}</td><td class='col5'>{goToPage}</td></tr></tbody></table>";
     var SELECT = "<label>{rowPerPage}</label>:<select class='rowPerPage'>{options}</select>";
     var OPTION = "<option value='{key}'>{label}</option>";
     var RECORD = "<label>{record}</label>:<label class='record'></label>";
     var GOTOPAGE = "<label>{page}</label><input type='text' size='3' class='goToPage'/><label class='totalPage'>/{totalPage}</labe><label class='totalPage'>/{totalPage}</labe>";
     var PAGEPRENEXT = "<label class='prePageHolder'>{prepage}</label><a href='javascript:void(0)' class='prePage'>{prepage}</a>|<label class='nextPageHolder'>{nextpage}</label><a href='javascript:void(0)' class='nextPage'>{nextpage}</a>";
-
+    var EXPORTDATA = "<a class='exportData' href='javascript:void(0)'><img class='exportExcelIcon' src='/themes/salesforce2/images/s.gif'></a>"
     function IrmDTPaginator() {
         IrmDTPaginator.superclass.constructor.apply(this, arguments);
     }
@@ -31,6 +31,9 @@ Y.mix(IrmDTPaginator, {
       },
       rowPerPage:{
           value:true
+      },
+      exportData:{
+          value:false
       }
     }
 });
@@ -38,6 +41,7 @@ Y.mix(IrmDTPaginator, {
 Y.extend(IrmDTPaginator, Y.Plugin.Base, {
         _paginateOptions: {totalPage:1,currentPage:1,count:20,numRows:0},
         initializer: function(config) {
+           Y.log(config);
            this.doAfter("_setColumnset", this._beforeRenderUI);
            Y.one("#"+this.get("paginatorDom")).setStyle("display","none")
            Y.one("#"+this.get("paginatorDom")).delegate('click',this._prePage,'.prePage',this);
@@ -46,6 +50,10 @@ Y.extend(IrmDTPaginator, Y.Plugin.Base, {
            Y.one("#"+this.get("paginatorDom")).delegate('keyup',this._changePage,'.goToPage',this);
            var dt = this.get("host");
            dt.on("metaDataChange", Y.bind(this._onMetaDataChange,this));
+           // config export data
+           if(this.get("exportData")){
+             Y.one("#"+this.get("paginatorDom")).delegate('click',this._exportData,'a.exportData',this);
+           }
         },
         _beforeRenderUI:function(){
           var options = "";
@@ -57,7 +65,7 @@ Y.extend(IrmDTPaginator, Y.Plugin.Base, {
           var perPage = Y.Lang.substitute(SELECT,{options:options,rowPerPage:this.get("paginatorLabels").rowPerPage});
           var prenext = Y.Lang.substitute(PAGEPRENEXT,this.get("paginatorLabels"));
           var goToPage = Y.Lang.substitute(GOTOPAGE,this.get("paginatorLabels"));
-          var uis = {record:record,perPage:perPage,prenext:prenext,goToPage:goToPage};
+          var uis = {record:record,perPage:perPage,prenext:prenext,goToPage:goToPage,exportData:EXPORTDATA};
           Y.one("#"+this.get("paginatorDom")).setContent(Y.Lang.substitute(TB,uis) );
           this._setupOptions();
         },
@@ -81,6 +89,12 @@ Y.extend(IrmDTPaginator, Y.Plugin.Base, {
             this._goToPage(value);
           }
           e.target.set("value",value);
+        },
+        _exportData:function(e){
+          var url = this.get('host').datasource._loadUrl;
+          var rp = new RegExp("\\..+\\?");
+          url = url.replace(rp,".xls?");
+          window.open(url, "_blank")
         },
         _goToPage:function(page){
            var value = Math.max(1,page);
@@ -133,13 +147,10 @@ Y.extend(IrmDTPaginator, Y.Plugin.Base, {
               Y.one("#"+this.get("paginatorDom")).one(".prePage").setStyle("display","inline");
               Y.one("#"+this.get("paginatorDom")).one(".prePageHolder").setStyle("display","none");
           }
+          if(this.get("exportData")){
+             Y.one("#"+this.get("paginatorDom")+" td.exportData").setStyle("display","")
+           }
 
-        },
-        _setSelectValue:function(select,value){
-            if(select)
-            {
-
-            }
         }
     });
 

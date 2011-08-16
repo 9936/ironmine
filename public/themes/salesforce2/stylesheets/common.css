@@ -836,7 +836,8 @@ div table.paginator td{
 div  table.paginator .col1{text-align: left; width: 150px;}
 div  table.paginator .col2{text-align: left; width: 300px;}
 div  table.paginator .col3{text-align: center; width: 100px;}
-div  table.paginator .col4{text-align: right;}
+div  table.paginator .col4{text-align: right; width: 100px;}
+div  table.paginator .col5{text-align: right;}
 div  table.paginator label.prePageHolder{color: gray;}
 div  table.paginator label.nextPageHolder{color: gray;}
 
@@ -1190,7 +1191,7 @@ div#objectRelation span.levelLabel3 {
 }
 
 /*****************************end irm report type**************************************/
-/*****************************end irm report trigger**************************************/
+/***************************** irm report trigger**************************************/
 .scheduledIcon {
     background-image: url("../images/schedReport.gif");
     background-position: left top;
@@ -1200,3 +1201,13 @@ div#objectRelation span.levelLabel3 {
     width: 17px;
 }
 /*****************************end irm report trigger**************************************/
+/***************************** irm excel export**************************************/
+.exportExcelIcon {
+    background-image: url("../images/excel.png");
+    background-position: left top;
+    height: 16px;
+    margin-right: 0.25em;
+    vertical-align: middle;
+    width: 17px;
+}
+/*****************************end irm excel export**************************************/
