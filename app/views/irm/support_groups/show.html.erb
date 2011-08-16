@@ -39,8 +39,8 @@
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_support_group_vendor_group)%></label></td>
               <td class="dataCol"><%= check_img(@support_group.vendor_group_flag)%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
+              <td class="labelCol"><label><%=(t :label_icm_rule_setting_assignment_process_code)%></label></td>
+              <td class="dataCol"><%= Irm::LookupValue.get_meaning("ICM_ASSIGN_PROCESS_TYPE", @support_group.assignment_process_code)%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_support_group_description)%></label></td>

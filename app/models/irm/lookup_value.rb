@@ -47,6 +47,12 @@ class Irm::LookupValue < ActiveRecord::Base
     self[:meaning]
   end
 
+  def self.get_meaning(lookup_type, lookup_code)
+    Irm::LookupValue.multilingual.query_by_lookup_type(lookup_type).where(:lookup_code => lookup_code).first[:meaning]
+  rescue
+    ""
+  end
+
   def self.get_lookup_value(lookup_type)
     Irm::LookupValue.multilingual.query_by_lookup_type(lookup_type)
   end
