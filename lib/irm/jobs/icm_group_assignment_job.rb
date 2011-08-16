@@ -54,7 +54,7 @@ module Irm
         end
         #get the support information
         #generate incident journal
-        if assign_result[:support_group_id].present?&&assign_result[:support_person_id].present?
+        if assign_result[:support_group_id].present?#&&assign_result[:support_person_id].present?
           ActiveRecord::Base.transaction do
             generate_journal(request,assign_result)
           end
