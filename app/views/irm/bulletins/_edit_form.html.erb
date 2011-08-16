@@ -368,10 +368,6 @@ Ext.onReady(function() {
 
   var line_count = 5;
 
-  function save(){
-    document.file_form.action = "batch_create";
-    file_form.submit();
-  }
  function delete_line(l)
  {
       GY.use(function(Y){
@@ -384,8 +380,8 @@ Ext.onReady(function() {
           var node = Y.Node.create('<tr id="file_' + line_count + '">'
                   + '<td class="dataCol"></td>'
                   + '<td class="dataCol"><a onclick="delete_line(' + line_count + ');" href="javascript:void(0);"><%= t :delete%></a></td>'
-                  + '<td class="dataCol"><input type="file" required="required" name="file[' + line_count + '][file]" id="file_' + line_count + '_file"></td>'
-                  + '<td class="dataCol"><select required="required" name="file[' + line_count + '][file_category]" id="file_' + line_count + '_file_category">' + '<%= options_for_select(available_file_categories).gsub!(/\n+/, "")%>' + '</select></td>'
+                  + '<td class="dataCol"><input type="file" name="file[' + line_count + '][file]" id="file_' + line_count + '_file"></td>'
+                  + '<td class="dataCol"><select name="file[' + line_count + '][file_category]" id="file_' + line_count + '_file_category">' + '<%= options_for_select(available_file_categories).gsub!(/\n+/, "")%>' + '</select></td>'
                   + '<td class="dataCol"><input type="text" value="" rows="3" name="file[' + line_count + '][description]" id="file_' + line_count + '_description" cols="35"></td>'
                   + '</tr>');
           Y.one("#file_body").appendChild(node);
