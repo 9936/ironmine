@@ -146,7 +146,7 @@ Irm::AccessControl.map do |map|
   map.function :bulletin, {"irm/bulletins" => ["index", "show", "get_data","new", "create","edit", "update"]}
   map.function :edit_bulletin, {"irm/bulletins" => ["edit", "update"]}
   map.function :new_bulletin, {"irm/bulletins" => ["new", "create"]}
-  map.function :delete_bulletin, {"irm/bulletins" => ["destroy"]}
+  map.function :delete_bulletin, {"irm/bulletins" => ["destroy", "remove_exits_attachments"]}
   #====================irm/watchers ========================================
   map.function :view_watchers, {}
   map.function :edit_watchers, {"irm/watchers" => ["add_watcher", "delete_watcher"]}
