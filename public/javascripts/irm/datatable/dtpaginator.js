@@ -32,8 +32,8 @@ Y.mix(IrmDTPaginator, {
       rowPerPage:{
           value:true
       },
-      exportData:{
-          value:false
+      exportDataDom:{
+          setter: Y.one
       }
     }
 });
@@ -51,8 +51,8 @@ Y.extend(IrmDTPaginator, Y.Plugin.Base, {
            var dt = this.get("host");
            dt.on("metaDataChange", Y.bind(this._onMetaDataChange,this));
            // config export data
-           if(this.get("exportData")){
-             Y.one("#"+this.get("paginatorDom")).delegate('click',this._exportData,'a.exportData',this);
+           if(this.get("exportDataDom")){
+             this.get("exportDataDom").on('click',this._exportData,this);
            }
         },
         _beforeRenderUI:function(){
@@ -147,9 +147,6 @@ Y.extend(IrmDTPaginator, Y.Plugin.Base, {
               Y.one("#"+this.get("paginatorDom")).one(".prePage").setStyle("display","inline");
               Y.one("#"+this.get("paginatorDom")).one(".prePageHolder").setStyle("display","none");
           }
-          if(this.get("exportData")){
-             Y.one("#"+this.get("paginatorDom")+" td.exportData").setStyle("display","")
-           }
 
         }
     });

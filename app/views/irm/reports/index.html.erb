@@ -29,6 +29,7 @@
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_report_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
                 <div class="button"><%= link_to t(:label_irm_report_create_new), {:action => "new"}%></div>
+                <div class="button" id="exportData"><a href="javascript:void(0)"><%= t(:export) %></a></div>
               </td>
               <td class="pbHelp">
                 <div id="reportListSearchBox"></div>
@@ -65,7 +66,7 @@
                    {:key=>"editable_flag",:hidden=>true},
                    {:key=>"report_trigger_id",:hidden=>true},
                    {:key=>"description",:label=>t(:label_irm_report_description)}].compact,
-                   {:search_box=>"reportListSearchBox",:paginator_box=>"regionPaginator",:export_data=>true})%>
+                   {:search_box=>"reportListSearchBox",:paginator_box=>"regionPaginator",:export_data=>"#exportData"})%>
         <div id="regionPaginator"></div>
       </div>
     </div>

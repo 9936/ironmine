@@ -20,7 +20,7 @@
                        { :key => "need_customer_reply",:hidden=>true },
                        { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date),:width=>"180px" },
                        { :key => "company_name", :label => t(:label_icm_incident_request_company),:width=>"120px"}
-                       ],{:export_data=>true,:not_load=>true,:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox'})%>
+                       ],{:export_data=>"#incidentRequestExport",:not_load=>true,:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox'})%>
       <div id="incidentRequestsPaginatorBox"></div>
 </div>
 

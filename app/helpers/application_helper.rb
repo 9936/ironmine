@@ -196,7 +196,7 @@ module ApplicationHelper
     search_box = options[:search_box]
     paginator_box = options[:paginator_box]
     paginator_perpage = options[:paginator_perpage]||true
-    export_data = options[:export_data]||false
+    export_data = options[:export_data]||"_none_"
     select = options[:select]
     columns.insert(0,{:key=>"dt_selector",:width=>"36px"}) if select&&(select.eql?("multiple")||select.eql?("single"))
     columns_conf = ""
@@ -227,7 +227,7 @@ module ApplicationHelper
 
     paginator_str = ""
     paginator_str = ".plug(Y.Plugin.IrmDTPaginator,{paginatorDom:'#{paginator_box}',rowPerPage:false})" if paginator_box&&!paginator_perpage
-    paginator_str = ".plug(Y.Plugin.IrmDTPaginator,{paginatorDom:'#{paginator_box}',exportData:#{export_data},
+    paginator_str = ".plug(Y.Plugin.IrmDTPaginator,{paginatorDom:'#{paginator_box}',exportDataDom:'#{export_data}',
                                                     paginatorLabels:{record:'#{t(:paginator_record)}',
                                                                      rowPerPage:'#{t(:paginator_rowperpage)}',
                                                                      prepage:'#{t(:paginator_prepage)}',
