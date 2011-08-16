@@ -26,6 +26,13 @@
     <div class="pbSubsection" style="margin-left:30px;margin-right:30px;">
         <pre><%= raw(@bulletin.content)%> </pre>
     </div>
+    <div class="pbSubsection" style="margin-top:50px;">
+       <% prepare_bulletin_files(@bulletin)%>
+       <% if @bulletin_files && @bulletin_files.any? %>
+       <%= t :label_irm_bulletin_attachment %>:<br>
+       <%= list_bulletin_file %>
+       <% end %>
+    </div>
   </div>
 </div>
 <% content_for :sidebar do %>

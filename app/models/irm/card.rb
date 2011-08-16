@@ -32,13 +32,13 @@ class Irm::Card < ActiveRecord::Base
             ir_customer_replied(lane_limit, accessable_companies)
           else
             filter = Irm::RuleFilter.where(:source_type => Irm::Card.name, :source_id => self.id).first
-            filter.generate_scope.select("'' card_url").order(self.date_attribute_name + " DESC").query_by_company_ids(accessable_companies)#.limit(lane_limit)
+            filter.generate_scope.select("'' card_url").order(self.date_attribute_name + " DESC")
         end
     card_content_scope
   end
 
   private
-  #新到达待回复的事故单
+  #待回复的事故单
   def ir_arr_waiting_for_reply(lane_limit = 0, accessable_companies = [])
     ret_scope = []
     Icm::IncidentRequest.select("#{Icm::IncidentRequest.table_name}.*, '' card_url").

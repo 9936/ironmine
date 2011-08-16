@@ -33,6 +33,16 @@ class Irm::BulletinsController < ApplicationController
           end if selected_accesses.any?
         end
 
+        if params[:file]
+          files = params[:file]
+          #调用方法创建附件
+          begin
+            attached = Irm::AttachmentVersion.create_verison_files(files, "Irm::Bulletin", @bulletin.id)
+          rescue
+            @bulletin.errors << "FILE UPLOAD ERROR"
+          end
+        end
+
         format.html {
           if(params[:return_url])
             redirect_to params[:return_url]
@@ -71,7 +81,7 @@ class Irm::BulletinsController < ApplicationController
         if params[:selected_actions] && params[:selected_actions].present?
           selected_accesses = params[:selected_actions].split(",")
 
-          bulletin_access_records = @survey.survey_ranges
+          bulletin_access_records = @bulletin.bulletin_accesses
           bulletin_access_records.each do |t|
             type_short = access_types.detect{|i| i[0].name.eql?(t.access_type)}
             t.destroy unless selected_accesses.include?(type_short[1]+"#"+t.access_id.to_s)
@@ -87,6 +97,16 @@ class Irm::BulletinsController < ApplicationController
             Irm::BulletinAccess.create({:bulletin_id => @bulletin.id,
                                         :access_type => access_type[0].name,
                                         :access_id => access[1]})
+          end
+        end
+
+        if params[:file]
+          files = params[:file]
+          #调用方法创建附件
+          begin
+            attached = Irm::AttachmentVersion.create_verison_files(files, "Irm::Bulletin", @bulletin.id)
+          rescue
+            @bulletin.errors << "FILE UPLOAD ERROR"
           end
         end
 
@@ -138,6 +158,17 @@ class Irm::BulletinsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to({:controller => "irm/bulletins", :action=>"index"}) }
       format.xml  { head :ok }
+    end
+  end
+
+  def remove_exits_attachments
+    @file = Irm::Attachment.where(:latest_version_id => params[:att_id]).first
+    @attachments = Irm::AttachmentVersion.query_all.where(:source_id => params[:bulletin_id]).where(:source_type => Irm::Bulletin.name)
+    @bulletin = Irm::Bulletin.find(params[:bulletin_id])
+    respond_to do |format|
+      if @file.destroy
+          format.js { render :remove_exits_attachments}
+      end
     end
   end
 end

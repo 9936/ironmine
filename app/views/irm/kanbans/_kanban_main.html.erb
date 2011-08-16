@@ -44,8 +44,8 @@
 .kanban_body .th_r{border-left: 1px solid #ffffff;}
 .kanban_body .th_c{border-right: 1px solid #ffffff;border-left: 1px solid #ffffff;}
 </style>
-<% if Irm::Role.current && Irm::Role.current.kanban%>
-<% kanban = Irm::Role.current.kanban %>
+<% if Irm::Person.current.profile && Irm::Person.current.profile.kanban%>
+<% kanban = Irm::Person.current.profile.kanban %>
 <% else %>
 <% kanban = Irm::Kanban.enabled.first %>
 <% end %>

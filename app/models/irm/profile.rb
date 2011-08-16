@@ -12,6 +12,8 @@ class Irm::Profile < ActiveRecord::Base
   has_many :profile_applications
   has_many :applications,:through => :profile_applications
 
+  belongs_to :kanban, :class_name => "Irm::Kanban"
+
   query_extend
 
 
