@@ -37,5 +37,8 @@ class Irm::Organization < ActiveRecord::Base
                                                                     language,company_id)}
   def to_s
     self.company_name + "-" + self.name
+  rescue
+    rec = Irm::Organization.multilingual.query_wrap_info(I18n.locale).where(:id => self.id).first
+    rec[:company_name] + "-" + rec[:name]
   end
 end

@@ -64,6 +64,10 @@ class Irm::Company < ActiveRecord::Base
   def self.to_s
     I18n.t(:label_irm_company_show)
   end
+
+  def to_s
+    Irm::Company.multilingual.where(:id => self.id).first[:name]
+  end
 end
 
 
