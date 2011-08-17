@@ -54,26 +54,24 @@ class Skm::ColumnsController < ApplicationController
     respond_to do |format|
       if @column.update_attributes(params[:skm_column])
 
-        if params[:selected_actions] && params[:selected_actions].present?
-          selected_accesses = params[:selected_actions].split(",")
+        selected_accesses = params[:selected_actions].split(",")
 
-          column_access_records = @column.column_accesses
-          column_access_records.each do |t|
-            type_short = access_types.detect{|i| i[0].name.eql?(t.source_type)}
-            t.destroy unless selected_accesses.include?(type_short[1]+"#"+t.source_id.to_s)
-          end
-          column_accesses_array = @column.column_accesses.collect{|p| [p.source_type, p.source_id]}
+        column_access_records = @column.column_accesses
+        column_access_records.each do |t|
+          type_short = access_types.detect{|i| i[0].name.eql?(t.source_type)}
+          t.destroy unless selected_accesses.include?(type_short[1]+"#"+t.source_id.to_s)
+        end
+        column_accesses_array = @column.column_accesses.collect{|p| [p.source_type, p.source_id]}
 
-          selected_accesses.each do |access_str|
-            next unless access_str.strip.present?
-            access = access_str.split("#")
-            access_type = access_types.detect{|i| i[1].eql?(access[0])}
-            next if column_accesses_array.include?([access_type[0].name, access[1].to_i])
+        selected_accesses.each do |access_str|
+          next unless access_str.strip.present?
+          access = access_str.split("#")
+          access_type = access_types.detect{|i| i[1].eql?(access[0])}
+          next if column_accesses_array.include?([access_type[0].name, access[1]])
 
-            Skm::ColumnAccess.create({:column_id => @column.id,
-                                        :source_type => access_type[0].name,
-                                        :source_id => access[1]})
-          end
+          Skm::ColumnAccess.create({:column_id => @column.id,
+                                      :source_type => access_type[0].name,
+                                      :source_id => access[1]})
         end
 
         format.html {
@@ -98,7 +96,7 @@ class Skm::ColumnsController < ApplicationController
       is_leaf = sc.is_leaf?
 
       column_accesses = ""
-      ca_recs = sc.column_accesses
+      ca_recs = sc.column_accesses.uniq
       ca_recs.each do |ca|
         begin
           column_accesses << t("label_" + ca.source_type.underscore.gsub("\/","_")) + ":" + ca.source.to_s

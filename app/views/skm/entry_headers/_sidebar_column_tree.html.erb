@@ -1,0 +1,50 @@
+<script type="text/javascript" src="/javascripts/ext4-all.js"></script>
+<link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/ext4-all.css"></link>
+<style type="text/css">
+.x-border-box .x-reset, .x-border-box .x-reset * {
+    -moz-box-sizing: content-box !important;
+}
+</style>
+<div class="sidebarModule">
+    <div class="sidebarModuleHeader"><h2><%= t :label_skm_column %></h2></div>
+    <div class="sidebarModuleBody">
+    <table>
+      <tbody>
+        <div id="tree-div" href="<%= url_for(:controller => "skm/columns", :action=>"get_columns_data",:format=>:json) %>"></div>
+      </tbody>
+    </table>
+    </div>
+</div>
+
+<script>
+Ext.onReady(function() {
+    var treeNode = Ext.getDom("tree-div");
+
+    Ext.define('ColumnField', {
+        extend: 'Ext.data.Model',
+        fields: [
+            {name: 'id',type: 'string'},
+            {name: 'text',type: 'string'},
+            {name: 'sc_id',type: 'string'},
+            {name: 'column_name',type: 'string'},
+            {name: 'column_description',type: 'string'},
+            {name: 'column_accesses', type:'string'},
+            {name: 'sc_code',type: 'string'}
+        ]
+    });
+    var store = Ext.create('Ext.data.TreeStore', {
+        model: "ColumnField",
+        proxy: {type: 'ajax',url:  treeNode.getAttribute("href")}
+    });
+
+    var tree = Ext.create('Ext.tree.Panel', {
+        store: store,
+        rootVisible: false,
+        useArrows: true,
+        renderTo: 'tree-div',
+        width: 190,
+        height: 80
+    });
+
+});
+</script>
