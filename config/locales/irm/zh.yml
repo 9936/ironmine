@@ -1532,4 +1532,7 @@ zh:
   label_irm_psw_policy_question_requirement: 密码提问要求
   label_irm_psw_policy_max_attempts: 最大无效登陆尝试次数
   label_irm_psw_policy_lockout_period: 锁定有效期间
+  label_irm_psw_policy_requirement: 密码要求
+  label_irm_psw_policy_expire: 密码已经过期
+  label_irm_psw_policy_last_upadated_at: 上一次修改密码时间
   #======================= end password policies ====================

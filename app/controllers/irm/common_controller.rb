@@ -65,6 +65,12 @@ class Irm::CommonController < ApplicationController
     else
       cookies.delete(:username)
     end
+
+    if !user.auth_source_id.present?&&Irm::PasswordPolicy.expire?(user.password_updated_at)
+      redirect_to({:controller => "irm/my_password",:action=>"edit_password"})
+      return
+    end
+
     # generate a key and set cookie if autologin
     #if params[:autologin] && Setting.autologin?
     #  token = Token.create(:user => user, :action => 'autologin')

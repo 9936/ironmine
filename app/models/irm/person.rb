@@ -29,7 +29,7 @@ class Irm::Person < ActiveRecord::Base
   validates_length_of :login_name, :maximum => 30
   validates_presence_of :password,:if=> Proc.new{|i| i.hashed_password.blank?&&i.validate_as_person?}
   validates_confirmation_of :password, :allow_nil => true,:if=> Proc.new{|i|i.hashed_password.blank?||!i.password.blank?}
-  validates_length_of :password, :maximum => 30,:minimum=>6,:if=> Proc.new{|i|!i.password.blank?}
+  validate :validate_password_policy,:if=> Proc.new{|i| i.password.present?&&i.password_confirmation.present?}
 
   validates_presence_of :title,:if => Proc.new { |i| i.validate_as_person? }
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
@@ -343,6 +343,13 @@ class Irm::Person < ActiveRecord::Base
 
   def access_default_company
     Irm::CompanyAccess.create({:person_id=>self.id,:accessable_company_id=>self.company_id,:company_access_flag=>Irm::Constant::SYS_YES})
+  end
+
+  def validate_password_policy
+    self.password_updated_at = Time.now
+    unless Irm::PasswordPolicy.validate_password(self.password)
+      self.errors[:password] = Irm::PasswordPolicy.validate_message
+    end
   end
 
 
