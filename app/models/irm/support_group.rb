@@ -11,6 +11,8 @@ class Irm::SupportGroup < ActiveRecord::Base
   validates_uniqueness_of :group_code, :if => Proc.new { |i| !i.group_code.blank? }
   validates_format_of :group_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.group_code.blank?}
 
+  attr_accessor :level
+
   #加入activerecord的通用方法和scope
   query_extend
 
@@ -27,7 +29,9 @@ class Irm::SupportGroup < ActiveRecord::Base
   scope :query_wrap_info,lambda{|language| select("#{table_name}.id,#{Irm::SupportGroupsTl.table_name}.name,#{Irm::SupportGroupsTl.table_name}.description,"+
                                                           "v1.meaning status_meaning,v2.name company_name,v3.name organization_name,"+
                                                           "v4.meaning support_role_name,#{table_name}.vendor_group_flag,#{table_name}.oncall_group_flag, v5.meaning assignment_process").
+                                                   select("parent_group.name parent_group_name").
                                                    joins("LEFT OUTER JOIN irm_lookup_values_vl v5 ON v5.lookup_type='ICM_ASSIGN_PROCESS_TYPE' AND v5.lookup_code = #{table_name}.assignment_process_code AND v5.language='#{I18n.locale}'").
+                                                   joins("LEFT OUTER JOIN #{Irm::SupportGroup.view_name} parent_group ON parent_group.id = #{table_name}.parent_group_id AND parent_group.language = '#{I18n.locale}'").
                                                    joins(",irm_lookup_values_vl v1").
                                                    joins(",irm_companies_vl v2").
                                                    joins(",irm_organizations_vl v3").
@@ -48,4 +52,34 @@ class Irm::SupportGroup < ActiveRecord::Base
     select("#{Irm::Company.view_name}.name company_name").
     where("#{Irm::Company.view_name}.language = ?",language)
   }
+
+  scope :with_organization, lambda{
+    joins("JOIN #{Irm::Organization.view_name} ON #{table_name}.organization_id = #{Irm::Organization.view_name}.id").
+        where("#{Irm::Organization.view_name}.language=?", I18n.locale).
+        select("#{Irm::Organization.view_name}.name organization_name")
+  }
+
+  scope :with_assignment_process, lambda{
+    select("v5.meaning assignment_process").
+      joins("LEFT OUTER JOIN irm_lookup_values_vl v5 ON v5.lookup_type='ICM_ASSIGN_PROCESS_TYPE' AND v5.lookup_code = #{table_name}.assignment_process_code AND v5.language='#{I18n.locale}'")
+  }
+
+  scope :with_parent,lambda {
+    joins("LEFT OUTER JOIN #{Irm::SupportGroup.view_name} parent_group ON parent_group.id = #{table_name}.parent_group_id AND parent_group.language = '#{I18n.locale}'").
+        select("parent_group.name parent_group_name")
+  }
+
+  scope :with_support_role,lambda{
+    joins(",irm_lookup_values_vl v4").
+        select("v4.meaning support_role_name").
+        where("v4.lookup_type='IRM_SUPPORT_ROLE' AND v4.lookup_code=#{table_name}.support_role_code AND v4.language=?", I18n.locale)
+  }
+
+  scope :select_all, lambda{
+    select("#{table_name}.*")
+  }
+
+  def self.list_all
+    self.multilingual.with_parent.with_company(I18n.locale).with_organization.with_assignment_process.with_support_role
+  end
 end

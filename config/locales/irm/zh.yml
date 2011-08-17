@@ -716,6 +716,7 @@ zh:
   label_irm_support_group_person_name: 人员名称
   label_action_select_person: 选择支持组成员
   label_action_new_from_person: 选择加入的支持组
+  label_irm_support_group_parent: 上级支持组
   #=========================end irm support_groups_controller=======================#
   #=========================    irm people_controller=======================#
   label_irm_person: 人员

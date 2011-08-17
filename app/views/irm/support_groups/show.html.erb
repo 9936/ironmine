@@ -46,6 +46,10 @@
               <td class="labelCol"><label><%=(t :label_irm_support_group_description)%></label></td>
               <td class="dataCol" colspan="3" style="width:82%"><%=@support_group[:description]%></td>
             </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_support_group_parent)%></label></td>
+              <td class="dataCol"><%=@support_group[:parent_group_name]%></td>
+            </tr>
         </tbody>
       </table>
     </div>

@@ -18,10 +18,10 @@ class Uid::ExternalSystem < ActiveRecord::Base
   validates_presence_of :external_system_code
 
   scope :with_person, lambda{|person_id|
-    joins(",#{Uid::LoginMapping.table_name} lm").
-    where("lm.person_id = ?", person_id).
-    where("lm.external_system_code = #{table_name}.external_system_code").
-    where("lm.company_id = ?", Irm::Company.current.id)
+    joins(",#{Uid::ExternalSystemPerson.table_name} esp").
+    where("esp.person_id = ?", person_id).
+    where("esp.external_system_code = #{table_name}.external_system_code").
+    where("esp.company_id = ?", Irm::Company.current.id)
   }
 
   def wrap_system_name

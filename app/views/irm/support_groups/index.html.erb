@@ -1,4 +1,5 @@
 <%= setting_title %>
+<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
 <div class="listRelatedObject setupBlock">
     <div class="bPageBlock">
       <div class="pbHeader">
@@ -7,40 +8,127 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_support_group_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+                <div class="button"><%= link_to t(:new), {:controller => "irm/support_groups", :action => "new"}%></div>
               </td>
               <td class="pbHelp">
-                <div id="permissionsSearchBox"></div>
+                <div id="rolesSearchBox"></div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="pbBody">
-        <div id="support_group" class="datatable" style="width:100%;">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>
-            <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
+          <div class="datatable">
+            <div class="yui3-widget yui3-datatable">
+              <div class="yui3-datatable-content">
+                  <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
+                    <thead class="yui3-datatable-columns">
+                      <tr class="yui3-datatable-first yui3-datatable-last">
+                        <th class="yui3-column" style="width:100px;">
+                          <div class="yui3-datatable-liner"><%= t(:operation) %>
+                          </div>
+                        </th>
+                        <th class="yui3-column" style="width:120px;">
+                          <div class="yui3-datatable-liner"><%= t(:label_irm_support_group_group_code) %>
+                          </div>
+                        </th>
+                        <th class="yui3-column" style="width:200px;">
+                          <div class="yui3-datatable-liner"><%= t(:label_irm_support_group_name) %>
+                          </div>
+                        </th>
+                        <th class="yui3-column" style="width:120px;">
+                          <div class="yui3-datatable-liner"><%= t(:label_irm_support_group_parent) %>
+                          </div>
+                        </th>
+                        <th class="yui3-column" style="width:120px;">
+                          <div class="yui3-datatable-liner"><%= t(:label_irm_support_group_company_name) %>
+                          </div>
+                        </th>
+                        <th class="yui3-column" style="width:120px;">
+                          <div class="yui3-datatable-liner"><%= t(:label_irm_support_group_organization_name) %>
+                          </div>
+                        </th>
+                        <th class="yui3-column" style="width:80px;">
+                          <div class="yui3-datatable-liner"><%= t(:label_irm_support_group_support_role) %>
+                          </div>
+                        </th>
+                        <th class="yui3-column" style="width:40px;">
+                          <div class="yui3-datatable-liner"><%= t(:label_irm_support_group_vendor_group) %>
+                          </div>
+                        </th>
+                        <th class="yui3-column" style="width:40px;">
+                          <div class="yui3-datatable-liner"><%= t(:label_irm_support_group_oncall_group) %>
+                          </div>
+                        </th>
+                        <th class="yui3-column" style="width:80px;">
+                          <div class="yui3-datatable-liner"><%= t(:label_icm_rule_setting_assignment_process_code) %>
+                          </div>
+                        </th>
+
+                      </tr>
+                    </thead>
+                    <tbody class="yui3-datatable-data">
+                    <% @level_groups.each do |group| %>
+                    <tr id="<%=group.id%>" class="yui3-datatable-even">
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                          <%= link_to(t(:edit),{:action=>"edit",:id=>group.id}) %>
+                          <%= link_to(t(:show),{:action=>"show",:id=>group.id}) %>
+                         </div>
+                      </td>
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                            <%= group.group_code %>
+                         </div>
+                      </td>
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                           <% (group.level - 1).times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= group[:name] %>
+                        </div>
+                      </td>
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                           <%= group[:parent_group_name] %>
+                        </div>
+                      </td>
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                           <%= group[:company_name] %>
+                        </div>
+                      </td>
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                           <%= group[:organization_name] %>
+                        </div>
+                      </td>
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                           <%= group[:support_role_name] %>
+                        </div>
+                      </td>
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                           <%= check_img(group[:vendor_group_flag]) %>
+                        </div>
+                      </td>
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                           <%= check_img(group[:oncall_group_flag]) %>
+                        </div>
+                      </td>
+                      <td class="yui3-column">
+                        <div class='yui3-datatable-liner'>
+                           <%= group[:assignment_process] %>
+                        </div>
+                      </td>
+
+                    </tr>
+                    <% end -%>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
           </div>
-          <div id="vendor_group_flag" style="display:none">
-            <%= check_img("{vendor_group_flag}")%>
-          </div>
-          <div id="oncall_group_flag" style="display:none">
-            <%= check_img("{oncall_group_flag}")%>
-          </div>
-        </div>
-        <%= datatable("support_group",url_for(:action=>"get_data",:format=>"json"),
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"group_code",:label=>t(:label_irm_support_group_group_code),:sortable=>true,:searchable=>true},
-                   {:key=>"name",:label=>t(:label_irm_support_group_name),:sortable=>true,:searchable=>true, :width => "300px"},
-                   {:key=>"company_name",:label=>t(:label_irm_support_group_company_name),:sortable=>true,:searchable=>true,:width=>"30px"},
-                   {:key=>"organization_name",:label=>t(:label_irm_support_group_organization_name),:sortable=>true,:searchable=>true,:width=>"30px"},
-                   {:key=>"support_role_name",:label=>t(:label_irm_support_group_support_role),:sortable=>true,:width=>"30px"},
-                   {:key=>"vendor_group_flag",:label=>t(:label_irm_support_group_vendor_group),:formatter=>"Y.irm.template",:sortable=>true, :width=>"30px"},
-                   {:key=>"oncall_group_flag",:label=>t(:label_irm_support_group_oncall_group),:formatter=>"Y.irm.template",:sortable=>true, :width=>"30px"},
-                   {:key=>"assignment_process",:label=>t(:label_icm_rule_setting_assignment_process_code), :width=>"30px"}],
-                   {:paginator_box=>"supportgroupPaginator",:search_box=>"permissionsSearchBox"})%>
-        <div id="supportgroupPaginator"></div>
       </div>
     </div>
 </div>
