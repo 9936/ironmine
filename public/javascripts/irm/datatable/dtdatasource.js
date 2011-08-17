@@ -60,6 +60,7 @@ Y.mix(IrmDTDataSource, {
 });
 
     Y.extend(IrmDTDataSource, Y.Plugin.DataTableDataSource, {
+        _loadUrl: "",
         _loadRequest: {},
         _paginateOptions: {start:0,count:20},
         _filterOptions: {},
@@ -102,6 +103,7 @@ Y.mix(IrmDTDataSource, {
                     config.request = "&"+config.request;
                 }
                 ds.sendRequest(config);
+                this._loadUrl = ds.get("source")+ config.request;
             }
         },
         reload: function(){

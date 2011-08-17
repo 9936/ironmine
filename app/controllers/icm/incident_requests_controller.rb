@@ -133,10 +133,24 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
 
-    incident_requests,count = paginate(incident_requests_scope)
+
     respond_to do |format|
-      format.json {render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_response_date]}))}
-      format.xml { render :xml => incident_requests }
+      format.json {
+        incident_requests,count = paginate(incident_requests_scope)
+        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_response_date]}))
+      }
+      format.xml {
+        incident_requests,count = paginate(incident_requests_scope)
+        render :xml => incident_requests
+      }
+      format.xls{
+        incident_requests = data_filter(incident_requests_scope)
+        send_data(incident_requests.to_xls(:only => [:request_number,:title,:company_name,:incident_status_name,:last_response_date],
+                                       :headers=>["#",   t(:label_icm_incident_request_title),
+                                                         t(:label_icm_incident_request_company),
+                                                         t(:label_icm_incident_request_incident_status_code),
+                                                         t(:label_icm_incident_request_last_date)]
+                                             ))}
     end
   end
 
@@ -157,10 +171,25 @@ class Icm::IncidentRequestsController < ApplicationController
     end
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
-    incident_requests,count = paginate(incident_requests_scope)
+
     respond_to do |format|
-      format.json {render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_request_date]}))}
-      format.xml { render :xml => incident_requests }
+      format.json {
+        incident_requests,count = paginate(incident_requests_scope)
+        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_request_date]}))
+      }
+      format.xml {
+        incident_requests,count = paginate(incident_requests_scope)
+        render :xml => incident_requests
+      }
+      format.xls{
+        incident_requests = data_filter(incident_requests_scope)
+        send_data(incident_requests.to_xls(:only => [:request_number,:title,:company_name,:incident_status_name,:priority_name,:last_request_date],
+                                       :headers=>["#",   t(:label_icm_incident_request_title),
+                                                         t(:label_icm_incident_request_company),
+                                                         t(:label_icm_incident_request_incident_status_code),
+                                                         t(:label_icm_incident_request_priority),
+                                                         t(:label_icm_incident_request_last_date)]
+                                             ))}
     end
   end
 
@@ -232,10 +261,16 @@ class Icm::IncidentRequestsController < ApplicationController
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).query_by_company_ids(session[:accessable_companies]).order("created_at")
     incident_requests_scope = incident_requests_scope.where("support_person_id IS NULL")
-    incident_requests,count = paginate(incident_requests_scope)
+
     respond_to do |format|
-      format.json {render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))}
-      format.xml { render :xml => incident_requests }
+      format.json {
+        incident_requests,count = paginate(incident_requests_scope)
+        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+      }
+      format.xml {
+        incident_requests,count = paginate(incident_requests_scope)
+        render :xml => incident_requests
+      }
     end
   end
 

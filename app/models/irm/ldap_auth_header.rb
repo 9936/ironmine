@@ -71,6 +71,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
         end
         person_attr[:auth_source_id] = self.id
         person_attr[:email_address] = "#{person_attr[:login_name]}@ironmine.com" unless person_attr[:email_address].present?
+        person_attr[:first_name] = login_name unless person_attr[:first_name].present?
         person = create_ldap_person(person_attr)
         return person.id if person
       else
@@ -89,8 +90,8 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     person = Irm::Person.new(person)
     person.save
     return nil if person.errors.any?
-    template_person.person_roles.each do |pr|
-      person.person_roles.create(:role_id=>pr.role_id)
+    template_person.external_system_people.each do |pr|
+      person.external_system_people.create(:external_system_code=>pr.external_system_code)
     end
 
     template_person.company_accesses.each do |ca|
