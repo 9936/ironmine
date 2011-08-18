@@ -29,29 +29,37 @@
             <tr>
               <td class="labelCol"><label><%=t(:label_irm_identity_login_name)%></label></td>
               <td class="dataCol"><%= @person.login_name%></td>
+              <td class="labelCol"><label><%=(t :label_irm_person_role)%></label></td>
+              <td class="dataCol"><%=f.blank_select :role_id,available_roles,{},{:id=>"role_id"}%></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :label_irm_person_email_address)%></label></td>
               <td class="dataCol"><%=f.text_field :email_address, :required=>true%></td>
+              <td class="labelCol"><label><%=t(:label_irm_person_profile)%></label></td>
+              <td class="dataCol"><%= f.blank_select(:profile_id,available_profile,{},{:required=>true,:id=>"profile_id"})%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_person_last_name)%></label></td>
               <td class="dataCol"><%=f.text_field :last_name%></td>
-              <td class="labelCol"><label><%=(t :label_irm_person_first_name)%></label></td>
-              <td class="dataCol"><%=f.text_field :first_name, :required=>true%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t(:label_irm_identity_password)%></label></td>
-              <td class="dataCol"><%=f.password_field(:password, :size=>40)%></td>
               <td class="labelCol"><%=(t :label_irm_person_title)%></td>
               <td class="dataCol">
                 <%=f.select :title,options_for_select(person_title,@person.title),
                                                     {},{:required=>true,:id=>"irm_person_title"}%></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%= t(:label_irm_identity_password_confirmation)%></label></td>
-              <td class="dataCol"><%=f.password_field(:password_confirmation, :size=>40)%></td>
+              <td class="labelCol"><label><%=(t :label_irm_person_first_name)%></label></td>
+              <td class="dataCol"><%=f.text_field :first_name, :required=>true%></td>
               <td class="labelCol"><%= t(:label_irm_identity_language_code) %></td>
               <td class="dataCol"><%= f.select(:language_code, options_for_select(selectable_languages,@person.language_code)) %></td>
 
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%= t(:label_irm_identity_password)%></label></td>
+              <td class="dataCol"><%=f.password_field(:password, :size=>40)%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%= t(:label_irm_identity_password_confirmation)%></label></td>
+              <td class="dataCol"><%=f.password_field(:password_confirmation, :size=>40)%></td>
             </tr>
         </tbody>
       </table>
@@ -64,12 +72,6 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-             <tr>
-                 <td class="labelCol"><label><%=t(:label_irm_person_profile)%></label></td>
-                 <td class="dataCol"><%= f.blank_select(:profile_id,available_profile,{},{:required=>true,:id=>"profile_id"})%></td>
-                  <td class="labelCol"><label><%=(t :label_irm_person_role)%></label></td>
-                  <td class="dataCol"><%=f.blank_select :role_id,available_roles,{},{:required=>true,:id=>"role_id"}%></td>
-             </tr>
              <tr>
                  <td class="labelCol"><label><%=t(:label_irm_person_company)%></label></td>
                  <td class="dataCol"><%=@person[:company_name]%></td>

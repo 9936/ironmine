@@ -68,27 +68,32 @@
             <tr>
               <td class="labelCol"><label><%=t(:label_irm_identity_login_name)%></label></td>
               <td class="dataCol"><%= @person.login_name %></td>
+              <td class="labelCol"><label><%=t(:label_irm_role)%></label></td>
+              <td class="dataCol"><%= @person.role_name %></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :label_irm_person_email_address)%></label></td>
               <td class="dataCol"><%= @person.email_address%></td>
+              <td class="labelCol"><label><%=(t :label_irm_profile)%></label></td>
+              <td class="dataCol"><%= @person.profile_name%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_person_last_name)%></label></td>
               <td class="dataCol"><%=@person.last_name%></td>
+              <td class="labelCol"><%= t(:label_irm_identity_language_code) %></td>
+              <td class="dataCol"><%= @person[:language_description] %></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :label_irm_person_first_name)%></label></td>
               <td class="dataCol"><%=@person.first_name%></td>
+              <td class="labelCol"><label><%=(t :label_irm_person_template_flag)%></label></td>
+              <td class="dataCol"><div><%=check_img(@person.is_a?(Irm::TemplatePerson) ? "Y":"N")%></div></td>
             </tr>
             <tr>
               <td class="labelCol"><%= t(:label_irm_person_title) %></td>
               <td class="dataCol"><%= @person[:title_name] %></td>
-              <td class="labelCol"><%= t(:label_irm_identity_language_code) %></td>
-              <td class="dataCol"><%= @person[:language_description] %></td>
-
-            </tr>
-            <tr>
               <td class="labelCol"><label><%=(t :label_irm_identity_last_login_at)%></label></td>
               <td class="dataCol"><%=@person.last_login_at%></td>
-              <td class="labelCol"><label><%=(t :label_irm_person_template_flag)%></label></td>
-              <td class="dataCol"><div><%=check_img(@person.is_a?(Irm::TemplatePerson) ? "Y":"N")%></div></td>
             </tr>
         </tbody>
       </table>
@@ -146,10 +151,8 @@
              <tr>
                  <td class="labelCol"><label><%=t(:label_irm_person_vip_flag)%></label></td>
                  <td class="dataCol"><div><%=check_img(@person[:vip_flag])%></div></td>
-
                  <td class="labelCol"><label><%=t(:label_irm_person_fax_number)%></label></td>
                  <td class="dataCol"><div><%=@person[:fax_number]%></div></td>
-
              </tr>
              <tr>
                <td class="labelCol"><label><%=t(:label_irm_person_assignment_availability_flag)%></label></td>
