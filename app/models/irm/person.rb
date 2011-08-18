@@ -346,8 +346,10 @@ class Irm::Person < ActiveRecord::Base
   end
 
   def validate_password_policy
-    self.password_updated_at = Time.now
-    unless Irm::PasswordPolicy.validate_password(self.password)
+
+    if Irm::PasswordPolicy.validate_password(self.password)
+      self.password_updated_at = Time.now
+    else
       self.errors[:password] = Irm::PasswordPolicy.validate_message
     end
   end

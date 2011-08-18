@@ -8,6 +8,8 @@ Ironmine::Application.routes.draw do
     match 'access_deny' => 'navigations#access_deny'
     match 'logout'=>'common#logout',:as=>:logout
     match 'forgot_password' => "common#forgot_password"
+    match 'edit_password/:id' => "common#edit_password",:via=>:get
+    match 'update_password/:id' => "common#update_password",:via=>:put
     match 'common/search_options' => "common#search_options"
     match 'common/upload_screen_shot' => "common#upload_screen_shot"
     match 'search(/index)(.:format)'=>"search#index",:via=>[:get,:post]
