@@ -391,6 +391,7 @@ Ironmine::Application.routes.draw do
     match '/people/:id/add_roles(.:format)' => "people#add_roles", :via => :post
     match '/people/:person_id/:role_id/remove_role(.:format)' => "people#remove_role", :via => :get
     match '/people/:person_id/get_owned_roles(.:format)' => "people#get_owned_roles", :via => :get
+    match '/people/:person_id/get_owned_external_systems(.:format)' => "people#get_owned_external_systems", :via => :get
     #company_accesses
     match '/company_accesses(/index)(.:format)' => "company_accesses#index", :via => :get
     match '/company_accesses/:id/edit(.:format)' => "company_accesses#edit", :via => :get
@@ -1188,6 +1189,11 @@ Ironmine::Application.routes.draw do
     match '/external_system_members/:external_system_code/add_people(.:format)' => "external_system_members#add_people"
     match '/external_system_members/:external_system_code/get_available_people_data(.:format)' => "external_system_members#get_available_people_data"
     match '/external_system_members/:external_system_code/delete_people(.:format)' => "external_system_members#delete_people"
+
+    match '/external_system_members/:person_id/new_from_person(.:format)' => "external_system_members#new_from_person", :via => :get
+    match '/external_system_members/:person_id/create_from_person(.:format)' => "external_system_members#create_from_person", :via => :post
+    match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person", :via => :delete
+    match '/external_system_members/:person_id/get_available_external_system_data(.:format)' => "external_system_members#get_available_external_system_data", :via => :get
   end
 
   #service catalog and service level agreement(slm)

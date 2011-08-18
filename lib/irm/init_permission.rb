@@ -50,7 +50,7 @@ Irm::AccessControl.map do |map|
                                        "get_support_group", "get_owned_roles","edit", "update",
                                        "multilingual_edit", "multilingual_update","add_roles","remove_role",
                                        "select_roles", "get_available_roles"],
-                             "irm/company_accesses"=>["index","new", "create"]}
+                             "irm/company_accesses"=>["index","new", "create"], "uid/external_system_members" => ["new_from_person"]}
 
   #===================irm/regions============================
   #["index", "get_data", "edit", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]

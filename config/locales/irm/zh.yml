@@ -789,6 +789,9 @@ zh:
   label_irm_person_template_flag: 模板用户
   label_irm_person_profile: 简档
   label_irm_person_role: 角色
+  label_irm_person_access_system: 可访问系统
+  label_irm_person_add_to_company: 加入公司
+  label_irm_person_add_to_system: 加入外部系统
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: 弹性域

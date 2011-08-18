@@ -39,9 +39,9 @@ class Irm::Person < ActiveRecord::Base
   has_many :company_accesses
   query_extend
 
-  has_many :external_system_people,:class_name => "Uid::ExternalSystemPerson",
-           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
-  has_many :external_systems,:class_name => "Uid::ExternalSystem",:through => "external_system_people"
+#  has_many :external_system_people,:class_name => "Uid::ExternalSystemPerson",
+#           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
+#  has_many :external_systems,:class_name => "Uid::ExternalSystem",:through => :external_system_people
 
   has_attached_file :avatar,
                     :whiny => false,
@@ -292,6 +292,9 @@ class Irm::Person < ActiveRecord::Base
     @report_folders
   end
 
+  def external_systems
+    Uid::ExternalSystem.multilingual.enabled.with_person(self.id)
+  end
 
   # 返回人员的全名
   def name(formatter = nil)
