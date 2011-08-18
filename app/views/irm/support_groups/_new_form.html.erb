@@ -69,6 +69,12 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_support_group_parent)%></label></td>
+              <td class="dataCol"><%=f.blank_select :parent_group_id, available_parent_support_groups, {}%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
         </tbody>
       </table>
     </div>

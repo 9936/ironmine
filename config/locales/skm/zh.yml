@@ -120,3 +120,5 @@ zh:
   label_skm_column_list: 知识库分类列表
   label_skm_column_new_child: 创建子分类
   label_skm_column_choice: 选择知识库分类
+  label_skm_column_access: 分类访问权限
+  label_skm_column_if_access_list_none: 如果没有限制可访问对象，则该公告对所有用户可见

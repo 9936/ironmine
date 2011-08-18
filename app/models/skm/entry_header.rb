@@ -18,6 +18,11 @@ class Skm::EntryHeader < ActiveRecord::Base
                               ", #{table_name}.created_by, #{table_name}.created_at, #{table_name}.updated_by, #{table_name}.updated_at,  CONCAT('[', #{table_name}.doc_number, ']', #{table_name}.entry_title) full_title").
       order("#{table_name}.published_date DESC")
 
+  #显示column_ids栏目中的文章，或未分类的文章
+  scope :within_columns, lambda{|column_ids|
+    where("EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id AND sc.column_id IN (?)) OR NOT EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id)", column_ids + [])
+  }
+
   scope :my_favorites, lambda{|person_id|
     joins(",#{Skm::EntryFavorite.table_name} ef").
     where("ef.entry_header_id = #{table_name}.id").

@@ -42,4 +42,8 @@ class Irm::Department < ActiveRecord::Base
                                                                     "#{table_name}.company_id = ? AND #{table_name}.organization_id = ?",
                                                                     language,company_id,organization_id)}
 
+  def to_s
+    rec = Irm::Department.multilingual.query_wrap_info(I18n.locale).where(:id => self.id).first
+    rec[:company_name] + "-" + rec[:organization_name] + "-" + rec[:name]
+  end
 end

@@ -17,8 +17,11 @@ class Irm::Profile < ActiveRecord::Base
   query_extend
 
 
-  scope :with
+#  scope :with
 
+  def to_s
+    Irm::Profile.multilingual.where(:id=>self.id).first[:name]
+  end
 
   def function_ids
     return @function_ids if @function_ids
@@ -85,7 +88,6 @@ class Irm::Profile < ActiveRecord::Base
       self.profile_applications.build({:application_id=>aid}.merge(default_options))
     end if application_ids.any?
   end
-
 end
 
 

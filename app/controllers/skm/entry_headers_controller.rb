@@ -264,11 +264,14 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def get_data
-    entry_headers_scope = Skm::EntryHeader.list_all.published.current_entry.with_favorite_flag(Irm::Person.current.id)
+    current_accessible_columns = Skm::Column.current_person_accessible_columns
+    entry_headers_scope = Skm::EntryHeader.list_all.published.current_entry.with_favorite_flag(Irm::Person.current.id).within_columns(current_accessible_columns)
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:full_title]) if params[:full_title]
+#    entry_headers_scope = entry_headers_scope.delete_if{|i| (i.get_column_ids.split(",") & current_accessible_columns).size == 0}
     entry_headers,count = paginate(entry_headers_scope)
+#    entry_headers = entry_headers.delete_if{|i| (i.get_column_ids.split(",") & current_accessible_columns).size == 0}
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:is_favorite, :entry_status_code, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date_f], count)) }
     end

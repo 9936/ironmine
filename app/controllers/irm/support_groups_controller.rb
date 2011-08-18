@@ -2,18 +2,39 @@ class Irm::SupportGroupsController < ApplicationController
   # GET /support_groups
   # GET /support_groups.xml
   def index
-    @support_group = Irm::SupportGroup.new
+    all_groups = Irm::SupportGroup.list_all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @support_group }
+    grouped_groups = all_groups.collect{|i| [i.id,i.parent_group_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
+
+    groups = {}
+    all_groups.each do |ar|
+      groups.merge!({ar.id=>ar})
+    end
+    @level_groups = []
+
+    proc = Proc.new{|parent_group_id,level|
+      if(grouped_groups[parent_group_id.to_s]&&grouped_groups[parent_group_id.to_s].any?)
+
+        grouped_groups[parent_group_id.to_s].each do |r|
+          groups[r[0]].level = level
+          @level_groups << groups[r[0]]
+
+          proc.call(groups[r[0]].id,level+1)
+        end
+      end
+    }
+
+    grouped_groups["blank"].each do |gr|
+      groups[gr[0]].level = 1
+      @level_groups << groups[gr[0]]
+      proc.call(groups[gr[0]].id,2)
     end
   end
 
   # GET /support_groups/1
   # GET /support_groups/1.xml
   def show
-    @support_group = Irm::SupportGroup.multilingual.query_wrap_info(I18n::locale).find(params[:id])
+    @support_group = Irm::SupportGroup.multilingual.query_wrap_info(I18n.locale).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
