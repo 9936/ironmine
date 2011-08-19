@@ -1140,6 +1140,9 @@ Ironmine::Application.routes.draw do
     match '/external_systems/create(.:format)' => "external_systems#create", :via => :post
     match '/external_systems/:id/multilingual_edit(.:format)' => "external_systems#multilingual_edit", :via => :get
     match '/external_systems/:id/multilingual_update(.:format)' => "external_systems#multilingual_update", :via => :put
+
+    match '/external_systems/:external_system_code/add_people(.:format)' => "external_systems#add_people"
+    match '/external_systems/:external_system_code/delete_people(.:format)' => "external_systems#delete_people"
     #external_logins
     match '/external_logins(/index)(.:format)' => "external_logins#index", :via => :get
     match '/external_logins/get_data(.:format)' => "external_logins#get_data"
