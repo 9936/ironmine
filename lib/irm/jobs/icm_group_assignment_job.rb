@@ -107,7 +107,12 @@ module Irm
         end
         person ||= Irm::Person.current.id
         language_code = person.language_code
-        request_attributes = {:support_group_id=>assign_result[:support_group_id],:support_person_id=>assign_result[:support_person_id]}
+        request_attributes = {:support_group_id=>assign_result[:support_group_id],
+                              :support_person_id=>assign_result[:support_person_id],
+                              :upgrade_group_id=>assign_result[:support_person_id],
+                              :upgrade_person_id=>assign_result[:support_person_id],
+                              :charge_group_id=>assign_result[:support_person_id],
+                              :charge_person_id=>assign_result[:support_person_id]}
         journal_attributes = {:replied_by=>person.id}
         if assign_result[:assign_dashboard]
           journal_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_assign_dashboard,{:locale=>language_code}))

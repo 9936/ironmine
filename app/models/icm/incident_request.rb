@@ -268,6 +268,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
     count = self.class.count
     self.request_number = count
     self.save
+    self.add_watcher(Irm::Person.find(self.support_person_id),false) if self.support_person_id.present?
+    self.add_watcher(Irm::Person.find(self.requested_by),false)
+    self.add_watcher(Irm::Person.find(self.submitted_by),false)
   end
 
   def setup_priority

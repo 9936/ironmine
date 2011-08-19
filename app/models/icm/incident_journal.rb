@@ -79,6 +79,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
       when "ASSIGN"
         incident_request_attributes[:last_response_date] = Time.now
         incident_request_attributes[:next_reply_user_license] = "SUPPORTER"
+
     end
     incident_request.update_attributes(incident_request_attributes)
     if last_journal

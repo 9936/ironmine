@@ -1,7 +1,9 @@
 class Icm::IncidentHistory < ActiveRecord::Base
   set_table_name :icm_incident_histories
 
-  belongs_to :incident_journal,:primary_key => "journal_id"
+  belongs_to :incident_journal,:foreign_key => "journal_id"
+
+  after_save :process_after_save
 
   def meaning
     return @history_meaning if @history_meaning
@@ -55,6 +57,20 @@ class Icm::IncidentHistory < ActiveRecord::Base
   end
 
   def to_s
+    return nil unless ["support_person_id","support_group_id","incident_status_id","close_reason_id"].include?(self.property_key)
     "#{meaning[:title]}: #{meaning[:old_meaning]} ==> #{meaning[:new_meaning]}"
+  end
+
+
+  def process_after_save
+    case self.property_key
+      when "support_person_id"
+        self.incident_journal.incident_request.add_watcher(Irm::Person.find(self.new_value),false) if self.new_value.present?
+        Irm::Person.find(self.new_value).update_assign_date
+      when "charge_person_id"
+        self.incident_journal.incident_request.add_watcher(Irm::Person.find(self.new_value),false) if self.new_value.present?
+      when "upgrade_person_id"
+        self.incident_journal.incident_request.add_watcher(Irm::Person.find(self.new_value),false) if self.new_value.present?
+    end
   end
 end

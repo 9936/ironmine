@@ -100,17 +100,27 @@ class Icm::IncidentJournalsController < ApplicationController
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
 
     @incident_request.attributes = params[:icm_incident_request]
-    @incident_journal.reply_type = "PASS"
-
-    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
-
-
 
     perform_create(true)
     respond_to do |format|
-      if @incident_journal.valid?&&@incident_request.save
-        @incident_request.add_watcher(Irm::Person.find(@incident_request.support_person_id))
-        process_change_attributes([:incident_status_id,:support_group_id,:support_person_id],@incident_request,@incident_request_bak,@incident_journal)
+      if @incident_journal.valid?&&@incident_request.support_group_id
+        @incident_journal.reply_type = "PASS"
+        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+        support_person_id = @incident_request.support_person_id
+        support_person_id = Irm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
+
+        @incident_request.support_person_id = support_person_id
+
+        @incident_request.charge_person_id = support_person_id
+        @incident_request.charge_group_id = @incident_request.support_group_id
+
+        @incident_request.upgrade_person_id = support_person_id
+        @incident_request.upgrade_group_id = @incident_request.upgrade_group_id
+        @incident_request.save
+
+        process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
+                                   :charge_group_id,:charge_person_id,
+                                   :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
@@ -135,25 +145,81 @@ class Icm::IncidentJournalsController < ApplicationController
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
 
     @incident_request.attributes = params[:icm_incident_request]
-    @incident_journal.reply_type = "UPGRADE"
 
-    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
-
+    current_support_group_id = Irm::SupportGroup.find(@incident_request.support_group_id).parent_group_id
 
     perform_create(true)
     respond_to do |format|
-      if @incident_journal.valid?&&@incident_request.support_person_id.present?
-        @incident_request.add_watcher(Irm::Person.find(@incident_request.support_person_id))
-        @incident_journal.save
-        #process_change_attributes([:incident_status_id,:support_group_id,:support_person_id],@incident_request,@incident_request_bak,@incident_journal)
+      if current_support_group_id.present?&&@incident_journal.valid?&&@incident_request.support_group_id
+        @incident_journal.reply_type = "UPGRADE"
+        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+
+        # 设置升级组
+        @incident_request.upgrade_person_id = @incident_request_bak.support_person_id
+        @incident_request.upgrade_group_id = @incident_request_bak.support_group_id
+
+        # 设置支持组
+        @incident_request.support_group_id = current_support_group_id
+
+        support_person_id = @incident_request.support_person_id
+        support_person_id = Irm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
+
+        @incident_request.support_person_id = support_person_id
+
+
+        @incident_request.save
+
+        process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
+                                   :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
-        format.html { render :action => "edit_upgrade" }
+        format.html { render :action => "edit_pass" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
+
+  end
+
+  # 自动升级
+  def direct_upgrade
+      @incident_journal = @incident_request.incident_journals.build(:message_body=>"Upgrade")
+
+      current_support_group_id = Irm::SupportGroup.find(@incident_request.support_group_id).parent_group_id
+
+      perform_create(true)
+      respond_to do |format|
+        if current_support_group_id.present?&&@incident_journal.valid?&&@incident_request.support_group_id
+          @incident_journal.reply_type = "UPGRADE"
+          @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+
+          # 设置升级组
+          @incident_request.upgrade_person_id = @incident_request.support_person_id
+          @incident_request.upgrade_group_id = @incident_request.upgrade_group_id
+
+          # 设置支持组
+          @incident_request.support_person_id = current_support_group_id
+
+          support_person_id = @incident_request.support_person_id
+          support_person_id = Irm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
+
+          @incident_request.support_person_id = support_person_id
+
+
+          @incident_request.save
+
+          process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
+                                     :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
+          process_files(@incident_journal)
+          format.html { redirect_to({:action => "new"}) }
+          format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+        end
+      end
+
   end
 
 
