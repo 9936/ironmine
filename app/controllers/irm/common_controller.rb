@@ -41,7 +41,7 @@ class Irm::CommonController < ApplicationController
     @person = Irm::Person.find(params[:id])
     params[:irm_person][:password]="*" if params[:irm_person][:password].blank?
     respond_to do |format|
-      if(params[:irm_person][:old_password]&&check_password(params[:irm_person][:old_password]))
+      if(params[:irm_person][:old_password]&&check_password(@person,params[:irm_person][:old_password]))
         if @person.update_attributes(params[:irm_person])
           format.html {redirect_to({:action=>"login"},:notice=>t(:successfully_updated))}
         else
@@ -113,7 +113,7 @@ class Irm::CommonController < ApplicationController
      login_record.update_attributes(:logout_at=>Time.now) if login_record
   end
 
-  def check_password(password)
-    Irm::Person.current.hashed_password.eql?(Irm::Person.hash_password(password))
+  def check_password(person,password)
+    person.hashed_password.eql?(Irm::Person.hash_password(password))
   end
 end
