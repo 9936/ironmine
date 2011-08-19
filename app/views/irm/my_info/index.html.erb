@@ -150,4 +150,117 @@
 
 </div>
 
+<div id="id_person_company_access" class="bRelatedList">
+    <a name="id_person_company_access_target">
+    </a>
+    <div class="listRelatedObject taskBlock">
+      <div class="bPageBlock secondaryPalette">
+        <div class="pbHeader">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            <tr>
+              <td class="pbTitle">
+                <h3 id="id_person_company_access_title"><%=t(:label_irm_person_company_access)%></h3>
+              </td>
+              <td class="pbButton">
+                <div class="button"></div>
+              </td>
+              <td class="pbHelp">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="id_company_access" class="pbBody">
+          <div id="person" class="datatable" style="width:100%;">
+          </div>
+          <!-- Begin company access table -->
+            <%= datatable("person",url_for(:controller=>"irm/company_accesses",:action=>"get_data",:person_id=>@person.id),
+                              [{:key=>"company_name",:label=>t(:label_irm_person_company),:sortable=>true}])%>
+          <!-- End company access table -->
+        </div>
+        <div class="pbFooter secondaryPalette">
+        <div class="bg"></div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div id="id_person_system_access" class="bRelatedList">
+    <a name="id_person_system_access_target">
+    </a>
+    <div class="listRelatedObject taskBlock">
+      <div class="bPageBlock secondaryPalette">
+        <div class="pbHeader">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            <tr>
+              <td class="pbTitle">
+                <h3 id="id_person_system_access_title"><%=t(:label_irm_person_access_system)%></h3>
+              </td>
+              <td class="pbButton">
+                <div class="button"></div>
+              </td>
+              <td class="pbHelp">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="id_system_access" class="pbBody">
+          <div id="person_system_list" class="datatable" style="width:100%;">
+          </div>
+          <!-- Begin company access table -->
+            <%= datatable("person_system_list",url_for(:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id),
+                              [{:key=>"id",:label=>t(:operation),:hidden => true},
+                               {:key=>"system_name",:label=>t(:label_uid_external_system),:sortable=>true, :width=>"200px"},
+                               {:key=>"system_description",:label=>t(:description),:sortable=>true, :width=> "400px"},
+                               {:key=>"external_system_code", :hidden => true}])%>
+          <!-- End company access table -->
+        </div>
+        <div class="pbFooter secondaryPalette">
+        <div class="bg"></div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div id="id_person_support_group" class="bRelatedList">
+    <a name="id_person_support_group_target">
+    </a>
+    <div class="listRelatedObject taskBlock">
+      <div class="bPageBlock secondaryPalette">
+        <div class="pbHeader">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            <tr>
+              <td class="pbTitle">
+                <h3 id="id_person_support_group_title"><%=t(:label_irm_person_support_group)%></h3>
+              </td>
+              <td class="pbButton">
+                <div class="button"></div>
+              </td>
+              <td class="pbHelp">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="id_support_group" class="pbBody">
+          <div id="support_group" class="datatable" style="width:100%;">
+          </div>
+          <!-- Begin company access table -->
+            <%= datatable("support_group",url_for(:controller=>"irm/people",:action=>"get_support_group",:person_id=>@person.id),
+                              [{:key=>"id",:label=>t(:operation), :hidden => true},
+                               {:key=>"support_group_name",:label=>t(:label_irm_support_group_name),:sortable=>true, :width=>"200px"},
+                               {:key=>"description",:label=>t(:label_irm_support_group_description),:sortable=>true, :width=>"400px"}])%>
+          <!-- End company access table -->
+        </div>
+        <div class="pbFooter secondaryPalette">
+        <div class="bg"></div>
+        </div>
+      </div>
+    </div>
+</div>
+
 
