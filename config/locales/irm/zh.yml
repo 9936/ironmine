@@ -1537,3 +1537,12 @@ zh:
   label_irm_psw_policy_expire: 密码已经过期
   label_irm_psw_policy_last_upadated_at: 上一次修改密码时间
   #======================= end password policies ====================
+  #======================= Operation Unit ====================
+  label_irm_operation_unit: Operation Unit
+  label_irm_operation_unit_edit: Operation Unit Setting
+  label_irm_operation_unit_name: Name
+  label_irm_operation_unit_short_name: Short Name
+  label_irm_operation_unit_default_language_code: Default Language Code
+  label_irm_operation_unit_default_time_zone_code: Default Time Zone
+  label_irm_operation_unit_description: Description
+  #======================= end Operation Unit ====================

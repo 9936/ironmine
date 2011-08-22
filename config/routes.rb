@@ -831,6 +831,11 @@ Ironmine::Application.routes.draw do
     #password policies
     match '/password_policies(/index)(.:format)' => "password_policies#index", :via => :get
     match '/password_policies/:id(.:format)' => "password_policies#update", :via => :put
+
+    #operation unit
+    match '/operation_units(/show)(.:format)' => "operation_units#show", :via => :get
+    match '/operation_units/edit(.:format)' => "operation_units#edit", :via => :get
+    match '/operation_units/update(.:format)' => "operation_units#update", :via => :put
   end
 
   scope :module => "icm" do
