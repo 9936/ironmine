@@ -12,6 +12,7 @@ module Irm::WatchersHelper
     watchers = watchable.all_person_watchers
     ret = ""
     watchers.each do |w|
+      deletable = editable&&Irm::Constant::SYS_YES.eql?(w.deletable_flag)
       ret << content_tag(:tr,
                   content_tag(:td,
                               content_tag(:div,
@@ -19,7 +20,7 @@ module Irm::WatchersHelper
                                                                                                                                                                :action => "delete_watcher",
                                                                                                                                                                :watcher_id => w.id,
                                                                                                                                                                :watchable_id => watchable.id,
-                                                                                                                                                               :watchable_type => watchable.class.to_s}, :remote => true) if editable)))
+                                                                                                                                                               :watchable_type => watchable.class.to_s}, :remote => true) if deletable)))
     end
     raw(ret)
   end

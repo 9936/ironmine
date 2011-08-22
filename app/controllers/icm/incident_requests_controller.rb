@@ -299,6 +299,40 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
+
+
+  def edit_assign_me
+
+  end
+
+  def update_assign_me
+
+  end
+
+  def assign_me_data
+    return_columns = [:request_number,
+                      :company_name,
+                      :title,
+                      :incident_status_name,
+                      :close_flag,
+                      :requested_name,
+                      :last_request_date,
+                      :priority_name]
+    bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).assignable_to_person(Irm::Person.current.id).query_by_company_ids(session[:accessable_companies]).order("created_at")
+
+    respond_to do |format|
+      format.json {
+        incident_requests,count = paginate(incident_requests_scope)
+        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+      }
+      format.xml {
+        incident_requests,count = paginate(incident_requests_scope)
+        render :xml => incident_requests
+      }
+    end
+  end
+
   private
   def prepared_for_create(incident_request)
     incident_request.submitted_by = Irm::Person.current.id

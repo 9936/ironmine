@@ -335,6 +335,13 @@ class Irm::Person < ActiveRecord::Base
       self.full_name_pinyin= Hz2py.do(self.full_name).downcase.gsub(/\s|[^a-z]/,"")
   end
 
+
+  # 更新处理人员的最后分单时间
+
+  def update_assign_date
+    self.last_assigned_date = Time.now
+  end
+
   private
   def reprocess_avatar
       avatar.reprocess!

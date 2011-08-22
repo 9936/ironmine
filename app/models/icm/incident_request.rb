@@ -173,6 +173,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
                                order("DATE_FORMAT(#{table_name}.created_at,'%Y-%m') asc")
 
 
+   scope :assignable_to_person,lambda{|person_id|
+     joins("JOIN #{Irm::SupportGroup.table_name} ON #{Irm::SupportGroup.table_name}.id = #{table_name}.support_group_id ").
+         joins("JOIN #{Irm::SupportGroupMember.table_name} ON #{Irm::SupportGroupMember.table_name}.support_group_code = #{Irm::SupportGroup.table_name}.group_coe").
+         where("#{table_name}.support_group_id = ? AND #{table_name}.support_person_id = ? AND#{Irm::SupportGroupMember.table_name}.person_id = ?",nil,nil,person_id)
+   }
+
   acts_as_watchable
   def self.list_all
     select_all.
@@ -268,6 +274,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
     count = self.class.count
     self.request_number = count
     self.save
+    self.add_watcher(Irm::Person.find(self.support_person_id),false) if self.support_person_id.present?
+    self.add_watcher(Irm::Person.find(self.requested_by),false)
+    self.add_watcher(Irm::Person.find(self.submitted_by),false)
   end
 
   def setup_priority

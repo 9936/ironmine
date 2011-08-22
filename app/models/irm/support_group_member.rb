@@ -31,6 +31,16 @@ class Irm::SupportGroupMember < ActiveRecord::Base
     select("#{Irm::Person.table_name}.id person_id,#{Irm::Person.name_to_sql(nil,Irm::Person.table_name,'person_name')}")
   }
 
+  scope :with_open_tasks,lambda{
+    joins(" LEFT OUTER JOIN (SELECT irq.support_person_id,count(*) count
+                             FROM  icm_incident_requests irq,icm_incident_statuses ist
+                             WHERE irq.support_person_id IS NOT NULL
+                               AND irq.incident_status_id = ist.id
+                               AND ist.close_flag != '#{Irm::Constant::SYS_YES}'
+                               GROUP BY  irq.support_person_id) task_counts ON #{table_name}.person_id = task_counts.support_person_id").
+        select("task_counts.count opened_task_count")
+  }
+
 
   scope :with_assignable_person,lambda{
     joins("JOIN #{Irm::Person.table_name} ON #{Irm::Person.table_name}.id = #{table_name}.person_id AND #{Irm::Person.table_name}.assignment_availability_flag = '#{Irm::Constant::SYS_YES}'").

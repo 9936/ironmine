@@ -82,4 +82,23 @@ class Irm::SupportGroup < ActiveRecord::Base
   def self.list_all
     self.multilingual.with_parent.with_company(I18n.locale).with_organization.with_assignment_process.with_support_role
   end
+
+  def assign_member_id
+    assigner = nil
+    if "LONGEST_TIME_NOT_ASSIGN".eql?(self.assignment_process_code)
+      assigner = Irm::SupportGroupMember.query_by_support_group_code(self.group_code).
+                                         with_person.
+                                         where("#{Irm::Person.table_name}.assignment_availability_flag = ?",Irm::Constant::SYS_YES).
+                                         order("#{Irm::Person.table_name}.last_assigned_date").first
+      assigner = assigner[:person_id] if assigner
+    elsif "MINI_OPEN_TASK".eql?(self.assignment_process_code)
+      assigner = Irm::SupportGroupMember.query_by_support_group_code(self.group_code).
+                                         with_person.
+                                         with_open_tasks.
+                                         where("#{Irm::Person.table_name}.assignment_availability_flag = ?",Irm::Constant::SYS_YES).
+                                         order("task_counts.count").first
+      assigner = assigner[:person_id] if assigner
+    end
+    assigner
+  end
 end
