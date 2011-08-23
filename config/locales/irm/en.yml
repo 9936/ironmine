@@ -1215,6 +1215,7 @@ en:
   label_action_select_lanes: Available Lanes
   label_irm_kanban_name: Kanban Name
   label_irm_kanban_description: Kanban Description
+  label_irm_kanban_position: Kanban Position
   #==================================================================
   #======================= lanes ==================================
   label_irm_lane: Lane
@@ -1260,3 +1261,11 @@ en:
   label_irm_psw_policy_max_attempts: Maximum invalid login attempts
   label_irm_psw_policy_lockout_period: Lockout effective period
   #======================= end password policies ====================
+
+  #======================= profiles ====================
+  label_irm_profile_owned_kanban: Owned Kanbans
+  label_irm_profile_select_kanban: Select Kanban
+  label_irm_profile_kanban_position: Kanban Position
+  label_irm_profile_add_kanban: Add Kanban
+  label_irm_profile_edit_kanban: Edit Kanban
+  #======================= end profiles ====================

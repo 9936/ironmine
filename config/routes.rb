@@ -746,7 +746,6 @@ Ironmine::Application.routes.draw do
     match '/report_type_sections/:report_type_id/field_source(.:format)' => "report_type_sections#field_source", :via => :get
     match '/report_type_sections/:report_type_id/section_field(.:format)' => "report_type_sections#section_field", :via => :get
 
-
     match '/demo(/index)' => 'demo#index'
 
     #kanbans
@@ -829,6 +828,11 @@ Ironmine::Application.routes.draw do
     match '/profiles/get_data(.:format)' => "profiles#get_data"
     match '/profiles/:id/show(.:format)' => "profiles#show", :via => :get
 
+    match '/profiles/:profile_id/add_kanban(.:format)' => "profiles#add_kanban", :via => :get
+    match '/profiles/:profile_id/create_kanban(.:format)' => "profiles#create_kanban", :via => :post
+    match '/profiles/:profile_id/:pk_id/edit_kanban(.:format)' => "profiles#edit_kanban", :via => :get
+    match '/profiles/:profile_id/:pk_id/update_kanban(.:format)' => "profiles#update_kanban", :via => :post
+    match '/profiles/:pk_id/remove_kanban(.:format)' => "profiles#remove_kanban"
     #password policies
     match '/password_policies(/index)(.:format)' => "password_policies#index", :via => :get
     match '/password_policies/:id(.:format)' => "password_policies#update", :via => :put

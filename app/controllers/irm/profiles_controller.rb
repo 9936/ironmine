@@ -14,6 +14,7 @@ class Irm::ProfilesController < ApplicationController
   # GET /profiles/1.xml
   def show
     @profile = Irm::Profile.multilingual.find(params[:id])
+    @kanbans = Irm::Profile.owned_kanbans(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -111,6 +112,56 @@ class Irm::ProfilesController < ApplicationController
     profiles,count = paginate(profiles_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(profiles.to_grid_json([:name,:description,:code],count))}
+    end
+  end
+
+  def add_kanban
+    @profile_kanban = Irm::ProfileKanban.new
+    @profile = Irm::Profile.find(params[:profile_id])
+  end
+
+  def create_kanban
+    @profile_kanban = Irm::ProfileKanban.new(params[:irm_profile_kanban])
+    @profile = Irm::Profile.find(params[:profile_id])
+
+    respond_to do |format|
+      if @profile_kanban.valid? && @profile_kanban.save
+        format.html { redirect_to({:action => "show", :id => params[:profile_id]}, :notice => t(:successfully_created)) }
+        format.xml  { render :xml => @profile_kanban, :status => :created, :location => @profile_kanban }
+      else
+        format.html { render :action => "add_kanban"}
+        format.xml  { render :xml => @profile_kanban.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def edit_kanban
+    @profile_kanban = Irm::ProfileKanban.select_all.with_position_name.where("#{Irm::ProfileKanban.table_name}.id=?", params[:pk_id]).first
+    @profile = Irm::Profile.find(params[:profile_id])
+  end
+
+  def update_kanban
+    @profile_kanban = Irm::ProfileKanban.find(params[:pk_id])
+    respond_to do |format|
+      if @profile_kanban.update_attributes(params[:irm_kanban_profile])
+        format.html { redirect_to({:action => "show", :id => params[:profile_id]}, :notice => t(:successfully_updated)) }
+        format.xml  { head :ok }
+      else
+        @profile_kanban = Irm::ProfileKanban.select_all.with_position_name.where("#{Irm::ProfileKanban.table_name}.id=?", params[:pk_id]).first
+        @profile = Irm::Profile.find(params[:profile_id])
+        format.html { render :action => "edit_kanban" }
+        format.xml  { render :xml => @profile_kanban.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def remove_kanban
+    @profile_kanban = Irm::ProfileKanban.find(params[:pk_id])
+    profile_id = @profile_kanban.profile_id
+    @profile_kanban.destroy
+
+    respond_to do |format|
+      format.html { redirect_to({:action => "show", :id=>profile_id})}
     end
   end
 end

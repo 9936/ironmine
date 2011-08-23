@@ -131,4 +131,11 @@ module Irm::KanbansHelper
     kanbans = Irm::Kanban.multilingual.enabled
     kanbans.collect{|p| [p[:name], p.id]}
   end
+
+  def profile_available_kanban_positions(profile_id)
+    profile_kanban_pos = Irm::ProfileKanban.select_all.with_position_name.where("profile_id = ?", profile_id).collect(&:position_code)
+    positions = Irm::LookupValue.multilingual.enabled.where("lookup_code NOT IN (?)", profile_kanban_pos + ['']).where("lookup_type=?","IRM_KANBAN_POSITION")
+    positions = positions.collect{|p| [p[:meaning], p.lookup_code]}
+    positions
+  end
 end

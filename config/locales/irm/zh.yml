@@ -1432,6 +1432,7 @@ zh:
   label_action_select_lanes: 可选泳道
   label_irm_kanban_name: 看板名称
   label_irm_kanban_description: 看板描述
+  label_irm_kanban_position: 看板位置
   #==================================================================
   #======================= lanes ==================================
   label_irm_lane: 泳道
@@ -1525,6 +1526,11 @@ zh:
   label_irm_profile_application_list: 应用列表
   label_irm_profile_application_visual: 可见
   label_irm_profile_application_default: 默认
+  label_irm_profile_owned_kanban: 拥有的看板
+  label_irm_profile_select_kanban: 选择要添加的看板
+  label_irm_profile_kanban_position: 看板位置
+  label_irm_profile_add_kanban: 添加看板
+  label_irm_profile_edit_kanban: 编辑看板
   #=======================end profiles ====================
 
   #======================= password policies ====================
