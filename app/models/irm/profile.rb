@@ -103,6 +103,12 @@ class Irm::Profile < ActiveRecord::Base
       self.profile_applications.build({:application_id=>aid}.merge(default_options))
     end if application_ids.any?
   end
+
+  def get_pos_kanban(position_code)
+    Irm::
+  rescue
+    false
+  end
 end
 
 

@@ -43,8 +43,9 @@ module Irm::KanbansHelper
     assignments.join(",")
   end
 
-  def show_kanban(kanban_id, mode = "0")
-    lanes = Irm::Lane.multilingual.query_by_kanban(kanban_id).with_sequence
+  def show_kanban(profile_id, position_code, mode = "0")
+    kanban = Irm::ProfileKanban.where("profile_id=?", profile_id).where("position_code=?", position_code).enabled.first
+    lanes = Irm::Lane.multilingual.query_by_profile_position(profile_id, position_code)
     lanes_tags = ""
     cards_tags = ""
     lanes.each do |la|
@@ -64,7 +65,7 @@ module Irm::KanbansHelper
       cards_array = []
       cards.each do |ca|
 
-        ca_result = ca.prepare_card_content(la.limit, session[:accessable_companies])
+        ca_result = ca.prepare_card_content(kanban.limit, session[:accessable_companies])
 
         ca_result.each do |cr|
           begin
@@ -105,9 +106,9 @@ module Irm::KanbansHelper
                   content_tag(:div, content_tag(:table, raw(title_tag) + raw(description_tag)), :class => "card-div") + raw(date_tag),
                   {:class => "card", :style => "background-color:" + c_array[4]}), {:href=>c_array[5], :title => c_array[1] + ": " + c_array[2]})
 
-        break if c_array == cards_array[la.limit - 1] #超过限制数时跳出
+        break if c_array == cards_array[kanban.limit - 1] #超过限制数时跳出
       end
-      lanes_tags << content_tag(:th, content_tag(:div, la[:name] + "(" + lane_cards_count.to_s + "/" + la.limit.to_s + ")"), {:align => "center", :class => "th_" + position})
+      lanes_tags << content_tag(:th, content_tag(:div, la[:name] + "(" + lane_cards_count.to_s + "/" + kanban.limit.to_s + ")"), {:align => "center", :class => "th_" + position})
       cards_tags << content_tag(:td, raw(ct), {:class => "td_" + position, :align => "center"})
     end
     lanes_tags = content_tag(:tr, raw(lanes_tags))

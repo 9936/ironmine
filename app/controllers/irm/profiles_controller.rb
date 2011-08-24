@@ -143,7 +143,7 @@ class Irm::ProfilesController < ApplicationController
   def update_kanban
     @profile_kanban = Irm::ProfileKanban.find(params[:pk_id])
     respond_to do |format|
-      if @profile_kanban.update_attributes(params[:irm_kanban_profile])
+      if @profile_kanban.update_attributes(params[:irm_profile_kanban])
         format.html { redirect_to({:action => "show", :id => params[:profile_id]}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else

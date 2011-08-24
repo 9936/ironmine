@@ -1,5 +1,5 @@
 <%= setting_title %>
-<%= form_for(@profile_kanban,:url=>{:action=>"update_kanban", :profile_id => @profile.id},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@profile_kanban,:url=>{:action=>"update_kanban", :pk_id => @profile_kanban.id, :profile_id => @profile.id},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field :profile_id, :value => @profile.id %>
 <div id="ep" class="bEditBlock bPageBlock">
   <div class="pbHeader">

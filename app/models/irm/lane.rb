@@ -48,4 +48,11 @@ class Irm::Lane < ActiveRecord::Base
     order("kl.display_sequence ASC")
   }
 
+  scope :query_by_profile_position, lambda{|profile_id, position_code|
+    joins(",#{Irm::ProfileLane.table_name} pl,#{Irm::ProfileKanban.table_name} pk").
+        where("pk.profile_id = ?", profile_id).
+        where("pk.id = pl.profile_kanban_id").
+        where("pl.lane_id = #{table_name}.id").
+        where("pk.position_code=?", position_code).order("pl.display_sequence ASC")
+  }
 end

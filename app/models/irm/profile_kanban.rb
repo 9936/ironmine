@@ -9,6 +9,8 @@ class Irm::ProfileKanban < ActiveRecord::Base
   validates_numericality_of :limit
   validates_numericality_of :refresh_interval
 
+  query_extend
+
   scope :with_position_name, lambda{
     joins(",#{Irm::LookupValue.view_name} lv").
         where("lv.lookup_code = #{table_name}.position_code").

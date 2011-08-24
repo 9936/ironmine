@@ -761,7 +761,7 @@ Ironmine::Application.routes.draw do
     match '/kanbans/:id/add_lanes(.:format)' => "kanbans#add_lanes", :via => :post
     match '/kanbans/:id/select_lanes(.:format)' => "kanbans#select_lanes", :via => :get
     match '/kanbans/:kanban_id/:lane_id/delete_lane(.:format)' => "kanbans#delete_lane", :via => :delete
-    match '/kanbans/:id/refresh_my_kanban/:mode(.:format)' => "kanbans#refresh_my_kanban"
+    match '/kanbans/:position_code/refresh_my_kanban/:mode(.:format)' => "kanbans#refresh_my_kanban"
     match '/kanbans/:kanban_id/:lane_id/up_lane(.:format)' => "kanbans#up_lane", :via => :get
     match '/kanbans/:kanban_id/:lane_id/down_lane(.:format)' => "kanbans#down_lane", :via => :get
     match '/kanbans/:id/multilingual_edit(.:format)' => "kanbans#multilingual_edit", :via => :get
@@ -831,7 +831,7 @@ Ironmine::Application.routes.draw do
     match '/profiles/:profile_id/add_kanban(.:format)' => "profiles#add_kanban", :via => :get
     match '/profiles/:profile_id/create_kanban(.:format)' => "profiles#create_kanban", :via => :post
     match '/profiles/:profile_id/:pk_id/edit_kanban(.:format)' => "profiles#edit_kanban", :via => :get
-    match '/profiles/:profile_id/:pk_id/update_kanban(.:format)' => "profiles#update_kanban", :via => :post
+    match '/profiles/:profile_id/:pk_id/update_kanban(.:format)' => "profiles#update_kanban"
     match '/profiles/:pk_id/remove_kanban(.:format)' => "profiles#remove_kanban"
     match '/profiles/:pk_id/manage_lanes(.:format)' => "profiles#manage_lanes", :via => :get
     match '/profiles/:pk_id/get_available_lanes_data(.:format)' => "profiles#get_available_lanes_data", :via => :get

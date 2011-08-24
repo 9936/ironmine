@@ -161,6 +161,7 @@ class Irm::KanbansController < ApplicationController
 
   def refresh_my_kanban
     @refresh_mode = params[:mode]
+    @position_code = params[:position_code]
     respond_to do |format|
       format.js {render :refresh_kanban}
     end

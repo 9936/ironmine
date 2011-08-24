@@ -1,6 +1,1 @@
-<% if Irm::Person.current.profile && Irm::Person.current.profile.kanban%>
-<% kanban = Irm::Person.current.profile.kanban %>
-<% else %>
-<% kanban = Irm::Kanban.enabled.first %>
-<% end %>
-<%= raw(show_kanban(kanban.id, @refresh_mode))%>
+<%= raw(show_kanban(Irm::Person.current.profile.id, @position_code, @refresh_mode))%>
