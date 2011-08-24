@@ -1227,6 +1227,7 @@ en:
   label_irm_lane_add_card: Add Card
   label_irm_lane_name: Lane Name
   label_irm_lane_description: Lane Description
+  label_irm_lane_sequence: Display Sequence
   #==================================================================
   #======================= cards ==================================
   label_irm_card: Card
@@ -1269,4 +1270,6 @@ en:
   label_irm_profile_add_kanban: Add Kanban
   label_irm_profile_edit_kanban: Edit Kanban
   label_irm_profile_manage_lane: Manage Lane
+  label_irm_profile_add_lane: Add Lane
+  label_irm_profile_reorder_lane: Reorder
   #======================= end profiles ====================

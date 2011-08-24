@@ -101,7 +101,8 @@
                       <%= link_to(t(:edit),{:action=>"edit_kanban",
                                             :profile_id=>@profile.id,
                                             :pk_id=>kanban[:pk_id]}) %>&nbsp;|
-                      <%= link_to(t(:label_irm_profile_manage_lane),{:action=>"manage_lanes", :pk_id=>kanban[:pk_id]}) %>&nbsp;|
+                      <%= link_to(t(:label_irm_profile_manage_lane),{:action=>"manage_lanes",
+                                                                     :pk_id=>kanban[:pk_id]}) %>&nbsp;|
                       <%= link_to(t(:remove),{:action=>"remove_kanban",
                                               :pk_id=>kanban[:pk_id]},:confirm => t(:are_you_sure)) %>
                      </div>

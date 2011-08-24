@@ -834,6 +834,10 @@ Ironmine::Application.routes.draw do
     match '/profiles/:profile_id/:pk_id/update_kanban(.:format)' => "profiles#update_kanban", :via => :post
     match '/profiles/:pk_id/remove_kanban(.:format)' => "profiles#remove_kanban"
     match '/profiles/:pk_id/manage_lanes(.:format)' => "profiles#manage_lanes", :via => :get
+    match '/profiles/:pk_id/get_available_lanes_data(.:format)' => "profiles#get_available_lanes_data", :via => :get
+    match '/profiles/:pk_id/remove_lanes(.:format)' => "profiles#remove_lanes"
+    match '/profiles/:pk_id/add_lanes(.:format)' => "profiles#add_lanes", :via => :post
+    match '/profiles/:pk_id/reorder_lanes(.:format)' => "profiles#reorder_lanes"
     #password policies
     match '/password_policies(/index)(.:format)' => "password_policies#index", :via => :get
     match '/password_policies/:id(.:format)' => "password_policies#update", :via => :put

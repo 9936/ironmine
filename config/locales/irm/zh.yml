@@ -1444,6 +1444,7 @@ zh:
   label_irm_lane_add_card: 添加卡片
   label_irm_lane_name: 泳道名称
   label_irm_lane_description: 泳道描述
+  label_irm_lane_sequence: 显示顺序
   #==================================================================
   #======================= cards ==================================
   label_irm_card: 卡片
@@ -1532,7 +1533,8 @@ zh:
   label_irm_profile_add_kanban: 添加看板
   label_irm_profile_edit_kanban: 编辑看板
   label_irm_profile_manage_lane: 管理泳道
-  label_irm_profile_manage_lane: 管理泳道
+  label_irm_profile_add_lane: 添加泳道
+  label_irm_profile_reorder_lane: 重新排序
   #=======================end profiles ====================
 
   #======================= password policies ====================

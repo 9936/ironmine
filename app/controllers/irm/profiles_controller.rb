@@ -166,6 +166,65 @@ class Irm::ProfilesController < ApplicationController
   end
 
   def manage_lanes
+    @profile_lanes = Irm::ProfileLane.select_all.with_lanes.enabled.
+        where(:profile_kanban_id => params[:pk_id]).order("display_sequence ASC")
+    @profile_lane = Irm::ProfileLane.new(:profile_kanban_id => params[:pk_id])
+    @pk_id = params[:pk_id]
+    @profile_id = Irm::ProfileKanban.find(params[:pk_id]).profile_id
+    @profile_lane.status_code = ""
+  end
 
+  def get_available_lanes_data
+    owned_lanes = Irm::ProfileLane.where(:profile_kanban_id => params[:pk_id]).collect(&:lane_id)
+    lanes_scope = Irm::Lane.multilingual.enabled.where("#{Irm::Lane.table_name}.id NOT IN (?)", owned_lanes + [''])
+    lanes,count = paginate(lanes_scope)
+    respond_to do |format|
+      format.json {render :json=>to_jsonp(lanes.to_grid_json([:name,:description,:lane_code],count))}
+    end
+  end
+
+  def add_lanes
+    @profile_lane = Irm::ProfileLane.new(params[:irm_profile_lane])
+
+    respond_to do |format|
+      if(!@profile_lane.status_code.blank?)
+        @profile_lane.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
+          Irm::ProfileLane.create(:profile_kanban_id => params[:pk_id],:lane_id => id,:display_sequence => (Irm::ProfileLane.max_sequence(params[:pk_id]).to_i + 1))
+        end
+      end
+      format.html { redirect_to({:action=>"manage_lanes", :pk_id => params[:pk_id]}, :notice => t(:successfully_created)) }
+      format.xml  { render :xml => @profile_lane.errors, :status => :unprocessable_entity }
+    end
+  end
+
+  def remove_lanes
+    @profile_lane = Irm::ProfileLane.new(params[:irm_profile_lane])
+
+    respond_to do |format|
+      if(!@profile_lane.status_code.blank?)
+        @profile_lane.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
+          Irm::ProfileLane.find(id).destroy
+        end
+        Irm::ProfileLane.reorder(params[:pk_id])
+      end
+      format.html { redirect_to({:action=>"manage_lanes", :pk_id => params[:pk_id]}, :notice => t(:successfully_created)) }
+      format.xml  { render :xml => @profile_lane.errors, :status => :unprocessable_entity }
+    end
+  end
+
+  def reorder_lanes
+    Irm::ProfileLane.transaction do
+      params[:display_sequence].each do |key, value|
+        Irm::ProfileLane.find(key).update_attribute(:display_sequence, value)
+      end
+      Irm::ProfileLane.reorder(params[:pk_id])
+    end
+    respond_to do |format|
+      format.html { redirect_to({:action=>"manage_lanes", :pk_id => params[:pk_id]}, :notice => t(:successfully_created)) }
+    end
+  rescue
+    respond_to do |format|
+      format.html { redirect_to({:action=>"manage_lanes", :pk_id => params[:pk_id]}, :notice => t(:successfully_created)) }
+    end
   end
 end
