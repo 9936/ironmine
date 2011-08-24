@@ -262,7 +262,7 @@ Irm::AccessControl.map do |map|
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
   map.function :profile,{"irm/profiles"=>["index", "show","new", "create","edit", "update", "multilingual_edit", "multilingual_update",
                                           "add_kanban","create_kanban","edit_kanban","update_kanban","remove_kanban","get_available_lanes_data",
-                                          "add_lanes","remove_lanes"]}
+                                          "add_lanes","remove_lanes","manage_lanes"]}
 
   #===================irm/bu_columns============================
   map.function :bulletin_column,{"irm/bu_columns" => ["index", "edit", "update", "new", "create", "get_columns_data"]}
