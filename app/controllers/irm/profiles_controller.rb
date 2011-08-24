@@ -164,4 +164,8 @@ class Irm::ProfilesController < ApplicationController
       format.html { redirect_to({:action => "show", :id=>profile_id})}
     end
   end
+
+  def manage_lanes
+
+  end
 end

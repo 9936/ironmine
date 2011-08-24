@@ -1268,4 +1268,5 @@ en:
   label_irm_profile_kanban_position: Kanban Position
   label_irm_profile_add_kanban: Add Kanban
   label_irm_profile_edit_kanban: Edit Kanban
+  label_irm_profile_manage_lane: Manage Lane
   #======================= end profiles ====================

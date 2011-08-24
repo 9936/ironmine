@@ -1531,6 +1531,8 @@ zh:
   label_irm_profile_kanban_position: 看板位置
   label_irm_profile_add_kanban: 添加看板
   label_irm_profile_edit_kanban: 编辑看板
+  label_irm_profile_manage_lane: 管理泳道
+  label_irm_profile_manage_lane: 管理泳道
   #=======================end profiles ====================
 
   #======================= password policies ====================
