@@ -31,10 +31,6 @@
               <td class="dataCol"><%= @lane[:description]%></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_irm_lane_limit)%></label></td>
-              <td class="dataCol"><%= @lane.limit%></td>
-            </tr>
-            <tr>
               <td class="labelCol"><label><%=(t :active)%></label></td>
               <td class="data2Col"><div><%= check_img(@lane.status_code)%></div></td>
             </tr>

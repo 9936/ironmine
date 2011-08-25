@@ -756,14 +756,8 @@ Ironmine::Application.routes.draw do
     match '/kanbans/create(.:format)' => "kanbans#create", :via => :post
     match '/kanbans/:id/edit(.:format)' => "kanbans#edit", :via => :get
     match '/kanbans/:id/update(.:format)' => "kanbans#update", :via => :put
-    match '/kanbans/:id/get_available_lanes(.:format)' => "kanbans#get_available_lanes", :via => :get
-    match '/kanbans/:id/get_owned_lanes(.:format)' => "kanbans#get_owned_lanes", :via => :get
-    match '/kanbans/:id/add_lanes(.:format)' => "kanbans#add_lanes", :via => :post
-    match '/kanbans/:id/select_lanes(.:format)' => "kanbans#select_lanes", :via => :get
-    match '/kanbans/:kanban_id/:lane_id/delete_lane(.:format)' => "kanbans#delete_lane", :via => :delete
     match '/kanbans/:position_code/refresh_my_kanban/:mode(.:format)' => "kanbans#refresh_my_kanban"
-    match '/kanbans/:kanban_id/:lane_id/up_lane(.:format)' => "kanbans#up_lane", :via => :get
-    match '/kanbans/:kanban_id/:lane_id/down_lane(.:format)' => "kanbans#down_lane", :via => :get
+
     match '/kanbans/:id/multilingual_edit(.:format)' => "kanbans#multilingual_edit", :via => :get
     match '/kanbans/:id/multilingual_update(.:format)' => "kanbans#multilingual_update", :via => :put
     #lanes
