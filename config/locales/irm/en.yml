@@ -1272,4 +1272,5 @@ en:
   label_irm_profile_manage_lane: Manage Lane
   label_irm_profile_add_lane: Add Lane
   label_irm_profile_reorder_lane: Reorder
+  label_irm_profile_ir_page_kanban: Incident Index Kanban
   #======================= end profiles ====================

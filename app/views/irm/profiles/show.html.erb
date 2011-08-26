@@ -1,4 +1,3 @@
-<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
 <div id="ep" class="bDetailBlock bPageBlock">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -42,106 +41,22 @@
       </table>
     </div>
   </div>
-
-  <div class="bPageBlock">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_profile_owned_kanban) %></h2></td>
-              <td class="pbButton">
-                <div class="button"><%= link_to t(:label_irm_profile_add_kanban), {:action => "add_kanban", :profile_id => @profile.id}%></div>
-              </td>
-              <td class="pbHelp">
-                <div></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="pbBody">
+    <div class="pbSubheader tertiaryPalette">
+      <h3><%= t(:label_irm_kanban) %><span class="titleSeparatingColon">:</span></h3>
     </div>
 
     <div class="pbSubsection">
-      <div class="datatable">
-        <div class="yui3-widget yui3-datatable">
-          <div class="yui3-datatable-content">
-              <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
-                <thead class="yui3-datatable-columns">
-                  <tr class="yui3-datatable-first yui3-datatable-last">
-                    <th class="yui3-column" style="width:120px;">
-                      <div class="yui3-datatable-liner"><%= t(:operation) %>
-                      </div>
-                    </th>
-                    <th class="yui3-column" style="width:100px;">
-                      <div class="yui3-datatable-liner"><%= t(:label_irm_kanban_position) %>
-                      </div>
-                    </th>
-                    <th class="yui3-column" style="width:120px;">
-                      <div class="yui3-datatable-liner"><%= t(:label_irm_kanban_name) %>
-                      </div>
-                    </th>
-                    <th class="yui3-column" style="width:250px;">
-                      <div class="yui3-datatable-liner"><%= t(:label_irm_kanban_description) %>
-                      </div>
-                    </th>
-                    <th class="yui3-column" style="width:80px;">
-                      <div class="yui3-datatable-liner"><%= t(:label_irm_lane_limit) %>
-                      </div>
-                    </th>
-                    <th class="yui3-column" style="width:80px;">
-                      <div class="yui3-datatable-liner"><%= t(:label_irm_kanban_refresh_interval) %>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="yui3-datatable-data">
-                <% @kanbans.each do |kanban| %>
-                <tr id="<%=kanban.id%>" class="yui3-datatable-even">
-                  <td class="yui3-column">
-                    <div class='yui3-datatable-liner'>
-                      <%= link_to(t(:edit),{:action=>"edit_kanban",
-                                            :profile_id=>@profile.id,
-                                            :pk_id=>kanban[:pk_id]}) %>&nbsp;|
-                      <%= link_to(t(:label_irm_profile_manage_lane),{:action=>"manage_lanes",
-                                                                     :pk_id=>kanban[:pk_id]}) %>&nbsp;|
-                      <%= link_to(t(:remove),{:action=>"remove_kanban",
-                                              :pk_id=>kanban[:pk_id]},:confirm => t(:are_you_sure)) %>
-                     </div>
-                  </td>
-                  <td class="yui3-column">
-                    <div class='yui3-datatable-liner'>
-                        <%= kanban[:position_name] %>
-                     </div>
-                  </td>
-                  <td class="yui3-column">
-                    <div class='yui3-datatable-liner'>
-                       <%= kanban[:kanban_name] %>
-                    </div>
-                  </td>
-                  <td class="yui3-column">
-                    <div class='yui3-datatable-liner'>
-                       <%= kanban[:kanban_description] %>
-                    </div>
-                  </td>
-                  <td class="yui3-column">
-                    <div class='yui3-datatable-liner'>
-                       <%= kanban[:kanban_limit] %>
-                    </div>
-                  </td>
-                  <td class="yui3-column">
-                    <div class='yui3-datatable-liner'>
-                       <%= kanban[:refresh_interval] %>
-                    </div>
-                  </td>
-                </tr>
-                <% end -%>
-                </tbody>
-              </table>
-          </div>
-        </div>
-      </div>
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_profile_ir_page_kanban)%></label></td>
+              <td class="data2Col"><%= @profile[:kanban_name]%></td>
+            </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-
 </div>
 
 <div class="listRelatedObject setupBlock">

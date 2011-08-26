@@ -48,7 +48,7 @@
   <!--<a href="javascript:void(0);" id="mode_preview" onclick="set_mode(0);">预览模式</a>-->
   <!--<a href="javascript:void(0);" id="mode_list" onclick="set_mode(1);">列表模式</a>-->
 <!--</div>-->
-<% kanban = Irm::ProfileKanban.where(:profile_id => Irm::Person.current.profile.id, :position_code => position_code).enabled.first%>
+<% kanban = Irm::Kanban.select_all.query_by_position_and_profile(Irm::Person.current.profile.id, position_code).enabled.first%>
 <% if kanban%>
     <div id="kanban_<%= position_code%>">
     <%= show_kanban(Irm::Person.current.profile.id, position_code)%>

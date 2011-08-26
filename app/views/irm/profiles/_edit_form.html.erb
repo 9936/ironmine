@@ -27,7 +27,7 @@
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_profile_new)%></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_profile_edit)%></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= f.submit t(:save)%></div>
             <div class="button"><%= link_back t(:cancel)%></div>
@@ -66,6 +66,20 @@
             <tr>
               <td class="labelCol"><label for="profile_description"><%=t(:label_irm_profile_description)%></label></td>
               <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>90 ,:id=>"profile_description"%></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="head_1_ep" class="pbSubheader tertiaryPalette">
+      <h3><%= t(:label_irm_kanban) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_irm_profile_ir_page_kanban)%></label></td>
+              <td class="data2Col" colspan="3" width="82%"><%=select_tag_alias :ir_kanban, available_kanbans_by_position("INCIDENT_REQUEST_PAGE"), @profile[:kanban_id]%></td>
             </tr>
         </tbody>
       </table>

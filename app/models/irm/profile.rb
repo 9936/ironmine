@@ -12,26 +12,12 @@ class Irm::Profile < ActiveRecord::Base
   has_many :profile_applications
   has_many :applications,:through => :profile_applications
 
-  belongs_to :kanban, :class_name => "Irm::Kanban"
-
-  has_many :profile_kanbans
-  has_many :kanbans, :through => :profile_kanbans
-
   query_extend
-#  scope :with
 
-  scope :owned_kanbans, lambda{|profile_id|
-    joins(",#{Irm::Kanban.table_name} kb,#{Irm::ProfileKanban.table_name} pk,#{Irm::KanbansTl.table_name} kt").
-        joins(",#{Irm::LookupValue.view_name} lv").
-        where("lv.language=?",I18n.locale).
-        where("lv.lookup_type=?","IRM_KANBAN_POSITION").
-        where("lv.lookup_code=pk.position_code").
-        where("kb.id = pk.kanban_id").
-        where("kb.id = kt.kanban_id").
-        where("kt.language = ?", I18n.locale).
-        where("pk.profile_id = #{table_name}.id").
-        where("#{table_name}.id=?", profile_id).
-        select("kb.id kanban_id, pk.limit kanban_limit, pk.refresh_interval refresh_interval, kt.name kanban_name, kt.description kanban_description, lv.meaning position_name, pk.position_code position_code, pk.id pk_id")
+  scope :with_kanban, lambda{
+    joins("LEFT OUTER JOIN #{Irm::ProfileKanban.table_name} pk ON pk.profile_id = #{table_name}.id").
+        joins("LEFT OUTER JOIN #{Irm::Kanban.view_name} kb ON pk.kanban_id = kb.id AND kb.position_code='INCIDENT_REQUEST_PAGE' AND kb.language='#{I18n.locale}'").
+        select("kb.name kanban_name, kb.id kanban_id")
   }
 
   def to_s

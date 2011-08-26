@@ -3,22 +3,37 @@ class Irm::ProfileKanban < ActiveRecord::Base
   belongs_to :kanban
   belongs_to :profile
 
-  validates_uniqueness_of :position_code, :scope => :profile_id
-  validates_presence_of :position_code
   validates_presence_of :kanban_id
-  validates_numericality_of :limit
-  validates_numericality_of :refresh_interval
 
   query_extend
-
-  scope :with_position_name, lambda{
-    joins(",#{Irm::LookupValue.view_name} lv").
-        where("lv.lookup_code = #{table_name}.position_code").
-        where("lv.language=?", I18n.locale).
-        select("lv.meaning position_name")
-  }
 
   scope :select_all, lambda{
     select("#{table_name}.*")
   }
+
+  scope :with_kanban, lambda{
+    joins(",#{Irm::Kanban.view_name} kb").
+        where("kb.id = #{table_name}.kanban_id").
+        where("kb.language = ?", I18n.locale).
+        select("kb.position_code position")
+  }
+
+  scope :query_by_position_and_profile, lambda{|position_code, profile_id|
+    joins(",#{Irm::Kanban.view_name} kb").
+        where("kb.id = #{table_name}.kanban_id").
+        where("kb.language = ?", I18n.locale).
+        where("kb.position_code=?", position_code).
+        where("#{table_name}.profile_id =?", profile_id).
+        select("kb.position_code position, kb.name kanban_name, kb.description kanban_description").
+        select("kb.limit limit, kb.refresh_interval ")
+  }
+
+  def self.check_exists(profile_id, kanban_id, position_code)
+    profile_kanbans = Irm::ProfileKanban.
+        select_all.
+        with_kanban.
+        where("#{table_name}.profile_id = ?", profile_id).where("kb.position_code = ?", position_code)
+    return profile_kanbans.first if profile_kanbans.any?
+    false
+  end
 end

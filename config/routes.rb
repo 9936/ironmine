@@ -756,7 +756,14 @@ Ironmine::Application.routes.draw do
     match '/kanbans/create(.:format)' => "kanbans#create", :via => :post
     match '/kanbans/:id/edit(.:format)' => "kanbans#edit", :via => :get
     match '/kanbans/:id/update(.:format)' => "kanbans#update", :via => :put
+    match '/kanbans/:id/get_available_lanes(.:format)' => "kanbans#get_available_lanes", :via => :get
+    match '/kanbans/:id/get_owned_lanes(.:format)' => "kanbans#get_owned_lanes", :via => :get
+    match '/kanbans/:id/add_lanes(.:format)' => "kanbans#add_lanes", :via => :post
+    match '/kanbans/:id/select_lanes(.:format)' => "kanbans#select_lanes", :via => :get
+    match '/kanbans/:kanban_id/:lane_id/delete_lane(.:format)' => "kanbans#delete_lane", :via => :delete
     match '/kanbans/:position_code/refresh_my_kanban/:mode(.:format)' => "kanbans#refresh_my_kanban"
+    match '/kanbans/:kanban_id/:lane_id/up_lane(.:format)' => "kanbans#up_lane", :via => :get
+    match '/kanbans/:kanban_id/:lane_id/down_lane(.:format)' => "kanbans#down_lane", :via => :get
 
     match '/kanbans/:id/multilingual_edit(.:format)' => "kanbans#multilingual_edit", :via => :get
     match '/kanbans/:id/multilingual_update(.:format)' => "kanbans#multilingual_update", :via => :put
@@ -822,16 +829,6 @@ Ironmine::Application.routes.draw do
     match '/profiles/get_data(.:format)' => "profiles#get_data"
     match '/profiles/:id/show(.:format)' => "profiles#show", :via => :get
 
-    match '/profiles/:profile_id/add_kanban(.:format)' => "profiles#add_kanban", :via => :get
-    match '/profiles/:profile_id/create_kanban(.:format)' => "profiles#create_kanban", :via => :post
-    match '/profiles/:profile_id/:pk_id/edit_kanban(.:format)' => "profiles#edit_kanban", :via => :get
-    match '/profiles/:profile_id/:pk_id/update_kanban(.:format)' => "profiles#update_kanban"
-    match '/profiles/:pk_id/remove_kanban(.:format)' => "profiles#remove_kanban"
-    match '/profiles/:pk_id/manage_lanes(.:format)' => "profiles#manage_lanes", :via => :get
-    match '/profiles/:pk_id/get_available_lanes_data(.:format)' => "profiles#get_available_lanes_data", :via => :get
-    match '/profiles/:pk_id/remove_lanes(.:format)' => "profiles#remove_lanes"
-    match '/profiles/:pk_id/add_lanes(.:format)' => "profiles#add_lanes", :via => :post
-    match '/profiles/:pk_id/reorder_lanes(.:format)' => "profiles#reorder_lanes"
     #password policies
     match '/password_policies(/index)(.:format)' => "password_policies#index", :via => :get
     match '/password_policies/:id(.:format)' => "password_policies#update", :via => :put

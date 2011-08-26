@@ -1535,6 +1535,7 @@ zh:
   label_irm_profile_manage_lane: 管理泳道
   label_irm_profile_add_lane: 添加泳道
   label_irm_profile_reorder_lane: 重新排序
+  label_irm_profile_ir_page_kanban: 事故单首页看板
   #=======================end profiles ====================
 
   #======================= password policies ====================
