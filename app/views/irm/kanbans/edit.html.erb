@@ -46,6 +46,10 @@
               <td class="labelCol"><label><%=(t :label_irm_kanban_refresh_interval)%></label></td>
               <td class="data2Col"><%=f.text_field :refresh_interval, :required=>true, :size =>5, :irm_number_only => true%></td>
             </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_lane_limit)%></label></td>
+              <td class="data2Col"><%=f.text_field :limit, :required=>true, :size =>5%></td>
+            </tr>
         </tbody>
       </table>
     </div>
