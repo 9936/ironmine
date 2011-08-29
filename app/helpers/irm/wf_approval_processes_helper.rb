@@ -26,10 +26,24 @@ module Irm::WfApprovalProcessesHelper
 
   def available_approval_submitter(bo_code)
     values = []
-    values +=Irm::Person.query_by_company_ids(Irm::Person.current.accessable_company_ids).collect{|p| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Person.name)}:#{p.full_name}","PERSON##{p.id}",{:type=>"PERSON",:query=>p.full_name}]}
+    values +=Irm::Person.real.collect{|p| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Person.name)}:#{p.full_name}","PERSON##{p.id}",{:type=>"PERSON",:query=>p.full_name}]}
     values +=Irm::Role.multilingual.enabled.collect{|r| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Role.name)}:#{r[:name]}","ROLE##{r.id}",{:type=>"ROLE",:query=>r[:name]}]}
     if bo_code
       values += Irm::ObjectAttribute.person_column.enabled.multilingual.where(:business_object_code=>bo_code).collect{|o| ["#{t(:label_related_person)}:#{o[:name]}","RELATED_PERSON##{o.attribute_name}",{:type=>"RELATED_PERSON",:query=>o[:name]}]}
+    end
+    values
+  end
+
+
+  def bo_person_field_duel_types(exclude=[])
+    duel_types(exclude)+[[t(:label_related_person),Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name)]]
+  end
+
+  def bo_person_field_duel_values(bo_code=nil,exclude=[])
+    values = duel_values(exclude)
+    if bo_code
+      type_code = Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name)
+      values += Irm::ObjectAttribute.person_column.enabled.multilingual.where(:business_object_code=>bo_code).collect{|o| ["#{t(:label_related_person)}:#{o[:name]}","#{type_code}##{o.attribute_name}",{:type=>type_code,:query=>o[:name]}]}
     end
     values
   end

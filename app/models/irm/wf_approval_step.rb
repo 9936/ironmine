@@ -1,6 +1,6 @@
 class Irm::WfApprovalStep < ActiveRecord::Base
   set_table_name :irm_wf_approval_steps
-  attr_accessor :step ,:approver_value_str,:need_order_step_number
+  attr_accessor :step ,:approver_str,:need_order_step_number
 
 
   has_many :wf_approval_step_approvers,:foreign_key => :step_id
@@ -64,23 +64,29 @@ class Irm::WfApprovalStep < ActiveRecord::Base
 
   # create approver from str
   def create_approver_from_str
-    return unless self.approver_value_str
-    str_approvers = self.approver_value_str.split(",").delete_if{|i| !i.present?}
-    exists_approvers = Irm::WfApprovalStepApprover.where(:step_id=>self.id)
-    exists_approvers.each do |approver|
-      if str_approvers.include?("#{approver.approver_type}##{approver.approver_id}")
-        str_approvers.delete("#{approver.approver_type}##{approver.approver_id}")
+    return unless self.approver_str
+    str_values = self.approver_str.split(",").delete_if{|i| !i.present?}
+    exists_values = Irm::WfApprovalStepApprover.where(:step_id=>self.id)
+    exists_values.each do |value|
+      if str_values.include?("#{value.approver_type}##{value.approver_id}")
+        str_values.delete("#{value.approver_type}##{value.approver_id}")
       else
-        approver.destroy
+        value.destroy
       end
 
     end
 
-    str_approvers.each do |approver_str|
-      next unless approver_str.strip.present?
-      approver = approver_str.strip.split("#")
-      self.wf_approval_step_approvers.build(:approver_type=>approver[0],:approver_id=>approver[1])
-    end if str_approvers.any?
+    str_values.each do |value_str|
+      next unless value_str.strip.present?
+      value = value_str.strip.split("#")
+      self.wf_approval_step_approvers.build(:approver_type=>value[0],:approver_id=>value[1])
+    end
+  end
+
+  def get_approver_str
+    return @get_approver_str if @get_approver_str
+    @get_approver_str||= approver_str
+    @get_approver_str||= Irm::WfApprovalStepApprover.where(:step_id=>self.id).collect{|value| "#{value.approver_type}##{value.approver_id}"}.join(",")
   end
 
   def delete_self
@@ -118,9 +124,10 @@ class Irm::WfApprovalStep < ActiveRecord::Base
     end
     bo_instance = process_instance_bo_instance(wf_process_instance)
     person_ids = []
-    wf_approval_step_approvers.each do |approver|
+    person_ids += Irm::WfApprovalStepApprover.where(:step_id=>self.id).query_person_ids.collect{|i| i[:person_id]}
+    Irm::WfApprovalStepApprover.bo_attribute(self.id).each do |approver|
       person_ids += approver.person_ids(bo_instance)
-    end
+    end if wf_process_instance.present?
     person_ids.uniq
   end
 
