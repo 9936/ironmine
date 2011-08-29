@@ -113,7 +113,6 @@
       </table>
     </div>
 
-
     <div class="pbSubheader first tertiaryPalette">
       <h3><%= t(:label_irm_profile_function_list) %></h3>
     </div>
@@ -122,21 +121,33 @@
     <% fzs = function_zones %>
     <% pfids = @profile.function_ids %>
     <% fzs.each do |zone|%>
-          <% next unless gfs[zone[:code]]&&gfs[zone[:code]].any?%>
-          <fieldset id="<%= zone[:code].downcase %>Group"><legend><%= zone[:name] %></legend>
+      <% next unless gfs[zone[:code]]&&gfs[zone[:code]].any?%>
+      <% tr_count = 2%>
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody id="<%= zone[:code].downcase %>Group">
+          <tr>
+            <td style="font-weight:bold;font-size:13px;padding:15px 0 0 15px"><%= zone[:name] %></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
             <% if gfs[zone[:code]].size>1%>
-                <div  style="float:left;width:33%;"><label>
-                <%= check_box_tag 'select_all',"all" , false,{:ref=>"#{zone[:code].downcase}Group",:class=>"selectAll"} %>
-                <b><%= t(:select_all) %></b>
-                </label></div>
+                <tr>
+                  <td class="labelCol"><label><%= t :select_all %></label></td>
+                  <td class="dataCol"><%= check_box_tag 'select_all',"all" , false,{:ref=>"#{zone[:code].downcase}Group",:class=>"selectAll"} %></td>
+                </tr>
             <% end %>
+            <tr>
             <% gfs[zone[:code]].each do |func| %>
-                <div  style="float:left;width:33%;"><label>
-                <%= check_box_tag 'functions[]', func.id, pfids.include?(func.id)||(pfids.size==0&&func.default_flag.eql?(Irm::Constant::SYS_YES)) %>
-                <%= func[:name] %>
-                </label></div>
+                <%= raw("</tr><tr>") if tr_count == 0 %>
+                <% tr_count = 2 if tr_count == 0 %>
+                <td class="labelCol"><label><%= func[:name] %></label></td>
+                <td class="dataCol"><%= check_box_tag 'functions[]', func.id, pfids.include?(func.id)||(pfids.size==0&&func.default_flag.eql?(Irm::Constant::SYS_YES)) %></td>
+                <% tr_count = tr_count - 1 %>
             <% end%>
-          </fieldset>
+            </tr>
+        </tbody>
+      </table>
     <%end%>
     </div>
   </div>

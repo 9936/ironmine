@@ -26,7 +26,6 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
-
             <tr>
               <td class="labelCol"><label><%=(t :name)%></label></td>
               <td class="dataCol"><%= @profile[:name]%></td>
@@ -57,42 +56,42 @@
       </table>
     </div>
   </div>
-</div>
 
-<div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_profile_function_list) %></h2></td>
-              <td class="pbButton">
-              </td>
-              <td class="pbHelp">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
+  <div class="pbBody">
+    <div class="pbSubheader tertiaryPalette">
+      <h3><%= t(:label_irm_profile_function_list) %><span class="titleSeparatingColon">:</span></h3>
+    </div>
+
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
         <% gfs = grouped_functions %>
         <% fzs = function_zones %>
         <% pfids = @profile.function_ids %>
         <% fzs.each do |zone|%>
           <% next unless gfs[zone[:code]]&&gfs[zone[:code]].any?%>
-          <fieldset id="<%= zone[:code].downcase %>Group">
-            <legend><%= zone[:name] %></legend>
+          <% tr_count = 2%>
+          <tr>
+            <td style="font-weight:bold;font-size:13px;padding:15px 0 2px 0"><%= zone[:name] %></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
             <% gfs[zone[:code]].each do |func| %>
                 <% next unless pfids.include?(func.id) %>
-                <div  style="float:left;width:33%;"><label>
-                  <%= check_img("Y") %>
-                  <%= func[:name] %>
-                </label></div>
+                <%= raw("</tr><tr>") if tr_count == 0 %>
+                <% tr_count = 2 if tr_count == 0 %>
+                <td class="labelCol"><%= func[:name] %></td>
+                <td class="dataCol"><%= check_img("Y") %></td>
+                <% tr_count = tr_count - 1 %>
             <% end%>
-          </fieldset>
+          </tr>
         <%end%>
-      </div>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@profile} %>
