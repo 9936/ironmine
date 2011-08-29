@@ -10,8 +10,9 @@ Irm::AccessControl.map do |map|
                                  "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_application", "index"],
-                                 "irm/kanbans" => ["refresh_my_kanban"],
                                  "irm/support_group_members"=>["get_options"],"irm/search"=>[:index]}
+
+  map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
   #=====common setting===================
   #===================irm/global_settings============================
   #["index", "edit", "update", "crop"]
@@ -51,7 +52,7 @@ Irm::AccessControl.map do |map|
                                        "get_support_group", "get_owned_roles","edit", "update",
                                        "multilingual_edit", "multilingual_update","add_roles","remove_role",
                                        "select_roles", "get_available_roles"],
-                             "irm/company_accesses"=>["index","new", "create"]}
+                             "irm/company_accesses"=>["index","new", "create"], "uid/external_system_members" => ["new_from_person"]}
 
   #===================irm/regions============================
   #["index", "get_data", "edit", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]
@@ -138,7 +139,9 @@ Irm::AccessControl.map do |map|
                                                       "edit", "update", "multilingual_edit", "multilingual_update"]}
 
   #====================irm/my_info =================================
-  map.function :my_info, {"irm/my_info" => ["index", "filter_company"]}
+  map.function :my_info, {"irm/my_info" => ["index", "filter_company","edit","update"],
+                          "irm/company_accesses"=>["get_data"],
+                          "irm/people"=>["get_owned_external_systems", "get_support_group"]}
   map.function :my_password,{"irm/my_password" => ["index","edit_password", "update_password"]}
   map.function :my_login_history ,{"irm/my_login_history" => ["index", "get_login_data"]}
   map.function :my_avatar,{"irm/my_avatar" => ["index","avatar_crop", "edit", "update"]}

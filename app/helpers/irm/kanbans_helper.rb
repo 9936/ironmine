@@ -1,50 +1,9 @@
 module Irm::KanbansHelper
-  def ava_kanban_ranges
-    selectable_options = []
-
-    #Company
-    targets = current_person_accessible_companies_full
-    targets.each do |a|
-      selectable_options << ["#{t("label_"+Irm::Company.name.underscore.gsub("\/","_"))}:#{a[0]}","C##{a[1]}",{:query=>a[0],:type=>"C"}]
-    end
-    #Organization
-    targets = current_person_accessible_organizations_full
-    targets.each do |a|
-      selectable_options << ["#{t("label_"+Irm::Organization.name.underscore.gsub("\/","_"))}:#{a[0]}","O##{a[1]}",{:query=>a[0],:type=>"O"}]
-    end
-    #Department
-    targets = current_person_accessible_departments_full
-    targets.each do |a|
-      selectable_options << ["#{t("label_"+Irm::Department.name.underscore.gsub("\/","_"))}:#{a[0]}","D##{a[1]}",{:query=>a[0],:type=>"D"}]
-    end
-    #Person
-    targets = current_person_accessible_people_full
-    targets.each do |a|
-      selectable_options << ["#{t("label_"+Irm::Person.name.underscore.gsub("\/","_"))}:#{a[0]}","P##{a[1]}",{:query=>a[0],:type=>"P"}]
-    end
-    #Role
-    accesses = ava_access_roles
-    accesses.each do |a|
-      selectable_options << ["#{t("label_"+Irm::Role.name.underscore.gsub("\/","_"))}:#{a[0]}","R##{a[1]}",{:query=>a[0],:type=>"R"}]
-    end
-    selectable_options
-  end
-
-  def own_kanban_ranges(kanban_id)
-    assignment_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"],[Irm::Person,"P"]]
-    own_assignments = Irm::KanbanRange.where(:kanban_id => kanban_id, :status_code => Irm::Constant::ENABLED)
-
-    assignments = []
-    own_assignments.each do |assignment|
-      assignment_type = assignment_types.detect{|i| i[0].name.eql?(assignment.range_type)}
-      assignments<<"#{assignment_type[1]}##{assignment.range_id}"
-    end
-
-    assignments.join(",")
-  end
-
-  def show_kanban(kanban_id, mode = "0")
-    lanes = Irm::Lane.multilingual.query_by_kanban(kanban_id).with_sequence
+  def show_kanban(profile_id, position_code, mode = "0")
+    kanban = Irm::Kanban.select_all.query_by_position_and_profile(profile_id, position_code).enabled
+    return false unless kanban.any?
+    kanban = kanban.first
+    lanes = Irm::Lane.multilingual.query_by_kanban(kanban.id).with_sequence
     lanes_tags = ""
     cards_tags = ""
     lanes.each do |la|
@@ -58,13 +17,12 @@ module Irm::KanbansHelper
         position = "c"
       end
 
-
       ct = ""
       cards = la.cards.multilingual
       cards_array = []
       cards.each do |ca|
 
-        ca_result = ca.prepare_card_content(la.limit, session[:accessable_companies])
+        ca_result = ca.prepare_card_content(kanban[:limit], session[:accessable_companies])
 
         ca_result.each do |cr|
           begin
@@ -105,9 +63,9 @@ module Irm::KanbansHelper
                   content_tag(:div, content_tag(:table, raw(title_tag) + raw(description_tag)), :class => "card-div") + raw(date_tag),
                   {:class => "card", :style => "background-color:" + c_array[4]}), {:href=>c_array[5], :title => c_array[1] + ": " + c_array[2]})
 
-        break if c_array == cards_array[la.limit - 1] #超过限制数时跳出
+        break if c_array == cards_array[kanban[:limit] - 1] #超过限制数时跳出
       end
-      lanes_tags << content_tag(:th, content_tag(:div, la[:name] + "(" + lane_cards_count.to_s + "/" + la.limit.to_s + ")"), {:align => "center", :class => "th_" + position})
+      lanes_tags << content_tag(:th, content_tag(:div, la[:name] + "(" + lane_cards_count.to_s + "/" + kanban[:limit].to_s + ")"), {:align => "center", :class => "th_" + position})
       cards_tags << content_tag(:td, raw(ct), {:class => "td_" + position, :align => "center"})
     end
     lanes_tags = content_tag(:tr, raw(lanes_tags))
@@ -129,6 +87,18 @@ module Irm::KanbansHelper
 
   def available_kanbans
     kanbans = Irm::Kanban.multilingual.enabled
+    kanbans.collect{|p| [p[:name], p.id]}
+  end
+
+  def profile_available_kanban_positions(profile_id)
+    profile_kanban_pos = Irm::ProfileKanban.select_all.with_position_name.where("profile_id = ?", profile_id).collect(&:position_code)
+    positions = Irm::LookupValue.multilingual.enabled.where("lookup_code NOT IN (?)", profile_kanban_pos + ['']).where("lookup_type=?","IRM_KANBAN_POSITION")
+    positions = positions.collect{|p| [p[:meaning], p.lookup_code]}
+    positions
+  end
+
+  def available_kanbans_by_position(position_code)
+    kanbans = Irm::Kanban.multilingual.enabled.where(:position_code => position_code)
     kanbans.collect{|p| [p[:name], p.id]}
   end
 end

@@ -123,6 +123,8 @@ zh:
   upload_from_clipboard: 从剪贴板上传图片
   created_by: 创建人
   created_at: 创建时间
+  kanban_mode: 看板模式
+  list_mode: 列表模式
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型
@@ -789,6 +791,9 @@ zh:
   label_irm_person_template_flag: 模板用户
   label_irm_person_profile: 简档
   label_irm_person_role: 角色
+  label_irm_person_access_system: 可访问系统
+  label_irm_person_add_to_company: 加入公司
+  label_irm_person_add_to_system: 加入外部系统
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: 弹性域
@@ -1429,6 +1434,7 @@ zh:
   label_action_select_lanes: 可选泳道
   label_irm_kanban_name: 看板名称
   label_irm_kanban_description: 看板描述
+  label_irm_kanban_position: 看板位置
   #==================================================================
   #======================= lanes ==================================
   label_irm_lane: 泳道
@@ -1440,6 +1446,7 @@ zh:
   label_irm_lane_add_card: 添加卡片
   label_irm_lane_name: 泳道名称
   label_irm_lane_description: 泳道描述
+  label_irm_lane_sequence: 显示顺序
   #==================================================================
   #======================= cards ==================================
   label_irm_card: 卡片
@@ -1522,6 +1529,15 @@ zh:
   label_irm_profile_application_list: 应用列表
   label_irm_profile_application_visual: 可见
   label_irm_profile_application_default: 默认
+  label_irm_profile_owned_kanban: 拥有的看板
+  label_irm_profile_select_kanban: 选择要添加的看板
+  label_irm_profile_kanban_position: 看板位置
+  label_irm_profile_add_kanban: 添加看板
+  label_irm_profile_edit_kanban: 编辑看板
+  label_irm_profile_manage_lane: 管理泳道
+  label_irm_profile_add_lane: 添加泳道
+  label_irm_profile_reorder_lane: 重新排序
+  label_irm_profile_ir_page_kanban: 事故单首页看板
   #=======================end profiles ====================
 
   #======================= password policies ====================

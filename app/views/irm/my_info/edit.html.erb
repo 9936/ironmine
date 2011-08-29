@@ -33,18 +33,26 @@
             <tr>
               <td class="labelCol"><label><%=t(:label_irm_identity_login_name)%></label></td>
               <td class="dataCol"><%= @person.login_name %></td>
+              <td class="labelCol"><label><%=t(:label_irm_role)%></label></td>
+              <td class="dataCol"><%= @person.role_name %></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :label_irm_person_email_address)%></label></td>
               <td class="dataCol"><%=f.text_field :email_address, :required=>true%></td>
+              <td class="labelCol"><label><%=(t :label_irm_profile)%></label></td>
+              <td class="dataCol"><%= @person.profile_name%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_person_last_name)%></label></td>
               <td class="dataCol"><%=f.text_field :last_name%></td>
+              <td class="labelCol"><%= t(:label_irm_identity_language_code) %></td>
+              <td class="dataCol"><%= f.select(:language_code, selectable_languages) %></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :label_irm_person_first_name)%></label></td>
               <td class="dataCol"><%=f.text_field :first_name, :required=>true%></td>
             </tr>
             <tr>
-              <td class="labelCol"><%= t(:label_irm_identity_language_code) %></td>
-              <td class="dataCol"><%= f.select(:language_code, selectable_languages) %></td>
               <td class="labelCol"><%=(t :label_irm_person_title)%></td>
               <td class="dataCol">
                 <%=f.select :title,options_for_select(person_title,@person.title),

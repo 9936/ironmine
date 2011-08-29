@@ -5,12 +5,12 @@ class Uid::ExternalSystem < ActiveRecord::Base
   attr_accessor :system_name, :system_description
   acts_as_multilingual({:columns =>[:system_name,:system_description],:required=>[:system_name]})  
 
-  has_many :external_system_people, :class_name => "Uid::ExternalSystemPerson",
-           :foreign_key => "external_system_code",:primary_key => "external_system_code",:dependent => :destroy
-
-  has_many :people, :class_name => "Irm::Person",
-           :finder_sql => "SELECT p.* FROM irm_people p, uid_external_system_people sp, uid_external_systems es " +
-                          "WHERE p.id = sp.person_id AND es.external_system_code = sp.external_system_code"
+#  has_many :external_system_people, :class_name => "Uid::ExternalSystemPerson",
+#           :foreign_key => "external_system_code",:primary_key => "external_system_code",:dependent => :destroy
+#
+#  has_many :people, :class_name => "Irm::Person",
+#           :finder_sql => "SELECT p.* FROM irm_people p, uid_external_system_people sp, uid_external_systems es " +
+#                          "WHERE p.id = sp.person_id AND es.external_system_code = sp.external_system_code"
 
   query_extend
 
@@ -20,8 +20,12 @@ class Uid::ExternalSystem < ActiveRecord::Base
   scope :with_person, lambda{|person_id|
     joins(",#{Uid::ExternalSystemPerson.table_name} esp").
     where("esp.person_id = ?", person_id).
-    where("esp.external_system_code = #{table_name}.external_system_code").
-    where("esp.company_id = ?", Irm::Company.current.id)
+    where("esp.external_system_code = #{table_name}.external_system_code")
+  }
+
+  scope :without_person, lambda{|person_id|
+    where("NOT EXISTS(SELECT * FROM #{Uid::ExternalSystemPerson.table_name} esp WHERE esp.person_id = ? AND esp.external_system_code = #{table_name}.external_system_code)",
+          person_id)
   }
 
   def wrap_system_name

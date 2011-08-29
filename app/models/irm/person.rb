@@ -39,9 +39,9 @@ class Irm::Person < ActiveRecord::Base
   has_many :company_accesses
   query_extend
 
-  has_many :external_system_people,:class_name => "Uid::ExternalSystemPerson",
-           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
-  has_many :external_systems,:class_name => "Uid::ExternalSystem",:through => "external_system_people"
+#  has_many :external_system_people,:class_name => "Uid::ExternalSystemPerson",
+#           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
+#  has_many :external_systems,:class_name => "Uid::ExternalSystem",:through => :external_system_people
 
   has_attached_file :avatar,
                     :whiny => false,
@@ -165,6 +165,15 @@ class Irm::Person < ActiveRecord::Base
         where("NOT EXISTS (SELECT * FROM #{Uid::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{table_name}.id AND esp.external_system_code = ?)", external_system_code)
   }
 
+  scope :with_role, lambda{
+    joins("LEFT OUTER JOIN #{Irm::Role.view_name} rv ON rv.id = #{table_name}.role_id AND rv.language='#{I18n.locale}' AND rv.status_code='#{Irm::Constant::ENABLED}'").
+        select("rv.name role_name")
+  }
+
+  scope :with_profile, lambda{
+    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} pv ON pv.id = #{table_name}.profile_id AND pv.language='#{I18n.locale}' AND pv.status_code='#{Irm::Constant::ENABLED}'").
+        select("pv.name profile_name")
+  }
 
   def before_save
      #如果password变量值不为空,则修改密码
@@ -176,6 +185,8 @@ class Irm::Person < ActiveRecord::Base
 
   def self.list_all
         select_all.
+        with_role.
+        with_profile.
         with_company(I18n.locale).
         with_title(I18n.locale).
         with_organization(I18n.locale).
@@ -292,6 +303,9 @@ class Irm::Person < ActiveRecord::Base
     @report_folders
   end
 
+  def external_systems
+    Uid::ExternalSystem.multilingual.enabled.with_person(self.id)
+  end
 
   # 返回人员的全名
   def name(formatter = nil)

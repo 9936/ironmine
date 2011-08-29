@@ -1,15 +1,16 @@
 <%= app_title %>
 
+<% if allow_to_function?(:view_icm_kanban) %>
+<div style="display:block;width:100%;float:left;margin-bottom:15px;">
+    <div class="button"><%= link_to t(:kanban_mode), {:action => "kanban_index"}%></div>
+</div>
+<% end %>
+
 <%= view_filter("ICM_INCIDENT_REQUEST_INDEX_B","ICM_INCIDENT_REQUESTS","incident_requests") %>
 
 
-<div class="listRelatedObject setupBlock" id="templateBody" style="display:none" current="kanban">
-    <ul>
-      <li><a id="grid" href="#tab_grid"><%= t :label_icm_incident_request %></a></li>
-      <li><a id="kanban" href="#tab_kanban"><%= t :label_irm_kanban %></a></li>
-    </ul>
+<div class="listRelatedObject setupBlock">
     <div class="bPageBlock">
-      <div id="tab_grid">
           <div class="pbHeader">
             <table cellpadding="0" cellspacing="0" border="0">
               <tbody>
@@ -32,20 +33,6 @@
         <% else %>
           <%=render(:partial =>"help_desk_list") %>
         <% end %>
-      </div>
-      <div id="tab_kanban">
-        <table class="toolsContent">
-            <tbody>
-                <tr>
-                  <td colspan="2">
-                    <div class="toolsContentRight">
-                      <%= render :partial => "irm/kanbans/kanban_main"%>
-                    </div>
-                  </td>
-                </tr>
-            </tbody>
-        </table>
-      </div>
     </div>
 </div>
 

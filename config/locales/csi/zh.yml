@@ -51,7 +51,7 @@ zh:
    label_csi_survey_subject_new: 新建题目
    label_csi_survey_subject_info: 调查问卷题目详细信息
    duplicate: 复制
-   are_you_sure: 你确定嘛
+   are_you_sure: 你确定吗?
    required: 必填
    label_csi_survey_subject_untitled_form: 未命名的表单
    label_csi_survey_subject_describe_your_form: 描述你的表单

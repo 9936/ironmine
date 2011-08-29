@@ -82,7 +82,7 @@
           <div id="person" class="datatable" style="width:100%;">
             <div id="id" style="display:none">
               <%= icon_link_remove({:controller=>"irm/support_group_members",:action=>"delete",:id=>"{id}",
-                                      :support_group_id=>1},:confirm => t(:label_are_you_sure) ,
+                                      :support_group_id=>@support_group.id},:confirm => t(:label_are_you_sure) ,
                                       :method => :delete) %>
             </div>
           </div>

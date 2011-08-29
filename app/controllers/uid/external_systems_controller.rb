@@ -15,7 +15,8 @@ class Uid::ExternalSystemsController < ApplicationController
   # GET /external_systems/1.xml
   def show
     @external_system = Uid::ExternalSystem.multilingual.status_meaning.find(params[:id])
-
+    @external_system_person = Uid::ExternalSystemPerson.new
+    @external_system_person.status_code=""
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @external_system }
@@ -110,6 +111,37 @@ class Uid::ExternalSystemsController < ApplicationController
     respond_to do |format|
       format.json {render :json=>to_jsonp(external_systems.to_grid_json([:external_system_code,:external_hostname,:external_ip_address,
                                                                          :system_name,:system_description,:status_meaning],count))}
+    end
+  end
+
+  def add_people
+    @external_system_person = Uid::ExternalSystemPerson.new(params[:uid_external_system_person])
+
+    respond_to do |format|
+      if(!@external_system_person.status_code.blank?)
+        @external_system_person.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
+          Uid::ExternalSystemPerson.create(:external_system_code => params[:external_system_code],:person_id => id)
+        end
+      end
+      system_id = Uid::ExternalSystem.where(:external_system_code=>params[:external_system_code]).first
+      format.html { redirect_to({:action=>"show", :id => system_id}, :notice => t(:successfully_created)) }
+      format.xml  { render :xml => @external_system_person.errors, :status => :unprocessable_entity }
+    end
+  end
+
+  def delete_people
+    @external_system_person = Uid::ExternalSystemPerson.new(params[:uid_external_system_person])
+
+    respond_to do |format|
+      if(!@external_system_person.temp_id_string.blank?)
+        @external_system_person.temp_id_string.split(",").delete_if{|i| i.blank?}.each do |id|
+          esp = Uid::ExternalSystemPerson.where(:external_system_code => params[:external_system_code],:person_id => id).first
+          esp.destroy
+        end
+      end
+      system_id = Uid::ExternalSystem.where(:external_system_code=>params[:external_system_code]).first
+      format.html { redirect_to({:action=>"show", :id => system_id}, :notice => t(:successfully_created)) }
+      format.xml  { render :xml => @external_system_person.errors, :status => :unprocessable_entity }
     end
   end
 end

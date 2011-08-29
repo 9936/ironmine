@@ -130,6 +130,8 @@ en:
   input_keyword_you_want_to_search: Input keyword you want to search
   display_all: Show All
   upload_from_clipboard: Upload Image From Clipboard
+  kanban_mode: Kanban Mode
+  list_mode: List Mode
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
@@ -666,6 +668,9 @@ en:
   label_action_add_roles: Select Roles
   label_irm_person_add_to_support_group: Add to Support Group
   label_irm_person_template_flag: Template
+  label_irm_person_access_system: Accessible Systems
+  label_irm_person_add_to_company: Add to Company
+  label_irm_person_add_to_system: Add to External System
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: Flex
@@ -1212,6 +1217,7 @@ en:
   label_action_select_lanes: Available Lanes
   label_irm_kanban_name: Kanban Name
   label_irm_kanban_description: Kanban Description
+  label_irm_kanban_position: Kanban Position
   #==================================================================
   #======================= lanes ==================================
   label_irm_lane: Lane
@@ -1223,6 +1229,7 @@ en:
   label_irm_lane_add_card: Add Card
   label_irm_lane_name: Lane Name
   label_irm_lane_description: Lane Description
+  label_irm_lane_sequence: Display Sequence
   #==================================================================
   #======================= cards ==================================
   label_irm_card: Card
@@ -1257,3 +1264,15 @@ en:
   label_irm_psw_policy_max_attempts: Maximum invalid login attempts
   label_irm_psw_policy_lockout_period: Lockout effective period
   #======================= end password policies ====================
+
+  #======================= profiles ====================
+  label_irm_profile_owned_kanban: Owned Kanbans
+  label_irm_profile_select_kanban: Select Kanban
+  label_irm_profile_kanban_position: Kanban Position
+  label_irm_profile_add_kanban: Add Kanban
+  label_irm_profile_edit_kanban: Edit Kanban
+  label_irm_profile_manage_lane: Manage Lane
+  label_irm_profile_add_lane: Add Lane
+  label_irm_profile_reorder_lane: Reorder
+  label_irm_profile_ir_page_kanban: Incident Index Kanban
+  #======================= end profiles ====================

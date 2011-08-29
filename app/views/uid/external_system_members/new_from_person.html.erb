@@ -1,0 +1,49 @@
+<%= page_title %>
+<script type="text/javascript">
+  GY.use(function(Y){
+      Y.on("irm:change",function(e){
+          if(e.details[2]=="Datatable"&&"externalSystemListDatatable"==e.details[0])
+            e.details[1].on("selectedChange",function(e){
+                var selected_code = "";
+                for(var i=0;i<e.details[0].length;i++)
+                  selected_code = selected_code + e.details[0][i].id +",";
+                Y.one("#uid_external_system_person_status_code").set("value",selected_code);
+            })
+      });
+  });
+</script>
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2></td>
+              <td id="topButtonRow" class="pbButton">
+                <%= form_for(@system_person,:url=>{:action=>"create_from_person"},:builder => LabellingFormBuilder) do |f| %>
+                  <%= f.hidden_field(:status_code) %>
+                  <div class="button"><%= f.submit t(:save)%></div>
+                  <div class="button"><%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id})%></div>
+                <% end %>
+              </td>
+              <td class="pbHelp">
+                <div id="selectableSystemSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <%= error_for @system_person %>
+        <div id="externalSystemList" class="datatable" style="width:100%">
+        </div>
+        <%= datatable("externalSystemList",url_for(:action=>"get_available_external_system_data",:person_id=>@person.id),
+                  [{:key=>"id",:hidden=>true},
+                   {:key=>"external_system_code",:label=>t(:label_irm_support_group_name),:searchable=>true},
+                   {:key=>"system_name",:label=>t(:name),:searchable=>true},
+                   {:key=>"system_description",:label=>t(:description)},],
+                   {:paginator_box=>"systemPaginator",:search_box=>"selectableSystemSearchBox",:select=>"multiple"})%>
+        <div id="systemPaginator"></div>
+      </div>
+    </div>
+</div>

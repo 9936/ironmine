@@ -13,7 +13,7 @@ class Irm::ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.xml
   def show
-    @profile = Irm::Profile.multilingual.find(params[:id])
+    @profile = Irm::Profile.multilingual.with_kanban.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,7 +34,7 @@ class Irm::ProfilesController < ApplicationController
 
   # GET /profiles/1/edit
   def edit
-    @profile = Irm::Profile.multilingual.find(params[:id])
+    @profile = Irm::Profile.multilingual.with_kanban.find(params[:id])
   end
 
   # POST /profiles
@@ -47,6 +47,10 @@ class Irm::ProfilesController < ApplicationController
         @profile.create_from_application_ids(params[:applications],params[:default_application_id])
         @profile.create_from_function_ids(params[:functions])
         @profile.save
+
+        t = Irm::ProfileKanban.create({:profile_id => @profile.id, :kanban_id => params[:ir_kanban]})
+        t.save
+
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @profile, :status => :created, :location => @profile }
       else
@@ -61,11 +65,19 @@ class Irm::ProfilesController < ApplicationController
   def update
     @profile = Irm::Profile.find(params[:id])
     @profile.attributes = params[:irm_profile]
+
     respond_to do |format|
       if @profile.valid?
         @profile.create_from_application_ids(params[:applications],params[:default_application_id])
         @profile.create_from_function_ids(params[:functions])
         @profile.save
+        check_profile_kanban = Irm::ProfileKanban.check_exists(params[:id], params[:ir_kanban], "INCIDENT_REQUEST_PAGE")
+        if check_profile_kanban
+          check_profile_kanban.update_attribute(:kanban_id, params[:ir_kanban])
+        else
+          t = Irm::ProfileKanban.create({:profile_id => params[:id], :kanban_id => params[:ir_kanban]})
+          t.save
+        end if params[:ir_kanban].present?
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else

@@ -25,29 +25,9 @@ class Irm::KanbansController < ApplicationController
 
   def create
     @kanban = Irm::Kanban.new(params[:irm_kanban])
-    range_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"],[Irm::Person, "P"]]
-
-    #确保刷新时间大于5秒
-    if @kanban.refresh_interval.nil? || @kanban.refresh_interval < 5
-      @kanban.refresh_interval = 5
-    end
-
+    @kanban.position_code = "INCIDENT_REQUEST_PAGE"
     respond_to do |format|
       if @kanban.save
-        if params[:selected_ranges] && params[:selected_ranges].present?
-          selected_ranges = params[:selected_ranges].split(",")
-
-          selected_ranges.each do |range_str|
-            next unless range_str.strip.present?
-            range = range_str.split("#")
-            range_type = range_types.detect{|i| i[1].eql?(range[0])}
-
-            Irm::KanbanRange.create({:kanban_id => @kanban.id,
-                                      :range_type => range_type[0].name,
-                                      :range_id => range[1]})
-          end if selected_ranges.any?
-        end
-
         format.html {redirect_to({:action=>"index"}, :notice =>t(:successfully_created))}
         format.xml  { render :xml => @kanban, :status => :created, :location => @kanban }
       else
@@ -59,32 +39,8 @@ class Irm::KanbansController < ApplicationController
 
   def update
     @kanban = Irm::Kanban.find(params[:id])
-    range_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"],[Irm::Person,"P"]]
-
     respond_to do |format|
       if @kanban.update_attributes(params[:irm_kanban])
-        @kanban.update_attribute(:refresh_interval, 5) if @kanban.refresh_interval.nil? || @kanban.refresh_interval < 5
-        if params[:selected_ranges] && params[:selected_ranges].present?
-          selected_ranges = params[:selected_ranges].split(",")
-
-          range_records = @kanban.kanban_ranges
-          range_records.each do |t|
-            type_short = range_types.detect{|i| i[0].name.eql?(t.range_type)}
-            t.destroy unless selected_ranges.include?(type_short[1]+"#"+t.range_id.to_s)
-          end
-          ranges_array = @kanban.kanban_ranges.collect{|p| [p.range_type, p.range_id]}
-
-          selected_ranges.each do |range_str|
-            next unless range_str.strip.present?
-            range = range_str.split("#")
-            range_type = range_types.detect{|i| i[1].eql?(range[0])}
-            next if ranges_array.include?([range_type[0].name, range[1].to_i])
-
-            Irm::KanbanRange.create({:kanban_id => @kanban.id,
-                                      :range_type => range_type[0].name,
-                                      :range_id => range[1]})
-          end
-        end
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -100,8 +56,35 @@ class Irm::KanbansController < ApplicationController
     kanbans,count = paginate(kanbans_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(kanbans.to_grid_json(
-                                              [:kanban_code, :name,:description, :refresh_interval,:status_meaning],
+                                              [:kanban_code, :name,:description,:refresh_interval, :limit, :status_meaning],
                                               count))}
+    end
+  end
+
+
+  def refresh_my_kanban
+    @refresh_mode = params[:mode]
+    @position_code = params[:position_code]
+    respond_to do |format|
+      format.js {render :refresh_kanban}
+    end
+  end
+
+
+
+  def multilingual_edit
+    @kanban = Irm::Kanban.find(params[:id])
+  end
+
+  def multilingual_update
+    @kanban = Irm::Kanban.find(params[:id])
+    @kanban.not_auto_mult=true
+    respond_to do |format|
+      if @kanban.update_attributes(params[:irm_kanban])
+        format.html { render({:action=>"show"}) }
+      else
+        format.html { render({:action=>"multilingual_edit"}) }
+      end
     end
   end
 
@@ -122,7 +105,7 @@ class Irm::KanbansController < ApplicationController
 #    kanbans,count = paginate(owned_lanes_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(owned_lanes_scope.to_grid_json(
-                                              [:irm_lane_id, :lane_code, :lane_name,:lane_description, :lane_limit],
+                                              [:irm_lane_id, :lane_code, :lane_name,:lane_description],
                                               50))}
     end
   end
@@ -159,13 +142,6 @@ class Irm::KanbansController < ApplicationController
     end
   end
 
-  def refresh_my_kanban
-    @refresh_mode = params[:mode]
-    respond_to do |format|
-      format.js {render :refresh_kanban}
-    end
-  end
-
   def up_lane
     return_url=params[:return_url]
     kanbanlane = Irm::KanbanLane.where(:kanban_id => params[:kanban_id], :lane_id => params[:lane_id]).first
@@ -198,22 +174,6 @@ class Irm::KanbansController < ApplicationController
       redirect_to({:action=>"show", :id=> params[:kanban_id]})
     else
       redirect_to(return_url)
-    end
-  end
-
-  def multilingual_edit
-    @kanban = Irm::Kanban.find(params[:id])
-  end
-
-  def multilingual_update
-    @kanban = Irm::Kanban.find(params[:id])
-    @kanban.not_auto_mult=true
-    respond_to do |format|
-      if @kanban.update_attributes(params[:irm_kanban])
-        format.html { render({:action=>"show"}) }
-      else
-        format.html { render({:action=>"multilingual_edit"}) }
-      end
     end
   end
 end

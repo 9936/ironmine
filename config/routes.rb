@@ -393,6 +393,7 @@ Ironmine::Application.routes.draw do
     match '/people/:id/add_roles(.:format)' => "people#add_roles", :via => :post
     match '/people/:person_id/:role_id/remove_role(.:format)' => "people#remove_role", :via => :get
     match '/people/:person_id/get_owned_roles(.:format)' => "people#get_owned_roles", :via => :get
+    match '/people/:person_id/get_owned_external_systems(.:format)' => "people#get_owned_external_systems", :via => :get
     #company_accesses
     match '/company_accesses(/index)(.:format)' => "company_accesses#index", :via => :get
     match '/company_accesses/:id/edit(.:format)' => "company_accesses#edit", :via => :get
@@ -745,7 +746,6 @@ Ironmine::Application.routes.draw do
     match '/report_type_sections/:report_type_id/field_source(.:format)' => "report_type_sections#field_source", :via => :get
     match '/report_type_sections/:report_type_id/section_field(.:format)' => "report_type_sections#section_field", :via => :get
 
-
     match '/demo(/index)' => 'demo#index'
 
     #kanbans
@@ -761,9 +761,10 @@ Ironmine::Application.routes.draw do
     match '/kanbans/:id/add_lanes(.:format)' => "kanbans#add_lanes", :via => :post
     match '/kanbans/:id/select_lanes(.:format)' => "kanbans#select_lanes", :via => :get
     match '/kanbans/:kanban_id/:lane_id/delete_lane(.:format)' => "kanbans#delete_lane", :via => :delete
-    match '/kanbans/:id/refresh_my_kanban/:mode(.:format)' => "kanbans#refresh_my_kanban"
+    match '/kanbans/:position_code/refresh_my_kanban/:mode(.:format)' => "kanbans#refresh_my_kanban"
     match '/kanbans/:kanban_id/:lane_id/up_lane(.:format)' => "kanbans#up_lane", :via => :get
     match '/kanbans/:kanban_id/:lane_id/down_lane(.:format)' => "kanbans#down_lane", :via => :get
+
     match '/kanbans/:id/multilingual_edit(.:format)' => "kanbans#multilingual_edit", :via => :get
     match '/kanbans/:id/multilingual_update(.:format)' => "kanbans#multilingual_update", :via => :put
     #lanes
@@ -921,6 +922,8 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/assign_dashboard(.:format)' => "incident_requests#assign_dashboard", :via => :get
     match '/incident_requests/assignable_data(.:format)' => "incident_requests#assignable_data", :via => :get
     match '/incident_requests/assign_request(.:format)' => "incident_requests#assign_request", :via => :post
+
+    match '/incident_requests/kanban_index(.:format)' => "incident_requests#kanban_index", :via => :get
     #incident_journals
     match '/incident_requests/:request_id/journals(/index)(.:format)' => "incident_journals#index", :via => :get    
     match '/incident_requests/:request_id/journals/edit_close(.:format)' => "incident_journals#edit_close", :via => :get
@@ -1141,6 +1144,9 @@ Ironmine::Application.routes.draw do
     match '/external_systems/create(.:format)' => "external_systems#create", :via => :post
     match '/external_systems/:id/multilingual_edit(.:format)' => "external_systems#multilingual_edit", :via => :get
     match '/external_systems/:id/multilingual_update(.:format)' => "external_systems#multilingual_update", :via => :put
+
+    match '/external_systems/:external_system_code/add_people(.:format)' => "external_systems#add_people"
+    match '/external_systems/:external_system_code/delete_people(.:format)' => "external_systems#delete_people"
     #external_logins
     match '/external_logins(/index)(.:format)' => "external_logins#index", :via => :get
     match '/external_logins/get_data(.:format)' => "external_logins#get_data"
@@ -1190,6 +1196,11 @@ Ironmine::Application.routes.draw do
     match '/external_system_members/:external_system_code/add_people(.:format)' => "external_system_members#add_people"
     match '/external_system_members/:external_system_code/get_available_people_data(.:format)' => "external_system_members#get_available_people_data"
     match '/external_system_members/:external_system_code/delete_people(.:format)' => "external_system_members#delete_people"
+
+    match '/external_system_members/:person_id/new_from_person(.:format)' => "external_system_members#new_from_person", :via => :get
+    match '/external_system_members/:person_id/create_from_person(.:format)' => "external_system_members#create_from_person", :via => :post
+    match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person", :via => :delete
+    match '/external_system_members/:person_id/get_available_external_system_data(.:format)' => "external_system_members#get_available_external_system_data", :via => :get
   end
 
   #service catalog and service level agreement(slm)

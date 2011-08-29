@@ -12,12 +12,13 @@ class Irm::Profile < ActiveRecord::Base
   has_many :profile_applications
   has_many :applications,:through => :profile_applications
 
-  belongs_to :kanban, :class_name => "Irm::Kanban"
-
   query_extend
 
-
-#  scope :with
+  scope :with_kanban, lambda{
+    joins("LEFT OUTER JOIN #{Irm::ProfileKanban.table_name} pk ON pk.profile_id = #{table_name}.id").
+        joins("LEFT OUTER JOIN #{Irm::Kanban.view_name} kb ON pk.kanban_id = kb.id AND kb.position_code='INCIDENT_REQUEST_PAGE' AND kb.language='#{I18n.locale}'").
+        select("kb.name kanban_name, kb.id kanban_id")
+  }
 
   def to_s
     Irm::Profile.multilingual.where(:id=>self.id).first[:name]
@@ -87,6 +88,12 @@ class Irm::Profile < ActiveRecord::Base
       default_options.merge!({:default_flag=>aid.eql?(default_application_id) ? Irm::Constant::SYS_YES : Irm::Constant::SYS_NO}) if default_application_id.present?
       self.profile_applications.build({:application_id=>aid}.merge(default_options))
     end if application_ids.any?
+  end
+
+  def get_pos_kanban(position_code)
+    Irm::
+  rescue
+    false
   end
 end
 

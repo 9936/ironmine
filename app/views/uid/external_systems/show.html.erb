@@ -18,59 +18,146 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-          
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_uid_external_system_external_system_code)%></label></td>
-              <td class="dataCol"><%= @external_system.external_system_code %></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-
             <tr>
               <td class="labelCol"><label for="external_system_external_system_code"><%=t(:label_uid_external_system_external_system_code)%></label></td>
               <td class="dataCol"><%=@external_system.external_system_code%></td>
               <td class="labelCol"><label for="external_system_external_hostname"><%=t(:label_uid_external_system_external_hostname)%></label></td>
               <td class="dataCol"><%=@external_system.external_hostname%></td>
             </tr>
-
             <tr>
               <td class="labelCol"><label for="external_system_system_name"><%=t(:label_uid_external_system_system_name)%></label></td>
               <td class="dataCol"><%=@external_system[:system_name]%></td>
               <td class="labelCol"><label for="external_system_external_ip_address"><%=t(:label_uid_external_system_external_ip_address)%></label></td>
               <td class="dataCol"><%=@external_system.external_ip_address%></td>
             </tr>
-
             <tr>
               <td class="labelCol"><label for="external_system_system_description"><%=t(:label_uid_external_system_system_description)%></label></td>
               <td class="dataCol"><%= @external_system[:system_description]%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
-          
         </tbody>
       </table>
     </div>
   </div>
 </div>
 
-<div class="listRelatedObject setupBlock">
+<div class="listRelatedObject setupBlock" id="select_people" style="display:none;">
     <div class="bPageBlock">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_uid_external_system_people) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_uid_external_system_add_people) %>&nbsp;<%= t(:label_irm_select_result) %></h2></td>
               <td class="pbButton">
-                <div class="button"></div>
+                <%= form_for(@external_system_person,:url=>{:action=>"add_people", :external_system_code => @external_system.external_system_code},:builder => LabellingFormBuilder) do |f| %>
+                  <%= f.hidden_field(:status_code) %>
+                  <div class="button"><%= f.submit t(:save)%></div>
+                  <div class="button"><%= link_to(t(:cancel),{}, :href =>"javascript:void(0);", :onclick=>"display_member_grid()")%></div>
+                <% end %>
               </td>
               <td class="pbHelp">
+                <div id="selectablePeopleSearchBox"></div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="pbBody">
-
+        <%= error_for @external_system_person %>
+        <div id="selectablePeople" class="datatable" style="width:100%">
+        </div>
+        <%= datatable("selectablePeople",url_for(:controller=>"uid/external_system_members", :action=>"get_available_people_data",
+                                                 :external_system_code => @external_system.external_system_code,:format=>"json"),
+                      [{:key=>"id",:label=>t(:operation), :hidden => true},
+                           { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
+                           { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
+                           { :key => "company_name", :label => t(:label_irm_company),:searchable=>true },
+                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true },
+                           { :key => "department_name", :label => t(:label_irm_department),:searchable=>true }],
+                      {:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
+        <div id="selectablePeoplePaginator"></div>
       </div>
     </div>
 </div>
+
+<div class="listRelatedObject setupBlock" id="member_grid">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_uid_external_system_people) %></h2></td>
+              <td id="topButtonRow2" class="pbButton" style="width:30%">
+                <div class="button"><%= link_to t(:label_uid_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()" %></div>
+                <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_code => @external_system.external_system_code},:builder => LabellingFormBuilder) do |f| %>
+                    <%= f.hidden_field(:temp_id_string, :value => "") %>
+                    <div class="button"><%= f.submit t(:delete_selected), :confirm => t(:label_are_you_sure)%></div>
+                <% end %>
+              </td>
+              <td class="pbHelp">
+                <div id="external_peopleSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+            <div id="external_people" class="datatable" style="width:100%">
+              <div id="id" style="display:none">
+              </div>
+            </div>
+            <%= datatable("external_people",url_for(:controller => "uid/external_system_members",:action=>"get_owned_members_data",
+                                                    :format=>"json", :external_system_code => @external_system.external_system_code),
+                          [{:key=>"id",:label=>t(:operation),:hidden => true},
+                           { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
+                           { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
+                           { :key => "company_name", :label => t(:label_irm_company),:searchable=>true },
+                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true },
+                           { :key => "department_name", :label => t(:label_irm_department),:searchable=>true }
+                           ],{:row_perpage=>10,:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
+            <div id="external_peoplePaginatorBox"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  GY.use(function(Y){
+      Y.on("irm:change",function(e){
+          if(e.details[2]=="Datatable"&&"selectablePeopleDatatable"==e.details[0])
+          {
+            e.details[1].on("selectedChange",function(e){
+                var selected_code = "";
+                for(var i=0;i<e.details[0].length;i++)
+                  selected_code = selected_code + e.details[0][i].id +",";
+                Y.one("#uid_external_system_person_status_code").set("value",selected_code);
+            });
+          }
+          else if(e.details[2]=="Datatable"&&"external_peopleDatatable"==e.details[0])
+          {
+            e.details[1].on("selectedChange",function(e){
+                var selected_code = "";
+                for(var i=0;i<e.details[0].length;i++)
+                  selected_code = selected_code + e.details[0][i].id +",";
+                Y.one("#uid_external_system_person_temp_id_string").set("value",selected_code);
+            });
+          }
+      });
+  });
+
+  function display_select_people(){
+      GY.use(function(Y){
+          Y.one("#select_people").setStyle("display", "block");
+          Y.one("#member_grid").setStyle("display", "none");
+          Y.one("#uid_external_system_person_temp_id_string").set("value","");
+      })
+  }
+
+  function display_member_grid(){
+      GY.use(function(Y){
+          Y.one("#member_grid").setStyle("display", "block");
+          Y.one("#select_people").setStyle("display", "none");
+          Y.one("#uid_external_system_person_status_code").set("value","");
+      })
+  }
+</script>

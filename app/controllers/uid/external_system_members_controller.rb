@@ -87,4 +87,57 @@ class Uid::ExternalSystemMembersController < ApplicationController
       format.xml  { render :xml => @external_system_person.errors, :status => :unprocessable_entity }
     end
   end
+
+  def get_available_external_system_data
+    external_systems_scope = Uid::ExternalSystem.multilingual.enabled.without_person(params[:person_id])
+    external_systems_scope = external_systems_scope.match_value("uid_external_systems.system_name",params[:system_name])
+    external_systems_scope = external_systems_scope.match_value("uid_external_systems.external_system_code",params[:external_system_code])
+    external_systems_scope = external_systems_scope.match_value("uid_external_systems.external_hostname",params[:hostname])
+    external_systems_scope = external_systems_scope.match_value("uid_external_systems.external_ip_address",params[:external_ip_address])
+    external_systems,count = paginate(external_systems_scope)
+    respond_to do |format|
+      format.json {render :json=>to_jsonp(external_systems.to_grid_json([:external_system_code,:external_hostname,:external_ip_address,
+                                                                         :system_name,:system_description,:status_meaning],count))}
+    end
+  end
+
+  def new_from_person
+    @person = Irm::Person.find(params[:person_id])
+    @system_person = Uid::ExternalSystemPerson.new(:person_id=>params[:person_id])
+    @system_person.status_code = ""
+  end
+
+  def create_from_person
+    @person = Irm::Person.find(params[:person_id])
+    @system_person = Uid::ExternalSystemPerson.new(params[:uid_external_system_person])
+    respond_to do |format|
+      if(!@system_person.status_code.blank?)
+        @system_person.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
+          external_system = Uid::ExternalSystem.find(id)
+          Uid::ExternalSystemPerson.create(:person_id=>@person.id,:external_system_code=>external_system.external_system_code)
+        end
+        format.html { redirect_to({:controller => "irm/people",:action=>"show",:id=>@person.id}, :notice => t(:successfully_created)) }
+        format.xml  { render :xml => @system_person, :status => :created}
+      else
+        @system_person.errors.add(:status_code,"")
+        format.html { render :action => "new_from_person" }
+        format.xml  { render :xml => @system_person.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def delete_from_person
+    system_person =
+        Uid::ExternalSystemPerson.
+            where(:external_system_code => params[:external_system_code]).
+            where(:person_id => params[:person_id])
+    system_person.each do |sp|
+      sp.destroy
+    end
+
+    respond_to do |format|
+      format.html { redirect_to({:controller=>"irm/people",:action=>"show",:id=>params[:person_id]}) }
+      format.xml  { head :ok }
+    end
+  end
 end

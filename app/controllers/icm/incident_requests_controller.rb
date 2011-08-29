@@ -48,7 +48,6 @@ class Icm::IncidentRequestsController < ApplicationController
     respond_to do |format|
       if @incident_request.save
         process_files(@incident_request)
-        #publish_create_incident_request(@incident_request)
 
         #add watchers
         if params[:cwatcher] && params[:cwatcher].size > 0
@@ -331,6 +330,11 @@ class Icm::IncidentRequestsController < ApplicationController
         render :xml => incident_requests
       }
     end
+
+  end
+
+  def kanban_index
+
   end
 
   private
@@ -340,7 +344,6 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_request.last_request_date = Time.now
     incident_request.last_response_date = 1.minute.ago
     incident_request.next_reply_user_license="SUPPORTER"
-    incident_request.company_id = Irm::Person.find(incident_request.requested_by).company_id
     if incident_request.incident_status_id.nil?||incident_request.incident_status_id.blank?
       incident_request.incident_status_id = Icm::IncidentStatus.default_id
     end
@@ -372,15 +375,6 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
-  def publish_create_incident_request(incident_request)
-    incident_request.reload
-    incident_request = Icm::IncidentRequest.list_all.find(incident_request.id)
-    request_url = url_for({:host=>Irm::Constant::DEFAULT_HOST,
-             :controller=>"icm/incident_journals",
-             :action =>"new",
-             :request_id=>incident_request.id})
-    Irm::EventManager.publish(:event_code=>"INCIDENT_REQUEST_NEW",
-                              :params=>{:to_person_ids=>[incident_request.submitted_by,incident_request.requested_by],
-                                        :request=>incident_request.attributes.merge({:url=>request_url})})
-  end
 end
+
+
