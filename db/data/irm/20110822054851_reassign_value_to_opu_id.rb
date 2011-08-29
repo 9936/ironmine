@@ -1,6 +1,6 @@
 class ReassignValueToOpuId < ActiveRecord::Migration
   def self.up
-    remove_index(:icm_rule_settings,:opu_id)
+    remove_index(:icm_rule_settings,:name=>"ICM_RULE_SETTINGS_U1")
     # 取得当前运维中心的id
     opu_id = Irm::OperationUnit.first.id
 
