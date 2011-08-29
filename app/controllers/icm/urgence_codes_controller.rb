@@ -9,7 +9,7 @@ class Icm::UrgenceCodesController < ApplicationController
   end
 
   def show
-    @urgence_code = Icm::UrgenceCode.multilingual.with_company.find(params[:id])
+    @urgence_code = Icm::UrgenceCode.multilingual.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -82,14 +82,13 @@ class Icm::UrgenceCodesController < ApplicationController
   end
 
   def get_data
-    urgence_codes_scope = Icm::UrgenceCode.multilingual.with_company.status_meaning.order("display_sequence")
-    urgence_codes_scope = urgence_codes_scope.match_value("#{Irm::Company.view_name}.name",params[:company_name])
+    urgence_codes_scope = Icm::UrgenceCode.multilingual.status_meaning.order("display_sequence")
     urgence_codes_scope = urgence_codes_scope.match_value("#{Icm::UrgenceCode.table_name}.urgency_code",params[:urgency_code])
     urgence_codes_scope = urgence_codes_scope.match_value("#{Icm::UrgenceCodesTl.table_name}.name",params[:name])
     urgence_codes_scope = urgence_codes_scope.match_value("#{Icm::UrgenceCode.table_name}.default_flag",params[:default_flag])    
     urgence_codes,count = paginate(urgence_codes_scope)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(urgence_codes.to_grid_json([:company_name,:name,:urgency_code,
+      format.json  {render :json => to_jsonp(urgence_codes.to_grid_json([:name,:urgency_code,
                                                                      :weight_values,:default_flag,:display_sequence,:status_meaning], count)) }
     end
   end  

@@ -22,20 +22,6 @@ class Irm::MyInfoController < ApplicationController
 
   end
 
-  def filter_company
-  end
-
-  def update_company_access
-    if params[:accessable_companies]
-      session[:accessable_companies] = params[:accessable_companies].collect{|ac| ac.to_i}
-    else
-      session[:accessable_companies] = []
-    end
-    respond_to do |format|
-      format.html { redirect_to({:controller=>params[:return_controller],:action=>"index"}, :notice =>t(:successfully_updated)) }
-    end
-  end
-
   def get_login_data
     login_records_scope = Irm::LoginRecord.list_all.query_by_person(Irm::Person.current.id)
     login_records,count = paginate(login_records_scope)

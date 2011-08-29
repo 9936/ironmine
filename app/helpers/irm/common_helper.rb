@@ -36,7 +36,7 @@ module Irm::CommonHelper
     types = obs.group(:source_type).collect(&:source_type)
     accessible_scope = {}
     types.each do |tp|
-      accessible_scope = accessible_scope.merge({tp.to_sym => eval(tp).current_accessible(companies)})
+      accessible_scope = accessible_scope.merge({tp.to_sym => eval(tp).current_accessible([])})
     end
 
     obs.each do |ob|

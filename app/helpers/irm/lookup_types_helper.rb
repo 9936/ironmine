@@ -13,12 +13,6 @@ module Irm::LookupTypesHelper
     Irm::LookupValue.query_by_lookup_type("SYSTEM_STATUS_CODE").multilingual
   end
 
-
-
-  def available_company_type
-    Irm::LookupValue.query_by_lookup_type("COMPANY_TYPE").multilingual.collect{|i| [i[:meaning],i[:lookup_code]]}
-  end
-
   def available_time_zone
     Irm::LookupValue.query_by_lookup_type("TIMEZONE").multilingual.collect{|i| [i[:meaning],i[:lookup_code]]}
   end

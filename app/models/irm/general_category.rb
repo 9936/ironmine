@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class Irm::GeneralCategory < ActiveRecord::Base
   set_table_name :irm_general_categories
-  validates_presence_of :company_id
   validates_presence_of :category_type
   validate:unique_segment?
   query_extend

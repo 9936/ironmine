@@ -6,7 +6,7 @@ class Icm::CloseReasonsController < ApplicationController
   end
 
   def show
-    @close_reason = Icm::CloseReason.multilingual.with_company.where(:id => params[:id]).first
+    @close_reason = Icm::CloseReason.multilingual.where(:id => params[:id]).first
 
     respond_to do |format|
       format.html # show.html.erb
@@ -66,12 +66,11 @@ class Icm::CloseReasonsController < ApplicationController
   end
   
   def get_data
-    close_reasons_scope = Icm::CloseReason.multilingual.with_company
+    close_reasons_scope = Icm::CloseReason.multilingual
     close_reasons,count = paginate(close_reasons_scope)
     
     respond_to do |format|
-      format.json  {render :json => to_jsonp(close_reasons.to_grid_json([:company_name,:name,
-                                                                     :close_code], count)) }
+      format.json  {render :json => to_jsonp(close_reasons.to_grid_json([:name,:close_code], count)) }
     end
   end
 

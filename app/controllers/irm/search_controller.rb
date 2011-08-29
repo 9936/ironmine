@@ -14,7 +14,7 @@ class Irm::SearchController < ApplicationController
     end if params[:query].present?
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @company }
+      format.xml  { render :xml => results }
     end
   end
 end

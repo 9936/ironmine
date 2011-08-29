@@ -31,7 +31,6 @@
         </div>
         <%= datatable("rule_setting",url_for(:action=>"get_data",:format=>"json"),
                   [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"company_name",:label=>t(:label_icm_rule_setting_company),:sortable=>true},
                    {:key=>"report_date_changable",:label=>t(:label_icm_rule_setting_report_date_changable),:sortable=>true,:formatter=>"Y.irm.template"},
                    {:key=>"respond_date_changable",:label=>t(:label_icm_rule_setting_respond_date_changable),:sortable=>true,:formatter=>"Y.irm.template"},
                    {:key=>"slove_date_changable",:label=>t(:label_icm_rule_setting_description),:sortable=>true,:formatter=>"Y.irm.template"},
