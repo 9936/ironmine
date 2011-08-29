@@ -1,11 +1,11 @@
 <%= app_title %>
-<% if allow_to_function?(:view_kanban) %>
+<% if allow_to_function?(:view_icm_kanban) %>
 <div style="display:block;width:100%;float:left;margin-bottom:15px;">
     <div class="button"><%= link_to t(:list_mode), {:action => "index"}%></div>
 </div>
 <% end %>
 
-<% if allow_to_function?(:view_kanban)%>
+<% if allow_to_function?(:view_icm_kanban)%>
 <div class="listRelatedObject setupBlock">
     <div class="bPageBlock">
         <table class="toolsContent">
