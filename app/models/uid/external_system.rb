@@ -20,8 +20,7 @@ class Uid::ExternalSystem < ActiveRecord::Base
   scope :with_person, lambda{|person_id|
     joins(",#{Uid::ExternalSystemPerson.table_name} esp").
     where("esp.person_id = ?", person_id).
-    where("esp.external_system_code = #{table_name}.external_system_code").
-    where("esp.company_id = ?", Irm::Company.current.id)
+    where("esp.external_system_code = #{table_name}.external_system_code")
   }
 
   def wrap_system_name
@@ -30,9 +29,6 @@ class Uid::ExternalSystem < ActiveRecord::Base
 
   def owned_people
     Irm::Person.
-        with_company(I18n.locale).
-        with_organization(I18n.locale).
-        with_department(I18n.locale).
         with_external_system(self.external_system_code)
   end
 end

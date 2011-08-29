@@ -25,12 +25,6 @@ class Slm::ServiceAgreement < ActiveRecord::Base
   end
 
 
-  scope :query_by_company_id,lambda{|language| select("v2.name company_name,#{table_name}.*").
-                                               joins("inner join irm_companies_vl v2").
-                                               where("v2.id=#{table_name}.service_company_id AND "+
-                                                     "v2.language=?",language)}
-
-
   def match_filter
     return @match_filter if @match_filter
     @match_filter = Irm::RuleFilter.query_by_source(self.class.name,self.id).first
