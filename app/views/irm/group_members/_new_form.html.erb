@@ -7,7 +7,8 @@
                 var selected_code = "";
                 for(var i=0;i<e.details[0].length;i++)
                   selected_code = selected_code + e.details[0][i].id +",";
-                Y.one("#irm_support_group_member_status_code").set("value",selected_code);
+                Y.log(e.details[0]);
+                Y.one("#irm_group_member_status_code").set("value",selected_code);
             })
       });
   });
@@ -20,10 +21,10 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2></td>
               <td id="topButtonRow" class="pbButton">
-                <%= form_for(@support_group_member,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
+                <%= form_for(@group_member,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
                   <%= f.hidden_field(:status_code) %>
                   <div class="button"><%= f.submit t(:save)%></div>
-                  <div class="button"><%= link_to(t(:cancel),{:controller =>"irm/support_groups",:action=>"show",:id=>@support_group.id})%></div>
+                  <div class="button"><%= link_to(t(:back),{:controller =>"irm/groups",:action=>"show",:id=>@group.id})%></div>
                 <% end %>
               </td>
               <td class="pbHelp">
@@ -37,10 +38,10 @@
         <%= error_for @support_group_member %>
         <div id="supportGroupMembers" class="datatable" style="width:100%">
         </div>
-        <%= datatable("supportGroupMembers",url_for(:action=>"get_person",:support_group_code=>@support_group.group_code),
+        <%= datatable("supportGroupMembers",url_for(:action=>"get_memberable_data",:id=>@group.id,:format=>:json),
                   [{:key=>"id",:hidden=>true},
-                   {:key=>"person_name",:label=>t(:label_irm_support_group_person_name),:searchable=>true},
-                   {:key=>"company_name",:label=>t(:label_irm_support_group_company_name)},
+                   {:key=>"person_name",:label=>t(:label_irm_group_person_name),:searchable=>true},
+                   {:key=>"organization_name",:label=>t(:label_irm_group_organization_name)},
                    {:key=>"email_address",:label=>t(:label_irm_person_email_address),:searchable=>true},],
                    {:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple"})%>
         <div id="personPaginator"></div>
