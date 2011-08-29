@@ -6,7 +6,7 @@ class Irm::MyInfoController < ApplicationController
 
   #个人信息编辑页面
   def edit
-    @person = Irm::Person.find(Irm::Person.current.id)
+    @person = Irm::Person.list_all.find(Irm::Person.current.id)
   end
   # 更新个人信息
   def update
