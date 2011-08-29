@@ -123,6 +123,8 @@ zh:
   upload_from_clipboard: 从剪贴板上传图片
   created_by: 创建人
   created_at: 创建时间
+  kanban_mode: 看板模式
+  list_mode: 列表模式
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型

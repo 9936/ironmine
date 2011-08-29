@@ -299,6 +299,10 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
+  def kanban_index
+
+  end
+
   private
   def prepared_for_create(incident_request)
     incident_request.submitted_by = Irm::Person.current.id

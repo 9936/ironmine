@@ -922,6 +922,8 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/assign_dashboard(.:format)' => "incident_requests#assign_dashboard", :via => :get
     match '/incident_requests/assignable_data(.:format)' => "incident_requests#assignable_data", :via => :get
     match '/incident_requests/assign_request(.:format)' => "incident_requests#assign_request", :via => :post
+
+    match '/incident_requests/kanban_index(.:format)' => "incident_requests#kanban_index", :via => :get
     #incident_journals
     match '/incident_requests/:request_id/journals(/index)(.:format)' => "incident_journals#index", :via => :get    
     match '/incident_requests/:request_id/journals/edit_close(.:format)' => "incident_journals#edit_close", :via => :get

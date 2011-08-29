@@ -64,7 +64,7 @@
                 Y.one("#kanban_<%= position_code%>").set('innerHTML', data);
             }
           Y.on('io:complete', complete, Y);
-            var uri = "kanbans/<%= position_code%>/refresh_my_kanban/" + mode;
+            var uri = "/kanbans/<%= position_code%>/refresh_my_kanban/" + mode;
             var request = Y.io(uri);
           });
       }
