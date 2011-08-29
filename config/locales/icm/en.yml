@@ -112,7 +112,7 @@ en:
   label_icm_incident_request_request_number: Serial number
   label_icm_incident_request_contact_number: Contact number
   label_icm_incident_request_priority: Priority
-  label_icm_incident_request_company: Company
+  label_icm_incident_request_organization: Organization
   label_icm_incident_request_last_date: Last Update
   label_incident_request: Incident request
   label_icm_incident_request_submitted_by: Submit by
@@ -188,3 +188,13 @@ en:
   label_icm_group_assignment_type: Assignment Type
   label_icm_group_assignment_detail: Assigned Source Target
   #========================= end icm group_assignments_controller =========================#  
+  #========================= icm support_groups =========================#
+  label_icm_support_group: 支持组
+  label_icm_support_group_new: 新建支持组
+  label_icm_support_group_edit: 编辑支持组
+  label_icm_support_group_code: 编码
+  label_icm_support_group_name: 名称
+  label_icm_support_group_assignment_process_code: 分配流程
+  label_icm_support_group_oncall_flag: 待命组
+  label_icm_support_group_vendor_flag: 供应商组
+  #=========================  end icm support_groups =========================#

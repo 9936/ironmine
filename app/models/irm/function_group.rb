@@ -6,9 +6,9 @@ class Irm::FunctionGroup < ActiveRecord::Base
   has_many :function_groups_tls,:dependent => :destroy
   acts_as_multilingual
 
-  has_many :functions
+  has_many :functions,:dependent => :destroy
 
-  has_many :menu_entries,:primary_key => :sub_function_group_id,:dependent => :destroy
+  has_many :menu_entries,:foreign_key => :sub_function_group_id,:dependent => :destroy
 
   # 验证编码唯一性
   validates_presence_of :code

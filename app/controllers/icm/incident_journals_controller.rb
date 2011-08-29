@@ -107,7 +107,7 @@ class Icm::IncidentJournalsController < ApplicationController
         @incident_journal.reply_type = "PASS"
         @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
         support_person_id = @incident_request.support_person_id
-        support_person_id = Irm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
+        support_person_id = Icm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
 
         @incident_request.support_person_id = support_person_id
 
@@ -146,7 +146,7 @@ class Icm::IncidentJournalsController < ApplicationController
 
     @incident_request.attributes = params[:icm_incident_request]
 
-    current_support_group_id = Irm::SupportGroup.find(@incident_request.support_group_id).parent_group_id
+    current_support_group_id = Icm::SupportGroup.find(@incident_request.support_group_id).parent_group_id
 
     perform_create(true)
     respond_to do |format|
@@ -162,7 +162,7 @@ class Icm::IncidentJournalsController < ApplicationController
         @incident_request.support_group_id = current_support_group_id
 
         support_person_id = @incident_request.support_person_id
-        support_person_id = Irm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
+        support_person_id = Icm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
 
         @incident_request.support_person_id = support_person_id
 
@@ -186,7 +186,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def direct_upgrade
       @incident_journal = @incident_request.incident_journals.build(:message_body=>"Upgrade")
 
-      current_support_group_id = Irm::SupportGroup.find(@incident_request.support_group_id).parent_group_id
+      current_support_group_id = Icm::SupportGroup.find(@incident_request.support_group_id).parent_group_id
 
       perform_create(true)
       respond_to do |format|
@@ -202,7 +202,7 @@ class Icm::IncidentJournalsController < ApplicationController
           @incident_request.support_person_id = current_support_group_id
 
           support_person_id = @incident_request.support_person_id
-          support_person_id = Irm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
+          support_person_id = Icm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
 
           @incident_request.support_person_id = support_person_id
 

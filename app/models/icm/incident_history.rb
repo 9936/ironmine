@@ -24,11 +24,11 @@ class Icm::IncidentHistory < ActiveRecord::Base
         end
       when "support_group_id"
         if old_meaning.nil?
-          real_value = Irm::SupportGroup.multilingual_colmun.find(self.old_value)
+          real_value = Icm::SupportGroup.with_group(I18n.locale).find(self.old_value)
           old_meaning = real_value[:name] if real_value
         end
         if new_meaning.nil?
-          real_value = Irm::SupportGroup.multilingual_colmun.find(self.new_value)
+          real_value = Icm::SupportGroup.with_group(I18n.locale).find(self.new_value)
           new_meaning = real_value[:name] if real_value
         end
       when "incident_status_id"
@@ -65,8 +65,10 @@ class Icm::IncidentHistory < ActiveRecord::Base
   def process_after_save
     case self.property_key
       when "support_person_id"
-        self.incident_journal.incident_request.add_watcher(Irm::Person.find(self.new_value),false) if self.new_value.present?
-        Irm::Person.find(self.new_value).update_assign_date
+        if self.new_value.present?
+          self.incident_journal.incident_request.add_watcher(Irm::Person.find(self.new_value),false)
+          Irm::Person.find(self.new_value).update_assign_date
+        end
       when "charge_person_id"
         self.incident_journal.incident_request.add_watcher(Irm::Person.find(self.new_value),false) if self.new_value.present?
       when "upgrade_person_id"

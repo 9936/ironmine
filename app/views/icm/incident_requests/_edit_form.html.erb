@@ -186,7 +186,7 @@
               <td class="dataCol"><%= f.blank_select(:support_person_id,available_supporter(@incident_request.support_group_id||0),{},
                                   {
                                    :id=>"incident_request_support_person_id",
-                                   :href=>url_for(:controller=>"irm/support_group_members",:action=>"get_options",:format=>"json",:group_id=>"{incident_request_support_group_id}"),
+                                   :href=>url_for(:controller=>"group_members",:action=>"get_options",:format=>"json",:group_id=>"{incident_request_support_group_id}"),
                                    :depend=>"incident_request_support_group_id"
                                    }) %></td>
 

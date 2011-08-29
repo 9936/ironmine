@@ -16,7 +16,8 @@ Irm::AccessControl.map do |map|
   # 关闭事故单
   map.function :close_incident_request,{"icm/incident_journals"=>[:edit_close,:update_close]}
   # 转交事故单
-  map.function :pass_incident_request,{"icm/incident_journals"=>[:edit_pass,:update_pass,:edit_upgrade,:update_upgrade]}
+  map.function :pass_incident_request,{"icm/incident_journals"=>[:edit_pass,:update_pass,:edit_upgrade,:update_upgrade],
+                                       "icm/support_groups"=>[:get_member_options]}
   # 分配事故单
   map.function :assign_incident_request,{"icm/incident_requests"=>[:assign_dashboard,:assignable_data,:assign_request]}
   # 查看所有事故单
@@ -41,10 +42,11 @@ Irm::AccessControl.map do |map|
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
   map.function :icm_priority_code,{"icm/priority_codes"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
 
-  #===================icm/group_assignments============================
-  #["index", "edit", "update", "new", "create", "get_data", "destroy", "get_customer_departments", "get_customer_sites", "get_customer_site_groups", "get_customer_people", "get_customer_organizations"]
-  map.function :icm_group_assignment,{"icm/group_assignments"=>["index", "get_data","new", "create","edit", "update"],
-                                       "icm/incident_requests" => ["get_all_slm_services"]}
+
+  #===================icm/support_groups============================
+  #["index", "update", "create", "get_member_options"]
+  map.function :icm_support_group,{"icm/support_groups"=>["index","create","update"]}
+
 
   #===================icm/incident_phases============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
@@ -57,5 +59,10 @@ Irm::AccessControl.map do |map|
   #===================icm/close_reasons============================
   #["index", "edit", "update", "new", "create", "show", "get_data"]
   map.function :icm_close_reason,{"icm/close_reasons"=>["index", "show", "get_data","new", "create","edit", "update"]}
+
+
+  #====================irm/watchers ========================================
+  map.function :view_watcher, {}
+  map.function :edit_watcher, {"irm/watchers" => ["add_watcher", "delete_watcher"]}
 
 end

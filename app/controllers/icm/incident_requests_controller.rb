@@ -116,7 +116,6 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def get_data
     return_columns = [:request_number,
-                      :company_name,
                       :title,
                       :incident_status_name,
                       :close_flag,
@@ -124,7 +123,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :need_customer_reply,
                       :last_response_date]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).query_by_company_ids(session[:accessable_companies]).order("close_flag ,last_response_date desc,last_request_date desc,weight_value,company_id")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
 
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
@@ -145,9 +144,8 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
-        send_data(incident_requests.to_xls(:only => [:request_number,:title,:company_name,:incident_status_name,:last_response_date],
+        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:last_response_date],
                                        :headers=>["#",   t(:label_icm_incident_request_title),
-                                                         t(:label_icm_incident_request_company),
                                                          t(:label_icm_incident_request_incident_status_code),
                                                          t(:label_icm_incident_request_last_date)]
                                              ))}
@@ -156,7 +154,6 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def get_help_desk_data
     return_columns = [:request_number,
-                      :company_name,
                       :title,
                       :incident_status_name,
                       :close_flag,
@@ -165,7 +162,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :last_request_date,
                       :priority_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).query_by_company_ids(session[:accessable_companies]).order("close_flag ,last_request_date desc,last_response_date desc,weight_value,company_id,id")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).order("close_flag ,last_request_date desc,last_response_date desc,weight_value,id")
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
     end
@@ -183,9 +180,8 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
-        send_data(incident_requests.to_xls(:only => [:request_number,:title,:company_name,:incident_status_name,:priority_name,:last_request_date],
+        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:priority_name,:last_request_date],
                                        :headers=>["#",   t(:label_icm_incident_request_title),
-                                                         t(:label_icm_incident_request_company),
                                                          t(:label_icm_incident_request_incident_status_code),
                                                          t(:label_icm_incident_request_priority),
                                                          t(:label_icm_incident_request_last_date)]
@@ -214,17 +210,10 @@ class Icm::IncidentRequestsController < ApplicationController
 
     #按人员查找
     r1 = Slm::ServiceMember.where("1=1").query_by_service_person(requested_by).with_service_catalog
-    #按部门查找
-    r1 += Slm::ServiceMember.where(:service_person_id=>nil).query_by_service_department(requested_by.department_id).with_service_catalog
     #按组织查找
     r1 += Slm::ServiceMember.where(:service_person_id=>nil).
                               where(:service_department_id=>nil).
                               query_by_service_organization(requested_by.organization_id).with_service_catalog
-    #按公司查找
-    r1 += Slm::ServiceMember.where(:service_person_id=>nil).
-                              where(:service_department_id=>nil).
-                              where(:service_organization_id=>nil).
-                              query_by_service_company(requested_by.company_id).with_service_catalog
 
     services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_code = ? AND catalog_code IN (?)",
                                                                     params[:external_system_code], r1.collect(&:catalog_code))
@@ -251,7 +240,6 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def assignable_data
     return_columns = [:request_number,
-                      :company_name,
                       :title,
                       :incident_status_name,
                       :close_flag,
@@ -259,7 +247,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :last_request_date,
                       :priority_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).query_by_company_ids(session[:accessable_companies]).order("created_at")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).order("created_at")
     incident_requests_scope = incident_requests_scope.where("support_person_id IS NULL")
 
     respond_to do |format|
@@ -300,18 +288,40 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
 
-
+  # 领取事故单
   def edit_assign_me
-
+    respond_to do |format|
+      format.html # index.html.erb
+    end
   end
 
   def update_assign_me
 
+    incident_requests = []
+    params[:incident_request_ids].split(",").each do |icid|
+      incident_requests << Icm::IncidentRequest.find(icid)
+    end
+
+    incident_requests.each do |irq|
+      request_attributes = {}
+      journal_attributes = {}
+      request_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_request_assign_me))
+      journal_attributes.merge!(:reply_type => "ASSIGN")
+      request_attributes.merge!({:incident_status_id=>Icm::IncidentStatus.transform(irq.incident_status_id,"ASSIGN")})
+      request_attributes.merge!({:support_person_id=>Irm::Person.current.id,:charge_person_id=>Irm::Person.current.id,:upgrade_person_id=>Irm::Person.current.id})
+
+      incident_journal = Icm::IncidentJournal::generate_journal(irq,request_attributes,journal_attributes)
+    end
+
+
+    respond_to do |format|
+        format.html { redirect_to({:action => "edit_assign_me"}) }
+        format.xml  { render :xml => incident_requests, :status => :updated, :location => incident_requests }
+    end
   end
 
   def assign_me_data
     return_columns = [:request_number,
-                      :company_name,
                       :title,
                       :incident_status_name,
                       :close_flag,
@@ -319,7 +329,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :last_request_date,
                       :priority_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).assignable_to_person(Irm::Person.current.id).query_by_company_ids(session[:accessable_companies]).order("created_at")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).assignable_to_person(Irm::Person.current.id).order("created_at")
 
     respond_to do |format|
       format.json {
@@ -340,7 +350,6 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_request.last_request_date = Time.now
     incident_request.last_response_date = 1.minute.ago
     incident_request.next_reply_user_license="SUPPORTER"
-    incident_request.company_id = Irm::Person.find(incident_request.requested_by).company_id
     if incident_request.incident_status_id.nil?||incident_request.incident_status_id.blank?
       incident_request.incident_status_id = Icm::IncidentStatus.default_id
     end

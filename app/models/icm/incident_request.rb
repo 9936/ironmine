@@ -52,7 +52,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
   # 查询出客户
   scope :with_requested_by,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} requested ON  requested.id = #{table_name}.requested_by").
-    select("#{Irm::Person.name_to_sql(nil,'requested','requested_name')}")
+    select("requested.full_name requested_name")
+  }
+
+  scope :with_organization,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = requested.organization_id AND #{Irm::Organization.table_name}.language = '#{language}").
+    select("#{Irm::Organization.view_name} organization_name")
   }
 
   scope :query_by_requested,lambda{|requested_by|
@@ -74,8 +79,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   # 查询出优先级
   scope :with_support_group,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::SupportGroup.view_name} support_group ON  #{table_name}.support_group_id = support_group.id AND support_group.language= '#{language}'").
-    select(" support_group.name support_group_name")
+    joins("LEFT OUTER JOIN #{Icm::SupportGroup.table_name} ON  #{table_name}.support_group_id = #{Icm::SupportGroup.table_name}.id").
+    joins("LEFT OUTER JOIN #{Irm::Group.view_name} ON  #{Icm::SupportGroup.table_name}.group_id = #{Irm::Group.view_name}.id AND #{Irm::Group.view_name}.language= '#{language}'").
+    select(" #{Irm::Group.view_name}.name support_group_name")
   }
 
   scope :query_by_submitted,lambda{|submitted_by|
@@ -108,21 +114,28 @@ class Icm::IncidentRequest < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Icm::IncidentPhase.view_name} incident_phase ON  incident_phase.phase_code = incident_status.phase_code AND incident_phase.language= '#{language}'").
     select(" incident_status.name incident_status_name,incident_phase.name incident_phase_name ,incident_status.close_flag close_flag")
   }
-  # 查询公司
-  scope :with_company,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Company.view_name} company ON  company.id = #{table_name}.company_id AND company.language= '#{language}'").
-    select(" company.name company_name")
-  }
+
 
   scope :query_by_support_person, lambda{|person_id|
     where("#{table_name}.support_person_id = ?", person_id)
   }
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
-    where("#{table_name}.requested_by = ? OR #{table_name}.submitted_by = ? OR #{table_name}.contact_id = ? OR #{table_name}.support_person_id = ? OR EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
-    person_id,person_id,person_id,person_id,Icm::IncidentRequest.name,person_id,Irm::Person.name)
+    where("#{table_name}.requested_by = ? OR #{table_name}.submitted_by = ? OR #{table_name}.contact_id = ? OR #{table_name}.support_person_id = ? OR EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{table_name}.support_group_id IS NOT NULL AND #{table_name}.support_person_id IS NULL EXISTS(SELECT 1 FROM #{Icm::SupportGroup.table_name} sg,#{Irm::GroupMember.table_name} gm WHERE gm.group_id = sg.group_id AND sg.id = #{table_name}.support_group_id  AND gm.person_id = ?))",
+    person_id,person_id,person_id,person_id,Icm::IncidentRequest.name,person_id,Irm::Person.name,person_id)
   }
 
+  scope :filter_system_ids,lambda{|system_ids|
+    if system_ids.length<1
+      system_ids = system_ids+[0]
+    end
+    joins("JOIN #{Uid::ExternalSystem.table_name} ON #{Uid::ExternalSystem.table_name}.external_system_code = #{table_name}.external_system_code")
+    where("#{table_name}.id IN (?)",system_ids)
+  }
+
+              scope :query_by_ids ,lambda{|ids|
+
+            }
   scope :select_all,lambda{
     select("#{table_name}.*")
   }
@@ -174,9 +187,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
 
    scope :assignable_to_person,lambda{|person_id|
-     joins("JOIN #{Irm::SupportGroup.table_name} ON #{Irm::SupportGroup.table_name}.id = #{table_name}.support_group_id ").
-         joins("JOIN #{Irm::SupportGroupMember.table_name} ON #{Irm::SupportGroupMember.table_name}.support_group_code = #{Irm::SupportGroup.table_name}.group_coe").
-         where("#{table_name}.support_group_id = ? AND #{table_name}.support_person_id = ? AND#{Irm::SupportGroupMember.table_name}.person_id = ?",nil,nil,person_id)
+     joins("JOIN #{Icm::SupportGroup.table_name} ON #{Icm::SupportGroup.table_name}.id = #{table_name}.support_group_id ").
+         joins("JOIN #{Irm::GroupMember.table_name} ON #{Irm::GroupMember.table_name}.group_id = #{Icm::SupportGroup.table_name}.group_id").
+         where("#{table_name}.support_group_id <> ? AND #{table_name}.support_person_id = ? AND #{Irm::GroupMember.table_name}.person_id = ?",nil,nil,person_id)
    }
 
   acts_as_watchable
@@ -193,8 +206,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_priority(I18n.locale).
         with_submitted_by.
         with_support_group(I18n.locale).
-        with_supporter.
-        with_company(I18n.locale)
+        with_supporter
   end
 
 
@@ -255,7 +267,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   def self.current_accessible(companies = [])
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes([:id], true)).query_by_company_ids(companies).order("close_flag ,last_response_date desc,last_request_date desc,weight_value,company_id")
+    incident_requests_scope = eval(bo.generate_query_by_attributes([:id], true)).order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
 
     if !Irm::PermissionChecker.allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
