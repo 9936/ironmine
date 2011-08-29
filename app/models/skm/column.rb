@@ -9,6 +9,8 @@ class Skm::Column < ActiveRecord::Base
   validates_presence_of :column_code
   validates_uniqueness_of :column_code
 
+  attr_accessor :access_str
+
   query_extend
 
   has_many :column_accesses
@@ -16,6 +18,11 @@ class Skm::Column < ActiveRecord::Base
   belongs_to :parent, :class_name => "Skm::Column", :foreign_key => "parent_column_id"
 
   has_many :children, :class_name => "Skm::Column", :foreign_key => "parent_column_id", :dependent => :destroy
+
+  scope :accessible,lambda{|person_id|
+      joins("JOIN #{Skm::ColumnAccess.table_name} ON #{Skm::ColumnAccess.table_name}.column_id = #{table_name}.id").
+      where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_id = #{Skm::ColumnAccess.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type = #{Skm::ColumnAccess.table_name}.source_type AND  #{Irm::Person.relation_view_name}.person_id = ?)",person_id)
+  }
 
   def is_leaf?
     children = Skm::Column.where(:parent_column_id => self.id)
@@ -66,11 +73,12 @@ class Skm::Column < ActiveRecord::Base
     accessible_ids = []
     ac_flag = false
     column_accesses = self.column_accesses
-    ac_flag = parent_accessible unless column_accesses.any?
-    column_accesses.each do |ca|
-      ac_flag = ca.current_person_accessible?(person)
-      break if ac_flag
+    if column_accesses.any?
+      ac_flag = true if self.class.query(self.id).accessible(person.id).any?
+    else
+      ac_flag = parent_accessible
     end
+
     accessible_ids << self.id if ac_flag
 
     self.children.each do |cc|
@@ -78,5 +86,34 @@ class Skm::Column < ActiveRecord::Base
     end
 
     accessible_ids
+  end
+
+
+
+  # create access from str
+  def create_access_from_str
+    return unless self.access_str
+    str_values = self.access_str.split(",").delete_if{|i| !i.present?}
+    exists_values = Skm::ColumnAccess.where(:column_id=>self.id)
+    exists_values.each do |value|
+      if str_values.include?("#{value.source_type}##{value.source_id}")
+        str_values.delete("#{value.source_type}##{value.source_id}")
+      else
+        value.destroy
+      end
+
+    end
+
+    str_values.each do |value_str|
+      next unless value_str.strip.present?
+      value = value_str.strip.split("#")
+      self.column_accesses.create(:source_type=>value[0],:source_id=>value[1])
+    end
+  end
+
+  def get_access_str
+    return @get_access_str if @get_access_str
+    @get_access_str||= access_str
+    @get_access_str||= Skm::ColumnAccess.where(:column_id=>self.id).collect{|value| "#{value.source_type}##{value.source_id}"}.join(",")
   end
 end
