@@ -44,7 +44,7 @@ class Irm::LdapSynAttributesController < ApplicationController
   def create
     @ldap_syn_attribute = Irm::LdapSynAttribute.new(params[:irm_ldap_syn_attribute])
     @ldap_syn_attribute.ldap_syn_header_id=params[:ah_id]
-    @ldap_syn_attribute.company_id=Irm::Company.current.id
+    @ldap_syn_attribute.opu_id=Irm::OperationUnit.current.id
     respond_to do |format|
       if @ldap_syn_attribute.save
         format.html { redirect_back_or_default }

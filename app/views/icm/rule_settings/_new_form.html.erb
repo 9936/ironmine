@@ -32,10 +32,8 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=(t :label_icm_rule_setting_company)%></label></td>
-              <td class="dataCol"><%=f.select :company_id,"<option value=\"\">--- #{t(:actionview_instancetag_blank_option)} ---</option>".html_safe +
-                                                    options_for_select(selectable_companies,@rule_setting.company_id),
-                                                    {},{}%></td>
+              <td class="labelCol"></td>
+              <td class="dataCol"></td>
               <td class="labelCol"><label><%=(t :label_icm_rule_setting_report_date_changable)%></label></td>
               <td class="dataCol"><%=f.check_box :report_date_changable%></td>
             </tr>

@@ -12,26 +12,13 @@ class Irm::BulletinsController < ApplicationController
     @bulletin = Irm::Bulletin.new(params[:irm_bulletin])
     @bulletin.author_id = Irm::Person.current.id
     @bulletin.page_views = 0
-    access_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"]]
     column_ids = params[:irm_bulletin][:column_ids].split(",")
     respond_to do |format|
       if @bulletin.save
         column_ids.each do |c|
           Irm::BulletinColumn.create(:bulletin_id => @bulletin.id, :bu_column_id => c)
         end
-        if params[:selected_actions] && params[:selected_actions].present?
-          selected_accesses = params[:selected_actions].split(",")
 
-          selected_accesses.each do |access_str|
-            next unless access_str.strip.present?
-            access = access_str.split("#")
-            access_type = access_types.detect{|i| i[1].eql?(access[0])}
-
-            Irm::BulletinAccess.create({:bulletin_id => @bulletin.id,
-                                        :access_type => access_type[0].name,
-                                        :access_id => access[1]})
-          end if selected_accesses.any?
-        end
 
         if params[:file]
           files = params[:file]
@@ -42,7 +29,7 @@ class Irm::BulletinsController < ApplicationController
             @bulletin.errors << "FILE UPLOAD ERROR"
           end
         end
-
+        @bulletin.create_access_from_str
         format.html {
           if(params[:return_url])
             redirect_to params[:return_url]
@@ -65,7 +52,6 @@ class Irm::BulletinsController < ApplicationController
 
   def update
     @bulletin = Irm::Bulletin.find(params[:id])
-    access_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"]]
     column_ids = params[:irm_bulletin][:column_ids].split(",")
     owned_column_ids = @bulletin.get_column_ids.split(",")
     respond_to do |format|
@@ -78,27 +64,7 @@ class Irm::BulletinsController < ApplicationController
         (column_ids - owned_column_ids).each do |c|
           Irm::BulletinColumn.create(:bulletin_id => @bulletin.id, :bu_column_id => c)
         end
-        if params[:selected_actions] && params[:selected_actions].present?
-          selected_accesses = params[:selected_actions].split(",")
 
-          bulletin_access_records = @bulletin.bulletin_accesses
-          bulletin_access_records.each do |t|
-            type_short = access_types.detect{|i| i[0].name.eql?(t.access_type)}
-            t.destroy unless selected_accesses.include?(type_short[1]+"#"+t.access_id.to_s)
-          end
-          bulletin_accesses_array = @bulletin.bulletin_accesses.collect{|p| [p.access_type, p.access_id]}
-
-          selected_accesses.each do |access_str|
-            next unless access_str.strip.present?
-            access = access_str.split("#")
-            access_type = access_types.detect{|i| i[1].eql?(access[0])}
-            next if bulletin_accesses_array.include?([access_type[0].name, access[1].to_i])
-
-            Irm::BulletinAccess.create({:bulletin_id => @bulletin.id,
-                                        :access_type => access_type[0].name,
-                                        :access_id => access[1]})
-          end
-        end
 
         if params[:file]
           files = params[:file]
@@ -109,7 +75,7 @@ class Irm::BulletinsController < ApplicationController
             @bulletin.errors << "FILE UPLOAD ERROR"
           end
         end
-
+        @bulletin.create_access_from_str
         format.html {
 #          if(params[:return_url])
 #            redirect_to params[:return_url]
@@ -140,7 +106,7 @@ class Irm::BulletinsController < ApplicationController
 
   def get_data
 #    bulletins_scope = Irm::Bulletin.list_all
-    rec = Irm::Bulletin.without_delete.list_accessible(Irm::Person.current.id)
+    rec = Irm::Bulletin.without_delete.accessible(Irm::Person.current.id)
 #    bulletins,count = paginate(rec)
     respond_to do |format|
       format.json  {render :json => to_jsonp(rec.to_grid_json([:id, :bulletin_title,:published_date,:page_views,:author], 10)) }

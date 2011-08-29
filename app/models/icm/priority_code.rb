@@ -13,12 +13,6 @@ class Icm::PriorityCode < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
 
-
-  scope :with_company,lambda{
-    joins("LEFT OUTER JOIN #{Irm::Company.view_name} ON #{Irm::Company.view_name}.id = #{table_name}.company_id AND #{Icm::PriorityCodesTl.table_name}.language = #{Irm::Company.view_name}.language").
-    select("#{Irm::Company.view_name}.name company_name")
-  }
-
   scope :query_by_weight_value,lambda{|weight_value|
     where("#{table_name}.weight_values = ?",weight_value)
   }

@@ -8,37 +8,14 @@ class Irm::WfApprovalSubmitter < ActiveRecord::Base
 
   attr_accessor :bo_code
 
-
-  def self.submitter_types
-    return @submitter_types if @submitter_types
-    @submitter_types = Irm::LookupValue.query_by_lookup_type("WF_MAIL_ALERT_RECIPIENT_TYPE").multilingual.order_id.collect{|p|[p[:meaning],p[:lookup_code]]}
-  end
-
-  def ref
-    "#{self.submitter_type}##{self.submitter_id}"
-  end
-
-  def label
-    type_name = self.class.submitter_types.detect{|i| i[1].eql?(self.submitter_type)}[0]
-    submitter_name = ""
-    case self.submitter_type
-      when "RELATED_PERSON"
-        oa = Irm::ObjectAttribute.multilingual.where(:business_object_code=>self.bo_code||self.wf_approval_process.bo_code,:attribute_name=>self.submitter_id).first
-        submitter_name = oa[:name] if oa
-      when "ROLE"
-        role = Irm::Role.multilingual.query(self.submitter_id).first
-        submitter_name = role[:name] if role
-      when "PERSON"
-        person = Irm::Person.query(self.submitter_id).first
-        submitter_name = person.full_name if person
-    end
-    "#{type_name}: #{submitter_name}"
-  end
+  scope :bo_attribute,lambda{|process_id|
+    where(:process_id=>process_id,:submitter_type=>Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name))
+  }
 
   def person_ids(bo)
     person_ids = []
     case self.submitter_type
-      when "RELATED_PERSON"
+      when Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name)
         if bo
           value = Irm::BusinessObject.attribute_of(bo,self.submitter_id)
           if value.present?
@@ -49,10 +26,6 @@ class Irm::WfApprovalSubmitter < ActiveRecord::Base
             end
           end
         end
-      when "ROLE"
-        person_ids = Irm::Person.where(:role_id=>self.submitter_id).collect{|i| i.id}
-      when "PERSON"
-        person_ids = [self.submitter_id]
     end
     person_ids
   end
@@ -60,7 +33,7 @@ class Irm::WfApprovalSubmitter < ActiveRecord::Base
 
   def include_person?(s_id,bo_instance)
     case self.submitter_type
-      when "RELATED_PERSON"
+      when Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name)
         if bo_instance
           value = Irm::BusinessObject.attribute_of(bo_instance,self.submitter_id)
           if value.present?
@@ -71,11 +44,6 @@ class Irm::WfApprovalSubmitter < ActiveRecord::Base
             end
           end
         end
-      when "ROLE"
-        person_ids = Irm::Person.where(:role_id=>self.submitter_id).collect{|i| i.id}
-       return person_ids.include?(s_id)
-      when "PERSON"
-        return s_id.eql?(self.submitter_id)
     end
     return false
   end

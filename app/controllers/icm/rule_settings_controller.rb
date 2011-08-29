@@ -70,8 +70,7 @@ class Icm::RuleSettingsController < ApplicationController
     @rule_settings = Icm::RuleSetting.list_all
     @rule_settings,count = paginate(@rule_settings)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(@rule_settings.to_grid_json(['0',:company_name,
-                                                                     :report_date_changable,:slove_date_changable,:respond_date_changable,
+      format.json  {render :json => to_jsonp(@rule_settings.to_grid_json([:report_date_changable,:slove_date_changable,:respond_date_changable,
                                                                      :auto_assignable,:auto_closure_days,:status_meaning], count)) }
     end
   end

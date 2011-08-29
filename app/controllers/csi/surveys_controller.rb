@@ -14,7 +14,6 @@ class Csi::SurveysController < ApplicationController
   # GET /surveys/1.xml
   def show
     @survey = Csi::Survey.find(params[:id])
-    @survey_ranges = Csi::SurveyRange.list_all(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -42,26 +41,10 @@ class Csi::SurveysController < ApplicationController
   # POST /surveys.xml
   def create
     @survey = Csi::Survey.new(params[:csi_survey])
-    range_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"],[Irm::Site,"S"]]
 
     respond_to do |format|
       if @survey.save
-
-        if params[:selected_actions] && params[:selected_actions].present?
-          selected_ranges = params[:selected_actions].split(",")
-
-          selected_ranges.each do |range_str|
-            next unless range_str.strip.present?
-            range = range_str.split("#")
-            range_type = range_types.detect{|i| i[1].eql?(range[0])}
-
-            Csi::SurveyRange.create({:survey_id => @survey.id,
-                                        :source_type => range_type[0].name,
-                                        :source_id => range[1],
-                                        :required_flag => "N"})
-          end if selected_ranges.any?
-        end
-
+        @survey.create_range_from_str
         format.html { redirect_to({:action=>"show",:id=>@survey.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @survey, :status => :created, :location => @survey }
       else
@@ -75,33 +58,9 @@ class Csi::SurveysController < ApplicationController
   # PUT /surveys/1.xml
   def update
     @survey = Csi::Survey.find(params[:id])
-    range_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"],[Irm::Site,"S"]]
     respond_to do |format|
       if @survey.update_attributes(params[:csi_survey])
-
-        if params[:selected_actions] && params[:selected_actions].present?
-          selected_ranges = params[:selected_actions].split(",")
-
-          ranges_records = @survey.survey_ranges
-
-          ranges_records.each do |t|
-            type_short = range_types.detect{|i| i[0].name.eql?(t.source_type)}
-            t.destroy unless selected_ranges.include?(type_short[1]+"#"+t.source_id.to_s)
-          end
-          ranges_array = @survey.survey_ranges.collect{|p| [p.source_type, p.source_id]}
-          selected_ranges.each do |range_str|
-            next unless range_str.strip.present?
-            range = range_str.split("#")
-            range_type = range_types.detect{|i| i[1].eql?(range[0])}
-            next if ranges_array.include?([range_type[0].name, range[1].to_i])
-
-            Csi::SurveyRange.create({:survey_id => @survey.id,
-                                      :source_type => range_type[0].name,
-                                      :source_id => range[1],
-                                      :required_flag => "N"})
-          end
-        end
-
+         @survey.create_range_from_str
         format.html { redirect_to({:action=>"show",:id=>@survey.id}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else

@@ -153,7 +153,7 @@ class Irm::RolesController < ApplicationController
 
     @people,count = paginate(@people)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:region_name,:email_address,:bussiness_phone,:company_name], count))}
+      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:region_name,:email_address,:bussiness_phone], count))}
     end
   end
 
@@ -162,7 +162,7 @@ class Irm::RolesController < ApplicationController
 
     @people,count = paginate(@people)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:region_name,:email_address,:bussiness_phone,:company_name], count))}
+      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:region_name,:email_address,:bussiness_phone], count))}
     end
   end
 end

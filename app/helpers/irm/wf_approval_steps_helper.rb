@@ -12,7 +12,7 @@ module Irm::WfApprovalStepsHelper
 
   def available_step_approver(bo_code)
     values = []
-    values +=Irm::Person.query_by_company_ids(Irm::Person.current.accessable_company_ids).collect{|p| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Person.name)}:#{p.full_name}","PERSON##{p.id}",{:type=>"PERSON",:query=>p.full_name}]}
+    values +=Irm::Person.real.collect{|p| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Person.name)}:#{p.full_name}","PERSON##{p.id}",{:type=>"PERSON",:query=>p.full_name}]}
     values +=Irm::Role.multilingual.enabled.collect{|r| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Role.name)}:#{r[:name]}","ROLE##{r.id}",{:type=>"ROLE",:query=>r[:name]}]}
     if bo_code
       values += Irm::ObjectAttribute.person_column.enabled.multilingual.where(:business_object_code=>bo_code).collect{|o| ["#{t(:label_related_person)}:#{o[:name]}","RELATED_PERSON##{o.attribute_name}",{:type=>"RELATED_PERSON",:query=>o[:name]}]}
@@ -32,7 +32,7 @@ module Irm::WfApprovalStepsHelper
 
   end
 
-  def step_approver_meaning(step)
+  def step_approver_meaning(step,bo_duel_value)
     if step.approver_mode.present?
       case step.approver_mode
         when "SELECT_BY_SUMBITTER"
@@ -41,9 +41,8 @@ module Irm::WfApprovalStepsHelper
           oa = Irm::ObjectAttribute.multilingual.where(:business_object_code=>"IRM_PEOPLE",:attribute_name=>Irm::WfApprovalProcess.query_by_step(step.id).first.next_approver_mode).first
           approver_name = oa[:name] if oa
         when "AUTO_APPROVER"
-          labels = []
-          step.wf_approval_step_approvers.each{|i| labels<<i.label}
-          label = labels.join(",")
+          meaning = duel_meaning(step.get_approver_str,bo_duel_value)
+          label = meaning.join(",</br>")
           return "<b>#{step[:multiple_approver_mode_name]}</b></br> #{label}".html_safe
       end
     end

@@ -41,16 +41,9 @@ class ApplicationController < ActionController::Base
   # 设置当前页面访问的人员
   def person_setup
     if(Irm::Person.current)
-      session[:accessable_companies] = []
       # setting current application
       if(session[:application_id]&&Irm::Person.current.profile)
         Irm::Application.current = Irm::Person.current.profile.ordered_applications.detect{|i| i.id.eql?(session[:application_id])}
-
-      end
-      if Irm::Person.current.logged?
-        unless  session[:accessable_companies]&&session[:accessable_companies].any?
-          session[:accessable_companies] = Irm::Person.current.accessable_company_ids
-        end
       end
     end
   end
@@ -261,7 +254,7 @@ class ApplicationController < ActionController::Base
       if request.get?
         url = url_for(params)
       else
-        url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :company_id => params[:company_id])
+        url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id])
       end
       #转向登录页面
       respond_to do |format|

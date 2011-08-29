@@ -3,16 +3,42 @@ class Irm::OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.xml
   def index
-    @organization = Irm::Organization.new
+    all_organizations = Irm::Organization.with_parent(I18n.locale).multilingual
 
+    grouped_organizations = all_organizations.collect{|i| [i.id,i.parent_org_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
+
+    organizations = {}
+    all_organizations.each do |ao|
+      organizations.merge!({ao.id=>ao})
+    end
+    @leveled_organizations = []
+
+    proc = Proc.new{|parent_id,level|
+      if(grouped_organizations[parent_id.to_s]&&grouped_organizations[parent_id.to_s].any?)
+
+        grouped_organizations[parent_id.to_s].each do |o|
+          organizations[o[0]].level = level
+          @leveled_organizations << organizations[o[0]]
+
+          proc.call(organizations[o[0]].id,level+1)
+        end
+      end
+    }
+
+
+    grouped_organizations["blank"].each do |go|
+      organizations[go[0]].level = 1
+      @leveled_organizations << organizations[go[0]]
+      proc.call(organizations[go[0]].id,2)
+    end
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @organizations }
+      format.xml  { render :xml => @leveled_organizations }
     end
   end
 
   def show
-    @organization = Irm::Organization.multilingual.query_wrap_info(I18n::locale).find(params[:id])
+    @organization = Irm::Organization.multilingual.with_parent(I18n.locale).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -33,7 +59,7 @@ class Irm::OrganizationsController < ApplicationController
 
   # GET /organizations/1/edit
   def edit
-    @organization = Irm::Organization.multilingual.query_wrap_info(I18n::locale).find(params[:id])
+    @organization = Irm::Organization.multilingual.find(params[:id])
   end
 
   # POST /organizations
@@ -82,34 +108,6 @@ class Irm::OrganizationsController < ApplicationController
       else
         format.html { render({:action=>"multilingual_edit"}) }
       end
-    end
-  end
-
-  def get_data
-    @organizations= Irm::Organization.multilingual.query_wrap_info(I18n::locale)
-    @organizations = @organizations.match_value("#{Irm::Organization.table_name}.organization_code",params[:organization_code])
-    @organizations = @organizations.match_value("v2.name",params[:company_name])
-    @organizations = @organizations.match_value("#{Irm::OrganizationsTl.table_name}.name",params[:name])
-    @organizations,count = paginate(@organizations)
-    respond_to do |format|
-      format.json {render :json=>to_jsonp(@organizations.to_grid_json(['R',:company_name,:short_name,:name,:description,:status_meaning], count))}
-    end
-  end
-
-  def belongs_to
-    organizations = Irm::Organization.query_by_company_and_language(::I18n.locale,params[:company_id])
-    respond_to do |format|
-      format.html
-      format.xml  { head :ok }
-      format.js { render :json => organizations.collect{|d| {:id=>d.id,:name=>d[:name]}} }
-    end
-  end
-
-  def get_by_company
-    organizations_scope = Irm::Organization.multilingual.query_by_company_id(params[:belonged_company_id])
-    organizations = organizations_scope.collect{|i| {:label=>i[:name],:value=>i.id,:id=>i.id}}
-    respond_to do |format|
-      format.json {render :json=>organizations.to_grid_json([:label,:value],organizations.count)}
     end
   end
 end

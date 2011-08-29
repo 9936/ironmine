@@ -94,9 +94,6 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
       person.external_system_people.create(:external_system_code=>pr.external_system_code)
     end
 
-    template_person.company_accesses.each do |ca|
-      person.company_accesses.create(:accessable_company_id=>ca.accessable_company_id,:company_access_flag=>ca.company_access_flag,:support_stuff_flag=>ca.support_stuff_flag)
-    end
     person
   end
 

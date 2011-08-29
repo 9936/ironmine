@@ -10,7 +10,7 @@ Irm::AccessControl.map do |map|
                                  "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_application", "index"],
-                                 "irm/support_group_members"=>["get_options"],"irm/search"=>[:index]}
+                                 "icm/support_groups"=>["get_member_options"],"irm/search"=>[:index]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
   #=====common setting===================
@@ -33,19 +33,10 @@ Irm::AccessControl.map do |map|
                            "irm/id_flex_structures"=>["index", "show", "get_data", "select_parent","new", "create","edit", "update"],
                            "irm/id_flex_segments"=>["index", "show", "get_data","new", "create","edit", "update"]}
 
-  #===================irm/companies irm/locations============================
-  map.function :company,{"irm/companies"=>["index", "show", "get_data", "site_info","new", "create", "add_site_info", "create_location",
-                                          "edit", "update", "multilingual_edit", "multilingual_update", "edit_location", "update_location",
-                                           "get_company_site", "get_company_info", "get_support_group", "get_choose_company"],
-                                "irm/locations"=>["index", "show", "get_data","new", "create","edit", "update"]}
 
   #===================irm/organizations============================
   map.function :organization,{"irm/organizations"=>["index", "show", "get_data", "belongs_to", "get_by_company",
                                                     "new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
-
-  #===================irm/departments============================
-  map.function :department,{"irm/departments"=>["index", "show", "get_data", "belongs_to",
-                                                "get_by_organization","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
 
   #===================irm/people============================
   map.function :person,{"irm/people"=>["index", "show", "get_data", "get_choose_people","new", "create",
@@ -54,25 +45,25 @@ Irm::AccessControl.map do |map|
                                        "select_roles", "get_available_roles"],
                              "irm/company_accesses"=>["index","new", "create"], "uid/external_system_members" => ["new_from_person"]}
 
+
+  #===================irm/groups============================
+  #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "show"]
+  #===================irm/group_members============================
+  #["new", "create", "get_data", "get_memberable_data", "delete", "new_from_person", "create_from_person", "get_data_from_person", "delete_from_person"]
+  map.function :group,{"irm/groups"=>["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "show"],
+                        "irm/group_members"=>["new", "create", "get_data", "get_memberable_data", "delete", "new_from_person", "create_from_person", "get_data_from_person", "delete_from_person"]}
+
   #===================irm/regions============================
   #["index", "get_data", "edit", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]
-  map.function :region,{"irm/regions"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+  map.function :region,{"irm/regions"=>[ "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
 
   #===================irm/site_groups============================
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "get_current_group_site", "create_site", "belongs_to", "show", "add_site", "edit_site", "update_site", "current_site_group", "multilingual_site_edit", "multilingual_site_update", "get_by_region_code"]
   #===================irm/sites============================
   #["index", "get_data", "edit", "update", "new", "show", "create", "select_site", "multilingual_edit", "multilingual_update", "get_by_site_group_code"]
-  map.function :site,{"irm/sites" => ["index", "show", "get_data", "select_site", "get_by_site_group_code","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
-  map.function :site_group,{"irm/site_groups" =>["index", "show", "get_data", "get_current_group_site", "get_by_region_code", "belongs_to","new", "create","edit", "update", "multilingual_edit", "multilingual_update"],}
+  map.function :site,{"irm/sites" => [ "show", "get_data", "select_site", "get_by_site_group_code","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+  map.function :site_group,{"irm/site_groups" =>[ "show", "get_data", "get_current_group_site", "get_by_region_code", "belongs_to","new", "create","edit", "update", "multilingual_edit", "multilingual_update"],}
 
-  #===================irm/support_groups============================
-  #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "belongs_to", "add_persons", "get_support_group_member", "choose_person", "create_member", "delete_member", "show"]
-  #===================irm/support_group_members============================
-  #["index", "edit", "update", "delete", "new", "create", "get_data", "select_person", "get_person"]
-  map.function :support_group,{"irm/support_groups"=>["index", "show", "get_data", "get_support_group_member", "choose_person","new", "create",
-                                                       "edit", "update", "multilingual_edit", "multilingual_update","delete_member", "create_member"],
-                                     "irm/support_group_members"=>["get_person", "get_options","select_person", "create","delete_from_person",
-                                                                   "new_from_person","get_person_support_group","create_from_person"]}
 
   #=====permission ===================
 
@@ -139,9 +130,9 @@ Irm::AccessControl.map do |map|
                                                       "edit", "update", "multilingual_edit", "multilingual_update"]}
 
   #====================irm/my_info =================================
-  map.function :my_info, {"irm/my_info" => ["index", "filter_company","edit","update"],
-                          "irm/company_accesses"=>["get_data"],
+  map.function :my_info, {"irm/my_info" => ["index","edit","update"],
                           "irm/people"=>["get_owned_external_systems", "get_support_group"]}
+
   map.function :my_password,{"irm/my_password" => ["index","edit_password", "update_password"]}
   map.function :my_login_history ,{"irm/my_login_history" => ["index", "get_login_data"]}
   map.function :my_avatar,{"irm/my_avatar" => ["index","avatar_crop", "edit", "update"]}
@@ -151,9 +142,6 @@ Irm::AccessControl.map do |map|
   map.function :edit_bulletin, {"irm/bulletins" => ["edit", "update"]}
   map.function :new_bulletin, {"irm/bulletins" => ["new", "create"]}
   map.function :delete_bulletin, {"irm/bulletins" => ["destroy", "remove_exits_attachments"]}
-  #====================irm/watchers ========================================
-  map.function :view_watchers, {}
-  map.function :edit_watchers, {"irm/watchers" => ["add_watcher", "delete_watcher"]}
 
   #===================irm/wf_settings============================
   #["index", "edit", "update"]
@@ -269,4 +257,8 @@ Irm::AccessControl.map do |map|
 
   #===================irm/password_policies============================
   map.function :password_policy,{"irm/password_policies" => ["index", "update"]}
+
+  #===================irm/operation_units============================
+  #["show", "edit", "update"]
+  map.function :operation_unit,{"irm/operation_units"=>["show","edit", "update"]}
 end

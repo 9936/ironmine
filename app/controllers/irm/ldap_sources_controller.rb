@@ -36,7 +36,7 @@ class Irm::LdapSourcesController < ApplicationController
 
   def create
     @ldap_source = Irm::LdapSource.new(params[:irm_ldap_source])
-    @ldap_source.company_id = Irm::Company.current.id
+    @ldap_source.opu_id = Irm::OperationUnit.current.id
     respond_to do |format|
       if @ldap_source.save
         format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }

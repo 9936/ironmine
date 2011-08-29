@@ -28,7 +28,6 @@
         </div>
         <%= datatable("urgence_code",url_for(:action=>"get_data",:format=>"json"),
                   [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"company_name",:label=>t(:label_icm_urgence_code_company),:searchable=>true},
                    {:key=>"urgency_code",:label=>t(:label_icm_urgence_code_urgency_code),:sortable=>true,:searchable=>true},
                    {:key=>"name",:label=>t(:label_icm_urgence_code_name),:searchable=>true},
                    {:key=>"weight_values",:label=>t(:label_icm_urgence_code_weight_values),:sortable=>true},

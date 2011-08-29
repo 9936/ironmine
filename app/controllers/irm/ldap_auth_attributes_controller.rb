@@ -42,7 +42,7 @@ class Irm::LdapAuthAttributesController < ApplicationController
   def create
     @ldap_auth_attribute = Irm::LdapAuthAttribute.new(params[:irm_ldap_auth_attribute])
     @ldap_auth_attribute.ldap_auth_header_id=params[:ah_id]
-    @ldap_auth_attribute.company_id=Irm::Company.current.id
+    @ldap_auth_attribute.opu_id=Irm::OperationUnit.current.id
     respond_to do |format|
       if @ldap_auth_attribute.save
         format.html { redirect_to({:controller => "irm/ldap_auth_headers",:action=>"show",:id=>params[:ah_id]}, :notice => t(:successfully_created)) }

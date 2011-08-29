@@ -53,54 +53,11 @@
                 </div>
               </td>
             </tr>
-            <tr id="receiverTypeSearch" style="display:none">
-              <td></td>
-              <td class="dataCol" colspan="3" style="width:82%">
-                <div class="floatLeft">
-                     <label><%= t(:search) %></label>
-                </div>
-                <div class="floatLeft">
-                   <%=select_tag_alias :member_type,available_report_receiver_type,{},:id=>"duelType"%>
-                </div>
-                <div class="floatLeft">
-                  <input type="text" size="30" id="duelQuery"/>
-                </div>
-                <div class="floatLeft">
-                   <div class="button"><a href="javascript:void(0)" id="duelSearch"><%=t(:search) %></a></div>
-                </div>
-              </td>
-            </tr>
-            <tr id="receiverTypeDuel" style="display:none">
-              <td class="labelCol"></td>
-              <td class="dataCol" colspan="3" width="82%">
-                <table class="duel">
-                  <tr class="duelTitle">
-                    <th><%= t(:duel_selectable)%></th>
-                    <th></th>
-                    <th><%= t(:duel_selected)%></th>
-                  </tr>
-                  <tr class="duelList">
-                    <td class="sourceCell">
-                      <%= select_tag_alias(:source,available_report_receiver,nil,{:id=>"source",:multiple=>true,:size=>7}) %>
-                    </td>
-                    <td class="buttonCell">
-                      <div class="text"><%= t(:add) %></div>
-                      <div class="text">
-                        <a href="javascript:void(0)" id="duelAdd"><img title="<%= t(:add) %>" class="rightArrowIcon" alt="<%= t(:add) %>" src="<%= theme_image_path("s.gif") %>"></a>
-                      </div>
-                      <div class="text">
-                        <a href="javascript:void(0)" id="duelRemove"><img title="<%= t(:delete) %>" class="leftArrowIcon" alt="<%= t(:delete) %>" src="<%= theme_image_path("s.gif") %>"></a>
-                      </div>
-                      <div class="duelingText"><%= t(:delete) %></div>
-                    </td>
-                    <td class="targetCell">
-                      <%= f.hidden_field(:receiver_str,:value=>"",:id=>"members") %>
-                      <%= select_tag_alias(:target,[],nil,{:id=>"target",:multiple=>true,:size=>7}) %>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+
+            <%= render :partial => "irm/duel_select/search",:locals => {:label=>"",:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:receiver_str,:str_value=>""} %>
+
+
+
             <tr>
               <td class="labelCol"><label for="report_trigger_time_mode"><%=t(:label_irm_report_trigger_time_mode)%></label></td>
               <td class="dataCol" colspan="3" width="82">
@@ -206,31 +163,15 @@
         //============================receiver type processor========================================
         Y.on('click', function(e) {
           if(e.target.get("value")=="CHOOSE_STAFF"){
-            Y.one("#receiverTypeSearch").setStyle("display","");
-            Y.one("#receiverTypeDuel").setStyle("display","");
+            Y.one("#duelSearchBox").setStyle("display","");
+            Y.one("#duelSelectBox").setStyle("display","");
           }
           else{
-            Y.one("#receiverTypeSearch").setStyle("display","none");
-            Y.one("#receiverTypeDuel").setStyle("display","none");
+            Y.one("#duelSearchBox").setStyle("display","none");
+            Y.one("#duelSelectBox").setStyle("display","none");
           }
 
 	    }, '.receiverType');
-
-
-        var duelselect = new Y.DuelSelect({source:"#source",target:"#target",valueNode:"#members",type:Y.one("#duelType").get("value"),addButton:"#duelAdd",removeButton:"#duelRemove"});
-        Y.one("#duelType").on("change",function(e){
-          Y.one("#duelQuery").set("value","");
-          duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
-        });
-        Y.one("#duelSearch").on("click",function(e){
-          duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
-        });
-        Y.one("#duelQuery").on("keydown",function(e){
-          if(e.keyCode==13){
-              e.preventDefault();
-              duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
-          }
-        });
 
         radioDefaultValue("receiverType");
 

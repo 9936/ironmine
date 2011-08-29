@@ -33,11 +33,9 @@ class Irm::ReportTriggersController < ApplicationController
   def create
     @report_trigger = Irm::ReportTrigger.new(params[:irm_report_trigger])
     @report_trigger.time_mode= YAML.dump(params[:time_mode_obj])
-    if @report_trigger.valid?
-      @report_trigger.create_receiver_from_str
-    end
     respond_to do |format|
       if @report_trigger.save
+        @report_trigger.create_receiver_from_str
         format.html { redirect_to({:controller=>"irm/reports",:action => "show",:id=>@report_trigger.report_id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report_trigger, :status => :created, :location => @report_trigger }
       else
@@ -52,12 +50,10 @@ class Irm::ReportTriggersController < ApplicationController
   def update
     @report_trigger = Irm::ReportTrigger.find(params[:id])
     @report_trigger.time_mode= YAML.dump(params[:time_mode_obj])
-    if @report_trigger.valid?
-      @report_trigger.create_receiver_from_str
-    end
     respond_to do |format|
       if @report_trigger.update_attributes(params[:irm_report_trigger])
-        format.html { redirect_to({:controller=>"irm/reports",:action => "show",:id=>@report_trigger.report_id}, :notice => t(:successfully_updated)) }
+        @report_trigger.create_receiver_from_str
+        format.html { redirect_to({:controller=>"irm/reports"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

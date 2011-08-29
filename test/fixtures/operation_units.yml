@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  short_name: MyString
+  default_language_id: MyString
+  default_time_zone_code: MyString
+
+two:
+  name: MyString
+  short_name: MyString
+  default_language_id: MyString
+  default_time_zone_code: MyString

@@ -1,13 +1,17 @@
 class Irm::Organization < ActiveRecord::Base
   set_table_name :irm_organizations
 
+  after_save :explore_org_hierarchy
+
+  attr_accessor :level
+
   #多语言关系
   attr_accessor :name,:description
   has_many :organizations_tls,:dependent => :destroy
   acts_as_multilingual
 
-  validates_presence_of :short_name,:company_id
-  validates_uniqueness_of :short_name, :if => Proc.new { |i| !i.short_name.blank? }
+  validates_presence_of :short_name
+  validates_uniqueness_of :short_name,:scope=>[:parent_org_id], :if => Proc.new { |i| !i.short_name.blank? }
   validates_format_of :short_name, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.short_name.blank?}
 
   #加入activerecord的通用方法和scope
@@ -17,28 +21,18 @@ class Irm::Organization < ActiveRecord::Base
     where(:short_name=>short_name)
   }
 
-  scope :query_by_company_id,lambda{|company_id|
-   where(:company_id=>company_id)
+  scope :with_parent,lambda{|language|
+    joins("LEFT OUTER JOIN #{view_name} parent ON #{table_name}.parent_org_id = parent.id AND parent.language = '#{language}'").
+        select("parent.name parent_org_name")
   }
 
-  scope :query_wrap_info,lambda{|language| select("#{table_name}.*,#{Irm::OrganizationsTl.table_name}.name,#{Irm::OrganizationsTl.table_name}.description,"+
-                                                          "v1.meaning status_meaning,v2.name company_name").
-                                                   joins(",irm_lookup_values_vl v1").
-                                                   joins(",irm_companies_vl v2").
+  scope :parentable,lambda{|org_id|
+    where("#{table_name}.id!=? AND NOT EXISTS(SELECT 1 FROM #{Irm::OrganizationExplosion.table_name} WHERE #{Irm::OrganizationExplosion.table_name}.parent_org_id = ? AND #{Irm::OrganizationExplosion.table_name}.organization_id = #{table_name}.id)",org_id,org_id)
+  }
 
-                                                   where("v1.lookup_type='SYSTEM_STATUS_CODE' AND v1.lookup_code = #{table_name}.status_code AND "+
-                                                         "#{table_name}.company_id = v2.id AND v2.language=? AND "+
-                                                         "v1.language=?",language,language)}
-
-  scope :query_by_company_and_language,lambda{|language,company_id| select("#{Irm::Organization.table_name}.id,#{Irm::OrganizationsTl.table_name}.name").
-                                                              joins(:organizations_tls).
-                                                              where("#{Irm::OrganizationsTl.table_name}.language=? and " +
-                                                                    "#{Irm::Organization.table_name}.company_id = ?",
-                                                                    language,company_id)}
-  def to_s
-    self.company_name + "-" + self.name
-  rescue
-    rec = Irm::Organization.multilingual.query_wrap_info(I18n.locale).where(:id => self.id).first
-    rec[:company_name] + "-" + rec[:name]
+  def explore_org_hierarchy
+    Irm::OrganizationExplosion.explore_hierarchy(self.id,self.parent_org_id)
   end
+
+
 end

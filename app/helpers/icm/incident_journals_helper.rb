@@ -104,14 +104,14 @@ module Icm::IncidentJournalsHelper
 
 
   def available_passable_supporter(group_id)
-    people =  Irm::SupportGroupMember.with_assignable_person.with_support_group(I18n.locale).query_by_support_group(group_id).order_id.collect{|p|[p[:person_name],p[:person_id]]}
+    people =  Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(group_id).order_id.collect{|p|[p[:person_name],p[:person_id]]}
     people
   end
 
   def available_upgradable_supporter(group_id)
-    support_group = Irm::SupportGroup.query(group_id).first
+    support_group = Icm::SupportGroup.query(group_id).first
     return [] unless support_group&&support_group.parent_group_id
-    people =  Irm::SupportGroupMember.with_assignable_person.with_support_group(I18n.locale).query_by_support_group(support_group.parent_group_id).order_id.collect{|p|[p[:person_name],p[:person_id]]}
+    people =  Irm::GroupMember.with_assignable_person.with_support_group(I18n.locale).query_by_support_group(support_group.parent_group_id).order_id.collect{|p|[p[:person_name],p[:person_id]]}
     people
   end
 

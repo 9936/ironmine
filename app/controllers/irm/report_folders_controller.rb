@@ -28,9 +28,9 @@ class Irm::ReportFoldersController < ApplicationController
     @report_folder = Irm::ReportFolder.new(params[:irm_report_folder])
 
     respond_to do |format|
-      if @report_folder.valid?
+      if @report_folder.save
         @report_folder.create_member_from_str
-        @report_folder.save
+
         format.html { redirect_to({:controller => "irm/reports",:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report_folder, :status => :created, :location => @report_folder }
       else
@@ -47,6 +47,7 @@ class Irm::ReportFoldersController < ApplicationController
 
     respond_to do |format|
       if @report_folder.update_attributes(params[:irm_report_folder])
+         @report_folder.create_member_from_str
         format.html { redirect_to({:controller => "irm/reports",:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else

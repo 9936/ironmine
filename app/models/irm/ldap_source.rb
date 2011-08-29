@@ -12,7 +12,7 @@ class Irm::LdapSource < ActiveRecord::Base
   validates_length_of :account, :maximum => 60
   validates_length_of :account_password, :maximum => 60
   validates_length_of :base_dn, :maximum => 255
-  validates_uniqueness_of :name,:scope=>:company_id, :if => Proc.new { |i| !i.name.blank? }
+  validates_uniqueness_of :name,:scope=>:opu_id, :if => Proc.new { |i| !i.name.blank? }
   #加入activerecord的通用方法和scope
   query_extend
 
