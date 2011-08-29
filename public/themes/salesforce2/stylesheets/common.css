@@ -1211,3 +1211,8 @@ div#objectRelation span.levelLabel3 {
     width: 17px;
 }
 /*****************************end irm excel export**************************************/
+
+  .floatLeft{
+      float:left;
+      vertical-align:middle;
+  }
