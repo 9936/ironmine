@@ -22,7 +22,7 @@ class AddGroupAndOrgFunction < ActiveRecord::Migration
     irm_group.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Group',:description=>'Group')
     irm_group.save
 
-    irm_operation_unit= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_SETTING',:code=>'OPERATION_UNIT',:controller=>'irm/operation_units',:action=>'edit',:not_auto_mult=>true)
+    irm_operation_unit= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_SETTING',:code=>'OPERATION_UNIT',:controller=>'irm/operation_units',:action=>'show',:not_auto_mult=>true)
     irm_operation_unit.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'运维中心',:description=>'运维中心')
     irm_operation_unit.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Operation Unit',:description=>'Operation Unit')
     irm_operation_unit.save

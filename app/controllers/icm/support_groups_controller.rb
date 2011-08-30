@@ -8,7 +8,7 @@ class Icm::SupportGroupsController < ApplicationController
     if @support_group.nil?
       @support_group = Icm::SupportGroup.new(:group_id=>group_id)
     end
-    @group = Irm::Group.multilingual.find(group_id)
+    @group = Irm::Group.multilingual.query(group_id).first
   end
 
   # POST /support_groups

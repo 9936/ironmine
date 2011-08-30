@@ -81,6 +81,7 @@ en:
   else: else
   up: Up
   down: Down
+  notice: Notice
   #usual words
   notice_account_invalid_creditentials: User or Password Error
   successfully_updated: Successfully Updated
