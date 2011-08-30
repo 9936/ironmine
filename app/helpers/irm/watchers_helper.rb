@@ -2,7 +2,7 @@ module Irm::WatchersHelper
   def ava_watchers(watchable_id, watchable_type)
     if watchable_id && !watchable_id.blank?
       watchable = watchable_type.find(watchable_id)
-      (Irm::Person.enabled - watchable.all_person_watchers).collect{|p| [p.name, p.id]}
+      (Irm::Person.enabled.collect{|p| [p.name, p.id]} - watchable.all_person_watchers.collect{|p| [p[:person_name], p[:person_id]]})
     else
       Irm::Person.enabled.collect{|p| [p.name, p.id]}
     end
