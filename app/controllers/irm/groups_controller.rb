@@ -81,7 +81,7 @@ class Irm::GroupsController < ApplicationController
     @group = Irm::Group.find(params[:id])
 
     respond_to do |format|
-      if @group.update_attributes(params[:irm_support_group])
+      if @group.update_attributes(params[:irm_group])
         format.html { redirect_to({:action=>"index"},:notice => (t :successfully_updated)) }
         format.xml  { head :ok }
       else
