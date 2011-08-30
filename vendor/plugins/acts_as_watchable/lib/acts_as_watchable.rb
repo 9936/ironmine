@@ -56,10 +56,7 @@ module Ironmine
         end
 
         def all_person_watchers
-          notified = []+person_watchers
-          notified.uniq!
-          notified.reject! {|person| !person.enabled?}
-          notified
+          self.watchers.select_all.with_person
         end
 
         def watched_by?(person)

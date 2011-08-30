@@ -16,9 +16,9 @@ module Irm::WatchersHelper
       ret << content_tag(:tr,
                   content_tag(:td,
                               content_tag(:div,
-                                          link_to(w.name, {}, {:href => "javascript:void(0);"}), {:style => "float:left"}) + raw("&nbsp;") + (icon_link_delete({:controller => "irm/watchers",
+                                          link_to(w[:person_name], {}, {:href => "javascript:void(0);"}), {:style => "float:left"}) + raw("&nbsp;") + (icon_link_delete({:controller => "irm/watchers",
                                                                                                                                                                :action => "delete_watcher",
-                                                                                                                                                               :watcher_id => w.id,
+                                                                                                                                                               :watcher_id => w[:person_id],
                                                                                                                                                                :watchable_id => watchable.id,
                                                                                                                                                                :watchable_type => watchable.class.to_s}, :remote => true) if deletable)))
     end
