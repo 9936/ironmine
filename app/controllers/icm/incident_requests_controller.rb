@@ -115,6 +115,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def get_data
     return_columns = [:request_number,
+                      :organization_name,
                       :title,
                       :incident_status_name,
                       :close_flag,
@@ -153,6 +154,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def get_help_desk_data
     return_columns = [:request_number,
+                      :organization_name,
                       :title,
                       :incident_status_name,
                       :close_flag,
@@ -240,6 +242,7 @@ class Icm::IncidentRequestsController < ApplicationController
   def assignable_data
     return_columns = [:request_number,
                       :title,
+                      :organization_name,
                       :incident_status_name,
                       :close_flag,
                       :requested_name,
@@ -321,7 +324,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def assign_me_data
     return_columns = [:request_number,
-                      :title,
+                      :title,:organization_name,
                       :incident_status_name,
                       :close_flag,
                       :requested_name,

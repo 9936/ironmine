@@ -14,6 +14,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
+  before_save :setup_organization
   after_create :generate_request_number
   before_validation_on_create  :setup_priority
 
@@ -297,5 +298,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
     self.weight_value = urgence.weight_values + impact_range.weight_values-1
     priority = Icm::PriorityCode.query_by_weight_value(self.weight_value).first
     self.priority_id = priority.id
+  end
+
+  def setup_organization
+    if self.requested_by.present?
+      self.organization_id =  Irm::Person.find(self.requested_by).organization_id
+    end
   end
 end
