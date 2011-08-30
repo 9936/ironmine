@@ -131,7 +131,7 @@ div#bodyDiv_setup table.outer td.oLeft {background:url("../images/setup_sidebar_
 div#bodyDiv_setup table.outer td.oRight {background-color:#FFFFFF;}
 body .bodyDiv .outer .oRight, body .bodyDiv .outerNoSidebar {background-color:transparent;}
 .setupTab .outer .oRight, .sysAdminTab .outer .oRight {padding-left:10px;}
-.outer td.oRight {background-color:#FFFFFF;padding:0 10px 20px 210px;}
+.outer td.oRight {background-color:#FFFFFF;padding:0 10px 20px 0;}
 .outer td {vertical-align:top;}
 
 .setupTab .outer .oLeft, .sysAdminTab .outer .oLeft {padding-left:10px;}
@@ -576,13 +576,11 @@ body #sidebarDiv .sidebarInner, body #sidebarDivRight .sidebarInner {
     padding:0 3px 5px 0;
     width:200px;
 }
-#sidebarDiv {
-    /*background-color:#E8E8E8;*/
-    left:0;
-    position:absolute;
-    top:0;
-    z-index:10;
+
+#sidebarCell{
+    width:210px;
 }
+
 #sidebarDivRight {
     /*background-color:#E8E8E8;*/
     right:0;
