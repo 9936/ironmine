@@ -111,7 +111,7 @@
 <%end%>
 
 <script type="text/javascript">
-    GY.use("duelselect",function(Y){
+    GY.use(function(Y){
       Y.all("input.typeButton").on("click",function(e){
         Y.all(".showTR").setStyle("display","none");
         Y.all(".showTR .updateValue").setAttribute("disabled","true");
@@ -126,21 +126,6 @@
       else
         Y.one("input.typeButton").simulate("click");
 
-      //duel approver
-      var duelselect = new Y.DuelSelect({source:"#source",target:"#target",valueNode:"#approvers",type:Y.one("#approverType").get("value"),addButton:"#duelAdd",removeButton:"#duelRemove"});
-      Y.one("#approverType").on("change",function(e){
-        Y.one("#duelQuery").set("value","");
-        duelselect.filter(Y.one("#approverType").get("value"),Y.one("#duelQuery").get("value"));
-      });
-      Y.one("#duelSearch").on("click",function(e){
-        duelselect.filter(Y.one("#approverType").get("value"),Y.one("#duelQuery").get("value"));
-      });
-      Y.one("#duelQuery").on("keydown",function(e){
-        if(e.keyCode==13){
-            e.preventDefault();
-            duelselect.filter(Y.one("#approverType").get("value"),Y.one("#duelQuery").get("value"));
-        }
-      });
 
       //multiple approver mode
       if(!Y.one("input.multipleApproveModeButton[checked=checked]"))

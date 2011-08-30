@@ -27,7 +27,7 @@
                               [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
                                { :key => "request_number", :label => "#",:searchable=>true,:width=>"20px"},
                                { :key => "title",:formatter=>"Y.irm.template",:label => t(:label_icm_incident_request_title),:searchable=>true },
-                               { :key => "company_name", :label => t(:label_icm_incident_request_company),:width=>"120px"},
+                               { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
                                { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },
                                { :key => "incident_status_name",:hidden=>true },
                                { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) }
@@ -48,7 +48,7 @@
                 <td class="dataCol" style="width:30%"><%= blank_select_tag(:support_person_id,[],{},
                                     {
                                      :id=>"incident_request_support_person_id",
-                                     :href=>url_for(:controller=>"irm/support_group_members",:action=>"get_options",:format=>"json",:group_id=>"{incident_request_support_group_id}"),
+                                     :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"{incident_request_support_group_id}"),
                                      :depend=>"incident_request_support_group_id",
                                      }) %></td>
                 <td class="dataCol" style="width:20%"><div><%= submit_tag(t(:label_icm_incident_request_assign),{:id=>"formSubmit",:disabled=>true})  %></div></td>

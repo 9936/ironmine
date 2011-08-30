@@ -109,7 +109,7 @@
                 <% if current_person?(@incident_request.support_person_id) %>
                       <div class="grayButton"><%= link_to t(:pass), {:action => "edit_pass"}%></div>
                 <% end %>
-                <% if current_person?(@incident_request.support_person_id) %>
+                <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
                       <div class="grayButton"><%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"}%></div>
                 <% end %>
                 <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>

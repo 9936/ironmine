@@ -14,9 +14,6 @@ class Slm::ServiceMember < ActiveRecord::Base
                                                    where("v1.lookup_type='SYSTEM_STATUS_CODE' AND v1.lookup_code = #{table_name}.status_code AND "+
                                                          "v1.language=?",language)}
 
-  scope :query_by_company_id,lambda{|language| joins("inner join irm_companies_vl v2").
-                                               where("v2.id=#{table_name}.service_company_id AND "+
-                                                     "v2.language=?",language)}
 
   scope :query_by_service_company, lambda{|service_company_id| where("#{table_name}.service_company_id = ?", service_company_id) }
   scope :query_by_service_organization, lambda{|service_organization_id| where("#{table_name}.service_organization_id = ?", service_organization_id)}

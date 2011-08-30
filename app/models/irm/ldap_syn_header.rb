@@ -223,19 +223,16 @@ class Irm::LdapSynHeader < ActiveRecord::Base
        end
        #同步组织
        Irm::LdapSynInterface.find_distinct_organizations(self.id,comp["ldap_dn"]).each do |org|
-         org.company_id = comp_id
          if Irm::Organization.exists?(:ldap_dn=>org["ldap_dn"])
            org_update=Irm::Organization.find_by_ldap_dn(org["ldap_dn"])
            org_update.update_attributes(org.attributes)
            org_id = org_update.id
          else
-           org.company_id= comp_id
            org_new = Irm::Organization.create(org.attributes)
            org_id = org_new.id
          end
          #同步部门
          Irm::LdapSynInterface.find_distinct_departments(self.id,comp["ldap_dn"],org["ldap_dn"]).each do |dept|
-           dept.company_id = comp_id
            dept.organization_id = org_id
            if Irm::Department.exists?(:ldap_dn=>dept["ldap_dn"])
              dept_update =Irm::Department.find_by_ldap_dn(dept["ldap_dn"])

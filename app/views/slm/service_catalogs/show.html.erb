@@ -111,7 +111,6 @@
             <%= datatable("service_member",url_for(:controller=>"slm/service_members",:action=>"get_data",
                                                    :service_catalog_id=>@service_catalog.id),
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                               {:key=>"service_company_name",:label=>t(:label_slm_service_member_service_company),:sortable=>true,:width=>"80px"},
                                {:key=>"service_organization_name",:label=>t(:label_slm_service_member_service_organization),:sortable=>true,:width=>"80px"},
                                {:key=>"service_department_name",:label=>t(:label_slm_service_member_service_department),:sortable=>true,:width=>"80px"},
                                {:key=>"service_person_name",:label=>t(:label_slm_service_member_service_person),:sortable=>true,:width=>"80px"},

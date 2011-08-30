@@ -26,6 +26,7 @@ class Uid::ExternalSystem < ActiveRecord::Base
   scope :without_person, lambda{|person_id|
     where("NOT EXISTS(SELECT * FROM #{Uid::ExternalSystemPerson.table_name} esp WHERE esp.person_id = ? AND esp.external_system_code = #{table_name}.external_system_code)",
           person_id)
+
   }
 
   def wrap_system_name
@@ -34,9 +35,6 @@ class Uid::ExternalSystem < ActiveRecord::Base
 
   def owned_people
     Irm::Person.
-        with_company(I18n.locale).
-        with_organization(I18n.locale).
-        with_department(I18n.locale).
         with_external_system(self.external_system_code)
   end
 end

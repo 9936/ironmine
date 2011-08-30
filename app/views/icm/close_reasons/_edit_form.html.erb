@@ -32,12 +32,6 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=t(:label_icm_close_reason_company)%></label></td>
-              <td class="dataCol"><%= Irm::Company.multilingual.find(@close_reason.company_id)[:name]%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
               <td class="labelCol"><label><%=t(:label_icm_close_reason_close_code)%></label></td>
               <td class="dataCol"><%=f.text_field :close_code, :required=>true%></td>
               <td class="labelCol empty">&nbsp;</td>

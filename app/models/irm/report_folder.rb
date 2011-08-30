@@ -17,22 +17,19 @@ class Irm::ReportFolder < ActiveRecord::Base
   validates_uniqueness_of :code, :if => Proc.new { |i| i.code.present? }
   validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?}
 
-  scope :query_by_role,lambda{|role_id|
-    where("#{table_name}.member_type = ? AND EXISTS(SELECT 1 FROM #{Irm::ReportFolderMember.table_name} WHERE  #{Irm::ReportFolderMember.table_name}.report_folder_id = #{table_name}.id AND #{Irm::ReportFolderMember.table_name}.member_type=? AND  #{Irm::ReportFolderMember.table_name}.member_id = ?)","MEMBER",Irm::Role.name,role_id)
-  }
-
-  scope :query_by_roles,lambda{|role_ids|
-    where("#{table_name}.member_type = ? AND EXISTS(SELECT 1 FROM #{Irm::ReportFolderMember.table_name} WHERE  #{Irm::ReportFolderMember.table_name}.report_folder_id = #{table_name}.id AND #{Irm::ReportFolderMember.table_name}.member_type=? AND  #{Irm::ReportFolderMember.table_name}.member_id in (?))","MEMBER",Irm::Role.name,role_ids)
-  }
-
-  scope :query_by_person,lambda{|person_id|
-    where("#{table_name}.member_type = ? AND #{table_name}.created_by = ? OR (#{table_name}.member_type = ? AND EXISTS(SELECT 1 FROM #{Irm::ReportFolderMember.table_name} WHERE  report_folder_id = #{table_name}.id AND #{Irm::ReportFolderMember.table_name}.member_type=? AND  #{Irm::ReportFolderMember.table_name}.member_id = ?))","PRIVATE",person_id,"MEMEBER",Irm::Person.name,person_id)
+  scope :private,lambda{|person_id|
+    where("#{table_name}.created_by = ?",person_id)
   }
 
   scope :public,lambda{
     where(:member_type=>"PUBLIC")
   }
 
+  scope :accessible,lambda{|person_id|
+    joins("JOIN #{Irm::ReportFolderMember.table_name} ON #{Irm::ReportFolderMember.table_name}.report_folder_id = #{table_name}.id").
+        where(:member_type=>"MEMBER").
+            where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_id = #{Irm::ReportFolderMember.table_name}.member_id AND #{Irm::Person.relation_view_name}.source_type = #{Irm::ReportFolderMember.table_name}.member_type AND  #{Irm::Person.relation_view_name}.person_id = ?)",person_id)
+  }
 
   #创建 更新 文件夹成员
   def create_member_from_str
@@ -40,22 +37,30 @@ class Irm::ReportFolder < ActiveRecord::Base
       self.member_str = ""
     end
     return unless self.member_str
-    str_members = self.member_str.split(",").delete_if{|i| !i.present?}
-    exists_members = Irm::ReportFolderMember.where(:report_folder_id=>self.id)
-    exists_members.each do |member|
-      if exists_members.include?("#{Irm::BusinessObject.class_name_to_code(member.member_type)}##{member.member_id}")
-        str_members.delete("#{Irm::BusinessObject.class_name_to_code(member.member_type)}##{member.member_id}")
+    str_values = self.member_str.split(",").delete_if{|i| !i.present?}
+    exists_values = Irm::ReportFolderMember.where(:report_folder_id=>self.id)
+    exists_values.each do |value|
+      if str_values.include?("#{value.member_type}##{value.member_id}")
+        str_values.delete("#{value.member_type}##{value.member_id}")
       else
-        member.destroy
+        value.destroy
       end
 
     end
 
-    str_members.each do |member_str|
-      next unless member_str.strip.present?
-      member = member_str.strip.split("#")
-      self.report_folder_members.build(:member_type=>Irm::BusinessObject.code_to_class_name(member[0]),:member_id=>member[1])
-    end if str_members.any?
+    str_values.each do |value_str|
+      next unless value_str.strip.present?
+      value = value_str.strip.split("#")
+      self.report_folder_members.create(:member_type=>value[0],:member_id=>value[1])
+    end
+  end
+
+
+
+  def get_member_str
+    return @get_member_str if @get_member_str
+    @get_member_str||=member_str
+    @get_member_str||= Irm::ReportFolderMember.where(:report_folder_id=>self.id).collect{|value| "#{value.member_type}##{value.member_id}"}.join(",")
   end
 
 
@@ -64,4 +69,6 @@ class Irm::ReportFolder < ActiveRecord::Base
       self.access_type= "FORBID"
     end
   end
+
+
 end

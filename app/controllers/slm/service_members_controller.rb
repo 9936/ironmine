@@ -70,11 +70,11 @@ class Slm::ServiceMembersController < ApplicationController
   end
 
   def get_data
-    service_members_scope = Slm::ServiceMember.query_by_company_id(I18n::locale).
+    service_members_scope = Slm::ServiceMember.
                             query_wrap_info(I18n::locale).where("#{Slm::ServiceMember.table_name}.service_catalog_id = ?", params[:service_catalog_id])
     service_members,count = paginate(service_members_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(service_members.to_grid_json([:service_company_name,:service_organization_name,
+      format.json {render :json=>to_jsonp(service_members.to_grid_json([:service_organization_name,
                                                                         :service_department_name,:service_person_name,
                                                                         :service_contract_name,:status_meaning],count))}
     end

@@ -73,34 +73,27 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
              <tr>
-                 <td class="labelCol"><label><%=t(:label_irm_person_company)%></label></td>
-                 <td class="dataCol"><%=@person[:company_name]%></td>
+
+                  <td class="labelCol"><label><%=t(:label_irm_person_profile)%></label></td>
+                  <td class="dataCol"><%= f.blank_select(:profile_id,available_profile,{},{:required=>true,:id=>"profile_id"})%></td>
                   <td class="labelCol"><label><%=(t :label_irm_person_region_code)%></label></td>
                   <td class="dataCol"><%=f.blank_select :region_code,available_region,{},{:required=>true,:id=>"region_code"}%></td>
              </tr>
              <tr>
-             <td class="labelCol"><label><%=t(:label_irm_person_organization)%></label></td>
-             <td class="dataCol"><%= f.blank_select(:organization_id,available_organization(@person.company_id),{},
-                                  {:required=>true,
-                                   :id=>"organization_id"}) %></td>
-             <td class="labelCol"><label><%=(t :label_irm_person_site_group_code)%></label></td>
+               <td class="labelCol"><label><%=(t :label_irm_person_role)%></label></td>
+               <td class="dataCol"><%=f.blank_select :role_id,available_roles,{},{:id=>"role_id"}%></td>
+               <td class="labelCol"><label><%=(t :label_irm_person_site_group_code)%></label></td>
 
-             <td class="dataCol"><%= f.blank_select(:site_group_code,available_site_group(@person.region_code),{},
-                                  {:required=>false,
-                                   :id=>"site_group_code",
-                                   :href=>url_for(:controller=>"irm/site_groups",:action=>"get_by_region_code",:format=>"json",:region_code=>"{region_code}"),
-                                   :depend=>"region_code"
-                                   }) %></td>
+               <td class="dataCol"><%= f.blank_select(:site_group_code,available_site_group(@person.region_code),{},
+                                    {:required=>false,
+                                     :id=>"site_group_code",
+                                     :href=>url_for(:controller=>"irm/site_groups",:action=>"get_by_region_code",:format=>"json",:region_code=>"{region_code}"),
+                                     :depend=>"region_code"
+                                     }) %></td>
              </tr>
              <tr>
-                 <td class="labelCol"><label><%=t(:label_irm_person_department)%></label></td>
-                 <td class="dataCol"><%= f.blank_select(:department_id,available_department(@person.organization_id),{},
-                                  {:required=>true,
-                                   :id=>"department_id",
-                                   :href=>url_for(:controller=>"irm/departments",:action=>"get_by_organization",:format=>"json",:organization_id=>"{organization_id}"),
-                                   :depend=>"organization_id"
-                                   }) %></td>
-
+               <td class="labelCol"><label><%=t(:label_irm_person_organization)%></label></td>
+               <td class="dataCol"><%= f.blank_select(:organization_id,available_organization,{},{:required=>true,}) %></td>
                <td class="labelCol"><label><%=(t :label_irm_person_site_code)%></label></td>
                  <td class="dataCol"><%= f.blank_select(:site_code,available_site(@person.site_group_code),{},
                                   {:required=>false,
@@ -208,8 +201,6 @@
 
 <script type="text/javascript">
   GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#organization_id",target:["#department_id"]});
-
      new Y.CascadeSelect({source: "#region_code",target:["#site_group_code","#site_code"]});
      new Y.CascadeSelect({source: "#site_group_code",target:["#site_code"]});
   });

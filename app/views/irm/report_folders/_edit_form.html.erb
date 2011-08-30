@@ -63,54 +63,8 @@
                 <% end %>
               </td>
             </tr>
-            <tr id="memberTypeSearch" style="display:none">
-              <td></td>
-              <td class="dataCol" colspan="3" style="width:82%">
-                <div class="floatLeft">
-                     <label><%= t(:search) %></label>
-                </div>
-                <div class="floatLeft">
-                   <%=select_tag_alias :member_type,available_report_folder_viewer_type,{},:id=>"duelType"%>
-                </div>
-                <div class="floatLeft">
-                  <input type="text" size="30" id="duelQuery"/>
-                </div>
-                <div class="floatLeft">
-                   <div class="button"><a href="javascript:void(0)" id="duelSearch"><%=t(:search) %></a></div>
-                </div>
-              </td>
-            </tr>
-            <tr id="memberTypeDuel" style="display:none">
-              <td class="labelCol"></td>
-              <td class="dataCol" colspan="3" width="82%">
-                <table class="duel">
-                  <tr class="duelTitle">
-                    <th><%= t(:duel_selectable)%></th>
-                    <th></th>
-                    <th><%= t(:duel_selected)%></th>
-                  </tr>
-                  <tr class="duelList">
-                    <td class="sourceCell">
-                      <%= select_tag_alias(:source,available_report_folder_viewer,nil,{:id=>"source",:multiple=>true,:size=>7}) %>
-                    </td>
-                    <td class="buttonCell">
-                      <div class="text"><%= t(:add) %></div>
-                      <div class="text">
-                        <a href="javascript:void(0)" id="duelAdd"><img title="<%= t(:add) %>" class="rightArrowIcon" alt="<%= t(:add) %>" src="<%= theme_image_path("s.gif") %>"></a>
-                      </div>
-                      <div class="text">
-                        <a href="javascript:void(0)" id="duelRemove"><img title="<%= t(:delete) %>" class="leftArrowIcon" alt="<%= t(:delete) %>" src="<%= theme_image_path("s.gif") %>"></a>
-                      </div>
-                      <div class="duelingText"><%= t(:delete) %></div>
-                    </td>
-                    <td class="targetCell">
-                      <%= f.hidden_field(:member_str,:value=>@report_folder.member_str||report_folder_member_value(@report_folder.id),:id=>"members") %>
-                      <%= select_tag_alias(:target,[],nil,{:id=>"target",:multiple=>true,:size=>7}) %>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+            <%= render :partial => "irm/duel_select/search",:locals => {:label=>"",:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:member_str,:str_value=>@report_folder.get_member_str} %>
+
         </tbody>
       </table>
     </div>

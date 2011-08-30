@@ -2,14 +2,8 @@ class Irm::ReportReceiver < ActiveRecord::Base
   set_table_name :irm_report_receivers
 
 
-  def person_ids
-    person_ids = []
-    case self.receiver_type
-      when Irm::Role.name
-        person_ids = Irm::Person.where(:role_id=>self.receiver_id).collect{|i| i.id}
-      when Irm::Person.name
-        person_ids = [self.receiver_id]
-    end
-    person_ids
-  end
+  scope :query_person_ids,lambda{
+    joins("JOIN #{Irm::Person.relation_view_name} ON  #{Irm::Person.relation_view_name}.source_type = #{table_name}.receiver_type AND #{Irm::Person.relation_view_name}.source_id = #{table_name}.receiver_id").
+        select("#{Irm::Person.relation_view_name}.person_id")
+  }
 end

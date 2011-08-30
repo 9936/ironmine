@@ -16,6 +16,7 @@
          <ul>
 
              <% journal.incident_histories.each do |h|%>
+               <%next unless h.to_s %>
                <li><%= h %>
              <% end%>
 

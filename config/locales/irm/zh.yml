@@ -590,9 +590,10 @@ zh:
   label_irm_login_record_browser: 浏览器
   #=========================end irm login_records_controller=======================#
   #=========================    irm organizations_controller=======================#
-  label_irm_organization_company_name: 公司名称
-  label_irm_organization_short_name: 组织编码
-  label_irm_organization_name: 组织名称
+  label_irm_organization_explosion: 组织及下属组织
+  label_irm_organization_parent_org: 父组织
+  label_irm_organization_short_name: 简称
+  label_irm_organization_name: 名称
   label_irm_organization_description: 描述
   label_irm_organization_status_code: 状态编码
   label_irm_organization_new: 新建组织
@@ -604,23 +605,6 @@ zh:
   label_irm_organization_organizations_tls:
     name: 名称
   #=========================end irm organizations_controller=======================#
-  #=========================    irm departments_controller=======================#
-  label_irm_department_company_name: 公司
-  label_irm_department_organization_name: 组织
-  label_irm_department_short_name: 编码
-  label_irm_department_name: 名称
-  label_irm_department_description: 描述
-  label_irm_department_status_code: 记录状态
-  label_irm_department_new: 新建部门
-  label_irm_department_edit: 编辑部门
-  label_irm_department_list: 部门列表
-  label_irm_department_show: 部门
-  label_irm_department: 部门
-  label_irm_department_info: 部门信息
-  label_irm_department_function_description: 在公司中的定义部门。
-  label_irm_department_departments_tls:
-    name: 名称
-  #=========================end irm departments_controller=======================#
   #=========================    irm value_sets_controller=======================#
   label_irm_value_set: 值集
   label_irm_value_set_list: 值集列表
@@ -696,29 +680,31 @@ zh:
   error_segment_combination_existed: 同一公司下不能有相同的分类组合
   #=========================end general_category_controller=======================#
   #=========================    irm support_groups_controller=======================#
-  label_irm_support_group_company_name: 公司名称
-  label_irm_support_group_organization_name: 组织名称
-  label_irm_support_group_group_code: 编码
-  label_irm_support_group_name: 名称
-  label_irm_support_group_description: 描述
-  label_irm_support_group_status_code: 记录状态
-  label_irm_support_group_new: 新建支持组
-  label_irm_support_group_edit: 编辑支持组
-  label_irm_support_group_list: 支持组列表
-  label_irm_support_group_support_groups_tls:
+  label_irm_group: 组
+  label_irm_group_explosion: 组及下属组
+  label_irm_group_company_name: 公司名称
+  label_irm_group_organization_name: 组织名称
+  label_irm_group_group_code: 编码
+  label_irm_group_name: 名称
+  label_irm_group_description: 描述
+  label_irm_group_status_code: 记录状态
+  label_irm_group_new: 新建支持组
+  label_irm_group_edit: 编辑支持组
+  label_irm_group_list: 支持组列表
+  label_irm_group_support_groups_tls:
     name: 名称
-  label_irm_support_group_oncall_group: 待命组
-  label_irm_support_group_support_role: 角色
-  label_irm_support_group_vendor_group: 供应商组
-  label_irm_support_group_base_info: 基本信息
-  label_irm_support_group_member: 支持组成员
-  label_irm_support_group_choose_person: 选择人员
-  label_irm_support_group_add_person: 添加成员
-  label_irm_support_group_show: 支持组
-  label_irm_support_group_person_name: 人员名称
+  label_irm_group_oncall_flag: 待命组
+  label_irm_group_support_role: 角色
+  label_irm_group_vendor_flag: 供应商组
+  label_irm_group_base_info: 基本信息
+  label_irm_group_member: 支持组成员
+  label_irm_group_choose_person: 选择人员
+  label_irm_group_add_person: 添加成员
+  label_irm_group_show: 支持组
+  label_irm_group_person_name: 人员名称
   label_action_select_person: 选择支持组成员
   label_action_new_from_person: 选择加入的支持组
-  label_irm_support_group_parent: 上级支持组
+  label_irm_group_parent: 上级支持组
   #=========================end irm support_groups_controller=======================#
   #=========================    irm people_controller=======================#
   label_irm_person: 人员
@@ -833,9 +819,9 @@ zh:
   label_irm_company_access_info: 公司访问信息
   #=========================end irm people_controller=======================#
   #=========================    irm support_group_controller=======================#
-  label_irm_support_group_member_new: 新增支持组成员
-  label_irm_support_group_member_group_list: 支持组成员列表
-  label_irm_support_group_member_infoL: 支持组成员
+  label_irm_group_member_new: 新增支持组成员
+  label_irm_group_member_group_list: 支持组成员列表
+  label_irm_group_member_infoL: 支持组成员
   label_irm_select_result: 搜索结果
   #=========================end irm  support_group_controller=======================#
   #=========================    irm filters_controller=======================#
@@ -863,6 +849,7 @@ zh:
   #========================= irm roles ===================================
   label_irm_role_list: 角色列表
   label_irm_role: 角色
+  label_irm_role_explosion: 角色及下属角色
   label_irm_role_new: 创建角色
   label_irm_role_edit: 编辑角色
   label_irm_role_code: 角色编码
@@ -1553,3 +1540,12 @@ zh:
   label_irm_psw_policy_expire: 密码已经过期
   label_irm_psw_policy_last_upadated_at: 上一次修改密码时间
   #======================= end password policies ====================
+  #======================= Operation Unit ====================
+  label_irm_operation_unit: Operation Unit
+  label_irm_operation_unit_edit: Operation Unit Setting
+  label_irm_operation_unit_name: Name
+  label_irm_operation_unit_short_name: Short Name
+  label_irm_operation_unit_default_language_code: Default Language Code
+  label_irm_operation_unit_default_time_zone_code: Default Time Zone
+  label_irm_operation_unit_description: Description
+  #======================= end Operation Unit ====================

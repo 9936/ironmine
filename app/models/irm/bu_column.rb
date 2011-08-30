@@ -7,7 +7,7 @@ class Irm::BuColumn < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :bu_column_code
-  validates_uniqueness_of :bu_column_code, :scope => :company_id
+  validates_uniqueness_of :bu_column_code, :scope => :opu_id
 
   has_many :bulletin_columns
   has_many :bulletins, :through => :bulletin_columns

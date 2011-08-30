@@ -7,12 +7,18 @@ class Irm::Bulletin < ActiveRecord::Base
   has_many :bulletin_columns
   has_many :bu_columns, :through => :bulletin_columns
 
-  attr_accessor :column_ids
+  attr_accessor :column_ids,:access_str
 
   scope :with_author, lambda{
     select("concat(pr.last_name, pr.first_name) author")
     joins(",#{Irm::Person.table_name} pr").
         where("pr.id = #{table_name}.author_id")
+  }
+
+
+  scope :accessible,lambda{|person_id|
+      joins("JOIN #{Irm::BulletinAccess.table_name} ON #{Irm::BulletinAccess.table_name}.bulletin_id = #{table_name}.id").
+      where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_id = #{Irm::BulletinAccess.table_name}.access_id AND #{Irm::Person.relation_view_name}.source_type = #{Irm::BulletinAccess.table_name}.access_type AND  #{Irm::Person.relation_view_name}.person_id = ?)",person_id)
   }
   scope :select_all, lambda{
     select("#{table_name}.id id, #{table_name}.title bulletin_title, #{table_name}.content, DATE_FORMAT(#{table_name}.created_at, '%Y/%c/%e %H:%I:%S') published_date").
@@ -24,48 +30,6 @@ class Irm::Bulletin < ActiveRecord::Base
         select("#{table_name}.page_views page_views, #{table_name}.sticky_flag")
   }
 
-  scope :query_accessible_with_companies, lambda{|companies|
-    select("ct.name name, '#{Irm::Company.name}' type").
-    joins(",#{Irm::BulletinAccess.table_name} bac").
-        joins(",#{Irm::CompaniesTl.table_name} ct").
-        where("ct.language = ?", I18n.locale).
-        where("ct.company_id = bac.access_id").
-        where("bac.bulletin_id = #{table_name}.id").
-        where("bac.access_type = ?", Irm::Company.name).
-        where("bac.access_id IN (?)", companies.collect(&:id) + [''])
-  }
-
-  scope :query_accessible_with_department, lambda{|department_id|
-    select("dt.name name, '#{Irm::Department.name}' type").
-    joins(",#{Irm::BulletinAccess.table_name} bad").
-        joins(",#{Irm::DepartmentsTl.table_name} dt").
-        where("dt.language = ?", I18n.locale).
-        where("dt.department_id = bad.access_id").
-        where("bad.access_type = ?", Irm::Department.name).
-        where("bad.bulletin_id = #{table_name}.id").
-        where("bad.access_id = ?", department_id)
-  }
-
-  scope :query_accessible_with_organization, lambda{|organization_id|
-    select("ot.name name, '#{Irm::Organization.name}' type").
-        joins(",#{Irm::BulletinAccess.table_name} bao").
-        joins(",#{Irm::OrganizationsTl.table_name} ot").
-        where("ot.language = ?", I18n.locale).
-        where("ot.organization_id = bao.access_id").
-        where("bao.access_type=?", Irm::Organization.name).
-        where("bao.bulletin_id = #{table_name}.id").
-        where("bao.access_id = ?", organization_id)
-  }
-  scope :query_accessible_with_roles, lambda{|roles|
-    select("rt.name name, '#{Irm::Role.name}' type").
-    joins(",#{Irm::BulletinAccess.table_name} bar").
-        joins(",#{Irm::RolesTl.table_name} rt").
-        where("rt.language = ?", I18n.locale).
-        where("rt.role_id = bar.access_id").
-        where("bar.bulletin_id = #{table_name}.id").
-        where("bar.access_type = ?", Irm::Role.name).
-        where("bar.access_id IN (?)", roles.collect(&:id) + [''] )
-  }
 
   scope :query_by_author, lambda{|author_id|
     where("#{table_name}.author_id=?", author_id)
@@ -94,38 +58,41 @@ class Irm::Bulletin < ActiveRecord::Base
     select_all.with_author
   end
 
-  def self.list_accessible(person_id)
-    person = Irm::Person.find(person_id)
-    accesses = Irm::CompanyAccess.query_by_person_id(person_id).collect{|c| c.accessable_company_id}
-    accessable_companies = Irm::Company.multilingual.query_by_ids(accesses)
-    rec = select_all.with_author.query_accessible_with_companies(accessable_companies).unsticky +
-#          select_all.with_author.query_accessible_with_roles(person.roles).unsticky +
-          select_all.with_author.query_accessible_with_department(person.department_id).unsticky +
-          select_all.with_author.query_accessible_with_organization(person.organization_id).unsticky +
-          #我创建的
-          select_all.with_author.query_by_author(person_id).query_accessible_with_nothing.unsticky +
-          #没有设置访问权限的
-          select_all.with_author.without_access.query_accessible_with_nothing.unsticky
-
-    rec_sticky =  select_all_top.with_author.query_accessible_with_companies(accessable_companies).sticky +
-#                  select_all_top.with_author.query_accessible_with_roles(person.roles).sticky +
-                  select_all_top.with_author.query_accessible_with_department(person.department_id).sticky +
-                  select_all_top.with_author.query_accessible_with_organization(person.organization_id).sticky +
-                  #我创建的
-                  select_all_top.with_author.query_by_author(person_id).query_accessible_with_nothing.sticky +
-                  #没有设置访问权限的
-                  select_all_top.with_author.without_access.query_accessible_with_nothing.sticky
-
-    rec_sticky.uniq.sort{|x, y| y[:published_date] <=> x[:published_date] } +
-        rec.uniq.sort{|x, y| y[:published_date] <=> x[:published_date] }
-  end
-
   def self.current_accessible(companies = [])
-    bulletins = Irm::Bulletin.select_all.list_accessible(Irm::Person.current.id).collect(&:id)
+    bulletins = Irm::Bulletin.select_all.accessible(Irm::Person.current.id).collect(&:id)
     bulletins
   end
 
   def get_column_ids
     self.bu_columns.enabled.collect(&:id).join(",")
   end
+
+
+
+  # create access from str
+  def create_access_from_str
+    return unless self.access_str
+    str_values = self.access_str.split(",").delete_if{|i| !i.present?}
+    exists_values = Irm::BulletinAccess.where(:bulletin_id=>self.id)
+    exists_values.each do |value|
+      if str_values.include?("#{value.access_type}##{value.access_id}")
+        str_values.delete("#{value.access_type}##{value.access_id}")
+      else
+        value.destroy
+      end
+
+    end
+
+    str_values.each do |value_str|
+      next unless value_str.strip.present?
+      value = value_str.strip.split("#")
+      self.bulletin_accesses.create(:access_type=>value[0],:access_id=>value[1])
+    end
+  end
+
+  def get_access_str
+    return @get_access_str if @get_access_str
+    @get_access_str = Irm::BulletinAccess.where(:bulletin_id=>self.id).collect{|value| "#{value.access_type}##{value.access_id}"}.join(",")
+  end
+
 end

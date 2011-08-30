@@ -1,6 +1,8 @@
 class Csi::Survey < ActiveRecord::Base
   set_table_name :csi_surveys
 
+  attr_accessor :range_str
+
   query_extend
   acts_as_recently_objects(:title => "title",
                            :target_controller => "csi/surveys")
@@ -104,19 +106,19 @@ class Csi::Survey < ActiveRecord::Base
   def generate_member
     return if Irm::Constant::SYS_YES.eql?(self.with_incident_request)
     exists_member_ids = survey_members.collect{|i| i.person_id}
-    self.survey_ranges.sort_by{|i| i.required_flag}.each do |sr|
-      person_ids = sr.person_ids
-      person_ids.each do |pid|
-        if exists_member_ids.include?(pid)
-          sm = Csi::SurveyMember.where(:survey_id=>self.id,:person_id=>pid).first
-          sm.update_attributes(:required_flag=>sr.required_flag,:end_date_active=>self.closed_datetime) if sm
-        else
-          Csi::SurveyMember.create(:survey_id=>self.id,:person_id=>pid,:required_flag=>sr.required_flag,:response_flag=>Irm::Constant::SYS_NO,:end_date_active=>self.closed_datetime)
-        end
+    person_ids = Csi::SurveyRange.where(:survey_id=>self.id).query_person_ids.collect{|i| i[:person_id]}
+    person_ids.uniq!
+    person_ids.each do |pid|
+      if exists_member_ids.include?(pid)
+        sm = Csi::SurveyMember.where(:survey_id=>self.id,:person_id=>pid).first
+        sm.update_attributes(:required_flag=>sr.required_flag,:end_date_active=>self.closed_datetime) if sm
+      else
+        Csi::SurveyMember.create(:survey_id=>self.id,:person_id=>pid,:required_flag=>"N",:response_flag=>Irm::Constant::SYS_NO,:end_date_active=>self.closed_datetime)
       end
-      exists_member_ids = exists_member_ids + person_ids
-      exists_member_ids.uniq
     end
+    exists_member_ids = exists_member_ids + person_ids
+    exists_member_ids.uniq
+
   end
 
   def clear_member
@@ -127,6 +129,32 @@ class Csi::Survey < ActiveRecord::Base
     Csi::SurveyMember.list_all.query_by_person(Irm::Person.current.id).collect(&:survey_id)
   end
 
+
+  # create range from str
+  def create_range_from_str
+    return unless self.range_str
+    str_values = self.range_str.split(",").delete_if{|i| !i.present?}
+    exists_values = Csi::SurveyRange.where(:survey_id=>self.id)
+    exists_values.each do |value|
+      if str_values.include?("#{value.source_type}##{value.source_id}")
+        str_values.delete("#{value.source_type}##{value.source_id}")
+      else
+        value.destroy
+      end
+
+    end
+
+    str_values.each do |value_str|
+      next unless value_str.strip.present?
+      value = value_str.strip.split("#")
+      self.survey_ranges.create(:source_type=>value[0],:source_id=>value[1])
+    end
+  end
+
+  def get_range_str
+    return @get_range_str if @get_range_str
+    @get_range_str = Csi::SurveyRange.where(:survey_id=>self.id).collect{|value| "#{value.source_type}##{value.source_id}"}.join(",")
+  end
 
   private
   def generate_survey_code

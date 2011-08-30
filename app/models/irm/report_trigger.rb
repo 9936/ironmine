@@ -17,31 +17,38 @@ class Irm::ReportTrigger < ActiveRecord::Base
       self.receiver_str = ""
     end
     return unless self.receiver_str
-    str_receivers = self.receiver_str.split(",").delete_if{|i| !i.present?}
-    exists_receivers = Irm::ReportReceiver.where(:report_trigger_id=>self.id)
-    exists_receivers.each do |receiver|
-      if exists_receivers.include?("#{Irm::BusinessObject.class_name_to_code(receiver.receiver_type)}##{receiver.receiver_id}")
-        str_receivers.delete("#{Irm::BusinessObject.class_name_to_code(receiver.receiver_type)}##{receiver.receiver_id}")
+    str_values = self.receiver_str.split(",").delete_if{|i| !i.present?}
+    exists_values = Irm::ReportReceiver.where(:report_trigger_id=>self.id)
+    exists_values.each do |value|
+      if str_values.include?("#{value.receiver_type}##{value.receiver_id}")
+        str_values.delete("#{value.receiver_type}##{value.receiver_id}")
       else
-        receiver.destroy
+        value.destroy
       end
 
     end
 
-    str_receivers.each do |str|
-      next unless str.strip.present?
-      receiver = str.strip.split("#")
-      self.report_receivers.build(:receiver_type=>Irm::BusinessObject.code_to_class_name(receiver[0]),:receiver_id=>receiver[1])
-    end if str_receivers.any?
+    str_values.each do |value_str|
+      next unless value_str.strip.present?
+      value = value_str.strip.split("#")
+      self.report_receivers.create(:receiver_type=>value[0],:receiver_id=>value[1])
+    end
+  end
+
+
+  def get_receiver_str
+    return @get_receiver_str if @get_receiver_str
+    @get_receiver_str||=receiver_str
+    @get_receiver_str||= Irm::ReportReceiver.where(:report_trigger_id=>self.id).collect{|value| "#{value.receiver_type}##{value.receiver_id}"}.join(",")
   end
 
   def receiver_person_ids
     if(!self.receiver_type.eql?("CHOOSE_STAFF"))
       return [self.created_by]
     end
-    person_ids = []
-    self.report_receivers.each{|i| person_ids<<i.person_ids}
-    person_ids = person_ids.flatten.uniq
+
+    person_ids = Irm::ReportReceiver.where(:report_trigger_id=>self.id).query_person_ids.collect{|i| i[:person_id]}
+    person_ids.uniq!
     person_ids
   end
 

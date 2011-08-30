@@ -13,7 +13,7 @@ class Slm::ServiceAgreementsController < ApplicationController
   # GET /service_agreements/1
   # GET /service_agreements/1.xml
   def show
-    @service_agreement = Slm::ServiceAgreement.query_by_company_id(I18n::locale).multilingual.status_meaning.find(params[:id])
+    @service_agreement = Slm::ServiceAgreement.multilingual.status_meaning.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

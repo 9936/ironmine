@@ -19,7 +19,6 @@ module Uid::ExternalSystemsHelper
 
   def ava_external_system_members
     selectable_options = []
-#    access_types = [[Irm::Company,"C"],[Irm::Organization,"O"],[Irm::Department,"D"],[Irm::Role,"R"]]
 
     #Person
     targets = current_person_accessible_people_full

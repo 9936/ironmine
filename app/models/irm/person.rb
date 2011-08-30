@@ -23,7 +23,7 @@ class Irm::Person < ActiveRecord::Base
 
   belongs_to :profile
 
-  validates_presence_of :login_name,:first_name,:email_address,:company_id
+  validates_presence_of :login_name,:first_name,:email_address,:opu_id
   validates_uniqueness_of :login_name, :if => Proc.new { |i| !i.login_name.blank? }
   validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/
   validates_length_of :login_name, :maximum => 30
@@ -35,8 +35,6 @@ class Irm::Person < ActiveRecord::Base
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
-
-  has_many :company_accesses
   query_extend
 
 #  has_many :external_system_people,:class_name => "Uid::ExternalSystemPerson",
@@ -59,8 +57,6 @@ class Irm::Person < ActiveRecord::Base
 
   after_update :reprocess_avatar, :if => :cropping?
 
-  after_create :access_default_company
-
   def cropping?
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
   end
@@ -76,41 +72,18 @@ class Irm::Person < ActiveRecord::Base
 
   scope :query_all_person,select("#{table_name}.*")
 
-  scope :query_by_company_id,lambda{|language| joins("inner join irm_companies_vl v2").
-                                               where("v2.id=#{table_name}.company_id AND "+
-                                                     "v2.language=?",language)}
+
   scope :query_by_support_staff_flag,lambda{|support_staff_flag| where(:support_staff_flag=>support_staff_flag)}
 
   scope :query_choose_person,select("#{table_name}.id,CONCAT(#{table_name}.last_name,#{table_name}.first_name) person_name,#{table_name}.email_address,#{table_name}.mobile_phone")
 
-
-
-  scope :query_by_person_name,lambda{|person_name,language,support_group_code| select("#{table_name}.id,CONCAT(#{table_name}.last_name,#{table_name}.first_name) person_name,v2.name company_name,#{table_name}.email_address,v1.meaning status_meaning").
-                                                   joins(",irm_companies_vl v2").
-                                                   joins(",irm_lookup_values_vl v1").
-                                                   where("v1.lookup_type='SYSTEM_STATUS_CODE' AND v1.lookup_code = #{table_name}.status_code AND "+
-                                                         "v2.id = #{table_name}.company_id AND v2.language = ? AND " +
-                                                         "CONCAT(#{table_name}.last_name,#{table_name}.first_name) LIKE '%#{person_name}%' AND " +
-                                                         "v1.language=? AND NOT EXISTS (SELECT 1 FROM #{Irm::SupportGroupMember.table_name}  where " +
-                                                         "support_group_code=? AND #{Irm::SupportGroupMember.table_name}.person_id = #{table_name}.id)",language,language,support_group_code)}
-
   scope :query_by_organization,lambda{|organization_id| where(:organization_id=>organization_id)}
-  scope :query_by_department,lambda{|department_id| where(:department_id=>department_id)}
   scope :query_site_id,lambda{|site_id| where(:site_id=>site_id)}
 
-  scope :with_company,lambda{|language|
-    joins("JOIN #{Irm::Company.view_name} ON #{Irm::Company.view_name}.id = #{table_name}.company_id AND #{Irm::Company.view_name}.language = '#{language}'").
-    select("#{Irm::Company.view_name}.name company_name")
-  }
 
   scope :with_organization,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = #{table_name}.organization_id AND #{Irm::Organization.view_name}.language = '#{language}'").
     select("#{Irm::Organization.view_name}.name organization_name")
-  }
-
-  scope :with_department,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Department.view_name} ON #{Irm::Department.view_name}.id = #{table_name}.department_id AND #{Irm::Department.view_name}.language = '#{language}'").
-    select("#{Irm::Department.view_name}.name department_name")
   }
 
   scope :with_region,lambda{|language|
@@ -164,6 +137,16 @@ class Irm::Person < ActiveRecord::Base
     select("#{table_name}.*").
         where("NOT EXISTS (SELECT * FROM #{Uid::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{table_name}.id AND esp.external_system_code = ?)", external_system_code)
   }
+  scope :group_memberable, lambda{|group_id|
+    where("NOT EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name}  WHERE #{Irm::GroupMember.table_name}.person_id = #{table_name}.id AND #{Irm::GroupMember.table_name}.group_id = ?)",group_id).
+    select("#{table_name}.id,#{table_name}.full_name person_name,#{table_name}.email_address")
+  }
+
+  scope :group_member, lambda{|group_id|
+    joins("JOIN #{Irm::GroupMember.table_name} ON  #{Irm::GroupMember.table_name}.person_id = #{table_name}.id").
+    where(" #{Irm::GroupMember.table_name}.group_id = ?",group_id).
+    select("#{table_name}.id,#{table_name}.full_name person_name,#{table_name}.email_address")
+  }
 
   scope :with_role, lambda{
     joins("LEFT OUTER JOIN #{Irm::Role.view_name} rv ON rv.id = #{table_name}.role_id AND rv.language='#{I18n.locale}' AND rv.status_code='#{Irm::Constant::ENABLED}'").
@@ -187,10 +170,8 @@ class Irm::Person < ActiveRecord::Base
         select_all.
         with_role.
         with_profile.
-        with_company(I18n.locale).
         with_title(I18n.locale).
         with_organization(I18n.locale).
-        with_department(I18n.locale).
         with_region(I18n.locale).
         with_site_group(I18n.locale).
         with_site(I18n.locale).
@@ -207,17 +188,12 @@ class Irm::Person < ActiveRecord::Base
     @current_person = current_person
   end
 
-  def accessable_company_ids
-    return @accessable_company_ids if @accessable_company_ids
-    @accessable_company_ids = company_accesses.collect{|ca| ca.accessable_company_id}
-    return @accessable_company_ids
-  end
 
    #返回匿名用户,一个数据库中只有一个匿名用户
    def self.anonymous
      anonymous_person = Irm::AnonymousPerson.first
      if anonymous_person.nil?
-       anonymous_person = Irm::AnonymousPerson.create(:login_name => 'anonymous', :first_name => 'anonymous',:email_address=>"anonymous@email.com",:hashed_password=>"nopassword",:company_id=>0)
+       anonymous_person = Irm::AnonymousPerson.create(:login_name => 'anonymous', :first_name => 'anonymous',:email_address=>"anonymous@email.com",:hashed_password=>"nopassword")
        puts anonymous_person.errors
        raise 'Unable to create the anonymous person.' if anonymous_person.new_record?
      end
@@ -293,12 +269,10 @@ class Irm::Person < ActiveRecord::Base
 
   def report_folders
     return @report_folders if @report_folders
-    role_ids = []
-    role_ids << self.role_id if self.role_id.present?
-    role_report_folders = Irm::ReportFolder.multilingual.query_by_roles(role_ids)
-    person_report_folders = Irm::ReportFolder.multilingual.query_by_person(self.id)
+    accessible_report_folders = Irm::ReportFolder.multilingual.accessible(self.id)
+    private_report_folders = Irm::ReportFolder.multilingual.private(self.id)
     public_report_folders = Irm::ReportFolder.multilingual.public
-    @report_folders =  person_report_folders + role_report_folders + public_report_folders
+    @report_folders =  accessible_report_folders + private_report_folders + public_report_folders
     @report_folders.uniq!
     @report_folders
   end
@@ -306,6 +280,12 @@ class Irm::Person < ActiveRecord::Base
   def external_systems
     Uid::ExternalSystem.multilingual.enabled.with_person(self.id)
   end
+
+  def system_ids
+    return @system_ids if @system_ids
+    @system_ids = self.external_systems.collect{|i| i.id}
+  end
+
 
   # 返回人员的全名
   def name(formatter = nil)
@@ -349,14 +329,21 @@ class Irm::Person < ActiveRecord::Base
       self.full_name_pinyin= Hz2py.do(self.full_name).downcase.gsub(/\s|[^a-z]/,"")
   end
 
-  private
-  def reprocess_avatar
-      avatar.reprocess!
+
+  # 更新处理人员的最后分单时间
+
+  def update_assign_date
+    self.last_assigned_date = Time.now
   end
 
 
-  def access_default_company
-    Irm::CompanyAccess.create({:person_id=>self.id,:accessable_company_id=>self.company_id,:company_access_flag=>Irm::Constant::SYS_YES})
+  def self.relation_view_name
+    "irm_person_relations_v"
+  end
+
+  private
+  def reprocess_avatar
+      avatar.reprocess!
   end
 
   def validate_password_policy

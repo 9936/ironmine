@@ -13,8 +13,7 @@ class Irm::PeopleController < ApplicationController
 
   def show
     @person = Irm::Person.list_all.find(params[:id])
-    @company_access_count= Irm::CompanyAccess.query_by_person_id(params[:id]).query_wrap_info(I18n::locale).size
-    @support_group_count = Irm::SupportGroupMember.query_support_group_by_person_id(I18n::locale,params[:id]).size
+    @support_group_count = Irm::GroupMember.where(:person_id=>@person.id).size
   end
 
   # GET /people/new
@@ -84,12 +83,11 @@ class Irm::PeopleController < ApplicationController
     @people = @people.match_value("#{Irm::Person.name_to_sql(nil,Irm::Person.table_name,"")}",params[:person_name])
     @people = @people.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
     @people = @people.match_value("#{Irm::Person.table_name}.mobile_phone",params[:mobile_phone])
-    @people = @people.match_value("#{Irm::Company.view_name}.name",params[:company_name])
     @people = @people.match_value("#{Irm::Region.view_name}.name",params[:region_name])
 
     @people,count = paginate(@people)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:region_name,:email_address,:bussiness_phone,:company_name], count))}
+      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:region_name,:email_address,:bussiness_phone], count))}
     end
   end
 
@@ -107,16 +105,13 @@ class Irm::PeopleController < ApplicationController
 
   def get_support_group
     person_id = params[:person_id]
-    @support_groups= Irm::SupportGroupMember.query_support_group_by_person_id(I18n::locale,person_id)
+    @support_groups= Irm::GroupMember.query_support_group_by_person_id(I18n::locale,person_id)
     @support_groups,count = paginate(@support_groups)
     respond_to do |format|
       format.json {render :json=>to_jsonp(@support_groups.to_grid_json(['R',:support_group_name,:description,:status_meaning], count))}
     end
   end
 
-  def choose_company
-    @person_id = params[:person_id]
-  end
 
   def get_owned_roles
     roles_scope = Irm::Role.multilingual.belongs_to_person(params[:person_id])

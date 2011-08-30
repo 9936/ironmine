@@ -1,56 +1,106 @@
 module Irm
   module Jobs
     class IcmGroupAssignmentJob < Struct.new(:incident_request_id,:assign_options)
-      include ActionController::UrlWriter
       def perform
+
+        # 待分配事故单
         request = Icm::IncidentRequest.find(incident_request_id)
+
+        # 事故单所属系统
+        system = nil
+        system = Uid::ExternalSystem.where(:external_system_code=>request.external_system_code).first if request.external_system_code.present?
+
+        # 如果事故单已经被分配,则中断分自动分配
         return if request.support_group_id.present?&&request.support_person_id.present?
+
+        # assign_options为分配选项
         assign_result =  assign_options if  assign_options&&assign_options.is_a?(Hash)
+
+        # assign_result 最后分配结果
         assign_result ||= {}
+
+        # person  提单人
         person = Irm::Person.find(request.requested_by)
-        unless request.support_group_id.present?||assign_result[:support_group_id].present?
-          assign_result[:support_person_id] = nil
-          Irm::SupportGroup.where(:oncall_group_flag => Irm::Constant::SYS_YES).each do |ga|
-            #按服务查找
-            r1 = ga.group_assignments.query_service_catalog(request.service_code).where(:source_type => Slm::ServiceCatalog.name)
-            #按系统查找
-            unless r1.any?
-              r1 = ga.group_assignments.query_external_system(request.external_system_code).where(:source_type => Uid::ExternalSystem.name)
-            end
 
-            #按人员查找
-            unless r1.any?
-              r1 = ga.group_assignments.where(:source_type => Irm::Person.name, :source_id => person.id)
-            end
-
-            #按部门查找
-            unless r1.any?
-              r1 = ga.group_assignments.where(:source_type => Irm::Department.name, :source_id => person.department_id)
-            end
-
-            #按组织查找
-            unless r1.any?
-              r1 = ga.group_assignments.where(:source_type => Irm::Organization.name, :source_id => person.organization_id)
-            end
-
-            #按公司查找
-            unless r1.any?
-              r1 = ga.group_assignments.where(:source_type => Irm::Company.name, :source_id => person.company_id)
-            end
-            if r1.any?
-              support_group = Irm::SupportGroup.where("group_code = ?", r1.first.support_group.group_code).first
-              assign_result[:support_group_id] = support_group.id if support_group
-            end
-          end
+        # 如果分配选项中指定了支持组,则对支持组进行验证
+        # 确认当前支持组是否有人满足处理该事故单的条件
+        if assign_result[:support_group_id].present?
+          return unless check_support_group(assign_result[:support_group_id],system.id)
         end
 
+
+        # 指定事故单处理组
+        unless request.support_group_id.present?||assign_result[:support_group_id].present?
+          assign_result[:support_person_id] = nil
+          # 在能处理当前系统事故单的待命组中选择合适的支持组
+          support_group_scope = Icm::SupportGroup.oncall
+          if system
+            support_group_scope = support_group_scope.query_by_system(system.id)
+          else
+            support_group_scope = support_group_scope.assignable
+          end
+          support_group_ids = support_group_scope.collect{|i| i.id}
+
+          # 如果不存可用的支持组，则中断自动分配
+          return unless support_group_ids.any?
+
+          # 1 按照事故单提交人直接查找
+          groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_person(person.id)
+
+          # 2 按照事故单所属服务查找
+          unless groups.any?
+            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_service(request.service_code)
+          end
+
+          # 3 按照事故单所属系统查找
+          unless groups.any?||system.nil?
+            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_system(system.id)
+          end
+
+          # 4 按照事故单提单人所属组
+          unless groups.any?
+            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_group(person.id)
+          end
+
+          # 5 按照事故单提单人所属组或子组
+          unless groups.any?
+            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_group_explosion(person.id)
+          end
+
+          # 6 按照事故单提单人所属角色
+          unless groups.any?
+            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_role(person.id)
+          end
+
+          # 7 按照事故单提单人所属角色或子角色
+          unless groups.any?
+            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_role_explosion(person.id)
+          end
+
+          # 8 按照事故单提单人所属组织
+          unless groups.any?
+            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_organization(person.id)
+          end
+
+          # 9 按照事故单提单人所属子组织
+          unless groups.any?
+            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_organization_explosion(person.id)
+          end
+
+          if groups.any?
+            assign_result[:support_group_id] = groups.first.id
+          else
+            return
+          end
+        end
+        # 在取得合适的支持组后，分配事故单处理人
         if assign_result[:support_group_id].present?
-          support_group = Irm::SupportGroup.where("id = ?", assign_result[:support_group_id]).first
           unless assign_result[:support_person_id].present?
-            assign_result.merge!(setup_support_person(support_group,request))
+            support_group = Icm::SupportGroup.query(assign_result[:support_group_id]).first
+            assign_result.merge!(:support_person_id => support_group.assign_member_id)
           end
         else
-          assign_result.merge!(setup_default_person(request))
+          return
         end
         #get the support information
         #generate incident journal
@@ -60,46 +110,8 @@ module Irm
           end
         end
       end
-      # get the person in the support group
-      def setup_support_person(support_group,request)
-        assign_result ={}
-#        rule_setting = Icm::RuleSetting.list_all.where(:company_id=>request.company_id).first
-        if support_group
-          if "LONGEST_TIME_NOT_ASSIGN".eql?(support_group.assignment_process_code)
-            assigner = Irm::SupportGroupMember.query_by_support_group_code(support_group.group_code).
-                                               with_person.where("#{Irm::Person.table_name}.assignment_availability_flag = ?",Irm::Constant::SYS_YES).
-                                               order("#{Irm::Person.table_name}.last_assigned_date").first
-          elsif "MINI_OPEN_TASK".eql?(support_group.assignment_process_code)
-            assigner = Irm::SupportGroupMember.query_by_support_group_code(support_group.group_code).
-                                               with_person.where("#{Irm::Person.table_name}.assignment_availability_flag = ?",Irm::Constant::SYS_YES).
-                                               order("#{Irm::Person.table_name}.open_tasks").first
-          else
-            #如果选择了不分配，则不进行支持人员的分配
-            return assign_result
-          end
-          if assigner
-            Delayed::Worker.logger.debug("GroupAssignmentJob find assigner: #{assigner[:person_id]}")
-            assign_result.merge!({:support_person_id=>assigner[:person_id]})
-            return  assign_result
-          end
-        end
-        assign_result.merge!(setup_default_person(request))
-        assign_result
-      end
 
-      # assign to admin
-      def setup_default_person(request)
-        assign_result ={}
-        return assign_result
-        company = Irm::Company.find(request.company_id)
-        if company&&company.support_manager&&Irm::Person.query(company.support_manager).first
-          assign_result.merge!(:support_person_id=>company.support_manager,:support_group_id=>nil)
-        else
-          assign_result.merge!(:support_person_id=>Irm::Person.admin.id,:support_group_id=>nil)
-        end
-        assign_result
-      end
-      #generate incident journal
+      #为事故单生成回复
       def generate_journal(request,assign_result)
         person = Irm::Person.where(:login_name=>"ironmine").first
         if assign_result[:assign_dashboard]
@@ -107,36 +119,24 @@ module Irm
         end
         person ||= Irm::Person.current.id
         language_code = person.language_code
-        request_attributes = {:support_group_id=>assign_result[:support_group_id],:support_person_id=>assign_result[:support_person_id]}
-        journal_attributes = {:replied_by=>person.id}
+        request_attributes = {:support_group_id=>assign_result[:support_group_id],
+                              :support_person_id=>assign_result[:support_person_id],
+                              :upgrade_group_id=>assign_result[:support_person_id],
+                              :upgrade_person_id=>assign_result[:support_person_id],
+                              :charge_group_id=>assign_result[:support_person_id],
+                              :charge_person_id=>assign_result[:support_person_id]}
+        journal_attributes = {:replied_by=>person.id,:reply_type=>"ASSIGN"}
         if assign_result[:assign_dashboard]
           journal_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_assign_dashboard,{:locale=>language_code}))
         else
           journal_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_auto_assign,{:locale=>language_code}))
         end
         incident_journal = Icm::IncidentJournal::generate_journal(request,request_attributes,journal_attributes)
-        incident_journal = publish_pass_incident_request(incident_journal)
       end
 
-      def publish_pass_incident_request(incident_journal)
-        incident_journal.reload
-        incident_journal = Icm::IncidentJournal.select_all.with_replied_by.find(incident_journal.id)
-        #incident_request = Icm::IncidentRequest.list_all.find(incident_journal.incident_request_id)
-        #person_ids = [incident_request.submitted_by,incident_request.requested_by,incident_journal.replied_by,incident_request.support_person_id]+incident_request.person_watchers.collect{|i| i.id}
-        #person_ids.uniq!
-        #journal_url = url_for({:host=>Irm::Constant::DEFAULT_HOST,
-        #         :controller=>"icm/incident_journals",
-        #         :action =>"new",
-        #         :request_id=>incident_request.id,
-        #         :anchor=>"journal_#{incident_journal.id}"})
-        #Irm::EventManager.publish(:event_code=>"INCIDENT_REQUEST_PASS",
-        #                          :params=>{:to_person_ids=>person_ids,
-        #                                    :journal=>incident_journal.attributes.merge(:url=>journal_url,:change_message=>"not change"),
-        #                                    :request=>incident_request.attributes})
-        incident_journal
+      def check_support_group(support_group_id,system_id)
+        Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).query(support_group_id).access_system.collect{|i| i[:system_id]}.include?(system_id)
       end
-
-
     end
   end
 end

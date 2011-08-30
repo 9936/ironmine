@@ -1,6 +1,8 @@
 class Irm::Role < ActiveRecord::Base
   set_table_name :irm_roles
 
+  after_save :explore_role_hierarchy
+
   attr_accessor :level
 
   #多语言关系
@@ -36,6 +38,10 @@ class Irm::Role < ActiveRecord::Base
     where("#{table_name}.report_to_role_id IS NULL OR report_to_role_id=''")
   }
 
+  scope :parentable,lambda{|role_id|
+    where("#{table_name}.id!=? AND NOT EXISTS(SELECT 1 FROM #{Irm::RoleExplosion.table_name} WHERE #{Irm::RoleExplosion.table_name}.parent_role_id = ? AND #{Irm::RoleExplosion.table_name}.role_id = #{table_name}.id)",role_id,role_id)
+  }
+
 
   def self.list_all
     self.multilingual.with_report_to_role(I18n.locale)
@@ -43,6 +49,11 @@ class Irm::Role < ActiveRecord::Base
 
   def self.current
     nil
+  end
+
+  private
+  def explore_role_hierarchy
+    Irm::RoleExplosion.explore_hierarchy(self.id,self.report_to_role_id)
   end
 
 end

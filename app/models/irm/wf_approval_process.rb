@@ -1,7 +1,7 @@
 class Irm::WfApprovalProcess < ActiveRecord::Base
   set_table_name :irm_wf_approval_processes
 
-  attr_accessor :step ,:submitter_value_str
+  attr_accessor :step ,:submitter_str
 
 
   query_extend
@@ -40,6 +40,11 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
     where("action.action_type = ? AND action.action_id = ?",action_type,action_id)
   }
 
+  scope :submittable,lambda{|person_id|
+    joins("JOIN #{Irm::WfApprovalSubmitter.table_name} ON #{Irm::WfApprovalSubmitter.table_name}.process_id = #{table_name}.id").
+        where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_id = #{Irm::WfApprovalSubmitter.table_name}.submitter_id AND #{Irm::Person.relation_view_name}.source_type = #{Irm::WfApprovalSubmitter.table_name}.submitter_type AND  #{Irm::Person.relation_view_name}.person_id = ?)",person_id)
+  }
+
   validates_presence_of :bo_code,:name,:process_code,:mail_template_id,:if=>Proc.new{|i| i.check_step(1)}
   validates_format_of :process_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.process_code.present?}
 
@@ -61,23 +66,30 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
 
   # create submitter from str
   def create_submitter_from_str
-    return unless self.submitter_value_str
-    str_submitters = self.submitter_value_str.split(",").delete_if{|i| !i.present?}
-    exists_submitters = Irm::WfApprovalSubmitter.where(:process_id=>self.id)
-    exists_submitters.each do |submitter|
-      if str_submitters.include?("#{submitter.submitter_type}##{submitter.submitter_id}")
-        str_submitters.delete("#{submitter.submitter_type}##{submitter.submitter_id}")
+    return unless self.submitter_str
+    str_values = self.submitter_str.split(",").delete_if{|i| !i.present?}
+    exists_values = Irm::WfApprovalSubmitter.where(:process_id=>self.id)
+    exists_values.each do |value|
+      if str_values.include?("#{value.submitter_type}##{value.submitter_id}")
+        str_values.delete("#{value.submitter_type}##{value.submitter_id}")
       else
-        submitter.destroy
+        value.destroy
       end
 
     end
 
-    str_submitters.each do |submitter_str|
-      next unless submitter_str.strip.present?
-      submitter = submitter_str.strip.split("#")
-      self.wf_approval_submitters.build(:submitter_type=>submitter[0],:submitter_id=>submitter[1])
-    end if str_submitters.any?
+    str_values.each do |value_str|
+      next unless value_str.strip.present?
+      value = value_str.strip.split("#")
+      self.wf_approval_submitters.build(:submitter_type=>value[0],:submitter_id=>value[1])
+    end
+  end
+
+
+  def get_submitter_str
+    return @get_submitter_str if @get_submitter_str
+    @get_submitter_str||= submitter_str
+    @get_submitter_str||= Irm::WfApprovalSubmitter.where(:process_id=>self.id).collect{|value| "#{value.submitter_type}##{value.submitter_id}"}.join(",")
   end
 
   def delete_self
@@ -111,7 +123,8 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
   end
 
   def submitter_include?(submitter_id,bo_instance = nil)
-    self.wf_approval_submitters.each do |submitter|
+    return true if self.class.query(self.id).submittable(submitter_id)
+    Irm::WfApprovalSubmitter.bo_attribute(self.id).each do |submitter|
       return true if submitter.include_person?(submitter_id,bo_instance)
     end
     false

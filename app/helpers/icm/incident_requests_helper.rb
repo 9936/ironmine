@@ -9,7 +9,7 @@ module Icm::IncidentRequestsHelper
   end
 
   def available_person
-    people = Irm::Person.real.query_by_company_ids(Irm::Person.current.accessable_company_ids).collect{|p|[p.name,p[:id]]}
+    people = Irm::Person.real.collect{|p|[p.name,p[:id]]}
     needed_to_replace = people.detect{|person| Irm::Person.current.id.eql?(person[1])}
     if needed_to_replace
       people.delete_if{|person| Irm::Person.current.id.eql?(person[1])}
@@ -19,7 +19,7 @@ module Icm::IncidentRequestsHelper
   end
 
   def available_contact
-    people = Irm::Person.real.query_by_company_ids(Irm::Person.current.accessable_company_ids).collect{|p|[p.name,p[:id],{:phone=>p.bussiness_phone}]}
+    people = Irm::Person.real.collect{|p|[p.name,p[:id],{:phone=>p.bussiness_phone}]}
     needed_to_replace = people.detect{|person| Irm::Person.current.id.eql?(person[1])}
     if needed_to_replace
       people.delete_if{|person| Irm::Person.current.id.eql?(person[1])}
@@ -30,9 +30,9 @@ module Icm::IncidentRequestsHelper
 
   def available_supporter(group_id=nil)
     if(group_id)
-      people =  Irm::SupportGroupMember.with_person.with_support_group(I18n.locale).query_by_support_group(group_id).order_id.collect{|p|[p[:person_name],p[:person_id]]}
+      people =  Irm::GroupMember.with_person.with_support_group(I18n.locale).query_by_support_group(group_id).order_id.collect{|p|[p[:person_name],p[:person_id]]}
     else
-      people =  Irm::SupportGroupMember.with_person.with_support_group(I18n.locale).order_id.collect{|p|[p[:person_name],p[:person_id]]}
+      people =  Irm::GroupMember.with_person.with_support_group(I18n.locale).order_id.collect{|p|[p[:person_name],p[:person_id]]}
     end
     needed_to_replace = people.detect{|person| Irm::Person.current.id.eql?(person[1])}
     if needed_to_replace
@@ -43,7 +43,7 @@ module Icm::IncidentRequestsHelper
   end
 
   def available_support_group
-    Irm::SupportGroup.query_by_company_ids(Irm::Person.current.accessable_company_ids).multilingual.collect{|s| [s[:name],s.id]}
+    Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all.collect{|s| [s[:name],s.id]}
   end
 
   def available_urgence_code
@@ -100,7 +100,7 @@ module Icm::IncidentRequestsHelper
     @filters.each do |f|
       td1 = content_tag(:td, content_tag(:a, f[:filter_name], :href => url_for(:controller => "icm/incident_requests", :action => "index", :filter_id => f.id)))
 
-      incident_requests_scope = f.generate_scope.query_by_company_ids(session[:accessable_companies])
+      incident_requests_scope = f.generate_scope
 
       if !allow_to_function?(:view_all_incident_request)
         incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)

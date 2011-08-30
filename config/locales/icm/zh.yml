@@ -89,6 +89,7 @@ zh:
   label_irm_incident_status_transform_event_error: 错误 在同一行中一种事件只能使用一次
   #========================= end icm incident_statuses_controller=======================#
   #=========================    icm incident_requests_controller=======================#
+  label_icm_incident_request_assign_me_able_list: 可领取事故单列表
   label_icm_reply: 回复
   label_icm_incident_request: 事故单
   label_icm_incident_request_list: 事故单列表
@@ -112,7 +113,7 @@ zh:
   label_icm_incident_request_request_number: 事故单号
   label_icm_incident_request_contact_number: 联系电话
   label_icm_incident_request_priority: 优先级
-  label_icm_incident_request_company: 公司
+  label_icm_incident_request_organization: 组织
   label_icm_incident_request_last_date: 最后回应日期
   label_icm_incident_request_upgrade: 升级
   label_incident_request: 事故单
@@ -135,6 +136,7 @@ zh:
   label_icm_incident_request_assignable_list: 待分配事故单
   label_icm_incident_request_assign: 分配
   label_icm_incident_request_incident_status: 状态
+  label_icm_incident_request_assign_me: 领取事故单
   #========================= end icm incident_requests_controller=======================#
   #=========================    icm incident_journals_controller=======================#
   label_icm_incident_reply_support_group_id: 转交组
@@ -192,3 +194,13 @@ zh:
   label_icm_group_assignment_type: 分派维度
   label_icm_group_assignment_detail: 指派规则来源对象
   #========================= end icm group_assignments_controller =========================#
+  #========================= icm support_groups =========================#
+  label_icm_support_group: 支持组
+  label_icm_support_group_new: 新建支持组
+  label_icm_support_group_edit: 编辑支持组
+  label_icm_support_group_code: 编码
+  label_icm_support_group_name: 名称
+  label_icm_support_group_assignment_process_code: 分配流程
+  label_icm_support_group_oncall_flag: 待命组
+  label_icm_support_group_vendor_flag: 供应商组
+  #=========================  end icm support_groups =========================#
