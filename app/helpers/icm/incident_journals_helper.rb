@@ -119,7 +119,7 @@ module Icm::IncidentJournalsHelper
   def upgrade_support_group_name(group_id)
     support_group = Icm::SupportGroup.query(group_id).first
     return "" unless support_group&&support_group.parent_group_id
-    Icm::SupportGroup.query(support_group.parent_group_id).with_group.first[:name]
+    Icm::SupportGroup.query(support_group.parent_group_id).with_group(I18n.locale).first[:name]
   end
 
 end
