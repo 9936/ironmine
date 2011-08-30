@@ -602,7 +602,7 @@ en:
   label_irm_group_person_name: Person Name
   label_action_select_person: Choose support group member
   label_action_new_from_person: Choose support group
-  label_irm_group_parent: Parent Support Group
+  label_irm_group_parent: Parent Group
   #=========================end irm support_groups_controller=======================#
   #=========================    irm people_controller=======================#
   label_irm_person: Person
@@ -675,6 +675,7 @@ en:
   label_irm_person_access_system: Accessible Systems
   label_irm_person_add_to_company: Add to Company
   label_irm_person_add_to_system: Add to External System
+  label_irm_person_password_info: Set Password
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: Flex

@@ -705,7 +705,7 @@ zh:
   label_irm_group_person_name: 人员名称
   label_action_select_person: 选择支持组成员
   label_action_new_from_person: 选择加入的支持组
-  label_irm_group_parent: 上级支持组
+  label_irm_group_parent: 上级组
   #=========================end irm support_groups_controller=======================#
   #=========================    irm people_controller=======================#
   label_irm_person: 人员
@@ -717,9 +717,7 @@ zh:
   label_irm_person_edit: 编辑人员
   label_irm_person_new: 新建人员
   label_irm_person_show: 人员信息
-  label_irm_person_company: 公司名称
-  label_irm_person_organization: 组织名称
-  label_irm_person_department: 部门
+  label_irm_person_organization: 组织
   label_irm_person_title: 称谓
   label_irm_person_first_name: 名
   label_irm_person_last_name: 姓
@@ -781,6 +779,7 @@ zh:
   label_irm_person_access_system: 可访问系统
   label_irm_person_add_to_company: 加入公司
   label_irm_person_add_to_system: 加入外部系统
+  label_irm_person_password_info: 设置密码
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: 弹性域
