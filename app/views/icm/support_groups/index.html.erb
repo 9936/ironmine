@@ -1,34 +1,6 @@
 <%= page_title %>
-<style type="text/css">
-  .selectTitle {
-      margin-bottom:15px;
-  }
-  .selectTitle h6{
-      background-color: #333333;
-    border-radius: 4px 4px 4px 4px;
-    color: #FFFFFF;
-    display: block;
-    padding: 5px 0;
-    text-align: center;
-  }
-</style>
-<div class="selectTitle">
-   <h6>
-     <%= t(:label_icm_support_group) %> <%=select_tag_alias :group_id, available_group,@support_group.group_id,{:id=>"groupId",:href=>url_for({:group_id=>"{group_id}"})}%>
-   </h6>
-</div>
-<% if @support_group.id %>
-    <%= render "edit_form" %>
+<% if @group %>
+    <%= render :partial => "support_group_index" %>
 <% else %>
-    <%= render "new_form" %>
+    <%= render :partial => "no_group_notice"%>
 <% end %>
-<script type="text/javascript">
-  GY.use("substitute",function(Y){
-     Y.one("#groupId").on("change",function(e){
-         var url = decodeURIComponent(e.target.getAttribute("href"));
-         var groupId = e.target.get("value");
-         url = Y.Lang.substitute(url,{group_id:groupId});
-         window.location = url;
-     });
-  });
-</script>

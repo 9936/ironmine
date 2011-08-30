@@ -197,4 +197,5 @@ en:
   label_icm_support_group_assignment_process_code: 分配流程
   label_icm_support_group_oncall_flag: 待命组
   label_icm_support_group_vendor_flag: 供应商组
+  label_icm_support_group_add_group_notice: Please add person group
   #=========================  end icm support_groups =========================#
