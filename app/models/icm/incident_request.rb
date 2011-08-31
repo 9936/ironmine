@@ -122,7 +122,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
-    where("#{table_name}.requested_by = ? OR #{table_name}.submitted_by = ? OR #{table_name}.contact_id = ? OR #{table_name}.support_person_id = ? OR EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{table_name}.support_group_id IS NOT NULL AND #{table_name}.support_person_id IS NULL EXISTS(SELECT 1 FROM #{Icm::SupportGroup.table_name} sg,#{Irm::GroupMember.table_name} gm WHERE gm.group_id = sg.group_id AND sg.id = #{table_name}.support_group_id  AND gm.person_id = ?))",
+    where("#{table_name}.requested_by = ? OR #{table_name}.submitted_by = ? OR #{table_name}.contact_id = ? OR #{table_name}.support_person_id = ? OR EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{table_name}.support_group_id IS NOT NULL AND #{table_name}.support_person_id IS NULL AND EXISTS(SELECT 1 FROM #{Icm::SupportGroup.table_name} sg,#{Irm::GroupMember.table_name} gm WHERE gm.group_id = sg.group_id AND sg.id = #{table_name}.support_group_id  AND gm.person_id = ?))",
     person_id,person_id,person_id,person_id,Icm::IncidentRequest.name,person_id,Irm::Person.name,person_id)
   }
 
