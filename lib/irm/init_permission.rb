@@ -43,7 +43,7 @@ Irm::AccessControl.map do |map|
                                        "get_support_group", "get_owned_roles","edit", "update",
                                        "multilingual_edit", "multilingual_update","add_roles","remove_role",
                                        "select_roles", "get_available_roles"],
-                        "uid/external_system_members" => ["new_from_person"]}
+                        "irm/external_system_members" => ["new_from_person"]}
 
 
   #===================irm/groups============================
@@ -269,4 +269,8 @@ Irm::AccessControl.map do |map|
   #===================irm/operation_units============================
   #["show", "edit", "update"]
   map.function :operation_unit,{"irm/operation_units"=>["show","edit", "update"]}
+
+  #===================irm/external_systems============================
+  map.function :system,{"irm/external_systems" => ["index", "update","edit","show","new","create"]}
+  map.function :external_system_member,{"irm/external_system_members" => ["index"]}
 end

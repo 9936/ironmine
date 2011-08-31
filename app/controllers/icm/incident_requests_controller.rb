@@ -195,9 +195,9 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def get_external_systems
-    external_systems_scope = Uid::ExternalSystem.multilingual.enabled.with_person(params[:requested_by])
+    external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by])
     external_systems_scope = external_systems_scope.uniq
-    external_systems = external_systems_scope.collect{|i| {:label=>i[:system_name], :value=>i.external_system_code,:id=>i.id}}
+    external_systems = external_systems_scope.collect{|i| {:label=>i[:system_name], :value=>i.id,:id=>i.id}}
     respond_to do |format|
       format.json {render :json=>external_systems.to_grid_json([:label, :value],external_systems.count)}
     end
@@ -213,11 +213,10 @@ class Icm::IncidentRequestsController < ApplicationController
     r1 = Slm::ServiceMember.where("1=1").query_by_service_person(requested_by).with_service_catalog
     #按组织查找
     r1 += Slm::ServiceMember.where(:service_person_id=>nil).
-                              where(:service_department_id=>nil).
                               query_by_service_organization(requested_by.organization_id).with_service_catalog
 
-    services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_code = ? AND catalog_code IN (?)",
-                                                                    params[:external_system_code], r1.collect(&:catalog_code))
+    services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_id = ? AND catalog_code IN (?)",
+                                                                    params[:external_system_id], r1.collect(&:catalog_code))
     services = services_scope.collect{|i| {:label => i[:name], :value => i.catalog_code, :id => i.id}}
     respond_to do |format|
       format.json {render :json=>services.to_grid_json([:label, :value],services.count)}
@@ -225,7 +224,7 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def get_all_slm_services
-    services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_code = ?",params[:external_system_code])
+    services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_id = ?",params[:external_system_id])
 
     services = services_scope.collect{|i| {:label => i[:name], :value => i.catalog_code, :id => i.id}}
     respond_to do |format|

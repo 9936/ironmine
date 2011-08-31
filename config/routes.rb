@@ -761,6 +761,33 @@ Ironmine::Application.routes.draw do
     match '/operation_units(/show)(.:format)' => "operation_units#show", :via => :get
     match '/operation_units/edit(.:format)' => "operation_units#edit", :via => :get
     match '/operation_units/update(.:format)' => "operation_units#update", :via => :put
+
+
+    #external_systems
+    match '/external_systems(/index)(.:format)' => "external_systems#index", :via => :get
+    match '/external_systems/get_data(.:format)' => "external_systems#get_data"
+    match '/external_systems/:id/edit(.:format)' => "external_systems#edit", :via => :get
+    match '/external_systems/:id(.:format)' => "external_systems#update", :via => :put
+    match '/external_systems/new(.:format)' => "external_systems#new", :via => :get
+    match '/external_systems/:id(.:format)' => "external_systems#show", :via => :get
+    match '/external_systems/create(.:format)' => "external_systems#create", :via => :post
+    match '/external_systems/:id/multilingual_edit(.:format)' => "external_systems#multilingual_edit", :via => :get
+    match '/external_systems/:id/multilingual_update(.:format)' => "external_systems#multilingual_update", :via => :put
+
+    match '/external_systems/:external_system_code/add_people(.:format)' => "external_systems#add_people"
+    match '/external_systems/:external_system_code/delete_people(.:format)' => "external_systems#delete_people"
+
+    #external_system_person
+    match '/external_system_members(/index)(.:format)' => "external_system_members#index", :via => :get
+    match '/external_system_members/:external_system_id/get_owned_members_data(.:format)' => "external_system_members#get_owned_members_data", :via => :get
+    match '/external_system_members/:external_system_id/add_people(.:format)' => "external_system_members#add_people"
+    match '/external_system_members/:external_system_id/get_available_people_data(.:format)' => "external_system_members#get_available_people_data"
+    match '/external_system_members/:external_system_id/delete_people(.:format)' => "external_system_members#delete_people"
+
+    match '/external_system_members/:person_id/new_from_person(.:format)' => "external_system_members#new_from_person", :via => :get
+    match '/external_system_members/:person_id/create_from_person(.:format)' => "external_system_members#create_from_person", :via => :post
+    match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person", :via => :delete
+    match '/external_system_members/:person_id/get_available_external_system_data(.:format)' => "external_system_members#get_available_external_system_data", :via => :get
   end
 
   scope :module => "icm" do
@@ -1033,19 +1060,6 @@ Ironmine::Application.routes.draw do
   end
 
   scope :module => "uid" do
-    #external_systems
-    match '/external_systems(/index)(.:format)' => "external_systems#index", :via => :get
-    match '/external_systems/get_data(.:format)' => "external_systems#get_data"
-    match '/external_systems/:id/edit(.:format)' => "external_systems#edit", :via => :get
-    match '/external_systems/:id(.:format)' => "external_systems#update", :via => :put
-    match '/external_systems/new(.:format)' => "external_systems#new", :via => :get
-    match '/external_systems/:id(.:format)' => "external_systems#show", :via => :get
-    match '/external_systems/create(.:format)' => "external_systems#create", :via => :post
-    match '/external_systems/:id/multilingual_edit(.:format)' => "external_systems#multilingual_edit", :via => :get
-    match '/external_systems/:id/multilingual_update(.:format)' => "external_systems#multilingual_update", :via => :put
-
-    match '/external_systems/:external_system_code/add_people(.:format)' => "external_systems#add_people"
-    match '/external_systems/:external_system_code/delete_people(.:format)' => "external_systems#delete_people"
     #external_logins
     match '/external_logins(/index)(.:format)' => "external_logins#index", :via => :get
     match '/external_logins/get_data(.:format)' => "external_logins#get_data"
@@ -1089,17 +1103,6 @@ Ironmine::Application.routes.draw do
     match '/system_user_home(/index)(.:format)' => "system_user_home#index", :via => :get
     #external_user_home
     match '/external_user_home(/index)(.:format)' => "external_user_home#index", :via => :get
-    #external_system_person
-    match '/external_system_members(/index)(.:format)' => "external_system_members#index", :via => :get
-    match '/external_system_members/:external_system_code/get_owned_members_data(.:format)' => "external_system_members#get_owned_members_data", :via => :get
-    match '/external_system_members/:external_system_code/add_people(.:format)' => "external_system_members#add_people"
-    match '/external_system_members/:external_system_code/get_available_people_data(.:format)' => "external_system_members#get_available_people_data"
-    match '/external_system_members/:external_system_code/delete_people(.:format)' => "external_system_members#delete_people"
-
-    match '/external_system_members/:person_id/new_from_person(.:format)' => "external_system_members#new_from_person", :via => :get
-    match '/external_system_members/:person_id/create_from_person(.:format)' => "external_system_members#create_from_person", :via => :post
-    match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person", :via => :delete
-    match '/external_system_members/:person_id/get_available_external_system_data(.:format)' => "external_system_members#get_available_external_system_data", :via => :get
   end
 
   #service catalog and service level agreement(slm)

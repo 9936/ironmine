@@ -1289,3 +1289,19 @@ en:
   label_irm_operation_unit_default_time_zone_code: Default Time Zone
   label_irm_operation_unit_description: Description
   #======================= end Operation Unit ====================
+
+  #=========================    irm external_systems_controller=======================#
+  label_irm_external_system_list: External System List
+  label_irm_external_system_external_system_code: Code
+  label_irm_external_system_system_name: System Name
+  label_irm_external_system_system_description: System Description
+  label_irm_external_system_external_hostname: Host Name
+  label_irm_external_system_external_ip_address: IP Address
+  label_irm_external_system:  External System
+  label_irm_external_system_status_meaning: Status Meaning
+  label_irm_external_system_info: External System Info
+
+  label_irm_external_system_people: System Member
+  label_irm_external_system_people_type: Type
+  label_irm_external_system_add_people: Add Member
+  #=========================    end external_systems_controller=======================#

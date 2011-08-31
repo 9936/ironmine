@@ -5,7 +5,7 @@
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_uid_external_system) %></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_external_system) %></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @external_system}%></div>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
@@ -19,19 +19,19 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label for="external_system_external_system_code"><%=t(:label_uid_external_system_external_system_code)%></label></td>
+              <td class="labelCol"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
               <td class="dataCol"><%=@external_system.external_system_code%></td>
-              <td class="labelCol"><label for="external_system_external_hostname"><%=t(:label_uid_external_system_external_hostname)%></label></td>
+              <td class="labelCol"><label for="external_system_external_hostname"><%=t(:label_irm_external_system_external_hostname)%></label></td>
               <td class="dataCol"><%=@external_system.external_hostname%></td>
             </tr>
             <tr>
-              <td class="labelCol"><label for="external_system_system_name"><%=t(:label_uid_external_system_system_name)%></label></td>
+              <td class="labelCol"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
               <td class="dataCol"><%=@external_system[:system_name]%></td>
-              <td class="labelCol"><label for="external_system_external_ip_address"><%=t(:label_uid_external_system_external_ip_address)%></label></td>
+              <td class="labelCol"><label for="external_system_external_ip_address"><%=t(:label_irm_external_system_external_ip_address)%></label></td>
               <td class="dataCol"><%=@external_system.external_ip_address%></td>
             </tr>
             <tr>
-              <td class="labelCol"><label for="external_system_system_description"><%=t(:label_uid_external_system_system_description)%></label></td>
+              <td class="labelCol"><label for="external_system_system_description"><%=t(:label_irm_external_system_system_description)%></label></td>
               <td class="dataCol"><%= @external_system[:system_description]%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
@@ -48,7 +48,7 @@
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_uid_external_system_add_people) %>&nbsp;<%= t(:label_irm_select_result) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_external_system_add_people) %>&nbsp;<%= t(:label_irm_select_result) %></h2></td>
               <td class="pbButton">
                 <%= form_for(@external_system_person,:url=>{:action=>"add_people", :external_system_code => @external_system.external_system_code},:builder => LabellingFormBuilder) do |f| %>
                   <%= f.hidden_field(:status_code) %>
@@ -87,9 +87,9 @@
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_uid_external_system_people) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_external_system_people) %></h2></td>
               <td id="topButtonRow2" class="pbButton" style="width:30%">
-                <div class="button"><%= link_to t(:label_uid_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()" %></div>
+                <div class="button"><%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()" %></div>
                 <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_code => @external_system.external_system_code},:builder => LabellingFormBuilder) do |f| %>
                     <%= f.hidden_field(:temp_id_string, :value => "") %>
                     <div class="button"><%= f.submit t(:delete_selected), :confirm => t(:label_are_you_sure)%></div>
@@ -107,7 +107,7 @@
               <div id="id" style="display:none">
               </div>
             </div>
-            <%= datatable("external_people",url_for(:controller => "uid/external_system_members",:action=>"get_owned_members_data",
+            <%= datatable("external_people",url_for(:controller => "irm/external_system_members",:action=>"get_owned_members_data",
                                                     :format=>"json", :external_system_code => @external_system.external_system_code),
                           [{:key=>"id",:label=>t(:operation),:hidden => true},
                            { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },

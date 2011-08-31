@@ -1,6 +1,6 @@
 module Slm::ServiceCatalogsHelper
   def available_service_owner
-     Irm::Person.real.collect{|p| ["#{p[:login_name]}(#{p[:person_name]})",p[:id]]}
+     Irm::Person.real.collect{|p| ["#{p[:login_name]}(#{p[:full_name]})",p[:id]]}
   end
 
   def current_person_assessible_service_catalog_full

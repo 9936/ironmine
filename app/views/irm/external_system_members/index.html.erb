@@ -14,8 +14,8 @@
 </style>
 <div class="processTitle">
    <h6 class="processTitle">
-     <%= t(:label_uid_external_system) %>
-     <%=select_tag_alias :external_system_code, ava_external_systems,@external_system_code,{:id=>"externalSystemCode",:href=>url_for({:external_system_code=>"{external_system_code}"})}%>
+     <%= t(:label_irm_external_system) %>
+     <%=select_tag_alias :external_system_id, ava_external_systems,@external_system_id,{:id=>"externalSystemId",:href=>url_for({:external_system_id=>"{external_system_id}"})}%>
    </h6>
 </div>
 
@@ -25,9 +25,9 @@
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_uid_external_system_add_people) %>&nbsp;<%= t(:label_irm_select_result) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_external_system_add_people) %>&nbsp;<%= t(:label_irm_select_result) %></h2></td>
               <td id="topButtonRow" class="pbButton">
-                <%= form_for(@external_system_person,:url=>{:action=>"add_people", :external_system_code => @external_system_code},:builder => LabellingFormBuilder) do |f| %>
+                <%= form_for(@external_system_person,:url=>{:action=>"add_people", :external_system_id => @external_system_id},:builder => LabellingFormBuilder) do |f| %>
                   <%= f.hidden_field(:status_code) %>
                   <div class="button"><%= f.submit t(:save)%></div>
                   <div class="button"><%= link_to(t(:cancel),{}, :href =>"javascript:void(0);", :onclick=>"display_member_grid()")%></div>
@@ -44,12 +44,11 @@
         <%= error_for @external_system_person %>
         <div id="selectablePeople" class="datatable" style="width:100%">
         </div>
-        <%= datatable("selectablePeople",url_for(:action=>"get_available_people_data",:external_system_code => @external_system_code,:format=>"json"),
+        <%= datatable("selectablePeople",url_for(:action=>"get_available_people_data",:external_system_id => @external_system_id,:format=>"json"),
                       [{:key=>"id",:label=>t(:operation), :hidden => true},
                            { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
                            { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
-                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true },
-                           { :key => "department_name", :label => t(:label_irm_department),:searchable=>true }],
+                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true }],
                       {:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
         <div id="selectablePeoplePaginator"></div>
       </div>
@@ -62,10 +61,10 @@
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_uid_external_system_people) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_external_system_people) %></h2></td>
               <td id="topButtonRow2" class="pbButton" style="width:30%">
-                <div class="button"><%= link_to t(:label_uid_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()" %></div>
-                <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_code => @external_system_code},:builder => LabellingFormBuilder) do |f| %>
+                <div class="button"><%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()" %></div>
+                <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_id => @external_system_id},:builder => LabellingFormBuilder) do |f| %>
                     <%= f.hidden_field(:temp_id_string, :value => "") %>
                     <div class="button"><%= f.submit t(:delete_selected), :confirm => t(:label_are_you_sure)%></div>
                 <% end %>
@@ -82,12 +81,11 @@
               <div id="id" style="display:none">
               </div>
             </div>
-            <%= datatable("external_people",url_for(:action=>"get_owned_members_data",:format=>"json", :external_system_code => @external_system_code),
+            <%= datatable("external_people",url_for(:action=>"get_owned_members_data",:format=>"json", :external_system_id => @external_system_id),
                           [{:key=>"id",:label=>t(:operation),:hidden => true},
                            { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
                            { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
-                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true },
-                           { :key => "department_name", :label => t(:label_irm_department),:searchable=>true }
+                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true }
                            ],{:row_perpage=>10,:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
             <div id="external_peoplePaginatorBox"></div>
         </div>
@@ -105,10 +103,10 @@
 //
 //     });
 
-     Y.one("#externalSystemCode").on("change",function(e){
+     Y.one("#externalSystemId").on("change",function(e){
          var url = decodeURIComponent(e.target.getAttribute("href"));
-         var externalSystemCode = e.target.get("value");
-         url = Y.Lang.substitute(url,{external_system_code:externalSystemCode});
+         var externalSystemId = e.target.get("value");
+         url = Y.Lang.substitute(url,{external_system_id:externalSystemId});
          window.location = url;
      });
   });
@@ -121,7 +119,7 @@
                 var selected_code = "";
                 for(var i=0;i<e.details[0].length;i++)
                   selected_code = selected_code + e.details[0][i].id +",";
-                Y.one("#uid_external_system_person_status_code").set("value",selected_code);
+                Y.one("#irm_external_system_person_status_code").set("value",selected_code);
             });
           }
           else if(e.details[2]=="Datatable"&&"external_peopleDatatable"==e.details[0])
@@ -130,7 +128,7 @@
                 var selected_code = "";
                 for(var i=0;i<e.details[0].length;i++)
                   selected_code = selected_code + e.details[0][i].id +",";
-                Y.one("#uid_external_system_person_temp_id_string").set("value",selected_code);
+                Y.one("#irm_external_system_person_temp_id_string").set("value",selected_code);
             });
           }
       });
@@ -140,7 +138,7 @@
       GY.use(function(Y){
           Y.one("#select_people").setStyle("display", "block");
           Y.one("#member_grid").setStyle("display", "none");
-          Y.one("#uid_external_system_person_temp_id_string").set("value","");
+          Y.one("#irm_external_system_person_temp_id_string").set("value","");
       })
   }
 
@@ -148,7 +146,7 @@
       GY.use(function(Y){
           Y.one("#member_grid").setStyle("display", "block");
           Y.one("#select_people").setStyle("display", "none");
-          Y.one("#uid_external_system_person_status_code").set("value","");
+          Y.one("#irm_external_system_person_status_code").set("value","");
       })
   }
 </script>
