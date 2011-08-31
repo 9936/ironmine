@@ -4,24 +4,6 @@ zh:
   language_code_en: 英语
   language_code_jp: 日语
   language_code_zh: 中文
-
-  #=========================    uid external_systems_controller=======================#
-  label_uid_external_system_list: 外部系统列表
-  label_uid_external_system_new:  新建外部系统
-  label_uid_external_system_edit: 编辑外部系统
-  label_uid_external_system_external_system_code: 系统编码
-  label_uid_external_system_system_name: 系统名称
-  label_uid_external_system_system_description: 描述
-  label_uid_external_system_external_hostname: 主机名
-  label_uid_external_system_external_ip_address: IP地址
-  label_uid_external_system_status_meaning: 记录状态
-  label_uid_external_system:  外部系统
-  label_uid_external_system_info: 外部系统信息
-
-  label_uid_external_system_people: 系统人员
-  label_uid_external_system_people_type: 类型
-  label_uid_external_system_add_people: 添加成员
-  #=========================    end external_systems_controller=======================#
   #=========================    uid external_systems_controller=======================#
   label_uid_external_login_new: 新建外部登录
   label_uid_external_login_edit: 编辑外部登录

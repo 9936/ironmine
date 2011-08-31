@@ -5,7 +5,7 @@
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_uid_external_system_list) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_external_system_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
                 <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
               </td>
@@ -25,12 +25,12 @@
         <%= datatable("external_systems",url_for(:action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                        
-                       { :key => "external_system_code", :label => t(:label_uid_external_system_external_system_code),:searchable=>true },
-                       { :key => "system_name", :label => t(:label_uid_external_system_system_name),:searchable=>true },
-                       { :key => "system_description", :label => t(:label_uid_external_system_system_description) },
-                       { :key => "external_hostname", :label => t(:label_uid_external_system_external_hostname),:searchable=>true },
-                       { :key => "external_ip_address", :label => t(:label_uid_external_system_external_ip_address),:searchable=>true }, 
-                       { :key => "status_meaning", :label => t(:label_uid_external_system_status_meaning)}
+                       { :key => "external_system_code", :label => t(:label_irm_external_system_external_system_code),:searchable=>true },
+                       { :key => "system_name", :label => t(:label_irm_external_system_system_name),:searchable=>true },
+                       { :key => "system_description", :label => t(:label_irm_external_system_system_description) },
+                       { :key => "external_hostname", :label => t(:label_irm_external_system_external_hostname),:searchable=>true },
+                       { :key => "external_ip_address", :label => t(:label_irm_external_system_external_ip_address),:searchable=>true },
+                       { :key => "status_meaning", :label => t(:label_irm_external_system_status_meaning)}
 
                        ],{:row_perpage=>10,:search_box=>"external_systemsSearchBox",:paginator_box=>"external_systemsPaginatorBox"})%>
         <div id="external_systemsPaginatorBox"></div>

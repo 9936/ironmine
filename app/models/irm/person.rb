@@ -126,16 +126,16 @@ class Irm::Person < ActiveRecord::Base
     select("#{table_name}.*,#{Irm::Person.name_to_sql(nil,table_name,"person_name")}")
   }
 
-  scope :with_external_system, lambda{|external_system_code|
+  scope :with_external_system, lambda{|external_system_id|
     select("#{table_name}.*").
-        joins(",#{Uid::ExternalSystemPerson.table_name} esp").
-        where("esp.external_system_code = ?", external_system_code).
+        joins(",#{Irm::ExternalSystemPerson.table_name} esp").
+        where("esp.external_system_id = ?", external_system_id).
         where("esp.person_id = #{table_name}.id")
   }
 
-  scope :without_external_system, lambda{|external_system_code|
+  scope :without_external_system, lambda{|external_system_id|
     select("#{table_name}.*").
-        where("NOT EXISTS (SELECT * FROM #{Uid::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{table_name}.id AND esp.external_system_code = ?)", external_system_code)
+        where("NOT EXISTS (SELECT * FROM #{Irm::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{table_name}.id AND esp.external_system_id = ?)", external_system_id)
   }
   scope :group_memberable, lambda{|group_id|
     where("NOT EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name}  WHERE #{Irm::GroupMember.table_name}.person_id = #{table_name}.id AND #{Irm::GroupMember.table_name}.group_id = ?)",group_id).
