@@ -34,23 +34,17 @@
                                ],{:select=>"multiple",:row_perpage=>5,:paginator_box=>'incidentRequestsPaginatorBox'})%>
 
         <div class="pbSubsection">
-          <%= form_tag({:action=>"assign_request",:format=>:js},:remote=>true) do |f|%>
+          <%= form_tag({:action=>"update_assign_me"}) do |f|%>
           <%= hidden_field_tag(:incident_request_ids,:id=>"incident_request_ids")  %>
           <table class="detailList" cellpadding="0" cellspacing="0" border="0">
             <tbody>
               <tr>
                 <td class="labelCol" style="width:10%;visibility:hidden;"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>
                 <td class="dataCol" style="width:30;visibility:hidden;%">
-                  <%=blank_select_tag :support_group_id,available_support_group,
-                                                      {},{:id=>"incident_request_support_group_id"}%>
+
                 </td>
                 <td class="labelCol" style="width:10%;visibility:hidden;"><label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label></td>
-                <td class="dataCol" style="width:30%;visibility:hidden;"><%= blank_select_tag(:support_person_id,[],{},
-                                    {
-                                     :id=>"incident_request_support_person_id",
-                                     :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"{incident_request_support_group_id}"),
-                                     :depend=>"incident_request_support_group_id",
-                                     }) %></td>
+                <td class="dataCol" style="width:30%;visibility:hidden;"></td>
                 <td class="dataCol" style="width:20%;"><div><%= submit_tag(t(:label_icm_incident_request_assign_me),{:id=>"formSubmit",:disabled=>true})  %></div></td>
 
               </tr>
