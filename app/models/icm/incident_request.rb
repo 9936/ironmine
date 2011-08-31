@@ -190,7 +190,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
    scope :assignable_to_person,lambda{|person_id|
      joins("JOIN #{Icm::SupportGroup.table_name} ON #{Icm::SupportGroup.table_name}.id = #{table_name}.support_group_id ").
          joins("JOIN #{Irm::GroupMember.table_name} ON #{Irm::GroupMember.table_name}.group_id = #{Icm::SupportGroup.table_name}.group_id").
-         where("#{table_name}.support_group_id <> ? AND #{table_name}.support_person_id = ? AND #{Irm::GroupMember.table_name}.person_id = ?",nil,nil,person_id)
+         where("#{table_name}.support_person_id IS NULL AND #{Irm::GroupMember.table_name}.person_id = ?",person_id)
    }
 
   acts_as_watchable
