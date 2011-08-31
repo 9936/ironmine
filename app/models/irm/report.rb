@@ -161,9 +161,9 @@ class Irm::Report < ActiveRecord::Base
 
   def generate_scope
     query_scope = eval(generate_query_str).where(where_clause)
-    if(self.filter_company_id.present?)
-      query_scope = query_scope.where("a.company_id=?",self.filter_company_id)
-    end
+    #if(self.filter_company_id.present?)
+    #  query_scope = query_scope.where("a.company_id=?",self.filter_company_id)
+    #end
     if self.filter_date_field_id
       date_field = report_type_column_array.detect{|i| i[:field_id].eql?(self.filter_date_field_id)}
       if(date_field&&self.filter_date_from.present?)
@@ -228,6 +228,10 @@ class Irm::Report < ActiveRecord::Base
 
   def set_id(id)
     self.id = id
+  end
+
+  def show_detail?
+    Irm::Constant::SYS_YES.eql?(self.detail_display_flag)
   end
 
   private

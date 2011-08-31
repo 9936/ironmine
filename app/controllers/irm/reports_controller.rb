@@ -146,6 +146,7 @@ class Irm::ReportsController < ApplicationController
     @filter_date_to=""
     @filter_date_from = @report.filter_date_from.strftime("%Y-%m-%d") if @report.filter_date_from.present?
     @filter_date_to = @report.filter_date_to.strftime("%Y-%m-%d") if @report.filter_date_to.present?
+    render :action=>"show",:layout=>"application_full"
   end
 
   def run
@@ -155,7 +156,7 @@ class Irm::ReportsController < ApplicationController
     @filter_date_to=""
     @filter_date_from = @report.filter_date_from.strftime("%Y-%m-%d") if @report.filter_date_from.present?
     @filter_date_to = @report.filter_date_to.strftime("%Y-%m-%d") if @report.filter_date_to.present?
-    render :action=>"show"
+    render :action=>"show",:layout=>"application_full"
   end
 
 

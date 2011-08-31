@@ -185,7 +185,7 @@ module Irm::ReportsHelper
     if(group_fields.size>1)
       level_two_label = report_headers.detect{|i| i[0].eql?(group_fields[1][0])}[1]
     end
-    meta_data.each do |level_one_key,level_one_value|
+    meta_data.sort.map do |level_one_key,level_one_value|
 
       level_one_summary_amount = 0
       if(group_fields.size>1)
@@ -195,19 +195,25 @@ module Irm::ReportsHelper
       end
       table_body << %Q(
         <tr class="group group1">
-          <td colspan="#{display_headers.size}">
-            <strong>#{level_one_label} : #{level_one_key}(#{level_one_summary_amount} #{t(:label_irm_report_records)})</strong>
+          <td colspan="#{display_headers.size-1}">
+            <strong>#{level_one_label} : #{level_one_key}</strong>
+          </td>
+          <td style="float:right;">
+            <strong>(#{level_one_summary_amount} #{t(:label_irm_report_records)})</strong>
           </td>
         </tr>
       )
       table_body << %Q(<tr class="break break1"><td colspan="#{display_headers.size}">&nbsp;</td></tr>)
       if(group_fields.size>1)
-        level_one_value.each do |level_two_key,level_two_value|
+        level_one_value.sort.map do |level_two_key,level_two_value|
           level_two_summary_amount = level_two_value.size
           table_body << %Q(
             <tr class="group group2">
-              <td colspan="#{display_headers.size}">
-                <strong>#{level_two_label} : #{level_two_key}(#{level_two_summary_amount} #{t(:label_irm_report_records)})</strong>
+              <td colspan="#{display_headers.size-1}">
+                <strong>#{level_two_label} : #{level_two_key}</strong>
+              </td>
+              <td style="float:right;">
+                <strong>(#{level_two_summary_amount} #{t(:label_irm_report_records)})</strong>
               </td>
             </tr>
           )
@@ -218,14 +224,14 @@ module Irm::ReportsHelper
               table_body << %Q(<td>#{data[dh[0]]}</td>)
             end
             table_body << %Q(</tr>)
-          end
+          end if report.show_detail?
         end
       else
         level_one_value.each do |data|
           table_body << %Q(<tr>)
           display_headers.each do |dh|
             table_body << %Q(<td>#{data[dh[0]]}</td>)
-          end
+          end if report.show_detail?
           table_body << %Q(</tr>)
         end
       end
