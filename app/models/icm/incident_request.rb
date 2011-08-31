@@ -282,6 +282,16 @@ class Icm::IncidentRequest < ActiveRecord::Base
     self.save
   end
 
+  def watcher_person_ids
+    return @watcher_person_ids if @watcher_person_ids
+    @watcher_person_ids = self.all_person_watchers.collect{|p|p[:person_id]}
+    @watcher_person_ids
+  end
+
+  def watcher?(person_id)
+    self.watcher_person_ids.include?(person_id)
+  end
+
   private
   def generate_request_number
     count = self.class.count

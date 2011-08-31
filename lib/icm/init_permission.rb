@@ -25,6 +25,8 @@ Irm::AccessControl.map do |map|
   # 为他人提交事故单
   map.function :create_icdt_rqst_for_other,{"icm/incident_requests"=>[:new,:create]}
 
+  map.function :incident_request_edit_status,{"icm/incident_journals"=>[:edit_status,:update_status]}
+
   map.function :view_icm_kanban,{"icm/incident_requests" => [:kanban_index]}
   #===================icm/rule_settings============================
   #["index", "edit", "update", "new", "create", "get_data", "show"]

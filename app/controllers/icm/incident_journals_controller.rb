@@ -1,7 +1,7 @@
 class Icm::IncidentJournalsController < ApplicationController
 
   before_filter :setup_up_incident_request
-  before_filter :backup_incident_request ,:only=>[:create,:update_close,:update_pass,:update_upgrade]
+  before_filter :backup_incident_request ,:only=>[:create,:update_close,:update_pass,:update_status,:update_upgrade]
 
   def index
    redirect_to :action=>"new"
@@ -52,7 +52,46 @@ class Icm::IncidentJournalsController < ApplicationController
     end
   end
 
-  def edit_close
+  def edit_status
+    @incident_journal = @incident_request.incident_journals.build()
+    respond_to do |format|
+      format.html { render :layout => "application_full"}# new.html.erb
+      format.xml  { render :xml => @incident_journal }
+    end
+  end
+
+
+  def update_status
+
+    @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+
+    @incident_request.attributes = params[:icm_incident_request]
+    # 设置回复类开
+    # 1,服务台回复
+    # 2,客户回复
+    if Irm::Person.current.profile&& Irm::Person.current.profile.user_license.eql?("REQUESTER")
+      @incident_journal.reply_type = "CUSTOMER_REPLY"
+    else
+      @incident_journal.reply_type = "SUPPORTER_REPLY"
+    end
+
+    perform_create
+    respond_to do |format|
+      if @incident_journal.valid?&&@incident_request.save
+        process_change_attributes([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal)
+        process_files(@incident_journal)
+
+        format.html { redirect_to({:action => "new"}) }
+        format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+      else
+        format.html { render :action => "edit_status", :layout => "application_full" }
+        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+
+    def edit_close
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
       format.html { render :layout => "application_full"}# new.html.erb

@@ -107,7 +107,8 @@
               <div class="grayButton"><%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests",:action => "index"}%></div>
               <%if !@incident_request.close? %>
                 <% if current_person?(@incident_request.support_person_id) %>
-                      <div class="grayButton"><%= link_to t(:pass), {:action => "edit_pass"}%></div>
+                    <div class="grayButton"><%= link_to t(:pass), {:action => "edit_pass"}%></div>
+                    <div class="grayButton"><%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"}%></div>
                 <% end %>
                 <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
                       <div class="grayButton"><%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"}%></div>
@@ -216,7 +217,7 @@
      <%= list_journals(@incident_request) %>
    </div>
 </div>
-<%if allow_to_function?(:reply_incident_request)&&@incident_request[:close_reason_code].nil? %>
+<%if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&@incident_request[:close_reason_code].nil? %>
 <%= form_for(@incident_reply,:url=>{:action=>"create"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
 <div id="reply" class="bEditBlock bPageBlock">
   <div class="pbHeader">
@@ -291,15 +292,7 @@
               </td>
               <% end%>
             </tr>
-            <% unless Irm::Person.current.profile&&Irm::Person.current.profile.user_license.eql?("REQUESTER")%>
-            <tr>
-              <td class="dataCol">
-                <label for="incident_request_incident_status_code"><%=t(:label_icm_incident_reply_incident_status_code)%></label>
-                <%=f.blank_select :incident_status_id,available_request_status_code,
-                                                        {},{:id=>"incident_request_incident_status_code"}%>
-              </td>
-            </tr>
-            <% end %>
+
             <tr>
               <td class="dataCol" colspan="4" width="100%">
 
