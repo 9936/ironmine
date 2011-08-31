@@ -6,7 +6,7 @@ module Irm::DuelSelectHelper
                     Irm::RoleExplosion.name,
                     Irm::Group.name,
                     Irm::GroupExplosion.name,
-                    Uid::ExternalSystem.name,
+                    Irm::ExternalSystem.name,
                     Irm::Person.name]
     type_classes = type_classes-exclude
     type_classes.collect{|i| [Irm::BusinessObject.class_name_to_meaning(i),Irm::BusinessObject.class_name_to_code(i)]}
@@ -21,7 +21,7 @@ module Irm::DuelSelectHelper
                     Irm::RoleExplosion.name,
                     Irm::Group.name,
                     Irm::GroupExplosion.name,
-                    Uid::ExternalSystem.name,
+                    Irm::ExternalSystem.name,
                     Irm::Person.name]
 
     type_classes = type_classes-exclude
@@ -64,10 +64,10 @@ module Irm::DuelSelectHelper
       values +=Irm::Group.enabled.multilingual.collect{|i| ["#{label_name}:#{i[:name]}","#{code}##{i.id}",{:type=>code,:query=>i[:name]}]}
     end
 
-    if type_classes.include?(Uid::ExternalSystem.name)
-      label_name =Irm::BusinessObject.class_name_to_meaning(Uid::ExternalSystem.name)
-      code = Irm::BusinessObject.class_name_to_code(Uid::ExternalSystem.name)
-      values +=Uid::ExternalSystem.enabled.multilingual.collect.collect{|i| ["#{label_name}:#{i[:system_name]}","#{code}##{i.id}",{:type=>code,:query=>i[:name]}]}
+    if type_classes.include?(Irm::ExternalSystem.name)
+      label_name =Irm::BusinessObject.class_name_to_meaning(Irm::ExternalSystem.name)
+      code = Irm::BusinessObject.class_name_to_code(Irm::ExternalSystem.name)
+      values +=Irm::ExternalSystem.enabled.multilingual.collect.collect{|i| ["#{label_name}:#{i[:system_name]}","#{code}##{i.id}",{:type=>code,:query=>i[:name]}]}
     end
 
     if type_classes.include?(Irm::Person.name)

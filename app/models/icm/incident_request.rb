@@ -148,7 +148,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     if system_ids.length<1
       system_ids = system_ids+[0]
     end
-    joins("JOIN #{Uid::ExternalSystem.table_name} ON #{Uid::ExternalSystem.table_name}.external_system_code = #{table_name}.external_system_code")
+    joins("JOIN #{Irm::ExternalSystem.table_name} ON #{Irm::ExternalSystem.table_name}.external_system_code = #{table_name}.external_system_code")
     where("#{table_name}.id IN (?)",system_ids)
   }
 

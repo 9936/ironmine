@@ -27,7 +27,7 @@ class Icm::SupportGroup < ActiveRecord::Base
     joins("JOIN #{Irm::GroupMember.table_name} ON #{Irm::GroupMember.table_name}.group_id  = #{table_name}.group_id").
         joins("JOIN #{Irm::Person.table_name} ON #{Irm::Person.table_name}.id  = #{Irm::GroupMember.table_name}.person_id").
         joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.person_id  = #{Irm::GroupMember.table_name}.person_id").
-        where("#{Irm::Person.relation_view_name}.source_type = ? AND #{Irm::Person.table_name}.assignment_availability_flag=?",Irm::BusinessObject.class_name_to_code(Uid::ExternalSystem.name),Irm::Constant::SYS_YES).
+        where("#{Irm::Person.relation_view_name}.source_type = ? AND #{Irm::Person.table_name}.assignment_availability_flag=?",Irm::BusinessObject.class_name_to_code(Irm::ExternalSystem.name),Irm::Constant::SYS_YES).
         select("#{Irm::Person.relation_view_name}.source_id system_id")
   }
 
@@ -35,7 +35,7 @@ class Icm::SupportGroup < ActiveRecord::Base
   scope :query_by_system,lambda{|system_id|
     joins("JOIN #{Irm::GroupMember.table_name} ON #{Irm::GroupMember.table_name}.group_id  = #{table_name}.group_id").
         joins("JOIN #{Irm::Person.table_name} ON #{Irm::Person.table_name}.id  = #{Irm::GroupMember.table_name}.person_id").
-        where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_type = ? AND #{Irm::Person.relation_view_name}.source_id = ? AND #{Irm::Person.relation_view_name}.person_id = #{Irm::GroupMember.table_name}.person_id)",Irm::BusinessObject.class_name_to_code(Uid::ExternalSystem.name),system_id).
+        where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_type = ? AND #{Irm::Person.relation_view_name}.source_id = ? AND #{Irm::Person.relation_view_name}.person_id = #{Irm::GroupMember.table_name}.person_id)",Irm::BusinessObject.class_name_to_code(Irm::ExternalSystem.name),system_id).
         where("#{Irm::Person.table_name}.assignment_availability_flag=?",Irm::Constant::SYS_YES)
   }
 
@@ -52,7 +52,7 @@ class Icm::SupportGroup < ActiveRecord::Base
 
   scope :support_for_system,lambda{|system_id|
     joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Uid::ExternalSystem.name))
+        where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::ExternalSystem.name))
   }
 
   scope :support_for_group,lambda{|person_id|

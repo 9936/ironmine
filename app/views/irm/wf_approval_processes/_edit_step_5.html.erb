@@ -40,7 +40,7 @@
                     <td class="labelCol empty">&nbsp;</td>
                     <td class="dataCol empty">&nbsp;</td>
                   </tr>
-                  <%= render :partial => "irm/duel_select/search",:locals => {:label=>t(:label_irm_wf_rule_action_type),:f=>f,:types=>bo_person_field_duel_types([Uid::ExternalSystem.name]),:sources=>bo_person_field_duel_values(@wf_approval_process.bo_code,[Uid::ExternalSystem.name]),:str_value_field=>:submitter_str,:str_value=>@wf_approval_process.get_submitter_str} %>
+                  <%= render :partial => "irm/duel_select/search",:locals => {:label=>t(:label_irm_wf_rule_action_type),:f=>f,:types=>bo_person_field_duel_types([Irm::ExternalSystem.name]),:sources=>bo_person_field_duel_values(@wf_approval_process.bo_code,[Irm::ExternalSystem.name]),:str_value_field=>:submitter_str,:str_value=>@wf_approval_process.get_submitter_str} %>
                 </tbody>
               </table>
             </div>

@@ -8,11 +8,4 @@ class Icm::GroupAssignment < ActiveRecord::Base
         where("sc.id = #{table_name}.source_id").
         where("sc.catalog_code = ?", service_catalog_code)
   }
-
-  scope :query_external_system, lambda{|external_system_code|
-    joins(",#{Uid::ExternalSystem.table_name} es").
-        select("es.external_system_code").
-        where("es.id = #{table_name}.source_id").
-        where("es.external_system_code = ?", external_system_code)
-  }
 end

@@ -8,7 +8,7 @@ module Irm
 
         # 事故单所属系统
         system = nil
-        system = Uid::ExternalSystem.where(:external_system_code=>request.external_system_code).first if request.external_system_code.present?
+        system = Irm::ExternalSystem.where(:id=>request.external_system_id).first if request.external_system_id.present?
 
         # 如果事故单已经被分配,则中断分自动分配
         return if request.support_group_id.present?&&request.support_person_id.present?

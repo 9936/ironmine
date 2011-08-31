@@ -62,7 +62,7 @@
             <tr>
               <td class="labelCol"><label ><%= t(:label_irm_wf_approval_process_init_submiter) %></label></td>
               <td class="dataCol" colspan="3" width="82%"><div>
-                <% @bo_duel_value = bo_person_field_duel_values(@wf_approval_process.bo_code,[Uid::ExternalSystem.name]);meaning = duel_meaning(@wf_approval_process.get_submitter_str,@bo_duel_value) %>
+                <% @bo_duel_value = bo_person_field_duel_values(@wf_approval_process.bo_code,[Irm::ExternalSystem.name]);meaning = duel_meaning(@wf_approval_process.get_submitter_str,@bo_duel_value) %>
                 <% if meaning.any? %>
                     <% meaning.each do |r| %>
                         <div><%= r %></div>
