@@ -37,9 +37,9 @@ class Irm::Person < ActiveRecord::Base
 
   query_extend
 
-#  has_many :external_system_people,:class_name => "Uid::ExternalSystemPerson",
-#           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
-#  has_many :external_systems,:class_name => "Uid::ExternalSystem",:through => :external_system_people
+  has_many :external_system_people,:class_name => "Irm::ExternalSystemPerson",
+          :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
+  has_many :external_systems,:class_name => "Irm::ExternalSystem",:through => :external_system_people
 
   has_attached_file :avatar,
                     :whiny => false,
@@ -244,6 +244,7 @@ class Irm::Person < ActiveRecord::Base
        end
      else
        person_id = Irm::LdapAuthHeader.try_to_login(login,password)
+       puts "==============#{person_id}===================="
        if person_id
          person = Irm::Person.find(person_id)
        else
