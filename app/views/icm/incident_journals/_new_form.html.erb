@@ -150,6 +150,14 @@
               <td class="data3Col"><div><%= @incident_request[:submitted_name] %></div></td>
             </tr>
             <tr>
+              <td class="label3Col"><label ><%=t(:label_icm_incident_request_requested_by_org)%></label></td>
+              <td class="data3Col"><div><%= @incident_request[:incident_status_name] %></div></td>
+              <td class="label3Col"><label ><%=t(:label_icm_incident_request_requested_by_role)%></label></td>
+              <td class="data3Col"><div><%= @incident_request[:incident_phase_name] %></div></td>
+              <td class="label3Col"><label ><%=t(:label_icm_incident_request_requested_by_profile)%></label></td>
+              <td class="data3Col"><div><%= @incident_request[:incident_phase_name] %></div></td>
+            </tr>
+            <tr>
               <td class="label3Col"><label ><%=t(:label_icm_incident_request_incident_status_code)%></label></td>
               <td class="data3Col"><div><%= @incident_request[:incident_status_name] %></div></td>
               <td class="label3Col"><label ><%=t(:label_icm_incident_request_incident_phase_code)%></label></td>

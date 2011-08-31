@@ -78,6 +78,24 @@ class Icm::IncidentRequest < ActiveRecord::Base
     select("#{Irm::Person.name_to_sql(nil,'supporter','support_person_name')}")
   }
 
+  # 查询supporter的组织
+  scope :with_supporter_organization, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} org ON org.id = supporter.organization_id AND org.language = #{language}").
+        select("org.name supporter_organization_name")
+  }
+
+  # 查询supporter的角色
+  scope :with_supporter_role, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::Role.view_name} rl ON rl.id = supporter.role_id AND rl.language = #{language}").
+        select("rl.name supporter_role_name")
+  }
+
+  # 查询supporter的简档
+  scope :with_supporter_profile, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} pf ON pf.id = supporter.profile_id AND pf.language = #{language}").
+        select("pf.name supporter_profile_name")
+  }
+
   # 查询出优先级
   scope :with_support_group,lambda{|language|
     joins("LEFT OUTER JOIN #{Icm::SupportGroup.table_name} ON  #{table_name}.support_group_id = #{Icm::SupportGroup.table_name}.id").
@@ -207,7 +225,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_priority(I18n.locale).
         with_submitted_by.
         with_support_group(I18n.locale).
-        with_supporter
+        with_supporter.
+        with_supporter_role(I18n.locale).
+        with_supporter_profile(I18n.locale)
   end
 
 
