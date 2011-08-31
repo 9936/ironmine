@@ -80,19 +80,19 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   # 查询supporter的组织
   scope :with_supporter_organization, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} org ON org.id = supporter.organization_id AND org.language = #{language}").
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} org ON org.id = supporter.organization_id AND org.language = '#{language}'").
         select("org.name supporter_organization_name")
   }
 
   # 查询supporter的角色
   scope :with_supporter_role, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Role.view_name} rl ON rl.id = supporter.role_id AND rl.language = #{language}").
+    joins("LEFT OUTER JOIN #{Irm::Role.view_name} rl ON rl.id = supporter.role_id AND rl.language = '#{language}'").
         select("rl.name supporter_role_name")
   }
 
   # 查询supporter的简档
   scope :with_supporter_profile, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} pf ON pf.id = supporter.profile_id AND pf.language = #{language}").
+    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} pf ON pf.id = supporter.profile_id AND pf.language = '#{language}'").
         select("pf.name supporter_profile_name")
   }
 
