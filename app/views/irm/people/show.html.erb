@@ -191,7 +191,7 @@
               </td>
               <td class="pbButton">
                 <div class="button"><%= link_to t(:label_irm_person_add_to_system), "#",
-                                                :onclick=>"navigateToUrl('#{url_for(:controller=>"uid/external_system_members",
+                                                :onclick=>"navigateToUrl('#{url_for(:controller=>"irm/external_system_members",
                                                           :action => "new_from_person",:person_id=>@person.id)}');"%></div>
               </td>
               <td class="pbHelp">
@@ -203,7 +203,7 @@
         <div id="id_system_access" class="pbBody">
           <div id="person_system_list" class="datatable" style="width:100%;">
             <div id="id" class="id" style="display:none">
-              <%= link_to t(:remove), {:controller=>"uid/external_system_members",:action=>"delete_from_person",:external_system_code=>"{external_system_code}",
+              <%= link_to t(:remove), {:controller=>"irm/external_system_members",:action=>"delete_from_person",:external_system_id=>"{id}",
                                       :person_id=>@person.id},:confirm => t(:label_are_you_sure) ,
                                       :method => :delete %>
             </div>
@@ -211,7 +211,7 @@
           <!-- Begin company access table -->
             <%= datatable("person_system_list",url_for(:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id),
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"40px"},
-                               {:key=>"system_name",:label=>t(:label_uid_external_system),:sortable=>true, :width=>"200px"},
+                               {:key=>"system_name",:label=>t(:label_irm_external_system),:sortable=>true, :width=>"200px"},
                                {:key=>"system_description",:label=>t(:description),:sortable=>true, :width=> "400px"},
                                {:key=>"external_system_code", :hidden => true}])%>
           <!-- End company access table -->

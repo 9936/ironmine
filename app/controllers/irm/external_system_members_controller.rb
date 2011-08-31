@@ -81,9 +81,7 @@ class Irm::ExternalSystemMembersController < ApplicationController
   def get_available_external_system_data
     external_systems_scope = Irm::ExternalSystem.multilingual.enabled.without_person(params[:person_id])
     external_systems_scope = external_systems_scope.match_value("irm_external_systems.system_name",params[:system_name])
-    external_systems_scope = external_systems_scope.match_value("irm_external_systems.external_system_id",params[:external_system_id])
-    external_systems_scope = external_systems_scope.match_value("irm_external_systems.external_hostname",params[:hostname])
-    external_systems_scope = external_systems_scope.match_value("irm_external_systems.external_ip_address",params[:external_ip_address])
+    external_systems_scope = external_systems_scope.match_value("irm_external_systems.external_system_code",params[:external_system_code])
     external_systems,count = paginate(external_systems_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(external_systems.to_grid_json([:external_system_code,:external_hostname,:external_ip_address,

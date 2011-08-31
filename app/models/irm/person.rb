@@ -285,7 +285,7 @@ class Irm::Person < ActiveRecord::Base
   end
 
   def external_systems
-    Uid::ExternalSystem.multilingual.enabled.with_person(self.id)
+    Irm::ExternalSystem.multilingual.enabled.with_person(self.id)
   end
 
   def system_ids

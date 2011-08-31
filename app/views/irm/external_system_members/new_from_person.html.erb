@@ -7,7 +7,7 @@
                 var selected_code = "";
                 for(var i=0;i<e.details[0].length;i++)
                   selected_code = selected_code + e.details[0][i].id +",";
-                Y.one("#uid_external_system_person_status_code").set("value",selected_code);
+                Y.one("#irm_external_system_person_status_code").set("value",selected_code);
             })
       });
   });
@@ -39,7 +39,7 @@
         </div>
         <%= datatable("externalSystemList",url_for(:action=>"get_available_external_system_data",:person_id=>@person.id),
                   [{:key=>"id",:hidden=>true},
-                   {:key=>"external_system_code",:label=>t(:label_irm_support_group_name),:searchable=>true},
+                   {:key=>"external_system_code",:label=>t(:label_irm_external_system),:searchable=>true},
                    {:key=>"system_name",:label=>t(:name),:searchable=>true},
                    {:key=>"system_description",:label=>t(:description)},],
                    {:paginator_box=>"systemPaginator",:search_box=>"selectableSystemSearchBox",:select=>"multiple"})%>
