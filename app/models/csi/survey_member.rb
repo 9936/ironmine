@@ -3,14 +3,14 @@ class Csi::SurveyMember < ActiveRecord::Base
 
   query_extend
 
+  acts_as_urlable(:show=>{:controller=>"csi/surveys",:action=>"reply",:id=>:survey_id})
+
 
   belongs_to :survey
 
   validates_uniqueness_of :person_id,:scope=>[:survey_id],:if=>Proc.new{|i| i.source_id.nil?}
   validates_uniqueness_of :person_id,:scope=>[:survey_id,:source_id],:if=>Proc.new{|i| !i.source_id.nil?}
 
-
-  after_create :send_mail_to_member
 
   scope :query_by_survey_id,lambda{|survey_id| where(:survey_id => survey_id)}
   scope :query_by_person_id,lambda{|person_id| where(:person_id => person_id)}
@@ -34,11 +34,7 @@ class Csi::SurveyMember < ActiveRecord::Base
 
 
   def respond?
-    Irm::Constant::SYS_YES.eql?(self.response_flag)
+    self.end_date_active.nil?||self.end_date_active<Date.today||Irm::Constant::SYS_YES.eql?(self.response_flag)
   end
 
-  private
-  def send_mail_to_member
-    Delayed::Job.enqueue(Csi::Jobs::SurveyMailJob.new(self.id))
-  end
 end

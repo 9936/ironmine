@@ -7,7 +7,7 @@ module Irm
         # 确认事件是否已经被处理过
         if(event&&event.end_at.nil?)
           Irm::Person.current = Irm::Person.find(event.created_by)
-          Delayed::Worker.logger.debug("RuleProcessJob Process Event id:#{event.id}  bo_code:#{event.bo_code}")
+          #Delayed::Worker.logger.debug("RuleProcessJob Process Event id:#{event.id}  bo_code:#{event.bo_code}")
 
           # 查找到所有适用的工作流规则
           wf_rules = []
@@ -20,11 +20,11 @@ module Irm
             wf_rules = wf_rules+Irm::WfRule.enabled.where(:bo_code=>event.bo_code).create_edit_every_time
           end
           wf_rules.each do |wr|
-            Delayed::Worker.logger.debug("RuleProcessJob Test wf_rule id:#{wr.id} ")
+            #Delayed::Worker.logger.debug("RuleProcessJob Test wf_rule id:#{wr.id} ")
 
             business_object = wr.match(event)
             if business_object
-              Delayed::Worker.logger.debug("RuleProcessJob  wf_rule id:#{wr.id} find bo:#{business_object}")
+              #Delayed::Worker.logger.debug("RuleProcessJob  wf_rule id:#{wr.id} find bo:#{business_object}")
               wr.apply(business_object)
               Irm::WfRuleHistory.create(:event_id=>event.id,:rule_id=>wr.id,:bo_code=>wr.bo_code,:bo_id=>event.business_object_id)
             end

@@ -33,7 +33,7 @@ module Irm::WfRulesHelper
 
 
   def wf_rule_time_triggers(wf_rule_id)
-    Irm::WfRuleTimeTrigger.list_all
+    Irm::WfRuleTimeTrigger.list_all.where(:rule_id=>wf_rule_id)
   end
 
   def wf_rule_time_trigger_actions(wf_rule_id,time_trigger_id)
