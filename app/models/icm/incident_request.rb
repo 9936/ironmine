@@ -226,6 +226,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_submitted_by.
         with_support_group(I18n.locale).
         with_supporter.
+        with_supporter_organization(I18n.locale).
         with_supporter_role(I18n.locale).
         with_supporter_profile(I18n.locale)
   end
