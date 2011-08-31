@@ -24,11 +24,11 @@ class Icm::IncidentHistory < ActiveRecord::Base
         end
       when "support_group_id"
         if old_meaning.nil?
-          real_value = Icm::SupportGroup.with_group(I18n.locale).find(self.old_value)
+          real_value = Icm::SupportGroup.with_group(I18n.locale).query(self.old_value).first
           old_meaning = real_value[:name] if real_value
         end
         if new_meaning.nil?
-          real_value = Icm::SupportGroup.with_group(I18n.locale).find(self.new_value)
+          real_value = Icm::SupportGroup.with_group(I18n.locale).query(self.new_value).first
           new_meaning = real_value[:name] if real_value
         end
       when "incident_status_id"

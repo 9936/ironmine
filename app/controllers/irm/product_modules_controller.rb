@@ -104,7 +104,4 @@ class Irm::ProductModulesController < ApplicationController
     end
   end
 
-  def data_grid
-    render :layout => nil
-  end
 end

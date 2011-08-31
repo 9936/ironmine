@@ -115,6 +115,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def get_data
     return_columns = [:request_number,
+                      :organization_name,
                       :title,
                       :incident_status_name,
                       :close_flag,
@@ -153,6 +154,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def get_help_desk_data
     return_columns = [:request_number,
+                      :organization_name,
                       :title,
                       :incident_status_name,
                       :close_flag,
@@ -239,6 +241,7 @@ class Icm::IncidentRequestsController < ApplicationController
   def assignable_data
     return_columns = [:request_number,
                       :title,
+                      :organization_name,
                       :incident_status_name,
                       :close_flag,
                       :requested_name,
@@ -303,8 +306,9 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_requests.each do |irq|
       request_attributes = {}
       journal_attributes = {}
-      request_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_request_assign_me))
+      journal_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_request_assign_me))
       journal_attributes.merge!(:reply_type => "ASSIGN")
+      journal_attributes.merge!(:replied_by => Irm::Person.current.id)
       request_attributes.merge!({:incident_status_id=>Icm::IncidentStatus.transform(irq.incident_status_id,"ASSIGN")})
       request_attributes.merge!({:support_person_id=>Irm::Person.current.id,:charge_person_id=>Irm::Person.current.id,:upgrade_person_id=>Irm::Person.current.id})
 
@@ -320,7 +324,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def assign_me_data
     return_columns = [:request_number,
-                      :title,
+                      :title,:organization_name,
                       :incident_status_name,
                       :close_flag,
                       :requested_name,

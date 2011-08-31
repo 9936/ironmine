@@ -14,6 +14,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
+  before_save :setup_organization
   after_create :generate_request_number
   before_validation_on_create  :setup_priority
 
@@ -189,7 +190,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
    scope :assignable_to_person,lambda{|person_id|
      joins("JOIN #{Icm::SupportGroup.table_name} ON #{Icm::SupportGroup.table_name}.id = #{table_name}.support_group_id ").
          joins("JOIN #{Irm::GroupMember.table_name} ON #{Irm::GroupMember.table_name}.group_id = #{Icm::SupportGroup.table_name}.group_id").
-         where("#{table_name}.support_group_id <> ? AND #{table_name}.support_person_id = ? AND #{Irm::GroupMember.table_name}.person_id = ?",nil,nil,person_id)
+         where("#{table_name}.support_person_id IS NULL AND #{Irm::GroupMember.table_name}.person_id = ?",person_id)
    }
 
   acts_as_watchable
@@ -281,6 +282,16 @@ class Icm::IncidentRequest < ActiveRecord::Base
     self.save
   end
 
+  def watcher_person_ids
+    return @watcher_person_ids if @watcher_person_ids
+    @watcher_person_ids = self.all_person_watchers.collect{|p|p[:person_id]}
+    @watcher_person_ids
+  end
+
+  def watcher?(person_id)
+    self.watcher_person_ids.include?(person_id)
+  end
+
   private
   def generate_request_number
     count = self.class.count
@@ -297,5 +308,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
     self.weight_value = urgence.weight_values + impact_range.weight_values-1
     priority = Icm::PriorityCode.query_by_weight_value(self.weight_value).first
     self.priority_id = priority.id
+  end
+
+  def setup_organization
+    if self.requested_by.present?
+      self.organization_id =  Irm::Person.find(self.requested_by).organization_id
+    end
   end
 end

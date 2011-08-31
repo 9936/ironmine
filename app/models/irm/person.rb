@@ -106,6 +106,11 @@ class Irm::Person < ActiveRecord::Base
     select("#{Irm::Language.view_name}.description language_description")
   }
 
+  scope :with_notification_lang,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::Language.view_name} nl ON nl.language_code=#{table_name}.notification_lang AND nl.language = '#{language}'").
+    select("nl.description notification_lang_description")
+  }
+
   scope :with_delegate_approver,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} delegate ON delegate.id=#{table_name}.delegate_approver").
     select("#{Irm::Person.name_to_sql(nil,'delegate','delegate_name')}")
@@ -176,6 +181,7 @@ class Irm::Person < ActiveRecord::Base
         with_site_group(I18n.locale).
         with_site(I18n.locale).
         with_language(I18n.locale).
+        with_notification_lang(I18n.locale).
         status_meaning
   end
 

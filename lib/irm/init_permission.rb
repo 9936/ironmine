@@ -6,7 +6,7 @@ Irm::AccessControl.map do |map|
                                  "irm/common"=>[:login, :forgot_password,:edit_password,:update_password],
                                  "irm/navigations" => ["access_deny", "combo"],
                                  "irm/attach_screenshot" => ["index"]}
-  map.function :login_function,{ "irm/common"=>[:logout],
+  map.function :login_function,{ "irm/common"=>[:logout,:upload_screen_shot,:search_options],
                                  "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_application", "index"],
@@ -16,10 +16,10 @@ Irm::AccessControl.map do |map|
   #=====common setting===================
   #===================irm/global_settings============================
   #["index", "edit", "update", "crop"]
-  map.function :global_setting,{"irm/global_settings"=>["index","edit", "update"]}
+  map.function :global_setting,{"irm/global_settings"=>["index","edit", "update","crop"]}
   #===================irm/lookup_types irm/lookup_values============================
-  map.function :lookup_code,{"irm/lookup_types"=>["index", "show", "get_lookup_types","new", "create", "create_value", "create_edit_value", "add_code","create_edit_value", "edit", "update"],
-                             "irm/lookup_values"=>["index", "show", "get_lookup_values", "select_lookup_type","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+  map.function :lookup_code,{"irm/lookup_types"=>["index", "show", "get_lookup_types","new", "create", "create_value", "create_edit_value", "add_code","create_edit_value", "edit", "update",:get_lookup_values,:multilingual_edit,:multilingual_update,:check_lookup_code],
+                             "irm/lookup_values"=>["index", "show", "get_lookup_values", "select_lookup_type","new", "create","edit", "update", "multilingual_edit", "multilingual_update","get_data"]}
 
   #===================irm/general_categories============================
   map.function :general_category,{"irm/general_categories"=>["index", "show", "get_data","new", "create","edit", "update"]}
@@ -43,7 +43,7 @@ Irm::AccessControl.map do |map|
                                        "get_support_group", "get_owned_roles","edit", "update",
                                        "multilingual_edit", "multilingual_update","add_roles","remove_role",
                                        "select_roles", "get_available_roles"],
-                             "irm/company_accesses"=>["index","new", "create"], "irm/external_system_members" => ["new_from_person"]}
+                        "irm/external_system_members" => ["new_from_person"]}
 
 
   #===================irm/groups============================
@@ -91,7 +91,11 @@ Irm::AccessControl.map do |map|
 
   #===================irm/functions============================
   #["index", "edit", "update", "new", "create", "show", "get_data", "add_permissions", "get_available_permissions", "select_permissions", "add_permissions", "remove_permission"]
-  map.function :function,{"irm/functions"=>["index", "show", "get_data","new", "create", "add_permissions", "add_permissions","edit", "update"]}
+  map.function :function,{"irm/functions"=>["index", "edit", "update", "new", "create", "show", "get_data", "add_permissions", "get_available_permissions", "select_permissions", "add_permissions", "remove_permission"]}
+
+  #===================irm/permissions============================
+  #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "function_get_data", "get_data", "show", "data_grid"]
+  map.function :permission,{"irm/permissions"=>["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "function_get_data", "get_data", "show", "data_grid"]}
 
  #===================irm/currencies============================
   #["index", "get_data", "edit", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]
@@ -119,15 +123,15 @@ Irm::AccessControl.map do |map|
   #===================irm/object_attributes============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "destroy", "multilingual_edit", "multilingual_update", "relation_columns", "selectable_columns"]
   map.function :business_object,{"irm/business_objects"=>["index", "show", "get_data","new", "create","edit",
-                                                          "update", "multilingual_edit", "multilingual_update"],
+                                                          "update", "multilingual_edit", "multilingual_update","execute_test"],
                                  "irm/object_attributes"=>["index", "show", "get_data","get_standard_data","new", "create", "selectable_columns",
                                                            "relation_columns","edit", "update", "multilingual_edit", "multilingual_update",
-                                                           "selectable_columns", "relation_columns","change_type"]}
+                                                           "selectable_columns", "relation_columns","change_type","destroy","person_columns"]}
 
   #===================irm/list_of_values============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "multilingual_edit", "multilingual_update", "execute_test", "get_lov_data"]
   map.function :list_of_value,{"irm/list_of_values"=>["index", "show", "get_lov_data", "get_data","new", "create",
-                                                      "edit", "update", "multilingual_edit", "multilingual_update"]}
+                                                      "edit", "update", "multilingual_edit", "multilingual_update","execute_test"]}
 
   #====================irm/my_info =================================
   map.function :my_info, {"irm/my_info" => ["index","edit","update"],
@@ -148,19 +152,22 @@ Irm::AccessControl.map do |map|
   map.function :workflow_setting,{"irm/wf_settings"=>["index","edit", "update"]}
   #===================irm/wf_rules============================
   #["index", "new", "create", "get_data", "edit", "update", "show"]
-  map.function :workflow_rule,{"irm/wf_rules"=>["index", "show","new", "create","add_exists_action","save_exists_action","edit", "update","active","add_exists_action","save_exists_action"]}
+  #===================irm/wf_rule_time_triggers============================
+  #["new", "create", "edit", "update", "destroy"]
+  map.function :workflow_rule,{"irm/wf_rules"=>["index", "show","new", "create","add_exists_action","save_exists_action","edit", "update","active","add_exists_action","save_exists_action","get_data","destroy_action"],
+                               "irm/wf_rule_time_triggers"=>["new", "create", "edit", "update", "destroy"]}
 
   #===================irm/ldap_sources============================
   #["index", "edit", "execute_test", "active", "update", "new", "create", "get_data", "show"]
-  map.function :ldap_source,{"irm/ldap_sources"=>["index", "show","new", "create","edit", "update","active"]}
+  map.function :ldap_source,{"irm/ldap_sources"=>["index", "show","new", "create","edit", "update","active","execute_test","get_data"]}
   #===================irm/ldap_auth_headers============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "get_by_ldap_source"]
   #===================irm/ldap_auth_attributes============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "destroy"]
   map.function :ldap_user,{"irm/ldap_auth_headers"=>["index", "show","get_by_ldap_source",
-                                                            "new", "create","edit", "update"],
+                                                            "new", "create","edit", "update","get_data"],
                                   "irm/ldap_auth_attributes"=>["index", "show","new", "create",
-                                                               "edit", "update"]}
+                                                               "edit", "update","get_data","destroy"]}
 
 
   #===================irm/ldap_syn_headers============================
@@ -192,16 +199,16 @@ Irm::AccessControl.map do |map|
   #["index", "new", "create", "get_data", "edit", "active", "update", "destroy", "show", "destroy_action", "add_exists_action", "save_exists_action", "destroy_action", "reorder"]
   #===================irm/wf_approval_steps============================
   #["index", "new", "create", "edit", "update", "destroy"]
-  map.function :workflow_process,{"irm/wf_approval_processes"=>["index", "show","new", "create","edit", "update",
+  map.function :workflow_process,{"irm/wf_approval_processes"=>["index", "show","new", "create","edit", "update","get_data","active","destroy",
                                                                 "destroy_action", "add_exists_action", "save_exists_action", "reorder"],
-                                  "irm/wf_approval_steps"=>["index","new", "create","edit", "update"]}
+                                  "irm/wf_approval_steps"=>["index","new", "create","edit", "update","destroy"]}
 
   #===================irm/wf_process_instances============================
   #["submit", "recall"]
   #===================irm/wf_step_instances============================
   #["show", "reassign", "submit", "save_reassign"]
   map.function :workflow_approval,{"irm/wf_step_instances"=>["show", "reassign", "submit", "save_reassign"],
-                                     "irm/wf_process_instances"=>["submit", "recall"]}
+                                     "irm/wf_process_instances"=>["submit", "recall","execute_recall"]}
 
   #=================== job monitors ============================
   map.function :monitor_group_assign,{"irm/monitor_icm_group_assigns"=>["index"]}
@@ -231,14 +238,15 @@ Irm::AccessControl.map do |map|
   #===================irm/reports============================
   #["index", "edit", "update", "new", "run", "operator_value", "create", "get_data", "show", "multilingual_edit", "multilingual_update", "destroy", "edit_custom", "update_custom"]
   map.function :view_reports,{"irm/reports"=>["index", "show","run","get_data"]}
-  map.function :create_reports,{"irm/reports"=>["new", "create","operator_value","destroy"]}
-  map.function :edit_reports,{"irm/reports"=>["edit", "update","operator_value", "multilingual_edit", "multilingual_update", "edit_custom", "update_custom"]}
+  map.function :create_reports,{"irm/reports"=>["new", "create","operator_value","destroy"],
+                                "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]}
+  map.function :edit_reports,{"irm/reports"=>["edit", "update","operator_value", "multilingual_edit", "multilingual_update", "edit_custom", "update_custom"],
+                              "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]}
   #===================irm/report_folders============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
   map.function :view_report_folders,{"irm/report_folders"=>["index"]}
   map.function :create_report_folders,{"irm/report_folders"=>["new", "create"]}
   map.function :edit_report_folders,{"irm/report_folders"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
-
 
   #===================irm/tabs============================
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
