@@ -1,5 +1,5 @@
 Irm::AccessControl.map do |map|
-  map.function :login_function,{ "icm/incident_reports" => [:get_urgency_summary,:get_report_summary]}
+  map.function :login_function,{}
   #============= 事故单==============================
   # 查看事故单
   map.function :view_incident_request,{"icm/incident_requests"=>[:index, :get_data, :get_help_desk_data,
@@ -24,9 +24,10 @@ Irm::AccessControl.map do |map|
   map.function :view_all_incident_request ,{"icm/incident_requests"=>[:index]}
   # 为他人提交事故单
   map.function :create_icdt_rqst_for_other,{"icm/incident_requests"=>[:new,:create]}
-
+  #编辑事故单状态
+  map.function :incident_request_assign_me,{"icm/incident_requests"=>[:edit_assign_me,:assign_me_data,:update_assign_me]}
+  #领取事故单
   map.function :incident_request_edit_status,{"icm/incident_journals"=>[:edit_status,:update_status]}
-
   map.function :view_icm_kanban,{"icm/incident_requests" => [:kanban_index]}
   #===================icm/rule_settings============================
   #["index", "edit", "update", "new", "create", "get_data", "show"]

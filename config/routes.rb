@@ -37,8 +37,6 @@ Ironmine::Application.routes.draw do
     match '/product_modules/new(.:format)' => "product_modules#new", :via => :get
     match '/product_modules/create(.:format)' => "product_modules#create", :via => :post
     match '/product_modules/get_data(.:format)' => "product_modules#get_data"
-    match '/product_modules/data_grid(.:format)' => "product_modules#data_grid", :via => :get
-
     #languages
     match '/languages(/index)(.:format)' => "languages#index", :via => :get
     match '/languages/get_data(.:format)' => "languages#get_data"
@@ -147,16 +145,6 @@ Ironmine::Application.routes.draw do
     match '/global_settings/edit(.:format)' => "global_settings#edit", :via => :get
     match '/global_settings/:id/update(.:format)' => "global_settings#update"
     match '/global_settings/crop(.:format)' => "global_settings#crop"
-    #auth_sources
-    match '/auth_sources(/index)(.:format)' => "auth_sources#index", :via => :get
-    match '/auth_sources/:id/edit(.:format)' => "auth_sources#edit", :via => :get
-    match '/auth_sources/:id(.:format)' => "auth_sources#update", :via => :put
-    match '/auth_sources/new(.:format)' => "auth_sources#new", :via => :get
-    match '/auth_sources/create(.:format)' => "auth_sources#create", :via => :post
-    match '/auth_sources/:id/multilingual_edit(.:format)' => "auth_sources#multilingual_edit", :via => :get
-    match '/auth_sources/:id/multilingual_update(.:format)' => "auth_sources#multilingual_update", :via => :put
-    match '/auth_sources/get_data(.:format)' => "auth_sources#get_data"
-    match '/auth_sources/:id/show(.:format)' => "auth_sources#show", :via => :get
 
     #ldap_sources
     match '/ldap_sources(/index)(.:format)' => "ldap_sources#index", :via => :get
@@ -218,13 +206,9 @@ Ironmine::Application.routes.draw do
     match '/mail_templates/new(.:format)'=>"mail_templates#new",:via=>:get
     match '/mail_templates/get_data(.:format)' => "mail_templates#get_data"
     match '/mail_templates(.:format)'=>"mail_templates#create",:via=>:post
-    match '/mail_templates/copy(.:format)'=>"mail_templates#copy",:via=>:get
-    match '/mail_templates/copy_template(.:format)'=>"mail_templates#copy_template",:via=>:post
-    match '/mail_templates/test_mail_template'=>"mail_templates#test_mail_template"
     match '/mail_templates(/index)(.:format)'=>"mail_templates#index",:via=>:get
     match '/mail_templates/:id/edit(.:format)'=>"mail_templates#edit",:via=>:get
     match '/mail_templates/:id(.:format)'=>"mail_templates#update",:via=>:put
-    match '/mail_templates/:id(.:format)'=>"mail_templates#destroy",:via=>:delete
     match '/mail_templates/:id/show(.:format)'=>"mail_templates#show",:via=>:get
     match '/mail_templates/get_script_context_fields(.:format)'=>"mail_templates#get_script_context_fields",:via=>:get
     match '/mail_templates/get_mail_templates(.:format)'=>"mail_templates#get_mail_templates",:via=>:get    
@@ -364,14 +348,7 @@ Ironmine::Application.routes.draw do
     match '/people/:person_id/:role_id/remove_role(.:format)' => "people#remove_role", :via => :get
     match '/people/:person_id/get_owned_roles(.:format)' => "people#get_owned_roles", :via => :get
     match '/people/:person_id/get_owned_external_systems(.:format)' => "people#get_owned_external_systems", :via => :get
-    #company_accesses
-    match '/company_accesses(/index)(.:format)' => "company_accesses#index", :via => :get
-    match '/company_accesses/:id/edit(.:format)' => "company_accesses#edit", :via => :get
-    match '/company_accesses/:id(.:format)' => "company_accesses#update", :via => :put
-    match '/company_accesses/new(.:format)' => "company_accesses#new", :via => :get
-    match '/company_accesses/create(.:format)' => "company_accesses#create"
-    match '/company_accesses/get_data(.:format)' => "company_accesses#get_data"
-    match '/company_accesses/get_company(.:format)' => "company_accesses#get_company"
+
     #id_flexes
     match '/id_flexes(/index)(.:format)' => "id_flexes#index", :via => :get
     match '/id_flexes/:id/edit(.:format)' => "id_flexes#edit", :via => :get
@@ -412,8 +389,7 @@ Ironmine::Application.routes.draw do
     match '/setting/:mi/common(.:format)' =>'setting#common'
     #home
     match '/home(/index)(.:format)' => "home#index", :via => :get
-    #user_home
-    match '/user_home(/index)(.:format)' => "user_home#index", :via => :get
+
     #view_filter
     match '/filters/index/:sc/:bc(.:format)' => "filters#index", :via => :get
     match '/filters/new/:sc/:bc(.:format)' => "filters#new", :via => :get
@@ -467,10 +443,6 @@ Ironmine::Application.routes.draw do
     match '/report_triggers/:report_id/new(.:format)' => "report_triggers#new", :via => :get
     match '/report_triggers/:report_id/create(.:format)' => "report_triggers#create", :via => :post
     match '/report_triggers/:id/destroy(.:format)' => "report_triggers#destroy", :via => :delete
-
-    #common report
-    match '/common_reports/rpt_person_login_summary(.:format)' => "common_reports#rpt_person_login_summary"
-    match '/common_reports/get_report_summary(.:format)' => "common_reports#get_report_summary"
 
     #bulletins
     match '/bulletins/new(.:format)' => "bulletins#new", :via => :get
@@ -908,31 +880,6 @@ Ironmine::Application.routes.draw do
     match '/user_requests/:request_id/journals(/index)(.:format)' => "user_journals#index", :via => :get
     match '/user_requests/:request_id/journals/new(.:format)' => "user_journals#new", :via => :get
     match '/user_requests/:request_id/journals/create(.:format)' => "user_journals#create", :via => :post
-    #incident_reports
-    match '/incident_reports/rpt_urgency_summary(.:format)' => "incident_reports#rpt_urgency_summary"
-    match '/incident_reports/get_urgency_summary(.:format)' => "incident_reports#get_urgency_summary"
-    match '/incident_reports/rpt_report_source_summary(.:format)' => "incident_reports#rpt_report_source_summary"
-    match '/incident_reports/rpt_report_type_summary(.:format)' => "incident_reports#rpt_report_type_summary"
-    match '/incident_reports/rpt_impact_range_summary(.:format)' => "incident_reports#rpt_impact_range_summary"
-    match '/incident_reports/rpt_priority_code_summary(.:format)' => "incident_reports#rpt_priority_code_summary"
-    match '/incident_reports/get_report_summary(.:format)' => "incident_reports#get_report_summary"
-    match '/incident_reports/rpt_completed_urgency_summary(.:format)' => "incident_reports#rpt_completed_urgency_summary"
-    match '/incident_reports/rpt_completed_source_summary(.:format)' => "incident_reports#rpt_completed_source_summary"
-    match '/incident_reports/rpt_completed_type_summary(.:format)' => "incident_reports#rpt_completed_type_summary"
-    match '/incident_reports/rpt_completed_impact_summary(.:format)' => "incident_reports#rpt_completed_impact_summary"
-    match '/incident_reports/rpt_completed_priority_summary(.:format)' => "incident_reports#rpt_completed_priority_summary"
-    match '/incident_reports/rpt_unsolved_urgency_summary(.:format)' => "incident_reports#rpt_unsolved_urgency_summary"
-    match '/incident_reports/rpt_unsolved_source_summary(.:format)' => "incident_reports#rpt_unsolved_source_summary"
-    match '/incident_reports/rpt_unsolved_type_summary(.:format)' => "incident_reports#rpt_unsolved_type_summary"
-    match '/incident_reports/rpt_unsolved_impact_summary(.:format)' => "incident_reports#rpt_unsolved_impact_summary"
-    match '/incident_reports/rpt_unsolved_priority_summary(.:format)' => "incident_reports#rpt_unsolved_priority_summary"
-    match '/incident_reports/rpt_unalloca_urgency_summary(.:format)' => "incident_reports#rpt_unalloca_urgency_summary"
-    match '/incident_reports/rpt_unalloca_source_summary(.:format)' => "incident_reports#rpt_unalloca_source_summary"
-    match '/incident_reports/rpt_unalloca_type_summary(.:format)' => "incident_reports#rpt_unalloca_type_summary"
-    match '/incident_reports/rpt_unalloca_impact_summary(.:format)' => "incident_reports#rpt_unalloca_impact_summary"
-    match '/incident_reports/rpt_unalloca_priority_summary(.:format)' => "incident_reports#rpt_unalloca_priority_summary"
-    match '/incident_reports/rpt_incident_stat_month(.:format)' => "incident_reports#rpt_incident_stat_month"
-    match '/incident_reports/index(.:format)' => "incident_reports#index"
     #support_groups
     match '/support_groups(/:group_id)(/index)(.:format)' => "support_groups#index", :via => :get
     match '/support_groups/:id(.:format)' => "support_groups#update", :via => :put
@@ -940,13 +887,6 @@ Ironmine::Application.routes.draw do
     match '/support_groups/:id/get_member_options(.:format)' => "support_groups#get_member_options", :via => :get
   end
 
-  scope :module => "cms" do
-    match '/cmshome(/index)(.:format)' => "home#index", :via => :get
-  end
-
-  scope :module => "ebs" do
-    match '/ebshome(/index)(.:format)' => "home#index", :via => :get
-  end
 
   scope :module => "csi" do
     #surveys
