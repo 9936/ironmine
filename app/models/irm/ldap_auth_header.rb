@@ -42,7 +42,8 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     login_filter = Net::LDAP::Filter.eq( self.ldap_login_name_attr, login_name )
     return_attrs = {:login_name=>self.ldap_login_name_attr,:email_address=>self.ldap_email_address_attr}
     # setup person and password
-    person_attr = {:password=>password,:password_confirmation=>password}
+    random_password = Irm::PasswordPolicy.random_password
+    person_attr = {:password=>random_password,:password_confirmation=>random_password}
     self.ldap_auth_attributes.each do |attr|
       return_attrs[attr.local_attr.to_sym] = attr.ldap_attr
     end
@@ -56,12 +57,10 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
                  :filter => login_filter,
                  :attributes=> (['dn'])) do |entry|
       dn = entry.dn
-
       result = ldap.bind_as(:base => self.auth_cn,
                             :filter => login_filter,
                             :password => password)
       if result
-        puts "Authenticated #{result.first.dn}"
         exists_person = Irm::Person.where(:login_name=>login_name).first
         return exists_person.id if exists_person
         return_entry = result.first
@@ -91,7 +90,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     person.save
     return nil if person.errors.any?
     template_person.external_system_people.each do |pr|
-      person.external_system_people.create(:external_system_code=>pr.external_system_code)
+      person.external_system_people.create(:external_system_id=>pr.external_system_id)
     end
 
     person
