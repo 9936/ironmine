@@ -34,6 +34,7 @@
                     </div>
                   </td>
                 </tr>
+                <% if allow_to_function?(:reply_survey) %>
                 <tr>
                   <td colspan="2">
                     <div class="toolsContentRight">
@@ -41,6 +42,8 @@
                     </div>
                   </td>
                 </tr>
+                <% end %>
+                <% if allow_to_function?(:workflow_approval) %>
                 <tr>
                   <td colspan="2">
                     <div class="toolsContentRight">
@@ -48,6 +51,7 @@
                     </div>
                   </td>
                 </tr>
+                <% end %>
                 <tr>
                   <td colspan="2">
                     <div class="toolsContentRight">
