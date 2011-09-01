@@ -19,7 +19,7 @@ class Irm::BulletinsController < ApplicationController
         file = att["file"]
         next unless file && file.size > 0
         if !Irm::AttachmentVersion.validates?(file)
-          @flash[:notice] = I18n.t(:error_file_upload_limit)
+          flash[:notice] = I18n.t(:error_file_upload_limit)
           file_flag = false
           break
         end
