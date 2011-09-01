@@ -49,7 +49,7 @@ class Icm::IncidentRequestsController < ApplicationController
       if !validate_files(@incident_request)
         flash[:notice] = I18n.t(:error_file_upload_limit)
         format.html { render :action => "new", :layout=>"application_right"}
-        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.save
         process_files(@incident_request)
         #add watchers
@@ -105,7 +105,11 @@ class Icm::IncidentRequestsController < ApplicationController
   def update
     @incident_request = Icm::IncidentRequest.find(params[:id])
     respond_to do |format|
-      if @incident_request.update_attributes(params[:icm_incident_request])
+      if !validate_files(@incident_request)
+        flash[:notice] = I18n.t(:error_file_upload_limit)
+        format.html { render :action => "edit", :layout=>"application_right"}
+        format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+      elsif @incident_request.update_attributes(params[:icm_incident_request])
         process_files(@incident_request)
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
