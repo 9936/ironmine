@@ -26,10 +26,6 @@ class Irm::Card < ActiveRecord::Base
 
     card_content_scope =
         case self.card_code
-#          when "IR_ARR_WAITING_FOR_REPLY"
-#            ir_arr_waiting_for_reply()
-#          when "IR_CUSTOMER_REPLIED"
-#            ir_customer_replied()
           when "IR_WAITING_MY_REPLY"
             ir_waiting_my_reply
           when "IR_WAITING_MY_SOLUTION"
@@ -38,8 +34,8 @@ class Irm::Card < ActiveRecord::Base
             ir_waiting_helpdesk_reply
           when "IR_WAITING_CUSTOMER_REPLY"
             ir_waiting_customer_reply
-          when "IR_MY_ALL"
-            ir_my_all
+          when "IR_MY_SUBMIT"
+            ir_my_submit
           when "IR_MY_RELATION"
             ir_my_relation
           else
@@ -50,38 +46,7 @@ class Irm::Card < ActiveRecord::Base
   end
 
   private
-  #待回复的事故单
-  def ir_arr_waiting_for_reply()
-    ret_scope = []
-    Icm::IncidentRequest.select("#{Icm::IncidentRequest.table_name}.*, '' card_url").
-        where("NOT EXISTS(SELECT 1 FROM #{Icm::IncidentJournal.table_name} ij where ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij.replied_by = ?)", Irm::Person.current.id).
-        where("#{Icm::IncidentRequest.table_name}.support_person_id = ?", Irm::Person.current.id).
-        order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
-          if !is.close? && is.need_customer_reply == Irm::Constant::SYS_NO
-            ret_scope << is unless ret_scope.include?(is)
-#            break if ret_scope.size == lane_limit
-          end
-    end
-    ret_scope
-  end
 
-  #客户回复后的事故单
-  def ir_customer_replied()
-    ret_scope = []
-    Icm::IncidentRequest.select("#{Icm::IncidentRequest.table_name}.*, '' card_url").
-      select("#{Icm::IncidentRequest.table_name}.*, ij.updated_at ij_updated_at").
-      joins(",#{Icm::IncidentJournal.table_name} ij").
-      where("ij.incident_request_id = #{Icm::IncidentRequest.table_name}.id").
-      where("#{Icm::IncidentRequest.table_name}.support_person_id = ?", Irm::Person.current.id).
-      where("EXISTS(SELECT 1 FROM #{Icm::IncidentJournal.table_name} ij2 where ij2.incident_request_id = #{Icm::IncidentRequest.table_name}.id AND ij2.replied_by = ?)", Irm::Person.current.id).
-      order("ij_updated_at DESC").each do |is|
-        if !is.close? && is.need_customer_reply == Irm::Constant::SYS_NO
-          ret_scope << is unless ret_scope.include?(is)
-#          break if ret_scope.size == lane_limit
-        end
-    end
-    ret_scope
-  end
 ############################################################################################################
   def ir_waiting_my_reply()
     ret_scope = []
@@ -135,11 +100,12 @@ class Irm::Card < ActiveRecord::Base
     ret_scope
   end
 
-  def ir_my_all()
+  def ir_my_submit()
     ret_scope = []
     Icm::IncidentRequest.select("#{Icm::IncidentRequest.table_name}.*, '' card_url").
+        where("#{Icm::IncidentRequest.table_name}.submitted_by = ?", Irm::Person.current.id).
         with_incident_status(I18n.locale).
-        relate_person(Irm::Person.current.id).
+        where("incident_status.close_flag <> ?", Irm::Constant::SYS_YES).
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
             ret_scope << is unless ret_scope.include?(is)
         end
