@@ -1,4 +1,4 @@
-<%= app_title %>
+<%= common_title(Csi::Survey) %>
 <%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
 <%= form_for(@survey,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
 <%= hidden_field_tag :return_url,:value=>@return_url %>

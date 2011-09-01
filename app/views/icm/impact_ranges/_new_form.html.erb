@@ -1,4 +1,4 @@
-<%= setting_title %>
+<%= common_title(@impact_range.class.name) %>
 
 <%= form_for(@impact_range,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="bEditBlock bPageBlock">

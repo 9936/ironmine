@@ -1,1 +1,7 @@
-<title><%= Irm::SystemParametersManager.application_title%></title>
+<title>
+  <% if content_for?(:html_title) %>
+    <%=yield :html_title%>
+  <% else %>
+    <%= Irm::SystemParametersManager.application_title%>
+  <% end %>
+</title>

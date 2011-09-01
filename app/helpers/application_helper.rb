@@ -1,4 +1,72 @@
 module ApplicationHelper
+  def common_title(model_name="",action_meaning="",data_meaning="")
+    model_title = ""
+    model_title = Irm::BusinessObject.class_name_to_meaning(model_name) if model_name.present?
+
+    action_title = action_meaning
+    action_title = t("label_action_#{params[:action]}".to_s) unless action_title.present?
+
+    if Irm::Application.current&&Irm::FunctionGroup.current
+      current_tab = Irm::Tab.multilingual.with_function_group(I18n.locale).query_by_application(Irm::Application.current.id).where("#{Irm::FunctionGroup.view_name}.id = ?",Irm::FunctionGroup.current).first
+      if current_tab
+        common_app_title(current_tab,model_title,action_title,data_meaning)
+      else
+        common_setting_title(model_title,action_title,data_meaning)
+      end
+    end
+  end
+
+  def common_app_title(current_tab,model_title,action_title,data_meaning)
+    image_icon = ""
+    if current_tab.style_image
+      image_icon << content_tag(:img, "", :src => '/images/s.gif', :class => current_tab.style_image + " pageTitleIcon")
+    end
+    title = model_title
+    if data_meaning.present?
+      action_title = action_title+":"+data_meaning
+    end
+
+
+    description = content_tag(:h2, action_title, :class => "pageDescription")
+
+    content_for :html_title,do
+      title+":"+action_title
+    end
+
+    title =  content_tag(:h1, title, :class => "pageType")
+
+    content = raw(content_tag(:div, raw(title +image_icon+ description), :class => "content"))
+
+    pt_body = raw(content_tag(:div, content, :class => "ptBody"))
+    b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    raw(b_page_title)
+  end
+
+  def common_setting_title(model_title,action_title,data_meaning)
+
+    title = model_title
+    if data_meaning.present?
+      title = title+":"+data_meaning
+    else
+      title = model_title+":"+action_title
+    end
+
+    description = content_tag(:h2, title, :class => "pageDescription")
+
+
+    content = raw(content_tag(:div, raw( description), :class => "content"))
+
+    content_for :html_title,do
+      title
+    end
+    pt_body = raw(content_tag(:div, content, :class => "ptBody"))
+    b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    raw(b_page_title)
+  end
+
+
+
+
   def page_title(title = "", description = "")
     page_title = ""
     page_description = ""

@@ -1,4 +1,4 @@
-<%= page_title %>
+<%= common_title(Csi::Survey.name) %>
 <div id="new_form">
 <%= form_for(@survey_subject,:url=>{:controller=>"csi/survey_subjects",:action=>"create",:survey_id=>@survey_id},
              :builder => LabellingFormBuilder) do |f| %>

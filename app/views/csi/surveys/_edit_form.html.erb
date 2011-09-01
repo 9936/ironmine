@@ -1,4 +1,5 @@
-<%= app_title %>
+<%= common_title(@survey.class.name,"",@survey.title) %>
+
 
 <%= form_for(@survey,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="bEditBlock bPageBlock">
