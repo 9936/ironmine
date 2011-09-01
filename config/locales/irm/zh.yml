@@ -126,6 +126,8 @@ zh:
   created_at: 创建时间
   kanban_mode: 看板模式
   list_mode: 列表模式
+  error_file_upload_limit: 附件大小超出限制
+  file_upload_limit_alert: 最大尺寸 %{m} KB
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型

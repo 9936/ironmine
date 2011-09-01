@@ -40,7 +40,11 @@ class Icm::IncidentJournalsController < ApplicationController
 
     perform_create
     respond_to do |format|
-      if @incident_reply.valid? && @incident_request.update_attributes(@incident_reply.attributes)
+      if !validate_files(@incident_journal)
+        @incident_journal.errors.add(:message_body, I18n.t(:error_file_upload_limit))
+        format.html { render :action => "new", :layout=>"application_right"}
+        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+      elsif @incident_reply.valid? && @incident_request.update_attributes(@incident_reply.attributes)
         process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         format.html { redirect_to({:action => "new"}, :notice => 'Incident journal was successfully created.') }
@@ -332,5 +336,18 @@ class Icm::IncidentJournalsController < ApplicationController
                                                :data=>value[:file],
                                                :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
     end if params[:files]
+  end
+
+  def validate_files(ref_journal)
+    params[:files].each do |key,value|
+      f = Irm::AttachmentVersion.new({:source_id=>ref_journal.id,
+                                               :source_type=>ref_journal.class.name,
+                                               :data=>value[:file],
+                                               :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
+      return false unless f.valid?
+    end if params[:files]
+    return true
+  rescue
+    return false
   end
 end
