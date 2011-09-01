@@ -15,28 +15,59 @@ class Skm::FileManagementsController < ApplicationController
   end
 
   def create
-    if request.post?
-      #获取所有附件
-      files = params[:file]
 
-      #调用方法创建附件
-      Irm::AttachmentVersion.create_verison_files(files,0,0)
+    file_flag = true
+    files = params[:file]
+
+    if request.post?
+      params[:file].each_value do |att|
+        file = att["file"]
+        next unless file && file.size > 0
+        if !Irm::AttachmentVersion.validates?(file)
+          file_flag = false
+          flash[:notice] = I18n.t(:error_file_upload_limit)
+          break
+        end
+      end
     end
-    if params[:act] == "next"
-      redirect_to :action => 'new'
-    else
-      redirect_to :action => 'index'
+
+    respond_to do |format|
+      if file_flag && Irm::AttachmentVersion.create_verison_files(files,0,0)
+        if params[:act] == "next"
+          format.html {redirect_to :action => 'new', :notice =>t(:successfully_created)}
+        else
+          format.html {redirect_to :action => 'index'}
+        end
+        format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+      else
+        format.html { render :action => "new" }
+      end
     end
+
   end
 
   def batch_create
+    files = params[:file]
+    file_flag = true
     if request.post?
-      #获取所有附件
-      files = params[:file]
-      #调用方法创建附件
-      Irm::AttachmentVersion.create_verison_files(files,0,0)
+      params[:file].each_value do |att|
+        file = att["file"]
+        next unless file && file.size > 0
+        if !Irm::AttachmentVersion.validates?(file)
+          file_flag = false
+          flash[:notice] = I18n.t(:error_file_upload_limit)
+          break
+        end
+      end
     end
-    redirect_to :action => 'index'    
+
+    respond_to do |format|
+      if file_flag && Irm::AttachmentVersion.create_verison_files(files,0,0)
+        format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+      else
+        format.html { render :action => "batch_new" }
+      end
+    end
   end
   
   def edit
@@ -44,6 +75,7 @@ class Skm::FileManagementsController < ApplicationController
   end
 
   def update
+    file_flag = true
     @file = Irm::Attachment.find(params[:id])
     infile = {}
     params[:file].each_value do |p|
@@ -51,7 +83,20 @@ class Skm::FileManagementsController < ApplicationController
     end
     if infile[:file]
       file = params[:file]
-      Irm::AttachmentVersion.update_version_files(@file, file, 0, 0)
+
+      if request.post?
+        params[:file].each_value do |att|
+          fi = att["file"]
+          next unless fi && fi.size > 0
+          if !Irm::AttachmentVersion.validates?(fi)
+            file_flag = false
+            flash[:notice] = I18n.t(:error_file_upload_limit)
+            break
+          end
+        end
+      end
+
+      Irm::AttachmentVersion.update_version_files(@file, file, 0, 0) unless file_flag
     else
       @file.update_attribute(:description, infile[:description])
       @file.update_attribute(:file_category, infile[:file_category])
@@ -64,11 +109,11 @@ class Skm::FileManagementsController < ApplicationController
       end
     end
     respond_to do |format|
-      if @file.save
+      if file_flag && @file.save
         format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
         format.xml  { render :xml => @file, :status => :created, :location => @file }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "edit" }
         format.xml  { render :xml => @file.errors, :status => :unprocessable_entity }
       end
     end    

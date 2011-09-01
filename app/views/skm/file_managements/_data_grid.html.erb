@@ -33,7 +33,9 @@
                    {:key=>"description",:label=>t(:description), :searchable => true,:width=>"25%"},
                    {:key=>"data_file_size",:label=>t(:label_skm_file_size),:sortable=>true, :width => "80px"},
                    {:key=>"data_updated_at",:label=>t(:label_skm_file_data_updated_at),:sortable=>true,:width=>"40px"},
-                   {:key=>"version_id", :label=> "version", :hidden => true}], {:search_box => "filesSearchBox"})%>
+                   {:key=>"version_id", :label=> "version", :hidden => true}],
+                   {:paginator_box=>"filesPaginatorBox"})%>
+        <div id="filesPaginatorBox"></div>
       </div>
     </div>
 </div>
