@@ -19,13 +19,12 @@ class Irm::Kanban < ActiveRecord::Base
   }
 
   scope :with_lanes, lambda{
-    joins(", #{Irm::Lane.table_name} la, #{Irm::LanesTl.table_name} lat, #{Irm::KanbanLane.table_name} kl").
+    joins(", #{Irm::Lane.view_name} la, #{Irm::KanbanLane.table_name} kl").
         where("la.id = kl.lane_id").
-        where("lat.language = ?", I18n.locale).
-        where("lat.lane_id = la.id").
+        where("la.language = ?", I18n.locale).
         where("#{table_name}.id = kl.kanban_id").
         where("la.status_code = ?", Irm::Constant::ENABLED).
-        select("la.lane_code lane_code, lat.name lane_name, lat.description lane_description, la.id irm_lane_id, kl.display_sequence display_sequence")
+        select("la.lane_code lane_code, la.name lane_name, la.description lane_description, la.id irm_lane_id, kl.display_sequence display_sequence")
   }
 
   scope :query_by_position_and_profile, lambda{|profile_id, position_code|
