@@ -46,9 +46,12 @@ class Icm::IncidentRequestsController < ApplicationController
     #加入创建事故单的默认参数
     prepared_for_create(@incident_request)
     respond_to do |format|
-      if @incident_request.save
+      if !validate_files(@incident_request)
+        flash[:notice] = I18n.t(:error_file_upload_limit)
+        format.html { render :action => "new", :layout=>"application_right"}
+        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+      elsif @incident_request.save
         process_files(@incident_request)
-
         #add watchers
         if params[:cwatcher] && params[:cwatcher].size > 0
           params[:cwatcher].collect{|p| [p[0]]}.uniq.each do |w|
@@ -101,9 +104,9 @@ class Icm::IncidentRequestsController < ApplicationController
   # PUT /incident_requests/1.xml
   def update
     @incident_request = Icm::IncidentRequest.find(params[:id])
-
     respond_to do |format|
       if @incident_request.update_attributes(params[:icm_incident_request])
+        process_files(@incident_request)
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -350,6 +353,20 @@ class Icm::IncidentRequestsController < ApplicationController
 
   end
 
+  def remove_exists_attachments
+#    @file = Irm::Attachment.where(:latest_version_id => params[:att_id]).first
+    @attachments = Irm::AttachmentVersion.query_all.
+        where(:source_id => params[:incident_request_id]).
+        where(:source_type => Icm::IncidentRequest.name).
+        where(:id => params[:att_id]).first
+    @incident_request = Icm::IncidentRequest.find(params[:incident_request_id])
+    respond_to do |format|
+      if @attachments.destroy
+          format.js { render :remove_exits_attachments}
+      end
+    end
+  end
+
   private
   def prepared_for_create(incident_request)
     incident_request.submitted_by = Irm::Person.current.id
@@ -388,6 +405,18 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
+  def validate_files(ref_request)
+    params[:files].each do |key,value|
+      f = Irm::AttachmentVersion.new({:source_id=>ref_request.id,
+                                               :source_type=>ref_request.class.name,
+                                               :data=>value[:file],
+                                               :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
+      return false unless f.valid?
+    end if params[:files]
+    return true
+  rescue
+    return false
+  end
 end
 
 

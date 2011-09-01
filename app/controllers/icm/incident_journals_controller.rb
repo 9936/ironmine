@@ -41,7 +41,7 @@ class Icm::IncidentJournalsController < ApplicationController
     perform_create
     respond_to do |format|
       if !validate_files(@incident_journal)
-        @incident_journal.errors.add(:message_body, I18n.t(:error_file_upload_limit))
+        flash[:notice] = I18n.t(:error_file_upload_limit)
         format.html { render :action => "new", :layout=>"application_right"}
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       elsif @incident_reply.valid? && @incident_request.update_attributes(@incident_reply.attributes)

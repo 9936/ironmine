@@ -883,6 +883,8 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/update_assign_me(.:format)' => "incident_requests#update_assign_me", :via => :post
     match '/incident_requests/assign_me_data(.:format)' => "incident_requests#assign_me_data", :via => :get
 
+    match '/incident_requests/:incident_request_id/:att_id/remove_exists_attachments(.:format)' => "incident_requests#remove_exists_attachments"
+
     #incident_journals
     match '/incident_requests/:request_id/journals(/index)(.:format)' => "incident_journals#index", :via => :get    
     match '/incident_requests/:request_id/journals/edit_close(.:format)' => "incident_journals#edit_close", :via => :get
