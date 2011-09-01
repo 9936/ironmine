@@ -34,6 +34,8 @@ class Icm::IncidentJournal < ActiveRecord::Base
 
   scope :select_all,lambda{select("#{table_name}.*")}
 
+  scope :default_order,lambda{order("#{table_name}.created_at")}
+
   def self.list_all(request_id)
     query_by_request(request_id).with_replied_by
   end
