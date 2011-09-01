@@ -94,7 +94,7 @@ class Irm::KanbansController < ApplicationController
     #    kanbans,count = paginate(owned_lanes_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(owned_lanes_scope.to_grid_json(
-                                              [:lane_code, :lane_name,:lane_description, :limit],
+                                              [:id, :lane_code, :lane_name,:lane_description, :limit],
                                               50))}
     end
   end
@@ -116,6 +116,7 @@ class Irm::KanbansController < ApplicationController
       Irm::KanbanLane.create({:kanban_id => params[:id],
                                :lane_id => p,
                                :display_sequence => Irm::KanbanLane.max_display_seq(params[:id]) + 1})
+      puts("+++++++++++++++++++++++++++++++++++" + p)
     end
 
     flash[:notice] = t(:successfully_updated)
