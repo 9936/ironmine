@@ -1,4 +1,4 @@
-<%= setting_title %>
+<%= common_title(@urgence_code.class.name,"",@urgence_code[:name]) %>
 <%= form_for(@urgence_code,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="bEditBlock bPageBlock">
   <div class="pbHeader">

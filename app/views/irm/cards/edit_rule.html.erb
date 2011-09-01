@@ -1,4 +1,4 @@
-<%= setting_title({:title => @card[:name]}) %>
+<%= common_title(@card.class.name,"",@card[:name]) %>
 <%= form_for(@card,:url=>{:action=>"update_rule"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field :return_url, :value => @return_url %>
 <div id="ep" class="bEditBlock bPageBlock">

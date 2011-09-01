@@ -1,4 +1,4 @@
-<%= setting_title %>
+<%= common_title(@bulletin.class.name,"",@bulletin.title) %>
 <script type="text/javascript" src="/javascripts/ext4-all.js"></script>
 <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/ext4-all.css"></link>
 <%= form_for(@bulletin,:url=>{:action=>"update"},:builder => LabellingFormBuilder, :html => {:multipart => true}) do |f| %>
