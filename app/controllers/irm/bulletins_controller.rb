@@ -14,11 +14,24 @@ class Irm::BulletinsController < ApplicationController
     @bulletin.page_views = 0
     column_ids = params[:irm_bulletin][:column_ids].split(",")
     respond_to do |format|
-      if @bulletin.save
+      file_flag = true
+      params[:file].each_value do |att|
+        file = att["file"]
+        next unless file && file.size > 0
+        if !Irm::AttachmentVersion.validates?(file)
+          @bulletin.errors.add(:content, I18n.t(:error_file_upload_limit))
+          file_flag = false
+          break
+        end
+      end
+
+      if !file_flag
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
+      elsif @bulletin.save
         column_ids.each do |c|
           Irm::BulletinColumn.create(:bulletin_id => @bulletin.id, :bu_column_id => c)
         end
-
 
         if params[:file]
           files = params[:file]
@@ -26,9 +39,10 @@ class Irm::BulletinsController < ApplicationController
           begin
             attached = Irm::AttachmentVersion.create_verison_files(files, "Irm::Bulletin", @bulletin.id)
           rescue
-            @bulletin.errors << "FILE UPLOAD ERROR"
+            @bulletin.errors.add(:content, I18n.t(:error_file_upload_limit))
           end
         end
+
         @bulletin.create_access_from_str
         format.html {
           if(params[:return_url])
@@ -55,7 +69,21 @@ class Irm::BulletinsController < ApplicationController
     column_ids = params[:irm_bulletin][:column_ids].split(",")
     owned_column_ids = @bulletin.get_column_ids.split(",")
     respond_to do |format|
-      if @bulletin.update_attributes(params[:irm_bulletin])
+      file_flag = true
+      params[:file].each_value do |att|
+        file = att["file"]
+        next unless file && file.size > 0
+        if !Irm::AttachmentVersion.validates?(file)
+          @bulletin.errors.add(:content, I18n.t(:error_file_upload_limit))
+          file_flag = false
+          break
+        end
+      end
+
+      if !file_flag
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
+      elsif @bulletin.update_attributes(params[:irm_bulletin])
         (owned_column_ids - column_ids).each do |c|
           Irm::BulletinColumn.where(:bulletin_id => @bulletin.id, :bu_column_id => c).each do |t|
             t.destroy
