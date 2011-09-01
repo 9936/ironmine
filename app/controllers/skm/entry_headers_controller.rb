@@ -51,11 +51,28 @@ class Skm::EntryHeadersController < ApplicationController
 
       files = params[:file]
       #调用方法创建附件
-      attached = Irm::AttachmentVersion.create_verison_files(files, "Skm::EntryHeader", -1)
-      t = session[:skm_entry_attachments]
-      (session[:skm_entry_attachments] = (t ? t : []) + attached.collect(&:id)) if attached
-      respond_to do |format|
-        format.html { redirect_to({:action=>"new_step_4"}) }
+      file_flag = true
+      params[:file].each_value do |att|
+        file = att["file"]
+        next unless file && file.size > 0
+        if !Irm::AttachmentVersion.validates?(file)
+          file_flag = false
+          break
+        end
+      end
+
+      if !file_flag
+        flash[:notice] = I18n.t(:error_file_upload_limit)
+        respond_to do |format|
+          format.html { redirect_to :action => "new_step_3" }
+        end
+      else
+        attached = Irm::AttachmentVersion.create_verison_files(files, "Skm::EntryHeader", -1)
+        t = session[:skm_entry_attachments]
+        (session[:skm_entry_attachments] = (t ? t : []) + attached.collect(&:id)) if attached
+        respond_to do |format|
+          format.html { redirect_to({:action=>"new_step_4"}) }
+        end
       end
     end
   end

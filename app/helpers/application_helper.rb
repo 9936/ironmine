@@ -422,6 +422,15 @@ module ApplicationHelper
     end
   end
 
+  def flash_notice(type = "ERROR")
+    case type
+      when "ERROR"
+        content_tag("div", raw(flash[:notice]), {:id => "errorDiv_ep", :class => "pbError"})
+      when "ALERT"
+
+      else
+    end if flash[:notice]
+  end
 
   #重写content_for方法,当调用content_for时,修改has_content
   def content_for(name, content = nil, &block)

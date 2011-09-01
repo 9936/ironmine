@@ -221,6 +221,16 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     @attachment
   end  
 
+
+  def self.validates?(file)
+    f = Irm::AttachmentVersion.new({:source_id=> -1,
+                                     :source_type=> "",
+                                     :data=>file,
+                                     :description=>""})
+    return false unless f.valid?
+    return true
+  end
+
   private
   def setup_attachment_id
     self.attachment_id  = 0 unless self.attachment_id 

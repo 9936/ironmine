@@ -16,6 +16,7 @@
   </div>
   <div class="pbBody">
     <%= error_for @files%>
+    <%= flash_notice%>
     <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
       <span class="pbSubExtra">
         <span class="requiredLegend">
@@ -71,7 +72,7 @@
 <script type="text/javascript">
   function save(){
     document.file_form.action = "update";
-    file_form.submit();
+    document.file_form.submit();
   }
 
   function clear_file()

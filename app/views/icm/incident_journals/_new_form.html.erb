@@ -126,6 +126,7 @@
   </div>
 
   <div class="pbBody">
+    <%= error_for @incident_journal%>
     <div class="pbSubheader tertiaryPalette first" style="background-color:#aeaeae;padding-left:15px;">
       <h3>(<%= @incident_request[:incident_status_name] %>)[<%=@incident_request[:request_number]%>]<%=@incident_request[:title]%></h3>
       <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore"><%= t(:label_icm_incident_more_info) %></a>)</div>
@@ -304,13 +305,14 @@
             <tr>
               <td class="dataCol" colspan="4" width="100%">
 
-              <table width="70%">
+              <table width="100%">
                 <tbody id="fileTemplate" style="display:none" seq="0">
                 <tr id="file_{seq}" class="fileArea">
                     <td><input type="file" name="{ref}[{seq}][file]"/></td>
                     <td class="labelCol"><%= t(:label_icm_incident_journal_attachment_desc) %></td>
                     <td><input type="text" name="{ref}[{seq}][description]" size="40"/></td>
-                    <td><a class="deleteAttach" delete_ref="file_{seq}" href="javascript:void(0)"><%= t(:delete) %></a></td>
+                    <td style="width:10%;"><a class="deleteAttach" delete_ref="file_{seq}" href="javascript:void(0)"><%= t(:delete) %></a></td>
+                    <td style="width:80%; text-align:left;">(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>
                 </tr>
                 </tbody>
                 <tbody id="fileContent">
