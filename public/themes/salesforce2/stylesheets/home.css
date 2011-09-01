@@ -804,7 +804,7 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
 .bPageBlock .detailList .error, .bPageTitle .tagDropDown #tag_edit_error, .bPageTitle .tagDropDown .tagDropDownContent .error, .tagRenameMenu .error, .inlineEditDiv .error, .inlineEditRequiredDiv .error {
     border:2px solid #CC0000;
 }
-.bPageBlock .pbError, .editListError {
+.pbError, .editListError {
     color:#CC0000;
     font-weight:bold;
     text-align:center;
