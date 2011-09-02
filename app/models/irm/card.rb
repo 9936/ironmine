@@ -54,6 +54,8 @@ class Irm::Card < ActiveRecord::Base
         where("#{Icm::IncidentRequest.table_name}.requested_by = ?", Irm::Person.current.id).
         where("#{Icm::IncidentRequest.table_name}.next_reply_user_license = ?", "REQUESTER").
         with_incident_status(I18n.locale).
+        where("LENGTH(#{Icm::IncidentRequest.table_name}.external_system_id) > 0").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN (?)", Irm::Person.current.system_ids).
         where("incident_status.close_flag <> ?", Irm::Constant::SYS_YES).
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
             ret_scope << is unless ret_scope.include?(is)
@@ -67,6 +69,8 @@ class Irm::Card < ActiveRecord::Base
         where("#{Icm::IncidentRequest.table_name}.support_person_id = ?", Irm::Person.current.id).
         where("#{Icm::IncidentRequest.table_name}.next_reply_user_license = ?", "SUPPORTER").
         with_incident_status(I18n.locale).
+        where("LENGTH(#{Icm::IncidentRequest.table_name}.external_system_id) > 0").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN (?)", Irm::Person.current.system_ids).
         where("incident_status.close_flag <> ?", Irm::Constant::SYS_YES).
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
             ret_scope << is unless ret_scope.include?(is)
@@ -80,6 +84,8 @@ class Irm::Card < ActiveRecord::Base
         where("#{Icm::IncidentRequest.table_name}.requested_by = ?", Irm::Person.current.id).
         where("#{Icm::IncidentRequest.table_name}.next_reply_user_license = ?", "SUPPORTER").
         with_incident_status(I18n.locale).
+        where("LENGTH(#{Icm::IncidentRequest.table_name}.external_system_id) > 0").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN (?)", Irm::Person.current.system_ids).
         where("incident_status.close_flag <> ?", Irm::Constant::SYS_YES).
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
             ret_scope << is unless ret_scope.include?(is)
@@ -93,6 +99,8 @@ class Irm::Card < ActiveRecord::Base
         where("#{Icm::IncidentRequest.table_name}.support_person_id = ?", Irm::Person.current.id).
         where("#{Icm::IncidentRequest.table_name}.next_reply_user_license = ?", "REQUESTER").
         with_incident_status(I18n.locale).
+        where("LENGTH(#{Icm::IncidentRequest.table_name}.external_system_id) > 0").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN (?)", Irm::Person.current.system_ids).
         where("incident_status.close_flag <> ?", Irm::Constant::SYS_YES).
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
             ret_scope << is unless ret_scope.include?(is)
@@ -105,6 +113,8 @@ class Irm::Card < ActiveRecord::Base
     Icm::IncidentRequest.select("#{Icm::IncidentRequest.table_name}.*, '' card_url").
         where("#{Icm::IncidentRequest.table_name}.submitted_by = ?", Irm::Person.current.id).
         with_incident_status(I18n.locale).
+        where("LENGTH(#{Icm::IncidentRequest.table_name}.external_system_id) > 0").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN (?)", Irm::Person.current.system_ids).
         where("incident_status.close_flag <> ?", Irm::Constant::SYS_YES).
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
             ret_scope << is unless ret_scope.include?(is)
@@ -119,6 +129,8 @@ class Irm::Card < ActiveRecord::Base
         where("#{Icm::IncidentRequest.table_name}.requested_by <> ?", Irm::Person.current.id).
         with_incident_status(I18n.locale).
         relate_person(Irm::Person.current.id).
+        where("LENGTH(#{Icm::IncidentRequest.table_name}.external_system_id) > 0").
+        where("#{Icm::IncidentRequest.table_name}.external_system_id IN (?)", Irm::Person.current.system_ids).
         where("incident_status.close_flag <> ?", Irm::Constant::SYS_YES).
         order("#{Icm::IncidentRequest.table_name}.updated_at DESC").each do |is|
             ret_scope << is unless ret_scope.include?(is)
