@@ -5,7 +5,7 @@ module Irm::TabsHelper
 
   def available_tab_style_image
     images = []
-    1.upto(8).each do |i|
+    1.upto(17).each do |i|
       images <<[I18n.t(:label_irm_tab_style_image_no,:no=> i.to_s),"img#{i}General"]
     end
     images
