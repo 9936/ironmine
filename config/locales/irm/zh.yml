@@ -181,7 +181,7 @@ zh:
   label_irm_product_module_installed_flag: 安装
   #=========================end irm product_modules_controller================#
   #=========================    irm languages_controller=======================#
-  label_irm_language: 语言模块
+  label_irm_language: 语言
   label_irm_language_new: 创建语言
   label_irm_language_edit: 编辑语言
   label_irm_language_list: 语言列表
@@ -1491,6 +1491,7 @@ zh:
   label_irm_tab_business_object: 业务对像
   label_irm_tab_function_group: 功能组
   label_irm_tab_style_image: 图标
+  label_irm_tab_style_image_no: 图标%{no}
   #=======================end tab====================
   #======================= tab ====================
   label_irm_application_list: 应用列表

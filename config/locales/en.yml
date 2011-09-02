@@ -166,3 +166,98 @@ en:
   paginator_nextpage: Next Page
   paginator_page: Page
   #=========end paginator==========
+  #=========business object meaning translate===================
+  label_irm_system_parameter: System Parameter
+  label_csi_subject_option: Survey Subject
+  label_csi_survey_member: Survey
+  label_icm_close_reason: Close Reason
+  label_icm_impact_range: Impact Range
+  label_icm_incident_history: Incident History
+  label_icm_incident_journal: Incident Journal
+  label_icm_incident_journal_elapse: Incident Journal Elapse
+  label_icm_incident_phase: Incident Phase
+  label_icm_incident_status: Incident Status
+  label_icm_priority_code: Incident Priority
+  label_icm_rule_setting: Rule Setting
+  label_icm_status_transform: Status Transform
+  label_icm_urgence_code: Urgency
+  label_irm_application: Application
+  label_irm_application_tab: Tab
+  label_irm_attachment: Attachement
+  label_irm_attachment_version: Attachement Version
+  label_irm_bulletin_column: Bulletion
+  label_irm_business_object: Business Object
+  label_irm_calendar: Calendar
+  label_irm_currency: Currency
+  label_irm_delayed_job_log: Delayed Job Log
+  label_irm_delayed_job_log_item: Delayed Job Item
+  label_irm_event: Event
+  label_irm_external_system_person: External System Person
+  label_irm_flex_value_set: Flex Value Set
+  label_irm_formula_function: Formaula
+  label_irm_function_member: Function Member
+  label_irm_kanban_lane: Kanban Lane
+  label_irm_lane_card: Lane Card
+  label_irm_ldap_auth_attribute: LDAP Auth
+  label_irm_ldap_auth_header: LDAP Person
+  label_irm_ldap_source: LDAP Source
+  label_irm_ldap_syn_attribute: LDAP Synchronous Attribute
+  label_irm_ldap_syn_header: LDAP Synchronous
+  label_irm_ldap_syn_interface: LDAP Synchronous Interface
+  label_irm_ldap_syn_peo_interface: LDAP User Interface
+  label_irm_list_of_value: Value Set
+  label_irm_location: Location
+  label_irm_login_record: Login Record
+  label_irm_lookup_type: Lookup Type
+  label_irm_lookup_value: Lookup Value
+  label_irm_machine_code: Machine Code
+  label_irm_mail_template: Mail Template
+  label_irm_object_attribute: Business Object Attribute
+  label_irm_object_code: Business Object Code
+  label_irm_operation_unit: Operation Unit
+  label_irm_password_policy: Password Policy
+  label_irm_profile: Profile
+  label_irm_profile_application: Profile Application
+  label_irm_profile_function: Profile Function
+  label_irm_profile_kanban: Profile Kanban
+  label_irm_recently_object: Recently Object
+  label_irm_region: Region
+  label_irm_report_column: Report Column
+  label_irm_report_criterion: Reprot Criterion
+  label_irm_report_folder: Report Folder
+  label_irm_report_folder_member: Report Folder Member
+  label_irm_report_receiver: Report Receiver
+  label_irm_report_schedule: Reprot Schedule
+  label_irm_report_trigger: Report Trigger
+  label_irm_report_type: Report Type
+  label_irm_report_type_category: Report Type Category
+  label_irm_report_type_field: Report Type Field
+  label_irm_report_type_object: Report Type Object
+  label_irm_report_type_section: Report Type Section
+  label_irm_rule_filter: Rule Filter
+  label_irm_rule_filter_criterion: Rule Filter Criterion
+  label_irm_site_group: Site Group
+  label_irm_tab: Tab
+  label_irm_wf_approval_action: Approval Action
+  label_irm_wf_approval_submitter: Approval Submitter
+  label_irm_wf_field_update: Field Update
+  label_irm_wf_process_instance: Workflow Process Instance
+  label_irm_wf_rule: Workflow Rule
+  label_irm_wf_rule_action: Workflow Rule Action
+  label_irm_wf_rule_history: Workflow Rule History
+  label_irm_wf_rule_time_trigger: Workflow Rule Time Trigger
+  label_irm_wf_setting: Workflow Setting
+  label_irm_wf_step_instance: Workflow Step Instance
+  label_skm_column_access: Service Knowledge Column Access
+  label_skm_entry_column: Service Knowledge Column
+  label_skm_entry_detail: Service Knowledge Detail
+  label_skm_entry_favorite: Service Knowledge Favorite
+  label_skm_entry_operate_history: Service Knowledge History
+  label_skm_entry_subject: Service Knowledge Subject
+  label_skm_file_operate_history: Service Knowledge Operate History
+  label_slm_service_agreement: Service Agreement
+  label_slm_service_break: Service Break
+  label_slm_service_member: Service Agreement Member
+  label_uid_external_login: External System Login
+  label_uid_login_mapping: System Login Mapping
+  #=========end object meaning translate===================

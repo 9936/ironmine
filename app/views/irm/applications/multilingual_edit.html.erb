@@ -1,4 +1,4 @@
-<%= common_title(@application.class.name,"",@application[:name]) %>
+<%= common_title(:show_data=>@application[:name]) %>
 <div class="container">
    <%=render :partial=>"multilingual/edit",:locals=>{:main_data=>@application} %>
 </div>

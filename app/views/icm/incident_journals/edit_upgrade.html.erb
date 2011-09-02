@@ -53,7 +53,7 @@
     vertical-align: top;
   }
 </style>
-<%= common_title(Icm::IncidentRequest.name,t(:label_icm_incident_request_upgrade)) %>
+<%= common_title(:model_name=>Icm::IncidentRequest.name,:show_data=>t(:label_icm_incident_request_upgrade)) %>
 <%= form_for(@incident_request,:url=>{:action=>"update_upgrade"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
   <%=f.hidden_field :pass_flag,:value=>"Y" %>
 <div id="reply" class="bEditBlock bPageBlock">

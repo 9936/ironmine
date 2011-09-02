@@ -1,4 +1,4 @@
-<%= common_title(Icm::IncidentRequest.name,t(:kanban_mode)) %>
+<%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:kanban_mode)) %>
 <% if allow_to_function?(:view_icm_kanban) %>
 <div style="display:block;width:100%;float:left;margin-bottom:15px;">
     <div class="button"><%= link_to t(:list_mode), {:action => "index"}%></div>

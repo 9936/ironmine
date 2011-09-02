@@ -1,4 +1,4 @@
-<%= common_title(@incident_status.class.name) %>
+<%= common_title(:show_data=>@incident_status[:name]) %>
 
 <%= form_for(@incident_status,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="bEditBlock bPageBlock">

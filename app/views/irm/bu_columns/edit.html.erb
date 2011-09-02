@@ -1,4 +1,4 @@
-<%= common_title(@bu_column.class.name,"",@bu_column[:name]) %>
+<%= common_title(:show_data=>@bu_column[:name]) %>
 <%= form_for(@bu_column,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="bEditBlock bPageBlock">
   <div class="pbHeader">

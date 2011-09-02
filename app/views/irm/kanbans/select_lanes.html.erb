@@ -1,4 +1,4 @@
-<%= page_title %>
+<%= common_title%>
 <% if @kanban %>
     <%= form_tag({:action => 'add_lanes',:id => @kanban}) do%>
         <%= hidden_field_tag "return_url", @return_url%>

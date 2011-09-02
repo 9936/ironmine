@@ -1262,6 +1262,58 @@ en:
   label_irm_card_description: Card Description
   #==================================================================
 
+
+  #======================= tab ====================
+  label_irm_tab_list: 页面标签列表
+  label_irm_tab: 页面标签
+  label_irm_tab_new: 新建页面标签
+  label_irm_tab_edit: 编辑页面标签
+  label_irm_tab_code: 编码
+  label_irm_tab_name: 名称
+  label_irm_tab_description: 描述
+  label_irm_tab_business_object: 业务对像
+  label_irm_tab_function_group: 功能组
+  label_irm_tab_style_image: 图标
+  label_irm_tab_style_image_no: %{no} 图标
+  #=======================end tab====================
+  #======================= tab ====================
+  label_irm_application_list: 应用列表
+  label_irm_application: 应用
+  label_irm_application_new: 新建应用
+  label_irm_application_edit: 编辑应用
+  label_irm_application_name: 名称
+  label_irm_application_description: 描述
+  label_irm_application_business_object: 业务对像
+  label_irm_application_function_group: 功能组
+  label_irm_application_tabs: 可用标签页
+  label_irm_application_default_tab: 默认标签页
+  label_irm_application_code: 编码
+  #=======================end tab====================
+  #======================= profiles ====================
+  label_irm_profile: 简档
+  label_irm_profile_list: 简档列表
+  label_irm_profile_new: 新建
+  label_irm_profile_edit: 编辑
+  label_irm_profile_code: 编码
+  label_irm_profile_name: 名称
+  label_irm_profile_description: 描述
+  label_irm_profile_user_license: 简档类型
+  label_irm_profile_function_list: 功能列表
+  label_irm_profile_application_list: 应用列表
+  label_irm_profile_application_visual: 可见
+  label_irm_profile_application_default: 默认
+  label_irm_profile_owned_kanban: Owned Kanbans
+  label_irm_profile_select_kanban: Select Kanban
+  label_irm_profile_kanban_position: Kanban Position
+  label_irm_profile_add_kanban: Add Kanban
+  label_irm_profile_edit_kanban: Edit Kanban
+  label_irm_profile_manage_lane: Manage Lane
+  label_irm_profile_add_lane: Add Lane
+  label_irm_profile_reorder_lane: Reorder
+  label_irm_profile_ir_page_kanban: Incident Index Kanban
+  #=======================end profiles ====================
+
+
   #======================= password policies ====================
   label_irm_psw_policy: Password Policies
   label_irm_psw_policy_expire_in: User passwords expire in
@@ -1272,17 +1324,7 @@ en:
   label_irm_psw_policy_max_attempts: Maximum invalid login attempts
   label_irm_psw_policy_lockout_period: Lockout effective period
   #======================= end password policies ====================
-  #======================= profiles ====================
-  label_irm_profile_owned_kanban: Owned Kanbans
-  label_irm_profile_select_kanban: Select Kanban
-  label_irm_profile_kanban_position: Kanban Position
-  label_irm_profile_add_kanban: Add Kanban
-  label_irm_profile_edit_kanban: Edit Kanban
-  label_irm_profile_manage_lane: Manage Lane
-  label_irm_profile_add_lane: Add Lane
-  label_irm_profile_reorder_lane: Reorder
-  label_irm_profile_ir_page_kanban: Incident Index Kanban
-  #======================= end profiles ====================
+
   #======================= Operation Unit ====================
   label_irm_operation_unit_edit: Operation Unit Setting
   label_irm_operation_unit_name: Name

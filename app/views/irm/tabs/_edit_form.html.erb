@@ -54,6 +54,20 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
+              <td class="labelCol"><label for="tab_business_object_id"><%=t(:label_irm_tab_style_image)%></label></td>
+              <td class="dataCol">
+                <%=f.blank_select :style_image,available_tab_style_image,{}, :required=>true ,:id=>"tab_style_image",:current=>@tab.style_image%>
+              </td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="labelCol"></td>
+              <td class="dataCol" colspan="3">
+                <img id="styleImageShow" src='/images/s.gif' class="pageTitleIcon" style="float:left;"/>
+              </td>
+            </tr>
+            <tr>
               <td class="labelCol"><label for="tab_description"><%=t(:label_irm_tab_description)%></label></td>
               <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>60,:id=>"tab_description"%></td>
             </tr>
@@ -76,3 +90,17 @@
   </div>
 </div>
 <% end %>
+<script type="text/javascript">
+  GY.use(function(Y){
+      Y.one("#tab_style_image").on("change",function(e){
+          currentImg = e.target.getAttribute("current");
+          if(currentImg&&currentImg!=""){
+              Y.one("#styleImageShow").removeClass(currentImg);
+          }
+          Y.one("#styleImageShow").addClass(e.target.get("value"));
+          e.target.setAttribute("current",e.target.get("value"));
+      });
+      Y.one("#tab_style_image").simulate("change");
+
+  });
+</script>

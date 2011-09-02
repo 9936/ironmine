@@ -1,4 +1,4 @@
-<%= common_title(Icm::ImpactRange.name,"",@impact_range[:name]) %>
+<%= common_title(:show_data=>@impact_range[:name]) %>
 <div class="container">
    <%=render :partial=>"multilingual/edit",:locals=>{:main_data=>@impact_range} %>
 </div>

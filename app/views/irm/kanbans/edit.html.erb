@@ -1,4 +1,4 @@
-<%= setting_title %>
+<%= common_title(:show_data=>@kanban[:name]) %>
 <%= form_for(@kanban,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="bEditBlock bPageBlock">
   <div class="pbHeader">
