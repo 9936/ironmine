@@ -340,11 +340,7 @@ class Icm::IncidentJournalsController < ApplicationController
 
   def validate_files(ref_journal)
     params[:files].each do |key,value|
-      f = Irm::AttachmentVersion.new({:source_id=>ref_journal.id,
-                                               :source_type=>ref_journal.class.name,
-                                               :data=>value[:file],
-                                               :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
-      return false unless f.over_limit?(Irm::SystemParametersManager.upload_file_limit)
+      return false unless Irm::AttachmentVersion.validates?(value[:file])
     end if params[:files]
     return true
   rescue

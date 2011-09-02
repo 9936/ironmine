@@ -228,7 +228,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
                                      :source_type=> "",
                                      :data=>file,
                                      :description=>""})
-    return false unless f.valid?
+    return false unless f.over_limit?(Irm::SystemParametersManager.upload_file_limit)
     return true
   end
 

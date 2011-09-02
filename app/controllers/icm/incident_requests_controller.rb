@@ -411,11 +411,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def validate_files(ref_request)
     params[:files].each do |key,value|
-      f = Irm::AttachmentVersion.new({:source_id=>ref_request.id,
-                                               :source_type=>ref_request.class.name,
-                                               :data=>value[:file],
-                                               :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
-      return false unless f.valid?
+      return false unless Irm::AttachmentVersion.validates?(value[:file])
     end if params[:files]
     return true
   rescue

@@ -48,7 +48,7 @@ class Irm::BulletinsController < ApplicationController
           if(params[:return_url])
             redirect_to params[:return_url]
           else
-            redirect_to({:action=>"index"}, :notice =>t(:successfully_created))
+            redirect_to({:action=>"index"})
           end
           }
         format.xml  { render :xml => @bulletin, :status => :created, :location => @bulletin }
