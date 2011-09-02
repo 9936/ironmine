@@ -30,7 +30,7 @@ class Csi::SurveySubjectsController < ApplicationController
     @survey = Csi::Survey.find(params[:survey_id])
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout => "application_full"} # new.html.erb
       format.xml  { render :xml => @survey_subject }
     end
   end
