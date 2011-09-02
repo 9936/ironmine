@@ -1336,6 +1336,7 @@ en:
   #======================= end Operation Unit ====================
 
   #=========================    irm external_systems_controller=======================#
+  label_irm_external_system_member: External System User
   label_irm_external_system_list: External System List
   label_irm_external_system_external_system_code: Code
   label_irm_external_system_system_name: System Name

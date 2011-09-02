@@ -1545,18 +1545,19 @@ zh:
   label_irm_psw_policy_last_upadated_at: 上一次修改密码时间
   #======================= end password policies ====================
   #======================= Operation Unit ====================
-  label_irm_operation_unit: Operation Unit
-  label_irm_operation_unit_edit: Operation Unit Setting
-  label_irm_operation_unit_name: Name
-  label_irm_operation_unit_short_name: Short Name
-  label_irm_operation_unit_default_language_code: Default Language Code
-  label_irm_operation_unit_default_time_zone_code: Default Time Zone
-  label_irm_operation_unit_description: Description
+  label_irm_operation_unit: 运维中心
+  label_irm_operation_unit_edit: 运维中心设置
+  label_irm_operation_unit_name: 名称
+  label_irm_operation_unit_short_name: 简称
+  label_irm_operation_unit_default_language_code: 默认语言
+  label_irm_operation_unit_default_time_zone_code: 默认时区
+  label_irm_operation_unit_description: 描述
   #======================= end Operation Unit ====================
 
 
 
   #=========================    irm external_systems_controller=======================#
+  label_irm_external_system_member: 外部系统成员
   label_irm_external_system_list: 外部系统列表
   label_irm_external_system_new:  新建外部系统
   label_irm_external_system_edit: 编辑外部系统
