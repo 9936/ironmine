@@ -23,9 +23,10 @@ class Skm::FileManagementsController < ApplicationController
       params[:file].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
-        if !Irm::AttachmentVersion.validates?(file)
+        flag, now = Irm::AttachmentVersion.validates?(file)
+        if !flag
           file_flag = false
-          flash[:notice] = I18n.t(:error_file_upload_limit)
+          flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
           break
         end
       end
@@ -34,11 +35,11 @@ class Skm::FileManagementsController < ApplicationController
     respond_to do |format|
       if file_flag && Irm::AttachmentVersion.create_verison_files(files,0,0)
         if params[:act] == "next"
-          format.html {redirect_to :action => 'new', :notice =>t(:successfully_created)}
+          format.html {redirect_to :action => 'new'}
         else
           format.html {redirect_to :action => 'index'}
         end
-        format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+        format.html { redirect_to({:action=>"index"}) }
       else
         format.html { render :action => "new" }
       end
@@ -53,9 +54,10 @@ class Skm::FileManagementsController < ApplicationController
       params[:file].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
-        if !Irm::AttachmentVersion.validates?(file)
+        flag, now = Irm::AttachmentVersion.validates?(file)
+        if !flag
           file_flag = false
-          flash[:notice] = I18n.t(:error_file_upload_limit)
+          flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
           break
         end
       end
@@ -88,9 +90,10 @@ class Skm::FileManagementsController < ApplicationController
         params[:file].each_value do |att|
           fi = att["file"]
           next unless fi && fi.size > 0
-          if !Irm::AttachmentVersion.validates?(fi)
+          flag, now = Irm::AttachmentVersion.validates?(fi)
+          if !flag
             file_flag = false
-            flash[:notice] = I18n.t(:error_file_upload_limit)
+            flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
             break
           end
         end

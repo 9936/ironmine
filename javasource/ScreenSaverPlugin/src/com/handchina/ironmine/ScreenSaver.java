@@ -76,7 +76,7 @@ public class ScreenSaver extends JApplet{
 		{
 			String fileId = sendContentToServer(getParameter("attach.url", "http://localhost:3000/attach_screenshot/index"), canvas.getImage());
 			getAppletContext().showDocument(new URL((new StringBuilder()).append("javascript:addAttachScreen('").append(fileId).append("');").toString()));
-			closeApplet();
+			closeApplet(0);
 		}
 		catch (IOException e)
 		{
@@ -115,7 +115,7 @@ public class ScreenSaver extends JApplet{
 		return s;
 	}
 
-	private void closeApplet()
+	private void closeApplet(int now)
 	{
 		try
 		{

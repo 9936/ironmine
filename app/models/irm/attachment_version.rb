@@ -27,6 +27,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     where("#{table_name}.source_type = ? AND #{table_name}.source_id = ?",Icm::IncidentRequest.name, request_id)
   }
 
+
   def image?
     self.image_flag.eql?(Irm::Constant::SYS_YES)
   end
@@ -222,13 +223,19 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   end  
 
 
-  def self.validates?(file)
+  def self.validates?(file, size_limit = Irm::SystemParametersManager.upload_file_limit)
     f = Irm::AttachmentVersion.new({:source_id=> -1,
                                      :source_type=> "",
                                      :data=>file,
                                      :description=>""})
-    return false unless f.valid?
-    return true
+    flag, now = f.over_limit?(size_limit)
+    return false, now unless flag
+    return true, 0
+  end
+
+  def over_limit?(size_limit)
+    return false, self.file_size_kb if self.file_size_kb.to_f > size_limit.to_f
+    return true, 0
   end
 
   private

@@ -26,7 +26,6 @@ class Irm::ExternalSystem < ActiveRecord::Base
   scope :without_person, lambda{|person_id|
     where("NOT EXISTS(SELECT * FROM #{Irm::ExternalSystemPerson.table_name} esp WHERE esp.person_id = ? AND esp.external_system_id = #{table_name}.id)",
           person_id)
-
   }
 
   def wrap_system_name

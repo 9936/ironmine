@@ -133,7 +133,8 @@ en:
   upload_from_clipboard: Upload Image From Clipboard
   kanban_mode: Kanban Mode
   list_mode: List Mode
-  error_file_upload_limit: File beyond the limit
+  error_file_upload_limit: File beyond the limit(Limit %{m} Kb, Now %{n} Kb)
+  error_file_upload_limit_shot: File beyond the limit(Limit %{m} Kb, Now _ Kb)
   file_upload_limit_alert: File limit %{m} KB
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#

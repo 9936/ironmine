@@ -3,7 +3,7 @@ class Irm::BulletinsController < ApplicationController
     @bulletin = Irm::Bulletin.new
     @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout => "application_full"}# new.html.erb
       format.xml  { render :xml => @bulletin }
     end
   end
@@ -15,18 +15,19 @@ class Irm::BulletinsController < ApplicationController
     column_ids = params[:irm_bulletin][:column_ids].split(",")
     respond_to do |format|
       file_flag = true
+      now = 0
       params[:file].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
-        if !Irm::AttachmentVersion.validates?(file)
-          @bulletin.errors.add(:content, I18n.t(:error_file_upload_limit))
-          file_flag = false
+        file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
+        if !file_flag
+          flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
           break
         end
       end
 
       if !file_flag
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
       elsif @bulletin.save
         column_ids.each do |c|
@@ -48,12 +49,12 @@ class Irm::BulletinsController < ApplicationController
           if(params[:return_url])
             redirect_to params[:return_url]
           else
-            redirect_to({:action=>"index"}, :notice =>t(:successfully_created))
+            redirect_to({:action=>"index"})
           end
           }
         format.xml  { render :xml => @bulletin, :status => :created, :location => @bulletin }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
       end
     end
@@ -62,6 +63,10 @@ class Irm::BulletinsController < ApplicationController
   def edit
     @bulletin = Irm::Bulletin.find(params[:id])
     @bulletin.column_ids = @bulletin.get_column_ids
+
+    respond_to do |format|
+      format.html { render :layout => "application_full"}# new.html.erb
+    end
   end
 
   def update
@@ -70,18 +75,19 @@ class Irm::BulletinsController < ApplicationController
     owned_column_ids = @bulletin.get_column_ids.split(",")
     respond_to do |format|
       file_flag = true
+      now = 0
       params[:file].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
-        if !Irm::AttachmentVersion.validates?(file)
-          @bulletin.errors.add(:content, I18n.t(:error_file_upload_limit))
-          file_flag = false
+        file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
+        if !file_flag
+          flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
           break
         end
       end
 
       if !file_flag
-        format.html { render :action => "edit" }
+        format.html { render :action => "edit", :layout => "application_full" }
         format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
       elsif @bulletin.update_attributes(params[:irm_bulletin])
         (owned_column_ids - column_ids).each do |c|
@@ -108,12 +114,12 @@ class Irm::BulletinsController < ApplicationController
 #          if(params[:return_url])
 #            redirect_to params[:return_url]
 #          else
-            render :action => "show", :id => @bulletin
+            render :action => "show", :id => @bulletin, :layout => "application_full"
 #          end
         }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "edit", :layout => "application_full" }
         format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
       end
     end

@@ -60,7 +60,7 @@ class Irm::ExternalSystemsController < ApplicationController
     @external_system = Irm::ExternalSystem.find(params[:id])
 
     respond_to do |format|
-      if @external_system.update_attributes(params[:uid_external_system])
+      if @external_system.update_attributes(params[:irm_external_system])
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -90,7 +90,7 @@ class Irm::ExternalSystemsController < ApplicationController
     @external_system = Irm::ExternalSystem.find(params[:id])
     @external_system.not_auto_mult=true
     respond_to do |format|
-      if @external_system.update_attributes(params[:uid_external_system])
+      if @external_system.update_attributes(params[:irm_external_system])
         format.html { redirect_to(@external_system, :notice => 'External system was successfully updated.') }
         format.xml  { head :ok }
       else

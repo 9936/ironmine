@@ -40,14 +40,15 @@ class Icm::IncidentJournalsController < ApplicationController
 
     perform_create
     respond_to do |format|
-      if !validate_files(@incident_journal)
-        @incident_journal.errors.add(:message_body, I18n.t(:error_file_upload_limit))
+      flag, now = validate_files(@incident_journal)
+      if !flag
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         format.html { render :action => "new", :layout=>"application_right"}
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       elsif @incident_reply.valid? && @incident_request.update_attributes(@incident_reply.attributes)
         process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
-        format.html { redirect_to({:action => "new"}, :notice => 'Incident journal was successfully created.') }
+        format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
         format.html { render :action => "new", :layout=>"application_right"}
@@ -339,15 +340,13 @@ class Icm::IncidentJournalsController < ApplicationController
   end
 
   def validate_files(ref_journal)
+    now = 0
     params[:files].each do |key,value|
-      f = Irm::AttachmentVersion.new({:source_id=>ref_journal.id,
-                                               :source_type=>ref_journal.class.name,
-                                               :data=>value[:file],
-                                               :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
-      return false unless f.valid?
+      flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit)
+      return false, now unless flag
     end if params[:files]
-    return true
+    return true, now
   rescue
-    return false
+    return false, now
   end
 end

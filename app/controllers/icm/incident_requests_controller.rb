@@ -46,9 +46,13 @@ class Icm::IncidentRequestsController < ApplicationController
     #加入创建事故单的默认参数
     prepared_for_create(@incident_request)
     respond_to do |format|
-      if @incident_request.save
+      flag, now = validate_files(@incident_request)
+      if !flag
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        format.html { render :action => "new", :layout=>"application_full"}
+        format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+      elsif @incident_request.save
         process_files(@incident_request)
-
         #add watchers
         if params[:cwatcher] && params[:cwatcher].size > 0
           params[:cwatcher].collect{|p| [p[0]]}.uniq.each do |w|
@@ -62,7 +66,7 @@ class Icm::IncidentRequestsController < ApplicationController
           Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id),
                                [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
         end
-        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
         format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
       else
         format.html { render :action => "new", :layout => "application_full" }
@@ -101,10 +105,15 @@ class Icm::IncidentRequestsController < ApplicationController
   # PUT /incident_requests/1.xml
   def update
     @incident_request = Icm::IncidentRequest.find(params[:id])
-
     respond_to do |format|
-      if @incident_request.update_attributes(params[:icm_incident_request])
-        format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
+      flag, now = validate_files(@incident_request)
+      if !flag
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        format.html { render :action => "edit", :layout=>"application_right"}
+        format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+      elsif @incident_request.update_attributes(params[:icm_incident_request])
+        process_files(@incident_request)
+        format.html { redirect_to({:action=>"index"}) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit", :layout => "application_full" }
@@ -123,7 +132,9 @@ class Icm::IncidentRequestsController < ApplicationController
                       :need_customer_reply,
                       :last_response_date]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
+
+    Irm::Person.system_ids
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).where("external_system_id IN (?)", Irm::Person.current.system_ids + ['']).order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
 
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
@@ -163,7 +174,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :last_request_date,
                       :priority_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).order("close_flag ,last_request_date desc,last_response_date desc,weight_value,id")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).where("external_system_id IN (?)", Irm::Person.current.system_ids + ['']).order("close_flag ,last_request_date desc,last_response_date desc,weight_value,id")
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
     end
@@ -350,6 +361,20 @@ class Icm::IncidentRequestsController < ApplicationController
 
   end
 
+  def remove_exists_attachments
+#    @file = Irm::Attachment.where(:latest_version_id => params[:att_id]).first
+    @attachments = Irm::AttachmentVersion.query_all.
+        where(:source_id => params[:incident_request_id]).
+        where(:source_type => Icm::IncidentRequest.name).
+        where(:id => params[:att_id]).first
+    @incident_request = Icm::IncidentRequest.find(params[:incident_request_id])
+    respond_to do |format|
+      if @attachments.destroy
+          format.js { render :remove_exits_attachments}
+      end
+    end
+  end
+
   private
   def prepared_for_create(incident_request)
     incident_request.submitted_by = Irm::Person.current.id
@@ -388,6 +413,16 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
+  def validate_files(ref_request)
+    now = 0
+    params[:files].each do |key,value|
+      flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit)
+      return false, now unless flag
+    end if params[:files]
+    return true, now
+  rescue
+    return false, now
+  end
 end
 
 
