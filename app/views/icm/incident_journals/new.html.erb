@@ -1,3 +1,3 @@
-<%= common_title(Icm::IncidentRequest.name,t(:label_icm_reply),@incident_request.title) %>
+<%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:label_icm_reply),:show_data=>@incident_request.title) %>
 <%= render 'new_form'%>
 <%= approval_history(@incident_request.id,Icm::IncidentRequest.name) %>

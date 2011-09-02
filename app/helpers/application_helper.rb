@@ -1,17 +1,26 @@
 module ApplicationHelper
-  def common_title(model_name="",action_meaning="",data_meaning="")
+  def common_title(options={:model_meaning=>"",:model_name=>"",:action_meaning=>"",:show_data=>""})
     model_title = ""
-    model_title = Irm::BusinessObject.class_name_to_meaning(model_name) if model_name.present?
+    if options[:model_meaning].present?
+      model_title = options[:model_meaning]
+    else
+      if options[:model_name].present?
+        model_title = Irm::BusinessObject.class_name_to_meaning(options[:model_name])
+      else
+        model_title = Irm::BusinessObject.class_name_to_meaning(params[:controller].classify)
+      end
+    end
 
-    action_title = action_meaning
+
+    action_title = options[:action_meaning]
     action_title = t("label_action_#{params[:action]}".to_s) unless action_title.present?
 
     if Irm::Application.current&&Irm::FunctionGroup.current
       current_tab = Irm::Tab.multilingual.with_function_group(I18n.locale).query_by_application(Irm::Application.current.id).where("#{Irm::FunctionGroup.view_name}.id = ?",Irm::FunctionGroup.current).first
       if current_tab
-        common_app_title(current_tab,model_title,action_title,data_meaning)
+        common_app_title(current_tab,model_title,action_title,options[:show_data])
       else
-        common_setting_title(model_title,action_title,data_meaning)
+        common_setting_title(model_title,action_title,options[:show_data])
       end
     end
   end
@@ -19,7 +28,9 @@ module ApplicationHelper
   def common_app_title(current_tab,model_title,action_title,data_meaning)
     image_icon = ""
     if current_tab.style_image
-      image_icon << content_tag(:img, "", :src => '/images/s.gif', :class => current_tab.style_image + " pageTitleIcon")
+      image_icon << content_tag(:img, "", {:src => '/images/s.gif', :class => current_tab.style_image + " pageTitleIcon"},false)
+    else
+      image_icon << content_tag(:img, "", {:src => '/images/s.gif', :class => "img1General pageTitleIcon"},false)
     end
     title = model_title
     if data_meaning.present?
@@ -35,7 +46,7 @@ module ApplicationHelper
 
     title =  content_tag(:h1, title, :class => "pageType")
 
-    content = raw(content_tag(:div, raw(title +image_icon+ description), :class => "content"))
+    content = raw(content_tag(:div, raw(title)+raw(image_icon)+raw(description), :class => "content"))
 
     pt_body = raw(content_tag(:div, content, :class => "ptBody"))
     b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
@@ -68,159 +79,165 @@ module ApplicationHelper
 
 
   def page_title(title = "", description = "")
-    page_title = ""
-    page_description = ""
-    b_description = ""
-    if @current_menu_entry && @current_menu_entry.page_controller
-      if @current_menu_entry.icon
-        page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " pageTitleIcon")
-      end
-      if !title.blank?
-        page_title << content_tag(:h1, title, :class => "pageType")
-      else
-        page_title << content_tag(:h1, @current_menu_entry[:name], :class => "pageType")
-      end
-      if !description.blank?
-        page_description << content_tag(:h2, description, :class => "pageDescription")
-      else
-        page_description << content_tag(:h2, t("label_action_#{params[:action]}".to_s), :class => "pageDescription")
-      end
-      if !@current_menu_entry[:description].blank?
-        b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
-      end
-    else
-      page_title << content_tag(:h1, title, :class => "pageType")
-      page_description << content_tag(:h2, description, :class => "pageDescription")
-    end
-    content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    pt_body = raw(content_tag(:div, content, :class => "ptBody"))
-    b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
-    raw(b_page_title)
+    common_title(:model_meaning=>title,:action_meaning=>description)
+    #page_title = ""
+    #page_description = ""
+    #b_description = ""
+    #if @current_menu_entry && @current_menu_entry.page_controller
+    #  if @current_menu_entry.icon
+    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " pageTitleIcon")
+    #  end
+    #  if !title.blank?
+    #    page_title << content_tag(:h1, title, :class => "pageType")
+    #  else
+    #    page_title << content_tag(:h1, @current_menu_entry[:name], :class => "pageType")
+    #  end
+    #  if !description.blank?
+    #    page_description << content_tag(:h2, description, :class => "pageDescription")
+    #  else
+    #    page_description << content_tag(:h2, t("label_action_#{params[:action]}".to_s), :class => "pageDescription")
+    #  end
+    #  if !@current_menu_entry[:description].blank?
+    #    b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
+    #  end
+    #else
+    #  page_title << content_tag(:h1, title, :class => "pageType")
+    #  page_description << content_tag(:h2, description, :class => "pageDescription")
+    #end
+    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
+    #pt_body = raw(content_tag(:div, content, :class => "ptBody"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #raw(b_page_title)
   end
 
   def setting_title(options = {:title => "", :description => ""})
-    page_title = ""
-    page_description = ""
-    b_description = ""
-    if @current_menu_entry&&@current_menu_entry.page_controller
-      t_title = ""
-      if options[:title] && !options[:title].blank?
-        t_title << options[:title] + ": "
-      else
-        t_title << @current_menu_entry[:name] + ": "
-      end
-      if options[:description] && !options[:description].blank?
-        t_title << options[:description]
-      else
-        t_title << t("label_action_#{params[:action]}".to_s)
-      end
-      page_description << content_tag(:h2, t_title, :class => "pageDescription")
-      if !@current_menu_entry[:description].blank?
-        b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
-      end
-    else
-      page_title << content_tag(:h1, options[:title], :class => "pageType")
-      page_description << content_tag(:h2, options[:description], :class => "pageDescription")
-    end
-    content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    pt_body = raw(content_tag(:div, content, :class => "ptBody"))
-    b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
-    raw(b_page_title)
+    common_title(:model_meaning=>options[:title],:action_meaning=>options[:description])
+    #page_title = ""
+    #page_description = ""
+    #b_description = ""
+    #if @current_menu_entry&&@current_menu_entry.page_controller
+    #  t_title = ""
+    #  if options[:title] && !options[:title].blank?
+    #    t_title << options[:title] + ": "
+    #  else
+    #    t_title << @current_menu_entry[:name] + ": "
+    #  end
+    #  if options[:description] && !options[:description].blank?
+    #    t_title << options[:description]
+    #  else
+    #    t_title << t("label_action_#{params[:action]}".to_s)
+    #  end
+    #  page_description << content_tag(:h2, t_title, :class => "pageDescription")
+    #  if !@current_menu_entry[:description].blank?
+    #    b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
+    #  end
+    #else
+    #  page_title << content_tag(:h1, options[:title], :class => "pageType")
+    #  page_description << content_tag(:h2, options[:description], :class => "pageDescription")
+    #end
+    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
+    #pt_body = raw(content_tag(:div, content, :class => "ptBody"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #raw(b_page_title)
   end
 
   def app_title(options = {:title => "", :description => ""})
-    page_title = ""
-    page_description = ""
-    b_description = ""
-    p_help = ""
-    p_href = ""
-    if @current_menu_entry && @current_menu_entry.page_controller
-      if @current_menu_entry.icon
-        page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " pageTitleIcon")
-      end
-      t_title = ""
-      if params[:title] && !params[:title].blank?
-        t_title << options[:title] + ": "
-      else
-        t_title << @current_menu_entry[:name] + ": "
-      end
-      if options[:description] && !options[:description].blank?
-        t_title << options[:description]
-      else
-        t_title << t("label_action_#{params[:action]}".to_s)
-      end
-      page_description << content_tag(:h2, t_title, :class => "pageDescription")
-      if !@current_menu_entry[:description].blank?
-        b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
-      end
-    else
-      page_title << content_tag(:h1, params[:title], :class => "pageType")
-      page_description << content_tag(:h2, params[:description], :class => "pageDescription")
-    end
-    p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
-    p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
-    content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
-    b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
-    raw(b_page_title)
+    common_title(:model_meaning=>options[:title],:action_meaning=>options[:description])
+    #page_title = ""
+    #page_description = ""
+    #b_description = ""
+    #p_help = ""
+    #p_href = ""
+    #if @current_menu_entry && @current_menu_entry.page_controller
+    #  if @current_menu_entry.icon
+    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " pageTitleIcon")
+    #  end
+    #  t_title = ""
+    #  if params[:title] && !params[:title].blank?
+    #    t_title << options[:title] + ": "
+    #  else
+    #    t_title << @current_menu_entry[:name] + ": "
+    #  end
+    #  if options[:description] && !options[:description].blank?
+    #    t_title << options[:description]
+    #  else
+    #    t_title << t("label_action_#{params[:action]}".to_s)
+    #  end
+    #  page_description << content_tag(:h2, t_title, :class => "pageDescription")
+    #  if !@current_menu_entry[:description].blank?
+    #    b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
+    #  end
+    #else
+    #  page_title << content_tag(:h1, params[:title], :class => "pageType")
+    #  page_description << content_tag(:h2, params[:description], :class => "pageDescription")
+    #end
+    #p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
+    #p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
+    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
+    #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #raw(b_page_title)
   end
 
   def setting_show_title(options = {})
-    page_title = ""
-    page_description = ""
-    b_description = ""
-    if @current_menu_entry && @current_menu_entry.page_controller
-      if @current_menu_entry.icon
-        page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " pageTitleIcon")
-      end      
-      if options[:title] && !options[:title].blank?
-        page_title << content_tag(:h1, options[:title], :class => "pageType")
-      else
-        page_title << content_tag(:h1, @current_menu_entry[:name], :class => "pageType")
-      end
-      if options[:show_data] && !options[:show_data].blank?
-        page_description << content_tag(:h2, options[:show_data], :class => "pageDescription")
-      end
-      if !@current_menu_entry[:description].blank?
-        b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
-      end
-    else
-      page_title << content_tag(:h1, options[:title], :class => "pageType")
-      page_description << content_tag(:h2, options[:description], :class => "pageDescription")
-    end
-    content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    pt_body = raw(content_tag(:div, content, :class => "ptBody"))
-    b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
-    raw(b_page_title)
+    common_title(:model_meaning=>options[:title],:action_meaning=>options[:description],:show_data=>options[:show_data])
+    #page_title = ""
+    #page_description = ""
+    #b_description = ""
+    #if @current_menu_entry && @current_menu_entry.page_controller
+    #  if @current_menu_entry.icon
+    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " pageTitleIcon")
+    #  end
+    #  if options[:title] && !options[:title].blank?
+    #    page_title << content_tag(:h1, options[:title], :class => "pageType")
+    #  else
+    #    page_title << content_tag(:h1, @current_menu_entry[:name], :class => "pageType")
+    #  end
+    #  if options[:show_data] && !options[:show_data].blank?
+    #    page_description << content_tag(:h2, options[:show_data], :class => "pageDescription")
+    #  end
+    #  if !@current_menu_entry[:description].blank?
+    #    b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
+    #  end
+    #else
+    #  page_title << content_tag(:h1, options[:title], :class => "pageType")
+    #  page_description << content_tag(:h2, options[:description], :class => "pageDescription")
+    #end
+    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
+    #pt_body = raw(content_tag(:div, content, :class => "ptBody"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #raw(b_page_title)
   end
 
   def app_show_title(options = {})
-    page_title = ""
-    page_description = ""
-    b_description = ""
-    p_href = ""
-    if @current_menu_entry && @current_menu_entry.page_controller
-      if options[:title] && !options[:title].blank?
-        page_title << content_tag(:h1, options[:title], :class => "pageType")
-      else
-        page_title << content_tag(:h1, @current_menu_entry[:name], :class => "pageType")
-      end
-      if options[:show_data] && !options[:show_data].blank?
-        page_description << content_tag(:h2, options[:show_data], :class => "pageDescription")
-      end
-      if !@current_menu_entry[:description].blank?
-        b_description << content_tag(:div, options[:description], :class => "bDescription")
-      end
-    else
-      page_title << content_tag(:h1, options[:title], :class => "pageType")
-      page_description << content_tag(:h2, options[:description], :class => "pageDescription")
-    end
-    p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
-    p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
-    content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
-    b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
-    raw(b_page_title)
+    common_title(:model_meaning=>options[:title],:action_meaning=>options[:description],:show_data=>options[:show_data])
+
+    #page_title = ""
+    #page_description = ""
+    #b_description = ""
+    #p_href = ""
+    #if @current_menu_entry && @current_menu_entry.page_controller
+    #  if options[:title] && !options[:title].blank?
+    #    page_title << content_tag(:h1, options[:title], :class => "pageType")
+    #  else
+    #    page_title << content_tag(:h1, @current_menu_entry[:name], :class => "pageType")
+    #  end
+    #  if options[:show_data] && !options[:show_data].blank?
+    #    page_description << content_tag(:h2, options[:show_data], :class => "pageDescription")
+    #  end
+    #  if !@current_menu_entry[:description].blank?
+    #    b_description << content_tag(:div, options[:description], :class => "bDescription")
+    #  end
+    #else
+    #  page_title << content_tag(:h1, options[:title], :class => "pageType")
+    #  page_description << content_tag(:h2, options[:description], :class => "pageDescription")
+    #end
+    #p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
+    #p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
+    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
+    #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #raw(b_page_title)
   end  
   
   #显示form提交的出错信息

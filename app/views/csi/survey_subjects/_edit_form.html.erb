@@ -1,4 +1,4 @@
-<%= common_title(@survey_sububject.class.name) %>
+<%= common_title %>
 <div id="edit_form">
 <%= form_for(@survey_subject,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <%= hidden_field_tag :survey_id,@survey_id %>

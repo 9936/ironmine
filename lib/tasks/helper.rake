@@ -1,6 +1,6 @@
 namespace :irm do
   desc "(For Ironmine)Check Column with column name "
-  task :column => :environment do
+  task :column_info => :environment do
     name = ENV["NAME"]
     return unless name.present?
     ts = ActiveRecord::Base.connection.execute("show  tables")
@@ -22,6 +22,19 @@ namespace :irm do
       v_info = ActiveRecord::Base.connection.execute("SHOW CREATE VIEW #{v}").first
       if v_info
         puts v_info.second.gsub(/CREATE.+VIEW/,"CREATE OR REPLACE VIEW").gsub("company_id","opu_id")
+      end
+    end
+
+  end
+
+  task :bo_translate => :environment do
+    Dir["#{Rails.root}/app/models/*/*.rb"].each { |file| require file }
+    models = ActiveRecord::Base.send(:subclasses)
+    models.delete_if{|m| m.table_name.end_with?("s_tl")}
+    models.each do |m|
+      meaning =  Irm::BusinessObject.class_name_to_meaning(m.name)
+      if meaning.include?("translation missing")
+        puts meaning
       end
     end
 

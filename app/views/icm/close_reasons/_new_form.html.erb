@@ -1,4 +1,4 @@
-<%= common_title(@close_reason.class.name) %>
+<%= common_title(:show_data=>@close_reason[:name]) %>
 
 
 <%= form_for(@close_reason,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>

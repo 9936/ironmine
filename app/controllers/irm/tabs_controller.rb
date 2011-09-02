@@ -59,7 +59,7 @@ class Irm::TabsController < ApplicationController
     @tab = Irm::Tab.multilingual.find(params[:id])
 
     respond_to do |format|
-      if @Irm::Tab.update_attributes(params[:irm_tab])
+      if @tab.update_attributes(params[:irm_tab])
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -73,7 +73,7 @@ class Irm::TabsController < ApplicationController
   # DELETE /tabs/1.xml
   def destroy
     @tab = Irm::Tab.find(params[:id])
-    @Irm::Tab.destroy
+    @tab.destroy
 
     respond_to do |format|
       format.html { redirect_to(tabs_url) }

@@ -53,7 +53,7 @@
     vertical-align: top;
   }
 </style>
-<%= common_title(Icm::IncidentRequest.name,t(:close)) %>
+<%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:close)) %>
 <%= form_for(@incident_request,:url=>{:action=>"update_close"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
 <div id="reply" class="bEditBlock bPageBlock">
   <div class="pbHeader">
