@@ -64,7 +64,8 @@ body{background-color:#f2f2f2}
 
     function addAttachScreen(file_path)
     {
-        if (parseInt(file_path) != "NaN"){
+        var regu = /^\d+(\.\d+)?$/;
+        if (regu.test(file_path)){
             parent.finishAttach(file_path, '<%= @render_target %>', "<%= I18n.t(:error_file_upload_limit_shot, :m => Irm::SystemParametersManager.upload_file_limit.to_s)%>".replace("_", file_path));
         }
         else{
