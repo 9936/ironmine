@@ -31,7 +31,7 @@
                                { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },
                                { :key => "incident_status_name",:hidden=>true },
                                { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) }
-                               ],{:select=>"multiple",:row_perpage=>5,:paginator_box=>'incidentRequestsPaginatorBox'})%>
+                               ],{:select=>"multiple",:paginator_box=>'incidentRequestsPaginatorBox'})%>
 
         <div class="pbSubsection">
           <%= form_tag({:action=>"assign_request",:format=>:js},:remote=>true) do |f|%>

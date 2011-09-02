@@ -258,7 +258,10 @@ class Icm::IncidentRequestsController < ApplicationController
                       :last_request_date,
                       :priority_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).order("created_at")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+        where("LENGTH(external_system_id) > 0").
+        where("external_system_id IN (?)", Irm::Person.current.system_ids).
+        order("created_at")
     incident_requests_scope = incident_requests_scope.where("support_person_id IS NULL")
 
     respond_to do |format|
@@ -341,7 +344,11 @@ class Icm::IncidentRequestsController < ApplicationController
                       :last_request_date,
                       :priority_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).assignable_to_person(Irm::Person.current.id).order("created_at")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+        where("LENGTH(external_system_id) > 0").
+        where("external_system_id IN (?)", Irm::Person.current.system_ids).
+        assignable_to_person(Irm::Person.current.id).
+        order("created_at")
 
     respond_to do |format|
       format.json {

@@ -1,6 +1,10 @@
 class Irm::ReportsController < ApplicationController
   def index
     @folder_id = params[:folder_id]
+
+    respond_to do |format|
+      format.html { render :layout => "application_full"}# index.html.erb
+    end
   end
 
   def new
@@ -51,8 +55,7 @@ class Irm::ReportsController < ApplicationController
     #end
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @report }
+      format.html { render :layout => "application_full"}# index.html.erb
     end
   end
 
@@ -68,7 +71,7 @@ class Irm::ReportsController < ApplicationController
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report, :status => :created, :location => @wf_rule }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @report.errors, :status => :unprocessable_entity }
       end
     end
@@ -107,8 +110,7 @@ class Irm::ReportsController < ApplicationController
 
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @report }
+      format.html { render :layout => "application_full"}# index.html.erb
     end
   end
 
@@ -125,7 +127,7 @@ class Irm::ReportsController < ApplicationController
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report, :status => :created, :location => @wf_rule }
       else
-        format.html { render({:action=>"show",:id=>@report.id}) }
+        format.html { render({:action=>"show",:id=>@report.id}, :layout => "application_full") }
         format.xml  { render :xml => @report.errors, :status => :unprocessable_entity }
       end
     end
