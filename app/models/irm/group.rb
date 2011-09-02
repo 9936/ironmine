@@ -33,6 +33,11 @@ class Irm::Group < ActiveRecord::Base
     select("#{table_name}.*")
   }
 
+
+  scope :group_memberable,lambda{|person_id|
+    where("NOT EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name}  WHERE #{Irm::GroupMember.table_name}.group_id = #{table_name}.id AND #{Irm::GroupMember.table_name}.person_id = ?)",person_id)
+  }
+
   def self.list_all
     self.multilingual.with_parent
   end
