@@ -47,7 +47,7 @@ class Icm::IncidentJournalsController < ApplicationController
       elsif @incident_reply.valid? && @incident_request.update_attributes(@incident_reply.attributes)
         process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
-        format.html { redirect_to({:action => "new"}, :notice => 'Incident journal was successfully created.') }
+        format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
         format.html { render :action => "new", :layout=>"application_right"}
@@ -344,7 +344,7 @@ class Icm::IncidentJournalsController < ApplicationController
                                                :source_type=>ref_journal.class.name,
                                                :data=>value[:file],
                                                :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
-      return false unless f.valid?
+      return false unless f.over_limit?(Irm::SystemParametersManager.upload_file_limit)
     end if params[:files]
     return true
   rescue

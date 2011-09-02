@@ -65,7 +65,7 @@ class Icm::IncidentRequestsController < ApplicationController
           Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id),
                                [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
         end
-        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
         format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
       else
         format.html { render :action => "new", :layout => "application_full" }
@@ -111,7 +111,7 @@ class Icm::IncidentRequestsController < ApplicationController
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.update_attributes(params[:icm_incident_request])
         process_files(@incident_request)
-        format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:action=>"index"}) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit", :layout => "application_full" }

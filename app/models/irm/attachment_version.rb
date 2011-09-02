@@ -232,6 +232,11 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     return true
   end
 
+  def over_limit?(size_limit)
+    return false if self.file_size_kb.to_f > size_limit
+    true
+  end
+
   private
   def setup_attachment_id
     self.attachment_id  = 0 unless self.attachment_id 
