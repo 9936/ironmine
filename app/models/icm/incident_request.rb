@@ -134,7 +134,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
     select(" incident_status.name incident_status_name,incident_phase.name incident_phase_name ,incident_status.close_flag close_flag")
   }
 
-
+  scope :with_external_system, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").
+        select("external_system.system_name external_system_name")
+  }
   scope :query_by_support_person, lambda{|person_id|
     where("#{table_name}.support_person_id = ?", person_id)
   }
@@ -226,6 +229,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_submitted_by.
         with_support_group(I18n.locale).
         with_supporter.
+        with_external_system(I18n.locale).
         with_supporter_organization(I18n.locale).
         with_supporter_role(I18n.locale).
         with_supporter_profile(I18n.locale)

@@ -130,10 +130,15 @@ class Icm::IncidentRequestsController < ApplicationController
                       :close_flag,
                       :requested_name,
                       :need_customer_reply,
-                      :last_response_date]
+                      :last_response_date,
+                      :external_system_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
 
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).where("LENGTH(external_system_id) > 0").where("external_system_id IN (?)", Irm::Person.current.system_ids).order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+        with_external_system(I18n.locale).
+        where("LENGTH(external_system_id) > 0").
+        where("external_system_id IN (?)", Irm::Person.current.system_ids).
+        order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
 
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
@@ -171,9 +176,14 @@ class Icm::IncidentRequestsController < ApplicationController
                       :requested_name,
                       :need_customer_reply,
                       :last_request_date,
-                      :priority_name]
+                      :priority_name,
+                      :external_system_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).where("LENGTH(external_system_id) > 0").where("external_system_id IN (?)", Irm::Person.current.system_ids + ['']).order("close_flag ,last_request_date desc,last_response_date desc,weight_value,id")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+        with_external_system(I18n.locale).
+        where("LENGTH(external_system_id) > 0").
+        where("external_system_id IN (?)", Irm::Person.current.system_ids + ['']).
+        order("close_flag ,last_request_date desc,last_response_date desc,weight_value,id")
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
     end
@@ -191,7 +201,7 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
-        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:priority_name,:last_request_date],
+        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:priority_name,:last_request_date, :external_system_name],
                                        :headers=>["#",   t(:label_icm_incident_request_title),
                                                          t(:label_icm_incident_request_incident_status_code),
                                                          t(:label_icm_incident_request_priority),
@@ -256,9 +266,11 @@ class Icm::IncidentRequestsController < ApplicationController
                       :close_flag,
                       :requested_name,
                       :last_request_date,
-                      :priority_name]
+                      :priority_name,
+                      :external_system_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+        with_external_system(I18n.locale).
         where("LENGTH(external_system_id) > 0").
         where("external_system_id IN (?)", Irm::Person.current.system_ids).
         order("created_at")
@@ -342,9 +354,11 @@ class Icm::IncidentRequestsController < ApplicationController
                       :close_flag,
                       :requested_name,
                       :last_request_date,
-                      :priority_name]
+                      :priority_name,
+                      :external_system_name]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+        with_external_system(I18n.locale).
         where("LENGTH(external_system_id) > 0").
         where("external_system_id IN (?)", Irm::Person.current.system_ids).
         assignable_to_person(Irm::Person.current.id).

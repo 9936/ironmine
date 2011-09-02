@@ -30,7 +30,8 @@
                                { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
                                { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },
                                { :key => "incident_status_name",:hidden=>true },
-                               { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) }
+                               { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) },
+                               { :key => "external_system_name", :label => t(:label_irm_external_system,:searchable=>true) }
                                ],{:select=>"multiple",:paginator_box=>'incidentRequestsPaginatorBox'})%>
 
         <div class="pbSubsection">

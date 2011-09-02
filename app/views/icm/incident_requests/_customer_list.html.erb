@@ -19,7 +19,8 @@
                        { :key => "incident_status_name",:hidden=>true },
                        { :key => "need_customer_reply",:hidden=>true },
                        { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date),:width=>"180px" },
-                       { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"120px"}
+                       { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
+                       { :key => "external_system_name", :label => t(:label_irm_external_system),:width=>"180px" }
                        ],{:export_data=>"#incidentRequestExport",:not_load=>true,:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox'})%>
       <div id="incidentRequestsPaginatorBox"></div>
 </div>
