@@ -140,7 +140,7 @@ Irm::AccessControl.map do |map|
   map.function :my_password,{"irm/my_password" => ["index","edit_password", "update_password"]}
   map.function :my_login_history ,{"irm/my_login_history" => ["index", "get_login_data"]}
   map.function :my_avatar,{"irm/my_avatar" => ["index","avatar_crop", "edit", "update"]}
-
+  map.function :my_profile,{"irm/my_profiles" => ["index"]}
   #====================irm/bulletins ==================================
   map.function :bulletin, {"irm/bulletins" => ["index", "show", "get_data","new", "create","edit", "update"]}
   map.function :edit_bulletin, {"irm/bulletins" => ["edit", "update"]}

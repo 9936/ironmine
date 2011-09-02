@@ -1,0 +1,28 @@
+<div class="pbBody">
+    <div class="pbSubheader tertiaryPalette">
+      <h3><%= t(:label_common_info) %><span class="titleSeparatingColon">:</span></h3>
+    </div>
+
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_profile_code)%></label></td>
+              <td class="dataCol"><%= profile.code%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :name)%></label></td>
+              <td class="dataCol"><%= profile[:name]%></td>
+              <td class="labelCol"><label><%=(t :label_irm_profile_user_license)%></label></td>
+              <td class="dataCol"><%= profile[:user_license_name]%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :description)%></label></td>
+              <td class="dataCol" colspan="3" style="width:82%;"><%= profile[:description]%></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

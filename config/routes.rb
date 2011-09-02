@@ -125,6 +125,9 @@ Ironmine::Application.routes.draw do
     match '/my_info/edit(.:format)' => "my_info#edit", :via => :get
     match '/my_info/update(.:format)' => "my_info#update", :via => :put
 
+    #my_profile
+    match '/my_profiles(/index)(.:format)' => "my_profiles#index", :via => :get
+
     #my_password
     match '/my_password(.:format)' => "my_password#index", :via => :get
     match '/my_password/edit_password(.:format)' => "my_password#edit_password", :via => :get
