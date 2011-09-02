@@ -52,7 +52,7 @@ class Icm::SupportGroup < ActiveRecord::Base
 
   scope :support_for_system,lambda{|system_id|
     joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::ExternalSystem.name))
+        where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",system_id,Irm::BusinessObject.class_name_to_code(Irm::ExternalSystem.name))
   }
 
   scope :support_for_group,lambda{|person_id|
