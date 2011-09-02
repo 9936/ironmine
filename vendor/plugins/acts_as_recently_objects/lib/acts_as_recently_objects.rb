@@ -36,7 +36,7 @@ module Ironmine
           self.target = object_options[:target]
 
           class_eval do
-            after_save :save_as_recently
+#            after_save :save_as_recently
             def self.current_accessible(companies=[])
               []
             end
