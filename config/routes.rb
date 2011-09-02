@@ -314,6 +314,7 @@ Ironmine::Application.routes.draw do
     match '/group_members/:id/get_memberable_data(.:format)' => "group_members#get_memberable_data", :via => :get
     match '/group_members/:id/delete(.:format)' => "group_members#delete", :via => :delete
     match '/group_members/:id/new_from_person(.:format)' => "group_members#new_from_person", :via => :get
+    match '/group_members/:id/get_groupable_data(.:format)' => "group_members#get_groupable_data", :via => :get
     match '/group_members/:id/create_from_person(.:format)' => "group_members#create_from_person", :via => :post
     match '/group_members/:id/get_data_from_person(.:format)' => "group_members#get_data_from_person", :via => :get
     match '/group_members/:id/delete_from_person(.:format)' => "group_members#delete_from_person", :via => :delete

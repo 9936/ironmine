@@ -1,4 +1,4 @@
-<%= setting_title %>
+<%= common_title(:model_meaning=>t(:label_irm_person_avatar)) %>
 
 <% form_for(@person, :url => {:controller => "irm/my_avatar", :action => "update", :id => @person.id,
                                       :return_url => {:controller => "irm/my_avatar", :action => "index"}}) do |f| %>

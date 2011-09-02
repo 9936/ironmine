@@ -78,11 +78,21 @@ class Irm::GroupMembersController < ApplicationController
     end
   end
 
+  def get_groupable_data
+    group_scope = Irm::Group.multilingual.enabled.select_all.group_memberable(params[:id])
+    group_scope = group_scope.match_value("#{Irm::Group.table_name}.code",params[:code])
+    group_scope = group_scope.match_value("#{Irm::Group.table_name}.name",params[:name])
+    group_scope,count = paginate(group_scope)
+    respond_to do |format|
+      format.json {render :json=>to_jsonp(group_scope.to_grid_json([:code,:name,:description], count))}
+    end
+  end
+
   def get_data_from_person
     group_code =  Irm::GroupMember.select_all.with_group(I18n.locale).where(:person_id=>params[:id])
     group_code,count = paginate(group_code)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(group_code.to_grid_json([:name,:group_code], count))}
+      format.json {render :json=>to_jsonp(group_code.to_grid_json([:code,:name,:description], count))}
     end
   end
 
