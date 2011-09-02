@@ -134,7 +134,7 @@ class Icm::IncidentRequestsController < ApplicationController
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
 
     Irm::Person.system_ids
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).where("external_system_id IN (?)", Irm::Person.current.system_ids).order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).where("LENGTH(external_system_id) > 0").where("external_system_id IN (?)", Irm::Person.current.system_ids).order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
 
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
