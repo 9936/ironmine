@@ -25,6 +25,7 @@ body{background-color:#f2f2f2}
                                                                  '<PARAM name="attach.url" value="<%= url_for(:only_path => false, :controller => "irm/attach_screenshot", :action => 'index')%>">' +
                                                                  '<PARAM name="error.attach.msg" value="<%= t(:error_attach_msg) %>">' +
                                                                  '<PARAM name="error.attach.title" value="<%= t(:error_attach_title) %>">'	 +
+                                                                 '<PARAM name="attach.locale" value="<%= I18n.locale %>">'	 +
                                                                  '<PARAM name="rss.key" value="_">'
                                                                 + '<COMMENT>'
                                                                 + '<EMBED'
@@ -52,6 +53,7 @@ body{background-color:#f2f2f2}
                                                                  '<param name="attach.url" value="<%= url_for(:only_path => false, :controller => "irm/attach_screenshot", :action => 'index')%>">' +
                                                                  '<param name="error.attach.msg" value="<%= t(:error_attach_msg) %>">' +
                                                                  '<param name="error.attach.title" value="<%= t(:error_attach_title) %>">'	 +
+                                                                 '<PARAM name="attach.locale" value="<%= I18n.locale %>">'	 +
                                                                  '<param name="rss.key" value="_">'	 +
                                                                  'Applet</applet>';
         }
@@ -62,7 +64,12 @@ body{background-color:#f2f2f2}
 
     function addAttachScreen(file_path)
     {
-        parent.finishAttach(file_path, '<%= @render_target %>');
+        if (parseInt(file_path) != "NaN"){
+            parent.finishAttach(file_path, '<%= @render_target %>', "<%= I18n.t(:error_file_upload_limit_shot, :m => Irm::SystemParametersManager.upload_file_limit.to_s)%>".replace("_", file_path));
+        }
+        else{
+            parent.finishAttach(file_path, '<%= @render_target %>', "");
+        }
     }
 
     function hideAttachScreen()
