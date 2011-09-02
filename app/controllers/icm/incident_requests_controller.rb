@@ -46,9 +46,10 @@ class Icm::IncidentRequestsController < ApplicationController
     #加入创建事故单的默认参数
     prepared_for_create(@incident_request)
     respond_to do |format|
-      if !validate_files(@incident_request)
-        flash[:notice] = I18n.t(:error_file_upload_limit)
-        format.html { render :action => "new", :layout=>"application_right"}
+      flag, now = validate_files(@incident_request)
+      if !flag
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        format.html { render :action => "new", :layout=>"application_full"}
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.save
         process_files(@incident_request)
@@ -105,8 +106,9 @@ class Icm::IncidentRequestsController < ApplicationController
   def update
     @incident_request = Icm::IncidentRequest.find(params[:id])
     respond_to do |format|
-      if !validate_files(@incident_request)
-        flash[:notice] = I18n.t(:error_file_upload_limit)
+      flag, now = validate_files(@incident_request)
+      if !flag
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         format.html { render :action => "edit", :layout=>"application_right"}
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.update_attributes(params[:icm_incident_request])
@@ -410,12 +412,14 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def validate_files(ref_request)
+    now = 0
     params[:files].each do |key,value|
-      return false unless Irm::AttachmentVersion.validates?(value[:file])
+      flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit)
+      return false, now unless flag
     end if params[:files]
-    return true
+    return true, now
   rescue
-    return false
+    return false, now
   end
 end
 

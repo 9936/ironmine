@@ -52,17 +52,16 @@ class Skm::EntryHeadersController < ApplicationController
       files = params[:file]
       #调用方法创建附件
       file_flag = true
+      now = 0
       params[:file].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
-        if !Irm::AttachmentVersion.validates?(file)
-          file_flag = false
-          break
-        end
+        file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
+        break unless file_flag
       end
 
       if !file_flag
-        flash[:notice] = I18n.t(:error_file_upload_limit)
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         respond_to do |format|
           format.html { redirect_to :action => "new_step_3" }
         end

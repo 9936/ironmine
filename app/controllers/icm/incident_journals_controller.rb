@@ -40,8 +40,9 @@ class Icm::IncidentJournalsController < ApplicationController
 
     perform_create
     respond_to do |format|
-      if !validate_files(@incident_journal)
-        flash[:notice] = I18n.t(:error_file_upload_limit)
+      flag, now = validate_files(@incident_journal)
+      if !flag
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         format.html { render :action => "new", :layout=>"application_right"}
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       elsif @incident_reply.valid? && @incident_request.update_attributes(@incident_reply.attributes)
@@ -339,11 +340,13 @@ class Icm::IncidentJournalsController < ApplicationController
   end
 
   def validate_files(ref_journal)
+    now = 0
     params[:files].each do |key,value|
-      return false unless Irm::AttachmentVersion.validates?(value[:file])
+      flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit)
+      return false, now unless flag
     end if params[:files]
-    return true
+    return true, now
   rescue
-    return false
+    return false, now
   end
 end

@@ -15,12 +15,13 @@ class Irm::BulletinsController < ApplicationController
     column_ids = params[:irm_bulletin][:column_ids].split(",")
     respond_to do |format|
       file_flag = true
+      now = 0
       params[:file].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
-        if !Irm::AttachmentVersion.validates?(file)
-          flash[:notice] = I18n.t(:error_file_upload_limit)
-          file_flag = false
+        file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
+        if !file_flag
+          flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
           break
         end
       end
@@ -70,12 +71,13 @@ class Irm::BulletinsController < ApplicationController
     owned_column_ids = @bulletin.get_column_ids.split(",")
     respond_to do |format|
       file_flag = true
+      now = 0
       params[:file].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
-        if !Irm::AttachmentVersion.validates?(file)
-          flash[:notice] = I18n.t(:error_file_upload_limit)
-          file_flag = false
+        file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
+        if !file_flag
+          flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
           break
         end
       end
