@@ -270,7 +270,12 @@ class Irm::Person < ActiveRecord::Base
   # 用户所能访问的功能
   def functions
     return @function_ids if @function_ids
-    @function_ids = Irm::Function.query_profile(self.profile_id).collect{|i|i.id}
+    if self.profile
+      @function_ids = self.profile.function_ids
+    else
+      @function_ids = []
+    end
+    return @function_ids
   end
 
 

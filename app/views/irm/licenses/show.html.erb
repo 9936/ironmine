@@ -1,0 +1,79 @@
+<%= common_title(:show_data=>@license[:name]) %>
+
+<div id="ep" class="bDetailBlock bPageBlock">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_license) %></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= link_to t(:edit), {:action => "edit"}%></div>
+            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_license_name)%></label></td>
+              <td class="dataCol"><div><%= @license[:name] %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_license_code)%></label></td>
+              <td class="dataCol"><div><%= @license.code %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_license_description)%></label></td>
+              <td class="dataCol"><div><%= @license[:description] %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="pbBody">
+    <div class="pbSubheader tertiaryPalette">
+      <h3><%= t(:label_irm_profile_function_list) %><span class="titleSeparatingColon">:</span></h3>
+    </div>
+
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <% pfids = @license.function_ids %>
+        <% gfs = available_grouped_functions(pfids) %>
+        <% fzs = function_zones %>
+        <% fzs.each do |zone|%>
+          <% next unless gfs[zone[:code]]&&gfs[zone[:code]].any?%>
+          <% tr_count = 2%>
+          <tr>
+            <td style="font-weight:bold;font-size:13px;padding:15px 0 2px 0"><%= zone[:name] %></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <% gfs[zone[:code]].each do |func| %>
+                <% next unless pfids.include?(func.id) %>
+                <%= raw("</tr><tr>") if tr_count == 0 %>
+                <% tr_count = 2 if tr_count == 0 %>
+                <td class="labelCol"><%= func[:name] %></td>
+                <td class="dataCol"><%= check_img("Y") %></td>
+                <% tr_count = tr_count - 1 %>
+            <% end%>
+          </tr>
+        <%end%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
