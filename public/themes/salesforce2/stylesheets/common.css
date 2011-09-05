@@ -781,6 +781,12 @@ div.button input[type="submit"] {
 }
 div.button input[type="submit"]:hover{background-position: right -30px; cursor: pointer;}
 
+div.button a[class="disabled"]{
+    color: #a9a9a9;
+    background: none;
+    background-color: #ededed;
+}
+
 div.grayButton a {
     -moz-border-radius: 3px 3px 3px 3px;
     border-color: #f8f8f8;
