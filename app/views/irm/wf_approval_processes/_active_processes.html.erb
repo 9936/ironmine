@@ -28,7 +28,6 @@
           <tr id="<%=process.id%>" class="yui3-datatable-even">
             <td class="yui3-column">
               <div class='yui3-datatable-liner'>
-                <%= link_to(t(:edit),{:action=>"edit",:id=>process.id,:back_url=>url_for({})}) %>
                 <%= link_to(t(:disable),{:action=>"active",:id=>process.id,:active=>Irm::Constant::SYS_NO,:back_url=>url_for({})}) %>
                </div>
             </td>

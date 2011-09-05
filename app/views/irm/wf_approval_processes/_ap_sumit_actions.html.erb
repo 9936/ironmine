@@ -6,25 +6,37 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_wf_approval_action_ap_submit_actions) %></h2></td>
               <td class="pbButton">
-                <div class="button"><%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{:action => "add_exists_action",:source_str=>"AP_SUBMIT,#{@wf_approval_process.id}",:back_url=>url_for({})}) %></div>
-                <div class="asButton">
-                    <span id="createApSubmitAction" class="menuButton">
-                      <div  class="menuLabel">
-                        <span><a><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
-                      </div>
-                      <div class="menuContent" >
-                        <div class="menuItem"><%= link_to(t(:label_irm_wf_mail_alert_new),{:controller => "irm/wf_mail_alerts",:action => "new",:source_str=>"AP_SUBMIT,#{@wf_approval_process.id}",:back_url=>url_for({})}) %></div>
-                        <div class="menuItem"><%= link_to(t(:label_irm_wf_field_update_new),{:controller => "irm/wf_field_updates",:action => "new",:source_str=>"AP_SUBMIT,#{@wf_approval_process.id}",:back_url=>url_for({})}) %></div>
-                      </div>
-                    </span>
-                    <script type="text/javascript">
-                      GY.use("menubutton",function(Y){
-                        Y.on("domready",function(){
-                          new Y.MenuButton({menuNode:"#createApSubmitAction",dropAlign:["TL","BL"]});
-                        });
-                      });
-                    </script>
-                </div>
+                <% unless @wf_approval_process.enabled? %>
+                    <div class="button"><%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{:action => "add_exists_action",:source_str=>"AP_SUBMIT,#{@wf_approval_process.id}",:back_url=>url_for({})}) %></div>
+                    <div class="asButton">
+                        <span id="createApSubmitAction" class="menuButton">
+                          <div  class="menuLabel">
+                            <span><a><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
+                          </div>
+                          <div class="menuContent" >
+                            <div class="menuItem"><%= link_to(t(:label_irm_wf_mail_alert_new),{:controller => "irm/wf_mail_alerts",:action => "new",:source_str=>"AP_SUBMIT,#{@wf_approval_process.id}",:back_url=>url_for({})}) %></div>
+                            <div class="menuItem"><%= link_to(t(:label_irm_wf_field_update_new),{:controller => "irm/wf_field_updates",:action => "new",:source_str=>"AP_SUBMIT,#{@wf_approval_process.id}",:back_url=>url_for({})}) %></div>
+                          </div>
+                        </span>
+                        <script type="text/javascript">
+                          GY.use("menubutton",function(Y){
+                            Y.on("domready",function(){
+                              new Y.MenuButton({menuNode:"#createApSubmitAction",dropAlign:["TL","BL"]});
+                            });
+                          });
+                        </script>
+                    </div>
+                <% else %>
+                    <div class="button"><%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{}, :disabled => true) %></div>
+                    <div class="asButton">
+                        <span class="menuButton">
+                          <div  class="menuLabel">
+                            <span><a disabled=true><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
+                          </div>
+                        </span>
+                    </div>
+                <% end %>
+
               </td>
               <td class="pbHelp">
               </td>

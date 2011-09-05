@@ -9,24 +9,32 @@
                 <h2 class="mainTitle"><%= t(:label_irm_wf_approval_action_ap_step_reject_actions) %></h2>
               </td>
               <td class="pbButton">
-                <div class="button"><%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{:action => "add_exists_action",:source_str=>"AP_STEP_REJECT,#{@wf_approval_process.id},#{step_id}",:back_url=>url_for({})}) %></div>
+                <% unless @wf_approval_process.enabled? %>
+                    <div class="button"><%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{:action => "add_exists_action",:source_str=>"AP_STEP_REJECT,#{@wf_approval_process.id},#{step_id}",:back_url=>url_for({})}) %></div>
+                <% else %>
+                    <div class="button"><%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{}, :disabled => true) %></div>
+                <% end %>
                 <div class="asButton">
                     <span id="createApStepRejectAction<%= step_id%>" class="menuButton">
                       <div  class="menuLabel">
-                        <span><a><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
+                        <% unless @wf_approval_process.enabled? %>
+                            <span><a><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
+                            <script type="text/javascript">
+                              GY.use("menubutton",function(Y){
+                                Y.on("domready",function(){
+                                  new Y.MenuButton({menuNode:"#createApStepRejectAction<%= step_id%>",dropAlign:["TL","BL"]});
+                                });
+                              });
+                            </script>
+                        <% else %>
+                            <span><a disabled=true><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
+                        <% end %>
                       </div>
                       <div class="menuContent" >
                         <div class="menuItem"><%= link_to(t(:label_irm_wf_mail_alert_new),{:controller => "irm/wf_mail_alerts",:action => "new",:source_str=>"AP_STEP_REJECT,#{@wf_approval_process.id},#{step_id}",:back_url=>url_for({})}) %></div>
                         <div class="menuItem"><%= link_to(t(:label_irm_wf_field_update_new),{:controller => "irm/wf_field_updates",:action => "new",:source_str=>"AP_STEP_REJECT,#{@wf_approval_process.id},#{step_id}",:back_url=>url_for({})}) %></div>
                       </div>
                     </span>
-                    <script type="text/javascript">
-                      GY.use("menubutton",function(Y){
-                        Y.on("domready",function(){
-                          new Y.MenuButton({menuNode:"#createApStepRejectAction<%= step_id%>",dropAlign:["TL","BL"]});
-                        });
-                      });
-                    </script>
                 </div>
               </td>
               <td class="pbHelp">
