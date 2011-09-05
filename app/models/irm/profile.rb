@@ -92,6 +92,30 @@ class Irm::Profile < ActiveRecord::Base
       self.profile_applications.build({:application_id=>aid}.merge(default_options))
     end if application_ids.any?
   end
+
+  def clone_application_relation_from_profile(existing_profile)
+    return unless existing_profile
+    ex_app_relations = Irm::ProfileApplication.where(:profile_id => existing_profile.id)
+    ex_app_relations.each do |er|
+      Irm::ProfileApplication.create(:profile_id => self.id, :application_id => er.application_id, :default_flag => er.default_flag)
+    end
+  end
+
+  def clone_function_relation_from_profile(existing_profile)
+    return unless existing_profile
+    ex_fun_relations = Irm::ProfileFunction.where(:profile_id => existing_profile.id)
+    ex_fun_relations.each do |ef|
+      Irm::ProfileFunction.create(:profile_id => self.id, :function_id => ef.function_id)
+    end
+  end
+
+  def clone_kanban_relation_from_profile(existing_profile)
+    return unless existing_profile
+    ex_kanban_relations = Irm::ProfileKanban.where(:profile_id => existing_profile.id)
+    ex_kanban_relations.each do |ek|
+      Irm::ProfileKanban.create(:profile_id => self.id, :opu_id => ek.opu_id, :kanban_id => ek.kanban_id)
+    end
+  end
 end
 
 

@@ -41,17 +41,16 @@ class Irm::ProfilesController < ApplicationController
   # POST /profiles.xml
   def create
     @profile = Irm::Profile.new(params[:irm_profile])
+    existing_profile = Irm::Profile.find(params[:existing_profile])
+    @profile.user_license = existing_profile.user_license
 
     respond_to do |format|
-      if @profile.valid?
-        @profile.create_from_application_ids(params[:applications],params[:default_application_id])
-        @profile.create_from_function_ids(params[:functions])
-        @profile.save
+      if @profile.valid? && @profile.save
+        @profile.clone_application_relation_from_profile(existing_profile)
+        @profile.clone_function_relation_from_profile(existing_profile)
+        @profile.clone_kanban_relation_from_profile(existing_profile)
 
-        t = Irm::ProfileKanban.create({:profile_id => @profile.id, :kanban_id => params[:ir_kanban]})
-        t.save
-
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:action => "show", :id => @profile}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @profile, :status => :created, :location => @profile }
       else
         format.html { render :action => "new" }
