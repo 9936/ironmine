@@ -39,4 +39,22 @@ namespace :irm do
     end
 
   end
+
+
+  task :views => :environment do
+    ts = ActiveRecord::Base.connection.execute("show  tables")
+    views = []
+    ts.each do |t|
+      if t.first.end_with?("_vl")||t.first.end_with?("_v")
+        views << t.first
+      end
+    end
+    views.each do |v|
+      v_info = ActiveRecord::Base.connection.execute("SHOW CREATE VIEW #{v}").first
+      if v_info
+        puts v_info.second.gsub(/CREATE.+VIEW/,"CREATE OR REPLACE VIEW")
+      end
+    end
+
+  end
 end
