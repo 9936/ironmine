@@ -19,7 +19,7 @@
       <div class="pbBody">
         <div id="wf_rules" class="datatable" style="width:100%">
           <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
+            <% link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %><%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
         <%= datatable("wf_rules",url_for(:action=>"get_data",:format=>"json"),
