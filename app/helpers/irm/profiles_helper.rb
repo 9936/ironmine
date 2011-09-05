@@ -1,6 +1,8 @@
 module Irm::ProfilesHelper
   def grouped_functions(function_ids=[])
     fs = Irm::Function.multilingual.enabled.with_function_group(I18n.locale).where(:public_flag=>Irm::Constant::SYS_NO,:login_flag=>Irm::Constant::SYS_NO)
+    operation_unit_function_ids = Irm::OperationUnit.current.function_ids
+    fs.delete_if{|i| !operation_unit_function_ids.include?(i.id) }
     if function_ids.any?
       fs.delete_if{|i| !function_ids.include?(i.id)}
     end

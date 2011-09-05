@@ -1335,6 +1335,8 @@ en:
   label_irm_operation_unit_default_language_code: Default Language Code
   label_irm_operation_unit_default_time_zone_code: Default Time Zone
   label_irm_operation_unit_description: Description
+  label_irm_operation_unit_license: License
+  label_irm_operation_unit_list: Operation Units
   #======================= end Operation Unit ====================
 
   #=========================    irm external_systems_controller=======================#
@@ -1353,3 +1355,12 @@ en:
   label_irm_external_system_people_type: Type
   label_irm_external_system_add_people: Add Member
   #=========================    end external_systems_controller=======================#
+  #=========================    license=======================#
+  label_irm_license: License
+  label_irm_license_list: License list
+  label_irm_license_new: New License
+  label_irm_license_edit: Edit License
+  label_irm_license_name: Name
+  label_irm_license_code: Code
+  label_irm_license_description: Description
+  #=========================  end  license=======================#

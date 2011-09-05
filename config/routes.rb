@@ -766,6 +766,14 @@ Ironmine::Application.routes.draw do
     match '/operation_units/edit(.:format)' => "operation_units#edit", :via => :get
     match '/operation_units/update(.:format)' => "operation_units#update", :via => :put
 
+    #cloud_operations
+    match '/cloud_operations(/index)(.:format)' => "cloud_operations#index", :via => :get
+    match '/cloud_operations/:id/edit(.:format)' => "cloud_operations#edit", :via => :get
+    match '/cloud_operations/:id(.:format)' => "cloud_operations#update", :via => :put
+    #match '/cloud_operations/new(.:format)' => "cloud_operations#new", :via => :get
+    #match '/cloud_operations/create(.:format)' => "cloud_operations#create", :via => :post
+    match '/cloud_operations/get_data(.:format)' => "cloud_operations#get_data"
+    match '/cloud_operations/:id/show(.:format)' => "cloud_operations#show", :via => :get
 
     #external_systems
     match '/external_systems(/index)(.:format)' => "external_systems#index", :via => :get
@@ -792,6 +800,19 @@ Ironmine::Application.routes.draw do
     match '/external_system_members/:person_id/create_from_person(.:format)' => "external_system_members#create_from_person", :via => :post
     match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person", :via => :delete
     match '/external_system_members/:person_id/get_available_external_system_data(.:format)' => "external_system_members#get_available_external_system_data", :via => :get
+
+
+    #licenses
+    match '/licenses(/index)(.:format)' => "licenses#index", :via => :get
+    match '/licenses/:id/edit(.:format)' => "licenses#edit", :via => :get
+    match '/licenses/:id(.:format)' => "licenses#update", :via => :put
+    match '/licenses/new(.:format)' => "licenses#new", :via => :get
+    match '/licenses/create(.:format)' => "licenses#create", :via => :post
+    match '/licenses/:id/multilingual_edit(.:format)' => "licenses#multilingual_edit", :via => :get
+    match '/licenses/:id/multilingual_update(.:format)' => "licenses#multilingual_update", :via => :put
+    match '/licenses/get_data(.:format)' => "licenses#get_data"
+    match '/licenses/:id/show(.:format)' => "licenses#show", :via => :get
+
   end
 
   scope :module => "icm" do

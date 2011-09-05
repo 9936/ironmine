@@ -1554,6 +1554,8 @@ zh:
   label_irm_operation_unit_default_language_code: 默认语言
   label_irm_operation_unit_default_time_zone_code: 默认时区
   label_irm_operation_unit_description: 描述
+  label_irm_operation_unit_license: 许可
+  label_irm_operation_unit_list: 运维中心列表
   #======================= end Operation Unit ====================
 
 
@@ -1576,3 +1578,12 @@ zh:
   label_irm_external_system_people_type: 类型
   label_irm_external_system_add_people: 添加成员
   #=========================    end external_systems_controller=======================#
+  #=========================    license=======================#
+  label_irm_license: 许可
+  label_irm_license_list: 许可列表
+  label_irm_license_new: 新建许可
+  label_irm_license_edit: 编辑许可
+  label_irm_license_name: 名称
+  label_irm_license_code: 编码
+  label_irm_license_description: 描述
+  #=========================  end  license=======================#

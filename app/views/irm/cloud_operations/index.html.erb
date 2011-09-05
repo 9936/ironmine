@@ -1,4 +1,4 @@
-<%= common_title %>
+<%= common_title(:model_meaning=>t(:label_irm_operation_unit)) %>
 <div class="listRelatedObject setupBlock">
     <div class="bPageBlock">
       <div class="pbHeader">
@@ -7,7 +7,6 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_operation_unit_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
               </td>
               <td class="pbHelp">
                 <div id="operation_unitsSearchBox"></div>
@@ -26,8 +25,7 @@
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                        { :key => "name", :label => t(:label_irm_operation_unit_name),:searchable=>true },
                        { :key => "short_name", :label => t(:label_irm_operation_unit_short_name),:searchable=>true },
-                       { :key => "default_language_id", :label => t(:label_irm_operation_unit_default_language_id),:searchable=>true },
-                       { :key => "default_time_zone_code", :label => t(:label_irm_operation_unit_default_time_zone_code),:searchable=>true }
+                       { :key => "license_name", :label => t(:label_irm_operation_unit_license),:searchable=>true },
                       ],{:paginator_box=>"operation_unitsPaginatorBox",:search_box=>"operation_unitsSearchBox"})%>
         <div id="operation_unitsPaginatorBox"></div>
       </div>
