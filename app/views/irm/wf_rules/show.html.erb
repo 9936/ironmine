@@ -49,10 +49,11 @@
         <tr>
           <td class="pbTitle"><h2 class="mainTitle"><%= @wf_rule.name %></h2></td>
           <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @wf_rule}%></div>
             <% if @wf_rule.enabled?  %>
+              <div class="button"><%= link_to t(:edit), {}, :href => "javascript:void(0);", :disabled => true%></div>
               <div class="button"><%= link_to t(:disable), {:action => "active",:id=>@wf_rule.id,:active=>Irm::Constant::SYS_NO}%></div>
             <% else %>
+              <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @wf_rule}%></div>
               <div class="button"><%= link_to t(:active), {:action => "active",:id=>@wf_rule.id,:active=>Irm::Constant::SYS_YES}%></div>
             <% end %>
             <div class="button"><%= link_to t(:cancel),back_url_default({:action=>"index"})%></div>
@@ -122,12 +123,24 @@
         </div>
         <div class="pbSubsection" style="padding: 0 12px;">
           <div>
-            <%= render(:partial =>"immediate_actions",:locals => {:actions=>wf_rule_immediate_actions(@wf_rule.id)}) %>
+            <%= render(:partial =>"immediate_actions",:locals => {:wf_rule => @wf_rule, :actions=>wf_rule_immediate_actions(@wf_rule.id)}) %>
           </div>
           <div>
             <span id="createAction" class="menuButton">
               <div  class="menuLabel">
-                <span><a><%= t(:label_irm_wf_rule_add_actions)  %></a></span>
+                <% unless @wf_rule.enabled?%>
+                    <span><a><%= t(:label_irm_wf_rule_add_actions)  %></a></span>
+
+                    <script type="text/javascript">
+                      GY.use("menubutton",function(Y){
+                        Y.on("domready",function(){
+                          new Y.MenuButton({menuNode:"#createAction",dropAlign:["TL","BL"]});
+                        });
+                      });
+                    </script>
+                <% else %>
+                    <span><a disabled=true><%= t(:label_irm_wf_rule_add_actions)  %></a></span>
+                <% end %>
               </div>
               <div class="menuContent" >
                 <div class="menuItem"><%= link_to(t(:label_irm_wf_mail_alert_new),{:controller => "irm/wf_mail_alerts",:action => "new",:source_str=>"WF_RULE,#{@wf_rule.id}",:back_url=>url_for({})}) %></div>
@@ -135,13 +148,6 @@
                 <div class="menuItem"><%= link_to(t(:label_action_add_exists_action),{:action => "add_exists_action",:back_url=>url_for({})}) %></div>
               </div>
             </span>
-            <script type="text/javascript">
-              GY.use("menubutton",function(Y){
-                Y.on("domready",function(){
-                  new Y.MenuButton({menuNode:"#createAction",dropAlign:["TL","BL"]});
-                });
-              });
-            </script>
           </div>
         </div>
         <div id="head_2_ep" class="pbSubheader  tertiaryPalette">
@@ -152,7 +158,11 @@
             <%= render(:partial =>"time_triggers",:locals => {:time_triggers=>wf_rule_time_triggers(@wf_rule.id)}) %>
           </div>
           <div style="display:inline-block;margin-top:10px;">
-            <div class="button"><%= link_to t(:label_irm_wf_rule_add_time_trigger), {:controller=>"irm/wf_rule_time_triggers",:action => "new", :rule_id => @wf_rule.id}%></div>
+            <% unless @wf_rule.enabled?%>
+                <div class="button"><%= link_to t(:label_irm_wf_rule_add_time_trigger), {:controller=>"irm/wf_rule_time_triggers",:action => "new", :rule_id => @wf_rule.id}%></div>
+            <% else %>
+                <div class="button"><%= link_to t(:label_irm_wf_rule_add_time_trigger), {}, :disabled => true%></div>
+            <% end %>
           </div>
         </div>
       </div>

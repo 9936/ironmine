@@ -287,6 +287,11 @@ a#headerSearchOptionsLink {text-decoration:none;}
 	line-height: 20px;
 }
 .menuButton div.menuLabel a:hover{background-position: right -30px;}
+.menuButton div.menuLabel a[class="disabled"] {
+    color: #a9a9a9;
+    background: none;
+    background-color: #ededed;
+}
 .menuButton div.menuLabel .menuButtonArrow{
      float:right;
      padding-right:10px;

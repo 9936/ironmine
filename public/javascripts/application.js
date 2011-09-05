@@ -20,12 +20,12 @@ GY.use('node',function(Y){
     });
 
     Y.all('a[disabled]').each(function(n){
-        var parent_node = n.get('parentNode');
-        if(parent_node.hasClass("button")){
+//        var parent_node = n.get('parentNode');
+//        if(parent_node.hasClass("button")){
             n.addClass("disabled");
             n.removeAttribute("disabled");
             n.setAttribute("href", "javascript:void(0);")
-        }
+//        }
     });
 });
 function show_irm_calendar(YAHOO,Event,Dom,id_button,id_date_field,id_cal, cfg){
