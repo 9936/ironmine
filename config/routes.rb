@@ -778,8 +778,8 @@ Ironmine::Application.routes.draw do
     match '/external_systems/:id/multilingual_edit(.:format)' => "external_systems#multilingual_edit", :via => :get
     match '/external_systems/:id/multilingual_update(.:format)' => "external_systems#multilingual_update", :via => :put
 
-    match '/external_systems/:external_system_code/add_people(.:format)' => "external_systems#add_people"
-    match '/external_systems/:external_system_code/delete_people(.:format)' => "external_systems#delete_people"
+    match '/external_systems/:external_system_id/add_people(.:format)' => "external_systems#add_people"
+    match '/external_systems/:external_system_id/delete_people(.:format)' => "external_systems#delete_people"
 
     #external_system_person
     match '/external_system_members(/index)(.:format)' => "external_system_members#index", :via => :get

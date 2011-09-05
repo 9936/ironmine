@@ -119,10 +119,10 @@ class Irm::ExternalSystemsController < ApplicationController
     respond_to do |format|
       if(!@external_system_person.status_code.blank?)
         @external_system_person.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
-          Irm::ExternalSystemPerson.create(:external_system_code => params[:external_system_code],:person_id => id)
+          Irm::ExternalSystemPerson.create(:external_system_id => params[:external_system_id],:person_id => id)
         end
       end
-      system_id = Irm::ExternalSystem.where(:external_system_code=>params[:external_system_code]).first
+      system_id = Irm::ExternalSystem.where(:id=>params[:external_system_id]).first
       format.html { redirect_to({:action=>"show", :id => system_id}, :notice => t(:successfully_created)) }
       format.xml  { render :xml => @external_system_person.errors, :status => :unprocessable_entity }
     end
@@ -134,11 +134,11 @@ class Irm::ExternalSystemsController < ApplicationController
     respond_to do |format|
       if(!@external_system_person.temp_id_string.blank?)
         @external_system_person.temp_id_string.split(",").delete_if{|i| i.blank?}.each do |id|
-          esp = Irm::ExternalSystemPerson.where(:external_system_code => params[:external_system_code],:person_id => id).first
+          esp = Irm::ExternalSystemPerson.where(:external_system_id => params[:external_system_id],:person_id => id).first
           esp.destroy
         end
       end
-      system_id = Irm::ExternalSystem.where(:external_system_code=>params[:external_system_code]).first
+      system_id = Irm::ExternalSystem.where(:id=>params[:external_system_id]).first
       format.html { redirect_to({:action=>"show", :id => system_id}, :notice => t(:successfully_created)) }
       format.xml  { render :xml => @external_system_person.errors, :status => :unprocessable_entity }
     end

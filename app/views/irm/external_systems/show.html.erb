@@ -50,7 +50,7 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_external_system_add_people) %>&nbsp;<%= t(:label_irm_select_result) %></h2></td>
               <td class="pbButton">
-                <%= form_for(@external_system_person,:url=>{:action=>"add_people", :external_system_code => @external_system.external_system_code},:builder => LabellingFormBuilder) do |f| %>
+                <%= form_for(@external_system_person,:url=>{:action=>"add_people", :external_system_id => @external_system.id},:builder => LabellingFormBuilder) do |f| %>
                   <%= f.hidden_field(:status_code) %>
                   <div class="button"><%= f.submit t(:save)%></div>
                   <div class="button"><%= link_to(t(:cancel),{}, :href =>"javascript:void(0);", :onclick=>"display_member_grid()")%></div>
@@ -68,13 +68,11 @@
         <div id="selectablePeople" class="datatable" style="width:100%">
         </div>
         <%= datatable("selectablePeople",url_for(:controller=>"irm/external_system_members", :action=>"get_available_people_data",
-                                                 :external_system_code => @external_system.external_system_code,:format=>"json"),
+                                                 :external_system_id => @external_system.id,:format=>"json"),
                       [{:key=>"id",:label=>t(:operation), :hidden => true},
                            { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
                            { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
-                           { :key => "company_name", :label => t(:label_irm_company),:searchable=>true },
-                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true },
-                           { :key => "department_name", :label => t(:label_irm_department),:searchable=>true }],
+                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true }],
                       {:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
         <div id="selectablePeoplePaginator"></div>
       </div>
@@ -90,7 +88,7 @@
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_external_system_people) %></h2></td>
               <td id="topButtonRow2" class="pbButton" style="width:30%">
                 <div class="button"><%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()" %></div>
-                <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_code => @external_system.external_system_code},:builder => LabellingFormBuilder) do |f| %>
+                <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_id => @external_system.id},:builder => LabellingFormBuilder) do |f| %>
                     <%= f.hidden_field(:temp_id_string, :value => "") %>
                     <div class="button"><%= f.submit t(:delete_selected), :confirm => t(:label_are_you_sure)%></div>
                 <% end %>
@@ -108,13 +106,11 @@
               </div>
             </div>
             <%= datatable("external_people",url_for(:controller => "irm/external_system_members",:action=>"get_owned_members_data",
-                                                    :format=>"json", :external_system_code => @external_system.external_system_code),
+                                                    :format=>"json", :external_system_id => @external_system.id),
                           [{:key=>"id",:label=>t(:operation),:hidden => true},
                            { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
                            { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
-                           { :key => "company_name", :label => t(:label_irm_company),:searchable=>true },
-                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true },
-                           { :key => "department_name", :label => t(:label_irm_department),:searchable=>true }
+                           { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true }
                            ],{:row_perpage=>10,:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
             <div id="external_peoplePaginatorBox"></div>
         </div>
