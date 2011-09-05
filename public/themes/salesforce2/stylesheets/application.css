@@ -13,6 +13,7 @@ body #AppBodyHeader {background-image:none;}
     padding:0;
     width:100%;
 }
+#tabBar *{box-sizing: content-box !important;}
 .bPageHeader .phHeader .left .spacer, .bPageHeader .phHeader td.left {
 width:230px;
 }
