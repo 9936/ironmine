@@ -53,6 +53,11 @@ class Irm::WfRulesController < ApplicationController
   # GET /wf_rules/1/edit
   def edit
     @wf_rule = Irm::WfRule.find(params[:id])
+    if @wf_rule.enabled?
+      respond_to do |format|
+        format.html { redirect_to({:action => "show", :id => @wf_rule.id})}
+      end
+    end
     @rule_filter = Irm::RuleFilter.query_by_source(Irm::WfRule.name,@wf_rule.id).first
   end
 
