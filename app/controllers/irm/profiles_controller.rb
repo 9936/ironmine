@@ -43,7 +43,7 @@ class Irm::ProfilesController < ApplicationController
     @profile = Irm::Profile.new(params[:irm_profile])
     existing_profile = Irm::Profile.find(params[:existing_profile])
     @profile.user_license = existing_profile.user_license
-
+    @profile.opu_id = existing_profile.opu_id
     respond_to do |format|
       if @profile.valid? && @profile.save
         @profile.clone_application_relation_from_profile(existing_profile)

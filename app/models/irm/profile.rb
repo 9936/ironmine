@@ -14,6 +14,9 @@ class Irm::Profile < ActiveRecord::Base
 
   query_extend
 
+  validates_presence_of :code
+  validates_uniqueness_of :code, :scope => :opu_id
+
   scope :with_kanban, lambda{
     joins("LEFT OUTER JOIN #{Irm::ProfileKanban.table_name} pk ON pk.profile_id = #{table_name}.id").
         joins("LEFT OUTER JOIN #{Irm::Kanban.view_name} kb ON pk.kanban_id = kb.id AND kb.position_code='INCIDENT_REQUEST_PAGE' AND kb.language='#{I18n.locale}'").
