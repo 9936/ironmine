@@ -12,7 +12,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :business_object_code,:attribute_name,:approval_page_field_flag
-  validates_uniqueness_of :attribute_name, :scope=>:business_object_code,:if => Proc.new { |i| !i.attribute_name.blank?&&!i.business_object_code.blank? }
+  validates_uniqueness_of :attribute_name,:scope=>[:opu_id,:business_object_code],:if => Proc.new { |i| !i.attribute_name.blank?&&!i.business_object_code.blank? }
   validates_presence_of :exists_relation_flag,:relation_bo_code,:relation_table_alias_name,:relation_column,:if => Proc.new { |i| !i.attribute_type.blank?&&["RELATION_COLUMN","LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(i.attribute_type)}
   validates_presence_of :where_clause,:if => Proc.new { |i| !i.attribute_type.blank?&&i.attribute_type.eql?("RELATION_COLUMN")&&i.exists_relation_flag.eql?(Irm::Constant::SYS_NO) }
   validates_format_of :relation_table_alias_name, :with => /^[A-Za-z0-9_]*$/ ,:if=>Proc.new{|i| i.relation_table_alias_name.present?}

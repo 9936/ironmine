@@ -14,7 +14,7 @@ class Irm::ExternalSystem < ActiveRecord::Base
 
   query_extend
 
-  validates_uniqueness_of :external_system_code
+  validates_uniqueness_of :external_system_code,:scope=>[:opu_id]
   validates_presence_of :external_system_code
 
   scope :with_person, lambda{|person_id|

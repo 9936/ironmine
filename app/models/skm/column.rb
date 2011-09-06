@@ -7,7 +7,7 @@ class Skm::Column < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :column_code
-  validates_uniqueness_of :column_code
+  validates_uniqueness_of :column_code,:scope=>[:opu_id]
 
   attr_accessor :access_str
 

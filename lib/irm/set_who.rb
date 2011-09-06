@@ -35,6 +35,11 @@ module Irm::SetWho
       if self.is_a?(Irm::OperationUnit)
         return self.id
       end
-      ::Irm::OperationUnit.current.id
+      current = ::Irm::OperationUnit.current
+      if current
+        return ::Irm::OperationUnit.current.id
+      else
+        return "0"
+      end
     end
 end

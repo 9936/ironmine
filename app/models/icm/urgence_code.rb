@@ -9,7 +9,7 @@ class Icm::UrgenceCode < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :urgency_code,:weight_values,:display_sequence
-  validates_uniqueness_of :urgency_code, :if => Proc.new { |i| !i.urgency_code.blank? }
+  validates_uniqueness_of :urgency_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.urgency_code.blank? }
   validates_format_of :urgency_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.urgency_code.blank?}
 
   #加入activerecord的通用方法和scope

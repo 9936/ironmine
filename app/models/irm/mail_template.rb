@@ -16,7 +16,7 @@ class Irm::MailTemplate < ActiveRecord::Base
   acts_as_multilingual({:columns =>[:name,:description,:subject,:mail_body],:required=>[:name,:subject,:mail_body]})
 
   validates_presence_of :template_code
-  validates_uniqueness_of :template_code, :if => Proc.new { |i| !i.template_code.blank? }
+  validates_uniqueness_of :template_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.template_code.blank? }
   validates_format_of :template_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.template_code.blank?}
 
   scope :query_by_template_code,lambda{|template_code| where("template_code =?",template_code)}

@@ -12,7 +12,7 @@ class Irm::Lane < ActiveRecord::Base
   query_extend
 
   validates_presence_of :lane_code
-  validates_uniqueness_of :lane_code
+  validates_uniqueness_of :lane_code ,:scope=>[:opu_id]
 
   scope :without_kanban, lambda{|kanban_id|
     joins(",#{Irm::LanesTl.table_name} lt ").

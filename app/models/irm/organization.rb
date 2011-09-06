@@ -11,7 +11,7 @@ class Irm::Organization < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :short_name
-  validates_uniqueness_of :short_name,:scope=>[:parent_org_id], :if => Proc.new { |i| !i.short_name.blank? }
+  validates_uniqueness_of :short_name,:scope=>[:opu_id], :if => Proc.new { |i| !i.short_name.blank? }
   validates_format_of :short_name, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.short_name.blank?}
 
   #加入activerecord的通用方法和scope

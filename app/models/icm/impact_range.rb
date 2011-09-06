@@ -11,7 +11,7 @@ class Icm::ImpactRange < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :impact_code,:weight_values
-  validates_uniqueness_of :impact_code, :if => Proc.new { |i| !i.impact_code.blank? }
+  validates_uniqueness_of :impact_code, :scope=>[:opu_id],:if => Proc.new { |i| !i.impact_code.blank? }
   validates_format_of :impact_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.impact_code.blank?}
 
   #加入activerecord的通用方法和scope

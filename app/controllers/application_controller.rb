@@ -258,7 +258,14 @@ class ApplicationController < ActionController::Base
       end
       #转向登录页面
       respond_to do |format|
-        format.html { redirect_to :controller => "irm/common", :action => "login", :back_url => url }
+        format.html {
+          # 防止在login页面进入循环跳转
+          if params[:controller].eql?("irm/common")&&params[:action].eql?("login")
+            return true
+          else
+            redirect_to :controller => "irm/common", :action => "login", :back_url => url
+          end
+        }
         format.xml { render :xml=>Irm::Person.current,:status=> :unprocessable_entity }
       end
       return false

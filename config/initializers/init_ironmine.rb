@@ -107,7 +107,11 @@ Ironmine::Acts::Searchable.searchable_entity = {Icm::IncidentRequest.name=>"view
                                                  Skm::EntryHeader.name=>"view_skm_entries"}
 
 
-
+begin
 
 #初始化系统参数
 Irm::SystemParametersManager.prepare_system_parameters_cache
+
+  rescue =>text
+          puts("Init SystemParameter error :#{text}")
+end

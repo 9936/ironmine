@@ -8,7 +8,6 @@ class Csi::Survey < ActiveRecord::Base
                            :target_controller => "csi/surveys")
 
   validates_presence_of :title
-  validates_uniqueness_of :title
 
   validates_presence_of :due_dates,:if=>Proc.new{|i| i.with_incident_request.eql?(Irm::Constant::SYS_YES)}
   validates_presence_of :closed_datetime,:if=>Proc.new{|i| i.with_incident_request.eql?(Irm::Constant::SYS_NO)}

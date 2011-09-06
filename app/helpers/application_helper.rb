@@ -22,6 +22,8 @@ module ApplicationHelper
       else
         common_setting_title(model_title,action_title,options[:show_data])
       end
+    else
+      common_setting_title(model_title,action_title,options[:show_data])
     end
   end
 

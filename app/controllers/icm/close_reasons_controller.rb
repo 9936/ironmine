@@ -18,7 +18,7 @@ class Icm::CloseReasonsController < ApplicationController
     @close_reason = Icm::CloseReason.new
 
     respond_to do |format|
-      format.html { render :layout => "application_full"}# new.html.erb
+      format.html # new.html.erb
       format.xml  { render :xml => @close_reason }
     end
   end

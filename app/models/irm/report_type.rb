@@ -15,7 +15,7 @@ class Irm::ReportType < ActiveRecord::Base
 
   validates_presence_of :code,:business_object_id
   validates_presence_of :relationship_str ,:if=>Proc.new{|i| i.new_record?&&check_step(2)}
-  validates_uniqueness_of :code,:if=>Proc.new{|i| i.code.present?}
+  validates_uniqueness_of :code,:scope=>[:opu_id],:if=>Proc.new{|i| i.code.present?}
   validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?}
 
 
