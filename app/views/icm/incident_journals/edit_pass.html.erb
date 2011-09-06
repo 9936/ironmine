@@ -53,7 +53,7 @@
     vertical-align: top;
   }
 </style>
-<%= common_title(:show_data=>Icm::IncidentRequest.name,:action_meaning=>t(:pass)) %>
+<%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:pass)) %>
 <%= form_for(@incident_request,:url=>{:action=>"update_pass"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
   <%=f.hidden_field :pass_flag,:value=>"Y" %>
 <div id="reply" class="bEditBlock bPageBlock">
