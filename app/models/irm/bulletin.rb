@@ -9,17 +9,22 @@ class Irm::Bulletin < ActiveRecord::Base
 
   attr_accessor :column_ids,:access_str
 
+  searchable do
+    text :content
+    text :title
+  end
+
   scope :with_author, lambda{
     select("concat(pr.last_name, pr.first_name) author")
     joins(",#{Irm::Person.table_name} pr").
         where("pr.id = #{table_name}.author_id")
   }
 
-
   scope :accessible,lambda{|person_id|
       joins("JOIN #{Irm::BulletinAccess.table_name} ON #{Irm::BulletinAccess.table_name}.bulletin_id = #{table_name}.id").
       where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_id = #{Irm::BulletinAccess.table_name}.access_id AND #{Irm::Person.relation_view_name}.source_type = #{Irm::BulletinAccess.table_name}.access_type AND  #{Irm::Person.relation_view_name}.person_id = ?)",person_id)
   }
+
   scope :select_all, lambda{
     select("#{table_name}.id id, #{table_name}.title bulletin_title, #{table_name}.content, DATE_FORMAT(#{table_name}.created_at, '%Y/%c/%e %H:%I:%S') published_date").
         select("#{table_name}.page_views page_views, #{table_name}.sticky_flag")
@@ -29,7 +34,6 @@ class Irm::Bulletin < ActiveRecord::Base
     select("#{table_name}.id id, CONCAT('[#{I18n.t(:label_irm_bulletin_sticky_flag)}] ', #{table_name}.title) bulletin_title, #{table_name}.content, DATE_FORMAT(#{table_name}.created_at, '%Y/%c/%e %H:%I:%S') published_date").
         select("#{table_name}.page_views page_views, #{table_name}.sticky_flag")
   }
-
 
   scope :query_by_author, lambda{|author_id|
     where("#{table_name}.author_id=?", author_id)
