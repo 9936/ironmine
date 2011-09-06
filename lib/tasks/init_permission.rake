@@ -40,6 +40,7 @@ namespace :irm do
     not_inited_route_permissions = route_permissions.dup
 
     functions = Irm::AccessControl.functions
+    functions ||={}
     function_codes = Irm::Function.all.collect{|f| f.code.downcase.to_sym}
     missing_function_codes = functions.keys.collect{|fc| fc if !function_codes.include?(fc)}.compact
     puts "#{BOLD}#{RED}Missing function codes:#{missing_function_codes.to_json}#{CLEAR}"
