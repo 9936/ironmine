@@ -4,7 +4,7 @@ module Icm::IncidentStatusesHelper
   end
 
   def available_incident_status
-    Icm::IncidentStatus.multilingual.order("default_flag DESC,close_flag,display_sequence")
+    Icm::IncidentStatus.enabled.multilingual.order("default_flag DESC,close_flag,display_sequence")
   end
 
   def available_incident_request_event
