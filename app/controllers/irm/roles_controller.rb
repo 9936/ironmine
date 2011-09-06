@@ -27,7 +27,7 @@ class Irm::RolesController < ApplicationController
       roles[gr[0]].level = 1
       @level_roles << roles[gr[0]]
       proc.call(roles[gr[0]].id,2)
-    end
+    end if grouped_roles["blank"]
 
 
     respond_to do |format|

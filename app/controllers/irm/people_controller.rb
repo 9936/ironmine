@@ -78,7 +78,7 @@ class Irm::PeopleController < ApplicationController
   end
 
   def get_data
-    @people= Irm::Person.list_all.order(:id)
+    @people= Irm::Person.not_anonymous.list_all.order(:id)
     @people = @people.match_value("#{Irm::Person.table_name}.login_name",params[:login_name])
     @people = @people.match_value("#{Irm::Person.name_to_sql(nil,Irm::Person.table_name,"")}",params[:person_name])
     @people = @people.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])

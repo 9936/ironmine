@@ -22,14 +22,14 @@ Irm::AccessControl.map do |map|
                              "irm/lookup_values"=>["index", "show", "get_lookup_values", "select_lookup_type","new", "create","edit", "update", "multilingual_edit", "multilingual_update","get_data"]}
 
   #===================irm/general_categories============================
-  map.function :general_category,{"irm/general_categories"=>["index", "show", "get_data","new", "create","edit", "update"]}
+  map.function :general_category,{"irm/general_categories"=>[ "show", "get_data","new", "create","edit", "update"]}
 
   #===================irm/flex_value_sets irm/flex_values============================
-  map.function :value_set,{"irm/flex_value_sets"=>["index", "show", "get_data","new", "create","edit", "update"],
+  map.function :value_set,{"irm/flex_value_sets"=>[ "show", "get_data","new", "create","edit", "update"],
                            "irm/flex_values"=>["index", "show", "get_data", "select_set","new", "create","edit", "update"]}
 
   #===================irm/id_flexes irm/id_flex_structures irm/id_flex_segments============================
-  map.function :id_flex,{"irm/id_flexes"=>["index", "show", "get_data","new", "create","edit", "update"],
+  map.function :id_flex,{"irm/id_flexes"=>[ "show", "get_data","new", "create","edit", "update"],
                            "irm/id_flex_structures"=>["index", "show", "get_data", "select_parent","new", "create","edit", "update"],
                            "irm/id_flex_segments"=>["index", "show", "get_data","new", "create","edit", "update"]}
 
@@ -219,12 +219,12 @@ Irm::AccessControl.map do |map|
 
   #===================irm/report_type_categories============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
-  map.function :report_type_category,{"irm/report_type_categories"=>["index", "show","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+  map.function :report_type_category,{"irm/report_type_categories"=>["index", "show","new", "create","get_data","edit", "update", "multilingual_edit", "multilingual_update"]}
   #===================irm/report_types===========================
   #["index", "edit", "update", "edit_relation", "update_relation", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
   #===================irm/report_type_sections============================
   #["index", "update", "field_source", "section_field"]
-  map.function :report_type,{"irm/report_types"=>["index", "show","new", "create","edit", "update", "edit_relation", "update_relation", "multilingual_edit", "multilingual_update"],
+  map.function :report_type,{"irm/report_types"=>["index", "show","new", "create","edit", "update","get_data", "edit_relation", "update_relation", "multilingual_edit", "multilingual_update"],
                              "irm/report_type_sections"=>["index", "update", "field_source", "section_field"]}
 
   map.function :kanban,{"irm/kanbans"=>["index", "show", "get_data", "refresh_my_kanban",
@@ -250,15 +250,15 @@ Irm::AccessControl.map do |map|
 
   #===================irm/tabs============================
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
-  map.function :tab,{"irm/tabs"=>["index", "show","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+  map.function :tab,{"irm/tabs"=>["index", "show","new", "create","edit", "update", "get_data","multilingual_edit", "multilingual_update"]}
 
   #===================irm/applications============================
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
-  map.function :application,{"irm/applications"=>["index", "show","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+  map.function :application,{"irm/applications"=>["index", "show","new", "create","edit","get_data", "update", "multilingual_edit", "multilingual_update"]}
 
   #===================irm/profiles============================
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
-  map.function :profile,{"irm/profiles"=>["index", "show","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
+  map.function :profile,{"irm/profiles"=>["index", "show","new", "create","edit", "update","get_data", "multilingual_edit", "multilingual_update"]}
 
   #===================irm/bu_columns============================
   map.function :bulletin_column,{"irm/bu_columns" => ["index", "edit", "update", "new", "create", "get_columns_data"]}
@@ -271,7 +271,7 @@ Irm::AccessControl.map do |map|
   map.function :operation_unit,{"irm/operation_units"=>["show","edit", "update"]}
 
   #===================irm/external_systems============================
-  map.function :system,{"irm/external_systems" => ["index", "update","edit","show","new","create"]}
+  map.function :system,{"irm/external_systems" => ["index","get_data", "update","edit","show","new","create"]}
   map.function :external_system_member,{"irm/external_system_members" => ["index"]}
 
   #===================irm/cloud_operations============================

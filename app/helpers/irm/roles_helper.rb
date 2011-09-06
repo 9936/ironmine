@@ -27,7 +27,7 @@ module Irm::RolesHelper
       roles[go[0]].level = 1
       leveled_roles << roles[go[0]]
       proc.call(roles[go[0]].id,2)
-    end
+    end if grouped_roles["blank"]
 
     leveled_roles.collect{|i|[(level_str(i.level)+i[:name]).html_safe,i.id]}
 
