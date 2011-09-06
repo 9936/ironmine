@@ -10,7 +10,7 @@ class Slm::ServiceCategory < ActiveRecord::Base
   query_extend
 
   validates_presence_of :category_code
-  validates_uniqueness_of :category_code, :if => Proc.new { |i| !i.category_code.blank? }
+  validates_uniqueness_of :category_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.category_code.blank? }
 
   
 

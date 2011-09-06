@@ -4,8 +4,8 @@ class Irm::MachineCode < ActiveRecord::Base
   query_extend
   validates_presence_of :machine_addr
   validates_presence_of :machine_code ,:if=>Proc.new{|i| !i.new_record?}
-  validates_uniqueness_of :machine_addr,:if=>Proc.new{|i| i.machine_addr.present?}
-  validates_uniqueness_of :machine_code,:if=>Proc.new{|i| i.machine_code.present?}
+  validates_uniqueness_of :machine_addr,:scope=>[:opu_id],:if=>Proc.new{|i| i.machine_addr.present?}
+  validates_uniqueness_of :machine_code,:scope=>[:opu_id],:if=>Proc.new{|i| i.machine_code.present?}
 
   after_create :generate_code
 
@@ -23,7 +23,11 @@ class Irm::MachineCode < ActiveRecord::Base
     if(instance)
       return instance.machine_code
     else
-      self.create(:machine_addr=>mac_addr)
+      if self.all.any?
+        self.create(:machine_addr=>mac_addr)
+      else
+        self.create(:machine_addr=>mac_addr,:created_by=>"0",:updated_by=>"0",:opu_id=>"0")
+      end
       return self.code(mac_addr)
     end
   end

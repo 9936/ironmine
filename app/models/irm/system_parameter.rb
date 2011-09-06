@@ -9,7 +9,7 @@ class Irm::SystemParameter < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :parameter_code
-  validates_uniqueness_of :parameter_code, :if => Proc.new { |i| !i.parameter_code.blank? }
+  validates_uniqueness_of :parameter_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.parameter_code.blank? }
   validates_format_of :parameter_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.parameter_code.blank?}
 
   query_extend

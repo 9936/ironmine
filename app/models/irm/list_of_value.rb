@@ -9,7 +9,7 @@ class Irm::ListOfValue < ActiveRecord::Base
   acts_as_multilingual({:columns =>[:name,:description,:value_title,:desc_title,:addition_title],:required=>[:name,:value_title]})
 
   validates_presence_of :lov_code,:bo_code,:id_column,:value_column
-  validates_uniqueness_of :lov_code,:if => Proc.new { |i| !i.lov_code.blank? }
+  validates_uniqueness_of :lov_code,:scope=>[:opu_id],:if => Proc.new { |i| !i.lov_code.blank? }
   validates_format_of :lov_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.lov_code.blank?}
 
   #加入activerecord的通用方法和scope

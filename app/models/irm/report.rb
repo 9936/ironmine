@@ -23,7 +23,7 @@ class Irm::Report < ActiveRecord::Base
 
   validates_presence_of :report_type_id, :if => Proc.new { |i| i.check_step(1) }
   validates_presence_of :code, :if => Proc.new { |i| i.check_step(2) }
-  validates_uniqueness_of :code, :if => Proc.new { |i| i.code.present? }
+  validates_uniqueness_of :code,:scope=>[:opu_id], :if => Proc.new { |i| i.code.present? }
   validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?}
   validate :validate_raw_condition_clause,:if=> Proc.new{|i| i.raw_condition_clause.present?}
 

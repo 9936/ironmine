@@ -35,7 +35,14 @@ class Irm::OperationUnit < ActiveRecord::Base
 
 
   def self.current
-    @current||self.first
+    return @current if @current
+    if !Irm::Person.current.logged?&&Irm::Person.current.operation_unit
+      @current = Irm::Person.current.operation_unit
+    end
+    if self.first
+      @current = self.first
+    end
+    return @current
   end
 
   def self.current=(opu)

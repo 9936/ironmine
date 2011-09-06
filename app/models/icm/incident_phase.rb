@@ -7,7 +7,7 @@ class Icm::IncidentPhase < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :phase_code,:display_sequence
-  validates_uniqueness_of :phase_code, :if => Proc.new { |i| !i.phase_code.blank? }
+  validates_uniqueness_of :phase_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.phase_code.blank? }
   validates_format_of :phase_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.phase_code.blank?}
 
   #加入activerecord的通用方法和scope

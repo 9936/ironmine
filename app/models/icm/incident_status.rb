@@ -9,7 +9,7 @@ class Icm::IncidentStatus < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :incident_status_code,:phase_code
-  validates_uniqueness_of :incident_status_code, :if => Proc.new { |i| !i.incident_status_code.blank? }
+  validates_uniqueness_of :incident_status_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.incident_status_code.blank? }
   validates_format_of :incident_status_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.incident_status_code.blank?}
 
   #加入activerecord的通用方法和scope

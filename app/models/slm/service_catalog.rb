@@ -10,7 +10,7 @@ class Slm::ServiceCatalog < ActiveRecord::Base
   query_extend
 
   validates_presence_of :catalog_code
-  validates_uniqueness_of :catalog_code, :if => Proc.new { |i| !i.catalog_code.blank? }
+  validates_uniqueness_of :catalog_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.catalog_code.blank? }
 
 
   scope :query_by_category_code ,lambda{|language| select("v1.name category_name").

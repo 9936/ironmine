@@ -7,7 +7,7 @@ class Skm::EntryStatus < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :entry_status_code
-  validates_uniqueness_of :entry_status_code
+  validates_uniqueness_of :entry_status_code,:scope=>[:opu_id]
 
   query_extend
 end

@@ -7,7 +7,7 @@ class Irm::Site < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :site_code
-  validates_uniqueness_of :site_code, :if => Proc.new { |i| !i.site_code.blank? }
+  validates_uniqueness_of :site_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.site_code.blank? }
   validates_format_of :site_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.site_code.blank?}
 
   #加入activerecord的通用方法和scope

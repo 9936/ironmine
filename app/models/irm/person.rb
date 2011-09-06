@@ -22,8 +22,9 @@ class Irm::Person < ActiveRecord::Base
   }
 
   belongs_to :profile
+  belongs_to :operation_unit,:foreign_key => :opu_id
 
-  validates_presence_of :login_name,:first_name,:email_address,:opu_id
+  validates_presence_of :login_name,:first_name,:email_address
   validates_uniqueness_of :login_name, :if => Proc.new { |i| !i.login_name.blank? }
   validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/
   validates_length_of :login_name, :maximum => 30
@@ -31,7 +32,6 @@ class Irm::Person < ActiveRecord::Base
   validates_confirmation_of :password, :allow_nil => true,:if=> Proc.new{|i|i.hashed_password.blank?||!i.password.blank?}
   validate :validate_password_policy,:if=> Proc.new{|i| i.password.present?&&i.password_confirmation.present?}
 
-  validates_presence_of :title,:if => Proc.new { |i| i.validate_as_person? }
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
@@ -63,6 +63,7 @@ class Irm::Person < ActiveRecord::Base
 
 
   scope :real,where(:type=>nil)
+  scope :not_anonymous,where("#{table_name}.login_name != ?","anonymous")
   scope :query_by_identity,lambda{|identity|
     where(:identity_id=>identity)
   }
@@ -199,7 +200,7 @@ class Irm::Person < ActiveRecord::Base
    def self.anonymous
      anonymous_person = Irm::AnonymousPerson.first
      if anonymous_person.nil?
-       anonymous_person = Irm::AnonymousPerson.create(:login_name => 'anonymous', :first_name => 'anonymous',:email_address=>"anonymous@email.com",:hashed_password=>"nopassword")
+       anonymous_person = Irm::AnonymousPerson.create(:login_name => 'anonymous', :first_name => 'anonymous',:email_address=>"anonymous@email.com",:hashed_password=>"nopassword",:opu_id=>"anonymous")
        puts anonymous_person.errors
        raise 'Unable to create the anonymous person.' if anonymous_person.new_record?
      end
@@ -270,6 +271,10 @@ class Irm::Person < ActiveRecord::Base
   # 用户所能访问的功能
   def functions
     return @function_ids if @function_ids
+    if self.operation_unit&&self.operation_unit.primary_person_id.eql?(self.id)
+      @function_ids = self.operation_unit.function_ids
+      return @function_ids
+    end
     if self.profile
       @function_ids = self.profile.function_ids
     else

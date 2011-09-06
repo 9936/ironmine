@@ -8,8 +8,8 @@ class Csi::SurveyMember < ActiveRecord::Base
 
   belongs_to :survey
 
-  validates_uniqueness_of :person_id,:scope=>[:survey_id],:if=>Proc.new{|i| i.source_id.nil?}
-  validates_uniqueness_of :person_id,:scope=>[:survey_id,:source_id],:if=>Proc.new{|i| !i.source_id.nil?}
+  validates_uniqueness_of :person_id,:scope=>[:survey_id,:opu_id],:if=>Proc.new{|i| i.source_id.nil?}
+  validates_uniqueness_of :person_id,:scope=>[:survey_id,:source_id,:opu_id],:if=>Proc.new{|i| !i.source_id.nil?}
 
 
   scope :query_by_survey_id,lambda{|survey_id| where(:survey_id => survey_id)}
