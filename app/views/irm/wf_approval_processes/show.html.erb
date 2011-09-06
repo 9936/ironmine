@@ -16,7 +16,11 @@
         <tr>
           <td class="pbTitle"><h2 class="mainTitle"><%=bo_name(@wf_approval_process.bo_code)+":"+@wf_approval_process.name %></h2></td>
           <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @wf_approval_process.id}%></div>
+            <% unless @wf_approval_process.enabled? %>
+                <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @wf_approval_process.id}%></div>
+            <% else %>
+                <div class="button"><%= link_to t(:edit), {}, :disabled => true%></div>
+            <% end %>
             <div class="button"><%= link_to t(:cancel),back_url_default({:action=>"index"})%></div>
           </td>
         </tr>
@@ -77,9 +81,9 @@
 </div>
 <%= render :partial => "ap_sumit_actions" %>
 <%= render :partial => "show_steps",:locals => {:steps=>showable_steps(@wf_approval_process.id)} %>
-<%= render :partial => "ap_final_approval_actions" %>
-<%= render :partial => "ap_final_reject_actions" %>
-<%= render :partial => "ap_recall_actions" %>
+<%= render :partial => "ap_final_approval_actions"%>
+<%= render :partial => "ap_final_reject_actions"%>
+<%= render :partial => "ap_recall_actions"%>
 <script type="text/javascript">
   GY.use(function(Y){
       Y.all(".showStepAction").on("click",function(e){

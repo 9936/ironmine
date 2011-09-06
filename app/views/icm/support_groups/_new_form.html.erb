@@ -34,31 +34,18 @@
             <tr>
               <td class="labelCol"><label><%=(t :label_icm_support_group_code)%></label></td>
               <td class="dataCol"><%=@group.code%></td>
-              <td class="labelCol"></td>
-              <td class="dataCol"></td>
+              <td class="labelCol"><label><%=(t :label_icm_support_group_oncall_flag)%></label></td>
+              <td class="dataCol"><%=f.check_box :oncall_flag%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_icm_support_group_name)%></label></td>
               <td class="dataCol"><%=@group[:name]%></td>
-              <td class="labelCol"></td>
-              <td class="dataCol"></td>
+              <td class="labelCol"><label><%=(t :label_icm_support_group_vendor_flag)%></label></td>
+              <td class="dataCol"><%=f.check_box :vendor_flag%></td>
             </tr>
-
             <tr>
               <td class="labelCol"><label><%=t(:label_icm_support_group_assignment_process_code)%></label></td>
               <td class="dataCol"><%=f.select :assignment_process_code,available_processes,{},{:required=>true}%></td>
-              <td class="labelCol"></td>
-              <td class="dataCol"></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_icm_support_group_oncall_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box :oncall_flag%></td>
-              <td class="labelCol"></td>
-              <td class="dataCol"></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_icm_support_group_vendor_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box :vendor_flag%></td>
               <td class="labelCol"></td>
               <td class="dataCol"></td>
             </tr>

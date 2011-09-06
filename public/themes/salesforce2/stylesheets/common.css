@@ -287,6 +287,11 @@ a#headerSearchOptionsLink {text-decoration:none;}
 	line-height: 20px;
 }
 .menuButton div.menuLabel a:hover{background-position: right -30px;}
+.menuButton div.menuLabel a[class="disabled"] {
+    color: #a9a9a9;
+    background: none;
+    background-color: #ededed;
+}
 .menuButton div.menuLabel .menuButtonArrow{
      float:right;
      padding-right:10px;
@@ -780,6 +785,12 @@ div.button input[type="submit"] {
 	line-height: 22px;
 }
 div.button input[type="submit"]:hover{background-position: right -30px; cursor: pointer;}
+
+div.button a[class="disabled"]{
+    color: #a9a9a9;
+    background: none;
+    background-color: #ededed;
+}
 
 div.grayButton a {
     -moz-border-radius: 3px 3px 3px 3px;

@@ -18,6 +18,15 @@ GY.use('node',function(Y){
         var node = Y.Node.create('<div class="requiredInput"><div class="requiredBlock"></div>' + parent_node.getContent() + '</div>');
         parent_node.setContent(node);
     });
+
+    Y.all('a[disabled]').each(function(n){
+//        var parent_node = n.get('parentNode');
+//        if(parent_node.hasClass("button")){
+            n.addClass("disabled");
+            n.removeAttribute("disabled");
+            n.setAttribute("href", "javascript:void(0);")
+//        }
+    });
 });
 function show_irm_calendar(YAHOO,Event,Dom,id_button,id_date_field,id_cal, cfg){
         var dialog, calendar;

@@ -1314,6 +1314,8 @@ en:
   label_irm_profile_add_lane: Add Lane
   label_irm_profile_reorder_lane: Reorder
   label_irm_profile_ir_page_kanban: Incident Index Kanban
+  label_irm_profile_select_copy_from: You must select an existing profile to clone from.
+  label_irm_profile_existing_profile: Existing Profile
   #=======================end profiles ====================
 
 

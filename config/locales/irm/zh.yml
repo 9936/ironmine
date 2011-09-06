@@ -1531,6 +1531,8 @@ zh:
   label_irm_profile_add_lane: 添加泳道
   label_irm_profile_reorder_lane: 重新排序
   label_irm_profile_ir_page_kanban: 事故单首页看板
+  label_irm_profile_select_copy_from: 选择一个已有的简档进行克隆
+  label_irm_profile_existing_profile: 已有的简档
   #=======================end profiles ====================
 
   #======================= password policies ====================

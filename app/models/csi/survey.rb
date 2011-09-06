@@ -121,6 +121,10 @@ class Csi::Survey < ActiveRecord::Base
 
   end
 
+  def has_any_subjects?
+    self.survey_subjects.any?
+  end
+
   def clear_member
     Csi::SurveyMember.delete_all(["survey_id = ? AND response_flag = ?",self.id,Irm::Constant::SYS_NO])
   end

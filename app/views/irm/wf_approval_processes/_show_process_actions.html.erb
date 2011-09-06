@@ -24,9 +24,12 @@
           <tr id="<%=action[:action].id%>" class="yui3-datatable-even">
             <td class="yui3-column">
               <div class='yui3-datatable-liner'>
-
                 <%= link_to(t(:edit),action[:edit_url_options]) %>
-                <%= link_to(t(:delete),action[:delete_url_options],{:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
+                <% unless @wf_approval_process.enabled? %>
+                    <%= link_to(t(:delete),action[:delete_url_options],{:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
+                <% else %>
+                    <%= t(:delete) %>
+                <% end %>
                </div>
             </td>
             <td class="yui3-column">

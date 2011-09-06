@@ -7,14 +7,7 @@
         <tr>
           <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_csi_survey_show) %>&nbsp;<%= t(:label_detail_info) %></h2></td>
           <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @survey}%></div>
-            <% if @survey.enabled?  %>
-              <div class="button"><%= link_to t(:disable), {:action => "active",:id=>@survey.id,:active=>Irm::Constant::SYS_NO}%></div>
-            <% else %>
-              <div class="button"><%= link_to t(:active), {:action => "active",:id=>@survey.id,:active=>Irm::Constant::SYS_YES}%></div>
-            <% end %>
-            <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
+            <%= csi_survey_show_button_bar(@survey) %>
           </td>
         </tr>
       </tbody>
@@ -62,9 +55,13 @@
            <tr>
              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_csi_survey_subject_list) %></h2></td>
              <td class="pbButton">
-               <% if check_survey_result_exist?(@survey.id) %>
+               <% if check_survey_result_exist?(@survey.id) && !@survey.enabled? %>
                  <div class="button"><%= link_to t(:add), {:controller=>"csi/survey_subjects",
                                                          :action=>"new",:survey_id=>@survey.id}%></div>
+               <% else %>
+                 <div class="button"><%= link_to t(:add), {:controller=>"csi/survey_subjects",
+                                                         :action=>"new",:survey_id=>@survey.id}, :disabled => true%></div>
+
                <% end %>
              </td>
            </tr>
@@ -74,11 +71,14 @@
 
     <div id="survey_subject" class="datatable" style="width:100%;">
           <div id="id" style="display:none">
-            <% if check_survey_result_exist?(@survey.id) %>
+            <% if check_survey_result_exist?(@survey.id) && !@survey.enabled? %>
               <%= link_to(t(:edit),{:controller=>"csi/survey_subjects",:action=>"edit",:id=>"{id}",
                                     :survey_id=>@survey.id}) %>&nbsp;&nbsp;
               <%= link_to(t(:delete),{:controller=>"csi/survey_subjects",:action=>"destroy",:id=>"{id}",:survey_id=>@survey.id},:confirm => t(:label_are_you_sure) ,
                                       :method => :delete) %>
+            <% else %>
+              <%= t(:edit) %>&nbsp;&nbsp;
+              <%= t(:delete) %>
             <% end %>
           </div>
     </div>

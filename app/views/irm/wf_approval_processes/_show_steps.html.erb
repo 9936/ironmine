@@ -6,7 +6,11 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_wf_approval_step) %></h2></td>
               <td class="pbButton">
-                <div class="button"><%= link_to t(:label_irm_wf_approval_step_new), {:controller => "irm/wf_approval_steps", :action => "new", :process_id => @wf_approval_process.id}%></div>
+                <% unless @wf_approval_process.enabled? %>
+                    <div class="button"><%= link_to t(:label_irm_wf_approval_step_new), {:controller => "irm/wf_approval_steps", :action => "new", :process_id => @wf_approval_process.id}%></div>
+                <% else %>
+                    <div class="button"><%= link_to t(:label_irm_wf_approval_step_new), {}, :disabled => true%></div>
+                <% end %>
               </td>
               <td class="pbHelp">
                 <div id="object_attributesSearchBox"></div>
@@ -59,8 +63,13 @@
                       <td class="yui3-column">
                         <div class='yui3-datatable-liner'>
                           <%= link_to(t(:operation),{},:href=>"javascript:void(0)",:class=>"showStepAction",:step=>step.id) %>
-                          <%= link_to(t(:edit),{:controller => "irm/wf_approval_steps",:process_id=>step.process_id,:action=>"edit",:id=>step.id},:back_url=>url_for({})) %>
-                          <%= link_to(t(:delete),{:controller => "irm/wf_approval_steps",:process_id=>step.process_id,:action=>"destroy",:id=>step.id,:back_url=>url_for({})},{:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
+                          <% unless @wf_approval_process%>
+                            <%= link_to(t(:edit),{:controller => "irm/wf_approval_steps",:process_id=>step.process_id,:action=>"edit",:id=>step.id},:back_url=>url_for({})) %>
+                            <%= link_to(t(:delete),{:controller => "irm/wf_approval_steps",:process_id=>step.process_id,:action=>"destroy",:id=>step.id,:back_url=>url_for({})},{:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
+                          <% else %>
+                            <%= t(:edit) %>
+                            <%= t(:delete) %>
+                          <% end %>
                          </div>
                       </td>
                       <td class="yui3-column">
