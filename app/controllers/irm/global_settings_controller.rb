@@ -2,18 +2,16 @@ class Irm::GlobalSettingsController < ApplicationController
   # GET /global_settings
   # GET /global_settings.xml
   def index
-    @global_setting = Irm::GlobalSetting.list_all.first
     @settings = Irm::SystemParameter.select_all.query_by_type("GLOBAL_SETTING")
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @global_setting }
+      format.xml  { render :xml => @settings }
     end
   end
 
   # GET /global_settings/1/edit
   def edit
-    @global_setting = Irm::GlobalSetting.all.first
     @settings = Irm::SystemParameter.select_all.query_by_type("GLOBAL_SETTING")
   end
 
@@ -21,7 +19,6 @@ class Irm::GlobalSettingsController < ApplicationController
   # PUT /global_settings/1
   # PUT /global_settings/1.xml
   def update
-    @global_setting = Irm::GlobalSetting.find(params[:id])
     system_parameters = Irm::SystemParameter.query_by_type("GLOBAL_SETTING")
 
     respond_to do |format|
@@ -50,13 +47,13 @@ class Irm::GlobalSettingsController < ApplicationController
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @global_setting.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @settings.errors, :status => :unprocessable_entity }
       end
     end    
   end
 
   def crop
-    @global_setting = Irm::GlobalSetting.all.first
+#    @global_setting = Irm::GlobalSetting.all.first
     render "crop"
   end
 end
