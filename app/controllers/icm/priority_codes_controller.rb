@@ -82,7 +82,7 @@ class Icm::PriorityCodesController < ApplicationController
   end
 
   def get_data
-    priority_codes_scope = Icm::PriorityCode.multilingual.status_meaning
+    priority_codes_scope = Icm::PriorityCode.multilingual.status_meaning.order("weight_values desc")
     priority_codes_scope = priority_codes_scope.match_value("#{Icm::PriorityCode.table_name}.priority_code",params[:priority_code])
     priority_codes_scope = priority_codes_scope.match_value("#{Icm::PriorityCodesTl.table_name}.name",params[:name])
     priority_codes,count = paginate(priority_codes_scope)

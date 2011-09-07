@@ -185,7 +185,7 @@ class Ironmine15 < ActiveRecord::Migration
     t.string   "impact_code",      :limit => 60,                  :null => false
     t.integer  "display_sequence",               :default => 10
     t.string   "default_flag",     :limit => 1,  :default => "N"
-    t.integer  "weight_values",                                   :null => false
+    t.integer  "weight_values",                  :default => 1   ,:null => false
     t.string   "status_code",      :limit => 30,                  :null => false
     t.string   "created_by",       :limit => 22
     t.string   "updated_by",       :limit => 22
@@ -382,7 +382,7 @@ class Ironmine15 < ActiveRecord::Migration
   create_table "icm_priority_codes", :force => true do |t|
     t.string   "opu_id",        :limit => 22, :null => false
     t.string   "priority_code", :limit => 60, :null => false
-    t.integer  "weight_values",               :null => false
+    t.integer  "weight_values", :default => 1,:null => false
     t.string   "status_code",   :limit => 30, :null => false
     t.string   "created_by",    :limit => 22
     t.string   "updated_by",    :limit => 22
@@ -460,7 +460,7 @@ class Ironmine15 < ActiveRecord::Migration
     t.string   "urgency_code",     :limit => 60,                  :null => false
     t.string   "default_flag",     :limit => 1,  :default => "N"
     t.integer  "display_sequence",               :default => 10
-    t.integer  "weight_values",                                   :null => false
+    t.integer  "weight_values",                  :default => 1,   :null => false
     t.string   "status_code",      :limit => 30,                  :null => false
     t.string   "created_by",       :limit => 22
     t.string   "updated_by",       :limit => 22
