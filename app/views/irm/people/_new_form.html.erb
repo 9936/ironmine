@@ -53,13 +53,11 @@
               <td class="labelCol"><label><%=(t :label_irm_person_first_name)%></label></td>
               <td class="dataCol"><%=f.text_field :first_name, :required=>true%></td>
               <td class="labelCol"><label><%=(t :label_irm_person_region_code)%></label></td>
-              <td class="dataCol"><%=f.blank_select :region_code,available_region,{},{:required=>true,:id=>"region_code"}%></td>
+              <td class="dataCol"><%=f.blank_select :region_code,available_region,{},{:id=>"region_code"}%></td>
             </tr>
             <tr>
-              <td class="labelCol"><%=(t :label_irm_person_title)%></td>
-              <td class="dataCol">
-                <%=f.select :title,options_for_select(person_title,@person.title),
-                                                    {},{:required=>true,:id=>"irm_person_title"}%></td>
+              <td class="labelCol"></td>
+              <td class="dataCol"></td>
 
               <td class="labelCol"><label><%=(t :label_irm_person_site_group_code)%></label></td>
 
