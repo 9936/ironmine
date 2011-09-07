@@ -2097,9 +2097,9 @@ class Ironmine15 < ActiveRecord::Migration
     t.string   "opu_id",          :limit => 22,                        :null => false
     t.string   "function_id",     :limit => 22,                        :null => false
     t.string   "product_id",      :limit => 22,                        :null => false
-    t.string   "code",            :limit => 90,                        :null => false
+    t.string   "code",            :limit => 120,                        :null => false
     t.string   "controller",      :limit => 60,                        :null => false
-    t.string   "action",          :limit => 30,                        :null => false
+    t.string   "action",          :limit => 60,                        :null => false
     t.integer  "params_count",                  :default => 0,         :null => false
     t.string   "direct_get_flag", :limit => 1,  :default => "Y",       :null => false
     t.string   "status_code",     :limit => 30, :default => "ENABLED", :null => false
