@@ -1,7 +1,10 @@
 class Irm::PasswordPolicy < ActiveRecord::Base
   set_table_name :irm_password_policies
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   def validate_password(password)
     result = true

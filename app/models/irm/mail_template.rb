@@ -22,8 +22,10 @@ class Irm::MailTemplate < ActiveRecord::Base
   scope :query_by_template_code,lambda{|template_code| where("template_code =?",template_code)}
 
 
-  #扩展查询方法
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
 
   scope :current_language ,lambda{|language| select("#{Irm::MailTemplate.table_name}.*,#{Irm::MailTemplatesTl.table_name}.subject").

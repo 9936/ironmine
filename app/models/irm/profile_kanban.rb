@@ -5,7 +5,10 @@ class Irm::ProfileKanban < ActiveRecord::Base
 
   validates_presence_of :kanban_id
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   scope :select_all, lambda{
     select("#{table_name}.*")

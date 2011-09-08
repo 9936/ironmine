@@ -4,7 +4,10 @@ class Skm::EntryTemplateElement < ActiveRecord::Base
   validates_uniqueness_of :entry_template_element_code,:scope=>[:opu_id]
   validates_presence_of :name
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   scope :with_template, lambda{|template_id|
     select("#{table_name}.*, et.required_flag required_flag, et.id detail_id, et.default_rows detail_rows, et.required_flag detail_required_flag").

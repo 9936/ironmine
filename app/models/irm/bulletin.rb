@@ -9,6 +9,11 @@ class Irm::Bulletin < ActiveRecord::Base
 
   attr_accessor :column_ids,:access_str
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
   scope :with_author, lambda{
     select("concat(pr.last_name, pr.first_name) author")
     joins(",#{Irm::Person.table_name} pr").

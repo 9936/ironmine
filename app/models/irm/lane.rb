@@ -9,7 +9,10 @@ class Irm::Lane < ActiveRecord::Base
   has_many :lane_cards
   has_many :cards, :through => :lane_cards
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   validates_presence_of :lane_code
   validates_uniqueness_of :lane_code ,:scope=>[:opu_id]

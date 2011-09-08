@@ -12,7 +12,10 @@ class Irm::ExternalSystem < ActiveRecord::Base
 #           :finder_sql => "SELECT p.* FROM irm_people p, uid_external_system_people sp, uid_external_systems es " +
 #                          "WHERE p.id = sp.person_id AND es.external_system_code = sp.external_system_code"
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   validates_uniqueness_of :external_system_code,:scope=>[:opu_id]
   validates_presence_of :external_system_code

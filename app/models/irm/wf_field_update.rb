@@ -10,7 +10,10 @@ class Irm::WfFieldUpdate < ActiveRecord::Base
   validate :validate_value, :if => Proc.new { |i| i.value_type.present?}
 
   acts_as_urlable
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   scope :with_bo,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} bo ON bo.business_object_code = #{table_name}.bo_code and bo.language='#{language}'").

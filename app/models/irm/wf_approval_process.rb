@@ -4,7 +4,10 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
   attr_accessor :step ,:submitter_str
 
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   has_many :wf_approval_submitters,:foreign_key => :process_id
 

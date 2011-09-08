@@ -1,15 +1,13 @@
 class Irm::ExternalSystemPerson < ActiveRecord::Base
   set_table_name :irm_external_system_people
-  query_extend
 
   attr_accessor :temp_id_string
 
   validates_uniqueness_of :person_id, :scope => :external_system_id
 
-#  belongs_to :person, :class_name => "Irm::Person",
-#             :foreign_key => "person_id", :primary_key => "id"
-#
-#  belongs_to :external_system, :class_name => "Uid::ExternalSystem",
-#             :foreign_key => "external_system_code", :primary_key => "external_system_code"
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
 end

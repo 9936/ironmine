@@ -5,6 +5,11 @@ class Icm::IncidentHistory < ActiveRecord::Base
 
   after_save :process_after_save
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
   def meaning
     return @history_meaning if @history_meaning
     title = I18n.t(("label_icm_incident_request_" + self.property_key.gsub(/\_id$/, "")).to_sym)

@@ -7,7 +7,10 @@ class Irm::ReportGroupColumn < ActiveRecord::Base
 
   before_save :setup_group_date_type
 
-
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   scope :with_object_attribute,lambda{
     joins("JOIN #{Irm::ReportTypeField.table_name} ON #{Irm::ReportTypeField.table_name}.id = #{table_name}.field_id ").

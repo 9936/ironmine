@@ -2,7 +2,6 @@ require 'paperclip_processors/cropper'
 require 'hz2py'
 include Paperclip
 class Irm::Person < ActiveRecord::Base
-
   set_table_name :irm_people
 
   attr_accessor :old_password,:password, :password_confirmation,:template_flag
@@ -35,7 +34,6 @@ class Irm::Person < ActiveRecord::Base
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
-  query_extend
 
   has_many :external_system_people,:class_name => "Irm::ExternalSystemPerson",
           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
@@ -195,10 +193,8 @@ class Irm::Person < ActiveRecord::Base
     @current_person = current_person
   end
 
-
-   #返回匿名用户,一个数据库中只有一个匿名用户
    def self.anonymous
-     anonymous_person = Irm::AnonymousPerson.first
+     anonymous_person = Irm::AnonymousPerson.unscoped.first
      if anonymous_person.nil?
        anonymous_person = Irm::AnonymousPerson.create(:login_name => 'anonymous', :first_name => 'anonymous',:email_address=>"anonymous@email.com",:hashed_password=>"nopassword",:opu_id=>"anonymous")
        puts anonymous_person.errors
@@ -226,7 +222,7 @@ class Irm::Person < ActiveRecord::Base
    def self.try_to_login(login, password)
      # Make sure no one can sign in with an empty password
      return nil if password.to_s.empty?
-     person = find(:first, :conditions => ["login_name=?", login])
+     person =unscoped.where("login_name=?", login).first
      if person
        # user is already in local database
        # user is disabled
@@ -245,7 +241,6 @@ class Irm::Person < ActiveRecord::Base
        end
      else
        person_id = Irm::LdapAuthHeader.try_to_login(login,password)
-       puts "==============#{person_id}===================="
        if person_id
          person = Irm::Person.find(person_id)
        else
@@ -358,6 +353,7 @@ class Irm::Person < ActiveRecord::Base
     "irm_person_relations_v"
   end
 
+
   private
   def reprocess_avatar
       avatar.reprocess!
@@ -401,4 +397,10 @@ class Irm::AnonymousPerson < Irm::Person
   def email; nil end
   def real?; false end
   def language_code; "en" end
+end
+
+Irm::Person.class_eval do
+  #加入activerecord的通用方法和scope
+  query_extend({:opu_filter=>true})
+  default_scope
 end

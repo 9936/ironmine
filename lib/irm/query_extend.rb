@@ -8,8 +8,11 @@ module Irm::QueryExtend
         def query_extend(options = {})
           return if self.included_modules.include?(::Irm::QueryExtend::InstanceMethods)
           send :include, ::Irm::QueryExtend::InstanceMethods
+          default_options = {:opu_filter=>false}
+          query_options =  default_options.merge(options)
 
           class_eval do
+
             scope :enabled,where("#{table_name}.status_code = ?",Irm::Constant::ENABLED)
             scope :disabled,where("#{table_name}.status_code = 'OFFLINE'")
 
@@ -54,9 +57,43 @@ module Irm::QueryExtend
               { :order => key_part1.to_s+" "+ key_part2.to_s
               }
             }
+
+
+            scope :current_opu ,lambda{
+              current_opu = Irm::OperationUnit.current
+              where("#{table_name}.opu_id = ?",current_opu ? current_opu.id : current_opu)
+            }
+
+            def self.by_opu(opu_id_or_ids=nil)
+              opu_ids = []
+
+              if opu_id_or_ids
+                if opu_id_or_ids.is_a?(Array)
+                  opu_ids =  opu_id_or_ids
+                elsif opu_id_or_ids.is_a?(String)
+                  opu_ids = [opu_id_or_ids]
+                end
+              else
+                current_opu = Irm::OperationUnit.current
+                opu_ids = [current_opu.id] if current_opu
+              end
+
+              if opu_ids.any?
+                if opu_ids.length==1
+                  return where("#{table_name}.opu_id = ?",opu_ids.first)
+                else
+                  return where("#{table_name}.opu_id IN (?)",opu_ids)
+                end
+              else
+                return {}
+              end
+
+            end
+
             def wrap_name
               self[:name]
             end
+
           end
         end
     end

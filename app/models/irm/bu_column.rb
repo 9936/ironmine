@@ -12,7 +12,10 @@ class Irm::BuColumn < ActiveRecord::Base
   has_many :bulletin_columns
   has_many :bulletins, :through => :bulletin_columns
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   def is_leaf?
     children = Irm::BuColumn.where(:parent_column_id => self.id)

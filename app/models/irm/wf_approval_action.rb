@@ -8,6 +8,11 @@ class Irm::WfApprovalAction < ActiveRecord::Base
 # 审批步骤通过AP_STEP_APPROVAL
 # 审批步骤拒绝AP_STEP_REJECT
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
   def self.submitted_actions(process_id)
     self.where(:process_id=>process_id,:action_mode=>"AP_SUBMIT",:step_id=>nil)
   end

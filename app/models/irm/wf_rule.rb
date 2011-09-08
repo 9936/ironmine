@@ -7,7 +7,10 @@ class Irm::WfRule < ActiveRecord::Base
   validates_presence_of :name,:rule_code,:if=>Proc.new{|i| i.check_step(2)}
   validates_format_of :rule_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.rule_code.blank?}
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   has_many :wf_rule_time_triggers,:foreign_key => :rule_id
 

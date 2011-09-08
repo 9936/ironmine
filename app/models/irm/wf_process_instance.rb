@@ -1,9 +1,14 @@
 class Irm::WfProcessInstance < ActiveRecord::Base
   set_table_name :irm_wf_process_instances
-  query_extend
+
 
   belongs_to :wf_approval_process,:foreign_key => :process_id
   has_many :wf_step_instances
+
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   scope :with_process,lambda{
     joins("JOIN #{Irm::WfApprovalProcess.table_name} process ON process.id = #{table_name}.process_id").

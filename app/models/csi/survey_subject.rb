@@ -12,6 +12,11 @@ class Csi::SurveySubject < ActiveRecord::Base
               ['page_break', 'page']]
 
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
 
   scope :query_by_subject_id,lambda{|subject_id|
                         select("#{table_name}.required_flag").

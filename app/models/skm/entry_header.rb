@@ -8,6 +8,12 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   attr_accessor :column_ids
   validates_presence_of :entry_title
+
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
   scope :published, where("#{table_name}.entry_status_code = ?", "PUBLISHED")
   scope :draft, where("#{table_name}.entry_status_code = ?", "DRAFT")
   scope :current_entry, where("#{table_name}.history_flag = ?", Irm::Constant::SYS_NO)

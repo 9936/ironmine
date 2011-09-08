@@ -1,7 +1,10 @@
 class Icm::IncidentJournalElapse < ActiveRecord::Base
   set_table_name :icm_incident_journal_elapses
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   validates_presence_of :start_at,:end_at
 

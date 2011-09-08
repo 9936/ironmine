@@ -3,6 +3,11 @@ class Irm::KanbanLane < ActiveRecord::Base
   belongs_to :kanban
   belongs_to :lane
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
 
   def self.max_display_seq(kanban_id)
     Irm::KanbanLane.where(:kanban_id => kanban_id).order("display_sequence DESC").first().display_sequence

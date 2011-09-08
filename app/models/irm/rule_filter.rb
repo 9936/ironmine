@@ -19,6 +19,8 @@ class Irm::RuleFilter < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   scope :query_by_source_code,lambda{|source_code| where(:filter_type=>"PAGE_FILTER",:source_code=>source_code)}
 

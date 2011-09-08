@@ -5,6 +5,10 @@ class Irm::OrganizationExplosion < ActiveRecord::Base
 
   validates_uniqueness_of :organization_id,:scope => [:parent_org_id,:direct_parent_org_id],:if=>Proc.new{|i| i.organization_id.present?&&i.parent_org_id.present?&&i.direct_parent_org_id.present?}
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
   def self.explore_hierarchy(org_id,parent_org_id)
     # 当前组织的父组织没有发生变化，则不进行重新计算

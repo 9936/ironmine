@@ -7,6 +7,11 @@ class Irm::WfStepInstance < ActiveRecord::Base
 
   belongs_to :wf_approval_step,:foreign_key => :step_id
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
   scope :with_assign_approver,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} assign_approver ON assign_approver.id = #{table_name}.assign_approver_id").
     select("assign_approver.full_name assign_approver_name,assign_approver.delegate_approver")

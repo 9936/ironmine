@@ -7,7 +7,6 @@ class Irm::WfApprovalStep < ActiveRecord::Base
   has_many :wf_step_instance,:foreign_key => :step_id
   belongs_to :wf_approval_process,:foreign_key => :process_id
 
-  query_extend
   before_save :check_attribute
   after_save :setup_process_step_number,:check_attribute
 
@@ -18,7 +17,10 @@ class Irm::WfApprovalStep < ActiveRecord::Base
   validates_format_of :step_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.step_code.present?}
   validate :validate_step_number,:if=>Proc.new{|i| i.step_number.present?}
 
-
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
 
 
   scope :with_reject_behavior,lambda{|language|

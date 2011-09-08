@@ -14,6 +14,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
+
   before_save :setup_organization
   after_create :generate_request_number
   before_validation_on_create  :setup_priority

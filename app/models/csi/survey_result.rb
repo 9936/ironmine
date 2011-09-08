@@ -6,6 +6,11 @@ class Csi::SurveyResult < ActiveRecord::Base
   validates_presence_of :subject_result,:if =>Proc.new { |a|
     (Csi::SurveySubject.query_by_subject_id(a.subject_id).first.required_flag=="Y")}
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
   scope :query_by_survey_id,lambda{|survey_id,response_batch,subject_id| select("#{table_name}.subject_result").
                                                joins(",#{Csi::SurveySubject.table_name} css").
                                                where("css.survey_id = ? AND css.id = #{table_name}.subject_id AND "+

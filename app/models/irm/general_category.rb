@@ -3,7 +3,13 @@ class Irm::GeneralCategory < ActiveRecord::Base
   set_table_name :irm_general_categories
   validates_presence_of :category_type
   validate:unique_segment?
+
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope current_opu
+
+
   #查找运营分类列表
     scope :list_all, lambda{
     select("#{table_name}.*, cpt.name company_name, ifstl.id_flex_structure_name category_type_name, fvt1.flex_value_meaning segment1_name, fvt2.flex_value_meaning segment2_name, fvt3.flex_value_meaning segment3_name").
