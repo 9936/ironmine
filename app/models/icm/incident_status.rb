@@ -45,7 +45,7 @@ class Icm::IncidentStatus < ActiveRecord::Base
       return default.id
     else
       default = self.all.first
-      if defalut
+      if default
         return default.id
       end
       return nil

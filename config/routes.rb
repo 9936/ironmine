@@ -798,7 +798,7 @@ Ironmine::Application.routes.draw do
 
     match '/external_system_members/:person_id/new_from_person(.:format)' => "external_system_members#new_from_person", :via => :get
     match '/external_system_members/:person_id/create_from_person(.:format)' => "external_system_members#create_from_person", :via => :post
-    match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person", :via => :delete
+    match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person"
     match '/external_system_members/:person_id/get_available_external_system_data(.:format)' => "external_system_members#get_available_external_system_data", :via => :get
 
 
