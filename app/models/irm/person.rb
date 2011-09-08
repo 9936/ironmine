@@ -35,6 +35,7 @@ class Irm::Person < ActiveRecord::Base
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
+  validates_presence_of :bussiness_phone
   query_extend
 
   has_many :external_system_people,:class_name => "Irm::ExternalSystemPerson",
