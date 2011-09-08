@@ -3,6 +3,10 @@ GY.use('node',function(Y){
       this.set('value',this.get('value').toString().toUpperCase().replace(/^(_+)|[^A-Z_]/g, ""));
    });
 
+   Y.all('input[irm_uppercase]').each(function(n){
+      n.setAttribute("autocomplete", "off");
+   });
+
    Y.all('input[irm_number_only]').on('keyup', function(){
        this.set('value',this.get('value').toString().replace(/D/g, ""));
    });
