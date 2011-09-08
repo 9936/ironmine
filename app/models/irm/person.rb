@@ -359,6 +359,14 @@ class Irm::Person < ActiveRecord::Base
     "irm_person_relations_v"
   end
 
+  def password_same_as_before?(new_password)
+    if Irm::Person.hash_password(new_password).eql?(self.hashed_password)
+      self.errors.add(:password, I18n.t(:error_irm_person_new_old_password_same))
+      return false
+    end
+    true
+  end
+
   private
   def reprocess_avatar
       avatar.reprocess!

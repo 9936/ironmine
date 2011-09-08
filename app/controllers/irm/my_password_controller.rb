@@ -15,8 +15,8 @@ class Irm::MyPasswordController < ApplicationController
     params[:irm_person][:password]="*" if params[:irm_person][:password].blank?
     respond_to do |format|
       if(params[:irm_person][:old_password]&&check_password(params[:irm_person][:old_password]))
-        if @person.update_attributes(params[:irm_person])
-          format.html {redirect_to({:action=>"edit_password"},:notice=>t(:successfully_updated))}
+        if @person.password_same_as_before?(params[:irm_person][:password]) && @person.update_attributes(params[:irm_person])
+          format.html {redirect_to({:action=>"edit_password"}, :notice => I18n.t(:successfully_updated))}
         else
           @person.password = "" if @person.password.eql?("*")
           format.html {render("edit_password")}

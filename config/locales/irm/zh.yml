@@ -785,6 +785,7 @@ zh:
   label_irm_person_add_to_company: 加入公司
   label_irm_person_add_to_system: 加入外部系统
   label_irm_person_password_info: 设置密码
+  error_irm_person_new_old_password_same: 新密码不能和旧密码相同
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: 弹性域

@@ -59,9 +59,8 @@ class Irm::PeopleController < ApplicationController
     @attributes = params[:irm_person]
     @attributes.merge!({:identity_id=>params[:identity_id]}) if params[:identity_id]
     @attributes.merge!({:unrestricted_access_flag=>params[:unrestricted_access_flag]}) if params[:unrestricted_access_flag]
-
     respond_to do |format|
-      if @person.update_attributes(@attributes)
+      if @person.password_same_as_before?(params[:irm_person][:password]) && @person.update_attributes(@attributes)
         if params[:return_url]
           format.html {redirect_to(params[:return_url])}
           format.xml { head :ok}

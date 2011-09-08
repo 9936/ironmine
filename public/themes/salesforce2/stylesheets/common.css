@@ -746,6 +746,12 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
     text-align:center;
 }
 
+.pbSucc{
+    color:#00ab21;
+    font-weight:bold;
+    text-align:center;
+}
+
 div.button, div.grayButton,div.asButton {
 	float: left;
 	margin-left: 6px;

@@ -441,14 +441,11 @@ module ApplicationHelper
     end
   end
 
-  def flash_notice(type = "ERROR")
-    case type
-      when "ERROR"
-        content_tag("div", raw(flash[:notice]), {:id => "errorDiv_ep", :class => "pbError"})
-      when "ALERT"
-
-      else
-    end if flash[:notice]
+  def flash_notice
+    ret = ""
+    ret = content_tag("div", raw(flash[:notice]), {:id => "succDiv_ep", :class => "pbSucc"}) if flash[:notice].present?
+    ret = content_tag("div", raw(flash[:error]), {:id => "errorDiv_ep", :class => "pbError"}) if flash[:error].present?
+    ret
   end
 
   #重写content_for方法,当调用content_for时,修改has_content
