@@ -1575,7 +1575,7 @@ zh:
   label_irm_external_system_status_meaning: 记录状态
   label_irm_external_system:  外部系统
   label_irm_external_system_info: 外部系统信息
-
+  label_irm_external_system_select_system: 选择加入的外部系统
   label_irm_external_system_people: 系统人员
   label_irm_external_system_people_type: 类型
   label_irm_external_system_add_people: 添加成员

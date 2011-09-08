@@ -20,7 +20,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   before_save :setup_organization
   after_create :generate_request_number
-  before_validation_on_create  :setup_priority
+  before_validation({:on => :create}, :setup_priority)
 
 
   acts_as_recently_objects(:title => "title",

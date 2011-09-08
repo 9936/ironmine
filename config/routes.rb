@@ -176,7 +176,7 @@ Ironmine::Application.routes.draw do
     match '/ldap_auth_headers/:ah_id/ldap_auth_attributes/:id/edit(.:format)' => "ldap_auth_attributes#edit", :via => :get
     match '/ldap_auth_headers/:ah_id/ldap_auth_attributes/:id/update(.:format)' => "ldap_auth_attributes#update", :via => :put
     match '/ldap_auth_headers/:ah_id/ldap_auth_attributes/:id/show(.:format)' => "ldap_auth_attributes#show", :via => :get
-    match '/ldap_auth_headers/:ah_id/ldap_auth_attributes/:id/delete(.:format)' => "ldap_auth_attributes#destroy", :via => :delete
+    match '/ldap_auth_headers/:ah_id/ldap_auth_attributes/:id/delete(.:format)' => "ldap_auth_attributes#destroy"
     match '/ldap_auth_headers/get_by_ldap_source(.:format)' => "ldap_auth_headers#get_by_ldap_source", :via => :get
 
     #ldap_syn_header
@@ -201,7 +201,7 @@ Ironmine::Application.routes.draw do
     match '/ldap_syn_headers/:ah_id/ldap_syn_attributes/:id/edit(.:format)' => "ldap_syn_attributes#edit", :via => :get
     match '/ldap_syn_headers/:ah_id/ldap_syn_attributes/:id/show(.:format)' => "ldap_syn_attributes#show", :via => :get
     match '/ldap_syn_headers/:ah_id/ldap_syn_attributes/:id(.:format)' => "ldap_syn_attributes#update", :via => :put
-    match '/ldap_syn_headers/:ah_id/ldap_syn_attributes/:id/delete(.:format)' => "ldap_syn_attributes#destroy", :via => :delete
+    match '/ldap_syn_headers/:ah_id/ldap_syn_attributes/:id/delete(.:format)' => "ldap_syn_attributes#destroy"
 
     # navigations
     match '/navigations/:application_id/change_application(.:format)'=>"navigations#change_application",:via=>:get
@@ -315,12 +315,12 @@ Ironmine::Application.routes.draw do
     match '/group_members/:id/create(.:format)' => "group_members#create", :via => :post
     match '/group_members/:id/get_data(.:format)' => "group_members#get_data", :via => :get
     match '/group_members/:id/get_memberable_data(.:format)' => "group_members#get_memberable_data", :via => :get
-    match '/group_members/:id/delete(.:format)' => "group_members#delete", :via => :delete
+    match '/group_members/:id/delete(.:format)' => "group_members#delete"
     match '/group_members/:id/new_from_person(.:format)' => "group_members#new_from_person", :via => :get
     match '/group_members/:id/get_groupable_data(.:format)' => "group_members#get_groupable_data", :via => :get
     match '/group_members/:id/create_from_person(.:format)' => "group_members#create_from_person", :via => :post
     match '/group_members/:id/get_data_from_person(.:format)' => "group_members#get_data_from_person", :via => :get
-    match '/group_members/:id/delete_from_person(.:format)' => "group_members#delete_from_person", :via => :delete
+    match '/group_members/:id/:person_id/delete_from_person(.:format)' => "group_members#delete_from_person"
     #sites
     match '/sites(/index)(.:format)' => "sites#index", :via => :get
     match '/sites/get_data(.:format)' => "sites#get_data"
@@ -427,7 +427,7 @@ Ironmine::Application.routes.draw do
     match '/reports/:id(.:format)' => "reports#show", :via => :get
     match '/reports/:id/multilingual_edit(.:format)' => "reports#multilingual_edit", :via => :get
     match '/reports/:id/multilingual_update(.:format)' => "reports#multilingual_update", :via => :put
-    match '/reports/:id/destroy(.:format)' => "reports#destroy", :via => :delete
+    match '/reports/:id/destroy(.:format)' => "reports#destroy"
     match '/reports/:id/edit_custom(.:format)' => "reports#edit_custom", :via => [:get,:post,:put]
     match '/reports/:id/update_custom(.:format)' => "reports#update_custom", :via => :put
 
@@ -446,7 +446,7 @@ Ironmine::Application.routes.draw do
     match '/report_triggers/:id(.:format)' => "report_triggers#update", :via => :put
     match '/report_triggers/:report_id/new(.:format)' => "report_triggers#new", :via => :get
     match '/report_triggers/:report_id/create(.:format)' => "report_triggers#create", :via => :post
-    match '/report_triggers/:id/destroy(.:format)' => "report_triggers#destroy", :via => :delete
+    match '/report_triggers/:id/destroy(.:format)' => "report_triggers#destroy"
 
     #bulletins
     match '/bulletins/new(.:format)' => "bulletins#new", :via => :get
@@ -456,7 +456,7 @@ Ironmine::Application.routes.draw do
     match '/bulletins/get_data(.:format)' => "bulletins#get_data"
     match '/bulletins/index(.:format)' => "bulletins#index"
     match '/bulletins/:id/show(.:format)' => "bulletins#show", :via => :get
-    match '/bulletins/:id/destroy(.:format)' => "bulletins#destroy", :via => :delete
+    match '/bulletins/:id/destroy(.:format)' => "bulletins#destroy"
 
     match '/bulletins/:att_id/remove_exits_attachments' => "bulletins#remove_exits_attachments", :via => :get
     #bulletin_columns
@@ -520,7 +520,7 @@ Ironmine::Application.routes.draw do
     match '/business_objects/:bo_id/object_attributes/:id/edit(.:format)' => "object_attributes#edit", :via => [:get,:put]
     match '/business_objects/:bo_id/object_attributes/:id(.:format)' => "object_attributes#update", :via => :put
     match '/business_objects/:bo_id/object_attributes/:id/show(.:format)' => "object_attributes#show", :via => :get
-    match '/business_objects/:bo_id/object_attributes/:id/delete(.:format)' => "object_attributes#destroy", :via => :delete
+    match '/business_objects/:bo_id/object_attributes/:id/delete(.:format)' => "object_attributes#destroy"
     match '/business_objects/:bo_id/object_attributes/:id/multilingual_edit(.:format)' => "object_attributes#multilingual_edit", :via => :get
     match '/business_objects/:bo_id/object_attributes/:id/multilingual_update(.:format)' => "object_attributes#multilingual_update", :via => :put
     match '/business_objects/:bo_id/object_attributes/:id/change_type(.:format)' => "object_attributes#change_type", :via => :get
@@ -554,7 +554,7 @@ Ironmine::Application.routes.draw do
     match '/wf_rules/:id/active(.:format)' => "wf_rules#active", :via => :get
     match '/wf_rules/:id(.:format)' => "wf_rules#update", :via => :put
     match '/wf_rules/:id/show(.:format)' => "wf_rules#show", :via => :get
-    match '/wf_rules/:id/destroy_action(.:format)' => "wf_rules#destroy_action", :via => :delete
+    match '/wf_rules/:id/destroy_action(.:format)' => "wf_rules#destroy_action"
     match '/wf_rules/:id/add_exists_action(.:format)' => "wf_rules#add_exists_action", :via => :get
     match '/wf_rules/:id/save_exists_action(.:format)' => "wf_rules#save_exists_action", :via => :post
     match '/wf_rules/get_data_by_action(.:format)' => "wf_rules#get_data_by_action", :via => :get
@@ -564,7 +564,7 @@ Ironmine::Application.routes.draw do
     match '/wf_rules/:rule_id/wf_rule_time_triggers/create(.:format)' => "wf_rule_time_triggers#create", :via => :post
     match '/wf_rules/:rule_id/wf_rule_time_triggers/:id/edit(.:format)' => "wf_rule_time_triggers#edit", :via => :get
     match '/wf_rules/:rule_id/wf_rule_time_triggers/:id(.:format)' => "wf_rule_time_triggers#update", :via => :put
-    match '/wf_rules/:rule_id/wf_rule_time_triggers/:id/destroy(.:format)' => "wf_rule_time_triggers#destroy", :via => :delete
+    match '/wf_rules/:rule_id/wf_rule_time_triggers/:id/destroy(.:format)' => "wf_rule_time_triggers#destroy"
 
     #wf_field_updates
     match '/wf_field_updates(/index)(.:format)' => "wf_field_updates#index", :via => :get
@@ -574,7 +574,7 @@ Ironmine::Application.routes.draw do
     match '/wf_field_updates/create(.:format)' => "wf_field_updates#create", :via => :post
     match '/wf_field_updates/get_data(.:format)' => "wf_field_updates#get_data"
     match '/wf_field_updates/:id/show(.:format)' => "wf_field_updates#show", :via => :get
-    match '/wf_field_updates/:id/destroy(.:format)' => "wf_field_updates#destroy", :via => :delete
+    match '/wf_field_updates/:id/destroy(.:format)' => "wf_field_updates#destroy"
     match '/wf_field_updates/set_value(.:format)' => "wf_field_updates#set_value", :via => :get
 
     #formula_functions
@@ -589,7 +589,7 @@ Ironmine::Application.routes.draw do
     match '/wf_mail_alerts/create(.:format)' => "wf_mail_alerts#create", :via => :post
     match '/wf_mail_alerts/get_data(.:format)' => "wf_mail_alerts#get_data"
     match '/wf_mail_alerts/:id/show(.:format)' => "wf_mail_alerts#show", :via => :get
-    match '/wf_mail_alerts/:id/destroy(.:format)' => "wf_mail_alerts#destroy", :via => :delete
+    match '/wf_mail_alerts/:id/destroy(.:format)' => "wf_mail_alerts#destroy"
     match '/wf_mail_alerts/recipient_source(.:format)' => "wf_mail_alerts#recipient_source", :via => :get
     # wf_approval_processes
     match '/wf_approval_processes(/index)(.:format)' => "wf_approval_processes#index", :via => :get
@@ -599,9 +599,9 @@ Ironmine::Application.routes.draw do
     match '/wf_approval_processes/:id/edit(.:format)' => "wf_approval_processes#edit", :via => [:get,:post,:put]
     match '/wf_approval_processes/:id/active(.:format)' => "wf_approval_processes#active", :via => :get
     match '/wf_approval_processes/:id(.:format)' => "wf_approval_processes#update", :via => :put
-    match '/wf_approval_processes/:id/destroy(.:format)' => "wf_approval_processes#destroy", :via => :delete
+    match '/wf_approval_processes/:id/destroy(.:format)' => "wf_approval_processes#destroy"
     match '/wf_approval_processes/:id/show(.:format)' => "wf_approval_processes#show", :via => :get
-    match '/wf_approval_processes/:id/destroy_action(.:format)' => "wf_approval_processes#destroy_action", :via => :delete
+    match '/wf_approval_processes/:id/destroy_action(.:format)' => "wf_approval_processes#destroy_action"
     match '/wf_approval_processes/:id/add_exists_action(.:format)' => "wf_approval_processes#add_exists_action", :via => :get
     match '/wf_approval_processes/:id/save_exists_action(.:format)' => "wf_approval_processes#save_exists_action", :via => :post
     match '/wf_approval_processes/reorder(.:format)' => "wf_approval_processes#reorder", :via => :post
@@ -613,7 +613,7 @@ Ironmine::Application.routes.draw do
     match '/wf_approval_processes/:process_id/wf_approval_steps/create(.:format)' => "wf_approval_steps#create", :via => :post
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id/edit(.:format)' => "wf_approval_steps#edit", :via => [:get,:post,:put]
     match '/wf_approval_processes/:process_id/wf_approval_steps/:id(.:format)' => "wf_approval_steps#update", :via => :put
-    match '/wf_approval_processes/:process_id/wf_approval_steps/:id/destroy(.:format)' => "wf_approval_steps#destroy", :via => :delete
+    match '/wf_approval_processes/:process_id/wf_approval_steps/:id/destroy(.:format)' => "wf_approval_steps#destroy"
 
     # wf process instance
     match '/wf_process_instances/submit(.:format)' => "wf_process_instances#submit", :via => [:get,:post]
@@ -688,7 +688,7 @@ Ironmine::Application.routes.draw do
     match '/kanbans/:id/get_owned_lanes(.:format)' => "kanbans#get_owned_lanes", :via => :get
     match '/kanbans/:id/add_lanes(.:format)' => "kanbans#add_lanes", :via => :post
     match '/kanbans/:id/select_lanes(.:format)' => "kanbans#select_lanes", :via => :get
-    match '/kanbans/:kanban_id/:lane_id/delete_lane(.:format)' => "kanbans#delete_lane", :via => :delete
+    match '/kanbans/:kanban_id/:lane_id/delete_lane(.:format)' => "kanbans#delete_lane"
     match '/kanbans/:position_code/refresh_my_kanban/:mode(.:format)' => "kanbans#refresh_my_kanban"
     match '/kanbans/:kanban_id/:lane_id/up_lane(.:format)' => "kanbans#up_lane", :via => :get
     match '/kanbans/:kanban_id/:lane_id/down_lane(.:format)' => "kanbans#down_lane", :via => :get
@@ -705,7 +705,7 @@ Ironmine::Application.routes.draw do
     match '/lanes/:id/update(.:format)' => "lanes#update", :via => :put
 
     match '/lanes/:id/select_cards(.:format)' => "lanes#select_cards", :via => :get
-    match '/lanes/:lane_id/:card_id/delete_card(.:format)' => "lanes#delete_card", :via => :delete
+    match '/lanes/:lane_id/:card_id/delete_card(.:format)' => "lanes#delete_card"
     match '/lanes/:id/get_owned_cards(.:format)' => "lanes#get_owned_cards", :via => :get
     match '/lanes/:id/add_cards(.:format)' => "lanes#add_cards", :via => :post
     match '/lanes/:id/get_available_cards(.:format)' => "lanes#get_available_cards", :via => :get
@@ -798,7 +798,7 @@ Ironmine::Application.routes.draw do
 
     match '/external_system_members/:person_id/new_from_person(.:format)' => "external_system_members#new_from_person", :via => :get
     match '/external_system_members/:person_id/create_from_person(.:format)' => "external_system_members#create_from_person", :via => :post
-    match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person", :via => :delete
+    match '/external_system_members/:person_id/delete_from_person(.:format)' => "external_system_members#delete_from_person"
     match '/external_system_members/:person_id/get_available_external_system_data(.:format)' => "external_system_members#get_available_external_system_data", :via => :get
 
 
@@ -973,7 +973,7 @@ Ironmine::Application.routes.draw do
     match '/surveys/:survey_id/survey_subjects/new(.:format)' => "survey_subjects#new", :via => :get
     match '/surveys/:survey_id/survey_subjects/:id(.:format)' => "survey_subjects#show", :via => :get
     match '/surveys/:survey_id/survey_subjects/create(.:format)' => "survey_subjects#create", :via => :post
-    match '/surveys/:survey_id/survey_subjects/:id(.:format)' => "survey_subjects#destroy", :via => :delete
+    match '/surveys/:survey_id/survey_subjects/:id/destroy(.:format)' => "survey_subjects#destroy"
     #survey_ranges
     match '/surveys/:survey_id/survey_ranges/get_data(.:format)' => "survey_ranges#get_data"
     match '/surveys/:survey_id/survey_ranges(/index)(.:format)' => "survey_ranges#index", :via => :get
@@ -1097,7 +1097,7 @@ Ironmine::Application.routes.draw do
     match '/external_logins/create(.:format)' => "external_logins#create", :via => :post
     match '/external_logins/:id/multilingual_edit(.:format)' => "external_logins#multilingual_edit", :via => :get
     match '/external_logins/:id/multilingual_update(.:format)' => "external_logins#multilingual_update", :via => :put
-    match '/external_logins/:id/delete(.:format)' => "external_logins#destroy", :via => :delete
+    match '/external_logins/:id/delete(.:format)' => "external_logins#destroy"
 
     #login_mappings
     match '/login_mappings(/index)(.:format)' => "login_mappings#index", :via => :get
@@ -1108,7 +1108,7 @@ Ironmine::Application.routes.draw do
     match '/login_mappings/:id/show(.:format)' => "login_mappings#show", :via => :get
     match '/login_mappings/create(.:format)' => "login_mappings#create", :via => :post
     match '/login_mappings/not_mpping_external_logins(.:format)' => "login_mappings#not_mpping_external_logins", :via => :get
-    match '/login_mappings/:id/delete(.:format)' => "login_mappings#destroy", :via => :delete
+    match '/login_mappings/:id/delete(.:format)' => "login_mappings#destroy"
     #auto_mappings
     match '/auto_mappings(/index)(.:format)' => "auto_mappings#index", :via => :get
     match '/auto_mappings/get_data(.:format)' => "auto_mappings#get_data"

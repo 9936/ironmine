@@ -43,7 +43,12 @@ Irm::AccessControl.map do |map|
                                        "get_support_group", "get_owned_roles","edit", "update",
                                        "multilingual_edit", "multilingual_update","add_roles","remove_role",
                                        "select_roles", "get_available_roles"],
-                        "irm/external_system_members" => ["new_from_person", "create_from_person", "delete_from_person", "get_available_external_system_data","get_owned_members_data"],
+                        "irm/external_system_members" => ["new_from_person",
+                                                          "create_from_person",
+                                                          "delete_from_person",
+                                                          "get_available_external_system_data",
+                                                          "get_owned_members_data",
+                                                          "get_available_people_data"],
                         "irm/group_members"=>["new_from_person", "get_groupable_data", "create_from_person", "get_data_from_person", "delete_from_person"]}
 
 
