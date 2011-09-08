@@ -5,7 +5,7 @@ module Irm
 
         # 待分配事故单
         request = Icm::IncidentRequest.unscoped.find(incident_request_id)
-        Irm::OperationUnit.current = Irm::OperationUnit.find(request.opu_id)
+        Irm::Person.current = Irm::Person.find(request.requested_by)
         # 事故单所属系统
         system = nil
         system = Irm::ExternalSystem.where(:id=>request.external_system_id).first if request.external_system_id.present?

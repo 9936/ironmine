@@ -3,7 +3,7 @@ module Irm
     class IcmIncidentRequestSurveyTaskJob < Struct.new(:incident_request_id)
       def perform
         request = Icm::IncidentRequest.unscoped.find(incident_request_id)
-        Irm::OperationUnit.current = Irm::OperationUnit.find(request.opu_id)
+        Irm::Person.current = Irm::Person.find(request.requested_by)
         surveys = Csi::Survey.where("closed_datetime IS NULL OR closed_datetime > ?", Time.now).
             where("with_incident_request = ?", Irm::Constant::SYS_YES).enabled
 

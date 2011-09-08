@@ -35,9 +35,7 @@ class Irm::OperationUnit < ActiveRecord::Base
 
 
   def self.current
-    return @current if @current
-    @current = Irm::Person.current.operation_unit
-    return @current
+    Irm::Person.current.operation_unit||@current
   end
 
   def self.current=(opu)
