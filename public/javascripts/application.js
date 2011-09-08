@@ -1,16 +1,10 @@
 GY.use('node',function(Y){
    Y.all('input[irm_uppercase]').on('keyup', function(){
-      this.set('value',this.get('value').toString().toUpperCase());
+      this.set('value',this.get('value').toString().toUpperCase().replace(/^(_+)|[^A-Z_]/g, ""));
    });
 
    Y.all('input[irm_number_only]').on('keyup', function(){
-        if(!this.get("value")==""){
-          var reg = /^[A-Z0-9_]*$/;
-          var pattern = /[^\d]/g;
-          if(!reg.test(this.get('value').toString())){
-            this.set("value", this.get('value').toString().replace(pattern,''));
-          }
-        }
+       this.set('value',this.get('value').toString().replace(/D/g, ""));
    });
 
     Y.all('input[jrequired]').each(function(n){
@@ -20,12 +14,9 @@ GY.use('node',function(Y){
     });
 
     Y.all('a[disabled]').each(function(n){
-//        var parent_node = n.get('parentNode');
-//        if(parent_node.hasClass("button")){
-            n.addClass("disabled");
-            n.removeAttribute("disabled");
-            n.setAttribute("href", "javascript:void(0);")
-//        }
+        n.addClass("disabled");
+        n.removeAttribute("disabled");
+        n.setAttribute("href", "javascript:void(0);");
     });
 });
 function show_irm_calendar(YAHOO,Event,Dom,id_button,id_date_field,id_cal, cfg){
