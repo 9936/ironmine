@@ -30,9 +30,10 @@ gem 'hz2py'
 
 gem 'uuid'
 
-gem 'sunspot', '1.2.rc4'
-gem 'sunspot_rails', '1.2.rc4'
-#gem 'nokogiri'
+gem "sunspot", "~> 1.2.rc4"
+gem "sunspot_rails", "~> 1.2.rc4"
+
+gem 'nokogiri'
 #gem 'composite_primary_keys', '=3.1.0'
 #gem "rmmseg"
 

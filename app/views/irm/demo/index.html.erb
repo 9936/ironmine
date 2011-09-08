@@ -1,1 +1,29 @@
-<%= @bulletin.to_json%>
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"></td>
+              <td id="topButtonRow" class="pbButton">
+              </td>
+              <td class="pbHelp">
+                <div id="demoSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="demo_list" class="datatable" style="width:100%"></div>
+          <%= datatable("demo_list",url_for(:controller => "irm/demo", :action=>"get_data",:format=>"json"),
+                        [{:key=>"id",:label=>"", :hidden => true},
+                         {:key=>"title",:label=>t(:label_irm_bulletin_title), :searchable=>true, :width =>"100px"},
+                         {:key=>"content",:label=>t(:label_irm_bulletin_title), :searchable=>true, :width =>"430px"},
+                         {:key=>"page_views",:label=>t(:label_irm_bulletin_page_views),:searchable=>true, :width => "40px"},
+                         {:key=>"published_date",:label=>t(:label_irm_bulletin_published_date),:width => "130px"}],
+                         {:paginator_box=>"demoPaginatorBox",:search_box=>"demoSearchBox"})%>
+        <div id="demoPaginatorBox"></div>
+      </div>
+    </div>
+</div>

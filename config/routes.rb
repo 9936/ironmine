@@ -675,6 +675,7 @@ Ironmine::Application.routes.draw do
     match '/report_type_sections/:report_type_id/section_field(.:format)' => "report_type_sections#section_field", :via => :get
 
     match '/demo(/index)' => 'demo#index'
+    match '/demo/get_data(/index)' => 'demo#get_data'
 
     #kanbans
     match '/kanbans(/index)(.:format)' => "kanbans#index", :via => :get
