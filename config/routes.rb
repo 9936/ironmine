@@ -973,7 +973,7 @@ Ironmine::Application.routes.draw do
     match '/surveys/:survey_id/survey_subjects/new(.:format)' => "survey_subjects#new", :via => :get
     match '/surveys/:survey_id/survey_subjects/:id(.:format)' => "survey_subjects#show", :via => :get
     match '/surveys/:survey_id/survey_subjects/create(.:format)' => "survey_subjects#create", :via => :post
-    match '/surveys/:survey_id/survey_subjects/:id(.:format)' => "survey_subjects#destroy"
+    match '/surveys/:survey_id/survey_subjects/:id/destroy(.:format)' => "survey_subjects#destroy"
     #survey_ranges
     match '/surveys/:survey_id/survey_ranges/get_data(.:format)' => "survey_ranges#get_data"
     match '/surveys/:survey_id/survey_ranges(/index)(.:format)' => "survey_ranges#index", :via => :get
