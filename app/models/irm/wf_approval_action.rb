@@ -11,7 +11,7 @@ class Irm::WfApprovalAction < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   def self.submitted_actions(process_id)
     self.where(:process_id=>process_id,:action_mode=>"AP_SUBMIT",:step_id=>nil)

@@ -7,7 +7,7 @@ class Irm::ReportTypeSection < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   def self.init_fields(bo_ids,report_type_id)
     bo_ids.each_with_index do |bid,index|

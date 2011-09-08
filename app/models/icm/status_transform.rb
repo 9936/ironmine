@@ -3,7 +3,7 @@ class Icm::StatusTransform < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   scope :with_from_status,lambda{
     joins("JOIN #{Icm::IncidentStatus.view_name} from_status ON from_status.id = #{table_name}.from_status_id").

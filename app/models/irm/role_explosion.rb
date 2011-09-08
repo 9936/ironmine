@@ -8,7 +8,7 @@ class Irm::RoleExplosion < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   def self.explore_hierarchy(role_id,parent_role_id)
     # 当前角色的父角色没有发生变化，则不进行重新计算

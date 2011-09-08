@@ -8,7 +8,7 @@ class Irm::Attachment < ActiveRecord::Base
     #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   scope :list_all, lambda{
     select("#{table_name}.*, av.id version_id, av.category_id category_id, av.data_file_name data_file_name, av.data_content_type data_content_type, av.data_file_size/1024 data_file_size, av.data_updated_at data_updated_at, fvt.meaning category_name").

@@ -7,7 +7,7 @@ class Skm::EntryTemplateElement < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   scope :with_template, lambda{|template_id|
     select("#{table_name}.*, et.required_flag required_flag, et.id detail_id, et.default_rows detail_rows, et.required_flag detail_required_flag").

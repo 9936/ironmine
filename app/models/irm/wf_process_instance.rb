@@ -8,7 +8,7 @@ class Irm::WfProcessInstance < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   scope :with_process,lambda{
     joins("JOIN #{Irm::WfApprovalProcess.table_name} process ON process.id = #{table_name}.process_id").

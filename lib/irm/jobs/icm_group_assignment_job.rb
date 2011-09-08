@@ -4,8 +4,8 @@ module Irm
       def perform
 
         # 待分配事故单
-        request = Icm::IncidentRequest.find(incident_request_id)
-
+        request = Icm::IncidentRequest.unscoped.find(incident_request_id)
+        Irm::OperationUnit.current = Irm::OperationUnit.find(request.opu_id)
         # 事故单所属系统
         system = nil
         system = Irm::ExternalSystem.where(:id=>request.external_system_id).first if request.external_system_id.present?
@@ -113,11 +113,11 @@ module Irm
 
       #为事故单生成回复
       def generate_journal(request,assign_result)
-        person = Irm::Person.where(:login_name=>"ironmine").first
+        person = Irm::Person.query(Irm::OperationUnit.current.primary_person_id).first
         if assign_result[:assign_dashboard]
           person = Irm::Person.find(assign_result[:assign_dashboard_operator])
         end
-        person ||= Irm::Person.current.id
+        Irm::Person.current = person
         language_code = person.language_code
         request_attributes = {:support_group_id=>assign_result[:support_group_id],
                               :support_person_id=>assign_result[:support_person_id],

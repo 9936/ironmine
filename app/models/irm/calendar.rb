@@ -6,7 +6,7 @@ class Irm::Calendar < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   def self.current_calendar(person_id)
     cal = Irm::Calendar.where(:assigned_to => person_id, :current => Irm::Constant::SYS_YES).enabled.first

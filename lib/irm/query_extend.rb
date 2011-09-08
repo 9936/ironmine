@@ -59,9 +59,9 @@ module Irm::QueryExtend
             }
 
 
-            scope :current_opu ,lambda{
+            scope :default_filter ,lambda{
               current_opu = Irm::OperationUnit.current
-              where("#{table_name}.opu_id = ?",current_opu ? current_opu.id : current_opu)
+              where("#{table_name}.opu_id = ?",current_opu.id) if current_opu
             }
 
             def self.by_opu(opu_id_or_ids=nil)

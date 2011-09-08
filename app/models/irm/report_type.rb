@@ -14,7 +14,7 @@ class Irm::ReportType < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   validates_presence_of :code,:business_object_id
   validates_presence_of :relationship_str ,:if=>Proc.new{|i| i.new_record?&&check_step(2)}

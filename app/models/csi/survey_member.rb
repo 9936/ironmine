@@ -4,7 +4,7 @@ class Csi::SurveyMember < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   acts_as_urlable(:show=>{:controller=>"csi/surveys",:action=>"reply",:id=>:survey_id})
 

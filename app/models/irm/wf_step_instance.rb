@@ -10,7 +10,7 @@ class Irm::WfStepInstance < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   scope :with_assign_approver,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} assign_approver ON assign_approver.id = #{table_name}.assign_approver_id").

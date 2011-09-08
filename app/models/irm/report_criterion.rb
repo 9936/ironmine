@@ -19,7 +19,7 @@ class Irm::ReportCriterion < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   def ref_object_attribute
     @object_attribute ||= Irm::ObjectAttribute.multilingual.with_business_object_id.find(self.report_type_field.object_attribute_id)

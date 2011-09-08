@@ -17,7 +17,7 @@ class Icm::ImpactRange < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   def self.default_id
     default = self.where(:default_flag=>Irm::Constant::SYS_YES).first

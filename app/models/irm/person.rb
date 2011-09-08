@@ -57,6 +57,11 @@ class Irm::Person < ActiveRecord::Base
 
   after_update :reprocess_avatar, :if => :cropping?
 
+
+  #加入activerecord的通用方法和scope
+  query_extend
+  default_scope {default_filter}
+
   def cropping?
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
   end
@@ -399,10 +404,4 @@ class Irm::AnonymousPerson < Irm::Person
   def email; nil end
   def real?; false end
   def language_code; "en" end
-end
-
-Irm::Person.class_eval do
-  #加入activerecord的通用方法和scope
-  query_extend
-  default_scope current_opu
 end

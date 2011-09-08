@@ -3,7 +3,7 @@ module Irm
     def perform(email,parsed_email)
       puts  parsed_email
       # get the person
-      person  = Irm::Person.where(:email_address=>email.from_addrs.to_a.first).first
+      person  = Irm::Person.unscoped.where(:email_address=>email.from_addrs.to_a.first).first
       return false unless person
       Irm::Person.current = person
       # get the parsed email

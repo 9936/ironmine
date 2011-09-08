@@ -12,7 +12,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   scope :published, where("#{table_name}.entry_status_code = ?", "PUBLISHED")
   scope :draft, where("#{table_name}.entry_status_code = ?", "DRAFT")

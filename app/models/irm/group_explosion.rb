@@ -8,7 +8,7 @@ class Irm::GroupExplosion < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   def self.explore_hierarchy(group_id,parent_group_id)
     # 当前组的父组没有发生变化，则不进行重新计算

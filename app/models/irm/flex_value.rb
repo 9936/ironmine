@@ -14,7 +14,7 @@ class Irm::FlexValue < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   scope :query_by_value_set_name,lambda{|flex_value_set_name|
     select("#{table_name}.*").

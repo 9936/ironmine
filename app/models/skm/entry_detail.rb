@@ -7,7 +7,7 @@ class Skm::EntryDetail < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope current_opu
+  default_scope {default_filter}
 
   def validate_content
     errors.add(:entry_content, "can not be none") if required_flag == "Y" && entry_content.blank? 
