@@ -24,6 +24,7 @@ class Irm::Person < ActiveRecord::Base
   belongs_to :operation_unit,:foreign_key => :opu_id
 
   validates_presence_of :login_name,:first_name,:email_address
+  validates_presence_of :bussiness_phone,:if=> Proc.new{|i| i.validate_as_person?}
   validates_uniqueness_of :login_name, :if => Proc.new { |i| !i.login_name.blank? }
   validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/
   validates_length_of :login_name, :maximum => 30
@@ -33,9 +34,6 @@ class Irm::Person < ActiveRecord::Base
 
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-
-  validates_presence_of :bussiness_phone
-
 
   has_many :external_system_people,:class_name => "Irm::ExternalSystemPerson",
           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
@@ -169,7 +167,7 @@ class Irm::Person < ActiveRecord::Base
         select("pv.name profile_name")
   }
 
-  def before_save
+  before_save do
      #如果password变量值不为空,则修改密码
      self.hashed_password = Irm::Person.hash_password(self.password) if self.password&&!self.password.blank?
     if self.changes.keys.include?("first_name")||self.changes.keys.include?("last_name")

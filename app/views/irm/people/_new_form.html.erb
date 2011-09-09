@@ -135,14 +135,14 @@
         <tbody>
             <tr>
               <td class="labelCol"><label><%= t(:label_irm_identity_password)%></label></td>
-              <td class="dataCol"><%=f.password_field(:password, :size=>40,:required=>true)%></td>
+              <td class="dataCol"><%=f.password_field(:password, :size=>40,:required=>true,:autocomplete=>"off")%></td>
               <td class="labelCol"></td>
               <td class="dataCol"></td>
 
             </tr>
             <tr>
               <td class="labelCol"><label><%= t(:label_irm_identity_password_confirmation)%></label></td>
-              <td class="dataCol"><%=f.password_field(:password_confirmation, :size=>40,:required=>true)%></td>
+              <td class="dataCol"><%=f.password_field(:password_confirmation, :size=>40,:required=>true,:autocomplete=>"off")%></td>
               <td class="labelCol"></td>
               <td class="dataCol"></td>
             </tr>
