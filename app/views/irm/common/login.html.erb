@@ -7,7 +7,7 @@
             <div class="bottom">
               <div class="login_form_box">
                 <div class="content_new">
-                <% form_tag({:action=> "login"},{:id=>"login_form"}) do %>
+                <%= form_tag({:action=> "login"},{:id=>"login_form"}) do %>
                    <%= back_url_hidden_field_tag %>
                       <% if flash[:error] %>
                       <div class="loginError"><%= flash[:error] %></div>

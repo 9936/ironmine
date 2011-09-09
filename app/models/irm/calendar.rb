@@ -3,7 +3,10 @@ class Irm::Calendar < ActiveRecord::Base
   validates_presence_of :name
   has_many :todo_events
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   def self.current_calendar(person_id)
     cal = Irm::Calendar.where(:assigned_to => person_id, :current => Irm::Constant::SYS_YES).enabled.first

@@ -12,8 +12,15 @@ class Irm::AttachmentVersion < ActiveRecord::Base
 
   before_data_post_process :allow_only_images
 
-  before_validation_on_create  :setup_attachment_id
+  before_validation(:on=>:create) do
+    setup_attachment_id
+  end
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
+
   scope :query_all,lambda{
     select("#{table_name}.*")
   }

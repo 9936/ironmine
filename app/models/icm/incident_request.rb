@@ -14,9 +14,15 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
+
   before_save :setup_organization
   after_create :generate_request_number
-  before_validation_on_create  :setup_priority
+  before_validation({:on => :create}) do
+    setup_priority
+  end
 
 
   acts_as_recently_objects(:title => "title",

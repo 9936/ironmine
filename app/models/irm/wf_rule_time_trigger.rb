@@ -5,6 +5,11 @@ class Irm::WfRuleTimeTrigger < ActiveRecord::Base
 
   validates_presence_of :time_lead,:rule_id
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
   scope :with_time_unit,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} time_unit ON time_unit.lookup_type='WF_RULE_TRIGGER_TIME_UNIT' AND time_unit.lookup_code = #{table_name}.time_unit AND time_unit.language= '#{language}'").
     select(" time_unit.meaning time_unit_name")

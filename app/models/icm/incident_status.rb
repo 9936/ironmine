@@ -14,6 +14,10 @@ class Icm::IncidentStatus < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
+
 
   scope :with_phase,lambda{
     joins("JOIN #{Icm::IncidentPhase.view_name} ON #{Icm::IncidentPhase.view_name}.phase_code = #{table_name}.phase_code AND #{Icm::IncidentPhase.view_name}.language = #{Icm::IncidentStatusesTl.table_name}.language").

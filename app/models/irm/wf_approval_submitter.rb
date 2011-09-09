@@ -3,7 +3,10 @@ class Irm::WfApprovalSubmitter < ActiveRecord::Base
 
   belongs_to :wf_approval_process,:foreign_key => :process_id
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
 
   attr_accessor :bo_code

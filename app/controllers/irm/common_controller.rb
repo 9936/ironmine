@@ -79,7 +79,7 @@ class Irm::CommonController < ApplicationController
 
   #登录成功则返回到默认页面
   def successful_authentication(user,session_id)
-    if !user.auth_source_id.present?&&Irm::PasswordPolicy.expire?(user.password_updated_at)
+    if !user.auth_source_id.present?&&Irm::PasswordPolicy.by_opu(user.opu_id).expire?(user.password_updated_at)
       redirect_to({:action=>"edit_password",:id=>user.id})
       return
     end

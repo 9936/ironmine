@@ -4,7 +4,10 @@ class Irm::Watcher < ActiveRecord::Base
   belongs_to :watchable, :polymorphic => true
   belongs_to :member,:polymorphic => true
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   validates_uniqueness_of :member_id, :scope => [:member_type,:watchable_type, :watchable_id]
 

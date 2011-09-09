@@ -12,6 +12,8 @@ class Irm::Currency < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :query_by_currency_code,lambda{|currency_code|
     where(:currency_code=>currency_code)

@@ -17,6 +17,11 @@ class Icm::IncidentJournal < ActiveRecord::Base
                            :target_id => "id",
                            :target_id_column => "request_id")
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
   # 查询出提交人
   scope :with_replied_by,lambda{
     joins("JOIN #{Irm::Person.table_name} replied ON  replied.id = #{table_name}.replied_by").

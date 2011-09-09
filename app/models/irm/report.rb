@@ -28,8 +28,11 @@ class Irm::Report < ActiveRecord::Base
   validate :validate_raw_condition_clause,:if=> Proc.new{|i| i.raw_condition_clause.present?}
 
   before_save :set_condition
+
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   # 同时查询报表类型
   scope :with_report_type,lambda{|language|

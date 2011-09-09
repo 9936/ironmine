@@ -2,6 +2,7 @@ module Irm
   module Jobs
     class ApprovalMailJob<Struct.new(:step_instance_id)
       def perform
+        Irm::Person.current = Irm::Person.anonymous
         step_instance = Irm::WfStepInstance.find(step_instance_id)
         step = Irm::WfApprovalStep.find(step_instance.step_id)
         process_instance = step_instance.wf_process_instance

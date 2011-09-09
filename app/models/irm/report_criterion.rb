@@ -15,7 +15,11 @@ class Irm::ReportCriterion < ActiveRecord::Base
   validates_presence_of :operator_code, :if => Proc.new { |i| i.field_id.present? }
   validates_presence_of :filter_value, :if => Proc.new { |i| i.field_id.present?&&i.operator_code.present?&&!["NIL","NNIL"].include?(i.operator_code) }
   validate :validate_data_type_filter_value, :if => Proc.new { |i| !i.field_id.blank? }
+
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   def ref_object_attribute
     @object_attribute ||= Irm::ObjectAttribute.multilingual.with_business_object_id.find(self.report_type_field.object_attribute_id)

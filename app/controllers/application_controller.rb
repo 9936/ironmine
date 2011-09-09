@@ -243,7 +243,7 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (Irm::Person.find(session[:user_id]) rescue nil)
+      (Irm::Person.unscoped.find(session[:user_id]) rescue nil)
     end
   end
 

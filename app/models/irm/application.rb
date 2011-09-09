@@ -13,7 +13,10 @@ class Irm::Application < ActiveRecord::Base
   has_many :profile_applications,:dependent => :destroy
 
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
 
   scope :query_by_profile ,lambda{|profile_id|

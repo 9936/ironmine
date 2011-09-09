@@ -2,7 +2,8 @@ module Irm
   module Jobs
     class IcmIncidentRequestSurveyTaskJob < Struct.new(:incident_request_id)
       def perform
-        request = Icm::IncidentRequest.find(incident_request_id)
+        request = Icm::IncidentRequest.unscoped.find(incident_request_id)
+        Irm::Person.current = Irm::Person.find(request.requested_by)
         surveys = Csi::Survey.where("closed_datetime IS NULL OR closed_datetime > ?", Time.now).
             where("with_incident_request = ?", Irm::Constant::SYS_YES).enabled
 

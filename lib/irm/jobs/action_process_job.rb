@@ -2,6 +2,7 @@ module Irm
   module Jobs
     class ActionProcessJob<Struct.new(:options)
       def perform
+        Irm::Person.current = Irm::Person.anonymous
         bo_id = options[:bo_id]
         bo_code = options[:bo_code]
         bo = Irm::BusinessObject.where(:business_object_code => bo_code).first

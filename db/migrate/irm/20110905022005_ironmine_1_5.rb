@@ -254,7 +254,7 @@ class Ironmine15 < ActiveRecord::Migration
     t.string   "opu_id",              :limit => 22
     t.string   "incident_request_id", :limit => 22, :null => false
     t.string   "reply_type",          :limit => 30
-    t.integer  "replied_by",                        :null => false
+    t.string   "replied_by",          :limit => 22, :null => false
     t.text     "message_body",                      :null => false
     t.string   "status_code",         :limit => 30, :null => false
     t.string   "created_by",          :limit => 22
@@ -306,9 +306,9 @@ class Ironmine15 < ActiveRecord::Migration
     t.text     "summary",                                :null => false
     t.string   "external_system_id",      :limit => 22
     t.string   "service_code",            :limit => 30
-    t.integer  "requested_by"
+    t.string  "requested_by" ,         :limit => 22
     t.string   "organization_id",         :limit => 22
-    t.integer  "submitted_by"
+    t.string  "submitted_by",         :limit => 22
     t.integer  "weight_value",                           :null => false
     t.string   "contact_id",              :limit => 22
     t.string   "contact_number",          :limit => 30
@@ -3599,7 +3599,7 @@ class Ironmine15 < ActiveRecord::Migration
     ts.each do |t|
       next if t.first.end_with?("_vl")||t.first.end_with?("_v")
       ActiveRecord::Base.connection.execute("describe  #{t.first}").each do |c|
-        columns << {:table_name=>t.first,:column_name=>c.first}  if c.first.eql?("id")
+        columns << {:table_name=>t.first,:column_name=>c.first}  if c.first.end_with?("id")||c.first.end_with?("_by")
       end
     end
     columns.each do |c|

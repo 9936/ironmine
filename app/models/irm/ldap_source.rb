@@ -13,8 +13,11 @@ class Irm::LdapSource < ActiveRecord::Base
   validates_length_of :account_password, :maximum => 60
   validates_length_of :base_dn, :maximum => 255
   validates_uniqueness_of :name,:scope=>:opu_id, :if => Proc.new { |i| !i.name.blank? }
+
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   def test_auth
     ldap = Net::LDAP.new

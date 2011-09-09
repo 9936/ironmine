@@ -75,7 +75,10 @@ module Irm
       end
       # sync report schedule
       scheduler.cron '0 0 0 * * *' do
-        Irm::ReportTrigger.all.each{|i| i.sync_schedule}
+        Irm::ReportTrigger.unscoped.all.each{|i|
+          Irm::Person.current = Irm::Person.unscoped.find(i.created_by)
+          i.sync_schedule
+        }
       end
 
       scheduler.join

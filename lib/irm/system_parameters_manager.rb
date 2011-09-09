@@ -1,35 +1,35 @@
 module Irm::SystemParametersManager
   class << self
     def app_top_logo
-      system_params[:app_top_logo]
+      system_params[:app_top_logo] ||""
     end
 
     def login_page_logo
-      system_params[:login_page_logo]
+      system_params[:login_page_logo]||""
     end
 
     def address_bar_logo
-      system_params[:address_bar_logo]
+      system_params[:address_bar_logo] ||""
     end
 
     def application_title
-      system_params[:application_title]
+      system_params[:application_title] ||""
     end
 
     def host_name
-      system_params[:host_name]
+      system_params[:host_name]||""
     end
 
     def host_path
-      system_params[:host_path]
+      system_params[:host_path]||""
     end
 
     def host_port
-      system_params[:host_port]
+      system_params[:host_port]||""
     end
 
     def emission_email_address
-      system_params[:emission_email_address]
+      system_params[:emission_email_address]||""
     end
 
     def upload_file_limit
@@ -37,7 +37,7 @@ module Irm::SystemParametersManager
     end
 
     def timezone
-      system_params[:timezone]
+      system_params[:timezone]||""
     end
 
     def reset_system_parameters

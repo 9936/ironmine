@@ -21,6 +21,8 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
   validate :validate_data_type_filter_value, :if => Proc.new { |i| !i.attribute_name.blank? }
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
 
   def meaning
