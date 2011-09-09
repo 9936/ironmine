@@ -6,7 +6,7 @@ class Icm::CloseReasonsController < ApplicationController
   end
 
   def show
-    @close_reason = Icm::CloseReason.multilingual.where(:id => params[:id]).first
+    @close_reason = Icm::CloseReason.multilingual.where(:id => params[:id]).status_meaning.first
 
     respond_to do |format|
       format.html # show.html.erb

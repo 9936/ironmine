@@ -15,7 +15,7 @@
         </div>
         <%= datatable("incident_requests",url_for(:action=>"get_help_desk_data",:format=>"json"),
                               [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
-                               { :key => "request_number", :label => "#",:searchable=>true,:width=>"20px"},
+                               { :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot),:searchable=>true,:width=>"20px"},
                                { :key => "title",:formatter=>"Y.irm.stemplate",:label => t(:label_icm_incident_request_title),:searchable=>true },
                                { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
                                { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },

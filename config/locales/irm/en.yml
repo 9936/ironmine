@@ -681,6 +681,7 @@ en:
   label_irm_person_add_to_company: Add to Company
   label_irm_person_add_to_system: Add to External System
   label_irm_person_password_info: Set Password
+  error_irm_person_new_old_password_same: New password can not be same as the old one.
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: Flex
@@ -1356,6 +1357,7 @@ en:
   label_irm_external_system_people: System Member
   label_irm_external_system_people_type: Type
   label_irm_external_system_add_people: Add Member
+  error_irm_external_system_ip_invalid: IP invalid
   #=========================    end external_systems_controller=======================#
   #=========================    license=======================#
   label_irm_license: License

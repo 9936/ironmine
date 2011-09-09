@@ -113,6 +113,7 @@ en:
   label_icm_incident_request_incident_status_code: Status
   label_icm_incident_request_report_source_code: Report source
   label_icm_incident_request_request_number: Serial number
+  label_icm_incident_request_request_number_shot: No.
   label_icm_incident_request_contact_number: Contact number
   label_icm_incident_request_priority: Priority
   label_icm_incident_request_organization: Organization

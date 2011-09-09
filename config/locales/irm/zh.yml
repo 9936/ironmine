@@ -785,6 +785,7 @@ zh:
   label_irm_person_add_to_company: 加入公司
   label_irm_person_add_to_system: 加入外部系统
   label_irm_person_password_info: 设置密码
+  error_irm_person_new_old_password_same: 新密码不能和旧密码相同
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: 弹性域
@@ -1579,6 +1580,7 @@ zh:
   label_irm_external_system_people: 系统人员
   label_irm_external_system_people_type: 类型
   label_irm_external_system_add_people: 添加成员
+  error_irm_external_system_ip_invalid: IP地址无效
   #=========================    end external_systems_controller=======================#
   #=========================    license=======================#
   label_irm_license: 许可
