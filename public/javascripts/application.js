@@ -7,6 +7,14 @@ GY.use('node',function(Y){
       n.setAttribute("autocomplete", "off");
    });
 
+   Y.all('input[irm_chr_only]').on('keyup', function(){
+      this.set('value',this.get('value').toString().replace(/^(_+)|^( +)|[^A-Z a-z0-9_]/g, ""));
+   });
+
+   Y.all('input[irm_chr_only]').each(function(n){
+      n.setAttribute("autocomplete", "off");
+   });
+
    Y.all('input[irm_number_only]').on('keyup', function(){
        this.set('value',this.get('value').toString().replace(/D/g, ""));
    });

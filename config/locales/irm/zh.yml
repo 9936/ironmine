@@ -1580,6 +1580,7 @@ zh:
   label_irm_external_system_people: 系统人员
   label_irm_external_system_people_type: 类型
   label_irm_external_system_add_people: 添加成员
+  error_irm_external_system_ip_invalid: IP地址无效
   #=========================    end external_systems_controller=======================#
   #=========================    license=======================#
   label_irm_license: 许可

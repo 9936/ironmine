@@ -34,7 +34,7 @@
               <td class="labelCol"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
               <td class="dataCol"><%=f.text_field :external_system_code, :required=>true ,:irm_uppercase=>true,:id=>"external_system_external_system_code"%></td>
               <td class="labelCol"><label for="external_system_external_hostname"><%=t(:label_irm_external_system_external_hostname)%></label></td>
-              <td class="dataCol"><%=f.text_field :external_hostname, :required=>true ,:id=>"external_system_external_hostname"%></td>
+              <td class="dataCol"><%=f.text_field :external_hostname, :irm_chr_only => true, :required=>true ,:id=>"external_system_external_hostname"%></td>
             </tr>
 
             <tr>
