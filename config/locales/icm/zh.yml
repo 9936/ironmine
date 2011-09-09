@@ -114,6 +114,7 @@ zh:
   label_icm_incident_request_incident_status_code: 状态
   label_icm_incident_request_report_source_code: 来源类型
   label_icm_incident_request_request_number: 事故单号
+  label_icm_incident_request_request_number_shot: 单号
   label_icm_incident_request_contact_number: 联系电话
   label_icm_incident_request_priority: 优先级
   label_icm_incident_request_organization: 组织
