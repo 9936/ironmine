@@ -39,7 +39,7 @@ class Irm::RoleExplosion < ActiveRecord::Base
       parent_parent_role_ids << parent_role_id
       parent_parent_role_ids.each do |p_p_r_id|
         child_of_roles.each do |c_r|
-          self.create(:role_id=>c_r.role_id,:direct_parent_role_id=>c_o.direct_parent_role_id,:parent_role_id=>p_p_r_id)
+          self.create(:role_id=>c_r.role_id,:direct_parent_role_id=>c_r.direct_parent_role_id,:parent_role_id=>p_p_r_id)
         end
         self.create(:role_id=>role_id,:direct_parent_role_id=>parent_role_id,:parent_role_id=>p_p_r_id)
       end
