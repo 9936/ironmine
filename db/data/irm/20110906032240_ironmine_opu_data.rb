@@ -25,7 +25,7 @@ class IronmineOpuData < ActiveRecord::Migration
     profile.profiles_tls.build(:language=>'en',:source_lang=>'en',:name=>'Help Desk',:description=>'Help Desk')
     profile.save
 
-    person=Irm::Person.create(:first_name=>"ironmine",:login_name=>"ironmine",:email_address=>"ironmine@hand-china.com",:hashed_password=>Irm::Person.hash_password("aaaa1111"),:profile_id=>profile.id,:organization_id=>organization.id)
+    person=Irm::Person.create(:first_name=>"ironmine",:login_name=>"ironmine",:email_address=>"ironmine@hand-china.com",:hashed_password=>Irm::Person.hash_password("aaaa1111"),:profile_id=>profile.id,:organization_id=>organization.id,:bussiness_phone=>"02111111111")
 
     opu.update_attributes(:primary_person_id=>person.id,:not_auto_mult=>true)
 

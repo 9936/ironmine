@@ -126,6 +126,8 @@ module Irm
                               :charge_group_id=>assign_result[:support_person_id],
                               :charge_person_id=>assign_result[:support_person_id]}
         journal_attributes = {:replied_by=>person.id,:reply_type=>"ASSIGN"}
+        incident_status_id = Icm::IncidentStatus.transform(request.incident_status_id,journal_attributes[:reply_type])
+        request_attributes.merge!(:incident_status_id=>incident_status_id)
         if assign_result[:assign_dashboard]
           journal_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_assign_dashboard,{:locale=>language_code}))
         else
