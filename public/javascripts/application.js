@@ -25,6 +25,12 @@ GY.use('node',function(Y){
         parent_node.setContent(node);
     });
 
+    Y.all('textarea[jrequired]').each(function(n){
+        var parent_node = n.get('parentNode');
+        var node = Y.Node.create('<div class="requiredInput"><div class="requiredBlock"></div>' + parent_node.getContent() + '</div>');
+        parent_node.setContent(node);
+    });
+
     Y.all('a[disabled]').each(function(n){
         n.addClass("disabled");
         n.removeAttribute("disabled");

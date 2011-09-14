@@ -45,7 +45,7 @@ class Icm::IncidentJournalsController < ApplicationController
         flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         format.html { render :action => "new", :layout=>"application_right"}
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
-      elsif @incident_reply.valid? && @incident_request.update_attributes(@incident_reply.attributes)
+      elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
         process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         format.html { redirect_to({:action => "new"}) }

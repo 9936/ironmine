@@ -346,4 +346,5 @@ class Icm::IncidentRequest < ActiveRecord::Base
       self.organization_id =  Irm::Person.find(self.requested_by).organization_id
     end
   end
+
 end
