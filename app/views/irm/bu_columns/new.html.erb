@@ -32,7 +32,7 @@
         <tbody>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_bu_column_parent)%></label></td>
-              <td class="data2Col"><%= lov_field_tag "irm_bu_columns", "BULLETIN_COLUMNS", :id => "parent_column_lov", :value => @bu_column.parent_column_id, :label_required => true %></td>
+              <td class="data2Col"><%=f.blank_select :parent_column_id, available_parentable_bu_columns(@bu_column.id), {}%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_bu_column_code)%></label></td>
