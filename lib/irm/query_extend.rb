@@ -24,7 +24,7 @@ module Irm::QueryExtend
               if ids.length<1
                 ids = ids+[0]
               end
-              where("#{table_name}.id IN (?)",ids+[0])
+              where("#{table_name}.id IN (?)",ids)
             }
 
 
@@ -60,11 +60,19 @@ module Irm::QueryExtend
 
 
             scope :default_filter ,lambda{
-              current_opu = Irm::OperationUnit.current
-              where("#{table_name}.opu_id = ?",current_opu.id) if current_opu
+              current_opu
             }
 
-            def self.by_opu(opu_id_or_ids=nil)
+            def self.current_opu(from_table_name = table_name)
+              current_operation_unit = Irm::OperationUnit.current
+              if current_operation_unit
+                where("#{from_table_name}.opu_id = ?",current_operation_unit.id)
+              else
+                {}
+              end
+            end
+
+            def self.by_opu(opu_id_or_ids=nil,from_table_name = table_name)
               opu_ids = []
 
               if opu_id_or_ids
@@ -74,15 +82,15 @@ module Irm::QueryExtend
                   opu_ids = [opu_id_or_ids]
                 end
               else
-                current_opu = Irm::OperationUnit.current
-                opu_ids = [current_opu.id] if current_opu
+                current_operation_unit = Irm::OperationUnit.current
+                opu_ids = [current_operation_unit.id] if current_operation_unit
               end
 
               if opu_ids.any?
                 if opu_ids.length==1
-                  return where("#{table_name}.opu_id = ?",opu_ids.first)
+                  return where("#{from_table_name}.opu_id = ?",opu_ids.first)
                 else
-                  return where("#{table_name}.opu_id IN (?)",opu_ids)
+                  return where("#{from_table_name}.opu_id IN (?)",opu_ids)
                 end
               else
                 return {}
