@@ -72,15 +72,15 @@
         </div>
         <%= datatable("menu_entries_list",url_for(:controller => "irm/menu_entries", :action=>"get_data", :menu_code => @menu.menu_code,:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "80px"},
-                       {:key=>"display_sequence",:label=>t(:label_irm_menu_entry_display_sequence),:sortable=>true},
-                       {:key=>"name",:label=>t(:label_irm_menu_entry_name),:sortable=>true},
-                       {:key=>"description",:label=>t(:label_irm_menu_entry_description),:sortable=>true},
-                       {:key=>"sub_menu_code",:label=>t(:label_irm_menu_entry_sub_menu),:sortable=>true},
-                       {:key=>"page_controller",:label=>t(:label_irm_menu_entry_page_controller),:sortable=>true},
-                       {:key=>"icon",:label=>t(:label_irm_menu_entry_icon),:sortable=>true},
-                       {:key=>"css_name",:label=>t(:label_irm_menu_entry_css_name),:sortable=>true},
-                       {:key=>"display_flag",:label=>t(:label_irm_menu_entry_display_flag),:sortable=>true},
-                       {:key=>"status_code",:label=>t(:active),:sortable=>true, :width => "40px"}]) %>
+                       {:key=>"display_sequence",:label=>t(:label_irm_menu_entry_display_sequence)},
+                       {:key=>"name",:label=>t(:label_irm_menu_entry_name)},
+                       {:key=>"description",:label=>t(:label_irm_menu_entry_description)},
+                       {:key=>"sub_menu_code",:label=>t(:label_irm_menu_entry_sub_menu)},
+                       {:key=>"page_controller",:label=>t(:label_irm_menu_entry_page_controller)},
+                       {:key=>"icon",:label=>t(:label_irm_menu_entry_icon)},
+                       {:key=>"css_name",:label=>t(:label_irm_menu_entry_css_name)},
+                       {:key=>"display_flag",:label=>t(:label_irm_menu_entry_display_flag)},
+                       {:key=>"status_code",:label=>t(:active), :width => "40px"}]) %>
       </div>
     </div>
 </div>

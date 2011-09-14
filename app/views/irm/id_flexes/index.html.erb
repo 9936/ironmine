@@ -28,10 +28,10 @@
         </div>
         <%= datatable("flexes_list",url_for(:action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                       {:key=>"id_flex_code",:label=>t(:label_irm_id_flex_code),:sortable=>true,:searchable=>true},
-                       {:key=>"id_flex_name",:label=>t(:label_irm_id_flex_name),:sortable=>true,:searchable=>true},
-                       {:key=>"description",:label=>t(:label_irm_id_flex_description),:sortable=>true},
-                       {:key=>"status_code",:label=>t(:active),:sortable=>true,:formatter=>"Y.irm.template"}
+                       {:key=>"id_flex_code",:label=>t(:label_irm_id_flex_code),:searchable=>true},
+                       {:key=>"id_flex_name",:label=>t(:label_irm_id_flex_name),:searchable=>true},
+                       {:key=>"description",:label=>t(:label_irm_id_flex_description)},
+                       {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template"}
                        ],
                        {:search_box=>"flexesSearchBox",:paginator_box=>"flexPaginator"})%>
         <div id="flexPaginator"></div>

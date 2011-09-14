@@ -25,13 +25,16 @@ class Icm::IncidentJournalsController < ApplicationController
   def create
     @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
-    # 设置回复类开
-    # 1,服务台回复
-    # 2,客户回复
-    if Irm::Person.current.profile&& Irm::Person.current.profile.user_license.eql?("REQUESTER")
+    # 设置回复类型
+    # 1,客户回复
+    # 2,服务台回复
+    # 3,其他人员回复
+    if Irm::Person.current.id.eql?(@incident_request.requested_by)
       @incident_journal.reply_type = "CUSTOMER_REPLY"
-    else
+    elsif Irm::Person.current.id.eql?(@incident_request.support_person_id)
       @incident_journal.reply_type = "SUPPORTER_REPLY"
+    else
+      @incident_journal.reply_type = "OTHER_REPLY"
     end
     #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
     unless @incident_reply.incident_status_id.present?

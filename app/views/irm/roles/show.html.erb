@@ -74,8 +74,8 @@
         </div>
         <%= datatable("people",url_for(:action=>"role_people",:id=>@role.id,:format=>"json"),
                               [{:key=>"id",:width=>"80px", :hidden => true},
-                               {:key=>"login_name",:label=>t(:label_irm_person_login),:sortable=>true,:searchable=>true,:width=>"80px"},
-                               {:key=>"person_name",:label=>t(:label_irm_person_name),:sortable=>true,:searchable=>true,:width=>"120px"},
+                               {:key=>"login_name",:label=>t(:label_irm_person_login),:searchable=>true,:width=>"80px"},
+                               {:key=>"person_name",:label=>t(:label_irm_person_name),:searchable=>true,:width=>"120px"},
                                {:key=>"email_address",:label=>t(:label_irm_person_email_address),:searchable=>true},
                                {:key=>"bussiness_phone",:label=>t(:label_irm_person_bussiness_phone),:searchable=>true},
                                ],{:row_perpage=>10,:paginator_box=>'peoplePaginatorBox'})%>

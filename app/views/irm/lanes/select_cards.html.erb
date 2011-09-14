@@ -31,7 +31,7 @@
                 <%= datatable("available_cards_list",url_for(:action=>"get_available_cards", :id=>@lane),
                           [{:key=>"id",:label=>t(:select_ac),:formatter=>"Y.irm.template",:width=>"20px"},
                            {:key=>"card_code",:label=>t(:label_irm_card_code),:width => "15%"},
-                           {:key=>"card_name",:label=>t(:name),:sortable=>true, :width => "25%"},
+                           {:key=>"card_name",:label=>t(:name), :width => "25%"},
                            {:key=>"card_description",:label=>t(:description)},
                            {:key=>"background_color",:label=>t(:label_irm_card_background_color), :width => "80px"}
                            ],{:row_perpage=>5})%>

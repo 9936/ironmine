@@ -29,12 +29,12 @@
         </div>
         <%= datatable("id_flex_segments_list",url_for(:controller => "irm/id_flex_segments", :action=>"get_data", :format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "120px"},
-                       {:key=>"segment_num",:label=>t(:label_irm_id_flex_segment_segment_num),:sortable=>true},
-                       {:key=>"segment_name",:label=>t(:label_irm_id_flex_segment_name),:sortable=>true,:searchable=>true},
-                       {:key=>"form_left_prompt",:label=>t(:label_irm_id_flex_segment_form_left_prompt),:sortable=>true,:searchable=>true},
+                       {:key=>"segment_num",:label=>t(:label_irm_id_flex_segment_segment_num)},
+                       {:key=>"segment_name",:label=>t(:label_irm_id_flex_segment_name),:searchable=>true},
+                       {:key=>"form_left_prompt",:label=>t(:label_irm_id_flex_segment_form_left_prompt),:searchable=>true},
                        {:key=>"description",:label=>t(:label_irm_id_flex_segment_description)},
-                       {:key=>"value_set_name",:label=>t(:label_irm_value_set),:sortable=>true,:searchable=>true},
-                       {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template",:sortable=>true, :width => "40px"}],
+                       {:key=>"value_set_name",:label=>t(:label_irm_value_set),:searchable=>true},
+                       {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],
                        {:search_box=>"segmentsSearchBox"}) %>
       </div>
     </div>

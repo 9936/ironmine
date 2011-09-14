@@ -267,8 +267,8 @@
         </div>
         <%= datatable("entry_headers_list",url_for(:action=>"get_entry_header_data",:format=>"json"),
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"50px"},
-                   {:key=>"full_title",:label=>t(:label_skm_entry_header_title),:sortable=>true, :searchable => true,:formatter=>"Y.irm.template"},
-                   {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date),:sortable=>true, :width => "180px"}],
+                   {:key=>"full_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
+                   {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "180px"}],
                    {:row_perpage=>5,:paginator_box=>"entryPaginator"})%>
         <div id="entryPaginator"></div>
       </div>

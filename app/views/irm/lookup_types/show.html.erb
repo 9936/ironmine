@@ -73,12 +73,12 @@
         </div>
         <%= datatable("lookup_type",url_for(:controller=>"irm/lookup_values",:action=>"get_lookup_values", :lookup_type=>@lookup_type.lookup_type),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template"},
-                       {:key=>"lookup_code",:label=>(t :label_irm_lookup_value_lookup_code),:searchable=>true,:sortable=>true},
-                       {:key=>"meaning",:label=>t(:label_irm_lookup_value_meaning),:searchable=>true,:sortable=>true},
-                       {:key=>"description",:label=>t(:label_irm_lookup_type_description),:searchable=>true,:sortable=>true},
-                       {:key=>"start_date_active",:label=>t(:label_start_date_active),:sortable=>true},
-                       {:key=>"end_date_active",:label=>t(:label_end_date_active),:sortable=>true},
-                       {:key=>"status_meaning",:label=>t(:label_status_code),:sortable=>true}],
+                       {:key=>"lookup_code",:label=>(t :label_irm_lookup_value_lookup_code),:searchable=>true},
+                       {:key=>"meaning",:label=>t(:label_irm_lookup_value_meaning),:searchable=>true},
+                       {:key=>"description",:label=>t(:label_irm_lookup_type_description),:searchable=>true},
+                       {:key=>"start_date_active",:label=>t(:label_start_date_active)},
+                       {:key=>"end_date_active",:label=>t(:label_end_date_active)},
+                       {:key=>"status_meaning",:label=>t(:label_status_code)}],
                        {:search_box=>"permissionsSearchBox"}) %>
       </div>
     </div>
