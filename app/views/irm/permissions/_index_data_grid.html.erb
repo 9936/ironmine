@@ -29,12 +29,12 @@
         </div>
         <%= datatable("permissions_list",url_for(:controller => "irm/permissions", :action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                       {:key=>"product_module_name",:label=>t(:label_irm_permission_product_name),:sortable=>true},
-                       {:key=>"permission_code",:label=>t(:label_irm_permission_permission_code),:sortable=>true,:searchable=>true, :width => "20%"},
-                       {:key=>"name",:label=>t(:label_irm_permission_name),:sortable=>true,:searchable=>true, :width => "30%"},
-                       {:key=>"page_controller",:label=>t(:label_irm_permission_page_controller),:sortable=>true,:searchable=>true},
-                       {:key=>"page_action",:label=>t(:label_irm_permission_page_action),:sortable=>true},
-                       {:key=>"status_code",:label=>t(:label_irm_permission_status_code),:formatter=>"Y.irm.template",:sortable=>true, :width => "40px"}],
+                       {:key=>"product_module_name",:label=>t(:label_irm_permission_product_name)},
+                       {:key=>"permission_code",:label=>t(:label_irm_permission_permission_code),:searchable=>true, :width => "20%"},
+                       {:key=>"name",:label=>t(:label_irm_permission_name),:searchable=>true, :width => "30%"},
+                       {:key=>"page_controller",:label=>t(:label_irm_permission_page_controller),:searchable=>true},
+                       {:key=>"page_action",:label=>t(:label_irm_permission_page_action)},
+                       {:key=>"status_code",:label=>t(:label_irm_permission_status_code),:formatter=>"Y.irm.template", :width => "40px"}],
                        {:search_box=>"permissionsSearchBox"})%>
       </div>
     </div>

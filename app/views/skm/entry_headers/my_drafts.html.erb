@@ -25,8 +25,8 @@
         </div>
         <%= datatable("drafts_list",url_for(:action=>"my_drafts_data",:format=>"json", :person_id => Irm::Person.current.id),
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"40px"},
-                   {:key=>"full_title",:label=>t(:label_skm_entry_header_title),:sortable=>true,:formatter=>"Y.irm.template"},
-                   {:key=>"published_date",:label=>t(:label_skm_entry_header_published_date),:sortable=>true, :width => "180px"}
+                   {:key=>"full_title",:label=>t(:label_skm_entry_header_title),:formatter=>"Y.irm.template"},
+                   {:key=>"published_date",:label=>t(:label_skm_entry_header_published_date), :width => "180px"}
                    ])%>
       </div>
     </div>

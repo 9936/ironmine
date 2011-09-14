@@ -31,11 +31,11 @@
         </div>
         <%= datatable("rule_setting",url_for(:action=>"get_data",:format=>"json"),
                   [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"report_date_changable",:label=>t(:label_icm_rule_setting_report_date_changable),:sortable=>true,:formatter=>"Y.irm.template"},
-                   {:key=>"respond_date_changable",:label=>t(:label_icm_rule_setting_respond_date_changable),:sortable=>true,:formatter=>"Y.irm.template"},
-                   {:key=>"slove_date_changable",:label=>t(:label_icm_rule_setting_description),:sortable=>true,:formatter=>"Y.irm.template"},
-                   {:key=>"auto_closure_days",:label=>t(:label_icm_rule_setting_auto_closure_days),:sortable=>true},
-                   {:key=>"status_meaning",:label=>t(:label_irm_script_status_code),:sortable=>true,:width=>"70px"}],
+                   {:key=>"report_date_changable",:label=>t(:label_icm_rule_setting_report_date_changable),:formatter=>"Y.irm.template"},
+                   {:key=>"respond_date_changable",:label=>t(:label_icm_rule_setting_respond_date_changable),:formatter=>"Y.irm.template"},
+                   {:key=>"slove_date_changable",:label=>t(:label_icm_rule_setting_description),:formatter=>"Y.irm.template"},
+                   {:key=>"auto_closure_days",:label=>t(:label_icm_rule_setting_auto_closure_days)},
+                   {:key=>"status_meaning",:label=>t(:label_irm_script_status_code),:width=>"70px"}],
                    {:paginator_box=>"rulePaginator"})%>
         <div id="rulePaginator"></div>
       </div>

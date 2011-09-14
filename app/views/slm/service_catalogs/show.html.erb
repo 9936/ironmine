@@ -111,10 +111,10 @@
             <%= datatable("service_member",url_for(:controller=>"slm/service_members",:action=>"get_data",
                                                    :service_catalog_id=>@service_catalog.id),
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                               {:key=>"service_organization_name",:label=>t(:label_slm_service_member_service_organization),:sortable=>true,:width=>"80px"},
-                               {:key=>"service_person_name",:label=>t(:label_slm_service_member_service_person),:sortable=>true,:width=>"80px"},
-                               {:key=>"service_contract_name",:label=>t(:label_slm_service_member_service_contract),:sortable=>true,:width=>"80px"},
-                               {:key=>"status_meaning",:label=>t(:label_slm_service_member_status_meaning),:sortable=>true,:width=>"80px"}
+                               {:key=>"service_organization_name",:label=>t(:label_slm_service_member_service_organization),:width=>"80px"},
+                               {:key=>"service_person_name",:label=>t(:label_slm_service_member_service_person),:width=>"80px"},
+                               {:key=>"service_contract_name",:label=>t(:label_slm_service_member_service_contract),:width=>"80px"},
+                               {:key=>"status_meaning",:label=>t(:label_slm_service_member_status_meaning),:width=>"80px"}
                               ],
                                {:row_perpage=>5})%>
           <!-- End service members table -->

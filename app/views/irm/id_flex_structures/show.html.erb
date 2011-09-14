@@ -77,12 +77,12 @@
         </div>
         <%= datatable("id_flex_segments_list",url_for(:controller => "irm/id_flex_segments", :action=>"get_data", :id_flex_structure_id => @id_flex_structure,:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "80px"},
-                       {:key=>"segment_num",:label=>t(:label_irm_id_flex_segment_segment_num),:sortable=>true, :width => "80px"},
-                       {:key=>"segment_name",:label=>t(:label_irm_id_flex_segment_name),:sortable=>true, :width => "10%"},
-                       {:key=>"form_left_prompt",:label=>t(:label_irm_id_flex_segment_form_left_prompt),:sortable=>true, :width => "15%"},
-                       {:key=>"description",:label=>t(:label_irm_id_flex_segment_description),:sortable=>true},
-                       {:key=>"value_set_name",:label=>t(:label_irm_value_set),:sortable=>true, :width => "15%"},
-                       {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template",:sortable=>true, :width => "40px"}],
+                       {:key=>"segment_num",:label=>t(:label_irm_id_flex_segment_segment_num), :width => "80px"},
+                       {:key=>"segment_name",:label=>t(:label_irm_id_flex_segment_name), :width => "10%"},
+                       {:key=>"form_left_prompt",:label=>t(:label_irm_id_flex_segment_form_left_prompt), :width => "15%"},
+                       {:key=>"description",:label=>t(:label_irm_id_flex_segment_description)},
+                       {:key=>"value_set_name",:label=>t(:label_irm_value_set), :width => "15%"},
+                       {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],
                       {:row_perpage=>5,:paginator_box=>"segementPaginator"}) %>
           <div id="segementPaginator"></div>
       </div>

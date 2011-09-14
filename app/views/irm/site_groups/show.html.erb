@@ -71,10 +71,10 @@
         </div>
         <%= datatable("site",url_for(:action=>"get_current_group_site", :group_code=>@site_group.group_code),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template"},
-                       {:key=>"site_code",:label=>t(:label_irm_site_site_code),:sortable=>true},
-                       {:key=>"name",:label=>t(:label_irm_site_name),:sortable=>true},
-                       {:key=>"description",:label=>t(:label_irm_site_description),:sortable=>true},
-                       {:key=>"status_meaning",:label=>t(:label_irm_site_group_status_code),:sortable=>true}],
+                       {:key=>"site_code",:label=>t(:label_irm_site_site_code)},
+                       {:key=>"name",:label=>t(:label_irm_site_name)},
+                       {:key=>"description",:label=>t(:label_irm_site_description)},
+                       {:key=>"status_meaning",:label=>t(:label_irm_site_group_status_code)}],
                        {:paginator_box=>"sitePaginator"}) %>
         <div id="sitePaginator"></div>
       </div>

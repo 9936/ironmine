@@ -44,11 +44,11 @@
         </div>
         <%= datatable("id_flex_structures_list",url_for(:action=>"get_data", :id_flex_code => @id_flex.id_flex_code,:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "80px"},
-                       {:key=>"id_flex_structure_code",:label=>t(:label_irm_id_flex_structure_code),:sortable=>true,:searchable=>true, :width => "15%"},
-                       {:key=>"id_flex_structure_name",:label=>t(:label_irm_id_flex_structure_name),:sortable=>true,:searchable=>true, :width => "25%"},
-                       {:key=>"description",:label=>t(:label_irm_id_flex_structure_description),:sortable=>true},
-                       {:key=>"concatenated_segment_delimiter",:label=>t(:label_irm_id_flex_structure_concatenated_segment_delimiter),:sortable=>true, :width => "60px"},
-                       {:key=>"status_code",:label=>t(:active),:sortable=>true,:formatter=>"Y.irm.template", :width => "40px"}],
+                       {:key=>"id_flex_structure_code",:label=>t(:label_irm_id_flex_structure_code),:searchable=>true, :width => "15%"},
+                       {:key=>"id_flex_structure_name",:label=>t(:label_irm_id_flex_structure_name),:searchable=>true, :width => "25%"},
+                       {:key=>"description",:label=>t(:label_irm_id_flex_structure_description)},
+                       {:key=>"concatenated_segment_delimiter",:label=>t(:label_irm_id_flex_structure_concatenated_segment_delimiter), :width => "60px"},
+                       {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],
                        {:search_box=>"structuresSearchBox",:paginator_box=>"flexstructurePaginator"}) %>
         <div id="flexstructurePaginator"></div>
       </div>

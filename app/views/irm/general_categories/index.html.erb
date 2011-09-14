@@ -28,12 +28,12 @@
         </div>
         <%= datatable("general_categories_list",url_for(:action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                       {:key=>"category_type_name",:label=>t(:label_irm_general_category_type),:sortable=>true,:searchable=>true},
-                       {:key=>"segment1_name",:label=>t(:label_irm_general_category_segment1),:sortable=>true,:searchable=>true},
-                       {:key=>"segment2_name",:label=>t(:label_irm_general_category_segment2),:sortable=>true,:searchable=>true},
-                       {:key=>"segment3_name",:label=>t(:label_irm_general_category_segment3),:sortable=>true,:searchable=>true},
-                       {:key=>"concat_segment_name",:label=>t(:label_irm_general_category_concact_segment),:sortable=>true,:searchable=>true},
-                       {:key=>"status_code",:label=>t(:label_irm_permission_status_code),:sortable=>true,:formatter=>"Y.irm.template", :width => "40px"}],
+                       {:key=>"category_type_name",:label=>t(:label_irm_general_category_type),:searchable=>true},
+                       {:key=>"segment1_name",:label=>t(:label_irm_general_category_segment1),:searchable=>true},
+                       {:key=>"segment2_name",:label=>t(:label_irm_general_category_segment2),:searchable=>true},
+                       {:key=>"segment3_name",:label=>t(:label_irm_general_category_segment3),:searchable=>true},
+                       {:key=>"concat_segment_name",:label=>t(:label_irm_general_category_concact_segment),:searchable=>true},
+                       {:key=>"status_code",:label=>t(:label_irm_permission_status_code),:formatter=>"Y.irm.template", :width => "40px"}],
                        {:search_box=>"genCateSearchBox",:paginator_box=>"generalCategoryPaginator"})%>
         <div id="generalCategoryPaginator"></div>
       </div>

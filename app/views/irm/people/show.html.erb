@@ -210,8 +210,8 @@
           <!-- Begin company access table -->
             <%= datatable("person_system_list",url_for(:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id),
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"40px"},
-                               {:key=>"system_name",:label=>t(:label_irm_external_system),:sortable=>true, :width=>"200px"},
-                               {:key=>"system_description",:label=>t(:description),:sortable=>true, :width=> "400px"},
+                               {:key=>"system_name",:label=>t(:label_irm_external_system), :width=>"200px"},
+                               {:key=>"system_description",:label=>t(:description), :width=> "400px"},
                                {:key=>"external_system_code", :hidden => true}])%>
           <!-- End company access table -->
         </div>
@@ -257,8 +257,8 @@
           <!-- Begin company access table -->
             <%= datatable("support_group",url_for(:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id),
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
-                               {:key=>"name",:label=>t(:label_irm_group_name),:sortable=>true},
-                               {:key=>"description",:label=>t(:label_irm_group_description),:sortable=>true}])%>
+                               {:key=>"name",:label=>t(:label_irm_group_name)},
+                               {:key=>"description",:label=>t(:label_irm_group_description)}])%>
           <!-- End company access table -->
         </div>
         <div class="pbFooter secondaryPalette">
