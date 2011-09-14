@@ -25,6 +25,14 @@ GY.use('node',function(Y){
         parent_node.setContent(node);
     });
 
+    Y.all('form').on("submit",function(e){
+        e.target.all("input[type=submit]").each(function(el){
+            el.setAttribute("disabled",true);
+            el.addClass("disabled");
+            el.setAttribute("value",el.get("value")+'...');
+        });
+    });
+
     Y.all('textarea[jrequired]').each(function(n){
         var parent_node = n.get('parentNode');
         var node = Y.Node.create('<div class="requiredInput"><div class="requiredBlock"></div>' + parent_node.getContent() + '</div>');
