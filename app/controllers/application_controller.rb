@@ -102,6 +102,7 @@ class ApplicationController < ActionController::Base
 
     if Irm::Application.current
       function_group = Irm::FunctionGroup.query_by_application_id(Irm::Application.current.id).query_by_url(url_options[:controller],url_options[:action]).first
+      session[:application_id] = Irm::Application.current.id
     end
 
     if  function_group
@@ -141,12 +142,12 @@ class ApplicationController < ActionController::Base
 
     if user && user.is_a?(Irm::Person)
       Irm::Person.current = user
+      session.clear
       session[:user_id] = user.id
-      session[:application_id]=nil
+
     else
       Irm::Person.current = Irm::Person.anonymous
-      session[:user_id]=nil
-      session[:application_id]=nil
+      session.clear
     end
   end
 
