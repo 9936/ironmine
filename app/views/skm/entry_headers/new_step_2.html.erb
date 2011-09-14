@@ -67,7 +67,15 @@
                     <tbody>
                         <tr>
                           <%= fields_for("skm_entry_details[]", e) do |ef|%>
-                          <td><%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details])} %></td>
+                          <td><% if e.required_flag == "Y"%>
+                              <%= ef.text_area :entry_content, {:jrequired => true, :rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details])} %>
+                                  <% if @error_details.include?(e.id) %>
+                                  <div class="errorMsg"><strong><%= t(:error) %>:</strong>["<%= t(:error_skm_entry_detail_can_not_blank)%>"]</div>
+                                  <% end if @error_details %>
+                              <% else %>
+                                <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details])} %>
+                              <% end %>
+                          </td>
                               <%= ef.hidden_field :default_rows, :value => e.default_rows %>
                               <%= ef.hidden_field :element_name, :value => e.element_name %>
                               <%= ef.hidden_field :element_description, :value => e.element_description %>
@@ -90,7 +98,12 @@
                     <tbody>
                         <tr>
                           <%= fields_for("skm_entry_details[]", e) do |ef|%>
-                          <td><%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;"} %></td>
+                          <td><% if e.required_flag == "Y"%>
+                              <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;", :jrequired => true} %>
+                              <% else %>
+                              <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;"} %>
+                              <% end %>
+                          </td>
                               <%= ef.hidden_field :default_rows, :value => e.default_rows %>
                               <%= ef.hidden_field :element_name, :value => e.element_name %>
                               <%= ef.hidden_field :element_description, :value => e.element_description %>

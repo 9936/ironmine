@@ -66,6 +66,7 @@ en:
   label_action_new_step_3: Create, Step 3
   label_action_new_step_4: Create, Step 3
   remove_from_favorite: Remove
+  error_skm_entry_detail_can_not_blank: This field can not be blank
   #=========================skm FileManagement================================
   label_skm_file_management: Files
   label_skm_file_list: Files List
