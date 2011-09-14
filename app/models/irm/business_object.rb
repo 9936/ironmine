@@ -151,18 +151,24 @@ class Irm::BusinessObject < ActiveRecord::Base
   end
   # generate scope string by query hash
   def generate_scope_str(query_str,execute)
+    # 取得对像model名称
+    model_query = "#{self.bo_model_name}"
+
+    # 如果为多语言对像，进行多语言过滤
     if self.multilingual_flag.eql?(Irm::Constant::SYS_YES)
       query_str[:where] << "#{self.bo_table_name}.language = '{{env.language}}'"
+      model_query << %(.unscoped.current_opu("#{self.bo_table_name}").from("#{self.bo_table_name}"))
     end
 
-    model_query = %(#{self.bo_model_name}.select("#{query_str[:select].join(",")}"))
-    model_query<< %(.from("#{self.bo_table_name}")) if self.multilingual_flag.eql?(Irm::Constant::SYS_YES)
+    # select字段
+    model_query << %(.select("#{query_str[:select].join(",")}"))
     query_str[:joins].each do |j|
       model_query << %(.joins("#{j}"))
     end
     query_str[:where].each do |w|
       model_query << %(.where("#{w}"))
     end
+    # 如果是需要立即执行的查询，则需要按当前用户将参数替换掉
     if (execute&&%r{\{\{.*\}\}}.match(model_query))
       env = Irm::Person.env.dup
       recursive_stringify_keys(env)
