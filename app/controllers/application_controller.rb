@@ -142,6 +142,7 @@ class ApplicationController < ActionController::Base
     if user && user.is_a?(Irm::Person)
       Irm::Person.current = user
       session[:user_id] = user.id
+      session[:application_id]=nil
     else
       Irm::Person.current = Irm::Person.anonymous
       session[:user_id]=nil
