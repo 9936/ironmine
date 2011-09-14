@@ -1,15 +1,15 @@
 module Irm::SystemParametersManager
   class << self
     def app_top_logo
-      system_params[:app_top_logo] ||""
+      system_params[:app_top_logo] || "/images/logos/logo.png"
     end
 
     def login_page_logo
-      system_params[:login_page_logo]||""
+      system_params[:login_page_logo]|| "/images/logos/main-logo.png"
     end
 
     def address_bar_logo
-      system_params[:address_bar_logo] ||""
+      system_params[:address_bar_logo] || "/images/logos/mini-logo.png"
     end
 
     def application_title
@@ -45,33 +45,33 @@ module Irm::SystemParametersManager
     end
 
     def prepare_system_parameters_cache
-      login_page_logo = Irm::SystemParameter.query_by_code("LOGIN_PAGE_LOGO").first
-      app_top_logo = Irm::SystemParameter.query_by_code("APP_TOP_LOGO").first
-      address_bar_logo = Irm::SystemParameter.query_by_code("ADDRESS_BAR_LOGO").first
+      login_page_logo = Irm::SystemParameter.query_by_code("LOGIN_PAGE_LOGO")
+      app_top_logo = Irm::SystemParameter.query_by_code("APP_TOP_LOGO")
+      address_bar_logo = Irm::SystemParameter.query_by_code("ADDRESS_BAR_LOGO")
 
-      application_title = Irm::SystemParameter.query_by_code("APPLICATION_TITLE").first
-      host_name = Irm::SystemParameter.query_by_code("HOST_NAME").first
-      host_path = Irm::SystemParameter.query_by_code("HOST_PATH").first
-      emission_email_address = Irm::SystemParameter.query_by_code("EMISSION_EMAIL_ADDRESS").first
+      application_title = Irm::SystemParameter.query_by_code("APPLICATION_TITLE")
+      host_name = Irm::SystemParameter.query_by_code("HOST_NAME")
+      host_path = Irm::SystemParameter.query_by_code("HOST_PATH")
+      emission_email_address = Irm::SystemParameter.query_by_code("EMISSION_EMAIL_ADDRESS")
 
-      upload_file_limit = Irm::SystemParameter.query_by_code("UPLOAD_FILE_LIMIT").first
-      timezone = Irm::SystemParameter.query_by_code("TIMEZONE").first
+      upload_file_limit = Irm::SystemParameter.query_by_code("UPLOAD_FILE_LIMIT")
+      timezone = Irm::SystemParameter.query_by_code("TIMEZONE")
 
-      host_port = Irm::SystemParameter.query_by_code("HOST_PORT").first
+      host_port = Irm::SystemParameter.query_by_code("HOST_PORT")
 
-      map.merge!({:app_top_logo => app_top_logo.img.url}) if app_top_logo
-      map.merge!({:login_page_logo => login_page_logo.img.url}) if login_page_logo
-      map.merge!({:address_bar_logo => address_bar_logo.img.url}) if address_bar_logo
+      map.merge!({:app_top_logo => app_top_logo.first.img.url}) if app_top_logo.any? && app_top_logo.first.value.present?
+      map.merge!({:login_page_logo => login_page_logo.first.img.url}) if login_page_logo.any? && login_page_logo.first.value.present?
+      map.merge!({:address_bar_logo => address_bar_logo.first.img.url}) if address_bar_logo.any? && address_bar_logo.first.value.present?
 
-      map.merge!({:application_title => application_title.value}) if application_title
-      map.merge!({:host_name => host_name.value}) if host_name
-      map.merge!({:host_path => host_path.value}) if host_path
-      map.merge!({:emission_email_address => emission_email_address.value}) if emission_email_address
+      map.merge!({:application_title => application_title.first.value}) if application_title.any?
+      map.merge!({:host_name => host_name.first.value}) if host_name.any?
+      map.merge!({:host_path => host_path.first.value}) if host_path.any?
+      map.merge!({:emission_email_address => emission_email_address.first.value}) if emission_email_address.any?
 
-      map.merge!({:upload_file_limit => upload_file_limit.value}) if upload_file_limit
-      map.merge!({:timezone => timezone.value}) if timezone
+      map.merge!({:upload_file_limit => upload_file_limit.first.value}) if upload_file_limit.any?
+      map.merge!({:timezone => timezone.first.value}) if timezone.any?
 
-      map.merge!({:host_port => host_port.value}) if host_port
+      map.merge!({:host_port => host_port.first.value}) if host_port.any?
     end
 
     # =====================================生成logo缓存===============================================
