@@ -77,12 +77,12 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def short_create
     @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
-    @incident_request.urgence_code = "GLOBAL_NORMAL"
-    @incident_request.incident_status_code = "NEW_INCIDENT"
+    @incident_request.urgence_id = Icm::UrgenceCode.default_id
+    @incident_request.incident_status_id = Icm::IncidentStatus.default_id
     @incident_request.request_type_code = "REQUESTED_TO_PERFORM"
     @incident_request.service_code = "ORAL_EBS_INV"
     @incident_request.report_source_code = "CUSTOMER_SUBMIT"
-    @incident_request.impact_range_code = "GLOBAL_LOW"
+    @incident_request.impact_range_id = Icm::ImpactRange.default_id
     #加入创建事故单的默认参数
     prepared_for_create(@incident_request)
     respond_to do |format|

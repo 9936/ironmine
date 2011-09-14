@@ -146,12 +146,12 @@
             <tr>
               <td class="labelCol"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
               <td class="dataCol">
-                <%=f.select :urgence_id,options_for_select(available_urgence_code,@incident_request.urgence_id),
+                <%=f.select :urgence_id,options_for_select(available_urgence_code,@incident_request.urgence_id||Icm::UrgenceCode.default_id),
                                                     {},{:required=>true,:id=>"incident_request_urgence_code"}%>
               </td>
               <td class="labelCol"><label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label></td>
               <td class="dataCol">
-                <%=f.select :impact_range_id,options_for_select(available_impact_range,@incident_request.impact_range_id),
+                <%=f.select :impact_range_id,options_for_select(available_impact_range,@incident_request.impact_range_id||Icm::ImpactRange.default_id),
                                                     {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
               </td>
             </tr>
@@ -182,7 +182,7 @@
               </td>
               <td class="labelCol"><label for="incident_request_incident_status_code"><%=t(:label_icm_incident_request_incident_status_code)%></label></td>
               <td class="dataCol">
-                <%=f.select :incident_status_id,options_for_select(available_request_status_code,@incident_request.incident_status_id),
+                <%=f.select :incident_status_id,options_for_select(available_request_status_code,@incident_request.incident_status_id||Icm::IncidentStatus.default_id),
                                                     {},{:required=>true,:id=>"incident_request_incident_status_code"}%>
               </td>
             </tr>
