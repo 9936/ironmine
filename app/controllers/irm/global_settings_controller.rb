@@ -28,6 +28,7 @@ class Irm::GlobalSettingsController < ApplicationController
           if s.data_type == "IMAGE"
             if params[s[:parameter_code].to_sym] && !params[s[:parameter_code].to_sym].blank?
                 s.update_attribute(:img, params[s[:parameter_code].to_sym])
+                s.update_attribute(:value, "Y")
 
             end
           elsif s.data_type == "TEXT"

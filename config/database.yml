@@ -51,8 +51,8 @@ macdev:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: irm_prod
+  database: irm_dev
   pool: 5
   username: root
   password: root
-  host: 172.20.0.12
+  host: localhost

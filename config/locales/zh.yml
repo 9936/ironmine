@@ -215,6 +215,7 @@ zh:
   label_irm_object_code: 业务对像编码
   label_irm_operation_unit: 运维中心
   label_irm_password_policy: 密码策略
+  label_irm_password_error: 原密码录入错误，请确认后再次录入
   label_irm_profile: 简档
   label_irm_profile_application: 简档应用
   label_irm_profile_function: 简档功能
