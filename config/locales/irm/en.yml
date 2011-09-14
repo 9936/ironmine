@@ -67,7 +67,7 @@ en:
   save_as_draft: Save as draft
   save_as_published: Publish
   go_to_top: Go to top
-  step_n: "Step %{n}."
+  step_n: "Step %{n}  "
   step_n_total_m: "Step %{n} , total %{m} "
   label_checked: Checked
   label_unchecked: Uncheck
