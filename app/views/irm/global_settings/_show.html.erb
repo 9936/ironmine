@@ -67,17 +67,17 @@
             <tr>
               <td class="labelCol"><label><%=(@settings.query_by_code("APP_TOP_LOGO").first[:name])%></label></td>
               <td class="data2Col">
-              <%= image_tag @settings.query_by_code("APP_TOP_LOGO").first.img.url, :style => "width: 175px; height:65px; border: 1px solid #c9c9c9 !important" %></td>
+              <%= image_tag Irm::SystemParametersManager.app_top_logo, :style => "width: 175px; height:65px;border: 1px solid #c9c9c9 !important;"%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(@settings.query_by_code("LOGIN_PAGE_LOGO").first[:name])%></label></td>
               <td class="data2Col">
-              <%= image_tag @settings.query_by_code("LOGIN_PAGE_LOGO").first.img.url, :style => "width: 300px; height:124px; border: 1px solid #c9c9c9 !important" %></td>
+              <%= image_tag Irm::SystemParametersManager.login_page_logo, :style => "width: 300px; height:124px; border: 1px solid #c9c9c9 !important" %></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(@settings.query_by_code("ADDRESS_BAR_LOGO").first[:name])%></label></td>
               <td class="data2Col">
-              <%= image_tag @settings.query_by_code("ADDRESS_BAR_LOGO").first.img.url, :style => "width: 16px; height:16px; border: 1px solid #c9c9c9 !important" %></td>
+              <%= image_tag Irm::SystemParametersManager.address_bar_logo, :style => "width: 16px; height:16px; border: 1px solid #c9c9c9 !important" %></td>
             </tr>
         </tbody>
       </table>
