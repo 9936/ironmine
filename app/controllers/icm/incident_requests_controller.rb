@@ -83,18 +83,24 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request.service_code = "ORAL_EBS_INV"
     @incident_request.report_source_code = "CUSTOMER_SUBMIT"
     @incident_request.impact_range_id = Icm::ImpactRange.default_id
-    #加入创建事故单的默认参数
-    prepared_for_create(@incident_request)
     respond_to do |format|
-      if @incident_request.save
-        #如果没有填写support_group, 插入Delay Job任务
-        if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
-          Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id),
-                               [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
+      if @incident_request.requested_by.present?
+        #加入创建事故单的默认参数
+        prepared_for_create(@incident_request)
+        if @incident_request.save
+          #如果没有填写support_group, 插入Delay Job任务
+          if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
+            Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id),
+                                 [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
+          end
+          format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
+          format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
+        else
+          format.html { render :action => "new", :layout => "application_full" }
+          format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         end
-        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}, :notice => t(:successfully_created)) }
-        format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
       else
+        @incident_request.errors[:requested_by] << I18n.t(:error_icm_requested_by_can_not_blank)
         format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       end

@@ -1,6 +1,6 @@
 class Irm::BuColumn < ActiveRecord::Base
   set_table_name :irm_bu_columns
-
+  attr_accessor :level
   #多语言关系
   attr_accessor :name,:description
   has_many :bu_columns_tls,:dependent => :destroy
@@ -40,4 +40,8 @@ class Irm::BuColumn < ActiveRecord::Base
 
     child_nodes
   end
+
+  scope :parentable,lambda{|column_id|
+    where("#{table_name}.id !=? AND NOT EXISTS(SELECT 1 FROM #{Irm::BuColumn.table_name} ab WHERE ab.parent_column_id = ? AND ab.id = #{table_name}.id)", column_id, column_id)
+  }
 end

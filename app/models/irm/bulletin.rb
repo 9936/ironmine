@@ -9,6 +9,8 @@ class Irm::Bulletin < ActiveRecord::Base
 
   attr_accessor :column_ids,:access_str
 
+  validate :content_valid
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
@@ -100,4 +102,9 @@ class Irm::Bulletin < ActiveRecord::Base
     @get_access_str = Irm::BulletinAccess.where(:bulletin_id=>self.id).collect{|value| "#{value.access_type}##{value.access_id}"}.join(",")
   end
 
+  def content_valid
+    unless (self.content.gsub(/<\/?[^>]*>/, "")).present?
+      self.errors[:content] << I18n.t(:error_irm_bulletin_content_can_not_blank)
+    end
+  end
 end

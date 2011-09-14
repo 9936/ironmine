@@ -838,6 +838,7 @@ en:
   label_irm_bulletin_selected_organizations: Organization
   label_irm_bulletin_if_access_list_none: Everyone can visit this bulletin if access list did not set anything.
   label_irm_bulletin_attachment: Attachments
+  error_irm_bulletin_content_can_not_blank: Bulletin content can not be blank
   #======================== end bulletin controller ======================
   #======================== bu_column controller ======================
   label_irm_bu_column: Bulletin Column
