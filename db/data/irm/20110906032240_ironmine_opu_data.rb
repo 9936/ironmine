@@ -39,7 +39,7 @@ class IronmineOpuData < ActiveRecord::Migration
     login_page_logo = Irm::SystemParameter.new(:parameter_code=>'LOGIN_PAGE_LOGO',
                                                :content_type=>'GLOBAL_SETTING',
                                                :data_type=>'IMAGE',
-                                               :value => "Y",
+                                               :value => "",
                                                :status_code=>'ENABLED',
                                                :not_auto_mult=>true)
     login_page_logo.system_parameters_tls.build(:system_parameter_id=>login_page_logo.id,
@@ -59,7 +59,7 @@ class IronmineOpuData < ActiveRecord::Migration
     app_top_logo = Irm::SystemParameter.new(:parameter_code=>'APP_TOP_LOGO',
                                                :content_type=>'GLOBAL_SETTING',
                                                :data_type=>'IMAGE',
-                                               :value => "Y",
+                                               :value => "",
                                                :status_code=>'ENABLED',
                                                :not_auto_mult=>true)
     app_top_logo.system_parameters_tls.build(:system_parameter_id=>app_top_logo.id,
@@ -79,7 +79,7 @@ class IronmineOpuData < ActiveRecord::Migration
     address_logo = Irm::SystemParameter.new(:parameter_code=>'ADDRESS_BAR_LOGO',
                                                :content_type=>'GLOBAL_SETTING',
                                                :data_type=>'IMAGE',
-                                               :value => "Y",
+                                               :value => "",
                                                :status_code=>'ENABLED',
                                                :not_auto_mult=>true)
     address_logo.system_parameters_tls.build(:system_parameter_id=>address_logo.id,
