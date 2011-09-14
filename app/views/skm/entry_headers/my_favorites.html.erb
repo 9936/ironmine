@@ -17,16 +17,20 @@
       <div class="pbBody">
         <div id="favorites_list" class="datatable" style="width:100%">
           <div id="id" style="display:none">
-            <%= icon_link_show({:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>&nbsp;
-            <%= icon_link_remove({:controller => "skm/entry_headers", :action=>"remove_favorite",:person_id=>Irm::Person.current.id, :entry_header_id => "{id}"},:confirm => t(:label_are_you_sure)) %>
+            <%= link_to(t(:show),{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>&nbsp;
+            <%= link_to(t(:remove_from_favorite), {:controller => "skm/entry_headers", :action=>"remove_favorite",:person_id=>Irm::Person.current.id, :entry_header_id => "{id}"},:confirm => t(:label_are_you_sure)) %>
           </div>
-          <div id="full_title" style="display:none">
-            <%= link_to("{full_title}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
+          <div id="entry_title" style="display:none">
+            <%= link_to("{entry_title}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
+          </div>
+          <div id="doc_number" style="display:none">
+            <%= link_to("{doc_number}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
         <%= datatable("favorites_list",url_for(:action=>"my_favorites_data",:format=>"json", :person_id => Irm::Person.current.id),
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"full_title",:label=>t(:label_skm_entry_header_title),:formatter=>"Y.irm.template"},
+                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"100px"},
+                   {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number),:formatter=>"Y.irm.template", :width => "120px"},
+                   {:key=>"entry_title",:label=>t(:label_skm_entry_header_title),:formatter=>"Y.irm.template"},
                    {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "180px"}
                    ])%>
       </div>
