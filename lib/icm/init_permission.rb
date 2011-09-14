@@ -18,6 +18,9 @@ Irm::AccessControl.map do |map|
   # 转交事故单
   map.function :pass_incident_request,{"icm/incident_journals"=>[:edit_pass,:update_pass,:edit_upgrade,:update_upgrade],
                                        "icm/support_groups"=>[:get_member_options]}
+  # 升级事故单
+  map.function :upgrade_incident_request,{"icm/incident_journals"=>[:edit_upgrade,:update_upgrade],
+                                       "icm/support_groups"=>[:get_member_options]}
   # 分配事故单
   map.function :assign_incident_request,{"icm/incident_requests"=>[:assign_dashboard,:assignable_data,:assign_request]}
   # 查看所有事故单
