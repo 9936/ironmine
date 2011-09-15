@@ -5,6 +5,15 @@ module Irm::SetWho
       class_inheritable_accessor :record_who, :instance_writer => false
       self.record_who = true
    end
+
+
+    def valid?(context = nil)
+      if record_who
+        write_attribute('opu_id', current_opu_id) if respond_to?(:opu_id) && opu_id.nil?
+      end
+
+      super
+    end
    
     private
     def create #:nodoc:
@@ -20,12 +29,12 @@ module Irm::SetWho
 
     def update(*args) #:nodoc:
       if record_who && (!partial_updates? || changed?)
-
         write_attribute('updated_by', current_user_id) if respond_to?(:updated_by)
       end
 
       super
     end
+
 
     def current_user_id
       ::Irm::Person.current.id
