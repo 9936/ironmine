@@ -24,9 +24,7 @@ class Irm::Bulletin < ActiveRecord::Base
 
 
   scope :accessible,lambda{|person_id|
-      joins(",#{Irm::BulletinAccess.table_name}").
-          where("#{Irm::BulletinAccess.table_name}.bulletin_id = #{table_name}.id").
-          where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_id = #{Irm::BulletinAccess.table_name}.access_id AND #{Irm::Person.relation_view_name}.source_type = #{Irm::BulletinAccess.table_name}.access_type AND  #{Irm::Person.relation_view_name}.person_id = ?)",person_id)
+        where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name}, #{Irm::BulletinAccess.table_name} WHERE #{Irm::BulletinAccess.table_name}.bulletin_id = #{table_name}.id AND #{Irm::Person.relation_view_name}.source_id = #{Irm::BulletinAccess.table_name}.access_id AND #{Irm::Person.relation_view_name}.source_type = #{Irm::BulletinAccess.table_name}.access_type AND  #{Irm::Person.relation_view_name}.person_id = ?) OR NOT EXISTS(SELECT 1 FROM #{Irm::BulletinAccess.table_name} ba2 WHERE ba2.bulletin_id = #{table_name}.id)", person_id)
   }
   scope :select_all, lambda{
     select("#{table_name}.*, #{table_name}.title bulletin_title, DATE_FORMAT(#{table_name}.created_at, '%Y/%c/%e %H:%I:%S') published_date")
