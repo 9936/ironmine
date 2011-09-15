@@ -110,15 +110,19 @@ class Skm::EntryHeadersController < ApplicationController
       @entry_header[k.to_sym] = v
     end
     @entry_details = []
+    @error_details = []
+
+    #验证上一步的输入正确性
+    content_validate_flag = true
     session[:skm_entry_details].each do |k, v|
       t = Skm::EntryDetail.new(v)
       @entry_details << t
+      if !t.valid?
+        (content_validate_flag = false )
+        @error_details << k
+      end
     end
-    #验证上一步的输入正确性
-    content_validate_flag = true
-    @entry_details.each do |ed|
-      (content_validate_flag = false ) if !ed.valid?
-    end
+
     if !@entry_header.valid? || !content_validate_flag
       @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
       respond_to do |format|
@@ -284,7 +288,7 @@ class Skm::EntryHeadersController < ApplicationController
     entry_headers_scope = Skm::EntryHeader.list_all.published.current_entry.with_favorite_flag(Irm::Person.current.id).within_columns(current_accessible_columns)
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
-    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:full_title]) if params[:full_title]
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
 #    entry_headers_scope = entry_headers_scope.delete_if{|i| (i.get_column_ids.split(",") & current_accessible_columns).size == 0}
     entry_headers,count = paginate(entry_headers_scope)
 #    entry_headers = entry_headers.delete_if{|i| (i.get_column_ids.split(",") & current_accessible_columns).size == 0}

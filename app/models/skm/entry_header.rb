@@ -26,7 +26,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   #显示column_ids栏目中的文章，或未分类的文章
   scope :within_columns, lambda{|column_ids|
-    where("EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id AND sc.column_id IN (?)) OR NOT EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id)", column_ids + [])
+    where("EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id AND sc.column_id IN (?)) OR NOT EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id)", column_ids + [''])
   }
 
   scope :my_favorites, lambda{|person_id|
@@ -46,7 +46,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   scope :with_favorite_flag, lambda{|person_id|
     select("if(ef.id is null, 'Y', 'N') is_favorite").
-    joins("LEFT OUTER JOIN #{Skm::EntryFavorite.table_name} ef ON ef.person_id = #{person_id} AND ef.entry_header_id = #{table_name}.id")
+    joins("LEFT OUTER JOIN #{Skm::EntryFavorite.table_name} ef ON ef.person_id = '#{person_id}' AND ef.entry_header_id = #{table_name}.id")
   }
 
   def self.search(query)
