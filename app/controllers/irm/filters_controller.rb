@@ -1,5 +1,5 @@
 class Irm::FiltersController < ApplicationController
-  skip_before_filter :menu_setup
+  skip_before_filter :prepare_application
   before_filter :filters_menu  , :except => [:operator_value]
   # Date.today.prev_month.at_beginning_of_month
   # Date.today.at_beginning_of_week-1
@@ -73,9 +73,8 @@ class Irm::FiltersController < ApplicationController
   private
 
   def filters_menu
-    controller_action = params[:pca].split("#")
-    permission = {:page_controller=>controller_action[0],:page_action=>controller_action[1]}
-    process_menu(permission)
+    controller_action = params[:pca].split("-")
+    function_group_setup(controller_action[0],controller_action[1])
   end
 
   def redirect_back
