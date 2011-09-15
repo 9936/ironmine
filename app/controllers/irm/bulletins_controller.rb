@@ -143,7 +143,7 @@ class Irm::BulletinsController < ApplicationController
     rec = Irm::Bulletin.without_delete.accessible(Irm::Person.current.id)
 #    bulletins,count = paginate(rec)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(rec.to_grid_json([:id, :bulletin_title,:published_date,:page_views,:author], 10)) }
+      format.json  {render :json => to_jsonp(rec.to_grid_json([:id, :title,:published_date,:page_views,:author], 10)) }
     end
   end
 
