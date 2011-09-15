@@ -330,7 +330,7 @@ class Irm::Person < ActiveRecord::Base
   end
 
   def self.env
-    {"env"=>{"language"=>Irm::Person.current.language_code.downcase}}
+    {"env"=>{"language"=>(Irm::Person.current.language_code||"zh").downcase}}
   end
 
   def wrap_person_name
