@@ -98,8 +98,9 @@
       <tbody>
         <tr>
           <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_incident_request) %></h2></td>
+
           <td id="topButtonRow" class="pbButton">
-              <%if !@incident_request.close? && allow_to_function?(:reply_incident_request)%>
+              <%if !@incident_request.close? && allow_to_function?(:reply_incident_request)&&@incident_request.watcher?(Irm::Person.current.id)%>
                     <div class="button"><a href="#reply"><%=t(:label_icm_incident_journal_new)%></a></div>
               <% end %>
           </td>
@@ -227,7 +228,7 @@
      <%= list_journals(@incident_request) %>
    </div>
 </div>
-<%if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&@incident_request[:close_reason_code].nil? %>
+<%if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close? %>
 <%= form_for(@incident_reply,:url=>{:action=>"create"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
 <div id="reply" class="bEditBlock bPageBlock">
   <div class="pbHeader">
@@ -429,6 +430,6 @@ GY.use('irm','node','substitute','yui2-editor', function(Y) {
 
 <% content_for :sidebar do%>
     <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
-               :locals => {:watchable => @incident_request, :editable => @incident_request[:close_reason_code].nil?} %>
+               :locals => {:watchable => @incident_request, :editable => @incident_request.close?} %>
     <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list"%>
 <% end %>
