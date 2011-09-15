@@ -102,6 +102,24 @@ class Icm::IncidentRequest < ActiveRecord::Base
         select("pf.name supporter_profile_name")
   }
 
+  # 查询请求人的组织
+  scope :with_requester_organization, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} orgr ON orgr.id = requested.organization_id AND orgr.language = '#{language}'").
+        select("orgr.name requester_organization_name")
+  }
+
+  # 查询请求人的角色
+  scope :with_requester_role, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::Role.view_name} rlr ON rlr.id = requested.role_id AND rlr.language = '#{language}'").
+        select("rlr.name requester_role_name")
+  }
+
+  # 查询请求人的简档
+  scope :with_requester_profile, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} pfr ON pfr.id = requested.profile_id AND pfr.language = '#{language}'").
+        select("pfr.name requester_profile_name")
+  }
+
   # 查询出优先级
   scope :with_support_group,lambda{|language|
     joins("LEFT OUTER JOIN #{Icm::SupportGroup.table_name} ON  #{table_name}.support_group_id = #{Icm::SupportGroup.table_name}.id").
@@ -241,7 +259,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_external_system(I18n.locale).
         with_supporter_organization(I18n.locale).
         with_supporter_role(I18n.locale).
-        with_supporter_profile(I18n.locale)
+        with_supporter_profile(I18n.locale).
+        with_requester_organization(I18n.locale).
+        with_requester_role(I18n.locale).
+        with_requester_profile(I18n.locale)
   end
 
 

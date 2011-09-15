@@ -8,7 +8,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
   has_many :incident_histories,:foreign_key => "journal_id"
 
   validates_presence_of :replied_by
-  validates_presence_of :message_body,:message=>I18n.t(:label_icm_incident_journal_message_body_not_blank)
+#  validates_presence_of :message_body,:message=>I18n.t(:label_icm_incident_journal_message_body_not_blank)
   validate :content_valid
   acts_as_recently_objects(:title => "title",
                            :target => "incident_request",
