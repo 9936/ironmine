@@ -59,6 +59,11 @@ class Irm::Bulletin < ActiveRecord::Base
   scope :without_delete, lambda{
     where("#{table_name}.status_code <> 'DELETE'")
   }
+
+  scope :with_order, lambda{
+    order("#{table_name}.created_at DESC")
+  }
+
   def self.list_all
     select_all.with_author
   end
