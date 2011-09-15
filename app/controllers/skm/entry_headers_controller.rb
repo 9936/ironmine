@@ -284,8 +284,8 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def get_data
-    current_accessible_columns = Skm::Column.current_person_accessible_columns
-    entry_headers_scope = Skm::EntryHeader.list_all.published.current_entry.with_favorite_flag(Irm::Person.current.id).within_columns(current_accessible_columns)
+#    current_accessible_columns = Skm::Column.current_person_accessible_columns
+    entry_headers_scope = Skm::EntryHeader.list_all.published.current_entry.with_favorite_flag(Irm::Person.current.id)
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
