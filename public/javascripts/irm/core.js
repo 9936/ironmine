@@ -134,7 +134,7 @@ YUI.add('irm', function(Y) {
                    if(!this.getAttribute("thref")){
                       this.setAttribute("thref",this.getAttribute("href"));
                    }
-                   var href = unescape(this.getAttribute("thref"));
+                   var href = decodeURIComponent(this.getAttribute("thref"));
                    href = Y.Lang.substitute(href,{id:n.get("value")});
                    this.setAttribute("href",href);
                    if(!n.get("value"))

@@ -1,4 +1,4 @@
-<%= setting_title %>
+<%=bo=filter_bo(@rule_filter.bo_code); common_title(:model_name=>bo.bo_model_name,:action_meaning=>t(:label_irm_view_filter_new)) %>
 <%= form_for(@rule_filter,:url=>{:action=>"create",:pca=>params[:pca]},:builder => LabellingFormBuilder) do |f| %>
     <%= back_url_hidden_field_tag %>
     <%= f.hidden_field(:filter_type) %>
@@ -30,7 +30,7 @@
           <span class="requiredText"> = <%=t(:label_is_required)%></span>
           </span>
       </span>
-      <h3><%=t(:label_irm_view_filter_step_one)%></h3>
+      <h3><%=t(:label_irm_view_filter_base_info)%></h3>
     </div>
     <div class="pbSubsection">
 
@@ -60,7 +60,28 @@
       </table>
     </div>
     <div class="pbSubheader">
-      <h3><%=t(:label_irm_view_filter_step_two)%></h3>
+      <h3><%=t(:label_irm_view_filter_data_range)%></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><%=f.radio_button(:data_range,"Y")%></td>
+              <td class="dataCol"><label><%= filter_data_range_all_label(bo)%></label></td>
+              <td class="labelCol"></td>
+              <td class="dataCol"></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><%=f.radio_button(:data_range,"N")%></td>
+              <td class="dataCol"><label><%= filter_data_range_main_label(bo)%></label></td>
+              <td class="labelCol"></td>
+              <td class="dataCol"></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pbSubheader">
+      <h3><%=t(:label_irm_view_filter_criterion)%></h3>
     </div>
     <div class="pbSubsection" id="filterContent" href="<%= url_for(:action=>"operator_value",:seq_num=>"{seq_num}",:attribute_id=>"{attribute_id}") %>">
       <table cellpadding="0" cellspacing="0" border="0">
@@ -99,7 +120,7 @@
       </table>
     </div>
     <div class="pbSubheader">
-      <h3><%=t(:label_irm_view_filter_step_three)%></h3>
+      <h3><%=t(:label_irm_view_filter_access_control)%></h3>
     </div>
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
