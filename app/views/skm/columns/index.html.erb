@@ -61,10 +61,6 @@
                                           <td class="labelCol"><label><%=t(:description)%></label></td>
                                           <td class="data2Col" id="column_description"></td>
                                         </tr>
-                                        <tr>
-                                          <td class="labelCol"><label><%=t(:label_skm_column_access)%></label></td>
-                                          <td class="data2Col" id="column_access"></td>
-                                        </tr>
                                     </tbody>
                                   </table>
                                 </div>
@@ -117,8 +113,6 @@ Ext.onReady(function() {
                 Ext.getDom("column_code").innerHTML = record.get("sc_code");
                 Ext.getDom("column_name").innerHTML = record.get("column_name");
                 Ext.getDom("column_description").innerHTML = record.get("column_description");
-                Ext.getDom("column_access").innerHTML = record.get("column_accesses");
-
                 Ext.getDom("edit_button").innerHTML = "<a href='/skm_columns/" + record.get("sc_id") + "/edit'><%= t :edit%></a>";
                 Ext.getDom("new_child_button").innerHTML = "<a href='/skm_columns/new?parent_column_id=" + record.get("sc_id") +"'><%= t :label_skm_column_new_child%></a>";
             }
