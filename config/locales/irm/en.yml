@@ -731,13 +731,17 @@ en:
   label_irm_new_view_filter: New view
   label_irm_view_filter_new: New view filter
   label_irm_view_filter_edit: Edit view filter
-  label_irm_view_filter_step_one: Step 1. View info
+  label_irm_view_filter_base_info: Step 1. View info
+  label_irm_view_filter_data_range: Step 2. Data range
+  label_irm_view_filter_criterion: Step 3.View data criterion
+  label_irm_view_filter_access_control: Step 4. Access control
+  label_irm_view_filter_data_range_all: All
+  label_irm_view_filter_data_range_main: My
   label_irm_view_filter_view_name: View name
   label_irm_view_filter_view_code: View code
   label_irm_view_filter_view_condition_clause: Condition clause
   label_irm_view_filter_default_flag: As default
   label_irm_view_filter_restrict_visibility: Only for me
-  label_irm_view_filter_step_two: Steop 2.
   irm_filter_criterions_column_code: Field
   irm_filter_criterions_operator_code: Operator
   irm_filter_criterions_filter_value: Value
@@ -745,7 +749,6 @@ en:
   view_filter_use_invalid_key_word: Invalid keyword
   view_filter_use_invalid_syntax: Syntax Error
   irm_view_filter: View Filter
-  label_irm_view_filter_step_three: Steop 3.
   label_irm_view_filter_restrict_visibility_for_me: Only for me
   label_irm_view_filter_restrict_visibility_for_all: For all user
   #=========================end irm filters_controller=======================#

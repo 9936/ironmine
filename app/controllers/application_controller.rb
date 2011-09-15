@@ -234,7 +234,14 @@ class ApplicationController < ActionController::Base
   def data_filter(scoped)
     if(params[:_view_filter_id] && !params[:_view_filter_id].blank?)
       session[:_view_filter_id] = params[:_view_filter_id]
-      scoped = scoped.where(Irm::RuleFilter.find(params[:_view_filter_id]).where_clause)
+      rule_filter = Irm::RuleFilter.find(params[:_view_filter_id])
+      if Irm::Constant::SYS_NO.eql?(rule_filter.data_range)
+        bo = Irm::BusinessObject.where(:business_object_code=>rule_filter.bo_code).first
+        if bo.bo_model_name.constantize.respond_to?(:mine_filter)
+          scoped = scoped.mine_filter
+        end
+      end
+      scoped = scoped.where(rule_filter.where_clause)
     end
     scoped
   end

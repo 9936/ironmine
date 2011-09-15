@@ -1,5 +1,17 @@
 # -*- coding: utf-8 -*-
 module Irm::FiltersHelper
+  def filter_bo(bo_code)
+    Irm::BusinessObject.where(:business_object_code=>bo_code).first
+  end
+
+  def filter_data_range_all_label(bo)
+    t("label_"+bo.bo_model_name.underscore.gsub("/","_")+"_view_filter_data_range_all",:default=>:label_irm_view_filter_data_range_all)+Irm::BusinessObject.class_name_to_meaning(bo.bo_model_name)
+  end
+
+  def filter_data_range_main_label(bo)
+    t("label_"+bo.bo_model_name.underscore.gsub("/","_")+"_view_filter_data_range_main",:default=>:label_irm_view_filter_data_range_main)+Irm::BusinessObject.class_name_to_meaning(bo.bo_model_name)
+  end
+
   def available_view_column(source_code)
     view_filter_columns(source_code)
   end
