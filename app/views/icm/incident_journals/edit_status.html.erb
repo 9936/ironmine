@@ -77,7 +77,7 @@
               <td class="labelCol"><label for="incident_request_incident_status_code"><%=t(:label_icm_incident_reply_incident_status_code)%></label></td>
               <td class="dataCol">
                 <%=f.blank_select :incident_status_id,available_request_status_code,
-                                                        {},{:id=>"incident_request_incident_status_code"}%>
+                                                        {},{:id=>"incident_request_incident_status_code", :required => true}%>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td></tr>
             <tr>
