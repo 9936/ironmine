@@ -26,7 +26,9 @@ class Csi::SurveySubject < ActiveRecord::Base
   scope :query_by_choice_input,where("input_type not in ('string','text')")
 
   scope :order_by_id_desc,order("id desc")
-  
+
+  scope :order_by_seq_num, order("seq_num ASC")
+
   scope :query_by_survey_id,lambda{|survey_id| where(:survey_id=>survey_id)}
 
   def self.get_max_seq_num(survey_id)

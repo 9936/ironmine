@@ -114,7 +114,7 @@ class Csi::SurveySubjectsController < ApplicationController
   end
 
   def get_data
-    @survey_subjects= Csi::SurveySubject.query_by_survey_id(params[:id])
+    @survey_subjects= Csi::SurveySubject.query_by_survey_id(params[:id]).order_by_seq_num
     @survey_subjects,count = paginate(@survey_subjects)
     respond_to do |format|
       format.json {render :json=>to_jsonp(@survey_subjects.to_grid_json(['R',:seq_num,:name,:prompt,:required_flag], count))}
