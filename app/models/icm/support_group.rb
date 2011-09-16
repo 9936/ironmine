@@ -7,6 +7,7 @@ class Icm::SupportGroup < ActiveRecord::Base
   has_many :group_assignments, :dependent => :destroy, :class_name => "Icm::GroupAssignment"
 
   validates_presence_of :group_id,:assignment_process_code
+  attr_accessor :level
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -21,7 +22,7 @@ class Icm::SupportGroup < ActiveRecord::Base
 
   scope :with_group,lambda{|language|
     joins("JOIN #{Irm::Group.view_name} ON #{Irm::Group.view_name}.id = #{table_name}.group_id AND #{Irm::Group.view_name}.language ='#{language}'").
-        select("#{Irm::Group.view_name}.name")
+        select("#{Irm::Group.view_name}.name, #{Irm::Group.view_name}.parent_group_id, #{Irm::Group.view_name}.id group_id")
   }
 
   scope :access_system,lambda{
