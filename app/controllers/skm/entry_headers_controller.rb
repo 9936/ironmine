@@ -27,8 +27,18 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def new
-    session[:skm_entry_header] = params[:skm_entry_header] if params[:skm_entry_header]
-    session[:skm_entry_details] = params[:skm_entry_details] if params[:skm_entry_details]
+    if session[:skm_entry_header]
+      session[:skm_entry_header].merge!(params[:skm_entry_header]) if params[:skm_entry_header]
+    else
+      session[:skm_entry_header] = (params[:skm_entry_header]) if params[:skm_entry_header]
+    end
+
+    if session[:skm_entry_details]
+      session[:skm_entry_details].merge!(params[:skm_entry_details]) if params[:skm_entry_details]
+    else
+      session[:skm_entry_details] = (params[:skm_entry_details]) if params[:skm_entry_details]
+    end
+
     if !params[:step]
       session[:skm_entry_header] = nil
       session[:skm_entry_details] = nil
@@ -87,6 +97,8 @@ class Skm::EntryHeadersController < ApplicationController
   end
   
   def new_step_2
+    puts("+++++++++++++++++++++ step 2" + session[:skm_entry_header].to_json)
+    puts("+++++++++++++++++++++ step 2" + session[:skm_entry_details].to_json)
     @entry_header = Skm::EntryHeader.new
     if !session[:skm_entry_header] || !session[:skm_entry_header][:entry_template_id]
       @templates = Skm::EntryTemplate.enabled
@@ -122,8 +134,9 @@ class Skm::EntryHeadersController < ApplicationController
         @error_details << k
       end
     end
-
-    if !@entry_header.valid? || !content_validate_flag
+    puts("+++++++++++++++++++++ step 3" + session[:skm_entry_header].to_json)
+    puts("+++++++++++++++++++++ step 3" + session[:skm_entry_details].to_json)
+    unless @entry_header.valid? && content_validate_flag
       @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
       respond_to do |format|
         format.html { render :action => "new_step_2" }
@@ -159,10 +172,13 @@ class Skm::EntryHeadersController < ApplicationController
       (content_validate_flag = false ) if !ed.valid?
     end
 
-    if !@entry_header.valid? || !content_validate_flag
+    puts("+++++++++++++++++++++ step 4" + session[:skm_entry_header].to_json)
+    puts("+++++++++++++++++++++ step 4" + session[:skm_entry_details].to_json)
+
+    unless @entry_header.valid? && content_validate_flag
       @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
       respond_to do |format|
-        format.html { render :action => "new_step_2" }
+        format.html { render :action => "new_step_3" }
         format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
       end
     end
