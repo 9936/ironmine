@@ -61,6 +61,10 @@ class Icm::IncidentJournal < ActiveRecord::Base
   end
 
 
+  def watcher_person_ids
+    self.incident_request.watcher_person_ids
+  end
+
   private
   #
   def process_after_save
@@ -101,4 +105,5 @@ class Icm::IncidentJournal < ActiveRecord::Base
       self.errors[:message_body] << I18n.t(:label_icm_incident_journal_message_body_not_blank)
     end
   end
+
 end
