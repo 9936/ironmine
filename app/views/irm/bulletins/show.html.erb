@@ -30,7 +30,7 @@
     <div class="pbSubsection" style="margin-top:50px;">
        <% prepare_bulletin_files(@bulletin)%>
        <% if @bulletin_files && @bulletin_files.any? %>
-       <%= t :label_irm_bulletin_attachment %>:<br>
+       <br>
        <%= list_bulletin_file %>
        <% end %>
     </div>
