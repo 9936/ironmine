@@ -6,43 +6,70 @@ class Slm::ServiceCatalog < ActiveRecord::Base
   has_many :service_catalogs_tls,:dependent => :destroy,:foreign_key=>"service_catalog_id"
   acts_as_multilingual
 
+  attr_accessor :external_system_str
+  has_many :service_members
+
+  attr_accessor :level
 
   query_extend
+
+  after_save :explore_service_catalog_hierarchy
 
   validates_presence_of :catalog_code
   validates_uniqueness_of :catalog_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.catalog_code.blank? }
 
 
-  scope :query_by_category_code ,lambda{|language| select("v1.name category_name").
-                                                        joins(",#{Slm::ServiceCategory.view_name} v1").
-                                                        where("v1.category_code = #{table_name}.service_category_code and "+
-                                                              "v1.language = ?",language)
-
+  scope :with_category ,lambda{|language|
+    joins("LEFT OUTER JOIN #{Slm::ServiceCategory.view_name} ON #{Slm::ServiceCategory.view_name}.id = #{table_name}.service_category_id AND #{Slm::ServiceCategory.view_name}.language = '#{language}'").
+    select("#{Slm::ServiceCategory.view_name}.name category_name")
   }
 
-  scope :query_by_owner_id,lambda{
-    joins(",#{Irm::Person.table_name}").
-    where("#{table_name}.service_owner_id = #{Irm::Person.table_name}.id").
-    select("#{Irm::Person.name_to_sql(nil,Irm::Person.table_name,'person_name')}")
+  scope :with_slm_agreement, lambda{|language|
+    joins(" LEFT OUTER JOIN #{Slm::ServiceAgreement.view_name} ON #{Slm::ServiceAgreement.view_name}.id = #{table_name}.slm_id AND #{Slm::ServiceAgreement.view_name}.language = '#{language}'").
+    select("#{Slm::ServiceAgreement.view_name}.name service_agreement_name")
   }
 
-  scope :query_by_priority_code,lambda{|language| select("priority_vl.meaning priority_meaning").
-          joins(",irm_lookup_values_vl priority_vl").
-          where("priority_vl.lookup_type='SLM_CATALOG_PRIORITY' AND priority_vl.lookup_code = #{table_name}.priority_code AND "+
-               "priority_vl.language = ?",language)
-           }
-
-  scope :with_external_system, lambda{
-    joins(" LEFT OUTER JOIN #{Irm::ExternalSystem.table_name} es ON es.id = #{table_name}.external_system_id").
-      joins(" LEFT OUTER JOIN #{Irm::ExternalSystemsTl.table_name} est ON es.id = est.external_system_id AND est.language = '#{I18n.locale}'").
-      select("est.system_name external_system_name")
-
+  scope :with_parent,lambda{|language|
+    joins(" LEFT OUTER JOIN #{view_name} parent ON parent.id = #{table_name}.parent_catalog_id AND parent.language = '#{language}'").
+    select("parent.name parent_catalog_name")
   }
 
-  scope :with_slm_agreement, lambda{
-    joins(" LEFT OUTER JOIN #{Slm::ServiceAgreement.table_name} sa ON sa.agreement_code = #{table_name}.slm_code").
-        joins(" LEFT OUTER JOIN #{Slm::ServiceAgreementsTl.table_name} sat ON sat.service_agreement_id = sa.id AND sat.language = '#{I18n.locale}'").
-        select("sat.name service_agreement_name")
+  scope :query_by_external_system,lambda{|external_system_id|
+    where("EXISTS(SELECT 1 FROM #{Slm::ServiceMember.table_name} WHERE #{Slm::ServiceMember.table_name}.external_system_id=? AND #{table_name}.id =  #{Slm::ServiceMember.table_name}.service_catalog_id)",external_system_id)
   }
+
+  scope :parentable,lambda{|catalog_id|
+    where("#{table_name}.id!=? AND NOT EXISTS(SELECT 1 FROM #{Slm::ServiceCatalogExplosion.table_name} WHERE #{Slm::ServiceCatalogExplosion.table_name}.parent_service_catalog_id = ? AND #{Slm::ServiceCatalogExplosion.table_name}.service_catalog_id = #{table_name}.id)",service_catalog_id,service_catalog_id)
+  }
+
+  #创建 更新报表列
+  def create_external_system_from_str
+    value_str = self.external_system_str
+    return unless value_str
+    str_values = value_str.split(",").delete_if{|i| !i.present?}
+    exists_values = Slm::ServiceMember.where(:service_catalog_id=>self.id)
+    exists_values.each do |e_value|
+      if str_values.include?(e_value.external_system_id)
+        str_values.delete(e_value.external_system_id)
+      else
+        e_value.destroy
+      end
+
+    end
+
+    str_values.each do |value_id|
+      next unless value_id.strip.present?
+      self.service_members.build({:external_system_id=>value_id})
+    end if str_values.any?
+  end
+
+  def get_external_system_str
+    return @get_external_system_str if @get_external_system_str
+    @get_external_system_str = Slm::ServiceMember.where(:service_catalog_id=>self.id).collect{|value| value.external_system_id}.join(",")
+  end
+  private
+  def explore_service_catalog_hierarchy
+    Slm::ServiceCatalogExplosion.explore_hierarchy(self.id,self.parent_catalog_id)
+  end
 
 end
