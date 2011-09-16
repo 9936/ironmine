@@ -241,6 +241,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
          where("#{table_name}.support_person_id IS NULL AND #{Irm::GroupMember.table_name}.person_id = ?",person_id)
    }
 
+  scope :with_skm_flag, lambda{
+    select("(SELECT COUNT(1) FROM #{Skm::EntryHeader.table_name} eh WHERE eh.source_type='INCIDENT_REQUEST' AND eh.source_id = #{table_name}.id) skm_flag")
+  }
+
   acts_as_watchable
   def self.list_all
     select_all.
