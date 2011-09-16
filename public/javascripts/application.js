@@ -25,7 +25,7 @@ GY.use('node',function(Y){
         parent_node.setContent(node);
     });
 
-    Y.all('form').on("submit",function(e){
+    Y.all('form:not([data-remote])').on("submit",function(e){
         e.target.all("input[type=submit]").each(function(el){
             el.setAttribute("disabled",true);
             el.addClass("disabled");
