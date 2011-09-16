@@ -67,7 +67,7 @@ class Csi::SurveySubjectsController < ApplicationController
         end
         format.xml  { render :xml => @survey_subject, :status => :created, :location => @survey_subject }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @survey_subject.errors, :status => :unprocessable_entity }
       end
     end

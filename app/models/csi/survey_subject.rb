@@ -5,7 +5,7 @@ class Csi::SurveySubject < ActiveRecord::Base
   has_many :subject_options, :foreign_key=>"subject_id"
   has_many :survey_results, :foreign_key => "subject_id"
   validates_presence_of :name,:seq_num
-
+  validates_uniqueness_of :name, :scope => "survey_id"
   TYPES = [['text', 'string'], ['paragraph_text', 'text'],
               ['multi_choice', 'radio'], ['checkboxes', 'check'],
               ['choose_from_a_list', 'drop'],
