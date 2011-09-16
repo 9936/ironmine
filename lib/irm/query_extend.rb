@@ -68,7 +68,7 @@ module Irm::QueryExtend
               if current_operation_unit
                 where("#{from_table_name}.opu_id = ?",current_operation_unit.id)
               else
-                {}
+                where({})
               end
             end
 

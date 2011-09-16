@@ -16,6 +16,7 @@ class Irm::ListOfValue < ActiveRecord::Base
   query_extend
 
   def self.current_opu(from_table_name = table_name)
+    where({})
   end
 
   scope :with_bo,lambda{|language|
