@@ -26,7 +26,7 @@ class Irm::RoleExplosion < ActiveRecord::Base
     # 解除子角色的子角色 与 以前父角色的关系
     parent_of_roles.each do |p_r|
       child_of_roles.each do |c_r|
-        self.where(:role_id=>c_r.role_id,:parent_role_id=>p_r.id).delete_all
+        self.where(:role_id=>c_r.role_id,:parent_role_id=>p_r.parent_role_id).delete_all
       end
     end
     #解除子角色 与 以前父角色的关系

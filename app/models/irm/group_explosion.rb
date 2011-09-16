@@ -26,7 +26,7 @@ class Irm::GroupExplosion < ActiveRecord::Base
     # 解除子组的子组 与 以前父组的关系
     parent_of_groups.each do |p_g|
       child_of_groups.each do |c_g|
-        self.where(:group_id=>c_g.group_id,:parent_group_id=>p_g.id).delete_all
+        self.where(:group_id=>c_g.group_id,:parent_group_id=>p_g.parent_group_id).delete_all
       end
     end
     #解除子组 与 以前父组的关系
