@@ -77,7 +77,7 @@
             <tr>
               <td class="labelCol"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>
               <td class="dataCol">
-                <%=f.blank_select :support_group_id,available_support_group,
+                <%=f.select :support_group_id,available_support_group,
                                                     {},{:required=>true,:id=>"incident_request_support_group_id"}%>
               </td>
               <td class="labelCol"><label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label></td>
