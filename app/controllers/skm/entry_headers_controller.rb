@@ -252,6 +252,11 @@ class Skm::EntryHeadersController < ApplicationController
           column_ids.each do |t|
             Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
           end
+          #更新 收藏 中的ID为最新的文章ID，保证收藏的永远是知识库文章的最新版本
+          fas = Skm::EntryFavorite.where(:entry_header_id => old_header.id)
+          fas.each do |fa|
+            fa.update_attribute(:entry_header_id, @entry_header.id)
+          end
 
           if return_url.blank?
             format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
