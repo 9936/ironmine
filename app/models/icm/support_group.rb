@@ -49,7 +49,7 @@ class Icm::SupportGroup < ActiveRecord::Base
   scope :support_for_service,lambda{|service_code|
     joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
     joins("JOIN #{Slm::ServiceCatalog.table_name} ON #{Slm::ServiceCatalog.table_name}.id  = #{Icm::GroupAssignment.table_name}.source_id").
-        where("#{Slm::ServiceCatalog.table_name}.service_category_code = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",service_code,Irm::BusinessObject.class_name_to_code(Slm::ServiceCatalog.name))
+        where("#{Slm::ServiceCatalog.table_name}.catalog_code = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",service_code,Irm::BusinessObject.class_name_to_code(Slm::ServiceCatalog.name))
   }
 
   scope :support_for_system,lambda{|system_id|
