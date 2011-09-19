@@ -12,6 +12,15 @@ textarea {font-size: 14px;}
 .un-display-Y{display:none}
 .un-display-N{display:inline}
 .screen_shot_frame{height:320px;width:420px;}
+body .infoIcon {
+    background-image: url("../images/master.png");
+    background-position: 0 -162px;
+    height: 16px;
+    width: 16px;
+}
+body .infoIcon:hover{
+    background-position: left -19px;
+}
 /***************** top search area ***********************/
 .bPageTitle {margin-bottom:15px;}
 body.detailPage .bPageTitle {margin-bottom:0;}

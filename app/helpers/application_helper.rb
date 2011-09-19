@@ -569,4 +569,8 @@ module ApplicationHelper
     options
   end
 
+  def info_icon()
+    tag = content_tag(:img, :src => "../s.gif", :class => "infoIcon", :title => "", :alt => "")
+    tag
+  end
 end
