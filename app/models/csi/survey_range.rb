@@ -17,7 +17,14 @@ class Csi::SurveyRange < ActiveRecord::Base
 
 
   def self.query_range_person_count(survey_id)
-    Csi::SurveyMember.query_by_survey_id(survey_id).count
+    su = Csi::Survey.where(:id => survey_id).first
+    if su.with_incident_request == Irm::Constant::SYS_YES || su.status_code != Irm::Constant::ENABLED
+      return -1
+    else
+      return Csi::SurveyMember.query_by_survey_id(survey_id).count
+    end
+  rescue
+    -1
   end
 
 end
