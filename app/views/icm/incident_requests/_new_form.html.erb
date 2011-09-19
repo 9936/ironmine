@@ -55,15 +55,15 @@
               <td class="labelCol"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_target_system)%></label></td>
               <td class="dataCol">
                 <% if allow_to_function?(:create_icdt_rqst_for_other) %>
-                    <%=f.select :external_system_id,nullable_options_for_select([],nil),{},
+                    <%=f.select :external_system_id,nullable_options_for_select([],@incident_request.external_system_id),{:value=>@incident_request.external_system_id},
                             {:required=>true,:id=>"ass_external_system",
                              :depend=>"incident_request_requested_by",
                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                              :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"{incident_request_requested_by}")}%>
                 <% else %>
                     <%=f.select :external_system_id,
-                            nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
-                            {},
+                            nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),
+                            {:value=>@incident_request.external_system_id},
                             {:required=>true,:id=>"ass_external_system",
                              :depend=>"incident_request_requested_by",
                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
@@ -77,7 +77,7 @@
             <tr>
               <td class="labelCol"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_service_code)%></label></td>
               <td class="dataCol"><%=f.select :service_code,
-                                            nullable_options_for_select([],nil),
+                                            nullable_options_for_select([],@incident_request.service_code),
                                             {},
                                             {:required=>true,:id=>"incident_request_service_code",
                                              :depend=>"ass_external_system,incident_request_requested_by",
