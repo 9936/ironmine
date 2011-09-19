@@ -140,8 +140,8 @@ class Irm::BulletinsController < ApplicationController
 
   def get_data
 #    bulletins_scope = Irm::Bulletin.list_all
-    rec = Irm::Bulletin.select_all_top.with_author.without_delete.accessible(Irm::Person.current.id).unsticky.with_order
-    rec = rec + Irm::Bulletin.list_all.without_delete.accessible(Irm::Person.current.id).sticky.with_order
+    rec = Irm::Bulletin.select_all_top.with_author.without_delete.accessible(Irm::Person.current.id).sticky.with_order
+    rec = rec + Irm::Bulletin.list_all.without_delete.accessible(Irm::Person.current.id).unsticky.with_order
 #    bulletins,count = paginate(rec)
     respond_to do |format|
       format.json  {render :json => to_jsonp(rec.to_grid_json([:id, :bulletin_title,:published_date,:page_views,:author], 10)) }
