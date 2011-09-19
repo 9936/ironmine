@@ -11,7 +11,7 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=t(:label_csi_survey_subject_title)%></label></td>
-              <td class="dataCol"><%= form.text_field :name, :onfocus => "clear_initial(this);",
+              <td class="dataCol"><%= form.text_field :name, :required => true, :onfocus => "clear_initial(this);",
                                                       :onblur => "set_initial(this)" %></td>
             </tr>
             <tr>

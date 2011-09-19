@@ -97,8 +97,6 @@ class Skm::EntryHeadersController < ApplicationController
   end
   
   def new_step_2
-    puts("+++++++++++++++++++++ step 2" + session[:skm_entry_header].to_json)
-    puts("+++++++++++++++++++++ step 2" + session[:skm_entry_details].to_json)
     @entry_header = Skm::EntryHeader.new
     if !session[:skm_entry_header] || !session[:skm_entry_header][:entry_template_id]
       @templates = Skm::EntryTemplate.enabled
@@ -134,8 +132,6 @@ class Skm::EntryHeadersController < ApplicationController
         @error_details << k
       end
     end
-    puts("+++++++++++++++++++++ step 3" + session[:skm_entry_header].to_json)
-    puts("+++++++++++++++++++++ step 3" + session[:skm_entry_details].to_json)
     unless @entry_header.valid? && content_validate_flag
       @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
       respond_to do |format|
@@ -171,10 +167,6 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_details.each do |ed|
       (content_validate_flag = false ) if !ed.valid?
     end
-
-    puts("+++++++++++++++++++++ step 4" + session[:skm_entry_header].to_json)
-    puts("+++++++++++++++++++++ step 4" + session[:skm_entry_details].to_json)
-
     unless @entry_header.valid? && content_validate_flag
       @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
       respond_to do |format|

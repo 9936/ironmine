@@ -28,7 +28,7 @@
           </div>
         </div>
         <%= datatable("favorites_list",url_for(:action=>"my_favorites_data",:format=>"json", :person_id => Irm::Person.current.id),
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"100px"},
+                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"120px"},
                    {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number),:formatter=>"Y.irm.template", :width => "120px"},
                    {:key=>"entry_title",:label=>t(:label_skm_entry_header_title),:formatter=>"Y.irm.template"},
                    {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "180px"}
