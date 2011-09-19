@@ -128,9 +128,10 @@ class Irm::BulletinsController < ApplicationController
   def show
     @bulletin = Irm::Bulletin.where(:id => params[:id]).first()
     #浏览量统计
-    if !session[:bulletins_show] || session[:bulletins_show] != @bulletin.id
+    if !session[:bulletins_show] || !session[:bulletins_show].include?(@bulletin.id)
       Irm::Bulletin.update(@bulletin.id, {:page_views => @bulletin.page_views + 1})
-      session[:bulletins_show] = @bulletin.id
+      session[:bulletins_show] = [] if !session[:bulletins_show] || session[:bulletins_show].nil? || !session[:bulletins_show].is_a?(Array)
+      session[:bulletins_show] << @bulletin.id
     end
     respond_to do |format|
       format.html { render :layout => "application_full" }# show.html.erb
