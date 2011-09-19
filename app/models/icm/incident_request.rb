@@ -141,11 +141,19 @@ class Icm::IncidentRequest < ActiveRecord::Base
     Icm::IncidentRequest.name,person_id,Irm::Person.name,person_id)
   }
 
+  scope :with_reply_flag,lambda{|person_id|
+    select("IF((#{table_name}.next_reply_user_license = 'REQUESTER' AND #{table_name}.requested_by = '#{person_id}') OR (#{table_name}.next_reply_user_license = 'SUPPORTER' AND #{table_name}.support_person_id = '#{person_id}'),'Y','N') reply_flag")
+  }
+
+
+  # 在查询视图中使用，表示 我参与的事故单
   def self.mine_filter
     person_id = Irm::Person.current.id
     where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
     Icm::IncidentRequest.name,person_id,Irm::Person.name)
   end
+
+
 
   scope :filter_system_ids,lambda{|system_ids|
     if system_ids.length<1
