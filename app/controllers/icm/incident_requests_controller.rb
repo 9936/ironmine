@@ -22,7 +22,7 @@ class Icm::IncidentRequestsController < ApplicationController
   # GET /incident_requests/new
   # GET /incident_requests/new.xml
   def new
-    @incident_request = Icm::IncidentRequest.new
+    @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
 
     respond_to do |format|
       format.html { render :layout => "application_full"}# new.html.erb
@@ -135,6 +135,8 @@ class Icm::IncidentRequestsController < ApplicationController
                       :incident_status_name,
                       :close_flag,
                       :requested_name,
+                      :support_group_name,
+                      :support_person_name,
                       :need_customer_reply,
                       :last_response_date,
                       :external_system_name]
@@ -234,19 +236,9 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def get_slm_services
-    requested_by = Irm::Person.current
-    if params[:requested_by] && !params[:requested_by].blank?
-      requested_by = Irm::Person.find(params[:requested_by])
-    end
 
-    #按人员查找
-    r1 = Slm::ServiceMember.where("1=1").query_by_service_person(requested_by).with_service_catalog
-    #按组织查找
-    r1 += Slm::ServiceMember.where(:service_person_id=>nil).
-                              query_by_service_organization(requested_by.organization_id).with_service_catalog
 
-    services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_id = ? AND catalog_code IN (?)",
-                                                                    params[:external_system_id], r1.collect(&:catalog_code))
+    services_scope = Slm::ServiceCatalog.multilingual.enabled.query_by_external_system(params[:external_system_id])
     services = services_scope.collect{|i| {:label => i[:name], :value => i.catalog_code, :id => i.id}}
     respond_to do |format|
       format.json {render :json=>services.to_grid_json([:label, :value],services.count)}

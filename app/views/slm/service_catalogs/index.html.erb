@@ -26,6 +26,7 @@
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                        { :key => "catalog_code", :label => t(:label_slm_service_catalog_catalog_code),:searchable=>true },
                        { :key => "name", :label => t(:label_slm_service_catalog_name),:searchable=>true },
+                       { :key => "parent_catalog_name", :label => t(:label_slm_service_catalog_parent_catalog),:searchable=>true },
                        { :key => "description", :label => t(:label_slm_service_catalog_description) },
                        { :key => "status_meaning", :label => t(:label_slm_service_catalog_status_meaning)}
                        ],{:row_perpage=>10,:search_box=>"service_catalogsSearchBox",:paginator_box=>"service_catalogsPaginatorBox"})%>

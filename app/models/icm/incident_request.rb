@@ -57,9 +57,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
     select(" service.name service_name")
   }
   # 查询出客户
-  scope :with_requested_by,lambda{
+  scope :with_requested_by,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} requested ON  requested.id = #{table_name}.requested_by").
-    select("requested.full_name requested_name")
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} requested_organization ON  requested_organization.id = requested.organization_id AND requested_organization.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} requested_profile ON  requested_profile.id = requested.profile_id AND requested_profile.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::Role.view_name} requested_role ON  requested_role.id = requested.role_id AND requested_role.language = '#{language}'").
+    select("requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
   }
 
   scope :with_organization,lambda{|language|
@@ -79,45 +82,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
 
   # 查询出supporter
-  scope :with_supporter,lambda{
+  scope :with_supporter,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} supporter ON  supporter.id = #{table_name}.support_person_id").
-    select("#{Irm::Person.name_to_sql(nil,'supporter','support_person_name')}")
-  }
-
-  # 查询supporter的组织
-  scope :with_supporter_organization, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} org ON org.id = supporter.organization_id AND org.language = '#{language}'").
-        select("org.name supporter_organization_name")
-  }
-
-  # 查询supporter的角色
-  scope :with_supporter_role, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Role.view_name} rl ON rl.id = supporter.role_id AND rl.language = '#{language}'").
-        select("rl.name supporter_role_name")
-  }
-
-  # 查询supporter的简档
-  scope :with_supporter_profile, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} pf ON pf.id = supporter.profile_id AND pf.language = '#{language}'").
-        select("pf.name supporter_profile_name")
-  }
-
-  # 查询请求人的组织
-  scope :with_requester_organization, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} orgr ON orgr.id = requested.organization_id AND orgr.language = '#{language}'").
-        select("orgr.name requester_organization_name")
-  }
-
-  # 查询请求人的角色
-  scope :with_requester_role, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Role.view_name} rlr ON rlr.id = requested.role_id AND rlr.language = '#{language}'").
-        select("rlr.name requester_role_name")
-  }
-
-  # 查询请求人的简档
-  scope :with_requester_profile, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} pfr ON pfr.id = requested.profile_id AND pfr.language = '#{language}'").
-        select("pfr.name requester_profile_name")
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} supporter_organization ON  supporter_organization.id = supporter.organization_id AND supporter_organization.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} supporter_profile ON  supporter_profile.id = supporter.profile_id AND supporter_profile.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::Role.view_name} supporter_role ON  supporter_role.id = supporter.role_id AND supporter_role.language = '#{language}'").
+    select("supporter.full_name supporter_name,supporter_organization.name supporter_organization_name,supporter_profile.name supporter_profile_name,supporter_role.name supporter_role_name")
   }
 
   # 查询出优先级
@@ -250,7 +220,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     select_all.
         with_request_type(I18n.locale).
         with_service(I18n.locale).
-        with_requested_by.
+        with_requested_by(I18n.locale).
         with_urgence(I18n.locale).
         with_impact_range(I18n.locale).
         with_contact.
@@ -259,14 +229,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_priority(I18n.locale).
         with_submitted_by.
         with_support_group(I18n.locale).
-        with_supporter.
+        with_supporter(I18n.locale).
         with_external_system(I18n.locale).
-        with_supporter_organization(I18n.locale).
-        with_supporter_role(I18n.locale).
-        with_supporter_profile(I18n.locale).
-        with_requester_organization(I18n.locale).
-        with_requester_role(I18n.locale).
-        with_requester_profile(I18n.locale)
+        with_skm_flag
   end
 
 

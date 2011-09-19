@@ -33,12 +33,8 @@ module Irm
         unless request.support_group_id.present?||assign_result[:support_group_id].present?
           assign_result[:support_person_id] = nil
           # 在能处理当前系统事故单的待命组中选择合适的支持组
-          support_group_scope = Icm::SupportGroup.oncall
-          if system
-            support_group_scope = support_group_scope.query_by_system(system.id)
-          else
-            support_group_scope = support_group_scope.assignable
-          end
+          support_group_scope = Icm::SupportGroup.oncall.assignable
+
           support_group_ids = support_group_scope.collect{|i| i.id}
 
           # 如果不存可用的支持组，则中断自动分配
@@ -137,7 +133,7 @@ module Irm
       end
 
       def check_support_group(support_group_id,system_id)
-        Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).query(support_group_id).access_system.collect{|i| i[:system_id]}.include?(system_id)
+        Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).assignable.query(support_group_id).first.present?
       end
     end
   end

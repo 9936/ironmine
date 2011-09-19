@@ -19,6 +19,7 @@ en:
   label_slm_service_catalog_show: Service Show
   label_slm_service_catalog_new: New Service
   label_slm_service_catalog_edit: Edit Service
+  label_slm_service_catalog_parent_catalog: Parent Service Catalog
   label_slm_service_catalog_catalog_code: Code
   label_slm_service_catalog_name: Name
   label_slm_service_catalog_description: Description
@@ -39,6 +40,7 @@ en:
   label_add_service_member: Add Member
   label_add_service_break: Add Break
   label_slm_service_catalog: Service
+  label_slm_service_catalog_usable_external_system: External System
   #=========================    end service_catalogs_controller=======================#
   #=========================    slm service_breaks_controller=======================#
   label_slm_service_member_list: Service Member List

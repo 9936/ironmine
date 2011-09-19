@@ -26,7 +26,7 @@ class Irm::OrganizationExplosion < ActiveRecord::Base
     # 解除子组织的子组织 与 以前父组织的关系
     parent_of_orgs.each do |p_o|
       child_of_orgs.each do |c_o|
-        self.where(:organization_id=>c_o.organization_id,:parent_org_id=>p_o.id).delete_all
+        self.where(:organization_id=>c_o.organization_id,:parent_org_id=>p_o.parent_org_id).delete_all
       end
     end
     #解除子组织 与 以前父组织的关系

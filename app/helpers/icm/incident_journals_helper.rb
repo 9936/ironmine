@@ -105,7 +105,7 @@ module Icm::IncidentJournalsHelper
 
   def available_passable_supporter(group_id)
     people =  Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(group_id).order_id.collect{|p|[p[:person_name],p[:person_id]]}
-    people
+    people.delete_if{|p| Irm::Person.current.id.eql?(p[1])}
   end
 
   def available_upgradable_supporter(group_id)
