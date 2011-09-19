@@ -113,7 +113,7 @@ class Csi::Survey < ActiveRecord::Base
     person_ids.each do |pid|
       if exists_member_ids.include?(pid)
         sm = Csi::SurveyMember.where(:survey_id=>self.id,:person_id=>pid).first
-        sm.update_attributes(:required_flag=>sr.required_flag,:end_date_active=>self.closed_datetime) if sm
+        sm.update_attributes(:end_date_active=>self.closed_datetime) if sm
       else
         Csi::SurveyMember.create(:survey_id=>self.id,:person_id=>pid,:required_flag=>"N",:response_flag=>Irm::Constant::SYS_NO,:end_date_active=>self.closed_datetime)
       end
