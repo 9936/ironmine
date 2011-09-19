@@ -304,7 +304,7 @@ class Icm::IncidentJournalsController < ApplicationController
 
   private
   def setup_up_incident_request
-    @incident_request = Icm::IncidentRequest.list_all.with_skm_flag.with_incident_status(I18n.locale).find(params[:request_id])
+    @incident_request = Icm::IncidentRequest.list_all.with_skm_flag.find(params[:request_id])
   end
 
   def backup_incident_request

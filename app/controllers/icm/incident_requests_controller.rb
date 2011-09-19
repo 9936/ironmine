@@ -135,6 +135,8 @@ class Icm::IncidentRequestsController < ApplicationController
                       :incident_status_name,
                       :close_flag,
                       :requested_name,
+                      :support_group_name,
+                      :support_person_name,
                       :need_customer_reply,
                       :last_response_date,
                       :external_system_name]
