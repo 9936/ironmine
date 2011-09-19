@@ -57,4 +57,14 @@ class Icm::SupportGroupsController < ApplicationController
     end
   end
 
+
+  def get_pass_member_options
+    support_group_members_scope= Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(params[:id])
+    support_group_members = support_group_members_scope.collect{|p| {:label=>p[:person_name],:value=>p[:person_id]}}
+    support_group_members.delete_if{|sgm| Irm::Person.current.eql?(sgm[:value])}
+    respond_to do |format|
+      format.json {render :json=>support_group_members.to_grid_json([:label,:value],support_group_members.count)}
+    end
+  end
+
 end
