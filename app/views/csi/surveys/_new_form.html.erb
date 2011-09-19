@@ -80,7 +80,7 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_csi_survey_due_dates)%></label></td>
-              <td class="dataCol"><%=f.text_field :due_dates,:size=>18%></td>
+              <td class="dataCol"><%=f.text_field :due_dates,:size=>18,:required => true%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
@@ -158,3 +158,28 @@
 
 <%= calendar_view("id_closed_datatime","id_closed_datatime","cal") %>
 <%= calendar_view("date1","date1","cal1")%>
+<script type="text/javascript">
+GY.use(function(Y){
+    if(Y.one("#with_incident_request").get("checked"))
+    {
+       Y.one("#csi_survey_due_dates").removeAttribute("disabled");
+    }
+    else
+    {
+
+       Y.one("#csi_survey_due_dates").setAttribute("disabled", true);
+    }
+
+    Y.one("#with_incident_request").on("click", function(e){
+        if(Y.one("#with_incident_request").get("checked"))
+        {
+           Y.one("#csi_survey_due_dates").removeAttribute("disabled");
+        }
+        else
+        {
+
+           Y.one("#csi_survey_due_dates").setAttribute("disabled", true);
+        }
+    })
+});
+</script>
