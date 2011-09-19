@@ -17,8 +17,8 @@ module Csi::SurveysHelper
 
 
   def check_survey_result_exist?(survey_id)
-    @count = Csi::SurveyResult.query_distinct_response_batch(survey_id).count
-    if @count > 1
+    count = Csi::SurveyResult.query_distinct_response_batch(survey_id).count
+    if count >= 1
        false
     else
        true

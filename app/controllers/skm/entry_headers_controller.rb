@@ -231,6 +231,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   def update
     return_url = params[:return_url]
+    column_ids = params[:skm_entry_header][:column_ids].split(",")
     if params[:new]
       old_header = Skm::EntryHeader.find(params[:id])
       @entry_header = Skm::EntryHeader.new(old_header.attributes)
@@ -240,7 +241,6 @@ class Skm::EntryHeadersController < ApplicationController
       @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
       @entry_header.version_number = old_header.next_version_number.to_s
       @entry_header.published_date = Time.now
-      column_ids = params[:skm_entry_header][:column_ids].split(",")
       respond_to do |format|
         if @entry_header.save && old_header.save && @entry_header.update_attributes(params[:skm_entry_header])
           params[:skm_entry_details].each do |k, v|
@@ -251,6 +251,11 @@ class Skm::EntryHeadersController < ApplicationController
           end
           column_ids.each do |t|
             Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
+          end
+          #更新 收藏 中的ID为最新的文章ID，保证收藏的永远是知识库文章的最新版本
+          fas = Skm::EntryFavorite.where(:entry_header_id => old_header.id)
+          fas.each do |fa|
+            fa.update_attribute(:entry_header_id, @entry_header.id)
           end
 
           if return_url.blank?
@@ -275,6 +280,9 @@ class Skm::EntryHeadersController < ApplicationController
           params[:skm_entry_details].each do |k, v|
             detail = Skm::EntryDetail.find(k)
             detail.update_attributes(v)
+          end
+          column_ids.each do |t|
+            Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
           end
           if return_url.blank?
             format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }

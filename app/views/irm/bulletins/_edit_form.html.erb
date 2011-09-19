@@ -51,7 +51,7 @@
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_bulletin_content)%></label></td>
               <td class="dataCol" colspan="4" width="100%">
-                <%= f.text_area :content ,:id=>"msgEditor",:value=>@bulletin.content,:style=>"display:none;"%>
+                <%= f.text_area :content ,:id=>"msgEditor",:value=>@bulletin.content||"   ",:style=>"display:none;"%>
               </td>
             </tr>
             <tr>

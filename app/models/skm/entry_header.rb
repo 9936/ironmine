@@ -49,13 +49,22 @@ class Skm::EntryHeader < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Skm::EntryFavorite.table_name} ef ON ef.person_id = '#{person_id}' AND ef.entry_header_id = #{table_name}.id")
   }
 
+  scope :max_number, lambda{|opu_id|
+    select("MAX(#{table_name}.doc_number) dnum").
+        where("#{table_name}.opu_id = ?", opu_id)
+  }
+
   def self.search(query)
     Skm::EntryHeader.list_all.published.current_entry.where("#{table_name}.entry_title like ? OR #{table_name}.doc_number like ?","%#{query}%","%#{query}%")
   end
 
   def self.generate_doc_number(prefix = "")
-      num = Time.now.strftime("%y%m%d").to_i * 1000000 + rand(10)
-      return prefix + num.to_s
+#      num = Time.now.strftime("%y%m%d").to_i * 1000000 + rand(10)
+#      return prefix + num.to_s
+    num = Skm::EntryHeader.max_number(Irm::OperationUnit.current.id).first[:dnum].to_i + 1
+    return num
+  rescue
+    return 1
   end
 
   def get_column_ids
