@@ -280,7 +280,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   def concat_journals
     return_val = ""
-    self.incident_journals.each do |i|
+    self.incident_journals.where("reply_type IN ('SUPPORTER_REPLY')").each do |i|
       return_val << i.message_body.to_s
       return_val << "  "
     end
