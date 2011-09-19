@@ -47,7 +47,7 @@ class Irm::WfMailRecipient < ActiveRecord::Base
             if value.is_a?(Array)
               person_ids = value
             else
-              person_ids = [value.to_i]
+              person_ids = [value]
             end
           end
         end
