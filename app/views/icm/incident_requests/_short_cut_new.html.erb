@@ -58,7 +58,11 @@
               <%=f.text_area :summary,:rows=>3, :style => "width:175px;" ,:id=>"incident_request_summary"%>
             </div>
             <div class="quickCreateField">
-              <div class="button"><%= f.submit t(:save)%></div><div style="float:right; padding-top: 5px;"><%= link_to t(:more_info), :controller => "icm/incident_requests", :action => "new" %></div><br>
+              <div class="button"><%= f.submit t(:save)%></div>
+              <div style="float:right; padding-top: 5px;">
+                <%= link_to t(:more_info), {:controller => "icm/incident_requests", :action => "new"},{:class=>"submit"} %>
+              </div>
+              <br>
             </div>
         <% end %>
         </div>
@@ -68,5 +72,11 @@
 <script type="text/javascript">
 GY.use("cascadeselect",function(Y){
     new Y.CascadeSelect({source: "#ass_external_system",target:["#incident_request_service_code"]});
+    Y.one("form.new_icm_incident_request").delegate("click",function(e){
+        e._currentTarget.setAttribute("action",e.target.getAttribute("href"));
+
+        e.preventDefault();
+        e._currentTarget.submit();
+    },"a.submit");
 });
 </script>

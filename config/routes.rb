@@ -895,7 +895,7 @@ Ironmine::Application.routes.draw do
     match '/incident_requests(/index)(.:format)' => "incident_requests#index", :via => :get
     match '/incident_requests/:id/edit(.:format)' => "incident_requests#edit", :via => :get
     match '/incident_requests/:id(.:format)' => "incident_requests#update", :via => :put
-    match '/incident_requests/new(.:format)' => "incident_requests#new", :via => :get
+    match '/incident_requests/new(.:format)' => "incident_requests#new", :via => [:get,:post]
     match '/incident_requests/create(.:format)' => "incident_requests#create", :via => :post
     match '/incident_requests/get_data(.:format)' => "incident_requests#get_data",:via=>:get
     match '/incident_requests/get_help_desk_data(.:format)' => "incident_requests#get_help_desk_data",:via=>:get
