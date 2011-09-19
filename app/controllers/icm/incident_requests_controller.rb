@@ -145,7 +145,7 @@ class Icm::IncidentRequestsController < ApplicationController
         #with_external_system(I18n.locale).
         #where("LENGTH(external_system_id) > 0").
         #where("external_system_id IN (?)", Irm::Person.current.system_ids).
-        order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
+        order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
 
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
