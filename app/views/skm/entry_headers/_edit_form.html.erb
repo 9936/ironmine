@@ -68,7 +68,12 @@
         <tbody>
             <%= fields_for("skm_entry_details[]", ed) do |ef| %>
             <tr>
-              <td><%= ef.text_area :entry_content, {:rows => ed.default_rows, :style => "width:100%;", :value => ed.entry_content}%></td>
+              <td><% if ed.required_flag == "Y"%>
+                  <%= ef.text_area :entry_content, {:rows => ed.default_rows, :style => "width:100%;", :jrequired => true, :value => ed.entry_content} %>
+                  <% else %>
+                  <%= ef.text_area :entry_content, {:rows => ed.default_rows, :style => "width:100%;", :value => ed.entry_content} %>
+                  <% end %>
+              </td>
             </tr>
             <% end %>
         </tbody>
