@@ -30,7 +30,9 @@
                    {:key=>"entry_template_code",:label=>t(:label_skm_entry_template_code),:searchable=>true, :width => "15%"},
                    {:key=>"name",:label=>t(:name),:searchable=>true, :width => "30%"},
                    {:key=>"description",:label=>t(:description)},
-                   {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],{:search_box=>"templatesSearchBox"})%>
+                   {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],
+                  {:search_box=>"templatesSearchBox",:paginator_box=>"entry_templatesPaginatorBox"})%>
+        <div id="entry_templatesPaginatorBox"></div>
       </div>
     </div>
 </div>

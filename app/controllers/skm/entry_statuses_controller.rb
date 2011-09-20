@@ -58,6 +58,8 @@ class Skm::EntryStatusesController < ApplicationController
 
   def get_data
     entry_statuses_scope = Skm::EntryStatus.multilingual.status_meaning
+    entry_statuses_scope = entry_statuses_scope.match_value("#{Skm::EntryStatusesTl.table_name}.name",params[:name])
+    entry_statuses_scope = entry_statuses_scope.match_value("#{Skm::EntryStatus.table_name}.entry_status_code",params[:entry_status_code])
     entry_statuses,count = paginate(entry_statuses_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_statuses.to_grid_json(['0',:entry_status_code, :visiable_flag, :name,:description,:status_meaning, :status_code], count)) }

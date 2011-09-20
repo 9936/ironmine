@@ -13,7 +13,7 @@ class Irm::OperationUnitsController < ApplicationController
   # GET /operation_units/1
   # GET /operation_units/1.xml
   def show
-    @operation_unit = Irm::OperationUnit.multilingual.with_default_zone(I18n.locale).with_language(I18n.locale).find(Irm::OperationUnit.current.id)
+    @operation_unit = Irm::OperationUnit.multilingual.with_default_zone(I18n.locale).with_language(I18n.locale).with_license(I18n.locale).find(Irm::OperationUnit.current.id)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,7 +34,7 @@ class Irm::OperationUnitsController < ApplicationController
 
   # GET /operation_units/1/edit
   def edit
-    @operation_unit = Irm::OperationUnit.multilingual.find(Irm::OperationUnit.current.id)
+    @operation_unit = Irm::OperationUnit.multilingual.with_license(I18n.locale).find(Irm::OperationUnit.current.id)
   end
 
   # POST /operation_units
