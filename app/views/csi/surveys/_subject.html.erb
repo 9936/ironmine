@@ -2,7 +2,7 @@
     <div class="pbSubheader tertiaryPalette" >
       <h3>
         <%=num%>.&nbsp;<%=subject.name%>&nbsp;&nbsp;
-        <% if (subject.required_flag.to_i == 1) %>
+        <% if (Irm::Constant::SYS_YES.eql?(subject.required_flag)) %>
            <span class="required_answer">(<%= t(:label_csi_survey_required_input)%>)</span>
         <% end %>
         <span class="titleSeparatingColon"></span></h3>
