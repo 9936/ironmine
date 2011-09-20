@@ -58,6 +58,7 @@
                     <%=f.select :external_system_id,nullable_options_for_select([],@incident_request.external_system_id),{:value=>@incident_request.external_system_id},
                             {:required=>true,:id=>"ass_external_system",
                              :depend=>"incident_request_requested_by",
+                             :origin_value=>@incident_request.external_system_id,
                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                              :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"{incident_request_requested_by}")}%>
                 <% else %>
@@ -65,6 +66,7 @@
                             nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),
                             {:value=>@incident_request.external_system_id},
                             {:required=>true,:id=>"ass_external_system",
+                             :origin_value=>@incident_request.external_system_id,
                              :depend=>"incident_request_requested_by",
                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                              :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"{incident_request_requested_by}")}%>
@@ -80,6 +82,7 @@
                                             nullable_options_for_select([],@incident_request.service_code),
                                             {},
                                             {:required=>true,:id=>"incident_request_service_code",
+                                             :origin_value=>@incident_request.service_code,
                                              :depend=>"ass_external_system,incident_request_requested_by",
                                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                              :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_slm_services",:format=>"json",
