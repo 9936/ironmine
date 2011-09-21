@@ -11,7 +11,7 @@ class Irm::ReportTypeCategoriesController < ApplicationController
   # GET /report_type_categories/1
   # GET /report_type_categories/1.xml
   def show
-    @report_type_category = Irm::ReportTypeCategory.find(params[:id])
+    @report_type_category = Irm::ReportTypeCategory.multilingual.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
