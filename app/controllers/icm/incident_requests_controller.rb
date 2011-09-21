@@ -138,7 +138,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :support_group_name,
                       :support_person_name,
                       :last_response_date,
-                      :external_system_name,:reply_flag,:close_flag]
+                      :external_system_name,:reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
@@ -185,7 +185,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :requested_name,
                       :last_request_date,
                       :priority_name,
-                      :external_system_name,:reply_flag,:close_flag]
+                      :external_system_name,:reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
         #with_external_system(I18n.locale).

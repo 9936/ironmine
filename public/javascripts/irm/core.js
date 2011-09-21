@@ -38,6 +38,9 @@ YUI.add('irm', function(Y) {
        }
        if(templateNode){
          scriptString =  Y.Lang.substitute(unescape(templateNode.get('innerHTML')),o.data);
+         scriptString = scriptString.replace(/&amp;/g,"&");
+         scriptString = scriptString.replace(/&gt;/g,">");
+         scriptString = scriptString.replace(/&lt;/g,"<");
          return eval(scriptString)
        }
        else{
