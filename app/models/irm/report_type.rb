@@ -145,7 +145,7 @@ class Irm::ReportType < ActiveRecord::Base
 
       end
     end
-    scope_str = %Q(#{self.class.name}.from("#{query_str[:from].first}"))
+    scope_str = %Q(#{self.class.name}.unscoped.from("#{query_str[:from].first}"))
     query_str[:joins].each do |j|
       scope_str << %Q(.joins("#{j}"))
     end
