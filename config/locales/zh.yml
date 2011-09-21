@@ -43,7 +43,7 @@ zh:
         one: "一秒"
         other: "%{count} 秒"
       less_than_x_minutes:
-        one: "一分钟内"
+        one: "少于一分钟"
         other: "少于 %{count} 分钟"
       x_minutes:
         one: "一分钟"
