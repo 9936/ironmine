@@ -87,7 +87,7 @@ class Irm::ReportTypeCategoriesController < ApplicationController
     @report_type_category = Irm::ReportTypeCategory.find(params[:id])
     @report_type_category.not_auto_mult=true
     respond_to do |format|
-      if @report_type_category.update_attributes(params[:report_type_category])
+      if @report_type_category.update_attributes(params[:irm_report_type_category])
         format.html { redirect_to({:action => "show"}, :notice => t(:successfully_created)) }
         format.xml  { head :ok }
       else
