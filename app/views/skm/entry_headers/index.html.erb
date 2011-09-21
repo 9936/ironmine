@@ -1,13 +1,12 @@
-<%= app_title %>
-<%= view_filter("SKM_ENTRY_HEADERS_INDEX","SKM_ENTRY_HEADERS","entry_headers_list") %>
-<div class="bOverviewSearch">
-  <div>
-    <div class="pbSearch">
-
-    </div>
-  </div>
+<%= common_title(:model_meaning=>t(:label_skm)) %>
+<div class="toolbar">
+    <span class="toggleButtons">
+      <%= link_to(toggle_img("listViewIcon",true),{},{:href=>"javascript:void(0)",:alt=>t(:label_skm_entry_header),:title=>t(:label_skm_entry_header)}) %>
+      <%= link_to(toggle_img("singleUserViewIcon"),{:controller => "skm/entry_headers",:action=>"my_favorites"},{:alt=>t(:label_skm_entry_header_my_favorites),:title=>t(:label_skm_entry_header_my_favorites)}) %>
+      <%= link_to(toggle_img("multiUserViewIcon"),{:controller => "skm/file_managements"},{:alt=>t(:label_skm_file_management),:title=>t(:label_skm_file_management)}) %>
+    </span>
 </div>
-<% #view_filter("SKM_ENTRY_HEADERS_INDEX_A","entry_headers_list") %>
+<%= view_filter("SKM_ENTRY_HEADERS_INDEX","SKM_ENTRY_HEADERS","entry_headers_list") %>
 <%= render "data_grid" %>
 <%= content_for :sidebar do%>
     <%= render "skm/entry_headers/sidebar_navigate_menu"%>

@@ -1,4 +1,5 @@
 class Skm::EntryHeadersController < ApplicationController
+  layout "application_full"
   def index
       session[:skm_entry_header] = nil
       session[:skm_entry_details] = nil

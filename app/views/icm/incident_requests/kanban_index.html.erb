@@ -1,8 +1,12 @@
 <%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:kanban_mode)) %>
 <% if allow_to_function?(:view_icm_kanban) %>
-<div style="display:block;width:100%;float:left;margin-bottom:15px;">
-    <div class="button"><%= link_to t(:list_mode), {:action => "index"}%></div>
-</div>
+  <div class="toolbar">
+      <span class="toggleButtons">
+        <%= link_to(toggle_img("listViewIcon"),{:controller => "icm/incident_requests",:action=>"index"},{:title=>t(:list_mode)}) %>
+        <%= link_to(toggle_img("singleUserViewIcon",true),{:action=>"kanban_index"},{:href=>"javascript:void(0)",:title=>t(:kanban_mode)}) %>
+      </span>
+  </div>
+
 <% end %>
 
 <% if allow_to_function?(:view_icm_kanban)%>
@@ -23,9 +27,6 @@
 </div>
 <% end %>
 
-<% if allow_to_function?(:view_reports) %>
-
-<% end %>
 
 <% content_for :sidebar do%>
     <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
