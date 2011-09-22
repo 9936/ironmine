@@ -69,11 +69,12 @@ class LabellingFormBuilder  < ActionView::Helpers::FormBuilder
       info = ""
       if options[:info]
         info_t = options.delete(:info)
+
         if info_t
           info += @template.content_tag(:img, "", :src => "/images/s.gif", :class => "infoIcon", :title => info_t, :alt => info_t)
         end
       end
-      @template.content_tag("div", text + field + "&nbsp;"+ info,{:class => "requiredInput"}, false)
+      @template.content_tag("div", text + field + info,{:class => "requiredInput"}, false)
 
 
 #      text = options[:label].is_a?(Symbol) ? ::I18n.t(options[:label]) : options[:label]
