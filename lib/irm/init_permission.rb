@@ -278,7 +278,8 @@ Irm::AccessControl.map do |map|
   map.function :operation_unit,{"irm/operation_units"=>["show","edit", "update"]}
 
   #===================irm/external_systems============================
-  map.function :system,{"irm/external_systems" => ["index","get_data", "update","edit","show","new","create"]}
+  map.function :system,{"irm/external_systems" => ["index","get_data", "update",
+                                                   "edit","show","new","create","add_people", "delete_people"]}
   map.function :external_system_member,{"irm/external_system_members" => ["index"]}
 
   #===================irm/cloud_operations============================
