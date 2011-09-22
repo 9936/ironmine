@@ -62,7 +62,7 @@
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.stemplate", :width => "90px"},
                    {:key=>"name",:label=>t(:label_irm_report_name),:formatter=>"Y.irm.stemplate", :sortable=>true,:searchable=>true,:width=>"250px"},
                    @folder_id.present? ? nil:{:key=>"report_folder_name",:label=>t(:label_irm_report_folder), :width => "150px"} ,
-                   {:key=>"report_type_name",:label=>t(:label_irm_report_type), :width => "150px"},
+                   {:key=>"report_type_name",:hidden=>true,:label=>t(:label_irm_report_type), :width => "150px"},
                    {:key=>"editable_flag",:hidden=>true},
                    {:key=>"report_trigger_id",:hidden=>true},
                    {:key=>"description",:label=>t(:label_irm_report_description)}].compact,
