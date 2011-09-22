@@ -234,12 +234,15 @@
         }
         Ext.get("editFields").on("submit",function(e){
           e.preventDefault();
-          var form = this;
+          var form = this,
+              csrfParam = Ext.query('meta[name=csrf-param]')[0].getAttribute("content"),
+			  csrfToken = Ext.query('meta[name=csrf-token]')[0].getAttribute("content");
+          params={}
+          params["irm_report_type_sections"] =Ext.encode(postParams());
+          params[csrfParam] = csrfToken;
           Ext.Ajax.request({
               url: form.getAttribute("action"),
-              params: {
-                  irm_report_type_sections:Ext.encode(postParams())
-              },
+              params: params,
               success: function(response){
                   location.reload(true);
               }
