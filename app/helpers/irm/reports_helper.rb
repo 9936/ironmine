@@ -185,7 +185,7 @@ module Irm::ReportsHelper
     if(group_fields.size>1)
       level_two_label = report_headers.detect{|i| i[0].eql?(group_fields[1][0])}[1]
     end
-    meta_data.sort.map do |level_one_key,level_one_value|
+    meta_data.sort{|a,b| if a[0]&&b[0]; a[0]<=>b[0]; else; a[0]? 1:0; end}.map do |level_one_key,level_one_value|
 
       level_one_summary_amount = 0
       if(group_fields.size>1)
@@ -205,7 +205,7 @@ module Irm::ReportsHelper
       )
       table_body << %Q(<tr class="break break1"><td colspan="#{display_headers.size}">&nbsp;</td></tr>)
       if(group_fields.size>1)
-        level_one_value.sort.map do |level_two_key,level_two_value|
+        level_one_value..sort{|a,b| if a[0]&&b[0]; a[0]<=>b[0]; else; a[0]? 1:0; end}.map do |level_two_key,level_two_value|
           level_two_summary_amount = level_two_value.size
           table_body << %Q(
             <tr class="group group2">
