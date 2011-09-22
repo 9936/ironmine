@@ -146,6 +146,7 @@
                 {name: 'bo_id',type: 'string'},
                 {name: 'bo_name',type: 'string'},
                 {name: 'boa_id',type: 'string'},
+                {name: 'section_id',type: 'string'},
                 {name: 'section_field_id',type: 'string'},
                 {name: 'default_selection_flag',type: 'bool'}
             ]
@@ -223,7 +224,7 @@
         function postParams(){
           var sections = [];
           Ext.each(Ext.getCmp("fields").getStore().getRootNode().childNodes,function(section){
-              var sectionJ = {id:section.data.id,name:section.data.text,fields:[]}
+              var sectionJ = {id:section.data.id,section_id:section.data.section_id,name:section.data.text,fields:[]}
               Ext.each(section.childNodes,function(field){
                 var fieldJ = {section_field_id:field.data.section_field_id,boa_id:field.data.boa_id,default_selection_flag:field.data.default_selection_flag}
                 sectionJ.fields.push(fieldJ)
