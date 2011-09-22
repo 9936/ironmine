@@ -106,7 +106,8 @@ class Irm::ApplicationsController < ApplicationController
   def get_data
     applications_scope = Irm::Application.multilingual
     applications_scope = applications_scope.match_value("#{Irm::ApplicationsTl.table_name}.name",params[:name])
-    applications_scope = applications_scope.match_value("#{Irm::ApplicationsTl.table_name}.code",params[:code])
+    applications_scope = applications_scope.match_value("#{Irm::ApplicationsTl.table_name}.description",params[:description])
+    applications_scope = applications_scope.match_value("#{Irm::Application.table_name}.code",params[:code])
     applications,count = paginate(applications_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(applications.to_grid_json([:code,:name,:description],count))}

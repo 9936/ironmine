@@ -79,7 +79,7 @@ class Irm::WfApprovalStepsController < ApplicationController
 
     # process approver
     unless(@wf_approval_step.approver_mode.eql?("AUTO_APPROVER"))
-      @wf_approval_step.approver_value_str=""
+      @wf_approval_step.approver_str=""
     end
 
     respond_to do |format|

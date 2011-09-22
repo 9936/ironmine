@@ -1,4 +1,11 @@
-<%= app_title %>
+<%= common_title(:model_meaning=>t(:label_skm)) %>
+<div class="toolbar">
+    <span class="toggleButtons">
+      <%= link_to(toggle_img("listViewIcon"),{:controller => "skm/entry_headers",:action=>"index"},{:alt=>t(:label_skm_entry_header),:title=>t(:label_skm_entry_header)}) %>
+      <%= link_to(toggle_img("singleUserViewIcon",true),{:controller => "skm/entry_headers",:action=>"my_favorites"},{:href=>"javascript:void(0)",:alt=>t(:label_skm_entry_header_my_favorites),:title=>t(:label_skm_entry_header_my_favorites)}) %>
+      <%= link_to(toggle_img("multiUserViewIcon"),{:controller => "skm/file_managements",:action=>"index"},{:alt=>t(:label_skm_file_management),:title=>t(:label_skm_file_management)}) %>
+    </span>
+</div>
 <div class="listRelatedObject setupBlock">
     <div class="bPageBlock">
       <div class="pbHeader">
@@ -39,5 +46,4 @@
 
 <%= content_for :sidebar do%>
     <%= render "skm/entry_headers/sidebar_navigate_menu"%>
-    <%= render "skm/entry_headers/sidebar_last_ten"%>
 <% end -%>

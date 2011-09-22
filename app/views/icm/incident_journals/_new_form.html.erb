@@ -259,20 +259,21 @@
       <div class="pbSubsection">
         <div style="padding:5px 0 5px 5px;"><input id="searchSKMText" type="text" size="35"/><div class="button" style="float:none !important; display:inline"><a id="searchSKM" href="javascript:void(0)"><%= t(:search) %></a></div></div>
       </div>
-      <div class="pbSubsection">
-        <div id="entry_headers_list" class="datatable" style="width:100%">
+      <div class="pbSubsection" id="entrySubsection" style="display:none;">
+        <div id="entry_headers_list" class="datatable" style="width:100%;">
           <div id="id" style="display:none">
             <%= link_to(t(:apply),{ :action=>"apply_entry_header",:id=>"{id}"},:remote=>true) %>
           </div>
           <div id="full_title" style="display:none">
             <%= link_to("{full_title}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"},{:target => "_blank"}) %>
           </div>
+
         </div>
         <%= datatable("entry_headers_list",url_for(:action=>"get_entry_header_data",:format=>"json"),
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"50px"},
                    {:key=>"full_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
                    {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "180px"}],
-                   {:row_perpage=>5,:paginator_box=>"entryPaginator"})%>
+                   {:row_perpage=>5,:paginator_box=>"entryPaginator",:not_load=>true})%>
         <div id="entryPaginator"></div>
       </div>
     </div>
@@ -288,8 +289,16 @@
         });
 
         Y.one("#searchSKM").on("click",function(e){
+            Y.one("#entrySubsection").setStyle("display","");
             var datasource = Y.irm.entry_headers_listDatatable.datasource;
             datasource.query({entry_title:Y.one("#searchSKMText").get("value")});
+        });
+
+        Y.one("#searchSKMText").on("keydown",function(e){
+          if(e.keyCode==13){
+            Y.one("#searchSKM").simulate("click");
+            e.preventDefault();
+          }
         });
       })
     </script>

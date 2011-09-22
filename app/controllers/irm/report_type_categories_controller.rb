@@ -11,7 +11,7 @@ class Irm::ReportTypeCategoriesController < ApplicationController
   # GET /report_type_categories/1
   # GET /report_type_categories/1.xml
   def show
-    @report_type_category = Irm::ReportTypeCategory.find(params[:id])
+    @report_type_category = Irm::ReportTypeCategory.multilingual.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -87,7 +87,7 @@ class Irm::ReportTypeCategoriesController < ApplicationController
     @report_type_category = Irm::ReportTypeCategory.find(params[:id])
     @report_type_category.not_auto_mult=true
     respond_to do |format|
-      if @report_type_category.update_attributes(params[:report_type_category])
+      if @report_type_category.update_attributes(params[:irm_report_type_category])
         format.html { redirect_to({:action => "show"}, :notice => t(:successfully_created)) }
         format.xml  { head :ok }
       else
@@ -100,6 +100,7 @@ class Irm::ReportTypeCategoriesController < ApplicationController
   def get_data
     report_type_categories_scope = Irm::ReportTypeCategory.multilingual
     report_type_categories_scope = report_type_categories_scope.match_value("#{Irm::ReportTypeCategoriesTl.table_name}.name",params[:name])
+    report_type_categories_scope = report_type_categories_scope.match_value("#{Irm::ReportTypeCategory.table_name}.code",params[:code])
     report_type_categories,count = paginate(report_type_categories_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(report_type_categories.to_grid_json([:name,:description,:code],count))}

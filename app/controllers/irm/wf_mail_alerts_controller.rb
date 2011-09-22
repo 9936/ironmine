@@ -101,7 +101,8 @@ class Irm::WfMailAlertsController < Irm::WfActionsController
 
   def get_data
     wf_mail_alerts_scope = Irm::WfMailAlert.list_all
-    wf_mail_alerts_scope = wf_mail_alerts_scope.match_value("irm_wf_mail_alerts.name",params[:name])
+    wf_mail_alerts_scope = wf_mail_alerts_scope.match_value("#{Irm::WfMailAlert.table_name}.name",params[:name])
+    wf_mail_alerts_scope = wf_mail_alerts_scope.match_value("#{Irm::WfMailAlert.table_name}.mail_alert_code",params[:mail_alert_code])
     wf_mail_alerts,count = paginate(wf_mail_alerts_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(wf_mail_alerts.to_grid_json([:name,:bo_name,:mail_template_name,:mail_alert_code,:from_email],count))}

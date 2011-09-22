@@ -35,6 +35,7 @@ zh:
   label_action_select_elements: 选择模板元素
   label_action_edit_detail: 编辑模板元素
   #=========================entry headers================================
+  label_skm: 知识库
   label_skm_entry_header: 知识库文章
   label_skm_entry_header_list: 知识库文章列表
   label_skm_entry_header_new: 创建知识库文章

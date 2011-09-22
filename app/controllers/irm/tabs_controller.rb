@@ -101,7 +101,9 @@ class Irm::TabsController < ApplicationController
 
   def get_data
     tabs_scope = Irm::Tab.with_bo(I18n.locale).with_function_group(I18n.locale).multilingual
-    tabs_scope = tabs_scope.match_value("#{Irm::Tab.table_name}.name",params[:name])
+    tabs_scope = tabs_scope.match_value("#{Irm::TabsTl.table_name}.name",params[:name])
+    tabs_scope = tabs_scope.match_value("#{Irm::TabsTl.table_name}.description",params[:description])
+    tabs_scope = tabs_scope.match_value("#{Irm::Tab.table_name}.code",params[:code])
     tabs,count = paginate(tabs_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(tabs.to_grid_json([:code,:name,:description,:business_object_name,:function_group_name],count))}

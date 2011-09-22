@@ -137,16 +137,15 @@ class Icm::IncidentRequestsController < ApplicationController
                       :requested_name,
                       :support_group_name,
                       :support_person_name,
-                      :need_customer_reply,
                       :last_response_date,
-                      :external_system_name]
+                      :external_system_name,:reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
 
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
         #with_external_system(I18n.locale).
         #where("LENGTH(external_system_id) > 0").
         #where("external_system_id IN (?)", Irm::Person.current.system_ids).
-        order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
+        order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
 
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
@@ -184,16 +183,15 @@ class Icm::IncidentRequestsController < ApplicationController
                       :incident_status_name,
                       :close_flag,
                       :requested_name,
-                      :need_customer_reply,
                       :last_request_date,
                       :priority_name,
-                      :external_system_name]
+                      :external_system_name,:reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
         #with_external_system(I18n.locale).
         #where("LENGTH(external_system_id) > 0").
         #where("external_system_id IN (?)", Irm::Person.current.system_ids + ['']).
-        order("close_flag ,last_request_date desc,last_response_date desc,weight_value,id")
+        order("close_flag ,reply_flag desc,last_request_date desc,last_response_date desc,weight_value,id")
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
     end

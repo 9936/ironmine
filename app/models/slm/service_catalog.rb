@@ -39,7 +39,7 @@ class Slm::ServiceCatalog < ActiveRecord::Base
   }
 
   scope :parentable,lambda{|catalog_id|
-    where("#{table_name}.id!=? AND NOT EXISTS(SELECT 1 FROM #{Slm::ServiceCatalogExplosion.table_name} WHERE #{Slm::ServiceCatalogExplosion.table_name}.parent_service_catalog_id = ? AND #{Slm::ServiceCatalogExplosion.table_name}.service_catalog_id = #{table_name}.id)",service_catalog_id,service_catalog_id)
+    where("#{table_name}.id!=? AND NOT EXISTS(SELECT 1 FROM #{Slm::ServiceCatalogExplosion.table_name} WHERE #{Slm::ServiceCatalogExplosion.table_name}.parent_service_catalog_id = ? AND #{Slm::ServiceCatalogExplosion.table_name}.service_catalog_id = #{table_name}.id)",catalog_id,catalog_id)
   }
 
   #创建 更新报表列

@@ -109,6 +109,8 @@ YUI.add('cascadeselect', function(Y) {
         _prepareOptions: function(transactionId, response, arg){
           var results = Y.JSON.parse(response.responseText);
           var target = arg["complete"];
+          // origin value
+          var targetValue = target.getAttribute("origin_value");
           target.setContent("");
 
           if(target.getAttribute("blank")!=""){
@@ -131,7 +133,7 @@ YUI.add('cascadeselect', function(Y) {
 
 
           //target.setContent(options);
-          target.set("value","");
+          target.set("value",targetValue);
           target.simulate('change');
         }
 

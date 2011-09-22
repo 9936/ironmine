@@ -5,7 +5,7 @@
             <%= link_to(t(:edit),{:controller=>"icm/incident_requests",:action=>"edit",:id=>"{id}"}) %>
           </div>
           <div id="title" style="display:none">
-            if('{need_customer_reply}' == 'N'){
+            if('{reply_flag}' == 'Y' && '{close_flag}' == 'N'){
                '<%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>({incident_status_name})<%= link_to( "{title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
             }
             else{
@@ -20,7 +20,8 @@
                                { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
                                { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },
                                { :key => "incident_status_name",:hidden=>true },
-                               { :key => "need_customer_reply",:hidden=>true },
+                               { :key => "reply_flag",:hidden=>true },
+                               { :key => "close_flag",:hidden=>true },
                                { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) },
                                { :key => "last_request_date", :label => t(:label_icm_incident_request_last_date),:width=>"180px" },
                                { :key => "external_system_name", :label => t(:label_irm_external_system),:width=>"180px" }

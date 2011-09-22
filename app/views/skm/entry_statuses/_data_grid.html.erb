@@ -33,7 +33,9 @@
                    {:key=>"name",:label=>t(:name), :searchable => true,:width=>"150px"},
                    {:key=>"description",:label=>t(:description)},
                    {:key=>"visiable_flag",:label=>t(:label_skm_entry_status_visiable),:formatter=>"Y.irm.template",:width=>"40px"},
-                   {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}], {:search_box => "statusesSearchBox"})%>
+                   {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],
+                  {:search_box => "statusesSearchBox",:paginator_box=>"entry_statusesPaginatorBox"})%>
+        <div id="entry_statusesPaginatorBox"></div>
       </div>
     </div>
 </div>

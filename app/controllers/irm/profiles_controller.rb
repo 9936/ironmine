@@ -118,7 +118,9 @@ class Irm::ProfilesController < ApplicationController
 
   def get_data
     profiles_scope = Irm::Profile.multilingual
-    profiles_scope = profiles_scope.match_value("profile.name",params[:name])
+    profiles_scope = profiles_scope.match_value("#{Irm::Profile.table_name}.code",params[:code])
+    profiles_scope = profiles_scope.match_value("#{Irm::ProfilesTl.table_name}.name",params[:name])
+    profiles_scope = profiles_scope.match_value("#{Irm::ProfilesTl.table_name}.description",params[:description])
     profiles,count = paginate(profiles_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(profiles.to_grid_json([:name,:description,:code],count))}

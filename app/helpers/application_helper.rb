@@ -573,4 +573,16 @@ module ApplicationHelper
     tag = content_tag(:img, "",:src => "/images/s.gif", :class => "infoIcon", :title => info, :alt => info)
     raw(tag)
   end
+
+  def toggle_img(class_name,toggled=false,options={})
+    image_options = {}
+    if toggled
+      image_options.merge!(:class=>"#{class_name}On")
+    else
+      image_options.merge!(:class=>class_name)
+      image_options.merge!({:onmouseover=>"this.className = '#{class_name}On';this.className = '#{class_name}On';", :onmouseout=>"this.className = '#{class_name}';this.className = '#{class_name}';",:onfocus=>"this.className = '#{class_name}On';",:onblur=>"this.className = '#{class_name}';"})
+    end
+    image_options.merge!(options)
+    image_tag("/images/s.gif",image_options)
+  end
 end
