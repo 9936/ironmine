@@ -311,15 +311,10 @@ class Skm::EntryHeadersController < ApplicationController
               #调用方法创建附件
               begin
                 attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
-
-                puts("+++++++++++++++++++++ after upload")
-                puts("+++++++++++++++++++++ after upload" + attached.to_json)
               rescue
-                puts("+++++++++++++++++++++ errors upload")
                 @entry_header.errors << "FILE UPLOAD ERROR"
               end
             end
-            puts("+++++++++++++++++++++" + @entry_header.errors.to_json)
 
 
             if return_url.blank?
