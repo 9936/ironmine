@@ -233,70 +233,111 @@ class Skm::EntryHeadersController < ApplicationController
   def update
     return_url = params[:return_url]
     column_ids = params[:skm_entry_header][:column_ids].split(",")
-    if params[:new]
-      old_header = Skm::EntryHeader.find(params[:id])
-      @entry_header = Skm::EntryHeader.new(old_header.attributes)
-      old_header.history_flag = "Y"
-      @entry_header.history_flag = "N"
-      @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
-      @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
-      @entry_header.version_number = old_header.next_version_number.to_s
-      @entry_header.published_date = Time.now
-      respond_to do |format|
-        if @entry_header.save && old_header.save && @entry_header.update_attributes(params[:skm_entry_header])
-          params[:skm_entry_details].each do |k, v|
-            old_detail = Skm::EntryDetail.find(k)
-            detail = Skm::EntryDetail.new(old_detail.attributes)
-            detail.update_attributes(v)
-            @entry_header.entry_details << detail
-          end
-          column_ids.each do |t|
-            Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
-          end
-          #更新 收藏 中的ID为最新的文章ID，保证收藏的永远是知识库文章的最新版本
-          fas = Skm::EntryFavorite.where(:entry_header_id => old_header.id)
-          fas.each do |fa|
-            fa.update_attribute(:entry_header_id, @entry_header.id)
-          end
+    file_flag = true
+    now = 0
+    params[:file].each_value do |att|
+      file = att["file"]
+      next unless file && file.size > 0
+      file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
+      if !file_flag
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        break
+      end
+    end
 
-          if return_url.blank?
-            format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
-            format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
+    if file_flag
+      if params[:new]
+        old_header = Skm::EntryHeader.find(params[:id])
+        @entry_header = Skm::EntryHeader.new(old_header.attributes)
+        old_header.history_flag = "Y"
+        @entry_header.history_flag = "N"
+        @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+        @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
+        @entry_header.version_number = old_header.next_version_number.to_s
+        @entry_header.published_date = Time.now
+        respond_to do |format|
+          if @entry_header.save && old_header.save && @entry_header.update_attributes(params[:skm_entry_header])
+            params[:skm_entry_details].each do |k, v|
+              old_detail = Skm::EntryDetail.find(k)
+              detail = Skm::EntryDetail.new(old_detail.attributes)
+              detail.update_attributes(v)
+              @entry_header.entry_details << detail
+            end
+            column_ids.each do |t|
+              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
+            end
+            #更新 收藏 中的ID为最新的文章ID，保证收藏的永远是知识库文章的最新版本
+            fas = Skm::EntryFavorite.where(:entry_header_id => old_header.id)
+            fas.each do |fa|
+              fa.update_attribute(:entry_header_id, @entry_header.id)
+            end
+            if params[:file]
+              files = params[:file]
+              #调用方法创建附件
+              begin
+                attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
+              rescue
+                @entry_header.errors << "FILE UPLOAD ERROR"
+              end
+            end
+            if return_url.blank?
+              format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+              format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
+            else
+              format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }
+              format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
+            end
           else
-            format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }
-            format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
+            format.html { render :action => "edit" }
+            format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
           end
-        else
-          format.html { render :action => "edit" }
-          format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+        end
+      else
+        @entry_header = Skm::EntryHeader.find(params[:id])
+  #      @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+  #      @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
+        respond_to do |format|
+          if @entry_header.update_attributes(params[:skm_entry_header]) &&
+              @entry_header.update_attribute( :entry_status_code, params[:status])
+            params[:skm_entry_details].each do |k, v|
+              detail = Skm::EntryDetail.find(k)
+              detail.update_attributes(v)
+            end
+            column_ids.each do |t|
+              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
+            end
+            if params[:file]
+              files = params[:file]
+              #调用方法创建附件
+              begin
+                attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
+
+                puts("+++++++++++++++++++++ after upload")
+                puts("+++++++++++++++++++++ after upload" + attached.to_json)
+              rescue
+                puts("+++++++++++++++++++++ errors upload")
+                @entry_header.errors << "FILE UPLOAD ERROR"
+              end
+            end
+            puts("+++++++++++++++++++++" + @entry_header.errors.to_json)
+
+
+            if return_url.blank?
+              format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
+              format.xml  { head :ok }
+            else
+              format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }
+              format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
+            end
+          else
+            format.html { render :action => "edit" }
+            format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+          end
         end
       end
     else
-      @entry_header = Skm::EntryHeader.find(params[:id])
-#      @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
-#      @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
-      respond_to do |format|
-        if @entry_header.update_attributes(params[:skm_entry_header]) &&
-            @entry_header.update_attribute( :entry_status_code, params[:status])
-          params[:skm_entry_details].each do |k, v|
-            detail = Skm::EntryDetail.find(k)
-            detail.update_attributes(v)
-          end
-          column_ids.each do |t|
-            Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
-          end
-          if return_url.blank?
-            format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
-            format.xml  { head :ok }
-          else
-            format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }
-            format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
-          end
-        else
-          format.html { render :action => "edit" }
-          format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
-        end
-      end
+      format.html { render :action => "edit"}
+      format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
     end
   end
 
@@ -453,6 +494,16 @@ class Skm::EntryHeadersController < ApplicationController
     respond_to do |format|
       if @file.destroy
           format.js { render :remove_exits_attachment_during_create }
+      end
+    end
+  end
+
+  def remove_exits_attachment
+    @file = Irm::Attachment.where(:latest_version_id => params[:att_id]).first
+    @attachments = Irm::Attachment.list_all.query_by_source(Skm::EntryHeader.name, params[:entry_header_id])
+    respond_to do |format|
+      if @file.destroy
+          format.js { render :remove_exits_attachment}
       end
     end
   end
