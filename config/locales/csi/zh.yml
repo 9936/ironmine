@@ -18,6 +18,7 @@ zh:
    label_csi_survey_status_code: 记录状态
    label_csi_survey_setting: 事故单设置
    label_csi_survey_due_dates: 到期时间(小时)
+   info_csi_survey_due_dates: 在这个时间之前提交的事故单，会给提单人创建该调查问卷
    label_csi_survey_access_control: 访问控制
    label_csi_survey_edit: 编辑调查问卷
    label_csi_survey_show: 调查问卷
@@ -40,6 +41,7 @@ zh:
    label_csi_survey_created_at: 发起时间
    label_csi_survey_result_only_author: 只允许作者查看调查结果
    label_csi_survey_with_incident_request: 在所有事故单中显示
+   info_csi_survey_some_enabled_can_not_be_change: 已经有用户参与调查，导致该项不能被修改
    label_csi_survey_incident_request_from: 事故单创建日期从
    label_csi_survey_incident_request_to: 到
    label_csi_survey: 调查问卷

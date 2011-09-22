@@ -42,6 +42,7 @@ en:
   label_skm_entry_header_edit: Edit Entry
   label_skm_entry_header_title: Title
   label_skm_entry_header_keyword_tags: Keyword
+  label_skm_entry_header_attachments: Entry Attachments
   label_skm_entry_header_version: Version
   label_skm_entry_header_doc_number: Doc Number
   label_skm_entry_header_status_code: Status

@@ -569,6 +569,11 @@ module ApplicationHelper
     options
   end
 
+  def info_icon(info = "")
+    tag = content_tag(:img, "",:src => "/images/s.gif", :class => "infoIcon", :title => info, :alt => info)
+    raw(tag)
+  end
+
   def toggle_img(class_name,toggled=false,options={})
     image_options = {}
     if toggled
@@ -580,5 +585,4 @@ module ApplicationHelper
     image_options.merge!(options)
     image_tag("/images/s.gif",image_options)
   end
-
 end

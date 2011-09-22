@@ -82,4 +82,8 @@ class Skm::EntryHeader < ActiveRecord::Base
   def to_html
     self.entry_title
   end
+
+  def attachments
+    Irm::Attachment.list_all.query_by_source(Skm::EntryHeader.name, self.id)
+  end
 end

@@ -21,4 +21,10 @@ class Irm::Attachment < ActiveRecord::Base
     where("fvt.language = ?", I18n.locale).
     where("#{table_name}.latest_version_id = av.id")
   }
+
+  scope :query_by_source, lambda{|source_type, source_id|
+        where("av.id = #{table_name}.latest_version_id").
+        where("av.source_type = ?", source_type).
+        where("av.source_id = ?", source_id)
+  }
 end

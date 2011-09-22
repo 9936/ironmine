@@ -26,8 +26,8 @@ Irm::AccessControl.map do |map|
                                    "skm/file_managements" => ["index", "new", "create", "batch_create", "edit", "update", "show",
                                                               "get_data", "destroy", "get_version_files"],
                                    "skm/columns" => ["get_columns_data"]}
-  map.function :create_skm_entries, {"skm/entry_headers" => ["new", "create", "new_step_1", "new_step_2", "new_step_3", "new_step_4", "new_from_icm_request"]}
-  map.function :edit_skm_entries, {"skm/entry_headers" => ["edit", "update"]}
+  map.function :create_skm_entries, {"skm/entry_headers" => ["new", "create", "new_step_1", "new_step_2", "new_step_3", "new_step_4", "new_from_icm_request", "remove_exits_attachment_during_create"]}
+  map.function :edit_skm_entries, {"skm/entry_headers" => ["edit", "update", "remove_exits_attachment_during_create", "remove_exits_attachment"]}
 
   map.function :login_function,{ "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"]}
 
