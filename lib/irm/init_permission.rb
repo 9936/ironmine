@@ -238,7 +238,8 @@ Irm::AccessControl.map do |map|
                                         "up_lane", "down_lane", "add_lanes", "delete_lane",
                                         "select_lanes", "get_available_lanes"]
                              }
-  map.function :kanban_lane,{"irm/lanes" => ["index", "show", "get_data","new", "create","edit", "update", "delete_card", "select_cards", "get_available_cards"]}
+  map.function :kanban_lane,{"irm/lanes" => ["index", "show", "get_data","new", "create","edit", "update",
+                                             "delete_card", "select_cards", "add_cards", "get_available_cards", "get_owned_cards"]}
   map.function :kanban_card,{"irm/cards" => ["index", "show", "get_data","new", "create","edit", "update", "edit_rule", "update_rule"]}
 
   #===================irm/reports============================
