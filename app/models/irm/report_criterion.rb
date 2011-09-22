@@ -132,18 +132,34 @@ class Irm::ReportCriterion < ActiveRecord::Base
   end
 
   def parse_string_condition(operator,filter_value)
-    formated_filter_value = %Q('#{filter_value}')
-    case
-      when OPERATORS[:common].include?(operator)
-        parse_common_condition(operator,formated_filter_value)
-      when 'BW'.eql?(operator)
-        "LIKE '#{filter_value}%'"
-      when 'EW'.eql?(operator)
-        "LIKE '%#{filter_value}'"
-      when 'U'.eql?(operator)
-        "LIKE '%#{filter_value}%'"
-      when 'X'.eql?(operator)
-        "NOT LIKE '%#{filter_value}%'"
+    if filter_value.scan(/^\{\{\S+\}\}$/).length==1
+      formated_filter_value = %Q(#{filter_value})
+      case
+        when OPERATORS[:common].include?(operator)
+          parse_common_condition(operator,formated_filter_value)
+        when 'BW'.eql?(operator)
+          "LIKE '#{filter_value}%'"
+        when 'EW'.eql?(operator)
+          "LIKE '%#{filter_value}'"
+        when 'U'.eql?(operator)
+          "LIKE '%#{filter_value}%'"
+        when 'X'.eql?(operator)
+          "NOT LIKE '%#{filter_value}%'"
+      end
+    else
+      formated_filter_value = %Q('#{filter_value}')
+      case
+        when OPERATORS[:common].include?(operator)
+          parse_common_condition(operator,formated_filter_value)
+        when 'BW'.eql?(operator)
+          "LIKE '#{filter_value}%'"
+        when 'EW'.eql?(operator)
+          "LIKE '%#{filter_value}'"
+        when 'U'.eql?(operator)
+          "LIKE '%#{filter_value}%'"
+        when 'X'.eql?(operator)
+          "NOT LIKE '%#{filter_value}%'"
+      end
     end
   end
 

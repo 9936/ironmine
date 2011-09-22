@@ -150,6 +150,7 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
 
   def parse_string_condition(operator,filter_value)
     formated_filter_value = %Q('#{filter_value}')
+    formated_filter_value = %Q(#{filter_value}) if filter_value.scan(/^\{\{\S+\}\}$/).length==1
     case
       when OPERATORS[:common].include?(operator)
         parse_common_condition(operator,formated_filter_value)
