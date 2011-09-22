@@ -569,8 +569,8 @@ module ApplicationHelper
     options
   end
 
-  def info_icon()
-    tag = content_tag(:img, :src => "/images/s.gif", :class => "infoIcon", :title => "", :alt => "")
-    tag
+  def info_icon(info = "")
+    tag = content_tag(:img, "",:src => "/images/s.gif", :class => "infoIcon", :title => info, :alt => info)
+    raw(tag)
   end
 end
