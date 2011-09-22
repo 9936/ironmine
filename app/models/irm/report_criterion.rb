@@ -56,8 +56,10 @@ class Irm::ReportCriterion < ActiveRecord::Base
         validate_filter_value = process_param(validate_filter_value)
         validate_date(operator,validate_filter_value)
       when 'varchar'
+        validate_filter_value = process_param(validate_filter_value)
         validate_string(operator,validate_filter_value)
       when 'text'
+        validate_filter_value = process_param(validate_filter_value)
         validate_string(operator,validate_filter_value)
     end
   end
