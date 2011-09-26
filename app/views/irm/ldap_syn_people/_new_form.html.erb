@@ -33,7 +33,7 @@
                <td class="labelCol"><label>
                <%=t(:label_irm_ldap_syn_person_name)%></label></td>
                <td class="dataCol"><%=f.text_field :ldap_name,:required=>true%></td>
-               <td class="labelCol"><label><%=t(:label_icm_ldap_auth_header_name)%></label></td>
+               <td class="labelCol"><label><%=t(:label_irm_ldap_auth_header_name)%></label></td>
                <td class="dataCol"><%=f.select(:auth_source_id,available_ldap_auth_headers,{},:required=>true,:id=>"auth_source_id")%></td>
              </tr>
              <tr>

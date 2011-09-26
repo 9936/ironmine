@@ -1,5 +1,4 @@
 zh:
-  irm: "irm"
   #=========================usual custom=======================#
   errors:
     already_exists_in_service_center: 邮箱地址在当前服务中心中已经被某个人员使用过
@@ -246,41 +245,6 @@ zh:
   label_irm_permission_list: 权限列表
   label_irm_permission_product_name: 所属模块
   #=========================    end permissions_controller=======================#
-  #=========================    irm conditions_controller=======================#
-  label_irm_condition_condition_code: 编码
-  label_irm_condition_name: 名称
-  label_irm_condition_entity_code: 实体
-  label_irm_condition_description: 描述
-  label_irm_condition_status_code: 记录状态
-  label_irm_condition_active_flag: 是否可用
-  label_irm_condition_new: 新建触发条件
-  label_irm_condition_edit: 编辑触发条件
-  label_irm_condition_list: 触发条件列表
-  label_irm_condition_show: 触发条件
-  label_irm_condition_info: 触发条件信息
-  label_irm_condition_function_description: 定义所有的触发条件。
-  label_irm_condition_conditions_tls:
-     name: 名称
-  #=========================end irm conditions_controller=======================#
-  #=========================    irm actions_controller=======================#
-  label_irm_action_action_code: 编码
-  label_irm_action: 执行动作
-  label_irm_action_name: 名称
-  label_irm_action_handler: 处理方法
-  label_irm_action_entity_code: 实体
-  label_irm_script_template_code: 模板
-  label_irm_action_description: 描述
-  label_irm_action_status_code: 记录状态
-  label_irm_action_active_flag: 是否可用
-  label_irm_action_new: 新建执行动作
-  label_irm_action_edit: 编辑执行动作
-  label_irm_action_list: 执行动作列表
-  label_irm_action_show: 执行动作
-  label_irm_action_info: 执行动作信息
-  label_irm_action_function_description: 需要执行动作的列表。整体描述整个执行动作的设置。
-  label_irm_action_actions_tls:
-     name: 名称
-  #=========================end irm actions_controller=======================#
   #=========================    irm identities_controller=======================#
   label_irm_identity_new: 新建帐号
   label_irm_identity_edit: 编辑帐号
@@ -298,7 +262,6 @@ zh:
   label_irm_identity_new_password_confirmation: 确认密码
   label_irm_identity_edit_info: 编辑个人信息
   label_irm_identity_edit_password: 修改个人密码
-  label_irm_identity: 账号
   label_irm_identity_last_login_at: 最后登录时间
   label_identity_anonymous: Anonymous
   #=========================    end irm identities_controller=======================#
@@ -313,7 +276,6 @@ zh:
   recommended_size: 推荐分辨率
   #=========================    end global_settings_controller=======================#
   #=========================    irm auth_sources_controller=======================#
-  label_irm_auth_source_type: 认证源类型
   label_irm_auth_source_name: 认证源名称
   label_irm_auth_source_host: 主机
   label_irm_auth_source_port: 端口
@@ -353,9 +315,8 @@ zh:
 
   #=========================    irm ldap_auth_headers_controller=======================#
   label_ldap_auth_header_list: 认证方案列表
-  label_icm_ldap_auth_header_name: 认证方案
-  label_icm_ldap_auth_header_edit: 新建认证方案
-  label_icm_ldap_auth_header_new: 新建认证方案
+  label_irm_ldap_auth_header_name: 认证方案
+  label_irm_ldap_auth_header_new: 新建认证方案
   ldap_auth_header_ldap_source: LDAP源
   ldap_auth_header_auth_code: 认证方案名称
   ldap_auth_header_auth_cn: 认证方案域
@@ -366,7 +327,7 @@ zh:
   ldap_auth_header_template_person: 同步人员模板
   #=========================    end ldap_auth_headers_controller=======================#
 
-  label_icm_ldap_auth_attribute_new: 新建认证方案属性
+  label_irm_ldap_auth_attribute_new: 新建认证方案属性
   label_ldap_auth_attribute: 认证方案属性
   label_ldap_auth_attribute_local_attr: 认证属性
   label_ldap_auth_attribute_attr_type: 字段类型
@@ -432,27 +393,6 @@ zh:
   label_irm_ldap_syn_person_edit: 编辑人员默认值
   label_irm_ldap_syn_person_name: 默认值方案名称
   label_irm_ldap_syn_people_role: 默认角色
-
-  #=========================    irm scripts_controller=======================#
-  label_irm_script_script_code: 编码
-  label_irm_script_name: 名称
-  label_irm_script_handler: 处理方法
-  label_irm_script_entity: 实体
-  label_irm_script_template: 模板
-  label_irm_script_condition: 触发条件
-  label_irm_script_action: 执行动作
-  label_irm_script_description: 描述
-  label_irm_script_status_code: 记录状态
-  label_irm_script_active_flag: 是否可用
-  label_irm_script_new: 新建服务宏
-  label_irm_script_edit: 编辑服务宏
-  label_irm_script_list: 执行服务宏
-  label_irm_script_show: 服务宏显示
-  label_irm_script_info: 服务宏信息
-  label_irm_script_function_description: 选择条件,动作以及邮件模板来定义服务宏
-  label_irm_script_scripts_tls:
-     name: 名称
-  #=========================end irm scripts_controller=======================#
   #=========================    irm functions_controller=======================#
   label_irm_function: 功能
   label_irm_function_list: 功能列表
@@ -828,7 +768,7 @@ zh:
   #=========================    irm support_group_controller=======================#
   label_irm_group_member_new: 新增支持组成员
   label_irm_group_member_group_list: 支持组成员列表
-  label_irm_group_member_infoL: 支持组成员
+  label_irm_group_member_info: 支持组成员
   label_irm_select_result: 搜索结果
   #=========================end irm  support_group_controller=======================#
   #=========================    irm filters_controller=======================#
@@ -874,7 +814,6 @@ zh:
   label_irm_role_menu_code: 菜单
   label_irm_role_service_role_type: 角色类型
   label_irm_role_report_to_role: 上级角色
-  label_icm_role_assignable_people_list: 可分配当前角色的人员
   label_irm_role_people_list: 当前角色下的人员
   label_irm_role_edit_assignment: 分配人员
   #=========================end irm roles ===================================
@@ -889,9 +828,6 @@ zh:
   label_irm_report_code: 报表编码
   label_irm_report_name: 报表名称
   label_irm_report_category_code: 报表类别
-  label_irm_report_permission_code: 报表页面编码
-  label_irm_report_permission_controller: 报表页面controller
-  label_irm_report_permission_action: 报表页面action
   label_irm_report_status_code: 状态
   label_irm_report_new: 新建报表
   label_irm_report_description: 描述
@@ -928,21 +864,6 @@ zh:
   label_irm_report_group_column_sort_type: 排序
   label_irm_report_group_column_group_date_type: 日期分组方式
   #========================= end irm report column ===================================
-  #========================= irm report_groups ===================================
-  label_irm_report_group_list: 报表组列表
-  label_irm_report_group_group_code: 组编码
-  label_irm_report_group_name: 组名称
-  label_irm_report_group_description: 描述
-  label_irm_report_group_status_code: 状态
-  label_irm_report_group_new: 新建报表组
-  label_irm_report_group_edit: 编辑报表组
-  label_irm_report_favorite_flag: 是否常用
-  label_irm_report_report_purpose:  报表用途
-  label_irm_report_category: 报表分类
-  #========================= end irm report_groups ===================================
-  #========================= irm report_group_members ===================================
-  label_irm_report_group_member_list: 报表
-  #========================= end irm report_group_members ===================================
   #=========================start irm  report_lists_controllers=====================#
   label_icm_incident_report_all: 事故单模块报表汇总
   label_csi_survey_report_all: 问卷调查报表
@@ -1439,6 +1360,7 @@ zh:
   label_irm_lane: 泳道
   label_irm_lane_code: 泳道编码
   label_irm_lane_limit: 泳道上限
+  label_irm_font_color: 颜色
   label_irm_lane_owned_cards: 拥有的卡片
   label_irm_lane_new: 新建泳道
   label_irm_lane_edit: 编辑泳道

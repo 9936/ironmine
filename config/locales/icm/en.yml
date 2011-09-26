@@ -20,7 +20,7 @@ en:
   #========================= end icm rule_settings_controller=======================#
   #=========================    icm impact_ranges_controller=======================#
   label_icm_impact_range_list: Impact range list
-  label_irm_impact_range_new: New impate range
+  label_icm_impact_range_new: New impate range
   label_icm_impact_range_impact_code: Impate code
   label_icm_impact_range_company: Company
   label_icm_impact_range_weight_values: Weight value
@@ -45,8 +45,6 @@ en:
   label_icm_priority_code_list: Priority codes list
   label_icm_priority_code_new: New priority code
   label_icm_priority_code_company: Company
-  label_icm_priority_code_low_weight_value: Low weight value
-  label_icm_priority_code_high_weight_value: High Weight value
   label_icm_priority_code_priority_code: Code
   label_icm_priority_code_name: Name
   label_icm_priority_code_description: Description
@@ -54,6 +52,7 @@ en:
   label_icm_priority_code_info: Priority Code Deatail Info
   label_icm_priority_code_show: Priority Code
   label_icm_priority_code_status_code: Status Code
+  label_icm_priority_code_weight_values: Weight Value
   #========================= end icm priority_codes_controller=======================#
   #=========================    icm close_reasons_controller=======================#
   label_icm_close_reason_list: Close reason list
@@ -83,8 +82,8 @@ en:
   label_icm_incident_status_new: New incident status
   label_icm_incident_status_description: Description
   label_icm_incident_status_info: Incident Status Info
-  label_irm_incident_status_new: New Incident Status
-  label_irm_incident_status_list: List Incident Status
+  label_icm_incident_status_new: New Incident Status
+  label_icm_incident_status_list: List Incident Status
   label_icm_incident_status_show: Incident Status
   label_icm_incident_close_flag: Close
   #========================= end icm incident_statuses_controller=======================#
@@ -139,6 +138,13 @@ en:
   error_icm_requested_by_can_not_blank: Requested by can not be blank
   label_icm_incident_request_view_filter_data_range_all: 我相关的
   label_icm_incident_request_view_filter_data_range_main: 我参与的
+  label_icm_incident_journal_upgrade: Upgrade
+  label_icm_incident_request_assign_me: Assign to Me
+  label_icm_incident_request_assign_me_able_list: Incident Request for My Group
+  label_icm_incident_request_close_reason: Close Reason
+  label_icm_incident_request_incident_status: Change Status
+  label_icm_incident_request_upgrade: Upgrade
+  label_icm_incident_status_edit_transform: Edit Status Transform
   #========================= end icm incident_requests_controller=======================#
   #=========================    icm incident_journals_controller=======================#
   label_icm_incident_reply_support_group_id: Referred group
