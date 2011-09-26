@@ -238,7 +238,8 @@ Irm::AccessControl.map do |map|
                                         "up_lane", "down_lane", "add_lanes", "delete_lane",
                                         "select_lanes", "get_available_lanes"]
                              }
-  map.function :kanban_lane,{"irm/lanes" => ["index", "show", "get_data","new", "create","edit", "update", "delete_card", "select_cards", "get_available_cards"]}
+  map.function :kanban_lane,{"irm/lanes" => ["index", "show", "get_data","new", "create","edit", "update",
+                                             "delete_card", "select_cards", "add_cards", "get_available_cards", "get_owned_cards"]}
   map.function :kanban_card,{"irm/cards" => ["index", "show", "get_data","new", "create","edit", "update", "edit_rule", "update_rule"]}
 
   #===================irm/reports============================
@@ -277,8 +278,11 @@ Irm::AccessControl.map do |map|
   map.function :operation_unit,{"irm/operation_units"=>["show","edit", "update"]}
 
   #===================irm/external_systems============================
-  map.function :system,{"irm/external_systems" => ["index","get_data", "update","edit","show","new","create"]}
-  map.function :external_system_member,{"irm/external_system_members" => ["index"]}
+  map.function :system,{"irm/external_systems" => ["index","get_data", "update",
+                                                   "edit","show","new","create","add_people", "delete_people"]}
+  map.function :external_system_member,{"irm/external_system_members" => ["index", "new_from_person", "get_owned_members_data",
+                                                                          "get_available_people_data", "add_people", "delete_people",
+                                                                          "get_available_external_system_data", "new_from_person", "create_from_person", "delete_from_person"]}
 
   #===================irm/cloud_operations============================
   #["index", "edit", "update", "get_data", "show"]
