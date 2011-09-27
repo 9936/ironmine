@@ -59,15 +59,17 @@
                                 nullable_options_for_select(available_external_systems_with_person(@incident_request.requested_by).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),{},
                             {:id=>"ass_external_system",
                              :depend=>"incident_request_requested_by",
+                             :origin_value=>@incident_request.external_system_id,
                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                              :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"{incident_request_requested_by}"),
                              :required => true}%>
                 <% else %>
                     <%=f.select :external_system_id,
-                            nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
+                            nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),
                             {},
                             {:id=>"ass_external_system",
                              :depend=>"incident_request_requested_by",
+                             :origin_value=>@incident_request.external_system_id,
                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                              :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"{incident_request_requested_by}"),
                              :required => true}%>
@@ -84,6 +86,7 @@
                                             {},
                                             {:id=>"incident_request_service_code",
                                              :depend=>"ass_external_system,incident_request_requested_by",
+                                             :origin_value=>@incident_request.service_code,
                                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                              :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_slm_services",:format=>"json",
                                                             :external_system_id=>"{ass_external_system}", :requested_by => "{incident_request_requested_by}"),
@@ -190,8 +193,10 @@
               <td class="dataCol"><%= f.blank_select(:support_person_id,[],{},
                                   {
                                    :id=>"incident_request_support_person_id",
-                                   :href=>url_for(),
-                                   :depend=>"incident_request_support_group_id"
+                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"{incident_request_support_group_id}"),
+                                   :depend=>"incident_request_support_group_id",
+                                   :origin_value=>@incident_request.support_person_id,
+                                   :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
                                    }) %></td>
 
             </tr>
