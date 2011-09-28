@@ -1,9 +1,9 @@
 <%= stylesheet_link_tag "event_calendar" %>
 <div class="bPageTitle">
   <div class="ptBody secondaryPalette">
-    <a href="javascript:void(0);">
+
       <%= image_tag Irm::Person.current.avatar.url(:large), :id => "crop_box", :style => "width: 45px; height: 45px;", :class => "thumbnail_visible" %>
-    </a>
+
     <div class="greeting">
       <div class="content">
           <span class="pageType">
@@ -11,7 +11,7 @@
               <%= link_to Irm::Person.current.name, {:controller => "irm/my_info", :action => "index"} %>
             </h1>
           </span>
-          <span class="pageDescription"><a href="javascript:void(0);" onclick="change_to_calendar_tab();"><%= Time.now.strftime(t("date.formats.long")) + t("date.day_names")[Time.now.strftime("%w").to_f]%></a></span>
+          <span class="pageDescription"><%= Time.now.strftime(t("date.formats.long")) + t("date.day_names")[Time.now.strftime("%w").to_f]%></span>
       </div>
     </div>
     <div class="links">
