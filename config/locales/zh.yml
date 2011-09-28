@@ -126,6 +126,7 @@ zh:
         downcase_number: "只允许小写字母与数字"
         upcase_number: "只允许大写字母与数字"
         email: "必须为电子邮件地址"
+        only_image: "只能选择图片类文件"
   activemodel:
     errors:
       template:

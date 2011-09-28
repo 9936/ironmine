@@ -129,7 +129,7 @@ en:
         downcase_number: "only lowercase letters and numbers"
         upcase_number: "only uppercase letters and numbers"
         email: "must be email address"
-
+        only_image: "must be image file"
   activemodel:
     errors:
       template:

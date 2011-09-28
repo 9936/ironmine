@@ -47,7 +47,7 @@ class Irm::Person < ActiveRecord::Base
 
   validates_attachment_content_type :avatar,
                                     :content_type => ["image/jpg", "image/jpeg","image/pjpeg", "image/gif", "image/png", "image/jpeg", "image/x-png"],
-                                    :message => "Accepted files include: jpg, gif, png"
+                                    :message => :only_image
 #  validates_attachment_size :avatar, :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
