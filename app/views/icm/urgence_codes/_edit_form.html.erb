@@ -63,7 +63,7 @@
               <td class="dataCol"></td>
             </tr>
             <tr>
-              <td class="labelCol empty"><label for="status_code"><%=(t :label_irm_script_status_code)%></label></td>
+              <td class="labelCol empty"><label for="status_code"><%=(t :status)%></label></td>
               <td class="dataCol empty"><%=f.select :status_code,nullable_collection_options(available_status,:lookup_code,:wrap_meaning,@urgence_code.status_code),{},{:id=>"status_code"}%></td>
               <td class="labelCol"></td>
               <td class="dataCol"></td>

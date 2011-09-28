@@ -49,7 +49,7 @@
             <tr>
               <td class="labelCol"><label><%=(t :label_icm_incident_status_description)%></label></td>
               <td class="dataCol"><%=f.text_area :description,:rows=>4%></td>
-              <td class="labelCol"><label><%=(t :label_irm_script_status_code)%></label></td>
+              <td class="labelCol"><label><%=(t :status)%></label></td>
               <td class="dataCol"><%=f.select :status_code,nullable_collection_options(available_status,:lookup_code,:wrap_meaning,@incident_status.status_code)%></td>
             </tr>
         </tbody>

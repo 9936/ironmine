@@ -35,7 +35,7 @@
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_language_description)%></label></td>
               <td class="dataCol"><%=f.text_area :description,:value=>@language[:description],:rows=>4%></td>
-              <td class="labelCol"><label><%=(t :label_irm_script_status_code)%></label></td>
+              <td class="labelCol"><label><%=(t :status)%></label></td>
               <td class="dataCol"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning,@language.status_code)%></td>
             </tr>
         </tbody>

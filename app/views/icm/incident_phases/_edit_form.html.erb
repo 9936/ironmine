@@ -44,7 +44,7 @@
               <td class="dataCol"><%=f.text_field :display_sequence, :required=>true, :irm_number_only => true %></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_irm_script_status_code)%></label></td>
+              <td class="labelCol"><label><%=(t :status)%></label></td>
               <td class="dataCol"><%=f.select :status_code, available_active_status%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
