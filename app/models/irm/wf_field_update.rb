@@ -6,7 +6,7 @@ class Irm::WfFieldUpdate < ActiveRecord::Base
   validates_presence_of :value,:if => Proc.new { |i| !"NULL_VALUE".eql?(i.value_type) }
   validates_uniqueness_of :field_update_code, :if => Proc.new { |i| !i.field_update_code.present? }
   validates_uniqueness_of :name, :if => Proc.new { |i| !i.name.present? }
-  validates_format_of :field_update_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.field_update_code.present?}
+  validates_format_of :field_update_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.field_update_code.present?},:message=>:code
   validate :validate_value, :if => Proc.new { |i| i.value_type.present?}
 
   acts_as_urlable

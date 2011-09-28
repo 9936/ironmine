@@ -118,6 +118,14 @@ zh:
         not_same_project: "不属于同一个项目"
         circular_dependency: "此关联将导致循环依赖"
         invaliddate: " 错误的日期类型，正确的格式如 2008-10-10"
+        code: "只允许大写字母,数字与下划线"
+        phone_number: "只允许数定与中划线"
+        downcase: "只允许小写字母"
+        upcase: "只允许大写字母"
+        number: "只允许数字"
+        downcase_number: "只允许小写字母与数字"
+        upcase_number: "只允许大写字母与数字"
+        email: "必须为电子邮件地址"
   activemodel:
     errors:
       template:

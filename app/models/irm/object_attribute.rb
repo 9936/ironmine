@@ -15,7 +15,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   validates_uniqueness_of :attribute_name,:scope=>[:opu_id,:business_object_code],:if => Proc.new { |i| !i.attribute_name.blank?&&!i.business_object_code.blank? }
   validates_presence_of :exists_relation_flag,:relation_bo_code,:relation_table_alias_name,:relation_column,:if => Proc.new { |i| !i.attribute_type.blank?&&["RELATION_COLUMN","LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(i.attribute_type)}
   validates_presence_of :where_clause,:if => Proc.new { |i| !i.attribute_type.blank?&&i.attribute_type.eql?("RELATION_COLUMN")&&i.exists_relation_flag.eql?(Irm::Constant::SYS_NO) }
-  validates_format_of :relation_table_alias_name, :with => /^[A-Za-z0-9_]*$/ ,:if=>Proc.new{|i| i.relation_table_alias_name.present?}
+  validates_format_of :relation_table_alias_name, :with => /^[A-Za-z0-9_]*$/ ,:if=>Proc.new{|i| i.relation_table_alias_name.present?},:message=>:code
   validate :validate_relation,:if=> Proc.new{|i| i.relation_table_alias_name.present?&&!self.relation_bo_code.blank?&&!i.attribute_type.blank?&&i.attribute_type.eql?("RELATION_COLUMN")}
   # validate lookup master detail table name alias
   validate :validate_lookup_master_detail,:if=> Proc.new{|i| !self.relation_bo_code.blank?&&!i.attribute_type.blank?&&["LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(i.attribute_type)}

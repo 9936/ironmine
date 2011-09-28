@@ -10,7 +10,7 @@ class Icm::UrgenceCode < ActiveRecord::Base
 
   validates_presence_of :urgency_code,:display_sequence
   validates_uniqueness_of :urgency_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.urgency_code.blank? }
-  validates_format_of :urgency_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.urgency_code.blank?}
+  validates_format_of :urgency_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.urgency_code.blank?},:message=>:code
 
   #加入activerecord的通用方法和scope
   query_extend

@@ -120,7 +120,16 @@ en:
         greater_than_start_date: "must be greater than start date"
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
-        invaliddate: " invalid date formate,correct such as 2008-10-10"
+        invaliddate: " invalid date format,correct such as 2008-10-10"
+        code: "only uppercase letters,number and underlined"
+        phone_number: "only numbers and crossed"
+        downcase: "only lowercase letters"
+        upcase: "only uppercase letters"
+        number: "only number"
+        downcase_number: "only lowercase letters and numbers"
+        upcase_number: "only uppercase letters and numbers"
+        email: "must be email address"
+
   activemodel:
     errors:
       template:

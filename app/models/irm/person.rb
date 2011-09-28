@@ -25,15 +25,16 @@ class Irm::Person < ActiveRecord::Base
 
   validates_presence_of :login_name,:first_name,:email_address
   validates_presence_of :bussiness_phone,:if=> Proc.new{|i| i.validate_as_person?}
+  validates_format_of :bussiness_phone, :with => /^[0-9\-]*$/,:message=>:phone_number ,:if => Proc.new { |i| i.bussiness_phone.present?}
   validates_uniqueness_of :login_name, :if => Proc.new { |i| !i.login_name.blank? }
-  validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/
+  validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/,:message=>:downcase_number
   validates_length_of :login_name, :maximum => 30
   validates_presence_of :password,:if=> Proc.new{|i| i.hashed_password.blank?&&i.validate_as_person?}
   validates_confirmation_of :password, :allow_nil => true,:if=> Proc.new{|i|i.hashed_password.blank?||!i.password.blank?}
   validate :validate_password_policy,:if=> Proc.new{|i| i.password.present?&&i.password_confirmation.present?}
 
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
-  validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+  validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,:message=>:email
 
   has_many :external_system_people,:class_name => "Irm::ExternalSystemPerson",
           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy

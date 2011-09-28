@@ -7,7 +7,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
   validates_presence_of :mail_alert_code,:name,:bo_code,:mail_template_code
   validates_uniqueness_of :mail_alert_code, :if => Proc.new { |i| !i.mail_alert_code.present? }
   validates_uniqueness_of :name, :if => Proc.new { |i| !i.name.present? }
-  validates_format_of :mail_alert_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.mail_alert_code.present?}
+  validates_format_of :mail_alert_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.mail_alert_code.present?},:message=>:code
 
   acts_as_urlable
   #加入activerecord的通用方法和scope

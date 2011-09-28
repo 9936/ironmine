@@ -10,7 +10,7 @@ class Irm::ListOfValue < ActiveRecord::Base
 
   validates_presence_of :lov_code,:bo_code,:id_column,:value_column
   validates_uniqueness_of :lov_code,:scope=>[:opu_id],:if => Proc.new { |i| !i.lov_code.blank? }
-  validates_format_of :lov_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.lov_code.blank?}
+  validates_format_of :lov_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.lov_code.blank?} ,:message=>:code
 
   #加入activerecord的通用方法和scope
   query_extend

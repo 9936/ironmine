@@ -49,7 +49,7 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
   }
 
   validates_presence_of :bo_code,:name,:process_code,:mail_template_id,:if=>Proc.new{|i| i.check_step(1)}
-  validates_format_of :process_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.process_code.present?}
+  validates_format_of :process_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.process_code.present?},:message=>:code
 
   def self.select_all
     select("#{table_name}.*")

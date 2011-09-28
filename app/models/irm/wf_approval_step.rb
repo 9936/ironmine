@@ -14,7 +14,7 @@ class Irm::WfApprovalStep < ActiveRecord::Base
   validates_uniqueness_of :name,:scope=>[:process_id], :if => Proc.new { |i| i.name.present? }
   validates_uniqueness_of :step_code,:scope=>[:process_id], :if => Proc.new { |i| i.step_code.present? }
 
-  validates_format_of :step_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.step_code.present?}
+  validates_format_of :step_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.step_code.present?},:message=>:code
   validate :validate_step_number,:if=>Proc.new{|i| i.step_number.present?}
 
   #加入activerecord的通用方法和scope

@@ -11,7 +11,7 @@ class Irm::BusinessObject < ActiveRecord::Base
   validates_presence_of :business_object_code,:bo_table_name,:bo_model_name,:auto_generate_flag
   validates_uniqueness_of :business_object_code, :if => Proc.new { |i| !i.business_object_code.blank? }
   validates_uniqueness_of :bo_table_name,:scope => [:bo_model_name,:auto_generate_flag], :if => Proc.new { |i| !i.auto_generate_flag.eql?(Irm::Constant::SYS_YES) }
-  validates_format_of :business_object_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.business_object_code.blank?}
+  validates_format_of :business_object_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.business_object_code.blank?},:message=>:code
 
   #加入activerecord的通用方法和scope
   query_extend
