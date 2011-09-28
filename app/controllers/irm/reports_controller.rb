@@ -97,11 +97,11 @@ class Irm::ReportsController < ApplicationController
     #end
 
     if validate_result
-      if(params[:pre_step])&&@report.step>1
+      if(params[:pre_step])&&@report.step>2
         @report.step = @report.step.to_i-1
         session[:irm_report][:step] = @report.step
       else
-        if @report.step<5
+        if params[:pre_step].nil?&&@report.step<5
           @report.step = @report.step.to_i+1
           session[:irm_report][:step] = @report.step
         end
