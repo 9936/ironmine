@@ -41,8 +41,6 @@ class Irm::Person < ActiveRecord::Base
 
   has_attached_file :avatar,
                     :whiny => false,
-                    :url => Irm::Constant::ATTACHMENT_URL,
-                    :path => Irm::Constant::ATTACHMENT_PATH,
                     :styles => {:thumb => "16x16>",:medium => "45x45>",:large => "100x100>"},
                     :processors => [:cropper]
 

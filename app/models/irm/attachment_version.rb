@@ -3,10 +3,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
 
   belongs_to :attachment
 
-  has_attached_file :data,:whiny => false, :styles => {:thumb=> "60x60>",
-                                      :small => "100x100>",
-                                      :url => Irm::Constant::ATTACHMENT_URL,
-                                      :path => Irm::Constant::ATTACHMENT_PATH }
+  has_attached_file :data,:whiny => false, :styles => {:thumb=> "60x60>",:small => "100x100>" }
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
 
