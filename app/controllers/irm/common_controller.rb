@@ -90,7 +90,7 @@ class Irm::CommonController < ApplicationController
                              :session_id=>session_id,
                              :user_ip=>request.remote_ip,
                              :user_agent=>request.user_agent,
-                             :login_at=>Time.now})
+                             :login_at=>Time.now}) if session_id.present?
     if(params[:rememberme])
       cookies[:username] = params[:username]
     else
