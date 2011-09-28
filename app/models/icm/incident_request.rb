@@ -7,7 +7,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   attr_accessor :pass_flag,:close_flag
 
-  validates_presence_of :summary,:message=>I18n.t(:label_icm_incident_journal_message_body_not_blank)
+  validates_presence_of :summary,:message=>:label_icm_incident_journal_message_body_not_blank
 
   validate
 

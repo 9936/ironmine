@@ -27,6 +27,8 @@ ActiveRecord::Base.send(:include,Irm::QueryExtend)
 #扩展ActionRecord::Base,自动生成event
 ActiveRecord::Base.send(:include,Irm::EventGenerator)
 
+ActiveModel::Errors.send(:include,Irm::ModelErrors)
+
 #扩展ActionRecord::Base,使用客户化的ID
 ActiveRecord::Base.send(:include,Irm::CustomId)
 
