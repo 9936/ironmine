@@ -924,16 +924,6 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/:request_id/journals/apply_entry_header(.:format)' => "incident_journals#apply_entry_header", :via => :get
     match '/incident_requests/:request_id/journals/edit_status(.:format)' => "incident_journals#edit_status", :via => :get
     match '/incident_requests/:request_id/journals/update_status(.:format)' => "incident_journals#update_status", :via => :put
-    #user_requests
-    match '/user_requests(/index)(.:format)' => "user_requests#index", :via => :get
-    match '/user_requests/new(.:format)' => "user_requests#new", :via => :get
-    match '/user_requests/create(.:format)' => "user_requests#create", :via => :post
-    match '/user_requests/get_data(.:format)' => "user_requests#get_data"
-    match '/user_requests/:id(.:format)' => "user_requests#show", :via => :get
-    #user_journals
-    match '/user_requests/:request_id/journals(/index)(.:format)' => "user_journals#index", :via => :get
-    match '/user_requests/:request_id/journals/new(.:format)' => "user_journals#new", :via => :get
-    match '/user_requests/:request_id/journals/create(.:format)' => "user_journals#create", :via => :post
     #support_groups
     match '/support_groups(/:group_id)(/index)(.:format)' => "support_groups#index", :via => :get
     match '/support_groups/:id(.:format)' => "support_groups#update", :via => :put
