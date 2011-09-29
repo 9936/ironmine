@@ -28,8 +28,6 @@ module Ironmine
     config.time_zone = 'Beijing'
     config.active_record.default_timezone = 'Beijing'
 
-    config.action_view.javascript_expansions[:defaults] = %w(yui_config.js rails.js)
-
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
@@ -48,5 +46,22 @@ module Ironmine
     # add mail config
     config.ironmine = ActiveSupport::OrderedOptions.new
 
+    config.ironmine.javascript = ActiveSupport::OrderedOptions.new
+    config.ironmine.css = ActiveSupport::OrderedOptions.new
+    config.ironmine.javascript.source = {
+        :jquery =>%w(jquery-1.6.4.min jquery-rails jquery-application),
+        :jcrop => %w(jquery-1.6.4.min jquery-crop),
+        :component => %w(jquery-1.6.4.min component),
+        :i18n=>%w(local/),
+        :extjs=>%w(ext4-all ext-application),
+        :survey=>%w(survey)
+    }
+    config.ironmine.css.source = {
+        :default =>%w(common),
+        :application=>%w(application icons),
+        :setting=>%w(setting),
+        :home=>%w(home),
+        :login=>%w(login),
+        :extjs=>%w(ext4-all)}
   end
 end

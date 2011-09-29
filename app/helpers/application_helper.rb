@@ -585,4 +585,71 @@ module ApplicationHelper
     image_options.merge!(options)
     image_tag("/images/s.gif",image_options)
   end
+
+ # 页面添加javascript文件，防止重复添加
+  def require_javascript(name,param=nil)
+    @loaded_javascript_files ||= {}
+
+    if name.is_a?(String)||name.is_a?(Symbol)
+      @loaded_javascript_files.merge!(name.to_sym=>param)
+    elsif name.is_a?(Array)
+      name.each do |file|
+        @loaded_javascript_files.merge!(file.to_sym=>param)
+      end
+    end
+  end
+
+  # 页面添加css文件，防止重复添加
+  def require_css(name,param=nil)
+    @loaded_css_files ||= {}
+
+    if name.is_a?(String)||name.is_a?(Symbol)
+      @loaded_css_files.merge!(name.to_sym=>param)
+    elsif name.is_a?(Array)
+      name.each do |file|
+        @loaded_css_files.merge!(file.to_sym=>param)
+      end
+    end
+  end
+
+  def render_loaded_javascript_css_files
+    javascript_files = []
+    css_files = []
+    javascript_prefix = "/javascripts/"
+    css_prefix ="/themes/#{theme_name}/stylesheets/"
+    Ironmine::Application.config.ironmine.javascript.source.each do |name,paths|
+      if @loaded_javascript_files.keys.include?(name)
+        paths.each do |path|
+          if @loaded_javascript_files[name]
+            javascript_files << path+@loaded_javascript_files[name]
+          else
+            javascript_files << path
+          end
+        end
+      end
+    end if @loaded_javascript_files
+
+    Ironmine::Application.config.ironmine.css.source.each do |name,paths|
+      if @loaded_css_files.keys.include?(name)
+        paths.each do |path|
+          if @loaded_css_files[name]
+            css_files << path+@loaded_css_files[name]
+          else
+            css_files << path
+          end
+        end
+      end
+    end if @loaded_css_files
+    file_links = ""
+    javascript_files.uniq!
+    css_files.uniq!
+    css_files.each do |css_file|
+      file_links<< tag("link", { "rel" => "stylesheet", "type" => Mime::CSS, "media" => "screen", "href" =>css_prefix+css_file+".css"}, false, false)
+    end
+    javascript_files.each do |script_file|
+      file_links<< content_tag("script", "", { "type" => Mime::JS, "src" =>javascript_prefix+script_file+".js"})
+    end
+
+    raw file_links
+  end
 end
