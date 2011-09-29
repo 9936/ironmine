@@ -142,15 +142,14 @@ class ApplicationController < ActionController::Base
 
   # 设置当前用户
   def logged_user=(user)
-
     if user && user.is_a?(Irm::Person)
       Irm::Person.current = user
-      session.clear
+      clear_session
       session[:user_id] = user.id
 
     else
       Irm::Person.current = Irm::Person.anonymous
-      session.clear
+      reset_session
     end
   end
 
@@ -251,6 +250,12 @@ class ApplicationController < ActionController::Base
 
 
   private
+  def clear_session
+    old_session_id = session[:session_id]
+    reset_session
+    session[:session_id] = old_session_id
+  end
+
   # 返回session中的当前用户,如果没有则返回空
   def find_current_user
     if session[:user_id]

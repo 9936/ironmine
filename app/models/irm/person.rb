@@ -214,8 +214,29 @@ class Irm::Person < ActiveRecord::Base
 
    #用户是否激活
    def active?
-     true
+     !self.locked?&&self.enabled?
    end
+
+   def locked?
+     Irm::Constant::SYS_YES.eql?(self.locked_flag)&&(self.locked_until_at.nil?||self.locked_until_at>Time.now)
+   end
+
+   # 错误登录次数+1
+   def add_lock_time
+     self.locked_time = self.locked_time+1
+     if Irm::PasswordPolicy.locked?(self.locked_time,self.opu_id)
+       self.locked_until_at = Irm::PasswordPolicy.lock_until_date(self.opu_id) unless self.locked_flag.eql?(Irm::Constant::SYS_YES)&&self.locked_until_at>Time.now
+       self.locked_flag = Irm::Constant::SYS_YES
+     end
+   end
+
+   def unlock
+     self.locked_time = 0
+     self.locked_flag = Irm::Constant::SYS_NO
+     self.locked_until_at = nil
+   end
+
+
 
    # 加密密码
    def self.hash_password(clear_password)
@@ -372,10 +393,10 @@ class Irm::Person < ActiveRecord::Base
 
   def validate_password_policy
 
-    if Irm::PasswordPolicy.validate_password(self.password)
+    if Irm::PasswordPolicy.validate_password(self.password,self.opu_id)
       self.password_updated_at = Time.now
     else
-      self.errors[:password] = Irm::PasswordPolicy.validate_message
+      self.errors[:password] = Irm::PasswordPolicy.validate_message(self.opu_id)
     end
   end
 
@@ -403,6 +424,9 @@ class Irm::AnonymousPerson < Irm::Person
   # Overrides a few properties
   def validate_as_person?;false end
   def logged?; false end
+  def active?
+     true
+   end
   def admin; false end
   def name(*args); ::I18n.t(:label_identity_anonymous) end
   def email; nil end

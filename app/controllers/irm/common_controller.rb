@@ -7,14 +7,14 @@ class Irm::CommonController < ApplicationController
       # 注销用户
       self.logged_user = nil
     else
-      password_authentication(session[:session_id])
+      password_authentication
     end
   end
 
   # 用户退出系统
   def logout
-    logout_successful(session[:session_id])
-    reset_session
+    logout_successful
+    self.logged_user = nil
     redirect_to login_url
   end
 
@@ -61,36 +61,57 @@ class Irm::CommonController < ApplicationController
   #验证用户登录是否成功
   #成功,则转向用户的默认页面
   #失败,返回原来的页面,并显示登录出错的消息
-  def password_authentication(session_id)
+  def password_authentication
     person = Irm::Person.try_to_login(params[:username], params[:password])
     if person.nil?||!person.logged?
       #失败
-      invalid_credentials
+      user = Irm::Person.unscoped.where("login_name=?", params[:username]).first
+      invalid_credentials(user)
+      reset_session
+    elsif person.locked?
+      params[:error] = t(:notice_account_locked)
+      reset_session
     else
       # 成功
-      successful_authentication(person,session_id)
+      successful_authentication(person)
     end
   end
 
   #返回用户登录失败的消息
-  def invalid_credentials
-    flash.now[:error] = t(:notice_account_invalid_creditentials)
+  def invalid_credentials(user)
+    if(user.present?)
+      user.add_lock_time
+      user.save
+      Irm::LoginRecord.create({:opu_id=>user.opu_id,
+                               :identity_id=>user.id,
+                         :session_id=>session[:session_id],
+                         :user_ip=>request.remote_ip,
+                         :user_agent=>request.user_agent,
+                         :login_status=>"FAILED",
+                         :login_at=>Time.now}) if session[:session_id].present?
+
+    end
+    params[:error] = t(:notice_account_invalid_creditentials)
   end
 
   #登录成功则返回到默认页面
-  def successful_authentication(user,session_id)
-    if !user.auth_source_id.present?&&Irm::PasswordPolicy.by_opu(user.opu_id).expire?(user.password_updated_at)
+  def successful_authentication(user)
+    if !user.auth_source_id.present?&&Irm::PasswordPolicy.expire?(user.password_updated_at,user.opu_id)
       redirect_to({:action=>"edit_password",:id=>user.id})
       return
     end
-    # Valid user
+
+    # 移除成功登录人员的锁定信息
+    user.unlock
+    user.save
+    # 设定当前用户
     self.logged_user = user
     person_setup
     Irm::LoginRecord.create({:identity_id=>user.id,
-                             :session_id=>session_id,
+                             :session_id=>session[:session_id],
                              :user_ip=>request.remote_ip,
                              :user_agent=>request.user_agent,
-                             :login_at=>Time.now}) if session_id.present?
+                             :login_at=>Time.now}) if session[:session_id].present?
     if(params[:rememberme])
       cookies[:username] = params[:username]
     else
@@ -108,8 +129,8 @@ class Irm::CommonController < ApplicationController
     redirect_back_or_default
   end
 
-  def logout_successful(session_id)
-     login_record = Irm::LoginRecord.where(:session_id=>session_id).first
+  def logout_successful
+     login_record = Irm::LoginRecord.where(:session_id=>session[:session_id]).first
      login_record.update_attributes(:logout_at=>Time.now) if login_record
   end
 

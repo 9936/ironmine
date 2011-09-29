@@ -45,9 +45,8 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
   def authenticate(login_name,password)
     login_filter = Net::LDAP::Filter.eq( self.ldap_login_name_attr, login_name )
     return_attrs = {:login_name=>self.ldap_login_name_attr,:email_address=>self.ldap_email_address_attr}
-    # setup person and password
-    random_password = Irm::PasswordPolicy.random_password
-    person_attr = {:password=>random_password,:password_confirmation=>random_password}
+    # setup person
+    person_attr = {}
     self.ldap_auth_attributes.each do |attr|
       return_attrs[attr.local_attr.to_sym] = attr.ldap_attr
     end
@@ -90,6 +89,9 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
   def create_ldap_person(person_attr)
     template_person = Irm::Person.find(self.template_person_id)
     person = template_person.attributes.merge(person_attr.stringify_keys!)
+    # setup person and password
+    random_password = Irm::PasswordPolicy.random_password(template_person.opu_id)
+    person.merge!({:password=>random_password,:password_confirmation=>random_password})
     person = Irm::Person.new(person)
     person.save
     return nil if person.errors.any?
