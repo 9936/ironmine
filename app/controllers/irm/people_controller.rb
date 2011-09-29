@@ -169,4 +169,17 @@ class Irm::PeopleController < ApplicationController
       format.json {render :json => to_jsonp(systems.to_grid_json([:system_name, :system_description, :external_system_code, :status_code], count))}
     end
   end
+
+
+  def reset_password
+    @person = Irm::Person.find(params[:id])
+    @person.reset_password
+    respond_to do |format|
+      if @person.save
+        format.html
+      else
+        format.html { redirect_to({:action=>"show"}) }
+      end
+    end
+  end
 end
