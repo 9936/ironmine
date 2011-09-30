@@ -909,3 +909,60 @@ div.recurrenceSectionBackground {
 }
 
 .toolsContent {border-collapse: collapse !important; margin-top: 0 !important;}
+/***********************toggle button ***********************/
+div.toolbar{
+    margin: 5px;
+    margin-top: 10px;
+    min-height: 30px;
+    padding: 0;
+    width: 100%;
+    display:block;
+}
+span.toggleButtons{
+
+}
+
+span.toggleButtons img {
+    background-repeat: no-repeat;
+    float: left;
+    height: 18px;
+    margin-right: 3px;
+    width: 24px;
+}
+
+span.toggleButtons img.singleUserViewIcon{
+    background-image: url("../images/calendar.gif");
+    background-position: 0px -124px;
+    display: block;
+}
+
+span.toggleButtons img.singleUserViewIconOn{
+    background-image: url("../images/calendar.gif");
+    background-position: -26px -124px;
+    display: block;
+}
+
+span.toggleButtons img.multiUserViewIcon {
+    background-image: url("../images/calendar.gif");
+    background-position: 0px -102px;
+    display: block;
+}
+
+span.toggleButtons img.multiUserViewIconOn {
+    background-image: url("../images/calendar.gif");
+    background-position: -26px -102px;
+    display: block;
+}
+
+span.toggleButtons img.listViewIcon {
+    background-image: url("../images/calendar.gif");
+    background-position: 0px -58px;
+    display: block;
+}
+
+span.toggleButtons img.listViewIconOn {
+    background-image: url("../images/calendar.gif");
+    background-position: -26px -58px;
+    display: block;
+}
+/***********************end toggle button ***********************/

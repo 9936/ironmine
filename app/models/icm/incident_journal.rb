@@ -8,14 +8,19 @@ class Icm::IncidentJournal < ActiveRecord::Base
   has_many :incident_histories,:foreign_key => "journal_id"
 
   validates_presence_of :replied_by
-  validates_presence_of :message_body,:message=>I18n.t(:label_icm_incident_journal_message_body_not_blank)
-
+#  validates_presence_of :message_body,:message=>I18n.t(:label_icm_incident_journal_message_body_not_blank)
+  validate :content_valid
   acts_as_recently_objects(:title => "title",
                            :target => "incident_request",
                            :target_controller => "icm/incident_journals",
                            :target_action => "new",
                            :target_id => "id",
                            :target_id_column => "request_id")
+
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   # 查询出提交人
   scope :with_replied_by,lambda{
@@ -56,6 +61,10 @@ class Icm::IncidentJournal < ActiveRecord::Base
   end
 
 
+  def watcher_person_ids
+    self.incident_request.watcher_person_ids
+  end
+
   private
   #
   def process_after_save
@@ -88,6 +97,12 @@ class Icm::IncidentJournal < ActiveRecord::Base
       Icm::IncidentJournalElapse.create(:incident_journal_id=>self.id,:elapse_type=>self.reply_type,:start_at=>last_journal.created_at,:end_at=>self.created_at)
     else
       Icm::IncidentJournalElapse.create(:incident_journal_id=>self.id,:elapse_type=>self.reply_type,:start_at=>incident_request.created_at,:end_at=>self.created_at)
+    end
+  end
+
+  def content_valid
+    unless (self.message_body.gsub(/<\/?[^>]*>/, "")).present?
+      self.errors[:message_body] << I18n.t(:label_icm_incident_journal_message_body_not_blank)
     end
   end
 

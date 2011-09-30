@@ -7,7 +7,7 @@
             <div class="bottom">
               <div class="login_form_box">
                 <div class="content_new">
-                <% form_tag({:action=> "login"},{:id=>"login_form"}) do %>
+                <%= form_tag({:action=> "login"},{:id=>"login_form"}) do %>
                    <%= back_url_hidden_field_tag %>
                       <% if flash[:error] %>
                       <div class="loginError"><%= flash[:error] %></div>
@@ -16,12 +16,12 @@
                         <div class="inputbox">
                           <label><%=(t :label_irm_common_username)%></label>
                           <br>
-                          <span><%=text_field_tag :username,nil, :class => "txtbox", :id=>"userName",:span => true%></span>
+                          <span><%=text_field_tag :username,nil, :class => "txtbox", :id=>"userName",:autocomplete=>"off",:span => true%></span>
                         </div>
                         <div class="inputbox inputbox_password">
                           <label><%=(t :label_irm_common_password)%></label>
                           <br>
-                          <span><%=password_field_tag :password, nil, :class => "txtbox",:id=>"password", :span => true%></span>
+                          <span><%=password_field_tag :password, nil, :class => "txtbox",:id=>"password",:autocomplete=>"off", :span => true%></span>
                         </div>
                       </div>
                       <div class="rememberme_txt">

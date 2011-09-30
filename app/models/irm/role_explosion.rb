@@ -5,6 +5,10 @@ class Irm::RoleExplosion < ActiveRecord::Base
 
   validates_uniqueness_of :role_id,:scope => [:parent_role_id,:direct_parent_role_id],:if=>Proc.new{|i| i.role_id.present?&&i.parent_role_id.present?&&i.direct_parent_role_id.present?}
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   def self.explore_hierarchy(role_id,parent_role_id)
     # 当前角色的父角色没有发生变化，则不进行重新计算
@@ -22,7 +26,7 @@ class Irm::RoleExplosion < ActiveRecord::Base
     # 解除子角色的子角色 与 以前父角色的关系
     parent_of_roles.each do |p_r|
       child_of_roles.each do |c_r|
-        self.where(:role_id=>c_r.role_id,:parent_role_id=>p_r.id).delete_all
+        self.where(:role_id=>c_r.role_id,:parent_role_id=>p_r.parent_role_id).delete_all
       end
     end
     #解除子角色 与 以前父角色的关系
@@ -35,7 +39,7 @@ class Irm::RoleExplosion < ActiveRecord::Base
       parent_parent_role_ids << parent_role_id
       parent_parent_role_ids.each do |p_p_r_id|
         child_of_roles.each do |c_r|
-          self.create(:role_id=>c_r.role_id,:direct_parent_role_id=>c_o.direct_parent_role_id,:parent_role_id=>p_p_r_id)
+          self.create(:role_id=>c_r.role_id,:direct_parent_role_id=>c_r.direct_parent_role_id,:parent_role_id=>p_p_r_id)
         end
         self.create(:role_id=>role_id,:direct_parent_role_id=>parent_role_id,:parent_role_id=>p_p_r_id)
       end

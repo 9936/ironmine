@@ -6,8 +6,10 @@ class Irm::FlexValueSet < ActiveRecord::Base
 
   # 验证权限编码唯一性
   validates_presence_of :flex_value_set_name
-  validates_uniqueness_of :flex_value_set_name, :if => Proc.new { |i| !i.flex_value_set_name.blank? }
+  validates_uniqueness_of :flex_value_set_name,:scope=>[:opu_id], :if => Proc.new { |i| !i.flex_value_set_name.blank? }
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 end

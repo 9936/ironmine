@@ -15,7 +15,7 @@ module Irm::WfProcessInstancesHelper
 
 
   def approval_history(bo_id,bo_model_name)
-
+    return unless allow_to_function?(:workflow_approval)
     process_instances = Irm::WfProcessInstance.list_all.where(:bo_id=>bo_id,:bo_model_name=>bo_model_name).order("created_at desc")
     process_infos = []
     process_instances.each{|pi| process_infos<<process_instance_history(pi)}

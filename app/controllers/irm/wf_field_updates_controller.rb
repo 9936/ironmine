@@ -101,7 +101,8 @@ class Irm::WfFieldUpdatesController < Irm::WfActionsController
 
   def get_data
     wf_field_updates_scope = Irm::WfFieldUpdate.list_all
-    wf_field_updates_scope = wf_field_updates_scope.match_value("wf_field_updates.name",params[:name])
+    wf_field_updates_scope = wf_field_updates_scope.match_value("#{Irm::WfFieldUpdate.table_name}.name",params[:name])
+    wf_field_updates_scope = wf_field_updates_scope.match_value("#{Irm::WfFieldUpdate.table_name}.field_update_code",params[:field_update_code])
     wf_field_updates,count = paginate(wf_field_updates_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(wf_field_updates.to_grid_json([:name,:description,:field_update_code,:object_attribute_name,:bo_name,:value_type_name],count))}

@@ -1,5 +1,5 @@
 class Irm::SearchController < ApplicationController
-
+  layout "application_full"
   def index
     results = []
     Ironmine::Acts::Searchable.searchable_entity.each do |key,value|

@@ -53,7 +53,7 @@
     vertical-align: top;
   }
 </style>
-<%= common_title(:show_data=>Icm::IncidentRequest.name,:action_meaning=>t(:pass)) %>
+<%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:pass)) %>
 <%= form_for(@incident_request,:url=>{:action=>"update_pass"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
   <%=f.hidden_field :pass_flag,:value=>"Y" %>
 <div id="reply" class="bEditBlock bPageBlock">
@@ -77,13 +77,13 @@
             <tr>
               <td class="labelCol"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>
               <td class="dataCol">
-                <%=f.blank_select :support_group_id,available_support_group,
+                <%=f.select :support_group_id,available_support_group,
                                                     {},{:required=>true,:id=>"incident_request_support_group_id"}%>
               </td>
               <td class="labelCol"><label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label></td>
               <td class="dataCol"><%= f.blank_select(:support_person_id,available_passable_supporter(@incident_request.support_group_id||0),{},
                                   {:id=>"incident_request_support_person_id",
-                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"{incident_request_support_group_id}"),
+                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_pass_member_options",:format=>"json",:id=>"{incident_request_support_group_id}"),
                                    :depend=>"incident_request_support_group_id"
                                    }) %></td>
 
@@ -92,7 +92,7 @@
                 <%= sub_f.hidden_field(:incident_request_id) %>
               <td class="labelCol"><%= t(:label_icm_incident_journal_reply) %></td>
               <td class="dataCol" colspan="3" width="82%">
-                <%= sub_f.text_area :message_body ,:id=>"msgEditor",:value=>"   ",:required=>true,:style=>"display:none;"%>
+                <%= sub_f.text_area :message_body ,:id=>"msgEditor",:value=>"   ",:jrequired=>true,:style=>"display:none;"%>
               </td>
               <% end%>
             </tr>

@@ -3,12 +3,14 @@ class Csi::Survey < ActiveRecord::Base
 
   attr_accessor :range_str
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
   acts_as_recently_objects(:title => "title",
                            :target_controller => "csi/surveys")
 
   validates_presence_of :title
-  validates_uniqueness_of :title
 
   validates_presence_of :due_dates,:if=>Proc.new{|i| i.with_incident_request.eql?(Irm::Constant::SYS_YES)}
   validates_presence_of :closed_datetime,:if=>Proc.new{|i| i.with_incident_request.eql?(Irm::Constant::SYS_NO)}
@@ -111,7 +113,7 @@ class Csi::Survey < ActiveRecord::Base
     person_ids.each do |pid|
       if exists_member_ids.include?(pid)
         sm = Csi::SurveyMember.where(:survey_id=>self.id,:person_id=>pid).first
-        sm.update_attributes(:required_flag=>sr.required_flag,:end_date_active=>self.closed_datetime) if sm
+        sm.update_attributes(:end_date_active=>self.closed_datetime) if sm
       else
         Csi::SurveyMember.create(:survey_id=>self.id,:person_id=>pid,:required_flag=>"N",:response_flag=>Irm::Constant::SYS_NO,:end_date_active=>self.closed_datetime)
       end

@@ -51,26 +51,6 @@
     </div>
   </div>
 
-  <div class="pbBody">
-    <div class="pbSubheader first tertiaryPalette">
-      <h3><%= t(:label_skm_column_access) %><span style="font-weight:normal;font-size:12px;">&nbsp;-&nbsp;<%=  t(:label_skm_column_if_access_list_none)  %></span></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <%= render :partial => "irm/duel_select/search",:locals => {:label=>t(:label_irm_wf_rule_action_type),:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:access_str,:str_value=>@column.get_access_str} %>
-
-        </tbody>
-      </table>
-    </div>
-  </div>
-
   <div class="pbBottomButtons">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -86,22 +66,3 @@
   </div>
 </div>
 <% end %>
-
-<script type="text/javascript">
-  GY.use("duelselect",function(Y){
-    var duelselect = new Y.DuelSelect({source:"#source",target:"#target",valueNode:"#selectedActions",type:Y.one("#actionType").get("value"),addButton:"#duelAdd",removeButton:"#duelRemove"});
-    Y.one("#actionType").on("change",function(e){
-      Y.one("#duelQuery").set("value","");
-      duelselect.filter(Y.one("#actionType").get("value"),Y.one("#duelQuery").get("value"));
-    });
-    Y.one("#duelSearch").on("click",function(e){
-      duelselect.filter(Y.one("#actionType").get("value"),Y.one("#duelQuery").get("value"));
-    });
-    Y.one("#duelQuery").on("keydown",function(e){
-      if(e.keyCode==13){
-          e.preventDefault();
-          duelselect.filter(Y.one("#actionType").get("value"),Y.one("#duelQuery").get("value"));
-      }
-    });
-  });
-</script>

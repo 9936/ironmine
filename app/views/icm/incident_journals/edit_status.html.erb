@@ -60,7 +60,7 @@
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_icm_incident_journal_close)%></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_icm_incident_request_incident_status)%></h2></td>
           <td class="pbButton">
             <div class="button"><%= f.submit t(:save)%></div>
             <div class="button"><%= link_to t(:cancel), {:action => "new"}%></div>
@@ -77,7 +77,7 @@
               <td class="labelCol"><label for="incident_request_incident_status_code"><%=t(:label_icm_incident_reply_incident_status_code)%></label></td>
               <td class="dataCol">
                 <%=f.blank_select :incident_status_id,available_request_status_code,
-                                                        {},{:id=>"incident_request_incident_status_code"}%>
+                                                        {},{:id=>"incident_request_incident_status_code", :required => true}%>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td></tr>
             <tr>
@@ -85,7 +85,7 @@
                 <%= sub_f.hidden_field(:incident_request_id) %>
               <td class="labelCol"><%= t(:label_icm_incident_journal_reply) %></td>
               <td class="dataCol" colspan="3" width="82%">
-                <%= sub_f.text_area :message_body ,:id=>"msgEditor",:required=>true,:style=>"display:none;"%>
+                <%= sub_f.text_area :message_body ,:id=>"msgEditor",:jrequired=>true,:style=>"display:none;"%>
               </td>
               <% end%>
             </tr>

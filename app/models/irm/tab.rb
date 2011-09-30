@@ -12,7 +12,10 @@ class Irm::Tab < ActiveRecord::Base
 
   has_many :application_tabs,:dependent => :destroy
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :with_bo,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} ON #{Irm::BusinessObject.view_name}.id = #{table_name}.business_object_id and #{Irm::BusinessObject.view_name}.language='#{language}'").

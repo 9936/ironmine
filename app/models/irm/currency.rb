@@ -7,11 +7,13 @@ class Irm::Currency < ActiveRecord::Base
   acts_as_multilingual
   
   validates_presence_of :currency_code
-  validates_uniqueness_of :currency_code, :if => Proc.new { |i| !i.currency_code.blank? }
+  validates_uniqueness_of :currency_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.currency_code.blank? }
   validates_format_of :currency_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.currency_code.blank?}
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :query_by_currency_code,lambda{|currency_code|
     where(:currency_code=>currency_code)

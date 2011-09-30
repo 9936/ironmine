@@ -1,7 +1,12 @@
 class Irm::DelayedJobLogItem < ActiveRecord::Base
   set_table_name :irm_delayed_job_log_items
   belongs_to :delayed_job_log, :primary_key => "delayed_job_id", :foreign_key => "delayed_job_id"
+
+
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :select_all, lambda{|delayed_job_id|
     select("#{table_name}.*").

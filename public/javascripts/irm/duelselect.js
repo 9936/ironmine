@@ -67,8 +67,7 @@ YUI.add('duelselect', function(Y) {
                 if(selectableOption)
                   this.get("source").appendChild(selectableOption);
             }
-
-            for(var i in selectedOptions){
+            for(var i=0;i<selectedOptions.length;i++){
                 this.get("target").appendChild(selectedOptions[i]);
             }
         },

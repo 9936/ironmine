@@ -7,8 +7,8 @@ class Irm::SiteGroup < ActiveRecord::Base
   acts_as_multilingual
   
   validates_presence_of :group_code,:region_code
-  validates_uniqueness_of :group_code, :if => Proc.new { |i| !i.group_code.blank? }
-  validates_format_of :group_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.group_code.blank?}
+  validates_uniqueness_of :group_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.group_code.blank? }
+  validates_format_of :group_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.group_code.blank?},:message=>:code
 
   #加入activerecord的通用方法和scope
   query_extend

@@ -2,7 +2,6 @@ require 'paperclip_processors/cropper'
 require 'hz2py'
 include Paperclip
 class Irm::Person < ActiveRecord::Base
-
   set_table_name :irm_people
 
   attr_accessor :old_password,:password, :password_confirmation,:template_flag
@@ -22,20 +21,20 @@ class Irm::Person < ActiveRecord::Base
   }
 
   belongs_to :profile
+  belongs_to :operation_unit,:foreign_key => :opu_id
 
-  validates_presence_of :login_name,:first_name,:email_address,:opu_id
+  validates_presence_of :login_name,:first_name,:email_address
+  validates_presence_of :bussiness_phone,:if=> Proc.new{|i| i.validate_as_person?}
+  validates_format_of :bussiness_phone, :with => /^[0-9\-]*$/,:message=>:phone_number ,:if => Proc.new { |i| i.bussiness_phone.present?}
   validates_uniqueness_of :login_name, :if => Proc.new { |i| !i.login_name.blank? }
-  validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/
+  validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/,:message=>:downcase_number
   validates_length_of :login_name, :maximum => 30
   validates_presence_of :password,:if=> Proc.new{|i| i.hashed_password.blank?&&i.validate_as_person?}
   validates_confirmation_of :password, :allow_nil => true,:if=> Proc.new{|i|i.hashed_password.blank?||!i.password.blank?}
   validate :validate_password_policy,:if=> Proc.new{|i| i.password.present?&&i.password_confirmation.present?}
 
-  validates_presence_of :title,:if => Proc.new { |i| i.validate_as_person? }
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
-  validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-
-  query_extend
+  validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,:message=>:email
 
   has_many :external_system_people,:class_name => "Irm::ExternalSystemPerson",
           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
@@ -43,19 +42,22 @@ class Irm::Person < ActiveRecord::Base
 
   has_attached_file :avatar,
                     :whiny => false,
-                    :url => Irm::Constant::ATTACHMENT_URL,
-                    :path => Irm::Constant::ATTACHMENT_PATH,
                     :styles => {:thumb => "16x16>",:medium => "45x45>",:large => "100x100>"},
                     :processors => [:cropper]
 
   validates_attachment_content_type :avatar,
-                                    :content_type => ["image/jpg", "image/jpeg", "image/gif", "image/png", "image/jpeg", "image/x-png"],
-                                    :message => "Accepted files include: jpg, gif, png"
+                                    :content_type => ["image/jpg", "image/jpeg","image/pjpeg", "image/gif", "image/png", "image/jpeg", "image/x-png"],
+                                    :message => :only_image
 #  validates_attachment_size :avatar, :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 
   after_update :reprocess_avatar, :if => :cropping?
+
+
+  #加入activerecord的通用方法和scope
+  query_extend
+  default_scope {default_filter}
 
   def cropping?
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
@@ -63,6 +65,7 @@ class Irm::Person < ActiveRecord::Base
 
 
   scope :real,where(:type=>nil)
+  scope :not_anonymous,where("#{table_name}.login_name != ?","anonymous")
   scope :query_by_identity,lambda{|identity|
     where(:identity_id=>identity)
   }
@@ -163,7 +166,7 @@ class Irm::Person < ActiveRecord::Base
         select("pv.name profile_name")
   }
 
-  def before_save
+  before_save do
      #如果password变量值不为空,则修改密码
      self.hashed_password = Irm::Person.hash_password(self.password) if self.password&&!self.password.blank?
     if self.changes.keys.include?("first_name")||self.changes.keys.include?("last_name")
@@ -194,12 +197,10 @@ class Irm::Person < ActiveRecord::Base
     @current_person = current_person
   end
 
-
-   #返回匿名用户,一个数据库中只有一个匿名用户
    def self.anonymous
-     anonymous_person = Irm::AnonymousPerson.first
+     anonymous_person = Irm::AnonymousPerson.unscoped.first
      if anonymous_person.nil?
-       anonymous_person = Irm::AnonymousPerson.create(:login_name => 'anonymous', :first_name => 'anonymous',:email_address=>"anonymous@email.com",:hashed_password=>"nopassword")
+       anonymous_person = Irm::AnonymousPerson.create(:login_name => 'anonymous', :first_name => 'anonymous',:email_address=>"anonymous@email.com",:hashed_password=>"nopassword",:opu_id=>"anonymous")
        puts anonymous_person.errors
        raise 'Unable to create the anonymous person.' if anonymous_person.new_record?
      end
@@ -225,7 +226,7 @@ class Irm::Person < ActiveRecord::Base
    def self.try_to_login(login, password)
      # Make sure no one can sign in with an empty password
      return nil if password.to_s.empty?
-     person = find(:first, :conditions => ["login_name=?", login])
+     person =unscoped.where("login_name=?", login).first
      if person
        # user is already in local database
        # user is disabled
@@ -244,7 +245,6 @@ class Irm::Person < ActiveRecord::Base
        end
      else
        person_id = Irm::LdapAuthHeader.try_to_login(login,password)
-       puts "==============#{person_id}===================="
        if person_id
          person = Irm::Person.find(person_id)
        else
@@ -270,6 +270,10 @@ class Irm::Person < ActiveRecord::Base
   # 用户所能访问的功能
   def functions
     return @function_ids if @function_ids
+    if self.operation_unit&&self.operation_unit.primary_person_id.eql?(self.id)
+      @function_ids = self.operation_unit.function_ids
+      return @function_ids
+    end
     if self.profile
       @function_ids = self.profile.function_ids
     else
@@ -325,7 +329,7 @@ class Irm::Person < ActiveRecord::Base
   end
 
   def self.env
-    {"env"=>{"language"=>Irm::Person.current.language_code.downcase}}
+    {"env"=>{"language"=>(Irm::Person.current.language_code||"zh").downcase}}
   end
 
   def wrap_person_name
@@ -351,6 +355,14 @@ class Irm::Person < ActiveRecord::Base
 
   def self.relation_view_name
     "irm_person_relations_v"
+  end
+
+  def password_same_as_before?(new_password)
+    if Irm::Person.hash_password(new_password).eql?(self.hashed_password)
+      self.errors.add(:password, I18n.t(:error_irm_person_new_old_password_same))
+      return false
+    end
+    true
   end
 
   private

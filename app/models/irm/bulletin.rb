@@ -15,6 +15,13 @@ class Irm::Bulletin < ActiveRecord::Base
     string :summary
   end
 
+  validate :content_valid
+
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
   scope :with_author, lambda{
     select("concat(pr.last_name, pr.first_name) author")
     joins(",#{Irm::Person.table_name} pr").
@@ -22,13 +29,11 @@ class Irm::Bulletin < ActiveRecord::Base
   }
 
   scope :accessible,lambda{|person_id|
-      joins("JOIN #{Irm::BulletinAccess.table_name} ON #{Irm::BulletinAccess.table_name}.bulletin_id = #{table_name}.id").
-      where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_id = #{Irm::BulletinAccess.table_name}.access_id AND #{Irm::Person.relation_view_name}.source_type = #{Irm::BulletinAccess.table_name}.access_type AND  #{Irm::Person.relation_view_name}.person_id = ?)",person_id)
+        where("#{table_name}.created_by = ? OR EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name}, #{Irm::BulletinAccess.table_name} WHERE #{Irm::BulletinAccess.table_name}.bulletin_id = #{table_name}.id AND #{Irm::Person.relation_view_name}.source_id = #{Irm::BulletinAccess.table_name}.access_id AND #{Irm::Person.relation_view_name}.source_type = #{Irm::BulletinAccess.table_name}.access_type AND  #{Irm::Person.relation_view_name}.person_id = ?) OR NOT EXISTS(SELECT 1 FROM #{Irm::BulletinAccess.table_name} ba2 WHERE ba2.bulletin_id = #{table_name}.id)", person_id,person_id)
   }
 
   scope :select_all, lambda{
-    select("#{table_name}.id id, #{table_name}.title bulletin_title, #{table_name}.content, DATE_FORMAT(#{table_name}.created_at, '%Y/%c/%e %H:%I:%S') published_date").
-        select("#{table_name}.page_views page_views, #{table_name}.sticky_flag")
+    select("#{table_name}.*, #{table_name}.title bulletin_title, DATE_FORMAT(#{table_name}.created_at, '%Y/%c/%e %H:%I:%S') published_date")
   }
 
   scope :select_all_top, lambda{
@@ -59,6 +64,11 @@ class Irm::Bulletin < ActiveRecord::Base
   scope :without_delete, lambda{
     where("#{table_name}.status_code <> 'DELETE'")
   }
+
+  scope :with_order, lambda{
+    order("#{table_name}.created_at DESC")
+  }
+
   def self.list_all
     select_all.with_author
   end
@@ -100,4 +110,9 @@ class Irm::Bulletin < ActiveRecord::Base
     @get_access_str = Irm::BulletinAccess.where(:bulletin_id=>self.id).collect{|value| "#{value.access_type}##{value.access_id}"}.join(",")
   end
 
+  def content_valid
+    unless (self.content.gsub(/<\/?[^>]*>/, "")).present?
+      self.errors[:content] << I18n.t(:error_irm_bulletin_content_can_not_blank)
+    end
+  end
 end

@@ -30,10 +30,10 @@
                 </div>
                 <%= datatable("available_lanes_list",url_for(:action=>"get_available_lanes", :id=>@kanban),
                           [{:key=>"id",:label=>t(:select_ac),:formatter=>"Y.irm.template",:width=>"20px"},
-                           {:key=>"lane_code",:label=>t(:label_irm_lane_code),:sortable=>true, :width => "15%"},
-                           {:key=>"lane_name",:label=>t(:name),:sortable=>true, :width => "25%"},
-                           {:key=>"lane_description",:label=>t(:description),:sortable=>true},
-                           {:key=>"limit",:label=>t(:label_irm_lane_limit),:sortable=>true, :width => "80px"}
+                           {:key=>"lane_code",:label=>t(:label_irm_lane_code), :width => "15%"},
+                           {:key=>"lane_name",:label=>t(:name), :width => "25%"},
+                           {:key=>"lane_description",:label=>t(:description)},
+                           {:key=>"limit",:label=>t(:label_irm_lane_limit), :width => "80px"}
                            ],
                            {:row_perpage=>5})%>
           </div>

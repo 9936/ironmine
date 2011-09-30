@@ -24,11 +24,11 @@
         </div>
         <%= datatable("wf_mail_alerts",url_for(:action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
-                       { :key => "bo_name", :label => t(:label_irm_wf_mail_alert_bo_code),:searchable=>true },
+                       { :key => "bo_name", :label => t(:label_irm_wf_mail_alert_bo_code)},
                        { :key => "name", :label => t(:label_irm_wf_mail_alert_name),:searchable=>true },
                        { :key => "mail_alert_code", :label => t(:label_irm_wf_mail_alert_mail_alert_code),:searchable=>true },
-                       { :key => "mail_template_name", :label => t(:label_irm_wf_mail_alert_mail_template_code),:searchable=>true },
-                       { :key => "from_email", :label => t(:label_irm_wf_mail_alert_from_email),:searchable=>true }
+                       { :key => "mail_template_name", :label => t(:label_irm_wf_mail_alert_mail_template_code)},
+                       { :key => "from_email", :label => t(:label_irm_wf_mail_alert_from_email)}
                       ],{:paginator_box=>"wf_mail_alertsPaginatorBox",:search_box=>"wf_mail_alertsSearchBox"})%>
         <div id="wf_mail_alertsPaginatorBox"></div>
       </div>

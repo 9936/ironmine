@@ -12,6 +12,8 @@ en:
   label_entry_headers_totle_step: Step
   label_entry_headers_totle: totle
   label_entry_headers_first: Step
+  today: Today
+  tomorrow: Tomorrow
   ago: %{message} ago
 
   date:
@@ -118,7 +120,16 @@ en:
         greater_than_start_date: "must be greater than start date"
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
-        invaliddate: " invalid date formate,correct such as 2008-10-10"
+        invaliddate: " invalid date format,correct such as 2008-10-10"
+        code: "only uppercase letters,number and underlined"
+        phone_number: "only numbers and crossed"
+        downcase: "only lowercase letters"
+        upcase: "only uppercase letters"
+        number: "only number"
+        downcase_number: "only lowercase letters and numbers"
+        upcase_number: "only uppercase letters and numbers"
+        email: "must be email address"
+        only_image: "must be image file"
   activemodel:
     errors:
       template:
@@ -216,6 +227,7 @@ en:
   label_irm_object_code: Business Object Code
   label_irm_operation_unit: Operation Unit
   label_irm_password_policy: Password Policy
+  label_irm_password_error: Password Error
   label_irm_profile: Profile
   label_irm_profile_application: Profile Application
   label_irm_profile_function: Profile Function

@@ -4,7 +4,10 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
   attr_accessor :step ,:submitter_str
 
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   has_many :wf_approval_submitters,:foreign_key => :process_id
 
@@ -46,7 +49,7 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
   }
 
   validates_presence_of :bo_code,:name,:process_code,:mail_template_id,:if=>Proc.new{|i| i.check_step(1)}
-  validates_format_of :process_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.process_code.present?}
+  validates_format_of :process_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.process_code.present?},:message=>:code
 
   def self.select_all
     select("#{table_name}.*")

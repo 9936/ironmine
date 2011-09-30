@@ -27,12 +27,12 @@
         </div>
         <%= datatable("ldap_sources_list",url_for(:controller => "irm/ldap_sources", :action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                       {:key=>"name",:label=>t(:label_irm_ldap_source_name),:sortable=>true,:searchable=>true},
-                       {:key=>"host",:label=>t(:label_irm_ldap_source_host),:sortable=>true,:searchable=>true},
-                       {:key=>"port",:label=>t(:label_irm_ldap_source_port),:sortable=>true},
-                       {:key=>"account",:label=>t(:label_irm_ldap_source_account),:sortable=>true,:searchable=>true},
-                       {:key=>"base_dn",:label=>t(:label_irm_ldap_source_base_dn),:sortable=>true},
-                       {:key=>"status_code",:label=>t(:active),:sortable=>true,:formatter=>"Y.irm.template", :width => "40px"}],
+                       {:key=>"name",:label=>t(:label_irm_ldap_source_name),:searchable=>true},
+                       {:key=>"host",:label=>t(:label_irm_ldap_source_host),:searchable=>true},
+                       {:key=>"port",:label=>t(:label_irm_ldap_source_port)},
+                       {:key=>"account",:label=>t(:label_irm_ldap_source_account),:searchable=>true},
+                       {:key=>"base_dn",:label=>t(:label_irm_ldap_source_base_dn)},
+                       {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],
                        {:search_box=>"sourcesSearchBox",:paginator_box=>"ldapSourcePaginator"})%>
         <div id="ldapSourcePaginator"></div>
       </div>

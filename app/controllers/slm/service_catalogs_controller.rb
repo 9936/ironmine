@@ -2,7 +2,6 @@ class Slm::ServiceCatalogsController < ApplicationController
   # GET /service_catalogs
   # GET /service_catalogs.xml
   def index
-    @service_catalogs = Slm::ServiceCatalog.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,8 +12,7 @@ class Slm::ServiceCatalogsController < ApplicationController
   # GET /service_catalogs/1
   # GET /service_catalogs/1.xml
   def show
-    @service_catalog = Slm::ServiceCatalog.multilingual.with_external_system.with_slm_agreement.status_meaning.query_by_category_code(I18n::locale).
-                       query_by_owner_id.query_by_priority_code(I18n::locale).find(params[:id])
+    @service_catalog = Slm::ServiceCatalog.multilingual.with_parent(I18n.locale).with_category(I18n.locale).with_slm_agreement(I18n.locale).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -44,7 +42,9 @@ class Slm::ServiceCatalogsController < ApplicationController
     @service_catalog = Slm::ServiceCatalog.new(params[:slm_service_catalog])
 
     respond_to do |format|
-      if @service_catalog.save
+      if @service_catalog.valid?
+        @service_catalog.create_external_system_from_str
+        @service_catalog.save
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @service_catalog, :status => :created, :location => @service_catalog }
       else
@@ -58,9 +58,11 @@ class Slm::ServiceCatalogsController < ApplicationController
   # PUT /service_catalogs/1.xml
   def update
     @service_catalog = Slm::ServiceCatalog.find(params[:id])
-
+    @service_catalog.attributes = params[:slm_service_catalog]
     respond_to do |format|
-      if @service_catalog.update_attributes(params[:slm_service_catalog])
+      if @service_catalog.valid?
+        @service_catalog.create_external_system_from_str
+        @service_catalog.save
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -101,12 +103,12 @@ class Slm::ServiceCatalogsController < ApplicationController
   end
 
   def get_data
-    service_catalogs_scope = Slm::ServiceCatalog.multilingual.status_meaning
+    service_catalogs_scope = Slm::ServiceCatalog.multilingual.with_category(I18n.locale).with_parent(I18n.locale).with_slm_agreement(I18n.locale).status_meaning.order("parent_catalog_id desc,id desc")
     service_catalogs_scope = service_catalogs_scope.match_value("slm_service_catalogs_tl.name",params[:name])
     service_catalogs_scope = service_catalogs_scope.match_value("slm_service_catalogs.catalog_code",params[:catalog_code])
     service_catalogs,count = paginate(service_catalogs_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(service_catalogs.to_grid_json([:catalog_code,:name,
+      format.json {render :json=>to_jsonp(service_catalogs.to_grid_json([:catalog_code,:name,:parent_catalog_name,
                                                                          :description,:status_meaning],count))}
     end
   end

@@ -7,10 +7,13 @@ class Irm::ReportTypeCategory < ActiveRecord::Base
   has_many :report_type_categories_tls,:dependent => :destroy
   acts_as_multilingual
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   validates_presence_of :code
-  validates_uniqueness_of :code,:if=>Proc.new{|i| i.code.present?}
-  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?}
+  validates_uniqueness_of :code,:scope=>[:opu_id],:if=>Proc.new{|i| i.code.present?}
+  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?},:message=>:code
 
 end

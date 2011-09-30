@@ -6,7 +6,7 @@ class Icm::CloseReasonsController < ApplicationController
   end
 
   def show
-    @close_reason = Icm::CloseReason.multilingual.where(:id => params[:id]).first
+    @close_reason = Icm::CloseReason.multilingual.where(:id => params[:id]).status_meaning.first
 
     respond_to do |format|
       format.html # show.html.erb
@@ -18,7 +18,7 @@ class Icm::CloseReasonsController < ApplicationController
     @close_reason = Icm::CloseReason.new
 
     respond_to do |format|
-      format.html { render :layout => "application_full"}# new.html.erb
+      format.html # new.html.erb
       format.xml  { render :xml => @close_reason }
     end
   end
@@ -35,7 +35,7 @@ class Icm::CloseReasonsController < ApplicationController
         format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
         format.xml  { render :xml => @close_reason, :status => :created, :location => @close_reason }
       else
-        format.html { render :action => "new", :layout => "application_full" }
+        format.html { render :action => "new" }
         format.xml  { render :xml => @close_reason.errors, :status => :unprocessable_entity }
       end
     end

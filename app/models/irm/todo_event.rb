@@ -8,7 +8,10 @@ class Irm::TodoEvent < ActiveRecord::Base
   belongs_to :source, :polymorphic => true
   belongs_to :calendar
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   before_save :before_save
 

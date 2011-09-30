@@ -21,6 +21,7 @@ en:
    label_csi_survey_show: Survey
    label_csi_survey_list: Survey List
    label_csi_survey_due_dates: Due Dates(Hour)
+   info_csi_survey_due_dates: Survey will display with incident request which submitted before this date.
    label_csi_survey_closed: Survey Closed
    label_csi_survey_required_input: Required Input
    reply: Reply
@@ -40,6 +41,7 @@ en:
    label_csi_survey_created_at: Created At
    label_csi_survey_result_only_author: Only Author Allowed to View Results
    label_csi_survey_with_incident_request: Show in All Incident Request
+   info_csi_survey_some_enabled_can_not_be_change: This item can not be edited, because survey has been joined
    label_csi_survey_incident_request_from: Incident Requests Form
    label_csi_survey_incident_request_to: To
    label_csi_survey: Survey

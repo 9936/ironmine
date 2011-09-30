@@ -127,6 +127,7 @@ private
     @comment_elements = @products[0][2].split(/\s*;\s*/) rescue []
     identify_os_windows or
     identify_os_mac or
+    identify_os_android or
     identify_os_linux or
     identify_os_other
   end
@@ -170,6 +171,14 @@ private
   def identify_os_linux
     return unless element = @comment_elements.detect{|e| e =~ %r{linux}i}
     @os_name = 'Linux'
+  end
+
+  def identify_os_android
+    return unless element = @comment_elements.detect{|e| e =~ %r{android}i}
+    @os_name = 'Android'
+    if element =~ %r{(\d+.\d+)}
+      @os_version = $1
+    end
   end
 
   def identify_os_other

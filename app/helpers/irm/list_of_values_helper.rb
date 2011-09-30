@@ -12,7 +12,8 @@ module Irm::ListOfValuesHelper
   def lov_as_select(name,lov,options)
     values = []
     values = eval(lov.generate_scope).collect{|v| [v[:show_value],v[:id_value],v.attributes]} if lov
-    blank_select_tag(name,values,options)
+    selected_value = options.delete(:value)
+    blank_select_tag(name,values,selected_value,options)
   end
 
   def lov_as_autocomplete(name,lov,options)

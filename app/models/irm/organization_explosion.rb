@@ -5,6 +5,10 @@ class Irm::OrganizationExplosion < ActiveRecord::Base
 
   validates_uniqueness_of :organization_id,:scope => [:parent_org_id,:direct_parent_org_id],:if=>Proc.new{|i| i.organization_id.present?&&i.parent_org_id.present?&&i.direct_parent_org_id.present?}
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   def self.explore_hierarchy(org_id,parent_org_id)
     # 当前组织的父组织没有发生变化，则不进行重新计算
@@ -22,7 +26,7 @@ class Irm::OrganizationExplosion < ActiveRecord::Base
     # 解除子组织的子组织 与 以前父组织的关系
     parent_of_orgs.each do |p_o|
       child_of_orgs.each do |c_o|
-        self.where(:organization_id=>c_o.organization_id,:parent_org_id=>p_o.id).delete_all
+        self.where(:organization_id=>c_o.organization_id,:parent_org_id=>p_o.parent_org_id).delete_all
       end
     end
     #解除子组织 与 以前父组织的关系

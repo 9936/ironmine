@@ -32,13 +32,7 @@
                         <div class="menuItem"><%= link_to(t(:label_irm_wf_field_update_new),{:controller => "irm/wf_field_updates",:action => "new",:source_str=>"AP_FINAL_APPROVAL,#{@wf_approval_process.id}",:back_url=>url_for({})}) %></div>
                       </div>
                     </span>
-                    <script type="text/javascript">
-                      GY.use("menubutton",function(Y){
-                        Y.on("domready",function(){
-                          new Y.MenuButton({menuNode:"#createApFinalApprovalAction",dropAlign:["TL","BL"]});
-                        });
-                      });
-                    </script>
+
                 </div>
               </td>
               <td class="pbHelp">

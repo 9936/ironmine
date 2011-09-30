@@ -22,6 +22,8 @@ module ApplicationHelper
       else
         common_setting_title(model_title,action_title,options[:show_data])
       end
+    else
+      common_setting_title(model_title,action_title,options[:show_data])
     end
   end
 
@@ -439,14 +441,11 @@ module ApplicationHelper
     end
   end
 
-  def flash_notice(type = "ERROR")
-    case type
-      when "ERROR"
-        content_tag("div", raw(flash[:notice]), {:id => "errorDiv_ep", :class => "pbError"})
-      when "ALERT"
-
-      else
-    end if flash[:notice]
+  def flash_notice
+    ret = ""
+    ret = content_tag("div", raw(flash[:notice]), {:id => "succDiv_ep", :class => "pbSucc"}) if flash[:notice].present?
+    ret = content_tag("div", raw(flash[:error]), {:id => "errorDiv_ep", :class => "pbError"}) if flash[:error].present?
+    ret
   end
 
   #重写content_for方法,当调用content_for时,修改has_content
@@ -549,7 +548,7 @@ module ApplicationHelper
 
   def blank_select_tag(name, collection,selected=nil, options = {})
     choices = options_for_select(collection, selected)
-    html_options=({:include_blank=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+    html_options=({:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
                                  :blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"}).merge(options||{})
     select_tag(name, choices,html_options)
   end
@@ -570,4 +569,20 @@ module ApplicationHelper
     options
   end
 
+  def info_icon(info = "")
+    tag = content_tag(:img, "",:src => "/images/s.gif", :class => "infoIcon", :title => info, :alt => info)
+    raw(tag)
+  end
+
+  def toggle_img(class_name,toggled=false,options={})
+    image_options = {}
+    if toggled
+      image_options.merge!(:class=>"#{class_name}On")
+    else
+      image_options.merge!(:class=>class_name)
+      image_options.merge!({:onmouseover=>"this.className = '#{class_name}On';this.className = '#{class_name}On';", :onmouseout=>"this.className = '#{class_name}';this.className = '#{class_name}';",:onfocus=>"this.className = '#{class_name}On';",:onblur=>"this.className = '#{class_name}';"})
+    end
+    image_options.merge!(options)
+    image_tag("/images/s.gif",image_options)
+  end
 end

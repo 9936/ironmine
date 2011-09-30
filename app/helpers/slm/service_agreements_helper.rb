@@ -22,7 +22,7 @@ module Slm::ServiceAgreementsHelper
 
 
   def available_service_agreement
-    Slm::ServiceAgreement.multilingual.collect{|m| [m[:name], m.agreement_code]}
+    Slm::ServiceAgreement.multilingual.collect{|m| [m[:name], m.id]}
   end
 
   def checkbox_show_flag(flag)

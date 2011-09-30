@@ -4,7 +4,10 @@ class Irm::WfApprovalStepApprover < ActiveRecord::Base
   belongs_to :wf_approval_step,:foreign_key => :step_id
 
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
   
   attr_accessor :bo_code
 
@@ -33,7 +36,7 @@ class Irm::WfApprovalStepApprover < ActiveRecord::Base
             if value.is_a?(Array)
               person_ids = value
             else
-              person_ids = [value.to_i]
+              person_ids = [value]
             end
           end
         end

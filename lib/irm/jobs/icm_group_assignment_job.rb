@@ -4,8 +4,8 @@ module Irm
       def perform
 
         # 待分配事故单
-        request = Icm::IncidentRequest.find(incident_request_id)
-
+        request = Icm::IncidentRequest.unscoped.find(incident_request_id)
+        Irm::Person.current = Irm::Person.find(request.requested_by)
         # 事故单所属系统
         system = nil
         system = Irm::ExternalSystem.where(:id=>request.external_system_id).first if request.external_system_id.present?
@@ -33,12 +33,8 @@ module Irm
         unless request.support_group_id.present?||assign_result[:support_group_id].present?
           assign_result[:support_person_id] = nil
           # 在能处理当前系统事故单的待命组中选择合适的支持组
-          support_group_scope = Icm::SupportGroup.oncall
-          if system
-            support_group_scope = support_group_scope.query_by_system(system.id)
-          else
-            support_group_scope = support_group_scope.assignable
-          end
+          support_group_scope = Icm::SupportGroup.oncall.assignable
+
           support_group_ids = support_group_scope.collect{|i| i.id}
 
           # 如果不存可用的支持组，则中断自动分配
@@ -113,11 +109,11 @@ module Irm
 
       #为事故单生成回复
       def generate_journal(request,assign_result)
-        person = Irm::Person.where(:login_name=>"ironmine").first
+        person = Irm::Person.query(Irm::OperationUnit.current.primary_person_id).first
         if assign_result[:assign_dashboard]
           person = Irm::Person.find(assign_result[:assign_dashboard_operator])
         end
-        person ||= Irm::Person.current.id
+        Irm::Person.current = person
         language_code = person.language_code
         request_attributes = {:support_group_id=>assign_result[:support_group_id],
                               :support_person_id=>assign_result[:support_person_id],
@@ -126,6 +122,8 @@ module Irm
                               :charge_group_id=>assign_result[:support_person_id],
                               :charge_person_id=>assign_result[:support_person_id]}
         journal_attributes = {:replied_by=>person.id,:reply_type=>"ASSIGN"}
+        incident_status_id = Icm::IncidentStatus.transform(request.incident_status_id,journal_attributes[:reply_type])
+        request_attributes.merge!(:incident_status_id=>incident_status_id)
         if assign_result[:assign_dashboard]
           journal_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_assign_dashboard,{:locale=>language_code}))
         else
@@ -135,7 +133,7 @@ module Irm
       end
 
       def check_support_group(support_group_id,system_id)
-        Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).query(support_group_id).access_system.collect{|i| i[:system_id]}.include?(system_id)
+        Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).assignable.query(support_group_id).first.present?
       end
     end
   end

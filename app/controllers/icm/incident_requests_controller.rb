@@ -22,7 +22,7 @@ class Icm::IncidentRequestsController < ApplicationController
   # GET /incident_requests/new
   # GET /incident_requests/new.xml
   def new
-    @incident_request = Icm::IncidentRequest.new
+    @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
 
     respond_to do |format|
       format.html { render :layout => "application_full"}# new.html.erb
@@ -77,24 +77,30 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def short_create
     @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
-    @incident_request.urgence_code = "GLOBAL_NORMAL"
-    @incident_request.incident_status_code = "NEW_INCIDENT"
+    @incident_request.urgence_id = Icm::UrgenceCode.default_id
+    @incident_request.incident_status_id = Icm::IncidentStatus.default_id
     @incident_request.request_type_code = "REQUESTED_TO_PERFORM"
     @incident_request.service_code = "ORAL_EBS_INV"
     @incident_request.report_source_code = "CUSTOMER_SUBMIT"
-    @incident_request.impact_range_code = "GLOBAL_LOW"
-    #加入创建事故单的默认参数
-    prepared_for_create(@incident_request)
+    @incident_request.impact_range_id = Icm::ImpactRange.default_id
     respond_to do |format|
-      if @incident_request.save
-        #如果没有填写support_group, 插入Delay Job任务
-        if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
-          Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id),
-                               [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
+      if @incident_request.requested_by.present?
+        #加入创建事故单的默认参数
+        prepared_for_create(@incident_request)
+        if @incident_request.save
+          #如果没有填写support_group, 插入Delay Job任务
+          if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
+            Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id),
+                                 [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
+          end
+          format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
+          format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
+        else
+          format.html { render :action => "new", :layout => "application_full" }
+          format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         end
-        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}, :notice => t(:successfully_created)) }
-        format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
       else
+        @incident_request.errors[:requested_by] << I18n.t(:error_icm_requested_by_can_not_blank)
         format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       end
@@ -129,16 +135,17 @@ class Icm::IncidentRequestsController < ApplicationController
                       :incident_status_name,
                       :close_flag,
                       :requested_name,
-                      :need_customer_reply,
+                      :support_group_name,
+                      :support_person_name,
                       :last_response_date,
-                      :external_system_name]
+                      :external_system_name,:reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
 
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
-        with_external_system(I18n.locale).
-        where("LENGTH(external_system_id) > 0").
-        where("external_system_id IN (?)", Irm::Person.current.system_ids).
-        order("close_flag ,last_response_date desc,last_request_date desc,weight_value")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
+        #with_external_system(I18n.locale).
+        #where("LENGTH(external_system_id) > 0").
+        #where("external_system_id IN (?)", Irm::Person.current.system_ids).
+        order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
 
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
@@ -159,10 +166,12 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
-        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:last_response_date],
-                                       :headers=>["#",   t(:label_icm_incident_request_title),
-                                                         t(:label_icm_incident_request_incident_status_code),
-                                                         t(:label_icm_incident_request_last_date)]
+        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:last_response_date, :external_system_name],
+                                       :headers=>[t(:label_icm_incident_request_request_number_shot),
+                                                  t(:label_icm_incident_request_title),
+                                                  t(:label_icm_incident_request_incident_status_code),
+                                                  t(:label_icm_incident_request_last_date),
+                                                  t(:label_irm_external_system)]
                                              ))}
     end
   end
@@ -174,16 +183,15 @@ class Icm::IncidentRequestsController < ApplicationController
                       :incident_status_name,
                       :close_flag,
                       :requested_name,
-                      :need_customer_reply,
                       :last_request_date,
                       :priority_name,
-                      :external_system_name]
+                      :external_system_name,:reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
-        with_external_system(I18n.locale).
-        where("LENGTH(external_system_id) > 0").
-        where("external_system_id IN (?)", Irm::Person.current.system_ids + ['']).
-        order("close_flag ,last_request_date desc,last_response_date desc,weight_value,id")
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
+        #with_external_system(I18n.locale).
+        #where("LENGTH(external_system_id) > 0").
+        #where("external_system_id IN (?)", Irm::Person.current.system_ids + ['']).
+        order("close_flag ,reply_flag desc,last_request_date desc,last_response_date desc,weight_value,id")
     if !allow_to_function?(:view_all_incident_request)
       incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
     end
@@ -202,10 +210,12 @@ class Icm::IncidentRequestsController < ApplicationController
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
         send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:priority_name,:last_request_date, :external_system_name],
-                                       :headers=>["#",   t(:label_icm_incident_request_title),
-                                                         t(:label_icm_incident_request_incident_status_code),
-                                                         t(:label_icm_incident_request_priority),
-                                                         t(:label_icm_incident_request_last_date)]
+                                       :headers=>[t(:label_icm_incident_request_request_number_shot),
+                                                  t(:label_icm_incident_request_title),
+                                                  t(:label_icm_incident_request_incident_status_code),
+                                                  t(:label_icm_incident_request_priority),
+                                                  t(:label_icm_incident_request_last_date),
+                                                  t(:label_irm_external_system)]
                                              ))}
     end
   end
@@ -224,19 +234,9 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def get_slm_services
-    requested_by = Irm::Person.current
-    if params[:requested_by] && !params[:requested_by].blank?
-      requested_by = Irm::Person.find(params[:requested_by])
-    end
 
-    #按人员查找
-    r1 = Slm::ServiceMember.where("1=1").query_by_service_person(requested_by).with_service_catalog
-    #按组织查找
-    r1 += Slm::ServiceMember.where(:service_person_id=>nil).
-                              query_by_service_organization(requested_by.organization_id).with_service_catalog
 
-    services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_id = ? AND catalog_code IN (?)",
-                                                                    params[:external_system_id], r1.collect(&:catalog_code))
+    services_scope = Slm::ServiceCatalog.multilingual.enabled.query_by_external_system(params[:external_system_id])
     services = services_scope.collect{|i| {:label => i[:name], :value => i.catalog_code, :id => i.id}}
     respond_to do |format|
       format.json {render :json=>services.to_grid_json([:label, :value],services.count)}

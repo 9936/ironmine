@@ -25,10 +25,10 @@
         </div>
         <%= datatable("mail_template",url_for(:action=>"get_data",:format=>"json"),
                   [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"template_code",:label=>t(:label_irm_mail_template_template_code),:sortable=>true,:searchable=>true,:width=>"10%"},
-                   {:key=>"name",:label=>t(:label_irm_mail_template_name),:sortable=>true,:searchable=>true,:width=>"20%"},
-                   {:key=>"description",:label=>t(:label_irm_mail_template_description),:sortable=>true},
-                   {:key=>"status_meaning",:label=>t(:label_irm_mail_template_status_code),:sortable=>true,:width=>"40px"}],
+                   {:key=>"template_code",:label=>t(:label_irm_mail_template_template_code),:searchable=>true,:width=>"10%"},
+                   {:key=>"name",:label=>t(:label_irm_mail_template_name),:searchable=>true,:width=>"20%"},
+                   {:key=>"description",:label=>t(:label_irm_mail_template_description)},
+                   {:key=>"status_meaning",:label=>t(:label_irm_mail_template_status_code),:width=>"40px"}],
                    {:paginator_box=>"mailTemplatePaginatorBox",:search_box=>"permissionsSearchBox"})%>
         <div id="mailTemplatePaginatorBox"></div>
       </div>

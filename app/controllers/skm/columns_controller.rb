@@ -20,7 +20,7 @@ class Skm::ColumnsController < ApplicationController
     @column.parent_column_id=params[:skm_columns]
     respond_to do |format|
       if @column.save
-         @column.create_access_from_str
+#         @column.create_access_from_str
         format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
         format.xml  { render :xml => @column, :status => :created, :location => @column }
       else
@@ -39,7 +39,7 @@ class Skm::ColumnsController < ApplicationController
     @column.parent_column_id=params[:skm_columns] if params[:skm_columns].present?
     respond_to do |format|
       if @column.update_attributes(params[:skm_column])
-         @column.create_access_from_str
+#         @column.create_access_from_str
         format.html {
           if params[:return_url].blank?
             redirect_to({:action=>"index"},:notice => (t :successfully_created))

@@ -16,14 +16,16 @@ class Irm::MailTemplate < ActiveRecord::Base
   acts_as_multilingual({:columns =>[:name,:description,:subject,:mail_body],:required=>[:name,:subject,:mail_body]})
 
   validates_presence_of :template_code
-  validates_uniqueness_of :template_code, :if => Proc.new { |i| !i.template_code.blank? }
-  validates_format_of :template_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.template_code.blank?}
+  validates_uniqueness_of :template_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.template_code.blank? }
+  validates_format_of :template_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.template_code.blank?},:message=>:code
 
   scope :query_by_template_code,lambda{|template_code| where("template_code =?",template_code)}
 
 
-  #扩展查询方法
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
 
   scope :current_language ,lambda{|language| select("#{Irm::MailTemplate.table_name}.*,#{Irm::MailTemplatesTl.table_name}.subject").

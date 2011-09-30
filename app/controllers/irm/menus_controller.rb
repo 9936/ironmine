@@ -53,7 +53,7 @@ class Irm::MenusController < ApplicationController
     menus_scope = menus_scope.match_value("#{Irm::MenusTl.table_name}.name",params[:name])    
     menus,count = paginate(menus_scope)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(menus.to_grid_json([:menu_code,:name,:description,:status_code], count)) }
+      format.json  {render :json => to_jsonp(menus.to_grid_json([:code,:name,:description,:status_code], count)) }
     end        
   end
 

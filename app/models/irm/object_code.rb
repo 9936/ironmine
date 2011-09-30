@@ -3,8 +3,8 @@ class Irm::ObjectCode < ActiveRecord::Base
   query_extend
   validates_presence_of :object_table_name
   validates_presence_of :object_code ,:if=>Proc.new{|i| !i.new_record?}
-  validates_uniqueness_of :object_table_name,:if=>Proc.new{|i| i.object_table_name.present?}
-  validates_uniqueness_of :object_code,:if=>Proc.new{|i| i.object_code.present?}
+  validates_uniqueness_of :object_table_name,:scope=>[:opu_id],:if=>Proc.new{|i| i.object_table_name.present?}
+  validates_uniqueness_of :object_code,:scope=>[:opu_id],:if=>Proc.new{|i| i.object_code.present?}
 
   after_create :generate_code
 
@@ -21,7 +21,11 @@ class Irm::ObjectCode < ActiveRecord::Base
     if(instance)
       return instance.object_code
     else
-      self.create(:object_table_name=>table_name)
+      if Irm::Person.table_name.eql?(table_name)
+        self.create(:object_table_name=>table_name,:created_by=>"0",:updated_by=>"0",:opu_id=>"0")
+      else
+        self.create(:object_table_name=>table_name)
+      end
       return self.code(table_name)
     end
   end

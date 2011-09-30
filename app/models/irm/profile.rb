@@ -1,6 +1,5 @@
 class Irm::Profile < ActiveRecord::Base
   set_table_name :irm_profiles
-
   #多语言关系
   attr_accessor :name,:description
   has_many :profiles_tls,:dependent => :destroy
@@ -12,7 +11,10 @@ class Irm::Profile < ActiveRecord::Base
   has_many :profile_applications
   has_many :applications,:through => :profile_applications
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   validates_presence_of :code
   validates_uniqueness_of :code, :scope => :opu_id

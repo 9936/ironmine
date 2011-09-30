@@ -10,12 +10,14 @@ class Icm::ImpactRange < ActiveRecord::Base
   has_many :impact_ranges_tls,:dependent => :destroy
   acts_as_multilingual
 
-  validates_presence_of :impact_code,:weight_values
-  validates_uniqueness_of :impact_code, :if => Proc.new { |i| !i.impact_code.blank? }
-  validates_format_of :impact_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.impact_code.blank?}
+  validates_presence_of :impact_code ,:display_sequence
+  validates_uniqueness_of :impact_code, :scope=>[:opu_id],:if => Proc.new { |i| !i.impact_code.blank? }
+  validates_format_of :impact_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.impact_code.blank?},:message=>:code
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   def self.default_id
     default = self.where(:default_flag=>Irm::Constant::SYS_YES).first

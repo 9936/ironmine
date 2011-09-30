@@ -1,7 +1,9 @@
 class Irm::FormulaFunction < ActiveRecord::Base
   set_table_name :irm_formula_functions
 
+  #加入activerecord的通用方法和scope
   query_extend
+
 
   #多语言关系
   attr_accessor :description

@@ -12,6 +12,14 @@ textarea {font-size: 14px;}
 .un-display-Y{display:none}
 .un-display-N{display:inline}
 .screen_shot_frame{height:320px;width:420px;}
+body .infoIcon {
+    background-image: url("../images/info_sprite.png");
+    background-position: left top;
+    height: 15px;
+}
+body .infoIcon:hover{
+    background-position: left -19px;
+}
 /***************** top search area ***********************/
 .bPageTitle {margin-bottom:15px;}
 body.detailPage .bPageTitle {margin-bottom:0;}
@@ -742,6 +750,12 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
 }
 .pbError, .editListError {
     color:#CC0000;
+    font-weight:bold;
+    text-align:center;
+}
+
+.pbSucc{
+    color:#00ab21;
     font-weight:bold;
     text-align:center;
 }

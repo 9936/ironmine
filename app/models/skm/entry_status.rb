@@ -7,7 +7,10 @@ class Skm::EntryStatus < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :entry_status_code
-  validates_uniqueness_of :entry_status_code
+  validates_uniqueness_of :entry_status_code,:scope=>[:opu_id]
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 end

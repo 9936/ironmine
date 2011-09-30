@@ -28,12 +28,11 @@
         </div>
         <%= datatable("pizza",url_for(:action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                       {:key=>"name",:label=>t(:label_icm_impact_range_name),:sortable=>true,:searchable=>true},
-                       {:key=>"impact_code",:label=>t(:label_icm_impact_range_impact_code),:sortable=>true,:searchable=>true},
-                       {:key=>"weight_values",:label=>t(:label_icm_impact_range_weight_values),:sortable=>true},
-                       {:key=>"display_sequence",:label=>t(:display_sequence),:sortable=>true},
-                       {:key=>"default_flag",:label=>t(:default_flag),:sortable=>true,:searchable=>true,:formatter=>"Y.irm.template", :width => "80px"},
-                       {:key=>"status_meaning",:label=>t(:label_irm_script_status_code),:width=>"70px"}
+                       {:key=>"name",:label=>t(:label_icm_impact_range_name),:searchable=>true},
+                       {:key=>"impact_code",:label=>t(:label_icm_impact_range_impact_code),:searchable=>true},
+                       {:key=>"display_sequence",:label=>t(:display_sequence)},
+                       {:key=>"default_flag",:label=>t(:default_flag),:searchable=>true,:formatter=>"Y.irm.template", :width => "80px"},
+                       {:key=>"status_meaning",:label=>t(:status),:width=>"70px"}
                        ],{:paginator_box=>"impactPaginator",:search_box=>"impactRangesSearchBox"})%>
         <div id="impactPaginator"></div>
       </div>

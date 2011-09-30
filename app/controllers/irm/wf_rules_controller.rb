@@ -147,7 +147,8 @@ class Irm::WfRulesController < ApplicationController
 
   def get_data
     wf_rules_scope = Irm::WfRule.list_all.status_meaning
-    #wf_rules_scope = wf_rules_scope.match_value("wf_rule.name",params[:name])
+    wf_rules_scope = wf_rules_scope.match_value("#{Irm::WfRule.table_name}.name",params[:name])
+    wf_rules_scope = wf_rules_scope.match_value("#{Irm::WfRule.table_name}.rule_code",params[:rule_code])
     wf_rules,count = paginate(wf_rules_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(wf_rules.to_grid_json([:name,:bo_name,:rule_code,:evaluate_criteria_rule_name],count))}

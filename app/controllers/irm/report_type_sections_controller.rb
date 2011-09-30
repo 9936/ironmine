@@ -67,9 +67,9 @@ class Irm::ReportTypeSectionsController < ApplicationController
     section_fields = []
     @report_type = Irm::ReportType.find(params[:report_type_id])
     @report_type.report_type_sections.each do |rts|
-      section_node = {:id=>rts.id,:type=>"section",:text=>rts.name,:draggable=>false,:leaf=>false,:children=>[]}
+      section_node = {:id=>rts.id,:type=>"section",:section_id=>rts.id,:text=>rts.name,:draggable=>false,:leaf=>false,:children=>[]}
       rts.report_type_fields.with_bo_object_attribute(I18n.locale).select_all.each do |rto|
-        section_node[:children] << {:id=>rto.id,:type=>'section_field',:text=>rto[:object_attribute_name],:bo_id=>rto[:business_object_id],:bo_name=>rto[:business_object_name],:boa_id=>rto.object_attribute_id,:data_type=>rto[:data_type],:default_selection_flag=>Irm::Constant::SYS_YES.eql?(rto.default_selection_flag),:leaf=>true}
+        section_node[:children] << {:id=>rto.id,:type=>'section_field',:section_field_id=>rto.id,:text=>rto[:object_attribute_name],:bo_id=>rto[:business_object_id],:bo_name=>rto[:business_object_name],:boa_id=>rto.object_attribute_id,:data_type=>rto[:data_type],:default_selection_flag=>Irm::Constant::SYS_YES.eql?(rto.default_selection_flag),:leaf=>true}
     end
       section_fields << section_node
     end

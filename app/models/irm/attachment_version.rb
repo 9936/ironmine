@@ -3,17 +3,21 @@ class Irm::AttachmentVersion < ActiveRecord::Base
 
   belongs_to :attachment
 
-  has_attached_file :data,:whiny => false, :styles => {:thumb=> "60x60>",
-                                      :small => "100x100>",
-                                      :url => Irm::Constant::ATTACHMENT_URL,
-                                      :path => Irm::Constant::ATTACHMENT_PATH }
+  has_attached_file :data,:whiny => false, :styles => {:thumb=> "60x60>",:small => "100x100>" }
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
 
   before_data_post_process :allow_only_images
 
-  before_validation_on_create  :setup_attachment_id
+  before_validation(:on=>:create) do
+    setup_attachment_id
+  end
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
+
   scope :query_all,lambda{
     select("#{table_name}.*")
   }

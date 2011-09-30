@@ -7,10 +7,13 @@ class Irm::WfMailAlert < ActiveRecord::Base
   validates_presence_of :mail_alert_code,:name,:bo_code,:mail_template_code
   validates_uniqueness_of :mail_alert_code, :if => Proc.new { |i| !i.mail_alert_code.present? }
   validates_uniqueness_of :name, :if => Proc.new { |i| !i.name.present? }
-  validates_format_of :mail_alert_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.mail_alert_code.present?}
+  validates_format_of :mail_alert_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.mail_alert_code.present?},:message=>:code
 
   acts_as_urlable
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :with_bo,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} bo ON bo.business_object_code = #{table_name}.bo_code and bo.language='#{language}'").

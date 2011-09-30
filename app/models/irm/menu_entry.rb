@@ -22,7 +22,7 @@ class Irm::MenuEntry < ActiveRecord::Base
 
   validates_uniqueness_of :sub_menu_id, :scope => :menu_id, :if => Proc.new { |i| i.sub_menu_id.present? }
   validates_uniqueness_of :sub_function_group_id, :scope => :menu_id, :if => Proc.new { |i| i.sub_function_group_id.present? }
-  validate :validate_sub_menu_function_group, :message=>I18n.t(:error_irm_menu_entry_permission_sub_menu_at_least_one)
+  validate :validate_sub_menu_function_group, :message=>:error_irm_menu_entry_permission_sub_menu_at_least_one
 
   #加入activerecord的通用方法和scope
   query_extend

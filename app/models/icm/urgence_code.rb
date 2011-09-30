@@ -8,12 +8,14 @@ class Icm::UrgenceCode < ActiveRecord::Base
   has_many :urgence_codes_tls,:dependent => :destroy
   acts_as_multilingual
 
-  validates_presence_of :urgency_code,:weight_values,:display_sequence
-  validates_uniqueness_of :urgency_code, :if => Proc.new { |i| !i.urgency_code.blank? }
-  validates_format_of :urgency_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.urgency_code.blank?}
+  validates_presence_of :urgency_code,:display_sequence
+  validates_uniqueness_of :urgency_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.urgency_code.blank? }
+  validates_format_of :urgency_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.urgency_code.blank?},:message=>:code
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
 
   def self.default_id

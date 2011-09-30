@@ -31,8 +31,14 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
+              <td class="labelCol"><label><%=t(:description)%></label></td>
+              <td class="dataCol"><%= @close_reason[:description]%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :active)%></label></td>
-              <td class="dataCol"><%= @close_reason.status_code%></td>
+              <td class="dataCol"><%= @close_reason[:status_meaning]%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>

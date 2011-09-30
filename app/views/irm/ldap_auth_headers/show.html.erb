@@ -5,7 +5,7 @@
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_ldap_auth_header_name) %></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_ldap_auth_header_name) %></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @ldap_auth_header}%></div>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
@@ -101,7 +101,7 @@
                        { :key => "local_attr", :label => t(:label_ldap_auth_attribute_local_attr),:searchable=>true,:width=>"200px" },
                        { :key => "ldap_attr", :label => t(:label_ldap_auth_attribute_ldap_attr)},
                        { :key => "description", :label => t(:ldap_auth_header_description),:searchable=>true },
-                       { :key => "status_code",:label=>t(:active),:sortable=>true,:formatter=>"Y.irm.template", :width => "40px"}
+                       { :key => "status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}
                       ],{:search_box=>"object_attributesSearchBox"})%>
 
       </div>

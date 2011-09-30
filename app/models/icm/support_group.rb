@@ -7,10 +7,12 @@ class Icm::SupportGroup < ActiveRecord::Base
   has_many :group_assignments, :dependent => :destroy, :class_name => "Icm::GroupAssignment"
 
   validates_presence_of :group_id,:assignment_process_code
-
+  attr_accessor :level
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
 
   scope :with_assignment_process, lambda{|language|
@@ -20,7 +22,7 @@ class Icm::SupportGroup < ActiveRecord::Base
 
   scope :with_group,lambda{|language|
     joins("JOIN #{Irm::Group.view_name} ON #{Irm::Group.view_name}.id = #{table_name}.group_id AND #{Irm::Group.view_name}.language ='#{language}'").
-        select("#{Irm::Group.view_name}.name")
+        select("#{Irm::Group.view_name}.name, #{Irm::Group.view_name}.parent_group_id, #{Irm::Group.view_name}.id group_id")
   }
 
   scope :access_system,lambda{
@@ -47,7 +49,7 @@ class Icm::SupportGroup < ActiveRecord::Base
   scope :support_for_service,lambda{|service_code|
     joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
     joins("JOIN #{Slm::ServiceCatalog.table_name} ON #{Slm::ServiceCatalog.table_name}.id  = #{Icm::GroupAssignment.table_name}.source_id").
-        where("#{Slm::ServiceCatalog.table_name}.service_category_code = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",service_code,Irm::BusinessObject.class_name_to_code(Slm::ServiceCatalog.name))
+        where("#{Slm::ServiceCatalog.table_name}.catalog_code = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",service_code,Irm::BusinessObject.class_name_to_code(Slm::ServiceCatalog.name))
   }
 
   scope :support_for_system,lambda{|system_id|

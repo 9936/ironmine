@@ -7,11 +7,14 @@ class Skm::Column < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :column_code
-  validates_uniqueness_of :column_code
+  validates_uniqueness_of :column_code,:scope=>[:opu_id]
 
   attr_accessor :access_str
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   has_many :column_accesses
 

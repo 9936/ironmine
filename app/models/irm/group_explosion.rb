@@ -5,6 +5,10 @@ class Irm::GroupExplosion < ActiveRecord::Base
 
   validates_uniqueness_of :group_id,:scope => [:parent_group_id,:direct_parent_group_id],:if=>Proc.new{|i| i.group_id.present?&&i.parent_group_id.present?&&i.direct_parent_group_id.present?}
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   def self.explore_hierarchy(group_id,parent_group_id)
     # 当前组的父组没有发生变化，则不进行重新计算
@@ -22,7 +26,7 @@ class Irm::GroupExplosion < ActiveRecord::Base
     # 解除子组的子组 与 以前父组的关系
     parent_of_groups.each do |p_g|
       child_of_groups.each do |c_g|
-        self.where(:group_id=>c_g.group_id,:parent_group_id=>p_g.id).delete_all
+        self.where(:group_id=>c_g.group_id,:parent_group_id=>p_g.parent_group_id).delete_all
       end
     end
     #解除子组 与 以前父组的关系

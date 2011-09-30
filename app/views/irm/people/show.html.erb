@@ -86,66 +86,57 @@
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_person_first_name)%></label></td>
               <td class="dataCol"><%=@person.first_name%></td>
-              <td class="labelCol"><label><%=(t :label_irm_person_region_code)%></label></td>
-              <td class="dataCol"><%=@person[:region_name]%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><%=(t :label_irm_person_title)%></td>
-              <td class="dataCol">
-                <%=@person[:title_name]%></td>
-
-              <td class="labelCol"><label><%=(t :label_irm_person_site_group_code)%></label></td>
-
-              <td class="dataCol"><%= @person[:site_group_name] %></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><%= t(:label_irm_identity_language_code) %></td>
-              <td class="dataCol"><%= @person[:language_description] %></td>
-              <td class="labelCol"><label><%=(t :label_irm_person_site_code)%></label></td>
-              <td class="dataCol"><%= @person[:site_name]%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=t(:label_irm_person_notification_lang)%></label></td>
-              <td class="dataCol"><%=@person[:notification_lang_description]%></td>
               <td class="labelCol"><label><%=t(:label_irm_person_bussiness_phone)%></label></td>
               <td class="dataCol">
                 <%=@person.bussiness_phone%>
               </td>
             </tr>
             <tr>
-               <td class="labelCol">
-                 <label><%=t(:label_irm_person_notification_flag)%></label>
-               </td>
-               <td class="dataCol"><%=check_img(@person.notification_flag)%></td>
+              <td class="labelCol"><%= t(:label_irm_identity_language_code) %></td>
+              <td class="dataCol"><%= @person[:language_description] %></td>
                <td class="labelCol"><label><%=t(:label_irm_person_fax_number)%></label></td>
                <td class="dataCol">
                    <%=@person.fax_number%>
                </td>
             </tr>
             <tr>
-               <td class="labelCol"><label><%=t(:label_irm_person_vip_flag)%></label></td>
-               <td class="dataCol"><%=check_img(@person.vip_flag)%></td>
+              <td class="labelCol"><label><%=t(:label_irm_person_notification_lang)%></label></td>
+              <td class="dataCol"><%=@person[:notification_lang_description]%></td>
                <td class="labelCol"><label><%=t(:label_irm_person_mobile_phone)%></label></td>
                <td class="dataCol">
                  <%=@person.mobile_phone%>
                </td>
-
             </tr>
             <tr>
-              <td class="labelCol"><label><%=t(:label_irm_person_assignment_availability_flag)%></label></td>
-              <td class="dataCol"><%=check_img(@person.assignment_availability_flag)%></td>
+               <td class="labelCol">
+                 <label><%=t(:label_irm_person_notification_flag)%></label>
+               </td>
+               <td class="dataCol"><%=check_img(@person.notification_flag)%></td>
               <td class="labelCol"><label><%=t(:label_irm_person_home_phone)%></label></td>
               <td class="dataCol">
                 <%=@person.home_phone%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_irm_person_template_flag)%></label></td>
-              <td class="dataCol"><div><%=check_img(@person.is_a?(Irm::TemplatePerson) ? "Y":"N")%></div></td>
-              <td class="labelCol"><label><%=t(:label_irm_person_home_address)%></label></td>
+               <td class="labelCol"><label><%=t(:label_irm_person_vip_flag)%></label></td>
+               <td class="dataCol"><%=check_img(@person.vip_flag)%></td>
+                <td class="labelCol"><label><%=t(:label_irm_person_home_address)%></label></td>
               <td class="dataCol">
                  <%=@person.home_address%>
               </td>
+
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_irm_person_assignment_availability_flag)%></label></td>
+              <td class="dataCol"><%=check_img(@person.assignment_availability_flag)%></td>
+              <td class="labelCol empty"><div></div></td>
+              <td class="dataCol  empty"><div></div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_person_template_flag)%></label></td>
+              <td class="dataCol"><div><%=check_img(@person.is_a?(Irm::TemplatePerson) ? "Y":"N")%></div></td>
+              <td class="labelCol empty"><div></div></td>
+              <td class="dataCol  empty"><div></div></td>
             </tr>
         </tbody>
       </table>
@@ -211,8 +202,8 @@
           <!-- Begin company access table -->
             <%= datatable("person_system_list",url_for(:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id),
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"40px"},
-                               {:key=>"system_name",:label=>t(:label_irm_external_system),:sortable=>true, :width=>"200px"},
-                               {:key=>"system_description",:label=>t(:description),:sortable=>true, :width=> "400px"},
+                               {:key=>"system_name",:label=>t(:label_irm_external_system), :width=>"200px"},
+                               {:key=>"system_description",:label=>t(:description), :width=> "400px"},
                                {:key=>"external_system_code", :hidden => true}])%>
           <!-- End company access table -->
         </div>
@@ -258,8 +249,8 @@
           <!-- Begin company access table -->
             <%= datatable("support_group",url_for(:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id),
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
-                               {:key=>"name",:label=>t(:label_irm_group_name),:sortable=>true},
-                               {:key=>"description",:label=>t(:label_irm_group_description),:sortable=>true}])%>
+                               {:key=>"name",:label=>t(:label_irm_group_name)},
+                               {:key=>"description",:label=>t(:label_irm_group_description)}])%>
           <!-- End company access table -->
         </div>
         <div class="pbFooter secondaryPalette">

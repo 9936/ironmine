@@ -26,10 +26,10 @@
         </div>
         <%= datatable("ldap_syn_people",url_for(:action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
-                       {:key=>"ldap_name",:label=>t(:label_irm_ldap_syn_person_name),:sortable=>true,:searchable=>true,:width=>"300px"},
-                       {:key=>"auth_name",:label=>t(:label_icm_ldap_auth_header_name),:searchable=>true},
+                       {:key=>"ldap_name",:label=>t(:label_irm_ldap_syn_person_name),:searchable=>true,:width=>"300px"},
+                       {:key=>"auth_name",:label=>t(:label_irm_ldap_auth_header_name),:searchable=>true},
                        {:key=>"ldap_dn",:label=>t(:label_irm_ldap_base_dn),:searchable=>true},
-                       {:key=>"description",:label=>t(:label_irm_ldap_description),:sortable=>true,:searchable=>true}
+                       {:key=>"description",:label=>t(:label_irm_ldap_description),:searchable=>true}
                       ],{:search_box=>"ldap_syn_peopleSearchBox"})%>
 
       </div>

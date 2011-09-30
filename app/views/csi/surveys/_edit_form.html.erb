@@ -69,18 +69,58 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-           <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_with_incident_request)%></label></td>
-              <td class="dataCol"><%= check_img(@survey.with_incident_request)%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_due_dates)%></label></td>
-              <td class="dataCol"><%=f.text_field :due_dates,:size=>18%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
+            <% if check_survey_result_exist?(@survey.id) && !@survey.enabled? %>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_csi_survey_with_incident_request)%></label></td>
+                  <td class="dataCol"><%= f.check_box :with_incident_request%></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_csi_survey_due_dates)%></label></td>
+                  <td class="dataCol"><%=f.text_field :due_dates,:size=>18, :required => true%></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+                <script type="text/javascript">
+                GY.use(function(Y){
+                    if(Y.one("#csi_survey_with_incident_request").get("checked"))
+                    {
+                       Y.one("#csi_survey_due_dates").removeAttribute("disabled");
+                    }
+                    else
+                    {
+
+                       Y.one("#csi_survey_due_dates").setAttribute("disabled", true);
+                    }
+                    Y.one("#csi_survey_with_incident_request").on("click", function(e){
+                        if(Y.one("#csi_survey_with_incident_request").get("checked"))
+                        {
+                           Y.one("#csi_survey_due_dates").removeAttribute("disabled");
+                        }
+                        else
+                        {
+
+                           Y.one("#csi_survey_due_dates").setAttribute("disabled", true);
+                        }
+                    })
+                })
+                </script>
+            <% else %>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_csi_survey_with_incident_request)%></label></td>
+                  <td class="dataCol"><%= check_img(@survey.with_incident_request)%><%= info_icon(t(:info_csi_survey_some_enabled_can_not_be_change)) %></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_csi_survey_due_dates)%></label></td>
+                  <td class="dataCol"><%= f.text_field :due_dates,:size=>18, :disabled => true, :info => t(:info_csi_survey_some_enabled_can_not_be_change)%>
+                  <%= info_icon(t(:info_csi_survey_due_dates)) %></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+            <% end %>
         </tbody>
       </table>
     </div>
@@ -101,13 +141,7 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_csi_survey_closed_datetime)%></label></td>
-              <td class="dataCol"><%= f.text_field :closed_datetime,:id=>"id_closed_datatime"%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><%=f.check_box :same_ip_allow_flag%></td>
-              <td class="dataCol"><label><%=(t :label_csi_survey_same_ip_allow_flag)%></label></td>
+              <td class="dataCol"><%= f.text_field :closed_datetime,:id=>"id_closed_datatime", :required => true%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>

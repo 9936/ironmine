@@ -37,34 +37,34 @@ zh:
     distance_in_words:
       half_a_minute: "半分钟"
       less_than_x_seconds:
-        one: "一秒内"
+        one: "1秒内"
         other: "少于 %{count} 秒"
       x_seconds:
-        one: "一秒"
+        one: "1秒"
         other: "%{count} 秒"
       less_than_x_minutes:
-        one: "一分钟内"
+        one: "少于1分钟"
         other: "少于 %{count} 分钟"
       x_minutes:
-        one: "一分钟"
+        one: "1分钟"
         other: "%{count} 分钟"
       about_x_hours:
-        one: "大约一小时"
+        one: "大约1小时"
         other: "大约 %{count} 小时"
       x_days:
-        one: "一天"
+        one: "1天"
         other: "%{count} 天"
       about_x_months:
-        one: "大约一个月"
+        one: "大约1个月"
         other: "大约 %{count} 个月"
       x_months:
-        one: "一个月"
+        one: "1个月"
         other: "%{count} 个月"
       about_x_years:
-        one: "大约一年"
+        one: "大约1年"
         other: "大约 %{count} 年"
       over_x_years:
-        one: "一年以上"
+        one: "1年以上"
         other: "%{count} 年以上"
       almost_x_years:
         one:   "almost 1 year"
@@ -100,7 +100,7 @@ zh:
         confirmation: "与确认值不匹配"
         accepted: "必须是可被接受的"
         empty: "不能留空"
-        blank: "不能为空字符"
+        blank: "必须输入一个值"
         too_long: "过长（最长为 %{count} 个字符）"
         too_short: "过短（最短为 %{count} 个字符）"
         wrong_length: "长度非法（必须为 %{count} 个字符）"
@@ -118,6 +118,15 @@ zh:
         not_same_project: "不属于同一个项目"
         circular_dependency: "此关联将导致循环依赖"
         invaliddate: " 错误的日期类型，正确的格式如 2008-10-10"
+        code: "只允许大写字母,数字与下划线"
+        phone_number: "只允许数定与中划线"
+        downcase: "只允许小写字母"
+        upcase: "只允许大写字母"
+        number: "只允许数字"
+        downcase_number: "只允许小写字母与数字"
+        upcase_number: "只允许大写字母与数字"
+        email: "必须为电子邮件地址"
+        only_image: "只能选择图片类文件"
   activemodel:
     errors:
       template:
@@ -215,6 +224,7 @@ zh:
   label_irm_object_code: 业务对像编码
   label_irm_operation_unit: 运维中心
   label_irm_password_policy: 密码策略
+  label_irm_password_error: 原密码录入错误，请确认后再次录入
   label_irm_profile: 简档
   label_irm_profile_application: 简档应用
   label_irm_profile_function: 简档功能

@@ -23,13 +23,16 @@ class Irm::Report < ActiveRecord::Base
 
   validates_presence_of :report_type_id, :if => Proc.new { |i| i.check_step(1) }
   validates_presence_of :code, :if => Proc.new { |i| i.check_step(2) }
-  validates_uniqueness_of :code, :if => Proc.new { |i| i.code.present? }
-  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?}
+  validates_uniqueness_of :code,:scope=>[:opu_id], :if => Proc.new { |i| i.code.present? }
+  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?},:message=>:code
   validate :validate_raw_condition_clause,:if=> Proc.new{|i| i.raw_condition_clause.present?}
 
   before_save :set_condition
+
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   # 同时查询报表类型
   scope :with_report_type,lambda{|language|

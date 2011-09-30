@@ -21,6 +21,8 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
   validate :validate_data_type_filter_value, :if => Proc.new { |i| !i.attribute_name.blank? }
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
 
   def meaning
@@ -72,8 +74,10 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
         validate_filter_value = process_param(validate_filter_value)
         validate_date(operator,validate_filter_value)
       when 'varchar'
+        validate_filter_value = process_param(validate_filter_value)
         validate_string(operator,validate_filter_value)
       when 'text'
+        validate_filter_value = process_param(validate_filter_value)
         validate_string(operator,validate_filter_value)
     end
   end
@@ -146,6 +150,7 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
 
   def parse_string_condition(operator,filter_value)
     formated_filter_value = %Q('#{filter_value}')
+    formated_filter_value = %Q(#{filter_value}) if filter_value.scan(/^\{\{\S+\}\}$/).length==1
     case
       when OPERATORS[:common].include?(operator)
         parse_common_condition(operator,formated_filter_value)

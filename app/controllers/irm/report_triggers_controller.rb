@@ -1,6 +1,7 @@
 class Irm::ReportTriggersController < ApplicationController
   # GET /report_triggers
   # GET /report_triggers.xml
+  layout "application_full"
   def index
     redirect_to({:controller => "irm/reports",:action => "index"})
   end

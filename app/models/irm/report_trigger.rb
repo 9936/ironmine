@@ -11,6 +11,12 @@ class Irm::ReportTrigger < ActiveRecord::Base
   validates_uniqueness_of :report_id
   validates_presence_of :report_id
 
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
+
   #添加报表可见人员
   def create_receiver_from_str
     if(!self.receiver_type.eql?("CHOOSE_STAFF"))

@@ -17,7 +17,7 @@
     text-align: right;
   }
 </style>
-<%= common_title %>
+<%= common_title(:action_meaning=>t(:label_icm_incident_status_edit_transform)) %>
 
 <%= form_tag({:action=>"update_transform"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="bEditBlock bPageBlock">

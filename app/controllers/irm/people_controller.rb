@@ -57,11 +57,8 @@ class Irm::PeopleController < ApplicationController
   def update
     @person = Irm::Person.list_all.find(params[:id])
     @attributes = params[:irm_person]
-    @attributes.merge!({:identity_id=>params[:identity_id]}) if params[:identity_id]
-    @attributes.merge!({:unrestricted_access_flag=>params[:unrestricted_access_flag]}) if params[:unrestricted_access_flag]
-
     respond_to do |format|
-      if @person.update_attributes(@attributes)
+      if @person.update_attributes(params[:irm_person])
         if params[:return_url]
           format.html {redirect_to(params[:return_url])}
           format.xml { head :ok}
@@ -78,16 +75,18 @@ class Irm::PeopleController < ApplicationController
   end
 
   def get_data
-    @people= Irm::Person.list_all.order(:id)
+    @people= Irm::Person.not_anonymous.list_all.order(:id)
     @people = @people.match_value("#{Irm::Person.table_name}.login_name",params[:login_name])
     @people = @people.match_value("#{Irm::Person.name_to_sql(nil,Irm::Person.table_name,"")}",params[:person_name])
     @people = @people.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
-    @people = @people.match_value("#{Irm::Person.table_name}.mobile_phone",params[:mobile_phone])
-    @people = @people.match_value("#{Irm::Region.view_name}.name",params[:region_name])
+    @people = @people.match_value("#{Irm::Person.table_name}.bussiness_phone",params[:bussiness_phone])
+    @people = @people.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
+    @people = @people.match_value("pv.profile_name",params[:profile_name])
+
 
     @people,count = paginate(@people)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:region_name,:email_address,:bussiness_phone,:organization_name], count))}
+      format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:profile_name,:email_address,:bussiness_phone,:organization_name], count))}
     end
   end
 

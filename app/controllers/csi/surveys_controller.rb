@@ -92,6 +92,7 @@ class Csi::SurveysController < ApplicationController
     @surveys_new = []
     @surveys.each do |s|
       s.person_count = Csi::SurveyRange.query_range_person_count(s.id)
+      s.person_count = I18n.t(:unknow) if s.person_count == -1
       s.allow_author_only = s.current_author? if s.result_only_author == Irm::Constant::SYS_YES
       s.allow_author_only = "Y" if s.result_only_author == Irm::Constant::SYS_NO
       @surveys_new << s

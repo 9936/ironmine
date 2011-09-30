@@ -8,6 +8,12 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   attr_accessor :column_ids
   validates_presence_of :entry_title
+
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
   scope :published, where("#{table_name}.entry_status_code = ?", "PUBLISHED")
   scope :draft, where("#{table_name}.entry_status_code = ?", "DRAFT")
   scope :current_entry, where("#{table_name}.history_flag = ?", Irm::Constant::SYS_NO)
@@ -20,7 +26,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   #显示column_ids栏目中的文章，或未分类的文章
   scope :within_columns, lambda{|column_ids|
-    where("EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id AND sc.column_id IN (?)) OR NOT EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id)", column_ids + [])
+    where("EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id AND sc.column_id IN (?)) OR NOT EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id)", column_ids + [''])
   }
 
   scope :my_favorites, lambda{|person_id|
@@ -40,7 +46,12 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   scope :with_favorite_flag, lambda{|person_id|
     select("if(ef.id is null, 'Y', 'N') is_favorite").
-    joins("LEFT OUTER JOIN #{Skm::EntryFavorite.table_name} ef ON ef.person_id = #{person_id} AND ef.entry_header_id = #{table_name}.id")
+    joins("LEFT OUTER JOIN #{Skm::EntryFavorite.table_name} ef ON ef.person_id = '#{person_id}' AND ef.entry_header_id = #{table_name}.id")
+  }
+
+  scope :max_number, lambda{|opu_id|
+    select("MAX(#{table_name}.doc_number) dnum").
+        where("#{table_name}.opu_id = ?", opu_id)
   }
 
   def self.search(query)
@@ -48,8 +59,12 @@ class Skm::EntryHeader < ActiveRecord::Base
   end
 
   def self.generate_doc_number(prefix = "")
-      num = Time.now.strftime("%y%m%d").to_i * 1000000 + rand(10)
-      return prefix + num.to_s
+#      num = Time.now.strftime("%y%m%d").to_i * 1000000 + rand(10)
+#      return prefix + num.to_s
+    num = Skm::EntryHeader.max_number(Irm::OperationUnit.current.id).first[:dnum].to_i + 1
+    return num
+  rescue
+    return 1
   end
 
   def get_column_ids
@@ -66,5 +81,9 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   def to_html
     self.entry_title
+  end
+
+  def attachments
+    Irm::Attachment.list_all.query_by_source(Skm::EntryHeader.name, self.id)
   end
 end

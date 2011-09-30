@@ -25,13 +25,16 @@ class Icm::IncidentJournalsController < ApplicationController
   def create
     @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
-    # 设置回复类开
-    # 1,服务台回复
-    # 2,客户回复
-    if Irm::Person.current.profile&& Irm::Person.current.profile.user_license.eql?("REQUESTER")
+    # 设置回复类型
+    # 1,客户回复
+    # 2,服务台回复
+    # 3,其他人员回复
+    if Irm::Person.current.id.eql?(@incident_request.requested_by)
       @incident_journal.reply_type = "CUSTOMER_REPLY"
-    else
+    elsif Irm::Person.current.id.eql?(@incident_request.support_person_id)
       @incident_journal.reply_type = "SUPPORTER_REPLY"
+    else
+      @incident_journal.reply_type = "OTHER_REPLY"
     end
     #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
     unless @incident_reply.incident_status_id.present?
@@ -45,7 +48,7 @@ class Icm::IncidentJournalsController < ApplicationController
         flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         format.html { render :action => "new", :layout=>"application_right"}
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
-      elsif @incident_reply.valid? && @incident_request.update_attributes(@incident_reply.attributes)
+      elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
         process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         format.html { redirect_to({:action => "new"}) }
@@ -135,7 +138,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit_pass
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :action => "edit_pass",:layout => "application_full" }
       format.xml  { render :xml => @incident_journal }
     end
   end
@@ -169,7 +172,7 @@ class Icm::IncidentJournalsController < ApplicationController
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
-        format.html { render :action => "edit_pass" }
+        format.html { render :action => "edit_pass",:layout => "application_full" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
@@ -180,7 +183,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit_upgrade
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :action => "edit_upgrade",:layout => "application_full" }
       format.xml  { render :xml => @incident_journal }
     end
   end
@@ -219,7 +222,7 @@ class Icm::IncidentJournalsController < ApplicationController
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
-        format.html { render :action => "edit_pass" }
+        format.html { render :action => "edit_upgrade",:layout => "application_full" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
@@ -301,7 +304,7 @@ class Icm::IncidentJournalsController < ApplicationController
 
   private
   def setup_up_incident_request
-    @incident_request = Icm::IncidentRequest.list_all.with_incident_status(I18n.locale).find(params[:request_id])
+    @incident_request = Icm::IncidentRequest.list_all.find(params[:request_id])
   end
 
   def backup_incident_request

@@ -4,8 +4,13 @@ class Irm::ExternalSystemMembersController < ApplicationController
       session[:external_system_id] = params[:external_system_id]
       @external_system_id = params[:external_system_id]
     else
-      @external_system_id = session[:external_system_id]||
-          Irm::ExternalSystem.enabled.first.id
+
+      @external_system_id = session[:external_system_id]
+      unless @external_system_id.present?
+        first_system = Irm::ExternalSystem.enabled.first
+        @external_system_id ||= first_system.id if first_system
+      end
+      @external_system_id ||="0"
     end
 
     @external_system_person = Irm::ExternalSystemPerson.new

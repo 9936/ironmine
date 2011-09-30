@@ -1,15 +1,18 @@
 class Csi::SurveyMember < ActiveRecord::Base
   set_table_name :csi_survey_members
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   acts_as_urlable(:show=>{:controller=>"csi/surveys",:action=>"reply",:id=>:survey_id})
 
 
   belongs_to :survey
 
-  validates_uniqueness_of :person_id,:scope=>[:survey_id],:if=>Proc.new{|i| i.source_id.nil?}
-  validates_uniqueness_of :person_id,:scope=>[:survey_id,:source_id],:if=>Proc.new{|i| !i.source_id.nil?}
+  validates_uniqueness_of :person_id,:scope=>[:survey_id,:opu_id],:if=>Proc.new{|i| i.source_id.nil?}
+  validates_uniqueness_of :person_id,:scope=>[:survey_id,:source_id,:opu_id],:if=>Proc.new{|i| !i.source_id.nil?}
 
 
   scope :query_by_survey_id,lambda{|survey_id| where(:survey_id => survey_id)}

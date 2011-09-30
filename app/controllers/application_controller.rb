@@ -102,6 +102,7 @@ class ApplicationController < ActionController::Base
 
     if Irm::Application.current
       function_group = Irm::FunctionGroup.query_by_application_id(Irm::Application.current.id).query_by_url(url_options[:controller],url_options[:action]).first
+      session[:application_id] = Irm::Application.current.id
     end
 
     if  function_group
@@ -141,11 +142,12 @@ class ApplicationController < ActionController::Base
 
     if user && user.is_a?(Irm::Person)
       Irm::Person.current = user
+      session.clear
       session[:user_id] = user.id
+
     else
       Irm::Person.current = Irm::Person.anonymous
-      session[:user_id]=nil
-      session[:application_id]=nil
+      session.clear
     end
   end
 
@@ -232,7 +234,14 @@ class ApplicationController < ActionController::Base
   def data_filter(scoped)
     if(params[:_view_filter_id] && !params[:_view_filter_id].blank?)
       session[:_view_filter_id] = params[:_view_filter_id]
-      scoped = scoped.where(Irm::RuleFilter.find(params[:_view_filter_id]).where_clause)
+      rule_filter = Irm::RuleFilter.find(params[:_view_filter_id])
+      if Irm::Constant::SYS_NO.eql?(rule_filter.data_range)
+        bo = Irm::BusinessObject.where(:business_object_code=>rule_filter.bo_code).first
+        if bo.bo_model_name.constantize.respond_to?(:mine_filter)
+          scoped = scoped.mine_filter
+        end
+      end
+      scoped = scoped.where(rule_filter.where_clause)
     end
     scoped
   end
@@ -243,7 +252,7 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (Irm::Person.find(session[:user_id]) rescue nil)
+      (Irm::Person.unscoped.find(session[:user_id]) rescue nil)
     end
   end
 
@@ -258,7 +267,14 @@ class ApplicationController < ActionController::Base
       end
       #转向登录页面
       respond_to do |format|
-        format.html { redirect_to :controller => "irm/common", :action => "login", :back_url => url }
+        format.html {
+          # 防止在login页面进入循环跳转
+          if params[:controller].eql?("irm/common")&&params[:action].eql?("login")
+            return true
+          else
+            redirect_to :controller => "irm/common", :action => "login", :back_url => url
+          end
+        }
         format.xml { render :xml=>Irm::Person.current,:status=> :unprocessable_entity }
       end
       return false

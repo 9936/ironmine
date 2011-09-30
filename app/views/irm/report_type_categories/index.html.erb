@@ -24,11 +24,11 @@
         </div>
         <%= datatable("report_type_categories",url_for(:action=>"get_data",:format=>"json"),
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
-                       { :key => "code", :label => t(:label_irm_report_type_category_code)},
+                       { :key => "code", :label => t(:label_irm_report_type_category_code),:searchable=>true},
                        { :key => "name", :label => t(:label_irm_report_type_category_name),:searchable=>true },
                        { :key => "description", :label => t(:label_irm_report_type_category_description)}
-                      ],{:paginator_box=>"report_type_categoriesPaginatorBox",:search_box=>"report_type_categoriesSearchBox"})%>
-        <div id="report_type_categoriesPaginatorBox"></div>
+                      ],{:paginator_box=>"categoriesPaginatorBox",:search_box=>"report_type_categoriesSearchBox"})%>
+        <div id="categoriesPaginatorBox"></div>
       </div>
     </div>
 </div>

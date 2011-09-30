@@ -6,7 +6,8 @@ class Irm::WfApprovalProcessesController < ApplicationController
       session[:bo_code] = params[:bo_code]
       @bo_code = params[:bo_code]
     else
-      @bo_code = session[:bo_code]||Irm::BusinessObject.enabled.multilingual.where(:workflow_flag=>Irm::Constant::SYS_YES).first.business_object_code
+      first_approval_bo = Irm::BusinessObject.enabled.multilingual.where(:workflow_flag=>Irm::Constant::SYS_YES).first
+      @bo_code = session[:bo_code]||first_approval_bo.business_object_code if first_approval_bo
     end
 
     respond_to do |format|

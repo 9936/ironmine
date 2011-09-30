@@ -97,11 +97,11 @@ class Irm::ReportsController < ApplicationController
     #end
 
     if validate_result
-      if(params[:pre_step])&&@report.step>1
+      if(params[:pre_step])&&@report.step>2
         @report.step = @report.step.to_i-1
         session[:irm_report][:step] = @report.step
       else
-        if @report.step<5
+        if params[:pre_step].nil?&&@report.step<5
           @report.step = @report.step.to_i+1
           session[:irm_report][:step] = @report.step
         end
@@ -169,7 +169,7 @@ class Irm::ReportsController < ApplicationController
     else
       folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
     end
-    reports_scope = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).with_report_trigger.filter_by_folder_access(Irm::Person.current.id)
+    reports_scope = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).with_report_trigger.filter_by_folder_access(Irm::Person.current.id).order("report_folder_id")
 
     respond_to do |format|
       format.json {

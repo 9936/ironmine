@@ -17,7 +17,6 @@ class Irm::BuColumnsController < ApplicationController
 
   def create
     @bu_column = Irm::BuColumn.new(params[:irm_bu_column])
-    @bu_column.parent_column_id=params[:irm_bu_columns]
     respond_to do |format|
       if @bu_column.save
         format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
@@ -35,7 +34,6 @@ class Irm::BuColumnsController < ApplicationController
 
   def update
     @bu_column = Irm::BuColumn.find(params[:id])
-    @bu_column.parent_column_id=params[:irm_bu_columns] if params[:irm_bu_columns].present?
     respond_to do |format|
       if @bu_column.update_attributes(params[:irm_bu_column])
         format.html {

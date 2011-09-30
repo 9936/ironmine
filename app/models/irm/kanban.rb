@@ -1,6 +1,6 @@
 class Irm::Kanban < ActiveRecord::Base
   set_table_name :irm_kanbans
-  query_extend
+
 
   attr_accessor :name,:description
   has_many :kanbans_tls, :dependent => :destroy
@@ -9,14 +9,16 @@ class Irm::Kanban < ActiveRecord::Base
   has_many :lanes, :through => :kanban_lanes
 
   validates_presence_of :kanban_code
-  validates_uniqueness_of :kanban_code
+  validates_uniqueness_of :kanban_code,:scope=>[:opu_id]
   acts_as_multilingual
 
   before_save :validate_fields
 
-  scope :select_all, lambda{
-    select("#{table_name}.*")
-  }
+
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :with_lanes, lambda{
     joins(", #{Irm::Lane.view_name} la, #{Irm::KanbanLane.table_name} kl").

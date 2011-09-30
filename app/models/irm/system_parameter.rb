@@ -9,10 +9,13 @@ class Irm::SystemParameter < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :parameter_code
-  validates_uniqueness_of :parameter_code, :if => Proc.new { |i| !i.parameter_code.blank? }
-  validates_format_of :parameter_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.parameter_code.blank?}
+  validates_uniqueness_of :parameter_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.parameter_code.blank? }
+  validates_format_of :parameter_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.parameter_code.blank?},:message=>:code
 
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :select_all, lambda{
     select("#{table_name}.*, spt.name name, spt.description description").

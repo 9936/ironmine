@@ -32,7 +32,7 @@
         <tbody>
             <tr>
               <td class="labelCol"><label><%=t(:label_icm_close_reason_close_code)%></label></td>
-              <td class="dataCol"><%=f.text_field :close_code, :required=>true%></td>
+              <td class="dataCol"><%=f.text_field :close_code, :required=>true, :irm_uppercase => true%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
@@ -43,8 +43,14 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
+              <td class="labelCol"><label><%=t(:description)%></label></td>
+              <td class="dataCol"><%=f.text_area :description, :rows => 4%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :active)%></label></td>
-              <td class="dataCol"><%=f.select :status_code, available_active_status, {:include_blank => false}%></td>
+              <td class="dataCol"><%=f.select :status_code, available_active_status%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>

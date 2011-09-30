@@ -2,7 +2,11 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
   set_table_name :irm_ldap_auth_headers
   belongs_to :ldap_source,:foreign_key=>:ldap_source_id,:primary_key=>:id
   has_many :ldap_auth_attributes
+
+  #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
 
   scope :with_ldap_source,lambda{

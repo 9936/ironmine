@@ -20,7 +20,7 @@ module Skm::EntryHeadersHelper
       #显示 我的收藏
       html_content << content_tag(:tr, content_tag(:td, link_to(raw(get_img_icon("img18", {:class => "mruIcon", :title => t(:label_skm_entry_header_my_favorites)}, "Small")) + t(:label_skm_entry_header_my_favorites), {:controller => "skm/entry_headers", :action => "my_favorites"})))
       #显示 我的草稿
-      html_content << content_tag(:tr, content_tag(:td, link_to(raw(get_img_icon("img6", {:class => "mruIcon", :title => t(:label_incident_request)}, "Small")) + t(:label_skm_my_drafts), {:controller => "skm/entry_headers", :action => "my_drafts"})))
+#      html_content << content_tag(:tr, content_tag(:td, link_to(raw(get_img_icon("img6", {:class => "mruIcon", :title => t(:label_incident_request)}, "Small")) + t(:label_skm_my_drafts), {:controller => "skm/entry_headers", :action => "my_drafts"})))
       base_content = content_tag(:div,
                                  content_tag(:div,
                                              content_tag(:h2,  t(:label_skm_navigate_menu)),
@@ -39,6 +39,22 @@ module Skm::EntryHeadersHelper
       attachments.each do |a|
         d1 = content_tag(:td, "", :class => "dataCol")
         d2 = content_tag(:td, link_to(t(:delete), {:controller => "skm/entry_headers", :action => "remove_exits_attachment_during_create", :att_id => a.latest_version_id}, :remote => "true"), :class => "dataCol")
+        d3 = content_tag(:td, a.file_name, :class => "dataCol")
+        d4 = content_tag(:td, a.category_name, :class => "dataCol")
+        d5 = content_tag(:td, a.description, :class => "dataCol")
+        r = content_tag(:tr, d1 + d2 + d3 + d4 + d5)
+        html << r
+      end
+    end
+    raw(html)
+  end
+
+  def list_exist_skm_entry_attachments(attachments, entry_header_id)
+    html = ""
+    if attachments && attachments.any?
+      attachments.each do |a|
+        d1 = content_tag(:td, "", :class => "dataCol")
+        d2 = content_tag(:td, link_to(t(:delete), {:controller => "skm/entry_headers", :action => "remove_exits_attachment", :entry_header_id => entry_header_id, :att_id => a.latest_version_id},:confirm => t(:label_delete_confirm), :remote => "true"), :class => "dataCol")
         d3 = content_tag(:td, a.file_name, :class => "dataCol")
         d4 = content_tag(:td, a.category_name, :class => "dataCol")
         d5 = content_tag(:td, a.description, :class => "dataCol")

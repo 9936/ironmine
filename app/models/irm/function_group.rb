@@ -13,7 +13,7 @@ class Irm::FunctionGroup < ActiveRecord::Base
   # 验证编码唯一性
   validates_presence_of :code
   validates_uniqueness_of :code, :if => Proc.new { |i| !i.code.blank? }
-  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.code.blank?}
+  validates_format_of :code,:scope=>[:opu_id], :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.code.blank?} ,:message=>:code
 
   query_extend
 

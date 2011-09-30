@@ -1,9 +1,12 @@
 <%= common_title %>
 
 <% if allow_to_function?(:view_icm_kanban) %>
-<div style="display:block;width:100%;float:left;margin-bottom:15px;">
-    <div class="button"><%= link_to t(:kanban_mode), {:action => "kanban_index"}%></div>
-</div>
+  <div class="toolbar">
+      <span class="toggleButtons">
+        <%= link_to(toggle_img("listViewIcon",true),{:controller => "icm/incident_requests",:action=>"index"},{:href=>"javascript:void(0)",:title=>t(:list_mode)}) %>
+        <%= link_to(toggle_img("singleUserViewIcon"),{:action=>"kanban_index"},{:title=>t(:kanban_mode)}) %>
+      </span>
+  </div>
 <% end %>
 
 <%= view_filter("ICM_INCIDENT_REQUEST_INDEX_B","ICM_INCIDENT_REQUESTS","incident_requests") %>

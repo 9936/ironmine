@@ -10,8 +10,8 @@ class Irm::RuleFilter < ActiveRecord::Base
   validates_presence_of :filter_type,:bo_code
   validates_presence_of :filter_name,:filter_code,:source_code,:own_id,:if => Proc.new {|i| i.filter_type.eql?("PAGE_FILTER")}
   validates_presence_of :source_type,:source_id,:if => Proc.new {|i| i.filter_type.eql?("RULE_FILTER")}
-  validates_uniqueness_of :filter_code,:scope=>[:source_code], :if => Proc.new { |i| i.filter_type.eql?("PAGE_FILTER")&&!i.source_code.blank?&&!i.filter_code.blank? }
-  validates_uniqueness_of :filter_name,:scope=>[:source_code], :if => Proc.new { |i| i.filter_type.eql?("PAGE_FILTER")&&!i.source_code.blank?&&!i.filter_name.blank? }
+  validates_uniqueness_of :filter_code,:scope=>[:source_code,:opu_id], :if => Proc.new { |i| i.filter_type.eql?("PAGE_FILTER")&&!i.source_code.blank?&&!i.filter_code.blank? }
+  validates_uniqueness_of :filter_name,:scope=>[:source_code,:opu_id], :if => Proc.new { |i| i.filter_type.eql?("PAGE_FILTER")&&!i.source_code.blank?&&!i.filter_name.blank? }
   validates_presence_of :raw_condition_clause,:if=> Proc.new{|i| i.rule_filter_criterions.detect{|fc| fc.attribute_name&&!fc.attribute_name.blank?}}
   validate :validate_raw_condition_clause,:if=> Proc.new{|i| !i.raw_condition_clause.blank?}
 
@@ -19,6 +19,8 @@ class Irm::RuleFilter < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :query_by_source_code,lambda{|source_code| where(:filter_type=>"PAGE_FILTER",:source_code=>source_code)}
 

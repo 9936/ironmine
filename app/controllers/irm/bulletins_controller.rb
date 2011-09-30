@@ -128,19 +128,21 @@ class Irm::BulletinsController < ApplicationController
   def show
     @bulletin = Irm::Bulletin.where(:id => params[:id]).first()
     #浏览量统计
-    if !session[:bulletins_show] || session[:bulletins_show] != @bulletin.id
+    if !session[:bulletins_show] || !session[:bulletins_show].include?(@bulletin.id)
       Irm::Bulletin.update(@bulletin.id, {:page_views => @bulletin.page_views + 1})
-      session[:bulletins_show] = @bulletin.id
+      session[:bulletins_show] = [] if !session[:bulletins_show] || session[:bulletins_show].nil? || !session[:bulletins_show].is_a?(Array)
+      session[:bulletins_show] << @bulletin.id
     end
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :layout => "application_full" }# show.html.erb
       format.xml  { render :xml => @bulletin }
     end
   end
 
   def get_data
 #    bulletins_scope = Irm::Bulletin.list_all
-    rec = Irm::Bulletin.without_delete.accessible(Irm::Person.current.id)
+    rec = Irm::Bulletin.select_all_top.with_author.without_delete.accessible(Irm::Person.current.id).sticky.with_order
+    rec = rec + Irm::Bulletin.list_all.without_delete.accessible(Irm::Person.current.id).unsticky.with_order
 #    bulletins,count = paginate(rec)
     respond_to do |format|
       format.json  {render :json => to_jsonp(rec.to_grid_json([:id, :bulletin_title,:published_date,:page_views,:author], 10)) }
@@ -148,7 +150,9 @@ class Irm::BulletinsController < ApplicationController
   end
 
   def index
-
+    respond_to do |format|
+      format.html { render :layout => "application_full" }
+    end
   end
 
   def destroy

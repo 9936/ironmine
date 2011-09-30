@@ -14,8 +14,13 @@ class Irm::ReportFolder < ActiveRecord::Base
   has_many :reports
 
   validates_presence_of :code,:access_type,:member_type
-  validates_uniqueness_of :code, :if => Proc.new { |i| i.code.present? }
-  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?}
+  validates_uniqueness_of :code,:scope=>[:opu_id], :if => Proc.new { |i| i.code.present? }
+  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?} ,:message=>:code
+
+  #加入activerecord的通用方法和scope
+  query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :private,lambda{|person_id|
     where("#{table_name}.created_by = ?",person_id)

@@ -9,12 +9,15 @@ class Irm::ListOfValue < ActiveRecord::Base
   acts_as_multilingual({:columns =>[:name,:description,:value_title,:desc_title,:addition_title],:required=>[:name,:value_title]})
 
   validates_presence_of :lov_code,:bo_code,:id_column,:value_column
-  validates_uniqueness_of :lov_code,:if => Proc.new { |i| !i.lov_code.blank? }
-  validates_format_of :lov_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.lov_code.blank?}
+  validates_uniqueness_of :lov_code,:scope=>[:opu_id],:if => Proc.new { |i| !i.lov_code.blank? }
+  validates_format_of :lov_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.lov_code.blank?} ,:message=>:code
 
   #加入activerecord的通用方法和scope
   query_extend
 
+  def self.current_opu(from_table_name = table_name)
+    where({})
+  end
 
   scope :with_bo,lambda{|language|
     joins("JOIN #{Irm::BusinessObject.view_name} ON #{Irm::BusinessObject.view_name}.business_object_code = #{table_name}.bo_code AND #{Irm::BusinessObject.view_name}.language ='#{language}'").

@@ -5,9 +5,6 @@ module Irm::LookupTypesHelper
 #    [["启用", "ENABLED"],["失效", "OFFLINE"]]
   end
 
-  def available_entity
-    Irm::LookupValue.query_by_lookup_type("ENTITY_CODE").multilingual
-  end
 
   def available_status
     Irm::LookupValue.query_by_lookup_type("SYSTEM_STATUS_CODE").multilingual
@@ -38,7 +35,4 @@ def available_external_login_source_type
     Irm::LookupValue.query_by_lookup_type("SYSTEM_YES_NO").multilingual
   end
 
-  def available_support_role
-    Irm::LookupValue.query_by_lookup_type("IRM_SUPPORT_ROLE").multilingual.collect{|i| [i[:meaning],i[:lookup_code]]}
-  end
 end

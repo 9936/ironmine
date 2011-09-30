@@ -7,11 +7,13 @@ class Icm::PriorityCode < ActiveRecord::Base
   acts_as_multilingual
 
   validates_presence_of :priority_code,:weight_values
-  validates_uniqueness_of :priority_code, :if => Proc.new { |i| !i.priority_code.blank? }
-  validates_format_of :priority_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.priority_code.blank?}
+  validates_uniqueness_of :priority_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.priority_code.blank? }
+  validates_format_of :priority_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.priority_code.blank?},:message=>:code
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
 
   scope :query_by_weight_value,lambda{|weight_value|
     where("#{table_name}.weight_values = ?",weight_value)

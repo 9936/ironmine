@@ -3,20 +3,27 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   has_many :incident_journals
 
-  validates_presence_of :title,:requested_by,:submitted_by,:impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code
+  validates_presence_of :title,:external_system_id,:service_code,:requested_by,:submitted_by,:impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code
 
   attr_accessor :pass_flag,:close_flag
 
-  validates_presence_of :summary,:message=>I18n.t(:label_icm_incident_journal_message_body_not_blank)
+  validates_presence_of :summary,:message=>:label_icm_incident_journal_message_body_not_blank
 
+  validate
 
   validates_presence_of :support_group_id,:support_person_id,:if=>Proc.new{|i| !i.pass_flag.nil?&&!i.pass_flag.blank?}
 
   #加入activerecord的通用方法和scope
   query_extend
+  # 对运维中心数据进行隔离
+  default_scope {default_filter}
+
+
   before_save :setup_organization
   after_create :generate_request_number
-  before_validation_on_create  :setup_priority
+  before_validation({:on => :create}) do
+    setup_priority
+  end
 
 
   acts_as_recently_objects(:title => "title",
@@ -51,9 +58,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
     select(" service.name service_name")
   }
   # 查询出客户
-  scope :with_requested_by,lambda{
+  scope :with_requested_by,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} requested ON  requested.id = #{table_name}.requested_by").
-    select("requested.full_name requested_name")
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} requested_organization ON  requested_organization.id = requested.organization_id AND requested_organization.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} requested_profile ON  requested_profile.id = requested.profile_id AND requested_profile.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::Role.view_name} requested_role ON  requested_role.id = requested.role_id AND requested_role.language = '#{language}'").
+    select("requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
   }
 
   scope :with_organization,lambda{|language|
@@ -73,27 +83,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
 
   # 查询出supporter
-  scope :with_supporter,lambda{
+  scope :with_supporter,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} supporter ON  supporter.id = #{table_name}.support_person_id").
-    select("#{Irm::Person.name_to_sql(nil,'supporter','support_person_name')}")
-  }
-
-  # 查询supporter的组织
-  scope :with_supporter_organization, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} org ON org.id = supporter.organization_id AND org.language = '#{language}'").
-        select("org.name supporter_organization_name")
-  }
-
-  # 查询supporter的角色
-  scope :with_supporter_role, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Role.view_name} rl ON rl.id = supporter.role_id AND rl.language = '#{language}'").
-        select("rl.name supporter_role_name")
-  }
-
-  # 查询supporter的简档
-  scope :with_supporter_profile, lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} pf ON pf.id = supporter.profile_id AND pf.language = '#{language}'").
-        select("pf.name supporter_profile_name")
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} supporter_organization ON  supporter_organization.id = supporter.organization_id AND supporter_organization.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::Profile.view_name} supporter_profile ON  supporter_profile.id = supporter.profile_id AND supporter_profile.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::Role.view_name} supporter_role ON  supporter_role.id = supporter.role_id AND supporter_role.language = '#{language}'").
+    select("supporter.full_name supporter_name,supporter_organization.name supporter_organization_name,supporter_profile.name supporter_profile_name,supporter_role.name supporter_role_name")
   }
 
   # 查询出优先级
@@ -143,9 +138,23 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
-    where("#{table_name}.requested_by = ? OR #{table_name}.submitted_by = ? OR #{table_name}.contact_id = ? OR #{table_name}.support_person_id = ? OR EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{table_name}.support_group_id IS NOT NULL AND #{table_name}.support_person_id IS NULL AND EXISTS(SELECT 1 FROM #{Icm::SupportGroup.table_name} sg,#{Irm::GroupMember.table_name} gm WHERE gm.group_id = sg.group_id AND sg.id = #{table_name}.support_group_id  AND gm.person_id = ?))",
-    person_id,person_id,person_id,person_id,Icm::IncidentRequest.name,person_id,Irm::Person.name,person_id)
+    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (EXISTS(SELECT 1 FROM #{Icm::SupportGroup.table_name} sg,#{Irm::GroupMember.table_name} gm WHERE gm.group_id = sg.group_id AND sg.id = #{table_name}.support_group_id  AND gm.person_id = ?))",
+    Icm::IncidentRequest.name,person_id,Irm::Person.name,person_id)
   }
+
+  scope :with_reply_flag,lambda{|person_id|
+    select("IF((#{table_name}.next_reply_user_license = 'REQUESTER' AND #{table_name}.requested_by = '#{person_id}') OR (#{table_name}.next_reply_user_license = 'SUPPORTER' AND #{table_name}.support_person_id = '#{person_id}'),'Y','N') reply_flag")
+  }
+
+
+  # 在查询视图中使用，表示 我参与的事故单
+  def self.mine_filter
+    person_id = Irm::Person.current.id
+    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
+    Icm::IncidentRequest.name,person_id,Irm::Person.name)
+  end
+
+
 
   scope :filter_system_ids,lambda{|system_ids|
     if system_ids.length<1
@@ -155,9 +164,6 @@ class Icm::IncidentRequest < ActiveRecord::Base
     where("#{table_name}.id IN (?)",system_ids)
   }
 
-              scope :query_by_ids ,lambda{|ids|
-
-            }
   scope :select_all,lambda{
     select("#{table_name}.*")
   }
@@ -214,12 +220,16 @@ class Icm::IncidentRequest < ActiveRecord::Base
          where("#{table_name}.support_person_id IS NULL AND #{Irm::GroupMember.table_name}.person_id = ?",person_id)
    }
 
+  scope :with_skm_flag, lambda{
+    select("(SELECT COUNT(1) FROM #{Skm::EntryHeader.table_name} eh WHERE eh.source_type='INCIDENT_REQUEST' AND eh.source_id = #{table_name}.id) skm_flag")
+  }
+
   acts_as_watchable
   def self.list_all
     select_all.
         with_request_type(I18n.locale).
         with_service(I18n.locale).
-        with_requested_by.
+        with_requested_by(I18n.locale).
         with_urgence(I18n.locale).
         with_impact_range(I18n.locale).
         with_contact.
@@ -228,11 +238,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_priority(I18n.locale).
         with_submitted_by.
         with_support_group(I18n.locale).
-        with_supporter.
+        with_supporter(I18n.locale).
         with_external_system(I18n.locale).
-        with_supporter_organization(I18n.locale).
-        with_supporter_role(I18n.locale).
-        with_supporter_profile(I18n.locale)
+        with_skm_flag
   end
 
 
@@ -246,7 +254,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   def concat_journals
     return_val = ""
-    self.incident_journals.each do |i|
+    self.incident_journals.where("reply_type IN ('SUPPORTER_REPLY')").each do |i|
       return_val << i.message_body.to_s
       return_val << "  "
     end
@@ -340,4 +348,5 @@ class Icm::IncidentRequest < ActiveRecord::Base
       self.organization_id =  Irm::Person.find(self.requested_by).organization_id
     end
   end
+
 end

@@ -8,8 +8,11 @@ module Irm::QueryExtend
         def query_extend(options = {})
           return if self.included_modules.include?(::Irm::QueryExtend::InstanceMethods)
           send :include, ::Irm::QueryExtend::InstanceMethods
+          default_options = {:opu_filter=>false}
+          query_options =  default_options.merge(options)
 
           class_eval do
+
             scope :enabled,where("#{table_name}.status_code = ?",Irm::Constant::ENABLED)
             scope :disabled,where("#{table_name}.status_code = 'OFFLINE'")
 
@@ -21,7 +24,7 @@ module Irm::QueryExtend
               if ids.length<1
                 ids = ids+[0]
               end
-              where("#{table_name}.id IN (?)",ids+[0])
+              where("#{table_name}.id IN (?)",ids)
             }
 
 
@@ -54,9 +57,51 @@ module Irm::QueryExtend
               { :order => key_part1.to_s+" "+ key_part2.to_s
               }
             }
+
+
+            scope :default_filter ,lambda{
+              current_opu
+            }
+
+            def self.current_opu(from_table_name = table_name)
+              current_operation_unit = Irm::OperationUnit.current
+              if current_operation_unit
+                where("#{from_table_name}.opu_id = ?",current_operation_unit.id)
+              else
+                where({})
+              end
+            end
+
+            def self.by_opu(opu_id_or_ids=nil,from_table_name = table_name)
+              opu_ids = []
+
+              if opu_id_or_ids
+                if opu_id_or_ids.is_a?(Array)
+                  opu_ids =  opu_id_or_ids
+                elsif opu_id_or_ids.is_a?(String)
+                  opu_ids = [opu_id_or_ids]
+                end
+              else
+                current_operation_unit = Irm::OperationUnit.current
+                opu_ids = [current_operation_unit.id] if current_operation_unit
+              end
+
+              if opu_ids.any?
+                if opu_ids.length==1
+                  return where("#{from_table_name}.opu_id = ?",opu_ids.first)
+                else
+                  return where("#{from_table_name}.opu_id IN (?)",opu_ids)
+                end
+              else
+                return {}
+              end
+
+            end
+
             def wrap_name
               self[:name]
             end
+
           end
         end
     end
