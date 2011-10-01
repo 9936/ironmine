@@ -1,0 +1,433 @@
+body#body {
+    background:url("../images/gradient_body.png") repeat-x scroll 0 0 #1797C0;
+}
+
+#contentWrapper {
+    background-image: none;
+    background-position: left top;
+    background-repeat: repeat-x;
+}
+
+#pageHeader .phHeader {
+    margin-bottom: 10px;
+    background-color: #1797C0;
+}
+
+#pageHeader .phHeader .left {
+    width: 230px;
+}
+
+#pageHeader .phHeader td {
+    vertical-align: top;
+}
+
+#pageHeader .phHeader td.left {
+    background:url("../images/appHeader_l.png") no-repeat scroll left bottom transparent !important;
+}
+
+#pageHeader .phHeader td.searchCell {
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.headerSearchContainer {
+    border:0 none;
+    font-family:Arial;
+    height:24px;
+    margin-left:21px;
+    position:relative;
+    width:270px;
+}
+
+.headerSearchLeftRoundedCorner, .headerSearchContainer .headerSearchOptions {
+    padding-left: 11px;
+}
+
+.headerSearchLeftRoundedCorner, .headerSearchRightRoundedCorner, .searchBoxClearContainer {
+    border:0 none;
+    display:inline-block;
+    height:24px;
+}
+
+.headerSearchLeftRoundedCorner {
+    background:url("../images/unified_search_sprite.png") no-repeat scroll left -216px transparent;
+}
+
+.headerSearchRightRoundedCorner {
+    background:url("../images/unified_search_sprite.png") no-repeat scroll right -168px transparent;
+    border-left:1px solid #DDDDDD;
+    cursor:pointer;
+    left:203px;
+    padding-left:0;
+    padding-right:11px;
+    position:absolute;
+}
+
+.searchBoxClearContainer {
+    background:url("../images/unified_search_background_sprite.png") repeat-x scroll left -168px transparent;
+    position:absolute;
+    width:192px;
+}
+
+.headerSearchLeftRoundedCorner #phSearchInput {
+    background-color:#FFFFFF;
+    border:0 none;
+    color:#222222;
+    font-family:Arial;
+    font-size:100%;
+    height:16px;
+    margin:0;
+    padding:0;
+    position:relative;
+    top:4px;
+    width:172px;
+}
+
+.headerSearchRightRoundedCorner #phSearchButton {
+    background:url("../images/unified_search_background_sprite.png") repeat-x scroll left -120px transparent;
+    border:0 none;
+    color:#1797C0;
+    cursor:pointer;
+    font-family:Arial;
+    font-size:90%;
+    font-weight:bold;
+    height:24px;
+    margin:0;
+    overflow:visible;
+    padding-left:8px;
+    padding-right:0;
+    width:auto;
+}
+
+.page-header .phHeader td.right {
+    text-align: right;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.page-header td.right.vtop {
+    vertical-align: top;
+}
+
+.page-header td.right {padding-right:19px;vertical-align:middle;background:url("../images/appHeader_r.png") no-repeat scroll right bottom transparent;}
+
+#pageHeader .phHeader td.left img:first-child {
+    margin-bottom: 3px;
+    margin-left: 3px;
+    margin-right: 0;
+    margin-top: 0;
+}
+
+/*******************************************************************/
+/************************ top right list menu style ***************************/
+
+.multiforce {
+    font-weight: bold;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.messages {height: 22px;}
+
+.menuParent {
+    text-align: left;
+}
+.menuParent div.menuLabel {
+    -moz-border-radius: 11px 11px 11px 11px;
+    -webkit-border-radius: 11px;
+    padding: 0 30px 0 15px;
+    padding: 0 12px 0 12px\9;
+    height: 24px;
+    line-height: 24px;
+ }
+.menuParent div.menuLabel .menuButtonArrow{
+     float:right;
+     padding-right:10px;
+ }
+
+.menuParent div.menuLabelHover{
+    -moz-border-radius: 11px 11px 11px 11px;
+    -webkit-border-radius: 11px;
+    background: white;
+    background: transparent\9;
+    color: #1797C0;
+    position: relative\9;
+ }
+.menuParent div.menuLabelClick{
+    -moz-border-radius: 11px 11px 0 0;
+    -webkit-border-top-left-radius: 11px;
+    -webkit-border-top-right-radius: 11px;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    background:white;
+    background: transparent\9;
+    color: #1797C0;
+    position: relative\9;
+ }
+
+.menuParent div.menuContent{
+    display:none;
+    padding: 3px 15px 3px 15px;
+    padding: 0 \9;
+    -moz-box-shadow: 0 2px 4px rgba(127, 127, 127, 0.3);
+    -webkit-box-shadow:rgba(127, 127, 127, 0.292969) 0 2px 4px;
+    box-shadow: 0 2px 4px rgba(127, 127, 127, 0.292969);
+ }
+.menuParent div.menuContentVisual{
+    display:block;
+    -moz-border-radius: 11px 0 11px 11px;
+    -webkit-border-top-left-radius: 11px;
+    -webkit-border-bottom-right-radius: 11px;
+    -webkit-border-bottom-left-radius: 11px;
+    background:white;
+    background:transparent\9;
+    min-width: 150px;
+ }
+
+.menuParent div.menuContent a {
+    -moz-border-radius: 11px 11px 11px 11px;
+    -webkit-border-radius: 11px;
+    color: #333435;
+    margin: 0 0;
+    padding: 4px 15px;
+    margin-left: 12px\9;
+    margin-right: 12px\9;
+    text-decoration: none;
+    z-index:10000;
+    display: block;
+}
+
+.menuParent div.menuContent a:hover {background-color:#E3F3FF;}
+.menuLabel {
+    color: #fff;
+    cursor: pointer;
+    background-color: transparent;
+}
+.menuItem {font-weight: normal;}
+
+#pageMenu{
+    -moz-border-radius:11px 11px 11px 11px;
+    -webkit-border-radius: 11px;
+    background:none repeat scroll 0 0 #35B4E9;
+}
+#pageMenu-arrow, #settingMenu-arrow #companyMenu-arrow {
+    background:url("../images/header_mutton.png") no-repeat scroll 0 -129px transparent;
+    height:5px;
+    position:relative;
+    right:-12px;
+    top:10px;
+    width:8px;
+    float:right;
+}
+.menuLabel span{float:left;padding:0 18px 0 3px\9; }
+
+.menuParent div.menuLabelHover #pageMenu-arrow,
+.menuParent div.menuLabelClick #pageMenu-arrow,
+.menuParent div.menuLabelHover #settingMenu-arrow,
+.menuParent div.menuLabelClick #settingMenu-arrow{background-position: 0 -145px;}
+.messages{height:22px;}
+.notifyMessage{
+    border-radius: 4px 4px 4px 4px;
+    border-color: #3399FF;
+    background-color: #FFFFCC;
+    border-style: solid;
+    border-width: 1px;
+    color: #000000;
+    padding: 6px 8px 6px 6px;
+}
+
+.menuButton {
+    margin-top: 10px;
+    text-align: left;
+    display:inline-block;
+    display:inline\9;
+}
+.asButton > .menuButton{display:inline;}
+.menuButton div.menuLabel {
+    height: 20px;
+    line-height: 20px;
+ }
+
+.menuButton div.menuLabel a {
+    background: url("../images/btn_mutton_sprite.png") repeat-x scroll right top #E8E8E9;
+    border-color: #B5B5B5 #B5B5B5 #7F7F7F;
+	border-width: 1px;
+    border-style: solid;
+    border-radius: 3px 3px 3px 3px;
+	text-decoration: none;
+	color:#333333;
+	display: inline-block;
+	padding: 0 25px 0 8px;
+	height: 20px;
+    font-size: 11px;
+    font-weight: bold;
+	line-height: 20px;
+}
+.menuButton div.menuLabel a:hover{background-position: right -30px;}
+.menuButton div.menuLabel a[class="disabled"] {
+    color: #a9a9a9;
+    background: none;
+    background-color: #ededed;
+}
+.menuButton div.menuLabel .menuButtonArrow{
+     float:right;
+     padding-right:10px;
+ }
+
+
+.menuButton div.menuContent{
+    display:none;
+    padding: 3px;
+    background-color: #F8F8F8;
+    border: 1px solid #7D7D7D;
+ }
+.menuButton div.menuContentVisual{
+    display:block;
+    background:white;
+    min-width: 150px;
+ }
+
+.menuButton div.menuContent a {
+    color: #333435;
+    margin: 0 0;
+    padding: 4px 15px;
+    text-decoration: none;
+    z-index:10000;
+    display: block;
+}
+
+.menuButton div.menuContent a:hover {background-color:#E3F3FF;}
+.menuButton .menuLabel {
+    color: #fff;
+    cursor: pointer;
+}
+.menuButton .menuItem {font-weight: normal;}
+
+.page-header .phHeader .navLinks {
+    display: inline-block;
+    margin-top: 5px;
+    position: static;
+}
+
+.multiforce .navLinks {
+    color: #999999;
+    position: relative;
+    top: 2px;
+    vertical-align: top;
+}
+
+.navLinks .linkElements > a {
+    color:#FFFFFF;
+    font-size:0.925em;
+    margin-left:14px;
+    margin-right:9px;
+    padding-top: 3px;
+    text-decoration:none;
+    vertical-align:baseline;
+}
+
+.navLinks .linkElements > a:hover {
+    text-decoration:underline;
+}
+
+/*******************************************************************/
+/* tabs */
+body .tabsNewBar .tabNavigation {
+    background:url("../images/tabbar_sprite.png") repeat-x scroll left -73px transparent;
+    margin:0 5px;
+    padding:3px 0 0;
+    position:relative;
+}
+.tabNavigation, .blank .tabNavigation {
+    background-image:url("../images/blank_bg.gif");
+    background-position:center bottom;
+    background-repeat:repeat-x;
+}
+.tabNavigation {
+    font-family:'Verdana','Geneva',sans-serif;
+    font-size:91%;
+    margin-bottom:6px;
+    padding-bottom:10px;
+    padding-left:10px;
+}
+body .tabsNewBar .tabNavigation .tabBarLeft {
+    background:url("../images/tabbar_sprite.png") no-repeat scroll 0 0 transparent;
+    height:100%;
+    left:-15px;
+    position:absolute;
+    top:0;
+    width:15px;
+}
+body .tabsNewBar .tabNavigation .tabBarRight {
+    background:url("../images/tabbar_sprite.png") no-repeat scroll -15px 0 transparent;
+    height:100%;
+    position:absolute;
+    right:-15px;
+    top:0;
+    width:15px;
+}
+
+body .tabsNewBar .tabNavigation .tab {height:25px;}
+table.tab {line-height:normal;}
+body .tab td {border:medium none;padding-left:0;}
+
+.tab td {
+    background-image:url("../images/motiftab3.gif");
+    background-position:left -156px;
+    background-repeat:no-repeat;
+    border-bottom:1px solid #A4A29E;
+    margin:0;
+    padding:0 0 0 6px;
+    text-align:center;
+}
+
+body.homeTab {margin:0 10px;}
+.homeTab .tabNavigation .tab .currentTab, .homeTab #motifCurve, .homeTab #motifCurve #mc_l, .homeTab #motifCurve #mc_r {
+background-color:#1797C0;
+}
+#mc_l, #mc_r {
+    background:url("../images/motifCurve_sprite.png") no-repeat scroll 0 0 transparent;
+    height:9px;
+    position:absolute;
+    width:5px;
+}
+#mc_l {background-position:left -10px;left:-5px;}
+#mc_r {background-position:right -10px;right:-5px;}
+
+body .tabNavigation .tab .currentTab {
+    background-image:url("../images/tabs_sprite.png");
+    background-position:left 0;
+    background-repeat:no-repeat;
+}
+
+.homeTab .primaryPalette, .individualPalette .homeBlock .primaryPalette {background-color:#1797C0;border-color:#1797C0;}
+body .tabNavigation .tab .currentTab div {
+    background-image:url("../images/tabs_sprite.png");
+    background-position:right -150px;
+    background-repeat:no-repeat;
+}
+body .tabNavigation .tab td div {
+    color:#4B4B57;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:1.18em;
+    font-weight:bold;
+    max-height:15px;
+    padding:7px 10px;
+}
+body .tabNavigation .tab .currentTab a {color:#FFFFFF;}
+body .tabNavigation .tab .currentTab a:hover {text-decoration:underline;}
+
+.tabsNewBar {
+    border:0 none;
+    margin:0;
+    padding:0;
+    width:100%;
+}
+.tab a {font-size:13px;line-height:16px;color:#444444;text-decoration:none;}
+.tab a:hover {text-decoration:underline;}
+.tab .last a {font-size:13px;}
+
+body .tab td, body .tab td div, body .tab .last div {background-image: none;background-repeat: no-repeat;}
+body .tabNavigation .tab a {color: #353535;}
+
+.tabNavigation .tab .currentTab, #motifCurve, #motifCurve #mc_l, #motifCurve #mc_r {background-color: #1797C0;}

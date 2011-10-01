@@ -7,29 +7,29 @@ a.headerSearchOptionsLink{text-decoration: none;}
 body.sfdcBody {background:url("../images/gradient_body.png") repeat-x scroll 0 0 #1797C0;}
 body.setupTab {margin:0 10px;}
 #contentWrapper {display:inline-block;min-width:100%;}
-body #AppBodyHeader {background-image:none;}
+body #pageHeader {background-image:none;}
 
-#AppBodyHeader .phHeader {background-color:#1797C0;}
-#AppBodyHeader .phHeader {margin-bottom:10px;}
-.bPageHeader .phHeader {background-position:right top;background-repeat:no-repeat;}
-.bPageHeader .phHeader, .tabsNewBar {
+#pageHeader .phHeader {background-color:#1797C0;}
+#pageHeader .phHeader {margin-bottom:10px;}
+.page-header .phHeader {background-position:right top;background-repeat:no-repeat;}
+.page-header .phHeader, .tabsNewBar {
     border:0 none;
     margin:0;
     padding:0;
     width:100%;
 }
-.bPageHeader .phHeader .left .spacer, .bPageHeader .phHeader td.left {
+.page-header .phHeader .left .spacer, .page-header .phHeader td.left {
 width:230px;
 }
-.bPageHeader td.left {background:url("../images/appHeader_l.png") no-repeat scroll left bottom transparent !important;}
-.bPageHeader .phHeader td {vertical-align:top;}
-.bPageHeader, .bPageHeader td.left {
+.page-header td.left {background:url("../images/appHeader_l.png") no-repeat scroll left bottom transparent !important;}
+.page-header .phHeader td {vertical-align:top;}
+.page-header, .page-header td.left {
     background-image:url("../images/bgTop.gif");
     background-position:left top;
     background-repeat:repeat-x;
 }
-#AppBodyHeader .phHeader td.left img:first-child {margin:0 0 3px 3px;}
-.bPageHeader td.right.vtop {vertical-align:top;}
+#pageHeader .phHeader td.left img:first-child {margin:0 0 3px 3px;}
+.page-header td.right.vtop {vertical-align:top;}
 .navLinks .linkElements > a {
     color:#FFFFFF;
     font-size:0.925em;
@@ -43,11 +43,11 @@ width:230px;
     text-align:right;
     white-space:nowrap;
 }
-.bPageHeader .phHeader .navLinks {
+.page-header .phHeader .navLinks {
 margin-top:0;
 position:static;
 }
-.bPageHeader .phHeader .navLinks {
+.page-header .phHeader .navLinks {
     display:inline-block;
     margin-top:-2px;
 }
@@ -58,11 +58,11 @@ position:static;
     vertical-align:top;
 }
 
-.bPageHeader .phHeader td.right {text-align:right;white-space:nowrap;width:100%;}
-.bPageHeader td.right {padding-right:19px;vertical-align:middle;}
-.bPageHeader td.right {background:url("../images/appHeader_r.png") no-repeat scroll right bottom transparent;}
+.page-header .phHeader td.right {text-align:right;white-space:nowrap;width:100%;}
+.page-header td.right {padding-right:19px;vertical-align:middle;}
+.page-header td.right {background:url("../images/appHeader_r.png") no-repeat scroll right bottom transparent;}
 
-body.bodyDiv{background-color: #fff;margin: 0 10px; height: 100%; position: relative;}
+body.page-body{background-color: #fff;margin: 0 10px; height: 100%; position: relative;}
 /* tabs */
 body .tabsNewBar .tabNavigation {
     background:url("../images/tabbar_sprite.png") repeat-x scroll left -73px transparent;
@@ -112,7 +112,7 @@ body .tab td, body .tab td div, body .tab .last div {background-image:none;backg
     padding:0 0 0 6px;
     text-align:center;
 }
-#bodyDiv_setup #motifCurve {height:3px;margin:0;}
+#pageBodySetup #motifCurve {height:3px;margin:0;}
 
 .setupTab .tabNavigation .tab .currentTab, .setupTab #motifCurve, .setupTab #motifCurve #mc_l, .setupTab #motifCurve #mc_r {background-color:#747E96;}
 
@@ -123,14 +123,14 @@ body .tab td, body .tab td div, body .tab .last div {background-image:none;backg
     margin:0 -5px;
     position:relative;
 }
-div#bodyDiv_setup table.outer td.oLeft {background:url("../images/setup_sidebar_shadow.png") repeat-y scroll right top transparent;}
+div#pageBodySetup table.outer td.oLeft {background:url("../images/setup_sidebar_shadow.png") repeat-y scroll right top transparent;}
 .sysAdminTab .outer td.oLeft, .setupTab .outer td.oLeft {width:230px;}
 .sysAdminTab .outer td.oLeft, .setupTab .outer td.oLeft {width:220px;}
 
 /************************************/
 /*****************   body cell ********************/
-div#bodyDiv_setup table.outer td.oRight {background-color:#FFFFFF;}
-body .bodyDiv .outer .oRight, body .bodyDiv .outerNoSidebar {background-color:transparent;}
+div#pageBodySetup table.outer td.oRight {background-color:#FFFFFF;}
+body .page-body .outer .oRight, body .page-body .outerNoSidebar {background-color:transparent;}
 .setupTab .outer .oRight, .sysAdminTab .outer .oRight {padding-left:10px;}
 .outer td.oRight {padding:0 10px 20px 210px;}
 .outer td.oRight {background-color:#FFFFFF;padding:0 10px 10px 210px;}
@@ -231,26 +231,26 @@ body .tabNavigation .tab .allTabsArrow {
     width:6px;
 }
 
-#bodyDiv_setup #bd_l {
+#pageBodySetup #bd_l {
     left:-10px;
     width:10px;
 }
 
-body .bodyDiv #bd_l {
+body .page-body #bd_l {
     background:url("../images/bd_sprite.png") repeat-y scroll left top transparent;
     height:100%;
     left:-20px;
     position:absolute;
     width:20px;
 }
-#bodyDiv_setup #mc_l, #bodyDiv_setup #mc_r, #bodyDiv_setup #bd_b {display:none;}
-#bodyDiv_setup #bd_r {
+#pageBodySetup #mc_l, #pageBodySetup #mc_r, #pageBodySetup #bd_b {display:none;}
+#pageBodySetup #bd_r {
     left:10px;
 }
-#bodyDiv_setup {
+#pageBodySetup {
     margin:0;
 }
-body .bodyDiv #bd_r {
+body .page-body #bd_r {
     background:url("../images/bd_right_shadow.png") repeat-y scroll right top transparent;
     height:100%;
     left:20px;
@@ -301,31 +301,31 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 }
 
 /********body cell*******/
-.setupTab.detailPage div.bDetailBlock.bPageBlock[id="ep"] {margin-bottom:20px;}
-body.detailPage .bDetailBlock.bPageBlock[id^="ep"] {
+.setupTab.detailPage div.detail-block.page-block[id="ep"] {margin-bottom:20px;}
+body.detailPage .detail-block.page-block[id^="ep"] {
     background-color:inherit;
     border:inherit;
     margin-bottom:auto;
 }
-body .bDetailBlock.bPageBlock, body .individualPalette .bDetailBlock.bPageBlock {
+body .detail-block.page-block, body .individualPalette .detail-block.page-block {
     background-color:transparent;
     border:0 none;
     margin-bottom:25px;
 }
-body .bPageBlock.bDetailBlock .pbHeader {border:0 none;}
-body .bPageBlock .pbHeader {
+body .page-block.detail-block .pbHeader {border:0 none;}
+body .page-block .pbHeader {
     background-color:transparent;
     margin:0;
     padding:0;
 }
-.bPageBlock .pbHeader {
+.page-block .pbHeader {
     background-color:#EEECD1;
     border-bottom:1px solid #FFFFFF;
     margin:0 2px 0 0;
     padding-bottom:2px;
 }
-.bPageBlock {font-size:105%;}
-.bPageBlock {
+.page-block {font-size:105%;}
+.page-block {
     background-color:#222222;
     background-image:url("../images/bgPageBlockLeft.gif");
     background-position:left bottom;
@@ -336,7 +336,7 @@ body .bPageBlock .pbHeader {
     padding-bottom:9px;
 }
 
-body .bRelatedList .pbTitle h3, body .bPageBlock .pbTitle h2, body .bPageBlock .pbTitle h3, body .bSubBlock h3.lbHeader {
+body .bRelatedList .pbTitle h3, body .page-block .pbTitle h2, body .page-block .pbTitle h3, body .sub-block h3.lbHeader {
     color:#000000;
     font-size:15px;
     font-weight: bold;
@@ -348,55 +348,55 @@ body .bRelatedList .pbTitle h3, body .bPageBlock .pbTitle h2, body .bPageBlock .
     padding:0;
 }
 
-.bPageBlock .pbButton {
+.page-block .pbButton {
     padding:1px 0;
     vertical-align:middle;
 }
-body .bPageBlock .pbBody {padding:0;}
-body .bPageBlock, body .bPageBlock .pbBody, body .bPageBlock .pbBottomButtons {
+body .page-block .pbBody {padding:0;}
+body .page-block, body .page-block .pbBody, body .page-block .pbBottomButtons {
     background-color:transparent;
     background-image:none;
     margin:0;
 }
-.bTask .bPageBlock .pbBody {padding:5px 20px 0 !important;}
-.bPageBlock .setupOverview a, .bPageBlock .setupResource a {text-decoration:none;}
-.bPageBlock .setupOverview a:hover, .bPageBlock .setupResource a:hover {text-decoration:underline;}
-body .bPageBlock .pbBody .labelCol, body .bPageBlock .pbBody .dataCol, body .bPageBlock .pbBody .data2Col {
+.bTask .page-block .pbBody {padding:5px 20px 0 !important;}
+.page-block .setupOverview a, .page-block .setupResource a {text-decoration:none;}
+.page-block .setupOverview a:hover, .page-block .setupResource a:hover {text-decoration:underline;}
+body .page-block .pbBody .labelCol, body .page-block .pbBody .dataCol, body .page-block .pbBody .data2Col {
     padding-bottom:5px;
     padding-top:5px;
 }
-.bPageBlock .detailList .labelCol {width:18%;}
-.bPageBlock .detailList .dataCol {width:32%;}
-.bPageBlock .dataCol {padding:2px 2px 2px 10px;text-align:left;}
-.bPageBlock textarea {font-size: 12px;}
+.page-block .detailList .labelCol {width:18%;}
+.page-block .detailList .dataCol {width:32%;}
+.page-block .dataCol {padding:2px 2px 2px 10px;text-align:left;}
+.page-block textarea {font-size: 12px;}
 
-body .bPageBlock .detailList tr td, body .bPageBlock .detailList tr th, body table.list tr td, body table.list tr th, body .hoverDetail .bPageBlock .detailList tr td, body .hoverDetail .bPageBlock .detailList tr th {
+body .page-block .detailList tr td, body .page-block .detailList tr th, body table.list tr td, body table.list tr th, body .hoverDetail .page-block .detailList tr td, body .hoverDetail .page-block .detailList tr th {
     border-color:#ECECEC;
 }
-.bPageBlock .detailList tr td, .bPageBlock .detailList tr th, .hoverDetail .bPageBlock .detailList tr td, .hoverDetail .bPageBlock .detailList tr th {
+.page-block .detailList tr td, .page-block .detailList tr th, .hoverDetail .page-block .detailList tr td, .hoverDetail .page-block .detailList tr th {
     border-bottom:1px solid #E3DEB8;
 }
-.bPageBlock .detailList th, .bPageBlock .detailList td {vertical-align:top;}
-.bPageBlock .labelCol {
+.page-block .detailList th, .page-block .detailList td {vertical-align:top;}
+.page-block .labelCol {
     color:#333333;
     font-size:91%;
     font-weight:bold;
     padding:2px 10px 2px 2px;
     text-align:right;
 }
-body .bDetailBlock.bPageBlock .pbBody .dataCol {border-right-color:transparent;}
-body .bPageTitle .ptBody .pageType {
+body .detail-block.page-block .pbBody .dataCol {border-right-color:transparent;}
+body .page-title .pt-body .pageType {
     color:#4A4A56;
     font-size:0.9em;
     font-weight:bold;
     padding-left:1px;
 }
-div#bodyDiv_setup > table.outer {background-color:#F2F2F3;}
-body .bodyDiv #bodyTable {padding-left:0;padding-right:0;}
+div#pageBodySetup > table.outer {background-color:#F2F2F3;}
+body .page-body #bodyTable {padding-left:0;padding-right:0;}
 .outer {margin:0;}
 
-.setupTab .mComponent .cHeader, .setupTab .genericTable, .setupTab .bSubBlock, .setupTab .bPageBlock {border-top:3px solid #747E96;}
-body .bPageBlock, body #bodyCell .bResource .secondaryPalette, body .secondaryPalette.bPageBlock, body .overlayDialog .secondaryPalette.bPageBlock, body .individualPalette .secondaryPalette.bPageBlock, body .bodyDiv .genericTable, body .genericPageBlockTable, body .bodyDiv .bSubBlock, body .bComponentBlock .bPageBlock, body .bMyDashboard .bPageBlock, body.rlHoverFrame .bPageBlock, body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.bPageBlock, body.popupTab .secondaryPalette.bPageBlock, body.UserTagStatsPage .secondaryPalette.bPageBlock {
+.setupTab .mComponent .cHeader, .setupTab .genericTable, .setupTab .sub-block, .setupTab .page-block {border-top:3px solid #747E96;}
+body .page-block, body #bodyCell .bResource .secondaryPalette, body .secondaryPalette.page-block, body .overlayDialog .secondaryPalette.page-block, body .individualPalette .secondaryPalette.page-block, body .page-body .genericTable, body .genericPageBlockTable, body .page-body .sub-block, body .bComponentBlock .page-block, body .bMyDashboard .page-block, body.rlHoverFrame .page-block, body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.page-block, body.popupTab .secondaryPalette.page-block, body.UserTagStatsPage .secondaryPalette.page-block {
     -moz-border-radius:4px 4px 4px 4px;
     background-color:#F8F8F8;
     border-bottom:1px solid #EAEAEA;
@@ -405,7 +405,7 @@ body .bPageBlock, body #bodyCell .bResource .secondaryPalette, body .secondaryPa
 }
 
 
-.bEditBlock .pbHeader > table, .apexp .bPageBlock.apexDefaultPageBlock .pbHeader > table, #ep.bLayoutBlock .pbHeader > table {border-bottom:1px solid #DBDBDB;padding:5px 0;}
+.edit-block .pbHeader > table, .apexp .page-block.apexDefaultPageBlock .pbHeader > table, #ep.bLayoutBlock .pbHeader > table {border-bottom:1px solid #DBDBDB;padding:5px 0;}
 .setupTab form#editPage .pbBody .pbSubheader.first {
 border-top:0 none;
 }
@@ -416,19 +416,19 @@ form .pbBody .pbSubheader {
     color:#000000;
     padding:4px 16px;
 }
-body .bDetailBlock.bPageBlock .pbBody .pbSubheader, body.FindSimilarOppsSearchUi .bPageBlock .pbBody .pbSubheader {background-color:transparent;}
-body .bPageBlock .pbBody .pbSubheader {
+body .detail-block.page-block .pbBody .pbSubheader, body.FindSimilarOppsSearchUi .page-block .pbBody .pbSubheader {background-color:transparent;}
+body .page-block .pbBody .pbSubheader {
     border-style:solid;
     border-width:2px 0 0;
     color:#27282E;
     padding:4px 3px;
 }
 
-body .bPageBlock .pbBody .pbSubheader .hideListButton {
+body .page-block .pbBody .pbSubheader .hideListButton {
     background:url("../images/twisty_sprite.png") no-repeat scroll 0 -11px transparent;
 }
 
-body .bPageBlock .pbBody .pbSubheader img {
+body .page-block .pbBody .pbSubheader img {
 background-repeat:no-repeat;
 height:11px;
 margin-right:4px;
@@ -446,7 +446,7 @@ width:11px;
     background-color:#8A9EBE;
     border-color:#8A9EBE;
 }
-body .bEditBlock .pbBody .pbSubheader.first {border-top:medium none;}
+body .edit-block .pbBody .pbSubheader.first {border-top:medium none;}
 .setupTab .tertiaryPalette, .individualPalette .setupBlock .tertiaryPalette, .layoutEdit .individualPalette .setupBlock .tertiaryPalette {
     background-color:#8E9DBE;
     border-color:#8E9DBE;
@@ -461,7 +461,7 @@ body .bEditBlock .pbBody .pbSubheader.first {border-top:medium none;}
     overflow:hidden;
     padding:2px 2px 2px 5px;
 }
-body .bPageBlock .pbBody .pbSubheader h3, body .bWizardBlock .bPageBlock .pbBody .pbSubheader label {font-size:1.2em;}
+body .page-block .pbBody .pbSubheader h3, body .bWizardBlock .page-block .pbBody .pbSubheader label {font-size:1.2em;}
 h1, h2, h3, h4, h5, h6 {
     display:inline;
     font-family:'Verdana','Geneva',sans-serif;
@@ -469,9 +469,9 @@ h1, h2, h3, h4, h5, h6 {
     margin:0;
 }
 
-.bEditBlock .pbSubheader .pbSubExtra {margin-right:0;}
+.edit-block .pbSubheader .pbSubExtra {margin-right:0;}
 .pbSubheader .pbSubExtra {float:right;margin-right:2em;}
-.bEditBlock .requiredLegend {background-color:transparent;}
+.edit-block .requiredLegend {background-color:transparent;}
 .requiredLegend {
     background-color:#FFFFFF;
     color:#000000;
@@ -488,7 +488,7 @@ h1, h2, h3, h4, h5, h6 {
     margin:0 0.2em 0 0.3em;
     padding:1px 0;
 }
-.bEditBlock .requiredMark, .pbSubheader .requiredLegend .requiredMark {
+.edit-block .requiredMark, .pbSubheader .requiredLegend .requiredMark {
     color:#F8F8F8;
     margin-right:2px;
 }
@@ -497,19 +497,19 @@ h1, h2, h3, h4, h5, h6 {
     display:inline;
     position:absolute;
 }
-.editPage .bPageBlock .detailList tr td, .editPage .bPageBlock .detailList tr th {border-bottom:medium none;}
+.editPage .page-block .detailList tr td, .editPage .page-block .detailList tr th {border-bottom:medium none;}
 form .pbBottomButtons {
     border-top:1px solid #DBDBDB;
 }
-body .bEditBlock .pbBottomButtons, body .apexp .bPageBlock.apexDefaultPageBlock .pbBottomButtons {margin-top:20px;}
+body .edit-block .pbBottomButtons, body .apexp .page-block.apexDefaultPageBlock .pbBottomButtons {margin-top:20px;}
 form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important;}
 
 
 /********************************************************************/
 .listRelatedObject .pbBody {padding: 0 !important;}
 .datatable table{width:100%;}
-.bPageBlock .pbHeader > #hotlist > table > tbody > tr > td {padding:5px 6px;}
-.bPageBlock .pbHeader .pbHelp {
+.page-block .pbHeader > #hotlist > table > tbody > tr > td {padding:5px 6px;}
+.page-block .pbHeader .pbHelp {
     padding:1px 5px 1px 1px;
     text-align:right;
     vertical-align:middle;
@@ -517,39 +517,39 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
 /***************************tools content***********************************/
 .toolsContent {width:100%;}
 .toolsContentLeft {margin-right:10px;}
-.bSubBlock .lbHeader {padding-left:1px;padding-right:0;}
-body .bSubBlock .lbBody {
+.sub-block .lbHeader {padding-left:1px;padding-right:0;}
+body .sub-block .lbBody {
     background-color:#FFFFFF;
     border:1px solid #E8E8E8;
     margin:5px 0 0;
     padding:5px;
 }
-body .bPageBlock {
+body .page-block {
     border-top-width:3px;
     margin-bottom:10px;
     padding:0;
 }
-body .bSubBlock {padding:5px;}
-.bSubBlock .lbBody {
+body .sub-block {padding:5px;}
+.sub-block .lbBody {
     background-color:#F3F3EC;
     height:100%;
     line-height:1.6em;
     padding:10px 23px 10px 26px;
 }
-.bSubBlock .lbHeader {
+.sub-block .lbHeader {
     display:block;
     float:none;
     font-family:'Arial','Helvetica',sans-serif;
     font-weight:bold;
     padding:2px 13px;
 }
-.bSubBlock .lbBody ul {
+.sub-block .lbBody ul {
     list-style-type:none;
     margin:0;
     padding:0;
 }
-.bSubBlock .lbBody li, .bSubBlock .lbBody .bSummary {line-height:25px;}
-.bSubBlock .lbBody .mainLink {font-weight:bold;}
+.sub-block .lbBody li, .sub-block .lbBody .bSummary {line-height:25px;}
+.sub-block .lbBody .mainLink {font-weight:bold;}
 /****************************bFilter and it's button*******************************/
 .bFilter .btn {
     margin-right:10px;
@@ -569,9 +569,9 @@ body button, body .x-btn, body .btn, body .btnDisabled, body .btnCancel, body .m
     padding:2px 3px;
 }
 .bFilter input, .bFilter select {margin:2px auto;vertical-align:middle;}
-body .bodyDiv .filterOverview {margin:5px;padding:0 0 10px;}
+body .page-body .filterOverview {margin:5px;padding:0 0 10px;}
 .filterOverview {padding-bottom:15px;}
-body .bodyDiv .bFilter {margin:0;}
+body .page-body .bFilter {margin:0;}
 .bFilterView .bFilter .fBody {vertical-align:middle;}
 .btn {
     font-size:90%;
@@ -585,13 +585,13 @@ body .bodyDiv .bFilter {margin:0;}
     padding-top:2px;
     text-align:left;
 }
-body .bodyDiv .bFilter .fFooter a {vertical-align:-1px;}
-body .bodyDiv .bFilter a {
+body .page-body .bFilter .fFooter a {vertical-align:-1px;}
+body .page-body .bFilter a {
     color:#015BA7;
     font-size:1.2em;
     text-decoration:none;
 }
-body .bodyDiv .bFilter a:hover {text-decoration:underline;}
+body .page-body .bFilter a:hover {text-decoration:underline;}
 
 .btn{
     background-image:url("../images/bgButton.gif");
@@ -687,8 +687,8 @@ a.NavTreeExp {
     padding-top: 2px;
 }
 /************************** overview *******************************/
-.bPageBlock .setupOverview, .bPageBlock .setupResource {width:100%;}
-.bPageBlock .setupOverview td, .bPageBlock .setupOverview th, .bPageBlock .setupResource td, .bPageBlock .setupResource th {
+.page-block .setupOverview, .page-block .setupResource {width:100%;}
+.page-block .setupOverview td, .page-block .setupOverview th, .page-block .setupResource td, .page-block .setupResource th {
     color:#333333;
     padding:3px 2px 3px 5px;
     width:50%;

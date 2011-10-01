@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <%= render :partial => "irm/common/application_title" %>
+
+  <script type="text/javascript" src="/javascripts/yui3.3/yui/yui-min.js"></script>
+  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "tabbar_ext" %>
+  <%= javascript_include_tag "survey" %>
+  <%= csrf_meta_tag %>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/layout.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/base.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/public.css"></link>
+  <script type="text/javascript">
+    GY.use("menubutton","node-base",function(Y){
+      Y.on("domready",function(){
+        new Y.MenuButton({menuNode:"#settingMenu",dropAlign:["TR","BR"]});
+      });
+    });
+  </script>
+  <% if content_for?(:page_script) %>
+    <%=javascript_tag(yield :page_script)%>
+  <% end %>
+  <%= render :partial => "irm/common/address_bar_logo" %>
+</head>
+<body id ="body" class="lay-default">
+    <div id="contentWrapper">
+        <div id="pageHeader" class="page-header">
+            <table id="phHeader" class="phHeader" cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td class="left">
+                    <%= render :partial => "irm/common/app_top_logo"%>
+                  </td>
+                  <td class="searchCell">
+                    <%= render :partial =>"irm/search/box"%>
+                  </td>
+                  <td class="right vtop">
+                    <div class="multiforce">
+                      <div class="messages"></div>
+                      <div>
+                        <%= current_application_menu %>
+                        <span class="navLinks" style="float:right">
+                          <span class="linkElements">
+                            <a style="margin-right:29px;" href="#" onclick="window.open('/helpfiles/index.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');"><%= t :help %></a>
+                          </span>
+                        </span>
+                        <span id="settingMenu" class="menuParent" style="float:right">
+                          <div  class="menuLabel">
+                            <span tabindex="0" style="" id="userNavTop" ><%= Irm::Person.current.name %></span>
+                            <div class="menuLabel-tr"></div>
+                            <div class="menuLabel-tl"></div>
+                            <div id="settingMenu-arrow"></div>
+                          </div>
+                          <div class="menuContent" >
+                              <div class="tsidMenu-tr"></div>
+                              <div class="tsidMenu-tl"></div>
+                              <div class="tsidMenu-tc"></div>
+                              <div class="menuItems">
+                              <%= setting_menu%>
+                              <div class="menuItem"><%= link_to(t(:label_irm_common_logout),logout_url) %></div>
+                              </div>
+                              <div class="tsidMenu-br"></div>
+                              <div class="tsidMenu-bl"></div>
+                              <div class="tsidMenu-bc"></div>
+                          </div>
+                        </span>
+
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table id="tabsNewBar" class="tabsNewBar" cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div id="tabNavigation" class="tabNavigation">
+                                <div class="tabBarLeft"></div>
+                                <table id="tabBar" class="tab" cellpadding="0" cellspacing="0">
+                                    <%= render_tabs %>
+                                </table>
+                                <div class="tabBarRight"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="pageBody" class="page-body">
+            <div id="bd_l"></div>
+            <div id="bd_r"></div>
+            <div id="motifCurve">
+                <div id="mc_l"></div>
+                <div id="mc_r"></div>
+            </div>
+            <div id="bd_b">
+                <div id="bd_bl"></div>
+                <div id="bd_br"></div>
+            </div>
+
+            <div id="bodyColA" class="body-col-a">
+                <div id="sidebarDiv">
+                    <div class="sidebar-inner">
+                        <%= render :partial =>"/irm/common/quick_create"%>
+                        <%if has_content?(:sidebar) %>
+                            <%= yield :sidebar %>
+                        <%end%>
+                    </div>
+                </div>
+            </div>
+            <div id="bodyColB" class="body-col-b">
+                <%= yield %>
+            </div>
+            <div id="bodyColC" class="body-col-c">
+                <%= yield :colC %>
+            </div>
+
+
+        </div>
+        <%= render :partial => "/irm/common/footer"%>
+    </div>
+
+</body>
+</html>
