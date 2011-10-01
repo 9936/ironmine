@@ -30,9 +30,9 @@ module ApplicationHelper
   def common_app_title(current_tab,model_title,action_title,data_meaning)
     image_icon = ""
     if current_tab.style_image
-      image_icon << content_tag(:img, "", {:src => '/images/s.gif', :class => current_tab.style_image + " pageTitleIcon"},false)
+      image_icon << content_tag(:img, "", {:src => '/images/s.gif', :class => current_tab.style_image + " page-title-icon"},false)
     else
-      image_icon << content_tag(:img, "", {:src => '/images/s.gif', :class => "img1General pageTitleIcon"},false)
+      image_icon << content_tag(:img, "", {:src => '/images/s.gif', :class => "img1General page-title-icon"},false)
     end
     title = model_title
     if data_meaning.present?
@@ -40,18 +40,18 @@ module ApplicationHelper
     end
 
 
-    description = content_tag(:h2, action_title, :class => "pageDescription")
+    description = content_tag(:h2, action_title, :class => "page-description")
 
     content_for :html_title,do
       title+":"+action_title
     end
 
-    title =  content_tag(:h1, title, :class => "pageType")
+    title =  content_tag(:h1, title, :class => "page-type")
 
     content = raw(content_tag(:div, raw(title)+raw(image_icon)+raw(description), :class => "content"))
 
-    pt_body = raw(content_tag(:div, content, :class => "ptBody"))
-    b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    pt_body = raw(content_tag(:div, content, :class => "pt-body"))
+    b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     raw(b_page_title)
   end
 
@@ -64,7 +64,7 @@ module ApplicationHelper
       title = model_title+":"+action_title
     end
 
-    description = content_tag(:h2, title, :class => "pageDescription")
+    description = content_tag(:h2, title, :class => "page-description")
 
 
     content = raw(content_tag(:div, raw( description), :class => "content"))
@@ -72,8 +72,8 @@ module ApplicationHelper
     content_for :html_title,do
       title
     end
-    pt_body = raw(content_tag(:div, content, :class => "ptBody"))
-    b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    pt_body = raw(content_tag(:div, content, :class => "pt-body"))
+    b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     raw(b_page_title)
   end
 
@@ -87,7 +87,7 @@ module ApplicationHelper
     #b_description = ""
     #if @current_menu_entry && @current_menu_entry.page_controller
     #  if @current_menu_entry.icon
-    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " pageTitleIcon")
+    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " page-title-icon")
     #  end
     #  if !title.blank?
     #    page_title << content_tag(:h1, title, :class => "pageType")
@@ -108,7 +108,7 @@ module ApplicationHelper
     #end
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
     #pt_body = raw(content_tag(:div, content, :class => "ptBody"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end
 
@@ -139,7 +139,7 @@ module ApplicationHelper
     #end
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
     #pt_body = raw(content_tag(:div, content, :class => "ptBody"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end
 
@@ -152,7 +152,7 @@ module ApplicationHelper
     #p_href = ""
     #if @current_menu_entry && @current_menu_entry.page_controller
     #  if @current_menu_entry.icon
-    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " pageTitleIcon")
+    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " page-title-icon")
     #  end
     #  t_title = ""
     #  if params[:title] && !params[:title].blank?
@@ -177,7 +177,7 @@ module ApplicationHelper
     #p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
     #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end
 
@@ -188,7 +188,7 @@ module ApplicationHelper
     #b_description = ""
     #if @current_menu_entry && @current_menu_entry.page_controller
     #  if @current_menu_entry.icon
-    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " pageTitleIcon")
+    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " page-title-icon")
     #  end
     #  if options[:title] && !options[:title].blank?
     #    page_title << content_tag(:h1, options[:title], :class => "pageType")
@@ -207,7 +207,7 @@ module ApplicationHelper
     #end
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
     #pt_body = raw(content_tag(:div, content, :class => "ptBody"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end
 
@@ -238,7 +238,7 @@ module ApplicationHelper
     #p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
     #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "bPageTitle"))
+    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end  
   

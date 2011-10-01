@@ -1,0 +1,467 @@
+body .page-title {padding: 5px 0 0 0;margin:0 0 15px 0;}
+body .page-title .pt-body {
+    background-color: transparent;
+    color: #000000;
+    padding:0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    /*width: 100%;*/
+}
+.page-title .thumbnail-visible {
+    float: left;
+    margin-right: 10px;
+}
+.page-title .pt-body .content {
+    padding-left: 0;
+    float: left;
+    vertical-align: middle;
+    width: 70%;
+}
+
+.page-title .pt-body .page-description {
+    font-size: 25px;
+    font-weight: normal;
+    line-height: 1.1em;
+}
+
+.page-title-icon {
+    display:inline;
+    float:left;
+    margin-right:5px;
+    width:32px;
+    border: none !important;
+}
+
+.page-title .pt-body .page-type {
+    color: #4A4A56;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding-left: 1px;
+    margin-bottom: 4px;
+}
+
+.page-title .pt-body .page-type, .page-title .pt-body .page-description {margin-left: 37px;}
+
+.page-title .pt-body .greeting .page-type {
+    font-size: 109%;
+    font-weight: bold;
+    color: #4A4A56;
+    margin-bottom: 4px;
+    padding-left: 0;
+}
+
+.page-title h1, .page-title h2 {display: block;}
+
+.greeting .content > span {display: block;margin-left: 0;}
+.page-title h1.current-status-user-name {display: inline;font-size: 12px;}
+.greeting h1 {font-size:12px;}
+.page-title .pt-body .greeting .page-description {font-size:91%;font-weight:normal;}
+.current-status-user-name a {
+    font-size: 15px;
+    font-weight: normal;
+}
+div.greeting a {text-decoration:none;}
+.page-title .thumbnail-visible img{
+    display: block;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+/*********************************************************************************************/
+/*首页布局容器*/
+.tools-content {
+    border-collapse: collapse !important;
+    margin-top: 0 !important;
+    width: 100%;
+}
+
+.tools-content > tbody > tr > td {
+    padding-top: 5px;
+    width: 50%;
+}
+/****************************************/
+/*app-title*/
+
+
+/****************************************/
+/*block*/
+
+body .page-block .pbBody {padding:0;}
+body .page-block, body .page-block .pbBody, body .page-block .pbBottomButtons {
+    background-color:transparent;
+    background-image:none;
+    margin:0 0 10px 0;
+}
+body .page-block, body .secondary-palette.page-block, body .page-body .sub-block {
+    -moz-border-radius:4px 4px 4px 4px;
+    -webkit-border-radius: 4px;
+    background-color:#F8F8F8;
+    border-bottom:1px solid #EAEAEA;
+    border-left:1px solid #EAEAEA;
+    border-right:1px solid #EAEAEA;
+}
+
+.sub-block, .page-block {
+    border-top-color: #1797C0;
+    border-top-style: solid;
+    border-top-width: 3px;
+}
+
+body .sub-block {padding: 5px;}
+
+body .page-block .pbTitle h2, body .page-block .pbTitle h3, body .sub-block h3.lbHeader {
+    color: #000000;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.sub-block .lbHeader {
+    display: block;
+    float: none;
+    font-weight: bold;
+    padding: 2px 13px;
+}
+
+.sub-block .pbHelp {
+    padding: 1px 5px 1px 1px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+body .sub-block .lbBody {
+    background-color:#FFFFFF;
+    border:1px solid #E8E8E8;
+    margin:5px 0 0;
+    padding:5px;
+}
+
+.sub-block .lbBody {
+    background-color:#F3F3EC;
+    height:100%;
+    line-height:1.6em;
+    padding:10px 23px 10px 26px;
+}
+
+.edit-block .pbHeader > table > tbody > tr > td,
+.page-block .pbHeader > table > tbody > tr > td,
+.edit-block .pbBottomButtons > table > tbody > tr > td,
+.page-block .pbBottomButtons > table > tbody > tr > td{
+    padding:5px 12px;
+}
+
+.page-block .pbTitle {
+    color:#222222;
+    font-size:91%;
+    margin:0;
+    vertical-align:middle;
+    width:30%;
+}
+
+.page-block .pbButton {padding:1px 0;vertical-align:middle;}
+.page-block .pbHeader .pbHelp {
+    padding:1px 5px 1px 1px;
+    text-align:right;
+    vertical-align:middle;
+}
+.page-block .pbHeader table, .page-block .pbBottomButtons table {border-spacing:0;width:100%;}
+body .page-block .pbTitle h2, body .page-block .pbTitle h3, body .sub-block h3.lbHeader {
+    color:#000000;
+    font-size:15px;
+    font-weight: bold;
+}
+.pbHeader .pbTitle h2, .pbHeader .pbTitle h3 {
+    color:#333333;
+    display:block;
+    margin:0 0 0 4px;
+    padding:0;
+}
+body .page-block .pbHeader {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.page-block .pbHeader {
+    background-color: #EEECD1;
+    border-bottom-color: #FFFFFF;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    margin: 0 2px 0 0;
+    padding-bottom: 2px;
+}
+.page-block {font-size: 105%;}
+.edit-block .pbHeader > table, .apexp .page-block.apexDefaultPageBlock .pbHeader > table, #ep.bLayoutBlock .pbHeader > table {border-bottom:1px solid #DBDBDB;padding:5px 0;}
+/***********************toggle button ***********************/
+div.toolbar{
+    margin: 5px;
+    margin-top: 10px;
+    min-height: 30px;
+    padding: 0;
+    width: 100%;
+    display:block;
+}
+span.toggleButtons{
+
+}
+
+span.toggleButtons img {
+    background-repeat: no-repeat;
+    float: left;
+    height: 18px;
+    margin-right: 3px;
+    width: 24px;
+}
+
+span.toggleButtons img.singleUserViewIcon{
+    background-image: url("../images/calendar.gif");
+    background-position: 0px -124px;
+    display: block;
+}
+
+span.toggleButtons img.singleUserViewIconOn{
+    background-image: url("../images/calendar.gif");
+    background-position: -26px -124px;
+    display: block;
+}
+
+span.toggleButtons img.multiUserViewIcon {
+    background-image: url("../images/calendar.gif");
+    background-position: 0px -102px;
+    display: block;
+}
+
+span.toggleButtons img.multiUserViewIconOn {
+    background-image: url("../images/calendar.gif");
+    background-position: -26px -102px;
+    display: block;
+}
+
+span.toggleButtons img.listViewIcon {
+    background-image: url("../images/calendar.gif");
+    background-position: 0px -58px;
+    display: block;
+}
+
+span.toggleButtons img.listViewIconOn {
+    background-image: url("../images/calendar.gif");
+    background-position: -26px -58px;
+    display: block;
+}
+/***********************end toggle button ***********************/
+
+/*filter*/
+.bFilter input, .bFilter select {margin:2px auto;vertical-align:middle;}
+body .page-body .filterOverview {margin:5px;padding:0 0 10px;}
+.filterOverview {padding-bottom:15px;}
+body .page-body .bFilter {margin:0;}
+.bFilterView .bFilter .fBody {vertical-align:middle;}
+.btn {
+    font-size:90%;
+    font-weight:normal;
+    padding-bottom:0;
+    padding-top:1px;
+}
+.bFilter .fFooter {
+    font-size:91%;
+    padding-left:8px;
+    padding-top:2px;
+    text-align:left;
+}
+.page-body .bFilter .fFooter a {vertical-align:-1px;}
+.page-body .bFilter a {
+    color:#015BA7;
+    font-size:1.2em;
+    text-decoration:none;
+}
+.page-body .bFilter a:hover {text-decoration:underline;}
+
+body .page-body .bOverviewSearch {margin:5px;padding:0 10px 10px;}
+.bOverviewSearch .pbSearch {margin-top: 5px;}
+body .page-body .bFilter a {
+    color: #015BA7;
+    font-size: 1em;
+}
+/************** datatable paginator ******************/
+div  table.paginator{
+    width: 100%;padding: 0 10px 0 10px;
+}
+
+div table.paginator td{
+    line-height: 22px;
+}
+div  table.paginator .col1{text-align: left; width: 150px;}
+div  table.paginator .col2{text-align: left; width: 300px;}
+div  table.paginator .col3{text-align: center; width: 100px;}
+div  table.paginator .col4{text-align: right; width: 100px;}
+div  table.paginator .col5{text-align: right;}
+div  table.paginator label.prePageHolder{color: gray;}
+div  table.paginator label.nextPageHolder{color: gray;}
+
+/*******************************************************/
+/*pb*/
+body .edit-block .pbBody .pbSubheader{
+    background-image:url("../images/opacity75.png");
+    border-top:1px solid #FFFFFF;
+    border-width:1px 0 0;
+    color:#000000;
+    padding:4px 16px;
+}
+.pbSubheader.first {margin-top:0;}
+.pbSubheader {
+    background-color:#222222;
+    font-size:91%;
+    font-weight:bold;
+    margin-bottom:2px;
+    margin-top:15px;
+    overflow:hidden;
+    padding:2px 2px 2px 5px;
+}
+.edit-block .pbSubheader .pbSubExtra {margin-right: 0;}
+.pbSubheader .pbSubExtra {
+    float: right;
+    margin-right: 2em;
+}
+.edit-block .requiredLegend {
+    background-color: transparent;
+}
+
+.requiredLegend {
+    background-color: #FFFFFF;
+    color: #000000;
+    font-weight: normal;
+    padding: 0, 2px 0 2px;
+}
+
+.requiredExampleOuter {
+    margin: 0 0.2em 0 0.3em;
+    padding: 1px 0;
+}
+.requiredExample {
+    border-left:3px solid #CC0000;
+    font-size:80%;
+    vertical-align:1px;
+    width:100%;
+}
+
+.pbSubheader .requiredLegend .requiredMark {
+    color: white;
+    display: none;
+    position: absolute;
+}
+
+.edit-block .requiredMark, .pbSubheader .requiredLegend .requiredMark {
+    color: #F8F8F8;
+    margin-right: 2px;
+}
+
+.edit-block .requiredMark, .pbSubheader .requiredLegend .requiredMark {
+    color: #F8F8F8;
+    margin-right: 2px;
+}
+.page-block .pbBody .pbSubheader h3{font-size: 1.2em;}
+.page-block .detailList {width: 100%;}
+
+body .detail-block.page-block{
+    background-color:transparent;
+    border:0 none;
+    margin-bottom:25px;
+}
+
+/********* tab color border *******************/
+.lightBlueBorder .tertiaryPalette {
+    background-color:#fff !important;
+    border-color:#CFEEF8 !important;
+}
+
+
+.lightBlue .page-title .secondary-palette {
+    -moz-border-radius:4px 4px 4px 4px;
+    -webkit-border-radius: 4px;
+    background-color:#CFEEF8;
+    border-color:#CFEEF8;
+}
+.lightBlue .page-title .secondary-palette .title {padding:5px 4px; font-weight: bold; color: #fff;}
+/***********************************************/
+body .page-block .pbBody .pbSubheader {
+    border-style:solid;
+    border-width:2px 0 0;
+    color:#27282E;
+    padding:4px 3px;
+}
+body .page-block .pbBody .pbSubheader .hideListButton {
+    background:url("../images/twisty_sprite.png") no-repeat scroll 0 -11px transparent;
+}
+
+body .page-block .pbBody .pbSubheader img {
+background-repeat:no-repeat;
+height:11px;
+margin-right:4px;
+width:11px;
+}
+
+.hideListButton {
+    background-image:url("../images/twistySubhDown.gif");
+    background-position:0 0;
+    height:10px;
+    width:16px;
+}
+/*************************************************/
+/*bWizardBlock*/
+.bWizardBlock .pbWizardTitle {background-image:none;}
+.bWizardBlock .pbWizardTitle {
+    -moz-border-radius-topleft:5px;
+    -moz-border-radius-topright:5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    font-size:1.15em;
+    padding:8px 12px;
+}
+
+.bWizardBlock .tertiaryPalette{background-color:#1797C0;border-color:#1797C0;}
+.bWizardBlock .pbWizardTitle .ptRightTitle {float:right;}
+.bWizardBlock .pbWizardTitle {color:white;font-weight:bold;}
+.bWizardBlock .pbDescription {padding:10px;}
+.bWizardBlock .pbWizardBody, .bWizardBlock .pbDescription {border-top:1px solid #FFFFFF;}
+.bWizardBlock > .pbBody {
+    -moz-border-radius-bottomleft:5px;
+    -moz-border-radius-bottomright:5px;
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    background:none repeat scroll 0 0 #F8F8F8;
+    border:1px solid #EAEAEA;
+    padding:0;
+}
+
+body .bWizardBlock .pbBody .pbSubheader {
+    background-image:url("../images/opacity75.png");
+    border-top:1px solid #FFFFFF;
+    border-width:1px 0 0;
+    color:#000000;
+    padding:4px 16px;
+}
+.bWizardBlock .requiredLegend {background-color:transparent;color:#000000;font-weight:normal;padding:0 2px;}
+body .bWizardBlock .pbBody .pbSubheader h3, body .bWizardBlock .bPageBlock .pbBody .pbSubheader label {
+    font-size: 14px;
+}
+.bWizardBlock .pbSubsection, .bWizardBlock .pbSubsection {margin-top: 7px;padding: 0 12px;}
+.bWizardBlock .pbBottomButtons > table > tbody > tr > td{
+    padding:5px 12px;
+}
+.bWizardBlock .pbTitle{
+    color:#222222;
+    font-size:91%;
+    margin:0;
+    vertical-align:middle;
+    width:30%;
+}
+.bWizardBlock .pbWizardBody {padding-bottom: 10px;}
+/*****************************************************/
+/*setting page*/
+.setupTab .mComponent .cHeader, .setupTab .sub-block, .setupTab .page-block {border-top:3px solid #747E96;}
+.setupTab .tertiaryPalette{
+    background-color:#8E9DBE;
+    border-color:#8E9DBE;
+}
