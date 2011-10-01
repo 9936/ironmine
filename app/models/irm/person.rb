@@ -230,13 +230,17 @@ class Irm::Person < ActiveRecord::Base
      end
    end
 
+   #对用户解除锁定
    def unlock
      self.locked_time = 0
      self.locked_flag = Irm::Constant::SYS_NO
      self.locked_until_at = nil
    end
 
-
+  # 重置密码
+  def reset_password
+    self.last_reset_password = Irm::PasswordPolicy.random_password(self.opu_id)
+  end
 
    # 加密密码
    def self.hash_password(clear_password)
