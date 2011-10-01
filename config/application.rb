@@ -51,7 +51,7 @@ module Ironmine
     config.ironmine.javascript.source = {
         :jquery =>%w(jquery-1.6.4.min jquery-rails jquery-application),
         :jcrop => %w(jquery-1.6.4.min jquery-crop),
-        :component => %w(jquery-1.6.4.min component),
+        :jplugin => %w(jquery-1.6.4.min jquery-plugin),
         :i18n=>%w(local/),
         :extjs=>%w(ext4-all ext-application),
         :survey=>%w(survey)
