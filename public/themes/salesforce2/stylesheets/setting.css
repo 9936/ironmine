@@ -385,7 +385,7 @@ body .page-block .detailList tr td, body .page-block .detailList tr th, body tab
     text-align:right;
 }
 body .detail-block.page-block .pbBody .dataCol {border-right-color:transparent;}
-body .page-title .ptBody .pageType {
+body .page-title .pt-body .pageType {
     color:#4A4A56;
     font-size:0.9em;
     font-weight:bold;

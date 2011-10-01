@@ -1,4 +1,4 @@
-body .page-title {padding: 5px 0 0 0;margin:0 0 15px 0;}
+body .page-title {padding: 10px 0 0 0;margin:0 0 15px 0;}
 body .page-title .pt-body {
     background-color: transparent;
     color: #000000;
@@ -464,4 +464,8 @@ body .bWizardBlock .pbBody .pbSubheader h3, body .bWizardBlock .bPageBlock .pbBo
 .setupTab .tertiaryPalette{
     background-color:#8E9DBE;
     border-color:#8E9DBE;
+}
+.setupTab .page-title .pt-body .page-type, .setupTab .page-title .pt-body .page-description{
+    margin-bottom: 5px;
+    margin-left: 0;
 }

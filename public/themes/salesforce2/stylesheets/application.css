@@ -666,31 +666,31 @@ body .page-body #bd_b #bd_br {
     display:block;
     overflow:hidden;
 }
-.homeTab .page-title .ptBody .greeting .pageType {
+.homeTab .page-title .pt-body .greeting .pageType {
     font-size:109%;
     font-weight:bold;
 }
-body .page-title .ptBody .greeting .pageType {padding-left:0;}
+body .page-title .pt-body .greeting .pageType {padding-left:0;}
 body.homeTab .greeting .content > span {display:block;margin-left:0;}
 body.homeTab .greeting .pageType {margin-left:0;}
-body .page-title .ptBody .pageType, body .page-title .ptBody .pageDescription {margin-left:37px;}
-body .page-title .ptBody .pageType {
+body .page-title .pt-body .pageType, body .page-title .pt-body .pageDescription {margin-left:37px;}
+body .page-title .pt-body .pageType {
     color:#4A4A56;
     font-size:0.9em;
     font-weight:bold;
     padding-left:1px;
 }
 .homeTab .page-title .pageType {margin-bottom:4px;}
-.homeTab .page-title .ptBody .greeting h1, .homeTab .page-title .ptBody .greeting h2 {padding-left:0;}
+.homeTab .page-title .pt-body .greeting h1, .homeTab .page-title .pt-body .greeting h2 {padding-left:0;}
 .homeTab .page-title h1.currentStatusUserName {display:inline;}
 body.homeTab .greeting h1 {font-size:12px;}
 
 body.homeTab div.greeting a {text-decoration:none;}
 body .page-title .secondaryPalette a, body .secondaryPalette .lbHeader a, body .pbSubheader a {color:#015BA7;}
 .currentStatusUserName a {font-size:15px;font-weight:normal;}
-.homeTab .page-title .ptBody .greeting .pageDescription {font-size:91%;font-weight:normal;}
+.homeTab .page-title .pt-body .greeting .pageDescription {font-size:91%;font-weight:normal;}
 .homeTab .page-body .page-title {padding-top:5px;}
-.sysAdminTab .page-title .ptBody .content, .homeTab .page-title .ptBody .content, .allTabTab .page-title .ptBody .content {padding-left:0;}
+.sysAdminTab .page-title .pt-body .content, .homeTab .page-title .pt-body .content, .allTabTab .page-title .pt-body .content {padding-left:0;}
 
 .homeTab .mComponent .cHeader, .homeTab .genericTable, .homeTab .sub-block, .homeTab .page-block {border-top:3px solid #1797C0;}
 

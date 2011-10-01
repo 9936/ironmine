@@ -107,7 +107,7 @@ module ApplicationHelper
     #  page_description << content_tag(:h2, description, :class => "pageDescription")
     #end
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, content, :class => "ptBody"))
+    #pt_body = raw(content_tag(:div, content, :class => "pt-body"))
     #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end
@@ -138,7 +138,7 @@ module ApplicationHelper
     #  page_description << content_tag(:h2, options[:description], :class => "pageDescription")
     #end
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, content, :class => "ptBody"))
+    #pt_body = raw(content_tag(:div, content, :class => "pt-body"))
     #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end
@@ -176,7 +176,7 @@ module ApplicationHelper
     #p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
     #p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
+    #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "pt-body"))
     #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end
@@ -206,7 +206,7 @@ module ApplicationHelper
     #  page_description << content_tag(:h2, options[:description], :class => "pageDescription")
     #end
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, content, :class => "ptBody"))
+    #pt_body = raw(content_tag(:div, content, :class => "pt-body"))
     #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end
@@ -237,7 +237,7 @@ module ApplicationHelper
     #p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
     #p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
     #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "ptBody"))
+    #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "pt-body"))
     #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     #raw(b_page_title)
   end  

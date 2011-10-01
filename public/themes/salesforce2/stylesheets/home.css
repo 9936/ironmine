@@ -514,36 +514,36 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 .page-title {margin-bottom:15px;}
 body.detailPage .page-title {margin-bottom:0;}
 body .page-title {padding:10px 0 0;}
-body .page-title .ptBody {
+body .page-title .pt-body {
     background-color:transparent;
     color:#000000;
     padding:0;
 }
-.page-title .ptBody {
+.page-title .pt-body {
     overflow:hidden;
     padding-bottom:5px;
     padding-top:5px;
     width:100%;
 }
-.setupTab .page-title .ptBody .content, .sysAdminTab .page-title .ptBody .content {padding-left:0;}
-.setupTab .page-title .ptBody .content, .sysAdminTab .page-title .ptBody .content {padding-left:10px;}
-.page-title .ptBody .content {
+.setupTab .page-title .pt-body .content, .sysAdminTab .page-title .pt-body .content {padding-left:0;}
+.setupTab .page-title .pt-body .content, .sysAdminTab .page-title .pt-body .content {padding-left:10px;}
+.page-title .pt-body .content {
     float:left;
     padding-left:5px;
     vertical-align:middle;
     width:70%;
 }
-.setupTab .page-title .ptBody .pageType, .setupTab .page-title .ptBody .pageDescription, .sysAdminTab .page-title .ptBody .pageType, .sysAdminTab .page-title .ptBody .pageDescription {margin-left:0;}
-body .page-title .ptBody .pageDescription {
+.setupTab .page-title .pt-body .pageType, .setupTab .page-title .pt-body .pageDescription, .sysAdminTab .page-title .pt-body .pageType, .sysAdminTab .page-title .pt-body .pageDescription {margin-left:0;}
+body .page-title .pt-body .pageDescription {
     font-size:25px;
     font-weight:normal;
     line-height:1.1em;
 }
-.page-title .ptBody .pageDescription {font-size:109%;font-weight:bold;}
+.page-title .pt-body .pageDescription {font-size:109%;font-weight:bold;}
 .page-title h1, .page-title h2 {display:block;}
 .page-title .content .blank {clear:both;font-size:0;}
-body .page-title .ptBody .links {padding-top:0;}
-.page-title .ptBody .links {
+body .page-title .pt-body .links {padding-top:0;}
+.page-title .pt-body .links {
     float:right;
     font-size:91%;
     padding:10px 5px 0 0;
@@ -551,7 +551,7 @@ body .page-title .ptBody .links {padding-top:0;}
     vertical-align:middle;
     white-space:nowrap;
 }
-body .page-title .ptBody .links a, body .page-title .ptBody .links .configLinks, body .page-title .ptBody .links .helpLink, body .page-title .ptBody .links span {
+body .page-title .pt-body .links a, body .page-title .pt-body .links .configLinks, body .page-title .pt-body .links .helpLink, body .page-title .pt-body .links span {
 color:#015BA7;
 text-decoration:none;
 }
@@ -667,7 +667,7 @@ body .page-block .detailList tr td, body .page-block .detailList tr th, body tab
     text-align:right;
 }
 body .detail-block.page-block .pbBody .dataCol {border-right-color:transparent;}
-body .page-title .ptBody .pageType {
+body .page-title .pt-body .pageType {
     color:#4A4A56;
     font-size:0.9em;
     font-weight:bold;
