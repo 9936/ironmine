@@ -61,7 +61,7 @@ module Ironmine
         :application=>%w(),
         :setting=>%w(),
         :home=>%w(),
-        :login=>%w(),
+        :login=>%w(login),
         :extjs=>%w(ext4-all)}
   end
 end

@@ -1,0 +1,74 @@
+/* basic skin styles */
+.irm-datatable table {
+    margin:0;padding:0;
+    font-family:arial;font-size:inherit;
+    border-collapse:separate;*border-collapse:collapse;border-spacing:0; /* since ie6 and ie7 behave differently */
+    width: 100%;
+    /*border:1px solid #7F7F7F;*/
+}
+.irm-datatable thead {border-spacing:0;} /* for safari bug */
+
+.irm-datatable caption {
+    color:#000000;
+    font-size:85%;
+    font-weight:normal;
+    font-style:italic;
+    line-height:1;
+    padding:1em 0pt;
+    text-align:center;
+}
+
+.irm-datatable th {
+    background:url(../images/grid_headerbg.gif) repeat-x scroll 0 bottom #FFFFFF; /* header gradient */
+}
+.irm-datatable th,
+.irm-datatable th a {
+    text-decoration:none;color:#000; /* header text */
+    vertical-align:bottom; font-weight: bold;
+    font-size:12px;
+    text-align: left;
+}
+.irm-datatable th {
+    margin:0;
+    padding:0;
+    border:none;
+    border-top:1px solid #CBCBCB;
+    border-bottom:1px solid #CBCBCB;
+    border-right:1px solid #CBCBCB;
+}
+.irm-datatable table thead > tr{
+    border-left:1px solid #CBCBCB;
+}
+.irm-datatable table tbody > tr td {
+    /*border-top:1px solid #7F7F7F;  *//* tbody top border  */
+}
+.irm-datatable table tbody tr {
+    border-bottom:1px solid #CBCBCB;
+    border-style:solid;
+    background-color:#fff;
+}
+
+td { background-color:transparent;} /* none */
+.irm-datatable table tbody tr:hover {
+    background-color:#EDF5FF;
+}
+
+.irm-datatable th > div {
+    white-space:nowrap;
+}
+
+.irm-datatable th > div,
+.irm-datatable td > div{
+    margin:0;
+    padding:4px 10px 4px 5px; /* cell padding */
+	overflow:visible; /*to make ths where the title is really long work*/
+	border:0px solid black;
+}
+
+.irm-datatable td {
+    margin:0;padding:0;
+    border:none;
+    border-bottom:1px solid #CBCBCB;
+    text-align: left;
+    +background-color: #fff;
+}
