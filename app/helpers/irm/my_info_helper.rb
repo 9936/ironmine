@@ -101,10 +101,8 @@ module Irm::MyInfoHelper
     application = ""
     application_script = <<-BEGIN_SCRIPT
     <script type="text/javascript">
-      GY.use("menubutton",function(Y){
-        Y.on("domready",function(){
-          new Y.MenuButton({menuNode:"#pageMenu",dropAlign:["TR","BR"]});
-        });
+      $(document).ready(function(){
+          $("#pageMenu").menubutton();
       });
     </script>
     BEGIN_SCRIPT

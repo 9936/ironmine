@@ -82,164 +82,22 @@ module ApplicationHelper
 
   def page_title(title = "", description = "")
     common_title(:model_meaning=>title,:action_meaning=>description)
-    #page_title = ""
-    #page_description = ""
-    #b_description = ""
-    #if @current_menu_entry && @current_menu_entry.page_controller
-    #  if @current_menu_entry.icon
-    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " page-title-icon")
-    #  end
-    #  if !title.blank?
-    #    page_title << content_tag(:h1, title, :class => "pageType")
-    #  else
-    #    page_title << content_tag(:h1, @current_menu_entry[:name], :class => "pageType")
-    #  end
-    #  if !description.blank?
-    #    page_description << content_tag(:h2, description, :class => "pageDescription")
-    #  else
-    #    page_description << content_tag(:h2, t("label_action_#{params[:action]}".to_s), :class => "pageDescription")
-    #  end
-    #  if !@current_menu_entry[:description].blank?
-    #    b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
-    #  end
-    #else
-    #  page_title << content_tag(:h1, title, :class => "pageType")
-    #  page_description << content_tag(:h2, description, :class => "pageDescription")
-    #end
-    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, content, :class => "pt-body"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
-    #raw(b_page_title)
   end
 
   def setting_title(options = {:title => "", :description => ""})
     common_title(:model_meaning=>options[:title],:action_meaning=>options[:description])
-    #page_title = ""
-    #page_description = ""
-    #b_description = ""
-    #if @current_menu_entry&&@current_menu_entry.page_controller
-    #  t_title = ""
-    #  if options[:title] && !options[:title].blank?
-    #    t_title << options[:title] + ": "
-    #  else
-    #    t_title << @current_menu_entry[:name] + ": "
-    #  end
-    #  if options[:description] && !options[:description].blank?
-    #    t_title << options[:description]
-    #  else
-    #    t_title << t("label_action_#{params[:action]}".to_s)
-    #  end
-    #  page_description << content_tag(:h2, t_title, :class => "pageDescription")
-    #  if !@current_menu_entry[:description].blank?
-    #    b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
-    #  end
-    #else
-    #  page_title << content_tag(:h1, options[:title], :class => "pageType")
-    #  page_description << content_tag(:h2, options[:description], :class => "pageDescription")
-    #end
-    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, content, :class => "pt-body"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
-    #raw(b_page_title)
   end
 
   def app_title(options = {:title => "", :description => ""})
     common_title(:model_meaning=>options[:title],:action_meaning=>options[:description])
-    #page_title = ""
-    #page_description = ""
-    #b_description = ""
-    #p_help = ""
-    #p_href = ""
-    #if @current_menu_entry && @current_menu_entry.page_controller
-    #  if @current_menu_entry.icon
-    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " page-title-icon")
-    #  end
-    #  t_title = ""
-    #  if params[:title] && !params[:title].blank?
-    #    t_title << options[:title] + ": "
-    #  else
-    #    t_title << @current_menu_entry[:name] + ": "
-    #  end
-    #  if options[:description] && !options[:description].blank?
-    #    t_title << options[:description]
-    #  else
-    #    t_title << t("label_action_#{params[:action]}".to_s)
-    #  end
-    #  page_description << content_tag(:h2, t_title, :class => "pageDescription")
-    #  if !@current_menu_entry[:description].blank?
-    #    b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
-    #  end
-    #else
-    #  page_title << content_tag(:h1, params[:title], :class => "pageType")
-    #  page_description << content_tag(:h2, params[:description], :class => "pageDescription")
-    #end
-    #p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
-    #p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
-    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "pt-body"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
-    #raw(b_page_title)
   end
 
   def setting_show_title(options = {})
     common_title(:model_meaning=>options[:title],:action_meaning=>options[:description],:show_data=>options[:show_data])
-    #page_title = ""
-    #page_description = ""
-    #b_description = ""
-    #if @current_menu_entry && @current_menu_entry.page_controller
-    #  if @current_menu_entry.icon
-    #    page_description << content_tag(:img, "", :src => '/images/s.gif', :class => @current_menu_entry.icon + " page-title-icon")
-    #  end
-    #  if options[:title] && !options[:title].blank?
-    #    page_title << content_tag(:h1, options[:title], :class => "pageType")
-    #  else
-    #    page_title << content_tag(:h1, @current_menu_entry[:name], :class => "pageType")
-    #  end
-    #  if options[:show_data] && !options[:show_data].blank?
-    #    page_description << content_tag(:h2, options[:show_data], :class => "pageDescription")
-    #  end
-    #  if !@current_menu_entry[:description].blank?
-    #    b_description << content_tag(:div, @current_menu_entry[:description], :class => "bDescription")
-    #  end
-    #else
-    #  page_title << content_tag(:h1, options[:title], :class => "pageType")
-    #  page_description << content_tag(:h2, options[:description], :class => "pageDescription")
-    #end
-    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, content, :class => "pt-body"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
-    #raw(b_page_title)
   end
 
   def app_show_title(options = {})
     common_title(:model_meaning=>options[:title],:action_meaning=>options[:description],:show_data=>options[:show_data])
-
-    #page_title = ""
-    #page_description = ""
-    #b_description = ""
-    #p_href = ""
-    #if @current_menu_entry && @current_menu_entry.page_controller
-    #  if options[:title] && !options[:title].blank?
-    #    page_title << content_tag(:h1, options[:title], :class => "pageType")
-    #  else
-    #    page_title << content_tag(:h1, @current_menu_entry[:name], :class => "pageType")
-    #  end
-    #  if options[:show_data] && !options[:show_data].blank?
-    #    page_description << content_tag(:h2, options[:show_data], :class => "pageDescription")
-    #  end
-    #  if !@current_menu_entry[:description].blank?
-    #    b_description << content_tag(:div, options[:description], :class => "bDescription")
-    #  end
-    #else
-    #  page_title << content_tag(:h1, options[:title], :class => "pageType")
-    #  page_description << content_tag(:h2, options[:description], :class => "pageDescription")
-    #end
-    #p_href << content_tag(:a, t(:current_page_help),:href => "#",:onclick=>"window.open ('/pagehelpfiles/#{Irm::Permission.page_help_url(params[:controller],params[:action])}.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" )
-    #p_help =raw(content_tag(:div,raw(p_href),:class=>"links"))
-    #content = raw(content_tag(:div, raw(page_title + page_description), :class => "content"))
-    #pt_body = raw(content_tag(:div, raw(content+p_help), :class => "pt-body"))
-    #b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
-    #raw(b_page_title)
   end  
   
   #显示form提交的出错信息
@@ -278,7 +136,7 @@ module ApplicationHelper
   end
 
   # 生成YUI表格
-  def datatable(id,source_url,columns,options={})
+  def yui_datatable(id,source_url,columns,options={})
     row_perpage = options[:row_perpage]||10
     search_box = options[:search_box]
     paginator_box = options[:paginator_box]
@@ -305,6 +163,7 @@ module ApplicationHelper
     columns_conf.chop!
     data_fields.chop!
 
+    columns_conf  = "Ext.create('Ext.grid.RowNumberer'),"+ columns_conf  if options[:show_row_number]
 
     load_str = "#{id}Datatable.datasource.load()"
     load_str = "//does not load at init" if options[:not_load]
@@ -346,6 +205,123 @@ module ApplicationHelper
      });)
     javascript_tag(script)
   end
+
+
+  def datatable(id,source_url,columns,options={})
+    require_javascript(:extjs)
+    require_css(:extjs)
+    page_size = options[:row_perpage]||10
+    search_box = options[:search_box]
+    select = options[:select]
+    data_fields = ""
+    column_models = ""
+    columns.each do |c|
+      data_fields << %Q("#{c[:field]||c[:key]}",)
+      next if c[:hidden]
+      column = "{"
+      c.each do |key,value|
+        case key
+          when :key
+            column << %Q(dataIndex:"#{value}",)
+          when :label
+            column << %Q(text:"#{value}",)
+          when :width
+            #column << %Q(width:"#{value}",)
+          #when :sortable
+          #  column << %Q(sortable:false,)
+          when :searchable
+            column << %Q(searchable:#{value},)
+          when :locked
+            column << %Q(locked:#{value},)
+        end
+
+
+      end
+      column << %Q(sortable:false,)
+      column << %Q(menuDisabled:true,)
+      column_models <<  column.chop
+      column_models << "},"
+    end
+    column_models.chop!
+    data_fields.chop!
+
+    load_str = "#{id}DatatableStore.loadPage(1);"
+    load_str = "//does not load #{id}Datatable data" if options[:not_load]
+
+    view_filter_str = "// No view filter for #{id}Datatable"
+    if options[:view_filter]
+      view_filter_str = "Ext.create('Ext.irm.ViewFilter',{filter:'#{id}ViewFilterOverview',store:#{id}Datatable.getStore()})"
+      load_str = "//does not load #{id}Datatable data,because of view filter #{options[:view_filter]}"
+    end
+
+    search_str = "// Now Search Box for #{id}Datatable"
+    if search_box
+      search_str = "Ext.create('Ext.irm.DatatableSearchBox',{box:'#{search_box}',table:#{id}Datatable})"
+    end
+
+    script = %Q(
+
+      // create the Data Store
+      var #{id}DatatableStore = Ext.create('Ext.data.Store', {
+          pageSize: #{page_size},
+          remoteSort: true,
+          fields: [#{data_fields}],
+          proxy: {
+              type: 'jsonp',
+              url: '#{source_url}',
+              reader: {
+                  root: 'items',
+                  totalProperty: 'numRows'
+              },
+              // sends single sort as multi parameter
+              simpleSortMode: true
+          }
+      });
+      #{"var #{id}DatatableSelModel = new Ext.selection.CheckboxModel( {mode:'MULTI'});" if select&&select.eql?("multiple")}
+      #{"var #{id}DatatableSelModel = new Ext.selection.CheckboxModel( {mode:'SINGLE'});" if select&&select.eql?("single")}
+      #{"var #{id}DatatableSelModel = new Ext.selection.CheckboxModel( {mode:'SIMPLE'});" if select&&select.eql?("single")}
+
+      var #{id}Datatable = Ext.create('Ext.grid.Panel', {
+          id: '#{id}Datatable',
+          height: 250,
+          store: #{id}DatatableStore,
+          disableSelection: false,
+          loadMask: true,
+          #{"selModel:#{id}DatatableSelModel," if select}
+          selType: 'cellmodel',
+          viewConfig: {
+              trackOver: true,
+              stripeRows: false,
+              forceFit: true
+          },
+          // grid columns
+          columns:[#{column_models}],
+          // paging bar on the bottom
+          bbar: Ext.create('Ext.PagingToolbar', {
+              store: #{id}DatatableStore,
+              displayInfo: true
+          }),
+          renderTo: '#{id}'
+      });
+    )
+
+    grid_helper_script = load_str
+    grid_helper_script << "\n"
+    grid_helper_script << view_filter_str
+    grid_helper_script << "\n"
+    grid_helper_script << search_str
+
+    all_script = %Q(
+      Ext.onReady(function(){
+        #{script}
+        #{grid_helper_script}
+      });
+    )
+
+    javascript_tag(all_script)
+  end
+
+
 
   def autocomplete(id,source_url,columns,options={})
     columns_conf = []
@@ -584,5 +560,80 @@ module ApplicationHelper
     end
     image_options.merge!(options)
     image_tag("/images/s.gif",image_options)
+  end
+
+  # 页面添加javascript文件，防止重复添加
+  def require_javascript(name,param=nil)
+    @loaded_javascript_files ||= {}
+
+    if name.is_a?(String)||name.is_a?(Symbol)
+      @loaded_javascript_files.merge!(name.to_sym=>param)
+    elsif name.is_a?(Array)
+      name.each do |file|
+        @loaded_javascript_files.merge!(file.to_sym=>param)
+      end
+    end
+  end
+
+  # 页面添加css文件，防止重复添加
+  def require_css(name,param=nil)
+    @loaded_css_files ||= {}
+
+    if name.is_a?(String)||name.is_a?(Symbol)
+      @loaded_css_files.merge!(name.to_sym=>param)
+    elsif name.is_a?(Array)
+      name.each do |file|
+        @loaded_css_files.merge!(file.to_sym=>param)
+      end
+    end
+  end
+
+  def render_loaded_javascript_css_files
+    javascript_files = []
+    css_files = []
+    javascript_prefix = "/javascripts/"
+    css_prefix ="/themes/#{theme_name}/stylesheets/"
+    Ironmine::Application.config.ironmine.javascript.source.each do |name,paths|
+      if @loaded_javascript_files.keys.include?(name)
+        paths.each do |path|
+          if @loaded_javascript_files[name]
+            javascript_files << path+@loaded_javascript_files[name]
+          else
+            javascript_files << path
+          end
+        end
+      end
+    end if @loaded_javascript_files
+
+    Ironmine::Application.config.ironmine.css.source.each do |name,paths|
+      if @loaded_css_files.keys.include?(name)
+        paths.each do |path|
+          if @loaded_css_files[name]
+            css_files << path+@loaded_css_files[name]
+          else
+            css_files << path
+          end
+        end
+      end
+    end if @loaded_css_files
+    file_links = ""
+    javascript_files.uniq!
+    css_files.uniq!
+    css_files.each do |css_file|
+      if ie6?
+        file_links<< tag("link", { "rel" => "stylesheet", "type" => Mime::CSS, "media" => "screen", "href" =>css_prefix+css_file+".ie6.css"}, false, false)
+      else
+        file_links<< tag("link", { "rel" => "stylesheet", "type" => Mime::CSS, "media" => "screen", "href" =>css_prefix+css_file+".css"}, false, false)
+      end
+    end
+    javascript_files.each do |script_file|
+      file_links<< content_tag("script", "", { "type" => Mime::JS, "src" =>javascript_prefix+script_file+".js"})
+    end
+
+    raw file_links
+  end
+
+  def ie6?
+    request.user_agent.include?("MSIE 6.0")
   end
 end
