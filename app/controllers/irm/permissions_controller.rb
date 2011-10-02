@@ -67,12 +67,11 @@ class Irm::PermissionsController < ApplicationController
     permissions_scope = Irm::Permission.list_all.status_meaning
     permissions_scope = permissions_scope.match_value("#{Irm::Permission.table_name}.permission_code",params[:permission_code])
     permissions_scope = permissions_scope.match_value("#{Irm::Permission.table_name}.page_controller",params[:page_controller])
-    permissions_scope = permissions_scope.match_value("#{Irm::PermissionsTl.table_name}.name",params[:name])
 
 
     permissions,count = paginate(permissions_scope)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(permissions.to_grid_json([:name,:product_module_name,:status_meaning,:permission_code,:page_controller,:page_action, :status_code], count)) }
+      format.json  {render :json => to_jsonp(permissions.to_grid_json([:code,:product_module_name,:status_meaning,:permission_code,:controller,:action, :status_code], count)) }
     end
   end
 
