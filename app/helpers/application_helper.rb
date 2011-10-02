@@ -620,12 +620,20 @@ module ApplicationHelper
     javascript_files.uniq!
     css_files.uniq!
     css_files.each do |css_file|
-      file_links<< tag("link", { "rel" => "stylesheet", "type" => Mime::CSS, "media" => "screen", "href" =>css_prefix+css_file+".css"}, false, false)
+      if ie6?
+        file_links<< tag("link", { "rel" => "stylesheet", "type" => Mime::CSS, "media" => "screen", "href" =>css_prefix+css_file+".ie6.css"}, false, false)
+      else
+        file_links<< tag("link", { "rel" => "stylesheet", "type" => Mime::CSS, "media" => "screen", "href" =>css_prefix+css_file+".css"}, false, false)
+      end
     end
     javascript_files.each do |script_file|
       file_links<< content_tag("script", "", { "type" => Mime::JS, "src" =>javascript_prefix+script_file+".js"})
     end
 
     raw file_links
+  end
+
+  def ie6?
+    request.user_agent.include?("MSIE 6.0")
   end
 end
