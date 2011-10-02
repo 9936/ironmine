@@ -2,27 +2,13 @@
 <html>
 <head>
   <%= render :partial => "irm/common/application_title" %>
-
-  <script type="text/javascript" src="/javascripts/yui3.3/yui/yui-min.js"></script>
-  <%= javascript_include_tag :defaults %>
-  <%= javascript_include_tag "tabbar_ext" %>
+  <% require_javascript([:jquery,:jplugin]) %>
+  <% require_css([:default]) %>
+  <%=render_loaded_javascript_css_files%>
   <%= csrf_meta_tag %>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/layout.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/header.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/setting_base.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/public.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/sidebar.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/form.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/button.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/container.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/table.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/other.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/icons.css"></link>
   <script type="text/javascript">
-    GY.use("menubutton","node-base",function(Y){
-      Y.on("domready",function(){
-        new Y.MenuButton({menuNode:"#settingMenu",dropAlign:["TR","BR"]});
-      });
+    $(document).ready(function(){
+        $("#settingMenu").menubutton();
     });
   </script>
   <%= render :partial => "irm/common/address_bar_logo" %>
