@@ -15,25 +15,25 @@
     <div class="lbBody">
 <!--  irm datatable      -->
       <div class="irm-datatable">
-        <div class="irm-datatable-content">
-            <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
-              <thead class="irm-datatable-columns">
-                <tr class="irm-datatable-first irm-datatable-last">
-                  <th class="irm-column" style="width:220px">
-                    <div class="irm-datatable-liner"><%= t(:label_csi_survey_title) %>
+        <div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:220px">
+                    <div><%= t(:label_csi_survey_title) %>
                     </div>
                   </th>
-                  <th class="irm-column" style="width:180px;">
-                    <div class="irm-datatable-liner"><%= t(:label_csi_survey_closed_datetime) %>
+                  <th style="width:180px;">
+                    <div><%= t(:label_csi_survey_closed_datetime) %>
                     </div>
                   </th>
                 </tr>
               </thead>
-              <tbody class="irm-datatable-data">
+              <tbody>
               <% my_todo_surveys.each do |survey| %>
-              <tr id="<%=survey[:survey_id]%>" class="irm-datatable-even">
-                <td class="irm-column">
-                  <div class='irm-datatable-liner'>
+              <tr id="<%=survey[:survey_id]%>">
+                <td>
+                  <div>
                     <% if survey.respond?%>
                       <%=link_to survey[:title], {:controller => "csi/surveys", :action => "show_reply", :id => survey[:survey_id],:survey_member_id=>survey.id,:back_url=>url_for({})}%>
                     <% else %>
@@ -42,8 +42,8 @@
                     <% end %>
                    </div>
                 </td>
-                <td class="irm-column">
-                  <div class='irm-datatable-liner'>
+                <td>
+                  <div>
                     <%=survey[:end_date_active].strftime("%Y-%m-%d %H:%M:%S")%>
                   </div>
                 </td>
