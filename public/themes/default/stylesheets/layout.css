@@ -2,23 +2,11 @@
     margin: 0 10px 0 10px;
 }
 
-.lay-default #contentWrapper {
-    min-width: 100%;
-}
+#contentWrapper {min-width: 100%;}
 
-.lay-default #bodyColA {
-    float:left;
-    width:210px;
-}
-
-.lay-default #bodyColB {
-    display:block;
-    margin: 0 0 0 210px;
-}
-
-.lay-default #bodyColC {
-    display:none;
-}
+.lay-default #bodyColA {float:left;width:210px;}
+.lay-default #bodyColB {display:block;margin: 0 0 0 210px;}
+.lay-default #bodyColC {display:none;}
 
 div.no-table-footer {
     clear: both;
