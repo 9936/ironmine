@@ -225,10 +225,16 @@ module ApplicationHelper
             column << %Q(dataIndex:"#{value}",)
           when :label
             column << %Q(text:"#{value}",)
-          when :width
+          #when :width
             #column << %Q(width:"#{value}",)
           #when :sortable
           #  column << %Q(sortable:false,)
+          when :formatter
+            if value.eql?("Y.irm.template")
+              column << %Q(renderer: Ext.irm.dtTemplate,)
+            elsif value.eql?("Y.irm.stemplate")
+              column << %Q(renderer: Ext.irm.dtScriptTemplate,)
+            end
           when :searchable
             column << %Q(searchable:#{value},)
           when :locked
@@ -250,7 +256,7 @@ module ApplicationHelper
 
     view_filter_str = "// No view filter for #{id}Datatable"
     if options[:view_filter]
-      view_filter_str = "Ext.create('Ext.irm.ViewFilter',{filter:'#{id}ViewFilterOverview',store:#{id}Datatable.getStore()})"
+      view_filter_str = "Ext.create('Ext.irm.ViewFilter',{filter:'#{id}ViewFilterOverview',table:#{id}Datatable})"
       load_str = "//does not load #{id}Datatable data,because of view filter #{options[:view_filter]}"
     end
 
@@ -262,7 +268,7 @@ module ApplicationHelper
     script = %Q(
 
       // create the Data Store
-      var #{id}DatatableStore = Ext.create('Ext.data.Store', {
+      var #{id}DatatableStore = Ext.create('Ext.irm.DatatableStore', {
           pageSize: #{page_size},
           remoteSort: true,
           fields: [#{data_fields}],

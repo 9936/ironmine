@@ -459,16 +459,16 @@ Ext.irm.EventHelper.simulate = function(target, type, options){
 
 Ext.define("Ext.irm.ViewFilter",{
     filter: null,
-    store: null,
+    table: null,
     constructor: function(config) {
         var me = this;
         me.filter = config.filter || me.filter,
-        me.store = config.store || me.store;
-        if(me.filter&&Ext.get(me.filter)&&me.store){
+        me.table = config.table || me.table;
+        if(me.filter&&Ext.get(me.filter)&&me.table){
             select_element = Ext.get(me.filter).down("select.viewFilter");
-            me.store.loadPage(1);
+            me.table.store.dtFilter({_view_filter_id:select_element.getValue()});
             select_element.on("change",function(event){
-                me.store.loadPage(1);
+                me.table.store.dtFilter({_view_filter_id:Ext.get(this).getValue()});
             });
             edit_link = Ext.get(me.filter).down("a.EditLink");
 
@@ -517,8 +517,11 @@ Ext.define("Ext.irm.DatatableSearchBox",{
                 Ext.get(me.box).setStyle("display","");
 
             Ext.get(me.box).down("input.searchBoxInput").on("keydown",function(event){
-                if(event.keyCode==13)
-                  me.table.store.loadPage(1);
+                if(event.keyCode==13){
+                    var params = {};
+                    params[Ext.get(me.box).down("select.searchSelect").getValue()] = Ext.get(me.box).down("input.searchBoxInput").getValue();
+                    me.table.store.dtSearch(params);
+                }
             });
         }
 
@@ -530,3 +533,82 @@ Ext.define("Ext.irm.DatatableSearchBox",{
 Ext.define("Ext.irm.DatatableExport",{
 
 });
+
+
+Ext.define("Ext.irm.DatatableStore",{
+    extend: 'Ext.data.Store',
+
+    filterParams: {},
+    searchParams: {},
+    dtSearch: function(options){
+        var me = this;
+        me.searchParams = options||{};
+        me.loadPage(1);
+    },
+    dtFilter: function(options){
+        var me = this;
+        me.filterParams = options||{};
+        me.loadPage(1);
+    },
+
+    load: function(options) {
+        var me = this;
+
+        var params = {};
+
+        Ext.apply(params,me.filterParams);
+        Ext.apply(params,me.searchParams);
+
+        options = options || {};
+
+        if (Ext.isFunction(options)) {
+            options = {
+                callback: options
+            };
+        }
+
+        Ext.applyIf(options, {
+            groupers: me.groupers.items,
+            page: me.currentPage,
+            start: (me.currentPage - 1) * me.pageSize,
+            limit: me.pageSize,
+            params: params,
+            addRecords: false
+        });
+
+        return me.callParent([options]);
+    }
+});
+
+
+// 表格列宣染器
+Ext.irm.dtTemplate = function(value, cellmeta, record, rowIndex, columnIndex, store){
+    var me = this;
+    var dataIndex = me.columns[columnIndex].dataIndex;
+    var templateElement =me.getEl().parent().down("div#"+dataIndex)||me.getEl().down("div."+dataIndex);
+    if(templateElement){
+        return  new Ext.Template(decodeURIComponent(templateElement.dom.innerHTML)).apply(record.data);
+    }
+    else{
+        return value;
+    }
+}
+
+Ext.irm.dtScriptTemplate = function(value, cellmeta, record, rowIndex, columnIndex, store){
+    var me = this;
+    var dataIndex = me.columns[columnIndex].dataIndex;
+    var templateElement =me.getEl().parent().down("div#"+dataIndex)||me.getEl().down("div."+dataIndex);
+    if(templateElement){
+        console.debug(record);
+         var scriptString =  new Ext.Template(decodeURIComponent(templateElement.dom.innerHTML)).apply(record.data);
+         scriptString = scriptString.replace(/&amp;/g,"&");
+         scriptString = scriptString.replace(/&gt;/g,">");
+         scriptString = scriptString.replace(/&lt;/g,"<");
+         scriptString = eval(scriptString);
+         return scriptString;
+    }
+    else{
+        return value;
+    }
+
+}
