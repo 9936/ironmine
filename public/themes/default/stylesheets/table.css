@@ -1,0 +1,256 @@
+/* basic skin styles */
+.irm-datatable table {
+    margin:0;padding:0;
+    font-family:arial;font-size:inherit;
+    border-collapse:separate;*border-collapse:collapse;border-spacing:0; /* since ie6 and ie7 behave differently */
+    /*border:1px solid #7F7F7F;*/
+}
+.irm-datatable thead {border-spacing:0;} /* for safari bug */
+
+.irm-datatable caption {
+    color:#000000;
+    font-size:85%;
+    font-weight:normal;
+    font-style:italic;
+    line-height:1;
+    padding:1em 0pt;
+    text-align:center;
+}
+
+.irm-datatable th {
+    background:url(../images/grid_headerbg.gif) repeat-x scroll 0 bottom #FFFFFF; /* header gradient */
+}
+.irm-datatable th,
+.irm-datatable th a {
+    text-decoration:none;color:#000; /* header text */
+    vertical-align:bottom; font-weight: bold;
+    font-size:12px;
+    text-align: left;
+}
+.irm-datatable th {
+    margin:0;
+    padding:0;
+    border:none;
+    border-top:1px solid #CBCBCB;
+    border-bottom:1px solid #CBCBCB;
+    border-right:1px solid #CBCBCB;
+}
+.irm-datatable tr.irm-datatable-first{
+    border-left:1px solid #CBCBCB;
+}
+.irm-datatable tr.irm-datatable-first td {
+    border-top:1px solid #7F7F7F;  /* tbody top border  */
+}
+.irm-datatable th .irm-datatable-liner {
+    white-space:nowrap;
+}
+.irm-datatable-liner {
+    margin:0;
+    padding:4px 10px 4px 5px; /* cell padding */
+	overflow:visible; /*to make ths where the title is really long work*/
+	border:0px solid black;
+}
+.irm-datatable-coltarget {
+    width: 5px;
+    background-color: red;
+}
+.irm-datatable td {
+    margin:0;padding:0;
+    border:none;
+    border-bottom:1px solid #CBCBCB;
+    text-align:left;
+    +background-color: #fff;
+}
+.irm-datatable-list td {
+    border-right:none; /* disable inner column border in list mode */
+}
+.irm-datatable-resizer {
+    width:6px;
+}
+
+/* mask */
+.irm-datatable-mask {
+    background-color: #000;
+    opacity: .25;
+    filter: alpha(opacity=25);  /* Set opacity in IE */
+}
+
+/* messaging */
+.irm-datatable-message  {
+    background-color:#FFF;
+}
+
+/* scrolling */
+.irm-datatable-scrollable table {border:none;}
+.irm-datatable-scrollable .irm-datatable-hd {border-left:1px solid #7F7F7F;border-top:1px solid #7F7F7F;border-right:1px solid #7F7F7F;}
+.irm-datatable-scrollable .irm-datatable-bd {border-left:1px solid #7F7F7F;border-bottom:1px solid #7F7F7F;border-right:1px solid #7F7F7F;background-color:#FFF;}
+.irm-datatable-scrollable .irm-datatable-data tr.irm-datatable-last td {border-bottom:1px solid #7F7F7F;}
+
+/* sortable columns */
+th.irm-datatable-asc,
+th.irm-datatable-desc {
+    background:url(../images/grid_headerbg.gif) repeat-x scroll 0 bottom #FFFFFF; /* sorted header gradient */
+}
+th.irm-datatable-sortable .irm-datatable-liner {
+    padding-right:20px; /* room for arrow */
+}
+th.irm-datatable-asc .irm-datatable-liner {
+    background:url(../images/dt-arrow-up.png) no-repeat right; /* up arrow */
+}
+th.irm-datatable-desc .irm-datatable-liner {
+    background:url(../images/dt-arrow-dn.png) no-repeat right; /* down arrow */
+}
+
+/* editing */
+tbody .irm-datatable-editable {
+    cursor:pointer;
+}
+.irm-datatable-editor {
+    text-align:left;
+    background-color:#F2F2F2;
+    border:1px solid #808080;
+    padding:6px;
+}
+.irm-datatable-editor label {
+    padding-left:4px;padding-right:6px;
+}
+.irm-datatable-editor .irm-datatable-button {
+    padding-top:6px;text-align:right;
+}
+.irm-datatable-editor .irm-datatable-button button {
+    background:url(../images/sprite.png) repeat-x 0 0;
+    border:1px solid #999;
+    width:4em;height:1.8em;
+    margin-left:6px;
+}
+.irm-datatable-editor .irm-datatable-button button.irm-datatable-default {
+    background:url(../images/sprite.png) repeat-x 0 -1400px;
+    background-color: #5584E0;
+    border:1px solid #304369;
+    color:#FFF
+}
+.irm-datatable-editor .irm-datatable-button button:hover {
+    background:url(../images/sprite.png) repeat-x 0 -1300px;
+    color:#000;
+}
+.irm-datatable-editor .irm-datatable-button button:active {
+    background:url(../images/sprite.png) repeat-x 0 -1700px;
+    color:#000;
+}
+
+/* striping */
+td { background-color:transparent;} /* none */
+tr.irm-datatable-even {
+    border-bottom:1px solid #CBCBCB;
+    border-style:solid;
+    background-color:#fff;
+} /* white */
+tr.irm-datatable-odd {
+    /*background-color:#EDF5FF; */
+    background-color:#fff;
+} /* light blue */
+tr.irm-datatable-odd:hover, tr.irm-datatable-even:hover {
+    background-color:#EDF5FF;
+}
+tr.irm-datatable-even td.irm-datatable-asc,
+tr.irm-datatable-even td.irm-datatable-desc { background-color:#EDF5FF; } /* light blue sorted */
+tr.irm-datatable-odd td.irm-datatable-asc,
+tr.irm-datatable-odd td.irm-datatable-desc { background-color:#EDF5FF; } /* dark blue sorted */
+
+/* disable striping in list mode */
+.irm-datatable-list tr.irm-datatable-even { background-color:#FFF; } /* white */
+.irm-datatable-list tr.irm-datatable-odd { background-color:#FFF; } /* white */
+.irm-datatable-list tr.irm-datatable-even td.irm-datatable-asc,
+.irm-datatable-list tr.irm-datatable-even td.irm-datatable-desc { background-color:#EDF5FF; } /* light blue sorted */
+.irm-datatable-list tr.irm-datatable-odd td.irm-datatable-asc,
+.irm-datatable-list tr.irm-datatable-odd td.irm-datatable-desc { background-color:#EDF5FF; } /* light blue sorted */
+
+/* highlighting */
+th.irm-datatable-highlighted,
+th.irm-datatable-highlighted a {
+    background-color:#B2D2FF; /* med blue hover */
+}
+tr.irm-datatable-highlighted,
+tr.irm-datatable-highlighted td.irm-datatable-asc,
+tr.irm-datatable-highlighted td.irm-datatable-desc,
+tr.irm-datatable-even td.irm-datatable-highlighted,
+tr.irm-datatable-odd td.irm-datatable-highlighted {
+    cursor:pointer;
+    background-color:#B2D2FF; /* med blue hover */
+}
+
+/* enable highlighting in list mode */
+.irm-datatable-list th.irm-datatable-highlighted,
+.irm-datatable-list th.irm-datatable-highlighted a {
+    background-color:#B2D2FF; /* med blue hover */
+}
+.irm-datatable-list tr.irm-datatable-highlighted,
+.irm-datatable-list tr.irm-datatable-highlighted td.irm-datatable-asc,
+.irm-datatable-list tr.irm-datatable-highlighted td.irm-datatable-desc,
+.irm-datatable-list tr.irm-datatable-even td.irm-datatable-highlighted,
+.irm-datatable-list tr.irm-datatable-odd td.irm-datatable-highlighted {
+    cursor:pointer;
+    background-color:#B2D2FF; /* med blue  hover */
+}
+
+/* selection */
+th.irm-datatable-selected,
+th.irm-datatable-selected a {
+    background-color:#446CD7; /* bright blue selected cell */
+}
+tr.irm-datatable-selected td,
+tr.irm-datatable-selected td.irm-datatable-asc,
+tr.irm-datatable-selected td.irm-datatable-desc {
+    background-color:#426FD9; /* bright blue selected row */
+    color:#FFF;
+}
+tr.irm-datatable-even td.irm-datatable-selected,
+tr.irm-datatable-odd td.irm-datatable-selected {
+    background-color:#446CD7; /* bright blue selected cell */
+    color:#FFF;
+}
+
+/* enable selection in list mode */
+.irm-datatable-list th.irm-datatable-selected,
+.irm-datatable-list th.irm-datatable-selected a {
+    background-color:#446CD7; /* bright blue selected cell */
+}
+.irm-datatable-list tr.irm-datatable-selected td,
+.irm-datatable-list tr.irm-datatable-selected td.irm-datatable-asc,
+.irm-datatable-list tr.irm-datatable-selected td.irm-datatable-desc {
+    background-color:#426FD9; /* bright blue selected row */
+    color:#FFF;
+}
+.irm-datatable-list tr.irm-datatable-even td.irm-datatable-selected,
+.irm-datatable-list tr.irm-datatable-odd td.irm-datatable-selected {
+    background-color:#446CD7; /* bright blue selected cell */
+    color:#FFF;
+}
+
+/* pagination */
+.irm-datatable-paginator {
+    display:block;margin:6px 0;white-space:nowrap;
+}
+.irm-datatable-paginator .irm-datatable-first,
+.irm-datatable-paginator .irm-datatable-last,
+.irm-datatable-paginator .irm-datatable-selected {
+    padding:2px 6px;
+}
+.irm-datatable-paginator a.irm-datatable-first,
+.irm-datatable-paginator a.irm-datatable-last {
+    text-decoration:none;
+}
+.irm-datatable-paginator .irm-datatable-previous,
+.irm-datatable-paginator .irm-datatable-next {
+    display:none;
+}
+a.irm-datatable-page {
+    border:1px solid #CBCBCB;
+    padding:2px 6px;
+    text-decoration:none;
+    background-color:#fff
+}
+.irm-datatable-selected {
+    border:1px solid #fff;
+    background-color:#fff;
+}
