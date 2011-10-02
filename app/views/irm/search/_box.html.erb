@@ -15,26 +15,11 @@
 <% end %>
 <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/custom_yui_container_skin.css"></link>
 <script type="text/javascript">
-
-  GY.use('yui2-container',"node-event-simulate", function(Y){
-      var dialog;
-      dialog = new Y.YUI2.widget.Dialog("container_abc", {
-          visible: true,
-          context: [Y.one("#headerSearchOptionsLink"), "tl", "bl"],
-          draggable: false,
-          close: true
+  $(document).ready(function(){
+    $("#phSearchInput").keydown(function(e){
+        if(e.keyCode=='13'){
+          $("#phSearchButton").trigger("click");
+        }
       });
-
-      Y.one("#headerSearchOptionsLink").on("click", function(e){
-          dialog.setBody("<iframe frameborder=0 scrolling='no'  src='/common/search_options' style='height:180px;'></iframe>");
-          dialog.setHeader('<%= t :search_options%>');
-          dialog.render(document.body);
-          dialog.center();
-          dialog.show();
-      });
-      Y.one("#phSearchInput").on("keydown",function(e){
-                  if(e.keyCode==13)
-                    Y.one("#phSearchButton").simulate("click");
-                });
   });
 </script>

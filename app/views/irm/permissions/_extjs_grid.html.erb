@@ -1,0 +1,170 @@
+<% require_javascript([:extjs]) %>
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_permission_list) %></h2></td>
+              <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= link_to t(:new), {:controller => "irm/permissions", :action => "new"}%></div>
+              </td>
+              <td class="pbHelp">
+                <div id="permissionsSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="permissions_list" class="datatable" style="width:100%">
+        </div>
+      </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  Ext.onReady(function(){
+
+      Ext.define('Permission', {
+          extend: 'Ext.data.Model',
+          fields: [
+              'checked','id', 'product_module_name', 'code', 'name','controller', 'action', 'status_code'
+          ],
+          idProperty: 'id'
+      });
+
+      // create the Data Store
+      var store = Ext.create('Ext.data.Store', {
+          pageSize: 50,
+          model: 'Permission',
+          remoteSort: true,
+          proxy: {
+              type: 'jsonp',
+              url: '/permissions/get_data.json',
+              reader: {
+                  root: 'items',
+                  totalProperty: 'numRows'
+              },
+              // sends single sort as multi parameter
+              simpleSortMode: true
+          },
+          sorters: [{
+              property: 'product_module_name',
+              direction: 'DESC'
+          }]
+      });
+
+      // pluggable renders
+    function renderTopic(value, p, record) {
+        return Ext.String.format(
+            '<b><a href="{1}/{2}" target="_blank">{0} Forum</a></b>',
+            value,
+            record.data.controller,
+            record.data.action
+        );
+    }
+    var sm = new Ext.selection.CheckboxModel( {});
+
+      var grid = Ext.create('Ext.grid.Panel', {
+          height: 250,
+          store: store,
+          loadMask: true,
+          selModel: sm,
+          viewConfig: {
+              id: 'gv',
+              trackOver: false,
+              stripeRows: false,
+              forceFit: true
+          },
+          // grid columns
+          columns:[{
+              id: 'topic',
+              text: "Code",
+              dataIndex: 'code',
+              flex: 1,
+              sortable: false ,
+              renderer:renderTopic
+          },{
+              text: "Author",
+              dataIndex: 'name',
+              width: 100,
+              hidden: true,
+              sortable: true
+          },{
+              text: "Replies",
+              dataIndex: 'product_module_name',
+              width: 70,
+              align: 'right',
+              sortable: true
+          },{
+              text: "Last Post",
+              dataIndex: 'controller',
+              width: 150,
+              sortable: true
+          },{
+              id: 'last',
+              text: "Last Post",
+              dataIndex: 'action',
+              width: 150,
+              sortable: true
+          }],
+          // paging bar on the bottom
+          bbar: Ext.create('Ext.PagingToolbar', {
+              store: store
+
+          }),
+          renderTo: 'permissions_list'
+      });
+
+      // trigger the data store load
+      store.loadPage(1);
+  });
+</script>
+<script type="text/javascript">
+  //<![CDATA[
+Ext.onReady(function(){
+// create the Data Store
+var incident_requestsDatatableStore = Ext.create('Ext.data.Store', {
+pageSize: 10,
+remoteSort: true,
+fields: ["id","request_number","title","organization_name","priority_name","incident_status_name","requested_name","external_system_name"],
+proxy: {
+type: 'jsonp',
+url: '/incident_requests/assignable_data.json',
+reader: {
+root: 'items',
+totalProperty: 'numRows'
+},
+// sends single sort as multi parameter
+simpleSortMode: true
+}
+});
+var incident_requestsDatatableSelModel = new Ext.selection.CheckboxModel( {model:MULTI});
+var incident_requestsDatatable = Ext.create('Ext.grid.Panel', {
+height: 250,
+store: incident_requestsDatatableStore,
+disableSelection: false,
+loadMask: true,
+selModel:incident_requestsDatatableSelModel,
+selType: 'cellmodel',
+viewConfig: {
+trackOver: true,
+stripeRows: false,
+forceFit: true
+},
+// grid columns
+columns:[{dataIndex:"request_number",text:"#",searchable:true,sortable:false,menuDisabled:true},{dataIndex:"title",text:"主题",searchable:true,sortable:false,menuDisabled:true},{dataIndex:"organization_name",text:"组织",sortable:false,menuDisabled:true},{dataIndex:"priority_name",text:"优先级",sortable:false,menuDisabled:true},{dataIndex:"requested_name",text:"请求人",sortable:false,menuDisabled:true},{dataIndex:"external_system_name",text:"外部系统",sortable:false,menuDisabled:true}],
+// paging bar on the bottom
+bbar: Ext.create('Ext.PagingToolbar', {
+store: incident_requestsDatatableStore,
+displayInfo: true
+}),
+renderTo: 'incident_requests'
+});
+incident_requestsDatatableStore.loadPage(1);
+// No view filter for incident_requestsDatatable
+// Now Search Box for incident_requestsDatatable
+});
+//]]>
+</script>

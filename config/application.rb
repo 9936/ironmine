@@ -49,19 +49,19 @@ module Ironmine
     config.ironmine.javascript = ActiveSupport::OrderedOptions.new
     config.ironmine.css = ActiveSupport::OrderedOptions.new
     config.ironmine.javascript.source = {
-        :jquery =>%w(jquery-1.6.4.min jquery-rails jquery-application),
-        :jcrop => %w(jquery-1.6.4.min jquery-crop),
-        :jplugin => %w(jquery-1.6.4.min jquery-plugin),
+        :extjs=>%w(ext4-all ext-extend ext-application),
+        :jquery =>%w(jquery-1.6.4.min jquery-rails jquery-extend jquery-application),
+        :jcrop => %w(jquery-crop),
+        :jplugin => %w(jquery-plugin),
         :i18n=>%w(local/),
-        :extjs=>%w(ext4-all ext-application),
         :survey=>%w(survey)
     }
     config.ironmine.css.source = {
-        :default =>%w(common),
-        :application=>%w(application icons),
-        :setting=>%w(setting),
-        :home=>%w(home),
-        :login=>%w(login),
+        :default =>%w(base button container form header icons layout other public setting_base sidebar table),
+        :application=>%w(),
+        :setting=>%w(),
+        :home=>%w(),
+        :login=>%w(),
         :extjs=>%w(ext4-all)}
   end
 end
