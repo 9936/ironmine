@@ -1,35 +1,30 @@
-<%= stylesheet_link_tag "event_calendar" %>
-<div class="bPageTitle">
-  <div class="ptBody secondaryPalette">
+<div class="page-title">
+  <div class="pt-body secondary-palette">
 
-      <%= image_tag Irm::Person.current.avatar.url(:large), :id => "crop_box", :style => "width: 45px; height: 45px;", :class => "thumbnail_visible" %>
+      <%= image_tag Irm::Person.current.avatar.url(:large), :id => "crop_box", :style => "width: 45px; height: 45px;", :class => "thumbnail-visible" %>
 
     <div class="greeting">
       <div class="content">
-          <span class="pageType">
-            <h1 class="currentStatusUserName">
+          <span class="page-type">
+            <h1 class="current-status-user-name">
               <%= link_to Irm::Person.current.name, {:controller => "irm/my_info", :action => "index"} %>
             </h1>
           </span>
-          <span class="pageDescription"><%= Time.now.strftime(t("date.formats.long")) + t("date.day_names")[Time.now.strftime("%w").to_f]%></span>
+          <span class="page-description"><%= Time.now.strftime(t("date.formats.long")) + t("date.day_names")[Time.now.strftime("%w").to_f]%></span>
       </div>
     </div>
     <div class="links">
-      <a onclick="window.open ('/pagehelpfiles/home.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" href="#"><%=t(:current_page_help)%></a>
+      <!--<a onclick="window.open ('/pagehelpfiles/home.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" href="#"><% t(:current_page_help)%></a>-->
     </div>
   </div>
 </div>
 <div class="pbSubsection" id="templateBody">
-  <!--<ul>-->
-      <!--<li><a id="portal" href="#tab_portal"><%= t :my_view %></a></li>-->
-      <!--<li><a id="calendar_task" href="#tab_calendar_task"><%= t :calendar_task %></a></li>-->
-  <!--</ul>-->
     <div id="tab_portal">
-        <table class="toolsContent">
+        <table class="tools-content">
             <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="toolsContentRight">
+                    <div class="tools-content-right">
                       <%= render :partial => "irm/bulletins/bulletin_portlet" %>
                     </div>
                   </td>
@@ -37,7 +32,7 @@
                 <% if allow_to_function?(:reply_survey) %>
                 <tr>
                   <td colspan="2">
-                    <div class="toolsContentRight">
+                    <div class="tools-content-right">
                       <%= render :partial => "csi/surveys/my_surveys" %>
                     </div>
                   </td>
@@ -46,7 +41,7 @@
                 <% if allow_to_function?(:workflow_approval) %>
                 <tr>
                   <td colspan="2">
-                    <div class="toolsContentRight">
+                    <div class="tools-content-right">
                       <%= my_approvals %>
                     </div>
                   </td>
@@ -54,7 +49,7 @@
                 <% end %>
                 <tr>
                   <td colspan="2">
-                    <div class="toolsContentRight">
+                    <div class="tools-content-right">
                     </div>
                   </td>
                 </tr>

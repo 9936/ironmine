@@ -1,0 +1,77 @@
+body{
+    font-size: 75% !important;
+    color: #222222;
+    font-family: Arial,Helvetica,sans-serif;
+}
+img {
+    border:0 none !important;
+}
+a {color: #333435;}
+body a:hover{color: #015BA7;}
+a img{border:none;}
+
+body .menuButton {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+}
+
+body button, body .x-btn, body .btn, body .btnDisabled, body .btnCancel, body .menuButton .menuButtonButton {
+    -moz-border-radius:3px 3px 3px 3px;
+    -webkit-border-radius: 3px;
+    background:url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
+    border-color:#B5B5B5 #B5B5B5 #7F7F7F;
+    border-style:solid;
+    border-width:1px;
+    color:#333333;
+    font-size:0.9em;
+    font-weight:bold;
+    margin:1px;
+    padding:2px 3px;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, sub, tt, var, dl, dt, dd, ol, ul, li, form, label, table, caption, tbody, tfoot, thead, tr, th, td {
+    border:0 none;
+    /*font-family:inherit;*/
+    font-size:100%;
+    font-style:inherit;
+    font-weight:inherit;
+    margin:0;
+    outline:0 none;
+    padding:0;
+    vertical-align:baseline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    display:inline;
+    font-family:'Verdana','Geneva',sans-serif;
+    font-size:100%;
+    margin:0;
+}
+
+textarea {font-size: 100%;}
+
+.phHeader{width: 100%;}
+
+body .page-title .secondary-palette a, body .secondary-palette .lbHeader a, body .pbSubheader a {color: #015BA7;}
+
+.datatable table {width: 100%;}
+.body-col-b td {vertical-align: top;}
+
+.floatLeft {float: left;vertical-align: middle;}
+
+.page-title .ptBreadcrumb {
+    font-family: 'Verdana','Geneva',sans-serif;
+    font-size: 91.3%;
+    height: 15px;
+    margin-bottom: -15px;
+    vertical-align: middle;
+}
+.page-title .content .blank {
+    clear: both;
+    font-size: 0;
+}
+
+body .detail-block.page-block .pbBody .pbSubheader{background-color:transparent;}

@@ -8,11 +8,17 @@
   <%= javascript_include_tag "tabbar_ext" %>
   <%= javascript_include_tag "survey" %>
   <%= csrf_meta_tag %>
-  <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/application.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/common.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/tabbar.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/icons.css"></link>
-
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/layout.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/header.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/base.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/public.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/sidebar.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/form.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/button.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/container.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/table.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/other.css"></link>
+  <link rel="stylesheet" type="text/css" href="/themes/default/stylesheets/icons.css"></link>
   <script type="text/javascript">
     GY.use("menubutton","node-base",function(Y){
       Y.on("domready",function(){
@@ -25,9 +31,9 @@
   <% end %>
   <%= render :partial => "irm/common/address_bar_logo" %>
 </head>
-<body id ="homePage" class="homeTab homepage sfdcBody yui3-skin-sam yui-skin-sam">
+<body id ="body" class="lay-right yui3-skin-sam yui-skin-sam">
     <div id="contentWrapper">
-        <div id="AppBodyHeader" class="bPageHeader">
+        <div id="pageHeader" class="page-header">
             <table id="phHeader" class="phHeader" cellpadding="0" cellspacing="0" border="0">
               <tbody>
                 <tr>
@@ -44,7 +50,7 @@
                         <%= current_application_menu %>
                         <span class="navLinks" style="float:right">
                           <span class="linkElements">
-                            <a style="margin-right:29px;" href="#" onclick="window.open ('/helpfiles/index.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');"><%= t :help %></a>
+                            <!--<a style="margin-right:29px;" href="#" onclick="window.open('/helpfiles/index.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');"><% t :help %></a>-->
                           </span>
                         </span>
                         <span id="settingMenu" class="menuParent" style="float:right">
@@ -55,18 +61,19 @@
                             <div id="settingMenu-arrow"></div>
                           </div>
                           <div class="menuContent" >
-                            <div class="tsidMenu-tr"></div>
-                            <div class="tsidMenu-tl"></div>
-                            <div class="tsidMenu-tc"></div>
-                            <div class="menuItems">
-                            <%= setting_menu%>
-                            <div class="menuItem"><%= link_to(t(:label_irm_common_logout),logout_url) %></div>
-                            </div>
-                            <div class="tsidMenu-br"></div>
-                            <div class="tsidMenu-bl"></div>
-                            <div class="tsidMenu-bc"></div>
+                              <div class="tsidMenu-tr"></div>
+                              <div class="tsidMenu-tl"></div>
+                              <div class="tsidMenu-tc"></div>
+                              <div class="menuItems">
+                              <%= setting_menu%>
+                              <div class="menuItem"><%= link_to(t(:label_irm_common_logout),logout_url) %></div>
+                              </div>
+                              <div class="tsidMenu-br"></div>
+                              <div class="tsidMenu-bl"></div>
+                              <div class="tsidMenu-bc"></div>
                           </div>
                         </span>
+
                       </div>
                     </div>
                   </td>
@@ -89,7 +96,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="bodyDiv" class="bodyDiv">
+        <div id="pageBody" class="page-body">
             <div id="bd_l"></div>
             <div id="bd_r"></div>
             <div id="motifCurve">
@@ -101,44 +108,24 @@
                 <div id="bd_br"></div>
             </div>
 
-            <div id="sidebarDivRight" style="margin-top:70px;">
-                <div class="sidebarInner">
-                    <%= render :partial =>"/irm/common/quick_create"%>
-                    <%if has_content?(:sidebar) %>
-                        <%= yield :sidebar %>
-                    <%end%>
-                </div>
+            <div id="bodyColA" class="body-col-a">
+              <div id="sidebarDiv">
+                <%= render :partial =>"/irm/common/quick_create"%>
+                <%if has_content?(:sidebar) %>
+                    <%= yield :sidebar %>
+                <%end%>
+              </div>
             </div>
-
-            <table id="bodyTable" class="outer" width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td id="bodyCell" class="oLeft">
-                    <%= yield %>
-                  </td>
-                </tr>
-            </table>
+            <div id="bodyColB" class="body-col-b">
+                <%= yield %>
+            </div>
+            <div id="bodyColC" class="body-col-c">
+                <%= yield :colC %>
+            </div>
+            <div style="clear:both;"></div>
         </div>
-      <%= render :partial => "/irm/common/footer"%>
+        <%= render :partial => "/irm/common/footer"%>
     </div>
-<script type="text/javascript">
 
-  GY.use('yui2-container', function(Y){
-      var dialog;
-      dialog = new Y.YUI2.widget.Dialog("container_abc", {
-          visible: true,
-          context: [Y.one("#headerSearchOptionsLink"), "tl", "bl"],
-          draggable: false,
-          close: true
-      });
-
-      Y.one("#headerSearchOptionsLink").on("click", function(e){
-          dialog.setBody("<iframe src='/common/search_options' style='height:180px;'></iframe>");
-          dialog.setHeader('<%= t :search_options%>');
-          dialog.render(document.body);
-          dialog.center();
-          dialog.show();
-      });
-  });
-</script>
 </body>
 </html>

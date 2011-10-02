@@ -1,14 +1,14 @@
 <%= common_title(:show_data=>@survey.title,:action_meaning=>t(:reply)) %>
 
 <div class="lightBlue">
-    <div class="bPageTitle">
-        <div class="secondaryPalette" style="background-color:#1797C0;">
+    <div class="page-title">
+        <div class="secondary-palette" style="background-color:#1797C0;">
           <h1 class="title"><%= @survey.title%></h1>
         </div>
     </div>
 </div>
 
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
     <div id="id_survey_reply">
         <% if @survey.closed_datetime.blank? || @survey.closed_datetime > Date.today %>
           <div id='errors' class='error'></div>
