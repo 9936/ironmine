@@ -110,11 +110,6 @@ jQuery.fn.menubutton = function(){
 };
 
 
-//树开菜单
-jQuery.fn.navtree = function(){
-
-};
-
 
 // Ironmine duelselect
 (function($)
@@ -398,6 +393,189 @@ jQuery.fn.navtree = function(){
     }
 
 
+
+    // 插件的公有方法
+
+    var publicMethods =
+    {
+        init : function(/*Object*/ customOptions)
+        {
+            return this.each(function()
+            {
+                I(this).init(customOptions);
+            });
+        },
+
+        destroy : function()
+        {
+            return this.each(function()
+            {
+                I(this).destroy();
+            });
+        }
+
+        // TODO: Add additional public methods here.
+    };
+
+    $.fn[PLUGIN_NAME] = function(/*String|Object*/ methodOrOptions)
+    {
+        if (!methodOrOptions || typeof methodOrOptions == "object")
+        {
+            return publicMethods.init.call(this, methodOrOptions);
+        }
+        else if (publicMethods[methodOrOptions])
+        {
+            var args = Array.prototype.slice.call(arguments, 1);
+
+            return publicMethods[methodOrOptions].apply(this, args);
+        }
+        else
+        {
+            $.error("Method '" + methodOrOptions + "' doesn't exist for " + PLUGIN_NAME + " plugin");
+        }
+    };
+})(jQuery);
+
+// Ironmine duelselect
+(function($)
+{
+       // 插件名称
+    var PLUGIN_NAME = "menutree";
+
+    // 插件默认配置参数
+    var DEFAULT_OPTIONS =
+    {
+        open:[]
+    };
+
+    // 插件实例计数器
+    var pluginInstanceIdCount = 0;
+
+
+    // 插件内部类工厂方法
+    var I = function(/*HTMLElement*/ element)
+    {
+        if($(element).data(PLUGIN_NAME))
+            return $(element).data(PLUGIN_NAME)["target"];
+        else
+            return new Internal(element);
+    };
+
+
+    // 定义插件内部类
+    var Internal = function(/*HTMLElement*/ element)
+    {
+        var me = this;
+        this.$element = $(element);
+        this.element = element;
+        this.data = this.getData();
+
+        // Shorthand accessors to data entries:
+        this.id = this.data.id;
+        this.options = this.data.options;
+
+
+    };
+
+    /**
+     * 定义插件内部类的方法，内部类方法实现插件的内部逻辑，不能从外部访问
+     */
+
+    // 初始化内部类
+    Internal.prototype.init = function(/*Object*/ customOptions)
+    {
+        var data = this.getData();
+
+        // 初始化插件内部数据
+        if (!data.initialised)
+        {
+            data.initialised = true;
+            data.options = $.extend(DEFAULT_OPTIONS, customOptions);
+        }
+
+        this.createTree();
+
+    };
+
+    /**
+     * 取得使用插的Element的内部数据
+     * 如果没有，则初始化一份，为Eelement生成插件id ，并标记为新生成的数据，等待初始化
+     *
+     */
+    Internal.prototype.getData = function()
+    {
+        if (!this.$element.data(PLUGIN_NAME))
+        {
+            this.$element.data(PLUGIN_NAME, {
+                id : pluginInstanceIdCount++,
+                initialised : false,
+                target: this
+            });
+        }
+
+        return this.$element.data(PLUGIN_NAME);
+    };
+
+
+    /**
+     * Returns the event namespace for this widget.
+     * The returned namespace is unique for this widget
+     * since it could bind listeners to other elements
+     * on the page or the window.
+     */
+    Internal.prototype.getEventNs = function(/*boolean*/ includeDot)
+    {
+        return (includeDot !== false ? "." : "") + PLUGIN_NAME + "_" + this.id;
+    };
+
+    /**
+     * Removes all event listeners, data and
+     * HTML elements automatically created.
+     */
+    Internal.prototype.destroy = function()
+    {
+        this.$element.unbind(this.getEventNs());
+        this.$element.removeData(PLUGIN_NAME);
+    };
+
+
+
+    Internal.prototype.createTree = function(){
+        var opened_menus = this.data.options["open"];
+        var cookie_menus = [];
+        opened_menus = opened_menus.concat(cookie_menus);
+
+        this.$element.find(".NavIconLink").click(function(event){
+          if($(this).hasClass("NavTreeCol")){
+            $(this).removeClass("NavTreeCol");
+            $(this).addClass("NavTreeExp");
+            $('#tree_'+$(this).attr("real")+"_child").css("display","block");
+            var menu_code =  $(this).attr("real");
+
+          }
+          else{
+            $(this).removeClass("NavTreeExp");
+            $(this).addClass("NavTreeCol");
+            $('#tree_'+$(this).attr("real")+"_child").css("display","none");
+            var menu_code =  $(this).attr("real");
+          }
+
+        });
+
+        for(var i=0;i<opened_menus.length;i++){
+            $("a.NavIconLink[real='"+opened_menus[i]+"']").each(function(index,child){
+                $(child).parents(".parent").each(function(index,parent){
+                    var icon_link = $(parent).find(".NavIconLink:first");
+                    if(icon_link&&icon_link.hasClass("NavTreeCol")) {
+                        icon_link.trigger("click");
+                    }
+                });
+            });
+            var leaf = $("div.setupLeaf[ti="+opened_menus[i]+"]:first");
+            if(leaf)
+                leaf.addClass("setupHighlightLeaf");
+        }
+    }
 
     // 插件的公有方法
 
