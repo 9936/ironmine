@@ -39,7 +39,9 @@ class Irm::Permission < ActiveRecord::Base
 
   end
 
-
+  def self.list_all
+    self.select_all
+  end
 
   def self.url_key(controller,action)
     "#{controller.gsub(/\//, "_")}_#{action}"

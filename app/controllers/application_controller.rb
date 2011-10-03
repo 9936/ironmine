@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  theme :salesforce2
+  theme :default
   protect_from_forgery
   helper :all
   #ajax请求不使用layout
@@ -224,7 +224,7 @@ class ApplicationController < ActionController::Base
   def paginate(scoped,offset=nil,limit=nil)
      scoped = data_filter(scoped)
      offset ||= (params[:start]||0).to_i
-     limit ||= (params[:count]||25).to_i
+     limit ||= (params[:count]||params[:limit]||25).to_i
      [scoped.offset(offset).limit(limit),scoped.count]
   end
   # 加入jsonp格式

@@ -35,16 +35,23 @@
     </div>
 
     <script>
-      GY.use(function(Y){
-        Y.on("click", function(e){
-          var el = e.target;
-          if (Y.one("#createNewButton") && !Y.one("#createNewButton").contains(el)) {
-            Y.one("#createNewMenu").setStyle("display", "none");
-          }
-        }, document);
-        Y.one("#createNewButton").on("click", function(){
-            Y.one("#createNewMenu").setStyle("display", "block");
+      $(document).ready(function() {
+        var _checkCreateNewMenu = function(e){
+            if($("#createNew").find(e.target).length<1){
+              $("#createNewMenu").css("display","none");
+              $(document).unbind("click",_checkCreateNewMenu);
+            }
+        }
+        $("#createNewButton").click(function(){
+            if($("#createNewMenu").css("display")=="block")
+            {
+              $(document).unbind("click",_checkCreateNewMenu);
+              $("#createNewMenu").css("display","none");
+            }else{
+              $(document).bind("click",_checkCreateNewMenu);
+              $("#createNewMenu").css("display","block");
+            }
         });
-      })
+      });
     </script>
 
