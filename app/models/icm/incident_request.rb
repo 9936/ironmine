@@ -7,9 +7,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   attr_accessor :pass_flag,:close_flag
 
-  validates_presence_of :summary,:message=>:label_icm_incident_journal_message_body_not_blank
+  validate :validate_summary
 
-  validate
 
   validates_presence_of :support_group_id,:support_person_id,:if=>Proc.new{|i| !i.pass_flag.nil?&&!i.pass_flag.blank?}
 
@@ -346,6 +345,13 @@ class Icm::IncidentRequest < ActiveRecord::Base
   def setup_organization
     if self.requested_by.present?
       self.organization_id =  Irm::Person.find(self.requested_by).organization_id
+    end
+  end
+
+  def validate_summary
+    str = Irm::Sanitize.sanitize(self.summary,'').strip
+    if !str.present?||(str.length==1&&str.bytes.to_a.eql?([226, 128, 139]))
+      self.errors.add(:summary,I18n.t(:label_icm_incident_journal_message_body_not_blank))
     end
   end
 
