@@ -1,5 +1,5 @@
 body#body {
-    background-color: #ffffff;
+    background-color: #1797C0;
 }
 
 #contentWrapper {
@@ -103,6 +103,7 @@ body#body {
     text-align: right;
     white-space: nowrap;
     width: 100%;
+    padding-right: 15px;
 }
 
 .page-header td.right.vtop {
@@ -133,10 +134,12 @@ body#body {
 
 span.menuParent {
     width:10px;
+    z-index: 50;
 }
 
 .menuParent {
     text-align: left;
+    position: relative;
 }
 .menuParent div.menuLabel {
     -moz-border-radius: 11px 11px 11px 11px;
@@ -174,6 +177,7 @@ span.menuParent {
     border: 1px solid #cecece;
     margin-top: -1px !important;
     z-index: 50;
+    right:0;
  }
 
 .menuParent div.menuContent a {

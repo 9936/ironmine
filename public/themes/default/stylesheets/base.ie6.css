@@ -20,12 +20,10 @@ body .page-body #bd_r {
 }
 
 body .page-body {
-    background-color: transparent;
     margin: 0;
-}
-
-.page-body {
     position: relative;
+    background-color: #ffffff;
+    padding-bottom:20px;
 }
 
 #motifCurve {

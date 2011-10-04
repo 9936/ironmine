@@ -1,6 +1,7 @@
 @charset "utf-8";
 
-body.setupTab {margin:0 10px;}
+body.setupTab {margin:0;}
+
 #contentWrapper {display:inline-block;min-width:100%;}
 body #pageHeader {background-image:none;}
 
@@ -57,7 +58,7 @@ position:static;
 .page-header td.right {padding-right:19px;vertical-align:middle;}
 .page-header td.right {background:url("../images/appHeader_r.png") no-repeat scroll right bottom transparent;}
 
-body.page-body{background-color: #fff;margin: 0 10px; height: 100%; position: relative;}
+body.page-body{background-color: transparent;margin: 0; height: 100%; position: relative;}
 /* tabs */
 body .tabsNewBar .tabNavigation {
     background:url("../images/tabbar_sprite.png") repeat-x scroll left -73px transparent;
@@ -112,9 +113,8 @@ body .tab td, body .tab td div, body .tab .last div {background-image:none;backg
 .setupTab .tabNavigation .tab .currentTab, .setupTab #motifCurve, .setupTab #motifCurve #mc_l, .setupTab #motifCurve #mc_r {background-color:#747E96;}
 
 #motifCurve {
-    background-image:url("../images/motifCurve_sprite.png");
-    background-repeat:repeat-x;
-    height:9px;
+    background-color: #1797c0;
+    height:4px;
     margin:0 -5px;
     position:relative;
 }
@@ -139,7 +139,7 @@ body .page-body .outer .oRight, body .page-body .outerNoSidebar {background-colo
     padding:0.8em;
     text-align:left;
 }
-div#AutoNumber5 {
+#AutoNumber5 {
     font-size:0.917em;
     padding-bottom:17px;
     padding-left:10px;
@@ -163,7 +163,7 @@ div#AutoNumber5 {
     padding:14px 0 0 10px;
 }
 .mTreeSelection h2 {
-    border-bottom:2px solid #CCCCCC;
+    border-bottom:0 solid #CCCCCC;
     display:block;
     font-weight:bold;
     margin-top:15px;
@@ -226,49 +226,11 @@ body .tabNavigation .tab .allTabsArrow {
     width:6px;
 }
 
-#pageBodySetup #bd_l {
-    left:-10px;
-    width:10px;
-}
-
-body .page-body #bd_l {
-    background:url("../images/bd_sprite.png") repeat-y scroll left top transparent;
-    height:100%;
-    left:-20px;
-    position:absolute;
-    width:20px;
-}
-#pageBodySetup #mc_l, #pageBodySetup #mc_r, #pageBodySetup #bd_b {display:none;}
-#pageBodySetup #bd_r {
-    left:10px;
-}
 #pageBodySetup {
     margin:0;
 }
-body .page-body #bd_r {
-    background:url("../images/bd_right_shadow.png") repeat-y scroll right top transparent;
-    height:100%;
-    left:20px;
-    position:absolute;
-    width:100%;
-    z-index:-1;
-}
 
-#motifCurve {
-    background-image:url("../images/motifCurve_sprite.png");
-    background-repeat:repeat-x;
-    height:9px;
-    margin:0 -5px;
-    position:relative;
-}
-#mc_l, #mc_r {
-    background:url("../images/motifCurve_sprite.png") no-repeat scroll 0 0 transparent;
-    height:9px;
-    position:absolute;
-    width:5px;
-}
-
-div#pageBodySetup > table.outer {background-color:#F2F2F3;}
+#pageBodySetup .outer {background-color:#F2F2F3;}
 
 body .page-body #bodyTable {padding-left:0;padding-right:0;}
 
@@ -283,12 +245,12 @@ body .page-body #bodyTable {padding-left:0;padding-right:0;}
     text-align:left;
 }
 
-#AutoNumber5 > img:first-child + .setupNavtree {
+#AutoNumber5 img:first-child + .setupNavtree {
     border-width:0;
     margin-top:0;
 }
 
-#AutoNumber5 > .setupNavtree {
+#AutoNumber5 .setupNavtree {
     border-top:1px solid #D9D9D9;
     margin:14px 0 14px -10px;
 }

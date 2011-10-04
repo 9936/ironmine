@@ -34,8 +34,11 @@ body .page-block .pbBody .label3Col {color: #4A4A56;}
 
 .page-block .detailList .labelCol {white-space: nowrap;}
 
-body .page-block .detailList tr td, body .page-block .detailList tr th, body table.list tr td, body table.list tr th{border-color:#ECECEC;}
-body .detail-block tr td {border:0 none !important;}
+body .page-block .detailList tr td,
+body .page-block .detailList tr th,
+body table.list tr td,
+body table.list tr th{border-color:#ECECEC;}
+body .detail-block tr td {border:0 none;}
 .page-block .detailList th, .page-block .detailList td {vertical-align: top;}
 
 .page-block .dataCol {padding:2px 2px 2px 10px;text-align:left;}
