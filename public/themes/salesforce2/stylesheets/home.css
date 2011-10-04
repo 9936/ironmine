@@ -741,7 +741,7 @@ body .edit-block .pbBody .pbSubheader.first {border-top:medium none;}
     overflow:hidden;
     padding:2px 2px 2px 5px;
 }
-body .page-block .pbBody .pbSubheader h3, body .bWizardBlock .page-block .pbBody .pbSubheader label {font-size:1.2em;}
+body .page-block .pbBody .pbSubheader h3, body .wizard-block .page-block .pbBody .pbSubheader label {font-size:1.2em;}
 h1, h2, h3, h4, h5, h6 {
     display:inline;
     font-family:'Verdana','Geneva',sans-serif;

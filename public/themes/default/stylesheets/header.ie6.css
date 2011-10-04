@@ -159,19 +159,21 @@ span.menuParent {
 .menuParent div.menuLabelClick{
     background:white;
     color: #1797C0;
+    z-index: 100 !important;
  }
 
 .menuParent div.menuContent{
     display:none;
     padding: 0;
-    -moz-box-shadow: 0 2px 4px rgba(127, 127, 127, 0.3);
-    -webkit-box-shadow:rgba(127, 127, 127, 0.292969) 0 2px 4px;
-    box-shadow: 0 2px 4px rgba(127, 127, 127, 0.292969);
  }
 .menuParent div.menuContentVisual{
     display:block;
     background:white;
     min-width: 150px;
+    position: absolute !important;
+    border: 1px solid #cecece;
+    margin-top: -1px !important;
+    z-index: 50;
  }
 
 .menuParent div.menuContent a {

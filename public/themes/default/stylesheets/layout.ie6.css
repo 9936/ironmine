@@ -33,12 +33,12 @@ body .page-footer a, body .page-footer {
     text-align: center;
 }
 
-.lay-right #bodyColA {float: right;width: 210px;}
-.lay-right #bodyColB {display:block;margin: 0 215px 0 0;}
+.lay-right #bodyColA {display:inline-block;float: right;width: 210px;}
+.lay-right #bodyColB {display:inline-block;margin: 0 220px 0 0;padding-left: 10px;}
 .lay-right #bodyColC {display:none;}
 
 .lay-full #bodyColA {display:none;}
-.lay-full #bodyColB {display:block;margin: 0 0 0 0;}
+.lay-full #bodyColB {display:inline-block;margin: 0 0 0 0;padding: 0 10px;}
 .lay-full #bodyColC {display:none;}
 
 .lay-setting #bodyColA {float:left;width:210px;}

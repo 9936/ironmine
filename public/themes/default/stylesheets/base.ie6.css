@@ -12,20 +12,11 @@
 #mc_r {background-position:right -10px;right:-5px;}
 
 body .page-body #bd_l {
-    background:url("../images/bd_sprite.png") repeat-y scroll left top transparent;
-    height:100%;
-    left:-20px;
-    position:absolute;
-    width:20px;
+    display: none;
 }
 
 body .page-body #bd_r {
-    background:url("../images/bd_right_shadow.png") repeat-y scroll right top transparent;
-    height:100%;
-    left:20px;
-    position:absolute;
-    width:100%;
-    z-index:-1;
+    display: none;
 }
 
 body .page-body {
@@ -45,11 +36,7 @@ body .page-body {
 }
 
 body .page-body #bd_b {
-    background:url("../images/bd_b.png") repeat-x scroll 0 0 transparent;
-    bottom:-20px;
-    height:20px;
-    position:absolute;
-    width:100%;
+    display: none;
 }
 body .page-body #bd_b #bd_bl {
     /*background-position:-40px top;*/

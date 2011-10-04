@@ -1,13 +1,13 @@
 <%= common_title %>
 
+<div class="toolbar">
 <% if allow_to_function?(:view_icm_kanban) %>
-  <div class="toolbar">
-      <span class="toggleButtons">
-        <%= link_to(toggle_img("listViewIcon",true),{:controller => "icm/incident_requests",:action=>"index"},{:href=>"javascript:void(0)",:title=>t(:list_mode)}) %>
-        <%= link_to(toggle_img("singleUserViewIcon"),{:action=>"kanban_index"},{:title=>t(:kanban_mode)}) %>
-      </span>
-  </div>
+  <span class="toggleButtons" style="_display: none;">
+    <%= link_to(toggle_img("listViewIcon",true),{:controller => "icm/incident_requests",:action=>"index"},{:href=>"javascript:void(0)",:title=>t(:list_mode)}) %>
+    <%= link_to(toggle_img("singleUserViewIcon"),{:action=>"kanban_index"},{:title=>t(:kanban_mode)}) %>
+  </span>
 <% end %>
+</div>
 
 <%= view_filter("ICM_INCIDENT_REQUEST_INDEX_B","ICM_INCIDENT_REQUESTS","incident_requests") %>
 
@@ -50,14 +50,6 @@
 
 
 <script type="text/javascript">
-  GY.use("tabview","node-event-simulate",function(Y){
-    Y.one("#templateBody").setStyle("display","block");
-    var tabview = new Y.TabView({srcNode:'#templateBody',tabIndex:"#kanban"});
-    tabview.render();
-    var currentTab = Y.one("#templateBody").getAttribute("current");
-    Y.one("#templateBody").one("a#"+currentTab).simulate("click");
-    Y.on("change", change_to_grid_tab, "#incident_requestsViewFilter");
-  });
 
   //点击filter时，切换到列表视图
   function change_to_grid_tab(e){

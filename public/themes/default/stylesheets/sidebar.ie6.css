@@ -60,6 +60,8 @@ body .menuButton .menuButtonButton {
     left: auto;
     margin-top: 0;
     position: absolute;
+    z-index:100;
+    overflow: hidden;
 }
 #sidebarDiv .menuButtonMenu, #sidebarDivRight .menuButtonMenu {
     background-color: #FFFFFF;
@@ -121,6 +123,9 @@ body .menuButton .menuButtonButton {
 {
     position: absolute;/*绝对定位保证iframe不会占用流布局空间*/
     width: 100%;    /*100%保证可以覆盖整个div*/
-    height: 100%;
+    height: 300px;
     z-index:-1; /*-1保证iframe显示在div下方*/
+    display: block !important;
+    filter:alpha(opacity=0);
+    -moz-opacity:0;
 }

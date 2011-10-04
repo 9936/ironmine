@@ -19,7 +19,7 @@
 </style>
 <%= form_for(@report,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:step) %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
   <%= render :partial => "step_header",:locals => {:step=>@report.step} %>
   <% selectable_fields = available_filter_field(@report.report_type_id) %>
   <div class="pbBody">

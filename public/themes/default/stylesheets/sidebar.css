@@ -121,3 +121,8 @@ body .menuButton .menuButtonButton {
     display:block;
     padding:5px 9px;
 }
+
+.new-iframe
+{
+    display: none;
+}

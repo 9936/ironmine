@@ -353,26 +353,26 @@ div.srch table {border-spacing:0;width:100%;}
 .page-block .noLineShow .detailList tr td, .page-block .noLineShow .detailList tr th, .hoverDetail .page-block .noLineShow .detailList tr td, .hoverDetail .page-block .noLineShow .detailList tr th {
     border-bottom:0;
 }
-.bWizardBlock .detailList .data2Col,.page-block .detailList .data2Col {
+.wizard-block .detailList .data2Col,.page-block .detailList .data2Col {
     padding:2px 2px 2px 10px;
     text-align:left;
     width:82%;
 }
-.bWizardBlock .pbBottomButtons > table > tbody > tr > td, .edit-block .pbHeader > table > tbody > tr > td, .page-block .pbHeader > table > tbody > tr > td, .bLayoutBlock .pbHeader > table > tbody > tr > td, .edit-block .pbBottomButtons > table > tbody > tr > td, .page-block .pbBottomButtons > table > tbody > tr > td, .bLayoutBlock .pbBottomButtons > table > tbody > tr > td {
+.wizard-block .pbBottomButtons > table > tbody > tr > td, .edit-block .pbHeader > table > tbody > tr > td, .page-block .pbHeader > table > tbody > tr > td, .bLayoutBlock .pbHeader > table > tbody > tr > td, .edit-block .pbBottomButtons > table > tbody > tr > td, .page-block .pbBottomButtons > table > tbody > tr > td, .bLayoutBlock .pbBottomButtons > table > tbody > tr > td {
     padding:5px 12px;
 }
-.bWizardBlock .pbHeader table, .bWizardBlock .pbBottomButtons table, .page-block .pbHeader table, .page-block .pbBottomButtons table {border-spacing:0;width:100%;}
-.bWizardBlock .pbTitle, .page-block .pbTitle {
+.wizard-block .pbHeader table, .wizard-block .pbBottomButtons table, .page-block .pbHeader table, .page-block .pbBottomButtons table {border-spacing:0;width:100%;}
+.wizard-block .pbTitle, .page-block .pbTitle {
     color:#222222;
     font-size:91%;
     margin:0;
     vertical-align:middle;
     width:30%;
 }
-.bWizardBlock .pbWizardBody {padding-bottom: 10px;}
+.wizard-block .pbWizardBody {padding-bottom: 10px;}
 /************************** step view ***********************************/
-.bWizardBlock .pbWizardTitle {background-image:none;}
-.bWizardBlock .pbWizardTitle {
+.wizard-block .pbWizardTitle {background-image:none;}
+.wizard-block .pbWizardTitle {
     -moz-border-radius-topleft:5px;
     -moz-border-radius-topright:5px;
     -webkit-border-top-left-radius: 5px;
@@ -383,12 +383,12 @@ div.srch table {border-spacing:0;width:100%;}
     padding:8px 12px;
 }
 
-.bWizardBlock .tertiaryPalette{background-color:#1797C0;border-color:#1797C0;}
-.bWizardBlock .pbWizardTitle .ptRightTitle {float:right;}
-.bWizardBlock .pbWizardTitle {color:white;font-weight:bold;}
-.bWizardBlock .pbDescription {padding:10px;}
-.bWizardBlock .pbWizardBody, .bWizardBlock .pbDescription {border-top:1px solid #FFFFFF;}
-.bWizardBlock > .pbBody {
+.wizard-block .tertiaryPalette{background-color:#1797C0;border-color:#1797C0;}
+.wizard-block .pbWizardTitle .ptRightTitle {float:right;}
+.wizard-block .pbWizardTitle {color:white;font-weight:bold;}
+.wizard-block .pbDescription {padding:10px;}
+.wizard-block .pbWizardBody, .wizard-block .pbDescription {border-top:1px solid #FFFFFF;}
+.wizard-block > .pbBody {
     -moz-border-radius-bottomleft:5px;
     -moz-border-radius-bottomright:5px;
     -webkit-border-top-left-radius: 0;
@@ -537,8 +537,8 @@ body .page-block, body .page-block .pbBody, body .page-block .pbBottomButtons {
 .bTask .page-block .pbBody {padding:5px 20px 0 !important;}
 .page-block .setupOverview a, .page-block .setupResource a {text-decoration:none;}
 .page-block .setupOverview a:hover, .page-block .setupResource a:hover {text-decoration:underline;}
-.bWizardBlock .detailList, .page-block .detailList {width:100%;}
-body .bWizardBlock .labelCol,
+.wizard-block .detailList, .page-block .detailList {width:100%;}
+body .wizard-block .labelCol,
 body .detail-block.page-block .pbBody .labelCol,
 body .detail-block.page-block .pbBody .dataCol,
 body .detail-block.page-block .pbBody .data2Col,
@@ -553,7 +553,7 @@ body .page-block.edit-block .pbBody .data3Col{
 
 /*.labelCol{padding-top:7px !important;}*/
 
-body .bWizardBlock.pbBody.labelCol, body .page-block .pbBody .labelCol, body .page-block .pbBody .label3Col  {color:#4A4A56;}
+body .wizard-block.pbBody.labelCol, body .page-block .pbBody .labelCol, body .page-block .pbBody .label3Col  {color:#4A4A56;}
 body .page-block .pbBody .label3Col,
 body .page-block .pbBody .labelCol,
 body .page-block .pbBody .dataCol,
@@ -562,17 +562,17 @@ body .page-block .pbBody .data3Col {
     padding-bottom:5px;
     padding-top:5px;
 }
-.bWizardBlock .detailList .labelCol, .page-block .detailList .labelCol {white-space:nowrap;}
-.bWizardBlock .detailList .labelCol, .page-block .detailList .labelCol {width:18%;}
-.bWizardBlock .detailList .dataCol, .page-block .detailList .dataCol {width:32%;}
+.wizard-block .detailList .labelCol, .page-block .detailList .labelCol {white-space:nowrap;}
+.wizard-block .detailList .labelCol, .page-block .detailList .labelCol {width:18%;}
+.wizard-block .detailList .dataCol, .page-block .detailList .dataCol {width:32%;}
 
-.bWizardBlock .detailList .label3Col, .page-block .detailList .label3Col {white-space:nowrap;}
-.bWizardBlock .detailList .label3Col, .page-block .detailList .label3Col {width:13%;}
-.bWizardBlock .detailList .data3Col, .page-block .detailList .data3Col {width:20%;}
-.bWizardBlock .data3Col, .page-block .data3Col {padding:2px 2px 2px 10px;text-align:left;}
+.wizard-block .detailList .label3Col, .page-block .detailList .label3Col {white-space:nowrap;}
+.wizard-block .detailList .label3Col, .page-block .detailList .label3Col {width:13%;}
+.wizard-block .detailList .data3Col, .page-block .detailList .data3Col {width:20%;}
+.wizard-block .data3Col, .page-block .data3Col {padding:2px 2px 2px 10px;text-align:left;}
 
-.bWizardBlock .detailList .dataCol, .page-block .detailList .surveydataCol {width:40%;}
-.bWizardBlock .dataCol,.page-block .dataCol {padding:2px 2px 2px 10px;text-align:left;}
+.wizard-block .detailList .dataCol, .page-block .detailList .surveydataCol {width:40%;}
+.wizard-block .dataCol,.page-block .dataCol {padding:2px 2px 2px 10px;text-align:left;}
 .page-block textarea {font-size: 12px;}
 
 body .page-block .detailList tr td, body .page-block .detailList tr th, body table.list tr td, body table.list tr th, body .hoverDetail .page-block .detailList tr td, body .hoverDetail .page-block .detailList tr th {
@@ -582,8 +582,8 @@ body .page-block .detailList tr td, body .page-block .detailList tr th, body tab
     border-bottom:1px solid #E3DEB8;
 }
 .page-block .detailList th, .page-block .detailList td {vertical-align:top;}
-.bWizardBlock .labelCol, .page-block .labelCol,
-.bWizardBlock .label3Col, .page-block .label3Col{
+.wizard-block .labelCol, .page-block .labelCol,
+.wizard-block .label3Col, .page-block .label3Col{
     color:#333333;
     font-size:91%;
     font-weight:bold;
@@ -621,16 +621,16 @@ form .pbBody .pbSubheader {
     color:#000000;
     padding:4px 16px;
 }
-body .edit-block .pbBody .pbSubheader, body .bWizardBlock .pbBody .pbSubheader {
+body .edit-block .pbBody .pbSubheader, body .wizard-block .pbBody .pbSubheader {
     background-image:url("../images/opacity75.png");
     border-top:1px solid #FFFFFF;
     border-width:1px 0 0;
     color:#000000;
     padding:4px 16px;
 }
-.bWizardBlock .pbSubsection, .bWizardBlock .pbSubsection {margin-top: 7px;padding: 0 12px;}
-body .bWizardBlock .pbBody .pbSubheader h3, body .bWizardBlock .page-block .pbBody .pbSubheader label {font-size:14px;}
-.bWizardBlock .requiredLegend {background-color:transparent;color:#000000;font-weight:normal;padding:0 2px;}
+.wizard-block .pbSubsection, .wizard-block .pbSubsection {margin-top: 7px;padding: 0 12px;}
+body .wizard-block .pbBody .pbSubheader h3, body .wizard-block .page-block .pbBody .pbSubheader label {font-size:14px;}
+.wizard-block .requiredLegend {background-color:transparent;color:#000000;font-weight:normal;padding:0 2px;}
 
 body .detail-block.page-block .pbBody .pbSubheader, body.FindSimilarOppsSearchUi .page-block .pbBody .pbSubheader {background-color:transparent;}
 body .page-block .pbBody .pbSubheader {
@@ -676,7 +676,7 @@ body .edit-block .pbBody .pbSubheader.first {border-top:medium none;}
     overflow:hidden;
     padding:2px 2px 2px 5px;
 }
-body .page-block .pbBody .pbSubheader h3, body .bWizardBlock .page-block .pbBody .pbSubheader label {font-size:1.2em;}
+body .page-block .pbBody .pbSubheader h3, body .wizard-block .page-block .pbBody .pbSubheader label {font-size:1.2em;}
 h1, h2, h3, h4, h5, h6 {
     display:inline;
     font-family:'Verdana','Geneva',sans-serif;
@@ -739,7 +739,7 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
     top:1px;
     width:3px;
 }
-.bWizardBlock .detailList .errorMsg, .page-block .detailList .errorMsg {
+.wizard-block .detailList .errorMsg, .page-block .detailList .errorMsg {
     padding-left:3px;
 }
 .errorStyle, .errorMsg, .importantWarning, .pbBody .errorStyle a, .pbBody .errorMsg a {

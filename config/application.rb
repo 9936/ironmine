@@ -57,7 +57,7 @@ module Ironmine
         :survey=>%w(survey)
     }
     config.ironmine.css.source = {
-        :default =>%w(base button container form header icons layout other public setting_base sidebar table),
+        :default =>%w(base button container form header icons layout other public sidebar table),
         :application=>%w(),
         :setting=>%w(),
         :home=>%w(),
