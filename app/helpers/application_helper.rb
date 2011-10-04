@@ -595,6 +595,7 @@ module ApplicationHelper
   end
 
   def render_loaded_javascript_css_files
+    env =
     javascript_files = []
     css_files = []
     javascript_prefix = "/javascripts/"
@@ -633,7 +634,8 @@ module ApplicationHelper
       end
     end
     javascript_files.each do |script_file|
-      file_links<< content_tag("script", "", { "type" => Mime::JS, "src" =>javascript_prefix+script_file+".js"})
+
+      file_links<< content_tag("script", "", { "type" => Mime::JS, "src" =>javascript_prefix+script_file.gsub("{locale}",I18n.locale.to_s)+".js"})
     end
 
     raw file_links
@@ -641,5 +643,9 @@ module ApplicationHelper
 
   def ie6?
     request.user_agent.include?("MSIE 6.0")
+  end
+
+  def limit_device?
+    request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2")
   end
 end
