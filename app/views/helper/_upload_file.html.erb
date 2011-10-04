@@ -1,0 +1,21 @@
+<table class="upload-file" id="<%= upload_file_id%>">
+  <tbody class="file-template" style="display:none" sequence="0">
+    <tr class="file-item" ref="${sequence}">
+        <td><input type="file" name="${ref}[${sequence}][file]"/></td>
+        <td class="labelCol"><%= t(:label_icm_incident_journal_attachment_desc) %></td>
+        <td><input type="text" name="${ref}[${sequence}][description]" size="30"/></td>
+        <td><div><a class="delete-file" delete_ref="${sequence}" href="javascript:void(0)"><%= t(:delete) %></a></div></td>
+    </tr>
+  </tbody>
+  <tbody class="file-contents">
+
+  </tbody>
+  <tbody class="file-buttons">
+    <tr>
+      <td colspan="4"><a class="add-file" href="javascript:void(0)"><%= t(:label_icm_incident_journal_add_attachment) %></a></td>
+    </tr>
+  </tbody>
+</table>
+<script type="text/javascript">
+   $("#<%= upload_file_id%>").upload_file();
+</script>
