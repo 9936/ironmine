@@ -1,0 +1,33 @@
+<%unless limit_device?%>
+    <div id='<%=textarea_id%>RichTextParent' class="rich-text"></div>
+<%end%>
+<script type="text/javascript">
+<%if limit_device?%>
+    $(function(){
+        $("#<%=textarea_id%>").elastic();
+    });
+<%else%>
+    Ext.onReady(function(){
+        var currentTextArea = Ext.get("<%=textarea_id%>");
+        var height = currentTextArea.getHeight()+22;
+        currentTextArea.setStyle("display","none");
+        currentTextArea.dom.removeAttribute("required");
+        currentTextArea.parent().appendChild("<%=textarea_id%>RichTextParent");
+        var <%=textarea_id%>RichText =  Ext.create('Ext.form.HtmlEditor', {
+            id: "<%=textarea_id%>" ,
+            height: height,
+            autoWidth:true,
+            value: currentTextArea.getValue(),
+            renderTo: "<%=textarea_id%>RichTextParent",
+            enableFontSize:false,
+            enableFont:false,
+            enableLinks:false,
+            listeners:{
+                beforesync:function(field,newValue){
+                    $("#<%=textarea_id%>").val(newValue);
+                }
+            }
+        });
+    });
+<%end%>
+</script>

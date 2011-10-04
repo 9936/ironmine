@@ -362,7 +362,7 @@ Ext.irm.EventHelper.simulateMouseEvent = function(target /*:HTMLElement*/, type 
         target.fireEvent("on" + type, customEvent);
 
     } else {
-        Y.error("simulateMouseEvent(): No event simulation framework present.");
+        //console.error("simulateMouseEvent(): No event simulation framework present.");
     }
 };
 

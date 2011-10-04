@@ -640,12 +640,21 @@ module ApplicationHelper
 
     raw file_links
   end
-
+  # 判断浏览器是否为ie6
   def ie6?
     request.user_agent.include?("MSIE 6.0")
   end
-
+  # 将使用IE6和Android 2的设备设置为限制设备
   def limit_device?
-    request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2")
+    request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
+  end
+
+  #文本编辑器
+  def rich_text_area(textarea_id)
+    unless limit_device?
+      require_javascript(:extjs)
+      require_css(:extjs)
+    end
+    render :partial=>"helper/rich_text",:locals=>{:textarea_id=>textarea_id}
   end
 end
