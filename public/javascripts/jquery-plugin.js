@@ -69,6 +69,7 @@ jQuery.fn.cascade = function(target_or_targets,event) {
         }
     }
     jQuery(this).change(_processEvent);
+    _processEvent();
     return this;
 };
 
@@ -641,7 +642,8 @@ jQuery.t = jQuery.i18n;
     {
         minHeight: 10,
         maxHeight: 150,
-        growBy : 20
+        growBy : 20 ,
+        forceFitWidth: false
     };
 
     var STYLES = ['padding-top', 'padding-bottom', 'padding-left', 'padding-right', 'line-height', 'font-size', 'font-family', 'font-weight', 'font-style'];
@@ -738,6 +740,10 @@ jQuery.t = jQuery.i18n;
 
     Internal.prototype.bindTextArea = function(){
         var me = this;
+        if(me.data.options.forceFitWidth)
+        {
+            me.$element.width(me.$element.parent().innerWidth());
+        }
         if(!me.div){
             var textareaStyles = me.getStyles(STYLES,me.$element)
             me.div = $("<div></div>").attr("id",me.id);

@@ -4,7 +4,7 @@
 <script type="text/javascript">
 <%if limit_device?%>
     $(function(){
-        $("#<%=textarea_id%>").elastic();
+        $("#<%=textarea_id%>").elastic({forceFitWidth: <%=force_fit_width%>});
     });
 <%else%>
     Ext.onReady(function(){
@@ -28,6 +28,10 @@
                 }
             }
         });
+    <%if force_fit_width%>
+      <%=textarea_id%>RichText.setWidth(currentTextArea.parent().getComputedWidth());
+    <%end%>
     });
+
 <%end%>
 </script>

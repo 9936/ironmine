@@ -650,11 +650,11 @@ module ApplicationHelper
   end
 
   #文本编辑器
-  def rich_text_area(textarea_id)
+  def rich_text_area(textarea_id,force_fit_width=false)
     unless limit_device?
       require_javascript(:extjs)
       require_css(:extjs)
     end
-    render :partial=>"helper/rich_text",:locals=>{:textarea_id=>textarea_id}
+    render :partial=>"helper/rich_text",:locals=>{:textarea_id=>textarea_id,:force_fit_width=>force_fit_width}
   end
 end
