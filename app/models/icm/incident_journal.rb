@@ -8,8 +8,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
   has_many :incident_histories,:foreign_key => "journal_id"
 
   validates_presence_of :replied_by
-#  validates_presence_of :message_body,:message=>I18n.t(:label_icm_incident_journal_message_body_not_blank)
-  validate :content_valid
+  validate :validate_message_body
   acts_as_recently_objects(:title => "title",
                            :target => "incident_request",
                            :target_controller => "icm/incident_journals",
@@ -100,9 +99,10 @@ class Icm::IncidentJournal < ActiveRecord::Base
     end
   end
 
-  def content_valid
-    unless (self.message_body.gsub(/<\/?[^>]*>/, "")).present?
-      self.errors[:message_body] << I18n.t(:label_icm_incident_journal_message_body_not_blank)
+  def validate_message_body
+    str = Irm::Sanitize.sanitize(self.message_body,'').strip
+    if !str.present?||(str.length==1&&str.bytes.to_a.eql?([226, 128, 139]))
+      self.errors.add(:message_body,I18n.t(:label_icm_incident_journal_message_body_not_blank))
     end
   end
 

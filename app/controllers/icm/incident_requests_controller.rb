@@ -416,6 +416,10 @@ class Icm::IncidentRequestsController < ApplicationController
       incident_request.contact_id = incident_request.requested_by
       incident_request.contact_number = Irm::Person.find(incident_request.requested_by).mobile_phone
     end
+
+    if limit_device?
+      incident_request.summary = "<pre>"+incident_request.summary+"</pre>"
+    end
   end
 
 

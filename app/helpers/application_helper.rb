@@ -595,6 +595,7 @@ module ApplicationHelper
   end
 
   def render_loaded_javascript_css_files
+    env =
     javascript_files = []
     css_files = []
     javascript_prefix = "/javascripts/"
@@ -633,13 +634,27 @@ module ApplicationHelper
       end
     end
     javascript_files.each do |script_file|
-      file_links<< content_tag("script", "", { "type" => Mime::JS, "src" =>javascript_prefix+script_file+".js"})
+
+      file_links<< content_tag("script", "", { "type" => Mime::JS, "src" =>javascript_prefix+script_file.gsub("{locale}",I18n.locale.to_s)+".js"})
     end
 
     raw file_links
   end
-
+  # 判断浏览器是否为ie6
   def ie6?
     request.user_agent.include?("MSIE 6.0")
+  end
+  # 将使用IE6和Android 2的设备设置为限制设备
+  def limit_device?
+    request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
+  end
+
+  #文本编辑器
+  def rich_text_area(textarea_id,force_fit_width=false)
+    unless limit_device?
+      require_javascript(:extjs)
+      require_css(:extjs)
+    end
+    render :partial=>"helper/rich_text",:locals=>{:textarea_id=>textarea_id,:force_fit_width=>force_fit_width}
   end
 end

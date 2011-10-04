@@ -58,7 +58,7 @@
                              :depend=>"incident_request_requested_by",
                              :origin_value=>@incident_request.external_system_id,
                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                             :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"{incident_request_requested_by}")}%>
+                             :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
                 <% else %>
                     <%=f.select :external_system_id,
                             nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),
@@ -67,7 +67,7 @@
                              :origin_value=>@incident_request.external_system_id,
                              :depend=>"incident_request_requested_by",
                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                             :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"{incident_request_requested_by}")}%>
+                             :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
                 <% end %>
               </td>
             </tr>
@@ -79,10 +79,10 @@
                                             {},
                                             {:required=>true,:id=>"incident_request_service_code",
                                              :origin_value=>@incident_request.service_code,
-                                             :depend=>"ass_external_system,incident_request_requested_by",
+                                             :depend=>"ass_external_system",
                                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                              :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_slm_services",:format=>"json",
-                                                            :external_system_id=>"{ass_external_system}", :requested_by => "{incident_request_requested_by}")}%>
+                                                            :external_system_id=>"${ass_external_system}")}%>
               </td>
             </tr>
             <tr>
@@ -92,29 +92,16 @@
 
             <tr>
               <td class="labelCol"><label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%></label></td>
-              <td class="data2Col" colspan="3"><%=f.text_area :summary,:rows=>5,:cols=>100,:value=>@incident_request.summary||"   ", :required=>true ,:style=>"display:none;",:id=>"incident_request_summary"%></td>
+              <td class="dataCol" colspan="3" style="width:82%">
+                <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@incident_request.summary, :required=>true ,:id=>"incident_request_summary"%>
+                <%= rich_text_area("incident_request_summary") %>
+              </td>
+
             </tr>
             <tr>
               <td class="labelCol"></td>
-              <td class="data2Col" colspan="3">
-                <table width="80%">
-                  <tbody id="fileTemplate" style="display:none" seq="0">
-                  <tr id="file_{seq}" class="fileArea">
-                      <td><input type="file" name="{ref}[{seq}][file]"/></td>
-                      <td class="labelCol"><%= t(:label_icm_incident_journal_attachment_desc) %></td>
-                      <td><input type="text" name="{ref}[{seq}][description]" size="30"/></td>
-                      <td><div><a class="deleteAttach" delete_ref="file_{seq}" href="javascript:void(0)"><%= t(:delete) %></a></div></td>
-                  </tr>
-                  </tbody>
-                  <tbody id="fileContent">
-
-                  </tbody>
-                  <tbody id="fileButtons">
-                    <tr>
-                      <td><a id="addButton" href="javascript:void(0)"><%= t(:label_icm_incident_journal_add_attachment) %></a></td>
-                    </tr>
-                  </tbody>
-                </table>
+              <td class="dataCol" colspan="3" style="width:82%">
+                <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_file"} %>
               </td>
             </tr>
         </tbody>
@@ -163,7 +150,7 @@
               <td class="dataCol"><%= f.select(:support_person_id,nullable_options_for_select([],nil),{},
                                   {
                                    :id=>"incident_request_support_person_id",
-                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"{incident_request_support_group_id}"),
+                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"${incident_request_support_group_id}"),
                                    :depend=>"incident_request_support_group_id",
                                    :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
                                    }) %></td>
@@ -216,95 +203,84 @@
 </div>
 <% end %>
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     var requester = Y.one("#incident_request_requested_by");
+  $(function(){
+     var requester = $("#incident_request_requested_by");
      if(requester){
-         requester.on("change",function(e){
-             Y.one("#incident_request_contact_id").set("value",e.target.get("value"));
-             Y.one("#incident_request_contact_id").simulate('change');
+         requester.change(function(event){
+             $("#incident_request_contact_id").val($(event.target).val());
+             $("#incident_request_contact_id").trigger('change');
          })
      }
-     if(Y.one("#incident_request_contact_id")){
-         Y.one("#incident_request_contact_id").on("change",function(e){
-           if(e.target.get("value")&&e.target.get("value")!=""){
-             var phone = e.target.one("option[value="+e.target.get("value")+"]").getAttribute("phone")
-             Y.one("#incident_request_contact_number").set("value",phone)
+     if($("#incident_request_contact_id")){
+         $("#incident_request_contact_id").change(function(event){
+           if($(event.target).val()&&$(event.target).val()!=""){
+             var phone = $(event.target).find("option[value="+$(event.target).val()+"]:first").attr("phone");
+             $("#incident_request_contact_number").val(phone);
            }
          })
      }
-     if(Y.one("#incident_request_support_group_id")){
-       new Y.CascadeSelect({source: "#incident_request_support_group_id",target:["#incident_request_support_person_id"]});
+     if($("#incident_request_support_group_id")){
+         $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
      }
-
+     if($("#incident_request_requested_by")){
+        $("#incident_request_requested_by").cascade("#ass_external_system");
+     }
+     if($("#ass_external_system")){
+        $("#ass_external_system").cascade("#incident_request_service_code");
+     }
+     $("#incident_request_contact_id").trigger("change");
   });
 </script>
 
 <script type="text/javascript">
-GY.use("cascadeselect",function(Y){
-    new Y.CascadeSelect({source: "#incident_request_requested_by",target:["#ass_external_system"]});
-    new Y.CascadeSelect({source: "#ass_external_system",target:["#incident_request_service_code"]});
-    new Y.CascadeSelect({source: "#incident_request_requested_by",target:["#incident_request_service_code"]});
-});
 
-GY.use('irm','node','substitute','yui2-editor', function(Y) {
-  var YAHOO = Y.YUI2;
-  var editor = new YAHOO.widget.Editor('incident_request_summary', {
-        height:'150px',
-        width:'80%',
-        toolbar: {
-            buttons: [
-                { group: 'textstyle',
-                    buttons: [
-                        { type: 'push', label: 'Bold', value: 'bold' },
-                        { type: 'push', label: 'Italic', value: 'italic' },
-                        { type: 'push', label: 'Underline', value: 'underline' },
-                        { type: 'push', label: 'Create an Unordered List', value: 'insertunorderedlist' },
-	                    { type: 'push', label: 'Create an Ordered List', value: 'insertorderedlist' },
-                        { type: 'push', label: 'Upload Image From Clipboard', value: 'uploadImageFormClipboard', id: 'uploadImageFormClipboard' },
-                        { type: 'color', label: 'Font Color', value: 'forecolor', disabled: true },
-                        { type: 'color', label: 'Background Color', value: 'backcolor', disabled: true }
-                    ]
-                }
-            ]
-        }
-    });
 
-    var dialog = new Y.YUI2.widget.Dialog("container_applet_upload", {
-        visible: true,
-        context: [Y.one("#uploadImageFormClipboard"), "tl", "bl"],
-        draggable: true,
-        close: true
-    });
-    var render_target = "incident_request_summary";//如果编辑器相关的text area id不是 msgEditor，则指定render_target参数，并传入iframe
-    editor.on('toolbarLoaded', function() {
-        this.toolbar.on('uploadImageFormClipboardClick', function(o) {
-              if (Y.one("#container_applet_upload_c")){
-                Y.one("#container_applet_upload_c").remove();
-              }
-              dialog.setBody("<iframe frameborder=0 scrolling='no'  src='/common/upload_screen_shot?target=" + render_target+ "' class='screen_shot_frame'></iframe>");
-              dialog.setHeader('<%= t :upload_from_clipboard%>');
-              dialog.render(document.body);
-              dialog.center();
-              dialog.show();
-        });
-    }, editor, true);
+//GY.use('irm','node','substitute','yui2-editor', function(Y) {
+//  var YAHOO = Y.YUI2;
+//  var editor = new YAHOO.widget.Editor('incident_request_summary', {
+//        height:'150px',
+//        width:'80%',
+//        toolbar: {
+//            buttons: [
+//                { group: 'textstyle',
+//                    buttons: [
+//                        { type: 'push', label: 'Bold', value: 'bold' },
+//                        { type: 'push', label: 'Italic', value: 'italic' },
+//                        { type: 'push', label: 'Underline', value: 'underline' },
+//                        { type: 'push', label: 'Create an Unordered List', value: 'insertunorderedlist' },
+//	                    { type: 'push', label: 'Create an Ordered List', value: 'insertorderedlist' },
+//                        { type: 'push', label: 'Upload Image From Clipboard', value: 'uploadImageFormClipboard', id: 'uploadImageFormClipboard' },
+//                        { type: 'color', label: 'Font Color', value: 'forecolor', disabled: true },
+//                        { type: 'color', label: 'Background Color', value: 'backcolor', disabled: true }
+//                    ]
+//                }
+//            ]
+//        }
+//    });
+//
+//    var dialog = new Y.YUI2.widget.Dialog("container_applet_upload", {
+//        visible: true,
+//        context: [Y.one("#uploadImageFormClipboard"), "tl", "bl"],
+//        draggable: true,
+//        close: true
+//    });
+//    var render_target = "incident_request_summary";//如果编辑器相关的text area id不是 msgEditor，则指定render_target参数，并传入iframe
+//    editor.on('toolbarLoaded', function() {
+//        this.toolbar.on('uploadImageFormClipboardClick', function(o) {
+//              if (Y.one("#container_applet_upload_c")){
+//                Y.one("#container_applet_upload_c").remove();
+//              }
+//              dialog.setBody("<iframe frameborder=0 scrolling='no'  src='/common/upload_screen_shot?target=" + render_target+ "' class='screen_shot_frame'></iframe>");
+//              dialog.setHeader('<%= t :upload_from_clipboard%>');
+//              dialog.render(document.body);
+//              dialog.center();
+//              dialog.show();
+//        });
+//    }, editor, true);
+//
+//    editor.render();
+//    Y.all("#new_icm_incident_request input[type=submit]").on("click",function(){
+//      editor.saveHTML();
+//    });
 
-    editor.render();
-    Y.all("#new_icm_incident_request input[type=submit]").on("click",function(){
-      editor.saveHTML();
-    });
-    Y.one("#fileButtons #addButton").on('click',function(){
-      var templateContainer = Y.one("#fileTemplate");
-      var seq = templateContainer.getAttribute("seq");
-      templateContainer.setAttribute("seq",parseInt(seq)+1);
-      var template = templateContainer.getContent();
-      var row =  Y.Lang.substitute(template,{seq:seq,ref:"files"});
-      Y.one("#fileContent").appendChild(row);
-    });
-    Y.one("#fileContent").delegate("click",function(e){
-        Y.log(this.getAttribute("delete_ref"));
-        Y.one("#"+this.getAttribute("delete_ref")).remove();
-    },'.deleteAttach') ;
-    Y.one("#incident_request_contact_id").simulate("change");
-});
 </script>

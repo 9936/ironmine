@@ -362,7 +362,7 @@ Ext.irm.EventHelper.simulateMouseEvent = function(target /*:HTMLElement*/, type 
         target.fireEvent("on" + type, customEvent);
 
     } else {
-        Y.error("simulateMouseEvent(): No event simulation framework present.");
+        //console.error("simulateMouseEvent(): No event simulation framework present.");
     }
 };
 
@@ -599,7 +599,6 @@ Ext.irm.dtScriptTemplate = function(value, cellmeta, record, rowIndex, columnInd
     var dataIndex = me.columns[columnIndex].dataIndex;
     var templateElement =me.getEl().parent().down("div#"+dataIndex)||me.getEl().down("div."+dataIndex);
     if(templateElement){
-        console.debug(record);
          var scriptString =  new Ext.Template(decodeURIComponent(templateElement.dom.innerHTML)).apply(record.data);
          scriptString = scriptString.replace(/&amp;/g,"&");
          scriptString = scriptString.replace(/&gt;/g,">");

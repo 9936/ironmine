@@ -48,16 +48,6 @@ module Irm::FiltersHelper
     options_from_collection_for_select(filters,:id,:filter_name,current[:id])
   end
 
-  def view_filter_script(datatable_id)
-    script = %Q(
-      GY.use("irm",function(Y){
-        Y.on("domready",function(){
-          Y.irm.ViewFilter('#{datatable_id}ViewFilterOverview');
-        });
-      });)
-    javascript_tag(script)
-  end
-
   def back_url
     url_for(params)
   end

@@ -9,7 +9,7 @@
             <%= blank_select_tag("folder_id", available_current_report_folder,params[:folder_id], { :id => "folderId"}) %>
         </span>
         <span class="fBody">
-            <%= link_to(t(:edit),{:controller => "irm/report_folders",:action=>"edit",:id=>"{folderId}"},{:style=>"display:none;",:id=>"folderEditLink"}) %>
+            <%= link_to(t(:edit),{:controller => "irm/report_folders",:action=>"edit",:id=>"${folderId}"},{:style=>"display:none;",:id=>"folderEditLink"}) %>
             <%= link_to(t(:label_irm_report_folder_create_new_folder),{:controller => "irm/report_folders",:action=>"new"}) %>
         </span>
         <span class="fFooter">
@@ -73,29 +73,28 @@
 </div>
 
 <script type="text/javascript">
-
-  GY.use(function(Y){
-    Y.one('#folderId').on("change", function(e){
-        document.forms["folderForm"].submit();
-    });
-    if(Y.one("#folderEditLink")&&Y.one('#folderId').get("value")&&Y.one('#folderId').get("value")!="")
-      Y.one("#folderEditLink").setStyle("display","");
-    if(Y.one("#folderEditLink")){
-      Y.one("#folderEditLink").on("click",function(e){
-          var folderId =  Y.one('#folderId').get("value");
-          if(folderId&&folderId!=''){
-              var url = decodeURIComponent(Y.one("#folderEditLink").getAttribute("href"));
-              url = Y.Lang.substitute(url,{folderId:folderId});
-              Y.one("#folderEditLink").setAttribute("href",url);
-          }
-          else
-          {
-              return false;
-          }
-
+  $(function(){
+      $("#folderId").change(function(e){
+          document.forms["folderForm"].submit();
+      });
+      if($("#folderEditLink")&&$('#folderId').val()&&$('#folderId').val()!="")
+          $("#folderEditLink").css("display","");
+      if($("#folderEditLink")){
+          $("#folderEditLink").click(function(e){
+              var folderId =  $('#folderId').val();
+              if(folderId&&folderId!=''){
+                  var url = decodeURIComponent($("#folderEditLink").attr("href"));
+                  url = jQuery.tmpl(url,{folderId:folderId}).text();
+                  $("#folderEditLink").attr("href",url);
+              }
+              else
+              {
+                  return false;
+              }
       });
     }
   });
+
 </script>
 
 <% content_for :sidebar do %>

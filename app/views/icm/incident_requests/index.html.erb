@@ -40,21 +40,10 @@
     </div>
 </div>
 
-<% if allow_to_function?(:view_reports) %>
+<% #if allow_to_function?(:view_reports) %>
 
-<% end %>
+<% #end %>
 
 <% content_for :sidebar do%>
     <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
 <% end %>
-
-
-<script type="text/javascript">
-
-  //点击filter时，切换到列表视图
-  function change_to_grid_tab(e){
-      GY.use("node", function(Y){
-        Y.one("a[id='grid']").simulate("click");
-      });
-  }
-</script>

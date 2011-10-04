@@ -37,10 +37,9 @@ module Irm::SettingHelper
     parent_menu_id = menus[1]
     content = content_tag(:div, content_tag(:div, raw(content_tag(:img,"", {:width => 205, :height => 1, :title => "", :src => "/images/s.gif"}) + generate_sidebar_menu(parent_menu_id)), {:id => "AutoNumber5"}),{:id=>"MenuNavTree",:class=>"mTreeSelection"})
     script = %Q(
-      GY.use("irm",function(Y){
-        var current_menus = [#{menus.collect{|x| "'#{x}'"}.join(",")}];
-        Y.irm.navTree("MenuNavTree",current_menus);
-      });
+    $(function(){
+        $("#MenuNavTree").menutree({open:[#{menus.collect{|x| "'#{x}'"}.join(",")}]});
+    });
     )
     (content+javascript_tag(script)).html_safe
   end

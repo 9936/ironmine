@@ -63,7 +63,14 @@
                 <% end %>
               </td>
             </tr>
-            <%= render :partial => "irm/duel_select/search",:locals => {:label=>"",:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:member_str,:str_value=>""} %>
+            <tr>
+              <td class="labelCol">
+
+              </td>
+              <td class="dataCol" colspan="3">
+                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:member_str,:str_value=>"",:order=>true,:size=>7} %>
+              </td>
+            </tr>
 
         </tbody>
       </table>
@@ -84,24 +91,4 @@
   </div>
 </div>
 <% end %>
-<script type="text/javascript">
-  GY.use("duelselect",function(Y){
-        Y.on('click', function(e) {
-          if(e.target.get("value")=="MEMBER"){
-            Y.one("#duelSearchBox").setStyle("display","");
-            Y.one("#duelSelectBox").setStyle("display","");
-          }
-          else{
-            Y.one("#duelSearchBox").setStyle("display","none");
-            Y.one("#duelSelectBox").setStyle("display","none");
-          }
 
-	    }, '.memberType');
-
-
-        if(!Y.one("input.memberType[checked=checked]"))
-          Y.one("input.memberType").simulate("click");
-        else
-          Y.one("input.memberType[checked=checked]").simulate("click");
-  });
-</script>

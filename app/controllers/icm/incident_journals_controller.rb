@@ -313,6 +313,9 @@ class Icm::IncidentJournalsController < ApplicationController
 
   def perform_create(pass=false)
     @incident_journal.replied_by=Irm::Person.current.id
+    if limit_device?
+      @incident_journal.message_body = "<pre>"+@incident_journal.message_body+"</pre>"
+    end
     #if Irm::Person.current.id.eql?(@incident_request.requested_by)
     #  @incident_request.last_request_date = Time.now
     #end
