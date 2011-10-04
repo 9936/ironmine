@@ -618,3 +618,13 @@ jQuery.fn.menubutton = function(){
         }
     };
 })(jQuery);
+
+// config i18n plugin
+
+jQuery.i18n = function(key){
+    if(irm_labels[key])
+        return irm_labels[key];
+    else
+        return "Not translate for:"+key;
+}
+jQuery.t = jQuery.i18n;
