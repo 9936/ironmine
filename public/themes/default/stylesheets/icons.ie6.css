@@ -139,7 +139,7 @@ img.img8Small{
     width:16px;
 }
 img.img8General{
-    background-image:url("/images/forecasts32.png");
+    background-image:url("/images/forecasts32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -158,7 +158,7 @@ img.img9Small{
     width:16px;
 }
 img.img9General{
-    background-image:url("/images/products32.png");
+    background-image:url("/images/products32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -177,7 +177,7 @@ img.img10Small{
     width:16px;
 }
 img.img10General{
-    background-image:url("/images/products32.png");
+    background-image:url("/images/products32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -196,7 +196,7 @@ img.img11Small{
     width:16px;
 }
 img.img11General{
-    background-image:url("/images/products32.png");
+    background-image:url("/images/products32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -210,7 +210,7 @@ img.img12Small{
     width:16px;
 }
 img.img12General{
-    background-image:url("/images/products32.png");
+    background-image:url("/images/products32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -224,7 +224,7 @@ img.img13Small{
     width:16px;
 }
 img.img13General{
-    background-image:url("/images/products32.png");
+    background-image:url("/images/products32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -238,7 +238,7 @@ img.img14Small{
     width:16px;
 }
 img.img14General{
-    background-image:url("/images/products32.png");
+    background-image:url("/images/products32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -257,7 +257,7 @@ img.img15Small{
     width:16px;
 }
 img.img15General{
-    background-image:url("/images/products32.png");
+    background-image:url("/images/products32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -271,7 +271,7 @@ img.img16Small{
     width:16px;
 }
 img.img16General{
-    background-image:url("/images/products32.png");
+    background-image:url("/images/products32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -285,7 +285,7 @@ img.img17Small{
     width:16px;
 }
 img.img17General{
-    background-image:url("/images/products32.png");
+    background-image:url("/images/products32.gif");
     background-position:0 0;
     height:32px;
     width:32px;
@@ -297,24 +297,24 @@ img.img17Large{
     width:32px;
 }
 
-img.img18Small{background:url("../images/16_16/Star.png") no-repeat scroll; width: 16px; height: 16px;}
+img.img18Small{background:url("../images/16_16/Star.gif") no-repeat scroll; width: 16px; height: 16px;}
 img.img18General{
 }
 img.img18Large{
 }
 
 
-.btn_add{background:url("../images/16_16/Add.png") no-repeat scroll top; width:16px; height:16px;}
-.btn_edit{background:url("../images/16_16/Edit.png") no-repeat scroll; width:16px; height:16px;}
-.btn_delete{background:url("../images/16_16/Delete.png") no-repeat scroll; width:16px; height:16px;}
-.btn_show{background:url("../images/16_16/book_open_mark.png") no-repeat scroll; width:16px; height:16px;}
-.btn_remove{background:url("../images/16_16/Delete.png") no-repeat scroll; width:16px; height:16px;}
-.btn_star{background:url("../images/16_16/Star.png") no-repeat scroll; width: 16px; height: 16px;}
-.btn_reply{background:url("../images/16_16/Chat Bubble.png") no-repeat scroll; width: 16px; height: 16px;}
-.btn_result{background:url("../images/16_16/Chart.png") no-repeat scroll; width: 16px; height: 16px;}
-.btn_range{background:url("../images/16_16/chart_org_inverted.png") no-repeat scroll; width: 16px; height: 16px;}
-.btn_up{background:url("../images/16_16/Up.png") no-repeat scroll top; width:16px; height:16px;}
-.btn_down{background:url("../images/16_16/Down.png") no-repeat scroll top; width:16px; height:16px;}
+.btn_add{background:url("../images/16_16/Add.gif") no-repeat scroll top; width:16px; height:16px;}
+.btn_edit{background:url("../images/16_16/Edit.gif") no-repeat scroll; width:16px; height:16px;}
+.btn_delete{background:url("../images/16_16/Delete.gif") no-repeat scroll; width:16px; height:16px;}
+.btn_show{background:url("../images/16_16/book_open_mark.gif") no-repeat scroll; width:16px; height:16px;}
+.btn_remove{background:url("../images/16_16/Delete.gif") no-repeat scroll; width:16px; height:16px;}
+.btn_star{background:url("../images/16_16/Star.gif") no-repeat scroll; width: 16px; height: 16px;}
+.btn_reply{background:url("../images/16_16/Chat Bubble.gif") no-repeat scroll; width: 16px; height: 16px;}
+.btn_result{background:url("../images/16_16/Chart.gif") no-repeat scroll; width: 16px; height: 16px;}
+.btn_range{background:url("../images/16_16/chart_org_inverted.gif") no-repeat scroll; width: 16px; height: 16px;}
+.btn_up{background:url("../images/16_16/Up.gif") no-repeat scroll top; width:16px; height:16px;}
+.btn_down{background:url("../images/16_16/Down.gif") no-repeat scroll top; width:16px; height:16px;}
 
 a .addNewEventIcon{
     background-image: url("../images/addNew_off.gif");
@@ -382,7 +382,7 @@ a:hover .monthViewIconOff {
 
 
 body .infoIcon {
-    background-image: url("../images/info_sprite.png");
+    background-image: url("../images/info_sprite.gif");
     background-position: left top;
     height: 15px;
 }
