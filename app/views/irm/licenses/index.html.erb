@@ -22,7 +22,7 @@
             <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("licenses",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("licenses",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                        { :key => "name", :label => t(:label_irm_license_name),:searchable=>true },
                        { :key => "code", :label => t(:label_irm_license_code),:searchable=>true },

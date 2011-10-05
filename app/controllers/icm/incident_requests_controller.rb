@@ -160,9 +160,8 @@ class Icm::IncidentRequestsController < ApplicationController
         incident_requests,count = paginate(incident_requests_scope)
         render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_response_date]}))
       }
-      format.xml {
-        incident_requests,count = paginate(incident_requests_scope)
-        render :xml => incident_requests
+      format.html {
+        @datas,@count = paginate(incident_requests_scope)
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
@@ -203,9 +202,8 @@ class Icm::IncidentRequestsController < ApplicationController
         incident_requests,count = paginate(incident_requests_scope)
         render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_request_date]}))
       }
-      format.xml {
-        incident_requests,count = paginate(incident_requests_scope)
-        render :xml => incident_requests
+      format.html {
+        @datas,@count = paginate(incident_requests_scope)
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)

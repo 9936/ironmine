@@ -65,7 +65,7 @@
           </div>
          </div>
       </div>
-        <%= datatable("delayed_job",url_for(:action=>"get_item_data",:controller => "irm/delayed_jobs",:delayed_job_id => @log.delayed_job_id),
+        <%= datatable("delayed_job",{:action=>"get_item_data",:controller => "irm/delayed_jobs",:delayed_job_id => @log.delayed_job_id},
                   [{:key=>"id",:label=>t(:edit),:hidden=>true},
                    {:key=>"created_at",:label=>t(:label_irm_delayed_jobs_record_item_record_at),:width=>"90px"},
                    {:key=>"job_status_name",:label=>t(:label_irm_delayed_jobs_record_status),:width=>"90px"},

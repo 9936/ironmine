@@ -96,7 +96,7 @@
             <%= check_img("{status_code}") %>
           </div>
         </div>
-        <%= datatable("ldap_auth_attributes",url_for(:controller => "irm/ldap_auth_attributes", :action => "get_data", :ah_id => @ldap_auth_header.id,:format=>"json"),
+        <%= datatable("ldap_auth_attributes",{:controller => "irm/ldap_auth_attributes", :action => "get_data", :ah_id => @ldap_auth_header.id,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"110px"},
                        { :key => "local_attr", :label => t(:label_ldap_auth_attribute_local_attr),:searchable=>true,:width=>"200px" },
                        { :key => "ldap_attr", :label => t(:label_ldap_auth_attribute_ldap_attr)},

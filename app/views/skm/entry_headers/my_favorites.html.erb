@@ -34,7 +34,7 @@
             <%= link_to("{doc_number}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("favorites_list",url_for(:action=>"my_favorites_data",:format=>"json", :person_id => Irm::Person.current.id),
+        <%= datatable("favorites_list",{:action=>"my_favorites_data",:format=>"json", :person_id => Irm::Person.current.id},
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"120px"},
                    {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number),:formatter=>"Y.irm.template", :width => "120px"},
                    {:key=>"entry_title",:label=>t(:label_skm_entry_header_title),:formatter=>"Y.irm.template"},

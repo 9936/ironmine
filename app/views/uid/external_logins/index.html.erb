@@ -22,7 +22,7 @@
             <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>|<%= link_to(t(:delete),{:action=>"destroy",:id=>"{id}"},{:method => :delete}) %>
           </div>
         </div>
-        <%= datatable("external_logins",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("external_logins",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"100px"},
                        
                        { :key => "system_name", :label => t(:label_uid_external_login_external_system_code),:searchable=>true },

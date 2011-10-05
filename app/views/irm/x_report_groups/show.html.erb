@@ -77,7 +77,7 @@
             <%= link_to(t(:delete),{:controller => "x_report_group_members", :action => "destroy", :group_id => @report_group.id,:id=>"{member_id}"},{:method => :delete}) %>
           </div>
         </div>
-        <%= datatable("reports",url_for(:controller => "x_report_group_members", :action => "get_data", :group_id => @report_group.id,:format=>"json"),
+        <%= datatable("reports",{:controller => "x_report_group_members", :action => "get_data", :group_id => @report_group.id,:format=>"json"},
                       [{:key=>"member_id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"50px"},
 
                        { :key => "report_code", :label => t(:label_irm_report_report_code),:searchable=>true },

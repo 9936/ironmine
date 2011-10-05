@@ -224,7 +224,10 @@ class ApplicationController < ActionController::Base
   def paginate(scoped,offset=nil,limit=nil)
      scoped = data_filter(scoped)
      offset ||= (params[:start]||0).to_i
-     limit ||= (params[:count]||params[:limit]||25).to_i
+     limit ||= (params[:count]||params[:limit]).to_i
+     if limit==0
+       limit = nil
+     end
      [scoped.offset(offset).limit(limit),scoped.count]
   end
   # 加入jsonp格式

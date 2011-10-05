@@ -80,7 +80,7 @@
             <%= check_img("{filter_flag}") %>
           </div>
         </div>
-        <%= datatable("object_standard_attributes",url_for(:controller => "irm/object_attributes", :action => "get_standard_data", :bo_id => @business_object.id,:format=>"json"),
+        <%= datatable("object_standard_attributes",{:controller => "irm/object_attributes", :action => "get_standard_data", :bo_id => @business_object.id,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"110px"},
 
                        { :key => "name", :label => t(:label_irm_object_attribute_name),:searchable=>true,:width=>"200px" },
@@ -133,7 +133,7 @@
             <%= check_img("{filter_flag}") %>
           </div>
         </div>
-        <%= datatable("object_attributes",url_for(:controller => "irm/object_attributes", :action => "get_data", :bo_id => @business_object.id,:format=>"json"),
+        <%= datatable("object_attributes",{:controller => "irm/object_attributes", :action => "get_data", :bo_id => @business_object.id,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"140px"},
 
                        { :key => "name", :label => t(:label_irm_object_attribute_name),:searchable=>true,:width=>"200px" },

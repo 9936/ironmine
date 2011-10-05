@@ -68,7 +68,7 @@
             </div>
           </div>
           <!-- Begin company access table -->
-            <%= datatable("owned_cards_list",url_for(:controller=>"irm/lanes",:action=>"get_owned_cards",:id=>@lane.id),
+            <%= datatable("owned_cards_list",{:controller=>"irm/lanes",:action=>"get_owned_cards",:id=>@lane.id},
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"40px"},
                                {:key =>"irm_card_id", :hidden =>true},
                                {:key=>"card_code",:label=>t(:label_irm_card_code),:width => "150px"},

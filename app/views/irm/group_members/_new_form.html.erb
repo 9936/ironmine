@@ -38,7 +38,7 @@
         <%= error_for @support_group_member %>
         <div id="supportGroupMembers" class="datatable" style="width:100%">
         </div>
-        <%= datatable("supportGroupMembers",url_for(:action=>"get_memberable_data",:id=>@group.id,:format=>:json),
+        <%= datatable("supportGroupMembers",{:action=>"get_memberable_data",:id=>@group.id,:format=>:json},
                   [{:key=>"id",:hidden=>true},
                    {:key=>"person_name",:label=>t(:label_irm_group_person_name),:searchable=>true},
                    {:key=>"organization_name",:label=>t(:label_irm_group_organization_name)},

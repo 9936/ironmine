@@ -69,7 +69,7 @@
             <%= link_to(t(:show),{:controller=>"irm/sites",:action=>"show",:id=>"{id}",:_from=>"site_group"}) %>
           </div>
         </div>
-        <%= datatable("site",url_for(:action=>"get_current_group_site", :group_code=>@site_group.group_code),
+        <%= datatable("site",{:action=>"get_current_group_site", :group_code=>@site_group.group_code},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template"},
                        {:key=>"site_code",:label=>t(:label_irm_site_site_code)},
                        {:key=>"name",:label=>t(:label_irm_site_name)},

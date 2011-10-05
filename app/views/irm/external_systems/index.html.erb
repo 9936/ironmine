@@ -22,7 +22,7 @@
             <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("external_systems",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("external_systems",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                        
                        { :key => "external_system_code", :label => t(:label_irm_external_system_external_system_code),:searchable=>true },

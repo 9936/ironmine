@@ -24,9 +24,7 @@
                 <tr>
                   <td colspan="2">
                     <div class="tools-content-right">
-                      <%# render :partial => "irm/bulletins/bulletin_portlet" %>
-                      <%require_javascript(:extjs) %>
-                      <%require_css(:extjs) %>
+                      <%= render :partial => "irm/bulletins/bulletin_portlet" %>
                       <div id="editor"></div>
                     </div>
                   </td>
@@ -66,13 +64,3 @@
     <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
     <%= render :partial =>"/irm/common/recently_objects" %>
 <% end %>
-<script type="text/javascript">
-Ext.onReady(function(){
-   Ext.create('Ext.form.HtmlEditor', {
-    height: 250,
-    autoWidth:true,
-    renderTo: Ext.get("editor")
-   });
-});
-
-</script>

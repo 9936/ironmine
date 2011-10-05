@@ -22,7 +22,7 @@
             <%= link_to(t(:delete),{:action=>"destroy",:id=>"{id}"},{:method => :delete}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("login_mappings",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("login_mappings",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                        { :key => "login_name", :label => t(:label_uid_user_login_mapping_login_name),:searchable=>true },
                        { :key => "external_login_name", :label => t(:label_uid_user_login_mapping_external_login_name),:searchable=>true },

@@ -24,7 +24,7 @@
 
           </div>
         </div>
-        <%= datatable("ldap_syn_people",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("ldap_syn_people",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                        {:key=>"ldap_name",:label=>t(:label_irm_ldap_syn_person_name),:searchable=>true,:width=>"300px"},
                        {:key=>"auth_name",:label=>t(:label_irm_ldap_auth_header_name),:searchable=>true},

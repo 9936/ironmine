@@ -888,7 +888,7 @@ jQuery.t = jQuery.i18n;
         if (!data.initialised)
         {
             data.initialised = true;
-            data.options = $.extend(DEFAULT_OPTIONS, customOptions,{minHeight:this.$element.height()});
+            data.options = $.extend(DEFAULT_OPTIONS, customOptions);
         }
 
         this.bindUpload();
@@ -967,6 +967,233 @@ jQuery.t = jQuery.i18n;
             });
         },
 
+        destroy : function()
+        {
+            return this.each(function()
+            {
+                I(this).destroy();
+            });
+        }
+
+        // TODO: Add additional public methods here.
+    };
+
+    $.fn[PLUGIN_NAME] = function(/*String|Object*/ methodOrOptions)
+    {
+        if (!methodOrOptions || typeof methodOrOptions == "object")
+        {
+            return publicMethods.init.call(this, methodOrOptions);
+        }
+        else if (publicMethods[methodOrOptions])
+        {
+            var args = Array.prototype.slice.call(arguments, 1);
+
+            return publicMethods[methodOrOptions].apply(this, args);
+        }
+        else
+        {
+            $.error("Method '" + methodOrOptions + "' doesn't exist for " + PLUGIN_NAME + " plugin");
+        }
+    };
+})(jQuery);
+
+// Ironmine datatable for limit device
+(function($)
+{
+     // 插件名称
+    var PLUGIN_NAME = "datatable";
+
+    // 插件默认配置参数
+    var DEFAULT_OPTIONS =
+    {
+        pageSize: 10,
+        totalCount: 0,
+        currentPage:0,
+        baseUrl: "",
+        filterBox: null,
+        searchBox: null,
+        filterOptions:{},
+        searchOptions:{}
+    };
+
+    // 插件实例计数器
+    var pluginInstanceIdCount = 0;
+
+
+    // 插件内部类工厂方法
+    var I = function(/*HTMLElement*/ element)
+    {
+        if($(element).data(PLUGIN_NAME))
+            return $(element).data(PLUGIN_NAME)["target"];
+        else
+            return new Internal(element);
+    };
+
+
+    // 定义插件内部类
+    var Internal = function(/*HTMLElement*/ element)
+    {
+        var me = this;
+        this.$element = $(element);
+        this.element = element;
+        this.data = this.getData();
+
+        // Shorthand accessors to data entries:
+        this.id = this.data.id;
+
+    };
+
+    /**
+     * 定义插件内部类的方法，内部类方法实现插件的内部逻辑，不能从外部访问
+     */
+
+    // 初始化内部类
+    Internal.prototype.init = function(/*Object*/ customOptions)
+    {
+        var data = this.getData();
+
+        // 初始化插件内部数据
+        if (!data.initialised)
+        {
+            data.initialised = true;
+            data.options = $.extend(DEFAULT_OPTIONS, customOptions);
+        }
+
+        this.buildTable();
+
+    };
+
+    /**
+     * 取得使用插的Element的内部数据
+     * 如果没有，则初始化一份，为Eelement生成插件id ，并标记为新生成的数据，等待初始化
+     *
+     */
+    Internal.prototype.getData = function()
+    {
+        if (!this.$element.data(PLUGIN_NAME))
+        {
+            this.$element.data(PLUGIN_NAME, {
+                id : pluginInstanceIdCount++,
+                initialised : false,
+                target: this
+            });
+        }
+
+        return this.$element.data(PLUGIN_NAME);
+    };
+
+
+    /**
+     * Returns the event namespace for this widget.
+     * The returned namespace is unique for this widget
+     * since it could bind listeners to other elements
+     * on the page or the window.
+     */
+    Internal.prototype.getEventNs = function(/*boolean*/ includeDot)
+    {
+        return (includeDot !== false ? "." : "") + PLUGIN_NAME + "_" + this.id;
+    };
+
+    /**
+     * Removes all event listeners, data and
+     * HTML elements automatically created.
+     */
+    Internal.prototype.destroy = function()
+    {
+        this.$element.unbind(this.getEventNs());
+        this.$element.removeData(PLUGIN_NAME);
+    };
+
+
+
+    Internal.prototype.buildTable = function(){
+        var me = this;
+        me.data.options = $.extend(me.data.options,{currentPage:1});
+        me.load();
+    };
+
+    Internal.prototype.search = function(searchOptions){
+
+    };
+
+    Internal.prototype.filter = function(filterOptions){
+
+    };
+
+    Internal.prototype.loadPage = function(page){
+
+    };
+
+    Internal.prototype.nextPage = function(){
+
+    };
+
+    Internal.prototype.prePage = function(){
+
+    };
+
+    Internal.prototype.load = function(){
+        var me = this;
+        me.$element.load(me.buildCurrentRequest(),function(responseText, textStatus, XMLHttpRequest){
+            me.processLoadResult(responseText, textStatus, XMLHttpRequest);
+        });
+    };
+
+
+    Internal.prototype.buildCurrentRequest = function(){
+        var me = this;
+        var options = me.data.options;
+        var request_url = options.baseUrl;
+        var paramsStr = $.param($.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.filterOptions,options.searchOptions,{limit:""}));
+
+        if(request_url.indexOf("?")>0)
+          return request_url+"&"+ paramsStr
+        else
+          return request_url+"?"+ paramsStr
+    };
+
+    Internal.prototype.processLoadResult = function(responseText, textStatus, XMLHttpRequest){
+        var me = this;
+        var count = me.$element.find("table:first").attr("count");
+        if(count&&count!="")
+            me.data.options.totalCount = parseInt(count);
+    };
+
+
+
+
+    // 插件的公有方法
+
+    var publicMethods =
+    {
+        init : function(/*Object*/ customOptions)
+        {
+            return this.each(function()
+            {
+                I(this).init(customOptions);
+            });
+        },
+        filter : function(/*Object*/ customOptions)
+        {
+            return this.each(function()
+            {
+                I(this).filter(customOptions);
+            });
+        },
+        search : function(/*Object*/ customOptions)
+        {
+            return this.each(function()
+            {
+                I(this).search(customOptions);
+            });
+        },
+        loadPage : function(/*Object*/ customOptions)
+        {
+            return this.each(function()
+            {
+                I(this).loadPage(customOptions);
+            });
+        },
         destroy : function()
         {
             return this.each(function()

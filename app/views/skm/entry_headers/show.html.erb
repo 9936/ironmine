@@ -63,7 +63,7 @@
       <div class="pbBody">
         <div id="entry_headers_list" class="datatable" style="width:100%">
         </div>
-        <%= datatable("entry_headers_list",url_for(:controller => "skm/entry_headers",:action=>"get_history_entries_data",:doc_number => @entry_header.doc_number,:format=>"json"),
+        <%= datatable("entry_headers_list",{:controller => "skm/entry_headers",:action=>"get_history_entries_data",:doc_number => @entry_header.doc_number,:format=>"json"},
                   [{:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true, :width => "10%"},
                    {:key=>"entry_title",:label=>t(:label_skm_entry_header_title), :searchable => true},
                    {:key=>"version_number",:label=>t(:label_skm_entry_header_version), :width => "80px"},

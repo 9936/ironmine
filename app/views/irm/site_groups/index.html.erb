@@ -23,7 +23,7 @@
             <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("site_group",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("site_group",{:action=>"get_data",:format=>"json"},
                   [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
                    {:key=>"region_name",:label=>t(:label_irm_site_group_region_name),:searchable=>true,:width=>"15%"},
                    {:key=>"group_code",:label=>t(:label_irm_site_group_group_code),:searchable=>true,:width=>"10%"},

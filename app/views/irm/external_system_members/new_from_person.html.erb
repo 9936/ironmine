@@ -37,7 +37,7 @@
         <%= error_for @system_person %>
         <div id="externalSystemList" class="datatable" style="width:100%">
         </div>
-        <%= datatable("externalSystemList",url_for(:action=>"get_available_external_system_data",:person_id=>@person.id),
+        <%= datatable("externalSystemList",{:action=>"get_available_external_system_data",:person_id=>@person.id},
                   [{:key=>"id",:hidden=>true},
                    {:key=>"external_system_code",:label=>t(:label_irm_external_system),:searchable=>true},
                    {:key=>"system_name",:label=>t(:name),:searchable=>true},

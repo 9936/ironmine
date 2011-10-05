@@ -94,7 +94,7 @@
             <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("priority_code",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("priority_code",{:action=>"get_data",:format=>"json"},
                   [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
                    {:key=>"priority_code",:label=>t(:label_icm_priority_code_priority_code),:searchable=>true},
                    {:key=>"name",:label=>t(:label_icm_priority_code_name),:searchable=>true},

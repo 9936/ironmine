@@ -22,7 +22,7 @@
             <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %> | <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("wf_rules",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("wf_rules",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"90px"},
                        { :key => "bo_name", :label => t(:label_irm_wf_rule_bo_code) },
                        { :key => "rule_code", :label => t(:label_irm_wf_rule_rule_code),:searchable=>true },

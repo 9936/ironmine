@@ -207,12 +207,25 @@ module ApplicationHelper
   end
 
 
-  def datatable(id,source_url,columns,options={})
-    require_javascript(:extjs)
-    require_css(:extjs)
+  def datatable(id,url_options,columns,options={})
+
+    select = options[:select]
+    html = options[:html]||false
+
+    if html&&limit_device?&&!select.present?
+      return plain_datatable(id,url_options,columns,options={})
+    else
+      require_javascript(:extjs)
+      require_css(:extjs)
+    end
+
+    source_url = url_for(url_options.merge(:format=>:json))
     page_size = options[:row_perpage]||10
     search_box = options[:search_box]
-    select = options[:select]
+
+
+
+
     data_fields = ""
     column_models = ""
     columns.each do |c|
@@ -225,8 +238,14 @@ module ApplicationHelper
             column << %Q(dataIndex:"#{value}",)
           when :label
             column << %Q(text:"#{value}",)
-          #when :width
-            #column << %Q(width:"#{value}",)
+          when :width
+            if(value.include?("px"))
+              column << %Q(width:#{value.gsub("px","")},)
+            elsif(value.include?("%"))
+              column << %Q(width:#{value.gsub("%","")},)
+           else
+              column << %Q(width:#{value},)
+            end
           #when :sortable
           #  column << %Q(sortable:false,)
           when :formatter
@@ -327,6 +346,30 @@ module ApplicationHelper
     javascript_tag(all_script)
   end
 
+
+
+  def plain_datatable(id,url_options,columns,options={})
+    require_javascript(:jplugin)
+
+    source_url = url_for(url_options.merge(:format=>:html))
+
+    page_size = options[:row_perpage]||10
+
+    search_box = options[:search_box]
+
+    table_options = "baseUrl:'#{source_url}',pageSize:#{page_size},searchBox:'#{search_box}'"
+
+
+    if options[:view_filter]
+      table_options << "filterBox:'#{id}ViewFilterOverview'"
+    end
+
+    table_options = "{#{table_options}}"
+    script = %Q(
+        $(function(){$('##{id}').datatable(#{table_options})});
+    )
+    javascript_tag(script)
+  end
 
 
   def autocomplete(id,source_url,columns,options={})
@@ -462,7 +505,7 @@ module ApplicationHelper
   end
 
   def format_date(time)
-    time.strftime('%Y-%m-%d %H:%M:%S')
+    time.strftime('%Y-%m-%d %H:%M:%S') if time
   end
 
   def show_check_box(value = "", y_value = "")
@@ -640,10 +683,12 @@ module ApplicationHelper
 
     raw file_links
   end
+
   # 判断浏览器是否为ie6
   def ie6?
     request.user_agent.include?("MSIE 6.0")
   end
+
   # 将使用IE6和Android 2的设备设置为限制设备
   def limit_device?
     request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")

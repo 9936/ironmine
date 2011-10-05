@@ -28,7 +28,7 @@
                      <%= check_box_tag "irm_kanban_lanes[ids][]","{id}"%>
                   </div>
                 </div>
-                <%= datatable("available_lanes_list",url_for(:action=>"get_available_lanes", :id=>@kanban),
+                <%= datatable("available_lanes_list",{:action=>"get_available_lanes", :id=>@kanban},
                           [{:key=>"id",:label=>t(:select_ac),:formatter=>"Y.irm.template",:width=>"20px"},
                            {:key=>"lane_code",:label=>t(:label_irm_lane_code), :width => "15%"},
                            {:key=>"lane_name",:label=>t(:name), :width => "25%"},

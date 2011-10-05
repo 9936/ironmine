@@ -27,7 +27,7 @@
             <%= check_img("{visiable_flag}") %>
           </div>               
         </div>
-        <%= datatable("entry_statuses_list",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("entry_statuses_list",{:action=>"get_data",:format=>"json"},
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
                    {:key=>"entry_status_code",:label=>t(:label_skm_entry_status_code), :searchable => true,:width=>"100px"},
                    {:key=>"name",:label=>t(:name), :searchable => true,:width=>"150px"},

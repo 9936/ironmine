@@ -22,7 +22,7 @@
             <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("ldap_syn_attributes",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("ldap_syn_attributes",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                                               { :key => "local_attr", :label => t(:label_irm_ldap_syn_attribute_local_attr),:searchable=>true },
                                               { :key => "ldap_attr", :label => t(:label_irm_ldap_syn_attribute_ldap_attr),:searchable=>true },

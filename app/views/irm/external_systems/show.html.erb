@@ -67,8 +67,8 @@
         <%= error_for @external_system_person %>
         <div id="selectablePeople" class="datatable" style="width:100%">
         </div>
-        <%= datatable("selectablePeople",url_for(:controller=>"irm/external_system_members", :action=>"get_available_people_data",
-                                                 :external_system_id => @external_system.id,:format=>"json"),
+        <%= datatable("selectablePeople",{:controller=>"irm/external_system_members", :action=>"get_available_people_data",
+                                                 :external_system_id => @external_system.id,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation), :hidden => true},
                            { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
                            { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
@@ -105,8 +105,8 @@
               <div id="id" style="display:none">
               </div>
             </div>
-            <%= datatable("external_people",url_for(:controller => "irm/external_system_members",:action=>"get_owned_members_data",
-                                                    :format=>"json", :external_system_id => @external_system.id),
+            <%= datatable("external_people",{:controller => "irm/external_system_members",:action=>"get_owned_members_data",
+                                                    :format=>"json", :external_system_id => @external_system.id},
                           [{:key=>"id",:label=>t(:operation),:hidden => true},
                            { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
                            { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },

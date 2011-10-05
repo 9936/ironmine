@@ -23,7 +23,7 @@
             <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
         </div>
       </div>
-        <%= datatable("kanban_list",url_for(:action=>"get_data"),
+        <%= datatable("kanban_list",{:action=>"get_data"},
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                    {:key=>"name",:label=>t(:name),:width=>"150px"},
                    {:key=>"description",:label=>t(:description),:width=>"250px"},

@@ -28,7 +28,7 @@
                      <%= check_box_tag "skm_entry_template_elements[ids][]","{id}"%>
                   </div>
                 </div>
-                <%= datatable("available_elements_list",url_for(:action=>"get_available_elements", :template_id=>@template),
+                <%= datatable("available_elements_list",{:action=>"get_available_elements", :template_id=>@template},
                           [{:key=>"id",:label=>t(:select_ac),:formatter=>"Y.irm.template",:width=>"20px"},
                            {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :width => "15%"},
                            {:key=>"name",:label=>t(:name), :width => "25%"},

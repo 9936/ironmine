@@ -85,7 +85,7 @@
             <%= link_to(t(:show),{:controller=>"irm/lookup_values",:action=>"show",:id=>"{id}",:lookup_type=>"{lookup_type}"}) %>
           </div>
         </div>
-        <%= datatable("lookup_value",url_for(:controller=>"irm/lookup_values",:action=>"get_lookup_values", :lookup_type=>@lookup_type.lookup_type),
+        <%= datatable("lookup_value",{:controller=>"irm/lookup_values",:action=>"get_lookup_values", :lookup_type=>@lookup_type.lookup_type},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                        {:key=>"lookup_type",:label=>(t :label_lookup_types),:searchable=>true,:width=>"10%"},
                        {:key=>"lookup_code",:label=>(t :label_irm_lookup_value_lookup_code),:searchable=>true,:width=>"10%"},

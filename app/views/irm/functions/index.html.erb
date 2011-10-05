@@ -28,7 +28,7 @@
             <%= check_img("{status_code}") %>
           </div>                       
         </div>
-        <%= datatable("functions_list",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("functions_list",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "80px"},
                        {:key=>"code",:label=>t(:label_irm_function_function_code)},
                        {:key=>"name",:label=>t(:label_irm_function_name)},

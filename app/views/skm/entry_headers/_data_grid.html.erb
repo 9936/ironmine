@@ -31,7 +31,7 @@
             <%= link_to("{doc_number}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("entry_headers_list",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("entry_headers_list",{:action=>"get_data",:format=>"json"},
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"120px"},
                    {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true,:formatter=>"Y.irm.template",:width => "120px"},
                    {:key=>"entry_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},

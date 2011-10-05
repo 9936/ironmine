@@ -23,7 +23,7 @@
             ({incident_status_name}){title}
           </div>
         </div>
-        <%= datatable("incident_requests",url_for(:action=>"assignable_data",:format=>"json"),
+        <%= datatable("incident_requests",{:action=>"assignable_data",:format=>"json"},
                               [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
                                { :key => "request_number", :label => "#",:searchable=>true,:width=>"20px"},
                                { :key => "title",:formatter=>"Y.irm.template",:label => t(:label_icm_incident_request_title),:searchable=>true },

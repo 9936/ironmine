@@ -22,7 +22,7 @@
             <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("wf_mail_alerts",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("wf_mail_alerts",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                        { :key => "bo_name", :label => t(:label_irm_wf_mail_alert_bo_code)},
                        { :key => "name", :label => t(:label_irm_wf_mail_alert_name),:searchable=>true },

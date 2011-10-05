@@ -80,7 +80,7 @@
               <%= check_img("{required_flag}") %>
           </div>
     </div>
-        <%= datatable("survey_subject",url_for(:controller=>"csi/survey_subjects",:action=>"get_data",:id=>@survey.id,:survey_id=>@survey.id),
+        <%= datatable("survey_subject",{:controller=>"csi/survey_subjects",:action=>"get_data",:id=>@survey.id,:survey_id=>@survey.id},
                   [{:key=>"id",:label=>t(:operation),:hidden=>!check_survey_result_exist?(@survey.id),:formatter=>"Y.irm.template",:width=>"80px"},
                    {:key=>"seq_num",:label=>t(:label_csi_survey_subject_seq_num),:width=>"70px"},
                    {:key=>"name",:label=>t(:label_csi_survey_subject_title)},

@@ -23,7 +23,7 @@
             <%= check_img("{installed_flag}") %>
           </div>
         </div>
-        <%= datatable("language",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("language",{:action=>"get_data",:format=>"json"},
                   [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
                    {:key=>"language_code",:label=>t(:label_irm_language_language_code),:width=>"10%"},
                    {:key=>"installed_flag",:formatter=>"Y.irm.template",:label=>t(:label_irm_language_installed_flag),:width=>"10%"},

@@ -155,7 +155,7 @@
           <div id="person_system_list" class="datatable" style="width:100%;">
           </div>
           <!-- Begin company access table -->
-            <%= datatable("person_system_list",url_for(:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id),
+            <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id},
                               [{:key=>"id",:label=>t(:operation),:hidden => true},
                                {:key=>"system_name",:label=>t(:label_irm_external_system), :width=>"200px"},
                                {:key=>"system_description",:label=>t(:description), :width=> "400px"},
@@ -194,7 +194,7 @@
           <div id="support_group" class="datatable" style="width:100%;">
           </div>
           <!-- Begin company access table -->
-            <%= datatable("support_group",url_for(:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id,:format=>:json),
+            <%= datatable("support_group",{:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id,:format=>:json},
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:hidden=>true,:width=>"60px"},
                                {:key=>"name",:label=>t(:label_irm_group_name)},
                                {:key=>"description",:label=>t(:label_irm_group_description)}])%>

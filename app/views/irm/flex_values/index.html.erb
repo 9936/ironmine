@@ -72,7 +72,7 @@
             <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("flex_values_list",url_for(:action=>"get_data",:format=>"json", :value_set_id => @value_set),
+        <%= datatable("flex_values_list",{:action=>"get_data",:format=>"json", :value_set_id => @value_set},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                        {:key=>"display_sequence",:label=>t(:label_irm_flex_value_position), :width => "80px"},
                        {:key=>"flex_value",:label=>t(:label_irm_flex_value_name), :searchable=>true},

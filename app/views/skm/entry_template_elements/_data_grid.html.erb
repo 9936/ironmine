@@ -24,7 +24,7 @@
             <%= check_img("{status_code}") %>
           </div>               
         </div>
-        <%= datatable("entry_elements_list",url_for(:controller => "skm/entry_template_elements", :action=>"get_data", :format=>"json"),
+        <%= datatable("entry_elements_list",{:controller => "skm/entry_template_elements", :action=>"get_data", :format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template"},
                        {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :searchable => true, :width => "15%"},
                        {:key=>"name",:label=>t(:name), :searchable => true, :width => "25%"},

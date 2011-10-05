@@ -13,7 +13,7 @@
             }
           </div>
         </div>
-        <%= datatable("incident_requests",url_for(:action=>"get_help_desk_data",:format=>"json"),
+        <%= datatable("incident_requests",{:action=>"get_help_desk_data",:format=>"json"},
                               [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
                                { :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot),:searchable=>true,:width=>"20px"},
                                { :key => "title",:formatter=>"Y.irm.stemplate",:label => t(:label_icm_incident_request_title),:searchable=>true },
@@ -25,6 +25,6 @@
                                { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) },
                                { :key => "last_request_date", :label => t(:label_icm_incident_request_last_date),:width=>"180px" },
                                { :key => "external_system_name", :label => t(:label_irm_external_system),:width=>"180px" }
-                               ],{:export_data=>"#incidentRequestExport",:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox',:view_filter=>true})%>
+                               ],{:export_data=>"#incidentRequestExport",:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox',:view_filter=>true,:html=>true})%>
         <div id="incidentRequestsPaginatorBox"></div>
 </div>
