@@ -61,6 +61,9 @@ body table.list tr th{border-color:#ECECEC;}
     position: static;
     width: 100%;
 }
+
+.requiredInput textarea {width:95%}
+
 .requiredInput .requiredBlock {
     background-color:#CC0000;
     bottom:1px;
