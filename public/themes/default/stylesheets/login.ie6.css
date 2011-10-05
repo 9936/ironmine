@@ -102,7 +102,7 @@
 .login_form_box .grow_button:hover .container, #forgotpasswordbox .grow_button:hover .container {background-position: 0 -34px;}
 /*****************************************************************/
 *#loginpage{
-    text-align:center;
+    text-align:left;
     margin: 0;
 }
 
@@ -127,12 +127,13 @@
     margin-bottom: 9px;
     padding-bottom: 10px;
     width:395px;
+    overflow: hidden;
 }
 .login_form_box .content_new {
-    background:url("../images/login_form_new.png") no-repeat scroll 0 0 transparent;
-    height:auto !important;
+    background:url("../images/login_form_new.gif") no-repeat scroll 0 0 transparent;
+    /*height:auto !important;*/
     margin:0;
-    min-height:331px;
+    height:331px;
     overflow:hidden;
     padding:39px 10px 13px 41px;
     /*+padding:39px 10px 102px 41px;*/
@@ -140,7 +141,7 @@
 }
 
 #loginpage #gradientwrap .login_form_box .bottom_new {
-    background:url("../images/login_form_bottom_new.png") no-repeat scroll 0 100% transparent;
+    background:url("../images/login_form_bottom_new.gif") no-repeat scroll 0 100% transparent;
     display:block;
     height:28px;
     margin:0;
@@ -321,7 +322,7 @@ width:990px;
 }
 
 /**************** footer ********************/
-body .bPageFooter a, body .bPageFooter {
+body .page-footer a, body .page-footer {
     border-bottom-color: -moz-use-text-color;
     border-bottom-style: none;
     border-bottom-width: medium;
@@ -349,14 +350,14 @@ body .bPageFooter a, body .bPageFooter {
     color: #cbcbcb;
     font-size: 12px;
 }
-div.noTableFooter {
+div.no-table-footer {
     margin-left: 0;
 }
-.noTableFooter {
+.no-table-footer {
     clear: both;
     margin-left: 205px;
 }
-.bPageFooter {
+.page-footer {
     border-top-color: #E8E8E8;
     border-top-style: solid;
     border-top-width: 1px;

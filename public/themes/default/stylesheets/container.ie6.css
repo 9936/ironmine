@@ -1,4 +1,4 @@
-body .page-title {padding: 5px 0 0 0;margin:0 0 15px 0;}
+body .page-title {padding: 5px 0 0 0;margin:0 0 15px 0;zoom:1;}
 body .page-title .pt-body {
     background-color: transparent;
     color: #000000;
@@ -40,7 +40,7 @@ body .page-title .pt-body {
     margin-bottom: 4px;
 }
 
-.page-title .pt-body .page-type, .page-title .pt-body .page-description {margin-left: 37px;}
+.page-title .pt-body .page-type, .page-title .pt-body .page-description {margin-left: 0; display:block;}
 
 .page-title .pt-body .greeting .page-type {
     font-size: 109%;
@@ -48,6 +48,10 @@ body .page-title .pt-body {
     color: #4A4A56;
     margin-bottom: 4px;
     padding-left: 0;
+}
+
+.page-title .pt-body div.greeting + .links {
+    display: none;
 }
 
 .page-title h1, .page-title h2 {display: block;}
@@ -66,6 +70,8 @@ div.greeting a {text-decoration:none;}
     overflow-x: hidden;
     overflow-y: hidden;
 }
+
+div.greeting {zoom:1}
 /*********************************************************************************************/
 /*首页布局容器*/
 .tools-content {
@@ -74,9 +80,13 @@ div.greeting a {text-decoration:none;}
     width: 100%;
 }
 
-.tools-content > tbody > tr > td {
+.tools-content tbody tr td {
     padding-top: 5px;
     width: 50%;
+}
+
+.tools-content-right {
+    margin-top: 5px !important;
 }
 /****************************************/
 /*app-title*/
@@ -86,27 +96,30 @@ div.greeting a {text-decoration:none;}
 /*block*/
 
 body .page-block .pbBody {padding:0;}
-body .page-block, body .page-block .pbBody, body .page-block .pbBottomButtons {
+
+body .page-block,
+body .page-block .pbBody,
+body .page-block .pbBottomButtons {
     background-color:transparent;
     background-image:none;
     margin:0 0 10px 0;
 }
-body .page-block, body .secondary-palette.page-block, body .page-body .sub-block {
-    -moz-border-radius:4px 4px 4px 4px;
-    -webkit-border-radius: 4px;
-    background-color:#F8F8F8;
-    border-bottom:1px solid #EAEAEA;
-    border-left:1px solid #EAEAEA;
-    border-right:1px solid #EAEAEA;
+.page-block,
+.secondary-palette.page-block,
+.page-body .sub-block {
+    background-color:#F8F8F8 !important;
+    border-bottom:1px solid #EAEAEA !important;
+    border-left:1px solid #EAEAEA !important;
+    border-right:1px solid #EAEAEA !important;
 }
 
 .sub-block, .page-block {
-    border-top-color: #1797C0;
-    border-top-style: solid;
-    border-top-width: 3px;
+    border-top-color: #1797C0 !important;
+    border-top-style: solid !important;
+    border-top-width: 3px !important;
 }
 
-body .sub-block {padding: 5px;}
+body .sub-block {padding: 5px; padding-top: 0;}
 
 body .page-block .pbTitle h2, body .page-block .pbTitle h3, body .sub-block h3.lbHeader {
     color: #000000;
@@ -154,6 +167,7 @@ body .sub-block .lbBody {
     margin:0;
     vertical-align:middle;
     width:30%;
+    padding:5px 12px !important;
 }
 
 .page-block .pbButton {padding:1px 0;vertical-align:middle;}
@@ -189,14 +203,15 @@ body .page-block .pbHeader {
     padding-bottom: 2px;
 }
 .page-block {font-size: 105%;}
-.edit-block .pbHeader > table, .apexp .page-block.apexDefaultPageBlock .pbHeader > table, #ep.bLayoutBlock .pbHeader > table {border-bottom:1px solid #DBDBDB;padding:5px 0;}
+.edit-block .pbHeader > table,
+.apexp .page-block.apexDefaultPageBlock .pbHeader > table,
+#ep.bLayoutBlock .pbHeader > table {border-bottom:1px solid #DBDBDB;padding:5px 0;}
 /***********************toggle button ***********************/
 div.toolbar{
     margin: 5px;
     margin-top: 10px;
-    min-height: 30px;
     padding: 0;
-    width: 100%;
+    width: 95%;
     display:block;
 }
 span.toggleButtons{
@@ -305,7 +320,10 @@ body .edit-block .pbBody .pbSubheader{
     color:#000000;
     padding:4px 16px;
 }
-.pbSubheader.first {margin-top:0;}
+.edit-block .pbBody .first,
+.page-block .pbBody .first
+{margin-top:0 !important;}
+
 .pbSubheader {
     background-color:#222222;
     font-size:91%;
@@ -360,10 +378,10 @@ body .edit-block .pbBody .pbSubheader{
 .page-block .pbBody .pbSubheader h3{font-size: 1.2em;}
 .page-block .detailList {width: 100%;}
 
-body .detail-block.page-block{
-    background-color:transparent;
-    border:0 none;
-    margin-bottom:25px;
+body .detail-block {
+    background-color:transparent !important;
+    border:0 none !important;
+    margin-bottom:25px !important;
 }
 
 /********* tab color border *******************/
@@ -405,9 +423,9 @@ width:11px;
     width:16px;
 }
 /*************************************************/
-/*bWizardBlock*/
-.bWizardBlock .pbWizardTitle {background-image:none;}
-.bWizardBlock .pbWizardTitle {
+/*wizard-block*/
+.wizard-block .pbWizardTitle {background-image:none;}
+.wizard-block .pbWizardTitle {
     -moz-border-radius-topleft:5px;
     -moz-border-radius-topright:5px;
     -webkit-border-top-left-radius: 5px;
@@ -418,12 +436,12 @@ width:11px;
     padding:8px 12px;
 }
 
-.bWizardBlock .tertiaryPalette{background-color:#1797C0;border-color:#1797C0;}
-.bWizardBlock .pbWizardTitle .ptRightTitle {float:right;}
-.bWizardBlock .pbWizardTitle {color:white;font-weight:bold;}
-.bWizardBlock .pbDescription {padding:10px;}
-.bWizardBlock .pbWizardBody, .bWizardBlock .pbDescription {border-top:1px solid #FFFFFF;}
-.bWizardBlock > .pbBody {
+.wizard-block .tertiaryPalette{background-color:#1797C0;border-color:#1797C0;}
+.wizard-block .pbWizardTitle .ptRightTitle {float:right;}
+.wizard-block .pbWizardTitle {color:white;font-weight:bold;}
+.wizard-block .pbDescription {padding:10px;}
+.wizard-block .pbWizardBody, .wizard-block .pbDescription {border-top:1px solid #FFFFFF;}
+.wizard-block > .pbBody {
     -moz-border-radius-bottomleft:5px;
     -moz-border-radius-bottomright:5px;
     -webkit-border-top-left-radius: 0;
@@ -435,29 +453,29 @@ width:11px;
     padding:0;
 }
 
-body .bWizardBlock .pbBody .pbSubheader {
+body .wizard-block .pbBody .pbSubheader {
     background-image:url("../images/opacity75.png");
     border-top:1px solid #FFFFFF;
     border-width:1px 0 0;
     color:#000000;
     padding:4px 16px;
 }
-.bWizardBlock .requiredLegend {background-color:transparent;color:#000000;font-weight:normal;padding:0 2px;}
-body .bWizardBlock .pbBody .pbSubheader h3, body .bWizardBlock .bPageBlock .pbBody .pbSubheader label {
+.wizard-block .requiredLegend {background-color:transparent;color:#000000;font-weight:normal;padding:0 2px;}
+body .wizard-block .pbBody .pbSubheader h3, body .wizard-block .bPageBlock .pbBody .pbSubheader label {
     font-size: 14px;
 }
-.bWizardBlock .pbSubsection, .bWizardBlock .pbSubsection {margin-top: 7px;padding: 0 12px;}
-.bWizardBlock .pbBottomButtons > table > tbody > tr > td{
+.wizard-block .pbSubsection, .wizard-block .pbSubsection {margin-top: 7px;padding: 0 12px;}
+.wizard-block .pbBottomButtons > table > tbody > tr > td{
     padding:5px 12px;
 }
-.bWizardBlock .pbTitle{
+.wizard-block .pbTitle{
     color:#222222;
     font-size:91%;
     margin:0;
     vertical-align:middle;
     width:30%;
 }
-.bWizardBlock .pbWizardBody {padding-bottom: 10px;}
+.wizard-block .pbWizardBody {padding-bottom: 10px;}
 /*****************************************************/
 /*setting page*/
 .setupTab .mComponent .cHeader, .setupTab .sub-block, .setupTab .page-block {border-top:3px solid #747E96;}

@@ -1,3 +1,7 @@
+#body{
+    margin: 0 10px 0 10px;
+}
+
 #mc_l, #mc_r {
     background:url("../images/motifCurve_sprite.png") no-repeat scroll 0 0 transparent;
     height:9px;

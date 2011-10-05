@@ -5,7 +5,7 @@
 </style>
 <%= form_for(@report,:url=>{:action=>"edit"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:step) %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
   <%= render :partial => "step_header",:locals => {:step=>@report.step} %>
   <div class="pbBody">
     <div class="pbDescription ">

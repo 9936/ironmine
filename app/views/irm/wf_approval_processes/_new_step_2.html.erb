@@ -1,6 +1,6 @@
 <%= form_for(@wf_approval_process,:url=>{:action=>"new"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:step) %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
             <%= t(:step_n_total_m, :n => "2", :m => "5") %>

@@ -4,6 +4,8 @@
     font-family:arial;font-size:inherit;
     border-collapse:separate;*border-collapse:collapse;border-spacing:0; /* since ie6 and ie7 behave differently */
     width: 100%;
+    overflow: auto;
+    overflow-y: hidden;
     /*border:1px solid #7F7F7F;*/
 }
 .irm-datatable thead {border-spacing:0;} /* for safari bug */

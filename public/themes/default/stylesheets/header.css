@@ -131,6 +131,7 @@ body#body {
 
 .menuParent {
     text-align: left;
+    position: relative;
 }
 .menuParent div.menuLabel {
     -moz-border-radius: 11px 11px 11px 11px;
@@ -182,6 +183,9 @@ body#body {
     background:white;
     background:transparent\9;
     min-width: 150px;
+    position: absolute !important;
+    z-index: 50;
+    right:0;
  }
 
 .menuParent div.menuContent a {

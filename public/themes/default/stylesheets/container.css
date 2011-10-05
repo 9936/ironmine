@@ -405,9 +405,9 @@ width:11px;
     width:16px;
 }
 /*************************************************/
-/*bWizardBlock*/
-.bWizardBlock .pbWizardTitle {background-image:none;}
-.bWizardBlock .pbWizardTitle {
+/*wizard-block*/
+.wizard-block .pbWizardTitle {background-image:none;}
+.wizard-block .pbWizardTitle {
     -moz-border-radius-topleft:5px;
     -moz-border-radius-topright:5px;
     -webkit-border-top-left-radius: 5px;
@@ -418,12 +418,12 @@ width:11px;
     padding:8px 12px;
 }
 
-.bWizardBlock .tertiaryPalette{background-color:#1797C0;border-color:#1797C0;}
-.bWizardBlock .pbWizardTitle .ptRightTitle {float:right;}
-.bWizardBlock .pbWizardTitle {color:white;font-weight:bold;}
-.bWizardBlock .pbDescription {padding:10px;}
-.bWizardBlock .pbWizardBody, .bWizardBlock .pbDescription {border-top:1px solid #FFFFFF;}
-.bWizardBlock > .pbBody {
+.wizard-block .tertiaryPalette{background-color:#1797C0;border-color:#1797C0;}
+.wizard-block .pbWizardTitle .ptRightTitle {float:right;}
+.wizard-block .pbWizardTitle {color:white;font-weight:bold;}
+.wizard-block .pbDescription {padding:10px;}
+.wizard-block .pbWizardBody, .wizard-block .pbDescription {border-top:1px solid #FFFFFF;}
+.wizard-block > .pbBody {
     -moz-border-radius-bottomleft:5px;
     -moz-border-radius-bottomright:5px;
     -webkit-border-top-left-radius: 0;
@@ -435,29 +435,29 @@ width:11px;
     padding:0;
 }
 
-body .bWizardBlock .pbBody .pbSubheader {
+body .wizard-block .pbBody .pbSubheader {
     background-image:url("../images/opacity75.png");
     border-top:1px solid #FFFFFF;
     border-width:1px 0 0;
     color:#000000;
     padding:4px 16px;
 }
-.bWizardBlock .requiredLegend {background-color:transparent;color:#000000;font-weight:normal;padding:0 2px;}
-body .bWizardBlock .pbBody .pbSubheader h3, body .bWizardBlock .bPageBlock .pbBody .pbSubheader label {
+.wizard-block .requiredLegend {background-color:transparent;color:#000000;font-weight:normal;padding:0 2px;}
+body .wizard-block .pbBody .pbSubheader h3, body .wizard-block .bPageBlock .pbBody .pbSubheader label {
     font-size: 14px;
 }
-.bWizardBlock .pbSubsection, .bWizardBlock .pbSubsection {margin-top: 7px;padding: 0 12px;}
-.bWizardBlock .pbBottomButtons > table > tbody > tr > td{
+.wizard-block .pbSubsection, .wizard-block .pbSubsection {margin-top: 7px;padding: 0 12px;}
+.wizard-block .pbBottomButtons > table > tbody > tr > td{
     padding:5px 12px;
 }
-.bWizardBlock .pbTitle{
+.wizard-block .pbTitle{
     color:#222222;
     font-size:91%;
     margin:0;
     vertical-align:middle;
     width:30%;
 }
-.bWizardBlock .pbWizardBody {padding-bottom: 10px;}
+.wizard-block .pbWizardBody {padding-bottom: 10px;}
 /*****************************************************/
 /*setting page*/
 .setupTab .mComponent .cHeader, .setupTab .sub-block, .setupTab .page-block {border-top:3px solid #747E96;}

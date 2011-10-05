@@ -34,7 +34,11 @@ body .page-block .pbBody .label3Col {color: #4A4A56;}
 
 .page-block .detailList .labelCol {white-space: nowrap;}
 
-body .page-block .detailList tr td, body .page-block .detailList tr th, body table.list tr td, body table.list tr th{border-color:#ECECEC;}
+body .page-block .detailList tr td,
+body .page-block .detailList tr th,
+body table.list tr td,
+body table.list tr th{border-color:#ECECEC;}
+body .detail-block tr td {border:0 none;}
 .page-block .detailList th, .page-block .detailList td {vertical-align: top;}
 
 .page-block .dataCol {padding:2px 2px 2px 10px;text-align:left;}
@@ -68,9 +72,9 @@ table.duel tr.duelList td {text-align: center;vertical-align: middle;}
 table.duel tr.duelList select {min-width: 180px;}
 div.actonType{float:left;}
 /*****************************************************/
-.bWizardBlock .detailList{width: 100%;}
-.bWizardBlock .detailList .labelCol{width: 18%;}
-.bWizardBlock .detailList .labelCol{white-space: nowrap;}
+.wizard-block .detailList{width: 100%;}
+.wizard-block .detailList .labelCol{width: 18%;}
+.wizard-block .detailList .labelCol{white-space: nowrap;}
 
 form .pbBottomButtons {
     border-top-color: #DBDBDB;
@@ -78,21 +82,21 @@ form .pbBottomButtons {
     border-top-width: 1px;
 }
 
-.bWizardBlock .pbHeader table, .bWizardBlock .pbBottomButtons table{
+.wizard-block .pbHeader table, .wizard-block .pbBottomButtons table{
     border-spacing: 0;
     width: 100%;
 }
 form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important;}
-.bWizardBlock .labelCol,
-.bWizardBlock .label3Col{
+.wizard-block .labelCol,
+.wizard-block .label3Col{
     color:#333333;
     font-size:91%;
     font-weight:bold;
     padding:2px 10px 2px 2px;
     text-align:right;
 }
-.bWizardBlock .detailList .dataCol{width: 40%;}
-.bWizardBlock .dataCol{padding:2px 2px 2px 10px;text-align:left;}
+.wizard-block .detailList .dataCol{width: 40%;}
+.wizard-block .dataCol{padding:2px 2px 2px 10px;text-align:left;}
 /*******************************************************/
 /*show page*/
 .page-block .detailList tr td,

@@ -1,13 +1,13 @@
 <%= common_title %>
 
+<div class="toolbar">
 <% if allow_to_function?(:view_icm_kanban) %>
-  <div class="toolbar">
-      <span class="toggleButtons">
-        <%= link_to(toggle_img("listViewIcon",true),{:controller => "icm/incident_requests",:action=>"index"},{:href=>"javascript:void(0)",:title=>t(:list_mode)}) %>
-        <%= link_to(toggle_img("singleUserViewIcon"),{:action=>"kanban_index"},{:title=>t(:kanban_mode)}) %>
-      </span>
-  </div>
+  <span class="toggleButtons" style="_display: none;">
+    <%= link_to(toggle_img("listViewIcon",true),{:controller => "icm/incident_requests",:action=>"index"},{:href=>"javascript:void(0)",:title=>t(:list_mode)}) %>
+    <%= link_to(toggle_img("singleUserViewIcon"),{:action=>"kanban_index"},{:title=>t(:kanban_mode)}) %>
+  </span>
 <% end %>
+</div>
 
 <%= view_filter("ICM_INCIDENT_REQUEST_INDEX_B","ICM_INCIDENT_REQUESTS","incident_requests") %>
 

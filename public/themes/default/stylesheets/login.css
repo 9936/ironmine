@@ -321,7 +321,7 @@ width:990px;
 }
 
 /**************** footer ********************/
-body .bPageFooter a, body .bPageFooter {
+body .page-footer a, body .page-footer {
     border-bottom-color: -moz-use-text-color;
     border-bottom-style: none;
     border-bottom-width: medium;
@@ -349,14 +349,14 @@ body .bPageFooter a, body .bPageFooter {
     color: #cbcbcb;
     font-size: 12px;
 }
-div.noTableFooter {
+div.no-table-footer {
     margin-left: 0;
 }
-.noTableFooter {
+.no-table-footer {
     clear: both;
     margin-left: 205px;
 }
-.bPageFooter {
+.page-footer {
     border-top-color: #E8E8E8;
     border-top-style: solid;
     border-top-width: 1px;

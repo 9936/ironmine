@@ -7,6 +7,7 @@
 
             </div>
             <div id="createNewMenu" class="menuButtonMenu" style="display:none; width: 196px;">
+                  <iframe class="new-iframe"></iframe>
                   <%= link_to_checker(raw(get_img_icon("img6", {:class => "mruIcon", :title => t(:label_incident_request)}, "Small") ) + t(:label_incident_request),
                                       {:controller => "icm/incident_requests", :action => "new"},
                                       {:class => "menuButtonMenuLink"}) %>
@@ -28,6 +29,7 @@
                   <% link_to_checker(raw(get_img_icon("img2", {:class => "mruIcon", :title => t(:label_irm_todo_task)}, "Small") ) + t(:label_irm_todo_task),
                                       {:controller => "irm/todo_tasks", :action => "new"},
                                       {:class => "menuButtonMenuLink"})%>
+
             </div>
           </div>
         </div>

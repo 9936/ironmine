@@ -1,5 +1,5 @@
 body#body {
-    background:url("../images/gradient_body.png") repeat-x scroll 0 0 #1797C0;
+    background-color: #1797C0;
 }
 
 #contentWrapper {
@@ -9,7 +9,7 @@ body#body {
 }
 
 #pageHeader .phHeader {
-    margin-bottom: 10px;
+    margin-bottom: 0;
     background-color: #1797C0;
 }
 
@@ -22,7 +22,7 @@ body#body {
 }
 
 #pageHeader .phHeader td.left {
-    background:url("../images/appHeader_l.png") no-repeat scroll left bottom transparent !important;
+    /*background:url("../images/appHeader_l.png") no-repeat scroll left bottom transparent !important;*/
 }
 
 #pageHeader .phHeader td.searchCell {
@@ -50,11 +50,11 @@ body#body {
 }
 
 .headerSearchLeftRoundedCorner {
-    background:url("../images/unified_search_sprite.png") no-repeat scroll left -216px transparent;
+    background:url("../images/unified_search_sprite.gif") no-repeat scroll left -216px transparent;
 }
 
 .headerSearchRightRoundedCorner {
-    background:url("../images/unified_search_sprite.png") no-repeat scroll right -168px transparent;
+    background:url("../images/unified_search_sprite.gif") no-repeat scroll right -168px transparent;
     border-left:1px solid #DDDDDD;
     cursor:pointer;
     left:203px;
@@ -103,13 +103,16 @@ body#body {
     text-align: right;
     white-space: nowrap;
     width: 100%;
+    padding-right: 15px;
 }
 
 .page-header td.right.vtop {
     vertical-align: top;
 }
 
-.page-header td.right {padding-right:19px;vertical-align:middle;background:url("../images/appHeader_r.png") no-repeat scroll right bottom transparent;}
+.page-header td.right {
+    /*padding-right:19px;vertical-align:middle;background:url("../images/appHeader_r.png") no-repeat scroll right bottom transparent;*/
+}
 
 #pageHeader .phHeader td.left img:first-child {
     margin-bottom: 3px;
@@ -129,16 +132,23 @@ body#body {
 
 .messages {height: 22px;}
 
+span.menuParent {
+    width:10px;
+    z-index: 50;
+}
+
 .menuParent {
     text-align: left;
+    position: relative;
 }
 .menuParent div.menuLabel {
     -moz-border-radius: 11px 11px 11px 11px;
     -webkit-border-radius: 11px;
-    padding: 0 30px 0 15px;
-    padding: 0 12px 0 12px\9;
+    padding: 0 12px 0 12px;
     height: 24px;
     line-height: 24px;
+    overflow-x: hidden;
+    overflow-y: hidden;
  }
 .menuParent div.menuLabel .menuButtonArrow{
      float:right;
@@ -146,52 +156,35 @@ body#body {
  }
 
 .menuParent div.menuLabelHover{
-    -moz-border-radius: 11px 11px 11px 11px;
-    -webkit-border-radius: 11px;
     background: white;
-    background: transparent\9;
     color: #1797C0;
-    position: relative\9;
  }
 .menuParent div.menuLabelClick{
-    -moz-border-radius: 11px 11px 0 0;
-    -webkit-border-top-left-radius: 11px;
-    -webkit-border-top-right-radius: 11px;
-    -webkit-border-bottom-right-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
     background:white;
-    background: transparent\9;
     color: #1797C0;
-    position: relative\9;
+    z-index: 100 !important;
  }
 
 .menuParent div.menuContent{
     display:none;
-    padding: 3px 15px 3px 15px;
-    padding: 0 \9;
-    -moz-box-shadow: 0 2px 4px rgba(127, 127, 127, 0.3);
-    -webkit-box-shadow:rgba(127, 127, 127, 0.292969) 0 2px 4px;
-    box-shadow: 0 2px 4px rgba(127, 127, 127, 0.292969);
+    padding: 0;
  }
 .menuParent div.menuContentVisual{
     display:block;
-    -moz-border-radius: 11px 0 11px 11px;
-    -webkit-border-top-left-radius: 11px;
-    -webkit-border-bottom-right-radius: 11px;
-    -webkit-border-bottom-left-radius: 11px;
     background:white;
-    background:transparent\9;
     min-width: 150px;
+    position: absolute !important;
+    border: 1px solid #cecece;
+    margin-top: -1px !important;
+    z-index: 50;
+    right:0;
  }
 
 .menuParent div.menuContent a {
-    -moz-border-radius: 11px 11px 11px 11px;
-    -webkit-border-radius: 11px;
     color: #333435;
-    margin: 0 0;
     padding: 4px 15px;
-    margin-left: 12px\9;
-    margin-right: 12px\9;
+    margin-left: 12px;
+    margin-right: 12px;
     text-decoration: none;
     z-index:10000;
     display: block;
@@ -218,13 +211,14 @@ body#body {
     top:10px;
     width:8px;
     float:right;
+    display:none;
 }
 .menuLabel span{float:left;padding:0 18px 0 3px\9; }
 
 .menuParent div.menuLabelHover #pageMenu-arrow,
 .menuParent div.menuLabelClick #pageMenu-arrow,
 .menuParent div.menuLabelHover #settingMenu-arrow,
-.menuParent div.menuLabelClick #settingMenu-arrow{background-position: 0 -145px;}
+.menuParent div.menuLabelClick #settingMenu-arrow{background-position: 0 -145px;display:none;}
 .messages{height:22px;}
 .notifyMessage{
     border-radius: 4px 4px 4px 4px;
@@ -333,8 +327,8 @@ body#body {
 /*******************************************************************/
 /* tabs */
 body .tabsNewBar .tabNavigation {
-    background:url("../images/tabbar_sprite.png") repeat-x scroll left -73px transparent;
-    margin:0 5px;
+    background:url("../images/tabbar_sprite.gif") repeat-x scroll left -73px transparent;
+    margin:0;
     padding:3px 0 0;
     position:relative;
 }
@@ -351,7 +345,7 @@ body .tabsNewBar .tabNavigation {
     padding-left:10px;
 }
 body .tabsNewBar .tabNavigation .tabBarLeft {
-    background:url("../images/tabbar_sprite.png") no-repeat scroll 0 0 transparent;
+    background:url("../images/tabbar_sprite.gif") no-repeat scroll 0 0 transparent;
     height:100%;
     left:-15px;
     position:absolute;
@@ -359,12 +353,7 @@ body .tabsNewBar .tabNavigation .tabBarLeft {
     width:15px;
 }
 body .tabsNewBar .tabNavigation .tabBarRight {
-    background:url("../images/tabbar_sprite.png") no-repeat scroll -15px 0 transparent;
-    height:100%;
-    position:absolute;
-    right:-15px;
-    top:0;
-    width:15px;
+    display: none;
 }
 
 body .tabsNewBar .tabNavigation .tab {height:25px;}
@@ -392,17 +381,17 @@ background-color:#1797C0;
     width:5px;
 }
 #mc_l {background-position:left -10px;left:-5px;}
-#mc_r {background-position:right -10px;right:-5px;}
+#mc_r {display:none;}
 
 body .tabNavigation .tab .currentTab {
-    background-image:url("../images/tabs_sprite.png");
+    background-image:url("../images/tabs_sprite.gif");
     background-position:left 0;
     background-repeat:no-repeat;
 }
 
 .homeTab .primaryPalette, .individualPalette .homeBlock .primaryPalette {background-color:#1797C0;border-color:#1797C0;}
 body .tabNavigation .tab .currentTab div {
-    background-image:url("../images/tabs_sprite.png");
+    background-image:url("../images/tabs_sprite.gif");
     background-position:right -150px;
     background-repeat:no-repeat;
 }
