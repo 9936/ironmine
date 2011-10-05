@@ -20,7 +20,7 @@
          <tr id="<%=data[:id]%>">
            <td>
              <div>
-               <%= link_to(data[:bulletin_title], {:controller => "irm/bulletins", :action => "show", :id => "{id}"})%>
+               <%= link_to(data[:bulletin_title], {:controller => "irm/bulletins", :action => "show", :id => data[:id]})%>
              </div>
            </td>
            <td>
