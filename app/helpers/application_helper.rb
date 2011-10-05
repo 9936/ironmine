@@ -159,7 +159,7 @@ module ApplicationHelper
     force_html = options[:force_html]||false
 
     if force_html||(html&&limit_device?&&!select.present?)
-      return plain_datatable(id,url_options,columns,options={})
+      return plain_datatable(id,url_options,columns,options)
     else
       require_javascript(:extjs)
       require_css(:extjs)
@@ -305,15 +305,47 @@ module ApplicationHelper
     page_size = options[:row_perpage]||10
 
     search_box = options[:search_box]
+    paginator_box = options[:paginator_box]
 
-    table_options = "baseUrl:'#{source_url}',pageSize:#{page_size},searchBox:'#{search_box}'"
+    puts "=========================#{options.to_json}============================"
+
+    column_models = ""
+    columns.each do |c|
+      next if c[:hidden]||!c[:searchable].present?
+      column = "{"
+      c.each do |key,value|
+        case key
+          when :key
+            column << %Q(dataIndex:"#{value}",)
+          when :label
+            column << %Q(text:"#{value}",)
+          when :searchable
+            column << %Q(searchable:#{value},)
+        end
+      end
+      column_models <<  column.chop
+      column_models << "},"
+    end
+    column_models.chop!
 
 
+
+    table_options = "columns:[#{column_models}],baseUrl:'#{source_url}',pageSize:#{page_size}"
+
+    if search_box
+      table_options << ",searchBox:'#{search_box}'"
+    end
+
+    if paginator_box
+      table_options << ",paginatorBox:'#{paginator_box}'"
+    end
     if options[:view_filter]
-      table_options << "filterBox:'#{id}ViewFilterOverview'"
+      table_options << ",filterBox:'#{id}ViewFilterOverview'"
     end
 
     table_options = "{#{table_options}}"
+
+
     script = %Q(
         $(function(){$('##{id}').datatable(#{table_options})});
     )
@@ -640,6 +672,7 @@ module ApplicationHelper
 
   # 将使用IE6和Android 2的设备设置为限制设备
   def limit_device?
+    return true
     request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
   end
 

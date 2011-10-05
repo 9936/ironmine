@@ -1012,6 +1012,8 @@ jQuery.t = jQuery.i18n;
         baseUrl: "",
         filterBox: null,
         searchBox: null,
+        paginatorBox: null,
+        columns :[],
         filterOptions:{},
         searchOptions:{}
     };
@@ -1109,27 +1111,167 @@ jQuery.t = jQuery.i18n;
     Internal.prototype.buildTable = function(){
         var me = this;
         me.data.options = $.extend(me.data.options,{currentPage:1});
+        me.buildUI();
         me.load();
     };
 
-    Internal.prototype.search = function(searchOptions){
+    Internal.prototype.buildUI = function(){
+        var me = this;
+        //build paginator
+        if(me.data.options.paginatorBox)
+        {   var paginatorBox = $("#"+me.data.options.paginatorBox);
+            me.paginator = $('<div class="paginator"><div class="button pre-button"></div><div class="page"><div class="before-page"></div><input class="current-page" size="2"/><div class="after-page"></div></div><div class="button next-button"></div><div class="label record-label"></div></div>');
+            paginatorBox.append(me.paginator);
+            paginatorBox.find(".pre-button:first").click(function(event){
+                if(!$(this).hasClass("disabled"))
+                    me.prePage();
+            });
+            paginatorBox.find(".nex-button:first").click(function(event){
+                if(!$(this).hasClass("disabled"))
+                    me.nextPage();
+            });
+            paginatorBox.find(".current-page:first").keyup(function(event){
+                var value = $(this).val();
+                var keyCode =  parseInt(event.keyCode);
+                if(keyCode<48&&keyCode>57){
+                  value=value.replace(/[^\d]/g,'') ;
+                }
+                //value = me.getRightPage(value);
+                $(this).val(value);
+                if(keyCode==13){
 
+                    me.loadPage(value);
+                }
+
+
+            });
+            me.syncPaginatorUI();
+        }
+        //build searchbox
+        if(me.data.options.searchBox&&me.data.options.columns.length>0)
+        {
+            var show_able = false;
+            var searchBox = $("#"+me.data.options.searchBox);
+            searchBox.css("display","none");
+            if(searchBox){
+                var search_template = ['<div class="search-box">','<select class="searchSelect"></select>',
+                    '<input class="searchBoxInput" type="text" size="20">','</div>'].join("");
+                searchBox.append($(search_template));
+                $.each(me.data.options.columns,function(index,column){
+
+                    if(column.searchable){
+                        show_able = true;
+                        var option = $("<option></option>")
+                        option.html(column.text);
+                        option.attr("value",column.dataIndex);
+                        searchBox.find("select.searchSelect:first").append(option);
+                    }
+                });
+
+                if(show_able)
+                    searchBox.css("display","");
+
+                searchBox.find("input.searchBoxInput:first").keydown(function(event){
+                    if(event.keyCode==13){
+                        var params = {};
+                        params[searchBox.find("select.searchSelect:first").val()] = searchBox.find("input.searchBoxInput:first").val();
+                        me.data.options.searchOptions = params;
+                        me.loadPage(1);
+                    }
+                });
+            }
+        }
+        //build viewFilter
+        if(me.data.options.filterBox)
+        {
+            var filterBox = $("#"+me.data.options.filterBox)
+            if(filterBox){
+
+                var selectElement = filterBox.find("select.viewFilter:first");
+                me.data.options.filterOptions = {_view_filter_id:selectElement.val()};
+
+                selectElement.change(function(event){
+                    me.data.options.filterOptions = {_view_filter_id:$(this).val()};
+                    me.loadPage(1);
+                });
+
+                var editLink = filterBox.find("a.EditLink:first");
+
+                editLink.click(function(event){
+                    var link =  $(event.currentTarget);
+                    if(!link.attr("thref")){
+                        link.attr("thref",link.attr("href"))
+                    }
+                    var href = decodeURIComponent(link.attr("thref"));
+                    href.replace("{id}",selectElement.val());
+                    link.attr("href",href);
+                    if(!selectElement.val())
+                      event.preventDefault();
+                });
+                filterBox.css("display","block");
+            }
+        }
+    }
+
+    Internal.prototype.syncPaginatorUI = function(){
+        var me = this;
+        if(me.data.options.paginatorBox)
+        {
+            var paginatorBox = $("#"+me.data.options.paginatorBox);
+
+            var options = me.data.options;
+            var preText = $.i18n("paginatorPre");
+            var nextText = $.i18n("paginatorNext");
+            var pageBeforeText = $.tmpl($.i18n("paginatorBeforePage"),{totalPage:Math.ceil(options.totalCount/options.pageSize)})
+            var pageAfterText = $.tmpl($.i18n("paginatorAfterPage"),{totalPage:Math.ceil(options.totalCount/options.pageSize)})
+            var recordStart = Math.max(options.currentPage-1,0)*options.pageSize;
+            var recordEnd = Math.min(options.currentPage*options.pageSize,me.data.options.totalCount);
+            var recordText = $.tmpl($.i18n("paginatorRecord"),{start:recordStart,end:recordEnd,totalCount:me.data.options.totalCount})
+            paginatorBox.find(".pre-button:first").html(preText);
+            paginatorBox.find(".next-button:first").html(nextText);
+            paginatorBox.find(".before-page:first").html(pageBeforeText);
+            paginatorBox.find(".after-page:first").html(pageAfterText);
+            paginatorBox.find(".record-label:first").html(recordText);
+            paginatorBox.find(".current-page:first").val(options.currentPage);
+            if(options.currentPage<2)
+                paginatorBox.find(".pre-button:first").addClass("disabled");
+            else
+               paginatorBox.find(".pre-button:first").removeClass("disabled");
+            if(options.currentPage>=Math.ceil(options.totalCount/options.pageSize))
+                paginatorBox.find(".nex-button:first").addClass("disabled");
+            else
+               paginatorBox.find(".nex-button:first").removeClass("disabled");
+        }
     };
 
-    Internal.prototype.filter = function(filterOptions){
 
-    };
+
+    Internal.prototype.getRightPage = function(page){
+        var me = this;
+        var rightPage = page;
+        if(me.data.options.totalCount>0){
+            rightPage = Math.min(rightPage,Math.ceil(me.data.options.totalCount/me.data.options.pageSize));
+            rightPage = Math.max(1,rightPage);
+        }
+        else
+        {
+            rightPage = 1;
+        }
+        return rightPage;
+    }
 
     Internal.prototype.loadPage = function(page){
-
+        var me = this;
+        me.data.options.currentPage = me.getRightPage(page);
+        me.load();
     };
 
     Internal.prototype.nextPage = function(){
-
+        this.loadPage(this.data.options.currentPage+1);
     };
 
     Internal.prototype.prePage = function(){
-
+        this.loadPage(this.data.options.currentPage-1);
     };
 
     Internal.prototype.load = function(){
@@ -1144,7 +1286,10 @@ jQuery.t = jQuery.i18n;
         var me = this;
         var options = me.data.options;
         var request_url = options.baseUrl;
-        var paramsStr = $.param($.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.filterOptions,options.searchOptions,{limit:""}));
+        var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.filterOptions,options.searchOptions);
+        if(!options.paginatorBox)
+            params = $.extend(params,{limit:""})
+        var paramsStr = $.param(params);
 
         if(request_url.indexOf("?")>0)
           return request_url+"&"+ paramsStr
@@ -1157,6 +1302,7 @@ jQuery.t = jQuery.i18n;
         var count = me.$element.find("table:first").attr("count");
         if(count&&count!="")
             me.data.options.totalCount = parseInt(count);
+        me.syncPaginatorUI();
     };
 
 
