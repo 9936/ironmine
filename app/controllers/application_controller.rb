@@ -252,6 +252,13 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def render_html_data_table
+    if(@count<1)
+      render :partial => "helper/datatable_no_data"
+      return
+    end
+  end
+
   private
   def clear_session
     old_session_id = session[:session_id]

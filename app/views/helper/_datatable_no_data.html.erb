@@ -1,0 +1,17 @@
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>">
+         <tbody>
+           <tr class="no-data">
+             <% if defined?(no_data_label) %>
+               <td><%= no_data_label %></td>
+             <% else %>
+               <td><%= t(:no_data) %></td>
+             <% end %>
+           </tr>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->
