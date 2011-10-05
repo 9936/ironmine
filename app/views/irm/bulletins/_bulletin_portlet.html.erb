@@ -21,8 +21,10 @@
   </div>
   <%= datatable("bulletins_list",{:controller => "irm/bulletins", :action=>"get_data",:format=>"json"},
                 [{:key=>"id",:label=>"", :hidden => true},
-                 {:key=>"bulletin_title",:label=>t(:label_irm_bulletin_title), :formatter=>"Y.irm.template", :sortable=>true, :width =>"430px"},
-                 {:key=>"page_views",:label=>t(:label_irm_bulletin_page_views), :width => "40px"},
-                 {:key=>"published_date",:label=>t(:label_irm_bulletin_published_date), :width => "130px"}])%>
+                 {:key=>"bulletin_title",:label=>t(:label_irm_bulletin_title), :formatter=>"Y.irm.template", :sortable=>true},
+                 {:key=>"page_views",:label=>t(:label_irm_bulletin_page_views), :width => "70"},
+                 {:key=>"published_date",:label=>t(:label_irm_bulletin_published_date), :width => "120"}],
+                {:html=>true}
+      )%>
 </div>
 </div>

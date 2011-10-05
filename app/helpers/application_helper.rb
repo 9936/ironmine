@@ -241,10 +241,13 @@ module ApplicationHelper
           when :width
             if(value.include?("px"))
               column << %Q(width:#{value.gsub("px","")},)
+              column << %Q(flex:0,)
             elsif(value.include?("%"))
               column << %Q(width:#{value.gsub("%","")},)
-           else
+              column << %Q(flex:0,)
+            elsif value.present?
               column << %Q(width:#{value},)
+              column << %Q(flex:0,)
             end
           #when :sortable
           #  column << %Q(sortable:false,)
@@ -261,6 +264,9 @@ module ApplicationHelper
         end
 
 
+      end
+      unless column.include?("flex")
+        column << %Q(flex:1,)
       end
       column << %Q(sortable:false,)
       column << %Q(menuDisabled:true,)
@@ -308,7 +314,7 @@ module ApplicationHelper
 
       var #{id}Datatable = Ext.create('Ext.grid.Panel', {
           id: '#{id}Datatable',
-          height: 250,
+          height: 285,
           store: #{id}DatatableStore,
           disableSelection: false,
           loadMask: true,
