@@ -60,11 +60,11 @@ td { background-color:transparent;} /* none */
     white-space:nowrap;
 }
 
-.irm-datatable th > div,
-.irm-datatable td > div{
+.irm-datatable th div,
+.irm-datatable td div{
     margin:0;
-    padding:4px 10px 4px 5px; /* cell padding */
-	overflow:visible; /*to make ths where the title is really long work*/
+    padding:4px 10px 4px 5px !important; /* cell padding */
+	overflow:visible; /*to m ake ths where the title is really long work*/
 	border:0px solid black;
 }
 
