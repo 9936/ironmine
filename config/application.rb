@@ -61,6 +61,7 @@ module Ironmine
         :setting=>%w(setting_base button container form header icons layout other public sidebar table),
         :home=>%w(),
         :login=>%w(login),
+        :common=>%w(login),
         :extjs=>%w(ext4-all)}
   end
 end
