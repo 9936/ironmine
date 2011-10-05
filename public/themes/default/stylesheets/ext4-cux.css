@@ -1,0 +1,36 @@
+.datatable .x-grid-header-ct {
+    border-color: #cbcbcb;
+    border-left-width: 0;
+    border-right-width: 0;
+}
+
+.datatable .x-panel .x-grid-body {
+    border-color: #eaeaea;
+    border-left-width: 0;
+    border-right-width: 0;
+}
+
+.datatable .x-toolbar-default {
+    border-color: #eaeaea;
+    border-left-width: 0;
+    border-right-width: 0;
+    background: none;
+}
+
+.datatable .x-column-header,
+.datatable .x-column-header-over
+{
+    background:url(../images/grid_headerbg.gif) repeat-x scroll 0 bottom #FFFFFF; /* header gradient */
+    border-right-color: #cbcbcb;
+}
+
+.datatable .x-grid-row .x-grid-cell
+{
+    border-bottom-color: #cbcbcb;
+}
+
+.datatable .x-grid-row-over .x-grid-cell
+{
+    background-color:#EDF5FF;
+    border-top-color: transparent;
+}

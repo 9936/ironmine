@@ -62,6 +62,6 @@ module Ironmine
         :home=>%w(),
         :login=>%w(login),
         :common=>%w(login),
-        :extjs=>%w(ext4-all)}
+        :extjs=>%w(ext4-all ext4-cux)}
   end
 end

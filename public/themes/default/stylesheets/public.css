@@ -18,7 +18,7 @@ body .menuButton {
     cursor: pointer;
 }
 
-body button, body .x-btn, body .btn, body .btnDisabled, body .btnCancel, body .menuButton .menuButtonButton {
+body button, body .btn, body .btnDisabled, body .btnCancel, body .menuButton .menuButtonButton {
     -moz-border-radius:3px 3px 3px 3px;
     -webkit-border-radius: 3px;
     background:url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
