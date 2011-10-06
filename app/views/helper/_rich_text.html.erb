@@ -29,7 +29,7 @@
             }
         });
     <%if force_fit_width%>
-      <%=textarea_id%>RichText.setWidth(currentTextArea.parent().getComputedWidth());
+      <%=textarea_id%>RichText.setWidth(currentTextArea.parent().getComputedWidth()-10);
     <%end%>
     });
 

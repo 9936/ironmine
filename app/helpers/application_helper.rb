@@ -168,6 +168,7 @@ module ApplicationHelper
     source_url = url_for(url_options.merge(:format=>:json))
     page_size = options[:row_perpage]||10
     search_box = options[:search_box]
+    height = options[:height]||300
 
     data_fields = ""
     column_models = ""
@@ -257,8 +258,10 @@ module ApplicationHelper
 
       var #{id}Datatable = Ext.create('Ext.grid.Panel', {
           id: '#{id}Datatable',
-          height: 285,
+          height: #{height},
           store: #{id}DatatableStore,
+          autoScroll: true,
+          autoShow: true,
           disableSelection: false,
           loadMask: true,
           #{"selModel:#{id}DatatableSelModel," if select}
@@ -673,7 +676,7 @@ module ApplicationHelper
 
   # 将使用IE6和Android 2的设备设置为限制设备
   def limit_device?
-    return true
+    #return true
     request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
   end
 

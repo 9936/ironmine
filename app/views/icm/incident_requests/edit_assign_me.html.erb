@@ -57,27 +57,26 @@
     </div>
 </div>
 
+
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-      Y.on("irm:change",function(e){
-          if(e.details[2]=="Datatable"&&"incident_requestsDatatable"==e.details[0])
-            e.details[1].on("selectedChange",function(e){
-                var selected_requests = e.details[0];
-                var ids = [];
-                for(var i in selected_requests){
-                  ids.push(selected_requests[i].id);
-                }
-                Y.one("#incident_request_ids").set("value",ids.join(","));
-                if(selected_requests.length>0)
-                  Y.one("#formSubmit").removeAttribute("disabled");
-                else
-                  Y.one("#formSubmit").setAttribute("disabled",true);
-
-            })
-      });
-
+  Ext.onReady(function(){
+      var processSelected = function(selModel,selected){
+          var ids = [];
+          for(var i = 0;i<selected.length;i++){
+            ids.push(selected[i].data.id);
+          }
+          $("#incident_request_ids").val(ids.join(","));
+          if(selected.length>0)
+              Ext.get("formSubmit").dom.removeAttribute("disabled");
+          else
+              $("#formSubmit").attr("disabled",true);
+      }
+      Ext.getCmp("incident_requestsDatatable").selModel.addListener("selectionchange",processSelected);
   });
 </script>
+
+
+
 
 <% content_for :sidebar do%>
     <%= render :partial =>"/icm/incident_requests/short_cut_new" %>

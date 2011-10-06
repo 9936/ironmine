@@ -1,12 +1,3 @@
-<style type="text/css">
-  table.multilingual thead th{
-      font-weight: bold;
-  }
-  table.multilingual .language{
-    width:80px;
-    text-align: center;
-  }
-</style>
 <%= form_for(main_data ,:url=>{:action=>"multilingual_update"},:builder => LabellingFormBuilder) do |f| %>
   <div id="ep" class="edit-block page-block">
     <div class="pbHeader">
@@ -36,46 +27,52 @@
         <h3><%= t(:label_multilingual_edit_files) %></h3>
       </div>
       <div class="pbSubsection">
-        <table class="multilingual">
-          <thead>
-            <tr>
-              <th class="language">
-                <%=t(:label_multilingual_language)%>
-              </th>
-              <%main_data.multilingual_options[:columns].each do |attr|%>
-                <th>
-                  <%=t("label_#{f.object_name}_#{attr}")%>
-                </th>
-              <%end%>
-              <th  class="sourcelang">
-                <%=t(:label_multilingual_source_lang)%>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= f.fields_for main_data.multilingual_options[:lang_relation].to_sym,:builder => LabellingFormBuilder do |tl_f|%>
-              <tr>
-                <td class="language">
-                  <%=language_code_meaning(tl_f.object.language)%>
-                </td>
-                <%main_data.multilingual_options[:columns].each do |attr|%>
-                  <td >
-                    <% if main_data.multilingual_options[:required].include?(attr.to_sym)%>
-                      <%= tl_f.text_field attr.to_sym,:required=>true,:size=>20%>
-                    <%else%>
-                      <%= tl_f.text_field attr.to_sym,:size=>40%>
-                    <%end%>
-                  </td>
-                <%end%>
-                <td>
-                   <span class="sourcelang">
-                     <%=text_field_tag :source_lang,language_code_meaning(tl_f.object.source_lang),:readonly=>"readonly",:size=>10%>
-                   </span>
-                </td>
-              </tr>
-            <%end%>
-          </tbody>
-        </table>
+        <!--  irm datatable      -->
+           <div class="irm-datatable">
+             <div>
+                 <table count="<%=@count%>">
+                   <thead>
+                     <tr>
+                       <th style="width:30px">
+                         <%=t(:label_multilingual_language)%>
+                       </th>
+                       <%main_data.multilingual_options[:columns].each do |attr|%>
+                         <th>
+                           <%=t("label_#{f.object_name}_#{attr}")%>
+                         </th>
+                       <%end%>
+                       <th  style="width:30px">
+                         <%=t(:label_multilingual_source_lang)%>
+                       </th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                       <%= f.fields_for main_data.multilingual_options[:lang_relation].to_sym,:builder => LabellingFormBuilder do |tl_f|%>
+                          <tr>
+                            <td class="language">
+                              <%=language_code_meaning(tl_f.object.language)%>
+                            </td>
+                            <%main_data.multilingual_options[:columns].each do |attr|%>
+                              <td >
+                                <% if main_data.multilingual_options[:required].include?(attr.to_sym)%>
+                                  <%= tl_f.text_field attr.to_sym,:required=>true,:size=>20%>
+                                <%else%>
+                                  <%= tl_f.text_field attr.to_sym,:size=>40%>
+                                <%end%>
+                              </td>
+                            <%end%>
+                            <td>
+                               <span class="sourcelang">
+                                 <%=text_field_tag :source_lang,language_code_meaning(tl_f.object.source_lang),:readonly=>"readonly",:size=>10%>
+                               </span>
+                            </td>
+                          </tr>
+                        <%end%>
+                   </tbody>
+                 </table>
+             </div>
+           </div>
+          <!--  end irm datatable      -->
     </div>
   </div>
   <div class="pbBottomButtons">
