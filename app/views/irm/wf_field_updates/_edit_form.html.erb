@@ -82,13 +82,3 @@
   </div>
 </div>
 <% end %>
-
-<script type="text/javascript">
-  GY.use("cascadeselect","gallerydispatcher",function(Y){
-    Y.one("form.edit_irm_wf_field_update").delegate("click",function(e){
-        e._currentTarget.setAttribute("action",e.target.getAttribute("href"));
-        e.preventDefault();
-        e._currentTarget.submit();
-      },"a.submit");
-  });
-</script>
