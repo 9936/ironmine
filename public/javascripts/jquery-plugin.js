@@ -15,7 +15,7 @@ jQuery.fn.cascade = function(target_or_targets,event) {
             var target = jQuery(targets[i]);
             // 取得加载数据的链接
             var href = target.attr("href");
-            var depends = target.attr("depend");
+            var depends = target.attr("depend")||"";
             if(depends!="")
                 depends=depends.split(",");
             else
