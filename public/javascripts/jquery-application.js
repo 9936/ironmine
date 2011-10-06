@@ -1,30 +1,72 @@
 $(function(){
-   $('form a[type=submit]').live('click', function(e) {
-     parent_forms = $(this).parents("form");
-     e.preventDefault()
-     if(parent_forms[0])
-       parent_forms[0].submit();
-   });
 
-   $('form a.submit').live('click', function(e) {
-       href = $(this).attr("href");
-       parent_forms = $(this).parents("form");
-       e.preventDefault()
-       if(parent_forms[0]){
-           $(parent_forms[0]).attr("action",href);
-           parent_forms[0].submit();
-       }
-   });
-   //BEGIN========================全局ajax事件监听========================================
-   $(document).ajaxSend(function(event, jqXHR, ajaxOptions){
-   });
-   $(document).ajaxSuccess(function(event, jqXHR, ajaxOptions){
-   });
-   $(document).ajaxError(function(event, jqXHR, ajaxOptions,error){
-   });
-   $(document).ajaxComplete(function(event, jqXHR, ajaxOptions){
-   });
-   //END========================全局ajax事件监听========================================
+    //BEGIN========================全局ajax事件监听========================================
+    $(document).ajaxSend(function(event, jqXHR, ajaxOptions){
+    });
+    $(document).ajaxSuccess(function(event, jqXHR, ajaxOptions){
+    });
+    $(document).ajaxError(function(event, jqXHR, ajaxOptions,error){
+    });
+    $(document).ajaxComplete(function(event, jqXHR, ajaxOptions){
+    });
+    //END========================全局ajax事件监听========================================
+
+    //BEGIN========================系统全局初始化========================================
+    $('form a[type=submit]').live('click', function(e) {
+      parent_forms = $(this).parents("form");
+      e.preventDefault()
+      if(parent_forms[0])
+        parent_forms[0].submit();
+    });
+
+    $('form a.submit').live('click', function(e) {
+        href = $(this).attr("href");
+        parent_forms = $(this).parents("form");
+        e.preventDefault()
+        if(parent_forms[0]){
+            $(parent_forms[0]).attr("action",href);
+            parent_forms[0].submit();
+        }
+    });
+
+    $('input[irm_uppercase]').live('keyup', function(event){
+         $(this).val($(this).val().toUpperCase().replace(/^(_+)|[^A-Z_]/g, ""));
+    });
+
+    $('input[irm_uppercase]').each(function(index,n){
+         $(n).attr("autocomplete", "off");
+    });
+
+    $('input[irm_chr_only]').live('keyup', function(event){
+         $(this).val($(this).val().replace(/^(_+)|^( +)|[^A-Z a-z0-9_]/g, ""));
+    });
+
+    $('input[irm_chr_only]').each(function(index,n){
+         $(n).attr("autocomplete", "off");
+    });
+
+    $('input[irm_number_only]').live('keyup', function(event){
+         $(this).val($(this).val().replace(/D/g, ""));
+    });
+
+    $('form:not([data-remote])').bind("submit",function(e){
+         $(e.target).find("input[type=submit]").each(function(index,el){
+             $(el).attr("disabled",true);
+             $(el).addClass("disabled");
+             $(el).attr("value",$.i18n("processing"));
+         });
+         $(e.target).find("div.button a").each(function(index,el){
+             $(el).attr("disabled",true);
+             $(el).addClass("disabled");
+             $(el).html($.i18n("processing"));
+         });
+    });
+
+    $('a[disabled]').each(function(index,n){
+        $(n).addClass("disabled");
+        $(n).removeAttribute("disabled");
+        $(n).attr("href", "javascript:void(0);");
+    });
 
 });
 

@@ -91,16 +91,15 @@
 </div>
 <% end %>
 <script type="text/javascript">
-  GY.use(function(Y){
-      Y.one("#tab_style_image").on("change",function(e){
-          currentImg = e.target.getAttribute("current");
+  $(function(){
+      $("#tab_style_image").change(function(e){
+          var currentImg = $(e.target).attr("current");
           if(currentImg&&currentImg!=""){
-              Y.one("#styleImageShow").removeClass(currentImg);
+              $("#styleImageShow").removeClass(currentImg);
           }
-          Y.one("#styleImageShow").addClass(e.target.get("value"));
-          e.target.setAttribute("current",e.target.get("value"));
+          $("#styleImageShow").addClass($(e.target).val());
+          $(e.target).attr("current",$(e.target).val());
       });
-      Y.one("#tab_style_image").simulate("change");
-
+      $("#tab_style_image").trigger("change");
   });
 </script>

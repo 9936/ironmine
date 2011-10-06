@@ -608,16 +608,6 @@ jQuery.fn.menubutton = function(){
     };
 })(jQuery);
 
-// config i18n plugin
-
-jQuery.i18n = function(key){
-    if(irm_labels[key])
-        return irm_labels[key];
-    else
-        return "Not translate for:"+key;
-}
-jQuery.t = jQuery.i18n;
-
 
 // Ironmine elastic textarea
 (function($)
@@ -1333,3 +1323,14 @@ jQuery.t = jQuery.i18n;
         }
     };
 })(jQuery);
+
+jQuery.checkRadioButton = function(selector){
+    if(jQuery(selector+"[checked=checked]"))
+    {
+        jQuery(selector+"[checked=checked]").trigger("click");
+    }
+    else
+    {   jQuery(selector+":first").trigger("click");
+
+    }
+}
