@@ -1183,7 +1183,7 @@ jQuery.t = jQuery.i18n;
                         link.attr("thref",link.attr("href"))
                     }
                     var href = decodeURIComponent(link.attr("thref"));
-                    href.replace("{id}",selectElement.val());
+                    href = href.replace("{id}",selectElement.val());
                     link.attr("href",href);
                     if(!selectElement.val())
                       event.preventDefault();
