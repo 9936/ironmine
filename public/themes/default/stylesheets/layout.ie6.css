@@ -33,8 +33,8 @@ body .page-footer a, body .page-footer {
     text-align: center;
 }
 
-.lay-right #bodyColA {display:inline-block;float: right;width: 210px;}
-.lay-right #bodyColB {display:inline-block;margin: 0 220px 0 0;padding-left: 0;}
+.lay-right #bodyColA {display:inline-block;float: right; width: 210px;}
+.lay-right #bodyColB {display:inline-block;margin: 0 220px 0 0;padding-left: 10px;}
 .lay-right #bodyColC {display:none;}
 
 .lay-full #bodyColA {display:none;}
