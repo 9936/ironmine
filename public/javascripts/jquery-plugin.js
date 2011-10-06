@@ -420,18 +420,12 @@ jQuery.fn.menubutton = function(){
 
     $.fn[PLUGIN_NAME] = function(/*String|Object*/ methodOrOptions)
     {
-        if (!methodOrOptions || typeof methodOrOptions == "object")
-        {
-            return publicMethods.init.call(this, methodOrOptions);
-        }
-        else if (publicMethods[methodOrOptions])
-        {
-            var args = Array.prototype.slice.call(arguments, 1);
 
-            return publicMethods[methodOrOptions].apply(this, args);
-        }
-        else
-        {
+        if ( publicMethods[methodOrOptions] ) {
+            return publicMethods[methodOrOptions].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
+            return publicMethods.init.apply( this, arguments );
+        } else {
             $.error("Method '" + methodOrOptions + "' doesn't exist for " + PLUGIN_NAME + " plugin");
         }
     };
@@ -603,18 +597,12 @@ jQuery.fn.menubutton = function(){
 
     $.fn[PLUGIN_NAME] = function(/*String|Object*/ methodOrOptions)
     {
-        if (!methodOrOptions || typeof methodOrOptions == "object")
-        {
-            return publicMethods.init.call(this, methodOrOptions);
-        }
-        else if (publicMethods[methodOrOptions])
-        {
-            var args = Array.prototype.slice.call(arguments, 1);
 
-            return publicMethods[methodOrOptions].apply(this, args);
-        }
-        else
-        {
+        if ( publicMethods[methodOrOptions] ) {
+            return publicMethods[methodOrOptions].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
+            return publicMethods.init.apply( this, arguments );
+        } else {
             $.error("Method '" + methodOrOptions + "' doesn't exist for " + PLUGIN_NAME + " plugin");
         }
     };
@@ -818,18 +806,12 @@ jQuery.t = jQuery.i18n;
 
     $.fn[PLUGIN_NAME] = function(/*String|Object*/ methodOrOptions)
     {
-        if (!methodOrOptions || typeof methodOrOptions == "object")
-        {
-            return publicMethods.init.call(this, methodOrOptions);
-        }
-        else if (publicMethods[methodOrOptions])
-        {
-            var args = Array.prototype.slice.call(arguments, 1);
 
-            return publicMethods[methodOrOptions].apply(this, args);
-        }
-        else
-        {
+        if ( publicMethods[methodOrOptions] ) {
+            return publicMethods[methodOrOptions].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
+            return publicMethods.init.apply( this, arguments );
+        } else {
             $.error("Method '" + methodOrOptions + "' doesn't exist for " + PLUGIN_NAME + " plugin");
         }
     };
@@ -980,18 +962,12 @@ jQuery.t = jQuery.i18n;
 
     $.fn[PLUGIN_NAME] = function(/*String|Object*/ methodOrOptions)
     {
-        if (!methodOrOptions || typeof methodOrOptions == "object")
-        {
-            return publicMethods.init.call(this, methodOrOptions);
-        }
-        else if (publicMethods[methodOrOptions])
-        {
-            var args = Array.prototype.slice.call(arguments, 1);
 
-            return publicMethods[methodOrOptions].apply(this, args);
-        }
-        else
-        {
+        if ( publicMethods[methodOrOptions] ) {
+            return publicMethods[methodOrOptions].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
+            return publicMethods.init.apply( this, arguments );
+        } else {
             $.error("Method '" + methodOrOptions + "' doesn't exist for " + PLUGIN_NAME + " plugin");
         }
     };
@@ -1319,20 +1295,6 @@ jQuery.t = jQuery.i18n;
                 I(this).init(customOptions);
             });
         },
-        filter : function(/*Object*/ customOptions)
-        {
-            return this.each(function()
-            {
-                I(this).filter(customOptions);
-            });
-        },
-        search : function(/*Object*/ customOptions)
-        {
-            return this.each(function()
-            {
-                I(this).search(customOptions);
-            });
-        },
         loadPage : function(/*Object*/ customOptions)
         {
             return this.each(function()
@@ -1353,18 +1315,12 @@ jQuery.t = jQuery.i18n;
 
     $.fn[PLUGIN_NAME] = function(/*String|Object*/ methodOrOptions)
     {
-        if (!methodOrOptions || typeof methodOrOptions == "object")
-        {
-            return publicMethods.init.call(this, methodOrOptions);
-        }
-        else if (publicMethods[methodOrOptions])
-        {
-            var args = Array.prototype.slice.call(arguments, 1);
 
-            return publicMethods[methodOrOptions].apply(this, args);
-        }
-        else
-        {
+        if ( publicMethods[methodOrOptions] ) {
+            return publicMethods[methodOrOptions].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
+            return publicMethods.init.apply( this, arguments );
+        } else {
             $.error("Method '" + methodOrOptions + "' doesn't exist for " + PLUGIN_NAME + " plugin");
         }
     };
