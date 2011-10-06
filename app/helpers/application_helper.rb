@@ -672,7 +672,6 @@ module ApplicationHelper
 
   # 将使用IE6和Android 2的设备设置为限制设备
   def limit_device?
-    return true
     request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
   end
 
