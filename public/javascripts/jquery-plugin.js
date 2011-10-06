@@ -730,7 +730,7 @@ jQuery.t = jQuery.i18n;
         var me = this;
         if(me.data.options.forceFitWidth)
         {
-            me.$element.width(me.$element.parent().innerWidth());
+            me.$element.width(me.$element.parent().innerWidth()-10);
         }
         if(!me.div){
             var textareaStyles = me.getStyles(STYLES,me.$element)

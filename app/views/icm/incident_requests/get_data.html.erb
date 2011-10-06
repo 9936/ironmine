@@ -52,6 +52,8 @@
            </td>
            <td>
              <div>
+               <%=I18n.t(:ago,:message=>distance_of_time_in_words(Time.now, data[:last_response_date]))%>
+
                <%=format_date(data[:last_request_date])%>
              </div>
            </td>
