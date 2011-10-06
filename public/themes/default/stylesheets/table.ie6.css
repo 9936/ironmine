@@ -76,3 +76,48 @@ td { background-color:transparent;} /* none */
     text-align: left;
     +background-color: #fff;
 }
+
+.irm-paginator-box {
+    font-size: 11px;
+    padding: 2px 0 2px 2px;
+    border-style: solid;
+    border-bottom-width: 1px;
+    border-color: #eaeaea;
+}
+
+.irm-paginator-box .irm-box-inner *{display: inline}
+
+.irm-box-inner {
+    width: 100%;
+    height: 22px;
+}
+
+.irm-table-tbar-small-icon-btn {
+    padding: 0;
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
+    position: relative;
+    margin-top: 5px;
+}
+
+.irm-paginator-box .record-label { position:absolute; right: 20px; margin-top: 5px;}
+.irm-btn-icon {
+
+}
+
+
+.next-button {
+    background-image: url("../images/page-next.gif") !important;
+    position: absolute;
+}
+
+.refresh-button {
+    background-image: url("../images/refresh.gif") !important;
+    position: absolute;
+    margin-left: 25px;
+}
+
+.pre-button {
+    background-image: url("../images/page-prev.gif") !important;
+}

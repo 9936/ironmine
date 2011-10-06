@@ -720,7 +720,7 @@ jQuery.fn.menubutton = function(){
         var me = this;
         if(me.data.options.forceFitWidth)
         {
-            me.$element.width(me.$element.parent().innerWidth()-10);
+            me.$element.width(me.$element.parent().innerWidth() - 30);
         }
         if(!me.div){
             var textareaStyles = me.getStyles(STYLES,me.$element)
@@ -1086,7 +1086,15 @@ jQuery.fn.menubutton = function(){
         //build paginator
         if(me.data.options.paginatorBox)
         {   var paginatorBox = $("#"+me.data.options.paginatorBox);
-            me.paginator = $('<div class="paginator"><div class="button pre-button"></div><div class="page"><div class="before-page"></div><input class="current-page" size="2"/><div class="after-page"></div></div><div class="button next-button"></div><div class="button refresh-button"></div><div class="label record-label"></div></div>');
+            me.paginator = $('<div class="irm-paginator-box">' +
+                    '<div class="irm-box-inner">' +
+                    '<div class="button pre-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
+                    '<div class="page"><div class="before-page"></div><input class="current-page" size="2"/><div class="after-page"></div></div>' +
+                    '<div class="button next-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
+                    '<div class="button refresh-button  irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
+                    '<div class="label record-label"></div>' +
+                    '</div>' +
+                    '</div>');
             paginatorBox.append(me.paginator);
             paginatorBox.find(".pre-button:first").click(function(event){
                 if(!$(this).hasClass("disabled"))
@@ -1199,9 +1207,9 @@ jQuery.fn.menubutton = function(){
             var recordEnd = Math.min(options.currentPage*options.pageSize,me.data.options.totalCount);
             recordStart = Math.min(recordEnd,recordStart);
             var recordText = $.tmpl($.i18n("paginatorRecord"),{start:recordStart,end:recordEnd,totalCount:me.data.options.totalCount})
-            paginatorBox.find(".pre-button:first").html(preText);
-            paginatorBox.find(".next-button:first").html(nextText);
-            paginatorBox.find(".refresh-button:first").html(refreshText);
+//            paginatorBox.find(".pre-button:first").html(preText);
+//            paginatorBox.find(".next-button:first").html(nextText);
+//            paginatorBox.find(".refresh-button:first").html(refreshText);
             paginatorBox.find(".before-page:first").html(pageBeforeText);
             paginatorBox.find(".after-page:first").html(pageAfterText);
             paginatorBox.find(".record-label:first").html(recordText);
