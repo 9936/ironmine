@@ -68,8 +68,9 @@ body .detail-block tr td {border:0 none;}
 }
 /*****************************************************/
 /*dual*/
-table.duel tr.duelList td {text-align: center;vertical-align: middle;}
-table.duel tr.duelList select {min-width: 180px;}
+table.duel-select tr.duelList td {text-align: center;vertical-align: middle;}
+table.duel-select tr.duelList td.buttonCell {width: 0;}
+table.duel-select tr.duelList select {min-width: 180px; width:100%}
 div.actonType{float:left;}
 /*****************************************************/
 .wizard-block .detailList{width: 100%;}
@@ -103,3 +104,4 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
 .page-block .detailList tr th{
     border-bottom:1px solid #E3DEB8;
 }
+
