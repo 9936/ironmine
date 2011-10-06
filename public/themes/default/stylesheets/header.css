@@ -466,3 +466,5 @@ body .tab td, body .tab td div, body .tab .last div {background-image: none;back
 body .tabNavigation .tab a {color: #353535;}
 
 .tabNavigation .tab .currentTab, #motifCurve, #motifCurve #mc_l, #motifCurve #mc_r {background-color: #1797C0;}
+
+#tabNavigation * {box-sizing: content-box;}

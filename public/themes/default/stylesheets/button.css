@@ -113,3 +113,5 @@ body .page-block .pbBody .pbSubheader .hideListButton {
     height:10px;
     width:16px;
 }
+
+#bodyColB table * {box-sizing: content-box;}
