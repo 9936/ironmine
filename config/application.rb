@@ -63,6 +63,7 @@ module Ironmine
         :login=>%w(login),
         :common=>%w(login),
         :jcrop=>%w(jcrop),
-        :extjs=>%w(ext4-all)}
+        :extjs=>%w(ext4-all ext4-cux)
+    }
   end
 end

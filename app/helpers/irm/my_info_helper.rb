@@ -16,8 +16,10 @@ module Irm::MyInfoHelper
     application << application_script
     application << <<-BEGIN_HEML
       <span id="pageMenu" class="menuParent" style="float:right;">
-        <div  class="menuLabel">
+        <div class="menuLabel">
           <span tabindex="0" id="pageMenuTop" style="">#{current_application_name}</span>
+          <div class="menuLabel-tr"></div>
+          <div class="menuLabel-tl"></div>
           <div id="pageMenu-arrow"></div>
         </div>
          <div class="menuContent" style="padding:10px 15px;padding:0\\9;">

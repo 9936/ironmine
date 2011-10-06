@@ -217,8 +217,8 @@ body#body {
 #pageMenu-arrow, #settingMenu-arrow #companyMenu-arrow {
     background:url("../images/header_mutton.png") no-repeat scroll 0 -129px transparent;
     height:5px;
-    position:relative;
-    right:-12px;
+    position:absolute;
+    right: 5px;
     top:10px;
     width:8px;
     float:right;
@@ -239,6 +239,8 @@ body#body {
     color: #000000;
     padding: 6px 8px 6px 6px;
 }
+
+#pageMenu-arrow {position:absolute\9;right: 5px\9;}
 
 .menuButton {
     margin-top: 10px;
@@ -334,6 +336,35 @@ body#body {
     text-decoration:underline;
 }
 
+
+/* for ie 8*/
+.tsidMenu-tr{float:right\9;height:12px\9;border-top: 1px solid #f9f9f9\9;border-right: 1px solid #86b8c8\9;width: 12px\9;background-color:white\9}
+.tsidMenu-tl{height:13px\9;float:left\9;width: 12px\9;background-image:url("../images/header_mutton.png")\9;background-position:-3px -72px\9;}
+.tsidMenu-tc{margin-left:12px\9; margin-right:12px\9;height:12px\9;border-top: 1px solid #f9f9f9\9;background-color:white;}
+.tsidMenu-br{float:right\9;display:inline\9;height:12px\9;background-image:url("../images/header_mutton.png")\9;width: 12px\9;background-position:15px -84px\9; background-color: transparent;}
+.tsidMenu-bl{float:left\9;display:inline\9;height:12px\9;width: 12px\9;background-image:url("../images/header_mutton.png")\9;background-position:-3px -84px\9; }
+.tsidMenu-bc{margin-left:12px\9; margin-right:12px\9;height:11px\9;border-bottom: 1px solid #86b8c8\9;background-color:white;}
+.menuItems{border-left: 1px solid #86b8c8\9;border-right: 1px solid #86b8c8\9;background-color:white\9;}
+#pageMenu.menuParent{background-color: transparent\9; }
+#pageMenu.menuParent > .menuLabel > span{background-color: #35b4e9\9; }
+#pageMenu.menuParent .menuLabel-tr{width:15px\9; height: 24px\9; position:absolute\9; right:0\9; top: 0\9;background-image:url("../images/header_mutton.png")\9;background-position:right 0\9;background-color: transparent; }
+#pageMenu.menuParent .menuLabel-tl{width:15px\9; height: 24px\9; position:absolute\9; left:0\9; top: 0\9;background-image:url("../images/header_mutton.png")\9;background-position:left 0\9;background-color: transparent; }
+.menuParent .menuLabelHover .menuLabel-tr,
+#pageMenu.menuParent .menuLabelHover .menuLabel-tr
+{width:15px\9; height: 24px\9; position:absolute\9; right:0\9; top: 0\9;background-image:url("../images/header_mutton.png")\9;background-position:right -72px\9; }
+.menuParent .menuLabelHover .menuLabel-tl,
+#pageMenu.menuParent .menuLabelHover .menuLabel-tl
+{width:15px\9; height: 24px\9; position:absolute\9; left:0\9; top: 0\9;background-image:url("../images/header_mutton.png")\9;background-position:left -72px\9; }
+.menuParent .menuLabelClick .menuLabel-tr,
+#pageMenu.menuParent .menuLabelClick .menuLabel-tr
+{width:12px\9; height: 24px\9; position:absolute\9; right:0\9; top: 0\9;background-image:url("../images/header_mutton.png")\9;background-position:right -200px\9; }
+.menuParent .menuLabelClick .menuLabel-tl,
+#pageMenu.menuParent .menuLabelClick .menuLabel-tl
+{width:12px\9; height: 24px\9; position:absolute\9; left:0\9; top: 0\9;background-image:url("../images/header_mutton.png")\9;background-position:left -200px\9; }
+.menuParent .menuLabelHover span{background:white\9; padding:0 18px 0 3px\9; line-height: 22px\9; border-top:1px solid #8ec3d4\9;border-bottom:1px solid #8ec3d4\9;}
+.menuParent .menuLabelClick span{background:white\9; padding:0 18px 0 3px\9; line-height: 24px\9; border-top:1px solid #8ec3d4\9;}
+#pageMenu.menuParent .menuLabelHover span{background:white\9; padding:0 18px 0 3px\9; line-height: 22px\9; }
+#pageMenu.menuParent .menuLabelClick span{background:white\9; padding:0 18px 0 3px\9; line-height: 24px\9; }
 /*******************************************************************/
 /* tabs */
 body .tabsNewBar .tabNavigation {
