@@ -15,7 +15,7 @@ jQuery.fn.cascade = function(target_or_targets,event) {
             var target = jQuery(targets[i]);
             // 取得加载数据的链接
             var href = target.attr("href");
-            var depends = target.attr("depend");
+            var depends = target.attr("depend")||"";
             if(depends!="")
                 depends=depends.split(",");
             else
@@ -1096,15 +1096,19 @@ jQuery.t = jQuery.i18n;
         //build paginator
         if(me.data.options.paginatorBox)
         {   var paginatorBox = $("#"+me.data.options.paginatorBox);
-            me.paginator = $('<div class="paginator"><div class="button pre-button"></div><div class="page"><div class="before-page"></div><input class="current-page" size="2"/><div class="after-page"></div></div><div class="button next-button"></div><div class="label record-label"></div></div>');
+            me.paginator = $('<div class="paginator"><div class="button pre-button"></div><div class="page"><div class="before-page"></div><input class="current-page" size="2"/><div class="after-page"></div></div><div class="button next-button"></div><div class="button refresh-button"></div><div class="label record-label"></div></div>');
             paginatorBox.append(me.paginator);
             paginatorBox.find(".pre-button:first").click(function(event){
                 if(!$(this).hasClass("disabled"))
                     me.prePage();
             });
-            paginatorBox.find(".nex-button:first").click(function(event){
+            paginatorBox.find(".next-button:first").click(function(event){
                 if(!$(this).hasClass("disabled"))
                     me.nextPage();
+            });
+            paginatorBox.find(".refresh-button:first").click(function(event){
+                if(!$(this).hasClass("disabled"))
+                    me.load();
             });
             paginatorBox.find(".current-page:first").keyup(function(event){
                 var value = $(this).val();
@@ -1179,7 +1183,7 @@ jQuery.t = jQuery.i18n;
                         link.attr("thref",link.attr("href"))
                     }
                     var href = decodeURIComponent(link.attr("thref"));
-                    href.replace("{id}",selectElement.val());
+                    href = href.replace("{id}",selectElement.val());
                     link.attr("href",href);
                     if(!selectElement.val())
                       event.preventDefault();
@@ -1198,25 +1202,28 @@ jQuery.t = jQuery.i18n;
             var options = me.data.options;
             var preText = $.i18n("paginatorPre");
             var nextText = $.i18n("paginatorNext");
+            var refreshText = $.i18n("paginatorRefresh");
             var pageBeforeText = $.tmpl($.i18n("paginatorBeforePage"),{totalPage:Math.ceil(options.totalCount/options.pageSize)})
             var pageAfterText = $.tmpl($.i18n("paginatorAfterPage"),{totalPage:Math.ceil(options.totalCount/options.pageSize)})
-            var recordStart = Math.max(options.currentPage-1,0)*options.pageSize;
+            var recordStart = Math.max(options.currentPage-1,0)*options.pageSize+1;
             var recordEnd = Math.min(options.currentPage*options.pageSize,me.data.options.totalCount);
+            recordStart = Math.min(recordEnd,recordStart);
             var recordText = $.tmpl($.i18n("paginatorRecord"),{start:recordStart,end:recordEnd,totalCount:me.data.options.totalCount})
             paginatorBox.find(".pre-button:first").html(preText);
             paginatorBox.find(".next-button:first").html(nextText);
+            paginatorBox.find(".refresh-button:first").html(refreshText);
             paginatorBox.find(".before-page:first").html(pageBeforeText);
             paginatorBox.find(".after-page:first").html(pageAfterText);
             paginatorBox.find(".record-label:first").html(recordText);
             paginatorBox.find(".current-page:first").val(options.currentPage);
             if(options.currentPage<2)
-                paginatorBox.find(".pre-button:first").addClass("disabled");
+               paginatorBox.find(".pre-button:first").addClass("disabled");
             else
                paginatorBox.find(".pre-button:first").removeClass("disabled");
             if(options.currentPage>=Math.ceil(options.totalCount/options.pageSize))
-                paginatorBox.find(".nex-button:first").addClass("disabled");
+                paginatorBox.find(".next-button:first").addClass("disabled");
             else
-               paginatorBox.find(".nex-button:first").removeClass("disabled");
+               paginatorBox.find(".next-button:first").removeClass("disabled");
         }
     };
 
@@ -1238,7 +1245,8 @@ jQuery.t = jQuery.i18n;
 
     Internal.prototype.loadPage = function(page){
         var me = this;
-        me.data.options.currentPage = me.getRightPage(page);
+        if(page)
+            me.data.options.currentPage = me.getRightPage(page);
         me.load();
     };
 
