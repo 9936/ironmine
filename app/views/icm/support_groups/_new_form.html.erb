@@ -68,7 +68,13 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
-            <%= render :partial => "irm/duel_select/search",:locals => {:label=>"",:f=>f,:types=>support_group_duel_types,:sources=>support_group_duel_values,:str_value_field=>:assignment_str,:str_value=>""} %>
+            <tr>
+              <td class="labelCol"></td>
+              <td class="dataCol" style="width:82%">
+                <%= render :partial => "irm/duel_select/tmpl",:locals => {:label=>"",:f=>f,:types=>support_group_duel_types,:sources=>support_group_duel_values,:str_value_field=>:assignment_str,:str_value=>@support_group.get_assignment_str,:size=>10} %>
+              </td>
+
+            </tr>
         </tbody>
       </table>
     </div>

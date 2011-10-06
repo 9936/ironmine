@@ -165,7 +165,13 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
-            <%= render :partial => "irm/duel_select/search",:locals => {:label=>t(:label_irm_wf_rule_action_type),:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:range_str,:str_value=>@survey.get_range_str} %>
+            <tr>
+              <td class="labelCol"><%= t(:label_irm_wf_rule_action_type) %></td>
+              <td class="dataCol" style="width:82%">
+                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:range_str,:str_value=>@survey.get_range_str,:size=>7} %>
+              </td>
+
+            </tr>
         </tbody>
       </table>
     </div>

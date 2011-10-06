@@ -168,7 +168,7 @@ module ApplicationHelper
     source_url = url_for(url_options.merge(:format=>:json))
     page_size = options[:row_perpage]||10
     search_box = options[:search_box]
-    height = options[:height]||285
+    height = options[:height]||300
 
     data_fields = ""
     column_models = ""
@@ -260,6 +260,7 @@ module ApplicationHelper
           id: '#{id}Datatable',
           height: #{height},
           store: #{id}DatatableStore,
+          autoScroll: true,
           disableSelection: false,
           loadMask: true,
           #{"selModel:#{id}DatatableSelModel," if select}
