@@ -17,14 +17,12 @@ $(function(){
    });
    //BEGIN========================全局ajax事件监听========================================
    $(document).ajaxSend(function(event, jqXHR, ajaxOptions){
-       console.debug(ajaxOptions);
    });
    $(document).ajaxSuccess(function(event, jqXHR, ajaxOptions){
    });
    $(document).ajaxError(function(event, jqXHR, ajaxOptions,error){
    });
    $(document).ajaxComplete(function(event, jqXHR, ajaxOptions){
-       console.debug(ajaxOptions);
    });
    //END========================全局ajax事件监听========================================
 

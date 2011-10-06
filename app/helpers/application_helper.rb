@@ -667,7 +667,8 @@ module ApplicationHelper
 
   # 判断浏览器是否为ie6
   def ie6?
-    request.user_agent.include?("MSIE 6.0")
+    ies = request.user_agent.scan(/MSIE \d\.\d*/)
+    ies.any?&&ies[0].include?("MSIE 6.0")
   end
 
   # 将使用IE6和Android 2的设备设置为限制设备
