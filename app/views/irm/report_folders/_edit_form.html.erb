@@ -63,8 +63,14 @@
                 <% end %>
               </td>
             </tr>
-            <%= render :partial => "irm/duel_select/search",:locals => {:label=>"",:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:member_str,:str_value=>@report_folder.get_member_str} %>
+            <tr>
+              <td class="labelCol">
 
+              </td>
+              <td class="dataCol" colspan="3">
+                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:member_str,:str_value=>@report_folder.get_member_str,:order=>true,:size=>7} %>
+              </td>
+            </tr>
         </tbody>
       </table>
     </div>
