@@ -22,11 +22,11 @@
     <%= render "new_form" %>
 <% end %>
 <script type="text/javascript">
-  GY.use("substitute",function(Y){
-     Y.one("#groupId").on("change",function(e){
-         var url = decodeURIComponent(e.target.getAttribute("href"));
-         var groupId = e.target.get("value");
-         url = Y.Lang.substitute(url,{group_id:groupId});
+  $(function(){
+     $("#groupId").change(function(e){
+         var url = decodeURIComponent($(e.target).attr("href"));
+         var groupId = $(e.target).val();
+         url = url.replace("{group_id}",groupId);
          window.location = url;
      });
   });
