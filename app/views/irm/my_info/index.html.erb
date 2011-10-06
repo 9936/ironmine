@@ -159,7 +159,7 @@
                               [{:key=>"id",:label=>t(:operation),:hidden => true},
                                {:key=>"system_name",:label=>t(:label_irm_external_system), :width=>"200px"},
                                {:key=>"system_description",:label=>t(:description), :width=> "400px"},
-                               {:key=>"external_system_code", :hidden => true}])%>
+                               {:key=>"external_system_code", :hidden => true}],{:force_html=>true})%>
           <!-- End company access table -->
         </div>
         <div class="pbFooter secondary-palette">
@@ -190,14 +190,14 @@
             </tbody>
           </table>
         </div>
-        <div id="id_support_group" class="pbBody">
+        <div id="id_support_group" class="pbBody lbBody">
           <div id="support_group" class="datatable" style="width:100%;">
           </div>
           <!-- Begin company access table -->
             <%= datatable("support_group",{:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id,:format=>:json},
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:hidden=>true,:width=>"60px"},
                                {:key=>"name",:label=>t(:label_irm_group_name)},
-                               {:key=>"description",:label=>t(:label_irm_group_description)}])%>
+                               {:key=>"description",:label=>t(:label_irm_group_description)}],{:force_html=>true})%>
           <!-- End company access table -->
         </div>
         <div class="pbFooter secondary-palette">

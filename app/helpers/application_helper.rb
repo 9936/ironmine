@@ -135,85 +135,31 @@ module ApplicationHelper
     Irm::PermissionChecker.allow_to_url?(url_options)
   end
 
-  # 生成YUI表格
-  def yui_datatable(id,source_url,columns,options={})
-    row_perpage = options[:row_perpage]||10
-    search_box = options[:search_box]
-    paginator_box = options[:paginator_box]
-    paginator_perpage = options[:paginator_perpage]||true
-    export_data = options[:export_data]||"_none_"
-    select = options[:select]
-    columns.insert(0,{:key=>"dt_selector",:width=>"36px"}) if select&&(select.eql?("multiple")||select.eql?("single"))
-    columns_conf = ""
-    data_fields = ""
-    columns.each do |c|
-      data_fields << %Q("#{c[:field]||c[:key]}",)
-      next if c[:hidden]
-      column = "{"
-      c.each do |key,value|
-        if(!key.to_s.eql?("formatter"))
-          column << %Q(#{key.to_s}:"#{value}",)
-        else
-          column << %Q(#{key.to_s}:#{value},)
-        end
-      end
-      columns_conf << column.chop
-      columns_conf << "},"
-    end
-    columns_conf.chop!
-    data_fields.chop!
-
-    columns_conf  = "Ext.create('Ext.grid.RowNumberer'),"+ columns_conf  if options[:show_row_number]
-
-    load_str = "#{id}Datatable.datasource.load()"
-    load_str = "//does not load at init" if options[:not_load]
-
-    search_str = ""
-    search_str = ".plug(Y.Plugin.IrmDTSearchBox,{searchDom:'#{search_box}'})" if search_box
-
-    paginator_str = ""
-    paginator_str = ".plug(Y.Plugin.IrmDTPaginator,{paginatorDom:'#{paginator_box}',rowPerPage:false})" if paginator_box&&!paginator_perpage
-    paginator_str = ".plug(Y.Plugin.IrmDTPaginator,{paginatorDom:'#{paginator_box}',exportDataDom:'#{export_data}',
-                                                    paginatorLabels:{record:'#{t(:paginator_record)}',
-                                                                     rowPerPage:'#{t(:paginator_rowperpage)}',
-                                                                     prepage:'#{t(:paginator_prepage)}',
-                                                                     nextpage:'#{t(:paginator_nextpage)}',
-                                                                     page:'#{t(:paginator_page)}'}})" if paginator_box&&paginator_perpage
-
-
-    select_str = ""
-    select_str = ".plug(Y.Plugin.IrmDTSelector,{mode:'multiple'})" if select&&select.eql?("multiple")
-    select_str = ".plug(Y.Plugin.IrmDTSelector,{mode:'single'})" if select&&select.eql?("single")
-
-    script = %Q(GY.use("irm","datasource-get", "datasource-jsonschema","dtdatasource","dtsort","dtsearchbox","dtselector","dtcolwidth","dtpaginator",function(Y) {
-       Y.on("domready",function(){
-         var #{id}Cols = [#{columns_conf}],
-         #{id}Datasource = new Y.DataSource.Get({source:'#{source_url}'})
-                   .plug(Y.Plugin.DataSourceJSONSchema, {
-                      schema: {
-                        metaFields: {numRows:"numRows"},
-                        resultListLocator: "items",
-                        resultFields: [#{data_fields}]
-             }
-         }),
-         #{id}Datatable = new Y.DataTable.Base({columnset:#{id}Cols})
-             .plug(Y.Plugin.IrmDTDataSource, {datasource:#{id}Datasource})#{select_str}.plug(Y.Plugin.IrmDTSort)#{search_str}#{paginator_str}.plug(Y.Plugin.IrmDTColWidth).render("##{id}");
-         #{id}Datatable.datasource.paginate({start:0,count:#{row_perpage}},false);
-         #{load_str}
-         Y.irm.setAttribute('#{id}Datatable',#{id}Datatable,'Datatable');
-        });
-     });)
-    javascript_tag(script)
-  end
-
-
+  # datatable的参数
+  # id : 表格对应div的id,页面上必须存在此div
+  # url_options : 表格数据来源url,以hash形式传入
+  # coluns : 表格列定义
+  # options: 表格显示参数
+  #     1, select 表格是否需要显示checkbox选择列，默认为空
+  #     2, html 是否在性能较差的设备上使用html表格代替extjs的表格
+  #     3, force_html 是否强制使用html表格
+  #     4, row_perpage 分页时一个页面上显示多少行数据
+  #     5，search_box 搜索框对应的div
+  #     6, view_filter 是否使用表格过滤器
+  #     7, paginator_box 翻页器显示的div的ID
+  # 表格列属性
+  #     1,key 对应数据的字段
+  #     2,label 列标题
+  #     3,width 宽度
+  #     4,formatter 列数据显示方式
   def datatable(id,url_options,columns,options={})
 
     select = options[:select]
     html = options[:html]||false
+    force_html = options[:force_html]||false
 
-    if html&&limit_device?&&!select.present?
-      return plain_datatable(id,url_options,columns,options={})
+    if force_html||(html&&limit_device?&&!select.present?)
+      return plain_datatable(id,url_options,columns,options)
     else
       require_javascript(:extjs)
       require_css(:extjs)
@@ -222,9 +168,6 @@ module ApplicationHelper
     source_url = url_for(url_options.merge(:format=>:json))
     page_size = options[:row_perpage]||10
     search_box = options[:search_box]
-
-
-
 
     data_fields = ""
     column_models = ""
@@ -252,9 +195,9 @@ module ApplicationHelper
           #when :sortable
           #  column << %Q(sortable:false,)
           when :formatter
-            if value.eql?("Y.irm.template")
+            if value.eql?("Y.irm.template")||value.eql?("template")
               column << %Q(renderer: Ext.irm.dtTemplate,)
-            elsif value.eql?("Y.irm.stemplate")
+            elsif value.eql?("Y.irm.stemplate")||value.eql?("script_template")
               column << %Q(renderer: Ext.irm.dtScriptTemplate,)
             end
           when :searchable
@@ -362,15 +305,47 @@ module ApplicationHelper
     page_size = options[:row_perpage]||10
 
     search_box = options[:search_box]
+    paginator_box = options[:paginator_box]
 
-    table_options = "baseUrl:'#{source_url}',pageSize:#{page_size},searchBox:'#{search_box}'"
+    puts "=========================#{options.to_json}============================"
+
+    column_models = ""
+    columns.each do |c|
+      next if c[:hidden]||!c[:searchable].present?
+      column = "{"
+      c.each do |key,value|
+        case key
+          when :key
+            column << %Q(dataIndex:"#{value}",)
+          when :label
+            column << %Q(text:"#{value}",)
+          when :searchable
+            column << %Q(searchable:#{value},)
+        end
+      end
+      column_models <<  column.chop
+      column_models << "},"
+    end
+    column_models.chop!
 
 
+
+    table_options = "columns:[#{column_models}],baseUrl:'#{source_url}',pageSize:#{page_size}"
+
+    if search_box
+      table_options << ",searchBox:'#{search_box}'"
+    end
+
+    if paginator_box
+      table_options << ",paginatorBox:'#{paginator_box}'"
+    end
     if options[:view_filter]
-      table_options << "filterBox:'#{id}ViewFilterOverview'"
+      table_options << ",filterBox:'#{id}ViewFilterOverview'"
     end
 
     table_options = "{#{table_options}}"
+
+
     script = %Q(
         $(function(){$('##{id}').datatable(#{table_options})});
     )
@@ -697,7 +672,6 @@ module ApplicationHelper
 
   # 将使用IE6和Android 2的设备设置为限制设备
   def limit_device?
-    return true
     request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
   end
 

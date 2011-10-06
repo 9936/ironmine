@@ -49,7 +49,7 @@ module Ironmine
     config.ironmine.javascript = ActiveSupport::OrderedOptions.new
     config.ironmine.css = ActiveSupport::OrderedOptions.new
     config.ironmine.javascript.source = {
-        :jquery =>%w(jquery-1.6.4.min  locales/jquery-{locale} jquery-rails jquery-extend jquery-application jquery-activity-indicator),
+        :jquery =>%w(jquery-1.6.4.min  locales/jquery-{locale} jquery-rails jquery-extend jquery-application),
         :jcrop => %w(jquery-crop),
         :jplugin => %w(jquery-plugin),
         :extjs=>%w(ext4-all ext-extend ext-application locales/ext-{locale}),
@@ -62,6 +62,8 @@ module Ironmine
         :home=>%w(),
         :login=>%w(login),
         :common=>%w(login),
-        :extjs=>%w(ext4-all ext4-cux)}
+        :jcrop=>%w(jcrop),
+        :extjs=>%w(ext4-all ext4-cux)
+    }
   end
 end

@@ -166,6 +166,11 @@ class Irm::PeopleController < ApplicationController
     systems_scope = Irm::Person.find(params[:person_id]).external_systems
     systems, count = paginate(systems_scope)
     respond_to do |format|
+      format.html  {
+        @datas = systems
+        @count = count
+        render_html_data_table
+      }
       format.json {render :json => to_jsonp(systems.to_grid_json([:system_name, :system_description, :external_system_code, :status_code], count))}
     end
   end
