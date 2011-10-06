@@ -78,8 +78,7 @@
       </div>
       <div class="pbBody">
             <div id="external_people" class="datatable" style="width:100%">
-              <div id="id" style="display:none">
-              </div>
+
             </div>
             <%= datatable("external_people",{:action=>"get_owned_members_data",:format=>"json", :external_system_id => @external_system_id},
                           [{:key=>"id",:label=>t(:operation),:hidden => true},
@@ -93,61 +92,44 @@
 </div>
 
 <script type="text/javascript">
-  GY.use("substitute",function(Y){
-//     Y.one("#newButton").on("click",function(e){
-//      if(!e.target.getAttribute("thref"))
-//        e.target.setAttribute("thref",e.target.getAttribute("href"));
-//      var url = decodeURIComponent(e.target.getAttribute("thref"));
-//      url = Y.Lang.substitute(url,{bo_code:Y.one("#boCode").get("value")});
-//      e.target.setAttribute("href",encodeURI(url));
-//
-//     });
+  Ext.onReady(function(){
 
-     Y.one("#externalSystemId").on("change",function(e){
-         var url = decodeURIComponent(e.target.getAttribute("href"));
-         var externalSystemId = e.target.get("value");
-         url = Y.Lang.substitute(url,{external_system_id:externalSystemId});
+     $("#externalSystemId").change(function(e){
+         var url = decodeURIComponent($(e.target).attr("href"));
+         var externalSystemId = $(e.target).val();
+         url = url.replace("{external_system_id}",externalSystemId);
          window.location = url;
      });
-  });
 
-  GY.use(function(Y){
-      Y.on("irm:change",function(e){
-          if(e.details[2]=="Datatable"&&"selectablePeopleDatatable"==e.details[0])
-          {
-            e.details[1].on("selectedChange",function(e){
-                var selected_code = "";
-                for(var i=0;i<e.details[0].length;i++)
-                  selected_code = selected_code + e.details[0][i].id +",";
-                Y.one("#irm_external_system_person_status_code").set("value",selected_code);
-            });
+      var addMember = function(selModel,selected){
+          var ids = [];
+          for(var i = 0;i<selected.length;i++){
+            ids.push(selected[i].data.id);
           }
-          else if(e.details[2]=="Datatable"&&"external_peopleDatatable"==e.details[0])
-          {
-            e.details[1].on("selectedChange",function(e){
-                var selected_code = "";
-                for(var i=0;i<e.details[0].length;i++)
-                  selected_code = selected_code + e.details[0][i].id +",";
-                Y.one("#irm_external_system_person_temp_id_string").set("value",selected_code);
-            });
-          }
-      });
-  });
+          $("#irm_external_system_person_status_code").val(ids.join(","));
+      }
+      Ext.getCmp("selectablePeopleDatatable").selModel.addListener("selectionchange",addMember);
 
+      var removeMember = function(selModel,selected){
+          var ids = [];
+          for(var i = 0;i<selected.length;i++){
+            ids.push(selected[i].data.id);
+          }
+          $("#irm_external_system_person_temp_id_string").val(ids.join(","));
+      }
+
+      Ext.getCmp("external_peopleDatatable").selModel.addListener("selectionchange",removeMember);
+
+  });
   function display_select_people(){
-      GY.use(function(Y){
-          Y.one("#select_people").setStyle("display", "block");
-          Y.one("#member_grid").setStyle("display", "none");
-          Y.one("#irm_external_system_person_temp_id_string").set("value","");
-      })
+      $("#select_people").css("display", "block");
+      $("#member_grid").css("display", "none");
+      $("#irm_external_system_person_temp_id_string").val("");
   }
 
   function display_member_grid(){
-      GY.use(function(Y){
-          Y.one("#member_grid").setStyle("display", "block");
-          Y.one("#select_people").setStyle("display", "none");
-          Y.one("#irm_external_system_person_status_code").set("value","");
-      })
+      $("#member_grid").css("display", "block");
+      $("#select_people").css("display", "none");
+      $("#irm_external_system_person_status_code").val("");
   }
 </script>
-

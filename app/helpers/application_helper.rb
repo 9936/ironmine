@@ -261,6 +261,7 @@ module ApplicationHelper
           height: #{height},
           store: #{id}DatatableStore,
           autoScroll: true,
+          autoShow: true,
           disableSelection: false,
           loadMask: true,
           #{"selModel:#{id}DatatableSelModel," if select}
