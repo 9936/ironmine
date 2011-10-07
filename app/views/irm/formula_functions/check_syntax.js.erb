@@ -1,4 +1,4 @@
-GY.use(function(Y){
-    if(Y.one("#<%=params[:result_div] %>"))
-        Y.one("#<%=params[:result_div] %>").setContent("<%= escape_javascript(@message)%>");
+$(function(){
+    if($("#<%=params[:result_div] %>"))
+        $("#<%=params[:result_div] %>").html("<%= escape_javascript(@message)%>");
 });

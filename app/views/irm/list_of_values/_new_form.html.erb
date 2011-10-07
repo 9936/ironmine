@@ -118,7 +118,7 @@
 </div>
 <% end %>
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#list_of_value_bo_code",target:["#list_of_value_id_column","#list_of_value_value_column","#list_of_value_desc_column"]});
+  $(function(){
+      $("#list_of_value_bo_code").cascade(["#list_of_value_id_column","#list_of_value_value_column","#list_of_value_desc_column"]);
   });
 </script>
