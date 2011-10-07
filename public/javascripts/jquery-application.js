@@ -64,7 +64,7 @@ $(function(){
 
     $('a[disabled]').each(function(index,n){
         $(n).addClass("disabled");
-        $(n).removeAttribute("disabled");
+        n.removeAttribute("disabled");
         $(n).attr("href", "javascript:void(0);");
     });
 

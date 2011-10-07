@@ -3,7 +3,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
 
   has_many :wf_mail_recipients
 
-  attr_accessor :recipient
+  attr_accessor :recipient_str
   validates_presence_of :mail_alert_code,:name,:bo_code,:mail_template_code
   validates_uniqueness_of :mail_alert_code, :if => Proc.new { |i| !i.mail_alert_code.present? }
   validates_uniqueness_of :name, :if => Proc.new { |i| !i.name.present? }
@@ -29,6 +29,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
     select("#{table_name}.*").with_bo(I18n.locale).with_mail_template(I18n.locale)
   end
 
+
   def sync_mail_recipients(code_array)
     code_array.values.each do |code|
       type_and_id = code.split("#")
@@ -38,11 +39,40 @@ class Irm::WfMailAlert < ActiveRecord::Base
     end
   end
 
+  # create approver from str
+  def create_recipient_from_str
+    return unless self.recipient_str
+    str_values = self.recipient_str.split(",").delete_if{|i| !i.present?}
+    exists_values = Irm::WfMailRecipient.where(:wf_mail_alert_id=>self.id)
+    exists_values.each do |value|
+      if str_values.include?("#{value.recipient_type}##{value.recipient_id}")
+        str_values.delete("#{value.recipient_type}##{value.recipient_id}")
+      else
+        value.destroy
+      end
+
+    end
+
+    str_values.each do |value_str|
+      next unless value_str.strip.present?
+      value = value_str.strip.split("#")
+      self.wf_mail_recipients.build(:bo_code=>self.bo_code,:recipient_type=>value[0],:recipient_id=>value[1])
+    end
+  end
+
+  def get_recipient_str
+    return @get_recipient_str if @get_recipient_str
+    @get_recipient_str||= recipient_str
+    @get_recipient_str||= Irm::WfMailRecipient.where(:wf_mail_alert_id=>self.id).collect{|value| "#{value.recipient_type}##{value.recipient_id}"}.join(",")
+  end
+
+  # step approvers
   def all_recipients(bo)
     person_ids = []
-    self.wf_mail_recipients.each do |recipient|
-      person_ids+=recipient.person_ids(bo)
-    end
+    person_ids += Irm::WfMailRecipient.where(:wf_mail_alert_id=>self.id).query_person_ids.collect{|i| i[:person_id]}
+    Irm::WfMailRecipient.bo_attribute(self.id).each do |recipient|
+      person_ids += recipient.person_ids(bo)
+    end if bo.present?
     person_ids.uniq
   end
 

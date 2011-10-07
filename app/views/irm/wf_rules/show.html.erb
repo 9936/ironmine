@@ -132,10 +132,8 @@
                     <span><a><%= t(:label_irm_wf_rule_add_actions)  %></a></span>
 
                     <script type="text/javascript">
-                      GY.use("menubutton",function(Y){
-                        Y.on("domready",function(){
-                          new Y.MenuButton({menuNode:"#createAction",dropAlign:["TL","BL"]});
-                        });
+                      $(function(){
+                          $("#createAction").menubutton();
                       });
                     </script>
                 <% else %>

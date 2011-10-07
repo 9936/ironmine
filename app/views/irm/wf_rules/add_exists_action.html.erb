@@ -36,7 +36,7 @@
                  <label for="duelType"><%=t(:label_irm_wf_rule_action_type)%></label>
                </td>
                <td class="dataCol" colspan="3">
-                 <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>available_action_type,:sources=>wf_rule_exists_actions(params[:id]),:str_value_field=>:selected_actions,:str_value=>wf_rule_belongs_actions(params[:id],params[:trigger_id])} %>
+                 <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>available_action_type,:sources=>wf_rule_exists_actions(params[:id]),:str_value_field=>:selected_actions,:str_value=>wf_rule_belongs_actions(params[:id],params[:trigger_id]),:size=>10} %>
                </td>
             </tr>
 

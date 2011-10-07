@@ -66,11 +66,13 @@
             <% else %>
               <tr>
                 <td class="labelCol"><label for="bo_code"><%=t(:label_irm_wf_mail_alert_bo_code)%></label></td>
-                <td class="dataCol"><%=f.blank_select :bo_code,available_business_object,{}, {:id=>"bo_code",:required=>true}%></td>
-                <td class="labelCol empty">&nbsp;</td>
+                <td class="dataCol"><%=f.blank_select :bo_code,available_business_object,{}, {:id=>"bo_code",:required=>true,:href=>url_for(:controller=>"irm/object_attributes",:action=>"person_columns",:format=>"json",:business_object_code=>"{bo_code}")}}%></td>
+                <td class="labelCol empty">
+                </td>
                 <td class="dataCol empty">&nbsp;</td>
               </tr>
             <% end %>
+
             <tr>
               <td class="labelCol"><label for="wf_mail_alert_mail_template_code"><%=t(:label_irm_wf_mail_alert_mail_template_code)%></label></td>
               <td class="dataCol"><%=f.blank_select :mail_template_code,available_mail_template,{}, :required=>true ,:id=>"wf_mail_alert_mail_template_code"%></td>
@@ -78,25 +80,11 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label for="wf_mail_alert_recipient_type"><%=t(:label_irm_wf_mail_recipients)%></label></td>
-              <td class="dataCol">
-                <div class="recipient">
-                     <%=f.blank_select :recipient,available_mail_alert_recipient_type,{},:required=>true,:id=>"wf_mail_alert_recipient"%>
-                </div>
-                <div class="recipient  recipientLabel">
-                  <label for="wf_mail_alert_recipient_type"><%=t(:label_irm_wf_mail_available_recipient)%></label>
-                </div>
-                <div class="recipient" id="recipientSource" href="<%= url_for(:controller=>"irm/wf_mail_alerts",:action=>"recipient_source",:bo_code=>'{bo_code}',:recipient_type=>'{recipient_type}',:format=>:js) %>">
-                  <%=text_field_tag :default,t(:label_irm_wf_mail_default_recipient),:id=>"recipientValue",:readonly=>true%>
-                </div>
-                <div class="recipient">
-                   <div class="button"><a href="javascript:void(0)" id="addRecipient"><%=t(:add) %></a></div>
-                </div>
+              <td class="labelCol"><label for="wf_mail_alert_mail_template_code"><%=t(:label_irm_wf_mail_recipients)%></label></td>
+              <td class="dataCol" colspan="3">
+                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>bo_person_field_duel_types([Irm::ExternalSystem.name]),:sources=>bo_person_field_duel_values(@wf_mail_alert.bo_code,[Irm::ExternalSystem.name]),:str_value_field=>:recipient_str,:str_value=>@wf_mail_alert.get_recipient_str,:size=>7} %>
               </td>
-              <td class="labelCol empty"></td>
-              <td class="dataCol empty">&nbsp;</td>
             </tr>
-            <%= render(:partial => "edit_recipient",:locals =>{:wf_mail_alert=>@wf_mail_alert}) %>
 
             <tr>
               <td class="labelCol"><label for="wf_mail_alert_additional_email"><%=t(:label_irm_wf_mail_alert_additional_email)%></label></td>
@@ -128,90 +116,42 @@
   </div>
 </div>
 <% end %>
-
-<!--recipient element-->
-<div style="display:none" id="recipientTemplate">
-  <div class="recipientElement" ref="{ref}" type="{type}">
-    <span>{label}</span>
-    <a href="javascript:void(0);" ref="{ref}" class="deleteRecipient"><img class="btn_delete" src="/images/s.gif"/></a>
-    <input type="hidden" name="recipients[{count}]" value="{ref}">
-  </div>
-</div>
-
 <script type="text/javascript">
-  GY.use("substitute","gallerydispatcher",function(Y){
-    // listen the recipient type change
-    // get the list of recipient
-    Y.on('change', function(e) {
-      var obj;
-      if(e.currentTarget.getData("dispatcher")){
-        obj = e.currentTarget.getData("dispatcher")
-      }else{
-        obj = new Y.Dispatcher({node:"#recipientSource"});
-        e.currentTarget.setData("dispatcher",obj);
+  $(function(){
+
+
+
+      if($("select#bo_code"))
+      {
+          var type = '<%= Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name)%>';
+          var type_name = '<%= Irm::BusinessObject.class_name_to_meaning(Irm::ObjectAttribute.name)%>';
+
+          $("select#bo_code").change(function(event){
+              var bo = $(this.target);
+              var url = decodeURIComponent(bo.attr("href"));
+              url = url.replace("{bo_code}",bo.val());
+
+              $.getJSON(url,{},function(datas){
+                  var items = [];
+                  datas = datas["items"] ;
+                  if(!datas)
+                    datas = [];
+                  $.each(datas,function(index,data){
+                      var item = {};
+                      item.id = data.id;
+                      item.html = type_name+":"+data.label;
+                      item.value = type+"#"+data.value;
+                      item.query = data.label;
+                      item.type = type;
+                      items.push(item)
+                  });
+
+
+              });
+
+          });
+
       }
-
-      var recipient_type = e.target.get("value");
-      var bo_code = Y.one("#bo_code").get("value");
-      var url = decodeURIComponent(Y.one("#recipientSource").getAttribute("href"));
-      url = Y.Lang.substitute(url,{recipient_type:recipient_type,bo_code:bo_code});
-      obj.set('uri', encodeURI(url));
-	}, '#wf_mail_alert_recipient');
-    //add recipient to list
-    Y.on('click',function(e){
-        var recipientType = Y.one("#wf_mail_alert_recipient").get("value");
-        var recipient = Y.one("#recipientValue").get("value");
-
-        //check
-        if(!recipientType||recipientType==""||!recipient||recipient==""){
-            alert(Y.one("#recipientsDiv").getAttribute("notice"));
-            return false;
-        }
-
-        var ref = recipientType+"#"+ recipient;
-        //check
-        if(Y.one("#recipientsDiv div[ref="+ref+"]")){
-            alert(Y.one("#recipientsDiv").getAttribute("notice"));
-            return false;
-        }
-
-        var recipientTypeLabel =  Y.one("#wf_mail_alert_recipient").one("option[value="+recipientType+"]").getContent();
-        var recipientLabel = "";
-        if(recipientType=="PERSON"){
-          recipientLabel=Y.one("#recipientValueLabel").get("value");
-        }
-        else{
-          recipientLabel=Y.one("#recipientValue").one("option[value="+recipient+"]").getContent();
-        }
-
-        var currentCount = parseInt(Y.one("#recipientsDiv").getAttribute("count"));
-
-        var ref = recipientType+"#"+ recipient;
-        var label = recipientTypeLabel+": "+ recipientLabel;
-        var template = Y.one("#recipientTemplate").getContent();
-        var result = Y.Lang.substitute(template,{count:currentCount,ref:ref,label:label,type:recipientType});
-        Y.one("#recipientsDiv").appendChild(Y.Node.create(result));
-        Y.one("#recipientsDiv").setAttribute("count",currentCount+1);
-
-    },"#addRecipient");
-    //delete recipient
-    Y.one("#recipientsDiv").delegate("click",function(e){
-        var ref = e.currentTarget.getAttribute("ref");
-        Y.all("div[ref="+ref+"]").remove();
-    },"a.deleteRecipient");
-    // check related person
-    Y.one("#bo_code").on("change",function(e){
-      var recipientType = Y.one("#wf_mail_alert_recipient").get("value");
-      if(recipientType == "RELATED_PERSON")
-        Y.one("#wf_mail_alert_recipient").simulate("change");
-      Y.all("#recipientsDiv div[type=RELATED_PERSON]").remove();
-    });
-    // init recipient
-    Y.one("#wf_mail_alert_recipient").simulate("change");
-    Y.one("form.new_irm_wf_mail_alert").delegate("click",function(e){
-        e._currentTarget.setAttribute("action",e.target.getAttribute("href"));
-        e.preventDefault();
-        e._currentTarget.submit();
-      },"a.submit");
   });
 </script>
+
