@@ -1,18 +1,122 @@
 // 级联下拉列表
-jQuery.fn.cascade = function(target_or_targets,event) {
+(function($)
+{
+       // 插件名称
+    var PLUGIN_NAME = "cascade";
+
     var OPTIONS_TEMPLATE = "<option value=${value}>${label}</option>";
-    var source = this;
+    // 插件默认配置参数
+    var DEFAULT_OPTIONS =
+    {
+        targets:[]
+    };
 
-    var targets = [];
-    if(jQuery.isArray(target_or_targets)){
-        targets = target_or_targets
-    }else{
-        targets = [String(target_or_targets)]
-    }
+    // 插件实例计数器
+    var pluginInstanceIdCount = 0;
 
-    function _processEvent(){
+
+    // 插件内部类工厂方法
+    var I = function(/*HTMLElement*/ element)
+    {
+        if($(element).data(PLUGIN_NAME))
+            return $(element).data(PLUGIN_NAME)["target"];
+        else
+            return new Internal(element);
+    };
+
+
+    // 定义插件内部类
+    var Internal = function(/*HTMLElement*/ element)
+    {
+        var me = this;
+        this.$element = $(element);
+        this.element = element;
+        this.data = this.getData();
+
+        // Shorthand accessors to data entries:
+        this.id = this.data.id;
+        this.options = this.data.options;
+
+
+    };
+
+    /**
+     * 定义插件内部类的方法，内部类方法实现插件的内部逻辑，不能从外部访问
+     */
+
+    // 初始化内部类
+    Internal.prototype.init = function(/*Object*/ customOptions)
+    {
+        var data = this.getData();
+
+        // 初始化插件内部数据
+        if (!data.initialised)
+        {
+            data.initialised = true;
+            var targets = [];
+            if($.isArray(customOptions)){
+                targets = customOptions
+            }else{
+                targets = [String(customOptions)]
+            }
+            data.options = $.extend(DEFAULT_OPTIONS, {targets:targets});
+        }
+
+        var me = this;
+        me.$element.change(function(event){
+            me.processEvent();
+        });
+        me.processEvent();
+
+
+    };
+
+    /**
+     * 取得使用插的Element的内部数据
+     * 如果没有，则初始化一份，为Eelement生成插件id ，并标记为新生成的数据，等待初始化
+     *
+     */
+    Internal.prototype.getData = function()
+    {
+        if (!this.$element.data(PLUGIN_NAME))
+        {
+            this.$element.data(PLUGIN_NAME, {
+                id : pluginInstanceIdCount++,
+                initialised : false,
+                target: this
+            });
+        }
+
+        return this.$element.data(PLUGIN_NAME);
+    };
+
+
+    /**
+     * Returns the event namespace for this widget.
+     * The returned namespace is unique for this widget
+     * since it could bind listeners to other elements
+     * on the page or the window.
+     */
+    Internal.prototype.getEventNs = function(/*boolean*/ includeDot)
+    {
+        return (includeDot !== false ? "." : "") + PLUGIN_NAME + "_" + this.id;
+    };
+
+    /**
+     * Removes all event listeners, data and
+     * HTML elements automatically created.
+     */
+    Internal.prototype.destroy = function()
+    {
+        this.$element.unbind(this.getEventNs());
+        this.$element.removeData(PLUGIN_NAME);
+    };
+
+    Internal.prototype.processEvent = function(){
+        var me = this;
+        var targets = me.data.options.targets;
         for(var i=0;i<targets.length;i++){
-            var target = jQuery(targets[i]);
+            var target = $(targets[i]);
             // 取得加载数据的链接
             var href = target.attr("href");
             var depends = target.attr("depend")||"";
@@ -24,8 +128,8 @@ jQuery.fn.cascade = function(target_or_targets,event) {
             var value_length = 0;
 
             for(var j=0;j<depends.length;j++){
-              if(jQuery("#"+depends[j]).val()&&jQuery("#"+depends[j]).val()!=""){
-                url_options[depends[j]] = jQuery("#"+depends[j]).val();
+              if($("#"+depends[j]).val()&&$("#"+depends[j]).val()!=""){
+                url_options[depends[j]] = $("#"+depends[j]).val();
                 value_length++;
               }
             }
@@ -33,17 +137,17 @@ jQuery.fn.cascade = function(target_or_targets,event) {
             if(value_length==depends.length||value_length>0){
                 target.html("");
                 if(target.attr("blank")!=""){
-                  option =  jQuery(jQuery.tmpl(OPTIONS_TEMPLATE,{label:target.attr("blank"),value:""})) ;
+                  option =  $($.tmpl(OPTIONS_TEMPLATE,{label:target.attr("blank"),value:""})) ;
                   target.append(option);
                 }
-                href = jQuery.tmpl(decodeURIComponent(href),url_options).text();
-                jQuery.getJSON(href,{},function(datas){
+                href = $.tmpl(decodeURIComponent(href),url_options).text();
+                $.getJSON(href,{},function(datas){
                     var targetValue = target.attr("origin_value");
                     datas = datas["items"] ;
                     if(!datas)
                       datas = [];
-                    jQuery.each(datas,function(index,data){
-                        var option = jQuery('<option/>');
+                    $.each(datas,function(index,data){
+                        var option = $('<option/>');
                         for(var v in data){
                             if(v=="label")
                                 option.html(data[v]);
@@ -60,7 +164,7 @@ jQuery.fn.cascade = function(target_or_targets,event) {
             }else
             {   target.html("");
                 if(target.attr("blank")!=""){
-                  option =  jQuery(jQuery.tmpl(OPTIONS_TEMPLATE,{label:target.attr("blank"),value:""})) ;
+                  option =  $($.tmpl(OPTIONS_TEMPLATE,{label:target.attr("blank"),value:""})) ;
                   target.append(option);
                 }
                 target.val("");
@@ -68,10 +172,43 @@ jQuery.fn.cascade = function(target_or_targets,event) {
             }
         }
     }
-    jQuery(this).change(_processEvent);
-    _processEvent();
-    return this;
-};
+
+
+
+    // 插件的公有方法
+
+    var publicMethods =
+    {
+        init : function(/*Object*/ customOptions)
+        {
+            return this.each(function()
+            {
+                I(this).init(customOptions);
+            });
+        },
+
+        destroy : function()
+        {
+            return this.each(function()
+            {
+                I(this).destroy();
+            });
+        }
+
+        // TODO: Add additional public methods here.
+    };
+
+    $.fn[PLUGIN_NAME] = function(/*String|Object*/ methodOrOptions)
+    {
+
+        if (methodOrOptions ) {
+            return publicMethods.init.apply( this, arguments );
+        } else {
+            $.error("Method '" + methodOrOptions + "' doesn't exist for " + PLUGIN_NAME + " plugin");
+        }
+    };
+})(jQuery);
+
 
 //菜单下拉按钮
 jQuery.fn.menubutton = function(){
@@ -271,6 +408,7 @@ jQuery.fn.menubutton = function(){
         this.targetSelect.html("");
         this.sourceSelect.html("");
         var unselectedOptions = [];
+        var newValues =  new Array(this.selectedValues.length);
         var selectedOptions = new Array(this.selectedValues.length);
         for(var i=0;i< this.storedOptions.length;i++){
             var option = $(this.storedOptions[i]);
@@ -286,6 +424,7 @@ jQuery.fn.menubutton = function(){
             }
             var valueIndex =  $.inArray(option.attr("value"),this.selectedValues);
             if(valueIndex > -1){
+              newValues[valueIndex] = this.selectedValues[valueIndex];
               selectedOptions[valueIndex] = option;
               selectableOption = null;
             }
@@ -300,6 +439,16 @@ jQuery.fn.menubutton = function(){
         for(var i=0;i<selectedOptions.length;i++){
             this.targetSelect.append(selectedOptions[i]);
         }
+
+
+        var orderedValues = []
+        for(var i=0;i<newValues.length;i++){
+            if(newValues[i]){
+                orderedValues.push(newValues[i]);
+            }
+        }
+        this.selectedValues = newValues;
+        this.syncValue();
     }
 
     Internal.prototype.syncValue = function(){
@@ -328,7 +477,6 @@ jQuery.fn.menubutton = function(){
 
       var addValues = this.sourceSelect.val();
       this.selectedValues = this.selectedValues.concat(addValues);
-      this.syncValue();
       this.syncUI();
     }
     Internal.prototype.remove = function(){
@@ -339,7 +487,6 @@ jQuery.fn.menubutton = function(){
           newValues.push(this.selectedValues[e]);
       }
       this.selectedValues = newValues;
-      this.syncValue();
       this.syncUI();
     }
     Internal.prototype.up = function(){
@@ -361,7 +508,6 @@ jQuery.fn.menubutton = function(){
           newValues.push(this.selectedValues[i]);
       }
       this.selectedValues = newValues;
-      this.syncValue();
       this.syncUI();
     }
     Internal.prototype.down = function(){
@@ -388,12 +534,33 @@ jQuery.fn.menubutton = function(){
         if($.inArray(this.selectedValues[i],selectedValues)<0&&$.inArray(this.selectedValues[i],newValues)<0)
           newValues.push(this.selectedValues[i]);
       }
+
       this.selectedValues = newValues;
-      this.syncValue();
       this.syncUI();
     }
 
+    Internal.prototype.removeItemForType=function(type){
+        var newStoreOptions = []
+        for(var i=0;i< this.storedOptions.length;i++){
+            var option = $(this.storedOptions[i]);
+            if(type!=option.attr("type")){
+              newStoreOptions.push(this.storedOptions[i]);
+            }
+        }
 
+        this.storedOptions = newStoreOptions;
+        this.syncUI();
+
+    }
+
+    Internal.prototype.addItem=function(items){
+        var template = "<option value='${value}' html='${label}' query='${query}' type='${type}'>${html}<option>";
+        for(var i=0;i<items.length;i++){
+            var item = items[i];
+            this.storedOptions.push($.tmpl(template,item));
+        }
+        this.syncUI();
+    }
 
     // 插件的公有方法
 
@@ -404,6 +571,20 @@ jQuery.fn.menubutton = function(){
             return this.each(function()
             {
                 I(this).init(customOptions);
+            });
+        },
+        removeItemForType : function(/*Object*/ customOptions)
+        {
+            return this.each(function()
+            {
+                I(this).removeItemForType(customOptions);
+            });
+        },
+        addItem : function(/*Object*/ customOptions)
+        {
+            return this.each(function()
+            {
+                I(this).addItem(customOptions);
             });
         },
 

@@ -196,6 +196,7 @@ class Irm::ObjectAttributesController < ApplicationController
     end
   end
 
+
   private
   def setup_business_object
     @business_object = Irm::BusinessObject.find(params[:bo_id]) if params[:bo_id]
