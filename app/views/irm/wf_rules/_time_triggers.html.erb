@@ -24,11 +24,10 @@
               </div>
             </span>
             <script type="text/javascript">
-              GY.use("menubutton",function(Y){
-                Y.on("domready",function(){
-                  new Y.MenuButton({menuNode:"#createActionForTrigger<%= time_trigger.id%>",dropAlign:["TL","BL"]});
-                });
+              $(function(){
+                  $("#createActionForTrigger<%= time_trigger.id%>").menubutton();
               });
+
             </script>
           </div>
     </div>

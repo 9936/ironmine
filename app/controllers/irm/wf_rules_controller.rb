@@ -160,7 +160,7 @@ class Irm::WfRulesController < ApplicationController
   end
 
   def save_exists_action
-    action_types = [[Irm::WfFieldUpdate,"F"],[Irm::WfMailAlert,"M"]]
+    action_types = [[Irm::WfFieldUpdate,Irm::BusinessObject.class_name_to_code(Irm::WfFieldUpdate.name)],[Irm::WfMailAlert,Irm::BusinessObject.class_name_to_code(Irm::WfMailAlert.name)]]
     selected_actions = params[:selected_actions].split(",")
     exists_actions = Irm::WfRuleAction.where(:rule_id=>params[:id],:time_trigger_id=>params[:trigger_id])
     exists_actions.each do |action|

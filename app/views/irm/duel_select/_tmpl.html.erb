@@ -24,7 +24,6 @@
     <th></th>
     <th><%= t(:duel_selected)%></th>
   </tr>
-
   <tr class="duelList">
     <td class="sourceCell">
       <%= select_tag_alias(:source,sources,nil,{:class=>"source",:multiple=>true,:size=>size}) %>
@@ -40,10 +39,10 @@
       <div class="duelingText"><%= t(:delete) %></div>
     </td>
     <td class="targetCell">
-      <% if defined?(f)%>
+      <% if defined?(f)&&f.present?%>
         <%= f.hidden_field(str_value_field,:value=>str_value,:class=>"duelValue") %>
       <% else %>
-        <%= hidden_field_tag(str_value_field,:value=>str_value,:class=>"duelValue") %>
+        <%= hidden_field_tag(str_value_field,str_value,:class=>"duelValue") %>
       <% end %>
       <%= select_tag_alias(:target,[],nil,{:class=>"target",:multiple=>true,:size=>size}) %>
     </td>
