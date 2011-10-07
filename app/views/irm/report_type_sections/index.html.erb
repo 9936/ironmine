@@ -97,7 +97,6 @@
             Ext.each(removedNode.childNodes,function(node){
 
                 Ext.each(fieldSourceNodes,function(bo){
-                  console.log(bo);
                   if(bo.data.bo_id == node.data.bo_id)
                     bo.appendChild(Ext.create("ReportTypeField",node.data));
                 });
@@ -125,7 +124,6 @@
           var view = Ext.getCmp("fields").getView();
           var checkNode =  view.getRecord(view.getSelectedNodes()[0]);
           checkNode.set("default_selection_flag",target.checked);
-          console.log(checkNode);
         }
         function renderSelectionFlag(value,p,record){
             if(record.data.type!="section"){

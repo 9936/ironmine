@@ -66,7 +66,7 @@
             <% else %>
               <tr>
                 <td class="labelCol"><label for="bo_code"><%=t(:label_irm_wf_mail_alert_bo_code)%></label></td>
-                <td class="dataCol"><%=f.blank_select :bo_code,available_business_object,{}, {:id=>"bo_code",:required=>true,:href=>url_for(:controller=>"irm/object_attributes",:action=>"person_columns",:format=>"json",:business_object_code=>"{bo_code}")}}%></td>
+                <td class="dataCol"><%=f.blank_select :bo_code,available_business_object,{}, {:id=>"bo_code",:required=>true,:href=>url_for(:controller=>"irm/object_attributes",:action=>"person_columns",:format=>"json",:business_object_code=>"{bo_code}")}%></td>
                 <td class="labelCol empty">
                 </td>
                 <td class="dataCol empty">&nbsp;</td>
@@ -119,18 +119,15 @@
 <script type="text/javascript">
   $(function(){
 
-
-
       if($("select#bo_code"))
       {
           var type = '<%= Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name)%>';
           var type_name = '<%= Irm::BusinessObject.class_name_to_meaning(Irm::ObjectAttribute.name)%>';
 
           $("select#bo_code").change(function(event){
-              var bo = $(this.target);
+              var bo = $(this);
               var url = decodeURIComponent(bo.attr("href"));
               url = url.replace("{bo_code}",bo.val());
-
               $.getJSON(url,{},function(datas){
                   var items = [];
                   datas = datas["items"] ;
@@ -139,18 +136,18 @@
                   $.each(datas,function(index,data){
                       var item = {};
                       item.id = data.id;
-                      item.html = type_name+":"+data.label;
+                      item.html = type_name+":"+data.name;
                       item.value = type+"#"+data.value;
                       item.query = data.label;
                       item.type = type;
                       items.push(item)
                   });
-
-
+                  $("#recipient_strDuelSelect").duelselect("removeItemForType",type);
+                  $("#recipient_strDuelSelect").duelselect("addItem",items);
               });
 
           });
-
+          $("select#bo_code").trigger("change");
       }
   });
 </script>

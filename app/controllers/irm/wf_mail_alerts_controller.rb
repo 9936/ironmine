@@ -41,9 +41,10 @@ class Irm::WfMailAlertsController < Irm::WfActionsController
   # POST /wf_mail_alerts.xml
   def create
     @wf_mail_alert = Irm::WfMailAlert.new(params[:irm_wf_mail_alert])
-    @wf_mail_alert.sync_mail_recipients(params[:recipients]) if params[:recipients].present?
     respond_to do |format|
-      if @wf_mail_alert.save
+      if @wf_mail_alert.valid?
+         @wf_mail_alert.create_recipient_from_str
+         @wf_mail_alert.save
         create_for_source(params[:source_str],@wf_mail_alert)
         format.html {
           if(params[:save_and_new])

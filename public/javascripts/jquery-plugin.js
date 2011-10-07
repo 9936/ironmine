@@ -554,10 +554,11 @@ jQuery.fn.menubutton = function(){
     }
 
     Internal.prototype.addItem=function(items){
-        var template = "<option value='${value}' html='${label}' query='${query}' type='${type}'>${html}<option>";
+        var template = "<option value='${value}' html='${html}' query='${query}' type='${type}'>${html}</option>";
         for(var i=0;i<items.length;i++){
             var item = items[i];
-            this.storedOptions.push($.tmpl(template,item));
+            var item_str = $.tmpl(template,item);
+            this.storedOptions.push(item_str);
         }
         this.syncUI();
     }

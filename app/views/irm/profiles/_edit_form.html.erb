@@ -176,7 +176,6 @@
       $("#selectableFunctions .selectAll").live('click', function(e){
          var checkValue = $(e.currentTarget).attr("checked");
          var refFieldSet =  $(e.currentTarget).attr("ref");
-         console.debug(checkValue);
          $("#"+refFieldSet).find("input[type=checkbox]").each(function(i,e){
              if(checkValue)
                  $(e).attr("checked",true)
