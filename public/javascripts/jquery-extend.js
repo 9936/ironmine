@@ -524,3 +524,13 @@ jQuery.cookie = function (key, value, options) {
 		jQuery( coll ).remove();
 	}
 })( jQuery );
+
+// config i18n plugin
+
+jQuery.i18n = function(key){
+    if(irm_labels[key])
+        return irm_labels[key];
+    else
+        return "Not translate for:"+key;
+}
+jQuery.t = jQuery.i18n;

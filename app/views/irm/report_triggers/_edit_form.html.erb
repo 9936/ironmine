@@ -54,7 +54,14 @@
                 </div>
               </td>
             </tr>
-            <%= render :partial => "irm/duel_select/search",:locals => {:label=>"",:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:receiver_str,:str_value=>@report_trigger.get_receiver_str} %>
+            <tr>
+              <td class="labelCol">
+
+              </td>
+              <td class="dataCol" colspan="3">
+                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:receiver_str,:str_value=>@report_trigger.get_receiver_str,:size=>7} %>
+              </td>
+            </tr>
             <tr>
               <td class="labelCol"><label for="report_trigger_time_mode"><%=t(:label_irm_report_trigger_time_mode)%></label></td>
               <td class="dataCol" colspan="3" width="82">

@@ -82,7 +82,14 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
-          <%= render :partial => "irm/duel_select/plain",:locals => {:label=>"",:f=>f,:sources=>external_system_duel_values,:str_value_field=>:external_system_str,:str_value=>@service_catalog.get_external_system_str} %>
+            <tr>
+               <td class="labelCol">
+
+               </td>
+               <td class="dataCol" colspan="3">
+                 <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:sources=>external_system_duel_values,:str_value_field=>:external_system_str,:str_value=>@service_catalog.get_external_system_str} %>
+               </td>
+            </tr>
         </tbody>
       </table>
     </div>
