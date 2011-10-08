@@ -117,9 +117,6 @@
         var me = this;
         var targets = me.data.options.targets;
 
-        console.debug(me.$element);
-        console.debug(targets);
-
         for(var i=0;i<targets.length;i++){
             var target = $(targets[i]);
             // 取得加载数据的链接
@@ -166,9 +163,6 @@
         var i = this.index;
         var targets = me.data.options.targets;
         var targetValue = $(targets[i]).attr("origin_value");
-
-        console.debug(me.$element);
-        console.debug(targets);
 
         datas = datas["items"] ;
         if(!datas)
