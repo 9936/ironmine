@@ -59,8 +59,8 @@
             }else{
                 targets = [String(customOptions)]
             }
-            console.debug(targets);
-            data.options = $.extend(DEFAULT_OPTIONS, {targets:targets});
+
+            data.options = $.extend({},DEFAULT_OPTIONS, {targets:targets});
         }
 
         var me = this;
@@ -116,6 +116,10 @@
     Internal.prototype.processEvent = function(){
         var me = this;
         var targets = me.data.options.targets;
+
+        console.debug(me.$element);
+        console.debug(targets);
+
         for(var i=0;i<targets.length;i++){
             var target = $(targets[i]);
             // 取得加载数据的链接
@@ -162,6 +166,9 @@
         var i = this.index;
         var targets = me.data.options.targets;
         var targetValue = $(targets[i]).attr("origin_value");
+
+        console.debug(me.$element);
+        console.debug(targets);
 
         datas = datas["items"] ;
         if(!datas)
@@ -361,7 +368,7 @@ jQuery.fn.menubutton = function(){
         if (!data.initialised)
         {
             data.initialised = true;
-            data.options = $.extend(DEFAULT_OPTIONS, customOptions);
+            data.options = $.extend({},DEFAULT_OPTIONS, customOptions);
         }
 
         this.syncUI();
@@ -674,7 +681,7 @@ jQuery.fn.menubutton = function(){
         if (!data.initialised)
         {
             data.initialised = true;
-            data.options = $.extend(DEFAULT_OPTIONS, customOptions);
+            data.options = $.extend({},DEFAULT_OPTIONS, customOptions);
         }
 
         this.createTree();
@@ -855,7 +862,7 @@ jQuery.fn.menubutton = function(){
         if (!data.initialised)
         {
             data.initialised = true;
-            data.options = $.extend(DEFAULT_OPTIONS, customOptions,{minHeight:this.$element.height()});
+            data.options = $.extend({},DEFAULT_OPTIONS, customOptions,{minHeight:this.$element.height()});
         }
 
         this.bindTextArea();
@@ -1049,7 +1056,7 @@ jQuery.fn.menubutton = function(){
         if (!data.initialised)
         {
             data.initialised = true;
-            data.options = $.extend(DEFAULT_OPTIONS, customOptions);
+            data.options = $.extend({},DEFAULT_OPTIONS, customOptions);
         }
 
         this.bindUpload();
@@ -1213,7 +1220,7 @@ jQuery.fn.menubutton = function(){
         if (!data.initialised)
         {
             data.initialised = true;
-            data.options = $.extend(DEFAULT_OPTIONS, customOptions);
+            data.options = $.extend({},DEFAULT_OPTIONS, customOptions);
         }
 
         this.buildTable();
@@ -1265,7 +1272,7 @@ jQuery.fn.menubutton = function(){
 
     Internal.prototype.buildTable = function(){
         var me = this;
-        me.data.options = $.extend(me.data.options,{currentPage:1});
+        me.data.options = $.extend({},me.data.options,{currentPage:1});
         me.buildUI();
         me.load();
     };
@@ -1459,7 +1466,7 @@ jQuery.fn.menubutton = function(){
         var request_url = options.baseUrl;
         var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.filterOptions,options.searchOptions);
         if(!options.paginatorBox)
-            params = $.extend(params,{limit:""})
+            params = $.extend({},params,{limit:""})
         var paramsStr = $.param(params);
 
         if(request_url.indexOf("?")>0)
