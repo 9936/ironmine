@@ -534,3 +534,23 @@ jQuery.i18n = function(key){
         return "Not translate for:"+key;
 }
 jQuery.t = jQuery.i18n;
+
+
+Function.prototype.customCreateDelegate = function(obj, args, appendArgs){
+        var method = this;
+        return function() {
+            var callArgs = args || arguments;
+            if(appendArgs === true){
+                callArgs = Array.prototype.slice.call(arguments, 0);
+                callArgs = callArgs.concat(args);
+            }else if(typeof appendArgs == "number"){
+                callArgs = Array.prototype.slice.call(arguments, 0);
+                // copy arguments first
+                var applyArgs = [appendArgs, 0].concat(args);
+                // create method call params
+                Array.prototype.splice.apply(callArgs, applyArgs);
+               // splice them in
+            }
+            return method.apply(obj || window, callArgs);
+        };
+}

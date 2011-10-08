@@ -59,6 +59,7 @@
             }else{
                 targets = [String(customOptions)]
             }
+            console.debug(targets);
             data.options = $.extend(DEFAULT_OPTIONS, {targets:targets});
         }
 
@@ -141,26 +142,9 @@
                   target.append(option);
                 }
                 href = $.tmpl(decodeURIComponent(href),url_options).text();
-                $.getJSON(href,{},function(datas){
-                    var targetValue = target.attr("origin_value");
-                    datas = datas["items"] ;
-                    if(!datas)
-                      datas = [];
-                    $.each(datas,function(index,data){
-                        var option = $('<option/>');
-                        for(var v in data){
-                            if(v=="label")
-                                option.html(data[v]);
-                            else
-                                option.attr(v,data[v]);
-                        }
-
-                        target.append(option);
-                    });
-
-                    target.val(targetValue);
-                    target.trigger('change');
-                });
+                //创建代理函数，修改this
+                var processor =  me.processResult.customCreateDelegate({me:me,index:i});
+                $.getJSON(href,{},processor);
             }else
             {   target.html("");
                 if(target.attr("blank")!=""){
@@ -173,7 +157,30 @@
         }
     }
 
+    Internal.prototype.processResult = function(datas){
+        var me = this.me;
+        var i = this.index;
+        var targets = me.data.options.targets;
+        var targetValue = $(targets[i]).attr("origin_value");
 
+        datas = datas["items"] ;
+        if(!datas)
+          datas = [];
+        $.each(datas,function(index,data){
+            var option = $('<option/>');
+            for(var v in data){
+                if(v=="label")
+                    option.html(data[v]);
+                else
+                    option.attr(v,data[v]);
+            }
+
+            $(targets[i]).append(option);
+        });
+
+        $(targets[i]).val(targetValue);
+        $(targets[i]).trigger('change');
+    }
 
     // 插件的公有方法
 

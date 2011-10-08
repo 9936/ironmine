@@ -89,8 +89,8 @@
   $(function(){
        $("a[zone]").live("click",function(event){
            var me = $(this);
-           $(me.attr("zone")).load(m.attr("href"));
-
+           $(me.attr("zone")).load(me.attr("href"));
+           event.preventDefault()
        });
   });
 </script>
