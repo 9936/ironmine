@@ -1,13 +1,3 @@
-<style type="text/css">
-  select{
-      min-width:128px;
-  }
-  .yui-skin-sam .yui-toolbar-container div.yui-toolbar-subcont{
-    border-bottom-width: 1px;
-    padding-bottom: 0;
-    padding-left: 1px;
-  }
-</style>
 <%= form_for(@incident_request,:url=>{:action=>"create"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
 <div id="ep" class="edit-block page-block">
   <div class="pbHeader">

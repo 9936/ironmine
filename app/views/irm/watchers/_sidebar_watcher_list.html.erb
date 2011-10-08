@@ -25,15 +25,11 @@
 
             <script type="text/javascript">
             function show_new_form() {
-                GY.use(function(Y){
-                    Y.one("#new_form").setStyle("display", "");
-                })
+                $("#new_form").css("display", "");
             }
 
             function hide_new_form() {
-                GY.use(function(Y){
-                    Y.one("#new_form").setStyle("display", "none");
-                })
+                $("#new_form").css("display", "none");
             }
             </script>
           <% end %>
