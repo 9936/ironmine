@@ -11,6 +11,12 @@
     padding: 5px 0;
     text-align: center;
   }
+  .unreal-hidden {
+    visibility:hidden;
+    position:absolute;
+    top:-2000px;
+    left:-2000px;
+  }
 </style>
 <div class="processTitle">
    <h6 class="processTitle">
@@ -18,8 +24,8 @@
      <%=select_tag_alias :external_system_id, ava_external_systems,@external_system_id,{:id=>"externalSystemId",:href=>url_for({:external_system_id=>"{external_system_id}"})}%>
    </h6>
 </div>
-
-<div class="listRelatedObject setupBlock" id="select_people" style="display:none;">
+<div>
+<div class="listRelatedObject setupBlock unreal-hidden" id="select_people">
     <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
@@ -54,7 +60,7 @@
       </div>
     </div>
 </div>
-
+</div>
 <div class="listRelatedObject setupBlock" id="member_grid">
     <div class="page-block">
       <div class="pbHeader">
@@ -122,14 +128,15 @@
 
   });
   function display_select_people(){
-      $("#select_people").css("display", "block");
-      $("#member_grid").css("display", "none");
+      $("#select_people").removeClass("unreal-hidden");
+      Ext.getCmp("selectablePeopleDatatable").setWidth(Ext.get("selectablePeople").getComputedWidth());
+      $("#member_grid").addClass("unreal-hidden");
       $("#irm_external_system_person_temp_id_string").val("");
   }
 
   function display_member_grid(){
-      $("#member_grid").css("display", "block");
-      $("#select_people").css("display", "none");
+      $("#select_people").addClass("unreal-hidden");
+      $("#member_grid").removeClass("unreal-hidden");
       $("#irm_external_system_person_status_code").val("");
   }
 </script>
