@@ -86,21 +86,11 @@
 
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@list_of_value} %>
 <script>
-  GY.use("gallerydispatcher",function(Y){
-      Y.one(document).delegate('click', function(e) {
-          var obj;
-          if(e.currentTarget.getData("dispatcher")){
-            obj = e.currentTarget.getData("dispatcher")
-          }else{
-            obj = new Y.Dispatcher({node:e.currentTarget.getAttribute("zone")});
-            e.currentTarget.setData("dispatcher",obj);
-          }
-
-
-          obj.set('uri', e.currentTarget.getAttribute("href"));
-          e.preventDefault();
-
-	  }, 'a[zone]');
-
+  $(function(){
+       $("a[zone]").live("click",function(event){
+           var me = $(this);
+           $(me.attr("zone")).load(me.attr("href"));
+           event.preventDefault()
+       });
   });
 </script>

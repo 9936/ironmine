@@ -260,7 +260,6 @@ module ApplicationHelper
           id: '#{id}Datatable',
           height: #{height},
           store: #{id}DatatableStore,
-          autoScroll: true,
           autoShow: true,
           disableSelection: false,
           loadMask: true,

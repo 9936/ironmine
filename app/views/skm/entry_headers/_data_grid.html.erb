@@ -20,9 +20,9 @@
           <div id="id" style="display:none">
             <%= link_to(t(:edit),{:controller => "skm/entry_headers", :action=>"edit",:id=>"{id}"}) %>&nbsp;
             <%= link_to(t(:show),{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>&nbsp;
-            <div class="display-<%= "{is_favorite}"%>">
+            <span class="display-<%= "{is_favorite}"%>">
                 <%= link_to(t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => "{id}", :person_id => Irm::Person.current.id}) %>
-            </div>
+            </span>
           </div>
           <div id="entry_title" style="display:none">
             <%= link_to("{entry_title}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>

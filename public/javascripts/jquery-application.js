@@ -2,12 +2,14 @@ $(function(){
 
     //BEGIN========================全局ajax事件监听========================================
     $(document).ajaxSend(function(event, jqXHR, ajaxOptions){
+        $("body").mask($.i18n("processing"));
     });
     $(document).ajaxSuccess(function(event, jqXHR, ajaxOptions){
     });
     $(document).ajaxError(function(event, jqXHR, ajaxOptions,error){
     });
     $(document).ajaxComplete(function(event, jqXHR, ajaxOptions){
+        $("body").unmask();
     });
     //END========================全局ajax事件监听========================================
 

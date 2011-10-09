@@ -190,9 +190,9 @@ class Irm::ObjectAttributesController < ApplicationController
     object_attributes_scope = Irm::ObjectAttribute.multilingual.person_column.query_by_business_object_code(params[:business_object_code]).order(:attribute_name)
     object_attributes_scope = object_attributes_scope.match_value("#{Irm::ObjectAttribute.view_name}.name",params[:name])
 
-    object_attributes = object_attributes_scope.collect{|i| {:label=>i.attribute_name, :value=>i.attribute_name,:id=>i.id}}
+    object_attributes = object_attributes_scope.collect{|i| {:name=>i[:name],:label=>i.attribute_name, :value=>i.attribute_name,:id=>i.id}}
     respond_to do |format|
-      format.json {render :json=>object_attributes.to_grid_json([:label,:value], object_attributes.count)}
+      format.json {render :json=>object_attributes.to_grid_json([:label,:value,:name], object_attributes.count)}
     end
   end
 
