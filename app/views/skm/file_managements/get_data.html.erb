@@ -1,0 +1,68 @@
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>">
+         <thead>
+           <tr>
+             <th style="width:75px;">
+               <div><%= t(:operation) %></div>
+             </th>
+             <th style="width:300px;">
+               <div><%= t(:label_skm_file_name) %></div>
+             </th>
+             <th style="width:60px;">
+               <div><%= t(:label_skm_file_category) %></div>
+             </th>
+             <th>
+               <div><%= t(:description) %></div>
+             </th>
+             <th style="width:100px;">
+               <div><%= t(:label_skm_file_size) %></div>
+             </th>
+             <th style="width:130px;">
+               <div><%= t(:label_skm_file_data_updated_at) %></div>
+             </th>
+
+           </tr>
+         </thead>
+         <tbody>
+         <% @datas.each do |data| %>
+         <tr id="<%=data[:id]%>">
+           <td>
+             <div>
+               <%= link_to(t(:edit),{:controller => "skm/file_managements", :action => "edit", :id => data[:id]}) %>&nbsp;
+               <%= link_to(t(:remove),{:controller => "skm/file_managements", :action=>"destroy",:id=> data[:id]},:confirm => t(:label_are_you_sure)) %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= link_to(data[:data_file_name],{:controller => "skm/file_managements", :action => "show",:id=>data[:id], :version_id => data[:version_id],:data_file_name=>data[:data_file_name]}) %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:category_name]%>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=data[:description]%>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=data[:data_file_size]%>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=format_date(data[:data_updated_at])%>
+             </div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->
