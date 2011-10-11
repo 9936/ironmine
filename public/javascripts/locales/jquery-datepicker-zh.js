@@ -51,7 +51,7 @@ Date.abbrDayNames = ['星期天', '一', '二', '三', '四', '五', '六'];
  * @type Array
  * @cat Plugins/Methods/Date
  */
-Date.monthNames = ['一月', '二月', '三月', '三月', '五月', '六月', '七月', '八月', '九月', '十月', '十一', '十二'];
+Date.monthNames = ['一月', '二月', '三月', '月', '五月', '六月', '七月', '八月', '九月', '十月', '十一', '十二'];
 
 /**
  * An Array of abbreviated month names starting with Jan.
