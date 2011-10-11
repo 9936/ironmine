@@ -1,13 +1,2 @@
 <%= page_title %>
 <%= render "edit_custom_step_#{@report.step}"%>
-<script type="text/javascript">
-  GY.use("node-base",function(Y){
-      Y.one("form.edit_irm_report").delegate("click",function(e){
-          e._currentTarget.setAttribute("action",e.target.getAttribute("href"));
-
-          e.preventDefault();
-          e._currentTarget.submit();
-      },"a.submit");
-  });
-
-</script>

@@ -95,42 +95,7 @@
 <div id="editor_cont">
     <div id="editor" style="width:400px;"></div>
 </div>
-<script type="text/javascript">
 
-GY.use('node','yui2-editor', function(Y) {
-  var YAHOO = Y.YUI2;
-  var editor = new YAHOO.widget.Editor('editor', {
-        autoHeight: true,
-        height:'200px',
-        width:'400px',
-        toolbar: {
-            buttons: [
-                { group: 'textstyle',
-                    buttons: [
-                        { type: 'push', label: 'Bold', value: 'bold' },
-                        { type: 'push', label: 'Italic', value: 'italic' },
-                        { type: 'push', label: 'Underline', value: 'underline' },
-                        { type: 'push', label: 'Create an Unordered List', value: 'insertunorderedlist' },
-	                    { type: 'push', label: 'Create an Ordered List', value: 'insertorderedlist' },
-                        { type: 'color', label: 'Font Color', value: 'forecolor', disabled: true },
-                        { type: 'color', label: 'Background Color', value: 'backcolor', disabled: true }
-                    ]
-                }
-            ]
-        }
-    });
-    Y.log(editor.get("iframe"));
-    editor.render();
-    Y.one("#editor_cont").on("keydown",function(e){
-        Y.log(e);
-    });
-    Y.one("#showhtml").on("click",function(e){
-        //editor.get("iframe").get('element').setAttribute('scrolling', '"auto"');
-        //alert(editor.getEditorHTML());
-        alert(Y.one(".yui-editor-editable-container").getContent());
-    })
-});
-</script>
 
 <% content_for :sidebar do%>
     <%= render :partial =>"/icm/incident_requests/short_cut_new" %>

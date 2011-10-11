@@ -101,6 +101,21 @@
 </div>
 <%end%>
 <script type="text/javascript">
+  $(function(){
+      $("#rowHeaderGroup").append($("#groupColumn3"));
+      $("#rowHeaderGroup").append($("#groupColumn4"));
+      $("form.new_irm_report select.groupColumnSelect").change(function(){
+          var currentValue = $(e.target).val();
+          var seqNum = $(e.target).attr("ref");
+          var dataType = "";
+          if(currentValue&&currentValue!="")
+            dataType = e.target.one("option[value="+currentValue+"]").getAttribute("type");
+          if(dataType == "datetime")
+            Y.one("#groupDate"+seqNum).removeAttribute("disabled");
+          else
+            Y.one("#groupDate"+seqNum).setAttribute("disabled","disabled");
+      });
+  });
     GY.use(function(Y){
       Y.one("#rowHeaderGroup").appendChild(Y.one("#groupColumn3"));
       Y.one("#rowHeaderGroup").appendChild(Y.one("#groupColumn4"));

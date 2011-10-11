@@ -134,28 +134,10 @@
 </div>
 <%end%>
 <script type="text/javascript">
-  GY.use("irm","gallerydispatcher","substitute",function(Y){
-      Y.on("domready",function(){
-        Y.on('change',Y.irm.rawConditionClause,".filterColumnSelect");
-        Y.on('change', function(e) {
-          var obj;
-          var seq_num = e.currentTarget.getAttribute("ref");
-          if(e.currentTarget.getData("dispatcher")){
-            obj = e.currentTarget.getData("dispatcher")
-          }else{
-
-            obj = new Y.Dispatcher({node:"#filter"+seq_num});
-            e.currentTarget.setData("dispatcher",obj);
-          }
-          var field_id = e.currentTarget.get("value");
-
-          var url = decodeURIComponent(Y.one("#filterContent").getAttribute("href"));
-          url = Y.Lang.substitute(url,{seq_num:seq_num,field_id:field_id});
-
-          obj.set('uri', url);
-
-	    }, '.filterColumnSelect');
+  $(function(){
+      $("#filterContent .filterColumnSelect").live("change",function(event){
+          rawConditionClause("rawConditionClause",event);
+          refreshFilterOptions("filterContent",event);
       });
-
   });
 </script>

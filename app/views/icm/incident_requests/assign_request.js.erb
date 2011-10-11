@@ -1,6 +1,3 @@
-GY.use("irm",function(Y){
-    Y.irm.incident_requestsDatatable.datasource.paginate({start:0},true);
-});
 <% if limit_device?%>
    $(function(){
        $("#incident_requests").datatable("loadPage",1)
