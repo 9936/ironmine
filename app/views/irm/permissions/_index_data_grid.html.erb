@@ -39,18 +39,3 @@
       </div>
     </div>
 </div>
-<script type="text/javascript">
-    GY.use('yui2-paginator', function(Y) {
-      var YAHOO = Y.YUI2;
-      var paginator = new YAHOO.widget.Paginator({
-          rowsPerPage : 10,
-          totalRecords : 1000,
-          containers : 'paging'
-      });
-      paginator.render();
-      var paginate = function(state){
-        paginator.setState(state);
-      };
-      paginator.subscribe('changeRequest', paginate);
-  });
-</script>

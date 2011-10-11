@@ -165,20 +165,3 @@
   </div>
 </div>
 <% end %>
-
-
-
-<script type="text/javascript">
-  GY.use("irm","node-base",function(Y){
-    Y.one("#selectableFunctions").delegate('click', function(e){
-       var checkbox = e.currentTarget;
-       var refFieldSet = checkbox.getAttribute("ref");
-       Y.one("#"+refFieldSet).all("input[type=checkbox]").set("checked",checkbox.get("checked"));
-    }, '.selectAll');
-    if(!Y.one("input.appRadio[checked=checked]"))
-      Y.one("input.appRadio").simulate("click");
-    else
-      Y.one("input.appRadio[checked=checked]").simulate("click");
-
-  });
-</script>

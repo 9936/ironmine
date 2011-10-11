@@ -70,6 +70,38 @@ $(function(){
         $(n).attr("href", "javascript:void(0);");
     });
 
+    if($.fn.datePicker){
+        $("input.date").each(function(i,e){
+            var options = {};
+            if(!$(e).attr("future")){
+                options["startDate"] =new Date(1996, 1, 1);
+            }
+            if($(e).attr("nobutton")){
+                options["createButton"] =false;
+            }
+            if($(e).attr("today")){
+                $(e).datePicker(options).val(new Date().asString()).trigger('change');
+            }
+            else
+            {
+                $(e).datePicker(options);
+            }
+            $(e).bind("click",function(event){
+                $(this).dpDisplay();
+            })
+            $(e).bind("keyup",function(event){
+                if(event.keyCode=="9"){
+                    $(this).dpDisplay();
+                }
+            })
+            $(e).bind("keydown",function(event){
+                if(event.keyCode=="9"){
+                  $(this).dpClose();
+                }
+            })
+
+        });
+    }
 });
 
 //BEGIN========================过滤器 帮助函数========================================

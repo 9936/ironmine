@@ -1523,12 +1523,14 @@ jQuery.fn.menubutton = function(){
 })(jQuery);
 
 jQuery.checkRadioButton = function(selector){
-    if(jQuery(selector+"[checked=checked]"))
+
+    if(jQuery(selector+"[checked=checked]").length>0)
     {
         jQuery(selector+"[checked=checked]").trigger("click");
     }
     else
-    {   jQuery(selector+":first").trigger("click");
+    {
+        jQuery(selector+":first").trigger("click");
 
     }
 }

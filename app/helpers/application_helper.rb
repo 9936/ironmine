@@ -475,16 +475,16 @@ module ApplicationHelper
   #构建日历控件，其中text_field是输入的日期框，id_button是点击日历的
   #button，而id_cal是日历显示的ID，最好不一致
   def calendar_view(id_text_field,id_button,id_cal)
-    script = %Q(
-       GY.use( 'yui2-calendar','yui2-container','calendarlocalization#{I18n.locale.to_s}',function(Y) {
-            var YAHOO = Y.YUI2;
-            var Event = YAHOO.util.Event,Dom = YAHOO.util.Dom;
-             YAHOO.util.Event.onDOMReady(function () {
-                show_irm_calendar(YAHOO,Event,Dom,"#{id_button}","#{id_text_field}","#{id_cal}", yui_calendar_custom_cfg);
-             });
-       });
-    )
-    javascript_tag(script)
+    #script = %Q(
+    #   GY.use( 'yui2-calendar','yui2-container','calendarlocalization#{I18n.locale.to_s}',function(Y) {
+    #        var YAHOO = Y.YUI2;
+    #        var Event = YAHOO.util.Event,Dom = YAHOO.util.Dom;
+    #         YAHOO.util.Event.onDOMReady(function () {
+    #            show_irm_calendar(YAHOO,Event,Dom,"#{id_button}","#{id_text_field}","#{id_cal}", yui_calendar_custom_cfg);
+    #         });
+    #   });
+    #)
+    #javascript_tag(script)
   end
 
   def format_date(time)
@@ -675,6 +675,7 @@ module ApplicationHelper
 
   # 将使用IE6和Android 2的设备设置为限制设备
   def limit_device?
+    return true
     ie6? || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
   end
 

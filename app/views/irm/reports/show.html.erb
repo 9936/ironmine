@@ -90,10 +90,8 @@
                   </div>
                 </span>
                 <script type="text/javascript">
-                  GY.use("menubutton",function(Y){
-                    Y.on("domready",function(){
-                      new Y.MenuButton({menuNode:"#runSubmit",dropAlign:["TL","BL"]});
-                    });
+                  $(document).ready(function(){
+                      $("#runSubmit").menubutton();
                   });
                 </script>
             </div>
@@ -115,15 +113,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  GY.use("node-base",function(Y){
-      Y.one("form#customForm").delegate("click",function(e){
-          e._currentTarget.setAttribute("action",e.target.getAttribute("href"));
-
-          e.preventDefault();
-          e._currentTarget.submit();
-      },"a.submit");
-  });
-
-</script>
