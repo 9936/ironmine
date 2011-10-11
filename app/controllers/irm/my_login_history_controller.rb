@@ -7,6 +7,12 @@ class Irm::MyLoginHistoryController < ApplicationController
     login_records_scope = Irm::LoginRecord.list_all.query_by_person(params[:id])
 
     respond_to do |format|
+      format.html  {
+        login_records,count = paginate(login_records_scope)
+        @datas = login_records
+        @count = count
+        render_html_data_table
+      }
       format.json {
         login_records,count = paginate(login_records_scope)
         render :json=>to_jsonp(login_records.to_grid_json([:login_name,:user_ip,:operate_system,:browser,:login_at,:logout_at], count))

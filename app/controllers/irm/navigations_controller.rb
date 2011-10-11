@@ -15,7 +15,7 @@ class Irm::NavigationsController < ApplicationController
 
   def access_deny
     respond_to do |format|
-      format.html
+      format.html {render :layout=>"application_full"}
       format.xml  { render :status => :access_deny }
       format.js  {  }
     end

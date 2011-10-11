@@ -389,6 +389,11 @@ class Skm::EntryHeadersController < ApplicationController
     entry_headers_scope = Skm::EntryHeader.list_all.my_favorites(params[:person_id]).published
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
+      format.html  {
+        @datas = entry_headers
+        @count = count
+        render_html_data_table
+      }
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:entry_status_code, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date_f], count)) }
     end    
   end

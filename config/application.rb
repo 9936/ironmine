@@ -59,7 +59,7 @@ module Ironmine
     config.ironmine.css.source = {
         :default =>%w(base button container form header icons layout other public sidebar table jmask),
         :application=>%w(),
-        :setting=>%w(setting_base button container form header icons layout other public sidebar table),
+        :setting=>%w(setting_base button container form header icons layout other public sidebar table jmask),
         :home=>%w(),
         :login=>%w(login),
         :common=>%w(login),
