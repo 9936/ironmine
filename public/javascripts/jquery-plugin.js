@@ -179,8 +179,12 @@
             $(targets[i]).append(option);
         });
 
-        $(targets[i]).val(targetValue);
-        $(targets[i]).trigger('change');
+        // 使用 setTimeout防止IE6中 报 [无法设置selected属性。未指明的错误。]的错误.
+        setTimeout(function() {
+            $(targets[i]).val(targetValue);
+            $(targets[i]).trigger('change');
+        },1);
+
     }
 
     // 插件的公有方法

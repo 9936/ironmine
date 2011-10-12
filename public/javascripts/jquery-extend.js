@@ -657,3 +657,16 @@ Function.prototype.customCreateDelegate = function(obj, args, appendArgs){
 	};
 
 })(jQuery);
+
+jQuery.log = function(message,level){
+    var logZone = null;
+    var defaultLevel = level||"Debug";
+    if($("body div#jqlog:first").length>0){
+        logZone =  $("body div#jqlog:first");
+    }else{
+        logZone = $("<div id='jqlog'></div>");
+        $("body:first").append(logZone);
+    }
+    if(logZone)
+        logZone.append(defaultLevel+":"+message+"</br>");
+}
