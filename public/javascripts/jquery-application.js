@@ -12,7 +12,9 @@ $(function(){
         $("body").unmask();
     });
     //END========================全局ajax事件监听========================================
-
+    $("*[required]").each(function(i,e){
+        e.removeAttribute("required");
+    });
     //BEGIN========================系统全局初始化========================================
     $('form a[type=submit]').live('click', function(e) {
       parent_forms = $(this).parents("form");

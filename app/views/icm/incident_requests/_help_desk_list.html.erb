@@ -15,10 +15,10 @@
         </div>
         <%= datatable("incident_requests",{:action=>"get_help_desk_data",:format=>"json"},
                               [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
-                               { :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot),:searchable=>true,:width=>"30px"},
+                               { :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot),:searchable=>true,:width=>"35px"},
                                { :key => "title",:formatter=>"Y.irm.stemplate",:label => t(:label_icm_incident_request_title),:searchable=>true },
-                               { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"150px"},
-                               { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"40px" },
+                               { :key => "organization_name", :label => t(:label_icm_incident_request_organization)},
+                               { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"50px" },
                                { :key => "incident_status_name",:hidden=>true },
                                { :key => "reply_flag",:hidden=>true },
                                { :key => "close_flag",:hidden=>true },

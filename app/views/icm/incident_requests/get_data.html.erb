@@ -4,22 +4,19 @@
        <table count="<%=@count%>">
          <thead>
            <tr>
-             <th style="width:60px">
-               <div><%= t(:operation) %></div>
-             </th>
-             <th style="width:60px;">
+             <th style="width:30px;">
                <div><%= t(:label_icm_incident_request_request_number_shot) %></div>
              </th>
-             <th style="width:200px;">
+             <th>
                <div><%= t(:label_icm_incident_request_title) %></div>
              </th>
-             <th style="width:160px;">
+             <th>
                <div><%= t(:label_icm_incident_request_organization) %></div>
              </th>
              <th style="width:110px;">
                <div><%= t(:label_icm_incident_request_last_date) %></div>
              </th>
-             <th>
+             <th  style="width:180px;">
                <div><%= t(:label_irm_external_system) %></div>
              </th>
            </tr>
@@ -27,11 +24,6 @@
          <tbody>
          <% @datas.each do |data| %>
          <tr id="<%=data[:id]%>">
-           <td>
-             <div>
-               <%= link_to(t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
-             </div>
-           </td>
            <td>
              <div>
                <%= data[:request_number] %>
@@ -53,8 +45,6 @@
            <td>
              <div>
                <%=I18n.t(:ago,:message=>distance_of_time_in_words(Time.now, data[:last_response_date]))%>
-
-               <%=format_date(data[:last_request_date])%>
              </div>
            </td>
            <td>
