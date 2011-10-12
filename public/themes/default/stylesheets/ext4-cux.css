@@ -34,3 +34,8 @@
     background-color:#EDF5FF;
     border-top-color: transparent;
 }
+
+/************修正表格在IE7中表头与表格数据不能对齐的问题,对IE7生效**************/
+.x-strict .x-ie7 .x-grid-header-row {
+    position: inherit;
+}
