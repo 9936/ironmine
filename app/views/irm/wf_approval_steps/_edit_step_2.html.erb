@@ -86,19 +86,16 @@
 </div>
 <%end%>
 <script type="text/javascript">
-    GY.use("",function(Y){
-      Y.all("input.typeButton").on("click",function(e){
-        Y.all(".showTR").setStyle("display","none");
-        Y.all(".showTR .updateValue").setAttribute("disabled","true");
-        var showTR = Y.one(".showTR[refValue="+e.target.get("value")+"]");
-        if(showTR){
-            showTR.setStyle("display","");
-            showTR.all(".updateValue").removeAttribute("disabled");
-        }
+  $(function(){
+      $("input.typeButton").click(function(e){
+          $(".showTR").css("display","none");
+          $(".showTR .updateValue").attr("disabled","true");
+          var showTR = $(".showTR[refValue="+$(e.target).val()+"]:first");
+          if(showTR){
+              showTR.css("display","");
+              showTR.find(".updateValue").removeAttr("disabled");
+          }
       });
-      if(Y.one("input.typeButton[checked=checked]"))
-        Y.one("input.typeButton[checked=checked]").simulate("click");
-      else
-        Y.one("input.typeButton").simulate("click");
-    });
+      $.checkRadioButton("input.typeButton");
+  });
 </script>
