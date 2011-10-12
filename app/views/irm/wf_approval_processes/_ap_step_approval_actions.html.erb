@@ -20,11 +20,9 @@
                         <% unless @wf_approval_process.enabled? %>
                         <span><a><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
                         <script type="text/javascript">
-                          GY.use("menubutton",function(Y){
-                            Y.on("domready",function(){
-                              new Y.MenuButton({menuNode:"#createApStepApprovalAction<%= step_id%>",dropAlign:["TL","BL"]});
-                            });
-                          });
+                              $(function(){
+                                  $("#createApStepApprovalAction").menubutton();
+                              });
                         </script>
                         <% else %>
                         <span><a disabled=true><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
