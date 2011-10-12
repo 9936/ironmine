@@ -99,31 +99,17 @@
 
 
 <script type="text/javascript">
-  GY.use("node-base","cascadeselect","gallerydispatcher",function(Y){
-    new Y.CascadeSelect({source: "#bo_code",target:["#object_attribute"]});
+  $(function(){
+      $("#bo_code").cascade("#object_attribute");
+      $("#object_attribute").change(function(){
 
-    Y.on('change', function(e) {
-      var obj;
-      if(e.currentTarget.getData("dispatcher")){
-        obj = e.currentTarget.getData("dispatcher")
-      }else{
-        obj = new Y.Dispatcher({node:"#fieldUpdateValue"});
-        e.currentTarget.setData("dispatcher",obj);
-      }
-
-      var object_attribute = Y.one("#object_attribute").get("value");
-      var bo_code = Y.one("#bo_code").get("value");
-      var url = unescape(Y.one("#fieldUpdateValue").getAttribute("href"));
-      url = Y.Lang.substitute(url,{object_attribute:object_attribute,bo_code:bo_code});
-      obj.set('uri', url);
-	}, '#object_attribute');
-
-    Y.one("form.new_irm_wf_field_update").delegate("click",function(e){
-        e._currentTarget.setAttribute("action",e.target.getAttribute("href"));
-        e.preventDefault();
-        e._currentTarget.submit();
-      },"a.submit");
-     if(!Y.one("#fieldUpdateValue input"))
-         Y.one("#object_attribute").simulate("change");
+          var object_attribute = $("#object_attribute").val();
+          var bo_code = $("#bo_code").val("value");
+          var url = decodeURIComponent($("#fieldUpdateValue").attr("href"));
+          url = url.replace("{object_attribute}",object_attribute).replace("{bo_code}",bo_code)
+          $("#fieldUpdateValue").load(url);
+      });
+       if($("#fieldUpdateValue input").length>0)
+           $("#object_attribute").trigger("change");
   });
 </script>
