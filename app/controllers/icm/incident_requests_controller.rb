@@ -80,7 +80,6 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request.urgence_id = Icm::UrgenceCode.default_id
     @incident_request.incident_status_id = Icm::IncidentStatus.default_id
     @incident_request.request_type_code = "REQUESTED_TO_PERFORM"
-    @incident_request.service_code = "ORAL_EBS_INV"
     @incident_request.report_source_code = "CUSTOMER_SUBMIT"
     @incident_request.impact_range_id = Icm::ImpactRange.default_id
     respond_to do |format|
@@ -414,7 +413,11 @@ class Icm::IncidentRequestsController < ApplicationController
     end
     if incident_request.contact_id.nil?||incident_request.contact_id.blank?
       incident_request.contact_id = incident_request.requested_by
-      incident_request.contact_number = Irm::Person.find(incident_request.requested_by).mobile_phone
+
+    end
+
+    unless incident_request.contact_number.present?
+      incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
     end
 
     if limit_device?
