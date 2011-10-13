@@ -1173,6 +1173,7 @@ jQuery.fn.menubutton = function(){
         filterBox: null,
         searchBox: null,
         paginatorBox: null,
+        exportBox: null,
         columns :[],
         filterOptions:{},
         searchOptions:{}
@@ -1382,6 +1383,18 @@ jQuery.fn.menubutton = function(){
                 });
                 filterBox.css("display","block");
             }
+        }
+
+        if(me.data.options.exportBox){
+            if(me.data.options.exportBox.indexOf("#")<0)
+                me.data.options.exportBox = "#"+me.data.options.exportBox;
+            $(me.data.options.exportBox).click(function(event){
+                var url = me.buildCurrentRequest();
+                var rp = new RegExp("\\..+\\?");
+                url = url.replace(rp,".xls?");
+
+                window.open(url, "_blank")
+            });
         }
     }
 

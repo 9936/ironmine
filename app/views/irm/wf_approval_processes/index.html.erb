@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
+
 <%= page_title %>
 <style type="text/css">
   .processTitle {
@@ -67,11 +67,12 @@
 </div>
 <script type="text/javascript">
 $(function(){
-    $("#substitute").click(function(e){
+    $("#newButton").click(function(e){
         if(!$(e.target).attr("thref"))
           $(e.target).attr("thref",$(e.target).attr("href"))
         var url = decodeURIComponent($(e.target).attr("thref"));
         url = url.replace("{bo_code}",$("#boCode").val());
+        console.debug(url);
         $(e.target).attr("href",encodeURI(url));
     });
     $("#boCode").change(function(e){

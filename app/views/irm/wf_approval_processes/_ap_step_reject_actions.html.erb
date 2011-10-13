@@ -21,7 +21,7 @@
                             <span><a><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
                             <script type="text/javascript">
                               $(function(){
-                                  $("#createApRecallAction").menubutton();
+                                  $("#createApStepRejectAction<%= step_id%>").menubutton();
                               });
                             </script>
                         <% else %>
