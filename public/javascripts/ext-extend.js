@@ -531,7 +531,42 @@ Ext.define("Ext.irm.DatatableSearchBox",{
 
 
 Ext.define("Ext.irm.DatatableExport",{
+    box: null,
+    table: null,
+    constructor: function(config) {
 
+        var show_able = false;
+        var me = this;
+        if(Ext.get(me.box))
+            Ext.get(me.box).setStyle("display","none");
+        me.box = config.box || me.box,
+        me.table = config.table || me.table;
+        me.box = me.box.replace("#","");
+        if(me.box&&Ext.get(me.box)&&me.table){
+            if(Ext.get(me.box))
+                Ext.get(me.box).setStyle("display","");
+
+            Ext.get(me.box).on("click",function(event){
+                var url = me.table.store.proxy.url;
+
+                var params = {};
+                Ext.apply(params,me.table.store.filterParams);
+                Ext.apply(params,me.table.store.searchParams);
+                var additionalParams = $.param(params);
+
+                if(url.indexOf("?")>0)
+                    url = url+"&"+ additionalParams;
+                else
+                    url = url+"?"+ additionalParams;
+
+                var rp = new RegExp("\\..+\\?");
+                url = url.replace(rp,".xls?");
+
+                window.open(url, "_blank")
+            });
+
+        }
+    }
 });
 
 

@@ -208,10 +208,11 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
-        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:priority_name,:last_request_date, :external_system_name],
+        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:organization_name,:priority_name,:last_request_date, :external_system_name],
                                        :headers=>[t(:label_icm_incident_request_request_number_shot),
                                                   t(:label_icm_incident_request_title),
                                                   t(:label_icm_incident_request_incident_status_code),
+                                                  t(:label_icm_incident_request_organization),
                                                   t(:label_icm_incident_request_priority),
                                                   t(:label_icm_incident_request_last_date),
                                                   t(:label_irm_external_system)]
