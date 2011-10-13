@@ -1,45 +1,45 @@
 <% if step&&step_instances.any? %>
   <tr id="step<%=step[:id]%>" class="yui3-datatable-even stepDef">
-    <td class="yui3-column" colspan="6">
-      <div class='yui3-datatable-liner'>
+    <td colspan="6">
+      <div>
         <b><%=t(:label_irm_wf_approval_step)%>#<%= step[:step_number] %>: <%= step[:name] %> </b>
        </div>
     </td>
-    <td class="yui3-column">
-      <div class='yui3-datatable-liner'>
+    <td>
+      <div>
         <%= step_status(step[:status]) %>
       </div>
     </td>
   </tr>
   <% step_instances.each do |step_instance|%>
   <tr id="stepInstance<%=step_instance.id%>" class="yui3-datatable-even stepInstance">
-    <td class="yui3-column">
-      <div class='yui3-datatable-liner'>
+    <td>
+      <div>
         <%= operations_for(step_instance)%>
        </div>
     </td>
-    <td class="yui3-column">
-      <div class='yui3-datatable-liner'>
+    <td>
+      <div>
         <%= format_date(step_instance.created_at) %> <%="/#{format_date(step_instance.end_at)}" if step_instance.end_at.present? %>
        </div>
     </td>
-    <td class="yui3-column">
-      <div class='yui3-datatable-liner'>
+    <td>
+      <div>
         <b><%= step_instance[:approval_status_code_name] %></b>
       </div>
     </td>
-    <td class="yui3-column">
-      <div class='yui3-datatable-liner'>
+    <td>
+      <div>
         <%= step_instance[:assign_approver_name] %>
       </div>
     </td>
-    <td class="yui3-column">
-      <div class='yui3-datatable-liner'>
+    <td>
+      <div>
         <%= step_instance[:actual_approver_name] %>
       </div>
     </td>
-    <td class="yui3-column" colspan="2">
-      <div class='yui3-datatable-liner'>
+    <td colspan="2">
+      <div>
         <%= step_instance[:comment] %>
       </div>
     </td>
