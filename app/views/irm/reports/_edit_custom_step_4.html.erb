@@ -101,23 +101,23 @@
 </div>
 <%end%>
 <script type="text/javascript">
-    GY.use(function(Y){
-      Y.one("#rowHeaderGroup").appendChild(Y.one("#groupColumn3"));
-      Y.one("#rowHeaderGroup").appendChild(Y.one("#groupColumn4"));
-      Y.on("change",function(e){
-          var currentValue = e.target.get("value");
-          var seqNum = e.target.getAttribute("ref");
+  $(function(){
+      $("#rowHeaderGroup").append($("#groupColumn3"));
+      $("#rowHeaderGroup").append($("#groupColumn4"));
+      $("form.new_irm_report select.groupColumnSelect").change(function(e){
+          var currentValue = $(e.target).val();
+          var seqNum = $(e.target).attr("ref");
           var dataType = "";
           if(currentValue&&currentValue!="")
-            dataType = e.target.one("option[value="+currentValue+"]").getAttribute("type");
+            dataType = $(e.target).find("option[value="+currentValue+"]:first").attr("type");
           if(dataType == "datetime")
-            Y.one("#groupDate"+seqNum).removeAttribute("disabled");
+            $("#groupDate"+seqNum).removeAttr("disabled");
           else
-            Y.one("#groupDate"+seqNum).setAttribute("disabled","disabled");
-      },"form.edit_irm_report select.groupColumnSelect");
-      Y.one("#groupColumnSelect1").simulate("change");
-      Y.one("#groupColumnSelect2").simulate("change");
-      Y.one("#groupColumnSelect3").simulate("change");
-      Y.one("#groupColumnSelect4").simulate("change");
-    });
+            $("#groupDate"+seqNum).attr("disabled","disabled");
+      });
+      $("#groupColumnSelect1").trigger("change");
+      $("#groupColumnSelect2").trigger("change");
+      $("#groupColumnSelect3").trigger("change");
+      $("#groupColumnSelect4").trigger("change");
+  });
 </script>

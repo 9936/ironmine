@@ -19,11 +19,9 @@
                           </div>
                         </span>
                         <script type="text/javascript">
-                          GY.use("menubutton",function(Y){
-                            Y.on("domready",function(){
-                              new Y.MenuButton({menuNode:"#createApSubmitAction",dropAlign:["TL","BL"]});
-                            });
-                          });
+                              $(function(){
+                                  $("#createApRecallAction").menubutton();
+                              });
                         </script>
                     </div>
                 <% else %>

@@ -87,20 +87,20 @@
 <%= render :partial => "ap_final_reject_actions"%>
 <%= render :partial => "ap_recall_actions"%>
 <script type="text/javascript">
-  GY.use(function(Y){
-      Y.all(".showStepAction").on("click",function(e){
-          var step = e.target.getAttribute("step");
-          if(Y.one("tr#stepApprovalActions"+step)){
-              if(Y.one("tr#stepApprovalActions"+step).getStyle("display")!="none")
-                Y.one("tr#stepApprovalActions"+step).setStyle("display","none");
+  $(function(){
+      $(".showStepAction").click(function(e){
+          var step = $(e.target).attr("step");
+          if($("tr#stepApprovalActions"+step)){
+              if($("tr#stepApprovalActions"+step).css("display")!="none")
+                $("tr#stepApprovalActions"+step).css("display","none");
               else
-                Y.one("tr#stepApprovalActions"+step).setStyle("display","");
+                $("tr#stepApprovalActions"+step).css("display","");
           }
-          if(Y.one("tr#stepRejectActions"+step)){
-              if(Y.one("tr#stepRejectActions"+step).getStyle("display")!="none")
-                Y.one("tr#stepRejectActions"+step).setStyle("display","none");
+          if($("tr#stepRejectActions"+step)){
+              if($("tr#stepRejectActions"+step).css("display")!="none")
+                $("tr#stepRejectActions"+step).css("display","none");
               else
-                Y.one("tr#stepRejectActions"+step).setStyle("display","");
+                $("tr#stepRejectActions"+step).css("display","");
           }
       });
   });

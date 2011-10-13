@@ -111,26 +111,18 @@
 <%end%>
 
 <script type="text/javascript">
-    GY.use("duelselect",function(Y){
-      Y.all("input.typeButton").on("click",function(e){
-        Y.all(".showTR").setStyle("display","none");
-        Y.all(".showTR .updateValue").setAttribute("disabled","true");
-        var showTR = Y.one(".showTR[refValue="+e.target.get("value")+"]");
-        if(showTR){
-            showTR.setStyle("display","");
-            showTR.all(".updateValue").removeAttribute("disabled");
-        }
-      });
-      if(Y.one("input.typeButton[checked=checked]"))
-        Y.one("input.typeButton[checked=checked]").simulate("click");
-      else
-        Y.one("input.typeButton").simulate("click");
-
-      //multiple approver mode
-      if(!Y.one("input.multipleApproveModeButton[checked=checked]"))
-        Y.one("input.multipleApproveModeButton").simulate("click");
-      //multiple approver mode
-      if(!Y.one("input.rejectBehaviorButton[checked=checked]"))
-        Y.one("input.rejectBehaviorButton").simulate("click");
+    $(function(){
+        $("input.typeButton").click(function(e){
+            $(".showTR").css("display","none");
+            $(".showTR .updateValue").attr("disabled","true");
+            var showTR = $(".showTR[refValue="+$(e.target).val()+"]:first");
+            if(showTR){
+                showTR.css("display","");
+                showTR.find(".updateValue").removeAttr("disabled");
+            }
+        });
+        $.checkRadioButton("input.typeButton");
+        $.checkRadioButton("input.multipleApproveModeButton");
+        $.checkRadioButton("input.rejectBehaviorButton");
     });
 </script>

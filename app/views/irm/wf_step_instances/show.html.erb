@@ -68,14 +68,3 @@
   </div>
 </div>
 <% end %>
-<script type="text/javascript">
-  GY.use("node-base",function(Y){
-      Y.all("form#stepInstance a.submit").on("click",function(e){
-          e.preventDefault();
-          var formInstance =  Y.one("form#stepInstance");
-          formInstance.setAttribute("action",e.target.getAttribute("href"));
-          formInstance.submit();
-      });
-  });
-
-</script>
