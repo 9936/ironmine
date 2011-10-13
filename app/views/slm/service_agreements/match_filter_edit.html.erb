@@ -69,13 +69,11 @@
   </div>
 </div>
 <% end %>
-
 <script type="text/javascript">
-  GY.use("irm","gallerydispatcher","substitute",function(Y){
-      Y.on("domready",function(){
-        Y.on('change',Y.irm.rawConditionClause,".filterColumnSelect");
-        Y.on('change',Y.irm.refreshFilterOptions, '.filterColumnSelect');
+  $(function(){
+      $("#filterContent .filterColumnSelect").live("change",function(event){
+          rawConditionClause("rawConditionClause",event);
+          refreshFilterOptions("filterContent",event);
       });
-
   });
 </script>
