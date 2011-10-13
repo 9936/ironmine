@@ -80,7 +80,6 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request.urgence_id = Icm::UrgenceCode.default_id
     @incident_request.incident_status_id = Icm::IncidentStatus.default_id
     @incident_request.request_type_code = "REQUESTED_TO_PERFORM"
-    @incident_request.service_code = "ORAL_EBS_INV"
     @incident_request.report_source_code = "CUSTOMER_SUBMIT"
     @incident_request.impact_range_id = Icm::ImpactRange.default_id
     respond_to do |format|
@@ -209,10 +208,11 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
-        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:priority_name,:last_request_date, :external_system_name],
+        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:organization_name,:priority_name,:last_request_date, :external_system_name],
                                        :headers=>[t(:label_icm_incident_request_request_number_shot),
                                                   t(:label_icm_incident_request_title),
                                                   t(:label_icm_incident_request_incident_status_code),
+                                                  t(:label_icm_incident_request_organization),
                                                   t(:label_icm_incident_request_priority),
                                                   t(:label_icm_incident_request_last_date),
                                                   t(:label_irm_external_system)]
@@ -414,7 +414,11 @@ class Icm::IncidentRequestsController < ApplicationController
     end
     if incident_request.contact_id.nil?||incident_request.contact_id.blank?
       incident_request.contact_id = incident_request.requested_by
-      incident_request.contact_number = Irm::Person.find(incident_request.requested_by).mobile_phone
+
+    end
+
+    unless incident_request.contact_number.present?
+      incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
     end
 
     if limit_device?

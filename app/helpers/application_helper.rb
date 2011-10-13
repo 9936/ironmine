@@ -225,13 +225,18 @@ module ApplicationHelper
 
     view_filter_str = "// No view filter for #{id}Datatable"
     if options[:view_filter]
-      view_filter_str = "Ext.create('Ext.irm.ViewFilter',{filter:'#{id}ViewFilterOverview',table:#{id}Datatable})"
+      view_filter_str = "Ext.create('Ext.irm.ViewFilter',{filter:'#{id}ViewFilterOverview',table:#{id}Datatable});"
       load_str = "//does not load #{id}Datatable data,because of view filter #{options[:view_filter]}"
     end
 
     search_str = "// Now Search Box for #{id}Datatable"
     if search_box
-      search_str = "Ext.create('Ext.irm.DatatableSearchBox',{box:'#{search_box}',table:#{id}Datatable})"
+      search_str = "Ext.create('Ext.irm.DatatableSearchBox',{box:'#{search_box}',table:#{id}Datatable});"
+    end
+
+    export_str = "// Can not export data to excel"
+    if options[:export_data].present?
+      export_str = "Ext.create('Ext.irm.DatatableExport',{box:'#{options[:export_data]}',table:#{id}Datatable});"
     end
 
     script = %Q(
@@ -286,6 +291,7 @@ module ApplicationHelper
     grid_helper_script << view_filter_str
     grid_helper_script << "\n"
     grid_helper_script << search_str
+    grid_helper_script << export_str
 
     all_script = %Q(
       Ext.onReady(function(){
@@ -308,8 +314,7 @@ module ApplicationHelper
 
     search_box = options[:search_box]
     paginator_box = options[:paginator_box]
-
-    puts "=========================#{options.to_json}============================"
+    export_box = options[:export_data]
 
     column_models = ""
     columns.each do |c|
@@ -341,6 +346,10 @@ module ApplicationHelper
     if paginator_box
       table_options << ",paginatorBox:'#{paginator_box}'"
     end
+    if export_box
+      table_options << ",exportBox:'#{export_box}'"
+    end
+
     if options[:view_filter]
       table_options << ",filterBox:'#{id}ViewFilterOverview'"
     end
