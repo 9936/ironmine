@@ -6,6 +6,7 @@
 <% else %>
     Ext.onReady(function(){
         Ext.getCmp("msgEditor").setValue("<%= escape_javascript(render("applyable_entry_header"))%>");
+        $("#msgEditor").val("<%= escape_javascript(render("applyable_entry_header"))%>");
         Ext.get("linktoSKM").addCls("hidden");
     });
 <%end%>
