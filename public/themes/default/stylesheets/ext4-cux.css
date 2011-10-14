@@ -39,3 +39,7 @@
 .x-strict .x-ie7 .x-grid-header-row {
     position: inherit;
 }
+
+.x-strict .x-ie6 .x-grid-header-row {
+    position: inherit;
+}
