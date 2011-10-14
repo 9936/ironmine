@@ -34,7 +34,7 @@
                <%  if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
                   <%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
                <% end %>
-               (<%= (data[:incident_status_name])%>)<%= link_to( data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
+               <%= link_to( "(#{data[:incident_status_name]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
              </div>
            </td>
            <td>

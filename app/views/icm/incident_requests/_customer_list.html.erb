@@ -5,10 +5,10 @@
           </div>
           <div id="title" style="display:none">
             if('{reply_flag}' == 'Y'&&'{close_flag}' == 'N'){
-               '<%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>({incident_status_name})<%= link_to( "{title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
+               '<%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %><%= link_to( "({incident_status_name}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
             }
             else{
-              '({incident_status_name})<%= link_to( "{title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
+              '<%= link_to( "({incident_status_name}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
             }
           </div>
         </div>
