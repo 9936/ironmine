@@ -7,6 +7,24 @@
         $("#<%=textarea_id%>").elastic({forceFitWidth: <%=force_fit_width%>});
     });
 <%else%>
+    function finishAttach(file_path, render_target, msg){
+        Ext.getCmp('<%=textarea_id%>_image_shot').destroy();
+        if ($("#<%=textarea_id%>")) {
+            if (msg != "")
+            {
+                alert(msg);
+            }
+            else
+            {
+                Ext.getCmp("<%=textarea_id%>").setValue(Ext.getCmp("<%=textarea_id%>").getValue() + file_path);
+            }
+        }
+
+    }
+
+    function cancelAttach(){
+        Ext.getCmp('<%=textarea_id%>_image_shot').destroy();
+    }
     Ext.onReady(function(){
         var currentTextArea = Ext.get("<%=textarea_id%>");
         var height = currentTextArea.getHeight()+22;
@@ -31,7 +49,27 @@
     <%if force_fit_width%>
       <%=textarea_id%>RichText.setWidth(currentTextArea.parent().getComputedWidth()-10);
     <%end%>
-    });
+        <%=textarea_id%>RichText.getToolbar().add('-', {
+             tooltip: 'Full Screen',
+             iconCls: 'x-btn-icon x-edit-insertimage',
+             handler: function(){
+                        var win= new Ext.Window({
+                                    title: "test title",
+                                    width: 450,
+                                    height: 380,
+                                    maximizable: false,
+                                    resizable: false,
+                                    html: "<iframe frameborder=0 scrolling='no'  src='/common/upload_screen_shot' class='screen_shot_frame'></iframe>",
+                                    id: "<%=textarea_id%>_image_shot" ,
+                                    modal:true
+                                });
+                        win.show();
+             }
+        });
 
+
+    });
 <%end%>
+
+
 </script>

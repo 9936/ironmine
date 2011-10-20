@@ -627,7 +627,7 @@ Ironmine::Application.routes.draw do
     match '/wf_step_instances/save_reassign(.:format)' => "wf_step_instances#save_reassign", :via => :put
 
     #screen saver
-    match '/attach_screenshot(/index)(.:format)' => "attach_screenshot#index", :via => :post
+    match '/attach_screenshot(/index)(.:format)' => "attach_screenshot#index"
     #
     #delayed_jobs
     match '/delayed_jobs(/index)(.:format)' => "delayed_jobs#index", :via => :get
