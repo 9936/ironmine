@@ -1,5 +1,4 @@
 <%= common_title %>
-<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
 <%= form_for(@survey,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
 <%= hidden_field_tag :return_url,:value=>@return_url %>
 <%= f.hidden_field :status_code %>
@@ -104,7 +103,7 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_csi_survey_closed_datetime)%></label></td>
-              <td class="dataCol"><%= f.text_field :closed_datetime,:id=>"id_closed_datatime",:required => true%></td>
+              <td class="dataCol"><%= f.text_field :closed_datetime,:id=>"id_closed_datatime",:required => true,:class=>"date"%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
@@ -155,30 +154,20 @@
 </div>
 <% end %>
 
-<%= calendar_view("id_closed_datatime","id_closed_datatime","cal") %>
-<%= calendar_view("date1","date1","cal1")%>
 <script type="text/javascript">
-GY.use(function(Y){
-    if(Y.one("#with_incident_request").get("checked"))
-    {
-       Y.one("#csi_survey_due_dates").removeAttribute("disabled");
-    }
-    else
-    {
+  $(function(){
+      var checkDate = function(){
+          var checkValue = $("#csi_survey_with_incident_request").attr("checked");
+          if(checkValue)
+          {
+             $("#csi_survey_due_dates").removeAttr("disabled");
+          }
+          else
+          {
 
-       Y.one("#csi_survey_due_dates").setAttribute("disabled", true);
-    }
-
-    Y.one("#with_incident_request").on("click", function(e){
-        if(Y.one("#with_incident_request").get("checked"))
-        {
-           Y.one("#csi_survey_due_dates").removeAttribute("disabled");
-        }
-        else
-        {
-
-           Y.one("#csi_survey_due_dates").setAttribute("disabled", true);
-        }
-    })
-});
+             $("#csi_survey_due_dates").attr("disabled", true);
+          }
+      }
+      checkDate();
+  });
 </script>

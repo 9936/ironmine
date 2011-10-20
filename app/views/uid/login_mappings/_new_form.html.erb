@@ -69,8 +69,8 @@
 </div>
 <% end %>
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#external_system_code",target:["#external_login_name"]});
+  $(function(){
+      $("#external_system_code").cascade("#external_login_name");
   });
 </script>
 

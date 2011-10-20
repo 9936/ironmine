@@ -126,18 +126,6 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
 
-              <% if allow_to_function?(:create_icdt_rqst_for_other) %>
-              <tr>
-                <td class="labelCol"><label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%></label></td>
-                <td class="dataCol"><%=f.blank_select :requested_by,available_person,
-                                                      {},{:required=>true,:id=>"incident_request_requested_by"}%></td>
-                <td class="labelCol empty">&nbsp;</td>
-                <td class="dataCol empty">&nbsp;</td>
-              </tr>
-              <% else %>
-                <%= f.hidden_field(:requested_by,:value=>Irm::Person.current.id) %>
-              <% end %>
-
             <tr>
                 <td class="labelCol"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
                 <td class="dataCol">
@@ -163,25 +151,6 @@
                                                     {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
               </td>
             </tr>
-          <% if allow_to_function?(:assign_incident_request) %>
-            <tr>
-              <td class="labelCol"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>
-              <td class="dataCol">
-                <%=f.blank_select :support_group_id,available_support_group,
-                                                    {},{:id=>"incident_request_support_group_id"}%>
-              </td>
-              <td class="labelCol"><label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label></td>
-              <td class="dataCol"><%= f.blank_select(:support_person_id,[],{},
-                                  {
-                                   :id=>"incident_request_support_person_id",
-                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"${incident_request_support_group_id}"),
-                                   :depend=>"incident_request_support_group_id",
-                                   :origin_value=>@incident_request.support_person_id,
-                                   :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
-                                   }) %></td>
-
-            </tr>
-          <%end%>
           <% if allow_to_function?(:create_icdt_rqst_for_other) %>
             <tr>
               <td class="labelCol"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
@@ -238,9 +207,6 @@
              $("#incident_request_contact_number").val(phone);
            }
          })
-     }
-     if($("#incident_request_support_group_id")){
-         $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
      }
      if($("#incident_request_requested_by")){
         $("#incident_request_requested_by").cascade("#ass_external_system");

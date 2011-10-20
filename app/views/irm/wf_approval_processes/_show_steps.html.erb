@@ -22,37 +22,37 @@
       <div class="pbBody">
           <% if steps.any? %>
           <div class="datatable">
-            <div class="yui3-widget yui3-datatable">
-              <div class="yui3-datatable-content">
-                  <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
-                    <thead class="yui3-datatable-columns">
-                      <tr class="yui3-datatable-first yui3-datatable-last">
-                        <th class="yui3-column" style="width:100px;">
-                          <div class="yui3-datatable-liner"><%= t(:operation) %>
+            <div class="irm-datatable">
+              <div>
+                  <table id='rows' >
+                    <thead>
+                      <tr>
+                        <th style="width:100px;">
+                          <div><%= t(:operation) %>
                           </div>
                         </th>
-                        <th class="yui3-column" style="width:60px;">
-                          <div class="yui3-datatable-liner"><%= t(:label_irm_wf_approval_step_step_number) %>
+                        <th style="width:60px;">
+                          <div><%= t(:label_irm_wf_approval_step_step_number) %>
                           </div>
                         </th>
-                        <th class="yui3-column" style="width:60px;">
-                          <div class="yui3-datatable-liner"><%= t(:label_irm_wf_approval_step_name) %>
+                        <th style="width:60px;">
+                          <div><%= t(:label_irm_wf_approval_step_name) %>
                           </div>
                         </th>
-                        <th class="yui3-column" style="width:120px;">
-                          <div class="yui3-datatable-liner"><%= t(:label_irm_wf_approval_process_description) %>
+                        <th style="width:120px;">
+                          <div><%= t(:label_irm_wf_approval_process_description) %>
                           </div>
                         </th>
-                        <th class="yui3-column" style="width:120px;">
-                          <div class="yui3-datatable-liner"><%= t(:label_irm_wf_approval_step_filter) %>
+                        <th style="width:120px;">
+                          <div><%= t(:label_irm_wf_approval_step_filter) %>
                           </div>
                         </th>
-                        <th class="yui3-column" style="width:120px;">
-                          <div class="yui3-datatable-liner"><%= t(:label_irm_wf_approval_step_approver) %>
+                        <th style="width:120px;">
+                          <div><%= t(:label_irm_wf_approval_step_approver) %>
                           </div>
                         </th>
-                        <th class="yui3-column" style="width:60px;">
-                          <div class="yui3-datatable-liner"><%= t(:label_irm_wf_approval_step_reject_behavior) %>
+                        <th style="width:60px;">
+                          <div><%= t(:label_irm_wf_approval_step_reject_behavior) %>
                           </div>
                         </th>
                       </tr>
@@ -60,8 +60,8 @@
                     <tbody class="yui3-datatable-data">
                     <% steps.each do |step| %>
                     <tr id="<%=step.id%>" class="yui3-datatable-even">
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
+                      <td>
+                        <div>
                           <%= link_to(t(:operation),{},:href=>"javascript:void(0)",:class=>"showStepAction",:step=>step.id) %>
                           <% unless @wf_approval_process%>
                             <%= link_to(t(:edit),{:controller => "irm/wf_approval_steps",:process_id=>step.process_id,:action=>"edit",:id=>step.id},:back_url=>url_for({})) %>
@@ -72,50 +72,50 @@
                           <% end %>
                          </div>
                       </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
+                      <td>
+                        <div>
                             <%= step.step_number %>
                          </div>
                       </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
+                      <td>
+                        <div>
                             <%= step.name %>
                          </div>
                       </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
+                      <td>
+                        <div>
                             <%= step.description %>
                          </div>
                       </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
+                      <td>
+                        <div>
                           <%= step_evaluate_mode_meaning(step) %>
                         </div>
                       </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
+                      <td>
+                        <div>
                           <%= step_approver_meaning(step,@bo_duel_value) %>
                         </div>
                       </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
+                      <td>
+                        <div>
                           <%= step[:reject_behavior_name] %>
                         </div>
                       </td>
                     </tr>
                     <tr id="stepApprovalActions<%=step.id%>" class="yui3-datatable-even" style="display:none">
-                      <td class="yui3-column">
+                      <td>
 
                       </td>
-                      <td class="yui3-column" colspan="6">
+                      <td colspan="6">
                         <%= render :partial => "ap_step_approval_actions",:locals => {:step_id=>step.id} %>
                       </td>
                     </tr>
                     <tr id="stepRejectActions<%=step.id%>" class="yui3-datatable-even" style="display:none">
-                      <td class="yui3-column">
+                      <td>
 
                       </td>
-                      <td class="yui3-column" colspan="6">
+                      <td colspan="6">
                         <%= render :partial => "ap_step_reject_actions",:locals => {:step_id=>step.id} %>
                       </td>
                     </tr>

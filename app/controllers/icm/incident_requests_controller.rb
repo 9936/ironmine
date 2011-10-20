@@ -83,7 +83,7 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request.report_source_code = "CUSTOMER_SUBMIT"
     @incident_request.impact_range_id = Icm::ImpactRange.default_id
     respond_to do |format|
-      if @incident_request.requested_by.present?
+      if @incident_request.valid?
         #加入创建事故单的默认参数
         prepared_for_create(@incident_request)
         if @incident_request.save
@@ -99,7 +99,7 @@ class Icm::IncidentRequestsController < ApplicationController
           format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         end
       else
-        @incident_request.errors[:requested_by] << I18n.t(:error_icm_requested_by_can_not_blank)
+        #@incident_request.errors[:requested_by] << I18n.t(:error_icm_requested_by_can_not_blank)
         format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       end
