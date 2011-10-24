@@ -20,7 +20,7 @@ $(function(){
       parent_forms = $(this).parents("form");
       e.preventDefault()
       if(parent_forms[0])
-        parent_forms[0].submit();
+        $(parent_forms[0]).trigger("submit");
     });
 
     $('form a.submit').live('click', function(e) {
@@ -29,7 +29,7 @@ $(function(){
         e.preventDefault()
         if(parent_forms[0]){
             $(parent_forms[0]).attr("action",href);
-            parent_forms[0].submit();
+            $(parent_forms[0]).trigger("submit");
         }
     });
 
@@ -61,6 +61,7 @@ $(function(){
          });
          $(e.target).find("div.button a").each(function(index,el){
              $(el).attr("disabled",true);
+             $(el).attr("onclick","alert('"+$.i18n("processing")+"');return false;");
              $(el).addClass("disabled");
              $(el).html($.i18n("processing"));
          });
