@@ -977,17 +977,25 @@ zh:
   label_irm_business_object_bo_model_name: Model名称
   label_irm_business_object_auto_generate_flag: 自动生成
   label_irm_business_object_multilingual_flag: 多语言
-  label_irm_business_object_new: 复制业务对象
+  label_irm_business_object_new: 新建业务对象
   label_irm_business_object_edit: 编辑业务对象
   label_irm_business_object_description: 描述
   label_irm_business_object_description_full: 业务对象描述
   label_irm_business_object_workflow_flag: 启用工作流
+  label_irm_business_object_report_flag: 启用报表
+  label_irm_business_object_standard_flag: 内置业务对像
+  label_irm_business_object_function: 启用功能
+  label_irm_business_object_api: API信息
+  label_irm_object_attribute_new_table_column: 新建数据库属性
+  label_irm_object_attribute_new_model_attribute: 新建model属性
   #======================== business objects====================
   #======================== object attributes====================
   label_irm_object_attributes: 属性
   label_irm_object_attribute_name: 名称
   label_irm_object_attribute_attribute_name: 属性名
   label_irm_object_attribute_attribute_type: 属性类型
+  label_irm_object_attribute_category: 属性类别
+  label_irm_object_attribute_field_type: 字段类型
   label_irm_object_attribute_approval_page_field_flag: 审批
   label_irm_object_attribute_filter_flag: 过滤
   label_irm_object_attribute_relation_bo_code: 关联BO
@@ -1000,19 +1008,33 @@ zh:
   label_irm_object_attribute_lov_code: LOV
   label_irm_object_attribute_where_clause: 关联条件
   label_irm_object_attribute_fill_attribute_info: 属性信息
+  label_irm_object_attribute_database_info: 属性数据库信息
   label_irm_object_attribute_data_type: 数据类型
   label_irm_object_attribute_data_length: 数据长度
+  label_irm_object_attribute_data_null_flag: 可为空
+  label_irm_object_attribute_data_key_type: 键类型
+  label_irm_object_attribute_data_default_value: 默认值
+  label_irm_object_attribute_data_extra_info: 额外信息
   label_irm_object_attribute_edit: 编辑BO属性
   label_irm_object_attribute_description: 描述
   label_irm_object_attributes_test_information: 测试信息
   label_irm_object_attribute_invalid_exists_relation_table: 请填写已经存在的表别名
-  label_irm_object_attribute_invalid_model_attribute: BO对象中无该属性
+  label_irm_object_attribute_invalid_model_attribute: 业务对象中无该属性
   label_irm_object_attribute_person_flag: 人员属性
   label_irm_object_attribute_update_flag: 可更新
   label_irm_object_attribute_change_type_link: 类型
   label_irm_object_attribute_change_type: 更改属性类型
   label_irm_object_standard_attributes: 标准字段
   label_irm_object_custom_attributes: 自定义字段
+  label_irm_object_attribute_label_flag: 名称字段
+  label_irm_object_attribute_required_flag: 必输字段
+  label_irm_business_object_relation: 关联的业务对像信息
+  label_irm_object_attribute_relation_bo: 关联业务对像
+  label_irm_object_attribute_relation_object_attribute: 关联属性
+  label_irm_object_attribute_function: 属性可用功能
+  label_irm_object_attribute_approve_flag: 在审批页面显示
+  label_irm_object_attribute_attribute_name_format: 只能输入小写字母,下划线,数字,且必须以字母开头
+  label_irm_object_attribute_invalid_table_attribute: 数据库表中没有该字段
   #======================== object attributes====================
   #======================== list of values====================
   label_irm_list_of_value_list: 值列表

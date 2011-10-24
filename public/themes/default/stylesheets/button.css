@@ -44,6 +44,11 @@ div.button a[class="disabled"]{
     background: none;
     background-color: #ededed;
 }
+div.button a.disabled{
+    color: #a9a9a9;
+    background: none;
+    background-color: #ededed;
+}
 
 div.gray-button a {
     -moz-border-radius: 3px 3px 3px 3px;

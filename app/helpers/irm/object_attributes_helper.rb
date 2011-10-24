@@ -52,4 +52,34 @@ module Irm::ObjectAttributesHelper
     end
     object_attributes.collect{|i|[i.attribute_name,i.attribute_name,{:attribute_name=>i.attribute_name}]}
   end
+
+  def object_attribute_categories
+    categories = {}
+    Irm::LookupValue.multilingual.query_by_lookup_type("BO_ATTRIBUTE_CATEGORY").each do |c|
+      categories[c[:lookup_code]] = c
+    end
+    categories
+  end
+
+  def standard_object_attributes(bo_id)
+    Irm::ObjectAttribute.multilingual.list_all.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","STANDARD_FIELD")
+  end
+
+  def customize_object_attributes(bo_id)
+    Irm::ObjectAttribute.multilingual.list_all.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type != ?","STANDARD_FIELD")
+  end
+
+  def show_object_attribute_category(data)
+    case data[:category]
+      when "LOOKUP_RELATION","MASTER_DETAIL_RELATION"
+        return "#{data[:category_name]}(#{data[:relation_bo_name]})"
+      when "DATE_TIME","CHECK_BOX","PICK_LIST","PICK_LIST_MULTI"
+        return data[:category_name]
+      when "EMAIL","NUMBER" ,"TEXT","TEXT_AREA" ,"TEXT_AREA_RICH","URL"
+        return "#{data[:category_name]}(#{data.data_length})"
+      else
+        return data[:attribute_type_name]
+    end
+  end
+
 end

@@ -47,11 +47,7 @@ class Irm::BusinessObjectsController < ApplicationController
   # GET /business_objects/new
   # GET /business_objects/new.xml
   def new
-    @business_object = Irm::BusinessObject.new({:business_object_code=>"DEFAULT_BO_CODE",
-                                                :bo_table_name =>"default_table_name",
-                                                :bo_model_name=>"default_model_name",
-                                                :auto_generate_flag=>Irm::Constant::SYS_YES,
-                                                :multilingual_flag=>Irm::Constant::SYS_YES})
+    @business_object = Irm::BusinessObject.new()
 
     respond_to do |format|
       format.html # new.html.erb
@@ -68,16 +64,9 @@ class Irm::BusinessObjectsController < ApplicationController
   # POST /business_objects.xml
   def create
     @business_object = Irm::BusinessObject.new(params[:irm_business_object])
-    #origin = Irm::BusinessObject.find(params[:id])
-    #origin.object_attributes.includes(:object_attributes_tls).each do |oa|
-    #  new_oa = @business_object.object_attributes.build(oa.attributes.merge({:not_auto_mult=>true,:business_object_code=>@business_object.business_object_code,:created_at=>nil,:updated_at=>nil,:created_by=>nil,:updated_by=>nil}))
-    #  oa.object_attributes_tls.each do |oatl|
-    #    new_oa.object_attributes_tls.build(oatl.attributes.merge({:created_at=>nil,:updated_at=>nil,:created_by=>nil,:updated_by=>nil}))
-    #  end
-    #end
     respond_to do |format|
-      if @business_object.valid?
-        Irm::AutoInitBusinessObject.setup_by_model(@business_object.bo_model_name,{:name=>@business_object.name})
+      if @business_object.save
+        #Irm::AutoInitBusinessObject.setup_by_model(@business_object.bo_model_name,{:name=>@business_object.name})
         format.html { redirect_to(:action=>"index", :notice => t(:successfully_created)) }
         format.xml  { render :xml => @business_object, :status => :created, :location => @business_object }
       else

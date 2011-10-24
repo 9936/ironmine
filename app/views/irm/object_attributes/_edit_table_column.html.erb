@@ -4,10 +4,10 @@
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_object_attribute_edit)%></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_application_new)%></h2></td>
           <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
+            <div class="button"><%= link_to t(:save), {},{:type=>"submit"} %></div>
+            <div class="button"><%= link_to t(:cancel), {:id=>params[:bo_id],:action => "show",:controller=>"irm/business_objects"} %></div>
           </td>
         </tr>
       </tbody>
@@ -30,37 +30,123 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
-              <td class="dataCol"><%=f.text_field :name,:value=>@object_attribute[:name], :required=>true ,:id=>"object_attribute_name"%></td>
-              <td class="labelCol"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
-              <td class="dataCol"><%=@object_attribute.attribute_name%></td>
-              <%= f.hidden_field(:attribute_type) %>
+              <td class="labelCol"><label for="object_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
+              <td class="dataCol">
+                <%=f.text_field :name, :required=>true ,:id=>"object_attribute_name"%>
+                <%=f.hidden_field(:category) %>
+              </td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label for="object_attribute_lov_code"><%=t(:label_irm_object_attribute_lov_code)%></label></td>
-              <td class="dataCol"><%=f.lov_field :lov_code,"LIST_OF_VALUE",{},{:id=>"object_attribute_lov_code"}%></td>
-              <td class="labelCol"><label for="object_attribute_attribute_type"><%=t(:label_irm_object_attribute_attribute_type)%></label></td>
-              <td class="dataCol"><%=f.select :field_type, available_object_attribute_field_type%></td>
+              <td class="labelCol"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
+              <td class="dataCol"><%=@object_attribute.attribute_name%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="object_attribute_description"><%=t(:label_irm_object_attribute_description)%></label></td>
+              <td class="dataCol" colspan="3"><%=f.text_area :description, :cols=>60,:rows=>5,:id=>"object_attribute_description"%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="relation_bo_id"><%=t(:label_irm_object_attribute_field_type)%></label></td>
+              <td class="dataCol"><%= f.select(:field_type,available_object_attribute_field_type,{},:required=>true,:id=>"field_type") %></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="object_attribute_label_flag"><%=t(:label_irm_object_attribute_label_flag)%></label></td>
+              <td class="dataCol"><%=f.check_box(:label_flag,:id=>"object_attribute_label_flag")%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="object_attribute_required_flag"><%=t(:label_irm_object_attribute_required_flag)%></label></td>
+              <td class="dataCol"><%=f.check_box(:required_flag,:id=>"object_attribute_required_flag")%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+        </tbody>
+
+      </table>
+    </div>
+    <% if @object_attribute.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(@object_attribute.category) %>
+        <div class="pbSubheader  tertiaryPalette">
+          <h3><%= t(:label_irm_business_object_relation) %></h3>
+        </div>
+        <div class="pbSubsection">
+          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+
+                <tr>
+                  <td class="labelCol"><label for="relation_bo_id"><%=t(:label_irm_object_attribute_relation_bo)%></label></td>
+                  <td class="dataCol"><%= f.blank_select(:relation_bo_id,available_business_object_with_id,{},:required=>true,:id=>"relation_bo_id") %></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label for="relation_object_attribute_id"><%=t(:label_irm_object_attribute_relation_object_attribute)%></label></td>
+                  <td class="dataCol"><%= f.blank_select(:relation_object_attribute_id,[],{},
+                                                         {:id=>"relation_object_attribute_id",
+                                                          :required=>true,
+                                                          :origin_value=>@object_attribute.relation_object_attribute_id,
+                                                          :href=>url_for(:controller=>"irm/object_attributes",:action=>"relation_columns",:format=>"json",:business_object_id=>"${relation_bo_id}"),
+                                                          :depend=>"relation_bo_id"}) %></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+               </tbody>
+          </table>
+        </div>
+    <% end %>
+
+
+    <div class="pbSubheader  tertiaryPalette">
+      <h3><%= t(:label_irm_object_attribute_function) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label for="object_attribute_update_flag"><%=t(:label_irm_object_attribute_update_flag)%></label></td>
+              <td class="dataCol"><%=f.check_box(:update_flag,:id=>"object_attribute_update_flag")%></td>
+              <td class="labelCol"><label for="object_attribute_person_flag"><%=t(:label_irm_object_attribute_person_flag)%></label></td>
+              <td class="dataCol"><%=f.check_box(:person_flag,:id=>"object_attribute_person_flag")%></td>
             </tr>
             <tr>
               <td class="labelCol"><label for="object_attribute_filter_flag"><%=t(:label_irm_object_attribute_filter_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box :filter_flag,{:id=>"object_attribute_filter_flag"}%></td>
-              <td class="labelCol"><label for="object_attribute_approval_page_field_flag"><%=t(:label_irm_object_attribute_approval_page_field_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box :approval_page_field_flag ,:id=>"object_attribute_approval_page_field_flag"%></td>
+              <td class="dataCol"><%=f.check_box(:filter_flag,:id=>"object_attribute_filter_flag")%></td>
+              <td class="labelCol"><label for="object_attribute_approve_flag"><%=t(:label_irm_object_attribute_approve_flag)%></label></td>
+              <td class="dataCol"><%=f.check_box(:approve_flag,:id=>"object_attribute_approve_flag")%></td>
             </tr>
+           </tbody>
+      </table>
+    </div>
+    <div class="pbSubheader  tertiaryPalette">
+      <h3><%= t(:label_irm_object_attribute_database_info) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
             <tr>
-              <td class="labelCol"><label for="object_attribute_person_flag"><%=t(:label_irm_object_attribute_person_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box :person_flag,{:id=>"object_attribute_person_flag"}%></td>
-              <td class="labelCol"><label for="object_attribute_update_flag"><%=t(:label_irm_object_attribute_update_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box :update_flag ,:id=>"object_attribute_update_flag"%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="object_attribute_data_type"><%=t(:label_irm_object_attribute_data_type)%></label></td>
+              <td class="labelCol"><label><%=t(:label_irm_object_attribute_data_type)%></label></td>
               <td class="dataCol"><%=@object_attribute.data_type%></td>
-              <td class="labelCol"><label for="object_attribute_data_length"><%=t(:label_irm_object_attribute_data_length)%></label></td>
+              <td class="labelCol"><label><%=t(:label_irm_object_attribute_data_length)%></label></td>
               <td class="dataCol"><%=@object_attribute.data_length%></td>
             </tr>
-        </tbody>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_irm_object_attribute_data_null_flag)%></label></td>
+              <td class="dataCol"><%=check_img(@object_attribute.data_null_flag)%></td>
+              <td class="labelCol"><label><%=t(:label_irm_object_attribute_data_key_type)%></label></td>
+              <td class="dataCol"><%=@object_attribute.data_key_type%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_irm_object_attribute_data_default_value)%></label></td>
+              <td class="dataCol"><%=@object_attribute.data_default_value%></td>
+              <td class="labelCol"><label><%=t(:label_irm_object_attribute_data_extra_info)%></label></td>
+              <td class="dataCol"><%=@object_attribute.data_extra_info%></td>
+            </tr>
+           </tbody>
       </table>
     </div>
   </div>
@@ -70,8 +156,8 @@
         <tr>
           <td class="pbTitle"></td>
           <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
+            <div class="button"><%= link_to t(:save), {},{:type=>"submit"} %></div>
+            <div class="button"><%= link_to t(:cancel), {:id=>params[:bo_id],:action => "show",:controller=>"irm/business_objects"} %></div>
           </td>
         </tr>
       </tbody>
@@ -79,3 +165,12 @@
   </div>
 </div>
 <% end %>
+
+<script type="text/javascript">
+  $(function(){
+      if($("#relation_bo_id")){
+          $("#relation_bo_id").cascade("#relation_object_attribute_id");
+      }
+
+  });
+</script>

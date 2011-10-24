@@ -3,29 +3,51 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   before_validation :check_attribute
 
-  belongs_to :business_object,:foreign_key=>:business_object_code,:primary_key=>:business_object_code
+  belongs_to :business_object
 
   attr_accessor :step
   #多语言关系
   attr_accessor :name,:description
   has_many :object_attributes_tls,:dependent => :destroy
-  acts_as_multilingual
+  acts_as_multilingual({:required=>[]})
 
-  validates_presence_of :business_object_code,:attribute_name,:approval_page_field_flag
-  validates_uniqueness_of :attribute_name,:scope=>[:opu_id,:business_object_code],:if => Proc.new { |i| !i.attribute_name.blank?&&!i.business_object_code.blank? }
-  validates_presence_of :exists_relation_flag,:relation_bo_code,:relation_table_alias_name,:relation_column,:if => Proc.new { |i| !i.attribute_type.blank?&&["RELATION_COLUMN","LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(i.attribute_type)}
-  validates_presence_of :where_clause,:if => Proc.new { |i| !i.attribute_type.blank?&&i.attribute_type.eql?("RELATION_COLUMN")&&i.exists_relation_flag.eql?(Irm::Constant::SYS_NO) }
-  validates_format_of :relation_table_alias_name, :with => /^[A-Za-z0-9_]*$/ ,:if=>Proc.new{|i| i.relation_table_alias_name.present?},:message=>:code
-  validate :validate_relation,:if=> Proc.new{|i| i.relation_table_alias_name.present?&&!self.relation_bo_code.blank?&&!i.attribute_type.blank?&&i.attribute_type.eql?("RELATION_COLUMN")}
+  #  验证基础字段
+  validates_presence_of :attribute_name,:if=>Proc.new{|i| i.check_step(2)}
+
+  validates_presence_of :business_object_id,:attribute_type,:field_type,:category,:if=>Proc.new{|i| i.check_step(1)}
+
+  validates_presence_of :name,:if => Proc.new { |i|i.name=i.attributes[:name]  if i.attributes[:name];i.check_step(2)&&!not_auto_mult}
+
+
+  # 验证属性名称的唯一性
+  validates_uniqueness_of :attribute_name,:scope=>[:opu_id,:business_object_id],:if => Proc.new { |i| i.attribute_name.present?&&i.business_object_id.present? }
+  validates_format_of :attribute_name, :with => /^[a-z]+[a-z0-9_]*$/ ,:if=>Proc.new{|i| i.attribute_name.present?},:message=>:label_irm_object_attribute_attribute_name_format
+
+  # 当属性为表格属性时,从数据库读取表格列信息
+  validate :validate_table_column,:if=> Proc.new{|i| i.attribute_name.present?&&i.attribute_type.present?&&i.attribute_type.eql?("TABLE_COLUMN")}
+
+  # 验证关联关系
+  validates_presence_of :relation_bo_id,:if=> Proc.new{|i| i.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(i.category)&&i.check_step(2)}
+  validates_format_of :relation_table_alias, :with => /^[A-Za-z0-9_]*$/ ,:if=>Proc.new{|i| i.relation_table_alias.present?},:message=>:code
+
+  # 设置关联关系表别名
+  before_save :prepare_relation_table_alias
+
   # validate lookup master detail table name alias
-  validate :validate_lookup_master_detail,:if=> Proc.new{|i| !self.relation_bo_code.blank?&&!i.attribute_type.blank?&&["LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(i.attribute_type)}
-  validate :validate_model_attribute,:if=> Proc.new{|i| !i.attribute_type.blank?&&i.attribute_type.eql?("MODEL_ATTRIBUTE")}
+  # validate :validate_lookup_master_detail,:if=> Proc.new{|i| !self.relation_bo_code.blank?&&!i.attribute_type.blank?&&["LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(i.attribute_type)}
+  validate :validate_model_attribute,:if=> Proc.new{|i| i.attribute_type.present?&&i.attribute_name.present?&&i.attribute_type.eql?("MODEL_ATTRIBUTE")}
   #加入activerecord的通用方法和scope
   query_extend
 
+  # 设置名称字段,一个对像中只有一个名称字段
+  after_save :clear_other_label_flag
+
+
+
   scope :with_relation_bo,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} relation_bo ON relation_bo.business_object_code = #{table_name}.relation_bo_code and relation_bo.language='#{language}'").
-    select("relation_bo.name relation_bo_name")
+    joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} relation_bo ON relation_bo.id = #{table_name}.relation_bo_id and relation_bo.language='#{language}'").
+    joins("LEFT OUTER JOIN #{self.view_name} relation_bo_attribute ON relation_bo_attribute.id = #{table_name}.relation_object_attribute_id and relation_bo_attribute.language='#{language}'").
+    select("relation_bo.name relation_bo_name,relation_bo.bo_table_name relation_bo_table_name,relation_bo_attribute.name relation_bo_attribute_name ,relation_bo_attribute.attribute_name relation_attribute_name")
   }
   scope :with_lov,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::ListOfValue.view_name} lov ON lov.lov_code = #{table_name}.lov_code and lov.language='#{language}'").
@@ -36,6 +58,10 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     where(:business_object_code=>business_object_code)
   }
 
+  scope :query_by_business_object,lambda{|business_object_id|
+    where(:business_object_id=>business_object_id)
+  }
+
   scope :with_attribute_type,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} attribute_type ON attribute_type.lookup_type='BO_ATTRIBUTE_TYPE' AND attribute_type.lookup_code = #{table_name}.attribute_type AND attribute_type.language= '#{language}'").
     select(" attribute_type.meaning attribute_type_name")
@@ -44,6 +70,11 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   scope :with_field_type,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} field_type ON field_type.lookup_type='BO_ATTRIBUTE_FIELD_TYPE' AND field_type.lookup_code = #{table_name}.field_type AND field_type.language= '#{language}'").
     select(" field_type.meaning field_type_name")
+  }
+
+  scope :with_category,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} category ON category.lookup_type='BO_ATTRIBUTE_CATEGORY' AND category.lookup_code = #{table_name}.category AND category.language= '#{language}'").
+    select(" category.meaning category_name")
   }
 
   scope :table_column,lambda{
@@ -68,7 +99,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   }
 
   scope :query_by_model_name,lambda{|model_name|
-    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.business_object_code = #{table_name}.business_object_code").
+    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.id = #{table_name}.business_object_id").
     where("#{Irm::BusinessObject.table_name}.bo_model_name = ?",model_name)
   }
 
@@ -80,10 +111,17 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     where("#{table_name}.field_type = ? ",'CUSTOMED_FIELD')
   }
 
-  scope :with_business_object_id,lambda{
-    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.business_object_code = #{table_name}.business_object_code").
-    select("#{Irm::BusinessObject.table_name}.id business_object_id")
-  }
+  def self.list_all
+    self.select_all.
+        with_relation_bo(I18n.locale).
+        with_attribute_type(I18n.locale).
+        with_field_type(I18n.locale).
+        with_category(I18n.locale)
+  end
+
+  def check_step(stp)
+    self.step.nil?||self.step.to_i>=stp
+  end
 
 
   def select_table_name
@@ -100,18 +138,16 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   private
   def check_attribute
+    if Irm::Constant::SYS_YES.eql?(self.label_flag)
+      self.field_type="STANDARD_FIELD"
+    end
     case self.attribute_type
       when "TABLE_COLUMN"
-        clean_column([:relation_bo_code,:relation_table_alias_name,:relation_column,:where_clause])
+        unless self.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(self.category)
+          clean_column([:relation_exists_flag,:relation_bo_code,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause])
+        end
       when "MODEL_ATTRIBUTE"
-        clean_column([:relation_bo_code,:relation_table_alias_name,:relation_column,:where_clause])
-        self.field_type= "CUSTOMED_FIELD"
-      when "RELATION_COLUMN"
-        relation_attribute = self.class.where(:business_object_code=>self.relation_bo_code,:attribute_name=>self.relation_column).first
-        self.data_length = relation_attribute.data_length
-        self.data_type = relation_attribute.data_type
-        self.field_type= "CUSTOMED_FIELD"
-
+        clean_column([:category,:relation_exists_flag,:relation_bo_code,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause,:lov_code,:pick_list_code,:data_type,:data_length,:data_null_flag,:data_key_type,:data_default_value,:data_extra_info])
     end
   end
 
@@ -121,29 +157,33 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     end
   end
 
-  def validate_lookup_master_detail
-    attributes = self.class.where(:business_object_code=>self.business_object_code,:relation_table_alias_name=>self.relation_table_alias_name).where("#{self.class.table_name}.exists_relation_flag IS NULL OR #{self.class.table_name}.exists_relation_flag=?",Irm::Constant::SYS_NO)
-    if self.id
-      attributes = attributes.where("#{self.class.table_name}.id !=?",self.id)
-    end
-    if attributes.size>0
-      errors.add(:relation_table_alias_name,I18n.t("activerecord.errors.messages.taken"))
-    end
-  end
+  def prepare_relation_table_alias
+    if self.relation_bo_id.present?&&self.category.present?&& ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(self.category)
+      look_for_name = true
+      relation = Irm::BusinessObject.find(self.relation_bo_id)
 
-
-  def validate_relation
-    if self.exists_relation_flag.eql?(Irm::Constant::SYS_YES)
-      attributes = self.class.where(:business_object_code=>self.business_object_code,:relation_bo_code=>self.relation_bo_code).where("#{self.class.table_name}.where_clause IS NOT NULL")
-      attribute = attributes.detect{|oa| oa.relation_table_alias_name.eql?(self.relation_table_alias_name)}
-      errors.add(:relation_table_alias_name,I18n.t(:label_irm_object_attribute_invalid_exists_relation_table)+":#{attributes.collect{|oa| oa.relation_table_alias_name}.join(",")}") if attribute.nil?
-    else
-      attributes = self.class.where(:business_object_code=>self.business_object_code,:relation_table_alias_name=>self.relation_table_alias_name).where("#{self.class.table_name}.exists_relation_flag IS NULL OR #{self.class.table_name}.exists_relation_flag=?",Irm::Constant::SYS_NO)
-      if self.id
-        attributes = attributes.where("#{self.class.table_name}.id !=?",self.id)
+      # 如果没有更改关联的model,无需重新计算表别名
+      if self.relation_table_alias.present?&&self.relation_table_alias.start_with?(relation.bo_table_name)
+        return
       end
-      if attributes.size>0
-        errors.add(:relation_table_alias_name,I18n.t("activerecord.errors.messages.taken"))
+      count = 0;
+      while look_for_name
+         tmp_table = relation.bo_table_name
+         unless count == 0
+           tmp_table = "#{tmp_table}_#{(count+96).chr}"
+         end
+         puts "================#{tmp_table}=========================================="
+         count_scope = self.class.where(:business_object_id=>self.business_object_id,:relation_bo_id=>self.relation_bo_id,:relation_table_alias=>tmp_table)
+
+         if self.id.present?
+           count_scope = count_scope.where("id != ?",self.id)
+         end
+
+         if count_scope.count < 1
+           look_for_name = false
+           self.relation_table_alias = tmp_table
+         end
+         count = count + 1
       end
     end
   end
@@ -163,6 +203,34 @@ class Irm::ObjectAttribute < ActiveRecord::Base
       end
     end
     errors.add(:attribute_name,I18n.t(:label_irm_object_attribute_invalid_model_attribute)) unless pass
+  end
+
+  def validate_table_column
+    column = nil
+    tcs = self.class.connection.execute("DESCRIBE  #{self.business_object.bo_table_name}")
+    tcs.each do |tc|
+      if tc[0].eql?(self.attribute_name)
+        column = tc
+      end
+    end
+    if column
+      data_type_length = column[1].split("(")
+      self.data_type = data_type_length[0]
+      self.data_length = nil
+      self.data_length = data_type_length[1].gsub(/\)/,"") if data_type_length[1]
+      self.data_null_flag = ("NO".eql?(column[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES)
+      self.data_key_type = column[3]
+      self.data_default_value = column[4]
+      self.data_extra_info = column[5]
+    else
+      errors.add(:attribute_name,I18n.t(:label_irm_object_attribute_invalid_table_attribute))
+    end
+  end
+
+  def clear_other_label_flag
+    if Irm::Constant::SYS_YES.eql?(self.label_flag)
+      self.class.where("label_flag = ? AND id != ?", Irm::Constant::SYS_YES,self.id).update_all(:label_flag=>Irm::Constant::SYS_NO)
+    end
   end
 
 end

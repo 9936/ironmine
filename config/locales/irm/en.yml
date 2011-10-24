@@ -978,7 +978,7 @@ en:
   label_irm_business_object_bo_model_name: Model Name
   label_irm_business_object_auto_generate_flag: Auto Generate
   label_irm_business_object_multilingual_flag: Multilingual
-  label_irm_business_object_new: Copy Business Object
+  label_irm_business_object_new: New Business Object
   label_irm_business_object_edit: Edit Business Object
   label_irm_business_object_description: Description
   label_irm_business_object_description_full: BO Description

@@ -1,7 +1,7 @@
 class Irm::BusinessObject < ActiveRecord::Base
   set_table_name :irm_business_objects
 
-  has_many :object_attributes,:foreign_key=>:business_object_code,:primary_key=>:business_object_code,:dependent => :destroy
+  has_many :object_attributes,:dependent => :destroy
 
   #多语言关系
   attr_accessor :name,:description
@@ -12,7 +12,9 @@ class Irm::BusinessObject < ActiveRecord::Base
   validates_uniqueness_of :business_object_code, :if => Proc.new { |i| !i.business_object_code.blank? }
   validates_uniqueness_of :bo_table_name,:scope => [:bo_model_name,:auto_generate_flag], :if => Proc.new { |i| !i.auto_generate_flag.eql?(Irm::Constant::SYS_YES) }
   validates_format_of :business_object_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.business_object_code.blank?},:message=>:code
+  validate :validate_database_info
 
+  before_validation :before_validate_on_create,:on=>:create
   #加入activerecord的通用方法和scope
   query_extend
 
@@ -178,9 +180,36 @@ class Irm::BusinessObject < ActiveRecord::Base
     model_query
   end
 
+  # 新建业务对像前,从数据库中取得相应的信息
+  def before_validate_on_create
+    if self.new_record?&&self.bo_model_name.present?&&defined?(self.bo_model_name.constantize)
+      model = self.bo_model_name.constantize
+
+      self.bo_table_name = model.table_name
+
+      if self.class.connection.table_exists?(self.bo_table_name)
+        self.business_object_code = self.bo_table_name.upcase
+        self.standard_flag= Irm::Constant::SYS_YES
+
+        if model.respond_to?(:multilingual)&&model.respond_to?(:view_name)
+          self.bo_table_name = model.view_name
+          self.business_object_code = self.bo_table_name.upcase
+          self.multilingual_flag = Irm::Constant::SYS_YES
+        end
+
+      end
+    end
+  end
+
+  def validate_database_info
+    unless self.bo_table_name.present?
+      self.errors.add(:bo_model_name,I18n.t(:label_irm_business_object_error_table_not_exists))
+    end
+  end
 
 
 
+  # 业务对像中的公用类方法
   def self.attribute_of(bo,attribute_name)
     value = nil
     value = bo.send(attribute_name.to_sym) if bo.respond_to?(attribute_name.to_sym)

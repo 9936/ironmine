@@ -513,6 +513,8 @@ Ironmine::Application.routes.draw do
     match '/business_objects/:id/multilingual_update(.:format)' => "business_objects#multilingual_update", :via => :put
     # object attributes
     match '/object_attributes(/index)(.:format)' => "object_attributes#index", :via => :get
+    match '/business_objects/:bo_id/object_attributes/new_model_attribute(.:format)' => "object_attributes#new_model_attribute", :via => :get
+    match '/business_objects/:bo_id/object_attributes/create_model_attribute(.:format)' => "object_attributes#create_model_attribute", :via => :post
     match '/business_objects/:bo_id/object_attributes/new(.:format)' => "object_attributes#new", :via => [:get,:post,:put]
     match '/business_objects/:bo_id/object_attributes/create(.:format)' => "object_attributes#create", :via => :post
     match '/business_objects/:bo_id/object_attributes/get_data(.:format)' => "object_attributes#get_data"
