@@ -1,5 +1,6 @@
 class Irm::CommonController < ApplicationController
   layout "common"
+  layout "common_all", :only => [:upload_file, :create_upload_file]
   #skip_before_filter :prepare_application
 
   def login
@@ -30,6 +31,32 @@ class Irm::CommonController < ApplicationController
     end
   end
 
+  def upload_file
+    @file = Irm::AttachmentVersion.new()
+  end
+
+  def create_upload_file
+    @file=Irm::Attachment.create()
+    version = Irm::AttachmentVersion.new(:data => params[:file],
+                                            :attachment_id=>@file.id,
+                                            :source_type=> 0,
+                                            :source_id => 0,
+                                            :category_id => 0,
+                                            :description => "")
+    flag, now = version.over_limit?(Irm::SystemParametersManager.upload_file_limit)
+    version.save if flag
+    Irm::AttachmentVersion.update_attachment_by_version(@file,version)
+    @url = "<img src=#{version.url}>"
+    @render_target = "msgEditor"
+    respond_to do |format|
+      format.js do
+        responds_to_parent do
+          render :create_upload_file do |page|
+          end
+        end
+      end
+    end
+  end
 
   # 个人密码修改页面
   def edit_password

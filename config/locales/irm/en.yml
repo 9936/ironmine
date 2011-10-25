@@ -1521,3 +1521,10 @@ en:
   label_irm_license_code: Code
   label_irm_license_description: Description
   #=========================  end  license=======================#
+  #========================= rich text editor upload image window======================
+  label_irm_rich_editor_win_tab_from_clipboard: Upload from clipboard
+  label_irm_rich_editor_win_tab_from_file: Upload from image file
+  label_irm_rich_editor_win_tab_select_file: Select local image file
+  label_irm_rich_editor_win_tab_selected_file: Selected image
+  label_irm_rich_editor_win_tab_upload_image: Upload image
+  #========================= end ======================

@@ -1,0 +1,9 @@
+$(function(){
+    var regu = /^\d+(\.\d+)?$/;
+    if (regu.test('<%= @url.html_safe%>')){
+        parent.finishAttach('<%= @url.html_safe%>', '<%= @render_target %>', "<%= I18n.t(:error_file_upload_limit_shot, :m => Irm::SystemParametersManager.upload_file_limit.to_s)%>".replace("_", '<%= @url.html_safe%>'));
+    }
+    else{
+        parent.finishAttach('<%= @url.html_safe%>', '<%= @render_target %>', "");
+    }
+});

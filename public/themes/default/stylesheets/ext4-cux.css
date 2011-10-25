@@ -43,3 +43,7 @@
 .x-strict .x-ie6 .x-grid-header-row {
     position: inherit;
 }
+
+.x-html-editor-tb .x-edit-uploadimage{
+    background-image: url("../images/16_16/photo_edit.gif");
+}

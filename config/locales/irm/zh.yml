@@ -1521,3 +1521,10 @@ zh:
   label_irm_license_code: 编码
   label_irm_license_description: 描述
   #=========================  end  license=======================#
+  #========================= rich text editor upload image window======================
+  label_irm_rich_editor_win_tab_from_clipboard: 从剪贴板上传图片
+  label_irm_rich_editor_win_tab_from_file: 从文件上传图片
+  label_irm_rich_editor_win_tab_select_file: 从本地选择要上传的图片
+  label_irm_rich_editor_win_tab_selected_file: 选择的图片
+  label_irm_rich_editor_win_tab_upload_image: 上传图片
+  #========================= end ======================

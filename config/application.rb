@@ -63,6 +63,7 @@ module Ironmine
         :home=>%w(),
         :login=>%w(login),
         :common=>%w(login),
+        :common_all=>%w(base button container form public),
         :jcrop=>%w(jcrop),
         :extjs=>%w(ext4-all ext4-cux),
         :datepicker=>%w(jquery-datepicker)
