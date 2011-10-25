@@ -46,7 +46,7 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
   def to_condition
     object_attribute = self.ref_object_attribute
     operator_filter_value = parse_condition(object_attribute,self.operator_code,self.filter_value)|| "=#{object_attribute.select_table_name}.#{self.attribute_name}"
-    "(#{object_attribute.select_table_name}.#{self.attribute_name} #{operator_filter_value})"
+    "(#{object_attribute.select_table_name}.#{object_attribute.attribute_name} #{operator_filter_value})"
   end
 
   def ref_object_attribute

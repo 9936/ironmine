@@ -53,7 +53,7 @@ module Irm::FiltersHelper
   end
 
   def render_exists_operator_and_value(bo_code,object_attribute_name,form)
-    oa = Irm::ObjectAttribute.where(:business_object_code=>bo_code,:attribute_name=>object_attribute_name).first
+    oa = Irm::ObjectAttribute.query_by_business_object_code(bo_code).where(:attribute_name=>object_attribute_name).first
     render_operator_and_value(oa,form)
   end
 
@@ -79,7 +79,7 @@ module Irm::FiltersHelper
 
   private
   def view_filter_columns(bo_code)
-    Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable.where(:business_object_code=>bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
+    Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable.query_by_business_object_code(bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
   end
 
   def view_filters(source_code)

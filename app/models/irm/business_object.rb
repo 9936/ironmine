@@ -26,9 +26,9 @@ class Irm::BusinessObject < ActiveRecord::Base
   def generate_query(execute=false)
     query_str = {:select=>[],:joins=>[],:where=>[],:order=>[]}
     query_str[:select]<< "#{self.bo_table_name}.*"
-    self.object_attributes.where(:attribute_type=>"RELATION_COLUMN").each do |oa|
-      relation_bo = self.class.find_by_business_object_code(oa.relation_bo_code)
-      query_str[:select]<<"#{oa.relation_table_alias_name}.#{oa.relation_column} #{oa.attribute_name}"
+    self.object_attributes.where("category in (?)",["LOOKUP_RELATION","MASTER_DETAIL_RELATION"]).each do |oa|
+      label_attribute = Irm::ObjectAttribute.get_label_attribute(oa.relation_bo_id)
+      query_str[:select]<<"#{oa.relation_table_alias}.#{label_attribute.attribute_name} #{oa.attribute_name}_label"
       join_object_attribute(query_str,oa)
     end
 
@@ -47,12 +47,12 @@ class Irm::BusinessObject < ActiveRecord::Base
       # filter column or need to return column
       if(soa.filter_flag.eql?(Irm::Constant::SYS_YES)||oas.include?(soa.attribute_name.to_sym))
         select_attributes << soa
-        join_table_names << soa.relation_table_alias_name if soa.attribute_type.eql?("RELATION_COLUMN")
+        join_table_names << soa.relation_table_alias if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(soa.category)
       end
     end
 
     self.object_attributes.each do |soa|
-      if soa.attribute_type.eql?("RELATION_COLUMN")&&join_table_names.include?(soa.relation_table_alias_name)&&soa.exists_relation_flag.eql?(Irm::Constant::SYS_NO)
+      if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(soa.category)&&join_table_names.include?(soa.relation_table_alias)
         join_attributes << soa
       end
     end if join_table_names.any?
@@ -61,10 +61,6 @@ class Irm::BusinessObject < ActiveRecord::Base
     select_attributes.each do |sa|
       if mini_column&&sa.attribute_type.eql?("TABLE_COLUMN")
         query_str[:select] << %(#{self.bo_table_name}.#{sa.attribute_name})
-      end
-
-      if sa.attribute_type.eql?("RELATION_COLUMN")
-        query_str[:select] << %(#{sa.relation_table_alias_name}.#{sa.relation_column} #{sa.attribute_name})
       end
     end
 
@@ -85,7 +81,7 @@ class Irm::BusinessObject < ActiveRecord::Base
     self.object_attributes.each do |soa|
       if(oas.keys.include?(soa.attribute_name))
         select_attributes << soa
-        join_table_names << soa.relation_table_alias_name if soa.attribute_type.eql?("RELATION_COLUMN")
+        join_table_names << soa.relation_table_alias if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(soa.category)
       end
     end
 
@@ -99,10 +95,6 @@ class Irm::BusinessObject < ActiveRecord::Base
       if sa.attribute_type.eql?("TABLE_COLUMN")
         query_str[:select] << %(#{self.bo_table_name}.#{sa.attribute_name} #{oas[sa.attribute_name]})
       end
-
-      if sa.attribute_type.eql?("RELATION_COLUMN")
-        query_str[:select] << %(#{sa.relation_table_alias_name}.#{sa.relation_column} #{oas[sa.attribute_name]})
-      end
     end
 
     join_attributes.each do |ja|
@@ -114,7 +106,7 @@ class Irm::BusinessObject < ActiveRecord::Base
   end
 
   def approval_attributes
-    self.object_attributes.multilingual.enabled.where(:approval_page_field_flag=>Irm::Constant::SYS_YES)
+    self.object_attributes.multilingual.enabled.where(:approve_flag=>Irm::Constant::SYS_YES)
   end
 
 
@@ -129,26 +121,35 @@ class Irm::BusinessObject < ActiveRecord::Base
   end
   #process join attribute
   def join_object_attribute(query_str,join_attribute)
-    if join_attribute.exists_relation_flag.eql?(Irm::Constant::SYS_NO)
-      relation_bo = self.class.find_by_business_object_code(join_attribute.relation_bo_code)
-      where_clause_str = join_attribute.where_clause
+    if join_attribute.relation_exists_flag.eql?(Irm::Constant::SYS_NO)
+      relation_bo = self.class.find(join_attribute.relation_bo_id)
+      relation_attribute = Irm::ObjectAttribute.query(join_attribute.relation_object_attribute_id).first
+      return unless relation_attribute
+      where_clause_str = join_attribute.relation_where_clause||""
 
       # parse params in where clause
-      if %r{\{\{.*\}\}}.match(join_attribute.where_clause)
+      if where_clause_str.strip.present?&&%r{\{\{.*\}\}}.match(join_attribute.where_clause)
         where_clause_template = Liquid::Template.parse join_attribute.where_clause
-        where_clause_str = where_clause_template.render({"table"=>join_attribute.relation_table_alias_name,"master_table"=>self.bo_table_name})
+        where_clause_str = where_clause_template.render({"table"=>join_attribute.relation_table_alias,"master_table"=>self.bo_table_name})
       end
       where_clause_str.strip!
+
+      if where_clause_str.present?
+        where_clause_str = "#{self.bo_table_name}.#{join_attribute.attribute_name} = #{join_attribute.relation_table_alias}.#{relation_attribute.attribute_name} AND "+ where_clause_str
+      else
+        where_clause_str = "#{self.bo_table_name}.#{join_attribute.attribute_name} = #{join_attribute.relation_table_alias}.#{relation_attribute.attribute_name} "
+      end
+
       # process multilingual
       if relation_bo.multilingual_flag.eql?(Irm::Constant::SYS_YES)
         where_clause_str << " AND "if(where_clause_str).length > 0
         if self.multilingual_flag.eql?(relation_bo.multilingual_flag)
-          where_clause_str << " #{join_attribute.relation_table_alias_name}.language = #{self.bo_table_name}.language"
+          where_clause_str << " #{join_attribute.relation_table_alias}.language = #{self.bo_table_name}.language"
         else
-          where_clause_str << " #{join_attribute.relation_table_alias_name}.language = '{{env.language}}'"
+          where_clause_str << " #{join_attribute.relation_table_alias}.language = '{{env.language}}'"
         end
       end
-      query_str[:joins] << "LEFT OUTER JOIN #{relation_bo.bo_table_name} #{join_attribute.relation_table_alias_name} ON #{where_clause_str}"
+      query_str[:joins] << "LEFT OUTER JOIN #{relation_bo.bo_table_name} #{join_attribute.relation_table_alias} ON  #{where_clause_str}"
     end
   end
   # generate scope string by query hash

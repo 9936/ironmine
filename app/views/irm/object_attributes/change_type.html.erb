@@ -18,84 +18,87 @@
 
                 <tbody>
                   <% categories = object_attribute_categories %>
-                  <% category = categories["LOOKUP_RELATION"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                  <% if !@object_attribute.category.present?||["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(@object_attribute.category)%>
+                    <% category = categories["LOOKUP_RELATION"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
 
-                  <% category = categories["MASTER_DETAIL_RELATION"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["MASTER_DETAIL_RELATION"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
+                  <% end %>
 
+                  <% if !@object_attribute.category.present?||!["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(@object_attribute.category)%>
+                    <% category = categories["CHECK_BOX"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
-                  <% category = categories["CHECK_BOX"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["DATE_TIME"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
+                    <% category = categories["EMAIL"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
-                  <% category = categories["DATE_TIME"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
-                  <% category = categories["EMAIL"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["NUMBER"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
-                  <% category = categories["NUMBER"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["PHONE"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
-                  <% category = categories["PHONE"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["PICK_LIST"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
-                  <% category = categories["PICK_LIST"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["PICK_LIST_MULTI"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
-                  <% category = categories["PICK_LIST_MULTI"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["TEXT"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
-                  <% category = categories["TEXT"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["TEXT_AREA"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
-                  <% category = categories["TEXT_AREA"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["TEXT_AREA_RICH"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
 
-                  <% category = categories["TEXT_AREA_RICH"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
-
-                  <% category = categories["URL"] %>
-                  <tr>
-                    <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
-                    <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
-                  </tr>
+                    <% category = categories["URL"] %>
+                    <tr>
+                      <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+                      <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+                    </tr>
+                  <% end %>
                   <tr>
                     <td class="labelCol"></td>
                     <td class="dataCol"></td>

@@ -62,11 +62,11 @@ module Irm::ObjectAttributesHelper
   end
 
   def standard_object_attributes(bo_id)
-    Irm::ObjectAttribute.multilingual.list_all.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","STANDARD_FIELD")
+    Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","STANDARD_FIELD")
   end
 
   def customize_object_attributes(bo_id)
-    Irm::ObjectAttribute.multilingual.list_all.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type != ?","STANDARD_FIELD")
+    Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type != ?","STANDARD_FIELD")
   end
 
   def show_object_attribute_category(data)

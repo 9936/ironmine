@@ -24,6 +24,7 @@ class ChangeBoForLov < ActiveRecord::Migration
     rename_column :irm_object_attributes,:exists_relation_flag,:relation_exists_flag
     add_column :irm_object_attributes,:relation_object_attribute_id,:string,:limit=>22,:after=>:relation_column
     rename_column :irm_object_attributes,:where_clause,:relation_where_clause
+    add_column :irm_object_attributes,:relation_alias_ref_id,:string,:limit=>22,:after=>:relation_where_clause
 
     add_column :irm_object_attributes,:pick_list_code,:string,:limit=>30,:after=>:lov_code
 

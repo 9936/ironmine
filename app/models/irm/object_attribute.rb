@@ -11,6 +11,9 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   has_many :object_attributes_tls,:dependent => :destroy
   acts_as_multilingual({:required=>[]})
 
+  #删除关联字段的同时,删除别名字段
+  has_many :object_attributes,:foreign_key => :relation_alias_ref_id,:dependent => :destroy
+
   #  验证基础字段
   validates_presence_of :attribute_name,:if=>Proc.new{|i| i.check_step(2)}
 
@@ -27,7 +30,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   validate :validate_table_column,:if=> Proc.new{|i| i.attribute_name.present?&&i.attribute_type.present?&&i.attribute_type.eql?("TABLE_COLUMN")}
 
   # 验证关联关系
-  validates_presence_of :relation_bo_id,:if=> Proc.new{|i| i.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(i.category)&&i.check_step(2)}
+  validates_presence_of :relation_bo_id,:relation_object_attribute_id,:if=> Proc.new{|i| i.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(i.category)&&i.check_step(2)}
   validates_format_of :relation_table_alias, :with => /^[A-Za-z0-9_]*$/ ,:if=>Proc.new{|i| i.relation_table_alias.present?},:message=>:code
 
   # 设置关联关系表别名
@@ -55,7 +58,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   }
 
   scope :query_by_business_object_code,lambda{|business_object_code|
-    where(:business_object_code=>business_object_code)
+    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.id = #{table_name}.business_object_id AND #{Irm::BusinessObject.table_name}.business_object_code = '#{business_object_code}'")
   }
 
   scope :query_by_business_object,lambda{|business_object_id|
@@ -83,7 +86,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
 
   scope :selectable_column,lambda{
-    where("#{table_name}.attribute_type='TABLE_COLUMN' OR #{table_name}.attribute_type = 'RELATION_COLUMN'")
+    where("#{table_name}.attribute_type='TABLE_COLUMN'")
   }
 
   scope :person_column,lambda{
@@ -111,6 +114,10 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     where("#{table_name}.field_type = ? ",'CUSTOMED_FIELD')
   }
 
+  scope :real_field,lambda{
+    where("#{table_name}.attribute_type in (?)",["TABLE_COLUMN","MODEL_ATTRIBUTE"])
+  }
+
   def self.list_all
     self.select_all.
         with_relation_bo(I18n.locale).
@@ -125,16 +132,18 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
 
   def select_table_name
-    t_name = ""
-    case self.attribute_type
-      when "TABLE_COLUMN"
-        t_name = self.business_object.bo_table_name
-      when "RELATION_COLUMN"
-        t_name = self.relation_table_alias_name
-    end
-    t_name
+    self.business_object.bo_table_name
   end
 
+  # 取得业务对像label字段
+  def self.get_label_attribute(business_object_id)
+    label_attribute = self.where(:label_flag=>Irm::Constant::SYS_YES,:business_object_id=>business_object_id).first
+    if label_attribute
+      return label_attribute
+    else
+      return self.where(:attribute_name=>"id",:business_object_id=>business_object_id).first||self.where(:business_object_id=>business_object_id).first
+    end
+  end
 
   private
   def check_attribute
@@ -172,7 +181,6 @@ class Irm::ObjectAttribute < ActiveRecord::Base
          unless count == 0
            tmp_table = "#{tmp_table}_#{(count+96).chr}"
          end
-         puts "================#{tmp_table}=========================================="
          count_scope = self.class.where(:business_object_id=>self.business_object_id,:relation_bo_id=>self.relation_bo_id,:relation_table_alias=>tmp_table)
 
          if self.id.present?
@@ -229,7 +237,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   def clear_other_label_flag
     if Irm::Constant::SYS_YES.eql?(self.label_flag)
-      self.class.where("label_flag = ? AND id != ?", Irm::Constant::SYS_YES,self.id).update_all(:label_flag=>Irm::Constant::SYS_NO)
+      self.class.where("business_object_id = ? AND label_flag = ? AND id != ?", self.business_object_id,Irm::Constant::SYS_YES,self.id).update_all(:label_flag=>Irm::Constant::SYS_NO)
     end
   end
 
