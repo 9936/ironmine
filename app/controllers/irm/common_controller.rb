@@ -1,6 +1,5 @@
 class Irm::CommonController < ApplicationController
-  layout "common"
-  layout "common_all", :only => [:upload_file, :create_upload_file]
+  layout "common", :except => [:upload_file, :create_upload_file]
   #skip_before_filter :prepare_application
 
   def login
@@ -33,6 +32,7 @@ class Irm::CommonController < ApplicationController
 
   def upload_file
     @file = Irm::AttachmentVersion.new()
+    render :layout => "common_all"
   end
 
   def create_upload_file
@@ -52,6 +52,7 @@ class Irm::CommonController < ApplicationController
       format.js do
         responds_to_parent do
           render :create_upload_file do |page|
+
           end
         end
       end
