@@ -167,3 +167,40 @@ var refreshFilterOptions = function(container,e) {
 };
 
 //END========================过滤器 帮助函数========================================
+//BEGIN========================LOOKUP lov 帮助函数========================================
+//openLookup('/_ui/common/data/LookupPage?lkfm=editPage&lknm=acc3&lktp=' + getElementByIdCS('acc3_lktp').value,670,'1','&lksrch=' + escapeUTF(getElementByIdCS('acc3').value.substring(0, 80)))
+var curPopupWindow,lastMouseX=0,lastMouseY=0;
+
+function openLookup(url, width) {
+    openPopup(url, "lookup", 350, 480, "width=" + width + ",height=480,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", true)
+}
+
+
+function openPopup(url, name, positionX, positionY, frameParams) {
+    closePopup();
+
+    if (lastMouseX - positionX < 0) lastMouseX = positionX;
+    if (lastMouseY + positionY > screen.height) lastMouseY -= lastMouseY + d + 50 - screen.height;
+    lastMouseX -= positionX;
+    lastMouseY += 10;
+    frameParams += ",screenX=" + lastMouseX + ",left=" + lastMouseX + ",screenY=" + lastMouseY + ",top=" + lastMouseY
+
+    curPopupWindow = window.open(url, name, frameParams, false);
+    curPopupWindow.focus()
+
+}
+
+function closePopup() {
+    if (curPopupWindow != null) {
+        try {
+            if (curPopupWindow.confirmOnClose) if (curPopupWindow.confirm(curPopupWindow.confirmOnCloseLabel)) {
+                curPopupWindow.confirmOnClose = false;
+                curPopupWindow.focus();
+                return false
+            }
+            curPopupWindow.close()
+        } catch (a) {}
+        curPopupWindow = null
+    }
+}
+//END========================LOOKUP lov 帮助函数========================================
