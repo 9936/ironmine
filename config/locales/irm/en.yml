@@ -670,7 +670,7 @@ en:
   label_irm_person_mobile_phone: Mobile Phone
   label_irm_person_edit: Edit Person
   label_irm_person_new: New Person
-  label_irm_person_show: Person Info
+  label_irm_person_show: Personal Info
   label_irm_person_organization: Organization
   label_irm_person_title: Title
   label_irm_person_language: Language
@@ -712,7 +712,7 @@ en:
   label_irm_person_person_name: Full Name
   label_irm_person_all_support_groups: All Support Groups
   label_irm_person_choose_company: Choose Company
-  label_irm_person_info: Person Info
+  label_irm_person_info: Personal Info
   label_irm_person_my_profile: My Profile
   label_irm_person_other_info: Other Info
   label_irm_person_company_access_flag: Company Access
