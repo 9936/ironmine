@@ -40,7 +40,12 @@ body .page-title .pt-body {
     margin-bottom: 4px;
 }
 
+.page-title .pt-body .greeting .page-type,
+.page-title .pt-body .greeting .page-description{
+    margin-left: 0;
+}
 .page-title .pt-body .page-type, .page-title .pt-body .page-description {margin-left: 37px;}
+
 
 .page-title .pt-body .greeting .page-type {
     font-size: 109%;
