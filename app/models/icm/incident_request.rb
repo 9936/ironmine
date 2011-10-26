@@ -3,7 +3,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   has_many :incident_journals
 
-  validates_presence_of :title,:external_system_id,:service_code,:requested_by,:submitted_by,:impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code
+  validates_presence_of :title,:external_system_id,:service_code,:requested_by,:submitted_by,
+                        :impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code,
+                        :contact_number,:contact_id
 
   attr_accessor :pass_flag,:close_flag
 
