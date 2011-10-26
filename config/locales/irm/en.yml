@@ -1297,6 +1297,11 @@ en:
   label_irm_delayed_job_ir_rule_process_monitor: IR Rule Process Job
   label_irm_delayed_job_wf_approval_mail_monitor: Approval Mail Job
   label_action_item_list: Delayed Job Items List
+
+  label_irm_monitor_ir_rule_process: IR Rule Process Job
+  label_irm_delayed_job: Delayed Job Info
+  label_irm_monitor_approval_mail: Approval Mail Job
+  label_irm_monitor_icm_group_assign: IR Group Assignment Job
   #======================= end delayed_jobs step ====================
   #======================= report_type_category  ====================
   label_irm_report_type_category_list: Report Catagory List
