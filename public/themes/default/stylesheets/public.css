@@ -82,3 +82,9 @@ body .page-title .secondary-palette a, body .secondary-palette .lbHeader a, body
 }
 
 body .detail-block.page-block .pbBody .pbSubheader{background-color:transparent;}
+
+.screen_shot_frame{height:100%;width:100%;}
+
+div.button a {
+    -moz-box-sizing: content-box!important;
+}

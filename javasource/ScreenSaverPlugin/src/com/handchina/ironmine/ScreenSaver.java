@@ -56,7 +56,7 @@ public class ScreenSaver extends JApplet{
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				closeApplet();
+				closeApplet(0);
 			}
 		});
 		buttonPane.add(pasteButton);
@@ -106,7 +106,7 @@ public class ScreenSaver extends JApplet{
 		outStream.write((new StringBuilder()).append("--").append(boundary).append("\r\n").toString().getBytes("UTF-8"));
 		outStream.write("Content-Disposition: file; name=\"attachments\"; filename=\"screenshot.png\"\r\nContent-Type: image/png\r\nContent-Transfer-Encoding: binary\r\n\r\n".getBytes("UTF-8"));
 		ImageIO.write(image, "png", outStream);
-		outStream.write((new StringBuilder()).append("\r\n--").append(boundary).append("\r\n").toString().getBytes("UTF-8"));
+		outStream.write((new StringBuilder()).append("\r\n--").append(boundary).append("--\r\n").toString().getBytes("UTF-8"));
 		outStream.close();
 		BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
 		String s = in.readLine();

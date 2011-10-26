@@ -143,35 +143,6 @@ YUI(yuiConfig).use('node-base', 'node-event-delegate', 'io-form','yui2-container
     }
 });
 
-function finishAttach(file_path, render_target, msg){
-    GY.use('yui2-editor', function(Y) {
-        var myEd = Y.YUI2.widget.EditorInfo.getEditorById(render_target);
-        if (myEd) {
-        try {
-            if (msg != "")
-            {
-                alert(msg);
-            }
-            else
-            {
-                myEd.focus();
-                myEd.execCommand('inserthtml', file_path);
-            }
-
-        }
-            catch (e) { alert("couldn't insert content" + e); }
-        }
-        Y.one("#container_applet_upload_c").remove();
-
-    });
-}
-
-function cancelAttach(){
-    GY.use(function(Y) {
-        Y.one("#container_applet_upload_c").remove();
-    });
-}
-
 
 
 
