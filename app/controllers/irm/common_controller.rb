@@ -46,7 +46,7 @@ class Irm::CommonController < ApplicationController
     flag, now = version.over_limit?(Irm::SystemParametersManager.upload_file_limit)
     version.save if flag
     Irm::AttachmentVersion.update_attachment_by_version(@file,version)
-    @url = "<img src=#{version.url}>"
+    @url = version.url
     @render_target = "msgEditor"
     respond_to do |format|
       format.js do

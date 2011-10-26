@@ -16,7 +16,15 @@
             }
             else
             {
-                Ext.getCmp("<%=textarea_id%>").setValue(Ext.getCmp("<%=textarea_id%>").getValue() + file_path);
+                var element = document.createElement("img");
+                element.src = file_path;
+                var editor = Ext.getCmp("<%=textarea_id%>");
+                var selection = editor.win.getSelection();
+                if (!selection.isCollapsed) {
+                    selection.deleteFromDocument();
+                }
+                selection.getRangeAt(0).insertNode(element);
+//                Ext.getCmp("").setValue(Ext.getCmp("").getValue() + file_path);
             }
         }
 
