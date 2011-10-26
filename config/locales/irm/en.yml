@@ -1522,3 +1522,10 @@ en:
   label_irm_license_code: Code
   label_irm_license_description: Description
   #=========================  end  license=======================#
+  #=========================    search layouts  =======================#
+  label_irm_search_layout: Search Layout
+  label_irm_search_layout_new: New Search Layout
+  label_irm_search_layout_edit: Edit Search Layout
+  label_irm_search_layout_code: Layout Category
+  label_irm_search_layout_columns: Show Attributes
+  #=========================  end search layouts  =======================#

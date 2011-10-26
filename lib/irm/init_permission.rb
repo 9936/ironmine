@@ -132,7 +132,8 @@ Irm::AccessControl.map do |map|
                                                           "update", "multilingual_edit", "multilingual_update","execute_test"],
                                  "irm/object_attributes"=>["index", "show", "get_data","get_standard_data","new", "create","new_model_attribute","create_model_attribute", "selectable_columns",
                                                            "relation_columns","edit", "update", "multilingual_edit", "multilingual_update",
-                                                           "selectable_columns", "relation_columns","change_type","destroy","person_columns"]}
+                                                           "selectable_columns", "relation_columns","change_type","destroy","person_columns"],
+                                 "irm/search_layouts"=>["new", "create","edit","update"]}
 
   #===================irm/list_of_values============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "multilingual_edit", "multilingual_update", "execute_test", "get_lov_data"]

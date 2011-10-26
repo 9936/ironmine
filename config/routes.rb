@@ -531,6 +531,11 @@ Ironmine::Application.routes.draw do
     match '/object_attributes/all_columns(.:format)' => "object_attributes#all_columns", :via => :get
     match '/object_attributes/updateable_columns(.:format)' => "object_attributes#updateable_columns", :via => :get
     match '/object_attributes/person_columns(.:format)' => "object_attributes#person_columns", :via => :get
+    # search layouts
+    match '/business_objects/:bo_id/search_layouts/new(.:format)' => "search_layouts#new", :via => :get
+    match '/business_objects/:bo_id/search_layouts/create(.:format)' => "search_layouts#create", :via => :post
+    match '/business_objects/:bo_id/search_layouts/:id/edit(.:format)' => "search_layouts#edit", :via => :get
+    match '/business_objects/:bo_id/search_layouts/:id(.:format)' => "search_layouts#update", :via => :put
     # list of values
     match '/list_of_values(/index)(.:format)' => "list_of_values#index", :via => :get
     match '/list_of_values/new(.:format)' => "list_of_values#new", :via => :get

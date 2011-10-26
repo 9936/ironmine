@@ -1544,3 +1544,10 @@ zh:
   label_irm_license_code: 编码
   label_irm_license_description: 描述
   #=========================  end  license=======================#
+  #=========================    search layouts  =======================#
+  label_irm_search_layout: 搜索布局
+  label_irm_search_layout_new: 新建搜索布局
+  label_irm_search_layout_edit: 编辑搜索布局
+  label_irm_search_layout_code: 布局类型
+  label_irm_search_layout_columns: 布局显示列
+  #=========================  end search layouts  =======================#

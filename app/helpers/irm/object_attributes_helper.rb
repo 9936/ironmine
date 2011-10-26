@@ -17,14 +17,8 @@ module Irm::ObjectAttributesHelper
   end
 
 
-  def available_object_attribute(business_object_code=nil)
-    object_attributes =[]
-    if business_object_code
-      object_attributes = Irm::ObjectAttribute.query_by_status_code("ENABLED").multilingual.where(:business_object_code=>business_object_code)
-    else
-      object_attributes = Irm::ObjectAttribute.query_by_status_code("ENABLED").multilingual
-    end
-    object_attributes.collect{|i|[i[:name],i.attribute_name]}
+  def available_object_attribute(business_object_id)
+    Irm::ObjectAttribute.enabled.multilingual.table_column.where(:business_object_id=>business_object_id).collect{|i|[i[:name],i.id]}
   end
   # only table column
   def available_relationable_object_attribute(business_object_code=nil)
