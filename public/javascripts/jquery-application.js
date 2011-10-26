@@ -50,7 +50,11 @@ $(function(){
     });
 
     $('input[irm_number_only]').live('keyup', function(event){
-         $(this).val($(this).val().replace(/D/g, ""));
+         $(this).val($(this).val().replace(/[^0-9]/g, ""));
+    });
+
+    $('input[irm_number_and_cross]').live('keyup', function(event){
+         $(this).val($(this).val().replace(/[^- 0-9]/g, ""));
     });
 
     $('form:not([data-remote])').bind("submit",function(e){
