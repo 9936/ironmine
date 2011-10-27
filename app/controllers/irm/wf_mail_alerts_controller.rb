@@ -41,9 +41,10 @@ class Irm::WfMailAlertsController < Irm::WfActionsController
   # POST /wf_mail_alerts.xml
   def create
     @wf_mail_alert = Irm::WfMailAlert.new(params[:irm_wf_mail_alert])
-    @wf_mail_alert.sync_mail_recipients(params[:recipients]) if params[:recipients].present?
     respond_to do |format|
-      if @wf_mail_alert.save
+      if @wf_mail_alert.valid?
+         @wf_mail_alert.create_recipient_from_str
+         @wf_mail_alert.save
         create_for_source(params[:source_str],@wf_mail_alert)
         format.html {
           if(params[:save_and_new])
@@ -65,12 +66,13 @@ class Irm::WfMailAlertsController < Irm::WfActionsController
   # PUT /wf_mail_alerts/1.xml
   def update
     @wf_mail_alert = Irm::WfMailAlert.find(params[:id])
-    if params[:recipients].present?
-      Irm::WfMailRecipient.where(:wf_mail_alert_id=>params[:id]).delete_all
-      @wf_mail_alert.sync_mail_recipients(params[:recipients])
-    end
+    @wf_mail_alert.attributes = params[:irm_wf_mail_alert]
+
     respond_to do |format|
-      if @wf_mail_alert.update_attributes(params[:irm_wf_mail_alert])
+
+      if @wf_mail_alert.valid?
+         @wf_mail_alert.create_recipient_from_str
+         @wf_mail_alert.save
         format.html {
           if(params[:save_and_new])
             redirect_to(({:action => "new"}).merge(get_default_url_options([:back_url,:source_str])), :notice => t(:successfully_updated))

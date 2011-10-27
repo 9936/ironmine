@@ -1,6 +1,6 @@
 <%= setting_show_title(:show_data => @id_flex.id_flex_name) %>
 
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -49,7 +49,7 @@
 </div>
 
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -70,7 +70,7 @@
             <%= link_to(t(:edit),{:controller => "irm/id_flex_structures", :action => "edit", :id => "{id}"}) %>
           </div>
         </div>
-        <%= datatable("flex_structures_list",url_for(:controller => "irm/id_flex_structures", :action=>"get_data", :id_flex_code => @id_flex.id_flex_code,:format=>"json"),
+        <%= datatable("flex_structures_list",{:controller => "irm/id_flex_structures", :action=>"get_data", :id_flex_code => @id_flex.id_flex_code,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "40px"},
                        {:key=>"id_flex_structure_code",:label=>t(:label_irm_id_flex_structure_code)},
                        {:key=>"id_flex_structure_name",:label=>t(:label_irm_id_flex_structure_name)},

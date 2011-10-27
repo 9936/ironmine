@@ -1,0 +1,77 @@
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>">
+         <thead>
+           <tr>
+             <th style="width:55px;">
+               <div><%= t(:label_icm_incident_request_request_number_shot) %></div>
+             </th>
+             <th >
+               <div><%= t(:label_icm_incident_request_title) %></div>
+             </th>
+             <th >
+               <div><%= t(:label_icm_incident_request_organization) %></div>
+             </th>
+             <th style="width:60px;">
+               <div><%= t(:label_icm_incident_request_priority) %></div>
+             </th>
+             <th style="width:90px;">
+               <div><%= t(:label_icm_incident_request_requested_by) %></div>
+             </th>
+             <th style="width:110px;">
+               <div><%= t(:label_icm_incident_request_last_date) %></div>
+             </th>
+             <th style="width:180px;">
+               <div><%= t(:label_irm_external_system) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% @datas.each do |data| %>
+         <tr id="<%=data[:id]%>">
+           <td>
+             <div>
+               <%= data[:request_number] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%  if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
+                  <%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
+               <% end %>
+               <%= link_to( "(#{data[:incident_status_name]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:organization_name] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:priority_name] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:requested_name] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=I18n.t(:ago,:message=>distance_of_time_in_words(Time.now, data[:last_request_date]))%>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:external_system_name] %>
+             </div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

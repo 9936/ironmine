@@ -6,7 +6,7 @@
 </style>
 <%= form_for(@wf_approval_step,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:step) %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
             <%= t(:step_n_total_m, :n => "3", :m => "3") %>
@@ -19,7 +19,7 @@
     <div class="pbDescription ">
     </div>
     <div class="pbWizardBody">
-      <div class="secondaryPalette">
+      <div class="secondary-palette">
         <div class="pbBody ">
             <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
               <h3><%= t(:label_irm_wf_approval_step_select_approver) %></h3>
@@ -111,27 +111,19 @@
 <%end%>
 
 <script type="text/javascript">
-    GY.use(function(Y){
-      Y.all("input.typeButton").on("click",function(e){
-        Y.all(".showTR").setStyle("display","none");
-        Y.all(".showTR .updateValue").setAttribute("disabled","true");
-        var showTR = Y.one(".showTR[refValue="+e.target.get("value")+"]");
-        if(showTR){
-            showTR.setStyle("display","");
-            showTR.all(".updateValue").removeAttribute("disabled");
-        }
-      });
-      if(Y.one("input.typeButton[checked=checked]"))
-        Y.one("input.typeButton[checked=checked]").simulate("click");
-      else
-        Y.one("input.typeButton").simulate("click");
-
-
-      //multiple approver mode
-      if(!Y.one("input.multipleApproveModeButton[checked=checked]"))
-        Y.one("input.multipleApproveModeButton").simulate("click");
-      //multiple approver mode
-      if(!Y.one("input.rejectBehaviorButton[checked=checked]"))
-        Y.one("input.rejectBehaviorButton").simulate("click");
+    $(function(){
+        $("input.typeButton").click(function(e){
+            $(".showTR").css("display","none");
+            $(".showTR .updateValue").attr("disabled","true");
+            var showTR = $(".showTR[refValue="+$(e.target).val()+"]:first");
+            if(showTR){
+                showTR.css("display","");
+                showTR.find(".updateValue").removeAttr("disabled");
+            }
+        });
+        $.checkRadioButton("input.typeButton");
+        $.checkRadioButton("input.multipleApproveModeButton");
+        $.checkRadioButton("input.rejectBehaviorButton");
     });
+
 </script>

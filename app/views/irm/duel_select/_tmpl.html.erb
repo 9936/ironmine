@@ -1,0 +1,67 @@
+<% size = 14 unless defined?(size)%>
+<%column_size = (defined?(order)&&order ? 4:3 )%>
+<table class="duel-select" id="<%= str_value_field %>DuelSelect" >
+  <%if defined?(types)&&types&&types.is_a?(Array)&&types.any?%>
+    <tr class="duelSearchBox duel-search-box">
+      <td colspan="<%= column_size %>">
+        <div class="floatLeft float-left">
+             <label><%= t(:search) %></label>
+        </div>
+        <div class="floatLeft  float-left">
+           <%=select_tag_alias :duel_type,types,{},:class=>"duel-type"%>
+        </div>
+        <div class="floatLeft  float-left">
+          <input type="text" size="30" class="duel-query"/>
+        </div>
+        <div class="floatLeft  float-left">
+           <div class="button"><a href="javascript:void(0)" class="duel-search-button"><%=t(:search) %></a></div>
+        </div>
+      </td>
+    </tr>
+  <%end%>
+  <tr class="duelTitle">
+    <th><%= t(:duel_selectable)%></th>
+    <th></th>
+    <th><%= t(:duel_selected)%></th>
+  </tr>
+  <tr class="duelList">
+    <td class="sourceCell">
+      <%= select_tag_alias(:source,sources,nil,{:class=>"source",:multiple=>true,:size=>size}) %>
+    </td>
+    <td class="buttonCell">
+      <div class="text"><%= t(:add) %></div>
+      <div class="text">
+        <a href="javascript:void(0)" class="duelAdd"><img title="<%= t(:add) %>" class="rightArrowIcon" alt="<%= t(:add) %>" src="<%= theme_image_path("s.gif") %>"></a>
+      </div>
+      <div class="text">
+        <a href="javascript:void(0)" class="duelRemove"><img title="<%= t(:delete) %>" class="leftArrowIcon" alt="<%= t(:delete) %>" src="<%= theme_image_path("s.gif") %>"></a>
+      </div>
+      <div class="duelingText"><%= t(:delete) %></div>
+    </td>
+    <td class="targetCell">
+      <% if defined?(f)&&f.present?%>
+        <%= f.hidden_field(str_value_field,:value=>str_value,:class=>"duelValue") %>
+      <% else %>
+        <%= hidden_field_tag(str_value_field,str_value,:class=>"duelValue") %>
+      <% end %>
+      <%= select_tag_alias(:target,[],nil,{:class=>"target",:multiple=>true,:size=>size}) %>
+    </td>
+    <% if defined?(order)&&order%>
+      <td class="buttonCell">
+        <div class="text"><%= t(:up) %></div>
+        <div class="text">
+          <a href="javascript:void(0)" class="duelUp"><img title="<%= t(:up) %>" class="upArrowIcon" alt="<%= t(:add) %>" src="<%= theme_image_path("s.gif") %>"></a>
+        </div>
+        <div class="text">
+          <a href="javascript:void(0)" class="duelDown"><img title="<%= t(:down) %>" class="downArrowIcon" alt="<%= t(:delete) %>" src="<%= theme_image_path("s.gif") %>"></a>
+        </div>
+        <div class="duelingText"><%= t(:down) %></div>
+      </td>
+    <% end %>
+  </tr>
+</table>
+<script type="text/javascript">
+  $(function(){
+      $("#<%= str_value_field %>DuelSelect").duelselect();
+  });
+</script>

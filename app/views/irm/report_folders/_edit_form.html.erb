@@ -5,7 +5,7 @@
   }
 </style>
 <%= form_for(@report_folder,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -63,8 +63,14 @@
                 <% end %>
               </td>
             </tr>
-            <%= render :partial => "irm/duel_select/search",:locals => {:label=>"",:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:member_str,:str_value=>@report_folder.get_member_str} %>
+            <tr>
+              <td class="labelCol">
 
+              </td>
+              <td class="dataCol" colspan="3">
+                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:member_str,:str_value=>@report_folder.get_member_str,:order=>true,:size=>7} %>
+              </td>
+            </tr>
         </tbody>
       </table>
     </div>
@@ -84,40 +90,3 @@
   </div>
 </div>
 <% end %>
-<script type="text/javascript">
-  GY.use("duelselect",function(Y){
-        Y.on('click', function(e) {
-          if(e.target.get("value")=="MEMBER"){
-            Y.one("#memberTypeSearch").setStyle("display","");
-            Y.one("#memberTypeDuel").setStyle("display","");
-          }
-          else{
-            Y.one("#memberTypeSearch").setStyle("display","none");
-            Y.one("#memberTypeDuel").setStyle("display","none");
-          }
-
-	    }, '.memberType');
-
-
-        var duelselect = new Y.DuelSelect({source:"#source",target:"#target",valueNode:"#members",type:Y.one("#duelType").get("value"),addButton:"#duelAdd",removeButton:"#duelRemove"});
-        Y.one("#duelType").on("change",function(e){
-          Y.one("#duelQuery").set("value","");
-          duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
-        });
-        Y.one("#duelSearch").on("click",function(e){
-          duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
-        });
-        Y.one("#duelQuery").on("keydown",function(e){
-          if(e.keyCode==13){
-              e.preventDefault();
-              duelselect.filter(Y.one("#duelType").get("value"),Y.one("#duelQuery").get("value"));
-          }
-        });
-
-
-        if(!Y.one("input.memberType[checked=checked]"))
-          Y.one("input.memberType").simulate("click");
-        else
-          Y.one("input.memberType[checked=checked]").simulate("click");
-  });
-</script>

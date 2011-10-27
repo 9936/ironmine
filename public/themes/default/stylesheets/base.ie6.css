@@ -1,0 +1,57 @@
+#body{
+    margin: 0;
+}
+
+#mc_l, #mc_r {
+    background:url("../images/motifCurve_sprite.png") no-repeat scroll 0 0 transparent;
+    height:9px;
+    position:absolute;
+    width:5px;
+}
+#mc_l {background-position:left -10px;left:-5px;}
+#mc_r {background-position:right -10px;right:-5px;}
+
+body .page-body #bd_l {
+    display: none;
+}
+
+body .page-body #bd_r {
+    display: none;
+}
+
+body .page-body {
+    margin: 0;
+    position: relative;
+    background-color: #ffffff;
+    padding-bottom:20px;
+}
+
+#motifCurve {
+    background-color: #1797c0;
+    height:4px;
+    margin:0 -5px;
+    position:relative;
+}
+
+body .page-body #bd_b {
+    display: none;
+}
+body .page-body #bd_b #bd_bl {
+    /*background-position:-40px top;*/
+    /*left:-20px;*/
+    /*z-index:11;*/
+    display: none;
+}
+body .page-body #bd_b #bd_br {
+    /*background-position:-60px top;*/
+    /*right:-20px;*/
+    display: none;
+}
+#bd_bl, #bd_br {
+    /*background:url("../images/bd_sprite.png") no-repeat scroll 0 0 transparent;*/
+    /*height:20px;*/
+    /*position:absolute;*/
+    /*width:20px;*/
+    display: none;
+}
+/*********************************************************************************/

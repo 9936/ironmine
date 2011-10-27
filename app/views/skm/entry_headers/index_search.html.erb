@@ -10,7 +10,7 @@
   </div>
 </div>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -37,7 +37,7 @@
             <%= link_to("{full_title}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("entry_headers_list",url_for(:action=>"index_search_get_data",:format=>"json", :search_value => @search_value),
+        <%= datatable("entry_headers_list",{:action=>"index_search_get_data",:format=>"json", :search_value => @search_value},
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"90px"},
                    {:key=>"full_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
                    {:key=>"published_date",:label=>t(:label_skm_entry_header_published_date), :width => "180px"}],

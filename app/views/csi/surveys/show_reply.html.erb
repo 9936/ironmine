@@ -1,40 +1,39 @@
-<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
+
 
 <div class="lightBlue">
-    <div class="bPageTitle">
-        <div class="secondaryPalette" style="background-color:#1797C0;">
+    <div class="page-title">
+        <div class="secondary-palette" style="background-color:#1797C0;">
           <h1 class="title"><%= @survey.title%></h1>
         </div>
     </div>
 </div>
 
-<div id="ep" class="bDetailBlock bPageBlock">
-        <div class="datatable">
-          <div class="yui3-widget yui3-datatable">
-            <div class="yui3-datatable-content">
-                <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
-                  <thead class="yui3-datatable-columns">
-                    <tr class="yui3-datatable-first yui3-datatable-last">
-                      <th class="yui3-column" style="width:220px">
-                        <div class="yui3-datatable-liner"><%= t(:label_csi_survey_subject_title) %>
+<div id="ep" class="detail-block page-block">
+        <div>
+          <div class="irm-datatable">
+                <table id='rows'>
+                  <thead>
+                    <tr >
+                      <th style="width:220px">
+                        <div ><%= t(:label_csi_survey_subject_title) %>
                         </div>
                       </th>
-                      <th class="yui3-column" style="width:180px;">
-                        <div class="yui3-datatable-liner"><%= t(:label_csi_survey_subject_result) %>
+                      <th style="width:180px;">
+                        <div><%= t(:label_csi_survey_subject_result) %>
                         </div>
                       </th>
                     </tr>
                   </thead>
-                  <tbody class="yui3-datatable-data">
+                  <tbody >
                   <% @survey_results.each do |result| %>
-                  <tr id="<%=result.id%>" class="yui3-datatable-even">
-                    <td class="yui3-column">
-                      <div class='yui3-datatable-liner'>
+                  <tr id="<%=result.id%>">
+                    <td>
+                      <div>
                         <%= result[:subject_name]%>
                        </div>
                     </td>
-                    <td class="yui3-column">
-                      <div class='yui3-datatable-liner'>
+                    <td>
+                      <div>
                         <%=result[:subject_result]%>
                       </div>
                     </td>
@@ -42,7 +41,6 @@
                   <% end -%>
                   </tbody>
                 </table>
-            </div>
           </div>
         </div>
 </div>

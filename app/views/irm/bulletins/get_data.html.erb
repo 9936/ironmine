@@ -1,0 +1,43 @@
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>">
+         <thead>
+           <tr>
+             <th>
+               <div><%= t(:label_irm_bulletin_title) %></div>
+             </th>
+             <th style="width:70px;">
+               <div><%= t(:label_irm_bulletin_page_views) %></div>
+             </th>
+             <th style="width:120px;">
+               <div><%= t(:label_irm_bulletin_published_date) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% @datas.each do |data| %>
+         <tr id="<%=data[:id]%>">
+           <td>
+             <div>
+               <%= link_to(data[:bulletin_title], {:controller => "irm/bulletins", :action => "show", :id => data[:id]})%>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:page_views] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=data[:published_date]%>
+             </div>
+           </td>
+
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

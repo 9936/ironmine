@@ -4,7 +4,7 @@
     <%= f.hidden_field :entry_title %>
     <%= f.hidden_field :keyword_tags %>
     <%= f.hidden_field :column_ids %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
             <%= t(:step_n_total_m, :n => "3", :m => "4") %>
@@ -20,7 +20,7 @@
       <%= t(:notice_skm_entry_step_3_desc) %>      
     </div>
     <div class="pbWizardBody">
-      <div class="secondaryPalette">
+      <div class="secondary-palette">
         <div class="pbBody">
             <div class="pbSubsection">
               <table cellpadding="0" cellspacing="0" border="0">
@@ -106,52 +106,44 @@
 </div>
 <script type="text/javascript">
   function submit_next(){
-    document.new_skm_entry_header.action = "new?step=4";
-    document.new_skm_entry_header.submit();
+      document.new_skm_entry_header.action = "new?step=4";
+      document.new_skm_entry_header.submit();
   }
 
   function submit_last(){
-    document.new_skm_entry_header.action = "new?step=2";
-    document.new_skm_entry_header.submit();
+      document.new_skm_entry_header.action = "new?step=2";
+      document.new_skm_entry_header.submit();
   }
 
   function delete_subject(tar){
-    GY.use(function(Y){
-        Y.one("#tr_" + tar).remove();
-    })
+      $("#tr_" + tar).remove();
   }
 
   function add_subject(tar){
-    GY.use(function(Y){
-        Y.one("#tr_");
-    })
+      $("#tr_");
   }
 
 
   var line_count = 5;
 
   function save(){
-    document.file_form.action = "batch_create";
-    file_form.submit();
+      document.file_form.action = "batch_create";
+      file_form.submit();
   }
- function delete_line(l)
- {
-      GY.use(function(Y){
-          Y.one("#file_" + l).remove();
-      })
+  function delete_line(l)
+  {
+     $("#file_" + l).remove();
   }
   function generate_line()
   {
-      GY.use(function(Y){
-          var node = Y.Node.create('<tr id="file_' + line_count + '">'
-                  + '<td class="dataCol"></td>'
-                  + '<td class="dataCol"><a onclick="delete_line(' + line_count + ');" href="javascript:void(0);"><%= t :delete%></a></td>'
-                  + '<td class="dataCol"><input type="file" required="required" name="file[' + line_count + '][file]" id="file_' + line_count + '_file"></td>'
-                  + '<td class="dataCol"><select required="required" name="file[' + line_count + '][file_category]" id="file_' + line_count + '_file_category">' + '<%= options_for_select(available_file_categories).gsub!(/\n+/, "")%>' + '</select></td>'
-                  + '<td class="dataCol"><input type="text" value="" rows="3" name="file[' + line_count + '][description]" id="file_' + line_count + '_description" cols="35">(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>'
-                  + '</tr>');
-          Y.one("#file_body").appendChild(node);
-      });
+      var node = $('<tr id="file_' + line_count + '">'
+              + '<td class="dataCol"></td>'
+              + '<td class="dataCol"><a onclick="delete_line(' + line_count + ');" href="javascript:void(0);"><%= t :delete%></a></td>'
+              + '<td class="dataCol"><input type="file" required="required" name="file[' + line_count + '][file]" id="file_' + line_count + '_file"></td>'
+              + '<td class="dataCol"><select required="required" name="file[' + line_count + '][file_category]" id="file_' + line_count + '_file_category">' + '<%= options_for_select(available_file_categories).gsub!(/\n+/, "")%>' + '</select></td>'
+              + '<td class="dataCol"><input type="text" value="" rows="3" name="file[' + line_count + '][description]" id="file_' + line_count + '_description" cols="35">(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>'
+              + '</tr>');
+      $("#file_body").append(node);
       line_count ++;
   }
 </script>

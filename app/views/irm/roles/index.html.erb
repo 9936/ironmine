@@ -1,8 +1,7 @@
 <%= setting_title %>
-<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
 
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -19,71 +18,72 @@
         </table>
       </div>
       <div class="pbBody">
-          <div class="datatable">
-            <div class="yui3-widget yui3-datatable">
-              <div class="yui3-datatable-content">
-                  <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
-                    <thead class="yui3-datatable-columns">
-                      <tr class="yui3-datatable-first yui3-datatable-last">
-                        <th class="yui3-column" style="width:80px;">
-                          <div class="yui3-datatable-liner"><%= t(:operation) %>
-                          </div>
-                        </th>
-                        <th class="yui3-column" style="width:40px;">
-                          <div class="yui3-datatable-liner"><%= t(:label_irm_role_code) %>
-                          </div>
-                        </th>
-                        <th class="yui3-column" style="width:180px;">
-                          <div class="yui3-datatable-liner"><%= t(:name) %>
-                          </div>
-                        </th>
-                        <th class="yui3-column" style="width:180px;">
-                          <div class="yui3-datatable-liner"><%= t(:label_irm_role_report_to_role) %>
-                          </div>
-                        </th>
-                        <th class="yui3-column" style="width:180px;">
-                          <div class="yui3-datatable-liner"><%= t(:description) %>
-                          </div>
-                        </th>
 
-                      </tr>
-                    </thead>
-                    <tbody class="yui3-datatable-data">
-                    <% @level_roles.each do |role| %>
-                    <tr id="<%=role.id%>" class="yui3-datatable-even">
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
-                          <%= link_to(t(:edit),{:action=>"edit",:id=>role.id}) %>
-                          <%= link_to(t(:show),{:action=>"show",:id=>role.id}) %>
-                         </div>
-                      </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
-                            <%= role.code %>
-                         </div>
-                      </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
-                           <% role.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= role[:name] %>
-                        </div>
-                      </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
-                           <%= role[:report_to_role_name] %>
-                        </div>
-                      </td>
-                      <td class="yui3-column">
-                        <div class='yui3-datatable-liner'>
-                           <%= role[:description] %>
-                        </div>
-                      </td>
-                    </tr>
-                    <% end -%>
-                    </tbody>
-                  </table>
+             <!--  irm datatable      -->
+              <div class="irm-datatable">
+                <div>
+                    <table count="<%=@level_roles.length%>">
+                      <thead>
+                        <tr>
+                          <th style="width:80px;">
+                            <div ><%= t(:operation) %>
+                            </div>
+                          </th>
+                          <th style="width:40px;">
+                            <div ><%= t(:label_irm_role_code) %>
+                            </div>
+                          </th>
+                          <th  style="width:180px;">
+                            <div ><%= t(:name) %>
+                            </div>
+                          </th>
+                          <th style="width:180px;">
+                            <div ><%= t(:label_irm_role_report_to_role) %>
+                            </div>
+                          </th>
+                          <th >
+                            <div ><%= t(:description) %>
+                            </div>
+                          </th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <% @level_roles.each do |role| %>
+                        <tr id="<%=role.id%>">
+                          <td>
+                            <div >
+                              <%= link_to(t(:edit),{:action=>"edit",:id=>role.id}) %>
+                              <%= link_to(t(:show),{:action=>"show",:id=>role.id}) %>
+                             </div>
+                          </td>
+                          <td >
+                            <div>
+                                <%= role.code %>
+                             </div>
+                          </td>
+                          <td >
+                            <div>
+                               <% role.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= role[:name] %>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                               <%= role[:report_to_role_name] %>
+                            </div>
+                          </td>
+                          <td>
+                            <div >
+                               <%= role[:description] %>
+                            </div>
+                          </td>
+                        </tr>
+                      <% end -%>
+                      </tbody>
+                    </table>
+                </div>
               </div>
-            </div>
-          </div>
+             <!--  end irm datatable      -->
       </div>
     </div>
 </div>

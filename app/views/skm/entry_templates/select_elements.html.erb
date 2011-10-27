@@ -21,14 +21,14 @@
                 </table>
             </div>
         </div>
-        <div id="ep" class="bEditBlock bPageBlock">
+        <div id="ep" class="edit-block page-block">
           <div class="pbBody">
                 <div id="available_elements_list" class="datatable" style="width:100%;">
                   <div id="id" style="display:none">
                      <%= check_box_tag "skm_entry_template_elements[ids][]","{id}"%>
                   </div>
                 </div>
-                <%= datatable("available_elements_list",url_for(:action=>"get_available_elements", :template_id=>@template),
+                <%= datatable("available_elements_list",{:action=>"get_available_elements", :template_id=>@template},
                           [{:key=>"id",:label=>t(:select_ac),:formatter=>"Y.irm.template",:width=>"20px"},
                            {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :width => "15%"},
                            {:key=>"name",:label=>t(:name), :width => "25%"},

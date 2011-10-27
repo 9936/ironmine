@@ -6,25 +6,25 @@
           </div>
           <div id="title" style="display:none">
             if('{reply_flag}' == 'Y' && '{close_flag}' == 'N'){
-               '<%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>({incident_status_name})<%= link_to( "{title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
+               '<%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %><%= link_to( "({incident_status_name}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
             }
             else{
-              '({incident_status_name})<%= link_to( "{title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
+              '<%= link_to( "({incident_status_name}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
             }
           </div>
         </div>
-        <%= datatable("incident_requests",url_for(:action=>"get_help_desk_data",:format=>"json"),
+        <%= datatable("incident_requests",{:action=>"get_help_desk_data",:format=>"json"},
                               [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
-                               { :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot),:searchable=>true,:width=>"20px"},
+                               { :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot),:searchable=>true,:width=>"35px"},
                                { :key => "title",:formatter=>"Y.irm.stemplate",:label => t(:label_icm_incident_request_title),:searchable=>true },
-                               { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
-                               { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },
+                               { :key => "organization_name", :label => t(:label_icm_incident_request_organization)},
+                               { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"50px" },
                                { :key => "incident_status_name",:hidden=>true },
                                { :key => "reply_flag",:hidden=>true },
                                { :key => "close_flag",:hidden=>true },
-                               { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) },
-                               { :key => "last_request_date", :label => t(:label_icm_incident_request_last_date),:width=>"180px" },
+                               { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by),:searchable=>true,:width=>"120px" },
+                               { :key => "last_request_date", :label => t(:label_icm_incident_request_last_date),:width=>"100px" },
                                { :key => "external_system_name", :label => t(:label_irm_external_system),:width=>"180px" }
-                               ],{:export_data=>"#incidentRequestExport",:not_load=>true,:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox'})%>
-        <div id="incidentRequestsPaginatorBox"></div>
+                               ],{:export_data=>"#incidentRequestExport",:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox',:view_filter=>true,:html=>true})%>
+        <div id="incidentRequestsPaginatorBox" class="irm-paginator-box"></div>
 </div>

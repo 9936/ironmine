@@ -1,6 +1,6 @@
 <%= page_title %>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -23,7 +23,7 @@
             <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("reports",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("reports",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
 
                        { :key => "name", :label => t(:label_irm_report_name),:searchable=>true },

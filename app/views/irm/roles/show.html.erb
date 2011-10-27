@@ -1,6 +1,6 @@
 <%= setting_show_title(:show_data => @role[:name]) %>
 
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -52,7 +52,7 @@
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@role} %>
 
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -72,7 +72,7 @@
          <div id="people" class="datatable" style="width:100%">
 
         </div>
-        <%= datatable("people",url_for(:action=>"role_people",:id=>@role.id,:format=>"json"),
+        <%= datatable("people",{:action=>"role_people",:id=>@role.id,:format=>"json"},
                               [{:key=>"id",:width=>"80px", :hidden => true},
                                {:key=>"login_name",:label=>t(:label_irm_person_login),:searchable=>true,:width=>"80px"},
                                {:key=>"person_name",:label=>t(:label_irm_person_name),:searchable=>true,:width=>"120px"},

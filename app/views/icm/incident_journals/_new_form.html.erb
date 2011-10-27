@@ -92,7 +92,7 @@
   }
 </style>
 <form>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -105,22 +105,22 @@
               <% end %>
           </td>
           <td class="pbHelp">
-              <div class="grayButton"><%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests",:action => "index"}%></div>
+              <div class="gray-button"><%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests",:action => "index"}%></div>
               <%if !@incident_request.close? %>
                 <% if current_person?(@incident_request.support_person_id) %>
-                    <div class="grayButton"><%= link_to t(:pass), {:action => "edit_pass"}%></div>
-                    <div class="grayButton"><%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"}%></div>
+                    <div class="gray-button"><%= link_to t(:pass), {:action => "edit_pass"}%></div>
+                    <div class="gray-button"><%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"}%></div>
                 <% end %>
                 <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
-                      <div class="grayButton"><%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"}%></div>
+                      <div class="gray-button"><%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"}%></div>
                 <% end %>
                 <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
-                  <div class="grayButton"><%= link_to t(:close), {:action => "edit_close"}%></div>
+                  <div class="gray-button"><%= link_to t(:close), {:action => "edit_close"}%></div>
                 <% end %>
-                <div class="grayButton"><%= link_to t(:edit), {:controller=>"icm/incident_requests",:action => "edit", :id => @incident_request.id}%></div>
+                <div class="gray-button"><%= link_to t(:edit), {:controller=>"icm/incident_requests",:action => "edit", :id => @incident_request.id}%></div>
               <%end%>
               <% if @incident_request[:skm_flag]==0 %>
-                <div class="grayButton"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
+                <div class="gray-button"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
               <% end %>
           </td>
         </tr>
@@ -133,16 +133,16 @@
     <%= flash_notice %>
     <div class="pbSubheader tertiaryPalette first" style="background-color:#aeaeae;padding-left:15px;">
       <h3>(<%= @incident_request[:incident_status_name] %>)[<%=@incident_request[:request_number]%>]<%=@incident_request[:title]%></h3>
-      <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore"><%= t(:label_icm_incident_more_info) %></a>)</div>
+      <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" ExpandedText="<%= t(:label_icm_incident_more_info) %>"><%= t(:label_icm_incident_more_info) %></a>)</div>
     </div>
     <div class="pbSubsection <%="hidden" unless Irm::Constant::SYS_YES.eql?(params[:show_info])%>" id="incidentDetail">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
+              <td class="label3Col"><label ><%=t(:label_icm_incident_request_target_system)%></label></td>
+              <td class="data3Col"><div><%= @incident_request[:external_system_name] %></div></td>
               <td class="label3Col"><label ><%=t(:label_icm_incident_request_service_code)%></label></td>
               <td class="data3Col"><div><%= @incident_request[:service_name] %></div></td>
-              <td class="label3Col empty">&nbsp;</td>
-              <td class="data3Col empty">&nbsp;</td>
               <td class="label3Col empty">&nbsp;</td>
               <td class="data3Col empty">&nbsp;</td>
             </tr>
@@ -232,14 +232,14 @@
 </div>
 <%if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close? %>
 <%= form_for(@incident_reply,:url=>{:action=>"create"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
-<div id="reply" class="bEditBlock bPageBlock">
+<div id="reply" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
           <td class="pbTitle">
             <div style="float:left;"><h2 class="mainTitle"><%=t(:label_icm_incident_journal_new)%></h2></div>
-            <%if allow_to_function?(:view_skm_entries) %>
+            <%if !limit_device?&&allow_to_function?(:view_skm_entries) %>
                 <div style="float:left;padding-top:5px; margin-left:20px;"><a href="javascript:void(0)" id="applySKM"><%= t(:apply_skm) %></a></div>
             <% end %>
           </td>
@@ -254,7 +254,7 @@
     </table>
   </div>
   <div class="pbBody">
-    <%if allow_to_function?(:view_skm_entries) %>
+    <%if !limit_device?&&allow_to_function?(:view_skm_entries) %>
     <div id="linktoSKM" class="hidden">
       <div class="pbSubsection">
         <div style="padding:5px 0 5px 5px;"><input id="searchSKMText" type="text" size="35"/><div class="button" style="float:none !important; display:inline"><a id="searchSKM" href="javascript:void(0)"><%= t(:search) %></a></div></div>
@@ -269,7 +269,7 @@
           </div>
 
         </div>
-        <%= datatable("entry_headers_list",url_for(:action=>"get_entry_header_data",:format=>"json"),
+        <%= datatable("entry_headers_list",{:action=>"get_entry_header_data",:format=>"json"},
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"50px"},
                    {:key=>"full_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
                    {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "180px"}],
@@ -279,25 +279,26 @@
     </div>
 
     <script type="text/javascript">
-      GY.use('irm','node', function(Y) {
-        Y.one("#applySKM").on("click",function(e){
-            if(Y.one("#linktoSKM").hasClass("hidden")){
-              Y.one("#linktoSKM").removeClass("hidden")
+      $(function() {
+        $("#applySKM").bind("click",function(e){
+            if($("#linktoSKM").hasClass("hidden")){
+              $("#linktoSKM").removeClass("hidden")
             }else{
-              Y.one("#linktoSKM").addClass("hidden")
+              $("#linktoSKM").addClass("hidden")
             }
         });
 
-        Y.one("#searchSKM").on("click",function(e){
-            Y.one("#entrySubsection").setStyle("display","");
-            var datasource = Y.irm.entry_headers_listDatatable.datasource;
-            datasource.query({entry_title:Y.one("#searchSKMText").get("value")});
+        $("#searchSKM").bind("click",function(e){
+            $("#entrySubsection").css("display","");
+            var store = Ext.getCmp("entry_headers_listDatatable").store;
+            store.dtSearch({entry_title:$("#searchSKMText").val()});
         });
 
-        Y.one("#searchSKMText").on("keydown",function(e){
-          if(e.keyCode==13){
-            Y.one("#searchSKM").simulate("click");
-            e.preventDefault();
+        $("#searchSKMText").keydown(function(e){
+          if(e.keyCode=='13'){
+              e.preventDefault();
+              $("#searchSKM").trigger("click");
+
           }
         });
       })
@@ -310,33 +311,16 @@
               <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
                 <%= sub_f.hidden_field(:incident_request_id) %>    
               <td class="dataCol" colspan="4" width="100%">
-                <%= sub_f.text_area :message_body ,:id=>"msgEditor",:value=>"  ", :jrequired => true,:style=>"display:none;"%>
+                <%= sub_f.text_area :message_body ,:id=>"msgEditor", :jrequired => true,:rows=>8%>
+                <%= rich_text_area("msgEditor",true) %>
               </td>
               <% end%>
             </tr>
 
             <tr>
               <td class="dataCol" colspan="4" width="100%">
+                <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
 
-              <table width="100%">
-                <tbody id="fileTemplate" style="display:none" seq="0">
-                <tr id="file_{seq}" class="fileArea">
-                    <td><input type="file" name="{ref}[{seq}][file]"/></td>
-                    <td class="labelCol"><%= t(:label_icm_incident_journal_attachment_desc) %></td>
-                    <td><input type="text" name="{ref}[{seq}][description]" size="40"/></td>
-                    <td style="width:10%;"><a class="deleteAttach" delete_ref="file_{seq}" href="javascript:void(0)"><%= t(:delete) %></a></td>
-                    <td style="width:80%; text-align:left;">(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>
-                </tr>
-                </tbody>
-                <tbody id="fileContent">
-
-                </tbody>
-                <tbody id="fileButtons">
-                  <tr>
-                    <td><a id="addButton" href="javascript:void(0)"><%= t(:label_icm_incident_journal_add_attachment) %></a></td>
-                  </tr>
-                </tbody>
-              </table>
               </td>
             </tr>
         </tbody>
@@ -360,83 +344,30 @@
 <% end %>
 <% end %>
 
-<%if allow_to_function?(:reply_incident_request)%>
-<script type="text/javascript">
 
-GY.use('irm','node','substitute','yui2-editor', function(Y) {
-  var YAHOO = Y.YUI2;
-  var editor = new YAHOO.widget.Editor('msgEditor', {
-        height:'150px',
-        width:'99%',
-        toolbar: {
-            buttons: [
-                { group: 'textstyle',
-                    buttons: [
-                        { type: 'push', label: 'Bold', value: 'bold' },
-                        { type: 'push', label: 'Italic', value: 'italic' },
-                        { type: 'push', label: 'Underline', value: 'underline' },
-                        { type: 'push', label: 'Create an Unordered List', value: 'insertunorderedlist' },
-	                    { type: 'push', label: 'Create an Ordered List', value: 'insertorderedlist' },
-                        { type: 'push', label: 'Upload Image From Clipboard', value: 'uploadImageFormClipboard', id: 'uploadImageFormClipboard' },
-                        { type: 'color', label: 'Font Color', value: 'forecolor', disabled: true },
-                        { type: 'color', label: 'Background Color', value: 'backcolor', disabled: true }
-                    ]
-                }
-            ]
-        }
-    });
-
-    var dialog = new Y.YUI2.widget.Dialog("container_applet_upload", {
-        visible: true,
-        context: [Y.one("#uploadImageFormClipboard"), "tl", "bl"],
-        draggable: true,
-        close: true
-    });
-
-    editor.on('toolbarLoaded', function() {
-        this.toolbar.on('uploadImageFormClipboardClick', function(o) {
-              if (Y.one("#container_applet_upload_c")){
-                Y.one("#container_applet_upload_c").remove();
-              }
-              dialog.setBody("<iframe frameborder=0 scrolling='no'  src='/common/upload_screen_shot' class='screen_shot_frame'></iframe>");
-              dialog.setHeader('<%= t :upload_from_clipboard%>');
-              dialog.render(document.body);
-              dialog.center();
-              dialog.show();
-        });
-    }, editor, true);
-
-    editor.render();
-    Y.irm.setAttribute("journalMsgEditor",editor,"Editor");
-    Y.all("#new_icm_incident_reply input[type=submit]").on("click",function(){
-      editor.saveHTML();
-    });
-
-    Y.one("#fileButtons #addButton").on('click',function(){
-      var templateContainer = Y.one("#fileTemplate");
-      var seq = templateContainer.getAttribute("seq");
-      templateContainer.setAttribute("seq",parseInt(seq)+1);
-      var template = templateContainer.getContent();
-      var row =  Y.Lang.substitute(template,{seq:seq,ref:"files"});
-      Y.one("#fileContent").appendChild(row);
-    });
-    Y.one("#fileContent").delegate("click",function(e){
-        Y.log(this.getAttribute("delete_ref"));
-        Y.one("#"+this.getAttribute("delete_ref")).remove();
-    },'.deleteAttach') ;
-});
-</script>
-<%end%>
 <script>
-  GY.use('node', function(Y) {
-    Y.one("#showMore").on("click",function(e){
-        if(Y.one("#incidentDetail").hasClass("hidden")){
-          Y.one("#incidentDetail").removeClass("hidden")
+$(function(){
+    $(".toggle-button").each(function(index,element){
+        var me =  $(element);
+        var ref = $("#"+me.attr("ref"));
+        if(ref.hasClass("hidden")){
+            me.html(me.attr("expandedText"));
         }else{
-          Y.one("#incidentDetail").addClass("hidden")
+            me.html(me.attr("collapsedText"));
         }
     });
-  });
+    $(".toggle-button").bind("click",function(event){
+        var me = $(this);
+        var ref = $("#"+me.attr("ref"));
+        if(ref.hasClass("hidden")){
+            me.html(me.attr("collapsedText"));
+            ref.removeClass("hidden");
+        }else{
+            me.html(me.attr("expandedText"));
+            ref.addClass("hidden");
+        }
+    });
+});
 </script>
 
 <% content_for :sidebar do%>

@@ -16,7 +16,7 @@
 </div>
 <% if @id_flex %>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -42,7 +42,7 @@
             <%= check_img("{status_code}") %>
           </div>                      
         </div>
-        <%= datatable("id_flex_structures_list",url_for(:action=>"get_data", :id_flex_code => @id_flex.id_flex_code,:format=>"json"),
+        <%= datatable("id_flex_structures_list",{:action=>"get_data", :id_flex_code => @id_flex.id_flex_code,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "80px"},
                        {:key=>"id_flex_structure_code",:label=>t(:label_irm_id_flex_structure_code),:searchable=>true, :width => "15%"},
                        {:key=>"id_flex_structure_name",:label=>t(:label_irm_id_flex_structure_name),:searchable=>true, :width => "25%"},

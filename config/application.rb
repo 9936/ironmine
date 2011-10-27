@@ -28,8 +28,6 @@ module Ironmine
     config.time_zone = 'Beijing'
     config.active_record.default_timezone = 'Beijing'
 
-    config.action_view.javascript_expansions[:defaults] = %w(yui_config.js rails.js)
-
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
@@ -48,5 +46,27 @@ module Ironmine
     # add mail config
     config.ironmine = ActiveSupport::OrderedOptions.new
 
+    config.ironmine.javascript = ActiveSupport::OrderedOptions.new
+    config.ironmine.css = ActiveSupport::OrderedOptions.new
+    config.ironmine.javascript.source = {
+        :jquery =>%w(jquery-1.6.4.min  locales/jquery-{locale} jquery-rails jquery-extend jquery-application),
+        :jcrop => %w(jquery-crop),
+        :jplugin => %w(jquery-plugin),
+        :extjs=>%w(ext4-all ext-extend ext-application locales/ext-{locale}),
+        :survey=>%w(survey),
+        :datepicker=>%w(jquery-bigiframe jquery-datepicker locales/jquery-datepicker-{locale} jquery-datepicker-date)
+    }
+    config.ironmine.css.source = {
+        :default =>%w(base button container form header icons layout other public sidebar table jmask),
+        :application=>%w(),
+        :setting=>%w(setting_base button container form header icons layout other public sidebar table jmask),
+        :home=>%w(),
+        :login=>%w(login),
+        :common=>%w(login),
+        :common_all=>%w(base button container form public),
+        :jcrop=>%w(jcrop),
+        :extjs=>%w(ext4-all ext4-cux),
+        :datepicker=>%w(jquery-datepicker)
+    }
   end
 end

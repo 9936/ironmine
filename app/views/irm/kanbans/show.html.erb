@@ -1,6 +1,6 @@
 <%= common_title(:show_data=>@kanban[:name]) %>
 
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -50,7 +50,7 @@
 
 <div class="bRelatedList">
     <div class="listRelatedObject taskBlock">
-      <div class="bPageBlock secondaryPalette">
+      <div class="page-block secondary-palette">
         <div class="pbHeader">
           <table cellspacing="0" cellpadding="0" border="0">
             <tbody>
@@ -78,14 +78,14 @@
             </div>
           </div>
           <!-- Begin company access table -->
-            <%= datatable("owned_lanes_list",url_for(:controller=>"irm/kanbans",:action=>"get_owned_lanes",:id=>@kanban.id),
+            <%= datatable("owned_lanes_list",{:controller=>"irm/kanbans",:action=>"get_owned_lanes",:id=>@kanban.id},
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                                {:key => "irm_lane_id", :hidden =>true},
                                {:key=>"lane_code",:label=>t(:label_irm_lane_code),:width => "150px"},
                                {:key=>"lane_name",:label=>t(:name), :width => "150px"},
                                {:key=>"lane_description",:label=>t(:description), :width => "200px"}])%>
         </div>
-        <div class="pbFooter secondaryPalette">
+        <div class="pbFooter secondary-palette">
         <div class="bg"></div>
         </div>
       </div>

@@ -1,0 +1,136 @@
+.lay-default #bodyColA,
+.lay-right #bodyColA{
+    background-color: #FFFFFF;
+    margin-top: 13px;
+    padding: 0 0 5px 0;
+    width: 200px;
+}
+
+#sidebarDiv {
+    padding: 0 3px 0 0;
+}
+
+.sidebarModule {
+    margin:0 0 5px;
+    background:url("../images/sidebar_sprite.png") no-repeat scroll -9px bottom #CFEEF8;
+    width: 200px;
+}
+
+.createNewModule {
+    background: none repeat scroll 0 0 transparent;
+}
+
+.sidebarModuleBody {
+    background:url("../images/sidebar_sprite.png") no-repeat scroll -209px top transparent;
+    padding:6px 5px 10px 4px;
+}
+
+.createNewModule .menuButton {
+    background: url("../images/sidebar_sprite.png") no-repeat scroll -409px top transparent;
+    height: 33px !important;
+    left: -8px;
+    position: relative !important;
+    width: 206px;
+    z-index: 70;
+}
+
+#createNew {
+    display: block;
+    height: 20px;
+    position: static;
+}
+
+body .menuButton .menuButtonButton {
+    background-image: url("../images/btn_mutton_sprite.png");
+    /*display: inline-block;*/
+    /*margin: 0;*/
+    /*padding: 3px 22px 3px 5px;*/
+}
+
+#createNew .menuButtonButton{
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    color: #FFFFFF;
+    font-size: 1em;
+    margin: 0;
+    padding: 8px 0 12px 12px;
+    width: 186px;
+}
+
+
+#createNew .menuButtonMenu {
+    background-color: #F3F3EC;
+    border: 1px solid #6699CC;
+    left: auto;
+    margin-top: 0;
+}
+#sidebarDiv .menuButtonMenu, #sidebarDivRight .menuButtonMenu {
+    -moz-box-shadow: 0 1px 5px #727272;
+    background-color: #FFFFFF;
+    border: 1px solid #1797C0;
+    line-height: 21px;
+    margin-left: 4px;
+    margin-top: -4px;
+}
+#createNew .menuButtonMenu a {
+    background-color: transparent;
+    border-color: #F3F3EC;
+    border-style: solid;
+    border-width: 1px 0;
+    color: #333333;
+    font-family: 'Arial','Helvetica',sans-serif;
+    font-size: 100%;
+    font-weight: normal;
+    padding: 0 2px 0 6px;
+    text-align: left;
+}
+#sidebarDiv .menuButtonMenu a, #sidebarDivRight .menuButtonMenu a {
+    border: medium none;
+    padding-top: 1px;
+}
+#sidebarDiv .menuButtonMenu a:hover, #sidebarDivRight .menuButtonMenu a:hover{
+    background-color: #E3F3FF;
+    color: #015BA7;
+}
+.menuButton .menuButtonMenu a, .menuButton .menuButtonMenu input.theOption {
+    background-color: #CCCCCC;
+    border-color: #EEEEEE #666666 #BBBBBB #BBBBBB;
+    border-style: solid;
+    border-width: 1px;
+    color: #000000;
+    display: block;
+    font-family: 'Verdana','Geneva',sans-serif;
+    font-size: 80%;
+    font-weight: bold;
+    padding: 0 6px;
+    text-decoration: none;
+}
+#sidebarDiv .menuButtonMenu a .mruIcon, #sidebarDivRight .menuButtonMenu a .mruIcon {
+    margin-right: 5px;
+    vertical-align: -3px;
+}
+
+#sidebarDiv .sidebarModuleHeader{
+    background:url("../images/sidebar_sprite.png") no-repeat scroll -209px -2px #1797C0;
+    color:#FFFFFF;
+    padding:0;
+}
+.sidebarModuleHeader {font-weight:bold;padding:15px 8px 2px 15px;}
+#sidebarDiv .sidebarModuleHeader h2{
+    background:url("../images/sidebar_sprite.png") no-repeat scroll -9px bottom transparent;
+    display:block;
+    padding:5px 9px;
+}
+
+.new-iframe
+{
+    display: none;
+}
+/***********************incident request reply attachement sidebar************************************/
+div.fileInfo div.fileName{
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}

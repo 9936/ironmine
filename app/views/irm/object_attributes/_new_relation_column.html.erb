@@ -2,7 +2,7 @@
     <div class="pbDescription ">
     </div>
     <div class="pbWizardBody">
-      <div class="secondaryPalette">
+      <div class="secondary-palette">
         <div class="pbBody ">
           <%= error_for @business_object %>
             <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
@@ -90,16 +90,16 @@
 <% end %>
 
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#relation_bo_code",target:["#relation_column"]});
-     Y.one("#relation_bo_code").on("change",function(e){
-         if(e.target.get("value")&&e.target.get("value")!=""){
-             var bo_table_name = e.target.one("option[value="+e.target.get("value")+"]").getAttribute("bo_table_name")
-             Y.one("#relation_table_alias_name").set("value",bo_table_name)
-           }
-         else{
-           Y.one("#relation_table_alias_name").set("value","")
-         }
-     })
+  $(function(){
+      $("#relation_bo_code").cascade("#relation_column");
+      $("#relation_bo_code").change(function(e){
+          var target = $(e.target);
+          if(target.val()&&target.val()!=""){
+              var bo_table_name = target.find("option[value="+e.target.get("value")+"]:first").attr("bo_table_name")
+              $("#relation_table_alias_name").val(bo_table_name);
+          }
+          else
+              $("#relation_table_alias_name").val("");
+      });
   });
 </script>

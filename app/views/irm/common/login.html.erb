@@ -1,3 +1,5 @@
+<% require_css(:login) %>
+<% require_javascript([:jquery,:jplugin]) %>
  <body id="loginpage">
         <div id="pagewrap">
           <div id="newheader">
@@ -9,8 +11,8 @@
                 <div class="content_new">
                 <%= form_tag({:action=> "login"},{:id=>"login_form"}) do %>
                    <%= back_url_hidden_field_tag %>
-                      <% if flash[:error] %>
-                      <div class="loginError"><%= flash[:error] %></div>
+                      <% if params[:error] %>
+                      <div class="loginError"><%= params[:error] %></div>
                       <% end %>
                       <div class="inputs">
                         <div class="inputbox">
@@ -39,7 +41,7 @@
                 </div>
                 <span class="bottom_new"></span>
               </div>
-              <iframe id="shoutoutframe" frameborder=0 scrolling="no" src="/pages/loginimage_2.html?<%= Time.now.to_i%>">
+              <iframe id="shoutoutframe" frameborder=0 scrolling="no" src="/pages/loginimage.html?<%= Time.now.to_i%>">
 
               </iframe>
               
@@ -67,20 +69,18 @@
           <%= render :partial => "/irm/common/footer"%>
         </div>
         <script type="text/javascript">
-          GY.use("cookie","node-event-simulate",function(Y){
-            Y.on("domready",function(e){
-                Y.Cookie.remove("navTreeMenu");
-                if(Y.Cookie.get("username")){
-                  Y.one("#userName").set("value",Y.Cookie.get("username"));
-                  Y.one("#rememberchk").set("checked",true);
-                  Y.one("#password").set("value","");
-                }
-                Y.one("#password").on("keydown",function(e){
-                  if(e.keyCode==13)
-                    Y.one("#sumbitlogin").simulate("click");
+          $(document).ready(function() {
+              $.cookie('navTreeMenu', null, { path: '/' });
+              if($.cookie("username")){
+                  $("#userName").val($.cookie("username"));
+                  $("#rememberchk").attr("checked",true);
+                  $("#password").attr("value","");
+              }
+              $("#password").keydown(function(e){
+                  if(e.keyCode=='13'){
+                    $("#sumbitlogin").trigger("click");
+                  }
                 });
-            });
-
           });
         </script>
     </body>

@@ -2,30 +2,30 @@
 body.sfdcBody {background:url("../images/gradient_body.png") repeat-x scroll 0 0 #1797C0;}
 body.setupTab {margin:0 10px;}
 #contentWrapper {display:inline-block;min-width:100%;}
-body #AppBodyHeader {background-image:none;}
+body #pageHeader {background-image:none;}
 
-#AppBodyHeader .phHeader {background-color:#1797C0;}
-#AppBodyHeader .phHeader {margin-bottom:10px;}
-.bPageHeader .phHeader {background-position:right top;background-repeat:no-repeat;}
-.bPageHeader .phHeader, .tabsNewBar {
+#pageHeader .phHeader {background-color:#1797C0;}
+#pageHeader .phHeader {margin-bottom:10px;}
+.page-header .phHeader {background-position:right top;background-repeat:no-repeat;}
+.page-header .phHeader, .tabsNewBar {
     border:0 none;
     margin:0;
     padding:0;
     width:100%;
 }
 #tabBar *{box-sizing: content-box !important;}
-.bPageHeader .phHeader .left .spacer, .bPageHeader .phHeader td.left {
+.page-header .phHeader .left .spacer, .page-header .phHeader td.left {
 width:230px;
 }
-.bPageHeader td.left {background:url("../images/appHeader_l.png") no-repeat scroll left bottom transparent !important;}
-.bPageHeader .phHeader td {vertical-align:top;}
-.bPageHeader, .bPageHeader td.left {
+.page-header td.left {background:url("../images/appHeader_l.png") no-repeat scroll left bottom transparent !important;}
+.page-header .phHeader td {vertical-align:top;}
+.page-header, .page-header td.left {
     background-image:url("../images/bgTop.gif");
     background-position:left top;
     background-repeat:repeat-x;
 }
-#AppBodyHeader .phHeader td.left img:first-child {margin:0 0 3px 3px;}
-.bPageHeader td.right.vtop {vertical-align:top;}
+#pageHeader .phHeader td.left img:first-child {margin:0 0 3px 3px;}
+.page-header td.right.vtop {vertical-align:top;}
 .navLinks .linkElements {
     
 }
@@ -46,7 +46,7 @@ width:230px;
     text-align:right;
     white-space:nowrap;
 }
-.bPageHeader .phHeader .navLinks {
+.page-header .phHeader .navLinks {
     display:inline-block;
     margin-top:5px;
     position:static;    
@@ -58,11 +58,11 @@ width:230px;
     vertical-align:top;
 }
 
-.bPageHeader .phHeader td.right {text-align:right;white-space:nowrap;width:100%;}
-.bPageHeader td.right {padding-right:19px;vertical-align:middle;}
-.bPageHeader td.right {background:url("../images/appHeader_r.png") no-repeat scroll right bottom transparent;}
+.page-header .phHeader td.right {text-align:right;white-space:nowrap;width:100%;}
+.page-header td.right {padding-right:19px;vertical-align:middle;}
+.page-header td.right {background:url("../images/appHeader_r.png") no-repeat scroll right bottom transparent;}
 
-body.bodyDiv{background-color: #fff;margin: 0 10px; height: 100%; position: relative;}
+body.page-body{background-color: #fff;margin: 0 10px; height: 100%; position: relative;}
 /* tabs */
 body .tabsNewBar .tabNavigation {
     background:url("../images/tabbar_sprite.png") repeat-x scroll left -73px transparent;
@@ -112,7 +112,7 @@ body .tab td, body .tab td div, body .tab .last div {background-image:none;backg
     padding:0 0 0 6px;
     text-align:center;
 }
-#bodyDiv_setup #motifCurve {height:3px;margin:0;}
+#pageBodySetup #motifCurve {height:3px;margin:0;}
 
 .setupTab .tabNavigation .tab .currentTab, .setupTab #motifCurve, .setupTab #motifCurve #mc_l, .setupTab #motifCurve #mc_r {background-color:#747E96;}
 
@@ -123,14 +123,14 @@ body .tab td, body .tab td div, body .tab .last div {background-image:none;backg
     margin:0 -5px;
     position:relative;
 }
-div#bodyDiv_setup table.outer td.oLeft {background:url("../images/setup_sidebar_shadow.png") repeat-y scroll right top transparent;}
+div#pageBodySetup table.outer td.oLeft {background:url("../images/setup_sidebar_shadow.png") repeat-y scroll right top transparent;}
 .sysAdminTab .outer td.oLeft, .setupTab .outer td.oLeft {width:230px;}
 .sysAdminTab .outer td.oLeft, .setupTab .outer td.oLeft {width:220px;}
 
 /************************************/
 /*****************   body cell ********************/
-div#bodyDiv_setup table.outer td.oRight {background-color:#FFFFFF;}
-body .bodyDiv .outer .oRight, body .bodyDiv .outerNoSidebar {background-color:transparent;}
+div#pageBodySetup table.outer td.oRight {background-color:#FFFFFF;}
+body .page-body .outer .oRight, body .page-body .outerNoSidebar {background-color:transparent;}
 .setupTab .outer .oRight, .sysAdminTab .outer .oRight {padding-left:10px;}
 .outer td.oRight {background-color:#FFFFFF;padding:0 10px 20px 0;}
 .outer td {vertical-align:top;}
@@ -167,26 +167,26 @@ body .tabNavigation .tab .allTabsArrow {
     width:6px;
 }
 
-#bodyDiv_setup #bd_l {
+#pageBodySetup #bd_l {
     left:-10px;
     width:10px;
 }
 
-body .bodyDiv #bd_l {
+body .page-body #bd_l {
     background:url("../images/bd_sprite.png") repeat-y scroll left top transparent;
     height:100%;
     left:-20px;
     position:absolute;
     width:20px;
 }
-#bodyDiv_setup #mc_l, #bodyDiv_setup #mc_r, #bodyDiv_setup #bd_b {display:none;}
-#bodyDiv_setup #bd_r {
+#pageBodySetup #mc_l, #pageBodySetup #mc_r, #pageBodySetup #bd_b {display:none;}
+#pageBodySetup #bd_r {
     left:10px;
 }
-#bodyDiv_setup {
+#pageBodySetup {
     margin:0;
 }
-body .bodyDiv #bd_r {
+body .page-body #bd_r {
     background:url("../images/bd_right_shadow.png") repeat-y scroll right top transparent;
     height:100%;
     left:20px;
@@ -377,8 +377,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 /********************************************************************/
 .listRelatedObject .pbBody {padding: 0 !important;}
 .datatable table{width:100%;}
-.bPageBlock .pbHeader > #hotlist > table > tbody > tr > td {padding:5px 6px;}
-.bPageBlock .pbHeader .pbHelp {
+.page-block .pbHeader > #hotlist > table > tbody > tr > td {padding:5px 6px;}
+.page-block .pbHeader .pbHelp {
     padding:1px 5px 1px 1px;
     text-align:right;
     vertical-align:middle;
@@ -404,9 +404,9 @@ body button, body .x-btn, body .btn, body .btnDisabled, body .btnCancel, body .m
     padding:2px 3px;
 }
 .bFilter input, .bFilter select {margin:2px auto;vertical-align:middle;}
-body .bodyDiv .filterOverview {margin:5px;padding:0 0 10px;}
+body .page-body .filterOverview {margin:5px;padding:0 0 10px;}
 .filterOverview {padding-bottom:15px;}
-body .bodyDiv .bFilter {margin:0;}
+body .page-body .bFilter {margin:0;}
 .bFilterView .bFilter .fBody {vertical-align:middle;}
 .btn {
     font-size:90%;
@@ -420,13 +420,13 @@ body .bodyDiv .bFilter {margin:0;}
     padding-top:2px;
     text-align:left;
 }
-body .bodyDiv .bFilter .fFooter a {vertical-align:-1px;}
-body .bodyDiv .bFilter a {
+body .page-body .bFilter .fFooter a {vertical-align:-1px;}
+body .page-body .bFilter a {
     color:#015BA7;
     font-size:1.2em;
     text-decoration:none;
 }
-body .bodyDiv .bFilter a:hover {text-decoration:underline;}
+body .page-body .bFilter a:hover {text-decoration:underline;}
 
 .btn{
     background-image:url("../images/bgButton.gif");
@@ -518,8 +518,8 @@ a.NavTreeExp {
     padding-top: 2px;
 }
 /************************** overview *******************************/
-.bPageBlock .setupOverview, .bPageBlock .setupResource {width:100%;}
-.bPageBlock .setupOverview td, .bPageBlock .setupOverview th, .bPageBlock .setupResource td, .bPageBlock .setupResource th {
+.page-block .setupOverview, .page-block .setupResource {width:100%;}
+.page-block .setupOverview td, .page-block .setupOverview th, .page-block .setupResource td, .page-block .setupResource th {
     color:#333333;
     padding:3px 2px 3px 5px;
     width:50%;
@@ -630,19 +630,19 @@ body #sidebarDiv .sidebarInner, body #sidebarDivRight .sidebarInner {
 .mruItem a .mruText{color: #333435;}
 
 .quickCreateField {padding:1px 2px 5px 4px;}
-body .bodyDiv #bd_b {
+body .page-body #bd_b {
     background:url("../images/bd_b.png") repeat-x scroll 0 0 transparent;
     bottom:-20px;
     height:20px;
     position:absolute;
     width:100%;
 }
-body .bodyDiv #bd_b #bd_bl {
+body .page-body #bd_b #bd_bl {
     background-position:-40px top;
     left:-20px;
     z-index:11;
 }
-body .bodyDiv #bd_b #bd_br {
+body .page-body #bd_b #bd_br {
     background-position:-60px top;
     right:-20px;
 }
@@ -653,46 +653,46 @@ body .bodyDiv #bd_b #bd_br {
     width:20px;
 }
 
-.homeTab .bPageTitle .thumbnail_visible {
+.homeTab .page-title .thumbnail_visible {
     float:left;
     margin-right:10px;
 }
-.chattergrouplistpage .groupicon img, .PeopleListPage .chatterlisticon img, .searchResults .groupicon img, .searchResults .chatterlisticon img, .homeTab .bPageTitle .thumbnail_visible, .feedcontainer .feeditemusericon {
+.chattergrouplistpage .groupicon img, .PeopleListPage .chatterlisticon img, .searchResults .groupicon img, .searchResults .chatterlisticon img, .homeTab .page-title .thumbnail_visible, .feedcontainer .feeditemusericon {
     height:45px;
     width:45px;
 }
-.chattergrouplistpage .groupicon img, .PeopleListPage .chatterlisticon img, .searchResults .groupicon img, .searchResults .chatterlisticon img, .homeTab .bPageTitle .thumbnail_visible, .feedcontainer .feeditemusericon, .thumbnailPanel .thumbnailTable img, .thumbnailPanel .groupThumbnail img, .chatterListOverlay .overlayListPhoto img, .followerIcon, .feedcontainer .feeditemcommentphoto img {
+.chattergrouplistpage .groupicon img, .PeopleListPage .chatterlisticon img, .searchResults .groupicon img, .searchResults .chatterlisticon img, .homeTab .page-title .thumbnail_visible, .feedcontainer .feeditemusericon, .thumbnailPanel .thumbnailTable img, .thumbnailPanel .groupThumbnail img, .chatterListOverlay .overlayListPhoto img, .followerIcon, .feedcontainer .feeditemcommentphoto img {
     border:1px solid #D4DADC;
     display:block;
     overflow:hidden;
 }
-.homeTab .bPageTitle .ptBody .greeting .pageType {
+.homeTab .page-title .pt-body .greeting .pageType {
     font-size:109%;
     font-weight:bold;
 }
-body .bPageTitle .ptBody .greeting .pageType {padding-left:0;}
+body .page-title .pt-body .greeting .pageType {padding-left:0;}
 body.homeTab .greeting .content > span {display:block;margin-left:0;}
 body.homeTab .greeting .pageType {margin-left:0;}
-body .bPageTitle .ptBody .pageType, body .bPageTitle .ptBody .pageDescription {margin-left:37px;}
-body .bPageTitle .ptBody .pageType {
+body .page-title .pt-body .pageType, body .page-title .pt-body .pageDescription {margin-left:37px;}
+body .page-title .pt-body .pageType {
     color:#4A4A56;
     font-size:0.9em;
     font-weight:bold;
     padding-left:1px;
 }
-.homeTab .bPageTitle .pageType {margin-bottom:4px;}
-.homeTab .bPageTitle .ptBody .greeting h1, .homeTab .bPageTitle .ptBody .greeting h2 {padding-left:0;}
-.homeTab .bPageTitle h1.currentStatusUserName {display:inline;}
+.homeTab .page-title .pageType {margin-bottom:4px;}
+.homeTab .page-title .pt-body .greeting h1, .homeTab .page-title .pt-body .greeting h2 {padding-left:0;}
+.homeTab .page-title h1.currentStatusUserName {display:inline;}
 body.homeTab .greeting h1 {font-size:12px;}
 
 body.homeTab div.greeting a {text-decoration:none;}
-body .bPageTitle .secondaryPalette a, body .secondaryPalette .lbHeader a, body .pbSubheader a {color:#015BA7;}
+body .page-title .secondaryPalette a, body .secondaryPalette .lbHeader a, body .pbSubheader a {color:#015BA7;}
 .currentStatusUserName a {font-size:15px;font-weight:normal;}
-.homeTab .bPageTitle .ptBody .greeting .pageDescription {font-size:91%;font-weight:normal;}
-.homeTab .bodyDiv .bPageTitle {padding-top:5px;}
-.sysAdminTab .bPageTitle .ptBody .content, .homeTab .bPageTitle .ptBody .content, .allTabTab .bPageTitle .ptBody .content {padding-left:0;}
+.homeTab .page-title .pt-body .greeting .pageDescription {font-size:91%;font-weight:normal;}
+.homeTab .page-body .page-title {padding-top:5px;}
+.sysAdminTab .page-title .pt-body .content, .homeTab .page-title .pt-body .content, .allTabTab .page-title .pt-body .content {padding-left:0;}
 
-.homeTab .mComponent .cHeader, .homeTab .genericTable, .homeTab .bSubBlock, .homeTab .bPageBlock {border-top:3px solid #1797C0;}
+.homeTab .mComponent .cHeader, .homeTab .genericTable, .homeTab .sub-block, .homeTab .page-block {border-top:3px solid #1797C0;}
 
 body.homeTab #db_refresh_time {margin-bottom:5px;}
 body.homeTab .componentDate {margin-left:10px;}
@@ -720,7 +720,7 @@ body.homeTab .componentDate {margin-left:10px;}
     margin-top:20px;
     white-space:nowrap;
 }
-.bPageBlock .reportOutput {padding-bottom: 15px;width: 100%;}
+.page-block .reportOutput {padding-bottom: 15px;width: 100%;}
 fieldset legend {color:black;font-weight:bold;}
 .reportParameters fieldset label, .reportParameters fieldset .label {margin-top:0;}
 .bFilterReport .reportActions {margin-bottom:15px;white-space:nowrap;}
@@ -728,39 +728,39 @@ fieldset legend {color:black;font-weight:bold;}
 /***************************tools content***********************************/
 .toolsContent {width:100%;}
 .toolsContentLeft {margin-right:10px;}
-.bSubBlock .lbHeader {padding-left:1px;padding-right:0;}
-body .bSubBlock .lbBody {
+.sub-block .lbHeader {padding-left:1px;padding-right:0;}
+body .sub-block .lbBody {
     background-color:#FFFFFF;
     border:1px solid #E8E8E8;
     margin:5px 0 0;
     padding:5px;
 }
-body .bPageBlock {
+body .page-block {
     border-top-width:3px;
     margin-bottom:10px;
     padding:0;
 }
-body .bSubBlock {padding:5px;}
-.bSubBlock .lbBody {
+body .sub-block {padding:5px;}
+.sub-block .lbBody {
     background-color:#F3F3EC;
     height:100%;
     line-height:1.6em;
     padding:10px 23px 10px 26px;
 }
-.bSubBlock .lbHeader {
+.sub-block .lbHeader {
     display:block;
     float:none;
     font-family:'Arial','Helvetica',sans-serif;
     font-weight:bold;
     padding:2px 13px;
 }
-.bSubBlock .lbBody ul {
+.sub-block .lbBody ul {
     list-style-type:none;
     margin:0;
     padding:0;
 }
-.bSubBlock .lbBody li, .bSubBlock .lbBody .bSummary {line-height:25px;}
-.bSubBlock .lbBody .mainLink {font-weight:bold;}
+.sub-block .lbBody li, .sub-block .lbBody .bSummary {line-height:25px;}
+.sub-block .lbBody .mainLink {font-weight:bold;}
 
 .toolsContent > tbody > tr > td{padding-top: 5px; width: 50%;}
 .toolsContentRight .tdRight, .toolsContentLeft .tdRight {float:right;padding-right:30px;}
@@ -895,13 +895,13 @@ div.recurrenceSectionBackground {
     padding: 8px 0 8px 5px;
 }
 
-.first .bSubBlock{
+.first .sub-block{
     border-width: 1px;
     border-style: solid;
     border-color: #bfbfbf !important;
 }
 
-.yui3-tabview .bPageBlock{
+.yui3-tabview .page-block{
     border-left-width: 0;
     border-right-width: 0;
     border-bottom-width: 0;

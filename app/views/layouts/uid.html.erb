@@ -1,29 +1,20 @@
 <html>
 <head>
   <title>Ironmine</title>
-
-  <script type="text/javascript" src="/javascripts/yui3.3/yui/yui-min.js"></script>
-  <%= javascript_include_tag :defaults %>
-  <%= javascript_include_tag "tabbar_ext" %>
-  <%= javascript_include_tag "survey" %>
+  <% require_javascript([:jquery,:jplugin]) %>
+  <% require_css([:default]) %>
+  <%=render_loaded_javascript_css_files%>
   <%= csrf_meta_tag %>
-  <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/application.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/common.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/tabbar.css"></link>
-  <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/icons.css"></link>
-
   <script type="text/javascript">
-    GY.use("menubutton","node-base",function(Y){
-      Y.on("domready",function(){
-        new Y.MenuButton({menuNode:"#settingMenu",dropAlign:["TR","BR"]});
-      });
+    $(document).ready(function(){
+        $("#settingMenu").menubutton();
     });
   </script>
   <link rel="shortcut icon" href="/images/mini-logo.png" type="image/x-icon"/>
 </head>
 <body id ="homePage" class="homeTab homepage sfdcBody yui3-skin-sam yui-skin-sam">
     <div id="contentWrapper">
-        <div id="AppBodyHeader" class="bPageHeader">
+        <div id="pageHeader" class="page-header">
             <table id="phHeader" class="phHeader" cellpadding="0" cellspacing="0" border="0">
               <tbody>
                 <tr>
@@ -89,7 +80,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="bodyDiv" class="bodyDiv">
+        <div id="page-body" class="page-body">
             <div id="bd_l"></div>
             <div id="bd_r"></div>
             <div id="motifCurve">

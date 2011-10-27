@@ -1,5 +1,5 @@
-<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
-<div id="ep" class="bEditBlock bPageBlock">
+
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -17,43 +17,43 @@
     <div class="pbSubsection">
          <% if process_infos.any? %>
          <div class="datatable">
-           <div class="yui3-widget yui3-datatable">
-             <div class="yui3-datatable-content">
-                 <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
-                   <thead class="yui3-datatable-columns">
-                     <tr class="yui3-datatable-first yui3-datatable-last">
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+           <div class="irm-datatable">
+             <div>
+                 <table id='rows' >
+                   <thead>
+                     <tr>
+                       <th>
+                         <div>
                            <%= t(:operation) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_process_instance_next_created_at) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_step_instance_approval_status_code) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_step_instance_assign_approver) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_step_instance_actual_approver) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_step_instance_comment) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_process_instance_global_status) %>
                          </div>
                        </th>
@@ -63,23 +63,23 @@
                    <% process_infos.each_with_index do |pi,index| %>
                     <tbody  class="yui3-datatable-data processInfo<%=index%2==0? "Even":"Odd"%>">
                      <tr id="<%=pi[:process_instance].id%>" class="yui3-datatable-even processInstance">
-                       <td class="yui3-column" colspan="2">
-                         <div class='yui3-datatable-liner'>
+                       <td colspan="2">
+                         <div>
                            <b><%=t(:label_irm_wf_approval_process)%>: <%= pi[:process_instance][:process_name]  %></b>
                           </div>
                        </td>
-                       <td class="yui3-column" colspan="3">
-                         <div class='yui3-datatable-liner'>
+                       <td colspan="3">
+                         <div>
                            <b><%=t(:label_irm_wf_process_instance_submitter_name)%>: <%= pi[:process_instance][:submitter_name]  %></b>
                           </div>
                        </td>
-                       <td class="yui3-column">
-                         <div class='yui3-datatable-liner'>
+                       <td>
+                         <div>
                            <%= pi[:process_instance][:comment]  %>
                           </div>
                        </td>
-                       <td class="yui3-column">
-                         <div class='yui3-datatable-liner'>
+                       <td>
+                         <div>
                            <b><%= process_status(pi[:process_instance][:process_status_code_name]) %></b>
                          </div>
                        </td>

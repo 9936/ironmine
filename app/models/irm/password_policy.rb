@@ -27,6 +27,18 @@ class Irm::PasswordPolicy < ActiveRecord::Base
     end
   end
 
+  def locked?(times)
+    !(self.maximum_attempts.to_i==0||self.maximum_attempts.to_i>times)
+  end
+
+  def lock_until_date
+    if(self.lockout_period.to_i==0)
+      return nil
+    else
+      return self.lockout_period.to_i.minutes.from_now
+    end
+  end
+
   def validate_message
     message = ""
     message << I18n.t(:label_irm_psw_policy_min_length) +":  #{self.minimum_length}"
@@ -55,31 +67,55 @@ class Irm::PasswordPolicy < ActiveRecord::Base
   end
 
   # class method
-  def self.validate_message
-    if self.first
-      return self.first.validate_message
+  def self.current(opu_id)
+    self.unscoped.by_opu(opu_id).first
+  end
+
+  def self.validate_message(opu_id)
+    policy = self.unscoped.by_opu(opu_id).first
+    if policy
+      return policy.validate_message
     end
   end
 
-  def self.expire?(password_last_update_at)
-    if self.first
-      return self.first.expire?(password_last_update_at)
+  def self.expire?(password_last_update_at,opu_id)
+    policy = self.unscoped.by_opu(opu_id).first
+    if policy
+      return policy.expire?(password_last_update_at)
     end
     return false
   end
 
-  def self.validate_password(password)
-    if self.first
-      return self.first.validate_password(password)
+  def self.validate_password(password,opu_id)
+    policy = self.unscoped.by_opu(opu_id).first
+    if policy
+      return policy.validate_password(password)
     end
     return true
   end
 
-  def self.random_password
-    if self.first
-      return self.first.random_password
+  def self.random_password(opu_id)
+    policy = self.unscoped.by_opu(opu_id).first
+    if policy
+      return policy.random_password
     end
     return "111111"
+  end
+
+  def self.locked?(times,opu_id)
+    policy = self.unscoped.by_opu(opu_id).first
+    if policy
+      return policy.locked?(times)
+    end
+    return true
+  end
+
+  def self.lock_until_date(opu_id)
+    policy = self.unscoped.by_opu(opu_id).first
+    if policy
+      return policy.lock_until_date
+    end
+    return nil
   end
 
 end

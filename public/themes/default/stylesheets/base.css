@@ -1,0 +1,73 @@
+#body{
+    margin: 0 10px 0 10px;
+}
+
+#mc_l, #mc_r {
+    background:url("../images/motifCurve_sprite.png") no-repeat scroll 0 0 transparent;
+    height:9px;
+    position:absolute;
+    width:5px;
+}
+#mc_l {background-position:left -10px;left:-5px;}
+#mc_r {background-position:right -10px;right:-5px;}
+
+body .page-body #bd_l {
+    background:url("../images/bd_sprite.png") repeat-y scroll left top transparent;
+    height:100%;
+    left:-20px;
+    position:absolute;
+    width:20px;
+}
+
+body .page-body #bd_r {
+    background:url("../images/bd_right_shadow.png") repeat-y scroll right top transparent;
+    height:100%;
+    left:20px;
+    position:absolute;
+    width:100%;
+    z-index:-1;
+}
+
+body .page-body {
+    background-color: #FFFFFF;
+    margin-bottom: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 0;
+}
+
+.page-body {
+    position: relative;
+}
+
+#motifCurve {
+    background-image:url("../images/motifCurve_sprite.png");
+    background-repeat:repeat-x;
+    height:9px;
+    margin:0 -5px;
+    position:relative;
+}
+
+body .page-body #bd_b {
+    background:url("../images/bd_b.png") repeat-x scroll 0 0 transparent;
+    bottom:-20px;
+    height:20px;
+    position:absolute;
+    width:100%;
+}
+body .page-body #bd_b #bd_bl {
+    background-position:-40px top;
+    left:-20px;
+    z-index:11;
+}
+body .page-body #bd_b #bd_br {
+    background-position:-60px top;
+    right:-20px;
+}
+#bd_bl, #bd_br {
+    background:url("../images/bd_sprite.png") no-repeat scroll 0 0 transparent;
+    height:20px;
+    position:absolute;
+    width:20px;
+}
+/*********************************************************************************/

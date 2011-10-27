@@ -1,0 +1,100 @@
+<%unless limit_device?%>
+    <div id='<%=textarea_id%>RichTextParent' class="rich-text"></div>
+<%end%>
+<script type="text/javascript">
+<%if limit_device?%>
+    $(function(){
+        $("#<%=textarea_id%>").elastic({forceFitWidth: <%=force_fit_width%>});
+    });
+<%else%>
+    function finishAttach(file_path, render_target, msg){
+        Ext.getCmp('<%=textarea_id%>_image_shot').destroy();
+        if ($("#<%=textarea_id%>")) {
+            if (msg != "")
+            {
+                alert(msg);
+            }
+            else
+            {
+                var element = document.createElement("img");
+                element.src = file_path;
+                var editor = Ext.getCmp("<%=textarea_id%>");
+                var selection = editor.win.getSelection();
+                if (!selection.isCollapsed) {
+                    selection.deleteFromDocument();
+                }
+                selection.getRangeAt(0).insertNode(element);
+//                Ext.getCmp("").setValue(Ext.getCmp("").getValue() + file_path);
+            }
+        }
+
+    }
+
+    function cancelAttach(){
+        Ext.getCmp('<%=textarea_id%>_image_shot').destroy();
+    }
+    Ext.onReady(function(){
+        var currentTextArea = Ext.get("<%=textarea_id%>");
+        var height = currentTextArea.getHeight()+22;
+        currentTextArea.setStyle("display","none");
+        currentTextArea.dom.removeAttribute("required");
+        currentTextArea.parent().appendChild("<%=textarea_id%>RichTextParent");
+        var <%=textarea_id%>RichText =  Ext.create('Ext.form.HtmlEditor', {
+            id: "<%=textarea_id%>" ,
+            height: height,
+            autoWidth:true,
+            value: currentTextArea.getValue(),
+            renderTo: "<%=textarea_id%>RichTextParent",
+            enableFontSize:false,
+            enableFont:false,
+            enableLinks:false,
+            listeners:{
+                beforesync:function(field,newValue){
+                    $("#<%=textarea_id%>").val(newValue);
+                }
+            }
+        });
+    <%if force_fit_width%>
+      <%=textarea_id%>RichText.setWidth(currentTextArea.parent().getComputedWidth()-10);
+    <%end%>
+        <%=textarea_id%>RichText.getToolbar().add('-', {
+             tooltip: 'Full Screen',
+             iconCls: 'x-btn-icon x-edit-uploadimage',
+             handler: function(){
+                        var tabPan = new Ext.TabPanel({
+                            height: 351,
+                            activeTab: 0,
+                            frame: true,
+                            region: 'center',
+                            layoutOnTabChange: true,
+                            columnWidth:1,
+                            border: true,
+                            items: [
+                                {title:'<%= I18n.t :label_irm_rich_editor_win_tab_from_clipboard%>', html:"<iframe frameborder=0 scrolling='no'  src='/common/upload_screen_shot' class='screen_shot_frame'></iframe>"},
+                                {title:'<%= I18n.t :label_irm_rich_editor_win_tab_from_file%>', html:"<iframe frameborder=0 scrolling='no'  src='/common/upload_file' class='screen_shot_frame'></iframe>"}]
+                        });
+                        tabPan.doLayout();
+                        var win= new Ext.Window({
+                                    title: "<%= I18n.t :label_irm_rich_editor_win_tab_upload_image%>",
+                                    width: 440,
+                                    height: 385,
+                                    layout:'column',
+                                    maximizable: false,
+                                    resizable: false,
+                                    id: "<%=textarea_id%>_image_shot" ,
+                                    border:false,
+                                    defaults:{border:false},
+                                    items: [tabPan],
+                                    modal:true
+                                });
+
+                        win.doLayout();
+                        win.show();
+
+             }
+        });
+
+
+    });
+<%end%>
+</script>

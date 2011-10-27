@@ -2,7 +2,7 @@
 
 <%= form_for(@person, :url => {:controller => "irm/my_avatar", :action => "update", :id => @person.id,
                                       :return_url => {:controller => "irm/my_avatar", :action => "index"}}) do |f| %>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -18,10 +18,10 @@
   </div>
   <div class="pbBody">
     <div class="pbSubsection">
-        <div style="padding: 5px 0 5px 0; margin-left: 30%;"><%= t(:label_irm_person_avatar_best_size)%></div>
+        <div style="padding: 5px 0 5px 0; margin-left: 30%;"><%= t(:label_irm_person_avatar_best_size)%><label id="currentCrop"></label></div>
     </div>
     <div class="pbSubsection">
-        <%= render :partial => "irm/common/crop", :locals => {:source => @person}%>
+        <%= render :partial => "irm/common/crop", :locals => {:source => @person,:best_size=>[100,100],:display_dom=>"currentCrop"}%>
            <% for attribute in [:crop_x, :crop_y, :crop_w, :crop_h] %>
              <%= f.hidden_field attribute, :id => attribute %>
             <% end %>

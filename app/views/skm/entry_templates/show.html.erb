@@ -1,5 +1,5 @@
 <%= page_title %>
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -48,7 +48,7 @@
 </div>
 
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -76,7 +76,7 @@
             <%= check_img("{detail_required_flag}") %>
           </div>               
         </div>
-        <%= datatable("entry_elements_list",url_for(:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_template,:format=>"json"),
+        <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_template,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "100px"},
                        {:key=>"detail_id",:formatter=>"Y.irm.template", :hidden => true},
                        {:key=>"detail_required_flag",:label=>t(:label_skm_entry_template_element_required),:formatter=>"Y.irm.template", :width => "40px"},

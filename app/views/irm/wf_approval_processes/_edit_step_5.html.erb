@@ -5,7 +5,7 @@
 </style>
 <%= form_for(@wf_approval_process,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:step) %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
             <%= t(:step_n_total_m, :n => "4", :m => "5") %>
@@ -18,7 +18,7 @@
     <div class="pbDescription ">
     </div>
     <div class="pbWizardBody">
-      <div class="secondaryPalette">
+      <div class="secondary-palette">
         <div class="pbBody ">
             <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
               <span class="pbSubExtra">
@@ -40,7 +40,14 @@
                     <td class="labelCol empty">&nbsp;</td>
                     <td class="dataCol empty">&nbsp;</td>
                   </tr>
-                  <%= render :partial => "irm/duel_select/search",:locals => {:label=>t(:label_irm_wf_rule_action_type),:f=>f,:types=>bo_person_field_duel_types([Irm::ExternalSystem.name]),:sources=>bo_person_field_duel_values(@wf_approval_process.bo_code,[Irm::ExternalSystem.name]),:str_value_field=>:submitter_str,:str_value=>@wf_approval_process.get_submitter_str} %>
+                  <tr>
+                     <td class="labelCol">
+                       <label for="duelType"><%=t(:label_irm_wf_rule_action_type)%></label>
+                     </td>
+                     <td class="dataCol" colspan="3">
+                       <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>bo_person_field_duel_types([Irm::ExternalSystem.name]),:sources=>bo_person_field_duel_values(@wf_approval_process.bo_code,[Irm::ExternalSystem.name]),:str_value_field=>:submitter_str,:str_value=>@wf_approval_process.get_submitter_str} %>
+                     </td>
+                  </tr>
                 </tbody>
               </table>
             </div>

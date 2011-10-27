@@ -1,5 +1,5 @@
 <% if allow_to_function?(:view_todo_events) %>
-<div class="bSubBlock">
+<div class="sub-block">
 <h3 class="lbHeader"></h3>
 <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
   <tbody>
@@ -24,7 +24,7 @@
             <%= link_to("{name}", {:controller => "irm/todo_events", :action => "show", :id => "{id}"})%>
           </div>
       </div>
-        <%= datatable("todo_events_list",url_for(:controller => "irm/todo_events", :action=>"get_top_data",:format=>"json"),
+        <%= datatable("todo_events_list",{:controller => "irm/todo_events", :action=>"get_top_data",:format=>"json"},
                               [{:key=>"id",:label=>t(:operation),:hidden=>true},
                                {:key=>"name",:label=>t(:label_irm_todo_event_name),:formatter=>"Y.irm.template", :width => "120px"},
                                {:key=>"start_at",:label=>t(:label_irm_todo_event_start_at), :width => "80px"},

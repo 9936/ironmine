@@ -23,7 +23,7 @@
 </style>
 <%= setting_title %>
 <%= form_for(@mail_template,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -89,7 +89,7 @@
                         <td><%=blank_select_tag :parameter_bo,available_business_object,{}, {:id=>"parameter_bo",:required=>true}%></td>
                         <td><%=blank_select_tag(:parameter_field_name,[],nil,
                                   {:id=>"parameter_field_name",
-                                   :href=>url_for(:controller=>"irm/object_attributes",:action=>"all_columns",:format=>"json",:business_object_code=>"{parameter_bo}"),
+                                   :href=>url_for(:controller=>"irm/object_attributes",:action=>"all_columns",:format=>"json",:business_object_code=>"${parameter_bo}"),
                                    :depend=>"parameter_bo",
                                    }) %></td>
                         <td><%= text_field_tag(:parameter_field_key,"",{:id=>"parameter_field_key",:size=>40}) %></td>
@@ -127,16 +127,17 @@
 </div>
 <% end %>
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#parameter_bo",target:["#parameter_field_name"]});
-     Y.one("#parameter_field_name").on("change",function(e){
-         if(e.target.get("value")&&e.target.get("value")!=""){
-           var option = e.target.one("option[value="+e.target.get("value")+"]");
-           Y.one("#parameter_field_key").set("value","{{"+option.getAttribute("business_object_code").toLowerCase()+"."+e.target.get("value")+"}}")
-         }
-         else
-           Y.one("#parameter_field_key").set("value","")
-     });
+  $(function(){
+      $("#parameter_bo").cascade("#parameter_field_name");
+      $("#parameter_field_name").change(function(e){
+          var target = $(e.target)
+          if(target.val()&&target.val()!=""){
+            var option = target.find("option[value="+target.val()+"]:first");
+            $("#parameter_field_key").val("{{"+option.attr("business_object_code").toLowerCase()+"."+target.val()+"}}")
+          }
+          else
+            $("#parameter_field_key").val("");
+      });
   });
 </script>
 

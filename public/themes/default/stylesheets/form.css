@@ -1,0 +1,114 @@
+.quickCreateField {padding:1px 2px 5px 4px;}
+
+body .detail-block.pageblock .pbBody .labelCol,
+body .detail-block.page-block .pbBody .dataCol,
+body .detail-block.page-block .pbBody .data2Col,
+body .detail-block.page-block .pbBody .data3Col,
+body .page-block.edit-block .pbBody .labelCol,
+body .page-block.edit-block .pbBody .dataCol,
+body .page-block.edit-block .pbBody .data2Col,
+body .page-block.edit-block .pbBody .data3Col {
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+body .page-block .pbBody .label3Col,
+body .page-block .pbBody .labelCol,
+body .page-block .pbBody .dataCol,
+body .page-block .pbBody .data2Col,
+body .page-block .pbBody .data3Col {
+    padding-bottom:5px;
+    padding-top:5px;
+}
+
+.edit-block.page-block .detailList tr td,
+.edit-block.page-block .detailList tr th {border-bottom-width:0;}
+
+.page-block .dataCol {text-align: left;}
+
+body .page-block .pbBody .labelCol,
+body .page-block .pbBody .label3Col {color: #4A4A56;}
+
+.page-block .detailList .labelCol {width: 18%;}
+.page-block .detailList .dataCol {width: 32%;}
+
+.page-block .detailList .labelCol {white-space: nowrap;}
+
+body .page-block .detailList tr td,
+body .page-block .detailList tr th,
+body table.list tr td,
+body table.list tr th{border-color:#ECECEC;}
+body .detail-block tr td {border:0 none;}
+.page-block .detailList th, .page-block .detailList td {vertical-align: top;}
+
+.page-block .dataCol {padding:2px 2px 2px 10px;text-align:left;}
+
+.page-block .labelCol,
+.page-block .label3Col{
+    color:#333333;
+    font-size:91%;
+    font-weight:bold;
+    padding:2px 10px 2px 2px;
+    text-align:right;
+}
+
+.requiredInput {
+    display: inline-block;
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+.requiredInput .requiredBlock {
+    background-color:#CC0000;
+    bottom:1px;
+    left:-4px;
+    position:absolute;
+    top:1px;
+    width:3px;
+}
+/*****************************************************/
+/*dual*/
+table.duel-select tr.duelList td {text-align: center;vertical-align: middle;}
+table.duel-select tr.duelList td.buttonCell {width: 0;}
+table.duel-select tr.duelList select {min-width:180px; width:100%; height:100%;}
+div.actonType{float:left;}
+/*****************************************************/
+.wizard-block .detailList{width: 100%;}
+.wizard-block .detailList .labelCol{width: 18%;}
+.wizard-block .detailList .labelCol{white-space: nowrap;}
+
+form .pbBottomButtons {
+    border-top-color: #DBDBDB;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+.wizard-block .pbHeader table, .wizard-block .pbBottomButtons table{
+    border-spacing: 0;
+    width: 100%;
+}
+form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important;}
+.wizard-block .labelCol,
+.wizard-block .label3Col{
+    color:#333333;
+    font-size:91%;
+    font-weight:bold;
+    padding:2px 10px 2px 2px;
+    text-align:right;
+}
+.wizard-block .detailList .dataCol{width: 40%;}
+.wizard-block .dataCol{padding:2px 2px 2px 10px;text-align:left;}
+/*******************************************************/
+/*show page*/
+.setupTab .page-block .detailList tr td,
+.setupTab .page-block .detailList tr th{
+    border-bottom:1px solid #ececec;
+}
+
+.lay-full .detail-block.page-block .detailList tr td,
+.lay-full .detail-block.page-block .detailList tr th{
+    border-bottom-width:0;
+}
+
+
+

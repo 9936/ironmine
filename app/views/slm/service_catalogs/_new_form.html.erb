@@ -1,5 +1,5 @@
 <%= form_for(@service_catalog,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -86,7 +86,14 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
-          <%= render :partial => "irm/duel_select/plain",:locals => {:label=>"",:f=>f,:sources=>external_system_duel_values,:str_value_field=>:external_system_str,:str_value=>@service_catalog.get_external_system_str} %>
+            <tr>
+               <td class="labelCol">
+
+               </td>
+               <td class="dataCol" colspan="3">
+                 <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:sources=>external_system_duel_values,:str_value_field=>:external_system_str,:str_value=>@service_catalog.get_external_system_str} %>
+               </td>
+            </tr>
         </tbody>
       </table>
     </div>

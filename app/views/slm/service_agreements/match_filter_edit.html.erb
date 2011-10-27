@@ -1,6 +1,6 @@
 <%= page_title %>
 <%= form_for(@rule_filter,:url=>{:action=>"match_filter_update"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -69,13 +69,11 @@
   </div>
 </div>
 <% end %>
-
 <script type="text/javascript">
-  GY.use("irm","gallerydispatcher","substitute",function(Y){
-      Y.on("domready",function(){
-        Y.on('change',Y.irm.rawConditionClause,".filterColumnSelect");
-        Y.on('change',Y.irm.refreshFilterOptions, '.filterColumnSelect');
+  $(function(){
+      $("#filterContent .filterColumnSelect").live("change",function(event){
+          rawConditionClause("rawConditionClause",event);
+          refreshFilterOptions("filterContent",event);
       });
-
   });
 </script>

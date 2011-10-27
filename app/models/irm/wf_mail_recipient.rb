@@ -11,38 +11,22 @@ class Irm::WfMailRecipient < ActiveRecord::Base
   attr_accessor :bo_code
 
 
-  def self.recipient_types
-    return @recipient_types if @recipient_types
-    @recipient_types = Irm::LookupValue.query_by_lookup_type("WF_MAIL_ALERT_RECIPIENT_TYPE").multilingual.order_id.collect{|p|[p[:meaning],p[:lookup_code]]}
-  end
+ scope :query_person_ids,lambda{
+    joins("JOIN #{Irm::Person.relation_view_name} ON  #{Irm::Person.relation_view_name}.source_type = #{table_name}.recipient_type AND #{Irm::Person.relation_view_name}.source_id = #{table_name}.recipient_id").
+        select("#{Irm::Person.relation_view_name}.person_id")
+  }
 
-  def ref
-    "#{self.recipient_type}##{self.recipient_id}"
-  end
+  scope :bo_attribute,lambda{|wf_mail_alert_id|
+    where(:wf_mail_alert_id=>wf_mail_alert_id,:recipient_type=>Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name))
+  }
 
-  def label
-    type_name = self.class.recipient_types.detect{|i| i[1].eql?(self.recipient_type)}[0]
-    recipient_name = ""
-    case self.recipient_type
-      when "RELATED_PERSON"
-        oa = Irm::ObjectAttribute.multilingual.where(:business_object_code=>self.bo_code||self.wf_mail_alert.bo_code,:attribute_name=>self.recipient_id).first
-        recipient_name = oa[:name] if oa
-      when "ROLE"
-        role = Irm::Role.multilingual.query(self.recipient_id).first
-        recipient_name = role[:name] if role
-      when "PERSON"
-        person = Irm::Person.query(self.recipient_id).first
-        recipient_name = person.full_name if person
-    end
-    "#{type_name}: #{recipient_name}"
-  end
 
-  def person_ids(bo)
+  def person_ids(bo=nil)
     person_ids = []
     case self.recipient_type
-      when "RELATED_PERSON"
+      when Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name)
         if bo
-          value = Irm::BusinessObject.attribute_of(bo,self.recipient_id)
+          value = Irm::BusinessObject.attribute_of(bo,self.approver_id)
           if value.present?
             if value.is_a?(Array)
               person_ids = value
@@ -51,10 +35,7 @@ class Irm::WfMailRecipient < ActiveRecord::Base
             end
           end
         end
-      when "ROLE"
-        person_ids = Irm::Person.where(:role_id=>self.recipient_id).collect{|i| i.id}
-      when "PERSON"
-        person_ids = [self.recipient_id]
     end
+    person_ids
   end
 end

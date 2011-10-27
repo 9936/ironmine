@@ -1,0 +1,39 @@
+<%= form_for(@file,:url=>{:controller =>"irm/common", :action=>"create_upload_file", :format => "js"},
+             :builder => LabellingFormBuilder,
+             :html => {:target => "frame", :multipart => true}) do |f| %>
+<div class="edit-block page-block">
+    <div class="pbBody">
+        <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+          <h3><%= t(:label_irm_rich_editor_win_tab_select_file) %></h3>
+        </div>
+        <div class="pbSubsection">
+          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_irm_rich_editor_win_tab_selected_file)%></label></td>
+                  <td class="data2Col"><input type="file" name="file" accept="image/gif,image/jpeg,image/x-png,image/png"/></td>
+                </tr>
+                <tr>
+                  <td class="labelCol">&nbsp;</td>
+                  <td class="data2Col"></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  <div class="pbBottomButtons">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"></td>
+          <td id="bottomButtonRow" class="pbButton">
+            <div class="button"><%= f.submit I18n.t(:save)%></div>
+            <div class="button"><%= link_to t(:cancel), {}, :onclick => "parent.cancelAttach();"%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+<iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>

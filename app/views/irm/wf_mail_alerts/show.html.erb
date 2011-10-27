@@ -1,6 +1,6 @@
 <%= page_title %>
 
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -33,13 +33,16 @@
             <tr>
               <td class="labelCol"><label ><%=t(:label_irm_wf_mail_recipients)%></label></td>
               <td class="dataCol" colspan="3" width="82%">
-                  <% if @wf_mail_alert.wf_mail_recipients.any? %>
-                    <% @wf_mail_alert.wf_mail_recipients.each_with_index do |r,index| %>
-                        <div><%= r.label %></div>
-                    <% end %>
+                <div>
+                  <% @bo_duel_value = bo_person_field_duel_values(@wf_mail_alert.bo_code,[Irm::ExternalSystem.name]);meaning = duel_meaning(@wf_mail_alert.get_recipient_str,@bo_duel_value) %>
+                  <% if meaning.any? %>
+                      <% meaning.each do |r| %>
+                          <div><%= r %></div>
+                      <% end %>
                   <% end %>
-
+                </div>
               </td>
+
             </tr>
             <tr>
               <td class="labelCol"><label ><%=t(:label_irm_wf_mail_alert_description)%></label></td>

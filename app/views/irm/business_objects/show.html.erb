@@ -1,6 +1,6 @@
 <%= common_title(:show_data=>@business_object[:name]) %>
 
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -51,7 +51,7 @@
 <div id="executeTest"></div>
 
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -80,7 +80,7 @@
             <%= check_img("{filter_flag}") %>
           </div>
         </div>
-        <%= datatable("object_standard_attributes",url_for(:controller => "irm/object_attributes", :action => "get_standard_data", :bo_id => @business_object.id,:format=>"json"),
+        <%= datatable("object_standard_attributes",{:controller => "irm/object_attributes", :action => "get_standard_data", :bo_id => @business_object.id,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"110px"},
 
                        { :key => "name", :label => t(:label_irm_object_attribute_name),:searchable=>true,:width=>"200px" },
@@ -95,14 +95,14 @@
                        { :key => "approval_page_field_flag",:formatter=>"Y.irm.template", :label => t(:label_irm_object_attribute_approval_page_field_flag)}
 
 
-                       ],{:paginator_box=>"standardPaginator",:search_box=>"standardSearchBox"})%>
+                       ],{:paginator_box=>"standardPaginator",:search_box=>"standardSearchBox",:height=>"150",:row_perpage=>"5"})%>
         <div id="standardPaginator"></div>
       </div>
     </div>
 </div>
 
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -133,7 +133,7 @@
             <%= check_img("{filter_flag}") %>
           </div>
         </div>
-        <%= datatable("object_attributes",url_for(:controller => "irm/object_attributes", :action => "get_data", :bo_id => @business_object.id,:format=>"json"),
+        <%= datatable("object_attributes",{:controller => "irm/object_attributes", :action => "get_data", :bo_id => @business_object.id,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"140px"},
 
                        { :key => "name", :label => t(:label_irm_object_attribute_name),:searchable=>true,:width=>"200px" },
@@ -148,7 +148,7 @@
                        { :key => "approval_page_field_flag",:formatter=>"Y.irm.template", :label => t(:label_irm_object_attribute_approval_page_field_flag)}
 
 
-                       ],{:paginator_box=>"object_attributesPaginator",:search_box=>"object_attributesSearchBox"})%>
+                       ],{:paginator_box=>"object_attributesPaginator",:height=>"310",:search_box=>"object_attributesSearchBox"})%>
         <div id="object_attributesPaginator"></div>
       </div>
     </div>

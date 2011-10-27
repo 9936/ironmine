@@ -92,6 +92,11 @@ class Irm::GroupMembersController < ApplicationController
     group_code =  Irm::GroupMember.select_all.with_group(I18n.locale).where(:person_id=>params[:id])
     group_code,count = paginate(group_code)
     respond_to do |format|
+      format.html  {
+        @datas = group_code
+        @count = count
+        render_html_data_table
+      }
       format.json {render :json=>to_jsonp(group_code.to_grid_json([:code,:name,:description], count))}
     end
   end

@@ -1,5 +1,5 @@
 <%= setting_show_title(:show_data => @lookup_type.lookup_type) %>
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -48,7 +48,7 @@
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@lookup_type} %>
 
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -71,7 +71,7 @@
             <%= link_to(t(:show),{:controller=>"irm/lookup_values",:action=>"show",:id=>"{id}",:_from=>"lookup_type"}) %>
           </div>
         </div>
-        <%= datatable("lookup_type",url_for(:controller=>"irm/lookup_values",:action=>"get_lookup_values", :lookup_type=>@lookup_type.lookup_type),
+        <%= datatable("lookup_type",{:controller=>"irm/lookup_values",:action=>"get_lookup_values", :lookup_type=>@lookup_type.lookup_type},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template"},
                        {:key=>"lookup_code",:label=>(t :label_irm_lookup_value_lookup_code),:searchable=>true},
                        {:key=>"meaning",:label=>t(:label_irm_lookup_value_meaning),:searchable=>true},

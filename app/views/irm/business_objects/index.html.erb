@@ -1,6 +1,6 @@
 <%= common_title%>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -22,7 +22,7 @@
               <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("business_objects",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("business_objects",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                        { :key => "business_object_code", :label => t(:label_irm_business_object_business_object_code),:searchable=>true },
                        { :key => "name", :label => t(:label_irm_business_object_name),:searchable=>true },

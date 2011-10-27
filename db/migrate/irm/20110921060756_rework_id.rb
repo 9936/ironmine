@@ -15,6 +15,7 @@ class ReworkId < ActiveRecord::Migration
     execute("ALTER TABLE `irm_object_codes` CHANGE `id` `id` int(11) DEFAULT NULL auto_increment  NOT NULL")
     execute("ALTER TABLE `irm_machine_codes` CHANGE `id` `id` int(11) DEFAULT NULL auto_increment  NOT NULL")
     change_column :delayed_jobs, "locked_by", :string,:limit=>255
+    change_column :irm_login_records, "session_id", :string,:limit=>60
     change_column :irm_object_codes, "object_code", :string,:limit=>4, :collate=>"utf8_bin"
     change_column :irm_machine_codes, "machine_code", :string,:limit=>4, :collate=>"utf8_bin"
     ts.each do |t|

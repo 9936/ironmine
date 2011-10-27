@@ -2,7 +2,7 @@
 
 <%= view_filter("CSI_SURVEYS_INDEX","CSI_SURVEYS","survey") %>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -33,7 +33,7 @@
             <div style="text-align:center;"><%= "{person_count}"%></div>
           </div>
         </div>
-        <%= datatable("survey",url_for(:action=>"get_data"),
+        <%= datatable("survey",{:action=>"get_data"},
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
                    {:key=>"title",:label=>t(:label_csi_survey_title),:searchable=>true},
                    {:key=>"joined_count",:label=>t(:label_csi_survey_joined_count),:formatter=>"Y.irm.template", :width=>"35px"},

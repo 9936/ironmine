@@ -11,9 +11,9 @@
                                                               {},{:id=>"incident_request_requested_by"}%>
               </div>
                 <script type="text/javascript">
-                GY.use("cascadeselect",function(Y){
-                    new Y.CascadeSelect({source: "#incident_request_requested_by",target:["#ass_external_system"]});
-                });
+                   $(function(){
+                       $("#incident_request_requested_by").cascade("#ass_external_system");
+                   });
                 </script>
             <% else %>
                 <%= f.hidden_field(:requested_by,:value=>Irm::Person.current.id, :id => "incident_request_requested_by") %>
@@ -26,7 +26,7 @@
                         {:id=>"ass_external_system",
                          :depend=>"incident_request_requested_by",
                          :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                         :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"{incident_request_requested_by}")}%>
+                         :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
             <% else %>
                 <%=f.select :external_system_id,
                         nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
@@ -34,7 +34,7 @@
                         {:id=>"ass_external_system",
                          :depend=>"incident_request_requested_by",
                          :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                         :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"{incident_request_requested_by}")}%>
+                         :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
             <% end %>
               </div>
 
@@ -44,10 +44,10 @@
                     nullable_options_for_select([],nil),
                     {},
                     {:id=>"incident_request_service_code",
-                     :depend=>"ass_external_system,incident_request_requested_by",
+                     :depend=>"ass_external_system",
                      :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                      :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_slm_services",:format=>"json",
-                                                            :external_system_id=>"{ass_external_system}", :requested_by => "{incident_request_requested_by}")}%>
+                                                            :external_system_id=>"${ass_external_system}")}%>
             </div>
             <div class="quickCreateField">
               <label for="incident_request_title"><%=t(:label_icm_incident_request_title)%><%= required_icon %></label><br>
@@ -70,13 +70,7 @@
 <% end %>
 
 <script type="text/javascript">
-GY.use("cascadeselect",function(Y){
-    new Y.CascadeSelect({source: "#ass_external_system",target:["#incident_request_service_code"]});
-    Y.one("form.new_icm_incident_request").delegate("click",function(e){
-        e._currentTarget.setAttribute("action",e.target.getAttribute("href"));
-
-        e.preventDefault();
-        e._currentTarget.submit();
-    },"a.submit");
-});
+  $(function(){
+      $("#ass_external_system").cascade("#incident_request_service_code");
+  });
 </script>

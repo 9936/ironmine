@@ -4,9 +4,11 @@
       vertical-align:middle;
   }
 </style>
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
 <%= form_for(@report_trigger,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:report_id) %>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -54,7 +56,14 @@
                 </div>
               </td>
             </tr>
-            <%= render :partial => "irm/duel_select/search",:locals => {:label=>"",:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:receiver_str,:str_value=>@report_trigger.get_receiver_str} %>
+            <tr>
+              <td class="labelCol">
+
+              </td>
+              <td class="dataCol" colspan="3">
+                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:receiver_str,:str_value=>@report_trigger.get_receiver_str,:size=>7} %>
+              </td>
+            </tr>
             <tr>
               <td class="labelCol"><label for="report_trigger_time_mode"><%=t(:label_irm_report_trigger_time_mode)%></label></td>
               <td class="dataCol" colspan="3" width="82">
@@ -109,15 +118,13 @@
                       <tr>
                         <td class="labelCol"><label for="report_trigger_start_at"><%=t(:label_irm_report_trigger_start_at)%></label></td>
                         <td class="data2Col">
-                           <%= f.text_field(:start_at,:id=>"report_trigger_start_at",:required=>true,:size=>12)%>
-                           <%= calendar_view("report_trigger_start_at","report_trigger_start_at","cal") %>
+                           <%= f.text_field(:start_at,:id=>"report_trigger_start_at",:required=>true,:class=>"date",:size=>12)%>
                         </td>
                       </tr>
                       <tr>
                         <td class="labelCol"><label for="report_trigger_end_at"><%=t(:label_irm_report_trigger_end_at)%></label></td>
                         <td class="data2Col">
-                           <%= f.text_field(:end_at,:id=>"report_trigger_end_at",:required=>true,:size=>12)%>
-                           <%= calendar_view("report_trigger_end_at","report_trigger_end_at","cal") %>
+                           <%= f.text_field(:end_at,:id=>"report_trigger_end_at",:class=>"date",:required=>true,:class=>"date",:size=>12)%>
                         </td>
                       </tr>
                       <tr>
@@ -150,40 +157,30 @@
 <% end %>
 
 <script type="text/javascript">
-  GY.use("duelselect",function(Y){
-        //==================common funciton================================
-        function radioDefaultValue(className){
-          if(!Y.one("input."+className+"[checked=checked]"))
-            Y.one("input."+className).simulate("click");
-          else
-            Y.one("input."+className+"[checked=checked]").simulate("click");
+$(function(){
+
+    $("input.receiverType").click(function(e){
+        if($(e.target).val()=="CHOOSE_STAFF"){
+          $("#duelSearchBox").css("display","");
+          $("#duelSelectBox").css("display","");
         }
-        //============================receiver type processor========================================
-        Y.on('click', function(e) {
-          if(e.target.get("value")=="CHOOSE_STAFF"){
-            Y.one("#duelSearchBox").setStyle("display","");
-            Y.one("#duelSelectBox").setStyle("display","");
-          }
-          else{
-            Y.one("#duelSearchBox").setStyle("display","none");
-            Y.one("#duelSelectBox").setStyle("display","none");
-          }
+        else{
+          $("#duelSearchBox").css("display","none");
+          $("#duelSelectBox").css("display","none");
+        }
+    });
 
-	    }, '.receiverType');
+    $.checkRadioButton("input.receiverType");
 
-
-        radioDefaultValue("receiverType");
-
-        //============================end receiver type processor========================================
-        //============================time mode processor========================================
-        Y.on('click', function(e) {
-          Y.one("#rd_zone").setStyle("display","none");
-          Y.one("#rw_zone").setStyle("display","none");
-          Y.one("#rm_zone").setStyle("display","none");
-          Y.one("#"+e.target.get("id")+"_zone").setStyle("display","");
-
-	    }, '.freq');
-        radioDefaultValue("freq");
-        //============================end time mode processor========================================
-  });
+    //============================end receiver type processor========================================
+    //============================time mode processor========================================
+    $("input.freq").click(function(e){
+        $("#rd_zone").css("display","none");
+        $("#rw_zone").css("display","none");
+        $("#rm_zone").css("display","none");
+        $("#"+$(e.target).attr("id")+"_zone").css("display","");
+    });
+    $.checkRadioButton("input.freq");
+    //============================end time mode processor========================================
+});
 </script>

@@ -85,6 +85,7 @@ en:
   created_by: Created by
   created_at: Created at
   status: Status
+  no_data: No data for this entity
   #usual words
   notice_account_invalid_creditentials: User or Password Error
   successfully_updated: Successfully Updated
@@ -210,6 +211,7 @@ en:
   label_irm_common_logout: Logout
   label_irm_common_forgot_password: Forget password？
   label_irm_recently_objects: Recent Items
+  notice_account_locked: Your account has been locked, please contact administrator!
   #=========================    end common_controller=======================#
   #=========================    irm menus_controller=======================#
   label_irm_menu: Menu
@@ -668,7 +670,7 @@ en:
   label_irm_person_mobile_phone: Mobile Phone
   label_irm_person_edit: Edit Person
   label_irm_person_new: New Person
-  label_irm_person_show: Person Info
+  label_irm_person_show: Personal Info
   label_irm_person_organization: Organization
   label_irm_person_title: Title
   label_irm_person_language: Language
@@ -710,7 +712,7 @@ en:
   label_irm_person_person_name: Full Name
   label_irm_person_all_support_groups: All Support Groups
   label_irm_person_choose_company: Choose Company
-  label_irm_person_info: Person Info
+  label_irm_person_info: Personal Info
   label_irm_person_my_profile: My Profile
   label_irm_person_other_info: Other Info
   label_irm_person_company_access_flag: Company Access
@@ -1295,6 +1297,11 @@ en:
   label_irm_delayed_job_ir_rule_process_monitor: IR Rule Process Job
   label_irm_delayed_job_wf_approval_mail_monitor: Approval Mail Job
   label_action_item_list: Delayed Job Items List
+
+  label_irm_monitor_ir_rule_process: IR Rule Process Job
+  label_irm_delayed_job: Delayed Job Info
+  label_irm_monitor_approval_mail: Approval Mail Job
+  label_irm_monitor_icm_group_assign: IR Group Assignment Job
   #======================= end delayed_jobs step ====================
   #======================= report_type_category  ====================
   label_irm_report_type_category_list: Report Catagory List
@@ -1519,3 +1526,10 @@ en:
   label_irm_license_code: Code
   label_irm_license_description: Description
   #=========================  end  license=======================#
+  #========================= rich text editor upload image window======================
+  label_irm_rich_editor_win_tab_from_clipboard: Upload from clipboard
+  label_irm_rich_editor_win_tab_from_file: Upload from image file
+  label_irm_rich_editor_win_tab_select_file: Select local image file
+  label_irm_rich_editor_win_tab_selected_file: Selected image
+  label_irm_rich_editor_win_tab_upload_image: Upload image
+  #========================= end ======================

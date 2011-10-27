@@ -1,5 +1,5 @@
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -26,15 +26,15 @@
             <%= link_to("{data_file_name}",{:controller => "skm/file_managements", :action => "show",:id=>"{id}", :version_id => "{version_id}",:data_file_name=>"{data_file_name}"}) %>
           </div>
         </div>
-        <%= datatable("skm_files_list",url_for(:action=>"get_data",:format=>"json"),
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"50px"},
-                   {:key=>"data_file_name",:label=>t(:label_skm_file_name),:formatter=>"Y.irm.template", :searchable => true,:width=>"15%"},
-                   {:key=>"category_name",:label=>t(:label_skm_file_category), :width=>"15%"},
-                   {:key=>"description",:label=>t(:description), :searchable => true,:width=>"25%"},
-                   {:key=>"data_file_size",:label=>t(:label_skm_file_size), :width => "80px"},
-                   {:key=>"data_updated_at",:label=>t(:label_skm_file_data_updated_at),:width=>"40px"},
+        <%= datatable("skm_files_list",{:action=>"get_data",:format=>"json"},
+                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"75px"},
+                   {:key=>"data_file_name",:label=>t(:label_skm_file_name),:formatter=>"Y.irm.template", :searchable => true,:width=>"300px"},
+                   {:key=>"category_name",:label=>t(:label_skm_file_category), :width=>"60px"},
+                   {:key=>"description",:label=>t(:description), :searchable => true},
+                   {:key=>"data_file_size",:label=>t(:label_skm_file_size), :width => "100px"},
+                   {:key=>"data_updated_at",:label=>t(:label_skm_file_data_updated_at),:width=>"130px"},
                    {:key=>"version_id", :label=> "version", :hidden => true}],
-                   {:paginator_box=>"filesPaginatorBox"})%>
+                   {:paginator_box=>"filesPaginatorBox",:html=>true})%>
         <div id="filesPaginatorBox"></div>
       </div>
     </div>

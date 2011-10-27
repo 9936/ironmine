@@ -7,6 +7,7 @@
 
             </div>
             <div id="createNewMenu" class="menuButtonMenu" style="display:none; width: 196px;">
+                  <iframe class="new-iframe"></iframe>
                   <%= link_to_checker(raw(get_img_icon("img6", {:class => "mruIcon", :title => t(:label_incident_request)}, "Small") ) + t(:label_incident_request),
                                       {:controller => "icm/incident_requests", :action => "new"},
                                       {:class => "menuButtonMenuLink"}) %>
@@ -28,22 +29,30 @@
                   <% link_to_checker(raw(get_img_icon("img2", {:class => "mruIcon", :title => t(:label_irm_todo_task)}, "Small") ) + t(:label_irm_todo_task),
                                       {:controller => "irm/todo_tasks", :action => "new"},
                                       {:class => "menuButtonMenuLink"})%>
+
             </div>
           </div>
         </div>
     </div>
 
     <script>
-      GY.use(function(Y){
-        Y.on("click", function(e){
-          var el = e.target;
-          if (Y.one("#createNewButton") && !Y.one("#createNewButton").contains(el)) {
-            Y.one("#createNewMenu").setStyle("display", "none");
-          }
-        }, document);
-        Y.one("#createNewButton").on("click", function(){
-            Y.one("#createNewMenu").setStyle("display", "block");
+      $(document).ready(function() {
+        var _checkCreateNewMenu = function(e){
+            if($("#createNew").find(e.target).length<1){
+              $("#createNewMenu").css("display","none");
+              $(document).unbind("click",_checkCreateNewMenu);
+            }
+        }
+        $("#createNewButton").click(function(){
+            if($("#createNewMenu").css("display")=="block")
+            {
+              $(document).unbind("click",_checkCreateNewMenu);
+              $("#createNewMenu").css("display","none");
+            }else{
+              $(document).bind("click",_checkCreateNewMenu);
+              $("#createNewMenu").css("display","block");
+            }
         });
-      })
+      });
     </script>
 

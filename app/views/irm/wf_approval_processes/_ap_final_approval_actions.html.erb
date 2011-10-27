@@ -1,5 +1,5 @@
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -17,10 +17,8 @@
                         <% unless @wf_approval_process.enabled? %>
                             <span><a><%= t(:label_irm_wf_approval_add_actions)  %></a></span>
                             <script type="text/javascript">
-                              GY.use("menubutton",function(Y){
-                                Y.on("domready",function(){
-                                  new Y.MenuButton({menuNode:"#createApFinalApprovalAction",dropAlign:["TL","BL"]});
-                                });
+                              $(function(){
+                                  $("#createApFinalApprovalAction").menubutton();
                               });
                             </script>
                         <% else %>

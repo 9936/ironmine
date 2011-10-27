@@ -1,0 +1,123 @@
+<% require_javascript([:extjs]) %>
+<div class="listRelatedObject setupBlock">
+    <div class="bPageBlock">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_permission_list) %></h2></td>
+              <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= link_to t(:new), {:controller => "irm/permissions", :action => "new"}%></div>
+              </td>
+              <td class="pbHelp">
+                <div id="permissionsSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="permissions_list" class="datatable" style="width:100%">
+        </div>
+      </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  Ext.onReady(function(){
+
+      Ext.define('Permission', {
+          extend: 'Ext.data.Model',
+          fields: [
+              'checked','id', 'product_module_name', 'code', 'name','controller', 'action', 'status_code'
+          ],
+          idProperty: 'id'
+      });
+
+      // create the Data Store
+      var store = Ext.create('Ext.data.Store', {
+          pageSize: 50,
+          model: 'Permission',
+          remoteSort: true,
+          proxy: {
+              type: 'jsonp',
+              url: '/permissions/get_data.json',
+              reader: {
+                  root: 'items',
+                  totalProperty: 'numRows'
+              },
+              // sends single sort as multi parameter
+              simpleSortMode: true
+          },
+          sorters: [{
+              property: 'product_module_name',
+              direction: 'DESC'
+          }]
+      });
+
+      // pluggable renders
+    function renderTopic(value, p, record) {
+        return Ext.String.format(
+            '<b><a href="{1}/{2}" target="_blank">{0} Forum</a></b>',
+            value,
+            record.data.controller,
+            record.data.action
+        );
+    }
+    var sm = new Ext.selection.CheckboxModel( {});
+
+      var grid = Ext.create('Ext.grid.Panel', {
+          height: 250,
+          store: store,
+          loadMask: true,
+          selModel: sm,
+          viewConfig: {
+              id: 'gv',
+              trackOver: false,
+              stripeRows: false,
+              forceFit: true
+          },
+          // grid columns
+          columns:[{
+              id: 'topic',
+              text: "Code",
+              dataIndex: 'code',
+              flex: 1,
+              sortable: false ,
+              renderer:renderTopic
+          },{
+              text: "Author",
+              dataIndex: 'name',
+              width: 100,
+              hidden: true,
+              sortable: true
+          },{
+              text: "Replies",
+              dataIndex: 'product_module_name',
+              width: 70,
+              align: 'right',
+              sortable: true
+          },{
+              text: "Last Post",
+              dataIndex: 'controller',
+              width: 150,
+              sortable: true
+          },{
+              id: 'last',
+              text: "Last Post",
+              dataIndex: 'action',
+              width: 150,
+              sortable: true
+          }],
+          // paging bar on the bottom
+          bbar: Ext.create('Ext.PagingToolbar', {
+              store: store
+
+          }),
+          renderTo: 'permissions_list'
+      });
+
+      // trigger the data store load
+      store.loadPage(1);
+  });
+</script>

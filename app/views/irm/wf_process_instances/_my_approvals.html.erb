@@ -1,5 +1,5 @@
-<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
-<div class="bSubBlock">
+
+<div class="sub-block">
     <h3 class="lbHeader"></h3>
     <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
       <tbody>
@@ -16,33 +16,33 @@
     <div class="pbSubsection">
          <% if step_instances.any? %>
          <div class="datatable">
-           <div class="yui3-widget yui3-datatable">
-             <div class="yui3-datatable-content">
-                 <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
-                   <thead class="yui3-datatable-columns">
-                     <tr class="yui3-datatable-first yui3-datatable-last">
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+           <div class="irm-datatable">
+             <div>
+                 <table id='rows' >
+                   <thead>
+                     <tr>
+                       <th>
+                         <div>
                            <%= t(:operation) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_process_instance_bo_instance) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_process_instance_bo_model_name) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_process_instance_submitter_name) %>
                          </div>
                        </th>
-                       <th class="yui3-column">
-                         <div class="yui3-datatable-liner">
+                       <th>
+                         <div>
                            <%= t(:label_irm_wf_process_instance_submitted_at) %>
                          </div>
                        </th>
@@ -52,28 +52,28 @@
                     <tbody  class="yui3-datatable-data">
                         <% step_instances.each do |step_instance|%>
                           <tr id="stepInstance<%=step_instance.id%>" class="yui3-datatable-even">
-                            <td class="yui3-column">
-                              <div class='yui3-datatable-liner'>
+                            <td>
+                              <div>
                                 <%= operations_for(step_instance)%>
                                </div>
                             </td>
-                            <td class="yui3-column">
-                              <div class='yui3-datatable-liner'>
+                            <td>
+                              <div>
                                 <%= step_instance_description(step_instance) %>
                                </div>
                             </td>
-                            <td class="yui3-column">
-                              <div class='yui3-datatable-liner'>
+                            <td>
+                              <div>
                                 <%= step_instance[:bo_model_meaning] %>
                                </div>
                             </td>
-                            <td class="yui3-column">
-                              <div class='yui3-datatable-liner'>
+                            <td>
+                              <div>
                                 <b><%= step_instance[:submitter_name] %></b>
                               </div>
                             </td>
-                            <td class="yui3-column">
-                              <div class='yui3-datatable-liner'>
+                            <td>
+                              <div>
                                 <%= format_date(step_instance[:submitted_at]) %>
                               </div>
                             </td>

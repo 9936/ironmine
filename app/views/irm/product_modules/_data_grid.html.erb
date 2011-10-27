@@ -1,5 +1,5 @@
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -24,7 +24,7 @@
             <%= check_img("{status_code}") %>
           </div>
         </div>
-        <%= datatable("product_modules_list",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("product_modules_list",{:action=>"get_data",:format=>"json"},
                   [{:key=>"product_short_name",:label=>t(:label_irm_product_module_product_short_name), :width => "15%",:searchable=>true},
                    {:key=>"name",:label=>t(:label_irm_product_module_name), :width => "30%",:searchable=>true},
                    {:key=>"description",:label=>t(:label_irm_product_module_description)},

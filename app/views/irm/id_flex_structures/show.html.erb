@@ -1,6 +1,6 @@
 <%= setting_show_title(:show_data => @id_flex_structure[:id_flex_structure_name]) %>
 
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -49,7 +49,7 @@
 </div>
 
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -75,7 +75,7 @@
             <%= check_img("{status_code}") %>
           </div>          
         </div>
-        <%= datatable("id_flex_segments_list",url_for(:controller => "irm/id_flex_segments", :action=>"get_data", :id_flex_structure_id => @id_flex_structure,:format=>"json"),
+        <%= datatable("id_flex_segments_list",{:controller => "irm/id_flex_segments", :action=>"get_data", :id_flex_structure_id => @id_flex_structure,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "80px"},
                        {:key=>"segment_num",:label=>t(:label_irm_id_flex_segment_segment_num), :width => "80px"},
                        {:key=>"segment_name",:label=>t(:label_irm_id_flex_segment_name), :width => "10%"},

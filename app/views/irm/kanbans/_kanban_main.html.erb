@@ -58,15 +58,8 @@
       var iId;
       function refresh_kanban(){
           var mode = refresh_mode;
-          GY.use("io", function(Y){
-            function complete(id, o, args) {
-                var data = o.responseText; // Response data.
-                Y.one("#kanban_<%= position_code%>").set('innerHTML', data);
-            }
-          Y.on('io:complete', complete, Y);
-            var uri = "/kanbans/<%= position_code%>/refresh_my_kanban/" + mode;
-            var request = Y.io(uri);
-          });
+          var uri = "/kanbans/<%= position_code%>/refresh_my_kanban/" + mode;
+          $("#kanban_<%= position_code%>").load(uri);
       }
 
       function set_mode(mode)

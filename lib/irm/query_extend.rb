@@ -114,7 +114,7 @@ module Irm::QueryExtend
 
       def enabled?
         if(self.respond_to?(:status_code))
-          self.send(:status_code)==::Irm::Constant::ENABLED
+          ::Irm::Constant::ENABLED.eql?(self.send(:status_code))
         else
           true
         end

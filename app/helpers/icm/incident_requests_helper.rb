@@ -9,7 +9,7 @@ module Icm::IncidentRequestsHelper
   end
 
   def available_person
-    people = Irm::Person.real.collect{|p|[p.name,p[:id]]}
+    people = Irm::Person.real.order("full_name_pinyin").collect{|p|[p.name,p[:id]]}
     needed_to_replace = people.detect{|person| Irm::Person.current.id.eql?(person[1])}
     if needed_to_replace
       people.delete_if{|person| Irm::Person.current.id.eql?(person[1])}

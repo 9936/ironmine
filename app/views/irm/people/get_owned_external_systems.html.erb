@@ -1,0 +1,35 @@
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>">
+         <thead>
+           <tr>
+             <th style="width:300px;">
+               <div><%= t(:label_irm_external_system) %></div>
+             </th>
+             <th>
+               <div><%= t(:description) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% @datas.each do |data| %>
+         <tr id="<%=data[:id]%>">
+           <td>
+             <div>
+               <%= data[:system_name] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=data[:system_description]%>
+             </div>
+           </td>
+
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

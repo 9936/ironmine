@@ -3,7 +3,7 @@
       min-width:128px;
   }
 </style>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
   <%= render :partial => "step_header",:locals => {:step=>@report.step} %>
   <div class="pbBody">
   <%= error_for @report%>
@@ -12,7 +12,7 @@
     <div class="pbDescription ">
     </div>
     <div class="pbWizardBody">
-      <div class="secondaryPalette">
+      <div class="secondary-palette">
         <div class="pbBody ">
             <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
               <span class="pbSubExtra">
@@ -88,43 +88,46 @@
 
 <% report_category_type_script %>
 <script type="text/javascript">
-   GY.use(function(Y){
-       Y.one("#reportTypeCategory").on("change",function(){
-           var currentDataSets = reportTypeData[Y.one("#reportTypeCategory").get("value")];
-           Y.one("#reportType").setContent("");
-           for(var i in currentDataSets){
-               var option = Y.Node.create("<option></option>");
-               option.setContent(currentDataSets[i][0]);
-               option.setAttribute("value",currentDataSets[i][1]);
-               option.setAttribute("category_id",currentDataSets[i][2]);
-               option.setAttribute("description",currentDataSets[i][3]);
-               Y.one("#reportType").appendChild(option);
-           }
-           if(Y.one("#reportType option"))
-               Y.one("#reportType option")._node.selected=true;
-           Y.one("#reportType").simulate("change");
-       });
-       Y.one("#reportType").on("change",function(){
-           var selectedValue = Y.one("#reportType").get("value")
+  $(function(){
+      $("#reportTypeCategory").change(function(event){
+          var currentDataSets = reportTypeData[$("#reportTypeCategory").val()];
+          $("#reportType").html("");
+          for(var i in currentDataSets){
+               var option = $("<option></option>");
+               option.html(currentDataSets[i][0]);
+               option.attr("value",currentDataSets[i][1]);
+               option.attr("category_id",currentDataSets[i][2]);
+               option.attr("description",currentDataSets[i][3]);
+               $("#reportType").append(option);
+          }
+          if($("#reportType option:first").length>0)
+              $("#reportType option:first").attr("selected",true);
+          $("#reportType").trigger("change");
+      });
+      $("#reportType").change(function(event){
+           var selectedValue = $("#reportType").val();
            if(selectedValue&&selectedValue!="")
            {
-               Y.one("#saveButton").setStyle("display","");
-               Y.one("#reportTypeDescription").setContent(Y.one("#reportType option[value="+selectedValue+"]").getAttribute("description"));
+               $("#saveButton").removeClass("disabled");
+               $("#saveButton input:first").removeAttr("disabled");
+               $("#reportTypeDescription").html($("#reportType option[value="+selectedValue+"]:first").attr("description"));
            }
-           else
-               Y.one("#saveButton").setStyle("display","none");
+           else{
+               $("#saveButton").removeClass("disabled");
+               $("#saveButton input:first").attr("disabled","disabled");
+           }
        });
-       var needAutoSelect = true
-       Y.all("#reportTypeCategory option").each(
-           function(e){
-             if(e._node.selected)
+
+      var needAutoSelect = true
+       $("#reportTypeCategory option").each(
+           function(index,element){
+             if($(element).attr("selected"))
                needAutoSelect = false
            }
        );
 
-       if(needAutoSelect&&Y.one("#reportTypeCategory option"))
-           Y.one("#reportTypeCategory option")._node.selected=true;
-       Y.one("#reportTypeCategory").simulate("change");
-   });
-
+       if(needAutoSelect&&$("#reportTypeCategory option:first").length>0)
+           $("#reportTypeCategory option:first").attr("selected",true);
+       $("#reportTypeCategory").trigger("change");
+  });
 </script>

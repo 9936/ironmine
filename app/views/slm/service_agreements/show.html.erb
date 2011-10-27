@@ -3,7 +3,7 @@
 <%= form_tag(url_for(:controller=>"slm/service_agreements",:action=>"add_solve_time_rule",
                           :service_agreement_id=>@service_agreement.id),
                           :method => :put,:remote=>true) do -%>
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -66,19 +66,17 @@
 
 <script type="text/javascript">
        function ShowHide(id,e){
-          GY.use("irm",function(Y){
-          if(e.checked){
-            Y.one('#'+id).setStyle("display","block");
+          if($(e).attr("checked")){
+              $('#'+id).css("display","block");
           }else{
-            Y.one('#'+id).setStyle("display","none");
+              $('#'+id).css("display","none");
           }
-          })
        }
 </script>
 
 <div  class="bRelatedList">
     <div class="listRelatedObject taskBlock">
-      <div class="bPageBlock secondaryPalette">
+      <div class="page-block secondary-palette">
         <div class="pbHeader">
           <table cellspacing="0" cellpadding="0" border="0">
             <tbody>
@@ -105,7 +103,7 @@
 			</tr>
 		</tbody>
         </table>
-        <div class="pbFooter secondaryPalette">
+        <div class="pbFooter secondary-palette">
         <div class="bg"></div>
         </div>
       </div>
@@ -116,7 +114,7 @@
     <a name="id_service_catalog_breaks_target">
     </a>
     <div class="listRelatedObject taskBlock">
-      <div class="bPageBlock secondaryPalette">
+      <div class="page-block secondary-palette">
         <div class="pbHeader">
           <table cellspacing="0" cellpadding="0" border="0">
             <tbody>
@@ -210,15 +208,15 @@
 			</tr>
 		</tbody>
         </table>
-        <div class="pbFooter secondaryPalette">
+        <div class="pbFooter secondary-palette">
         <div class="bg"></div>
         </div>
       </div>
     </div>
 </div>
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#id_assignee_type",target:["#id_assignee"]});
+  $(function(){
+      $("#id_assignee_type").cascade("#id_assignee");
   });
 </script>
 
@@ -227,7 +225,7 @@
     <a name="id_a_service_agreements_escalation_time">
     </a>
     <div class="listRelatedObject taskBlock">     
-      <div class="bPageBlock secondaryPalette">
+      <div class="page-block secondary-palette">
         <div class="pbHeader">
           <table cellspacing="0" cellpadding="0" border="0">
             <tbody>
@@ -549,7 +547,7 @@
 			</tr>
 		</tbody>
         </table>
-        <div class="pbFooter secondaryPalette">
+        <div class="pbFooter secondary-palette">
         <div class="bg"></div>
         </div>
       </div>    
@@ -559,11 +557,11 @@
 </div>
 
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#id_assignee_type_first",target:["#id_assignee_first"]});
-     new Y.CascadeSelect({source: "#id_assignee_type_second",target:["#id_assignee_second"]});
-     new Y.CascadeSelect({source: "#id_assignee_type_third",target:["#id_assignee_third"]});
-     new Y.CascadeSelect({source: "#id_assignee_type_fourth",target:["#id_assignee_fourth"]});
+  $(function(){
+      $("#id_assignee_type_first").cascade("#id_assignee_first");
+      $("#id_assignee_type_second").cascade("#id_assignee_second");
+      $("#id_assignee_type_third").cascade("#id_assignee_third");
+      $("#id_assignee_type_fourth").cascade("#id_assignee_fourth");
   });
 </script>
 

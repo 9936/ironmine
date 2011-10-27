@@ -55,13 +55,15 @@ class Irm::DelayedJobLog < ActiveRecord::Base
     ret_logs_new = []
     ret_logs.each do |t|
       incident_request = Icm::IncidentRequest.select_all.where(:id => YAML.load(t.handler).incident_request_id).with_support_group(I18n.locale).first
-      incident_request_number = incident_request.request_number
-      t.incident_request_number = incident_request_number
-      t.incident_request_id = YAML.load(t.handler).incident_request_id
-      t.group_code = incident_request[:support_group_code]
-      t.group_name = incident_request[:support_group_name]
+      if incident_request
+        incident_request_number = incident_request.request_number
+        t.incident_request_number = incident_request_number
+        t.incident_request_id = YAML.load(t.handler).incident_request_id
+        t.group_code = incident_request[:support_group_code]
+        t.group_name = incident_request[:support_group_name]
 
-      ret_logs_new << t
+        ret_logs_new << t
+      end
     end
     ret_logs_new
   end

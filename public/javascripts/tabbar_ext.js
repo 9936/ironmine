@@ -351,7 +351,7 @@ RelatedListPanel.prototype.showRL = function(rlId, forceResize) {
     }
     var panelFrameNode = this.getIFrameNode();
     var linkletNode = getElementByIdCS(this.getLinkId(rlId));
-    var relatedListNode = DomUtil.findDescendantWithClassName(getElementByIdCS(rlId), "bPageBlock");
+    var relatedListNode = DomUtil.findDescendantWithClassName(getElementByIdCS(rlId), "page-block");
     if (!(panelFrameNode && linkletNode)) {
         return;
     }

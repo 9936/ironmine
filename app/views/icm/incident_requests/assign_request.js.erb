@@ -1,3 +1,9 @@
-GY.use("irm",function(Y){
-    Y.irm.incident_requestsDatatable.datasource.paginate({start:0},true);
-});
+<% if limit_device?%>
+   $(function(){
+       $("#incident_requests").datatable("loadPage",1)
+   });
+<% else %>
+   Ext.onReady(function(){
+       Ext.getCmp("incident_requests").store.loadPage(1);
+   });
+<% end %>

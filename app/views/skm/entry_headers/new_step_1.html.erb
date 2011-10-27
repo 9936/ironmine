@@ -1,6 +1,6 @@
 <%= app_title({:description => t(:new)}) %>
 <%= form_for(@entry_header,:url=>{:action=>"new", :step => "2"},:builder => LabellingFormBuilder) do |f| %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
             <%= t(:step_n_total_m, :n => "1", :m => "4") %>
@@ -14,7 +14,7 @@
     <%= t(:notice_skm_entry_step_1_desc) %>
     </div>
     <div class="pbWizardBody">
-      <div class="secondaryPalette">
+      <div class="secondary-palette">
         <div class="pbBody ">
             <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
               <span class="pbSubExtra">
@@ -32,7 +32,7 @@
                 <tbody>
                     <tr>
                       <td class="labelCol">
-                        <%= f.select :entry_template_id, available_entry_templates.collect{|p| [p.name, p.id]}, {},{:style => "width: 100%;min-height: 200px; min-width: 180px;", :id => "template_select", :size => "18" , :selected => (@entry_header.entry_template_id ? @entry_header.entry_template_id : false)} %>
+                        <%= f.select :entry_template_id, available_entry_templates.collect{|p| [p.name, p.id]}, {},{:style => "width: 100%;min-height: 290px; min-width: 180px;", :id => "template_select", :size => "18" , :selected => (@entry_header.entry_template_id ? @entry_header.entry_template_id : false)} %>
                       </td>
                       <td class="data2Col">
                         <div id="entry_elements_list" class="datatable" style="width:100%;">
@@ -40,9 +40,9 @@
                             <%= check_img("{required_flag}") %>
                           </div>
                         </div>
-                        <%= datatable("entry_elements_list",url_for(:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_header.entry_template_id ? @entry_header.entry_template_id : "-1" ,:format=>"json"),
+                        <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_header.entry_template_id ? @entry_header.entry_template_id : "-1" ,:format=>"json"},
                                       [{:key=>"required_flag",:label=>t(:label_skm_entry_template_element_required), :width => "40px",:formatter=>"Y.irm.template"},
-                                       {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :width => "100px"},
+                                       {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :width => "200px"},
                                        {:key=>"name",:label=>t(:name), :width => "200px"},
                                        {:key=>"description",:label=>t(:description)},
                                        {:key=>"default_rows",:label=>t(:label_skm_entry_template_element_rows), :width => "80px"}
@@ -73,11 +73,11 @@
   </div>
 </div>
 <script type="text/javascript">
-       GY.use(function(Y) {
-           Y.one("select#template_select").on("change", function(e){
-               Y.irm.entry_elements_listDatatable.datasource.query({template_id_t:this.get("value")});
-           })
-       });
+  $(function(){
+      $("select#template_select").change(function(e){
+          Ext.getCmp("entry_elements_listDatatable").store.dtSearch({template_id_t:$(this).val()});
+      });
+  });
 </script>
 <% end %>
 

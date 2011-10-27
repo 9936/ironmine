@@ -5,13 +5,13 @@
 </style>
 <%= form_for(@report,:url=>{:action=>"edit_custom"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:step) %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
   <%= render :partial => "step_header",:locals => {:step=>@report.step} %>
   <div class="pbBody">
     <div class="pbDescription ">
     </div>
     <div class="pbWizardBody">
-      <div class="secondaryPalette">
+      <div class="secondary-palette">
         <div class="pbBody ">
             <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
               <h3><%= t(:label_irm_report_step_base_info) %></h3>

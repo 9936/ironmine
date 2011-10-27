@@ -20,7 +20,7 @@
 <%= common_title(:action_meaning=>t(:label_icm_incident_status_edit_transform)) %>
 
 <%= form_tag({:action=>"update_transform"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -59,7 +59,7 @@
               <th class="from"><%= from_status[:name]%></th>
               <% incident_status_ids.each do |to_id| %>
                 <td>
-                  <%= blank_select_tag("status_transforms[#{from_status.id}][#{to_id}]",events,(status_transforms[from_status.id]&&status_transforms[from_status.id][to_id]) ? status_transforms[from_status.id][to_id] : nil,{:class=>"eventSelect",:ref=>from_status.id,:include_blank=>"",:title=>from_status[:name]}) %>
+                  <%= blank_select_tag("status_transforms[#{from_status.id}][#{to_id}]",events,(status_transforms[from_status.id]&&status_transforms[from_status.id][to_id]) ? status_transforms[from_status.id][to_id] : nil,{:class=>"eventSelect",:ref=>from_status.id,:title=>from_status[:name]}) %>
                 </td>
               <% end %>
             </tr>
@@ -84,22 +84,22 @@
 </div>
 <% end %>
 <script type="text/javascript">
-  GY.use(function(Y){
+  $(function(){
       function getRefValues(ref,value){
         if(!value||value==""){
             return 0;
         }
         var count = 0;
-        Y.all("select.eventSelect[ref="+ref+"]").each(function(node){
-            if(node.get("value")==value)
+        $("select.eventSelect[ref="+ref+"]").each(function(index,node){
+            if($(node).val()==value)
               count = count+1;
         });
         return count;
       }
-      Y.all("select.eventSelect").on("change",function(e){
-        if(getRefValues(e.target.getAttribute("ref"),e.target.get("value"))>1){
-          e.target.set("value","");
-          alert(Y.one("#statusMatrix").getAttribute("error"));
+      $("select.eventSelect").change(function(e){
+        if(getRefValues($(e.target).attr("ref"),$(e.target).val())>1){
+          $(e.target).val("");
+          alert($("#statusMatrix").attr("error"));
         }
       })
   });

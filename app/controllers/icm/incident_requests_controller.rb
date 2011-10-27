@@ -23,7 +23,7 @@ class Icm::IncidentRequestsController < ApplicationController
   # GET /incident_requests/new.xml
   def new
     @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
-
+    @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
       format.html { render :layout => "application_full"}# new.html.erb
       format.xml  { render :xml => @incident_request }
@@ -43,6 +43,7 @@ class Icm::IncidentRequestsController < ApplicationController
   # POST /incident_requests.xml
   def create
     @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
+    @return_url = params[:return_url] if params[:return_url]
     #加入创建事故单的默认参数
     prepared_for_create(@incident_request)
     respond_to do |format|
@@ -80,11 +81,10 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request.urgence_id = Icm::UrgenceCode.default_id
     @incident_request.incident_status_id = Icm::IncidentStatus.default_id
     @incident_request.request_type_code = "REQUESTED_TO_PERFORM"
-    @incident_request.service_code = "ORAL_EBS_INV"
     @incident_request.report_source_code = "CUSTOMER_SUBMIT"
     @incident_request.impact_range_id = Icm::ImpactRange.default_id
     respond_to do |format|
-      if @incident_request.requested_by.present?
+      if @incident_request.valid?
         #加入创建事故单的默认参数
         prepared_for_create(@incident_request)
         if @incident_request.save
@@ -100,7 +100,7 @@ class Icm::IncidentRequestsController < ApplicationController
           format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         end
       else
-        @incident_request.errors[:requested_by] << I18n.t(:error_icm_requested_by_can_not_blank)
+        #@incident_request.errors[:requested_by] << I18n.t(:error_icm_requested_by_can_not_blank)
         format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       end
@@ -160,9 +160,9 @@ class Icm::IncidentRequestsController < ApplicationController
         incident_requests,count = paginate(incident_requests_scope)
         render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_response_date]}))
       }
-      format.xml {
-        incident_requests,count = paginate(incident_requests_scope)
-        render :xml => incident_requests
+      format.html {
+        @datas,@count = paginate(incident_requests_scope)
+        render_html_data_table
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
@@ -203,16 +203,17 @@ class Icm::IncidentRequestsController < ApplicationController
         incident_requests,count = paginate(incident_requests_scope)
         render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_request_date]}))
       }
-      format.xml {
-        incident_requests,count = paginate(incident_requests_scope)
-        render :xml => incident_requests
+      format.html {
+        @datas,@count = paginate(incident_requests_scope)
+        render_html_data_table
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
-        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:priority_name,:last_request_date, :external_system_name],
+        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_name,:organization_name,:priority_name,:last_request_date, :external_system_name],
                                        :headers=>[t(:label_icm_incident_request_request_number_shot),
                                                   t(:label_icm_incident_request_title),
                                                   t(:label_icm_incident_request_incident_status_code),
+                                                  t(:label_icm_incident_request_organization),
                                                   t(:label_icm_incident_request_priority),
                                                   t(:label_icm_incident_request_last_date),
                                                   t(:label_irm_external_system)]
@@ -414,7 +415,15 @@ class Icm::IncidentRequestsController < ApplicationController
     end
     if incident_request.contact_id.nil?||incident_request.contact_id.blank?
       incident_request.contact_id = incident_request.requested_by
-      incident_request.contact_number = Irm::Person.find(incident_request.requested_by).mobile_phone
+
+    end
+
+    unless incident_request.contact_number.present?
+      incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
+    end
+
+    if limit_device?
+      incident_request.summary = "<pre>"+incident_request.summary+"</pre>"
     end
   end
 

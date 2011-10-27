@@ -12,7 +12,7 @@
   });
 </script>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -36,7 +36,7 @@
         <%= error_for @report_group_member %>
         <div id="reports" class="datatable" style="width:100%">
         </div>
-        <%= datatable("reports",url_for(:action=>"get_selectable_data",:format=>"json"),
+        <%= datatable("reports",{:action=>"get_selectable_data",:format=>"json"},
                       [{ :key => "report_code", :label => t(:label_irm_report_report_code),:searchable=>true },
 
                        { :key => "name", :label => t(:label_irm_report_name),:searchable=>true },

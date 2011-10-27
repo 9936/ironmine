@@ -41,6 +41,9 @@ class Array
             value = nil
             value = item.send(column) if item.respond_to?(column) 
             value ||= couples[column]
+            if(value.is_a? Time)
+              value = value.strftime('%Y-%m-%d %H:%M:%S')
+            end
             sheet.row(row_count).push value
           end
         end

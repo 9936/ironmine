@@ -1,10 +1,4 @@
 <%= common_title(:show_data=>@person[:person_name]) %>
-<script type="text/javascript" charset="utf-8">
-    var relatedListPanel;
-    GY.use('node',function(Y){
-       relatedListPanel=new RelatedListPanel('RLPanel');
-    });
-</script>
 
 <div class="listHoverLinks" style="visibility: visible;">
   <a id="id_person_company_access_link"
@@ -46,7 +40,7 @@
   </div>
 </div>
 
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -171,8 +165,8 @@
 <div id="id_person_system_access" class="bRelatedList">
     <a name="id_person_system_access_target">
     </a>
-    <div class="listRelatedObject taskBlock">
-      <div class="bPageBlock secondaryPalette">
+    <div class="listRelatedObject setupBlock">
+      <div class="page-block secondary-palette">
         <div class="pbHeader">
           <table cellspacing="0" cellpadding="0" border="0">
             <tbody>
@@ -200,14 +194,14 @@
             </div>
           </div>
           <!-- Begin company access table -->
-            <%= datatable("person_system_list",url_for(:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id),
+            <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id},
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"40px"},
                                {:key=>"system_name",:label=>t(:label_irm_external_system), :width=>"200px"},
                                {:key=>"system_description",:label=>t(:description), :width=> "400px"},
                                {:key=>"external_system_code", :hidden => true}])%>
           <!-- End company access table -->
         </div>
-        <div class="pbFooter secondaryPalette">
+        <div class="pbFooter secondary-palette">
         <div class="bg"></div>
         </div>
       </div>
@@ -218,8 +212,8 @@
 <div id="id_person_support_group" class="bRelatedList">
     <a name="id_person_support_group_target">
     </a>
-    <div class="listRelatedObject taskBlock">
-      <div class="bPageBlock secondaryPalette">
+    <div class="listRelatedObject setupBlock">
+      <div class="page-block secondary-palette">
         <div class="pbHeader">
           <table cellspacing="0" cellpadding="0" border="0">
             <tbody>
@@ -247,20 +241,20 @@
             </div>
           </div>
           <!-- Begin company access table -->
-            <%= datatable("support_group",url_for(:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id),
+            <%= datatable("support_group", {:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id},
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
                                {:key=>"name",:label=>t(:label_irm_group_name)},
                                {:key=>"description",:label=>t(:label_irm_group_description)}])%>
           <!-- End company access table -->
         </div>
-        <div class="pbFooter secondaryPalette">
+        <div class="pbFooter secondary-palette">
         <div class="bg"></div>
         </div>
       </div>
     </div>
 </div>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -280,7 +274,7 @@
         <div id="login_history_list" class="datatable" style="width:100%">
 
         </div>
-        <%= datatable("login_history_list",url_for( :controller=>"irm/my_login_history",:action => "get_login_data",:format=>"json", :id => @person.id),
+        <%= datatable("login_history_list", {:controller=>"irm/my_login_history", :action => "get_login_data", :format=>"json", :id => @person.id},
                       [{:key=>"user_ip",:label=>t(:label_irm_login_record_user_ip),:width=>"110px"},
 
                        { :key => "operate_system", :label => t(:label_irm_login_record_operate_system),:width=>"160px" },

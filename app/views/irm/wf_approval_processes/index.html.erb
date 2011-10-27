@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
+
 <%= page_title %>
 <style type="text/css">
   .processTitle {
@@ -20,7 +20,7 @@
    </h6>
 </div>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -44,7 +44,7 @@
 <% end %>
 
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -66,21 +66,22 @@
     </div>
 </div>
 <script type="text/javascript">
-  GY.use("substitute",function(Y){
-     Y.one("#newButton").on("click",function(e){
-      if(!e.target.getAttribute("thref"))
-        e.target.setAttribute("thref",e.target.getAttribute("href"))
-      var url = decodeURIComponent(e.target.getAttribute("thref"));
-      url = Y.Lang.substitute(url,{bo_code:Y.one("#boCode").get("value")});
-      e.target.setAttribute("href",encodeURI(url));
-
-     });
-
-     Y.one("#boCode").on("change",function(e){
-         var url = decodeURIComponent(e.target.getAttribute("href"));
-         var boCode = e.target.get("value");
-         url = Y.Lang.substitute(url,{bo_code:boCode});
+$(function(){
+    $("#newButton").click(function(e){
+        if(!$(e.target).attr("thref"))
+          $(e.target).attr("thref",$(e.target).attr("href"))
+        var url = decodeURIComponent($(e.target).attr("thref"));
+        url = url.replace("{bo_code}",$("#boCode").val());
+        console.debug(url);
+        $(e.target).attr("href",encodeURI(url));
+    });
+    $("#boCode").change(function(e){
+         var url = decodeURIComponent($(e.target).attr("href"));
+         var boCode = $(e.target).val();
+         url = url = url.replace("{bo_code}",boCode);
          window.location = url;
-     });
-  });
+    })
+});
+
+
 </script>

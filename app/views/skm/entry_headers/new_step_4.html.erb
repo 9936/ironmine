@@ -1,7 +1,7 @@
 <%= app_title({:description => t(:new)}) %>
 <%= form_for(@entry_header,:url=>{:action=>"new"},:builder => LabellingFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
 <%= f.hidden_field :column_ids %>
-<div class="bWizardBlock bDetailBlock">
+<div class="wizard-block detail-block">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
             <%= t(:step_n_total_m, :n => "4", :m => "4") %>

@@ -1,6 +1,6 @@
 <%= common_title %>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -26,7 +26,7 @@
             </div>
           </div>
         </div>
-        <%= datatable("card_list",url_for(:action=>"get_data"),
+        <%= datatable("card_list",{:action=>"get_data"},
                   [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"120px"},
                    {:key=>"system_flag",:hidden => true},
                    {:key=>"card_code",:label=>t(:label_irm_card_code),:width=>"80px"},

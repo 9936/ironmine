@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/ext4-all.css"></link>
 
 <%= form_for(@entry_header,:url=>{:action=>"new"},:builder => LabellingFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
             <%= t(:step_n_total_m, :n => "2", :m => "4") %>
@@ -17,7 +17,7 @@
       <%= t(:notice_skm_entry_step_2_desc) %>    
     </div>
     <div class="pbWizardBody">
-      <div class="secondaryPalette">
+      <div class="secondary-palette">
         <div class="pbBody">
             <div class="pbSubheader tertiaryPalette">
               <span class="pbSubExtra">

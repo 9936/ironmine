@@ -4,7 +4,7 @@
     <%= f.hidden_field(:filter_type) %>
     <%= f.hidden_field(:source_code) %>
     <%= f.hidden_field(:bo_code) %>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -84,7 +84,7 @@
       <h3><%=t(:label_irm_view_filter_criterion)%></h3>
     </div>
     <div class="pbSubsection" id="filterContent" href="<%= url_for(:action=>"operator_value",:seq_num=>"{seq_num}",:attribute_id=>"{attribute_id}") %>">
-      <table cellpadding="0" cellspacing="0" border="0">
+      <table class="matrix-table" cellpadding="0" cellspacing="0" border="0">
         <thead>
           <tr>
             <th width="20%"></th>
@@ -158,31 +158,10 @@
 <% end %>
 
 <script type="text/javascript">
-  GY.use("irm","gallerydispatcher","substitute",function(Y){
-      Y.on("domready",function(){
-        Y.on('change',Y.irm.rawConditionClause,".filterColumnSelect");
-        Y.on('change', function(e) {
-          var obj;
-          var seq_num = e.currentTarget.getAttribute("ref");
-          var attribute_id = "";
-          if(e.currentTarget.getData("dispatcher")){
-            obj = e.currentTarget.getData("dispatcher")
-          }else{
-
-            obj = new Y.Dispatcher({node:"#filter"+seq_num});
-            e.currentTarget.setData("dispatcher",obj);
-          }
-
-          if(e.currentTarget.get("value")&&e.currentTarget.get("value")!=""){
-             attribute_id = e.target.one("option[value="+e.target.get("value")+"]").getAttribute("attribute_id")
-           }
-          var url = unescape(Y.one("#filterContent").getAttribute("href"));
-          url = Y.Lang.substitute(url,{seq_num:seq_num,attribute_id:attribute_id});
-
-          obj.set('uri', url);
-
-	    }, '.filterColumnSelect');
+  $(function(){
+      $("#filterContent .filterColumnSelect").live("change",function(event){
+          rawConditionClause("rawConditionClause",event);
+          refreshFilterOptions("filterContent",event);
       });
-
   });
 </script>

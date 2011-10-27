@@ -4,7 +4,8 @@
 <% @entry_header.entry_details.each do |e| %>
     <b><%= raw(e.element_name) %></b>
     <br/>
-    <%= raw(e.entry_content.gsub("\n","<br/>")) %>
+
+    <%= limit_device? ? raw(e.entry_content) : raw(e.entry_content.gsub("\n","<br/>")) %>
     <br/>
     <br/>
 <% end %>

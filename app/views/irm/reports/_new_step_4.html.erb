@@ -8,13 +8,13 @@
 </style>
 <%= form_for(@report,:url=>{:action=>"new"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:step) %>
-<div  class="bWizardBlock">
+<div  class="wizard-block">
   <%= render :partial => "step_header",:locals => {:step=>@report.step} %>
   <div class="pbBody">
     <div class="pbDescription ">
     </div>
     <div class="pbWizardBody">
-      <div class="secondaryPalette">
+      <div class="secondary-palette">
         <div class="pbBody ">
             <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
               <h3><%= t(:label_irm_report_setup_group_column_header) %></h3>
@@ -101,23 +101,23 @@
 </div>
 <%end%>
 <script type="text/javascript">
-    GY.use(function(Y){
-      Y.one("#rowHeaderGroup").appendChild(Y.one("#groupColumn3"));
-      Y.one("#rowHeaderGroup").appendChild(Y.one("#groupColumn4"));
-      Y.on("change",function(e){
-          var currentValue = e.target.get("value");
-          var seqNum = e.target.getAttribute("ref");
+  $(function(){
+      $("#rowHeaderGroup").append($("#groupColumn3"));
+      $("#rowHeaderGroup").append($("#groupColumn4"));
+      $("form.new_irm_report select.groupColumnSelect").change(function(e){
+          var currentValue = $(e.target).val();
+          var seqNum = $(e.target).attr("ref");
           var dataType = "";
           if(currentValue&&currentValue!="")
-            dataType = e.target.one("option[value="+currentValue+"]").getAttribute("type");
+            dataType = $(e.target).find("option[value="+currentValue+"]:first").attr("type");
           if(dataType == "datetime")
-            Y.one("#groupDate"+seqNum).removeAttribute("disabled");
+            $("#groupDate"+seqNum).removeAttr("disabled");
           else
-            Y.one("#groupDate"+seqNum).setAttribute("disabled","disabled");
-      },"form.new_irm_report select.groupColumnSelect");
-      Y.one("#groupColumnSelect1").simulate("change");
-      Y.one("#groupColumnSelect2").simulate("change");
-      Y.one("#groupColumnSelect3").simulate("change");
-      Y.one("#groupColumnSelect4").simulate("change");
-    });
+            $("#groupDate"+seqNum).attr("disabled","disabled");
+      });
+      $("#groupColumnSelect1").trigger("change");
+      $("#groupColumnSelect2").trigger("change");
+      $("#groupColumnSelect3").trigger("change");
+      $("#groupColumnSelect4").trigger("change");
+  });
 </script>

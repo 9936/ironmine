@@ -1,5 +1,5 @@
 <%= setting_show_title(:show_data => @site_group[:name]) %>
-<div id="ep" class="bDetailBlock bPageBlock">
+<div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -43,7 +43,7 @@
 </div>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@site_group} %>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -69,7 +69,7 @@
             <%= link_to(t(:show),{:controller=>"irm/sites",:action=>"show",:id=>"{id}",:_from=>"site_group"}) %>
           </div>
         </div>
-        <%= datatable("site",url_for(:action=>"get_current_group_site", :group_code=>@site_group.group_code),
+        <%= datatable("site",{:action=>"get_current_group_site", :group_code=>@site_group.group_code},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template"},
                        {:key=>"site_code",:label=>t(:label_irm_site_site_code)},
                        {:key=>"name",:label=>t(:label_irm_site_name)},

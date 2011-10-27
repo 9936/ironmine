@@ -82,6 +82,7 @@ zh:
   up: 上移
   down: 下移
   notice: 注意
+  no_data: 无可用数据
   #常用语句
   notice_account_invalid_creditentials: 用户名或密码错误
   successfully_updated: 已经成功更新数据
@@ -200,6 +201,7 @@ zh:
   label_irm_common_logout: 退出系统
   label_irm_common_forgot_password: 忘记密码？
   label_irm_recently_objects: 最近的项目
+  notice_account_locked: 你的帐户已经被锁定,请联系管理员!
   #=========================    end common_controller=======================#
   #=========================    irm menus_controller=======================#  
   label_irm_menu: 菜单
@@ -1519,3 +1521,10 @@ zh:
   label_irm_license_code: 编码
   label_irm_license_description: 描述
   #=========================  end  license=======================#
+  #========================= rich text editor upload image window======================
+  label_irm_rich_editor_win_tab_from_clipboard: 从剪贴板上传图片
+  label_irm_rich_editor_win_tab_from_file: 从文件上传图片
+  label_irm_rich_editor_win_tab_select_file: 从本地选择要上传的图片
+  label_irm_rich_editor_win_tab_selected_file: 选择的图片
+  label_irm_rich_editor_win_tab_upload_image: 上传图片
+  #========================= end ======================

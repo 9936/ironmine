@@ -1,6 +1,6 @@
 <%= common_title%>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -21,7 +21,7 @@
             <%= link_to("{bulletin_title}", {:controller => "irm/bulletins", :action => "show", :id => "{id}"})%>
           </div>
         </div>
-          <%= datatable("bulletins_list",url_for(:controller => "irm/bulletins", :action=>"get_data",:format=>"json"),
+          <%= datatable("bulletins_list",{:controller => "irm/bulletins", :action=>"get_data",:format=>"json"},
                         [{:key=>"id",:label=>"", :hidden => true},
                          {:key=>"bulletin_title",:label=>t(:label_irm_bulletin_title), :formatter=>"Y.irm.template", :sortable=>true, :width =>"430px"},
                          {:key=>"page_views",:label=>t(:label_irm_bulletin_page_views), :width => "40px"},

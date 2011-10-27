@@ -1,0 +1,349 @@
+@charset "utf-8";
+
+body.setupTab {margin:0 10px;}
+#contentWrapper {display:inline-block;min-width:100%;}
+body #pageHeader {background-image:none;}
+
+#pageHeader .phHeader {background-color:#1797C0;}
+#pageHeader .phHeader {margin-bottom:10px;}
+.page-header .phHeader {background-position:right top;background-repeat:no-repeat;}
+.page-header .phHeader, .tabsNewBar {
+    border:0 none;
+    margin:0;
+    padding:0;
+    width:100%;
+}
+.page-header .phHeader .left .spacer, .page-header .phHeader td.left {
+width:230px;
+}
+.page-header td.left {background:url("../images/appHeader_l.png") no-repeat scroll left bottom transparent !important;}
+.page-header .phHeader td {vertical-align:top;}
+.page-header, .page-header td.left {
+    background-image:url("../images/bgTop.gif");
+    background-position:left top;
+    background-repeat:repeat-x;
+}
+#pageHeader .phHeader td.left img:first-child {margin:0 0 3px 3px;}
+.page-header td.right.vtop {vertical-align:top;}
+.navLinks .linkElements > a {
+    color:#FFFFFF;
+    font-size:0.925em;
+    margin-left:14px;
+    margin-right:9px;
+    text-decoration:none;
+    vertical-align:baseline;
+}
+.multiforce {
+    font-weight:bold;
+    text-align:right;
+    white-space:nowrap;
+}
+.page-header .phHeader .navLinks {
+margin-top:0;
+position:static;
+}
+.page-header .phHeader .navLinks {
+    display:inline-block;
+    margin-top:-2px;
+}
+.multiforce .navLinks {
+    color:#999999;
+    position:relative;
+    top:2px;
+    vertical-align:top;
+}
+
+.page-header .phHeader td.right {text-align:right;white-space:nowrap;width:100%;}
+.page-header td.right {padding-right:19px;vertical-align:middle;}
+.page-header td.right {background:url("../images/appHeader_r.png") no-repeat scroll right bottom transparent;}
+
+body.page-body{background-color: #fff;margin: 0 10px; height: 100%; position: relative;}
+/* tabs */
+body .tabsNewBar .tabNavigation {
+    background:url("../images/tabbar_sprite.png") repeat-x scroll left -73px transparent;
+    margin:0 5px;
+    padding:3px 0 0;
+    position:relative;
+}
+.tabNavigation, .blank .tabNavigation {
+    background-image:url("../images/blank_bg.gif");
+    background-position:center bottom;
+    background-repeat:repeat-x;
+}
+.tabNavigation {
+    font-family:'Verdana','Geneva',sans-serif;
+    font-size:91%;
+    margin-bottom:6px;
+    padding-bottom:10px;
+    padding-left:10px;
+}
+body .tabsNewBar .tabNavigation .tabBarLeft {
+    background:url("../images/tabbar_sprite.png") no-repeat scroll 0 0 transparent;
+    height:100%;
+    left:-15px;
+    position:absolute;
+    top:0;
+    width:15px;
+}
+body .tabsNewBar .tabNavigation .tabBarRight {
+    background:url("../images/tabbar_sprite.png") no-repeat scroll -15px 0 transparent;
+    height:100%;
+    position:absolute;
+    right:-15px;
+    top:0;
+    width:15px;
+}
+
+body .tabsNewBar .tabNavigation .tab {height:25px;}
+table.tab {line-height:normal;}
+body .tab td {border:medium none;padding-left:0;}
+body .tab td, body .tab td div, body .tab .last div {background-image:none;background-repeat:no-repeat;}
+.tab td {
+    background-image:url("../images/motiftab3.gif");
+    background-position:left -156px;
+    background-repeat:no-repeat;
+    border-bottom:1px solid #A4A29E;
+    margin:0;
+    padding:0 0 0 6px;
+    text-align:center;
+}
+#pageBodySetup #motifCurve {height:3px;margin:0;}
+
+.setupTab .tabNavigation .tab .currentTab, .setupTab #motifCurve, .setupTab #motifCurve #mc_l, .setupTab #motifCurve #mc_r {background-color:#747E96;}
+
+#motifCurve {
+    background-image:url("../images/motifCurve_sprite.png");
+    background-repeat:repeat-x;
+    height:9px;
+    margin:0 -5px;
+    position:relative;
+}
+div#pageBodySetup table.outer td.oLeft {background:url("../images/setup_sidebar_shadow.png") repeat-y scroll right top transparent;}
+.sysAdminTab .outer td.oLeft, .setupTab .outer td.oLeft {width:230px;}
+.sysAdminTab .outer td.oLeft, .setupTab .outer td.oLeft {width:220px;}
+
+/************************************/
+/*****************   body cell ********************/
+div#pageBodySetup table.outer td.oRight {background-color:#FFFFFF;}
+body .page-body .outer .oRight, body .page-body .outerNoSidebar {background-color:transparent;}
+.setupTab .outer .oRight, .sysAdminTab .outer .oRight {padding-left:10px;}
+.outer td.oRight {padding:0 10px 20px 210px;}
+.outer td.oRight {background-color:#FFFFFF;padding:0 10px 10px 210px;}
+.outer td {vertical-align:top;}
+
+.setupTab .oLeft .mTreeSelection, .sysAdminTab .oLeft .mTreeSelection {padding:0;}
+.mTreeSelection {background-color:transparent;}
+.mTreeSelection {
+    background-color:#E8E8E8;
+    font-size:109%;
+    padding:0.8em;
+    text-align:left;
+}
+div#AutoNumber5 {
+    font-size:0.917em;
+    padding-bottom:17px;
+    padding-left:10px;
+}
+
+.mTreeSelection {
+    font-size:109%;
+    text-align:left;
+}
+
+.setupTab .oLeft .mTreeSelection #AutoNumber5 > img:first-child + .setupNavtree h2, .sysAdminTab .oLeft .mTreeSelection #AutoNumber5 > img:first-child + .setupNavtree h2 {
+    border-width:0;
+    padding-top:10px;
+}
+.setupTab .oLeft .mTreeSelection #AutoNumber5 > .setupNavtree h2, .sysAdminTab .oLeft .mTreeSelection #AutoNumber5 > .setupNavtree h2 {
+    border-top:1px solid #FFFFFF;
+    border-width:1px 0 0;
+    color:#333435;
+    font-size:1.167em;
+    margin:0;
+    padding:14px 0 0 10px;
+}
+.mTreeSelection h2 {
+    border-bottom:2px solid #CCCCCC;
+    display:block;
+    font-weight:bold;
+    margin-top:15px;
+    padding:0.33em 0.33em 0.33em 0;
+}
+.setupSection {
+    font-weight:bold;
+    padding:0.33em;
+    text-decoration:none;
+}
+a {color:#333435;}
+.setupLeaf a {text-decoration:none;}
+.setupLeaf a:hover {text-decoration:underline;}
+#AutoNumber5 .setupLeaf {
+    font-weight:normal;
+    line-height:15px;
+    margin:5px 0 0;
+    padding:0 15px 0 17px;
+    white-space:nowrap;
+}
+.mTreeSelection .setupLeaf {
+    margin-left:1.27em;
+    padding-bottom:2px;
+    padding-top:2px;
+}
+#AutoNumber5 .setupHighlightLeaf{
+    font-weight:normal;
+    line-height:15px;
+    margin:5px 0 0;
+    padding:4px 15px 6px 17px;
+    white-space:nowrap;
+}
+/************************************/
+
+body .tabNavigation .tab td div {
+    color:#4B4B57;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:1.18em;
+    font-weight:bold;
+    max-height:15px;
+    padding:7px 10px;
+}
+body .tab td, body .tab td div, body .tab .last div {background-image:none;background-repeat:no-repeat;}
+.tab div {background-image:url("../images/motiftab3.gif");background-position:right -4776px;background-repeat:no-repeat;padding:3px 9px 5px 3px;}
+body .tabNavigation .tab a {color:#353535;}
+body .tabNavigation .tab a:hover {color:#1468b9;}
+.tab a {font-size:13px;line-height:16px;color:#444444;text-decoration:none;}
+.tab a:hover {text-decoration:underline;}
+.tab .last a {font-size:13px;}
+
+body .tabNavigation .tab .allTabsArrow {
+    background-image:url("../images/addTabs.png");
+    height:12px;
+    width:12px;
+}
+.allTabsArrow {
+    background-image:url("../images/arrow.gif");
+    background-position:0 0;
+    height:9px;
+    width:6px;
+}
+
+#pageBodySetup #bd_l {
+    left:-10px;
+    width:10px;
+}
+
+body .page-body #bd_l {
+    background:url("../images/bd_sprite.png") repeat-y scroll left top transparent;
+    height:100%;
+    left:-20px;
+    position:absolute;
+    width:20px;
+}
+#pageBodySetup #mc_l, #pageBodySetup #mc_r, #pageBodySetup #bd_b {display:none;}
+#pageBodySetup #bd_r {
+    left:10px;
+}
+#pageBodySetup {
+    margin:0;
+}
+body .page-body #bd_r {
+    background:url("../images/bd_right_shadow.png") repeat-y scroll right top transparent;
+    height:100%;
+    left:20px;
+    position:absolute;
+    width:100%;
+    z-index:-1;
+}
+
+#motifCurve {
+    background-image:url("../images/motifCurve_sprite.png");
+    background-repeat:repeat-x;
+    height:9px;
+    margin:0 -5px;
+    position:relative;
+}
+#mc_l, #mc_r {
+    background:url("../images/motifCurve_sprite.png") no-repeat scroll 0 0 transparent;
+    height:9px;
+    position:absolute;
+    width:5px;
+}
+
+div#pageBodySetup > table.outer {background-color:#F2F2F3;}
+
+body .page-body #bodyTable {padding-left:0;padding-right:0;}
+
+/***********************setup side bar menu ***********************/
+.setupTab .oLeft .mTreeSelection, .sysAdminTab .oLeft .mTreeSelection {padding:0;}
+
+.mTreeSelection {background-color:transparent;}
+.mTreeSelection {
+    /*background-color:#E8E8E8;*/
+    font-size:109%;
+    padding:0.8em;
+    text-align:left;
+}
+
+#AutoNumber5 > img:first-child + .setupNavtree {
+    border-width:0;
+    margin-top:0;
+}
+
+#AutoNumber5 > .setupNavtree {
+    border-top:1px solid #D9D9D9;
+    margin:14px 0 14px -10px;
+}
+
+.mTreeSelection .parent {
+    font-weight:bold;
+    line-height:15px;
+    margin-top:5px;
+    padding:0;
+    vertical-align:middle;
+}
+
+.mTreeSelection .parent {
+    padding-bottom:1px;
+    padding-top:1px;
+}
+
+.mTreeSelection .parent_3 {
+    margin-left:18px;
+}
+
+.mTreeSelection a.setupFolder, .mTreeSelection a.setupHighlightFolder {
+    background-color:transparent;
+    margin-left:6px;
+    position:relative;
+    top:-1px;
+}
+.setupFolder {text-decoration:none;}
+
+a.NavTreeCol {
+    float:left;
+    height: 11px;
+    width:11px;
+    background: url("../images/setup_plus_lev1.gif") no-repeat scroll 0 0 transparent
+}
+a.NavTreeExp {
+    float:left;
+    height: 11px;
+    width:11px;
+    background: url("../images/setup_minus_lev1.gif") no-repeat scroll 0 0 transparent
+}
+.setupHighlightLeaf {
+    background: url("../images/setup_selected_bottombg.png") repeat-x scroll left bottom #FFFFFF;
+    border-color: #E8E8E9;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    line-height: 20px;
+    padding-bottom: 3px;
+    padding-left: 15px;
+    padding-top: 2px;
+}
+/************************** overview *******************************/
+.page-block .setupOverview, .page-block .setupResource {width:100%;}
+.page-block .setupOverview td, .page-block .setupOverview th, .page-block .setupResource td, .page-block .setupResource th {
+    color:#333333;
+    padding:3px 2px 3px 5px;
+    width:50%;
+}

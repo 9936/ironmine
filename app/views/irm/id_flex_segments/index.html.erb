@@ -1,6 +1,6 @@
 <%= setting_title %>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -27,7 +27,7 @@
             <%= check_img("{status_code}") %>
           </div>                  
         </div>
-        <%= datatable("id_flex_segments_list",url_for(:controller => "irm/id_flex_segments", :action=>"get_data", :format=>"json"),
+        <%= datatable("id_flex_segments_list",{:controller => "irm/id_flex_segments", :action=>"get_data", :format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "120px"},
                        {:key=>"segment_num",:label=>t(:label_irm_id_flex_segment_segment_num)},
                        {:key=>"segment_name",:label=>t(:label_irm_id_flex_segment_name),:searchable=>true},

@@ -1,7 +1,7 @@
-<%= stylesheet_link_tag "/javascripts/yui3.3/datatable/assets/skins/sam/datatable.css"%>
 
-<div class="bPageTitle">
-  <div class="ptBody">
+
+<div class="page-title">
+  <div class="pt-body">
     <div class="content">
       <h1 class="pageType"><%= t(:label_csi_survey_info) %></h1>
       <h2 class="pageDescription"><%=t(:label_csi_survey_result) %></h2>
@@ -10,14 +10,14 @@
 </div>
 
 <div class="lightBlue">
-    <div class="bPageTitle">
-        <div style="background-color: rgb(23, 151, 192);" class="secondaryPalette">
+    <div class="page-title">
+        <div style="background-color: rgb(23, 151, 192);" class="secondary-palette">
           <h1 class="title"><%= t(:label_csi_survey_info) %>：&nbsp;&nbsp;<%=@survey_title%></h1>
         </div>
     </div>
 </div>
 
-<div class="bPageBlock">
+<div class="page-block">
 <div class="pbHeader">
   <table border="0" cellpadding="0" cellspacing="0">
     <tbody>
@@ -38,45 +38,44 @@
 <% if @batch_results.blank? %>
 <div style="font-size: 15px;"><%= t(:label_no_data) %></div>
  <% else %>
-<div class="datatable">
-  <div class="yui3-widget yui3-datatable">
-    <div class="yui3-datatable-content">
-        <table id='rows' cellspacing="0" cellpadding="0" class='grid'>
-          <thead class="yui3-datatable-columns">
-            <tr class="yui3-datatable-first yui3-datatable-last">
-              <th class="yui3-column">
-                <div class="yui3-datatable-liner"><%= t(:label_csi_survey_timestamps) %>
+  <div>
+     <div class="irm-datatable">
+        <table id='rows'>
+          <thead>
+            <tr>
+              <th>
+                <div><%= t(:label_csi_survey_timestamps) %>
                 </div>
               </th>
-              <th class="yui3-column">
-                <div class="yui3-datatable-liner"><%= t(:label_csi_survey_person) %>
+              <th>
+                <div><%= t(:label_csi_survey_person) %>
                 </div>
               </th>
               <% @subjects.each do |subject| %>
-              <th class="yui3-column">
-                <div class="yui3-datatable-liner">
+              <th>
+                <div>
                   <%=truncate subject.name,:length => 20%>
                 </div>
               </th>
               <% end %>
             </tr>
           </thead>
-          <tbody class="yui3-datatable-data">
+          <tbody>
           <% @batch_results.each do |batch_result| %>
-          <tr id="<%=batch_result%>" class="yui3-datatable-even">
-            <td class="yui3-column">
-              <div class='yui3-datatable-liner'>
+          <tr id="<%=batch_result%>">
+            <td>
+              <div>
                 <%=batch_result.response_time.to_time.to_formatted_s(:datetime_short)%>
               </div>
             </td>
-            <td class="yui3-column">
-              <div class='yui3-datatable-liner'>
+            <td>
+              <div>
                 <%=get_survey_person(batch_result.person_id)%>
               </div>
             </td>
             <% @subjects.each do |subject| %>
-              <td class="yui3-column">
-                <div class='yui3-datatable-liner'>
+              <td>
+                <div>
                   <%=get_survey_result(@survey_id,batch_result.response_batch,subject.id) %>
                 </div>
               </td>
@@ -85,7 +84,6 @@
           <% end -%>
           </tbody>
         </table>
-    </div>
   </div>
 </div>
 <% end %>

@@ -1,0 +1,154 @@
+div.button, div.gray-button, div.as-button {
+	float: left;
+	margin-left: 6px;
+	margin-top: 1px;
+    line-height: 20px;
+}
+
+
+div.button a {
+    -moz-border-radius: 3px 3px 3px 3px;
+    background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
+    border-color: #B5B5B5 #B5B5B5 #7F7F7F;
+	border-width: 1px;
+    border-style: solid;
+	text-decoration: none;
+	color:#333333;
+	display: inline-block;
+	padding: 0 8px 0 8px;
+	height: 20px;
+    font-size: 11px;
+    font-weight: bold;
+	line-height: 20px;
+}
+div.button a:hover{background-position: right -30px;}
+div.button input[type="submit"] {
+    -moz-border-radius: 3px 3px 3px 3px;
+    background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
+    border-color: #B5B5B5 #B5B5B5 #7F7F7F;
+	border-width: 1px;
+    border-style: solid;
+	text-decoration: none;
+	color:#333333;
+	display: inline-block;
+	padding: 0 5px 2px 5px;
+	height: 22px;
+    font-size: 11px;
+    font-weight: bold;
+	line-height: 22px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+
+    div.button a {
+        -moz-border-radius: 3px 3px 3px 3px;
+        background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
+        border-color: #B5B5B5 #B5B5B5 #7F7F7F;
+        border-width: 1px;
+        border-style: solid;
+        text-decoration: none;
+        color:#333333;
+        display: inline-block;
+        padding: 0 8px;
+        height: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        line-height: 20px;
+    }
+
+    div.button input[type="submit"] {
+        -moz-border-radius: 3px 3px 3px 3px;
+        background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
+        border-color: #B5B5B5 #B5B5B5 #7F7F7F;
+        border-width: 1px;
+        border-style: solid;
+        text-decoration: none;
+        color:#333333;
+        display: inline-block;
+        padding: 0 5px 2px 5px;
+        height: 22px;
+        font-size: 11px;
+        font-weight: bold;
+        line-height: 22px;
+    }
+
+}
+
+div.button input[type="submit"]:hover{background-position: right -30px; cursor: pointer;}
+
+div.button a[class="disabled"]{
+    color: #a9a9a9;
+    background: none;
+    background-color: #ededed;
+}
+
+div.gray-button a {
+    -moz-border-radius: 3px 3px 3px 3px;
+    border-color: #f8f8f8;
+	border-width: 1px;
+    border-style: solid;
+	text-decoration: none;
+	color:#333333;
+	display: inline-block;
+	padding: 0 8px;
+	height: 20px;
+    font-size: 11px;
+    font-weight: bold;
+	line-height: 20px;
+}
+div.gray-button a:hover{
+    background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
+    /*background-position: right -30px;*/
+    border-color: #cdcdcd;
+	border-width: 1px;
+    border-style: solid;
+}
+
+
+.page-block .buttons, .page-block .gray-buttons {padding:3px 20px;text-align:center;}
+
+.rightArrowIcon{
+    background: url("../images/combobox_arrows_sprite.gif") no-repeat scroll 0 0 transparent;
+    height: 20px;
+    margin: 0 2px;
+    width: 24px;
+}
+a:hover .rightArrowIcon{
+    background-position: left -20px;
+}
+.leftArrowIcon{
+    background: url("../images/combobox_arrows_sprite.gif") no-repeat scroll 0 0 transparent;
+    background-position: left -60px;
+    height: 20px;
+    margin: 0 2px;
+    width: 24px;
+}
+a:hover .leftArrowIcon{background-position: left -80px;}
+.upArrowIcon{
+    background: url("../images/combobox_arrows_sprite.gif") no-repeat scroll 0 0 transparent;
+    background-position: left -240px;
+    height: 20px;
+    margin: 0 2px;
+    width: 24px;
+}
+a:hover .upArrowIcon{background-position: left -260px;}
+.downArrowIcon{
+    background: url("../images/combobox_arrows_sprite.gif") no-repeat scroll 0 0 transparent;
+    background-position: left -300px;
+    height: 20px;
+    margin: 0 2px;
+    width: 24px;
+}
+a:hover .downArrowIcon{background-position: left -320px;}
+
+body .page-block .pbBody .pbSubheader .hideListButton {
+    background:url("../images/twisty_sprite.png") no-repeat scroll 0 -11px transparent;
+}
+.hideListButton {
+    background-image:url("../images/twistySubhDown.gif");
+    background-position:0 0;
+    height:10px;
+    width:16px;
+}
+
+#bodyColB table * {box-sizing: content-box;}

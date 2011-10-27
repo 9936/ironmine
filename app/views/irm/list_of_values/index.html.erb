@@ -1,6 +1,6 @@
 <%= page_title %>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -25,7 +25,7 @@
             <%= check_img("{listable_flag}") %>
           </div>
         </div>
-        <%= datatable("list_of_values",url_for(:action=>"get_data",:format=>"json"),
+        <%= datatable("list_of_values",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                                               { :key => "lov_code", :label => t(:label_irm_list_of_value_lov_code),:searchable=>true },
                                               { :key => "name", :label => t(:label_irm_list_of_value_name),:searchable=>true },

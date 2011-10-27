@@ -159,6 +159,8 @@ private
     @os_name = case element
     when %r{iphone}i
       'iPhone'
+    when %r{ipad}i
+      'iPad'
     else
       'Mac OS X'
     end

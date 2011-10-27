@@ -1,5 +1,5 @@
 <%= form_for(@list_of_value,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="bEditBlock bPageBlock">
+<div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -42,7 +42,7 @@
               <td class="dataCol"><%=f.blank_select :id_column,available_selectable_object_attribute(@list_of_value.bo_code),{},
                                                     {:required=>true ,
                                                      :id=>"list_of_value_id_column",
-                                                     :href=>url_for(:controller=>"irm/object_attributes",:action=>"selectable_columns",:format=>"json",:business_object_code=>"{list_of_value_bo_code}"),
+                                                     :href=>url_for(:controller=>"irm/object_attributes",:action=>"selectable_columns",:format=>"json",:business_object_code=>"${list_of_value_bo_code}"),
                                                      :depend=>"list_of_value_bo_code"}%></td>
             </tr>
             <tr>
@@ -50,13 +50,13 @@
               <td class="dataCol"><%=f.blank_select :value_column,available_selectable_object_attribute(@list_of_value.bo_code),{},
                                                     {:required=>true ,
                                                      :id=>"list_of_value_value_column",
-                                                     :href=>url_for(:controller=>"irm/object_attributes",:action=>"selectable_columns",:format=>"json",:business_object_code=>"{list_of_value_bo_code}"),
+                                                     :href=>url_for(:controller=>"irm/object_attributes",:action=>"selectable_columns",:format=>"json",:business_object_code=>"${list_of_value_bo_code}"),
                                                      :depend=>"list_of_value_bo_code"}%></td>
               <td class="labelCol"><label for="list_of_value_desc_column"><%=t(:label_irm_list_of_value_desc_column)%></label></td>
               <td class="dataCol"><%=f.blank_select :desc_column,available_selectable_object_attribute(@list_of_value.bo_code),{},
                                                     {
                                                      :id=>"list_of_value_desc_column",
-                                                     :href=>url_for(:controller=>"irm/object_attributes",:action=>"selectable_columns",:format=>"json",:business_object_code=>"{list_of_value_bo_code}"),
+                                                     :href=>url_for(:controller=>"irm/object_attributes",:action=>"selectable_columns",:format=>"json",:business_object_code=>"${list_of_value_bo_code}"),
                                                      :depend=>"list_of_value_bo_code"}%></td>
             </tr>
 
@@ -118,7 +118,7 @@
 </div>
 <% end %>
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#list_of_value_bo_code",target:["#list_of_value_id_column","#list_of_value_value_column","#list_of_value_desc_column"]});
+  $(function(){
+      $("#list_of_value_bo_code").cascade(["#list_of_value_id_column","#list_of_value_value_column","#list_of_value_desc_column"]);
   });
 </script>

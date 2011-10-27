@@ -1,6 +1,6 @@
 <%= app_title %>
 <div class="listRelatedObject setupBlock">
-    <div class="bPageBlock">
+    <div class="page-block">
       <div class="pbHeader">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
@@ -23,7 +23,7 @@
            </div>
         </div>
       </div>
-        <%= datatable("delayed_job",url_for(:action=>"get_data"),
+        <%= datatable("delayed_job",{:action=>"get_data"},
                   [{:key=>"delayed_job_id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"40px"},
                    {:key=>"job_status",:label=>t(:label_irm_delayed_jobs_record_status),:width=>"10%"},
                    {:key=>"priority",:label=>t(:label_irm_delayed_jobs_record_priority),:width=>"10%"},
