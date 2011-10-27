@@ -550,6 +550,10 @@ Ironmine::Application.routes.draw do
     match '/list_of_values/:id/multilingual_update(.:format)' => "list_of_values#multilingual_update", :via => :put
     match '/list_of_values/:id/execute_test(.:format)' => "list_of_values#execute_test", :via => :get
     match '/list_of_values/:id/get_lov_data(.:format)' => "list_of_values#get_lov_data", :via => :get
+    match '/list_of_values/:id/get_lov_data(.:format)' => "list_of_values#get_lov_data", :via => :get
+    match '/list_of_values/:lktp/lov(.:format)' => "list_of_values#lov", :via => :get
+    match '/list_of_values/:lktp/lov_search(.:format)' => "list_of_values#lov_search", :via => :get
+    match '/list_of_values/:lktp/lov_result(.:format)' => "list_of_values#lov_result", :via => :get
     # wf_settings
     match '/wf_settings(/index)(.:format)' => "wf_settings#index", :via => :get
     match '/wf_settings/edit(.:format)' => "wf_settings#edit", :via => :get

@@ -1,0 +1,63 @@
+<body style="padding:5px;">
+  <div class="listRelatedObject setupBlock">
+      <div class="page-block">
+        <div class="pbHeader">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr>
+                <td class="pbTitle"><h2 class="mainTitle"><%= Irm::BusinessObject.class_name_to_meaning(@business_object.bo_model_name) %></h2></td>
+                <td class="pbButton">
+                </td>
+                <td class="pbHelp">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pbBody">
+
+          <% if @datas.any? %>
+              <% label_field = @fields.detect{|i| i[:label]};value_field = @fields.detect{|i| i[:value_field]} %>
+          <!--  irm datatable      -->
+          <div class="irm-datatable">
+            <div>
+                <table>
+                  <thead>
+                    <tr>
+                      <% @fields.each do |field| %>
+                          <% next if field[:hidden] %>
+                        <th>
+                          <div><%= field[:name] %></div>
+                        </th>
+                      <% end %>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @datas.each_with_index do |data,index| %>
+                      <tr id="<%=data[:id]%>">
+                        <% @fields.each do |field| %>
+                          <% next if field[:hidden] %>
+                          <% if field[:label] %>
+                            <td >
+                              <div><%= lookup_pick_link(params[:lkfid],data[value_field[:key]],data[label_field[:key]],data.attributes)%></div>
+                            </td>
+                          <% else %>
+                            <td>
+                              <div><%= data[field[:key].to_sym] %></div>
+                            </td>
+                          <% end %>
+                        <% end %>
+                      </tr>
+                    <% end -%>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+          <!--  end irm datatable      -->
+          <% else %>
+          <%=   render :partial => "helper/datatable_no_data" %>
+          <% end %>
+        </div>
+      </div>
+  </div>
+</body>

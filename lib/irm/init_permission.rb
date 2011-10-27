@@ -10,7 +10,8 @@ Irm::AccessControl.map do |map|
                                  "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_application", "index"],
-                                 "icm/support_groups"=>["get_member_options"],"irm/search"=>[:index]}
+                                 "icm/support_groups"=>["get_member_options"],
+                                 "irm/search"=>[:index],"irm/list_of_values"=>["lov","lov_search","lov_result"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
   #=====common setting===================

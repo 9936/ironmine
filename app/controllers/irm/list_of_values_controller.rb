@@ -159,4 +159,27 @@ class Irm::ListOfValuesController < ApplicationController
       format.json {render :json=>to_jsonp(list_of_values.to_grid_json([:lov_code,:name,:bo_name,:id_column,:value_column,:desc_column,:value_title,:desc_column,:desc_title,:listable_flag],count))}
     end
   end
+
+
+  # 接受5个参数
+  # lkfm lookup from
+  # lkfid lookup field id
+  # lkvfid lookup value field
+  # lktp lookup type
+  # lksrch lookup search
+  def lov
+    render :layout => nil
+  end
+
+  def lov_search
+    render :layout => "frame"
+  end
+
+  def lov_result
+    @business_object = Irm::BusinessObject.find(params[:lktp])
+    @datas = []
+    @fields = []
+    @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid]) if params[:lksrch].present?
+    render :layout => "frame"
+  end
 end

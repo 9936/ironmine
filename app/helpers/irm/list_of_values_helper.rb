@@ -1,11 +1,39 @@
 module Irm::ListOfValuesHelper
   def lov_field_tag(name,lov_code,options={})
-    lov = Irm::ListOfValue.multilingual.where(:lov_code=>lov_code).first
-    if lov.listable_flag.eql?(Irm::Constant::SYS_YES)
-      lov_as_select(name,lov,options)
-    else
-      lov_as_autocomplete(name,lov,options)
+    lov_field_id =  options.delete(:id)||name
+
+    lov_type = lov_code
+    if lov_type.is_a?(Class)&&(lov_type.respond_to?(:name))
+      lov_type = lov_type.name
     end
+
+
+
+    lov_value_field = options.delete(:value_field)||"id"
+
+    value = options.delete(:value)
+
+    label_value = options.delete(:label_value)
+
+    bo = Irm::BusinessObject.where(:bo_model_name=>lov_type).first
+
+    if value.present?&&!label_value.present?
+      label_value = bo.lookup_label_value(value,lov_value_field)
+    end
+
+    if !value.present?&&label_value.present?
+      value,label_value = bo.lookup_value(label_value,lov_value_field)
+    end
+
+    hidden_tag_str = hidden_field_tag(name,value,{:id=>lov_field_id})
+    label_tag_str = text_field_tag("#{name}_label",label_value,options.merge(:id=>"#{lov_field_id}_label"))
+
+    link_click_action = %Q(javascript:openLookup('#{url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
+
+    lov_link_str = link_to({},{:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
+      content_tag(:img,"",{:src=>theme_image_path("s.gif"),:class=>"lookupIcon",:onblur=>"this.className = 'lookupIcon';",:onfocus=>"this.className = 'lookupIconOn';",:onmouseout=>"this.className = 'lookupIcon';",:onmouseover=>"this.className = 'lookupIconOn';"}).html_safe
+    end
+    (hidden_tag_str+label_tag_str+lov_link_str).html_safe
   end
 
   private
@@ -46,6 +74,11 @@ module Irm::ListOfValuesHelper
 
     script = autocomplete("#{input_node_id}Label",url_for(:controller=>"irm/list_of_values",:action=>"get_lov_data",:id=>lov.id),columns)
     (hidden_tag_str+label_tag_str+script).html_safe
+  end
+
+
+  def lookup_pick_link(field_id,value,label,data)
+    link_to(label,{},{:href=>"javascript:top.window.opener.lookupPick('#{field_id}','#{value}','#{label}',#{data.to_json})"})
   end
 
 end

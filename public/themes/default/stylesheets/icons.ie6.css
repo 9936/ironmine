@@ -387,3 +387,19 @@ body .infoIcon {
     height: 15px;
 }
 body .infoIcon:hover{background-position: left -19px;}
+
+img.lookupIcon {
+    background-image: url("../images/lookup20.gif");
+    background-position: left top;
+    height: 20px;
+    width: 20px;
+    vertical-align: middle;
+}
+
+img.lookupIconOn {
+    background-image: url("../images/lookup20.gif");
+    background-position: right top;
+    height: 20px;
+    width: 20px;
+    vertical-align: middle;
+}

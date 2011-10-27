@@ -1,0 +1,24 @@
+<body style="padding:5px;">
+  <form action="<%=url_for(:action=>"lov_result")%>" id="theForm" method="GET" name="theForm"  target="resultsFrame">
+    <%= hidden_params_field(:lkfm) %>
+    <%= hidden_params_field(:lkfid) %>
+    <%= hidden_params_field(:lkvfid) %>
+    <div class="lookup">
+      <div class="bPageTitle">
+        <div class="ptBody secondaryPalette">
+          <div class="content">
+            <img src="/s.gif" alt="" class="pageTitleIcon" title="">
+            <h1>查找</h1>
+          </div>
+        </div>
+    </div>
+    <div class="pBody">
+      <label for="lksrch">搜索</label>
+      <input id="lksrch" maxlength="80" name="lksrch" size="20" value="<%=params[:lksrch]%>" type="text">
+      <input value=" 转至！ " class="btn" name="go" title="转至！" type="submit">
+      <div class="bDescription">可使用"%"作为通配符跟在其它字符后面以提高搜索效率。</div>
+    </div>
+    </div>
+  </form>
+</body>
+

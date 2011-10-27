@@ -137,11 +137,11 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   # 取得业务对像label字段
   def self.get_label_attribute(business_object_id)
-    label_attribute = self.where(:label_flag=>Irm::Constant::SYS_YES,:business_object_id=>business_object_id).first
+    label_attribute = self.multilingual.where(:label_flag=>Irm::Constant::SYS_YES,:business_object_id=>business_object_id).first
     if label_attribute
       return label_attribute
     else
-      return self.where(:attribute_name=>"id",:business_object_id=>business_object_id).first||self.where(:business_object_id=>business_object_id).first
+      return self.multilingual.where(:attribute_name=>"id",:business_object_id=>business_object_id).first||self.where(:business_object_id=>business_object_id).first
     end
   end
 

@@ -45,7 +45,7 @@ class Irm::BusinessObject < ActiveRecord::Base
     join_table_names = []
     self.object_attributes.each do |soa|
       # filter column or need to return column
-      if(soa.filter_flag.eql?(Irm::Constant::SYS_YES)||oas.include?(soa.attribute_name.to_sym))
+      if((soa.filter_flag.eql?(Irm::Constant::SYS_YES)&&!mini_column)||oas.include?(soa.attribute_name.to_sym))
         select_attributes << soa
         join_table_names << soa.relation_table_alias if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(soa.category)
       end
@@ -107,6 +107,44 @@ class Irm::BusinessObject < ActiveRecord::Base
 
   def approval_attributes
     self.object_attributes.multilingual.enabled.where(:approve_flag=>Irm::Constant::SYS_YES)
+  end
+
+
+  def lookup_label_value(value,lov_value_field)
+    label_attribute = Irm::ObjectAttribute.get_label_attribute(self.id)
+    current_record = eval(generate_query_by_attributes([label_attribute.attribute_name.to_sym],true,true)).where(lov_value_field.to_sym=>value).first
+    if current_record
+      return current_record[label_attribute.attribute_name.to_sym]
+    else
+      return ""
+    end
+  end
+
+  def lookup_value(label_value,lov_value_field)
+    label_attribute = Irm::ObjectAttribute.get_label_attribute(self.id)
+    current_record = eval(generate_query_by_attributes([label_attribute.attribute_name.to_sym,lov_value_field.to_sym],true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","%#{label_value}%").first
+    if current_record.present?
+      return [current_record[lov_value_field],current_record[label_attribute.attribute_name.to_sym]]
+    else
+      return ["",""]
+    end
+  end
+
+  def lookup(search,lov_value_field)
+    columns = Irm::SearchLayoutColumn.lookup_columns(self.id)
+    label_attribute = Irm::ObjectAttribute.get_label_attribute(self.id)
+    fields = [{:value_field=>true,:key=>lov_value_field.to_sym,:hidden=>true,:name=>lov_value_field,:data_type=>"varchar",:data_length=>"30"}]
+    fields << {:label=>true,:key=>label_attribute[:attribute_name],:name=>label_attribute[:name],:data_type=>label_attribute[:data_type],:data_length=>label_attribute[:data_length]}
+    if columns.any?
+      columns.each do |column|
+        next if column[:attribute_name].eql?(label_attribute[:attribute_name])
+        fields << {:key=>column[:attribute_name],:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+      end
+    end
+
+    datas = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","#{search}")
+
+    return [fields,datas]
   end
 
 
@@ -209,7 +247,6 @@ class Irm::BusinessObject < ActiveRecord::Base
   end
 
 
-
   # 业务对像中的公用类方法
   def self.attribute_of(bo,attribute_name)
     value = nil
@@ -265,4 +302,5 @@ class Irm::BusinessObject < ActiveRecord::Base
   def self.class_name_to_meaning(class_name)
     I18n.t("label_"+class_name.underscore.gsub("/","_"))
   end
+
 end
