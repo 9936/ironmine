@@ -63,7 +63,7 @@ class Irm::PeopleController < ApplicationController
           format.html {redirect_to(params[:return_url])}
           format.xml { head :ok}
         else
-          format.html { redirect_to({:action=>"index"},:notice => (t :successfully_updated)) }
+          format.html { redirect_to({:action=>"edit"},:notice => (t :successfully_updated)) }
           format.xml  { head :ok }
         end
       else
