@@ -10,8 +10,7 @@ class Irm::Bulletin < ActiveRecord::Base
   attr_accessor :column_ids,:access_str
 
   searchable :auto_index => true, :auto_remove => true do
-    text :content
-    text :title
+    text :content, :title
     string :summary
   end
 

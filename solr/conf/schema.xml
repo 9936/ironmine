@@ -66,6 +66,9 @@
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldType>
+    <!--<fieldType name="text" class="solr.TextField">-->
+      <!--<analyzer class="org.wltea.analyzer.lucene.IKAnalyzer"/>-->
+    <!--</fieldType>-->
     <!-- *** This fieldType is used by Sunspot! *** -->
     <fieldType name="boolean" class="solr.BoolField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->

@@ -2,7 +2,7 @@ Irm::AccessControl.map do |map|
   #============= 系统主页==============================
   # 主页
   map.function :home_page,{"irm/home"=>[:index], "irm/calendars" => ["get_full_calendar"]}
-  map.function :public_function,{"irm/demo" => [:index],
+  map.function :public_function,{"irm/demo" => [:index, :get_data],
                                  "irm/common"=>[:login, :forgot_password,:edit_password,:update_password],
                                  "irm/navigations" => ["access_deny", "combo"],
                                  "irm/attach_screenshot" => ["index"]}
