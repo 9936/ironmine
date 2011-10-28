@@ -9,7 +9,7 @@ module Irm::SystemParametersManager
     end
 
     def address_bar_logo
-      system_params[:address_bar_logo] || "/images/logos/mini-logo.png"
+      system_params[:address_bar_logo] || "/favicon.ico"
     end
 
     def application_title
