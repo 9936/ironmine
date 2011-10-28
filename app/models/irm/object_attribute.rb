@@ -135,6 +135,13 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     self.business_object.bo_table_name
   end
 
+  def self.get_ref_bo_table_name(bo_id,attribute_name)
+    object_attribute = self.where(:business_object_id=>bo_id,:attribute_name=>attribute_name).first
+    if object_attribute.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(object_attribute.category)
+      return object_attribute.relation_table_alias
+    end
+  end
+
   # 取得业务对像label字段
   def self.get_label_attribute(business_object_id)
     label_attribute = self.multilingual.where(:label_flag=>Irm::Constant::SYS_YES,:business_object_id=>business_object_id).first

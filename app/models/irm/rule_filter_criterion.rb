@@ -5,7 +5,8 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
                :varchar=>['BW','EW','U','X'],
                :text=>['BW','EW','U','X'],
                :datetime=>['IN'],
-               :int=>[]
+               :int=>[],
+               :lov=>['E','N']
               }.freeze
 
   belongs_to :rule_filter
@@ -51,7 +52,7 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
 
   def ref_object_attribute
     if self.bo_code.present?
-      return Irm::ObjectAttribute.where(:business_object_code=>self.bo_code,:attribute_name=>self.attribute_name).first
+      return Irm::ObjectAttribute.query_by_business_object_code(self.bo_code).where(:attribute_name=>self.attribute_name).first
     else
       return self.rule_filter.business_object.object_attributes.detect{|oa| oa.attribute_name.eql?(self.attribute_name)}
     end

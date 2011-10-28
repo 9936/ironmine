@@ -27,8 +27,6 @@ class Irm::BusinessObject < ActiveRecord::Base
     query_str = {:select=>[],:joins=>[],:where=>[],:order=>[]}
     query_str[:select]<< "#{self.bo_table_name}.*"
     self.object_attributes.where("category in (?)",["LOOKUP_RELATION","MASTER_DETAIL_RELATION"]).each do |oa|
-      label_attribute = Irm::ObjectAttribute.get_label_attribute(oa.relation_bo_id)
-      query_str[:select]<<"#{oa.relation_table_alias}.#{label_attribute.attribute_name} #{oa.attribute_name}_label"
       join_object_attribute(query_str,oa)
     end
 
@@ -112,7 +110,7 @@ class Irm::BusinessObject < ActiveRecord::Base
 
   def lookup_label_value(value,lov_value_field)
     label_attribute = Irm::ObjectAttribute.get_label_attribute(self.id)
-    current_record = eval(generate_query_by_attributes([label_attribute.attribute_name.to_sym],true,true)).where(lov_value_field.to_sym=>value).first
+    current_record = eval(generate_query_by_attributes([label_attribute.attribute_name.to_sym],true,true)).where("#{self.bo_table_name}.#{lov_value_field} = ?",value).first
     if current_record
       return current_record[label_attribute.attribute_name.to_sym]
     else
@@ -138,11 +136,16 @@ class Irm::BusinessObject < ActiveRecord::Base
     if columns.any?
       columns.each do |column|
         next if column[:attribute_name].eql?(label_attribute[:attribute_name])
-        fields << {:key=>column[:attribute_name],:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+        if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(column[:category])
+          fields << {:hidden=>true,:key=>column[:attribute_name],:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+          fields << {:key=>"#{column[:attribute_name]}_label",:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+        else
+          fields << {:key=>column[:attribute_name],:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+        end
       end
     end
 
-    datas = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","#{search}")
+    datas = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","#{search}").limit(15)
 
     return [fields,datas]
   end
@@ -163,6 +166,10 @@ class Irm::BusinessObject < ActiveRecord::Base
       relation_bo = self.class.find(join_attribute.relation_bo_id)
       relation_attribute = Irm::ObjectAttribute.query(join_attribute.relation_object_attribute_id).first
       return unless relation_attribute
+
+      label_attribute = Irm::ObjectAttribute.get_label_attribute(join_attribute.relation_bo_id)
+      query_str[:select]<<"#{join_attribute.relation_table_alias}.#{label_attribute.attribute_name} #{join_attribute.attribute_name}_label"
+
       where_clause_str = join_attribute.relation_where_clause||""
 
       # parse params in where clause

@@ -32,7 +32,7 @@
             <tr>
               <td class="labelCol"><label for="search_layout_code"><%=t(:label_irm_search_layout_code)%></label></td>
               <td class="dataCol"><%=f.blank_select :code,available_business_object_search_layout_types,{}, :required=>true ,:id=>"search_layout_code"%></td>
-              <td class="labelCol empty">&nbsp;<%= lov_field_tag(:hello,Irm::LookupType,:label_value=>"d") %></td>
+              <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;<%= f.hidden_field(:business_object_id,:value=>params[:bo_id])%></td>
             </tr>
             <tr>

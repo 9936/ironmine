@@ -214,7 +214,12 @@ function closePopup() {
 function lookupPick(fieldId,value,valueLabel,data){
     $("#"+fieldId).val(value);
     $("#"+fieldId+"_label").val(valueLabel);
+    $("#"+fieldId).trigger("change");
     closePopup();
+}
+
+function clearLookup(fieldId){
+  $("#"+fieldId).val("");
 }
 
 //END========================LOOKUP lov 帮助函数========================================

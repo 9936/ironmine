@@ -33,7 +33,7 @@ class Irm::RuleFilter < ActiveRecord::Base
   }
 
   def where_clause
-    where_conditon = self.condition_clause.dup
+    where_conditon = generate_condition
     params = where_conditon.scan(/\{\{\S*\}\}/)
     param_values = []
     params.each do |p|

@@ -1,32 +1,40 @@
 module Irm::ListOfValuesHelper
   def lov_field_tag(name,lov_code,options={})
     lov_field_id =  options.delete(:id)||name
+    bo = nil
 
-    lov_type = lov_code
-    if lov_type.is_a?(Class)&&(lov_type.respond_to?(:name))
-      lov_type = lov_type.name
+    # 使用业务对像的id作为lov_code
+    if options.delete(:id_type)
+      bo = Irm::BusinessObject.find(lov_code)
+    else
+      lov_type = lov_code
+      if lov_type.is_a?(Class)&&(lov_type.respond_to?(:name))
+        lov_type = lov_type.name
+      end
+      bo = Irm::BusinessObject.where(:bo_model_name=>lov_type).first
     end
 
-
-
+    # lov 返回的值字段
     lov_value_field = options.delete(:value_field)||"id"
 
+    # lov 的值
     value = options.delete(:value)
 
+    # lov的显示值
     label_value = options.delete(:label_value)
 
-    bo = Irm::BusinessObject.where(:bo_model_name=>lov_type).first
-
+    # 补全显示值
     if value.present?&&!label_value.present?
       label_value = bo.lookup_label_value(value,lov_value_field)
     end
 
+    # 补全值
     if !value.present?&&label_value.present?
       value,label_value = bo.lookup_value(label_value,lov_value_field)
     end
 
     hidden_tag_str = hidden_field_tag(name,value,{:id=>lov_field_id})
-    label_tag_str = text_field_tag("#{name}_label",label_value,options.merge(:id=>"#{lov_field_id}_label"))
+    label_tag_str = text_field_tag("#{name}_label",label_value,options.merge(:id=>"#{lov_field_id}_label",:onchange=>"clearLookup('#{lov_field_id}')"))
 
     link_click_action = %Q(javascript:openLookup('#{url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
 
