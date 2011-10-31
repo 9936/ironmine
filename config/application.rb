@@ -54,7 +54,8 @@ module Ironmine
         :jplugin => %w(jquery-plugin),
         :extjs=>%w(ext4-all ext-extend ext-application locales/ext-{locale}),
         :survey=>%w(survey),
-        :datepicker=>%w(jquery-bigiframe jquery-datepicker locales/jquery-datepicker-{locale} jquery-datepicker-date)
+        :datepicker=>%w(jquery-bigiframe jquery-datepicker locales/jquery-datepicker-{locale} jquery-datepicker-date),
+        :waypoints => %w(jquery-waypoints)
     }
     config.ironmine.css.source = {
         :default =>%w(base button container form header icons layout other public sidebar table jmask),

@@ -105,6 +105,8 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
     border-bottom:1px solid #ececec;
 }
 
+.setupTab .edit-block tr td{border-bottom-width: 0!important;}
+
 .lay-full .detail-block.page-block .detailList tr td,
 .lay-full .detail-block.page-block .detailList tr th{
     border-bottom-width:0;
