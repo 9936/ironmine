@@ -12,7 +12,9 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   acts_as_multilingual({:required=>[]})
 
   #删除关联字段的同时,删除别名字段
-  has_many :object_attributes,:foreign_key => :relation_alias_ref_id,:dependent => :destroy
+  #has_many :object_attributes,:foreign_key => :relation_alias_ref_id,:dependent => :destroy
+
+  has_many :search_layout_columns ,:dependent => :destroy
 
   #  验证基础字段
   validates_presence_of :attribute_name,:if=>Proc.new{|i| i.check_step(2)}
@@ -58,7 +60,8 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   }
 
   scope :query_by_business_object_code,lambda{|business_object_code|
-    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.id = #{table_name}.business_object_id AND #{Irm::BusinessObject.table_name}.business_object_code = '#{business_object_code}'")
+    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.id = #{table_name}.business_object_id AND #{Irm::BusinessObject.table_name}.business_object_code = '#{business_object_code}'").
+        select("#{Irm::BusinessObject.table_name}.business_object_code")
   }
 
   scope :query_by_business_object,lambda{|business_object_id|

@@ -1,6 +1,6 @@
 module Irm::WfApprovalProcessesHelper
   def available_next_approver_mode
-    object_attributes = Irm::ObjectAttribute.person_column.enabled.multilingual.where(:business_object_code=>"IRM_PEOPLE")
+    object_attributes = Irm::ObjectAttribute.person_column.enabled.multilingual.query_by_business_object_code("IRM_PEOPLE")
     object_attributes.collect{|i|[i[:name],i.attribute_name]}
   end
 
@@ -29,7 +29,7 @@ module Irm::WfApprovalProcessesHelper
     values +=Irm::Person.real.collect{|p| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Person.name)}:#{p.full_name}","PERSON##{p.id}",{:type=>"PERSON",:query=>p.full_name}]}
     values +=Irm::Role.multilingual.enabled.collect{|r| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Role.name)}:#{r[:name]}","ROLE##{r.id}",{:type=>"ROLE",:query=>r[:name]}]}
     if bo_code
-      values += Irm::ObjectAttribute.person_column.enabled.multilingual.where(:business_object_code=>bo_code).collect{|o| ["#{t(:label_related_person)}:#{o[:name]}","RELATED_PERSON##{o.attribute_name}",{:type=>"RELATED_PERSON",:query=>o[:name]}]}
+      values += Irm::ObjectAttribute.person_column.enabled.multilingual.query_by_business_object_code(bo_code).collect{|o| ["#{t(:label_related_person)}:#{o[:name]}","RELATED_PERSON##{o.attribute_name}",{:type=>"RELATED_PERSON",:query=>o[:name]}]}
     end
     values
   end
@@ -43,7 +43,7 @@ module Irm::WfApprovalProcessesHelper
     values = duel_values(exclude)
     if bo_code
       type_code = Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name)
-      values += Irm::ObjectAttribute.person_column.enabled.multilingual.where(:business_object_code=>bo_code).collect{|o| ["#{t(:label_related_person)}:#{o[:name]}","#{type_code}##{o.attribute_name}",{:type=>type_code,:query=>o[:name]}]}
+      values += Irm::ObjectAttribute.person_column.enabled.multilingual.query_by_business_object_code(bo_code).collect{|o| ["#{t(:label_related_person)}:#{o[:name]}","#{type_code}##{o.attribute_name}",{:type=>type_code,:query=>o[:name]}]}
     end
     values
   end

@@ -251,7 +251,7 @@ class Irm::LdapSynHeader < ActiveRecord::Base
   def create_syn_attribute
     Irm::LdapSynAttribute::SYN_ATTRS.each do |key,value|
       value[:attrs].each do |attr|
-        bo_attr = Irm::ObjectAttribute.multilingual.where(:business_object_code=>value[:bo_code],:attribute_name=>attr.to_s).first
+        bo_attr = Irm::ObjectAttribute.multilingual.query_by_business_object_code(value[:bo_code]).where(:attribute_name=>attr.to_s).first
         self.ldap_syn_attributes.create(:object_type=>value[:bo_code],
                                         :ldap_attr_type=>"LDAP",
                                         :local_attr=>attr.to_s,

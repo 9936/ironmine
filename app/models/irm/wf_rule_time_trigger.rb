@@ -34,7 +34,7 @@ class Irm::WfRuleTimeTrigger < ActiveRecord::Base
     unless self.trigger_data_object.eql?("wf_rule_trigger_datetime")
       bo_code = self[:bo_code]
       bo_code ||= self.wf_rule.bo_code
-      attribute_name = Irm::ObjectAttribute.multilingual.where(:business_object_code=>bo_code,:attribute_name=>self.trigger_data_object).first[:name]
+      attribute_name = Irm::ObjectAttribute.multilingual.query_by_business_object_code(bo_code).where(:attribute_name=>self.trigger_data_object).first[:name]
     end
     message = "#{self.time_lead} #{self[:time_unit_name]} #{self[:trigger_mode_name]} #{attribute_name}"
   end

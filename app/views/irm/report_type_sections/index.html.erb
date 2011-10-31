@@ -1,6 +1,6 @@
-<script type="text/javascript" src="/javascripts/ext4-all.js"></script>
-<link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/ext4-all.css"></link>
 
+<% require_javascript(:extjs) %>
+<% require_css(:extjs) %>
 <%= page_title %>
 <%= form_for(@report_type,:url=>{:action=>"update",:format=>:js},:html=>{:id=>"editFields"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:relationship_str,:id=>"relationship_str",:value=>@report_type.relationship_str||@report_type.relationship_to_s) %>

@@ -137,9 +137,23 @@
 
 <script type="text/javascript">
   $(function(){
+      var refreshFilter = function(container,e) {
+          var con = $("#"+container);
+          var currentTarget  = $(e.currentTarget);
+          var seq_num = currentTarget.attr("ref");
+          var attribute_id = $(e.target).val();
+          var refreshNode = $("#filter"+seq_num);
+
+
+          var url = decodeURIComponent(con.attr("href"));
+          url = url.replace("{seq_num}",seq_num);
+          url = url.replace("{field_id}",attribute_id);
+          refreshNode.load(url);
+
+      };
       $("#filterContent .filterColumnSelect").live("change",function(event){
           rawConditionClause("rawConditionClause",event);
-          refreshFilterOptions("filterContent",event);
+          refreshFilter("filterContent",event);
       });
   });
 </script>

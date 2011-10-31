@@ -11,7 +11,7 @@ class Irm::ReportTypeField < ActiveRecord::Base
 
   scope :with_business_attribute,lambda{
     joins("JOIN #{Irm::ObjectAttribute.table_name} ON #{Irm::ObjectAttribute.table_name}.id = #{table_name}.object_attribute_id").
-    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::ObjectAttribute.table_name}.business_object_code = #{Irm::BusinessObject.table_name}.business_object_code")
+    joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::ObjectAttribute.table_name}.business_object_id = #{Irm::BusinessObject.table_name}.business_object_id")
   }
   scope :query_by_report_type,lambda{|report_type_id|
     joins("JOIN #{Irm::ReportTypeSection.table_name} ON #{Irm::ReportTypeSection.table_name}.id = #{table_name}.section_id").
@@ -24,7 +24,7 @@ class Irm::ReportTypeField < ActiveRecord::Base
 
   scope :with_bo_object_attribute,lambda{|language|
     joins("JOIN #{Irm::ObjectAttribute.view_name} ON #{Irm::ObjectAttribute.view_name}.id = #{table_name}.object_attribute_id AND #{Irm::ObjectAttribute.view_name}.language='#{language}'").
-    joins("JOIN #{Irm::BusinessObject.view_name} ON #{Irm::ObjectAttribute.view_name}.business_object_code = #{Irm::BusinessObject.view_name}.business_object_code AND #{Irm::BusinessObject.view_name}.language='#{language}'").
+    joins("JOIN #{Irm::BusinessObject.view_name} ON #{Irm::ObjectAttribute.view_name}.business_object_id = #{Irm::BusinessObject.view_name}.id AND #{Irm::BusinessObject.view_name}.language='#{language}'").
     select("#{Irm::BusinessObject.view_name}.id business_object_id,#{Irm::BusinessObject.view_name}.name business_object_name,#{Irm::ObjectAttribute.view_name}.attribute_name,#{Irm::ObjectAttribute.view_name}.name object_attribute_name,#{Irm::ObjectAttribute.view_name}.data_type")
   }
 

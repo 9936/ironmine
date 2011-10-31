@@ -15,7 +15,7 @@ module Irm::WfRuleTimeTriggersHelper
     bo_code = Irm::WfRule.find(rule_id).bo_code
     date_attributes = [[t(:label_irm_wf_rule_trigger_datetime),"wf_rule_trigger_datetime"]]
 
-    date_attributes +=  Irm::ObjectAttribute.multilingual.where(:business_object_code=>bo_code,:data_type=>"datetime").collect{|i| [i[:name],i.attribute_name]}
+    date_attributes +=  Irm::ObjectAttribute.multilingual.query_by_business_object_code(bo_code).where(:data_type=>"datetime").collect{|i| [i[:name],i.attribute_name]}
 
   end
 end

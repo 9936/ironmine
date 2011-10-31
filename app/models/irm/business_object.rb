@@ -19,7 +19,7 @@ class Irm::BusinessObject < ActiveRecord::Base
   query_extend
 
 
-  scope :query_detail,lambda{|bo_id| where("EXISTS(SELECT 1 FROM #{Irm::ObjectAttribute.table_name},#{table_name} relation_bo WHERE relation_bo.business_object_code = #{Irm::ObjectAttribute.table_name}.relation_bo_code AND relation_bo.id =? AND #{Irm::ObjectAttribute.table_name}.business_object_code = #{table_name}.business_object_code AND #{Irm::ObjectAttribute.table_name}.attribute_type = ?)",bo_id,"MASTER_DETAIL_COLUMN")}
+  scope :query_detail,lambda{|bo_id| where("EXISTS(SELECT 1 FROM #{Irm::ObjectAttribute.table_name} WHERE  #{Irm::ObjectAttribute.table_name}.business_object_id = #{table_name}.id AND #{Irm::ObjectAttribute.table_name}.relation_bo_id =? AND #{Irm::ObjectAttribute.table_name}.category = ?)",bo_id,"MASTER_DETAIL_RELATION")}
 
 
   # generate business object

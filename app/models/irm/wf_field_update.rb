@@ -21,8 +21,9 @@ class Irm::WfFieldUpdate < ActiveRecord::Base
   }
 
   scope :with_object_attribute,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::ObjectAttribute.view_name} oa ON oa.business_object_code = #{table_name}.bo_code AND oa.attribute_name = #{table_name}.object_attribute AND oa.language='#{language}'").
-    select("oa.name object_attribute_name")
+    joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} bo ON bo.business_object_code = #{table_name}.bo_code and bo.language='#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::ObjectAttribute.view_name} oa ON oa.business_object_id = #{Irm::BusinessObject.view_name}.id AND oa.attribute_name = #{table_name}.object_attribute AND oa.language='#{language}'").
+    select("oa.name object_attribute_name,bo.name bo_name")
   }
 
   scope :with_value_type,lambda{|language|
@@ -32,7 +33,7 @@ class Irm::WfFieldUpdate < ActiveRecord::Base
 
 
   def self.list_all
-    select("#{table_name}.*").with_bo(I18n.locale).with_object_attribute(I18n.locale).with_value_type(I18n.locale)
+    select("#{table_name}.*").with_object_attribute(I18n.locale).with_value_type(I18n.locale)
   end
 
 
@@ -50,7 +51,7 @@ class Irm::WfFieldUpdate < ActiveRecord::Base
 
   private
   def validate_value
-    object_attribute = Irm::ObjectAttribute.where(:business_object_code=>self.bo_code,:attribute_name=>self.object_attribute).first
+    object_attribute = Irm::ObjectAttribute.query_by_business_object_code(self.bo_code).where(:attribute_name=>self.object_attribute).first
     if("FORMULA_VALUE".eql?(self.value_type))
       message,formula_value = Irm::FormulaContext.new.validate(value,object_attribute.data_type)
       if(message.present?||(Irm::Constant::SYS_NO.eql?(object_attribute.nullable_flag)&&!value.present?))
@@ -61,7 +62,7 @@ class Irm::WfFieldUpdate < ActiveRecord::Base
   end
 
   def formula_value
-    object_attribute = Irm::ObjectAttribute.where(:business_object_code=>self.bo_code,:attribute_name=>self.object_attribute).first
+    object_attribute = Irm::ObjectAttribute.query_by_business_object_code(self.bo_code).where(:attribute_name=>self.object_attribute).first
     message,formula_value = Irm::FormulaContext.new.validate(value,object_attribute.data_type)
     if(message.present?||(Irm::Constant::SYS_NO.eql?(object_attribute.nullable_flag)&&!value.present?))
       raise(ArgumentError, "Formula value error: #{message} value: #{formula_value}")

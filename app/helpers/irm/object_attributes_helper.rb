@@ -24,7 +24,7 @@ module Irm::ObjectAttributesHelper
   def available_relationable_object_attribute(business_object_code=nil)
     object_attributes =[]
     if business_object_code
-      object_attributes = Irm::ObjectAttribute.table_column.query_by_status_code("ENABLED").multilingual.where(:business_object_code=>business_object_code)
+      object_attributes = Irm::ObjectAttribute.table_column.query_by_status_code("ENABLED").multilingual.query_by_business_object_code(business_object_code)
     end
     object_attributes.collect{|i|[i.attribute_name,i.attribute_name,{:attribute_name=>i.attribute_name}]}
   end
@@ -33,7 +33,7 @@ module Irm::ObjectAttributesHelper
   def available_selectable_object_attribute(business_object_code=nil)
     object_attributes =[]
     if business_object_code
-      object_attributes = Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.where(:business_object_code=>business_object_code)
+      object_attributes = Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.query_by_business_object_code(business_object_code)
     end
     object_attributes.collect{|i|[i.attribute_name,i.attribute_name,{:attribute_name=>i.attribute_name}]}
   end
@@ -42,7 +42,7 @@ module Irm::ObjectAttributesHelper
   def available_updatedable_object_attribute(business_object_code=nil)
     object_attributes =[]
     if business_object_code
-      object_attributes = Irm::ObjectAttribute.updateable_column.enabled.multilingual.where(:business_object_code=>business_object_code)
+      object_attributes = Irm::ObjectAttribute.updateable_column.enabled.multilingual.query_by_business_object_code(business_object_code)
     end
     object_attributes.collect{|i|[i.attribute_name,i.attribute_name,{:attribute_name=>i.attribute_name}]}
   end

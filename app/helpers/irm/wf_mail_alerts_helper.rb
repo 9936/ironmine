@@ -6,7 +6,7 @@ module Irm::WfMailAlertsHelper
   def available_bo_person_attribute(business_object_code=nil)
     object_attributes =[]
     if business_object_code
-      object_attributes = Irm::ObjectAttribute.person_column.enabled.multilingual.where(:business_object_code=>business_object_code)
+      object_attributes = Irm::ObjectAttribute.person_column.enabled.multilingual.query_by_business_object_code(business_object_code)
     end
     object_attributes.collect{|i|[i[:name],i.attribute_name]}
   end

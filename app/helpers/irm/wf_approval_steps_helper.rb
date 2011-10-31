@@ -15,7 +15,7 @@ module Irm::WfApprovalStepsHelper
     values +=Irm::Person.real.collect{|p| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Person.name)}:#{p.full_name}","PERSON##{p.id}",{:type=>"PERSON",:query=>p.full_name}]}
     values +=Irm::Role.multilingual.enabled.collect{|r| ["#{Irm::BusinessObject.class_name_to_meaning(Irm::Role.name)}:#{r[:name]}","ROLE##{r.id}",{:type=>"ROLE",:query=>r[:name]}]}
     if bo_code
-      values += Irm::ObjectAttribute.person_column.enabled.multilingual.where(:business_object_code=>bo_code).collect{|o| ["#{t(:label_related_person)}:#{o[:name]}","RELATED_PERSON##{o.attribute_name}",{:type=>"RELATED_PERSON",:query=>o[:name]}]}
+      values += Irm::ObjectAttribute.person_column.enabled.multilingual.query_by_business_object_code(bo_code).collect{|o| ["#{t(:label_related_person)}:#{o[:name]}","RELATED_PERSON##{o.attribute_name}",{:type=>"RELATED_PERSON",:query=>o[:name]}]}
     end
     values
   end
@@ -38,7 +38,7 @@ module Irm::WfApprovalStepsHelper
         when "SELECT_BY_SUMBITTER"
           return step[:approver_mode_name]
         when "PROCESS_DEFAULT"
-          oa = Irm::ObjectAttribute.multilingual.where(:business_object_code=>"IRM_PEOPLE",:attribute_name=>Irm::WfApprovalProcess.query_by_step(step.id).first.next_approver_mode).first
+          oa = Irm::ObjectAttribute.multilingual.query_by_business_object_code("IRM_PEOPLE").where(:attribute_name=>Irm::WfApprovalProcess.query_by_step(step.id).first.next_approver_mode).first
           approver_name = oa[:name] if oa
         when "AUTO_APPROVER"
           meaning = duel_meaning(step.get_approver_str,bo_duel_value)

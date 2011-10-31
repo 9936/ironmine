@@ -127,17 +127,19 @@ class Irm::ReportType < ActiveRecord::Base
       if(index == 0)
         query_str[:from]<< "(#{eval(bo.generate_query(true)).to_sql}) #{table_names[index]}"
       else
-        relation_attribute = Irm::ObjectAttribute.where(:relation_bo_code=>report_type_objects[index-1].business_object.business_object_code,
-                                                        :business_object_code=>bo.business_object_code,:attribute_type=>"MASTER_DETAIL_COLUMN").first
+        relation_attribute = Irm::ObjectAttribute.where(:relation_bo_id=>report_type_objects[index-1].business_object.business_object_id,
+                                                        :business_object_id=>bo.id,:category=>"MASTER_DETAIL_RELATION").first
+
+        clause_attribute = Irm::ObjectAttribute.where(:id=>relation_attribute.relation_object_attribute_id).first
         join_str = ""
-        if(relation_attribute)
+        if(relation_attribute&&clause_attribute)
           case rto.relationship_type
             when "inner"
               join_str << "JOIN "
             when "outer"
               join_str << "LEFT OUTER JOIN "
           end
-          join_str << "(#{eval(bo.generate_query(true)).to_sql}) #{table_names[index]} ON #{table_names[index-1]}.#{relation_attribute.relation_column}=#{table_names[index]}.#{relation_attribute.attribute_name}"
+          join_str << "(#{eval(bo.generate_query(true)).to_sql}) #{table_names[index]} ON #{table_names[index-1]}.#{clause_attribute.attribute_name}=#{table_names[index]}.#{relation_attribute.attribute_name}"
           query_str[:joins] << join_str
         else
           break
