@@ -121,15 +121,17 @@
                     <% end %>
               </div>
               <div class="button-group">
-                    <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
-                      <div class="gray-button"><%= link_to t(:close), {:action => "edit_close"}%></div>
-                    <% end %>
-                    <div class="gray-button"><%= link_to t(:edit), {:controller=>"icm/incident_requests",:action => "edit", :id => @incident_request.id}%></div>
-                  <%end%>
-                  <% if @incident_request[:skm_flag]==0 %>
-                    <div class="gray-button"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
-                  <% end %>
+                <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
+                  <div class="gray-button"><%= link_to t(:close), {:action => "edit_close"}%></div>
+                <% end %>
+                <div class="gray-button"><%= link_to t(:edit), {:controller=>"icm/incident_requests",:action => "edit", :id => @incident_request.id}%></div>
+              <%end%>
               </div>
+              <% if @incident_request[:skm_flag]==0 %>
+                <div class="button-group">
+                    <div class="gray-button"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
+                </div>
+              <% end %>
           </td>
         </tr>
       </tbody>
