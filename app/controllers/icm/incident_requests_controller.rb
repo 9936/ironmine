@@ -434,12 +434,11 @@ class Icm::IncidentRequestsController < ApplicationController
     if incident_request.report_source_code.nil?||incident_request.report_source_code.blank?
       incident_request.report_source_code = "CUSTOMER_SUBMIT"
     end
-    if incident_request.contact_id.nil?||incident_request.contact_id.blank?
+    if incident_request.contact_id.present?
       incident_request.contact_id = incident_request.requested_by
-
     end
 
-    unless incident_request.contact_number.present?
+    if !incident_request.contact_number.present?&&incident_request.contact_id.present?
       incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
     end
 

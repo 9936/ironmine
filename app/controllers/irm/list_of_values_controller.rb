@@ -184,6 +184,30 @@ class Irm::ListOfValuesController < ApplicationController
   end
 
   def lov_value
+    business_object = Irm::BusinessObject.find(params[:lktp])
+    label_value = params[:lklblval]
+    value = params[:lkval]
+    data = {}
+    # 补全显示值
+    if value.present?&&!label_value.present?
+      value,label_value,data = business_object.lookup_label_value(value,params[:lkvfid])
+      data = data.attributes
+    end
 
+    # 补全值
+    if !value.present?&&label_value.present?
+      value,label_value,data = business_object.lookup_value(label_value,params[:lkvfid])
+      data = data.attributes
+    end
+
+    unless value.present?&&label_value.present?
+      value = ""
+      label_value = ""
+    end
+
+    respond_to do |format|
+      format.json {render :json=>{:value=>value,:label_value=>label_value,:data=>data}.to_json}
+    end
   end
+
 end

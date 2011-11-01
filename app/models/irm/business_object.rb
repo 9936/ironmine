@@ -109,23 +109,58 @@ class Irm::BusinessObject < ActiveRecord::Base
 
 
   def lookup_label_value(value,lov_value_field)
+    columns = Irm::SearchLayoutColumn.lookup_columns(self.id)
     label_attribute = Irm::ObjectAttribute.get_label_attribute(self.id)
-    current_record = eval(generate_query_by_attributes([label_attribute.attribute_name.to_sym],true,true)).where("#{self.bo_table_name}.#{lov_value_field} = ?",value).first
+    fields = [{:value_field=>true,:key=>lov_value_field.to_sym,:hidden=>true,:name=>lov_value_field,:data_type=>"varchar",:data_length=>"30"}]
+    fields << {:label=>true,:key=>label_attribute[:attribute_name],:name=>label_attribute[:name],:data_type=>label_attribute[:data_type],:data_length=>label_attribute[:data_length]}
+    if columns.any?
+      columns.each do |column|
+        next if column[:attribute_name].eql?(label_attribute[:attribute_name])
+        if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(column[:category])
+          fields << {:hidden=>true,:key=>column[:attribute_name],:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+          fields << {:key=>"#{column[:attribute_name]}_label",:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+        else
+          fields << {:key=>column[:attribute_name],:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+        end
+      end
+    end
+
+
+    current_record = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{lov_value_field} = ?",value).first
+
     if current_record
-      return current_record[label_attribute.attribute_name.to_sym]
+      return [current_record[lov_value_field],current_record[label_attribute.attribute_name.to_sym],current_record]
     else
-      return ""
+      return ["","",{}]
     end
   end
 
   def lookup_value(label_value,lov_value_field)
+
+    columns = Irm::SearchLayoutColumn.lookup_columns(self.id)
     label_attribute = Irm::ObjectAttribute.get_label_attribute(self.id)
-    current_record = eval(generate_query_by_attributes([label_attribute.attribute_name.to_sym,lov_value_field.to_sym],true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","%#{label_value}%").first
-    if current_record.present?
-      return [current_record[lov_value_field],current_record[label_attribute.attribute_name.to_sym]]
-    else
-      return ["",""]
+    fields = [{:value_field=>true,:key=>lov_value_field.to_sym,:hidden=>true,:name=>lov_value_field,:data_type=>"varchar",:data_length=>"30"}]
+    fields << {:label=>true,:key=>label_attribute[:attribute_name],:name=>label_attribute[:name],:data_type=>label_attribute[:data_type],:data_length=>label_attribute[:data_length]}
+    if columns.any?
+      columns.each do |column|
+        next if column[:attribute_name].eql?(label_attribute[:attribute_name])
+        if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(column[:category])
+          fields << {:hidden=>true,:key=>column[:attribute_name],:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+          fields << {:key=>"#{column[:attribute_name]}_label",:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+        else
+          fields << {:key=>column[:attribute_name],:name=>column[:name],:data_type=>column[:data_type],:data_length=>column[:data_length]}
+        end
+      end
     end
+
+    current_record = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","%#{label_value}%").first
+
+    if current_record.present?
+      return [current_record[lov_value_field],current_record[label_attribute.attribute_name.to_sym],current_record]
+    else
+      return ["","",{}]
+    end
+
   end
 
   def lookup(search,lov_value_field)

@@ -555,6 +555,7 @@ Ironmine::Application.routes.draw do
     match '/list_of_values/:lktp/lov(.:format)' => "list_of_values#lov", :via => :get
     match '/list_of_values/:lktp/lov_search(.:format)' => "list_of_values#lov_search", :via => :get
     match '/list_of_values/:lktp/lov_result(.:format)' => "list_of_values#lov_result", :via => :get
+    match '/list_of_values/:lktp/lov_value(.:format)' => "list_of_values#lov_value", :via => :get
     # wf_settings
     match '/wf_settings(/index)(.:format)' => "wf_settings#index", :via => :get
     match '/wf_settings/edit(.:format)' => "wf_settings#edit", :via => :get

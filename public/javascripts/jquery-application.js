@@ -183,7 +183,6 @@ function openLookup(url, width) {
 
 function openPopup(url, name, positionX, positionY, frameParams) {
     closePopup();
-
     if (lastMouseX - positionX < 0) lastMouseX = positionX;
     if (lastMouseY + positionY > screen.height) lastMouseY -= lastMouseY + positionY + 50 - screen.height;
     lastMouseX -= positionX;
@@ -214,12 +213,39 @@ function closePopup() {
 function lookupPick(fieldId,value,valueLabel,data){
     $("#"+fieldId).val(value);
     $("#"+fieldId+"_label").val(valueLabel);
+    $("#"+fieldId+"_label").focus();
+    $("#"+fieldId).data("lov",data);
     $("#"+fieldId).trigger("change");
     closePopup();
 }
 
 function clearLookup(fieldId){
-  $("#"+fieldId).val("");
+    //$("#"+fieldId+"_label").val("");
+    $("#"+fieldId).val("");
+}
+
+function setLookupValue(fieldId,value){
+    var url = $("#"+fieldId).attr("href");
+    url = url.replace("lov?","lov_value?");
+    url = url+"&lkval="+value;
+    $.getJSON(url, function(data) {
+        $("#"+fieldId).val(data.value);
+        $("#"+fieldId+"_label").val(data.label_value);
+        $("#"+fieldId).data("lov",data.data);
+        $("#"+fieldId).trigger("change");
+    });
+}
+
+function setLookupLabelValue(fieldId,labelValue){
+    var url = $("#"+fieldId).attr("href");
+    url = url.replace("lov?","lov_value?")
+    url = url+"&lklblval="+labelValue;
+    $.getJSON(url, function(data) {
+        $("#"+fieldId).val(data.value);
+        $("#"+fieldId+"_label").val(data.label_value);
+        $("#"+fieldId).data("lov",data.data);
+        $("#"+fieldId).trigger("change");
+    });
 }
 
 //END========================LOOKUP lov 帮助函数========================================

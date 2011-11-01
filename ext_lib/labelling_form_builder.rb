@@ -67,7 +67,7 @@ class LabellingFormBuilder  < ActionView::Helpers::FormBuilder
 
     # 补全显示值
     if value.present?&&!label_value.present?
-      label_value = bo.lookup_label_value(value,lov_value_field)
+      value,label_value = bo.lookup_label_value(value,lov_value_field)
     end
 
     # 补全值
@@ -75,7 +75,11 @@ class LabellingFormBuilder  < ActionView::Helpers::FormBuilder
       value,label_value = bo.lookup_value(label_value,lov_value_field)
     end
 
-    hidden_tag_str = hidden_field(field,{:id=>lov_field_id})
+    unless value.present?&&label_value.present?
+      value,label_value = "",""
+    end
+
+    hidden_tag_str = hidden_field(field,{:id=>lov_field_id,:href=>@template.url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)})
     label_tag_str = @template.text_field_tag("#{field}_label",label_value,options.merge(:id=>"#{lov_field_id}_label",:onchange=>"clearLookup('#{lov_field_id}')"))
 
     link_click_action = %Q(javascript:openLookup('#{@template.url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
@@ -83,7 +87,7 @@ class LabellingFormBuilder  < ActionView::Helpers::FormBuilder
     lov_link_str = @template.link_to({},{:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
       @template.content_tag(:img,"",{:src=>@template.theme_image_path("s.gif"),:class=>"lookupIcon",:onblur=>"this.className = 'lookupIcon';",:onfocus=>"this.className = 'lookupIconOn';",:onmouseout=>"this.className = 'lookupIcon';",:onmouseover=>"this.className = 'lookupIconOn';"}).html_safe
     end
-    @template.content_tag(:div,(hidden_tag_str+label_tag_str+lov_link_str+error_message(object,field)).html_safe ,:style=>"display:inline")
+    label_for_field(@template.content_tag(:div,(hidden_tag_str+label_tag_str+lov_link_str+error_message(object,field)).html_safe ,:style=>"display:inline"),options)
 
   end
 
