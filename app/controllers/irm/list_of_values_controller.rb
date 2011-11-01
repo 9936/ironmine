@@ -172,6 +172,9 @@ class Irm::ListOfValuesController < ApplicationController
   end
 
   def lov_search
+    unless params[:lksrch].present?
+      params[:lksrch] = "%"
+    end
     render :layout => "frame"
   end
 
@@ -179,7 +182,10 @@ class Irm::ListOfValuesController < ApplicationController
     @business_object = Irm::BusinessObject.find(params[:lktp])
     @datas = []
     @fields = []
-    @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid]) if params[:lksrch].present?
+    unless params[:lksrch].present?
+      params[:lksrch] = "%"
+    end
+    @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid])
     render :layout => "frame"
   end
 
