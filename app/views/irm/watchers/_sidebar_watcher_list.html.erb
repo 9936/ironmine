@@ -40,7 +40,7 @@
         </div>
     </div>
     <% end %>
-<% if limit_device? %>
+<% unless limit_device? %>
     <script type="text/javascript">
       $(function(){
           $('.watcher_info').each(function(){
