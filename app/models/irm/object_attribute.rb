@@ -197,7 +197,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
            count_scope = count_scope.where("id != ?",self.id)
          end
 
-         if count_scope.count < 1
+         if !self.business_object.bo_table_name.eql?(tmp_table)&&count_scope.count < 1
            look_for_name = false
            self.relation_table_alias = tmp_table
          end
