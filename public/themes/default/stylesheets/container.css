@@ -40,7 +40,12 @@ body .page-title .pt-body {
     margin-bottom: 4px;
 }
 
+.page-title .pt-body .greeting .page-type,
+.page-title .pt-body .greeting .page-description{
+    margin-left: 0;
+}
 .page-title .pt-body .page-type, .page-title .pt-body .page-description {margin-left: 37px;}
+
 
 .page-title .pt-body .greeting .page-type {
     font-size: 109%;
@@ -195,6 +200,7 @@ body .page-block .pbHeader {
 }
 .page-block {font-size: 105%;}
 .edit-block .pbHeader > table, .apexp .page-block.apexDefaultPageBlock .pbHeader > table, #ep.bLayoutBlock .pbHeader > table {border-bottom:1px solid #DBDBDB;padding:5px 0;}
+.edit-block{margin-bottom:5px!important;}
 /***********************toggle button ***********************/
 div.toolbar{
     margin: 5px;

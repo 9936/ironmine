@@ -1,3 +1,5 @@
+<% require_javascript(:waypoints) %>
+
 <style type="text/css">
   ul{
       padding-left: 40px;
@@ -93,7 +95,7 @@
 </style>
 <form>
 <div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
+  <div class="pbHeader" id="icm_new_journal_top_menu">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
@@ -105,22 +107,30 @@
               <% end %>
           </td>
           <td class="pbHelp">
-              <div class="gray-button"><%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests",:action => "index"}%></div>
-              <%if !@incident_request.close? %>
-                <% if current_person?(@incident_request.support_person_id) %>
-                    <div class="gray-button"><%= link_to t(:pass), {:action => "edit_pass"}%></div>
-                    <div class="gray-button"><%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"}%></div>
-                <% end %>
-                <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
-                      <div class="gray-button"><%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"}%></div>
-                <% end %>
+              <div class="button-group">
+                  <div class="gray-button"><%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests",:action => "index"}%></div>
+              </div>
+              <div class="button-group">
+                  <%if !@incident_request.close? %>
+                    <% if current_person?(@incident_request.support_person_id) %>
+                        <div class="gray-button"><%= link_to t(:pass), {:action => "edit_pass"}%></div>
+                        <div class="gray-button"><%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"}%></div>
+                    <% end %>
+                    <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
+                          <div class="gray-button"><%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"}%></div>
+                    <% end %>
+              </div>
+              <div class="button-group">
                 <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
                   <div class="gray-button"><%= link_to t(:close), {:action => "edit_close"}%></div>
                 <% end %>
                 <div class="gray-button"><%= link_to t(:edit), {:controller=>"icm/incident_requests",:action => "edit", :id => @incident_request.id}%></div>
               <%end%>
+              </div>
               <% if @incident_request[:skm_flag]==0 %>
-                <div class="gray-button"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
+                <div class="button-group">
+                    <div class="gray-button"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
+                </div>
               <% end %>
           </td>
         </tr>
@@ -369,6 +379,37 @@ $(function(){
     });
 });
 </script>
+<% unless limit_device? %>
+<style type="text/css">
+    .sticky #icm_new_journal_top_menu {
+        position:fixed;
+        top:0;
+        width:auto;
+        left:20px;
+        right:235px;
+        background-color: #F8F8F8;
+        border:1px solid #eaeaea;
+        border-top-width: 0;
+        border-bottom-width: 0;
+    }
+
+    #ep.sticky {
+        padding-top: 34px;
+}
+</style>
+<script type="text/javascript">
+    $.waypoints.settings.scrollThrottle = 30;
+
+    $('#ep').waypoint(function(event, direction) {
+
+	}, {
+		offset: '-100%'
+	}).find('#icm_new_journal_top_menu').waypoint(function(event, direction) {
+		$(this).parent().toggleClass('sticky', direction === "down");
+		event.stopPropagation();
+	});
+</script>
+<% end %>
 
 <% content_for :sidebar do%>
     <%= render :partial =>"/irm/watchers/sidebar_watcher_list",

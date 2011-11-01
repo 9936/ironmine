@@ -50,7 +50,19 @@ $(function(){
     });
 
     $('input[irm_number_only]').live('keyup', function(event){
-         $(this).val($(this).val().replace(/D/g, ""));
+         $(this).val($(this).val().replace(/[^0-9]/g, ""));
+    });
+
+    $('input[irm_number_and_cross]').live('keyup', function(event){
+         $(this).val($(this).val().replace(/[^- 0-9]/g, ""));
+    });
+
+    $('input[irm_number_and_cross]').each(function(index,n){
+         $(n).attr("autocomplete", "off");
+    });
+
+    $('input[irm_number_only]').each(function(index,n){
+         $(n).attr("autocomplete", "off");
     });
 
     $('form:not([data-remote]):not([target])').bind("submit",function(e){

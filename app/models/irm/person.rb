@@ -43,6 +43,7 @@ class Irm::Person < ActiveRecord::Base
   has_attached_file :avatar,
                     :whiny => false,
                     :styles => {:thumb => "16x16>",:medium => "45x45>",:large => "100x100>"},
+                    :default_url => "/images/miss_avatar.gif",
                     :processors => [:cropper]
 
   validates_attachment_content_type :avatar,

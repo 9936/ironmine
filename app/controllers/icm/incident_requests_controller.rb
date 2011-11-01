@@ -23,7 +23,7 @@ class Icm::IncidentRequestsController < ApplicationController
   # GET /incident_requests/new.xml
   def new
     @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
-
+    @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
       format.html { render :layout => "application_full"}# new.html.erb
       format.xml  { render :xml => @incident_request }
@@ -43,6 +43,7 @@ class Icm::IncidentRequestsController < ApplicationController
   # POST /incident_requests.xml
   def create
     @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
+    @return_url = params[:return_url] if params[:return_url]
     #加入创建事故单的默认参数
     prepared_for_create(@incident_request)
     respond_to do |format|
