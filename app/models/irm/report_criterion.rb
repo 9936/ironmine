@@ -8,7 +8,8 @@ class Irm::ReportCriterion < ActiveRecord::Base
              :varchar=>['BW','EW','U','X'],
              :text=>['BW','EW','U','X'],
              :datetime=>['IN'],
-             :int=>[]
+             :int=>[],
+             :lov=>['E','N']
             }.freeze
 
 
@@ -22,7 +23,7 @@ class Irm::ReportCriterion < ActiveRecord::Base
   default_scope {default_filter}
 
   def ref_object_attribute
-    @object_attribute ||= Irm::ObjectAttribute.multilingual.with_business_object_id.find(self.report_type_field.object_attribute_id)
+    @object_attribute ||= Irm::ObjectAttribute.multilingual.find(self.report_type_field.object_attribute_id)
   end
 
 

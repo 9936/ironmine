@@ -135,6 +135,7 @@ module Irm::ReportsHelper
     fields = group_fields
     metadata = report.report_meta_data
     grouped_data = []
+    # 报表数据一组分组
     case group_fields[0][2]
       when nil
         grouped_data = metadata.group_by{|i| i[fields[0][0]]}
@@ -146,7 +147,7 @@ module Irm::ReportsHelper
         grouped_data = metadata.group_by{|i| i[fields[0][0]].year.to_s}
     end
 
-
+    # 报表数据二级分组
     grouped_data.dup.each do |key,value|
       case group_fields[1][2]
         when nil
@@ -159,19 +160,26 @@ module Irm::ReportsHelper
           grouped_data[key] = value.group_by{|i| i[fields[1][0]].year.to_s}
       end
     end  if(fields.size==2)
+    # 返回分组后的数据
     grouped_data
   end
 
   # generate group report html
   def group_report(report)
+    # 报表表头信息
     report_headers = report.report_header
+    #　报表分组列信息
     group_fields =  report.group_fields
+
+    # 报表分组字段
     group_field_keys = group_fields.collect{|i| i[0]}
+
+    # 报表分组后需要显示的列
     display_headers = report_headers.collect{|i| i unless group_field_keys.include?(i[0]) }.compact
     grouped_html = ""
 
 
-    # table header
+    # 生成表头
     table_header = ""
     display_headers.each do |dh|
       table_header << content_tag(:th,dh[1],{},false)

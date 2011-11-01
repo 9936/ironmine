@@ -110,18 +110,18 @@ class Irm::Report < ActiveRecord::Base
 
   def report_column_array
     return @report_column_array if @report_column_array
-    @report_column_array = self.report_columns.select_sequence.with_object_attribute.collect{|i| {:seq_num=>i[:seq_num],:business_object_id=>i[:business_object_id],:object_attribute_id=>i[:object_attribute_id],:object_attribute_name=>i[:object_attribute_name],:report_type_field_id=>i[:report_type_field_id],:table_name=>self.report_type.table_name_hash[i[:business_object_id].to_s]}}
+    @report_column_array = self.report_columns.select_sequence.with_object_attribute.collect{|i| {:seq_num=>i[:seq_num],:business_object_id=>i[:business_object_id],:object_attribute_id=>i[:object_attribute_id],:object_attribute_category=>i[:object_attribute_category],:object_attribute_name=>i[:object_attribute_name],:report_type_field_id=>i[:report_type_field_id],:table_name=>self.report_type.table_name_hash[i[:business_object_id].to_s]}}
   end
 
   def report_group_column_array
     return @report_group_column_array if @report_group_column_array
-    @report_group_column_array = self.report_group_columns.select_sequence.with_object_attribute.collect{|i| {:seq_num=>i[:seq_num],:business_object_id=>i[:business_object_id],:object_attribute_id=>i[:object_attribute_id],:object_attribute_name=>i[:object_attribute_name],:table_name=>self.report_type.table_name_hash[i[:business_object_id].to_s],:group_date_type=>i.group_date_type}}
+    @report_group_column_array = self.report_group_columns.select_sequence.with_object_attribute.collect{|i| {:seq_num=>i[:seq_num],:business_object_id=>i[:business_object_id],:object_attribute_id=>i[:object_attribute_id],:object_attribute_category=>i[:object_attribute_category],:object_attribute_name=>i[:object_attribute_name],:table_name=>self.report_type.table_name_hash[i[:business_object_id].to_s],:group_date_type=>i.group_date_type}}
   end
 
 
   def report_type_column_array
     return @report_type_column_array if @report_type_column_array
-    @report_type_column_array = Irm::ReportTypeField.select_all.query_by_report_type(self.report_type_id).with_bo_object_attribute(I18n.locale).collect{|i| {:field_id=>i[:id],:business_object_id=>i[:business_object_id],:object_attribute_id=>i[:object_attribute_id],:object_attribute_name=>i[:attribute_name],:name=>i[:object_attribute_name],:table_name=>self.report_type.table_name_hash[i[:business_object_id].to_s]}}
+    @report_type_column_array = Irm::ReportTypeField.select_all.query_by_report_type(self.report_type_id).with_bo_object_attribute(I18n.locale).collect{|i| {:field_id=>i[:id],:business_object_id=>i[:business_object_id],:object_attribute_id=>i[:object_attribute_id],:object_attribute_category=>i[:object_attribute_category],:object_attribute_name=>i[:attribute_name],:name=>i[:object_attribute_name],:table_name=>self.report_type.table_name_hash[i[:business_object_id].to_s]}}
   end
 
 
@@ -132,7 +132,11 @@ class Irm::Report < ActiveRecord::Base
     fields = self.report_group_column_array.collect{|i| i if i[:object_attribute_id].present?}.compact
     fields.collect{|i|
       column = self.report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}
-      ["#{i[:table_name]}_#{i[:object_attribute_name]}",column[:name],i[:group_date_type]]
+      if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(i[:object_attribute_category])
+        ["#{i[:table_name]}_#{i[:object_attribute_name]}_label",column[:name],i[:group_date_type]]
+      else
+        ["#{i[:table_name]}_#{i[:object_attribute_name]}",column[:name],i[:group_date_type]]
+      end
     }
   end
 
@@ -156,7 +160,11 @@ class Irm::Report < ActiveRecord::Base
     return @report_header if @report_header
     @report_header = []
     report_column_array.each do |i|
-      @report_header << ["#{i[:table_name]}_#{i[:object_attribute_name]}",report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}[:name]]
+      if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(i[:object_attribute_category])
+        @report_header << ["#{i[:table_name]}_#{i[:object_attribute_name]}",report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}[:name]]
+      else
+        @report_header << ["#{i[:table_name]}_#{i[:object_attribute_name]}_label",report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}[:name]]
+      end
     end
     @report_header
   end
@@ -291,7 +299,7 @@ class Irm::Report < ActiveRecord::Base
   end
 
   def where_clause
-    where_conditon = self.condition_clause.dup
+    where_conditon = self.generate_condition
     params = where_conditon.scan(/\{\{\S*\}\}/)
     param_values = []
     params.each do |p|
@@ -307,7 +315,14 @@ class Irm::Report < ActiveRecord::Base
 
 
   def generate_query_str
-    select_fields = report_column_array.collect{|i| "#{i[:table_name]}.#{i[:object_attribute_name]} #{i[:table_name]}_#{i[:object_attribute_name]}"}
+    select_fields = report_column_array.collect do |i|
+      if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(i[:object_attribute_category])
+        "#{i[:table_name]}.#{i[:object_attribute_name]} #{i[:table_name]}_#{i[:object_attribute_name]}"
+      else
+        "#{i[:table_name]}.#{i[:object_attribute_name]} #{i[:table_name]}_#{i[:object_attribute_name]},#{i[:table_name]}.#{i[:object_attribute_name]}_label #{i[:table_name]}_#{i[:object_attribute_name]}_label"
+      end
+    end
+
     self.report_type.generate_scope<<%Q{.select("#{select_fields.join(",")}")}
   end
 

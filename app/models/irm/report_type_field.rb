@@ -25,7 +25,7 @@ class Irm::ReportTypeField < ActiveRecord::Base
   scope :with_bo_object_attribute,lambda{|language|
     joins("JOIN #{Irm::ObjectAttribute.view_name} ON #{Irm::ObjectAttribute.view_name}.id = #{table_name}.object_attribute_id AND #{Irm::ObjectAttribute.view_name}.language='#{language}'").
     joins("JOIN #{Irm::BusinessObject.view_name} ON #{Irm::ObjectAttribute.view_name}.business_object_id = #{Irm::BusinessObject.view_name}.id AND #{Irm::BusinessObject.view_name}.language='#{language}'").
-    select("#{Irm::BusinessObject.view_name}.id business_object_id,#{Irm::BusinessObject.view_name}.name business_object_name,#{Irm::ObjectAttribute.view_name}.attribute_name,#{Irm::ObjectAttribute.view_name}.name object_attribute_name,#{Irm::ObjectAttribute.view_name}.data_type")
+    select("#{Irm::BusinessObject.view_name}.id business_object_id,#{Irm::BusinessObject.view_name}.name business_object_name,#{Irm::ObjectAttribute.view_name}.attribute_name,#{Irm::ObjectAttribute.view_name}.category object_attribute_category,#{Irm::ObjectAttribute.view_name}.name object_attribute_name,#{Irm::ObjectAttribute.view_name}.data_type")
   }
 
   scope :date_column,lambda{
