@@ -299,7 +299,7 @@ class Irm::Report < ActiveRecord::Base
   end
 
   def where_clause
-    where_conditon = self.generate_condition
+    where_conditon = generate_condition
     params = where_conditon.scan(/\{\{\S*\}\}/)
     param_values = []
     params.each do |p|
