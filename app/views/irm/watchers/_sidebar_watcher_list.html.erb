@@ -40,4 +40,22 @@
         </div>
     </div>
     <% end %>
+<% if limit_device? %>
+    <script type="text/javascript">
+      $(function(){
+          $('.watcher_info').each(function(){
+              qtip = Ext.create('Ext.tip.ToolTip', {
+                          target: this,
+                          id: 'person-info-tip-' + $(this).attr('pid'),
+                          anchor: 'left',
+                          title: $(this).attr('pname'),//"<a href='/people/" + $(this).attr('pid') + "'>" + $(this).attr('pname') + "</a>",
+                          html: "<iframe frameborder=0 scrolling='no'  src='/people/" + $(this).attr('pid') + "/info_card' style='width:100%;height:90px;'></iframe>",
+                          width: 400,
+                          autoHide: false,
+                          closable: true
+                      });
+          });
+      });
+    </script>
+<% end %>
 <% end %>

@@ -187,4 +187,9 @@ class Irm::PeopleController < ApplicationController
       end
     end
   end
+
+  def info_card
+    @person = Irm::Person.list_all.find(params[:id])
+    render :layout => "common_all"
+  end
 end
