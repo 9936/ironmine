@@ -66,7 +66,7 @@ class Irm::BusinessObjectsController < ApplicationController
     @business_object = Irm::BusinessObject.new(params[:irm_business_object])
     respond_to do |format|
       if @business_object.save
-        #Irm::AutoInitBusinessObject.setup_by_model(@business_object.bo_model_name,{:name=>@business_object.name})
+        Irm::AutoInitBusinessObject.setup_by_model(@business_object.bo_model_name)
         format.html { redirect_to(:action=>"index", :notice => t(:successfully_created)) }
         format.xml  { render :xml => @business_object, :status => :created, :location => @business_object }
       else
@@ -99,7 +99,7 @@ class Irm::BusinessObjectsController < ApplicationController
     @business_object.destroy
 
     respond_to do |format|
-      format.html { redirect_to(business_objects_url) }
+      format.html { redirect_to(:action=>"index") }
       format.xml  { head :ok }
     end
   end

@@ -61,7 +61,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   scope :query_by_business_object_code,lambda{|business_object_code|
     joins("JOIN #{Irm::BusinessObject.table_name} ON #{Irm::BusinessObject.table_name}.id = #{table_name}.business_object_id AND #{Irm::BusinessObject.table_name}.business_object_code = '#{business_object_code}'").
-        select("#{Irm::BusinessObject.table_name}.business_object_code")
+        select("#{Irm::BusinessObject.table_name}.business_object_code").select_all
   }
 
   scope :query_by_business_object,lambda{|business_object_id|

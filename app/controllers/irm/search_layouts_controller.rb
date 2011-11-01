@@ -1,4 +1,5 @@
 class Irm::SearchLayoutsController < ApplicationController
+  before_filter :setup_business_object
 
   # GET /search_layouts/new
   # GET /search_layouts/new.xml
@@ -25,7 +26,7 @@ class Irm::SearchLayoutsController < ApplicationController
       if @search_layout.valid?
         @search_layout.create_columns_from_str
         @search_layout.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller=>"irm/business_objects",:action=>"show",:id=>@business_object.id}, {:notice => t(:successfully_created)} ) }
         format.xml  { render :xml => @search_layout, :status => :created, :location => @search_layout }
       else
         format.html { render :action => "new" }
@@ -43,7 +44,7 @@ class Irm::SearchLayoutsController < ApplicationController
       if @search_layout.valid?
         @search_layout.create_columns_from_str
         @search_layout.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:controller=>"irm/business_objects",:action=>"show",:id=>@business_object.id}, {:notice => t(:successfully_created)} ) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -64,4 +65,9 @@ class Irm::SearchLayoutsController < ApplicationController
     end
   end
 
+  private
+  def setup_business_object
+    @business_object = Irm::BusinessObject.find(params[:bo_id]) if params[:bo_id]
+    @business_object||= Irm::BusinessObject.first
+  end
 end

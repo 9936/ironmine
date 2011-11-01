@@ -18,7 +18,7 @@
 
                 <tbody>
                   <% categories = object_attribute_categories %>
-                  <% if !@object_attribute.category.present?||["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(@object_attribute.category)%>
+                  <% #if !@object_attribute.category.present?||["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(@object_attribute.category)%>
                     <% category = categories["LOOKUP_RELATION"] %>
                     <tr>
                       <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
@@ -31,7 +31,7 @@
                       <td class="dataCol"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
                       <td class="dataCol" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
                     </tr>
-                  <% end %>
+                  <% #end %>
 
                   <% if !@object_attribute.category.present?||!["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(@object_attribute.category)%>
                     <% category = categories["CHECK_BOX"] %>

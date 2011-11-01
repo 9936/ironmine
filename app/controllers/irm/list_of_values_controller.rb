@@ -182,4 +182,8 @@ class Irm::ListOfValuesController < ApplicationController
     @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid]) if params[:lksrch].present?
     render :layout => "frame"
   end
+
+  def lov_value
+
+  end
 end

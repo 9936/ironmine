@@ -162,7 +162,7 @@ class Irm::BusinessObject < ActiveRecord::Base
   end
   #process join attribute
   def join_object_attribute(query_str,join_attribute)
-    if join_attribute.relation_exists_flag.eql?(Irm::Constant::SYS_NO)
+    if !join_attribute.relation_exists_flag.eql?(Irm::Constant::SYS_YES)
       relation_bo = self.class.find(join_attribute.relation_bo_id)
       relation_attribute = Irm::ObjectAttribute.query(join_attribute.relation_object_attribute_id).first
       return unless relation_attribute
@@ -239,11 +239,17 @@ class Irm::BusinessObject < ActiveRecord::Base
 
         if model.respond_to?(:multilingual)&&model.respond_to?(:view_name)
           self.bo_table_name = model.view_name
-          self.business_object_code = self.bo_table_name.upcase
           self.multilingual_flag = Irm::Constant::SYS_YES
+        elsif model.respond_to?(:multilingual_view_name)
+          self.bo_table_name = model.multilingual_view_name
+          self.multilingual_flag = Irm::Constant::SYS_YES
+        elsif model.respond_to?(:view_name)
+          self.bo_table_name = model.view_name
+          self.multilingual_flag = Irm::Constant::SYS_NO
         end
-
       end
+      self.business_object_code = self.bo_table_name.slice(self.bo_table_name.length-30> 0 ? self.bo_table_name.length-30 : 0  ,self.bo_table_name.length).upcase
+      self.business_object_code = business_object_code.slice(1,business_object_code.length) if business_object_code[0].eql?("_")
     end
   end
 

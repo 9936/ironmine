@@ -9,6 +9,7 @@
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @business_object}%></div>
             <div class="button"><%= link_to t(:test), {:action => "execute_test",:format=>:js},{:remote=>true}%></div>
+            <div class="button"><%= link_to t(:delete), {:action => "destroy", :id => @business_object},:method => :delete,:confirm => t(:label_are_you_sure)%></div>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
           </td>
         </tr>

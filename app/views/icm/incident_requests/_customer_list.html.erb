@@ -5,10 +5,10 @@
           </div>
           <div id="title" style="display:none">
             if('{reply_flag}' == 'Y'&&'{close_flag}' == 'N'){
-               '<%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %><%= link_to( "({incident_status_name}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
+               '<%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %><%= link_to( "({incident_status_id_label}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
             }
             else{
-              '<%= link_to( "({incident_status_name}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
+              '<%= link_to( "({incident_status_id_label}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
             }
           </div>
         </div>
@@ -16,12 +16,12 @@
                       [{:key=>"id",:label=>t(:operation),:hidden=>true,:width=>"50px"},
                        { :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot),:searchable=>true,:width=>"35px"},
                        { :key => "title",:formatter=>"Y.irm.stemplate",:label => t(:label_icm_incident_request_title),:searchable=>true },
-                       { :key => "incident_status_name",:hidden=>true },
+                       { :key => "incident_status_id_label",:hidden=>true },
                        { :key => "reply_flag",:hidden=>true },
                        { :key => "close_flag",:hidden=>true },
-                       { :key => "organization_name", :label => t(:label_icm_incident_request_organization)},
+                       { :key => "organization_id_label", :label => t(:label_icm_incident_request_organization)},
                        { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date),:width=>"180px" },
-                       { :key => "external_system_name", :label => t(:label_irm_external_system),:width=>"180px" }
+                       { :key => "external_system_id_label", :label => t(:label_irm_external_system),:width=>"180px" }
                        ],{:export_data=>"#incidentRequestExport",:not_load=>true,:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:html=>true,:view_filter=>true})%>
       <div id="incidentRequestsPaginatorBox"></div>
 </div>

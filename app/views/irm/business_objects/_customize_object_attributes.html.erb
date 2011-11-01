@@ -31,7 +31,7 @@
            <td>
              <div>
                <%= link_to(t(:edit),{:controller => "irm/object_attributes", :action => "edit", :bo_id => @business_object.id,:id=>data[:id]}) %>
-               <%= link_to(t(:delete),{:controller => "irm/object_attributes", :action => "destroy", :bo_id => @business_object.id,:id=>data[:id]},{:method => :delete}) %>
+               <%= link_to(t(:delete),{:controller => "irm/object_attributes", :action => "destroy", :bo_id => @business_object.id,:id=>data[:id]},{:method => :delete,:confirm => t(:label_are_you_sure)}) %>
              </div>
            </td>
            <td>

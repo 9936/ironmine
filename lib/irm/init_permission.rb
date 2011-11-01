@@ -130,7 +130,7 @@ Irm::AccessControl.map do |map|
   #===================irm/object_attributes============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "destroy", "multilingual_edit", "multilingual_update", "relation_columns", "selectable_columns"]
   map.function :business_object,{"irm/business_objects"=>["index", "show", "get_data","new", "create","edit",
-                                                          "update", "multilingual_edit", "multilingual_update","execute_test"],
+                                                          "update", "multilingual_edit", "multilingual_update","execute_test","destroy"],
                                  "irm/object_attributes"=>["index", "show", "get_data","get_standard_data","new", "create","new_model_attribute","create_model_attribute", "selectable_columns",
                                                            "relation_columns","edit", "update", "multilingual_edit", "multilingual_update",
                                                            "selectable_columns", "relation_columns","change_type","destroy","person_columns"],

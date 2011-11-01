@@ -3,6 +3,10 @@ class Icm::SupportGroup < ActiveRecord::Base
 
   attr_accessor :assignment_str
 
+  class << self
+    attr_accessor_with_default :multilingual_view_name,"icm_support_groups_vl"
+  end
+
   #多语言关系
   has_many :group_assignments, :dependent => :destroy, :class_name => "Icm::GroupAssignment"
 
