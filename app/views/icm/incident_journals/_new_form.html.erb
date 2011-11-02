@@ -237,11 +237,13 @@
        <%= list_request_file %>
     </div>
  </div>
-     <%= list_journals(@incident_request) %>
-   </div>
+    <div id="replies">
+        <%= list_journals(@incident_request) %>
+    </div>
+ </div>
 </div>
 <%if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close? %>
-<%= form_for(@incident_reply,:url=>{:action=>"create"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
+<%= form_for(@incident_reply,:url=>{:action=>"create", :format => "js"},:builder => LabellingFormBuilder,:html => { :multipart => true, :target => "frame" }) do |f| %>
 <div id="reply" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -353,7 +355,7 @@
 </div>
 <% end %>
 <% end %>
-
+<iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
 
 <script>
 $(function(){
