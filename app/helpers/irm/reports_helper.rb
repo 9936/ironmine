@@ -229,7 +229,7 @@ module Irm::ReportsHelper
           level_two_value.each do |data|
             table_body << %Q(<tr>)
             display_headers.each do |dh|
-              table_body << %Q(<td>#{data[dh[0]]}</td>)
+              table_body << %Q(<td>#{show_report_cell(data[dh[0]])}</td>)
             end
             table_body << %Q(</tr>)
           end if report.show_detail?
@@ -238,7 +238,7 @@ module Irm::ReportsHelper
         level_one_value.each do |data|
           table_body << %Q(<tr>)
           display_headers.each do |dh|
-            table_body << %Q(<td>#{data[dh[0]]}</td>)
+            table_body << %Q(<td>#{show_report_cell(data[dh[0]])}</td>)
           end if report.show_detail?
           table_body << %Q(</tr>)
         end
@@ -288,5 +288,13 @@ module Irm::ReportsHelper
   def current_reports(bo_name,category="REPORT")
     folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
     Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).filter_by_folder_access(Irm::Person.current.id).query_by_bo_name(bo_name)
+  end
+
+  def show_report_cell(data)
+    if(data.present?&&(data.is_a? Time))
+      return format_date(data)
+    else
+      return data
+    end
   end
 end

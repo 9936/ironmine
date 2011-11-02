@@ -146,7 +146,7 @@ class Irm::ObjectAttributesController < ApplicationController
   def new_model_attribute
     @object_attribute = Irm::ObjectAttribute.new(:business_object_id=>params[:bo_id],
                                                  :attribute_type=>"MODEL_ATTRIBUTE",
-                                                 :field_type=>"STANDARD_FIELD")
+                                                 :field_type=>"CUSTOMED_FIELD")
 
   end
 
