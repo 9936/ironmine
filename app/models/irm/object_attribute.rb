@@ -19,7 +19,9 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   #  验证基础字段
   validates_presence_of :attribute_name,:if=>Proc.new{|i| i.check_step(2)}
 
-  validates_presence_of :business_object_id,:attribute_type,:field_type,:category,:if=>Proc.new{|i| i.check_step(1)}
+  validates_presence_of :business_object_id,:attribute_type,:field_type,:if=>Proc.new{|i| i.check_step(1)}
+
+  validates_presence_of :category,:if=>Proc.new{|i| i.check_step(1)&&i.attribute_type.present?&&i.attribute_type.eql?("TABLE_COLUMN")}
 
   validates_presence_of :name,:if => Proc.new { |i|i.name=i.attributes[:name]  if i.attributes[:name];i.check_step(2)&&!not_auto_mult}
 

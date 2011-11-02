@@ -198,9 +198,9 @@ class Irm::BusinessObject < ActiveRecord::Base
   #process join attribute
   def join_object_attribute(query_str,join_attribute)
     if !join_attribute.relation_exists_flag.eql?(Irm::Constant::SYS_YES)
-      relation_bo = self.class.find(join_attribute.relation_bo_id)
+      relation_bo = self.class.query(join_attribute.relation_bo_id).first
       relation_attribute = Irm::ObjectAttribute.query(join_attribute.relation_object_attribute_id).first
-      return unless relation_attribute
+      return unless relation_attribute&&relation_bo
 
       label_attribute = Irm::ObjectAttribute.get_label_attribute(join_attribute.relation_bo_id)
       query_str[:select]<<"#{join_attribute.relation_table_alias}.#{label_attribute.attribute_name} #{join_attribute.attribute_name}_label"

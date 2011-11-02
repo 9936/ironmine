@@ -41,6 +41,6 @@ class Irm::SearchLayout < ActiveRecord::Base
 
   def get_columns_str
     return @get_columns_str if @get_columns_str
-    @get_columns_str = Irm::SearchLayoutColumn.where(:search_layout_id=>self.id).collect{|value| value[:object_attribute_id]}.join(",")
+    @get_columns_str = Irm::SearchLayoutColumn.where(:search_layout_id=>self.id).order(:seq_num).collect{|value| value[:object_attribute_id]}.join(",")
   end
 end
