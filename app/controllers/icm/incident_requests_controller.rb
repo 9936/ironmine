@@ -418,6 +418,14 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
+  def add_relation
+
+  end
+
+  def remove_relation
+
+  end
+
   private
   def prepared_for_create(incident_request)
     incident_request.submitted_by = Irm::Person.current.id
