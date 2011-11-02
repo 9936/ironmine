@@ -161,9 +161,10 @@ class Irm::Report < ActiveRecord::Base
     @report_header = []
     report_column_array.each do |i|
       if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(i[:object_attribute_category])
-        @report_header << ["#{i[:table_name]}_#{i[:object_attribute_name]}",report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}[:name]]
-      else
         @report_header << ["#{i[:table_name]}_#{i[:object_attribute_name]}_label",report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}[:name]]
+
+      else
+        @report_header << ["#{i[:table_name]}_#{i[:object_attribute_name]}",report_type_column_array.detect{|e| e[:object_attribute_id].to_s.eql?(i[:object_attribute_id].to_s)}[:name]]
       end
     end
     @report_header
@@ -317,9 +318,10 @@ class Irm::Report < ActiveRecord::Base
   def generate_query_str
     select_fields = report_column_array.collect do |i|
       if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(i[:object_attribute_category])
-        "#{i[:table_name]}.#{i[:object_attribute_name]} #{i[:table_name]}_#{i[:object_attribute_name]}"
-      else
         "#{i[:table_name]}.#{i[:object_attribute_name]} #{i[:table_name]}_#{i[:object_attribute_name]},#{i[:table_name]}.#{i[:object_attribute_name]}_label #{i[:table_name]}_#{i[:object_attribute_name]}_label"
+
+      else
+        "#{i[:table_name]}.#{i[:object_attribute_name]} #{i[:table_name]}_#{i[:object_attribute_name]}"
       end
     end
 

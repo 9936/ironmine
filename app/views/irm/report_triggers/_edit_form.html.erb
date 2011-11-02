@@ -61,7 +61,9 @@
 
               </td>
               <td class="dataCol" colspan="3">
-                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:receiver_str,:str_value=>@report_trigger.get_receiver_str,:size=>7} %>
+                <div id="duelSearchBox">
+                   <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:receiver_str,:str_value=>@report_trigger.get_receiver_str,:size=>7} %>
+                </div>
               </td>
             </tr>
             <tr>
