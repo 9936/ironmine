@@ -186,6 +186,16 @@ class Irm::BusinessObject < ActiveRecord::Base
   end
 
 
+  def self.get_relation_bo_instance(relation_object_attribute,value)
+    bo = self.query(relation_object_attribute.relation_bo_id).first
+    relation_attribute = Irm::ObjectAttribute.query(relation_object_attribute.relation_object_attribute_id).first
+    return  unless bo&&relation_attribute
+
+    current_record = eval(bo.generate_query(true)).where("#{bo.bo_table_name}.#{relation_attribute.attribute_name} = ?",value).first
+
+    return current_record
+  end
+
   private
   def recursive_stringify_keys(hash)
     return unless hash.is_a?(Hash)
@@ -295,16 +305,26 @@ class Irm::BusinessObject < ActiveRecord::Base
   end
 
 
-  # 业务对像中的公用类方法
-  def self.attribute_of(bo,attribute_name)
+  # 取得业务对像实例中某个属性的值
+  def self.attribute_of(bo,attribute_name,business_object_attribute=nil)
     value = nil
-    value = bo.send(attribute_name.to_sym) if bo.respond_to?(attribute_name.to_sym)
+
+    # 如果业务对像属性是关联类,需要使用lable字段代替
+    if business_object_attribute&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(business_object_attribute.category)
+      value = bo.attributes["#{attribute_name}_label"]
+    end
+
+    if !value.present?&&bo.respond_to?(attribute_name.to_sym)
+      value = bo.send(attribute_name.to_sym)
+    end
+
     unless value
-      value = bo.attributes[attribute_name.to_sym]
+      value = bo.attributes[attribute_name]
     end
     value
   end
 
+  # 将业务对像转化为liquid 参数
   def self.liquid_attributes(bo_instance,recursive=false)
     bo = Irm::BusinessObject.where(:bo_model_name=>bo_instance.class.name).first
     return {} unless bo
@@ -326,7 +346,12 @@ class Irm::BusinessObject < ActiveRecord::Base
     bo_attributes = Irm::ObjectAttribute.query_by_model_name(bo_instance.class.name)
     attributes_hash = {}
     bo_attributes.each do |boa|
-      value = self.attribute_of(bo_instance,boa.attribute_name)
+      # master detail
+      if "MASTER_DETAIL_RELATION".eql?(boa.category)
+        value = get_relation_bo_instance(boa,self.attribute_of(bo_instance,boa.attribute_name))
+      else
+        value = self.attribute_of(bo_instance,boa.attribute_name,boa)
+      end
       attributes_hash.merge!(boa.attribute_name.to_sym=>value)
     end
     return attributes_hash
