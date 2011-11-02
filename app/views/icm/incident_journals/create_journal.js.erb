@@ -1,0 +1,4 @@
+$(function(){
+    <% prepare_request_files(@incident_request) %>
+    $("#replies").append("<%= escape_javascript(render :partial => "list_journals", :locals => {:journals => @current_journals, :grouped_files => @request_files})%>");
+});
