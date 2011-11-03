@@ -71,7 +71,7 @@ class Irm::GroupMembersController < ApplicationController
         format.html { redirect_to({:controller => "irm/people",:action=>"show",:id=>@person.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @support_group_member, :status => :created}
       else
-        @support_group_member.errors.add(:status_code,"")
+        @group_member.errors.add(:status_code,"")
         format.html { render :action => "new_from_person" }
         format.xml  { render :xml => @group_member.errors, :status => :unprocessable_entity }
       end

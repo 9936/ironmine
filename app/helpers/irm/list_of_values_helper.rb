@@ -1,6 +1,7 @@
 module Irm::ListOfValuesHelper
   def lov_field_tag(name,lov_code,options={})
     lov_field_id =  options.delete(:id)||name
+
     bo = nil
 
     # 使用业务对像的id作为lov_code

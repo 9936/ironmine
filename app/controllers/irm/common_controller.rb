@@ -141,7 +141,7 @@ class Irm::CommonController < ApplicationController
                              :user_agent=>request.user_agent,
                              :login_at=>Time.now}) if session[:session_id].present?
     if(params[:rememberme])
-      cookies[:username] = params[:username]
+      cookies[:username] = {:value=>params[:username],:expires => 1.year.from_now}
     else
       cookies.delete(:username)
     end

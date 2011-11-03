@@ -26,7 +26,7 @@ class Irm::WfMailRecipient < ActiveRecord::Base
     case self.recipient_type
       when Irm::BusinessObject.class_name_to_code(Irm::ObjectAttribute.name)
         if bo
-          value = Irm::BusinessObject.attribute_of(bo,self.approver_id)
+          value = Irm::BusinessObject.attribute_of(bo,self.recipient_id)
           if value.present?
             if value.is_a?(Array)
               person_ids = value

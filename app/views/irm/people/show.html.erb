@@ -175,9 +175,7 @@
                 <h3 id="id_person_system_access_title"><%=t(:label_irm_person_access_system)%></h3>
               </td>
               <td class="pbButton">
-                <div class="button"><%= link_to t(:label_irm_person_add_to_system), "#",
-                                                :onclick=>"navigateToUrl('#{url_for(:controller=>"irm/external_system_members",
-                                                          :action => "new_from_person",:person_id=>@person.id)}');"%></div>
+                <div class="button"><%= link_to t(:label_irm_person_add_to_system), {:controller=>"irm/external_system_members",:action => "new_from_person",:person_id=>@person.id}%></div>
               </td>
               <td class="pbHelp">
               </td>
@@ -222,9 +220,8 @@
                 <h3 id="id_person_support_group_title"><%=t(:label_irm_person_group)%></h3>
               </td>
               <td class="pbButton">
-                <div class="button"><%= link_to t(:label_irm_person_add_to_support_group), "#",
-                                                :onclick=>"navigateToUrl('#{url_for(:controller=>"irm/group_members",
-                                                          :action => "new_from_person",:id=>@person.id)}');"%></div>
+                <div class="button"><%= link_to t(:label_irm_person_add_to_support_group), {:controller=>"irm/group_members",
+                                                          :action => "new_from_person",:id=>@person.id}%></div>
               </td>
               <td class="pbHelp">
               </td>
