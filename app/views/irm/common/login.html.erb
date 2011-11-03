@@ -72,7 +72,6 @@
           $(document).ready(function() {
               $.cookie('navTreeMenu', null, { path: '/' });
               if($.cookie("username")){
-                  $.cookie("username",$.cookie("username"),{expires:1000});
                   $("#userName").val($.cookie("username"));
                   $("#rememberchk").attr("checked",true);
                   $("#password").attr("value","");
