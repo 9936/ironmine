@@ -380,6 +380,17 @@ $(function(){
         }
     });
 });
+
+function reset_rich_text(){
+    if ($("#msgEditor")) {
+        var editor = Ext.getCmp("msgEditor");
+        editor.setValue("");
+    }
+
+    $(".file-contents").each(function(index,element){
+        $(element).remove();
+    })
+}
 </script>
 <% unless limit_device? %>
 <style type="text/css">

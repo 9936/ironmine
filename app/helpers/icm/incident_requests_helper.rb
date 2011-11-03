@@ -157,4 +157,8 @@ module Icm::IncidentRequestsHelper
     end
     raw(html)
   end
+
+  def list_all_icm_incident_relations(incident_request)
+
+  end
 end

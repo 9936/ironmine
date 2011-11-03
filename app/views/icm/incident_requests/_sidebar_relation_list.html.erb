@@ -1,0 +1,9 @@
+<%= form_tag({:controller => "icm/incident_requests", :action => "add_relation", :source_id => incident_request.id}, :remote => true) do %>
+<div class="sidebarModule">
+    <div class="sidebarModuleHeader"><h2></h2></div>
+    <div class="sidebarModuleBody">
+
+        <%= list_all_icm_incident_relations(incident_request)%>
+    </div>
+</div>
+<% end %>
