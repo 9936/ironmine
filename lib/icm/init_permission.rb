@@ -32,6 +32,8 @@ Irm::AccessControl.map do |map|
   #领取事故单
   map.function :incident_request_edit_status,{"icm/incident_journals"=>[:edit_status,:update_status]}
   map.function :view_icm_kanban,{"icm/incident_requests" => [:kanban_index]}
+
+  map.function :edit_relation, {"icm/incident_requests" => [:add_relation, :remove_relation]}
   #===================icm/rule_settings============================
   #["index", "edit", "update", "new", "create", "get_data", "show"]
   map.function :icm_rule_setting,{"icm/rule_settings"=>["index", "show", "get_data","new", "create","edit", "update"]}

@@ -158,18 +158,18 @@ module Icm::IncidentRequestsHelper
     raw(html)
   end
 
-  def list_all_icm_incident_relations(incident_request)
-    relation_list = Icm::IncidentRequestRelation.list_all(incident_request.id)
+  def list_all_icm_incident_relations(incident_request_id)
+    relation_list = Icm::IncidentRequestRelation.list_all(incident_request_id)
     ret = ""
     relation_list.each do |w|
       ret << content_tag(:tr,
                   content_tag(:td,
                               content_tag(:div,
-                                          link_to(w[:request_number] + "#" + w[:title], {}, {:href => "javascript:void(0);"}),
+                                          link_to(w[:request_number] + "#" + w[:title], {:controller => "icm/incident_journals", :action => "new", :request_id => w[:request_id]}, {}),
                                           {:style => "float:left"}) + raw("&nbsp;") + (icon_link_delete({:controller => "icm/incident_requests",
                                                                                                          :action => "remove_relation",
                                                                                                          :source_id => w[:source_id],
-                                                                                                         :target_id => w[:target_id]}, :remote => true) if deletable)))
+                                                                                                         :id => w[:relation_id]}, :remote => true, :confirm => t(:label_are_you_sure)))))
     end
     raw(ret)
   end

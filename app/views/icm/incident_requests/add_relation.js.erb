@@ -1,0 +1,6 @@
+$(function(){
+    <% if @incident_request_id %>
+    $("#relation_list").html('<%= escape_javascript(list_all_icm_incident_relations(@incident_request_id))%>');
+    $("#relation_select").html('<%= escape_javascript(lov_field_tag "icm_relation", Icm::IncidentRequest)%>');
+    <% end %>
+});
