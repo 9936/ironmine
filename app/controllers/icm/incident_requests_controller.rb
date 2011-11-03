@@ -440,6 +440,11 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
+  def info_card
+    @incident_request_info = Icm::IncidentRequest.list_all.find(params[:request_id])
+    render :layout => "common_all"
+  end
+
   private
   def prepared_for_create(incident_request)
     incident_request.submitted_by = Irm::Person.current.id

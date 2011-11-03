@@ -926,6 +926,8 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/:incident_request_id/:att_id/remove_exists_attachments(.:format)' => "incident_requests#remove_exists_attachments"
     match '/incident_requests/:source_id/add_relation(.:format)' => "incident_requests#add_relation", :via => :post
     match '/incident_requests/remove_relation(.:format)' => "incident_requests#remove_relation"
+    match '/incident_requests/:request_id/info_card(.:format)' => "incident_requests#info_card", :via => :get
+
     #incident_journals
     match '/incident_requests/:request_id/journals(/index)(.:format)' => "incident_journals#index", :via => :get    
     match '/incident_requests/:request_id/journals/edit_close(.:format)' => "incident_journals#edit_close", :via => :get
