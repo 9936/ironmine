@@ -1,9 +1,41 @@
 <%= form_tag({:controller => "icm/incident_requests", :action => "add_relation", :source_id => incident_request.id}, :remote => true) do %>
 <div class="sidebarModule">
-    <div class="sidebarModuleHeader"><h2></h2></div>
+    <div class="sidebarModuleHeader"><h2>
+      <%= t :label_icm_incident_request_relation %>
+      <span style="float:right;"><a style="color:#fff;" href="javascript:void(0);" onclick="show_new_relation_form();"><%= t(:add)%></a></span>
+    </h2></div>
     <div class="sidebarModuleBody">
+        <table>
 
-        <%= list_all_icm_incident_relations(incident_request)%>
+          <tbody id="new_relation_form" style="display:none;">
+            <tr>
+              <td>
+                <div id="watcher_select">
+                <%= lov_field_tag "icm_relation", Icm::IncidentRequest %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="button"><%= submit_tag(t(:save))%>&nbsp;<%= link_to t(:cancel), {}, {:href => "javascript:void(0);", :style => "line-height:21px;", :onclick => "hide_new_relation_form();"} %></div>
+              </td>
+            </tr>
+          </tbody>
+
+            <script type="text/javascript">
+            function show_new_relation_form() {
+                $("#new_relation_form").css("display", "");
+            }
+
+            function hide_new_relation_form() {
+                $("#new_relation_form").css("display", "none");
+            }
+            </script>
+          <tbody id="relation_list">
+            <%= list_all_icm_incident_relations(incident_request)%>
+          </tbody>
+        </table>
+
     </div>
 </div>
 <% end %>
