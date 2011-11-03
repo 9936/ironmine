@@ -11,7 +11,7 @@
             <tr>
               <td>
                 <div id="watcher_select">
-                <%= select_tag "watcher", options_for_select(ava_watchers(watchable.id, watchable.class), {:id => "watcher"})%>
+                <%= lov_field_tag("watcher",Irm::Person, {:id => "watcher"}) %>
                 </div>
                 <%= hidden_field_tag "watchable_type", watchable.class.to_s%>
               </td>

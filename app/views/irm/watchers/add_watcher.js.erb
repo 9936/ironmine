@@ -1,4 +1,4 @@
 $(function(){
     $("#watcher_list").html('<%= escape_javascript(watchers_list(@watchable))%>');
-    $("#watcher_select").html('<%= escape_javascript(select_tag "watcher", options_for_select(ava_watchers(@watchable.id, @watchable.class), {:id => "watcher"}))%>');
+    $("#watcher_select").html('<%= escape_javascript(lov_field_tag("watcher",Irm::Person, {:id => "watcher"}))%>');
 });

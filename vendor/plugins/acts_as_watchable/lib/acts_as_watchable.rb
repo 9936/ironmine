@@ -36,7 +36,7 @@ module Ironmine
 
         # Adds member as a watcher
         def add_watcher(member,deletable=true)
-          self.watchers << Irm::Watcher.new(:member_id => member.id,:member_type=>member.class.name,:deletable_flag=>deletable ? "Y":"N")
+          self.watchers << Irm::Watcher.new(:member_id => member.id,:member_type=>member.class.name,:deletable_flag=>deletable ? "Y":"N") unless self.watchers.exists?(:member_id => member.id,:member_type=>member.class.name)
         end
 
         # Removes member from the watchers list
