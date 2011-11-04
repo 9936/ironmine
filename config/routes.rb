@@ -828,6 +828,10 @@ Ironmine::Application.routes.draw do
     match '/licenses/get_data(.:format)' => "licenses#get_data"
     match '/licenses/:id/show(.:format)' => "licenses#show", :via => :get
 
+    #mail_settings
+    match '/mail_settings(/index)(.:format)' => "mail_settings#index", :via => :get
+    match '/mail_settings/edit(.:format)' => "mail_settings#edit", :via => :get
+    match '/mail_settings(.:format)' => "mail_settings#update", :via => :put
   end
 
   scope :module => "icm" do
