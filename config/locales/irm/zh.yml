@@ -126,8 +126,8 @@ zh:
   upload_from_clipboard: 从剪贴板上传图片
   created_by: 创建人
   created_at: 创建时间
-  kanban_mode: 看板模式
-  list_mode: 列表模式
+  kanban_mode: 看板
+  list_mode: 列表
   error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
   error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB, 现上传 _ KB)
   file_upload_limit_alert: 最大尺寸 %{m} KB

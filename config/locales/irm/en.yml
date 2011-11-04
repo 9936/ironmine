@@ -136,8 +136,8 @@ en:
   input_keyword_you_want_to_search: Input keyword you want to search
   display_all: Show All
   upload_from_clipboard: Upload Image From Clipboard
-  kanban_mode: Kanban Mode
-  list_mode: List Mode
+  kanban_mode: Kanban
+  list_mode: List
   error_file_upload_limit: File beyond the limit(Limit %{m} Kb, Now %{n} Kb)
   error_file_upload_limit_shot: File beyond the limit(Limit %{m} Kb, Now _ Kb)
   file_upload_limit_alert: File limit %{m} KB
