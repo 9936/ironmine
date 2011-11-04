@@ -1,12 +1,13 @@
 <%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:kanban_mode)) %>
-<% if allow_to_function?(:view_icm_kanban) %>
-  <div class="toolbar">
-      <span class="toggleButtons">
-        <%= link_to(toggle_img("listViewIcon"),{:controller => "icm/incident_requests",:action=>"index"},{:title=>t(:list_mode)}) %>
-        <%= link_to(toggle_img("singleUserViewIcon",true),{:action=>"kanban_index"},{:href=>"javascript:void(0)",:title=>t(:kanban_mode)}) %>
-      </span>
-  </div>
 
+
+<% if allow_to_function?(:view_icm_kanban) %>
+<div class="toolbar">
+  <div class="button-group">
+    <div class="button"><%= link_to(content_tag(:img, "", {:src => "/images/s.gif", :class => "list-mode"}) + t(:list_mode), {:controller => "icm/incident_requests",:action=>"index"})%></div>
+    <div class="button selected"><%= link_to(content_tag(:img, "", {:src => "/images/s.gif", :class => "preview-mode"}) + t(:kanban_mode),{:href => "javascript:void(0)"})%></div>
+  </div>
+</div>
 <% end %>
 
 <% if allow_to_function?(:view_icm_kanban)%>
