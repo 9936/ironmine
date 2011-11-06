@@ -1560,14 +1560,14 @@ en:
 
   label_irm_mail_imap_protocol_choose: Choose form IMAP, POP.
   label_irm_mail_host_name_tip: Email server name.
-  label_irm_mail_imap_port_tip: The port to use to retrieve mail from your POP / IMAP account. Defaults are: POP-110; IMAP-143.
+  label_irm_mail_imap_port_tip: The port to use to retrieve mail from your POP / IMAP account. Defaults are： POP-110; IMAP-143.
   label_irm_mail_timeout_tip: Timeout (in milliseconds). 0 indicate infinite timeout.
   label_irm_mail_imap_username_tip: The username used to authenticate your POP / IMAP account.
   label_irm_mail_imap_password_tip: The password for your POP / IMAP account.
 
   label_irm_mail_smtp_from_address_tip: The email address that outgoing mails will appear to have come from.
   label_irm_mail_smtp_prefix_tip: The subject of emails sent from this server will use this string as a prefix. This is useful for your users so that they can filter their email.
-  label_irm_mail_smtp_port_tip: The port to use to send mail from your SMTP account. Defaults are: SMTP-25.
+  label_irm_mail_smtp_port_tip: The port to use to send mail from your SMTP account. Defaults are： SMTP-25.
   label_irm_mail_smtp_username_tip: The username used to authenticate your SMTP account.
   label_irm_mail_smtp_password_tip: The password for your SMTP account.
   #========================= end ==================================
