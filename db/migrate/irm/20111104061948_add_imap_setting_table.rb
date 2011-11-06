@@ -3,7 +3,7 @@ class AddImapSettingTable < ActiveRecord::Migration
     create_table :irm_imap_settings, :force => true do |t|
       t.string "opu_id", :limit => 22, :null => false
       t.string "protocol", :limit => 150
-      t.string "hostname", :limit => 60
+      t.string "host_name", :limit => 60
       t.string "port", :limit => 30
       t.string "timeout", :limit => 30, :default => "10000"
       t.string "username", :limit => 60

@@ -831,7 +831,7 @@ Ironmine::Application.routes.draw do
     #mail_settings
     match '/mail_settings(/index)(.:format)' => "mail_settings#index", :via => :get
     match '/mail_settings/edit(.:format)' => "mail_settings#edit", :via => :get
-    match '/mail_settings(.:format)' => "mail_settings#update", :via => :put
+    match '/mail_settings/update(.:format)' => "mail_settings#update", :via => :post
   end
 
   scope :module => "icm" do

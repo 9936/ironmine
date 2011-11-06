@@ -1560,5 +1560,31 @@ zh:
   #========================= end ======================
 
   #========================= mail setting =========================
+  label_irm_mail_from_address: 来源邮箱地址
+  label_irm_mail_prefix: 邮件前缀
+  label_irm_mail_protocol: 协议
+  label_irm_mail_host_name: 邮件服务器名
+  label_irm_mail_smtp_port: SMTP端口
+  label_irm_mail_timeout: 超时
+  label_irm_mail_tls: TLS
+  label_irm_mail_username: 用户名
+  label_irm_mail_password: 密码
+  label_irm_mail_imap_port: POP/IMAP 端口
+  label_irm_mail_setting: 邮件服务器设置
+  label_irm_mail_edit_setting: 编辑邮件服务器设置
+  label_irm_mail_smtp_server: SMTP邮件服务器
+  label_irm_mail_imap_server: POP/IMAP邮件服务器
 
+  label_irm_mail_imap_protocol_choose: 从POP、IMAP中选择。
+  label_irm_mail_host_name_tip: 邮件服务器名。
+  label_irm_mail_imap_port_tip: 用于从POP/IMAP账户取回邮件的端口。（默认：POP-100; IMAP-143）
+  label_irm_mail_timeout_tip: 超时时间（毫秒）。0表示从不超时。
+  label_irm_mail_imap_username_tip: 用于登陆POP/IMAP的用户名。
+  label_irm_mail_imap_password_tip: 用于登陆POP/IMAP的密码。
+
+  label_irm_mail_smtp_from_address_tip: 系统会使用此邮箱地址发送邮件。
+  label_irm_mail_smtp_prefix_tip: 邮件的标题会使用它作为前缀。这将会方便您的用户对邮件进行过滤。
+  label_irm_mail_smtp_port_tip: SMTP使用的端口。（默认： SMTP-25）
+  label_irm_mail_smtp_username_tip: 用于登陆SMTP的用户名。
+  label_irm_mail_smtp_password_tip: 用于登陆SMTP的密码。
   #========================= end ==================================

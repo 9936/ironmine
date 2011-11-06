@@ -65,6 +65,14 @@ $(function(){
          $(n).attr("autocomplete", "off");
     });
 
+    $('input[jrequired]').each(function(index, n){
+        var parent_node = $(n).parent();
+        var node = '<div class="requiredInput"><div class="requiredBlock"></div>' + $(parent_node).html() + '</div>';
+        $(parent_node).html(node);
+    });
+    $("*[jrequired]").each(function(i,e){
+        e.removeAttribute("jrequired");
+    });
     $('form:not([data-remote]):not([target])').bind("submit",function(e){
          $(e.target).find("input[type=submit]").each(function(index,el){
              $(el).attr("disabled",true);
