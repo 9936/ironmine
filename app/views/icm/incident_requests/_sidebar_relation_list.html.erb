@@ -2,37 +2,23 @@
 <div class="sidebarModule">
     <div class="sidebarModuleHeader"><h2>
       <%= t :label_icm_incident_request_relation %>
-      <% if allow_to_function?(:edit_relation)  %>
-      <span style="float:right;"><a style="color:#fff;" href="javascript:void(0);" onclick="show_new_relation_form();"><%= t(:add)%></a></span>
-      <% end %>
     </h2></div>
     <div class="sidebarModuleBody">
         <table>
-
-          <tbody id="new_relation_form" style="display:none;">
+          <% if allow_to_function?(:edit_relation)  %>
+          <tbody id="new_relation_form">
             <tr>
               <td>
                 <div id="relation_select">
                 <%= lov_field_tag "icm_relation", Icm::IncidentRequest %>
+                  <div class="float-right">
+                    <div class="button"><%= submit_tag(t(:add))%></div>
+                  </div>
                 </div>
               </td>
             </tr>
-            <tr>
-              <td>
-                <div class="button"><%= submit_tag(t(:save))%>&nbsp;<%= link_to t(:cancel), {}, {:href => "javascript:void(0);", :style => "line-height:21px;", :onclick => "hide_new_relation_form();"} %></div>
-              </td>
-            </tr>
           </tbody>
-
-            <script type="text/javascript">
-            function show_new_relation_form() {
-                $("#new_relation_form").css("display", "");
-            }
-
-            function hide_new_relation_form() {
-                $("#new_relation_form").css("display", "none");
-            }
-            </script>
+          <% end %>
           <tbody id="relation_list">
             <%= list_all_icm_incident_relations(incident_request.id)%>
           </tbody>
