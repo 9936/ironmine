@@ -404,3 +404,15 @@ img.lookupIconOn {
     width: 20px;
     vertical-align: middle;
 }
+
+.list-mode{
+    background-image: url("/images/list_mode.png");
+    height: 16px;
+    width: 16px;
+}
+
+.preview-mode{
+    background-image: url("/images/preview_mode.png");
+    height: 16px;
+    width: 16px;
+}

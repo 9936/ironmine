@@ -115,14 +115,16 @@ div.gray-button a:hover{
     border-style: solid;
 }
 
-.button-group > div.gray-button{
+.button-group > div.gray-button,
+.button-group > div.button{
     border-width: 1px 1px 1px 0;
     border-style: solid;
     border-color: #b5b5b5;
     margin-left: 0;
 }
 
-.button-group > div.gray-button:first-child{
+.button-group > div.gray-button:first-child,
+.button-group > div.button:first-child{
     -moz-border-radius-topleft: 3px;
     -moz-border-radius-bottomleft: 3px;
     -webkit-border-top-left-radius: 3px;
@@ -131,14 +133,16 @@ div.gray-button a:hover{
     margin-left: 6px;
 }
 
-.button-group > div.gray-button:nth-last-of-type(1){
+.button-group > div.gray-button:nth-last-of-type(1),
+.button-group > div.button:nth-last-of-type(1){
     -moz-border-radius-topright: 3px;
     -moz-border-radius-bottomright: 3px;
     -webkit-border-top-right-radius: 3px;
     -webkit-border-bottom-right-radius: 3px;
 }
 
-.button-group div.gray-button a {
+.button-group div.gray-button a,
+.button-group div.button a {
     border: none;
 	text-decoration: none;
 	color:#333333;
@@ -150,15 +154,30 @@ div.gray-button a:hover{
 	line-height: 20px;
 }
 
-.button-group div.gray-button a:hover{
+.button-group div.gray-button a:hover,
+.button-group div.button a:hover{
     background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
     background-position: right -30px;
     /*background-position: right -30px;*/
 }
 
-.button-group div.gray-button:hover{
+.button-group div.gray-button:hover,
+.button-group div.button:hover{
     /*border-width: 1px;*/
     border-color: #919191;
+}
+
+.button-group .gray-button.selected,
+.button-group .button.selected{
+    background-color: #888888;
+}
+
+.button-group .gray-button.selected a,
+.button-group .button.selected a,
+.button-group .gray-button.selected a:hover,
+.button-group .button.selected a:hover{
+    background:none;
+    color: #ffffff;
 }
 
 .page-block .buttons, .page-block .gray-buttons {padding:3px 20px;text-align:center;}
@@ -208,3 +227,5 @@ body .page-block .pbBody .pbSubheader .hideListButton {
 }
 
 #bodyColB table * {box-sizing: content-box;}
+
+.button a img{vertical-align: -3px; margin-right:5px;}

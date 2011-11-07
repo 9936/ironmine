@@ -828,6 +828,10 @@ Ironmine::Application.routes.draw do
     match '/licenses/get_data(.:format)' => "licenses#get_data"
     match '/licenses/:id/show(.:format)' => "licenses#show", :via => :get
 
+    #mail_settings
+    match '/mail_settings(/index)(.:format)' => "mail_settings#index", :via => :get
+    match '/mail_settings/edit(.:format)' => "mail_settings#edit", :via => :get
+    match '/mail_settings/update(.:format)' => "mail_settings#update", :via => :post
   end
 
   scope :module => "icm" do
@@ -926,6 +930,8 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/:incident_request_id/:att_id/remove_exists_attachments(.:format)' => "incident_requests#remove_exists_attachments"
     match '/incident_requests/:source_id/add_relation(.:format)' => "incident_requests#add_relation", :via => :post
     match '/incident_requests/remove_relation(.:format)' => "incident_requests#remove_relation"
+    match '/incident_requests/:request_id/info_card(.:format)' => "incident_requests#info_card", :via => :get
+
     #incident_journals
     match '/incident_requests/:request_id/journals(/index)(.:format)' => "incident_journals#index", :via => :get    
     match '/incident_requests/:request_id/journals/edit_close(.:format)' => "incident_journals#edit_close", :via => :get

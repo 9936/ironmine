@@ -421,10 +421,11 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def add_relation
     existed_relation = Icm::IncidentRequestRelation.
-                      where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:target_id], params[:target_id], params[:source_id])
+                      where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:icm_relation], params[:icm_relation], params[:source_id])
 
-    unless existed_relation.any? || !params[:target_id].present?
-      Icm::IncidentRequestRelation.create(:source_id => params[:source_id], :target_id => params[:icm_relation])
+    unless existed_relation.any? || !params[:icm_relation].present?
+      t = Icm::IncidentRequestRelation.create(:source_id => params[:source_id], :target_id => params[:icm_relation])
+      @incident_request_id = t.source_id
     end
     respond_to do |format|
       format.js {render :add_relation}
@@ -432,7 +433,17 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def remove_relation
+    relation = Icm::IncidentRequestRelation.find(params[:id])
+    relation.destroy
+    @incident_request_id = params[:source_id]
+    respond_to do |format|
+      format.js {render :add_relation}
+    end
+  end
 
+  def info_card
+    @incident_request_info = Icm::IncidentRequest.list_all.find(params[:request_id])
+    render :layout => "common_all"
   end
 
   private

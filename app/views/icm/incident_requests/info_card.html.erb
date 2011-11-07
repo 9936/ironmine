@@ -1,0 +1,28 @@
+<div id="ep" class="detail-block page-block">
+  <div class="pbBody">
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_icm_incident_request_target_system)%></label></td>
+              <td class="dataCol"><%=@incident_request_info[:external_system_name]%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_icm_incident_request_service_code)%></label></td>
+              <td class="dataCol"><%=@incident_request_info[:service_name]%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_icm_incident_request_incident_status_code)%></label></td>
+              <td class="dataCol"><%= @incident_request_info[:incident_status_name] %></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_icm_incident_request_submitted_date)%></label></td>
+              <td class="dataCol">
+                <%=format_date(@incident_request_info[:submitted_date])%>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

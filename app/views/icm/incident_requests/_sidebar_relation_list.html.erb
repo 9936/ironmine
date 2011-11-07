@@ -2,7 +2,9 @@
 <div class="sidebarModule">
     <div class="sidebarModuleHeader"><h2>
       <%= t :label_icm_incident_request_relation %>
+      <% if allow_to_function?(:edit_relation)  %>
       <span style="float:right;"><a style="color:#fff;" href="javascript:void(0);" onclick="show_new_relation_form();"><%= t(:add)%></a></span>
+      <% end %>
     </h2></div>
     <div class="sidebarModuleBody">
         <table>
@@ -10,7 +12,7 @@
           <tbody id="new_relation_form" style="display:none;">
             <tr>
               <td>
-                <div id="watcher_select">
+                <div id="relation_select">
                 <%= lov_field_tag "icm_relation", Icm::IncidentRequest %>
                 </div>
               </td>
@@ -32,10 +34,45 @@
             }
             </script>
           <tbody id="relation_list">
-            <%= list_all_icm_incident_relations(incident_request)%>
+            <%= list_all_icm_incident_relations(incident_request.id)%>
           </tbody>
         </table>
 
     </div>
 </div>
+<% end %>
+
+<% unless limit_device? %>
+    <script type="text/javascript">
+      $(function(){
+          $('.request_info').each(function(){
+              var qtip = Ext.create('Ext.tip.ToolTip', {
+                          target: this,
+                          id: 'request-info-tip-' + $(this).attr('request_id'),
+                          anchor: 'left',
+                          title: "<a href='/incident_requests/" + $(this).attr('request_id') + "/journals/new'>" + $(this).attr('request_name') + "</a>",
+                          html: "<iframe frameborder=0 scrolling='no'  src='/incident_requests/" + $(this).attr('request_id') + "/info_card' style='width:100%;height:90px;'></iframe>",
+                          width: 400,
+                          autoHide: true,
+                          dismissDelay: 0,
+                          closable: false,
+                          listeners: {
+                            'afterrender': function(){
+                                this.el.on('mouseout', function(e){
+                                    if(!qtip.getChildByElement(this)){
+                                        qtip.hide();
+                                    }
+                                });
+
+                                this.el.on('mouseover', function(e){
+                                    qtip.suspendEvents();
+                                    qtip.show();
+                                });
+
+                            }
+                          }
+                      });
+          });
+      });
+    </script>
 <% end %>

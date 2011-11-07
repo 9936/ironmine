@@ -84,6 +84,9 @@ Irm::AccessControl.map do |map|
   map.function :mail_template,{"irm/mail_templates"=>["index", "show", "get_data", "get_script_context_fields",
                                                             "get_mail_templates","new", "create","edit", "update"],
                                "irm/object_attributes"=>["all_columns"]}
+  #===================irm/mail_settings============================
+  map.function :view_mail_setting,{"irm/mail_settings" => [:index]}
+  map.function :edit_mail_setting,{"irm/mail_settings" => [:edit, :update]}
 
   #===================irm/menus============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "remove_entry", "multilingual_edit", "multilingual_update"]
