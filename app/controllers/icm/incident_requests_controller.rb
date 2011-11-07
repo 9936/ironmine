@@ -284,13 +284,13 @@ class Icm::IncidentRequestsController < ApplicationController
   def assignable_data
     return_columns = [:request_number,
                       :title,
-                      :organization_name,
-                      :incident_status_name,
+                      :organization_id,:organization_id_label,
+                      :incident_status_id,:incident_status_id_label,
                       :close_flag,
-                      :requested_name,
+                      :requested_by,:requested_by_label,
                       :last_request_date,
-                      :priority_name,
-                      :external_system_name]
+                      :priority_id,:priority_id_label,
+                      :external_system_id,:external_system_id_label]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
         with_external_system(I18n.locale).
@@ -372,13 +372,14 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def assign_me_data
     return_columns = [:request_number,
-                      :title,:organization_name,
-                      :incident_status_name,
+                      :title,
+                      :organization_id,:organization_id_label,
+                      :incident_status_id,:incident_status_id_label,
                       :close_flag,
-                      :requested_name,
+                      :requested_by,:requested_by_label,
                       :last_request_date,
-                      :priority_name,
-                      :external_system_name]
+                      :priority_id,:priority_id_label,
+                      :external_system_id,:external_system_id_label]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
         with_external_system(I18n.locale).
