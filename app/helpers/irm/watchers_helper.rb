@@ -8,8 +8,8 @@ module Irm::WatchersHelper
     end
   end
 
-  def watchers_list(watchable, editable = true)
-    watchers = watchable.all_person_watchers
+  def watchers_list(watchable, order_target, editable = true, order_type = "DESC")
+    watchers = watchable.all_person_watchers(order_target, order_type)
     ret = ""
     watchers.each do |w|
       deletable = editable&&Irm::Constant::SYS_YES.eql?(w.deletable_flag)

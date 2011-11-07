@@ -229,3 +229,5 @@ body .page-block .pbBody .pbSubheader .hideListButton {
 #bodyColB table * {box-sizing: content-box;}
 
 .button a img{vertical-align: -3px; margin-right:5px;}
+
+.float-right {float:right;display:inline;}

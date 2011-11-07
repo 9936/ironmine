@@ -3,75 +3,80 @@
     <% (l_editable = editable && l_editable) if !editable.nil?%>
     <%= form_tag({:controller => "irm/watchers", :action => "add_watcher", :watchable_id => watchable.id}, :remote => true) do %>
     <div class="sidebarModule">
-        <div class="sidebarModuleHeader"><h2><%= t :label_irm_watcher %><%= ("(" + watchers_size(watchable).to_s + ")") if l_editable%><span style="float:right;"><a style="color:#fff;" href="javascript:void(0);" onclick="show_new_form();"><%= t(:add) if l_editable%></a></span></h2></div>
+        <div class="sidebarModuleHeader"><h2><%= t :label_irm_watcher %><%= ("(" + watchers_size(watchable).to_s + ")")%>
+          <span class="float-right" id="watcher-sidebar-order-control">
+            <%= render :partial => "irm/common/sidebar_order_control",
+                       :locals => {:target_link_by_date => {:controller => "irm/watchers",
+                                                            :action => "order",
+                                                            :watchable_id => watchable.id,
+                                                            :watchable_type => watchable.class.to_s,
+                                                            :order_target => "#{Irm::Watcher.table_name}.created_at",
+                                                            :order_type => "ASC"},
+                                   :target_link_by_name => {:controller => "irm/watchers",
+                                                            :action => "order",
+                                                            :watchable_id => watchable.id,
+                                                            :watchable_type => watchable.class.to_s,
+                                                            :order_target => "#{Irm::Person.table_name}.full_name",
+                                                            :order_type => "ASC"},
+                                   :order_target => "TIME",
+                                   :order_type => "DESC"}%>
+          </span></h2>
+        </div>
         <div class="sidebarModuleBody">
         <table>
           <% if l_editable %>
-          <tbody id="new_form" style="display:none;">
+          <tbody id="new_form">
             <tr>
               <td>
                 <div id="watcher_select">
-                <%= lov_field_tag("watcher",Irm::Person, {:id => "watcher"}) %>
+                  <%= lov_field_tag("watcher",Irm::Person, {:id => "watcher"}) %>
+                  <div class="float-right">
+                    <div class="button"><%= submit_tag(t(:add))%></div>
+                  </div>
                 </div>
                 <%= hidden_field_tag "watchable_type", watchable.class.to_s%>
               </td>
             </tr>
-            <tr>
-              <td>
-                <div class="button"><%= submit_tag(t(:save))%>&nbsp;<%= link_to t(:cancel), {}, {:href => "javascript:void(0);", :style => "line-height:21px;", :onclick => "hide_new_form();"} %></div>
-              </td>
-            </tr>
           </tbody>
-
-            <script type="text/javascript">
-            function show_new_form() {
-                $("#new_form").css("display", "");
-            }
-
-            function hide_new_form() {
-                $("#new_form").css("display", "none");
-            }
-            </script>
           <% end %>
           <tbody id="watcher_list">
-            <%= watchers_list(watchable, l_editable)%>
+            <%= watchers_list(watchable, "#{Irm::Watcher.table_name}.created_at", l_editable)%>
           </tbody>
         </table>
         </div>
     </div>
     <% end %>
-<% unless limit_device? %>
-    <script type="text/javascript">
-      $(function(){
-          $('.watcher_info').each(function(){
-              var qtip = Ext.create('Ext.tip.ToolTip', {
-                          target: this,
-                          id: 'person-info-tip-' + $(this).attr('pid'),
-                          anchor: 'left',
-                          title: $(this).attr('pname'),//"<a href='/people/" + $(this).attr('pid') + "'>" + $(this).attr('pname') + "</a>",
-                          html: "<iframe frameborder=0 scrolling='no'  src='/people/" + $(this).attr('pid') + "/info_card' style='width:100%;height:90px;'></iframe>",
-                          width: 400,
-                          autoHide: true,
-                          dismissDelay: 0,
-                          closable: false,
-                          listeners: {
-                            'afterrender': function(){
-                                this.el.on('mouseout', function(e){
-                                    if(!qtip.getChildByElement(this)){
-                                        qtip.hide();
-                                    }
-                                });
+    <% unless limit_device? %>
+        <script type="text/javascript">
+          $(function(){
+              $('.watcher_info').each(function(){
+                  var qtip = Ext.create('Ext.tip.ToolTip', {
+                              target: this,
+                              id: 'person-info-tip-' + $(this).attr('pid'),
+                              anchor: 'left',
+                              title: $(this).attr('pname'),//"<a href='/people/" + $(this).attr('pid') + "'>" + $(this).attr('pname') + "</a>",
+                              html: "<iframe frameborder=0 scrolling='no'  src='/people/" + $(this).attr('pid') + "/info_card' style='width:100%;height:90px;'></iframe>",
+                              width: 400,
+                              autoHide: true,
+                              dismissDelay: 0,
+                              closable: false,
+                              listeners: {
+                                'afterrender': function(){
+                                    this.el.on('mouseout', function(e){
+                                        if(!qtip.getChildByElement(this)){
+                                            qtip.hide();
+                                        }
+                                    });
 
-                                this.el.on('mouseover', function(e){
-                                    qtip.suspendEvents();
-                                    qtip.show();
-                                });
-
-                            }
-                          }
-                      });
+                                    this.el.on('mouseover', function(e){
+                                        qtip.suspendEvents();
+                                        qtip.show();
+                                    });
+                                }
+                              }
+                          });
+              });
           });
-      });
-    </script>
-<% end %>
+        </script>
+    <% end %>
 <% end %>

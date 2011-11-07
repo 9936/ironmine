@@ -70,7 +70,7 @@ Irm::AccessControl.map do |map|
 
 
   #====================irm/watchers ========================================
-  map.function :view_watcher, {}
+  map.function :view_watcher, {"irm/watchers" => ["order"]}
   map.function :edit_watcher, {"irm/watchers" => ["add_watcher", "delete_watcher"]}
 
 end
