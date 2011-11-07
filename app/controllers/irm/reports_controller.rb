@@ -266,9 +266,44 @@ class Irm::ReportsController < ApplicationController
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report, :status => :created, :location => @wf_rule }
       else
-        puts @report.errors
         format.html { render :action => "edit_custom" }
         format.xml  { render :xml => @report.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def new_program
+    @report = Irm::Report.new(:program_type=>"PROGRAM")
+    respond_to do |format|
+      format.html { render :layout => "application_full"}# index.html.erb
+    end
+  end
+
+  def create_program
+    @report = Irm::Report.new(params[:irm_report])
+    respond_to do |format|
+      if @report.save
+        format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
+      else
+        format.html { render :action => "new_program" }
+      end
+    end
+  end
+
+  def edit_program
+    @report = Irm::Report.new(:program_type=>"PROGRAM")
+    respond_to do |format|
+      format.html { render :layout => "application_full"}# index.html.erb
+    end
+  end
+
+  def update_program
+    @report = Irm::Report.new(params[:irm_report])
+    respond_to do |format|
+      if @report.save
+        format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
+      else
+        format.html { render :action => "edit_program",:layout => "application_full" }
       end
     end
   end

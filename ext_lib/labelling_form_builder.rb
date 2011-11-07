@@ -91,6 +91,11 @@ class LabellingFormBuilder  < ActionView::Helpers::FormBuilder
 
   end
 
+  def lookup_field(field,lookup_type,options={})
+    values =  @template.available_lookup_type(lookup_type)
+    blank_select(field,values,options)
+  end
+
 
 
   

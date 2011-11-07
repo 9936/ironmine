@@ -1,4 +1,9 @@
 module Irm::ReportsHelper
+  def available_report_programs
+    puts "#==============#{Irm::MailManager.processors}============"
+    Irm::ReportManager.report_classes
+  end
+
   def report_category_type_script
     report_types = Irm::ReportType.multilingual.collect{|i| [i[:name],i.id,i.category_id,i[:description]]}
     report_types_hash = {}

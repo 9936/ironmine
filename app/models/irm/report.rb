@@ -21,13 +21,13 @@ class Irm::Report < ActiveRecord::Base
   accepts_nested_attributes_for :report_criterions
 
 
-  validates_presence_of :report_type_id, :if => Proc.new { |i| i.check_step(1) }
+  validates_presence_of :report_type_id, :if => Proc.new { |i| "CUSTOM".eql?(i.program_type)&&i.check_step(1) }
   validates_presence_of :code, :if => Proc.new { |i| i.check_step(2) }
   validates_uniqueness_of :code,:scope=>[:opu_id], :if => Proc.new { |i| i.code.present? }
   validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present?},:message=>:code
-  validate :validate_raw_condition_clause,:if=> Proc.new{|i| i.raw_condition_clause.present?}
+  validate :validate_raw_condition_clause,:if=> Proc.new{|i| "CUSTOM".eql?(i.program_type)&&i.raw_condition_clause.present?}
 
-  before_save :set_condition
+  before_save :set_condition,:if=> Proc.new{|i| "CUSTOM".eql?(i.program_type)}
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -36,7 +36,7 @@ class Irm::Report < ActiveRecord::Base
 
   # 同时查询报表类型
   scope :with_report_type,lambda{|language|
-    joins("JOIN #{Irm::ReportType.view_name} ON #{Irm::ReportType.view_name}.id = #{table_name}.report_type_id  AND #{Irm::ReportType.view_name}.language = '#{language}'").
+    joins("LEFT OUTER JOIN #{Irm::ReportType.view_name} ON #{Irm::ReportType.view_name}.id = #{table_name}.report_type_id  AND #{Irm::ReportType.view_name}.language = '#{language}'").
     select("#{Irm::ReportType.view_name}.name report_type_name")
   }
   # 查找报表文件夹
@@ -173,9 +173,6 @@ class Irm::Report < ActiveRecord::Base
 
   def generate_scope
     query_scope = eval(generate_query_str).where(where_clause)
-    #if(self.filter_company_id.present?)
-    #  query_scope = query_scope.where("a.company_id=?",self.filter_company_id)
-    #end
     if self.filter_date_field_id
       date_field = report_type_column_array.detect{|i| i[:field_id].eql?(self.filter_date_field_id)}
       if(date_field&&self.filter_date_from.present?)

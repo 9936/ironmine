@@ -248,7 +248,7 @@ Irm::AccessControl.map do |map|
   #===================irm/reports============================
   #["index", "edit", "update", "new", "run", "operator_value", "create", "get_data", "show", "multilingual_edit", "multilingual_update", "destroy", "edit_custom", "update_custom"]
   map.function :view_reports,{"irm/reports"=>["index", "show","run","get_data"]}
-  map.function :create_reports,{"irm/reports"=>["new", "create","operator_value","destroy"],
+  map.function :create_reports,{"irm/reports"=>["new", "create","operator_value","destroy","new_program","create_program"],
                                 "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]}
   map.function :edit_reports,{"irm/reports"=>["edit", "update","operator_value", "multilingual_edit", "multilingual_update", "edit_custom", "update_custom"],
                               "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]}
