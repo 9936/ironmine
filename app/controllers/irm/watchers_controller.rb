@@ -5,7 +5,7 @@ class Irm::WatchersController < ApplicationController
     @watchable.add_watcher(watcher)
     @watchable.save
 
-    prepare_order
+#    prepare_order
 
     respond_to do |format|
       format.js {render :add_watcher}
@@ -30,7 +30,7 @@ class Irm::WatchersController < ApplicationController
   def order
     @watchable = eval(params[:watchable_type]).find(params[:watchable_id])
 
-    prepare_order
+#    prepare_order
 
     respond_to do |format|
       format.js {render :add_watcher}

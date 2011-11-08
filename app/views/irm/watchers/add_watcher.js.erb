@@ -1,23 +1,6 @@
 $(function(){
-    $("#watcher_list").html('<%= escape_javascript(watchers_list(@watchable, @order_target, true, @order_type))%>');
-    $("#watcher_select").html('<%= escape_javascript(lov_field_tag("watcher",Irm::Person, {:id => "watcher"}))%><div class="float-right"><div class="button"><%= submit_tag(t(:add))%></div></div>');
-    $("#watcher-sidebar-order-control").html('<%= escape_javascript(render :partial => "irm/common/sidebar_order_control",
-                       :locals => {:target_link_by_date => {:controller => "irm/watchers",
-                                   :action => "order",
-                                   :watchable_id => @watchable.id,
-                                   :watchable_type => @watchable.class.to_s,
-                                   :order_target => "#{Irm::Watcher.table_name}.created_at",
-                                   :order_type =>  @order_target == "#{Irm::Watcher.table_name}.created_at" ? @order_type == "DESC" ? "ASC" : "DESC" : "DESC"},
-
-                                   :target_link_by_name => {:controller => "irm/watchers",
-                                   :action => "order",
-                                   :watchable_id => @watchable.id,
-                                   :watchable_type => @watchable.class.to_s,
-                                   :order_target => "#{Irm::Person.table_name}.full_name",
-                                   :order_type => @order_target == "#{Irm::Person.table_name}.full_name" ? @order_type == "DESC" ? "ASC" : "DESC" : "DESC"},
-
-                                   :order_target => @order_target == "#{Irm::Watcher.table_name}.created_at" ? "TIME" : "NAME",
-                                   :order_type => @order_type})%>');
+    $("#watcher_list").html('<%= escape_javascript(watchers_list(@watchable))%>');
+    $("#watcher_select").html('<%= escape_javascript(lov_field_tag("watcher",Irm::Person, {:id => "watcher"}))%>');
 <% unless limit_device? %>
   $('.watcher_info').each(function(){
         try{

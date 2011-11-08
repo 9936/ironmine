@@ -3,24 +3,7 @@
     <% (l_editable = editable && l_editable) if !editable.nil?%>
     <%= form_tag({:controller => "irm/watchers", :action => "add_watcher", :watchable_id => watchable.id}, :remote => true) do %>
     <div class="sidebarModule">
-        <div class="sidebarModuleHeader"><h2><%= t :label_irm_watcher %><%= ("(" + watchers_size(watchable).to_s + ")")%>
-          <span class="float-right" id="watcher-sidebar-order-control">
-            <%= render :partial => "irm/common/sidebar_order_control",
-                       :locals => {:target_link_by_date => {:controller => "irm/watchers",
-                                                            :action => "order",
-                                                            :watchable_id => watchable.id,
-                                                            :watchable_type => watchable.class.to_s,
-                                                            :order_target => "#{Irm::Watcher.table_name}.created_at",
-                                                            :order_type => "ASC"},
-                                   :target_link_by_name => {:controller => "irm/watchers",
-                                                            :action => "order",
-                                                            :watchable_id => watchable.id,
-                                                            :watchable_type => watchable.class.to_s,
-                                                            :order_target => "#{Irm::Person.table_name}.full_name",
-                                                            :order_type => "ASC"},
-                                   :order_target => "TIME",
-                                   :order_type => "DESC"}%>
-          </span></h2>
+        <div class="sidebarModuleHeader"><h2><%= t :label_irm_watcher %><%= ("(" + watchers_size(watchable).to_s + ")")%></h2>
         </div>
         <div class="sidebarModuleBody">
         <table>
@@ -28,19 +11,18 @@
           <tbody id="new_form">
             <tr>
               <td>
-                <div id="watcher_select">
-                  <%= lov_field_tag("watcher",Irm::Person, {:id => "watcher"}) %>
-                  <div class="float-right">
-                    <div class="button"><%= submit_tag(t(:add))%></div>
-                  </div>
+                <div id="watcher_select" style="float:left;">
+                  <%= lov_field_tag("watcher",Irm::Person, {:id => "watcher"}) %><%= hidden_field_tag "watchable_type", watchable.class.to_s%>
                 </div>
-                <%= hidden_field_tag "watchable_type", watchable.class.to_s%>
+                <div class="float-right">
+                    <div class="button"><%= submit_tag(t(:add))%></div>
+                </div>
               </td>
             </tr>
           </tbody>
           <% end %>
           <tbody id="watcher_list">
-            <%= watchers_list(watchable, "#{Irm::Watcher.table_name}.created_at", l_editable)%>
+            <%= watchers_list(watchable)%>
           </tbody>
         </table>
         </div>

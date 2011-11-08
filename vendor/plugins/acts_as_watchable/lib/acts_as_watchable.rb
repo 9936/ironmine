@@ -55,8 +55,8 @@ module Ironmine
           all_person_watchers.collect{|person| person.email_address}.compact
         end
 
-        def all_person_watchers(order_target = "#{Irm::Watcher.table_name}.created_at", order_type = "DESC")
-          self.watchers.select_all.with_person.order(order_target + " " + order_type)
+        def all_person_watchers
+          self.watchers.select_all.with_person
         end
 
         def watched_by?(person)

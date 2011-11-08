@@ -22,7 +22,7 @@ div.button a {
 	line-height: 20px;
 }
 div.button a:hover{background-position: right -30px;}
-div.button input[type="submit"] {
+.button input[type="submit"] {
     -moz-border-radius: 3px 3px 3px 3px;
     background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
     border-color: #B5B5B5 #B5B5B5 #7F7F7F;
@@ -79,7 +79,7 @@ div.button input[type="submit"] {
 
 }
 
-div.button input[type="submit"]:hover{background-position: right -30px; cursor: pointer;}
+.button input[type="submit"]:hover{background-position: right -30px; cursor: pointer;}
 
 div.button a[class="disabled"]{
     color: #a9a9a9;
@@ -229,5 +229,3 @@ body .page-block .pbBody .pbSubheader .hideListButton {
 #bodyColB table * {box-sizing: content-box;}
 
 .button a img{vertical-align: -3px; margin-right:5px;}
-
-.float-right {float:right;display:inline;}

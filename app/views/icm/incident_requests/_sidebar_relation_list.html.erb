@@ -9,12 +9,12 @@
           <tbody id="new_relation_form">
             <tr>
               <td>
-                <div id="relation_select">
-                <%= lov_field_tag "icm_relation", Icm::IncidentRequest %>
+                <div id="relation_select" style="float:left;">
+                  <%= lov_field_tag "icm_relation", Icm::IncidentRequest %>
+                </div>
                   <div class="float-right">
                     <div class="button"><%= submit_tag(t(:add))%></div>
                   </div>
-                </div>
               </td>
             </tr>
           </tbody>
