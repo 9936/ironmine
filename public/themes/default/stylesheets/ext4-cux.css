@@ -47,3 +47,7 @@
 .x-html-editor-tb .x-edit-uploadimage{
     background-image: url("../images/16_16/photo_edit.gif");
 }
+
+
+body * {box-sizing: content-box !important;}
+.x-panel *, .x-grid *, .x-panel-default *{box-sizing: border-box !important;}

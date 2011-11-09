@@ -115,4 +115,4 @@ body .page-block .pbBody .pbSubheader .hideListButton {
 
 .button a img{vertical-align: -3px; margin-right:5px;}
 
-.float-right .button{float:right;display:inline;}
+.float-right {float:right;}
