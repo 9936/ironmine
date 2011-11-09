@@ -434,7 +434,10 @@ Ironmine::Application.routes.draw do
     match '/reports/:id/update_custom(.:format)' => "reports#update_custom", :via => :put
     match '/reports/new_program(.:format)' => "reports#new_program", :via => [:get,:post]
     match '/reports/create_program(.:format)' => "reports#create_program", :via => [:get,:post]
-
+    match '/reports/:id/edit_program(.:format)' => "reports#edit_program", :via => [:get,:post,:put]
+    match '/reports/:id/update_program(.:format)' => "reports#update_program", :via => :put
+    match '/reports/:id/edit_custom_program(.:format)' => "reports#edit_custom_program", :via => [:get,:post,:put]
+    match '/reports/:id/update_custom_program(.:format)' => "reports#update_custom_program", :via => :put
 
     #report folders
     match '/report_folders(/index)(.:format)' => "report_folders#index", :via => :get

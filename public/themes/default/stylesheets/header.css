@@ -291,6 +291,8 @@ body#body {
     display:block;
     background:white;
     min-width: 150px;
+    position: absolute !important;
+    z-index: 50;
  }
 
 .menuButton div.menuContent a {

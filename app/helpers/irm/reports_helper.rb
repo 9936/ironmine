@@ -297,9 +297,18 @@ module Irm::ReportsHelper
 
   def show_report_cell(data)
     if(data.present?&&(data.is_a? Time))
-      return format_date(data)
+      return data.strftime('%Y-%m-%d %H:%M:%S') if data.present?
     else
       return data
     end
+  end
+
+  def show_program_report_params(report)
+    render :partial=>report.program_instance.params_partial,:locals=>{:program_params=>report.program_params||{}}
+  end
+
+  def show_program_report_data(report)
+    datas = report.program_instance.data(report.program_params)
+    render :partial=>report.program_instance.partial,:locals=>{:datas=>datas}
   end
 end

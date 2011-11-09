@@ -1,7 +1,7 @@
-<%= common_title(:action_meaning=>t(:label_irm_report_new_program)) %>
-<%= form_for(@report,:url=>{:action=>"create_program"},:builder => LabellingFormBuilder) do |f| %>
+<%= common_title(:action_meaning=>t(:label_irm_report_custom)) %>
+<%= form_for(@report,:url=>{:action=>"update_custom_program"},:builder => LabellingFormBuilder) do |f| %>
     <%= page_block do %>
-        <%= page_block_header(t(:label_irm_report_new_program)) do %>
+        <%= page_block_header(t(:label_irm_report_custom)) do %>
             <div class="button"><%= link_submit t(:save)%></div>
             <div class="button"><%= link_back t(:cancel)%></div>
         <% end %>
@@ -25,7 +25,7 @@
                 </tr>
                  <tr>
                   <td class="labelCol"><label for="program"><%=t(:label_irm_report_code)%></label></td>
-                  <td class="dataCol"><%=f.blank_select :program,available_report_programs ,{},{:id=>"program",:required=>true}%></td>
+                  <td class="dataCol"><%=@report.program%> <%=f.hidden_field(:program)  %></td>
                   <td class="labelCol empty">&nbsp;</td>
                   <td class="dataCol empty">&nbsp;</td>
                 </tr>

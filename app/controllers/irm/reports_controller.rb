@@ -152,8 +152,19 @@ class Irm::ReportsController < ApplicationController
   end
 
   def run
-    @report = Irm::Report.multilingual.find(params[:id])
-    @report.attributes =  params[:irm_report]
+    folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
+    @report = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).filter_by_folder_access(Irm::Person.current.id).find(params[:id])
+
+    if "CUSTOM".eql?(@report.program_type)
+      @report.attributes =  params[:irm_report]
+    else
+      @report.program_params = params[:program_params]
+    end
+
+    if params[:apply].present?
+      @report.save
+    end
+
     @filter_date_from=""
     @filter_date_to=""
     @filter_date_from = @report.filter_date_from.strftime("%Y-%m-%d") if @report.filter_date_from.present?
@@ -253,7 +264,6 @@ class Irm::ReportsController < ApplicationController
 
   def update_custom
     session[:irm_report].merge!(params[:irm_report].symbolize_keys)
-    puts session[:irm_report][:report_group_columns_attributes].class
     session[:irm_report][:report_group_columns_attributes].each{|key,value| value[:id]=nil}
     session[:irm_report][:report_criterions_attributes].each{|key,value| value[:id]=nil}
     @report = Irm::Report.new(session[:irm_report])
@@ -291,19 +301,38 @@ class Irm::ReportsController < ApplicationController
   end
 
   def edit_program
-    @report = Irm::Report.new(:program_type=>"PROGRAM")
+    @report = Irm::Report.multilingual.find(params[:id])
     respond_to do |format|
       format.html { render :layout => "application_full"}# index.html.erb
     end
   end
 
   def update_program
+    @report = Irm::Report.multilingual.find(params[:id])
+    respond_to do |format|
+      if @report.update_attributes(params[:irm_report])
+        format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
+      else
+        format.html { render :action => "edit_program",:layout => "application_full" }
+      end
+    end
+  end
+
+  def edit_custom_program
+    @report = Irm::Report.find(params[:id])
+    @report.attributes = {:name=>nil,:description=>nil,:code=>nil}
+    respond_to do |format|
+      format.html { render :layout => "application_full"}# index.html.erb
+    end
+  end
+
+  def update_custom_program
     @report = Irm::Report.new(params[:irm_report])
     respond_to do |format|
       if @report.save
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
       else
-        format.html { render :action => "edit_program",:layout => "application_full" }
+        format.html { render :action => "edit_custom_program", :layout => "application_full" }
       end
     end
   end

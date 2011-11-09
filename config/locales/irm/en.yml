@@ -864,6 +864,9 @@ en:
   label_irm_report_choose_report_category: Report Catetory
   label_action_edit_custom: Custom
   label_action_run: Run
+  label_irm_report_new_custom: New Custom Report
+  label_irm_report_new_program: New Program Report
+  label_irm_report_apply_params: Apply Report Params
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组
@@ -984,6 +987,11 @@ en:
   label_irm_business_object_description: Description
   label_irm_business_object_description_full: BO Description
   label_irm_business_object_workflow_flag: Workflow
+  label_irm_business_object_api: API Information
+  label_irm_business_object_function: Function
+  label_irm_business_object_relation: Relationship
+  label_irm_business_object_report_flag: Report
+  label_irm_business_object_standard_flag: Standard
   #======================== end business objects====================
   #======================== object attributes====================
   label_irm_object_attributes: Object Attributes
@@ -1015,6 +1023,23 @@ en:
   label_irm_object_attribute_change_type: Change Attribute Type
   label_irm_object_standard_attributes: Standard Field
   label_irm_object_custom_attributes: Custom Field
+  label_irm_object_attribute_approve_flag: Approve Field
+  label_irm_object_attribute_attribute_name_format: Name Field Format
+  label_irm_object_attribute_category: Category
+  label_irm_object_attribute_data_default_value: Default Value
+  label_irm_object_attribute_data_extra_info: Extra Info
+  label_irm_object_attribute_data_key_type: Key Type
+  label_irm_object_attribute_data_null_flag: nullable
+  label_irm_object_attribute_database_info: Database Information
+  label_irm_object_attribute_field_type: Field Type
+  label_irm_object_attribute_function: Function
+  label_irm_object_attribute_invalid_table_attribute: Invalid table column
+  label_irm_object_attribute_label_flag: Label Field
+  label_irm_object_attribute_new_model_attribute: New Model Attribute
+  label_irm_object_attribute_new_table_column: New Table Column
+  label_irm_object_attribute_relation_bo: Relation Business Object
+  label_irm_object_attribute_relation_object_attribute: Relation Attribute
+  label_irm_object_attribute_required_flag: Required
   #======================== object attributes====================
   #======================== list of values====================
   label_irm_list_of_value_list: List of Value

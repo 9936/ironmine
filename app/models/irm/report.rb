@@ -1,5 +1,7 @@
 class Irm::Report < ActiveRecord::Base
   set_table_name :irm_reports
+  serialize :program_params, Hash
+
   attr_accessor :step,:report_columns_str
 
 
@@ -228,6 +230,9 @@ class Irm::Report < ActiveRecord::Base
     end
   end
 
+  def custom?
+    "CUSTOM".eql?(self.program_type)
+  end
 
   def clear_id
     tmp_id = self.id
@@ -241,6 +246,12 @@ class Irm::Report < ActiveRecord::Base
 
   def show_detail?
     Irm::Constant::SYS_YES.eql?(self.detail_display_flag)
+  end
+
+
+  def program_instance
+    return nil unless self.program_type.eql?("PROGRAM")&&self.program.present?
+    @program_instance||= Irm::ReportManager.report_instance(self.program)
   end
 
   private
