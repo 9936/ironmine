@@ -477,6 +477,7 @@ Ironmine::Application.routes.draw do
 
     match '/watchers/:watchable_id/add_watcher(.:format)' => "watchers#add_watcher"
     match '/watchers/delete_watcher(.:format)' => "watchers#delete_watcher"
+    match '/watchers/order(.:format)' => "watchers#order"
 
 #    match '/calendar_tasks(/:year(/:month))' => 'calendar_tasks#index', :as => :calendar_task, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     match '/todo_events(/index)(.:format)' => "todo_events#index", :via => :get

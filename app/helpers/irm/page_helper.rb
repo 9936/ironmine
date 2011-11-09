@@ -84,4 +84,14 @@ module Irm::PageHelper
   def get_list_icon
     raw(content_tag(:img, "", {:src => "/images/s.gif", :class => "mruIcon"}))
   end
+
+  def order_icon(dir = "")
+    if dir == "ASC"
+      raw(content_tag(:img, "", {:src => "/images/s.gif", :class => "grey-up-arrow"}))
+    elsif dir == "DESC"
+      raw(content_tag(:img, "", {:src => "/images/s.gif", :class => "grey-down-arrow"}))
+    else
+      ""
+    end
+  end
 end

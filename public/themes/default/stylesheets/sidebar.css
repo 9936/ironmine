@@ -25,6 +25,8 @@
     padding:6px 5px 10px 4px;
 }
 
+.sidebarModuleBody > table {width: 100%!important;}
+
 .createNewModule .menuButton {
     background: url("../images/sidebar_sprite.png") no-repeat scroll -409px top transparent;
     height: 33px !important;

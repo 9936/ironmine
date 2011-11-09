@@ -32,6 +32,7 @@
       -moz-border-radius: 0 4px 4px 0;
       -webkit-border-top-right-radius: 4px;
       -webkit-border-bottom-right-radius: 4px;
+      box-sizing: content-box;
   }
 
   div.reply div.replyHeader[submit_by="<%= Irm::Person.current.id%>"]{
@@ -426,7 +427,8 @@ function reset_rich_text(){
 
 <% content_for :sidebar do%>
     <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
-               :locals => {:watchable => @incident_request, :editable => !@incident_request.close?} %>
+               :locals => {:watchable => @incident_request,
+                           :editable => !@incident_request.close?} %>
     <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list"%>
     <%= render :partial =>"/icm/incident_requests/sidebar_relation_list", :locals => {:incident_request => @incident_request}%>
 <% end %>

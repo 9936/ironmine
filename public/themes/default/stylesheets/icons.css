@@ -416,3 +416,16 @@ img.lookupIconOn {
     height: 16px;
     width: 16px;
 }
+
+.grey-up-arrow {
+    background-image: url("../images/grey_up_arrow.png");
+    height: 16px;
+    width: 16px;
+    vertical-align: middle;
+}
+.grey-down-arrow {
+    background-image: url("../images/grey_down_arrow.png");
+    height: 16px;
+    width: 16px;
+    vertical-align: middle;
+}
