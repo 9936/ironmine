@@ -59,7 +59,7 @@ module Ironmine
             accepts_nested_attributes_for multilingual_options[:lang_relation].to_sym,:reject_if => :all_blank
             # 对require字段进行验证
             multilingual_options[:required].each do |attr|
-              validates_presence_of attr.to_sym,:if => Proc.new { |r|r.send("#{attr}=".to_sym,r.attributes[:name])  if r.attributes[:name];!not_auto_mult}
+              validates_presence_of attr.to_sym,:if => Proc.new { |r|r.send("#{attr}=".to_sym,r[attr.to_sym])  if r[attr.to_sym]; !not_auto_mult}
             end
           end
 

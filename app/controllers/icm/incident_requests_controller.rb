@@ -83,10 +83,11 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request.request_type_code = "REQUESTED_TO_PERFORM"
     @incident_request.report_source_code = "CUSTOMER_SUBMIT"
     @incident_request.impact_range_id = Icm::ImpactRange.default_id
+    #加入创建事故单的默认参数
+    prepared_for_create(@incident_request)
     respond_to do |format|
       if @incident_request.valid?
-        #加入创建事故单的默认参数
-        prepared_for_create(@incident_request)
+
         if @incident_request.save
           #如果没有填写support_group, 插入Delay Job任务
           if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?

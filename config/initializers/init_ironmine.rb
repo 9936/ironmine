@@ -82,6 +82,11 @@ Delayed::Worker.backend=:active_record
 
 Delayed::Backend::Base::ClassMethods.send(:include, Irm::DelayedJobBaseEx)
 
+# 加载报表类
+Dir[Rails.root.join('program', 'report', '**', '*.rb')].each do |file_path|
+  require "#{file_path}"
+end
+
 begin
   # 初始化模块数据 ，初始化脚本位于lib/模块/init.rb脚本中
   Irm::ProductModule.enabled.each do |p|

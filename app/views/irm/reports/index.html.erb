@@ -28,7 +28,22 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_report_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:label_irm_report_create_new), {:action => "new"}%></div>
+                <div class="as-button" >
+                    <span id="newReport" class="menuButton">
+                      <div  class="menuLabel">
+                        <span><a><%= t(:new)  %></a></span>
+                      </div>
+                      <div class="menuContent">
+                        <div class="menuItem"><%= link_to(t(:label_irm_report_new_custom),{:action => "new",:back_url=>url_for({})},:class=>"submit") %></div>
+                        <div class="menuItem"><%= link_to(t(:label_irm_report_new_program),{:action => "new_program",:back_url=>url_for({})}) %></div>
+                      </div>
+                    </span>
+                    <script type="text/javascript">
+                      $(document).ready(function(){
+                          $("#newReport").menubutton();
+                      });
+                    </script>
+                </div>
                 <div class="button" id="exportData"><a href="javascript:void(0)"><%= t(:export) %></a></div>
               </td>
               <td class="pbHelp">

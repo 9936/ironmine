@@ -426,12 +426,18 @@ Ironmine::Application.routes.draw do
     match '/reports/operator_value(.:format)' => "reports#operator_value", :via => :get
     match '/reports/create(.:format)' => "reports#create", :via => :post
     match '/reports/get_data(.:format)' => "reports#get_data"
-    match '/reports/:id(.:format)' => "reports#show", :via => :get
+    match '/reports/:id/show(.:format)' => "reports#show", :via => :get
     match '/reports/:id/multilingual_edit(.:format)' => "reports#multilingual_edit", :via => :get
     match '/reports/:id/multilingual_update(.:format)' => "reports#multilingual_update", :via => :put
     match '/reports/:id/destroy(.:format)' => "reports#destroy"
     match '/reports/:id/edit_custom(.:format)' => "reports#edit_custom", :via => [:get,:post,:put]
     match '/reports/:id/update_custom(.:format)' => "reports#update_custom", :via => :put
+    match '/reports/new_program(.:format)' => "reports#new_program", :via => [:get,:post]
+    match '/reports/create_program(.:format)' => "reports#create_program", :via => [:get,:post]
+    match '/reports/:id/edit_program(.:format)' => "reports#edit_program", :via => [:get,:post,:put]
+    match '/reports/:id/update_program(.:format)' => "reports#update_program", :via => :put
+    match '/reports/:id/edit_custom_program(.:format)' => "reports#edit_custom_program", :via => [:get,:post,:put]
+    match '/reports/:id/update_custom_program(.:format)' => "reports#update_custom_program", :via => :put
 
     #report folders
     match '/report_folders(/index)(.:format)' => "report_folders#index", :via => :get
