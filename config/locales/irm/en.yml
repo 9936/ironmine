@@ -1559,6 +1559,7 @@ en:
   label_irm_mail_edit_setting: Edit Email Server Configuration
   label_irm_mail_smtp_server: SMTP Server
   label_irm_mail_imap_server: POP/IMAP Server
+  label_irm_mail_server: Mail Server
 
   label_irm_mail_imap_protocol_choose: Choose form IMAP, POP.
   label_irm_mail_host_name_tip: Email server name.

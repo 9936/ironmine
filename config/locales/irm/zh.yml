@@ -1576,6 +1576,7 @@ zh:
   label_irm_mail_edit_setting: 编辑邮件服务器设置
   label_irm_mail_smtp_server: SMTP邮件服务器
   label_irm_mail_imap_server: POP/IMAP邮件服务器
+  label_irm_mail_server: 邮件服务器
 
   label_irm_mail_imap_protocol_choose: 从POP、IMAP中选择。
   label_irm_mail_host_name_tip: 邮件服务器名。

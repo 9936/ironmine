@@ -14,6 +14,12 @@ class Irm::MailSettingsController < ApplicationController
   def update
     @smtp_setting = Irm::SmtpSetting.where("opu_id = ?", Irm::OperationUnit.current.id).first()
     @imap_setting = Irm::ImapSetting.where("opu_id = ?", Irm::OperationUnit.current.id).first()
+    new_smtp = params[:smtp_setting]
+    new_imap = params[:imap_setting]
+    new_imap.merge!({:host_name => new_smtp[:host_name]}) if new_smtp[:host_name].present?
+    new_imap.merge!({:timeout => new_smtp[:timeout]}) if new_smtp[:timeout].present?
+    new_imap.merge!({:username => new_smtp[:username]}) if new_smtp[:username].present?
+    new_imap.merge!({:password => new_smtp[:password]}) if new_smtp[:password].present?
 
     respond_to do |format|
       if @smtp_setting.update_attributes(params[:smtp_setting]) &&
