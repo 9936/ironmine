@@ -19,14 +19,15 @@ class Irm::MyLoginHistoryController < ApplicationController
       }
 
       format.xls{
-        send_data(login_records_scope.to_xls(:only => [:login_name,:user_ip,:operate_system,:browser,:login_at,:logout_at],
-                                       :headers=>[       t(:label_irm_person_login),
-                                                         t(:label_irm_login_record_user_ip),
-                                                         t(:label_irm_login_record_operate_system),
-                                                         t(:label_irm_login_record_browser),
-                                                         t(:label_irm_login_record_login_at),
-                                                         t(:label_irm_login_record_logout_at)]
-                                             ))}
-      end
+        send_data(data_to_xls(login_records_scope,
+                              [{:key=>:login_name,:label=>t(:label_irm_person_login)},
+                               {:key=>:user_ip,:label=>t(:label_irm_login_record_user_ip)},
+                               {:key=>:operate_system,:label=>t(:label_irm_login_record_operate_system)},
+                               {:key=>:browser,:label=>t(:label_irm_login_record_browser)},
+                               {:key=>:login_at,:label=>t(:label_irm_login_record_login_at)},
+                               {:key=>:logout_at,:label=>t(:label_irm_login_record_logout_at)}]
+                  ))
+      }
+    end
   end
 end

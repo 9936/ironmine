@@ -194,12 +194,15 @@ class Irm::ReportsController < ApplicationController
                                                            :code,:report_folder_name,
                                                            :report_type_name,
                                                            :description],count))}
-      format.xls{send_data(reports_scope.to_xls(:only => [:name,:code,:report_folder_name,:report_type_name,:description],
-                                              :headers=>[t(:label_irm_report_name),t(:label_irm_report_code),
-                                                         t(:label_irm_report_folder),
-                                                         t(:label_irm_report_type),
-                                                         t(:label_irm_report_description)]
-                                             ))}
+      format.xls{
+        send_data(data_to_xls(reports_scope,
+                              [{:key=>:name,:label=>t(:label_irm_report_name)},
+                               {:key=>:code,:label=>t(:label_irm_report_code)},
+                               {:key=>:report_folder_name,:label=>t(:label_irm_report_folder)},
+                               {:key=>:report_type_name,:label=>t(:label_irm_report_type)},
+                               {:key=>:description,:label=>t(:label_irm_report_description)}]
+                  ))
+      }
     end
   end
 
