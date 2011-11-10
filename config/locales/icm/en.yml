@@ -214,3 +214,9 @@ en:
   label_icm_support_group_vendor_flag: 供应商组
   label_icm_support_group_add_group_notice: Please add person group
   #=========================  end icm support_groups =========================#
+  #========================= mail request ====================================
+  label_icm_mail_request: Mail Request
+  label_icm_mail_request_new: Create Mail Request
+  label_icm_mail_request_new: Edit Mail Request
+  label_icm_mail_request_info: Mail Request Info
+  #========================== end mail request ===============================
