@@ -346,12 +346,16 @@ class Irm::ReportsController < ApplicationController
 
   private
   def export_report_data_to_excel(report)
+    if "CUSTOM".eql?(report.program_type)
     if report.table_show_type.eql?("COMMON")
       return export_common(report)
     elsif report.table_show_type.eql?("GROUP")
       return export_group(report)
     elsif report.table_show_type.eql?("MATRIX")
       return export_group(report)
+    end
+    else
+      return report.program_instance.to_xls(report.program_params)
     end
 
   end

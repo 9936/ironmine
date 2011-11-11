@@ -93,7 +93,7 @@
         axes: [{
             type: 'Numeric',
             position: 'left',
-            fields: ['count'],
+            fields: ['total_count'],
             label: {
                 renderer: Ext.util.Format.numberRenderer('0,0')
             },
@@ -103,7 +103,7 @@
             type: 'Category',
             position: 'bottom',
             fields: ['date'],
-            orientation:"vertical",
+            orientation:"vertical"
         }],
         series: [{
             type: 'line',
@@ -114,7 +114,7 @@
             smooth: true,
             axis: 'left',
             xField: 'date',
-            yField: 'count',
+            yField: 'total_count',
             tips: {
                     trackMouse: true,
                     width: 120,

@@ -60,6 +60,7 @@ module Irm
         "#{partial_base_path}/#{self.class.name.underscore}/mail"
       end
 
+
     end
   end
 end
