@@ -254,6 +254,43 @@ class Irm::Report < ActiveRecord::Base
     @program_instance||= Irm::ReportManager.report_instance(self.program)
   end
 
+
+  def group_report_metadata
+    unless self.table_show_type.eql?("GROUP")
+      return {}
+    end
+    fields = self.group_fields
+    metadata = self.report_meta_data
+    grouped_data = {}
+    # 报表数据一组分组
+    case fields[0][2]
+      when nil
+        grouped_data = metadata.group_by{|i| i[fields[0][0]]}
+      when "DAY"
+        grouped_data = metadata.group_by{|i| i[fields[0][0]].strftime("%Y-%m-%d")}
+      when "MONTH"
+        grouped_data = metadata.group_by{|i| i[fields[0][0]].strftime("%Y-%m")}
+      when "YEAR"
+        grouped_data = metadata.group_by{|i| i[fields[0][0]].year.to_s}
+    end
+
+    # 报表数据二级分组
+    grouped_data.dup.each do |key,value|
+      case fields[1][2]
+        when nil
+          grouped_data[key] = value.group_by{|i| i[fields[1][0]]}
+        when "DAY"
+          grouped_data[key] = value.group_by{|i| i[fields[1][0]].strftime("%Y-%m-%d")}
+        when "MONTH"
+          grouped_data[key] = value.group_by{|i| i[fields[1][0]].strftime("%Y-%m")}
+        when "YEAR"
+          grouped_data[key] = value.group_by{|i| i[fields[1][0]].year.to_s}
+      end
+    end  if(fields.size==2)
+    # 返回分组后的数据
+    grouped_data
+  end
+
   private
   # 检查查询条件
   def validate_raw_condition_clause

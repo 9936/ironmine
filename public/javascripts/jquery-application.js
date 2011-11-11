@@ -18,9 +18,10 @@ $(function(){
     //BEGIN========================系统全局初始化========================================
     $('form a[type=submit]').live('click', function(e) {
       parent_forms = $(this).parents("form");
-      e.preventDefault()
-      if(parent_forms[0])
-        $(parent_forms[0]).trigger("submit");
+      e.preventDefault();
+      if(parent_forms[0]){
+          $(parent_forms[0]).trigger("submit");
+      }
     });
 
     $('form a.submit').live('click', function(e) {
@@ -28,6 +29,10 @@ $(function(){
         parent_forms = $(this).parents("form");
         e.preventDefault()
         if(parent_forms[0]){
+            if($(this).attr("target"))
+              $(parent_forms[0]).attr("target",$(this).attr("target"));
+            else
+              $(parent_forms[0]).removeAttr("target");
             $(parent_forms[0]).attr("action",href);
             $(parent_forms[0]).trigger("submit");
         }
@@ -74,6 +79,9 @@ $(function(){
         e.removeAttribute("jrequired");
     });
     $('form:not([data-remote]):not([target])').bind("submit",function(e){
+         if($(this).attr("target")){
+           return;
+         }
          $(e.target).find("input[type=submit]").each(function(index,el){
              $(el).attr("disabled",true);
              $(el).addClass("disabled");

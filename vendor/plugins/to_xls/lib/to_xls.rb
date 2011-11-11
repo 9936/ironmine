@@ -1,5 +1,11 @@
 require 'spreadsheet'
 class Array
+  # options
+  # ****sheet_name sheet页名称
+  # ****title  标题
+  # ****title_format 标题行显示的格式
+  # ****header_hidden 是否隐藏标题
+  # ****header_format 表头显示格式
   def to_xls(columns,options={})
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet :name => options[:sheet_name]||"Sheet1"
@@ -43,7 +49,7 @@ class Array
             end
 
             sheet.row(row_count).default_format = header_format
-            sheet.row(row_count).push column[:label]
+            sheet.row(row_count).push column[:label]||""
           end
           formats.merge(column[:key].to_sym,Spreadsheet::Format.new(column[:format])) if column[:format]&&column[:format].is_a?(Hash)
         }
@@ -72,7 +78,7 @@ class Array
           if(value.is_a? Time)
             value = value.strftime('%Y-%m-%d %H:%M:%S')
           end
-          sheet.row(row_count).push value
+          sheet.row(row_count).push value||""
         end
       end
     end

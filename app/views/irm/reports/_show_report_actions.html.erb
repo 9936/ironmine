@@ -43,4 +43,5 @@
       });
     </script>
 </div>
+<div class="button"><%= link_to t(:export), {:action => "run", :id => @report.id,:format=>:xls},:id=>"exportReport",:class=>"submit",:target=>"_blank"%></div>
 <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
