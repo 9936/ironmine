@@ -80,6 +80,11 @@ module Irm
           i.sync_schedule
         }
       end
+      # Generate incident request from mail
+      scheduler.every Irm::MailManager.receive_interval do
+        logger.debug "schedule receive mail and generate request job"
+        Icm::MailRequest.receive_mail
+      end
 
       scheduler.join
 
