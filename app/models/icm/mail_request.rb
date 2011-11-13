@@ -1,7 +1,9 @@
+require 'net/imap'
 class Icm::MailRequest < ActiveRecord::Base
   set_table_name :icm_mail_requests
 
   validates_presence_of :username, :password, :external_system_id, :service_code
+  validates_uniqueness_of :username
 
   scope :select_all, lambda{select("#{table_name}.* ")}
 
@@ -53,5 +55,50 @@ class Icm::MailRequest < ActiveRecord::Base
         with_urgency(I18n.locale).
         with_impact_range(I18n.locale).
         with_supporter(I18n.locale)
+  end
+
+  def self.receive_mail
+    mail_servers = Irm::ImapSetting.all
+    mail_servers.each do |mail_server|
+      Icm::MailRequest.where("status_code = ? AND opu_id = ?", Irm::Constant::ENABLED, mail_server.opu_id).each do |conf|
+        host = mail_server.host_name
+        port = mail_server.port
+        ssl = true
+        folder = "INBOX"
+        move_on_failure = "IRMSEEN"
+        move_on_success = "IRMPROCESSED"
+
+        imap = Net::IMAP.new(host, port, ssl)
+        imap.login(conf.username, conf.password)
+        imap.select(folder)
+
+        imap.search(['NOT', 'SEEN']).each do |message_id|
+          envelope = imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
+
+          msg = imap.fetch(message_id,'RFC822')[0].attr['RFC822']
+          if TemplateMailer.receive(msg)
+            logger.debug "Message #{message_id} successfully received" if logger && logger.debug?
+            if move_on_success
+              unless imap.list("", move_on_success)
+                imap.create("#{move_on_success}")
+              end
+              imap.copy(message_id, move_on_success)
+            end
+            imap.store(message_id, "+FLAGS", [:Seen])
+          else
+            logger.debug "Message #{message_id} can not be processed" if logger && logger.debug?
+            imap.store(message_id, "+FLAGS", [:Seen])
+            if move_on_failure
+              unless imap.list("", move_on_failure)
+                imap.create("#{move_on_failure}")
+              end
+              imap.copy(message_id, move_on_failure)
+              #imap.store(message_id, "+FLAGS", [:Deleted])
+            end
+          end
+        end
+
+      end
+    end
   end
 end

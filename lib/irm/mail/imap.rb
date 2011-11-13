@@ -30,7 +30,7 @@ module Irm::Mail
           if TemplateMailer.receive(msg)
             logger.debug "Message #{message_id} successfully received" if logger && logger.debug?
             if move_on_success
-              unless imap.list(move_on_success, '%')
+              unless imap.list("", move_on_failure)
                 imap.create("#{move_on_success}")
               end
               imap.copy(message_id, move_on_success)
@@ -40,7 +40,7 @@ module Irm::Mail
             logger.debug "Message #{message_id} can not be processed" if logger && logger.debug?
             imap.store(message_id, "+FLAGS", [:Seen])
             if move_on_failure
-              unless imap.list(move_on_failure, '%')
+              unless imap.list("", move_on_failure)
                 imap.create("#{move_on_failure}")
               end
               imap.copy(message_id, move_on_failure)
