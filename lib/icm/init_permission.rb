@@ -73,4 +73,8 @@ Irm::AccessControl.map do |map|
   map.function :view_watcher, {"irm/watchers" => ["order"]}
   map.function :edit_watcher, {"irm/watchers" => ["add_watcher", "delete_watcher"]}
 
+  #====================icm/mail_requests====================================
+  map.function :view_mail_request, {"icm/mail_requests" => ["index", "get_data", "show"]}
+  map.function :edit_mail_request, {"icm/mail_requests" => ["new", "create", "edit", "update"]}
+
 end

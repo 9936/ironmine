@@ -959,6 +959,13 @@ Ironmine::Application.routes.draw do
     match '/support_groups/create(.:format)' => "support_groups#create", :via => :post
     match '/support_groups/:id/get_member_options(.:format)' => "support_groups#get_member_options", :via => :get
     match '/support_groups/:id/get_pass_member_options(.:format)' => "support_groups#get_pass_member_options", :via => :get
+    #mail request
+    match '/mail_requests(/index)(.:format)' => "mail_requests#index", :via => :get
+    match '/mail_requests/new(.:format)' => "mail_requests#new", :via => :get
+    match '/mail_requests/create(.:format)' => "mail_requests#create", :via => :post
+    match '/mail_requests/edit(.:format)' => "mail_requests#edit", :via => :get
+    match '/mail_requests/update(.:format)' => "mail_requests#update", :via => :put
+    match '/mail_requests/get_data(.:format)' => "mail_requests#get_data", :via => :get
   end
 
 

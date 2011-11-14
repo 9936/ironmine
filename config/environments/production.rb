@@ -83,7 +83,7 @@ Ironmine::Application.configure do
     :username => 'rootironmine@163.com',
     :password => 'handhand',
     :host   => 'imap.163.com',
-    :port     => 993,
+    :port   => 993,
     :ssl    => true
   }
   config.ironmine.mail_receive_pop = {
