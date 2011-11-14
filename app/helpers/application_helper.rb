@@ -481,6 +481,10 @@ module ApplicationHelper
     link_to text, {}, {:href => "javascript:history.back();"}
   end
 
+  def link_submit(text = t(:save))
+    link_to text, {}, {:type=>"submit",:href => "javascript:void(0);"}
+  end
+
   #构建日历控件，其中text_field是输入的日期框，id_button是点击日历的
   #button，而id_cal是日历显示的ID，最好不一致
   def calendar_view(id_text_field,id_button,id_cal)

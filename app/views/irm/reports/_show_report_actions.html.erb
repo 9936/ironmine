@@ -1,0 +1,47 @@
+<div class="as-button" >
+    <span id="runSubmit" class="menuButton">
+      <div  class="menuLabel">
+        <span><a><%= t(:label_irm_report_run)  %></a></span>
+      </div>
+      <div class="menuContent">
+        <div class="menuItem"><%= link_to(t(:label_irm_report_run_immediate),{:action => "run",:back_url=>url_for({})},:class=>"submit") %></div>
+        <div class="menuItem"><%= link_to(t(:label_irm_report_run_schedule),{:controller => "irm/report_triggers",:action => "new",:report_id=>@report.id,:back_url=>url_for({})}) %></div>
+      </div>
+    </span>
+    <script type="text/javascript">
+      $(document).ready(function(){
+          $("#runSubmit").menubutton();
+      });
+    </script>
+</div>
+<% if @report.editable(@report[:access_type],@report[:member_type],Irm::Person.current.id) %>
+    <% if @report.custom? %>
+      <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @report.id}%></div>
+    <% else %>
+      <div class="button"><%= link_to t(:edit), {:action => "edit_program", :id => @report.id}%></div>
+    <% end %>
+    <div class="button"><%= link_to t(:label_irm_report_apply_params), {:action => "run", :id => @report.id,:apply=>true},:class=>"submit"%></div>
+<% end %>
+<% if @report.custom? %>
+    <div class="button"><%= link_to t(:label_irm_report_custom), {:action => "edit_custom"},{:class=>"submit"} %></div>
+<% else %>
+    <div class="button"><%= link_to t(:label_irm_report_custom), {:action => "edit_custom_program"},{:class=>"submit"} %></div>
+<% end %>
+<div class="as-button" >
+    <span id="newReport" class="menuButton">
+      <div  class="menuLabel">
+        <span><a><%= t(:new)  %></a></span>
+      </div>
+      <div class="menuContent">
+        <div class="menuItem"><%= link_to(t(:label_irm_report_new_custom),{:action => "new",:back_url=>url_for({})}) %></div>
+        <div class="menuItem"><%= link_to(t(:label_irm_report_new_program),{:action => "new_program",:back_url=>url_for({})}) %></div>
+      </div>
+    </span>
+    <script type="text/javascript">
+      $(document).ready(function(){
+          $("#newReport").menubutton();
+      });
+    </script>
+</div>
+<div class="button"><%= link_to t(:export), {:action => "run", :id => @report.id,:format=>:xls},:id=>"exportReport",:class=>"submit",:target=>"_blank"%></div>
+<div class="button"><%= link_to t(:back), {:action => "index"}%></div>

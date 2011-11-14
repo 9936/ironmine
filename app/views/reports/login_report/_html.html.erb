@@ -1,0 +1,130 @@
+<div id="reportChart"></div>
+
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=datas[:datas].count%>">
+         <thead>
+           <tr>
+             <th style="width:110px;">
+               <div><%= t(:label_irm_person) %></div>
+             </th>
+             <th style="width:110px;">
+               <div><%= t(:label_irm_person_login) %></div>
+             </th>
+             <th style="width:110px;">
+               <div><%= t(:label_irm_login_record_user_ip) %></div>
+             </th>
+             <th style="width:160px;">
+               <div><%= t(:label_irm_login_record_operate_system) %></div>
+             </th>
+             <th  style="width:160px;">
+               <div><%= t(:label_irm_login_record_browser) %></div>
+             </th>
+             <th style="width:180px;">
+               <div><%= t(:label_irm_login_record_login_at) %></div>
+             </th>
+             <th style="width:180px;">
+               <div><%= t(:label_irm_login_record_logout_at) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% datas[:datas].each do |data| %>
+         <tr id="<%=data[:id]%>">
+           <td>
+             <div>
+               <%= data[:full_name] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:login_name] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:user_ip] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:operate_system] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:browser] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= format_date(data[:login_at]) %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= format_date(data[:logout_at]) %>
+             </div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->
+<% require_javascript(:extjs) %>
+<% require_css(:extjs) %>
+
+<script type="text/javascript">
+  Ext.onReady(function(){
+    var store = Ext.create('Ext.data.JsonStore', {
+        fields: ['count', 'date'],
+        data: <%=datas[:chart_datas].to_json.html_safe %>
+    });
+
+    Ext.create('Ext.chart.Chart', {
+        renderTo: Ext.get("reportChart"),
+        animate: true,
+        width: Ext.get("reportChart").getComputedWidth()-10,
+        height: 300,
+        store: store,
+        axes: [{
+            type: 'Numeric',
+            position: 'left',
+            fields: ['total_count'],
+            label: {
+                renderer: Ext.util.Format.numberRenderer('0,0')
+            },
+            grid: true,
+            minimum: 0
+        }, {
+            type: 'Category',
+            position: 'bottom',
+            fields: ['date'],
+            orientation:"vertical"
+        }],
+        series: [{
+            type: 'line',
+            highlight: {
+                size: 7,
+                radius: 7
+            },
+            smooth: true,
+            axis: 'left',
+            xField: 'date',
+            yField: 'total_count',
+            tips: {
+                    trackMouse: true,
+                    width: 120,
+                    height: 40,
+                    renderer: function(storeItem, item) {
+                        this.setTitle(storeItem.get('date') + '<br />' + storeItem.get('total_count'));
+                    }
+            }
+        }
+        ]
+    });
+      });
+</script>

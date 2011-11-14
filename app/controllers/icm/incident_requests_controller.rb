@@ -83,10 +83,11 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request.request_type_code = "REQUESTED_TO_PERFORM"
     @incident_request.report_source_code = "CUSTOMER_SUBMIT"
     @incident_request.impact_range_id = Icm::ImpactRange.default_id
+    #加入创建事故单的默认参数
+    prepared_for_create(@incident_request)
     respond_to do |format|
       if @incident_request.valid?
-        #加入创建事故单的默认参数
-        prepared_for_create(@incident_request)
+
         if @incident_request.save
           #如果没有填写support_group, 插入Delay Job任务
           if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
@@ -177,13 +178,14 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
-        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_id_label,:last_response_date, :external_system_id_label],
-                                       :headers=>[t(:label_icm_incident_request_request_number_shot),
-                                                  t(:label_icm_incident_request_title),
-                                                  t(:label_icm_incident_request_incident_status_code),
-                                                  t(:label_icm_incident_request_last_date),
-                                                  t(:label_irm_external_system)]
-                                             ))}
+        send_data(data_to_xls(incident_requests,
+                              [{:key=>:request_number,:label=>t(:label_icm_incident_request_request_number_shot)},
+                               {:key=>:title,:label=>t(:label_icm_incident_request_title)},
+                               {:key=>:incident_status_id_label,:label=>t(:label_icm_incident_request_incident_status_code)},
+                               {:key=>:last_response_date,:label=>t(:label_icm_incident_request_last_date)},
+                               {:key=>:external_system_id_label,:label=>t(:label_irm_external_system)}]
+                  ))
+      }
     end
   end
 
@@ -231,15 +233,16 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
-        send_data(incident_requests.to_xls(:only => [:request_number,:title,:incident_status_id_label,:organization_id_label,:priority_id_label,:last_request_date, :external_system_id_label],
-                                       :headers=>[t(:label_icm_incident_request_request_number_shot),
-                                                  t(:label_icm_incident_request_title),
-                                                  t(:label_icm_incident_request_incident_status_code),
-                                                  t(:label_icm_incident_request_organization),
-                                                  t(:label_icm_incident_request_priority),
-                                                  t(:label_icm_incident_request_last_date),
-                                                  t(:label_irm_external_system)]
-                                             ))}
+        send_data(data_to_xls(incident_requests,
+                              [{:key=>:request_number,:label=>t(:label_icm_incident_request_request_number_shot)},
+                               {:key=>:title,:label=>t(:label_icm_incident_request_title)},
+                               {:key=>:incident_status_id_label,:label=>t(:label_icm_incident_request_incident_status_code)},
+                               {:key=>:organization_id_label,:label=>t(:label_icm_incident_request_organization)},
+                               {:key=>:priority_id_label,:label=>t(:label_icm_incident_request_priority)},
+                               {:key=>:last_request_date,:label=>t(:label_icm_incident_request_last_date)},
+                               {:key=>:external_system_id_label,:label=>t(:label_irm_external_system)}]
+                  ))
+        }
     end
   end
 

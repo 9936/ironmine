@@ -15,7 +15,7 @@ class Irm::ReportGroupColumn < ActiveRecord::Base
   scope :with_object_attribute,lambda{
     joins("JOIN #{Irm::ReportTypeField.table_name} ON #{Irm::ReportTypeField.table_name}.id = #{table_name}.field_id ").
     joins("JOIN #{Irm::ObjectAttribute.table_name} ON #{Irm::ObjectAttribute.table_name}.id = #{Irm::ReportTypeField.table_name}.object_attribute_id ").
-    select("#{Irm::ObjectAttribute.table_name}.business_object_id,#{Irm::ObjectAttribute.table_name}.id object_attribute_id,#{Irm::ObjectAttribute.table_name}.attribute_name object_attribute_name,#{table_name}.field_id report_type_field_id")
+    select("#{Irm::ObjectAttribute.table_name}.business_object_id,#{Irm::ObjectAttribute.table_name}.id object_attribute_id,#{Irm::ObjectAttribute.table_name}.attribute_name object_attribute_name,#{Irm::ObjectAttribute.table_name}.category object_attribute_category,#{table_name}.field_id report_type_field_id")
   }
 
   scope :select_sequence,lambda{

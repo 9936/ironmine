@@ -831,14 +831,13 @@ zh:
   label_irm_report_list: 报表列表
   label_irm_report: 报表
   label_irm_report_code: 报表编码
+  label_irm_report_program: 报表程序
   label_irm_report_name: 报表名称
   label_irm_report_category_code: 报表类别
   label_irm_report_status_code: 状态
   label_irm_report_new: 新建报表
   label_irm_report_description: 描述
   label_irm_report_edit: 编辑报表
-  label_irm_report_page_controller: 页面Controller
-  label_irm_report_page_action: 页面Action
   label_irm_report_choose_report_type: 选择报表类型
   label_irm_report_choose_display_column: 选择报表列
   label_irm_report_filter_company: 公司
@@ -861,6 +860,9 @@ zh:
   label_irm_report_choose_report_category: 选择报表类别
   label_action_edit_custom: 自定义
   label_action_run: 运行
+  label_irm_report_new_custom: 新建自定义报表
+  label_irm_report_new_program: 新建编程报表
+  label_irm_report_apply_params: 应用报表参数
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组

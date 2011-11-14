@@ -1,4 +1,8 @@
 module Irm::ReportsHelper
+  def available_report_programs
+    Irm::ReportManager.report_classes
+  end
+
   def report_category_type_script
     report_types = Irm::ReportType.multilingual.collect{|i| [i[:name],i.id,i.category_id,i[:description]]}
     report_types_hash = {}
@@ -213,7 +217,7 @@ module Irm::ReportsHelper
       )
       table_body << %Q(<tr class="break break1"><td colspan="#{display_headers.size}">&nbsp;</td></tr>)
       if(group_fields.size>1)
-        level_one_value..sort{|a,b| if a[0]&&b[0]; a[0]<=>b[0]; else; a[0]? 1:0; end}.map do |level_two_key,level_two_value|
+        level_one_value.sort{|a,b| if a[0]&&b[0]; a[0]<=>b[0]; else; a[0]? 1:0; end}.map do |level_two_key,level_two_value|
           level_two_summary_amount = level_two_value.size
           table_body << %Q(
             <tr class="group group2">
@@ -292,9 +296,18 @@ module Irm::ReportsHelper
 
   def show_report_cell(data)
     if(data.present?&&(data.is_a? Time))
-      return format_date(data)
+      return data.strftime('%Y-%m-%d %H:%M:%S') if data.present?
     else
       return data
     end
+  end
+
+  def show_program_report_params(report)
+    render :partial=>report.program_instance.params_partial,:locals=>{:program_params=>report.program_params||{}}
+  end
+
+  def show_program_report_data(report)
+    datas = report.program_instance.data(report.program_params)
+    render :partial=>report.program_instance.partial,:locals=>{:datas=>datas}
   end
 end

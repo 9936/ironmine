@@ -401,4 +401,8 @@ class ApplicationController < ActionController::Base
   def limit_device?
     request.user_agent.include?("MSIE 6.0") || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
   end
+
+  def data_to_xls(datas,columns,options={})
+    datas.to_xls(columns,options)
+  end
 end
