@@ -831,6 +831,7 @@ zh:
   label_irm_report_list: 报表列表
   label_irm_report: 报表
   label_irm_report_code: 报表编码
+  label_irm_report_program: 报表程序
   label_irm_report_name: 报表名称
   label_irm_report_category_code: 报表类别
   label_irm_report_status_code: 状态
