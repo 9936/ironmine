@@ -2,6 +2,7 @@ module Irm
   class ProcessMailRequestProcessor < Irm::MailManager::Processor
     def perform(email,parsed_email)
       people  = Irm::Person.unscoped.where(:email_address=>email.from_addrs.to_a.first).enabled
+
       return false unless people.any?
       # get the parsed email
       # use the plain mail message content
@@ -10,6 +11,7 @@ module Irm
       if email.to.present? #&& parsed_email[:action_type] && parsed_email[:action_type].eql?("REQUEST")
         people.each do |person|
           Irm::Person.current = person
+          Irm::OperationUnit.current = Irm::OperationUnit.find(person.opu_id)
           rules = Icm::MailRequest.where("username = ? AND opu_id = ?", email.to, person.opu_id).enabled
 
           #如果在不同opu下搜索出同一个email的person，则返回失败
@@ -19,11 +21,19 @@ module Irm
           sys = Irm::ExternalSystem.find(rule.external_system_id)
           return false unless Irm::Person.current.external_systems.include?(sys)
 
-          @incident_request = Icm::IncidentRequest.new()
-          @incident_request.summary = parsed_email[:bodies][0].lines.collect{|line| line}.join("\r\n")
-          prepared_for_create(@incident_request, rule, email)
+          incident_request = Icm::IncidentRequest.new()
+          content = parsed_email[:bodies][0].lines.collect{|line| line}[0].strip
+          return false unless content.size > 0
+          incident_request.summary =content
+          prepared_for_create(incident_request, rule, email)
+
           Irm::Person.current = nil
-          if @incident_request.save
+          if incident_request.save
+            #如果没有填写support_group, 插入Delay Job任务
+            if incident_request.support_group_id.nil? || incident_request.support_group_id.blank?
+              Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(incident_request.id),
+                                   [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => incident_request.id}])
+            end
             return true
           else
             return false
@@ -32,6 +42,8 @@ module Irm
       else
         false
       end
+    rescue
+      false
     end
 
     def prepared_for_create(incident_request, rule, email)

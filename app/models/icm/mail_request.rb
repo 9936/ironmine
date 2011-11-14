@@ -101,4 +101,8 @@ class Icm::MailRequest < ActiveRecord::Base
       end
     end
   end
+
+  def self.receive_reply_mail
+
+  end
 end
