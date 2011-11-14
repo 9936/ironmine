@@ -12,7 +12,7 @@
             <tr>
               <td>
                 <div id="watcher_select" style="float:left;">
-                  <%= lov_field_tag("watcher",Irm::Person, {:id => "watcher"}) %><%= hidden_field_tag "watchable_type", watchable.class.to_s%>
+                  <%= lov_field_tag("watcher",Irm::Person, {:id => "watcher", :style => "width:110px;"}) %><%= hidden_field_tag "watchable_type", watchable.class.to_s%>
                 </div>
                 <div class="float-right">
                     <div class="button"><%= submit_tag(t(:add))%></div>

@@ -46,6 +46,7 @@ div.button a:hover{background-position: right -30px;}
     -moz-box-sizing: content-box;
 }
 
+
 @media screen and (-webkit-min-device-pixel-ratio:0){
 div.button a {
     -webkit-border-radius: 3px;
@@ -83,6 +84,8 @@ div.button a {
 }
 
 .button input[type="submit"]:hover{background-position: right -30px; cursor: pointer;}
+
+.sidebarModuleBody .button input[type="submit"]{height: 18px !important;}
 
 div.button a[class="disabled"]{
     color: #a9a9a9;
