@@ -39,6 +39,7 @@ en:
    label_csi_survey_joined_count: Joined
    label_csi_survey_person_count: Total People
    label_csi_survey_created_at: Created At
+   label_csi_survey_created_by: Created By
    label_csi_survey_result_only_author: Only Author Allowed to View Results
    label_csi_survey_with_incident_request: Show in All Incident Request
    info_csi_survey_some_enabled_can_not_be_change: This item can not be edited, because survey has been joined

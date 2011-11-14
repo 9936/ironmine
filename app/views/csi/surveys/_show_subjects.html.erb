@@ -1,0 +1,67 @@
+<!--  irm datatable      -->
+<% subjects = survey_subjects(@survey.id) %>
+<% exists_result = !check_survey_result_exist?(@survey.id) %>
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=subjects.length%>">
+         <thead>
+           <tr>
+             <% unless exists_result %>
+               <th style="width:80px;">
+                 <div><%= t(:operation) %></div>
+               </th>
+             <% end %>
+             <th style="width:40px;">
+               <div><%= t(:label_csi_survey_subject_seq_num) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_csi_survey_subject_title) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_csi_survey_subject_prompt) %></div>
+             </th>
+             <th style="width:40px;">
+               <div><%= t(:required) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% subjects.each do |data| %>
+         <tr id="<%=data[:id]%>">
+           <% unless exists_result %>
+             <td>
+               <div>
+                <%= link_to(t(:edit),{:controller=>"csi/survey_subjects",:action=>"edit",:id=>data[:id],
+                                      :survey_id=>@survey.id}) %>&nbsp;&nbsp;
+                <%= link_to(t(:delete),{:controller=>"csi/survey_subjects",:action=>"destroy",:id=>data[:id],:survey_id=>@survey.id},:confirm => t(:label_are_you_sure) ,
+                                        :method => :delete) %>
+               </div>
+             </td>
+           <% end %>
+           <td>
+             <div>
+               <%=data[:seq_num]%>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=data[:name]%>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=data[:prompt]%>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=check_img(data[:required_flag])%>
+             </div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

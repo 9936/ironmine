@@ -15,26 +15,20 @@ function set_option_initial(obj){
 
 
 function subject_input_changed(e){
-   GY.use('node',function (Y){
-      var input_type = Y.all("#id_input_type").get('value');
-      var input_options = Y.all("#" + input_type + '_type').get('innerHTML');
-      Y.all("#input_options").set('innerHTML', input_options);
-   });
+    var input_type = $("#id_input_type").val();
+    var input_options = $("#" + input_type + '_type').html();
+    $("#input_options").html(input_options);
 }
 
 function subject_remove_option(e){
-  GY.use('node',function (Y){
-    // e.parent().remove();
-      e.parentNode.parentNode.removeChild(e.parentNode);
-  });
+    $(e.parentNode).remove();
 }
 
 //动态增加options
 function subject_add_option(e, type)
 {
-  GY.use('node',function (Y){
-      var options = Y.one('#options');
-      var count   = options.all('input[type=text]').size() + 1;
+      var options = $('#options');
+      var count   = options.find('input[type=text]').size() + 1;
       var option = '<p>';
 
       if(type == 'radio') {
@@ -48,10 +42,9 @@ function subject_add_option(e, type)
       option += '<a href="#" onclick="subject_remove_option(this);">' + delele_link_text + '</a>';
       option += '</p>';
       options.append(option);
-      var lastOptions = Y.one('#id_'+type + '_' + count);
+      var lastOptions = $('#id_'+type + '_' + count);
       if(lastOptions){
           lastOptions.focus();
       }
-   });
 }
 
