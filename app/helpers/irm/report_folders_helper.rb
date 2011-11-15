@@ -18,6 +18,13 @@ module Irm::ReportFoldersHelper
     values
   end
 
+  def available_report_folder_json
+    folders = Irm::ReportFolder.multilingual.collect{|i| {:id=>i.id ,:type=>"folder",:text=>i[:name],:folder_id=>i.id,:leaf=>true,:iconCls=>"x-tree-icon-parent"}}
+    root_folder = {:id=>"",:type=>"root",:folder_id=>"",:text=>t(:label_irm_report_folder_all),:draggable=>false,:leaf=>false,:expanded=>true}
+    root_folder[:children] =  folders
+    content_for(:page_script,"var reportFolderTreeData = #{root_folder.to_json};".html_safe)
+  end
+
   def available_report_folder
     Irm::ReportFolder.multilingual.collect{|i| [i[:name],i.id]}
   end

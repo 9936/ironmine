@@ -575,6 +575,7 @@ Ext.define("Ext.irm.DatatableStore",{
 
     filterParams: {},
     searchParams: {},
+    staticParams: {},
     dtSearch: function(options){
         var me = this;
         me.searchParams = options||{};
@@ -585,12 +586,18 @@ Ext.define("Ext.irm.DatatableStore",{
         me.filterParams = options||{};
         me.loadPage(1);
     },
+    dtStaticParams: function(options){
+        var me = this;
+        me.staticParams = options||{};
+        me.loadPage(1);
+    },
 
     load: function(options) {
         var me = this;
 
         var params = {};
 
+        Ext.apply(params,me.staticParams);
         Ext.apply(params,me.filterParams);
         Ext.apply(params,me.searchParams);
 
