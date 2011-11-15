@@ -218,5 +218,6 @@ zh:
   label_icm_mail_request: 邮件事故单规则
   label_icm_mail_request_new: 创建邮件事故单规则
   label_icm_mail_request_new: 编辑邮件事故单规则
-  label_icm_mail_request_info: 邮件事故单规则信息
+  label_icm_mail_request_info: 邮件设置信息
+  label_icm_mail_request_default_info: 事故默认信息
   #========================== end mail request ===============================
