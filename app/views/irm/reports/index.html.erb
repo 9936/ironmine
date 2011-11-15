@@ -16,15 +16,22 @@
   <tr>
     <td>
       <%= page_block do %>
-        <%= page_block_header("") do %>
-          <div class="button"  style="float:right;">
-            <%= link_to(t(:label_irm_report_folder_create_new_folder),{:controller => "irm/report_folders",:action=>"new"}) %>
-          </div>
-          <div class="button" style="float:right;">
-            <%= link_to(t(:edit),{:controller => "irm/report_folders",:action=>"edit",:id=>"${folderId}"},{:style=>"display:none;",:id=>"folderEditLink"}) %>
-          </div>
-
-        <% end %>
+        <div class="pbHeader">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr>
+                <td class="pbButton">
+                  <div class="button"  style="float:right;">
+                    <%= link_to(t(:label_irm_report_folder_create_new_folder),{:controller => "irm/report_folders",:action=>"new"}) %>
+                  </div>
+                  <div class="button" style="float:right;">
+                    <%= link_to(t(:edit),{:controller => "irm/report_folders",:action=>"edit",:id=>"${folderId}"},{:style=>"display:none;",:id=>"folderEditLink"}) %>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="pbBody">
 
           <div id="reportFolderTree">
