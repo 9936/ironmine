@@ -218,5 +218,6 @@ en:
   label_icm_mail_request: Mail Request
   label_icm_mail_request_new: Create Mail Request
   label_icm_mail_request_new: Edit Mail Request
-  label_icm_mail_request_info: Mail Request Info
+  label_icm_mail_request_info: Mail Configuration Info
+  label_icm_mail_request_default_info: Request Info
   #========================== end mail request ===============================
