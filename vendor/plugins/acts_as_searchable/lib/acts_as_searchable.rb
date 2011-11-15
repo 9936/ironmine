@@ -37,7 +37,7 @@ module Ironmine
 
 
         def searchable_show_url_options
-          url_options = searchable_options[:show_url]
+          url_options = searchable_options[:show_url].dup
           url_options.each do |key,value|
             url_options[key] = self.send(value) if value.is_a?(Symbol)&&self.respond_to?(value)
           end
