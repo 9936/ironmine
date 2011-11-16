@@ -9,7 +9,7 @@ class Irm::ReportCriterion < ActiveRecord::Base
              :text=>['BW','EW','U','X'],
              :datetime=>['IN'],
              :int=>[],
-             :lov=>['E','N']
+             :lov=>['E','N','NIL','NNIL']
             }.freeze
 
 
