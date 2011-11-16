@@ -1,6 +1,6 @@
 $(function(){
     $("#watcher_list").html('<%= escape_javascript(watchers_list(@watchable))%>');
-    $("#watcher_select").html('<%= escape_javascript(lov_field_tag("watcher",Irm::Person, {:id => "watcher"}))%>');
+    $("#watcher_select").html('<%= escape_javascript(lov_field_tag("watcher",Irm::Person, {:id => "watcher", :style => "width:110px;"}))%>');
 <% unless limit_device? %>
   $('.watcher_info').each(function(){
         try{

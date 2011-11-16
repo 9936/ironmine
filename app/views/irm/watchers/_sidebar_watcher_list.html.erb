@@ -1,3 +1,5 @@
+<% require_javascript(:extjs) %>
+<% require_css(:extjs)%>
 <% if allow_to_function?(:view_watcher) %>
     <% l_editable = allow_to_function?(:edit_watcher)%>
     <% (l_editable = editable && l_editable) if !editable.nil?%>

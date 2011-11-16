@@ -1,7 +1,7 @@
 $(function(){
     <% if @incident_request_id %>
     $("#relation_list").html('<%= escape_javascript(list_all_icm_incident_relations(@incident_request_id))%>');
-    $("#relation_select").html('<%= escape_javascript(lov_field_tag "icm_relation", Icm::IncidentRequest)%>');
+    $("#relation_select").html('<%= escape_javascript(lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:110px;")%>');
     <% end %>
 
 <% unless limit_device? %>
