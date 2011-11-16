@@ -6,7 +6,7 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
                :text=>['BW','EW','U','X'],
                :datetime=>['IN'],
                :int=>[],
-               :lov=>['E','N']
+               :lov=>['E','N','NIL','NNIL']
               }.freeze
 
   belongs_to :rule_filter
