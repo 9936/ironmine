@@ -78,6 +78,22 @@
                   </tbody>
                 </table>
             </div>
+
+            <div id="chartTypeHeader" class="pbSubheader tertiaryPalette">
+              <h3><%= t(:label_irm_report_chart_type) %></h3>
+            </div>
+            <div id="chartType" class="pbSubsection">
+                <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                    <tr>
+                      <td class="labelCol"><%= t(:label_irm_report_chart_type) %></td>
+                      <td class="dataCol" width="82%" colspan="3">
+                        <%= f.lookup_field(:chart_type,"IRM_REPORT_CHART_TYPE") %>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
         </div>
       </div>
     </div>
@@ -102,9 +118,22 @@
 <%end%>
 <script type="text/javascript">
   $(function(){
+      var checkGroupChart = function(){
+          $("#chartTypeHeader").css("display","none");
+          $("#chartType").css("display","none");
+          $("form.new_irm_report select.groupColumnSelect").each(function(){
+            if($(this).val()!="")
+            {
+              $("#chartTypeHeader").css("display","");
+              $("#chartType").css("display","");
+            }
+          });
+      }
+
       $("#rowHeaderGroup").append($("#groupColumn3"));
       $("#rowHeaderGroup").append($("#groupColumn4"));
       $("form.new_irm_report select.groupColumnSelect").change(function(e){
+          checkGroupChart();
           var currentValue = $(e.target).val();
           var seqNum = $(e.target).attr("ref");
           var dataType = "";
@@ -119,5 +148,6 @@
       $("#groupColumnSelect2").trigger("change");
       $("#groupColumnSelect3").trigger("change");
       $("#groupColumnSelect4").trigger("change");
+
   });
 </script>

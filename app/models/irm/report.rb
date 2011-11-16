@@ -248,6 +248,10 @@ class Irm::Report < ActiveRecord::Base
     Irm::Constant::SYS_YES.eql?(self.detail_display_flag)
   end
 
+  def show_chart?
+    ["PIE","BAR","COLUMN","LINE"].include?(self.chart_type)
+  end
+
 
   def program_instance
     return nil unless self.program_type.eql?("PROGRAM")&&self.program.present?

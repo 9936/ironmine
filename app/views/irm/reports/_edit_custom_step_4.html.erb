@@ -102,9 +102,22 @@
 <%end%>
 <script type="text/javascript">
   $(function(){
+      var checkGroupChart = function(){
+          $("#chartTypeHeader").css("display","none");
+          $("#chartType").css("display","none");
+          $("form select.groupColumnSelect").each(function(){
+            if($(this).val()!="")
+            {
+              $("#chartTypeHeader").css("display","");
+              $("#chartType").css("display","");
+            }
+          });
+      }
+
       $("#rowHeaderGroup").append($("#groupColumn3"));
       $("#rowHeaderGroup").append($("#groupColumn4"));
-      $("form.new_irm_report select.groupColumnSelect").change(function(e){
+      $("form select.groupColumnSelect").change(function(e){
+          checkGroupChart();
           var currentValue = $(e.target).val();
           var seqNum = $(e.target).attr("ref");
           var dataType = "";
@@ -119,5 +132,6 @@
       $("#groupColumnSelect2").trigger("change");
       $("#groupColumnSelect3").trigger("change");
       $("#groupColumnSelect4").trigger("change");
+
   });
 </script>

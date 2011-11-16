@@ -183,6 +183,25 @@ module Irm::ReportsHelper
     grouped_html = ""
 
 
+    # 生成图表数据
+    chart_data = {}
+
+    chart_flag = ["PIE","BAR","COLUMN","LINE"].include?(report.chart_type)
+
+    if chart_flag
+      chart_data[:level] = group_fields.size
+
+      # 如果是饼图展示数据,则只能展示一层数据
+      if "PIE".eql?(report.chart_type)
+        chart_data[:level] = 1
+      end
+      # 收集报表原始数据
+      chart_data[:origin_data] = []
+
+      chart_data[:map] = []
+    end
+
+
     # 生成表头
     table_header = ""
     display_headers.each do |dh|
@@ -197,6 +216,20 @@ module Irm::ReportsHelper
     if(group_fields.size>1)
       level_two_label = report_headers.detect{|i| i[0].eql?(group_fields[1][0])}[1]
     end
+
+    # 生成报表数据
+    if chart_data[:level]
+      chart_data[:category_label] = level_one_label
+      chart_data[:y_label] = t(:label_irm_report_record_count)
+    end
+
+
+      # 生成报表数据
+      if chart_data[:level]&&chart_data[:level]==1
+        chart_data[:map]<< {:key=>"data0",:label=>t(:label_irm_report_record_count)}
+      end
+
+
     meta_data.sort{|a,b| if a[0]&&b[0]; a[0]<=>b[0]; else; a[0]? 1:0; end}.map do |level_one_key,level_one_value|
 
       level_one_summary_amount = 0
@@ -216,6 +249,20 @@ module Irm::ReportsHelper
         </tr>
       )
       table_body << %Q(<tr class="break break1"><td colspan="#{display_headers.size}">&nbsp;</td></tr>)
+
+      # 生成报表数据
+      if chart_data[:level]
+        chart_data[:origin_data] << {:category=>level_one_key}
+        chart_data[:current] = chart_data[:origin_data][chart_data[:origin_data].length-1]
+      end
+
+
+      # 生成报表数据
+      if chart_data[:level]&&chart_data[:level]==1
+        chart_data[:current].merge!("data0".to_sym=>level_one_summary_amount)
+      end
+
+
       if(group_fields.size>1)
         level_one_value.sort{|a,b| if a[0]&&b[0]; a[0]<=>b[0]; else; a[0]? 1:0; end}.map do |level_two_key,level_two_value|
           level_two_summary_amount = level_two_value.size
@@ -237,7 +284,19 @@ module Irm::ReportsHelper
             end
             table_body << %Q(</tr>)
           end if report.show_detail?
+
+
+          # 生成报表数据
+          if chart_data[:level]&&chart_data[:level]==2
+            data_key_field = chart_data[:map].detect{|i| i[:label].eql?(level_two_key)}
+            unless data_key_field
+              data_key_field =  {:label=>level_two_key,:key=>"data#{chart_data[:map].length}"}
+              chart_data[:map] << data_key_field
+            end
+            chart_data[:current].merge!(data_key_field[:key].to_sym=>level_two_summary_amount)
+          end
         end
+
       else
         level_one_value.each do |data|
           table_body << %Q(<tr>)
@@ -248,6 +307,16 @@ module Irm::ReportsHelper
         end
       end
     end
+
+    # 生成报表数据
+    if chart_data[:level]
+      chart_data[:data_fields] = chart_data[:map].collect{|i| i[:key]}
+      chart_data[:series_title] = chart_data[:map].collect{|i| i[:label]}
+      chart_data[:fields] = ["category"] + chart_data[:data_fields]
+      content_for(:page_script,"var reportChartData = #{chart_data.to_json};".html_safe)
+    end
+
+
 
     table_content = ""
     table_content << "<thead><tr>#{table_header}</tr></thead>"
