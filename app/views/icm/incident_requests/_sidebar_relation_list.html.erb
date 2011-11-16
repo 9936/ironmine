@@ -1,3 +1,5 @@
+<% require_javascript(:extjs) %>
+<% require_css(:extjs) %>
 <%= form_tag({:controller => "icm/incident_requests", :action => "add_relation", :source_id => incident_request.id}, :remote => true) do %>
 <div class="sidebarModule">
     <div class="sidebarModuleHeader"><h2>
