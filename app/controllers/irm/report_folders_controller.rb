@@ -44,7 +44,7 @@ class Irm::ReportFoldersController < ApplicationController
   # PUT /report_folders/1
   # PUT /report_folders/1.xml
   def update
-    @report_folder = Irm::ReportFolder.multilingual.find(params[:id])
+    @report_folder = Irm::ReportFolder.find(params[:id])
 
     respond_to do |format|
       if @report_folder.update_attributes(params[:irm_report_folder])

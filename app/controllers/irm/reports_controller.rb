@@ -115,7 +115,7 @@ class Irm::ReportsController < ApplicationController
   end
 
   def update
-    @report = Irm::Report.multilingual.find(params[:id])
+    @report = Irm::Report.find(params[:id])
     session[:irm_report].merge!(params[:irm_report].symbolize_keys)
     @report.attributes =  session[:irm_report]
 
