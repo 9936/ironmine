@@ -371,12 +371,20 @@ module Irm::ReportsHelper
     end
   end
 
+  # 显示编程报表的参数页面块
   def show_program_report_params(report)
     render :partial=>report.program_instance.params_partial,:locals=>{:program_params=>report.program_params||{}}
   end
 
+  # 显示编程报表的数据展示页面块
   def show_program_report_data(report)
     datas = report.program_instance.data(report.program_params)
     render :partial=>report.program_instance.partial,:locals=>{:datas=>datas}
+  end
+
+
+  def show_custom_report_params(report,form)
+    param_criterions = Irm::ReportCriterion.query_param_criterion_by_report(report.id).select_all.with_operator(I18n.locale).with_object_attribute(I18n.locale)
+    render :partial=>"custom_report_params",:locals=>{:program_params=>report.program_params||{},:param_criterions=>param_criterions,:f=>form}
   end
 end

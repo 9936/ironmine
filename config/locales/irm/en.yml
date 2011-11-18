@@ -872,6 +872,8 @@ en:
   label_irm_report_apply_params: Apply Report Params
   label_irm_report_chart_type: Chart Type
   label_irm_report_record_count: Record Count
+  label_irm_report_params_config: Report Parameters Config
+  label_irm_report_params_default_value: Default Value
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组

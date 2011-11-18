@@ -21,7 +21,7 @@
               <%=sub_f.hidden_field(:bo_code,:value=>@rule_filter.bo_code)%>
               <%=sub_f.blank_select(:attribute_name,available_view_column(@rule_filter.bo_code),{:required=>true,:size=>10},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
             </td>
-            <td  id="filter<%=sub_f.object.seq_num%>">
+            <td class="filterOperationValue"  id="filter<%=sub_f.object.seq_num%>">
               <%= render_exists_operator_and_value(@rule_filter.bo_code,sub_f.object.attribute_name,sub_f)  %>
             </td>
           </tr>
