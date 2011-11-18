@@ -12,10 +12,27 @@ class Irm::ReportCriterion < ActiveRecord::Base
              :lov=>['E','N','NIL','NNIL']
             }.freeze
 
-
+  validates_uniqueness_of :field_id,:scope=>[:report_id,:param_flag] , :if => Proc.new { |i| i.field_id.present?&&i.param? }
   validates_presence_of :operator_code, :if => Proc.new { |i| i.field_id.present? }
-  validates_presence_of :filter_value, :if => Proc.new { |i| i.field_id.present?&&i.operator_code.present?&&!["NIL","NNIL"].include?(i.operator_code) }
-  validate :validate_data_type_filter_value, :if => Proc.new { |i| !i.field_id.blank? }
+  validates_presence_of :filter_value, :if => Proc.new { |i| !i.param?&&i.field_id.present?&&i.operator_code.present?&&!["NIL","NNIL"].include?(i.operator_code) }
+  validate :validate_data_type_filter_value, :if => Proc.new { |i| (i.field_id.present?&&!i.param?)||(i.field_id.present?&&i.param?&&i.filter_value.present?) }
+
+
+  scope :query_param_criterion_by_report,lambda{|report_id|
+     where(:param_flag=>Irm::Constant::SYS_YES,:report_id=>report_id)
+  }
+
+  scope :with_operator,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} ON #{table_name}.operator_code = #{Irm::LookupValue.view_name}.lookup_code AND #{Irm::LookupValue.view_name}.lookup_type='RULE_FILTER_OPERATOR' AND #{Irm::LookupValue.view_name}.language='#{language}'").
+        select("#{Irm::LookupValue.view_name}.meaning operator_meaning")
+  }
+
+  scope :with_object_attribute,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::ReportTypeField.table_name} ON #{Irm::ReportTypeField.table_name}.id = #{table_name}.field_id").
+        joins("LEFT OUTER JOIN #{Irm::ObjectAttribute.view_name} ON #{Irm::ObjectAttribute.view_name}.id = #{Irm::ReportTypeField.table_name}.object_attribute_id AND #{Irm::ObjectAttribute.view_name}.language='#{language}'").
+        joins("LEFT OUTER JOIN #{Irm::ObjectAttribute.table_name} ON #{Irm::ObjectAttribute.view_name}.relation_object_attribute_id = #{Irm::ObjectAttribute.table_name}.id").
+        select("#{Irm::ObjectAttribute.view_name}.name,#{Irm::ObjectAttribute.view_name}.attribute_name,#{Irm::ObjectAttribute.view_name}.category attribute_category,#{Irm::ObjectAttribute.view_name}.pick_list_code,#{Irm::ObjectAttribute.view_name}.relation_bo_id,#{Irm::ObjectAttribute.table_name}.attribute_name relation_object_attribute_name")
+  }
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -40,13 +57,17 @@ class Irm::ReportCriterion < ActiveRecord::Base
     return tmp_id
   end
 
+  def param?
+    Irm::Constant::SYS_YES.eql?(self.param_flag)
+  end
+
   private
   def validate_data_type_filter_value
     # if operator nil
     return if self.operator_code.eql?("NIL")
     object_attribute = self.ref_object_attribute
     operator = self.operator_code
-    validate_filter_value = filter_value.dup
+    validate_filter_value = (filter_value||"").dup
     validate_filter_value.strip!
 
     case object_attribute.data_type

@@ -113,5 +113,9 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
     border-bottom-width:0;
 }
 
-
+/*******************BEGIN filter************************************/
+td.filterOperationValue{
+    white-space:nowrap;
+}
+/*******************END f;ilter************************************/
 

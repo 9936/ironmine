@@ -65,6 +65,7 @@ class Irm::ReportsController < ApplicationController
 
     respond_to do |format|
       if @report.valid?
+         @report.sync_custom_report_params
          @report.create_columns_from_str
          @report.save
          session[:irm_report] = nil
@@ -121,13 +122,14 @@ class Irm::ReportsController < ApplicationController
 
     respond_to do |format|
       if @report.valid?
+         @report.sync_custom_report_params
          @report.create_columns_from_str
          @report.save
          session[:irm_report] = nil
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report, :status => :created, :location => @wf_rule }
       else
-        format.html { render({:action=>"show",:id=>@report.id}, :layout => "application_full") }
+        format.html { render({:action=>"edit",:id=>@report.id}, :layout => "application_full") }
         format.xml  { render :xml => @report.errors, :status => :unprocessable_entity }
       end
     end
@@ -157,9 +159,9 @@ class Irm::ReportsController < ApplicationController
 
     if "CUSTOM".eql?(@report.program_type)
       @report.attributes =  params[:irm_report]
-    else
-      @report.program_params = params[:program_params]
     end
+
+    @report.program_params = params[:program_params]||{}
 
     if params[:apply].present?
       @report.save
@@ -277,6 +279,7 @@ class Irm::ReportsController < ApplicationController
 
     respond_to do |format|
       if @report.valid?
+         @report.sync_custom_report_params
          @report.create_columns_from_str
          @report.save
          session[:irm_report] = nil

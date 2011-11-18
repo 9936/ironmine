@@ -22,6 +22,30 @@
   #reportData th{
       background-color: #DBF2F9;
   }
+   .reportParameters .row {
+       margin-bottom: 15px;
+   }
+   .reportParameters .row tr {
+       vertical-align: top;
+   }
+   .reportParameters .row td {
+       padding-right: 10px;
+   }
+   .reportParameters label, .reportParameters .label {
+       display: block;
+       font-size: 91%;
+       margin-top: 20px;
+       white-space: nowrap;
+   }
+   .reportParameters fieldset label, .reportParameters fieldset .label {
+       margin-top: 0;
+   }
+   .reportParameters fieldset {
+       border: 1px solid;
+       margin:0 2px 0 2px;
+       border-color: gray;
+       padding: 7px;
+   }
 </style>
 <%= app_title %>
 <% require_javascript(:datepicker) %>
@@ -37,42 +61,12 @@
         </tr>
         <tr>
           <td>
-            <table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
-                <tbody>
-                  <tr>
-                    <td width="30%"></td>
-                    <td></td>
-                    <td>
+            <div class="reportParameters">
+              <div class="row">
+                <%= show_custom_report_params(@report,f) %>
+              </div>
+            </div>
 
-                    </td>
-                    <td>
-                      <fieldset>
-                        <legend>
-                          <%= t(:label_irm_report_time_range) %>
-                        </legend>
-                        <table>
-                          <tr>
-                            <td colspan="2">
-                              <label for="filterDateField"><%= t(:label_irm_report_filter_date_field) %></label>
-                              <%= f.blank_select(:filter_date_field_id,grouped_options_for_select(available_date_filter_field(@report.report_type_id),@report.filter_date_field_id),{},{:id=>"filterDateField"})%>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
-                              <%= f.text_field(:filter_date_from,:value=>@filter_date_from,:id=>"filterDateFrom",:size=>12,:class=>"date",:nobutton=>true)%>
-                            </td>
-                            <td>
-                              <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
-                              <%= f.text_field(:filter_date_to,:value=>@filter_date_to,:id=>"filterDateTo",:size=>12,:class=>"date",:nobutton=>true)%>
-                            </td>
-                          </tr>
-                        </table>
-                      </fieldset>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
           </td>
         </tr>
         <tr>

@@ -118,3 +118,9 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
 .matrix-table td div {
     overflow: hidden;
 }
+
+/*******************BEGIN filter************************************/
+td.filterOperationValue{
+    white-space:nowrap;
+}
+/*******************END f;ilter************************************/

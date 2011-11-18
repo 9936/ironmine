@@ -19,8 +19,11 @@ class Irm::Report < ActiveRecord::Base
 
   has_many :report_columns,:order=>:seq_num,:dependent => :destroy
 
-  has_many :report_criterions,:order=>:seq_num,:dependent => :destroy
+  has_many :report_criterions,:order=>:seq_num,:dependent => :destroy,:conditions => "param_flag = '#{Irm::Constant::SYS_NO}'"
   accepts_nested_attributes_for :report_criterions
+
+  has_many :param_criterions,:order=>:seq_num,:dependent => :destroy,:class_name => "Irm::ReportCriterion",:conditions => "param_flag = '#{Irm::Constant::SYS_YES}'"
+  accepts_nested_attributes_for :param_criterions
 
 
   validates_presence_of :report_type_id, :if => Proc.new { |i| "CUSTOM".eql?(i.program_type)&&i.check_step(1) }
@@ -73,9 +76,16 @@ class Irm::Report < ActiveRecord::Base
 
 
   def prepare_criterions
-    return if self.report_criterions.size>4
-    0.upto 4 do |index|
-      self.report_criterions.build({:seq_num=>index+1})
+    unless self.report_criterions.size>4
+      0.upto 4 do |index|
+        self.report_criterions.build({:seq_num=>index+1})
+      end
+    end
+
+    unless self.param_criterions.size>0
+      0.upto 4 do |index|
+        self.param_criterions.build({:seq_num=>index+1,:param_flag=>Irm::Constant::SYS_YES})
+      end
     end
   end
 
@@ -107,6 +117,17 @@ class Irm::Report < ActiveRecord::Base
       next unless column_str.strip.present?
       self.report_columns.build(:field_id=>column_str,:seq_num=>str_column_indexes.index(column_str)+1)
     end if str_columns.any?
+  end
+
+
+
+  #同步自定义报表的报表参数
+  def sync_custom_report_params
+    self.program_params||={}
+    self.param_criterions.each do |param_criterion|
+      next unless param_criterion.field_id.present?&&param_criterion.filter_value.present?
+      self.program_params.merge!({param_criterion.field_id=>param_criterion.filter_value})
+    end
   end
 
 
@@ -346,6 +367,28 @@ class Irm::Report < ActiveRecord::Base
       clause.gsub!("^#{sq}",conditions[sq.to_i])
     end
     clause
+
+    # 生成参数查询条件
+
+    params_clause = []
+    self.param_criterions.each do |param_criterion|
+      if param_criterion.field_id.present?&&self.program_params["#{param_criterion.field_id}"].present?
+        param_criterion.filter_value = self.program_params["#{param_criterion.field_id}"]
+        if param_criterion.valid?
+          params_clause << param_criterion.to_condition(self.report_type.table_name_hash)
+        end
+      end
+    end
+
+    result_clause = ""
+
+    result_clause << clause if clause.present?
+
+    if params_clause.any?
+      result_clause << " AND "  if clause.present?
+      result_clause << params_clause.join(" AND ")
+    end
+    result_clause
   end
 
   def where_clause

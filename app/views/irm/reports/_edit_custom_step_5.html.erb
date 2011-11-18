@@ -70,6 +70,9 @@
                 </tbody>
               </table>
             </div>
+
+            <%= render :partial=>"param_criterions",:locals=>{:selectable_fields=>selectable_fields,:f=>f}%>
+
             <div id="head_2_ep" class="pbSubheader tertiaryPalette">
               <h3><%= t(:label_irm_report_data_filter) %></h3>
             </div>
@@ -93,7 +96,7 @@
                         <%=sub_f.hidden_field(:seq_num)%>
                         <%=sub_f.blank_select(:field_id,grouped_options_for_select(selectable_fields,sub_f.object.field_id),{},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
                       </td>
-                      <td class="dataCol" id="filter<%=sub_f.object.seq_num%>">
+                      <td class="dataCol filterOperationValue" id="filter<%=sub_f.object.seq_num%>">
                         <%= render_report_filter_field(sub_f.object.field_id,sub_f)  %>
                       </td>
                     </tr>
