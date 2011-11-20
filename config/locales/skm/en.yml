@@ -124,6 +124,7 @@ en:
   label_skm_column_list: Category List
   label_skm_column_new_child: New Child
   label_skm_column_choice: Set Category
+  label_skm_column_all: All Category
 
   #========================= skm columns ==========================================
   label_skm_channel: Knowledge Channel

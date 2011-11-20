@@ -7,8 +7,84 @@
     </span>
 </div>
 <%= view_filter("SKM_ENTRY_HEADERS_INDEX","SKM_ENTRY_HEADERS","entry_headers_list") %>
-<%= render "data_grid" %>
-<%= content_for :sidebar do%>
-    <%= render "skm/entry_headers/sidebar_navigate_menu"%>
-    <%= render :partial =>"/irm/common/recently_objects" %>
-<% end -%>
+<style type="text/css">
+  .listViewTitle{font-size:125%;font-weight:bold;}
+</style>
+<table style="table-layout: fixed; width:100%">
+  <tr>
+    <th  width="250px">
+      <span class="listViewTitle"><%= t(:label_skm_column) %></span>
+
+    </th>
+    <th>
+      <span class="listViewTitle" id="columnText"><%= t(:label_skm_column_all) %></span>
+
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <%= page_block do %>
+        <div class="pbHeader">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr>
+                <td class="pbButton">
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pbBody">
+          <div id="tree-div" href="<%= url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json) %>">
+            <% require_javascript(:extjs) %>
+            <% require_css(:extjs) %>
+            <script>
+            Ext.onReady(function() {
+                var treeNode = Ext.getDom("tree-div");
+
+                Ext.define('ColumnField', {
+                    extend: 'Ext.data.Model',
+                    fields: [
+                        {name: 'id',type: 'string'},
+                        {name: 'text',type: 'string'},
+                        {name: 'sc_id',type: 'string'},
+                        {name: 'column_name',type: 'string'},
+                        {name: 'column_description',type: 'string'},
+                        {name: 'column_accesses', type:'string'},
+                        {name: 'sc_code',type: 'string'}
+                    ]
+                });
+                var store = Ext.create('Ext.data.TreeStore', {
+                    model: "ColumnField",
+                    proxy: {type: 'ajax',url:  treeNode.getAttribute("href")}
+                });
+
+                var tree = Ext.create('Ext.tree.Panel', {
+                    store: store,
+                    rootVisible: false,
+                    useArrows: true,
+                    renderTo: 'tree-div',
+                    width: 250,
+                    height: 300,
+                    listeners:{
+                        'itemclick':function(view, record, item, index, e){
+                            $("#columnText").html(record.get("column_name"));
+                            Ext.getCmp("entry_headers_listDatatable").store.dtStaticParams({column_id:record.get("id")});
+                        }
+                    }
+                });
+
+            });
+            </script>
+          </div>
+        </div>
+       <% end %>
+
+    </td>
+
+    <td>
+        <%= render "data_grid" %>
+    </td>
+  </tr>
+</table>

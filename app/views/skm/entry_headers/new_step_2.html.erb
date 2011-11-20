@@ -36,7 +36,7 @@
                 <tbody>
                     <tr>
                       <td class="labelCol">
-                        <div id="tree-div" href="<%= url_for(:controller => "skm/columns", :action=>"get_columns_data", :format=>:json) %>"></div>
+                        <div id="tree-div" href="<%= url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json) %>"></div>
                       </td>
                       <td class="data2Col">
                           <table class="detailList" cellpadding="0" cellspacing="0" border="0">

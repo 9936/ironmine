@@ -57,10 +57,11 @@ class Skm::ColumnsController < ApplicationController
 
   def get_columns_data
     tree_nodes = []
+    column_ids = Skm::Column.current_person_accessible_columns if params[:access]
     @skm_columns = Skm::Column.multilingual.where("LENGTH(parent_column_id) = 0")
     @skm_columns.each do |sc|
       is_leaf = sc.is_leaf?
-
+      display = params[:access] ? column_ids.include?(sc.id) : true
       column_accesses = ""
       ca_recs = sc.column_accesses.uniq
       ca_recs.each do |ca|
@@ -76,13 +77,19 @@ class Skm::ColumnsController < ApplicationController
                  :column_description => sc[:description], :sc_id => sc.id,
                  :column_accesses => column_accesses,
                  :sc_code => sc.column_code, :leaf => is_leaf, :children=>[], :checked => false}
-      sc_node[:children] = sc.get_child_nodes(params[:with_check])
+      sc_node[:children] = sc.get_child_nodes(params[:access], params[:with_check], column_ids)
       sc_node.delete(:children) if sc_node[:children].size == 0
       sc_node.delete(:checked) unless params[:with_check]
       sc_node[:checked] = true if params[:with_check].present? && params[:with_check].split(",").include?(sc.id.to_s)
+      sc_node[:leaf] = sc_node[:children].nil?
+
+      next unless display || !sc_node[:children].nil?
       tree_nodes << sc_node
     end
-
+    tree_nodes << {:id => "", :text => I18n.t(:uncategory), :column_name => I18n.t(:uncategory),
+                 :column_description => I18n.t(:uncategory), :sc_id => "",
+                 :column_accesses => "",
+                 :sc_code => "", :leaf => true, :children=>[]} if params[:show_uncolumn]
     respond_to do |format|
       format.json {render :json=>tree_nodes.to_json}
     end
