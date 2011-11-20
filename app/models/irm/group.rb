@@ -14,6 +14,8 @@ class Irm::Group < ActiveRecord::Base
 
   attr_accessor :level
 
+  has_many :channel_groups, :class_name => 'Skm::ChannelGroup'
+  has_many :channels, :through => :channel_groups
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离

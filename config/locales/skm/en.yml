@@ -124,3 +124,15 @@ en:
   label_skm_column_list: Category List
   label_skm_column_new_child: New Child
   label_skm_column_choice: Set Category
+
+  #========================= skm columns ==========================================
+  label_skm_channel: Knowledge Channel
+  label_skm_channel_code: Channel Code
+  label_skm_channel_new: New Channel
+  label_skm_channel_edit: Edit Channel
+  label_skm_channel_list: Channels List
+  label_skm_channel_name: Channel Name
+  label_skm_channel_description: Description
+
+  label_skm_owned_channels: Owned Channels
+  label_skm_channel_management: Management Channels

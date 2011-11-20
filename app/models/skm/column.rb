@@ -18,6 +18,9 @@ class Skm::Column < ActiveRecord::Base
 
   has_many :column_accesses
 
+  has_many :channel_columns, :class_name => 'Skm::ChannelColumn'
+  has_many :channels, :through => :channel_columns
+
   belongs_to :parent, :class_name => "Skm::Column", :foreign_key => "parent_column_id"
 
   has_many :children, :class_name => "Skm::Column", :foreign_key => "parent_column_id", :dependent => :destroy
