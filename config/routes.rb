@@ -312,6 +312,9 @@ Ironmine::Application.routes.draw do
     match '/groups/:id/multilingual_edit(.:format)' => "groups#multilingual_edit", :via => :get
     match '/groups/:id/multilingual_update(.:format)' => "groups#multilingual_update", :via => :put
     match '/groups/:id(.:format)' => "groups#show"
+    match '/groups/:id/new_skm_channels(.:format)' => "groups#new_skm_channels", :via => :get
+    match '/groups/:id/create_skm_channels(.:format)' => "groups#create_skm_channels"
+    match '/groups/:id/remove_skm_channel(.:format)' => "groups#remove_skm_channel"
     #group_members
     match '/group_members/:id/new(.:format)' => "group_members#new", :via => :get
     match '/group_members/:id/create(.:format)' => "group_members#create", :via => :post
@@ -964,6 +967,7 @@ Ironmine::Application.routes.draw do
     match '/mail_requests/new(.:format)' => "mail_requests#new", :via => :get
     match '/mail_requests/create(.:format)' => "mail_requests#create", :via => :post
     match '/mail_requests/edit(.:format)' => "mail_requests#edit", :via => :get
+    match '/mail_requests/:id/show(.:format)' => "mail_requests#show", :via => :get
     match '/mail_requests/update(.:format)' => "mail_requests#update", :via => :put
     match '/mail_requests/get_data(.:format)' => "mail_requests#get_data", :via => :get
   end
@@ -1112,6 +1116,20 @@ Ironmine::Application.routes.draw do
     match '/skm_columns/:id/edit(.:format)' => "columns#edit", :via => :get
     match '/skm_columns/:id/update(.:format)' => "columns#update", :via => :put
     match '/skm_columns/get_columns_data(.:format)' => "columns#get_columns_data", :via => :get
+
+    #skm_channels
+    match '/channels(/index)(.:format)' => "channels#index", :via => :get
+    match '/channels/:id/edit(.:format)' => "channels#edit", :via => :get
+    match '/channels/:id(.:format)' => "channels#update", :via => :put
+    match '/channels/new(.:format)' => "channels#new", :via => :get
+    match '/channels/create(.:format)' => "channels#create", :via => :post
+    match '/channels/get_data(.:format)' => "channels#get_data"
+    match '/channels/:id/show(.:format)' => "channels#show", :via => :get
+    match '/channels/get_all_columns_data(.:format)' => "channels#get_all_columns_data", :via => :get
+    match '/channels/:id/multilingual_edit(.:format)' => "channels#multilingual_edit", :via => :get
+    match '/channels/:id/multilingual_update(.:format)' => "channels#multilingual_update", :via => :put
+    match '/channels/:group_id/get_owned_channels(.:format)' => "channels#get_owned_channels"
+    match '/channels/:group_id/get_ava_channels(.:format)' => "channels#get_ava_channels"
   end
 
   scope :module => "uid" do

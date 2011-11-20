@@ -126,3 +126,16 @@ zh:
   label_skm_column_choice: 选择知识库分类
   label_skm_column_access: 分类访问权限
   label_skm_column_if_access_list_none: 如果没有限制可访问对象，则该公告对所有用户可见
+  label_skm_column_all: 全部分类
+
+  #========================= skm columns ==========================================
+  label_skm_channel: 频道
+  label_skm_channel_code: 频道编码
+  label_skm_channel_new: 创建频道
+  label_skm_channel_edit: 编辑频道
+  label_skm_channel_list: 频道列表
+  label_skm_channel_name: 频道名称
+  label_skm_channel_description: 描述
+
+  label_skm_owned_channels: 已经拥有的频道
+  label_skm_channel_management: 添加频道

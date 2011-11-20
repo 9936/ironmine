@@ -1,6 +1,5 @@
 class Skm::EntryHeader < ActiveRecord::Base
   set_table_name :skm_entry_headers
-
   has_many :entry_subjects
   has_many :entry_details
 
@@ -12,8 +11,12 @@ class Skm::EntryHeader < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope {default_filter}
+  default_scope {default_filter.within_accessible_columns}
 
+  # 默认进行频道权限过滤
+  scope :within_accessible_columns, lambda{
+    within_accessible_columns_c
+  }
   scope :published, where("#{table_name}.entry_status_code = ?", "PUBLISHED")
   scope :draft, where("#{table_name}.entry_status_code = ?", "DRAFT")
   scope :current_entry, where("#{table_name}.history_flag = ?", Irm::Constant::SYS_NO)
@@ -54,6 +57,11 @@ class Skm::EntryHeader < ActiveRecord::Base
         where("#{table_name}.opu_id = ?", opu_id)
   }
 
+  scope :with_columns, lambda{|column_ids|
+    joins(", #{Skm::EntryColumn.table_name} ec").
+        where("ec.column_id IN (?) AND ec.entry_header_id = #{table_name}.id", column_ids + [''])
+  }
+
   def self.search(query)
     Skm::EntryHeader.list_all.published.current_entry.where("#{table_name}.entry_title like ? OR #{table_name}.doc_number like ?","%#{query}%","%#{query}%")
   end
@@ -85,5 +93,10 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   def attachments
     Irm::Attachment.list_all.query_by_source(Skm::EntryHeader.name, self.id)
+  end
+
+  def self.within_accessible_columns_c
+    columns = Skm::Column.current_person_accessible_columns
+    where(" EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} ec WHERE ec.column_id IN (?) AND ec.entry_header_id = #{Skm::EntryHeader.table_name}.id)", columns + [''])
   end
 end

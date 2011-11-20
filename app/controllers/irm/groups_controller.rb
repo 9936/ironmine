@@ -180,4 +180,37 @@ class Irm::GroupsController < ApplicationController
       end
     end
   end
+
+  def new_skm_channels
+    @group = Irm::Group.multilingual.find(params[:id])
+    @channel_group = Skm::ChannelGroup.new
+    @channel_group.status_code = ""
+  end
+
+  def create_skm_channels
+    @group = Irm::Group.find(params[:id])
+    @channel_group = Skm::ChannelGroup.new(params[:skm_channel_group])
+    respond_to do |format|
+      if(!@channel_group.status_code.blank?)
+        @channel_group.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
+          Skm::ChannelGroup.create(:group_id=>@group.id,:channel_id=>id)
+        end
+        format.html { redirect_to({:controller => "irm/groups",:action=>"show",:id=>@group.id}, :notice => t(:successfully_created)) }
+      else
+        @channel_group.errors.add(:status_code,"")
+        format.html { render :action => "new_skm_channels" }
+      end
+    end
+  end
+
+  def remove_skm_channel
+    @group_member = Skm::ChannelGroup.where("group_id =? AND channel_id = ? AND opu_id = ?",
+                                            params[:group_id], params[:channel_id], Irm::OperationUnit.current.id).first
+    @group_member.destroy
+
+    respond_to do |format|
+      format.html { redirect_to({:controller=>"irm/groups",:action=>"show",:id=>params[:group_id]}) }
+      format.xml  { head :ok }
+    end
+  end
 end

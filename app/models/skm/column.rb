@@ -18,6 +18,9 @@ class Skm::Column < ActiveRecord::Base
 
   has_many :column_accesses
 
+  has_many :channel_columns, :class_name => 'Skm::ChannelColumn'
+  has_many :channels, :through => :channel_columns
+
   belongs_to :parent, :class_name => "Skm::Column", :foreign_key => "parent_column_id"
 
   has_many :children, :class_name => "Skm::Column", :foreign_key => "parent_column_id", :dependent => :destroy
@@ -32,11 +35,12 @@ class Skm::Column < ActiveRecord::Base
     !children.any?
   end
 
-  def get_child_nodes(with_check = "")
+  def get_child_nodes(need_access = false, with_check = "", column_ids = [])
     child_nodes = []
     children = Skm::Column.multilingual.where(:parent_column_id => self.id)
     children.each do |c|
       is_leaf = c.is_leaf?
+      display = need_access ? column_ids.include?(c.id) : true
       column_accesses = ""
       ca_recs = c.column_accesses.uniq
       ca_recs.each do |ca|
@@ -55,7 +59,8 @@ class Skm::Column < ActiveRecord::Base
       child_node.delete(:children) if child_node[:children].size == 0
       child_node.delete(:checked) unless with_check
       child_node[:checked] = true if with_check.present? && with_check.split(",").include?(c.id.to_s)
-
+      child_node[:leaf] = child_node[:children].nil?
+      next unless display || !child_node[:children].nil?
       child_nodes << child_node
     end
 
@@ -64,12 +69,17 @@ class Skm::Column < ActiveRecord::Base
 
   #当前人员可访问的栏目
   def self.current_person_accessible_columns(person=Irm::Person.current)
-    all_root_columns = Skm::Column.enabled.where("LENGTH(parent_column_id) = 0")
-    accessible_ids = []
-    all_root_columns.each do |ac|
-      accessible_ids << ac.recursive_check_accessible(false, person)
+    group_ids = Irm::GroupMember.where("person_id = ? AND opu_id = ?", person.id, Irm::OperationUnit.current.id).enabled.collect(&:group_id)
+    groups = Irm::Group.where("id IN (?)", group_ids + ['']).enabled
+
+    all_columns = []
+    groups.each do |g|
+      g.channels.each do |c|
+        all_columns = all_columns + c.columns.enabled
+      end
     end
-    accessible_ids.flatten()
+
+    all_columns.uniq.collect(&:id)
   end
 
   def recursive_check_accessible(parent_accessible=false,person=Irm::Person.current)

@@ -143,6 +143,7 @@ en:
   file_upload_limit_alert: File limit %{m} KB
   by_name: By name
   by_date: By date
+  uncategory: Not classified
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
