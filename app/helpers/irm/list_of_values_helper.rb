@@ -39,7 +39,7 @@ module Irm::ListOfValuesHelper
     end
 
     hidden_tag_str = hidden_field_tag(name,value,{:name=>options.delete(:name)||name,:id=>lov_field_id,:href=>url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)})
-    label_tag_str = text_field_tag("#{name.gsub("[","_").gsub("]","")}_label",label_value,options.merge(:id=>"#{lov_field_id}_label",:onchange=>"clearLookup('#{lov_field_id}')"))
+    label_tag_str = text_field_tag("#{name.to_s.gsub("[","_").gsub("]","")}_label",label_value,options.merge(:id=>"#{lov_field_id}_label",:onchange=>"clearLookup('#{lov_field_id}')"))
 
     link_click_action = %Q(javascript:openLookup('#{url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
 
