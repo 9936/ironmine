@@ -273,3 +273,7 @@ en:
   label_uid_external_login: External System Login
   label_uid_login_mapping: System Login Mapping
   #=========end object meaning translate===================
+  #=========reports===================
+  label_average: Average
+  label_summary: Summay
+  #=========end reports===================

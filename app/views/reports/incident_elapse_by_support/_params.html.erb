@@ -1,0 +1,41 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
+  <tbody>
+    <tr>
+      <td width="30%"></td>
+      <td></td>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_icm_incident_request_target_system) %></label>
+        <div style="white-space:nowrap">
+          <%= lov_field_tag(:external_system_id,Irm::ExternalSystem,:name=>"program_params[external_system_id]",:value=>program_params[:external_system_id],:id=>"external_system_id") %>
+        </div>
+      </td>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_icm_incident_request_service_code) %></label>
+        <div style="white-space:nowrap">
+          <%= lov_field_tag(:service_code,Slm::ServiceCatalog,:name=>"program_params[service_code]",:value_field=>:catalog_code,:value=>program_params[:service_code],:id=>"service_code") %>
+        </div>
+      </td>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_irm_report_time_range) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                <%= text_field_tag(:date_from,program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:size=>12,:class=>"date",:nobutton=>true)%>
+              </td>
+              <td>
+                <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                <%= text_field_tag(:date_to,program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:size=>12,:class=>"date",:nobutton=>true)%>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+    </tr>
+  </tbody>
+</table>

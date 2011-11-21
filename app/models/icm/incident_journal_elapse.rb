@@ -10,6 +10,8 @@ class Icm::IncidentJournalElapse < ActiveRecord::Base
 
   before_save :calculate_distance
 
+  belongs_to :incident_journal
+
   private
   def calculate_distance
      self.distance = self.end_at.to_i - self.start_at.to_i
