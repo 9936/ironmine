@@ -60,6 +60,13 @@ module Irm
         "#{partial_base_path}/#{self.class.name.underscore}/mail"
       end
 
+      def name
+         self.class.name.underscore
+      end
+
+      def description
+        "Report:#{self.class.name.underscore}"
+      end
 
     end
   end

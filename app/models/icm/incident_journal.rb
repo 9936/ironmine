@@ -92,10 +92,27 @@ class Icm::IncidentJournal < ActiveRecord::Base
 
     end
     incident_request.update_attributes(incident_request_attributes)
+
+    incident_histories = Icm::IncidentHistory.where(:journal_id=>incident_journal.id)
+
+    elapse_options = {:incident_status_id=>incident_request.incident_status_id,:support_group_id=>incident_request.support_group_id}
+
+    status_change_history = incident_histories.detect{|i| i.property_key.eql?("incident_status_id")}
+
+    if status_change_history
+      elapse_options.merge!({:incident_status_id=>status_change_history.old_value})
+    end
+
+    support_group_change_history = incident_histories.detect{|i| i.property_key.eql?("support_group_id")}
+
+    if support_group_change_history
+      elapse_options.merge!({:support_group_id=>support_group_change_history.old_value})
+    end
+
     if last_journal
-      Icm::IncidentJournalElapse.create(:incident_journal_id=>self.id,:elapse_type=>self.reply_type,:start_at=>last_journal.created_at,:end_at=>self.created_at)
+      Icm::IncidentJournalElapse.create(({:incident_journal_id=>self.id,:elapse_type=>self.reply_type,:start_at=>last_journal.created_at,:end_at=>self.created_at}).merge(elapse_options))
     else
-      Icm::IncidentJournalElapse.create(:incident_journal_id=>self.id,:elapse_type=>self.reply_type,:start_at=>incident_request.created_at,:end_at=>self.created_at)
+      Icm::IncidentJournalElapse.create(({:incident_journal_id=>self.id,:elapse_type=>self.reply_type,:start_at=>incident_request.created_at,:end_at=>self.created_at}).merge(elapse_options))
     end
   end
 
