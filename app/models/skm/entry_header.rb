@@ -62,8 +62,21 @@ class Skm::EntryHeader < ActiveRecord::Base
         where("ec.column_id IN (?) AND ec.entry_header_id = #{table_name}.id", column_ids + [''])
   }
 
+  searchable :auto_index => true, :auto_remove => true do
+    text :entry_title, :boost => 3
+    text :entry_content do |entry|
+      entry.entry_details.map { |detail| detail.entry_content }
+    end
+    text :entry_column do |entry|
+      entry.entry_colu
+    end
+  end
+
   def self.search(query)
-    Skm::EntryHeader.list_all.published.current_entry.where("#{table_name}.entry_title like ? OR #{table_name}.doc_number like ?","%#{query}%","%#{query}%")
+#    Skm::EntryHeader.list_all.published.current_entry.where("#{table_name}.entry_title like ? OR #{table_name}.doc_number like ?","%#{query}%","%#{query}%")
+    Sunspot.search Skm::EntryHeader do
+      keywords query
+    end.results
   end
 
   def self.generate_doc_number(prefix = "")

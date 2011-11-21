@@ -6,7 +6,6 @@
       <%= link_to(toggle_img("multiUserViewIcon"),{:controller => "skm/file_managements"},{:alt=>t(:label_skm_file_management),:title=>t(:label_skm_file_management)}) %>
     </span>
 </div>
-<%= view_filter("SKM_ENTRY_HEADERS_INDEX","SKM_ENTRY_HEADERS","entry_headers_list") %>
 <style type="text/css">
   .listViewTitle{font-size:125%;font-weight:bold;}
 </style>
@@ -25,7 +24,7 @@
     <td>
       <%= page_block do %>
         <div class="pbHeader">
-          <table cellpadding="0" cellspacing="0" border="0">
+          <table cellpadding="0" cellspacing="0" border="0" style="height:35px;">
             <tbody>
               <tr>
                 <td class="pbButton">
@@ -63,7 +62,6 @@
                 var tree = Ext.create('Ext.tree.Panel', {
                     store: store,
                     rootVisible: false,
-                    useArrows: true,
                     renderTo: 'tree-div',
                     width: 250,
                     height: 300,
