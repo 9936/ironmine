@@ -387,4 +387,5 @@ module Irm::ReportsHelper
     param_criterions = Irm::ReportCriterion.query_param_criterion_by_report(report.id).select_all.with_operator(I18n.locale).with_object_attribute(I18n.locale)
     render :partial=>"custom_report_params",:locals=>{:program_params=>report.program_params||{},:param_criterions=>param_criterions,:f=>form}
   end
+
 end

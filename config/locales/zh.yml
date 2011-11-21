@@ -270,3 +270,7 @@ zh:
   label_uid_external_login: 外部系统人员
   label_uid_login_mapping: 外部系统与本系统对照
   #=========end object meaning translate===================
+  #=========reports===================
+  label_average: 平均
+  label_summary: 总计
+  #=========end reports===================
