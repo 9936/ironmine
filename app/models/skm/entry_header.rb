@@ -68,7 +68,7 @@ class Skm::EntryHeader < ActiveRecord::Base
       entry.entry_details.map { |detail| detail.entry_content }
     end
     text :entry_column do |entry|
-      entry.entry_colu
+      entry.entry_columns.multilingual.map { |column| column[:name]}
     end
   end
 
