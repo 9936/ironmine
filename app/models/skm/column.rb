@@ -54,7 +54,7 @@ class Skm::Column < ActiveRecord::Base
       child_node = {:id=>c.id,:text=>c[:name],:sc_id=>c.id, :sc_code => c.column_code,
                     :column_name => c[:name], :column_description => c[:description],
                     :column_accesses=> column_accesses,
-                    :leaf => is_leaf, :checked => false, :children => []}
+                    :leaf => is_leaf, :checked => false, :children => [], :expanded => true,:iconCls=>"x-tree-icon-parent"}
       child_node[:children] = c.get_child_nodes
       child_node.delete(:children) if child_node[:children].size == 0
       child_node.delete(:checked) unless with_check

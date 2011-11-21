@@ -76,7 +76,7 @@ class Skm::ColumnsController < ApplicationController
       sc_node = {:id => sc.id, :text => sc[:name], :column_name => sc[:name],
                  :column_description => sc[:description], :sc_id => sc.id,
                  :column_accesses => column_accesses,
-                 :sc_code => sc.column_code, :leaf => is_leaf, :children=>[], :checked => false}
+                 :sc_code => sc.column_code, :leaf => is_leaf, :children=>[], :checked => false, :expanded => true,:iconCls=>"x-tree-icon-parent"}
       sc_node[:children] = sc.get_child_nodes(params[:access], params[:with_check], column_ids)
       sc_node.delete(:children) if sc_node[:children].size == 0
       sc_node.delete(:checked) unless params[:with_check]
