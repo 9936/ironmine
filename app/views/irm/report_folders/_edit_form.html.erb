@@ -48,12 +48,6 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label for="report_folder_access_type"><%=t(:label_irm_report_folder_access_type)%></label></td>
-              <td class="dataCol"><%=f.select :access_type,available_report_folder_access_type ,{:required=>true} ,:id=>"report_folder_access_type"%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
               <td class="labelCol"><label for="report_folder_member_type"><%=t(:label_irm_report_folder_member_type)%></label></td>
               <td class="dataCol" colspan="3" width="82%">
                 <% available_report_folder_member_type.each_with_index do |v,i|  %>
@@ -70,6 +64,12 @@
               <td class="dataCol" colspan="3">
                 <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:member_str,:str_value=>@report_folder.get_member_str,:order=>true,:size=>7} %>
               </td>
+            </tr>
+            <tr id="accessType">
+              <td class="labelCol"><label for="report_folder_access_type"><%=t(:label_irm_report_folder_access_type)%></label></td>
+              <td class="dataCol"><%=f.select :access_type,available_report_folder_access_type ,{:required=>true} ,:id=>"report_folder_access_type"%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
         </tbody>
       </table>
@@ -90,3 +90,23 @@
   </div>
 </div>
 <% end %>
+<script type="text/javascript">
+$(function(){
+    $("input.memberType").click(function(e){
+        if($(e.target).val()=="MEMBER"){
+          $("#member_strDuelSelect").css("display","");
+        }
+        else{
+          $("#member_strDuelSelect").css("display","none");
+        }
+        if($(e.target).val()=="PRIVATE"){
+          $("#accessType").css("display","none");
+        }
+        else{
+          $("#accessType").css("display","");
+        }
+    });
+    $.checkRadioButton("input.memberType");
+});
+
+</script>

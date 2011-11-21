@@ -144,6 +144,7 @@ zh:
   error_icm_requested_by_can_not_blank: 请求人不能为空
   label_icm_incident_request_view_filter_data_range_all: 我相关的
   label_icm_incident_request_view_filter_data_range_main: 我参与的
+  label_icm_incident_request_relation: 相关事故单
   #========================= end icm incident_requests_controller=======================#
   #=========================    icm incident_journals_controller=======================#
   label_icm_incident_reply_support_group_id: 转交组
@@ -213,3 +214,10 @@ zh:
   label_icm_support_group_vendor_flag: 供应商组
   label_icm_support_group_add_group_notice: 请添加人员组
   #=========================  end icm support_groups =========================#
+  #========================= mail request ====================================
+  label_icm_mail_request: 邮件事故单规则
+  label_icm_mail_request_new: 创建邮件事故单规则
+  label_icm_mail_request_new: 编辑邮件事故单规则
+  label_icm_mail_request_info: 邮件设置信息
+  label_icm_mail_request_default_info: 事故默认信息
+  #========================== end mail request ===============================

@@ -2,7 +2,7 @@ module Irm::LdapSynAttributesHelper
   def available_syn_object_attribute(business_object_code=nil)
     object_attributes =[]
     if business_object_code
-      object_attributes = Irm::ObjectAttribute.query_by_status_code("ENABLED").multilingual.where(:business_object_code=>business_object_code)
+      object_attributes = Irm::ObjectAttribute.query_by_status_code("ENABLED").multilingual.query_by_business_object_code(business_object_code)
     else
       object_attributes = Irm::ObjectAttribute.query_by_status_code("ENABLED").multilingual
     end

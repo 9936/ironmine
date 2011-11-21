@@ -18,9 +18,10 @@ $(function(){
     //BEGIN========================系统全局初始化========================================
     $('form a[type=submit]').live('click', function(e) {
       parent_forms = $(this).parents("form");
-      e.preventDefault()
-      if(parent_forms[0])
-        parent_forms[0].submit();
+      e.preventDefault();
+      if(parent_forms[0]){
+          $(parent_forms[0]).trigger("submit");
+      }
     });
 
     $('form a.submit').live('click', function(e) {
@@ -28,8 +29,12 @@ $(function(){
         parent_forms = $(this).parents("form");
         e.preventDefault()
         if(parent_forms[0]){
+            if($(this).attr("target"))
+              $(parent_forms[0]).attr("target",$(this).attr("target"));
+            else
+              $(parent_forms[0]).removeAttr("target");
             $(parent_forms[0]).attr("action",href);
-            parent_forms[0].submit();
+            $(parent_forms[0]).trigger("submit");
         }
     });
 
@@ -65,7 +70,18 @@ $(function(){
          $(n).attr("autocomplete", "off");
     });
 
-    $('form:not([data-remote])').bind("submit",function(e){
+    $('input[jrequired]').each(function(index, n){
+        var parent_node = $(n).parent();
+        var node = '<div class="requiredInput"><div class="requiredBlock"></div>' + $(parent_node).html() + '</div>';
+        $(parent_node).html(node);
+    });
+    $("*[jrequired]").each(function(i,e){
+        e.removeAttribute("jrequired");
+    });
+    $('form:not([data-remote]):not([target])').bind("submit",function(e){
+         if($(this).attr("target")){
+           return;
+         }
          $(e.target).find("input[type=submit]").each(function(index,el){
              $(el).attr("disabled",true);
              $(el).addClass("disabled");
@@ -73,6 +89,7 @@ $(function(){
          });
          $(e.target).find("div.button a").each(function(index,el){
              $(el).attr("disabled",true);
+             $(el).attr("onclick","alert('"+$.i18n("processing")+"');return false;");
              $(el).addClass("disabled");
              $(el).html($.i18n("processing"));
          });
@@ -178,3 +195,85 @@ var refreshFilterOptions = function(container,e) {
 };
 
 //END========================过滤器 帮助函数========================================
+//BEGIN========================LOOKUP lov 帮助函数========================================
+//openLookup('/_ui/common/data/LookupPage?lkfm=editPage&lknm=acc3&lktp=' + getElementByIdCS('acc3_lktp').value,670,'1','&lksrch=' + escapeUTF(getElementByIdCS('acc3').value.substring(0, 80)))
+var curPopupWindow,lastMouseX=0,lastMouseY=0;
+
+function setLastMousePosition(a) {
+    if (navigator.appName.indexOf("Microsoft") != -1) a = window.event;
+    lastMouseX = a.screenX;
+    lastMouseY = a.screenY
+}
+
+function openLookup(url, width) {
+    openPopup(url, "lookup", 350, 480, "width=" + width + ",height=480,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", true)
+}
+
+function openPopup(url, name, positionX, positionY, frameParams) {
+    closePopup();
+    if (lastMouseX - positionX < 0) lastMouseX = positionX;
+    if (lastMouseY + positionY > screen.height) lastMouseY -= lastMouseY + positionY + 50 - screen.height;
+    lastMouseX -= positionX;
+    lastMouseY += 10;
+    frameParams += ",screenX=" + lastMouseX + ",left=" + lastMouseX + ",screenY=" + lastMouseY + ",top=" + lastMouseY
+
+    curPopupWindow = window.open(url, name, frameParams, false);
+    curPopupWindow.focus();
+    $(window).bind("focus",closePopup);
+}
+
+function closePopup() {
+    if (curPopupWindow != null) {
+        try {
+            if (curPopupWindow.confirmOnClose) if (curPopupWindow.confirm(curPopupWindow.confirmOnCloseLabel)) {
+                curPopupWindow.confirmOnClose = false;
+                curPopupWindow.focus();
+                return false
+            }
+            curPopupWindow.close()
+        } catch (a) {}
+        $(window).unbind("focus",closePopup);
+        curPopupWindow = null;
+
+    }
+}
+
+function lookupPick(fieldId,value,valueLabel,data){
+    $("#"+fieldId).val(value);
+    $("#"+fieldId+"_label").val(valueLabel);
+    $("#"+fieldId+"_label").focus();
+    $("#"+fieldId).data("lov",data);
+    $("#"+fieldId).trigger("change");
+    closePopup();
+}
+
+function clearLookup(fieldId){
+    //$("#"+fieldId+"_label").val("");
+    $("#"+fieldId).val("");
+}
+
+function setLookupValue(fieldId,value){
+    var url = $("#"+fieldId).attr("href");
+    url = url.replace("lov?","lov_value?");
+    url = url+"&lkval="+value;
+    $.getJSON(url, function(data) {
+        $("#"+fieldId).val(data.value);
+        $("#"+fieldId+"_label").val(data.label_value);
+        $("#"+fieldId).data("lov",data.data);
+        $("#"+fieldId).trigger("change");
+    });
+}
+
+function setLookupLabelValue(fieldId,labelValue){
+    var url = $("#"+fieldId).attr("href");
+    url = url.replace("lov?","lov_value?")
+    url = url+"&lklblval="+labelValue;
+    $.getJSON(url, function(data) {
+        $("#"+fieldId).val(data.value);
+        $("#"+fieldId+"_label").val(data.label_value);
+        $("#"+fieldId).data("lov",data.data);
+        $("#"+fieldId).trigger("change");
+    });
+}
+
+//END========================LOOKUP lov 帮助函数========================================

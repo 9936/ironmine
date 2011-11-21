@@ -14,7 +14,7 @@ module Ironmine
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths += %W(#{config.root}/lib #{config.root}/ext_lib)
+    config.autoload_paths += %W(#{config.root}/lib #{config.root}/ext_lib #{config.root}/program/report)
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -54,7 +54,8 @@ module Ironmine
         :jplugin => %w(jquery-plugin),
         :extjs=>%w(ext4-all ext-extend ext-application locales/ext-{locale}),
         :survey=>%w(survey),
-        :datepicker=>%w(jquery-bigiframe jquery-datepicker locales/jquery-datepicker-{locale} jquery-datepicker-date)
+        :datepicker=>%w(jquery-bigiframe jquery-datepicker locales/jquery-datepicker-{locale} jquery-datepicker-date),
+        :waypoints => %w(jquery-waypoints)
     }
     config.ironmine.css.source = {
         :default =>%w(base button container form header icons layout other public sidebar table jmask),

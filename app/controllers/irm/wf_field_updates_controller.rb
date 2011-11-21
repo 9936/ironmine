@@ -95,7 +95,7 @@ class Irm::WfFieldUpdatesController < Irm::WfActionsController
   end
 
   def set_value
-    @object_attribute = Irm::ObjectAttribute.where(:business_object_code=>params[:bo_code],:attribute_name=>params[:object_attribute]).first
+    @object_attribute = Irm::ObjectAttribute.query_by_business_object_code(params[:bo_code]).where(:attribute_name=>params[:object_attribute]).first
     @wf_field_update = Irm::WfFieldUpdate.new
   end
 

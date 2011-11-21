@@ -53,52 +53,56 @@ module Irm::FiltersHelper
   end
 
   def render_exists_operator_and_value(bo_code,object_attribute_name,form)
-    oa = Irm::ObjectAttribute.where(:business_object_code=>bo_code,:attribute_name=>object_attribute_name).first
+    oa = Irm::ObjectAttribute.query_by_business_object_code(bo_code).where(:attribute_name=>object_attribute_name).first
     render_operator_and_value(oa,form)
   end
 
   def render_operator_and_value(object_attribute,form)
     return render_nil_object_attribute(form) unless object_attribute
     data_type = object_attribute.data_type
-    lov_code = object_attribute.lov_code
-    operators = view_filter_operators(object_attribute.data_type)
+    relation_bo_id = object_attribute.relation_bo_id
+    operators = view_filter_operators(object_attribute.data_type,relation_bo_id.present?)
 
-    operator_tag = form.select(:operator_code,operators, :required=>true,:size=>10)
-    operator_tag = content_tag(:div,operator_tag,{:style=>"width:40%;float:left;"},false)
+    operator_tag = form.select(:operator_code,operators, {:required=>true},{:style=>"min-width:150px"})
+    operator_tag = content_tag(:div,operator_tag,{:style=>"display:inline; padding-right: 10px;"},false)
 
     value_tag = ""
 
-    if lov_code.present?
-      value_tag = form.lov_field(:filter_value,lov_code,{:id=>"filter_value_#{form.object.seq_num}",:label_required=>true})
+    if relation_bo_id.present?
+      relation_object_attribute = Irm::ObjectAttribute.find(object_attribute.relation_object_attribute_id)
+      value_tag = form.lov_field(:filter_value,relation_bo_id,{:id=>"filter_value_#{form.object.seq_num}_#{Irm::IdGenerator.instance.generate("irm_rule_filters")}",:value_field=>relation_object_attribute.attribute_name,:id_type=>true})
     else
       value_tag = form.text_field :filter_value,:size=>30
     end
-    value_tag = content_tag(:div,value_tag,{:style=>"width:50%;float:left;"},false)
+    value_tag = content_tag(:div,value_tag,{:style=>"display:inline;"},false)
     (operator_tag + value_tag).html_safe
   end
 
   private
   def view_filter_columns(bo_code)
-    Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable.where(:business_object_code=>bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
+    Irm::ObjectAttribute.selectable_column.query_by_status_code("ENABLED").multilingual.filterable.query_by_business_object_code(bo_code).collect{|i|[i[:name],i.attribute_name,{:attribute_id=>i.id}]}
   end
 
   def view_filters(source_code)
     Irm::RuleFilter.hold.query_by_source_code(source_code)
   end
 
-  def view_filter_operators(data_type)
+  def view_filter_operators(data_type,lov_flag=false)
     operators = Irm::LookupValue.query_by_lookup_type("RULE_FILTER_OPERATOR").multilingual.order_id
     available_ops = (Irm::RuleFilterCriterion::OPERATORS[data_type.to_sym]+Irm::RuleFilterCriterion::OPERATORS[:common]).uniq
+    if lov_flag
+       available_ops =Irm::RuleFilterCriterion::OPERATORS[:lov]
+    end
     operators.collect{|o| [o[:meaning],o[:lookup_code]] if available_ops.include?(o[:lookup_code])}.compact
   end
 
   def render_nil_object_attribute(form)
     operators = view_filter_operators(:common)
-    operator_tag = form.blank_select(:operator_code,operators, :required=>true,:size=>10)
-    operator_tag = content_tag(:div,operator_tag,{:style=>"width:40%;float:left;"},false)
+    operator_tag = form.blank_select(:operator_code,operators, {:required=>true},{:style=>"min-width:150px"})
+    operator_tag = content_tag(:div,operator_tag,{:style=>"display:inline; padding-right: 10px;"},false)
     value_tag = ""
     value_tag = form.text_field :filter_value,:size=>30
-    value_tag = content_tag(:div,value_tag,{:style=>"width:50%;float:left;"},false)
+    value_tag = content_tag(:div,value_tag,{:style=>"display:inline;"},false)
     (operator_tag + value_tag).html_safe
   end
 

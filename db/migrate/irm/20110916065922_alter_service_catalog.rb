@@ -28,6 +28,7 @@ class AlterServiceCatalog < ActiveRecord::Migration
       t.datetime "created_at"
       t.datetime "updated_at"
     end
+    change_column :slm_service_catalog_explosions, "id", :string,:limit=>22, :collate=>"utf8_bin"
   end
 
 end

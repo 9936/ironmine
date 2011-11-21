@@ -312,6 +312,9 @@ Ironmine::Application.routes.draw do
     match '/groups/:id/multilingual_edit(.:format)' => "groups#multilingual_edit", :via => :get
     match '/groups/:id/multilingual_update(.:format)' => "groups#multilingual_update", :via => :put
     match '/groups/:id(.:format)' => "groups#show"
+    match '/groups/:id/new_skm_channels(.:format)' => "groups#new_skm_channels", :via => :get
+    match '/groups/:id/create_skm_channels(.:format)' => "groups#create_skm_channels"
+    match '/groups/:id/remove_skm_channel(.:format)' => "groups#remove_skm_channel"
     #group_members
     match '/group_members/:id/new(.:format)' => "group_members#new", :via => :get
     match '/group_members/:id/create(.:format)' => "group_members#create", :via => :post
@@ -354,7 +357,7 @@ Ironmine::Application.routes.draw do
     match '/people/:person_id/:role_id/remove_role(.:format)' => "people#remove_role", :via => :get
     match '/people/:person_id/get_owned_roles(.:format)' => "people#get_owned_roles", :via => :get
     match '/people/:person_id/get_owned_external_systems(.:format)' => "people#get_owned_external_systems", :via => :get
-
+    match '/people/:id/info_card(.:format)' => "people#info_card", :via => :get
     #id_flexes
     match '/id_flexes(/index)(.:format)' => "id_flexes#index", :via => :get
     match '/id_flexes/:id/edit(.:format)' => "id_flexes#edit", :via => :get
@@ -426,12 +429,18 @@ Ironmine::Application.routes.draw do
     match '/reports/operator_value(.:format)' => "reports#operator_value", :via => :get
     match '/reports/create(.:format)' => "reports#create", :via => :post
     match '/reports/get_data(.:format)' => "reports#get_data"
-    match '/reports/:id(.:format)' => "reports#show", :via => :get
+    match '/reports/:id/show(.:format)' => "reports#show", :via => :get
     match '/reports/:id/multilingual_edit(.:format)' => "reports#multilingual_edit", :via => :get
     match '/reports/:id/multilingual_update(.:format)' => "reports#multilingual_update", :via => :put
     match '/reports/:id/destroy(.:format)' => "reports#destroy"
     match '/reports/:id/edit_custom(.:format)' => "reports#edit_custom", :via => [:get,:post,:put]
     match '/reports/:id/update_custom(.:format)' => "reports#update_custom", :via => :put
+    match '/reports/new_program(.:format)' => "reports#new_program", :via => [:get,:post]
+    match '/reports/create_program(.:format)' => "reports#create_program", :via => [:get,:post]
+    match '/reports/:id/edit_program(.:format)' => "reports#edit_program", :via => [:get,:post,:put]
+    match '/reports/:id/update_program(.:format)' => "reports#update_program", :via => :put
+    match '/reports/:id/edit_custom_program(.:format)' => "reports#edit_custom_program", :via => [:get,:post,:put]
+    match '/reports/:id/update_custom_program(.:format)' => "reports#update_custom_program", :via => :put
 
     #report folders
     match '/report_folders(/index)(.:format)' => "report_folders#index", :via => :get
@@ -471,6 +480,7 @@ Ironmine::Application.routes.draw do
 
     match '/watchers/:watchable_id/add_watcher(.:format)' => "watchers#add_watcher"
     match '/watchers/delete_watcher(.:format)' => "watchers#delete_watcher"
+    match '/watchers/order(.:format)' => "watchers#order"
 
 #    match '/calendar_tasks(/:year(/:month))' => 'calendar_tasks#index', :as => :calendar_task, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     match '/todo_events(/index)(.:format)' => "todo_events#index", :via => :get
@@ -513,8 +523,11 @@ Ironmine::Application.routes.draw do
     match '/business_objects/:id/execute_test(.:format)' => "business_objects#execute_test", :via => :get
     match '/business_objects/:id/multilingual_edit(.:format)' => "business_objects#multilingual_edit", :via => :get
     match '/business_objects/:id/multilingual_update(.:format)' => "business_objects#multilingual_update", :via => :put
+    match '/business_objects/:id/destroy(.:format)' => "business_objects#destroy", :via => :delete
     # object attributes
     match '/object_attributes(/index)(.:format)' => "object_attributes#index", :via => :get
+    match '/business_objects/:bo_id/object_attributes/new_model_attribute(.:format)' => "object_attributes#new_model_attribute", :via => :get
+    match '/business_objects/:bo_id/object_attributes/create_model_attribute(.:format)' => "object_attributes#create_model_attribute", :via => :post
     match '/business_objects/:bo_id/object_attributes/new(.:format)' => "object_attributes#new", :via => [:get,:post,:put]
     match '/business_objects/:bo_id/object_attributes/create(.:format)' => "object_attributes#create", :via => :post
     match '/business_objects/:bo_id/object_attributes/get_data(.:format)' => "object_attributes#get_data"
@@ -531,6 +544,11 @@ Ironmine::Application.routes.draw do
     match '/object_attributes/all_columns(.:format)' => "object_attributes#all_columns", :via => :get
     match '/object_attributes/updateable_columns(.:format)' => "object_attributes#updateable_columns", :via => :get
     match '/object_attributes/person_columns(.:format)' => "object_attributes#person_columns", :via => :get
+    # search layouts
+    match '/business_objects/:bo_id/search_layouts/new(.:format)' => "search_layouts#new", :via => :get
+    match '/business_objects/:bo_id/search_layouts/create(.:format)' => "search_layouts#create", :via => :post
+    match '/business_objects/:bo_id/search_layouts/:id/edit(.:format)' => "search_layouts#edit", :via => :get
+    match '/business_objects/:bo_id/search_layouts/:id(.:format)' => "search_layouts#update", :via => :put
     # list of values
     match '/list_of_values(/index)(.:format)' => "list_of_values#index", :via => :get
     match '/list_of_values/new(.:format)' => "list_of_values#new", :via => :get
@@ -543,6 +561,11 @@ Ironmine::Application.routes.draw do
     match '/list_of_values/:id/multilingual_update(.:format)' => "list_of_values#multilingual_update", :via => :put
     match '/list_of_values/:id/execute_test(.:format)' => "list_of_values#execute_test", :via => :get
     match '/list_of_values/:id/get_lov_data(.:format)' => "list_of_values#get_lov_data", :via => :get
+    match '/list_of_values/:id/get_lov_data(.:format)' => "list_of_values#get_lov_data", :via => :get
+    match '/list_of_values/:lktp/lov(.:format)' => "list_of_values#lov", :via => :get
+    match '/list_of_values/:lktp/lov_search(.:format)' => "list_of_values#lov_search", :via => :get
+    match '/list_of_values/:lktp/lov_result(.:format)' => "list_of_values#lov_result", :via => :get
+    match '/list_of_values/:lktp/lov_value(.:format)' => "list_of_values#lov_value", :via => :get
     # wf_settings
     match '/wf_settings(/index)(.:format)' => "wf_settings#index", :via => :get
     match '/wf_settings/edit(.:format)' => "wf_settings#edit", :via => :get
@@ -816,6 +839,10 @@ Ironmine::Application.routes.draw do
     match '/licenses/get_data(.:format)' => "licenses#get_data"
     match '/licenses/:id/show(.:format)' => "licenses#show", :via => :get
 
+    #mail_settings
+    match '/mail_settings(/index)(.:format)' => "mail_settings#index", :via => :get
+    match '/mail_settings/edit(.:format)' => "mail_settings#edit", :via => :get
+    match '/mail_settings/update(.:format)' => "mail_settings#update", :via => :post
   end
 
   scope :module => "icm" do
@@ -912,6 +939,9 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/assign_me_data(.:format)' => "incident_requests#assign_me_data", :via => :get
 
     match '/incident_requests/:incident_request_id/:att_id/remove_exists_attachments(.:format)' => "incident_requests#remove_exists_attachments"
+    match '/incident_requests/:source_id/add_relation(.:format)' => "incident_requests#add_relation", :via => :post
+    match '/incident_requests/remove_relation(.:format)' => "incident_requests#remove_relation"
+    match '/incident_requests/:request_id/info_card(.:format)' => "incident_requests#info_card", :via => :get
 
     #incident_journals
     match '/incident_requests/:request_id/journals(/index)(.:format)' => "incident_journals#index", :via => :get    
@@ -933,6 +963,14 @@ Ironmine::Application.routes.draw do
     match '/support_groups/create(.:format)' => "support_groups#create", :via => :post
     match '/support_groups/:id/get_member_options(.:format)' => "support_groups#get_member_options", :via => :get
     match '/support_groups/:id/get_pass_member_options(.:format)' => "support_groups#get_pass_member_options", :via => :get
+    #mail request
+    match '/mail_requests(/index)(.:format)' => "mail_requests#index", :via => :get
+    match '/mail_requests/new(.:format)' => "mail_requests#new", :via => :get
+    match '/mail_requests/create(.:format)' => "mail_requests#create", :via => :post
+    match '/mail_requests/edit(.:format)' => "mail_requests#edit", :via => :get
+    match '/mail_requests/:id/show(.:format)' => "mail_requests#show", :via => :get
+    match '/mail_requests/update(.:format)' => "mail_requests#update", :via => :put
+    match '/mail_requests/get_data(.:format)' => "mail_requests#get_data", :via => :get
   end
 
 
@@ -1079,6 +1117,20 @@ Ironmine::Application.routes.draw do
     match '/skm_columns/:id/edit(.:format)' => "columns#edit", :via => :get
     match '/skm_columns/:id/update(.:format)' => "columns#update", :via => :put
     match '/skm_columns/get_columns_data(.:format)' => "columns#get_columns_data", :via => :get
+
+    #skm_channels
+    match '/channels(/index)(.:format)' => "channels#index", :via => :get
+    match '/channels/:id/edit(.:format)' => "channels#edit", :via => :get
+    match '/channels/:id(.:format)' => "channels#update", :via => :put
+    match '/channels/new(.:format)' => "channels#new", :via => :get
+    match '/channels/create(.:format)' => "channels#create", :via => :post
+    match '/channels/get_data(.:format)' => "channels#get_data"
+    match '/channels/:id/show(.:format)' => "channels#show", :via => :get
+    match '/channels/get_all_columns_data(.:format)' => "channels#get_all_columns_data", :via => :get
+    match '/channels/:id/multilingual_edit(.:format)' => "channels#multilingual_edit", :via => :get
+    match '/channels/:id/multilingual_update(.:format)' => "channels#multilingual_update", :via => :put
+    match '/channels/:group_id/get_owned_channels(.:format)' => "channels#get_owned_channels"
+    match '/channels/:group_id/get_ava_channels(.:format)' => "channels#get_ava_channels"
   end
 
   scope :module => "uid" do

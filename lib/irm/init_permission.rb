@@ -7,10 +7,12 @@ Irm::AccessControl.map do |map|
                                  "irm/navigations" => ["access_deny", "combo"],
                                  "irm/attach_screenshot" => ["index"]}
   map.function :login_function,{ "irm/common"=>[:logout,:upload_screen_shot,:search_options,:upload_file,:create_upload_file],
+                                 "irm/people"=>[:info_card],
                                  "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_application", "index"],
-                                 "icm/support_groups"=>["get_member_options"],"irm/search"=>[:index]}
+                                 "icm/support_groups"=>["get_member_options"],
+                                 "irm/search"=>[:index],"irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
   #=====common setting===================
@@ -82,6 +84,9 @@ Irm::AccessControl.map do |map|
   map.function :mail_template,{"irm/mail_templates"=>["index", "show", "get_data", "get_script_context_fields",
                                                             "get_mail_templates","new", "create","edit", "update"],
                                "irm/object_attributes"=>["all_columns"]}
+  #===================irm/mail_settings============================
+  map.function :view_mail_setting,{"irm/mail_settings" => [:index]}
+  map.function :edit_mail_setting,{"irm/mail_settings" => [:edit, :update]}
 
   #===================irm/menus============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "remove_entry", "multilingual_edit", "multilingual_update"]
@@ -129,10 +134,11 @@ Irm::AccessControl.map do |map|
   #===================irm/object_attributes============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "destroy", "multilingual_edit", "multilingual_update", "relation_columns", "selectable_columns"]
   map.function :business_object,{"irm/business_objects"=>["index", "show", "get_data","new", "create","edit",
-                                                          "update", "multilingual_edit", "multilingual_update","execute_test"],
-                                 "irm/object_attributes"=>["index", "show", "get_data","get_standard_data","new", "create", "selectable_columns",
+                                                          "update", "multilingual_edit", "multilingual_update","execute_test","destroy"],
+                                 "irm/object_attributes"=>["index", "show", "get_data","get_standard_data","new", "create","new_model_attribute","create_model_attribute", "selectable_columns",
                                                            "relation_columns","edit", "update", "multilingual_edit", "multilingual_update",
-                                                           "selectable_columns", "relation_columns","change_type","destroy","person_columns"]}
+                                                           "selectable_columns", "relation_columns","change_type","destroy","person_columns"],
+                                 "irm/search_layouts"=>["new", "create","edit","update"]}
 
   #===================irm/list_of_values============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "multilingual_edit", "multilingual_update", "execute_test", "get_lov_data"]
@@ -245,9 +251,9 @@ Irm::AccessControl.map do |map|
   #===================irm/reports============================
   #["index", "edit", "update", "new", "run", "operator_value", "create", "get_data", "show", "multilingual_edit", "multilingual_update", "destroy", "edit_custom", "update_custom"]
   map.function :view_reports,{"irm/reports"=>["index", "show","run","get_data"]}
-  map.function :create_reports,{"irm/reports"=>["new", "create","operator_value","destroy"],
+  map.function :create_reports,{"irm/reports"=>["new", "create","operator_value","destroy","new_program","create_program", "edit_custom", "update_custom","edit_custom_program","update_custom_program"],
                                 "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]}
-  map.function :edit_reports,{"irm/reports"=>["edit", "update","operator_value", "multilingual_edit", "multilingual_update", "edit_custom", "update_custom"],
+  map.function :edit_reports,{"irm/reports"=>["edit", "update","operator_value", "multilingual_edit", "multilingual_update","edit_program","update_program"],
                               "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]}
   #===================irm/report_folders============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]

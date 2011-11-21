@@ -20,18 +20,18 @@
         <div id="incidentRequestsPaginatorBox"></div>
         <div id="incident_requests" class="datatable" style="width:100%">
           <div id="title" style="display:none">
-            ({incident_status_name}){title}
+            <%= link_to( "({incident_status_id_label}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>
           </div>
         </div>
         <%= datatable("incident_requests",{:action=>"assign_me_data",:format=>"json"},
                               [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
                                { :key => "request_number", :label => "#",:searchable=>true,:width=>"20px"},
                                { :key => "title",:formatter=>"Y.irm.template",:label => t(:label_icm_incident_request_title),:searchable=>true },
-                               { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
-                               { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },
-                               { :key => "incident_status_name",:hidden=>true },
-                               { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) },
-                               { :key => "external_system_name", :label => t(:label_irm_external_system,:searchable=>true) }
+                               { :key => "organization_id_label", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
+                               { :key => "priority_id_label", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },
+                               { :key => "incident_status_id_label",:hidden=>true },
+                               { :key => "requested_by_label", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) },
+                               { :key => "external_system_id_label", :label => t(:label_irm_external_system,:searchable=>true) }
                                ],{:select=>"multiple",:paginator_box=>'incidentRequestsPaginatorBox'})%>
 
         <div class="pbSubsection">

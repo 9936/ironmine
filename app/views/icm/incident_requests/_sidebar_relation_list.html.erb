@@ -1,0 +1,66 @@
+<% require_javascript(:extjs) %>
+<% require_css(:extjs) %>
+<%= form_tag({:controller => "icm/incident_requests", :action => "add_relation", :source_id => incident_request.id}, :remote => true) do %>
+<div class="sidebarModule">
+    <div class="sidebarModuleHeader"><h2>
+      <%= t :label_icm_incident_request_relation %>
+    </h2></div>
+    <div class="sidebarModuleBody">
+        <table>
+          <% if allow_to_function?(:edit_relation)  %>
+          <tbody id="new_relation_form">
+            <tr>
+              <td>
+                <div id="relation_select" style="float:left;">
+                  <%= lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:110px;" %>
+                </div>
+                  <div class="float-right">
+                    <div class="button"><%= submit_tag(t(:add))%></div>
+                  </div>
+              </td>
+            </tr>
+          </tbody>
+          <% end %>
+          <tbody id="relation_list">
+            <%= list_all_icm_incident_relations(incident_request.id)%>
+          </tbody>
+        </table>
+
+    </div>
+</div>
+<% end %>
+
+<% unless limit_device? %>
+    <script type="text/javascript">
+      $(function(){
+          $('.request_info').each(function(){
+              var qtip = Ext.create('Ext.tip.ToolTip', {
+                          target: this,
+                          id: 'request-info-tip-' + $(this).attr('request_id'),
+                          anchor: 'left',
+                          title: "<a href='/incident_requests/" + $(this).attr('request_id') + "/journals/new'>" + $(this).attr('request_name') + "</a>",
+                          html: "<iframe frameborder=0 scrolling='no'  src='/incident_requests/" + $(this).attr('request_id') + "/info_card' style='width:100%;height:90px;'></iframe>",
+                          width: 400,
+                          autoHide: true,
+                          dismissDelay: 0,
+                          closable: false,
+                          listeners: {
+                            'afterrender': function(){
+                                this.el.on('mouseout', function(e){
+                                    if(!qtip.getChildByElement(this)){
+                                        qtip.hide();
+                                    }
+                                });
+
+                                this.el.on('mouseover', function(e){
+                                    qtip.suspendEvents();
+                                    qtip.show();
+                                });
+
+                            }
+                          }
+                      });
+          });
+      });
+    </script>
+<% end %>

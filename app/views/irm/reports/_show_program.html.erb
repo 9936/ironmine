@@ -1,0 +1,61 @@
+<%= app_title %>
+<style type="text/css">
+   .reportParameters .row {
+       margin-bottom: 15px;
+   }
+   .reportParameters .row tr {
+       vertical-align: top;
+   }
+   .reportParameters .row td {
+       padding-right: 10px;
+   }
+   .reportParameters label, .reportParameters .label {
+       display: block;
+       font-size: 91%;
+       margin-top: 20px;
+       white-space: nowrap;
+   }
+   .reportParameters fieldset label, .reportParameters fieldset .label {
+       margin-top: 0;
+   }
+   .reportParameters fieldset {
+       border: 1px solid;
+       margin:0 2px 0 2px;
+       border-color: gray;
+       padding: 7px;
+   }
+</style>
+
+<div id="ep" class="detail-block page-block">
+  <%= form_for(@report,:url=>{:action=>"run"},:builder => LabellingFormBuilder,:html=>{:id=>"customForm"}) do |f|%>
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%= @report[:name] %></h2></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="reportParameters">
+              <div class="row">
+                <%= show_program_report_params(@report) %>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td id="topButtonRow" class="pbButton" colspan="2">
+             <%= render "show_report_actions" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <% end %>
+  <div class="listRelatedObject setupBlock">
+    <div class="page-block">
+      <%= show_program_report_data(@report) %>
+    </div>
+  </div>
+</div>

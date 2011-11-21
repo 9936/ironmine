@@ -3,7 +3,7 @@
        padding: 3px 2px 3px 5px;
   }
 </style>
-<table id="reportData">
+<table id="reportData" style="table-layout: fixed; width:100%">
   <thead>
     <tr>
       <% @report.report_header.each do |title| %>
@@ -15,7 +15,7 @@
     <% @report.report_meta_data.each do |rd| %>
     <tr>
       <% @report.report_header.each do |k|  %>
-        <td><%= rd[k[0]] %></td>
+        <td><%= show_report_cell(rd[k[0]]) %></td>
       <% end %>
     </tr>
     <% end %>

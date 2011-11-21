@@ -21,4 +21,5 @@ module Irm::BusinessObjectsHelper
   def available_business_object_with_id
     Irm::BusinessObject.query_by_status_code("ENABLED").multilingual.collect{|i|[i[:name],i.id,{:bo_table_name=>i.bo_table_name}]}
   end
+
 end

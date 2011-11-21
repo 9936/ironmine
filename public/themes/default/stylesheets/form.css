@@ -98,6 +98,7 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
 }
 .wizard-block .detailList .dataCol{width: 40%;}
 .wizard-block .dataCol{padding:2px 2px 2px 10px;text-align:left;}
+.tip-span {display:block}
 /*******************************************************/
 /*show page*/
 .setupTab .page-block .detailList tr td,
@@ -105,10 +106,16 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
     border-bottom:1px solid #ececec;
 }
 
+.setupTab .edit-block tr td{border-bottom-width: 0!important;}
+
 .lay-full .detail-block.page-block .detailList tr td,
 .lay-full .detail-block.page-block .detailList tr th{
     border-bottom-width:0;
 }
 
-
+/*******************BEGIN filter************************************/
+td.filterOperationValue{
+    white-space:nowrap;
+}
+/*******************END f;ilter************************************/
 

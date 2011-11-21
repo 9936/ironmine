@@ -105,6 +105,8 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
 }
 .wizard-block .detailList .dataCol{width: 40%;}
 .wizard-block .dataCol{padding:2px 2px 2px 10px;text-align:left;}
+
+.tip-span {display:block}
 /*******************************************************/
 /*show page*/
 .page-block .detailList tr td,
@@ -116,3 +118,9 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
 .matrix-table td div {
     overflow: hidden;
 }
+
+/*******************BEGIN filter************************************/
+td.filterOperationValue{
+    white-space:nowrap;
+}
+/*******************END f;ilter************************************/

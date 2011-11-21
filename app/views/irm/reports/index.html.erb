@@ -1,84 +1,150 @@
 <%= app_title({:title=>"#{t(:label_irm_report)}"}) %>
-<div class="bOverviewSearch">
-  <div>
-    <div class="pbSearch">
-      <%= form_tag({:action => "index"}, {:id => "folderForm"}) do %>
-      <span class="bFilter">
-        <label style="text-align: left; font-weight: bold; padding-right: 0.69em;"><%= t(:label_irm_report_folder) %>：</label>
-        <span class="fBody">
-            <%= blank_select_tag("folder_id", available_current_report_folder,params[:folder_id], { :id => "folderId"}) %>
-        </span>
-        <span class="fBody">
-            <%= link_to(t(:edit),{:controller => "irm/report_folders",:action=>"edit",:id=>"${folderId}"},{:style=>"display:none;",:id=>"folderEditLink"}) %>
-            <%= link_to(t(:label_irm_report_folder_create_new_folder),{:controller => "irm/report_folders",:action=>"new"}) %>
-        </span>
-        <span class="fFooter">
-        </span>
-      </span>
-      <% end %>
-    </div>
-  </div>
-</div>
+<style type="text/css">
+  .listViewTitle{font-size:125%;font-weight:bold;}
+</style>
+<table style="table-layout: fixed; width:100%">
+  <tr>
+    <th  width="250px">
+      <span class="listViewTitle"><%= t(:label_irm_report_folder) %></span>
 
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_report_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:label_irm_report_create_new), {:action => "new"}%></div>
-                <div class="button" id="exportData"><a href="javascript:void(0)"><%= t(:export) %></a></div>
-              </td>
-              <td class="pbHelp">
-                <div id="reportListSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="report_list" class="datatable" style="width:100%;">
-          <div id="name" style="display:none">
-            if('{report_trigger_id}' != ''){
-              '<%=link_to("{name}",{:action=>"show",:id=>"{id}"}) %> <%=link_to(content_tag(:img,nil,:src=>theme_image_path("s.gif"),:class=>"scheduledIcon"),{:controller=>"irm/report_triggers",:action=>"edit",:id=>"{report_trigger_id}"}) %>'
+    </th>
+    <th>
+      <span class="listViewTitle" id="folderText"><%= t(:label_irm_report_folder_all) %></span>
 
-            }
-            else{
-              '<%=link_to("{name}",{:action=>"show",:id=>"{id}"}) %>'
-            }
-          </div>
-          <div id="id" class="id" style="display:none">
-            if('{editable_flag}' == 'true'){
-               '<%=link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %> | <%=link_to(t(:delete),{:action=>"destroy",:id=>"{id}"},:confirm => t(:label_are_you_sure) ,:method => :delete) %> '
-            }
-            else{
-              ''
-            }
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <%= page_block do %>
+        <div class="pbHeader">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr>
+                <td class="pbButton">
+                  <div class="button"  style="float:right;">
+                    <%= link_to(t(:label_irm_report_folder_create_new_folder),{:controller => "irm/report_folders",:action=>"new"}) %>
+                  </div>
+                  <div class="button" style="float:right;">
+                    <%= link_to(t(:edit),{:controller => "irm/report_folders",:action=>"edit",:id=>"${folderId}"},{:style=>"display:none;",:id=>"folderEditLink"}) %>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pbBody">
+
+          <div id="reportFolderTree">
+            <input type="hidden" id="folderId"/>
+            <% available_report_folder_json %>
+            <% require_javascript(:extjs) %>
+            <% require_css(:extjs) %>
+            <script type="text/javascript">
+                Ext.onReady(function(){
+                    var chooseFolder = function( view, model, htmlItem, index, event, options ){
+                        $("#folderText").html(model.data.text);
+                        Ext.getCmp("report_listDatatable").store.dtStaticParams({folder_id:model.data.id});
+                        $('#folderId').val(model.data.id);
+                        if(model.data.id&&model.data.id!="")
+                          $("#folderEditLink").css("display","");
+                        else
+                          $("#folderEditLink").css("display","none");
+                    };
+                    var store = Ext.create('Ext.data.TreeStore', {root: reportFolderTreeData});
+                    Ext.create('Ext.tree.Panel', {
+                        width: 250,
+                        height: 300,
+                        store: store,
+                        rootVisible: true,
+                        renderTo: "reportFolderTree",
+                        bodyBorder:false,
+                        listeners:{
+                            itemclick: chooseFolder
+                        }
+                    });
+                });
+            </script>
           </div>
         </div>
-        <%= datatable("report_list",{:action=>"get_data", :folder_id => @folder_id,:format=>"json"},
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.stemplate", :width => "90px"},
-                   {:key=>"name",:label=>t(:label_irm_report_name),:formatter=>"Y.irm.stemplate", :sortable=>true,:searchable=>true,:width=>"250px"},
-                   @folder_id.present? ? nil:{:key=>"report_folder_name",:label=>t(:label_irm_report_folder), :width => "150px"} ,
-                   {:key=>"report_type_name",:hidden=>true,:label=>t(:label_irm_report_type), :width => "150px"},
-                   {:key=>"editable_flag",:hidden=>true},
-                   {:key=>"report_trigger_id",:hidden=>true},
-                   {:key=>"description",:label=>t(:label_irm_report_description)}].compact,
-                   {:search_box=>"reportListSearchBox",:paginator_box=>"regionPaginator",:export_data=>"#exportData"})%>
-        <div id="regionPaginator"></div>
+       <% end %>
+
+    </td>
+
+    <td>
+
+      <div class="listRelatedObject setupBlock">
+          <div class="page-block">
+            <div class="pbHeader">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                  <tr>
+                    <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_report_list) %></h2></td>
+                    <td id="topButtonRow" class="pbButton">
+                      <div class="as-button" >
+                          <span id="newReport" class="menuButton">
+                            <div  class="menuLabel">
+                              <span><a><%= t(:new)  %></a></span>
+                            </div>
+                            <div class="menuContent">
+                              <div class="menuItem"><%= link_to(t(:label_irm_report_new_custom),{:action => "new",:back_url=>url_for({})},:class=>"submit") %></div>
+                              <div class="menuItem"><%= link_to(t(:label_irm_report_new_program),{:action => "new_program",:back_url=>url_for({})}) %></div>
+                            </div>
+                          </span>
+                          <script type="text/javascript">
+                            $(document).ready(function(){
+                                $("#newReport").menubutton();
+                            });
+                          </script>
+                      </div>
+                      <div class="button" id="exportData"><a href="javascript:void(0)"><%= t(:export) %></a></div>
+                    </td>
+                    <td class="pbHelp">
+                      <div id="reportListSearchBox"></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pbBody">
+              <div id="report_list" class="datatable" style="width:100%;">
+                <div id="name" style="display:none">
+                  if('{report_trigger_id}' != ''){
+                    '<%=link_to("{name}",{:action=>"show",:id=>"{id}"}) %> <%=link_to(content_tag(:img,nil,:src=>theme_image_path("s.gif"),:class=>"scheduledIcon"),{:controller=>"irm/report_triggers",:action=>"edit",:id=>"{report_trigger_id}"}) %>'
+
+                  }
+                  else{
+                    '<%=link_to("{name}",{:action=>"show",:id=>"{id}"}) %>'
+                  }
+                </div>
+                <div id="id" class="id" style="display:none">
+                  if('{editable_flag}' == 'true'){
+                     '<%=link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %> | <%=link_to(t(:delete),{:action=>"destroy",:id=>"{id}"},:confirm => t(:label_are_you_sure) ,:method => :delete) %> '
+                  }
+                  else{
+                    ''
+                  }
+                </div>
+              </div>
+              <%= datatable("report_list",{:action=>"get_data", :folder_id => @folder_id,:format=>"json"},
+                        [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.stemplate", :width => "90px"},
+                         {:key=>"name",:label=>t(:label_irm_report_name),:formatter=>"Y.irm.stemplate", :sortable=>true,:searchable=>true,:width=>"250px"},
+                         @folder_id.present? ? nil:{:key=>"report_folder_name",:label=>t(:label_irm_report_folder), :width => "150px"} ,
+                         {:key=>"report_type_name",:hidden=>true,:label=>t(:label_irm_report_type), :width => "150px"},
+                         {:key=>"editable_flag",:hidden=>true},
+                         {:key=>"report_trigger_id",:hidden=>true},
+                         {:key=>"description",:label=>t(:label_irm_report_description)}].compact,
+                         {:search_box=>"reportListSearchBox",:paginator_box=>"regionPaginator",:export_data=>"#exportData"})%>
+              <div id="regionPaginator"></div>
+            </div>
+          </div>
       </div>
-    </div>
-</div>
+
+    </td>
+  </tr>
+</table>
 
 <script type="text/javascript">
   $(function(){
-      $("#folderId").change(function(e){
-          document.forms["folderForm"].submit();
-      });
-      if($("#folderEditLink")&&$('#folderId').val()&&$('#folderId').val()!="")
-          $("#folderEditLink").css("display","");
       if($("#folderEditLink")){
           $("#folderEditLink").click(function(e){
               var folderId =  $('#folderId').val();
@@ -96,7 +162,3 @@
   });
 
 </script>
-
-<% content_for :sidebar do %>
-    <%= render :partial =>"/irm/common/recently_objects" %>
-<% end %>

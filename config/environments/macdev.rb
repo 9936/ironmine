@@ -69,6 +69,6 @@ Ironmine::Application.configure do
     :port     => 110
   }
 
-  Paperclip.options[:command_path] = '/Users/stanleyliu/work/ImageMagick-6.6.7/bin'
+  Paperclip.options[:command_path] = '/opt/local/bin'
 end
 

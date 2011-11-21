@@ -3,8 +3,7 @@
 <div class="lightBlue">
     <div class="page-title">
         <div style="background-color: rgb(23, 151, 192);" class="secondary-palette">
-          <h1 class="title"><%= t(:label_csi_survey_info) %>
-            <%= @survey_code %>：&nbsp;&nbsp;
+          <h1 class="title"><%= t(:label_csi_survey_info) %>：
             <%= @survey_title%>
           </h1>
         </div>
@@ -48,6 +47,6 @@
     </div>
   </div>
 
-  <% content_for :sidebar do %>
-    <%= render :partial =>"/irm/common/recently_objects" %>
+<% content_for :sidebar do %>
+  <%= render :partial =>"/irm/common/recently_objects" %>
 <% end %>

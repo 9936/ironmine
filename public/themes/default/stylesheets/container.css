@@ -158,7 +158,7 @@ body .sub-block .lbBody {
     padding:5px 12px;
 }
 
-.page-block .pbTitle {
+.page-block .pbTitle, .sub-block .pbTitle {
     color:#222222;
     font-size:91%;
     margin:0;
@@ -200,6 +200,7 @@ body .page-block .pbHeader {
 }
 .page-block {font-size: 105%;}
 .edit-block .pbHeader > table, .apexp .page-block.apexDefaultPageBlock .pbHeader > table, #ep.bLayoutBlock .pbHeader > table {border-bottom:1px solid #DBDBDB;padding:5px 0;}
+.edit-block{margin-bottom:5px!important;}
 /***********************toggle button ***********************/
 div.toolbar{
     margin: 5px;

@@ -159,4 +159,61 @@ class Irm::ListOfValuesController < ApplicationController
       format.json {render :json=>to_jsonp(list_of_values.to_grid_json([:lov_code,:name,:bo_name,:id_column,:value_column,:desc_column,:value_title,:desc_column,:desc_title,:listable_flag],count))}
     end
   end
+
+
+  # 接受5个参数
+  # lkfm lookup from
+  # lkfid lookup field id
+  # lkvfid lookup value field
+  # lktp lookup type
+  # lksrch lookup search
+  def lov
+    render :layout => nil
+  end
+
+  def lov_search
+    unless params[:lksrch].present?
+      params[:lksrch] = "%"
+    end
+    render :layout => "frame"
+  end
+
+  def lov_result
+    @business_object = Irm::BusinessObject.find(params[:lktp])
+    @datas = []
+    @fields = []
+    unless params[:lksrch].present?
+      params[:lksrch] = "%"
+    end
+    @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid])
+    render :layout => "frame"
+  end
+
+  def lov_value
+    business_object = Irm::BusinessObject.find(params[:lktp])
+    label_value = params[:lklblval]
+    value = params[:lkval]
+    data = {}
+    # 补全显示值
+    if value.present?&&!label_value.present?
+      value,label_value,data = business_object.lookup_label_value(value,params[:lkvfid])
+      data = data.attributes
+    end
+
+    # 补全值
+    if !value.present?&&label_value.present?
+      value,label_value,data = business_object.lookup_value(label_value,params[:lkvfid])
+      data = data.attributes
+    end
+
+    unless value.present?&&label_value.present?
+      value = ""
+      label_value = ""
+    end
+
+    respond_to do |format|
+      format.json {render :json=>{:value=>value,:label_value=>label_value,:data=>data}.to_json}
+    end
+  end
+
 end

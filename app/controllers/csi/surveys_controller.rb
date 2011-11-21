@@ -314,6 +314,7 @@ class Csi::SurveysController < ApplicationController
     @survey_code = survey.survey_code
     @survey_title = survey.title
     @return_url=request.env['HTTP_REFERER']
+    render :layout => "application_full"
   end
 
 

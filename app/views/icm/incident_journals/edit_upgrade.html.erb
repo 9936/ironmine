@@ -92,7 +92,7 @@
                 <%= sub_f.hidden_field(:incident_request_id) %>
               <td class="labelCol"><%= t(:label_icm_incident_journal_reply) %></td>
               <td class="dataCol" colspan="3" width="82%">
-                <%= sub_f.text_area :message_body ,:id=>"msgEditor",:value=>"   ",:jrequired=>true,:style=>"display:none;"%>
+                <%= sub_f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true%>
                 <%= rich_text_area("msgEditor",true) %>
               </td>
               <% end%>

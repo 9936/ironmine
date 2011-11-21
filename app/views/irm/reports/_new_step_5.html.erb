@@ -38,8 +38,6 @@
                     <td width="30%"></td>
                     <td></td>
                     <td>
-                      <label for="filterCompanyId"><%= t(:label_irm_report_filter_company) %></label>
-                      <%=f.blank_select(:filter_company_id,[],{},{:id=>"filterCompanyId"})%>
                     </td>
                     <td>
                       <fieldset>
@@ -72,6 +70,7 @@
                 </tbody>
               </table>
             </div>
+            <%= render :partial=>"param_criterions",:locals=>{:selectable_fields=>selectable_fields,:f=>f}%>
             <div id="head_2_ep" class="pbSubheader tertiaryPalette">
               <h3><%= t(:label_irm_report_data_filter) %></h3>
             </div>
@@ -95,7 +94,7 @@
                         <%=sub_f.hidden_field(:seq_num)%>
                         <%=sub_f.blank_select(:field_id,grouped_options_for_select(selectable_fields,sub_f.object.field_id),{},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
                       </td>
-                      <td class="dataCol" id="filter<%=sub_f.object.seq_num%>">
+                      <td class="dataCol filterOperationValue" id="filter<%=sub_f.object.seq_num%>">
                         <%= render_report_filter_field(sub_f.object.field_id,sub_f)  %>
                       </td>
                     </tr>
@@ -137,9 +136,23 @@
 
 <script type="text/javascript">
   $(function(){
+      var refreshFilter = function(container,e) {
+          var con = $("#"+container);
+          var currentTarget  = $(e.currentTarget);
+          var seq_num = currentTarget.attr("ref");
+          var attribute_id = $(e.target).val();
+          var refreshNode = $("#filter"+seq_num);
+
+
+          var url = decodeURIComponent(con.attr("href"));
+          url = url.replace("{seq_num}",seq_num);
+          url = url.replace("{field_id}",attribute_id);
+          refreshNode.load(url);
+
+      };
       $("#filterContent .filterColumnSelect").live("change",function(event){
           rawConditionClause("rawConditionClause",event);
-          refreshFilterOptions("filterContent",event);
+          refreshFilter("filterContent",event);
       });
   });
 </script>

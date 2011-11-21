@@ -42,13 +42,58 @@ class LabellingFormBuilder  < ActionView::Helpers::FormBuilder
 
 
   def lov_field(field, lov_code, options = {}, html_options = {})
-    lov = Irm::ListOfValue.where(:lov_code=>lov_code).first
-    if lov.listable_flag.eql?(Irm::Constant::SYS_YES)
-      lov_as_select(field,lov,options,html_options)
+    lov_field_id =  options.delete(:id)||field
+    bo = nil
+
+    # 使用业务对像的id作为lov_code
+    if options.delete(:id_type)
+      bo = Irm::BusinessObject.find(lov_code)
     else
-      lov_as_autocomplete(field,lov,options,html_options)
+      lov_type = lov_code
+      if lov_type.is_a?(Class)&&(lov_type.respond_to?(:name))
+        lov_type = lov_type.name
+      end
+      bo = Irm::BusinessObject.where(:bo_model_name=>lov_type).first
     end
 
+    # lov 返回的值字段
+    lov_value_field = options.delete(:value_field)||"id"
+
+    # lov 的值
+    value = object.send(field.to_sym)
+
+    # lov的显示值
+    label_value = options.delete(:label_value)
+
+    # 补全显示值
+    if value.present?&&!label_value.present?
+      value,label_value = bo.lookup_label_value(value,lov_value_field)
+    end
+
+    # 补全值
+    if !value.present?&&label_value.present?
+      value,label_value = bo.lookup_value(label_value,lov_value_field)
+    end
+
+    unless value.present?&&label_value.present?
+      value,label_value = "",""
+    end
+
+    hidden_tag_str = hidden_field(field,{:id=>lov_field_id,:href=>@template.url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)})
+    label_tag_str = @template.text_field_tag("#{field}_label",label_value,options.merge(:id=>"#{lov_field_id}_label",:onchange=>"clearLookup('#{lov_field_id}')"))
+
+    link_click_action = %Q(javascript:openLookup('#{@template.url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
+
+    lov_link_str = @template.link_to({},{:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
+      @template.content_tag(:img,"",{:src=>@template.theme_image_path("s.gif"),:class=>"lookupIcon",:onblur=>"this.className = 'lookupIcon';",:onfocus=>"this.className = 'lookupIconOn';",:onmouseout=>"this.className = 'lookupIcon';",:onmouseover=>"this.className = 'lookupIconOn';"}).html_safe
+    end
+    label_for_field(@template.content_tag(:div,(hidden_tag_str+label_tag_str+lov_link_str+error_message(object,field)).html_safe ,:style=>"display:inline"),options)
+
+  end
+
+  def lookup_field(field,lookup_type,options={})
+    values =  @template.available_lookup_type(lookup_type)
+    blank_select(field,values,options)
   end
 
 
@@ -86,6 +131,13 @@ class LabellingFormBuilder  < ActionView::Helpers::FormBuilder
   end
 
   private
+
+  def error_message(object,field)
+    if object.errors[field.to_sym].present?
+      return "<div class=\"errorMsg\"><strong>#{I18n.t(:error)}:</strong>#{object.errors[field.to_sym]}</div>".html_safe
+    end
+  end
+
   def lov_as_select(field,lov,options,html_options)
     # TODO cascade select
     values = []

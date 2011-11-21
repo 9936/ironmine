@@ -34,7 +34,7 @@ class Irm::WfApprovalProcess < ActiveRecord::Base
   }
 
   scope :with_next_approver_mode,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::ObjectAttribute.view_name} next_approver_mode ON next_approver_mode.attribute_name = #{table_name}.next_approver_mode AND next_approver_mode.business_object_code = 'IRM_PEOPLE' AND next_approver_mode.language= '#{language}'").
+    joins("LEFT OUTER JOIN (SELECT oa.*,bo.business_object_code FROM #{Irm::BusinessObject.table_name} bo,#{Irm::ObjectAttribute.view_name} oa WHERE bo.id=oa.business_object_id) next_approver_mode ON next_approver_mode.attribute_name = #{table_name}.next_approver_mode  AND next_approver_mode.business_object_code = 'IRM_PEOPLE' AND next_approver_mode.language= '#{language}'").
     select(" next_approver_mode.name next_approver_mode_name")
   }
 

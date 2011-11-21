@@ -83,6 +83,8 @@ zh:
   down: 下移
   notice: 注意
   no_data: 无可用数据
+  label_alias: 别名
+  uncategory: 未分类
   #常用语句
   notice_account_invalid_creditentials: 用户名或密码错误
   successfully_updated: 已经成功更新数据
@@ -125,11 +127,13 @@ zh:
   upload_from_clipboard: 从剪贴板上传图片
   created_by: 创建人
   created_at: 创建时间
-  kanban_mode: 看板模式
-  list_mode: 列表模式
+  kanban_mode: 看板
+  list_mode: 列表
   error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
   error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB, 现上传 _ KB)
   file_upload_limit_alert: 最大尺寸 %{m} KB
+  by_name: 按名称
+  by_date: 按时间
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型
@@ -828,14 +832,13 @@ zh:
   label_irm_report_list: 报表列表
   label_irm_report: 报表
   label_irm_report_code: 报表编码
+  label_irm_report_program: 报表程序
   label_irm_report_name: 报表名称
   label_irm_report_category_code: 报表类别
   label_irm_report_status_code: 状态
   label_irm_report_new: 新建报表
   label_irm_report_description: 描述
   label_irm_report_edit: 编辑报表
-  label_irm_report_page_controller: 页面Controller
-  label_irm_report_page_action: 页面Action
   label_irm_report_choose_report_type: 选择报表类型
   label_irm_report_choose_display_column: 选择报表列
   label_irm_report_filter_company: 公司
@@ -858,6 +861,13 @@ zh:
   label_irm_report_choose_report_category: 选择报表类别
   label_action_edit_custom: 自定义
   label_action_run: 运行
+  label_irm_report_new_custom: 新建自定义报表
+  label_irm_report_new_program: 新建编程报表
+  label_irm_report_apply_params: 应用报表参数
+  label_irm_report_chart_type: 图表类型
+  label_irm_report_record_count: 记录数
+  label_irm_report_params_config: 报表参数设置
+  label_irm_report_params_default_value: 参数默认值
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组
@@ -977,17 +987,25 @@ zh:
   label_irm_business_object_bo_model_name: Model名称
   label_irm_business_object_auto_generate_flag: 自动生成
   label_irm_business_object_multilingual_flag: 多语言
-  label_irm_business_object_new: 复制业务对象
+  label_irm_business_object_new: 新建业务对象
   label_irm_business_object_edit: 编辑业务对象
   label_irm_business_object_description: 描述
   label_irm_business_object_description_full: 业务对象描述
   label_irm_business_object_workflow_flag: 启用工作流
+  label_irm_business_object_report_flag: 启用报表
+  label_irm_business_object_standard_flag: 内置业务对像
+  label_irm_business_object_function: 启用功能
+  label_irm_business_object_api: API信息
+  label_irm_object_attribute_new_table_column: 新建数据库属性
+  label_irm_object_attribute_new_model_attribute: 新建model属性
   #======================== business objects====================
   #======================== object attributes====================
   label_irm_object_attributes: 属性
   label_irm_object_attribute_name: 名称
   label_irm_object_attribute_attribute_name: 属性名
   label_irm_object_attribute_attribute_type: 属性类型
+  label_irm_object_attribute_category: 属性类别
+  label_irm_object_attribute_field_type: 字段类型
   label_irm_object_attribute_approval_page_field_flag: 审批
   label_irm_object_attribute_filter_flag: 过滤
   label_irm_object_attribute_relation_bo_code: 关联BO
@@ -1000,19 +1018,33 @@ zh:
   label_irm_object_attribute_lov_code: LOV
   label_irm_object_attribute_where_clause: 关联条件
   label_irm_object_attribute_fill_attribute_info: 属性信息
+  label_irm_object_attribute_database_info: 属性数据库信息
   label_irm_object_attribute_data_type: 数据类型
   label_irm_object_attribute_data_length: 数据长度
+  label_irm_object_attribute_data_null_flag: 可为空
+  label_irm_object_attribute_data_key_type: 键类型
+  label_irm_object_attribute_data_default_value: 默认值
+  label_irm_object_attribute_data_extra_info: 额外信息
   label_irm_object_attribute_edit: 编辑BO属性
   label_irm_object_attribute_description: 描述
   label_irm_object_attributes_test_information: 测试信息
   label_irm_object_attribute_invalid_exists_relation_table: 请填写已经存在的表别名
-  label_irm_object_attribute_invalid_model_attribute: BO对象中无该属性
+  label_irm_object_attribute_invalid_model_attribute: 业务对象中无该属性
   label_irm_object_attribute_person_flag: 人员属性
   label_irm_object_attribute_update_flag: 可更新
   label_irm_object_attribute_change_type_link: 类型
   label_irm_object_attribute_change_type: 更改属性类型
   label_irm_object_standard_attributes: 标准字段
   label_irm_object_custom_attributes: 自定义字段
+  label_irm_object_attribute_label_flag: 名称字段
+  label_irm_object_attribute_required_flag: 必输字段
+  label_irm_business_object_relation: 关联的业务对像信息
+  label_irm_object_attribute_relation_bo: 关联业务对像
+  label_irm_object_attribute_relation_object_attribute: 关联属性
+  label_irm_object_attribute_function: 属性可用功能
+  label_irm_object_attribute_approve_flag: 在审批页面显示
+  label_irm_object_attribute_attribute_name_format: 只能输入小写字母,下划线,数字,且必须以字母开头
+  label_irm_object_attribute_invalid_table_attribute: 数据库表中没有该字段
   #======================== object attributes====================
   #======================== list of values====================
   label_irm_list_of_value_list: 值列表
@@ -1395,6 +1427,7 @@ zh:
   #==================================================================
   #======================= report_folder ====================
   label_irm_report_folder: 报表文件夹
+  label_irm_report_folder_all: 全部文件夹
   label_irm_report_folder_new: 新建报表文件夹
   label_irm_report_folder_create_new_folder: 创建报表文件夹
   label_irm_report_folder_name: 名称
@@ -1521,6 +1554,13 @@ zh:
   label_irm_license_code: 编码
   label_irm_license_description: 描述
   #=========================  end  license=======================#
+  #=========================    search layouts  =======================#
+  label_irm_search_layout: 搜索布局
+  label_irm_search_layout_new: 新建搜索布局
+  label_irm_search_layout_edit: 编辑搜索布局
+  label_irm_search_layout_code: 布局类型
+  label_irm_search_layout_columns: 布局显示列
+  #=========================  end search layouts  =======================#
   #========================= rich text editor upload image window======================
   label_irm_rich_editor_win_tab_from_clipboard: 从剪贴板上传图片
   label_irm_rich_editor_win_tab_from_file: 从文件上传图片
@@ -1528,3 +1568,37 @@ zh:
   label_irm_rich_editor_win_tab_selected_file: 选择的图片
   label_irm_rich_editor_win_tab_upload_image: 上传图片
   #========================= end ======================
+
+  #========================= mail setting =========================
+  label_irm_mail_from_address: 来源邮箱地址
+  label_irm_mail_prefix: 邮件前缀
+  label_irm_mail_protocol: 协议
+  label_irm_mail_smtp_host_name: 发件服务器
+  label_irm_mail_imap_host_name: 收件服务器
+  label_irm_mail_smtp_port: SMTP端口
+  label_irm_mail_timeout: 超时
+  label_irm_mail_tls: TLS
+  label_irm_mail_username: 用户名
+  label_irm_mail_password: 密码
+  label_irm_mail_imap_port: POP/IMAP 端口
+  label_irm_mail_setting: 邮件服务器设置
+  label_irm_mail_edit_setting: 编辑邮件服务器设置
+  label_irm_mail_smtp_server: SMTP邮件服务器
+  label_irm_mail_imap_server: POP/IMAP邮件服务器
+  label_irm_mail_server: 邮件服务器
+
+  label_irm_mail_imap_protocol_choose: 从POP、IMAP中选择。
+  label_irm_mail_host_name_tip: 邮件服务器名。
+  label_irm_mail_imap_host_name_tip: POP/IMAP邮件服务器。
+  label_irm_mail_imap_port_tip: 用于从POP/IMAP账户取回邮件的端口。（默认：POP-100; IMAP-143）
+  label_irm_mail_timeout_tip: 超时时间（毫秒）。0表示从不超时。
+  label_irm_mail_imap_username_tip: 用于登陆POP/IMAP的用户名。
+  label_irm_mail_imap_password_tip: 用于登陆POP/IMAP的密码。
+
+  label_irm_mail_smtp_host_name_tip: SMTP邮件服务器。
+  label_irm_mail_smtp_from_address_tip: 系统会使用此邮箱地址发送邮件。
+  label_irm_mail_smtp_prefix_tip: 邮件的标题会使用它作为前缀。这将会方便您的用户对邮件进行过滤。
+  label_irm_mail_smtp_port_tip: SMTP使用的端口。（默认： SMTP-25）
+  label_irm_mail_smtp_username_tip: 用于登陆SMTP的用户名。
+  label_irm_mail_smtp_password_tip: 用于登陆SMTP的密码。
+  #========================= end ==================================

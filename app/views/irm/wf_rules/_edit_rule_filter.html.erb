@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-      <%= f.fields_for :rule_filter_criterions,:normal=>true do |sub_f|%>
+      <%= f.fields_for :rule_filter_criterions,:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
           <tr>
             <td width="20%"></td>
             <td width="10px" class="dataCol"><%=sub_f.object.seq_num%>.</td>

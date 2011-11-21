@@ -5,7 +5,8 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
                :varchar=>['BW','EW','U','X'],
                :text=>['BW','EW','U','X'],
                :datetime=>['IN'],
-               :int=>[]
+               :int=>[],
+               :lov=>['E','N','NIL','NNIL']
               }.freeze
 
   belongs_to :rule_filter
@@ -27,14 +28,15 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
 
   def meaning
     operator_meaing = Irm::LookupValue.multilingual.query_by_lookup_type("RULE_FILTER_OPERATOR").query_by_lookup_code(self.operator_code).first[:meaning]
-    object_attribute = Irm::ObjectAttribute.multilingual.where(:business_object_code=>self.rule_filter.bo_code,:attribute_name=>self.attribute_name).first
+    object_attribute = Irm::ObjectAttribute.multilingual.query_by_business_object_code(self.rule_filter.bo_code).where(:attribute_name=>self.attribute_name).first
     return  unless object_attribute
     attribute_meaning = object_attribute[:name]
     filter_value_meaning = ""
     if !self.operator_code.eql?('NIL')&&!self.operator_code.eql?('NNIL')
-      if object_attribute.lov_code.present?
-        lov = Irm::ListOfValue.where(:lov_code=>object_attribute.lov_code).first
-        filter_value_meaning = lov.lov_value(self.filter_value)  if lov
+      if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(object_attribute.category)
+        ref_bo = Irm::BusinessObject.find(object_attribute.relation_bo_id)
+        ref_attribute = Irm::ObjectAttribute.find(object_attribute.relation_object_attribute_id)
+        filter_value_meaning = ref_bo.lookup_label_value(self.filter_value,ref_attribute.attribute_name)
       else
         filter_value_meaning = self.filter_value
       end
@@ -46,12 +48,12 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
   def to_condition
     object_attribute = self.ref_object_attribute
     operator_filter_value = parse_condition(object_attribute,self.operator_code,self.filter_value)|| "=#{object_attribute.select_table_name}.#{self.attribute_name}"
-    "(#{object_attribute.select_table_name}.#{self.attribute_name} #{operator_filter_value})"
+    "(#{object_attribute.select_table_name}.#{object_attribute.attribute_name} #{operator_filter_value})"
   end
 
   def ref_object_attribute
     if self.bo_code.present?
-      return Irm::ObjectAttribute.where(:business_object_code=>self.bo_code,:attribute_name=>self.attribute_name).first
+      return Irm::ObjectAttribute.query_by_business_object_code(self.bo_code).where(:attribute_name=>self.attribute_name).first
     else
       return self.rule_filter.business_object.object_attributes.detect{|oa| oa.attribute_name.eql?(self.attribute_name)}
     end

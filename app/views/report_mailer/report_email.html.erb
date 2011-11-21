@@ -9,6 +9,11 @@
 
 
 <div class="page-block">
-  <%= render "show_#{@report.table_show_type.downcase}"%>
+  <% if "PROGRAM".eql?(@report.program_type) %>
+      <%datas = @report.program_instance.data(@report.program_params);%>
+      <%= render :partial=>@report.program_instance.mail_partial,:locals=>{:datas=>datas}%>
+  <% else %>
+    <%= render "irm/reports/show_#{@report.table_show_type.downcase}"%>
+  <% end %>
 </div>
 

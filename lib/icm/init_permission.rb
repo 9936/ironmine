@@ -24,7 +24,7 @@ Irm::AccessControl.map do |map|
   # 分配事故单
   map.function :assign_incident_request,{"icm/incident_requests"=>[:assign_dashboard,:assignable_data,:assign_request]}
   # 查看所有事故单
-  map.function :view_all_incident_request ,{"icm/incident_requests"=>[:index]}
+  map.function :view_all_incident_request ,{"icm/incident_requests"=>[:index, :info_card]}
   # 为他人提交事故单
   map.function :create_icdt_rqst_for_other,{"icm/incident_requests"=>[:new,:create]}
   #编辑事故单状态
@@ -32,6 +32,8 @@ Irm::AccessControl.map do |map|
   #领取事故单
   map.function :incident_request_edit_status,{"icm/incident_journals"=>[:edit_status,:update_status]}
   map.function :view_icm_kanban,{"icm/incident_requests" => [:kanban_index]}
+
+  map.function :edit_relation, {"icm/incident_requests" => [:add_relation, :remove_relation]}
   #===================icm/rule_settings============================
   #["index", "edit", "update", "new", "create", "get_data", "show"]
   map.function :icm_rule_setting,{"icm/rule_settings"=>["index", "show", "get_data","new", "create","edit", "update"]}
@@ -68,7 +70,11 @@ Irm::AccessControl.map do |map|
 
 
   #====================irm/watchers ========================================
-  map.function :view_watcher, {}
+  map.function :view_watcher, {"irm/watchers" => ["order"]}
   map.function :edit_watcher, {"irm/watchers" => ["add_watcher", "delete_watcher"]}
+
+  #====================icm/mail_requests====================================
+  map.function :view_mail_request, {"icm/mail_requests" => ["index", "get_data", "show"]}
+  map.function :edit_mail_request, {"icm/mail_requests" => ["new", "create", "edit", "update"]}
 
 end

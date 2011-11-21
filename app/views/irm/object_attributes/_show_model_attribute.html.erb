@@ -1,28 +1,91 @@
-<table class="detailList" cellpadding="0" cellspacing="0" border="0">
-  <tbody>
-      <tr>
-        <td class="labelCol"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
-        <td class="dataCol"><%=@object_attribute[:name]%></td>
-        <td class="labelCol"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
-        <td class="dataCol"><%=@object_attribute.attribute_name%></td>
-      </tr>
-      <tr>
-        <td class="labelCol"><label for="object_attribute_lov_code"><%=t(:label_irm_object_attribute_lov_code)%></label></td>
-        <td class="dataCol"><div><%=@object_attribute[:lov_name]%></div></td>
-        <td class="labelCol"><label for="object_attribute_approval_page_field_flag"><%=t(:label_irm_object_attribute_approval_page_field_flag)%></label></td>
-        <td class="dataCol"><%=check_img(@object_attribute.approval_page_field_flag) %></td>
-      </tr>
-      <tr>
-        <td class="labelCol"><label for="object_attribute_person_flag"><%=t(:label_irm_object_attribute_person_flag)%></label></td>
-        <td class="dataCol"><%=check_img(@object_attribute.person_flag) %></td>
-        <td class="labelCol"></td>
-        <td class="dataCol"></td>
-      </tr>
-      <tr>
-        <td class="labelCol"><label for="object_attribute_data_type"><%=t(:label_irm_object_attribute_data_type)%></label></td>
-        <td class="dataCol"><%=@object_attribute.data_type%></td>
-        <td class="labelCol"><label for="object_attribute_data_length"><%=t(:label_irm_object_attribute_data_length)%></label></td>
-        <td class="dataCol"><%=@object_attribute.data_length%></td>
-      </tr>
-  </tbody>
-</table>
+<div id="ep" class="detail-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%= @object_attribute.attribute_type_name %>:<%= @object_attribute.attribute_name %></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @object_attribute}%></div>
+            <div class="button"><%= link_to t(:label_irm_object_attribute_change_type), {:action=>"change_type",:id=>@object_attribute.id,:bo_id=>@business_object.id}%></div>
+            <div class="button"><%= link_to t(:back), {:controller=>"irm/business_objects",:action=>"show",:id=>@business_object.id}%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+      <div class="pbSubsection">
+        <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+              <tr>
+                <td class="labelCol"><label for="object_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
+                <td class="dataCol">
+                  <%=@object_attribute[:name]%>
+                </td>
+                <td class="labelCol empty">&nbsp;</td>
+                <td class="dataCol empty">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="labelCol"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
+                <td class="dataCol"><%=@object_attribute.attribute_name%></td>
+                <td class="labelCol empty">&nbsp;</td>
+                <td class="dataCol empty">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="labelCol"><label for="object_attribute_description"><%=t(:label_irm_object_attribute_description)%></label></td>
+                <td class="dataCol" colspan="3"><%=@object_attribute[:description]%></td>
+              </tr>
+              <tr>
+                <td class="labelCol"><label for="relation_bo_id"><%=t(:label_irm_object_attribute_field_type)%></label></td>
+                <td class="dataCol"><%= @object_attribute[:field_type_name] %></td>
+                <td class="labelCol empty">&nbsp;</td>
+                <td class="dataCol empty">&nbsp;</td>
+              </tr>
+          </tbody>
+
+        </table>
+      </div>
+      <% if @object_attribute.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(@object_attribute.category) %>
+          <div class="pbSubheader  tertiaryPalette">
+            <h3><%= t(:label_irm_business_object_relation) %></h3>
+          </div>
+          <div class="pbSubsection">
+            <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+
+                  <tr>
+                    <td class="labelCol"><label for="relation_bo_id"><%=t(:label_irm_object_attribute_relation_bo)%></label></td>
+                    <td class="dataCol"><%= @object_attribute[:relation_bo_name] %>(<%= @object_attribute[:relation_bo_table_name] %>)</td>
+                    <td class="labelCol empty">&nbsp;</td>
+                    <td class="dataCol empty">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td class="labelCol"><label for="relation_object_attribute_id"><%=t(:label_irm_object_attribute_relation_object_attribute)%></label></td>
+                    <td class="dataCol"><%= @object_attribute[:relation_bo_attribute_name] %>(<%= @object_attribute[:relation_attribute_name] %>)</td>
+                    <td class="labelCol empty">&nbsp;</td>
+                    <td class="dataCol empty">&nbsp;</td>
+                  </tr>
+                 </tbody>
+            </table>
+          </div>
+      <% end %>
+
+
+      <div class="pbSubheader  tertiaryPalette">
+        <h3><%= t(:label_irm_object_attribute_function) %></h3>
+      </div>
+      <div class="pbSubsection">
+        <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+              <tr>
+                <td class="labelCol"><label for="object_attribute_person_flag"><%=t(:label_irm_object_attribute_person_flag)%></label></td>
+                <td class="dataCol"><%=check_img(@object_attribute.person_flag)%></td>
+                <td class="labelCol"><label for="object_attribute_approve_flag"><%=t(:label_irm_object_attribute_approve_flag)%></label></td>
+                <td class="dataCol"><%=check_img(@object_attribute.approve_flag)%></td>
+              </tr>
+             </tbody>
+        </table>
+      </div>
+  </div>
+</div>

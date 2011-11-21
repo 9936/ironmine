@@ -67,26 +67,8 @@
          </tbody>
        </table>
     </div>
+    <%= render("show_subjects") %>
 
-    <div id="survey_subject" class="datatable" style="width:100%;">
-          <div id="id" style="display:none">
-              <%= link_to(t(:edit),{:controller=>"csi/survey_subjects",:action=>"edit",:id=>"{id}",
-                                    :survey_id=>@survey.id}) %>&nbsp;&nbsp;
-              <%= link_to(t(:delete),{:controller=>"csi/survey_subjects",:action=>"destroy",:id=>"{id}",:survey_id=>@survey.id},:confirm => t(:label_are_you_sure) ,
-                                      :method => :delete) %>
-          </div>
-          <div id="required_flag" style="display:none">
-              <%= check_img("{required_flag}") %>
-          </div>
-    </div>
-        <%= datatable("survey_subject",{:controller=>"csi/survey_subjects",:action=>"get_data",:id=>@survey.id,:survey_id=>@survey.id},
-                  [{:key=>"id",:label=>t(:operation),:hidden=>!check_survey_result_exist?(@survey.id),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"seq_num",:label=>t(:label_csi_survey_subject_seq_num),:width=>"70px"},
-                   {:key=>"name",:label=>t(:label_csi_survey_subject_title)},
-                   {:key=>"prompt",:label=>t(:label_csi_survey_subject_prompt)},
-                   {:key=>"required_flag",:label=>t(:required),:formatter=>"Y.irm.template"}],
-                   {:row_perpage=>20})
-        %>
     <div class="pbSubheader tertiaryPalette">&nbsp;
       <h3><%=t(:label_csi_survey_setting)%><span class="titleSeparatingColon"></span></h3>
     </div>
@@ -144,23 +126,31 @@
      </div>
     <div class="pbBody">
         <%ranges = duel_meaning(@survey.get_range_str,duel_values)%>
-        <% if ranges.any? %>
+
         <table class="detailList" cellpadding="0" cellspacing="0" border="0">
           <tbody>
-            <% ranges.each do |r|%>
-            <tr>
-              <td class="labelCol"></td>
-              <td class="dataCol"><%= r%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-              </td>
-            </tr>
+            <% if ranges.any? %>
+              <% ranges.each do |r|%>
+              <tr>
+                <td class="labelCol"></td>
+                <td class="dataCol"><%= r%></td>
+                <td class="labelCol empty">&nbsp;</td>
+                <td class="dataCol empty">&nbsp;</td>
+                </td>
+              </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td class="labelCol"><div style="font-size: 15px;"><%= t(:label_no_data) %></div></td>
+                <td class="dataCol"></td>
+                <td class="labelCol empty">&nbsp;</td>
+                <td class="dataCol empty">&nbsp;</td>
+                </td>
+              </tr>
             <% end %>
           </tbody>
         </table>
-        <% else %>
-          <div style="font-size: 15px;"><%= t(:label_no_data) %></div>
-        <% end %>
+
     </div>
   </div>
 </div>

@@ -173,7 +173,7 @@ Ext.onReady(function() {
     });
     var store = Ext.create('Ext.data.TreeStore', {
         model: "ColumnField",
-        proxy: {type: 'ajax',url:  treeNode.getAttribute("href") + "?with_check=<%= @entry_header.column_ids%>"}
+        proxy: {type: 'ajax',url:  treeNode.getAttribute("href") + "?access=current&with_check=<%= @entry_header.column_ids%>"}
     });
 
     var tree = Ext.create('Ext.tree.Panel', {

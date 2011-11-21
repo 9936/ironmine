@@ -149,4 +149,10 @@ module Csi::SurveysHelper
     ret_value = edit_button + active_button + new_button + back_button
     ret_value
   end
+
+  def survey_subjects(survey_id)
+    Csi::SurveySubject.query_by_survey_id(survey_id).order_by_seq_num
+  end
+
+
 end

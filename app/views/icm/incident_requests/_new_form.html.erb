@@ -38,8 +38,7 @@
             <% if allow_to_function?(:create_icdt_rqst_for_other) %>
               <tr>
                 <td class="labelCol"><label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%></label></td>
-                <td class="data2Col"><%=f.select :requested_by,nullable_options_for_select(available_person, @incident_request.requested_by),
-                                                      {},{:required=>true,:id=>"incident_request_requested_by"}%></td>
+                <td class="data2Col"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"incident_request_requested_by"}%></td>
               </tr>
             <% else %>
                 <%= f.hidden_field(:requested_by,:value=>Irm::Person.current.id, :id=>"incident_request_requested_by") %>
@@ -112,8 +111,7 @@
                 <td class="labelCol"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
                 <td class="dataCol">
                   <div style="display:inline">
-                    <%=f.select :contact_id,nullable_options_for_select(available_contact,Irm::Person.current.id),
-                                                        {},{:required=>true,:id=>"incident_request_contact_id"}%>
+                    <%=f.lov_field :contact_id,Irm::Person,{:required=>true,:id=>"incident_request_contact_id"}%>
                   </div>
                 </td>
                 <td class="labelCol"><label for="incident_request_contact_number"><%=t(:label_icm_incident_request_contact_number)%></label></td>
@@ -202,15 +200,13 @@
      var requester = $("#incident_request_requested_by");
      if(requester){
          requester.change(function(event){
-             $("#incident_request_contact_id").val($(event.target).val());
-             $("#incident_request_contact_id").trigger('change');
+             setLookupValue("incident_request_contact_id",$(event.target).val())
          })
      }
      if($("#incident_request_contact_id")){
          $("#incident_request_contact_id").change(function(event){
-           if($(event.target).val()&&$(event.target).val()!=""){
-             var phone = $(event.target).find("option[value="+$(event.target).val()+"]:first").attr("phone");
-             $("#incident_request_contact_number").val(phone);
+           if($(event.target).val()&&$(event.target).data("lov")&&$(event.target).data("lov").bussiness_phone){
+             $("#incident_request_contact_number").val($(event.target).data("lov").bussiness_phone);
            }
          })
      }

@@ -1,43 +1,66 @@
+<% require_javascript(:extjs) %>
+<% require_css(:extjs)%>
 <% if allow_to_function?(:view_watcher) %>
     <% l_editable = allow_to_function?(:edit_watcher)%>
     <% (l_editable = editable && l_editable) if !editable.nil?%>
     <%= form_tag({:controller => "irm/watchers", :action => "add_watcher", :watchable_id => watchable.id}, :remote => true) do %>
     <div class="sidebarModule">
-        <div class="sidebarModuleHeader"><h2><%= t :label_irm_watcher %><%= ("(" + watchers_size(watchable).to_s + ")") if l_editable%><span style="float:right;"><a style="color:#fff;" href="javascript:void(0);" onclick="show_new_form();"><%= t(:add) if l_editable%></a></span></h2></div>
+        <div class="sidebarModuleHeader"><h2><%= t :label_irm_watcher %><%= ("(" + watchers_size(watchable).to_s + ")")%></h2>
+        </div>
         <div class="sidebarModuleBody">
         <table>
           <% if l_editable %>
-          <tbody id="new_form" style="display:none;">
+          <tbody id="new_form">
             <tr>
               <td>
-                <div id="watcher_select">
-                <%= select_tag "watcher", options_for_select(ava_watchers(watchable.id, watchable.class), {:id => "watcher"})%>
+                <div id="watcher_select" style="float:left;">
+                  <%= lov_field_tag("watcher",Irm::Person, {:id => "watcher", :style => "width:110px;"}) %><%= hidden_field_tag "watchable_type", watchable.class.to_s%>
                 </div>
-                <%= hidden_field_tag "watchable_type", watchable.class.to_s%>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="button"><%= submit_tag(t(:save))%>&nbsp;<%= link_to t(:cancel), {}, {:href => "javascript:void(0);", :style => "line-height:21px;", :onclick => "hide_new_form();"} %></div>
+                <div class="float-right">
+                    <div class="button"><%= submit_tag(t(:add))%></div>
+                </div>
               </td>
             </tr>
           </tbody>
-
-            <script type="text/javascript">
-            function show_new_form() {
-                $("#new_form").css("display", "");
-            }
-
-            function hide_new_form() {
-                $("#new_form").css("display", "none");
-            }
-            </script>
           <% end %>
           <tbody id="watcher_list">
-            <%= watchers_list(watchable, l_editable)%>
+            <%= watchers_list(watchable)%>
           </tbody>
         </table>
         </div>
     </div>
+    <% end %>
+    <% unless limit_device? %>
+        <script type="text/javascript">
+          $(function(){
+              $('.watcher_info').each(function(){
+                  var qtip = Ext.create('Ext.tip.ToolTip', {
+                              target: this,
+                              id: 'person-info-tip-' + $(this).attr('pid'),
+                              anchor: 'left',
+                              title: $(this).attr('pname'),//"<a href='/people/" + $(this).attr('pid') + "'>" + $(this).attr('pname') + "</a>",
+                              html: "<iframe frameborder=0 scrolling='no'  src='/people/" + $(this).attr('pid') + "/info_card' style='width:100%;height:90px;'></iframe>",
+                              width: 400,
+                              autoHide: true,
+                              dismissDelay: 0,
+                              closable: false,
+                              listeners: {
+                                'afterrender': function(){
+                                    this.el.on('mouseout', function(e){
+                                        if(!qtip.getChildByElement(this)){
+                                            qtip.hide();
+                                        }
+                                    });
+
+                                    this.el.on('mouseover', function(e){
+                                        qtip.suspendEvents();
+                                        qtip.show();
+                                    });
+                                }
+                              }
+                          });
+              });
+          });
+        </script>
     <% end %>
 <% end %>

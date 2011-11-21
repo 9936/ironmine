@@ -63,7 +63,7 @@ class Irm::PeopleController < ApplicationController
           format.html {redirect_to(params[:return_url])}
           format.xml { head :ok}
         else
-          format.html { redirect_to({:action=>"index"},:notice => (t :successfully_updated)) }
+          format.html { redirect_to({:action=>"edit"},:notice => (t :successfully_updated)) }
           format.xml  { head :ok }
         end
       else
@@ -186,5 +186,10 @@ class Irm::PeopleController < ApplicationController
         format.html { redirect_to({:action=>"show"}) }
       end
     end
+  end
+
+  def info_card
+    @person = Irm::Person.list_all.find(params[:id])
+    render :layout => "common_all"
   end
 end

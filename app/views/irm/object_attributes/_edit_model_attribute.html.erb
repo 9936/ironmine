@@ -4,10 +4,10 @@
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_object_attribute_edit)%></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_application_new)%></h2></td>
           <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
+            <div class="button"><%= link_to t(:save), {},{:type=>"submit"} %></div>
+            <div class="button"><%= link_to t(:cancel), {:id=>params[:bo_id],:action => "show",:controller=>"irm/business_objects"} %></div>
           </td>
         </tr>
       </tbody>
@@ -30,34 +30,39 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
-              <td class="dataCol">
-                <%=f.text_field :name,:value=>@object_attribute[:name], :required=>true ,:id=>"object_attribute_name"%>
-                <%= f.hidden_field(:field_type,:value=>"CUSTOMED_FIELD") %>
-                <%= f.hidden_field(:attribute_type) %>
-              </td>
+              <td class="labelCol"><label for="object_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
+              <td class="dataCol"><%=f.text_field :name, :required=>true ,:id=>"object_attribute_name"%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
               <td class="labelCol"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
-              <td class="dataCol"><%=f.text_field :attribute_name, :required=>true ,:id=>"object_attribute_attribute_name"%></td>
+              <td class="dataCol"><%=@object_attribute.attribute_name%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label for="object_attribute_lov_code"><%=t(:label_irm_object_attribute_lov_code)%></label></td>
-              <td class="dataCol"><%=f.lov_field :lov_code,"LIST_OF_VALUE",{},{:id=>"lov_code"}%></td>
-              <td class="labelCol"><label for="object_attribute_approval_page_field_flag"><%=t(:label_irm_object_attribute_approval_page_field_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box :approval_page_field_flag ,:id=>"object_attribute_approval_page_field_flag"%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="object_attribute_data_type"><%=t(:label_irm_object_attribute_data_type)%></label></td>
-              <td class="dataCol"><%=f.text_field :data_type, :required=>true ,:id=>"object_attribute_data_type"%></td>
-              <td class="labelCol"><label for="object_attribute_data_length"><%=t(:label_irm_object_attribute_data_length)%></label></td>
-              <td class="dataCol"><%=f.text_field :data_length,:id=>"object_attribute_data_length"%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="object_attribute_person_flag"><%=t(:label_irm_object_attribute_person_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box :person_flag,{:id=>"object_attribute_person_flag"}%></td>
-              <td class="labelCol"></td>
-              <td class="dataCol"></td>
+              <td class="labelCol"><label for="object_attribute_description"><%=t(:label_irm_object_attribute_description)%></label></td>
+              <td class="dataCol" colspan="3"><%=f.text_area :description, :cols=>60,:rows=>5,:id=>"object_attribute_description"%></td>
             </tr>
         </tbody>
+
+      </table>
+    </div>
+
+    <div class="pbSubheader  tertiaryPalette">
+      <h3><%= t(:label_irm_object_attribute_function) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label for="object_attribute_person_flag"><%=t(:label_irm_object_attribute_person_flag)%></label></td>
+              <td class="dataCol"><%=f.check_box(:person_flag,:id=>"object_attribute_person_flag")%></td>
+              <td class="labelCol"><label for="object_attribute_approve_flag"><%=t(:label_irm_object_attribute_approve_flag)%></label></td>
+              <td class="dataCol"><%=f.check_box(:approve_flag,:id=>"object_attribute_approve_flag")%></td>
+            </tr>
+           </tbody>
       </table>
     </div>
   </div>
@@ -67,8 +72,8 @@
         <tr>
           <td class="pbTitle"></td>
           <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
+            <div class="button"><%= link_to t(:save), {},{:type=>"submit"} %></div>
+            <div class="button"><%= link_to t(:cancel), {:id=>params[:bo_id],:action => "show",:controller=>"irm/business_objects"} %></div>
           </td>
         </tr>
       </tbody>

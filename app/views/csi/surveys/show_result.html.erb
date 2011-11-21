@@ -1,13 +1,4 @@
-
-
-<div class="page-title">
-  <div class="pt-body">
-    <div class="content">
-      <h1 class="pageType"><%= t(:label_csi_survey_info) %></h1>
-      <h2 class="pageDescription"><%=t(:label_csi_survey_result) %></h2>
-    </div>
-  </div>
-</div>
+<%=common_title(:action_meaning=>t(:label_csi_survey_result)) %>
 
 <div class="lightBlue">
     <div class="page-title">
@@ -25,7 +16,7 @@
         <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_csi_survey_result) %></h2></td>
         <td id="topButtonRow" class="pbButton">
           <div class="button"><%= link_to t(:return), {:action=>"index"}%></div>
-          <% if @batch_results.present? %>
+          <% if false %>
              <div class="button"><%= link_to t(:export), {:action=>"export_result",:format => "xls"}%></div>
              <div class="button"><%= link_to t(:report), {:action=>"survey_report",:id=>@survey_id}%></div>
           <% end %>
@@ -43,11 +34,11 @@
         <table id='rows'>
           <thead>
             <tr>
-              <th>
+              <th style="width:120px">
                 <div><%= t(:label_csi_survey_timestamps) %>
                 </div>
               </th>
-              <th>
+              <th style="width:120px">
                 <div><%= t(:label_csi_survey_person) %>
                 </div>
               </th>

@@ -35,6 +35,11 @@ class Irm::AutoInitBusinessObject
     if model.respond_to?(:multilingual)&&model.respond_to?(:view_name)
       table_name = model.view_name
       multilingual_flag=Irm::Constant::SYS_YES
+    elsif model.respond_to?(:multilingual_view_name)
+      table_name = model.multilingual_view_name
+      multilingual_flag = Irm::Constant::SYS_YES
+    elsif model.respond_to?(:view_name)
+      table_name = model.view_name
     end
     say("find table:#{table_name}")
     Irm::BusinessObject.update_all(["auto_generate_flag =?",Irm::Constant::SYS_YES],["bo_table_name=? AND bo_model_name=? AND auto_generate_flag = ?",table_name,model.name,"U"])
@@ -57,7 +62,7 @@ class Irm::AutoInitBusinessObject
     columns = exists_columns.dup
     object_attributes = bo.object_attributes
     object_attributes.each do |oa|
-      if !["TABLE_COLUMN","LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(oa.attribute_type)
+      if !["TABLE_COLUMN"].include?(oa.attribute_type)
         say("NOT TABLE COLUMN  #{bo.bo_model_name}==#{oa.attribute_name}")
         next
       end
@@ -70,10 +75,10 @@ class Irm::AutoInitBusinessObject
         oa.update_attributes({:not_auto_mult=>true,
                               :data_type=>data_type,
                               :data_length=>length,
-                              :nullable_flag=>("NO".eql?(column[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES),
-                              :key_type=>column[3],
-                              :default_value=>column[4],
-                              :extra_info=>column[5]})
+                              :data_null_flag=>("NO".eql?(column[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES),
+                              :data_key_type=>column[3],
+                              :data_default_value=>column[4],
+                              :data_extra_info=>column[5]})
         say("update column=#{bo.bo_table_name}==#{oa.attribute_name}")
         columns.delete_if{|c| c[0].eql?(oa.attribute_name)}
       else
@@ -88,50 +93,27 @@ class Irm::AutoInitBusinessObject
       data_type = data_type_length[0]
       length = nil
       length = data_type_length[1].gsub(/\)/,"") if data_type_length[1]
-      attribute = Irm::ObjectAttribute.create({:business_object_code=>bo.business_object_code,
+      attribute = Irm::ObjectAttribute.create({:business_object_id=>bo.id,
                                               :name=>c[0],
                                               :description=>c[0],
                                               :attribute_name=>c[0],
                                               :attribute_type=>"TABLE_COLUMN",
-                                              :exists_relation_flag=>Irm::Constant::SYS_NO,
+                                              :field_type=> ["id","created_by","updated_by","created_at","updated_at"].include?(c[0])? "STANDARD_FIELD":"CUSTOMED_FIELD",
+                                              :category => "TEXT",
+                                              :relation_exists_flag=>Irm::Constant::SYS_NO,
                                               :data_type=>data_type,
                                               :data_length=>length,
-                                              :nullable_flag=>("NO".eql?(c[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES),
-                                              :key_type=>c[3],
-                                              :default_value=>c[4],
-                                              :extra_info=>c[5]})
+                                              :data_null_flag=>("NO".eql?(c[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES),
+                                              :data_key_type=>c[3],
+                                              :data_default_value=>c[4],
+                                              :data_extra_info=>c[5]})
       say("add column=#{bo.bo_table_name}==#{attribute.attribute_name}")
-    end
-    check_column(bo.business_object_code,exists_columns)
-  end
-
-  def check_column(bo_code,columns)
-    attributes = Irm::ObjectAttribute.where(:relation_bo_code=>bo_code,:attribute_type=>"RELATION_COLUMN")
-    attributes.each do |oa|
-      column = columns.detect{|c| c[0].eql?(oa.relation_column)}
-      if column
-        data_type_length = column[1].split("(")
-        data_type = data_type_length[0]
-        length = nil
-        length = data_type_length[1].gsub(/\)/,"") if data_type_length[1]
-        oa.update_attributes({:not_auto_mult=>true,
-                              :data_type=>data_type,
-                              :data_length=>length,
-                              :nullable_flag=>("NO".eql?(column[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES),
-                              :key_type=>column[3],
-                              :default_value=>column[4],
-                              :extra_info=>column[5]})
-        say("update ref attribute #{bo_code}==#{oa.attribute_name}")
-      else
-        say("delete ref attribute #{bo_code}==#{oa.attribute_name}")
-        oa.destroy
-      end
     end
   end
 
   def add_bo(model)
     if !need_create
-      say "can not create new business object for #{model.name},please check"
+      say "can not create new business object for #{model.name},because do not allow create new business object"
       return
     end
     table_name = model.table_name
@@ -139,6 +121,8 @@ class Irm::AutoInitBusinessObject
     if model.respond_to?(:multilingual)&&model.respond_to?(:view_name)
       table_name = model.view_name
       multilingual_flag=Irm::Constant::SYS_YES
+    elsif model.respond_to?(:view_name)
+      table_name = model.view_name
     end
     if !ActiveRecord::Base.connection.table_exists?(table_name)
         say("table not exists #{table_name},please check!")
@@ -161,18 +145,20 @@ class Irm::AutoInitBusinessObject
       data_type = data_type_length[0]
       length = nil
       length = data_type_length[1].gsub(/\)/,"") if data_type_length[1]
-      attribute = bo.object_attributes.build({:business_object_code=>business_object_code,
+      attribute = bo.object_attributes.build({:business_object_id=>bo.id,
                                               :name=>c[0],
                                               :description=>c[0],
                                               :attribute_name=>c[0],
                                               :attribute_type=>"TABLE_COLUMN",
-                                              :exists_relation_flag=>Irm::Constant::SYS_NO,
+                                              :field_type=> ["id","created_by","updated_by","created_at","updated_at"].include?(c[0])? "STANDARD_FIELD":"CUSTOMED_FIELD",
+                                              :category => "TEXT",
+                                              :relation_exists_flag=>Irm::Constant::SYS_NO,
                                               :data_type=>data_type,
                                               :data_length=>length,
-                                              :nullable_flag=>("NO".eql?(c[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES),
-                                              :key_type=>c[3],
-                                              :default_value=>c[4],
-                                              :extra_info=>c[5]})
+                                              :data_null_flag=>("NO".eql?(c[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES),
+                                              :data_key_type=>c[3],
+                                              :data_default_value=>c[4],
+                                              :data_extra_info=>c[5]})
       say("add =column=#{bo.bo_table_name}==#{attribute.attribute_name}")
     end
     bo.save

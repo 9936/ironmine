@@ -16,7 +16,7 @@ class Irm::LoginRecord < ActiveRecord::Base
 
   scope :with_person,lambda{
     joins("JOIN #{Irm::Person.table_name} ON #{table_name}.identity_id = #{Irm::Person.table_name}.id").
-    select("#{Irm::Person.table_name}.login_name,#{Irm::Person.name_to_sql(nil,Irm::Person.table_name,'full_name')}")
+    select("#{Irm::Person.table_name}.login_name,#{Irm::Person.table_name}.full_name")
   }
 
   scope :query_by_person,lambda{|person_id|

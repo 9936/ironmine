@@ -21,6 +21,9 @@
     background-color: #EFF4FC;
   }
 </style>
-<table id="reportData" cellspacing="0" cellpadding="0" border="0">
+<% if @report.show_chart? %>
+    <%= render "irm/report_chart/#{@report.chart_type.downcase}"%>
+<% end %>
+<table id="reportData" cellspacing="0" cellpadding="0" border="0" style="table-layout: fixed; width:100%">
   <%= raw group_report(@report) %>
 </table>

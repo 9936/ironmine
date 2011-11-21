@@ -337,14 +337,17 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def get_data
-#    current_accessible_columns = Skm::Column.current_person_accessible_columns
-    entry_headers_scope = Skm::EntryHeader.list_all.published.current_entry.with_favorite_flag(Irm::Person.current.id)
+    entry_headers_scope = Skm::EntryHeader.
+        list_all.
+        published.
+        current_entry.
+        with_favorite_flag(Irm::Person.current.id)
+    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
-#    entry_headers_scope = entry_headers_scope.delete_if{|i| (i.get_column_ids.split(",") & current_accessible_columns).size == 0}
     entry_headers,count = paginate(entry_headers_scope)
-#    entry_headers = entry_headers.delete_if{|i| (i.get_column_ids.split(",") & current_accessible_columns).size == 0}
+
     respond_to do |format|
       format.html  {
         @datas = entry_headers

@@ -40,22 +40,22 @@
                <%  if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
                   <%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
                <% end %>
-               <%= link_to( "(#{data[:incident_status_name]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
+               <%= link_to( "(#{data[:incident_status_id_label]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
              </div>
            </td>
            <td>
              <div>
-               <%= data[:organization_name] %>
+               <%= data[:organization_id_label] %>
              </div>
            </td>
            <td>
              <div>
-               <%= data[:priority_name] %>
+               <%= data[:priority_id_label] %>
              </div>
            </td>
            <td>
              <div>
-               <%= data[:requested_name] %>
+               <%= data[:requested_by_label] %>
              </div>
            </td>
            <td>
@@ -65,7 +65,7 @@
            </td>
            <td>
              <div>
-               <%= data[:external_system_name] %>
+               <%= data[:external_system_id_label] %>
              </div>
            </td>
          </tr>
