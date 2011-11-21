@@ -94,7 +94,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
     end
     incident_request.update_attributes(incident_request_attributes)
 
-    incident_histories = Icm::IncidentHistory.where(:journal_id=>incident_journal.id)
+    incident_histories = Icm::IncidentHistory.where(:journal_id=>self.id)
 
     elapse_options = {:incident_status_id=>incident_request.incident_status_id,:support_group_id=>incident_request.support_group_id}
 
