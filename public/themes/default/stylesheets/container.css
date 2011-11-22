@@ -496,3 +496,7 @@ body .wizard-block .pbBody .pbSubheader h3, body .wizard-block .bPageBlock .pbBo
     font-weight:bold;
     text-align:center;
 }
+
+/****************************************************/
+table.split-table{width:100%}
+table.split-table tr td:first-child {width: 250px;}
