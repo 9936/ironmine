@@ -3,7 +3,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
 
   belongs_to :incident_request
 
-  after_save :process_after_save
+  #after_save :process_after_save
 
   has_many :incident_histories,:foreign_key => "journal_id"
 
@@ -56,6 +56,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
                                        :old_value=>ovalue,
                                        :new_value=>nvalue}) if !ovalue.eql?(nvalue)
     end
+    incident_journal.create_elapse
     return incident_journal
   end
 
@@ -64,9 +65,9 @@ class Icm::IncidentJournal < ActiveRecord::Base
     self.incident_request.watcher_person_ids
   end
 
-  private
-  #
-  def process_after_save
+
+  def create_elapse
+    return unless Icm::IncidentJournalElapse.where(:incident_journal_id=>self.id).count<1
     last_journal = self.class.where("incident_request_id =? AND created_at < ?",self.incident_request_id,self.created_at).order("created_at desc").first
     current_journal = self.class.with_replied_by.with_replied_profile(I18n.locale).find(self.id)
     incident_request_attributes = {}
@@ -93,7 +94,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
     end
     incident_request.update_attributes(incident_request_attributes)
 
-    incident_histories = Icm::IncidentHistory.where(:journal_id=>incident_journal.id)
+    incident_histories = Icm::IncidentHistory.where(:journal_id=>self.id)
 
     elapse_options = {:incident_status_id=>incident_request.incident_status_id,:support_group_id=>incident_request.support_group_id}
 
@@ -115,6 +116,9 @@ class Icm::IncidentJournal < ActiveRecord::Base
       Icm::IncidentJournalElapse.create(({:incident_journal_id=>self.id,:elapse_type=>self.reply_type,:start_at=>incident_request.created_at,:end_at=>self.created_at}).merge(elapse_options))
     end
   end
+
+  private
+  #
 
   def validate_message_body
     str = Irm::Sanitize.sanitize(self.message_body,'').strip

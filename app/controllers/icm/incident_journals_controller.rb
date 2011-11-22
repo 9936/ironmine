@@ -51,7 +51,7 @@ class Icm::IncidentJournalsController < ApplicationController
       elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
         process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
-
+        @incident_journal.create_elapse
         format.js do
           @current_journals = Icm::IncidentJournal.list_all(@incident_request.id).includes(:incident_histories).where("#{Icm::IncidentJournal.table_name}.id = ?", @incident_journal.id)
           responds_to_parent do
@@ -97,7 +97,7 @@ class Icm::IncidentJournalsController < ApplicationController
       if @incident_journal.valid?&&@incident_request.save
         process_change_attributes([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
-
+        @incident_journal.create_elapse
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
@@ -131,7 +131,7 @@ class Icm::IncidentJournalsController < ApplicationController
       if @incident_journal.valid?&&@incident_request.save
         process_change_attributes([:incident_status_id,:close_reason_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
-
+        @incident_journal.create_elapse
         #关闭事故单时，产生一个与之关联的投票任务
         Delayed::Job.enqueue(Irm::Jobs::IcmIncidentRequestSurveyTaskJob.new(@incident_request.id))
         format.html { redirect_to({:action => "new"}) }
@@ -178,6 +178,9 @@ class Icm::IncidentJournalsController < ApplicationController
                                    :charge_group_id,:charge_person_id,
                                    :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
+
+        @incident_journal.create_elapse
+
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
@@ -228,6 +231,8 @@ class Icm::IncidentJournalsController < ApplicationController
         process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
                                    :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
+        @incident_journal.create_elapse
+
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
@@ -268,6 +273,8 @@ class Icm::IncidentJournalsController < ApplicationController
           process_change_attributes([:incident_status_id,:support_group_id,:support_person_id,
                                      :upgrade_group_id,:upgrade_person_id],@incident_request,@incident_request_bak,@incident_journal)
           process_files(@incident_journal)
+          @incident_journal.create_elapse
+
           format.html { redirect_to({:action => "new"}) }
           format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
         else
