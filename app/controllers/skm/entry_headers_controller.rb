@@ -456,7 +456,7 @@ class Skm::EntryHeadersController < ApplicationController
                                   :published_date => Time.now,
                                   :author_id => Irm::Person.current.id,
                                   :version_number => 1,
-                                  :source_type=>"INCIDENT_REQUEST",
+                                  :source_type=> Icm::IncidentRequest.name,
                                   :source_id => incident_request.id}
 
     @entry_header = Skm::EntryHeader.new
@@ -543,6 +543,47 @@ class Skm::EntryHeadersController < ApplicationController
     end
 
   end
+
+  def create_from_icm_request
+    @entry_header = Skm::EntryHeader.new(params[:skm_entry_header])
+    params[:skm_entry_details].each do |k, v|
+      t = Skm::EntryDetail.new(v)
+      @entry_header.entry_details << t
+    end
+    @entry_header.entry_status_code = "PUBLISHED"
+    @entry_header.published_date = Time.now
+    @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
+    @entry_header.version_number = @entry_header.next_version_number
+    @entry_header.author_id = Irm::Person.current.id
+    column_ids = params[:skm_entry_header][:column_ids].split(",")
+    incident_request = Icm::IncidentRequest.find(@entry_header.source_id)
+    puts("++++++++++" + @entry_header.entry_details.to_json)
+    respond_to do |format|
+      if @entry_header.save && incident_request.update_attribute(:kb_flag, Irm::Constant::SYS_YES)
+        column_ids.each do |c|
+          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
+        end
+
+
+        #关联创建过程中关联的文件
+#        if session[:skm_entry_attachments] && session[:skm_entry_attachments].size > 0
+#          attachments = Irm::AttachmentVersion.where("id IN (?)", session[:skm_entry_attachments])
+#          attachments.each do |at|
+#            at.update_attribute(:source_id, @entry_header.id)
+#          end
+#        end
+        session[:skm_entry_header] = nil
+        session[:skm_entry_details] = nil
+
+        format.html { redirect_to({:action=>"show", :id => @entry_header}, :notice =>t(:successfully_created)) }
+        format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
+      else
+        format.html { render :action => "new_from_icm_request" }
+        format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
 
   def remove_exits_attachment_during_create
     @file = Irm::Attachment.where(:latest_version_id => params[:att_id]).first

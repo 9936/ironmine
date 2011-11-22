@@ -139,3 +139,5 @@ zh:
 
   label_skm_owned_channels: 已经拥有的频道
   label_skm_channel_management: 添加频道
+
+  label_action_new_from_icm_request: 从事故单创建知识库文章
