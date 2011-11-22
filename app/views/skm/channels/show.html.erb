@@ -58,6 +58,51 @@
         </div>
     </div>
 </div>
+
+<div class="bRelatedList">
+    <div class="listRelatedObject setupBlock">
+      <div class="page-block secondary-palette">
+        <div class="pbHeader">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            <tr>
+              <td class="pbTitle">
+                <h3><%=t(:label_irm_person_group)%></h3>
+              </td>
+              <td class="pbButton">
+                <div class="button"><%= link_to t(:label_skm_channel_group_management), {:controller=>"skm/channels",
+                                                          :action => "new_groups",:id=>@channel.id}%></div>
+              </td>
+              <td class="pbHelp">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pbBody lbBody">
+          <div id="groupList" class="datatable" style="width:100%;">
+            <div id="id" style="display:none">
+              <%= icon_link_remove({:controller=>"skm/channels",:action=>"remove_group",:group_id=>"{id}",
+                                      :channel_id=>@channel.id},:confirm => t(:label_are_you_sure) ,
+                                      :method => :delete) %>
+            </div>
+          </div>
+          <!-- Begin company access table -->
+            <%= datatable("groupList",{:controller=>"skm/channels",:action=>"get_owned_groups_data",:id=>@channel.id,:format=>:json},
+                              [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
+                               {:key=>"code",:label=>t(:label_irm_group_group_code), :width => "150px"},
+                               {:key=>"name",:label=>t(:label_irm_group_name), :width => "150px"},
+                               {:key=>"description",:label=>t(:label_irm_group_description)}])%>
+          <!-- End company access table -->
+        </div>
+        <div class="pbFooter secondary-palette">
+        <div class="bg"></div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
 <script>
 Ext.onReady(function() {
     var treeNode = Ext.getDom("tree-div");
@@ -82,7 +127,6 @@ Ext.onReady(function() {
     var tree = Ext.create('Ext.tree.Panel', {
         store: store,
         rootVisible: false,
-        useArrows: true,
         renderTo: 'tree-div',
         width: 200,
         height: 250,

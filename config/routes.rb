@@ -1132,6 +1132,11 @@ Ironmine::Application.routes.draw do
     match '/channels/:id/multilingual_update(.:format)' => "channels#multilingual_update", :via => :put
     match '/channels/:group_id/get_owned_channels(.:format)' => "channels#get_owned_channels"
     match '/channels/:group_id/get_ava_channels(.:format)' => "channels#get_ava_channels"
+    match '/channels/:id/get_owned_groups_data(.:format)' => "channels#get_owned_groups_data", :via => :get
+    match '/channels/:id/get_ava_groups_data(.:format)' => "channels#get_ava_groups_data", :via => :get
+    match '/channels/:id/new_groups(.:format)' => "channels#new_groups", :via => :get
+    match '/channels/:id/create_groups(.:format)' => "channels#create_groups", :via => :post
+    match '/channels/:group_id/:channel_id/remove_group(.:format)' => "channels#remove_group"
   end
 
   scope :module => "uid" do

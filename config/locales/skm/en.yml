@@ -137,5 +137,6 @@ en:
 
   label_skm_owned_channels: Owned Channels
   label_skm_channel_management: Management Channels
+  label_skm_channel_group_management: Management Groups
 
   label_action_new_from_icm_request: Create Knowledge From Incident Request

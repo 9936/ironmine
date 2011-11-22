@@ -89,7 +89,7 @@ class Skm::ChannelsController < ApplicationController
   end
 
   def get_owned_channels
-    channel_scope = Irm::Group.find(params[:group_id]).channels.multilingual.status_meaning
+    channel_scope = Irm::Group.find(params[:group_id]).channels.multilingual.enabled.status_meaning
     channels,count = paginate(channel_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(channels.to_grid_json(['0',:channel_code, :name,:description,:status_meaning, :status_code], count)) }
@@ -97,10 +97,59 @@ class Skm::ChannelsController < ApplicationController
   end
 
   def get_ava_channels
-    channel_scope = Skm::Channel.multilingual.without_group(params[:group_id]).status_meaning
+    channel_scope = Skm::Channel.multilingual.without_group(params[:group_id]).enabled.status_meaning
     channels,count = paginate(channel_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(channels.to_grid_json(['0',:channel_code, :name,:description,:status_meaning, :status_code], count)) }
+    end
+  end
+
+  def get_owned_groups_data
+    group_scope = Skm::Channel.find(params[:id]).groups.multilingual.enabled
+    groups, count = paginate(group_scope)
+    respond_to do |format|
+      format.json  {render :json => to_jsonp(groups.to_grid_json(['0',:code, :name, :description, :status_code], count)) }
+    end
+  end
+
+  def get_ava_groups_data
+    group_scope = Irm::Group.multilingual.where("#{Irm::Group.table_name}.id NOT IN (?)", Skm::Channel.find(params[:id]).groups.collect(&:id) + ['']).enabled
+    groups, count = paginate(group_scope)
+    respond_to do |format|
+      format.json  {render :json => to_jsonp(groups.to_grid_json(['0',:code, :name, :description, :status_code], count)) }
+    end
+  end
+
+  def remove_group
+    @group_member = Skm::ChannelGroup.where("group_id =? AND channel_id = ? AND opu_id = ?",
+                                            params[:group_id], params[:channel_id], Irm::OperationUnit.current.id).first
+    @group_member.destroy
+
+    respond_to do |format|
+      format.html { redirect_to({:controller=>"skm/channels",:action=>"show",:id=>params[:channel_id]}) }
+      format.xml  { head :ok }
+    end
+  end
+
+  def new_groups
+    @channel = Skm::Channel.multilingual.find(params[:id])
+    @channel_group = Skm::ChannelGroup.new
+    @channel_group.status_code = ""
+  end
+
+  def create_groups
+    @channel = Skm::Channel.find(params[:id])
+    @channel_group = Skm::ChannelGroup.new(params[:skm_channel_group])
+    respond_to do |format|
+      if(!@channel_group.status_code.blank?)
+        @channel_group.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
+          Skm::ChannelGroup.create(:group_id=>id,:channel_id=>@channel.id)
+        end
+        format.html { redirect_to({:controller => "skm/channels",:action=>"show",:id=>@channel.id}, :notice => t(:successfully_created)) }
+      else
+        @channel_group.errors.add(:status_code,"")
+        format.html { render :action => "new_groups" }
+      end
     end
   end
 end
