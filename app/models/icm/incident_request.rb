@@ -240,8 +240,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_submitted_by.
         with_support_group(I18n.locale).
         with_supporter(I18n.locale).
-        with_external_system(I18n.locale).
-        with_skm_flag
+        with_external_system(I18n.locale)
   end
 
 

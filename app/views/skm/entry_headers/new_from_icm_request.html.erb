@@ -15,7 +15,7 @@
           <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_skm_entry_header_edit)%></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= f.submit t(:save_as_published)%></div>
-            <div class="button"><%= link_to t(:cancel), {:controller => "skm/entry_headers", :action => "index"}  %></div>
+            <div class="button"><%= link_to t(:cancel), {:controller => "icm/incident_journals", :action => "new", :request_id => @entry_header.source_id}  %></div>
           </td>
         </tr>
       </tbody>
@@ -166,7 +166,7 @@
           <td class="pbTitle"></td>
           <td id="bottomButtonRow" class="pbButtonb">
             <div class="button"><%= f.submit t(:save_as_published)%></div>
-            <div class="button"><%= link_to t(:cancel), {:controller => "skm/entry_headers", :action => "index"}  %></div>
+            <div class="button"><%= link_to t(:cancel), {:controller => "icm/incident_journals", :action => "new", :request_id => @entry_header.source_id}  %></div>
           </td>
         </tr>
       </tbody>

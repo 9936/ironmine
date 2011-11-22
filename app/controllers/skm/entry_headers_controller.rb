@@ -465,16 +465,6 @@ class Skm::EntryHeadersController < ApplicationController
         @entry_header[k.to_sym] = v
       end
     end
-#    entry_header = Skm::EntryHeader.new(:entry_title => incident_request.title,
-#                                        :doc_number => Skm::EntryHeader.generate_doc_number,
-#                                        :entry_template_id => template.id,
-#                                        :history_flag => "N",
-#                                        :entry_status_code => "DRAFT",
-#                                        :published_date => Time.now,
-#                                        :author_id => Irm::Person.current.id,
-#                                        :version_number => 1,
-#                                        :source_type=>"INCIDENT_REQUEST",
-#                                        :source_id => incident_request.id)
     session[:skm_entry_details] = {}
     elements.each do |e|
       if e.entry_template_element_code.include?("INCIDENT_REQUEST_INFO_")
@@ -487,14 +477,6 @@ class Skm::EntryHeadersController < ApplicationController
              :line_num=>e.line_num,
              :status_code=>"ENABLED"}}
         )
-#        t = Skm::EntryDetail.new(:entry_content =>Irm::Sanitize.sanitize(incident_request.summary.gsub(/<(br)(| [^>]*)>/i, "\n"),""),
-#                                 :default_rows => e.default_rows,
-#                                 :entry_template_element_id => e.id,
-#                                 :element_name => e.element_name,
-#                                 :required_flag=> e.required_flag,
-#                                 :line_num=>e.line_num,
-#                                 :status_code=>"ENABLED")
-#        entry_header.entry_details << t
       elsif e.entry_template_element_code.include?("INCIDENT_REQUEST_INSTANCE_")
         session[:skm_entry_details].merge!({e.id.to_sym =>{
             :entry_content => I18n::t(:label_incident_request) + ": " + incident_request.request_number + " ; " + I18n::t(:label_icm_incident_request_title) + ": " + incident_request.title,
@@ -505,14 +487,6 @@ class Skm::EntryHeadersController < ApplicationController
              :line_num=>e.line_num,
              :status_code=>"ENABLED"}
         })
-#        t = Skm::EntryDetail.new(:entry_content => I18n::t(:label_incident_request) + ": " + incident_request.request_number + " ; " + I18n::t(:label_icm_incident_request_title) + ": " + incident_request.title,
-#                                 :default_rows => e.default_rows,
-#                                 :entry_template_element_id => e.id,
-#                                 :element_name => e.element_name,
-#                                 :required_flag=> e.required_flag,
-#                                 :line_num=>e.line_num,
-#                                 :status_code=>"ENABLED")
-#        entry_header.entry_details << t
       elsif e.entry_template_element_code.include?("INCIDENT_REQUEST_SOLUTION_")
         session[:skm_entry_details].merge!({e.id.to_sym => {
             :entry_content => incident_request.concat_journals,
@@ -523,14 +497,6 @@ class Skm::EntryHeadersController < ApplicationController
              :line_num=>e.line_num,
              :status_code=>"ENABLED"}
         })
-#        t = Skm::EntryDetail.new(:entry_content => incident_request.concat_journals,
-#                                 :default_rows => e.default_rows,
-#                                 :entry_template_element_id => e.id,
-#                                 :element_name => e.element_name,
-#                                 :required_flag=> e.required_flag,
-#                                 :line_num=>e.line_num,
-#                                 :status_code=>"ENABLED")
-#        entry_header.entry_details << t
       end
     end
 
@@ -557,7 +523,6 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header.author_id = Irm::Person.current.id
     column_ids = params[:skm_entry_header][:column_ids].split(",")
     incident_request = Icm::IncidentRequest.find(@entry_header.source_id)
-    puts("++++++++++" + @entry_header.entry_details.to_json)
     respond_to do |format|
       if @entry_header.save && incident_request.update_attribute(:kb_flag, Irm::Constant::SYS_YES)
         column_ids.each do |c|
@@ -565,13 +530,16 @@ class Skm::EntryHeadersController < ApplicationController
         end
 
 
-        #关联创建过程中关联的文件
-#        if session[:skm_entry_attachments] && session[:skm_entry_attachments].size > 0
-#          attachments = Irm::AttachmentVersion.where("id IN (?)", session[:skm_entry_attachments])
-#          attachments.each do |at|
-#            at.update_attribute(:source_id, @entry_header.id)
-#          end
-#        end
+        if params[:file]
+          files = params[:file]
+          #调用方法创建附件
+          begin
+            attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
+          rescue
+            @entry_header.errors << "FILE UPLOAD ERROR"
+          end
+        end
+
         session[:skm_entry_header] = nil
         session[:skm_entry_details] = nil
 
