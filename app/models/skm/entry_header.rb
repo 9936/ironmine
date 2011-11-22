@@ -67,9 +67,6 @@ class Skm::EntryHeader < ActiveRecord::Base
     text :entry_content do |entry|
       entry.entry_details.map { |detail| detail.entry_content }
     end
-    text :entry_column do |entry|
-      entry.entry_colu
-    end
   end
 
   def self.search(query)

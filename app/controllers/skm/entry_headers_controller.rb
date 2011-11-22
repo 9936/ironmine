@@ -447,52 +447,101 @@ class Skm::EntryHeadersController < ApplicationController
     incident_request = Icm::IncidentRequest.list_all.where("#{Icm::IncidentRequest.table_name}.id = ?", params[:request_id]).first()
     template = Skm::EntryTemplate.where(:entry_template_code => "ENTRY_FROM_ICM_REQUEST_" + I18n.locale.to_s.upcase).first()
     elements = Skm::EntryTemplateDetail.owned_elements(template.id)
-    entry_header = Skm::EntryHeader.new(:entry_title => incident_request.title,
-                                        :doc_number => Skm::EntryHeader.generate_doc_number,
-                                        :entry_template_id => template.id,
-                                        :history_flag => "N",
-                                        :entry_status_code => "DRAFT",
-                                        :published_date => Time.now,
-                                        :author_id => Irm::Person.current.id,
-                                        :version_number => 1,
-                                        :source_type=>"INCIDENT_REQUEST",
-                                        :source_id => incident_request.id)
+
+    session[:skm_entry_header] = {:entry_title => incident_request.title,
+                                  :doc_number => Skm::EntryHeader.generate_doc_number,
+                                  :entry_template_id => template.id,
+                                  :history_flag => "N",
+                                  :entry_status_code => "DRAFT",
+                                  :published_date => Time.now,
+                                  :author_id => Irm::Person.current.id,
+                                  :version_number => 1,
+                                  :source_type=>"INCIDENT_REQUEST",
+                                  :source_id => incident_request.id}
+
+    @entry_header = Skm::EntryHeader.new
+    if session[:skm_entry_header]
+      session[:skm_entry_header].each do |k, v|
+        @entry_header[k.to_sym] = v
+      end
+    end
+#    entry_header = Skm::EntryHeader.new(:entry_title => incident_request.title,
+#                                        :doc_number => Skm::EntryHeader.generate_doc_number,
+#                                        :entry_template_id => template.id,
+#                                        :history_flag => "N",
+#                                        :entry_status_code => "DRAFT",
+#                                        :published_date => Time.now,
+#                                        :author_id => Irm::Person.current.id,
+#                                        :version_number => 1,
+#                                        :source_type=>"INCIDENT_REQUEST",
+#                                        :source_id => incident_request.id)
+    session[:skm_entry_details] = {}
     elements.each do |e|
       if e.entry_template_element_code.include?("INCIDENT_REQUEST_INFO_")
-        t = Skm::EntryDetail.new(:entry_content =>Irm::Sanitize.sanitize(incident_request.summary.gsub(/<(br)(| [^>]*)>/i, "\n"),""),
-                                 :default_rows => e.default_rows,
-                                 :entry_template_element_id => e.id,
-                                 :element_name => e.element_name,
-                                 :required_flag=> e.required_flag,
-                                 :line_num=>e.line_num,
-                                 :status_code=>"ENABLED")
-        entry_header.entry_details << t
+        session[:skm_entry_details].merge!({e.id.to_sym =>
+            {:entry_content =>Irm::Sanitize.sanitize(incident_request.summary.gsub(/<(br)(| [^>]*)>/i, "\n"),""),
+             :default_rows => e.default_rows,
+             :entry_template_element_id => e.id,
+             :element_name => e.element_name,
+             :required_flag=> e.required_flag,
+             :line_num=>e.line_num,
+             :status_code=>"ENABLED"}}
+        )
+#        t = Skm::EntryDetail.new(:entry_content =>Irm::Sanitize.sanitize(incident_request.summary.gsub(/<(br)(| [^>]*)>/i, "\n"),""),
+#                                 :default_rows => e.default_rows,
+#                                 :entry_template_element_id => e.id,
+#                                 :element_name => e.element_name,
+#                                 :required_flag=> e.required_flag,
+#                                 :line_num=>e.line_num,
+#                                 :status_code=>"ENABLED")
+#        entry_header.entry_details << t
       elsif e.entry_template_element_code.include?("INCIDENT_REQUEST_INSTANCE_")
-        t = Skm::EntryDetail.new(:entry_content => I18n::t(:label_incident_request) + ": " + incident_request.request_number + " ; " + I18n::t(:label_icm_incident_request_title) + ": " + incident_request.title,
-                                 :default_rows => e.default_rows,
-                                 :entry_template_element_id => e.id,
-                                 :element_name => e.element_name,
-                                 :required_flag=> e.required_flag,
-                                 :line_num=>e.line_num,
-                                 :status_code=>"ENABLED")
-        entry_header.entry_details << t
+        session[:skm_entry_details].merge!({e.id.to_sym =>{
+            :entry_content => I18n::t(:label_incident_request) + ": " + incident_request.request_number + " ; " + I18n::t(:label_icm_incident_request_title) + ": " + incident_request.title,
+             :default_rows => e.default_rows,
+             :entry_template_element_id => e.id,
+             :element_name => e.element_name,
+             :required_flag=> e.required_flag,
+             :line_num=>e.line_num,
+             :status_code=>"ENABLED"}
+        })
+#        t = Skm::EntryDetail.new(:entry_content => I18n::t(:label_incident_request) + ": " + incident_request.request_number + " ; " + I18n::t(:label_icm_incident_request_title) + ": " + incident_request.title,
+#                                 :default_rows => e.default_rows,
+#                                 :entry_template_element_id => e.id,
+#                                 :element_name => e.element_name,
+#                                 :required_flag=> e.required_flag,
+#                                 :line_num=>e.line_num,
+#                                 :status_code=>"ENABLED")
+#        entry_header.entry_details << t
       elsif e.entry_template_element_code.include?("INCIDENT_REQUEST_SOLUTION_")
-        t = Skm::EntryDetail.new(:entry_content => incident_request.concat_journals,
-                                 :default_rows => e.default_rows,
-                                 :entry_template_element_id => e.id,
-                                 :element_name => e.element_name,
-                                 :required_flag=> e.required_flag,
-                                 :line_num=>e.line_num,
-                                 :status_code=>"ENABLED")
-        entry_header.entry_details << t
+        session[:skm_entry_details].merge!({e.id.to_sym => {
+            :entry_content => incident_request.concat_journals,
+             :default_rows => e.default_rows,
+             :entry_template_element_id => e.id,
+             :element_name => e.element_name,
+             :required_flag=> e.required_flag,
+             :line_num=>e.line_num,
+             :status_code=>"ENABLED"}
+        })
+#        t = Skm::EntryDetail.new(:entry_content => incident_request.concat_journals,
+#                                 :default_rows => e.default_rows,
+#                                 :entry_template_element_id => e.id,
+#                                 :element_name => e.element_name,
+#                                 :required_flag=> e.required_flag,
+#                                 :line_num=>e.line_num,
+#                                 :status_code=>"ENABLED")
+#        entry_header.entry_details << t
       end
     end
-    respond_to do |format|
-      if entry_header.save
-        format.html { redirect_to(:controller => "skm/entry_headers", :action => "edit", :id => entry_header.id)}
-        format.xml  { head :ok }
-      end
+
+    @entry_details = []
+    @error_details = []
+    @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
+    session[:skm_entry_details].each do |k, v|
+      t = Skm::EntryDetail.new(v)
+      @entry_details << t
     end
+
   end
 
   def remove_exits_attachment_during_create
