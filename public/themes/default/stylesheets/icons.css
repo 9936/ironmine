@@ -405,6 +405,14 @@ img.lookupIconOn {
     vertical-align: middle;
 }
 
+img.bookmarkGeneral {
+    background-image: url("/images/bookmark.png");
+    background-position: right top;
+    height: 16px;
+    width: 16px;
+    vertical-align: middle;
+}
+
 .list-mode{
     background-image: url("/images/list_mode.png");
     height: 16px;

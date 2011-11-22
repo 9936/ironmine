@@ -1,8 +1,12 @@
 <%= app_title %>
 <% require_javascript(:extjs) %>
 <% require_css(:extjs) %>
-<%= form_for(@entry_header,:url=>{:action=>"create"},:builder => LabellingFormBuilder, :html => {:name => "edit_form", :id => "edit_form",:multipart => true}) do |f| %>
+<%= form_for(@entry_header,:url=>{:action=>"create_from_icm_request"},:builder => LabellingFormBuilder, :html => {:name => "edit_form", :id => "edit_form",:multipart => true}) do |f| %>
 <%= f.hidden_field :column_ids %>
+<%= f.hidden_field :source_type %>
+<%= f.hidden_field :source_id %>
+<%= f.hidden_field :entry_template_id %>
+<%= f.hidden_field :history_flag %>
 <div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -10,8 +14,8 @@
         <tr>
           <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_skm_entry_header_edit)%></h2></td>
           <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();"%></div>
-            <div class="button"><%= link_to t(:cancel), {:controller => "skm/entry_headers", :action => "index"}  %></div>
+            <div class="button"><%= f.submit t(:save_as_published)%></div>
+            <div class="button"><%= link_to t(:cancel), {:controller => "icm/incident_journals", :action => "new", :request_id => @entry_header.source_id}  %></div>
           </td>
         </tr>
       </tbody>
@@ -161,8 +165,8 @@
         <tr>
           <td class="pbTitle"></td>
           <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();"%></div>
-            <div class="button"><%= link_to t(:cancel), {:controller => "skm/entry_headers", :action => "index"}  %></div>
+            <div class="button"><%= f.submit t(:save_as_published)%></div>
+            <div class="button"><%= link_to t(:cancel), {:controller => "icm/incident_journals", :action => "new", :request_id => @entry_header.source_id}  %></div>
           </td>
         </tr>
       </tbody>

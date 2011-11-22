@@ -5,11 +5,15 @@
             <%= link_to(t(:edit),{:controller=>"icm/incident_requests",:action=>"edit",:id=>"{id}"}) %>
           </div>
           <div id="title" style="display:none">
+            var bookmark = '';
+            if('{kb_flag}' == 'Y'){
+               bookmark = '<%= get_img_icon("bookmark")%>'
+            }
             if('{reply_flag}' == 'Y' && '{close_flag}' == 'N'){
-               '<%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %><%= link_to( "({incident_status_id_label}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
+               bookmark + '<%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %><%= link_to( "({incident_status_id_label}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
             }
             else{
-              '<%= link_to( "({incident_status_id_label}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>'
+              bookmark + '<%= link_to( "({incident_status_id_label}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>';
             }
           </div>
         </div>
@@ -22,6 +26,7 @@
                                { :key => "incident_status_id_label",:hidden=>true },
                                { :key => "reply_flag",:hidden=>true },
                                { :key => "close_flag",:hidden=>true },
+                               { :key => "kb_flag", :hidden =>true },
                                { :key => "requested_by_label", :label => t(:label_icm_incident_request_requested_by),:width=>"120px" },
                                { :key => "last_request_date", :label => t(:label_icm_incident_request_last_date),:width=>"100px" },
                                { :key => "external_system_id_label", :label => t(:label_irm_external_system),:width=>"180px" }

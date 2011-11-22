@@ -129,7 +129,7 @@
                 <div class="gray-button"><%= link_to t(:edit), {:controller=>"icm/incident_requests",:action => "edit", :id => @incident_request.id}%></div>
               <%end%>
               </div>
-              <% if @incident_request[:skm_flag]==0 %>
+              <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>
                 <div class="button-group">
                     <div class="gray-button"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
                 </div>
