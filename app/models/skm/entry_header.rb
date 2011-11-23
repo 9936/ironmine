@@ -71,6 +71,8 @@ class Skm::EntryHeader < ActiveRecord::Base
       entry.entry_details.map { |detail| detail.entry_content }
     end
     text :keyword_tags
+    string :entry_status_code
+    string :history_flag
   end
 
   def self.search(query)

@@ -340,27 +340,23 @@ class Skm::EntryHeadersController < ApplicationController
     if params[:full_search]
       entry_headers_scope = Sunspot.search Skm::EntryHeader do
         params[:full_search]
-      end.results
+        with(:entry_status_code, "PUBLISHED")
+        with(:history_flag, Irm::Constant::SYS_NO)
+      end
 
-      entry_headers_scope.
-        list_all.
-        published.
-        current_entry.
-        with_favorite_flag(Irm::Person.current.id)
+      entry_headers,count = paginate(entry_headers_scope)
     else
       entry_headers_scope = Skm::EntryHeader.
         list_all.
         published.
         current_entry.
         with_favorite_flag(Irm::Person.current.id)
+        entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+        entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
+        entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
+        entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
+        entry_headers,count = paginate(entry_headers_scope)
     end
-
-    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
-    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
-    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
-    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
-
-    entry_headers,count = paginate(entry_headers_scope)
 
     respond_to do |format|
       format.html  {
