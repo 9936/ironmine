@@ -273,4 +273,9 @@ zh:
   #=========reports===================
   label_average: 平均
   label_summary: 总计
+  ##==============report incident_elapse=============================
+  label_report_incident_elapse_show_options: 统计选项
+  label_report_incident_elapse_show_all: 支持组和状态
+  label_report_incident_elapse_show_support_group: 支持组
+  label_report_incident_elapse_show_status: 状态
   #=========end reports===================

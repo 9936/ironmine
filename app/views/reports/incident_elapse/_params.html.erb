@@ -18,6 +18,13 @@
         </div>
       </td>
       <td>
+        <label for="show_option"><%= t(:label_report_incident_elapse_show_options) %></label>
+        <div style="white-space:nowrap">
+          <% show_options = [[t(:label_report_incident_elapse_show_support_group),"SUPPORT_GROUP"],[t(:label_report_incident_elapse_show_status),"STATUS"],[t(:label_report_incident_elapse_show_all),"ALL"]] %>
+          <%=select_tag_alias :show_option,show_options ,program_params[:show_option],{:name=>"program_params[show_option]",:id=>"show_option"}%>
+        </div>
+      </td>
+      <td>
         <fieldset>
           <legend>
             <%= t(:label_irm_report_time_range) %>

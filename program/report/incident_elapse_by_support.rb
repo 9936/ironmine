@@ -4,7 +4,7 @@ class IncidentElapseBySupport < Irm::ReportManager::ReportBase
     elapse_datas = Icm::IncidentJournalElapse.
         joins("JOIN #{Icm::IncidentJournal.table_name} ON #{Icm::IncidentJournal.table_name}.id = #{Icm::IncidentJournalElapse.table_name}.incident_journal_id").
         joins("JOIN #{Icm::IncidentRequest.table_name} ON #{Icm::IncidentRequest.table_name}.id = #{Icm::IncidentJournal.table_name}.incident_request_id ").
-        select("icm_incident_requests.service_code,icm_incident_journal_elapses.support_group_id,avg(icm_incident_journal_elapses.real_distance) avg_distance").
+        select("icm_incident_requests.service_code,icm_incident_journal_elapses.support_group_id,sum(icm_incident_journal_elapses.real_distance) sum_distance").
         group("icm_incident_requests.service_code,icm_incident_journal_elapses.support_group_id")
 
     # 读取系统中所有的事故单状态
@@ -54,7 +54,7 @@ class IncidentElapseBySupport < Irm::ReportManager::ReportBase
       support_groups.each_with_index do |support_group,index|
         elapse_data = elapse_datas.detect{|i| support_group.id.eql?(i[:support_group_id])&&service.catalog_code.eql?(i[:service_code])}
         next unless  elapse_data
-        data[index+1] = elapse_data[:avg_distance].round
+        data[index+1] = elapse_data[:sum_distance].round
       end
       datas << data
     end
@@ -69,11 +69,7 @@ class IncidentElapseBySupport < Irm::ReportManager::ReportBase
       end
     end
 
-    avg.each_with_index do |a,index|
-      next if index==0
-      avg[index] = avg[index]/datas.length
-    end
-    avg[0] = I18n.t(:label_average)
+    avg[0] = I18n.t(:label_summary)
 
     datas << avg
 

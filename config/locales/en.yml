@@ -276,4 +276,8 @@ en:
   #=========reports===================
   label_average: Average
   label_summary: Summay
+  label_report_incident_elapse_show_options: Show Options
+  label_report_incident_elapse_show_all: Support Group and Status
+  label_report_incident_elapse_show_support_group: Support Group
+  label_report_incident_elapse_show_status: Status
   #=========end reports===================

@@ -24,6 +24,8 @@ class IncidentElapse < Irm::ReportManager::ReportBase
     # 读取系统中所有事故单服务类别
     support_groups = Icm::SupportGroup.select_all.with_group(I18n.locale)
 
+    show_option = params[:show_option]||"SUPPORT_GROUP"
+
     # 处理事故单参数
     if(params[:date_from].present?)
       incident_requests = incident_requests.where("#{Icm::IncidentRequest.table_name}.submitted_date >= ?",params[:date_from])
@@ -58,67 +60,71 @@ class IncidentElapse < Irm::ReportManager::ReportBase
       status_elapse_datas = status_elapse_datas.where("#{Icm::IncidentRequest.table_name}.incident_status_id = ?",close_status.id)
     end
 
-
+    headers = []
     # 报表中所需要统计的支持组
-    support_group_elapse_datas_hash = {}
-    support_group_ids = []
-    support_group_elapse_datas.each{|i|
-      if i[:support_group_id].present?
-        support_group_ids << i[:support_group_id]
-        support_group_elapse_datas_hash["#{i[:incident_request_id]}_#{i[:support_group_id]}"] = i[:sum_distance]
-      else
-        if support_group_elapse_datas_hash["#{i[:incident_request_id]}"].present?
-          support_group_elapse_datas_hash["#{i[:incident_request_id]}"] = support_group_elapse_datas_hash["#{i[:incident_request_id]}"]+i[:sum_distance]
+    if ["ALL","SUPPORT_GROUP"].include?(show_option)
+      support_group_elapse_datas_hash = {}
+      support_group_ids = []
+      support_group_elapse_datas.each{|i|
+        if i[:support_group_id].present?
+          support_group_ids << i[:support_group_id]
+          support_group_elapse_datas_hash["#{i[:incident_request_id]}_#{i[:support_group_id]}"] = i[:sum_distance]
         else
-          support_group_elapse_datas_hash["#{i[:incident_request_id]}"] = i[:sum_distance]
+          if support_group_elapse_datas_hash["#{i[:incident_request_id]}"].present?
+            support_group_elapse_datas_hash["#{i[:incident_request_id]}"] = support_group_elapse_datas_hash["#{i[:incident_request_id]}"]+i[:sum_distance]
+          else
+            support_group_elapse_datas_hash["#{i[:incident_request_id]}"] = i[:sum_distance]
+          end
         end
+      }
+      support_group_ids.compact.uniq
+      support_groups.delete_if{|i| !support_group_ids.include?(i.id)}
+
+      headers[0] = "Empty Support Group"
+      support_groups.each do |support_group|
+        headers << support_group[:name]
       end
-    }
-    support_group_ids.compact.uniq
-    support_groups.delete_if{|i| !support_group_ids.include?(i.id)}
+    end
 
     # 报表中所需要统计的状态
-    status_elapse_datas_hash = {}
-    status_ids = []
-    status_elapse_datas.each{|i|
-      if i[:incident_status_id].present?
-        status_ids << i[:incident_status_id]
-        status_elapse_datas_hash["#{i[:incident_request_id]}_#{i[:incident_status_id]}"] = i[:sum_distance]
+    if ["ALL","STATUS"].include?(show_option)
+      status_elapse_datas_hash = {}
+      status_ids = []
+      status_elapse_datas.each{|i|
+        if i[:incident_status_id].present?
+          status_ids << i[:incident_status_id]
+          status_elapse_datas_hash["#{i[:incident_request_id]}_#{i[:incident_status_id]}"] = i[:sum_distance]
+        end
+      }
+      status_ids.compact.uniq
+      statuses.delete_if{|i| !status_ids.include?(i.id)}
+
+      statuses.each do |status|
+        headers << status[:name]
       end
-    }
-    status_ids.compact.uniq
-    statuses.delete_if{|i| !status_ids.include?(i.id)}
+    end
 
     # 对取得的数据进行处理
-    datas = []
-
-    headers = []
-    headers[0] = "Empty Support Group"
-    support_groups.each_with_index do |support_group,index|
-      headers[index+1] = support_group[:name]
-    end
-
-    statuses.each_with_index do |status,index|
-      headers[index+support_groups.length+1] = status[:name]
-    end
-
     report_datas = []
     incident_requests.each do |request|
       report_data = []
-      report_data <<  support_group_elapse_datas_hash[request.id]
-      support_groups.each do |support_group|
-        if support_group_elapse_datas_hash["#{request.id}_#{support_group.id}"]
-          report_data << support_group_elapse_datas_hash["#{request.id}_#{support_group.id}"]
-        else
-          report_data << 0
+      if ["ALL","SUPPORT_GROUP"].include?(show_option)
+        report_data <<  support_group_elapse_datas_hash[request.id]
+        support_groups.each do |support_group|
+          if support_group_elapse_datas_hash["#{request.id}_#{support_group.id}"]
+            report_data << support_group_elapse_datas_hash["#{request.id}_#{support_group.id}"]
+          else
+            report_data << 0
+          end
         end
       end
-
-      statuses.each do |status|
-        if status_elapse_datas_hash["#{request.id}_#{status.id}"]
-          report_data << status_elapse_datas_hash["#{request.id}_#{status.id}"]
-        else
-          report_data << 0
+      if ["ALL","STATUS"].include?(show_option)
+        statuses.each do |status|
+          if status_elapse_datas_hash["#{request.id}_#{status.id}"]
+            report_data << status_elapse_datas_hash["#{request.id}_#{status.id}"]
+          else
+            report_data << 0
+          end
         end
       end
 
