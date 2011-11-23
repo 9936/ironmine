@@ -4,6 +4,9 @@
        <table count="<%=@count%>">
          <thead>
            <tr>
+             <th style="width:180px;">
+               <div><%= t(:label_skm_entry_header_published_date) %></div>
+             </th>
              <th style="width:120px;">
                <div><%= t(:operation) %></div>
              </th>
@@ -13,14 +16,16 @@
              <th>
                <div><%= t(:label_skm_entry_header_title) %></div>
              </th>
-             <th style="width:180px;">
-               <div><%= t(:label_skm_entry_header_published_date) %></div>
-             </th>
            </tr>
          </thead>
          <tbody>
          <% @datas.each do |data| %>
          <tr id="<%=data[:id]%>">
+           <td>
+             <div>
+               <%=data[:published_date_f]%>
+             </div>
+           </td>
            <td>
              <div>
                 <%= link_to(t(:edit),{:controller => "skm/entry_headers", :action=>"edit",:id=> data[:id]}) %>&nbsp;
@@ -38,11 +43,6 @@
            <td>
              <div>
                <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%=data[:published_date_f]%>
              </div>
            </td>
 

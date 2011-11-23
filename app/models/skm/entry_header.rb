@@ -14,6 +14,8 @@ class Skm::EntryHeader < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter.within_accessible_columns}
 
+#  acts_as_recently_objects(:title => "entry_title",
+#                           :target_controller => "skm/entry_headers")
   # 默认进行频道权限过滤
   scope :within_accessible_columns, lambda{
     within_accessible_columns_c
@@ -89,10 +91,6 @@ class Skm::EntryHeader < ActiveRecord::Base
   def next_version_number
     self.version_number.blank? ? "1" : (self.version_number.to_i + 1)
   end
-
-  query_extend
-  acts_as_recently_objects(:title => "entry_title",
-                           :target_controller => "skm/entry_headers")
 
   def to_html
     self.entry_title

@@ -35,9 +35,9 @@
             </div>
             <%= datatable("entry_headers_list",{:action=>"get_data",:column_id => @column_id, :format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"120px"},
-                       {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true,:formatter=>"Y.irm.template",:width => "120px"},
-                       {:key=>"entry_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
                        {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "180px"},
+                       {:key=>"entry_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
+                       {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true,:formatter=>"Y.irm.template",:width => "120px"},
                        {:key=>"is_favorite", :hidden => true}],
                        {:search_box => "entryHeadersSearchBox",:html=>true})%>
             <div id="entry_headers_list_paginator_box"></div>
