@@ -110,7 +110,7 @@ class Skm::EntryHeadersController < ApplicationController
       session[:skm_entry_header].each do |k, v|
         @entry_header[k.to_sym] = v
       end
-      @entry_header.column_ids = session[:skm_entry_header][:column_ids] if session[:skm_entry_header][:column_ids].present?
+#      @entry_header.column_ids = session[:skm_entry_header][:column_ids] if session[:skm_entry_header][:column_ids].present?
       @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
     end
   end  
@@ -181,7 +181,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   def edit
     @entry_header = Skm::EntryHeader.find(params[:id])
-    @entry_header.column_ids = @entry_header.get_column_ids
+#    @entry_header.column_ids = @entry_header.get_column_ids
     @return_url=request.env['HTTP_REFERER'] if @return_url
   end
 
@@ -200,12 +200,12 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
     @entry_header.version_number = @entry_header.next_version_number
     @entry_header.author_id = Irm::Person.current.id
-    column_ids = params[:skm_entry_header][:column_ids].split(",")
+#    column_ids = params[:skm_entry_header][:column_ids].split(",")
     respond_to do |format|
       if @entry_header.save
-        column_ids.each do |c|
-          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
-        end
+#        column_ids.each do |c|
+#          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
+#        end
         #关联创建过程中关联的文件
         if session[:skm_entry_attachments] && session[:skm_entry_attachments].size > 0
           attachments = Irm::AttachmentVersion.where("id IN (?)", session[:skm_entry_attachments])
@@ -232,7 +232,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   def update
     return_url = params[:return_url]
-    column_ids = params[:skm_entry_header][:column_ids].split(",")
+#    column_ids = params[:skm_entry_header][:column_ids].split(",")
     file_flag = true
     now = 0
     params[:file].each_value do |att|
@@ -263,9 +263,9 @@ class Skm::EntryHeadersController < ApplicationController
               detail.update_attributes(v)
               @entry_header.entry_details << detail
             end
-            column_ids.each do |t|
-              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
-            end
+#            column_ids.each do |t|
+#              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
+#            end
             #更新 收藏 中的ID为最新的文章ID，保证收藏的永远是知识库文章的最新版本
             fas = Skm::EntryFavorite.where(:entry_header_id => old_header.id)
             fas.each do |fa|
@@ -303,9 +303,9 @@ class Skm::EntryHeadersController < ApplicationController
               detail = Skm::EntryDetail.find(k)
               detail.update_attributes(v)
             end
-            column_ids.each do |t|
-              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
-            end
+#            column_ids.each do |t|
+#              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
+#            end
             if params[:file]
               files = params[:file]
               #调用方法创建附件
@@ -521,15 +521,13 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
     @entry_header.version_number = @entry_header.next_version_number
     @entry_header.author_id = Irm::Person.current.id
-    column_ids = params[:skm_entry_header][:column_ids].split(",")
+#    column_ids = params[:skm_entry_header][:column_ids].split(",")
     incident_request = Icm::IncidentRequest.find(@entry_header.source_id)
     respond_to do |format|
       if @entry_header.save && incident_request.update_attribute(:kb_flag, Irm::Constant::SYS_YES)
-        column_ids.each do |c|
-          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
-        end
-
-
+#        column_ids.each do |c|
+#          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
+#        end
         if params[:file]
           files = params[:file]
           #调用方法创建附件

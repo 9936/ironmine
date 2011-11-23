@@ -5,8 +5,9 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   acts_as_searchable
 
-  attr_accessor :column_ids
-  validates_presence_of :entry_title
+  validates_presence_of :entry_title, :channel_id
+
+  belongs_to :channel
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -29,7 +30,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   #显示column_ids栏目中的文章，或未分类的文章
   scope :within_columns, lambda{|column_ids|
-    where("EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id AND sc.column_id IN (?)) OR NOT EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} sc WHERE sc.entry_header_id =#{table_name}.id)", column_ids + [''])
+    where(" EXISTS (SELECT * FROM #{Skm::Channel.table_name} c, #{Skm::ChannelColumn.table_name} cc WHERE c.id = #{Skm::EntryHeader.table_name}.channel_id AND cc.channel_id = c.id AND cc.column_id IN (?))", columns + [''])
   }
 
   scope :my_favorites, lambda{|person_id|
@@ -58,8 +59,8 @@ class Skm::EntryHeader < ActiveRecord::Base
   }
 
   scope :with_columns, lambda{|column_ids|
-    joins(", #{Skm::EntryColumn.table_name} ec").
-        where("ec.column_id IN (?) AND ec.entry_header_id = #{table_name}.id", column_ids + [''])
+    joins(", #{Skm::Channel.table_name} c, #{Skm::ChannelColumn.table_name} cc").
+        where("c.id = #{table_name}.channel_id AND cc.channel_id = c.id AND cc.column_id IN (?)", column_ids + [''])
   }
 
   searchable :auto_index => true, :auto_remove => true do
@@ -85,10 +86,6 @@ class Skm::EntryHeader < ActiveRecord::Base
     return 1
   end
 
-  def get_column_ids
-    Skm::EntryColumn.where(:status_code => Irm::Constant::ENABLED).where(:entry_header_id => self.id).collect(&:column_id).join(",")
-  end
-
   def next_version_number
     self.version_number.blank? ? "1" : (self.version_number.to_i + 1)
   end
@@ -107,6 +104,6 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   def self.within_accessible_columns_c
     columns = Skm::Column.current_person_accessible_columns
-    where(" EXISTS (SELECT * FROM #{Skm::EntryColumn.table_name} ec WHERE ec.column_id IN (?) AND ec.entry_header_id = #{Skm::EntryHeader.table_name}.id)", columns + [''])
+    where(" EXISTS (SELECT * FROM #{Skm::Channel.table_name} c, #{Skm::ChannelColumn.table_name} cc WHERE c.id = #{Skm::EntryHeader.table_name}.channel_id AND cc.channel_id = c.id AND cc.column_id IN (?))", columns + [''])
   end
 end
