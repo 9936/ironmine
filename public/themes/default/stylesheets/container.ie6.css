@@ -499,3 +499,14 @@ body .wizard-block .pbBody .pbSubheader h3, body .wizard-block .bPageBlock .pbBo
     font-weight:bold;
     text-align:center;
 }
+
+
+.noicon .pt-body .page-type, .noicon .pt-body .page-description {margin-left: 0;}
+
+body .page-title .pt-body h1.noSecondHeader {
+  color:#000000;
+  font-size:2em;
+  font-weight:normal;
+  margin-bottom:0;
+  margin-top:9px;
+}

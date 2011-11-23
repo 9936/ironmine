@@ -34,13 +34,13 @@
         <tbody>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_common_username)%></label></td>
-              <td class="dataCol"><%=f.text_field :username, :required => true%></td>
+              <td class="dataCol"><%=f.text_field :username, :required => true, :autocomplete => false%></td>
               <td class="labelCol">&nbsp;</td>
               <td class="dataCol">&nbsp;</td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_common_password)%></label></td>
-              <td class="dataCol"><%=f.text_field :password, :type => "password", :required => true%></td>
+              <td class="dataCol"><%=f.text_field :password, :type => "password", :autocomplete => false, :required => true%></td>
               <td class="labelCol">&nbsp;</td>
               <td class="dataCol">&nbsp;</td>
             </tr>

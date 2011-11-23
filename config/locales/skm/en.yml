@@ -140,3 +140,5 @@ en:
   label_skm_channel_group_management: Management Groups
 
   label_action_new_from_icm_request: Create Knowledge From Incident Request
+  button_skm_entry_header_new: New Knowledge Entry
+  tip_skm_entry_header_full_search: Search knowledges title, content...

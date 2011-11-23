@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def common_title(options={:model_meaning=>"",:model_name=>"",:action_meaning=>"",:show_data=>""})
+  def common_title(options={:model_meaning=>"",:model_name=>"",:action_meaning=>"",:show_data=>"", :buttons => ""})
     model_title = ""
     if options[:model_meaning].present?
       model_title = options[:model_meaning]
@@ -17,7 +17,9 @@ module ApplicationHelper
 
     if Irm::Application.current&&Irm::FunctionGroup.current
       current_tab = Irm::Tab.multilingual.with_function_group(I18n.locale).query_by_application(Irm::Application.current.id).where("#{Irm::FunctionGroup.view_name}.id = ?",Irm::FunctionGroup.current).first
-      if current_tab
+      if current_tab && options[:buttons].present?
+        button_title(current_tab,model_title,action_title,options[:show_data], options[:buttons])
+      elsif current_tab
         common_app_title(current_tab,model_title,action_title,options[:show_data])
       else
         common_setting_title(model_title,action_title,options[:show_data])
@@ -77,7 +79,27 @@ module ApplicationHelper
     raw(b_page_title)
   end
 
+  def button_title(current_tab,model_title,action_title,data_meaning,buttons)
 
+    title = model_title
+    if data_meaning.present?
+      title = title+":"+data_meaning
+    else
+      title = model_title+":"+action_title
+    end
+
+    description = content_tag(:h1, title, :class => "page-type noSecondHeader")
+
+
+    content = raw(content_tag(:div, raw( description) + raw(content_tag(:div, "", :class => "blank")), :class => "content"))
+    button_tag = raw(content_tag(:div, raw(buttons) ,:class => "addNewButtons"))
+    content_for :html_title,do
+      title
+    end
+    pt_body = raw(content_tag(:div, content + button_tag, :class => "pt-body"))
+    b_page_title = raw(content_tag(:div, pt_body, :class => "page-title noicon"))
+    raw(b_page_title)
+  end
 
 
   def page_title(title = "", description = "")

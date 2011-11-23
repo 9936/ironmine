@@ -7,7 +7,7 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header = Skm::EntryHeader.new
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render :layout => "application"}# index.html.erb
       format.xml  { render :xml => @entry_header }
     end
   end
@@ -342,7 +342,7 @@ class Skm::EntryHeadersController < ApplicationController
         published.
         current_entry.
         with_favorite_flag(Irm::Person.current.id)
-    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id]
+    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]

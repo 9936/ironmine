@@ -635,7 +635,7 @@ zh:
   label_irm_group_explosion: 组及下属组
   label_irm_group_company_name: 公司名称
   label_irm_group_organization_name: 组织名称
-  label_irm_group_group_code: 编码
+  label_irm_group_group_code: 组编码
   label_irm_group_name: 名称
   label_irm_group_description: 描述
   label_irm_group_status_code: 记录状态
