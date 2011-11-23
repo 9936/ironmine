@@ -1,6 +1,5 @@
 <%= app_title({:description => t(:new)}) %>
 <%= form_for(@entry_header,:url=>{:action=>"new"},:builder => LabellingFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
-<%= f.hidden_field :column_ids %>
 <div class="wizard-block detail-block">
     <div class="pbWizardTitle tertiaryPalette">
         <div class="ptRightTitle">
@@ -65,8 +64,3 @@
   }
 </script>
 <% end %>
-
-<%= content_for :sidebar do%>
-    <%= render "skm/entry_headers/sidebar_navigate_menu"%>
-    <%= render :partial =>"/irm/common/recently_objects" %>
-<% end -%>

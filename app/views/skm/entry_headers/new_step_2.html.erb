@@ -1,7 +1,6 @@
 <%= app_title({:description => t(:new)}) %>
-<script type="text/javascript" src="/javascripts/ext4-all.js"></script>
-<link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/ext4-all.css"></link>
-
+<% require_css(:extjs) %>
+<% require_javascript(:extjs) %>
 <%= form_for(@entry_header,:url=>{:action=>"new"},:builder => LabellingFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
 <div  class="wizard-block">
     <div class="pbWizardTitle tertiaryPalette">
@@ -32,27 +31,19 @@
             </div>
             <div class="pbSubsection">
               <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-                <%= f.hidden_field :column_ids %>
+                    <%= f.hidden_field :entry_template_id %>
                 <tbody>
                     <tr>
-                      <td class="labelCol">
-                        <div id="tree-div" href="<%= url_for(:controller => "skm/columns", :action=>"get_columns_data", :format=>:json) %>"></div>
-                      </td>
-                      <td class="data2Col">
-                          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-                                <%= f.hidden_field :entry_template_id %>
-                            <tbody>
-                                <tr>
-                                  <td class="labelCol"><label><%=(t :label_skm_entry_header_title)%></label></td>
-                                  <td class="data2Col"><%= f.text_field :entry_title, :size => 40, :required => true%></td>
-                                </tr>
-                                <tr>
-                                  <td class="labelCol"><label><%=(t :label_skm_entry_header_keyword_tags)%></label></td>
-                                  <td class="data2Col"><%= f.text_field :keyword_tags, :size => 40%></td>
-                                </tr>
-                            </tbody>
-                          </table>
-                      </td>
+                      <td class="labelCol"><label><%=(t :label_skm_entry_header_title)%></label></td>
+                      <td class="data2Col"><%= f.text_field :entry_title, :size => 40, :required => true%></td>
+                    </tr>
+                    <tr>
+                      <td class="labelCol"><label><%=(t :label_skm_channel)%></label></td>
+                      <td class="data2Col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true}%></td>
+                    </tr>
+                    <tr>
+                      <td class="labelCol"><label><%=(t :label_skm_entry_header_keyword_tags)%></label></td>
+                      <td class="data2Col"><%= f.text_field :keyword_tags, :size => 40%></td>
                     </tr>
                 </tbody>
               </table>
@@ -150,49 +141,3 @@
   }
 </script>
 <% end %>
-
-<%= content_for :sidebar do%>
-    <%= render "skm/entry_headers/sidebar_navigate_menu"%>
-    <%= render :partial =>"/irm/common/recently_objects" %>
-<% end -%>
-
-<script>
-Ext.onReady(function() {
-    var treeNode = Ext.getDom("tree-div");
-
-    Ext.define('ColumnField', {
-        extend: 'Ext.data.Model',
-        fields: [
-            {name: 'id',type: 'string'},
-            {name: 'text',type: 'string'},
-            {name: 'sc_id',type: 'string'},
-            {name: 'column_name',type: 'string'},
-            {name: 'column_description',type: 'string'},
-            {name: 'sc_code',type: 'string'}
-        ]
-    });
-    var store = Ext.create('Ext.data.TreeStore', {
-        model: "ColumnField",
-        proxy: {type: 'ajax',url:  treeNode.getAttribute("href") + "?access=current&with_check=<%= @entry_header.column_ids%>"}
-    });
-
-    var tree = Ext.create('Ext.tree.Panel', {
-        store: store,
-        rootVisible: false,
-        useArrows: true,
-        renderTo: 'tree-div',
-        width: 200,
-        height: 80,
-        listeners:{
-            'itemclick':function(view, record, item, index, e){
-                var column_ids = [];
-                Ext.Array.each(tree.getChecked(), function(rec){
-                    column_ids.push(rec.get('id'));
-                });
-                Ext.getDom("skm_entry_header_column_ids").setAttribute("value", column_ids);
-            }
-        }
-    });
-
-});
-</script>

@@ -1,2 +1,12 @@
-<%= common_title(:model_meaning=>t(:label_skm)) %>
+<%= common_title(:model_meaning=>t(:label_skm),
+                 :buttons => content_tag(:div, link_to(t(:button_skm_entry_header_new), {:action => "new"}), :class => "button")) %>
 <%= render "data_grid" %>
+<% content_for :sidebar do%>
+    <%= render :partial =>"/irm/common/tree_sidebar", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json),
+                                                                 :target_table => "entry_headers_list",
+                                                                 :tree_id => "tree-div",
+                                                                 :title => t(:label_skm_column),
+                                                                 :root_text => t(:label_skm_column_all),
+                                                                 :url_param_value => 'id',
+                                                                 :url_param_name => 'column_id'} %>
+<% end %>
