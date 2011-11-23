@@ -7,7 +7,10 @@ body .detail-block.page-block .pbBody .data3Col,
 body .page-block.edit-block .pbBody .labelCol,
 body .page-block.edit-block .pbBody .dataCol,
 body .page-block.edit-block .pbBody .data2Col,
-body .page-block.edit-block .pbBody .data3Col {
+body .page-block.edit-block .pbBody .data3Col,
+body .wizard-block .detailList .labelCol,
+body .wizard-block .detailList .dataCol,
+body .wizard-block .detailList .data2Col{
     padding-bottom: 3px;
     padding-top: 3px;
 }
