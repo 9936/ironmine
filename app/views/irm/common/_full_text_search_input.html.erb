@@ -1,6 +1,9 @@
 <% require_javascript(:extjs) %>
-<%= text_field_tag(id, tip_text, {:style => "height:25px;width:300px;", :class => "grayTips", :id => id})%>
-
+<div>
+    <%= text_field_tag(id, tip_text,
+                       {:style => "padding-left:22px;height:25px;width:180px;float:left;background-image:url(/images/search.png);background-position:2px 2px;background-repeat: no-repeat;", :class => "grayTips", :id => id})%>
+    <div class="button" style="margin-top:0;"><%= link_to t(:search), {}, {:href =>"javascript:void(0);",:onclick => "getSearch()"} %></div>
+</div>
 <script type="text/javascript">
 function inputTipText(){
     $("input[class*=grayTips]") //所有样式名中含有grayTips的input
@@ -15,7 +18,6 @@ function inputTipText(){
         if($(this).val()==""){$(this).val(oldVal).css({"color":"#888"})}
        })
        .keydown(function(){$(this).css({"color":"#000"})})
-
     })
 }
 
@@ -23,10 +25,14 @@ $(function(){
     inputTipText();  //直接调用就OK了
     $("#<%= id%>").keypress(function(event){
         if(event.which == 13){
-            var params = {};
-            params["full_search"] = $("#<%= id%>").val();
-            Ext.getCmp("<%= target_table%>Datatable").store.dtSearch(params);
+            getSearch();
         }
     });
-})
+});
+
+function getSearch(){
+    var params = {};
+    params["full_search"] = $("#<%= id%>").val();
+    Ext.getCmp("<%= target_table%>Datatable").store.dtStaticParams(params);
+}
 </script>

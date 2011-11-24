@@ -7,8 +7,8 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header = Skm::EntryHeader.new
 
     respond_to do |format|
-      format.html { render :layout => "application"}# index.html.erb
-      format.xml  { render :xml => @entry_header }
+      format.html # index.html.erb
+      format.xml { render :xml => @entry_header }
     end
   end
 
@@ -400,7 +400,8 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def my_favorites_data
-    entry_headers_scope = Skm::EntryHeader.list_all.my_favorites(params[:person_id]).published
+    entry_headers_scope = Skm::EntryHeader.list_all.my_favorites(params[:person_id]).published.current_entry
+    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
       format.html  {

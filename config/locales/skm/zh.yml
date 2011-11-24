@@ -36,6 +36,7 @@ zh:
   label_action_edit_detail: 编辑模板元素
   #=========================entry headers================================
   label_skm: 知识库
+  label_skm_entry_header_index: 首页
   label_skm_entry_header: 知识库文章
   label_skm_entry_header_list: 知识库文章列表
   label_skm_entry_header_new: 创建知识库文章
@@ -144,4 +145,4 @@ zh:
   label_action_new_from_icm_request: 从事故单创建知识库文章
 
   button_skm_entry_header_new: 新建知识
-  tip_skm_entry_header_full_search: 搜索知识库文章标题、内容，按“回车”键开始搜索...
+  tip_skm_entry_header_full_search: 搜索知识库文章标题、内容...

@@ -36,7 +36,10 @@ Ext.onReady(function() {
         },
         listeners:{
             'itemclick':function(view, record, item, index, e){
-                Ext.getCmp("<%= target_table%>Datatable").store.dtStaticParams({'<%= url_param_name%>' : record.get("<%= url_param_value%>")});
+                var params = {};
+                params["<%= url_param_name%>"] = record.get("<%= url_param_value%>");
+                Ext.getCmp("<%= target_table%>Datatable").store.dtStaticParams(params);
+
             }
         }
     });
