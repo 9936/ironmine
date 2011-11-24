@@ -116,7 +116,7 @@ en:
   label_skm_rpt_apply_history: Entry used by incident history report
 
   #========================= skm columns ==========================================
-  label_skm_column: Skm Category
+  label_skm_column: Knowledge Category
   label_skm_column_code: Category Code
   label_skm_column_parent: Parent Category
   label_skm_column_new: New Category
@@ -134,6 +134,7 @@ en:
   label_skm_channel_list: Channels List
   label_skm_channel_name: Channel Name
   label_skm_channel_description: Description
+  label_skm_channel_column: Knowledge Category
 
   label_skm_owned_channels: Owned Channels
   label_skm_channel_management: Management Channels
