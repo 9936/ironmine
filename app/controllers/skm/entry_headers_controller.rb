@@ -13,13 +13,15 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def show
-    @entry_header = Skm::EntryHeader.find(params[:id])
+    @entry_header = Skm::EntryHeader.list_all.with_favorite_flag(Irm::Person.current.id).find(params[:id])
     @return_url=request.env['HTTP_REFERER']
 
     @history = Skm::EntryOperateHistory.new({:operate_code=>"SKM_SHOW",
                                              :entry_id=>params[:id],
                                              :version_number => @entry_header.version_number})
     @history.save
+
+    @entry_history = Skm::EntryHeader.list_all.history_entry.where(:doc_number => @entry_header[:doc_number])
 
     respond_to do |format|
       format.html # show.html.erb

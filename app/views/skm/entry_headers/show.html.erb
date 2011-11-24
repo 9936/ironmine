@@ -6,7 +6,9 @@
         <tr>
           <td class="pbTitle" style="width:60%"><h2 style="float:left;">[<%= @entry_header.doc_number%>]&nbsp;&nbsp;&nbsp;</h2><h2><%= @entry_header.entry_title %></h2></td>
           <td id="topButtonRow" class="pbButton" style="float:right;">
-            <div class="button"><%= link_to t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => @entry_header.id, :person_id => Irm::Person.current.id}%></div>
+            <% if @entry_header[:is_favorite] == Irm::Constant::SYS_NO %>
+                <div class="button"><%= link_to t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => @entry_header.id, :person_id => Irm::Person.current.id}%></div>
+            <% end %>
             <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @entry_header}%></div>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
           </td>
@@ -61,14 +63,51 @@
         </table>
       </div>
       <div class="pbBody">
-        <div id="entry_headers_list" class="datatable" style="width:100%">
+        <div class="irm-datatable">
+          <table>
+              <thead>
+                 <th style="width:130px;">
+                   <div><%= t(:label_skm_entry_header_published_date) %></div>
+                 </th>
+                 <th style="width:80px;">
+                   <div><%= t(:label_skm_entry_header_version) %></div>
+                 </th>
+                 <th>
+                   <div><%= t(:label_skm_entry_header_title) %></div>
+                 </th>
+                 <th style="width:120px;">
+                   <div><%= t(:label_skm_entry_header_doc_number) %></div>
+                 </th>
+              </thead>
+              <tbody>
+                 <% @entry_history.each do |data| %>
+                 <tr id="<%=data[:id]%>">
+                   <td>
+                     <div>
+                       <%= data[:published_date_f]%>
+                     </div>
+                   </td>
+                   <td>
+                     <div>
+                       <%= data[:version_number]%>
+                     </div>
+                   </td>
+                   <td>
+                     <div>
+                       <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+                     </div>
+                   </td>
+                   <td>
+                     <div>
+                       <%= data[:doc_number]%>
+                     </div>
+                   </td>
+
+                 </tr>
+                 <% end -%>
+              </tbody>
+          </table>
         </div>
-        <%= datatable("entry_headers_list",{:controller => "skm/entry_headers",:action=>"get_history_entries_data",:doc_number => @entry_header.doc_number,:format=>"json"},
-                  [{:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true, :width => "10%"},
-                   {:key=>"entry_title",:label=>t(:label_skm_entry_header_title), :searchable => true},
-                   {:key=>"version_number",:label=>t(:label_skm_entry_header_version), :width => "80px"},
-                   {:key=>"keyword_tags",:label=>t(:label_skm_entry_header_keyword_tags), :searchable => true, :width => "15%"},
-                   {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "210px"}])%>
 
       </div>
     </div>
