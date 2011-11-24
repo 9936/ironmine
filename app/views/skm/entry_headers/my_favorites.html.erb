@@ -1,4 +1,5 @@
-<%= common_title(:model_meaning=>t(:label_skm)) %>
+<%= common_title(:model_meaning=>t(:label_skm),
+                 :buttons => content_tag(:div, link_to(t(:button_skm_entry_header_new), {:action => "new"}), :class => "button")) %>
 <div class="listRelatedObject setupBlock">
     <div class="page-block">
       <div class="pbHeader">
