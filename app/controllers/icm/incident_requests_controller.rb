@@ -22,7 +22,7 @@ class Icm::IncidentRequestsController < ApplicationController
   # GET /incident_requests/new
   # GET /incident_requests/new.xml
   def new
-    @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
+    @incident_request = Icm::IncidentRequest.new(({:requested_by=>Irm::Person.current.id}).merge(params[:icm_incident_request]||{}))
     @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
       format.html { render :layout => "application_full"}# new.html.erb
