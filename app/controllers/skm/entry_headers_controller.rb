@@ -337,14 +337,15 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def get_data
-    if params[:full_search]
-      entry_headers_scope = Sunspot.search Skm::EntryHeader do
-        params[:full_search]
+    if params[:full_search] && params[:full_search].present?
+      #全文检索
+      entry_headers = Sunspot.search Skm::EntryHeader do
+        keywords params[:full_search]
         with(:entry_status_code, "PUBLISHED")
         with(:history_flag, Irm::Constant::SYS_NO)
-      end
-
-      entry_headers,count = paginate(entry_headers_scope)
+        paginate(:page => params[:page] ? params[:page] : 1, :per_page => params[:limit] ? params[:limit] : 10)
+      end.results
+      count = entry_headers.size
     else
       entry_headers_scope = Skm::EntryHeader.
         list_all.

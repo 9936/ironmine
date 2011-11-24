@@ -9,6 +9,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   belongs_to :channel
 
+  attr_accessible :published_date_f
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
@@ -73,6 +74,7 @@ class Skm::EntryHeader < ActiveRecord::Base
     text :keyword_tags
     string :entry_status_code
     string :history_flag
+    string :published_date
   end
 
   def self.search(query)
@@ -106,5 +108,9 @@ class Skm::EntryHeader < ActiveRecord::Base
   def self.within_accessible_columns_c
     columns = Skm::Column.current_person_accessible_columns
     where(" EXISTS (SELECT * FROM #{Skm::Channel.table_name} c, #{Skm::ChannelColumn.table_name} cc WHERE c.id = #{Skm::EntryHeader.table_name}.channel_id AND cc.channel_id = c.id AND cc.column_id IN (?))", columns + [''])
+  end
+
+  def published_date_f
+    self.published_date
   end
 end

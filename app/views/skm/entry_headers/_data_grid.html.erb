@@ -24,7 +24,6 @@
           <div id="entry_headers_list" class="datatable" style="width:100%">
               <div id="id" style="display:none">
                 <%= link_to(t(:edit),{:controller => "skm/entry_headers", :action=>"edit",:id=>"{id}"}) %>&nbsp;|
-                <%= link_to(t(:show),{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>&nbsp;|
                 <span class="display-<%= "{is_favorite}"%>">
                     <%= link_to(t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => "{id}", :person_id => Irm::Person.current.id}) %>
                 </span>
@@ -37,10 +36,10 @@
               </div>
             </div>
             <%= datatable("entry_headers_list",{:action=>"get_data",:column_id => @column_id, :format=>"json"},
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"120px"},
-                       {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "180px"},
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
+                       {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "130px"},
                        {:key=>"entry_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
-                       {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true,:formatter=>"Y.irm.template",:width => "120px"},
+                       {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true,:formatter=>"Y.irm.template",:width => "100px"},
                        {:key=>"is_favorite", :hidden => true}],
                        {:search_box => "entryHeadersSearchBox",:html=>true})%>
             <div id="entry_headers_list_paginator_box"></div>
