@@ -287,20 +287,32 @@ class Icm::IncidentJournalsController < ApplicationController
 
 
   def get_entry_header_data
-    entry_headers_scope = Skm::EntryHeader.list_all.published.current_entry
-    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
-    entry_headers,count = paginate(entry_headers_scope)
+#    entry_headers_scope = Skm::EntryHeader.list_all.published.current_entry
+#    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
+#    entry_headers,count = paginate(entry_headers_scope)
+
+    #全文检索
+    if params[:entry_title].present?
+      @skm_data = Sunspot.search Skm::EntryHeader do
+        keywords params[:entry_title]
+        with(:entry_status_code, "PUBLISHED")
+        with(:history_flag, Irm::Constant::SYS_NO)
+      end.results
+    else
+      @skm_data = {}
+    end
 
     if  !params[:entry_title].nil? then
       @history = Skm::EntryOperateHistory.new({:operate_code=>"ICM_SEARCH",
                                                :incident_id=>@incident_request.id ,
                                                :search_key=>params[:entry_title],
-                                               :result_count=>count})
+                                               :result_count=>@skm_data.size})
       @history.save
     end
 
     respond_to do |format|
-      format.json  {render :json => to_jsonp(entry_headers.to_grid_json([:entry_status_code, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date_f], count)) }
+      format.js {render :apply_skm, :skm_data => @skm_data}
+#      format.json  {render :json => to_jsonp(entry_headers.to_grid_json([:entry_status_code, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date_f], count)) }
     end
   end
 

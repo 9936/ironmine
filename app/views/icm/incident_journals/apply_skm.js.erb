@@ -1,0 +1,3 @@
+$(function(){
+    $("#entrySubsection").html("<%= escape_javascript(render :partial => "apply_skm", :locals => {:skm_data => @skm_data})%>");
+});

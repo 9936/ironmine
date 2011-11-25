@@ -269,55 +269,49 @@
   </div>
   <div class="pbBody">
     <%if !limit_device?&&allow_to_function?(:view_skm_entries) %>
-    <div id="linktoSKM" class="hidden">
-      <div class="pbSubsection">
-        <div style="padding:5px 0 5px 5px;"><input id="searchSKMText" type="text" size="35"/><div class="button" style="float:none !important; display:inline"><a id="searchSKM" href="javascript:void(0)"><%= t(:search) %></a></div></div>
-      </div>
-      <div class="pbSubsection" id="entrySubsection" style="display:none;">
-        <div id="entry_headers_list" class="datatable" style="width:100%;">
-          <div id="id" style="display:none">
-            <%= link_to(t(:apply),{ :action=>"apply_entry_header",:id=>"{id}"},:remote=>true) %>
+        <div id="linktoSKM" class="hidden">
+          <div class="pbSubsection">
+            <div style="padding:5px 0 5px 5px;">
+              <input id="searchSKMText" type="text" size="35"/>
+              <div class="button" style="float:none !important; display:inline">
+                <%= link_to t(:search), {:controller => "icm/incident_journals", :action => "get_entry_header_data"},
+                            :remote => true, :id => "searchSKM" %>
+              </div>
+            </div>
           </div>
-          <div id="full_title" style="display:none">
-            <%= link_to("{full_title}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"},{:target => "_blank"}) %>
+          <div class="pbSubsection" id="entrySubsection" style="display:none;">
+            <%= render :partial => "icm/incident_journals/apply_skm", :locals => {:skm_data => {}} %>
           </div>
-
         </div>
-        <%= datatable("entry_headers_list",{:action=>"get_entry_header_data",:format=>"json"},
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"50px"},
-                   {:key=>"full_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
-                   {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "180px"}],
-                   {:row_perpage=>5,:paginator_box=>"entryPaginator",:not_load=>true})%>
-        <div id="entryPaginator"></div>
-      </div>
-    </div>
 
-    <script type="text/javascript">
-      $(function() {
-        $("#applySKM").bind("click",function(e){
-            if($("#linktoSKM").hasClass("hidden")){
-              $("#linktoSKM").removeClass("hidden")
-            }else{
-              $("#linktoSKM").addClass("hidden")
-            }
-        });
+        <script type="text/javascript">
+          $(function() {
+            $("#applySKM").bind("click",function(e){
+                if($("#linktoSKM").hasClass("hidden")){
+                  $("#linktoSKM").removeClass("hidden")
+                }else{
+                  $("#linktoSKM").addClass("hidden")
+                }
+            });
 
-        $("#searchSKM").bind("click",function(e){
-            $("#entrySubsection").css("display","");
-            var store = Ext.getCmp("entry_headers_listDatatable").store;
-            store.dtSearch({entry_title:$("#searchSKMText").val()});
-        });
+            $("#searchSKM").bind("click",function(e){
+                $("#entrySubsection").css("display","");
+            });
 
-        $("#searchSKMText").keydown(function(e){
-          if(e.keyCode=='13'){
-              e.preventDefault();
-              $("#searchSKM").trigger("click");
+            $("#searchSKMText").keyup(function(e){
+                $("#searchSKM").attr("href","<%= url_for(:controller => "icm/incident_journals", :action => "get_entry_header_data")%>?entry_title=" + $("#searchSKMText").val())
+            });
 
-          }
-        });
-      })
-    </script>
+            $("#searchSKMText").keydown(function(e){
+              if(e.keyCode=='13'){
+                  e.preventDefault();
+                  $("#searchSKM").trigger("click");
+              }
+            });
+          })
+        </script>
     <% end %>
+
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>

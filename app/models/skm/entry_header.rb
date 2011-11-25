@@ -9,7 +9,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   belongs_to :channel
 
-  attr_accessible :published_date_f
+  attr_accessible :published_date_f, :full_title
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
@@ -111,6 +111,10 @@ class Skm::EntryHeader < ActiveRecord::Base
   end
 
   def published_date_f
-    self.published_date
+    self.published_date.strftime("%F %T")
+  end
+
+  def full_title
+    "[" + self.doc_number + "] " + self.entry_title
   end
 end
