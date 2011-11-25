@@ -221,3 +221,23 @@ en:
   label_icm_mail_request_info: Mail Configuration Info
   label_icm_mail_request_default_info: Request Info
   #========================== end mail request ===============================
+  #========================= incident category ====================================
+  label_icm_incident_category: Incident Category
+  label_icm_incident_category_new: New Incident Category
+  label_icm_incident_category_list: Incident Category List
+  label_icm_incident_category_edit: Edit Incident Category
+  label_icm_incident_category_code: Code
+  label_icm_incident_category_name: Name
+  label_icm_incident_category_external_system: System
+  label_icm_incident_category_description: Description
+  #========================== end incident category  ===============================
+  #========================= incident category ====================================
+  label_icm_incident_sub_category: Incident Sub Category
+  label_icm_incident_sub_category_list: Incident Sub Category List
+  label_icm_incident_sub_category_new: New Incident Sub Category
+  label_icm_incident_sub_category_edit: Edit Incident Sub Category
+  label_icm_incident_sub_category_code: Code
+  label_icm_incident_sub_category_name: Name
+  label_icm_incident_sub_category_external_system: System
+  label_icm_incident_sub_category_description: Description
+  #========================== end incident category  ===============================
