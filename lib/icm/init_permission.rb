@@ -77,4 +77,12 @@ Irm::AccessControl.map do |map|
   map.function :view_mail_request, {"icm/mail_requests" => ["index", "get_data", "show"]}
   map.function :edit_mail_request, {"icm/mail_requests" => ["new", "create", "edit", "update"]}
 
+
+  #===================icm/incident_categories============================
+  #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]
+  #===================icm/incident_sub_categories============================
+  #["edit", "update", "new", "create", "show", "multilingual_edit", "multilingual_update", "destroy"]
+  map.function :incident_category,{"icm/incident_categories"=>["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"],
+  "icm/incident_sub_categories"=>["edit", "update", "new", "create", "show", "multilingual_edit", "multilingual_update", "destroy"]}
+
 end

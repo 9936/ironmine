@@ -221,3 +221,23 @@ zh:
   label_icm_mail_request_info: 邮件设置信息
   label_icm_mail_request_default_info: 事故默认信息
   #========================== end mail request ===============================
+  #========================= incident category ====================================
+  label_icm_incident_category: 事故单分类
+  label_icm_incident_category_list: 事故单分类列表
+  label_icm_incident_category_new: 新建事故单分类
+  label_icm_incident_category_edit: 编辑事故单分类
+  label_icm_incident_category_code: 编码
+  label_icm_incident_category_name: 名称
+  label_icm_incident_category_external_system: 系统
+  label_icm_incident_category_description: 描述
+  #========================== end incident category  ===============================
+  #========================= incident category ====================================
+  label_icm_incident_sub_category: 事故单子分类
+  label_icm_incident_sub_category_list: 事故单子分类列表
+  label_icm_incident_sub_category_new: 新建事故单子分类
+  label_icm_incident_sub_category_edit: 编辑事故单子分类
+  label_icm_incident_sub_category_code: 编码
+  label_icm_incident_sub_category_name: 名称
+  label_icm_incident_sub_category_external_system: 系统
+  label_icm_incident_sub_category_description: 描述
+  #========================== end incident category  ===============================
