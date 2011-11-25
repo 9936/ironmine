@@ -25,9 +25,9 @@
           </div>               
         </div>
         <%= datatable("entry_elements_list",{:controller => "skm/entry_template_elements", :action=>"get_data", :format=>"json"},
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template"},
-                       {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :searchable => true, :width => "15%"},
-                       {:key=>"name",:label=>t(:name), :searchable => true, :width => "25%"},
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "60px"},
+                       {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :searchable => true, :width => "200px"},
+                       {:key=>"name",:label=>t(:name), :searchable => true, :width => "130px"},
                        {:key=>"description",:label=>t(:description)},
                        {:key=>"default_rows",:label=>t(:label_skm_entry_template_element_rows), :width => "80px"},
                        {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "80px"}
