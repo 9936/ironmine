@@ -38,15 +38,15 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_skm_entry_header_title)%></label></td>
-              <td class="data2Col"><%=f.text_field :entry_title, :required=>true%></td>
+              <td class="data2Col"><%=f.text_field :entry_title, :required=>true, :size => 80%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_skm_entry_header_keyword_tags)%></label></td>
+              <td class="data2Col"><%=f.text_field :keyword_tags, :size => 80%></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_skm_channel)%></label></td>
               <td class="data2Col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true}%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_skm_entry_header_keyword_tags)%></label></td>
-              <td class="data2Col"><%=f.text_field :keyword_tags%></td>
             </tr>
         </tbody>
       </table>
