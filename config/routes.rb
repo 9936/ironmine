@@ -971,6 +971,28 @@ Ironmine::Application.routes.draw do
     match '/mail_requests/:id/show(.:format)' => "mail_requests#show", :via => :get
     match '/mail_requests/update(.:format)' => "mail_requests#update", :via => :put
     match '/mail_requests/get_data(.:format)' => "mail_requests#get_data", :via => :get
+
+    #incident_categories
+    match '/incident_categories(/index)(.:format)' => "incident_categories#index", :via => :get
+    match '/incident_categories/:id/edit(.:format)' => "incident_categories#edit", :via => :get
+    match '/incident_categories/:id(.:format)' => "incident_categories#update", :via => :put
+    match '/incident_categories/new(.:format)' => "incident_categories#new", :via => :get
+    match '/incident_categories/create(.:format)' => "incident_categories#create", :via => :post
+    match '/incident_categories/get_data(.:format)' => "incident_categories#get_data"
+    match '/incident_categories/:id/show(.:format)' => "incident_categories#show", :via => :get
+    match '/incident_categories/:id/multilingual_edit(.:format)' => "incident_categories#multilingual_edit", :via => :get
+    match '/incident_categories/:id/multilingual_update(.:format)' => "incident_categories#multilingual_update", :via => :put
+
+    #incident_sub_categories
+    match '/incident_sub_categories/:id/edit(.:format)' => "incident_sub_categories#edit", :via => :get
+    match '/incident_sub_categories/:id(.:format)' => "incident_sub_categories#update", :via => :put
+    match '/incident_sub_categories/:category_id/new(.:format)' => "incident_sub_categories#new", :via => :get
+    match '/incident_sub_categories/create(.:format)' => "incident_sub_categories#create", :via => :post
+    match '/incident_sub_categories/:id/show(.:format)' => "incident_sub_categories#show", :via => :get
+    match '/incident_sub_categories/:id/multilingual_edit(.:format)' => "incident_sub_categories#multilingual_edit", :via => :get
+    match '/incident_sub_categories/:id/multilingual_update(.:format)' => "incident_sub_categories#multilingual_update", :via => :put
+    match '/incident_sub_categories/:id/destroy(.:format)' => "incident_sub_categories#destroy", :via => :delete
+
   end
 
 

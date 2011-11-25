@@ -19,8 +19,10 @@ module Irm::CommonHelper
   def back_url_default(default_options={})
     if params[:back_url].present?
       CGI.unescape(params[:back_url].to_s)
-    else
+    elsif default_options.any?
       default_options
+    else
+      "javascript:history.back()"
     end
   end
 
