@@ -43,10 +43,7 @@
             <% if allow_to_function?(:create_icdt_rqst_for_other) %>
               <tr>
                 <td class="labelCol"><label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%></label></td>
-                <td class="dataCol"><%=f.select :requested_by,nullable_options_for_select(available_person, @incident_request.requested_by),
-                                                      {},{:required=>true,:id=>"incident_request_requested_by"}%></td>
-                <td class="labelCol empty">&nbsp;</td>
-                <td class="dataCol empty">&nbsp;</td>
+                <td class="dataCol"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"incident_request_requested_by"}%></td>
               </tr>
             <% else %>
                 <%= f.hidden_field(:requested_by,:value=>Irm::Person.current.id) %>
@@ -146,8 +143,7 @@
                 <td class="labelCol"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
                 <td class="dataCol">
                   <div style="display:inline">
-                    <%=f.blank_select :contact_id,available_contact,
-                                                        {},{:required=>true,:id=>"incident_request_contact_id"}%>
+                    <%=f.lov_field :contact_id,Irm::Person,{:required=>true,:id=>"incident_request_contact_id"}%>
                   </div>
                 </td>
                 <td class="labelCol"><label for="incident_request_contact_number"><%=t(:label_icm_incident_request_contact_number)%></label></td>
