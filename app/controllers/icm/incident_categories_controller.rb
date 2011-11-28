@@ -107,4 +107,12 @@ class Icm::IncidentCategoriesController < ApplicationController
       format.json {render :json=>to_jsonp(incident_categories.to_grid_json([:code,:name,:description,:external_system_name,:status_meaning],count))}
     end
   end
+
+  def get_option
+    incident_categories_scope = Icm::IncidentCategory.multilingual.enabled.where(:external_system_id=>params[:external_system_id])
+    incident_categories_scope = incident_categories_scope.collect{|i| {:label=>i[:name], :value=>i.id,:id=>i.id}}
+    respond_to do |format|
+      format.json {render :json=>incident_categories_scope.to_grid_json([:label, :value],incident_categories_scope.count)}
+    end
+  end
 end

@@ -153,10 +153,10 @@
             <tr>
               <td class="label3Col"><label ><%=t(:label_icm_incident_request_target_system)%></label></td>
               <td class="data3Col"><div><%= @incident_request[:external_system_name] %></div></td>
-              <td class="label3Col"><label ><%=t(:label_icm_incident_request_service_code)%></label></td>
-              <td class="data3Col"><div><%= @incident_request[:service_name] %></div></td>
-              <td class="label3Col empty">&nbsp;</td>
-              <td class="data3Col empty">&nbsp;</td>
+              <td class="label3Col"><label ><%=t(:label_icm_incident_request_incident_category)%></label></td>
+              <td class="data3Col"><div><%= @incident_request[:incident_category_name] %></div></td>
+              <td class="label3Col"><label ><%=t(:label_icm_incident_request_incident_sub_category)%></label></td>
+              <td class="data3Col"><div><%= @incident_request[:incident_sub_category_name] %></div></td>
             </tr>
             <tr>
               <td class="label3Col"><label ><%=t(:label_icm_incident_request_requested_by)%></label></td>
