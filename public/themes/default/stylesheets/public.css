@@ -88,3 +88,9 @@ body .detail-block.page-block .pbBody .pbSubheader{background-color:transparent;
 div.button a {
     -moz-box-sizing: content-box!important;
 }
+
+
+.display-Y{display:inline}
+.display-N{display:none}
+.un-display-Y{display:none}
+.un-display-N{display:inline}

@@ -85,3 +85,8 @@ body .page-title .secondary-palette a, body .secondary-palette .lbHeader a, body
 body .detail-block.page-block .pbBody .pbSubheader{background-color:transparent;}
 
 .screen_shot_frame{height:100%;width:100%;}
+
+.display-Y{display:inline}
+.display-N{display:none}
+.un-display-Y{display:none}
+.un-display-N{display:inline}
