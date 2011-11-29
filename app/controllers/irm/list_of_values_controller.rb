@@ -185,7 +185,7 @@ class Irm::ListOfValuesController < ApplicationController
     unless params[:lksrch].present?
       params[:lksrch] = "%"
     end
-    @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid])
+    @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid],params)
     render :layout => "frame"
   end
 
@@ -196,7 +196,7 @@ class Irm::ListOfValuesController < ApplicationController
     data = {}
     # 补全显示值
     if value.present?&&!label_value.present?
-      value,label_value,data = business_object.lookup_label_value(value,params[:lkvfid])
+      value,label_value,data = business_object.lookup_label_value(value,params[:lkvfid],params)
       data = data.attributes
     end
 

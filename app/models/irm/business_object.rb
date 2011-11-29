@@ -69,6 +69,8 @@ class Irm::BusinessObject < ActiveRecord::Base
     generate_scope_str(query_str,execute)
 
   end
+
+
   # For LOV 根据传入的属性字段（Hash），生成查询SQL
   def generate_query_by_hash_attributes(oas,execute = false)
     return generate_query(execute) unless oas.any?&&oas.is_a?(Hash)
@@ -107,8 +109,8 @@ class Irm::BusinessObject < ActiveRecord::Base
     self.object_attributes.multilingual.enabled.where(:approve_flag=>Irm::Constant::SYS_YES)
   end
 
-
-  def lookup_label_value(value,lov_value_field)
+  # 根据lov的值,取得lov的显示值
+  def lookup_label_value(value,lov_value_field,params={})
     columns = Irm::SearchLayoutColumn.lookup_columns(self.id)
     label_attribute = Irm::ObjectAttribute.get_label_attribute(self.id)
     fields = [{:value_field=>true,:key=>lov_value_field.to_sym,:hidden=>true,:name=>lov_value_field,:data_type=>"varchar",:data_length=>"30"}]
@@ -125,8 +127,13 @@ class Irm::BusinessObject < ActiveRecord::Base
       end
     end
 
+    current_record = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{lov_value_field} = ?",value)
 
-    current_record = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{lov_value_field} = ?",value).first
+    if self.bo_model_name.constantize.respond_to?(:lov)
+      current_record = bo_model_name.constantize.send(:lov,current_record,params)
+    end
+
+    current_record = current_record.first
 
     if current_record
       return [current_record[lov_value_field],current_record[label_attribute.attribute_name.to_sym],current_record]
@@ -135,7 +142,9 @@ class Irm::BusinessObject < ActiveRecord::Base
     end
   end
 
-  def lookup_value(label_value,lov_value_field)
+
+  # 根据lov的显示值,取得lov的值
+  def lookup_value(label_value,lov_value_field,params={})
 
     columns = Irm::SearchLayoutColumn.lookup_columns(self.id)
     label_attribute = Irm::ObjectAttribute.get_label_attribute(self.id)
@@ -153,7 +162,13 @@ class Irm::BusinessObject < ActiveRecord::Base
       end
     end
 
-    current_record = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","%#{label_value}%").first
+    current_record = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","%#{label_value}%")
+
+    if self.bo_model_name.constantize.respond_to?(:lov)
+      current_record = bo_model_name.constantize.send(:lov,current_record,params)
+    end
+
+    current_record = current_record.first
 
     if current_record.present?
       return [current_record[lov_value_field],current_record[label_attribute.attribute_name.to_sym],current_record]
@@ -163,7 +178,7 @@ class Irm::BusinessObject < ActiveRecord::Base
 
   end
 
-  def lookup(search,lov_value_field)
+  def lookup(search,lov_value_field,params={})
     columns = Irm::SearchLayoutColumn.lookup_columns(self.id)
     label_attribute = Irm::ObjectAttribute.get_label_attribute(self.id)
     fields = [{:value_field=>true,:key=>lov_value_field.to_sym,:hidden=>true,:name=>lov_value_field,:data_type=>"varchar",:data_length=>"30"}]
@@ -180,7 +195,13 @@ class Irm::BusinessObject < ActiveRecord::Base
       end
     end
 
-    datas = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","#{search}").limit(15)
+    datas = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","#{search}")
+
+    if self.bo_model_name.constantize.respond_to?(:lov)
+      datas = bo_model_name.constantize.send(:lov,datas,params)
+    end
+
+    datas = datas.limit(15)
 
     return [fields,datas]
   end
