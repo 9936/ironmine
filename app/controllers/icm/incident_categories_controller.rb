@@ -43,7 +43,9 @@ class Icm::IncidentCategoriesController < ApplicationController
     @incident_category = Icm::IncidentCategory.new(params[:icm_incident_category])
 
     respond_to do |format|
-      if @incident_category.save
+      if @incident_category.valid?
+        @incident_category.create_system_from_str
+        @incident_category.save
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @incident_category, :status => :created, :location => @incident_category }
       else
@@ -57,9 +59,11 @@ class Icm::IncidentCategoriesController < ApplicationController
   # PUT /incident_categories/1.xml
   def update
     @incident_category = Icm::IncidentCategory.find(params[:id])
-
+    @incident_category.attributes = params[:icm_incident_category]
     respond_to do |format|
-      if @incident_category.update_attributes(params[:icm_incident_category])
+      if @incident_category.valid?
+        @incident_category.create_system_from_str
+        @incident_category.save
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -109,7 +113,7 @@ class Icm::IncidentCategoriesController < ApplicationController
   end
 
   def get_option
-    incident_categories_scope = Icm::IncidentCategory.multilingual.enabled.where(:external_system_id=>params[:external_system_id])
+    incident_categories_scope = Icm::IncidentCategory.multilingual.enabled.query_by_system(params[:external_system_id])
     incident_categories_scope = incident_categories_scope.collect{|i| {:label=>i[:name], :value=>i.id,:id=>i.id}}
     respond_to do |format|
       format.json {render :json=>incident_categories_scope.to_grid_json([:label, :value],incident_categories_scope.count)}

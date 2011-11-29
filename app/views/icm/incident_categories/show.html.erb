@@ -29,16 +29,24 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
-            <tr>
-              <td class="labelCol"><label for="external_system"><%=t(:label_icm_incident_category_external_system)%></label></td>
-              <td class="dataCol"><%=@incident_category[:external_system_name]%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
+
 
             <tr>
               <td class="labelCol"><label for="report_description"><%=t(:label_icm_incident_category_description)%></label></td>
               <td class="dataCol" colspan="3" width="82%"><%=@incident_category[:description]%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="service_catalog_description"><%=t(:label_icm_incident_category_external_system)%></label></td>
+               <td class="dataCol" colspan="3" width="82%"><div>
+                <% meaning = duel_meaning(@incident_category.get_system_str,external_system_duel_values) %>
+                <% if meaning.any? %>
+                    <% meaning.each do |r| %>
+                        <div><%= r %></div>
+                    <% end %>
+                <% end %>
+              </div></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
             </tr>
         </tbody>
       </table>

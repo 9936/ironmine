@@ -15,7 +15,6 @@
           </table>
         </div>
         <div class="pbBody">
-          <%= "#{@business_object.bo_model_name.pluralize.underscore}/lov" %>
           <% if @datas.any? %>
               <% if lookup_context.template_exists?("#{@business_object.bo_model_name.pluralize.underscore}/lov",[],true) %>
                   <%= render :partial => "#{@business_object.bo_model_name.pluralize.underscore}/lov" %>
