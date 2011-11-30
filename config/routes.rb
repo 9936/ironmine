@@ -1076,7 +1076,7 @@ Ironmine::Application.routes.draw do
     #entry_headers
     match '/entry_headers(/index)(.:format)' => "entry_headers#index", :via => :get
     match '/entry_headers/:id/edit(.:format)' => "entry_headers#edit", :via => :get
-    match '/entry_headers/:id/update(.:format)' => "entry_headers#update", :via => :put
+    match '/entry_headers/:id/update(.:format)' => "entry_headers#update", :via => [:put, :post]
     match '/entry_headers/new(.:format)' => "entry_headers#new"
     match '/entry_headers/create(.:format)' => "entry_headers#create", :via => :post
     match '/entry_headers/get_data(.:format)' => "entry_headers#get_data"

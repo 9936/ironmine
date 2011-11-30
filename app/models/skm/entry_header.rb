@@ -9,7 +9,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   belongs_to :channel
 
-  attr_accessible :published_date_f, :full_title
+  attr_accessor :published_date_f, :full_title
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
@@ -27,7 +27,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   scope :history_entry, where("#{table_name}.history_flag = ?", Irm::Constant::SYS_YES)
   scope :list_all, select("#{table_name}.id,  #{table_name}.entry_template_id, #{table_name}.entry_title" +
                               ", #{table_name}.keyword_tags, #{table_name}.doc_number, #{table_name}.history_flag, #{table_name}.entry_status_code" +
-                              ", #{table_name}.version_number, DATE_FORMAT(#{table_name}.published_date , '%Y/%c/%e %H:%I:%S') published_date_f, #{table_name}.published_date, #{table_name}.author_id, #{table_name}.status_code" +
+                              ", #{table_name}.version_number, DATE_FORMAT(#{table_name}.published_date , '%Y-%c-%e %H:%I:%S') published_date_f, #{table_name}.published_date, #{table_name}.author_id, #{table_name}.status_code" +
                               ", #{table_name}.created_by, #{table_name}.created_at, #{table_name}.updated_by, #{table_name}.updated_at,  CONCAT('[', #{table_name}.doc_number, ']', #{table_name}.entry_title) full_title").
       order("#{table_name}.published_date DESC")
 

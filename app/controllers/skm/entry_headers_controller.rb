@@ -257,6 +257,9 @@ class Skm::EntryHeadersController < ApplicationController
         @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
         @entry_header.version_number = old_header.next_version_number.to_s
         @entry_header.published_date = Time.now
+        @entry_header.author_id = old_header.author_id
+        @entry_header.source_type = old_header.source_type
+        @entry_header.source_id = old_header.source_id
         respond_to do |format|
           if @entry_header.save && old_header.save && @entry_header.update_attributes(params[:skm_entry_header])
             params[:skm_entry_details].each do |k, v|
@@ -290,6 +293,12 @@ class Skm::EntryHeadersController < ApplicationController
               format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
             end
           else
+            if @entry_header.new_record?
+              @entry_header.id = old_header.id
+            else
+              @entry_header.destroy
+              @entry_header = old_header
+            end
             format.html { render :action => "edit" }
             format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
           end

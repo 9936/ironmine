@@ -9,7 +9,9 @@
             <% if @entry_header[:is_favorite] == Irm::Constant::SYS_NO %>
                 <div class="button"><%= link_to t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => @entry_header.id, :person_id => Irm::Person.current.id}%></div>
             <% end %>
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @entry_header}%></div>
+            <% if @entry_header.history_flag == Irm::Constant::SYS_NO %>
+                <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @entry_header}%></div>
+            <% end %>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
           </td>
         </tr>
