@@ -45,10 +45,17 @@ class IncidentElapse < Irm::ReportManager::ReportBase
       status_elapse_datas = status_elapse_datas.where("#{Icm::IncidentRequest.table_name}.external_system_id = ?",params[:external_system_id])
     end
 
-    if(params[:service_code].present?)
-      incident_requests = incident_requests.where("#{Icm::IncidentRequest.table_name}.service_code = ?",params[:service_code])
-      support_group_elapse_datas = support_group_elapse_datas.where("#{Icm::IncidentRequest.table_name}.service_code = ?",params[:service_code])
-      status_elapse_datas = status_elapse_datas.where("#{Icm::IncidentRequest.table_name}.service_code = ?",params[:service_code])
+    if(params[:incident_category_id].present?)
+      incident_requests = incident_requests.where("#{Icm::IncidentRequest.table_name}.incident_category_id = ?",params[:incident_category_id])
+      support_group_elapse_datas = support_group_elapse_datas.where("#{Icm::IncidentRequest.table_name}.incident_category_id = ?",params[:incident_category_id])
+      status_elapse_datas = status_elapse_datas.where("#{Icm::IncidentRequest.table_name}.incident_category_id = ?",params[:incident_category_id])
+    end
+
+
+    if(params[:incident_sub_category_id].present?)
+      incident_requests = incident_requests.where("#{Icm::IncidentRequest.table_name}.incident_sub_category_id = ?",params[:incident_sub_category_id])
+      support_group_elapse_datas = support_group_elapse_datas.where("#{Icm::IncidentRequest.table_name}.incident_sub_category_id = ?",params[:incident_sub_category_id])
+      status_elapse_datas = status_elapse_datas.where("#{Icm::IncidentRequest.table_name}.incident_sub_category_id = ?",params[:incident_sub_category_id])
     end
 
     # 只对关闭的事故单进行统计

@@ -250,6 +250,7 @@ function lookupPick(fieldId,value,valueLabel,data){
 function clearLookup(fieldId){
     //$("#"+fieldId+"_label").val("");
     $("#"+fieldId).val("");
+    $("#"+fieldId).trigger("change");
 }
 
 function setLookupValue(fieldId,value){

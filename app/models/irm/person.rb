@@ -189,6 +189,11 @@ class Irm::Person < ActiveRecord::Base
         status_meaning
   end
 
+  def self.lov(origin_scope,params)
+    puts params.to_json
+    return origin_scope
+  end
+
   #取得系统当前登陆人员
   def self.current
     @current_person ||= Irm::Person.anonymous

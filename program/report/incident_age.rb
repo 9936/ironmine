@@ -103,13 +103,7 @@ class IncidentAge < Irm::ReportManager::ReportBase
   end
 
   def to_xls(params)
-    columns = [{:key=>:request_number,:label=>I18n.t(:label_icm_incident_request_request_number_shot)},
-               {:key=>:title,:label=>I18n.t(:label_icm_incident_request_title)},
-               {:key=>:requested_organization_name,:label=>I18n.t(:label_icm_incident_request_organization)},
-               {:key=>:requested_name,:label=>I18n.t(:label_icm_incident_request_requested_by)},
-               {:key=>:external_system_name,:label=>I18n.t(:label_irm_external_system)},
-               {:key=>:service_name,:label=>I18n.t(:label_icm_incident_request_service_code)},
-               {:key=>:priority_name,:label=>I18n.t(:label_icm_incident_request_priority)}]
+    columns = []
 
     result = data(params)
 

@@ -65,18 +65,32 @@
                 <% end %>
               </td>
             </tr>
-
             <tr>
-              <td class="labelCol"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_service_code)%></label></td>
-              <td class="data2Col"><%=f.select :service_code,
-                                            nullable_options_for_select([],@incident_request.service_code),
+              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_category)%></label></td>
+              <td class="data2Col"><%=f.select :incident_category_id,
+                                            nullable_options_for_select([],@incident_request.incident_category_id),
                                             {},
-                                            {:required=>true,:id=>"incident_request_service_code",
-                                             :origin_value=>@incident_request.service_code,
+                                            {:required=>true,
+                                             :id=>"incident_category_id",
+                                             :origin_value=>@incident_request.incident_category_id,
                                              :depend=>"ass_external_system",
                                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                             :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_slm_services",:format=>"json",
+                                             :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
                                                             :external_system_id=>"${ass_external_system}")}%>
+              </td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_sub_category)%></label></td>
+              <td class="data2Col"><%=f.select :incident_sub_category_id,
+                                            nullable_options_for_select([],@incident_request.incident_sub_category_id),
+                                            {},
+                                            {:required=>true,
+                                             :id=>"incident_sub_category_id",
+                                             :origin_value=>@incident_request.incident_sub_category_id,
+                                             :depend=>"incident_category_id",
+                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                             :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
+                                                            :incident_category_id=>"${incident_category_id}")}%>
               </td>
             </tr>
             <tr>
@@ -200,8 +214,9 @@
      var requester = $("#incident_request_requested_by");
      if(requester){
          requester.change(function(event){
-             setLookupValue("incident_request_contact_id",$(event.target).val())
+             setLookupValue("incident_request_contact_id",$(event.target).val());
          })
+         setLookupValue("incident_request_contact_id",requester.val())
      }
      if($("#incident_request_contact_id")){
          $("#incident_request_contact_id").change(function(event){
@@ -217,8 +232,11 @@
         $("#incident_request_requested_by").cascade("#ass_external_system");
      }
      if($("#ass_external_system")){
-        $("#ass_external_system").cascade("#incident_request_service_code");
+        $("#ass_external_system").cascade(["#incident_category_id"]);
      }
-     $("#incident_request_requested_by").trigger("change");
+
+     if($("#incident_category_id")){
+        $("#incident_category_id").cascade("#incident_sub_category_id");
+     }
   });
 </script>

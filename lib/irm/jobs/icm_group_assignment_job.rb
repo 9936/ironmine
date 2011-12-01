@@ -43,9 +43,9 @@ module Irm
           # 1 按照事故单提交人直接查找
           groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_person(person.id)
 
-          # 2 按照事故单所属服务查找
-          unless groups.any?
-            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_service(request.service_code)
+          # 2 按照事故单所属分类查找
+          if !groups.any?&&request.incident_category_id.present?
+            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_category(request.incident_category_id)
           end
 
           # 3 按照事故单所属系统查找

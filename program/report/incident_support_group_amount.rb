@@ -26,10 +26,13 @@ class IncidentSupportGroupAmount < Irm::ReportManager::ReportBase
       support_group_elapse = support_group_elapse.where("#{Icm::IncidentRequest.table_name}.external_system_id = ?",params[:external_system_id])
     end
 
-    if(params[:service_code].present?)
-      support_group_elapse = support_group_elapse.where("#{Icm::IncidentRequest.table_name}.service_code = ?",params[:service_code])
+    if(params[:incident_category_id].present?)
+      support_group_elapse = support_group_elapse.where("#{Icm::IncidentRequest.table_name}.incident_category_id = ?",params[:incident_category_id])
     end
 
+    if(params[:incident_sub_category_id].present?)
+      support_group_elapse = support_group_elapse.where("#{Icm::IncidentRequest.table_name}.incident_sub_category_id = ?",params[:incident_sub_category_id])
+    end
 
     support_group_elapse_sql = support_group_elapse.to_sql
 
