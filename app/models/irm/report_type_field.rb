@@ -2,11 +2,15 @@ class Irm::ReportTypeField < ActiveRecord::Base
   set_table_name :irm_report_type_fields
 
   belongs_to :report_type_section
-  has_many :report_criterion, :dependent => :destroy ,:foreign_key => :field_id
+  has_many :report_criterion ,:foreign_key => :field_id
 
-  has_many :report_group_columns, :dependent => :destroy,:foreign_key => :field_id
+  has_many :report_group_columns,:foreign_key => :field_id
 
   has_many :report_columns,:dependent => :destroy,:foreign_key => :field_id
+
+  after_destroy :clear_relation_column
+
+  belongs_to :object_attribute
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -46,6 +50,12 @@ class Irm::ReportTypeField < ActiveRecord::Base
     self.with_business_attribute.not_in_bo_ids(bo_ids).query_by_report_type(report_type_id).each do |f|
       f.destroy
     end
+  end
+
+  private
+  def clear_relation_column
+    self.report_criterion.update_all(:field_id=>nil,:operator_code=>nil,:filter_value=>nil)
+    self.report_group_columns.update_all(:field_id=>nil,:group_date_type=>nil,:sort_type=>nil)
   end
 
 

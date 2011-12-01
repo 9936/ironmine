@@ -16,6 +16,8 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   has_many :search_layout_columns ,:dependent => :destroy
 
+  has_many :report_type_fields,:dependent => :destroy
+
   #  验证基础字段
   validates_presence_of :attribute_name,:if=>Proc.new{|i| i.check_step(2)}
 
