@@ -23,4 +23,9 @@ class Icm::IncidentSubCategory < ActiveRecord::Base
   def self.list_all
     self.select_all.multilingual.with_incident_category(I18n.locale)
   end
+
+
+  def self.lov(origin_scope,params)
+    return origin_scope.where("EXISTS(SELECT 1 FROM #{Icm::IncidentCategorySystem.table_name} system WHERE system.external_system_id in(?) AND system.incident_category_id = #{view_name}.incident_category_id)",Irm::Person.current.system_ids)
+  end
 end

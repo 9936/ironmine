@@ -17,14 +17,15 @@
                <div><%= t(:label_icm_incident_request_requested_by) %></div>
              </th>
              <th>
-               <div><%= t(:label_icm_incident_request_priority) %></div>
-             </th>
-             <th>
                <div><%= t(:label_irm_external_system) %></div>
              </th>
 
              <th>
-               <div><%= t(:label_icm_incident_request_service_code) %></div>
+               <div><%= t(:label_icm_incident_request_incident_category) %></div>
+             </th>
+
+             <th>
+               <div><%= t(:label_icm_incident_request_incident_sub_category) %></div>
              </th>
              <% datas[:headers].each do |header| %>
                <th>
@@ -58,20 +59,19 @@
            </td>
            <td>
              <div>
-               <%= data[:priority_name] %>
-             </div>
-           </td>
-           <td>
-             <div>
                <%= data[:external_system_name] %>
              </div>
            </td>
            <td>
              <div>
-               <%= data[:service_name] %>
+               <%= data[:incident_category_name] %>
              </div>
            </td>
-
+           <td>
+             <div>
+               <%= data[:incident_sub_category_name] %>
+             </div>
+           </td>
            <% datas[:report_datas][index].each do |report_data|  %>
              <td>
                <div>

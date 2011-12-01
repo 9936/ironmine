@@ -2,7 +2,11 @@ class Irm::ReportTypeField < ActiveRecord::Base
   set_table_name :irm_report_type_fields
 
   belongs_to :report_type_section
-  has_many :report_criterion
+  has_many :report_criterion, :dependent => :destroy ,:foreign_key => :field_id
+
+  has_many :report_group_columns, :dependent => :destroy,:foreign_key => :field_id
+
+  has_many :report_columns,:dependent => :destroy,:foreign_key => :field_id
 
   #加入activerecord的通用方法和scope
   query_extend

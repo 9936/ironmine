@@ -33,6 +33,10 @@ class Icm::IncidentCategory < ActiveRecord::Base
   end
 
 
+  def self.lov(origin_scope,params)
+    return origin_scope.where("EXISTS(SELECT 1 FROM #{Icm::IncidentCategorySystem.table_name} system WHERE system.external_system_id in(?) AND system.incident_category_id = #{view_name}.id)",Irm::Person.current.system_ids)
+  end
+
 
   #创建 更新报表列
   def create_system_from_str
