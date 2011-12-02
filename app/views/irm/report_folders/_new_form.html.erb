@@ -66,7 +66,12 @@
               </td>
             </tr>
 
-
+            <tr id="accessType">
+              <td class="labelCol"><label for="report_folder_access_type"><%=t(:label_irm_report_folder_access_type)%></label></td>
+              <td class="dataCol"><%=f.select :access_type,available_report_folder_access_type ,{:required=>true} ,:id=>"report_folder_access_type"%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
 
         </tbody>
       </table>
