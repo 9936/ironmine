@@ -79,13 +79,7 @@ class KnowledgeUse < Irm::ReportManager::ReportBase
   end
 
   def to_xls(params)
-    columns = [{:key=>:request_number,:label=>I18n.t(:label_icm_incident_request_request_number_shot)},
-               {:key=>:title,:label=>I18n.t(:label_icm_incident_request_title)},
-               {:key=>:requested_organization_name,:label=>I18n.t(:label_icm_incident_request_organization)},
-               {:key=>:requested_name,:label=>I18n.t(:label_icm_incident_request_requested_by)},
-               {:key=>:external_system_name,:label=>I18n.t(:label_irm_external_system)},
-               {:key=>:service_name,:label=>I18n.t(:label_icm_incident_request_service_code)},
-               {:key=>:priority_name,:label=>I18n.t(:label_icm_incident_request_priority)}]
+    columns = []
 
     result = data(params)
 
@@ -95,13 +89,7 @@ class KnowledgeUse < Irm::ReportManager::ReportBase
 
     excel_data = []
     result[:datas].each_with_index do |data,index|
-      excel_data << {:request_number=>data[:request_number],
-                     :title=>data[:title],
-                     :requested_organization_name=>data[:requested_organization_name],
-                     :requested_name=>data[:requested_name],
-                     :external_system_name=>data[:external_system_name],
-                     :service_name=>data[:service_name],
-                     :priority_name=>data[:priority_name]}.merge(result[:report_datas][index].to_cus_hash)
+      excel_data << data.to_cus_hash
     end
 
     excel_data.to_xls(columns,{})
