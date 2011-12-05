@@ -276,8 +276,16 @@ en:
   #=========reports===================
   label_average: Average
   label_summary: Summay
+  label_report_type: Type
+  label_report_year: Year
+  label_report_month: Month
+  label_report_date: Date
+  ##==============report incident_elapse=============================
   label_report_incident_elapse_show_options: Show Options
   label_report_incident_elapse_show_all: Support Group and Status
   label_report_incident_elapse_show_support_group: Support Group
   label_report_incident_elapse_show_status: Status
+  ##==============report knowledge use=============================
+  label_report_knowledge_use_show: Show Knowledge
+  label_report_knowledge_use_apply: Use Knowledge
   #=========end reports===================
