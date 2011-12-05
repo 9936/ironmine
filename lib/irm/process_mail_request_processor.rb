@@ -22,7 +22,7 @@ module Irm
           return false unless Irm::Person.current.external_systems.include?(sys)
 
           incident_request = Icm::IncidentRequest.new()
-          content = parsed_email[:bodies][0].lines.collect{|line| line}[0].strip
+          content = parsed_email[:bodies][0]
           return false unless content.size > 0
           incident_request.summary =content
           prepared_for_create(incident_request, rule, email)

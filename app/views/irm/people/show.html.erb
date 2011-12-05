@@ -1,45 +1,5 @@
 <%= common_title(:show_data=>@person[:person_name]) %>
 
-<div class="listHoverLinks" style="visibility: visible;">
-  <a id="id_person_company_access_link"
-     href="#id_person_company_access"
-     class="linklet" onmouseover="relatedListPanel.showRLDelayed('id_person_company_access');"
-     onmouseout="relatedListPanel.hideRLDelayed('id_person_company_access');">
-    <span class="listTitle"><%= t(:label_irm_person_company_access) %>
-       <span class="count">[<%=  %>]</span>
-    </span>
-  </a>
-  <span class="pipe"> | </span>
-  <a id="id_person_support_group_link" href="#id_person_support_group"
-     class="linklet" onmouseover="relatedListPanel.showRLDelayed('id_person_support_group');"
-     onmouseout="relatedListPanel.hideRLDelayed('id_person_support_group');">
-    <span class="listTitle"><%= t(:label_irm_person_support_group) %>
-    <span class="count">[<%= @support_group_count %>]</span></span>
-  </a>
-</div>
-
-<div id="RLPanelShadow" class="RLPanelShadow" style="display: none;">
-  <div class="rls_top">
-     <div class="rls_tl"></div>
-     <div class="rls_tr"></div>
-  </div>
-  <div class="rls_l"></div>
-  <div class="rls_r"></div>
-  <div id="RLPanel" class="RLPanel" onblur="relatedListPanel.hideRLDelayed(null, 100);"
-      onfocus="relatedListPanel.showRL();"
-      onmouseover="relatedListPanel.showRL();"
-      onmouseout="relatedListPanel.hideRLDelayed(null, 100);" >
-    <iframe frameborder="0" title="隐藏框架 - 忽略"
-            src="/images/emptyHtmlDoc.html"
-            name="RLPanelFrame" id="RLPanelFrame" style="height: 101px;" allowtransparency="true">
-    </iframe>
-  </div>
-  <div class="rls_bottom">
-  <div class="rls_bl"></div>
-  <div class="rls_br"></div>
-  </div>
-</div>
-
 <div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -196,7 +156,7 @@
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"40px"},
                                {:key=>"system_name",:label=>t(:label_irm_external_system), :width=>"200px"},
                                {:key=>"system_description",:label=>t(:description), :width=> "400px"},
-                               {:key=>"external_system_code", :hidden => true}])%>
+                               {:key=>"external_system_code", :hidden => true}], {:force_html => true})%>
           <!-- End company access table -->
         </div>
         <div class="pbFooter secondary-palette">
