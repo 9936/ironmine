@@ -3,6 +3,8 @@ class Irm::ReportColumn < ActiveRecord::Base
 
   belongs_to :report
 
+  belongs_to :report_type_field,:foreign_key => :field_id
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离

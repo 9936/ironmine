@@ -3,7 +3,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   has_many :incident_journals
 
-  validates_presence_of :title,:external_system_id,:service_code,:requested_by,:submitted_by,
+  validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,
                         :impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code,
                         :contact_number,:contact_id
 
@@ -225,6 +225,13 @@ class Icm::IncidentRequest < ActiveRecord::Base
     select("(SELECT COUNT(1) FROM #{Skm::EntryHeader.table_name} eh WHERE eh.source_type='INCIDENT_REQUEST' AND eh.source_id = #{table_name}.id) skm_flag")
   }
 
+
+  scope :with_category,lambda{|language|
+    joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ON  #{Icm::IncidentCategory.view_name}.id = #{table_name}.incident_category_id AND #{Icm::IncidentCategory.view_name}.language= '#{language}'").
+    joins("LEFT OUTER JOIN #{Icm::IncidentSubCategory.view_name} ON  #{Icm::IncidentSubCategory.view_name}.id = #{table_name}.incident_sub_category_id AND #{Icm::IncidentSubCategory.view_name}.language= '#{language}'").
+    select(" #{Icm::IncidentCategory.view_name}.name incident_category_name,#{Icm::IncidentSubCategory.view_name}.name incident_sub_category_name")
+  }
+
   acts_as_watchable
   def self.list_all
     select_all.
@@ -238,6 +245,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_incident_status(I18n.locale).
         with_priority(I18n.locale).
         with_submitted_by.
+        with_category(I18n.locale).
         with_support_group(I18n.locale).
         with_supporter(I18n.locale).
         with_external_system(I18n.locale)

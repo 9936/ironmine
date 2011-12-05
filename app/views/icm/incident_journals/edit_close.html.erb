@@ -75,16 +75,51 @@
         <tbody>
             <tr>
               <td class="labelCol"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_close_reason_code)%></label></td>
-              <td class="dataCol">
+              <td>
                 <%=f.select :close_reason_id,options_for_select(available_close_code,@incident_request.close_reason_id),
                                                     {},{:required=>true,:id=>"incident_request_close_reason_code"}%>
               <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td></tr>
+              <td>&nbsp;</td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+            <tr>
+               <td class="labelCol"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_target_system)%></label></td>
+               <td><%=f.select :external_system_id,
+                            nullable_options_for_select(available_external_systems_with_person(@incident_request.requested_by).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),
+                            {:value=>@incident_request.external_system_id},
+                            {:required=>true,:id=>"ass_external_system"} %>
+              </td>
+              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_category)%></label></td>
+              <td><%=f.select :incident_category_id,
+                                            nullable_options_for_select([],@incident_request.incident_category_id),
+                                            {},
+                                            {:required=>true,
+                                             :id=>"incident_category_id",
+                                             :origin_value=>@incident_request.incident_category_id,
+                                             :depend=>"ass_external_system",
+                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                             :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
+                                                            :external_system_id=>"${ass_external_system}")}%>
+              </td>
+              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_sub_category)%></label></td>
+              <td><%=f.select :incident_sub_category_id,
+                                            nullable_options_for_select([],@incident_request.incident_sub_category_id),
+                                            {},
+                                            {:required=>true,
+                                             :id=>"incident_sub_category_id",
+                                             :origin_value=>@incident_request.incident_sub_category_id,
+                                             :depend=>"incident_category_id",
+                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                             :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
+                                                            :incident_category_id=>"${incident_category_id}")}%>
+              </td>
             <tr>
               <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
                 <%= sub_f.hidden_field(:incident_request_id) %>
               <td class="labelCol"><%= t(:label_icm_incident_journal_reply) %></td>
-              <td class="dataCol" colspan="3" width="82%">
+              <td colspan="5" width="82%">
                 <%= sub_f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true%>
                 <%= rich_text_area("msgEditor",true) %>
               </td>
@@ -92,7 +127,7 @@
             </tr>
             <tr>
               <td class="labelCol"><%= t(:label_icm_incident_journal_attachment) %></td>
-              <td class="dataCol" colspan="3" width="82%">
+              <td  colspan="5" width="82%">
 
                 <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"pass_incident_request_file"} %>
 
@@ -118,4 +153,15 @@
   </div>
 </div>
 <% end %>
+<script type="text/javascript">
+  $(function(){
+     if($("#ass_external_system")){
+        $("#ass_external_system").cascade(["#incident_category_id"]);
+     }
+
+     if($("#incident_category_id")){
+        $("#incident_category_id").cascade("#incident_sub_category_id");
+     }
+  });
+</script>
 

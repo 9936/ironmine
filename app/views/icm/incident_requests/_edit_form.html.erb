@@ -43,10 +43,7 @@
             <% if allow_to_function?(:create_icdt_rqst_for_other) %>
               <tr>
                 <td class="labelCol"><label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%></label></td>
-                <td class="dataCol"><%=f.select :requested_by,nullable_options_for_select(available_person, @incident_request.requested_by),
-                                                      {},{:required=>true,:id=>"incident_request_requested_by"}%></td>
-                <td class="labelCol empty">&nbsp;</td>
-                <td class="dataCol empty">&nbsp;</td>
+                <td class="dataCol"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"incident_request_requested_by"}%></td>
               </tr>
             <% else %>
                 <%= f.hidden_field(:requested_by,:value=>Irm::Person.current.id) %>
@@ -79,18 +76,34 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
 
-            <tr>
-              <td class="labelCol"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_service_code)%></label></td>
-              <td class="dataCol"><%=f.select :service_code,
-                                            nullable_options_for_select(available_service(@incident_request.external_system_id),@incident_request.service_code),
+           <tr>
+              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_category)%></label></td>
+              <td class="dataCol"><%=f.select :incident_category_id,
+                                            nullable_options_for_select([],@incident_request.incident_category_id),
                                             {},
-                                            {:id=>"incident_request_service_code",
+                                            {:required=>true,
+                                             :id=>"incident_category_id",
+                                             :origin_value=>@incident_request.incident_category_id,
                                              :depend=>"ass_external_system",
-                                             :origin_value=>@incident_request.service_code,
                                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                             :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_slm_services",:format=>"json",
-                                                            :external_system_id=>"${ass_external_system}"),
-                                             :required => true}%>
+                                             :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
+                                                            :external_system_id=>"${ass_external_system}")}%>
+              </td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_sub_category)%></label></td>
+              <td class="dataCol"><%=f.select :incident_sub_category_id,
+                                            nullable_options_for_select([],@incident_request.incident_sub_category_id),
+                                            {},
+                                            {:required=>true,
+                                             :id=>"incident_sub_category_id",
+                                             :origin_value=>@incident_request.incident_sub_category_id,
+                                             :depend=>"incident_category_id",
+                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                             :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
+                                                            :incident_category_id=>"${incident_category_id}")}%>
               </td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
@@ -130,8 +143,7 @@
                 <td class="labelCol"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
                 <td class="dataCol">
                   <div style="display:inline">
-                    <%=f.blank_select :contact_id,available_contact,
-                                                        {},{:required=>true,:id=>"incident_request_contact_id"}%>
+                    <%=f.lov_field :contact_id,Irm::Person,{:required=>true,:id=>"incident_request_contact_id"}%>
                   </div>
                 </td>
                 <td class="labelCol"><label for="incident_request_contact_number"><%=t(:label_icm_incident_request_contact_number)%></label></td>
@@ -196,24 +208,28 @@
      var requester = $("#incident_request_requested_by");
      if(requester){
          requester.change(function(event){
-             $("#incident_request_contact_id").val($(event.target).val());
-             $("#incident_request_contact_id").trigger('change');
+             setLookupValue("incident_request_contact_id",$(event.target).val());
          })
      }
      if($("#incident_request_contact_id")){
          $("#incident_request_contact_id").change(function(event){
-           if($(event.target).val()&&$(event.target).val()!=""){
-             var phone = $(event.target).find("option[value="+$(event.target).val()+"]:first").attr("phone");
-             $("#incident_request_contact_number").val(phone);
+           if($(event.target).val()&&$(event.target).data("lov")&&$(event.target).data("lov").bussiness_phone){
+             $("#incident_request_contact_number").val($(event.target).data("lov").bussiness_phone);
            }
          })
+     }
+     if($("#incident_request_support_group_id")){
+         $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
      }
      if($("#incident_request_requested_by")){
         $("#incident_request_requested_by").cascade("#ass_external_system");
      }
      if($("#ass_external_system")){
-        $("#ass_external_system").cascade("#incident_request_service_code");
+        $("#ass_external_system").cascade(["#incident_category_id"]);
      }
-     $("#incident_request_contact_id").trigger("change");
+
+     if($("#incident_category_id")){
+        $("#incident_category_id").cascade("#incident_sub_category_id");
+     }
   });
 </script>

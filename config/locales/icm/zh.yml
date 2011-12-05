@@ -145,6 +145,8 @@ zh:
   label_icm_incident_request_view_filter_data_range_all: 我相关的
   label_icm_incident_request_view_filter_data_range_main: 我参与的
   label_icm_incident_request_relation: 相关事故单
+  label_icm_incident_request_incident_category: 分类
+  label_icm_incident_request_incident_sub_category: 子分类
   #========================= end icm incident_requests_controller=======================#
   #=========================    icm incident_journals_controller=======================#
   label_icm_incident_reply_support_group_id: 转交组
@@ -230,6 +232,8 @@ zh:
   label_icm_incident_category_name: 名称
   label_icm_incident_category_external_system: 系统
   label_icm_incident_category_description: 描述
+  label_icm_incident_category_apply_system: 可应用系统
+  label_icm_incident_category_system: 应用系统可使用事故类别
   #========================== end incident category  ===============================
   #========================= incident category ====================================
   label_icm_incident_sub_category: 事故单子分类

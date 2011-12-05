@@ -56,6 +56,11 @@ class Icm::SupportGroup < ActiveRecord::Base
         where("#{Slm::ServiceCatalog.table_name}.catalog_code = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",service_code,Irm::BusinessObject.class_name_to_code(Slm::ServiceCatalog.name))
   }
 
+  scope :support_for_category,lambda{|incident_category_id|
+    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+        where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",incident_category_id,Irm::BusinessObject.class_name_to_code(Icm::IncidentCategory.name))
+  }
+
   scope :support_for_system,lambda{|system_id|
     joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
         where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",system_id,Irm::BusinessObject.class_name_to_code(Irm::ExternalSystem.name))

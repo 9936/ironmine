@@ -1,5 +1,6 @@
 Irm::AccessControl.map do |map|
-  map.function :login_function,{}
+  map.function :login_function,{"icm/incident_categories"=>["get_option"],
+                                "icm/incident_sub_categories"=>["get_option"]}
   #============= 事故单==============================
   # 查看事故单
   map.function :view_incident_request,{"icm/incident_requests"=>[:index, :get_data, :get_help_desk_data,

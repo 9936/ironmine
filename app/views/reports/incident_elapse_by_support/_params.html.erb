@@ -12,10 +12,35 @@
         </div>
       </td>
       <td>
-        <label for="loginPerson_label"><%= t(:label_icm_incident_request_service_code) %></label>
+        <label for="loginPerson_label"><%= t(:label_icm_incident_request_incident_category) %></label>
         <div style="white-space:nowrap">
-          <%= lov_field_tag(:service_code,Slm::ServiceCatalog,:name=>"program_params[service_code]",:value_field=>:catalog_code,:value=>program_params[:service_code],:id=>"service_code") %>
+                <%=select_tag_alias :incident_category_id,
+                                    [],
+                                    nil,
+                                    {:id=>"incident_category_id",
+                                     :name=>"program_params[incident_category_id]",
+                                     :origin_value=>program_params[:incident_category_id],
+                                     :depend=>"external_system_id",
+                                     :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                     :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
+                                                    :external_system_id=>"${external_system_id}")}%>
         </div>
+      </td>
+
+      <td>
+        <label for="loginPerson_label"><%= t(:label_icm_incident_request_incident_sub_category) %></label>
+        <div style="white-space:nowrap">
+              <%=select_tag_alias  :incident_sub_category_id,
+                          [],
+                          nil,
+                          {
+                           :id=>"incident_sub_category_id",
+                           :name=>"program_params[incident_sub_category_id]",
+                           :origin_value=>program_params[:incident_sub_category_id],
+                           :depend=>"incident_category_id",
+                           :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                           :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
+                                          :incident_category_id=>"${incident_category_id}")}%>        </div>
       </td>
       <td>
         <fieldset>
@@ -39,3 +64,9 @@
     </tr>
   </tbody>
 </table>
+<script type="text/javascript">
+  $(function(){
+      $("#external_system_id").cascade("#incident_category_id");
+      $("#incident_category_id").cascade("#incident_sub_category_id");
+  });
+</script>

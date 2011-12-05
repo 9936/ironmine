@@ -982,6 +982,7 @@ Ironmine::Application.routes.draw do
     match '/incident_categories/:id/show(.:format)' => "incident_categories#show", :via => :get
     match '/incident_categories/:id/multilingual_edit(.:format)' => "incident_categories#multilingual_edit", :via => :get
     match '/incident_categories/:id/multilingual_update(.:format)' => "incident_categories#multilingual_update", :via => :put
+    match '/incident_categories/:external_system_id/get_option(.:format)' => "incident_categories#get_option", :via => :get
 
     #incident_sub_categories
     match '/incident_sub_categories/:id/edit(.:format)' => "incident_sub_categories#edit", :via => :get
@@ -992,7 +993,7 @@ Ironmine::Application.routes.draw do
     match '/incident_sub_categories/:id/multilingual_edit(.:format)' => "incident_sub_categories#multilingual_edit", :via => :get
     match '/incident_sub_categories/:id/multilingual_update(.:format)' => "incident_sub_categories#multilingual_update", :via => :put
     match '/incident_sub_categories/:id/destroy(.:format)' => "incident_sub_categories#destroy", :via => :delete
-
+    match '/incident_sub_categories/:incident_category_id/get_option(.:format)' => "incident_sub_categories#get_option", :via => :get
   end
 
 
