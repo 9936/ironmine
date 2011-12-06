@@ -306,6 +306,8 @@ a.NavTreeExp {
 .page-block .setupOverview, .page-block .setupResource {width:100%;}
 .page-block .setupOverview td, .page-block .setupOverview th, .page-block .setupResource td, .page-block .setupResource th {
     color:#333333;
-    padding:3px 2px 3px 5px;
+    padding:3px 2px 3px 15px;
     width:50%;
 }
+.page-block .setupOverview a, .page-block .setupResource a {text-decoration:none;}
+.page-block .setupOverview a:hover, .page-block .setupResource a:hover {text-decoration:underline;}
