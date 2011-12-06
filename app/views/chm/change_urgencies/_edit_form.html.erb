@@ -1,17 +1,17 @@
-<%= form_for(@change_status,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@change_urgency,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
     <%= page_block do %>
-        <%= page_block_header(t(:label_chm_change_status_edit)) do %>
+        <%= page_block_header(t(:label_chm_change_urgency_edit)) do %>
             <div class="button"><%= link_submit t(:save)%></div>
             <div class="button"><%= link_back t(:cancel)%></div>
         <% end %>
         <div class="pbBody">
-          <%= error_for @change_status%>
+          <%= error_for @change_urgency%>
           <%= first_sub_page_block(t(:label_common_info)) do  %>
             <table class="detailList" cellpadding="0" cellspacing="0" border="0">
               <tbody>
                 <tr>
                   <td class="labelCol"><label for="code"><%=t(:code)%></label></td>
-                  <td class="dataCol"><%=@change_status.code%></td>
+                  <td class="dataCol"><%=@change_urgency.code%></td>
                   <td class="labelCol empty">&nbsp;</td>
                   <td class="dataCol empty">&nbsp;</td>
                 </tr>

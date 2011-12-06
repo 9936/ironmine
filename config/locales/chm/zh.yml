@@ -11,3 +11,15 @@ zh:
   label_chm_change_status_display_sequecne: 显示顺序
   label_chm_change_status_default_flag: 默认
   #========================= end status ==================================
+  #========================= change urgencies =========================
+  label_chm_change_urgency: 变更紧急度
+  label_chm_change_urgency_list: 变更紧急度列表
+  label_chm_change_urgency_new: 新建变更紧急度
+  label_chm_change_urgency_edit: 编辑变更紧急度
+  label_chm_change_urgency_show: 查看
+  label_chm_change_urgency_code: 编码
+  label_chm_change_urgency_name: 名称
+  label_chm_change_urgency_description: 描述
+  label_chm_change_urgency_display_sequecne: 显示顺序
+  label_chm_change_urgency_default_flag: 默认
+  #========================= end change urgencies ==================================

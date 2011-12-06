@@ -1,6 +1,6 @@
 <%= form_for(@change_status,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
     <%= page_block do %>
-        <%= page_block_header(t(:edit)) do %>
+        <%= page_block_header(t(:label_chm_change_status_new)) do %>
             <div class="button"><%= link_submit t(:save)%></div>
             <div class="button"><%= link_back t(:cancel)%></div>
         <% end %>

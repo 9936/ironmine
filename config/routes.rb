@@ -1276,6 +1276,18 @@ Ironmine::Application.routes.draw do
     match '/change_statuses/get_data(.:format)' => "change_statuses#get_data"
     match '/change_statuses/:id/multilingual_edit(.:format)' => "change_statuses#multilingual_edit", :via => :get
     match '/change_statuses/:id/multilingual_update(.:format)' => "change_statuses#multilingual_update", :via => :put
+
+
+    #status
+    match '/change_urgencies(/index)(.:format)' => "change_urgencies#index", :via => :get
+    match '/change_urgencies/:id/edit(.:format)' => "change_urgencies#edit", :via => :get
+    match '/change_urgencies/:id(.:format)' => "change_urgencies#update", :via => :put
+    match '/change_urgencies/new(.:format)' => "change_urgencies#new", :via => :get
+    match '/change_urgencies/create(.:format)' => "change_urgencies#create", :via => :post
+    match '/change_urgencies/:id/show(.:format)' => "change_urgencies#show", :via => :get
+    match '/change_urgencies/get_data(.:format)' => "change_urgencies#get_data"
+    match '/change_urgencies/:id/multilingual_edit(.:format)' => "change_urgencies#multilingual_edit", :via => :get
+    match '/change_urgencies/:id/multilingual_update(.:format)' => "change_urgencies#multilingual_update", :via => :put
   end
 
   themes_for_rails
