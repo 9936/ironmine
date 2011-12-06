@@ -102,7 +102,7 @@ class Chm::ChangePrioritiesController < ApplicationController
   end
 
   def get_data
-    change_priorities_scope = Chm::ChangePriority.multilingual.order("#{Chm::ChangePriority.table_name}.display_sequence")
+    change_priorities_scope = Chm::ChangePriority.multilingual.order("#{Chm::ChangePriority.table_name}.weight_values")
     change_priorities_scope = change_priorities_scope.match_value("#{Chm::ChangePriority.table_name}.name",params[:name])
     change_priorities_scope = change_priorities_scope.match_value("#{Chm::ChangePriority.table_name}.code",params[:code])
     change_priorities,count = paginate(change_priorities_scope)

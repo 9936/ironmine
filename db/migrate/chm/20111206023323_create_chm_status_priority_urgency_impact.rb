@@ -122,8 +122,6 @@ class CreateChmStatusPriorityUrgencyImpact < ActiveRecord::Migration
       t.string   "opu_id",        :limit => 22, :null => false, :collate=>"utf8_bin"
       t.string   "code",          :limit => 60, :null => false
       t.integer  "weight_values"
-      t.integer  "display_sequence" ,:default=>10
-      t.string   "default_flag",  :limit => 1, :null => false,:default=>"N"
       t.string   "status_code",   :limit => 30, :null => false
       t.string   "created_by",    :limit => 22, :collate=>"utf8_bin"
       t.string   "updated_by",    :limit => 22, :collate=>"utf8_bin"
