@@ -19,20 +19,28 @@
       <div class="pbBody">
         <div id="mail_requests_list" class="datatable" style="width:100%;">
           <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>
+            var op = '';
+            if('{status_code}' == 'ENABLED'){
+                op = '<%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>&nbsp;|&nbsp;<%= link_to(t(:disable),{:action=>"disable", :id => "{id}"})%>';
+            }
+            else
+            {
+                op = '<%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>&nbsp;|&nbsp;<%= link_to(t(:enable),{:action=>"enable", :id => "{id}"})%>';
+            }
           </div>
           <div id="status_code" style="display:none">
             <%= check_img("{status_code}") %>
           </div>
         </div>
         <%= datatable("mail_requests_list",{:action=>"get_data",:format=>"json"},
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
+                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.stemplate",:width=>"80px"},
                    {:key=>"username",:label=>t(:label_irm_common_username),:searchable=>true, :width => "140px"},
-                   {:key=>"external_system_name",:label=>t(:label_irm_external_system),:searchable=>true, :width => "140px"},
-                   {:key=>"service_name",:label=>t(:label_icm_incident_request_service_code), :width => "150px"},
+                   {:key=>"external_system_name",:label=>t(:label_irm_external_system),:searchable=>true, :width => "100px"},
+                   {:key=>"incident_category_name",:label=>t(:label_icm_incident_category), :width => "100px"},
+                   {:key=>"incident_sub_category_name",:label=>t(:label_icm_incident_sub_category), :width => "100px"},
                    {:key=>"support_group_name",:label=>t(:label_icm_support_group), :width => "100px"},
                    {:key=>"supporter_name",:label=>t(:label_icm_incident_request_support_person), :width => "80px"},
-                   {:key=>"impact_range_name",:label=>t(:label_icm_impact_range), :width => "75px"},
+                   {:key=>"impact_range_name",:label=>t(:label_icm_impact_range), :width => "60px"},
                    {:key=>"urgency_name",:label=>t(:label_icm_urgence_code), :width => "75px"},
                    {:key=>"status_code",:formatter=>"Y.irm.template",:label=>t(:status),:width=>"50px"}],
                    {:paginator_box=>"mailRequestPaginator",:search_box=>"mailRequestSearchBox"})%>

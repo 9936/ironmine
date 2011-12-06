@@ -48,7 +48,9 @@ module Irm
 
     def prepared_for_create(incident_request, rule, email)
       incident_request.external_system_id = rule.external_system_id
-      incident_request.service_code = rule.service_code
+#      incident_request.service_code = rule.service_code
+      incident_request.incident_category_id = rule.incident_category_id if rule.incident_category_id.present?
+      incident_request.incident_sub_category_id = rule.incident_sub_category_id if rule.incident_sub_category_id.present?
       incident_request.support_group_id = rule.support_group_id if rule.support_group_id.present?
       incident_request.support_person_id = rule.support_person_id if rule.support_person_id.present?
       incident_request.title = email.subject

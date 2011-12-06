@@ -14,7 +14,8 @@ class Icm::MailRequestsController < ApplicationController
       format.json  {render :json => to_jsonp(mail_requests.to_grid_json([:username,:external_system_name,
                                                                          :service_name,:support_group_name,
                                                                          :supporter_name,:impact_range_name,
-                                                                         :urgency_name,:status_code], count)) }
+                                                                         :urgency_name,:status_code, :incident_category_name,
+                                                                         :incident_sub_category_name], count)) }
     end
   end
 
@@ -45,6 +46,28 @@ class Icm::MailRequestsController < ApplicationController
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
       else
         format.html { render :action => "edit" }
+      end
+    end
+  end
+
+  def disable
+    @mail_request = Icm::MailRequest.find(params[:id])
+    respond_to do |format|
+      if @mail_request.update_attribute(:status_code, "OFFLINE")
+        format.html { redirect_to({:action => "index"})}
+      else
+        format.html { redirect_to({:action => "index"})}
+      end
+    end
+  end
+
+  def enable
+    @mail_request = Icm::MailRequest.find(params[:id])
+    respond_to do |format|
+      if @mail_request.update_attribute(:status_code, Irm::Constant::ENABLED)
+        format.html { redirect_to({:action => "index"})}
+      else
+        format.html { redirect_to({:action => "index"})}
       end
     end
   end

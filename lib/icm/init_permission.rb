@@ -76,7 +76,7 @@ Irm::AccessControl.map do |map|
 
   #====================icm/mail_requests====================================
   map.function :view_mail_request, {"icm/mail_requests" => ["index", "get_data", "show"]}
-  map.function :edit_mail_request, {"icm/mail_requests" => ["new", "create", "edit", "update"]}
+  map.function :edit_mail_request, {"icm/mail_requests" => ["new", "create", "edit", "update", "disable", "enable"]}
 
 
   #===================icm/incident_categories============================

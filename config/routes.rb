@@ -971,6 +971,8 @@ Ironmine::Application.routes.draw do
     match '/mail_requests/:id/show(.:format)' => "mail_requests#show", :via => :get
     match '/mail_requests/update(.:format)' => "mail_requests#update", :via => :put
     match '/mail_requests/get_data(.:format)' => "mail_requests#get_data", :via => :get
+    match '/mail_requests/enable(.:format)' => "mail_requests#enable", :via => :get
+    match '/mail_requests/disable(.:format)' => "mail_requests#disable", :via => :get
 
     #incident_categories
     match '/incident_categories(/index)(.:format)' => "incident_categories#index", :via => :get

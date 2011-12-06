@@ -45,6 +45,12 @@ class Icm::MailRequest < ActiveRecord::Base
     select("supporter.full_name supporter_name,supporter_organization.name supporter_organization_name,supporter_profile.name supporter_profile_name,supporter_role.name supporter_role_name")
   }
 
+  scope :with_category,lambda{|language|
+    joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ON  #{Icm::IncidentCategory.view_name}.id = #{table_name}.incident_category_id AND #{Icm::IncidentCategory.view_name}.language= '#{language}'").
+    joins("LEFT OUTER JOIN #{Icm::IncidentSubCategory.view_name} ON  #{Icm::IncidentSubCategory.view_name}.id = #{table_name}.incident_sub_category_id AND #{Icm::IncidentSubCategory.view_name}.language= '#{language}'").
+    select(" #{Icm::IncidentCategory.view_name}.name incident_category_name,#{Icm::IncidentSubCategory.view_name}.name incident_sub_category_name")
+  }
+
   query_extend
 
   def self.list_all
@@ -54,7 +60,8 @@ class Icm::MailRequest < ActiveRecord::Base
         with_service(I18n.locale).
         with_urgency(I18n.locale).
         with_impact_range(I18n.locale).
-        with_supporter(I18n.locale)
+        with_supporter(I18n.locale).
+        with_category(I18n.locale)
   end
 
   def self.receive_mail

@@ -72,30 +72,35 @@
               <td class="dataCol"><%=f.select :urgency_id,options_for_select(available_urgence_code,@mail_request.urgency_id||Icm::UrgenceCode.default_id),
                                                     {},{:id=>"mail_request_urgence_code"}%></td>
             </tr>
+
             <tr>
-              <td class="labelCol"><label><%=(t :label_icm_incident_request_service_code)%></label></td>
-              <td class="dataCol"><%=f.select :service_code,
-                                            nullable_options_for_select([],@mail_request.service_code),
+              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_category)%></label></td>
+              <td class="dataCol"><%=f.select :incident_category_id,
+                                            nullable_options_for_select([],@mail_request.incident_category_id),
                                             {},
-                                            {:required=>true,:id=>"mail_request_service_code",
-                                             :origin_value=>@mail_request.service_code,
+                                            {:id=>"incident_category_id",
+                                             :origin_value=>@mail_request.incident_category_id,
                                              :depend=>"ass_external_system",
                                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                             :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_slm_services",:format=>"json",
-                                                            :external_system_id=>"${ass_external_system}")}%></td>
-
-              <td class="labelCol"><label><%=(t :label_icm_incident_request_impact_range_code)%></label></td>
-              <td class="dataCol"><%=f.select :impact_range_id,options_for_select(available_impact_range,@mail_request.impact_range_id||Icm::ImpactRange.default_id),
-                                                    {},{:id=>"incident_request_impact_range_code"}%></td>
-            </tr>
-            <tr>
-
+                                             :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
+                                                            :external_system_id=>"${ass_external_system}")}%>
+              </td>
               <td class="labelCol"><label><%=(t :label_icm_incident_request_support_group)%></label></td>
               <td class="dataCol"><%=f.select :support_group_id,nullable_options_for_select(available_support_group,@mail_request.support_group_id),
                                                     {},{:id=>"mail_request_support_group_id"}%></td>
             </tr>
             <tr>
-
+              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_sub_category)%></label></td>
+              <td class="dataCol"><%=f.select :incident_sub_category_id,
+                                            nullable_options_for_select([],@mail_request.incident_sub_category_id),
+                                            {},
+                                            {:id=>"incident_sub_category_id",
+                                             :origin_value=>@mail_request.incident_sub_category_id,
+                                             :depend=>"incident_category_id",
+                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                             :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
+                                                            :incident_category_id=>"${incident_category_id}")}%>
+              </td>
               <td class="labelCol"><label><%=t(:label_icm_incident_request_support_person)%></label></td>
               <td class="dataCol"><%= f.select(:support_person_id,nullable_options_for_select([],nil),{},
                                   {
@@ -130,8 +135,16 @@
      if($("#mail_request_support_group_id")){
          $("#mail_request_support_group_id").cascade("#mail_request_support_person_id");
      }
+//     if($("#ass_external_system")){
+//        $("#ass_external_system").cascade("#mail_request_service_code");
+//     }
+
      if($("#ass_external_system")){
-        $("#ass_external_system").cascade("#mail_request_service_code");
+        $("#ass_external_system").cascade(["#incident_category_id"]);
+     }
+
+     if($("#incident_category_id")){
+        $("#incident_category_id").cascade("#incident_sub_category_id");
      }
   });
 </script>
