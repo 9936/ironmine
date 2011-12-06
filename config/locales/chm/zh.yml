@@ -1,0 +1,13 @@
+zh:
+  #========================= status =========================
+  label_chm_change_status: 变更状态
+  label_chm_change_status_list: 变更状态列表
+  label_chm_change_status_new: 新建变更状态
+  label_chm_change_status_edit: 编辑变更状态
+  label_chm_change_status_show: 查看
+  label_chm_change_status_code: 编码
+  label_chm_change_status_name: 名称
+  label_chm_change_status_description: 描述
+  label_chm_change_status_display_sequecne: 显示顺序
+  label_chm_change_status_default_flag: 默认
+  #========================= end status ==================================

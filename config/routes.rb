@@ -1265,5 +1265,18 @@ Ironmine::Application.routes.draw do
     match '/service_agreements/:id/match_filter_update(.:format)' => "service_agreements#match_filter_update", :via => :put
   end
 
+  scope  :module => "chm" do
+    #status
+    match '/change_statuses(/index)(.:format)' => "change_statuses#index", :via => :get
+    match '/change_statuses/:id/edit(.:format)' => "change_statuses#edit", :via => :get
+    match '/change_statuses/:id(.:format)' => "change_statuses#update", :via => :put
+    match '/change_statuses/new(.:format)' => "change_statuses#new", :via => :get
+    match '/change_statuses/create(.:format)' => "change_statuses#create", :via => :post
+    match '/change_statuses/:id/show(.:format)' => "change_statuses#show", :via => :get
+    match '/change_statuses/get_data(.:format)' => "change_statuses#get_data"
+    match '/change_statuses/:id/multilingual_edit(.:format)' => "change_statuses#multilingual_edit", :via => :get
+    match '/change_statuses/:id/multilingual_update(.:format)' => "change_statuses#multilingual_update", :via => :put
+  end
+
   themes_for_rails
 end

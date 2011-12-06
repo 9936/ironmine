@@ -1,0 +1,2 @@
+module Chm::ChangeStatusesHelper
+end
