@@ -1283,10 +1283,12 @@ jQuery.fn.menubutton = function(){
         {   var paginatorBox = $("#"+me.data.options.paginatorBox);
             me.paginator = $('<div class="irm-paginator-box">' +
                     '<div class="irm-box-inner">' +
-                    '<div class="button pre-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
+                    '<div class="irm-table-button pre-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
+                    '<div class="irm-toolbar-separator irm-box-item irm-toolbar-item irm-toolbar-separator-horizontal" style="margin: 0pt; left: 50px; top: 4px;"></div>' +
                     '<div class="page"><div class="before-page"></div><input class="current-page" size="2"/><div class="after-page"></div></div>' +
-                    '<div class="button next-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
-                    '<div class="button refresh-button  irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
+                    '<div class="irm-toolbar-separator irm-box-item irm-toolbar-item irm-toolbar-separator-horizontal" style="margin: 0pt; left: 50px; top: 4px;"></div>' +
+                    '<div class="irm-table-button next-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
+                    '<div class="irm-table-button refresh-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
                     '<div class="label record-label"></div>' +
                     '</div>' +
                     '</div>');

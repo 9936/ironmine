@@ -156,8 +156,10 @@
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"40px"},
                                {:key=>"system_name",:label=>t(:label_irm_external_system), :width=>"200px"},
                                {:key=>"system_description",:label=>t(:description), :width=> "400px"},
-                               {:key=>"external_system_code", :hidden => true}], {:force_html => true})%>
+                               {:key=>"external_system_code", :hidden => true}],
+                              {:force_html => true, :paginator_box=>"externalSystemsPaginatorBox"})%>
           <!-- End company access table -->
+          <div id="externalSystemsPaginatorBox"></div>
         </div>
         <div class="pbFooter secondary-palette">
         <div class="bg"></div>
@@ -201,8 +203,10 @@
             <%= datatable("support_group", {:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id},
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
                                {:key=>"name",:label=>t(:label_irm_group_name)},
-                               {:key=>"description",:label=>t(:label_irm_group_description)}])%>
+                               {:key=>"description",:label=>t(:label_irm_group_description)}],
+                              {:force_html => true, :paginator_box=>"supportGroupPaginatorBox"})%>
           <!-- End company access table -->
+          <div id="supportGroupPaginatorBox"></div>
         </div>
         <div class="pbFooter secondary-palette">
         <div class="bg"></div>
@@ -242,7 +246,7 @@
 
                        { :key => "logout_at", :label => t(:label_irm_login_record_logout_at) },
 
-                       ],{:export_data=>"#loginHistoryExportData",:row_perpage=>10,:paginator_box=>"historiesBox"})%>
+                       ],{:force_html => true, :export_data=>"#loginHistoryExportData",:row_perpage=>10,:paginator_box=>"historiesBox"})%>
         <div id="historiesBox"></div>
       </div>
     </div>
