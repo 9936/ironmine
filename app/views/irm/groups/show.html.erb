@@ -52,7 +52,7 @@
 <div id="id_group_person" class="bRelatedList">
     <a name="id_group_person_target">
     </a>
-    <div class="listRelatedObject taskBlock">
+    <div class="listRelatedObject setupBlock">
       <div class="page-block secondary-palette">
         <div class="pbHeader">
           <table cellspacing="0" cellpadding="0" border="0">
@@ -85,7 +85,7 @@
                                {:key=>"person_name",:label=>t(:label_irm_group_person_name)},
                                {:key=>"organization_name",:label=>t(:label_irm_group_organization_name)},
                                {:key=>"email_address",:label=>t(:label_irm_person_email_address)}],
-                               {:paginator_box=>"personPaginator"})%>
+                               {:paginator_box=>"personPaginator", :force_html => true})%>
           <div id="personPaginator"></div>
         </div>
         <div class="pbFooter secondary-palette">
@@ -95,52 +95,5 @@
     </div>
 </div>
 
-<div id="skm_channel_group" class="bRelatedList">
-    <a name="id_person_system_access_target">
-    </a>
-    <div class="listRelatedObject setupBlock">
-      <div class="page-block secondary-palette">
-        <div class="pbHeader">
-          <table cellspacing="0" cellpadding="0" border="0">
-            <tbody>
-            <tr>
-              <td class="pbTitle">
-                <h3><%=t(:label_skm_owned_channels)%></h3>
-              </td>
-              <td class="pbButton">
-                <div class="button"><%= link_to t(:label_skm_channel_management), {:controller=>"irm/groups",
-                                                          :action => "new_skm_channels",:id=>@group.id}%></div>
-              </td>
-              <td class="pbHelp">
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="pbBody">
-          <div id="channels_list" class="datatable" style="width:100%;">
-            <div id="id" style="display:none">
-              <%= icon_link_remove({:controller=>"irm/groups",:action=>"remove_skm_channel",:channel_id=>"{id}",
-                                      :group_id=>@group.id},:confirm => t(:label_are_you_sure) ,
-                                      :method => :delete) %>
-            </div>
-          </div>
-          <!-- Begin company access table -->
-            <%= datatable("channels_list",{:action=>"get_owned_channels", :controller => "skm/channels", :group_id => @group.id,:format=>"json"},
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
-                   {:key=>"channel_code",:label=>t(:label_skm_channel_code), :searchable => true,:width=>"100px"},
-                   {:key=>"name",:label=>t(:name), :searchable => true,:width=>"150px"},
-                   {:key=>"description",:label=>t(:description)},
-                   {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],
-                  {:search_box => "statusesSearchBox",:paginator_box=>"channelsPaginatorBox"})%>
-        <div id="channelsPaginatorBox"></div>
-          <!-- End company access table -->
-        </div>
-        <div class="pbFooter secondary-palette">
-        <div class="bg"></div>
-        </div>
-      </div>
-    </div>
-</div>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@group} %>
 

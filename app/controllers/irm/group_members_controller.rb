@@ -28,6 +28,12 @@ class Irm::GroupMembersController < ApplicationController
     group_members_scope= Irm::GroupMember.select_all.with_person(I18n.locale).where(:group_id=>params[:id])
     group_members_scope,count = paginate(group_members_scope)
     respond_to do |format|
+      format.html  {
+        @group = Irm::Group.find(params[:id])
+        @datas = group_members_scope
+        @count = count
+        render_html_data_table
+      }
       format.json {render :json=>to_jsonp(group_members_scope.to_grid_json([:person_name,:organization_name,:email_address], count))}
     end
   end
