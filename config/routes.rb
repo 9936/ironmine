@@ -1300,6 +1300,17 @@ Ironmine::Application.routes.draw do
     match '/change_impacts/:id/multilingual_edit(.:format)' => "change_impacts#multilingual_edit", :via => :get
     match '/change_impacts/:id/multilingual_update(.:format)' => "change_impacts#multilingual_update", :via => :put
 
+    #status
+    match '/change_priorities(/index)(.:format)' => "change_priorities#index", :via => :get
+    match '/change_priorities/:id/edit(.:format)' => "change_priorities#edit", :via => :get
+    match '/change_priorities/:id(.:format)' => "change_priorities#update", :via => :put
+    match '/change_priorities/new(.:format)' => "change_priorities#new", :via => :get
+    match '/change_priorities/create(.:format)' => "change_priorities#create", :via => :post
+    match '/change_priorities/:id/show(.:format)' => "change_priorities#show", :via => :get
+    match '/change_priorities/get_data(.:format)' => "change_priorities#get_data"
+    match '/change_priorities/:id/multilingual_edit(.:format)' => "change_priorities#multilingual_edit", :via => :get
+    match '/change_priorities/:id/multilingual_update(.:format)' => "change_priorities#multilingual_update", :via => :put
+
 
   end
 

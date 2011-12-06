@@ -1,0 +1,114 @@
+<style type="text/css">
+  table.matrix{
+    padding-left: 20px;
+  }
+  table.matrix th{
+    font-weight:bold;
+    padding:5px;
+  }
+  table.matrix td{
+    text-align: center;
+    min-width: 50px;
+    padding:5px;
+    border: solid 1px;
+    border-color:#CBCBCB;
+  }
+  table.matrix th.to{
+    text-align: center;
+  }
+  table.matrix th.from{
+    text-align: right;
+  }
+</style>
+<%= page_title %>
+
+<div class="listRelatedObject setupBlock">
+    <div class="page-block">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_chm_change_priority) %></h2></td>
+              <td  class="pbButton">
+              </td>
+              <td class="pbHelp">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <table class="matrix" cellpadding="0" cellspacing="0" border="0">
+          <% urgencies = Chm::ChangeUrgency.multilingual.order("display_sequence Desc");
+             impacts = Chm::ChangeImpact.multilingual.order("display_sequence Desc");
+             priority_weight_value_hashes = change_priority_weight_value_hash
+          %>
+          <tbody>
+            <tr>
+              <th></th>
+              <th></th>
+              <th class="to" colspan="<%=urgencies.length%>"><%=t(:label_chm_change_urgency)  %></th>
+            </tr>
+            <tr>
+              <th rowspan="<%= impacts.length+1 %>" style="vertical-align:middle;"><%=t(:label_chm_change_impact)  %></th>
+              <th></th>
+              <% urgencies.each do |urgency| %>
+                <th class="to"><%= urgency[:name]%></th>
+              <% end %>
+            </tr>
+            <% impacts.each do |impact| %>
+              <tr>
+                <th class="from"><%= impact[:name]%></th>
+                <% urgencies.each do |urgency| %>
+                  <td title="<%=impact[:name]%>">
+                    <% current_weight = impact.weight_values+urgency.weight_values-1 %>
+                    <%= current_weight %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+
+<div class="listRelatedObject setupBlock">
+    <div class="page-block">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_chm_change_priority_list) %></h2></td>
+              <td id="topButtonRow" class="pbButton">
+              </td>
+              <td class="pbHelp">
+                <div id="urgenciesSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="priorities" class="datatable" style="width:100%">
+          <div id="id" style="display:none">
+            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
+          </div>
+          <div id="default_flag" style="display:none">
+            <%= check_img("{default_flag}") %>
+          </div>
+        </div>
+        <%= datatable("priorities",{:action=>"get_data",:format=>"json"},
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
+                       {:key=>"code",:label=>t(:code),:searchable=>true,:width=>"150px"},
+                       {:key=>"name",:label=>t(:name),:searchable=>true,:width=>"150px"},
+                       {:key=>"weight_values",:label=>t(:label_chm_change_priority_weight_values),:width=>"70px"},
+                       {:key=>"display_sequence",:label=>t(:display_sequence),:width=>"70px"},
+                       {:key=>"description",:label=>t(:description)}
+                       ],{:paginator_box=>"prioritiesPaginatorBox",:search_box=>"prioritiesSearchBox"})%>
+        <div id="prioritiesPaginatorBox"></div>
+      </div>
+    </div>
+</div>
+
+

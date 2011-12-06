@@ -45,6 +45,6 @@ class Chm::ChangeImpact < ActiveRecord::Base
     self.class.enabled.order("display_sequence DESC").each_with_index do |u,index|
       u.update_attributes(:weight_values=>index+1,:not_process_after_save=>true,:not_auto_mult=>true)
     end
-    #Icm::PriorityCode.auto_generate
+    Chm::ChangePriority.auto_generate
   end
 end
