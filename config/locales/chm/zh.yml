@@ -23,3 +23,15 @@ zh:
   label_chm_change_urgency_display_sequecne: 显示顺序
   label_chm_change_urgency_default_flag: 默认
   #========================= end change urgencies ==================================
+  #========================= change urgencies =========================
+  label_chm_change_impact: 变更影响度
+  label_chm_change_impact_list: 变更影响度列表
+  label_chm_change_impact_new: 新建变更影响度
+  label_chm_change_impact_edit: 编辑变更影响度
+  label_chm_change_impact_show: 查看
+  label_chm_change_impact_code: 编码
+  label_chm_change_impact_name: 名称
+  label_chm_change_impact_description: 描述
+  label_chm_change_impact_display_sequecne: 显示顺序
+  label_chm_change_impact_default_flag: 默认
+  #========================= end change urgencies ==================================

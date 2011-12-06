@@ -1,5 +1,5 @@
-class Chm::ChangeUrgency < ActiveRecord::Base
-  set_table_name :chm_change_urgencies
+class Chm::ChangeImpact < ActiveRecord::Base
+  set_table_name :chm_change_impacts
 
   after_save :process_default ,:process_weight_value
 
@@ -8,7 +8,7 @@ class Chm::ChangeUrgency < ActiveRecord::Base
 
   #多语言关系
   attr_accessor :name,:description
-  has_many :change_urgencies_tls,:dependent => :destroy
+  has_many :change_impacts_tls,:dependent => :destroy
   acts_as_multilingual
 
   validates_presence_of :code,:display_sequence
