@@ -18,7 +18,7 @@ class Skm::Channel < ActiveRecord::Base
   has_many :groups, :through => :channel_groups
   has_many :entry_headers
 
-  default_scope {default_filter}
+  default_scope {default_filter.within_accessible_channels}
 
   scope :within_accessible_channels, lambda{
     within_accessible_channels_c
@@ -37,7 +37,7 @@ class Skm::Channel < ActiveRecord::Base
     self.columns.enabled.collect(&:id).join(",")
   end
 
-  def within_accessible_channels_c
+  def self.within_accessible_channels_c
     where("EXISTS(SELECT * FROM irm_person_relations_v pr, #{Skm::ChannelGroup.table_name} cgvv WHERE pr.source_type = ? AND pr.person_id = ? AND pr.source_id = cgvv.group_id AND cgvv.channel_id = #{Skm::Channel.table_name}.id)",
           "IRM__GROUP", Irm::Person.current.id)
   end

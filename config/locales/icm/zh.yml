@@ -131,7 +131,7 @@ zh:
   label_icm_request_submitted_today_count: 今天提交的事故单
   label_icm_my_un_solved_request: 我的未解决的事故单
   label_icm_my_solved_request: 我的已解决的事故单
-  label_icm_save_as_skm: 创建知识库
+  label_icm_save_as_skm: 存为知识文章
   label_icm_incident_auto_assign: 系统自动分派
   label_icm_incident_assign_dashboard: 分配工作台分派
   label_icm_incident_request_attachment_list: 附件列表
