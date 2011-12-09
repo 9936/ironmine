@@ -437,37 +437,37 @@ en:
   label_irm_function_group_own_function: Owned Functions
   #=========================    end function_groups_controller=======================#  
   #==================    irm mail_templates_controller=======================#
-  label_irm_mail_template_list: Mail Templates List
+  label_irm_mail_template_list: Notice Templates List
   label_irm_mail_template_entity_code: Entity Code
   label_irm_mail_template_template_code: Template Code
   label_irm_mail_template_name: Template Name
   label_irm_mail_template_description: Description
   label_irm_mail_template_template_type: Template Type
   label_irm_mail_template_subject: subject
-  label_irm_mail_template_new: New Mail Template
+  label_irm_mail_template_new: New Notice Template
   label_irm_mail_template_language_code: Template Language
   label_irm_mail_template_type: Template Type
   label_irm_mail_html_template_type: html
   label_irm_mail_simple_template_type: simple
   label_irm_mail_template_mail_body: Mail Body
-  label_copy_mail_template: Copy Mail Template
-  label_test_mail_template: Test Mail Template
+  label_copy_mail_template: Copy Notice Template
+  label_test_mail_template: Test Notice Template
   label_irm_mail_template_from: From
-  label_mail_template_plural: Mail Template
+  label_mail_template_plural: Notice Template
   label_test_mail_template_info: Please input the test mail,and submit.your mailbox will revice,please check it.
   label_test: Test
   label_send_mail_successfully:  Successfully_send_mail,please check the your mailbox.
   label_irm_mail_template_active_flag: Active
   label_deliver_mail_template_result: The Test Mail have sent,please check the your mail box.
-  label_irm_mail_template_editing_mail_template: Mail Template Multilingual
+  label_irm_mail_template_editing_mail_template: Notice Template Multilingual
   label_irm_mail_template_status_code: Status Code
   label_irm_mail_template_multilingual: Multilingual
   label_irm_mail_template_multilingual_edit: Mutlilingual Edit
-  label_irm_mail_template_info: Mail Template Info
-  label_irm_mail_template_content: Mail Template Content
-  label_irm_mail_template_show: Mail Template
+  label_irm_mail_template_info: Notice Template Info
+  label_irm_mail_template_content: Notice Template Content
+  label_irm_mail_template_show: Notice Template
   label_irm_mail_template_edit: Edit Template
-  label_irm_mail_template_parameter_field: Mail template parameters
+  label_irm_mail_template_parameter_field: Notice Template parameters
   label_irm_mail_template_parameter_bo: Business Object
   label_irm_mail_template_parameter_field_name: Parameter name
   label_irm_mail_template_parameter_field_key: Parameter value
@@ -1184,7 +1184,7 @@ en:
   label_irm_wf_mail_alert_name: Name
   label_irm_wf_mail_alert_mail_alert_code: Code
   label_irm_wf_mail_alert_description: Description
-  label_irm_wf_mail_alert_mail_template_code: Mail Template
+  label_irm_wf_mail_alert_mail_template_code: Notice Template
   label_irm_wf_mail_recipients: Recipients
   label_irm_wf_mail_recipient: Recipient
   label_irm_wf_mail_alert_additional_email: Additional Email
@@ -1203,7 +1203,7 @@ en:
   label_irm_wf_approval_process_name: Approval Process Name
   label_irm_wf_approval_process_process_order: Order
   label_irm_wf_approval_process_process_code: Code
-  label_irm_wf_approval_process_mail_template: Approval Mail Template
+  label_irm_wf_approval_process_mail_template: Approval Notice Template
   label_irm_wf_approval_process_allow_submitter_recal: Allow Submitter Recall
   label_irm_wf_approval_process_description: Description
   label_irm_wf_approval_process_filter: Specify Entry Criteria

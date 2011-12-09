@@ -428,37 +428,37 @@ zh:
   label_irm_function_group_own_function: 功能组拥有的功能
   #=========================    end function_groups_controller=======================#
   #==================    irm mail_templates_controller=======================#
-  label_irm_mail_template_list: 邮件模板列表
+  label_irm_mail_template_list: 通知模板列表
   label_irm_mail_template_entity_code: 所属实体
   label_irm_mail_template_template_code: 模板编码
   label_irm_mail_template_name: 模板名称
   label_irm_mail_template_description: 描述
   label_irm_mail_template_template_type: 模板类型
   label_irm_mail_template_subject: 邮件标题
-  label_irm_mail_template_new: 新建邮件模板
+  label_irm_mail_template_new: 新建通知模板
   label_irm_mail_template_language_code: 模板语言
   label_irm_mail_template_type: 模板类型
   label_irm_mail_html_template_type: html
   label_irm_mail_simple_template_type: 简单
   label_irm_mail_template_mail_body: 邮件内容
-  label_irm_mail_template_edit: 编辑邮件模板
-  label_copy_mail_template: 复制邮件模板
-  label_test_mail_template: 测试当前邮件模板
+  label_irm_mail_template_edit: 编辑通知模板
+  label_copy_mail_template: 复制通知模板
+  label_test_mail_template: 测试当前通知模板
   label_irm_mail_template_from: 发件人
-  label_mail_template_plural: 邮件模板
-  label_test_mail_template_info: 请输入需要测试邮件模板的邮件地址.这样你的邮箱会收到一封测试邮件，请检查收件箱。
+  label_mail_template_plural: 通知模板
+  label_test_mail_template_info: 请输入需要测试通知模板的邮件地址.这样你的邮箱会收到一封测试邮件，请检查收件箱。
   label_test: 测试
   label_send_mail_successfully: 邮件发送成功，请检查收件箱。
   label_irm_mail_template_active_flag: 可用
   label_deliver_mail_template_result: 邮件发送成功，请检查收件箱。
-  label_irm_mail_template_editing_mail_template: 邮件模板多语言
+  label_irm_mail_template_editing_mail_template: 通知模板多语言
   label_irm_mail_template_status_code: 记录状态
   label_irm_mail_template_multilingual: 多语言
   label_irm_mail_template_multilingual_edit: 多语言编辑
-  label_irm_mail_template_info: 邮件模板信息
+  label_irm_mail_template_info: 通知模板信息
   label_irm_mail_template_content: 模板内容
-  label_irm_mail_template_show: 邮件模板
-  label_irm_mail_template_parameter_field: 邮件模板参数查询
+  label_irm_mail_template_show: 通知模板
+  label_irm_mail_template_parameter_field: 通知模板参数查询
   label_irm_mail_template_parameter_bo: 参数业务对象
   label_irm_mail_template_parameter_field_name: 参数名称
   label_irm_mail_template_parameter_field_key: 参数值
@@ -1183,7 +1183,7 @@ zh:
   label_irm_wf_mail_alert_name: 名称
   label_irm_wf_mail_alert_mail_alert_code: 编码
   label_irm_wf_mail_alert_description: 描述
-  label_irm_wf_mail_alert_mail_template_code: 邮件模板
+  label_irm_wf_mail_alert_mail_template_code: 通知模板
   label_irm_wf_mail_recipients: 收件人
   label_irm_wf_mail_recipient: 收件人
   label_irm_wf_mail_alert_additional_email: 其他电子邮件

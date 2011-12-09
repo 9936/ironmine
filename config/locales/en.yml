@@ -222,7 +222,7 @@ en:
   label_irm_lookup_type: Lookup Type
   label_irm_lookup_value: Lookup Value
   label_irm_machine_code: Machine Code
-  label_irm_mail_template: Mail Template
+  label_irm_mail_template: Notice Template
   label_irm_object_attribute: Business Object Attribute
   label_irm_object_code: Business Object Code
   label_irm_operation_unit: Operation Unit
