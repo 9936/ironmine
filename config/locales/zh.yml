@@ -219,7 +219,7 @@ zh:
   label_irm_lookup_type: 快速编码类型
   label_irm_lookup_value: 快速编码值
   label_irm_machine_code: 机器编码
-  label_irm_mail_template: 邮件模板
+  label_irm_mail_template: 通知模板
   label_irm_object_attribute: 业务对像属性
   label_irm_object_code: 业务对像编码
   label_irm_operation_unit: 运维中心
