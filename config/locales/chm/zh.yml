@@ -1,0 +1,81 @@
+zh:
+  #========================= status =========================
+  label_chm_change_status: 变更状态
+  label_chm_change_status_list: 变更状态列表
+  label_chm_change_status_new: 新建变更状态
+  label_chm_change_status_edit: 编辑变更状态
+  label_chm_change_status_show: 查看
+  label_chm_change_status_code: 编码
+  label_chm_change_status_name: 名称
+  label_chm_change_status_description: 描述
+  label_chm_change_status_display_sequecne: 显示顺序
+  label_chm_change_status_default_flag: 默认
+  #========================= end status ==================================
+  #========================= change urgencies =========================
+  label_chm_change_urgency: 变更紧急度
+  label_chm_change_urgency_list: 变更紧急度列表
+  label_chm_change_urgency_new: 新建变更紧急度
+  label_chm_change_urgency_edit: 编辑变更紧急度
+  label_chm_change_urgency_show: 查看
+  label_chm_change_urgency_code: 编码
+  label_chm_change_urgency_weight_values: 权重
+  label_chm_change_urgency_name: 名称
+  label_chm_change_urgency_description: 描述
+  label_chm_change_urgency_display_sequecne: 显示顺序
+  label_chm_change_urgency_default_flag: 默认
+  #========================= end change urgencies ==================================
+  #========================= change impacts =========================
+  label_chm_change_impact: 变更影响度
+  label_chm_change_impact_list: 变更影响度列表
+  label_chm_change_impact_new: 新建变更影响度
+  label_chm_change_impact_edit: 编辑变更影响度
+  label_chm_change_impact_show: 查看
+  label_chm_change_impact_code: 编码
+  label_chm_change_impact_weight_values: 权重
+  label_chm_change_impact_name: 名称
+  label_chm_change_impact_description: 描述
+  label_chm_change_impact_display_sequecne: 显示顺序
+  label_chm_change_impact_default_flag: 默认
+  #========================= end change impacts ==================================
+  #========================= change priorities =========================
+  label_chm_change_priority: 变更影响度
+  label_chm_change_priority_list: 变更影响度列表
+  label_chm_change_priority_new: 新建变更影响度
+  label_chm_change_priority_edit: 编辑变更影响度
+  label_chm_change_priority_show: 查看
+  label_chm_change_priority_code: 编码
+  label_chm_change_priority_weight_values: 权重
+  label_chm_change_priority_name: 名称
+  label_chm_change_priority_description: 描述
+  label_chm_change_priority_display_sequecne: 显示顺序
+  label_chm_change_priority_default_flag: 默认
+  #========================= end change priorities ==================================
+  #========================= change priorities =========================
+  label_chm_change_request: 变更单
+  label_chm_change_request_list: 变更影响度列表
+  label_chm_change_request_new: 新建变更影响度
+  label_chm_change_request_edit: 编辑变更影响度
+  label_chm_change_request_show: 查看
+  label_chm_change_request_requested_by: 请求人
+  label_chm_change_request_external_system: 应用系统
+  label_chm_change_request_category: 分类
+  label_chm_change_request_sub_category: 子分类
+  label_chm_change_request_title: 主题
+  label_chm_change_request_summary: 描述
+  label_chm_change_request_base_info: 变更单基础信息
+  label_chm_change_request_additional_info: 变更单附加信息
+  label_chm_change_request_contact: 联系人
+  label_chm_change_request_contact_number: 联系电话
+  label_chm_change_request_change_urgency: 紧急度
+  label_chm_change_request_change_impact: 影响度
+  label_chm_change_request_support_group: 支持组
+  label_chm_change_request_support_person: 支持人员
+  label_chm_change_request_change_status: 状态
+  label_chm_change_request_plan_start_date: 计划开始时间
+  label_chm_change_request_plan_end_date: 计划结束时间
+  label_chm_change_request_request_number: 单号
+  label_chm_change_request_submitted_date: 提交日期
+  label_chm_change_request_change_priority: 优先级
+  label_chm_change_request_organization: 组织
+  label_chm_change_request_requested_by_role: 请求人角色
+  #========================= end change priorities ==================================

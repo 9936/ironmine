@@ -37,6 +37,8 @@ ActionView::Base.send(:include,Irm::UrlHelper)
 
 #扩展link_to,url_for,增加权限验证
 ActionView::Base.send(:include,Irm::FormHelper)
+ActionView::Base.send(:include,Irm::PageComponentHelper)
+
 
 #扩展event_calendar
 EventCalendar::ClassMethods.send(:include, EventCalendar::EventCalendarEx)

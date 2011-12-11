@@ -1,0 +1,39 @@
+<%= page("requestIndex") do |p| %>
+    <%= p.page_header %>
+
+    <%= view_filter("CHM_CHANGE_REQUESTS_INDEX","CHM_CHANGE_REQUESTS","requests") %>
+
+    <%= p.page_body do %>
+        <%= page_block("dataTable") do |pb| %>
+            <%= pb.page_block_header({:title=>t(:label_chm_change_request_list)}) do%>
+              <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+                <div class="button" id="requestsExport"><a href="javascript:void(0)"><%= t(:export) %></a></div>
+              </td>
+              <td class="pbHelp">
+                <div id="requestsSearchBox"></div>
+              </td>
+            <% end %>
+
+            <%= pb.page_block_body do %>
+              <div id="requests" class="datatable" style="width:100%">
+                <div id="title" style="display:none">
+                  <%= link_to("({change_status_id_label}){title}",{:action=>"show",:id=>"{id}"}) %>
+                </div>
+              </div>
+              <%= datatable("requests",{:action=>"get_data",:format=>"json"},
+                                    [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
+                                     { :key => "request_number", :label => t(:label_chm_change_request_request_number),:searchable=>true,:width=>"35px"},
+                                     { :key => "title",:formatter=>"Y.irm.template",:label => t(:label_chm_change_request_title),:searchable=>true },
+                                     { :key => "organization_id_label", :label => t(:label_chm_change_request_organization)},
+                                     { :key => "change_priority_id_label", :label => t(:label_chm_change_request_change_priority),:width=>"50px" },
+                                     { :key => "change_status_id_label",:hidden=>true },
+                                     { :key => "requested_by_label", :label => t(:label_chm_change_request_requested_by),:width=>"120px" },
+                                     { :key => "submitted_date", :label => t(:label_chm_change_request_submitted_date),:width=>"130px" },
+                                     { :key => "external_system_id_label", :label => t(:label_chm_change_request_external_system),:width=>"180px" }
+                                     ],{:export_data=>"#requestsExport",:row_perpage=>10,:search_box=>"requestsSearchBox",:paginator_box=>'requestsPaginatorBox',:view_filter=>true})%>
+              <div id="requestsPaginatorBox" class="irm-paginator-box"></div>
+            <% end %>
+        <% end %>
+    <% end %>
+<% end %>
