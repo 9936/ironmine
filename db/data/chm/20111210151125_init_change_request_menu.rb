@@ -21,7 +21,7 @@ class InitChangeRequestMenu < ActiveRecord::Migration
     chm_change_imapct.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'影响度',:description=>'定义或编辑事故单影响度')
     chm_change_imapct.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Impact',:description=>'Define,edit change impact')
     chm_change_imapct.save
-    chm_change_request= Irm::FunctionGroup.new(:zone_code=>'CHANGE_SETTING',:code=>'CHANGE_REQUEST',:controller=>'change/change_requests',:action=>'index',:not_auto_mult=>true)
+    chm_change_request= Irm::FunctionGroup.new(:zone_code=>'CHANGE_SETTING',:code=>'CHANGE_REQUEST',:controller=>'chm/change_requests',:action=>'index',:not_auto_mult=>true)
     chm_change_request.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'变理单',:description=>'查看,提交,编辑,操作变更单')
     chm_change_request.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Change Request',:description=>'Submit,edit change request')
     chm_change_request.save
