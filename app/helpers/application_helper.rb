@@ -721,4 +721,15 @@ module ApplicationHelper
     end
     render :partial=>"helper/rich_text",:locals=>{:textarea_id=>textarea_id,:force_fit_width=>force_fit_width}
   end
+
+  def options_for(klass,value_field="id",label_field="name")
+    data_scope = []
+    if klass.respond_to?(:multilingual)
+      data_scope = klass.multilingual.enabled
+    else
+      data_scope = klass.enabled
+    end
+
+    data_scope.collect{|i| [i[label_field.to_sym],i[value_field.to_sym]]}
+  end
 end

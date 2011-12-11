@@ -161,8 +161,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     if system_ids.length<1
       system_ids = system_ids+[0]
     end
-    joins("JOIN #{Irm::ExternalSystem.table_name} ON #{Irm::ExternalSystem.table_name}.external_system_code = #{table_name}.external_system_code")
-    where("#{table_name}.id IN (?)",system_ids)
+    where("#{table_name}.external_system_id IN (?)",system_ids)
   }
 
   scope :select_all,lambda{

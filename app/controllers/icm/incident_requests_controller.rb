@@ -153,6 +153,7 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
+        filter_system_ids(Irm::Person.current.system_ids).
         #with_external_system(I18n.locale).
         #where("LENGTH(external_system_id) > 0").
         #where("external_system_id IN (?)", Irm::Person.current.system_ids).
@@ -210,6 +211,7 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
+        filter_system_ids(Irm::Person.current.system_ids).
         #with_external_system(I18n.locale).
         #where("LENGTH(external_system_id) > 0").
         #where("external_system_id IN (?)", Irm::Person.current.system_ids + ['']).

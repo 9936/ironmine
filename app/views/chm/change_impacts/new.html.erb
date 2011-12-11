@@ -1,2 +1,6 @@
-<%= common_title %>
-<%= render 'new_form'%>
+<%= page("newImpact") do |p| %>
+    <%= p.page_header %>
+    <%= p.page_body do %>
+         <%= render 'new_form'%>
+    <% end %>
+<% end %>
