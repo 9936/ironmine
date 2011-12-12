@@ -732,4 +732,23 @@ module ApplicationHelper
 
     data_scope.collect{|i| [i[label_field.to_sym],i[value_field.to_sym]]}
   end
+
+  def tabs(name,tabs_configs)
+    output = ActiveSupport::SafeBuffer.new
+    output.safe_concat("<div id='#{name}' class='toolbar'><div class='button-group'>")
+    tabs_configs.each_with_index do |config,index|
+      selected = params[:controller].eql?(config[:url][:controller])&&params[:action].eql?(config[:url][:action])
+      tab_id = config[:id]||"#{name}_#{index}"
+      if selected
+        output.safe_concat("<div id='#{tab_id}' class='button selected'><bold>")
+      else
+        output.safe_concat("<div id='#{tab_id}' class='button'><bold>")
+      end
+      output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
+      output.safe_concat("</bold></div>")
+    end
+    output.safe_concat("</div></div>")
+    output
+  end
+
 end

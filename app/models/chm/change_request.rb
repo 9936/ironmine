@@ -49,7 +49,7 @@ class Chm::ChangeRequest < ActiveRecord::Base
 
   # 影响度
   scope :with_change_impact,lambda{|language|
-    joins("LEFT OUTER JOIN #{Chm::ChangePriority.view_name} impact ON  #{table_name}.change_impact_id = impact.id AND impact.language= '#{language}'").
+    joins("LEFT OUTER JOIN #{Chm::ChangeImpact.view_name} impact ON  #{table_name}.change_impact_id = impact.id AND impact.language= '#{language}'").
     select(" impact.name change_impact_name")
   }
 
@@ -90,6 +90,19 @@ class Chm::ChangeRequest < ActiveRecord::Base
     select("submitted_by.full_name submitted_by_name")
   }
 
+  # 查询出优先级
+  scope :with_contact,lambda{
+    joins("LEFT OUTER JOIN #{Irm::Person.table_name} contact ON  #{table_name}.contact_id = contact.id").
+    select("contact.full_name contact_name")
+  }
+
+  # 查询出请求类型
+  scope :with_request_type,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} request_type ON request_type.lookup_type='CHANGE_REQUEST_TYPE' AND request_type.lookup_code = #{table_name}.request_type AND request_type.language= '#{language}'").
+    select(" request_type.meaning request_type_name")
+  }
+
+
   def self.list_all
     select_all.with_external_system(I18n.locale).
         with_category(I18n.locale).
@@ -100,7 +113,9 @@ class Chm::ChangeRequest < ActiveRecord::Base
         with_support(I18n.locale).
         with_change_status(I18n.locale).
         with_requested_by.
-        with_submitted_by
+        with_submitted_by.
+        with_contact.
+        with_request_type(I18n.locale)
   end
 
   private

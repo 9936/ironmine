@@ -1321,8 +1321,10 @@ Ironmine::Application.routes.draw do
     match '/change_requests/create(.:format)' => "change_requests#create", :via => :post
     match '/change_requests/:id/show(.:format)' => "change_requests#show", :via => :get
     match '/change_requests/get_data(.:format)' => "change_requests#get_data"
-    match '/change_requests/:id/multilingual_edit(.:format)' => "change_requests#multilingual_edit", :via => :get
-    match '/change_requests/:id/multilingual_update(.:format)' => "change_requests#multilingual_update", :via => :put
+    match '/change_requests/:id/show_incident(.:format)' => "change_requests#show_incident", :via => :get
+    match '/change_requests/:id/show_plan(.:format)' => "change_requests#show_plan", :via => :get
+    match '/change_requests/:id/show_implement(.:format)' => "change_requests#show_implement", :via => :get
+    match '/change_requests/:id/show_approve(.:format)' => "change_requests#show_approve", :via => :get
 
   end
 

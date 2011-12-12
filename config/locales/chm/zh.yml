@@ -52,9 +52,9 @@ zh:
   #========================= end change priorities ==================================
   #========================= change priorities =========================
   label_chm_change_request: 变更单
-  label_chm_change_request_list: 变更影响度列表
-  label_chm_change_request_new: 新建变更影响度
-  label_chm_change_request_edit: 编辑变更影响度
+  label_chm_change_request_list: 变更单列表
+  label_chm_change_request_new: 新建变更单
+  label_chm_change_request_edit: 编辑变更单
   label_chm_change_request_show: 查看
   label_chm_change_request_requested_by: 请求人
   label_chm_change_request_external_system: 应用系统
@@ -71,6 +71,7 @@ zh:
   label_chm_change_request_support_group: 支持组
   label_chm_change_request_support_person: 支持人员
   label_chm_change_request_change_status: 状态
+  label_chm_change_request_request_type: 变更类型
   label_chm_change_request_plan_start_date: 计划开始时间
   label_chm_change_request_plan_end_date: 计划结束时间
   label_chm_change_request_request_number: 单号
@@ -78,4 +79,9 @@ zh:
   label_chm_change_request_change_priority: 优先级
   label_chm_change_request_organization: 组织
   label_chm_change_request_requested_by_role: 请求人角色
+  label_chm_change_request_tab_common: 基础信息
+  label_chm_change_request_tab_incident: 事故单
+  label_chm_change_request_tab_plan: 计划
+  label_chm_change_request_tab_approve: 审批
+  label_chm_change_request_tab_implement: 实施
   #========================= end change priorities ==================================

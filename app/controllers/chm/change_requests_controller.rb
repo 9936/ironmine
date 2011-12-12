@@ -18,7 +18,55 @@ class Chm::ChangeRequestsController < ApplicationController
     @change_request = Chm::ChangeRequest.list_all.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :layout=>"application_right"}
+      format.xml  { render :xml => @change_request }
+    end
+  end
+
+
+  # GET /statuses/1
+  # GET /statuses/1.xml
+  def show_incident
+    @change_request = Chm::ChangeRequest.list_all.find(params[:id])
+
+    respond_to do |format|
+      format.html { render :layout=>"application_right"}
+      format.xml  { render :xml => @change_request }
+    end
+  end
+
+
+  # GET /statuses/1
+  # GET /statuses/1.xml
+  def show_plan
+    @change_request = Chm::ChangeRequest.list_all.find(params[:id])
+
+    respond_to do |format|
+      format.html { render :layout=>"application_right"}
+      format.xml  { render :xml => @change_request }
+    end
+  end
+
+  # GET /statuses/1
+  # GET /statuses/1.xml
+  def show_implement
+    @change_request = Chm::ChangeRequest.list_all.find(params[:id])
+
+    respond_to do |format|
+      format.html { render :layout=>"application_right"}
+      format.xml  { render :xml => @change_request }
+    end
+  end
+
+
+
+  # GET /statuses/1
+  # GET /statuses/1.xml
+  def show_approve
+    @change_request = Chm::ChangeRequest.list_all.find(params[:id])
+
+    respond_to do |format|
+      format.html { render :layout=>"application_right"}
       format.xml  { render :xml => @change_request }
     end
   end
@@ -30,6 +78,22 @@ class Chm::ChangeRequestsController < ApplicationController
 
     # 设定默认成请求人
     @change_request.requested_by = Irm::Person.current.id unless  @change_request.requested_by.present?
+
+    unless @change_request.change_status_id.present?
+      @change_request.change_status_id = Chm::ChangeStatus.default_id
+    end
+
+    unless @change_request.change_impact_id.present?
+      @change_request.change_impact_id = Chm::ChangeImpact.default_id
+    end
+
+    unless @change_request.change_urgency_id.present?
+      @change_request.change_urgency_id = Chm::ChangeUrgency.default_id
+    end
+
+    unless @change_request.change_urgency_id.present?
+      @change_request.change_urgency_id = Chm::ChangeUrgency.default_id
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -87,23 +151,6 @@ class Chm::ChangeRequestsController < ApplicationController
     end
   end
 
-  def multilingual_edit
-    @change_request = Chm::ChangeRequest.find(params[:id])
-  end
-
-  def multilingual_update
-    @change_request = Chm::ChangeRequest.find(params[:id])
-    @change_request.not_auto_mult=true
-    respond_to do |format|
-      if @change_request.update_attributes(params[:chm_change_request])
-        format.html { redirect_to({:action => "show"}, :notice => 'Status was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @change_request.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
 
   def get_data
     return_columns = [:request_number,

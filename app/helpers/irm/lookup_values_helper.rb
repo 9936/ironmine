@@ -13,4 +13,8 @@ module Irm::LookupValuesHelper
     blank_select_tag(name,values,selected,options)
   end
 
+  def lookup(lookup_type)
+    Irm::LookupValue.get_lookup_value(lookup_type).collect{|i| [i[:meaning],i.lookup_code]}
+  end
+
 end

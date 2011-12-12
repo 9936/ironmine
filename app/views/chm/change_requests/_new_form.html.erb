@@ -118,6 +118,18 @@
                             </td>
                           </tr>
                           <tr>
+                            <td class="labelCol"><label for="change_status_id"><%=t(:label_chm_change_request_change_status)%></label></td>
+                            <td class="dataCol">
+                              <%=f.blank_select :change_status_id,options_for(Chm::ChangeStatus),
+                                                                  {},{:required=>true,:id=>"change_status_id"}%>
+                            </td>
+                            <td class="labelCol"><label for="request_type"><%=t(:label_chm_change_request_request_type)%></label></td>
+                            <td class="dataCol">
+                              <%=f.blank_select :request_type,lookup("CHANGE_REQUEST_TYPE"),
+                                                                  {},{:required=>true,:id=>"request_type"}%>
+                            </td>
+                          </tr>
+                          <tr>
                               <td class="labelCol"><label for="plan_start_date"><%=t(:label_chm_change_request_plan_start_date)%></label></td>
                               <td class="dataCol">
                                 <%=f.text_field :plan_start_date,:size=>17,:id=>"plan_start_date",:class=>"date"%>
@@ -144,13 +156,7 @@
 
                           </tr>
 
-                          <tr>
-                            <td class="labelCol"><label for="change_status_id"><%=t(:label_chm_change_request_change_status)%></label></td>
-                            <td class="dataCol">
-                              <%=f.blank_select :change_status_id,options_for(Chm::ChangeStatus),
-                                                                  {},{:required=>true,:id=>"change_status_id"}%>
-                            </td>
-                          </tr>
+
 
                       </tbody>
                     </table>

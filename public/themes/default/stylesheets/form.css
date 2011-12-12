@@ -109,6 +109,11 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
     border-bottom:1px solid #ececec;
 }
 
+.page-block .infoList tr td,
+.page-block .infoList tr th{
+    border-bottom:1px solid #ececec;
+}
+
 .setupTab .edit-block tr td{border-bottom-width: 0!important;}
 
 .lay-full .detail-block.page-block .detailList tr td,
