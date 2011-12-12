@@ -237,6 +237,14 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     return true, 0
   end
 
+  def self.validates_repeat?(files_array)
+    values = files_array.values.collect{|p| [p["file"].original_filename, p["file"].size]}
+    if values.uniq.size != values.size
+      return false, I18n.t(:error_file_upload_repeat)
+    end
+    return true, nil
+  end
+
   def over_limit?(size_limit)
     return false, self.file_size_kb if self.file_size_kb.to_f > size_limit.to_f
     return true, 0
