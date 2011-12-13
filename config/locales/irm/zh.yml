@@ -132,6 +132,7 @@ zh:
   list_mode: 列表
   error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
   error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB, 现上传 _ KB)
+  error_file_upload_repeat: 附件中有文件重复上传
   file_upload_limit_alert: 最大尺寸 %{m} KB
   by_name: 按名称
   by_date: 按时间

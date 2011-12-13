@@ -141,8 +141,10 @@
   </div>
 
   <div class="pbBody">
+    <div id="notice">
     <%= error_for @incident_journal%>
     <%= flash_notice %>
+    </div>
     <div class="pbSubheader tertiaryPalette first" style="background-color:#aeaeae;padding-left:15px;">
       <h3>(<%= @incident_request[:incident_status_name] %>)[<%=@incident_request[:request_number]%>]<%=@incident_request[:title]%></h3>
       <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" ExpandedText="<%= t(:label_icm_incident_more_info) %>"><%= t(:label_icm_incident_more_info) %></a>)</div>
@@ -328,7 +330,6 @@
             <tr>
               <td class="dataCol" colspan="4" width="100%">
                 <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
-
               </td>
             </tr>
         </tbody>
@@ -383,9 +384,8 @@ function reset_rich_text(){
         editor.setValue("");
     }
 
-    $(".file-contents").each(function(index,element){
-        $(element).remove();
-    })
+    $("#file-contents").html("");
+    $("#file-template").attr("sequence", 0);
 }
 </script>
 <% unless limit_device? %>

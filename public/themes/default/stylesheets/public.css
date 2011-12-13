@@ -94,3 +94,15 @@ div.button a {
 .display-N{display:none}
 .un-display-Y{display:none}
 .un-display-N{display:inline}
+
+.pbError, .editListError {
+    color:#CC0000;
+    font-weight:bold;
+    text-align:center;
+}
+
+.pbSucc{
+    color:#00ab21;
+    font-weight:bold;
+    text-align:center;
+}

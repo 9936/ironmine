@@ -119,12 +119,25 @@
           </tr>
         </thead>
         <tbody id="file_body">
-            <tr id="file_0">
+            <% size = 0 %>
+            <% if false%>
+                <% size = @requested_attachments.size %>
+                <% @requested_attachments.each do |k, v|%>
+                    <tr id="file_<%= k %>">
+                      <td class="dataCol"></td>
+                      <td class="dataCol"><%= link_to t(:delete), {}, {:href => "javascript:void(0);", :onclick => "delete_line(#{k});"} %></td>
+                      <td class="dataCol"><%=file_field_tag "file[#{k}][file]", :value => v["file"].path %></td>
+                      <td class="dataCol"><%=select_tag "file[#{k}][file_category]", options_for_select(available_file_categories)%></td>
+                      <td class="dataCol"><%=text_field_tag "file[#{k}][description]", "", {:rows => 3, :cols => 35}%>(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>
+                    </tr>
+                <% end %>
+            <% end %>
+            <tr id="file_<%= size %>">
               <td class="dataCol"></td>
-              <td class="dataCol"><%= link_to t(:delete), {}, {:href => "javascript:void(0);", :onclick => "delete_line(0);"} %></td>
-              <td class="dataCol"><%=file_field_tag "file[0][file]"%></td>
-              <td class="dataCol"><%=select_tag "file[0][file_category]", options_for_select(available_file_categories)%></td>
-              <td class="dataCol"><%=text_field_tag "file[0][description]", "", {:rows => 3, :cols => 35}%>(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>
+              <td class="dataCol"><%= link_to t(:delete), {}, {:href => "javascript:void(0);", :onclick => "delete_line(#{size});"} %></td>
+              <td class="dataCol"><%=file_field_tag "file[#{size}][file]"%></td>
+              <td class="dataCol"><%=select_tag "file[#{size}][file_category]", options_for_select(available_file_categories)%></td>
+              <td class="dataCol"><%=text_field_tag "file[#{size}][description]", "", {:rows => 3, :cols => 35}%>(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>
             </tr>
         </tbody>
         <tbody>

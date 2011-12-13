@@ -16,6 +16,7 @@ class Irm::BulletinsController < ApplicationController
     respond_to do |format|
       file_flag = true
       now = 0
+      file_flag, flash[:notice] = Irm::AttachmentVersion.validates_repeat?(params[:file])
       params[:file].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
@@ -24,9 +25,10 @@ class Irm::BulletinsController < ApplicationController
           flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
           break
         end
-      end
+      end if file_flag
 
       if !file_flag
+        @requested_attachments = params[:file]
         format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
       elsif @bulletin.save
