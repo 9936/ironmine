@@ -49,7 +49,12 @@ class Icm::IncidentRequestsController < ApplicationController
     respond_to do |format|
       flag, now = validate_files(@incident_request)
       if !flag
-        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        if now.is_a?(Integer)
+          flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        else
+          flash[:notice] = now
+        end
+
         format.html { render :action => "new", :layout=>"application_full"}
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.save
@@ -497,8 +502,13 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def validate_files(ref_request)
+    flash[:notice] = nil
     now = 0
+    flag = true
+    flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files]) if params[:files]
+    return false, now unless flag
     params[:files].each do |key,value|
+      next unless value[:file] && value[:file].original_filename.present?
       flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit)
       return false, now unless flag
     end if params[:files]

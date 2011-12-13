@@ -397,6 +397,6 @@ class Icm::IncidentJournalsController < ApplicationController
     return true, now
   rescue Exception => e
     logger.debug(e.message)
-    return true, now
+    return false, now
   end
 end
