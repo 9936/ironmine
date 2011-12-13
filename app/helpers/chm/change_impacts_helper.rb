@@ -1,0 +1,2 @@
+module Chm::ChangeImpactsHelper
+end

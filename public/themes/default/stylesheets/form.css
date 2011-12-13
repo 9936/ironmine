@@ -109,6 +109,11 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
     border-bottom:1px solid #ececec;
 }
 
+.page-block .infoList tr td,
+.page-block .infoList tr th{
+    border-bottom:1px solid #ececec;
+}
+
 .setupTab .edit-block tr td{border-bottom-width: 0!important;}
 
 .lay-full .detail-block.page-block .detailList tr td,
@@ -120,5 +125,16 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
 td.filterOperationValue{
     white-space:nowrap;
 }
-/*******************END f;ilter************************************/
+/*******************END filter************************************/
 
+/*******************BEGIN upload-file************************************/
+table.upload-file tr.file-item,tr.file-buttons td{
+    padding-left:5px;
+    white-space:nowrap;
+    vertical-align: middle;
+}
+table.upload-file tr.file-item td.file-desc-label{
+    text-align:right;
+    padding-left:10px;
+}
+/*******************END upload-file************************************/

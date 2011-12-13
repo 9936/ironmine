@@ -1267,5 +1267,66 @@ Ironmine::Application.routes.draw do
     match '/service_agreements/:id/match_filter_update(.:format)' => "service_agreements#match_filter_update", :via => :put
   end
 
+  scope  :module => "chm" do
+    #change_statuses
+    match '/change_statuses(/index)(.:format)' => "change_statuses#index", :via => :get
+    match '/change_statuses/:id/edit(.:format)' => "change_statuses#edit", :via => :get
+    match '/change_statuses/:id(.:format)' => "change_statuses#update", :via => :put
+    match '/change_statuses/new(.:format)' => "change_statuses#new", :via => :get
+    match '/change_statuses/create(.:format)' => "change_statuses#create", :via => :post
+    match '/change_statuses/:id/show(.:format)' => "change_statuses#show", :via => :get
+    match '/change_statuses/get_data(.:format)' => "change_statuses#get_data"
+    match '/change_statuses/:id/multilingual_edit(.:format)' => "change_statuses#multilingual_edit", :via => :get
+    match '/change_statuses/:id/multilingual_update(.:format)' => "change_statuses#multilingual_update", :via => :put
+
+
+    #change_urgencies
+    match '/change_urgencies(/index)(.:format)' => "change_urgencies#index", :via => :get
+    match '/change_urgencies/:id/edit(.:format)' => "change_urgencies#edit", :via => :get
+    match '/change_urgencies/:id(.:format)' => "change_urgencies#update", :via => :put
+    match '/change_urgencies/new(.:format)' => "change_urgencies#new", :via => :get
+    match '/change_urgencies/create(.:format)' => "change_urgencies#create", :via => :post
+    match '/change_urgencies/:id/show(.:format)' => "change_urgencies#show", :via => :get
+    match '/change_urgencies/get_data(.:format)' => "change_urgencies#get_data"
+    match '/change_urgencies/:id/multilingual_edit(.:format)' => "change_urgencies#multilingual_edit", :via => :get
+    match '/change_urgencies/:id/multilingual_update(.:format)' => "change_urgencies#multilingual_update", :via => :put
+
+    #change_impacts
+    match '/change_impacts(/index)(.:format)' => "change_impacts#index", :via => :get
+    match '/change_impacts/:id/edit(.:format)' => "change_impacts#edit", :via => :get
+    match '/change_impacts/:id(.:format)' => "change_impacts#update", :via => :put
+    match '/change_impacts/new(.:format)' => "change_impacts#new", :via => :get
+    match '/change_impacts/create(.:format)' => "change_impacts#create", :via => :post
+    match '/change_impacts/:id/show(.:format)' => "change_impacts#show", :via => :get
+    match '/change_impacts/get_data(.:format)' => "change_impacts#get_data"
+    match '/change_impacts/:id/multilingual_edit(.:format)' => "change_impacts#multilingual_edit", :via => :get
+    match '/change_impacts/:id/multilingual_update(.:format)' => "change_impacts#multilingual_update", :via => :put
+
+    #change_priorities
+    match '/change_priorities(/index)(.:format)' => "change_priorities#index", :via => :get
+    match '/change_priorities/:id/edit(.:format)' => "change_priorities#edit", :via => :get
+    match '/change_priorities/:id(.:format)' => "change_priorities#update", :via => :put
+    match '/change_priorities/new(.:format)' => "change_priorities#new", :via => :get
+    match '/change_priorities/create(.:format)' => "change_priorities#create", :via => :post
+    match '/change_priorities/:id/show(.:format)' => "change_priorities#show", :via => :get
+    match '/change_priorities/get_data(.:format)' => "change_priorities#get_data"
+    match '/change_priorities/:id/multilingual_edit(.:format)' => "change_priorities#multilingual_edit", :via => :get
+    match '/change_priorities/:id/multilingual_update(.:format)' => "change_priorities#multilingual_update", :via => :put
+
+    #change_requests
+    match '/change_requests(/index)(.:format)' => "change_requests#index", :via => :get
+    match '/change_requests/:id/edit(.:format)' => "change_requests#edit", :via => :get
+    match '/change_requests/:id(.:format)' => "change_requests#update", :via => :put
+    match '/change_requests/new(.:format)' => "change_requests#new", :via => :get
+    match '/change_requests/create(.:format)' => "change_requests#create", :via => :post
+    match '/change_requests/:id/show(.:format)' => "change_requests#show", :via => :get
+    match '/change_requests/get_data(.:format)' => "change_requests#get_data"
+    match '/change_requests/:id/show_incident(.:format)' => "change_requests#show_incident", :via => :get
+    match '/change_requests/:id/show_plan(.:format)' => "change_requests#show_plan", :via => :get
+    match '/change_requests/:id/show_implement(.:format)' => "change_requests#show_implement", :via => :get
+    match '/change_requests/:id/show_approve(.:format)' => "change_requests#show_approve", :via => :get
+
+  end
+
   themes_for_rails
 end

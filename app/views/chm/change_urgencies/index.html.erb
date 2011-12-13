@@ -1,0 +1,41 @@
+<%= page_title %>
+<div class="listRelatedObject setupBlock">
+    <div class="page-block">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_chm_change_urgency_list) %></h2></td>
+              <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+              </td>
+              <td class="pbHelp">
+                <div id="urgenciesSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="urgencies" class="datatable" style="width:100%">
+          <div id="id" style="display:none">
+            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
+          </div>
+          <div id="default_flag" style="display:none">
+            <%= check_img("{default_flag}") %>
+          </div>
+        </div>
+        <%= datatable("urgencies",{:action=>"get_data",:format=>"json"},
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
+                       {:key=>"code",:label=>t(:code),:searchable=>true,:width=>"150px"},
+                       {:key=>"name",:label=>t(:name),:searchable=>true,:width=>"150px"},
+                       {:key=>"description",:label=>t(:description),:searchable=>true},
+                       {:key=>"display_sequence",:label=>t(:display_sequence),:formatter=>"Y.irm.template",:width=>"70px"},
+                       {:key=>"default_flag",:label=>t(:default_flag),:formatter=>"Y.irm.template",:width=>"70px"}
+                       ],{:paginator_box=>"urgenciesPaginatorBox",:search_box=>"urgenciesSearchBox"})%>
+        <div id="urgenciesPaginatorBox"></div>
+      </div>
+    </div>
+</div>
+
+
