@@ -36,7 +36,8 @@ class Chm::ChangeJournalsController < ApplicationController
         }
         format.xml  { render :xml => @cange_journal, :status => :created, :location => @change_journal }
       else
-         ormat.html {
+        format.html {
+          @change_request = @change_journal.change_request
           responds_to_parent do
             render :layout=>"xhr"
           end
