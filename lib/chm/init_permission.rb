@@ -6,4 +6,5 @@ Irm::AccessControl.map do |map|
   map.function :change_request,{"chm/change_requests"=>["index", "show", "get_data","show_incident","show_plan","show_implement","show_approve"]}
   map.function :new_change_request,{"chm/change_requests"=>["new", "create"]}
   map.function :edit_change_request,{"chm/change_requests"=>["edit", "update"]}
+  map.function :login_function,{"chm/change_journals"=>["create"]}
 end

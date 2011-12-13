@@ -1,6 +1,8 @@
 class Chm::ChangeRequest < ActiveRecord::Base
   set_table_name :chm_change_requests
 
+  has_many :change_journals
+
 
   validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,:organization_id,
                         :change_impact_id,:change_urgency_id,:change_status_id,:change_priority_id,:request_type,
@@ -116,6 +118,16 @@ class Chm::ChangeRequest < ActiveRecord::Base
         with_submitted_by.
         with_contact.
         with_request_type(I18n.locale)
+  end
+
+
+  def self.request_files(request_id)
+    files = Irm::AttachmentVersion.query_all.query_by_change_request(request_id).group_by{|a| a.source_id}
+    files_belong_to_request = Irm::AttachmentVersion.query_change_request_file(request_id)
+
+    files.merge!({0=>files_belong_to_request}) if files_belong_to_request.size > 0 #防止事故单没有附件的时候, 产生一个空的数组
+
+    files
   end
 
   private

@@ -16,7 +16,9 @@ class Chm::ChangeRequestsController < ApplicationController
   # GET /statuses/1.xml
   def show
     @change_request = Chm::ChangeRequest.list_all.find(params[:id])
-
+    @request_files = Chm::ChangeRequest.request_files(@change_request.id)
+    @change_journals = @change_request.change_journals.list_all
+    @change_journal = @change_request.change_journals.build(:replied_by=>Irm::Person.current.id)
     respond_to do |format|
       format.html { render :layout=>"application_right"}
       format.xml  { render :xml => @change_request }
@@ -220,4 +222,5 @@ class Chm::ChangeRequestsController < ApplicationController
     end if params[:files]
 
   end
+
 end

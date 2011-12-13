@@ -1,0 +1,6 @@
+$(function(){
+    <% if @success %>
+    $("#replies").append("<%= escape_javascript(render :partial => "chm/change_requests/journal",:locals=>{:journal=>@change_journal_show})%>");
+    <% end %>
+    $("#journalForm").html("<%= escape_javascript(render :partial => "chm/change_requests/journal_form")%>");
+});

@@ -31,6 +31,15 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     where("#{table_name}.source_type = ? AND #{table_name}.source_id = ?",Icm::IncidentRequest.name, request_id)
   }
 
+  scope :query_by_change_request,lambda{|request_id|
+    joins("JOIN #{Chm::ChangeJournal.table_name} ON #{table_name}.source_type= '#{Chm::ChangeJournal.name}' AND #{table_name}.source_id = #{Chm::ChangeJournal.table_name}.id").
+    where("#{Chm::ChangeJournal.table_name}.change_request_id = ?", request_id)
+  }
+
+  scope :query_change_request_file,lambda{|request_id|
+    where("#{table_name}.source_type = ? AND #{table_name}.source_id = ?",Chm::ChangeRequest.name, request_id)
+  }
+
 
   def image?
     self.image_flag.eql?(Irm::Constant::SYS_YES)

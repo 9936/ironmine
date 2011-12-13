@@ -137,4 +137,31 @@ table.upload-file tr.file-item td.file-desc-label{
     text-align:right;
     padding-left:10px;
 }
+ div.fileList {
+    margin-left: 46px;
+    color: #333333;
+    line-height: 1.6em;
+    margin-top: 5px;
+    margin-right: 5px;
+    border-top: 2px solid #efefef;
+  }
+  div.fileList div.fileItem{
+    color: #888888;
+    display: inline;
+    padding-bottom: 5px;
+    text-align:left;
+  }
+
+  div.fileList div.fileItem div.fileIcon{
+    background-color: white;
+    line-height: 0;
+    margin-right: 0.7em;
+    padding: 2px;
+  }
+
+  div.fileList div.fileItem div.fileIcon img{
+    border: 1px solid #BBC9E2;
+    float: left;
+    vertical-align: top;
+  }
 /*******************END upload-file************************************/
