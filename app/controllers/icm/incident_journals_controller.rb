@@ -45,7 +45,17 @@ class Icm::IncidentJournalsController < ApplicationController
     respond_to do |format|
       flag, now = validate_files(@incident_journal)
       if !flag
-        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        if now.is_a?(Integer)
+          flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        else
+          flash[:notice] = now
+        end
+        format.js do
+          responds_to_parent do
+            render :create_journal do |page|
+            end
+          end
+        end
         format.html { render :action => "new", :layout=>"application_right"}
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
@@ -374,13 +384,19 @@ class Icm::IncidentJournalsController < ApplicationController
   end
 
   def validate_files(ref_journal)
+    flash[:notice] = nil
     now = 0
-    params[:files].each do |key,value|
+    flag = true
+    flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files]) if params[:files]
+    return false, now unless flag
+    params[:files].each do |key, value|
+      next unless value[:file] && value[:file].original_filename.present?
       flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit)
       return false, now unless flag
     end if params[:files]
     return true, now
-  rescue
-    return false, now
+  rescue Exception => e
+    logger.debug(e.message)
+    return true, now
   end
 end

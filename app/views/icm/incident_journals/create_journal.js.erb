@@ -1,5 +1,11 @@
 $(function(){
     <% prepare_request_files(@incident_request) %>
-    $("#replies").append("<%= escape_javascript(render :partial => "list_journals", :locals => {:journals => @current_journals, :grouped_files => @request_files})%>");
-    reset_rich_text();
+    <% unless flash[:notice].present?%>
+        $("#replies").append("<%= escape_javascript(render :partial => "list_journals", :locals => {:journals => @current_journals, :grouped_files => @request_files})%>");
+        reset_rich_text();
+        $("#notice").html("");
+//        $("#new_incident_request_journal_file").upload_file();
+    <% else %>
+        $("#notice").html("<%= escape_javascript(flash_notice)%>");
+    <% end %>
 });

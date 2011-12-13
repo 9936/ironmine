@@ -1,5 +1,5 @@
 <table class="upload-file" id="<%= upload_file_id%>">
-  <tbody class="file-template" style="display:none" sequence="0">
+  <tbody class="file-template" style="display:none" sequence="0" id="file-template">
     <tr class="file-item" ref="${sequence}">
         <td><input type="file" name="${ref}[${sequence}][file]"/></td>
         <td class="labelCol"><%= t(:label_icm_incident_journal_attachment_desc) %></td>
@@ -7,7 +7,7 @@
         <td><div><a class="delete-file" delete_ref="${sequence}" href="javascript:void(0)"><%= t(:delete) %></a></div></td>
     </tr>
   </tbody>
-  <tbody class="file-contents">
+  <tbody class="file-contents" id="file-contents">
 
   </tbody>
   <tbody class="file-buttons">
