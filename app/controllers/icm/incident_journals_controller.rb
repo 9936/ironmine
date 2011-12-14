@@ -340,6 +340,20 @@ class Icm::IncidentJournalsController < ApplicationController
     end
   end
 
+  def apply_entry_header_link
+    @entry_header = Skm::EntryHeader.find(params[:id])
+
+    @history = Skm::EntryOperateHistory.new({:operate_code=>"ICM_APPLY",
+                                             :incident_id=>@incident_request.id ,
+                                             :entry_id=>params[:id],
+                                             :version_number=>@entry_header.version_number})
+    @history.save
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
   def setup_up_incident_request
     @incident_request = Icm::IncidentRequest.list_all.find(params[:request_id])

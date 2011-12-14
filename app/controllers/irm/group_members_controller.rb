@@ -64,18 +64,23 @@ class Irm::GroupMembersController < ApplicationController
     @person = Irm::Person.find(params[:id])
     @group_member = Irm::GroupMember.new(:person_id=>params[:id])
     @group_member.status_code = ""
+    @step = params[:next_action] if params[:next_action]
   end
 
   def create_from_person
     @person = Irm::Person.find(params[:id])
     @group_member = Irm::GroupMember.new(params[:irm_group_member])
     respond_to do |format|
-      if(!@group_member.status_code.blank?)
+      if true
         @group_member.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
           Irm::GroupMember.create(:person_id=>@person.id,:group_id=>id)
+        end if @group_member.status_code.present?
+        if params[:next_action].eql?("last")
+          format.html { redirect_to({:controller => "irm/external_system_members",:action => "new_from_person",:person_id=>@person.id, :next_action => params[:next_action]})}
+        else
+          format.html { redirect_to({:controller => "irm/people",:action=>"show",:id=>@person.id}, :notice => t(:successfully_created)) }
+          format.xml  { render :xml => @support_group_member, :status => :created}
         end
-        format.html { redirect_to({:controller => "irm/people",:action=>"show",:id=>@person.id}, :notice => t(:successfully_created)) }
-        format.xml  { render :xml => @support_group_member, :status => :created}
       else
         @group_member.errors.add(:status_code,"")
         format.html { render :action => "new_from_person" }
@@ -99,6 +104,7 @@ class Irm::GroupMembersController < ApplicationController
     group_code,count = paginate(group_code)
     respond_to do |format|
       format.html  {
+        @person = Irm::Person.find(params[:id])
         @datas = group_code
         @count = count
         render_html_data_table

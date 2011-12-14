@@ -31,6 +31,8 @@ en:
   close: Close
   copy:  Copy
   operation: Options
+  content: Content
+  link: Link
   save_and_new: Save And New
   save_and_update_new: Save And Upload
   multilingual: Multilingual
