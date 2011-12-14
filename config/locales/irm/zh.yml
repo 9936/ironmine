@@ -734,6 +734,8 @@ zh:
   label_irm_person_add_to_company: 加入公司
   label_irm_person_add_to_system: 加入应用系统
   label_irm_person_password_info: 设置密码
+  label_irm_person_save_and_add_system: 保存后添加可访问应用系统
+  label_irm_person_save_and_add_group: 保存后添加用户组
   error_irm_person_new_old_password_same: 新密码不能和旧密码相同
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#

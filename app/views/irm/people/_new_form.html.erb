@@ -8,6 +8,8 @@
           <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_person_new)%></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_to t(:label_irm_person_save_and_add_system), {}, {:href => "javascript:void(0);", :class => "add_system_button"} %></div>
+            <div class="button"><%= link_to t(:label_irm_person_save_and_add_group), {}, {:href => "javascript:void(0);", :class => "add_group_button"} %></div>
             <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
           </td>
         </tr>
@@ -164,6 +166,8 @@
           <td class="pbTitle"></td>
           <td id="bottomButtonRow" class="pbButtonb">
             <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_to t(:label_irm_person_save_and_add_system), {}, {:href => "javascript:void(0);", :class => "add_system_button"} %></div>
+            <div class="button"><%= link_to t(:label_irm_person_save_and_add_group), {}, {:href => "javascript:void(0);", :class => "add_group_button"} %></div>
             <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
           </td>
         </tr>
@@ -172,3 +176,16 @@
   </div>
 </div>
 <% end %>
+<script type="text/javascript">
+  $(function(){
+    $(".add_system_button").click(function(){
+        $("#irm_person_new").attr('action', '<%= url_for(:action => "create", :controller => "irm/people", :next_action => "add_system")%>');
+        $("#irm_person_new").submit();
+    });
+
+    $(".add_group_button").click(function(){
+        $("#irm_person_new").attr('action', '<%= url_for(:action => "create", :controller => "irm/people", :next_action => "add_group")%>');
+        $("#irm_person_new").submit();
+    });
+  })
+</script>

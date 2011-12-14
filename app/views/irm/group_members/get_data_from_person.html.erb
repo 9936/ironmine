@@ -4,6 +4,9 @@
        <table count="<%=@count%>">
          <thead>
            <tr>
+             <th style="width:60px;">
+               <div><%= t(:operation) %></div>
+             </th>
              <th style="width:300px;">
                <div><%= t(:label_irm_group_name) %></div>
              </th>
@@ -15,6 +18,13 @@
          <tbody>
          <% @datas.each do |data| %>
          <tr id="<%=data[:id]%>">
+           <td>
+             <div>
+               <%= link_to t(:remove), {:controller=>"irm/group_members",:action=>"delete_from_person",:id=>data[:id],
+                                      :person_id=>@person.id},:confirm => t(:label_are_you_sure) ,
+                                      :method => :delete %>
+             </div>
+           </td>
            <td>
              <div>
                <%= data[:name] %>

@@ -43,8 +43,16 @@ class Irm::PeopleController < ApplicationController
 
     respond_to do |format|
       if @person.save
-        format.html { redirect_to({:action=>"index"},:notice => (t :successfully_created))}
-        format.xml  { render :xml => @person, :status => :created, :location => @person }
+        if params[:next_action]
+          if params[:next_action].eql?("add_system")
+            format.html { redirect_to({:controller => "irm/external_system_members",:action => "new_from_person",:person_id=>@person.id})}
+          elsif params[:next_action].eql?("add_group")
+            format.html { redirect_to({:controller => "irm/group_members",:action => "new_from_person",:id=>@person.id})}
+          end
+        else
+          format.html { redirect_to({:action=>"show"},:notice => (t :successfully_created))}
+          format.xml  { render :xml => @person, :status => :created, :location => @person }
+        end
       else
         format.html { render "new" }
         format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
