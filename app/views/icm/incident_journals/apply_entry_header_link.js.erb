@@ -1,0 +1,12 @@
+<% if limit_device? %>
+    $(function(){
+        $("#msgEditor").val("<%= escape_javascript(render("applyable_entry_header_link"))%>");
+        $("#linktoSKM").addClass("hidden");
+    });
+<% else %>
+    Ext.onReady(function(){
+        Ext.getCmp("msgEditor").setValue("<%= escape_javascript(render("applyable_entry_header_link"))%>");
+        $("#msgEditor").val("<%= escape_javascript(render("applyable_entry_header_link"))%>");
+        Ext.get("linktoSKM").addCls("hidden");
+    });
+<%end%>

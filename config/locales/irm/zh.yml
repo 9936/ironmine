@@ -57,6 +57,8 @@ zh:
   error_invalid_data: 错误：无效数据。
   check_error_msg_and_fix: 请审查下列所有错误消息以纠正数据。
   operation: 操作
+  content: 内容
+  link: 链接
   remove: 移除
   search: 搜索
   options: 选项

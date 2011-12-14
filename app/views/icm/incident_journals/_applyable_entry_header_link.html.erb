@@ -1,0 +1,6 @@
+<b><%= I18n.t(:label_skm_entry_header_reference) %></b>
+
+<p>
+  <a href='<%= url_for(:only_path => false, :controller => "skm/entry_headers", :action => "show", :id => @entry_header)%>'>
+    <%= @entry_header.entry_title%></a>
+</p>
