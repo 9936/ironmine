@@ -1,0 +1,9 @@
+<% @change_plan_types.each do |change_plan_type| %>
+  <div id="planType<%= change_plan_type.id%>">
+  <% if change_plan_type.id.eql?(@current_change_plan_type_id) %>
+    <%= render :partial=>"chm/change_requests/plan_form",:locals=>{:change_plan_type=>change_plan_type,:change_plan=>@grouped_change_plans[change_plan_type.id]} %>
+  <% else %>
+    <%= render :partial=>"chm/change_requests/plan",:locals=>{:change_plan_type=>change_plan_type,:change_plan=>@grouped_change_plans[change_plan_type.id]} %>
+  <% end %>
+  </div>
+<% end %>

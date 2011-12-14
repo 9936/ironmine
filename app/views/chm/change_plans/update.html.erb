@@ -1,0 +1,7 @@
+$(function(){
+  <% if @success %>
+    $("#planType<%= @change_plan_type.id%>").html('<%= escape_javascript(render :partial=>"chm/change_requests/plan_form",:locals=>{:change_plan_type=>@change_plan_type,:change_plan=>@change_plan}) %>')
+  <% else %>
+    $("#planType<%= @change_plan_type.id%>").html('<%= escape_javascript(render :partial=>"chm/change_requests/plan",:locals=>{:change_plan_type=>@change_plan_type,:change_plan=>@change_plan}) %>')
+  <% end %>
+});

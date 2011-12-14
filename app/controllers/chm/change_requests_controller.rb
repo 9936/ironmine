@@ -43,6 +43,18 @@ class Chm::ChangeRequestsController < ApplicationController
   def show_plan
     @change_request = Chm::ChangeRequest.list_all.find(params[:id])
 
+    @change_plan_types = Chm::ChangePlanType.multilingual.enabled
+
+    @grouped_change_plans={}
+
+    change_plans =  @change_request.change_plans.list_all
+
+    @change_plan_types.each do |change_plan_type|
+      change_plan = change_plans.detect{|i| i.change_plan_type_id.eql?(change_plan_type.id)}
+      change_plan = Chm::ChangePlan.new(:change_plan_type_id=>change_plan_type.id,:change_request_id=>@change_request.id) unless change_plan.present?
+      @grouped_change_plans[change_plan_type.id] = change_plan
+    end
+
     respond_to do |format|
       format.html { render :layout=>"application_right"}
       format.xml  { render :xml => @change_request }

@@ -1329,7 +1329,22 @@ Ironmine::Application.routes.draw do
     #change journals
     match '/change_requests/:request_id/change_journals/create(.:format)' => "change_journals#create", :via => :post
 
+    #change_plan_types
+    match '/change_plan_types(/index)(.:format)' => "change_plan_types#index", :via => :get
+    match '/change_plan_types/:id/edit(.:format)' => "change_plan_types#edit", :via => :get
+    match '/change_plan_types/:id(.:format)' => "change_plan_types#update", :via => :put
+    match '/change_plan_types/new(.:format)' => "change_plan_types#new", :via => :get
+    match '/change_plan_types/create(.:format)' => "change_plan_types#create", :via => :post
+    match '/change_plan_types/:id/show(.:format)' => "change_plan_types#show", :via => :get
+    match '/change_plan_types/get_data(.:format)' => "change_plan_types#get_data"
+    match '/change_plan_types/:id/multilingual_edit(.:format)' => "change_plan_types#multilingual_edit", :via => :get
+    match '/change_plan_types/:id/multilingual_update(.:format)' => "change_plan_types#multilingual_update", :via => :put
 
+    #change plans
+    match '/change_plans/:change_request_id/change/:change_plan_type_id' => "change_plans#change", :via => :get
+    match '/change_plans/create' => "change_plans#create", :via => :post
+    match '/change_plans/:id/update' => "change_plans#update", :via => :put
+    match '/change_plans/:change_request_id/refresh/:change_plan_type_id' => "change_plans#refresh", :via => :get
   end
 
   themes_for_rails

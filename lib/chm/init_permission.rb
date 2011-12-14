@@ -4,7 +4,10 @@ Irm::AccessControl.map do |map|
   map.function :change_impact,{"chm/change_impacts"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
   map.function :change_priority,{"chm/change_priorities"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
   map.function :change_request,{"chm/change_requests"=>["index", "show", "get_data","show_incident","show_plan","show_implement","show_approve"]}
+  map.function :change_plan_type,{"chm/change_plan_types"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
   map.function :new_change_request,{"chm/change_requests"=>["new", "create"]}
   map.function :edit_change_request,{"chm/change_requests"=>["edit", "update"]}
-  map.function :login_function,{"chm/change_journals"=>["create"]}
+  map.function :change_journal,{"chm/change_journals"=>["create"]}
+  map.function :change_plan,{"chm/change_plans"=>["change","refresh","create","update"]}
+
 end
