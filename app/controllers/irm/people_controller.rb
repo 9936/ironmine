@@ -30,6 +30,7 @@ class Irm::PeopleController < ApplicationController
   # GET /people/1/edit
   def edit
     @person = Irm::Person.list_all.find(params[:id])
+    @step = params[:next_action] if params[:next_action]
   end
 
   # POST /people
@@ -45,9 +46,9 @@ class Irm::PeopleController < ApplicationController
       if @person.save
         if params[:next_action]
           if params[:next_action].eql?("add_system")
-            format.html { redirect_to({:controller => "irm/external_system_members",:action => "new_from_person",:person_id=>@person.id})}
+            format.html { redirect_to({:controller => "irm/external_system_members",:action => "new_from_person",:person_id=>@person.id, :next_action => params[:next_action]})}
           elsif params[:next_action].eql?("add_group")
-            format.html { redirect_to({:controller => "irm/group_members",:action => "new_from_person",:id=>@person.id})}
+            format.html { redirect_to({:controller => "irm/group_members",:action => "new_from_person",:id=>@person.id, :next_action => params[:next_action]})}
           end
         else
           format.html { redirect_to({:action=>"show"},:notice => (t :successfully_created))}
@@ -67,12 +68,20 @@ class Irm::PeopleController < ApplicationController
     @attributes = params[:irm_person]
     respond_to do |format|
       if @person.update_attributes(params[:irm_person])
-        if params[:return_url]
-          format.html {redirect_to(params[:return_url])}
-          format.xml { head :ok}
+        if params[:next_action]
+          if params[:next_action].eql?("add_system")
+            format.html { redirect_to({:controller => "irm/external_system_members",:action => "new_from_person",:person_id=>@person.id,:next_action => params[:next_action]})}
+          elsif params[:next_action].eql?("add_group")
+            format.html { redirect_to({:controller => "irm/group_members",:action => "new_from_person",:id=>@person.id, :next_action => params[:next_action]})}
+          end
         else
-          format.html { redirect_to({:action=>"edit"},:notice => (t :successfully_updated)) }
-          format.xml  { head :ok }
+          if params[:return_url]
+            format.html {redirect_to(params[:return_url])}
+            format.xml { head :ok}
+          else
+            format.html { redirect_to({:action=>"edit"},:notice => (t :successfully_updated)) }
+            format.xml  { head :ok }
+          end
         end
       else
         @error = @person

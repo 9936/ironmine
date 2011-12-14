@@ -72,9 +72,14 @@
               <td id="topButtonRow" class="pbButton">
                 <%= form_for(@group_member,:url=>{:action=>"create_from_person"},:builder => LabellingFormBuilder) do |f| %>
                   <%= f.hidden_field(:status_code) %>
-                  <div class="button"><%= f.submit t(:save)%></div>
-                  <div class="button"><%= link_to t(:label_irm_person_save_and_add_system), {}, {:href => "javascript:void(0);", :class => "add_system_button"} %></div>
-                  <div class="button"><%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id})%></div>
+                  <% if @step%>
+                      <div class="button"><%= link_to t(:last), {}, {:href => "javascript:void(0);", :class => "add_system_button"} %></div>
+                      <div class="button"><%= f.submit t(:save)%></div>
+                      <div class="button"><%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id})%></div>
+                  <% else %>
+                      <div class="button"><%= f.submit t(:save)%></div>
+                      <div class="button"><%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id})%></div>
+                  <% end %>
                 <% end %>
               </td>
               <td class="pbHelp">
@@ -114,7 +119,7 @@
 <script type="text/javascript">
   $(function(){
     $(".add_system_button").click(function(){
-        $("#new_irm_group_member").attr('action', '<%= url_for(:action => "create_from_person", :controller => "irm/group_members", :next_action => "add_system")%>');
+        $("#new_irm_group_member").attr('action', '<%= url_for(:action => "create_from_person", :controller => "irm/group_members", :next_action => "last")%>');
         $("#new_irm_group_member").submit();
     });
   })

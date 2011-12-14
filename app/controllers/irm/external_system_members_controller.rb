@@ -98,6 +98,7 @@ class Irm::ExternalSystemMembersController < ApplicationController
     @person = Irm::Person.find(params[:person_id])
     @system_person = Irm::ExternalSystemPerson.new(:person_id=>params[:person_id])
     @system_person.status_code = ""
+    @step = params[:next_action] if params[:next_action]
   end
 
   def create_from_person
@@ -109,8 +110,10 @@ class Irm::ExternalSystemMembersController < ApplicationController
           external_system = Irm::ExternalSystem.find(id)
           Irm::ExternalSystemPerson.create(:person_id=>@person.id,:external_system_id=>external_system.id)
         end if @system_person.status_code.present?
-        if params[:next_action].eql?("add_group")
-          format.html { redirect_to({:controller => "irm/group_members",:action => "new_from_person",:id=>@person.id})}
+        if params[:next_action].eql?("next")
+          format.html { redirect_to({:controller => "irm/group_members",:action => "new_from_person",:id=>@person.id, :next_action => params[:next_action]})}
+        elsif params[:next_action].eql?("last")
+          format.html { redirect_to({:controller => "irm/people",:action => "edit",:id=>@person.id, :next_action => params[:next_action]})}
         else
           format.html { redirect_to({:controller => "irm/people",:action=>"show",:id=>@person.id}, :notice => t(:successfully_created)) }
           format.xml  { render :xml => @system_person, :status => :created}
