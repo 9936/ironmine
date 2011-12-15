@@ -1,4 +1,4 @@
-<%= common_title(:action_meaning=>@person[:full_name] +", " + t(:label_irm_external_system_select_system)) %>
+<%= common_title(:model_meaning => @person[:full_name],:action_meaning=>  t(:label_irm_external_system_select_system)) %>
 <%= form_for(@system_person,:url=>{:action=>"create_from_person"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:status_code) %>
 <% if @step %>

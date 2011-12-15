@@ -1,4 +1,4 @@
-<%= common_title(:action_meaning=>@person[:full_name] +", " + t(:label_action_new)) %>
+<%= common_title(:model_meaning => @person[:full_name], :action_meaning=>t(:label_action_new)) %>
 <%= form_for(@group_member,:url=>{:action=>"create_from_person"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:status_code) %>
 <% if @step %>
