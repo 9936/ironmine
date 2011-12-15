@@ -1,5 +1,32 @@
 <%= common_title(:show_data=>@person[:person_name]) %>
 <%= form_for(@person,:url=>{:action=>"update"},:as=>"irm_person",:builder => LabellingFormBuilder) do |f| %>
+
+<% if @step %>
+<div  class="wizard-block">
+    <div class="pbWizardTitle tertiaryPalette">
+        <div class="ptRightTitle">
+            <%= t(:step_n_total_m, :n => "1", :m => "3") %>
+        </div>
+        <h2>
+            <%= t(:step_n, :n => "1") %><%= t(:label_irm_person_edit) %>
+        </h2>
+    </div>
+    <div class="pbBody">
+        <%= error_for @person%>
+        <div class="pbBottomButtons">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td class="pbTitle"></td>
+                  <td class="pbButton">
+                    <div class="button"><%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "add_system_button"} %></div>
+                    <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+<% else %>
 <div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -19,6 +46,9 @@
       </tbody>
     </table>
   </div>
+<% end %>
+
+
   <div class="pbBody">
     <%= error_for @person%>
     <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
@@ -163,7 +193,7 @@
           <td class="pbTitle"></td>
           <td id="bottomButtonRow" class="pbButtonb">
             <% if @step %>
-                <div class="button"><%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "add_system_button"} %></div>
+                <div class="button"><%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "add_system_button"} %></div>
                 <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
             <% else %>
                 <div class="button"><%= f.submit t(:save)%></div>
@@ -174,7 +204,11 @@
       </tbody>
     </table>
   </div>
+<% if @step %>
+</div></div>
+<% else %>
 </div>
+<% end %>
 <% end %>
 <script type="text/javascript">
   $(function(){
