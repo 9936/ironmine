@@ -85,3 +85,17 @@ zh:
   label_chm_change_request_tab_approve: 审批
   label_chm_change_request_tab_implement: 实施
   #========================= end change priorities ==================================
+  #========================= change plan types =========================
+  label_chm_change_plan_type: 变更计划类型
+  label_chm_change_plan_type_list: 变更计划类型列表
+  label_chm_change_plan_type_new: 新建变更计划类型
+  label_chm_change_plan_type_edit: 编辑变更计划类型
+  label_chm_change_plan_type_show: 查看
+  label_chm_change_plan_type_code: 编码
+  label_chm_change_plan_type_weight_values: 权重
+  label_chm_change_plan_type_name: 名称
+  label_chm_change_plan_type_description: 描述
+  label_chm_change_plan_type_display_sequecne: 显示顺序
+  label_chm_change_plan_no_body: 无计划内容
+  label_chm_change_plan: 变更计划
+  #========================= end change plan types ==================================

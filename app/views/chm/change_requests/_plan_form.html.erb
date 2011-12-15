@@ -1,0 +1,47 @@
+<div class="reply">
+  <div id="planType_<%= change_plan_type.id %>" class="replyHeader">
+      <div style="float:left"><h3><%=change_plan_type[:name]%></h3></div>
+  </div>
+  <div class="replyHeaderSection">
+    <% options = change_plan.new_record? ? {:action=>"create"}:{:id=>change_plan.id,:action=>"update"} %>
+    <%= form_for(change_plan,:url=>{:controller=>"chm/change_plans"}.merge(options),:builder => LabellingFormBuilder,:html=>{:multipart => true ,:target=>"hiddenFrame"}) do |f| %>
+
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <%= f.hidden_field(:change_plan_type_id) %>
+              <%= f.hidden_field(:change_request_id) %>
+              <%= f.hidden_field(:planed_by) %>
+              <td class="dataCol" colspan="4" width="100%">
+                <%= f.text_area :plan_body ,:id=>"msgEditor", :jrequired => true,:rows=>8%>
+                <%= rich_text_area("msgEditor",true) %>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="dataCol" colspan="4" width="100%">
+                <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"plan_file_#{change_plan.change_plan_type_id}"} %>
+
+              </td>
+            </tr>
+        </tbody>
+      </table>
+      <table style="width:100%" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+          <tr>
+            <td class="pbTitle"></td>
+            <td id="topButtonRow" class="pbButton">
+              <div class="button"><%= link_submit t(:submit)%></div>
+              <div class="button"><%= link_to t(:cancel),{:controller=>"chm/change_plans",:action=>"refresh",:change_request_id=>change_plan.change_request_id,:change_plan_type_id=>change_plan.change_plan_type_id},:remote=>true%></div>
+            </td>
+            <td class="pbHelp">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    <% end%>
+  </div>
+
+</div>

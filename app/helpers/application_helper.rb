@@ -751,4 +751,14 @@ module ApplicationHelper
     output
   end
 
+
+  def custom_escape_javascript(javascript)
+    result = (javascript || '').
+        gsub('\\', '\\\\\\').
+        gsub(/\r\n|\r|\n/, '\\n').
+        gsub(/['"]/, '\\\\\&').
+        gsub('</script>','</scr"+"ipt>')
+    result
+  end
+
 end

@@ -1,0 +1,19 @@
+<% unless limit_device? %>
+<%       require_javascript(:extjs)%>
+<%       require_css(:extjs) %>
+<%     end %>
+<%= page_block("journals") do |pb| %>
+    <%= pb.page_block_header({:title=>t(:label_chm_change_plan)}) do%>
+      <td id="topButtonRow" class="pbButton">
+      </td>
+      <td class="pbHelp">
+      </td>
+    <% end %>
+
+    <%= pb.page_block_body do %>
+      <iframe name="hiddenFrame" style="display: none;"></iframe>
+      <div id="plans">
+        <%= render "list_plans" %>
+      </div>
+    <% end %>
+<% end %>

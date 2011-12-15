@@ -1,0 +1,42 @@
+<% if !change_plan.new_record? %>
+  <div class="reply">
+    <div id="planType_<%= change_plan_type.id %>" class="replyHeader">
+        <div style="float:left; padding:5px 0 0 5px;"><h3><%=change_plan_type[:name]%></h3></div>
+        <div style="float:left"><div class="button"><%= link_to(t(:edit),{:controller=>"chm/change_plans",:action=>"change",:change_request_id=>change_plan.change_request_id,:change_plan_type_id=>change_plan.change_plan_type_id},:remote=>true)%></div></div>
+
+        <div style="float:right"><img width="25" height="25" alt="" src="<%=person_avatar(change_plan[:planed_by])%>"></div>
+        <div style="float:right; padding:5px 0 0 5px;">
+          <h3><%= change_plan[:planed_by_name]  %></h3>
+             <span style="color:#666666;font-style:italic;">
+               <%= t(:label_icm_reply_title,:message=>distance_of_time_in_words(Time.now, change_plan[:created_at])) %>
+             </span>
+        </div>
+        <div style="float:right; padding:5px 0 0 5px;">
+             <span style="color:#666666;font-style:italic; margin-right:10px;">
+               <%=format_date(change_plan[:created_at]) %>
+             </span>
+        </div>
+    </div>
+    <div class="replyHeaderSection">
+      <div class="message">
+
+        <%= raw change_plan_body(change_plan)  %>
+      </div>
+      <%= change_plan_file(change_plan) %>
+    </div>
+
+  </div>
+<% else %>
+  <div class="reply">
+    <div id="planType_<%= change_plan_type.id %>" class="replyHeader">
+        <div style="float:left; padding:5px 0 0 5px;"><h3><%=change_plan_type[:name]%></h3></div>
+        <div style="float:left"><div class="button"><%= link_to(t(:new),{:controller=>"chm/change_plans",:action=>"change",:change_request_id=>change_plan.change_request_id,:change_plan_type_id=>change_plan.change_plan_type_id},:remote=>true)%></div></div>
+    </div>
+    <div class="replyHeaderSection">
+      <div class="message">
+         <%= t(:label_chm_change_plan_no_body) %> <%=change_plan_type[:name]%>
+      </div>
+    </div>
+
+  </div>
+<% end %>
