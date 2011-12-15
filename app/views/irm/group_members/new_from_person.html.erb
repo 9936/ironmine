@@ -1,4 +1,4 @@
-<%= common_title(:action_meaning=>t(:label_action_new)) %>
+<%= common_title(:action_meaning=>@person[:full_name] +", " + t(:label_action_new)) %>
 <%= form_for(@group_member,:url=>{:action=>"create_from_person"},:builder => LabellingFormBuilder) do |f| %>
 <%= f.hidden_field(:status_code) %>
 <% if @step %>
@@ -50,56 +50,6 @@
       </div>
 
 <% end %>
-      <div class="pbBody">
-        <div class="pbSubsection">
-          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-                <tr>
-                  <td class="labelCol"><label><%=t(:label_irm_identity_login_name)%></label></td>
-                  <td class="dataCol"><%= @person.login_name%></td>
-                  <td class="labelCol"><label><%=(t :label_irm_person_role)%></label></td>
-                  <td class="dataCol"><%=@person[:role_name]%></td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label><%=(t :label_irm_person_email_address)%></label></td>
-                  <td class="dataCol"><%=@person.email_address%></td>
-                  <td class="labelCol"><label><%=t(:label_irm_person_profile)%></label></td>
-                  <td class="dataCol"><%=@person[:profile_name]%></td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label><%=(t :label_irm_person_last_name)%></label></td>
-                  <td class="dataCol"><%=@person.last_name%></td>
-                  <td class="labelCol"><label><%=t(:label_irm_person_organization)%></label></td>
-                  <td class="dataCol"><%= @person[:organization_name] %></td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label><%=(t :label_irm_person_first_name)%></label></td>
-                  <td class="dataCol"><%=@person.first_name%></td>
-                  <td class="labelCol"><label><%=t(:label_irm_person_bussiness_phone)%></label></td>
-                  <td class="dataCol">
-                    <%=@person.bussiness_phone%>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><%= t(:label_irm_identity_language_code) %></td>
-                  <td class="dataCol"><%= @person[:language_description] %></td>
-                   <td class="labelCol"><label><%=t(:label_irm_person_fax_number)%></label></td>
-                   <td class="dataCol">
-                       <%=@person.fax_number%>
-                   </td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label><%=t(:label_irm_person_notification_lang)%></label></td>
-                  <td class="dataCol"><%=@person[:notification_lang_description]%></td>
-                   <td class="labelCol"><label><%=t(:label_irm_person_mobile_phone)%></label></td>
-                   <td class="dataCol">
-                     <%=@person.mobile_phone%>
-                   </td>
-                </tr>
-            </tbody>
-          </table>
-          </div>
-      </div>
       <div class="pbBody">
         <%= error_for @group_member %>
         <div id="supportGroupMembers" class="datatable" style="width:100%">
