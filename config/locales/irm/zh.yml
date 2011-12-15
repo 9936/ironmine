@@ -782,6 +782,7 @@ zh:
   label_irm_group_member_group_list: 支持组成员列表
   label_irm_group_member_info: 支持组成员
   label_irm_select_result: 搜索结果
+  label_irm_group_member_select_group: 选择要添加的组
   #=========================end irm  support_group_controller=======================#
   #=========================    irm filters_controller=======================#
   label_irm_filter: 视图过滤器

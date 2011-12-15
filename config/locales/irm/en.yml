@@ -789,6 +789,7 @@ en:
   label_irm_select_result: Select Result
   label_irm_group_member_group_list: List Support Group List
   label_irm_group_member_info: Support Group Member
+  label_irm_group_member_select_group: Select Group
   #=========================end irm  support_group_controller=======================#
   #=========================    irm filters_controller=======================#
   label_irm_filter: Filter

@@ -212,3 +212,11 @@ td { background-color:transparent;} /* none */
     border-style: solid;
     border-color: transparent;
 }
+
+.wizard-block .pbBody > .datatable {
+    margin: 3px 10px 0 10px;
+}
+.wizard-block .pbBody > .datatable > div {
+    border-left: solid 1px #CBCBCB;
+    border-right: solid 1px #CBCBCB;
+}
