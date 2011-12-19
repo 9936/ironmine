@@ -14,7 +14,11 @@ class Chm::ChangeTasksController < ApplicationController
   # GET /statuses/new
   # GET /statuses/new.xml
   def new
-    @change_task = Chm::ChangeTask.new(:source_id=>params[:source_id],:source_type=>Chm::ChangeRequest.name)
+    options = {}
+    if params[:phase_id].present?
+      options.merge!({:change_task_phase_id=>params[:phase_id]})
+    end
+    @change_task = Chm::ChangeTask.new({:source_id=>params[:source_id],:source_type=>Chm::ChangeRequest.name}.merge(options))
 
     respond_to do |format|
       format.html # new.html.erb
