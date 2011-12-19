@@ -499,8 +499,15 @@ module ApplicationHelper
     (@has_content && @has_content[name]) || false
   end
   
-  def link_back(text = t(:back))
-    link_to text, {}, {:href => "javascript:history.back();"}
+  def link_back(text = t(:back),default_options={})
+    if params[:back_url].present?
+      link_to text, {}, {:href => CGI.unescape(params[:back_url].to_s)}
+    elsif default_options.any?
+      default_options
+    else
+      link_to text, {}, {:href => "javascript:history.back();"}
+    end
+
   end
 
   def link_submit(text = t(:save))

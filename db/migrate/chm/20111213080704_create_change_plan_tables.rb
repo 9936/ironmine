@@ -57,5 +57,10 @@ class CreateChangePlanTables < ActiveRecord::Migration
   end
 
   def down
+    drop_table :chm_change_plan_types
+    drop_table :chm_change_plan_types_tl
+    execute('DROP VIEW chm_change_plan_types_vl')
+    drop_table :chm_change_plans
+
   end
 end

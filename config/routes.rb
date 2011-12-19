@@ -1346,6 +1346,46 @@ Ironmine::Application.routes.draw do
     match '/change_plans/create' => "change_plans#create", :via => :post
     match '/change_plans/:id/update' => "change_plans#update", :via => :put
     match '/change_plans/:change_request_id/refresh/:change_plan_type_id' => "change_plans#refresh", :via => :get
+
+    #change_task_phases
+    match '/change_task_phases(/index)(.:format)' => "change_task_phases#index", :via => :get
+    match '/change_task_phases/:id/edit(.:format)' => "change_task_phases#edit", :via => :get
+    match '/change_task_phases/:id(.:format)' => "change_task_phases#update", :via => :put
+    match '/change_task_phases/new(.:format)' => "change_task_phases#new", :via => :get
+    match '/change_task_phases/create(.:format)' => "change_task_phases#create", :via => :post
+    match '/change_task_phases/:id/show(.:format)' => "change_task_phases#show", :via => :get
+    match '/change_task_phases/get_data(.:format)' => "change_task_phases#get_data"
+    match '/change_task_phases/:id/multilingual_edit(.:format)' => "change_task_phases#multilingual_edit", :via => :get
+    match '/change_task_phases/:id/multilingual_update(.:format)' => "change_task_phases#multilingual_update", :via => :put
+
+    #change_task_templates
+    match '/change_task_templates(/index)(.:format)' => "change_task_templates#index", :via => :get
+    match '/change_task_templates/:id/edit(.:format)' => "change_task_templates#edit", :via => :get
+    match '/change_task_templates/:id(.:format)' => "change_task_templates#update", :via => :put
+    match '/change_task_templates/new(.:format)' => "change_task_templates#new", :via => :get
+    match '/change_task_templates/create(.:format)' => "change_task_templates#create", :via => :post
+    match '/change_task_templates/:id/show(.:format)' => "change_task_templates#show", :via => :get
+    match '/change_task_templates/get_data(.:format)' => "change_task_templates#get_data"
+    match '/change_task_templates/:id/multilingual_edit(.:format)' => "change_task_templates#multilingual_edit", :via => :get
+    match '/change_task_templates/:id/multilingual_update(.:format)' => "change_task_templates#multilingual_update", :via => :put
+
+    #change_template_tasks
+    match '/change_template_tasks/:id/edit(.:format)' => "change_template_tasks#edit", :via => :get
+    match '/change_template_tasks/:id(.:format)' => "change_template_tasks#update", :via => :put
+    match '/change_template_tasks/:source_id/new(.:format)' => "change_template_tasks#new", :via => :get
+    match '/change_template_tasks/create(.:format)' => "change_template_tasks#create", :via => :post
+    match '/change_template_tasks/:id/show(.:format)' => "change_template_tasks#show", :via => :get
+    match '/change_template_tasks/:id/destroy(.:format)' => "change_template_tasks#destroy", :via => :delete
+
+    #change_template_tasks
+    match '/change_tasks/:id/edit(.:format)' => "change_tasks#edit", :via => :get
+    match '/change_tasks/:id(.:format)' => "change_tasks#update", :via => :put
+    match '/change_tasks/:source_id/new(.:format)' => "change_tasks#new", :via => :get
+    match '/change_tasks/create(.:format)' => "change_tasks#create", :via => :post
+    match '/change_tasks/:id/show(.:format)' => "change_tasks#show", :via => :get
+    match '/change_tasks/:id/destroy(.:format)' => "change_tasks#destroy", :via => :delete
+    match '/change_tasks/:source_id/template_new(.:format)' => "change_tasks#template_new", :via => :get
+    match '/change_tasks/template_create(.:format)' => "change_tasks#template_create", :via => :post
   end
 
   themes_for_rails
