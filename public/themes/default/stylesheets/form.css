@@ -109,6 +109,12 @@ form .pbBottomButtons > table {border-top:1px solid #FFFFFF;padding:0 !important
     border-bottom:1px solid #ececec;
 }
 
+.setupTab .listRelatedObject .page-block .detailList tr td,
+.setupTab .listRelatedObject .page-block .detailList tr th{
+    border-width: 0;
+    border: none;
+}
+
 .page-block .infoList tr td,
 .page-block .infoList tr th{
     border-bottom:1px solid #ececec;
