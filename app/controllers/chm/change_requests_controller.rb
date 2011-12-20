@@ -115,6 +115,41 @@ class Chm::ChangeRequestsController < ApplicationController
     end
   end
 
+
+  def incident_new
+    incident_request = Icm::IncidentRequest.find(params[:incident_request_id])
+
+
+    @change_request = Chm::ChangeRequest.new(params[:chm_change_request]||{})
+
+    @change_request.requested_by
+
+    # 设定默认成请求人
+    @change_request.requested_by = Irm::Person.current.id unless  @change_request.requested_by.present?
+
+    unless @change_request.change_status_id.present?
+      @change_request.change_status_id = Chm::ChangeStatus.default_id
+    end
+
+    unless @change_request.change_impact_id.present?
+      @change_request.change_impact_id = Chm::ChangeImpact.default_id
+    end
+
+    unless @change_request.change_urgency_id.present?
+      @change_request.change_urgency_id = Chm::ChangeUrgency.default_id
+    end
+
+    unless @change_request.change_urgency_id.present?
+      @change_request.change_urgency_id = Chm::ChangeUrgency.default_id
+    end
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @change_request }
+    end
+  end
+
+
   # GET /statuses/1/edit
   def edit
     @change_request = Chm::ChangeRequest.find(params[:id])

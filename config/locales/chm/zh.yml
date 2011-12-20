@@ -135,7 +135,7 @@ zh:
   label_chm_change_task_plan_end_date: 计划结束时间
   label_chm_change_task_start_date: 开始时间
   label_chm_change_task_end_date: 结束时间
-  label_chm_change_task_change_task_phase: 任务阶段
+  label_chm_change_task_change_task_phase: 阶段
   label_chm_change_task_template_new: 从模板添加任务
   label_chm_change_task_change_task_template: 任务模板
   label_chm_change_task_depends: 依赖任务

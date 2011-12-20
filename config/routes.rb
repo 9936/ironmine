@@ -1365,6 +1365,7 @@ Ironmine::Application.routes.draw do
     match '/change_task_templates/new(.:format)' => "change_task_templates#new", :via => :get
     match '/change_task_templates/create(.:format)' => "change_task_templates#create", :via => :post
     match '/change_task_templates/:id/show(.:format)' => "change_task_templates#show", :via => :get
+    match '/change_task_templates/:id/show_tasks(.:format)' => "change_task_templates#show_tasks", :via => :get
     match '/change_task_templates/get_data(.:format)' => "change_task_templates#get_data"
     match '/change_task_templates/:id/multilingual_edit(.:format)' => "change_task_templates#multilingual_edit", :via => :get
     match '/change_task_templates/:id/multilingual_update(.:format)' => "change_task_templates#multilingual_update", :via => :put

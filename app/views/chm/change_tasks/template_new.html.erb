@@ -23,7 +23,7 @@
                               <tbody>
                                 <tr>
                                   <td class="labelCol empty"><label for="status_code"><%=(t :label_chm_change_task_change_task_template)%></label></td>
-                                  <td class="dataCol"><%=f.select :change_task_phase_id, options_for(Chm::ChangeTaskTemplate),{},{:required=>true}%></td>
+                                  <td class="dataCol"><%=f.select :change_task_phase_id, options_for(Chm::ChangeTaskTemplate),{},{:id=>"taskPhase",:required=>true}%></td>
                                   <td class="labelCol"></td>
                                   <td class="dataCol"></td>
                                 </tr>
@@ -42,5 +42,25 @@
             <% end %>
             <% end %>
         <% end %>
+        <%= page_block("templateInfo") do |pb|%>
+            <%= pb.page_block_header(:title=>t(:label_chm_change_task_template)) %>
+            <%= pb.page_block_body do %>
+                <div id="showInfo" href="<%= url_for({:controller => "chm/change_task_templates",:action=>"show_tasks",:id=>"{template_id}"}) %>"></div>
+            <% end %>
+        <% end %>
     <% end %>
 <% end %>
+<script>
+  $("#taskPhase").change(function(e){
+      $("#templateInfoBlock").css("display","none");
+      if(e.target.value){
+          var url = decodeURIComponent($("#showInfo").attr("href"));
+          url = url.replace("{template_id}",e.target.value);
+          $("#showInfo").load(url);
+          $("#templateInfoBlock").css("display","");
+      }else{
+          $("#showInfo").html("");
+      }
+  });
+  $("#taskPhase").trigger("change");
+</script>

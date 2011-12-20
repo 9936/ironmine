@@ -170,6 +170,7 @@ en:
   label_action_show: Show
   label_action_multilingual_edit: Multilingual edit
   label_action_multilingual_update: Multilingual edit
+  label_reply_title: reply at %{date_format} (%{time_distance}ago)
   #=========paginator==============
   paginator_record: Record
   paginator_rowperpage: Row per Page

@@ -167,6 +167,7 @@ zh:
   label_action_show: 查看
   label_action_multilingual_edit: 多语言编辑
   label_action_multilingual_update: 多语言编辑
+  label_reply_title: 于%{date_format}(%{time_distance}前)回复
   #=========paginator==============
   paginator_record: 记录数
   paginator_rowperpage: 每页显示

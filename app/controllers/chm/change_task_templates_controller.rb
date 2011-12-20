@@ -111,11 +111,8 @@ class Chm::ChangeTaskTemplatesController < ApplicationController
   end
 
 
-
-
-
-
-
-
+  def show_tasks
+    @change_task_template = Chm::ChangeTaskTemplate.multilingual.find(params[:id])
+  end
 
 end
