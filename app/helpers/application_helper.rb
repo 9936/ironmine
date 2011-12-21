@@ -503,15 +503,15 @@ module ApplicationHelper
     if params[:back_url].present?
       link_to text, {}, {:href => CGI.unescape(params[:back_url].to_s)}
     elsif default_options.any?
-      default_options
+      link_to text, default_options
     else
       link_to text, {}, {:href => "javascript:history.back();"}
     end
 
   end
 
-  def link_submit(text = t(:save))
-    link_to text, {}, {:type=>"submit",:href => "javascript:void(0);"}
+  def link_submit(text = t(:save),options={})
+    link_to text, {}, {:type=>"submit",:href => "javascript:void(0);"}.merge(options)
   end
 
   #构建日历控件，其中text_field是输入的日期框，id_button是点击日历的
@@ -742,19 +742,19 @@ module ApplicationHelper
 
   def tabs(name,tabs_configs)
     output = ActiveSupport::SafeBuffer.new
-    output.safe_concat("<div id='#{name}' class='toolbar'><div class='button-group'>")
+    output.safe_concat("<div id='#{name}' class='miniTab secondaryPalette'><ul class='miniTabList'>")
     tabs_configs.each_with_index do |config,index|
       selected = params[:controller].eql?(config[:url][:controller])&&params[:action].eql?(config[:url][:action])
       tab_id = config[:id]||"#{name}_#{index}"
       if selected
-        output.safe_concat("<div id='#{tab_id}' class='button selected'><bold>")
+        output.safe_concat("<li id='#{tab_id}' class='currentTab'>")
       else
-        output.safe_concat("<div id='#{tab_id}' class='button'><bold>")
+        output.safe_concat("<li id='#{tab_id}' >")
       end
       output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
-      output.safe_concat("</bold></div>")
+      output.safe_concat("</li>")
     end
-    output.safe_concat("</div></div>")
+    output.safe_concat("</ul></div>")
     output
   end
 

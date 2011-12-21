@@ -3,9 +3,9 @@ Irm::AccessControl.map do |map|
   map.function :change_urgency,{"chm/change_urgencies"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
   map.function :change_impact,{"chm/change_impacts"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
   map.function :change_priority,{"chm/change_priorities"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
-  map.function :change_request,{"chm/change_requests"=>["index", "show", "get_data","show_incident","show_plan","show_implement","show_approve"]}
+  map.function :change_request,{"chm/change_requests"=>["index", "show", "get_data","show_plan","show_implement","show_approve"]}
   map.function :change_plan_type,{"chm/change_plan_types"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
-  map.function :new_change_request,{"chm/change_requests"=>["new", "create"]}
+  map.function :new_change_request,{"chm/change_requests"=>["incident_new","new", "create"]}
   map.function :edit_change_request,{"chm/change_requests"=>["edit", "update"]}
   map.function :change_journal,{"chm/change_journals"=>["create"]}
   map.function :change_plan,{"chm/change_plans"=>["change","refresh","create","update"]}
@@ -14,4 +14,5 @@ Irm::AccessControl.map do |map|
                                 "chm/change_template_tasks"=>["show","new", "create","edit", "update", "destroy"]}
   map.function :change_task,{"chm/change_tasks"=>["show","new", "create","edit", "update", "destroy","template_new","template_create"],"chm/change_task_templates"=>["show_tasks"]}
 
+  map.function :change_incident,{"chm/change_requests"=>["show_incident"],"chm/change_incident_relations"=>["new","create","destroy","incident_requests"]}
 end

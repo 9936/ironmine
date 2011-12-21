@@ -45,7 +45,7 @@ class Chm::ChangeTaskTemplatesController < ApplicationController
 
     respond_to do |format|
       if @change_task_template.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:action => "show",:id=>@change_task_template.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @change_task_template, :status => :created, :location => @change_task_template }
       else
         format.html { render :action => "new" }

@@ -1326,6 +1326,7 @@ Ironmine::Application.routes.draw do
     match '/change_requests/:id/show_plan(.:format)' => "change_requests#show_plan", :via => :get
     match '/change_requests/:id/show_implement(.:format)' => "change_requests#show_implement", :via => :get
     match '/change_requests/:id/show_approve(.:format)' => "change_requests#show_approve", :via => :get
+    match '/change_requests/:request_id/incident_new(.:format)' => "change_requests#incident_new", :via => :get
 
     #change journals
     match '/change_requests/:request_id/change_journals/create(.:format)' => "change_journals#create", :via => :post
@@ -1387,6 +1388,13 @@ Ironmine::Application.routes.draw do
     match '/change_tasks/:id/destroy(.:format)' => "change_tasks#destroy", :via => :delete
     match '/change_tasks/:source_id/template_new(.:format)' => "change_tasks#template_new", :via => :get
     match '/change_tasks/template_create(.:format)' => "change_tasks#template_create", :via => :post
+
+
+    #change incident relations
+    match '/change_incident_relations/:change_request_id/new(.:format)' => "change_incident_relations#new", :via => :get
+    match '/change_incident_relations/create(.:format)' => "change_incident_relations#create", :via => :post
+    match '/change_incident_relations/:change_request_id/:incident_request_id/destroy(.:format)' => "change_incident_relations#destroy", :via => :delete
+    match '/change_incident_relations/:change_request_id/incident_requests(.:format)' => "change_incident_relations#incident_requests", :via => :get
   end
 
   themes_for_rails

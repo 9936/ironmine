@@ -3,6 +3,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   has_many :incident_journals
 
+  has_many :change_incident_requests,:class_name => "Chm::ChangeIncidentRelation"
+
   validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,
                         :impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code,
                         :contact_number,:contact_id
@@ -68,8 +70,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
 
   scope :with_organization,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = requested.organization_id AND #{Irm::Organization.table_name}.language = '#{language}").
-    select("#{Irm::Organization.view_name} organization_name")
+    joins("LEFT OUTER JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = #{table_name}.organization_id AND #{Irm::Organization.view_name}.language = '#{language}'").
+    select("#{Irm::Organization.view_name}.name organization_name")
   }
 
   scope :query_by_requested,lambda{|requested_by|
@@ -80,7 +82,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   # 查询出提交人
   scope :with_submitted_by,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} submitted ON  submitted.id = #{table_name}.submitted_by").
-    select("#{Irm::Person.name_to_sql(nil,'submitted','submitted_name')}")
+    select("submitted.full_name submitted_name")
   }
 
   # 查询出supporter
@@ -247,7 +249,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_category(I18n.locale).
         with_support_group(I18n.locale).
         with_supporter(I18n.locale).
-        with_external_system(I18n.locale)
+        with_external_system(I18n.locale).
+        with_organization(I18n.locale)
   end
 
 

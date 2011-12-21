@@ -521,3 +521,75 @@ body .wizard-block .pbBody .pbSubheader h3, body .wizard-block .bPageBlock .pbBo
 /****************************************************/
 table.split-table{width:100%;}
 table.split-table tr td:first-child {width: 200px;}
+
+/***********************miniTab*****************************/
+body .miniTab{
+    background-color: transparent !important;
+    font-family: Arial,Helvetica,sans-serif;
+    padding: 5px 0 0;
+}
+
+body .aloneTab{
+    margin-bottom: -3px;
+}
+body .miniTab .miniTabList{
+    border-bottom: 1px solid #FFFFFF;
+    margin: 0;
+    padding: 0;
+}
+
+body .aloneTab .miniTabList{
+    border-bottom: 1px solid #CECECE;
+}
+
+body .miniTab .miniTabList li{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-image: url("../images/subtab_sprite.png");
+    background-origin: padding-box;
+    background-position: left -199px !important;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    border: 0 none;
+    display: inline-block;
+    height: 27px;
+    margin: 0 0 -4px 6px;
+    padding: 0 8px;
+}
+body .miniTab .miniTabList li.currentTab {
+    background-position: left 0 !important;
+    border-bottom: 1px solid transparent;
+    height: 27px;
+    margin: 0 0 -1px 2px;
+}
+
+body .miniTab .miniTabList .currentTab > span, body .miniTab .miniTabList .currentTab > a {
+    background-position: right -100px;
+    margin-right: -17px;
+    padding: 8px 12px 5px 3px;
+}
+
+body .miniTab .miniTabList li > span, body .miniTab .miniTabList li > a {
+    background-image: url("../images/subtab_sprite.png");
+    background-position: right -299px;
+    background-repeat: no-repeat;
+    color: #333333;
+    display: inline-block;
+    font-weight: bold;
+    height: 15px;
+    margin-right: -13px;
+    padding: 8px 8px 4px 0;
+}
+
+#mainSelect .miniTab, .bMiniTab .miniTab {
+    margin-bottom: -3px;
+}
+#mainSelect .miniTab .miniTabList li, .bMiniTab .miniTab .miniTabList li{
+    height: 25px;
+}
+#mainSelect .miniTab .miniTabList .secondaryPalette > span, #mainSelect .miniTab .miniTabList .secondaryPalette > a, .bMiniTab .miniTab .miniTabList .secondaryPalette > span, .bMiniTab .miniTab .miniTabList .secondaryPalette > a{
+    padding-bottom: 2px;
+}
+/***********************end miniTab*****************************/
+

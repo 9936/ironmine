@@ -2,6 +2,7 @@
 <% require_css(:datepicker) %>
 <%= form_for(@change_request,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
     <%= error_for @change_request %>
+    <%= f.hidden_field(:incident_request_id) %>
     <%= page_block("newRequest") do |pb| %>
         <%= pb.page_block_header({:title=>t(:label_chm_change_request_new)}) do%>
           <td id="topButtonRow" class="pbButton">

@@ -134,6 +134,11 @@
                     <div class="gray-button"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
                 </div>
               <% end %>
+              <% unless @incident_request.change_incident_requests.where(:create_flag=>Irm::Constant::SYS_YES).any? %>
+                <div class="button-group">
+                    <div class="gray-button"><%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests",:action => "incident_new", :request_id => @incident_request.id},{:back=>true}%></div>
+                </div>
+              <% end %>
           </td>
         </tr>
       </tbody>
@@ -212,6 +217,8 @@
   </div>
 </div>
 </form>
+
+<div id="incidentRely">
 <div id="histories">
   <div style="padding: 0 0 10px 0; font-weight: bold;">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -353,6 +360,11 @@
 <% end %>
 <% end %>
 <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
+</div>
+
+<div id="relationChange" href="http://www.google.com">
+
+</div>
 
 <script>
 $(function(){

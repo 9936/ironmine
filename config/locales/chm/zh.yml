@@ -79,11 +79,12 @@ zh:
   label_chm_change_request_change_priority: 优先级
   label_chm_change_request_organization: 组织
   label_chm_change_request_requested_by_role: 请求人角色
-  label_chm_change_request_tab_common: 基础信息
+  label_chm_change_request_tab_common: 回复信息
   label_chm_change_request_tab_incident: 事故单
   label_chm_change_request_tab_plan: 计划
   label_chm_change_request_tab_approve: 审批
   label_chm_change_request_tab_implement: 实施
+  label_chm_change_request_incident_requests: 关联事故单
   #========================= end change priorities ==================================
   #========================= change plan types =========================
   label_chm_change_plan_type: 变更计划类型
@@ -140,7 +141,11 @@ zh:
   label_chm_change_task_change_task_template: 任务模板
   label_chm_change_task_depends: 依赖任务
   #========================= end change template task ==================================
-
-
-
+  #========================= change template task =========================
+  label_chm_change_incident_relation: 变更单与事故单关联
+  label_chm_change_incident_relation_new: 添加关联事故单
+  label_chm_change_incident_relation_add: 添加
+  label_chm_change_request_master_incident_request: 直接关联事故单
+  label_chm_change_request_relation_incident_request: 关联事故单
+  #========================= end change template task ==================================
 

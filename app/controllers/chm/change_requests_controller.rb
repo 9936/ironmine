@@ -117,12 +117,28 @@ class Chm::ChangeRequestsController < ApplicationController
 
 
   def incident_new
-    incident_request = Icm::IncidentRequest.find(params[:incident_request_id])
+    incident_request = Icm::IncidentRequest.find(params[:request_id])
 
-
+    # 复制 事故单上的字段信息
     @change_request = Chm::ChangeRequest.new(params[:chm_change_request]||{})
 
-    @change_request.requested_by
+    @change_request.requested_by = incident_request.requested_by
+
+    @change_request.external_system_id = incident_request.external_system_id
+
+    @change_request.category_id = incident_request.incident_category_id
+
+    @change_request.sub_category_id = incident_request.incident_sub_category_id
+
+    @change_request.title= incident_request.title
+
+    @change_request.summary= incident_request.summary
+
+    @change_request.contact_id = incident_request.contact_id
+
+    @change_request.contact_number= incident_request.contact_number
+
+    @change_request.incident_request_id = incident_request.id
 
     # 设定默认成请求人
     @change_request.requested_by = Irm::Person.current.id unless  @change_request.requested_by.present?
@@ -144,7 +160,7 @@ class Chm::ChangeRequestsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html {render "new"}
       format.xml  { render :xml => @change_request }
     end
   end

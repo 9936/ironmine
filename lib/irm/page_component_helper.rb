@@ -164,12 +164,18 @@ module Irm
           </span>
         REQUIRE_TEXT
 
+
+
         output.safe_concat(require_text)
       else
-        output.safe_concat "<div id= '#{name}SubPageBlockHeader' class='spbHeader pbSubheader tertiaryPalette'>"
+        output.safe_concat "<div id= '#{name}SubPageBlockHeader' class='spbHeader pbSubheader first tertiaryPalette'>"
       end
 
       output.safe_concat("<h3>#{title}</h3>")
+
+      content = nil
+      content = capture( &block)  if block_given?
+      output << content
 
       output.safe_concat('</div>')
     end

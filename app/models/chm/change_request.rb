@@ -5,6 +5,8 @@ class Chm::ChangeRequest < ActiveRecord::Base
 
   has_many :change_plans
 
+  has_many :change_incident_relations
+
 
   validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,:organization_id,
                         :change_impact_id,:change_urgency_id,:change_status_id,:change_priority_id,:request_type,
@@ -174,6 +176,9 @@ class Chm::ChangeRequest < ActiveRecord::Base
       self.organization_id =  Irm::Person.find(self.requested_by).organization_id
     end
 
+    if self.incident_request_id
+      self.change_incident_relations.build({:incident_request_id=>self.incident_request_id,:create_flag=>"Y"})
+    end
   end
 
   def validate_summary

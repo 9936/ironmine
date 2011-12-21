@@ -1,0 +1,53 @@
+<%= page_block("incidentRequestForm") do |pb|%>
+    <%= pb.page_block_header(:title=>t(:label_chm_change_incident_relation_new)) do %>
+      <td id="topButtonRow" class="pbButton">
+        <%= form_tag({:action=>"create"}) do |f| %>
+          <%= hidden_field_tag(:incident_request_ids,params[:incident_request_ids],:id=>"incident_request_ids") %>
+          <%= hidden_field_tag(:change_request_id,params[:change_request_id]) %>
+          <div class="button"><%= link_submit t(:label_chm_change_incident_relation_add),:id=>"formSubmit"%></div>
+          <div class="button"><%= link_back t(:back),{:controller=>"chm/change_requests",:action=>"show_incident",:id=>@change_request.id}%></div>
+        <% end %>
+      </td>
+      <td class="pbHelp">
+      </td>
+
+    <% end %>
+   <%= pb.page_block_body do %>
+    <div id="incident_requests" class="datatable">
+      <div id="title" style="display:none">
+        <%= link_to( "({incident_status_name}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>
+      </div>
+    </div>
+    <%= datatable("incident_requests",{:action=>"incident_requests",:change_request_id=>@change_request.id,:format=>"json"},
+                          [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
+                           { :key => "request_number", :label => "#",:searchable=>true,:width=>"20px"},
+                           { :key => "title",:formatter=>"Y.irm.template",:label => t(:label_icm_incident_request_title),:searchable=>true },
+                           { :key => "incident_status_name", :hidden=>true},
+                           { :key => "organization_name", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
+                           { :key => "priority_name", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },
+                           { :key => "incident_name",:hidden=>true },
+                           { :key => "requested_name", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) },
+                           { :key => "external_system_name", :label => t(:label_irm_external_system,:searchable=>true) }
+                           ],{:select=>"multiple",:paginator_box=>'incidentRequestsPaginatorBox'})%>
+        <div id="incidentRequestsPaginatorBox" class="irm-paginator-box"></div>
+<% end %>
+<% end %>
+
+<script type="text/javascript">
+  Ext.onReady(function(){
+      var processSelected = function(selModel,selected){
+          var ids = [];
+          for(var i = 0;i<selected.length;i++){
+            ids.push(selected[i].data.id);
+          }
+          $("#incident_request_ids").val(ids.join(","));
+      }
+      $("#formSubmit").click(function(e){
+          if($("#incident_request_ids").val().length<1){
+              alert($.i18n("atLastSelectOneRecord"));
+              return false;
+          }
+      });
+      Ext.getCmp("incident_requestsDatatable").selModel.addListener("selectionchange",processSelected);
+  });
+</script>
