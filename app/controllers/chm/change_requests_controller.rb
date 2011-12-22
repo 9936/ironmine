@@ -179,6 +179,8 @@ class Chm::ChangeRequestsController < ApplicationController
     respond_to do |format|
       if @change_request.save
         process_files(@change_request)
+        Icm::IncidentRequest.find(@change_request.incident_request_id).process_change(@change_request.id) if @change_request.incident_request_id.present?
+
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @change_request, :status => :created, :location => @change_request }
       else
@@ -272,6 +274,16 @@ class Chm::ChangeRequestsController < ApplicationController
       }
     end
 
+  end
+
+
+  def show_detail
+    @change_request = Chm::ChangeRequest.list_all.find(params[:id])
+
+    respond_to do |format|
+      format.html { render :layout=>"xhr"}
+      format.xml  { render :xml => @change_request }
+    end
   end
 
   private

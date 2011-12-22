@@ -15,4 +15,6 @@ Irm::AccessControl.map do |map|
   map.function :change_task,{"chm/change_tasks"=>["show","new", "create","edit", "update", "destroy","template_new","template_create"],"chm/change_task_templates"=>["show_tasks"]}
 
   map.function :change_incident,{"chm/change_requests"=>["show_incident"],"chm/change_incident_relations"=>["new","create","destroy","incident_requests"]}
+  # 查看事故单
+  map.function :view_incident_request,{"chm/change_requests"=>["show_detail"]}
 end

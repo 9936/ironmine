@@ -335,6 +335,13 @@ class Icm::IncidentRequest < ActiveRecord::Base
     self.watcher_person_ids.include?(person_id)
   end
 
+  # 处理关联变更单
+  def process_change(change_request_id)
+    self.change_request_id = change_request_id
+    self.change_requested_at = Time.now
+    self.save
+  end
+
   private
   def generate_request_number
     count = self.class.count

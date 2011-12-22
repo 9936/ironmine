@@ -1327,6 +1327,7 @@ Ironmine::Application.routes.draw do
     match '/change_requests/:id/show_implement(.:format)' => "change_requests#show_implement", :via => :get
     match '/change_requests/:id/show_approve(.:format)' => "change_requests#show_approve", :via => :get
     match '/change_requests/:request_id/incident_new(.:format)' => "change_requests#incident_new", :via => :get
+    match '/change_requests/:id/show_detail(.:format)' => "change_requests#show_detail", :via => :get
 
     #change journals
     match '/change_requests/:request_id/change_journals/create(.:format)' => "change_journals#create", :via => :post

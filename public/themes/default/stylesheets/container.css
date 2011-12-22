@@ -582,6 +582,10 @@ body .miniTab .miniTabList li > span, body .miniTab .miniTabList li > a {
     padding: 8px 8px 4px 0;
 }
 
+.miniTab ul li a {
+    text-decoration: none;
+}
+
 #mainSelect .miniTab, .bMiniTab .miniTab {
     margin-bottom: -3px;
 }
