@@ -18,17 +18,12 @@ class Chm::ChangeIncidentRelationsController < ApplicationController
   # POST /statuses.xml
   def create
     @change_request = Chm::ChangeRequest.find(params[:change_request_id])
-    incident_request_ids = params[:incident_request_ids]
-    incident_request_ids.split(",").each do |incident_request_id|
-      Chm::ChangeIncidentRelation.create(:change_request_id=>@change_request.id,:incident_request_id=>incident_request_id)
+
+    if params[:incident_request_id].present?
+      relation = Chm::ChangeIncidentRelation.new(:change_request_id=>@change_request.id,:incident_request_id=>params[:incident_request_id])
+      relation.save if relation.valid?
     end
 
-    params[:incident_request_ids] = ""
-
-    respond_to do |format|
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @change_request }
-    end
   end
 
   # DELETE /statuses/1
@@ -40,10 +35,6 @@ class Chm::ChangeIncidentRelationsController < ApplicationController
       change_incident_relation.destroy if change_incident_relation.present?
     end
 
-    respond_to do |format|
-      format.html { redirect_to({:controller=>"chm/change_requests",:action => "show_incident",:id=>@change_request.id}) }
-      format.xml  { head :ok }
-    end
   end
 
 

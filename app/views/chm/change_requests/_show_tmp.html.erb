@@ -84,15 +84,17 @@
                 <% end %>
                 </div>
 
-            <% end %>
-        <% end %>
 
-        <%= tabs("nav",[{:label=>t(:label_chm_change_request_tab_common),:url=>{:controller=>"chm/change_requests",:action=>"show"},:params=>{:id=>@change_request.id}},
-                        {:label=>t(:label_chm_change_request_tab_incident),:url=>{:controller=>"chm/change_requests",:action=>"show_incident"},:params=>{:id=>@change_request.id}},
-                        {:label=>t(:label_chm_change_request_tab_plan),:url=>{:controller=>"chm/change_requests",:action=>"show_plan"},:params=>{:id=>@change_request.id}},
-                        {:label=>t(:label_chm_change_request_tab_implement),:url=>{:controller=>"chm/change_requests",:action=>"show_implement"},:params=>{:id=>@change_request.id}},
-                        {:label=>t(:label_chm_change_request_tab_approve),:url=>{:controller=>"chm/change_requests",:action=>"show_approve"},:params=>{:id=>@change_request.id}}])  %>
-        <%= render(:partial=>partial) %>
+
+           <%= tabs("nav",[{:label=>t(:label_chm_change_request_tab_common),:url=>{:controller=>"chm/change_requests",:action=>"show"},:params=>{:id=>@change_request.id}},
+                           {:label=>t(:label_chm_change_request_tab_incident),:url=>{:controller=>"chm/change_requests",:action=>"show_incident"},:params=>{:id=>@change_request.id}},
+                           {:label=>t(:label_chm_change_request_tab_plan),:url=>{:controller=>"chm/change_requests",:action=>"show_plan"},:params=>{:id=>@change_request.id}},
+                           {:label=>t(:label_chm_change_request_tab_implement),:url=>{:controller=>"chm/change_requests",:action=>"show_implement"},:params=>{:id=>@change_request.id}},
+                           {:label=>t(:label_chm_change_request_tab_approve),:url=>{:controller=>"chm/change_requests",:action=>"show_approve"},:params=>{:id=>@change_request.id}}])  %>
+           <%= render(:partial=>partial) %>
+
+           <% end %>
+        <% end %>
     <% end %>
 <% end %>
 

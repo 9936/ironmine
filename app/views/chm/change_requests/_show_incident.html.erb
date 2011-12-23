@@ -1,14 +1,15 @@
 <%= page_block("showRequest") do |pb| %>
     <%= pb.page_block_header({:title=>t(:label_chm_change_request_incident_requests)}) do%>
       <td id="topButtonRow" class="pbButton">
-        <div class="button"><%= link_to t(:new), {:controller => "chm/change_incident_relations",:action => "new",:change_request_id=>@change_request.id}%></div>
-        <div class="button"><%= link_back t(:back)%></div>
       </td>
-      <td class="pbHelp">
+      <td class="pbHelp" id="incidentForm">
+         <%= render :partial=>"chm/change_incident_relations/mini_form"%>
       </td>
     <% end %>
 
     <%= pb.page_block_body do %>
-        <%= render :partial=>"chm/change_incident_relations/change_incident_requests",:locals=>{:datas=>change_incident_requests(@change_request.id),:master_incident_request=>change_master_incident_request(@change_request.incident_request_id)} %>
+        <div id="incidentRequests">
+          <%= render :partial=>"chm/change_incident_relations/change_incident_requests",:locals=>{:datas=>change_incident_requests(@change_request.id),:master_incident_request=>change_master_incident_request(@change_request.incident_request_id)} %>
+        </div>
     <% end %>
 <% end %>

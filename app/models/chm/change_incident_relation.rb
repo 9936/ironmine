@@ -9,5 +9,5 @@ class Chm::ChangeIncidentRelation < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
-
+  validates_uniqueness_of :change_request_id,:scope => [:incident_request_id]
 end

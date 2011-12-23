@@ -95,7 +95,6 @@
     vertical-align: top;
   }
 </style>
-<form>
 <div id="ep" class="edit-block page-block">
   <div class="pbHeader" id="icm_new_journal_top_menu">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -212,9 +211,7 @@
       </table>
     </div>
 
-  </div>
-</div>
-</form>
+
 
 <% if @incident_request.change_request_id.present?%>
   <!-- 处理关联的变更单 -->
@@ -400,6 +397,10 @@
 <% end %>
 <% end %>
 <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
+</div>
+
+
+  </div>
 </div>
 
 <script>
