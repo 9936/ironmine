@@ -273,7 +273,7 @@
        <div style="float:left; padding:5px 0 0 5px;">
          <h3><%= @incident_request[:submitted_name]  %></h3>
             <span style="color:#666666;font-style:italic;">
-              <%= t(:label_icm_submit_title,:message=>distance_of_time_in_words(Time.now, @incident_request[:submitted_date])) %>
+              <%= t(:label_reply_title,:time_distance=>distance_of_time_in_words(Time.now,@incident_request[:submitted_date]),:date_format=>format_date(@incident_request[:submitted_date])) %>
             </span>
        </div>
      </div>
