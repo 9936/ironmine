@@ -129,16 +129,14 @@
                 <div class="gray-button"><%= link_to t(:edit), {:controller=>"icm/incident_requests",:action => "edit", :id => @incident_request.id}%></div>
               <%end%>
               </div>
-              <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>
-                <div class="button-group">
-                    <div class="gray-button"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
-                </div>
-              <% end %>
-              <% unless @incident_request.change_incident_requests.where(:create_flag=>Irm::Constant::SYS_YES).any? %>
-                <div class="button-group">
-                    <div class="gray-button"><%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests",:action => "incident_new", :request_id => @incident_request.id},{:back=>true}%></div>
-                </div>
-              <% end %>
+              <div class="button-group">
+                <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>
+                      <div class="gray-button"><%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers",:action => "new_from_icm_request", :request_id => @incident_request.id}%></div>
+                <% end %>
+                <% unless @incident_request.change_request_id.present? %>
+                      <div class="gray-button"><%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests",:action => "incident_new", :request_id => @incident_request.id},{:back=>true}%></div>
+                <% end %>
+              </div>
           </td>
         </tr>
       </tbody>
@@ -154,7 +152,7 @@
       <h3>(<%= @incident_request[:incident_status_name] %>)[<%=@incident_request[:request_number]%>]<%=@incident_request[:title]%></h3>
       <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" ExpandedText="<%= t(:label_icm_incident_more_info) %>"><%= t(:label_icm_incident_more_info) %></a>)</div>
     </div>
-    <div class="pbSubsection <%="hidden" unless Irm::Constant::SYS_YES.eql?(params[:show_info])%>" id="incidentDetail">
+    <div class="pbSubsection" id="incidentDetail">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>

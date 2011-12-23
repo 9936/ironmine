@@ -339,6 +339,14 @@ class Icm::IncidentRequest < ActiveRecord::Base
   def process_change(change_request_id)
     self.change_request_id = change_request_id
     self.change_requested_at = Time.now
+    self.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,"CREATE_RFC")
+    self.save
+  end
+
+  # 处理创建知识库
+  def process_knowledge(entry_header_id)
+    self.kb_flag = Icm::Constant::SYS_YES
+    self.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,"CREATE_SKM")
     self.save
   end
 

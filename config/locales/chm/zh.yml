@@ -1,4 +1,4 @@
-zh:
+ zh:
   #========================= status =========================
   label_chm_change_status: 变更状态
   label_chm_change_status_list: 变更状态列表
@@ -54,6 +54,7 @@ zh:
   label_chm_change_request: 变更单
   label_chm_change_request_list: 变更单列表
   label_chm_change_request_new: 新建变更单
+  label_action_incident_new: 从事故单创建变更单
   label_chm_change_request_edit: 编辑变更单
   label_chm_change_request_show: 查看
   label_chm_change_request_requested_by: 请求人

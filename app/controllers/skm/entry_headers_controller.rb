@@ -547,7 +547,8 @@ class Skm::EntryHeadersController < ApplicationController
 #    column_ids = params[:skm_entry_header][:column_ids].split(",")
     incident_request = Icm::IncidentRequest.find(@entry_header.source_id)
     respond_to do |format|
-      if @entry_header.save && incident_request.update_attribute(:kb_flag, Irm::Constant::SYS_YES)
+      if @entry_header.save
+        incident_request.process_knowledge(@entry_header.id)
 #        column_ids.each do |c|
 #          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
 #        end
