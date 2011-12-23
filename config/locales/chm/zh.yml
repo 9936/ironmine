@@ -86,6 +86,7 @@
   label_chm_change_request_tab_approve: 审批
   label_chm_change_request_tab_implement: 实施
   label_chm_change_request_incident_requests: 关联事故单
+  label_chm_change_request_reply: 回复历史
   #========================= end change priorities ==================================
   #========================= change plan types =========================
   label_chm_change_plan_type: 变更计划类型
