@@ -181,7 +181,7 @@ class Chm::ChangeRequestsController < ApplicationController
         process_files(@change_request)
         Icm::IncidentRequest.find(@change_request.incident_request_id).process_change(@change_request.id) if @change_request.incident_request_id.present?
 
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:action => "show",:id=>@change_request.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @change_request, :status => :created, :location => @change_request }
       else
         format.html { render :action => "new" }
