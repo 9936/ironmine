@@ -133,6 +133,20 @@ $(function(){
 
         });
     }
+    //如果下拉列表中只有一个可选值,且当前值是空值
+    $("select:not([depend])").each(function(index,element){
+        if($(element).val()!=""){
+            return
+        }
+        var options = $(element).find("option")
+        if(options.length==1&&$(options[0]).attr("value")!=""){
+            $(element).val($(options[0]).attr("value"));
+        }
+        else if(options.length==2&&$(options[0]).attr("value")==""&&$(options[1]).attr("value")!=""){
+            $(element).val($(options[1]).attr("value"));
+        }
+    });
+
 });
 
 //BEGIN========================过滤器 帮助函数========================================
