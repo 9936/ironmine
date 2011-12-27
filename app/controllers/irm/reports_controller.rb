@@ -162,7 +162,7 @@ class Irm::ReportsController < ApplicationController
 
     #记录报表运行历史
     report_params = @report.program_params.merge({:date_from=>@filter_date_from,:date_to=>@filter_date_to})
-    report_history = Irm::ReportHistory.create(:report_id=>@report.id,:executed_by=>Irm::Person.current.id,:elapse=>end_time-start_time,:execute_type=>"PAGE",:params=>report_params)
+    report_history = Irm::ReportRequestHistory.create(:report_id=>@report.id,:executed_by=>Irm::Person.current.id,:start_at=>start_time,:end_at=>end_time,:execute_type=>"PAGE",:params=>report_params)
     @report.current_history_id = report_history.id
   end
 
@@ -188,10 +188,6 @@ class Irm::ReportsController < ApplicationController
     @filter_date_from = @report.filter_date_from.strftime("%Y-%m-%d") if @report.filter_date_from.present?
     @filter_date_to = @report.filter_date_to.strftime("%Y-%m-%d") if @report.filter_date_to.present?
 
-    #记录报表运行历史
-    report_params = @report.program_params.merge({:date_from=>@filter_date_from,:date_to=>@filter_date_to})
-    report_history = Irm::ReportHistory.create(:report_id=>@report.id,:executed_by=>Irm::Person.current.id,:execute_type=>"PAGE",:params=>report_params)
-    @report.current_history_id = report_history.id
 
     respond_to do |format|
         format.html { render(:action=>"show", :layout => "application_full") }
@@ -202,7 +198,7 @@ class Irm::ReportsController < ApplicationController
 
     #记录报表运行历史
     report_params = @report.program_params.merge({:date_from=>@filter_date_from,:date_to=>@filter_date_to})
-    report_history = Irm::ReportHistory.create(:report_id=>@report.id,:executed_by=>Irm::Person.current.id,:elapse=>end_time-start_time,:execute_type=>"PAGE",:params=>report_params)
+    report_history = Irm::ReportRequestHistory.create(:report_id=>@report.id,:executed_by=>Irm::Person.current.id,:start_at=>start_time,:end_at=>end_time,:execute_type=>"PAGE",:params=>report_params)
     @report.current_history_id = report_history.id
   end
 

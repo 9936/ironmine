@@ -20,7 +20,7 @@ module Irm
 
             #记录报表运行历史
             report_params = report.program_params.merge({:date_from=>report.filter_date_from,:date_to=>report.filter_date_to})
-            report_history = Irm::ReportHistory.create(:report_id=>report.id,:executed_by=>Irm::Person.anonymous.id,trigger_id=>report_trigger.id,:elapse=>end_time-start_time,:execute_type=>"MAIL",:params=>report_params)
+            report_history = Irm::ReportRequestHistory.create(:report_id=>report.id,:executed_by=>Irm::Person.anonymous.id,trigger_id=>report_trigger.id,:start_at=>start_time,:end_at=>end_time,:execute_type=>"MAIL",:params=>report_params)
           end
         end
       end

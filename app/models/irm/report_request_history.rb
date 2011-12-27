@@ -1,5 +1,5 @@
-class Irm::ReportHistory < ActiveRecord::Base
-  set_table_name :irm_report_histories
+class Irm::ReportRequestHistory < ActiveRecord::Base
+  set_table_name :irm_report_request_histories
 
   serialize :params, Hash
 
