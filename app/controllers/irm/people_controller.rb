@@ -198,11 +198,7 @@ class Irm::PeopleController < ApplicationController
     @person = Irm::Person.find(params[:id])
     @person.reset_password
     respond_to do |format|
-      if @person.save
-        format.html
-      else
         format.html { redirect_to({:action=>"show"}) }
-      end
     end
   end
 

@@ -346,6 +346,7 @@ Ironmine::Application.routes.draw do
     match '/people/:id/edit(.:format)' => "people#edit", :via => :get
     match '/people/new(.:format)' => "people#new", :via => :get
     match '/people/:id'=>"people#show", :via => :get
+    match '/people/:id/reset_password'=>"people#reset_password", :via => :get
     match '/people/:id(.:format)' => "people#update", :via => :put    
     match '/people/create(.:format)' => "people#create", :via => :post
     match '/people/:id/multilingual_edit(.:format)' => "people#multilingual_edit", :via => :get

@@ -245,7 +245,12 @@ class Irm::Person < ActiveRecord::Base
 
   # 重置密码
   def reset_password
-    self.last_reset_password = Irm::PasswordPolicy.random_password(self.opu_id)
+    self.password = Irm::PasswordPolicy.random_password(self.opu_id)
+    self.password_updated_at = Irm::PasswordPolicy.expire_date(self.opu_id)
+    self.unlock
+    if self.save
+      Delayed::Job.enqueue(Irm::Jobs::ResetPasswordMailJob.new(self.id,{:password=>self.password}), 0,Time.now )
+    end
   end
 
    # 加密密码

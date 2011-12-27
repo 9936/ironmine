@@ -44,7 +44,7 @@ Irm::AccessControl.map do |map|
   map.function :person,{"irm/people"=>["index", "show", "get_data", "get_choose_people","new", "create",
                                        "get_support_group", "get_owned_roles","edit", "update",
                                        "multilingual_edit", "multilingual_update","add_roles","remove_role",
-                                       "select_roles", "get_available_roles"],
+                                       "select_roles", "get_available_roles","reset_password"],
                         "irm/external_system_members" => ["new_from_person",
                                                           "create_from_person",
                                                           "delete_from_person",

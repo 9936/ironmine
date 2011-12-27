@@ -739,6 +739,7 @@ zh:
   label_irm_person_save_and_add_system: 保存后添加可访问应用系统
   label_irm_person_save_and_add_group: 保存后添加用户组
   error_irm_person_new_old_password_same: 新密码不能和旧密码相同
+  label_irm_person_reset_password: 重置密码
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: 弹性域

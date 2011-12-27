@@ -27,6 +27,14 @@ class Irm::PasswordPolicy < ActiveRecord::Base
     end
   end
 
+  def expire_date
+    if self.expire_in &&self.expire_in.to_i>0
+      return (self.expire_in.to_i+1).days.ago
+    else
+      return Time.now
+    end
+  end
+
   def locked?(times)
     !(self.maximum_attempts.to_i==0||self.maximum_attempts.to_i>times)
   end
@@ -84,6 +92,15 @@ class Irm::PasswordPolicy < ActiveRecord::Base
       return policy.expire?(password_last_update_at)
     end
     return false
+  end
+
+
+  def self.expire_date(opu_id)
+    policy = self.unscoped.by_opu(opu_id).first
+    if policy
+      return policy.expire_date
+    end
+    return Time.now
   end
 
   def self.validate_password(password,opu_id)

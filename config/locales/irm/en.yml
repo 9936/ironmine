@@ -746,6 +746,7 @@ en:
   label_irm_person_add_to_system: Add to External System
   label_irm_person_password_info: Set Password
   error_irm_person_new_old_password_same: New password can not be same as the old one.
+  label_irm_person_reset_password: Reset Password
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: Flex
