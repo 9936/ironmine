@@ -143,6 +143,8 @@ class Irm::ReportsController < ApplicationController
   end
 
   def show
+    start_time = Time.now
+
     folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
     @report = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).filter_by_folder_access(Irm::Person.current.id).find(params[:id])
 
@@ -150,10 +152,24 @@ class Irm::ReportsController < ApplicationController
     @filter_date_to=""
     @filter_date_from = @report.filter_date_from.strftime("%Y-%m-%d") if @report.filter_date_from.present?
     @filter_date_to = @report.filter_date_to.strftime("%Y-%m-%d") if @report.filter_date_to.present?
+
+
+
+
     render :action=>"show",:layout=>"application_full"
+
+    end_time = Time.now
+
+    #记录报表运行历史
+    report_params = @report.program_params.merge({:date_from=>@filter_date_from,:date_to=>@filter_date_to})
+    report_history = Irm::ReportHistory.create(:report_id=>@report.id,:executed_by=>Irm::Person.current.id,:elapse=>end_time-start_time,:execute_type=>"PAGE",:params=>report_params)
+    @report.current_history_id = report_history.id
   end
 
   def run
+    start_time = Time.now
+
+
     folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
     @report = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).filter_by_folder_access(Irm::Person.current.id).find(params[:id])
 
@@ -172,10 +188,22 @@ class Irm::ReportsController < ApplicationController
     @filter_date_from = @report.filter_date_from.strftime("%Y-%m-%d") if @report.filter_date_from.present?
     @filter_date_to = @report.filter_date_to.strftime("%Y-%m-%d") if @report.filter_date_to.present?
 
+    #记录报表运行历史
+    report_params = @report.program_params.merge({:date_from=>@filter_date_from,:date_to=>@filter_date_to})
+    report_history = Irm::ReportHistory.create(:report_id=>@report.id,:executed_by=>Irm::Person.current.id,:execute_type=>"PAGE",:params=>report_params)
+    @report.current_history_id = report_history.id
+
     respond_to do |format|
         format.html { render(:action=>"show", :layout => "application_full") }
         format.xls  { send_data(export_report_data_to_excel(@report),:type => "text/plain", :filename=>"report_#{@report.code.downcase}_#{Time.now.strftime('%Y%m%d%H%M%S')}.xls") }
     end
+
+    end_time = Time.now
+
+    #记录报表运行历史
+    report_params = @report.program_params.merge({:date_from=>@filter_date_from,:date_to=>@filter_date_to})
+    report_history = Irm::ReportHistory.create(:report_id=>@report.id,:executed_by=>Irm::Person.current.id,:elapse=>end_time-start_time,:execute_type=>"PAGE",:params=>report_params)
+    @report.current_history_id = report_history.id
   end
 
 
@@ -344,6 +372,24 @@ class Irm::ReportsController < ApplicationController
       else
         format.html { render :action => "edit_custom_program", :layout => "application_full" }
       end
+    end
+  end
+
+  def history
+
+  end
+
+  def history_data
+
+    histories_scope = Irm::ReportHistory.list_all.order("#{Irm::ReportHistory.table_name}.created_at desc")
+
+    respond_to do |format|
+      format.json {
+        histories_scope,count = paginate(histories_scope)
+        render :json=>to_jsonp(histories_scope.to_grid_json([:executed_name,
+                                                           :created_at,
+                                                           :execute_type,
+                                                           :elapse],count))}
     end
   end
 

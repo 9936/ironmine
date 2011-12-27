@@ -63,7 +63,7 @@ class IncidentElapseByStatus < Irm::ReportManager::ReportBase
 
       group_elapse_datas.each do |g_data|
         index = status_ids.index(g_data[:incident_status_id])
-        data[index+1] = g_data[:sum_distance].round
+        data[index+1] = g_data[:sum_distance].round if index
       end
 
       datas << data

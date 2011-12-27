@@ -2,7 +2,7 @@ class Irm::Report < ActiveRecord::Base
   set_table_name :irm_reports
   serialize :program_params, Hash
 
-  attr_accessor :step,:report_columns_str
+  attr_accessor :step,:report_columns_str,:current_history_id
 
 
   #多语言关系
