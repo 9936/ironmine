@@ -14,6 +14,7 @@ $(function(){
     //END========================全局ajax事件监听========================================
     $("*[required]").each(function(i,e){
         e.removeAttribute("required");
+        $(e).attr("irequired",true);
     });
     //BEGIN========================系统全局初始化========================================
     $('form a[type=submit]').live('click', function(e) {
@@ -134,7 +135,7 @@ $(function(){
         });
     }
     //如果下拉列表中只有一个可选值,且当前值是空值,自动选择第一个选项
-    $("select:not([depend])").each(function(index,element){
+    $("select[irequired]:not([depend])").each(function(index,element){
         if($(element).val()!=""){
             return
         }
@@ -145,6 +146,16 @@ $(function(){
     });
 
 });
+
+    var autoChooseFirst = function(element){
+        if($(element).val()!=""){
+            return
+        }
+        var options = $(element).find("option")
+        if(options.length==2&&$(options[0]).attr("value")==""&&$(options[1]).attr("value")!=""){
+            $(element).val($(options[1]).attr("value"));
+        }
+    }
 
 //BEGIN========================过滤器 帮助函数========================================
 var rawConditionClause = function (clause_dom_id,e){

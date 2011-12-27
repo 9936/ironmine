@@ -182,6 +182,11 @@
         // 使用 setTimeout防止IE6中 报 [无法设置selected属性。未指明的错误。]的错误.
         setTimeout(function() {
             $(targets[i]).val(targetValue);
+
+            // 自动选择第一个
+            if($(targets[i]).attr("irequired"))
+                autoChooseFirst(targets[i]);
+
             $(targets[i]).trigger('change');
         },1);
 
