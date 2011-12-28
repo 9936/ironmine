@@ -54,16 +54,21 @@
   </div>
 </div>
 
+ <%= page_block("subCategories") do |pb|%>
+        <%= pb.page_block_header(:title=>t(:label_icm_incident_sub_category)) do %>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= link_to t(:new), {:controller => "icm/incident_sub_categories",:action => "new",:category_id=>@incident_category.id,:back_url=>url_for({})}%></div>
+          </td>
+          <td class="pbHelp">
+          </td>
 
-<%= page_block do %>
-    <%= page_block_header(t(:label_icm_incident_sub_category)) do %>
-        <div class="button"><%= link_to t(:new), {:controller => "icm/incident_sub_categories",:action => "new",:category_id=>@incident_category.id,:back_url=>url_for({})}%></div>
-    <% end %>
-    <div class="pbBody">
-      <% incident_sub_categories = incident_sub_categories(@incident_category.id) %>
-      <%= detail_data_table(incident_sub_categories.size) do %>
-        <%= render :partial=>"icm/incident_categories/incident_sub_categories",:locals=>{:datas=>incident_sub_categories} %>
-      <% end %>
-    </div>
-<% end %>
+        <% end %>
+       <%= pb.page_block_body do %>
+         <% incident_sub_categories = incident_sub_categories(@incident_category.id) %>
+         <%= detail_data_table(incident_sub_categories.size) do %>
+           <%= render :partial=>"icm/incident_categories/incident_sub_categories",:locals=>{:datas=>incident_sub_categories} %>
+         <% end %>
+       <% end %>
+ <% end %>
+
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@incident_category} %>

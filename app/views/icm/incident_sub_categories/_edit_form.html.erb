@@ -1,45 +1,59 @@
 <%= form_for(@incident_sub_category,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
-    <%= page_block do %>
-        <%= page_block_header(t(:label_icm_incident_category_new)) do %>
+    <%= page_block("newImpact") do |pb|%>
+        <%= pb.page_block_header(:title=>t(:label_icm_incident_sub_category_new)) do %>
+          <td id="topButtonRow" class="pbButton">
             <div class="button"><%= link_submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel),back_url_default({:controller=>"icm/incident_categories",:id=>params[:category_id],:action=>"show"})%></div>
-        <% end %>
-        <div class="pbBody">
-          <%= error_for @incident_sub_category%>
-          <%= back_url_hidden_field_tag%>
-          <%= first_sub_page_block(t(:label_common_info)) do  %>
-            <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-                <tr>
-                  <td class="labelCol"><label for="code"><%=t(:label_icm_incident_category_code)%></label></td>
-                  <td class="dataCol"><%=@incident_sub_category.code%></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label for="name"><%=t(:label_icm_incident_category_name)%></label></td>
-                  <td class="dataCol"><%=f.text_field :name, :required=>true ,:id=>"name"%></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
+            <div class="button"><%= link_back t(:back),{:controller=>"icm/incident_categories",:id=>params[:category_id],:action=>"show"}%></div>
+          </td>
+          <td class="pbHelp">
+          </td>
 
-                <tr>
-                  <td class="labelCol"><label for="description"><%=t(:label_icm_incident_category_description)%></label></td>
-                  <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description, :cols=>60,:rows=>5,:id=>"description"%></td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label><%=(t :active)%></label></td>
-                  <td class="dataCol"><%=f.select :status_code, available_active_status%></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
-              </tbody>
-            </table>
+        <% end %>
+       <%= pb.page_block_body do %>
+            <%= error_for @incident_sub_category%>
+            <%= sub_page_block("baseInfo") do |spb|%>
+                <%= spb.sub_page_block_header(:title=>t(:label_common_info),:first=>true)%>
+                <%= spb.sub_page_block_body do %>
+                  <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td class="labelCol"><label for="code"><%=t(:label_icm_incident_category_code)%></label></td>
+                        <td class="dataCol"><%=@incident_sub_category.code%></td>
+                        <td class="labelCol empty">&nbsp;</td>
+                        <td class="dataCol empty">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td class="labelCol"><label for="name"><%=t(:label_icm_incident_category_name)%></label></td>
+                        <td class="dataCol"><%=f.text_field :name, :required=>true ,:id=>"name"%></td>
+                        <td class="labelCol empty">&nbsp;</td>
+                        <td class="dataCol empty">&nbsp;</td>
+                      </tr>
+
+                      <tr>
+                        <td class="labelCol"><label for="description"><%=t(:label_icm_incident_category_description)%></label></td>
+                        <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description, :cols=>60,:rows=>5,:id=>"description"%></td>
+                      </tr>
+                      <tr>
+                        <td class="labelCol"><label><%=(t :active)%></label></td>
+                        <td class="dataCol"><%=f.select :status_code, available_active_status%></td>
+                        <td class="labelCol empty">&nbsp;</td>
+                        <td class="dataCol empty">&nbsp;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            <% end %>
           <% end %>
+
         </div>
-        <%= page_block_footer do %>
+        <%= pb.page_block_footer do %>
+          <td id="topButtonRow" class="pbButton">
             <div class="button"><%= link_submit t(:save)%></div>
             <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
         <% end %>
     <% end %>
+    <% end %>
 <% end %>
+
+
+
