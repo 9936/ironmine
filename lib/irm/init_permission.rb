@@ -11,7 +11,7 @@ Irm::AccessControl.map do |map|
                                  "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_application", "index"],
-                                 "icm/support_groups"=>["get_member_options"],"irm/report_request_histories"=>["index","get_data"],
+                                 "icm/support_groups"=>["get_member_options"],
                                  "irm/search"=>[:index],"irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
@@ -261,6 +261,7 @@ Irm::AccessControl.map do |map|
   map.function :create_report_folders,{"irm/report_folders"=>["new", "create"]}
   map.function :edit_report_folders,{"irm/report_folders"=>["edit", "update", "multilingual_edit", "multilingual_update"]}
 
+  map.function :report_request_history,{"irm/report_request_histories"=>["index","get_data"]}
   #===================irm/tabs============================
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
   map.function :tab,{"irm/tabs"=>["index", "show","new", "create","edit", "update", "get_data","multilingual_edit", "multilingual_update"]}
