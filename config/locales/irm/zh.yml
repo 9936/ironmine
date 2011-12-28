@@ -892,6 +892,7 @@ zh:
   label_irm_report_request_history_start_at: 开始时间
   label_irm_report_request_history_end_at: 结束时间
   label_irm_report_request_history_execute_type: 运行方式
+  label_irm_report_request_history_elapse: 耗时
   #========================= end report request histories ===================================
   #=========================start irm  report_lists_controllers=====================#
   label_icm_incident_report_all: 事故单模块报表汇总

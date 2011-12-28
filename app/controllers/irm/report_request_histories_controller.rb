@@ -16,7 +16,7 @@ class Irm::ReportRequestHistoriesController < ApplicationController
                                                              :executed_name,
                                                            :created_at,
                                                            :execute_type,
-                                                           :start_at,:end_at],count))}
+                                                           :start_at,:end_at,:elapse],count))}
     end
   end
 

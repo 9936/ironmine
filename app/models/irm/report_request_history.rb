@@ -20,4 +20,8 @@ class Irm::ReportRequestHistory < ActiveRecord::Base
     select_all.with_executed_by.with_report(I18n.locale)
   end
 
+  def elapse
+    self.end_at - self.start_at
+  end
+
 end
