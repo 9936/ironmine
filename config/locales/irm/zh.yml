@@ -884,6 +884,15 @@ zh:
   label_irm_report_group_column_sort_type: 排序
   label_irm_report_group_column_group_date_type: 日期分组方式
   #========================= end irm report column ===================================
+  #========================= irm report request histories ===================================
+  label_irm_report_request_history: 报表运行历史
+  label_irm_report_request_history_list: 报表运行历史列表
+  label_irm_report_request_history_report: 报表
+  label_irm_report_request_history_executed_by: 报表运行用户
+  label_irm_report_request_history_start_at: 开始时间
+  label_irm_report_request_history_end_at: 结束时间
+  label_irm_report_request_history_execute_type: 运行方式
+  #========================= end report request histories ===================================
   #=========================start irm  report_lists_controllers=====================#
   label_icm_incident_report_all: 事故单模块报表汇总
   label_csi_survey_report_all: 问卷调查报表

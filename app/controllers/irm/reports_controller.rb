@@ -371,23 +371,7 @@ class Irm::ReportsController < ApplicationController
     end
   end
 
-  def history
 
-  end
-
-  def history_data
-
-    histories_scope = Irm::ReportHistory.list_all.order("#{Irm::ReportHistory.table_name}.created_at desc")
-
-    respond_to do |format|
-      format.json {
-        histories_scope,count = paginate(histories_scope)
-        render :json=>to_jsonp(histories_scope.to_grid_json([:executed_name,
-                                                           :created_at,
-                                                           :execute_type,
-                                                           :elapse],count))}
-    end
-  end
 
   private
   def export_report_data_to_excel(report)

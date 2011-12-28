@@ -10,9 +10,14 @@ class Irm::ReportRequestHistory < ActiveRecord::Base
     select("executed.full_name executed_name")
   }
 
+  scope :with_report,lambda{|language|
+    joins("JOIN #{Irm::Report.view_name} report ON report.id = #{table_name}.report_id AND report.language='#{language}'").
+        select("report.name report_name")
+  }
 
-  def list_all
-    select_all.with_executed_by
+
+  def self.list_all
+    select_all.with_executed_by.with_report(I18n.locale)
   end
 
 end
