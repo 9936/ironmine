@@ -32,7 +32,7 @@
         <tbody>
             <tr>
               <td class="labelCol"><label><%=(t :label_skm_column_parent)%></label></td>
-              <td class="data2Col"><%= lov_field_tag "skm_columns", "SKM_COLUMNS", :id => "parent_column_lov", :value => @column.parent_column_id, :label_required => true %></td>
+              <td class="data2Col"><%= f.blank_select :parent_column_id, available_parentable_skm_columns(@column.id), {} %></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_skm_column_code)%></label></td>

@@ -10,7 +10,7 @@ class Skm::Column < ActiveRecord::Base
   validates_uniqueness_of :column_code,:scope=>[:opu_id]
 
   attr_accessor :access_str
-
+  attr_accessor :level
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
@@ -28,6 +28,10 @@ class Skm::Column < ActiveRecord::Base
   scope :accessible,lambda{|person_id|
       joins("JOIN #{Skm::ColumnAccess.table_name} ON #{Skm::ColumnAccess.table_name}.column_id = #{table_name}.id").
       where("EXISTS(SELECT 1 FROM #{Irm::Person.relation_view_name} WHERE #{Irm::Person.relation_view_name}.source_id = #{Skm::ColumnAccess.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type = #{Skm::ColumnAccess.table_name}.source_type AND  #{Irm::Person.relation_view_name}.person_id = ?)",person_id)
+  }
+
+  scope :parentable,lambda{|column_id|
+    where("#{table_name}.id !=? AND NOT EXISTS(SELECT 1 FROM #{Skm::Column.table_name} ab WHERE ab.parent_column_id = ? AND ab.id = #{table_name}.id)", column_id, column_id)
   }
 
   def is_leaf?
