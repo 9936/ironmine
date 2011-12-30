@@ -150,4 +150,25 @@
   label_chm_change_request_master_incident_request: 直接关联事故单
   label_chm_change_request_relation_incident_request: 关联事故单
   #========================= end change template task ==================================
-
+  #========================= advisory boards =========================
+  label_chm_advisory_board: 变更委员会
+  label_chm_advisory_board_list: 变更委员会列表
+  label_chm_advisory_board_new: 新建变更委员会
+  label_chm_advisory_board_edit: 编辑变更委员会
+  label_chm_advisory_board_show: 查看
+  label_chm_advisory_board_code: 编码
+  label_chm_advisory_board_name: 名称
+  label_chm_advisory_board_description: 描述
+  #========================= end change task phase ==================================
+  #========================= advisory board members =========================
+  label_chm_advisory_board_member: 变更委员会成员
+  label_chm_advisory_board_member_list: 变更委员会成员列表
+  label_chm_advisory_board_member_new: 添加变更委员会成员
+  label_chm_advisory_board_member_show: 查看
+  #========================= end advisory board members ==================================
+  #========================= change approvals =========================
+  label_chm_change_approval: 变更审批
+  label_chm_change_approval_list: 变更委员会成员列表
+  label_chm_change_approval_new: 添加变更审批人员
+  label_chm_change_approval_show: 查看
+  #========================= end change approvals ==================================

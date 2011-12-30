@@ -1,0 +1,52 @@
+<%= detail_data_table(datas.length) do %>
+  <!--  irm datatable      -->
+  <div class="irm-datatable">
+    <div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40px">
+                <div><%= t(:operation) %></div>
+              </th>
+              <th>
+                <div><%= t(:label_irm_person_full_name) %></div>
+              </th>
+              <th>
+                <div><%= t(:label_irm_person_organization) %></div>
+              </th>
+              <th>
+                <div><%= t(:label_irm_person_email_address) %></div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <%datas.each do |data|  %>
+                <tr id="<%=data[:id]%>">
+                  <td>
+                    <div>
+                      <%= link_to t(:delete),{:controller => "chm/change_approvals",:id=>data.id,:action => "destroy"} ,{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) } %>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <%= data[:full_name] %>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <%= data[:organization_name] %>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <%= data[:email_address] %>
+                    </div>
+                  </td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  <!--  end irm datatable      -->
+<% end %>

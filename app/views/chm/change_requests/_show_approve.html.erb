@@ -1,0 +1,13 @@
+<%= page_block("approvals") do |pb| %>
+    <%= pb.page_block_header({:title=>t(:label_chm_change_approval)}) do%>
+      <td id="topButtonRow" class="pbButton">
+        <div class="button"><%= link_to(t(:new),{:controller=>"chm/change_approvals",:action=>"new",:change_request_id=>@change_request.id},:back=>true)%></div>
+      </td>
+      <td class="pbHelp">
+      </td>
+    <% end %>
+
+    <%= pb.page_block_body do %>
+      <%= render :partial=>"chm/change_approvals/approvals",:locals=>{:datas=>change_approvals(@change_request.id)} %>
+    <% end %>
+<% end %>

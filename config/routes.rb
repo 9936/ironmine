@@ -1397,12 +1397,33 @@ Ironmine::Application.routes.draw do
     match '/change_tasks/:source_id/template_new(.:format)' => "change_tasks#template_new", :via => :get
     match '/change_tasks/template_create(.:format)' => "change_tasks#template_create", :via => :post
 
-
     #change incident relations
     match '/change_incident_relations/:change_request_id/new(.:format)' => "change_incident_relations#new", :via => :get
     match '/change_incident_relations/create(.:format)' => "change_incident_relations#create", :via => :post
     match '/change_incident_relations/:change_request_id/:incident_request_id/destroy(.:format)' => "change_incident_relations#destroy", :via => :delete
     match '/change_incident_relations/:change_request_id/incident_requests(.:format)' => "change_incident_relations#incident_requests", :via => :get
+
+    #advisory_boards
+    match '/advisory_boards(/index)(.:format)' => "advisory_boards#index", :via => :get
+    match '/advisory_boards/:id/edit(.:format)' => "advisory_boards#edit", :via => :get
+    match '/advisory_boards/:id(.:format)' => "advisory_boards#update", :via => :put
+    match '/advisory_boards/new(.:format)' => "advisory_boards#new", :via => :get
+    match '/advisory_boards/create(.:format)' => "advisory_boards#create", :via => :post
+    match '/advisory_boards/:id/show(.:format)' => "advisory_boards#show", :via => :get
+    match '/advisory_boards/:id/show_tasks(.:format)' => "advisory_boards#show_tasks", :via => :get
+    match '/advisory_boards/get_data(.:format)' => "advisory_boards#get_data"
+
+    match '/advisory_board_members/:advisory_board_id/new(.:format)' => "advisory_board_members#new", :via => :get
+    match '/advisory_board_members/:advisory_board_id/create(.:format)' => "advisory_board_members#create", :via => :post
+    match '/advisory_board_members/:advisory_board_id/get_data(.:format)' => "advisory_board_members#get_data"
+    match '/advisory_board_members/:id/destroy(.:format)' => "advisory_board_members#destroy", :via => :delete
+
+    match '/change_approvals/:change_request_id/new(.:format)' => "change_approvals#new", :via => :get
+    match '/change_approvals/:change_request_id/create(.:format)' => "change_approvals#create", :via => :post
+    match '/change_approvals/:id/destroy(.:format)' => "change_approvals#destroy", :via => :delete
+    match '/change_approvals/get_available_member(.:format)' => "change_approvals#get_available_member", :via => :get
+
+
   end
 
   themes_for_rails

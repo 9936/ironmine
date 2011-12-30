@@ -1,0 +1,36 @@
+<%= page_title %>
+<div class="listRelatedObject setupBlock">
+    <div class="page-block">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_chm_advisory_board_list) %></h2></td>
+              <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+              </td>
+              <td class="pbHelp">
+                <div id="advisory_boardsSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="advisory_boards" class="datatable" style="width:100%">
+          <div id="id" style="display:none">
+            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
+          </div>
+        </div>
+        <%= datatable("advisory_boards",{:action=>"get_data",:format=>"json"},
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
+                       {:key=>"code",:label=>t(:code),:searchable=>true,:width=>"120px"},
+                       {:key=>"name",:label=>t(:name),:searchable=>true,:width=>"150px"},
+                       {:key=>"description",:label=>t(:description)}],
+                      {:paginator_box=>"advisory_boardsPaginatorBox",:search_box=>"advisory_boardsSearchBox"})%>
+        <div id="advisory_boardsPaginatorBox"></div>
+      </div>
+    </div>
+</div>
+
+
