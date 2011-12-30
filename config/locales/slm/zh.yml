@@ -37,7 +37,7 @@ zh:
   label_add_service_member: 添加成员
   label_add_service_break: 添加时间段
   label_slm_service_catalog: 服务
-  label_slm_service_catalog_usable_external_system: 可用于外部系统
+  label_slm_service_catalog_usable_external_system: 可用于应用系统
 
   #=========================    end service_catalogs_controller=======================#
   #=========================    slm service_members_controller=======================#
