@@ -79,7 +79,9 @@ module Irm::WfProcessInstancesHelper
   end
 
   def my_approvals
+    output = ActiveSupport::SafeBuffer.new
     step_instances = Irm::WfStepInstance.select_all.with_assign_approver.with_step.with_process_instance(I18n.locale).by_person(Irm::Person.current).where(:approval_status_code=>"PENDING")
-    render :partial=>"irm/wf_process_instances/my_approvals",:locals=>{:step_instances=>step_instances}
+    change_approvals = Chm::ChangeApproval.select_all.where(:person_id=>Irm::Person.current.id,:approve_status=>"APPROVING").with_change_request
+    output << render(:partial=>"irm/wf_process_instances/my_approvals",:locals=>{:step_instances=>step_instances,:personal_change_approvals=>change_approvals})
   end
 end

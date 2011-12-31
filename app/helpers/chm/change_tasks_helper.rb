@@ -20,4 +20,11 @@ module Chm::ChangeTasksHelper
     [change_task_phases,grouped_change_tasks]
   end
 
+
+  def my_change_tasks
+    tasks = Chm::ChangeTask.list_all.with_change_request.where(:support_person_id=>Irm::Person.current.id)
+    output = ActiveSupport::SafeBuffer.new
+    output << render(:partial=>"chm/change_tasks/my_change_tasks",:locals=>{:datas=>tasks})
+  end
+
 end

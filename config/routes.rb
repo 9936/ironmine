@@ -1422,7 +1422,9 @@ Ironmine::Application.routes.draw do
     match '/change_approvals/:change_request_id/create(.:format)' => "change_approvals#create", :via => :post
     match '/change_approvals/:id/destroy(.:format)' => "change_approvals#destroy", :via => :delete
     match '/change_approvals/get_available_member(.:format)' => "change_approvals#get_available_member", :via => :get
-
+    match '/change_approvals/:change_request_id/submit(.:format)' => "change_approvals#submit", :via => :get
+    match '/change_approvals/:id/approve(.:format)' => "change_approvals#approve", :via => :get
+    match '/change_approvals/:id/decide(.:format)' => "change_approvals#decide", :via => [:post,:put]
 
   end
 

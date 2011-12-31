@@ -1,0 +1,78 @@
+<div class="sub-block">
+    <h3 class="lbHeader"></h3>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h3 class="lbHeader"><%= t(:label_chm_change_task_my_tasks) %></h3></td>
+          <td id="topButtonRow" class="pbButton">
+          </td>
+          <td class="pbHelp">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pbBody">
+    <div class="pbSubsection">
+        <%= detail_data_table(datas.length) do %>
+          <!--  irm datatable      -->
+          <div class="irm-datatable">
+            <div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="width:70px;">
+                        <div><%= t(:operation) %></div>
+                      </th>
+                      <th>
+                        <div><%= t(:label_chm_change_task_name) %></div>
+                      </th>
+                      <th>
+                        <div><%= t(:label_chm_change_task_support_group) %></div>
+                      </th>
+                      <th>
+                        <div><%= t(:label_chm_change_task_status) %></div>
+                      </th>
+                      <th>
+                        <div><%= t(:label_chm_change_task_description) %></div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% datas.each do |data| %>
+                      <tr id="<%=data[:id]%>">
+                        <td>
+                          <div>
+                            <%= link_to(t(:label_chm_change_task_update),{:controller => "chm/change_tasks", :action => "edit",:id=>data[:id]},:back=>true) %>
+                          </div>
+                        </td>
+                        <td>
+                          <div>
+                            [<%= data[:change_request_number] %>]<%= data[:change_request_title] %>:<%= data[:name] %>
+                          </div>
+                        </td>
+                        <td>
+                          <div>
+                            <%= data[:support_group_name] %>
+                          </div>
+                        </td>
+                        <td>
+                          <div>
+                            <%= data[:status_name] %>
+                          </div>
+                        </td>
+                        <td>
+                          <div>
+                            <%= data[:description] %>
+                          </div>
+                        </td>
+                      </tr>
+                    <% end -%>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+          <!--  end irm datatable      -->
+        <% end %>
+    </div>
+  </div>
+</div>

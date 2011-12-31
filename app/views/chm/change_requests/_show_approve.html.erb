@@ -1,7 +1,12 @@
 <%= page_block("approvals") do |pb| %>
     <%= pb.page_block_header({:title=>t(:label_chm_change_approval)}) do%>
       <td id="topButtonRow" class="pbButton">
-        <div class="button"><%= link_to(t(:new),{:controller=>"chm/change_approvals",:action=>"new",:change_request_id=>@change_request.id},:back=>true)%></div>
+        <% if !@change_request.approve_status.present?||"ASSIGNED".eql?(@change_request.approve_status) %>
+            <div class="button"><%= link_to(t(:new),{:controller=>"chm/change_approvals",:action=>"new",:change_request_id=>@change_request.id},:back=>true)%></div>
+        <% end %>
+        <% if "ASSIGNED".eql?(@change_request.approve_status) %>
+            <div class="button"><%= link_to(t(:label_chm_change_approval_submit),{:controller=>"chm/change_approvals",:action=>"submit",:change_request_id=>@change_request.id},:back=>true)%></div>
+        <% end %>
       </td>
       <td class="pbHelp">
       </td>

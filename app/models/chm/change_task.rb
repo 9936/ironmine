@@ -36,6 +36,13 @@ class Chm::ChangeTask < ActiveRecord::Base
     select(" status.name status_name")
   }
 
+  # 变更单
+  scope :with_change_request,lambda{
+    joins("JOIN #{Chm::ChangeRequest.table_name} ON #{table_name}.source_id = #{Chm::ChangeRequest.table_name}.id").
+        where("#{table_name}.source_type = ?",Chm::ChangeRequest.name).
+        select("#{Chm::ChangeRequest.table_name}.title change_request_title,#{Chm::ChangeRequest.table_name}.request_number change_request_number")
+  }
+
   def self.list_all
     select_all.with_support(I18n.locale).with_change_task_phase(I18n.locale).with_change_status(I18n.locale)
   end

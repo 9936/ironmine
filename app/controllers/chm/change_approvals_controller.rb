@@ -22,6 +22,7 @@ class Chm::ChangeApprovalsController < ApplicationController
     end
 
     params[:advisory_board_member_ids] = ""
+    @change_request.update_attribute(:approve_status,"ASSIGNED")
 
     respond_to do |format|
         format.html { redirect_back_or_default(:controller=>"chm/change_requests",:action => "show_approve",:id=>@change_request.id) }
@@ -35,6 +36,9 @@ class Chm::ChangeApprovalsController < ApplicationController
   def destroy
     @change_approval = ChangeApproval.find(params[:id])
     @change_approval.destroy
+    unless Chm::ChangeApproval.where(:change_request_id=>@change_approval.change_request_id).any?
+      Chm::ChangeRequest.find(@change_approval.change_request_id).update_attribute(:approve_status,"")
+    end
 
     respond_to do |format|
       format.html { redirect_back_or_default(:controller=>"chm/change_requests",:action => "show_approve",:id=>@change_approval.change_request_id) }
@@ -48,6 +52,47 @@ class Chm::ChangeApprovalsController < ApplicationController
     advisory_board_members,count = paginate(advisory_board_members_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(advisory_board_members.to_grid_json([:full_name,:email_address,:organization_name,:person_id],count))}
+    end
+  end
+
+
+  def submit
+    @change_request = Chm::ChangeRequest.find(params[:change_request_id])
+    Chm::ChangeApproval.where(:change_request_id=>@change_request.id).update_all(:approve_status=>"APPROVING",:send_at=>Time.now)
+    Chm::ChangeApproval.list_all.where(:change_request_id=>@change_request.id).each do |change_approval|
+    # TODO send approve mail
+
+    end
+
+    @change_request.update_attribute(:approve_status,"APPROVING")
+
+
+    respond_to do |format|
+        format.html { redirect_back_or_default(:controller=>"chm/change_requests",:action => "show_approve",:id=>@change_request.id) }
+        format.xml  { render :xml => @change_request }
+    end
+  end
+
+
+  def approve
+    @change_approval = Chm::ChangeApproval.find(params[:id])
+    @change_request = Chm::ChangeRequest.list_all.find(@change_approval.change_request_id)
+
+  end
+
+
+  def decide
+    @change_approval = Chm::ChangeApproval.find(params[:id])
+    @change_approval.attributes = params[:chm_change_approval]
+    if Irm::Constant::SYS_YES.eql?(params[:reject])
+      @change_approval.approve
+    else
+      @change_approval.reject
+    end
+
+    respond_to do |format|
+      format.html { redirect_back_or_default(:controller=>"chm/change_requests",:action => "show_approve",:id=>@change_approval.change_request_id) }
+      format.xml  { head :ok }
     end
   end
 

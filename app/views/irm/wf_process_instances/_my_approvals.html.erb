@@ -1,4 +1,4 @@
-
+<% show_header ||= false %>
 <div class="sub-block">
     <h3 class="lbHeader"></h3>
     <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
@@ -14,7 +14,7 @@
     </table>
     <div class="pbBody">
     <div class="pbSubsection">
-         <% if step_instances.any? %>
+         <% if step_instances.any?||personal_change_approvals.any? %>
          <div class="datatable">
            <div class="irm-datatable">
              <div>
@@ -75,6 +75,36 @@
                             <td>
                               <div>
                                 <%= format_date(step_instance[:submitted_at]) %>
+                              </div>
+                            </td>
+                          </tr>
+                        <% end %>
+
+                        <% personal_change_approvals.each do |change_approval|%>
+                          <tr id="changeApproval<%=change_approval.id%>">
+                            <td>
+                              <div>
+                                <%= link_to t(:label_chm_change_approval_approve),{:controller => "chm/change_approvals",:id=>change_approval.id,:action => "approve"} ,{:back=>true } %>
+                               </div>
+                            </td>
+                            <td>
+                              <div>
+                                <%= link_to change_approval[:title],{:controller => "chm/change_requests",:id=>change_approval.change_request_id,:action => "show"} ,{:back=>true } %>
+                               </div>
+                            </td>
+                            <td>
+                              <div>
+                                <%= t(:label_chm_change_request) %>
+                               </div>
+                            </td>
+                            <td>
+                              <div>
+                                <b><%= change_approval[:created_by_name] %></b>
+                              </div>
+                            </td>
+                            <td>
+                              <div>
+                                <%= format_date(change_approval[:created_at]) %>
                               </div>
                             </td>
                           </tr>

@@ -22,9 +22,9 @@ Irm::AccessControl.map do |map|
   map.function :advisory_board,{"chm/advisory_boards"=>["index", "show", "get_data","new", "create","edit", "update"],
                                 "chm/advisory_board_members"=>["create","new","get_data","destroy"]}
 
-  map.function :change_approve,{"chm/change_approvals"=>["new","create","destroy","get_available_member"]}
+  map.function :change_approve,{"chm/change_approvals"=>["new","create","destroy","get_available_member","submit"]}
 
-  map.function :approve_change,{}
+  map.function :approve_change,{"chm/change_approvals"=>["approve","decide"]}
 
   map.function :perform_change_task,{}
 end

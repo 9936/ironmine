@@ -142,6 +142,8 @@
   label_chm_change_task_template_new: 从模板添加任务
   label_chm_change_task_change_task_template: 任务模板
   label_chm_change_task_depends: 依赖任务
+  label_chm_change_task_my_tasks: 我的任务
+  label_chm_change_task_update: 更新任务
   #========================= end change template task ==================================
   #========================= change template task =========================
   label_chm_change_incident_relation: 变更单与事故单关联
@@ -171,4 +173,9 @@
   label_chm_change_approval_list: 变更委员会成员列表
   label_chm_change_approval_new: 添加变更审批人员
   label_chm_change_approval_show: 查看
+  label_chm_change_approval_approve_status: 审批状态
+  label_chm_change_approval_approve_at: 审批日期
+  label_chm_change_approval_comment: 审批意见
+  label_chm_change_approval_submit: 提交审批
+  label_chm_change_approval_approve: 审批
   #========================= end change approvals ==================================
