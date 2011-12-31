@@ -34,7 +34,7 @@ class Chm::ChangeApprovalsController < ApplicationController
   # DELETE /change_approvals/1
   # DELETE /change_approvals/1.xml
   def destroy
-    @change_approval = ChangeApproval.find(params[:id])
+    @change_approval = Chm::ChangeApproval.find(params[:id])
     @change_approval.destroy
     unless Chm::ChangeApproval.where(:change_request_id=>@change_approval.change_request_id).any?
       Chm::ChangeRequest.find(@change_approval.change_request_id).update_attribute(:approve_status,"")
