@@ -8,6 +8,15 @@ class Chm::ChangeApproval < ActiveRecord::Base
   # approve_status 分为以下几个审批状态 ASSIGNED 审批中 APPROVING 已经审批 APPROVED 审批通过 APPROVE 审批拒绝 REJECT
 
 
+  acts_as_task({
+                 :scope=>"as_task",
+                 :show_url  => {:controller=>"chm/change_approvals",:action=>"approve",:id=>:id},
+                 :title => :title,
+                 :status_name=>:approve_status_name,
+                 :start_at=>:send_at,
+                 :end_at=>:approve_at
+                })
+
   query_extend
 
   scope :with_person,lambda{|language|
@@ -26,6 +35,10 @@ class Chm::ChangeApproval < ActiveRecord::Base
     joins("JOIN #{Chm::ChangeRequest.table_name} ON #{table_name}.change_request_id = #{Chm::ChangeRequest.table_name}.id").
     select("#{Chm::ChangeRequest.table_name}.title")
   }
+
+  def self.as_task
+    self.select_all.with_approve_status(I18n.locale).with_change_request.where(:person_id=>Irm::Person.current.id,:approve_status=>"APPROVING")
+  end
 
 
   def self.list_all

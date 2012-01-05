@@ -12,6 +12,17 @@ class Irm::WfStepInstance < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
+
+
+  acts_as_task({
+                 :scope=>"as_task",
+                 :show_url  => {:controller=>"irm/wf_step_instances",:action=>"show",:id=>:id},
+                 :title => :bo_description,
+                 :status_name=>:approval_status_code_name,
+                 :start_at=>:created_at,
+                 :end_at=>:end_at
+                })
+
   scope :with_assign_approver,lambda{
     joins("LEFT OUTER JOIN #{Irm::Person.table_name} assign_approver ON assign_approver.id = #{table_name}.assign_approver_id").
     select("assign_approver.full_name assign_approver_name,assign_approver.delegate_approver")
@@ -49,8 +60,8 @@ class Irm::WfStepInstance < ActiveRecord::Base
     select("#{table_name}.*").with_assign_approver.with_actual_approver.with_step.with_approval_status_code(I18n.locale)
   end
 
-  def self.select_all
-    select("#{table_name}.*")
+  def self.as_task
+    self.select_all.with_assign_approver.with_step.with_approval_status_code(I18n.locale).with_process_instance(I18n.locale).by_person(Irm::Person.current).where(:approval_status_code=>"PENDING")
   end
 
 

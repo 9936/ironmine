@@ -399,6 +399,7 @@ Ironmine::Application.routes.draw do
     match '/setting/:mi/common(.:format)' =>'setting#common'
     #home
     match '/home(/index)(.:format)' => "home#index", :via => :get
+    match '/home/my_tasks(.:format)' => "home#my_tasks", :via => :get
 
     #view_filter
     match '/filters/index/:sc/:bc(.:format)' => "filters#index", :via => :get

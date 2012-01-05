@@ -12,6 +12,18 @@ class Chm::ChangeTask < ActiveRecord::Base
 
   validates_presence_of :name,:status,:change_task_phase_id
 
+
+  acts_as_task({
+                 :scope=>"as_task",
+                 :show_url  => {:controller => "chm/change_tasks", :action => "edit",:id=>:id},
+                 :title => :task_title,
+                 :status_name=>:status_name,
+                 :start_at=>:start_at,
+                 :end_at=>:end_at
+                })
+
+
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
@@ -44,7 +56,16 @@ class Chm::ChangeTask < ActiveRecord::Base
   }
 
   def self.list_all
-    select_all.with_support(I18n.locale).with_change_task_phase(I18n.locale).with_change_status(I18n.locale)
+    select_all.with_change_request.with_support(I18n.locale).with_change_task_phase(I18n.locale).with_change_status(I18n.locale)
+  end
+
+
+  def self.as_task
+    self.list_all.with_change_status(I18n.locale).where(:support_person_id=>Irm::Person.current.id)
+  end
+
+  def task_title
+    "[#{self[:change_request_number]}]#{self[:change_request_title]}:#{self[:name]}"
   end
 
 

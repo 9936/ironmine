@@ -38,19 +38,10 @@
                   </td>
                 </tr>
                 <% end %>
-                <% if allow_to_function?(:workflow_approval) %>
                 <tr>
                   <td colspan="2">
-                    <div class="tools-content-right">
-                      <%= my_approvals %>
-                    </div>
-                  </td>
-                </tr>
-                <% end %>
-                <tr>
-                  <td colspan="2">
-                    <div class="tools-content-right">
-                      <%= my_change_tasks %>
+                    <div class="tools-content-right" >
+                      <%= render({:partial=>"irm/home/my_tasks"}) %>
                     </div>
                   </td>
                 </tr>
@@ -71,3 +62,4 @@
     <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
     <%= render :partial =>"/irm/common/recently_objects" %>
 <% end %>
+

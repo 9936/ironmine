@@ -288,3 +288,11 @@ zh:
   label_report_knowledge_use_apply: 使用知识次数
 
   #=========end reports===================
+  ##==============home page=============================
+  label_irm_task_mine: 待办事项
+  label_irm_task_type: 类型
+  label_irm_task_title: 主题
+  label_irm_task_status_name: 状态
+  label_irm_task_start_at: 开始时间
+  label_irm_task_end_at: 结束时间
+  ##==============end=============================
