@@ -7,7 +7,7 @@
           <td id="topButtonRow" class="pbButton">
           </td>
           <td class="pbHelp">
-            <%= blank_select_tag(:task_entry,my_task_entries,params[:task_entry],{:id=>"myTaskEntryType"}) %>
+            <div><%= t(:label_irm_task_type) %>:<%= blank_select_tag(:task_entry,my_task_entries,params[:task_entry],{:id=>"myTaskEntryType"}) %></div>
           </td>
         </tr>
       </tbody>
