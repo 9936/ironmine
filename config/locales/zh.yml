@@ -178,7 +178,7 @@ zh:
   #=========business object meaning translate===================
   label_irm_system_parameter: 系统参数
   label_csi_subject_option: 调查问卷可选项
-  label_csi_survey_member: 调查问卷参与者
+  label_csi_survey_member: 调查问卷任务
   label_icm_close_reason: 关闭原因
   label_icm_impact_range: 影响度
   label_icm_incident_history: 事故单变更历史

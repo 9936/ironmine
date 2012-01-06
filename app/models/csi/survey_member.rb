@@ -9,6 +9,16 @@ class Csi::SurveyMember < ActiveRecord::Base
   acts_as_urlable(:show=>{:controller=>"csi/surveys",:action=>"reply",:id=>:survey_id})
 
 
+  acts_as_task({
+                 :scope=>"as_task",
+                 :show_url  => {:controller => "csi/surveys", :action => "show_reply", :id => :id,:survey_member_id=>:survey_id},
+                 :title => :title,
+                 :status_name=>nil,
+                 :start_at=>:created_at,
+                 :end_at=>:end_date_active
+                })
+
+
   belongs_to :survey
 
   validates_uniqueness_of :person_id,:scope=>[:survey_id,:opu_id],:if=>Proc.new{|i| i.source_id.nil?}
@@ -38,6 +48,11 @@ class Csi::SurveyMember < ActiveRecord::Base
 
   def respond?
     self.end_date_active.nil?||self.end_date_active<Date.today||Irm::Constant::SYS_YES.eql?(self.response_flag)
+  end
+
+
+  def as_task
+    self.list_all.query_by_person(Irm::Person.current.id).order("response_flag,created_at  desc")
   end
 
 end
