@@ -7,19 +7,19 @@ class Csi::Survey < ActiveRecord::Base
   query_extend
   # 对运维中心数据进行隔离
   default_scope {default_filter}
-  acts_as_recently_objects(:title => "title",
-                           :target_controller => "csi/surveys")
 
-  validates_presence_of :title
 
-  validates_presence_of :due_dates,:if=>Proc.new{|i| i.with_incident_request.eql?(Irm::Constant::SYS_YES)}
-  validates_presence_of :closed_datetime,:if=>Proc.new{|i| i.with_incident_request.eql?(Irm::Constant::SYS_NO)}
+  validates_presence_of :title,:end_message
+  validates_presence_of :due_dates,:if=>Proc.new{|i| i.incident_flag.eql?(Irm::Constant::SYS_YES)}
+  validates_presence_of :close_date,:if=>Proc.new{|i| i.incident_flag.eql?(Irm::Constant::SYS_NO)}
 
 
   has_many :todo_events, :as => :source
+
   has_many :survey_subjects
   has_many :survey_members
   has_many :survey_ranges
+
   scope :query_by_person_id,lambda{|person_id| where(:person_id=>person_id)}
   scope :query_wrap_info,lambda{|language| select("#{table_name}.*,v1.meaning status_meaning, DATE_FORMAT(#{table_name}.created_at, '%Y-%m-%d') published_at").
                                                    joins(",irm_lookup_values_vl v1").
@@ -48,8 +48,6 @@ class Csi::Survey < ActiveRecord::Base
     select("#{table_name}.id, #{table_name}.title title, #{table_name}.updated_at updated_at").order("#{table_name}.updated_at DESC")
 
   }
-
-  after_create :generate_survey_code
 
 
   def self.search(query)
@@ -162,9 +160,5 @@ class Csi::Survey < ActiveRecord::Base
     @get_range_str = Csi::SurveyRange.where(:survey_id=>self.id).collect{|value| "#{value.source_type}##{value.source_id}"}.join(",")
   end
 
-  private
-  def generate_survey_code
-    self.survey_code = "CSI"+ 1000000.to_s + (id % 1000000).to_s
-    self.update_attribute(:survey_code, self.survey_code)
-  end
+
 end

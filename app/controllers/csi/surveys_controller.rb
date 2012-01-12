@@ -24,7 +24,7 @@ class Csi::SurveysController < ApplicationController
   # GET /surveys/new
   # GET /surveys/new.xml
   def new
-    @survey =Csi::Survey.new(:status_code=>"OFFLINE")
+    @survey = Csi::Survey.new(:status_code=>"OFFLINE")
 
     respond_to do |format|
       format.html { render :layout => "application_full"} # new.html.erb

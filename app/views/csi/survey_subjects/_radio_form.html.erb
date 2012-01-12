@@ -8,8 +8,9 @@
             {:value => t(:label_csi_survey_subjects_option_one)} %>
   <% end %>
 </div>
-<input type="radio" style="opacity:0.5;"/>
+
+    <input type="radio" style="opacity:0.5;"/>
     <%= text_field_tag "option", "", :onfocus => "subject_add_option(this, 'radio');", :style => "opacity:0.5;" %>
-    <%= check_box_tag "csi_survey_subject[other_input]", "1", subject.nil? ? false : subject.other_input,
-                      :onchange => 'toggle_other(this);'%>
-  <%= t(:label_csi_survey_subjects_add_other) %>
+    <%= hidden_field_tag "csi_survey_subject[other_input_flag]","N" ,{:id=>"csi_survey_subject_other_input_flag_copy"}%>
+    <%= check_box_tag "csi_survey_subject[other_input_flag]", "Y", subject.nil? ? false : Irm::Constant::SYS_YES.eql?(subject.other_input_flag)%>
+    <%= t(:label_csi_survey_subjects_add_other) %>
