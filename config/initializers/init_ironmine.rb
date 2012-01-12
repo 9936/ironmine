@@ -113,7 +113,9 @@ ActiveRecord::XmlSerializer::Attribute.send(:include,Irm::XmlAttribute)
 
 Ironmine::Acts::Searchable.searchable_entity = {Icm::IncidentRequest.name=>"view_incident_request",
                                                  Csi::Survey.name=>"view_survey",
-                                                 Skm::EntryHeader.name=>"view_skm_entries"}
+                                                 Skm::EntryHeader.name=>"view_skm_entries",
+                                                Irm::Bulletin.name=>"bulletin",
+                                                Chm::ChangeRequest.name => "change_request"}
 
 
 begin

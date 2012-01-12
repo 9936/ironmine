@@ -1,10 +1,12 @@
 module SearchableHelper
-  def show_search_result(query)
+  def show_search_result(query, search_option_str = "")
     result_box = ""
     results = []
     return unless query.present?
     Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
       next unless !value.present?||allow_to_function?(value)
+      next unless !search_option_str.present? || (search_option_str.present? &&
+          (search_option_str.split(" ").include?("ALL") || search_option_str.split(" ").include?(key)))
       search_entity = key.constantize
       if search_entity.searchable_options[:all].present?&&search_entity.respond_to?(search_entity.searchable_options[:all].to_sym)
         results =  search_entity.send(search_entity.searchable_options[:all].to_sym,query)

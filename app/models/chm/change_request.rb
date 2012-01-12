@@ -11,7 +11,7 @@ class Chm::ChangeRequest < ActiveRecord::Base
   validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,:organization_id,
                         :change_impact_id,:change_urgency_id,:change_status_id,:change_priority_id,:request_type,
                         :contact_number,:contact_id
-
+  acts_as_searchable
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -108,6 +108,20 @@ class Chm::ChangeRequest < ActiveRecord::Base
     select(" request_type.meaning request_type_name")
   }
 
+  searchable :auto_index => true, :auto_remove => true do
+    text :title
+    text :summary
+    text :change_journals_content do |change|
+      change.change_journals.map { |journal| journal.message_body }
+    end
+  end
+
+  def self.search(query)
+    results = Sunspot.search(Chm::ChangeRequest) do
+      keywords query
+    end.results
+    Chm::ChangeRequest.where("#{Chm::ChangeRequest.table_name}.id IN (?)", results.collect(&:id)).list_all
+  end
 
   def self.list_all
     select_all.with_external_system(I18n.locale).
@@ -123,7 +137,6 @@ class Chm::ChangeRequest < ActiveRecord::Base
         with_contact.
         with_request_type(I18n.locale)
   end
-
 
   def self.request_files(request_id)
     files = Irm::AttachmentVersion.query_all.query_by_change_request(request_id).group_by{|a| a.source_id}
