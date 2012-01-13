@@ -23,7 +23,11 @@ class Csi::SurveyResponsesController < ApplicationController
         when "string","text"
           survey_response.survey_results.build(:survey_subject_id=>subject.id,:result_type=>"INPUT",:text_input=>params[:result][subject.id])
         when "radio","drop"
-          survey_response.survey_results.build(:survey_subject_id=>subject.id,:result_type=>"OPTION",:survey_subject_option_id=>params[:result][subject.id])
+          if "_other".eql?(params[:result][subject.id])
+            survey_response.survey_results.build(:survey_subject_id=>subject.id,:result_type=>"OTHER",:text_input=>params[:result][:other][subject.id])
+          else
+            survey_response.survey_results.build(:survey_subject_id=>subject.id,:result_type=>"OPTION",:survey_subject_option_id=>params[:result][subject.id])
+          end
         when "check"
           if params[:result][subject.id]&&params[:result][subject.id].is_a?(Array)
             params[:result][subject.id].each do |option|
