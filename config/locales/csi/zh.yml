@@ -46,6 +46,7 @@ zh:
    label_csi_survey: 调查问卷
    label_csi_survey_subject_result: 结果
    label_csi_survey_cannot_enable_none_subject: 不能启用没有任何题目的调查问卷
+   label_csi_survey_validate_password: 验证问卷密码
    #========================= end   csi surveys_controller=======================#
    #========================= start csi survey_subjects_controller=======================#
    label_csi_survey_subject: 题目
@@ -102,3 +103,7 @@ zh:
    label_csi_survey_range_name: 范围对象
    #========================= end csi survey_ranges_controller=======================#
    label_csi_last_surveys: 最近的调查问卷
+   label_csi_survey_pre_page: 上一页
+   label_csi_survey_next_page: 下一页
+   label_csi_survey_response: 调查
+   label_csi_survey_response_new: 填写调查问卷

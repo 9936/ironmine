@@ -1558,3 +1558,43 @@ jQuery.checkRadioButton = function(selector){
 
     }
 }
+
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        var names = this.name.split("[");
+
+        var current = o;
+        for(var i=0;i<names.length;i++){
+            names[i] = names[i].replace("]","");
+            if(i==names.length-1){
+                if (current[names[i]] !== undefined) {
+                    if (!current[names[i]].push) {
+                        current[names[i]] = [current[names[i]]];
+                    }
+                    current[names[i]].push(this.value || '');
+                } else {
+                    if(names.length>1&&names[i].length==0){
+                        current.push(this.value || '');
+                    } else{
+                        current[names[i]] = this.value || '';
+                    }
+                }
+            }else{
+                if (current[names[i]] == undefined){
+                    if(names[i+1]=="]")
+                      current[names[i]]=[];
+                    else
+                      current[names[i]]={};
+                }
+
+                current = current[names[i]];
+            }
+
+        }
+
+    });
+    return o;
+};

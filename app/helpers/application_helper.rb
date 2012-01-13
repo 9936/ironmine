@@ -530,7 +530,7 @@ module ApplicationHelper
   end
 
   def format_date(time)
-    return time if time&&time===String
+    return time if time&&time.is_a?(String)
     time.strftime('%Y-%m-%d %H:%M:%S') if time
   end
 

@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 class Csi::SurveyResult < ActiveRecord::Base
   set_table_name :csi_survey_results
-  belongs_to :survey_subject, :foreign_key => "subject_id"
-
-  validates_presence_of :subject_result,:if =>Proc.new { |a|
-    (Csi::SurveySubject.query_by_subject_id(a.subject_id).first.required_flag=="Y")}
+  belongs_to :survey_response
 
   #加入activerecord的通用方法和scope
   query_extend

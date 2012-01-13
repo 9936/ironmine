@@ -1,10 +1,10 @@
 <tr>
-   <td class="labelCol"><label><%=subject.name%></label></td>
-   <td class="dataCol">
+   <td class="surveydataCol">
+    <span class="prompt"><%=h subject.description %></span>
+    <br />
     <%= select_tag "result[#{subject.id}]", options_for_select(subject.subject_options.map(&:value)) %>
     <span id="id_<%=subject.id%>" style="color:#FF0000;"></span>
     <br />
-    <span class="prompt"><%=h subject.prompt %></span>
    </td>
    <td class="labelCol empty"></td>
    <td class="dataCol empty"></td>

@@ -1,12 +1,14 @@
 class Csi::Survey < ActiveRecord::Base
   set_table_name :csi_surveys
 
-  attr_accessor :range_str
+  attr_accessor :range_str ,:page
 
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
   default_scope {default_filter}
+
+  acts_as_searchable
 
 
   validates_presence_of :title,:end_message
@@ -21,19 +23,17 @@ class Csi::Survey < ActiveRecord::Base
   has_many :survey_ranges
 
   scope :query_by_person_id,lambda{|person_id| where(:person_id=>person_id)}
-  scope :query_wrap_info,lambda{|language| select("#{table_name}.*,v1.meaning status_meaning, DATE_FORMAT(#{table_name}.created_at, '%Y-%m-%d') published_at").
-                                                   joins(",irm_lookup_values_vl v1").
-                                                   where("v1.lookup_type='SYSTEM_STATUS_CODE' AND v1.lookup_code = #{table_name}.status_code AND "+
-                                                         "v1.language=?",language)}
 
-  acts_as_searchable
+
   scope :with_person_count, lambda{
     select(" 0 person_count")
   }
 
-  scope :with_allow_author, lambda{
-    select(" ' ' allow_author_only")
+  scope :with_author,lambda{
+    joins("JOIN #{Irm::Person.table_name} author ON #{table_name}.created_by = author.id").
+        select("author.full_name author_name")
   }
+
 
   scope :query_recently_ten_reply,lambda{
     select("#{table_name}.id, #{table_name}.title title, sr.updated_at updated_at").
@@ -48,6 +48,12 @@ class Csi::Survey < ActiveRecord::Base
     select("#{table_name}.id, #{table_name}.title title, #{table_name}.updated_at updated_at").order("#{table_name}.updated_at DESC")
 
   }
+
+
+
+  def self.list_all
+    self.select_all.with_author.status_meaning
+  end
 
 
   def self.search(query)
@@ -87,7 +93,7 @@ class Csi::Survey < ActiveRecord::Base
   end
 
   def current_author?
-    if (self.author_id&&Irm::Person.current.id.eql?(self.author_id)) || (Irm::Person.current.login_name=="admin")
+    if (self.created_by&&Irm::Person.current.id.eql?(self.created_by)) || (Irm::Person.current.login_name=="admin")
       Irm::Constant::SYS_YES
     else
       Irm::Constant::SYS_NO
@@ -98,22 +104,32 @@ class Csi::Survey < ActiveRecord::Base
     self.title
   end
 
+
+  def close?
+    self.close_date.present?&&self.close_date > Time.now.to_date
+  end
+
+
+  def last_page?(page)
+    self.total_page <= page
+  end
+
   def joined_count
     Csi::SurveyMember.query_by_survey_id(self.id).where(:response_flag=>Irm::Constant::SYS_YES).count
   end
 
 
   def generate_member
-    return if Irm::Constant::SYS_YES.eql?(self.with_incident_request)
+    return if Irm::Constant::SYS_YES.eql?(self.incident_flag)
     exists_member_ids = survey_members.collect{|i| i.person_id}
     person_ids = Csi::SurveyRange.where(:survey_id=>self.id).query_person_ids.collect{|i| i[:person_id]}
     person_ids.uniq!
     person_ids.each do |pid|
       if exists_member_ids.include?(pid)
         sm = Csi::SurveyMember.where(:survey_id=>self.id,:person_id=>pid).first
-        sm.update_attributes(:end_date_active=>self.closed_datetime) if sm
+        sm.update_attributes(:end_date_active=>self.close_date) if sm
       else
-        Csi::SurveyMember.create(:survey_id=>self.id,:person_id=>pid,:required_flag=>"N",:response_flag=>Irm::Constant::SYS_NO,:end_date_active=>self.closed_datetime)
+        Csi::SurveyMember.create(:survey_id=>self.id,:person_id=>pid,:required_flag=>"N",:response_flag=>Irm::Constant::SYS_NO,:end_date_active=>self.close_date)
       end
     end
     exists_member_ids = exists_member_ids + person_ids

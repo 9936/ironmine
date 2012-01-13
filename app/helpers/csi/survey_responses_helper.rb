@@ -1,0 +1,3 @@
+module Csi::SurveyResponsesHelper
+
+end

@@ -62,6 +62,7 @@ class ReworkSurveyTables < ActiveRecord::Migration
     create_table "csi_survey_responses", :force => true do |t|
       t.string   "opu_id",              :limit => 22, :null => false, :collate=>"utf8_bin"
       t.string   "survey_id",           :limit => 22, :null => false, :collate=>"utf8_bin"
+      t.string   "survey_member_id",    :limit => 22, :collate=>"utf8_bin"
       t.string   "person_id",           :limit => 22, :collate=>"utf8_bin"
       t.string   "ip_address",          :limit => 30
       t.string   "source_type",         :limit => 30

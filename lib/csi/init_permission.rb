@@ -13,4 +13,5 @@ Irm::AccessControl.map do |map|
                               "csi/survey_ranges" => [:edit, :update]}
   map.function :view_survey_result, {"csi/surveys" => [:export_result, :show_result, :survey_report]}
   map.function :reply_survey, {"csi/surveys" => [:reply, :create_result,:show_reply,:thanks,:password]}
+  map.function :login_function,{"csi/survey_responses"=>[:new,:create,:fill_password,:validate_password]}
 end

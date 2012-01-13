@@ -12,7 +12,7 @@ class Csi::SurveySubject < ActiveRecord::Base
               ['page_break', 'page']]
 
 
-  attr_accessor :options_str
+  attr_accessor :options_str,:page,:number
 
 
   #加入activerecord的通用方法和scope
