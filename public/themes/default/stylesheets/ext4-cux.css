@@ -50,4 +50,11 @@
 
 
 body * {box-sizing: content-box !important;}
-.x-panel *, .x-grid *, .x-panel-default *{box-sizing: border-box !important;}
+.x-border-box .x-reset, .x-border-box .x-reset * {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.x-panel *, .x-grid *, .x-panel-default *, .x-component * {
+    box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+}

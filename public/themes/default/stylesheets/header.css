@@ -43,6 +43,10 @@ body#body {
     padding-left: 11px;
 }
 
+a.headerSearchOptionsLink, a.headerSearchOptionsLink:hover{color: #fff; font-size: 0.92em;}
+a.headerSearchOptionsLink{text-decoration: none;}
+a.headerSearchOptionsLink:hover{text-decoration: underline;}
+
 .headerSearchLeftRoundedCorner, .headerSearchRightRoundedCorner, .searchBoxClearContainer {
     border:0 none;
     display:inline-block;
@@ -505,3 +509,77 @@ body .tabNavigation .tab a {color: #353535;}
 .tabNavigation .tab .currentTab, #motifCurve, #motifCurve #mc_l, #motifCurve #mc_r {background-color: #1797C0;}
 
 #tabNavigation * {box-sizing: content-box;}
+
+/*********************** 搜索选项 *****************************/
+#phSearchInput_autoCompleteBoxId {
+    border-top-color: #DDDDDD;
+    border-top-style: solid;
+    border-top-width: 1px;
+    box-shadow: 1px 2px 4px rgba(127, 127, 127, 0.3);
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 3px;
+    width: 28em;
+    z-index: 99;
+    border-bottom-left-radius: 11px;
+    border-bottom-right-radius: 11px;
+}
+
+.autoCompleteBoxScrolling {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.autoCompleteBox, .autoCompleteBoxScrolling {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #FFFFFF;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+
+    border-top-color: #7D7D84;
+    border-top-style: solid;
+    border-top-width: 1px;
+    display: block;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    position: absolute;
+    width: 27em;
+    z-index: 90;
+    top:24px;
+}
+
+#phSearchInput_autoCompleteBoxId .autoCompleteRow, #phSearchInput_autoCompleteBoxId .autoCompleteMoreRow, #phSearchInput_autoCompleteBoxId .autoCompleteSelectedRow, #phSearchInput_autoCompleteBoxId .autoCompleteHoverRow {
+    font-size: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 0;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 0;
+}
+
+.autoCompleteRow, .autoCompleteMoreRow, .autoCompleteSelectedRow, .autoCompleteHoverRow {
+    border-top-color: #FFFFFF;
+    border-top-style: solid;
+    border-top-width: 1px;
+    cursor: pointer;
+    height: 1.5em;
+    line-height: 1.5em;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 4px;
+    padding-top: 0;
+    white-space: nowrap;
+}
+
+.autoCompleteRow{color:#015BA7;border-radius:9px;}
+.autoCompleteRow:hover {background-color:#E3F3FF;}
+.headerSearchLeftRoundedCorner.active {background-position:left -96px;}
+.searchBoxClearContainer.active {background-position:left -100px;}

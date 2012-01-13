@@ -10,15 +10,18 @@ class Irm::Bulletin < ActiveRecord::Base
   attr_accessor :column_ids,:access_str
 
   searchable :auto_index => true, :auto_remove => true do
-    text :title, :content, :stored => true
+    text :title, :stored => true
+    text :content, :stored => true
   end
+
+  acts_as_searchable
 
   validate :content_valid
 
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope {default_filter}
+  default_scope {default_filter.select_all}
 
   scope :with_author, lambda{
     select("concat(pr.last_name, pr.first_name) author")
@@ -80,7 +83,11 @@ class Irm::Bulletin < ActiveRecord::Base
     self.bu_columns.enabled.collect(&:id).join(",")
   end
 
-
+  def self.search(query)
+    Sunspot.search Irm::Bulletin do
+      keywords query
+    end.results
+  end
 
   # create access from str
   def create_access_from_str

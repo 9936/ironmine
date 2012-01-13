@@ -253,9 +253,20 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_organization(I18n.locale)
   end
 
+  searchable :auto_index => true, :auto_remove => true do
+    text :title
+    text :summary
+    text :incident_journals_content do |incident|
+      incident.incident_journals.map { |journal| journal.message_body }
+    end
+  end
 
   def self.search(query)
-    self.list_all.where("#{table_name}.title like ?","%#{query}%")
+#    self.list_all.where("#{table_name}.title like ?","%#{query}%")
+    results = Sunspot.search(Icm::IncidentRequest) do
+      keywords query
+    end.results
+    Icm::IncidentRequest.where("#{Icm::IncidentRequest.table_name}.id IN (?)", results.collect(&:id)).list_all
   end
 
   def self.query_by_request_number(query)

@@ -1,0 +1,95 @@
+<div class="sub-block">
+    <h3 class="lbHeader"></h3>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h3 class="lbHeader"><%= t(:label_chm_change_request_list) %></h3></td>
+          <td id="topButtonRow" class="pbButton">
+          </td>
+          <td class="pbHelp">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="lbBody">
+        <div>
+          <div class="irm-datatable">
+                <table id='rows'>
+                  <thead>
+                    <tr>
+                      <th style="width:35px;">
+                        <div><%= t(:label_chm_change_request_request_number) %>
+                        </div>
+                      </th>
+                      <th>
+                        <div ><%= t(:label_chm_change_request_title) %>
+                        </div>
+                      </th>
+                      <th style="">
+                        <div ><%= t(:label_chm_change_request_organization) %>
+                        </div>
+                      </th>
+                      <th style="width:80px;">
+                        <div ><%= t(:label_chm_change_request_change_priority) %>
+                        </div>
+                      </th>
+                      <th style="width:120px;">
+                        <div ><%= t(:label_chm_change_request_requested_by) %>
+                        </div>
+                      </th>
+                      <th style="width:130px;">
+                        <div ><%= t(:label_chm_change_request_submitted_date) %>
+                        </div>
+                      </th>
+                      <th style="width:180px;">
+                        <div ><%= t(:label_chm_change_request_external_system) %>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody >
+                  <% results.each do |r| %>
+                  <tr id="<%=r.id%>" >
+                    <td >
+                      <div>
+                          <%= r[:request_number] %>
+                       </div>
+                    </td>
+                    <td >
+                      <div>
+                          <%= link_to("(#{r[:change_status_name]})#{r[:title]}", {:controller => "chm/change_requests", :action=>"show",:id=>r[:id]}) %>
+                       </div>
+                    </td>
+                    <td >
+                      <div>
+                        <%= r[:organization_name] %>
+                      </div>
+                    </td>
+                    <td >
+                      <div >
+                        <%= r[:change_priority_name]%>
+                      </div>
+                    </td>
+                    <td >
+                      <div>
+                        <%= r[:requested_by_name]%>
+                      </div>
+                    </td>
+                    <td >
+                      <div>
+                        <%= r[:submitted_date].strftime("%Y-%m-%d %H:%M:%S")%>
+                      </div>
+                    </td>
+                    <td >
+                      <div>
+                        <%= r[:external_system_name]%>
+                      </div>
+                    </td>
+                  </tr>
+                  <% end -%>
+                  </tbody>
+                </table>
+          </div>
+        </div>
+    </div>
+</div>

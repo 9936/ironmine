@@ -49,7 +49,7 @@ module Ironmine
     config.ironmine.javascript = ActiveSupport::OrderedOptions.new
     config.ironmine.css = ActiveSupport::OrderedOptions.new
     config.ironmine.javascript.source = {
-        :jquery =>%w(jquery-1.6.4.min  locales/jquery-{locale} jquery-rails jquery-extend jquery-application),
+        :jquery =>%w(jquery-1.6.4.min  locales/jquery-{locale} jquery-rails jquery-extend jquery-application jquery-colorbox-min),
         :jcrop => %w(jquery-crop),
         :jplugin => %w(jquery-plugin),
         :extjs=>%w(ext4-all ext-extend ext-application locales/ext-{locale}),
@@ -58,7 +58,7 @@ module Ironmine
         :waypoints => %w(jquery-waypoints)
     }
     config.ironmine.css.source = {
-        :default =>%w(base button container form header icons layout other public sidebar table jmask),
+        :default =>%w(colorbox base button container form header icons layout other public sidebar table jmask),
         :application=>%w(),
         :setting=>%w(setting_base button container form header icons layout other public sidebar table jmask),
         :home=>%w(),
