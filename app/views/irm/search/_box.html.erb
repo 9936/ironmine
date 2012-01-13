@@ -3,11 +3,27 @@
   <div id="phSearchContainer" class="headerSearchContainer">
     <div class="headerSearchLeftRoundedCorner">
       <div class="searchBoxClearContainer">
-        <input id="phSearchInput" name="query" class="headerSearchBoxGhostText" type="text" size="20" maxlength="100">
+        <%= text_field_tag "query", t(:search_all),{:id=>"phSearchInput", :class => "grayTips headerSearchBoxGhostText headerSearchInput", :type => "text", :size => 20, :maxlength=>100}%>
       </div>
       <div id="searchButtonContainer" class="headerSearchRightRoundedCorner">
         <%= submit_tag(t(:search),:id=>"phSearchButton") %>
       </div>
+    </div>
+    <div id="phSearchInput_autoCompleteBoxId" class="autoCompleteBoxScrolling" style="width: 195px; height: auto; display: none;">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" id="phSearchInput_autoCompleteTableId">
+            <tbody>
+                <tr>
+                    <td>
+                    <div id="phSearchInput_autoCompleteRowId" class="autoCompleteRow">
+                    <%= t(:search_options_with_dot) %>
+                    </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="usid-brDropdown" class="usid-roundedCornerDropdown usid-brDropdown"></div>
+        <div id="usid-spacerDropdown" class="usid-bottomSpacer"></div>
+        <div id="usid-blDropdown" class="usid-roundedCornerDropdown usid-blDropdown"></div>
     </div>
     <div id="searchOptionsContainer" class="headerSearchOptions">
       <a href="#searchOptions" id="headerSearchOptionsLink" class="headerSearchOptionsLink"><%= t(:options) %></a>
@@ -16,54 +32,54 @@
 <% end %>
 
 <div style="display:none;">
-<div id="searchOptions" style="background-color: #fff; width: 300px; height:200px;padding: 10px;">
-  <div style="margin-right:5px;margin-bottom:5px">
-    <%= text_field_tag "search_option_input", t(:input_keyword_you_want_to_search),:id=>"phSearchOptionInput", :class => "grayTips", :style => "width:100%" %>
-  </div>
-  <fieldset>
-  <table style="font-size:12px;width:100%;">
-    <tr><td><%= check_box_tag("search_option_all", "ALL", true,{:id => "checkAllSearchOptions", :class => "searchOptions"}) %>
-      <label for="checkAllSearchOptions"><%= t :all %></label>
-      </td>
-    </tr>
-    <tr><td><%= check_box_tag("search_option_skm_entry", Skm::EntryHeader.name, true, :class => "searchOptions") %>
-      <label for="search_option_skm_entry"><%= t :label_skm_entry_header %></label>
-      </td>
-      <td><%= check_box_tag("search_option_chm_change_request", Chm::ChangeRequest.name, true, :class => "searchOptions") %>
-      <label for="search_option_chm_change_request"><%= t :label_chm_change_request %></label>
-      </td>
-    </tr>
-    <tr><td><%= check_box_tag("search_option_icm_incident_request", Icm::IncidentRequest.name, true, :class => "searchOptions") %>
-      <label for="search_option_icm_incident_request"><%= t :label_icm_incident_request %></label>
-      </td>
-      <td><%= check_box_tag("search_option_irm_bulletin", Irm::Bulletin.name, true, :class => "searchOptions") %>
-      <label for="search_option_irm_bulletin"><%= t :label_irm_bulletin %></label>
-      </td>
-    </tr>
-    <tr>
-    </tr>
-    <tr>
-    </tr>
-  </table>
-  </fieldset>
-  <table style="width:100%">
-    <tr>
-      <td>
-        <div class="button" style="margin-left:35%;padding-top:10px;">
-          <%= submit_tag(t(:search), :class => "searchOptionSubmit") %>
-        </div>
-        <div class="button" style="padding-top:10px;">
-          <a href="javascript:void(0);" id="searchOptionCancel"><%= t(:cancel) %></a>
-        </div>
-      </td>
-    </tr>
-  </table>
-</div>
+    <div id="searchOptions" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
+      <div style="margin-right:5px;margin-bottom:5px">
+        <%= text_field_tag "search_option_input", t(:input_keyword_you_want_to_search),:id=>"phSearchOptionInput", :class => "grayTips headerSearchInput", :style => "width:100%" %>
+      </div>
+      <fieldset>
+      <table style="font-size:12px;width:100%;">
+        <tr><td><%= check_box_tag("search_option_all", "ALL", true,{:id => "checkAllSearchOptions", :class => "searchOptions"}) %>
+          <label for="checkAllSearchOptions"><%= t :all %></label>
+          </td>
+        </tr>
+        <tr><td><%= check_box_tag("search_option_skm_entry", Skm::EntryHeader.name, true, :class => "searchOptions") %>
+          <label for="search_option_skm_entry"><%= t :label_skm_entry_header %></label>
+          </td>
+          <td><%= check_box_tag("search_option_chm_change_request", Chm::ChangeRequest.name, true, :class => "searchOptions") %>
+          <label for="search_option_chm_change_request"><%= t :label_chm_change_request %></label>
+          </td>
+        </tr>
+        <tr><td><%= check_box_tag("search_option_icm_incident_request", Icm::IncidentRequest.name, true, :class => "searchOptions") %>
+          <label for="search_option_icm_incident_request"><%= t :label_icm_incident_request %></label>
+          </td>
+          <td><%= check_box_tag("search_option_irm_bulletin", Irm::Bulletin.name, true, :class => "searchOptions") %>
+          <label for="search_option_irm_bulletin"><%= t :label_irm_bulletin %></label>
+          </td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+      </fieldset>
+      <table style="width:100%">
+        <tr>
+          <td>
+            <div class="button" style="margin-left:35%;padding-top:10px;">
+              <%= submit_tag(t(:search), :class => "searchOptionSubmit") %>
+            </div>
+            <div class="button" style="padding-top:10px;">
+              <a href="javascript:void(0);" id="searchOptionCancel"><%= t(:cancel) %></a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
 </div>
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $("#phSearchInput").keydown(function(e){
+    $(".headerSearchInput").keydown(function(e){
         if(e.keyCode=='13'){
           $("#phSearchButton").trigger("click");
         }
@@ -72,7 +88,7 @@
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $("#headerSearchOptionsLink").colorbox({inline:true});
+    $("#headerSearchOptionsLink").colorbox({inline:true, opacity:0.55, title:"<%= t(:search_options) %>"});
     $("#searchOptionCancel").click(function(e){
         $.colorbox.close();
     });
@@ -103,9 +119,33 @@ $(document).ready(function(){
     $("#phSearchOptionInput").blur(function(e){
         $("#phSearchInput").val($("#phSearchOptionInput").val());
     });
-    inputTipText();
+    $("#phSearchInput").focus(function(e){
+        headerSearchOptionsBoxShow();
+    });
 
+    $(document).click(function(e){
+        if(!$.contains($("#phSearchContainer")[0] ,e.target))
+        {
+            headerSearchOptionsBoxHide();
+        }
+    });
+    $("#phSearchInput_autoCompleteRowId").click(function(e){
+        $("#headerSearchOptionsLink").trigger("click");
+    });
+    inputTipText();
 });
+
+function headerSearchOptionsBoxShow(){
+    $("#phSearchInput_autoCompleteBoxId").show();
+    $(".headerSearchLeftRoundedCorner").addClass("active");
+    $(".searchBoxClearContainer").addClass("active");
+}
+
+function headerSearchOptionsBoxHide(){
+    $("#phSearchInput_autoCompleteBoxId").hide();
+    $(".headerSearchLeftRoundedCorner").removeClass("active");
+    $(".searchBoxClearContainer").removeClass("active");
+}
 
 var g_oldVal = "";
 function inputTipText(){

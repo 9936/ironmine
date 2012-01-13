@@ -138,6 +138,9 @@ zh:
   file_upload_limit_alert: 最大尺寸 %{m} KB
   by_name: 按名称
   by_date: 按时间
+  search_options_with_dot: 搜索选项...
+  search_options: 搜索选项
+  search_all: 搜索全部
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型
