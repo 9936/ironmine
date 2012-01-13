@@ -116,7 +116,7 @@ $(document).ready(function(){
     $(".searchOptionSubmit").click(function(e){
         $("#phSearchForm").submit();
     });
-    $("#phSearchOptionInput").blur(function(e){
+    $("#phSearchOptionInput").keydown(function(e){
         $("#phSearchInput").val($("#phSearchOptionInput").val());
     });
     $("#phSearchInput").focus(function(e){
