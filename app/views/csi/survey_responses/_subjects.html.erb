@@ -68,6 +68,8 @@
                   $("#subjectHeader_"+requiredSubjectIds[i].id).addClass("requiredBlock");
               }
               goToPage(parseInt(requiredSubjectIds[0].page));
+              var top = $($("#subjectHeader_"+requiredSubjectIds[0].id)).position().top;
+              $(window).scrollTop( top );
               alert($.i18n("SurveyRequiredError"));
           }
           return checked;
