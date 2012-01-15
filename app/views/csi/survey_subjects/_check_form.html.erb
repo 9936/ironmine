@@ -9,10 +9,10 @@
                            :parent => parent, :subject => subject} %>
   <% end %>
 </div>
-  <p>
-    <input type="checkbox" style="opacity:0.5;"/>
-    <%= text_field_tag "option", "", :onfocus => "subject_add_option(this, 'check');", :style => "opacity:0.5;" %>
-    <%= check_box_tag "csi_survey_subject[other_input]", "1",
-                      :onchange => 'toggle_other(this);',
-                      :name => 'csi_survey_subject[other_input]' %> <%= t(:label_csi_survey_subjects_add_other) %>
-  </p>
+<p>
+  <input type="checkbox" style="opacity:0.5;"/>
+  <%= text_field_tag "option", "", :onfocus => "subject_add_option(this, 'check');", :style => "opacity:0.5;" %>
+  <%= hidden_field_tag "csi_survey_subject[other_input_flag]","N" ,{:id=>"csi_survey_subject_other_input_flag_copy"}%>
+  <%= check_box_tag "csi_survey_subject[other_input_flag]", "Y", subject.nil? ? false : Irm::Constant::SYS_YES.eql?(subject.other_input_flag)%>
+  <%= t(:label_csi_survey_subjects_add_other) %>
+</p>

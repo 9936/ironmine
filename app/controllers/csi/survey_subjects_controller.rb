@@ -1,14 +1,4 @@
 class Csi::SurveySubjectsController < ApplicationController
-  # GET /survey_subjects
-  # GET /survey_subjects.xml
-  def index
-    @survey_subjects = Csi::SurveySubject.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @survey_subjects }
-    end
-  end
 
   # GET /survey_subjects/1
   # GET /survey_subjects/1.xml
@@ -24,9 +14,7 @@ class Csi::SurveySubjectsController < ApplicationController
   # GET /survey_subjects/new
   # GET /survey_subjects/new.xml
   def new
-    @next_seq_num = Csi::SurveySubject.get_max_seq_num(params[:survey_id])
-    @survey_subject = Csi::SurveySubject.new(:input_type=>'string',:seq_num=>@next_seq_num)
-    @survey_id = params[:survey_id]
+    @survey_subject = Csi::SurveySubject.new(:survey_id=>params[:survey_id],:input_type=>'string',:display_sequence=>Csi::SurveySubject.get_max_display_sequence(params[:survey_id]))
     @survey = Csi::Survey.find(params[:survey_id])
 
     respond_to do |format|
@@ -38,27 +26,23 @@ class Csi::SurveySubjectsController < ApplicationController
   # GET /survey_subjects/1/edit
   def edit
     @survey_subject = Csi::SurveySubject.find(params[:id])
-    @survey_id = @survey_subject[:survey_id]
-    @survey = Csi::Survey.find(@survey_id)
-    @return_url=request.env['HTTP_REFERER']
+    @survey = Csi::Survey.find(@survey_subject.survey_id)
   end
 
   # POST /survey_subjects
   # POST /survey_subjects.xml
   def create
     @survey_subject = Csi::SurveySubject.new(params[:csi_survey_subject])
-    @subject_options= params[:options]
-    @commit = params[:commit]
-    @survey_id= params[:survey_id]
+    subject_options= params[:options]
+    commit = params[:commit]
 
     respond_to do |format|
-      if @survey_subject.save
-        if !@subject_options.blank?
-           @subject_options.each do |option|
-              @survey_subject.subject_options.create({:value=>option})
-           end
-        end        
-        if @commit == t(:save_and_new)
+      if @survey_subject.valid?
+        if subject_options.present?
+           @survey_subject.generate_options(subject_options)
+        end
+        @survey_subject.save
+        if params[:save_and_new].present?
           format.html { redirect_to({:action=>"new",:survey_id=>@survey_subject.survey_id},
                                     :notice => t(:successfully_created)) }
         else

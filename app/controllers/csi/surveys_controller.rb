@@ -24,7 +24,7 @@ class Csi::SurveysController < ApplicationController
   # GET /surveys/new
   # GET /surveys/new.xml
   def new
-    @survey =Csi::Survey.new(:status_code=>"OFFLINE")
+    @survey = Csi::Survey.new(:status_code=>"OFFLINE")
 
     respond_to do |format|
       format.html { render :layout => "application_full"} # new.html.erb
@@ -86,156 +86,22 @@ class Csi::SurveysController < ApplicationController
   end
 
   def get_data
-    @surveys= Csi::Survey.query_wrap_info(I18n::locale).with_person_count.with_allow_author.order("created_at desc")
+    @surveys= Csi::Survey.list_all.with_person_count.order("created_at desc")
     @surveys = @surveys.match_value("#{Csi::Survey.table_name}.title",params[:title])
     @surveys,count = paginate(@surveys)
     @surveys_new = []
     @surveys.each do |s|
       s.person_count = Csi::SurveyRange.query_range_person_count(s.id)
       s.person_count = I18n.t(:unknow) if s.person_count == -1
-      s.allow_author_only = s.current_author? if s.result_only_author == Irm::Constant::SYS_YES
-      s.allow_author_only = "Y" if s.result_only_author == Irm::Constant::SYS_NO
+      unless Irm::Constant::SYS_YES.eql?(s.publish_result_flag)
+          s.publish_result_flag = s.current_author?
+      end
       @surveys_new << s
     end
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@surveys_new.to_grid_json(['R',:title,:description,:status_meaning, :joined_count, :person_count, :created_at, :published_at, :allow_author_only], count))}
+      format.json {render :json=>to_jsonp(@surveys_new.to_grid_json([:title,:description,:status_meaning, :joined_count, :person_count, :created_at,:publish_result_flag], count))}
     end
   end 
-
-  def password
-    @survey = Csi::Survey.find(params[:id]) rescue nil
-
-    respond_to do |format|
-      if @survey
-        session[:survey_password] = params[:password] if params[:password]
-        format.html {redirect_to({:action=>"reply",:id=>params[:id]})}
-      else
-        flash[:notice] = t(:label_csi_survey_no_form)
-        format.html { redirect_to({:action=>"index"})}
-      end
-    end
-  end
-
-  def reply
-    @survey = Csi::Survey.find(params[:id]) rescue nil
-    @survey_member_id = params[:survey_member_id]
-
-    respond_to do |format|
-      if @survey && !@survey.password.blank? &&
-        session[:survey_password] != @survey.password
-        format.html { render 'password'}
-      elsif @survey
-        @page = (params[:page] || 1).to_i
-        @page = 1 if @page < 1 || @page > @survey.total_page + 1
-        @subjects = @survey.find_subjects_by_page(@page)
-        format.html {  render 'reply'}
-      else
-        flash[:notice] = t(:label_csi_survey_no_form)
-        format.html { redirect_to({:action=>"index"})}
-      end
-    end
-  end
-
-  def create_result
-    @survey_results = params[:result]
-    @survey_id = params[:survey_id]
-    @survey= Csi::Survey.find(@survey_id)
-    @back_url = params[:back_url]
-    @error = Array.new
-    @response_batch = params[:survey_member_id]
-    if params[:survey_member_id].present?
-      Csi::SurveyMember.find(params[:survey_member_id]).update_attribute(:response_flag,Irm::Constant::SYS_YES)
-    end
-    @response_batch ||= Time.now.to_i.to_s+Irm::Person.current.id.to_s+rand(9).to_s
-    @response_time = Time.now
-    @thank_message = Csi::Survey.find(@survey_id).thanks_message
-    #得到当前调查的ip
-    @ip_address =request.remote_ip
-    #得到当前的person_id
-    @current_person_id = Irm::Person.current.id
-    if @thank_message.blank?
-      @thank_message = t(:label_csi_default_thanks_message)
-    end
-    save_flag= true
-    if !@survey_results.blank?
-       begin
-          Csi::SurveyResult.transaction do
-            @survey_results.each do |survey_result|
-             @subject_id = survey_result[0]
-             results = survey_result[1]
-               if results.is_a?(Array)                    
-                    if results.include?('_other')
-                      results.delete('_other')
-                      other_result=results.detect {|c| c.is_a?(Hash)}
-                          @survey_result=Csi::SurveyResult.new({:subject_id=>@subject_id,
-                                                 :subject_result=>other_result['other'],
-                                                 :person_id =>@current_person_id,
-                                                 :response_batch=>@response_batch,
-                                                 :response_time=>@response_time,
-                                                 :ip_address=>@ip_address,
-                                                 :option_type=>"other"})
-                          @survey_result.save!
-
-                    end
-                    results.each do |result|
-                      if results[0].is_a?(Hash)
-                        @error << [@subject_id]
-                      else
-                        if !result.is_a?(Hash)
-                         @survey_result=Csi::SurveyResult.new({:subject_id=>@subject_id,
-                                                               :subject_result=>result,
-                                                               :person_id =>@current_person_id,
-                                                               :response_batch=>@response_batch,
-                                                               :response_time=>@response_time,
-                                                               :ip_address=>@ip_address,
-                                                               :option_type=>"normal"})
-                         @survey_result.save!
-                        end
-                      end                      
-                    end
-               else
-                  @survey_result = Csi::SurveyResult.new({:subject_id=>@subject_id,
-                                                          :person_id =>@current_person_id,
-                                                          :response_batch=>@response_batch,
-                                                          :response_time=>@response_time,
-                                                          :ip_address=>@ip_address,
-                                                          :subject_result=>results})
-                  @survey_result.save!
-               end
-             end
-          end
-       rescue ActiveRecord::RecordInvalid => invalid
-       # do whatever you wish to warn the user, or log something
-         save_flag=false
-         if !@survey_result.errors.blank?
-           @error << [@subject_id]
-         end
-       end
-    end
-    flash[:notice] = @thank_message.to_s
-
-    respond_to do |format|
-        if save_flag
-          #回答完成后, 看是否有该问卷调查的任务,有的话把任务变为完成状态
-          Irm::TodoEvent.complete_task(@survey, Irm::Person.current.id)
-          format.html { redirect_to({:action=>"thanks",:survey_id=>@survey_id,:back_url=>@back_url},
-                                     :notice => @thank_message) }
-          format.xml  { render :xml => @survey, :status => :created, :location => @survey }
-          format.js   {
-            render :thanks
-          }
-        else
-          if @survey
-            @page = (params[:page] || 1).to_i
-            @page = 1 if @page < 1 || @page > @survey.total_page + 1
-            @subjects = @survey.find_subjects_by_page(@page)
-          end
-          format.html { render 'reply' }
-          format.js
-          format.xml  { render :xml => @survey, :status => :created, :location => @survey }
-        end
-    end
-  end
 
 
   def show_reply

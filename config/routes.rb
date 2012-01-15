@@ -1049,6 +1049,11 @@ Ironmine::Application.routes.draw do
     match '/surveys/:survey_id/survey_ranges/create(.:format)' => "survey_ranges#create", :via => :post
     match '/surveys/:survey_id/survey_ranges/:id(.:format)'=>"survey_ranges#destroy",:via=>:delete
     match '/surveys/:survey_id/survey_ranges/:id(.:format)' => "survey_ranges#show", :via => :get
+
+    match '/survey_responses/:survey_member_id/new'=>"survey_responses#new", :via => :get
+    match '/survey_responses/:survey_member_id/create'=>"survey_responses#create", :via => :post
+    match '/survey_responses/:survey_member_id/fill_password'=>"survey_responses#fill_password", :via => :get
+    match '/survey_responses/:survey_member_id/validate_password'=>"survey_responses#validate_password", :via => :put
   end
 
   scope :module => "skm" do

@@ -1,187 +1,179 @@
-<%= common_title(:show_data=>@survey.title) %>
-
-
+<%= common_title %>
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
 <%= form_for(@survey,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_csi_survey_edit)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "show",:id=>@survey.id}%></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @survey%>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-          <span class="requiredLegend">
-            <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-            </span>
-          <span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-          </span>
-      </span>
-      <h3><%=t(:label_csi_survey_info)%></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
+    <%= f.hidden_field :status_code %>
+    <div id="ep" class="edit-block page-block">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
             <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_title)%></label></td>
-              <td class="dataCol" colspan="3"><%=f.text_field :title, :required=>true,:size=>80%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><%=f.check_box :email_notify, :id=>"email_notify"%></td>
-              <td class="dataCol"><label for="email_notify"><%=(t :label_csi_survey_email_notify)%></label></td>
-              <td class="labelCol"><%=f.check_box :publish_response, :id=>"publish_response"%></td>
-              <td class="dataCol"><label for="publish_response"><%=(t :label_csi_survey_publish_response)%></label></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><%=f.check_box :comment_flag, :id=>"comment_flag"%></td>
-              <td class="dataCol"><label for="comment_flag"><%=(t :label_csi_survey_comment_flag)%></label></td>
-              <td class="labelCol"><%=f.check_box :result_only_author, :id=>"author_only"%></td>
-              <td class="dataCol"><label for="author_only"><%=(t :label_csi_survey_result_only_author)%></label></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_thanks_message)%></label></td>
-              <td class="dataCol" colspan="3" width="82%"><%=f.text_area :thanks_message,:rows=>2,:cols=>80%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_description)%></label></td>
-              <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>2,:cols=>80%></td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- setting -->
-    <div class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-      </span>
-      <h3><%=t(:label_csi_survey_setting)%></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <% if check_survey_result_exist?(@survey.id) && !@survey.enabled? %>
-                <tr>
-                  <td class="labelCol"><label><%=(t :label_csi_survey_with_incident_request)%></label></td>
-                  <td class="dataCol"><%= f.check_box :with_incident_request%></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label><%=(t :label_csi_survey_due_dates)%></label></td>
-                  <td class="dataCol"><%=f.text_field :due_dates,:size=>18, :required => true%></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
-                <script type="text/javascript">
-                  $(function(){
-                      var checkDate = function(){
-                          var checkValue = $("#csi_survey_with_incident_request").attr("checked");
-                          if(checkValue)
-                          {
-                             $("#csi_survey_due_dates").removeAttr("disabled");
-                          }
-                          else
-                          {
-
-                             $("#csi_survey_due_dates").attr("disabled", true);
-                          }
-                      }
-                      checkDate();
-                  });
-                </script>
-            <% else %>
-                <tr>
-                  <td class="labelCol"><label><%=(t :label_csi_survey_with_incident_request)%></label></td>
-                  <td class="dataCol"><%= check_img(@survey.with_incident_request)%><%= info_icon(t(:info_csi_survey_some_enabled_can_not_be_change)) %></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label><%=(t :label_csi_survey_due_dates)%></label></td>
-                  <td class="dataCol"><%= f.text_field :due_dates,:size=>18, :disabled => true, :info => t(:info_csi_survey_some_enabled_can_not_be_change)%>
-                  <%= info_icon(t(:info_csi_survey_due_dates)) %></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
-            <% end %>
-        </tbody>
-      </table>
-    </div>
-    <!-- access control -->
-    <div class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-      </span>
-      <h3><%=t(:label_csi_survey_access_control)%></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_password)%></label></td>
-              <td class="dataCol"><%= f.text_field :password %></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_closed_datetime)%></label></td>
-              <td class="dataCol"><%= f.text_field :closed_datetime,:id=>"id_closed_datatime", :required => true,:class=>"date"%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Survey Range -->
-    <div class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-      </span>
-      <h3><%=t(:label_csi_survey_range)%></h3>
-    </div>
-
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><%= t(:label_irm_wf_rule_action_type) %></td>
-              <td class="dataCol" style="width:82%">
-                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:range_str,:str_value=>@survey.get_range_str,:size=>7} %>
+              <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_csi_survey_new)%></h2></td>
+              <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= f.submit t(:save)%></div>
+                <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
               </td>
-
             </tr>
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <%= error_for @survey%>
+        <!-- base info -->
+        <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+          <span class="pbSubExtra">
+              <span class="requiredLegend">
+                <span class="requiredExampleOuter">
+                <span class="requiredExample">&nbsp;</span>
+                </span>
+              <span class="requiredMark">*</span>
+              <span class="requiredText"> = <%=t(:label_is_required)%></span>
+              </span>
+          </span>
+          <h3><%=t(:label_csi_survey_info)%></h3>
+        </div>
+        <div class="pbSubsection">
+          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_csi_survey_title)%></label></td>
+                  <td class="dataCol" colspan="3"><%=f.text_field :title, :required=>true,:size=>80%></td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><%=f.check_box :notify_flag, :id=>"notify_flag"%></td>
+                  <td class="dataCol"><label for="notify_flag"><%=(t :label_csi_survey_notify_flag)%></label></td>
 
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "show",:id=>@survey.id}%></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+                </tr>
+                <tr>
+                  <td class="labelCol"><%=f.check_box :publish_result_flag, :id=>"publish_result_flag"%></td>
+                  <td class="dataCol"><label for="publish_result_flag"><%=(t :label_csi_survey_publish_result_flag)%></label></td>
+                  <td class="labelCol"></td>
+                  <td class="dataCol"></td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_csi_survey_end_message)%></label></td>
+                  <td class="dataCol" colspan="3" width="82%"><%=f.text_area :end_message,:rows=>3,:cols=>80%></td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_csi_survey_description)%></label></td>
+                  <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>2,:cols=>80%></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- setting -->
+        <div class="pbSubheader first tertiaryPalette">
+          <span class="pbSubExtra">
+          </span>
+          <h3><%=t(:label_csi_survey_incident_setting)%></h3>
+        </div>
+        <div class="pbSubsection">
+          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                  <td class="labelCol"><%=f.check_box :incident_flag, :id=>"incident_flag"%></td>
+                  <td class="dataCol"><label for="incident_flag"><%=(t :label_csi_survey_incident_flag)%></label></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+                <tr id="timeLimitTr">
+                  <td class="labelCol"><label><%=(t :label_csi_survey_time_limit)%></label></td>
+                  <td class="dataCol"><%=f.text_field :time_limit,:size=>18,:required => true, :info => t(:info_csi_survey_due_dates)%></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- access control -->
+        <div class="pbSubheader first tertiaryPalette">
+          <span class="pbSubExtra">
+          </span>
+          <h3><%=t(:label_csi_survey_access_control)%></h3>
+        </div>
+        <div class="pbSubsection">
+          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_csi_survey_password)%></label></td>
+                  <td class="dataCol"><%= f.text_field :password %></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+                <tr id="closeDateTr">
+                  <td class="labelCol"><label for="close_date"><%=(t :label_csi_survey_closed_datetime)%></label></td>
+                  <td class="dataCol"><%= f.text_field :close_date,:id=>"close_date",:required => true,:class=>"date",:nobutton=>true%></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Survey Range -->
+        <div class="pbSubheader first tertiaryPalette">
+          <span class="pbSubExtra">
+          </span>
+          <h3><%=t(:label_csi_survey_range)%></h3>
+        </div>
+
+        <div class="pbSubsection">
+          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+
+                <tr>
+                  <td class="labelCol"><%= t(:label_irm_wf_rule_action_type) %></td>
+                  <td class="dataCol" style="width:82%">
+                    <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:range_str,:str_value=>@survey.get_range_str,:size=>7} %>
+                  </td>
+
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="pbBottomButtons">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"></td>
+              <td id="bottomButtonRow" class="pbButtonb">
+                <div class="button"><%= f.submit t(:save)%></div>
+                <div class="button"><%= link_to t(:cancel), @return_url%></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 <% end %>
+
+<script type="text/javascript">
+  $(function(){
+
+     function checkIncidentFlag(){
+          var checkValue = $("#incident_flag").attr("checked");
+          if(checkValue)
+          {
+             $("#closeDateTr").css("display","none");
+             $("#timeLimitTr").css("display","");
+          }
+          else
+          {
+
+             $("#closeDateTr").css("display","");
+             $("#timeLimitTr").css("display","none");
+          }
+     }
+
+     checkIncidentFlag();
+     $("#incident_flag").click(checkIncidentFlag);
+
+  });
+</script>

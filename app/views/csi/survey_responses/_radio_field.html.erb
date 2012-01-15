@@ -1,0 +1,24 @@
+<tr>
+   <td class="surveydataCol">
+        <span class="prompt"><%=h subject.description %></span>
+        <%  subject.subject_options.each do |option| %>
+          <p>
+          <%=radio_button_tag "result[#{subject.id}]", option.id %>
+          <%=option.value %>
+          </p>
+        <% end %>
+        <% if Irm::Constant::SYS_YES.eql?(subject.other_input_flag) %>
+            <p class="question_other">
+                <%=radio_button_tag "result[#{subject.id}]","_other",params[:result]&&params[:result][subject.id]&&params[:result][subject.id].eql?("_other") %>
+                <%= t(:label_csi_survey_subjects_other) %>
+                <%= text_field_tag "result[other][#{subject.id}]", params[:result]&&params[:result][:other]? params[:result][:other][subject.id] : ""  %>
+            </p>
+        <% end %>
+
+        <span id="id_<%=subject.id%>" style="color:#FF0000;"></span>
+        <br />
+
+   </td>
+   <td class="labelCol empty"></td>
+   <td class="dataCol empty"></td>
+</tr>

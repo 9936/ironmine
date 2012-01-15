@@ -2,7 +2,6 @@
 <%= common_title %>
 <div id="edit_form">
 <%= form_for(@survey_subject,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
-<%= hidden_field_tag :survey_id,@survey_id %>
  <div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -11,7 +10,7 @@
           <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_survey_subject_edit)%></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), @return_url%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
           </td>
         </tr>
       </tbody>
@@ -41,7 +40,7 @@
           <td class="pbTitle"></td>
           <td id="bottomButtonRow" class="pbButtonb">
             <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), @return_url%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
           </td>
         </tr>
       </tbody>

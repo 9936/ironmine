@@ -28,7 +28,7 @@ module Irm
               end
           end
           if html_options.delete('back')
-            options.merge!({:back_url=>url_for({})}) if options.is_a?(Hash)
+            options.merge!({:back_url=>params[:back_url]||url_for({})}) if options.is_a?(Hash)
           end
           url = url_for(options)
           if html_options
@@ -55,6 +55,13 @@ module Irm
         else
           "#"
         end
+      end
+
+      def back_url_for(options)
+        if(options.delete("back")||options.delete(:back))
+          options.merge!({:back_url=>params[:back_url]||url_for({})})
+        end
+        url_for(options)
       end
   end
 end

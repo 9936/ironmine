@@ -7,5 +7,6 @@ var irm_labels = {
     paginatorAfterPage: "页，共${totalPage}页",
     paginatorRecord: "显示 ${start} - ${end}条，共 ${totalCount} 条",
     paginatorRefresh: "刷新",
-    atLastSelectOneRecord: "请至少选择一行数据!"
+    atLastSelectOneRecord: "请至少选择一行数据!",
+    SurveyRequiredError: "检查调查问卷必填项!"
 };

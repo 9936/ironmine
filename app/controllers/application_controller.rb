@@ -177,6 +177,13 @@ class ApplicationController < ActionController::Base
 
   end
 
+  def redirect_with_back(options={})
+    if params[:back_url]
+      options.merge!(:back_url=>params[:back_url])
+    end
+    redirect_to(options)
+  end
+
   # 跳转到系统入口页面
   def redirect_entrance
     if Irm::Application.current

@@ -32,15 +32,15 @@
              <td>
                <div>
                 <%= link_to(t(:edit),{:controller=>"csi/survey_subjects",:action=>"edit",:id=>data[:id],
-                                      :survey_id=>@survey.id}) %>&nbsp;&nbsp;
-                <%= link_to(t(:delete),{:controller=>"csi/survey_subjects",:action=>"destroy",:id=>data[:id],:survey_id=>@survey.id},:confirm => t(:label_are_you_sure) ,
+                                      :survey_id=>@survey.id},{:back=>true}) %>&nbsp;&nbsp;
+                <%= link_to(t(:delete),{:controller=>"csi/survey_subjects",:action=>"destroy",:id=>data[:id],:survey_id=>@survey.id},:back=>true,:confirm => t(:label_are_you_sure) ,
                                         :method => :delete) %>
                </div>
              </td>
            <% end %>
            <td>
              <div>
-               <%=data[:seq_num]%>
+               <%=data[:display_sequence]%>
              </div>
            </td>
            <td>
@@ -50,7 +50,7 @@
            </td>
            <td>
              <div>
-               <%=data[:prompt]%>
+               <%=data[:description]%>
              </div>
            </td>
            <td>

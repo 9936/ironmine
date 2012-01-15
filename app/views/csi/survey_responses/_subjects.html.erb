@@ -1,0 +1,121 @@
+<% subject_pages = paginate_survey_subjects(@survey.id); subjects = subject_pages.flatten%>
+<script type="text/javascript">
+  $(function(){
+      //保存调查问卷必填项
+      var requiredFields = <%= subjects.collect{|i| {:input_type=>i.input_type,:id=>i.id,:page=>i.page} if Irm::Constant::SYS_YES.eql?(i.required_flag)}.compact.to_json.html_safe%>;
+
+      function goToPage(page){
+          var totalPage = parseInt($("#pages").attr("count"));
+          for(var i=1;i<=totalPage;i++){
+              $("#page_"+i.toString()).css("display","none");
+          }
+          $("#page_"+page.toString()).css("display","");
+
+          if(page>1){
+              $("#prePage").attr("page",page-1);
+              $("#prePage").css("display","");
+          }else{
+              $("#prePage").css("display","none");
+          }
+
+          if(page<totalPage){
+              $("#nextPage").attr("page",page+1);
+              $("#nextPage").css("display","");
+          }else{
+              $("#nextPage").css("display","none");
+          }
+
+          if(page==totalPage){
+              $("#submitPage").css("display","");
+          }else{
+              $("#submitPage").css("display","none");
+          }
+      }
+
+      function checkAll(){
+          var result = $("#responseForm").serializeObject()["result"];
+
+          var checked = true;
+          var requiredSubjectIds = [];
+
+          for(var i=0;i<requiredFields.length;i++){
+               if(["string","drop","text"].indexOf(requiredFields[i].input_type)>-1&&(!result[requiredFields[i].id]||result[requiredFields[i].id].length<1)){
+                   checked = false;
+                   requiredSubjectIds.push({"id":requiredFields[i].id, "page":requiredFields[i].page});
+               }else if(["radio"].indexOf(requiredFields[i].input_type)>-1){
+                   if(!result[requiredFields[i].id]){
+                       checked = false;
+                       requiredSubjectIds.push({"id":requiredFields[i].id, "page":requiredFields[i].page});
+                   }else if(result[requiredFields[i].id]=='_other'&&result["other"][requiredFields[i].id].length<1){
+                       checked = false;
+                       requiredSubjectIds.push({"id":requiredFields[i].id, "page":requiredFields[i].page});
+                   }
+
+               }else if(["check"].indexOf(requiredFields[i].input_type)>-1){
+                   if(!result[requiredFields[i].id]){
+                       checked = false;
+                       requiredSubjectIds.push({"id":requiredFields[i].id, "page":requiredFields[i].page});
+                   }else if(result[requiredFields[i].id].length==1&&result[requiredFields[i].id][0]=='_other'&&result["other"][requiredFields[i].id].length<1){
+                       checked = false;
+                       requiredSubjectIds.push({"id":requiredFields[i].id, "page":requiredFields[i].page});
+                   }
+               }
+               $("#subjectHeader_"+requiredFields[i].id).removeClass("requiredBlock");
+          }
+
+          if(!checked){
+              for(var i=0;i<requiredSubjectIds.length;i++){
+                  $("#subjectHeader_"+requiredSubjectIds[i].id).addClass("requiredBlock");
+              }
+              goToPage(parseInt(requiredSubjectIds[0].page));
+              var top = $($("#subjectHeader_"+requiredSubjectIds[0].id)).position().top;
+              $(window).scrollTop( top );
+              alert($.i18n("SurveyRequiredError"));
+          }
+          return checked;
+
+      }
+
+      $("#prePage").click(function(e){
+          goToPage(parseInt($(e.currentTarget).attr("page")))
+      });
+
+      $("#nextPage").click(function(e){
+          goToPage(parseInt($(e.currentTarget).attr("page")))
+      });
+
+      $("#submitPage").click(function(e){
+          return checkAll();
+      });
+
+      goToPage(1);
+
+  });
+
+</script>
+<div id="pages" count="<%= subject_pages.length %>">
+    <%subject_pages.each_with_index do |survey_subjects,page|%>
+        <div id="page_<%=page+1 %>">
+            <% survey_subjects.each do  |subject|%>
+                <div class="pbBody lightBlueBorder noLineShow" id="subject_<%=subject.id  %>">
+                  <div class="pbSubheader tertiaryPalette" id="subjectHeader_<%=subject.id  %>">
+                    <h3>
+                      <%=subject.number%>.&nbsp;<%=subject.name%>&nbsp;&nbsp;
+                      <% if (Irm::Constant::SYS_YES.eql?(subject.required_flag)) %>
+                         <span class="required_answer">(<%= t(:label_csi_survey_required_input)%>)</span>
+                      <% end %>
+                      <span class="titleSeparatingColon"></span></h3>
+                  </div>
+
+                  <div class="pbSubsection">
+                    <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+                      <tbody>
+                          <%= render :partial => "/csi/survey_responses/#{subject.input_type}_field",:locals => {:subject => subject} %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            <% end %>
+        </div>
+    <% end %>
+</div>

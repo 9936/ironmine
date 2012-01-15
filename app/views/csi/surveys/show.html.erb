@@ -21,24 +21,24 @@
               <td class="dataCol"><%=@survey.title%></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_email_notify)%></label></td>
-              <td class="dataCol"><%= check_img(@survey.email_notify)%></td>
-              <td class="labelCol"><label><%=(t :label_csi_survey_publish_response)%></label></td>
-              <td class="dataCol"><%= check_img(@survey.publish_response)%></td>
+              <td class="labelCol"><label><%=(t :label_csi_survey_notify_flag)%></label></td>
+              <td class="dataCol"><%= check_img(@survey.notify_flag)%></td>
+              <td class="labelCol"><label></label></td>
+              <td class="dataCol"><div></div></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_comment_flag)%></label></td>
-              <td class="dataCol"><%= check_img(@survey.comment_flag)%></td>
-              <td class="labelCol"><label><%=(t :label_csi_survey_result_only_author)%></label></td>
-              <td class="dataCol"><%= check_img(@survey.result_only_author)%></td>
+              <td class="labelCol"><label><%=(t :label_csi_survey_publish_result_flag)%></label></td>
+              <td class="dataCol"><%= check_img(@survey.publish_result_flag)%></td>
+              <td class="labelCol"><label></label></td>
+              <td class="dataCol"><div></div></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :active)%></label></td>
               <td class="dataCol" colspan="3" width="82%"><div><%= check_img(@survey.status_code)%></div></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_thanks_message)%></label></td>
-              <td class="dataCol" colspan="3" width="82%"><div><%= @survey.thanks_message%></div></td>
+              <td class="labelCol"><label><%=(t :label_csi_survey_end_message)%></label></td>
+              <td class="dataCol" colspan="3" width="82%"><div><%= @survey.end_message%></div></td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_csi_survey_description)%></label></td>
@@ -70,23 +70,25 @@
     <%= render("show_subjects") %>
 
     <div class="pbSubheader tertiaryPalette">&nbsp;
-      <h3><%=t(:label_csi_survey_setting)%><span class="titleSeparatingColon"></span></h3>
+      <h3><%=t(:label_csi_survey_incident_setting)%><span class="titleSeparatingColon"></span></h3>
     </div>
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
            <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_with_incident_request)%></label></td>
-              <td class="dataCol"><%= check_img(@survey.with_incident_request)%></td>
+              <td class="labelCol"><label><%=(t :label_csi_survey_incident_flag)%></label></td>
+              <td class="dataCol"><%= check_img(@survey.incident_flag)%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
+            <% if @survey.incident_flag.eql?(Irm::Constant::SYS_YES) %>
             <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_due_dates)%></label></td>
-              <td class="dataCol"><%=@survey.due_dates%></td>
+              <td class="labelCol"><label><%=(t :label_csi_survey_time_limit)%></label></td>
+              <td class="dataCol"><%=@survey.time_limit%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
+            <% end %>
 
         </tbody>
       </table>
@@ -104,8 +106,8 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_csi_survey_closed_datetime)%></label></td>
-              <td class="dataCol"><%= @survey.closed_datetime%></td>
+              <td class="labelCol"><label><%=(t :label_csi_survey_close_date)%></label></td>
+              <td class="dataCol"><%= @survey.close_date%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>

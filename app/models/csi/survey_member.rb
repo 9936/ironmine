@@ -11,7 +11,7 @@ class Csi::SurveyMember < ActiveRecord::Base
 
   acts_as_task({
                  :scope=>"as_task",
-                 :show_url  => {:controller => "csi/surveys", :action => "show_reply", :id => :id,:survey_member_id=>:survey_id},
+                 :show_url  => {:controller => "csi/survey_responses", :action => "new", :survey_member_id => :id,:survey_id=>:survey_id},
                  :title => :title,
                  :status_name=>nil,
                  :start_at=>:created_at,
@@ -38,7 +38,7 @@ class Csi::SurveyMember < ActiveRecord::Base
 
   scope :with_survey,lambda{
     joins("JOIN #{Csi::Survey.table_name} ON #{Csi::Survey.table_name}.id = #{table_name}.survey_id").
-    select("#{Csi::Survey.table_name}.title, #{Csi::Survey.table_name}.closed_datetime")
+    select("#{Csi::Survey.table_name}.title, #{Csi::Survey.table_name}.close_date")
   }
 
   def self.list_all
@@ -51,8 +51,8 @@ class Csi::SurveyMember < ActiveRecord::Base
   end
 
 
-  def as_task
-    self.list_all.query_by_person(Irm::Person.current.id).order("response_flag,created_at  desc")
+  def self.as_task
+    self.list_all.query_by_person(Irm::Person.current.id).where(:response_flag=>Irm::Constant::SYS_NO).order("response_flag,created_at  desc")
   end
 
 end
