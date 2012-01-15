@@ -85,7 +85,7 @@ div.button a {
 
 .button input[type="submit"]:hover{background-position: right -30px; cursor: pointer;}
 
-.sidebarModuleBody .button input[type="submit"]{height: 18px !important;}
+.sidebarModuleBody .button input[type="submit"]{height: 20px !important;}
 
 div.button a[class="disabled"]{
     color: #a9a9a9;
