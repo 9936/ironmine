@@ -21,15 +21,15 @@
                               [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
                                { :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot),:searchable=>true,:width=>"35px"},
                                { :key => "title",:formatter=>"Y.irm.stemplate",:label => t(:label_icm_incident_request_title),:searchable=>true },
-                               { :key => "organization_id_label", :label => t(:label_icm_incident_request_organization)},
+                               { :key => "organization_id_label", :label => t(:label_icm_incident_request_organization), :width => "100px"},
                                { :key => "priority_id_label", :label => t(:label_icm_incident_request_priority),:width=>"50px" },
                                { :key => "incident_status_id_label",:hidden=>true },
                                { :key => "reply_flag",:hidden=>true },
                                { :key => "close_flag",:hidden=>true },
                                { :key => "kb_flag", :hidden =>true },
-                               { :key => "requested_by_label", :label => t(:label_icm_incident_request_requested_by),:width=>"120px" },
-                               { :key => "last_request_date", :label => t(:label_icm_incident_request_last_date),:width=>"100px" },
-                               { :key => "external_system_id_label", :label => t(:label_irm_external_system),:width=>"180px" }
+                               { :key => "requested_by_label", :label => t(:label_icm_incident_request_requested_by),:width=>"100px" },
+                               { :key => "last_request_date", :label => t(:label_icm_incident_request_last_date),:width=>"140px" },
+                               { :key => "external_system_id_label", :label => t(:label_irm_external_system),:width=>"140px" }
                                ],{:export_data=>"#incidentRequestExport",:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox',:view_filter=>true,:html=>true})%>
         <div id="incidentRequestsPaginatorBox" class="irm-paginator-box"></div>
 </div>

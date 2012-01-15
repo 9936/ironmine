@@ -177,7 +177,7 @@ class Icm::IncidentRequestsController < ApplicationController
     respond_to do |format|
       format.json {
         incident_requests,count = paginate(incident_requests_scope)
-        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_response_date]}))
+        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
       }
       format.html {
         @datas,@count = paginate(incident_requests_scope)
@@ -234,7 +234,7 @@ class Icm::IncidentRequestsController < ApplicationController
     respond_to do |format|
       format.json {
         incident_requests,count = paginate(incident_requests_scope)
-        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count,{:date_to_distance=>[:last_request_date]}))
+        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
       }
       format.html {
         @datas,@count = paginate(incident_requests_scope)
