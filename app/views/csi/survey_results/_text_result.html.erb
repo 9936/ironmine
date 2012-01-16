@@ -1,0 +1,16 @@
+<tr>
+  <th>
+    <div></div>
+  </th>
+  <th width="60px">
+    <div><%= t(:label_csi_survey_result_count) %></div>
+  </th>
+</tr>
+<tr>
+  <td>
+    <div><%= link_to(t(:label_csi_survey_result_show_more),{:action=>"show_input",:id=>subject.id},{:back=>true}) %></div>
+  </td>
+  <td class="center">
+    <div><%= datas[:grouped_input_counts][subject.id]||0 %></div>
+  </td>
+</tr>

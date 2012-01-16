@@ -1,0 +1,87 @@
+<%= common_title(:show_data=>@survey.title,:action_meaning=>t(:label_csi_survey_result_statistics)) %>
+<style type="text/css">
+    .subjectResult table {
+        border-collapse: collapse;
+    }
+    .subjectResult th, .subjectResult tr, .subjectResult td {
+        border: 1px solid #DCE0E1;
+        padding: 6px;
+    }
+    .subjectResult th {
+        background: none repeat scroll 0 0 #DEE7ED;
+    }
+    .subjectResult  table tr:hover {
+        background: none repeat scroll 0 0 #F9F9FA;
+    }
+    .subjectResult td.left{
+        text-align: left;
+    }
+    .subjectResult td.right{
+        text-align: right;
+    }
+    .subjectResult td.center{
+        text-align: center;
+    }
+    .subjectResult td div.progressBar{
+        height: 20px;
+    }
+    .subjectResult td div.progressBar1{
+      background-color: #acd689;
+    }
+    .subjectResult td div.progressBar2{
+      background-color: #f47a5d;
+    }
+    .subjectResult td div.progressBar3{
+      background-color: #fff579;
+    }
+    .subjectResult td div.progressBar4{
+      background-color: #6cd0f7;
+    }
+    .subjectResult td div.progressBar5{
+      background-color: #9996c9;
+    }
+    .subjectResult td div.progressBar5{
+      background-color: #ef67a7;
+    }
+</style>
+<% datas = survey_statistics(@survey.id); %>
+<div id="ep" class="detail-block page-block">
+    <div >
+
+
+             <div class="pbHeader">
+               <table cellpadding="0" cellspacing="0" border="0">
+                 <tbody>
+                   <tr>
+                     <td class="pbTitle">
+                       <h2 class="mainTitle"><%=t(:label_csi_survey_result_total_count)%>:<%= datas[:response_count]%>[<%= link_to(t(:label_csi_survey_result_response_list),{:action=>"list",:id=>@survey.id},{:back=>true})%>]</h2>
+
+                     </td>
+                     <td id="topButtonRow" class="pbButton">
+                       <div class="button"><%= link_back t(:back)%></div>
+                     </td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+
+             <%= render :partial => '/csi/survey_results/survey_statistics',:locals=>{:datas=>datas}%>
+
+
+             <div class="pbBottomButtons">
+                 <table cellpadding="0" cellspacing="0" border="0">
+                   <tbody>
+                     <tr>
+                       <td class="pbTitle"></td>
+                       <td id="bottomButtonRow" class="pbButtonb">
+                       </td>
+                     </tr>
+                   </tbody>
+                 </table>
+             </div>
+
+
+    </div>
+</div>
+
+

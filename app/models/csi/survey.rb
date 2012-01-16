@@ -106,7 +106,7 @@ class Csi::Survey < ActiveRecord::Base
 
 
   def close?
-    self.close_date.present?&&self.close_date > Time.now.to_date
+    self.close_date.present?&&self.close_date < Time.now.to_date
   end
 
 
