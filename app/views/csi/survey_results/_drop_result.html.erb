@@ -1,0 +1,27 @@
+<tr>
+  <th>
+    <div></div>
+  </th>
+  <th colspan="2" width="270px">
+    <div><%= t(:label_csi_survey_result_percent) %></div>
+  </th>
+  <th width="60px">
+    <div><%= t(:label_csi_survey_result_count) %></div>
+  </th>
+</tr>
+<% subject.subject_options.each_with_index do |option,index| %>
+<tr>
+  <td>
+    <div><%= option[:value]%></div>
+  </td>
+  <td class="right" width="60px">
+    <div><%= (datas[:grouped_option_counts][option.id]||{})[:percent]||0%>%</div>
+  </td>
+  <td class="left" width="210px">
+    <div class="progressBar progressBar<%= (index%6)+1%>" style="width:<%=(datas[:grouped_option_counts][option.id]||{})[:percent]||0%>%;"></div>
+  </td>
+  <td class="center">
+    <div><%= (datas[:grouped_option_counts][option.id]||{})[:option_count]||0 %></div>
+  </td>
+</tr>
+<% end %>

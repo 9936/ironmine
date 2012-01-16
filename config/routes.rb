@@ -1054,6 +1054,12 @@ Ironmine::Application.routes.draw do
     match '/survey_responses/:survey_member_id/create'=>"survey_responses#create", :via => :post
     match '/survey_responses/:survey_member_id/fill_password'=>"survey_responses#fill_password", :via => :get
     match '/survey_responses/:survey_member_id/validate_password'=>"survey_responses#validate_password", :via => :put
+
+    match '/survey_results/:id/statistics' => 'survey_results#statistics', :via => :get
+    match '/survey_results/:id/list' => 'survey_results#list', :via => :get
+    match '/survey_results/:id/get_data' => 'survey_results#get_data', :via => :get
+    match '/survey_results/:id/show_response' => 'survey_results#show_response', :via => :get
+    match '/survey_results/:id/show_input' => 'survey_results#show_input', :via => :get
   end
 
   scope :module => "skm" do

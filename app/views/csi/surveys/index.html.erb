@@ -23,7 +23,7 @@
           <div id="id" style="display:none">
             <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>&nbsp;
             <span class="display-<%= "{allow_author_only}"%>">
-                <%= link_to(t(:result),{:action=>"show_result",:id=>"{id}"}) %>&nbsp;
+                <%= link_to(t(:result),{:controller=>"csi/survey_results",:action=>"statistics",:id=>"{id}"},{:back=>true}) %>&nbsp;
             </span>
           </div>
           <div id="joined_count" style="display:none">
