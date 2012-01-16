@@ -26,7 +26,7 @@
 </tr>
 <% end %>
 <% if Irm::Constant::SYS_YES.eql?(subject.other_input_flag) %>
-    <% other_percent = datas[:response_count]==0? 0 : (datas[:grouped_input_counts][subject.id]||0).fdiv(datas[:response_count])*100.round(3) %>
+    <% other_percent = datas[:response_count]==0? 0 : (datas[:grouped_input_counts][subject.id]||0)*100.fdiv(datas[:response_count]).round(1) %>
 <tr>
   <td>
     <div><%= t(:label_csi_survey_subjects_other) %>[<%= link_to(t(:label_csi_survey_result_show_more),{:action=>"show_input",:id=>subject.id},{:back=>true}) %>]</div>
@@ -38,7 +38,7 @@
     <div class="progressBar progressBar<%=(subject.subject_options.length%6)+1%>" style="width:<%=other_percent%>%;"></div>
   </td>
   <td class="center">
-    <div><%= (datas[:grouped_input_counts][subject.id]||{})||0 %></div>
+    <div><%= datas[:grouped_input_counts][subject.id]||0 %></div>
   </td>
 </tr>
 <% end %>
