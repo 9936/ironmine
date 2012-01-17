@@ -35,3 +35,11 @@
         #cboxLoadingGraphic{background:url(../images/loading.gif) no-repeat center center;}
         #cboxClose{position:absolute; top:2px; right:2px; display:block; background:url(../images/closeX.png) no-repeat 0 0; width:20px; height:20px; text-indent:-9999px;}
         #cboxClose:hover{background-position:left -20px;}
+
+/*
+    fixed extjs css conflict
+*/
+.x-body #colorbox *{-moz-box-sizing:content-box;box-sizing:content-box;}
+.x-body #colorbox #cboxContent fieldset input{margin:5px 2px;padding:6px 3px;}
+.x-body #colorbox fieldset{border-width:1px;border-style:solid;padding:3px 7px;}
+.x-body #colorbox table{border-spacing: inherit;}
