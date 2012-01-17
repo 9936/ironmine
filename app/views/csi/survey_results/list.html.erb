@@ -24,8 +24,8 @@
         </div>
         <%= datatable("responses",{:action=>"get_data",:id=>@survey.id,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
-                       {:key=>"person_name",:label=>t(:label_csi_survey_response_person),:searchable=>true,:width=>"120px"},
-                       {:key=>"start_at",:label=>t(:label_csi_survey_response_start_at),:width=>"150px"},
+                       {:key=>"person_name",:label=>t(:label_csi_survey_response_person),:searchable=>true,:width=>"180px"},
+                       {:key=>"start_at",:label=>t(:label_csi_survey_response_start_at),:width=>"180px"},
                        {:key=>"elapse",:label=>t(:label_csi_survey_response_elapse),:width=>"70px"},
                        {:key=>"ip_address",:label=>t(:label_csi_survey_response_ip_address)}],
                       {:paginator_box=>"responsesPaginatorBox",:search_box=>"responsesSearchBox"})%>
