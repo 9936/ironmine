@@ -7,6 +7,7 @@
           <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_csi_survey_show) %>&nbsp;<%= t(:label_detail_info) %></h2></td>
           <td id="topButtonRow" class="pbButton">
             <%= csi_survey_show_button_bar(@survey) %>
+            <div class="button"><%= link_to(t(:label_csi_survey_result_statistics),{:controller=>"csi/survey_results",:action=>"statistics",:id=>@survey.id},{:back=>true})%></div>
           </td>
         </tr>
       </tbody>

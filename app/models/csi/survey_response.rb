@@ -16,6 +16,15 @@ class Csi::SurveyResponse < ActiveRecord::Base
   default_scope {default_filter}
 
 
+  scope :with_person,lambda{
+    joins("JOIN #{Irm::Person.table_name} ON #{Irm::Person.table_name}.id = #{table_name}.person_id").
+        select("#{Irm::Person.table_name}.full_name person_name")
+  }
+
+  def self.list_all
+    self.select_all.with_person
+  end
+
   private
 
   def calculate_elapse

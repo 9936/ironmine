@@ -1,0 +1,82 @@
+<%= common_title(:show_data=>@survey_response.survey.title,:action_meaning=>t(:label_csi_survey_result_show_response)) %>
+
+<% datas = survey_response_data(@survey_response);types = subject_types %>
+
+<% subject_pages = paginate_survey_subjects(@survey_response.survey_id); subjects = subject_pages.flatten%>
+
+<style type="text/css">
+  td.surveydataCol{
+    padding-left:15px;
+  }
+</style>
+
+<div id="ep" class="detail-block page-block">
+    <div >
+        <div class="pbHeader">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr>
+                <td class="pbTitle">
+                  <h2 class="mainTitle"><%=@survey_response.survey.title%></h2>
+
+                </td>
+                <td id="topButtonRow" class="pbButton">
+                  <div class="button"><%= link_back t(:back)%></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="pages" count="<%= subject_pages.length %>">
+            <%subject_pages.each_with_index do |survey_subjects,page|%>
+                <div id="page_<%=page+1 %>">
+                    <% survey_subjects.each do  |subject|%>
+                        <div class="pbBody lightBlueBorder noLineShow" id="subject_<%=subject.id  %>">
+                          <div class="pbSubheader tertiaryPalette" id="subjectHeader_<%=subject.id  %>">
+                              <h3><%=subject.number%>.&nbsp;<%=subject.name%>&nbsp;&nbsp;</h3>
+                              <% if (Irm::Constant::SYS_YES.eql?(subject.required_flag)) %>
+                                 <span class="required_answer">[<%=types[subject.input_type.to_sym]%>,<%= t(:label_csi_survey_required_input)%>]</span>
+                              <% else %>
+                                 <span class="titleSeparatingColon">[<%=types[subject.input_type.to_sym]%>]</span>
+                              <% end %>
+                          </div>
+
+                          <div class="pbSubsection">
+                            <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+                              <tbody>
+                                  <% (datas[subject.id]||[]).each do |option| %>
+                                    <tr>
+                                    <% if "OPTION".eql?(option.result_type) %>
+                                      <td class="surveydataCol"><div><%= option[:option_value] %></div></td>
+                                    <% elsif "INPUT".eql?(option.result_type)  %>
+                                      <td class="surveydataCol"><div><%= option[:text_input] %></div></td>
+                                    <% elsif "OTHER".eql?(option.result_type)  %>
+                                      <td class="surveydataCol"><div><%= t(:label_csi_survey_subjects_other) %>:<%= option[:text_input] %></div></td>
+                                    <% end %>
+                                    </tr>
+                                  <% end %>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+
+        <div class="pbBottomButtons">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td class="pbTitle"></td>
+                  <td id="bottomButtonRow" class="pbButtonb">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

@@ -103,7 +103,22 @@ zh:
    label_csi_survey_range_name: 范围对象
    #========================= end csi survey_ranges_controller=======================#
    label_csi_last_surveys: 最近的调查问卷
+   label_csi_survey_result_total_count: 填写总人数
+   label_csi_survey_result_statistics: 调查结果统计分析
    label_csi_survey_pre_page: 上一页
    label_csi_survey_next_page: 下一页
    label_csi_survey_response: 调查
    label_csi_survey_response_new: 填写调查问卷
+   label_csi_survey_result_count: 数量
+   label_csi_survey_result_percent: 百分比
+   label_csi_survey_result_show_answer: 查看答案
+   label_csi_survey_result_response_list: 问卷填写详情
+   label_csi_survey_response_person: 问卷填写人
+   label_csi_survey_response_start_at: 开始时间
+   label_csi_survey_response_elapse: 用时
+   label_csi_survey_response_ip_address: IP地址
+   label_csi_survey_result_show_response: 查看问卷
+   label_csi_survey_result_show_more: 查看答案
+   label_csi_survey_response_text_input: 填写值
+   label_csi_survey_result_show_input: 用户填写值
+   label_csi_survey_result_list: 调查问卷填写列表

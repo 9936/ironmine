@@ -21,6 +21,7 @@ class Csi::Survey < ActiveRecord::Base
   has_many :survey_subjects
   has_many :survey_members
   has_many :survey_ranges
+  has_many :survey_responses
 
   scope :query_by_person_id,lambda{|person_id| where(:person_id=>person_id)}
 
@@ -106,7 +107,7 @@ class Csi::Survey < ActiveRecord::Base
 
 
   def close?
-    self.close_date.present?&&self.close_date > Time.now.to_date
+    self.close_date.present?&&self.close_date < Time.now.to_date
   end
 
 
