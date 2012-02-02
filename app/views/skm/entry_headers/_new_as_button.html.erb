@@ -1,0 +1,16 @@
+  <div class="as-button" >
+      <span id="newSkmEntry" class="menuButton">
+        <div  class="menuLabel">
+          <span><a><%= t(:button_skm_entry_header_new)  %></a></span>
+        </div>
+        <div class="menuContent">
+          <div class="menuItem"><%= link_to(t(:label_skm_entry_create_article),{:action => "new"},:class=>"submit") %></div>
+          <div class="menuItem"><%= link_to(t(:label_skm_entry_create_video),{:action => "new_step_video_upload"}) %></div>
+        </div>
+      </span>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            $("#newSkmEntry").menubutton();
+        });
+      </script>
+  </div>

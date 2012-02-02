@@ -1109,6 +1109,10 @@ Ironmine::Application.routes.draw do
     match '/entry_headers/new_step_2(.:format)' => "entry_headers#new_step_2", :via => :get
     match '/entry_headers/new_step_3(.:format)' => "entry_headers#new_step_3", :via => :get
     match '/entry_headers/new_step_4(.:format)' => "entry_headers#new_step_4", :via => :get
+    match '/entry_headers/new_step_type_select(.:format)' => "entry_headers#new_step_type_select", :via => :get
+    match '/entry_headers/new_step_video_upload(.:format)' => "entry_headers#new_step_video_upload", :via => :get
+    match '/entry_headers/video_create(.:format)' => "entry_headers#video_create", :via => :post
+
     match '/entry_headers/index_search(.:format)' => "entry_headers#index_search", :via => :post
     match '/entry_headers/index_search_get_data(.:format)' => "entry_headers#index_search_get_data"
     match '/entry_headers/:person_id/my_favorites_data' => "entry_headers#my_favorites_data"

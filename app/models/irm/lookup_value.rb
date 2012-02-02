@@ -53,6 +53,10 @@ class Irm::LookupValue < ActiveRecord::Base
     ""
   end
 
+  def self.get_code_id(lookup_type, lookup_code)
+    Irm::LookupValue.query_by_lookup_type(lookup_type).where(:lookup_code => lookup_code).first.id
+  end
+
   def self.get_lookup_value(lookup_type)
     Irm::LookupValue.multilingual.query_by_lookup_type(lookup_type)
   end

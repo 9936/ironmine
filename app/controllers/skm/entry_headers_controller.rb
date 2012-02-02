@@ -61,7 +61,6 @@ class Skm::EntryHeadersController < ApplicationController
         format.html { redirect_to({:action=>"new_step_3"}) }
       end
     elsif params[:step] == "4"
-
       files = params[:file]
       #调用方法创建附件
       file_flag = true
@@ -87,6 +86,10 @@ class Skm::EntryHeadersController < ApplicationController
         end
       end
     end
+  end
+
+  def new_step_video_upload
+    @entry_header = Skm::EntryHeader.new
   end
 
   def new_step_1
@@ -230,6 +233,24 @@ class Skm::EntryHeadersController < ApplicationController
         format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
       end
     end
+  end
+
+  def video_create
+    @entry_header = Skm::EntryHeader.new(params[:skm_entry_header])
+
+    Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
+                                                      params[:skm_video_description],
+                                                      Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO"),
+                                                      Skm::EntryHeader.name,
+                                                      -1)
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def video_update
+
   end
 
   def update

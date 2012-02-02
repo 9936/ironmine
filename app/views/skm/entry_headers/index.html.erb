@@ -1,3 +1,3 @@
 <%= common_title(:model_meaning=>t(:label_skm),
-                 :buttons => content_tag(:div, link_to(t(:button_skm_entry_header_new), {:action => "new"}), :class => "button")) %>
+                 :buttons => render(:partial => "new_as_button")) %>
 <%= render "data_grid" %>

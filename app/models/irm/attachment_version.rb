@@ -171,6 +171,25 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     attached
   end
 
+  #根据post中的附件，创建单个附件，并在新建附件时创建附件容器
+  def self.create_single_version_file(file, description, category_id, source_type, source_id)
+    #创建容器
+    container = Irm::Attachment.create()
+    file_category = category_id.nil? ? Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "OTHER") : category_id
+    version = Irm::AttachmentVersion.create(:data => file,
+                                            :attachment_id => container.id,
+                                            :source_type => source_type,
+                                            :source_id => source_id,
+                                            :category_id => file_category,
+                                            :description => description)
+    if version.new_record?
+      container.destroy
+      return false
+    else
+      update_attachment_by_version(container, version)
+      return version
+    end
+  end
 
   #更新容器中的最近更新版本的附件信息
   def self.update_attachment_by_version(attachment,version)

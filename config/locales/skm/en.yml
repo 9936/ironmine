@@ -69,6 +69,15 @@ en:
   label_action_new_step_4: Create, Step 3
   remove_from_favorite: Remove
   error_skm_entry_detail_can_not_blank: This field can not be blank
+  notice_skm_entry_step_type_select_desc: Knowledge can be presented as an article，or a video. Select the type you about to create.
+  notice_skm_entry_step_type_select: Choose knowledge type
+  label_skm_entry_type: Knowledge Type
+  notice_skm_entry_step_video_upload: Upload video
+  notice_skm_entry_step_video_upload_desc: Upload video as knowledge.
+  label_skm_entry_video: Upload knowledge video.
+  label_skm_entry_create_article: Article
+  label_skm_entry_create_video: Video
+  label_skm_entry_video_new: Create Video
   #=========================skm FileManagement================================
   label_skm_file_management: Files
   label_skm_file_list: Files List
