@@ -1,4 +1,5 @@
 class Irm::AttachmentVersion < ActiveRecord::Base
+  before_create :save_source_file_name
   set_table_name :irm_attachment_versions
 
   belongs_to :attachment
@@ -16,7 +17,6 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   query_extend
   # 对运维中心数据进行隔离
   default_scope {default_filter}
-
 
   scope :query_all,lambda{
     select("#{table_name}.*")
@@ -68,10 +68,20 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   def url(*args)
     data.url(*args)
   end
-  
+
+  def path
+    url_arr = data.url.split("/")
+    url_arr.delete(url_arr.last)
+    url_arr.join("/") + "/"
+  end
+
   #返回附件名称
   def name
     data_file_name
+  end
+
+  def source_name
+    source_file_name
   end
 
   #返回附件类型
@@ -87,6 +97,10 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   #以KB单位返回文件大小
   def file_size_kb
     (format("%.2f", data_file_size.to_f/1024)).to_s
+  end
+
+  def file_description
+    self.attachment.description
   end
 
   def self.query_attachment_count(source_type,source_id)
@@ -184,11 +198,10 @@ class Irm::AttachmentVersion < ActiveRecord::Base
                                             :description => description)
     if version.new_record?
       container.destroy
-      return false
     else
       update_attachment_by_version(container, version)
-      return version
     end
+    return version
   end
 
   #更新容器中的最近更新版本的附件信息
@@ -199,7 +212,8 @@ class Irm::AttachmentVersion < ActiveRecord::Base
                                 :file_category=>version.category_id,
                                 :file_size=>version.data_file_size,
                                 :description=>version.description,
-                                :private_flag=>version.private_flag)
+                                :private_flag=>version.private_flag,
+                                :source_file_name => version.source_file_name)
   end
 
   #根据post中的附件数组，创建附件的新版本
@@ -287,6 +301,16 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     if !(data.content_type =~ %r{^(image|(x-)?application)/(x-png|pjpeg|jpeg|jpg|png|gif)$})
       self.image_flag="N"
       return false
+    end
+  end
+
+  #如果是视频文件，则将中文文件名转换为随机编码保存，以便于video js播放(仅适用于知识库附件)
+  #source file name中保存原始文件名
+  def save_source_file_name
+    self.source_file_name = data_file_name
+    if self.source_type == Skm::EntryHeader.name && self.category_id == Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO")
+      ext = File.extname(data_file_name).downcase
+      self.data.instance_write(:file_name, "#{UUID.generate(:compact)[0,21]}#{ext}")
     end
   end
 end

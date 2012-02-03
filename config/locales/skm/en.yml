@@ -78,6 +78,11 @@ en:
   label_skm_entry_create_article: Article
   label_skm_entry_create_video: Video
   label_skm_entry_video_new: Create Video
+  label_skm_navigator: Navigator
+  label_action_video_show: View knowledge video
+  label_skm_entry_source_video_name: Existing Video Name
+  label_skm_entry_source_video_desc: Existing video will be replaced by the new one.
+  label_skm_entry_video_edit: Edit knowledge video
   #=========================skm FileManagement================================
   label_skm_file_management: Files
   label_skm_file_list: Files List

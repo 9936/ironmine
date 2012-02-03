@@ -1,7 +1,8 @@
 <% require_javascript(:video)%>
 <% require_css(:video)%>
+<%= Irm::AttachmentVersion.query_all.where(:id => "000W00045j4tvQdpch7j84").first.url %>
 <video id="my_video_1" class="video-js vjs-default-skin" controls
   preload="auto" width="640" height="264"
   data-setup="{}">
-  <source src="<%= Irm::AttachmentVersion.query_all.where(:id => "000W00045j4tvQdpch7j84").first.url%>" type='video/mp4'>
+  <source src="<%= raw(Irm::AttachmentVersion.query_all.where(:id => "000W00045j4tvQdpch7j84").first.url)%>" type='video/mp4'>
 </video>

@@ -205,6 +205,7 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
     @entry_header.version_number = @entry_header.next_version_number
     @entry_header.author_id = Irm::Person.current.id
+    @entry_header.type_code = "ARTICLE"
 #    column_ids = params[:skm_entry_header][:column_ids].split(",")
     respond_to do |format|
       if @entry_header.save
@@ -237,20 +238,80 @@ class Skm::EntryHeadersController < ApplicationController
 
   def video_create
     @entry_header = Skm::EntryHeader.new(params[:skm_entry_header])
-
-    Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
+    @entry_header.entry_template_id = -1
+    @entry_header.entry_status_code = "PUBLISHED"
+    @entry_header.published_date = Time.now
+    @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
+    @entry_header.version_number = @entry_header.next_version_number
+    @entry_header.author_id = Irm::Person.current.id
+    @entry_header.type_code = "VIDEO"
+    temp_uniq_id = UUID.generate(:compact)[0, 21]
+#    video = false
+    video = Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
                                                       params[:skm_video_description],
                                                       Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO"),
                                                       Skm::EntryHeader.name,
-                                                      -1)
-
+                                                      temp_uniq_id) if params[:skm_video] && params[:skm_video].present?
     respond_to do |format|
-      format.html
+      if video && @entry_header.save
+        @entry_header.update_attribute(:relation_id, video.attachment_id)
+        video.update_attribute(:source_id, @entry_header.id)
+        format.html { redirect_to({:action => "video_show", :id => @entry_header.id})}
+      else
+        video.attachment.destroy unless video.nil?
+        format.html { render :action => "new_step_video_upload"}
+      end
     end
   end
 
-  def video_update
+  def video_edit
+    @entry_header = Skm::EntryHeader.list_all.with_favorite_flag(Irm::Person.current.id).find(params[:id])
+    @video = Irm::Attachment.find(@entry_header.relation_id).last_version_entity
+  end
 
+  def video_update
+    @entry_header = Skm::EntryHeader.find(params[:id])
+    @video = Irm::Attachment.find(@entry_header.relation_id).last_version_entity
+
+    temp_uniq_id = UUID.generate(:compact)[0, 21]
+#    video = false
+    if params[:skm_video] && !params[:skm_video].nil?
+      new_video = Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
+                                                          params[:skm_video_description],
+                                                          Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO"),
+                                                          Skm::EntryHeader.name,
+                                                          temp_uniq_id) if params[:skm_video] && params[:skm_video].present?
+      unless new_video.nil?
+        @video.destroy
+        @video = new_video
+      end
+    else
+      #只更新视频描述
+      @video.update_attribute(:description, params[:skm_video_description])
+      Irm::AttachmentVersion.update_attachment_by_version(@video.attachment, @video)
+    end
+    atts = params[:skm_entry_header].merge({:relation_id => @video.attachment_id})
+    respond_to do |format|
+      if @entry_header.update_attributes(atts)
+        format.html { redirect_to({:action => "video_show", :id => params[:id]})}
+      else
+        format.html { render :action => "video_edit"}
+      end
+    end
+  end
+
+  def video_show
+    @entry_header = Skm::EntryHeader.list_all.with_favorite_flag(Irm::Person.current.id).find(params[:id])
+    @video = Irm::Attachment.find(@entry_header.relation_id).last_version_entity
+
+    @history = Skm::EntryOperateHistory.new({:operate_code=>"SKM_SHOW",
+                                             :entry_id=>params[:id],
+                                             :version_number => @entry_header.version_number})
+    @history.save
+    @entry_history = Skm::EntryHeader.list_all.history_entry.where(:doc_number => @entry_header[:doc_number])
+    respond_to do |format|
+      format.html
+    end
   end
 
   def update

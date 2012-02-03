@@ -27,4 +27,8 @@ class Irm::Attachment < ActiveRecord::Base
         where("av.source_type = ?", source_type).
         where("av.source_id = ?", source_id)
   }
+
+  def last_version_entity
+    self.attachment_versions.where("id = ?", self.latest_version_id).first
+  end
 end

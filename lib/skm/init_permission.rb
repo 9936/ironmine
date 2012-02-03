@@ -20,7 +20,8 @@ Irm::AccessControl.map do |map|
 
   #===================skm/entries ==========================================
   map.function :view_skm_entries, {"skm/entry_headers" => ["index", "show", "index_search", "get_history_entries_data", "get_data",
-                                                           "my_favorites_data", "my_favorites", "add_favorites", "data_grid", "my_drafts", "my_drafts_data", "remove_favorite"],
+                                                           "my_favorites_data", "my_favorites", "add_favorites", "data_grid", "my_drafts",
+                                                           "my_drafts_data", "remove_favorite", "video_show"],
                                    "icm/incident_journals" => ["get_entry_header_data", "apply_entry_header", "apply_entry_header_link"],
                                    "skm/entry_templates" => ["get_owned_elements_data"],
                                    "skm/file_managements" => ["index", "new", "create", "batch_create", "edit", "update", "show",
@@ -29,8 +30,8 @@ Irm::AccessControl.map do |map|
   map.function :create_skm_entries, {"skm/entry_headers" => ["new", "create", "new_step_1", "new_step_2",
                                                              "new_step_3", "new_step_4", "new_from_icm_request",
                                                              "remove_exits_attachment_during_create", "create_from_icm_request",
-                                                             "new_step_video_upload", "video_create", "video_update"]}
-  map.function :edit_skm_entries, {"skm/entry_headers" => ["edit", "update", "remove_exits_attachment_during_create", "remove_exits_attachment"]}
+                                                             "new_step_video_upload", "video_create"]}
+  map.function :edit_skm_entries, {"skm/entry_headers" => ["edit", "update", "remove_exits_attachment_during_create", "remove_exits_attachment", "video_edit", "video_update"]}
 
   map.function :login_function,{ "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"]}
 

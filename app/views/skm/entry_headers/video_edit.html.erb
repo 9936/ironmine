@@ -1,0 +1,88 @@
+<%= app_title({:description => t(:edit)}) %>
+<%= form_for(@entry_header,:url=>{:action=>"video_update", :id => @entry_header}, :html => {:name => "edit_skm_entry_header", :multipart => true}, :builder => LabellingFormBuilder) do |f| %>
+<div  class="edit-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_skm_entry_video_edit)%></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= f.submit t(:save_as_published)%></div>
+            <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <%= error_for @entry_header%>
+    <%= flash_notice %>
+    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+      <span class="pbSubExtra">
+        <span class="requiredLegend">
+          <span class="requiredExampleOuter">
+            <span class="requiredExample">&nbsp;</span>
+          </span><span class="requiredMark">*</span>
+          <span class="requiredText"> = <%=t(:label_is_required)%></span>
+        </span>
+      </span>
+      <h3><%= t(:label_skm_entry_create_video) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_skm_entry_header_title)%></label></td>
+              <td class="data2Col"><%= f.text_field :entry_title, :size => 40, :required => true%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_skm_entry_header_keyword_tags)%></label></td>
+              <td class="data2Col"><%= f.text_field :keyword_tags, :size => 40%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_skm_channel)%></label></td>
+              <td class="data2Col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true}%></td>
+            </tr>
+            <tr>
+              <td class="labelCol">
+                <%= t(:label_skm_entry_source_video_name) %>
+              </td>
+              <td class="data2Col">
+                <%= @video.source_file_name %>
+              </td>
+            </tr>
+            <tr>
+              <td class="labelCol">
+                <%= t(:label_skm_entry_video) %>
+              </td>
+              <td class="data2Col">
+                <%= file_field_tag :skm_video, :jrequired => true%>&nbsp;&nbsp;&nbsp;&nbsp;<span><%= content_tag(:img, "", :src => "/images/s.gif", :class => "infoIcon", :title => t(:label_skm_entry_source_video_desc), :alt => t(:label_skm_entry_source_video_desc)) %></span>
+              </td>
+            </tr>
+            <tr>
+              <td class="labelCol">
+                <%= t(:description) %>
+              </td>
+              <td class="data2Col">
+                <%= text_area_tag :skm_video_description, @video.description,:cols => 40, :rows => 5 %>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pbBottomButtons">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"></td>
+              <td id="bottomButtonRow" class="pbButtonb">
+                <div class="button"><%= f.submit t(:save_as_published)%></div>
+                <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+<% end %>
