@@ -25,7 +25,7 @@ class Skm::EntryHeadersController < ApplicationController
 
     respond_to do |format|
 
-      if @entry_header.type_code = "VIDEO"
+      if @entry_header.type_code == "VIDEO"
         format.html { redirect_to({:action => "video_show", :id => @entry_header})}
       else
         format.html # show.html.erb
