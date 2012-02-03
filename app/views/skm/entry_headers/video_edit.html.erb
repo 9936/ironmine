@@ -56,7 +56,7 @@
                 <%= t(:label_skm_entry_video) %>
               </td>
               <td class="data2Col">
-                <%= file_field_tag :skm_video, :jrequired => true%>&nbsp;&nbsp;&nbsp;&nbsp;<span><%= content_tag(:img, "", :src => "/images/s.gif", :class => "infoIcon", :title => t(:label_skm_entry_source_video_desc), :alt => t(:label_skm_entry_source_video_desc)) %></span>
+                <%= file_field_tag :skm_video, :jrequired => true, :accept => "video/*"%>&nbsp;&nbsp;&nbsp;&nbsp;<span><%= content_tag(:img, "", :src => "/images/s.gif", :class => "infoIcon", :title => t(:label_skm_entry_source_video_desc), :alt => t(:label_skm_entry_source_video_desc)) %></span>
               </td>
             </tr>
             <tr>
