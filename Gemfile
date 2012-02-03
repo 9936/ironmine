@@ -8,32 +8,32 @@ gem 'rails', '3.1.1.rc1'
 
 #gem 'ruby-mysql'
 
-gem 'liquid',:require=>'liquid'
+gem 'liquid', '2.2.2',:require=>'liquid'
 
-gem "daemons"
+gem "daemons", '1.1.4'
 
-gem "net-ldap"
+gem "net-ldap", '0.2.2'
 
-gem "spreadsheet"
+gem "spreadsheet", '0.6.5.9'
 
-gem "rufus-scheduler"
+gem "rufus-scheduler", '2.0.10'
 
-gem "paperclip", "~> 2.3"
+gem "paperclip", "2.4.1"
 
-gem "delayed_job"
+gem "delayed_job" , '2.1.4'
 
-gem "event-calendar", :require => "event_calendar"
+gem "event-calendar", '2.3.3', :require => "event_calendar"
 
-gem 'ri_cal'
+gem 'ri_cal', '0.8.8'
 
-gem 'hz2py'
+gem 'hz2py', '0.0.4'
 
-gem 'uuid'
+gem 'uuid' , '2.3.4'
 
-gem "sunspot", "~> 1.2.1"
-gem "sunspot_rails", "~> 1.2.1"
+gem "sunspot", "1.2.1"
+gem "sunspot_rails", "1.2.1"
 
-gem 'nokogiri'
+gem 'nokogiri', '1.5.0'
 #gem 'composite_primary_keys', '=3.1.0'
 #gem "rmmseg"
 
@@ -67,4 +67,9 @@ end
 
 group :macdev do
   gem 'mysql2'
+end
+
+if RUBY_VERSION =~ /1.9/
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
 end

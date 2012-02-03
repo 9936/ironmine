@@ -4,8 +4,8 @@ log/*.log
 tmp/**/*
 .idea
 db/schema.rb
-verdor/cache/**
-verdor/cache/*
+vendor/cache/**
+vendor/cache/*
 public/upload/**
 Gemfile.lock
 **/Thumbs.db
