@@ -24,8 +24,13 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_history = Skm::EntryHeader.list_all.history_entry.where(:doc_number => @entry_header[:doc_number])
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @entry_header }
+
+      if @entry_header.type_code = "VIDEO"
+        format.html { redirect_to({:action => "video_show", :id => @entry_header})}
+      else
+        format.html # show.html.erb
+        format.xml  { render :xml => @entry_header }
+      end
     end
   end
 
@@ -246,18 +251,26 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header.author_id = Irm::Person.current.id
     @entry_header.type_code = "VIDEO"
     temp_uniq_id = UUID.generate(:compact)[0, 21]
-#    video = false
-    video = Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
-                                                      params[:skm_video_description],
-                                                      Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO"),
-                                                      Skm::EntryHeader.name,
-                                                      temp_uniq_id) if params[:skm_video] && params[:skm_video].present?
+    val, now = Irm::AttachmentVersion.validates?(params[:skm_video])
+    video = nil
+    if val && @entry_header.valid?
+      video = Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
+                                                        params[:skm_video_description],
+                                                        Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO"),
+                                                        Skm::EntryHeader.name,
+                                                        temp_uniq_id) if params[:skm_video] && params[:skm_video].present?
+    elsif !val
+      flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+    elsif !params[:skm_video]
+      flash[:notice] = I18n.t(:label_skm_entry_video_upload_error)
+    end
     respond_to do |format|
-      if video && @entry_header.save
+      if val && video && @entry_header.save
         @entry_header.update_attribute(:relation_id, video.attachment_id)
         video.update_attribute(:source_id, @entry_header.id)
         format.html { redirect_to({:action => "video_show", :id => @entry_header.id})}
       else
+        @video_description = params[:skm_video_description]
         video.attachment.destroy unless video.nil?
         format.html { render :action => "new_step_video_upload"}
       end
@@ -275,15 +288,22 @@ class Skm::EntryHeadersController < ApplicationController
 
     temp_uniq_id = UUID.generate(:compact)[0, 21]
 #    video = false
-    if params[:skm_video] && !params[:skm_video].nil?
-      new_video = Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
-                                                          params[:skm_video_description],
-                                                          Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO"),
-                                                          Skm::EntryHeader.name,
-                                                          temp_uniq_id) if params[:skm_video] && params[:skm_video].present?
-      unless new_video.nil?
-        @video.destroy
-        @video = new_video
+    file_succ = true
+    if @entry_header.valid? params[:skm_video] && !params[:skm_video].nil?
+      val, now = Irm::AttachmentVersion.validates?(params[:skm_video])
+      if val
+        new_video = Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
+                                                            params[:skm_video_description],
+                                                            Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO"),
+                                                            Skm::EntryHeader.name,
+                                                            temp_uniq_id) if params[:skm_video] && params[:skm_video].present?
+        unless new_video.nil?
+          @video.destroy
+          @video = new_video
+        end
+      else
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        file_succ = false
       end
     else
       #只更新视频描述
@@ -292,7 +312,7 @@ class Skm::EntryHeadersController < ApplicationController
     end
     atts = params[:skm_entry_header].merge({:relation_id => @video.attachment_id})
     respond_to do |format|
-      if @entry_header.update_attributes(atts)
+      if file_succ && !@entry_header.errors.any? && @entry_header.update_attributes(atts)
         format.html { redirect_to({:action => "video_show", :id => params[:id]})}
       else
         format.html { render :action => "video_edit"}

@@ -56,7 +56,7 @@
                 <%= t(:description) %>
               </td>
               <td class="data2Col">
-                <%= text_area_tag :skm_video_description, nil,:cols => 40, :rows => 5 %>
+                <%= text_area_tag :skm_video_description, (@video_description if @video_description),:cols => 40, :rows => 5 %>
               </td>
             </tr>
         </tbody>

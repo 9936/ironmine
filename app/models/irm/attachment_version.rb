@@ -270,6 +270,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
 
 
   def self.validates?(file, size_limit = Irm::SystemParametersManager.upload_file_limit)
+    return true, 0 if file.nil?
     f = Irm::AttachmentVersion.new({:source_id=> -1,
                                      :source_type=> "",
                                      :data=>file,
