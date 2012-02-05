@@ -1,5 +1,6 @@
 class CreatePortlets < ActiveRecord::Migration
   def up
+    #create table
     create_table "irm_portlets", :force => true do |t|
       t.string   "opu_id",        :limit => 22 , :collate=>"utf8_bin"
       t.string   "code",          :limit => 60, :null => false
