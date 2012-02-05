@@ -297,4 +297,8 @@ Irm::AccessControl.map do |map|
   #===================irm/licenses============================
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
   map.function :license,{"irm/licenses"=>["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]}
+
+  #===================irm/portlets============================
+  #["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]
+  map.function :portlet,{"irm/portlets"=>["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]}
 end
