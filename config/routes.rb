@@ -443,6 +443,7 @@ Ironmine::Application.routes.draw do
     match '/reports/:id/update_program(.:format)' => "reports#update_program", :via => :put
     match '/reports/:id/edit_custom_program(.:format)' => "reports#edit_custom_program", :via => [:get,:post,:put]
     match '/reports/:id/update_custom_program(.:format)' => "reports#update_custom_program", :via => :put
+    match '/reports/portlet(.:format)' => "reports#portlet", :via => :get
 
     #report folders
     match '/report_folders(/index)(.:format)' => "report_folders#index", :via => :get
@@ -1126,6 +1127,7 @@ Ironmine::Application.routes.draw do
     #entry_headers
     match '/entry_headers(/index)(.:format)' => "entry_headers#index", :via => :get
     match '/entry_headers/:id/edit(.:format)' => "entry_headers#edit", :via => :get
+    match '/entry_headers/portlet(.:format)' => "entry_headers#portlet", :via => :get
     match '/entry_headers/:id/update(.:format)' => "entry_headers#update", :via => [:put, :post]
     match '/entry_headers/new(.:format)' => "entry_headers#new"
     match '/entry_headers/create(.:format)' => "entry_headers#create", :via => :post

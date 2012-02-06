@@ -41,6 +41,7 @@ en:
   label_skm_entry_header_new: Create Entry
   label_skm_entry_header_edit: Edit Entry
   label_skm_entry_header_title: Title
+  label_skm_entry_header_portlet_title: My Service Knowledge
   label_skm_entry_header_keyword_tags: Keyword
   label_skm_entry_header_attachments: Entry Attachments
   label_skm_entry_header_version: Version

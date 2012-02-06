@@ -42,6 +42,7 @@ zh:
   label_skm_entry_header_new: 创建知识文章
   label_skm_entry_header_edit: 编辑知识文章
   label_skm_entry_header_title: 标题
+  label_skm_entry_header_portlet_title: 我的知识库
   label_skm_entry_header_keyword_tags: 关键字
   label_skm_entry_header_version: 文档版本
   label_skm_entry_header_doc_number: 文章编码

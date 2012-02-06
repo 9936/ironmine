@@ -1,0 +1,53 @@
+<div class="listRelatedObject setupBlock">
+    <div class="page-block">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle">
+                  <h3 class="lbHeader"><%=t(:label_skm_entry_header_portlet_title) %></h3>
+              </td>
+              <td id="topButtonRow" class="pbButton">
+
+              </td>
+              <td class="pbHelp">
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>               <!--this is test code-->
+      <div class="pbBody">
+        <table class="split-table">
+          <tr>
+
+            <td>
+                <div id="entry_headers_list" class="datatable" style="width:100%">
+                  <div id="id" style="display:none">
+                    <%= link_to(t(:edit),{:controller => "skm/entry_headers", :action=>"edit",:id=>"{id}"}) %>&nbsp;|
+                    <span class="display-<%= "{is_favorite}"%>">
+                        <%= link_to(t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => "{id}", :person_id => Irm::Person.current.id}) %>
+                    </span>
+                  </div>
+                  <div id="entry_title" style="display:none">
+                    <%= link_to("{entry_title}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
+                  </div>
+                  <div id="doc_number" style="display:none">
+                    <%= link_to("{doc_number}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
+                  </div>
+                </div>
+                <%= datatable("entry_headers_list",{:action=>"get_data",:column_id => @column_id, :format=>"json"},
+                          [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"80px"},
+                           {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "150px"},
+                           {:key=>"entry_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
+                           {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true,:formatter=>"Y.irm.template",:width => "100px"},
+                           {:key=>"is_favorite", :hidden => true}],
+                           {:search_box => "entryHeadersSearchBox",:html=>true, :paginator_box=>"entry_headers_list_paginator_box"})%>
+                <div id="entry_headers_list_paginator_box"></div>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+</div>
