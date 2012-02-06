@@ -12,7 +12,8 @@ Irm::AccessControl.map do |map|
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_application", "index"],
                                  "icm/support_groups"=>["get_member_options"],
-                                 "irm/search"=>[:index],"irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
+                                 "irm/search"=>[:index],"irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"],
+                                 "irm/todo_tasks" => ["portlet"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
   #=====common setting===================
@@ -125,9 +126,9 @@ Irm::AccessControl.map do |map|
                                                 "my_events_index", "get_data", "get_top_data", "my_events_get_data"]}
 
   #===================irm/wf_tasks============================
-  #["index", "show_permissions", "show_permissions_data", "show_missed_permissions", "missed_permissions_data"]
+  #["index", "show_permissions", "show_permissions_data", "show_missed_permissions", "missed_permissions_data", "portlet"]
   map.function :todo_task,{"irm/todo_tasks"=>["index", "show","new", "create","edit", "update","edit_recurrence", "update_recurrence",
-                                                    "my_tasks_index", "get_data","get_top_data", "my_tasks_get_data"]}
+                                                    "my_tasks_index", "get_data","get_top_data", "my_tasks_get_data", "portlet"]}
 
   #===================irm/business_objects============================
   #["index", "new", "create", "get_data", "edit", "update", "show", "execute_test", "multilingual_edit", "multilingual_update"]
