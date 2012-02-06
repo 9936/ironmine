@@ -697,4 +697,16 @@ class Skm::EntryHeadersController < ApplicationController
       end
     end
   end
+
+  def portlet
+      session[:skm_entry_header] = nil
+      session[:skm_entry_details] = nil
+      session[:skm_entry_attachments] = nil
+    @entry_header = Skm::EntryHeader.new
+
+    respond_to do |format|
+      format.html { render :layout => "portlet" } # index.html.erb
+      format.xml { render :xml => @entry_header }
+    end
+  end
 end
