@@ -478,7 +478,9 @@ class Skm::EntryHeadersController < ApplicationController
         @count = entry_headers.count
         render_html_data_table
       }
-      format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:is_favorite, :entry_status_code, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date_f], count)) }
+      format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:is_favorite, :entry_status_code, :full_title,
+                                                                         :entry_title, :keyword_tags,:doc_number,:version_number,
+                                                                         :published_date_f, :type_code], count)) }
     end
   end
 

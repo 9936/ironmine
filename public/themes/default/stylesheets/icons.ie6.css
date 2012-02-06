@@ -416,3 +416,9 @@ img.lookupIconOn {
     width: 16px;
     vertical-align: middle;
 }
+img.videoGeneral {
+    background-image: url("../images/16_16/video.png");
+    height: 16px;
+    width: 16px;
+    vertical-align: middle;
+}
