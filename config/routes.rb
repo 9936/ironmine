@@ -851,6 +851,19 @@ Ironmine::Application.routes.draw do
     match '/mail_settings(/index)(.:format)' => "mail_settings#index", :via => :get
     match '/mail_settings/edit(.:format)' => "mail_settings#edit", :via => :get
     match '/mail_settings/update(.:format)' => "mail_settings#update", :via => :post
+
+    #portlet_config
+    #match '/portlet_configs(/index)(.:format)' => "portlet_configs#index", :via => :get
+    #match '/portlet_configs/:id/show(.:format)' => "portlet_configs#show", :via => :get
+    #match '/portlet_configs/:id/edit(.:format)' => "portlet_configs#edit", :via => :get
+    #match '/portlet_configs/:id(.:format)' => "portlet_configs#update", :via => :put
+    #match '/portlet_configs/new(.:format)' => "portlet_configs#new", :via => :get
+    #match '/portlet_configs/create(.:format)' => "portlet_configs#create", :via => :post
+    #match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
+    #match '/portlet_configs/:id/destroy(.:format)' => "portlet_configs#destroy", :via => :delete
+    match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
+    resources :portlet_configs
+
   end
 
   scope :module => "icm" do
