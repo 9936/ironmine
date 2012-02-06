@@ -371,7 +371,12 @@ class Irm::ReportsController < ApplicationController
     end
   end
 
-
+  def portlet
+    @folder_id = params[:folder_id]
+    respond_to do |format|
+      format.html { render :layout => "portlet"}# index.html.erb
+    end
+  end
 
   private
   def export_report_data_to_excel(report)
@@ -456,4 +461,6 @@ class Irm::ReportsController < ApplicationController
     end
     data_to_xls(export_data,columns)
   end
+
+
 end
