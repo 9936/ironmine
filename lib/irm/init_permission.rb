@@ -302,4 +302,8 @@ Irm::AccessControl.map do |map|
   #["index", "show", "edit", "update", "new", "create", "get_data", "destroy"]
   map.function :portlet_config,{"irm/portlet_configs"=>["index", "show", "edit", "update", "new", "create", "get_data", "destroy"]}
 
+  #===================irm/portlets============================
+  #["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]
+  map.function :portlet,{"irm/portlets"=>["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]}
+
 end

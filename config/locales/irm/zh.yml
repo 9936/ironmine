@@ -1623,6 +1623,7 @@ zh:
   label_irm_mail_smtp_username_tip: 用于登陆SMTP的用户名。
   label_irm_mail_smtp_password_tip: 用于登陆SMTP的密码。
   #========================= end ==================================
+
   #=========================    irm protlet_config=======================#
   label_irm_portlet_config: Portal配置
   label_irm_portlet_config_list: 配置列表
@@ -1631,3 +1632,19 @@ zh:
   label_irm_portlet_config_person: 用户
   label_irm_portlet_config_config: 配置
   #=========================end irm protlet_config=======================#
+
+
+  #======================= Portlets ====================
+  label_irm_portlet: Portlet
+  label_irm_portlet_new: 新建 Portlet
+  label_irm_portlet_code: 编码
+  label_irm_portlet_controller: 控制器名称
+  label_irm_portlet_action: 请求 Action
+  label_irm_portlet_default_flag: 默认显示
+  portlet_default_flag_yes: 是
+  portlet_default_flag_no: 否
+  label_irm_portlet_list: Portlet 列表
+  label_irm_portlet_name: 名称
+  label_irm_portlet_description: 描述
+  #======================= end Portlets====================
+

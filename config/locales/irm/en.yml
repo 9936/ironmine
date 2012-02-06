@@ -1622,4 +1622,16 @@ en:
   label_irm_portlet_config_person: User
   label_irm_portlet_config_config: Configuration
   #=========================end irm protlet_config=======================#
-
+  #======================= Portlets ====================
+  label_irm_portlet: Portlet
+  label_irm_portlet_new: New Portlet
+  label_irm_portlet_code: Code
+  label_irm_portlet_controller: Controller Name
+  label_irm_portlet_action: Request Action
+  label_irm_portlet_default_flag: Default Show
+  portlet_default_flag_yes: Yes
+  portlet_default_flag_no: No
+  label_irm_portlet_list: Portlet List
+  label_irm_portlet_name: Name
+  label_irm_portlet_description: Description
+  #======================= end Portlets====================

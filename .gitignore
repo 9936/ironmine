@@ -12,3 +12,4 @@ Gemfile.lock
 index
 Capfile
 config/deploy.rb
+ironmine.ids

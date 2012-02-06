@@ -864,6 +864,18 @@ Ironmine::Application.routes.draw do
     match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
     resources :portlet_configs
 
+    #portlets
+    match '/portlets(/index)(.:format)' => "portlets#index", :via => :get
+    match '/portlets/new(.:format)'      => "portlets#new",   :via => :get
+    match '/portlets/:id/edit(.:format)' => "portlets#edit", :via => :get
+    match '/portlets/create(.:format)'  => "portlets#create",:via => :post
+    match '/portlets/:id(.:format)'  => "portlets#update",:via => :put
+    match '/portlets/:id/show(.:format)'=> "portlets#show",  :via => :get
+    match '/portlets/get_data(.:format)' => "portlets#get_data"
+    match '/portlets/:id/destroy(.:format)' => "portlets#destroy", :via => :delete
+    match '/portlets/:id/multilingual_edit(.:format)' => "portlets#multilingual_edit", :via => :get
+    match '/portlets/:id/multilingual_update(.:format)' => "portlets#multilingual_update", :via => :put
+
   end
 
   scope :module => "icm" do
