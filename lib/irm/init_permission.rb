@@ -154,7 +154,7 @@ Irm::AccessControl.map do |map|
   map.function :my_avatar,{"irm/my_avatar" => ["index","avatar_crop", "edit", "update"]}
   map.function :my_profile,{"irm/my_profiles" => ["index"]}
   #====================irm/bulletins ==================================
-  map.function :bulletin, {"irm/bulletins" => ["index", "show", "get_data"]}
+  map.function :bulletin, {"irm/bulletins" => ["index", "show", "get_data","portlet"]}
   map.function :edit_bulletin, {"irm/bulletins" => ["edit", "update"]}
   map.function :new_bulletin, {"irm/bulletins" => ["new", "create"]}
   map.function :delete_bulletin, {"irm/bulletins" => ["destroy", "remove_exits_attachments"]}

@@ -476,6 +476,7 @@ Ironmine::Application.routes.draw do
     match '/bulletins/index(.:format)' => "bulletins#index"
     match '/bulletins/:id/show(.:format)' => "bulletins#show", :via => :get
     match '/bulletins/:id/destroy(.:format)' => "bulletins#destroy"
+    match '/bulletins/portlet(.:format)' => "bulletins#portlet", :via => :get
 
     match '/bulletins/:att_id/remove_exits_attachments' => "bulletins#remove_exits_attachments", :via => :get
     #bulletin_columns
