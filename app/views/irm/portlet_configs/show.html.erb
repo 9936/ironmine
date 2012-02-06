@@ -1,0 +1,39 @@
+<%= page_title %>
+
+<div id="ep" class="detail-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_portlet_config) %></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @portlet_config}%></div>
+            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label for="person_id"><%=t(:label_irm_portlet_config_person)%></label></td>
+              <td class="dataCol"><%=@portlet_config[:person_name]%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+
+            <tr>
+              <td class="labelCol"><label for="config"><%=t(:label_irm_portlet_config_config)%></label></td>
+              <td class="dataCol"><%=@portlet_config.config%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

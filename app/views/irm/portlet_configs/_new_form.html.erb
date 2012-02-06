@@ -1,0 +1,63 @@
+<%= form_for(@portlet_config,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
+<%= f.hidden_field(:portal_code,:value=>"DEFAULT") %>
+<div id="ep" class="edit-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_portlet_config_info)%></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= link_submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <%= error_for @portlet_config %>
+    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+      <span class="pbSubExtra">
+        <span class="requiredLegend">
+          <span class="requiredExampleOuter">
+            <span class="requiredExample">&nbsp;</span>
+          </span><span class="requiredMark">*</span>
+          <span class="requiredText"> = <%=t(:label_is_required)%></span>
+        </span>
+      </span>
+      <h3><%= t(:label_common_info) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+
+            <tr>
+               <td class="labelCol"><label for="person_id"><%=t(:label_irm_portlet_config_person)%></label></td>
+               <td class="data2Col"><%=f.lov_field :person_id,Irm::Person,{:required=>true,:id=>"person_id"}%></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="config"><%=t(:label_irm_portlet_config_config)%></label></td>
+              <td class="data2Col" colspan="3">
+                <%=f.text_area :config,:rows=>8,:cols=>100,:value=>@portlet_config.config, :required=>true ,:id=>"config"%>
+                <%= rich_text_area("incident_request_summary") %>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pbBottomButtons">
+     <table cellpadding="0" cellspacing="0" border="0">
+       <tbody>
+         <tr>
+           <td class="pbTitle"></td>
+           <td id="bottomButtonRow" class="pbButtonb">
+             <div class="button"><%= link_submit t(:save)%></div>
+             <div class="button"><%= link_back t(:cancel)%></div>
+           </td>
+         </tr>
+       </tbody>
+     </table>
+   </div>
+ </div>
+ <% end %>
