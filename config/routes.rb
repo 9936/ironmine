@@ -519,6 +519,7 @@ Ironmine::Application.routes.draw do
     match '/todo_tasks/:id/update_recurrence(.:format)' => "todo_tasks#update_recurrence", :via => :put
     match '/todo_tasks/my_tasks_index(.:format)' => "todo_tasks#my_tasks_index", :via => :get
     match '/todo_tasks/my_tasks_get_data(.:format)' => "todo_tasks#my_tasks_get_data"
+    match '/todo_tasks(/portlet)(.:format)' => "todo_tasks#portlet", :via => :get
 
     match '/calendars(/:year(/:month))' => 'calendars#get_full_calendar', :as => :calendar_task, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     # business object

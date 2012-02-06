@@ -1166,6 +1166,8 @@ zh:
   label_irm_todo_task_display_opts_today: 今天
   label_irm_todo_task_display_opts_over_due: 逾期
   label_irm_todo_task_display_opts_next_7_days: 未来7天内
+  label_action_portlet: 待办事项
+
   #======================== end calendar tasks====================
   #======================== wf actions====================
   label_irm_wf_action_rules: 使用此操作的工作流规则

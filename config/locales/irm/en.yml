@@ -986,6 +986,7 @@ en:
   recurrence_interval: every %{m}
   label_irm_calendar_view: Calendar View
   label_irm_todo_event_list_view: Events List View
+  label_action_portlet: Need To Do Task
   #======================== end calendar tasks====================
   #======================== business objects====================
   label_business_object_list: Business Object
