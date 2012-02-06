@@ -14,6 +14,7 @@ Irm::AccessControl.map do |map|
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/todo_tasks" => ["portlet"],
                                  "irm/bulletins" =>["portlet"],
+                                 "skm/entry_headers" =>["portlet"],
                                  "irm/search"=>[:index],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
