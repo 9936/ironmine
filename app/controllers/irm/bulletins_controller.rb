@@ -182,4 +182,11 @@ class Irm::BulletinsController < ApplicationController
       end
     end
   end
+
+  def portlet
+    respond_to do |format|
+      format.html { render :layout => "portlet" }
+
+    end
+  end
 end
