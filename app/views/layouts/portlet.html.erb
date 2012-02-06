@@ -1,0 +1,12 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <%= render :partial => "irm/common/application_title" %>
+  <% require_javascript([:jquery,:jplugin]) %>
+  <% require_css([:default]) %>
+  <%=render_loaded_javascript_css_files%>
+  <%= csrf_meta_tag %>
+  <%= render :partial => "irm/common/address_bar_logo" %>
+</head>
+ <%= yield %>
+</html>
