@@ -1623,3 +1623,11 @@ zh:
   label_irm_mail_smtp_username_tip: 用于登陆SMTP的用户名。
   label_irm_mail_smtp_password_tip: 用于登陆SMTP的密码。
   #========================= end ==================================
+  #=========================    irm protlet_config=======================#
+  label_irm_portlet_config: Portal配置
+  label_irm_portlet_config_list: 配置列表
+  label_irm_portlet_config_info: 配置信息
+  label_irm_portlet_config_portal_code: Portal编码
+  label_irm_portlet_config_person: 用户
+  label_irm_portlet_config_config: 配置
+  #=========================end irm protlet_config=======================#

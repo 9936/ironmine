@@ -1614,3 +1614,12 @@ en:
   label_irm_mail_smtp_username_tip: The username used to authenticate your SMTP account.
   label_irm_mail_smtp_password_tip: The password for your SMTP account.
   #========================= end ==================================
+  #=========================    irm protlet_config=======================#
+  label_irm_portlet_config: Portal Configuration
+  label_irm_portlet_config_list: Configuration list
+  label_irm_portlet_config_info: Configuration Info
+  label_irm_portlet_config_portal_code: Portal Code
+  label_irm_portlet_config_person: User
+  label_irm_portlet_config_config: Configuration
+  #=========================end irm protlet_config=======================#
+
