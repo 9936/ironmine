@@ -168,4 +168,8 @@ class Irm::TodoTasksController < ApplicationController
   def update_recurrence
 
   end
+
+  def portlet
+
+  end
 end
