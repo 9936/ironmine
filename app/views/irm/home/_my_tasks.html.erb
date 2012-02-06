@@ -13,7 +13,7 @@
       </tbody>
     </table>
     <div class="pbBody">
-    <div class="pbSubsection" id="myTasks" href="<%= back_url_for({:action=>"my_tasks",:task_entry=>"{task_entry}",:back=>true}) %>">
+    <div class="pbSubsection" id="myTasks" href="<%= back_url_for({:controller=> "home", :action=>"my_tasks",:task_entry=>"{task_entry}",:back=>true}) %>">
       <%= render({:partial=>"irm/home/tasks",:locals=>{:tasks=>acts_as_tasks}}) %>
     </div>
     </div>
