@@ -9,7 +9,7 @@ class AddPortletConfigPermission < ActiveRecord::Migration
     irm_portlet_config.functions_tls.build(:language=>'zh',:source_lang=>'en',:name=>'个人Portal设置',:description=>'个人Portal设置')
     irm_portlet_config.functions_tls.build(:language=>'en',:source_lang=>'en',:name=>'Portal Setting',:description=>'Portal Setting')
     irm_portlet_config.save
-    menu_entiry_114= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'PORTLET_CONFIG',:display_sequence=>45)
+    menu_entiry_114= Irm::MenuEntry.new(:menu_code=>'GLOBAL_CREATE',:sub_menu_code=>nil,:sub_function_group_code=>'PORTLET_CONFIG',:display_sequence=>38)
     menu_entiry_114.save
   end
 
