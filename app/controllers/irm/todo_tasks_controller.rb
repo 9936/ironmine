@@ -170,6 +170,6 @@ class Irm::TodoTasksController < ApplicationController
   end
 
   def portlet
-      render :layout => "portlet"
+      render :layout => false
   end
 end
