@@ -55,7 +55,8 @@ module Ironmine
         :extjs=>%w(ext4-all ext-extend ext-application locales/ext-{locale}),
         :survey=>%w(survey),
         :datepicker=>%w(jquery-bigiframe jquery-datepicker locales/jquery-datepicker-{locale} jquery-datepicker-date),
-        :waypoints => %w(jquery-waypoints)
+        :waypoints => %w(jquery-waypoints),
+        :jpolite => %w(jpolite/jquery-ui-jpolite.min jpolite/jpolite.core jpolite/jpolite.ext)
     }
     config.ironmine.css.source = {
         :default =>%w(colorbox base button container form header icons layout other public sidebar table jmask),
@@ -67,7 +68,8 @@ module Ironmine
         :common_all=>%w(base button container form public),
         :jcrop=>%w(jcrop),
         :extjs=>%w(ext4-all ext4-cux),
-        :datepicker=>%w(jquery-datepicker)
+        :datepicker=>%w(jquery-datepicker),
+        :jpolite => %w(screen style)
     }
   end
 end
