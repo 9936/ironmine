@@ -48,13 +48,22 @@
             </tr>
             <tr>
               <td class="labelCol"><label for="portlet_controller"><%=t(:label_irm_portlet_controller)%></label></td>
-              <td class="dataCol"><%=f.text_field :controller, :required=>true ,:id=>"portlet_controller"%></td>
+              <td class="dataCol">
+                <%=f.blank_select :controller,controllers.collect{|p| [p[:controller], p.controller]},
+                                  {},{:required=>true,:id=>"portlet_controller_id"}%>
+              </td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
               <td class="labelCol"><label for="portlet_action"><%=t(:label_irm_portlet_action)%></label></td>
-              <td class="dataCol"><%=f.text_field :action, :required=>true,:id=>"portlet_action"%></td>
+              <td class="dataCol">
+                <%= f.blank_select :action,[], {},{:required=>true,
+                                                        :id=>"portlet_action_id",
+                                                        :href=>url_for(:controller=>"irm/portlets",:action=>"get_actions_options",:format=>"json",:controllers=>"${portlet_controller_id}"),
+                                                        :depend=>"portlet_controller_id"}%>
+
+              </td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
@@ -90,3 +99,10 @@
   </div>
 </div>
 <% end %>
+<script type="text/javascript">
+  $(function(){
+    if($("#portlet_controller_id")){
+        $("#portlet_controller_id").cascade(["#portlet_action_id"]);
+     }
+  });
+</script>
