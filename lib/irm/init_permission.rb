@@ -12,8 +12,6 @@ Irm::AccessControl.map do |map|
                                  "irm/setting" => ["common"],
                                  "irm/navigations" => ["change_application", "index"],
                                  "icm/support_groups"=>["get_member_options"],
-                                 "irm/todo_tasks" => ["portlet"],
-                                 "irm/reports" =>["portlet"],
                                  "irm/search"=>[:index],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
@@ -312,5 +310,10 @@ Irm::AccessControl.map do |map|
   #===================irm/bulletins#portlet============================
   map.function :bulletin_portlet,{"irm/bulletins"=>["portlet"]}
 
+  #===================irm/todo_tasks#portlet============================
+  map.function :todo_task_portlet,{"irm/todo_tasks"=>["portlet"]}
+
+  #===================irm/reports#portlet============================
+  map.function :report_portlet,{"irm/reports"=>["portlet"]}
 
 end
