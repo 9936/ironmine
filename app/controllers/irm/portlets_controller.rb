@@ -116,7 +116,7 @@ class Irm::PortletsController < ApplicationController
   #定义获取actions_options 的Action
   def get_actions_options
     actions_scope =  Irm::Permission.where(:controller =>params[:controllers], :direct_get_flag => 'Y')
-    actions = actions_scope.collect {|p| {:label=>p[:action],:value=>p[:id]}}
+    actions = actions_scope.collect {|p| {:label=>p[:action],:value=>p[:action]}}
     respond_to do |format|
       format.json {render :json=>actions.to_grid_json([:label,:value],actions.count)}
     end
