@@ -81,8 +81,8 @@ body {margin:0;padding:0;background:#eee}
 .max {float:none !important; width:100% !important}
 .min {display:none}
 .moduleFrame {border:0; overflow:hidden;}
-.moduleHeader {margin:10px; padding:2px; background:#888; color:#fff; cursor:move; overflow:hidden;
-				border-width:1px; border-style:solid; border-color: #777 #eee #eee #777}
+.moduleHeader {padding:2px; background:#888; color:#fff; cursor:move; overflow:hidden;
+				border-width:1px; border-style:solid; border-color: #777 #eee #eee #777;line-height: 24px !important;}
 .moduleTitle {background:url(g/icon.gif) no-repeat; height:1.4em; line-height:1.4em; float:left; padding-left:18px; font-weight:bold}
 .moduleActions {display:none; float:right}
 .moduleActions b {cursor:pointer;width:16px;height:16px;display:block;float:left}

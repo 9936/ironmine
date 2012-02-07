@@ -244,7 +244,7 @@ function loadModuleMenu() {
 /*
  * Initialization Code
  */
-function initPortal(){
+function initPortal(options){
 	//Load Live / Custom Events & Message Handlers
 	myLiveEvents();
 	myCustomEvents();
@@ -295,6 +295,8 @@ function initPortal(){
 			return $.cookie('jpolite2layout', s);
 		}
 	];
+
+    s = $.extend(s,options);
 //	$.jpolite.loadLayout = function(){
 //		this._loadLayout();
 //	};
