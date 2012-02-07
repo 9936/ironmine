@@ -82,5 +82,30 @@
         </tbody>
       </table>
     </div>
+    <div class="pbSubheader tertiaryPalette">&nbsp;
+      <h3><%=t(:label_irm_global_setting_error_page_info)%><span class="titleSeparatingColon"></span></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_404").first[:name])%></label></td>
+              <td class="data2Col"><%= @settings.query_by_code("ERROR_404").first[:value]%>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_500").first[:name])%></label></td>
+              <td class="data2Col"><%= @settings.query_by_code("ERROR_500").first[:value]%>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_422").first[:name])%></label></td>
+              <td class="data2Col"><%= @settings.query_by_code("ERROR_422").first[:value]%>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_ACCESS_DENY").first[:name])%></label></td>
+              <td class="data2Col"><%= @settings.query_by_code("ERROR_ACCESS_DENY").first[:value]%>
+            </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
