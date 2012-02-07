@@ -1628,8 +1628,8 @@ en:
   label_irm_portlet: Portlet
   label_irm_portlet_new: New Portlet
   label_irm_portlet_code: Code
-  label_irm_portlet_controller: Controller Name
-  label_irm_portlet_action: Request Action
+  label_irm_portlet_controller: Page Controller
+  label_irm_portlet_action: Page Action
   label_irm_portlet_default_flag: Default Show
   portlet_default_flag_yes: Yes
   portlet_default_flag_no: No
