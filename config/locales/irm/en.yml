@@ -292,6 +292,7 @@ en:
   label_irm_global_setting_upload_file_limit: Upload File Size Limit(KB)
   label_irm_global_setting_logo: Logo
   recommended_size: Recommended Resolution
+  label_irm_global_setting_error_page_info: Error Page Info
   #=========================    end global_settings_controller=======================#
   #=========================    irm auth_sources_controller=======================#
   label_irm_auth_source_name: Name

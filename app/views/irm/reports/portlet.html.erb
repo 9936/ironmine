@@ -27,7 +27,7 @@
                       }
                     </div>
                   </div>
-                  <%= datatable("report_list",{:action=>"get_data", :folder_id => @folder_id,:format=>"json"},
+                  <%= datatable("report_list",{:controller => "irm/reports",:action=>"get_data", :folder_id => @folder_id,:format=>"json"},
                             [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.stemplate", :width => "40px"},
                              {:key=>"name",:label=>t(:label_irm_report_name),:formatter=>"Y.irm.stemplate", :sortable=>true,:searchable=>true,:width=>"250px"},
                              @folder_id.present? ? nil:{:key=>"report_folder_name",:label=>t(:label_irm_report_folder), :width => "150px"} ,
@@ -35,8 +35,8 @@
                              {:key=>"editable_flag",:hidden=>true},
                              {:key=>"report_trigger_id",:hidden=>true},
                              {:key=>"description",:label=>t(:label_irm_report_description)}].compact,
-                             {:search_box=>"reportListSearchBox",:paginator_box=>"regionPaginator",:export_data=>"#exportData"})%>
-                  <div id="regionPaginator"></div>
+                              {:force_html=>true,:search_box=>"reportListSearchBox",:paginator_box=>"regionPaginator",:export_data=>"#exportData"})%>
+                <div id="regionPaginator"></div>
               </td>
             </tr>
           </table>

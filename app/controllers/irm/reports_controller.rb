@@ -213,6 +213,15 @@ class Irm::ReportsController < ApplicationController
     reports_scope = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).with_report_trigger.filter_by_folder_access(Irm::Person.current.id).order("report_folder_id")
 
     respond_to do |format|
+      format.html  {
+        reports_scope,count = paginate(reports_scope)
+        reports_scope.each do |i|
+          i[:editable_flag] = i.editable(i[:member_type],i[:access_type],Irm::Person.current.id)
+        end
+        @datas = reports_scope
+        @count = count
+        render_html_data_table
+      }
       format.json {
         reports_scope,count = paginate(reports_scope)
         reports_scope.each do |i|
@@ -374,7 +383,7 @@ class Irm::ReportsController < ApplicationController
   def portlet
     @folder_id = params[:folder_id]
     respond_to do |format|
-      format.html { render :layout => "portlet"}# index.html.erb
+      format.html { render :layout => false}# index.html.erb
     end
   end
 

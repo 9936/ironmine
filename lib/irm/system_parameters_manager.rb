@@ -40,11 +40,28 @@ module Irm::SystemParametersManager
       system_params[:timezone]||""
     end
 
+    def error_404_text
+      system_params[:error_404_text]||""
+    end
+
+    def error_500_text
+      system_params[:error_500_text]||""
+    end
+
+    def error_422_text
+      system_params[:error_422_text]||""
+    end
+
+    def error_access_deny_text
+      system_params[:error_access_deny_text]||""
+    end
+
     def reset_system_parameters
       prepare_system_parameters_cache
     end
 
     def prepare_system_parameters_cache
+
       login_page_logo = Irm::SystemParameter.query_by_code("LOGIN_PAGE_LOGO")
       app_top_logo = Irm::SystemParameter.query_by_code("APP_TOP_LOGO")
       address_bar_logo = Irm::SystemParameter.query_by_code("ADDRESS_BAR_LOGO")
@@ -59,6 +76,11 @@ module Irm::SystemParametersManager
 
       host_port = Irm::SystemParameter.query_by_code("HOST_PORT")
 
+      error_404_text = Irm::SystemParameter.query_by_code("ERROR_404")
+      error_500_text = Irm::SystemParameter.query_by_code("ERROR_500")
+      error_422_text = Irm::SystemParameter.query_by_code("ERROR_422")
+      error_access_deny_text = Irm::SystemParameter.query_by_code("ERROR_ACCESS_DENY")
+
       map.merge!({:app_top_logo => app_top_logo.first.img.url}) if app_top_logo.any? && app_top_logo.first.value.present?
       map.merge!({:login_page_logo => login_page_logo.first.img.url}) if login_page_logo.any? && login_page_logo.first.value.present?
       map.merge!({:address_bar_logo => address_bar_logo.first.img.url}) if address_bar_logo.any? && address_bar_logo.first.value.present?
@@ -72,6 +94,11 @@ module Irm::SystemParametersManager
       map.merge!({:timezone => timezone.first.value}) if timezone.any?
 
       map.merge!({:host_port => host_port.first.value}) if host_port.any?
+
+      map.merge!({:error_404_text => error_404_text.first.value}) if error_404_text.any?
+      map.merge!({:error_500_text => error_500_text.first.value}) if error_500_text.any?
+      map.merge!({:error_422_text => error_422_text.first.value}) if error_422_text.any?
+      map.merge!({:error_access_deny_text => error_access_deny_text.first.value}) if error_access_deny_text.any?
     end
 
     # =====================================生成logo缓存===============================================
