@@ -13,8 +13,6 @@ Irm::AccessControl.map do |map|
                                  "irm/navigations" => ["change_application", "index"],
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/todo_tasks" => ["portlet"],
-                                 "irm/bulletins" =>["portlet"],
-                                 "skm/entry_headers" =>["portlet"],
                                  "irm/reports" =>["portlet"],
                                  "irm/search"=>[:index],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
@@ -310,5 +308,9 @@ Irm::AccessControl.map do |map|
   #===================irm/portlets============================
   #["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]
   map.function :portlet,{"irm/portlets"=>["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]}
+
+  #===================irm/bulletins#portlet============================
+  map.function :bulletin_portlet,{"irm/bulletins"=>["portlet"]}
+
 
 end
