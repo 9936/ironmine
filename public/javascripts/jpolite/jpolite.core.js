@@ -339,6 +339,9 @@ $.jpolite = {
 
 			//Load module definition
 			var y = _modules[m.id];
+            if(!y){
+                return;
+            }
 			var x = this.MTS[m.mt || 0].clone()[0];
 			$.extend(x, {mc:'', mt:''}, this.moduleActions, m, {
 				loaded: false,
