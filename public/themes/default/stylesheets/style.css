@@ -21,9 +21,6 @@ body {margin:0;padding:0;background:#eee}
 .darker {background:#777 url(g/actionMin.png)}
 .dark {background:#aaa url(g/actionMax.png)}
 .lighter {background:#f6f6f6}
-.left  {float:left}
-.right {float:right}
-
 /**************************************/
 /*              HEADER                */
 /**************************************/
