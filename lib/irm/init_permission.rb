@@ -17,6 +17,7 @@ Irm::AccessControl.map do |map|
                                  "skm/entry_headers" =>["portlet"],
                                  "irm/reports" =>["portlet"],
                                  "irm/search"=>[:index],
+                                 "irm/portlets"=>[:get_actions_options],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
