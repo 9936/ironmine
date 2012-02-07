@@ -25,7 +25,8 @@ class Irm::PortletsController < ApplicationController
   # GET /portlets/new.xml
   def new
     @portlet = Irm::Portlet.new(:default_flag => 'Y')
-
+    #默认加载controllers
+    #@controllers = init_controllers
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @portlet }
@@ -109,6 +110,15 @@ class Irm::PortletsController < ApplicationController
     portlets,count = paginate(portlets_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(portlets.to_grid_json([:code,:name,:description,:status_meaning],count))}
+    end
+  end
+
+  #定义获取actions_options 的Action
+  def get_actions_options
+    actions_scope =  Irm::Permission.where(:controller =>params[:controllers], :direct_get_flag => 'Y')
+    actions = actions_scope.collect {|p| {:label=>p[:action],:value=>p[:id]}}
+    respond_to do |format|
+      format.json {render :json=>actions.to_grid_json([:label,:value],actions.count)}
     end
   end
 end
