@@ -42,7 +42,7 @@
                            {:key=>"entry_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.template"},
                            {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true,:formatter=>"Y.irm.template",:width => "100px"},
                            {:key=>"is_favorite", :hidden => true}],
-                           {:search_box => "entryHeadersSearchBox",:html=>true, :paginator_box=>"entry_headers_list_paginator_box"})%>
+                           {:search_box => "entryHeadersSearchBox",:force_html=>true, :paginator_box=>"entry_headers_list_paginator_box"})%>
                 <div id="entry_headers_list_paginator_box"></div>
             </td>
           </tr>

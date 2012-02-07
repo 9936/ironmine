@@ -42,4 +42,6 @@ Irm::AccessControl.map do |map|
   map.function :edit_skm_channel, {"skm/channels" => ["edit", "update", "new", "create", "multilingual_edit", "multilingual_update",
                                                       "new_groups","create_groups","remove_group"],
                                    "irm/groups" => ["new_skm_channels", "create_skm_channels", "remove_skm_channel"]}
+  #===================skm/entry_headers#portlet============================
+  map.function :entry_header_portlet,{"skm/entry_headers"=>["portlet"]}
 end
