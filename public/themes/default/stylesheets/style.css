@@ -88,7 +88,7 @@ body {margin:0;padding:0;background:#eee}
 	.actionMin {background:url('../images/jpolite/actionMin.png')}
 	.actionClose	{background:url('../images/jpolite/actionClose.png')}
 .moduleHeader:hover .moduleActions {display:block}
-.moduleContent {background:#fff; margin:10px}
+.moduleContent {background:#fff;}
 
 /* Simple Theme for Modules */
 .red .moduleHeader{background:#e24e61 url(g/module-orange.gif) repeat-x; border-color:#c94758 #F6A7B8 #F6A7B8 #c94758}

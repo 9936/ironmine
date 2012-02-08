@@ -41,16 +41,20 @@
         <% (0..portlets.length-1).step(3) do |index| %>
           <tr>
             <td>
+              <%= check_img("Y") %>
               <a class="addModule" onclick="javascript:void(0)" ref="<%= portlets[index].id%>"><%= portlets[index][:name] %></a>
             </td>
             <td>
+
               <% if portlets[index+1] %>
+                <%= check_img("Y") %>
                 <a class="addModule"  onclick="javascript:void(0)" ref="<%= portlets[index+1].id%>"><%= portlets[index+1][:name]  %></a>
               <% end %>
             </td>
             <td>
               <% if portlets[index+2] %>
-                <a class="addModule"  onclick="javascript:void(0)" ref="<%= portlets[index+2].id%>"><%= portlets[index+2][:name]  %></a>
+                  <%= check_img("Y") %>
+                  <a class="addModule"  onclick="javascript:void(0)" ref="<%= portlets[index+2].id%>"><%= portlets[index+2][:name]  %></a>
               <% end %>
             </td>
           </tr>
