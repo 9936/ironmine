@@ -89,4 +89,18 @@ class Irm::PortletConfigsController < ApplicationController
       format.json {render :json=>to_jsonp(portlet_configs.to_grid_json([:portal_code,:person_name,:config],count))}
     end
   end
+
+  #save portal
+  def save_portal_config
+    portlet_config = Irm::PortletConfig.find_by_person_id(Irm::Person.current.id)
+    if portlet_config.nil?
+      portlet_config = Irm::PortletConfig.new(:person_id =>Irm::Person.current.id,:config => params[:portal_config])
+      portlet_config.save
+    else
+      portlet_config.update_attribute(:config, params[:portal_config])
+    end
+    respond_to do |format|
+      format.json { render :json => portlet_config.to_json }
+    end
+  end
 end
