@@ -20,7 +20,7 @@ module Irm::HomeHelper
   end
 
   def portlets_config
-    portle_config = Irm::PortletConfig.personal_config(Irm::Person.current.id)
+    portle_config = Irm::PortletConfig.personal_config(Irm::Person.current.id).first
     if(portle_config.present?&&portle_config[:config].present?)
       portle_config[:config]
     else
