@@ -75,28 +75,7 @@
 		        c4:'span-24 last'
 	           }
   };
-  var portal_options, customNav = window.name;
-  switch(customNav) {
-     case	'1':	//Kwicks
-			//A little cusomization to the appearance of tabs, for production system, set it in CSS instead
-			$("li", "#main_nav").css({width:'90px', padding:0, textAlign:'center'});
-			portal_options = {
-				navInit:$.fn.kwicks,
-				navInitArguments:{max:130, spacing:5, sticky:true, event:'click'}
-			};
-			break;
-	case	'2':	//LavaLamp
-			//A little cusomization to the appearance of tabs, for production system, set it in CSS instead
-			$("li", "#main_nav").css({background:"transparent", border:0});
-			portal_options = {
-				navInit:$.fn.lavaLamp,
-				navInitArguments:{startItem:0, speed:800}
-			};
-			break;
-	default://3 or else - Traditional
-			portal_options = {navInit:TraditionalTabs};
-  }
-  portal_options.its =  "li, dd";
+  var portal_options = {};
   portal_options.layoutPersistence = [
     function() {
         return window["eval"]("(" + $.cookie('jpolite2layout') + ")")
