@@ -34,16 +34,35 @@
 	</div>
 </div>
 
+<% portlets = my_portlets %>
+<div style="display:none;">
+    <div id="portletList" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
+      <table style="font-size:12px;width:100%;">
+        <% (0..portlets.length).step(3) do |index| %>
+          <tr>
+            <td>
+              <a class="addModule" onclick="javascript:void(0)" ref="<%= portlets[index].id%>"><%= portlets[index][:name] %></a>
+            </td>
+            <td>
+              <% if portlets[index+1] %>
+                <a class="addModule"  onclick="javascript:void(0)" ref="<%= portlets[index+1].id%>"><%= portlets[index+1][:name]  %></a>
+              <% end %>
+            </td>
+            <td>
+              <% if portlets[index+2] %>
+                <a class="addModule"  onclick="javascript:void(0)" ref="<%= portlets[index+2].id%>"><%= portlets[index+2][:name]  %></a>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+
+    </div>
+</div>
+
 <script>
-  var _modules= {
-      //m101:{url:"licenses",	t:"Motivation"},
-	  //m102:{url:"people",	t:"Philisophy"},
-      m101:{url:"bulletins/portlet",	t:"bulletins"},
-      m102:{url:"entry_headers/portlet",	t:"entry_headers"}
-
-
-  }
-  var _moduleLayout={t1:["m101:c1","m102:c2" ]}
+  var _modules=window["eval"]("(" +'<%=portlets_json%>'+ ")");
+  var _moduleLayout=window["eval"]("(" +"<%=portlets_config%>"+ ")");
   var _columnLayout = {
 	_default: { bg:'normal',
 		        c1:'span-24 last',
@@ -52,5 +71,19 @@
 		        c4:'span-24 last'
 	           }
   };
-  initPortal();
+  initPortal({});
+  $(function(){
+      $("#portalSetting").click(function(e){
+          $.colorbox({inline:true, opacity:0.55, title:"<%= t(:label_irm_portlet_custom_home_page) %>", speed: 0,href:"#portletList"});
+      });
+      $("#portletList a.addModule").click(function(e){
+            $.jpolite.addModule({
+				id: "m"+$(e.currentTarget).attr("ref"),
+				c:	'c1',	//Add to c1 of current tab by default
+				mc: '',
+				mt:	''
+			});
+      });
+  });
+
 </script>

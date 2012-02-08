@@ -17,4 +17,12 @@ class Irm::Portlet < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
+  scope :default,lambda{
+    where(:default_flag=>Irm::Constant::SYS_YES)
+  }
+
+  def url_options
+    {:controller=>self.controller,:action=>self.action}
+  end
+
 end
