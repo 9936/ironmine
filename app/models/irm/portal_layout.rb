@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Irm::PortalLayout < ActiveRecord::Base
-  set_table_name :irm_port_layouts
+  set_table_name :irm_portal_layouts
   after_save :process_default ,:process_comma
   #多语言关系
   attr_accessor :name, :description
