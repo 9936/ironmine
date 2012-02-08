@@ -310,10 +310,16 @@ Irm::AccessControl.map do |map|
   #===================irm/bulletins#portlet============================
   map.function :bulletin_portlet,{"irm/bulletins"=>["portlet"]}
 
+
+  #===================irm/portal_layouts============================
+  #["index", "create", "new", "edit", "show", "update", "destroy", "index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]
+  map.function :portal_layout,{"irm/portal_layouts"=>["index", "create", "new", "edit", "show", "update", "destroy", "index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]}
+
   #===================irm/todo_tasks#portlet============================
   map.function :todo_task_portlet,{"irm/todo_tasks"=>["portlet"]}
 
   #===================irm/reports#portlet============================
   map.function :report_portlet,{"irm/reports"=>["portlet"]}
+
 
 end

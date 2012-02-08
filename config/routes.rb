@@ -1,5 +1,7 @@
 Ironmine::Application.routes.draw do
 
+  namespace :irm do resources :portal_layouts end
+
   get "delayed/index"
 
   scope :module => "irm" do
@@ -856,16 +858,16 @@ Ironmine::Application.routes.draw do
     match '/mail_settings/update(.:format)' => "mail_settings#update", :via => :post
 
     #portlet_config
-    #match '/portlet_configs(/index)(.:format)' => "portlet_configs#index", :via => :get
-    #match '/portlet_configs/:id/show(.:format)' => "portlet_configs#show", :via => :get
-    #match '/portlet_configs/:id/edit(.:format)' => "portlet_configs#edit", :via => :get
-    #match '/portlet_configs/:id(.:format)' => "portlet_configs#update", :via => :put
-    #match '/portlet_configs/new(.:format)' => "portlet_configs#new", :via => :get
-    #match '/portlet_configs/create(.:format)' => "portlet_configs#create", :via => :post
-    #match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
-    #match '/portlet_configs/:id/destroy(.:format)' => "portlet_configs#destroy", :via => :delete
+    match '/portlet_configs(/index)(.:format)' => "portlet_configs#index", :via => :get
+    match '/portlet_configs/:id/show(.:format)' => "portlet_configs#show", :via => :get
+    match '/portlet_configs/:id/edit(.:format)' => "portlet_configs#edit", :via => :get
+    match '/portlet_configs/:id(.:format)' => "portlet_configs#update", :via => :put
+    match '/portlet_configs/new(.:format)' => "portlet_configs#new", :via => :get
+    match '/portlet_configs/create(.:format)' => "portlet_configs#create", :via => :post
     match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
-    resources :portlet_configs
+    match '/portlet_configs/:id/destroy(.:format)' => "portlet_configs#destroy", :via => :delete
+    match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
+
 
     #portlets
     match '/portlets(/index)(.:format)' => "portlets#index", :via => :get
@@ -879,6 +881,22 @@ Ironmine::Application.routes.draw do
     match '/portlets/:id/multilingual_edit(.:format)' => "portlets#multilingual_edit", :via => :get
     match '/portlets/:id/multilingual_update(.:format)' => "portlets#multilingual_update", :via => :put
     match '/portlets/get_actions_options(.:format)' => "portlets#get_actions_options"
+
+
+    #portal_layouts
+    match '/portal_layouts(/index)(.:format)' => "portal_layouts#index", :via => :get
+    match '/portal_layouts/new(.:format)'      => "portal_layouts#new",   :via => :get
+    match '/portal_layouts/:id/edit(.:format)' => "portal_layouts#edit", :via => :get
+    match '/portal_layouts/create(.:format)'  => "portal_layouts#create",:via => :post
+    match '/portal_layouts/:id(.:format)'  => "portal_layouts#update",:via => :put
+    match '/portal_layouts/:id/show(.:format)'=> "portal_layouts#show",  :via => :get
+    match '/portal_layouts/get_data(.:format)' => "portal_layouts#get_data"
+    match '/portal_layouts/:id/destroy(.:format)' => "portal_layouts#destroy", :via => :delete
+    match '/portal_layouts/:id/multilingual_edit(.:format)' => "portal_layouts#multilingual_edit", :via => :get
+    match '/portal_layouts/:id/multilingual_update(.:format)' => "portal_layouts#multilingual_update", :via => :put
+
+
+
   end
 
   scope :module => "icm" do
