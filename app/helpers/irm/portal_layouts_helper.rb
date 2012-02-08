@@ -1,0 +1,3 @@
+module Irm::PortalLayoutsHelper
+
+end
