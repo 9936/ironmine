@@ -13,7 +13,6 @@ Irm::AccessControl.map do |map|
                                  "irm/navigations" => ["change_application", "index"],
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/search"=>[:index],
-                                 "irm/portlets"=>[:get_actions_options],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
@@ -305,8 +304,8 @@ Irm::AccessControl.map do |map|
   map.function :portlet_config,{"irm/portlet_configs"=>["index", "show", "edit", "update", "new", "create", "get_data", "destroy"]}
 
   #===================irm/portlets============================
-  #["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]
-  map.function :portlet,{"irm/portlets"=>["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"]}
+  #["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update", "get_actions_options"]
+  map.function :portlet,{"irm/portlets"=>["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update", "get_actions_options"]}
 
   #===================irm/bulletins#portlet============================
   map.function :bulletin_portlet,{"irm/bulletins"=>["portlet"]}
