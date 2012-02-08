@@ -13,6 +13,7 @@ Irm::AccessControl.map do |map|
                                  "irm/navigations" => ["change_application", "index"],
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/search"=>[:index],
+                                 "irm/portlet_configs" => ["save_portal_config"],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}

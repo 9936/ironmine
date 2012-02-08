@@ -865,6 +865,7 @@ Ironmine::Application.routes.draw do
     #match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
     #match '/portlet_configs/:id/destroy(.:format)' => "portlet_configs#destroy", :via => :delete
     match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
+    match '/portlet_configs/save_portal_config(.:format)' => "portlet_configs#save_portal_config", :via => :post
     resources :portlet_configs
 
     #portlets
