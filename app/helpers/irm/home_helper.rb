@@ -7,6 +7,10 @@ module Irm::HomeHelper
     values
   end
 
+  def my_portlets
+    Irm::Portlet.multilingual
+  end
+
   def portlets_json
     json_hash = {}
     Irm::Portlet.multilingual.each do |p|
