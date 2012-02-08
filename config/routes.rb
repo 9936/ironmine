@@ -1,6 +1,5 @@
 Ironmine::Application.routes.draw do
 
-  namespace :irm do resources :portal_layouts end
 
   get "delayed/index"
 
