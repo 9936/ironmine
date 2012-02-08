@@ -49,7 +49,7 @@
             <tr>
               <td class="labelCol"><label for="portlet_controller"><%=t(:label_irm_portlet_controller)%></label></td>
               <td class="dataCol">
-                <%=f.blank_select :controller,controllers.collect{|p| [p[:controller], p.controller]},
+                <%=f.blank_select :controller,available_all_controller.collect{|p| [p[:controller], p.controller]},
                                   {},{:required=>true,:id=>"portlet_controller_id"}%>
               </td>
               <td class="labelCol empty">&nbsp;</td>
@@ -60,6 +60,7 @@
               <td class="dataCol">
                 <%= f.blank_select :action,[], {},{:required=>true,
                                                         :id=>"portlet_action_id",
+                                                        :origin_value=>@portlet.action,
                                                         :href=>url_for(:controller=>"irm/portlets",:action=>"get_actions_options",:format=>"json",:controllers=>"${portlet_controller_id}"),
                                                         :depend=>"portlet_controller_id"}%>
 
