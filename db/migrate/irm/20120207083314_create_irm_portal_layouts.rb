@@ -28,8 +28,8 @@ class CreateIrmPortalLayouts < ActiveRecord::Migration
     end
 
     change_column :irm_port_layouts_tl, "id", :string,:limit=>22, :collate=>"utf8_bin"
-    add_index "irm_port_layouts_tl", ["layout_id", "language"], :name => "IRM_PORT_LAYOUTS_TL_U1", :unique => true
-    add_index "irm_port_layouts_tl", ["layout_id"],             :name => "IRM_PORT_LAYOUTS_TL_N1"
+    add_index "irm_port_layouts_tl", ["portal_layout_id", "language"], :name => "IRM_PORT_LAYOUTS_TL_U1", :unique => true
+    add_index "irm_port_layouts_tl", ["portal_layout_id"],             :name => "IRM_PORT_LAYOUTS_TL_N1"
     execute('CREATE OR REPLACE VIEW irm_port_layouts_vl AS SELECT t.*,tl.id lang_id,tl.name,tl.description,tl.language,tl.source_lang
                          FROM irm_port_layouts t,irm_port_layouts_tl tl
                          WHERE t.id = tl.portal_layout_id')
