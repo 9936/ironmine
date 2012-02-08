@@ -878,7 +878,7 @@ Ironmine::Application.routes.draw do
     match '/portlets/:id/destroy(.:format)' => "portlets#destroy", :via => :delete
     match '/portlets/:id/multilingual_edit(.:format)' => "portlets#multilingual_edit", :via => :get
     match '/portlets/:id/multilingual_update(.:format)' => "portlets#multilingual_update", :via => :put
-    match '/portlets/get_actions(.:format)' => "portlets#get_actions_options"
+    match '/portlets/get_actions_options(.:format)' => "portlets#get_actions_options"
   end
 
   scope :module => "icm" do
