@@ -80,15 +80,15 @@ body {margin:0;padding:0;background:#eee}
 .moduleFrame {border:0; overflow:hidden;}
 .moduleHeader {padding:2px; background:#888; color:#fff; cursor:move; overflow:hidden;
 				border-width:1px; border-style:solid; border-color: #777 #eee #eee #777;line-height: 24px !important;}
-.moduleTitle {background:url(g/icon.gif) no-repeat; height:1.4em; line-height:1.4em; float:left; padding-left:18px; font-weight:bold}
+.moduleTitle {background:url(../images/jpolite/icon.gif) no-repeat; height:1.4em; line-height:1.4em; float:left; padding-left:18px; font-weight:bold}
 .moduleActions {display:none; float:right}
 .moduleActions b {cursor:pointer;width:16px;height:16px;display:block;float:left}
-	.actionRefresh {background:url('g/actionRefresh.png')}
-	.moduleActions .actionMax {display:none;background:url('g/actionMax.png')}
-	.actionMin {background:url('g/actionMin.png')}
-	.actionClose	{background:url('g/actionClose.png')}
+	.actionRefresh {background:url('../images/jpolite/actionRefresh.png')}
+	.moduleActions .actionMax {display:none;background:url('../images/jpolite/actionMax.png')}
+	.actionMin {background:url('../images/jpolite/actionMin.png')}
+	.actionClose	{background:url('../images/jpolite/actionClose.png')}
 .moduleHeader:hover .moduleActions {display:block}
-.moduleContent {background:#fff; margin:10px}
+.moduleContent {background:#fff;}
 
 /* Simple Theme for Modules */
 .red .moduleHeader{background:#e24e61 url(g/module-orange.gif) repeat-x; border-color:#c94758 #F6A7B8 #F6A7B8 #c94758}

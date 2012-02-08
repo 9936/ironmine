@@ -522,7 +522,7 @@ Ironmine::Application.routes.draw do
     match '/todo_tasks/:id/update_recurrence(.:format)' => "todo_tasks#update_recurrence", :via => :put
     match '/todo_tasks/my_tasks_index(.:format)' => "todo_tasks#my_tasks_index", :via => :get
     match '/todo_tasks/my_tasks_get_data(.:format)' => "todo_tasks#my_tasks_get_data"
-    match '/todo_tasks(/portlet)(.:format)' => "todo_tasks#portlet", :via => :get
+    match '/todo_tasks/portlet(.:format)' => "todo_tasks#portlet", :via => :get
 
     match '/calendars(/:year(/:month))' => 'calendars#get_full_calendar', :as => :calendar_task, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     # business object
@@ -880,6 +880,8 @@ Ironmine::Application.routes.draw do
     match '/portlets/:id/destroy(.:format)' => "portlets#destroy", :via => :delete
     match '/portlets/:id/multilingual_edit(.:format)' => "portlets#multilingual_edit", :via => :get
     match '/portlets/:id/multilingual_update(.:format)' => "portlets#multilingual_update", :via => :put
+    match '/portlets/get_actions_options(.:format)' => "portlets#get_actions_options"
+
 
     #portal_layouts
     match '/portal_layouts(/index)(.:format)' => "portal_layouts#index", :via => :get
@@ -892,6 +894,8 @@ Ironmine::Application.routes.draw do
     match '/portal_layouts/:id/destroy(.:format)' => "portal_layouts#destroy", :via => :delete
     match '/portal_layouts/:id/multilingual_edit(.:format)' => "portal_layouts#multilingual_edit", :via => :get
     match '/portal_layouts/:id/multilingual_update(.:format)' => "portal_layouts#multilingual_update", :via => :put
+
+
 
   end
 

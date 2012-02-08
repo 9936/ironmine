@@ -455,6 +455,7 @@ $.jpolite = {
 	},
 	addModule: function(m) {
 		this.Content.addModule(m, this.Nav.getTab());
+        this.Content.saveLayout();
 	},
 	replaceModule: function(col, ids) {
 		var x = $(".module:visible", this.Content[col]).get();

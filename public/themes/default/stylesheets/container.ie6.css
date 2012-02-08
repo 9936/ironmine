@@ -72,6 +72,15 @@ div.greeting a {text-decoration:none;}
 }
 
 div.greeting {zoom:1}
+
+body .page-title .pt-body .links {
+    float: right;
+    font-size: 91%;
+    padding: 10px 25px 0 0;
+    text-align: right;
+    vertical-align: middle;
+    white-space: nowrap;
+}
 /*********************************************************************************************/
 /*首页布局容器*/
 .tools-content {
