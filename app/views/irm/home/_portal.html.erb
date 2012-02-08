@@ -6,6 +6,9 @@
       border-color: gray;
       min-height: 80px;
   }
+  td.added img{
+      visibility: hidden;
+  }
 </style>
 <ul id="main_nav" style="display:none;">
    <li id="t1"><b class="hover">homePage</b></li>
@@ -37,7 +40,7 @@
 <% portlets = my_portlets %>
 <div style="display:none;">
     <div id="portletList" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
-      <table style="font-size:12px;width:100%;">
+      <table id="modules" style="font-size:12px;width:100%;">
         <% (0..portlets.length-1).step(3) do |index| %>
           <tr>
             <td>
@@ -78,6 +81,16 @@
   initPortal({});
   $(function(){
       $("#portalSetting").click(function(e){
+          //已经显示在portal中的模块
+          var showedModules = $.jpolite.getShowModules();
+          $("#portletList a.addModule").each(function(index,module){
+              var id = $(module).attr("ref");
+              if(showedModules.indexOf("m"+id)>-1){
+                  $(module).parent().removeClass("added");
+              }else{
+                  $(module).parent().addClass("added");
+              }
+          });
           $.colorbox({inline:true, opacity:0.55, title:"<%= t(:label_irm_portlet_custom_home_page) %>", speed: 0,href:"#portletList"});
       });
       $("#portletList a.addModule").click(function(e){
@@ -87,6 +100,7 @@
 				mc: '',
 				mt:	''
 			});
+            $(e.currentTarget).parent().removeClass("added");
       });
   });
 

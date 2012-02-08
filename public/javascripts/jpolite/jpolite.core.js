@@ -409,7 +409,29 @@ $.jpolite = {
 				return "'" + this.id + "':[" + t.toString() + "]";
 			}).get().join(",") + "}";
 			if (this._saveLayout) this._saveLayout(r);
-		}
+		},
+        getLayout: function(){
+			var r = "{" + $.jpolite.Nav.its.map(function(){
+				var t = [], m = this.modules;
+				for (var i in m)
+					if (m[i].c)		//Skip static modules
+						t.push("'".concat(m[i].id, ":", m[i].c, ":", m[i].mc, ":", m[i].mt, "'"));
+
+				return "'" + this.id + "':[" + t.toString() + "]";
+			}).get().join(",") + "}";
+            return r;
+        },
+        getShowModules: function(){
+			var r = $.jpolite.Nav.its.map(function(){
+				var t = [], m = this.modules;
+				for (var i in m)
+					if (m[i].c)		//Skip static modules
+						t.push(m[i].id);
+
+				return t;
+			}).get();
+            return r;
+        }
 	},
 
 	/**
@@ -457,6 +479,12 @@ $.jpolite = {
 		this.Content.addModule(m, this.Nav.getTab());
         this.Content.saveLayout();
 	},
+    getLayout: function(){
+        return this.Content.getLayout();
+    },
+    getShowModules: function(){
+        return this.Content.getShowModules();
+    },
 	replaceModule: function(col, ids) {
 		var x = $(".module:visible", this.Content[col]).get();
 		var t = this.Nav.getTab();
