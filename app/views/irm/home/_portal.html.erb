@@ -38,7 +38,7 @@
 <div style="display:none;">
     <div id="portletList" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
       <table style="font-size:12px;width:100%;">
-        <% (0..portlets.length).step(3) do |index| %>
+        <% (0..portlets.length-1).step(3) do |index| %>
           <tr>
             <td>
               <a class="addModule" onclick="javascript:void(0)" ref="<%= portlets[index].id%>"><%= portlets[index][:name] %></a>
