@@ -15,6 +15,8 @@ Irm::AccessControl.map do |map|
                                  "irm/todo_tasks" => ["portlet"],
                                  "irm/reports" =>["portlet"],
                                  "irm/search"=>[:index],
+                                 "irm/portal_layouts"=>["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"],
+
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}

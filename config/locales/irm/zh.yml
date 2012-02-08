@@ -1651,3 +1651,11 @@ zh:
   label_irm_portlet_description: 描述
   #======================= end Portlets====================
 
+  #======================= portal layouts ====================
+  label_irm_portal_layout: Portal布局
+  label_irm_portal_layout_list: Portal布局列表
+  label_irm_portal_layout_name: 布局名称
+  label_irm_portal_layout_description: 布局说明
+  label_irm_portal_layout_format: 布局版式
+  label_irm_portal_layout_format_error: 只能输入格式3个数字，中间用逗号分割，如1,2,2
+  #=======================  portal layouts====================

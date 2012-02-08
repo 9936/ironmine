@@ -1637,3 +1637,12 @@ en:
   label_irm_portlet_name: Name
   label_irm_portlet_description: Description
   #======================= end Portlets====================
+
+  #======================= portal layouts ====================
+  label_irm_portal_layout: Portal Layout
+  label_irm_portal_layout_list: Portal Layout List
+  label_irm_portal_layout_name: Layout Name
+  label_irm_portal_layout_description: Layout Description
+  label_irm_portal_layout_format: Layout Format
+  label_irm_portal_layout_format_error: Only numbers splited by comma,eg. 1,2,2
+  #=======================  portal layouts====================
