@@ -26,7 +26,9 @@
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                        { :key => "code", :label => t(:label_irm_tab_code),:searchable=>true },
                        { :key => "name", :label => t(:label_irm_tab_name),:searchable=>true },
-                       { :key => "description", :label => t(:label_irm_tab_description),:searchable=>true }
+                       { :key => "page_controller", :label => t(:label_irm_portlet_controller),:searchable=>true },
+                       { :key => "page_action", :label => t(:label_irm_portlet_action),:searchable=>true },
+                       { :key => "description", :label => t(:label_irm_tab_description),:width=>"250px",:searchable=>true }
                       ],{:paginator_box=>"portletsPaginatorBox",:search_box=>"portletsSearchBox"})%>
         <div id="portletsPaginatorBox"></div>
       </div>
