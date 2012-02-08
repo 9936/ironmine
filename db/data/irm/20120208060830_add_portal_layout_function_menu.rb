@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class AddPortalLayoutFunctionMenu < ActiveRecord::Migration
   def up
     irm_portal_layout= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_CREATE',:code=>'PORTAL_LAYOUT',:controller=>'irm/portal_layouts',:action=>'index',:not_auto_mult=>true)
