@@ -10,13 +10,12 @@
       visibility: hidden;
   }
 </style>
-<% portlets = my_portlets %>
-<% pconfig = portal_configs(portlets) %>
+
 <ul id="main_nav" style="display:none;">
    <li id="t1"><b class="hover">homePage</b></li>
 </ul>
 <div id="jpolite_content"  class="jpolite-container">
-    <% 1.upto(pconfig[3]).each do |index| %>
+    <% 1.upto(pconfig[5]).each do |index| %>
       <div id="c<%=index%>" class="cc"></div>
     <% end %>
 </div>
@@ -42,22 +41,22 @@
 <div style="display:none;">
     <div id="portletList" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
       <table id="modules" style="font-size:12px;width:100%;">
-        <% (0..portlets.length-1).step(3) do |index| %>
+        <% (0..pconfig[0].length-1).step(3) do |index| %>
           <tr>
             <td>
-              <%= check_box_tag 'modules[]', portlets[index].id,false,:class=>"addModule",:ref=> portlets[index].id,:id=>"check#{portlets[index].id}"%>
-              <label for="check<%=portlets[index].id%>"><%= portlets[index][:name] %></label>
+              <%= check_box_tag 'modules[]', pconfig[0][index].id,false,:class=>"addModule",:ref=> pconfig[0][index].id,:id=>"check#{pconfig[0][index].id}"%>
+              <label for="check<%=pconfig[0][index].id%>"><%= pconfig[0][index][:name] %></label>
             </td>
             <td>
-              <% if portlets[index+1] %>
-                <%= check_box_tag 'modules[]', portlets[index+1].id,false,:class=>"addModule",:ref=> portlets[index+1].id,:id=>"check#{portlets[index+1].id}"%>
-                <label for="check<%=portlets[index+1].id%>"><%= portlets[index+1][:name] %></label>
+              <% if pconfig[0][index+1] %>
+                <%= check_box_tag 'modules[]', pconfig[0][index+1].id,false,:class=>"addModule",:ref=> pconfig[0][index+1].id,:id=>"check#{pconfig[0][index+1].id}"%>
+                <label for="check<%=pconfig[0][index+1].id%>"><%= pconfig[0][index+1][:name] %></label>
               <% end %>
             </td>
             <td>
-              <% if portlets[index+2] %>
-                <%= check_box_tag 'modules[]', portlets[index+2].id,false,:class=>"addModule",:ref=> portlets[index+2].id,:id=>"check#{portlets[index+2].id}"%>
-                <label for="check<%=portlets[index+2].id%>"><%= portlets[index+2][:name] %></label>
+              <% if pconfig[0][index+2] %>
+                <%= check_box_tag 'modules[]', pconfig[0][index+2].id,false,:class=>"addModule",:ref=> pconfig[0][index+2].id,:id=>"check#{pconfig[0][index+2].id}"%>
+                <label for="check<%=pconfig[0][index+2].id%>"><%= pconfig[0][index+2][:name] %></label>
               <% end %>
             </td>
           </tr>
@@ -68,9 +67,9 @@
 </div>
 
 <script>
-  var _modules=window["eval"]("(" +'<%=pconfig[0]%>'+ ")");
-  var _moduleLayout=window["eval"]("(" +"<%=pconfig[1]%>"+ ")");
-  var _columnLayout = window["eval"]("(" +"<%=pconfig[2]%>"+ ")");
+  var _modules=window["eval"]("(" +'<%=pconfig[2]%>'+ ")");
+  var _moduleLayout=window["eval"]("(" +"<%=pconfig[3]%>"+ ")");
+  var _columnLayout = window["eval"]("(" +"<%=pconfig[4]%>"+ ")");
 
   var portal_options = {};
   portal_options.layoutPersistence = [

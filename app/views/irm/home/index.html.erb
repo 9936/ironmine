@@ -13,6 +13,7 @@
       </div>
     </div>
     <div class="links">
+      <% pconfig = portal_configs(params[:portal_layout]) %>
       <style type="text/css">
       #portalContainer {
           float: left;
@@ -25,13 +26,13 @@
         <a onclick="javascript:void(0)" id="portalChangeLayout"><%= t(:label_irm_portlet_change_layout)%></a>
         <div id="portalContainer">
             <%= select_tag_alias "portalContainerSelect", available_portal_layouts ,
-                                                            {},{:required=>true,:id=>"portalContainerSelect"} %>
+                                                            pconfig[1].id,{:required=>true,:id=>"portalContainerSelect"} %>
             <a onclick="javascript:void(0)" id="portlalCancleButton"><%= t(:lable_irm_portlet_cancle_button) %></a>
         </div>
       <% else %>
         <a onclick="javascript:void(0)" style="display: none;" id="portalChangeLayout"><%= t(:label_irm_portlet_change_layout)%></a>
         <div id="portalContainer" style="display: block;">
-            <%= select_tag_alias "portalContainerSelect", available_portal_layouts ,params[:portal_layout],{:required=>true,:id=>"portalContainerSelect"} %>
+            <%= select_tag_alias "portalContainerSelect", available_portal_layouts ,pconfig[1].id,{:required=>true,:id=>"portalContainerSelect"} %>
             <a onclick="javascript:void(0)" id="portlalCancleButton"><%= t(:lable_irm_portlet_cancle_button) %></a>
         </div>
       <% end %>
@@ -48,7 +49,7 @@
                 <tr>
                   <td colspan="2">
                     <div class="protlet">
-                      <%= render({:partial=>"irm/home/portal"}) %>
+                      <%= render({:partial=>"irm/home/portal",:locals=>{:pconfig=>pconfig}}) %>
                     </div>
                   </td>
                 </tr>

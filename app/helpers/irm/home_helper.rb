@@ -7,42 +7,17 @@ module Irm::HomeHelper
     values
   end
 
-  def my_portlets
+  def portal_configs(default_layout_id)
+
+
     # 取出所有的portlet，过滤掉当前用户没有权限访问的
     portlets=Array.new
     Irm::Portlet.multilingual.each do |p|
        if(Irm::PermissionChecker.allow_to_url?({:controller=>p[:controller],:action=>p[:action]}))
             portlets.push(p)
        end
-
     end
 
-    portlets
-  end
-
-  def portlets_json
-    json_hash = {}
-    Irm::Portlet.multilingual.each do |p|
-      json_hash.merge!({"m#{p.id}"=>{"t"=>p[:name],"url"=>url_for(p.url_options.merge({:wmode=>"portlet"}))}})
-    end
-    json_hash.to_json.html_safe
-  end
-
-  def portlets_config
-    portle_config = Irm::PortletConfig.personal_config(Irm::Person.current.id).first
-    if(portle_config.present?&&portle_config[:config].present?)
-      portle_config[:config]
-    else
-      portlets_str = Irm::Portlet.default.collect{|p| "'m#{p.id}:c1'"}.join(",")
-      "{t1:[#{portlets_str}]}"
-    end
-  end
-
-  def portal_layout
-  end
-
-
-  def portal_configs(portlets)
     # 取出所有的portlet,并转化为json
     json_hash = {}
     portlets.each do |p|
@@ -62,7 +37,9 @@ module Irm::HomeHelper
 
     # 了得当前用户的portal layout
     portal_layout = nil
-    if(portle_config.present?&&portle_config[:portal_layout_id].present?)
+    if default_layout_id.present?
+      portal_layout = Irm::PortalLayout.where(:id=>default_layout_id).first
+    elsif(portle_config.present?&&portle_config[:portal_layout_id].present?)
       portal_layout = Irm::PortalLayout.where(:id=>portle_config[:portal_layout_id]).first
     else
       portal_layout = Irm::PortalLayout.where(:default_flag=>Irm::Constant::SYS_YES).first
@@ -72,7 +49,7 @@ module Irm::HomeHelper
       portal_layout = Irm::PortalLayout.new(:layout=>"1,2,1")
     end
 
-
+    # 生成portal layout配置
     layouts  = []
 
     layout_index = 0
@@ -88,7 +65,7 @@ module Irm::HomeHelper
     end if portal_layout[:layout]
     portal_layout_json = "{_default:{bg:'normal',#{layouts.join(",")}}}"
 
-    [portlet_str,portlet_config_str,portal_layout_json,layout_index]
+    [portlets,portal_layout,portlet_str,portlet_config_str,portal_layout_json,layout_index]
   end
 
   #获取供选择的portal_layout
