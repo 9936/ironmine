@@ -81,7 +81,8 @@
         $.ajax({
           type: 'POST',
           url: '/portlet_configs/save_portal_config',
-          data: {portal_config: portal_options},
+          data: {portal_config: portal_options,
+                 portal_layout_id: $("#portalContainerSelect").val()},
           dataType: 'json',
           success: function(data) { },
           error: function() {}
