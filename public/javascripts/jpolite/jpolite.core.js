@@ -479,6 +479,10 @@ $.jpolite = {
 		this.Content.addModule(m, this.Nav.getTab());
         this.Content.saveLayout();
 	},
+    removeModule: function(m) {
+        if(this.Nav.getTab().modules[m])
+            this.Nav.getTab().modules[m].close();
+	},
     getLayout: function(){
         return this.Content.getLayout();
     },

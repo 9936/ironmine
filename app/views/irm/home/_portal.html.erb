@@ -44,20 +44,19 @@
         <% (0..portlets.length-1).step(3) do |index| %>
           <tr>
             <td>
-              <%= check_img("Y") %>
-              <a class="addModule" onclick="javascript:void(0)" ref="<%= portlets[index].id%>"><%= portlets[index][:name] %></a>
+              <%= check_box_tag 'modules[]', portlets[index].id,false,:class=>"addModule",:ref=> portlets[index].id,:id=>"check#{portlets[index].id}"%>
+              <label for="check<%=portlets[index].id%>"><%= portlets[index][:name] %></label>
             </td>
             <td>
-
               <% if portlets[index+1] %>
-                <%= check_img("Y") %>
-                <a class="addModule"  onclick="javascript:void(0)" ref="<%= portlets[index+1].id%>"><%= portlets[index+1][:name]  %></a>
+                <%= check_box_tag 'modules[]', portlets[index+1].id,false,:class=>"addModule",:ref=> portlets[index+1].id,:id=>"check#{portlets[index+1].id}"%>
+                <label for="check<%=portlets[index+1].id%>"><%= portlets[index+1][:name] %></label>
               <% end %>
             </td>
             <td>
               <% if portlets[index+2] %>
-                  <%= check_img("Y") %>
-                  <a class="addModule"  onclick="javascript:void(0)" ref="<%= portlets[index+2].id%>"><%= portlets[index+2][:name]  %></a>
+                <%= check_box_tag 'modules[]', portlets[index+2].id,false,:class=>"addModule",:ref=> portlets[index+2].id,:id=>"check#{portlets[index+2].id}"%>
+                <label for="check<%=portlets[index+2].id%>"><%= portlets[index+2][:name] %></label>
               <% end %>
             </td>
           </tr>
@@ -97,24 +96,29 @@
       $("#portalSetting").click(function(e){
           //已经显示在portal中的模块
           var showedModules = $.jpolite.getShowModules();
-          $("#portletList a.addModule").each(function(index,module){
+          $("#portletList input.addModule").each(function(index,module){
               var id = $(module).attr("ref");
               if(showedModules.indexOf("m"+id)>-1){
-                  $(module).parent().removeClass("added");
+                  $(module).attr("checked",true);
               }else{
-                  $(module).parent().addClass("added");
+                  $(module).attr("checked",false);
               }
           });
           $.colorbox({inline:true, opacity:0.55, title:"<%= t(:label_irm_portlet_custom_home_page) %>", speed: 0,href:"#portletList"});
       });
-      $("#portletList a.addModule").click(function(e){
-            $.jpolite.addModule({
-				id: "m"+$(e.currentTarget).attr("ref"),
-				c:	'c1',	//Add to c1 of current tab by default
-				mc: '',
-				mt:	''
-			});
-            $(e.currentTarget).parent().removeClass("added");
+      $("#portletList input.addModule").click(function(e){
+            console.debug($(e.currentTarget).is(":checked"));
+            if($(e.currentTarget).is(":checked")){
+                $.jpolite.addModule({
+			    	id: "m"+$(e.currentTarget).attr("ref"),
+			    	c:	'c1',	//Add to c1 of current tab by default
+			    	mc: '',
+			    	mt:	''
+			    });
+            }else{
+                $.jpolite.removeModule("m"+$(e.currentTarget).attr("ref"));
+            }
+
       });
   });
 
