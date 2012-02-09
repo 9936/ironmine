@@ -91,4 +91,10 @@ module Irm::HomeHelper
     [portlet_str,portlet_config_str,portal_layout_json,layout_index]
   end
 
+  #获取供选择的portal_layout
+  def available_portal_layouts
+    Irm::PortalLayout.multilingual.collect{|p|[p[:name],p[:id]]}
+  end
+
+
 end

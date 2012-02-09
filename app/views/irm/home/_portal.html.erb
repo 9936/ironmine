@@ -117,6 +117,25 @@
 			});
             $(e.currentTarget).parent().removeClass("added");
       });
+
+      //设置portal_layout布局
+      $(function(){
+         $("#portalChangeLayout").click(function(){
+             $(this).hide(100, function(){
+                $("#portalContainer").show();
+             });
+         });
+         //当选择某一中布局方式的时候
+        $("#portalContainerSelect").change(function(){
+            if($(this).val()) {
+                window.location = '/home?portal_layout='+$(this).val();
+            }
+        });
+        $("#portalContainer #portlalCancleButton").click(function(){
+           $("#portalContainer").hide();
+           $("#portalChangeLayout").show();
+        })
+      })
   });
 
 </script>
