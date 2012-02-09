@@ -72,6 +72,28 @@
   var _moduleLayout=window["eval"]("(" +"<%=pconfig[1]%>"+ ")");
   var _columnLayout = window["eval"]("(" +"<%=pconfig[2]%>"+ ")");
   initPortal({});
+
+  var portal_options = {};
+  portal_options.layoutPersistence = [
+    function() {
+        return window["eval"]("(" + $.cookie('jpolite2layout') + ")")
+    },
+    function(portal_options) {
+        //通过ajax保存配置信息至数据库
+        $.ajax({
+          type: 'POST',
+          url: '/portlet_configs/save_portal_config',
+          data: {portal_config: portal_options},
+          dataType: 'json',
+          success: function(data) { },
+          error: function() {}
+        });
+        //设置portal 配置到cookie
+        return $.cookie('jpolite2layout', portal_options);
+    }
+  ]
+  initPortal(portal_options);
+
   $(function(){
       $("#portalSetting").click(function(e){
           //已经显示在portal中的模块

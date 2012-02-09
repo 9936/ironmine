@@ -1,6 +1,5 @@
 Ironmine::Application.routes.draw do
 
-  namespace :irm do resources :portal_layouts end
 
   get "delayed/index"
 
@@ -867,7 +866,7 @@ Ironmine::Application.routes.draw do
     match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
     match '/portlet_configs/:id/destroy(.:format)' => "portlet_configs#destroy", :via => :delete
     match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
-
+    match '/portlet_configs/save_portal_config(.:format)' => "portlet_configs#save_portal_config", :via => :post
 
     #portlets
     match '/portlets(/index)(.:format)' => "portlets#index", :via => :get

@@ -1650,6 +1650,7 @@ zh:
   label_irm_portlet_name: 名称
   label_irm_portlet_description: 描述
   label_irm_portlet_custom_home_page: 添加显示模块
+  label_irm_portlet_change_layout: 设置页面布局
   #======================= end Portlets====================
 
   #======================= portal layouts ====================
