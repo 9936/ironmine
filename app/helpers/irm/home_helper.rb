@@ -9,14 +9,15 @@ module Irm::HomeHelper
 
   def my_portlets
     # 取出所有的portlet，过滤掉当前用户没有权限访问的
-    _my_portlets=Array.new
+    portlets=Array.new
     Irm::Portlet.multilingual.each do |p|
        if(Irm::PermissionChecker.allow_to_url?({:controller=>p[:controller],:action=>p[:action]}))
-            _my_portlets.push(p)
+            portlets.push(p)
        end
 
     end
-   _my_portlets
+
+    portlets
   end
 
   def portlets_json
@@ -41,10 +42,10 @@ module Irm::HomeHelper
   end
 
 
-  def portal_configs
+  def portal_configs(portlets)
     # 取出所有的portlet,并转化为json
     json_hash = {}
-    my_portlets.each do |p|
+    portlets.each do |p|
       json_hash.merge!({"m#{p.id}"=>{"t"=>p[:name],"url"=>url_for(p.url_options.merge({:wmode=>"portlet"}))}})
     end
     portlet_str = json_hash.to_json.html_safe
