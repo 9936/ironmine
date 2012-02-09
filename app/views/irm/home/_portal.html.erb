@@ -10,14 +10,14 @@
       visibility: hidden;
   }
 </style>
+<% pconfig = portal_configs %>
 <ul id="main_nav" style="display:none;">
    <li id="t1"><b class="hover">homePage</b></li>
 </ul>
 <div id="jpolite_content"  class="jpolite-container">
-    <div id="c1" class="cc"></div>
-	<div id="c2" class="cc"></div>
-	<div id="c3" class="cc"></div>
-    <div id="c4" class="cc"></div>
+    <% 1.upto(pconfig[3]).each do |index| %>
+      <div id="c<%=index%>" class="cc"></div>
+    <% end %>
 </div>
 
 <!-- A default template is required here without an ID -->
@@ -68,16 +68,9 @@
 </div>
 
 <script>
-  var _modules=window["eval"]("(" +'<%=portlets_json%>'+ ")");
-  var _moduleLayout=window["eval"]("(" +"<%=portlets_config%>"+ ")");
-  var _columnLayout = {
-	_default: { bg:'normal',
-		        c1:'span-24 last',
-		        c2:'span-12',
-		        c3:'span-12 last',
-		        c4:'span-24 last'
-	           }
-  };
+  var _modules=window["eval"]("(" +'<%=pconfig[0]%>'+ ")");
+  var _moduleLayout=window["eval"]("(" +"<%=pconfig[1]%>"+ ")");
+  var _columnLayout = window["eval"]("(" +"<%=pconfig[2]%>"+ ")");
   initPortal({});
   $(function(){
       $("#portalSetting").click(function(e){

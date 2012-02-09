@@ -29,8 +29,57 @@ module Irm::HomeHelper
     end
   end
 
-  def portlets_layout
+  def portal_layout
+  end
 
+
+  def portal_configs
+    # 取出所有的portlet,并转化为json
+    json_hash = {}
+    Irm::Portlet.multilingual.each do |p|
+      json_hash.merge!({"m#{p.id}"=>{"t"=>p[:name],"url"=>url_for(p.url_options.merge({:wmode=>"portlet"}))}})
+    end
+    portlet_str = json_hash.to_json.html_safe
+
+    # 取得当前用户的portlet config
+    portlet_config_str = ""
+    portle_config = Irm::PortletConfig.personal_config(Irm::Person.current.id).first
+    if(portle_config.present?&&portle_config[:config].present?)
+      portlet_config_str = portle_config[:config]
+    else
+      portlets_str = Irm::Portlet.default.collect{|p| "'m#{p.id}:c1'"}.join(",")
+      portlet_config_str = "{t1:[#{portlets_str}]}"
+    end
+
+    # 了得当前用户的portal layout
+    portal_layout = nil
+    if(portle_config.present?&&portle_config[:portal_layout_id].present?)
+      portal_layout = Irm::PortalLayout.where(:id=>portle_config[:portal_layout_id]).first
+    else
+      portal_layout = Irm::PortalLayout.where(:default_flag=>Irm::Constant::SYS_YES).first
+    end
+
+    unless portal_layout.present?
+      portal_layout = Irm::PortalLayout.new(:layout=>"1,2,1")
+    end
+
+
+    layouts  = []
+
+    layout_index = 0
+    portal_layout[:layout].split(",").each do |limit|
+      1.upto(limit.to_i).each  do |index|
+        if(index==limit.to_i)
+          layouts << "c#{layout_index+1}:'span-#{24/limit.to_i} last'"
+        else
+          layouts << "c#{layout_index+1}:'span-#{24/limit.to_i}'"
+        end
+        layout_index = layout_index+1
+      end
+    end if portal_layout[:layout]
+    portal_layout_json = "{_default:{bg:'normal',#{layouts.join(",")}}}"
+
+    [portlet_str,portlet_config_str,portal_layout_json,layout_index]
   end
 
 end
