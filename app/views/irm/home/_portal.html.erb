@@ -10,7 +10,8 @@
       visibility: hidden;
   }
 </style>
-<% pconfig = portal_configs %>
+<% portlets = my_portlets %>
+<% pconfig = portal_configs(portlets) %>
 <ul id="main_nav" style="display:none;">
    <li id="t1"><b class="hover">homePage</b></li>
 </ul>
@@ -37,7 +38,7 @@
 	</div>
 </div>
 
-<% portlets = my_portlets %>
+
 <div style="display:none;">
     <div id="portletList" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
       <table id="modules" style="font-size:12px;width:100%;">
@@ -120,6 +121,25 @@
             }
 
       });
+
+      //设置portal_layout布局
+      $(function(){
+         $("#portalChangeLayout").click(function(){
+             $(this).hide(100, function(){
+                $("#portalContainer").show();
+             });
+         });
+         //当选择某一中布局方式的时候
+        $("#portalContainerSelect").change(function(){
+            if($(this).val()) {
+                window.location = '/home?portal_layout='+$(this).val();
+            }
+        });
+        $("#portalContainer #portlalCancleButton").click(function(){
+           $("#portalContainer").hide();
+           $("#portalChangeLayout").show();
+        })
+      })
   });
 
 </script>

@@ -8,7 +8,16 @@ module Irm::HomeHelper
   end
 
   def my_portlets
-    Irm::Portlet.multilingual
+    # 取出所有的portlet，过滤掉当前用户没有权限访问的
+    portlets=Array.new
+    Irm::Portlet.multilingual.each do |p|
+       if(Irm::PermissionChecker.allow_to_url?({:controller=>p[:controller],:action=>p[:action]}))
+            portlets.push(p)
+       end
+
+    end
+
+    portlets
   end
 
   def portlets_json
@@ -33,10 +42,10 @@ module Irm::HomeHelper
   end
 
 
-  def portal_configs
+  def portal_configs(portlets)
     # 取出所有的portlet,并转化为json
     json_hash = {}
-    Irm::Portlet.multilingual.each do |p|
+    portlets.each do |p|
       json_hash.merge!({"m#{p.id}"=>{"t"=>p[:name],"url"=>url_for(p.url_options.merge({:wmode=>"portlet"}))}})
     end
     portlet_str = json_hash.to_json.html_safe
@@ -81,5 +90,11 @@ module Irm::HomeHelper
 
     [portlet_str,portlet_config_str,portal_layout_json,layout_index]
   end
+
+  #获取供选择的portal_layout
+  def available_portal_layouts
+    Irm::PortalLayout.multilingual.collect{|p|[p[:name],p[:id]]}
+  end
+
 
 end
