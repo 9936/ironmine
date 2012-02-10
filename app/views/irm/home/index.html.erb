@@ -51,10 +51,3 @@
     <%= render :partial =>"/irm/common/recently_objects" %>
 <% end %>
 
-<script type="text/javascript">
-  $("#portalChangeLayout").click(function(e){
-      //设置portal_layout窗口
-      $.colorbox({inline:true, opacity:0.55, title:"<%= t(:label_irm_portlet_change_layout) %>", speed: 0,href:"#portalLayouts"});
-  });
-</script>
-

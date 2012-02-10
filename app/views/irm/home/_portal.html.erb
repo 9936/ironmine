@@ -168,6 +168,10 @@
       var current_layout ='<%=pconfig[1].layout%>';
       var current_layout_container = $(".current_layout");
       setLayoutPreview(current_layout, current_layout_container);
+      $("#portalChangeLayout").click(function(e){
+          //设置portal_layout窗口
+          $.colorbox({inline:true, opacity:0.55, title:"<%= t(:label_irm_portlet_change_layout) %>", speed: 0,href:"#portalLayouts"});
+      });
       //当选择某一中布局方式的时候
       $("#portalContainerSelect").change(function(){
           if($(this).val()) {
@@ -188,37 +192,16 @@
       function setLayoutPreview(current_layout, container) {
           container.html("");
           $.each(current_layout.split(','),function(index,value) {
-          //生成多应的html标签
-          for(i=1; i<=parseInt(value); i++) {
-              if(i == parseInt(value)) {
-                 container.append('<div id='+index+' class="dragging cc span-'+(24/parseInt(value))+' last"></div>');
-              }else{
-                  container.append('<div id='+index+' class="dragging cc span-'+(24/parseInt(value))+'"></div>');
+              //生成多应的html标签
+              for(i=1; i<=parseInt(value); i++) {
+                  if(i == parseInt(value)) {
+                     container.append('<div id='+index+' class="dragging cc span-'+(24/parseInt(value))+' last"></div>');
+                  }else{
+                      container.append('<div id='+index+' class="dragging cc span-'+(24/parseInt(value))+'"></div>');
+                  }
               }
-          }
-
-      });
+          });
       }
-
-      /*
-      //设置portal_layout布局
-      $(function(){
-         $("#portalChangeLayout").click(function(){
-             $(this).hide(100, function(){
-                $("#portalContainer").show();
-             });
-         });
-         //当选择某一中布局方式的时候
-        $("#portalContainerSelect").change(function(){
-            if($(this).val()) {
-                window.location = '/home?portal_layout='+$(this).val();
-            }
-        });
-        $("#portalContainer #portlalCancleButton").click(function(){
-           $("#portalContainer").hide();
-           $("#portalChangeLayout").show();
-        })
-      })*/
   });
 
 </script>
