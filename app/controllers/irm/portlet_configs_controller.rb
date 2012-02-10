@@ -94,14 +94,28 @@ class Irm::PortletConfigsController < ApplicationController
   def save_portal_config
     portlet_config = Irm::PortletConfig.find_by_person_id(Irm::Person.current.id)
     if portlet_config.nil?
-      portlet_config = Irm::PortletConfig.new(:person_id =>Irm::Person.current.id,:config => params[:portal_config], :portal_layout_id => params[:portal_layout_id])
+      portlet_config = Irm::PortletConfig.new(:person_id =>Irm::Person.current.id,:config => params[:portal_config])
       portlet_config.save
     else
-      #portlet_config.update_attribute(:config, params[:portal_config])
-      portlet_config.update_attributes(:config => params[:portal_config], :portal_layout_id => params[:portal_layout_id])
+      portlet_config.update_attribute(:config, params[:portal_config])
+      #portlet_config.update_attributes(:config => params[:portal_config], :portal_layout_id => params[:portal_layout_id])
     end
     respond_to do |format|
       format.json { render :json => portlet_config.to_json }
+    end
+  end
+
+  def save_portal_layout
+    portlet_config = Irm::PortletConfig.find_by_person_id(Irm::Person.current.id)
+    if portlet_config.nil?
+      portlet_config = Irm::PortletConfig.new(:person_id =>Irm::Person.current.id,:portal_layout_id => params[:portal_layout_id])
+      portlet_config.save
+    else
+      portlet_config.update_attribute(:portal_layout_id, params[:portal_layout_id])
+    end
+    respond_to do |format|
+      format.html { redirect_to({:controller => "irm/home"}) }
+      format.xml  { head :ok }
     end
   end
 end

@@ -1652,6 +1652,7 @@ zh:
   label_irm_portlet_custom_home_page: 添加显示模块
   label_irm_portlet_change_layout: 设置页面布局
   lable_irm_portlet_cancle_button: 取消
+  label_irm_portlet_select_layout: 选择布局样式：
   #======================= end Portlets====================
 
   #======================= portal layouts ====================

@@ -9,6 +9,16 @@
   td.added img{
       visibility: hidden;
   }
+  .current_layout {
+      margin: 0;
+      padding: 0;
+  }
+  .current_layout .dragging{
+      min-height: 20px !important;
+  }
+  .current_layout .span-12 {
+      width: 47.6%;
+  }
 </style>
 
 <ul id="main_nav" style="display:none;">
@@ -36,7 +46,41 @@
 		</div>
 	</div>
 </div>
-
+<!-- portal_layout设置窗口 -->
+<div style="display:none;">
+    <div id="portalLayouts" style="background-color: transparent; width: 400px; height:auto;padding: 30px 10px 10px 10px;">
+      <%= form_tag(:controller => "portlet_configs", :action =>"save_portal_layout", :method => "post") do %>
+          <%= hidden_field_tag "portal_layout_id", pconfig[1].id, :id=>"portal_layout_id" %>
+          <table style="font-size:12px;width:100%;">
+              <tr>
+                <td style="width:100px; font-size: 13px; text-align: right; font-weight: bold;"><label for="portalLayoutSelect"><%= t(:label_irm_portlet_select_layout) %></label></td>
+                <td class="dataCol"><%= select_for_layouts "portalContainerSelect", available_portal_layouts , pconfig[1].id,{:required=>true,:id=>"portalContainerSelect" } %></td>
+              </tr>
+              <tr>
+                <td colspan="2"><hr></td>
+              </tr>
+              <tr>
+                <td height="auto" colspan="2">
+                  <!--  current portal_layout preview -->
+                    <div class="current_layout"></div>
+                  <!--  end of current portal_layout preview -->
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"><hr></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>
+                  <div class="button"><%= link_submit t(:save)%></div>
+                  <div class="button" id="portlalCancleButton"><%= link_to t(:cancel), "javascript:void(0);" %></div>
+                </td>
+              </tr>
+          </table>
+      <% end %>
+    </div>
+</div>
+<!-- 结束portal_layout-->
 
 <div style="display:none;">
     <div id="portletList" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
@@ -81,8 +125,7 @@
         $.ajax({
           type: 'POST',
           url: '/portlet_configs/save_portal_config',
-          data: {portal_config: portal_options,
-                 portal_layout_id: $("#portalContainerSelect").val()},
+          data: {portal_config: portal_options},
           dataType: 'json',
           success: function(data) { },
           error: function() {}
@@ -121,7 +164,43 @@
             }
 
       });
+      //设置当前的布局
+      var current_layout ='<%=pconfig[1].layout%>';
+      var current_layout_container = $(".current_layout");
+      setLayoutPreview(current_layout, current_layout_container);
+      //当选择某一中布局方式的时候
+      $("#portalContainerSelect").change(function(){
+          if($(this).val()) {
+              $("#portal_layout_id").val($(this).val());
+              current_layout = $(this).find("option:selected").attr("layout");
+              if (typeof current_layout != undefined && current_layout) {
+                  setLayoutPreview(current_layout, current_layout_container);
+                  console.log("Set Layout Style:", layout);
+              }else{
+                  console.log("ERROR INFO:", "System Data Error!");
+              }
+          }
+      });
+      $("#portlalCancleButton").bind("click", function(){
+          $.colorbox.close();
+      });
 
+      function setLayoutPreview(current_layout, container) {
+          container.html("");
+          $.each(current_layout.split(','),function(index,value) {
+          //生成多应的html标签
+          for(i=1; i<=parseInt(value); i++) {
+              if(i == parseInt(value)) {
+                 container.append('<div id='+index+' class="dragging cc span-'+(24/parseInt(value))+' last"></div>');
+              }else{
+                  container.append('<div id='+index+' class="dragging cc span-'+(24/parseInt(value))+'"></div>');
+              }
+          }
+
+      });
+      }
+
+      /*
       //设置portal_layout布局
       $(function(){
          $("#portalChangeLayout").click(function(){
@@ -139,7 +218,7 @@
            $("#portalContainer").hide();
            $("#portalChangeLayout").show();
         })
-      })
+      })*/
   });
 
 </script>
