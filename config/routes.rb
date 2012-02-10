@@ -1000,6 +1000,10 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/:request_id/journals(/index)(.:format)' => "incident_journals#index", :via => :get    
     match '/incident_requests/:request_id/journals/edit_close(.:format)' => "incident_journals#edit_close", :via => :get
     match '/incident_requests/:request_id/journals/update_close(.:format)' => "incident_journals#update_close", :via => :put
+    match '/incident_requests/:request_id/journals/edit_reopen(.:format)' => "incident_journals#edit_reopen", :via => :get
+    match '/incident_requests/:request_id/journals/update_reopen(.:format)' => "incident_journals#update_reopen", :via => :put
+    match '/incident_requests/:request_id/journals/edit_permanent_close(.:format)' => "incident_journals#edit_permanent_close", :via => :get
+    match '/incident_requests/:request_id/journals/update_permanent_close(.:format)' => "incident_journals#update_permanent_close", :via => :put
     match '/incident_requests/:request_id/journals/edit_pass(.:format)' => "incident_journals#edit_pass", :via => :get
     match '/incident_requests/:request_id/journals/edit_upgrade(.:format)' => "incident_journals#edit_upgrade", :via => :get
     match '/incident_requests/:request_id/journals/update_upgrade(.:format)' => "incident_journals#update_upgrade", :via => :put

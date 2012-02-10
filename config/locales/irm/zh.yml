@@ -29,6 +29,8 @@ zh:
   new: 新建
   add: 添加
   close: 关闭
+  permanent_close: 永久关闭
+  reopen: 重新打开
   multilingual: 多语言
   active: 启用
   status: 状态

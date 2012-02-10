@@ -29,6 +29,8 @@ en:
   active: Active
   add: Add
   close: Close
+  permanent_close: Permanently Close
+  reopen: Reopen
   copy:  Copy
   operation: Options
   content: Content
