@@ -1638,6 +1638,7 @@ en:
   label_irm_portlet_description: Description
   label_irm_portlet_custom_home_page: Add modulde
   lable_irm_portlet_cancle_button: Cancle Setting
+  label_irm_portlet_select_layout: Select A Layout：
   #======================= end Portlets====================
 
   #======================= portal layouts ====================

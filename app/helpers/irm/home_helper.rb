@@ -70,8 +70,11 @@ module Irm::HomeHelper
 
   #获取供选择的portal_layout
   def available_portal_layouts
-    Irm::PortalLayout.multilingual.collect{|p|[p[:name],p[:id]]}
+    Irm::PortalLayout.multilingual.collect{|p|[p[:name],p[:id],{:layout => p[:layout]}]}
   end
 
-
+  def select_for_layouts(name, collection,selected=nil, options = {})
+     layouts = options_for_select(collection, selected)
+     select_tag(name, layouts,options)
+  end
 end
