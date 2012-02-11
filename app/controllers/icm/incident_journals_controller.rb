@@ -117,8 +117,71 @@ class Icm::IncidentJournalsController < ApplicationController
     end
   end
 
+  def edit_permanent_close
+    @incident_journal = @incident_request.incident_journals.build()
+    respond_to do |format|
+      format.html { render :layout => "application_full"}# new.html.erb
+      format.xml  { render :xml => @incident_journal }
+    end
+  end
+  def update_permanent_close
 
-    def edit_close
+    @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+
+    @incident_request.attributes = params[:icm_incident_request]
+    @incident_journal.reply_type = "PERMANENT_CLOSE"
+
+    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+
+    perform_create
+    respond_to do |format|
+      if @incident_journal.valid?&&@incident_request.save
+        process_change_attributes([:incident_status_id,:close_reason_id],@incident_request,@incident_request_bak,@incident_journal)
+        process_files(@incident_journal)
+        @incident_journal.create_elapse
+        #关闭事故单时，产生一个与之关联的投票任务
+        Delayed::Job.enqueue(Irm::Jobs::IcmIncidentRequestSurveyTaskJob.new(@incident_request.id))
+        format.html { redirect_to({:action => "new"}) }
+        format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+      else
+        format.html { render :action => "edit_permanent_close", :layout => "application_full" }
+        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+  def edit_reopen
+    @incident_journal = @incident_request.incident_journals.build()
+    respond_to do |format|
+      format.html { render :layout => "application_full"}# new.html.erb
+      format.xml  { render :xml => @incident_journal }
+    end
+  end
+  def update_reopen
+
+    @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+
+    @incident_request.attributes = params[:icm_incident_request]
+    @incident_journal.reply_type = "REOPEN"
+
+    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+
+    perform_create
+    respond_to do |format|
+      if @incident_journal.valid?&&@incident_request.save
+        process_change_attributes([:incident_status_id,:close_reason_id],@incident_request,@incident_request_bak,@incident_journal)
+        process_files(@incident_journal)
+        @incident_journal.create_elapse
+
+        format.html { redirect_to({:action => "new"}) }
+        format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+      else
+        format.html { render :action => "edit_reopen", :layout => "application_full" }
+        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def edit_close
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
       format.html { render :layout => "application_full"}# new.html.erb
