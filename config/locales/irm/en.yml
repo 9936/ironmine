@@ -1649,3 +1649,9 @@ en:
   label_irm_portal_layout_format: Layout Format
   label_irm_portal_layout_format_error: Only numbers（1 or 2） splited by comma,eg. 1,2,2
   #=======================  portal layouts====================
+
+  #======================= session times ====================
+  label_irm_session_time: Session Setting
+  label_irm_session_time_out: Session Time Out
+  label_irm_session_time_out_value: Time Value
+  #=======================  portal layouts====================

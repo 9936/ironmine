@@ -1663,3 +1663,9 @@ zh:
   label_irm_portal_layout_format: 布局版式
   label_irm_portal_layout_format_error: 只能输入1个或多个数字（1或2），中间用逗号分割，如1,2,2
   #=======================  portal layouts====================
+
+  #======================= session times ====================
+  label_irm_session_time: 会话设置
+  label_irm_session_time_out: 会话超时
+  label_irm_session_time_out_value: 超时值
+  #=======================  portal layouts====================

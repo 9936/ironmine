@@ -1,6 +1,5 @@
 Ironmine::Application.routes.draw do
 
-
   get "delayed/index"
 
   scope :module => "irm" do
@@ -798,6 +797,10 @@ Ironmine::Application.routes.draw do
     #password policies
     match '/password_policies(/index)(.:format)' => "password_policies#index", :via => :get
     match '/password_policies/:id(.:format)' => "password_policies#update", :via => :put
+
+    #session timeout
+    match '/session_times(/index)(.:format)' => "session_times#index", :via => :get
+    match '/session_times/:id(.:format)' => "session_times#update", :via => :put
 
     #operation unit
     match '/operation_units(/show)(.:format)' => "operation_units#show", :via => :get
