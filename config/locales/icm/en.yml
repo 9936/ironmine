@@ -86,6 +86,7 @@ en:
   label_icm_incident_status_list: List Incident Status
   label_icm_incident_status_show: Incident Status
   label_icm_incident_close_flag: Close
+  label_icm_incident_permanent_close_flag: Permanently Close
   #========================= end icm incident_statuses_controller=======================#
   #=========================    icm incident_requests_controller=======================#
   label_icm_reply: Reply
@@ -164,6 +165,8 @@ en:
   label_icm_incident_journal_attachment_desc: Description
   label_icm_incident_journal_add_attachment: Add a attachment
   label_icm_incident_journal_close: Close incident request
+  label_icm_incident_journal_permanent_close: Permanently Close incident request
+  label_icm_incident_journal_reopen: Ropen incident request
   label_icm_incident_joural_back_to_request: Back to incident
   label_icm_reply_title: reply at %{message} ago
   label_icm_submit_title: submit at %{message} ago

@@ -136,11 +136,11 @@ class Icm::IncidentJournalsController < ApplicationController
     perform_create
     respond_to do |format|
       if @incident_journal.valid?&&@incident_request.save
-        process_change_attributes([:incident_status_id,:close_reason_id],@incident_request,@incident_request_bak,@incident_journal)
+        process_change_attributes([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         @incident_journal.create_elapse
-        #关闭事故单时，产生一个与之关联的投票任务
-        Delayed::Job.enqueue(Irm::Jobs::IcmIncidentRequestSurveyTaskJob.new(@incident_request.id))
+
+
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
@@ -168,7 +168,7 @@ class Icm::IncidentJournalsController < ApplicationController
     perform_create
     respond_to do |format|
       if @incident_journal.valid?&&@incident_request.save
-        process_change_attributes([:incident_status_id,:close_reason_id],@incident_request,@incident_request_bak,@incident_journal)
+        process_change_attributes([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         @incident_journal.create_elapse
 

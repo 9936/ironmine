@@ -85,6 +85,7 @@ zh:
   label_icm_incident_status_info: 事故单状态信息
   label_icm_incident_status_show: 事故单状态
   label_icm_incident_close_flag: 关闭状态
+  label_icm_incident_permanent_close_flag: 永久关闭状态
   label_icm_incident_status_edit_transform: 事故单状态转移
   label_irm_incident_status_transform_event_error: 错误 在同一行中一种事件只能使用一次
   #========================= end icm incident_statuses_controller=======================#
@@ -164,6 +165,8 @@ zh:
   label_icm_incident_journal_attachment_desc: 附件描述
   label_icm_incident_journal_add_attachment: 添加新附件
   label_icm_incident_journal_close: 关闭事故单
+  label_icm_incident_journal_reopen: 重新打开事故单
+  label_icm_incident_journal_permanent_close: 永久关闭事故单
   label_icm_incident_joural_back_to_request: 返回事故单
   label_icm_incident_journal_upgrade: 升级事故单
   label_icm_reply_title: 于 %{message} 前回复

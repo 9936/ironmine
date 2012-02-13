@@ -53,14 +53,14 @@
     vertical-align: top;
   }
 </style>
-<%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:close)) %>
-<%= form_for(@incident_request,:url=>{:action=>"update_close"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
+<%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:permanent_close)) %>
+<%= form_for(@incident_request,:url=>{:action=>"update_permanent_close"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
 <div id="reply" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_icm_incident_journal_close)%></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_icm_incident_journal_permanent_close)%></h2></td>
           <td class="pbButton">
             <div class="button"><%= f.submit t(:save)%></div>
             <div class="button"><%= link_to t(:cancel), {:action => "new"}%></div>
@@ -73,47 +73,9 @@
     <div class="pbSubsection">
       <table class="detailList"  cellpadding="0" cellspacing="0" border="0">
         <tbody>
+
             <tr>
-              <td class="labelCol"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_close_reason_code)%></label></td>
-              <td>
-                <%=f.select :close_reason_id,options_for_select(available_close_code,@incident_request.close_reason_id),
-                                                    {},{:required=>true,:id=>"incident_request_close_reason_code"}%>
-              <td class="labelCol empty">&nbsp;</td>
-              <td>&nbsp;</td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-            <tr>
-               <td class="labelCol"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_target_system)%></label></td>
-               <td><%=f.select :external_system_id,
-                            nullable_options_for_select(available_external_systems_with_person(@incident_request.requested_by).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),
-                            {:value=>@incident_request.external_system_id},
-                            {:required=>true,:id=>"ass_external_system"} %>
-              </td>
-              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_category)%></label></td>
-              <td><%=f.select :incident_category_id,
-                                            nullable_options_for_select([],@incident_request.incident_category_id),
-                                            {},
-                                            {:id=>"incident_category_id",
-                                             :origin_value=>@incident_request.incident_category_id,
-                                             :depend=>"ass_external_system",
-                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                             :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
-                                                            :external_system_id=>"${ass_external_system}")}%>
-              </td>
-              <td class="labelCol"><label for=""><%=t(:label_icm_incident_request_incident_sub_category)%></label></td>
-              <td><%=f.select :incident_sub_category_id,
-                                            nullable_options_for_select([],@incident_request.incident_sub_category_id),
-                                            {},
-                                            {:id=>"incident_sub_category_id",
-                                             :origin_value=>@incident_request.incident_sub_category_id,
-                                             :depend=>"incident_category_id",
-                                             :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                                             :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
-                                                            :incident_category_id=>"${incident_category_id}")}%>
-              </td>
-            <tr>
+
               <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
                 <%= sub_f.hidden_field(:incident_request_id) %>
               <td class="labelCol"><%= t(:label_icm_incident_journal_reply) %></td>
@@ -151,15 +113,5 @@
   </div>
 </div>
 <% end %>
-<script type="text/javascript">
-  $(function(){
-     if($("#ass_external_system")){
-        $("#ass_external_system").cascade(["#incident_category_id"]);
-     }
 
-     if($("#incident_category_id")){
-        $("#incident_category_id").cascade("#incident_sub_category_id");
-     }
-  });
-</script>
 
