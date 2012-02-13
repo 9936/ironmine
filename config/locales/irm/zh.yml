@@ -1654,6 +1654,7 @@ zh:
   label_irm_portlet_custom_home_page: 添加显示模块
   label_irm_portlet_change_layout: 设置页面布局
   lable_irm_portlet_cancle_button: 取消
+  label_irm_portlet_select_layout: 选择布局样式：
   #======================= end Portlets====================
 
   #======================= portal layouts ====================
@@ -1663,4 +1664,10 @@ zh:
   label_irm_portal_layout_description: 布局说明
   label_irm_portal_layout_format: 布局版式
   label_irm_portal_layout_format_error: 只能输入1个或多个数字（1或2），中间用逗号分割，如1,2,2
+  #=======================  portal layouts====================
+
+  #======================= session times ====================
+  label_irm_session_timeout: 会话设置
+  label_irm_session_time_out: 会话超时
+  label_irm_session_time_out_value: 超时值
   #=======================  portal layouts====================

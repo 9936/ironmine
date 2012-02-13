@@ -21,22 +21,8 @@
           padding: 0 !important;
           display: none;
       }
-    </style>
-      <% if params[:portal_layout].nil? %>
-        <a onclick="javascript:void(0)" id="portalChangeLayout"><%= t(:label_irm_portlet_change_layout)%></a>
-        <div id="portalContainer">
-            <%= select_tag_alias "portalContainerSelect", available_portal_layouts ,
-                                                            pconfig[1].id,{:required=>true,:id=>"portalContainerSelect"} %>
-            <a onclick="javascript:void(0)" id="portlalCancleButton"><%= t(:lable_irm_portlet_cancle_button) %></a>
-        </div>
-      <% else %>
-        <a onclick="javascript:void(0)" style="display: none;" id="portalChangeLayout"><%= t(:label_irm_portlet_change_layout)%></a>
-        <div id="portalContainer" style="display: block;">
-            <%= select_tag_alias "portalContainerSelect", available_portal_layouts ,pconfig[1].id,{:required=>true,:id=>"portalContainerSelect"} %>
-            <a onclick="javascript:void(0)" id="portlalCancleButton"><%= t(:lable_irm_portlet_cancle_button) %></a>
-        </div>
-      <% end %>
-
+      </style>
+      <a onclick="javascript:void(0)" id="portalChangeLayout"><%= t(:label_irm_portlet_change_layout)%></a>
       | <a onclick="javascript:void(0)" id="portalSetting"><%= t(:label_irm_portlet_custom_home_page)%></a>
       <!--<a onclick="window.open ('/pagehelpfiles/home.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" href="#"><% t(:current_page_help)%></a>-->
     </div>
@@ -64,5 +50,4 @@
     <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
     <%= render :partial =>"/irm/common/recently_objects" %>
 <% end %>
-
 

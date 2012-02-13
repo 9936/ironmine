@@ -1,6 +1,5 @@
 Ironmine::Application.routes.draw do
 
-
   get "delayed/index"
 
   scope :module => "irm" do
@@ -799,6 +798,10 @@ Ironmine::Application.routes.draw do
     match '/password_policies(/index)(.:format)' => "password_policies#index", :via => :get
     match '/password_policies/:id(.:format)' => "password_policies#update", :via => :put
 
+    #session timeout
+    match '/session_timeouts(/index)(.:format)' => "session_timeouts#index", :via => :get
+    match '/session_timeouts/:id(.:format)' => "session_timeouts#update", :via => :put
+
     #operation unit
     match '/operation_units(/show)(.:format)' => "operation_units#show", :via => :get
     match '/operation_units/edit(.:format)' => "operation_units#edit", :via => :get
@@ -867,6 +870,7 @@ Ironmine::Application.routes.draw do
     match '/portlet_configs/:id/destroy(.:format)' => "portlet_configs#destroy", :via => :delete
     match '/portlet_configs/get_data(.:format)' => "portlet_configs#get_data"
     match '/portlet_configs/save_portal_config(.:format)' => "portlet_configs#save_portal_config", :via => :post
+    match '/portlet_configs/save_portal_layout(.:format)' => "portlet_configs#save_portal_layout", :via => :post
 
     #portlets
     match '/portlets(/index)(.:format)' => "portlets#index", :via => :get

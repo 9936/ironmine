@@ -1,0 +1,47 @@
+<%= setting_title %>
+
+<%= form_for(@session_timeout,:url=>{:action=>"update", :id=> @session_timeout},:builder => LabellingFormBuilder) do |f| %>
+<div id="ep" class="edit-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_session_time_out) %></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= f.submit t(:save)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <%= error_for @session_timeout %>
+    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+      <h3><%= t(:label_common_info) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label><%= t :label_irm_session_time_out_value %></label></td>
+              <td class="data2Col"><%= f.select :time_out, Irm::LookupValue.get_lookup_value("IRM_SESSION_TIME_OUT").collect{|p| [p[:meaning], p.lookup_code]}, {}, :required => true %>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pbBottomButtons">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"></td>
+          <td id="bottomButtonRow" class="pbButtonb">
+            <div class="button"><%= f.submit t(:save)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
