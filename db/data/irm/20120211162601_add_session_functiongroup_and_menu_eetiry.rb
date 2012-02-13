@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class AddSessionFunctiongroupAndMenuEetiry < ActiveRecord::Migration
   def up
-    irm_session_time_out= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_SETTING',:code=>'SESSION_TIME_OUT',:controller=>'irm/password_policies',:action=>'index',:not_auto_mult=>true)
+    irm_session_time_out= Irm::FunctionGroup.new(:zone_code=>'SYSTEM_SETTING',:code=>'SESSION_TIME_OUT',:controller=>'irm/session_times',:action=>'index',:not_auto_mult=>true)
     irm_session_time_out.function_groups_tls.build(:language=>'zh',:source_lang=>'en',:name=>'会话超时设置',:description=>'修改平台全局会话超时时间')
     irm_session_time_out.function_groups_tls.build(:language=>'en',:source_lang=>'en',:name=>'Session Time Out',:description=>'Session Time Out')
     irm_session_time_out.save
