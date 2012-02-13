@@ -1,6 +1,6 @@
 .bundle
 db/*.sqlite3
-log/*.log
+log/**
 tmp/**/*
 .idea
 db/schema.rb
@@ -13,3 +13,4 @@ index
 Capfile
 config/deploy.rb
 ironmine.ids
+solr/data/**
