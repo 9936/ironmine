@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SessionTimesControllerTest < ActionController::TestCase
+class SessionTimeoutsControllerTest < ActionController::TestCase
   setup do
     @session_time = session_times(:one)
   end
@@ -8,7 +8,7 @@ class SessionTimesControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     assert_response :success
-    assert_not_nil assigns(:session_times)
+    assert_not_nil assigns(:session_timeouts)
   end
 
   test "should get new" do

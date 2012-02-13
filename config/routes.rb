@@ -799,8 +799,8 @@ Ironmine::Application.routes.draw do
     match '/password_policies/:id(.:format)' => "password_policies#update", :via => :put
 
     #session timeout
-    match '/session_times(/index)(.:format)' => "session_times#index", :via => :get
-    match '/session_times/:id(.:format)' => "session_times#update", :via => :put
+    match '/session_timeouts(/index)(.:format)' => "session_timeouts#index", :via => :get
+    match '/session_timeouts/:id(.:format)' => "session_timeouts#update", :via => :put
 
     #operation unit
     match '/operation_units(/show)(.:format)' => "operation_units#show", :via => :get

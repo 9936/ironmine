@@ -1665,7 +1665,7 @@ zh:
   #=======================  portal layouts====================
 
   #======================= session times ====================
-  label_irm_session_time: 会话设置
+  label_irm_session_timeout: 会话设置
   label_irm_session_time_out: 会话超时
   label_irm_session_time_out_value: 超时值
   #=======================  portal layouts====================
