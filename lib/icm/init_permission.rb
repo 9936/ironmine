@@ -17,7 +17,7 @@ Irm::AccessControl.map do |map|
   # 关闭事故单
   map.function :close_incident_request,{"icm/incident_journals"=>[:edit_close,:update_close]}
   # 永久关闭事故单
-  map.function :permanent_close_incident_request,{"icm/incident_journals"=>[:edit_permanent_close,:update_permanent_close]}
+  map.function :permanent_close_incdnt_request,{"icm/incident_journals"=>[:edit_permanent_close,:update_permanent_close]}
   # 重新打开事故单
   map.function :reopen_incident_request,{"icm/incident_journals"=>[:edit_reopen,:update_reopen]}
   # 转交事故单
