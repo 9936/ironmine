@@ -1651,7 +1651,7 @@ en:
   #=======================  portal layouts====================
 
   #======================= session times ====================
-  label_irm_session_time: Session Setting
+  label_irm_session_timeout: Session Setting
   label_irm_session_time_out: Session Time Out
   label_irm_session_time_out_value: Time Value
   #=======================  portal layouts====================
