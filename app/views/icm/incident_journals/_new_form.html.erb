@@ -110,7 +110,7 @@
       <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_incident_request) %></h2></td>
 
       <td id="topButtonRow" class="pbButton">
-        <% if !@incident_request.close? && allow_to_function?(:reply_incident_request)&&@incident_request.watcher?(Irm::Person.current.id) %>
+        <% if !@incident_request.close? &&!@incident_request.permanent_close?&& allow_to_function?(:reply_incident_request)&&@incident_request.watcher?(Irm::Person.current.id) %>
             <div class="button"><a href="#reply"><%= t(:label_icm_incident_journal_new) %></a></div>
         <% end %>
       </td>
@@ -348,7 +348,7 @@
       </div>
     </div>
   </div>
-  <% if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close? %>
+  <% if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close?&&!@incident_request.permanent_close? %>
       <%= form_for(@incident_reply, :url=>{:action=>"create", :format => "js"}, :builder => LabellingFormBuilder, :html => {:multipart => true, :target => "frame"}) do |f| %>
           <div id="reply" class="edit-block page-block">
             <div class="pbHeader">

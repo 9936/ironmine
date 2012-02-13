@@ -9,7 +9,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
                         :impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code,
                         :contact_number,:contact_id
 
-  attr_accessor :pass_flag,:close_flag
+  attr_accessor :pass_flag,:close_flag,:permanent_close_flag
 
   validate :validate_summary
 
@@ -308,6 +308,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
     Irm::Constant::SYS_YES.eql?(self.status_close_flag)
   end
 
+  def permanent_close?
+    Irm::Constant::SYS_YES.eql?(self.status_permanent_close_flag)
+  end
   # setup close flag
   def status_close_flag
     return self.close_flag if self.close_flag
@@ -318,6 +321,17 @@ class Icm::IncidentRequest < ActiveRecord::Base
     status  = Icm::IncidentStatus.query(self.incident_status_id).first
     self.close_flag = status.close_flag if status
     return self.close_flag
+  end
+    # setup close flag
+  def status_permanent_close_flag
+    return self.permanent_close_flag if self.permanent_close_flag
+    if self[:permanent_close_flag]
+      self.permanent_close_flag = self[:permanent_close_flag]
+      return self.permanent_close_flag
+    end
+    status  = Icm::IncidentStatus.query(self.incident_status_id).first
+    self.permanent_close_flag = status.permanent_close_flag if status
+    return self.permanent_close_flag
   end
 
   def self.current_accessible(companies = [])

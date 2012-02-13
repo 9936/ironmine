@@ -1,7 +1,7 @@
 class Icm::IncidentJournalsController < ApplicationController
 
   before_filter :setup_up_incident_request
-  before_filter :backup_incident_request ,:only=>[:create,:update_close,:update_pass,:update_status,:update_upgrade]
+  before_filter :backup_incident_request ,:only=>[:create,:update_close,:update_permanent_close,:update_reopen,:update_pass,:update_status,:update_upgrade]
 
   def index
    redirect_to :action=>"new"
