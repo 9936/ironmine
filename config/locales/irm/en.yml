@@ -836,6 +836,9 @@ en:
   label_irm_role_menu_code: Menu
   label_irm_role_service_role_type: Role type
   label_irm_role_report_to_role: Report To
+  label_irm_role_mode_list: List View
+  label_irm_role_mode_tree: Tree View
+  label_irm_role_structure: Organizational Role Structure
   #=========================end irm roles ===================================
   #========================= irm reports ===================================
   label_irm_report_step_report_type: Report Type
