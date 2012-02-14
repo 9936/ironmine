@@ -836,6 +836,9 @@ zh:
   label_irm_role_report_to_role: 上级角色
   label_irm_role_people_list: 当前角色下的人员
   label_irm_role_edit_assignment: 分配人员
+  label_irm_role_mode_list: 以列表视图显示
+  label_irm_role_mode_tree: 以树状视图显示
+  label_irm_role_structure: 组织角色层次结构
   #=========================end irm roles ===================================
   #========================= irm reports ===================================
   label_irm_report_step_report_type: 报表类型

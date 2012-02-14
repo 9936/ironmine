@@ -45,6 +45,9 @@ class Irm::RolesController < ApplicationController
 
   def new
     @role = Irm::Role.new
+    if params[:parent_id].present?
+       @role.report_to_role_id =  params[:parent_id]
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @role }
