@@ -13,6 +13,7 @@
         <% end %>
        <%= pb.page_block_body do %>
             <%= error_for @report%>
+            <%= f.hidden_field :program_type,:value=>"PROGRAM" %>
             <%= sub_page_block("baseInfo") do |spb|%>
                 <%= spb.sub_page_block_header(:title=>t(:label_common_info),:first=>true)%>
                 <%= spb.sub_page_block_body do %>
@@ -51,7 +52,6 @@
                     </table>
                 <% end %>
           <% end %>
-        </div>
         <%= pb.page_block_footer do %>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= link_submit t(:save)%></div>
