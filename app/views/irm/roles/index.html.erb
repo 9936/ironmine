@@ -11,16 +11,16 @@
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_role_structure) %></h2></td>
               <% else %>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_role_list) %></h2></td>
-              <% end %>
               <td id="topButtonRow" class="pbButton">
                 <div class="button"><%= link_to t(:new), {:controller => "irm/roles", :action => "new"}%></div>
               </td>
+              <% end %>
               <td class="pbHelp">
                 <div id="rolesSearchBox"></div>
                 <div>
                   <%= form_tag({:controller => "irm/roles"}, {:method => 'get'}) do %>
                       <span class="viewSelect">
-                        <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: this.form.submit();'}) %>
+                        <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("role_view", this.value);this.form.submit();'}) %>
                       </span>
                   <% end %>
                 </div>
@@ -31,18 +31,13 @@
       </div>
       <div class="pbBody">
              <% if(params[:mode] == 'tree') %>
-             <style type="text/css">
-                 /* style of roles*/
-                 .role-name {font-weight: bold !important;}
-                 .role-actions a {margin-left: 4px; color: #666;}
-                 .role-actions .add-child a {font-weight: bold;color: #666;}
-             </style>
+             <div id="sidetreecontrol"> <a href="?#"><%= t(:collapse_all) %></a> | <a href="?#"><%= t(:expand_all) %></a> </div>
              <ul id="red" class="treeview-red">
                <script type="text/javascript">
                  function buildNode(id, level,name,parent_id, new_action, edit_action, show_action) {
                         if(id) {
-                           var node = '<li><span class="role-name">'+name+'</span>&nbsp;&nbsp;<span class="role-actions">'+edit_action+'</span> | <span class="role-actions">'+show_action+'</span>';
-                           node += '<ul id="'+id+'"><li><span class="role-actions add-child">'+new_action+'</span></li></ul>';
+                           var node = '<li><span class="name">'+name+'</span>&nbsp;&nbsp;<span class="actions">'+edit_action+'</span> | <span class="actions">'+show_action+'</span>';
+                           node += '<ul id="'+id+'"><li><span class="actions add-child">'+new_action+'</span></li></ul>';
                            node += '</li>'
                            if(level && level == 1) {
                              $("#red").append(node);
@@ -60,6 +55,8 @@
                    <% end %>
                  $("#red").treeview({
                     animated: "fast",
+                   // animated: "medium",
+			     	control:"#sidetreecontrol",
                     collapsed: true,
                     unique: false,
                     persist: "cookie"

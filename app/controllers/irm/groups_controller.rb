@@ -24,6 +24,10 @@ class Irm::GroupsController < ApplicationController
       end
     }
 
+    unless params[:mode].present?
+      params[:mode] = cookies['group_view']
+    end
+
     grouped_groups["blank"].each do |gr|
       groups[gr[0]].level = 1
       @leveled_groups << groups[gr[0]]
@@ -46,7 +50,9 @@ class Irm::GroupsController < ApplicationController
   # GET /support_groups/new.xml
   def new
     @group = Irm::Group.new
-
+    if params[:parent_id].present?
+       @group.parent_group_id =  params[:parent_id]
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @group }

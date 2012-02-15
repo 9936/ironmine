@@ -29,6 +29,9 @@ class Irm::RolesController < ApplicationController
       proc.call(roles[gr[0]].id,2)
     end if grouped_roles["blank"]
 
+    unless params[:mode].present?
+      params[:mode] = cookies['role_view']
+    end
 
     respond_to do |format|
       format.html # index.html.erb
