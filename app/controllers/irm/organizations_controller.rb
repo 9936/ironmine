@@ -31,6 +31,10 @@ class Irm::OrganizationsController < ApplicationController
       @leveled_organizations << organizations[go[0]]
       proc.call(organizations[go[0]].id,2)
     end
+
+    unless params[:mode].present?
+      params[:mode] = cookies['organization_view']
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @leveled_organizations }
@@ -50,7 +54,9 @@ class Irm::OrganizationsController < ApplicationController
   # GET /organizations/new.xml
   def new
     @organization = Irm::Organization.new
-
+    if params[:parent_id].present?
+        @organization.parent_org_id =  params[:parent_id]
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @organization }
