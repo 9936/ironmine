@@ -90,6 +90,8 @@ zh:
   label_alias: 别名
   uncategory: 未分类
   code: 编码
+  expand_all: 全部展开
+  collapse_all: 全部折叠
   #常用语句
   notice_account_invalid_creditentials: 用户名或密码错误
   successfully_updated: 已经成功更新数据
@@ -565,6 +567,7 @@ zh:
   label_irm_organization: 组织
   label_irm_organization_organizations_tls:
     name: 名称
+  label_irm_organization_structure: 组织层次结构
   #=========================end irm organizations_controller=======================#
   #=========================    irm value_sets_controller=======================#
   label_irm_value_set: 值集
@@ -666,6 +669,7 @@ zh:
   label_action_select_person: 选择支持组成员
   label_action_new_from_person: 选择加入的支持组
   label_irm_group_parent: 上级组
+  label_irm_group_structure: 支持组层次结构
   #=========================end irm support_groups_controller=======================#
   #=========================    irm people_controller=======================#
   label_irm_person: 人员

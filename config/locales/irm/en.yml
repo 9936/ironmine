@@ -571,6 +571,7 @@ en:
   label_irm_organization: Organization
   label_irm_organization_organizations_tls:
     name: Name
+  label_irm_organization_structure: Organizational Structure
   #=========================end irm organizations_controller=======================#
   #=========================    irm value_sets_controller=======================#
   label_irm_value_set: Value Set
@@ -672,6 +673,7 @@ en:
   label_action_select_person: Choose support group member
   label_action_new_from_person: Choose support group
   label_irm_group_parent: Parent Group
+  label_irm_group_structure: Organizational Group Structure
   #=========================end irm support_groups_controller=======================#
   #=========================    irm people_controller=======================#
   label_irm_person: Person

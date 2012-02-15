@@ -49,3 +49,8 @@
 
 .treeview-red li { background-image: url(../images/treeview/treeview-red-line.gif); }
 .treeview-red .hitarea, .treeview-red li.lastCollapsable, .treeview-red li.lastExpandable { background-image: url(../images/treeview/treeview-red.gif); }
+
+#sidetreecontrol { margin: 5px 10px !important;}
+.treeview .name {font-weight: bold !important;}
+.treeview .actions a {margin-left: 4px; color: #666;}
+.treeview .actions .add-child a {font-weight: bold;color: #666;}
