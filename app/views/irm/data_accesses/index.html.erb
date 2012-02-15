@@ -8,6 +8,7 @@
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_data_access_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
                 <div class="button"><%= link_to(t(:edit),{:action=>"edit"},:back=>true) %></div>
+                <div class="button"><%= link_to(t(:label_irm_data_access_org),{:controller=>"irm/org_data_accesses",:action=>"index"},:back=>true) %></div>
               </td>
               <td class="pbHelp">
                 <div id="data_accessesSearchBox"></div>
