@@ -72,5 +72,10 @@ module Irm::RolesHelper
   end
 
 
+  def available_mode_views
+    mode_views = [[t(:label_irm_role_mode_list), 'list'], [t(:label_irm_role_mode_tree), 'tree']]
+  end
+
+
 
 end
