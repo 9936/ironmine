@@ -161,8 +161,20 @@ module Icm::IncidentRequestsHelper
   def list_all_icm_incident_relations(incident_request_id)
     relation_list = Icm::IncidentRequestRelation.list_all(incident_request_id)
     ret = ""
-    relation_list.each do |w|
-      ret << content_tag(:tr,
+
+    group_relation_list = {}
+    relation_list.each do |r|
+      group_relation_list[r.relation_type] ||= []
+      group_relation_list[r.relation_type] << r
+    end
+    group_relation_list.each do |key, gr|
+       ret << content_tag(:tr,
+                  content_tag(:td,
+                      content_tag(:div,
+                          Irm::LookupValue.get_meaning("ICM_INCIDENT_REQUEST_REL_TYPE", key) + ':',
+                          {:style => "font-weight:bold;font-size:1.1em;"})))
+       gr.each do |w|
+          ret << content_tag(:tr,
                   content_tag(:td,
                               content_tag(:div,
                                           link_to(w[:request_number] + "#" + w[:title], {:controller => "icm/incident_journals", :action => "new", :request_id => w[:request_id]},
@@ -171,6 +183,7 @@ module Icm::IncidentRequestsHelper
                                                                                                          :action => "remove_relation",
                                                                                                          :source_id => w[:source_id],
                                                                                                          :id => w[:relation_id]}, :remote => true, :confirm => t(:label_are_you_sure)))))
+       end
     end
     raw(ret)
   end

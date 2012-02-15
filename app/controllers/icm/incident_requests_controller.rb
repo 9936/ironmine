@@ -436,7 +436,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:icm_relation], params[:icm_relation], params[:source_id])
 
     unless existed_relation.any? || !params[:icm_relation].present?
-      t = Icm::IncidentRequestRelation.create(:source_id => params[:source_id], :target_id => params[:icm_relation])
+      t = Icm::IncidentRequestRelation.create(:source_id => params[:source_id], :target_id => params[:icm_relation], :relation_type => params[:relation_type])
       @incident_request_id = t.source_id
     end
     respond_to do |format|
