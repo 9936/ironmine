@@ -898,7 +898,10 @@ Ironmine::Application.routes.draw do
     match '/portal_layouts/:id/multilingual_edit(.:format)' => "portal_layouts#multilingual_edit", :via => :get
     match '/portal_layouts/:id/multilingual_update(.:format)' => "portal_layouts#multilingual_update", :via => :put
 
-
+    # data accesses
+    match '/data_accesses(/index)(.:format)' => "data_accesses#index", :via => :get
+    match '/data_accesses/edit(.:format)' => "data_accesses#edit", :via => :get
+    match '/data_accesses/update(.:format)'  => "data_accesses#update",:via => :post
 
   end
 

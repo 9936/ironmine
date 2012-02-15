@@ -1,0 +1,60 @@
+<%= page_title %>
+<div class="listRelatedObject setupBlock">
+    <div class="page-block">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_data_access_list) %></h2></td>
+              <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= link_to(t(:edit),{:action=>"edit"},:back=>true) %></div>
+              </td>
+              <td class="pbHelp">
+                <div id="data_accessesSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="data_accesses" class="datatable" style="width:100%">
+            <!--  irm datatable      -->
+            <div class="irm-datatable">
+              <div>
+                  <table count="<%=@data_accesses.length%>">
+                    <thead>
+                      <tr>
+                        <th style="width:150px;">
+                          <div><%= t(:label_irm_data_access_business_object) %></div>
+                        </th>
+                        <th>
+                          <div><%= t(:label_irm_data_access_access_level) %></div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <% @data_accesses.each do |data_access| %>
+                    <tr id="<%=data_access[:id]%>">
+                      <td>
+                        <div>
+                          <%= data_access[:business_object_name] %>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <%= data_access[:access_level_name] %>
+                        </div>
+                      </td>
+                    </tr>
+                    <% end -%>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+            <!--  end irm datatable      -->
+        </div>
+      </div>
+    </div>
+</div>
+
+

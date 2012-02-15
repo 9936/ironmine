@@ -1010,6 +1010,7 @@ en:
   label_irm_business_object_relation: Relationship
   label_irm_business_object_report_flag: Report
   label_irm_business_object_standard_flag: Standard
+  label_irm_business_object_data_access_flag: Data Access
   #======================== end business objects====================
   #======================== object attributes====================
   label_irm_object_attributes: Object Attributes
@@ -1657,3 +1658,12 @@ en:
   label_irm_session_time_out: Session Time Out
   label_irm_session_time_out_value: Time Value
   #=======================  portal layouts====================
+  #=========================    irm data accesses=======================#
+  label_irm_data_access: Data Access Control
+  label_irm_data_access_list: Data Access List
+  label_irm_data_access_new: New Data Access
+  label_irm_data_access_edit: Edit Data Access
+  label_irm_data_access_business_object: Business Object
+  label_irm_data_access_access_level: Default Access Level
+  label_irm_data_access_all_business_object: All Business Object
+  #=========================end irm data accesses=======================#

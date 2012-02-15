@@ -14,7 +14,7 @@ Irm::AccessControl.map do |map|
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/search"=>[:index],
                                  "irm/portlet_configs" => ["save_portal_config","save_portal_layout"],
-                                 "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
+                                 "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"],"irm/data_accesses"=>["index","edit","update"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
   #=====common setting===================
