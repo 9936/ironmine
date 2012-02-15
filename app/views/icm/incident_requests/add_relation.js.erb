@@ -2,6 +2,7 @@ $(function(){
     <% if @incident_request_id %>
     $("#relation_list").html('<%= escape_javascript(list_all_icm_incident_relations(@incident_request_id))%>');
     $("#relation_select").html('<%= escape_javascript(lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:110px;")%>');
+    $("#relation_type").html('<%=  escape_javascript(select_tag_alias :relation_type,Irm::LookupValue.get_lookup_value("ICM_INCIDENT_REQUEST_REL_TYPE").collect{|p| [p[:meaning], p.lookup_code]}, nil) %>');
     <% end %>
 
 <% unless limit_device? %>
