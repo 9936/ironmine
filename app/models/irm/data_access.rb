@@ -19,7 +19,7 @@ class Irm::DataAccess < ActiveRecord::Base
   }
 
   # 数据访问级别
-  scope :with_report_source,lambda{|language|
+  scope :with_access_level,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} access_level ON access_level.lookup_type='IRM_DATA_ACCESS_LEVEL' AND access_level.lookup_code = #{table_name}.access_level AND access_level.language= '#{language}'").
     select(" access_level.meaning access_level_name")
   }
@@ -35,6 +35,6 @@ class Irm::DataAccess < ActiveRecord::Base
   end
 
   def self.list_all
-    self.select_all.with_business_object(I18n.locale).with_report_source(I18n.locale)
+    self.select_all.with_business_object(I18n.locale).with_access_level(I18n.locale)
   end
 end

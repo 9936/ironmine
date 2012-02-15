@@ -903,6 +903,13 @@ Ironmine::Application.routes.draw do
     match '/data_accesses/edit(.:format)' => "data_accesses#edit", :via => :get
     match '/data_accesses/update(.:format)'  => "data_accesses#update",:via => :post
 
+    # org data accesses
+    match '/org_data_accesses(/index)(.:format)' => "org_data_accesses#index", :via => :get
+    match '/org_data_accesses/:id/edit(.:format)' => "org_data_accesses#edit", :via => :get
+    match '/org_data_accesses/:id/update(.:format)'  => "org_data_accesses#update",:via => :post
+    match '/org_data_accesses/:id/show(.:format)'=> "org_data_accesses#show",  :via => :get
+
+
   end
 
   scope :module => "icm" do

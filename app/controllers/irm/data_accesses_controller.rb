@@ -15,7 +15,7 @@ class Irm::DataAccessesController < ApplicationController
   # GET /data_accesses/1
   # GET /data_accesses/1.xml
   def show
-    @data_access = DataAccess.find(params[:id])
+    @data_access = Irm::DataAccess.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -26,7 +26,7 @@ class Irm::DataAccessesController < ApplicationController
   # GET /data_accesses/new
   # GET /data_accesses/new.xml
   def new
-    @data_access = DataAccess.new
+    @data_access = Irm::DataAccess.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,7 +36,7 @@ class Irm::DataAccessesController < ApplicationController
 
   # GET /data_accesses/1/edit
   def edit
-    @data_accesses = Irm::DataAccess.list_all
+    @data_accesses = Irm::DataAccess.opu_data_access.list_all
   end
 
   # POST /data_accesses
@@ -78,7 +78,7 @@ class Irm::DataAccessesController < ApplicationController
   # DELETE /data_accesses/1
   # DELETE /data_accesses/1.xml
   def destroy
-    @data_access = DataAccess.find(params[:id])
+    @data_access = Irm::DataAccess.find(params[:id])
     @data_access.destroy
 
     respond_to do |format|
@@ -88,7 +88,7 @@ class Irm::DataAccessesController < ApplicationController
   end
 
   def get_data
-    data_accesses_scope = DataAccess.multilingual
+    data_accesses_scope = Irm::DataAccess.multilingual
     data_accesses_scope = data_accesses_scope.match_value("data_access.name",params[:name])
     data_accesses,count = paginate(data_accesses_scope)
     respond_to do |format|

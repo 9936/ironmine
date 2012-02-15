@@ -14,7 +14,7 @@ Irm::AccessControl.map do |map|
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/search"=>[:index],
                                  "irm/portlet_configs" => ["save_portal_config","save_portal_layout"],
-                                 "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"],"irm/data_accesses"=>["index","edit","update"]}
+                                 "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
   #=====common setting===================
@@ -300,10 +300,6 @@ Irm::AccessControl.map do |map|
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]
   map.function :license,{"irm/licenses"=>["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "get_data", "show"]}
 
-  #===================irm/portlet_configs============================
-  #["index", "show", "edit", "update", "new", "create", "get_data", "destroy"]
-  map.function :portlet_config,{"irm/portlet_configs"=>["index", "show", "edit", "update", "new", "create", "get_data", "destroy"]}
-
   #===================irm/portlets============================
   #["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update", "get_actions_options"]
   map.function :portlet,{"irm/portlets"=>["index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update", "get_actions_options"]}
@@ -322,7 +318,11 @@ Irm::AccessControl.map do |map|
   #===================irm/reports#portlet============================
   map.function :report_portlet,{"irm/reports"=>["portlet"]}
 
-#===================irm/session_timeouts============================
-#["index", "update"]
-map.function :session_time_out,{"irm/session_timeouts"=>["index","update"]}
+  #===================irm/session_timeouts============================
+  #["index", "update"]
+  map.function :session_time_out,{"irm/session_timeouts"=>["index","update"]}
+  #===================irm/data_accesses org_data_accesses============================
+  #["index", "update"]
+  map.function :data_access,{"irm/data_accesses"=>["index","edit","update"],
+                                  "irm/org_data_accesses"=>["index","edit","update","show"]}
 end

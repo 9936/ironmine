@@ -1669,4 +1669,8 @@ en:
   label_irm_data_access_business_object: Business Object
   label_irm_data_access_access_level: Default Access Level
   label_irm_data_access_all_business_object: All Business Object
+  label_irm_data_access_org_not_set: Not Set
+  label_irm_data_access_org_access_level: Organization
+  label_irm_data_access_opu_access_level: Operation Unit
+  label_irm_data_access_org: Organization Level Data Access
   #=========================end irm data accesses=======================#
