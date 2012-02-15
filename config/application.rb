@@ -72,7 +72,8 @@ module Ironmine
         :extjs=>%w(ext4-all ext4-cux),
         :datepicker=>%w(jquery-datepicker),
         :video => %w(video-js),
-        :jpolite => %w(screen style)
+        :jpolite => %w(screen style),
+        :treeview => %w(treeview)
     }
   end
 end
