@@ -3,7 +3,7 @@ class Chm::ChangeRequestsController < ApplicationController
   # GET /statuses.xml
   def index
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render :layout => "application_full"} # index.html.erb
       format.xml  {
         @change_requests = Chm::ChangeRequest.all
         render :xml => @change_requests
@@ -110,7 +110,7 @@ class Chm::ChangeRequestsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout => "application_full"}# new.html.erb
       format.xml  { render :xml => @change_request }
     end
   end
@@ -160,7 +160,7 @@ class Chm::ChangeRequestsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html {render "new"}
+      format.html { render :action => "new",:layout => "application_full"}
       format.xml  { render :xml => @change_request }
     end
   end
@@ -169,6 +169,9 @@ class Chm::ChangeRequestsController < ApplicationController
   # GET /statuses/1/edit
   def edit
     @change_request = Chm::ChangeRequest.find(params[:id])
+    respond_to do |format|
+      format.html { render :layout => "application_full"}
+    end
   end
 
   # POST /statuses
@@ -184,7 +187,7 @@ class Chm::ChangeRequestsController < ApplicationController
         format.html { redirect_to({:action => "show",:id=>@change_request.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @change_request, :status => :created, :location => @change_request }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new",:layout => "application_full" }
         format.xml  { render :xml => @change_request.errors, :status => :unprocessable_entity }
       end
     end
@@ -200,7 +203,7 @@ class Chm::ChangeRequestsController < ApplicationController
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "edit",:layout => "application_full"}
         format.xml  { render :xml => @change_request.errors, :status => :unprocessable_entity }
       end
     end
