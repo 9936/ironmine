@@ -1,3 +1,4 @@
+<% require_javascript([:ace]) %>
 <style type="text/css">
   .controls {
     display: inline-block;
@@ -20,9 +21,15 @@
   div.controlItems th {
       font-weight: bold;
   }
+  #editor {
+    position: absolute;
+    width: 780px;
+    height: 200px;
+ }
 </style>
 <%= setting_title %>
-<%= form_for(@mail_template,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@mail_template,:url=>{:action=>"create"},:html => {:id => "mail_template"}, :builder => LabellingFormBuilder) do |f| %>
+<%= f.hidden_field :mail_body, {:id => 'mail_body_value'} %>
 <div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -105,7 +112,13 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=t(:label_irm_mail_template_mail_body)%></label></td>
-              <td class="data2Col" colspan="3"><%=f.text_area :mail_body ,:cols => 85, :rows => 15,:required=>true%></td>
+              <td class="data2Col" colspan="3" style="width: 800px; height: 201px;">
+                <div class="requiredInput">
+                  <div class="requiredBlock"></div>
+                  <div id="editor"></div>
+                </div>
+               <!-- <%=f.text_area :mail_body ,:cols => 85, :rows => 15,:required=>true%> -->
+              </td>
             </tr>
         </tbody>
       </table>
@@ -127,6 +140,17 @@
 </div>
 <% end %>
 <script type="text/javascript">
+  window.onload = function() {
+    var editor = ace.edit("editor");
+    var htmlMode = require("ace/mode/html").Mode;
+    editor.getSession().setMode(new htmlMode());
+    //editor.getSession().setValue("youjian");
+    //提交表单之前将编辑器中的内容保存到隐藏表单中
+    $("#mail_template").submit(function(){
+        $(this).find("#mail_body_value").val(editor.getSession().getValue());
+        this.submit();
+    });
+  };
   $(function(){
       $("#parameter_bo").cascade("#parameter_field_name");
       $("#parameter_field_name").change(function(e){
