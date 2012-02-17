@@ -1693,3 +1693,14 @@ zh:
   label_irm_data_access_opu_access_level: 运维中心层
   label_irm_data_access_org: 组织层访问权限
   #=========================end irm data accesses=======================#
+
+  #=========================    irm data share rules=======================#
+  label_irm_data_share_rule: 共享规则
+  label_irm_data_share_rule_step1: 步骤一：规则名
+  label_irm_data_share_rule_step2: 步骤二：选择要共享的记录
+  label_irm_data_share_rule_step3: 步骤三：选择与其共享记录的用户
+  label_irm_data_share_rule_step4: 步骤四：选择用户的访问权限等级
+  label_irm_data_share_rule_belong_to: 由下列成员拥有
+  label_irm_data_share_rule_share_with: 与之共享
+
+  #=========================end irm data share rules=======================#

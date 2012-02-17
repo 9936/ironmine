@@ -1676,3 +1676,14 @@ en:
   label_irm_data_access_opu_access_level: Operation Unit
   label_irm_data_access_org: Organization Level Data Access
   #=========================end irm data accesses=======================#
+
+  #=========================    irm data share rules=======================#
+  label_irm_data_share_rule: Share Rules
+  label_irm_data_share_rule_step1: Step 1：Rule Name
+  label_irm_data_share_rule_step2: Step 2：Select The Data To Share
+  label_irm_data_share_rule_step3: Step 3：Select Which one To Share With
+  label_irm_data_share_rule_step4: Step 4：Select Access Level
+  label_irm_data_share_rule_belong_to: Belongs To
+  label_irm_data_share_rule_share_with: To Share With
+
+  #=========================end irm data share rules=======================#

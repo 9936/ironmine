@@ -1,5 +1,6 @@
 Ironmine::Application.routes.draw do
 
+
   get "delayed/index"
 
   scope :module => "irm" do
@@ -909,7 +910,16 @@ Ironmine::Application.routes.draw do
     match '/org_data_accesses/:id/update(.:format)'  => "org_data_accesses#update",:via => :post
     match '/org_data_accesses/:id/show(.:format)'=> "org_data_accesses#show",  :via => :get
 
-
+    #data_share_rules
+    match '/data_share_rules(/index)(.:format)' => "data_share_rules#index", :via => :get
+    match '/data_share_rules/new(.:format)'      => "data_share_ruleses#new",   :via => :get
+    match '/data_share_rules/:id/edit(.:format)' => "data_share_rules#edit", :via => :get
+    match '/data_share_rules/create(.:format)'  => "data_share_rules#create",:via => :post
+    match '/data_share_rules/:id(.:format)'  => "data_share_rules#update",:via => :put
+    match '/data_share_rules/:id/show(.:format)'=> "data_share_rules#show",  :via => :get
+    match '/data_share_rules/get_data(.:format)' => "data_share_rules#get_data"
+    match '/data_share_rules/:id/multilingual_edit(.:format)' => "data_share_rules#multilingual_edit", :via => :get
+    match '/data_share_rules/:id/multilingual_update(.:format)' => "data_share_rules#multilingual_update", :via => :put
   end
 
   scope :module => "icm" do

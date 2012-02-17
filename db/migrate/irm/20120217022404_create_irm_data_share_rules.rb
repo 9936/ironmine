@@ -1,5 +1,5 @@
 class CreateIrmDataShareRules < ActiveRecord::Migration
-  def change
+  def up
     create_table :irm_data_share_rules do |t|
       t.string   "opu_id",        :limit => 22 , :collate=>"utf8_bin"
       t.string   "code",          :limit => 30, :null => false
@@ -17,9 +17,9 @@ class CreateIrmDataShareRules < ActiveRecord::Migration
       t.datetime "updated_at"
     end
     change_column :irm_data_share_rules, "id", :string,:limit=>22, :collate=>"utf8_bin"
-    add_index "irm_data_share_rules_tl", ["business_object_id"], :name => "IRM_DATA_SHARE_RULES_N1"
-    add_index "irm_data_share_rules_tl", ["source_id"], :name => "IRM_DATA_SHARE_RULES_N2"
-    add_index "irm_data_share_rules_tl", ["target_id"], :name => "IRM_DATA_SHARE_RULES_N3"
+    add_index "irm_data_share_rules", ["business_object_id"], :name => "IRM_DATA_SHARE_RULES_N1"
+    add_index "irm_data_share_rules", ["source_id"], :name => "IRM_DATA_SHARE_RULES_N2"
+    add_index "irm_data_share_rules", ["target_id"], :name => "IRM_DATA_SHARE_RULES_N3"
 
 
 
@@ -44,5 +44,10 @@ class CreateIrmDataShareRules < ActiveRecord::Migration
     execute('CREATE OR REPLACE VIEW irm_data_share_rules_vl AS SELECT t.*,tl.id lang_id,tl.name,tl.description,tl.language,tl.source_lang
                          FROM irm_data_share_rules t,irm_data_share_rules_tl tl
                          WHERE t.id = tl.data_share_rule_id')
+  end
+  def down
+    drop_table :irm_data_share_rules
+    drop_table :irm_data_share_rules_tl
+    execute('DROP VIEW irm_data_share_rules_vl')
   end
 end
