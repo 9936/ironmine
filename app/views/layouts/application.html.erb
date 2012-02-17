@@ -2,13 +2,24 @@
 <html>
 <head>
   <%= render :partial => "irm/common/application_title" %>
-  <% require_javascript([:jquery,:jplugin]) %>
+  <% require_javascript([:jquery,:jplugin, :session]) %>
   <% require_css([:default]) %>
   <%=render_loaded_javascript_css_files%>
   <%= csrf_meta_tag %>
   <script type="text/javascript">
+    //全局参数
+    var secondsLeftValue = 50;  //当前session过期的时剩余间值（秒）
+    var secondsPopupValue = 10; //弹出警告窗口的时间值（秒）
+    var lastPageActivityTime = new Date().getTime(); //最后一次活动的时间
+    var forceLogout = false; //强制退出， true：是 false： 否
+
     $(document).ready(function(){
         $("#settingMenu").menubutton();
+
+        if (typeof(startSessionTimer)!='undefined') startSessionTimer();
+        //页面活动后调用
+        document.documentElement.onkeydown=checkSessionTimeout;
+		document.documentElement.onclick=checkSessionTimeout;
     });
   </script>
   <% if content_for?(:page_script) %>

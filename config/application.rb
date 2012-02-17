@@ -59,7 +59,8 @@ module Ironmine
         :video => %w(video),
         :jpolite => %w(jpolite/jquery-ui-jpolite.min jpolite/jpolite.core jpolite/jpolite.ext),
         :treeview => %w(jquery-treeview),
-        :ace => %w(ace/ace ace/mode-html)
+        :ace => %w(ace/ace ace/mode-html),
+        :session => %w(session)
     }
     config.ironmine.css.source = {
         :default =>%w(colorbox base button container form header icons layout other public sidebar table jmask),

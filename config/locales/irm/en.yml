@@ -222,6 +222,7 @@ en:
   label_irm_common_forgot_password: Forget password？
   label_irm_recently_objects: Recent Items
   notice_account_locked: Your account has been locked, please contact administrator!
+  label_irm_common_continue: Continue
   #=========================    end common_controller=======================#
   #=========================    irm menus_controller=======================#
   label_irm_menu: Menu
@@ -1659,9 +1660,10 @@ en:
   #=======================  portal layouts====================
 
   #======================= session times ====================
-  label_irm_session_timeout: Session Setting
+  label_irm_session_setting: Session Setting
   label_irm_session_time_out: Session Time Out
   label_irm_session_time_out_value: Time Value
+  label_irm_session_warn: For security Reasons, Your Ironmine Session Is About To Timeout,What Do You Want to Choose??
   #=======================  portal layouts====================
   #=========================    irm data accesses=======================#
   label_irm_data_access: Data Access Control
