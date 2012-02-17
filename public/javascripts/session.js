@@ -26,7 +26,8 @@ function updateSessionTimeouts(secondsLeft, secondsUntilPopup) {
 //
 function alertTimeout() {
 	timeoutUniqueId = null;
-	alertWindow = window.open('/session_settings/timeout_warn', "ironmine",'width=360,height=280,location=no,dependent=no,resizable=yes,toolbar=no,status=no,directories=no,menubar=no,scrollbars=yes', false);
+    //window.open(q,"shareQing","toolbar=0,status=0,resizable=1,width=600,height=520,left="+(screen.width-600)/2+",top="+(screen.height-520)/2);
+	alertWindow = window.open('/session_settings/timeout_warn', "ironmine",'width=360,height=280,left='+(screen.width-360)/2+',top='+(screen.height-280)/2+',location=no,dependent=no,resizable=yes,toolbar=no,status=no,directories=no,menubar=no,scrollbars=yes', false);
 	parentWindow = window;
 	if (!alertWindow && forceLogout) {
 		setTimeout(parentWindow.doLogout(), 25 * 1000)
