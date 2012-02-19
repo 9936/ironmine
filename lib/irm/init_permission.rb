@@ -320,7 +320,7 @@ Irm::AccessControl.map do |map|
 
   #===================irm/session_settings============================
   #["index", "update"]
-  map.function :session_time_out,{"irm/session_settings"=>["index","update", "timeout_warn"]}
+  map.function :session_setting,{"irm/session_settings"=>["index","update", "timeout_warn"]}
   #===================irm/data_accesses org_data_accesses============================
   #["index", "update"]
   map.function :data_access,{"irm/data_accesses"=>["index","edit","update"],
