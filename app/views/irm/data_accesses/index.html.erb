@@ -88,6 +88,9 @@
                           <div><%= t(:operation) %></div>
                         </th>
                         <th style="width:150px;">
+                          <div><%= t(:name) %></div>
+                        </th>
+                        <th style="width:150px;">
                           <div><%= t(:label_irm_data_access_business_object) %></div>
                         </th>
                         <th style="width:150px;">
@@ -107,6 +110,11 @@
                       <td>
                         <div>
                            <%= link_to(t(:edit),{:controller => "irm/data_share_rules",:action=>"edit",:id=>"#{rule[:id]}"}) %>|<%= link_to(t(:delete),{:controller => "irm/data_share_rules",:action=>"destroy",:id=>"#{rule[:id]}"},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <%= rule[:name] %>
                         </div>
                       </td>
                       <td>
