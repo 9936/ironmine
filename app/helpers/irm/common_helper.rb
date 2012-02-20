@@ -67,7 +67,7 @@ module Irm::CommonHelper
   #获取当前的session过期时间(秒为单位)
   def get_session_time
     session = Irm::SessionSetting.all.first
-    if session.nil?
+    if session.nil? || session.time_out.nil?
       15 * 60
     else
       session.time_out.to_i * 60
