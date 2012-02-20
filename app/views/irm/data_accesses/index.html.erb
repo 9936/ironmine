@@ -65,30 +65,80 @@
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_data_share_rule_list) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%=data_access[:business_object_name]+t(:label_irm_data_share_rule)  %></h2></td>
               <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+                <div class="button"><%= link_to(t(:new),{:controller => "irm/data_share_rules",:action=>"new",:business_object_id=>data_access[:business_object_id]},:back=>true) %></div>
               </td>
               <td class="pbHelp">
-                <div id="data_share_rulesSearchBox"></div>
+                <div id="data_accessesSearchBox"></div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="pbBody">
-        <div id="data_share_rules_<%=data_access[:id]%>" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
+        <div id="data_accesses" class="datatable" style="width:100%">
+            <!--  irm datatable      -->
+            <div class="irm-datatable">
+              <div>
+                  <table count="<%=@data_accesses.length%>">
+                    <thead>
+                      <tr>
+                        <th style="width:70px;">
+                          <div><%= t(:operation) %></div>
+                        </th>
+                        <th style="width:150px;">
+                          <div><%= t(:label_irm_data_access_business_object) %></div>
+                        </th>
+                        <th style="width:150px;">
+                          <div><%= t(:label_irm_data_share_rule_belong_to) %></div>
+                        </th>
+                        <th style="width:150px;">
+                          <div><%= t(:label_irm_data_share_rule_share_with) %></div>
+                        </th>
+                        <th>
+                          <div><%= t(:label_irm_data_access) %></div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <% get_rules(data_access[:business_object_id]).each do |rule| %>
+                    <tr id="<%=rule[:id]%>">
+                      <td>
+                        <div>
+                           <%= link_to(t(:edit),{:controller => "irm/data_share_rules",:action=>"edit",:id=>"#{rule[:id]}"}) %>|<%= link_to(t(:delete),{:controller => "irm/data_share_rules",:action=>"destroy",:id=>"#{rule[:id]}"},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <%= rule[:business_object_name] %>
+                        </div>
+                      </td>
+                       <td>
+                        <div>
+                          <%= rule[:source_type]+' '+rule[:source_name] %>
+                        </div>
+                      </td>
+                       <td>
+                        <div>
+                          <%= rule[:target_type]+' '+rule[:target_name] %>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <%= rule[:access_level_name] %>
+                        </div>
+                      </td>
+                    </tr>
+                    <% end -%>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+            <!--  end irm datatable      -->
         </div>
-        <%= datatable("data_share_rules",url_for(:action=>"get_data",:format=>"json"),
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
-                                              ],{:paginator_box=>"data_share_rulesPaginatorBox",:search_box=>"data_share_rulesSearchBox"})%>
-        <div id="data_share_rulesPaginatorBox"></div>
       </div>
     </div>
 </div>
-
 <% end -%>
 

@@ -14,7 +14,7 @@
     width: 3px;
 }
 </style>
-<%= form_for(@data_share_rule,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@data_share_rule,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -47,7 +47,7 @@
         <tbody>
             <tr>
               <td class="labelCol"><label for="code"><%=t(:code)%></label></td>
-              <td class="dataCol"><%=f.text_field :code , :required=>true ,:id=>"code" ,:irm_uppercase=>true%></td>
+              <td class="dataCol"><%=f.text_field :code , :required=>true ,:id=>"code",:irm_uppercase=>true%></td>
               <td class="labelCol empty"><%= f.hidden_field(:rule_type,:value=>"BASE_ON_REPORT_OWNER") %>&nbsp;</td>
               <td class="dataCol empty"><%= f.hidden_field(:business_object_id ,:value=>@data_share_rule[:business_object_id] ) %>&nbsp;</td>
             </tr>
@@ -63,7 +63,7 @@
   </div>
   <div class="pbBody">
 
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+    <div  class="pbSubheader first tertiaryPalette">
       <span class="pbSubExtra">
         <span class="requiredLegend">
           <span class="requiredExampleOuter">
@@ -79,20 +79,23 @@
         <tbody>
             <tr>
               <td class="labelCol"><label for="code"><%=t(:label_irm_data_share_rule_belong_to)%></label></td>
-              <td class="dataCol"><div class="floatLeft  float-left">
+              <td class="dataCol"><div id="step2" class="floatLeft  float-left"  >
               <div class="requiredInput1">
                      <div class="requiredBlock1"></div>
            <%=f.select :source_type,available_types,{},{:id=>"source_type",:name=>"irm_data_share_rule[source_type]"}%>
-           <%=f.select :source_id,  [],
+           <%=f.select :source_id,     [],
                                          {},
-                                            {:id=>"source_id" ,
+                                            {
+                                             :id=>"source_id" ,
                                              :depend=>"source_type",
+                                             :origin_value=>@data_share_rule.source_id,
                                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                              :href=>url_for(:controller=>"irm/data_share_rules",:action=>"get_option",:format=>"json",
                                                             :subject_type=>"${source_type}")}%>
                 </div>
         </div></td>
-              <td class="labelCol empty"></td>
+              <td class="labelCol empty">
+                </td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
 
@@ -102,7 +105,7 @@
   </div>
     <div class="pbBody">
 
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+    <div   class="pbSubheader first tertiaryPalette">
       <span class="pbSubExtra">
         <span class="requiredLegend">
           <span class="requiredExampleOuter">
@@ -118,18 +121,20 @@
         <tbody>
         <tr>
                      <td class="labelCol"><label for="code"><%=t(:label_irm_data_share_rule_share_with)%></label></td>
-                     <td class="dataCol"><div class="floatLeft  float-left">
-                        <div class="requiredInput1">
+                     <td class="dataCol"><div class="floatLeft  float-left" id="step3">
+                     <div class="requiredInput1">
                      <div class="requiredBlock1"></div>
-                  <%=f.select :target_type,available_types,{},{:id=>"target_type",:name=>"irm_data_share_rule[target_type]"}%>
+                  <%=f.select :target_type,available_types,{},{ :id=>"target_type",:name=>"irm_data_share_rule[target_type]"}%>
                   <%=f.select :target_id,     [],
                                                 {},
                                                    {:id=>"target_id" ,
                                                     :depend=>"target_type",
+                                                    :origin_value=>@data_share_rule.target_id,
                                                     :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                                     :href=>url_for(:controller=>"irm/data_share_rules",:action=>"get_option",:format=>"json",
                                                                    :subject_type=>"${target_type}")}%>
-               </div></div></td>
+                       </div>
+                       </div></td>
                      <td class="labelCol empty"></td>
                      <td class="dataCol empty">&nbsp;</td>
                    </tr>
@@ -157,8 +162,9 @@
            <tr>
                      <td class="labelCol"><label for="code"><%=t(:label_irm_data_access)%></label></td>
                      <td class="dataCol"><div class="floatLeft  float-left">
-                       <%=f.select :access_level,available_access_level,{},{:required=>true,:id=>"access_level",:name=>"irm_data_share_rule[access_level]"}%>
-                  </div></td>
+                 <%=f.select :access_level,available_access_level,{},{:required=>true,:id=>"access_level",:name=>"irm_data_share_rule[access_level]"}%>
+
+               </div></td>
                      <td class="labelCol empty">&nbsp;</td>
                      <td class="dataCol empty">&nbsp;</td>
                    </tr>

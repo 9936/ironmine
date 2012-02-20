@@ -6,6 +6,7 @@ class Irm::DataAccessesController < ApplicationController
     Irm::DataAccess.prepare_for_opu
     @data_accesses = Irm::DataAccess.opu_data_access.list_all
 
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @data_accesses }

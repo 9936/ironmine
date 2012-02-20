@@ -1685,9 +1685,9 @@ zh:
   label_irm_data_access_list: 访问权限列表
   label_irm_data_access_new: 新建访问权限
   label_irm_data_access_edit: 编辑访问权限
-  label_irm_data_access_business_object: 对像
+  label_irm_data_access_business_object: 对象
   label_irm_data_access_access_level: 默认访问权限
-  label_irm_data_access_all_business_object: 所有对像
+  label_irm_data_access_all_business_object: 所有对象
   label_irm_data_access_org_not_set: 未设置
   label_irm_data_access_org_access_level: 组织层
   label_irm_data_access_opu_access_level: 运维中心层

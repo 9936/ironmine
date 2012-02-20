@@ -13,7 +13,6 @@ Irm::AccessControl.map do |map|
                                  "irm/navigations" => ["change_application", "index"],
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/search"=>[:index],
-                                 "irm/data_share_rules"=>["index", "create", "new", "edit", "show", "update", "destroy", "index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"],
                                  "irm/portlet_configs" => ["save_portal_config","save_portal_layout"],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
@@ -326,4 +325,8 @@ Irm::AccessControl.map do |map|
   #["index", "update"]
   map.function :data_access,{"irm/data_accesses"=>["index","edit","update"],
                                   "irm/org_data_accesses"=>["index","edit","update","show"]}
+  #===================irm/data_share_rules============================
+  #
+  map.function :data_share_rule,{"irm/data_share_rules"=>["get_option", "index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"],
+                                 }
 end

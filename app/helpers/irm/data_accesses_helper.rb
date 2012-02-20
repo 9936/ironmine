@@ -73,5 +73,8 @@ module Irm::DataAccessesHelper
   def available_org_access_level
     [[t(:label_irm_data_access_org_not_set),nil]]+lookup("IRM_DATA_ACCESS_LEVEL")
   end
+  def get_rules(business_object_id)
+    data_share_rules=Irm::DataShareRule.list_all(business_object_id)
 
+  end
 end
