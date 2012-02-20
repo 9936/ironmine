@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <%= render :partial => "irm/common/application_title" %>
+  <% require_css([:default]) %>
+  <%=render_loaded_javascript_css_files%>
+</head>
+<body style="margin: 0;">
+    <div id="contentWrapper">
+        <div id="pageHeader" class="page-header">
+            <table id="phHeader" class="phHeader" cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td class="left">
+                    <%= render :partial => "irm/common/app_top_logo"%>
+                  </td>
+                  <td class="right vtop">
+                    <div class="multiforce">
+                      <div class="messages"></div>
+                      <div>
+                        <%= current_application_menu %>
+                        <span class="navLinks" style="float:right">
+                          <span class="linkElements">
+                            <!--<a style="margin-right:29px;" href="#" onclick="window.open('/helpfiles/index.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');"><% t :help %></a>-->
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <style>
+              .errorMsg {
+                color: #ff1100;
+                font-family:Arial;
+                font-size: 14px;
+                line-height: 16px;
+                text-align: center;
+                padding-top: 20px;
+                padding-bottom: 32px;
+                padding-left: 20px;
+            }
+            </style>
+            <table width=100% border=0 height=80>
+              <tr><td align=left valign=top>
+                <table border=0 cellspacing=0 cellpadding=5 height=80>
+                  <tr>
+                    <td class="errorMsg" valign=top><%= simple_format(t(:label_irm_session_warn)) %></td>
+                  </tr>
+                </table>
+                </td></tr>
+              <tr><td align=center>
+                <input id="continueButton" type=button class="login_button" name="continueButton" value="<%= t(:label_irm_common_continue) %>" onclick="doNotTimeout();">
+                &nbsp;
+                <input id="logoutButton" type=button class="login_button" name="logoutButton" value="<%= t(:label_irm_common_logout) %>" onclick="doLogout()"></td></tr>
+            </table>
+        </div>
+    </div>
+<script>
+  setTimeout(doTimeout, 25*1000);
+  function doTimeout() {
+    if (window.opener.forceLogout) {
+        window.opener.doLogout();
+        window.close();
+    } else {
+        window.resizeTo(1024, 600);
+    	window.location = "/logout";
+    }
+  }
+  function doLogout() {
+    window.location = "/logout";
+    window.opener.location.href = window.opener.location.href
+    window.close();
+  }
+  function doNotTimeout() {
+    window.opener.checkSessionTimeout();
+    window.close();
+  }
+</script>
+</body>
+
+</html>

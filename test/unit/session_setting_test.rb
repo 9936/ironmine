@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SessionTimeTest < ActiveSupport::TestCase
+class SessionSettingTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

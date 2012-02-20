@@ -13,6 +13,7 @@ Irm::AccessControl.map do |map|
                                  "irm/navigations" => ["change_application", "index"],
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/search"=>[:index],
+                                 "irm/session_settings" => ["timeout_warn"],
                                  "irm/portlet_configs" => ["save_portal_config","save_portal_layout"],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
@@ -318,9 +319,9 @@ Irm::AccessControl.map do |map|
   #===================irm/reports#portlet============================
   map.function :report_portlet,{"irm/reports"=>["portlet"]}
 
-  #===================irm/session_timeouts============================
+  #===================irm/session_settings============================
   #["index", "update"]
-  map.function :session_time_out,{"irm/session_timeouts"=>["index","update"]}
+  map.function :session_setting,{"irm/session_settings"=>["index","update"]}
   #===================irm/data_accesses org_data_accesses============================
   #["index", "update"]
   map.function :data_access,{"irm/data_accesses"=>["index","edit","update"],

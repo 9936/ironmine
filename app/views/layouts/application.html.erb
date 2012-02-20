@@ -14,6 +14,7 @@
   <% if content_for?(:page_script) %>
     <%=javascript_tag(yield :page_script)%>
   <% end %>
+  <%= render :partial => "irm/common/app_session_check" %>
   <%= render :partial => "irm/common/address_bar_logo" %>
 </head>
 <body id ="body" class="lay-default yui3-skin-sam yui-skin-sam">

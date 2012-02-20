@@ -217,6 +217,7 @@ zh:
   label_irm_common_forgot_password: 忘记密码？
   label_irm_recently_objects: 最近的项目
   notice_account_locked: 你的帐户已经被锁定,请联系管理员!
+  label_irm_common_continue: 继续工作
   #=========================    end common_controller=======================#
   #=========================    irm menus_controller=======================#  
   label_irm_menu: 菜单
@@ -1675,9 +1676,10 @@ zh:
   #=======================  portal layouts====================
 
   #======================= session times ====================
-  label_irm_session_timeout: 会话设置
+  label_irm_session_setting: 会话设置
   label_irm_session_time_out: 会话超时
   label_irm_session_time_out_value: 超时值
+  label_irm_session_warn: 由于安全原因，您的 Ironmine 会话即将超时。<br><br>您希望作何选择？
   #=======================  portal layouts====================
 
   #=========================    irm data accesses=======================#
