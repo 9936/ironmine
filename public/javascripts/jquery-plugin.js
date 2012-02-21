@@ -1368,10 +1368,10 @@ jQuery.fn.menubutton = function(){
             if(filterBox){
 
                 var selectElement = filterBox.find("select.viewFilter:first");
-                me.data.options.filterOptions = {_view_filter_id:selectElement.val()};
+                me.data.options.filterOptions = {_view_filter_id:selectElement.val()||""};
 
                 selectElement.change(function(event){
-                    me.data.options.filterOptions = {_view_filter_id:$(this).val()};
+                    me.data.options.filterOptions = {_view_filter_id:$(this).val()||""};
                     me.loadPage(1);
                 });
 
