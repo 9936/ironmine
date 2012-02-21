@@ -26,7 +26,7 @@ class Irm::DataShareRulesController < ApplicationController
   def new
     @data_share_rule = Irm::DataShareRule.new
     @data_share_rule[:business_object_id]=params[:business_object_id]
-
+    @business_object=Irm::BusinessObject.multilingual.find(params[:business_object_id])
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @data_share_rule }
@@ -36,13 +36,14 @@ class Irm::DataShareRulesController < ApplicationController
   # GET /irm/data_share_rules/1/edit
   def edit
     @data_share_rule = Irm::DataShareRule.multilingual.find(params[:id])
+    @business_object=Irm::BusinessObject.multilingual.find(@data_share_rule[:business_object_id])
   end
 
   # POST /irm/data_share_rules
   # POST /irm/data_share_rules.xml
   def create
     @data_share_rule = Irm::DataShareRule.new(params[:irm_data_share_rule])
-
+    @business_object=Irm::BusinessObject.multilingual.find(params[:business_object_id])
     respond_to do |format|
       if @data_share_rule.save
         format.html { redirect_to({:controller => "data_accesses",:action => "index"}, :notice => t(:successfully_created)) }
@@ -58,13 +59,13 @@ class Irm::DataShareRulesController < ApplicationController
   # PUT /irm/data_share_rules/1.xml
   def update
     @data_share_rule = Irm::DataShareRule.find(params[:id])
-
+    @business_object=Irm::BusinessObject.multilingual.find(@data_share_rule[:business_object_id])
     respond_to do |format|
       if @data_share_rule.update_attributes(params[:irm_data_share_rule])
         format.html { redirect_to({:controller => "data_accesses",:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render  :action => "edit" }
         format.xml  { render :xml => @data_share_rule.errors, :status => :unprocessable_entity }
       end
     end

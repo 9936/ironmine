@@ -913,11 +913,11 @@ Ironmine::Application.routes.draw do
 
     #data_share_rules
     match '/data_share_rules(/index)(.:format)' => "data_share_rules#index", :via => :get
-    match '/data_share_rules/new(.:format)'      => "data_share_rules#new",   :via => :get
+    match '/data_share_rules/:business_object_id/new(.:format)'      => "data_share_rules#new",   :via => :get
     match '/data_share_rules/get_option(.:format)'  => "data_share_rules#get_option",   :via => :get
     match '/data_share_rules/:id/edit(.:format)' => "data_share_rules#edit", :via => :get
-    match '/data_share_rules/create(.:format)'  => "data_share_rules#create",:via => :post
-    match '/data_share_rules/:id(.:format)'  => "data_share_rules#update",:via => :put
+    match '/data_share_rules/:business_object_id/create(.:format)'  => "data_share_rules#create",:via => :post
+    match '/data_share_rules/:id/update(.:format)'  => "data_share_rules#update",:via => :put
     match '/data_share_rules/:id/show(.:format)'=> "data_share_rules#show",  :via => :get
     match '/data_share_rules/get_data(.:format)' => "data_share_rules#get_data"
     match '/data_share_rules/:id/multilingual_edit(.:format)' => "data_share_rules#multilingual_edit", :via => :get
