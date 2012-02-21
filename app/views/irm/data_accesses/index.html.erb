@@ -66,18 +66,18 @@
           <tbody>
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%=data_access[:business_object_name]+t(:label_irm_data_share_rule)  %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to(t(:new),{:controller => "irm/data_share_rules",:action=>"new",:business_object_id=>data_access[:business_object_id]},:back=>true) %></div>
+              <td   class="pbButton">
+                <div class="button"><%= link_to(t(:new),{:controller => "irm/data_share_rules",:action=>"new",:business_object_id=>data_access[:business_object_id],:business_object_name=>data_access[:business_object_name]},:back=>true) %></div>
               </td>
               <td class="pbHelp">
-                <div id="data_accessesSearchBox"></div>
+                <div  ></div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="pbBody">
-        <div id="data_accesses" class="datatable" style="width:100%">
+        <div   class="datatable" style="width:100%">
             <!--  irm datatable      -->
             <div class="irm-datatable">
               <div>
@@ -109,7 +109,7 @@
                     <tr id="<%=rule[:id]%>">
                       <td>
                         <div>
-                           <%= link_to(t(:edit),{:controller => "irm/data_share_rules",:action=>"edit",:id=>"#{rule[:id]}"}) %>|<%= link_to(t(:delete),{:controller => "irm/data_share_rules",:action=>"destroy",:id=>"#{rule[:id]}"},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+                           <%= link_to(t(:edit),{:controller => "irm/data_share_rules",:action=>"edit",:id=>"#{rule[:id]}",:business_object_name=>data_access[:business_object_name]}) %>|<%= link_to(t(:delete),{:controller => "irm/data_share_rules",:action=>"destroy",:id=>"#{rule[:id]}"},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
                         </div>
                       </td>
                       <td>

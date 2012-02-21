@@ -1,18 +1,9 @@
 <style type="text/css">
-.requiredInput1 {
-    display: inline-block;
-    height: 100%;
-    position: relative;
+.requiredInput {
+   width: auto;
 
 }
-.requiredInput1 .requiredBlock1 {
-    background-color: #CC0000;
-    bottom: 1px;
-    left: -4px;
-    position: absolute;
-    top: 1px;
-    width: 3px;
-}
+
 </style>
 <%= form_for(@data_share_rule,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="edit-block page-block">
@@ -73,9 +64,8 @@
             <tr>
               <td class="labelCol"><label for="code"><%=t(:label_irm_data_share_rule_belong_to)%></label></td>
               <td class="dataCol"><div id="step2" class="floatLeft  float-left"  >
-              <div class="requiredInput1">
-                     <div class="requiredBlock1"></div>
-           <%=f.select :source_type,available_types,{},{:id=>"source_type",:name=>"irm_data_share_rule[source_type]"}%>
+
+           <%=f.select :source_type,available_types,{},{:required=>true,:id=>"source_type"}%>
            <%=f.select :source_id,     [],
                                          {},
                                             {
@@ -85,7 +75,7 @@
                                              :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                              :href=>url_for(:controller=>"irm/data_share_rules",:action=>"get_option",:format=>"json",
                                                             :subject_type=>"${source_type}")}%>
-                </div>
+
         </div></td>
               <td class="labelCol empty">
                 </td>
@@ -108,9 +98,8 @@
         <tr>
                      <td class="labelCol"><label for="code"><%=t(:label_irm_data_share_rule_share_with)%></label></td>
                      <td class="dataCol"><div class="floatLeft  float-left" id="step3">
-                     <div class="requiredInput1">
-                     <div class="requiredBlock1"></div>
-                  <%=f.select :target_type,available_types,{},{ :id=>"target_type",:name=>"irm_data_share_rule[target_type]"}%>
+
+                  <%=f.select :target_type,available_types,{},{:required=>true, :id=>"target_type"}%>
                   <%=f.select :target_id,     [],
                                                 {},
                                                    {:id=>"target_id" ,
@@ -119,7 +108,7 @@
                                                     :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                                     :href=>url_for(:controller=>"irm/data_share_rules",:action=>"get_option",:format=>"json",
                                                                    :subject_type=>"${target_type}")}%>
-                       </div>
+
                        </div></td>
                      <td class="labelCol empty"></td>
                      <td class="dataCol empty">&nbsp;</td>

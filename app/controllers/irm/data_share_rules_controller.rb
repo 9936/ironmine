@@ -26,6 +26,7 @@ class Irm::DataShareRulesController < ApplicationController
   def new
     @data_share_rule = Irm::DataShareRule.new
     @data_share_rule[:business_object_id]=params[:business_object_id]
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @data_share_rule }
