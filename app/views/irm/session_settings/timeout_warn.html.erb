@@ -59,6 +59,7 @@
     </div>
 <script>
   setTimeout(doTimeout, 25*1000);
+  window.onunload=doLogout;
   function doTimeout() {
     if (window.opener.forceLogout) {
         window.opener.doLogout();
@@ -69,7 +70,6 @@
     }
   }
   function doLogout() {
-
     window.opener.location.href = "/logout";
     window.close();
   }
@@ -77,6 +77,10 @@
     window.opener.checkSessionTimeout();
     window.close();
   }
+
+
+
+
 </script>
 </body>
 
