@@ -1,0 +1,159 @@
+<style type="text/css">
+  .table_icon {
+      display: inline;
+  }
+  .table_icon td {
+      border: 0 !important;
+  }
+  .table_icon span {
+      float: left !important;
+  }
+  .table_icon .expand {
+      width: 80px;
+      display: block;
+  }
+  .name {
+      display: none;
+      padding: 3px;
+
+  }
+  .header_name {
+      padding: 2px 3px !important;
+  }
+  .expand .name {
+      display: block !important;
+  }
+  td.vt {
+    vertical-align: top;
+    padding: 4px 6px 4px 7px;
+    border-left: 1px solid #f6f6f6;
+    white-space: normal;
+  }
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".expand_icon").bind('click', function(){
+            var parent_table = $(this).parent();
+            parent_table.find(".collapse_icon").show();
+            $(this).hide();
+            parent_table.parent().parent().find(".expends").find("span").each(function(){
+                $(this).addClass("expand");
+            });
+        });
+
+        $(".collapse_icon").bind('click', function(){
+            var parent_table = $(this).parent();
+            parent_table.find(".expand_icon").show();
+            $(this).hide();
+            parent_table.parent().parent().find(".expends").find("span").each(function(){
+                $(this).removeClass("expand");
+            });
+        });
+    });
+</script>
+<!--  icm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>">
+         <thead>
+           <tr>
+             <th style="width:40px">
+               <div><%= t(:label_chm_change_request_request_number) %></div>
+             </th>
+             <th style="width:200px;">
+               <div><%= t(:label_chm_change_request_title) %></div>
+             </th>
+             <th style="width:110px;">
+               <div><%= t(:label_chm_change_request_stage) %></div>
+             </th>
+             <th style="width: 120px;">
+               <div><%= t(:label_chm_change_request_incident) %></div>
+             </th>
+             <th style="width: 80px;">
+               <div><%= t(:label_chm_change_request_plan) %></div>
+             </th>
+             <th style="width:150px;">
+               <div><%= t(:label_chm_change_request_implement) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_chm_change_request_organization) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_chm_change_request_change_priority) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_chm_change_request_requested_by) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_chm_change_request_submitted_date) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_chm_change_request_external_system) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% @datas.each do |data| %>
+         <tr id="<%=data[:id]%>">
+           <td>
+             <div><%= data.request_number %></div>
+           </td>
+           <td>
+             <div><%= link_to(data.title, {:controller => 'chm/change_requests', :action => 'show', :id => data.id}) %></div>
+           </td>
+           <!-- 状态 -->
+           <td class="vt">
+              <table class="table_icon">
+                <tr>
+                   <td>
+                     <span>
+                       <a class="expand_icon" href="javascript:void(0);"><img src="/images/filter_hide.gifx"></a>
+                       <a class="collapse_icon" style="display: none" href="javascript:void(0);"><img src="/images/filter_reveal.gifx"></a>
+                     </span>
+                   </td>
+                   <td class="expends"><%= build_stage_collapse(data.change_status_id) %></td>
+                </tr>
+              </table>
+           </td>
+           <!-- 关联的事故单 -->
+           <td class="vt">
+             <table class="table_icon">
+                <tr>
+                   <%= change_incident_show(data.id) %>
+                </tr>
+             </table>
+           </td>
+           <td class="vt">
+             <table class="table_icon">
+                <tr>
+                   <%= change_pan_show(data) %>
+                </tr>
+             </table>
+           </td>
+           <td class="vt">
+             <table class="table_icon">
+                <tr><%= change_request_tasks(data.id) %></tr>
+             </table>
+           </td>
+           <td>
+             <div><%= data.organization_id_label %></div>
+           </td>
+           <td>
+             <div><%= data.change_priority_id_label %></div>
+           </td>
+           <td>
+             <div><%= data.requested_by_label %></div>
+           </td>
+           <td>
+             <div><%= data.submitted_date %></div>
+           </td>
+           <td>
+             <div><%= data.external_system_id_label %></div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end icm datatable      -->

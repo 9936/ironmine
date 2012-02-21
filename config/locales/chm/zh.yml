@@ -62,6 +62,10 @@
   label_chm_change_request_category: 分类
   label_chm_change_request_sub_category: 子分类
   label_chm_change_request_title: 主题
+  label_chm_change_request_stage: 状态
+  label_chm_change_request_incident: 关联的事故单
+  label_chm_change_request_plan: 变更计划
+  label_chm_change_request_implement: 实施任务
   label_chm_change_request_summary: 描述
   label_chm_change_request_base_info: 变更单基础信息
   label_chm_change_request_additional_info: 变更单附加信息

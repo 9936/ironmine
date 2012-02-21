@@ -22,16 +22,21 @@
                 </div>
               </div>
               <%= datatable("requests",{:action=>"get_data",:format=>"json"},
-                                    [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
+                                    [{ :key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
                                      { :key => "request_number", :label => t(:label_chm_change_request_request_number),:searchable=>true,:width=>"35px"},
                                      { :key => "title",:formatter=>"Y.irm.template",:label => t(:label_chm_change_request_title),:searchable=>true },
+                                     { :key => "stage", :label => t(:label_chm_change_request_stage)},
+                                     { :key => "incidents", :label => t(:label_chm_change_request_incident)},
+                                     { :key => "plans", :label => t(:label_chm_change_request_plan)},
+                                     { :key => "implements", :label => t(:label_chm_change_request_implement)},
                                      { :key => "organization_id_label", :label => t(:label_chm_change_request_organization)},
                                      { :key => "change_priority_id_label", :label => t(:label_chm_change_request_change_priority),:width=>"50px" },
                                      { :key => "change_status_id_label",:hidden=>true },
                                      { :key => "requested_by_label", :label => t(:label_chm_change_request_requested_by),:width=>"120px" },
                                      { :key => "submitted_date", :label => t(:label_chm_change_request_submitted_date),:width=>"130px" },
                                      { :key => "external_system_id_label", :label => t(:label_chm_change_request_external_system),:width=>"180px" }
-                                     ],{:export_data=>"#requestsExport",:row_perpage=>10,:search_box=>"requestsSearchBox",:paginator_box=>'requestsPaginatorBox',:view_filter=>true})%>
+                                     ].compact,
+                                    {:force_html=>true,:export_data=>"#requestsExport",:row_perpage=>10,:search_box=>"requestsSearchBox",:paginator_box=>'requestsPaginatorBox',:view_filter=>true})%>
               <div id="requestsPaginatorBox" class="irm-paginator-box"></div>
             <% end %>
         <% end %>
