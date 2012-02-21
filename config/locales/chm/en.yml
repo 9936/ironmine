@@ -6,6 +6,7 @@ en:
   label_chm_change_status_edit: 编辑变更状态
   label_chm_change_status_code: 编码
   label_chm_change_status_name: 名称
+  label_chm_change_request_stage: Stage
   label_chm_change_status_description: 描述
   label_chm_change_status_display_sequecne: 显示顺序
   label_chm_change_status_default_flag: 默认
