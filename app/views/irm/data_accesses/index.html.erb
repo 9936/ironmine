@@ -25,11 +25,14 @@
                   <table count="<%=@data_accesses.length%>">
                     <thead>
                       <tr>
-                        <th style="width:150px;">
+                        <th style="width:250px;">
                           <div><%= t(:label_irm_data_access_business_object) %></div>
                         </th>
-                        <th>
+                        <th  style="width:250px;">
                           <div><%= t(:label_irm_data_access_access_level) %></div>
+                        </th>
+                        <th>
+                          <div><%= t(:label_irm_data_access_hierarchy_access_flag) %></div>
                         </th>
                       </tr>
                     </thead>
@@ -44,6 +47,11 @@
                       <td>
                         <div>
                           <%= data_access[:access_level_name] %>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <%= check_img(data_access[:hierarchy_access_flag]) %>
                         </div>
                       </td>
                     </tr>

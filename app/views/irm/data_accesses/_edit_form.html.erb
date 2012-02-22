@@ -22,11 +22,14 @@
                 <table count="<%=@data_accesses.length%>">
                   <thead>
                     <tr>
-                      <th style="width:150px;">
+                      <th style="width:250px;">
                         <div><%= t(:label_irm_data_access_business_object) %></div>
                       </th>
-                      <th>
+                      <th  style="width:250px;">
                         <div><%= t(:label_irm_data_access_access_level) %></div>
+                      </th>
+                      <th>
+                        <div><%= t(:label_irm_data_access_hierarchy_access_flag) %></div>
                       </th>
                     </tr>
                   </thead>
@@ -41,6 +44,12 @@
                     <td>
                       <div>
                         <%= select_tag_alias("access_levels[#{data_access[:business_object_id]}]",available_access_level,data_access[:access_level]) %>
+                      </div>
+                    </td>
+                    <td>
+                      <div>
+                        <%= hidden_field_tag("hierarchy_accesses[#{data_access[:business_object_id]}]",Irm::Constant::SYS_NO) %>
+                        <%= check_box_tag("hierarchy_accesses[#{data_access[:business_object_id]}]","Y",Irm::Constant::SYS_YES.eql?(data_access[:hierarchy_access_flag])) %>
                       </div>
                     </td>
                   </tr>
