@@ -59,6 +59,11 @@
     </div>
 <script>
   setTimeout(doTimeout, 25*1000);
+  var continue_work=false;
+  window.onunload=function(){
+      if (continue_work==false)
+         doLogout();
+  };
   function doTimeout() {
     if (window.opener.forceLogout) {
         window.opener.doLogout();
@@ -69,14 +74,18 @@
     }
   }
   function doLogout() {
-    window.location = "/logout";
-    window.opener.location.href = window.opener.location.href
+    window.opener.location.href = "/logout";
     window.close();
   }
   function doNotTimeout() {
+    continue_work=true;
     window.opener.checkSessionTimeout();
     window.close();
   }
+
+
+
+
 </script>
 </body>
 
