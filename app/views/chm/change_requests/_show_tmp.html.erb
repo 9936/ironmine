@@ -2,6 +2,9 @@
   .hidden {
       display:none;
   }
+  #nav li.currentTab {
+      margin: 0 4px -1px 6px;
+  }
 </style>
 <%= page("showRequest") do |p| %>
     <%= p.page_header(:title_options=>{:action_meaning=>"(#{@change_request[:change_status_name]})[#{@change_request[:request_number]}]#{@change_request[:title]}"}) %>
