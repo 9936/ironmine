@@ -251,10 +251,8 @@ class Chm::ChangeRequestsController < ApplicationController
       change_requests_scope.order("change_priority_table_alias.weight_values,#{bo.bo_table_name}.submitted_date DESC")
     end
 
-
     change_requests_scope = change_requests_scope.match_value("#{bo.bo_table_name}.request_number",params[:request_number])
     change_requests_scope = change_requests_scope.match_value("#{bo.bo_table_name}.title",params[:title])
-
 
     respond_to do |format|
       format.json {
@@ -298,7 +296,5 @@ class Chm::ChangeRequestsController < ApplicationController
                                                :data=>value[:file],
                                                :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
     end if params[:files]
-
   end
-
 end
