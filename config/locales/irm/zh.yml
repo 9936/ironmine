@@ -1694,6 +1694,7 @@ zh:
   label_irm_data_access_org_access_level: 组织层
   label_irm_data_access_opu_access_level: 运维中心层
   label_irm_data_access_org: 组织层访问权限
+  label_irm_data_access_hierarchy_access_flag: 使用组织层次访问权限
   #=========================end irm data accesses=======================#
 
   #=========================    irm data share rules=======================#

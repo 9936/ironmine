@@ -30,7 +30,7 @@ class Irm::DataAccess < ActiveRecord::Base
         select("#{Irm::BusinessObject.table_name}.id business_object_id,#{table_name}.id access_id")
 
     access_objects.select{|i| i.access_id.nil? }.each do |ao|
-      self.create(:business_object_id=>ao[:business_object_id],:access_level=>"PUBLIC_READ_WRITE")
+      self.create(:business_object_id=>ao[:business_object_id],:access_level=>2)
     end
   end
 

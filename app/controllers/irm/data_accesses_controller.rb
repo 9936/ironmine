@@ -60,13 +60,14 @@ class Irm::DataAccessesController < ApplicationController
   # PUT /data_accesses/1.xml
   def update
     access_levels = params[:access_levels]
+    hierarchy_accesses = params[:hierarchy_accesses]
     all_data_accesses =    {}
     Irm::DataAccess.opu_data_access.each do |data_access|
       all_data_accesses[data_access.business_object_id] =  data_access
     end
     access_levels.each do |business_object_id,access_level|
       if all_data_accesses[business_object_id]
-        all_data_accesses[business_object_id].update_attribute(:access_level,access_level)
+        all_data_accesses[business_object_id].update_attributes(:access_level=>access_level,:hierarchy_access_flag=>hierarchy_accesses[business_object_id])
       end
     end
 
