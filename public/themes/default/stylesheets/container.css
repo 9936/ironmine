@@ -552,7 +552,7 @@ body .aloneTab .miniTabList{
     border-bottom: 1px solid #CECECE;
 }
 body .aloneTab li {
-    margin-left: 3px !important;
+    margin-left: 2px !important;
 }
 body .aloneTab li.currentTab  {
     margin-left: -1px !important;
