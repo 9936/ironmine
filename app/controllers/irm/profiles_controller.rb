@@ -13,7 +13,7 @@ class Irm::ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.xml
   def show
-    @profile = Irm::Profile.multilingual.with_kanban.find(params[:id])
+    @profile = Irm::Profile.multilingual.with_kanban.with_user_license_name.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
