@@ -111,6 +111,9 @@ Paperclip::Attachment.default_options[:path] = ":rails_root/public/upload/:class
 # format xml
 ActiveRecord::XmlSerializer::Attribute.send(:include,Irm::XmlAttribute)
 
+# 修改session_store
+ActiveRecord::SessionStore.send(:include,Irm::SessionStore)
+
 Ironmine::Acts::Searchable.searchable_entity = {Icm::IncidentRequest.name=>"view_incident_request",
                                                  Csi::Survey.name=>"view_survey",
                                                  Skm::EntryHeader.name=>"view_skm_entries",
