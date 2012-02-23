@@ -25,6 +25,7 @@
      position: absolute;
      width: 618px;
      height: 200px;
+     border: solid 1px #AAAAAA;
   }
 </style>
 <%= setting_title %>
@@ -175,20 +176,42 @@
       var languages = [];
       var currentLanguage = Ext.get("templateBody").dom.getAttribute("current");
       var currentIndex = 0;
-      var currentEditor, htmlMode;
+      var currentEditor;
+      var editors = new Array();
+
+      var htmlMode = require("ace/mode/html").Mode;
+      var plainMode = require("ace/mode/text").Mode;
+      var currentMode = $("input[name='irm_mail_template[template_type]'][checked]").val();
       Ext.each(Ext.query("#templateBody ul li a.language"),function(e){
          languages.push({contentEl:e.getAttribute("ref"),title:e.innerHTML,ref:e.id});
       });
       for(var i=0;i<languages.length;i++) {
           var editor= ace.edit("editor"+languages[i].ref);
-          htmlMode = require("ace/mode/html").Mode;
-          editor.getSession().setMode(new htmlMode());
+          if(currentMode && currentMode == 'simple') {
+            editor.getSession().setMode(new plainMode());
+          }else {
+            editor.getSession().setMode(new htmlMode());
+          }
           editor.getSession().setValue($("#mail_body_value"+languages[i].ref).val());
+          editors.push(editor);
           if(languages[i].ref == currentLanguage) {
              currentIndex = i;
              currentEditor = editor;
           }
       }
+
+      //点击切换模式函数处理
+      $("[name='irm_mail_template[template_type]']:radio"). bind("click",function(){
+          if ($(this).val() && $(this).val() == 'simple') {
+             for(var i=0;i<languages.length;i++) {
+                editors[i].getSession().setMode(new plainMode());
+             }
+          }else{
+             for(var i=0;i<languages.length;i++) {
+                editors[i].getSession().setMode(new htmlMode());
+             }
+          }
+      });
 
       var languageTabs = Ext.createWidget('tabpanel', {
           renderTo: 'showTab',
