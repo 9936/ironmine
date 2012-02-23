@@ -5,7 +5,9 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   acts_as_searchable
 
+
   validates_presence_of :entry_title, :channel_id
+  validates :entry_title, :uniqueness => true
 
   belongs_to :channel
 
