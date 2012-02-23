@@ -499,6 +499,7 @@ body .wizard-block .pbBody .pbSubheader h3, body .wizard-block .bPageBlock .pbBo
     width:30%;
 }
 .wizard-block .pbWizardBody {padding-bottom: 10px;}
+.pbSubsection .searchSKMText {padding:5px 0 5px 9px;}
 /*****************************************************/
 /*setting page*/
 .setupTab .mComponent .cHeader, .setupTab .sub-block, .setupTab .page-block {border-top:3px solid #747E96;}
