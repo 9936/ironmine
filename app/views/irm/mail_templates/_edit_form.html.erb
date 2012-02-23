@@ -193,21 +193,25 @@
             editor.getSession().setMode(new htmlMode());
           }
           editor.getSession().setValue($("#mail_body_value"+languages[i].ref).val());
-          editors.push(editor);
           if(languages[i].ref == currentLanguage) {
              currentIndex = i;
              currentEditor = editor;
           }
+          editors.push(editor);
       }
 
       //点击切换模式函数处理
-      $("[name='irm_mail_template[template_type]']:radio"). bind("click",function(){
+      $("[name='irm_mail_template[template_type]']:radio").bind("click",function(){
           if ($(this).val() && $(this).val() == 'simple') {
-             for(var i=0;i<languages.length;i++) {
+             for(var i=0;i<editors.length;i++) {
+                editors[i] = ace.edit("editor"+languages[i].ref);
+                editors[i].getSession().setValue($("#mail_body_value"+languages[i].ref).val());
                 editors[i].getSession().setMode(new plainMode());
              }
           }else{
-             for(var i=0;i<languages.length;i++) {
+             for(var i=0;i<editors.length;i++) {
+                editors[i] = ace.edit("editor"+languages[i].ref);
+                editors[i].getSession().setValue($("#mail_body_value"+languages[i].ref).val());
                 editors[i].getSession().setMode(new htmlMode());
              }
           }
@@ -236,8 +240,7 @@
           if(target.val()&&target.val()!=""){
             var option = target.find("option[value="+target.val()+"]:first");
             $("#parameter_field_key").val("{{"+option.attr("business_object_code").toLowerCase()+"."+target.val()+"}}")
-          }
-          else
+          }else
             $("#parameter_field_key").val("");
       });
   });
