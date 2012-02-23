@@ -551,6 +551,19 @@ body .miniTab .miniTabList{
 body .aloneTab .miniTabList{
     border-bottom: 1px solid #CECECE;
 }
+body .aloneTab li {
+    margin-left: 2px !important;
+}
+body .aloneTab li.currentTab  {
+    margin-left: -1px !important;
+}
+
+body .aloneTab ul li:first-child {
+    margin-left: 6px !important;
+}
+body .aloneTab ul li:first-child.currentTab {
+    margin-left: 3px !important;
+}
 
 body .miniTab .miniTabList li{
     background-attachment: scroll;
@@ -571,7 +584,7 @@ body .miniTab .miniTabList li.currentTab {
     background-position: left 0 !important;
     border-bottom: 1px solid transparent;
     height: 27px;
-    margin: 0 0 -1px 2px;
+    margin: 0 1px -1px 3px;
 }
 
 body .miniTab .miniTabList .currentTab > span, body .miniTab .miniTabList .currentTab > a {
