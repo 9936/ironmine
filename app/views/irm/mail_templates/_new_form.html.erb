@@ -25,6 +25,7 @@
     position: absolute;
     width: 780px;
     height: 200px;
+    border: solid 1px #AAAAAA;
  }
 </style>
 <%= setting_title %>
@@ -142,12 +143,21 @@
   window.onload = function() {
     var editor = ace.edit("editor");
     var htmlMode = require("ace/mode/html").Mode;
+    var plainMode = require("ace/mode/text").Mode;
     editor.getSession().setMode(new htmlMode());
     editor.getSession().setValue($("#mail_body_value").val());
     //提交表单之前将编辑器中的内容保存到隐藏表单中
     $("#mail_template").submit(function(){
         $(this).find("#mail_body_value").val(editor.getSession().getValue());
         this.submit();
+    });
+    //点击切换模式函数处理
+    $("[name='irm_mail_template[template_type]']:radio"). bind("click",function(){
+        if ($(this).val() && $(this).val() == 'simple') {
+           editor.getSession().setMode(new plainMode());
+        }else{
+           editor.getSession().setMode(new htmlMode());
+        }
     });
   };
   $(function(){
