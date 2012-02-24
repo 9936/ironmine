@@ -24,12 +24,12 @@
           </div>
         </div>
         <%= datatable("lookup_type",{:controller=>"irm/lookup_types",:action=>"get_lookup_types",:format=>"json"},
-                  [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"60px"},
-                   {:key=>"lookup_level",:label=>t(:label_lookup_level),:width=>"60px"},
+                  [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"70px"},
+                   {:key=>"lookup_level",:label=>t(:label_lookup_level),:width=>"80px"},
                    {:key=>"lookup_type",:label=>t(:label_lookup_types_code),:searchable=>true,:width=>"250px"},
                    {:key=>"meaning",:label=>t(:label_meaning),:searchable=>true,:width=>"180px"},
                    {:key=>"description",:label=>t(:label_description)},
-                   {:key=>"status_meaning",:label=>t(:label_status_code),:width=>"50px"}],
+                   {:key=>"status_meaning",:label=>t(:label_status_code),:width=>"65px"}],
                    {:search_box=>"permissionsSearchBox",:paginator_box=>"lookupTypePaginator"})%>
         <div id="lookupTypePaginator"></div>
       </div>

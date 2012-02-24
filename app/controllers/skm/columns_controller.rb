@@ -58,7 +58,7 @@ class Skm::ColumnsController < ApplicationController
   def get_columns_data
     tree_nodes = []
     column_ids = Skm::Column.current_person_accessible_columns if params[:access]
-    @skm_columns = Skm::Column.multilingual.where("LENGTH(parent_column_id) = 0")
+    @skm_columns = Skm::Column.multilingual.where("parent_column_id IS NULL OR LENGTH(parent_column_id) = 0")
     @skm_columns.each do |sc|
       is_leaf = sc.is_leaf?
       display = params[:access] ? column_ids.include?(sc.id) : true
