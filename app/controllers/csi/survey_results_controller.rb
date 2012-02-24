@@ -1,10 +1,16 @@
 class Csi::SurveyResultsController < ApplicationController
   def statistics
     @survey = Csi::Survey.find(params[:id])
+    respond_to do |format|
+      format.html {render :layout => "application_full"}
+    end
   end
 
   def list
     @survey = Csi::Survey.find(params[:id])
+    respond_to do |format|
+      format.html {render :layout => "application_full"}
+    end
   end
 
   def get_data
@@ -24,6 +30,9 @@ class Csi::SurveyResultsController < ApplicationController
 
   def show_response
     @survey_response = Csi::SurveyResponse.find(params[:id])
+    respond_to do |format|
+      format.html {render :layout => "application_full"}
+    end
   end
 
 end

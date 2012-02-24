@@ -7,7 +7,7 @@ class Csi::SurveyResponsesController < ApplicationController
         if @survey && @survey.password.present? &&(!session[:survey_token].present?||session[:survey_token] != params[:survey_token])
           format.html {redirect_with_back(:action=>"fill_password",:survey_member_id=>@survey_member.id)}
         else
-          format.html
+          format.html {render :layout => "application_full"}
         end
     end
 

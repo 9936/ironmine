@@ -1,9 +1,10 @@
 <%= setting_title %>
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
 <%= form_for(@lookup_value,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
-<%= hidden_field_tag :lookup_type,@lookup_type %>
 <%= hidden_field_tag :return_url,@return_url %>
 <%= hidden_field_tag :_from,@_from %>
-<%=f.hidden_field :lookup_type,:value=>@lookup_type%> 
+<%=f.hidden_field :lookup_type %>
 <div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -37,23 +38,30 @@
             <tr>
               <td class="labelCol"><label><%=(t :label_lookup_code)%></label></td>
               <td class="dataCol"><%=@lookup_value.lookup_code%></td>
-              <td class="labelCol"><label><%=(t :label_start_date_active)%></label></td>
-              <td class="dataCol"><%=f.text_field :start_date_active,:required=>true,:id=>"date1",:size=>18%>
-              </td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_meaning)%></label></td>
               <td class="dataCol"><%=f.text_field :meaning,:required=>true,:value=>@lookup_value[:meaning]%></td>
-              <td class="labelCol"><label><%=(t :label_end_date_active)%></label></td>
-              <td class="dataCol"><%=f.text_field :end_date_active,:id=>"date2",:size=>18%>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="date1"><%=(t :label_start_date_active)%></label></td>
+              <td class="dataCol">
+                <%=f.text_field(:start_date_active,:required=>true,:id=>"date1",:size=>18,:class=>"date",:nobutton=>true)%>
+              </td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label for="date2"><%=(t :label_end_date_active)%></label></td>
+              <td class="dataCol">
+                <%=f.text_field(:end_date_active,:id=>"date2",:size=>18,:class=>"date",:nobutton=>true) %>
               </td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_description)%></label></td>
               <td class="dataCol"><%=f.text_area :description,:rows=>4,:value=>@lookup_value[:meaning]%></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label><%=(t :label_status_code)%></label></td>
-              <td class="dataCol"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning)%>
-              </td>              
+              <td class="dataCol"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning)%></td>
             </tr>
         </tbody>
       </table>
@@ -78,6 +86,4 @@
   </div>
 </div>
 <% end %>
-<%= calendar_view("date1","date1","cal1")%>
-<%= calendar_view("date2","date2","cal2")%>
 

@@ -47,6 +47,8 @@ zh:
    label_csi_survey_subject_result: 结果
    label_csi_survey_cannot_enable_none_subject: 不能启用没有任何题目的调查问卷
    label_csi_survey_validate_password: 验证问卷密码
+   label_csi_survey_closed_datetime: 关闭时间
+   label_csi_survey_response_list: 调查问卷填写列表
    #========================= end   csi surveys_controller=======================#
    #========================= start csi survey_subjects_controller=======================#
    label_csi_survey_subject: 题目
