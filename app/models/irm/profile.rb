@@ -24,6 +24,11 @@ class Irm::Profile < ActiveRecord::Base
         joins("LEFT OUTER JOIN #{Irm::Kanban.view_name} kb ON pk.kanban_id = kb.id AND kb.position_code='INCIDENT_REQUEST_PAGE' AND kb.language='#{I18n.locale}'").
         select("kb.name kanban_name, kb.id kanban_id")
   }
+  scope :with_user_license_name,lambda{
+     joins(",irm_lookup_values_vl v1").
+         where("v1.lookup_type='IRM_PROFILE_USER_LICENSE' AND v1.lookup_code = #{table_name}.user_license AND v1.language = ?",I18n.locale).
+         select("v1.meaning user_license_name")
+  }
 
   def to_s
     Irm::Profile.multilingual.where(:id=>self.id).first[:name]
