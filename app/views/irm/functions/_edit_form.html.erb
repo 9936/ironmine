@@ -33,14 +33,14 @@
         <tbody>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_function_group_code)%></label></td>
-              <td class="dataCol"><%=f.select :group_code,nullable_options_for_select(available_function_group,@function.group_code),
+              <td class="dataCol"><%=f.select :function_group_id,nullable_options_for_select(available_function_group,@function.function_group_id),
                                                     {},{:id=>"incident_request_support_person_id"}%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_function_function_code)%></label></td>
-              <td class="dataCol"><div><%= @function.function_code%></div></td>
+              <td class="dataCol"><div><%= @function.code%></div></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
