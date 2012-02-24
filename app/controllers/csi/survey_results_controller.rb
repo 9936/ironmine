@@ -1,6 +1,9 @@
 class Csi::SurveyResultsController < ApplicationController
   def statistics
     @survey = Csi::Survey.find(params[:id])
+    respond_to do |format|
+      format.html {render :layout => "application_full"}
+    end
   end
 
   def list
