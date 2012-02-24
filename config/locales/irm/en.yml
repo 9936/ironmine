@@ -269,6 +269,9 @@ en:
   icm_rule_settinglabel_irm_permission_product_name: Product
   label_irm_permission_page_controller: Controller
   label_irm_permission_page_action: Action
+  label_irm_permission_param_count: Parameter Count
+  label_irm_permission_direct_get_flag: GET Method
+  label_irm_permission_function_name: Function Name
   label_irm_permission_status_code: Status
   label_irm_permission_list: Permissions List
   label_irm_permission_product_name: Product
