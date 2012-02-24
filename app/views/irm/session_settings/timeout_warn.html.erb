@@ -58,34 +58,24 @@
         </div>
     </div>
 <script>
-  setTimeout(doTimeout, 25*1000);
-  var continue_work=false;
+  setTimeout(doLogout, 25*1000);
+  var continue_flag= true; //默认将继续工作
   window.onunload=function(){
-      if (continue_work==false)
-         doLogout();
+      if(continue_flag != null && continue_flag) {
+          window.opener.checkSessionTimeout();
+      }else if(continue_flag == false) {
+          window.opener.doLogout();
+      }
+      return;
   };
-  function doTimeout() {
-    if (window.opener.forceLogout) {
-        window.opener.doLogout();
-        window.close();
-    } else {
-        window.resizeTo(1024, 600);
-    	window.location = "/logout";
-    }
-  }
   function doLogout() {
-    window.opener.location.href = "/logout";
+    continue_flag = false;
     window.close();
   }
   function doNotTimeout() {
-    continue_work=true;
-    window.opener.checkSessionTimeout();
+    continue_flag = true;
     window.close();
   }
-
-
-
-
 </script>
 </body>
 
