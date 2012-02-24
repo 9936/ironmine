@@ -69,6 +69,7 @@ class Irm::PermissionsController < ApplicationController
     permissions_scope = permissions_scope.match_value("#{Irm::Permission.table_name}.controller",params[:p_controller])
     permissions_scope = permissions_scope.match_value("#{Irm::Permission.table_name}.action",params[:p_action])
     permissions_scope = permissions_scope.match_value("irm_functions_vl.name",params[:function_name])
+    permissions_scope = permissions_scope.match_value("irm_functions_vl.id",params[:function_id])
 
     permissions,count = paginate(permissions_scope)
     respond_to do |format|
