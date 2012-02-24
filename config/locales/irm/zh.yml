@@ -57,6 +57,7 @@ zh:
   edit_icon: 修改图标
   error: 错误
   error_invalid_data: 错误：无效数据。
+  error_value_existed: 错误：该值已存在。
   check_error_msg_and_fix: 请审查下列所有错误消息以纠正数据。
   operation: 操作
   content: 内容
@@ -231,11 +232,12 @@ zh:
   label_irm_menu_description: 描述
   label_irm_menu_icon: 图标
   
-  label_irm_menu_entry_name: 提示 
+  label_irm_menu_entry_name: 子菜单项名称
   label_irm_menu_entry_list: 子菜单项列表
   label_irm_menu_entry_new: 创建子菜单项
   label_irm_menu_entry_edit: 编辑子菜单项
   label_irm_menu_entry_sub_menu: 子菜单
+  label_irm_menu_entry_sub_menu_name: 子菜单名称
   label_irm_menu_entry_page_controller: 页面Controller
   label_irm_menu_entry_page_action: 页面Action
   label_irm_menu_entry_display_sequence: 显示顺序
@@ -244,7 +246,11 @@ zh:
   label_irm_menu_entry_description: 描述
   label_irm_menu_entry_add: 添加子菜单项
   error_irm_menu_entry_permission_sub_menu_at_least_one: 子菜单和页面至少输入一项
+  error_irm_menu_entry_sub_menu_sub_group_must_only_one: 子菜单和子功能组必须且只能选择一项
   label_irm_menu_entry_icon: 图标
+  label_irm_menu_entry_sub_function_group:  子功能组
+  label_irm_menu_entry_sub_function_group_code: 子功能组编码
+  label_irm_menu_entry_sub_function_group_name: 子功能组名称
   label_irm_menu_entry_css_name: 样式名称
   label_irm_menu_entry: 菜单项
   #=========================    end menus_controller=======================#
@@ -259,6 +265,9 @@ zh:
   icm_rule_settinglabel_irm_permission_product_name: 模块
   label_irm_permission_page_controller: Controller
   label_irm_permission_page_action: Action
+  label_irm_permission_param_count: 参数数量
+  label_irm_permission_direct_get_flag: GET方法
+  label_irm_permission_function_name: 功能名称
   label_irm_permission_status_code: 状态
   label_irm_permission_list: 权限列表
   label_irm_permission_product_name: 所属模块

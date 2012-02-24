@@ -32,22 +32,22 @@
         <tbody>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_permission_permission_code)%></label></td>
-              <td class="dataCol"><%=f.text_field :permission_code, :required=>true,:irm_uppercase=>true%></td>
-              <td class="labelCol"><label><%=(t :label_irm_permission_page_controller)%></label></td>
-              <td class="dataCol"><%=f.text_field :page_controller, :required=>true%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_permission_name)%></label></td>
-              <td class="dataCol"><%=f.text_field :name, :required=>true%></td>
-              <td class="labelCol"><%=(t :label_irm_permission_page_action)%></td>
-              <td class="dataCol"><%=f.text_field :page_action, :required=>true%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_permission_description)%></label></td>
-              <td class="dataCol"><%=f.text_area :description, :rows => 4%></td>
+              <td class="dataCol"><%=f.text_field :code, :required=>true,:irm_uppercase=>true%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
-            </tr>            
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_permission_page_controller)%></label></td>
+              <td class="dataCol"><%=f.text_field :controller, :required=>true%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_permission_page_action)%></label></td>
+              <td class="dataCol"><%=f.text_field :action, :required=>true%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_permission_product_name)%></label></td>
               <td class="dataCol"><%=f.select :product_id, available_product_modules, {:include_blank => false}%></td>
