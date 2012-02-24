@@ -31,7 +31,14 @@ class Irm::MenuEntry < ActiveRecord::Base
   def validate_sub_menu_function_group
     self.sub_menu_id.present?||self.sub_function_group_id
   end
-
+  scope :with_sub_menu,lambda{
+     joins("LEFT OUTER JOIN irm_menus_vl mv1 on mv1.id=#{table_name}.sub_menu_id and mv1.language='#{I18n.locale}'").
+         select("mv1.code sub_menu_code,mv1.name sub_menu_name")
+  }
+  scope :with_sub_function_group,lambda{
+    joins("LEFT OUTER JOIN irm_function_groups_vl fgv1 on fgv1.id=#{table_name}.sub_function_group_id and fgv1.language='#{I18n.locale}'").
+        select("fgv1.code sub_function_group_code,fgv1.name sub_function_group_name")
+  }
 
   private
   def prepare_relation

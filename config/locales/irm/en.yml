@@ -59,6 +59,7 @@ en:
   edit_icon: Edit icon
   error: Error
   error_invalid_data: Error：invalid data。
+  error_value_existed: Error：value already existed.
   check_error_msg_and_fix: Please review all of the following error message to correct the data。
   operation: Operation
   remove: Remove
@@ -235,11 +236,12 @@ en:
   label_irm_menu_name_full: Menu Name
   label_irm_menu_description: Description
 
-  label_irm_menu_entry_name: Prompt
+  label_irm_menu_entry_name: Menu Entry Name
   label_irm_menu_entry_list: Entries List
   label_irm_menu_entry_new: Create Menu Entry
   label_irm_menu_entry_edit: Edit Menu Entry
   label_irm_menu_entry_sub_menu: Sub Menu
+  label_irm_menu_entry_sub_menu_name: Sub Menu Name
   label_irm_menu_entry_page_controller: Page controller
   label_irm_menu_entry_page_action: Page action
   label_irm_menu_entry_display_sequence: Display Sequence
@@ -249,6 +251,8 @@ en:
   label_irm_menu_entry_add: Add Menu Entries
   error_irm_menu_entry_permission_sub_menu_at_least_one: Input Sub Menu or Page At Least
   label_irm_menu_entry_icon: Icon
+  label_irm_menu_entry_sub_function_group_code: Sub Function Group Code
+  label_irm_menu_entry_sub_function_group_name: Sub Function Group Name
   label_irm_menu_entry_css_name: Css
   label_irm_menu_entry: Menu Entry
   #=========================    end menus_controller=======================#

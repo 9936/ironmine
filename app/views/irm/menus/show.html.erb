@@ -1,4 +1,4 @@
-<%= setting_show_title( :show_data => @menu.menu_code) %>
+<%= setting_show_title( :show_data => @menu.code) %>
 <div id="ep" class="detail-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -19,7 +19,7 @@
         <tbody>
             <tr>
               <td class="labelCol"><label><%=(t :label_irm_menu_menu_code)%></label></td>
-              <td class="dataCol"><%= @menu.menu_code%></td>
+              <td class="dataCol"><%= @menu.code%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
@@ -55,7 +55,7 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_menu_entry_list) %></h2></td>
               <td class="pbButton">
-                <div class="button"><%= link_to t(:add), {:controller => "irm/menu_entries", :action => "new", :menu_code => @menu.menu_code, :return_url => @return_url}%></div>
+                <div class="button"><%= link_to t(:add), {:controller => "irm/menu_entries", :action => "new", :menu_id => @menu.id, :return_url => @return_url}%></div>
               </td>
               <td class="pbHelp">
               </td>
@@ -66,21 +66,24 @@
       <div class="pbBody">
         <div id="menu_entries_list" class="datatable" style="width:100%">
           <div id="id" style="display:none">
-            <%= icon_link_edit({:controller => "irm/menu_entries", :action=>"edit",:id=>"{id}"}) %>&nbsp;
-            <%= icon_link_remove({:controller => "irm/menus", :action=>"remove_entry",:entry_id=>"{id}", :id => @menu}) %>
+            <%= link_to(t(:edit),{:controller => "irm/menu_entries",:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:delete),{:action=>"remove_entry",:entry_id=>"{id}", :id => @menu},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+
+
+          </div>
+          <div id="status_code"  style="display: none">
+            <%=check_img("{status_code}")  %>
           </div>
         </div>
-        <%= datatable("menu_entries_list",{:controller => "irm/menu_entries", :action=>"get_data", :menu_code => @menu.menu_code,:format=>"json"},
+        <%= datatable("menu_entries_list",{:controller => "irm/menu_entries", :action=>"get_data", :menu_id => @menu.id,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "80px"},
-                       {:key=>"display_sequence",:label=>t(:label_irm_menu_entry_display_sequence)},
+                       {:key=>"display_sequence",:label=>t(:label_irm_menu_entry_display_sequence),:width => "70px"},
                        {:key=>"name",:label=>t(:label_irm_menu_entry_name)},
                        {:key=>"description",:label=>t(:label_irm_menu_entry_description)},
                        {:key=>"sub_menu_code",:label=>t(:label_irm_menu_entry_sub_menu)},
-                       {:key=>"page_controller",:label=>t(:label_irm_menu_entry_page_controller)},
-                       {:key=>"icon",:label=>t(:label_irm_menu_entry_icon)},
-                       {:key=>"css_name",:label=>t(:label_irm_menu_entry_css_name)},
-                       {:key=>"display_flag",:label=>t(:label_irm_menu_entry_display_flag)},
-                       {:key=>"status_code",:label=>t(:active), :width => "40px"}]) %>
+                       {:key=>"sub_menu_name",:label=>t(:label_irm_menu_entry_sub_menu_name)},
+                       {:key=>"sub_function_group_code",:label=>t(:label_irm_menu_entry_sub_function_group_code)},
+                       {:key=>"sub_function_group_name",:label=>t(:label_irm_menu_entry_sub_function_group_name)},
+                       {:key=>"status_code",:formatter=>"Y.irm.template",:label=>t(:active), :width => "70px"}]) %>
       </div>
     </div>
 </div>

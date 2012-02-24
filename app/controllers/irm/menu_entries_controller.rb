@@ -26,7 +26,7 @@ class Irm::MenuEntriesController < ApplicationController
 
   def new
     @menu_entry = Irm::MenuEntry.new
-    @menu = Irm::Menu.multilingual.where(:menu_code => params[:menu_code]).first
+    @menu = Irm::Menu.multilingual.find(params[:menu_id])
     @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
       format.html # new.html.erb
@@ -55,10 +55,10 @@ class Irm::MenuEntriesController < ApplicationController
   end
 
   def get_data
-    menu_entries_scope = Irm::MenuEntry.multilingual.where(:menu_code => params[:menu_code])
+    menu_entries_scope = Irm::MenuEntry.multilingual.with_sub_function_group.with_sub_menu.where(:menu_id => params[:menu_id])
     menu_entries,count = paginate(menu_entries_scope)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(menu_entries.to_grid_json([:display_sequence,:name,:description,:sub_menu_code,:page_controller, :icon, :css_name, :display_flag,:status_code], count)) }
+      format.json  {render :json => to_jsonp(menu_entries.to_grid_json([:display_sequence,:name,:description,:sub_menu_code,:sub_menu_name, :sub_function_group_code, :sub_function_group_name,:status_code], count)) }
     end            
   end
 

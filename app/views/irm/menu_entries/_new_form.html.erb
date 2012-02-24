@@ -35,7 +35,7 @@
      <tbody>
          <tr>
            <td class="labelCol"><label><%=(t :label_irm_menu_menu_code)%></label></td>
-           <td class="dataCol"><%= @menu.menu_code%></td>
+           <td class="dataCol"><%= @menu.code%></td>
            <td class="labelCol empty">&nbsp;</td>
            <td class="dataCol empty">&nbsp;</td>
          </tr>
@@ -57,18 +57,7 @@
            <td class="labelCol empty">&nbsp;</td>
            <td class="dataCol empty">&nbsp;</td>
          </tr>
-         <tr>
-           <td class="labelCol"><label><%=t :label_irm_menu_entry_page_controller%></label></td>
-           <td class="dataCol"><div><%=f.text_field :page_controller%></div></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
-         <tr>
-           <td class="labelCol"><label><%=t :label_irm_menu_entry_page_action%></label></td>
-           <td class="dataCol"><div><%=f.text_field :page_action%></div></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
+
          <tr>
            <td class="labelCol"><label><%=t(:label_irm_menu_entry_description)%></label></td>
            <td class="dataCol"><div><%= f.text_area :description, :rows => 4%></div></td>
@@ -87,7 +76,7 @@
            <td class="labelCol empty">&nbsp;</td>
            <td class="dataCol empty">&nbsp;</td>
          </tr>
-        <%= f.hidden_field :menu_code, :value => @menu.menu_code %>
+        <%= f.hidden_field :menu_id, :value => @menu.id %>
      </tbody>
    </table>
  </div>
