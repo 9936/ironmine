@@ -246,7 +246,9 @@ zh:
   label_irm_menu_entry_description: 描述
   label_irm_menu_entry_add: 添加子菜单项
   error_irm_menu_entry_permission_sub_menu_at_least_one: 子菜单和页面至少输入一项
+  error_irm_menu_entry_sub_menu_sub_group_must_only_one: 子菜单和子功能组必须且只能选择一项
   label_irm_menu_entry_icon: 图标
+  label_irm_menu_entry_sub_function_group:  子功能组
   label_irm_menu_entry_sub_function_group_code: 子功能组编码
   label_irm_menu_entry_sub_function_group_name: 子功能组名称
   label_irm_menu_entry_css_name: 样式名称

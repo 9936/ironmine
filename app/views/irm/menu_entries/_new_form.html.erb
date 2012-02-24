@@ -46,18 +46,23 @@
            <td class="dataCol empty">&nbsp;</td>
          </tr>
          <tr>
-           <td class="labelCol"><label><%=t :label_irm_menu_entry_prompt%></label></td>
+           <td class="labelCol"><label><%=t :label_irm_menu_entry_name%></label></td>
            <td class="dataCol"><%= f.text_field :name, :required => true%></td>
            <td class="labelCol empty">&nbsp;</td>
            <td class="dataCol empty">&nbsp;</td>
          </tr>
          <tr>
            <td class="labelCol"><label><%=t :label_irm_menu_entry_sub_menu%></label></td>
-           <td class="dataCol"><div><%=f.text_field :sub_menu_code%></div></td>
+           <td class="dataCol"><div><%=f.select :sub_menu_id, available_sub_menu, {:include_blank => true},{:id=>"sub_menu_id"}%></div></td>
            <td class="labelCol empty">&nbsp;</td>
            <td class="dataCol empty">&nbsp;</td>
          </tr>
-
+         <tr>
+           <td class="labelCol"><label><%=t :label_irm_menu_entry_sub_function_group%></label></td>
+           <td class="dataCol"><div><%=f.select :sub_function_group_id, available_sub_function_group, {:include_blank => true},{:id=>"sub_function_group_id"}%></div></td>
+           <td class="labelCol empty">&nbsp;</td>
+           <td class="dataCol empty">&nbsp;</td>
+         </tr>
          <tr>
            <td class="labelCol"><label><%=t(:label_irm_menu_entry_description)%></label></td>
            <td class="dataCol"><div><%= f.text_area :description, :rows => 4%></div></td>
@@ -98,3 +103,17 @@
    </div>
  </div>
  <% end %>
+<script type="text/javascript">
+    $(document).ready(function(){
+            $("#sub_menu_id").change(function(){
+                       if($("#sub_menu_id").val()!=="")
+                         $("#sub_function_group_id").val("");
+                   } )
+            $("#sub_function_group_id").change(function(){
+                                   if($("#sub_function_group_id").val()!=="")
+                                     $("#sub_menu_id").val("");
+                               } )
+
+     }
+     );
+</script>

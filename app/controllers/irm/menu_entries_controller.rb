@@ -8,17 +8,18 @@ class Irm::MenuEntriesController < ApplicationController
 
   def edit
     @menu_entry = Irm::MenuEntry.multilingual.find(params[:id])
-    @menu = Irm::Menu.multilingual.where(:menu_code => @menu_entry.menu_code).first
+    @menu = Irm::Menu.multilingual.find(@menu_entry[:menu_id])
   end
 
   def update
     @menu_entry = Irm::MenuEntry.find(params[:id])
     respond_to do |format|
       if @menu_entry.update_attributes(params[:irm_menu_entry])
-        format.html { redirect_to({:action=>"index", :menu_code => @menu_entry.menu_code}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:controller => "irm/menus",:action=>"show", :id => @menu_entry.menu_id}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        @menu = Irm::Menu.multilingual.find(@menu_entry[:menu_id])
+        format.html { render :action => "edit",:id=>@menu_entry.id }
         format.xml  { render :xml => @menu_entry.errors, :status => :unprocessable_entity }
       end
     end

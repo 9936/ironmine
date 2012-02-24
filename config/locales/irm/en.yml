@@ -250,7 +250,9 @@ en:
   label_irm_menu_entry_description: Description
   label_irm_menu_entry_add: Add Menu Entries
   error_irm_menu_entry_permission_sub_menu_at_least_one: Input Sub Menu or Page At Least
+  error_irm_menu_entry_sub_menu_sub_group_must_only_one: Choose Either Sub Menu or Sub Function Group
   label_irm_menu_entry_icon: Icon
+  label_irm_menu_entry_sub_function_group:  Sub Function Group
   label_irm_menu_entry_sub_function_group_code: Sub Function Group Code
   label_irm_menu_entry_sub_function_group_name: Sub Function Group Name
   label_irm_menu_entry_css_name: Css
