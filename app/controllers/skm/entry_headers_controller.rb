@@ -193,6 +193,15 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header = Skm::EntryHeader.find(params[:id])
 #    @entry_header.column_ids = @entry_header.get_column_ids
     @return_url=request.env['HTTP_REFERER'] if @return_url
+    respond_to do |format|
+
+      if @entry_header.type_code == "VIDEO"
+        format.html { redirect_to({:action => "video_edit", :id => @entry_header})}
+      else
+        format.html # show.html.erb
+        format.xml  { render :xml => @entry_header }
+      end
+    end
   end
 
   def create
@@ -289,7 +298,7 @@ class Skm::EntryHeadersController < ApplicationController
     temp_uniq_id = UUID.generate(:compact)[0, 21]
 #    video = false
     file_succ = true
-    if @entry_header.valid? params[:skm_video] && !params[:skm_video].nil?
+    if @entry_header.valid? &&  params[:skm_video] && !params[:skm_video].nil?
       val, now = Irm::AttachmentVersion.validates?(params[:skm_video])
       if val
         new_video = Irm::AttachmentVersion.create_single_version_file(params[:skm_video],
