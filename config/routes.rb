@@ -256,6 +256,17 @@ Ironmine::Application.routes.draw do
     match '/organizations/:id/multilingual_update(.:format)' => "organizations#multilingual_update", :via => :put
     match '/organizations/belongs_to(.:format)' => "organizations#belongs_to"
     match '/organizations/get_by_company(.:format)' => "organizations#get_by_company", :via => :get
+
+    #organization_infos
+    match '/organization_infos/get_data(.:format)' => "organization_infos#get_data"
+    match '/organization_infos(/index)(.:format)' => "organization_infos#index", :via => :get
+    match '/organization_infos/:id/edit(.:format)' => "organization_infos#edit", :via => :get
+    match '/organization_infos/new(.:format)' => "organization_infos#new", :via => :get
+    match '/organization_infos/:id/show(.:format)' => "organization_infos#show", :via => :get
+    match '/organization_infos/create(.:format)' => "organization_infos#create", :via => :post
+    match 'organization_infos/:id/update(.:format)' => "organization_infos#update", :via => :put
+
+
     #flex_value_sets
     match '/flex_value_sets(/index)(.:format)' => "flex_value_sets#index", :via => :get
     match '/flex_value_sets/new(.:format)' => "flex_value_sets#new", :via => :get

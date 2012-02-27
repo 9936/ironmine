@@ -1716,3 +1716,14 @@ zh:
   label_irm_data_share_rule_share_with: 与之共享
 
   #=========================end irm data share rules=======================#
+
+  #=========================    irm organization_infos=======================#
+  label_irm_organization_info: 组织信息
+  label_irm_organization_info_list: 组织信息列表
+  label_irm_organization_info_new: 新建组织信息
+  label_irm_organization_info_name: 名称
+  label_irm_organization_info_value: 值
+  label_irm_organization_info_file: 附件
+  label_irm_organization_info_description: 描述
+
+  #=========================end organization_infos=======================#
