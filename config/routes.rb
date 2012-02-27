@@ -59,15 +59,15 @@ Ironmine::Application.routes.draw do
     match '/menus/:id/edit(.:format)' => "menus#edit", :via => :get
     match '/menus/:id(.:format)' => "menus#update", :via => :put
     match '/menus/:id/show(.:format)' => "menus#show", :via => :get
-    match '/menus/:entry_id/:id/remove_entry(.:format)' => "menus#remove_entry", :via => :get
+    match '/menus/:entry_id/:id/remove_entry(.:format)' => "menus#remove_entry"
     match '/menus/:id/multilingual_edit(.:format)' => "menus#multilingual_edit", :via => :get
     match '/menus/:id/multilingual_update(.:format)' => "menus#multilingual_update", :via => :put
 
     #menu_entries
     match '/menu_entries(/index)(.:format)' => "menu_entries#index", :via => :get
-    match '/menu_entries/:menu_code/new(.:format)' => "menu_entries#new", :via => :get
+    match '/menu_entries/:menu_id/new(.:format)' => "menu_entries#new", :via => :get
     match '/menu_entries/create(.:format)' => "menu_entries#create", :via => :post
-    match '/menu_entries/:menu_code/get_data(.:format)' => "menu_entries#get_data"
+    match '/menu_entries/:menu_id/get_data(.:format)' => "menu_entries#get_data"
     match '/menu_entries/:id/edit(.:format)' => "menu_entries#edit", :via => :get
     match '/menu_entries/:id(.:format)' => "menu_entries#update", :via => :put
     match '/menu_entries/destroy(.:format)' => "menu_entries#destroy"

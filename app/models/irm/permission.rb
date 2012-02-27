@@ -24,6 +24,15 @@ class Irm::Permission < ActiveRecord::Base
     joins("JOIN #{Irm::Function.table_name} ON #{table_name}.function_id = #{Irm::Function.table_name}.id").
     where("#{Irm::Function.table_name}.function_group_id = ?",function_group_id)
   }
+  scope :with_product_module_name,lambda{
+    joins("LEFT OUTER JOIN irm_product_modules_vl  on irm_product_modules_vl.id=#{table_name}.product_id and irm_product_modules_vl.language='#{I18n.locale}'").
+        select("irm_product_modules_vl.name product_module_name")
+  }
+  scope :with_function_name,lambda{
+    joins("LEFT OUTER JOIN irm_functions_vl on irm_functions_vl.id=#{table_name}.function_id and irm_functions_vl.language='#{I18n.locale}'").
+        select("irm_functions_vl.name function_name")
+  }
+
 
 
   def setup_parent

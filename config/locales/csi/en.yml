@@ -48,6 +48,7 @@ en:
    label_csi_survey: Survey
    label_csi_survey_subject_result: Result
    label_csi_survey_cannot_enable_none_subject: Can not enable survey unless it has any subject.
+   label_csi_survey_response_list: Survey Response List
    #========================= end   irm regions_controller=======================#
    #========================= start irm regions_controller=======================#
    label_csi_survey_subject: Subject

@@ -24,14 +24,18 @@
       <div class="pbBody">
         <%= error_for @channel_group %>
         <div id="avaGroupsList" class="datatable" style="width:100%">
+          <div id="status_code" style="display:none">
+                    <%= check_img("{status_code}") %>
+          </div>
         </div>
+
         <%= datatable("avaGroupsList",{:controller => "skm/channels", :action=>"get_ava_groups_data",:id=>@channel.id,:format=>:json},
                   [{:key=>"id",:label=>t(:operation),:hidden=>true,:width=>"60px"},
                    {:key=>"code",:label=>t(:label_irm_group_group_code), :width=>"100px"},
                    {:key=>"name",:label=>t(:label_irm_group_name), :width => "150px"},
                    {:key=>"description",:label=>t(:label_irm_group_description)},
                    {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],
-                   {:paginator_box=>"groupsPaginator",:search_box=>"selectableChannelsSearchBox",:select=>"multiple"})%>
+                   {:paginator_box=>"groupsPaginator",:select=>"multiple"})%>
         <div id="groupsPaginator"></div>
       </div>
     </div>

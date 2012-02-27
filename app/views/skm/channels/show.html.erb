@@ -92,8 +92,10 @@
                               [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
                                {:key=>"code",:label=>t(:label_irm_group_group_code), :width => "150px"},
                                {:key=>"name",:label=>t(:label_irm_group_name), :width => "150px"},
-                               {:key=>"description",:label=>t(:label_irm_group_description)}])%>
+                               {:key=>"description",:label=>t(:label_irm_group_description)}],
+                               {:force_html=>true, :paginator_box=>"groupPaginatorBox"})%>
           <!-- End company access table -->
+          <div id="groupPaginatorBox"></div>
         </div>
         <div class="pbFooter secondary-palette">
         <div class="bg"></div>

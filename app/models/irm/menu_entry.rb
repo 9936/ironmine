@@ -22,16 +22,25 @@ class Irm::MenuEntry < ActiveRecord::Base
 
   validates_uniqueness_of :sub_menu_id, :scope => :menu_id, :if => Proc.new { |i| i.sub_menu_id.present? }
   validates_uniqueness_of :sub_function_group_id, :scope => :menu_id, :if => Proc.new { |i| i.sub_function_group_id.present? }
-  validate :validate_sub_menu_function_group, :message=>:error_irm_menu_entry_permission_sub_menu_at_least_one
 
+  validate :validate_sub_menu_or_funtion_group
   #加入activerecord的通用方法和scope
   query_extend
 
-
-  def validate_sub_menu_function_group
-    self.sub_menu_id.present?||self.sub_function_group_id
+  def validate_sub_menu_or_funtion_group
+    if((self.sub_menu_id.present?&&self.sub_function_group_id.present?)||(self.sub_menu_id.blank?&&self.sub_function_group_id.blank?) )
+      errors.add(:sub_menu_id, I18n.t(:error_irm_menu_entry_sub_menu_sub_group_must_only_one))
+      errors.add(:sub_function_group_id, I18n.t(:error_irm_menu_entry_sub_menu_sub_group_must_only_one))
+    end
   end
-
+  scope :with_sub_menu,lambda{
+     joins("LEFT OUTER JOIN irm_menus_vl  on irm_menus_vl.id=#{table_name}.sub_menu_id and irm_menus_vl.language='#{I18n.locale}'").
+         select("irm_menus_vl.code sub_menu_code,irm_menus_vl.name sub_menu_name")
+  }
+  scope :with_sub_function_group,lambda{
+    joins("LEFT OUTER JOIN irm_function_groups_vl  on irm_function_groups_vl.id=#{table_name}.sub_function_group_id and irm_function_groups_vl.language='#{I18n.locale}'").
+        select("irm_function_groups_vl.code sub_function_group_code,irm_function_groups_vl.name sub_function_group_name")
+  }
 
   private
   def prepare_relation

@@ -17,7 +17,7 @@ class Skm::ColumnsController < ApplicationController
 
   def create
     @column = Skm::Column.new(params[:skm_column])
-    @column.parent_column_id=params[:skm_columns]
+    @column.parent_column_id=params[:skm_columns] if params[:skm_columns].present?
     respond_to do |format|
       if @column.save
 #         @column.create_access_from_str

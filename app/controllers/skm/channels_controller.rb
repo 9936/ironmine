@@ -108,6 +108,12 @@ class Skm::ChannelsController < ApplicationController
     group_scope = Skm::Channel.find(params[:id]).groups.multilingual.enabled
     groups, count = paginate(group_scope)
     respond_to do |format|
+      format.html {
+        @channel_id=params[:id]
+        @datas=groups
+        @count=count
+        render_html_data_table
+      }
       format.json  {render :json => to_jsonp(groups.to_grid_json(['0',:code, :name, :description, :status_code], count)) }
     end
   end

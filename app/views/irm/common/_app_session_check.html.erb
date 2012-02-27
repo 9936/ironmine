@@ -2,9 +2,8 @@
   //全局参数
 
   var secondsLeftValue = parseInt('<%= get_session_time %>');  //当前session过期的时剩余间值（秒）
-  var secondsPopupValue = secondsLeftValue - 10; //弹出警告窗口的时间值（秒）
+  var secondsPopupValue = secondsLeftValue - 30; //弹出警告窗口的时间值（秒）
   var lastPageActivityTime = new Date().getTime(); //最后一次活动的时间
-  var forceLogout = false; //强制退出， true：是 false： 否
   //开始session 会话计时
   function startSessionTimer() {
     schedulePopup(secondsPopupValue);
@@ -18,7 +17,7 @@
   }
   //退出登录处理
   function doLogout() {
-      window.location = "<%=logout_url %>";
+      window.location.href = "<%=logout_url %>";
   }
   var alertWindow = null;
   var parentWindow = null;
@@ -30,16 +29,12 @@
       lastPageActivityTime = new Date().getTime();
       schedulePopup(secondsPopupValue);
   }
-  //
   function alertTimeout() {
      timeoutUniqueId = null;
      alertWindow = window.open('/session_settings/timeout_warn', "ironmine",'width=360,height=280,left='+(screen.width-360)/2+',top='+(screen.height-280)/2+',location=no,dependent=no,resizable=yes,toolbar=no,status=no,directories=no,menubar=no,scrollbars=yes', false);
      parentWindow = window;
-     if (!alertWindow && forceLogout) {
-        setTimeout(parentWindow.doLogout(), 25 * 1000)
-     }
      document.body.onfocus = alertFocus;
-    }
+  }
   function checkSessionTimeout() {
       var currentTime = new Date().getTime();
       var sessionTimeLeft = secondsLeftValue - ((currentTime - lastPageActivityTime) / 1000);
@@ -48,10 +43,11 @@
           if (window.location.search && window.location.search.length > 1) {
               url += window.location.search;
           }
-          var loc = '/?startURL=' + encodeURIComponent(url);
-              top.location = loc;
+          var loc = '/?back_url=' + encodeURIComponent(url);
+          top.location =  loc;
       } else {
           lastPageActivityTime = currentTime;
+          closePopup();
           startSessionTimer();
       }
   }
@@ -70,5 +66,19 @@
       //页面活动后调用
       document.documentElement.onkeydown=checkSessionTimeout;
       document.documentElement.onclick=checkSessionTimeout;
-  })
+  });
+  //关闭弹出窗口
+  function closePopup(){
+      if(alertWindow !=null){
+          try{
+              alertWindow.continue_flag = null;
+              alertWindow.close();
+          }catch(a){}
+          alertWindow=null;
+      }
+  }
+  //离开当前窗口（刷新或者离开）关闭弹出窗口
+  window.onunload=function(){
+      closePopup();
+  }
 </script>

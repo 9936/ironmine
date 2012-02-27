@@ -64,14 +64,16 @@ class Irm::PermissionsController < ApplicationController
   end
   
   def get_data
-    permissions_scope = Irm::Permission.list_all.status_meaning
-    permissions_scope = permissions_scope.match_value("#{Irm::Permission.table_name}.permission_code",params[:permission_code])
-    permissions_scope = permissions_scope.match_value("#{Irm::Permission.table_name}.page_controller",params[:page_controller])
-
+    permissions_scope = Irm::Permission.with_function_name.with_product_module_name.list_all.status_meaning.select("controller p_controller,action p_action")
+    permissions_scope = permissions_scope.match_value("#{Irm::Permission.table_name}.code",params[:code])
+    permissions_scope = permissions_scope.match_value("#{Irm::Permission.table_name}.controller",params[:p_controller])
+    permissions_scope = permissions_scope.match_value("#{Irm::Permission.table_name}.action",params[:p_action])
+    permissions_scope = permissions_scope.match_value("irm_functions_vl.name",params[:function_name])
+    permissions_scope = permissions_scope.match_value("irm_functions_vl.id",params[:function_id])
 
     permissions,count = paginate(permissions_scope)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(permissions.to_grid_json([:code,:product_module_name,:status_meaning,:permission_code,:controller,:action, :status_code], count)) }
+      format.json  {render :json => to_jsonp(permissions.to_grid_json([:code,:product_module_name,:status_meaning,:function_name,:direct_get_flag,:params_count,:p_controller,:p_action, :status_code], count)) }
     end
   end
 
