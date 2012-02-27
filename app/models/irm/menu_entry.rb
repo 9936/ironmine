@@ -34,12 +34,12 @@ class Irm::MenuEntry < ActiveRecord::Base
     end
   end
   scope :with_sub_menu,lambda{
-     joins("LEFT OUTER JOIN irm_menus_vl mv1 on mv1.id=#{table_name}.sub_menu_id and mv1.language='#{I18n.locale}'").
-         select("mv1.code sub_menu_code,mv1.name sub_menu_name")
+     joins("LEFT OUTER JOIN irm_menus_vl  on irm_menus_vl.id=#{table_name}.sub_menu_id and irm_menus_vl.language='#{I18n.locale}'").
+         select("irm_menus_vl.code sub_menu_code,irm_menus_vl.name sub_menu_name")
   }
   scope :with_sub_function_group,lambda{
-    joins("LEFT OUTER JOIN irm_function_groups_vl fgv1 on fgv1.id=#{table_name}.sub_function_group_id and fgv1.language='#{I18n.locale}'").
-        select("fgv1.code sub_function_group_code,fgv1.name sub_function_group_name")
+    joins("LEFT OUTER JOIN irm_function_groups_vl  on irm_function_groups_vl.id=#{table_name}.sub_function_group_id and irm_function_groups_vl.language='#{I18n.locale}'").
+        select("irm_function_groups_vl.code sub_function_group_code,irm_function_groups_vl.name sub_function_group_name")
   }
 
   private
