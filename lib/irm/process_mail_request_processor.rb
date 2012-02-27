@@ -77,7 +77,7 @@ module Irm
       end
 
       if incident_request.report_source_code.nil?||incident_request.report_source_code.blank?
-        incident_request.report_source_code = "CUSTOMER_SUBMIT"
+        incident_request.report_source_code = "MAIL_SUBMIT"
       end
       if incident_request.requested_by.present?
         incident_request.contact_id = incident_request.requested_by
