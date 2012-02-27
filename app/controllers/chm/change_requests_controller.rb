@@ -32,7 +32,7 @@ class Chm::ChangeRequestsController < ApplicationController
     @change_request = Chm::ChangeRequest.list_all.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout=>"application_right"}
+      format.html { render :layout=>"application_full"}
       format.xml  { render :xml => @change_request }
     end
   end
@@ -56,7 +56,7 @@ class Chm::ChangeRequestsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :layout=>"application_right"}
+      format.html { render :layout=>"application_full"}
       format.xml  { render :xml => @change_request }
     end
   end
@@ -67,7 +67,7 @@ class Chm::ChangeRequestsController < ApplicationController
     @change_request = Chm::ChangeRequest.list_all.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout=>"application_right"}
+      format.html { render :layout=>"application_full"}
       format.xml  { render :xml => @change_request }
     end
   end
@@ -80,7 +80,7 @@ class Chm::ChangeRequestsController < ApplicationController
     @change_request = Chm::ChangeRequest.list_all.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout=>"application_right"}
+      format.html { render :layout=>"application_full"}
       format.xml  { render :xml => @change_request }
     end
   end
