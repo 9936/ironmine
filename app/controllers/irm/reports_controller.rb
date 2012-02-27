@@ -1,4 +1,6 @@
 class Irm::ReportsController < ApplicationController
+  layout "application_full"
+
   def index
     @folder_id = params[:folder_id]
 
