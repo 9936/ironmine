@@ -56,12 +56,12 @@ class Chm::ChangeTask < ActiveRecord::Base
   }
 
   def self.list_all
-    select_all.with_change_request.with_support(I18n.locale).with_change_task_phase(I18n.locale).with_change_status(I18n.locale)
+    select_all.with_support(I18n.locale).with_change_task_phase(I18n.locale).with_change_status(I18n.locale)
   end
 
 
   def self.as_task
-    self.list_all.with_change_status(I18n.locale).where(:support_person_id=>Irm::Person.current.id)
+    self.list_all.with_change_request.with_change_status(I18n.locale).where(:support_person_id=>Irm::Person.current.id)
   end
 
   def task_title
