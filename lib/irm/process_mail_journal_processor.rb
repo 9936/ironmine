@@ -14,7 +14,7 @@ module Irm
 
         incident_journal = Icm::IncidentJournal.new()
         incident_journal.replied_by=Irm::Person.current.id
-        content = parsed_email[:bodies][0]
+        content = parsed_email[:bodies][1]
         return false unless content.size>0
 
         incident_journal.message_body = "<pre>" + content + "</pre>"
