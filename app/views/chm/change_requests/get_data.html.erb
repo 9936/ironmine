@@ -7,7 +7,7 @@
       background-color:#fff !important;
       background-color:transparent !important;
   }
-  .table_icon tr td { background-color:transparent;} /* none */
+  .table_icon tr td { background-color:transparent;}
   .table_icon a.expand_icon {
       background: url('../images/filter_hide.gifx') no-repeat 0 0 transparent;
       width: 16px;
@@ -26,11 +26,11 @@
       width: 18px;
       height: 18px;
   }
-  .requested { background: url('../images/workflow_requested.gif') no-repeat 0 0 transparent;}
-  .active {background: url('../images/workflow_active.gif') no-repeat 0 0 transparent;}
-  .pending {background: url('../images/workflow_pending.gif') no-repeat 0 0 transparent;}
-  .complete {background:  url('../images/workflow_complete.gif') no-repeat 0 0 transparent;}
-  .closed {background: url('../images/workflow_approval_rejected.gif') no-repeat 0 0 transparent;}
+  .table_icon .requested { background: url('../images/workflow_requested.gif') no-repeat 0 0 transparent;}
+  .table_icon .active {background: url('../images/workflow_active.gif') no-repeat 0 0 transparent;}
+  .table_icon .pending {background: url('../images/workflow_pending.gif') no-repeat 0 0 transparent;}
+  .table_icon .complete {background:  url('../images/workflow_complete.gif') no-repeat 0 0 transparent;}
+  .table_icon .closed {background: url('../images/workflow_approval_rejected.gif') no-repeat 0 0 transparent;}
 
   .table_icon td {
       background: transparent !important;
@@ -40,15 +40,15 @@
       float: left !important;
   }
   .table_icon .expand {
-      width: 80px;
+      min-width: 80px;
       display: block;
   }
-  .name {
+  .table_icon .name {
       display: none;
       padding: 3px;
 
   }
-  .header_name {
+  .table_icon .header_name {
       background: transparent !important;
       padding: 2px 3px !important;
       display: block;
