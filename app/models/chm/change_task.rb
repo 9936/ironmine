@@ -18,8 +18,8 @@ class Chm::ChangeTask < ActiveRecord::Base
                  :show_url  => {:controller => "chm/change_tasks", :action => "edit",:id=>:id},
                  :title => :task_title,
                  :status_name=>:status_name,
-                 :start_at=>:start_at,
-                 :end_at=>:end_at
+                 :start_at=>:start_date,
+                 :end_at=>:end_date
                 })
 
 
