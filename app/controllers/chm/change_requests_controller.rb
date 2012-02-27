@@ -20,7 +20,7 @@ class Chm::ChangeRequestsController < ApplicationController
     @change_journals = @change_request.change_journals.list_all
     @change_journal = @change_request.change_journals.build(:replied_by=>Irm::Person.current.id)
     respond_to do |format|
-      format.html { render :layout=>"application_right"}
+      format.html { render :layout => "application_full"}# index.html.erb
       format.xml  { render :xml => @change_request }
     end
   end
