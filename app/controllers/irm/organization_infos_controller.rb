@@ -41,7 +41,7 @@ class Irm::OrganizationInfosController < ApplicationController
   # POST /organization_infos.xml
   def create
     @organization_info = Irm::OrganizationInfo.new(params[:irm_organization_info])
-
+    @organization_info.organization_id = Irm::Person.current.organization_id
     respond_to do |format|
       if @organization_info.save
         if params[:irm_organization_info][:file] && params[:irm_organization_info][:file].present?
@@ -124,13 +124,23 @@ class Irm::OrganizationInfosController < ApplicationController
   end
 
   def get_data
-    organization_infos_scope = Irm::OrganizationInfo.select_all
+    organization_infos_scope = Irm::OrganizationInfo.select_all.where(:organization_id => Irm::Person.current.organization_id)
     organization_infos_scope = organization_infos_scope.match_value("#{Irm::OrganizationInfo.table_name}.name",params[:name])
     organization_infos_scope = organization_infos_scope.match_value("#{Irm::OrganizationInfo.table_name}.value",params[:value])
     organization_infos,count = paginate(organization_infos_scope)
     organization_infos =  get_attachments(organization_infos)
     respond_to do |format|
       format.json {render :json=>to_jsonp(organization_infos.to_grid_json([:name,:value,:attachment,:description],count))}
+    end
+  end
+
+  def delete_attachment
+    organization_info = Irm::OrganizationInfo.find(params[:id])
+    attachment = Irm::AttachmentVersion.find(organization_info[:attachment_id])
+    attachment.destroy
+    organization_info.update_attribute(:attachment_id, nil)
+    respond_to do |format|
+      format.json {render :json => attachment.to_json}
     end
   end
 
