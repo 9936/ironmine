@@ -1197,9 +1197,15 @@ Ironmine::Application.routes.draw do
     match '/entry_headers/index_search_get_data(.:format)' => "entry_headers#index_search_get_data"
     match '/entry_headers/:person_id/my_favorites_data' => "entry_headers#my_favorites_data"
     match '/entry_headers/:person_id/my_favorites' => "entry_headers#my_favorites", :via => :get
+    match '/entry_headers/:person_id/my_unpublished_data' => "entry_headers#my_unpublished_data"
+    match '/entry_headers/:person_id/my_unpublished' => "entry_headers#my_unpublished", :via => :get
+    match '/entry_headers/wait_my_approve_data' => "entry_headers#wait_my_approve_data"
+    match '/entry_headers/wait_my_approve' => "entry_headers#wait_my_approve", :via => :get
+    match '/entry_headers/approve_knowledge(.:format)' => "entry_headers#approve_knowledge", :via => :post
     match '/entry_headers/:person_id/:id/add_favorites' => "entry_headers#add_favorites", :via => :get
     match '/entry_headers/data_grid(.:format)' => "entry_headers#data_grid", :via => :get
     match '/entry_headers/my_favorites(.:format)' => "entry_headers#my_favorites", :via => :get
+    match '/entry_headers/my_unpublished(.:format)' => "entry_headers#my_unpublished", :via => :get
     match '/entry_headers/remove_favorite(.:format)' => "entry_headers#remove_favorite", :via => :get
     match '/entry_headers/my_drafts(.:format)' => "entry_headers#my_drafts", :via => :get
     match '/entry_headers/:person_id/my_drafts_data' => "entry_headers#my_drafts_data"

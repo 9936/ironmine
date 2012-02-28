@@ -29,7 +29,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   scope :history_entry, where("#{table_name}.history_flag = ?", Irm::Constant::SYS_YES)
   scope :list_all, select("#{table_name}.id,  #{table_name}.entry_template_id, #{table_name}.entry_title, #{table_name}.relation_id, #{table_name}.channel_id, #{table_name}.type_code" +
                               ", #{table_name}.keyword_tags, #{table_name}.doc_number, #{table_name}.history_flag, #{table_name}.entry_status_code" +
-                              ", #{table_name}.version_number, DATE_FORMAT(#{table_name}.published_date , '%Y-%c-%e %H:%I:%S') published_date_f, #{table_name}.published_date, #{table_name}.author_id, #{table_name}.status_code" +
+                              ", #{table_name}.version_number,  #{table_name}.published_date, #{table_name}.author_id, #{table_name}.status_code" +
                               ", #{table_name}.created_by, #{table_name}.created_at, #{table_name}.updated_by, #{table_name}.updated_at,  CONCAT('[', #{table_name}.doc_number, ']', #{table_name}.entry_title) full_title").
       order("#{table_name}.published_date DESC")
 
@@ -37,11 +37,18 @@ class Skm::EntryHeader < ActiveRecord::Base
   scope :within_columns, lambda{|column_ids|
     where(" EXISTS (SELECT * FROM #{Skm::Channel.table_name} c, #{Skm::ChannelColumn.table_name} cc WHERE c.id = #{Skm::EntryHeader.table_name}.channel_id AND cc.channel_id = c.id AND cc.column_id IN (?))", columns + [''])
   }
-
+  scope :with_author,lambda{
+    joins("LEFT OUTER JOIN irm_people ON irm_people.id = #{table_name}.author_id").
+        select("irm_people.full_name author_name")
+  }
   scope :my_favorites, lambda{|person_id|
     joins(",#{Skm::EntryFavorite.table_name} ef").
     where("ef.entry_header_id = #{table_name}.id").
     where("ef.person_id = ?", person_id)
+  }
+  scope :with_entry_status,lambda{
+    joins("LEFT OUTER JOIN skm_entry_statuses_vl ON skm_entry_statuses_vl.entry_status_code=#{table_name}.entry_status_code and language='#{I18n.locale}'").
+        select("skm_entry_statuses_vl.name entry_status_name")
   }
 
   scope :my_drafts, lambda{|person_id|
@@ -49,6 +56,13 @@ class Skm::EntryHeader < ActiveRecord::Base
     where("#{table_name}.entry_status_code = ?", "DRAFT")
   }
 
+  scope :my_unpublished, lambda{|person_id|
+    where("#{table_name}.author_id = ?", person_id).
+    where("#{table_name}.entry_status_code"=>["WAIT_APPROVE","APPROVE_DENY"])
+  }
+  scope :wait_my_approve, lambda{
+    where("#{table_name}.entry_status_code"=>["WAIT_APPROVE"])
+  }
   scope :query_by_day,select("DATE_FORMAT(#{table_name}.created_at,'%Y-%m-%d') created_day,sum(1) entry_count").
                       group("DATE_FORMAT(#{table_name}.created_at,'%Y-%m-%d')").
                       order("DATE_FORMAT(#{table_name}.created_at,'%Y-%m-%d') asc")

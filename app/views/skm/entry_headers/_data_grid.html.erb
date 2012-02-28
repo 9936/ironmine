@@ -11,10 +11,7 @@
                                        :id => "full_search"} %>
               </td>
               <td id="topButtonRow" class="pbButton">
-                  <div class="button-group">
-                    <div class="button selected"><%= link_to(t(:label_skm_entry_header_index), {}, {:href => "javascript:void(0)"})%></div>
-                    <div class="button"><%= link_to(t(:label_action_my_favorites), {:action=>"my_favorites"})%></div>
-                  </div>
+                <%=render "tab_buttons" %>
               </td>
               <td class="pbHelp">
                 <div id="entryHeadersSearchBox"></div>
