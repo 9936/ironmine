@@ -14,7 +14,6 @@ Irm::AccessControl.map do |map|
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/search"=>[:index],
                                  "irm/session_settings" => ["timeout_warn"],
-                                 "irm/organization_infos" => ["index","edit","update","new","show","create","get_data","delete_attachment"],
                                  "irm/portlet_configs" => ["save_portal_config","save_portal_layout"],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
@@ -331,4 +330,7 @@ Irm::AccessControl.map do |map|
   #
   map.function :data_share_rule,{"irm/data_share_rules"=>["get_option", "index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"],
                                  }
+  #===================irm/organization_infos============================
+  #
+  map.function :organization_info,{"irm/organization_infos" => ["index","edit","update","new","show","create","get_data","delete_attachment"]}
 end
