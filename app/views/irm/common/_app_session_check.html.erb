@@ -47,7 +47,7 @@
           top.location =  loc;
       } else {
           lastPageActivityTime = currentTime;
-          closePopup();
+          closePopups();
           startSessionTimer();
       }
   }
@@ -57,7 +57,7 @@
               alertWindow.focus();
           } else {
               alertWindow = null;
-              document.body.onfocus = closePopup;
+              document.body.onfocus = closePopups;
           }
       }
   }
@@ -68,7 +68,7 @@
       document.documentElement.onclick=checkSessionTimeout;
   });
   //关闭弹出窗口
-  function closePopup(){
+  function closePopups(){
       if(alertWindow !=null){
           try{
               alertWindow.continue_flag = null;
@@ -78,7 +78,7 @@
       }
   }
   //离开当前窗口（刷新或者离开）关闭弹出窗口
-    window.onunload=function(){
-     closePopup();
-    }
+  window.onunload=function(){
+    closePopups();
+  }
 </script>
