@@ -47,8 +47,8 @@ class Skm::EntryHeader < ActiveRecord::Base
     where("ef.person_id = ?", person_id)
   }
   scope :with_entry_status,lambda{
-    joins("LEFT OUTER JOIN skm_entry_statuses_vl ON skm_entry_statuses_vl.entry_status_code=#{table_name}.entry_status_code and language='#{I18n.locale}'").
-        select("skm_entry_statuses_vl.name entry_status_name")
+    joins("LEFT OUTER JOIN irm_lookup_values_vl ON irm_lookup_values_vl.lookup_code=#{table_name}.entry_status_code and irm_lookup_values_vl.language='#{I18n.locale}'").
+        select("irm_lookup_values_vl.meaning entry_status_name")
   }
 
   scope :my_drafts, lambda{|person_id|
