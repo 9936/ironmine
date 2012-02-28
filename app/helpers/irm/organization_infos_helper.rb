@@ -1,8 +1,8 @@
 module Irm::OrganizationInfosHelper
   def filename(attachment_id)
-    attachment =  Irm::AttachmentVersion.select("data_file_name").where("id" => attachment_id).first
+    attachment =  Irm::AttachmentVersion.find(attachment_id)
     unless attachment.nil?
-      attachment[:data_file_name] if attachment[:data_file_name].present?
+      "<a target='_blank' href='#{attachment.data.url}'>#{attachment.data.original_filename}</a>".html_safe if attachment[:data_file_name].present?
     else
       'no attachment'
     end

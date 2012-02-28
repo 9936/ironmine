@@ -265,6 +265,7 @@ Ironmine::Application.routes.draw do
     match '/organization_infos/:id/show(.:format)' => "organization_infos#show", :via => :get
     match '/organization_infos/create(.:format)' => "organization_infos#create", :via => :post
     match 'organization_infos/:id/update(.:format)' => "organization_infos#update", :via => :put
+    match '/organization_infos/delete_attachment(.:format)' => "organization_infos#delete_attachment", :via => :post
 
 
     #flex_value_sets
