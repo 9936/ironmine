@@ -185,9 +185,9 @@ module Chm::ChangeRequestsHelper
      if group_incidents[cr[:id]].present?
         cr[:incidents] ||= []
         cr[:incidents] = group_incidents[cr[:id]]
-      end
+     end
     end
-    datas
+    change_requests_approve(datas)
   end
 
   private
@@ -208,5 +208,27 @@ module Chm::ChangeRequestsHelper
        end
     end
     group_change_incidents
+  end
+
+  #根据变跟单的审批状态获取变更单当前的审批状态
+  def change_requests_approve(change_requests)
+    #根据状态的代码获取当前的含义
+    change_approve_status = Irm::LookupValue.get_lookup_value("CHANGE_APPROVE_STATUS")
+    codes_to_meanings = {}
+    unless change_approve_status.nil?
+       change_approve_status.each do |cas|
+         codes_to_meanings[cas[:lookup_code]] ||= []
+         codes_to_meanings[cas[:lookup_code]] = Irm::LookupValue.get_meaning("CHANGE_APPROVE_STATUS", cas[:lookup_code])
+       end
+    end
+    change_requests.each do |cr|
+      cr[:approve_status_meaning] ||= []
+      if cr[:approve_status].present?
+          cr[:approve_status_meaning] = codes_to_meanings[cr[:approve_status]]
+      else
+        cr[:approve_status_meaning] = t(:label_chm_change_request_approve_wait)
+      end
+    end
+    change_requests
   end
 end

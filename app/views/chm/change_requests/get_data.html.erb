@@ -70,18 +70,12 @@
             parent_table.find(".collapse_icon").css("display", "block");
             $(this).hide();
             parent_table.parent().parent().find(".expends").addClass("expand");
-//            parent_table.parent().parent().find(".expends").find("span").each(function(){
-//                $(this).addClass("expand");
-//            });
         });
         $(".collapse_icon").bind('click', function(){
             var parent_table = $(this).parent();
             parent_table.find(".expand_icon").show();
             $(this).hide();
             parent_table.parent().parent().find(".expends").removeClass("expand");
-//            parent_table.parent().parent().find(".expends").find("span").each(function(){
-//                $(this).removeClass("expand");
-//            });
         });
     });
 </script>
@@ -108,6 +102,9 @@
              </th>
              <th style="width:150px;">
                <div><%= t(:label_chm_change_request_implement) %></div>
+             </th>
+             <th style="width:100px;">
+               <div><%= t(:label_chm_change_request_approve) %></div>
              </th>
              <th>
                <div><%= t(:label_chm_change_request_organization) %></div>
@@ -165,6 +162,9 @@
              <table class="table_icon">
                 <tr><%= change_request_tasks(data.id) %></tr>
              </table>
+           </td>
+           <td>
+             <div><%= data[:approve_status_meaning] %></div>
            </td>
            <td>
              <div><%= data.organization_id_label %></div>
