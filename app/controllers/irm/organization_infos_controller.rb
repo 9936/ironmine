@@ -77,30 +77,31 @@ class Irm::OrganizationInfosController < ApplicationController
   # PUT /organization_infos/1.xml
   def update
     @organization_info = Irm::OrganizationInfo.find(params[:id])
-    if params[:irm_organization_info][:file] && params[:irm_organization_info][:file].present?
-      file = params[:irm_organization_info][:file]
-      #调用方法创建附件
-      begin
-        attached = Irm::AttachmentVersion.create_single_version_file(file,nil,nil, "Irm::OrganizationInfo", @organization_info.id)
-        if !attached.nil? and attached.id.present?
-          #删除原有的附件内容
-          if @organization_info.attachment_id.present?
-            attache = Irm::AttachmentVersion.find_by_attachment_id(@organization_info.id)
-            attache.destroy unless attache.nil?
+    respond_to do |format|
+      if params[:irm_organization_info][:file] && params[:irm_organization_info][:file].present?
+        file = params[:irm_organization_info][:file]
+        #调用方法创建附件
+        begin
+          attached = Irm::AttachmentVersion.create_single_version_file(file,nil,nil, "Irm::OrganizationInfo", @organization_info.id)
+          if !attached.nil? and attached.id.present?
+            #删除原有的附件内容
+            if @organization_info.attachment_id.present?
+              attache = Irm::AttachmentVersion.find_by_attachment_id(@organization_info.id)
+              attache.destroy unless attache.nil?
+            end
+            params[:irm_organization_info][:attachment_id] =  attached.id
+          else
+            @organization_info.errors.add(:file, I18n.t(:error_file_upload_limit))
+            format.html { render :action => "edit" }
+            format.xml  { render :xml => @organization_info.errors, :status => :unprocessable_entity }
           end
-          params[:irm_organization_info][:attachment_id] =  attached.id
-        else
-          @organization_info.errors.add(:file, I18n.t(:error_file_upload_limit))
+        rescue
+          @organization_info.errors.add(:content, I18n.t(:error_file_upload_limit))
           format.html { render :action => "edit" }
           format.xml  { render :xml => @organization_info.errors, :status => :unprocessable_entity }
         end
-      rescue
-        @organization_info.errors.add(:content, I18n.t(:error_file_upload_limit))
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @organization_info.errors, :status => :unprocessable_entity }
       end
-    end
-    respond_to do |format|
+
       if @organization_info.update_attributes(params[:irm_organization_info])
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
@@ -155,5 +156,16 @@ class Irm::OrganizationInfosController < ApplicationController
       end
     end
     organization_infos
+  end
+  #验证附件
+  def validate_file(attachment)
+    file_flag = true
+    now = 0
+    unless attachment.size > 0
+      file_flag, now = Irm::AttachmentVersion.validates?(attachment, Irm::SystemParametersManager.upload_file_limit)
+    else
+      file_flag = false
+    end
+    file_flag
   end
 end
