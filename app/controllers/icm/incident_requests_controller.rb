@@ -158,15 +158,12 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-        filter_system_ids(Irm::Person.current.system_ids).
-        #with_external_system(I18n.locale).
-        #where("LENGTH(external_system_id) > 0").
-        #where("external_system_id IN (?)", Irm::Person.current.system_ids).
+        filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).
         order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
 
-    if !allow_to_function?(:view_all_incident_request)
-      incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
-    end
+    #if !allow_to_function?(:view_all_incident_request)
+    #  incident_requests_scope = incident_requests_scope
+    #end
 
     incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag")  if incident_status_table_alias.present?
 
@@ -216,14 +213,9 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-        filter_system_ids(Irm::Person.current.system_ids).
-        #with_external_system(I18n.locale).
-        #where("LENGTH(external_system_id) > 0").
-        #where("external_system_id IN (?)", Irm::Person.current.system_ids + ['']).
+        filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).
         order("close_flag ,reply_flag desc,last_request_date desc,last_response_date desc,weight_value,id")
-    if !allow_to_function?(:view_all_incident_request)
-      incident_requests_scope = incident_requests_scope.relate_person(Irm::Person.current.id)
-    end
+
 
     incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag")  if incident_status_table_alias.present?
 

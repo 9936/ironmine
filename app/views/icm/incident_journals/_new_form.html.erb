@@ -138,9 +138,10 @@
               </div>
                <div class="button-group">
                  <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
-                  <div class="gray-button"><!--test--><%= link_to t(:permanent_close), {:action => "edit_permanent_close"}%></div>
-                <% end %>
-                <div class="gray-button"><%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id}%></div>
+                     <div class="gray-button"><!--test--><%= link_to t(:permanent_close), {:action => "edit_permanent_close"}%></div>
+                     <div class="gray-button"><%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id}%></div>
+                 <% end %>
+
           <% end %>
           </div>
           <div class="button-group">
