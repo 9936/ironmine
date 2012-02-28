@@ -1698,3 +1698,14 @@ en:
   label_irm_data_share_rule_share_with: To Share With
 
   #=========================end irm data share rules=======================#
+
+  #=========================    irm organization_infos=======================#
+  label_irm_organization_info: Organization Info
+  label_irm_organization_info_list: Organization Info List
+  label_irm_organization_info_new: New Organization Info
+  label_irm_organization_info_name: Name
+  label_irm_organization_info_value: Value
+  label_irm_organization_info_file: File
+  label_irm_organization_info_description: Description
+  label_irm_edit_attachment: Edit
+  #=========================end organization_infos=======================#

@@ -77,7 +77,10 @@ class Chm::ChangeApprovalsController < ApplicationController
   def approve
     @change_approval = Chm::ChangeApproval.find(params[:id])
     @change_request = Chm::ChangeRequest.list_all.find(@change_approval.change_request_id)
-
+    respond_to do |format|
+      format.html { render :layout => "application_full"} # index.html.erb
+      format.xml  { head :ok }
+    end
   end
 
 

@@ -330,4 +330,7 @@ Irm::AccessControl.map do |map|
   #
   map.function :data_share_rule,{"irm/data_share_rules"=>["get_option", "index", "new", "edit", "create", "update", "show", "get_data", "destroy", "multilingual_edit", "multilingual_update"],
                                  }
+  #===================irm/organization_infos============================
+  #
+  map.function :organization_info,{"irm/organization_infos" => ["index","edit","update","new","show","create","get_data","delete_attachment"]}
 end

@@ -1,0 +1,135 @@
+<style type="text/css">
+  #modify_file, #modify_cancel {
+      margin-left: 30px;
+      display: inline-block;
+  }
+  #modify_file a,#modify_cancel a {
+      color: #015BA7;
+  }
+  #new_file {
+      display: none;
+  }
+  #old_file #delete_file a {
+     color: #CC0000;
+  }
+</style>
+<script type="text/javascript">
+  $(document).ready(function(){
+     $("#modify_file").bind("click",function(e){
+        $(this).parent().css('display','none');
+        $("#new_file").css('display', 'inline');
+        e.preventDefault();
+     });
+     $('#modify_cancel').bind('click',function(e){
+         $(this).parent().css('display','none');
+         //如果file_filed 设置为空
+         $(this).parent().find('input[type=file]').val(null);
+         $("#old_file").css('display', 'inline');
+         e.preventDefault();
+     });
+     //删除操作
+     $("#delete_file").bind('click',function(e){
+        if (!confirm("你确定要删除附件吗？")) {
+            return;
+        }
+        var id = $(this).attr("org_id");
+        if(id && id != '') {
+            $.ajax({
+                type: 'POST',
+                url: '/organization_infos/delete_attachment',
+                data: {id: id},
+                dataType: 'json',
+                success: function(data) {
+                    $("#delete_file").parent().css('display','none');
+                    $("#new_file").css('display', 'inline');
+                    $('#modify_cancel').hide();
+                },
+                error: function() {}
+            });
+        }
+        return;
+     });
+  });
+</script>
+<%= form_for(@organization_info,:url=>{:action=>"update"},:builder => LabellingFormBuilder,:html => {:multipart => true}) do |f| %>
+<div id="ep" class="edit-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_organization_info_new)%></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <%= error_for @organization_info %>
+    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+      <span class="pbSubExtra">
+        <span class="requiredLegend">
+          <span class="requiredExampleOuter">
+            <span class="requiredExample">&nbsp;</span>
+          </span><span class="requiredMark">*</span>
+          <span class="requiredText"> = <%=t(:label_is_required)%></span>
+        </span>
+      </span>
+      <h3><%= t(:label_common_info) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label for="organization_info_name"><%=t(:label_irm_organization_info_name)%></label></td>
+              <td class="dataCol"><%=f.text_field :name, :required=>true,:id=>"organization_info_name" %></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+
+            <tr>
+              <td class="labelCol"><label for="organization_info_value"><%=t(:label_irm_organization_info_value)%></label></td>
+              <td class="dataCol"><%=f.text_field :value, :required=>true,:id=>"organization_info_value" %></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+
+            <tr>
+              <td class="labelCol"><label for="organization_info_value"><%=t(:label_irm_organization_info_file)%></label></td>
+              <% if @organization_info[:attachment_id].present? %>
+              <td class="dataCol" id="old_file"><%= filename(@organization_info[:attachment_id]) %><span id="modify_file"><a href="javascript:void(0);"><%= t(:label_irm_edit_attachment) %></a></span> | <span id="delete_file" org_id="<%= @organization_info[:id] %>"><a href="javascript:void(0)"><%= t(:delete) %></a></span></td>
+              <td class="dataCol" id="new_file"><%=f.file_field :file,:id=>"organization_info_file" %><span id="modify_cancel"><a href="javascript:void(0);"><%=t(:cancel)  %></a></span></td>
+              <% else %>
+              <td class="dataCol"><%=f.file_field :file,:id=>"organization_info_file" %></td>
+              <% end %>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+
+            <tr>
+              <td class="labelCol"><label><%=(t :label_irm_organization_info_description)%></label></td>
+              <td class="dataCol"><%=f.text_area :description,:rows=>4%></td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pbBottomButtons">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"></td>
+          <td id="bottomButtonRow" class="pbButtonb">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>

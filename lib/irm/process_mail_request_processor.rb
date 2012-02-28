@@ -7,7 +7,6 @@ module Irm
       # get the parsed email
       # use the plain mail message content
       return false unless parsed_email[:bodies].size>0
-
       if email.to.present? #&& parsed_email[:action_type] && parsed_email[:action_type].eql?("REQUEST")
         people.each do |person|
           Irm::Person.current = person
@@ -22,7 +21,7 @@ module Irm
           return false unless Irm::Person.current.external_systems.include?(sys)
 
           incident_request = Icm::IncidentRequest.new()
-          content = parsed_email[:bodies][0]
+          content = parsed_email[:bodies][1]
           return false unless content.size > 0
           incident_request.summary =content
           prepared_for_create(incident_request, rule, email)
@@ -77,7 +76,7 @@ module Irm
       end
 
       if incident_request.report_source_code.nil?||incident_request.report_source_code.blank?
-        incident_request.report_source_code = "CUSTOMER_SUBMIT"
+        incident_request.report_source_code = "MAIL_SUBMIT"
       end
       if incident_request.requested_by.present?
         incident_request.contact_id = incident_request.requested_by

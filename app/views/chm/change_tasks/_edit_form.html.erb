@@ -37,6 +37,7 @@
                           <td class="dataCol"><%= f.blank_select(:support_person_id,[],{},
                                               {
                                                :id=>"support_person_id",
+                                               :origin_value=>@change_task.support_person_id,
                                                :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"${support_group_id}"),
                                                :depend=>"support_group_id",
                                                :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
