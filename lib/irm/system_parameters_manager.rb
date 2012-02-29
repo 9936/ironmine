@@ -1,66 +1,71 @@
 module Irm::SystemParametersManager
   class << self
     def app_top_logo
-      system_params[:app_top_logo] || "/images/logos/logo.png"
+      param=Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("app_top_logo")}
+      param[:img] || "/images/logos/logo.png"
     end
 
     def login_page_logo
-      system_params[:login_page_logo]|| "/images/logos/main-logo.png"
+      param=Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("login_page_logo")}
+      param[:img]|| "/images/logos/main-logo.png"
     end
 
     def address_bar_logo
-      system_params[:address_bar_logo] || "/favicon.ico"
+      param=Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("address_bar_logo")}
+      param[:img] || "/favicon.ico"
     end
 
     def application_title
-      system_params[:application_title] ||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("application_title")}.value ||""
     end
 
     def host_name
-      system_params[:host_name]||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("host_name")}.value ||""
     end
 
     def host_path
-      system_params[:host_path]||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("host_path")}.value ||""
     end
 
     def host_port
-      system_params[:host_port]||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("host_port")}.value ||""
     end
 
     def emission_email_address
-      system_params[:emission_email_address]||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("emission_email_address")}.value ||""
     end
 
     def upload_file_limit
-      system_params[:upload_file_limit].to_f
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("upload_file_limit")}.value.to_f
     end
 
     def timezone
-      system_params[:timezone]||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("timezone")}.value ||""
     end
 
     def error_404_text
-      system_params[:error_404_text]||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("error_404_text")}.value ||""
     end
 
     def error_500_text
-      system_params[:error_500_text]||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("error_500_text")}.value ||""
     end
 
     def error_422_text
-      system_params[:error_422_text]||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("error_422_text")}.value ||""
     end
 
     def error_access_deny_text
-      system_params[:error_access_deny_text]||""
+      Irm::SystemParameter.global_setting.detect{|i| i[:parameter_code].downcase.eql?("error_access_deny_text")}.value ||""
     end
+=begin
 
     def reset_system_parameters
       prepare_system_parameters_cache
     end
 
-    def prepare_system_parameters_cache
+   #依据Feature #1176对系统参数功能添加多云运维中心支持   取消系统参数缓存功能
+ def prepare_system_parameters_cache
 
       login_page_logo = Irm::SystemParameter.query_by_code("LOGIN_PAGE_LOGO")
       app_top_logo = Irm::SystemParameter.query_by_code("APP_TOP_LOGO")
@@ -117,5 +122,7 @@ module Irm::SystemParametersManager
     end
 
     private :map, :system_params
+=end
+
   end
 end

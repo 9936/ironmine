@@ -25,12 +25,12 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-            <% @settings.each do |t| %>
+
                 <tr>
-                  <td class="labelCol"><label><%=(t[0])%></label></td>
-                  <td class="data2Col"><%= select_tag t[1], nullable_options_for_select(available_system_yes_no.collect{|m| [m[:meaning], m.lookup_code]}, t[3])%></td>
+                  <td class="labelCol"><label><%=@settings.query_by_code("SKM_HEADER_AUDIT").first[:name]%></label></td>
+                  <td class="data2Col"><%= select_tag "SKM_HEADER_AUDIT", nullable_options_for_select(available_system_yes_no.collect{|m| [m[:meaning], m.lookup_code]}, @settings.query_by_code("SKM_HEADER_AUDIT").first[:value])%></td>
                 </tr>
-            <% end %>
+
         </tbody>
       </table>
     </div>

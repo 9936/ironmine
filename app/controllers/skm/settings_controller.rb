@@ -1,20 +1,43 @@
 class Skm::SettingsController < ApplicationController
   def index
-    @settings = Irm::SystemParameter.select_all.query_by_type("SKM_SETTING").collect{|p| [p[:name], p.parameter_code, p.content_type, p.value, p.id]}
+    @settings = Irm::SystemParameter.select_all.query_by_type("SKM_SETTING")
   end
 
   def edit
-    @settings = Irm::SystemParameter.select_all.query_by_type("SKM_SETTING").collect{|p| [p[:name], p.parameter_code, p.content_type, p.value, p.id]}
+    @settings = Irm::SystemParameter.select_all.query_by_type("SKM_SETTING")
   end
 
   def update
-    navi_display = Irm::SystemParameter.query_by_code("SKM_SIDEBAR_NAVI_DISPLAY").first
-    file_link_display = Irm::SystemParameter.query_by_code("SKM_SIDEBAR_FILE_LINK_DISPLAY").first
-    respond_to do |format|
-      if navi_display.update_attribute(:value, params[:SKM_SIDEBAR_NAVI_DISPLAY]) &&
-          file_link_display.update_attribute(:value, params[:SKM_SIDEBAR_FILE_LINK_DISPLAY])
-        format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_updated)) }
-      end
-    end
+
+     system_parameters = Irm::SystemParameter.query_by_type("SKM_SETTING")
+
+         respond_to do |format|
+           if true
+
+             system_parameters.each do |s|
+               if s.data_type == "IMAGE"
+                 if params[s[:parameter_code].to_sym] && !params[s[:parameter_code].to_sym].blank?
+                     s.update_attribute(:img, params[s[:parameter_code].to_sym])
+                     s.update_attribute(:value, "Y")
+
+                 end
+               elsif s.data_type == "TEXT"
+                 if params[s[:parameter_code].to_sym]
+                   s.update_attribute(:value, params[s[:parameter_code].to_sym])
+                 end
+               else
+                 if params[s[:parameter_code].to_sym]
+                   s.update_attribute(:value, params[s[:parameter_code].to_sym])
+                 end
+               end
+             end
+
+             format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
+             format.xml  { head :ok }
+           else
+             format.html { render :action => "edit" }
+             format.xml  { render :xml => @settings.errors, :status => :unprocessable_entity }
+           end
+         end
   end
 end

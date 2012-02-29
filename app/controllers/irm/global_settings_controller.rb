@@ -41,8 +41,7 @@ class Irm::GlobalSettingsController < ApplicationController
             end
           end
         end
-        #重置系统设置缓存
-        Irm::SystemParametersManager.reset_system_parameters
+
 
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }

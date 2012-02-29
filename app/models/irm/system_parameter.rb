@@ -15,6 +15,18 @@ class Irm::SystemParameter < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
 
+  #定义缓存全局设置的实例变量
+
+  def self.global_setting
+    if @global_setting
+       return @global_setting
+    else
+       return @global_setting=query_by_type("GLOBAL_SETTING")
+    end
+
+  end
+
+
   #根据Feature #1176  将parameter_value从parameter表中分离出来时，为避免对上层代码的大量重构，故添加这两个img方法，使img成为parameter表个伪字段,value字段 同上
   def img
     paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
