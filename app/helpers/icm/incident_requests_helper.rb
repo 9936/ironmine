@@ -42,6 +42,11 @@ module Icm::IncidentRequestsHelper
     people
   end
 
+  def available_support_person(group_id)
+    support_group_members_scope= Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(group_id)
+    support_group_members_scope.collect{|p| [p[:person_name],p[:person_id]]}
+  end
+
   def available_support_group
 #    Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all.collect{|s| [s[:name],s.id]}
 

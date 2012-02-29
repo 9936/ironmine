@@ -60,9 +60,11 @@ class Chm::ChangeTasksController < ApplicationController
         @change_task.save
         format.html { redirect_to({:controller=>"chm/change_requests",:action => "show_implement",:id=>@change_task.source_id}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
+        format.json { render :json=> @change_task.to_json }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @change_task_template.errors, :status => :unprocessable_entity }
+        format.json { render :json=> @change_task.errors.to_json }
       end
     end
   end

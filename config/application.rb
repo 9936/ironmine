@@ -74,7 +74,8 @@ module Ironmine
         :datepicker=>%w(jquery-datepicker),
         :video => %w(video-js),
         :jpolite => %w(screen style),
-        :treeview => %w(treeview)
+        :treeview => %w(treeview),
+        :autosaving => %w(auto-saving)
     }
   end
 end
