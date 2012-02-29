@@ -1,11 +1,11 @@
 class Irm::SystemParameter < ActiveRecord::Base
   set_table_name :irm_system_parameters
-  has_attached_file :img
-  validates_attachment_size :img, :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
+
 
   #多语言关系
   attr_accessor :name, :description
   has_many :system_parameters_tls, :dependent => :destroy
+  has_many :system_parameter_values,:dependent => :destroy
   acts_as_multilingual
 
   validates_presence_of :parameter_code
@@ -14,22 +14,65 @@ class Irm::SystemParameter < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
-  # 对运维中心数据进行隔离
-  default_scope {default_filter}
+
+  #根据Feature #1176  将parameter_value从parameter表中分离出来时，为避免对上层代码的大量重构，故添加这两个img方法，使img成为parameter表个伪字段,value字段 同上
+  def img
+    paramvalue= Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
+    if paramvalue.first
+           return  paramvalue.first.img
+    else
+            paramvalue.create.img
+    end
+  end
+
+  def img=(pic)
+    paramvalue= Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
+    if paramvalue.first
+        paramvalue.first.img=pic
+        paramvalue.first.save
+    else
+        paramvalue.create(:img=>pic)
+    end
+  end
+  def value
+    paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
+    if paramvalue.first
+       return  paramvalue.first.value
+    else
+        paramvalue.create.value
+    end
+  end
+  def value=(v)
+    paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
+    if paramvalue.first
+        paramvalue.first.value=v
+        paramvalue.first.save
+    else
+        paramvalue.create(:value=>v)
+    end
+  end
+
 
   scope :select_all, lambda{
-    select("#{table_name}.*, spt.name name, spt.description description").
+    with_values.select("#{table_name}.*,spt.name name, spt.description description").
         joins(",#{Irm::SystemParametersTl.table_name} spt").
-        where("#{table_name}.id = spt.system_parameter_id").
-        where("spt.language = ?", I18n.locale)
+        where("#{table_name}.id = spt.system_parameter_id and spt.language = ?",I18n.locale)
+  }
+
+  scope :with_values, lambda{
+    joins("LEFT OUTER JOIN irm_system_parameter_values ON irm_system_parameter_values.system_parameter_id = #{table_name}.id and irm_system_parameter_values.opu_id ='#{Irm::OperationUnit.current.id}'").
+        select("irm_system_parameter_values.value,irm_system_parameter_values.img_updated_at,"+
+                  "irm_system_parameter_values.img_file_size,irm_system_parameter_values.img_content_type,"+
+                  "irm_system_parameter_values.img_file_name")
+
   }
 
   scope :query_by_code, lambda{|parameter_code|
-    where("#{table_name}.parameter_code = ?", parameter_code)
+    select_all.where("#{table_name}.parameter_code = ?", parameter_code)
   }
 
   scope :query_by_type, lambda{|content_type|
-    where("#{table_name}.content_type = ?", content_type)
+    select_all.where("#{table_name}.content_type = ?", content_type)
   }
 
   def self.get_value_by_code(parameter_code)
