@@ -17,36 +17,42 @@ class Irm::SystemParameter < ActiveRecord::Base
 
   #根据Feature #1176  将parameter_value从parameter表中分离出来时，为避免对上层代码的大量重构，故添加这两个img方法，使img成为parameter表个伪字段,value字段 同上
   def img
-    paramvalue= Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
-    if paramvalue.first
-           return  paramvalue.first.img
+    paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
+    paramfirst=paramvalue.first
+    if paramfirst
+      return paramfirst.img
     else
-            paramvalue.create.img
+      return  paramfirst.create.img
     end
+
   end
 
   def img=(pic)
-    paramvalue= Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
-    if paramvalue.first
-        paramvalue.first.img=pic
-        paramvalue.first.save
-    else
+
+     paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
+     paramfirst=paramvalue.first
+     if paramfirst
+       paramfirst.img=pic
+       paramfirst.save
+     else
         paramvalue.create(:img=>pic)
-    end
+     end
   end
   def value
     paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
-    if paramvalue.first
-       return  paramvalue.first.value
+    paramsfirst=paramvalue.first
+    if paramsfirst
+       return  paramsfirst.value
     else
-        paramvalue.create.value
+       return  paramvalue.create.value
     end
   end
   def value=(v)
     paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
-    if paramvalue.first
-        paramvalue.first.value=v
-        paramvalue.first.save
+    paramsfirst=paramvalue.first
+    if paramsfirst
+        paramsfirst.value=v
+        paramsfirst.save
     else
         paramvalue.create(:value=>v)
     end
