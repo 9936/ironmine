@@ -18,14 +18,22 @@ class Irm::SystemParameter < ActiveRecord::Base
   #定义缓存全局设置的实例变量
 
   def self.global_setting
-    if @global_setting
-       return @global_setting
+
+    if @global_setting&&Irm::OperationUnit.current
+      return @global_setting
     else
-       return @global_setting=query_by_type("GLOBAL_SETTING")
+      return  @global_setting=query_by_type("GLOBAL_SETTING")
     end
 
   end
 
+  def self.skm_setting
+    if @skm_setting&&Irm::OperationUnit.current
+      @skm_setting
+    else
+      @skm_setting=query_by_type("SKM_SETTING")
+    end
+  end
 
   #根据Feature #1176  将parameter_value从parameter表中分离出来时，为避免对上层代码的大量重构，故添加这两个img方法，使img成为parameter表个伪字段,value字段 同上
   def img
@@ -51,10 +59,11 @@ class Irm::SystemParameter < ActiveRecord::Base
      end
   end
   def value
+
     paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
     paramsfirst=paramvalue.first
     if paramsfirst
-       return  paramsfirst.value
+        return  paramsfirst.value
     else
        return  paramvalue.create.value
     end

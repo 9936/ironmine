@@ -1,7 +1,7 @@
 class Irm::SystemParameterValue < ActiveRecord::Base
   set_table_name :irm_system_parameter_values
   has_attached_file :img
-  validates_attachment_size :img, :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
+  validates_attachment_size :img , :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
 
    #加入activerecord的通用方法和scope
    query_extend
