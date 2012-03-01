@@ -81,7 +81,7 @@
                     <div class="name"><span><%= data[:support_person_name] %></span></div>
                     <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
                     <div class="name_edit">
-                      <%= select_tag_alias :support_person_id, available_support_person(data[:support_group_id]),nil,{:id=>"person-#{data[:id]}", "select_type" => "person" }%>
+                      <%= select_tag_alias :support_person_id, available_support_person(data[:support_group_id]),nil,{:id=>"person-#{data[:id]}",:prompt => "--- #{t(:actionview_instancetag_blank_option)} ---", "select_type" => "person" }%>
                     </div>
                     <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
@@ -117,12 +117,13 @@
   $(function(){
      $(".edit").click(function(e){
         //获取该单元格所在行的id即任务id
-        var node = {}, item = $(this).parent();
-        var id = item.parent().attr("id");
-        var name = item.find(".name");
-        var name_edit =  item.find(".name_edit");
-        var input_name = name_edit.find("input");
-        var edit = item.find(".edit");
+        edit_flag = true;
+        var node = {}, item = $(this).parent(),
+        id = item.parent().attr("id"),
+        name = item.find(".name"),
+        name_edit =  item.find(".name_edit"),
+        input_name = name_edit.find("input"),
+        edit = item.find(".edit");
 
         node.name = name;
         node.type = input_name.length == 0? 'select' : 'input';
@@ -135,27 +136,29 @@
         edit.hide();
         name.hide();
         name_edit.show();
-        input_name.focus();
         node.selector = name_edit.find("select");
-        node.selector.focus();
         node.selector.change(function(){
             if($(this).attr("select_type") && $(this).attr("select_type") == 'group') {
                 node.select_type = 'group';
             }else if($(this).attr("select_type") && $(this).attr("select_type") == 'person') {
                 node.select_type = 'person';
             }
-            edit_flag = true;
+            //edit_flag = true;
             this.blur();
         });
         if (node.type == 'select') {
             input_name = node.selector;
         }
+        input_name.focus();
         node.field_name = input_name.attr("name"); //用于保存数据所用
         if (node.type == 'input') {
             //keypress 处理
             input_name.keypress(function (e) {
                if (e.which == '13') {
                    node.name_value = $(this).val();
+                   if(node.name_value == '') {
+                       node.name_value = '';
+                   }
                    updateItemName(item,node,name_edit, this, node.name_value);
                    return false; //修复在IE下的Bug
                }
@@ -165,7 +168,7 @@
                 if (e.which != '13') {
                     var res = validateItemName($(this).val());
                     if (!res.result) {
-                        alert(res.msg);
+                        $(this).focus();
                     }
                 }
             });
@@ -175,7 +178,6 @@
             //esc 处理
             var esc_func = function () {
                 validateItemName($(this));
-                //$(this).val(node.name_value).change();
                 $(this).val($(this).val()).change();
             }.bind(this);
             //判断是否编辑
@@ -183,20 +185,20 @@
                 if(validateItemName($(this).val())) {
                     node.name_value = $(this).val();
                     if(node.type == 'select') {
-                        node.name_value = $.trim($(this).find("option:selected").html());
+                        node.name_value = node.name_value == ''? node.name_value : $.trim($(this).find("option:selected").html());
                     }
                     edit_flag = false;
                     updateItemName(item,node,name_edit, this, node.name_value);
                 }else{
                     esc_func();
-//                    name_edit.hide();
-//                    name.show();
-//                    edit.show();
                 }
             }else if(esc_key_flag) {
                 esc_func();
             }else{
-                esc_func();
+                node.text_node_loading.hide();
+                node.name_edit.hide();
+                node.name.show();
+                node.edit.show();
             }
         });
         //change 处理
@@ -216,16 +218,16 @@
       	return {result: true};
   }
 
-    //保存更新
+    //保存更新的选项
     function updateItemName(file, item, text_div, text_box, display_name) {
       var val = $(text_box).val();
-      var new_filename = val;
       var success_func = function (data) {
         //如果更新列支持组则去获取支持组下的支持人员
         if(item.select_type == 'group') {
             edit_flag = false;
             getSupportPerson(val, item.id);
         }
+        //设置当前文本框和下拉列表不可用
         $(text_box).attr('disabled', false);
         $(item.text_node_loading).hide();
         $(item.name).html('<span>'+display_name+'</span>').show();
@@ -235,7 +237,7 @@
           url: '/change_tasks/'+item.id+'',
           type: 'PUT',
           dataType: 'json',
-          data: "chm_change_task["+item.field_name+"]="+ new_filename,
+          data: "chm_change_task["+item.field_name+"]="+ val,
           beforeSend: function () {
               $(text_box).attr('disabled', true);
               $(text_div).hide();
@@ -255,12 +257,13 @@
          url: '/support_groups/'+group_id+'/get_member_options.json',
          dataType: 'json',
          success: function(data){
-            var options = "", selector = $('#person-'+id);
+            //将支持人员json格式数据进行遍历成下拉可选
+            var options = "<option value=''>--- 请选择 ---</option>", selector = $('#person-'+id);
             $.each(data.items,function(index,person){
               options += "<option id='"+person.id+"' value='"+person.value+"'>"+person.label+"</option>"
             });
             selector.html(options);
-            selector.parent().parent().click();
+            selector.parent().parent().find(".edit").click();
          }
       });
   }
