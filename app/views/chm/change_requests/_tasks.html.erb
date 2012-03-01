@@ -1,9 +1,4 @@
 <% require_css([:autosaving]) %>
-<script type="text/javascript">
-  $(document).ready(function(){
-      //alert('OK');
-  });
-</script>
 <%= detail_data_table(datas.length) do %>
   <!--  irm datatable      -->
   <div class="irm-datatable">
@@ -14,16 +9,16 @@
               <th style="width:80px;">
                 <div><%= t(:operation) %></div>
               </th>
-              <th>
+              <th style="width: 200px;">
                 <div><%= t(:label_chm_change_task_name) %></div>
               </th>
-              <th>
+              <th style="width:200px">
                 <div><%= t(:label_chm_change_task_support_group) %></div>
               </th>
-              <th>
+              <th style="width: 200px;">
                 <div><%= t(:label_chm_change_task_support_person) %></div>
               </th>
-              <th>
+              <th style="width: 150px;">
                 <div><%= t(:label_chm_change_task_status) %></div>
               </th>
               <th>
@@ -63,19 +58,25 @@
                       <%= link_to(t(:delete),{:controller => "chm/change_tasks",:action => "destroy",:id=>data.id},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
                     </div>
                   </td>
-                  <td>
-                    <div>
-                      &nbsp;&nbsp;&nbsp;&nbsp;<%= data[:name] %>
+
+                  <td class="edit_item">
+                    <div class="name task_name"><span><%= data[:name] %></span></div>
+                    <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
+                    <div class="name_edit">
+                        <%= text_field_tag :name,data[:name] %>
                     </div>
+                    <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
+
                   <td class="edit_item">
                     <div class="name"><span><%= data[:support_group_name] %></span></div>
                     <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
                     <div class="name_edit">
-                      <%= select_tag_alias :support_group_id, available_support_group,nil,{:id=>"support_group_id",:prompt =>data[:support_group_name], "select_type" => "group" }%>
+                      <%= select_tag_alias :support_group_id, available_support_group,data[:support_group_name],{:id=>"support_group_id",:prompt =>data[:support_group_name], "select_type" => "group" }%>
                     </div>
                     <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
+
                   <td class="edit_item">
                     <div class="name"><span><%= data[:support_person_name] %></span></div>
                     <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
@@ -84,15 +85,23 @@
                     </div>
                     <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
-                  <td>
-                    <div>
-                      <%= data[:status_name] %>
+
+                  <td class="edit_item">
+                    <div class="name"><span><%= data[:status_name] %></span></div>
+                    <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
+                    <div class="name_edit">
+                        <%= select_tag_alias :status, options_for(Chm::ChangeStatus),data[:status_name],{:id=>"status", "select_type" => "status" }%>
                     </div>
+                    <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
-                  <td>
-                    <div>
-                      <%= data[:description] %>
+
+                  <td class="edit_item">
+                    <div class="name"><span><%= data[:description] %></span></div>
+                    <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
+                    <div class="name_edit">
+                        <%= text_field_tag :description,data[:description] %>
                     </div>
+                    <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
                 </tr>
               <% end -%>
@@ -106,9 +115,9 @@
 <script type="text/javascript">
   var esc_key_flag = false, edit_flag = false;
   $(function(){
-     $(".edit_item").click(function(e){
+     $(".edit").click(function(e){
         //获取该单元格所在行的id即任务id
-        var node = {}, item = $(this);
+        var node = {}, item = $(this).parent();
         var id = item.parent().attr("id");
         var name = item.find(".name");
         var name_edit =  item.find(".name_edit");
@@ -132,16 +141,15 @@
         node.selector.change(function(){
             if($(this).attr("select_type") && $(this).attr("select_type") == 'group') {
                 node.select_type = 'group';
-//                if(edit_flag) {
-//                    edit_flag = false;
-//                    getSupportPerson($(this).val(), id);
-//                }
             }else if($(this).attr("select_type") && $(this).attr("select_type") == 'person') {
                 node.select_type = 'person';
             }
+            edit_flag = true;
             this.blur();
         });
-        input_name = node.selector;
+        if (node.type == 'select') {
+            input_name = node.selector;
+        }
         node.field_name = input_name.attr("name"); //用于保存数据所用
         if (node.type == 'input') {
             //keypress 处理
@@ -158,8 +166,6 @@
                     var res = validateItemName($(this).val());
                     if (!res.result) {
                         alert(res.msg);
-                    } else {
-
                     }
                 }
             });
@@ -169,10 +175,8 @@
             //esc 处理
             var esc_func = function () {
                 validateItemName($(this));
-            	$(this).val(node.name).change();
-            	name_edit.hide();
-            	name.show();
-                edit.show();
+                //$(this).val(node.name_value).change();
+                $(this).val($(this).val()).change();
             }.bind(this);
             //判断是否编辑
             if(edit_flag && $(this).is(':visible')) {
@@ -185,8 +189,13 @@
                     updateItemName(item,node,name_edit, this, node.name_value);
                 }else{
                     esc_func();
+//                    name_edit.hide();
+//                    name.show();
+//                    edit.show();
                 }
             }else if(esc_key_flag) {
+                esc_func();
+            }else{
                 esc_func();
             }
         });
@@ -207,19 +216,20 @@
       	return {result: true};
   }
 
-  //保存更新
-  function updateItemName(file, item, text_div, text_box, display_name) {
+    //保存更新
+    function updateItemName(file, item, text_div, text_box, display_name) {
       var val = $(text_box).val();
       var new_filename = val;
       var success_func = function (data) {
-        $(text_box).attr('disabled', false);
-        $(item.text_node_loading).hide();
-        $(item.name).html('<span>'+display_name+'</span>').show();
-        $(item.edit).show();
+        //如果更新列支持组则去获取支持组下的支持人员
         if(item.select_type == 'group') {
             edit_flag = false;
             getSupportPerson(val, item.id);
         }
+        $(text_box).attr('disabled', false);
+        $(item.text_node_loading).hide();
+        $(item.name).html('<span>'+display_name+'</span>').show();
+        $(item.edit).show();
       };
       $.ajax({
           url: '/change_tasks/'+item.id+'',
@@ -237,7 +247,7 @@
           }
       });
       return false;
-  }
+    }
   function getSupportPerson(group_id, id) {
       if (group_id == null || group_id == '') return;
       $.ajax({
@@ -245,7 +255,7 @@
          url: '/support_groups/'+group_id+'/get_member_options.json',
          dataType: 'json',
          success: function(data){
-            var options = '', selector = $('#person-'+id);
+            var options = "", selector = $('#person-'+id);
             $.each(data.items,function(index,person){
               options += "<option id='"+person.id+"' value='"+person.value+"'>"+person.label+"</option>"
             });

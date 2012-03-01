@@ -20,9 +20,12 @@
     -khtml-user-select:none;
     user-select:none
 }
+.edit_item .task_name span {
+    margin-left: 20px !important;
+}
 .edit_item .name_edit,.edit_item .loading_edit{
     float: left;
-    min-width: 150px;
+    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
