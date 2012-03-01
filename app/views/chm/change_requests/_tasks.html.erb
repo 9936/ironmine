@@ -72,7 +72,7 @@
                     <div class="name"><span><%= data[:support_group_name] %></span></div>
                     <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
                     <div class="name_edit">
-                      <%= select_tag_alias :support_group_id, available_support_group,data[:support_group_name],{:id=>"support_group_id",:prompt =>data[:support_group_name], "select_type" => "group" }%>
+                      <%= select_tag_alias :support_group_id, available_support_group,data[:support_group_name],{:id=>"support_group_id",:prompt =>"--- #{t(:actionview_instancetag_blank_option)} ---", "select_type" => "group" }%>
                     </div>
                     <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
