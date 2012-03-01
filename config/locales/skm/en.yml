@@ -48,6 +48,7 @@ en:
   label_skm_entry_header_doc_number: Doc Number
   label_skm_entry_header_status_code: Status
   label_skm_entry_header_published_date: Published Date
+  label_skm_entry_header_author_name: Author
   label_skm_entry_header_history_list: History List
   notice_skm_entry_step_1_desc: Select a Entry Template, which will decide the entry structure that you create later
   notice_skm_entry_step_2_desc: Input entry content
@@ -59,11 +60,17 @@ en:
   label_skm_entry_header_search_by_title: Search by entry title
   label_skm_entry_header_my_favorites: Favorites
   label_skm_entry_header_my_favorites_list: My favorites list
+  label_skm_entry_header_my_unpublished_list: My unpublished list
   label_skm_my_drafts: Drafts
+  label_skm_entry_header_wait_my_approve_list: Wait My Approval list
   error_choice_template: Select a template first
   label_action_my_favorites: My Favorites
   label_action_my_drafts: My Drafts
+  label_action_wait_my_approve: Wait My Approval
+  label_action_my_unpublished: My Unpublished
   label_action_index_search: Search Result
+  label_action_approve: Approve
+  label_action_reject: Reject
   label_action_new_step_1: Create, Step 1
   label_action_new_step_2: Create, Step 2
   label_action_new_step_3: Create, Step 3

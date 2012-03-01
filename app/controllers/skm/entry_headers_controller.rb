@@ -578,6 +578,48 @@ class Skm::EntryHeadersController < ApplicationController
     end        
   end
 
+  def my_unpublished
+
+  end
+  def my_unpublished_data
+    entry_headers_scope = Skm::EntryHeader.list_all.with_entry_status.my_unpublished(params[:person_id])
+    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+    entry_headers,count = paginate(entry_headers_scope)
+    respond_to do |format|
+      format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:entry_status_code,:entry_status_name, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date], count)) }
+    end
+  end
+
+  def wait_my_approve
+
+  end
+  def wait_my_approve_data
+    entry_headers_scope = Skm::EntryHeader.list_all.with_author.with_entry_status.wait_my_approve
+    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+    entry_headers,count = paginate(entry_headers_scope)
+    respond_to do |format|
+      format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:author_name,:entry_status_code,:entry_status_name, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date], count)) }
+    end
+  end
+
+  def approve_knowledge
+
+     entry_header_ids=params[:entry_header_ids].split(",")   #将隐藏域传入进来ID转换成数组
+     entry_header_ids.compact                     #去掉nil
+     if(entry_header_ids.size>0)
+            if(params[:commit].eql?(I18n.t(:label_action_approve)))    #如果通过
+
+                   Skm::EntryHeader.where(:id=>entry_header_ids).update_all(:entry_status_code=>"PUBLISHED")    #更新为发布状态
+            elsif(params[:commit].eql?(I18n.t(:label_action_reject)))    #如果拒绝
+                   Skm::EntryHeader.where(:id=>entry_header_ids).update_all(:entry_status_code=>"APPROVE_DENY")   #更新为审核拒绝状态
+
+            end
+     end
+     respond_to do |format|
+       format.js
+     end
+
+  end
 
   def new_from_icm_request
     incident_request = Icm::IncidentRequest.list_all.where("#{Icm::IncidentRequest.table_name}.id = ?", params[:request_id]).first()

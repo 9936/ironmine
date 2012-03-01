@@ -9,6 +9,6 @@
     <% end %>
 
     <%= pb.page_block_body do %>
-      <%= render :partial=>"chm/change_tasks/tasks",:locals=>{:datas=>change_tasks(@change_request.id)} %>
+      <%= render :partial=>"chm/change_requests/tasks",:locals=>{:datas=>change_tasks(@change_request.id)} %>
     <% end %>
 <% end %>
