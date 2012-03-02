@@ -84,6 +84,9 @@ Delayed::Worker.backend=:active_record
 
 Delayed::Backend::Base::ClassMethods.send(:include, Irm::DelayedJobBaseEx)
 
+# 修改paperclip的验证方法,添加对Proc的支持
+Paperclip::ClassMethods.send(:include,Irm::PaperclipValidator)
+
 # 加载报表类
 Dir[Rails.root.join('program', 'report', '**', '*.rb')].each do |file_path|
   require "#{file_path}"
