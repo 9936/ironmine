@@ -15,91 +15,16 @@ class Irm::SystemParameter < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
 
-  #定义缓存全局设置的实例变量
-
-  def self.global_setting
-
-    if @global_setting&&Irm::OperationUnit.current
-      return @global_setting
-    else
-      return  @global_setting=query_by_type("GLOBAL_SETTING")
-    end
-
-  end
-
-  def self.skm_setting
-    if @skm_setting&&Irm::OperationUnit.current
-      @skm_setting
-    else
-      @skm_setting=query_by_type("SKM_SETTING")
-    end
-  end
-
-  #根据Feature #1176  将parameter_value从parameter表中分离出来时，为避免对上层代码的大量重构，故添加这两个img方法，使img成为parameter表个伪字段,value字段 同上
-  def img
-    paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
-    paramfirst=paramvalue.first
-    if paramfirst
-      return paramfirst.img
-    else
-      return  paramfirst.create.img
-    end
-
-  end
-
-  def img=(pic)
-
-     paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
-     paramfirst=paramvalue.first
-     if paramfirst
-       paramfirst.img=pic
-       paramfirst.save
-     else
-        paramvalue.create(:img=>pic)
-     end
-  end
-  def value
-
-    paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
-    paramsfirst=paramvalue.first
-    if paramsfirst
-        return  paramsfirst.value
-    else
-       return  paramvalue.create.value
-    end
-  end
-  def value=(v)
-    paramvalue=Irm::SystemParameterValue.where(:system_parameter_id=>"#{self.id}")
-    paramsfirst=paramvalue.first
-    if paramsfirst
-        paramsfirst.value=v
-        paramsfirst.save
-    else
-        paramvalue.create(:value=>v)
-    end
-  end
 
 
-  scope :select_all, lambda{
-    with_values.select("#{table_name}.*,spt.name name, spt.description description").
-        joins(",#{Irm::SystemParametersTl.table_name} spt").
-        where("#{table_name}.id = spt.system_parameter_id and spt.language = ?",I18n.locale)
-  }
 
-  scope :with_values, lambda{
-    joins("LEFT OUTER JOIN irm_system_parameter_values ON irm_system_parameter_values.system_parameter_id = #{table_name}.id and irm_system_parameter_values.opu_id ='#{Irm::OperationUnit.current.id}'").
-        select("irm_system_parameter_values.value,irm_system_parameter_values.img_updated_at,"+
-                  "irm_system_parameter_values.img_file_size,irm_system_parameter_values.img_content_type,"+
-                  "irm_system_parameter_values.img_file_name")
-
-  }
 
   scope :query_by_code, lambda{|parameter_code|
-    select_all.where("#{table_name}.parameter_code = ?", parameter_code)
+     where("#{table_name}.parameter_code = ?", parameter_code)
   }
 
   scope :query_by_type, lambda{|content_type|
-    select_all.where("#{table_name}.content_type = ?", content_type)
+     where("#{table_name}.content_type = ?", content_type)
   }
 
   def self.get_value_by_code(parameter_code)

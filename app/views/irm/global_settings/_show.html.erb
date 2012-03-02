@@ -21,38 +21,38 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("APPLICATION_TITLE").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("APPLICATION_TITLE").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:APPLICATION_TITLE])%></label></td>
+              <td class="data2Col"><%= @setting_values[:APPLICATION_TITLE]%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("HOST_NAME").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("HOST_NAME").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:HOST_NAME])%></label></td>
+              <td class="data2Col"><%= @setting_values[:HOST_NAME]%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("HOST_PATH").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("HOST_PATH").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:HOST_PATH])%></label></td>
+              <td class="data2Col"><%= @setting_values[:HOST_PATH]%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("HOST_PORT").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("HOST_PORT").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:HOST_PORT])%></label></td>
+              <td class="data2Col"><%=@setting_values[:HOST_PORT]  %>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("EMISSION_EMAIL_ADDRESS").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("EMISSION_EMAIL_ADDRESS").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:EMISSION_EMAIL_ADDRESS])%></label></td>
+              <td class="data2Col"><%= @setting_values[:EMISSION_EMAIL_ADDRESS]%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("UPLOAD_FILE_LIMIT").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("UPLOAD_FILE_LIMIT").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:UPLOAD_FILE_LIMIT])%></label></td>
+              <td class="data2Col"><%= @setting_values[:UPLOAD_FILE_LIMIT]%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("TIMEZONE").first[:name])%></label></td>
-              <td class="data2Col"><%= Irm::LookupValue.multilingual.query_by_lookup_code(@settings.query_by_code("TIMEZONE").first[:value]).first.wrap_meaning%>
+              <td class="labelCol"><label><%=(@setting_names[:TIMEZONE])%></label></td>
+              <td class="data2Col"><%=@setting_values[:TIMEZONE]%>
               </td>
             </tr>
         </tbody>
@@ -65,17 +65,17 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("APP_TOP_LOGO").first[:name])%></label></td>
+              <td class="labelCol"><label><%=(@setting_names[:APP_TOP_LOGO])%></label></td>
               <td class="data2Col">
               <%= image_tag Irm::SystemParametersManager.app_top_logo, :style => "width: 175px; height:65px;border: 1px solid #c9c9c9 !important;"%></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("LOGIN_PAGE_LOGO").first[:name])%></label></td>
+              <td class="labelCol"><label><%=(@setting_names[:LOGIN_PAGE_LOGO])%></label></td>
               <td class="data2Col">
               <%= image_tag Irm::SystemParametersManager.login_page_logo, :style => "width: 300px; height:124px; border: 1px solid #c9c9c9 !important" %></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ADDRESS_BAR_LOGO").first[:name])%></label></td>
+              <td class="labelCol"><label><%=(@setting_names[:ADDRESS_BAR_LOGO])%></label></td>
               <td class="data2Col">
               <%= image_tag Irm::SystemParametersManager.address_bar_logo, :style => "width: 16px; height:16px; border: 1px solid #c9c9c9 !important" %></td>
             </tr>
@@ -89,20 +89,20 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_404").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("ERROR_404").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:ERROR_404])%></label></td>
+              <td class="data2Col"><%= @setting_values[:ERROR_404]%>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_500").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("ERROR_500").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:ERROR_500])%></label></td>
+              <td class="data2Col"><%= @setting_values[:ERROR_500]%>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_422").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("ERROR_422").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:ERROR_422])%></label></td>
+              <td class="data2Col"><%= @setting_values[:ERROR_422]%>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_ACCESS_DENY").first[:name])%></label></td>
-              <td class="data2Col"><%= @settings.query_by_code("ERROR_ACCESS_DENY").first[:value]%>
+              <td class="labelCol"><label><%=(@setting_names[:ERROR_ACCESS_DENY])%></label></td>
+              <td class="data2Col"><%= @setting_values[:ERROR_ACCESS_DENY]%>
             </tr>
         </tbody>
       </table>

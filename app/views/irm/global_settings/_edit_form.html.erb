@@ -31,51 +31,51 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("APPLICATION_TITLE").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("APPLICATION_TITLE").first[:parameter_code],
-                                                      @settings.query_by_code("APPLICATION_TITLE").first[:value],
+              <td class="labelCol"><label><%=@setting_names[:APPLICATION_TITLE]%></label></td>
+              <td class="data2Col"><%= text_field_tag "APPLICATION_TITLE",
+                                                      @setting_values[:APPLICATION_TITLE],
                                                       :jrequired => true%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("HOST_NAME").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("HOST_NAME").first[:parameter_code],
-                                                      @settings.query_by_code("HOST_NAME").first[:value],
+              <td class="labelCol"><label><%=(@setting_names[:HOST_NAME])%></label></td>
+              <td class="data2Col"><%= text_field_tag "HOST_NAME",
+                                                      @setting_values[:HOST_NAME],
                                                       :jrequired => true%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("HOST_PATH").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("HOST_PATH").first[:parameter_code],
-                                                      @settings.query_by_code("HOST_PATH").first[:value],
+              <td class="labelCol"><label><%=(@setting_names[:HOST_PATH])%></label></td>
+              <td class="data2Col"><%= text_field_tag "HOST_PATH",
+                                                      @setting_values[:HOST_PATH],
                                                       :jrequired => true%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("HOST_PORT").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("HOST_PORT").first[:parameter_code],
-                                                      @settings.query_by_code("HOST_PORT").first[:value],
+              <td class="labelCol"><label><%=(@setting_names[:HOST_PORT])%></label></td>
+              <td class="data2Col"><%= text_field_tag "HOST_PORT" ,
+                                                       @setting_values[:HOST_PORT],
                                                       :jrequired => true%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("EMISSION_EMAIL_ADDRESS").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("EMISSION_EMAIL_ADDRESS").first[:parameter_code],
-                                                      @settings.query_by_code("EMISSION_EMAIL_ADDRESS").first[:value],
+              <td class="labelCol"><label><%=(@setting_names[:EMISSION_EMAIL_ADDRESS])%></label></td>
+              <td class="data2Col"><%= text_field_tag "EMISSION_EMAIL_ADDRESS" ,
+                                                      @setting_values[:EMISSION_EMAIL_ADDRESS ],
                                                       :jrequired => true%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("UPLOAD_FILE_LIMIT").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("UPLOAD_FILE_LIMIT").first[:parameter_code],
-                                                      @settings.query_by_code("UPLOAD_FILE_LIMIT").first[:value],
+              <td class="labelCol"><label><%=(@setting_names[:UPLOAD_FILE_LIMIT])%></label></td>
+              <td class="data2Col"><%= text_field_tag "UPLOAD_FILE_LIMIT" ,
+                                                      @setting_values[:UPLOAD_FILE_LIMIT ],
                                                       :jrequired => true%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("TIMEZONE").first[:name])%></label></td>
-              <td class="data2Col"><%= select_tag @settings.query_by_code("TIMEZONE").first[:parameter_code],
-                                                      options_for_select(available_timezone,@settings.query_by_code("TIMEZONE").first[:value]),
+              <td class="labelCol"><label><%=(@setting_names[:TIMEZONE])%></label></td>
+              <td class="data2Col"><%= select_tag "TIMEZONE" ,
+                                                      options_for_select(available_timezone,@setting_values[:TIMEZONE ]),
                                                       :jrequired => true%>
               </td>
             </tr>
@@ -93,8 +93,8 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("APP_TOP_LOGO").first[:name])%></label></td>
-              <td class="data2Col"><%= file_field_tag @settings.query_by_code("APP_TOP_LOGO").first[:parameter_code],
+              <td class="labelCol"><label><%=(@setting_names[:APP_TOP_LOGO])%></label></td>
+              <td class="data2Col"><%= file_field_tag "APP_TOP_LOGO" ,
                                                       :accept => 'image/png,image/gif,image/jpeg'%>&nbsp;<%= t :recommended_size%>:&nbsp;175px * 65px
               </td>
             </tr>
@@ -105,8 +105,8 @@
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("LOGIN_PAGE_LOGO").first[:name])%></label></td>
-              <td class="data2Col"><%= file_field_tag @settings.query_by_code("LOGIN_PAGE_LOGO").first[:parameter_code],
+              <td class="labelCol"><label><%=(@setting_names[:LOGIN_PAGE_LOGO])%></label></td>
+              <td class="data2Col"><%= file_field_tag "LOGIN_PAGE_LOGO" ,
                                                       :accept => 'image/png,image/gif,image/jpeg'%>&nbsp;<%= t :recommended_size%>:&nbsp;300px * 124px</td>
             </tr>
             <tr>
@@ -115,8 +115,8 @@
               <%= image_tag Irm::SystemParametersManager.login_page_logo, :style => "width: 300px; height:124px; border: 1px solid #c9c9c9 !important" %></td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ADDRESS_BAR_LOGO").first[:name])%></label></td>
-              <td class="data2Col"><%= file_field_tag @settings.query_by_code("ADDRESS_BAR_LOGO").first[:parameter_code],
+              <td class="labelCol"><label><%=(@setting_names[:ADDRESS_BAR_LOGO])%></label></td>
+              <td class="data2Col"><%= file_field_tag "ADDRESS_BAR_LOGO",
                                                       :accept => 'image/png,image/gif,image/jpeg'%>&nbsp;<%= t :recommended_size%>:&nbsp;16px * 16px</td>
             </tr>
             <tr>
@@ -138,30 +138,30 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_404").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("ERROR_404").first[:parameter_code],
-                                                      @settings.query_by_code("ERROR_404").first[:value],
+              <td class="labelCol"><label><%=(@setting_names[:ERROR_404])%></label></td>
+              <td class="data2Col"><%= text_field_tag "ERROR_404" ,
+                                                      @setting_values[:ERROR_404 ],
                                                       :jrequired => true%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_500").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("ERROR_500").first[:parameter_code],
-                                                      @settings.query_by_code("ERROR_500").first[:value],
+              <td class="labelCol"><label><%=(@setting_names[:ERROR_500])%></label></td>
+              <td class="data2Col"><%= text_field_tag "ERROR_500" ,
+                                                      @setting_values[:ERROR_500 ],
                                                       :jrequired => true%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_422").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("ERROR_422").first[:parameter_code],
-                                                      @settings.query_by_code("ERROR_422").first[:value],
+              <td class="labelCol"><label><%=(@setting_names[:ERROR_422])%></label></td>
+              <td class="data2Col"><%= text_field_tag "ERROR_422" ,
+                                                      @setting_values[:ERROR_422 ],
                                                       :jrequired => true%>
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(@settings.query_by_code("ERROR_ACCESS_DENY").first[:name])%></label></td>
-              <td class="data2Col"><%= text_field_tag @settings.query_by_code("ERROR_ACCESS_DENY").first[:parameter_code],
-                                                      @settings.query_by_code("ERROR_ACCESS_DENY").first[:value],
+              <td class="labelCol"><label><%=(@setting_names[:ERROR_ACCESS_DENY])%></label></td>
+              <td class="data2Col"><%= text_field_tag "ERROR_ACCESS_DENY" ,
+                                                      @setting_values[:ERROR_ACCESS_DENY ],
                                                       :jrequired => true%>
               </td>
             </tr>

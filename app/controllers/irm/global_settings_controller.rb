@@ -2,7 +2,18 @@ class Irm::GlobalSettingsController < ApplicationController
   # GET /global_settings
   # GET /global_settings.xml
   def index
-    @settings = Irm::SystemParameter.select_all.query_by_type("GLOBAL_SETTING")
+
+    @setting_names={}
+    Irm::SystemParameter.multilingual.query_by_type("GLOBAL_SETTING").each {|i| @setting_names.merge!({i[:parameter_code].to_sym=>i[:name]}) }
+
+    @setting_values={}
+    Irm::SystemParameterValue.query_by_type("GLOBAL_SETTING").each {|i|
+      if i[:data_type].eql?("IMAGE")
+        @setting_values.merge!({i[:parameter_code].to_sym=>i.img})
+      else
+        @setting_values.merge!({i[:parameter_code].to_sym=>i[:value]})
+      end
+    }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -12,7 +23,17 @@ class Irm::GlobalSettingsController < ApplicationController
 
   # GET /global_settings/1/edit
   def edit
-    @settings = Irm::SystemParameter.select_all.query_by_type("GLOBAL_SETTING")
+    @setting_names={}
+    Irm::SystemParameter.multilingual.query_by_type("GLOBAL_SETTING").each {|i| @setting_names.merge!({i[:parameter_code].to_sym=>i[:name]}) }
+
+    @setting_values={}
+    Irm::SystemParameterValue.query_by_type("GLOBAL_SETTING").each {|i|
+      if i[:data_type].eql?("IMAGE")
+        @setting_values.merge!({i[:parameter_code].to_sym=>i.img})
+      else
+        @setting_values.merge!({i[:parameter_code].to_sym=>i[:value]})
+      end
+    }
   end
 
 
@@ -27,17 +48,33 @@ class Irm::GlobalSettingsController < ApplicationController
         system_parameters.each do |s|
           if s.data_type == "IMAGE"
             if params[s[:parameter_code].to_sym] && !params[s[:parameter_code].to_sym].blank?
-                s.update_attribute(:img, params[s[:parameter_code].to_sym])
-                s.update_attribute(:value, "Y")
+              paramvalue=Irm::SystemParameterValue.query_by_code(s[:parameter_code])
+              if paramvalue.present?
+                paramvalue.first.update_attribute(:img, params[s[:parameter_code].to_sym])
+                paramvalue.first.update_attribute(:value, "Y")
+              else
+                Irm::SystemParameterValue.create(:system_parameter_id=>s.id,:img=>params[s[:parameter_code].to_sym],:value=>"Y")
+              end
 
             end
           elsif s.data_type == "TEXT"
             if params[s[:parameter_code].to_sym]
-              s.update_attribute(:value, params[s[:parameter_code].to_sym])
+              paramvalue=Irm::SystemParameterValue.query_by_code(s[:parameter_code])
+
+              if paramvalue.present?
+                paramvalue.first.update_attribute(:value, params[s[:parameter_code].to_sym])
+              else
+                Irm::SystemParameterValue.create(:system_parameter_id=>s.id,:value=>params[s[:parameter_code].to_sym])
+              end
             end
           else
             if params[s[:parameter_code].to_sym]
-              s.update_attribute(:value, params[s[:parameter_code].to_sym])
+              paramvalue=Irm::SystemParameterValue.query_by_code(s[:parameter_code])
+              if paramvalue.present?
+                paramvalue.first.update_attribute(:value, params[s[:parameter_code].to_sym])
+              else
+                Irm::SystemParameterValue.create(:system_parameter_id=>s.id,:value=>params[s[:parameter_code].to_sym])
+              end
             end
           end
         end
@@ -49,7 +86,7 @@ class Irm::GlobalSettingsController < ApplicationController
         format.html { render :action => "edit" }
         format.xml  { render :xml => @settings.errors, :status => :unprocessable_entity }
       end
-    end    
+    end
   end
 
   def crop
