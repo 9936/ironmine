@@ -55,12 +55,10 @@ class Csi::SurveyResultsController < ApplicationController
                  {:key=>:ip_address,:label=>t(:label_csi_survey_response_ip_address)}]
       #查询出所有的问卷题目
       survey_subjects = Csi::SurveySubject.select("id, name").where(:survey_id => survey.id)
-      #将题目添加都Excel列标题
+      #将题目添加到Excel列标题
       survey_subjects.each do |s|
         columns<<{:key=>s[:id],:label=>s[:name]}
       end
-      #获取对应人员填写问卷题目的答案
-
       data_to_xls(survey_results(survey_data),columns)
     end
 
