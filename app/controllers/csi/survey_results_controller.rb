@@ -6,6 +6,14 @@ class Csi::SurveyResultsController < ApplicationController
     end
   end
 
+  def export
+    @survey = Csi::Survey.find(params[:id])
+    respond_to do |format|
+      #根据当前的调查名称和当前的时间组成当前要导出的Excel 名称
+      format.xls { send_data(export_survey_data_to_excel(@survey),:type => "text/plain", :filename=>"#{@survey.title}_#{Time.now.strftime('%Y%m%d%H%M%S')}.xls") }
+    end
+  end
+
   def list
     @survey = Csi::Survey.find(params[:id])
     respond_to do |format|
@@ -35,4 +43,50 @@ class Csi::SurveyResultsController < ApplicationController
     end
   end
 
+  private
+    def export_survey_data_to_excel(survey)
+      #参与该调查问卷相关的人员信息
+      survey_data = Csi::SurveyResponse.find_by_sql "SELECT sr.*, p.full_name person_name FROM #{Csi::SurveyResponse.table_name} sr LEFT JOIN #{Irm::Person.table_name} p ON sr.person_id=p.id WHERE sr.survey_id='#{survey.id}'"
+
+      #定义列标题
+      columns = [{:key=>:person_name,:label=>t(:label_csi_survey_response_person)},
+                 {:key=>:start_at,:label=>t(:label_csi_survey_response_start_at)},
+                 {:key=>:elapse,:label=>t(:label_csi_survey_response_elapse)},
+                 {:key=>:ip_address,:label=>t(:label_csi_survey_response_ip_address)}]
+      #查询出所有的问卷题目
+      survey_subjects = Csi::SurveySubject.select("id, name").where(:survey_id => survey.id)
+      #将题目添加都Excel列标题
+      survey_subjects.each do |s|
+        columns<<{:key=>s[:id],:label=>s[:name]}
+      end
+      #获取对应人员填写问卷题目的答案
+
+      data_to_xls(survey_results(survey_data),columns)
+    end
+
+    #根据调查的项目获取相应的调查结果
+    def survey_results(survey_data)
+      response_ids = survey_data.collect{ |i| i.id }
+      results = Csi::SurveyResult.select_all.with_option.where(:survey_response_id=>response_ids)
+      #将results按照survey_response_id进行分组
+      tmp_data = {}
+      results.each do |r|
+        tmp_data[r.survey_response_id] ||= []
+        tmp_data[r.survey_response_id] << r
+      end
+      survey_data.each do |sd|
+         tmp_data[sd[:id]].each do |option|
+           current_option = ""
+           if "OPTION".eql?(option.result_type)
+             current_option = option[:option_value]
+           elsif "INPUT".eql?(option.result_type)
+             current_option = option[:text_input]
+           elsif "OTHER".eql?(option.result_type)
+             current_option = "#{t(:label_csi_survey_subjects_other)}:#{option[:text_input]}"
+           end
+           sd[option.survey_subject_id] = sd[option.survey_subject_id].present?? "#{sd[option.survey_subject_id]}\n #{current_option}" : "#{current_option}"
+         end
+      end
+      survey_data
+    end
 end
