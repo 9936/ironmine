@@ -213,7 +213,13 @@ class Skm::EntryHeadersController < ApplicationController
       t = Skm::EntryDetail.new(v)
       @entry_header.entry_details << t
     end
-    @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+    enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
+    if enable_entry_audit.eql? Irm::Constant::SYS_NO
+      @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+    else
+      @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+    end
+
     @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
     @entry_header.published_date = Time.now
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
@@ -253,7 +259,13 @@ class Skm::EntryHeadersController < ApplicationController
   def video_create
     @entry_header = Skm::EntryHeader.new(params[:skm_entry_header])
     @entry_header.entry_template_id = -1
-    @entry_header.entry_status_code = "PUBLISHED"
+    enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
+    if enable_entry_audit.eql? Irm::Constant::SYS_NO
+      @entry_header.entry_status_code = "PUBLISHED"
+    else
+      @entry_header.entry_status_code = "WAIT_APPROVE"
+    end
+
     @entry_header.published_date = Time.now
     @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
     @entry_header.version_number = @entry_header.next_version_number
@@ -364,7 +376,13 @@ class Skm::EntryHeadersController < ApplicationController
         @entry_header = Skm::EntryHeader.new(old_header.attributes)
         old_header.history_flag = "Y"
         @entry_header.history_flag = "N"
-        @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+        enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
+        if enable_entry_audit.eql? Irm::Constant::SYS_NO
+          @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+        else
+          @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+        end
+
         @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
         @entry_header.version_number = old_header.next_version_number.to_s
         @entry_header.published_date = Time.now

@@ -55,9 +55,9 @@
                    <tr>
                      <td class="pbTitle">
                        <h2 class="mainTitle"><%=t(:label_csi_survey_result_total_count)%>:<%= datas[:response_count]%>[<%= link_to(t(:label_csi_survey_result_response_list),{:action=>"list",:id=>@survey.id},{:back=>true})%>]</h2>
-
                      </td>
                      <td id="topButtonRow" class="pbButton">
+                       <div class="button"><%= link_to t(:export),{:action => "export", :id => @survey.id,:format=>:xls},:id=>"exportSurvey",:class=>"submit",:target=>"_blank"%></div>
                        <div class="button"><%= link_back t(:back)%></div>
                      </td>
                    </tr>

@@ -63,5 +63,12 @@
 <script type="text/javascript">
   $(function(){
       $("#<%= str_value_field %>DuelSelect").duelselect();
+      //搜索框禁止按回车刷新
+      $(".duel-query").keypress(function(e){
+         if(e.keyCode == 13) {
+            $("duel-search-button").click();
+             return false;
+         }
+      });
   });
 </script>

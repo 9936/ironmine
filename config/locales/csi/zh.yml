@@ -5,9 +5,9 @@ zh:
    label_csi_survey_company: 公司名称
    label_csi_survey_title: 问卷名称
    label_csi_survey_description: 描述
-   label_csi_survey_notify_flag: 是否Email提醒
+   label_csi_survey_notify_flag: Email提醒
    label_csi_survey_end_message: 感谢词
-   label_csi_survey_publish_result_flag: 是否公开结果
+   label_csi_survey_publish_result_flag: 公开结果
    label_csi_survey_comment_flag: 是否可以评论
    label_csi_survey_password: 密码
    label_csi_survey_please_input: 请输入密码

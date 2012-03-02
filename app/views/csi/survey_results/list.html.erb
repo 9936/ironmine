@@ -7,6 +7,7 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_csi_survey_response_list) %></h2></td>
               <td id="topButtonRow" class="pbButton">
+                <div class="button"><%= link_to t(:export),{:action => "export", :id => @survey.id,:format=>:xls},:id=>"exportSurvey",:class=>"submit",:target=>"_blank"%></div>
                 <div class="button"><%= link_back t(:back)%></div>
               </td>
               <td class="pbHelp">
@@ -28,7 +29,7 @@
                        {:key=>"start_at",:label=>t(:label_csi_survey_response_start_at),:width=>"180px"},
                        {:key=>"elapse",:label=>t(:label_csi_survey_response_elapse),:width=>"70px"},
                        {:key=>"ip_address",:label=>t(:label_csi_survey_response_ip_address)}],
-                      {:paginator_box=>"responsesPaginatorBox",:search_box=>"responsesSearchBox"})%>
+                      {:force_html=>true,:paginator_box=>"responsesPaginatorBox",:search_box=>"responsesSearchBox"})%>
         <div id="responsesPaginatorBox"></div>
       </div>
     </div>

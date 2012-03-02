@@ -1,0 +1,59 @@
+<!--  icm datatable      -->
+<style type="text/css">
+  .survey_data {
+      width:100%;
+      display: block;
+      overflow-x: auto !important;
+  }
+</style>
+ <div class="irm-datatable">
+   <div class="survey_data">
+       <table count="<%=@count%>">
+         <thead>
+           <tr>
+             <th style="width:70px">
+               <div><%= t(:operation) %></div>
+             </th>
+             <th style="width:100px;">
+               <div><%= t(:label_csi_survey_response_person) %></div>
+             </th>
+             <th style="width:100px;">
+               <div><%= t(:label_csi_survey_response_start_at) %></div>
+             </th>
+             <th style="width: 40px;">
+               <div><%= t(:label_csi_survey_response_elapse) %></div>
+             </th>
+             <th style="width: 100px;">
+               <div><%= t(:label_csi_survey_response_ip_address) %></div>
+             </th>
+             <% @survey_subjects.each do |ss| %>
+             <th style="width:100px;">
+                <div id="<%= ss[:id] %>"><%= ss[:name] %></div>
+             </th>
+             <% end %>
+           </tr>
+         </thead>
+         <tbody>
+            <% @survey_data.each do |dd| %>
+            <tr>
+              <td><div><%= link_to(t(:label_csi_survey_result_show_response),{:action=>"show_response",:id=>dd[:id]},{:back=>true}) %></div></td>
+              <td><div><%= dd[:person_name] %></div></td>
+              <td><div><%= format_date(dd[:start_at]) %></div></td>
+              <td><div><%= dd[:elapse] %></div></td>
+              <td><div><%= dd[:ip_address] %></div></td>
+              <% @survey_subjects.each do |ss| %>
+                  <td><div><%= raw dd[ss[:id]] %></div></td>
+              <% end %>
+            </tr>
+            <% end %>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end icm datatable      -->
+<script type="text/javascript">
+  //js 获取调查列表父级元素的当前宽度
+  $(function(){
+     //$(".survey_data").css("width", $(".irm-datatable").width());
+  });
+</script>
