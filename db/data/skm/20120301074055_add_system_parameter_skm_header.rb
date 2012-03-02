@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class AddSysParamSkmHeader < ActiveRecord::Migration
+class AddSystemParameterSkmHeader < ActiveRecord::Migration
   def up
     Irm::SystemParameter.where(:content_type=>'SKM_SETTING',:parameter_code=>['SKM_SIDEBAR_NAVI_DISPLAY','SKM_SIDEBAR_FILE_LINK_DISPLAY']).delete_all
     header_audit = Irm::SystemParameter.new(:parameter_code=>'SKM_HEADER_AUDIT',

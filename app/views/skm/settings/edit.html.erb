@@ -27,8 +27,8 @@
         <tbody>
 
                 <tr>
-                  <td class="labelCol"><label><%=@settings.query_by_code("SKM_HEADER_AUDIT").first[:name]%></label></td>
-                  <td class="data2Col"><%= select_tag "SKM_HEADER_AUDIT", nullable_options_for_select(available_system_yes_no.collect{|m| [m[:meaning], m.lookup_code]}, @settings.query_by_code("SKM_HEADER_AUDIT").first[:value])%></td>
+                  <td class="labelCol"><label><%=@setting_names[:SKM_HEADER_AUDIT]%></label></td>
+                  <td class="data2Col"><%= select_tag "SKM_HEADER_AUDIT", nullable_options_for_select(available_system_yes_no.collect{|m| [m[:meaning], m.lookup_code]}, @setting_values[:SKM_HEADER_AUDIT])%></td>
                 </tr>
 
         </tbody>
