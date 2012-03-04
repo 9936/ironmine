@@ -72,7 +72,7 @@
                     <div class="name"><span><%= data[:support_group_name] %></span></div>
                     <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
                     <div class="name_edit">
-                      <%= select_tag_alias :support_group_id, available_support_group,data[:support_group_name],{:id=>"support_group_id",:prompt =>"--- #{t(:actionview_instancetag_blank_option)} ---", "select_type" => "group" }%>
+                      <%= select_tag_alias :support_group_id, available_support_group,data[:support_group_id],{:id=>"support_group_id",:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---", "select_type" => "group" }%>
                     </div>
                     <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
@@ -81,7 +81,7 @@
                     <div class="name"><span><%= data[:support_person_name] %></span></div>
                     <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
                     <div class="name_edit">
-                      <%= select_tag_alias :support_person_id, available_support_person(data[:support_group_id]),nil,{:id=>"person-#{data[:id]}",:prompt => "--- #{t(:actionview_instancetag_blank_option)} ---", "select_type" => "person" }%>
+                      <%= select_tag_alias :support_person_id, available_support_person(data[:support_group_id]),data[:support_person_id],{:id=>"person-#{data[:id]}",:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---", "select_type" => "person" }%>
                     </div>
                     <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
@@ -90,7 +90,7 @@
                     <div class="name"><span><%= data[:status_name] %></span></div>
                     <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
                     <div class="name_edit">
-                        <%= select_tag_alias :status, options_for(Chm::ChangeStatus),data[:status_name],{:id=>"status", "select_type" => "status" }%>
+                        <%= select_tag_alias :status, options_for(Chm::ChangeStatus),data[:status],{:id=>"status", "select_type" => "status" }%>
                     </div>
                     <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
