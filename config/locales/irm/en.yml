@@ -305,6 +305,7 @@ en:
   label_irm_global_setting_logo: Logo
   recommended_size: Recommended Resolution
   label_irm_global_setting_error_page_info: Error Page Info
+  label_irm_global_setting_file_limit_tip: Upload File Size Exceeded Limit
   #=========================    end global_settings_controller=======================#
   #=========================    irm auth_sources_controller=======================#
   label_irm_auth_source_name: Name
