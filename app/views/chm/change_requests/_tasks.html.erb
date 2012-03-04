@@ -90,7 +90,7 @@
                     <div class="name"><span><%= data[:status_name] %></span></div>
                     <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
                     <div class="name_edit">
-                        <%= select_tag_alias :status, options_for(Chm::ChangeStatus),data[:status_name],{:id=>"status", "select_type" => "status" }%>
+                        <%= select_tag_alias :status, options_for(Chm::ChangeStatus),data[:status],{:id=>"status", "select_type" => "status" }%>
                     </div>
                     <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
