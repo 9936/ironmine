@@ -1727,3 +1727,14 @@ en:
   label_report_incident_request_support: Assign To
   label_report_incident_request_journal: Journals
   #================================================================================
+  #========================= incident_amount_by_month_cate report ====================================
+  label_report_icm_incident_category: Category
+  label_report_icm_incident_months: JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC,Total
+  label_report_icm_incident_total:  Total
+  label_report_icm_incident_params_year:  Year
+  label_report_icm_incident_params_ym_s:  Date From
+  label_report_icm_incident_params_ym_e:  Date To
+  label_report_icm_incident_params_month:  Month
+  label_report_icm_incident_report_date:  Report Date
+  label_report_icm_incident_prior:  Priority
+  #========================== end incident_amount_by_month_cate report  ===============================
