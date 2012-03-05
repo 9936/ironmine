@@ -302,6 +302,7 @@ zh:
   label_irm_global_setting_logo: 图标
   recommended_size: 推荐分辨率
   label_irm_global_setting_error_page_info: 错误页面信息
+  label_irm_global_setting_file_limit_tip: 上传文件大小超过限制
   #=========================    end global_settings_controller=======================#
   #=========================    irm auth_sources_controller=======================#
   label_irm_auth_source_name: 认证源名称

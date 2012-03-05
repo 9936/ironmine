@@ -52,7 +52,7 @@
             </tr>
             <tr>
               <td class="labelCol"><label><%=(@setting_names[:TIMEZONE])%></label></td>
-              <td class="data2Col"><%=@setting_values[:TIMEZONE]%>
+              <td class="data2Col"><%=Irm::LookupValue.multilingual.query_by_lookup_code(@setting_values[:TIMEZONE]).first.wrap_meaning%>
               </td>
             </tr>
         </tbody>

@@ -16,6 +16,8 @@
     </table>
   </div>
   <div class="pbBody">
+ <%= errors_for(@errors) %>
+
     <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
       <span class="pbSubExtra">
         <span class="requiredLegend">
@@ -95,7 +97,7 @@
             <tr>
               <td class="labelCol"><label><%=(@setting_names[:APP_TOP_LOGO])%></label></td>
               <td class="data2Col"><%= file_field_tag "APP_TOP_LOGO" ,
-                                                      :accept => 'image/png,image/gif,image/jpeg'%>&nbsp;<%= t :recommended_size%>:&nbsp;175px * 65px
+                                                      :accept => 'image/png,image/gif,image/jpeg'%>&nbsp;<%= t :recommended_size%>:&nbsp;175px * 65px ;<%= t(:file_upload_limit_alert,:m=>Irm::SystemParametersManager.upload_file_limit) %>
               </td>
             </tr>
             <tr>
@@ -107,7 +109,7 @@
             <tr>
               <td class="labelCol"><label><%=(@setting_names[:LOGIN_PAGE_LOGO])%></label></td>
               <td class="data2Col"><%= file_field_tag "LOGIN_PAGE_LOGO" ,
-                                                      :accept => 'image/png,image/gif,image/jpeg'%>&nbsp;<%= t :recommended_size%>:&nbsp;300px * 124px</td>
+                                                      :accept => 'image/png,image/gif,image/jpeg'%>&nbsp;<%= t :recommended_size%>:&nbsp;300px * 124px ;<%= t(:file_upload_limit_alert,:m=>Irm::SystemParametersManager.upload_file_limit) %></td>
             </tr>
             <tr>
               <td class="labelCol"></td>
@@ -117,7 +119,7 @@
             <tr>
               <td class="labelCol"><label><%=(@setting_names[:ADDRESS_BAR_LOGO])%></label></td>
               <td class="data2Col"><%= file_field_tag "ADDRESS_BAR_LOGO",
-                                                      :accept => 'image/png,image/gif,image/jpeg'%>&nbsp;<%= t :recommended_size%>:&nbsp;16px * 16px</td>
+                                                      :accept => 'image/png,image/gif,image/jpeg'%>&nbsp;<%= t :recommended_size%>:&nbsp;16px * 16px ;<%= t(:file_upload_limit_alert,:m=>Irm::SystemParametersManager.upload_file_limit) %></td>
             </tr>
             <tr>
               <td class="labelCol"></td>
