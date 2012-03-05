@@ -1719,3 +1719,7 @@ en:
   label_report_incident_request_this_month_close: Closed This Month
   label_report_incident_request_this_month_unclose: Unclosed This Month
   #=====================Report incident request month summary end=================
+
+  #======================= Report incident request month processing time ============
+  label_report_submitted_date_and_priority: Submitted Date/Priority
+  #================================================================================

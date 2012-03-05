@@ -1,0 +1,33 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
+  <tbody>
+    <tr>
+      <td width="30%"></td>
+      <td></td>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_report_date_month) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <div style="white-space:nowrap">
+                  <%= select_date program_params[:start].present? ? Date.strptime("#{program_params[:start][:year]}-#{program_params[:start][:month]}", "%Y-%m") : Time.now,
+                                  :prefix => 'program_params[start]', :order =>[:year, :month], :include_blank => false %>
+                </div>
+              </td>
+              <td>
+                <div style="white-space:nowrap">
+                  <%= select_date program_params[:end].present? ? Date.strptime("#{program_params[:end][:year]}-#{program_params[:end][:month]}", "%Y-%m") : Time.now,
+                                  :prefix => 'program_params[end]', :order =>[:year, :month], :include_blank => false %>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+    </tr>
+  </tbody>
+</table>

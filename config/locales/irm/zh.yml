@@ -1736,3 +1736,7 @@ zh:
   label_report_incident_request_this_month_unclose: 本月未解决数量
   label_report_date_month: 统计月份
   #======================= Report incident request month summary end=========
+
+  #======================= Report incident request month processing time ============
+  label_report_submitted_date_and_priority: 报告日期/优先级
+  #================================================================================
