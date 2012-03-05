@@ -250,3 +250,8 @@ zh:
   label_icm_incident_sub_category_external_system: 系统
   label_icm_incident_sub_category_description: 描述
   #========================== end incident category  ===============================
+
+  #======================= Report incident request month detail ============
+  label_report_incident_request_support: 分派给
+  label_report_incident_request_journal: 解决记录
+  #================================================================================

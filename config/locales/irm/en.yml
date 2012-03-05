@@ -1723,3 +1723,7 @@ en:
   #======================= Report incident request month processing time ============
   label_report_submitted_date_and_priority: Submitted Date/Priority
   #================================================================================
+  #======================= Report incident request month detail ============
+  label_report_incident_request_support: Assign To
+  label_report_incident_request_journal: Journals
+  #================================================================================
