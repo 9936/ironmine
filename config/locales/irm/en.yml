@@ -1710,3 +1710,12 @@ en:
   label_irm_organization_info_description: Description
   label_irm_edit_attachment: Edit
   #=========================end organization_infos=======================#
+
+
+  #======================= Report incident request month summary ============
+  label_report_date_month: Month
+  label_report_incident_request_last_month_unclose: Last Month Unclose
+  label_report_incident_request_this_month_submit: Submitted This Month
+  label_report_incident_request_this_month_close: Closed This Month
+  label_report_incident_request_this_month_unclose: Unclosed This Month
+  #=====================Report incident request month summary end=================

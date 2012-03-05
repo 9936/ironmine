@@ -28,7 +28,8 @@ class IncidentRequestMonthSummary < Irm::ReportManager::ReportBase
     year = params[:year] if params[:year].present?
     month = params[:month] if params[:month].present?
     statis = statis.where("date_format(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", Date.strptime("#{year}-#{month}", '%Y-%m').strftime("%Y-%m"))
-    last_statis = last_statis.where("date_format(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", Date.strptime("#{year}-#{(month.to_i - 1).to_s}", '%Y-%m').strftime("%Y-%m"))
+    last_year_month=month.to_i.eql?(1)?(year.to_i-1).to_s+"-12":year+"-"+(month.to_i-1).to_s
+    last_statis = last_statis.where("date_format(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') = ?", Date.strptime(last_year_month, '%Y-%m').strftime("%Y-%m"))
 
     closed_statis = statis.
         joins(",#{Icm::IncidentStatus.table_name} ista").

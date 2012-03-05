@@ -1728,3 +1728,11 @@ zh:
   label_irm_organization_info_description: 描述
   label_irm_edit_attachment: 修改
   #=========================end organization_infos=======================#
+
+  #======================= Report incident request month summary ============
+  label_report_incident_request_last_month_unclose: 上月未解决数量
+  label_report_incident_request_this_month_submit: 本月接单数量
+  label_report_incident_request_this_month_close: 本月解决数量
+  label_report_incident_request_this_month_unclose: 本月未解决数量
+  label_report_date_month: 统计月份
+  #======================= Report incident request month summary end=========
