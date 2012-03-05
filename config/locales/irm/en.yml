@@ -1073,6 +1073,7 @@ en:
   label_irm_object_attribute_new_model_attribute: New Model Attribute
   label_irm_object_attribute_new_table_column: New Table Column
   label_irm_object_attribute_relation_bo: Relation Business Object
+  label_irm_object_attribute_relation_type: Relation Type
   label_irm_object_attribute_relation_object_attribute: Relation Attribute
   label_irm_object_attribute_required_flag: Required
   #======================== object attributes====================

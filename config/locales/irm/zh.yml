@@ -1084,6 +1084,7 @@ zh:
   label_irm_business_object_relation: 关联的业务对像信息
   label_irm_object_attribute_relation_bo: 关联业务对像
   label_irm_object_attribute_relation_object_attribute: 关联属性
+  label_irm_object_attribute_relation_type: 关联类型
   label_irm_object_attribute_function: 属性可用功能
   label_irm_object_attribute_approve_flag: 在审批页面显示
   label_irm_object_attribute_attribute_name_format: 只能输入小写字母,下划线,数字,且必须以字母开头
