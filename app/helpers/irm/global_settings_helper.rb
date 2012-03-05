@@ -6,7 +6,7 @@ module Irm::GlobalSettingsHelper
     [["default", "default"], ["salesforce", "salesforce"]]
   end
 
-  def errors_for(errors)
+  def system_parameter_errors_for(errors)
 
     if errors && errors.size>0
       error_msg=""
