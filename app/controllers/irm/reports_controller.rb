@@ -213,7 +213,7 @@ class Irm::ReportsController < ApplicationController
       folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
     end
     reports_scope = Irm::Report.multilingual.query_by_folders(folder_ids).with_report_type(I18n.locale).with_report_folder(I18n.locale).with_report_trigger.filter_by_folder_access(Irm::Person.current.id).order("report_folder_id")
-
+    reports_scope = reports_scope.match_value("#{Irm::ReportsTl.table_name}.name",params[:name])
     respond_to do |format|
       format.html  {
         reports_scope,count = paginate(reports_scope)
