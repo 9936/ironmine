@@ -69,6 +69,25 @@ class IncidentRequestMonthProcessingTime< Irm::ReportManager::ReportBase
       datas << data unless existed
     end
     datas << last_data
+
+    #填充空行为0
+    row_headers=Array.new()
+    end_date=Date.new(params[:end][:year].to_i,params[:end][:month].to_i)
+    start_date=Date.new(params[:start][:year].to_i,params[:start][:month].to_i)
+    Date::DATE_FORMATS[:year_month] = "%Y-%m"
+    while(end_date>=start_date)
+        row_headers<<start_date.to_s(:year_month)
+        start_date=start_date.next_month
+    end
+    row_headers.each do |rh|
+      existed = datas.find{|i| i[0] == rh}
+      if(!existed)
+        data = Array.new(column_size,0.0)
+        data[0] = rh
+        datas << data
+      end
+    end
+    datas.sort! {|x,y| x[0]<=>y[0]}
     {:datas=>datas,:headers=>headers,:params=>params}
   end
 
