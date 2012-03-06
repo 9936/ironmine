@@ -1753,3 +1753,11 @@ zh:
   label_report_icm_incident_report_date:  报告日期
   label_report_icm_incident_prior:  优先级
   #========================== end incident_amount_by_month_cate report  ===============================
+
+  #======================= Report incident request season detail ============
+  label_report_last_updated: 最后更新
+  label_report_processing_time: 处理所花费时间
+  label_report_continued_day: 持续天数
+  label_report_month: 月份
+  label_report_quarter: 季度
+  #================================================================================
