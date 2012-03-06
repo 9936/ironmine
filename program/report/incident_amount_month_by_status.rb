@@ -117,7 +117,7 @@ class IncidentAmountMonthByStatus < Irm::ReportManager::ReportBase
       end
 
       #初始化行标题
-      month_headers= I18n.t(:label_report_icm_incident_months).split(",")
+      month_headers= I18n.t(:label_report_icm_incident_status_months).split(",")
       datas[12]= Array.new(5,0)#初始化合计行
       datas.each_with_index do |d,index|
         d[0]=month_headers[index]
