@@ -86,6 +86,10 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} category ON category.lookup_type='BO_ATTRIBUTE_CATEGORY' AND category.lookup_code = #{table_name}.category AND category.language= '#{language}'").
     select(" category.meaning category_name")
   }
+  scope :with_relation_type,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} relation_type ON relation_type.lookup_type='BO_ATTRIBUTE_RELATION_TYPE' AND relation_type.lookup_code = #{table_name}.relation_type AND relation_type.language= '#{language}'").
+    select(" relation_type.meaning relation_type_name")
+  }
 
   scope :table_column,lambda{
     where(:attribute_type=>"TABLE_COLUMN")
@@ -130,7 +134,8 @@ class Irm::ObjectAttribute < ActiveRecord::Base
         with_relation_bo(I18n.locale).
         with_attribute_type(I18n.locale).
         with_field_type(I18n.locale).
-        with_category(I18n.locale)
+        with_category(I18n.locale).
+        with_relation_type(I18n.locale)
   end
 
   def check_step(stp)
