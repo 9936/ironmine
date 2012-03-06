@@ -12,7 +12,7 @@ class Csi::Survey < ActiveRecord::Base
 
 
   validates_presence_of :title,:end_message
-  #validates_presence_of :due_dates,:if=>Proc.new{|i| i.incident_flag.eql?(Irm::Constant::SYS_YES)}
+  validates_presence_of :due_dates,:if=>Proc.new{|i| i.incident_flag.eql?(Irm::Constant::SYS_YES)}
   validates_presence_of :close_date,:if=>Proc.new{|i| i.incident_flag.eql?(Irm::Constant::SYS_NO)}
 
 
@@ -24,6 +24,19 @@ class Csi::Survey < ActiveRecord::Base
   has_many :survey_responses
 
   scope :query_by_person_id,lambda{|person_id| where(:person_id=>person_id)}
+
+  scope :query_survey_by_day,lambda{
+    select("#{table_name}.title, count(*) total_count, DATE_FORMAT(#{Csi::SurveyResponse.table_name}.created_at,'%Y-%m-%d') date").
+        joins("JOIN #{Csi::SurveyResponse.table_name} ON #{table_name}.id = #{Csi::SurveyResponse.table_name}.survey_id").
+        group("#{table_name}.title,DATE_FORMAT(#{Csi::SurveyResponse.table_name}.created_at,'%Y-%m-%d')")
+        #order("")
+  }
+
+  scope :query_chart_data,lambda{
+    select("count(*) total_count, DATE_FORMAT(#{Csi::SurveyResponse.table_name}.created_at,'%Y-%m-%d') date").
+            joins("JOIN #{Csi::SurveyResponse.table_name} ON #{table_name}.id = #{Csi::SurveyResponse.table_name}.survey_id").
+            group("DATE_FORMAT(#{Csi::SurveyResponse.table_name}.created_at,'%Y-%m-%d')")
+  }
 
 
   scope :with_person_count, lambda{
