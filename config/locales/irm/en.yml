@@ -1739,3 +1739,10 @@ en:
   label_report_icm_incident_report_date:  Report Date
   label_report_icm_incident_prior:  Priority
   #========================== end incident_amount_by_month_cate report  ===============================
+  #======================= Report incident request season detail ============
+  label_report_last_updated: Last Updated At
+  label_report_processing_time: Processing Time
+  label_report_continued_day: Continued Day
+  label_report_month: Month
+  label_report_quarter: Quarter
+  #================================================================================

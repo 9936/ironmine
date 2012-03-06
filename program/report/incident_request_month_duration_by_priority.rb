@@ -1,4 +1,4 @@
-class IncidentRequestMonthProcessingTime< Irm::ReportManager::ReportBase
+class IncidentRequestMonthDurationByPriority < Irm::ReportManager::ReportBase
   def data(params={})
     language = Irm::Person.current.language_code
     params||={}
@@ -19,6 +19,9 @@ class IncidentRequestMonthProcessingTime< Irm::ReportManager::ReportBase
     if params[:start].present?
       statis = statis.where("date_format(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m') >= ?",
                             Date.strptime("#{params[:start][:year]}-#{params[:start][:month]}", '%Y-%m').strftime("%Y-%m"))
+    else
+      return {:datas=>{},:headers=>{},:params=>{}}    #无参数表示是第一次加载报表，不执行下方逻辑
+
     end
 
     if params[:end].present?
@@ -27,9 +30,7 @@ class IncidentRequestMonthProcessingTime< Irm::ReportManager::ReportBase
     end
 
     statis = statis.
-        joins("LEFT OUTER JOIN #{Icm::IncidentJournal.table_name} ON #{Icm::IncidentJournal.table_name}.incident_request_id=#{Icm::IncidentRequest.table_name}.id").
-        joins("LEFT OUTER JOIN #{Icm::IncidentJournalElapse.table_name} ON #{Icm::IncidentJournalElapse.table_name}.incident_journal_id=#{Icm::IncidentJournal.table_name}.id").
-        select("IFNULL(SUM(#{Icm::IncidentJournalElapse.table_name}.real_distance),0) duration").
+        select("SUM(DATEDIFF(IF(#{Icm::IncidentRequest.table_name}.last_response_date > #{Icm::IncidentRequest.table_name}.updated_at, #{Icm::IncidentRequest.table_name}.last_response_date, #{Icm::IncidentRequest.table_name}.updated_at), #{Icm::IncidentRequest.table_name}.submitted_date)) duration").
         group("date_format(#{Icm::IncidentRequest.table_name}.submitted_date, '%Y-%m'), #{Icm::IncidentRequest.table_name}.priority_id")
 
     column_size = priorities.size + 2
@@ -87,6 +88,7 @@ class IncidentRequestMonthProcessingTime< Irm::ReportManager::ReportBase
         datas << data
       end
     end
+
     datas.sort! {|x,y| x[0]<=>y[0]}
     {:datas=>datas,:headers=>headers,:params=>params}
   end
