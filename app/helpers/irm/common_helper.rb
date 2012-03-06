@@ -57,7 +57,42 @@ module Irm::CommonHelper
 
     raw(html_content)
   end
+  def select_tag_multiple(name, option_tags, hidden_name, hidden_value, options = {})
+    id_str = name.gsub('[', '_').gsub(']', '')
+    hidden_id_str = hidden_name.gsub('[', '_').gsub(']', '')
+    select_field = select_tag("#{name}", option_tags)
+    link_button = link_to "+", {}, {:href => "javascript:void(0);", :id => "#{id_str}button"}
+    hidden_flag = hidden_field_tag hidden_name, hidden_value
+    scripts = %Q(
+                <script type="text/javascript">
+                $(function(){
+                    if ($("##{hidden_id_str}").val() == "Y")
+                    {
+                        $("##{id_str}").attr("multiple", "multiple");
+                    }
+                    $("##{id_str}button").click(function(){
+                        if($("##{id_str}").attr("multiple"))
+                        {
+                            $("##{id_str}").removeAttr("multiple");
+                            $("##{hidden_id_str}").val("N");
+                        }
+                        else
+                        {
+                            $("##{id_str}").attr("multiple", "multiple");
+                            $("##{hidden_id_str}").val("Y");
+                        }
+                    });
+                });
+                </script>
+                )
 
+    (select_field + link_button + hidden_flag).html_safe + raw(scripts)
+  end
+
+  def select_quarter(name, current_value, options={})
+    select_field = select_tag(name, options_for_select([[1,1],[2,2],[3,3],[4,4]], current_value), options)
+    (select_field).html_safe
+  end
   #去除HTML标签
   def plain_text(text,replacement=" ")
     text = text.to_s

@@ -1073,6 +1073,7 @@ en:
   label_irm_object_attribute_new_model_attribute: New Model Attribute
   label_irm_object_attribute_new_table_column: New Table Column
   label_irm_object_attribute_relation_bo: Relation Business Object
+  label_irm_object_attribute_relation_type: Relation Type
   label_irm_object_attribute_relation_object_attribute: Relation Attribute
   label_irm_object_attribute_required_flag: Required
   #======================== object attributes====================
@@ -1710,3 +1711,31 @@ en:
   label_irm_organization_info_description: Description
   label_irm_edit_attachment: Edit
   #=========================end organization_infos=======================#
+
+
+  #======================= Report incident request month summary ============
+  label_report_date_month: Month
+  label_report_incident_request_last_month_unclose: Last Month Unclose
+  label_report_incident_request_this_month_submit: Submitted This Month
+  label_report_incident_request_this_month_close: Closed This Month
+  label_report_incident_request_this_month_unclose: Unclosed This Month
+  #=====================Report incident request month summary end=================
+
+  #======================= Report incident request month processing time ============
+  label_report_submitted_date_and_priority: Submitted Date/Priority
+  #================================================================================
+  #======================= Report incident request month detail ============
+  label_report_incident_request_support: Assign To
+  label_report_incident_request_journal: Journals
+  #================================================================================
+  #========================= incident_amount_by_month_cate report ====================================
+  label_report_icm_incident_category: Category
+  label_report_icm_incident_months: JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC,Total
+  label_report_icm_incident_total:  Total
+  label_report_icm_incident_params_year:  Year
+  label_report_icm_incident_params_ym_s:  Date From
+  label_report_icm_incident_params_ym_e:  Date To
+  label_report_icm_incident_params_month:  Month
+  label_report_icm_incident_report_date:  Report Date
+  label_report_icm_incident_prior:  Priority
+  #========================== end incident_amount_by_month_cate report  ===============================

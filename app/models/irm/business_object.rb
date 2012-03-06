@@ -260,7 +260,14 @@ class Irm::BusinessObject < ActiveRecord::Base
           where_clause_str << " #{join_attribute.relation_table_alias}.language = '{{env.language}}'"
         end
       end
-      query_str[:joins] << "LEFT OUTER JOIN #{relation_bo.bo_table_name} #{join_attribute.relation_table_alias} ON  #{where_clause_str}"
+      if join_attribute.relation_type.eql?("LEFT_OUTER_JOIN")
+        query_str[:joins] << "LEFT OUTER JOIN #{relation_bo.bo_table_name} #{join_attribute.relation_table_alias} ON  #{where_clause_str}"
+      elsif join_attribute.relation_type.eql?("JOIN")
+        query_str[:joins] << "JOIN #{relation_bo.bo_table_name} #{join_attribute.relation_table_alias} ON  #{where_clause_str}"
+      else
+        query_str[:joins] << "LEFT OUTER JOIN #{relation_bo.bo_table_name} #{join_attribute.relation_table_alias} ON  #{where_clause_str}"
+      end
+
     end
   end
   # generate scope string by query hash

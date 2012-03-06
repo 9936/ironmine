@@ -92,6 +92,12 @@
                         <td class="labelCol empty">&nbsp;</td>
                         <td class="dataCol empty">&nbsp;</td>
                       </tr>
+                      <tr>
+                        <td class="labelCol"><label for="relation_type"><%=t(:label_irm_object_attribute_relation_type)%></label></td>
+                        <td class="dataCol"><%= f.blank_select(:relation_type,avaliable_relation_type,{},:required=>true,:id=>"relation_type") %></td>
+                        <td class="labelCol empty">&nbsp;</td>
+                        <td class="dataCol empty">&nbsp;</td>
+                      </tr>
                      </tbody>
                 </table>
               </div>
