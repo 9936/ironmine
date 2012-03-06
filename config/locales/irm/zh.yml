@@ -1746,30 +1746,8 @@ zh:
   label_report_icm_incident_params_is_report:  Hotline
   label_report_icm_incident_params_is_report_yes: Report
   label_report_icm_incident_params_is_report_no: Not Report
-  #========================== end incident_amount_by_month_cate report  ===============================
 
-  #========================= incident_amount_by_month_status report ====================================
-  label_report_icm_incident_status: 状态
-  label_report_icm_incident_status_months: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月,合计
-  label_report_icm_incident_status_col_header: 状态,新增,已解决,未解决,合计
-  #========================== end incident_amount_by_month_status report  ===============================
 
-  #========================= incident_amount_by_month_cate report ====================================
+  #========================== end incident_amount_by_month_category report  ===============================
   label_report_icm_incident_category: 类别
-  label_report_icm_incident_months: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月,合计
-  label_report_icm_incident_total:  合计
-  label_report_icm_incident_params_year:  年份
-  label_report_icm_incident_params_ym_s:  月份从
-  label_report_icm_incident_params_ym_e:  月份至
-  label_report_icm_incident_params_month:  月份
-  label_report_icm_incident_report_date:  报告日期
-  label_report_icm_incident_prior:  优先级
-  #========================== end incident_amount_by_month_cate report  ===============================
-
-  #======================= Report incident request season detail ============
-  label_report_last_updated: 最后更新
-  label_report_processing_time: 处理所花费时间
-  label_report_continued_day: 持续天数
-  label_report_month: 月份
-  label_report_quarter: 季度
-  #================================================================================
+  label_report_icm_incident_total: 合计

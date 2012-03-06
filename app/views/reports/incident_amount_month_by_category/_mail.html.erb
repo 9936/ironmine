@@ -9,19 +9,20 @@
        <table count="<%=datas[:datas].size%>">
          <thead>
            <tr>
-
-             <% datas[:headers].each do |c| %>
+             <th>
+               <div><%=t(:label_report_icm_incident_category)  %></div>
+             </th>
+             <% datas[:cate_headers].each do |category| %>
                <th >
-                 <div><%= c %></div>
+                 <div><%= category %></div>
                </th>
              <% end %>
-
            </tr>
          </thead>
          <tbody>
          <% datas[:datas].each do |data| %>
            <tr>
-             <% 0.upto(datas[:headers].length-1) do |index| %>
+             <% 0.upto(datas[:cate_headers].length) do |index| %>
                <td>
                  <div>
                    <%= data[index] %>
@@ -34,4 +35,4 @@
        </table>
    </div>
  </div>
-<!--  end irm datatable      --
+<!--  end irm datatable      -->
