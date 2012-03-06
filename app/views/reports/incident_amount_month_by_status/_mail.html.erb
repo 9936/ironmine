@@ -1,0 +1,37 @@
+<style type="text/css">
+  table#reportData td,th{
+       padding: 3px 2px 3px 5px;
+  }
+</style>
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=datas[:datas].size%>">
+         <thead>
+           <tr>
+
+             <% datas[:headers].each do |c| %>
+               <th >
+                 <div><%= c %></div>
+               </th>
+             <% end %>
+
+           </tr>
+         </thead>
+         <tbody>
+         <% datas[:datas].each do |data| %>
+           <tr>
+             <% 0.upto(datas[:headers].length-1) do |index| %>
+               <td>
+                 <div>
+                   <%= data[index] %>
+                 </div>
+               </td>
+             <% end %>
+           </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      --
