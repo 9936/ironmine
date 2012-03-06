@@ -69,6 +69,7 @@ module Irm::CommonHelper
                     if ($("##{hidden_id_str}").val() == "Y")
                     {
                         $("##{id_str}").attr("multiple", "multiple");
+                        $("select##{id_str} option[selected='selected']").attr("selected","selected");
                     }
                     $("##{id_str}button").click(function(){
                         if($("##{id_str}").attr("multiple"))
