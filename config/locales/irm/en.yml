@@ -1679,6 +1679,8 @@ en:
   #=========================    irm data accesses=======================#
   label_irm_data_access: Data Access Control
   label_irm_data_access_list: Data Access List
+  label_irm_data_access_list_opu: Operation Unit Data Access
+  label_irm_data_access_list_org: Organization Data Access
   label_irm_data_access_new: New Data Access
   label_irm_data_access_edit: Edit Data Access
   label_irm_data_access_business_object: Business Object

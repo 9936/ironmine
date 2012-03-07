@@ -5,10 +5,9 @@
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
             <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_data_access_list) %></h2></td>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_data_access_list_opu) %></h2></td>
               <td id="topButtonRow" class="pbButton">
                 <div class="button"><%= link_to(t(:edit),{:action=>"edit"},:back=>true) %></div>
-                <div class="button"><%= link_to(t(:label_irm_data_access_org),{:controller=>"irm/org_data_accesses",:action=>"index"},:back=>true) %></div>
               </td>
               <td class="pbHelp">
                 <div id="data_accessesSearchBox"></div>
@@ -65,6 +64,84 @@
       </div>
     </div>
 </div>
+<% require_javascript(:treeview) %>
+<% require_css(:treeview) %>
+
+<style type="text/css">
+  .listViewTitle{font-size:125%;font-weight:bold;}
+</style>
+  <div class="listRelatedObject setupBlock">
+      <div class="page-block">
+        <div class="pbBody">
+          <table class="split-table">
+            <tr>
+                <td >
+                  <div class="pbHeader">
+                   <table cellpadding="0" cellspacing="0" border="0">
+                     <tbody>
+                       <tr>
+                         <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_data_access_list_org) %></h2></td>
+                       </tr>
+                     </tbody>
+                   </table>
+                  </div>
+                </td>
+                <td rowspan="2">
+                  <div id="dataAccess" style="width:100%;" href="<%= url_for(:controller => "org_data_accesses",:action=>"show",:id=>"{org_id}",:org_name=>"{org_name}")%>">
+
+                  </div>
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                  <div id="orgTree">
+                      <%= organizations_tree_data  %>
+                  </div>
+              </td>
+
+            </tr>
+          </table>
+
+        </div>
+      </div>
+  </div>
+
+<script type="text/javascript">
+  $(function(){
+      $("#organizations").treeview({
+         animated: "fast",
+         collapsed: true,
+         unique: false,
+         persist: "cookie"
+      });
+      $('#organizations a.org').live('click', function(event){
+           var dataAccess = $("#dataAccess");
+           var url = decodeURIComponent(dataAccess.attr("href"));
+           url = url.replace("{org_id}",$(event.currentTarget).attr("ref"));
+           url = url.replace("{org_name}",$(event.currentTarget).html());
+           dataAccess.attr("ref",$(event.currentTarget).attr("ref"));
+           //$("#mainTitle").html($(event.currentTarget).html());
+           dataAccess.load(url);
+
+
+      });
+      $('#organizations a.org:first').trigger("click");
+
+      $(".loadButton").live("click",function(event){
+          var dataAccess = $("#dataAccess");
+          var node = $(event.currentTarget);
+          var url = decodeURIComponent(node.attr("load_href"));
+          url = url.replace("{org_id}",dataAccess.attr("ref"));
+          dataAccess.load(url);
+      })
+    });
+
+</script>
+
+
+
+
 <!--business object data share rule begin-->
 <% @data_accesses.each do |data_access| %>
   <div class="listRelatedObject setupBlock">

@@ -1696,6 +1696,8 @@ zh:
   #=========================    irm data accesses=======================#
   label_irm_data_access: 访问权限
   label_irm_data_access_list: 访问权限列表
+  label_irm_data_access_list_opu: 运维中心访问权限
+  label_irm_data_access_list_org: 组织访问权限
   label_irm_data_access_new: 新建访问权限
   label_irm_data_access_edit: 编辑访问权限
   label_irm_data_access_business_object: 对象
