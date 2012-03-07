@@ -1781,3 +1781,13 @@ zh:
   label_report_quarter: 季度
   #================================================================================
 
+  #========================begin oauth_access_clients===================================
+  label_irm_oauth_access_client: 远程访问
+  label_irm_oauth_access_client_list: 远程访问列表
+  label_irm_oauth_access_client_site_image_url: 网站图标URL
+  label_irm_oauth_access_client_site_url: 网站URL
+  label_irm_oauth_access_client_callback_url: 回调URL
+  label_irm_oauth_access_client_token: 标记
+  label_irm_oauth_access_client_secret: 密码
+  #========================end oauth_access_clients=====================================
+

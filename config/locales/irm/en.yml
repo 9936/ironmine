@@ -1746,3 +1746,13 @@ en:
   label_report_month: Month
   label_report_quarter: Quarter
   #================================================================================
+
+  #========================begin oauth_access_clients===================================
+  label_irm_oauth_access_client: Remote Access
+  label_irm_oauth_access_client_list: Remote Access List
+  label_irm_oauth_access_client_site_image_url: Site Image URL
+  label_irm_oauth_access_client_site_url: Site URL
+  label_irm_oauth_access_client_callback_url: Callback URL
+  label_irm_oauth_access_client_token: Token
+  label_irm_oauth_access_client_secret: Secret
+  #========================end oauth_access_clients=====================================

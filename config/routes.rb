@@ -935,6 +935,17 @@ Ironmine::Application.routes.draw do
     match '/data_share_rules/:id/multilingual_edit(.:format)' => "data_share_rules#multilingual_edit", :via => :get
     match '/data_share_rules/:id/multilingual_update(.:format)' => "data_share_rules#multilingual_update", :via => :put
     match '/data_share_rules/:id/destroy(.:format)' => "data_share_rules#destroy", :via => :delete
+
+    #oauth_access_clients
+    match '/oauth_access_clients(/index)(.:format)' => "oauth_access_clients#index", :via => :get
+    match '/oauth_access_clients/new(.:format)'      => "oauth_access_clients#new",   :via => :get
+    match '/oauth_access_clients/:id/edit(.:format)' => "oauth_access_clients#edit", :via => :get
+    match '/oauth_access_clients/create(.:format)'  => "oauth_access_clients#create",:via => :post
+    match '/oauth_access_clients/:id/update(.:format)'  => "oauth_access_clients#update",:via => :put
+    match '/oauth_access_clients/:id/show(.:format)'=> "oauth_access_clients#show",  :via => :get
+    match '/oauth_access_clients/get_data(.:format)' => "oauth_access_clients#get_data"
+    match '/oauth_access_clients/:id/destroy(.:format)' => "oauth_access_clients#destroy", :via => :delete
+
   end
 
   scope :module => "icm" do

@@ -14,6 +14,7 @@ Irm::AccessControl.map do |map|
                                  "icm/support_groups"=>["get_member_options"],
                                  "irm/search"=>[:index],
                                  "irm/session_settings" => ["timeout_warn"],
+                                 "irm/oauth_access_clients"=>["index", "edit", "update","get_data", "new", "create", "destroy", "show"],
                                  "irm/portlet_configs" => ["save_portal_config","save_portal_layout"],
                                  "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
 
