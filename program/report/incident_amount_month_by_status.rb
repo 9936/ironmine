@@ -20,10 +20,10 @@ class IncidentAmountMonthByStatus < Irm::ReportManager::ReportBase
       open_data_m= Icm::IncidentRequest.select("#{i} months,count(1) num").
           where("icm_incident_requests.submitted_date<=LAST_DAY(CONCAT(?, '-', ?, '-','2'))",params[:year],i).
           where("NOT EXISTS ( SELECT 1 FROM icm_incident_journals WHERE icm_incident_journals.incident_request_id = icm_incident_requests.id AND icm_incident_journals.reply_type = 'CLOSE' AND icm_incident_journals.created_at < LAST_DAY( CONCAT(?, '-', ?, '-', '2')))",params[:year],i)
-          if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
-            open_data_m = open_data_m.where("#{Icm::IncidentRequest.table_name}.external_system_id IN (?)", params[:external_system_id] + [])
-          end
-         open_data<<open_data_m.first
+      if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
+        open_data_m = open_data_m.where("#{Icm::IncidentRequest.table_name}.external_system_id IN (?)", params[:external_system_id] + [])
+      end
+      open_data<<open_data_m.first
     end
     datas=Array.new(13,0)
     new_data.each do |d|

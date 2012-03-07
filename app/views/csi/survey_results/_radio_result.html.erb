@@ -18,7 +18,9 @@
     <div><%= (datas[:grouped_option_counts][option.id]||{})[:percent]||0%>%</div>
   </td>
   <td class="left" width="210px">
-    <div class="progressBar progressBar<%= (index%6)+1%>" style="width:<%=(datas[:grouped_option_counts][option.id]||{})[:percent]||0%>%;"></div>
+    <div class="barBgs">
+      <div class="progressBar progressBar<%= (index%6)+1%>" style="width:<%=(datas[:grouped_option_counts][option.id]||{})[:percent]||0%>%;"></div>
+    </div>
   </td>
   <td class="center">
     <div><%= (datas[:grouped_option_counts][option.id]||{})[:option_count]||0 %></div>
@@ -35,7 +37,9 @@
     <div><%= other_percent %>%</div>
   </td>
   <td class="left" width="210px">
-    <div class="progressBar progressBar<%=(subject.subject_options.length%6)+1%>" style="width:<%=other_percent%>%;"></div>
+    <div class="barBgs">
+      <div class="progressBar progressBar<%=(subject.subject_options.length%6)+1%>" style="width:<%=other_percent%>%;"></div>
+    </div>
   </td>
   <td class="center">
     <div><%= datas[:grouped_input_counts][subject.id]||0 %></div>
