@@ -69,6 +69,8 @@ class Irm::FunctionGroupsController < ApplicationController
 
   def get_data
     function_groups_scope = Irm::FunctionGroup.multilingual.status_meaning
+    function_groups_scope = function_groups_scope.match_value("#{Irm::FunctionGroup.table_name}.code",params[:code])
+    function_groups_scope = function_groups_scope.match_value("#{Irm::FunctionGroupsTl.table_name}.name",params[:name])
     function_groups,count = paginate(function_groups_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(function_groups.to_grid_json([:code,:name,:description,:status_meaning, :status_code], count)) }
