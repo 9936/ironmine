@@ -125,6 +125,10 @@ module Irm::SystemParametersManager
         return paramvalue.value ||""
       end
     end
+
+    def reset_parameters_cache
+      Irm::SystemParameterValue.global_setting=nil
+    end
 =begin
 
     def reset_system_parameters

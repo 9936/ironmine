@@ -15,9 +15,12 @@ class Irm::SystemParameterValue < ActiveRecord::Base
   def self.global_setting
     @global_setting||@global_setting=query_by_type("GLOBAL_SETTING")
   end
+  def self.global_setting=(val)
+    @global_setting=val
+  end
 
   def self.skm_setting
-    @skm_setting||@skm_setting=query_by_type("SKM_SETTING")
+    query_by_type("SKM_SETTING")
   end
 
   scope :with_parameter,lambda{

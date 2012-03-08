@@ -96,7 +96,7 @@ class Irm::GlobalSettingsController < ApplicationController
               end
 
     end
-
+    Irm::SystemParametersManager.reset_parameters_cache
     respond_to do |format|
       if @errors.size==0
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
