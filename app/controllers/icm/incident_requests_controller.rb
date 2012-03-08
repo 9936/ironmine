@@ -57,6 +57,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
         format.html { render :action => "new", :layout=>"application_full"}
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+        format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.save
         process_files(@incident_request)
         #add watchers
@@ -74,9 +75,11 @@ class Icm::IncidentRequestsController < ApplicationController
         end
         format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
         format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
+        format.json { render :json => @incident_request}
       else
         format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+        format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
       end
     end
   end
