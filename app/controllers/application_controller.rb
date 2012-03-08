@@ -43,6 +43,9 @@ class ApplicationController < ActionController::Base
 
   # 设置当前页面访问的人员
   def person_setup
+    if Ironmine::Application.config.require_login_flag.eql?(false)
+      Irm::Person.current= Irm::Person.find('000100012i8IyyjJaqMaJ6')
+    end
     if(Irm::Person.current)
       # setting current application
       if(session[:application_id]&&Irm::Person.current.profile)
@@ -275,6 +278,9 @@ class ApplicationController < ActionController::Base
 
   # 返回session中的当前用户,如果没有则返回空
   def find_current_user
+    if Ironmine::Application.config.require_login_flag.eql?(false)
+      session[:user_id] = Irm::Person.find('000100012i8IyyjJaqMaJ6').id
+    end
     if session[:user_id]
       # existing session
       (Irm::Person.unscoped.find(session[:user_id]) rescue nil)

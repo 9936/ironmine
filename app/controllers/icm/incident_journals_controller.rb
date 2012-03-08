@@ -58,6 +58,7 @@ class Icm::IncidentJournalsController < ApplicationController
         end
         format.html { render :action => "new", :layout=>"application_right"}
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+        format.json { render :json => @incident_journal.errors }
       elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
         process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
@@ -72,9 +73,11 @@ class Icm::IncidentJournalsController < ApplicationController
 
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+        format.json { render :json => @incident_journal }
       else
         format.html { render :action => "new", :layout=>"application_right"}
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+        format.json { render :json => @incident_journal.errors }
       end
     end
   end

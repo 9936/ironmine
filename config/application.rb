@@ -38,6 +38,9 @@ module Ironmine
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
+    # the flag of require login
+    config.require_login_flag = true
+
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
     #由于资源文件根据locale，i18n会读取不同的语言的资源文件然后加载到内存中
