@@ -4,38 +4,44 @@
        <table count="<%=@count%>">
          <thead>
            <tr>
-             <th style="width:60px;">
+             <th style="width:70px;">
                <div><%= t(:operation) %></div>
              </th>
              <th style="width:300px;">
-               <div><%= t(:label_irm_group_group_code) %></div>
+               <div><%= t(:label_irm_tab_name) %></div>
              </th>
              <th>
-               <div><%= t(:label_irm_group_name) %></div>
+               <div><%= t(:label_irm_organization_info_value) %></div>
              </th>
              <th>
-               <div><%= t(:label_irm_group_description) %></div>
+               <div><%= t(:label_irm_organization_info_file) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_irm_tab_description) %></div>
              </th>
            </tr>
          </thead>
          <tbody>
-         <% @datas.each do |data| %>
+         <% @organization_infos.each do |data| %>
          <tr id="<%=data[:id]%>">
            <td>
              <div>
-               <%= link_to t(:remove), {:controller=>"skm/channels",:action=>"remove_group",:group_id=>data[:id],
-                                      :channel_id=>@channel_id},:confirm => t(:label_are_you_sure) ,
-                                      :method => :delete %>
+               <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
              </div>
            </td>
            <td>
              <div>
-               <%= data[:code] %>
+               <%= data[:name] %>
              </div>
            </td>
            <td>
              <div>
-               <%=data[:name]%>
+               <%=data[:value]%>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%=data[:attachment]%>
              </div>
            </td>
            <td>

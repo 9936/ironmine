@@ -132,7 +132,10 @@ class Irm::OrganizationInfosController < ApplicationController
     organization_infos,count = paginate(organization_infos_scope)
     organization_infos =  get_attachments(organization_infos)
     respond_to do |format|
-      format.html
+      format.html {
+        @count=count;
+        @organization_infos=organization_infos;
+      }
       format.json {render :json=>to_jsonp(organization_infos.to_grid_json([:name,:value,:attachment,:description],count))}
     end
   end
