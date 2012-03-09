@@ -2,7 +2,8 @@ class Irm::OrganizationInfosController < ApplicationController
   # GET /organization_infos
   # GET /organization_infos.xml
   def index
-    #@organization_infos = Irm::OrganizationInfo.all
+    @organization = Irm::Organization.multilingual.with_parent(I18n.locale).find(Irm::Person.current.organization_id)
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -131,6 +132,7 @@ class Irm::OrganizationInfosController < ApplicationController
     organization_infos,count = paginate(organization_infos_scope)
     organization_infos =  get_attachments(organization_infos)
     respond_to do |format|
+      format.html
       format.json {render :json=>to_jsonp(organization_infos.to_grid_json([:name,:value,:attachment,:description],count))}
     end
   end
