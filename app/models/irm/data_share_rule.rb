@@ -24,27 +24,27 @@ class Irm::DataShareRule < ActiveRecord::Base
     share_rules.collect do |r|
       case r[:source_type]
         when "IRM__ORGANIZATION"
-          org=Irm::Organization.enabled.multilingual.find(r[:source_id])
+          org=Irm::Organization.multilingual.find(r[:source_id])
           r[:source_name]=org[:name]
           r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Organization.name)
 
         when "IRM__ORGANIZATION_EXPLOSION"
-          org=Irm::Organization.enabled.multilingual.find(r[:source_id])
+          org=Irm::Organization.multilingual.find(r[:source_id])
           r[:source_name]=org[:name]
           r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::OrganizationExplosion.name)
 
         when "IRM__ROLE"
-          role=Irm::Role.enabled.multilingual.find(r[:source_id])
+          role=Irm::Role.multilingual.find(r[:source_id])
           r[:source_name]=role[:name]
           r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Role.name)
 
         when "IRM_ROLE_EXPLOSION"
-          role=Irm::Role.enabled.multilingual.find(r[:source_id])
+          role=Irm::Role.multilingual.find(r[:source_id])
           r[:source_name]=role[:name]
           r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::RoleExplosion.anme)
 
         when "IRM__GROUP"
-          group=Irm::Group.enabled.multilingual.find(r[:source_id])
+          group=Irm::Group.multilingual.find(r[:source_id])
           r[:source_name]=group[:name]
           r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Group.name)
 
@@ -54,27 +54,27 @@ class Irm::DataShareRule < ActiveRecord::Base
 
       case r[:target_type]
         when "IRM__ORGANIZATION"
-          org=Irm::Organization.enabled.multilingual.find(r[:target_id])
+          org=Irm::Organization.multilingual.find(r[:target_id])
           r[:target_name]=org[:name]
           r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Organization.name)
 
         when "IRM__ORGANIZATION_EXPLOSION"
-          org=Irm::Organization.enabled.multilingual.find(r[:target_id])
+          org=Irm::Organization.multilingual.find(r[:target_id])
           r[:target_name]=org[:name]
           r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::OrganizationExplosion.name)
 
         when "IRM__ROLE"
-          role=Irm::Role.enabled.multilingual.find(r[:target_id])
+          role=Irm::Role.multilingual.find(r[:target_id])
           r[:target_name]=role[:name]
           r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Role.name)
 
         when "IRM_ROLE_EXPLOSION"
-          role=Irm::Role.enabled.multilingual.find(r[:target_id])
+          role=Irm::Role.multilingual.find(r[:target_id])
           r[:target_name]=role[:name]
           r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::RoleExplosion.anme)
 
         when "IRM__GROUP"
-          group=Irm::Group.enabled.multilingual.find(r[:target_id])
+          group=Irm::Group.multilingual.find(r[:target_id])
           r[:target_name]=group[:name]
           r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Group.name)
 
