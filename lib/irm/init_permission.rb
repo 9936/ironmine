@@ -150,7 +150,8 @@ Irm::AccessControl.map do |map|
 
   #====================irm/my_info =================================
   map.function :my_info, {"irm/my_info" => ["index","edit","update"],
-                          "irm/people"=>["get_owned_external_systems", "get_support_group"]}
+                          "irm/people"=>["get_owned_external_systems", "get_support_group"],
+                           "irm/group_members"=>["get_data_from_person"]}
 
   map.function :my_password,{"irm/my_password" => ["index","edit_password", "update_password"]}
   map.function :my_login_history ,{"irm/my_login_history" => ["index", "get_login_data"]}
