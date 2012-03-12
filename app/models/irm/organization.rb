@@ -24,7 +24,7 @@ class Irm::Organization < ActiveRecord::Base
 
   scope :with_parent,lambda{|language|
     joins("LEFT OUTER JOIN #{view_name} parent ON #{table_name}.parent_org_id = parent.id AND parent.language = '#{language}'").
-        select("parent.name parent_org_name")
+        select("parent.id parent_org_id,parent.name parent_org_name")
   }
 
   scope :parentable,lambda{|org_id|

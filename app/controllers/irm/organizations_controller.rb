@@ -38,6 +38,9 @@ class Irm::OrganizationsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @leveled_organizations }
+      format.json {
+         render :json=>to_jsonp(@leveled_organizations.to_grid_json([:id,:name,:parent_org_id,:short_name,:parent_org_name,:description],@leveled_organizations.size))
+      }
     end
   end
 
