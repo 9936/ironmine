@@ -39,7 +39,7 @@ module Ironmine
     config.encoding = "utf-8"
 
     # the flag of require login
-    config.require_login_flag = true
+    config.require_login_flag = false
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]

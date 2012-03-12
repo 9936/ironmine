@@ -39,7 +39,7 @@ class Irm::OrganizationsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @leveled_organizations }
       format.json {
-         render :json=>to_jsonp(@leveled_organizations.to_grid_json([:id,:name,:parent_org_id,:short_name,:parent_org_name,:description],@leveled_organizations.size))
+         render :json=>to_jsonp(@leveled_organizations.to_grid_json([:name,:parent_org_id,:short_name,:parent_org_name,:description],@leveled_organizations.size))
       }
     end
   end
@@ -75,14 +75,15 @@ class Irm::OrganizationsController < ApplicationController
   # POST /organizations.xml
   def create
     @organization = Irm::Organization.new(params[:irm_organization])
-
     respond_to do |format|
       if @organization.save
         format.html { redirect_to({:action=>"index"},:notice => (t :successfully_created))}
         format.xml  { render :xml => @organization, :status => :created, :location => @organization }
+        format.json { render :json=>@organization}
       else
         format.html { render "new" }
         format.xml  { render :xml => @organization.errors, :status => :unprocessable_entity }
+        format.json { render :json=>@organization.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -96,10 +97,12 @@ class Irm::OrganizationsController < ApplicationController
       if @organization.update_attributes(params[:irm_organization])
         format.html { redirect_to({:action=>"index"},:notice => (t :successfully_updated)) }
         format.xml  { head :ok }
+        format.json { render :json=>@organization}
       else
         @error = @organization
         format.html { render "edit" }
         format.xml  { render :xml => @organization.errors, :status => :unprocessable_entity }
+        format.json { render :json=>@organization.errors, :status => :unprocessable_entity }
       end
     end
   end
