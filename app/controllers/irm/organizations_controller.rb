@@ -38,9 +38,7 @@ class Irm::OrganizationsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @leveled_organizations }
-      format.json {
-         render :json=>to_jsonp(@leveled_organizations.to_grid_json([:name,:parent_org_id,:short_name,:parent_org_name,:description],@leveled_organizations.size))
-      }
+
     end
   end
 
@@ -104,6 +102,18 @@ class Irm::OrganizationsController < ApplicationController
         format.xml  { render :xml => @organization.errors, :status => :unprocessable_entity }
         format.json { render :json=>@organization.errors, :status => :unprocessable_entity }
       end
+    end
+  end
+
+  def get_data
+    all_organizations = Irm::Organization.with_parent(I18n.locale).multilingual
+
+
+    respond_to do |format|
+      format.json {
+               organizations,count = paginate(all_organizations)
+               render :json=>to_jsonp(organizations.to_grid_json([:name,:parent_org_id,:short_name,:parent_org_name,:description],count))
+            }
     end
   end
 
