@@ -1758,3 +1758,13 @@ en:
   label_irm_oauth_access_client_token: Token
   label_irm_oauth_access_client_secret: Secret
   #========================end oauth_access_clients=====================================
+
+  #============================== oauth_authorize ======================================
+  label_irm_oauth_grant_access: Grant Acess
+  label_irm_oauth_deny_access: Deny Acess
+  label_irm_oauth_client_not_found: Not Find Client
+  label_irm_oauth_code_unavailable: Unavailabled Code
+  label_irm_oauth_code_expired: Expired Code
+  label_irm_oauth_token_unavailable: Unavailabled Token
+  label_irm_oauth_username_or_password_error: Username Or Password Error
+  #============================== end oauth_authorize ===================================
