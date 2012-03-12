@@ -1793,3 +1793,12 @@ zh:
   label_irm_oauth_access_client_secret: 密码
   #========================end oauth_access_clients=====================================
 
+  #============================== oauth_authorize ======================================
+  label_irm_oauth_grant_access: 授权
+  label_irm_oauth_deny_access: 取消
+  label_irm_oauth_client_not_found: 没有找到相应的应用
+  label_irm_oauth_code_unavailable: 无效的 Code
+  label_irm_oauth_code_expired: 授权码过期了
+  label_irm_oauth_token_unavailable: 无效的 Token
+  label_irm_oauth_username_or_password_error: 用户名或密码错误
+  #============================== end oauth_authorize ===================================

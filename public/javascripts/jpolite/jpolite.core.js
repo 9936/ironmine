@@ -20,7 +20,8 @@ $.extend({
 	 */
 	alert: function(msg) {
 		//this.gritter.add(msg);
-        console.debug(msg);
+        console.log(msg);
+        //console.debug(msg);
 	},
 
 	//Registry of controls that may appear in modules
