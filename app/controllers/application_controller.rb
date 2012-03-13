@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
   # set_localization 设置当前用户语言
   # layout_setup 检查设置窗口的运行模式，wmode,设置页面布局
   # menu_setup 设置当前页面对应的菜单数据
-  # oauth_authorized 如果以token方式进行请求
   before_filter :user_setup
   before_filter :check_if_login_required
   before_filter :person_setup

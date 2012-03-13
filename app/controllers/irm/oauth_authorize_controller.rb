@@ -119,6 +119,8 @@ class Irm::OauthAuthorizeController < ApplicationController
   #根据用户名和密码进系查找
   def find_resource_owner
     if params[:grant_type] == "password"
+      #检测密码中含有的安全标记是否匹配
+      params[:password] = get_password_by_security(params[:username], params[:password])
       @resource_owner = Irm::Person.try_to_login(params[:username], params[:password])
       message = "label_irm_oauth_username_or_password_error"
       info = { username: params[:username] }
@@ -137,6 +139,17 @@ class Irm::OauthAuthorizeController < ApplicationController
     @message = I18n.t message
     @info    = info.to_json
     render "422", status: 422 and return
+  end
+
+  #根据用户名查找当前用户的安全标记,并返回密码
+  def get_password_by_security(login_name, security)
+    person = Irm::Person.where(:login_name => login_name).first
+    #security末尾含有安全标记
+    if security.end_with?(person.security_flag)
+      security[0,(security.size - person.security_flag.size)]
+    else
+      nil
+    end
   end
 
 end
