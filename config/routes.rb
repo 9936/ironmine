@@ -946,6 +946,10 @@ Ironmine::Application.routes.draw do
     match '/oauth_access_clients/get_data(.:format)' => "oauth_access_clients#get_data"
     match '/oauth_access_clients/:id/destroy(.:format)' => "oauth_access_clients#destroy", :via => :delete
 
+    #oauth_authorize
+    get '/oauth/authorize' => "oauth_authorize#show", defaults: { format: "html" }
+    post '/oauth/authorize' => "oauth_authorize#create", defaults: { format: "html" }
+    post '/oauth/token' => "oauth_authorize#token", defaults: { format: "json" }
   end
 
   scope :module => "icm" do

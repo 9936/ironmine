@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_permission
   before_filter :localization_setup
   before_filter :layout_setup
-  before_filter  :prepare_application
+  before_filter :prepare_application
   #before_filter :menu_setup,:menu_entry_setup
 
   # 设置当前用户，为下步检查用户是否登录做准备
@@ -43,9 +43,6 @@ class ApplicationController < ActionController::Base
 
   # 设置当前页面访问的人员
   def person_setup
-    if Ironmine::Application.config.require_login_flag.eql?(false)
-      Irm::Person.current= Irm::Person.find('000100012i8IyyjJaqMaJ6')
-    end
     if(Irm::Person.current)
       # setting current application
       if(session[:application_id]&&Irm::Person.current.profile)
@@ -278,12 +275,14 @@ class ApplicationController < ActionController::Base
 
   # 返回session中的当前用户,如果没有则返回空
   def find_current_user
+    #如果当前是debug模式，则无须登录
     if Ironmine::Application.config.require_login_flag.eql?(false)
-      session[:user_id] = Irm::Person.find('000100012i8IyyjJaqMaJ6').id
-    end
-    if session[:user_id]
+      Irm::Person.where(:login_name => 'ironmine').first
+    elsif session[:user_id]
       # existing session
       (Irm::Person.unscoped.find(session[:user_id]) rescue nil)
+    else
+      oauth_authorized
     end
   end
 
@@ -418,4 +417,29 @@ class ApplicationController < ActionController::Base
   def data_to_xls(datas,columns,options={})
     datas.to_xls(columns,options)
   end
+
+  #检测参数中是否存在令牌以及令牌是否合法
+  def oauth_authorized
+    #检查header中是否存在token
+    if request.env["HTTP_AUTHORIZATION"]
+      params[:token] = request.env["HTTP_AUTHORIZATION"].split(" ").last
+    end
+    if params[:token]
+      #当前返回json数据
+      request.format = "json"
+      token = Irm::OauthToken.where(token: params[:token]).first
+      #检查当前的token是否为空或者过期
+      if token.present? and !token.expired?
+        access = Irm::OauthAccess.where(:token_id => token.id).where(:ip_address => request.remote_ip).first
+        if access.nil?
+          Irm::OauthAccess.create(token_id: token.id, ip_address: request.remote_ip)
+        else
+          access.increment!
+        end
+        #如果当前用户没有登录则设置为登录状态
+        (Irm::Person.unscoped.find(token.user_id) rescue nil)
+      end
+    end
+  end
+
 end

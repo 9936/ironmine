@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <%= render :partial => "irm/common/application_title" %>
+  <% require_css([:default]) %>
+  <%=render_loaded_javascript_css_files%>
+</head>
+<body style="margin: 0;">
+    <div id="contentWrapper">
+        <div id="pageHeader" class="page-header">
+            <table id="phHeader" class="phHeader" cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td class="left">
+                    <%= render :partial => "irm/common/app_top_logo"%>
+                  </td>
+                  <td class="right vtop">
+                    <div class="multiforce">
+                      <div class="messages"></div>
+                      <div>
+                        <%= current_application_menu %>
+                        <span class="navLinks" style="float:right">
+                          <span class="linkElements">
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <%= form_tag '/oauth/authorize', {:method => 'post'} do %>
+              <%= hidden_field_tag :response_type, params[:response_type] %>
+              <%= hidden_field_tag :client_id, params[:client_id] %>
+              <%= hidden_field_tag :redirect_uri, params[:redirect_uri] %>
+              <%= hidden_field_tag :scope, params[:scope] %>
+            <table width=100% border=0 height=80>
+              <tr>
+                <td align=left valign=top>
+                    <table border=0 cellspacing=0 cellpadding=5 height=80>
+                      <tr>
+                        <td valign=top>应用授权</td>
+                      </tr>
+                    </table>
+                </td>
+              </tr>
+              <tr>
+                <td align=center class="pbButton">
+                  <div class="button"><%= submit_tag t(:label_irm_oauth_grant_access)%></div>
+                  <div class="button"><%= link_back t(:label_irm_oauth_deny_access) %></div>
+                </td>
+              </tr>
+            </table>
+            <% end %>
+        </div>
+    </div>
+</body>
+</html>
