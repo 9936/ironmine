@@ -1,0 +1,2 @@
+module Com::ConfigClassesHelper
+end

@@ -92,7 +92,7 @@ class Irm::PortletsController < ApplicationController
     @portlet = Irm::Portlet.find(params[:id])
     @portlet.not_auto_mult=true
     respond_to do |format|
-      if @portlet.update_attributes(params[:portlet])
+      if @portlet.update_attributes(params[:irm_portlet])
         format.html { redirect_to({:action => "show"}, :notice => 'Portlet was successfully updated.') }
         format.xml  { head :ok }
       else
