@@ -17,7 +17,7 @@ Rails.application.routes.draw do
      match '/config_relation_members/get_data(.:format)' => "config_relation_members#get_data"
      match '/config_relation_members/:id/edit(.:format)' => "config_relation_members#edit", :via => :get
      match '/config_relation_members/:id(.:format)' => "config_relation_members#update", :via => :put
-     match '/config_relation_members/new(.:format)' => "config_relation_members#new", :via => :get
+     match '/config_relation_members/:config_relation_type_id/new(.:format)' => "config_relation_members#new", :via => :get
      match '/config_relation_members/:id(.:format)' => "config_relation_members#show", :via => :get
      match '/config_relation_members/create(.:format)' => "config_relation_members#create", :via => :post
 

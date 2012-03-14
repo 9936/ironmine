@@ -4,6 +4,8 @@ zh:
   label_com_config_relation_type_name: 配置项关系类型名称
   label_com_config_relation_type_description: 配置项关系类型说明
 
+  label_irm_config_relation_member_list: 配置项分类列表
+
   #=========================com config classes=======================#
   label_com_config_class: 配置项分类
   label_com_config_class_list: 配置项分类列表
@@ -26,4 +28,7 @@ zh:
   label_com_config_attribute_input_type: 属性输入类型
   label_com_config_attribute_value_from: 值来源
   #=========================end com config classes=======================#
+
+
+
 

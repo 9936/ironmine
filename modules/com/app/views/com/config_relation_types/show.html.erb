@@ -47,7 +47,7 @@
             <tr>
               <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_config_relation_member_list) %></h2></td>
               <td  class="pbButton">
-                <div class="button"><%= link_to t(:new), {:controller=>"config_relation_members",:action => "new"}%></div>
+                <div class="button"><%= link_to t(:new), {:controller=>"com/config_relation_members",:action => "new",:config_relation_type_id=>@config_relation_type.id},:config_relation_type_name=>@config_relation_type[:name]%></div>
               </td>
               <td class="pbHelp">
                 <div id="config_relation_membersSearchBox"></div>
@@ -59,13 +59,13 @@
       <div class="pbBody">
         <div id="config_relation_members" class="datatable" style="width:100%">
           <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:controller=>"config_relation_members",:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:controller=>"config_relation_members",:action=>"show",:id=>"{id}"}) %>
+            <%= link_to(t(:edit),{:controller=>"com/config_relation_members",:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:controller=>"com/config_relation_members",:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("config_relation_members",{:controller=>"config_relation_members",:action=>"get_data",:config_relation_type_id=>@config_relation_type.id:format=>"json"},
+        <%= datatable("config_relation_members",{:controller=>"com/config_relation_members",:action=>"get_data",:config_relation_type_id=>@config_relation_type.id,:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
-                       {:key=>"type_name",:label=>t(:label_com_config_relation_type_name),:width=>"70px"},
-                       {:key=>"config_class_id",:label=>t(:operation),:width=>"70px"},
+                       {:key=>"type_name",:label=>t(:label_com_config_relation_type_name),:width=>"140px"},
+                       {:key=>"config_class_name",:label=>t(:label_com_config_class_name),:width=>"140px",:searchable=>true},
 
                                               ],{:paginator_box=>"config_relation_membersPaginatorBox",:search_box=>"config_relation_membersSearchBox"})%>
         <div id="config_relation_membersPaginatorBox"></div>
