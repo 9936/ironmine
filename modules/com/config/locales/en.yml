@@ -1,5 +1,5 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world from main app"
+  label_com_config_relation_type: Config Relation Type
+  label_com_config_relation_type_list: Config Relation Type List
+  label_com_config_relation_type_name: Config Relation Type Name
+  label_com_config_relation_type_description: Config Relation Type Description
