@@ -1,5 +1,10 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world from main app"
+  #=========================com config classes=======================#
+  label_com_config_class: Config Class
+  label_com_config_class_list: Config Class List
+  label_com_config_class_new: Config Class New
+  label_com_config_class_edit: Config Class Edit
+  label_com_config_class_code: Code
+  label_com_config_class_name: Name
+  label_com_config_class_description: Description
+  #=========================end com config classes=======================#
