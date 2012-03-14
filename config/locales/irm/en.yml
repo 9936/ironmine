@@ -757,6 +757,7 @@ en:
   label_action_add_roles: Select Roles
   label_irm_person_add_to_support_group: Add to Support Group
   label_irm_person_template_flag: Template
+  label_irm_person_security_flag: Security Flag
   label_irm_person_access_system: Accessible Systems
   label_irm_person_add_to_company: Add to Company
   label_irm_person_add_to_system: Add to External System

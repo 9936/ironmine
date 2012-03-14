@@ -98,6 +98,12 @@
                <td class="labelCol"><div></div></td>
               <td class="dataCol"><div></div></td>
             </tr>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_irm_person_security_flag)%></label></td>
+              <td class="dataCol"><%= @person.security_flag %></td>
+               <td class="labelCol"><div></div></td>
+              <td class="dataCol"><div></div></td>
+            </tr>
         </tbody>
       </table>
     </div>
@@ -125,14 +131,52 @@
         </tbody>
       </table>
     </div>
-
   </div>
-
 </div>
 
+<!-- 远程登录信息 -->
+<div id="id_remove_access" class="bRelatedList">
+    <a name="id_remove_access_target"></a>
+    <div class="listRelatedObject setupBlock">
+      <div class="page-block secondary-palette">
+        <div class="pbHeader">
+          <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            <tr>
+              <td class="pbTitle">
+                <h3 id="id_remove_access_title"><%=t(:label_irm_oauth_access_client)%></h3>
+              </td>
+              <td class="pbButton">
+                <div class="button"></div>
+              </td>
+              <td class="pbHelp">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="id_remove_access_list" class="pbBody">
+          <div id="remove_list" class="datatable" style="width:100%;">
+          </div>
+          <!-- Begin company access table -->
+            <%= datatable("remove_list",{:controller=>"irm/my_info",:action=>"get_my_remove_access", :person_id => @person.id},
+                              [{:key=>"id",:label=>t(:operation),:hidden => true},
+                               {:key=>"ip_address",:label=>t(:label_irm_oauth_access_ip), :width=>"200px"},
+                               {:key=>"created_at",:label=>t(:label_irm_oauth_access_created), :width=>"200px"},
+                               {:key=>"updated_at",:label=>t(:label_irm_oauth_access_updated), :width=> "200px"},
+                               {:key=>"times", :label=>t(:label_irm_oauth_access_num)}],{:force_html=>true})%>
+          <!-- End company access table -->
+        </div>
+        <div class="pbFooter secondary-palette">
+        <div class="bg"></div>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- -->
+
 <div id="id_person_system_access" class="bRelatedList">
-    <a name="id_person_system_access_target">
-    </a>
+    <a name="id_person_system_access_target"></a>
     <div class="listRelatedObject setupBlock">
       <div class="page-block secondary-palette">
         <div class="pbHeader">

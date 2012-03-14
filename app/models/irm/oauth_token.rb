@@ -9,6 +9,11 @@ class Irm::OauthToken < ActiveRecord::Base
   validates :client_id, presence: true
   validates :user_id, presence: true
 
+  scope :get_owned_client, lambda {
+    joins("JOIN #{Irm::OauthAccessClient.table_name} ON #{Irm::OauthAccessClient.table_name}.id=#{table_name}.client_id").
+        select("#{Irm::OauthAccessClient.table_name}.name, #{table_name}.id").
+        where("user_id=?", Irm::Person.current.id)
+  }
   #检测当前令牌是否过期
   def expired?
     self.expire_at < Time.now

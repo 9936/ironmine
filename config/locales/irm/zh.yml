@@ -701,6 +701,7 @@ zh:
   label_irm_person_vip_flag: VIP
   label_irm_person_support_staff_flag: 支持组成员
   label_irm_person_assignment_availability_flag: 是否可分单
+  label_irm_person_security_flag: 安全标识
   label_irm_person_email_address: 邮件地址
   label_irm_person_home_phone: 家庭电话
   label_irm_person_home_address: 家庭地址
@@ -1791,6 +1792,11 @@ zh:
   label_irm_oauth_access_client_callback_url: 回调URL
   label_irm_oauth_access_client_token: 标记
   label_irm_oauth_access_client_secret: 密码
+  label_irm_oauth_access_created: 创建日期
+  label_irm_oauth_access_updated: 上次访问日期
+  label_irm_oauth_access_num: 访问累计
+  label_irm_oauth_access_ip: 远程IP
+  label_irm_oauth_access_name: 应用名称
   #========================end oauth_access_clients=====================================
 
   #============================== oauth_authorize ======================================
