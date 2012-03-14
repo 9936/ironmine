@@ -1,10 +1,10 @@
-<%= form_for(@config_attribute,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@config_attribute,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
 <div id="ep" class="edit-block page-block">
   <div class="pbHeader">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_com_config_attribute_new)%></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_com_config_attribute_edit)%></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= f.submit t(:save)%></div>
             <div class="button"><%= link_back t(:cancel)%></div>

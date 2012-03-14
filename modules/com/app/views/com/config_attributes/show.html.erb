@@ -5,9 +5,9 @@
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_config_attribute) %></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_com_config_attribute) %></h2></td>
           <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @incident_phase}%></div>
+            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @config_attribute }%></div>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
           </td>
         </tr>
@@ -18,8 +18,39 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-                  </tbody>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_com_config_attribute_code)%></label></td>
+              <td class="dataCol"><div><%= @config_attribute.code %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:config_class_attribute_required_flag)%></label></td>
+              <td class="dataCol"><div><%= check_img(@config_attribute.required_flag) %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_com_config_class)%></label></td>
+              <td class="dataCol"><div><%= get_config_class_name_by_id(@config_attribute.config_class_id) %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_com_config_attribute_input_type)%></label></td>
+              <td class="dataCol"><div><%= @config_attribute.input_type %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_com_config_attribute_input_value)%></label></td>
+              <td class="dataCol"><div><%= @config_attribute.input_value %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+        </tbody>
       </table>
     </div>
   </div>
 </div>
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@config_attribute} %>

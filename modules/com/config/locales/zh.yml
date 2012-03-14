@@ -17,9 +17,10 @@ zh:
   label_com_config_class_name: 名称
   label_com_config_class_description: 描述
   label_com_config_class_leaf_flag: 叶子节点
+  label_com_config_class_parent: 所属父类
   #=========================end com config classes=======================#
 
-  #=========================com config classes=======================#
+  #=========================com config attributes=======================#
   label_com_config_attribute: 配置项分类属性
   label_com_config_attribute_list: 配置项分类属性列表
   label_com_config_attribute_new: 新建配置项分类属性
@@ -29,8 +30,6 @@ zh:
   label_com_config_attribute_description: 描述
   label_com_config_attribute_input_type: 属性输入类型
   label_com_config_attribute_value_from: 值来源
-  #=========================end com config classes=======================#
-
-
-
-
+  label_com_config_attribute_input_value: 值来源
+  config_class_attribute_required_flag: 必填
+  #=========================end com config attributes=======================#

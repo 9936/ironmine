@@ -39,7 +39,7 @@ class Com::ConfigAttributesController < ApplicationController
 
   # GET /config_attributes/1/edit
   def edit
-    @config_attribute = Com::ConfigAttribute.find(params[:id])
+    @config_attribute = Com::ConfigAttribute.multilingual.find(params[:id])
   end
 
   # POST /config_attributes
@@ -49,7 +49,8 @@ class Com::ConfigAttributesController < ApplicationController
 
     respond_to do |format|
       if @config_attribute.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller => "com/config_classes",:action => "show", :id =>@config_attribute.config_class_id }, :notice => t(:successfully_created)) }
+        #format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @config_attribute, :status => :created, :location => @config_attribute }
       else
         format.html { render :action => "new" }
@@ -65,7 +66,8 @@ class Com::ConfigAttributesController < ApplicationController
 
     respond_to do |format|
       if @config_attribute.update_attributes(params[:com_config_attribute])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:controller => "com/config_classes",:action => "show", :id =>@config_attribute.config_class_id }, :notice => t(:successfully_updated)) }
+        #format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -106,10 +108,18 @@ class Com::ConfigAttributesController < ApplicationController
 
   def get_data
     config_attributes_scope = Com::ConfigAttribute.multilingual
-    config_attributes_scope = config_attributes_scope.match_value("config_attribute.name",params[:name])
+    config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.config_class_id",params[:class_id])
+    config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.code",params[:code])
+    config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.input_type",params[:input_type])
+    config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttributesTl.table_name}.name",params[:name])
     config_attributes,count = paginate(config_attributes_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(config_attributes.to_grid_json([:name,:description,:status_meaning],count))}
+      format.html {
+        @datas = config_attributes
+        @count = count
+        render_html_data_table
+      }
+      format.json {render :json=>to_jsonp(config_attributes.to_grid_json([:code,:input_type,:input_value,:name,:description,:status_meaning],count))}
     end
   end
 end

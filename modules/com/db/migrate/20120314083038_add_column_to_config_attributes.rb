@@ -5,8 +5,8 @@ class AddColumnToConfigAttributes < ActiveRecord::Migration
     add_column :com_config_attributes, "required_flag", :string,:limit => 1, :null => false,:default=>"N",:after => "regular"
   end
   def down
-    add_column :com_config_attributes, "input_value"
-    add_column :com_config_attributes, "regular"
-    add_column :com_config_attributes, "required_flag"
+    remove_column :com_config_attributes, "input_value"
+    remove_column :com_config_attributes, "regular"
+    remove_column :com_config_attributes, "required_flag"
   end
 end

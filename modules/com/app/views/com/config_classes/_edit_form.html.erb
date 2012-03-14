@@ -49,6 +49,15 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
+            <!-- 父类 -->
+            <tr>
+              <td class="labelCol"><label for="config_class_parent"><%=t(:label_com_config_class_parent)%></label></td>
+              <td class="dataCol">
+                <label for="leaf_flag"><%=f.blank_select(:parent_id,available_config_classes) %></label>
+              </td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
             <tr>
               <td class="labelCol"><label for="config_class_description"><%=t(:label_com_config_class_description)%></label></td>
               <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>60 ,:id=>"config_class_description"%></td>
