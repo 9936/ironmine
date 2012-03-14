@@ -38,7 +38,7 @@ class Irm::OauthAuthorizeController < ApplicationController
       #client_where_secret_and_redirect
       #find_authorization
       #find_authorization_expired
-      @token = Irm::OauthToken.create(client_id: @client.site_url, oauth_code_id: @authorization.id, user_id: @authorization.person_id)
+      @token = Irm::OauthToken.create(client_id: @client.id, oauth_code_id: @authorization.id, user_id: @authorization.person_id)
     end
     #刷新令牌相应的处理
     if params[:grant_type] == "refresh_token"
@@ -46,13 +46,13 @@ class Irm::OauthAuthorizeController < ApplicationController
       #find_expired_token
       #禁止再次进系刷新，设置为过期状态
       @expired_token.update_attribute("expire_at", Time.now)
-      @token = Irm::OauthToken.create(client_id: @client.site_url, oauth_code_id: @expired_token.oauth_code_id,relation_oauth_token_id: @expired_token.id, user_id: @expired_token.user_id)
+      @token = Irm::OauthToken.create(client_id: @client.id, oauth_code_id: @expired_token.oauth_code_id,relation_oauth_token_id: @expired_token.id, user_id: @expired_token.user_id)
     end
     #密码进行处理
     if params[:grant_type] == "password"
       #client_where_secret
       #find_resource_owner
-      @token = OauthToken.create(client_id: @client.site_url, user_id: @resource_owner.id)
+      @token = OauthToken.create(client_id: @client.id, user_id: @resource_owner.id)
     end
   end
 

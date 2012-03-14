@@ -150,7 +150,7 @@ Irm::AccessControl.map do |map|
                                                       "edit", "update", "multilingual_edit", "multilingual_update","execute_test"]}
 
   #====================irm/my_info =================================
-  map.function :my_info, {"irm/my_info" => ["index","edit","update"],
+  map.function :my_info, {"irm/my_info" => ["index","edit","update", "get_my_remove_access"],
                           "irm/people"=>["get_owned_external_systems", "get_support_group"],
                            "irm/group_members"=>["get_data_from_person"]}
 

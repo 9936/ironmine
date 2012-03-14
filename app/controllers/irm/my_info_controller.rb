@@ -22,6 +22,50 @@ class Irm::MyInfoController < ApplicationController
 
   end
 
+  #获取当前用户远程登录的记录
+  def get_my_remove_access
+    #根据用户的id获取当前应用id
+    tokens = Irm::OauthToken.get_owned_client
+    token_ids = tokens.collect{|i| [i.id]}
+    #根据client_id 获取对应的client
+    #remove_access_scope = Irm::OauthAccess.select("id, token_id, ip_address,updated_at,sum(times) times").where(:token_id=>token_ids).group("ip_address, client_id")
+    remove_access_scope = Irm::OauthAccess.where(:token_id=>token_ids)
+    remove_access_record, count = paginate(remove_access_scope)
+    ip_and_names = []
+    remove_access_record.each do |data|
+      tokens.each do |token|
+        if token.id.eql?(data.token_id)
+          ip_and_names << "#{data[:ip_address]}#{token.name}" unless ip_and_names.include?("#{data[:ip_address]}#{token.name}")
+          data[:client] = token.name
+          break
+        end
+      end
+    end
+    total_record = {}
+    ip_and_names.each do |ip_and_name|
+      times = 0
+      recent_date = Time.new(2000,01,01,00,00,0)
+      remove_access_record.each do |data|
+        if ip_and_name.eql?("#{data[:ip_address]}#{data[:client]}")
+          total_record[ip_and_name] ||= []
+          times += data[:times]
+          recent_date = data[:updated_at] if data[:updated_at] > recent_date
+          total_record[ip_and_name] = data
+        end
+      end
+      total_record[ip_and_name][:times] = times
+      total_record[ip_and_name][:updated_at] = recent_date
+    end
+    respond_to do |format|
+      format.html{
+        @datas = total_record
+        @count = count
+        render_html_data_table
+      }
+      format.json {render :json=>to_jsonp(remove_access_record.to_grid_json([:client,:ip_address,:created_at,:updated_at, :times], count))}
+    end
+  end
+
   def get_login_data
     login_records_scope = Irm::LoginRecord.list_all.query_by_person(Irm::Person.current.id)
     login_records,count = paginate(login_records_scope)
