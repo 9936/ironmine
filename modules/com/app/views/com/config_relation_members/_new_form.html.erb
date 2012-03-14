@@ -4,7 +4,7 @@
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_config_relation_member_new)%></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_com_config_relation_member)%></h2></td>
           <td id="topButtonRow" class="pbButton">
             <div class="button"><%= f.submit t(:save)%></div>
             <div class="button"><%= link_back t(:cancel)%></div>
@@ -37,7 +37,7 @@
                       <td class="dataCol"></td>
                     </tr>
         <tr>
-                      <td class="labelCol"><label><%=(t :label_com_config_class_name)%></label></td>
+                      <td class="labelCol"><label><%=(t :label_com_config_relation_member_class_name)%></label></td>
                       <td class="dataCol"><%= f.select :config_class_id, nullable_options_for_select(available_config_class, @config_relation_member.config_class_id),
                                                                      {}, {:require=>true} %></td>
 

@@ -4,7 +4,9 @@ en:
   label_com_config_relation_type_name: Config Relation Type Name
   label_com_config_relation_type_description: Config Relation Type Description
 
-  label_irm_config_relation_member_list: Config Class List
+  label_com_config_relation_member_list: Applicable Config Classes List
+  label_com_config_relation_member: Applicable Config Class
+  label_com_config_relation_member_class_name: Applicable Config Class Name
   #=========================com config classes=======================#
   label_com_config_class: Config Class
   label_com_config_class_list: Config Class List
