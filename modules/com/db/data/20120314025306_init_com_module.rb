@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class InitComModule < ActiveRecord::Migration
   def up
     com_product = Irm::ProductModule.new({:product_short_name=>"COM",:installed_flag=>"Y",:not_auto_mult=>true})
