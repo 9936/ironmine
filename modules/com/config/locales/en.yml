@@ -3,3 +3,14 @@ en:
   label_com_config_relation_type_list: Config Relation Type List
   label_com_config_relation_type_name: Config Relation Type Name
   label_com_config_relation_type_description: Config Relation Type Description
+
+  #=========================com config classes=======================#
+  label_com_config_class: Config Class
+  label_com_config_class_list: Config Class List
+  label_com_config_class_new: Config Class New
+  label_com_config_class_edit: Config Class Edit
+  label_com_config_class_code: Code
+  label_com_config_class_name: Name
+  label_com_config_class_description: Description
+  #=========================end com config classes=======================#
+

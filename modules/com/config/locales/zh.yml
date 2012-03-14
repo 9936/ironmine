@@ -3,3 +3,27 @@ zh:
   label_com_config_relation_type_list: 配置项关系类型列表
   label_com_config_relation_type_name: 配置项关系类型名称
   label_com_config_relation_type_description: 配置项关系类型说明
+
+  #=========================com config classes=======================#
+  label_com_config_class: 配置项分类
+  label_com_config_class_list: 配置项分类列表
+  label_com_config_class_new: 新建配置分类
+  label_com_config_class_edit: 编辑配置分类
+  label_com_config_class_code: 编码
+  label_com_config_class_name: 名称
+  label_com_config_class_description: 描述
+  label_com_config_class_leaf_flag: 叶子节点
+  #=========================end com config classes=======================#
+
+  #=========================com config classes=======================#
+  label_com_config_attribute: 配置项分类属性
+  label_com_config_attribute_list: 配置项分类属性列表
+  label_com_config_attribute_new: 新建配置项分类属性
+  label_com_config_attribute_edit: 编辑配置项分类属性
+  label_com_config_attribute_code: 编码
+  label_com_config_attribute_name: 名称
+  label_com_config_attribute_description: 描述
+  label_com_config_attribute_input_type: 属性输入类型
+  label_com_config_attribute_value_from: 值来源
+  #=========================end com config classes=======================#
+

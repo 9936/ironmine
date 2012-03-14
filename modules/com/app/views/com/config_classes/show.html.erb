@@ -1,0 +1,69 @@
+<%= page_title %>
+
+<div id="ep" class="detail-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_com_config_class) %></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @config_class}%></div>
+            <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
+            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_com_config_class_code)%></label></td>
+              <td class="dataCol"><div><%= @config_class.code %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- 配置属性列表 -->
+<div class="listRelatedObject setupBlock">
+    <div class="page-block">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_com_config_attribute_list) %></h2></td>
+              <td  class="pbButton">
+                <div class="button"><%= link_to t(:add), {:controller=>"com/config_attributes",:action => "new",:class_id=>@config_class.id }%></div>
+              </td>
+              <td class="pbHelp">
+                <div id="config_attributesSearchBox"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="config_attributes" class="datatable" style="width:100%">
+          <div id="id" style="display:none">
+            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
+          </div>
+        </div>
+        <%= datatable("config_attributes",{:controller=>"com/config_attributes",:action=>"get_data",:format=>"json"},
+                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
+                       { :key => "code", :label => t(:label_com_config_attribute_code),:searchable=>true },
+                       { :key => "input_type", :label => t(:label_com_config_attribute_input_type),:searchable=>true },
+                       { :key => "name", :label => t(:label_com_config_attribute_name),:searchable=>true },
+                       { :key => "description", :label => t(:label_com_config_attribute_description),:width=>"250px" }
+                      ],{:paginator_box=>"config_attributesPaginatorBox",:search_box=>"config_attributesSearchBox"})%>
+        <div id="config_attributesPaginatorBox"></div>
+      </div>
+    </div>
+</div>
+<!-- 结束配置属性列表 -->
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@config_class} %>
