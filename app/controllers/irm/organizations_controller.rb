@@ -81,7 +81,7 @@ class Irm::OrganizationsController < ApplicationController
       else
         format.html { render "new" }
         format.xml  { render :xml => @organization.errors, :status => :unprocessable_entity }
-        format.json { render :json=>@organization.errors, :status => :unprocessable_entity }
+        format.json { render :json=>@organization.errors }
       end
     end
   end
@@ -100,7 +100,7 @@ class Irm::OrganizationsController < ApplicationController
         @error = @organization
         format.html { render "edit" }
         format.xml  { render :xml => @organization.errors, :status => :unprocessable_entity }
-        format.json { render :json=>@organization.errors, :status => :unprocessable_entity }
+        format.json { render :json=>@organization.errors }
       end
     end
   end

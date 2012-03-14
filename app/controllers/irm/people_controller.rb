@@ -14,6 +14,10 @@ class Irm::PeopleController < ApplicationController
   def show
     @person = Irm::Person.list_all.find(params[:id])
     @support_group_count = Irm::GroupMember.where(:person_id=>@person.id).size
+    respond_to do |format|
+      format.json {render :json=>@person}
+      format.html
+    end
   end
 
   # GET /people/new
@@ -37,7 +41,7 @@ class Irm::PeopleController < ApplicationController
   # POST /people.xml
   def create
     @person = Irm::Person.new(params[:irm_person])
-
+    puts params[:irm_person].inspect
     if @person.template_flag.eql?(Irm::Constant::SYS_YES)
       @person = Irm::TemplatePerson.new(params[:irm_person])
     end
@@ -53,10 +57,13 @@ class Irm::PeopleController < ApplicationController
         else
           format.html { redirect_to({:action=>"show"},:notice => (t :successfully_created))}
           format.xml  { render :xml => @person, :status => :created, :location => @person }
+          format.json { render :json=>@person}
         end
+
       else
         format.html { render "new" }
         format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
+        format.json  { render :json => @person.errors}
       end
     end
   end
@@ -65,6 +72,9 @@ class Irm::PeopleController < ApplicationController
   # PUT /people/1.xml
   def update
     @person = Irm::Person.list_all.find(params[:id])
+    #禁止更新用户名
+    params[:irm_person].delete(:login_name)
+
     @attributes = params[:irm_person]
     respond_to do |format|
       if @person.update_attributes(params[:irm_person])
@@ -82,11 +92,13 @@ class Irm::PeopleController < ApplicationController
             format.html { redirect_to({:action=>"edit"},:notice => (t :successfully_updated)) }
             format.xml  { head :ok }
           end
+          format.json { render :json=>@person}
         end
       else
         @error = @person
         format.html { render "edit" }
         format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
+        format.json  { render :json => @person.errors}
       end
     end
   end
