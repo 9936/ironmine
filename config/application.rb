@@ -14,7 +14,7 @@ module Ironmine
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths += %W(#{config.root}/lib #{config.root}/ext_lib #{config.root}/program/report)
+    config.autoload_paths += %W(#{config.root}/ext_lib)
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -80,5 +80,32 @@ module Ironmine
         :treeview => %w(treeview),
         :autosaving => %w(auto-saving)
     }
+
+    # config modules
+    modules = Dir["#{config.root}/modules/*"].sort.collect{|i| File.basename(i).split("_").last if File.directory?(i)}.compact
+    origin_values =  paths.dup
+    modules.reverse.each do |module_name|
+      paths.keys.each do |key|
+        next unless paths[key].is_a?(Array)
+        file_path ="modules/#{module_name}/#{origin_values[key][0]}"
+        real_file_path = "#{config.root}/#{file_path}"
+        if File.exist?(real_file_path)
+          paths[key].insert(0,file_path)
+        end
+      end
+    end
+
+    # auto load class in lib and module lib
+    config.autoload_paths += paths["lib"].expanded
+
+    # auto load program report
+    config.autoload_paths += %W(#{config.root}/program/report)
+    modules.reverse.each do |module_name|
+      file_path = "modules/program/report"
+      if File.exist?(file_path)
+        config.autoload_paths += [file_path]
+      end
+    end
+
   end
 end

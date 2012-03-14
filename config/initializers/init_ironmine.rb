@@ -91,6 +91,9 @@ Paperclip::ClassMethods.send(:include,Irm::PaperclipValidator)
 Dir[Rails.root.join('program', 'report', '**', '*.rb')].each do |file_path|
   require "#{file_path}"
 end
+Dir[Rails.root.join('modules','*','program', 'report', '**', '*.rb')].each do |file_path|
+  require "#{file_path}"
+end
 
 begin
   # 初始化模块数据 ，初始化脚本位于lib/模块/init.rb脚本中
