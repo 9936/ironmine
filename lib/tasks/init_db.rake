@@ -31,9 +31,14 @@ namespace :db do
   desc "(For Ironmine)Migrate the database (options: VERSION=x, VERBOSE=false,PRODUCT=sr)."
   task :migrate => :environment do
     ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
-    product_path = ENV["PRODUCT"] ? "/#{ENV['PRODUCT']}" : "/*"
-    data_table_path = ENV["TABLE"] ? "db/migrate#{product_path}":"db/*#{product_path}"
-    Irm::Migrator::TableMigrator.migrate(data_table_path, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+    # main app migrate
+    migrate_paths = ["db/*/*"]
+    # modules migrate
+    Rails.application.paths["db/migrate"][0..Rails.application.paths["db/migrate"].length-2].each do |f|
+      migrate_paths << "#{f.to_s.gsub('migrate','')}/*"
+    end if Rails.application.paths["db/migrate"].length > 1
+
+    Irm::Migrator::TableMigrator.migrate(migrate_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
     Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby
   end
 end
