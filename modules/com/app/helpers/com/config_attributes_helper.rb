@@ -3,4 +3,8 @@ module Com::ConfigAttributesHelper
   def available_classes
     Com::ConfigClass.multilingual.collect {|i|[i[:name], i[:id]] }
   end
+
+  def get_config_class_name_by_id(id)
+    Com::ConfigClass.multilingual.select("name").where(:id => id).first[:name]
+  end
 end

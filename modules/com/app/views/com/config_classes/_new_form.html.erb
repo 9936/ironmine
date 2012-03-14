@@ -43,8 +43,17 @@
             </tr>
             <tr>
               <td class="labelCol"><label for="config_class_leaf_flag"><%=t(:label_com_config_class_leaf_flag)%></label></td>
-              <td class="dataCol">
+              <td class="dataCol" id="leaf_flag">
                 <label for="leaf_flag"><%= f.check_box(:leaf_flag) %></label>
+              </td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <!-- 父类 -->
+            <tr>
+              <td class="labelCol"><label for="config_class_parent"><%=t(:label_com_config_class_parent)%></label></td>
+              <td class="dataCol">
+                <label for="leaf_flag"><%=f.blank_select(:parent_id,available_config_classes) %></label>
               </td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
@@ -72,3 +81,17 @@
   </div>
 </div>
 <% end %>
+<!--
+<script type="text/javascript">
+  $(function(){
+      $("#leaf_flag").find("input[name='com_config_class[leaf_flag]']").click(function(){
+          if($(this).attr("checked")) {
+             $("#parent_config_class").show();
+          }else{
+              $("#parent_config_class").hide();
+          }
+      })
+  });
+
+</script>
+ -->

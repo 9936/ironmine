@@ -2,7 +2,7 @@ class Com::ConfigClass < ActiveRecord::Base
   set_table_name :com_config_classes
 
   #多语言关系
-  attr_accessor :name,:description
+  attr_accessor :name,:description,:level
   has_many :config_classes_tls,:dependent => :destroy
   acts_as_multilingual
 
