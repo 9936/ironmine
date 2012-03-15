@@ -23,7 +23,7 @@ class Irm::MyInfoController < ApplicationController
   end
 
   #获取当前用户远程登录的记录
-  def get_my_remove_access
+  def get_my_remote_access
     #根据用户的id获取当前应用id
     tokens = Irm::OauthToken.get_owned_client
     token_ids = tokens.collect{|i| [i.id]}

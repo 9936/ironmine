@@ -155,11 +155,10 @@
             </tbody>
           </table>
         </div>
-        <div id="id_remove_access_list" class="pbBody">
-          <div id="remove_list" class="datatable" style="width:100%;">
-          </div>
+        <div id="id_remote_access_list" class="pbBody">
+          <div id="remote_list" class="datatable" style="width:100%;"></div>
           <!-- Begin company access table -->
-            <%= datatable("remove_list",{:controller=>"irm/my_info",:action=>"get_my_remove_access", :person_id => @person.id},
+            <%= datatable("remote_list",{:controller=>"irm/my_info",:action=>"get_my_remote_access", :person_id => @person.id},
                               [{:key=>"id",:label=>t(:operation),:hidden => true},
                                {:key=>"ip_address",:label=>t(:label_irm_oauth_access_ip), :width=>"200px"},
                                {:key=>"created_at",:label=>t(:label_irm_oauth_access_created), :width=>"200px"},
