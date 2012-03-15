@@ -2,7 +2,7 @@ class Com::ConfigRelationTypesController < ApplicationController
   # GET /config_relation_types
   # GET /config_relation_types.xml
   def index
-    @config_relation_types = ConfigRelationType.multilingual.all
+    @config_relation_types = Com::ConfigRelationType.multilingual.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +13,7 @@ class Com::ConfigRelationTypesController < ApplicationController
   # GET /config_relation_types/1
   # GET /config_relation_types/1.xml
   def show
-    @config_relation_type = ConfigRelationType.multilingual.find(params[:id])
+    @config_relation_type = Com::ConfigRelationType.multilingual.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +24,7 @@ class Com::ConfigRelationTypesController < ApplicationController
   # GET /config_relation_types/new
   # GET /config_relation_types/new.xml
   def new
-    @config_relation_type = ConfigRelationType.new
+    @config_relation_type = Com::ConfigRelationType.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,13 +34,13 @@ class Com::ConfigRelationTypesController < ApplicationController
 
   # GET /config_relation_types/1/edit
   def edit
-    @config_relation_type = ConfigRelationType.multilingual.find(params[:id])
+    @config_relation_type = Com::ConfigRelationType.multilingual.find(params[:id])
   end
 
   # POST /config_relation_types
   # POST /config_relation_types.xml
   def create
-    @config_relation_type = ConfigRelationType.new(params[:com_config_relation_type])
+    @config_relation_type = Com::ConfigRelationType.new(params[:com_config_relation_type])
 
     respond_to do |format|
       if @config_relation_type.save
@@ -56,7 +56,7 @@ class Com::ConfigRelationTypesController < ApplicationController
   # PUT /config_relation_types/1
   # PUT /config_relation_types/1.xml
   def update
-    @config_relation_type = ConfigRelationType.find(params[:id])
+    @config_relation_type = Com::ConfigRelationType.find(params[:id])
 
     respond_to do |format|
       if @config_relation_type.update_attributes(params[:com_config_relation_type])
@@ -72,7 +72,7 @@ class Com::ConfigRelationTypesController < ApplicationController
   # DELETE /config_relation_types/1
   # DELETE /config_relation_types/1.xml
   def destroy
-    @config_relation_type = ConfigRelationType.find(params[:id])
+    @config_relation_type = Com::ConfigRelationType.find(params[:id])
     @config_relation_type.destroy
 
     respond_to do |format|
@@ -82,11 +82,11 @@ class Com::ConfigRelationTypesController < ApplicationController
   end
 
   def multilingual_edit
-    @config_relation_type = ConfigRelationType.find(params[:id])
+    @config_relation_type = Com::ConfigRelationType.find(params[:id])
   end
 
   def multilingual_update
-    @config_relation_type = ConfigRelationType.find(params[:id])
+    @config_relation_type = Com::ConfigRelationType.find(params[:id])
     @config_relation_type.not_auto_mult=true
     respond_to do |format|
       if @config_relation_type.update_attributes(params[:com_config_relation_type])
@@ -100,7 +100,7 @@ class Com::ConfigRelationTypesController < ApplicationController
   end
 
   def get_data
-    config_relation_types_scope = ConfigRelationType.multilingual
+    config_relation_types_scope = Com::ConfigRelationType.multilingual
     config_relation_types_scope = config_relation_types_scope.match_value("#{Com::ConfigRelationTypesTl.table_name}.name",params[:name])
     config_relation_types_scope = config_relation_types_scope.match_value("#{Com::ConfigRelationTypesTl.table_name}.description",params[:description])
     config_relation_types_scope = config_relation_types_scope.match_value("#{Com::ConfigRelationType.table_name}.code",params[:code])
