@@ -32,15 +32,4 @@ module Com::ConfigClassesHelper
     end
   end
 
-  def level_str(level=1)
-    if level.eql?(1)
-      return ""
-    else
-      str = ""
-      (level-1).times do
-        str << "&nbsp;&nbsp;&nbsp;&nbsp;"
-      end
-    end
-    str
-  end
 end
