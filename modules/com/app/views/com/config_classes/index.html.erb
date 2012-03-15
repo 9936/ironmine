@@ -21,12 +21,16 @@
           <div id="id" style="display:none">
             <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
+          <div id="leaf_flag" style="display:none">
+            <%= check_img("{leaf_flag}") %>
+          </div>
         </div>
         <%= datatable("config_classes",{:action=>"get_data",:format=>"json"},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                        { :key => "code", :label => t(:label_com_config_class_code),:searchable=>true },
                        { :key => "name", :label => t(:label_com_config_class_name),:searchable=>true },
-                       { :key => "description", :label => t(:label_com_config_class_description),:width=>"250px" }
+                       { :key => "description", :label => t(:label_com_config_class_description),:width=>"250px" },
+                       { :key => "leaf_flag", :label => t(:label_com_config_class_leaf_flag),:formatter=>"Y.irm.template"}
                       ],{:paginator_box=>"config_classesPaginatorBox",:search_box=>"config_classesSearchBox"})%>
         <div id="config_classesPaginatorBox"></div>
       </div>
