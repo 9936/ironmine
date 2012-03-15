@@ -11,7 +11,7 @@ class Csi::Survey < ActiveRecord::Base
   acts_as_searchable
 
 
-  validates_presence_of :title,:end_message
+  validates_presence_of :title
   #validates_presence_of :due_dates,:if=>Proc.new{|i| i.incident_flag.eql?(Irm::Constant::SYS_YES)}
   validates_presence_of :close_date,:if=>Proc.new{|i| i.incident_flag.eql?(Irm::Constant::SYS_NO)}
 
