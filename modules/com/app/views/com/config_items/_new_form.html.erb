@@ -1,0 +1,100 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<%= form_for(@config_item,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
+<div id="ep" class="edit-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_com_config_item)%></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <%= error_for @config_item %>
+    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+      <span class="pbSubExtra">
+        <span class="requiredLegend">
+          <span class="requiredExampleOuter">
+            <span class="requiredExample">&nbsp;</span>
+          </span><span class="requiredMark">*</span>
+          <span class="requiredText"> = <%=t(:label_is_required)%></span>
+        </span>
+      </span>
+      <h3><%= t(:label_common_info) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+          <td class="labelCol"><label><%=t(:label_com_config_item_number)%></label></td>
+          <td class="dataCol"><%=f.text_field :item_number, :required=>true %></td>
+          <td class="labelCol empty">&nbsp;</td>
+          <td class="dataCol empty">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="labelCol"><label><%=(t :label_com_config_item_config_class)%></label></td>
+          <td class="dataCol"><%= f.select :config_class_id, nullable_options_for_select(available_config_class, @config_item.config_class_id),
+                                           {}, {:require=>true} %></td>
+
+          <td class="labelCol"></td>
+          <td class="dataCol"></td>
+        </tr>
+        <tr>
+          <td class="labelCol"><label><%=(t :label_com_config_item_managed_group)%></label></td>
+          <td class="dataCol"><%= f.select :managed_group_id, nullable_options_for_select(available_support_group, @config_item.managed_group_id ),
+                                           {},{:id=>"config_item_managed_group_id"} %></td>
+
+          <td class="labelCol"></td>
+          <td class="dataCol"></td>
+        </tr>
+        <tr>
+          <td class="labelCol"><label><%=(t :label_com_config_item_managed_person)%></label></td>
+          <td class="dataCol"><%= f.select(:managed_person_id,nullable_options_for_select([],nil),{},
+                                           {
+                                                   :id=>"config_item_managed_person_id",
+                                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"${config_item_managed_group_id}"),
+                                                   :depend=>"config_item_managed_group_id",
+
+                                                   :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                           }) %></td>
+
+          <td class="labelCol"></td>
+          <td class="dataCol"></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pbBottomButtons">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"></td>
+          <td id="bottomButtonRow" class="pbButtonb">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+
+
+     if($("#config_item_managed_group_id")){
+         $("#config_item_managed_group_id").cascade("#config_item_managed_person_id");
+     }
+
+  });
+</script>

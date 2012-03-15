@@ -19,4 +19,13 @@ en:
 
 
 
+  #==========================config item==================================#
+  label_com_config_item: Configuration Item
+  label_com_config_item_list: Configuration Item List
+  label_com_config_item_number: Configuration Item Number
+  label_com_config_item_config_class: Configuration Class
+  label_com_config_item_managed_group: Managed Group
+  label_com_config_item_managed_person: Managed Person
+  label_com_config_item_last_checked_at: Last Checked At
+  #===========================end config item==============================#
 

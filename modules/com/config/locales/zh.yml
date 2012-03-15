@@ -33,3 +33,14 @@ zh:
   label_com_config_attribute_input_value: 值来源
   config_class_attribute_required_flag: 必填
   #=========================end com config attributes=======================#
+
+
+  #==========================config item==================================#
+  label_com_config_item: 配置项
+  label_com_config_item_list: 配置项列表
+  label_com_config_item_number: 配置项编号
+  label_com_config_item_config_class: 配置项分类
+  label_com_config_item_managed_group: 管理组
+  label_com_config_item_managed_person: 管理人员
+  label_com_config_item_last_checked_at: 上一次扫描时间
+  #===========================end config item==============================#

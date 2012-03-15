@@ -22,17 +22,17 @@ Rails.application.routes.draw do
      match '/config_relation_members/:id(.:format)' => "config_relation_members#show", :via => :get
      match '/config_relation_members/create(.:format)' => "config_relation_members#create", :via => :post
 
-    #config_classes
-    match '/config_classes(/index)(.:format)' => "config_classes#index", :via => :get
-    match '/config_classes/new(.:format)'      => "config_classes#new",   :via => :get
-    match '/config_classes/:id/edit(.:format)' => "config_classes#edit", :via => :get
-    match '/config_classes/create(.:format)'  => "config_classes#create",:via => :post
-    match '/config_classes/:id(.:format)'  => "config_classes#update",:via => :put
-    match '/config_classes/:id/show(.:format)'=> "config_classes#show",  :via => :get
-    match '/config_classes/get_data(.:format)' => "config_classes#get_data"
-    match '/config_classes/:id/destroy(.:format)' => "config_classes#destroy", :via => :delete
-    match '/config_classes/:id/multilingual_edit(.:format)' => "config_classes#multilingual_edit", :via => :get
-    match '/config_classes/:id/multilingual_update(.:format)' => "config_classes#multilingual_update", :via => :put
+    #config_items
+    match '/config_items(/index)(.:format)' => "config_items#index", :via => :get
+    match '/config_items/new(.:format)'      => "config_items#new",   :via => :get
+    match '/config_items/:id/edit(.:format)' => "config_items#edit", :via => :get
+    match '/config_items/create(.:format)'  => "config_items#create",:via => :post
+    match '/config_items/:id(.:format)'  => "config_items#update",:via => :put
+    match '/config_items/:id/show(.:format)'=> "config_items#show",  :via => :get
+    match '/config_items/get_data(.:format)' => "config_items#get_data"
+    match '/config_items/:id/destroy(.:format)' => "config_items#destroy", :via => :delete
+    match '/config_items/:id/multilingual_edit(.:format)' => "config_items#multilingual_edit", :via => :get
+    match '/config_items/:id/multilingual_update(.:format)' => "config_items#multilingual_update", :via => :put
 
 
     #config_attributes
@@ -46,5 +46,15 @@ Rails.application.routes.draw do
     match '/config_attributes/:id/destroy(.:format)' => "config_attributes#destroy", :via => :delete
     match '/config_attributes/:id/multilingual_edit(.:format)' => "config_attributes#multilingual_edit", :via => :get
     match '/config_attributes/:id/multilingual_update(.:format)' => "config_attributes#multilingual_update", :via => :put
+    
+        #config_item
+    match '/config_items(/index)(.:format)' => "config_items#index", :via => :get
+    match '/config_items/new(.:format)'      => "config_items#new",   :via => :get
+    match '/config_items/:id/edit(.:format)' => "config_items#edit", :via => :get
+    match '/config_items/create(.:format)'  => "config_items#create",:via => :post
+    match '/config_items/:id(.:format)'  => "config_items#update",:via => :put
+    match '/config_items/:id/show(.:format)'=> "config_items#show",  :via => :get
+    match '/config_items/get_data(.:format)' => "config_items#get_data"
+    match '/config_items/:id/destroy(.:format)' => "config_items#destroy", :via => :delete
   end
 end
