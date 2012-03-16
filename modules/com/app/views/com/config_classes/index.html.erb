@@ -20,7 +20,7 @@
                 <div>
                   <%= form_tag({:controller => "com/config_classes"}, {:method => 'get'}) do %>
                       <span class="viewSelect">
-                        <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("organization_view", this.value);this.form.submit();'}) %>
+                        <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("config_class_view", this.value);this.form.submit();'}) %>
                       </span>
                   <% end %>
                 </div>
