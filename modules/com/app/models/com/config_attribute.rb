@@ -12,4 +12,10 @@ class Com::ConfigAttribute < ActiveRecord::Base
   query_extend
   #对运维中心数据进行隔离
   default_scope {default_filter}
+
+
+  scope :query_attributes_by_class_id, lambda { |class_id|
+    self.multilingual.where(:id => self.find_by_sql("select id from com_config_classes_attributes_vl where config_class_id='#{class_id}'"))
+  }
+
 end
