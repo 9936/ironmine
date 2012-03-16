@@ -2,30 +2,32 @@ class Com::ConfigClassesController < ApplicationController
   # GET /config_classes
   # GET /config_classes.xml
   def index
-    all_config_classes = Com::ConfigClass.query_parent(I18n.locale).multilingual
-    grouped_config_classes = all_config_classes.collect{|i| [i.id,i.parent_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
-
-    config_classes = {}
-    all_config_classes.each do |ac|
-      config_classes.merge!({ac.id=>ac})
-    end
+    all_config_classes = Com::ConfigClass.query_parent(I18n.locale).multilingual.where(:id=>1)
     @leveled_config_classes = []
-    proc = Proc.new{|parent_id,level|
-      if grouped_config_classes[parent_id.to_s]&&grouped_config_classes[parent_id.to_s].any?
+    if !all_config_classes.nil? and all_config_classes.present?
+      grouped_config_classes = all_config_classes.collect{|i| [i.id,i.parent_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
 
-        grouped_config_classes[parent_id.to_s].each do |o|
-          config_classes[o[0]].level = level
-          @leveled_config_classes << config_classes[o[0]]
-          proc.call(config_classes[o[0]].id,level+1)
-        end
+      config_classes = {}
+      all_config_classes.each do |ac|
+        config_classes.merge!({ac.id=>ac})
       end
-    }
-    grouped_config_classes["blank"].each do |go|
-      config_classes[go[0]].level = 1
-      @leveled_config_classes << config_classes[go[0]]
-      proc.call(config_classes[go[0]].id,2)
-    end
 
+      proc = Proc.new{|parent_id,level|
+        if grouped_config_classes[parent_id.to_s]&&grouped_config_classes[parent_id.to_s].any?
+
+          grouped_config_classes[parent_id.to_s].each do |o|
+            config_classes[o[0]].level = level
+            @leveled_config_classes << config_classes[o[0]]
+            proc.call(config_classes[o[0]].id,level+1)
+          end
+        end
+      }
+      grouped_config_classes["blank"].each do |go|
+        config_classes[go[0]].level = 1
+        @leveled_config_classes << config_classes[go[0]]
+        proc.call(config_classes[go[0]].id,2)
+      end
+    end
     unless params[:mode].present?
       params[:mode] = cookies['config_class_view']
     end
