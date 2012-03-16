@@ -2,7 +2,7 @@ class Com::ConfigClassesController < ApplicationController
   # GET /config_classes
   # GET /config_classes.xml
   def index
-    all_config_classes = Com::ConfigClass.query_parent(I18n.locale).multilingual.where(:id=>1)
+    all_config_classes = Com::ConfigClass.query_parent(I18n.locale).multilingual
     @leveled_config_classes = []
     if !all_config_classes.nil? and all_config_classes.present?
       grouped_config_classes = all_config_classes.collect{|i| [i.id,i.parent_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
