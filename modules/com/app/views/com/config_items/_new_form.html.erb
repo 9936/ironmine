@@ -17,6 +17,7 @@
   </div>
   <div class="pbBody">
     <%= error_for @config_item %>
+    <%= system_parameter_errors_for @errors %>
     <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
       <span class="pbSubExtra">
         <span class="requiredLegend">
@@ -29,7 +30,7 @@
       <h3><%= t(:label_common_info) %></h3>
     </div>
     <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+      <table id="config_item_table" class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
         <tr>
           <td class="labelCol"><label><%=t(:label_com_config_item_number)%></label></td>
@@ -39,8 +40,8 @@
         </tr>
         <tr>
           <td class="labelCol"><label><%=(t :label_com_config_item_config_class)%></label></td>
-          <td class="dataCol"><%= f.select :config_class_id, nullable_options_for_select(available_config_class, @config_item.config_class_id),
-                                           {}, {:require=>true} %></td>
+          <td class="dataCol"><%= f.select :config_class_id, nullable_options_for_select(available_config_class,@config_item.config_class_id),
+                                           {}, {:require=>true,:id=>"config_class_id"} %></td>
 
           <td class="labelCol"></td>
           <td class="dataCol"></td>
@@ -60,7 +61,7 @@
                                                    :id=>"config_item_managed_person_id",
                                                    :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"${config_item_managed_group_id}"),
                                                    :depend=>"config_item_managed_group_id",
-
+                                                   :origin_value=>@config_item.managed_person_id,
                                                    :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
                                            }) %></td>
 
@@ -89,12 +90,25 @@
 <% end %>
 
 <script type="text/javascript">
-  $(function(){
+    $(document).ready(function(){
 
 
-     if($("#config_item_managed_group_id")){
-         $("#config_item_managed_group_id").cascade("#config_item_managed_person_id");
-     }
+                if($("#config_item_managed_group_id")){
+                    $("#config_item_managed_group_id").cascade("#config_item_managed_person_id");
+                }
 
-  });
+                $("#config_class_id").change(function(){
+                    $("[auto_generate='true']").remove();
+                    var config_class_id=$("#config_class_id").val();
+                    if (config_class_id){
+                        var url=config_class_id+"/get_dynamic_attributes.html";
+                        $.get(url, function(result){
+                            $("#config_item_table").append(result);
+                          });
+                    }
+
+                });
+                $("#config_class_id").change();
+            }
+    )
 </script>

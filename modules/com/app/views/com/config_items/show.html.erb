@@ -5,9 +5,9 @@
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_config_item) %></h2></td>
+          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_com_config_item) %></h2></td>
           <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @incident_phase}%></div>
+            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @config_item}%></div>
             <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
           </td>
         </tr>
@@ -18,6 +18,44 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
+        <tr>
+                  <td class="labelCol"><label><%=t(:label_com_config_item_number)%></label></td>
+                  <td class="dataCol"><%=@config_item.item_number %></td>
+                  <td class="labelCol empty">&nbsp;</td>
+                  <td class="dataCol empty">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_com_config_item_config_class)%></label></td>
+                  <td class="dataCol"><%=@config_item[:config_class_name] %></td>
+
+                  <td class="labelCol"></td>
+                  <td class="dataCol"></td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_com_config_item_managed_group)%></label></td>
+                  <td class="dataCol"><%=@config_item[:managed_group_name] %></td>
+
+                  <td class="labelCol"></td>
+                  <td class="dataCol"></td>
+                </tr>
+                <tr>
+                  <td class="labelCol"><label><%=(t :label_com_config_item_managed_person)%></label></td>
+                  <td class="dataCol"><%= @config_item[:managed_person_name]%></td>
+
+                  <td class="labelCol"></td>
+                  <td class="dataCol"></td>
+                </tr>
+        <% @config_item_attributes.each do |config_attribute| %>
+        <tr auto_generate="true">
+          <td class="labelCol"><label><%=config_attribute[:config_attribute_name]%></label></td>
+          <td class="dataCol">
+
+              <%=config_attribute[:value]  %>
+          </td>
+          <td class="labelCol empty">&nbsp;</td>
+          <td class="dataCol empty">&nbsp;</td>
+        </tr>
+        <%end  %>
                   </tbody>
       </table>
     </div>
