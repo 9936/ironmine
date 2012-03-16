@@ -40,7 +40,7 @@ class Com::ConfigClassesController < ApplicationController
   # GET /config_classes/1
   # GET /config_classes/1.xml
   def show
-    @config_class = Com::ConfigClass.find(params[:id])
+    @config_class = Com::ConfigClass.multilingual.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -73,7 +73,7 @@ class Com::ConfigClassesController < ApplicationController
 
     respond_to do |format|
       if @config_class.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:action => "show", :id => @config_class.id }, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @config_class, :status => :created, :location => @config_class }
       else
         format.html { render :action => "new" }

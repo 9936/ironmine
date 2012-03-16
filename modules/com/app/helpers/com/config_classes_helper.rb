@@ -84,4 +84,9 @@ module Com::ConfigClassesHelper
     end
     li_html
   end
+
+  #根据当前的分类id判断是否有孩子
+  def has_children?(config_class_id)
+    !Com::ConfigClassExplosion.where(:parent_id => config_class_id).first.nil?
+  end
 end

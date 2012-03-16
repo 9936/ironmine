@@ -19,6 +19,7 @@ zh:
   label_com_config_class_description: 描述
   label_com_config_class_leaf_flag: 叶子节点
   label_com_config_class_parent: 所属父类
+  label_config_class_attribute_extend: 继承父类
   #=========================end com config classes=======================#
 
   #=========================com config attributes=======================#
