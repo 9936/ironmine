@@ -107,8 +107,11 @@ class Com::ConfigAttributesController < ApplicationController
   end
 
   def get_data
-    config_attributes_scope = Com::ConfigAttribute.multilingual
-    config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.config_class_id",params[:class_id])
+    if params[:class_id].present?
+      config_attributes_scope = Com::ConfigAttribute.multilingual.query_attributes_by_class_id(params[:class_id])
+    else
+      config_attributes_scope = Com::ConfigAttribute
+    end
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.code",params[:code])
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.input_type",params[:input_type])
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttributesTl.table_name}.name",params[:name])

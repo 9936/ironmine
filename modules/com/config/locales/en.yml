@@ -16,7 +16,18 @@ en:
   label_com_config_class_name: Name
   label_com_config_class_description: Description
   #=========================end com config classes=======================#
-
-
+  #=========================com config attributes=======================#
+  label_com_config_attribute: Config Attribute
+  label_com_config_attribute_list: Config Attribute List
+  label_com_config_attribute_new: New Config Attribute
+  label_com_config_attribute_edit: Edit Config Attribute
+  label_com_config_attribute_code: Code
+  label_com_config_attribute_name: Name
+  label_com_config_attribute_description: Description
+  label_com_config_attribute_input_type: Input Type
+  label_com_config_attribute_value_from: Value From
+  label_com_config_attribute_input_value: Input Value
+  config_class_attribute_required_flag: Required
+  #=========================end com config attributes=======================#
 
 

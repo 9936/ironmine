@@ -11,6 +11,7 @@ zh:
   #=========================com config classes=======================#
   label_com_config_class: 配置项分类
   label_com_config_class_list: 配置项分类列表
+  label_com_config_class_structure: 配置分类层次结构
   label_com_config_class_new: 新建配置分类
   label_com_config_class_edit: 编辑配置分类
   label_com_config_class_code: 编码
