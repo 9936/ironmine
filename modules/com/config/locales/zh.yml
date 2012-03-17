@@ -11,6 +11,7 @@ zh:
   #=========================com config classes=======================#
   label_com_config_class: 配置项分类
   label_com_config_class_list: 配置项分类列表
+  label_com_config_class_structure: 配置分类层次结构
   label_com_config_class_new: 新建配置分类
   label_com_config_class_edit: 编辑配置分类
   label_com_config_class_code: 编码
@@ -18,6 +19,7 @@ zh:
   label_com_config_class_description: 描述
   label_com_config_class_leaf_flag: 叶子节点
   label_com_config_class_parent: 所属父类
+  label_config_class_attribute_extend: 继承父类
   #=========================end com config classes=======================#
 
   #=========================com config attributes=======================#

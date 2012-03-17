@@ -107,12 +107,17 @@ class Com::ConfigAttributesController < ApplicationController
   end
 
   def get_data
-    config_attributes_scope = Com::ConfigAttribute.multilingual
-    config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.config_class_id",params[:class_id])
+    if params[:class_id].present?
+      config_attributes_scope = Com::ConfigAttribute.multilingual.query_attributes_by_class_id(params[:class_id])
+    else
+      config_attributes_scope = Com::ConfigAttribute
+    end
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.code",params[:code])
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.input_type",params[:input_type])
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttributesTl.table_name}.name",params[:name])
     config_attributes,count = paginate(config_attributes_scope)
+    #检查当前的属性是否来自其父类
+    config_attributes = attribute_where_from(params[:class_id],config_attributes) if params[:class_id].present?
     respond_to do |format|
       format.html {
         @datas = config_attributes
@@ -121,5 +126,25 @@ class Com::ConfigAttributesController < ApplicationController
       }
       format.json {render :json=>to_jsonp(config_attributes.to_grid_json([:code,:input_type,:input_value,:name,:description,:status_meaning],count))}
     end
+  end
+
+  private
+  def attribute_where_from(class_id, config_attributes)
+     new_config_attributes = {}
+     config_attributes.each do |ca|
+        new_config_attributes.merge!(ca.id => ca)
+     end
+     config_attribute_ids = config_attributes.collect {|i| [i.id]}
+
+     tmp_attributes = Com::ConfigAttribute.where(:id => config_attribute_ids)
+     tmp_attributes.each do |ta|
+
+       if ta.config_class_id.eql?(class_id)
+         new_config_attributes[ta.id][:from_parent] = 'N'
+       else
+         new_config_attributes[ta.id][:from_parent] = 'Y'
+       end
+     end
+     new_config_attributes
   end
 end

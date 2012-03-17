@@ -26,6 +26,12 @@
               <td class="dataCol empty"><div>&nbsp;</div></td>
             </tr>
             <tr>
+              <td class="labelCol"><label ><%=t(:label_com_config_class_name)%></label></td>
+              <td class="dataCol"><div><%= @config_class[:name] %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
               <td class="labelCol"><label ><%=t(:label_com_config_class_leaf_flag)%></label></td>
               <td class="dataCol"><div><%= check_img(@config_class.leaf_flag) %></div></td>
               <td class="labelCol empty"><div>&nbsp;</div></td>

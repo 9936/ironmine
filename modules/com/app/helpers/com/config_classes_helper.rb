@@ -32,4 +32,61 @@ module Com::ConfigClassesHelper
     end
   end
 
+  #将分类以树形展示
+  def config_classes_tree_data
+    config_classes = Com::ConfigClass.multilingual.enabled
+    data = {:root=>[]}
+    config_classes.each do |cc|
+      #如果不是父级节点直接添加到根节点上，否则添加到对应的parent_id节点上
+      if cc.parent_id.present?
+        data[cc.parent_id] ||= []
+        data[cc.parent_id] << cc
+      else
+        data[:root] << cc
+      end
+    end
+    ul_html = "<ul id='config_classes_tree' class='treeview-red'>"
+    data[:root].each do |cc|
+      ul_html << build_tree(cc,data)
+    end
+    ul_html << "</ul>"
+    raw ul_html
+  end
+
+  #构建树状结构
+  def build_tree(cc, data)
+    li_html = ''
+    if data[cc.id].present?
+      li_html << "<li>
+                    <span class='name' >#{cc[:name]}</span>
+                    <span class='actions'>#{link_to(t(:edit),{:action => "edit", :id => cc[:id]}, {:onclick => 'event.stopPropagation()||(event.cancelBubble = true);'}) }</span> |
+                    <span class='actions'>#{link_to(t(:show),{:action => "show", :id => cc[:id]}, {:onclick => 'event.stopPropagation()||(event.cancelBubble = true);'}) }</span>
+                    <ul>"
+      #不是子节点才由新建action
+      if cc[:leaf_flag].eql?(Irm::Constant::SYS_NO)
+        li_html << "<li><span class='actions add-child'>#{link_to(t(:new),{:action => "new", :parent_id => cc[:id]}, {:onclick => 'event.stopPropagation()||(event.cancelBubble = true);'}) }</span></li>"
+      end
+      data[cc.id].each do |sub_cc|
+        li_html << build_tree(sub_cc,data)
+      end
+      li_html << "</ul></li>"
+    else
+      li_html << "<li><span class='name'>#{cc[:name]}</span>
+                  <span class='actions'>#{link_to(t(:edit),{:action => "edit", :id => cc[:id]}, {:onclick => 'event.stopPropagation()||(event.cancelBubble = true);'}) }</span> |
+                  <span class='actions'>#{link_to(t(:show),{:action => "show", :id => cc[:id]}, {:onclick => 'event.stopPropagation()||(event.cancelBubble = true);'}) }</span>"
+      #不是子节点才由新建action
+      if cc[:leaf_flag].eql?(Irm::Constant::SYS_NO)
+        li_html << "<ul><li><span class='actions add-child'>#{link_to(t(:new),{:action => "new", :parent_id => cc[:id]}, {:onclick => 'event.stopPropagation()||(event.cancelBubble = true);'}) }</span></li>"
+        li_html << "</ul></li>"
+      else
+        li_html << "</li>"
+      end
+    end
+    li_html
+  end
+
+  #根据当前的分类id判断是否有孩子
+  def has_children?(config_class_id)
+    !Com::ConfigClassExplosion.where(:parent_id => config_class_id).first.nil?
+  end
 end

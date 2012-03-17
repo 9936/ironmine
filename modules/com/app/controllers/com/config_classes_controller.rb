@@ -2,18 +2,45 @@ class Com::ConfigClassesController < ApplicationController
   # GET /config_classes
   # GET /config_classes.xml
   def index
-    @config_classes = Com::ConfigClass.all
+    all_config_classes = Com::ConfigClass.query_parent(I18n.locale).multilingual
+    @leveled_config_classes = []
+    if !all_config_classes.nil? and all_config_classes.present?
+      grouped_config_classes = all_config_classes.collect{|i| [i.id,i.parent_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
 
+      config_classes = {}
+      all_config_classes.each do |ac|
+        config_classes.merge!({ac.id=>ac})
+      end
+
+      proc = Proc.new{|parent_id,level|
+        if grouped_config_classes[parent_id.to_s]&&grouped_config_classes[parent_id.to_s].any?
+
+          grouped_config_classes[parent_id.to_s].each do |o|
+            config_classes[o[0]].level = level
+            @leveled_config_classes << config_classes[o[0]]
+            proc.call(config_classes[o[0]].id,level+1)
+          end
+        end
+      }
+      grouped_config_classes["blank"].each do |go|
+        config_classes[go[0]].level = 1
+        @leveled_config_classes << config_classes[go[0]]
+        proc.call(config_classes[go[0]].id,2)
+      end
+    end
+    unless params[:mode].present?
+      params[:mode] = cookies['config_class_view']
+    end
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @config_classes }
+      format.xml  { render :xml => @leveled_config_classes }
     end
   end
 
   # GET /config_classes/1
   # GET /config_classes/1.xml
   def show
-    @config_class = Com::ConfigClass.find(params[:id])
+    @config_class = Com::ConfigClass.multilingual.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,6 +52,9 @@ class Com::ConfigClassesController < ApplicationController
   # GET /config_classes/new.xml
   def new
     @config_class = Com::ConfigClass.new(:leaf_flag => Irm::Constant::SYS_NO)
+    if params[:parent_id].present?
+      @config_class.parent_id = params[:parent_id]
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @config_class }
@@ -43,7 +73,7 @@ class Com::ConfigClassesController < ApplicationController
 
     respond_to do |format|
       if @config_class.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:action => "show", :id => @config_class.id }, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @config_class, :status => :created, :location => @config_class }
       else
         format.html { render :action => "new" }
