@@ -54,7 +54,7 @@ class Com::ConfigItemsController < ApplicationController
         config_item_attributes.each do |config_item_attribute|
            attribute=Com::ConfigItemAttribute.new
            attribute.config_item_id=@config_item.id
-           attribute.config_attribute_id=config_item_attribute[0]
+           #attribute.config_attribute_id=config_item_attribute[0]
            attribute.value=config_item_attribute[1]
            success_flag=attribute.save
            @errors.merge!({@attribute_names["#{config_item_attribute[0]}"]=>attribute.errors}) if attribute.errors.messages.present?

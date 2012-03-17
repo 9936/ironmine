@@ -40,3 +40,8 @@ en:
   label_com_config_item_last_checked_at: Last Checked At
   #===========================end config item==============================#
 
+  #==========================config item==================================#
+  label_com_config_item_relation: Configuration Item Relation
+  label_com_config_item_relation_list: Configuration Item Relation List
+  label_com_config_item_relation_config_item: Related Configuration Item
+  #===========================end config item==============================#

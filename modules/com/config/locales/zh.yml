@@ -46,3 +46,10 @@ zh:
   label_com_config_item_managed_person: 管理人员
   label_com_config_item_last_checked_at: 上一次扫描时间
   #===========================end config item==============================#
+
+
+  #==========================config item==================================#
+  label_com_config_item_relation: 配置项关联关系
+  label_com_config_item_relation_list: 配置项关联关系列表
+  label_com_config_item_relation_config_item: 关联配置项
+  #===========================end config item==============================#
