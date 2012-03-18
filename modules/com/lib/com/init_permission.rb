@@ -12,8 +12,8 @@ Irm::AccessControl.map do |map|
 
 
 
-  map.function :login_function,{"com/config_items"=>["index", "show","destroy", "new", "get_dynamic_attributes","create","edit", "update","get_data"]}
-  map.function :login_function,{"com/config_item_relations"=>["index", "show","destroy", "new","create","edit", "update","get_data"]}
+  map.function :config_item,{"com/config_items"=>["index", "show","destroy", "new", "get_dynamic_attributes","create","edit", "update","get_data"],
+                                "com/config_item_relations"=>["index", "show","destroy", "new","create","edit", "update","get_data"]}
 
 
 end
