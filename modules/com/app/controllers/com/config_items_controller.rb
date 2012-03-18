@@ -27,7 +27,7 @@ class Com::ConfigItemsController < ApplicationController
     end
   end
   def get_dynamic_attributes
-     @config_attributes=Com::ConfigAttribute.multilingual
+     @config_attributes=Com::ConfigAttribute.query_attributes_by_class_id(params[:config_class_id])
      @attribute_values={}
       if params[:config_item_id]
          Com::ConfigItemAttribute.query_by_config_item_id(params[:config_item_id]).each {|i| @attribute_values.merge!({i[:config_attribute_id]=>i[:value]})}
@@ -48,13 +48,13 @@ class Com::ConfigItemsController < ApplicationController
     success_flag=@config_item.save
     @errors={}
     @attribute_names={}
-    get_dynamic_attributes.collect {|i| @attribute_names.merge!(i[:id]=>i[:name]) }
+    get_dynamic_attributes.query_attributes_by_class_id(@config_item[:config_class_id]).collect {|i| @attribute_names.merge!(i[:id]=>i[:name]) }
     if success_flag
         config_item_attributes= params[:config_item_attribute]
         config_item_attributes.each do |config_item_attribute|
            attribute=Com::ConfigItemAttribute.new
            attribute.config_item_id=@config_item.id
-           #attribute.config_attribute_id=config_item_attribute[0]
+           attribute.config_attribute_id=config_item_attribute[0]
            attribute.value=config_item_attribute[1]
            success_flag=attribute.save
            @errors.merge!({@attribute_names["#{config_item_attribute[0]}"]=>attribute.errors}) if attribute.errors.messages.present?

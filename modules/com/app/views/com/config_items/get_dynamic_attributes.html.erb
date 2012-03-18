@@ -13,7 +13,9 @@
 
     %>
         <%=    blank_select_tag "config_item_attribute[#{config_attribute[:id]}]",select_vlaues,@attribute_values["#{config_attribute[:id]}"]    %>
-    <%
+    <% when "DATE" %>
+        <%=text_field_tag  "config_item_attribute[#{config_attribute[:id]}]",@attribute_values["#{config_attribute[:id]}"] %>
+        <%
        end
     %>
 
