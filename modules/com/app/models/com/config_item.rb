@@ -5,6 +5,7 @@ class Com::ConfigItem < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
   validates_presence_of :item_number,:config_class_id
+  validates_uniqueness_of :item_number,:scope=>[:opu_id], :if => Proc.new { |i| !i.item_number.blank? }
   before_save :default_values
 
   def default_values

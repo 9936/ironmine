@@ -104,11 +104,57 @@
                         var url=config_class_id+"/get_dynamic_attributes.html";
                         $.get(url, function(result){
                             $("#config_item_table").append(result);
+                            refresh_required();
+                            refresh_datepiker();
                           });
+
+
                     }
 
                 });
                 $("#config_class_id").change();
             }
     )
+    function refresh_required(){
+        $("input[required='required']").each(function(index, n){
+                var parent_node = $(n).parent();
+                var node = '<div class="requiredInput"><div class="requiredBlock"></div>' + $(parent_node).html() + '</div>';
+                $(parent_node).html(node);
+            });
+    }
+    function refresh_datepiker(){
+        if($.fn.datePicker){
+                $("input.date").each(function(i,e){
+                    var options = {};
+                    if(!$(e).attr("future")){
+                        options["startDate"] =new Date(1996, 1, 1);
+                    }
+                    if($(e).attr("nobutton")){
+                        options["createButton"] =false;
+                    }
+                    if($(e).attr("today")){
+                        $(e).datePicker(options).val(new Date().asString()).trigger('change');
+                    }
+                    else
+                    {
+                        $(e).datePicker(options);
+                    }
+                    $(e).bind("click",function(event){
+                        $(this).dpDisplay();
+                    })
+                    $(e).bind("keyup",function(event){
+                        if(event.keyCode=="9"){
+                            $(this).dpDisplay();
+                        }
+                    })
+                    $(e).bind("keydown",function(event){
+                        if(event.keyCode=="9"){
+                          $(this).dpClose();
+                        }
+                    })
+
+                });
+            }
+    }
+
 </script>

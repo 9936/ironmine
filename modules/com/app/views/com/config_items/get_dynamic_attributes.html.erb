@@ -4,17 +4,17 @@
   <td class="dataCol">
     <% case config_attribute.input_type
          when "TEXT" %>
-        <%=text_field_tag  "config_item_attribute[#{config_attribute[:id]}]",@attribute_values["#{config_attribute[:id]}"] %>
+        <%=text_field_tag  "config_item_attribute[#{config_attribute[:id]}]",@attribute_values["#{config_attribute[:id]}"],:required=>config_attribute[:required_flag].eql?("Y")?true:false  %>
     <% when "LONG_TEXT"  %>
-        <%=   text_area_tag  "config_item_attribute[#{config_attribute[:id]}]",@attribute_values["#{config_attribute[:id]}"],:rows => 4, :cols => 60   %>
+        <%=   text_area_tag  "config_item_attribute[#{config_attribute[:id]}]",@attribute_values["#{config_attribute[:id]}"],:rows => 4, :cols => 60,:required=>config_attribute[:required_flag].eql?("Y")?true:false   %>
     <%  when "SELECT"
           select_vlaues=[]
           select_vlaues=config_attribute[:input_value].split(",").collect {|i| [i,i]}  if config_attribute[:input_value]
 
     %>
-        <%=    blank_select_tag "config_item_attribute[#{config_attribute[:id]}]",select_vlaues,@attribute_values["#{config_attribute[:id]}"]    %>
+        <%=    blank_select_tag "config_item_attribute[#{config_attribute[:id]}]",select_vlaues,@attribute_values["#{config_attribute[:id]}"],:required=>config_attribute[:required_flag].eql?("Y")?true:false    %>
     <% when "DATE" %>
-        <%=text_field_tag  "config_item_attribute[#{config_attribute[:id]}]",@attribute_values["#{config_attribute[:id]}"] %>
+        <%=text_field_tag  "config_item_attribute[#{config_attribute[:id]}]",@attribute_values["#{config_attribute[:id]}"] ,{:class=>"date",:nobutton=>true,:required=>config_attribute[:required_flag].eql?("Y")?true:false} %>
         <%
        end
     %>
