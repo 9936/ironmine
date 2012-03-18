@@ -52,7 +52,7 @@ class Com::ConfigItemsController < ApplicationController
     success_flag<<@config_item.save
     @errors={}
     attributes={}
-    get_dynamic_attributes.query_attributes_by_class_id(@config_item[:config_class_id]).collect {|i| attributes.merge!(i[:id]=>{:name=>i[:name],:required_flag=>i[:required_flag]}) }
+    Com::ConfigAttribute.query_attributes_by_class_id(@config_item[:config_class_id]).collect {|i| attributes.merge!(i[:id]=>{:name=>i[:name],:required_flag=>i[:required_flag]}) }
     if !success_flag.include?(false)
       config_item_attributes= params[:config_item_attribute]
       config_item_attributes.each do |config_item_attribute|
@@ -71,7 +71,7 @@ class Com::ConfigItemsController < ApplicationController
 
         success_flag<<attribute.save
         @errors.merge!({attributes["#{config_item_attribute[0]}"][:name]=>attribute.errors}) if attribute.errors.messages.present?
-      end
+      end  if config_item_attributes
     else
       session[:config_item_attribute]=params[:config_item_attribute]
     end
@@ -100,7 +100,7 @@ class Com::ConfigItemsController < ApplicationController
     success_flag<<@config_item.update_attributes(params[:com_config_item])
     @errors={}
     attributes={}
-    get_dynamic_attributes.query_attributes_by_class_id(@config_item[:config_class_id]).collect {|i| attributes.merge!(i[:id]=>{:name=>i[:name],:required_flag=>i[:required_flag]}) }
+    Com::ConfigAttribute.query_attributes_by_class_id(@config_item[:config_class_id]).collect {|i| attributes.merge!(i[:id]=>{:name=>i[:name],:required_flag=>i[:required_flag]}) }
     if !success_flag.include?(false)
         config_item_attributes= params[:config_item_attribute]
         #清空之前的属性值
@@ -119,7 +119,7 @@ class Com::ConfigItemsController < ApplicationController
            end
            success_flag<<attribute.save
            @errors.merge!({attributes["#{config_item_attribute[0]}"][:name]=>attribute.errors}) if attribute.errors.messages.present?
-        end
+        end  if config_item_attributes
     else
         session[:config_item_attribute]=params[:config_item_attribute]
     end
