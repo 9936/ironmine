@@ -38,16 +38,7 @@ class Com::ConfigClassesController < ApplicationController
   end
 
   def get_class_tree
-    root_nodes=[]
-    root_classes=Com::ConfigClass.multilingual.where("parent_id IS NULL OR LENGTH(parent_id) = 0")
-    root_classes.each do |c|
-
-            root_node = {:id=>c.id,:text=>c[:name], :children => [],:expanded => true,:iconCls=>"x-tree-icon-parent"}
-            root_node[:children] = c.get_child_nodes
-            root_node.delete(:children) if root_node[:children].size == 0
-            root_node[:leaf] = root_node[:children].nil?
-            root_nodes << root_node
-    end
+    root_nodes=get_child_nodes
     respond_to do |format|
            format.json {render :json=>root_nodes.to_json}
 
@@ -153,5 +144,26 @@ class Com::ConfigClassesController < ApplicationController
     respond_to do |format|
       format.json {render :json=>to_jsonp(config_classes.to_grid_json([:code,:name,:description,:status_meaning,:leaf_flag],count))}
     end
+  end
+
+  private
+    #为EXT树形菜单作数据准备
+  def get_child_nodes(id=nil)
+      child_nodes = []
+      if id.nil?
+        children=Com::ConfigClass.multilingual.where("parent_id IS NULL OR LENGTH(parent_id) = 0")
+      else
+        children = Com::ConfigClass.multilingual.where(:parent_id => id)  #查询出当前节点的所有子节点
+      end
+      children.each do |c|
+        #构造TREE的基本数据结构
+        child_node = {:id=>c.id,:text=>c[:name], :children => [],:expanded => true,:iconCls=>"x-tree-icon-parent"}
+        child_node[:children] = get_child_nodes(c.id) #递归取子节点
+        child_node.delete(:children) if child_node[:children].size == 0
+        child_node[:leaf]=child_node[:children].nil?       #如果没有字节点，就标记为叶子节点
+        child_nodes << child_node
+      end
+
+      child_nodes
   end
 end
