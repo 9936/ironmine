@@ -43,9 +43,10 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label for="config_attribute_input_type"><%=t(:label_com_config_class)%></label></td>
+              <td class="labelCol"><label for="config_attribute_class"><%=t(:label_com_config_class)%></label></td>
               <td class="dataCol">
-                <%=f.blank_select(:config_class_id,available_classes,{}, {:disabled => true,:required => true}) %></td>
+                <%=f.blank_select(:config_class_id,available_classes,{}, {:disabled => true,:required => true}) %>
+              </td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
