@@ -74,7 +74,7 @@ module Com::ConfigClassesHelper
       li_html << "<li><span class='name'>#{cc[:name]}</span>
                   <span class='actions'>#{link_to(t(:edit),{:action => "edit", :id => cc[:id]}, {:onclick => 'event.stopPropagation()||(event.cancelBubble = true);'}) }</span> |
                   <span class='actions'>#{link_to(t(:show),{:action => "show", :id => cc[:id]}, {:onclick => 'event.stopPropagation()||(event.cancelBubble = true);'}) }</span>"
-      #不是子节点才由新建action
+      #不是子节点才有新建action
       if cc[:leaf_flag].eql?(Irm::Constant::SYS_NO)
         li_html << "<ul><li><span class='actions add-child'>#{link_to(t(:new),{:action => "new", :parent_id => cc[:id]}, {:onclick => 'event.stopPropagation()||(event.cancelBubble = true);'}) }</span></li>"
         li_html << "</ul></li>"
