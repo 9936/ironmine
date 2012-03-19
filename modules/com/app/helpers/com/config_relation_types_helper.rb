@@ -1,0 +1,2 @@
+module Com::ConfigRelationTypesHelper
+end

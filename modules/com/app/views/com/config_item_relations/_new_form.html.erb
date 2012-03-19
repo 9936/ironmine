@@ -1,0 +1,77 @@
+<%= form_for(@config_item_relation,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
+<div id="ep" class="edit-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_com_config_item_relation)%></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <%= error_for @config_item_relation %>
+    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+      <span class="pbSubExtra">
+        <span class="requiredLegend">
+          <span class="requiredExampleOuter">
+            <span class="requiredExample">&nbsp;</span>
+          </span><span class="requiredMark">*</span>
+          <span class="requiredText"> = <%=t(:label_is_required)%></span>
+        </span>
+      </span>
+      <h3><%= t(:label_common_info) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+          <td class="labelCol"><label><%=(t :label_com_config_item)%></label></td>
+          <td class="dataCol"><%=@config_item[:item_number]%></td>
+
+          <td class="labelCol"><%=f.hidden_field :config_item_id,:value=>@config_item[:id] %></td>
+          <td class="dataCol"></td>
+        </tr>
+        <tr>
+          <td class="labelCol"><label><%=(t :label_com_config_relation_type)%></label></td>
+          <td class="dataCol"><%= f.select :config_relation_type_id, nullable_options_for_select(available_config_relation_type, @config_item_relation.config_relation_type_id )
+          %></td>
+
+          <td class="labelCol"></td>
+          <td class="dataCol"></td>
+        </tr>
+        <tr>
+          <td class="labelCol"><label><%=(t :label_com_config_item_relation_config_item)%></label></td>
+          <td class="dataCol"><%= f.select :relation_config_item_id, nullable_options_for_select(available_config_item, @config_item_relation.relation_config_item_id )
+          %></td>
+
+          <td class="labelCol"></td>
+          <td class="dataCol"></td>
+        </tr>
+        <tr>
+          <td class="labelCol"><label><%=t(:description)%></label></td>
+          <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>60 %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pbBottomButtons">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"></td>
+          <td id="bottomButtonRow" class="pbButtonb">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,66 @@
+<%= form_for(@config_relation_type,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
+<div id="ep" class="edit-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_com_config_relation_type)%></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <%= error_for @config_relation_type %>
+    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+      <span class="pbSubExtra">
+        <span class="requiredLegend">
+          <span class="requiredExampleOuter">
+            <span class="requiredExample">&nbsp;</span>
+          </span><span class="requiredMark">*</span>
+          <span class="requiredText"> = <%=t(:label_is_required)%></span>
+        </span>
+      </span>
+      <h3><%= t(:label_common_info) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+                              <td class="labelCol"><label for="code"><%=t(:code)%></label></td>
+                              <td class="dataCol"><%=f.text_field :code, :required=>true ,:irm_uppercase=>true,:id=>"code"%></td>
+                              <td class="labelCol empty">&nbsp;</td>
+                              <td class="dataCol empty">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td class="labelCol"><label for="name"><%=t(:name)%></label></td>
+                              <td class="dataCol"><%=f.text_field :name, :required=>true ,:id=>"name"%></td>
+                              <td class="labelCol empty">&nbsp;</td>
+                              <td class="dataCol empty">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td class="labelCol"><label for="description"><%=t(:description)%></label></td>
+                              <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>60 ,:id=>"description"%></td>
+                            </tr>
+                  </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pbBottomButtons">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"></td>
+          <td id="bottomButtonRow" class="pbButtonb">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>

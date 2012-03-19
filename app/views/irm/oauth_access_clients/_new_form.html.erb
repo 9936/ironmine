@@ -42,18 +42,8 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :description)%></label></td>
-              <td class="dataCol" colspan="4" style="width:82%"><%=f.text_area :description, :rows => 4%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_oauth_access_client_site_image_url)%></label></td>
-              <td class="dataCol"><%= f.text_field :site_image_url%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
               <td class="labelCol"><label><%=(t :label_irm_oauth_access_client_site_url)%></label></td>
-              <td class="dataCol"><%= f.text_field :site_url%></td>
+              <td class="dataCol"><%= f.text_field :site_url,:required=>true%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
@@ -64,16 +54,14 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_irm_oauth_access_client_token)%></label></td>
-              <td class="dataCol"><%= f.text_field :token,:required=>true%></td>
+              <td class="labelCol"><label><%=(t :label_irm_oauth_access_client_site_image_url)%></label></td>
+              <td class="dataCol"><%= f.text_field :site_image_url%></td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=(t :label_irm_oauth_access_client_secret)%></label></td>
-              <td class="dataCol"><%= f.text_field :secret,:required=>true%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
+              <td class="labelCol"><label><%=(t :description)%></label></td>
+              <td class="dataCol" colspan="4" style="width:82%"><%=f.text_area :description, :rows => 4%></td>
             </tr>
         </tbody>
       </table>

@@ -44,7 +44,20 @@
             <tr>
               <td class="labelCol"><label for="config_class_leaf_flag"><%=t(:label_com_config_class_leaf_flag)%></label></td>
               <td class="dataCol">
-                <label for="leaf_flag"><%= f.check_box(:leaf_flag) %></label>
+                <% if has_children?(@config_class.id)%>
+                    <label for="leaf_flag"><%= check_img(@config_class.leaf_flag) %></label>
+                <% else %>
+                    <label for="leaf_flag"><%= f.check_box(:leaf_flag) %></label>
+                <% end %>
+              </td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+            <!-- 父类 -->
+            <tr>
+              <td class="labelCol"><label for="config_class_parent"><%=t(:label_com_config_class_parent)%></label></td>
+              <td class="dataCol">
+                <label for="leaf_flag"><%=f.blank_select(:parent_id,available_config_classes) %></label>
               </td>
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>

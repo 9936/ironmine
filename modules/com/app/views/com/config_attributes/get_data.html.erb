@@ -1,0 +1,62 @@
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>">
+         <thead>
+           <tr>
+             <th style="width:80px">
+               <div><%= t(:operation) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_com_config_attribute_code) %></div>
+             </th>
+             <th>
+                <div><%= t(:label_com_config_attribute_name) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_com_config_attribute_input_type) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_com_config_attribute_input_value) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_com_config_attribute_description) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_config_class_attribute_extend) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% @datas.each do |key,data| %>
+         <tr id="<%=key %>">
+           <td>
+             <div>
+                <%= link_to(t(:edit),{:action=>"edit",:id=>data.id}) %>|<%= link_to(t(:show),{:action=>"show",:id=>data.id}) %>
+             </div>
+           </td>
+           <td>
+             <div><%= data[:code] %></div>
+           </td>
+           <td>
+             <div><%= data[:name] %></div>
+           </td>
+           <td>
+             <div><%= get_meaning_by_type_code("CONFIG_ATTRIBUTE_INPUT_TYPE", data[:input_type]) %></div>
+           </td>
+           <td>
+             <div><%= data[:input_value] %></div>
+           </td>
+           <td>
+             <div><%= data[:description] %></div>
+           </td>
+           <td>
+             <div><%= check_img(data[:from_parent]) %></div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

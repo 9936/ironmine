@@ -25,6 +25,18 @@
               <td class="labelCol empty"><div>&nbsp;</div></td>
               <td class="dataCol empty"><div>&nbsp;</div></td>
             </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_com_config_class_name)%></label></td>
+              <td class="dataCol"><div><%= @config_class[:name] %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_com_config_class_leaf_flag)%></label></td>
+              <td class="dataCol"><div><%= check_img(@config_class.leaf_flag) %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
         </tbody>
       </table>
     </div>
@@ -54,13 +66,14 @@
             <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
           </div>
         </div>
-        <%= datatable("config_attributes",{:controller=>"com/config_attributes",:action=>"get_data",:format=>"json"},
+        <%= datatable("config_attributes",{:controller=>"com/config_attributes",:action=>"get_data",:format=>"json",:class_id=>@config_class.id},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                        { :key => "code", :label => t(:label_com_config_attribute_code),:searchable=>true },
                        { :key => "input_type", :label => t(:label_com_config_attribute_input_type),:searchable=>true },
+                       { :key => "input_value", :label => t(:label_com_config_attribute_input_value) },
                        { :key => "name", :label => t(:label_com_config_attribute_name),:searchable=>true },
                        { :key => "description", :label => t(:label_com_config_attribute_description),:width=>"250px" }
-                      ],{:paginator_box=>"config_attributesPaginatorBox",:search_box=>"config_attributesSearchBox"})%>
+                      ],{:paginator_box=>"config_attributesPaginatorBox",:search_box=>"config_attributesSearchBox",:force_html=>true})%>
         <div id="config_attributesPaginatorBox"></div>
       </div>
     </div>
