@@ -4,7 +4,7 @@ class Irm::SessionSettingsController < ApplicationController
   def index
     @session_timeout = Irm::SessionSetting.all.first
     if @session_timeout.nil?
-      @session_timeout = Irm::SessionSetting.create()
+      @session_timeout = Irm::SessionSetting.create(:time_out => 15)
     end
   end
 
