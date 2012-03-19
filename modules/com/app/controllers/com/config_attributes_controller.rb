@@ -27,7 +27,7 @@ class Com::ConfigAttributesController < ApplicationController
     #根据传递过来的config_class code 进行合法判断
     config_class = Com::ConfigClass.find(params[:class_id])
     unless config.nil?
-      @config_attribute = Com::ConfigAttribute.new(:config_class_id => config_class.id)
+      @config_attribute = Com::ConfigAttribute.new(:config_class_id => config_class.id, :display_flag => Irm::Constant::SYS_NO)
     else
       @config_attribute = Com::ConfigAttribute.new
     end

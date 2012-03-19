@@ -34,6 +34,7 @@ zh:
   label_com_config_attribute_value_from: 值来源
   label_com_config_attribute_input_value: 值来源
   config_class_attribute_required_flag: 必填
+  config_class_attribute_display_flag: 显示
   #=========================end com config attributes=======================#
 
 

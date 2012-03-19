@@ -74,6 +74,16 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
+
+            <tr>
+              <td class="labelCol"><label for="config_class_attribute_display_flag"><%=t(:config_class_attribute_display_flag)%></label></td>
+              <td class="dataCol">
+                <label for="display_flag"><%= f.check_box(:display_flag) %></label>
+              </td>
+              <td class="labelCol empty">&nbsp;</td>
+              <td class="dataCol empty">&nbsp;</td>
+            </tr>
+
             <tr>
               <td class="labelCol"><label for="config_attribute_description"><%=t(:label_com_config_attribute_description)%></label></td>
               <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>60 ,:id=>"config_attribute_description"%></td>
