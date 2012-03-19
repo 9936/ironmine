@@ -117,7 +117,7 @@ class Com::ConfigAttributesController < ApplicationController
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttributesTl.table_name}.name",params[:name])
     config_attributes,count = paginate(config_attributes_scope)
     #检查当前的属性是否来自其父类
-    config_attributes = attribute_where_from(params[:class_id],config_attributes) if params[:class_id].present?
+    config_attributes = attribute_where_from(params[:class_id],config_attributes) if params[:class_id].present? and config_attributes.any?
     respond_to do |format|
       format.html {
         @datas = config_attributes
@@ -138,7 +138,6 @@ class Com::ConfigAttributesController < ApplicationController
 
      tmp_attributes = Com::ConfigAttribute.where(:id => config_attribute_ids)
      tmp_attributes.each do |ta|
-
        if ta.config_class_id.eql?(class_id)
          new_config_attributes[ta.id][:from_parent] = 'N'
        else

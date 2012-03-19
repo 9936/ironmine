@@ -133,21 +133,8 @@ class Com::ConfigClassesController < ApplicationController
     config_classes_scope = config_classes_scope.match_value("#{Com::ConfigClass.table_name}.code",params[:code])
     config_classes_scope = config_classes_scope.match_value("#{Com::ConfigClassesTl.table_name}.name",params[:name])
     config_classes,count = paginate(config_classes_scope)
-    #config_classes = flag_to_img_icon(config_classes)
     respond_to do |format|
       format.json {render :json=>to_jsonp(config_classes.to_grid_json([:code,:name,:description,:status_meaning,:leaf_flag],count))}
     end
-  end
-
-  private
-  def flag_to_img_icon(config_classes)
-    config_classes.each do |c|
-      c.leaf_flag = check_img(c.leaf_flag)
-    end
-    config_classes
-  end
-  def check_img(value = "")
-     content_tag(:img, "",{:class => "checkImg", :width => "21", :height => "14",
-                           :src => theme_image_path("#{value}.png") }) if !value.blank?
   end
 end
