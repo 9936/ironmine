@@ -6,7 +6,7 @@ class Com::ConfigAttribute < ActiveRecord::Base
   has_many :config_attributes_tls,:dependent => :destroy
   acts_as_multilingual
 
-  validates_presence_of :code, :name,:input_type
+  validates_presence_of :code, :input_type
 
   #加入activerecord的通用方法和scope
   query_extend
