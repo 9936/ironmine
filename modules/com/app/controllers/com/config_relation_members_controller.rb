@@ -85,6 +85,11 @@ class Com::ConfigRelationMembersController < ApplicationController
     com_config_relation_members_scope = com_config_relation_members_scope.match_value("#{Com::ConfigClass.view_name}.name",params[:config_class_name])
     com_config_relation_members,count = paginate(com_config_relation_members_scope)
     respond_to do |format|
+      format.html {
+        @datas = com_config_relation_members
+        @count = count
+        render_html_data_table
+      }
       format.json {render :json=>to_jsonp(com_config_relation_members.to_grid_json([:type_name,:config_class_name],count))}
     end
   end
