@@ -30,4 +30,18 @@ en:
   config_class_attribute_required_flag: Required
   #=========================end com config attributes=======================#
 
+  #==========================config item==================================#
+  label_com_config_item: Configuration Item
+  label_com_config_item_list: Configuration Item List
+  label_com_config_item_number: Configuration Item Number
+  label_com_config_item_config_class: Configuration Class
+  label_com_config_item_managed_group: Managed Group
+  label_com_config_item_managed_person: Managed Person
+  label_com_config_item_last_checked_at: Last Checked At
+  #===========================end config item==============================#
 
+  #==========================config item==================================#
+  label_com_config_item_relation: Configuration Item Relation
+  label_com_config_item_relation_list: Configuration Item Relation List
+  label_com_config_item_relation_config_item: Related Configuration Item
+  #===========================end config item==============================#

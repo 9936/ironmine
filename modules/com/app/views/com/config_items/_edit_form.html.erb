@@ -1,0 +1,160 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<%= form_for(@config_item,:url=>{:action=>"update",:id=>@config_item.id},:builder => LabellingFormBuilder) do |f| %>
+<div id="ep" class="edit-block page-block">
+  <div class="pbHeader">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_com_config_item)%></h2></td>
+          <td id="topButtonRow" class="pbButton">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pbBody">
+    <%= error_for @config_item %>
+    <%= system_parameter_errors_for @errors %>
+    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+      <span class="pbSubExtra">
+        <span class="requiredLegend">
+          <span class="requiredExampleOuter">
+            <span class="requiredExample">&nbsp;</span>
+          </span><span class="requiredMark">*</span>
+          <span class="requiredText"> = <%=t(:label_is_required)%></span>
+        </span>
+      </span>
+      <h3><%= t(:label_common_info) %></h3>
+    </div>
+    <div class="pbSubsection">
+      <table id="config_item_table" class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+          <td class="labelCol"><label><%=t(:label_com_config_item_number)%></label></td>
+          <td class="dataCol"><%=@config_item.item_number %></td>
+          <td class="labelCol empty">&nbsp;</td>
+          <td class="dataCol empty">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="labelCol"><label><%=(t :label_com_config_item_config_class)%></label></td>
+          <td class="dataCol"><%= f.select :config_class_id, nullable_options_for_select(available_config_class,@config_item.config_class_id),
+                                           {}, {:require=>true,:id=>"config_class_id"} %></td>
+
+          <td class="labelCol"></td>
+          <td class="dataCol"></td>
+        </tr>
+        <tr>
+          <td class="labelCol"><label><%=(t :label_com_config_item_managed_group)%></label></td>
+          <td class="dataCol"><%= f.select :managed_group_id, nullable_options_for_select(available_support_group, @config_item.managed_group_id ),
+                                           {},{:id=>"config_item_managed_group_id"} %></td>
+
+          <td class="labelCol"></td>
+          <td class="dataCol"></td>
+        </tr>
+        <tr>
+          <td class="labelCol"><label><%=(t :label_com_config_item_managed_person)%></label></td>
+          <td class="dataCol"><%= f.select(:managed_person_id,nullable_options_for_select([],nil),{},
+                                           {
+                                                   :id=>"config_item_managed_person_id",
+                                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"${config_item_managed_group_id}"),
+                                                   :depend=>"config_item_managed_group_id",
+                                                   :origin_value=>@config_item.managed_person_id,
+                                                   :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                           }) %></td>
+
+          <td class="labelCol"></td>
+          <td class="dataCol"></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pbBottomButtons">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td class="pbTitle"></td>
+          <td id="bottomButtonRow" class="pbButtonb">
+            <div class="button"><%= f.submit t(:save)%></div>
+            <div class="button"><%= link_back t(:cancel)%></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+
+                if($("#config_item_managed_group_id")){
+                    $("#config_item_managed_group_id").cascade("#config_item_managed_person_id");
+                }
+
+                $("#config_class_id").change(function(){
+                    $("[auto_generate='true']").remove();
+                    var config_class_id=$("#config_class_id").val();
+                    if (config_class_id){
+                        var url=config_class_id+"/get_dynamic_attributes.html";
+                        $.get(url, function(result){
+                            $("#config_item_table").append(result);
+                            refresh_required();
+                            refresh_datepiker();
+                          });
+
+
+                    }
+
+                });
+                $("#config_class_id").change();
+            }
+    )
+    function refresh_required(){
+        $("input[required='required']").each(function(index, n){
+                var parent_node = $(n).parent();
+                var node = '<div class="requiredInput"><div class="requiredBlock"></div>' + $(parent_node).html() + '</div>';
+                $(parent_node).html(node);
+            });
+    }
+    function refresh_datepiker(){
+        if($.fn.datePicker){
+                $("input.date").each(function(i,e){
+                    var options = {};
+                    if(!$(e).attr("future")){
+                        options["startDate"] =new Date(1996, 1, 1);
+                    }
+                    if($(e).attr("nobutton")){
+                        options["createButton"] =false;
+                    }
+                    if($(e).attr("today")){
+                        $(e).datePicker(options).val(new Date().asString()).trigger('change');
+                    }
+                    else
+                    {
+                        $(e).datePicker(options);
+                    }
+                    $(e).bind("click",function(event){
+                        $(this).dpDisplay();
+                    })
+                    $(e).bind("keyup",function(event){
+                        if(event.keyCode=="9"){
+                            $(this).dpDisplay();
+                        }
+                    })
+                    $(e).bind("keydown",function(event){
+                        if(event.keyCode=="9"){
+                          $(this).dpClose();
+                        }
+                    })
+
+                });
+            }
+    }
+
+</script>

@@ -1,0 +1,2 @@
+module Com::ConfigItemAttributesHelper
+end
