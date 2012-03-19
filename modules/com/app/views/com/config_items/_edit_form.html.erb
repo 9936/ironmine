@@ -73,6 +73,7 @@
       </table>
     </div>
   </div>
+  <div class="hidden" id="get_dynamic_attributes_url" href="<%=url_for(:controller=>"com/config_items",:action=>"get_dynamic_attributes",:config_class_id=>"{config_class_id}",:config_item_id=>@config_item.id)%>"></div>
   <div class="pbBottomButtons">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
@@ -98,20 +99,22 @@
                 }
 
                 $("#config_class_id").change(function(){
-                    $("[auto_generate='true']").remove();
-                    var config_class_id=$("#config_class_id").val();
-                    if (config_class_id){
-                        var url=config_class_id+"/get_dynamic_attributes.html";
-                        $.get(url, function(result){
-                            $("#config_item_table").append(result);
-                            refresh_required();
-                            refresh_datepiker();
-                          });
+                                    $("[auto_generate='true']").remove();
+                                    var config_class_id=$("#config_class_id").val();
+                                    var url = decodeURIComponent($("#get_dynamic_attributes_url").attr("href"));
+                                     url = url.replace("{config_class_id}",config_class_id);
+                                    if (config_class_id){
+
+                                        $.get(url, function(result){
+                                            $("#config_item_table").append(result);
+                                            refresh_required();
+                                            refresh_datepiker();
+                                          });
 
 
-                    }
+                                    }
 
-                });
+                                });
                 $("#config_class_id").change();
             }
     )
