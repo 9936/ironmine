@@ -39,6 +39,7 @@ zh:
 
   #==========================config item==================================#
   label_com_config_item: 配置项
+  label_com_config_item_all_class: 全部分类
   label_com_config_item_list: 配置项列表
   label_com_config_item_number: 配置项编号
   label_com_config_item_config_class: 配置项分类

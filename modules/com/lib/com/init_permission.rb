@@ -6,7 +6,7 @@ Irm::AccessControl.map do |map|
   }
 
   map.function :config_class,{
-      "com/config_classes"=>["index", "show","get_data", "new", "create", "edit", "update", "multilingual_edit", "multilingual_update"],
+      "com/config_classes"=>["index", "show","get_class_tree","get_data", "new", "create", "edit", "update", "multilingual_edit", "multilingual_update"],
       "com/config_attributes"=>["index", "show","get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]
   }
 

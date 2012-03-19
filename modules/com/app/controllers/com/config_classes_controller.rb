@@ -37,6 +37,23 @@ class Com::ConfigClassesController < ApplicationController
     end
   end
 
+  def get_class_tree
+    root_nodes=[]
+    root_classes=Com::ConfigClass.multilingual.where("parent_id IS NULL OR LENGTH(parent_id) = 0")
+    root_classes.each do |c|
+
+            root_node = {:id=>c.id,:text=>c[:name], :children => [],:expanded => true,:iconCls=>"x-tree-icon-parent"}
+            root_node[:children] = c.get_child_nodes
+            root_node.delete(:children) if root_node[:children].size == 0
+            root_node[:leaf] = root_node[:children].nil?
+            root_nodes << root_node
+    end
+    respond_to do |format|
+           format.json {render :json=>root_nodes.to_json}
+
+    end
+  end
+
   # GET /config_classes/1
   # GET /config_classes/1.xml
   def show

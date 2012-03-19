@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     match '/config_classes/:id(.:format)'  => "config_classes#update",:via => :put
     match '/config_classes/:id/show(.:format)'=> "config_classes#show",  :via => :get
     match '/config_classes/get_data(.:format)' => "config_classes#get_data"
+    match '/config_classes/get_class_tree(.:format)' => "config_classes#get_class_tree"
     match '/config_classes/:id/destroy(.:format)' => "config_classes#destroy", :via => :delete
     match '/config_classes/:id/multilingual_edit(.:format)' => "config_classes#multilingual_edit", :via => :get
     match '/config_classes/:id/multilingual_update(.:format)' => "config_classes#multilingual_update", :via => :put

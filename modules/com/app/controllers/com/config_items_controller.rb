@@ -1,4 +1,5 @@
 class Com::ConfigItemsController < ApplicationController
+  layout "application_full"
   # GET /com/config_items
   # GET /com/config_items.xml
   def index
@@ -150,6 +151,7 @@ class Com::ConfigItemsController < ApplicationController
   def get_data
     com_config_items_scope = Com::ConfigItem.select_all.with_config_class.with_managed_group.with_managed_person
     com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigClass.view_name}.name",params[:config_class_name])
+    com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigItem.table_name}.config_class_id",params[:config_class_id]) if params[:config_class_id] && params[:config_class_id].present? && params[:config_class_id] != "root"
     com_config_items_scope = com_config_items_scope.match_value("#{Icm::SupportGroup.multilingual_view_name}.name",params[:managed_group_name])
     com_config_items_scope = com_config_items_scope.match_value("#{Irm::Person.table_name}.full_name",params[:managed_person_name])
     com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigItem.table_name}.item_number",params[:item_number])
