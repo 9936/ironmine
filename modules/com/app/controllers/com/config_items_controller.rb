@@ -177,7 +177,7 @@ class Com::ConfigItemsController < ApplicationController
        end if grouped_config_item_attributes.present?
     end
     @merged_config_items=com_config_items if @merged_config_items.blank?
-    puts @merged_config_items
+
     respond_to do |format|
       fields=[:item_number,:config_class_name,:managed_group_name,:managed_person_name,:last_checked_at]
       @class_attributes.each {|i| fields<<i[:id]} if @class_attributes.present?
