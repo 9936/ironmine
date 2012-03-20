@@ -530,7 +530,7 @@ body .wizard-block .pbBody .pbSubheader h3, body .wizard-block .bPageBlock .pbBo
 
 /****************************************************/
 table.split-table{width:100%;}
-table.split-table tr td:first-child {width: 200px;}
+table.split-table > tbody > tr > td:first-child {width: 200px;}
 table.split-table #config_itemsPaginatorBox{
     border-top: 1px solid #EAEAEA;
 }
