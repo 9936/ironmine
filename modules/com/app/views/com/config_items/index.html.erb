@@ -20,7 +20,7 @@
         <table class="split-table">
           <tr>
             <td>
-              <%= render :partial =>"/irm/common/tree_sidebar", :locals =>{:tree_url => url_for(:controller => "com/config_classes", :action=>"get_class_tree",  :format=>:json),
+              <%= render :partial =>"tree_sidebar", :locals =>{:tree_url => url_for(:controller => "com/config_classes", :action=>"get_class_tree",  :format=>:json),
                                                                            :target_table => "config_items",
                                                                            :tree_id => "tree-div",
                                                                            :title => t(:label_com_config_class),
@@ -41,7 +41,7 @@
                                    {:key=>"managed_group_name",:label=>t(:label_com_config_item_managed_group),:width=>"140px",:searchable=>true},
                                    {:key=>"managed_person_name",:label=>t(:label_com_config_item_managed_person),:searchable=>true},
                                    {:key=>"last_checked_at",:label=>t(:label_com_config_item_last_checked_at)},
-                                                          ],{:paginator_box=>"config_itemsPaginatorBox",:search_box=>"config_itemsSearchBox"})%>
+                                                          ],{:force_html=>true,:paginator_box=>"config_itemsPaginatorBox",:search_box=>"config_itemsSearchBox"})%>
                     <div id="config_itemsPaginatorBox"></div>
             </td>
           </tr>

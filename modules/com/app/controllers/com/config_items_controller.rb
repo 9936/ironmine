@@ -155,9 +155,34 @@ class Com::ConfigItemsController < ApplicationController
     com_config_items_scope = com_config_items_scope.match_value("#{Icm::SupportGroup.multilingual_view_name}.name",params[:managed_group_name])
     com_config_items_scope = com_config_items_scope.match_value("#{Irm::Person.table_name}.full_name",params[:managed_person_name])
     com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigItem.table_name}.item_number",params[:item_number])
-    com_config_items,count = paginate(com_config_items_scope)
+    com_config_items,@count = paginate(com_config_items_scope)
+    @merged_config_items=[]
+    if params[:config_class_id].present?&&params[:config_class_id] != "root"
+       @class_attributes=Com::ConfigAttribute.query_attributes_by_class_id(params[:config_class_id]).where(:display_flag=>'Y')
+       config_item_ids=com_config_items.collect {|i| i.id}
+       config_item_attributes=Com::ConfigItemAttribute.where(:config_item_id=>config_item_ids)
+       grouped_config_item_attributes=config_item_attributes.group_by {|i| i[:config_item_id]}
+       grouped_config_item_attributes.each do |config_item_id,ci_attributes|
+         attributes_values_hash={}
+         ci_attributes.each {|cia| attributes_values_hash.merge!({cia[:config_attribute_id]=>cia[:value]})}
+         grouped_config_item_attributes[config_item_id]=attributes_values_hash
+       end if grouped_config_item_attributes.present?
+       #遍历每条配置项数据，给每条数据追加扩展属性字段
+       com_config_items.each do |config_item|
+         merged_config_item=config_item.attributes
+         @class_attributes.each do |class_attribute|
+           merged_config_item.merge!({class_attribute[:id]=>grouped_config_item_attributes[config_item.id][class_attribute[:id]]}) if grouped_config_item_attributes[config_item.id].present?
+         end
+          @merged_config_items<<merged_config_item
+       end if grouped_config_item_attributes.present?
+    end
+    @merged_config_items=com_config_items if @merged_config_items.blank?
+    puts @merged_config_items
     respond_to do |format|
-      format.json {render :json=>to_jsonp(com_config_items.to_grid_json([:item_number,:config_class_name,:managed_group_name,:managed_person_name,:last_checked_at],count))}
+      fields=[:item_number,:config_class_name,:managed_group_name,:managed_person_name,:last_checked_at]
+      @class_attributes.each {|i| fields<<i[:id]} if @class_attributes.present?
+      format.html
+      format.json {render :json=>to_jsonp(@merged_config_items.to_grid_json(fields,@count))}
     end
   end
 end
