@@ -158,9 +158,12 @@ class Com::ConfigItemsController < ApplicationController
     com_config_items,@count = paginate(com_config_items_scope)
     @merged_config_items=[]
     if params[:config_class_id].present?&&params[:config_class_id] != "root"
+       #取出当前类别所有的需要显示的属性
        @class_attributes=Com::ConfigAttribute.query_attributes_by_class_id(params[:config_class_id]).where(:display_flag=>'Y')
+       #取出当前这一页数据对应的所有的配置项扩展属性
        config_item_ids=com_config_items.collect {|i| i.id}
        config_item_attributes=Com::ConfigItemAttribute.where(:config_item_id=>config_item_ids)
+       #将数据构造成grouped_config_item_attributes[配置项ID][扩展属性ID]的访问形式
        grouped_config_item_attributes=config_item_attributes.group_by {|i| i[:config_item_id]}
        grouped_config_item_attributes.each do |config_item_id,ci_attributes|
          attributes_values_hash={}
