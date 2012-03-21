@@ -39,6 +39,8 @@ en:
   label_com_config_item_managed_group: Managed Group
   label_com_config_item_managed_person: Managed Person
   label_com_config_item_last_checked_at: Last Checked At
+  label_com_config_item_error_no_such_attribute: No Such Attribute ID
+  label_com_config_item_error_value_required: %{name} ：Value Is Required
   #===========================end config item==============================#
 
   #==========================config item==================================#
