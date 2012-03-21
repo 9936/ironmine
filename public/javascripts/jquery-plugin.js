@@ -1180,6 +1180,7 @@ jQuery.fn.menubutton = function(){
         paginatorBox: null,
         exportBox: null,
         columns :[],
+        defaultOptions:{},
         filterOptions:{},
         searchOptions:{}
     };
@@ -1482,7 +1483,7 @@ jQuery.fn.menubutton = function(){
         var me = this;
         var options = me.data.options;
         var request_url = options.baseUrl;
-        var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.filterOptions,options.searchOptions);
+        var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.defaultOptions,options.filterOptions,options.searchOptions);
         if(!options.paginatorBox)
             params = $.extend({},params,{limit:""})
         var paramsStr = $.param(params);

@@ -47,6 +47,8 @@ zh:
   label_com_config_item_managed_group: 管理组
   label_com_config_item_managed_person: 管理人员
   label_com_config_item_last_checked_at: 上一次扫描时间
+  label_com_config_item_error_no_such_attribute: 没有这个ID的属性
+  label_com_config_item_error_value_required: %{name}：值不能为空
   #===========================end config item==============================#
 
 

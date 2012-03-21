@@ -49,44 +49,17 @@ class Com::ConfigItemsController < ApplicationController
   # POST /com/config_items.xml
   def create
     @config_item = Com::ConfigItem.new(params[:com_config_item])
-    success_flag=[]
-    success_flag<<@config_item.save
-    @errors={}
-    attributes={}
-    Com::ConfigAttribute.query_attributes_by_class_id(@config_item[:config_class_id]).collect {|i| attributes.merge!(i[:id]=>{:name=>i[:name],:required_flag=>i[:required_flag]}) }
-    if !success_flag.include?(false)
-      config_item_attributes= params[:config_item_attribute]
-      config_item_attributes.each do |config_item_attribute|
-        attribute=Com::ConfigItemAttribute.new
-        attribute.config_item_id=@config_item.id
 
-        if(attributes["#{config_item_attribute[0]}"][:required_flag].eql?("Y")&&config_item_attribute[1].blank? )
-          #验证失败
-          #将用户的未保存的输入暂存到SESSION中
-          session[:config_item_attribute]=params[:config_item_attribute]
-          success_flag<<false
-        else
-          attribute.config_attribute_id=config_item_attribute[0]
-          attribute.value=config_item_attribute[1]
-        end
-
-        success_flag<<attribute.save
-        @errors.merge!({attributes["#{config_item_attribute[0]}"][:name]=>attribute.errors}) if attribute.errors.messages.present?
-      end  if config_item_attributes
-    else
-      session[:config_item_attribute]=params[:config_item_attribute]
-    end
-
-
+    params[:config_item_attribute].each do |config_item_attribute|
+      @config_item.config_item_attributes.build(:config_attribute_id=>config_item_attribute[0],:value=>config_item_attribute[1])
+    end  if params[:config_item_attribute]
 
     respond_to do |format|
-      if !success_flag.include?(false)
+      if @config_item.save
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @config_item, :status => :created, :location => @config_item }
-      elsif @config_item.id
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @config_item.errors }
       else
+        session[:config_item_attribute]=params[:config_item_attribute]
         format.html { render :action => "new" }
         format.xml  { render :xml => @config_item.errors }
       end
@@ -97,38 +70,18 @@ class Com::ConfigItemsController < ApplicationController
   # PUT /com/config_items/1.xml
   def update
     @config_item = Com::ConfigItem.find(params[:id])
-    success_flag=[]
-    success_flag<<@config_item.update_attributes(params[:com_config_item])
-    @errors={}
-    attributes={}
-    Com::ConfigAttribute.query_attributes_by_class_id(@config_item[:config_class_id]).collect {|i| attributes.merge!(i[:id]=>{:name=>i[:name],:required_flag=>i[:required_flag]}) }
-    if !success_flag.include?(false)
-        config_item_attributes= params[:config_item_attribute]
-        #清空之前的属性值
-        Com::ConfigItemAttribute.query_by_config_item_id(@config_item.id).delete_all
-        config_item_attributes.each do |config_item_attribute|
-           attribute=Com::ConfigItemAttribute.new
-           attribute.config_item_id=@config_item.id
-           if(attributes["#{config_item_attribute[0]}"][:required_flag].eql?("Y")&&config_item_attribute[1].blank? )
-             #验证失败
-             #将用户的未保存的输入暂存到SESSION中
-             session[:config_item_attribute]=params[:config_item_attribute]
-             success_flag<<false
-           else
-             attribute.config_attribute_id=config_item_attribute[0]
-             attribute.value=config_item_attribute[1]
-           end
-           success_flag<<attribute.save
-           @errors.merge!({attributes["#{config_item_attribute[0]}"][:name]=>attribute.errors}) if attribute.errors.messages.present?
-        end  if config_item_attributes
-    else
-        session[:config_item_attribute]=params[:config_item_attribute]
-    end
+
+    Com::ConfigItemAttribute.query_by_config_item_id(@config_item.id).delete_all
+    params[:config_item_attribute].each do |config_item_attribute|
+      @config_item.config_item_attributes.build(:config_attribute_id=>config_item_attribute[0],:value=>config_item_attribute[1])
+    end  if params[:config_item_attribute]
+
     respond_to do |format|
-      if  !success_flag.include?(false)
+      if  @config_item.update_attributes(params[:com_config_item])
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
+        session[:config_item_attribute]=params[:config_item_attribute]
         format.html { render :action => "edit" }
         format.xml  { render :xml => @config_item.errors, :status => :unprocessable_entity }
       end
@@ -155,9 +108,37 @@ class Com::ConfigItemsController < ApplicationController
     com_config_items_scope = com_config_items_scope.match_value("#{Icm::SupportGroup.multilingual_view_name}.name",params[:managed_group_name])
     com_config_items_scope = com_config_items_scope.match_value("#{Irm::Person.table_name}.full_name",params[:managed_person_name])
     com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigItem.table_name}.item_number",params[:item_number])
-    com_config_items,count = paginate(com_config_items_scope)
+    com_config_items,@count = paginate(com_config_items_scope)
+    @merged_config_items=[]
+    if params[:config_class_id].present?&&params[:config_class_id] != "root"
+       #取出当前类别所有的需要显示的属性
+       @class_attributes=Com::ConfigAttribute.query_attributes_by_class_id(params[:config_class_id]).where(:display_flag=>'Y')
+       #取出当前这一页数据对应的所有的配置项扩展属性
+       config_item_ids=com_config_items.collect {|i| i.id}
+       config_item_attributes=Com::ConfigItemAttribute.where(:config_item_id=>config_item_ids)
+       #将数据构造成grouped_config_item_attributes[配置项ID][扩展属性ID]的访问形式
+       grouped_config_item_attributes=config_item_attributes.group_by {|i| i[:config_item_id]}
+       grouped_config_item_attributes.each do |config_item_id,ci_attributes|
+         attributes_values_hash={}
+         ci_attributes.each {|cia| attributes_values_hash.merge!({cia[:config_attribute_id]=>cia[:value]})}
+         grouped_config_item_attributes[config_item_id]=attributes_values_hash
+       end if grouped_config_item_attributes.present?
+       #遍历每条配置项数据，给每条数据追加扩展属性字段
+       com_config_items.each do |config_item|
+         merged_config_item=config_item.attributes
+         @class_attributes.each do |class_attribute|
+           merged_config_item.merge!({class_attribute[:id]=>grouped_config_item_attributes[config_item.id][class_attribute[:id]]}) if grouped_config_item_attributes[config_item.id].present?
+         end
+          @merged_config_items<<merged_config_item
+       end if grouped_config_item_attributes.present?
+    end
+    @merged_config_items=com_config_items if @merged_config_items.blank?
+
     respond_to do |format|
-      format.json {render :json=>to_jsonp(com_config_items.to_grid_json([:item_number,:config_class_name,:managed_group_name,:managed_person_name,:last_checked_at],count))}
+      fields=[:item_number,:config_class_name,:managed_group_name,:managed_person_name,:last_checked_at]
+      @class_attributes.each {|i| fields<<i[:id]} if @class_attributes.present?
+      format.html
+      format.json {render :json=>to_jsonp(@merged_config_items.to_grid_json(fields,@count))}
     end
   end
 end

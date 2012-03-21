@@ -530,8 +530,16 @@ body .wizard-block .pbBody .pbSubheader h3, body .wizard-block .bPageBlock .pbBo
 
 /****************************************************/
 table.split-table{width:100%;}
-table.split-table tr td:first-child {width: 200px;}
-
+table.split-table > tbody > tr > td:first-child {width: 200px;}
+table.split-table #config_itemsPaginatorBox{
+    border-top: 1px solid #EAEAEA;
+}
+table.split-table #config_items_table{
+    width: 100%
+}
+table.split-table #config_items_table_tr{
+    height: 269px;background-color: #FFFFFF;
+}
 /***********************miniTab*****************************/
 body .miniTab{
     background-color: transparent !important;

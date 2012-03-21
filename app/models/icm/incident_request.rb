@@ -142,7 +142,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
     where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (EXISTS(SELECT 1 FROM irm_data_accesses_v ida WHERE ida.source_person_id = #{table_name}.requested_by AND ida.target_person_id = ?  AND ida.bo_model_name = ? AND ida.access_level > ?))",
-    Icm::IncidentRequest.name,person_id,Irm::Person.name,Icm::IncidentRequest.name,person_id,"0")
+    Icm::IncidentRequest.name,person_id,Irm::Person.name,person_id,Icm::IncidentRequest.name,"0")
   }
 
   scope :with_reply_flag,lambda{|person_id|
