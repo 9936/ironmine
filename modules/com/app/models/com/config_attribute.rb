@@ -4,6 +4,7 @@ class Com::ConfigAttribute < ActiveRecord::Base
   #多语言关系
   attr_accessor :name,:description
   has_many :config_attributes_tls,:dependent => :destroy
+  belongs_to :config_class
   acts_as_multilingual
 
   validates_presence_of :code, :input_type
