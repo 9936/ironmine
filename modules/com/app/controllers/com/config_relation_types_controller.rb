@@ -104,8 +104,18 @@ class Com::ConfigRelationTypesController < ApplicationController
     config_relation_types_scope = config_relation_types_scope.match_value("#{Com::ConfigRelationTypesTl.table_name}.name",params[:name])
     config_relation_types_scope = config_relation_types_scope.match_value("#{Com::ConfigRelationTypesTl.table_name}.description",params[:description])
     config_relation_types_scope = config_relation_types_scope.match_value("#{Com::ConfigRelationType.table_name}.code",params[:code])
+    #检查参数中是否含有class_id
+    if params[:class_id].present?
+      type_ids = Com::ConfigRelationMember.select("config_relation_type_id").where("config_class_id=?", params[:class_id])
+      config_relation_types_scope = config_relation_types_scope.where(:id => type_ids)
+    end
     config_relation_types,count = paginate(config_relation_types_scope)
     respond_to do |format|
+      format.html {
+        @datas = config_relation_types
+        @count = count
+        render_html_data_table
+      }
       format.json {render :json=>to_jsonp(config_relation_types.to_grid_json([:name,:description,:code],count))}
     end
   end
