@@ -901,6 +901,7 @@ zh:
   label_irm_report_record_count: 记录数
   label_irm_report_params_config: 报表参数设置
   label_irm_report_params_default_value: 参数默认值
+  label_irm_report_auto_run_flag: 自动运行
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组

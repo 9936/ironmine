@@ -901,6 +901,7 @@ en:
   label_irm_report_record_count: Record Count
   label_irm_report_params_config: Report Parameters Config
   label_irm_report_params_default_value: Default Value
+  label_irm_report_auto_run_flag: Auto Run
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组
