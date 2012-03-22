@@ -1,0 +1,44 @@
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>">
+         <thead>
+           <tr>
+             <th style="width:80px">
+               <div><%= t(:operation) %></div>
+             </th>
+             <th>
+               <div><%= t(:code) %></div>
+             </th>
+             <th>
+                <div><%= t(:name) %></div>
+             </th>
+             <th>
+               <div><%= t(:description) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% @datas.each do |data| %>
+         <tr id="<%=data.id %>">
+           <td>
+             <div>
+                <%= link_to(t(:edit),{:action=>"edit",:id=>data.id}) %>|<%= link_to(t(:show),{:action=>"show",:id=>data.id}) %>
+             </div>
+           </td>
+           <td>
+             <div><%= data[:code] %></div>
+           </td>
+           <td>
+             <div><%= data[:name] %></div>
+           </td>
+           <td>
+             <div><%= data[:description] %></div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->
