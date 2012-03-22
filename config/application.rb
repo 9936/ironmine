@@ -107,7 +107,7 @@ module Ironmine
       end
     end
 
-    config.module_folder = ''
+    config.module_folder = 'modules'
     #扩展rails 的生成器generators
     generators do
       #扩展Rails::Generators::NamedBase
