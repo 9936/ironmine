@@ -61,11 +61,7 @@
         </table>
       </div>
       <div class="pbBody">
-        <div id="config_attributes" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
-        </div>
+        <div id="config_attributes" class="datatable" style="width:100%"></div>
         <%= datatable("config_attributes",{:controller=>"com/config_attributes",:action=>"get_data",:format=>"json",:class_id=>@config_class.id},
                       [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
                        { :key => "code", :label => t(:label_com_config_attribute_code),:searchable=>true },
@@ -79,4 +75,34 @@
     </div>
 </div>
 <!-- 结束配置属性列表 -->
+<!-- 配置项关系类型列表开始 -->
+<div class="listRelatedObject setupBlock">
+    <div class="page-block">
+      <div class="pbHeader">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+          <tr>
+            <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_com_config_relation_type_list) %></h2></td>
+
+            <td class="pbHelp">
+              <div id="config_relation_typesSearchBox"></div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pbBody">
+        <div id="config_relation_types" class="datatable" style="width:100%">
+        </div>
+        <%= datatable("config_relation_types",{:controller=> "config_relation_types", :action=>"get_data",:format=>"json",:class_id=>@config_class.id},
+              [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
+               {:key=>"code",:label=>t(:code),:width=>"140px",:searchable=>true},
+               {:key=>"name",:label=>t(:name),:width=>"200px",:searchable=>true},
+               {:key=>"description",:label=>t(:description),:searchable=>true},
+               ],{:paginator_box=>"config_relation_typesPaginatorBox",:search_box=>"config_relation_typesSearchBox",:force_html=>true})%>
+        <div id="config_relation_typesPaginatorBox"></div>
+      </div>
+    </div>
+</div>
+<!-- 配置项关系类型列表结束 -->
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@config_class} %>
