@@ -26,7 +26,7 @@ class Com::ConfigAttributesController < ApplicationController
   def new
     #根据传递过来的config_class code 进行合法判断
     config_class = Com::ConfigClass.find(params[:class_id])
-    unless config.nil?
+    unless config_class.nil?
       @config_attribute = Com::ConfigAttribute.new(:config_class_id => config_class.id, :display_flag => Irm::Constant::SYS_NO)
     else
       @config_attribute = Com::ConfigAttribute.new
@@ -124,7 +124,7 @@ class Com::ConfigAttributesController < ApplicationController
         @count = count
         render_html_data_table
       }
-      format.json {render :json=>to_jsonp(config_attributes.to_grid_json([:code,:input_type,:input_value,:name,:description,:status_meaning],count))}
+      format.json {render :json=>to_jsonp(config_attributes.values.to_grid_json([:code, :config_class_id,:input_type,:input_value,:regular,:name,:display_flag,:required_flag,:description,:from_parent,:status_code],count))}
     end
   end
 
