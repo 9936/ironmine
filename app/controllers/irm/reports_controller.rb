@@ -328,7 +328,7 @@ class Irm::ReportsController < ApplicationController
   end
 
   def new_program
-    @report = Irm::Report.new(:program_type=>"PROGRAM")
+    @report = Irm::Report.new(:program_type=>"PROGRAM", :auto_run_flag => Irm::Constant::SYS_NO)
     respond_to do |format|
       format.html { render :layout => "application_full"}# index.html.erb
     end
