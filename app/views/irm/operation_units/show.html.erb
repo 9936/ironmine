@@ -36,6 +36,14 @@
               <td class="labelCol empty"><div>&nbsp;</div></td>
               <td class="dataCol empty"><div>&nbsp;</div></td>
             </tr>
+
+            <tr>
+              <td class="labelCol"><label ><%=t(:label_irm_operation_unit_admin)%></label></td>
+              <td class="dataCol"><div><%= get_primary_person_name_by_id(@operation_unit[:primary_person_id]) %></div></td>
+              <td class="labelCol empty"><div>&nbsp;</div></td>
+              <td class="dataCol empty"><div>&nbsp;</div></td>
+            </tr>
+
             <tr>
               <td class="labelCol"><label ><%=t(:label_irm_operation_unit_default_language_code)%></label></td>
               <td class="dataCol"><div><%= @operation_unit[:default_language_name] %></div></td>

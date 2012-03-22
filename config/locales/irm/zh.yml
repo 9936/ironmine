@@ -1569,6 +1569,7 @@ zh:
   label_irm_operation_unit_description: 描述
   label_irm_operation_unit_license: 许可
   label_irm_operation_unit_list: 运维中心列表
+  label_irm_operation_unit_admin: 管理员
   #======================= end Operation Unit ====================
 
 
