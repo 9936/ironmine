@@ -3,6 +3,7 @@
        padding: 3px 2px 3px 5px;
   }
 </style>
+<% if auto_run?(@report) %>
 <table id="reportData" style="table-layout: fixed; width:100%">
   <thead>
     <tr>
@@ -12,6 +13,7 @@
     </tr>
   </thead>
   <tbody>
+
     <% @report.report_meta_data.each do |rd| %>
     <tr>
       <% @report.report_header.each do |k|  %>
@@ -21,3 +23,4 @@
     <% end %>
   </tbody>
 </table>
+<% end %>
