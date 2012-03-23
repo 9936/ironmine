@@ -534,6 +534,11 @@ module ApplicationHelper
     time.strftime('%Y-%m-%d %H:%M:%S') if time
   end
 
+  def calendar_date(time)
+    return time if time && time.is_a?(String)
+    time.strftime('%Y-%m-%d') if time
+  end
+
   def show_check_box(value = "", y_value = "")
     tags = ""
     if !y_value.blank?
