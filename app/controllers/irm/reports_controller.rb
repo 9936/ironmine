@@ -119,6 +119,7 @@ class Irm::ReportsController < ApplicationController
 
   def update
     @report = Irm::Report.find(params[:id])
+    puts "==================================================================="
     session[:irm_report].merge!(params[:irm_report].symbolize_keys)
     @report.attributes =  session[:irm_report]
 
