@@ -388,4 +388,12 @@ module Irm::ReportsHelper
     render :partial=>"custom_report_params",:locals=>{:program_params=>report.program_params||{},:param_criterions=>param_criterions,:f=>form}
   end
 
+  def auto_run?(report)
+    #如果当前Action是show，并且该报表不自动运行，则设置不自动运行
+    if params[:action].eql?('show') and !report.auto_run?
+      false
+    else
+      true
+    end
+  end
 end

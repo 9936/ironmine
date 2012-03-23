@@ -273,6 +273,11 @@ class Irm::Report < ActiveRecord::Base
     ["PIE","BAR","COLUMN","LINE"].include?(self.chart_type)
   end
 
+  #自动运行报表
+  def auto_run?
+    self.auto_run_flag.eql?(Irm::Constant::SYS_YES)
+  end
+
 
   def program_instance
     return nil unless self.program_type.eql?("PROGRAM")&&self.program.present?
