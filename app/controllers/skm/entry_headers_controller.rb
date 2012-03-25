@@ -27,10 +27,17 @@ class Skm::EntryHeadersController < ApplicationController
 
       if @entry_header.type_code == "VIDEO"
         format.html { redirect_to({:action => "video_show", :id => @entry_header})}
+        format.json {render :json=>@entry_header.attributes}
       else
         format.html # show.html.erb
         format.xml  { render :xml => @entry_header }
+        format.json {
+                        @entry_header[:entry_details]=@entry_header.entry_details.collect {|i| i.attributes}
+
+                        render :json=>@entry_header.attributes
+                      }
       end
+
     end
   end
 
@@ -205,6 +212,10 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def create
+    if params[:format].eql?("json")
+      session[:skm_entry_header]=params[:skm_entry_header]
+      session[:skm_entry_details]=params[:skm_entry_details]
+    end
     @entry_header = Skm::EntryHeader.new
     session[:skm_entry_header].each do |k, v|
       @entry_header[k.to_sym] = v
@@ -246,12 +257,14 @@ class Skm::EntryHeadersController < ApplicationController
           format.html { redirect_to({:action=>"my_drafts"}, :notice =>t(:successfully_created)) }
         else
           format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
-        end
 
+        end
+        format.json { render :json=>@entry_header.attributes}
         format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+        format.json { render :json => @entry_header.errors}
       end
     end
   end
@@ -356,6 +369,7 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def update
+
     return_url = params[:return_url]
 #    column_ids = params[:skm_entry_header][:column_ids].split(",")
     file_flag = true
@@ -368,7 +382,7 @@ class Skm::EntryHeadersController < ApplicationController
         flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         break
       end
-    end
+    end if params[:file]
 
     if file_flag
       if params[:new]
@@ -421,6 +435,7 @@ class Skm::EntryHeadersController < ApplicationController
               format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }
               format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
             end
+            format.json {render :json=>@entry_header}
           else
             if @entry_header.new_record?
               @entry_header.id = old_header.id
@@ -430,6 +445,7 @@ class Skm::EntryHeadersController < ApplicationController
             end
             format.html { render :action => "edit" }
             format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+            format.json {render :json=>@entry_header.errors}
           end
         end
       else
@@ -464,15 +480,18 @@ class Skm::EntryHeadersController < ApplicationController
               format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }
               format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
             end
+            format.json {render :json=>@entry_header}
           else
             format.html { render :action => "edit" }
             format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+            format.json {render :json=>@entry_header.errors}
           end
         end
       end
     else
       format.html { render :action => "edit"}
       format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+      format.json {render :json=>@entry_header.errors}
     end
   end
 
@@ -505,7 +524,7 @@ class Skm::EntryHeadersController < ApplicationController
         @count = entry_headers.count
         render_html_data_table
       }
-      format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:is_favorite, :entry_status_code, :full_title,
+      format.json  {render :json => to_jsonp(entry_headers.to_grid_json([:is_favorite, :entry_status_code, :full_title,
                                                                          :entry_title, :keyword_tags,:doc_number,:version_number,
                                                                          :published_date_f, :type_code], count)) }
     end

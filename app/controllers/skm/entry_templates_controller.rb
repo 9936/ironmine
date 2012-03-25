@@ -73,6 +73,31 @@ class Skm::EntryTemplatesController < ApplicationController
     end
   end
 
+  def get_data_rest
+    entry_templates_scope = Skm::EntryTemplate.includes(:entry_template_details=>:entry_template_element).where("1=1")
+    entry_templates_scope = entry_templates_scope.match_value("#{Skm::EntryTemplate.table_name}.entry_template_code",params[:entry_template_code]) if params[:entry_template_code]
+    entry_templates_scope = entry_templates_scope.match_value("#{Skm::EntryTemplate.table_name}.name",params[:name]) if params[:name]
+
+    entry_templates,count = paginate(entry_templates_scope)
+    respond_to do |format|
+      format.json  {
+        entry_templates.each_with_index do |entry_template,idx|
+          details=entry_template.entry_template_details
+          details.each_with_index do |entry_template_detail,index|
+            entry_template_detail[:entry_template_element_code]=entry_template_detail.entry_template_element[:entry_template_element_code]
+            entry_template_detail[:name]=entry_template_detail.entry_template_element[:name]
+            entry_template_detail[:description]=entry_template_detail.entry_template_element[:description]
+            details[index]=entry_template_detail.attributes
+          end
+          entry_template[:details]=details
+          entry_templates[idx]=entry_template.attributes
+        end
+
+        render :json => to_jsonp(entry_templates.to_grid_json([:entry_template_code, :name,:description,:status_code,:details], count))
+      }
+    end
+  end
+
   def add_elements
     return_url=params[:return_url]
     params[:skm_entry_template_elements][:ids].each do |p|

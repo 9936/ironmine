@@ -9,6 +9,7 @@ module Irm::ArrayToJson
       each do |elem|
         eid = elem.id if elem.respond_to?("id")
         eid ||= elem[:id]
+        eid ||= elem["id"]
         json << %Q({"id":"#{eid}",)
         couples = elem.attributes.symbolize_keys
         attributes.each do |atr|
