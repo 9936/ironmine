@@ -47,21 +47,21 @@
                         <tr>
                             <td class="labelCol"><label for="plan_start_date"><%=t(:label_chm_change_task_plan_start_date)%></label></td>
                             <td class="dataCol">
-                              <%=f.text_field :plan_start_date,:size=>17,:id=>"plan_start_date",:class=>"date"%>
+                              <%=f.text_field :plan_start_date,:value =>calendar_date(@change_task.plan_start_date),:size=>17,:id=>"plan_start_date",:class=>"date"%>
                             </td>
                           <td class="labelCol"><label for="plan_end_date"><%=t(:label_chm_change_task_plan_end_date)%></label></td>
                           <td class="dataCol">
-                            <%=f.text_field :plan_end_date,:size=>17,:id=>"plan_end_date",:class=>"date",:nobutton=>true%>
+                            <%=f.text_field :plan_end_date,:value =>calendar_date(@change_task.plan_end_date),:size=>17,:id=>"plan_end_date",:class=>"date",:nobutton=>true%>
                           </td>
                         </tr>
                         <tr>
                             <td class="labelCol"><label for="plan_start_date"><%=t(:label_chm_change_task_start_date)%></label></td>
                             <td class="dataCol">
-                              <%=f.text_field :start_date,:size=>17,:id=>"plan_start_date",:class=>"date"%>
+                              <%=f.text_field :start_date,:value =>calendar_date(@change_task.start_date),:size=>17,:id=>"plan_start_date",:class=>"date"%>
                             </td>
                           <td class="labelCol"><label for="plan_end_date"><%=t(:label_chm_change_task_end_date)%></label></td>
                           <td class="dataCol">
-                            <%=f.text_field :end_date,:size=>17,:id=>"plan_end_date",:class=>"date",:nobutton=>true%>
+                            <%=f.text_field :end_date,:value =>calendar_date(@change_task.end_date),:size=>17,:id=>"plan_end_date",:class=>"date",:nobutton=>true%>
                           </td>
                         </tr>
                         <tr>

@@ -119,6 +119,7 @@ class Irm::ReportsController < ApplicationController
 
   def update
     @report = Irm::Report.find(params[:id])
+    puts "==================================================================="
     session[:irm_report].merge!(params[:irm_report].symbolize_keys)
     @report.attributes =  session[:irm_report]
 
@@ -328,7 +329,7 @@ class Irm::ReportsController < ApplicationController
   end
 
   def new_program
-    @report = Irm::Report.new(:program_type=>"PROGRAM")
+    @report = Irm::Report.new(:program_type=>"PROGRAM", :auto_run_flag => Irm::Constant::SYS_NO)
     respond_to do |format|
       format.html { render :layout => "application_full"}# index.html.erb
     end

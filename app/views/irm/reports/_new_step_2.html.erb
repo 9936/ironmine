@@ -38,6 +38,14 @@
                       <td class="dataCol empty">&nbsp;</td>
                     </tr>
                     <tr>
+                      <td class="labelCol"><label for="report_auto_run_flag"><%=t(:label_irm_report_auto_run_flag)%></label></td>
+                      <td class="dataCol">
+                        <label for="display_flag"><%= f.check_box(:auto_run_flag) %></label>
+                      </td>
+                      <td class="labelCol empty">&nbsp;</td>
+                      <td class="dataCol empty">&nbsp;</td>
+                    </tr>
+                    <tr>
                       <td class="labelCol"><label for="report_description"><%=t(:label_irm_report_description)%></label></td>
                       <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description, :cols=>60,:rows=>5,:id=>"report_description"%></td>
                     </tr>

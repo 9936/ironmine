@@ -103,7 +103,7 @@
                 </tr>
                 <tr id="closeDateTr">
                   <td class="labelCol"><label for="close_date"><%=(t :label_csi_survey_closed_datetime)%></label></td>
-                  <td class="dataCol"><%= f.text_field :close_date,:id=>"close_date",:required => true,:class=>"date",:nobutton=>true%></td>
+                  <td class="dataCol"><%= f.text_field :close_date,:value =>calendar_date(@survey.close_date),:id=>"close_date",:required => true,:class=>"date",:nobutton=>true%></td>
                   <td class="labelCol empty">&nbsp;</td>
                   <td class="dataCol empty">&nbsp;</td>
                 </tr>

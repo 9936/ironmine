@@ -126,11 +126,11 @@
                           <tr>
                               <td class="labelCol"><label for="plan_start_date"><%=t(:label_chm_change_request_plan_start_date)%></label></td>
                               <td class="dataCol">
-                                <%=f.text_field :plan_start_date,:size=>17,:id=>"plan_start_date",:class=>"date"%>
+                                <%=f.text_field :plan_start_date,:value =>calendar_date(@change_request.plan_start_date) ,:size=>17,:id=>"plan_start_date",:class=>"date"%>
                               </td>
                             <td class="labelCol"><label for="plan_end_date"><%=t(:label_chm_change_request_plan_end_date)%></label></td>
                             <td class="dataCol">
-                              <%=f.text_field :plan_end_date,:size=>17,:id=>"plan_end_date",:class=>"date",:nobutton=>true%>
+                              <%=f.text_field :plan_end_date,:value =>calendar_date(@change_request.plan_end_date) ,:size=>17,:id=>"plan_end_date",:class=>"date",:nobutton=>true%>
                             </td>
                           </tr>
 

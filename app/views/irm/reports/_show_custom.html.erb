@@ -68,7 +68,6 @@
                 <%= show_custom_report_params(@report,f) %>
               </div>
             </div>
-
           </td>
         </tr>
         <tr>
@@ -81,8 +80,10 @@
   </div>
   <% end %>
   <div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <%= render "show_#{@report.table_show_type.downcase}"%>
-    </div>
+    <% if auto_run?(@report) %>
+      <div class="page-block">
+        <%= render "show_#{@report.table_show_type.downcase}"%>
+      </div>
+    <% end %>
   </div>
 </div>
