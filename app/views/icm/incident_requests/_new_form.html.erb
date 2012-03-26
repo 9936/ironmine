@@ -94,9 +94,9 @@
               </td>
             </tr>
             <tr>
-              <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+              <td class="labelCol"><label for="incident_estimated_date"><%=t(:label_icm_incident_request_estimated_date)%></label></td>
               <td class="data2Col">
-                <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
+                <%= f.text_field(:estimated_date,:size=>12,:class=>"date",:id=>"incident_estimated_date")%>
               </td>
             </tr>
             <tr>
