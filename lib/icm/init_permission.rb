@@ -5,7 +5,7 @@ Irm::AccessControl.map do |map|
   # 查看事故单
   map.function :view_incident_request,{"icm/incident_requests"=>[:index, :get_data, :get_help_desk_data,
                                                                  :get_external_systems,
-                                                                 :get_slm_services],
+                                                                 :get_slm_services, :update],
                                        "icm/incident_journals"=>[:index,:new]}
   # 创建事故单
   map.function :create_incident_request,{"icm/incident_requests"=>[:new,:create, :short_create]}

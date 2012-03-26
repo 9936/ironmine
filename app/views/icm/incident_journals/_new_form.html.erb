@@ -133,7 +133,11 @@
                 <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
                     <div class="gray-button"><%= link_to t(:close), {:action => "edit_close"} %></div>
                 <% end %>
-                <div class="gray-button"><%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} %></div>
+                <% if allow_to_function?(:edit_incident_request) || @incident_request.requested_by == Irm::Person.current.id || @incident_request.support_person_id == Irm::Person.current.id %>
+                <div class="gray-button">
+                  <%= link_to t(:edit), url_for(:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id) %>
+                </div>
+                <% end %>
           <% else %>
               </div>
                <div class="button-group">

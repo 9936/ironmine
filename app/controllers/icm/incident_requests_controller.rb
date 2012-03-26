@@ -205,6 +205,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :incident_status_id_label,
                       :close_flag,
                       :requested_by,
+                      :support_person_id,
                       :requested_by_label,
                       :last_request_date,
                       :priority_id_label,
