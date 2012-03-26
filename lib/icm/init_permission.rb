@@ -5,12 +5,14 @@ Irm::AccessControl.map do |map|
   # 查看事故单
   map.function :view_incident_request,{"icm/incident_requests"=>[:index, :get_data, :get_help_desk_data,
                                                                  :get_external_systems,
-                                                                 :get_slm_services, :update],
+                                                                 :get_slm_services],
                                        "icm/incident_journals"=>[:index,:new]}
   # 创建事故单
   map.function :create_incident_request,{"icm/incident_requests"=>[:new,:create, :short_create]}
   # 编辑事故单
   map.function :edit_incident_request,{"icm/incident_requests"=>[:edit,:update]}
+  map.function :edit_myself_request,{"icm/incident_requests"=>[:edit,:update]}
+
   # 回复事故单
   map.function :reply_incident_request,{"icm/incident_journals"=>[:index,:new,:create,
                                                                   :get_entry_header_data, :apply_entry_header]}
