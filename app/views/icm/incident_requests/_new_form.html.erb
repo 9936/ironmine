@@ -1,4 +1,6 @@
 <% require_javascript([:xheditor]) %>
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
 <%= form_for(@incident_request,:url=>{:action=>"create"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
 <%= hidden_field_tag :return_url,@return_url %>
 <div id="ep" class="edit-block page-block">
@@ -120,6 +122,14 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
+        <tr>
+          <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+          <td class="dataCol">
+            <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
+          </td>
+          <td class="labelCol empty">&nbsp;</td>
+          <td class="dataCol empty">&nbsp;</td>
+        </tr>
             <tr>
                 <td class="labelCol"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
                 <td class="dataCol">
@@ -163,7 +173,7 @@
 
             </tr>
           <%end%>
-          <% if allow_to_function?(:create_icdt_rqst_for_other) %>
+          <% if false && allow_to_function?(:create_icdt_rqst_for_other) %>
             <tr>
               <td class="labelCol"><label for="incident_request_report_source_code"><%=t(:label_icm_incident_request_report_source_code)%></label></td>
               <td class="dataCol">
@@ -178,6 +188,7 @@
               </td>
             </tr>
          <%end%>
+         <% if false %>
             <tr>
               <td class="labelCol"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
               <td class="dataCol">
@@ -187,6 +198,7 @@
               <td class="labelCol empty">&nbsp;</td>
               <td class="dataCol empty">&nbsp;</td>
             </tr>
+         <% end %>
         </tbody>
       </table>
     </div>

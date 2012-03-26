@@ -11,6 +11,8 @@ Irm::AccessControl.map do |map|
   map.function :create_incident_request,{"icm/incident_requests"=>[:new,:create, :short_create]}
   # 编辑事故单
   map.function :edit_incident_request,{"icm/incident_requests"=>[:edit,:update]}
+  map.function :edit_myself_request,{"icm/incident_requests"=>[:edit,:update]}
+
   # 回复事故单
   map.function :reply_incident_request,{"icm/incident_journals"=>[:index,:new,:create,
                                                                   :get_entry_header_data, :apply_entry_header]}

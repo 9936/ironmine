@@ -149,8 +149,9 @@ class Com::ConfigItemsController < ApplicationController
             render_html_data_table
       }
       format.json {
+        com_config_items=com_config_items.includes(:config_item_attributes)
         com_config_items.each do |config_item|
-          config_item[:config_item_attributes]=config_item.config_item_attributes.collect {|i| i.attributes}
+              config_item[:config_item_attributes]=config_item.config_item_attributes.collect {|i| i.attributes}
         end
         render :json=>to_jsonp(com_config_items.to_grid_json([:item_number,:config_class_id,:managed_group_id,:managed_person_id,:last_checked_at,:status_code,:config_item_attributes],@count))
       }

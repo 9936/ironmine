@@ -1,3 +1,5 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
 <style type="text/css">
   select{
       min-width:128px;
@@ -137,6 +139,14 @@
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
 
+        <tr>
+          <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+          <td class="dataCol">
+            <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
+          </td>
+          <td class="labelCol empty">&nbsp;</td>
+          <td class="dataCol empty">&nbsp;</td>
+        </tr>
             <tr>
                 <td class="labelCol"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
                 <td class="dataCol">
@@ -161,7 +171,18 @@
                                                     {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
               </td>
             </tr>
-          <% if allow_to_function?(:create_icdt_rqst_for_other) %>
+            <tr>
+              <td class="labelCol"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
+              <td class="dataCol">
+                <%=f.select :urgence_id,available_urgence_code,{},{:required=>true,:id=>"incident_request_urgence_code"}%>
+              </td>
+              <td class="labelCol"><label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label></td>
+              <td class="dataCol">
+                <%=f.select :impact_range_id,available_impact_range,
+                                                    {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
+              </td>
+            </tr>
+          <% if false && allow_to_function?(:create_icdt_rqst_for_other) %>
             <tr>
               <td class="labelCol"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
               <td class="dataCol">

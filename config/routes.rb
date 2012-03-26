@@ -1191,6 +1191,7 @@ Ironmine::Application.routes.draw do
     match '/entry_templates/new(.:format)' => "entry_templates#new", :via => :get
     match '/entry_templates/create(.:format)' => "entry_templates#create", :via => :post
     match '/entry_templates/get_data(.:format)' => "entry_templates#get_data"
+    match '/entry_templates/get_data_rest(.:format)' => "entry_templates#get_data_rest"
     match '/entry_templates/:id/show(.:format)' => "entry_templates#show", :via => :get
     match '/entry_templates/:template_id/:element_id/remove_element(.:format)' => "entry_templates#remove_element", :via => :get
     match '/entry_templates/:template_id/add_elements(.:format)' => "entry_templates#add_elements", :via => :post
