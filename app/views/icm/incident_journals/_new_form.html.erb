@@ -224,9 +224,9 @@
       <td class="data3Col">
         <div><%= @incident_request[:incident_status_name] %></div>
       </td>
-      <td class="label3Col"><label><%= t(:label_icm_incident_request_incident_phase_code) %></label></td>
+      <td class="label3Col"><label><%= t(:label_icm_incident_request_estimated_date) %></label></td>
       <td class="data3Col">
-        <div><%= @incident_request[:incident_phase_name] %></div>
+        <div><%= calendar_date(@incident_request[:estimated_date]) %></div>
       </td>
     </tr>
     <tr>

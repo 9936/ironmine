@@ -154,6 +154,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :last_response_date,
                       :external_system_id,
                       :external_system_id_label,
+                      :estimated_date,
                       :kb_flag,
                       :reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
@@ -212,6 +213,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :external_system_id_label,
                       :external_system_id,
                       :kb_flag,
+                      :estimated_date,
                       :reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
