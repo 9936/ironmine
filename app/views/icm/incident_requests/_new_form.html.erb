@@ -94,6 +94,12 @@
               </td>
             </tr>
             <tr>
+              <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+              <td class="data2Col">
+                <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
+              </td>
+            </tr>
+            <tr>
               <td class="labelCol"><label for="incident_request_title"><%=t(:label_icm_incident_request_title)%></label></td>
               <td class="data2Col" colspan="3"><%=f.text_field :title,:size=>80, :required=>true ,:id=>"incident_request_title"%></td>
             </tr>
@@ -110,12 +116,6 @@
               <td class="labelCol"></td>
               <td class="data2Col" colspan="3">
                 <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_file"} %>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
-              <td class="data2Col">
-                <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
               </td>
             </tr>
         </tbody>

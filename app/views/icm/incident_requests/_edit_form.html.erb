@@ -109,6 +109,12 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
+              <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+              <td class="data2Col">
+                <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
+              </td>
+            </tr>
+            <tr>
               <td class="labelCol"><label for="incident_request_title"><%=t(:label_icm_incident_request_title)%></label></td>
               <td class="dataCol" colspan="3" style="width:82%"><%=f.text_field :title,:size=>80, :required=>true ,:id=>"incident_request_title"%></td>
             </tr>
@@ -118,13 +124,6 @@
               <td class="dataCol" colspan="3" style="width:82%">
                 <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@incident_request.summary, :required=>true ,:id=>"incident_request_summary"%>
                 <%= rich_text_area("incident_request_summary") %>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
-              <td class="data2Col">
-                <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
               </td>
             </tr>
             <tr>
