@@ -37,6 +37,7 @@ class Irm::CommonController < ApplicationController
 
   def create_upload_file
     @file=Irm::Attachment.create()
+    params[:file] ||= params[:filedata]
     version = Irm::AttachmentVersion.new(:data => params[:file],
                                             :attachment_id=>@file.id,
                                             :source_type=> 0,
@@ -49,6 +50,7 @@ class Irm::CommonController < ApplicationController
     @url = version.url
     @render_target = "msgEditor"
     respond_to do |format|
+      format.json { }
       format.js do
         responds_to_parent do
           render :create_upload_file do |page|
