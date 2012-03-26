@@ -7,7 +7,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
 
   validates_presence_of :entry_title, :channel_id
-  validates :entry_title, :uniqueness => true
+  validate  :uniq_entry_title
 
   belongs_to :channel
 
@@ -19,6 +19,19 @@ class Skm::EntryHeader < ActiveRecord::Base
 
 #  acts_as_recently_objects(:title => "entry_title",
 #                           :target_controller => "skm/entry_headers")
+  def uniq_entry_title
+    #puts self.inspect
+    if(self.history_flag.eql?("N"))
+      entry_header=Skm::EntryHeader.where("#{Skm::EntryHeader.table_name}.entry_title=?  and #{Skm::EntryHeader.table_name}.history_flag='N'",self.entry_title).limit(1)
+      if self.id
+        entry_header=entry_header.where(" #{Skm::EntryHeader.table_name}.id<>?",self.id)
+      end
+      #puts entry_header.inspect;
+      if(entry_header.any?)
+        self.errors.add(:entry_title,I18n.t(:error_value_existed))
+      end
+    end
+  end
   # 默认进行频道权限过滤
   scope :within_accessible_columns, lambda{
     within_accessible_columns_c

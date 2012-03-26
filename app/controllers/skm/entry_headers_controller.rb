@@ -404,7 +404,7 @@ class Skm::EntryHeadersController < ApplicationController
         @entry_header.source_type = old_header.source_type
         @entry_header.source_id = old_header.source_id
         respond_to do |format|
-          if @entry_header.save && old_header.save && @entry_header.update_attributes(params[:skm_entry_header])
+          if old_header.save && @entry_header.save &&  @entry_header.update_attributes(params[:skm_entry_header])
             params[:skm_entry_details].each do |k, v|
               old_detail = Skm::EntryDetail.find(k)
               detail = Skm::EntryDetail.new(old_detail.attributes)
@@ -619,7 +619,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   end
   def my_unpublished_data
-    entry_headers_scope = Skm::EntryHeader.list_all.with_entry_status.my_unpublished(params[:person_id])
+    entry_headers_scope = Skm::EntryHeader.list_all.with_entry_status.current_entry.my_unpublished(params[:person_id])
     entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
@@ -631,7 +631,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   end
   def wait_my_approve_data
-    entry_headers_scope = Skm::EntryHeader.list_all.with_author.with_entry_status.wait_my_approve
+    entry_headers_scope = Skm::EntryHeader.list_all.with_author.current_entry.with_entry_status.wait_my_approve
     entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
