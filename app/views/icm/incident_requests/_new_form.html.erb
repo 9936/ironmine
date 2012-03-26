@@ -112,6 +112,12 @@
                 <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_file"} %>
               </td>
             </tr>
+            <tr>
+              <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+              <td class="data2Col">
+                <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
+              </td>
+            </tr>
         </tbody>
       </table>
     </div>
@@ -121,14 +127,6 @@
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-        <tr>
-          <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
-          <td class="dataCol">
-            <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
-          </td>
-          <td class="labelCol empty">&nbsp;</td>
-          <td class="dataCol empty">&nbsp;</td>
-        </tr>
             <tr>
                 <td class="labelCol"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
                 <td class="dataCol">
