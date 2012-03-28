@@ -1,10 +1,19 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+# Pick the frameworks you want:
+require "active_record/railtie"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "active_resource/railtie"
+require "sprockets/railtie"
+require "rails/test_unit/railtie"
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+if defined?(Bundler)
+  # If you precompile assets before deploying to production, use this line
+  Bundler.require(*Rails.groups(:assets => %w(macdev development test)))
+  # If you want your assets lazily compiled in production, use this line
+  # Bundler.require(:default, :assets, Rails.env)
+end
 
 module Ironmine
   class Application < Rails::Application
@@ -27,6 +36,12 @@ module Ironmine
     # config.time_zone = 'Central Time (US & Canada)'
     config.time_zone = 'Beijing'
     config.active_record.default_timezone = 'Beijing'
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
+
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -81,13 +96,20 @@ module Ironmine
         :autosaving => %w(auto-saving)
     }
 
+    config.ironmine.jscss = {
+        :default =>{:css=>[:application],:js=>[:application,:bootstrap]},
+        :default_ie6=>{:css=>[:application_ie6]},
+        :colorbox=>{:css=>["plugins/colorbox"],:js=>["plugins/colorbox"]}
+    }
+
+
     # config modules
     modules = Dir["#{config.root}/modules/*"].sort.collect{|i| File.basename(i).split("_").last if File.directory?(i)}.compact
     origin_values =  paths.dup
     modules.reverse.each do |module_name|
       paths.keys.each do |key|
         next unless paths[key].is_a?(Array)
-        file_path ="modules/#{module_name}/#{origin_values[key][0]}"
+        file_path ="modules/#{module_name}/#{origin_values[key][origin_values[key].length-1]}"
         real_file_path = "#{config.root}/#{file_path}"
         if File.exist?(real_file_path)
           paths[key].insert(0,file_path)
@@ -105,6 +127,14 @@ module Ironmine
       if File.exist?(file_path)
         config.autoload_paths += [file_path]
       end
+    end
+
+    config.assets.precompile += ['application_ie6.css','plugins/colorbox.css.less','plugins/colorbox.js']
+
+    # 自动生成时不生成asset
+    config.generators do |g|
+      g.stylesheets false
+      g.javascripts false
     end
 
   end

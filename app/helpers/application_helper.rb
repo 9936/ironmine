@@ -650,6 +650,7 @@ module ApplicationHelper
     end
   end
 
+
   # 页面添加css文件，防止重复添加
   def require_css(name,param=nil)
     @loaded_css_files ||= {}
@@ -663,8 +664,8 @@ module ApplicationHelper
     end
   end
 
+
   def render_loaded_javascript_css_files
-    env =
     javascript_files = []
     css_files = []
     javascript_prefix = "/javascripts/"
@@ -708,6 +709,57 @@ module ApplicationHelper
     end
 
     raw file_links
+  end
+
+
+  # 页面添加bootstrap javascript css文件，防止重复添加
+  def require_jscss(name)
+    @loaded_jscss_files ||= []
+
+    if name.is_a?(String)||name.is_a?(Symbol)
+      @loaded_jscss_files << name.to_sym
+    elsif name.is_a?(Array)
+      name.each do |file|
+        @loaded_jscss_files << file.to_sym
+      end
+    end
+  end
+
+  def render_required_jscss
+    javascript_files = []
+    css_files = []
+    javascript_prefix = ""
+    css_prefix =""
+    @loaded_jscss_files.uniq!
+    Ironmine::Application.config.ironmine.jscss.each do |name,paths|
+      if @loaded_jscss_files.include?(name)
+
+        paths[:js].each do |path|
+          javascript_files << path
+        end if paths[:js]
+        paths[:css].each do |path|
+          css_files << path
+        end if paths[:css]
+      end
+    end if @loaded_jscss_files
+
+
+    file_links = ""
+    css_files.each do |css_file|
+      file = css_file.to_s.gsub("{locale}",I18n.locale.to_s).to_sym
+      file_links << stylesheet_link_tag(file)
+    end
+    javascript_files.each do |script_file|
+
+      file = script_file.to_s.gsub("{locale}",I18n.locale.to_s).to_sym
+      file_links << javascript_include_tag(file)
+    end
+
+    raw file_links
+  end
+
+  def controller_action_css_class
+    "#{params[:controller]}/#{params[:action]}".gsub("/","-").gsub("_","-")
   end
 
   # 判断浏览器是否为ie6

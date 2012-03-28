@@ -49,6 +49,16 @@ Ironmine::Application.configure do
   config.active_support.deprecation = :notify
   config.active_record.default_timezone = :local
 
+
+  # Compress JavaScripts and CSS
+  config.assets.compress = true
+
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = false
+
+  # Generate digests for assets URLs
+  config.assets.digest = true
+
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp

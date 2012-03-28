@@ -1,4 +1,5 @@
 class Icm::IncidentRequestsController < ApplicationController
+  layout 'bootstrap_application'
   # GET /incident_requests
   # GET /incident_requests.xml
   def index

@@ -82,7 +82,7 @@ module Irm::PageHelper
   end
 
   def get_list_icon
-    raw(content_tag(:img, "", {:src => "/images/s.gif", :class => "mruIcon"}))
+    raw(content_tag(:img, "", {:src => "/images/s.gif", :class => "menu-button-icon"}))
   end
 
   def order_icon(dir = "")

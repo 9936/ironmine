@@ -15,14 +15,14 @@ module Irm::MyInfoHelper
     BEGIN_SCRIPT
     application << application_script
     application << <<-BEGIN_HEML
-      <span id="pageMenu" class="menuParent" style="float:right;">
+      <span id="pageMenu" class="menu-parent" style="float:right;">
         <div class="menuLabel">
           <span tabindex="0" id="pageMenuTop" style="">#{current_application_name}</span>
           <div class="menuLabel-tr"></div>
           <div class="menuLabel-tl"></div>
           <div id="pageMenu-arrow"></div>
         </div>
-         <div class="menuContent" style="padding:10px 15px;padding:0\\9;">
+         <div class="menu-content" style="padding:10px 15px;padding:0\\9;">
          <div class="tsidMenu-tr"></div>
          <div class="tsidMenu-tl"></div>
          <div class="tsidMenu-tc"></div>
