@@ -63,7 +63,7 @@ module Ironmine
         :jpolite => %w(jpolite/jquery-ui-jpolite.min jpolite/jpolite.core jpolite/jpolite.ext),
         :treeview => %w(jquery-treeview),
         :ace => %w(ace/ace ace/mode-html),
-        :xheditor => %w(xheditor/xheditor)
+        :xheditor => %w(xheditor/xheditor-{locale})
     }
     config.ironmine.css.source = {
         :default =>%w(colorbox base button container form header icons layout other public sidebar table jmask),
@@ -79,7 +79,8 @@ module Ironmine
         :video => %w(video-js),
         :jpolite => %w(screen style),
         :treeview => %w(treeview),
-        :autosaving => %w(auto-saving)
+        :autosaving => %w(auto-saving),
+        :xheditor_plugin => %w(xheditor-plugin)
     }
 
     # config modules

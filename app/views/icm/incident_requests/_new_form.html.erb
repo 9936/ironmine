@@ -1,4 +1,4 @@
-<% require_javascript([:xheditor]) %>
+
 <% require_javascript(:datepicker) %>
 <% require_css(:datepicker) %>
 <%= form_for(@incident_request,:url=>{:action=>"create"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
@@ -108,8 +108,8 @@
             <tr>
               <td class="labelCol"><label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%></label></td>
               <td class="data2Col" colspan="3">
-                <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@incident_request.summary, :required=>true ,:id=>"incident_request_summary"%>
-                <!-- <%= rich_text_area("incident_request_summary") %>  -->
+                <%=f.text_area :summary,:rows=>10,:cols=>100,:value=>@incident_request.summary, :required=>true ,:id=>"incident_request_summary"%>
+                <%= xheditor("incident_request_summary") %>
               </td>
 
             </tr>
@@ -218,34 +218,7 @@
   </div>
 </div>
 <% end %>
-<style type="text/css">
-<!--
-.testClassName {
-    background:transparent url(img/plugin.gif) no-repeat 16px 16px;
-    background-position:2px 2px;
- }
--->
-</style>
 <script type="text/javascript">
-    $(document).ready(function(){
-        var show_domal = {
-            ironmine:{c:'testClassName',t:'弹出窗口',s:'ctrl+7',e:function(){
-                var _this=this;
-                _this.saveBookmark();
-                _this.showIframeModal('弹出窗口','/common/upload_screen_shot',function(v){_this.loadBookmark();_this.pasteText('返回值：\r\n'+v);},420,365);
-            }}
-        };
-        $('#incident_request_summary').xheditor({
-            width:'610px',
-            height: '150px',
-            plugins: show_domal,
-            tools:'Bold,Italic,Underline,Strikethrough,FontColor,BackColor,Fontface,FontSize,|,Align,List,Outdent,Indent,|,SelectAll,Removeformat,Cut,Copy,Paste,|,Link,Unlink,Anchor,Img,Hr,Table,Source,ironmine',
-            upBtnText:'上传',
-            html5Upload:false,
-            upImgUrl:'/common/create_upload_file.json',
-            upImgExt:'jpg,jpeg,gif,png'
-        });
-    })
   $(function(){
      var requester = $("#incident_request_requested_by");
      if(requester){

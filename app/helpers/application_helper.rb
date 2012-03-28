@@ -735,6 +735,15 @@ module ApplicationHelper
     render :partial=>"helper/rich_text",:locals=>{:textarea_id=>textarea_id,:force_fit_width=>force_fit_width}
   end
 
+  #xheditor编辑器
+  def xheditor(textarea_id)
+    unless limit_device?
+      require_javascript(:xheditor)
+      require_css(:xheditor_plugin)
+      render :partial=>"helper/xheditor",:locals=>{:textarea_id=>textarea_id }
+    end
+  end
+
   def options_for(klass,value_field="id",label_field="name")
     data_scope = []
     if klass.respond_to?(:multilingual)

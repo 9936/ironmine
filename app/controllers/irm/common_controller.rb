@@ -1,3 +1,5 @@
+require "base64"
+
 class Irm::CommonController < ApplicationController
   layout "common", :except => [:upload_file, :create_upload_file]
   #skip_before_filter :prepare_application
@@ -38,23 +40,35 @@ class Irm::CommonController < ApplicationController
   def create_upload_file
     @file=Irm::Attachment.create()
     params[:file] ||= params[:filedata]
-    version = Irm::AttachmentVersion.new(:data => params[:file],
-                                            :attachment_id=>@file.id,
-                                            :source_type=> 0,
-                                            :source_id => 0,
-                                            :category_id => 0,
-                                            :description => "")
+    version = Irm::AttachmentVersion.new( :data => params[:file],
+                                          :attachment_id=>@file.id,
+                                          :source_type=> 0,
+                                          :source_id => 0,
+                                          :category_id => 0,
+                                          :description => "")
+    if params[:urls] and params[:urls].present? and params[:file].nil? and params[:urls].slice(0, 10).eql?('data:image')
+      file_str = params[:urls]
+      # 通过正则获取图片的后缀名
+      ext = file_str.match(/^data:image\/jpg|jpeg|gif|png/i)
+      # 截取掉不是文件的字符串
+      file_str = file_str.slice(file_str.index('base64,') + 7, file_str.length)
+      StringIO.open(Base64.decode64(file_str)) do |data|
+        data.original_filename = "#{Time.now.to_i}.#{ext}"
+        data.content_type = "image/#{ext}"
+        version.data = data
+      end
+    end
     flag, now = version.over_limit?(Irm::SystemParametersManager.upload_file_limit)
     version.save if flag
     Irm::AttachmentVersion.update_attachment_by_version(@file,version)
     @url = version.url
     @render_target = "msgEditor"
     respond_to do |format|
+      format.html {render :layout => false}
       format.json { }
       format.js do
         responds_to_parent do
           render :create_upload_file do |page|
-
           end
         end
       end
