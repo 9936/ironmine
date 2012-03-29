@@ -1182,7 +1182,8 @@ jQuery.fn.menubutton = function(){
         columns :[],
         defaultOptions:{},
         filterOptions:{},
-        searchOptions:{}
+        searchOptions:{},
+        orderOptions:{}
     };
 
     // 插件实例计数器
@@ -1281,6 +1282,53 @@ jQuery.fn.menubutton = function(){
         me.buildUI();
         me.load();
     };
+    //初始化排序列
+    Internal.prototype.buildOrderColumn = function(){
+        var me = this,has_order_flag = false;
+        if(me.data.options.columns.length>0) {
+            $.each(me.data.options.columns,function(index,column){
+                if(column.orderable){
+                    me.$element.find("table:first").find("thead").find("th").each(function(){
+                       var current_th = $(this);
+                       if(typeof current_th.attr("key") != "undefined" && current_th.attr("key") != null && column.dataIndex == current_th.attr("key")) {
+                           //将当前的光标变为手形，并提交提示信息
+                           current_th.css("cursor", "pointer").attr("title",$.i18n("sort_this_column"));
+                           current_th.find("div").append("<a class='sortDesc' href='javascript:void(0);'>sort</a>")
+                           var column_name = current_th.attr("key");
+                           //如果当前没有传递指定排序，默认显示第一列
+                           if (typeof me.data.options.orderOptions["order_name"] == "undefined" || me.data.options.orderOptions["order_name"] == null|| typeof me.data.options.orderOptions["order_value"] == "undefined" || me.data.options.orderOptions["order_value"] == null) {
+                               if(!has_order_flag) {
+                                   current_th.find("a").css("display", "inline-block");
+                                   has_order_flag = true;
+                               }
+                           } else if(me.data.options.orderOptions["order_name"] == column_name){
+                               var class_name = me.data.options.orderOptions["order_value"] == "DESC"? "sortDesc" : "sortAsc";
+                               current_th.find("a").removeClass().addClass(class_name).css("display", "inline-block")
+                           }
+                           current_th.bind("click", function(){
+                               //将其他所有的排序标志不可见
+                               var order_value = '';
+                               current_th.parent().find('a').each(function(){
+                                   $(this).hide();
+                               });
+                               if (current_th.find("a").hasClass("sortDesc")) {
+                                   order_value = "ASC";
+                                   current_th.find("a").removeClass().addClass("sortAsc");
+                               }else{
+                                   order_value = "DESC";
+                                   current_th.find("a").removeClass().addClass("sortDesc")
+                               }
+                               current_th.find("a").css("display", "inline-block");
+                               me.data.options.orderOptions["order_name"] = column_name;
+                               me.data.options.orderOptions["order_value"] = order_value;
+                               me.load();
+                           });
+                       }
+                   });
+                }
+            })
+        }
+    }
 
     Internal.prototype.buildUI = function(){
         var me = this;
@@ -1295,7 +1343,12 @@ jQuery.fn.menubutton = function(){
                     '<div class="irm-toolbar-separator irm-box-item irm-toolbar-item irm-toolbar-separator-horizontal" style="margin: 0pt; left: 50px; top: 4px;"></div>' +
                     '<div class="irm-table-button next-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
                     '<div class="irm-table-button refresh-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
-                    '<div class="label record-label"></div>' +
+                    '<div class="size-record-label">' +
+                    '<div class="label size-label">' +
+                        '<div class="before-size">'+$.i18n("paginatorBeforeSize")+'</div><select name="page-size"><option value="10">10</option><option value="20">20</option><option value="50">50</option><option value="100">100</option></select><div class="after-size">'+$.i18n("paginatorAfterSize")+'</div>'+
+                    '</div>' +
+                    '<div class="label record-label"></div>'+
+                    '</div>'+
                     '</div>' +
                     '</div>');
             paginatorBox.append(me.paginator);
@@ -1306,6 +1359,12 @@ jQuery.fn.menubutton = function(){
             paginatorBox.find(".next-button:first").click(function(event){
                 if(!$(this).hasClass("disabled"))
                     me.nextPage();
+            });
+            paginatorBox.find("select[name='page-size']:first").change(function(){
+                if (me.data.options.pageSize != $(this).val()) {
+                    me.data.options.pageSize = $(this).val();
+                    me.load();
+                }
             });
             paginatorBox.find(".refresh-button:first").click(function(event){
                 if(!$(this).hasClass("disabled"))
@@ -1483,7 +1542,7 @@ jQuery.fn.menubutton = function(){
         var me = this;
         var options = me.data.options;
         var request_url = options.baseUrl;
-        var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.defaultOptions,options.filterOptions,options.searchOptions);
+        var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.defaultOptions,options.filterOptions,options.searchOptions,options.orderOptions);
         if(!options.paginatorBox)
             params = $.extend({},params,{limit:""})
         var paramsStr = $.param(params);
@@ -1500,6 +1559,8 @@ jQuery.fn.menubutton = function(){
         if(count&&count!="")
             me.data.options.totalCount = parseInt(count);
         me.syncPaginatorUI();
+        //必须等待当前页面的数据加载完成后才能够对表头数据进行处理
+        me.buildOrderColumn();
     };
 
 

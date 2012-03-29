@@ -340,7 +340,7 @@ module ApplicationHelper
 
     column_models = ""
     columns.each do |c|
-      next if c[:hidden]||!c[:searchable].present?
+      next if c[:hidden]||(!c[:searchable].present? && !c[:orderable].present?)
       column = "{"
       c.each do |key,value|
         case key
@@ -350,6 +350,8 @@ module ApplicationHelper
             column << %Q(text:"#{value}",)
           when :searchable
             column << %Q(searchable:#{value},)
+          when :orderable
+            column << %Q(orderable:#{value},)
         end
       end
       column_models <<  column.chop

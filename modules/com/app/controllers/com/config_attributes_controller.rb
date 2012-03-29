@@ -115,6 +115,9 @@ class Com::ConfigAttributesController < ApplicationController
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.code",params[:code])
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttribute.table_name}.input_type",params[:input_type])
     config_attributes_scope = config_attributes_scope.match_value("#{Com::ConfigAttributesTl.table_name}.name",params[:name])
+    if params[:order_name] and params[:order_value]
+      config_attributes_scope = config_attributes_scope.order("#{params[:order_name]} #{params[:order_value]}")
+    end
     config_attributes,count = paginate(config_attributes_scope)
     #检查当前的属性是否来自其父类
     config_attributes = attribute_where_from(params[:class_id],config_attributes) if params[:class_id].present? and config_attributes.any?
