@@ -147,6 +147,7 @@ en:
   error_file_upload_limit: File beyond the limit(Limit %{m} Kb, Now %{n} Kb)
   error_file_upload_limit_shot: File beyond the limit(Limit %{m} Kb, Now _ Kb)
   error_file_upload_repeat: Some files upload repeated.
+  error_file_upload_empty: Not Choose File,Please Choose Again!
   file_upload_limit_alert: File limit %{m} KB
   by_name: By name
   by_date: By date

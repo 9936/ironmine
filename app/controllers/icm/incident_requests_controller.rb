@@ -505,7 +505,12 @@ class Icm::IncidentRequestsController < ApplicationController
     flash[:notice] = nil
     now = 0
     flag = true
-    flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files]) if params[:files]
+    params[:files].delete_if {|key, value| value[:file].nil? or value[:file].original_filename.blank? }
+    if params[:files] and params[:files].size > 0
+      flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files])
+    else
+      now = I18n.t(:error_file_upload_empty)
+    end
     return false, now unless flag
     params[:files].each do |key,value|
       next unless value[:file] && value[:file].original_filename.present?
@@ -517,5 +522,3 @@ class Icm::IncidentRequestsController < ApplicationController
     return false, now
   end
 end
-
-
