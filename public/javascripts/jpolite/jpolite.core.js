@@ -248,7 +248,6 @@ $.jpolite = {
 					forced = url;
 					url = x.url;
 				} else url = url || x.url;
-
 				if (!url || (x.loaded && !forced)) return;
 				$(".moduleContent", this).load(url, function(){
 					$.widgetize.apply(this);

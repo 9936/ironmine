@@ -21,7 +21,7 @@ module Irm::HomeHelper
     # 取出所有的portlet,并转化为json
     json_hash = {}
     portlets.each do |p|
-      json_hash.merge!({"m#{p.id}"=>{"t"=>p[:name],"url"=>url_for(p.url_options.merge({:wmode=>"portlet"}))}})
+      json_hash.merge!({"m#{p.id}"=>{"t"=>p[:name],"url"=>url_for(p.url_options.merge({:_dom_id=>"m#{p.id}",:wmode=>"portlet"}))}})
     end
     portlet_str = json_hash.to_json.html_safe
 

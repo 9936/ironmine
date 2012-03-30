@@ -145,7 +145,9 @@
                 href = $.tmpl(decodeURIComponent(href),url_options).text();
                 //创建代理函数，修改this
                 var processor =  me.processResult.customCreateDelegate({me:me,index:i});
-                $.getJSON(href,{},processor);
+                //获取当前的表单的id
+                var dom_id = $($(me.$element).parents("form")[0]).attr("id");
+                $.getJSON(href,{_dom_id:dom_id},processor);
             }else
             {   target.html("");
                 if(target.attr("blank")!=""){
@@ -1535,6 +1537,7 @@ jQuery.fn.menubutton = function(){
         me.$element.load(me.buildCurrentRequest(),function(responseText, textStatus, XMLHttpRequest){
             me.processLoadResult(responseText, textStatus, XMLHttpRequest);
         });
+
     };
 
 
@@ -1542,7 +1545,7 @@ jQuery.fn.menubutton = function(){
         var me = this;
         var options = me.data.options;
         var request_url = options.baseUrl;
-        var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.defaultOptions,options.filterOptions,options.searchOptions,options.orderOptions);
+        var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.defaultOptions,options.filterOptions,options.searchOptions,options.orderOptions,{_dom_id: me.$element.context.id});
         if(!options.paginatorBox)
             params = $.extend({},params,{limit:""})
         var paramsStr = $.param(params);
