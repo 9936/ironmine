@@ -125,7 +125,7 @@
       </table>
     </div>
     <!-- 加载上传附件模板 -->
-    <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => false, :attachments => get_ir_existed_attachments(@incident_request) } %>
+    <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => false, :exists_attachments => list_ir_existed_attachments(@incident_request) } %>
     <div id="head_3_ep" class="pbSubheader tertiaryPalette">
       <h3><%= t(:label_icm_incident_requset_addition_info) %></h3>
     </div>

@@ -163,10 +163,6 @@ module Icm::IncidentRequestsHelper
     raw(html)
   end
 
-  def get_ir_existed_attachments(incident_request)
-    Irm::AttachmentVersion.where("source_id = ? AND source_type = ?", incident_request.id, Icm::IncidentRequest.name)
-  end
-
   def list_all_icm_incident_relations(incident_request_id)
     relation_list = Icm::IncidentRequestRelation.list_all(incident_request_id)
     ret = ""
