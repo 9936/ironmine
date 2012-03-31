@@ -147,6 +147,7 @@ zh:
   search_options_with_dot: 搜索选项...
   search_options: 搜索选项
   search_all: 搜索全部
+  label_attachment_info: 附件信息
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型

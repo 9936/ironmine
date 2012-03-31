@@ -113,15 +113,19 @@
               </td>
 
             </tr>
+            <!--
             <tr>
               <td class="labelCol"></td>
               <td class="data2Col" colspan="3">
                 <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_file"} %>
               </td>
             </tr>
+            -->
         </tbody>
       </table>
     </div>
+    <!-- 加载上传附件模板 -->
+    <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => false, :attachments => get_ir_existed_attachments(@incident_request) } %>
     <div id="head_3_ep" class="pbSubheader tertiaryPalette">
       <h3><%= t(:label_icm_incident_requset_addition_info) %></h3>
     </div>

@@ -73,11 +73,11 @@ class Skm::EntryHeadersController < ApplicationController
         format.html { redirect_to({:action=>"new_step_3"}) }
       end
     elsif params[:step] == "4"
-      files = params[:file]
+      files = params[:files]
       #调用方法创建附件
       file_flag = true
       now = 0
-      params[:file].each_value do |att|
+      params[:files].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
         file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
@@ -374,7 +374,7 @@ class Skm::EntryHeadersController < ApplicationController
 #    column_ids = params[:skm_entry_header][:column_ids].split(",")
     file_flag = true
     now = 0
-    params[:file].each_value do |att|
+    params[:files].each_value do |att|
       file = att["file"]
       next unless file && file.size > 0
       file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
@@ -382,7 +382,7 @@ class Skm::EntryHeadersController < ApplicationController
         flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         break
       end
-    end if params[:file]
+    end if params[:files]
 
     if file_flag
       if params[:new]
@@ -419,8 +419,8 @@ class Skm::EntryHeadersController < ApplicationController
             fas.each do |fa|
               fa.update_attribute(:entry_header_id, @entry_header.id)
             end
-            if params[:file]
-              files = params[:file]
+            if params[:files]
+              files = params[:files]
               #调用方法创建附件
               begin
                 attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
@@ -462,8 +462,8 @@ class Skm::EntryHeadersController < ApplicationController
 #            column_ids.each do |t|
 #              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
 #            end
-            if params[:file]
-              files = params[:file]
+            if params[:files]
+              files = params[:files]
               #调用方法创建附件
               begin
                 attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
@@ -744,8 +744,8 @@ class Skm::EntryHeadersController < ApplicationController
 #        column_ids.each do |c|
 #          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
 #        end
-        if params[:file]
-          files = params[:file]
+        if params[:files]
+          files = params[:files]
           #调用方法创建附件
           begin
             attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)

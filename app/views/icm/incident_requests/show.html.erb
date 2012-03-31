@@ -99,6 +99,5 @@
 
 <% content_for :sidebar do%>
     <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
-    <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
-               :locals => {:watchable => @incident_request} %>
+    <%= render :partial =>"/irm/watchers/sidebar_watcher_list", :locals => {:watchable => @incident_request} %>
 <% end %>
