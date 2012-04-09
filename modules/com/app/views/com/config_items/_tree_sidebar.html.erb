@@ -35,7 +35,7 @@ Ext.onReady(function() {
                 params["<%= url_param_name%>"] = record.get("<%= url_param_value%>");
                 if(Ext.getCmp("<%= target_table%>Datatable")!==undefined)
                     Ext.getCmp("<%= target_table%>Datatable").store.dtStaticParams(params);
-                else   {
+                else{
 
                     me=$("#config_items").data("datatable").target;
                     me.data.options.searchOptions = params;

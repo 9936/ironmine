@@ -47,37 +47,12 @@
           <table class="split-table">
             <tr>
               <td>
-                  <div id="reportFolderTree">
-                    <input type="hidden" id="folderId"/>
-                    <% available_report_folder_json %>
-                    <% require_javascript(:extjs) %>
-                    <% require_css(:extjs) %>
-                    <script type="text/javascript">
-                        Ext.onReady(function(){
-                            var chooseFolder = function( view, model, htmlItem, index, event, options ){
-//                                $("#folderText").html(model.data.text);
-                                Ext.getCmp("report_listDatatable").store.dtStaticParams({folder_id:model.data.id});
-                                $('#folderId').val(model.data.id);
-                                if(model.data.id&&model.data.id!="")
-                                  $("#folderEditLink").css("display","");
-                                else
-                                  $("#folderEditLink").css("display","none");
-                            };
-                            var store = Ext.create('Ext.data.TreeStore', {root: reportFolderTreeData});
-                            Ext.create('Ext.tree.Panel', {
-                                width: 200,
-                                height: 300,
-                                store: store,
-                                rootVisible: true,
-                                renderTo: "reportFolderTree",
-                                bodyBorder:false,
-                                listeners:{
-                                    itemclick: chooseFolder
-                                }
-                            });
-                        });
-                    </script>
-                  </div>
+                <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "irm/reports", :action=>"get_reports_tree", :format=>:json),
+                                                                             :target_table => "report_list",
+                                                                             :tree_id => "tree-div",
+                                                                             :root_text => t(:label_irm_report_folder_all),
+                                                                             :url_param_value => 'id',
+                                                                             :url_param_name => 'folder_id'} %>
               </td>
               <td>
                   <div id="report_list" class="datatable" style="width:100%;">
@@ -107,7 +82,7 @@
                              {:key=>"editable_flag",:hidden=>true},
                              {:key=>"report_trigger_id",:hidden=>true},
                              {:key=>"description",:label=>t(:label_irm_report_description)}].compact,
-                             {:search_box=>"reportListSearchBox",:paginator_box=>"regionPaginator",:export_data=>"#exportData"})%>
+                             {:search_box=>"reportListSearchBox",:force_html => true,:paginator_box=>"regionPaginator",:export_data=>"#exportData"})%>
                   <div id="regionPaginator"></div>
               </td>
             </tr>

@@ -4,12 +4,13 @@
        <table count="<%=@count%>">
          <thead>
            <tr>
-             <th style="width:180px;">
-               <div><%= t(:label_skm_entry_header_published_date) %></div>
-             </th>
              <th style="width:120px;">
                <div><%= t(:operation) %></div>
              </th>
+             <th style="width:180px;">
+               <div><%= t(:label_skm_entry_header_published_date) %></div>
+             </th>
+
              <th style="width:120px;">
                <div><%= t(:label_skm_entry_header_doc_number) %></div>
              </th>
@@ -23,11 +24,6 @@
          <tr id="<%=data[:id]%>">
            <td>
              <div>
-               <%=data[:published_date_f]%>
-             </div>
-           </td>
-           <td>
-             <div>
                 <%= link_to(t(:edit),{:controller => "skm/entry_headers", :action=>"edit",:id=> data[:id]}) %>&nbsp;
                 <%= link_to(t(:show),{:controller => "skm/entry_headers", :action=>"show",:id=> data[:id]}) %>
                 <% if data[:is_favorite] == "N" %>
@@ -36,13 +32,16 @@
              </div>
            </td>
            <td>
+              <div><%= format_date(data[:published_date])%></div>
+           </td>
+           <td>
              <div>
                <%= link_to(data[:doc_number], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
              </div>
            </td>
            <td>
              <div>
-               <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+               <%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
              </div>
            </td>
 

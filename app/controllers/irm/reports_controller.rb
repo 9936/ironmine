@@ -208,7 +208,7 @@ class Irm::ReportsController < ApplicationController
 
   def get_data
     folder_ids = []
-    if params[:folder_id].present?
+    if params[:folder_id].present? && params[:folder_id] != "root"
       folder_ids = [params[:folder_id]]
     else
       folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
@@ -390,6 +390,16 @@ class Irm::ReportsController < ApplicationController
     end
   end
 
+  #报表文件夹
+  def get_reports_tree
+    folders = Irm::ReportFolder.multilingual.collect{|i| {:id=>i.id ,:type=>"folder",:text=>i[:name],:folder_id=>i.id,:leaf=>true,:iconCls=>"x-tree-icon-parent"}}
+    #root_folder = {:id=>"",:type=>"root",:folder_id=>"",:text=>t(:label_irm_report_folder_all),:draggable=>false,:leaf=>false,:expanded=>true}
+    #root_folder[:children] = folders
+    respond_to do |format|
+      format.json {render :json=>folders.to_json}
+    end
+  end
+
   private
   def export_report_data_to_excel(report)
     if "CUSTOM".eql?(report.program_type)
@@ -473,6 +483,5 @@ class Irm::ReportsController < ApplicationController
     end
     data_to_xls(export_data,columns)
   end
-
 
 end

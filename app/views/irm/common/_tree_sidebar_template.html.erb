@@ -1,0 +1,25 @@
+<% require_javascript([:treeview,:treeview_async]) %>
+<% require_css(:treeview) %>
+<div id="tree-div" href="<%= tree_url %>">
+  <script type="text/javascript">
+    $(document).ready(function(){
+        //初始化树
+        var div = $("#tree-div"),
+        root = $('<ul/>').attr("class", "filetree").appendTo(div);
+        var url = div.attr("href");
+        //url 中附带上_dom_id参数
+        if (url.indexOf('?') > 0) {
+            url +='&_dom_id=tree-div';
+        }else{
+            url += '?_dom_id=tree-div';
+        }
+        root.treeview({
+            url: url,
+            root_text: '<%= root_text %>',
+            target_table: '<%= target_table %>',
+            param_name: '<%= url_param_name %>',
+            param_value: '<%= url_param_value %>'
+        });
+    });
+  </script>
+</div>

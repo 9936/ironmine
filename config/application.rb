@@ -62,6 +62,7 @@ module Ironmine
         :video => %w(video),
         :jpolite => %w(jpolite/jquery-ui-jpolite.min jpolite/jpolite.core jpolite/jpolite.ext),
         :treeview => %w(jquery-treeview),
+        :treeview_async => %w(jquery-treeview-async),
         :ace => %w(ace/ace ace/mode-html),
         :xheditor => %w(xheditor/xheditor-{locale})
     }
