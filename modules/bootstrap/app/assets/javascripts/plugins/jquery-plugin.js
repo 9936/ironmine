@@ -1287,31 +1287,53 @@ jQuery.fn.menubutton = function(){
         //build paginator
         if(me.data.options.paginatorBox)
         {   var paginatorBox = $("#"+me.data.options.paginatorBox);
-            me.paginator = $('<div class="irm-paginator-box">' +
-                    '<div class="irm-box-inner">' +
-                    '<div class="irm-table-button pre-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
-                    '<div class="irm-toolbar-separator irm-box-item irm-toolbar-item irm-toolbar-separator-horizontal" style="margin: 0pt; left: 50px; top: 4px;"></div>' +
-                    '<div class="page"><div class="before-page"></div><input class="current-page" size="2"/><div class="after-page"></div></div>' +
-                    '<div class="irm-toolbar-separator irm-box-item irm-toolbar-item irm-toolbar-separator-horizontal" style="margin: 0pt; left: 50px; top: 4px;"></div>' +
-                    '<div class="irm-table-button next-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
-                    '<div class="irm-table-button refresh-button irm-table-tbar-small-icon-btn irm-btn-icon"></div>' +
-                    '<div class="label record-label"></div>' +
-                    '</div>' +
-                    '</div>');
+            me.paginator = $('<div class="paginator form-inline">' +
+                               '<span class="paginator-left">' +
+                                 '<a class="paginator-button paginator-first-page"><i></i></a>' +
+                                 '<a class="paginator-button paginator-pre-page"><i></i></a>' +
+                                 '<span class="paginator-button paginator-split"><i></i></span>' +
+                                 '<span class="paginator-button">' +
+                                   '<span class="paginator-before-page"></span>' +
+                                   '<input class="paginator-current-page"/>' +
+                                   '<span class="paginator-after-page"></span>' +
+                                 '</span>'+
+                                 '<span class="paginator-button paginator-split"><i></i></span>' +
+                                 '<a class="paginator-button paginator-next-page"><i></i></a>' +
+                                 '<a class="paginator-button paginator-last-page"><i></i></a>' +
+                                 '<span class="paginator-button paginator-split"><i></i></span>' +
+                                 '<a class="paginator-button paginator-refresh"><i></i></a>' +
+                               '</span>'+
+                               '<span class="paginator-center">' +
+
+                               '</span>'+
+                               '<span class="paginator-right">' +
+                                 '<span class="paginator-record-label"></span>' +
+                               '</span>'+
+                             '</div>');
             paginatorBox.append(me.paginator);
-            paginatorBox.find(".pre-button:first").click(function(event){
-                if(!$(this).hasClass("disabled"))
+            paginatorBox.find(".paginator-first-page:first").click(function(event){
+                if(!$(this).find("i:first").hasClass("disabled"))
+                    me.loadPage(1);
+            });
+            paginatorBox.find(".paginator-pre-page:first").click(function(event){
+                if(!$(this).find("i:first").hasClass("disabled"))
                     me.prePage();
             });
-            paginatorBox.find(".next-button:first").click(function(event){
-                if(!$(this).hasClass("disabled"))
+            paginatorBox.find(".paginator-next-page:first").click(function(event){
+                if(!$(this).find("i:first").hasClass("disabled"))
                     me.nextPage();
             });
-            paginatorBox.find(".refresh-button:first").click(function(event){
-                if(!$(this).hasClass("disabled"))
+            paginatorBox.find(".paginator-last-page:first").click(function(event){
+                if(!$(this).find("i:first").hasClass("disabled")) {
+                    var options = me.data.options;
+                    me.loadPage(Math.ceil(options.totalCount/options.pageSize));
+                }
+            });
+            paginatorBox.find(".paginator-refresh:first").click(function(event){
+                if(!$(this).find("i:first").hasClass("disabled"))
                     me.load();
             });
-            paginatorBox.find(".current-page:first").keyup(function(event){
+            paginatorBox.find(".paginator-current-page:first").keyup(function(event){
                 var value = $(this).val();
                 var keyCode =  parseInt(event.keyCode);
                 if(keyCode<48&&keyCode>57){
@@ -1335,29 +1357,38 @@ jQuery.fn.menubutton = function(){
             var searchBox = $("#"+me.data.options.searchBox);
             searchBox.css("display","none");
             if(searchBox){
-                var search_template = ['<div class="search-box">','<select class="searchSelect"></select>',
-                    '<input class="searchBoxInput" type="text" size="20">','</div>'].join("");
-                searchBox.append($(search_template));
-                $.each(me.data.options.columns,function(index,column){
 
+                var search_template = '<div class="datable-search-box form-inline">'+
+                                        '<select class="search-select"></select>'+
+                                        '<div class="input-append">'+
+                                          '<input class="search-box-input" type="text" />'+
+                                          '<a class="add-on btn search-box-button" href="javascript:void(0)"></a>'+
+                                        '</div>'+
+                                      '</div>'
+                searchBox.append($(search_template));
+                searchBox.find("a.search-box-button:first").html($.i18n("search"));
+                $.each(me.data.options.columns,function(index,column){
                     if(column.searchable){
                         show_able = true;
                         var option = $("<option></option>")
                         option.html(column.text);
                         option.attr("value",column.dataIndex);
-                        searchBox.find("select.searchSelect:first").append(option);
+                        searchBox.find("select.search-select:first").append(option);
                     }
                 });
 
                 if(show_able)
                     searchBox.css("display","");
-
-                searchBox.find("input.searchBoxInput:first").keydown(function(event){
-                    if(event.keyCode==13){
+                searchBox.find("a.search-box-button:first").click(function(event){
                         var params = {};
-                        params[searchBox.find("select.searchSelect:first").val()] = searchBox.find("input.searchBoxInput:first").val();
+                        params[searchBox.find("select.search-select:first").val()] = searchBox.find("input.search-box-input:first").val();
                         me.data.options.searchOptions = params;
                         me.loadPage(1);
+                });
+
+                searchBox.find("input.search-box-input:first").keydown(function(event){
+                    if(event.keyCode==13){
+                        searchBox.find("a.search-box-button:first").trigger("click")
                     }
                 });
             }
@@ -1425,18 +1456,26 @@ jQuery.fn.menubutton = function(){
 //            paginatorBox.find(".pre-button:first").html(preText);
 //            paginatorBox.find(".next-button:first").html(nextText);
 //            paginatorBox.find(".refresh-button:first").html(refreshText);
-            paginatorBox.find(".before-page:first").html(pageBeforeText);
-            paginatorBox.find(".after-page:first").html(pageAfterText);
-            paginatorBox.find(".record-label:first").html(recordText);
-            paginatorBox.find(".current-page:first").val(options.currentPage);
-            if(options.currentPage<2)
-               paginatorBox.find(".pre-button:first").addClass("disabled");
-            else
-               paginatorBox.find(".pre-button:first").removeClass("disabled");
-            if(options.currentPage>=Math.ceil(options.totalCount/options.pageSize))
-                paginatorBox.find(".next-button:first").addClass("disabled");
-            else
-               paginatorBox.find(".next-button:first").removeClass("disabled");
+            paginatorBox.find(".paginator-before-page:first").html(pageBeforeText);
+            paginatorBox.find(".paginator-after-page:first").html(pageAfterText);
+            paginatorBox.find(".paginator-record-label:first").html(recordText);
+            paginatorBox.find(".paginator-current-page:first").val(options.currentPage);
+            if(options.currentPage<2){
+               paginatorBox.find(".paginator-pre-page i:first").addClass("disabled");
+               paginatorBox.find(".paginator-first-page i:first").addClass("disabled");
+            }
+            else{
+              paginatorBox.find(".paginator-pre-page i:first").removeClass("disabled");
+              paginatorBox.find(".paginator-first-page i:first").removeClass("disabled");
+            }
+            if(options.currentPage>=Math.ceil(options.totalCount/options.pageSize)){
+               paginatorBox.find(".paginator-next-page i:first").addClass("disabled");
+               paginatorBox.find(".paginator-last-page i:first").addClass("disabled");
+            }
+            else{
+              paginatorBox.find(".paginator-next-page i:first").removeClass("disabled");
+              paginatorBox.find(".paginator-last-page i:first").removeClass("disabled");
+            }
         }
     };
 

@@ -30,6 +30,6 @@
                                { :key => "requested_by_label", :label => t(:label_icm_incident_request_requested_by),:width=>"100px" },
                                { :key => "last_request_date", :label => t(:label_icm_incident_request_last_date),:width=>"140px" },
                                { :key => "external_system_id_label", :label => t(:label_irm_external_system),:width=>"140px" }
-                               ],{:export_data=>"#incidentRequestExport",:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox',:view_filter=>true,:html=>true})%>
-        <div id="incidentRequestsPaginatorBox" class="irm-paginator-box"></div>
+                               ],{:export_data=>"#incidentRequestExport",:row_perpage=>10,:search_box=>"incident_requestsSearchBox",:paginator_box=>'incidentRequestsPaginatorBox',:view_filter=>true,:force_html=>true})%>
+        <div id="incidentRequestsPaginatorBox" class="paginator-box"></div>
 </div>

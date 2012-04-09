@@ -1,5 +1,5 @@
-<% require_javascript(:waypoints) %>
-<% require_javascript(:extjs) %>
+<% require_jscss(:waypoints) %>
+
 
 <style type="text/css">
     ul {
@@ -103,6 +103,80 @@
     }
 
 </style>
+
+<!--页面头部按钮-->
+<% content_for :block_header_buttons do %>
+  <div class="btn-toolbar">
+    <div class="btn-group">
+      <%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests", :action => "index"} ,{:class=>"btn"}%>
+    </div>
+    <% if !@incident_request.close? %>
+        <div class="btn-group">
+          <% if current_person?(@incident_request.support_person_id) %>
+              <%= link_to t(:pass), {:action => "edit_pass"},{:class=>"btn"} %>
+              <%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"},{:class=>"btn"}  %>
+          <% end %>
+          <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
+              <%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"} ,{:class=>"btn"}%>
+          <% end %>
+        </div>
+        <div class="btn-group">
+          <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
+              <%= link_to t(:close), {:action => "edit_close"},{:class=>"btn"} %>
+          <% end %>
+          <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn"} %>
+        </div>
+    <% else %>
+
+         <div class="btn-group">
+           <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
+               <%= link_to t(:permanent_close), {:action => "edit_permanent_close"},{:class=>"btn"}%>
+               <%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id},{:class=>"btn"}%>
+           <% end %>
+         </div>
+    <% end %>
+
+    <div class="btn-group">
+      <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>
+          <%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers", :action => "new_from_icm_request", :request_id => @incident_request.id},{:class=>"btn"} %>
+      <% end %>
+      <% unless @incident_request.change_request_id.present? %>
+          <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=t(:label_incident_request)%></h2>
+    </td>
+    <td class="page-block-button">
+      <% if !@incident_request.close? &&!@incident_request.permanent_close?&& allow_to_function?(:reply_incident_request)&&@incident_request.watcher?(Irm::Person.current.id) %>
+          <a href="#reply" class="btn"><%= t(:label_icm_incident_journal_new) %></a>
+      <% end %>
+    </td>
+    <td class="page-block-help" style="width: auto;">
+      <%= content_for :block_header_buttons  %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title">(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
+        <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" ExpandedText="<%= t(:label_icm_incident_more_info) %>"><%= t(:label_icm_incident_more_info) %></a>)</div>
+      </div>
+      <div class="sub-page-block-body">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 <div id="ep" class="edit-block page-block">
 <div class="pbHeader" id="icm_new_journal_top_menu">
   <table cellpadding="0" cellspacing="0" border="0">
@@ -164,8 +238,7 @@
   <%= flash_notice %>
 </div>
 <div class="pbSubheader tertiaryPalette first" style="background-color:#aeaeae;padding-left:15px;">
-  <h3>(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>
-    ]<%= @incident_request[:title] %></h3>
+  <h3>(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
 
   <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" ExpandedText="<%= t(:label_icm_incident_more_info) %>"><%= t(:label_icm_incident_more_info) %></a>)
   </div>

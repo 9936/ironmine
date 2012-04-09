@@ -97,7 +97,7 @@ module Ironmine
     }
 
     config.ironmine.jscss = {
-        :default =>{:css=>[:application],:js=>[:application,:bootstrap]},
+        :default =>{:css=>[:application],:js=>[:application,:bootstrap,"locales/jquery-{locale}"]},
         :default_ie6=>{:css=>[:application_ie6]},
         :colorbox=>{:css=>["plugins/colorbox"],:js=>["plugins/colorbox"]}
     }

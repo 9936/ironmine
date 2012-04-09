@@ -1,4 +1,4 @@
-@import "icons.css";
+@import "framework/icons";
 
 // common=========
 
@@ -10,12 +10,41 @@
     float: right;
 }
 
+.hidden {
+    display:  none;
+}
+
+select {
+    width: auto;
+    min-width: 44px;
+}
+
+div.clear{
+  clear:both;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    display: inline;
+    margin: 0;
+    font-size: 100%;
+}
+
+
+input, textarea, select, .uneditable-input{
+    margin-bottom: 4px;
+}
+
+.input-append .input-medium{
+    width: 120px;
+}
+
 
 // layout=========
 @bodyBackgroundPath: asset-path('framework/gradient_body.png');
 
 body#body {
     background: url(@bodyBackgroundPath) repeat-x scroll 0 0 #1797C0;
+    line-height: 14px;
 }
 
 // page header=========
@@ -235,8 +264,6 @@ body#body {
  }
 
  //  header navigation tab==
- /*******************************************************************/
- /* tabs */
 @tabbarSpritePath: asset-path('framework/tabbar_sprite.png');
 @tabsSpritePath: asset-path('framework/tabs_sprite.png');
 @motifCurvePath: asset-path('framework/motiftab3.gif');
@@ -349,11 +376,38 @@ body .nav-tab-bar .nav-tab {
  }
 
  // page body structure=============
+
 @pageBodyContentFooterPath: asset-path('framework/bd_b.png');
 @pageBodyContentFooterSpritPath: asset-path('framework/bd_sprite.png');
 .page-body-content{
     background-color: #FFFFFF;
 }
+
+.page-body-content table.body-table{
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+}
+.page-body-content table.body-table td.body-cell{
+    vertical-align: top;
+
+    .body-cell-div{
+        padding: 4px 10px 10px 10px;
+    }
+}
+
+.page-body-content table.body-table td.sidebar-cell{
+    width: 200px;
+    vertical-align: top;
+    .sidebar-cell-div{
+      padding: 4px 10px 10px 10px;
+      width: 200px;
+      background-color: #FFFFFF;
+    }
+
+}
+
+
 .page-body-content-header{
         background-image:url(@motifCurveSpritePath);
         background-repeat:repeat-x;
@@ -417,10 +471,63 @@ body .nav-tab-bar .nav-tab {
     margin-top: -10px;
 }
 
-.page-body-content .sidebar-cell{
-    width: 200px;
-    padding: 10px;
+// ==page title==========
+.page-title {
+    padding: 10px 0 0 0;
+    margin:0 0 15px 0;
 }
+.page-title .page-title-body {
+    background-color: transparent;
+    color: #000000;
+    padding:0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    /*width: 100%;*/
+}
+
+.page-title h1 {
+    display: block;
+    line-height: 14px;
+}
+
+.page-title h2 {
+    display: block;
+}
+
+
+.page-title .page-title-body .page-title-content {
+    padding-left: 0;
+    float: left;
+    vertical-align: middle;
+    width: 70%;
+}
+
+.page-title .page-title-body .page-description {
+    font-size: 25px;
+    font-weight: normal;
+    line-height: 1.1em;
+    margin-left: 37px;
+}
+
+.page-title-icon {
+    display:inline;
+    float:left;
+    margin-right:5px;
+    width:32px;
+    border: none !important;
+}
+
+.page-title .page-title-body .page-type {
+    color: #4A4A56;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding-left: 1px;
+    margin-bottom: 4px;
+    margin-left: 37px;
+}
+
+
+
 
 //**********************component**********************
 
@@ -523,7 +630,7 @@ body .nav-tab-bar .nav-tab {
 .quick-create .menu-button {
     background: url(@sidebarSpritePath) no-repeat scroll -409px top transparent;
     height: 33px !important;
-    left: -8px;
+    left: -3px;
     position: relative !important;
     width: 206px;
     z-index: 70;
@@ -532,6 +639,7 @@ body .nav-tab-bar .nav-tab {
     display: block;
     height: 20px;
     position: static;
+    margin: 0 0 20px;
 }
 
 .quick-create .menu-button  .menu-button-label {
@@ -592,10 +700,553 @@ body .nav-tab-bar .nav-tab {
     margin-right: 5px;
     vertical-align: -3px;
 }
-#sidebarDiv .sidebarModuleHeader {
-    background: url("../images/sidebar_sprite.png") no-repeat scroll -209px -2px #1797C0;
+
+// sidebar block
+.sidebar-block{
+    background: url(@sidebarSpritePath) no-repeat scroll -9px bottom #CFEEF8;
+    left: -8px;
+}
+
+.sidebar-block .sidebar-block-header{
+    background: url(@sidebarSpritePath) no-repeat scroll -209px -2px #1797C0;
     color: #FFFFFF;
     padding: 0;
+    h2 {
+        background: url(@sidebarSpritePath) no-repeat scroll -9px bottom transparent;
+        display: block;
+        padding: 5px 9px;
+        line-height: 14px;
+    }
+}
+
+.sidebar-block .sidebar-block-body{
+    background: url(@sidebarSpritePath) no-repeat scroll -209px top transparent;
+    padding: 12px 9px 10px;
+    .quick-create-field{
+      margin-bottom: 5px;
+    }
+    label{
+        margin: 0;
+    }
+    .more-info-link{
+        float: right;
+    }
+}
+
+//==========page block
+.page-block{
+    border-top: 3px solid #1797C0;
+    background-color: #F8F8F8;
+    border-bottom: 1px solid #EAEAEA;
+    border-left: 1px solid #EAEAEA;
+    border-radius: 4px 4px 4px 4px;
+    border-right: 1px solid #EAEAEA;
+}
+.page-block .page-block-header{
+    width:100%;
+    vertical-align: middle;
+    border-bottom: 1px solid #FFFFFF;
+}
+
+.page-block .page-block-header .page-block-title{
+    padding: 5px 12px 5px 12px;
+    width: 30%;
+}
+
+.page-block .page-block-header .page-block-title .block-title{
+    color: #000000;
+    line-height: 20px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.page-block .page-block-header .page-block-button{
+    width: auto;
+    padding: 5px 12px 5px 12px;
+}
+
+.page-block .page-block-header .page-block-help{
+    width: 30%;
+    padding: 5px 12px 5px 12px;
+    text-align: right;
+}
+.page-block .page-block-body{
+}
+.page-block .page-block-footer{
+    width:100%;
+    vertical-align: middle;
+    border-top: 1px solid #DBDBDB;
+}
+
+.page-block .page-block-footer .page-block-title{
+    padding: 5px 12px 5px 12px;
+    width: 30%;
+}
+
+.page-block .page-block-footer .page-block-title .block-title{
+    color: #000000;
+    line-height: 20px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.page-block .page-block-footer .page-block-button{
+    width: auto;
+    padding: 5px 12px 5px 12px;
+}
+
+.page-block .page-block-footer .page-block-help{
+    width: 30%;
+    padding: 5px 12px 5px 12px;
+    text-align: right;
+}
+//==========sub page block
+.sub-page-block{
+    padding-bottom: 10px;
+}
+
+.sub-page-block .sub-page-block-header{
+    color: #000000;
+    background-color: #8E9DBE;
+    padding: 4px 16px;
+    overflow: auto;
 }
 
 
+.sub-page-block .sub-page-block-header h3{
+    font-size: 1.2em;
+    line-height: 14px;
+}
+.sub-page-block .sub-page-block-header .required-help-info{
+    border-style: solid;
+    border-width: 0px 0px 0px 3px;
+    border-color: #CC0000;
+    padding: 0 2px 0 2px;
+    float: right;
+}
+
+.sub-page-block .sub-page-block-body{
+    text-align: center;
+    padding: 5px;
+}
+
+//==========datatable
+@gridHeaderBgPath: asset-path('framework/grid_headerbg.gif');
+
+.datatable table {
+    margin:0;
+    padding:0;
+    font-family:arial;
+    font-size:inherit;
+    border-collapse:separate;
+    *border-collapse:collapse;
+    border-spacing:0; /* since ie6 and ie7 behave differently */
+    width: 100%;
+    /*border:1px solid #7F7F7F;*/
+}
+.datatable table thead {
+    border-spacing:0;
+} /* for safari bug */
+
+.datatable table caption {
+    color:#000000;
+    font-size:85%;
+    font-weight:normal;
+    font-style:italic;
+    line-height:1;
+    padding:1em 0pt;
+    text-align:center;
+}
+
+.datatable table th {
+    background:url(@gridHeaderBgPath) repeat-x scroll 0 bottom #FFFFFF; /* header gradient */
+}
+.datatable table th,
+.datatable table th a {
+    text-decoration:none;
+    color:#000; /* header text */
+    vertical-align:bottom;
+    font-weight: bold;
+    font-size:12px;
+    text-align: left;
+}
+.datatable table th {
+    margin:0;
+    padding:0;
+    border:none;
+    border-top:1px solid #CBCBCB;
+    border-bottom:1px solid #CBCBCB;
+    border-right:1px solid #CBCBCB;
+}
+.datatable table thead > tr{
+    border-left:1px solid #CBCBCB;
+}
+.datatable table tbody tr {
+    border-bottom:1px solid #CBCBCB;
+    background-color:#fff;
+}
+.datatable table tbody > tr td {
+    /*border-top:1px solid #7F7F7F;  *//* tbody top border  */
+}
+
+.datatable table tbody tr:nth-child(2n+1){
+    background-color: #F9F9F9;
+}
+
+.datatable table tbody td {
+    background-color:transparent;
+} /* none */
+.datatable table tbody tr:hover {
+    background-color:#EDF5FF;
+}
+
+.datatable table th > div {
+    white-space:nowrap;
+}
+
+.datatable table th > div,
+.datatable table td > div{
+    margin:0;
+    padding:4px 10px 4px 5px; /* cell padding */
+	overflow:visible; /*to make ths where the title is really long work*/
+	border:0px solid black;
+    line-height: auto;
+}
+
+.datatable table td {
+    margin:0;padding:0;
+    border:none;
+    border-bottom:1px solid #CBCBCB;
+    text-align: left;
+    background-color: #fff;
+}
+
+//================datatable paginator
+@pagiantorFirstPagePath: asset-path('framework/page-first.gif');
+@pagiantorFirstPageDisabledPath: asset-path('framework/page-first-disabled.gif');
+@pagiantorPrePagePath: asset-path('framework/page-prev.gif');
+@pagiantorPrePageDisabledPath: asset-path('framework/page-prev-disabled.gif');
+@pagiantorNextPagePath: asset-path('framework/page-next.gif');
+@pagiantorNextPageDisabledPath: asset-path('framework/page-next-disabled.gif');
+@pagiantorLastPagePath: asset-path('framework/page-last.gif');
+@pagiantorLastPageDisabledPath: asset-path('framework/page-last-disabled.gif');
+@pagiantorRefreshPagePath: asset-path('framework/refresh.gif');
+@pagiantorRefreshPageDisabledPath: asset-path('framework/refresh-disabled.gif');
+.paginator-box{
+    padding: 4px;
+}
+.paginator{
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    height: 20px;
+}
+
+.paginator a{
+
+}
+
+
+.paginator>span{
+  height: 20px;
+}
+.paginator .paginator-left{
+    left: 0;
+    position: absolute;
+    text-align: left;
+}
+
+.paginator .paginator-button{
+    padding: 2px;
+    i{
+        background-repeat: no-repeat;
+        display: inline-block;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: text-top;
+        width: 16px;
+    }
+}
+.paginator{
+    .paginator-first-page{
+        i{cursor:pointer;background-image: url(@pagiantorFirstPagePath)}
+    }
+    .paginator-pre-page{
+        cursor:pointer;
+        i{background-image: url(@pagiantorPrePagePath)}
+    }
+    .paginator-last-page{
+        i{cursor:pointer;background-image: url(@pagiantorLastPagePath)}
+    }
+    .paginator-next-page{
+
+        i{cursor:pointer;background-image: url(@pagiantorNextPagePath)}
+    }
+    .paginator-split{
+        padding: 0px;
+        border-left: 1px solid #98C8FF;
+        border-right: 1px solid white;
+        margin: 0 8px 0 8px;
+        i{width: 0px;}
+    }
+    .paginator-refresh{
+
+        i{cursor:pointer;background-image: url(@pagiantorRefreshPagePath)}
+    }
+}
+
+.paginator {
+    .paginator-first-page{
+        i.disabled{cursor:default; background-image: url(@pagiantorFirstPageDisabledPath)}
+    }
+    .paginator-pre-page{
+        i.disabled{cursor:default;background-image: url(@pagiantorPrePageDisabledPath)}
+    }
+    .paginator-last-page{
+        i.disabled{cursor:default;background-image: url(@pagiantorLastPageDisabledPath)}
+    }
+    .paginator-next-page{
+        i.disabled{cursor:default;background-image: url(@pagiantorNextPageDisabledPath)}
+    }
+    .paginator-refresh{
+        i.disabled{cursor:default;background-image: url(@pagiantorRefreshPageDisabledPath)}
+    }
+}
+
+
+.paginator .paginator-left input.paginator-current-page{
+  width: 30px;
+  padding: 0px;
+  line-height: 16px;
+}
+
+
+.paginator .paginator-center{
+    text-align: center;
+    width: auto;
+}
+.paginator .paginator-right{
+    right: 0;
+    position: absolute;
+    text-align: right;
+    padding: 2px 5px 0 0;
+}
+
+//=======datatable search box
+.datable-search-box input{
+    width: 80px;
+}
+
+
+//========form layout======
+table.form-table{
+    width: 800px;
+}
+
+table.form-table label{
+    font-size: 91%;
+    font-weight: bold;
+    margin-top: 5px;
+
+}
+
+table.form-table td.label-col{
+    text-align: right;
+    width: 18%;
+    vertical-align: top;
+    padding: 2px 10px 2px 2px;
+}
+
+table.form-table td.label-2col{
+    text-align: right;
+    width: 50%;
+    vertical-align: top;
+    padding: 2px 10px 2px 2px;
+
+}
+
+
+table.form-table td.label-3col{
+    text-align: right;
+    width: 68%;
+    vertical-align: top;
+    padding: 2px 10px 2px 2px;
+
+}
+
+
+table.form-table td.label-4col{
+    text-align: left;
+    width: 100%;
+    vertical-align: top;
+    padding: 2px 10px 2px 2px;
+
+}
+
+
+
+
+
+table.form-table td.data-col{
+    text-align: left;
+    width: 38%;
+    padding: 2px 2px 2px 10px;
+    vertical-align: top;
+
+}
+
+table.form-table td.data-2col{
+    text-align: left;
+    width: 50%;
+    padding: 2px 2px 2px 10px;
+    vertical-align: top;
+
+}
+
+
+table.form-table td.data-3col{
+    text-align: left;
+    width: 82%;
+    padding: 2px 2px 2px 10px;
+    vertical-align: top;
+
+}
+
+
+table.form-table td.data-4col{
+    text-align: left;
+    width: 100%;
+    padding: 2px 2px 2px 10px;
+    vertical-align: top;
+
+}
+
+.form-field-wrapped{
+    input, textarea, select, .uneditable-input {
+      margin: 0;
+    }
+}
+
+
+.form-field-wrapped .error-message{
+   color:  #CC0000;
+   display: block;
+}
+.form-field-required{
+  position: relative;
+}
+
+table.form-table .form-field-required .form-field-required-flag {
+    background-color: #CC0000;
+    bottom: 1px;
+    left: -4px;
+    position: absolute;
+    top: 1px;
+    width: 3px;
+}
+
+//========show data layout======
+table.show-table{
+    width: 100%;
+}
+
+table.show-table label{
+    font-size: 91%;
+    font-weight: bold;
+    margin-top: 5px;
+
+}
+
+table.show-table td.label-col{
+    text-align: right;
+    width: 18%;
+    vertical-align: top;
+    padding: 2px 10px 2px 2px;
+}
+
+table.show-table td.label-2col{
+    text-align: right;
+    width: 50%;
+    vertical-align: top;
+    padding: 2px 10px 2px 2px;
+
+}
+
+
+table.show-table td.label-3col{
+    text-align: right;
+    width: 68%;
+    vertical-align: top;
+    padding: 2px 10px 2px 2px;
+
+}
+
+
+table.show-table td.label-4col{
+    text-align: left;
+    width: 100%;
+    vertical-align: top;
+    padding: 2px 10px 2px 2px;
+
+}
+
+
+table.show-table td.data-col{
+    text-align: left;
+    width: 38%;
+    padding: 2px 2px 2px 10px;
+    vertical-align: top;
+
+}
+
+table.show-table td.data-2col{
+    text-align: left;
+    width: 50%;
+    padding: 2px 2px 2px 10px;
+    vertical-align: top;
+
+}
+
+
+table.show-table td.data-3col{
+    text-align: left;
+    width: 82%;
+    padding: 2px 2px 2px 10px;
+    vertical-align: top;
+
+}
+
+
+table.show-table td.data-4col{
+    text-align: left;
+    width: 100%;
+    padding: 2px 2px 2px 10px;
+    vertical-align: top;
+
+}
+
+
+table.detail-list{
+    width: 100%;
+}
+
+table.detail-list label{
+    font-size: 91%;
+    font-weight: bold;
+    margin-top: 5px;
+
+}
+
+table.detail-list td.label-col{
+    text-align: right;
+    width: 18%;
+    vertical-align: top;
+    padding: 2px 10px 2px 2px;
+}
+
+table.detail-list td.data-col{
+    text-align: left;
+    padding: 2px 2px 2px 10px;
+    vertical-align: top;
+
+}

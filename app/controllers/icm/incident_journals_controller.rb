@@ -14,7 +14,7 @@ class Icm::IncidentJournalsController < ApplicationController
 
     @incident_reply = Icm::IncidentReply.new()
     respond_to do |format|
-      format.html { render :layout=>"application_right"}
+      format.html { render :layout=>"bootstrap_application_right"}
       format.xml  { render :xml => @incident_journal }
     end
   end

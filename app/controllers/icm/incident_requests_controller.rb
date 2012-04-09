@@ -26,7 +26,7 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request = Icm::IncidentRequest.new(({:requested_by=>Irm::Person.current.id}).merge(params[:icm_incident_request]||{}))
     @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
-      format.html { render :layout => "application_full"}# new.html.erb
+      format.html { render :layout => "bootstrap_application_full"}# new.html.erb
       format.xml  { render :xml => @incident_request }
     end
   end
@@ -56,7 +56,7 @@ class Icm::IncidentRequestsController < ApplicationController
           flash[:notice] = now
         end
 
-        format.html { render :action => "new", :layout=>"application_full"}
+        format.html { render :action => "new", :layout=>"bootstrap_application_full"}
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.save
@@ -78,7 +78,7 @@ class Icm::IncidentRequestsController < ApplicationController
         format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
         format.json { render :json => @incident_request}
       else
-        format.html { render :action => "new", :layout => "application_full" }
+        format.html { render :action => "new", :layout => "bootstrap_application_full" }
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
       end

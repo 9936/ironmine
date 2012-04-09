@@ -50,9 +50,9 @@ module ApplicationHelper
 
     title =  content_tag(:h1, title, :class => "page-type")
 
-    content = raw(content_tag(:div, raw(title)+raw(image_icon)+raw(description), :class => "content"))
+    content = raw(content_tag(:div, raw(title)+raw(image_icon)+raw(description), :class => "page-title-content"))
 
-    pt_body = raw(content_tag(:div, content, :class => "pt-body"))
+    pt_body = raw(content_tag(:div, content, :class => "page-title-body"))
     b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     raw(b_page_title)
   end
@@ -69,12 +69,12 @@ module ApplicationHelper
     description = content_tag(:h2, title, :class => "page-description")
 
 
-    content = raw(content_tag(:div, raw( description), :class => "content"))
+    content = raw(content_tag(:div, raw( description), :class => "page-title-content"))
 
     content_for :html_title,do
       title
     end
-    pt_body = raw(content_tag(:div, content, :class => "pt-body"))
+    pt_body = raw(content_tag(:div, content, :class => "page-title-body"))
     b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     raw(b_page_title)
   end

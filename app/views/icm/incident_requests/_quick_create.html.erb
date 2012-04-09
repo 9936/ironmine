@@ -1,0 +1,55 @@
+<% if allow_to_function?(:create_incident_request) %>
+    <div class="sidebar-block">
+        <div class="sidebar-block-header"><h2><%= t :label_icm_incident_request_short_new %></h2></div>
+        <div class="sidebar-block-body">
+        <%  @incident_request = Icm::IncidentRequest.new%>
+        <%= form_for(@incident_request,:url=>{:controller => "icm/incident_requests", :action=>"short_create"},:builder => CustomFormBuilder) do |f| %>
+            <% if allow_to_function?(:create_icdt_rqst_for_other) %>
+              <div class="quick-create-field">
+                <label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%><%= required_icon %></label>
+                <%=f.lov_field :requested_by,Irm::Person,{:id=>"incident_request_requested_by",:class=>"input-medium",:required=>true}%>
+              </div>
+                <script type="text/javascript">
+                   $(function(){
+                       $("#incident_request_requested_by").cascade("#ass_external_system");
+                   });
+                </script>
+            <% else %>
+                <%= f.hidden_field(:requested_by,:value=>Irm::Person.current.id, :id => "incident_request_requested_by") %>
+            <% end %>
+
+              <div class="quick-create-field">
+                <label for="ass_external_system"><%=t(:label_icm_incident_request_target_system)%><%= required_icon %></label>
+            <% if allow_to_function?(:create_icdt_rqst_for_other) %>
+                <%=f.select :external_system_id,nullable_options_for_select([], nil),{},
+                        {:id=>"ass_external_system",
+                         :depend=>"incident_request_requested_by",
+                         :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                         :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
+            <% else %>
+                <%=f.select :external_system_id,
+                        nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
+                        {},
+                        {:id=>"ass_external_system",
+                         :depend=>"incident_request_requested_by",
+                         :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                         :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
+            <% end %>
+              </div>
+
+            <div class="quick-create-field">
+              <label for="incident_request_title"><%=t(:label_icm_incident_request_title)%><%= required_icon %></label>
+              <%=f.text_field :title,:style => "width:175px;",:id=>"incident_request_title"%>
+            </div>
+            <div class="quick-create-field">
+              <label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%><%= required_icon %></label>
+              <%=f.text_area :summary,:rows=>3, :style => "width:175px;" ,:id=>"incident_request_summary"%>
+            </div>
+            <div class="quick-create-field">
+              <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+              <%= link_to t(:more_info), {:controller => "icm/incident_requests", :action => "new"},{:class=>"submit more-info-link"} %>
+            </div>
+        <% end %>
+        </div>
+    </div>
+<% end %>

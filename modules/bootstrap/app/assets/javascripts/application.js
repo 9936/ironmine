@@ -9,5 +9,6 @@
 //= require twitter/bootstrap
 //= require plugins/jquery-extend
 //= require plugins/jquery-plugin
+//= require plugins/jquery-application
 //= require css_browser_selector
 //= require_tree .

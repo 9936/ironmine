@@ -116,17 +116,18 @@
           <table class="body-table">
             <tbody>
               <tr>
+
+                <td class="body-cell">
+                  <div class="body-cell-div">
+                    <%= yield %>
+                  </div>
+                </td>
                 <td class="sidebar-cell">
                   <div class="sidebar-cell-div">
                     <%= render :partial =>"/common/quick_create"%>
                     <%if has_content?(:sidebar) %>
                         <%=yield :sidebar %>
                     <%end%>
-                  </div>
-                </td>
-                <td class="body-cell">
-                  <div class="body-cell-div">
-                    <%= yield %>
                   </div>
                 </td>
               </tr>
