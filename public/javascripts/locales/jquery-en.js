@@ -10,5 +10,7 @@ var irm_labels = {
     paginatorAfterSize: "Records, ",
     paginatorRefresh: "Refresh",
     image_from_clipboard: "Image From Clipboard",
-    sort_this_column: "Click Here To Order This Column"
+    sort_this_column: "Click Here To Order This Column",
+    select_all:"Click Here To Select All",
+    select_single: "Click Here To Select Current Item"
 };

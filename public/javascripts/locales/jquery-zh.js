@@ -12,5 +12,7 @@ var irm_labels = {
     atLastSelectOneRecord: "请至少选择一行数据!",
     SurveyRequiredError: "检查调查问卷必填项!",
     image_from_clipboard: "从剪贴板上传图片",
-    sort_this_column: "点击此处切换显示顺序"
+    sort_this_column: "点击此处切换显示顺序",
+    select_all:"全选",
+    select_single: "点击选择当前项"
 };

@@ -338,6 +338,9 @@ module ApplicationHelper
     paginator_box = options[:paginator_box]
     export_box = options[:export_data]
 
+    #select 配置
+    select_type = options[:select_type]
+
     column_models = ""
     columns.each do |c|
       next if c[:hidden]||(!c[:searchable].present? && !c[:orderable].present?)
@@ -372,6 +375,10 @@ module ApplicationHelper
     end
     if export_box
       table_options << ",exportBox:'#{export_box}'"
+    end
+
+    if select_type
+      table_options << ",selectType:'#{select_type}'"
     end
 
     if options[:view_filter]

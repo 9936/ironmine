@@ -1284,6 +1284,75 @@ jQuery.fn.menubutton = function(){
         me.buildUI();
         me.load();
     };
+    //初始化checkbox
+    Internal.prototype.buildCheckbox = function(){
+        var me = this;
+        if(me.data.options.selectType) {
+            //标题栏
+            var table_th = me.$element.find("table:first").find("thead").find("th:first");
+            if(me.data.options.selectType == 'multi') {
+                var th_check_box = $("<input type='checkbox' name='select_all'/>").attr("title", $.i18n("select_all"));
+                table_th.before($("<th/>").css("width",'15px').html($("<div/>").html(th_check_box)));
+                //添加全选和反选事件
+                th_check_box.click(function(e){
+                    if ($(this).is(':checked')){
+                        me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
+                            $(this).attr("checked", true);
+                        });
+                    }else{
+                        me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
+                            $(this).removeAttr("checked");
+                        });
+                    }
+                });
+            }else{
+                table_th.before($("<th/>").css("width",'15px').html($("<div/>")));
+            }
+            //表格列表中的值
+            me.$element.find("table:first").find("tbody").find("tr").each(function(){
+               var table_td = $(this).find("td:first");
+               //获取id
+               var item_id = $(this).attr("id"),
+                   td_check_box = $("<input type='checkbox' name='ids' value='"+item_id+"'/>");
+               table_td.before($("<td/>").html($("<div/>").html(td_check_box)));
+               //更新全选框
+               var hand_click = function(e){
+                   if(!$(this).is(td_check_box)) {
+                      if(td_check_box.is(':checked')) {
+                         td_check_box.removeAttr("checked");
+                      }else{
+                         td_check_box.attr("checked", true);
+                      }
+                   }
+                   if(me.data.options.selectType == 'multi') {
+                       var all_selected = true;
+                       me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
+                          if (!$(this).is(':checked')) {
+                              all_selected = false;
+                          }
+                       });
+                       if(all_selected && !th_check_box.is(':checked')) {
+                          th_check_box.attr("checked", true);
+                       }
+                       if(!all_selected && th_check_box.is(':checked')) {
+                         th_check_box.removeAttr("checked")
+                       }
+                   }else{
+                       if(td_check_box.is(':checked')) {
+                           me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
+                               if(!$(this).is(td_check_box)) {
+                                   $(this).removeAttr("checked");
+                               }
+                           });
+                       }
+                   }
+                   e.stopPropagation()||(e.cancelBubble = true);
+               };
+               table_td.parent().bind('click', hand_click);
+               td_check_box.bind('click', hand_click);
+            });
+        }
+    };
     //初始化排序列
     Internal.prototype.buildOrderColumn = function(){
         var me = this,has_order_flag = false;
@@ -1564,6 +1633,7 @@ jQuery.fn.menubutton = function(){
         me.syncPaginatorUI();
         //必须等待当前页面的数据加载完成后才能够对表头数据进行处理
         me.buildOrderColumn();
+        me.buildCheckbox();
     };
 
 

@@ -50,7 +50,12 @@
 .irm-datatable th a.sortDesc{
     background-position:0 -32px;
 }
-
+.irm-datatable input[type="checkbox"]{
+    float: left;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0 0 1px 0;
+}
 .irm-datatable th {
     margin:0;
     padding:0;
