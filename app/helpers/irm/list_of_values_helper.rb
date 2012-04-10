@@ -43,10 +43,11 @@ module Irm::ListOfValuesHelper
 
     link_click_action = %Q(javascript:openLookup('#{url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
 
-    lov_link_str = link_to({},{:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
-      content_tag(:img,"",{:src=>theme_image_path("s.gif"),:class=>"lookupIcon",:onblur=>"this.className = 'lookupIcon';",:onfocus=>"this.className = 'lookupIconOn';",:onmouseout=>"this.className = 'lookupIcon';",:onmouseover=>"this.className = 'lookupIconOn';"}).html_safe
+    lov_link_str = link_to({},{:class=>"btn",:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
+      content_tag(:i,"",{:class=>"icon-search"}).html_safe
     end
-    (hidden_tag_str+label_tag_str+lov_link_str).html_safe
+    content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str,{:class=>"input-append"},false)
+
   end
 
   private

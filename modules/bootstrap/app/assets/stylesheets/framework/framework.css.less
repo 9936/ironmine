@@ -23,6 +23,10 @@ div.clear{
   clear:both;
 }
 
+
+.full{
+    width: 100%;
+}
 h1, h2, h3, h4, h5, h6 {
     display: inline;
     margin: 0;
@@ -769,6 +773,7 @@ body .nav-tab-bar .nav-tab {
     width: 30%;
     padding: 5px 12px 5px 12px;
     text-align: right;
+    .btn-toolbar{ margin: 0;}
 }
 .page-block .page-block-body{
 }
@@ -781,6 +786,7 @@ body .nav-tab-bar .nav-tab {
 .page-block .page-block-footer .page-block-title{
     padding: 5px 12px 5px 12px;
     width: 30%;
+    text-align: left;
 }
 
 .page-block .page-block-footer .page-block-title .block-title{
@@ -805,6 +811,13 @@ body .nav-tab-bar .nav-tab {
     padding-bottom: 10px;
 }
 
+
+.sub-page-block-header{
+    color: #000000;
+    background-color: #CFEEF8;
+    padding: 4px 16px;
+    overflow: auto;
+}
 .sub-page-block .sub-page-block-header{
     color: #000000;
     background-color: #8E9DBE;
@@ -827,7 +840,7 @@ body .nav-tab-bar .nav-tab {
 
 .sub-page-block .sub-page-block-body{
     text-align: center;
-    padding: 5px;
+    padding: 5px 0 5px 0;
 }
 
 //==========datatable
@@ -1233,14 +1246,14 @@ table.detail-list{
 table.detail-list label{
     font-size: 91%;
     font-weight: bold;
-    margin-top: 5px;
+    margin: 0;
 
 }
 
 table.detail-list td.label-col{
     text-align: right;
     width: 18%;
-    vertical-align: top;
+    vertical-align: middle;
     padding: 2px 10px 2px 2px;
 }
 
@@ -1250,3 +1263,137 @@ table.detail-list td.data-col{
     vertical-align: top;
 
 }
+
+// mini tab=============================
+@subTabSpritePath: asset-path('framework/subtab_sprite.png');
+.mini-tab {
+    margin: 0;
+    padding: 0;
+}
+
+
+ul.mini-tab-lists {
+    border-bottom: 1px solid #CECECE;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: left;
+}
+
+ul.mini-tab-lists li.mini-tab-list {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-image: url(@subTabSpritePath);
+    background-origin: padding-box;
+    background-position: left -199px !important;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    border: 0 none;
+    display: inline-block;
+    height: 27px;
+    margin: 0 0 -4px 2px;
+    padding: 0 8px;
+}
+
+ul.mini-tab-lists li.current-tab{
+    background-position: left 0 !important;
+    border-bottom: 1px solid transparent;
+    height: 27px;
+    margin: 0 0 -1px 2px;
+}
+
+
+ul.mini-tab-lists li.mini-tab-list a{
+    background-image: url(@subTabSpritePath);
+    background-position: right -299px;
+    background-repeat: no-repeat;
+    color: #333333;
+    display: inline-block;
+    font-weight: bold;
+    height: 15px;
+    margin-right: -13px;
+    padding: 8px 8px 4px 0;
+}
+
+ul.mini-tab-lists li.current-tab a{
+    background-position: right -100px;
+    margin-right: -17px;
+    padding: 8px 12px 5px 3px;
+}
+
+
+//=====incident journal lists==========
+.reply{
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.reply .reply-header{
+    background-color: #EFEFEF;
+    border-radius: 0 4px 4px 0;
+    height: 28px;
+    padding: 3px 0 0 3px;
+}
+
+.reply .reply-body{
+    padding: 5px 5px 5px 0;
+}
+
+
+.reply .message-header{
+    font-style: italic;
+    padding-bottom: 10px;
+}
+
+
+.reply .message-body{
+    margin-left: 46px;
+}
+
+.reply {
+    h3 {
+        font-weight: bold;
+    }
+
+    .avatar {
+        background-color: white;
+        border: 1px solid #D0D0D0;
+        float: left;
+        line-height: 0;
+        margin-right: 0.7em;
+        padding: 2px;
+    }
+    div.file-list {
+        margin-left: 46px;
+        color: #333333;
+        line-height: 1.6em;
+        margin-top: 5px;
+        margin-right: 5px;
+        border-top: 2px solid #efefef;
+    }
+
+    div.file-list div.file-item {
+        color: #888888;
+        display: inline;
+        padding-bottom: 5px;
+        text-align: left;
+    }
+
+    div.file-list div.file-item div.file-icon {
+        background-color: white;
+        line-height: 0;
+        margin-right: 0.7em;
+        padding: 2px;
+    }
+
+    div.file-list div.file-item div.file-icon img {
+        border: 1px solid #BBC9E2;
+        float: left;
+        vertical-align: top;
+    }
+}
+
+//=====show block=====================
+
+

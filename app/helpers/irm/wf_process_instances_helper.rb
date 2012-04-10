@@ -5,10 +5,10 @@ module Irm::WfProcessInstancesHelper
     if  submitted_process_instance
       process = Irm::WfApprovalProcess.query(submitted_process_instance.process_id).first
       if(process.allow_submitter_recall.eql?(Irm::Constant::SYS_YES)&&current_person?(submitted_process_instance.submitter_id))
-        links << link_to(t(:label_irm_wf_process_instance_recall),{:controller => "irm/wf_process_instances",:action=>"recall",:id=>submitted_process_instance.id,:back_url=>url_for({})})
+        links << link_to(t(:label_irm_wf_process_instance_recall),{:controller => "irm/wf_process_instances",:action=>"recall",:id=>submitted_process_instance.id,:back_url=>url_for({})},:class=>"btn")
       end
     else
-      links << link_to(t(:label_irm_wf_process_instance_submit),{:controller => "irm/wf_process_instances",:action=>"submit",:bo_id=>bo_id,:bo_model_name=>bo_model_name,:back_url=>url_for({})})
+      links << link_to(t(:label_irm_wf_process_instance_submit),{:controller => "irm/wf_process_instances",:action=>"submit",:bo_id=>bo_id,:bo_model_name=>bo_model_name,:back_url=>url_for({})},:class=>"btn")
     end
     links.html_safe
   end
