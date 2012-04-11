@@ -1185,7 +1185,10 @@ jQuery.fn.menubutton = function(){
         defaultOptions:{},
         filterOptions:{},
         searchOptions:{},
-        orderOptions:{}
+        orderOptions:{},
+        selectHand:function(ids){
+           console.log(ids.join(','));
+        }
     };
 
     // 插件实例计数器
@@ -1289,21 +1292,25 @@ jQuery.fn.menubutton = function(){
         var me = this;
         if(me.data.options.selectType) {
             //标题栏
+            var ids = [];
             var table_th = me.$element.find("table:first").find("thead").find("th:first");
-            if(me.data.options.selectType == 'multi') {
+            if(me.data.options.selectType == 'multiple') {
                 var th_check_box = $("<input type='checkbox' name='select_all'/>").attr("title", $.i18n("select_all"));
                 table_th.before($("<th/>").css("width",'15px').html($("<div/>").html(th_check_box)));
                 //添加全选和反选事件
                 th_check_box.click(function(e){
+                    ids = [];
                     if ($(this).is(':checked')){
                         me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
                             $(this).attr("checked", true);
+                            ids.push($(this).val());
                         });
                     }else{
                         me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
                             $(this).removeAttr("checked");
                         });
                     }
+                    (me.data.options.selectHand)(ids);
                 });
             }else{
                 table_th.before($("<th/>").css("width",'15px').html($("<div/>")));
@@ -1324,10 +1331,13 @@ jQuery.fn.menubutton = function(){
                          td_check_box.attr("checked", true);
                       }
                    }
-                   if(me.data.options.selectType == 'multi') {
+                   if(me.data.options.selectType == 'multiple') {
                        var all_selected = true;
+                       ids = [];
                        me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
-                          if (!$(this).is(':checked')) {
+                          if ($(this).is(':checked')) {
+                              ids.push($(this).val());
+                          }else{
                               all_selected = false;
                           }
                        });
@@ -1346,6 +1356,7 @@ jQuery.fn.menubutton = function(){
                            });
                        }
                    }
+                   (me.data.options.selectHand)(ids);
                    e.stopPropagation()||(e.cancelBubble = true);
                };
                table_td.parent().bind('click', hand_click);

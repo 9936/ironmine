@@ -55,7 +55,7 @@
                            { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
                            { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
                            { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true }],
-                      {:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
+                      {:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple",:force_html=>true})%>
         <div id="selectablePeoplePaginator"></div>
       </div>
     </div>
@@ -91,45 +91,45 @@
                            { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
                            { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
                            { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true }
-                           ],{:row_perpage=>10,:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
+                           ],{:row_perpage=>10,:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple",:force_html=>true})%>
             <div id="external_peoplePaginatorBox"></div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-  Ext.onReady(function(){
-
-     $("#externalSystemId").change(function(e){
-         var url = decodeURIComponent($(e.target).attr("href"));
-         var externalSystemId = $(e.target).val();
-         url = url.replace("{external_system_id}",externalSystemId);
-         window.location = url;
-     });
-
-      var addMember = function(selModel,selected){
-          var ids = [];
-          for(var i = 0;i<selected.length;i++){
-            ids.push(selected[i].data.id);
-          }
-          $("#irm_external_system_person_status_code").val(ids.join(","));
-      }
-      Ext.getCmp("selectablePeopleDatatable").selModel.addListener("selectionchange",addMember);
-
-      var removeMember = function(selModel,selected){
-          var ids = [];
-          for(var i = 0;i<selected.length;i++){
-            ids.push(selected[i].data.id);
-          }
-          $("#irm_external_system_person_temp_id_string").val(ids.join(","));
-      }
-
-      Ext.getCmp("external_peopleDatatable").selModel.addListener("selectionchange",removeMember);
-
-  });
+//  Ext.onReady(function(){
+//
+//     $("#externalSystemId").change(function(e){
+//         var url = decodeURIComponent($(e.target).attr("href"));
+//         var externalSystemId = $(e.target).val();
+//         url = url.replace("{external_system_id}",externalSystemId);
+//         window.location = url;
+//     });
+//
+//      var addMember = function(selModel,selected){
+//          var ids = [];
+//          for(var i = 0;i<selected.length;i++){
+//            ids.push(selected[i].data.id);
+//          }
+//          $("#irm_external_system_person_status_code").val(ids.join(","));
+//      }
+//      Ext.getCmp("selectablePeopleDatatable").selModel.addListener("selectionchange",addMember);
+//
+//        var removeMember = function(selModel,selected){
+//          var ids = [];
+//          for(var i = 0;i<selected.length;i++){
+//            ids.push(selected[i].data.id);
+//          }
+//          $("#irm_external_system_person_temp_id_string").val(ids.join(","));
+//}
+//
+//      Ext.getCmp("external_peopleDatatable").selModel.addListener("selectionchange",removeMember);
+//
+//  });
   function display_select_people(){
       $("#select_people").removeClass("unreal-hidden");
-      Ext.getCmp("selectablePeopleDatatable").setWidth(Ext.get("selectablePeople").getComputedWidth());
+      //Ext.getCmp("selectablePeopleDatatable").setWidth(Ext.get("selectablePeople").getComputedWidth());
       $("#member_grid").addClass("unreal-hidden");
       $("#irm_external_system_person_temp_id_string").val("");
   }
@@ -139,4 +139,20 @@
       $("#member_grid").removeClass("unreal-hidden");
       $("#irm_external_system_person_status_code").val("");
   }
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+      var hand_select_add = function(ids){
+          $("#irm_external_system_person_status_code").val(ids.join(","));
+      };
+      var hand_select_remove = function(ids){
+          $("#irm_external_system_person_temp_id_string").val(ids.join(","));
+      };
+      //添加成员
+      var add_target = $("#selectablePeople").data("datatable").target,
+          remove_target = $("#external_people").data("datatable").target;
+      add_target.data.options.selectHand = hand_select_add;
+      remove_target.data.options.selectHand = hand_select_remove;
+  });
 </script>

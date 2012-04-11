@@ -339,7 +339,7 @@ module ApplicationHelper
     export_box = options[:export_data]
 
     #select 配置
-    select_type = options[:select_type]
+    select_type = options[:select]
 
     column_models = ""
     columns.each do |c|
