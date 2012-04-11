@@ -1,5 +1,6 @@
 @import "framework/icons";
 
+
 // common=========
 
 .float-left {
@@ -17,6 +18,11 @@
 select {
     width: auto;
     min-width: 44px;
+}
+
+a {
+    color: #333435;
+    text-decoration: none;
 }
 
 div.clear{
@@ -49,6 +55,8 @@ input, textarea, select, .uneditable-input{
 body#body {
     background: url(@bodyBackgroundPath) repeat-x scroll 0 0 #1797C0;
     line-height: 14px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 75% !important;
 }
 
 // page header=========
@@ -745,6 +753,7 @@ body .nav-tab-bar .nav-tab {
     border-left: 1px solid #EAEAEA;
     border-radius: 4px 4px 4px 4px;
     border-right: 1px solid #EAEAEA;
+    margin-bottom: 10px;
 }
 .page-block .page-block-header{
     width:100%;
@@ -1395,5 +1404,6 @@ ul.mini-tab-lists li.current-tab a{
 }
 
 //=====show block=====================
+@import "framework/setting";
 
 

@@ -739,17 +739,17 @@ jQuery.fn.menubutton = function(){
         var cookie_menus = [];
         opened_menus = opened_menus.concat(cookie_menus);
 
-        this.$element.find(".NavIconLink").click(function(event){
-          if($(this).hasClass("NavTreeCol")){
-            $(this).removeClass("NavTreeCol");
-            $(this).addClass("NavTreeExp");
+        this.$element.find(".nav-icon-link").click(function(event){
+          if($(this).hasClass("nav-tree-col")){
+            $(this).removeClass("nav-tree-col");
+            $(this).addClass("nav-tree-exp");
             $('#tree_'+$(this).attr("real")+"_child").css("display","block");
             var menu_code =  $(this).attr("real");
 
           }
           else{
-            $(this).removeClass("NavTreeExp");
-            $(this).addClass("NavTreeCol");
+            $(this).removeClass("nav-tree-exp");
+            $(this).addClass("nav-tree-col");
             $('#tree_'+$(this).attr("real")+"_child").css("display","none");
             var menu_code =  $(this).attr("real");
           }
@@ -757,17 +757,17 @@ jQuery.fn.menubutton = function(){
         });
 
         for(var i=0;i<opened_menus.length;i++){
-            $("a.NavIconLink[real='"+opened_menus[i]+"']").each(function(index,child){
+            $("a.nav-icon-link[real='"+opened_menus[i]+"']").each(function(index,child){
                 $(child).parents(".parent").each(function(index,parent){
-                    var icon_link = $(parent).find(".NavIconLink:first");
-                    if(icon_link&&icon_link.hasClass("NavTreeCol")) {
+                    var icon_link = $(parent).find(".nav-icon-link:first");
+                    if(icon_link&&icon_link.hasClass("nav-tree-col")) {
                         icon_link.trigger("click");
                     }
                 });
             });
-            var leaf = $("div.setupLeaf[ti="+opened_menus[i]+"]:first");
+            var leaf = $("div.setup-leaf[ti="+opened_menus[i]+"]:first");
             if(leaf)
-                leaf.addClass("setupHighlightLeaf");
+                leaf.addClass("setup-highlight-leaf");
         }
     }
 

@@ -35,7 +35,7 @@ module Irm::SettingHelper
     return nil unless menus.size>1
 
     parent_menu_id = menus[1]
-    content = content_tag(:div, content_tag(:div, raw(content_tag(:img,"", {:width => 205, :height => 1, :title => "", :src => "/images/s.gif"}) + generate_sidebar_menu(parent_menu_id)), {:id => "AutoNumber5"}),{:id=>"MenuNavTree",:class=>"mTreeSelection"})
+    content = content_tag(:div, generate_sidebar_menu(parent_menu_id),{:id=>"MenuNavTree",:class=>"tree-selection"})
     script = %Q(
     $(function(){
         $("#MenuNavTree").menutree({open:[#{menus.collect{|x| "'#{x}'"}.join(",")}]});
@@ -50,8 +50,12 @@ module Irm::SettingHelper
     entries = Irm::MenuManager.sub_entries_by_menu(menu_id)
     functions = ""
     if level == 1
-      entries.each do |e|
-        functions << content_tag(:div,content_tag(:h2,link_to(e[:name],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id],:level=>1},{:title=>e[:description], :class => "setupSection"})),{:class=>"setupNavtree"})
+      entries.each_with_index do |e,index|
+        if index==0
+          functions << content_tag(:div,content_tag(:h2,link_to(e[:name],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id],:level=>1},{:title=>e[:description], :class => "setup-section"})),{:class=>"setup-nav-tree setup-nav-tree-first "})
+        else
+          functions << content_tag(:div,content_tag(:h2,link_to(e[:name],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id],:level=>1},{:title=>e[:description], :class => "setup-section"})),{:class=>"setup-nav-tree"})
+        end
         if(e[:entry_type].eql?("MENU"))
           functions << content_tag(:div,generate_sidebar_menu(e[:menu_id],next_level),{:id=>"tree_#{e[:menu_id]}_child"})
         end
@@ -59,13 +63,13 @@ module Irm::SettingHelper
     else
       entries.each do |e|
         if(e[:entry_type].eql?("MENU"))
-            icon_link = link_to("",{},{:href=>"javascript:void(0)",:real=>"#{e[:menu_id]}",:class=>"NavIconLink NavTreeCol",:id=>"tree_#{e[:menu_id]}_icon"})
-            font_link = link_to(e[:name],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]},{:title=>e[:description],:class=>"setupFolder",:id=>"#{e[:menu_id]}_font"})
-            child_div = content_tag(:div,generate_sidebar_menu(e[:menu_id],next_level),{:style=>"display:none;",:class=>"childContainer",:id=>"tree_#{e[:menu_id]}_child"})
-            functions << content_tag(:div,icon_link+font_link+child_div,{:mi=>"#{e[:menu_id]}",:class=>"parent parent_#{level}",:id=>"#{e[:menu_id]}"})
+            icon_link = link_to("",{},{:href=>"javascript:void(0)",:real=>"#{e[:menu_id]}",:class=>"nav-icon-link nav-tree-col",:id=>"tree_#{e[:menu_id]}_icon"})
+            font_link = link_to(e[:name],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]},{:title=>e[:description],:class=>"setup-folder",:id=>"#{e[:menu_id]}_font"})
+            child_div = content_tag(:div,generate_sidebar_menu(e[:menu_id],next_level),{:style=>"display:none;",:class=>"child-container",:id=>"tree_#{e[:menu_id]}_child"})
+            functions << content_tag(:div,icon_link+font_link+child_div,{:mi=>"#{e[:menu_id]}",:class=>"parent parent-#{level}",:id=>"#{e[:menu_id]}"})
         else
           function_group = Irm::MenuManager.function_groups[e[:function_group_id]]
-          functions << content_tag(:div,link_to(e[:name],{:controller=>function_group[:controller],:action=>function_group[:action]}),{:class=>"setupLeaf",:ti=>e[:function_group_id],:mi=>e[:menu_entry_id]})
+          functions << content_tag(:div,link_to(e[:name],{:controller=>function_group[:controller],:action=>function_group[:action]}),{:class=>"setup-leaf",:ti=>e[:function_group_id],:mi=>e[:menu_entry_id]})
         end
       end
     end
@@ -82,9 +86,9 @@ module Irm::SettingHelper
     odd_index.each do |i|
       tr = ""
       e = entries[i]
-      tr << content_tag(:td,("• "+link_to(e[:description],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]})).html_safe,{:width=>"50%"}) if e
+      tr << content_tag(:td,("• "+link_to(e[:description],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]})).html_safe,{:class=>"data-2col"}) if e
       e = entries[i+1]
-      tr << content_tag(:td,("• "+link_to(e[:description],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]})).html_safe,{:width=>"50%"}) if e
+      tr << content_tag(:td,("• "+link_to(e[:description],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]})).html_safe,{:class=>"data-2col"}) if e
       content << content_tag(:tr,tr.html_safe)
     end
     raw content
@@ -97,7 +101,7 @@ module Irm::SettingHelper
     if(entry[:entry_type].eql?("MENU"))
        generate_entries_table(entry[:menu_entry_id])
     else
-      tr = content_tag(:td,("•"+link_to(entry[:description],{:controller=>entry[:controller],:action=>entry[:action],:mi=>entry[:menu_entry_id]})).html_safe,{:width=>"50%"}) if entry
+      tr = content_tag(:td,("•"+link_to(entry[:description],{:controller=>entry[:controller],:action=>entry[:action],:mi=>entry[:menu_entry_id]})).html_safe,{:class=>"data-2col"}) if entry
       content_tag(:tr,tr.html_safe).html_safe
     end
   end

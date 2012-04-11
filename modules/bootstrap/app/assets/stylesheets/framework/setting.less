@@ -1,0 +1,118 @@
+@setupSidebarShadowPath: asset-path('framework/setup_sidebar_shadow.png');
+.setting-page-body .page-body-content{
+    border-top: 3px solid #747E96;
+}
+
+.setting-page-body .page-body-content table.body-table{
+    background-color: #F2F2F3;
+}
+.setting-page-body .page-body-content table.body-table td.setting-sidebar-cell{
+    background: url(@setupSidebarShadowPath) repeat-y scroll right top transparent;
+    width: 220px;
+}
+
+.setting-page-body .page-body-content table.body-table td.setting-sidebar-cell .sidebar-cell-div{
+    width: 220px;
+    padding: 0;
+    background-color: #F2F2F3;
+    background-color: transparent;
+}
+
+.setting-page-body .page-body-content table.body-table td.setting-body-cell{
+    background-color: #FFFFFF;
+}
+
+.setting-page-body .page-body-content table.body-table td.setting-body-cell .body-cell-div{
+    background-color: #FFFFFF;
+}
+
+.setting-page-body .page-block{
+    border-top-color: #747E96;
+}
+
+
+// sidebar tree menu =======
+@setupPlusLev1Path: asset-path('framework/setup_plus_lev1.gif');
+@setupMinusLev1Path: asset-path('framework/setup_minus_lev1.gif');
+@setupSelectedBottombgPath: asset-path('framework/setup_selected_bottombg.png');
+.tree-selection{
+    padding-bottom: 17px;
+    padding-left: 10px;
+}
+
+.tree-selection .parent {
+    font-weight: bold;
+    line-height: 15px;
+    margin-top: 5px;
+    padding: 1px 0;
+    vertical-align: middle;
+}
+
+.tree-selection .parent .nav-icon-link{
+    float: left;
+    height: 11px;
+    width: 11px;
+}
+
+.tree-selection .parent .nav-tree-col{
+    background: url(@setupPlusLev1Path) no-repeat scroll 0 0 transparent;
+}
+
+.tree-selection .parent .nav-tree-exp{
+    background: url(@setupMinusLev1Path) no-repeat scroll 0 0 transparent;
+}
+.tree-selection .setup-folder{
+    background-color: transparent;
+    margin-left: 6px;
+    position: relative;
+    top: -1px;
+}
+
+.tree-selection .child-container{
+    padding-left: 17px;
+}
+
+.tree-selection .setup-leaf{
+    font-weight: normal;
+    line-height: 15px;
+    margin: 5px 0 0;
+    padding: 0 15px 0 17px;
+    white-space: nowrap;
+}
+
+.tree-selection .setup-highlight-leaf{
+    background: url(@setupSelectedBottombgPath) repeat-x scroll left bottom #FFFFFF;
+    border-color: #E8E8E9;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    font-weight: normal;
+    line-height: 15px;
+    margin: 5px -1px 0;
+    padding: 4px 15px 6px 17px;
+    white-space: nowrap;
+}
+.setup-nav-tree{
+    border-top: 1px solid #D9D9D9;
+    margin: 14px 0 14px -10px;
+    h2{
+        border-top: 1px solid #FFFFFF;
+        border-width: 1px 0 0;
+        color: #333435;
+        font-size: 1.167em;
+        display: block;
+        margin: 0;
+        padding: 14px 0 0 10px;
+        line-height: 15px;
+    }
+}
+
+.setup-nav-tree-first{
+    border-top: none;
+    margin: 5px 0 14px -10px;
+    h2{
+        border-width: 0;
+    }
+}
+table.setting-menu td.data-2col{
+    padding: 3px 2px 3px 5px;
+}
