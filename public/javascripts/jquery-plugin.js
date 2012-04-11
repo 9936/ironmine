@@ -1314,6 +1314,8 @@ jQuery.fn.menubutton = function(){
                 table_th.before($("<th/>").css("width",'15px').html($("<div/>")));
             }
             //表格列表中的值
+            //判断当前表格中是否有数据，没有数据直接跳出该方法
+            if(parseInt(me.$element.find("table:first").attr("count")) <= 0) return;
             me.$element.find("table:first").find("tbody").find("tr").each(function(){
                var table_td = $(this).find("td:first");
                //获取id
