@@ -1185,10 +1185,7 @@ jQuery.fn.menubutton = function(){
         defaultOptions:{},
         filterOptions:{},
         searchOptions:{},
-        orderOptions:{},
-        selectHand:function(ids){
-           console.log(ids.join(','));
-        }
+        orderOptions:{}
     };
 
     // 插件实例计数器
@@ -1310,7 +1307,8 @@ jQuery.fn.menubutton = function(){
                             $(this).removeAttr("checked");
                         });
                     }
-                    (me.data.options.selectHand)(ids);
+                    e.ids = ids;
+                    me.$element.find("table:first").trigger('selectionchange',[ids]);
                 });
             }else{
                 table_th.before($("<th/>").css("width",'15px').html($("<div/>")));
@@ -1356,7 +1354,8 @@ jQuery.fn.menubutton = function(){
                            });
                        }
                    }
-                   (me.data.options.selectHand)(ids);
+                   e.ids = ids;
+                   me.$element.find("table:first").trigger('selectionchange',[ids]);
                    e.stopPropagation()||(e.cancelBubble = true);
                };
                table_td.parent().bind('click', hand_click);

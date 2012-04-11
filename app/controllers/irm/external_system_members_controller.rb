@@ -97,6 +97,11 @@ class Irm::ExternalSystemMembersController < ApplicationController
     respond_to do |format|
       format.json {render :json=>to_jsonp(external_systems.to_grid_json([:external_system_code,:external_hostname,:external_ip_address,
                                                                          :system_name,:system_description,:status_meaning],count))}
+      format.html {
+        @datas = external_systems
+        @count = count
+        render_html_data_table
+      }
     end
   end
 
