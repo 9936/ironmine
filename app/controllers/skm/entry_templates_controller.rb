@@ -100,7 +100,7 @@ class Skm::EntryTemplatesController < ApplicationController
 
   def add_elements
     return_url=params[:return_url]
-    params[:skm_entry_template_elements][:ids].each do |p|
+    params[:template_ids].split(",").each do |p|
       element = Skm::EntryTemplateElement.find(p)
       Skm::EntryTemplateDetail.create({:entry_template_id => params[:template_id],
                                        :entry_template_element_id => p,
@@ -123,6 +123,11 @@ class Skm::EntryTemplatesController < ApplicationController
     entry_elements,count = paginate(entry_elements_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_elements.to_grid_json(['0',:entry_template_element_code, :name,:description, :default_rows], count)) }
+      format.html {
+        @datas = entry_elements
+        @count = count
+        render_html_data_table
+      }
     end    
   end
   

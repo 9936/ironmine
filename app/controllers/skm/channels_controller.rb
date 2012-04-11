@@ -123,6 +123,11 @@ class Skm::ChannelsController < ApplicationController
     groups, count = paginate(group_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(groups.to_grid_json(['0',:code, :name, :description, :status_code], count)) }
+      format.html {
+        @datas = groups
+        @count = count
+        render_html_data_table
+      }
     end
   end
 

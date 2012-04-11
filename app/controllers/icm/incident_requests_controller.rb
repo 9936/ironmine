@@ -308,11 +308,16 @@ class Icm::IncidentRequestsController < ApplicationController
         where("external_system_id IN (?)", Irm::Person.current.system_ids).
         order("created_at")
     incident_requests_scope = incident_requests_scope.where("support_person_id IS NULL")
-
+    incident_requests,count = paginate(incident_requests_scope)
     respond_to do |format|
       format.json {
-        incident_requests,count = paginate(incident_requests_scope)
+
         render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+      }
+      format.html {
+        @datas = incident_requests
+        @count = count
+        render_html_data_table
       }
       format.xml {
         incident_requests,count = paginate(incident_requests_scope)
@@ -397,11 +402,15 @@ class Icm::IncidentRequestsController < ApplicationController
         where("external_system_id IN (?)", Irm::Person.current.system_ids).
         assignable_to_person(Irm::Person.current.id).
         order("created_at")
-
+    incident_requests,count = paginate(incident_requests_scope)
     respond_to do |format|
       format.json {
-        incident_requests,count = paginate(incident_requests_scope)
         render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+      }
+      format.html {
+        @datas = incident_requests
+        @count = count
+        render_html_data_table
       }
       format.xml {
         incident_requests,count = paginate(incident_requests_scope)

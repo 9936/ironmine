@@ -1,0 +1,38 @@
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>" id="supportGroupMembers">
+         <thead>
+           <tr>
+             <th key = "name">
+               <div><%= t(:label_irm_group_name) %></div>
+             </th>
+             <th key="code">
+               <div><%= t(:label_irm_group_group_code) %></div>
+             </th>
+             <th key="description">
+                <div><%= t(:label_irm_group_description) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% @datas.each do |data| %>
+         <tr id="<%=data.id %>">
+           <td>
+             <div><%= data[:name] %></div>
+           </td>
+
+           <td>
+             <div><%= data[:code] %></div>
+           </td>
+
+           <td>
+             <div><%= data[:description] %></div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

@@ -1,8 +1,9 @@
 <%= page_title %>
 <% if @template %>
     <%= form_tag({:action => 'add_elements',:template_id => @template}) do%>
+        <%= hidden_field_tag("template_ids") %>
         <%= hidden_field_tag "return_url", @return_url%>
-        <div class="srch">
+        <div class="page-block">
             <div class="pbHeader">
                 <table cellpadding="0" cellspacing="0" border="0">
                   <tbody>
@@ -21,22 +22,31 @@
                 </table>
             </div>
         </div>
-        <div id="ep" class="edit-block page-block">
-          <div class="pbBody">
-                <div id="available_elements_list" class="datatable" style="width:100%;">
-                  <div id="id" style="display:none">
-                     <%= check_box_tag "skm_entry_template_elements[ids][]","{id}"%>
-                  </div>
-                </div>
-                <%= datatable("available_elements_list",{:action=>"get_available_elements", :template_id=>@template},
-                          [{:key=>"id",:label=>t(:select_ac),:formatter=>"Y.irm.template",:width=>"20px"},
-                           {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :width => "15%"},
-                           {:key=>"name",:label=>t(:name), :width => "25%"},
-                           {:key=>"description",:label=>t(:description)},
-                           {:key=>"default_rows",:label=>t(:label_skm_entry_template_element_rows), :width => "80px"}
-                           ],
-                           {:row_perpage=>5})%>
-          </div>
-        </div>
     <% end %>
+
+    <div id="ep" class="edit-block">
+      <div class="pbBody">
+            <div id="available_elements_list" class="datatable" style="width:100%;">
+              <div id="id" style="display:none">
+                 <%= check_box_tag "skm_entry_template_elements[ids][]","{id}"%>
+              </div>
+            </div>
+            <%= datatable("available_elements_list",{:action=>"get_available_elements", :template_id=>@template},
+                      [{:key=>"id",:label=>t(:select_ac),:formatter=>"Y.irm.template",:width=>"20px"},
+                       {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :width => "15%"},
+                       {:key=>"name",:label=>t(:name), :width => "25%"},
+                       {:key=>"description",:label=>t(:description)},
+                       {:key=>"default_rows",:label=>t(:label_skm_entry_template_element_rows), :width => "80px"}
+                       ],
+                       {:paginator_box=>"available_elementsPaginatorBox",:select=>"multiple",:force_html=>true})%>
+            <div id="available_elementsPaginatorBox"></div>
+      </div>
+    </div>
 <% end %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#available_elements_list").bind('selectionchange',function(event,ids){
+            $("#template_ids").val(ids.join(","));
+        });
+    });
+</script>

@@ -91,11 +91,14 @@ class Irm::KanbansController < ApplicationController
   def get_available_lanes
     owned_lanes_scope= Irm::Lane.select_all.without_kanban(params[:id]).enabled
 
-    #    kanbans,count = paginate(owned_lanes_scope)
+    kanbans,count = paginate(owned_lanes_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(owned_lanes_scope.to_grid_json(
-                                              [:id, :lane_code, :lane_name,:lane_description, :limit],
-                                              50))}
+      format.json {render :json=>to_jsonp(kanbans.to_grid_json( [:id, :lane_code, :lane_name,:lane_description, :limit],count))}
+      format.html {
+        @datas = kanbans
+        @count = count
+        render_html_data_table
+      }
     end
   end
 
@@ -112,7 +115,7 @@ class Irm::KanbansController < ApplicationController
 
   def add_lanes
     return_url=params[:return_url]
-    params[:irm_kanban_lanes][:ids].each do |p|
+    params[:lane_ids].split(",").each do |p|
       Irm::KanbanLane.create({:kanban_id => params[:id],
                                :lane_id => p,
                                :display_sequence => Irm::KanbanLane.max_display_seq(params[:id]) + 1})

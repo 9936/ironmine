@@ -1,0 +1,45 @@
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=@count%>" id="available_elements_list">
+         <thead>
+           <tr>
+             <th key = "entry_template_element_code">
+               <div><%= t(:label_skm_entry_template_element_code) %></div>
+             </th>
+             <th key="name">
+               <div><%= t(:name) %></div>
+             </th>
+             <th key="description">
+                <div><%= t(:description) %></div>
+             </th>
+             <th key="default_rows">
+                <div><%= t(:label_skm_entry_template_element_rows) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% @datas.each do |data| %>
+         <tr id="<%=data.id %>">
+           <td>
+             <div><%= data[:entry_template_element_code] %></div>
+           </td>
+
+           <td>
+             <div><%= data[:name] %></div>
+           </td>
+
+           <td>
+             <div><%= data[:description] %></div>
+           </td>
+
+           <td>
+             <div><%= data[:default_rows] %></div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

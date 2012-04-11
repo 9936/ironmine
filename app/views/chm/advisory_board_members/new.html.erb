@@ -30,7 +30,7 @@
                        { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
                        { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
                        { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true }],
-                      {:paginator_box=>"advisory_boardsPaginatorBox",:search_box=>"advisory_boardsSearchBox",:select=>"multiple"})%>
+                      {:paginator_box=>"advisory_boardsPaginatorBox",:search_box=>"advisory_boardsSearchBox",:select=>"multiple",:force_html=>true})%>
         <div id="advisory_boardsPaginatorBox"></div>
       </div>
     </div>
@@ -38,20 +38,15 @@
 
 
 <script type="text/javascript">
-  Ext.onReady(function(){
-      var processSelected = function(selModel,selected){
-          var ids = [];
-          for(var i = 0;i<selected.length;i++){
-            ids.push(selected[i].data.id);
-          }
-          $("#person_ids").val(ids.join(","));
-      }
-      $("#formSubmit").click(function(e){
-          if($("#person_ids").val().length<1){
-              alert($.i18n("atLastSelectOneRecord"));
-              return false;
-          }
-      });
-      Ext.getCmp("peopleDatatable").selModel.addListener("selectionchange",processSelected);
-  });
+    $(document).ready(function(){
+        $("#people").bind('selectionchange',function(event,ids){
+            $("#person_ids").val(ids.join(","));
+        });
+    });
+    $("#formSubmit").click(function(e){
+        if($("#person_ids").val().length<1){
+          alert($.i18n("atLastSelectOneRecord"));
+          return false;
+        }
+    });
 </script>

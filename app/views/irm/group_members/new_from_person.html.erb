@@ -60,7 +60,7 @@
                    {:key=>"code",:label=>t(:label_irm_group_group_code),:searchable=>true},
                    {:key=>"description",:label=>t(:label_irm_group_description),:searchable=>true}
                    ],
-                   {:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple"})%>
+                   {:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple",:force_html=>true})%>
         <div id="personPaginator"></div>
       </div>
       <div class="pbBottomButtons">
@@ -104,14 +104,9 @@
 <% end %>
 <% end %>
 <script type="text/javascript">
-  Ext.onReady(function(){
-      var setSelectedValue = function(selModel,selected){
-          var ids = [];
-          for(var i = 0;i<selected.length;i++){
-            ids.push(selected[i].data.id);
-          }
+  $(document).ready(function(){
+      $("#supportGroupMembers").bind('selectionchange',function(event,ids){
           $("#irm_group_member_status_code").val(ids.join(","));
-      }
-      Ext.getCmp("supportGroupMembersDatatable").selModel.addListener("selectionchange",setSelectedValue);
-});
+      });
+  });
 </script>
