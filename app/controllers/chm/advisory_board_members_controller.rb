@@ -51,9 +51,12 @@ class Chm::AdvisoryBoardMembersController < ApplicationController
 
     people, count = paginate(ava_people_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(people.to_grid_json(
-                                              [:full_name, :email_address, :organization_name],
-                                              count))}
+      format.json {render :json=>to_jsonp(people.to_grid_json([:full_name, :email_address, :organization_name],count))}
+      format.html {
+        @datas = people
+        @count = count
+        render_html_data_table
+      }
     end
   end
 end
