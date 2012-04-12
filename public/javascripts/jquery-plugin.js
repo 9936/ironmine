@@ -1307,7 +1307,6 @@ jQuery.fn.menubutton = function(){
                             $(this).removeAttr("checked");
                         });
                     }
-                    e.ids = ids;
                     me.$element.find("table:first").trigger('selectionchange',[ids]);
                 });
             }else{
@@ -1356,7 +1355,6 @@ jQuery.fn.menubutton = function(){
                            });
                        }
                    }
-                   e.ids = ids;
                    me.$element.find("table:first").trigger('selectionchange',[ids]);
                    e.stopPropagation()||(e.cancelBubble = true);
                };
@@ -1404,7 +1402,7 @@ jQuery.fn.menubutton = function(){
                                current_th.find("a").css("display", "inline-block");
                                me.data.options.orderOptions["order_name"] = column_name;
                                me.data.options.orderOptions["order_value"] = order_value;
-                               me.load();
+                               me.loadPage(1);
                            });
                        }
                    });
