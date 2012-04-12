@@ -1467,7 +1467,7 @@ jQuery.fn.menubutton = function(){
             paginatorBox.find("select[name='page-size']:first").change(function(){
                 if (me.data.options.pageSize != $(this).val()) {
                     me.data.options.pageSize = $(this).val();
-                    me.load();
+                    me.loadPage(1);
                 }
             });
             paginatorBox.find(".paginator-refresh:first").click(function(event){
