@@ -91,6 +91,11 @@ class Irm::LookupTypesController < ApplicationController
     respond_to do |format|
       format.json  {render :json => to_jsonp(@lookup_types.to_grid_json(['R',:lookup_level,:lookup_type,:meaning,:description,:status_meaning],
                                                                                count)) }
+      format.html  {
+        @count=count
+        @datas=@lookup_types
+      }
+
     end
   end
 
