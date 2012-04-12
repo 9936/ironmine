@@ -2,14 +2,24 @@ $(function(){
 
     //BEGIN========================全局ajax事件监听========================================
     $(document).ajaxSend(function(event, jqXHR, ajaxOptions){
-        $("body").mask($.i18n("processing"));
+        var _dom_id = get_dom_id(ajaxOptions);
+        if (typeof _dom_id != 'undefined' && _dom_id != null && _dom_id.length > 0) {
+            $("#"+_dom_id).mask($.i18n("processing"));
+        }else{
+            $("body").mask($.i18n("processing"));
+        }
     });
     $(document).ajaxSuccess(function(event, jqXHR, ajaxOptions){
     });
     $(document).ajaxError(function(event, jqXHR, ajaxOptions,error){
     });
     $(document).ajaxComplete(function(event, jqXHR, ajaxOptions){
-        $("body").unmask();
+        var _dom_id = get_dom_id(ajaxOptions);
+        if (typeof _dom_id != 'undefined' && _dom_id != null && _dom_id.length > 0) {
+            $("#"+_dom_id).unmask();
+        }else {
+            $("body").unmask();
+        }
     });
     //END========================全局ajax事件监听========================================
     $("*[required]").each(function(i,e){
@@ -279,7 +289,10 @@ function setLookupValue(fieldId,value){
     var url = $("#"+fieldId).attr("href");
     url = url.replace("lov?","lov_value?");
     url = url+"&lkval="+value;
-    $.getJSON(url, function(data) {
+    //获取当前的form表单
+    var parent_forms = $("#"+fieldId).parents("form");
+    var dom_id = $(parent_forms[0]).attr("id");
+    $.getJSON(url,{_dom_id:dom_id},function(data) {
         $("#"+fieldId).val(data.value);
         $("#"+fieldId+"_label").val(data.label_value);
         $("#"+fieldId).data("lov",data.data);
@@ -300,3 +313,16 @@ function setLookupLabelValue(fieldId,labelValue){
 }
 
 //END========================LOOKUP lov 帮助函数========================================
+
+//START =================================Ajax 监听帮助函数================================
+function get_dom_id(ajaxOptions) {
+    var _dom_id,
+    paraString = ajaxOptions.url.substring(ajaxOptions.url.indexOf("?")+1,ajaxOptions.url.length).split("&"),
+    paraObj = {};
+    for (i=0; j=paraString[i]; i++){
+        paraObj[j.substring(0,j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=")+1,j.length);
+    }
+    _dom_id = paraObj["_dom_id".toLowerCase()];
+    return _dom_id
+}
+//START =================================Ajax 监听帮助函数================================

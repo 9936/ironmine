@@ -32,9 +32,12 @@ class Irm::ExternalSystemMembersController < ApplicationController
 
     members, count = paginate(member_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(members.to_grid_json(
-                                              [:full_name, :email_address, :organization_name],
-                                              count))}
+      format.json {render :json=>to_jsonp(members.to_grid_json([:full_name, :email_address, :organization_name],count))}
+      format.html {
+        @datas = members
+        @count = count
+        render_html_data_table
+      }
     end
   end
 
@@ -48,9 +51,12 @@ class Irm::ExternalSystemMembersController < ApplicationController
 
     people, count = paginate(ava_people_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(people.to_grid_json(
-                                              [:full_name, :email_address, :organization_name],
-                                              count))}
+      format.json {render :json=>to_jsonp(people.to_grid_json([:full_name, :email_address, :organization_name],count))}
+      format.html {
+        @datas = people
+        @count = count
+        render_html_data_table
+      }
     end
   end
 
@@ -91,6 +97,11 @@ class Irm::ExternalSystemMembersController < ApplicationController
     respond_to do |format|
       format.json {render :json=>to_jsonp(external_systems.to_grid_json([:external_system_code,:external_hostname,:external_ip_address,
                                                                          :system_name,:system_description,:status_meaning],count))}
+      format.html {
+        @datas = external_systems
+        @count = count
+        render_html_data_table
+      }
     end
   end
 

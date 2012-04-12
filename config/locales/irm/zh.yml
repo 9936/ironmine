@@ -140,12 +140,14 @@ zh:
   error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
   error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB, 现上传 _ KB)
   error_file_upload_repeat: 附件中有文件重复上传
+  error_file_upload_empty: 附件内容为空，请重新选择文件
   file_upload_limit_alert: 最大尺寸 %{m} KB
   by_name: 按名称
   by_date: 按时间
   search_options_with_dot: 搜索选项...
   search_options: 搜索选项
   search_all: 搜索全部
+  label_attachment_info: 附件信息
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型
@@ -901,6 +903,7 @@ zh:
   label_irm_report_record_count: 记录数
   label_irm_report_params_config: 报表参数设置
   label_irm_report_params_default_value: 参数默认值
+  label_irm_report_auto_run_flag: 自动运行
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
   label_irm_report_setup_group_column_header: 设置数据列 分组
@@ -1569,6 +1572,7 @@ zh:
   label_irm_operation_unit_description: 描述
   label_irm_operation_unit_license: 许可
   label_irm_operation_unit_list: 运维中心列表
+  label_irm_operation_unit_admin: 管理员
   #======================= end Operation Unit ====================
 
 

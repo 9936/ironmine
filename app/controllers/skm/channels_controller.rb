@@ -64,7 +64,7 @@ class Skm::ChannelsController < ApplicationController
     channel_scope = Skm::Channel.multilingual.status_meaning
     channels,count = paginate(channel_scope)
     respond_to do |format|
-      format.json  {render :json => to_jsonp(channels.to_grid_json(['0',:channel_code, :name,:description,:status_meaning, :status_code], count)) }
+      format.json  {render :json => to_jsonp(channels.to_grid_json([:channel_code, :name,:description,:status_meaning, :status_code], count)) }
     end
   end
 
@@ -123,6 +123,11 @@ class Skm::ChannelsController < ApplicationController
     groups, count = paginate(group_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(groups.to_grid_json(['0',:code, :name, :description, :status_code], count)) }
+      format.html {
+        @datas = groups
+        @count = count
+        render_html_data_table
+      }
     end
   end
 

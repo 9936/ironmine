@@ -36,7 +36,6 @@
         background-color: #ddeef4 !important;
     }
 </style>
-
 <!--页面头部按钮-->
 <% content_for :block_header_buttons do %>
   <div class="btn-toolbar">
@@ -132,9 +131,9 @@
           <td class="data-col">
             <div><%= @incident_request[:incident_status_name] %></div>
           </td>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_incident_phase_code) %></label></td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_estimated_date) %></label></td>
           <td class="data-col">
-            <div><%= @incident_request[:incident_phase_name] %></div>
+            <div><%= calendar_date(@incident_request[:estimated_date]) %></div>
           </td>
         </tr>
         <tr>

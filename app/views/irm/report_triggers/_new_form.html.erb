@@ -119,13 +119,13 @@
                       <tr>
                         <td class="labelCol"><label for="report_trigger_start_at"><%=t(:label_irm_report_trigger_start_at)%></label></td>
                         <td class="data2Col">
-                           <%= f.text_field(:start_at,:id=>"report_trigger_start_at",:class=>"date",:required=>true,:size=>12)%>
+                           <%= f.text_field(:start_at,:value =>calendar_date(@report_trigger.start_at),:id=>"report_trigger_start_at",:class=>"date",:required=>true,:size=>12)%>
                         </td>
                       </tr>
                       <tr>
                         <td class="labelCol"><label for="report_trigger_end_at"><%=t(:label_irm_report_trigger_end_at)%></label></td>
                         <td class="data2Col">
-                           <%= f.text_field(:end_at,:id=>"report_trigger_end_at",:class=>"date",:required=>true,:size=>12)%>
+                           <%= f.text_field(:end_at,:value =>calendar_date(@report_trigger.end_at),:id=>"report_trigger_end_at",:class=>"date",:required=>true,:size=>12)%>
                         </td>
                       </tr>
                       <tr>

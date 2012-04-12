@@ -26,6 +26,11 @@
           var refreshNode = $("#myTasks")
           var url = decodeURIComponent(refreshNode.attr("href"));
           url = url.replace("{task_entry}",$("#myTaskEntryType").val());
+          if (url.indexOf("?") > 0) {
+              url += "&_dom_id=myTasks";
+          }else{
+              url += "?_dom_id=myTasks";
+          }
           refreshNode.load(url);
       });
   });

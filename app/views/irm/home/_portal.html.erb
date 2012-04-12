@@ -179,7 +179,6 @@
               current_layout = $(this).find("option:selected").attr("layout");
               if (typeof current_layout != undefined && current_layout) {
                   setLayoutPreview(current_layout, current_layout_container);
-                  console.log("Set Layout Style:", layout);
               }else{
                   console.log("ERROR INFO:", "System Data Error!");
               }
@@ -192,7 +191,7 @@
       function setLayoutPreview(current_layout, container) {
           container.html("");
           $.each(current_layout.split(','),function(index,value) {
-              //生成多应的html标签
+              //生成对应的html标签
               for(i=1; i<=parseInt(value); i++) {
                   if(i == parseInt(value)) {
                      container.append('<div id='+index+' class="dragging cc span-'+(24/parseInt(value))+' last"></div>');

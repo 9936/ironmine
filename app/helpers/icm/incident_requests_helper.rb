@@ -152,11 +152,11 @@ module Icm::IncidentRequestsHelper
     attachments = Irm::AttachmentVersion.where("source_id = ? AND source_type = ?", incident_request.id, Icm::IncidentRequest.name)
     if attachments && attachments.any?
       attachments.each do |a|
-        d3 = content_tag(:td, a.data_file_name, :class => "dataCol")
-        d2 = content_tag(:td, link_to(t(:delete),
-                                      {:controller => "icm/incident_requests", :action => "remove_exists_attachments",
-                                       :att_id => a.id, :incident_request_id => incident_request.id}, :remote => "true", :confirm => t(:label_are_you_sure)), :class => "dataCol")
-        r = content_tag(:tr, d3 + d2)
+        d1 = content_tag(:td, "", :class => "dataCol")
+        d2 = content_tag(:td, a.data_file_name, :class => "dataCol")
+        d3 = content_tag(:td, a.description, :class => "dataCol")
+        d4 = content_tag(:td, link_to(t(:delete), {:controller => "icm/incident_requests", :action => "remove_exists_attachments", :att_id => a.id, :incident_request_id => incident_request.id}, :remote => "true", :confirm => t(:label_are_you_sure)), :class => "dataCol")
+        r = content_tag(:tr, d1 + d2 + d3 + d4)
         html << r
       end
     end

@@ -54,3 +54,38 @@
 .treeview .name {font-weight: bold !important;}
 .treeview .actions a {margin-left: 4px; color: #666;}
 .treeview .actions .add-child a {font-weight: bold;color: #666;}
+
+#tree-div {
+    width: 200px;
+    height: 300px;
+    background:white;
+    overflow: auto;
+    border-color:#99bce8;
+    border-style:solid;
+    border-width:1px;
+}
+.filetree {
+
+}
+.filetree li {
+    padding: 3px 0 2px 16px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    -moz-user-select:none;
+    -khtml-user-select:none;
+    user-select:none
+}
+.filetree { margin: 0 !important;}
+.filetree .active {font-weight: bold;}
+.filetree span.folder, .filetree span.file { padding: 1px 0 1px 18px; display: inline; font-size: 11px; }
+.filetree span.folder { background: url(../images/treeview/folder.gif) 0 0 no-repeat; }
+.filetree li.expandable span.folder { background: url(../images/treeview/folder-closed.gif) 0 0 no-repeat; }
+.filetree a,.filetree a:hover,.filetree a:link,.filetree a:visited {display: block; text-decoration: none !important;}
+.filetree span.file { background: url(../images/treeview/file.gif) 0 0 no-repeat; }
+.filetree span.file input[type="checkbox"]{
+    float: left;
+    vertical-align: middle;
+    padding: 0;
+    margin: 1px 0 0 0 !important;
+}

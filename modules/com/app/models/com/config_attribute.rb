@@ -4,10 +4,11 @@ class Com::ConfigAttribute < ActiveRecord::Base
   #多语言关系
   attr_accessor :name,:description
   has_many :config_attributes_tls,:dependent => :destroy
+  belongs_to :config_class
   acts_as_multilingual
 
   validates_presence_of :code, :input_type
-
+  validates_uniqueness_of :code,:scope=>[:opu_id,:config_class_id], :if => Proc.new { |i| !i.code.blank? }
   #加入activerecord的通用方法和scope
   query_extend
   #对运维中心数据进行隔离

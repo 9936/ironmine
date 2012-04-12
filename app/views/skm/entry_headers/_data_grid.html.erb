@@ -24,13 +24,11 @@
         <table class="split-table">
           <tr>
             <td>
-              <%= render :partial =>"/irm/common/tree_sidebar", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json),
+              <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json),
                                                              :target_table => "entry_headers_list",
                                                              :tree_id => "tree-div",
-                                                             :title => t(:label_skm_column),
                                                              :root_text => t(:label_skm_column_all),
-                                                             :url_param_value => 'id',
-                                                             :url_param_name => 'column_id'} %>
+                                                             :li_attrs => "id" } %>
             </td>
             <td>
                 <div id="entry_headers_list" class="datatable" style="width:100%">
@@ -61,7 +59,7 @@
                            {:key=>"entry_title",:label=>t(:label_skm_entry_header_title), :searchable => true,:formatter=>"Y.irm.stemplate"},
                            {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number), :searchable => true,:formatter=>"Y.irm.template",:width => "100px"},
                            {:key=>"is_favorite", :hidden => true},{:key => "type_code", :hidden => true}],
-                           {:search_box => "entryHeadersSearchBox",:html=>true, :paginator_box=>"entry_headers_list_paginator_box"})%>
+                           {:search_box => "entryHeadersSearchBox",:force_html => true, :paginator_box=>"entry_headers_list_paginator_box"})%>
                 <div id="entry_headers_list_paginator_box"></div>
             </td>
           </tr>
@@ -70,3 +68,14 @@
       </div>
     </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#tree-div").bind('nodeListener',function(event, element){
+          var params = {};
+          params['column_id'] = element.attr('id');
+          var current_target = $("#entry_headers_list").data("datatable").target;
+          current_target.data.options.searchOptions = params;
+          current_target.loadPage(1);
+      });
+  });
+</script>

@@ -17,7 +17,9 @@
   </div>
   <div class="pbBody">
     <%= error_for @config_item %>
-    <%= system_parameter_errors_for @errors %>
+    <% @config_item.config_item_attributes.each do |i| %>
+            <%=show_config_items_attributes_errors(i)  %>
+    <% end %>
     <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
       <span class="pbSubExtra">
         <span class="requiredLegend">

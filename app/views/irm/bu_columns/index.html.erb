@@ -1,7 +1,4 @@
 <%= common_title %>
-<script type="text/javascript" src="/javascripts/ext4-all.js"></script>
-<link rel="stylesheet" type="text/css" href="/themes/salesforce2/stylesheets/ext4-all.css"></link>
-
 <div class="listRelatedObject setupBlock">
     <div class="page-block">
       <div class="pbHeader">
@@ -27,8 +24,10 @@
                   <table class="detailList" cellpadding="0" cellspacing="0" border="0">
                     <tbody>
                         <tr>
-                          <td class="labelCol">
-                            <div id="tree-div" href="<%= url_for(:action=>"get_columns_data",:format=>:json) %>"></div>
+                          <td style="width:18%">
+                            <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:action=>"get_columns_data",  :format=>:json),
+                                                                 :tree_id => "tree-div",
+                                                                 :li_attrs => "id,sc_id,sc_code,column_name,column_description" } %>
                           </td>
                           <td class="data2Col">
                             <div id="ep" class="detail-block page-block">
@@ -78,45 +77,14 @@
       </div>
     </div>
 </div>
-
-
-<script>
-Ext.onReady(function() {
-    var treeNode = Ext.getDom("tree-div");
-
-    Ext.define('ColumnField', {
-        extend: 'Ext.data.Model',
-        fields: [
-            {name: 'id',type: 'string'},
-            {name: 'text',type: 'string'},
-            {name: 'sc_id',type: 'string'},
-            {name: 'column_name',type: 'string'},
-            {name: 'column_description',type: 'string'},
-            {name: 'sc_code',type: 'string'}
-        ]
-    });
-    var store = Ext.create('Ext.data.TreeStore', {
-        model: "ColumnField",
-        proxy: {type: 'ajax',url:  treeNode.getAttribute("href")}
-    });
-
-    var tree = Ext.create('Ext.tree.Panel', {
-        store: store,
-        rootVisible: false,
-        useArrows: true,
-        renderTo: 'tree-div',
-        width: 200,
-        height: 250,
-        listeners:{
-            'itemclick':function(view, record, item, index, e){
-                Ext.getDom("column_code").innerHTML = record.get("sc_code");
-                Ext.getDom("column_name").innerHTML = record.get("column_name");
-                Ext.getDom("column_description").innerHTML = record.get("column_description");
-                Ext.getDom("edit_button").innerHTML = "<a href='/bu_columns/" + record.get("sc_id") + "/edit'><%= t :edit%></a>";
-                Ext.getDom("new_child_button").innerHTML = "<a href='/bu_columns/new?parent_column_id=" + record.get("sc_id") +"'><%= t :label_irm_bu_column_new_child%></a>";
-            }
-        }
-    });
-
-});
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#tree-div").bind('nodeListener',function(event, element){
+          $("#column_code").html(element.attr("sc_code"));
+          $("#column_name").html(element.attr("column_name"));
+          $("#column_description").html(element.attr("column_description"));
+          $("#edit_button").html("<a href='/bu_columns/" + element.attr("sc_id") + "/edit'><%= t :edit%></a>");
+          $("#new_child_button").html("<a href='/bu_columns/new?parent_column_id=" + element.attr("sc_id") +"'><%= t :label_irm_bu_column_new_child%></a>");
+      });
+  });
 </script>

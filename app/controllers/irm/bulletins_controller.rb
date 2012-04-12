@@ -16,8 +16,9 @@ class Irm::BulletinsController < ApplicationController
     respond_to do |format|
       file_flag = true
       now = 0
-      file_flag, flash[:notice] = Irm::AttachmentVersion.validates_repeat?(params[:file])
-      params[:file].each_value do |att|
+      params[:files].delete_if {|key, value| value[:file].nil? or value[:file].original_filename.blank? }
+      file_flag, flash[:notice] = Irm::AttachmentVersion.validates_repeat?(params[:files]) if params[:files]
+      params[:files].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
         file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
@@ -28,7 +29,7 @@ class Irm::BulletinsController < ApplicationController
       end if file_flag
 
       if !file_flag
-        @requested_attachments = params[:file]
+        @requested_attachments = params[:files]
         format.html { render :action => "new", :layout => "application_full" }
         format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
       elsif @bulletin.save
@@ -36,8 +37,8 @@ class Irm::BulletinsController < ApplicationController
           Irm::BulletinColumn.create(:bulletin_id => @bulletin.id, :bu_column_id => c)
         end
 
-        if params[:file]
-          files = params[:file]
+        if params[:files]
+          files = params[:files]
           #调用方法创建附件
           begin
             attached = Irm::AttachmentVersion.create_verison_files(files, "Irm::Bulletin", @bulletin.id)
@@ -78,7 +79,7 @@ class Irm::BulletinsController < ApplicationController
     respond_to do |format|
       file_flag = true
       now = 0
-      params[:file].each_value do |att|
+      params[:files].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
         file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
@@ -102,8 +103,8 @@ class Irm::BulletinsController < ApplicationController
         end
 
 
-        if params[:file]
-          files = params[:file]
+        if params[:files]
+          files = params[:files]
           #调用方法创建附件
           begin
             attached = Irm::AttachmentVersion.create_verison_files(files, "Irm::Bulletin", @bulletin.id)

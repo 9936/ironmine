@@ -96,6 +96,11 @@ class Irm::GroupMembersController < ApplicationController
     group_scope,count = paginate(group_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(group_scope.to_grid_json([:code,:name,:description], count))}
+      format.html {
+        @datas = group_scope
+        @count = count
+        render_html_data_table
+      }
     end
   end
 

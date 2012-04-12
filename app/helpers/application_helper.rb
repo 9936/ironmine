@@ -342,9 +342,12 @@ module ApplicationHelper
     paginator_box = options[:paginator_box]
     export_box = options[:export_data]
 
+    #select 配置
+    select_type = options[:select]
+
     column_models = ""
     columns.each do |c|
-      next if c[:hidden]||!c[:searchable].present?
+      next if c[:hidden]||(!c[:searchable].present? && !c[:orderable].present?)
       column = "{"
       c.each do |key,value|
         case key
@@ -354,6 +357,8 @@ module ApplicationHelper
             column << %Q(text:"#{value}",)
           when :searchable
             column << %Q(searchable:#{value},)
+          when :orderable
+            column << %Q(orderable:#{value},)
         end
       end
       column_models <<  column.chop
@@ -374,6 +379,10 @@ module ApplicationHelper
     end
     if export_box
       table_options << ",exportBox:'#{export_box}'"
+    end
+
+    if select_type
+      table_options << ",selectType:'#{select_type}'"
     end
 
     if options[:view_filter]
@@ -536,6 +545,11 @@ module ApplicationHelper
   def format_date(time)
     return time if time&&time.is_a?(String)
     time.strftime('%Y-%m-%d %H:%M:%S') if time
+  end
+
+  def calendar_date(time)
+    return time if time && time.is_a?(String)
+    time.strftime('%Y-%m-%d') if time
   end
 
   def show_check_box(value = "", y_value = "")
@@ -786,6 +800,15 @@ module ApplicationHelper
     render :partial=>"helper/rich_text",:locals=>{:textarea_id=>textarea_id,:force_fit_width=>force_fit_width}
   end
 
+  #xheditor编辑器
+  def xheditor(textarea_id)
+    unless limit_device?
+      require_javascript(:xheditor)
+      require_css(:xheditor_plugin)
+      render :partial=>"helper/xheditor",:locals=>{:textarea_id=>textarea_id }
+    end
+  end
+
   def options_for(klass,value_field="id",label_field="name")
     data_scope = []
     if klass.respond_to?(:multilingual)
@@ -824,5 +847,7 @@ module ApplicationHelper
         gsub('</script>','</scr"+"ipt>')
     result
   end
+
+
 
 end

@@ -1,3 +1,5 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
 <style type="text/css">
   select{
       min-width:128px;
@@ -107,6 +109,12 @@
               <td class="dataCol empty">&nbsp;</td>
             </tr>
             <tr>
+              <td class="labelCol"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+              <td class="dataCol">
+                <%= f.text_field(:estimated_date,:size=>12,:class=>"date")%>
+              </td>
+            </tr>
+            <tr>
               <td class="labelCol"><label for="incident_request_title"><%=t(:label_icm_incident_request_title)%></label></td>
               <td class="dataCol" colspan="3" style="width:82%"><%=f.text_field :title,:size=>80, :required=>true ,:id=>"incident_request_title"%></td>
             </tr>
@@ -118,25 +126,18 @@
                 <%= rich_text_area("incident_request_summary") %>
               </td>
             </tr>
-            <tr>
-              <td class="labelCol"></td>
-              <td class="dataCol" colspan="3" style="width:82%">
-                  <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"edit_incident_request_file"} %>
-              </td>
-            </tr>
+
         </tbody>
       </table>
     </div>
-
-
-
+    <!-- 加载上传附件模板 -->
+    <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => false, :exist_attachments => list_ir_existed_attachments(@incident_request) } %>
     <div id="head_3_ep" class="pbSubheader tertiaryPalette">
       <h3><%= t(:label_icm_incident_requset_addition_info) %></h3>
     </div>
     <div class="pbSubsection">
       <table class="detailList" cellpadding="0" cellspacing="0" border="0">
         <tbody>
-
             <tr>
                 <td class="labelCol"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
                 <td class="dataCol">
@@ -161,7 +162,7 @@
                                                     {},{:required=>true,:id=>"incident_request_impact_range_code"}%>
               </td>
             </tr>
-          <% if allow_to_function?(:create_icdt_rqst_for_other) %>
+          <% if false && allow_to_function?(:create_icdt_rqst_for_other) %>
             <tr>
               <td class="labelCol"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
               <td class="dataCol">

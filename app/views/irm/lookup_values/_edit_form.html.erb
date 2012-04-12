@@ -46,13 +46,13 @@
             <tr>
               <td class="labelCol"><label for="date1"><%=(t :label_start_date_active)%></label></td>
               <td class="dataCol">
-                <%=f.text_field(:start_date_active,:required=>true,:id=>"date1",:size=>18,:class=>"date",:nobutton=>true)%>
+                <%=f.text_field(:start_date_active,:value =>calendar_date(@lookup_value.start_date_active),:required=>true,:id=>"date1",:size=>18,:class=>"date",:nobutton=>true)%>
               </td>
             </tr>
             <tr>
               <td class="labelCol"><label for="date2"><%=(t :label_end_date_active)%></label></td>
               <td class="dataCol">
-                <%=f.text_field(:end_date_active,:id=>"date2",:size=>18,:class=>"date",:nobutton=>true) %>
+                <%=f.text_field(:end_date_active,:value =>calendar_date(@lookup_value.end_date_active),:id=>"date2",:size=>18,:class=>"date",:nobutton=>true) %>
               </td>
             </tr>
             <tr>

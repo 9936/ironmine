@@ -142,7 +142,7 @@ class Com::ConfigClassesController < ApplicationController
     config_classes_scope = config_classes_scope.match_value("#{Com::ConfigClassesTl.table_name}.name",params[:name])
     config_classes,count = paginate(config_classes_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(config_classes.to_grid_json([:code,:name,:description,:status_meaning,:leaf_flag],count))}
+      format.json {render :json=>to_jsonp(config_classes.to_grid_json([:code,:name,:description,:parent_id,:leaf_flag],count))}
     end
   end
 

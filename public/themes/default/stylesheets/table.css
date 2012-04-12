@@ -28,6 +28,34 @@
     font-size:12px;
     text-align: left;
 }
+
+.irm-datatable th a.sortAsc, .irm-datatable th a.sortDesc{
+    width: 11px;
+    height: 11px;
+    margin: 0 5px;
+    vertical-align: -2px;
+    background: transparent url(../images/sortArrows_sprite.png) no-repeat 0 top;
+    display: none;
+    text-indent: -9999px !important;
+}
+.sortAsc{
+    background-position:0 -16px;
+}
+.sortDesc{
+    background-position:0 top;
+}
+.irm-datatable th a.sortAsc{
+    background-position:0 -48px;
+}
+.irm-datatable th a.sortDesc{
+    background-position:0 -32px;
+}
+.irm-datatable input[type="checkbox"]{
+    float: left;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0 0 1px 0;
+}
 .irm-datatable th {
     margin:0;
     padding:0;
@@ -126,13 +154,22 @@ td { background-color:transparent;} /* none */
     position: relative;
     margin-top: 5px;
 }
+.irm-paginator-box .size-record-label {
+    float: right;
+}
+.irm-paginator-box .record-label,.irm-paginator-box .size-label {
+    float:left;
+    height: 23px !important;
+    line-height: 23px !important;
+    margin-right: 5px;
+}
 
-.irm-paginator-box .record-label { float:right; margin-right: 5px;}
+
 .irm-btn-icon {
 
 }
 .irm-paginator-box{margin-top: 3px;}
-.irm-paginator-box input{
+.irm-paginator-box input,.irm-paginator-box select {
     border: solid 1px #b5b8c8;
 }
 

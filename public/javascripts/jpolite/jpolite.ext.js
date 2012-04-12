@@ -9,7 +9,6 @@ $.fn.extend({
 		return this.each(function() {
 			var x = $(this);
 			var targets = x.children("div").addClass("tabsdiv").hide();
-
 			x.children(".tabsul").children("li").each(function(i) {
 				this.target = targets[i];
 				$(this).click(function() {
@@ -18,8 +17,9 @@ $.fn.extend({
 					$(this.target).siblings("div:visible").andSelf().toggle();
 					
 					//Ajax Lazy Loading Support
-					var a = $("a", this); 
+					var a = $("a", this);
 					if ((a.size() > 0) && !this.loaded) {
+
 						$(this.target).load(_modules[a[0].rel].url, $.widgetize);
 						this.loaded = true;
 					}
@@ -117,7 +117,6 @@ function myCustomEvents(){
 			$.alert({title:'module Loaded',text:target.url})
 		}
 	});
-
 	//Ajax Start & Stop event processor registered with jQuery's methods
 	$("#loading").ajaxStart(function(){
 	   $(this).css("visibility","visible");
@@ -301,6 +300,7 @@ function initPortal(options){
 //		this._loadLayout();
 //	};
     //$.jpolite.Nav.ct = 't1';
+
 	$.jpolite.init(s);
 	$.jpolite.gotoTab('t1');	//Activate the first tab by default, or another id of your choice
 	

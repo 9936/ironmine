@@ -64,6 +64,12 @@
              </td>
            </tr>
            <tr>
+             <td class="label-col"><label for="incident_estimated_date"><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+             <td class="data-3col">
+               <%= f.text_field(:estimated_date,:size=>12,:class=>"date",:id=>"incident_estimated_date")%>
+             </td>
+           </tr>
+           <tr>
              <td class="label-col"><label for="incident_request_title"><%=t(:label_icm_incident_request_title)%></label></td>
              <td class="data-3col" colspan="3"><%=f.text_field :title,:size=>80, :required=>true ,:class=>"input-xxlarge",:id=>"incident_request_title"%></td>
            </tr>
@@ -85,6 +91,7 @@
        </tbody>
     </table>
   <% end %>
+
 
 
     <!--事故单基本信息-->

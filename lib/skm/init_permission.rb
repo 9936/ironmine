@@ -5,7 +5,7 @@ Irm::AccessControl.map do |map|
 
   #===================skm/entry_templates============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "remove_element", "add_elements", "select_elements", "get_owned_elements_data", "get_available_elements", "up_element", "down_element", "edit_detail", "update_detail"]
-  map.function :skm_template,{"skm/entry_templates"=>["index", "show", "get_data", "get_owned_elements_data",
+  map.function :skm_template,{"skm/entry_templates"=>["index", "show", "get_data","get_data_rest", "get_owned_elements_data",
                                                         "select_elements","new", "create", "add_elements",
                                                         "get_available_elements","edit", "update", "edit_detail",
                                                         "update_detail", "remove_element", "up_element", "down_element"]}

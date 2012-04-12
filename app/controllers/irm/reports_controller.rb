@@ -119,6 +119,7 @@ class Irm::ReportsController < ApplicationController
 
   def update
     @report = Irm::Report.find(params[:id])
+    puts "==================================================================="
     session[:irm_report].merge!(params[:irm_report].symbolize_keys)
     @report.attributes =  session[:irm_report]
 
@@ -207,7 +208,7 @@ class Irm::ReportsController < ApplicationController
 
   def get_data
     folder_ids = []
-    if params[:folder_id].present?
+    if params[:folder_id].present? && params[:folder_id] != "root"
       folder_ids = [params[:folder_id]]
     else
       folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
@@ -328,7 +329,7 @@ class Irm::ReportsController < ApplicationController
   end
 
   def new_program
-    @report = Irm::Report.new(:program_type=>"PROGRAM")
+    @report = Irm::Report.new(:program_type=>"PROGRAM", :auto_run_flag => Irm::Constant::SYS_NO)
     respond_to do |format|
       format.html { render :layout => "application_full"}# index.html.erb
     end
@@ -386,6 +387,16 @@ class Irm::ReportsController < ApplicationController
     @folder_id = params[:folder_id]
     respond_to do |format|
       format.html { render :layout => false}# index.html.erb
+    end
+  end
+
+  #报表文件夹
+  def get_reports_tree
+    folders = Irm::ReportFolder.multilingual.collect{|i| {:id=>i.id ,:type=>"folder",:text=>i[:name],:folder_id=>i.id,:leaf=>true,:iconCls=>"x-tree-icon-parent"}}
+    #root_folder = {:id=>"",:type=>"root",:folder_id=>"",:text=>t(:label_irm_report_folder_all),:draggable=>false,:leaf=>false,:expanded=>true}
+    #root_folder[:children] = folders
+    respond_to do |format|
+      format.json {render :json=>folders.to_json}
     end
   end
 
@@ -472,6 +483,5 @@ class Irm::ReportsController < ApplicationController
     end
     data_to_xls(export_data,columns)
   end
-
 
 end

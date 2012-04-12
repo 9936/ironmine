@@ -58,7 +58,7 @@
                    {:key=>"external_system_code",:label=>t(:label_irm_external_system),:searchable=>true},
                    {:key=>"system_name",:label=>t(:name),:searchable=>true},
                    {:key=>"system_description",:label=>t(:description)},],
-                   {:paginator_box=>"systemPaginator",:search_box=>"selectableSystemSearchBox",:select=>"multiple"})%>
+                   {:paginator_box=>"systemPaginator",:search_box=>"selectableSystemSearchBox",:select=>"multiple",:force_html=>true})%>
         <div id="systemPaginator"></div>
       </div>
       <div class="pbBottomButtons">
@@ -106,15 +106,9 @@
 
 <% end %>
 <script type="text/javascript">
-  Ext.onReady(function(){
-      var setSelectedValue = function(selModel,selected){
-          var ids = [];
-          for(var i = 0;i<selected.length;i++){
-            ids.push(selected[i].data.id);
-          }
-          console.debug(ids);
+  $(document).ready(function(){
+      $("#externalSystemList").bind('selectionchange',function(event,ids){
           $("#irm_external_system_person_status_code").val(ids.join(","));
-      }
-      Ext.getCmp("externalSystemListDatatable").selModel.addListener("selectionchange",setSelectedValue);
-});
+      });
+  });
 </script>

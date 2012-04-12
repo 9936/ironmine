@@ -1,7 +1,8 @@
 class Skm::EntryTemplateDetail < ActiveRecord::Base
   set_table_name :skm_entry_template_details
   validates_presence_of :default_rows
-
+  belongs_to :entry_template
+  belongs_to :entry_template_element
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离

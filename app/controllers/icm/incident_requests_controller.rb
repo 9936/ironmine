@@ -155,6 +155,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :last_response_date,
                       :external_system_id,
                       :external_system_id_label,
+                      :estimated_date,
                       :kb_flag,
                       :reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
@@ -206,12 +207,14 @@ class Icm::IncidentRequestsController < ApplicationController
                       :incident_status_id_label,
                       :close_flag,
                       :requested_by,
+                      :support_person_id,
                       :requested_by_label,
                       :last_request_date,
                       :priority_id_label,
                       :external_system_id_label,
                       :external_system_id,
                       :kb_flag,
+                      :estimated_date,
                       :reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
@@ -306,11 +309,16 @@ class Icm::IncidentRequestsController < ApplicationController
         where("external_system_id IN (?)", Irm::Person.current.system_ids).
         order("created_at")
     incident_requests_scope = incident_requests_scope.where("support_person_id IS NULL")
-
+    incident_requests,count = paginate(incident_requests_scope)
     respond_to do |format|
       format.json {
-        incident_requests,count = paginate(incident_requests_scope)
+
         render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+      }
+      format.html {
+        @datas = incident_requests
+        @count = count
+        render_html_data_table
       }
       format.xml {
         incident_requests,count = paginate(incident_requests_scope)
@@ -395,11 +403,15 @@ class Icm::IncidentRequestsController < ApplicationController
         where("external_system_id IN (?)", Irm::Person.current.system_ids).
         assignable_to_person(Irm::Person.current.id).
         order("created_at")
-
+    incident_requests,count = paginate(incident_requests_scope)
     respond_to do |format|
       format.json {
-        incident_requests,count = paginate(incident_requests_scope)
         render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+      }
+      format.html {
+        @datas = incident_requests
+        @count = count
+        render_html_data_table
       }
       format.xml {
         incident_requests,count = paginate(incident_requests_scope)
@@ -503,7 +515,12 @@ class Icm::IncidentRequestsController < ApplicationController
     flash[:notice] = nil
     now = 0
     flag = true
-    flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files]) if params[:files]
+    params[:files].delete_if {|key, value| value[:file].nil? or value[:file].original_filename.blank? }
+    if params[:files] and params[:files].size > 0
+      flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files])
+    else
+      now = I18n.t(:error_file_upload_empty)
+    end
     return false, now unless flag
     params[:files].each do |key,value|
       next unless value[:file] && value[:file].original_filename.present?
@@ -515,5 +532,3 @@ class Icm::IncidentRequestsController < ApplicationController
     return false, now
   end
 end
-
-

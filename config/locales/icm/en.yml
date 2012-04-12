@@ -150,6 +150,7 @@ en:
   label_icm_incident_request_incident_category: Category
   label_icm_incident_request_incident_sub_category: Subcategory
   label_icm_incident_request_relation_type: The Relation
+  label_icm_incident_request_estimated_date: Estimated Date
   #========================= end icm incident_requests_controller=======================#
   #=========================    icm incident_journals_controller=======================#
   label_icm_incident_reply_support_group_id: Referred group

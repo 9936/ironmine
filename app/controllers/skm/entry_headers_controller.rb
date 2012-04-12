@@ -27,10 +27,17 @@ class Skm::EntryHeadersController < ApplicationController
 
       if @entry_header.type_code == "VIDEO"
         format.html { redirect_to({:action => "video_show", :id => @entry_header})}
+        format.json {render :json=>@entry_header.attributes}
       else
         format.html # show.html.erb
         format.xml  { render :xml => @entry_header }
+        format.json {
+                        @entry_header[:entry_details]=@entry_header.entry_details.collect {|i| i.attributes}
+
+                        render :json=>@entry_header.attributes
+                      }
       end
+
     end
   end
 
@@ -66,11 +73,11 @@ class Skm::EntryHeadersController < ApplicationController
         format.html { redirect_to({:action=>"new_step_3"}) }
       end
     elsif params[:step] == "4"
-      files = params[:file]
+      files = params[:files]
       #调用方法创建附件
       file_flag = true
       now = 0
-      params[:file].each_value do |att|
+      params[:files].each_value do |att|
         file = att["file"]
         next unless file && file.size > 0
         file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
@@ -205,6 +212,10 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def create
+    if params[:format].eql?("json")
+      session[:skm_entry_header]=params[:skm_entry_header]
+      session[:skm_entry_details]=params[:skm_entry_details]
+    end
     @entry_header = Skm::EntryHeader.new
     session[:skm_entry_header].each do |k, v|
       @entry_header[k.to_sym] = v
@@ -246,12 +257,14 @@ class Skm::EntryHeadersController < ApplicationController
           format.html { redirect_to({:action=>"my_drafts"}, :notice =>t(:successfully_created)) }
         else
           format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
-        end
 
+        end
+        format.json { render :json=>@entry_header.attributes}
         format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+        format.json { render :json => @entry_header.errors}
       end
     end
   end
@@ -356,11 +369,12 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def update
+
     return_url = params[:return_url]
 #    column_ids = params[:skm_entry_header][:column_ids].split(",")
     file_flag = true
     now = 0
-    params[:file].each_value do |att|
+    params[:files].each_value do |att|
       file = att["file"]
       next unless file && file.size > 0
       file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
@@ -368,7 +382,7 @@ class Skm::EntryHeadersController < ApplicationController
         flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         break
       end
-    end
+    end if params[:files]
 
     if file_flag
       if params[:new]
@@ -390,7 +404,7 @@ class Skm::EntryHeadersController < ApplicationController
         @entry_header.source_type = old_header.source_type
         @entry_header.source_id = old_header.source_id
         respond_to do |format|
-          if @entry_header.save && old_header.save && @entry_header.update_attributes(params[:skm_entry_header])
+          if old_header.save && @entry_header.save &&  @entry_header.update_attributes(params[:skm_entry_header])
             params[:skm_entry_details].each do |k, v|
               old_detail = Skm::EntryDetail.find(k)
               detail = Skm::EntryDetail.new(old_detail.attributes)
@@ -405,8 +419,8 @@ class Skm::EntryHeadersController < ApplicationController
             fas.each do |fa|
               fa.update_attribute(:entry_header_id, @entry_header.id)
             end
-            if params[:file]
-              files = params[:file]
+            if params[:files]
+              files = params[:files]
               #调用方法创建附件
               begin
                 attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
@@ -421,6 +435,7 @@ class Skm::EntryHeadersController < ApplicationController
               format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }
               format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
             end
+            format.json {render :json=>@entry_header}
           else
             if @entry_header.new_record?
               @entry_header.id = old_header.id
@@ -430,6 +445,7 @@ class Skm::EntryHeadersController < ApplicationController
             end
             format.html { render :action => "edit" }
             format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+            format.json {render :json=>@entry_header.errors}
           end
         end
       else
@@ -446,8 +462,8 @@ class Skm::EntryHeadersController < ApplicationController
 #            column_ids.each do |t|
 #              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
 #            end
-            if params[:file]
-              files = params[:file]
+            if params[:files]
+              files = params[:files]
               #调用方法创建附件
               begin
                 attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
@@ -464,15 +480,18 @@ class Skm::EntryHeadersController < ApplicationController
               format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }
               format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
             end
+            format.json {render :json=>@entry_header}
           else
             format.html { render :action => "edit" }
             format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+            format.json {render :json=>@entry_header.errors}
           end
         end
       end
     else
       format.html { render :action => "edit"}
       format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
+      format.json {render :json=>@entry_header.errors}
     end
   end
 
@@ -505,7 +524,7 @@ class Skm::EntryHeadersController < ApplicationController
         @count = entry_headers.count
         render_html_data_table
       }
-      format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:is_favorite, :entry_status_code, :full_title,
+      format.json  {render :json => to_jsonp(entry_headers.to_grid_json([:is_favorite, :entry_status_code, :full_title,
                                                                          :entry_title, :keyword_tags,:doc_number,:version_number,
                                                                          :published_date_f, :type_code], count)) }
     end
@@ -600,7 +619,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   end
   def my_unpublished_data
-    entry_headers_scope = Skm::EntryHeader.list_all.with_entry_status.my_unpublished(params[:person_id])
+    entry_headers_scope = Skm::EntryHeader.list_all.with_entry_status.current_entry.my_unpublished(params[:person_id])
     entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
@@ -612,7 +631,7 @@ class Skm::EntryHeadersController < ApplicationController
 
   end
   def wait_my_approve_data
-    entry_headers_scope = Skm::EntryHeader.list_all.with_author.with_entry_status.wait_my_approve
+    entry_headers_scope = Skm::EntryHeader.list_all.with_author.current_entry.with_entry_status.wait_my_approve
     entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
@@ -725,8 +744,8 @@ class Skm::EntryHeadersController < ApplicationController
 #        column_ids.each do |c|
 #          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
 #        end
-        if params[:file]
-          files = params[:file]
+        if params[:files]
+          files = params[:files]
           #调用方法创建附件
           begin
             attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
