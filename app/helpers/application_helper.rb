@@ -121,7 +121,11 @@ module ApplicationHelper
   def app_show_title(options = {})
     common_title(:model_meaning=>options[:title],:action_meaning=>options[:description],:show_data=>options[:show_data])
   end  
-  
+
+
+  def form_require_info
+    raw "<span class='required-help-info'> = #{t(:label_is_required)}</span> "
+  end
   #显示form提交的出错信息
   def error_message_for(*args)
     lis=""
@@ -178,7 +182,7 @@ module ApplicationHelper
 
     select = options[:select]
     html = options[:html]||false
-    force_html = options[:force_html]||false
+    force_html = true #options[:force_html]||false
 
     if force_html||(html&&limit_device?&&!select.present?)
       return plain_datatable(id,url_options,columns,options)
@@ -499,13 +503,13 @@ module ApplicationHelper
     (@has_content && @has_content[name]) || false
   end
   
-  def link_back(text = t(:back),default_options={})
+  def link_back(text = t(:back),default_options={},html_options={})
     if params[:back_url].present?
-      link_to text, {}, {:href => CGI.unescape(params[:back_url].to_s)}
+      link_to text, {}, html_options.merge({:href => CGI.unescape(params[:back_url].to_s)})
     elsif default_options.any?
-      link_to text, default_options
+      link_to text, default_options ,html_options
     else
-      link_to text, {}, {:href => "javascript:history.back();"}
+      link_to text, {}, html_options.merge({:href => "javascript:history.back();"})
     end
 
   end

@@ -1,38 +1,32 @@
 <%= setting_title %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_menu_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="menusSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="menus_list" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
-          <div id="status_code" style="display:none">
-            <%= check_img("{status_code}") %>
-          </div>                
-        </div>
-        <%= datatable("menus_list",{:action=>"get_data",:format=>"json"},
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "70px"},
-                       {:key=>"code",:label=>t(:label_irm_menu_menu_code), :width => "180px",:searchable=>true},
-                       {:key=>"name",:label=>t(:label_irm_menu_name), :width => "180px",:searchable=>true},
-                       {:key=>"description",:label=>t(:label_irm_menu_description)},
-                       {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "40px"}],
-                       {:search_box=>"menusSearchBox",:paginator_perpage=>false,:paginator_box=>"menusPaginatorBox"}) %>
-        <div id="menusPaginatorBox"></div>
-      </div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_menu_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-helper">
+      <div id="menusSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="menus_list">
+    <%= datatable("menus_list",{:action=>"get_data",:format=>"json"},
+                  [{:key=>"id",:label=>t(:operation)},
+                   {:key=>"code",:label=>t(:label_irm_menu_menu_code),:searchable=>true},
+                   {:key=>"name",:label=>t(:label_irm_menu_name),:searchable=>true},
+                   {:key=>"description",:label=>t(:label_irm_menu_description)},
+                   {:key=>"status_code",:label=>t(:active)}],
+                   {:search_box=>"menusSearchBox",:paginator_box=>"menusPaginatorBox"}) %>
+
     </div>
+    <div id="menusPaginatorBox"></div>
+  </div>
 </div>
+
+
+

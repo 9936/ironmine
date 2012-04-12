@@ -60,7 +60,11 @@ class Irm::MenuEntriesController < ApplicationController
     menu_entries,count = paginate(menu_entries_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(menu_entries.to_grid_json([:display_sequence,:name,:description,:sub_menu_code,:sub_menu_name, :sub_function_group_code, :sub_function_group_name,:status_code], count)) }
-    end            
+      format.html  {
+        @count = count
+        @datas = menu_entries
+      }
+    end
   end
 
   def destroy

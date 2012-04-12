@@ -1,0 +1,107 @@
+module Irm
+  module DataTableHelper
+    extend ActiveSupport::Concern
+
+    def datatable_view(options = {}, &block)
+      raise ArgumentError, "Missing block" unless block_given?
+      raise ArgumentError, "Missing row count or datas" unless options[:count].present?||options[:datas].present?
+      output = ActiveSupport::SafeBuffer.new
+      builder = datatable_builder(options, &block)
+      output.safe_concat "<div class='datatable'>"
+        yield builder
+      output.safe_concat generate_content(builder)
+      output.safe_concat "</div>"
+      output
+    end
+
+    private
+
+    def datatable_builder(options)
+      DataTableBuilder.new(options)
+    end
+
+    def generate_content(builder)
+      column_options = filter_columns(builder.columns,builder.display_columns)
+      datatable_options = builder.options
+      output = ActiveSupport::SafeBuffer.new
+      #==datatable
+      output.safe_concat "<table count='#{datatable_options[:count]}'>"
+      #==header
+      output.safe_concat "<thead><tr>"
+      column_options.each do |column|
+        column_style = column_style(column)
+        output.safe_concat "<th #{column_style} key='#{column[:key]}' ><div>#{column[:title]}"
+        output.safe_concat "</div></th>"
+      end
+      output.safe_concat "</tr></thead>"
+
+      #==body
+      output.safe_concat "<tbody>"
+      builder.options[:datas].each do |data|
+        output.safe_concat "<tr>"
+        column_options.each do |column|
+          output.safe_concat "<td id='#{data[:id]}'><div>"
+          if column[:block].present?
+            output.safe_concat capture(data,&column[:block])
+          else
+            output.safe_concat data[column[:key]] ||""
+          end
+          output.safe_concat "</td></div>"
+        end
+        output.safe_concat "</tr>"
+      end
+      output.safe_concat "</tbody>"
+      output.safe_concat "</table>"
+      output
+    end
+
+    def column_style(column)
+      style = ""
+      if column[:width].present?
+        if column[:width].include?("%")||column[:width].include?("px")
+          style << "width:#{column[:width]};"
+        else
+          style << "width:#{column[:width]}px;"
+        end
+      end
+      if style.blank?
+        return ""
+      else
+        return "style='#{style}'"
+      end
+
+
+    end
+
+
+    def filter_columns(columns,display_columns)
+      if display_columns.present?&&display_columns.is_a?(Array)&&display_columns.any?
+        origin_columns = columns
+        result_columns = []
+        display_columns.each do |dc|
+          result_columns << origin_columns[dc.to_sym]
+        end
+        return result_columns
+      else
+        return columns.values
+      end
+    end
+
+  end
+
+  class DataTableBuilder
+    attr_accessor :options ,:columns,:display_columns
+
+    def initialize(options)
+      self.options = options
+      self.display_columns = self.options.delete(:columns)
+      self.columns = {}
+    end
+
+    def column(key,column_options={},&render_block)
+      self.columns.merge!({key.to_sym=>column_options.merge!({:key=>key.to_sym,:block=>render_block})})
+    end
+  end
+
+end
+

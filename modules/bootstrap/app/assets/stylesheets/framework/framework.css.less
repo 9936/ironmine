@@ -852,6 +852,71 @@ body .nav-tab-bar .nav-tab {
     padding: 5px 0 5px 0;
 }
 
+//==========show  block
+.show-block{
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+}
+.show-block .page-block-header{
+    width:100%;
+    vertical-align: middle;
+}
+
+.show-block .page-block-header .page-block-title{
+    padding: 5px 12px 5px 12px;
+    width: 30%;
+}
+
+.show-block .page-block-header .page-block-title .block-title{
+    color: #000000;
+    line-height: 20px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.show-block .page-block-header .page-block-button{
+    width: auto;
+    padding: 5px 12px 5px 12px;
+}
+
+.show-block .page-block-header .page-block-help{
+    width: 30%;
+    padding: 5px 12px 5px 12px;
+    text-align: right;
+    .btn-toolbar{ margin: 0;}
+}
+.show-block .page-block-body{
+}
+.show-block .page-block-footer{
+    width:100%;
+    vertical-align: middle;
+    border-top: 1px solid #DBDBDB;
+}
+
+.show-block .page-block-footer .page-block-title{
+    padding: 5px 12px 5px 12px;
+    width: 30%;
+    text-align: left;
+}
+
+.show-block .page-block-footer .page-block-title .block-title{
+    color: #000000;
+    line-height: 20px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.show-block .page-block-footer .page-block-button{
+    width: auto;
+    padding: 5px 12px 5px 12px;
+}
+
+.show-block .page-block-footer .page-block-help{
+    width: 30%;
+    padding: 5px 12px 5px 12px;
+    text-align: right;
+}
+
 //==========datatable
 @gridHeaderBgPath: asset-path('framework/grid_headerbg.gif');
 
@@ -1055,6 +1120,9 @@ body .nav-tab-bar .nav-tab {
 }
 
 //=======datatable search box
+.datable-search-box{
+    text-align: right;
+}
 .datable-search-box input{
     width: 80px;
 }
@@ -1167,7 +1235,7 @@ table.form-table .form-field-required .form-field-required-flag {
     width: 3px;
 }
 
-//========show data layout======
+//========show page block======
 table.show-table{
     width: 100%;
 }
@@ -1175,21 +1243,27 @@ table.show-table{
 table.show-table label{
     font-size: 91%;
     font-weight: bold;
-    margin-top: 5px;
+    margin: 0;
 
+}
+
+table.show-table tr{
+    border-bottom: 1px solid #ECECEC;
+}
+
+table.show-table tr.last{
+    border-bottom: none;
 }
 
 table.show-table td.label-col{
     text-align: right;
     width: 18%;
-    vertical-align: top;
     padding: 2px 10px 2px 2px;
 }
 
 table.show-table td.label-2col{
     text-align: right;
     width: 50%;
-    vertical-align: top;
     padding: 2px 10px 2px 2px;
 
 }
@@ -1198,7 +1272,6 @@ table.show-table td.label-2col{
 table.show-table td.label-3col{
     text-align: right;
     width: 68%;
-    vertical-align: top;
     padding: 2px 10px 2px 2px;
 
 }
@@ -1207,7 +1280,6 @@ table.show-table td.label-3col{
 table.show-table td.label-4col{
     text-align: left;
     width: 100%;
-    vertical-align: top;
     padding: 2px 10px 2px 2px;
 
 }
@@ -1217,15 +1289,12 @@ table.show-table td.data-col{
     text-align: left;
     width: 38%;
     padding: 2px 2px 2px 10px;
-    vertical-align: top;
-
 }
 
 table.show-table td.data-2col{
     text-align: left;
     width: 50%;
     padding: 2px 2px 2px 10px;
-    vertical-align: top;
 
 }
 
@@ -1234,8 +1303,6 @@ table.show-table td.data-3col{
     text-align: left;
     width: 82%;
     padding: 2px 2px 2px 10px;
-    vertical-align: top;
-
 }
 
 
@@ -1243,8 +1310,6 @@ table.show-table td.data-4col{
     text-align: left;
     width: 100%;
     padding: 2px 2px 2px 10px;
-    vertical-align: top;
-
 }
 
 
