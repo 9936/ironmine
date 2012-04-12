@@ -919,7 +919,7 @@ body .nav-tab-bar .nav-tab {
 
 //==========datatable
 @gridHeaderBgPath: asset-path('framework/grid_headerbg.gif');
-
+@sortArrowsSprite: asset-path('framework/sort-arrows-sprite.png');
 .datatable table {
     margin:0;
     padding:0;
@@ -956,6 +956,33 @@ body .nav-tab-bar .nav-tab {
     font-weight: bold;
     font-size:12px;
     text-align: left;
+}
+.datatable table th a.sort-asc, .datatable table th a.sort-desc{
+    width: 11px;
+    height: 11px;
+    margin: 0 5px;
+    vertical-align: -2px;
+    background: transparent url(@sortArrowsSprite) no-repeat 0 top;
+    display: none;
+    text-indent: -9999px !important;
+}
+.sort-asc{
+    background-position:0 -16px;
+}
+.sort-desc{
+    background-position:0 top;
+}
+.datatable table th a.sort-asc{
+    background-position:0 -48px;
+}
+.datatable table th a.sort-desc{
+    background-position:0 -32px;
+}
+.datatable table input[type="checkbox"]{
+    float: left;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0 0 1px 0;
 }
 .datatable table th {
     margin:0;
@@ -1117,6 +1144,12 @@ body .nav-tab-bar .nav-tab {
     position: absolute;
     text-align: right;
     padding: 2px 5px 0 0;
+}
+.paginator .paginator-right .select-page-size select {
+    min-width: 30px;
+    padding: 0px;
+    height: 20px;
+    line-height: 16px;
 }
 
 //=======datatable search box
