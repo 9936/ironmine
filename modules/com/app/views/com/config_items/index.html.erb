@@ -21,19 +21,10 @@
           <tr>
             <td>
               <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "com/config_classes", :action=>"get_class_tree", :format=>:json),
-                                                                           :target_table => "config_items",
                                                                            :tree_id => "tree-div",
                                                                            :title => t(:label_com_config_class),
                                                                            :root_text => t(:label_com_config_item_all_class),
-                                                                           :url_param_value => 'id',
-                                                                           :url_param_name => 'config_class_id'} %>
-              <!--<%= render :partial =>"tree_sidebar", :locals =>{:tree_url => url_for(:controller => "com/config_classes", :action=>"get_class_tree",  :format=>:json),
-                                                                           :target_table => "config_items",
-                                                                           :tree_id => "tree-div",
-                                                                           :title => t(:label_com_config_class),
-                                                                           :root_text => t(:label_com_config_item_all_class),
-                                                                           :url_param_value => 'id',
-                                                                           :url_param_name => 'config_class_id'} %>  -->
+                                                                           :li_attrs => 'id'} %>
             </td>
             <td>
               <table id="config_items_table" >
@@ -70,5 +61,16 @@
       </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+          $("#tree-div").bind('nodeListener',function(event, element){
+              var params = {};
+              params['config_class_id'] = element.attr('id');
+              var current_target = $("#config_items").data("datatable").target;
+              current_target.data.options.searchOptions = params;
+              current_target.loadPage(1);
+          });
+    });
+</script>
 
 

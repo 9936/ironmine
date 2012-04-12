@@ -2,10 +2,30 @@
 
 function load(settings, root, child, container) {
 	$.getJSON(settings.url, {root: root}, function(response) {
-        response = [{id:"root", text:settings.root_text,expanded:true, children:response,classes:"active"}];
+        //是否需要初始化根信息
+        if(settings.root_text) {
+            response = [{id:"root", text:settings.root_text,expanded:true, children:response,classes:"active"}];
+        }
 		function createNode(parent) {
-            var a_span = $("<a/>").attr("href", "javascript:void(0);").html("<span class='folder'>" + this.text + "</span>");
+            //配置是否显示checkbox
+            var a_span = '';
+            if(settings.show_checkbox) {
+                if(this.checked) {
+                    a_span = $("<a/>").attr("href", "javascript:void(0);").html("<input type='checkbox' checked='checked' name='ids' value='"+this.id+"'/><span class='folder'>" + this.text + "</span>");
+                }else{
+                    a_span = $("<a/>").attr("href", "javascript:void(0);").html("<input type='checkbox' name='ids' value='"+this.id+"'/><span class='folder'>" + this.text + "</span>");
+                }
+
+            }else{
+                a_span = $("<a/>").attr("href", "javascript:void(0);").html("<span class='folder'>" + this.text + "</span>");
+            }
+
+            //当前的li需要配置的属性以及值
+            var attr_arr = settings.li_attrs.split(',');
 			var current = $("<li/>").attr("id", this.id || "").html(a_span).appendTo(parent);
+            for(var i=0;i<attr_arr.length;i++) {
+                current.attr(attr_arr[i],this[attr_arr[i]]);
+            }
 			if (this.expanded) {
 				current.addClass("open");
 			}
@@ -39,11 +59,8 @@ function load(settings, root, child, container) {
                    }
                 });
                 $(this).addClass('active');
-                var params = {};
-                params[settings.param_name] = $(this).parent().attr(settings.param_value);
-                var current_target = $("#"+settings.target_table).data("datatable").target;
-                current_target.data.options.searchOptions = params;
-                current_target.loadPage(1);
+                //触发外部监听的事件
+                $(container).trigger('nodeListener', [current]);
             });
 		}
 		$.each(response, createNode, [child]);

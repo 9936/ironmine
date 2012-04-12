@@ -21,7 +21,6 @@ class Chm::AdvisoryBoardMembersController < ApplicationController
     end
 
     params[:person_ids] = ""
-
     respond_to do |format|
         format.html { render :action => "new" }
         format.xml  { render :xml => @advisory_board }
