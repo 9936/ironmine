@@ -44,7 +44,15 @@ module Irm
           if column[:block].present?
             output.safe_concat capture(data,&column[:block])
           else
-            output.safe_concat data[column[:key]] ||""
+            if data[column[:key]].present?
+              if data[column[:key]].is_a?(Time)
+                output.safe_concat  data[column[:key]].strftime('%Y-%m-%d %H:%M:%S')
+              else
+                output.safe_concat data[column[:key]]
+              end
+            else
+              output.safe_concat ""
+            end
           end
           output.safe_concat "</td></div>"
         end
