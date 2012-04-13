@@ -29,8 +29,8 @@ module Irm
       #==header
       output.safe_concat "<thead><tr>"
       column_options.each do |column|
-        column_style = column_style(column)
-        output.safe_concat "<th #{column_style} key='#{column[:key]}' ><div>#{column[:title]}"
+        column_options_str = column_options_str(column)
+        output.safe_concat "<th #{column_options_str} ><div>#{column[:title]}"
         output.safe_concat "</div></th>"
       end
       output.safe_concat "</tr></thead>"
@@ -38,9 +38,9 @@ module Irm
       #==body
       output.safe_concat "<tbody>"
       builder.options[:datas].each do |data|
-        output.safe_concat "<tr>"
+        output.safe_concat "<tr id='#{data[:id]}'>"
         column_options.each do |column|
-          output.safe_concat "<td id='#{data[:id]}'><div>"
+          output.safe_concat "<td><div>"
           if column[:block].present?
             output.safe_concat capture(data,&column[:block])
           else
@@ -55,7 +55,8 @@ module Irm
       output
     end
 
-    def column_style(column)
+    def column_options_str(column)
+      options_str = ["key='#{column[:key]}'","title='#{column[:title]}'"]
       style = ""
       if column[:width].present?
         if column[:width].include?("%")||column[:width].include?("px")
@@ -64,11 +65,20 @@ module Irm
           style << "width:#{column[:width]}px;"
         end
       end
-      if style.blank?
-        return ""
-      else
-        return "style='#{style}'"
+
+      options_str << "style='#{style}'"  unless style.blank?
+
+
+      if column[:sortable].present?
+        options_str << "sort='true'"
       end
+
+      if column[:searchable].present?
+        options_str << "search='true'"
+      end
+
+
+      options_str.join(" ")
 
 
     end

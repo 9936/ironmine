@@ -823,7 +823,7 @@ body .nav-tab-bar .nav-tab {
 .sub-page-block .sub-page-block-header{
     color: #000000;
     background-color: #CFEEF8;
-    padding: 4px 16px;
+    padding: 4px 12px;
     overflow: auto;
 }
 
@@ -955,6 +955,9 @@ body .nav-tab-bar .nav-tab {
     font-size:12px;
     text-align: left;
 }
+.datatable table th.sortable{
+    cursor: pointer;
+}
 .datatable table th a.sort-asc, .datatable table th a.sort-desc{
     width: 11px;
     height: 11px;
@@ -963,6 +966,7 @@ body .nav-tab-bar .nav-tab {
     background: transparent url(@sortArrowsSprite) no-repeat 0 top;
     display: none;
     text-indent: -9999px !important;
+    display: inline-block;
 }
 .sort-asc{
     background-position:0 -16px;

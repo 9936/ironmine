@@ -2,10 +2,10 @@ module FormHelper
   def text_field_tag(name, value = nil, options = {})
     content = tag :input, { "type" => "text", "name" => name, "id" => sanitize_to_id(name), "value" => value }.update(options.stringify_keys)
 
-    if options[:normal]
-      content
-    else
+    if options[:required]
       wrapped_field(content, options)
+    else
+      content
     end
   end
 
@@ -21,10 +21,10 @@ module FormHelper
     content = ERB::Util.html_escape(content) if escape
 
     real_content = content_tag :textarea, content.to_s.html_safe, { "name" => name, "id" => sanitize_to_id(name) }.update(options)
-    if options[:normal]
-      real_content
-    else
+    if options[:required]
       wrapped_field(real_content, options)
+    else
+      real_content
     end
   end
 

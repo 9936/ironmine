@@ -117,6 +117,11 @@ class Irm::LookupValuesController < ApplicationController
     respond_to do |format|
       format.json  {render :json =>to_jsonp(@lookup_values.to_grid_json(['R',:lookup_code,:lookup_type,:meaning,:description,:start_date_active,:end_date_active,:status_meaning],
                                                                                count)) }
+      format.html  {
+        @count= count
+        @datas = @lookup_values
+      }
+
     end
   end
 

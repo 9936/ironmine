@@ -1366,50 +1366,45 @@ jQuery.fn.menubutton = function(){
     };
     //初始化排序列
     Internal.prototype.buildOrderColumn = function(){
-        var me = this,has_order_flag = false;
-        if(me.data.options.columns.length>0) {
-            $.each(me.data.options.columns,function(index,column){
-                if(column.orderable){
-                    me.$element.find("table:first").find("thead").find("th").each(function(){
-                       var current_th = $(this);
-                       if(typeof current_th.attr("key") != "undefined" && current_th.attr("key") != null && column.dataIndex == current_th.attr("key")) {
-                           //将当前的光标变为手形，并提交提示信息
-                           current_th.css("cursor", "pointer").attr("title",$.i18n("sort_this_column"));
-                           current_th.find("div").append("<a class='sort-desc' href='javascript:void(0);'>sort</a>")
-                           var column_name = current_th.attr("key");
-                           //如果当前没有传递指定排序，默认显示第一列
-                           if (typeof me.data.options.orderOptions["order_name"] == "undefined" || me.data.options.orderOptions["order_name"] == null|| typeof me.data.options.orderOptions["order_value"] == "undefined" || me.data.options.orderOptions["order_value"] == null) {
-                               if(!has_order_flag) {
-                                   current_th.find("a").css("display", "inline-block");
-                                   has_order_flag = true;
-                               }
-                           } else if(me.data.options.orderOptions["order_name"] == column_name){
-                               var class_name = me.data.options.orderOptions["order_value"] == "DESC"? "sort-desc" : "sort-asc";
-                               current_th.find("a").removeClass().addClass(class_name).css("display", "inline-block")
-                           }
-                           current_th.bind("click", function(){
-                               //将其他所有的排序标志不可见
-                               var order_value = '';
-                               current_th.parent().find('a').each(function(){
-                                   $(this).hide();
-                               });
-                               if (current_th.find("a").hasClass("sort-desc")) {
-                                   order_value = "ASC";
-                                   current_th.find("a").removeClass().addClass("sort-asc");
-                               }else{
-                                   order_value = "DESC";
-                                   current_th.find("a").removeClass().addClass("sort-desc")
-                               }
-                               current_th.find("a").css("display", "inline-block");
-                               me.data.options.orderOptions["order_name"] = column_name;
-                               me.data.options.orderOptions["order_value"] = order_value;
-                               me.loadPage(1);
-                           });
-                       }
-                   });
+        var me = this;
+
+        me.$element.find("table:first thead th[sort]").each(function(){
+            var currentColumn = $(this);
+            currentColumn.addClass("sortable");
+            //将当前的光标变为手形，并提交提示信息
+            //var sortIcon = $("<a class='sortable' href='javascript:void(0);'>sort</a>")
+            //currentColumn.find("div").attr("title",$.i18n("sort_this_column"));
+            //var column_name = current_th.attr("key");
+            //如果当前没有传递指定排序，默认显示第一列
+            if(me.data.options.orderOptions["order_name"] == currentColumn.attr("key")){
+                var sortIcon = $("<a class='sort-icon' href='javascript:void(0);'>sort</a>");
+                var className = me.data.options.orderOptions["order_value"] == "DESC"? "sort-desc" : "sort-asc";
+                sortIcon.addClass(className);
+                currentColumn.find("div").append(sortIcon);
+            }
+            currentColumn.bind("click", function(){
+                //将其他所有的排序标志不可见
+                var orderValue = '';
+                $(this).parent().find('a.sort-icon').each(function(){
+                    $(this).hide();
+                });
+                if($(this).find("a.sort-icon").length<1){
+                    $(this).find("div").append($("<a class='sort-icon' href='javascript:void(0);'>sort</a>"));
                 }
-            })
-        }
+                if ($(this).find("a.sort-icon").hasClass("sort-desc")) {
+                    orderValue = "ASC";
+                    $(this).find("a.sort-icon").removeClass("sort-desc").addClass("sort-asc");
+                }else{
+                    orderValue = "DESC";
+                    $(this).find("a.sort-icon").removeClass("sort-asc").addClass("sort-desc")
+                }
+                $(this).find("a.sort-icon").show();
+                me.data.options.orderOptions["order_name"] = $(this).attr("key");
+                me.data.options.orderOptions["order_value"] = orderValue;
+                me.loadPage(1);
+            });
+        });
+
     }
 
     Internal.prototype.buildUI = function(){
@@ -1508,18 +1503,7 @@ jQuery.fn.menubutton = function(){
                                       '</div>'
                 searchBox.append($(search_template));
                 searchBox.find("a.search-box-button:first").html($.i18n("search"));
-                $.each(me.data.options.columns,function(index,column){
-                    if(column.searchable){
-                        show_able = true;
-                        var option = $("<option></option>")
-                        option.html(column.text);
-                        option.attr("value",column.dataIndex);
-                        searchBox.find("select.search-select:first").append(option);
-                    }
-                });
 
-                if(show_able)
-                    searchBox.css("display","");
                 searchBox.find("a.search-box-button:first").click(function(event){
                         var params = {};
                         params[searchBox.find("select.search-select:first").val()] = searchBox.find("input.search-box-input:first").val();
@@ -1620,7 +1604,32 @@ jQuery.fn.menubutton = function(){
         }
     };
 
+    Internal.prototype.syncSearchUI = function(){
+        var me = this;
+        var showable = false;
+        if(me.data.options.searchBox){
+            var searchBox = $("#"+me.data.options.searchBox);
+            var currentColumnValue = searchBox.find("select.search-select:first").val();
+            var currentValue = searchBox.find("input.search-box-input:first").val();
+            searchBox.find("select.search-select:first").html("");
+            me.$element.find("table:first thead th[search]").each(function(index,column){
+                if($(column).attr("search")){
+                    showable = true;
+                    var option = $("<option></option>")
+                    option.html($(column).attr("title"));
+                    option.attr("value",$(column).attr("key"));
+                    searchBox.find("select.search-select:first").append(option);
+                }
+            });
+            searchBox.find("select.search-select:first").val(currentColumnValue);
+            searchBox.find("input.search-box-input:first").val(currentValue);
 
+        }
+        if(showable)
+            searchBox.css("display","");
+        else
+            searchBox.css("display","none");
+    }
 
     Internal.prototype.getRightPage = function(page){
         var me = this;
@@ -1680,6 +1689,7 @@ jQuery.fn.menubutton = function(){
         if(count&&count!="")
             me.data.options.totalCount = parseInt(count);
         me.syncPaginatorUI();
+        me.syncSearchUI();
         //必须等待当前页面的数据加载完成后才能够对表头数据进行处理
         me.buildOrderColumn();
         me.buildCheckbox();

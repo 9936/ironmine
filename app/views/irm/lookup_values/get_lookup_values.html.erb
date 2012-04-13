@@ -1,0 +1,12 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:back=>true}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:back=>true}) %>
+  <% end %>
+  <% builder.column(:lookup_code,{:title=>t(:label_irm_lookup_value_lookup_code), :width => "20%"})%>
+  <% builder.column(:meaning,{:title=>t(:label_meaning), :width => "25%",:searchable=>true,:sortable=>true})%>
+  <% builder.column(:description,{:title=>t(:label_description),:searchable=>true,:sortable=>true})%>
+  <% builder.column(:start_date_active,{:title=>t(:label_start_date_active)})%>
+  <% builder.column(:end_date_active,{:title=>t(:label_end_date_active)})%>
+  <% builder.column(:status_meaning,{:title=>t(:label_status_code)})%>
+<% end %>
