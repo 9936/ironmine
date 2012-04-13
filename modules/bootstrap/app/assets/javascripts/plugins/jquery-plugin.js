@@ -1403,7 +1403,7 @@ jQuery.fn.menubutton = function(){
                                current_th.find("a").css("display", "inline-block");
                                me.data.options.orderOptions["order_name"] = column_name;
                                me.data.options.orderOptions["order_value"] = order_value;
-                               me.load();
+                               me.loadPage(1);
                            });
                        }
                    });
@@ -1467,7 +1467,7 @@ jQuery.fn.menubutton = function(){
             paginatorBox.find("select[name='page-size']:first").change(function(){
                 if (me.data.options.pageSize != $(this).val()) {
                     me.data.options.pageSize = $(this).val();
-                    me.load();
+                    me.loadPage(1);
                 }
             });
             paginatorBox.find(".paginator-refresh:first").click(function(event){
