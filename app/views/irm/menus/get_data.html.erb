@@ -1,4 +1,4 @@
-<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+<%=datatable_view({:columns=>[:code,:id],:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
     <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
     <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
