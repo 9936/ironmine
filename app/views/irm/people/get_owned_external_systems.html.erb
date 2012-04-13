@@ -1,45 +1,8 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>">
-         <thead>
-           <tr>
-             <th style="width:80px">
-               <div><%= t(:operation)%></div>
-             </th>
-             <th style="width:250px;">
-               <div><%= t(:label_irm_external_system) %></div>
-             </th>
-             <th>
-               <div><%= t(:description) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |data| %>
-         <tr id="<%=data[:id]%>">
-           <td>
-             <div>
-               <%= link_to t(:remove), {:controller=>"irm/external_system_members",:action=>"delete_from_person",:external_system_id=>data[:id],
-                                      :person_id=> @person.id},:confirm => t(:label_are_you_sure) ,
-                                      :method => :delete %>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%= data[:system_name] %>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%=data[:system_description]%>
-             </div>
-           </td>
-
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:columns=>[:id,:system_name,:system_description],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to t(:remove), {:controller=>"irm/external_system_members",:action=>"delete_from_person",:external_system_id=>data[:id],:person_id=> @person.id},:confirm => t(:label_are_you_sure) ,:method => :delete %>
+  <% end %>
+  <% builder.column(:system_name,{:title=>t(:label_irm_group_name)})%>
+  <% builder.column(:system_description,{:title=>t(:label_irm_group_description)})%>
+  <% builder.column(:external_system_code)%>
+<% end %>
