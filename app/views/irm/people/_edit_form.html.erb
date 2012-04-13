@@ -1,4 +1,5 @@
 <%= common_title(:show_data=>@person[:person_name]) %>
+
 <%= form_for(@person,:url=>{:action=>"update"},:as=>"irm_person",:builder => CustomFormBuilder) do |f| %>
   <% content_for :form_block_person   do%>
     <table class="form-table">
@@ -129,7 +130,7 @@
         <% else %>
           <td class="page-block-title"><h2 class="block-title"><%=t(:label_irm_person_edit)%></h2></td>
         <% end %>
-        </tr>
+      </tr>
     </table>
     <div class="page-block-body">
       <div class="sub-page-block">
@@ -163,13 +164,12 @@
 
     <table class="page-block-footer">
       <tr>
-      <td class="page-block-title">
-      </td>
-      <td class="page-block-button">
-        <%= content_for :form_buttons   %>
-      </td>
-    </tr>
-  </table>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
   </div>
 
 <% end %>

@@ -1,38 +1,6 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>" id="supportGroupMembers">
-         <thead>
-           <tr>
-             <th key = "name">
-               <div><%= t(:label_irm_group_name) %></div>
-             </th>
-             <th key="code">
-               <div><%= t(:label_irm_group_group_code) %></div>
-             </th>
-             <th key="description">
-                <div><%= t(:label_irm_group_description) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |data| %>
-         <tr id="<%=data.id %>">
-           <td>
-             <div><%= data[:name] %></div>
-           </td>
-
-           <td>
-             <div><%= data[:code] %></div>
-           </td>
-
-           <td>
-             <div><%= data[:description] %></div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:columns=>[:name,:code,:description],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id)%>
+  <% builder.column(:name,{:title=>t(:label_irm_group_name), :width => "20%"})%>
+  <% builder.column(:code,{:title=>t(:label_irm_group_group_code), :width => "25%"})%>
+  <% builder.column(:description,{:title=>t(:label_irm_group_description)})%>
+<% end %>

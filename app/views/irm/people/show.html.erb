@@ -175,7 +175,9 @@
         <h2 class="block-title"><%= t(:label_irm_login_record_list) %></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to t(:export), {:href => "javascript:void(0)"},:class=>"btn" %>
+        <div id="loginHistoryExportData">
+          <%= link_to t(:export), {},:href => "javascript:void(0)",:class=>"btn" %>
+        </div>
       </td>
     </tr>
   </table>

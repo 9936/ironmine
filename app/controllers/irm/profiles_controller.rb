@@ -124,6 +124,10 @@ class Irm::ProfilesController < ApplicationController
     profiles,count = paginate(profiles_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(profiles.to_grid_json([:name,:description,:code],count))}
+      format.html  {
+        @count = count
+        @datas = profiles
+      }
     end
   end
 end

@@ -1,16 +1,17 @@
-<div class="pbBody">
-    <div class="pbSubheader tertiaryPalette">
-      <h3><%= t(:label_irm_kanban) %><span class="titleSeparatingColon">:</span></h3>
-    </div>
-
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+<div class="page-block">
+    <table class="page-block-header">
+      <tr>
+         <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_kanban) %>:</h2></td>
+      </tr>
+    </table>
+    <div class="page-block-body">
+      <table class="show-table">
         <tbody>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_profile_ir_page_kanban)%></label></td>
-              <td class="data2Col"><%= profile[:kanban_name]%></td>
-            </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_profile_ir_page_kanban)%></label></td>
+            <td class="data-col"><%= profile[:kanban_name]%></td>
+          </tr>
         </tbody>
       </table>
     </div>
-  </div>
+</div>

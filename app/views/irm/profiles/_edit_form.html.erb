@@ -1,176 +1,161 @@
-<style>
-  table.PApplications{
-      width: 100%;
-  }
-  .PApplications th{
-      font-weight:bold;
-      text-align:left;
-  }
-  .PApplications td.label{
-      width:20%;
-      text-align:right;
-  }
-  .PApplications td.input1{
-      width:5%;
-      text-align:center;
-  }
-  .PApplications td.input2{
-      width:25%;
-      text-align:left;
-  }
-</style>
-
-<%= form_for(@profile,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+<%= form_for(@profile,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common do%>
+    <table class="form-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_profile_edit)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
-          </td>
-        </tr>
+          <tr>
+            <td class="label-col"><label for="profile_code"><%=t(:label_irm_profile_code)%></label></td>
+            <td class="data-col"><label><%= @profile.code  %></label></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="profile_name"><%=t(:label_irm_profile_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name, :required=>true ,:id=>"profile_name"%></td>
+            <td class="label-col"><label for="profile_user_license"><%=t(:label_irm_profile_user_license)%></label></td>
+            <td class="data-col"><%=f.blank_select :user_license,available_profile_user_license,{},:required=>true ,:id=>"profile_user_license"%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="profile_description"><%=t(:label_irm_profile_description)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>90 ,:id=>"profile_description",:class => "input-xlarge" %></td>
+          </tr>
       </tbody>
     </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @profile%>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_common_info) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label for="profile_code"><%=t(:label_irm_profile_code)%></label></td>
-              <td class="dataCol"><label><%= @profile.code  %></label></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="profile_name"><%=t(:label_irm_profile_name)%></label></td>
-              <td class="dataCol"><%=f.text_field :name, :required=>true ,:id=>"profile_name"%></td>
-              <td class="labelCol"><label for="profile_user_license"><%=t(:label_irm_profile_user_license)%></label></td>
-              <td class="dataCol"><%=f.blank_select :user_license,available_profile_user_license,{},:required=>true ,:id=>"profile_user_license"%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="profile_description"><%=t(:label_irm_profile_description)%></label></td>
-              <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>90 ,:id=>"profile_description"%></td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div id="head_1_ep" class="pbSubheader tertiaryPalette">
-      <h3><%= t(:label_irm_kanban) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%=t(:label_irm_profile_ir_page_kanban)%></label></td>
-              <td class="data2Col" colspan="3" width="82%"><%=select_tag_alias :ir_kanban, available_kanbans_by_position("INCIDENT_REQUEST_PAGE"), @profile[:kanban_id]%></td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="pbSubheader first tertiaryPalette">
-      <h3><%= t(:label_irm_profile_application_list) %></h3>
-    </div>
-    <div class="pbSubsection" id="selectableApplicatons">
+  <% end %>
+  <% content_for :form_block_kanban do%>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_profile_ir_page_kanban)%></label></td>
+            <td class="data2Col" colspan="3" width="82%"><%=select_tag_alias :ir_kanban, available_kanbans_by_position("INCIDENT_REQUEST_PAGE"), @profile[:kanban_id]%></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_block_application do%>
+    <table class="form-table">
       <% default_application_id = @profile.default_application_id %>
       <% application_ids = @profile.application_ids ;applications = available_applications;%>
-      <table class="PApplications" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <th></th><th><%=t(:label_irm_profile_application_visual) %></th><th><%=t(:label_irm_profile_application_default) %></th>
+        <th></th><th><%=t(:label_irm_profile_application_visual) %></th><th><%=t(:label_irm_profile_application_default) %></th>
+      </tr>
+      <% 0.step(applications.length-1,2).each do |index|%>
         <tr>
-          <th></th><th><%=t(:label_irm_profile_application_visual) %></th><th><%=t(:label_irm_profile_application_default) %></th>
-          <th></th><th><%=t(:label_irm_profile_application_visual) %></th><th><%=t(:label_irm_profile_application_default) %></th>
+          <td class="label-col"><label for="<%= applications[index][1]%>"> <%= applications[index][0] %></label></td>
+          <td class="input1"><%= check_box_tag 'applications[]', applications[index][1], application_ids.include?(applications[index][1]),{:id=>applications[index][1]} %></td>
+          <td class="input2"><%= radio_button_tag 'default_application_id', applications[index][1], applications[index][1].eql?(default_application_id),{:id=>"#{applications[index][1]}AppRadio",:ref=>"#{applications[index][1]}",:class=>"appRadio"} %> </td>
+          <% if(applications[index+1]) %>
+            <td class="label-col"><label for="<%= applications[index+1][1]%>"> <%= applications[index+1][0] %></label></td>
+            <td class="input1"><%= check_box_tag 'applications[]', applications[index+1][1], application_ids.include?(applications[index+1][1]),{:id=>applications[index+1][1]} %></td>
+            <td class="input2"><%= radio_button_tag 'default_application_id', applications[index+1][1], applications[index+1][1].eql?(default_application_id),{:id=>"#{applications[index+1][1]}AppRadio",:class=>"appRadio"} %> </td>
+          <% else %>
+            <td  class="label"></td><td class="input1"></td><td class="input2"></td>
+          <% end %>
         </tr>
-        <% 0.step(applications.length-1,2).each do |index|%>
-          <tr>
-            <td class="label"><label for="<%= applications[index][1]%>"> <%= applications[index][0] %></label></td>
-            <td class="input1"><%= check_box_tag 'applications[]', applications[index][1], application_ids.include?(applications[index][1]),{:id=>applications[index][1]} %></td>
-            <td class="input2"><%= radio_button_tag 'default_application_id', applications[index][1], applications[index][1].eql?(default_application_id),{:id=>"#{applications[index][1]}AppRadio",:ref=>"#{applications[index][1]}",:class=>"appRadio"} %> </td>
-            <% if(applications[index+1]) %>
-              <td class="label"><label for="<%= applications[index+1][1]%>"> <%= applications[index+1][0] %></label></td>
-              <td class="input1"><%= check_box_tag 'applications[]', applications[index+1][1], application_ids.include?(applications[index+1][1]),{:id=>applications[index+1][1]} %></td>
-              <td class="input2"><%= radio_button_tag 'default_application_id', applications[index+1][1], applications[index+1][1].eql?(default_application_id),{:id=>"#{applications[index+1][1]}AppRadio",:class=>"appRadio"} %> </td>
-            <% else %>
-              <td  class="label"></td><td class="input1"></td><td class="input2"></td>
-            <% end %>
-          </tr>
-        <%end %>
-      </table>
-    </div>
-
-    <div class="pbSubheader first tertiaryPalette">
-      <h3><%= t(:label_irm_profile_function_list) %></h3>
-    </div>
-    <div class="pbSubsection" id="selectableFunctions">
+      <%end %>
+    </table>
+  <% end %>
+  <% content_for :form_block_function do%>
     <% gfs = grouped_functions %>
     <% fzs = function_zones %>
     <% pfids = @profile.function_ids %>
     <% fzs.each do |zone|%>
       <% next unless gfs[zone[:code]]&&gfs[zone[:code]].any?%>
       <% tr_count = 2%>
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+      <table class="form-table">
         <tbody>
           <tr>
-            <td style="font-weight:bold;font-size:13px;padding:15px 0 0 15px"><%= zone[:name] %></td>
+            <td style="font-weight:bold;font-size:13px;padding:15px 0 0 15px; text-align: left;"><%= zone[:name] %></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
           <% if gfs[zone[:code]].size>1%>
                 <tr>
-                  <td class="labelCol"><label><%= t :select_all %></label></td>
-                  <td class="dataCol"><%= check_box_tag 'select_all',"all" , false,{:ref=>"#{zone[:code].downcase}Group",:class=>"selectAll"} %></td>
+                  <td class="label-col"><label><%= t :select_all %></label></td>
+                  <td class="data-col"><%= check_box_tag 'select_all',"all" , false,{:ref=>"#{zone[:code].downcase}Group",:class=>"selectAll"} %></td>
                 </tr>
             <% end %>
         </tbody>
         <tbody id="<%= zone[:code].downcase %>Group">
-
-
             <tr>
             <% gfs[zone[:code]].each do |func| %>
                 <%= raw("</tr><tr>") if tr_count == 0 %>
                 <% tr_count = 2 if tr_count == 0 %>
-                <td class="labelCol"><label><%= func[:name] %></label></td>
-                <td class="dataCol"><%= check_box_tag 'functions[]', func.id, pfids.include?(func.id)||(pfids.size==0&&func.default_flag.eql?(Irm::Constant::SYS_YES)) %></td>
+                <td class="label-col"><label><%= func[:name] %></label></td>
+                <td class="data-col"><%= check_box_tag 'functions[]', func.id, pfids.include?(func.id)||(pfids.size==0&&func.default_flag.eql?(Irm::Constant::SYS_YES)) %></td>
                 <% tr_count = tr_count - 1 %>
             <% end%>
             </tr>
         </tbody>
       </table>
     <%end%>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_profile_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+
+        <!-- 看板 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= t(:label_irm_kanban) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_kanban   %>
+        </div>
+
+        <!-- 应用列表 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= t(:label_irm_profile_application_list) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_application   %>
+        </div>
+
+        <!-- 功能列表 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= t(:label_irm_profile_function_list) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_function   %>
+        </div>
+
+      </div>
     </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
-          </td>
-        </tr>
-      </tbody>
+
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
     </table>
   </div>
-</div>
 <% end %>
-
-
 <script type="text/javascript">
   $(function(){
       $("#selectableFunctions .selectAll").live('click', function(e){
@@ -188,7 +173,5 @@
       $("input.appRadio").click(function(e){
          $("#"+$(e.currentTarget).attr("ref")).attr("checked",true);
       });
-
-
   });
 </script>
