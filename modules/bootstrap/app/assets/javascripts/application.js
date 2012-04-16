@@ -10,5 +10,6 @@
 //= require plugins/jquery-extend
 //= require plugins/jquery-plugin
 //= require plugins/jquery-application
+//= require framework/bootstrap-datepicker
 //= require css_browser_selector
-//= require_tree .
+//= require bootstrap

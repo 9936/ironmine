@@ -2,7 +2,7 @@ module FormHelper
   def text_field_tag(name, value = nil, options = {})
     content = tag :input, { "type" => "text", "name" => name, "id" => sanitize_to_id(name), "value" => value }.update(options.stringify_keys)
 
-    if options[:required]
+    if options[:required]&&!options[:normal]
       wrapped_field(content, options)
     else
       content
@@ -21,14 +21,26 @@ module FormHelper
     content = ERB::Util.html_escape(content) if escape
 
     real_content = content_tag :textarea, content.to_s.html_safe, { "name" => name, "id" => sanitize_to_id(name) }.update(options)
-    if options[:required]
+    if options[:required]&&!options[:normal]
       wrapped_field(real_content, options)
     else
       real_content
     end
   end
 
+  def date_field_tag(field, options = {})
+    date_field_id =  options.delete(:id)||field
 
+    link_text  = Time.now.strftime('%Y-%m-%d')
+
+    date_tag_str = text_field_tag(field,options[:value],options.merge(:id=>date_field_id,:size=>10,:onfocus=>"initDateField(this)",:normal=>true))
+
+    link_click_action = %Q(javascript:dateFieldChooseToday('#{date_field_id}','#{link_text}'))
+
+    link_str = link_to("[#{link_text}]",{},{:href=>link_click_action})
+
+    wrapped_field(content_tag(:div,date_tag_str+link_str,{:class=>"date-field"},false),options)
+  end
 
   private
 
