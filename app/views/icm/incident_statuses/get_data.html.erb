@@ -1,0 +1,20 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:phase_name,{:title=>t(:label_icm_incident_status_phase_code),:searchable=>true})  %>
+  <% builder.column(:incident_status_code,{:title=>t(:label_icm_incident_status_incident_status_code),:searchable=>true})%>
+  <% builder.column(:name,{:title=>t(:label_icm_incident_status_name),:searchable=>true})%>
+  <% builder.column(:display_sequence,{:title=>t(:display_sequence)})%>
+  <% builder.column(:default_flag,{:title=>t(:default_flag), :width => "40px"}) do |data|%>
+    <%= check_img(data[:default_flag]) %>
+  <% end %>
+  <% builder.column(:close_flag,{:title=>t(:label_icm_incident_close_flag),:width => "80px"}) do |data|%>
+    <%= check_img(data[:close_flag]) %>
+  <% end %>
+  <% builder.column(:permanent_close_flag,{:title=>t(:label_icm_incident_permanent_close_flag),:width => "80px"}) do |data|%>
+    <%= check_img(data[:ermanent_close_flag]) %>
+  <% end %>
+  <% builder.column(:status_meaning,{:title=>t(:status),:width=>"70px"})%>
+<% end %>
