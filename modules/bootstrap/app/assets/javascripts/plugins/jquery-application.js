@@ -314,6 +314,19 @@ function setLookupLabelValue(fieldId,labelValue){
 
 //END========================LOOKUP lov 帮助函数========================================
 
+//BEGIN========================datepicker 帮助函数========================================
+function initDateField(dateField){
+    var me = $(dateField);
+    me.datepicker({format:"yyyy-mm-dd",weekStart:1});
+    me.attr("onfocus","");
+    me.trigger("focus");
+}
+function dateFieldChooseToday(fieldId,fieldValue){
+  $("#"+fieldId).val(fieldValue);
+  $("#"+fieldId).trigger("keyup");
+}
+//END========================datepicker 帮助函数========================================
+
 //START =================================Ajax 监听帮助函数================================
 function get_dom_id(ajaxOptions) {
     var _dom_id,
@@ -325,4 +338,4 @@ function get_dom_id(ajaxOptions) {
     _dom_id = paraObj["_dom_id".toLowerCase()];
     return _dom_id
 }
-//START =================================Ajax 监听帮助函数================================
+//end =================================Ajax 监听帮助函数================================

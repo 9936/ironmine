@@ -104,6 +104,22 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
     end
   end
 
+  def date_field(field, options = {})
+    date_field_id =  options.delete(:id)||field
+
+    link_text  = Time.now.strftime('%Y-%m-%d')
+
+    date_tag_str = self.text_field(field,options.merge(:id=>date_field_id,:class=>"span2",:onfocus=>"initDateField(this)",:normal=>true))
+
+
+
+    link_click_action = %Q(javascript:dateFieldChooseToday('#{date_field_id}','#{link_text}'))
+
+    link_str = @template.link_to("[#{link_text}]",{},{:href=>link_click_action})
+
+    wrapped_field(@template.content_tag(:div,date_tag_str+link_str,{:class=>"date-field"},false),field,options)
+  end
+
   # Returns a label tag for the given field
   def wrapped_field(field,field_id, options = {})
     required_flag = options.delete(:required) ? true : false
