@@ -16,6 +16,10 @@ class Icm::MailRequestsController < ApplicationController
                                                                          :supporter_name,:impact_range_name,
                                                                          :urgency_name,:status_code, :incident_category_name,
                                                                          :incident_sub_category_name], count)) }
+      format.html  {
+        @count = count
+        @datas = mail_requests
+      }
     end
   end
 

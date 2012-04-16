@@ -1,0 +1,21 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <% if data[:status_code].eql?('ENABLED') %>
+      <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+      <%= link_to(t(:disable),{:action=>"disable", :id => data[:id]})%>
+    <% else %>
+      <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+      <%= link_to(t(:enable),{:action=>"enable", :id => data[:id]})%>
+    <% end %>
+  <% end %>
+  <% builder.column(:username,{:title=>t(:label_irm_common_username),:searchable=>true})  %>
+  <% builder.column(:external_system_name,{:title=>t(:label_irm_external_system),:searchable=>true})%>
+  <% builder.column(:incident_category_name,{:title=>t(:label_icm_incident_category)})%>
+  <% builder.column(:incident_sub_category_name,{:title=>t(:label_icm_incident_sub_category),:searchable=>true})%>
+  <% builder.column(:support_group_name,{:title=>t(:label_icm_incident_request_support_person), :width => "80px"}) %>
+  <% builder.column(:impact_range_name,{:title=>t(:label_icm_impact_range),:width => "60px"})%>
+  <% builder.column(:urgency_name,{:title=>t(:label_icm_urgence_code),:width => "75px"})%>
+  <% builder.column(:status_code,{:title=>t(:status),:width=>"50px"}) do |data|%>
+    <%= check_img(data[:status_code]) %>
+  <% end %>
+<% end %>
