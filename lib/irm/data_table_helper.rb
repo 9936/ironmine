@@ -48,7 +48,7 @@ module Irm
               if data[column[:key]].is_a?(Time)
                 output.safe_concat  data[column[:key]].strftime('%Y-%m-%d %H:%M:%S')
               else
-                output.safe_concat data[column[:key]]
+                output.safe_concat (data[column[:key]]||"").to_s
               end
             else
               output.safe_concat ""
