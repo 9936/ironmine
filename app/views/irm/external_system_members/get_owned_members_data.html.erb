@@ -1,38 +1,6 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>" id="external_people">
-         <thead>
-           <tr>
-             <th key = "full_name">
-               <div><%= t(:label_irm_person_full_name) %></div>
-             </th>
-             <th key="email_address">
-               <div><%= t(:label_irm_person_email_address) %></div>
-             </th>
-             <th key="organization_name">
-                <div><%= t(:label_irm_organization) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |data| %>
-         <tr id="<%=data.id %>">
-           <td>
-             <div><%= data[:full_name] %></div>
-           </td>
-
-           <td>
-             <div><%= data[:email_address] %></div>
-           </td>
-
-           <td>
-             <div><%= data[:organization_name] %></div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:columns=>[:full_name,:email_address,:organization_name],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title =>t(:operation)})%>
+  <% builder.column(:full_name,{:title=>t(:label_irm_person_full_name),:searchable=>true, :width => "20%"})%>
+  <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address),:searchable=>true, :width => "25%"})%>
+  <% builder.column(:organization_name,{:title=>t(:label_irm_organization),:searchable=>true})%>
+<% end %>

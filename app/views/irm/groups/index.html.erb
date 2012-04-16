@@ -1,124 +1,120 @@
 <%= common_title %>
 <% require_javascript([:treeview]) %>
 <% require_css([:treeview]) %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <% if params[:mode] == 'tree' %>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_group_structure) %></h2></td>
-              <% else %>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_group_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:controller => "irm/groups", :action => "new"}%></div>
-              </td>
-              <% end %>
-              <td class="pbHelp">
-                <div id="rolesSearchBox"></div>
-                <div>
-                  <%= form_tag({:controller => "irm/groups"}, {:method => 'get'}) do %>
-                      <span class="viewSelect">
-                        <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("group_view", this.value); this.form.submit();'}) %>
-                      </span>
-                  <% end %>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+<!--页面结构-->
+<style type="text/css">
+  .select-mode {
+      margin: 0 !important;
+  }
+</style>
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <% if params[:mode] == 'tree' %>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_group_structure) %></h2></td>
+    <% else %>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_group_list) %></h2></td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+    <% end %>
+    <td class="page-block-helper">
+      <div class="datable-search-box">
+        <%= form_tag({:controller => "irm/groups"}, {:method => 'get',:class => 'select-mode'}) do %>
+          <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("role_view", this.value);this.form.submit();',:class => 'search-select'}) %>
+        <% end %>
       </div>
-      <div class="pbBody">
-          <% if(params[:mode] == 'tree') %>
-            <div id="sidetreecontrol"> <a href="?#"><%= t(:collapse_all) %></a> | <a href="?#"><%= t(:expand_all) %></a> </div>
-            <ul id="red" class="treeview-red">
-               <script type="text/javascript">
-                 function buildNode(id, level,name,parent_id, new_action, edit_action, show_action) {
-                        if(id) {
-                           var node = '<li><span class="name">'+name+'</span>&nbsp;&nbsp;<span class="actions">'+edit_action+'</span> | <span class="actions">'+show_action+'</span>';
-                           node += '<ul id="'+id+'"><li><span class="actions add-child">'+new_action+'</span></li></ul>';
-                           node += '</li>'
-                           if(level && level == 1) {
-                             $("#red").append(node);
-                           }else{
-                             $("#"+parent_id).append(node);
-                           }
-                        }
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <% if(params[:mode] == 'tree') %>
+        <div id="sidetreecontrol"> <a href="?#"><%= t(:collapse_all) %></a> | <a href="?#"><%= t(:expand_all) %></a> </div>
+        <ul id="red" class="treeview-red">
+           <script type="text/javascript">
+             function buildNode(id, level,name,parent_id, new_action, edit_action, show_action) {
+                    if(id) {
+                       var node = '<li><span class="name">'+name+'</span>&nbsp;&nbsp;<span class="actions">'+edit_action+'</span> | <span class="actions">'+show_action+'</span>';
+                       node += '<ul id="'+id+'"><li><span class="actions add-child">'+new_action+'</span></li></ul>';
+                       node += '</li>'
+                       if(level && level == 1) {
+                         $("#red").append(node);
+                       }else{
+                         $("#"+parent_id).append(node);
+                       }
                     }
-                   var new_action,edit_action, show_action;
-                   <% @leveled_groups.each do |group| %>
-                   new_action = '<%= link_to(t(:new), {:controller => "irm/groups", :action => "new", :parent_id => group.id },{:onclick => "event.stopPropagation()||(event.cancelBubble = true);"})%>',
-                   edit_action = '<%= link_to(t(:edit),{:action=>"edit",:id=>group.id}, {:onclick => "event.stopPropagation()||(event.cancelBubble = true);"}) %>',
-                   show_action = '<%= link_to(t(:show),{:action=>"show",:id=>group.id}, {:onclick => "event.stopPropagation()||(event.cancelBubble = true);"}) %>';
-                   buildNode('<%= group.id %>', '<%= group.level %>','<%= group[:name] %>','<%= group[:parent_group_id] %>', new_action, edit_action, show_action);
-                   <% end %>
-                 $("#red").treeview({
-                    animated: "fast",
-                    control:"#sidetreecontrol",
-                    collapsed: true,
-                    unique: false,
-                    persist: "cookie"
-                 });
-               </script>
+                }
+               var new_action,edit_action, show_action;
+               <% @leveled_groups.each do |group| %>
+               new_action = '<%= link_to(t(:new), {:controller => "irm/groups", :action => "new", :parent_id => group.id },{:onclick => "event.stopPropagation()||(event.cancelBubble = true);"})%>',
+               edit_action = '<%= link_to(t(:edit),{:action=>"edit",:id=>group.id}, {:onclick => "event.stopPropagation()||(event.cancelBubble = true);"}) %>',
+               show_action = '<%= link_to(t(:show),{:action=>"show",:id=>group.id}, {:onclick => "event.stopPropagation()||(event.cancelBubble = true);"}) %>';
+               buildNode('<%= group.id %>', '<%= group.level %>','<%= group[:name] %>','<%= group[:parent_group_id] %>', new_action, edit_action, show_action);
+               <% end %>
+             $("#red").treeview({
+                animated: "fast",
+                control:"#sidetreecontrol",
+                collapsed: true,
+                unique: false,
+                persist: "cookie"
+             });
+           </script>
 
-             </ul>
-          <% else %>
-          <!--  irm datatable      -->
-           <div class="irm-datatable">
-             <div>
-                 <table count="<%=@leveled_groups.length%>">
-                   <thead>
-                     <tr>
-                       <th style="width:70px;">
-                         <div><%= t(:operation) %></div>
-                       </th>
-                       <th  style="width:300px;">
-                         <div><%= t(:label_irm_group_name) %></div>
-                       </th>
-                       <th style="width:100px;">
-                         <div><%= t(:label_irm_group_parent) %></div>
-                       </th>
-                       <th>
-                         <div><%= t(:label_irm_group_description) %></div>
-                       </th>
-                     </tr>
-                   </thead>
-                   <tbody>
-                    <% @leveled_groups.each do |group| %>
-                    <tr id="<%=group.id%>">
-                      <td>
-                        <div>
-                          <%= link_to(t(:edit),{:action=>"edit",:id=>group.id}) %>
-                          <%= link_to(t(:show),{:action=>"show",:id=>group.id}) %>
-                         </div>
-                      </td>
+         </ul>
+      <% else %>
+      <!--  irm datatable      -->
+      <div class="datatable">
+        <div>
+          <table count="<%=@leveled_groups.length%>">
+             <thead>
+               <tr>
+                 <th style="width:70px;">
+                   <div><%= t(:operation) %></div>
+                 </th>
+                 <th  style="width:300px;">
+                   <div><%= t(:label_irm_group_name) %></div>
+                 </th>
+                 <th style="width:100px;">
+                   <div><%= t(:label_irm_group_parent) %></div>
+                 </th>
+                 <th>
+                   <div><%= t(:label_irm_group_description) %></div>
+                 </th>
+               </tr>
+             </thead>
+             <tbody>
+              <% @leveled_groups.each do |group| %>
+              <tr id="<%=group.id%>">
+                <td>
+                  <div>
+                    <%= link_to(t(:edit),{:action=>"edit",:id=>group.id}) %>
+                    <%= link_to(t(:show),{:action=>"show",:id=>group.id}) %>
+                   </div>
+                </td>
 
-                      <td>
-                        <div>
-                           <% (group.level - 1).times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= group[:name] %>(<%= group.code %>)
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                           <%= group[:parent_group_name] %>
-                        </div>
-                      </td>
+                <td>
+                  <div>
+                     <% (group.level - 1).times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= group[:name] %>(<%= group.code %>)
+                  </div>
+                </td>
+                <td>
+                  <div>
+                     <%= group[:parent_group_name] %>
+                  </div>
+                </td>
 
-                      <td>
-                        <div>
-                           <%= group[:description] %>
-                        </div>
-                      </td>
+                <td>
+                  <div>
+                     <%= group[:description] %>
+                  </div>
+                </td>
 
-                    </tr>
-                    <% end -%>
-                   </tbody>
-                 </table>
-             </div>
-           </div>
-          <!--  end irm datatable      -->
-          <% end %>
+              </tr>
+              <% end -%>
+             </tbody>
+           </table>
+        </div>
       </div>
-    </div>
+     <!--  end irm datatable      -->
+     <% end %>
+  </div>
 </div>

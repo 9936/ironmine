@@ -1,43 +1,21 @@
 <%= common_title%>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_rule_setting_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="rule_setting" class="datatable" style="width:100%;">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>&nbsp;
-            <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
-          <div id="report_date_changable" style="display:none">
-            <%= check_img("{report_date_changable}") %>
-          </div>
-          <div id="respond_date_changable" style="display:none">
-            <%= check_img("{respond_date_changable}") %>
-          </div>
-          <div id="slove_date_changable" style="display:none">
-            <%= check_img("{slove_date_changable}") %>
-          </div>               
-        </div>
-        <%= datatable("rule_setting",{:action=>"get_data",:format=>"json"},
-                  [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"report_date_changable",:label=>t(:label_icm_rule_setting_report_date_changable),:formatter=>"Y.irm.template"},
-                   {:key=>"respond_date_changable",:label=>t(:label_icm_rule_setting_respond_date_changable),:formatter=>"Y.irm.template"},
-                   {:key=>"slove_date_changable",:label=>t(:label_icm_rule_setting_description),:formatter=>"Y.irm.template"},
-                   {:key=>"auto_closure_days",:label=>t(:label_icm_rule_setting_auto_closure_days)},
-                   {:key=>"status_meaning",:label=>t(:status),:width=>"70px"}],
-                   {:paginator_box=>"rulePaginator"})%>
-        <div id="rulePaginator"></div>
-      </div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_rule_setting_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="rule_setting">
+      <%= datatable("rule_setting",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"rulePaginator"})%>
     </div>
+    <div id="rulePaginator"></div>
+  </div>
 </div>

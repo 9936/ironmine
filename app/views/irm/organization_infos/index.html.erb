@@ -1,77 +1,59 @@
 <%= page_title %>
-<div id="ep" class="detail-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_organization_info) %></h2></td>
-          <td  class="pbButton">
 
-          </td>
-        </tr>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_organization_info) %></h2>
+    </td>
+    <td class="page-block-button">
+
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_organization_short_name)%></label></td>
+            <td class="data-col"><%=@organization.short_name%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_organization_name)%></label></td>
+            <td class="data-col"><%=@organization[:name]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_organization_description)%></label></td>
+            <td class="data-col"><%=@organization[:description]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
       </tbody>
     </table>
   </div>
-  <div class="pbBody">
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_organization_short_name)%></label></td>
-              <td class="dataCol"><%=@organization.short_name%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_organization_name)%></label></td>
-              <td class="dataCol"><%=@organization[:name]%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_organization_description)%></label></td>
-              <td class="dataCol"><%=@organization[:description]%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_organization_info_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="organization_infos"></div>
+    <%= datatable("organization_infos",{:action=>"get_data",:format=>"json"},
+                          [
+                          ],{:paginator_box=>"organization_infosPaginatorBox",:search_box=>"organization_infosSearchBox"})%>
+    <div id="organization_infosPaginatorBox"></div>
   </div>
 </div>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_organization_info_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="organization_infosSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="organization_infos" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
-        </div>
-        <%= datatable("organization_infos",{:action=>"get_data",:format=>"json"},
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
-                       { :key => "name", :label => t(:label_irm_tab_name),:searchable=>true },
-                       { :key => "value", :label => t(:label_irm_organization_info_value),:searchable=>true },
-                       { :key => "attachment", :label => t(:label_irm_organization_info_file)},
-                       { :key => "description", :label => t(:label_irm_tab_description),:width=>"250px"}
-                      ],{:force_html=>true,:paginator_box=>"organization_infosPaginatorBox",:search_box=>"organization_infosSearchBox"})%>
-        <div id="organization_infosPaginatorBox"></div>
-      </div>
-    </div>
-</div>
+
 
 

@@ -169,6 +169,10 @@ class Irm::RolesController < ApplicationController
     @people,count = paginate(@people)
     respond_to do |format|
       format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:region_name,:email_address,:bussiness_phone], count))}
+      format.html {
+        @count = count
+        @datas = @people
+      }
     end
   end
 end

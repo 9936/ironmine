@@ -307,13 +307,13 @@ jQuery.fn.menubutton = function(){
         this.typeSelect = this.$element.find("select.duel-type:first");
         this.searchInput = this.$element.find("input.duel-query:first");
         this.searchButton = this.$element.find("a.duel-search-button:first");
-        this.addButton = this.$element.find("a.duelAdd:first");
-        this.removeButton = this.$element.find("a.duelRemove:first");
-        this.upButton = this.$element.find("a.duelUp:first");
-        this.downButton = this.$element.find("a.duelDown:first");
+        this.addButton = this.$element.find("a.duel-add:first");
+        this.removeButton = this.$element.find("a.duel-remove:first");
+        this.upButton = this.$element.find("a.duel-up:first");
+        this.downButton = this.$element.find("a.duel-down:first");
         this.sourceSelect = this.$element.find("select.source:first");
         this.targetSelect = this.$element.find("select.target:first");
-        this.hiddenValue = this.$element.find("input.duelValue:first");
+        this.hiddenValue = this.$element.find("input.duel-value:first");
 
         // 初始化时记录已经选中的值
         this.selectedValues = this.hiddenValue.val().split(",");

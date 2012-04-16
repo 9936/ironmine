@@ -1,36 +1,26 @@
 <%= page_title %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_incident_category_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="incident_categoriesSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="incident_categories" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
-        </div>
-        <%= datatable("incident_categories",{:action=>"get_data",:format=>"json"},
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70"},
-                       {:key=>"code",:label=>t(:label_icm_incident_category_code),:width=>"140"},
-                       {:key=>"name",:label=>t(:label_icm_incident_category_name),:width=>"140",:searchable=>true},
-                       {:key=>"description",:label=>t(:label_icm_incident_category_description)}],
-                      {:paginator_box=>"incident_categoriesPaginatorBox",:search_box=>"incident_categoriesSearchBox"})%>
-        <div id="incident_categoriesPaginatorBox"></div>
-      </div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_incident_category_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+      <td class="page-block-helper">
+        <div id="incident_categoriesSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="incident_categories">
+      <%= datatable("incident_categories",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"incident_categoriesPaginatorBox",:search_box=>"incident_categoriesSearchBox"})%>
     </div>
+    <div id="incident_categoriesPaginatorBox"></div>
+  </div>
 </div>
 
 

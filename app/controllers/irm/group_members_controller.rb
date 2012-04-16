@@ -45,6 +45,10 @@ class Irm::GroupMembersController < ApplicationController
     people_scope,count = paginate(people_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(people_scope.to_grid_json([:person_name,:email_address,:organization_name], count))}
+      format.html  {
+        @count = count
+        @datas = people_scope
+      }
     end
   end
 

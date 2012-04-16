@@ -1,48 +1,40 @@
 <%= common_title%>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <%= form_for(@group_member,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-                  <%= f.hidden_field(:status_code) %>
-                  <div class="button"><%= f.submit t(:save)%></div>
-                  <div class="button"><%= link_to(t(:back),{:controller =>"irm/groups",:action=>"show",:id=>@group.id})%></div>
-                <% end %>
-              </td>
-              <td class="pbHelp">
-                <div id="selectablePersonSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <%= error_for @support_group_member %>
-        <div id="supportGroupMembers" class="datatable" style="width:100%">
-        </div>
-        <%= datatable("supportGroupMembers",{:action=>"get_memberable_data",:id=>@group.id,:format=>:json},
-                  [{:key=>"id",:hidden=>true},
-                   {:key=>"person_name",:label=>t(:label_irm_group_person_name),:searchable=>true},
-                   {:key=>"organization_name",:label=>t(:label_irm_group_organization_name)},
-                   {:key=>"email_address",:label=>t(:label_irm_person_email_address),:searchable=>true},],
-                   {:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple"})%>
-        <div id="personPaginator"></div>
-      </div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= form_for(@group_member,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
+        <%= f.hidden_field(:status_code) %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= link_to(t(:back),{:controller =>"irm/groups",:action=>"show",:id=>@group.id},:class=>"btn")%>
+      <% end %>
+    </td>
+    <td class="page-block-helper">
+      <div id="selectablePersonSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="supportGroupMembers">
+      <%= datatable("supportGroupMembers",{:action=>"get_memberable_data",:id=>@group.id,:format=>:json},
+                        [{:key=>"id"},
+                         {:key=>"person_name",:label=>t(:label_irm_group_person_name),:searchable=>true},
+                         {:key=>"organization_name",:label=>t(:label_irm_group_organization_name)},
+                         {:key=>"email_address",:label=>t(:label_irm_person_email_address),:searchable=>true},],
+                         {:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple"})%>
+
     </div>
+    <div id="personPaginator"></div>
+  </div>
 </div>
+
 <script type="text/javascript">
-  Ext.onReady(function(){
-      var setSelectedValue = function(selModel,selected){
-          var ids = [];
-          for(var i = 0;i<selected.length;i++){
-            ids.push(selected[i].data.id);
-          }
-          $("#irm_group_member_status_code").val(ids.join(","));
-      }
-      Ext.getCmp("supportGroupMembersDatatable").selModel.addListener("selectionchange",setSelectedValue);
-});
+    $(document).ready(function(){
+        $("#supportGroupMembers").bind('selectionchange',function(event,ids){
+            $("#irm_group_member_status_code").val(ids.join(","));
+        });
+    });
 </script>

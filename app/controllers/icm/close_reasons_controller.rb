@@ -71,6 +71,10 @@ class Icm::CloseReasonsController < ApplicationController
     
     respond_to do |format|
       format.json  {render :json => to_jsonp(close_reasons.to_grid_json([:name,:close_code], count)) }
+      format.html  {
+        @count = count
+        @datas = close_reasons
+      }
     end
   end
 

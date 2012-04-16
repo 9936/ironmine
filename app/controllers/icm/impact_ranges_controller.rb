@@ -92,6 +92,10 @@ class Icm::ImpactRangesController < ApplicationController
       format.json  {render :json => to_jsonp(impact_ranges.to_grid_json([:name,:impact_code,
                                                                          :weight_values,:status_meaning,
                                                                          :default_flag,:display_sequence], count)) }
+      format.html  {
+        @count = count
+        @datas = impact_ranges
+      }
     end
   end    
 end

@@ -1,58 +1,10 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>">
-         <thead>
-           <tr>
-             <th style="width:70px;">
-               <div><%= t(:operation) %></div>
-             </th>
-             <th style="width:300px;">
-               <div><%= t(:label_irm_tab_name) %></div>
-             </th>
-             <th>
-               <div><%= t(:label_irm_organization_info_value) %></div>
-             </th>
-             <th>
-               <div><%= t(:label_irm_organization_info_file) %></div>
-             </th>
-             <th>
-               <div><%= t(:label_irm_tab_description) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @organization_infos.each do |data| %>
-         <tr id="<%=data[:id]%>">
-           <td>
-             <div>
-               <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%= data[:name] %>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%=data[:value]%>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%=data[:attachment]%>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%=data[:description]%>
-             </div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:count=>@count,:datas=>@organization_infos}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:name,{:title=>t(:label_irm_tab_name), :width => "20%"})%>
+  <% builder.column(:value,{:title=>t(:label_irm_organization_info_value), :width => "25%"})%>
+  <% builder.column(:attachment,{:title=>t(:label_irm_organization_info_file)})%>
+  <% builder.column(:description,{:title=>t(:label_irm_tab_description)})%>
+<% end %>

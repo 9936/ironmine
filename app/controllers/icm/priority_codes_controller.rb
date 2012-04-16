@@ -88,6 +88,10 @@ class Icm::PriorityCodesController < ApplicationController
     priority_codes,count = paginate(priority_codes_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(priority_codes.to_grid_json([:priority_code,:name,:weight_values,:status_meaning], count)) }
+      format.html  {
+        @count = count
+        @datas = priority_codes
+      }
     end
   end  
 end

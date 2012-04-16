@@ -21,87 +21,70 @@
   }
 </style>
 <%= common_title %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_priority_code) %></h2></td>
-              <td  class="pbButton">
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_priority_code) %></h2>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="matrix" cellpadding="0" cellspacing="0" border="0">
+      <% urgence_codes = Icm::UrgenceCode.multilingual.order("display_sequence Desc");
+         impact_ranges = Icm::ImpactRange.multilingual.order("display_sequence Desc");
+         priority_weight_value_hashes = priority_weight_value_hash
+      %>
+      <tbody>
+        <tr>
+          <th></th>
+          <th></th>
+          <th class="to" colspan="<%=urgence_codes.length%>"><%=t(:label_icm_urgence_code)  %></th>
+        </tr>
+        <tr>
+          <th rowspan="<%= impact_ranges.length+1 %>" style="vertical-align:middle;"><%=t(:label_icm_impact_range)  %></th>
+          <th></th>
+          <% urgence_codes.each do |urgency| %>
+            <th class="to"><%= urgency[:name]%></th>
+          <% end %>
+        </tr>
+        <% impact_ranges.each do |impact| %>
+          <tr>
+            <th class="from"><%= impact[:name]%></th>
+            <% urgence_codes.each do |urgency| %>
+              <td title="<%=impact[:name]%>">
+                <% current_weight = impact.weight_values+urgency.weight_values-1 %>
+                <%= current_weight %>
               </td>
-              <td class="pbHelp">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <table class="matrix" cellpadding="0" cellspacing="0" border="0">
-          <% urgence_codes = Icm::UrgenceCode.multilingual.order("display_sequence Desc");
-             impact_ranges = Icm::ImpactRange.multilingual.order("display_sequence Desc");
-             priority_weight_value_hashes = priority_weight_value_hash
-          %>
-          <tbody>
-            <tr>
-              <th></th>
-              <th></th>
-              <th class="to" colspan="<%=urgence_codes.length%>"><%=t(:label_icm_urgence_code)  %></th>
-            </tr>
-            <tr>
-              <th rowspan="<%= impact_ranges.length+1 %>" style="vertical-align:middle;"><%=t(:label_icm_impact_range)  %></th>
-              <th></th>
-              <% urgence_codes.each do |urgency| %>
-                <th class="to"><%= urgency[:name]%></th>
-              <% end %>
-            </tr>
-            <% impact_ranges.each do |impact| %>
-              <tr>
-                <th class="from"><%= impact[:name]%></th>
-                <% urgence_codes.each do |urgency| %>
-                  <td title="<%=impact[:name]%>">
-                    <% current_weight = impact.weight_values+urgency.weight_values-1 %>
-                    <%= current_weight %>
-                  </td>
-                <% end %>
-              </tr>
             <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_priority_code_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-              </td>
-              <td class="pbHelp">
-                <div id="priorityCodesSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="priority_code" class="datatable" style="width:100%;">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>&nbsp;
-            <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
-        </div>
-        <%= datatable("priority_code",{:action=>"get_data",:format=>"json"},
-                  [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"priority_code",:label=>t(:label_icm_priority_code_priority_code),:searchable=>true},
-                   {:key=>"name",:label=>t(:label_icm_priority_code_name),:searchable=>true},
-                   {:key=>"weight_values",:label=>t(:label_icm_priority_code_weight_values)},
-                   {:key=>"status_meaning",:label=>t(:status),:width=>"70px"}],
-                   {:paginator_box=>"priorityPaginator",:search_box=>"priorityCodesSearchBox"})%>
-        <div id="priorityPaginator"></div>
-      </div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_priority_code_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+      <td class="page-block-helper">
+        <div id="priorityCodesSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="priority_code">
+      <%= datatable("priority_code",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"priorityPaginator",:search_box=>"priorityCodesSearchBox"})%>
     </div>
+    <div id="priorityPaginator"></div>
+  </div>
 </div>

@@ -1,7 +1,5 @@
 <%= setting_title %>
 <%= form_for(@menu,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
-
-
   <% content_for :form_block_a   do%>
     <table class="form-table">
       <tbody>

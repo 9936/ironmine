@@ -10,20 +10,13 @@
       <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
     </td>
     <td class="page-block-helper">
-      <div id="permissionsSearchBox"></div>
+      <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
     <div id="person">
-      <%= datatable("person",{:action=>"get_data",:format=>"json"},
-                        [{:key=>"id",:label=>t(:operation)},
-                         {:key=>"login_name",:label=>t(:label_irm_person_login),:searchable=>true},
-                         {:key=>"person_name",:label=>t(:label_irm_person_name),:searchable=>true},
-                         {:key=>"email_address",:label=>t(:label_irm_person_email_address),:searchable=>true},
-                         {:key=>"bussiness_phone",:label=>t(:label_irm_person_bussiness_phone),:searchable=>true},
-                         {:key=>"organization_name",:label=>t(:label_irm_person_organization),:searchable=>true},
-                         {:key=>"profile_name",:label=>t(:label_irm_person_profile),:searchable=>true}],
-                         {:search_box=>"permissionsSearchBox",:paginator_box=>"peoplePaginatorBox"})%>
+      <%= datatable("person",{:action=>"get_data",:format=>"json"},[],
+                         {:search_box=>"searchBox",:paginator_box=>"peoplePaginatorBox"})%>
     </div>
     <div id="peoplePaginatorBox"></div>
   </div>

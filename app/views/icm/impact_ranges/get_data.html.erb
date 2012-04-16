@@ -1,0 +1,13 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:name,{:title=>t(:label_icm_impact_range_name),:searchable=>true})  %>
+  <% builder.column(:impact_code,{:title=>t(:label_icm_impact_range_impact_code),:searchable=>true})%>
+  <% builder.column(:display_sequence,{:title=>t(:display_sequence)})%>
+  <% builder.column(:default_flag,{:title=>t(:default_flag),:searchable=>true, :width => "40px"})  do |data| %>
+    <%= check_img(data[:default_flag]) %>
+  <% end %>
+  <% builder.column(:status_meaning,{:title=>t(:status),:width=>"70px"})%>
+<% end %>

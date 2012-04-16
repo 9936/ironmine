@@ -1,66 +1,68 @@
-<%= form_for(@external_system,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+<%= common_title(:show_data=>@external_system[:system_name]) %>
+
+<%= form_for(@external_system,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_external_system_edit)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
-          </td>
-        </tr>
+           <tr>
+            <td class="label-col"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
+            <td class="data-col"><%=f.text_field :external_system_code, :required=>true ,:id=>"external_system_external_system_code"%></td>
+            <td class="label-col"><label for="external_system_external_hostname"><%=t(:label_irm_external_system_external_hostname)%></label></td>
+            <td class="data-col"><%=f.text_field :external_hostname, :required=>true ,:id=>"external_system_external_hostname"%></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
+            <td class="data-col"><%=f.text_field :system_name,:value=>@external_system[:system_name],  :required=>true ,:id=>"external_system_system_name"%></td>
+            <td class="label-col"><label for="external_system_external_ip_address"><%=t(:label_irm_external_system_external_ip_address)%></label></td>
+            <td class="data-col"><%=f.text_field :external_ip_address, :required=>true ,:id=>"external_system_external_ip_address"%></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label for="external_system_system_description"><%=t(:label_irm_external_system_system_description)%></label></td>
+            <td class="data-col"><%= f.text_area :system_description, :value=>@external_system[:system_description], :rows => 4,:id=>"external_system_system_description",:class=>"input-xlarge"%></td>
+            <td class="label-col"><label><%=(t :label_irm_external_system_status_meaning)%></label></td>
+            <td class="data-col"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning,@external_system.status_code)%></td>
+          </tr>
       </tbody>
     </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @external_system%>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend"><span class="requiredExampleOuter">
-          <span class="requiredExample">&nbsp;</span></span>
-           <span class="requiredMark">*</span><span class="requiredText"> = <%=t(:label_is_required)%></span></span></span>
-      <h3><%=t(:label_irm_external_system_info)%></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-             <tr>
-              <td class="labelCol"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
-              <td class="dataCol"><%=f.text_field :external_system_code, :required=>true ,:id=>"external_system_external_system_code"%></td>
-              <td class="labelCol"><label for="external_system_external_hostname"><%=t(:label_irm_external_system_external_hostname)%></label></td>
-              <td class="dataCol"><%=f.text_field :external_hostname, :required=>true ,:id=>"external_system_external_hostname"%></td>
-            </tr>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+  <% end %>
 
-            <tr>
-              <td class="labelCol"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
-              <td class="dataCol"><%=f.text_field :system_name,:value=>@external_system[:system_name],  :required=>true ,:id=>"external_system_system_name"%></td>
-              <td class="labelCol"><label for="external_system_external_ip_address"><%=t(:label_irm_external_system_external_ip_address)%></label></td>
-              <td class="dataCol"><%=f.text_field :external_ip_address, :required=>true ,:id=>"external_system_external_ip_address"%></td>
-            </tr>
-
-            <tr>
-              <td class="labelCol"><label for="external_system_system_description"><%=t(:label_irm_external_system_system_description)%></label></td>
-              <td class="dataCol"><%= f.text_area :system_description, :value=>@external_system[:system_description], :rows => 4,:id=>"external_system_system_description"%></td>
-              <td class="labelCol"><label><%=(t :label_irm_external_system_status_meaning)%></label></td>
-              <td class="dataCol"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning,@external_system.status_code)%></td>
-            </tr>
-        </tbody>
-      </table>
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_external_system_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
-          </td>
-        </tr>
-      </tbody>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
     </table>
   </div>
-</div>
 <% end %>

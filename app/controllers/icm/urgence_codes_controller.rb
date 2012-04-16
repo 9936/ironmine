@@ -90,6 +90,10 @@ class Icm::UrgenceCodesController < ApplicationController
     respond_to do |format|
       format.json  {render :json => to_jsonp(urgence_codes.to_grid_json([:name,:urgency_code,
                                                                      :weight_values,:default_flag,:display_sequence,:status_meaning], count)) }
+      format.html  {
+        @count = count
+        @datas = urgence_codes
+      }
     end
   end  
 end

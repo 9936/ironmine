@@ -1502,7 +1502,58 @@ ul.mini-tab-lists li.current-tab a{
         vertical-align: top;
     }
 }
+//========dual style ==============================
+table.duel-select tr.duel-list td {
+    text-align: center;
+    vertical-align: middle;
+}
+table.duel-select tr.duel-list td.button-cell {
+    width: 0;
+}
+table.duel-select tr.duel-list select {
+    min-width:180px;
+    width:100%;
+    height:100%;
+}
+div.acton-type{
+    float:left;
+}
 
+//======= combobox style ==========================
+@comboboxPath: asset-path('framework/combobox_arrows_sprite.gif');
+.right-arrow-icon{
+    background: url(@comboboxPath) no-repeat scroll 0 0 transparent;
+    height: 20px;
+    margin: 0 2px;
+    width: 24px;
+}
+a:hover .righta-rrow-icon{
+    background-position: left -20px;
+}
+.left-arrow-icon{
+    background: url(@comboboxPath) no-repeat scroll 0 0 transparent;
+    background-position: left -60px;
+    height: 20px;
+    margin: 0 2px;
+    width: 24px;
+}
+a:hover .left-arrow-icon{background-position: left -80px;}
+.up-arrow-icon{
+    background: url(@comboboxPath) no-repeat scroll 0 0 transparent;
+    background-position: left -240px;
+    height: 20px;
+    margin: 0 2px;
+    width: 24px;
+}
+a:hover .up-arrow-icon{background-position: left -260px;}
+.down-arrow-icon{
+    background: url(@comboboxPath) no-repeat scroll 0 0 transparent;
+    background-position: left -300px;
+    height: 20px;
+    margin: 0 2px;
+    width: 24px;
+}
+a:hover .down-arrow-icon{background-position: left -320px;}
 
 //=====setting page =====================
 @import "framework/setting";

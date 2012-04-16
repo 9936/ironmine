@@ -110,6 +110,10 @@ class Irm::ExternalSystemsController < ApplicationController
     respond_to do |format|
       format.json {render :json=>to_jsonp(external_systems.to_grid_json([:external_system_code,:external_hostname,:external_ip_address,
                                                                          :system_name,:system_description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas =external_systems
+      }
     end
   end
 

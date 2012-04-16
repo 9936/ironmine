@@ -74,6 +74,10 @@ class Icm::IncidentPhasesController < ApplicationController
 
     respond_to do |format|
       format.json  {render :json => to_jsonp(incident_phases.to_grid_json([:name,:phase_code,:display_sequence,:status_meaning], count)) }
+      format.html  {
+        @count = count
+        @datas = incident_phases
+      }
     end
   end
 

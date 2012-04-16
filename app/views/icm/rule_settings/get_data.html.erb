@@ -1,0 +1,17 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:report_date_changable,{:title=>t(:label_icm_rule_setting_report_date_changable)}) do |data|%>
+    <%= check_img(data[:report_date_changable]) %>
+  <% end %>
+  <% builder.column(:respond_date_changable,{:title=>t(:label_icm_rule_setting_respond_date_changable)}) do |data|%>
+    <%= check_img(data[:respond_date_changable]) %>
+  <% end %>
+  <% builder.column(:slove_date_changable,{:title=>t(:label_icm_rule_setting_description)}) do |data|%>
+    <%= check_img(data[:slove_date_changable]) %>
+  <% end %>
+  <% builder.column(:auto_closure_days,{:title=>t(:label_icm_rule_setting_auto_closure_days)})  %>
+  <% builder.column(:status_meaning,{:title=>t(:status)})%>
+<% end %>

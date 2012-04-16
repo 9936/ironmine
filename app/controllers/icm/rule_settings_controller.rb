@@ -72,6 +72,10 @@ class Icm::RuleSettingsController < ApplicationController
     respond_to do |format|
       format.json  {render :json => to_jsonp(@rule_settings.to_grid_json([:report_date_changable,:slove_date_changable,:respond_date_changable,
                                                                      :auto_assignable,:auto_closure_days,:status_meaning], count)) }
+      format.html  {
+        @count = count
+        @datas = @rule_settings
+      }
     end
   end
 end
