@@ -1,91 +1,79 @@
-<%= setting_title %>
-<% require_javascript(:datepicker) %>
-<% require_css(:datepicker) %>
-<%= form_for(@lookup_value,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-<%= hidden_field_tag :lookup_type,@lookup_type %>
-<%= hidden_field_tag :return_url,@return_url %>
-<%= hidden_field_tag :_from,@_from %>
-<%=f.hidden_field :lookup_type,:value=>@lookup_type%>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_lookup_value_new)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <% if @_from.to_s == "lookup_type" %>
-              <div class="button"><%= link_to t(:cancel), @return_url%></div>
-            <% else %>
-              <div class="button"><%= link_to t(:cancel), {:action => "index",:lookup_type=>@lookup_type}%></div>
-            <% end %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @lookup_value%>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-          <span class="requiredLegend">
-            <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-            </span>
-          <span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-          </span>
-      </span>
-      <h3><%=t(:label_irm_lookup_value_info)%></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_lookup_code)%></label></td>
-              <td class="dataCol"><%=f.text_field :lookup_code,:required=>true,:irm_uppercase=>true %></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_meaning)%></label></td>
-              <td class="dataCol"><%=f.text_field :meaning,:required=>true%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="date1"><%=(t :label_start_date_active)%></label></td>
-              <td class="dataCol">
-                <%=f.text_field(:start_date_active,:value =>calendar_date(@lookup_value.start_date_active),:required=>true,:id=>"date1",:size=>18,:class=>"date",:nobutton=>true)%>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="date2"><%=(t :label_end_date_active)%></label></td>
-              <td class="dataCol">
-                <%=f.text_field(:end_date_active,:value =>calendar_date(@lookup_value.end_date_active),:id=>"date2",:size=>18,:class=>"date",:nobutton=>true) %>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_description)%></label></td>
-              <td class="dataCol"><%=f.text_area :description,:rows=>4%></td>
 
-            </tr>
-        </tbody>
-      </table>
+<%= setting_title %>
+<%= form_for(@lookup_value,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+  <%=f.hidden_field :lookup_type%>
+
+  <% content_for :form_block_a   do%>
+        <table class="form-table">
+                <tbody>
+                    <tr>
+                      <td class="label-col"><label><%=(t :label_lookup_code)%></label></td>
+                      <td class="data-col"><%=f.text_field :lookup_code,:required=>true,:irm_uppercase=>true %></td>
+                    </tr>
+                    <tr>
+                      <td class="label-col"><label><%=(t :label_meaning)%></label></td>
+                      <td class="data-col"><%=f.text_field :meaning,:required=>true%></td>
+                    </tr>
+                    <tr>
+                      <td class="label-col"><label for="date1"><%=(t :label_start_date_active)%></label></td>
+                      <td class="data-col">
+                        <%=f.date_field(:start_date_active,:required=>true)%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="label-col"><label for="date2"><%=(t :label_end_date_active)%></label></td>
+                      <td class="data-col">
+                        <%=f.date_field(:end_date_active) %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="label-col"><label><%=(t :label_description)%></label></td>
+                      <td class="data-col"><%=f.text_area :description,:rows=>4%></td>
+
+                    </tr>
+                </tbody>
+              </table>
+  <% end %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+  <% end %>
+
+
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_lookup_value_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @lookup_value%>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_irm_lookup_value_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
     </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <% if @_from.to_s == "lookup_type" %>
-              <div class="button"><%= link_to t(:cancel), @return_url%></div>
-            <% else %>
-              <div class="button"><%= link_to t(:cancel), {:action => "index",:lookup_type=>@lookup_type}%></div>
-            <% end %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+
 <% end %>

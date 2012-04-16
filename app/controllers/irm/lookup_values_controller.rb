@@ -1,38 +1,27 @@
 class Irm::LookupValuesController < ApplicationController
 
   def index
-    if !params[:lookup_type].blank?
-      @lookup_type = Irm::LookupType.multilingual.query_wrap_info(I18n::locale).query_by_lookup_type(params[:lookup_type]).first
-    else
-      @lookup_type= Irm::LookupType.new
-    end
-    
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @mail_templates }
-    end
+    redirect_to(:controller=>"irm/lookup_types",:action=>"index")
+    #if !params[:lookup_type].blank?
+    #  @lookup_type = Irm::LookupType.multilingual.query_wrap_info(I18n::locale).query_by_lookup_type(params[:lookup_type]).first
+    #else
+    #  @lookup_type= Irm::LookupType.new
+    #end
+    #
+    #respond_to do |format|
+    #  format.html # index.html.erb
+    #  format.xml  { render :xml => @mail_templates }
+    #end
   end
 
   def new
-    @lookup_value = Irm::LookupValue.new
-    @return_url=request.env['HTTP_REFERER']
-    @_from=params[:_from]
-    @lookup_type = params[:lookup_type]
-    @current_lookup_type = Irm::LookupType.multilingual.query_by_lookup_type(@lookup_type).first
-    if !@current_lookup_type.blank?
-      @lookup_type_meaning = @current_lookup_type[:meaning]
-    end
+    @lookup_value = Irm::LookupValue.new(:lookup_type=>params[:lookup_type])
   end
 
   def show
     @lookup_value = Irm::LookupValue.multilingual.find(params[:id])
-    @return_url=request.env['HTTP_REFERER']
-    @_from=params[:_from]
-    @lookup_type = params[:lookup_type]
-    @current_lookup_type = Irm::LookupType.multilingual.query_by_lookup_type(@lookup_type).first
-    if !@current_lookup_type.blank?
-      @lookup_type_meaning = @current_lookup_type[:meaning]
-    end
+
+    @lookup_type = Irm::LookupType.multilingual.query_by_lookup_type(@lookup_value.lookup_type).first
   end
 
   # multi language
@@ -55,13 +44,6 @@ class Irm::LookupValuesController < ApplicationController
 
   def edit
     @lookup_value = Irm::LookupValue.multilingual.find(params[:id])
-    @return_url=request.env['HTTP_REFERER']
-    @_from=params[:_from]
-    @lookup_type = params[:lookup_type]
-    @current_lookup_type = Irm::LookupType.multilingual.query_by_lookup_type(@lookup_type).first
-    if !@current_lookup_type.blank?
-      @lookup_type_meaning = @current_lookup_type[:meaning]
-    end
   end
 
 
@@ -71,12 +53,8 @@ class Irm::LookupValuesController < ApplicationController
     respond_to do |format|
       if @lookup_value.save
         format.html {
-        if(params[:_from]=="lookup_type")
-           redirect_to params[:return_url]
-        else
-          redirect_to({:action=>"index",:lookup_type=>@lookup_value.lookup_type},
-                                      :notice => (t :successfully_created))
-        end
+          lookup_type = Irm::LookupType.multilingual.query_by_lookup_type(@lookup_value.lookup_type).first
+          redirect_to({:controller => "irm/lookup_types",:action=>"show",:id=>lookup_type.id})
         }
         format.xml  { render :xml => @lookup_value, :status => :created, :location => @lookup_value }
       else
@@ -92,13 +70,9 @@ class Irm::LookupValuesController < ApplicationController
     respond_to do |format|
       if @lookup_value.update_attributes(params[:irm_lookup_value])
         format.html {
-        if(params[:_from]=="lookup_type")
-           redirect_to params[:return_url]
-        else
-          redirect_to({:action=>"index",:lookup_type=>@lookup_value.lookup_type},
-                                      :notice => (t :successfully_created))
-        end
-        }
+                 lookup_type = Irm::LookupType.multilingual.query_by_lookup_type(@lookup_value.lookup_type).first
+                 redirect_to({:controller => "irm/lookup_types",:action=>"show",:id=>lookup_type.id})
+               }
         format.xml  { head :ok }
       else
         format.html { render "edit" }
