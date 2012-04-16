@@ -4,7 +4,7 @@
   <%if defined?(types)&&types&&types.is_a?(Array)&&types.any?%>
     <tr class="duel-search-box">
       <td colspan="<%= column_size %>">
-        <div class="floatLeft float-left">
+        <div class="float-left">
              <label><%= t(:search) %></label>
         </div>
         <div class="float-left">
@@ -14,7 +14,7 @@
           <input type="text" size="30" class="duel-query"/>
         </div>
         <div class="float-left">
-           <div class="button"><a href="javascript:void(0)" class="duel-search-button"><%=t(:search) %></a></div>
+           <a href="javascript:void(0)" class="btn cancel duel-search-button"><%=t(:search)%></a>
         </div>
       </td>
     </tr>
@@ -66,7 +66,7 @@
       //搜索框禁止按回车刷新
       $(".duel-query").keypress(function(e){
          if(e.keyCode == 13) {
-            $("duel-search-button").click();
+            $(".duel-search-button").click();
              return false;
          }
       });
