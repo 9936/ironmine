@@ -108,6 +108,10 @@ class Chm::ChangePrioritiesController < ApplicationController
     change_priorities,count = paginate(change_priorities_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(change_priorities.to_grid_json([:name,:code,:display_sequence,:weight_values,:default_flag,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = change_priorities
+      }
     end
   end
 end

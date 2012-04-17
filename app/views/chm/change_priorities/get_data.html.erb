@@ -1,0 +1,11 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show", :id => data[:id]})%>
+  <% end %>
+  <% builder.column(:code,{:title=>t(:code),:searchable=>true})  %>
+  <% builder.column(:name,{:title=>t(:name),:searchable=>true})%>
+  <% builder.column(:weight_values,{:title=>t(:label_chm_change_priority_weight_values),:searchable=>true})%>
+  <% builder.column(:display_sequence,{:title=>t(:display_sequence),:width=>"70px"})%>
+  <% builder.column(:description,{:title=>t(:description)})%>
+<% end %>
