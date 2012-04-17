@@ -18,7 +18,7 @@
         <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
       </td>
     <% end %>
-    <td class="page-block-helper">
+    <td class="page-block-help">
       <div class="datable-search-box">
         <%= form_tag({:controller => "irm/groups"}, {:method => 'get',:class => 'select-mode'}) do %>
           <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("role_view", this.value);this.form.submit();',:class => 'search-select'}) %>

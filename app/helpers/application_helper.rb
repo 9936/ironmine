@@ -777,7 +777,7 @@ module ApplicationHelper
   end
 
   def controller_action_css_class
-    "#{params[:controller]}/#{params[:action]}".gsub("/","-").gsub("_","-")
+    "#{params[:controller]}".gsub("/","-").gsub("_","-")
   end
 
   # 判断浏览器是否为ie6

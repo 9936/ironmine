@@ -743,14 +743,14 @@ jQuery.fn.menubutton = function(){
           if($(this).hasClass("nav-tree-col")){
             $(this).removeClass("nav-tree-col");
             $(this).addClass("nav-tree-exp");
-            $('#tree_'+$(this).attr("real")+"_child").css("display","block");
+            $('#tree_'+$(this).attr("real")+"_child").css({display:"block"});
             var menu_code =  $(this).attr("real");
 
           }
           else{
             $(this).removeClass("nav-tree-exp");
             $(this).addClass("nav-tree-col");
-            $('#tree_'+$(this).attr("real")+"_child").css("display","none");
+            $('#tree_'+$(this).attr("real")+"_child").css({display:"block"});
             var menu_code =  $(this).attr("real");
           }
 
@@ -951,7 +951,7 @@ jQuery.fn.menubutton = function(){
         var growBy = me.data.options.growBy;
         if ( (textHeight > maxHeight ) && (maxHeight > 0) ){
               textHeight = maxHeight ;
-              me.$element.css('overflow', 'auto');
+              me.$element.css({overflow:auto});
         }
         if ( (textHeight < minHeight ) && (minHeight > 0) ) {
             textHeight = minHeight ;
@@ -1292,7 +1292,7 @@ jQuery.fn.menubutton = function(){
             var table_th = me.$element.find("table:first").find("thead").find("th:first");
             if(me.data.options.selectType == 'multiple') {
                 var th_check_box = $("<input type='checkbox' name='select_all'/>").attr("title", $.i18n("select_all"));
-                table_th.before($("<th/>").css("width",'15px').html($("<div/>").html(th_check_box)));
+                table_th.before($("<th/>").css({width:'15px'}).html($("<div/>").html(th_check_box)));
                 //添加全选和反选事件
                 th_check_box.click(function(e){
                     ids = [];
@@ -1310,7 +1310,7 @@ jQuery.fn.menubutton = function(){
                     me.$element.find("table:first").trigger('selectionchange',[ids]);
                 });
             }else{
-                table_th.before($("<th/>").css("width",'15px').html($("<div/>")));
+                table_th.before($("<th/>").css({width:'15px'}).html($("<div/>")));
             }
             //表格列表中的值
             //判断当前表格中是否有数据，没有数据直接跳出该方法
@@ -1487,12 +1487,12 @@ jQuery.fn.menubutton = function(){
             me.syncPaginatorUI();
         }
         //build searchbox
-        if(me.data.options.searchBox&&me.data.options.columns.length>0)
+        if(me.data.options.searchBox)
         {
             var show_able = false;
             var searchBox = $("#"+me.data.options.searchBox);
-            searchBox.css("display","none");
             if(searchBox){
+                searchBox.css({display:"none"});
 
                 var search_template = '<div class="datable-search-box form-inline">'+
                                         '<select class="search-select"></select>'+
@@ -1545,7 +1545,7 @@ jQuery.fn.menubutton = function(){
                     if(!selectElement.val())
                       event.preventDefault();
                 });
-                filterBox.css("display","block");
+                filterBox.css({display:"block"});
             }
         }
 
@@ -1626,9 +1626,9 @@ jQuery.fn.menubutton = function(){
 
         }
         if(showable)
-            searchBox.css("display","");
+            searchBox.css({display:""});
         else
-            searchBox.css("display","none");
+            searchBox.css({display:"none"});
     }
 
     Internal.prototype.getRightPage = function(page){

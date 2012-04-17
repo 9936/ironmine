@@ -56,7 +56,7 @@ module Irm
               output.safe_concat ""
             end
           end
-          output.safe_concat "</td></div>"
+          output.safe_concat "</div></td>"
         end
         output.safe_concat "</tr>"
       end

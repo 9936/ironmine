@@ -15,7 +15,7 @@
              <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn add_group_button"} %>
              <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class => "btn" )%>
            </td>
-           <td class="page-block-helper">
+           <td class="page-block-help">
              <%= t(:step_n_total_m, :n => "2", :m => "3") %>
            </td>
           <% else %>
@@ -26,7 +26,7 @@
                 <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
                 <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class=>"btn cancel")%>
               </td>
-              <td class="page-block-helper">
+              <td class="page-block-help">
                 <div id="selectableSystemSearchBox"></div>
               </td>
           <% end %>
