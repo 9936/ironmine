@@ -106,6 +106,10 @@ class Chm::ChangeStatusesController < ApplicationController
     change_statuses,count = paginate(change_statuses_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(change_statuses.to_grid_json([:name,:code,:display_sequence,:default_flag,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = change_statuses
+      }
     end
   end
 end
