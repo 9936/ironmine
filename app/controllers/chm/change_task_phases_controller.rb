@@ -107,6 +107,10 @@ class Chm::ChangeTaskPhasesController < ApplicationController
     change_task_phases,count = paginate(change_task_phases_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(change_task_phases.to_grid_json([:name,:code,:display_sequence,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = change_task_phases
+      }
     end
   end
 end
