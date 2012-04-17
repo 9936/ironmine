@@ -1,39 +1,30 @@
 <%= common_title(:action_meaning=>t(:label_chm_advisory_board_member_new)) %>
-
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_chm_advisory_board_member_new) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <%= form_tag({:action=>"create", :advisory_board_id => @advisory_board.id}) do |f| %>
-                  <%= hidden_field_tag(:person_ids,params[:person_ids],:id=>"person_ids") %>
-                  <%= hidden_params_field(:back_url) %>
-                  <div class="button"><%= link_submit t(:add),:id=>"formSubmit"%></div>
-                  <div class="button"><%= link_back %></div>
-                <% end %>
-              </td>
-              <td class="pbHelp">
-                <div id="advisory_boardsSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="people" class="datatable" style="width:100%">
-        </div>
-        <%= datatable("people",{:action=>"get_data",:format=>"json"},
-                      [{:key=>"id",:label=>t(:operation), :hidden => true},
-                       { :key => "full_name", :label => t(:label_irm_person_full_name),:searchable=>true },
-                       { :key => "email_address", :label => t(:label_irm_person_email_address),:searchable=>true },
-                       { :key => "organization_name", :label => t(:label_irm_organization),:searchable=>true }],
-                      {:paginator_box=>"advisory_boardsPaginatorBox",:search_box=>"advisory_boardsSearchBox",:select=>"multiple",:force_html=>true})%>
-        <div id="advisory_boardsPaginatorBox"></div>
-      </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_advisory_board_member_new) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= form_tag({:action=>"create", :advisory_board_id => @advisory_board.id}) do |f| %>
+          <%= hidden_field_tag(:person_ids,params[:person_ids],:id=>"person_ids") %>
+          <%= hidden_params_field(:back_url) %>
+          <%= link_submit t(:add),:id=>"formSubmit",:class=>"btn btn-primary"%>
+          <%= link_back t(:back),{}, :class=>"btn"%>
+        <% end %>
+      </td>
+      <td class="page-block-help">
+        <div id="advisory_boardsSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="people">
+      <%= datatable("people",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"advisory_boardsPaginatorBox",:search_box=>"advisory_boardsSearchBox",:select=>"multiple"})%>
     </div>
+    <div id="advisory_boardsPaginatorBox"></div>
+  </div>
 </div>
 
 
