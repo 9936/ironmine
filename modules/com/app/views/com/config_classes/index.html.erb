@@ -1,103 +1,44 @@
 <%= page_title %>
 <% require_javascript([:treeview]) %>
 <% require_css([:treeview]) %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <% if params[:mode] == 'tree' %>
-                <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_com_config_class_structure) %></h2></td>
-                <% else %>
-                <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_com_config_class_list) %></h2></td>
-                <td id="topButtonRow" class="pbButton">
-                  <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-                </td>
-              <% end %>
-              <td class="pbHelp">
-                <div id="config_classesSearchBox"></div>
-                <div>
-                  <%= form_tag({:controller => "com/config_classes"}, {:method => 'get'}) do %>
-                      <span class="viewSelect">
-                        <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("config_class_view", this.value);this.form.submit();'}) %>
-                      </span>
-                  <% end %>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-      <% if params[:mode] == 'tree' %>
-      <!-- 树形展示开始 -->
-        <div id="sidetreecontrol"> <a href="?#"><%= t(:collapse_all) %></a> | <a href="?#"><%= t(:expand_all) %></a> </div>
-        <%= config_classes_tree_data %>
-      <!-- 树形展示结束 -->
-      <% else %>
-      <!--  irm datatable   -->
-          <div class="irm-datatable">
-            <div>
-                <table count="<%=@leveled_config_classes.length%>">
-                  <thead>
-                    <tr >
-                        <th style="width:80px;">
-                          <div><%= t(:operation) %></div>
-                        </th>
-                        <th>
-                          <div ><%= t(:label_com_config_class_name) %></div>
-                        </th>
-                        <th>
-                          <div ><%= t(:label_com_config_class_parent) %></div>
-                        </th>
-                        <th>
-                          <div ><%= t(:description) %></div>
-                        </th>
-                        <th>
-                          <div ><%= t(:label_com_config_class_leaf_flag) %></div>
-                        </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% @leveled_config_classes.each do |config_class| %>
-                    <tr id="<%=config_class.id%>">
-                      <td >
-                        <div>
-                          <%= link_to(t(:edit),{:action=>"edit",:id=>config_class.id}) %> | <%= link_to(t(:show),{:action=>"show",:id=>config_class.id}) %>
-                         </div>
-                      </td>
-                      <td>
-                        <div >
-                           <% config_class.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= config_class[:name] %>
-                        </div>
-                      </td>
-                      <td>
-                        <div >
-                           <%= config_class[:parent_name] %>
-                        </div>
-                      </td>
-                      <td>
-                        <div >
-                           <%= config_class[:description] %>
-                        </div>
-                      </td>
-                      <td>
-                        <div >
-                          <%= check_img(config_class[:leaf_flag]) %>
-                        </div>
-                      </td>
-                    </tr>
-                    <% end -%>
-                  </tbody>
-                </table>
-            </div>
-          </div>
-        <!--  end irm datatable      -->
+<!--页面结构-->
+<style type="text/css">
+  .select-mode {
+      margin: 0 !important;
+  }
+</style>
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <% if params[:mode] == 'tree' %>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_role_structure) %></h2></td>
+    <% else %>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_role_list) %></h2></td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+    <% end %>
+    <td class="page-block-help">
+      <div class="datable-search-box">
+        <%= form_tag({:controller => "com/config_classes"}, {:method => 'get',:class => 'select-mode'}) do %>
+          <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("role_view", this.value);this.form.submit();',:class => 'search-select'}) %>
         <% end %>
       </div>
-    </div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <% if(params[:mode] == 'tree') %>
+      <!-- 树形展示开始 -->
+      <div id="sidetreecontrol"> <a href="?#"><%= t(:collapse_all) %></a> | <a href="?#"><%= t(:expand_all) %></a> </div>
+      <%= config_classes_tree_data %>
+      <!-- 树形展示结束 -->
+    <% else %>
+     <!--  irm datatable      -->
+        <%=render :partial=>"leveled_config_classes",:locals=>{:datas=>@leveled_config_classes} %>
+     <!--  end irm datatable      -->
+   <% end %>
+  </div>
 </div>
+
 <script type="text/javascript">
   $(function(){
       $("#config_classes_tree").treeview({

@@ -1,44 +1,9 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>">
-         <thead>
-           <tr>
-             <th style="width:80px">
-               <div><%= t(:operation) %></div>
-             </th>
-             <th>
-               <div><%= t(:code) %></div>
-             </th>
-             <th>
-                <div><%= t(:name) %></div>
-             </th>
-             <th>
-               <div><%= t(:description) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |data| %>
-         <tr id="<%=data.id %>">
-           <td>
-             <div>
-                <%= link_to(t(:edit),{:action=>"edit",:id=>data.id}) %>|<%= link_to(t(:show),{:action=>"show",:id=>data.id}) %>
-             </div>
-           </td>
-           <td>
-             <div><%= data[:code] %></div>
-           </td>
-           <td>
-             <div><%= data[:name] %></div>
-           </td>
-           <td>
-             <div><%= data[:description] %></div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:code,{:title=>t(:code),:searchable=>true, :width => "15%"})%>
+  <% builder.column(:name,{:title=>t(:name),:searchable=>true})%>
+  <% builder.column(:description,{:title=>t(:description)})%>
+<% end %>
