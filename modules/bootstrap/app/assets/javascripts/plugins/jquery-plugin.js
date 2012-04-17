@@ -750,7 +750,7 @@ jQuery.fn.menubutton = function(){
           else{
             $(this).removeClass("nav-tree-exp");
             $(this).addClass("nav-tree-col");
-            $('#tree_'+$(this).attr("real")+"_child").css({display:"block"});
+            $('#tree_'+$(this).attr("real")+"_child").css({display:"none"});
             var menu_code =  $(this).attr("real");
           }
 
