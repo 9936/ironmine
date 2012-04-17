@@ -106,6 +106,10 @@ class Chm::ChangeImpactsController < ApplicationController
     change_impacts,count = paginate(change_impacts_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(change_impacts.to_grid_json([:name,:code,:display_sequence,:weight_values,:default_flag,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = change_impacts
+      }
     end
   end
 end
