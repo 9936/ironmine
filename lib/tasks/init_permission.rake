@@ -33,6 +33,8 @@ namespace :irm do
      path_regex = /:([a-z_]+)/
      except_path_regex = /\([\.\/a-z_]*:([a-z_]+)[\/a-z_]*\)/
      routes.each do |r|
+       puts  r
+       next unless r[:reqs].present?
        params_count = r[:path].scan(path_regex).delete_if{|i| !i.any?}.count
        except_params_count = r[:path].scan(except_path_regex).delete_if{|i| !i.any?}.count
        params_count = params_count - except_params_count
