@@ -107,6 +107,10 @@ class Irm::TabsController < ApplicationController
     tabs,count = paginate(tabs_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(tabs.to_grid_json([:code,:name,:description,:business_object_name,:function_group_name],count))}
+      format.html {
+        @datas = tabs
+        @count = count
+      }
     end
   end
 end
