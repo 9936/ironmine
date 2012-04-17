@@ -132,8 +132,11 @@ class Slm::ServiceAgreementsController < ApplicationController
     service_agreements_scope = service_agreements_scope.match_value("slm_service_agreements.agreement_code",params[:agreement_code])
     service_agreements,count = paginate(service_agreements_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(service_agreements.to_grid_json([:agreement_code,
-                                                                           :name,:description,:status_meaning],count))}
+      format.json {render :json=>to_jsonp(service_agreements.to_grid_json([:agreement_code,:name,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = service_agreements
+      }
     end
   end
 
