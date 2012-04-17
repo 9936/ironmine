@@ -108,8 +108,11 @@ class Slm::ServiceCatalogsController < ApplicationController
     service_catalogs_scope = service_catalogs_scope.match_value("slm_service_catalogs.catalog_code",params[:catalog_code])
     service_catalogs,count = paginate(service_catalogs_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(service_catalogs.to_grid_json([:catalog_code,:name,:parent_catalog_name,
-                                                                         :description,:status_meaning],count))}
+      format.json {render :json=>to_jsonp(service_catalogs.to_grid_json([:catalog_code,:name,:parent_catalog_name,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = service_catalogs
+      }
     end
   end
 end
