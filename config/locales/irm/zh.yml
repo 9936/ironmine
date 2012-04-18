@@ -1828,3 +1828,7 @@ zh:
   label_total_solved_time: 解决总耗时(分钟)
   label_total_solved_average_time: 平均处理时间(分钟/单)
   #============================== end icm average processing time ===================================
+  #============================== icm wrong assign rate report ===================================
+  label_icm_total_wrong_assigned: 错误分派数
+  label_icm_wrong_assigned_rate: 错误分派比例
+  #============================== end icm wrong assign rate ===================================

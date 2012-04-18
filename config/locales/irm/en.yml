@@ -1784,3 +1784,7 @@ en:
   label_first_line_solved_amount: First-line Solved
   label_total_solved_amount: Solved Amount
   #============================== end first line solved ===================================
+  #============================== icm average processing time report ===================================
+  label_total_solved_time: Total Solved Time(mins)
+  label_total_solved_average_time: Avg. Solved Time(mins/sheet)
+  #============================== end icm average processing time ===================================
