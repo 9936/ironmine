@@ -1772,3 +1772,11 @@ en:
   label_irm_oauth_token_unavailable: Unavailabled Token
   label_irm_oauth_username_or_password_error: Username Or Password Error
   #============================== end oauth_authorize ===================================
+
+  #============================== highest_priority_incident report ===================================
+  label_date: Date
+  label_highest_priority_incident_hightest_amount: Highest Amount
+  label_total_amount: Amount
+  label_percentage: Percentage
+  label_statistic_date: Reference Date
+  #============================== end highest_priority_incident ===================================

@@ -1812,3 +1812,11 @@ zh:
   label_irm_oauth_token_unavailable: 无效的 Token
   label_irm_oauth_username_or_password_error: 用户名或密码错误
   #============================== end oauth_authorize ===================================
+
+  #============================== highest_priority_incident report ===================================
+  label_date: 日期
+  label_highest_priority_incident_hightest_amount: 最高优先级
+  label_total_amount: 总数
+  label_percentage: 比例
+  label_statistic_date: 统计日期
+  #============================== end highest_priority_incident ===================================
