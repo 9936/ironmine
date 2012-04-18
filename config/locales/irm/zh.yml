@@ -1824,3 +1824,7 @@ zh:
   label_first_line_solved_amount: 一线解决数量
   label_total_solved_amount: 解决事故总数
   #============================== end first line solved ===================================
+  #============================== icm average processing time report ===================================
+  label_total_solved_time: 解决总耗时(分钟)
+  label_total_solved_average_time: 平均处理时间(分钟/单)
+  #============================== end icm average processing time ===================================

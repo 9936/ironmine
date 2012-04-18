@@ -1,4 +1,4 @@
-class IcmFirstLineSolved < Irm::ReportManager::ReportBase
+class IcmAverageProcessingTime < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 
@@ -11,8 +11,13 @@ class IcmFirstLineSolved < Irm::ReportManager::ReportBase
       return {:datas=>[],:headers=>[],:params=>params}
     end
 
-    statis = Icm::IncidentRequest.select("external_system_id, count(1) amount")
-    statis = statis.
+    statis = Icm::IncidentRequest.
+        joins(",#{Icm::IncidentJournal.table_name} ij").
+        joins(",#{Icm::IncidentJournalElapse.table_name} ije").
+        where("#{incident_request_table}.id = ij.incident_request_id").
+        where("ij.id = ije.incident_journal_id").
+        select("#{incident_request_table}.external_system_id, count(1) amount, sum(ije.distance) total_time").
+        group("#{incident_request_table}.external_system_id").
         where("#{incident_request_table}.incident_status_id = ?", close_statis).
         where(%Q(EXISTS(
                   SELECT * FROM icm_incident_journals ij
@@ -31,29 +36,23 @@ class IcmFirstLineSolved < Irm::ReportManager::ReportBase
 
     datas = []
     headers = [I18n.t(:label_date),
-               I18n.t(:label_first_line_solved_amount),
+               I18n.t(:label_total_solved_time),
                I18n.t(:label_total_solved_amount),
-               I18n.t(:label_percentage)]
+               I18n.t(:label_total_solved_average_time)]
 
     external_systems.each do |e|
       data = Array.new(4)
       data[0] = e[:system_name]
-      data[1] = statis.
-          where("#{incident_request_table}.external_system_id = ?", e.id).
-          where(%Q(NOT EXISTS(
-                    SELECT * FROM icm_incident_journals ij
-                    WHERE ij.incident_request_id = #{incident_request_table}.id
-                    AND ij.reply_type = 'UPGRADE'))).
-          group("#{incident_request_table}.external_system_id")
-      data[1] = data[1].any? ? data[1].first[:amount] : 0
-      data[2] = statis.where("#{incident_request_table}.external_system_id = ?", e.id).
-                group("#{incident_request_table}.external_system_id")
-      data[2] = data[2].any? ? data[2].first[:amount] : 0
-      percent = data[2] == 0 ? 0.to_f : (((data[1].to_f / data[2].to_f).to_f * 100 * 100).round / 100.0).to_f
+      rec = statis.where("#{incident_request_table}.external_system_id = ?", e.id)
+
+      data[1] = rec.any? ? ((rec.first[:total_time]/60.to_f) * 100).round / 100.0 : 0
+      data[2] = rec.any? ? rec.first[:amount]  : 0
+
+      percent = data[2] == 0 ? 0.to_f : ((data[1] / data[2].to_f * 100).round / 100.0).to_f
       if percent == 0.to_f
         percent = 0
       end
-      data[3] = percent.to_s + "%"
+      data[3] = percent.to_s
       datas << data
     end
 
