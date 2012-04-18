@@ -67,12 +67,7 @@
   </tr></table>
   <div class="page-block-body">
     <div id="person">
-      <%= datatable("person",{:controller=>"irm/group_members",:action=>"get_data",:id=>@group.id},
-                                    [{:key=>"id",:label=>t(:operation)},
-                                     {:key=>"person_name",:label=>t(:label_irm_group_person_name)},
-                                     {:key=>"organization_name",:label=>t(:label_irm_group_organization_name)},
-                                     {:key=>"email_address",:label=>t(:label_irm_person_email_address)}],
-                                     {:paginator_box=>"personPaginator"})%>
+      <%= datatable("person",{:controller=>"irm/group_members",:action=>"get_data",:id=>@group.id},[],{:paginator_box=>"personPaginator"})%>
     </div>
     <div id="personPaginator"></div>
   </div>

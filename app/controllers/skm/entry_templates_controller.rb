@@ -70,6 +70,10 @@ class Skm::EntryTemplatesController < ApplicationController
     entry_templates,count = paginate(entry_templates_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_templates.to_grid_json(['0',:entry_template_code, :name,:description,:status_code], count)) }
+      format.html  {
+        @count = count
+        @datas = entry_templates
+      }
     end
   end
 
@@ -147,7 +151,12 @@ class Skm::EntryTemplatesController < ApplicationController
     entry_elements,count = paginate(entry_elements_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_elements.to_grid_json(['0',:detail_rows, :detail_required_flag, :detail_id, :required_flag, :entry_template_element_code, :name,:description, :default_rows], count)) }
-    end    
+      format.html  {
+        @count = count
+        @datas = entry_elements
+        @template_id = (params[:template_id_t] || params[:template_id])
+      }
+    end
   end
 
   def select_elements

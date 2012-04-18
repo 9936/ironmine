@@ -62,6 +62,11 @@ module Irm::PageHelper
     link_to(btn_remove_icon, args.first,args.second,block)
   end
 
+  def bootstrap_icons(icon_class = "", title = "", *args, &block)
+    link_to(content_tag(:i, "", {:class => icon_class, :title => title}), args.first, args.second, block)
+  end
+
+
   def icon_link(icon_class = "", title = "", *args, &block)
     link_to(btn_icon(icon_class, title), args.first, args.second, block)
   end
