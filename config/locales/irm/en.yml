@@ -350,8 +350,9 @@ en:
   label_ldap_auth_header_list: Auth Hearder
   label_irm_ldap_auth_header_name: Name
   label_irm_ldap_auth_header_new: New Auth Header
+  label_irm_ldap_auth_header_edit: Edit Auth Header
   ldap_auth_header_ldap_source: Ldap Source
-  ldap_auth_header_auth_code: Code
+  ldap_auth_header_auth_name: Name
   ldap_auth_header_auth_cn: Domain
   ldap_auth_header_description: Description
   ldap_auth_header_status_code: Status
@@ -361,6 +362,7 @@ en:
   #=========================    end ldap_auth_headers_controller=======================#
   #=========================    irm ldap=======================#
   label_irm_ldap_auth_attribute_new: New Ldap Auth Attribute
+  label_irm_ldap_auth_attribute_edit: Edit Ldap Auth Attribute
   label_ldap_auth_attribute: Auth Attribute
   label_ldap_auth_attribute_local_attr: Local Attribute
   label_ldap_auth_attribute_attr_type: Attribute Type

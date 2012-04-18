@@ -107,9 +107,12 @@ class Irm::LdapAuthAttributesController < ApplicationController
                                                                    :ldap_attr=>i.ldap_attr,
                                                                    :description=>i.description,
                                                                    :status_code=>i.status_code}}
-
     respond_to do |format|
       format.json {render :json=>to_jsonp(ldap_auth_attributes.to_grid_json([:local_attr,:ldap_attr,:description,:status_code],ldap_auth_attributes.count))}
+      format.html  {
+        @count = ldap_auth_attributes.count
+        @datas = ldap_auth_attributes
+      }
     end
   end
 end

@@ -87,6 +87,10 @@ class Irm::LdapAuthHeadersController < ApplicationController
     ldap_auth_headers,count = paginate(ldap_auth_headers_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(ldap_auth_headers.to_grid_json([:ldap_source_name,:name,:auth_cn,:description,:status_code],count))}
+      format.html  {
+        @count = count
+        @datas = ldap_auth_headers
+      }
     end
   end
 
