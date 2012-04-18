@@ -1,4 +1,4 @@
-<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+<%=datatable_view({:columns=>[:name,:description,:default_rows],:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "80px"})%>
   <% builder.column(:entry_template_element_code,{:title=>t(:label_skm_entry_template_element_code)})%>
   <% builder.column(:name,{:title=>t(:name)})%>
