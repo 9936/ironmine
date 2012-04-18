@@ -1,85 +1,79 @@
 <%= page_title %>
 
-<div id="ep" class="detail-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_slm_service_catalog_show) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @service_catalog},:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_slm_service_catalog_show) %></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @service_catalog}%></div>
-            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
-          </td>
-        </tr>
-      </tbody>
+            <tr>
+             <td class="label-col"><label for="service_catalog_parent_catalog_id"><%=t(:label_slm_service_catalog_parent_catalog)%></label></td>
+             <td class="data-col"><%=@service_catalog[:parent_catalog_name]%></td>
+             <td class="label-col empty">&nbsp;</td>
+             <td class="data-col empty">&nbsp;</td>
+           </tr>
+           <tr>
+             <td class="label-col"><label for="service_catalog_service_catalog_code"><%=t(:label_slm_service_catalog_catalog_code)%></label></td>
+             <td class="data-col"><%=@service_catalog.catalog_code%></td>
+             <td class="label-col"><label for="service_catalog_active_start_date"><%=t(:label_slm_service_catalog_active_start_date)%></label></td>
+             <td class="data-col"><%= @service_catalog[:active_start_date]%></td>
+
+           </tr>
+
+           <tr>
+             <td class="label-col"><label for="service_catalog_name"><%=t(:label_slm_service_catalog_name)%></label></td>
+             <td class="data-col"><%=@service_catalog[:name]%></td>
+             <td class="label-col"><label for="service_catalog_active_end_date"><%=t(:label_slm_service_catalog_active_end_date)%></label></td>
+             <td class="data-col"><%= @service_catalog[:active_end_date]%></td>
+
+           </tr>
+
+           <tr>
+             <td class="label-col"><label for="service_catalog_service_category_code">
+             <%=t(:label_slm_service_catalog_service_category_code)%></label></td>
+             <td class="data-col"><%=@service_catalog[:category_name]%></td>
+             <td class="label-col"><label for="service_catalog_slm_code"><%=t(:label_slm_service_catalog_slm_code)%></label></td>
+             <td class="data-col"><%= @service_catalog[:service_agreement_name]%></td>
+           </tr>
+
+
+           <tr>
+             <td class="label-col"><label for="service_catalog_description"><%=t(:label_slm_service_catalog_description)%></label></td>
+             <td class="data-col"><%= @service_catalog[:description]%></td>
+             <td class="label-col empty">&nbsp;</td>
+             <td class="data-col empty">&nbsp;</td>
+           </tr>
+           <tr>
+             <td class="label-col"><label for="service_catalog_system_description"><%=t(:status)%></label></td>
+             <td class="data-col"><%= @service_catalog[:status_meaning]%></td>
+             <td class="label-col empty">&nbsp;</td>
+             <td class="data-col empty">&nbsp;</td>
+           </tr>
+
+           <tr>
+             <td class="label-col"><label for="service_catalog_description"><%=t(:label_slm_service_catalog_usable_external_system)%></label></td>
+              <td class="data-col" colspan="3" width="82%"><div>
+               <% meaning = duel_meaning(@service_catalog.get_external_system_str,external_system_duel_values) %>
+               <% if meaning.any? %>
+                   <% meaning.each do |r| %>
+                       <div><%= r %></div>
+                   <% end %>
+               <% end %>
+             </div></td>
+             <td class="label-col empty">&nbsp;</td>
+             <td class="data-col empty">&nbsp;</td>
+           </tr>
+       </tbody>
     </table>
   </div>
-  <div class="pbBody">
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-             <tr>
-              <td class="labelCol"><label for="service_catalog_parent_catalog_id"><%=t(:label_slm_service_catalog_parent_catalog)%></label></td>
-              <td class="dataCol"><%=@service_catalog[:parent_catalog_name]%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="service_catalog_service_catalog_code"><%=t(:label_slm_service_catalog_catalog_code)%></label></td>
-              <td class="dataCol"><%=@service_catalog.catalog_code%></td>
-              <td class="labelCol"><label for="service_catalog_active_start_date"><%=t(:label_slm_service_catalog_active_start_date)%></label></td>
-              <td class="dataCol"><%= @service_catalog[:active_start_date]%></td>
-
-            </tr>
-
-            <tr>
-              <td class="labelCol"><label for="service_catalog_name"><%=t(:label_slm_service_catalog_name)%></label></td>
-              <td class="dataCol"><%=@service_catalog[:name]%></td>
-              <td class="labelCol"><label for="service_catalog_active_end_date"><%=t(:label_slm_service_catalog_active_end_date)%></label></td>
-              <td class="dataCol"><%= @service_catalog[:active_end_date]%></td>
-
-            </tr>
-
-            <tr>
-              <td class="labelCol"><label for="service_catalog_service_category_code">
-              <%=t(:label_slm_service_catalog_service_category_code)%></label></td>
-              <td class="dataCol"><%=@service_catalog[:category_name]%></td>
-              <td class="labelCol"><label for="service_catalog_slm_code"><%=t(:label_slm_service_catalog_slm_code)%></label></td>
-              <td class="dataCol"><%= @service_catalog[:service_agreement_name]%></td>
-            </tr>
-
-
-            <tr>
-              <td class="labelCol"><label for="service_catalog_description"><%=t(:label_slm_service_catalog_description)%></label></td>
-              <td class="dataCol"><%= @service_catalog[:description]%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="service_catalog_system_description"><%=t(:status)%></label></td>
-              <td class="dataCol"><%= @service_catalog[:status_meaning]%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-
-            <tr>
-              <td class="labelCol"><label for="service_catalog_description"><%=t(:label_slm_service_catalog_usable_external_system)%></label></td>
-               <td class="dataCol" colspan="3" width="82%"><div>
-                <% meaning = duel_meaning(@service_catalog.get_external_system_str,external_system_duel_values) %>
-                <% if meaning.any? %>
-                    <% meaning.each do |r| %>
-                        <div><%= r %></div>
-                    <% end %>
-                <% end %>
-              </div></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
-
 

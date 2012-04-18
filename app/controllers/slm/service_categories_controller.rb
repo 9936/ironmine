@@ -106,6 +106,10 @@ class Slm::ServiceCategoriesController < ApplicationController
     service_categories,count = paginate(service_categories_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(service_categories.to_grid_json([:category_code,:name,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = service_categories
+      }
     end
   end
 end

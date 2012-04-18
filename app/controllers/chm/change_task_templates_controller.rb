@@ -107,6 +107,10 @@ class Chm::ChangeTaskTemplatesController < ApplicationController
     change_task_templates,count = paginate(change_task_templates_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(change_task_templates.to_grid_json([:name,:code,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = change_task_templates
+      }
     end
   end
 

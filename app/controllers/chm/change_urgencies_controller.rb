@@ -106,6 +106,10 @@ class Chm::ChangeUrgenciesController < ApplicationController
     change_urgencies,count = paginate(change_urgencies_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(change_urgencies.to_grid_json([:name,:code,:display_sequence,:weight_values,:default_flag,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = change_urgencies
+      }
     end
   end
 end

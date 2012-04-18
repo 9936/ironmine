@@ -1,62 +1,16 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>" id="config_attributes_table">
-         <thead>
-           <tr>
-             <th style="width:80px">
-               <div><%= t(:operation) %></div>
-             </th>
-             <th key="code">
-               <div><%= t(:label_com_config_attribute_code) %></div>
-             </th>
-             <th key="name">
-                <div><%= t(:label_com_config_attribute_name) %></div>
-             </th>
-             <th key="input_type">
-               <div><%= t(:label_com_config_attribute_input_type) %></div>
-             </th>
-             <th key="input_value">
-               <div><%= t(:label_com_config_attribute_input_value) %></div>
-             </th>
-             <th key="description">
-               <div><%= t(:label_com_config_attribute_description) %></div>
-             </th>
-             <th key="extend">
-               <div><%= t(:label_config_class_attribute_extend) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |key,data| %>
-         <tr id="<%=key %>">
-           <td>
-             <div>
-                <%= link_to(t(:edit),{:action=>"edit",:id=>data.id}) %>|<%= link_to(t(:show),{:action=>"show",:id=>data.id}) %>
-             </div>
-           </td>
-           <td>
-             <div><%= data[:code] %></div>
-           </td>
-           <td>
-             <div><%= data[:name] %></div>
-           </td>
-           <td>
-             <div><%= get_meaning_by_type_code("CONFIG_ATTRIBUTE_INPUT_TYPE", data[:input_type]) %></div>
-           </td>
-           <td>
-             <div><%= data[:input_value] %></div>
-           </td>
-           <td>
-             <div><%= data[:description] %></div>
-           </td>
-           <td>
-             <div><%= check_img(data[:from_parent]) %></div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:count=>@count,:datas=>@datas.values}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:code,{:title=>t(:label_com_config_attribute_code),:searchable=>true, :width => "15%"})%>
+  <% builder.column(:name,{:title=>t(:label_com_config_attribute_name),:searchable=>true}) do |data|%>
+    <%= get_meaning_by_type_code("CONFIG_ATTRIBUTE_INPUT_TYPE", data[:input_type]) %>
+  <% end %>
+  <% builder.column(:input_type,{:title=>t(:label_com_config_attribute_input_type),:searchable=>true})%>
+  <% builder.column(:input_value,{:title=>t(:label_com_config_attribute_input_value)})%>
+  <% builder.column(:description,{:title=>t(:label_com_config_attribute_description)})%>
+  <% builder.column(:extend,{:title=>t(:label_config_class_attribute_extend)}) do |data|%>
+    <%= check_img(data[:from_parent]) %>
+  <% end %>
+<% end %>

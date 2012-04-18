@@ -108,6 +108,10 @@ class Chm::ChangePlanTypesController < ApplicationController
     change_plan_types,count = paginate(change_plan_types_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(change_plan_types.to_grid_json([:name,:code,:display_sequence,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = change_plan_types
+      }
     end
   end
 end

@@ -1,37 +1,22 @@
 <%= page_title %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_com_config_attribute_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="config_attributesSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="config_attributes" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
-        </div>
-        <%= datatable("config_attributes",{:action=>"get_data",:format=>"json"},
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"70px"},
-                       { :key => "code", :label => t(:label_com_config_attribute_code),:searchable=>true },
-                       { :key => "input_type", :label => t(:label_com_config_attribute_input_type),:searchable=>true },
-                       { :key => "name", :label => t(:label_com_config_attribute_name),:searchable=>true },
-                       { :key => "description", :label => t(:label_com_config_attribute_description),:width=>"250px" }
-                      ],{:paginator_box=>"config_attributesPaginatorBox",:search_box=>"config_attributesSearchBox",:force_html=>true})%>
-        <div id="config_attributesPaginatorBox"></div>
-      </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_com_config_attribute_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="config_attributesSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="config_attributes">
+      <%= datatable("config_attributes",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"config_attributesPaginatorBox",:search_box=>"config_attributesSearchBox"})%>
     </div>
+    <div id="config_attributesPaginatorBox"></div>
+  </div>
 </div>
-
 

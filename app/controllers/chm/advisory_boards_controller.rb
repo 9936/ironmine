@@ -90,6 +90,10 @@ class Chm::AdvisoryBoardsController < ApplicationController
     advisory_boards,count = paginate(advisory_boards_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(advisory_boards.to_grid_json([:name,:code,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = advisory_boards
+      }
     end
   end
 end

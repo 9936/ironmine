@@ -1,49 +1,44 @@
 <%= common_title(:show_data=>@change_task_phase[:name]) %>
-<div id="ep" class="detail-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_chm_change_task_phase_show) %>&nbsp;<%= t(:label_detail_info) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @change_task_phase},:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_chm_change_task_phase_show) %>&nbsp;<%= t(:label_detail_info) %></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @change_task_phase}%></div>
-            <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
-          </td>
-        </tr>
+          <tr>
+            <td class="label-col"><label for="code"><%=t(:code)%></label></td>
+            <td class="data-col"><%=@change_task_phase.code%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="name"><%=t(:name)%></label></td>
+            <td class="data-col"><%=@change_task_phase[:name]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="display_sequence"><%=t(:display_sequence)%></label></td>
+            <td class="data-col"><%=@change_task_phase.display_sequence%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="description"><%=t(:description)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><%=@change_task_phase[:description]%></td>
+          </tr>
       </tbody>
     </table>
-  </div>
-  <div class="pbBody">
-    <div class="pbSubsection">
-      <table class="detailList infoList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-                <tr>
-                  <td class="labelCol"><label for="code"><%=t(:code)%></label></td>
-                  <td class="dataCol"><%=@change_task_phase.code%></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label for="name"><%=t(:name)%></label></td>
-                  <td class="dataCol"><%=@change_task_phase[:name]%></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label for="display_sequence"><%=t(:display_sequence)%></label></td>
-                  <td class="dataCol"><%=@change_task_phase.display_sequence%></td>
-                  <td class="labelCol empty">&nbsp;</td>
-                  <td class="dataCol empty">&nbsp;</td>
-                </tr>
-
-                <tr>
-                  <td class="labelCol"><label for="description"><%=t(:description)%></label></td>
-                  <td class="dataCol" colspan="3" width="82%"><%=@change_task_phase[:description]%></td>
-                </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 </div>
 
