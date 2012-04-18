@@ -332,7 +332,9 @@ module ApplicationHelper
 
 
   def plain_datatable(id,url_options,columns,options={})
-    require_javascript(:jplugin)
+
+    output = ActiveSupport::SafeBuffer.new
+    output.safe_concat "<div id='#{id}'></div>"
 
     source_url = url_for(url_options.merge(:format=>:html))
 
@@ -376,6 +378,7 @@ module ApplicationHelper
 
     if paginator_box
       table_options << ",paginatorBox:'#{paginator_box}'"
+      output.safe_concat "<div id='#{paginator_box}'></div>"
     end
     if export_box
       table_options << ",exportBox:'#{export_box}'"
@@ -395,7 +398,9 @@ module ApplicationHelper
     script = %Q(
         $(function(){$('##{id}').datatable(#{table_options})});
     )
-    javascript_tag(script)
+
+    output.safe_concat javascript_tag(script)
+    output
   end
 
 

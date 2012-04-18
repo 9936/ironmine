@@ -3,7 +3,7 @@ class Irm::ObjectAttributesController < ApplicationController
   # GET /object_attributes
   # GET /object_attributes.xml
   def index
-    @object_attributes = Irm::ObjectAttribute.all
+    redirect_to({:controller => "irm/business_objects",:action => "index"})
 
     respond_to do |format|
       format.html # index.html.erb

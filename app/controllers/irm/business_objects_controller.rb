@@ -2,8 +2,6 @@ class Irm::BusinessObjectsController < ApplicationController
   # GET /business_objects
   # GET /business_objects.xml
   def index
-
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { @business_objects = BusinessObject.all
@@ -131,6 +129,10 @@ class Irm::BusinessObjectsController < ApplicationController
     business_objects,count = paginate(business_objects_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(business_objects.to_grid_json([:business_object_code,:auto_generate_flag,:bo_table_name,:bo_model_name,:multilingual_flag,:name],count))}
+      format.html {
+        @count = count
+        @datas = business_objects
+      }
     end
   end
 end

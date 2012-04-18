@@ -111,6 +111,10 @@ class Irm::ApplicationsController < ApplicationController
     applications,count = paginate(applications_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(applications.to_grid_json([:code,:name,:description],count))}
+      format.html {
+        @count = count
+        @datas = applications
+      }
     end
   end
 end

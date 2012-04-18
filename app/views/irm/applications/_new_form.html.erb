@@ -1,88 +1,89 @@
-<style type="text/css">
-  select{
-      min-width: 128px;
-  }
-</style>
-<%= form_for(@application,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+<%= setting_title %>
+<%= form_for(@application,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+
+
+  <% content_for :form_block_a   do%>
+    <table class="form-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_application_new)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
-          </td>
-        </tr>
+          <tr>
+            <td class="label-col"><label for="application_code"><%=t(:label_irm_application_code)%></label></td>
+            <td class="data-col"><%=f.text_field :code, :required=>true ,:irm_uppercase=>true,:id=>"application_code"%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="application_name"><%=t(:label_irm_application_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name, :required=>true ,:id=>"application_name"%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="application_tabs"><%=t(:label_irm_application_tabs)%></label></td>
+            <td class="data-col" colspan="3" width="82%" id="tabsDuel">
+
+              <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:sources=>available_tab,:str_value_field=>:tabs_str,:str_value=>application_tab_str(@application),:order=>true,:size=>10} %>
+
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="application_default_tab"><%=t(:label_irm_application_default_tab)%></label></td>
+            <td class="data-col"><%=f.blank_select :default_tab_id,[],{} ,:default=>application_default_tab_id(@application),:id=>"application_default_tab"%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="application_description"><%=t(:label_irm_application_description)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>60 ,:id=>"application_description"%></td>
+          </tr>
       </tbody>
     </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @application %>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_common_info) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label for="application_code"><%=t(:label_irm_application_code)%></label></td>
-              <td class="dataCol"><%=f.text_field :code, :required=>true ,:irm_uppercase=>true,:id=>"application_code"%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="application_name"><%=t(:label_irm_application_name)%></label></td>
-              <td class="dataCol"><%=f.text_field :name, :required=>true ,:id=>"application_name"%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="application_tabs"><%=t(:label_irm_application_tabs)%></label></td>
-              <td class="dataCol" colspan="3" width="82%" id="tabsDuel">
+  <% end %>
 
-                <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:sources=>available_tab,:str_value_field=>:tabs_str,:str_value=>application_tab_str(@application),:order=>true,:size=>10} %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+  <% end %>
 
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="application_default_tab"><%=t(:label_irm_application_default_tab)%></label></td>
-              <td class="dataCol"><%=f.blank_select :default_tab_id,[],{} ,:id=>"application_default_tab"%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="application_description"><%=t(:label_irm_application_description)%></label></td>
-              <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>60 ,:id=>"application_description"%></td>
-            </tr>
-        </tbody>
-      </table>
+
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_application_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @application%>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
     </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+
 <% end %>
+
+
+
 <script type="text/javascript">
   $(function(){
       function syncOptions(){
@@ -96,10 +97,10 @@
       });
       $("#application_default_tab").val(originValue);
     }
-    $("#tabsDuel .duelAdd").click(syncOptions);
-    $("#tabsDuel .duelRemove").click(syncOptions);
-    $("#tabsDuel .duelUp").click(syncOptions);
-    $("#tabsDuel .duelDown").click(syncOptions);
+    $("#tabsDuel .duel-add").click(syncOptions);
+    $("#tabsDuel .duel-remove").click(syncOptions);
+    $("#tabsDuel .duel-up").click(syncOptions);
+    $("#tabsDuel .duel-down").click(syncOptions);
     syncOptions();
   });
 
