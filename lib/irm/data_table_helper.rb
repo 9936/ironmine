@@ -99,7 +99,7 @@ module Irm
         origin_columns = columns
         result_columns = []
         display_columns.each do |dc|
-          result_columns << origin_columns[dc.to_sym]
+          result_columns << origin_columns[dc.to_sym] if origin_columns[dc.to_sym].present?
         end
         return result_columns
       else

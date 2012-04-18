@@ -1,108 +1,104 @@
 <%= setting_title %>
-<%= form_for(@menu_entry,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
- <div id="ep" class="edit-block page-block">
-   <div class="pbHeader">
- <table cellpadding="0" cellspacing="0" border="0">
-   <tbody>
-     <tr>
-       <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_menu_entry_new)%></h2></td>
-       <td id="topButtonRow" class="pbButton">
-         <div class="button"><%= f.submit t(:save)%></div>
-         <div class="button">
-           <div class="button"><%= link_back t(:cancel)%></div>
-         </div>
-       </td>
-     </tr>
-   </tbody>
- </table>
-    <%= hidden_field_tag "return_url",@return_url%>    
-   </div>
-   <div class="pbBody">
- <%= error_for @menu_entry%>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_common_info) %></h3>
+<%= form_for(@menu_entry,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+
+
+  <% content_for :form_block_a   do%>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_menu_menu_code)%></label></td>
+            <td class="data-col"><label><%= @menu.code%></label></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_menu_name_full)%></label></td>
+            <td class="data-col"><label><%= @menu[:name]%></label></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t :label_irm_menu_entry_name%></label></td>
+            <td class="data-col"><%= f.text_field :name, :required => true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t :label_irm_menu_entry_sub_menu%></label></td>
+            <td class="data-col"><div><%=f.select :sub_menu_id, available_sub_menu, {:include_blank => true},{:id=>"sub_menu_id"}%></div></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t :label_irm_menu_entry_sub_function_group%></label></td>
+            <td class="data-col"><div><%=f.select :sub_function_group_id, available_sub_function_group, {:include_blank => true},{:id=>"sub_function_group_id"}%></div></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_menu_entry_description)%></label></td>
+            <td class="data-col"><div><%= f.text_area :description, :rows => 4%></div></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_menu_entry_display_sequence)%></label></td>
+            <td class="data-col"><div><%= f.text_field :display_sequence, :size => 10, :irm_numberonly => true%></div></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :active)%></label></td>
+            <td class="data-col"><%=f.select :status_code, available_active_status, {:include_blank => false}%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+         <%= f.hidden_field :menu_id, :value => @menu.id %>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+  <% end %>
+
+
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_irm_menu_entry_edit)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+
+      </td>
+    </tr></table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_a   %>
+        </div>
+      </div>
+
     </div>
- <div class="pbSubsection">
-   <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-     <tbody>
-         <tr>
-           <td class="labelCol"><label><%=(t :label_irm_menu_menu_code)%></label></td>
-           <td class="dataCol"><%= @menu.code%></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
-         <tr>
-           <td class="labelCol"><label><%=(t :label_irm_menu_name_full)%></label></td>
-           <td class="dataCol"><%= @menu[:name]%></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
-         <tr>
-           <td class="labelCol"><label><%=t :label_irm_menu_entry_name%></label></td>
-           <td class="dataCol"><%= f.text_field :name, :required => true%></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
-         <tr>
-           <td class="labelCol"><label><%=t :label_irm_menu_entry_sub_menu%></label></td>
-           <td class="dataCol"><div><%=f.select :sub_menu_id, available_sub_menu, {:include_blank => true},{:id=>"sub_menu_id"}%></div></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
-         <tr>
-           <td class="labelCol"><label><%=t :label_irm_menu_entry_sub_function_group%></label></td>
-           <td class="dataCol"><div><%=f.select :sub_function_group_id, available_sub_function_group, {:include_blank => true},{:id=>"sub_function_group_id"}%></div></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
-         <tr>
-           <td class="labelCol"><label><%=t(:label_irm_menu_entry_description)%></label></td>
-           <td class="dataCol"><div><%= f.text_area :description, :rows => 4%></div></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
-         <tr>
-           <td class="labelCol"><label><%=t(:label_irm_menu_entry_display_sequence)%></label></td>
-           <td class="dataCol"><div><%= f.text_field :display_sequence, :size => 10, :irm_numberonly => true%></div></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
-         <tr>
-           <td class="labelCol"><label><%=(t :active)%></label></td>
-           <td class="dataCol"><%=f.select :status_code, available_active_status, {:include_blank => false}%></td>
-           <td class="labelCol empty">&nbsp;</td>
-           <td class="dataCol empty">&nbsp;</td>
-         </tr>
-        <%= f.hidden_field :menu_id, :value => @menu.id %>
-     </tbody>
-   </table>
- </div>
-   </div>
-   <div class="pbBottomButtons">
- <table cellpadding="0" cellspacing="0" border="0">
-   <tbody>
-     <tr>
-       <td class="pbTitle"></td>
-       <td id="bottomButtonRow" class="pbButtonb">
-         <div class="button"><%= f.submit t(:save)%></div>
-         <div class="button">
-<div class="button"><%= link_back t(:cancel)%></div>
-         </div>
-       </td>
-     </tr>
-   </tbody>
- </table>
-   </div>
- </div>
- <% end %>
+
+    <table class="page-block-footer"><tr>
+      <td class="page-block-title">
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
+  </div>
+
+<% end %>
+
 <script type="text/javascript">
     $(document).ready(function(){
             $("#sub_menu_id").change(function(){
@@ -117,3 +113,6 @@
      }
      );
 </script>
+
+
+

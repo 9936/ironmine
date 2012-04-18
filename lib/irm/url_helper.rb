@@ -27,8 +27,13 @@ module Irm
                 html_options[:not_allow] = true
               end
           end
-          if html_options.delete('back')
-            options.merge!({:back_url=>params[:back_url]||url_for({})}) if options.is_a?(Hash)
+          back_option = html_options.delete('back')
+          if back_option
+            if back_option.is_a?(Hash)
+              options.merge!({:back_url=>url_for(back_option)}) if options.is_a?(Hash)
+            else
+              options.merge!({:back_url=>params[:back_url]||url_for({})}) if options.is_a?(Hash)
+            end
           end
           url = url_for(options)
           if html_options

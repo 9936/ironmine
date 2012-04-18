@@ -1,6 +1,4 @@
 <%= setting_show_title( :show_data => @menu[:name]) %>
-
-
 <!--页面结构-->
 <div class="show-block">
   <table class="page-block-header"><tr>
@@ -51,21 +49,12 @@
       <h2 class="block-title"><%= t(:label_irm_menu_entry_list) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:add), {:controller => "irm/menu_entries", :action => "new", :menu_id => @menu.id, :return_url => @return_url},:class=>"btn"%>
+      <%= link_to t(:add), {:controller => "irm/menu_entries", :action => "new", :menu_id => @menu.id},:back=>true,:class=>"btn"%>
     </td>
   </tr></table>
   <div class="page-block-body">
     <div id="menu_entries_list"></div>
-    <%= datatable("menu_entries_list",{:controller => "irm/menu_entries", :action=>"get_data", :menu_id => @menu.id,:format=>"json"},
-                          [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "80px"},
-                           {:key=>"display_sequence",:label=>t(:label_irm_menu_entry_display_sequence),:width => "70px"},
-                           {:key=>"name",:label=>t(:label_irm_menu_entry_name)},
-                           {:key=>"description",:label=>t(:label_irm_menu_entry_description)},
-                           {:key=>"sub_menu_code",:label=>t(:label_irm_menu_entry_sub_menu)},
-                           {:key=>"sub_menu_name",:label=>t(:label_irm_menu_entry_sub_menu_name)},
-                           {:key=>"sub_function_group_code",:label=>t(:label_irm_menu_entry_sub_function_group_code)},
-                           {:key=>"sub_function_group_name",:label=>t(:label_irm_menu_entry_sub_function_group_name)},
-                           {:key=>"status_code",:formatter=>"Y.irm.template",:label=>t(:active), :width => "70px"}]) %>
+    <%= datatable("menu_entries_list",{:controller => "irm/menu_entries", :action=>"get_data", :menu_id => @menu.id,:format=>"json"},[]) %>
   </div>
 </div>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@menu} %>

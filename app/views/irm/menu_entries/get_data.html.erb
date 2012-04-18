@@ -1,6 +1,7 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-        <%= link_to(t(:edit),{:controller => "irm/menu_entries",:action=>"edit",:id=>data[:id]}) %>|<%= link_to(t(:delete),{:controller=>"irm/menus",:action=>"remove_entry",:entry_id=>data[:id], :id => data[:menu_id]},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+        <%= link_to(t(:edit),{:controller => "irm/menu_entries",:action=>"edit",:id=>data[:id]},{:back=>{:controller => "irm/menus",:action=>"show",:id=>data[:menu_id]}}) %>
+        <%= link_to(t(:delete),{:controller=>"irm/menus",:action=>"remove_entry",:entry_id=>data[:id], :id => data[:menu_id]},{:back=>{:controller => "irm/menus",:action=>"show",:id=>data[:menu_id]},:method => :delete,:confirm => t(:label_are_you_sure) }) %>
     <% end %>
     <% builder.column(:display_sequence,{:title=>t(:label_irm_menu_entry_display_sequence)})%>
     <% builder.column(:name,{:title=>t(:label_irm_menu_entry_name)})%>
