@@ -63,6 +63,10 @@ class Skm::EntryStatusesController < ApplicationController
     entry_statuses,count = paginate(entry_statuses_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_statuses.to_grid_json(['0',:entry_status_code, :visiable_flag, :name,:description,:status_meaning, :status_code], count)) }
+      format.html  {
+        @count = count
+        @datas = entry_statuses
+      }
     end
   end
 end

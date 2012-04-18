@@ -1,0 +1,15 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:controller => "skm/entry_statuses",:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:controller => "skm/entry_statuses",:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:entry_status_code,{:title=>t(:label_skm_entry_status_code),:searchable=>true})%>
+  <% builder.column(:name,{:title=>t(:name),:searchable=>true})%>
+  <% builder.column(:description,{:title=>t(:description)})%>
+  <% builder.column(:visiable_flag,{:title=>t(:label_skm_entry_status_visiable),:width => "40px"}) do |data|%>
+    <%= check_img(data[:visiable_flag]) %>
+  <% end %>
+  <% builder.column(:status_code,{:title=>t(:active),:width => "40px"}) do |data|%>
+    <%= check_img(data[:status_code]) %>
+  <% end %>
+<% end %>
