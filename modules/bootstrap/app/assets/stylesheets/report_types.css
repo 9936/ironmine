@@ -1,0 +1,169 @@
+table#reportType{
+    margin-left: 12px;
+}
+table#reportType td{
+    vertical-align:top;
+}
+
+div#reportTypeRelation{
+    text-align: left;
+}
+
+div#reportTypeRelation label{
+    display: inline-block;
+}
+div#reportTypeRelation .level {
+  position: relative;
+}
+div#reportTypeRelation .elbow {
+  left: -40px;
+  position: absolute;
+}
+div#reportTypeRelation .box {
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  margin-right: 5px;
+  padding: 0;
+}
+div#reportTypeRelation .objectLetter {
+  color: white;
+  float: left;
+  font-size: 1.4em;
+  font-weight: bold;
+  padding: 5px;
+}
+div#reportTypeRelation .objectInfoBox {
+  background-color: white;
+  margin: 0 0 0 1.8em;
+  padding: 5px;
+}
+
+div#reportTypeRelation .level .objectLabel {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+div#reportTypeRelation .ghostContainer {
+    margin-bottom: 5px;
+    width: 380px;
+}
+
+div#reportTypeRelation .boxRemoveLink {
+  border: 1px solid #999999;
+  color: #333333;
+  cursor: pointer;
+  float: right;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 0.63em;
+  line-height: 6px;
+  padding: 3px;
+  text-decoration: none;
+}
+
+div#reportTypeRelation .relationshipLabel {
+  display: block;
+  font-weight: bold;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+div#reportTypeRelation .ghostElbow {
+  border-bottom: 2px dotted #CCCCCC;
+  border-left: 2px dotted #CCCCCC;
+  height: 16px;
+  left: -29px;
+  width: 13px;
+}
+
+div#reportTypeRelation .ghost_box {
+  background-color: #FFFFFF;
+  border: 2px dotted #CCCCCC;
+  cursor: pointer;
+  margin: 5px;
+  padding: 10px 6px;
+  text-align: center;
+  text-decoration: none;
+  width: 200px;
+}
+div#reportTypeRelation .infoWarning {
+  background-color: #FAFAD6;
+  border: 1px solid #5886A4;
+  color: #000000;
+  display: none;
+  padding: 10px;
+  width: 380px;
+}
+
+div#reportTypeRelation .level0 .box {
+    background-color: #0099CC;
+    border-color: #0099CC;
+}
+div#reportTypeRelation .level0 .objectLabel {
+  color: #0099CC;
+}
+
+div#reportTypeRelation .level1 .box {
+    background-color: #CC6600;
+    border-color: #CC6600;
+}
+div#reportTypeRelation .level1 .objectLabel {
+  color: #CC6600;
+}
+
+div#reportTypeRelation .level2 .box {
+    background-color: #467F40;
+    border-color: #467F40;
+}
+div#reportTypeRelation .level2 .objectLabel {
+  color: #467F40;
+}
+div#reportTypeRelation .level3 .box {
+    background-color: #333366;
+    border-color: #333366;
+}
+div#reportTypeRelation .level3 .objectLabel {
+  color: #333366;
+}
+div#objectRelation{
+    background-color: #FFFFFF;
+    margin: 6px;
+    padding: 6px;
+}
+div#objectRelation td{
+    vertical-align:middle;
+}
+div#objectRelation div.olevel{
+    padding-bottom: 10px;
+    position: relative;
+}
+div#objectRelation div.olevel0{
+
+}
+div#objectRelation div.olevel1{
+    left: 30px;
+}
+div#objectRelation div.olevel2{
+    left: 60px;
+}
+div#objectRelation div.olevel2{
+    left: 90px;
+}
+div#objectRelation span.levelLabel {
+    font-weight: bold;
+}
+div#objectRelation span.levelLabel0 {
+    color: #0099CC;
+}
+
+div#objectRelation span.levelLabel1 {
+    color: #CC6600;
+}
+
+
+div#objectRelation span.levelLabel2 {
+    color: #467F40;
+}
+
+div#objectRelation span.levelLabel3 {
+    color: #333366;
+}

@@ -130,6 +130,10 @@ class Irm::ReportTypesController < ApplicationController
     report_types,count = paginate(report_types_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(report_types.to_grid_json([:name,:description,:category_name,:business_object_name,:created_at],count))}
+      format.html {
+        @datas =  report_types
+        @count = count
+      }
     end
   end
 

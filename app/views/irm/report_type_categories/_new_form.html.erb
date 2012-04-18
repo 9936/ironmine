@@ -1,66 +1,68 @@
-<%= form_for(@report_type_category,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+<%= form_for(@report_type_category,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+
+
+  <% content_for :form_block_a   do%>
+    <table class="form-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_report_type_category_new)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
-          </td>
-        </tr>
+          <tr>
+            <td class="label-col"><label for="report_type_category_code"><%=t(:label_irm_report_type_category_code)%></label></td>
+            <td class="data-col"><%=f.text_field :code, :required=>true ,:id=>"report_type_category_code",:irm_uppercase=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="report_type_category_name"><%=t(:label_irm_report_type_category_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name, :required=>true ,:id=>"report_type_category_name"%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="report_type_category_description"><%=t(:label_irm_report_type_category_description)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><%=f.text_area :description,:rows=>4  ,:id=>"report_type_category_description"%></td>
+          </tr>
       </tbody>
     </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @report_type_category %>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_common_info) %></h3>
+  <% end %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+  <% end %>
+
+
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_report_type_category_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @report_type_category%>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
     </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label for="report_type_category_code"><%=t(:label_irm_report_type_category_code)%></label></td>
-              <td class="dataCol"><%=f.text_field :code, :required=>true ,:id=>"report_type_category_code",:irm_uppercase=>true%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="report_type_category_name"><%=t(:label_irm_report_type_category_name)%></label></td>
-              <td class="dataCol"><%=f.text_field :name, :required=>true ,:id=>"report_type_category_name"%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label for="report_type_category_description"><%=t(:label_irm_report_type_category_description)%></label></td>
-              <td class="dataCol" colspan="3" width="82%"><%=f.text_area :description,:rows=>4  ,:id=>"report_type_category_description"%></td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+
 <% end %>

@@ -1,0 +1,31 @@
+<!--页面标题-->
+<%= render :partial => "irm/common/application_title" %>
+
+<!--加载基础javascript与css-->
+<% require_jscss(:default) %>
+
+<% require_jscss(:colorbox) %>
+
+<!--加载ie6基础javascript与css-->
+<% require_jscss(:default_ie6) if ie6? %>
+
+<!--生成javascript与css 标签-->
+<%=render_required_jscss%>
+
+<!--页面个性化css javascript文件加载-->
+<% if content_for?(:page_source) %>
+    <%=yield :page_source%>
+<% end %>
+
+
+<%= csrf_meta_tag %>
+
+<!--页面中添加的javascript-->
+<% if content_for?(:page_script) %>
+  <%=javascript_tag(yield :page_script)%>
+<% end %>
+
+
+<%= render :partial => "irm/common/app_session_check" %>
+<%= render :partial => "irm/common/address_bar_logo" %>
+
