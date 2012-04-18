@@ -1,38 +1,20 @@
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_skm_entry_template_element_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="elementsSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="entry_elements_list" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:controller => "skm/entry_template_elements", :action=>"edit",:id=>"{id}"}) %>
-          </div>
-          <div id="status_code" style="display:none">
-            <%= check_img("{status_code}") %>
-          </div>               
-        </div>
-        <%= datatable("entry_elements_list",{:controller => "skm/entry_template_elements", :action=>"get_data", :format=>"json"},
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template", :width => "60px"},
-                       {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :searchable => true, :width => "200px"},
-                       {:key=>"name",:label=>t(:name), :searchable => true, :width => "130px"},
-                       {:key=>"description",:label=>t(:description)},
-                       {:key=>"default_rows",:label=>t(:label_skm_entry_template_element_rows), :width => "80px"},
-                       {:key=>"status_code",:label=>t(:active),:formatter=>"Y.irm.template", :width => "80px"}
-                       ], {:search_box => "elementsSearchBox",:paginator_box=>"elementsPaginatorBox"}) %>
-        <div id="elementsPaginatorBox"></div>
-      </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_skm_entry_template_element_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="elementsSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="entry_elements_list">
+      <%= datatable("entry_elements_list",{:controller => "skm/entry_template_elements", :action=>"get_data", :format=>"json"},[],{:search_box => "elementsSearchBox",:paginator_box=>"elementsPaginatorBox"}) %>
     </div>
+    <div id="elementsPaginatorBox"></div>
+  </div>
 </div>
