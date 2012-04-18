@@ -1,14 +1,18 @@
-class HighestPriorityIncidents < Irm::ReportManager::ReportBase
+class IcmFirstLineSolved < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 
     incident_request_table = Icm::IncidentRequest.table_name
 
-    statis = Icm::IncidentRequest.select("#{incident_request_table}.external_system_id, count(1) amount")
+    statis = Icm::IncidentRequest.select("external_system_id, count(1) amount")
+    statis = statis.
+        where(%Q(EXISTS(
+                  SELECT * FROM icm_incident_journals ij
+                  WHERE ij.incident_request_id = #{incident_request_table}.id
+                  AND ij.reply_type = 'CLOSE'
+                  AND date_format(ij.created_at, '%Y-%m') = '#{Date.strptime("#{params[:year]}-#{params[:month]}", '%Y-%m').strftime("%Y-%m")}')))
+
     external_systems = Irm::ExternalSystem.multilingual
-    if params[:year].present? && params[:month].present?
-      statis = statis.where("date_format(#{incident_request_table}.submitted_date, '%Y-%m') = ?", Date.strptime("#{params[:year]}-#{params[:month]}", '%Y-%m').strftime("%Y-%m"))
-    end
 
     if params[:external_system_id].present? &&
         params[:external_system_id].size > 0 &&
@@ -19,8 +23,8 @@ class HighestPriorityIncidents < Irm::ReportManager::ReportBase
 
     datas = []
     headers = [I18n.t(:label_date),
-               I18n.t(:label_highest_priority_incident_highest_amount),
-               I18n.t(:label_total_amount),
+               I18n.t(:label_first_line_solved_amount),
+               I18n.t(:label_total_solved_amount),
                I18n.t(:label_percentage)]
 
     external_systems.each do |e|
@@ -28,7 +32,10 @@ class HighestPriorityIncidents < Irm::ReportManager::ReportBase
       data[0] = e[:system_name]
       data[1] = statis.
           where("#{incident_request_table}.external_system_id = ?", e.id).
-          where("#{incident_request_table}.priority_id = (SELECT ip.id FROM icm_priority_codes ip ORDER BY weight_values ASC LIMIT 0,1) ").
+          where(%Q(NOT EXISTS(
+                    SELECT * FROM icm_incident_journals ij
+                    WHERE ij.incident_request_id = #{incident_request_table}.id
+                    AND ij.reply_type = 'UPGRADE'))).
           group("#{incident_request_table}.external_system_id")
       data[1] = data[1].any? ? data[1].first[:amount] : 0
       data[2] = statis.where("#{incident_request_table}.external_system_id = ?", e.id).

@@ -1815,8 +1815,12 @@ zh:
 
   #============================== highest_priority_incident report ===================================
   label_date: 日期
-  label_highest_priority_incident_hightest_amount: 最高优先级
+  label_highest_priority_incident_highest_amount: 最高优先级
   label_total_amount: 总数
   label_percentage: 比例
   label_statistic_date: 统计日期
   #============================== end highest_priority_incident ===================================
+  #============================== first line solved report ===================================
+  label_first_line_solved_amount: 一线解决数量
+  label_total_solved_amount: 解决事故总数
+  #============================== end first line solved ===================================
