@@ -1832,3 +1832,7 @@ zh:
   label_icm_total_wrong_assigned: 错误分派数
   label_icm_wrong_assigned_rate: 错误分派比例
   #============================== end icm wrong assign rate ===================================
+  #============================== icm secondary assign rate report ===================================
+  label_icm_total_secondary_assigned: 二次分派数
+  label_icm_secondary_assigned_rate: 二次分派分派比例
+  #============================== end icm secondary assign rate ===================================
