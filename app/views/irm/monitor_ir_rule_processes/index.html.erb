@@ -7,86 +7,23 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <% if @monitor.blank? %>
-    <div style="font-size: 15px;"><%= t(:label_no_data) %></div>
-    <% else %>
-      <div class="datatable">
-        <div>
-            <table id='rows' >
-              <thead>
-                <tr>
-                  <th>
-                    <div><%= t(:label_icm_incident_request_request_number) %>
-                    </div>
-                  </th>
-                  <th>
-                    <div><%= t(:label_irm_wf_action_name) %>
-                    </div>
-                  </th>
-                  <th>
-                    <div><%= t(:label_irm_wf_action_name) %>
-                    </div>
-                  </th>
-                  <th>
-                    <div><%= t(:label_irm_delayed_jobs_record_run_at) %>
-                    </div>
-                  </th>
-                  <th>
-                    <div><%= t(:label_irm_delayed_jobs_record_end_at) %>
-                    </div>
-                  </th>
-                  <th>
-                    <div><%= t(:label_irm_delayed_jobs_record_status) %>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="yui3-datatable-data">
-              <% @monitor.each do |log| %>
-              <tr id="<%=log[:incident_request_id]%>" class="yui3-datatable-even">
-                <td>
-                  <div>
-                    <% if allow_to_function?(:reply_incident_request) %>
-                    <%= link_to log[:incident_request_number],
-                                :controller => "icm/incident_journals",
-                                :action => "new",
-                                :request_id => log[:incident_request_id]%>
-                    <% else%>
-                        <%= log[:incident_request_number] %>
-                    <% end %>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <%=log[:action_name]%>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <%=log[:action_type]%>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <%=log[:run_at].strftime("%F %T") if log[:run_at]%>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <%=log[:end_at].strftime("%F %T") if log[:end_at]%>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <%=log[:job_status]%>
-                  </div>
-                </td>
-              </tr>
-              <% end -%>
-              </tbody>
-            </table>
-        </div>
-      </div>
+    <%=datatable_view({:count=>@monitor.count,:datas=>@monitor}) do |builder|%>
+      <% builder.column(:incident_request_number,{:title=>t(:label_icm_incident_request_request_number)}) do |log|%>
+        <% if allow_to_function?(:reply_incident_request) %>
+        <%= link_to log[:incident_request_number],:controller => "icm/incident_journals",:action => "new",:request_id => log[:incident_request_id]%>
+        <% else%>
+            <%= log[:incident_request_number] %>
+        <% end %>
+      <% end %>
+      <% builder.column(:action_name,{:title=>t(:label_irm_wf_action_name)})%>
+      <% builder.column(:action_type,{:title=>t(:label_irm_wf_action_type)})%>
+      <% builder.column(:run_at,{:title=>t(:label_irm_delayed_jobs_record_run_at)}) do |log|%>
+        <%=log[:run_at].strftime("%F %T") if log[:run_at]%>
+      <% end %>
+      <% builder.column(:end_at,{:title=>t(:label_irm_delayed_jobs_record_end_at)}) do |log|%>
+        <%=log[:end_at].strftime("%F %T") if log[:end_at]%>
+      <% end %>
+      <% builder.column(:job_status,{:title=>t(:label_irm_delayed_jobs_record_status)})%>
     <% end %>
   </div>
 </div>
