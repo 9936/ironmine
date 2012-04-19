@@ -1836,3 +1836,7 @@ zh:
   label_icm_total_secondary_assigned: 二次分派数
   label_icm_secondary_assigned_rate: 二次分派分派比例
   #============================== end icm secondary assign rate ===================================
+  #============================== skm solved rate report ===================================
+  label_skm_solved_amount: 知识库解决事故数量
+  label_skm_solved_rate: 知识库解决事故比例
+  #============================== end skm solved rate ===================================

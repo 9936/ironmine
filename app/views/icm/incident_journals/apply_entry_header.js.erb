@@ -1,12 +1,12 @@
 <% if limit_device? %>
     $(function(){
-        $("#msgEditor").val("<%= escape_javascript(render("applyable_entry_header"))%>");
+        $("#msgEditor").val("<p apply_from_skm=true><%= escape_javascript(render("applyable_entry_header"))%></p>");
         $("#linktoSKM").addClass("hidden");
     });
 <% else %>
     Ext.onReady(function(){
-        Ext.getCmp("msgEditor").setValue("<%= escape_javascript(render("applyable_entry_header"))%>");
-        $("#msgEditor").val("<%= escape_javascript(render("applyable_entry_header"))%>");
+        Ext.getCmp("msgEditor").setValue("<p apply_from_skm=true><%= escape_javascript(render("applyable_entry_header"))%></p>");
+        $("#msgEditor").val("<p apply_from_skm=true><%= escape_javascript(render("applyable_entry_header"))%></p>");
         Ext.get("linktoSKM").addCls("hidden");
     });
 <%end%>
