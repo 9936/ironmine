@@ -1800,3 +1800,7 @@ en:
   label_skm_solved_amount: Skm Solved Amount
   label_skm_solved_rate: Skm Solved Rate
   #============================== end skm solved rate ===================================
+  #============================== icm once solved rate report ===================================
+  label_icm_once_solved_amount: Once Solved Amount
+  label_icm_once_solved_rate: Once Solved Rate
+  #============================== end icm once solved rate ===================================

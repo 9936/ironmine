@@ -1840,3 +1840,7 @@ zh:
   label_skm_solved_amount: 知识库解决事故数量
   label_skm_solved_rate: 知识库解决事故比例
   #============================== end skm solved rate ===================================
+  #============================== icm once solved rate report ===================================
+  label_icm_once_solved_amount: 一次性解决数量
+  label_icm_once_solved_rate: 一次性解决比例
+  #============================== end icm once solved rate ===================================
