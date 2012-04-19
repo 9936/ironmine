@@ -1,110 +1,24 @@
-
 <%= app_title %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_delayed_job_wf_approval_mail_monitor) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-
-              </td>
-              <td class="pbHelp">
-                <div id="permissionsSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <% if @monitor.blank? %>
-            <div style="font-size: 15px;"><%= t(:label_no_data) %></div>
-        <% else %>
-        <div class="datatable">
-          <div class="irm-datatable">
-            <div>
-                <table id='rows' >
-                  <thead>
-                    <tr>
-                      <th>
-                        <div><%= t(:label_irm_wf_approval_process_name_full) %>
-                        </div>
-                      </th>
-                      <th>
-                        <div><%= t(:label_irm_business_object_name_full) %>
-                        </div>
-                      </th>
-                      <th>
-                        <div><%= t(:label_irm_business_object_description_full) %>
-                        </div>
-                      </th>
-                      <th>
-                        <div><%= t(:label_irm_wf_approval_step_name_full) %>
-                        </div>
-                      </th>
-                      <th>
-                        <div><%= t(:label_irm_delayed_jobs_record_run_at) %>
-                        </div>
-                      </th>
-                      <th>
-                        <div><%= t(:label_irm_delayed_jobs_record_end_at) %>
-                        </div>
-                      </th>
-                      <th>
-                        <div><%= t(:label_irm_delayed_jobs_record_status) %>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="yui3-datatable-data">
-                  <% @monitor.each do |log| %>
-                  <tr class="yui3-datatable-even">
-                    <td>
-                      <div>
-                        <%=log[:approval_process_name]%>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <%=log[:bo_name]%>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <%=log[:bo_description]%>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <%=log[:approval_step_name]%>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <%=log[:run_at].strftime("%F %T") if log[:run_at]%>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <%=log[:end_at].strftime("%F %T") if log[:end_at]%>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <%=log[:job_status]%>
-                      </div>
-                    </td>
-                  </tr>
-                  <% end -%>
-                  </tbody>
-                </table>
-            </div>
-          </div>
-        </div>
-        <% end %>
-
-
-      </div>
-    </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_delayed_job_wf_approval_mail_monitor) %></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%=datatable_view({:count=>@monitor.count,:datas=>@monitor}) do |builder|%>
+      <% builder.column(:approval_process_name,{:title=>t(:label_irm_wf_approval_process_name_full)})%>
+      <% builder.column(:bo_name,{:title=>t(:label_irm_business_object_name_full)})%>
+      <% builder.column(:bo_description,{:title=>t(:label_irm_business_object_description_full)})%>
+      <% builder.column(:approval_step_name,{:title=>t(:label_irm_wf_approval_step_name_full)})%>
+      <% builder.column(:run_at,{:title=>t(:label_irm_delayed_jobs_record_run_at)}) do |log|%>
+        <%=log[:run_at].strftime("%F %T") if log[:run_at]%>
+      <% end %>
+      <% builder.column(:end_at,{:title=>t(:label_irm_delayed_jobs_record_end_at)}) do |log|%>
+        <%=log[:end_at].strftime("%F %T") if log[:end_at]%>
+      <% end %>
+      <% builder.column(:job_status,{:title=>t(:label_irm_delayed_jobs_record_status)})%>
+    <% end %>
+  </div>
 </div>
