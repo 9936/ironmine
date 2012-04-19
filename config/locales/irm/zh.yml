@@ -1376,10 +1376,16 @@ zh:
   label_irm_delayed_jobs_record_item_attempt: 尝试次数
   label_irm_delayed_jobs_record_item_record_at: 记录时间
 
+
   label_irm_delayed_job_icm_group_assign_monitor: 事故单组指派作业
   label_irm_delayed_job_ir_rule_process_monitor: 事故单工作流作业
   label_irm_delayed_job_wf_approval_mail_monitor: 审批邮件发送作业
   label_action_item_list: 详细记录
+
+  label_irm_monitor_ir_rule_process: 事故单工作流规则作业
+  label_irm_delayed_job: Delayed Job
+  label_irm_monitor_approval_mail: Approval Mail Job
+  label_irm_monitor_icm_group_assign: IR Group Assignment Job
   #======================= end delayed_jobs step ====================
   #======================= report_type_category  ====================
   label_irm_report_type_category_list: 报表类别列表
