@@ -1,38 +1,5 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>" id="available_lanes_list">
-         <thead>
-           <tr>
-             <th key = "lane_code">
-               <div><%= t(:label_irm_lane_code) %></div>
-             </th>
-             <th key="lane_name">
-               <div><%= t(:name) %></div>
-             </th>
-             <th key="lane_description">
-                <div><%= t(:description) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |data| %>
-         <tr id="<%=data.id %>">
-           <td>
-             <div><%= data[:lane_code] %></div>
-           </td>
-
-           <td>
-             <div><%= data[:lane_name] %></div>
-           </td>
-
-           <td>
-             <div><%= data[:lane_description] %></div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:lane_code,{:title=>t(:label_irm_lane_code)})%>
+  <% builder.column(:lane_name,{:title=>t(:name)})%>
+  <% builder.column(:lane_description,{:title=>t(:description)})%>
+<% end %>

@@ -1,0 +1,10 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:irm_lane_id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= bootstrap_icons("icon-trash",t(:remove),{:controller=>"irm/kanbans",:action=>"delete_lane",:lane_id=>data[:irm_lane_id],:kanban_id => params[:id]},:confirm => t(:label_are_you_sure) ,:method => :delete) %>&nbsp;
+    <%= bootstrap_icons("icon-arrow-up", t(:move_up), {:controller => "irm/kanbans", :action => "up_lane", :kanban_id => params[:id], :lane_id => data[:irm_lane_id]})%>&nbsp;
+    <%= bootstrap_icons("icon-arrow-down", t(:move_down), {:controller => "irm/kanbans", :action => "down_lane", :kanban_id => params[:id], :lane_id => data[:irm_lane_id]}) %>
+  <% end %>
+  <% builder.column(:lane_code,{:title=>t(:label_irm_lane_code)})%>
+  <% builder.column(:lane_name,{:title=>t(:name)})%>
+  <% builder.column(:lane_description,{:title=>t(:description)})%>
+<% end %>
