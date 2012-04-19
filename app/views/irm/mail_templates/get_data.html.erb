@@ -1,0 +1,10 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+       <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+       <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:template_code,{:title=>t(:label_irm_mail_template_template_code),:searchable=>true})%>
+  <% builder.column(:name,{:title=>t(:label_irm_mail_template_name),:searchable=>true})%>
+  <% builder.column(:description,{:title=>t(:label_irm_mail_template_description)})%>
+  <% builder.column(:status_meaning,{:title=>t(:label_irm_mail_template_status_code),:width=>"80px"})%>
+<% end %>
