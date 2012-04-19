@@ -1844,3 +1844,7 @@ zh:
   label_icm_once_solved_amount: 一次性解决数量
   label_icm_once_solved_rate: 一次性解决比例
   #============================== end icm once solved rate ===================================
+  #============================== icm to rfc rate report ===================================
+  label_icm_to_rfc_amount: 生成RFC总数
+  label_icm_to_rfc_rate: 生成RFC比例
+  #============================== end icm to rfc rate ===================================
