@@ -74,7 +74,11 @@ class Irm::FunctionGroupsController < ApplicationController
     function_groups,count = paginate(function_groups_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(function_groups.to_grid_json([:code,:name,:description,:status_meaning, :status_code], count)) }
-    end    
+      format.html  {
+        @datas = function_groups
+        @count = count
+      }
+    end
   end
 
 

@@ -74,6 +74,10 @@ class Irm::PermissionsController < ApplicationController
     permissions,count = paginate(permissions_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(permissions.to_grid_json([:code,:product_module_name,:status_meaning,:function_name,:direct_get_flag,:params_count,:p_controller,:p_action, :status_code], count)) }
+      format.html  {
+        @datas =  permissions
+        @count = count
+      }
     end
   end
 

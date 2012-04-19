@@ -73,6 +73,8 @@ Ironmine::Application.routes.draw do
     match '/menu_entries/destroy(.:format)' => "menu_entries#destroy"
     match '/menu_entries/select_parent(.:format)' => "menu_entries#select_parent"
     match '/menu_entries/:id/show(.:format)' => "menu_entries#show", :via => :get
+    match '/menu_entries/:id/multilingual_edit(.:format)' => "menu_entries#multilingual_edit", :via => :get
+    match '/menu_entries/:id/multilingual_update(.:format)' => "menu_entries#multilingual_update", :via => :put
 
     #functions
     match '/functions(/index)(.:format)' => "functions#index", :via => :get
@@ -87,6 +89,8 @@ Ironmine::Application.routes.draw do
     match '/functions/:function_id/select_permissions(.:format)' => "functions#select_permissions"
     match '/functions/:function_id/add_permissions(.:format)' => "functions#add_permissions", :via => :post
     match '/functions/:function_id/:permission_id/remove_permission(.:format)' => "functions#remove_permission", :via => :get
+    match '/functions/:id/multilingual_edit(.:format)' => "functions#multilingual_edit", :via => :get
+    match '/functions/:id/multilingual_update(.:format)' => "functions#multilingual_update", :via => :put
 
     #function_groups
     match '/function_groups(/index)(.:format)' => "function_groups#index", :via => :get
@@ -96,6 +100,8 @@ Ironmine::Application.routes.draw do
     match '/function_groups/create(.:format)' => "function_groups#create", :via => :post
     match '/function_groups/:id/show(.:format)' => "function_groups#show", :via => :get
     match '/function_groups/get_data(.:format)' => "function_groups#get_data"
+    match '/function_groups/:id/multilingual_edit(.:format)' => "function_groups#multilingual_edit", :via => :get
+    match '/function_groups/:id/multilingual_update(.:format)' => "function_groups#multilingual_update", :via => :put
 
     #permissions
     match '/permissions(/index)(.:format)' => "permissions#index", :via => :get

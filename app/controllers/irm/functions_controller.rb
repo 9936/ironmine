@@ -72,7 +72,11 @@ class Irm::FunctionsController < ApplicationController
     functions,count = paginate(functions_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(functions.to_grid_json([:code,:name,:description,:status_meaning, :status_code], count)) }
-    end        
+      format.html  {
+        @datas = functions
+        @count = count
+      }
+    end
   end
 
   def edit_own_permissions

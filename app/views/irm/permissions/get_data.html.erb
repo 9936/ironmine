@@ -1,0 +1,20 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% if !params[:function_id].present? %>
+      <% builder.column(:id,{:title=>t(:operation), :width => "80px",:hidden=>true}) do |data|%>
+            <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:back=>{:action=>"index"}}) %>
+            <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:back=>{:action=>"index"}}) %>
+      <% end %>
+    <% end %>
+    <% builder.column(:product_module_name,{:title=>t(:label_irm_permission_product_name),:searchable=>true})%>
+    <% builder.column(:code,{:title=>t(:code),:searchable=>true})%>
+    <% builder.column(:p_controller,{:title=>t(:label_irm_permission_page_controller),:searchable=>true})%>
+    <% builder.column(:p_action,{:title=>t(:label_irm_permission_page_action),:searchable=>true})%>
+    <% builder.column(:params_count,{:title=>t(:label_irm_permission_param_count), :width => "40px"})%>
+    <% builder.column(:direct_get_flag,{:title=>t(:label_irm_permission_direct_get_flag), :width => "40px"}) do |data|%>
+          <%= check_img(data[:direct_get_flag]) %>
+        <% end %>
+    <% builder.column(:status_code,{:title=>t(:label_irm_permission_status_code), :width => "40px"}) do |data|%>
+      <%= check_img(data[:status_code]) %>
+    <% end %>
+
+<% end %>
