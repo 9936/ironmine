@@ -29,6 +29,7 @@ module Irm
       #==header
       output.safe_concat "<thead><tr>"
       column_options.each do |column|
+        next if column[:hidden]
         column_options_str = column_options_str(column)
         output.safe_concat "<th #{column_options_str} ><div>#{column[:title]}"
         output.safe_concat "</div></th>"
@@ -40,6 +41,7 @@ module Irm
       builder.options[:datas].each do |data|
         output.safe_concat "<tr id='#{data[:id]}'>"
         column_options.each do |column|
+          next if column[:hidden]
           output.safe_concat "<td><div>"
           if column[:block].present?
             output.safe_concat capture(data,&column[:block])
@@ -99,7 +101,7 @@ module Irm
         origin_columns = columns
         result_columns = []
         display_columns.each do |dc|
-          result_columns << origin_columns[dc.to_sym]
+          result_columns << origin_columns[dc.to_sym] if origin_columns[dc.to_sym].present?
         end
         return result_columns
       else

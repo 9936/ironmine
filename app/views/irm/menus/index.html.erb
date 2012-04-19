@@ -10,21 +10,13 @@
       <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
     </td>
     <td class="page-block-help">
-      <div id="menusSearchBox"></div>
+      <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="menus_list">
-    <%= datatable("menus_list",{:action=>"get_data",:format=>"json"},
-                  [{:key=>"id",:label=>t(:operation)},
-                   {:key=>"code",:label=>t(:label_irm_menu_menu_code),:searchable=>true},
-                   {:key=>"name",:label=>t(:label_irm_menu_name),:searchable=>true},
-                   {:key=>"description",:label=>t(:label_irm_menu_description)},
-                   {:key=>"status_code",:label=>t(:active)}],
-                   {:search_box=>"menusSearchBox",:paginator_box=>"menusPaginatorBox",:select => 'multiple'}) %>
+    <%= datatable("menus_list",{:action=>"get_data",:format=>"json"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"}) %>
 
     </div>
-    <div id="menusPaginatorBox"></div>
   </div>
 </div>
 
