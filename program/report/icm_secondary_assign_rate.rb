@@ -20,8 +20,6 @@ class IcmSecondaryAssignRate < Irm::ReportManager::ReportBase
                   AND ij.reply_type = 'CLOSE'
                   AND date_format(ij.created_at, '%Y-%m') = '#{Date.strptime("#{params[:year]}-#{params[:month]}", '%Y-%m').strftime("%Y-%m")}')))
 
-
-
     external_systems = Irm::ExternalSystem.multilingual
 
     if params[:external_system_id].present? &&
