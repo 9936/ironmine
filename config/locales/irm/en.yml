@@ -1804,3 +1804,7 @@ en:
   label_icm_once_solved_amount: Once Solved Amount
   label_icm_once_solved_rate: Once Solved Rate
   #============================== end icm once solved rate ===================================
+  #============================== icm reopen rate report ===================================
+  label_icm_reopen_amount: Reopen Amount
+  label_icm_reopen_rate: Reopen Rate
+  #============================== end icm reopen rate ===================================

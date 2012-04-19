@@ -1848,3 +1848,7 @@ zh:
   label_icm_to_rfc_amount: 生成RFC总数
   label_icm_to_rfc_rate: 生成RFC比例
   #============================== end icm to rfc rate ===================================
+  #============================== icm reopen rate report ===================================
+  label_icm_reopen_amount: 重新打开数
+  label_icm_reopen_rate: 重新打开比例
+  #============================== end icm reopen rate ===================================
