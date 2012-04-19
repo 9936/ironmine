@@ -65,6 +65,10 @@ class Skm::ChannelsController < ApplicationController
     channels,count = paginate(channel_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(channels.to_grid_json([:channel_code, :name,:description,:status_meaning, :status_code], count)) }
+      format.html  {
+        @datas = channels
+        @count = channels.count
+      }
     end
   end
 

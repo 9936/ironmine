@@ -95,7 +95,7 @@ module Ironmine
         :video => %w(video-js),
         :jpolite => %w(screen style),
         :treeview => %w(treeview),
-        :treeview_ie6 => %w(treeview.ie6.css),
+        :treeview_ie6 => %w(treeview.ie6.css.less),
         :autosaving => %w(auto-saving),
         :xheditor_plugin => %w(xheditor-plugin)
     }

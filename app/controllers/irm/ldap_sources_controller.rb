@@ -96,13 +96,17 @@ class Irm::LdapSourcesController < ApplicationController
 
 
   def get_data
-    ldap_sources_scope = Irm::LdapSource.where("1=1")
-    #ldap_sources_scope = ldap_sources_scope.match_value("#{Irm::LdapSource.table_name}.name",params[:name])
-    #ldap_sources_scope = ldap_sources_scope.match_value("#{Irm::LdapSource.table_name}.host",params[:host])
-    #ldap_sources_scope = ldap_sources_scope.match_value("#{Irm::LdapSource.table_name}.account",params[:account])
+    ldap_sources_scope = Irm::LdapSource
+    ldap_sources_scope = ldap_sources_scope.match_value("#{Irm::LdapSource.table_name}.name",params[:name])
+    ldap_sources_scope = ldap_sources_scope.match_value("#{Irm::LdapSource.table_name}.host",params[:host])
+    ldap_sources_scope = ldap_sources_scope.match_value("#{Irm::LdapSource.table_name}.account",params[:account])
     ldap_sources,count = paginate(ldap_sources_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(ldap_sources.to_grid_json([:name, :host, :port, :account, :base_dn, :status_meaning, :status_code], count)) }
+      format.html  {
+        @count = count
+        @datas = ldap_sources
+      }
     end
   end
 end

@@ -1,45 +1,30 @@
 <%= page_title %>
+
+<!--页面结构-->
 <% if @template %>
     <%= form_tag({:action => 'add_elements',:template_id => @template}) do%>
-        <%= hidden_field_tag("template_ids") %>
-        <%= hidden_field_tag "return_url", @return_url%>
-        <div class="page-block">
-            <div class="pbHeader">
-                <table cellpadding="0" cellspacing="0" border="0">
-                  <tbody>
-                    <tr>
-                      <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2></td>
-                      <td id="topButtonRow1" class="pbButton">
-                        <div class="button"><%= submit_tag t(:save)%></div>
-                        <% if !@return_url.blank? %>
-                          <div class="button"><%= link_to t(:cancel), @return_url%></div>
-                        <% else %>
-                          <div class="button"><%= link_to t(:cancel), {:action => "show",:id=>@template}%></div>
-                        <% end %>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-            </div>
+    <%= hidden_field_tag("template_ids") %>
+    <%= hidden_field_tag "return_url", @return_url%>
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_submit t(:save),:class=>"btn btn-primary"%>
+          <% if !@return_url.blank? %>
+            <%= link_to t(:cancel), @return_url,:class=>"btn"%>
+          <% else %>
+            <%= link_to t(:cancel), {:action => "show",:id=>@template},:class=>"btn"%>
+          <% end %>
+        </td>
+      </tr></table>
+      <% end %>
+      <div class="page-block-body">
+        <div id="available_elements_list">
+          <%= datatable("available_elements_list",{:action=>"get_available_elements", :template_id=>@template},[],{:paginator_box=>"available_elementsPaginatorBox",:select=>"multiple"})%>
         </div>
-    <% end %>
-
-    <div id="ep" class="edit-block">
-      <div class="pbBody">
-            <div id="available_elements_list" class="datatable" style="width:100%;">
-              <div id="id" style="display:none">
-                 <%= check_box_tag "skm_entry_template_elements[ids][]","{id}"%>
-              </div>
-            </div>
-            <%= datatable("available_elements_list",{:action=>"get_available_elements", :template_id=>@template},
-                      [{:key=>"id",:label=>t(:select_ac),:formatter=>"Y.irm.template",:width=>"20px"},
-                       {:key=>"entry_template_element_code",:label=>t(:label_skm_entry_template_element_code), :width => "15%"},
-                       {:key=>"name",:label=>t(:name), :width => "25%"},
-                       {:key=>"description",:label=>t(:description)},
-                       {:key=>"default_rows",:label=>t(:label_skm_entry_template_element_rows), :width => "80px"}
-                       ],
-                       {:paginator_box=>"available_elementsPaginatorBox",:select=>"multiple",:force_html=>true})%>
-            <div id="available_elementsPaginatorBox"></div>
+        <div id="available_elementsPaginatorBox"></div>
       </div>
     </div>
 <% end %>

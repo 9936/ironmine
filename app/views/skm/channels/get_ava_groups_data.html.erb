@@ -1,45 +1,9 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>" id="avaGroupsList">
-         <thead>
-           <tr>
-             <th key = "code">
-               <div><%= t(:label_irm_group_group_code) %></div>
-             </th>
-             <th key="name">
-               <div><%= t(:label_irm_group_name) %></div>
-             </th>
-             <th key="description">
-                <div><%= t(:label_irm_group_description) %></div>
-             </th>
-             <th key="status_code">
-                <div><%= t(:active) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |data| %>
-         <tr id="<%=data.id %>">
-           <td>
-             <div><%= data[:code] %></div>
-           </td>
-
-           <td>
-             <div><%= data[:name] %></div>
-           </td>
-
-           <td>
-             <div><%= data[:description] %></div>
-           </td>
-
-           <td>
-             <div><%= check_img(data[:status_code]) %></div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:columns=>[:code,:name,:description,:status_code],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation)})%>
+  <% builder.column(:code,{:title=>t(:label_irm_group_group_code)})%>
+  <% builder.column(:name,{:title=>t(:label_irm_group_name)})%>
+  <% builder.column(:description,{:title=>t(:label_irm_group_description)})%>
+  <% builder.column(:status_code,{:title=>t(:active)}) do |data|%>
+    <%= check_img(data[:status_code]) %>
+  <% end %>
+<% end %>

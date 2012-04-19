@@ -63,6 +63,10 @@ class Skm::EntryTemplateElementsController < ApplicationController
     elements,count = paginate(elements_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(elements.to_grid_json(['0', :entry_template_element_code, :name,:description, :default_rows, :status_code], count)) }
+      format.html  {
+        @count = count
+        @datas = elements
+      }
     end
   end  
 end

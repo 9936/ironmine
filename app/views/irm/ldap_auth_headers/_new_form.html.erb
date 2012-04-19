@@ -1,98 +1,94 @@
 <%= common_title(:show_data=>@ldap_auth_header[:name]) %>
-<%= form_for(@ldap_auth_header,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+
+<%= form_for(@ldap_auth_header,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_ldap_auth_header_new)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
-          </td>
-        </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_auth_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name,:required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_ldap_source)%></label></td>
+            <td class="data-col"><%=f.blank_select(:ldap_source_id,available_ldap_sources,
+                                              {},:required=>true)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_auth_cn)%></label></td>
+            <td class="data-col"><%=f.text_field :auth_cn, :required=>true,:size=>60%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_ldap_login_name_attr)%></label></td>
+            <td class="data-col"><%=f.text_field :ldap_login_name_attr, :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_ldap_email_address_attr)%></label></td>
+            <td class="data-col"><%=f.text_field :ldap_email_address_attr, :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_template_person)%></label></td>
+            <td class="data-col"><%=f.blank_select :template_person_id,available_template_people,{},:required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_description)%></label></td>
+            <td class="data-col"><%=f.text_area :description,:rows=>4,:class=>"input-xlarge"%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
       </tbody>
     </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @ldap_auth_header%>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-          <span class="requiredLegend">
-            <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-            </span>
-          <span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-          </span>
-      </span>
-      <h3><%=t(:label_common_info)%></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%=(t :ldap_auth_header_auth_code)%></label></td>
-              <td class="dataCol"><%=f.text_field :name,:required=>true%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :ldap_auth_header_ldap_source)%></label></td>
-              <td class="dataCol"><%=f.blank_select(:ldap_source_id,available_ldap_sources,
-                                                {},:required=>true)%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel), {}, {:class => "btn cancel"}%>
+  <% end %>
 
-            <tr>
-              <td class="labelCol"><label><%=(t :ldap_auth_header_auth_cn)%></label></td>
-              <td class="dataCol"><%=f.text_field :auth_cn, :required=>true,:size=>60%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-
-            <tr>
-              <td class="labelCol"><label><%=(t :ldap_auth_header_ldap_login_name_attr)%></label></td>
-              <td class="dataCol"><%=f.text_field :ldap_login_name_attr, :required=>true%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :ldap_auth_header_ldap_email_address_attr)%></label></td>
-              <td class="dataCol"><%=f.text_field :ldap_email_address_attr, :required=>true%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :ldap_auth_header_template_person)%></label></td>
-              <td class="dataCol"><%=f.blank_select :template_person_id,available_template_people,{},:required=>true%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :ldap_auth_header_description)%></label></td>
-              <td class="dataCol"><%=f.text_area :description,:rows=>4%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-        </tbody>
-      </table>
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_ldap_auth_header_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
-          </td>
-        </tr>
-      </tbody>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
     </table>
   </div>
-</div>
 <% end %>
 

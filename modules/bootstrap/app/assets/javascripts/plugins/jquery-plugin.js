@@ -1607,7 +1607,7 @@ jQuery.fn.menubutton = function(){
     Internal.prototype.syncSearchUI = function(){
         var me = this;
         var showable = false;
-        if(me.data.options.searchBox){
+        if(me.data.options.searchBox && typeof $("#"+me.data.options.searchBox) != "undefined"){
             var searchBox = $("#"+me.data.options.searchBox);
             var currentColumnValue = searchBox.find("select.search-select:first").val();
             var currentValue = searchBox.find("input.search-box-input:first").val();
@@ -1623,12 +1623,11 @@ jQuery.fn.menubutton = function(){
             });
             searchBox.find("select.search-select:first").val(currentColumnValue);
             searchBox.find("input.search-box-input:first").val(currentValue);
-
+            if(showable)
+                searchBox.css({display:""});
+            else
+                searchBox.css({display:"none"});
         }
-        if(showable)
-            searchBox.css({display:""});
-        else
-            searchBox.css({display:"none"});
     }
 
     Internal.prototype.getRightPage = function(page){

@@ -9,6 +9,8 @@
 //= require twitter/bootstrap
 //= require plugins/jquery-extend
 //= require plugins/jquery-plugin
+//= require plugins/jquery-treeview
+//= require plugins/jquery-treeview-async
 //= require plugins/jquery-application
 //= require framework/bootstrap-datepicker
 //= require css_browser_selector

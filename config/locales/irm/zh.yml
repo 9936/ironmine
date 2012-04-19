@@ -348,8 +348,9 @@ zh:
   label_ldap_auth_header_list: 认证方案列表
   label_irm_ldap_auth_header_name: 认证方案
   label_irm_ldap_auth_header_new: 新建认证方案
+  label_irm_ldap_auth_header_edit: 编辑认证方案
   ldap_auth_header_ldap_source: LDAP源
-  ldap_auth_header_auth_code: 认证方案名称
+  ldap_auth_header_auth_name: 认证方案名称
   ldap_auth_header_auth_cn: 认证方案域
   ldap_auth_header_description: 认证方案描述
   ldap_auth_header_status_code: 认证方案状态
@@ -359,6 +360,7 @@ zh:
   #=========================    end ldap_auth_headers_controller=======================#
 
   label_irm_ldap_auth_attribute_new: 新建认证方案属性
+  label_irm_ldap_auth_attribute_edit: 编辑认证方案属性
   label_ldap_auth_attribute: 认证方案属性
   label_ldap_auth_attribute_local_attr: 认证属性
   label_ldap_auth_attribute_attr_type: 字段类型

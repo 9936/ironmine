@@ -1,0 +1,13 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+    <%= link_to(t(:edit),{:controller => "irm/ldap_auth_attributes", :action => "edit", :ah_id => params[:ah_id],:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:controller => "irm/ldap_auth_attributes", :action => "show", :ah_id => params[:ah_id],:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:delete),{:controller => "irm/ldap_auth_attributes", :action => "destroy", :ah_id => params[:ah_id],:id=>data[:id]},{:method => :delete,:confirm => t(:label_are_you_sure)}) %>
+  <% end %>
+  <% builder.column(:local_attr,{:title=>t(:label_ldap_auth_attribute_local_attr), :searchable => true})%>
+  <% builder.column(:ldap_attr,{:title=>t(:label_ldap_auth_attribute_ldap_attr)})%>
+  <% builder.column(:description,{:title=>t(:ldap_auth_header_description), :searchable => true})%>
+  <% builder.column(:status_code,{:title=>t(:active),:width=>"40px"}) do |data|%>
+    <%= check_img(data[:status_code]) %>
+  <% end %>
+<% end %>

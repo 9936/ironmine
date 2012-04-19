@@ -5,6 +5,7 @@
  *= require_self
  *= require bootstrap/bootstrap_and_overrides
  *= require framework/framework
+ *= require plugins/treeview
 */
 
 
