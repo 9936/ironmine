@@ -1819,3 +1819,8 @@ en:
   label_icm_helpdesk_solved_amount: Helpdesk Solved Amount
   label_icm_helpdesk_solved_rate: Helpdesk Solved Rate
   #============================== end icm helpdesk solved rate day  ===================================
+  #============================== chm rejected request rate report ===================================
+  label_chm_rejected_amount: Rejected Amount
+  label_chm_rejected_rate: Rejected Rate
+  label_chm_approval_amount: Approval Amount
+  #============================== end chm rejected request rate day  ===================================
