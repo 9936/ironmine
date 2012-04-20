@@ -1,49 +1,10 @@
-<% if actions.any? %>
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=actions.length%>">
-         <thead>
-           <tr>
-              <th style="width:90px;">
-                <div><%= t(:operation) %>
-                </div>
-              </th>
-              <th style="width:200px;">
-                <div><%= t(:label_irm_wf_rule_action_type) %>
-                </div>
-              </th>
-              <th  >
-                <div><%= t(:label_irm_wf_rule_action_description) %>
-                </div>
-              </th>
-            </tr>
-         </thead>
-         <tbody>
-          <% actions.each do |action| %>
-          <tr id="<%=action[:action].id%>">
-            <td>
-              <div>
-
-                <%= link_to(t(:edit),action[:edit_url_options].merge(:source_str=>"WF_RULE_TIME_TRIGGER,#{action[:action].rule_id},#{action[:action].time_trigger_id}",:back_url=>url_for({}))) %>
-                <%= link_to(t(:delete),{:action=>"destroy_action",:id=>action[:action].id,:back_url=>url_for({})},{:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
-               </div>
-            </td>
-            <td>
-              <div>
-                  <%= action[:action_type_name] %>
-               </div>
-            </td>
-            <td>
-              <div>
-                <%= link_to(action[:ref_action].name,action[:show_url_options].merge(:source_str=>"WF_RULE,#{action[:action].rule_id}",:back_url=>url_for({}))) %>
-              </div>
-            </td>
-          </tr>
-          <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:count=>actions.length,:datas=>actions}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "90px"}) do |data|%>
+        <%= link_to(t(:edit),data[:edit_url_options].merge(:source_str=>"WF_RULE_TIME_TRIGGER,#{data[:action].rule_id},#{data[:action].time_trigger_id}",:back_url=>url_for({}))) %>
+        <%= link_to(t(:delete),{:action=>"destroy_action",:id=>data[:action].id,:back_url=>url_for({})},{:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
+    <% end %>
+    <% builder.column(:action_type_name,{:title=>t(:label_irm_wf_rule_action_type), :width => "200px"})%>
+    <% builder.column(:label_irm_wf_rule_action_description,{:title=>t(:label_irm_wf_rule_action_description),:searchable=>true}) do |data|%>
+        <%= link_to(data[:ref_action].name,data[:show_url_options].merge(:source_str=>"WF_RULE,#{data[:action].rule_id}",:back_url=>url_for({}))) %>
+    <% end %>
 <% end %>
