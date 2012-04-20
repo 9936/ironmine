@@ -1,0 +1,10 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:delayed_job_id,{:title=>t(:operation), :width => "40px"}) do |data|%>
+    <%= link_to(t(:show),{:action=>"item_list",:delayed_job_id=>data[:delayed_job_id]}) %>
+  <% end %>
+  <% builder.column(:job_status,{:title=>t(:label_irm_delayed_jobs_record_status), :width => "20%"})%>
+  <% builder.column(:priority,{:title=>t(:label_irm_delayed_jobs_record_priority), :width => "25%"})%>
+  <% builder.column(:handler,{:title=>t(:label_irm_delayed_jobs_record_handler)})%>
+  <% builder.column(:run_at,{:title=>t(:label_irm_delayed_jobs_record_run_at)})%>
+  <% builder.column(:end_at,{:title=>t(:label_irm_delayed_jobs_record_end_at)})%>
+<% end %>

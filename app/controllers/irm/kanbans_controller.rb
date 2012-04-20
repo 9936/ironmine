@@ -55,9 +55,11 @@ class Irm::KanbansController < ApplicationController
 
     kanbans,count = paginate(kanbans_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(kanbans.to_grid_json(
-                                              [:kanban_code, :name,:description,:refresh_interval, :limit, :status_meaning],
-                                              count))}
+      format.json {render :json=>to_jsonp(kanbans.to_grid_json([:kanban_code, :name,:description,:refresh_interval, :limit, :status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = kanbans
+      }
     end
   end
 
@@ -110,6 +112,10 @@ class Irm::KanbansController < ApplicationController
       format.json {render :json=>to_jsonp(owned_lanes_scope.to_grid_json(
                                               [:irm_lane_id, :lane_code, :lane_name,:lane_description],
                                               50))}
+      format.html  {
+        @count = owned_lanes_scope.count
+        @datas = owned_lanes_scope
+      }
     end
   end
 

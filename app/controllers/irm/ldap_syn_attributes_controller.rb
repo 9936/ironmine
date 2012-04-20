@@ -91,11 +91,14 @@ class Irm::LdapSynAttributesController < ApplicationController
                                                                    :local_attr=>i.local_attr,
                                                                    :ldap_attr=>i.ldap_attr,
                                                                    :value_type_name=>i.value_type_name,
-
                                                                    :null_able=>i.null_able,
                                                                    :description=>i.description}}
     respond_to do |format|
       format.json {render :json=>to_jsonp(ldap_syn_attributes.to_grid_json([:local_attr,:ldap_attr,:value_type_name,:null_able,:description],ldap_syn_attributes.count))}
+      format.html  {
+        @count = ldap_syn_attributes.count
+        @datas = ldap_syn_attributes
+      }
     end
   end
 end

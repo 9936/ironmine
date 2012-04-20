@@ -10,6 +10,10 @@ class Irm::DelayedJobsController < ApplicationController
     respond_to do |format|
       format.json {render :json=>to_jsonp(@log.to_grid_json([:id, :delayed_job_id, :priority, :attempts, :run_at,
                                                              :last_error, :end_at, :failed_at, :handler, :status, :job_status], count))}
+      format.html  {
+        @count = count
+        @datas =@log
+      }
     end
   end
 
@@ -22,6 +26,10 @@ class Irm::DelayedJobsController < ApplicationController
     @item, count = paginate(@item)
     respond_to do |format|
       format.json {render :json=>to_jsonp(@item.to_grid_json([:created_at, :content, :id, :job_status, :job_status_name], count))}
+      format.html  {
+        @count = count
+        @datas = @item
+      }
     end
   end
 

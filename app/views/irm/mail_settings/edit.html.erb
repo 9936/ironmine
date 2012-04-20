@@ -1,150 +1,143 @@
 <%= common_title %>
-
-<%= form_tag({:action => "update"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+<%= form_tag({:action => "update"},:builder => CustomFormBuilder) do |f| %>
+ <%= fields_for "smtp_setting", @smtp_setting,:builder => CustomFormBuilder do |smtp| %>
+  <% content_for :form_block_mail   do%>
+    <table class="form-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_mail_edit_setting) %></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= submit_tag t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
-          </td>
-        </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_timeout %></label></td>
+            <td class="data-2col">
+              <%= smtp.text_field :timeout, :irm_number_only => true, :required => true%>
+              <p class="help-block"><%= t :label_irm_mail_timeout_tip%></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_username %></label></td>
+            <td class="data-2col">
+              <%= smtp.text_field :username, :required => true%>
+              <p class="help-block"><%= t :label_irm_mail_smtp_username_tip%></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_password %></label></td>
+            <td class="data-2col">
+              <%= smtp.text_field :password, :required => true, :type => "password"%>
+              <p class="help-block"><%= t :label_irm_mail_smtp_password_tip%></p>
+            </td>
+          </tr>
       </tbody>
     </table>
-  </div>
-  <div class="pbBody">
-    <%= fields_for "smtp_setting", @smtp_setting do |smtp| %>
-    <div class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_irm_mail_server) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_timeout %></label></td>
-              <td class="data2Col"><%= smtp.text_field :timeout, :irm_number_only => true, :jrequired => true%>
-                <span class="tip-span"><%= t :label_irm_mail_timeout_tip%></span>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_username %></label></td>
-              <td class="data2Col"><%= smtp.text_field :username, :jrequired => true%>
-                <span class="tip-span"><%= t :label_irm_mail_smtp_username_tip%></span>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_password %></label></td>
-              <td class="data2Col"><%= smtp.text_field :password, :jrequired => true, :type => "password"%>
-                <span class="tip-span"><%= t :label_irm_mail_smtp_password_tip%></span>
-              </td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_irm_mail_smtp_server) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_smtp_host_name %></label></td>
-              <td class="data2Col"><%= smtp.text_field :host_name, :jrequired => true%>
-                <span class="tip-span"><%= t :label_irm_mail_smtp_host_name_tip%></span>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_from_address %></label></td>
-              <td class="data2Col"><%= smtp.text_field :from_address, :jrequired => true%>
-                <span class="tip-span"><%= t :label_irm_mail_smtp_from_address_tip%></span>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_prefix %></label></td>
-              <td class="data2Col"><%= smtp.text_field :email_prefix, :jrequired => true%>
-                <span class="tip-span"><%= t :label_irm_mail_smtp_prefix_tip %></span>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_smtp_port %></label></td>
-              <td class="data2Col"><%= smtp.text_field :port, :irm_number_only => true, :jrequired => true%>
-                <span class="tip-span"><%= t :label_irm_mail_smtp_port_tip%></span>
-              </td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-    <% end %>
-
-    <div class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_irm_mail_imap_server) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <%= fields_for "imap_setting", @imap_setting do |imap| %>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_imap_host_name %></label></td>
-              <td class="data2Col"><%= imap.text_field :host_name, :jrequired => true%>
-                <span class="tip-span"><%= t :label_irm_mail_imap_host_name_tip%></span>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_protocol %></label></td>
-              <td class="data2Col"><%= imap.radio_button(:protocol, "IMAP", :jrequired => true)%>-IMAP&nbsp;&nbsp;<%= imap.radio_button(:protocol, "POP")%>-POP
-                <span class="tip-span"><%= t :label_irm_mail_imap_protocol_choose%></span>
-              </td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_mail_imap_port %></label></td>
-              <td class="data2Col"><%= imap.text_field :port, :irm_number_only => true, :jrequired => true%>
-                <span class="tip-span"><%= t :label_irm_mail_imap_port_tip%></span>
-              </td>
-            </tr>
-            <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
+  <% end %>
+  <% content_for :form_block_smtp   do%>
+    <table class="form-table">
+       <tbody>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_smtp_host_name %></label></td>
+            <td class="data-2col">
+              <%= smtp.text_field :host_name, :required => true%>
+              <p class="help-block"><%= t :label_irm_mail_smtp_host_name_tip%></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_from_address %></label></td>
+            <td class="data-2col">
+              <%= smtp.text_field :from_address, :required => true%>
+              <p class="help-block"><%= t :label_irm_mail_smtp_from_address_tip%></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_prefix %></label></td>
+            <td class="data-2col">
+              <%= smtp.text_field :email_prefix, :required => true%>
+              <p class="help-block"><%= t :label_irm_mail_smtp_prefix_tip %></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_smtp_port %></label></td>
+            <td class="data-2col">
+              <%= smtp.text_field :port, :irm_number_only => true, :required => true%>
+              <p class="help-block"><<%= t :label_irm_mail_smtp_port_tip%></p>
+            </td>
+          </tr>
+       </tbody>
+    </table>
+  <% end %>
+ <% end %>
+  <% content_for :form_block_imap   do%>
+    <table class="form-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= submit_tag t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
-          </td>
-        </tr>
+        <%= fields_for "imap_setting", @imap_setting,:builder => CustomFormBuilder do |imap| %>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_imap_host_name %></label></td>
+            <td class="data-2col"><%= imap.text_field :host_name, :required => true%>
+              <p class="help-block"><%= t :label_irm_mail_imap_host_name_tip%></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_protocol %></label></td>
+            <td class="data-2col"><%= imap.radio_button(:protocol, "IMAP", :required => true)%>-IMAP&nbsp;&nbsp;<%= imap.radio_button(:protocol, "POP")%>-POP
+              <p class="help-block"><%= t :label_irm_mail_imap_protocol_choose%></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_imap_port %></label></td>
+            <td class="data-2col"><%= imap.text_field :port, :irm_number_only => true, :required => true%>
+              <p class="help-block"><%= t :label_irm_mail_imap_port_tip%></p>
+            </td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+  <% end %>
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_mail_edit_setting) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_irm_mail_server) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_mail   %>
+        </div>
+
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_irm_mail_smtp_server) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_smtp   %>
+        </div>
+
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_irm_mail_imap_server) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_imap   %>
+        </div>
+
+      </div>
+    </div>
+
+    <table class="page-block-footer"><tr>
+      <td class="page-block-title">
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
   </div>
-</div>
 <% end %>

@@ -230,7 +230,7 @@ Irm::AccessControl.map do |map|
   #=================== job monitors ============================
   map.function :monitor_group_assign,{"irm/monitor_icm_group_assigns"=>["index"]}
   map.function :monitor_workflow_rule,{"irm/monitor_ir_rule_processes"=>["index"]}
-  map.function :monitor_delayed_jobs,{"irm/delayed_jobs"=>["index"]}
+  map.function :monitor_delayed_jobs,{"irm/delayed_jobs"=>["index","get_data","item_list","item_view","action_process_monitor","get_item_data","wf_process_job_monitor","icm_group_assign_monitor","ir_rule_process_monitor"]}
   map.function :monitor_approve_mail,{"irm/monitor_approval_mails"=>["index"]}
 
 

@@ -1,0 +1,15 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+       <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+       <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:local_attr,{:title=>t(:label_irm_ldap_syn_attribute_local_attr)})%>
+  <% builder.column(:ldap_attr,{:title=>t(:label_irm_ldap_syn_attribute_ldap_attr)})%>
+  <% builder.column(:ldap_attr_type,{:title=>t(:label_irm_ldap_syn_attribute_ldap_attr_type)})%>
+  <% builder.column(:language_code,{:title=>t(:label_irm_ldap_syn_attribute_language_code)})%>
+  <% builder.column(:null_able,{:title=>t(:label_irm_ldap_syn_attribute_null_able)})%>
+  <% builder.column(:description,{:title=>t(:ldap_auth_header_description)})%>
+  <% builder.column(:status_code,{:title=>t(:active),:width=>"40px"}) do |data|%>
+    <%= check_img(data[:status_code]) %>
+  <% end %>
+<% end %>

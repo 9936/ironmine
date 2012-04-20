@@ -81,9 +81,11 @@ class Irm::CardsController < ApplicationController
     card_scope = Irm::Card.multilingual.enabled.status_meaning
     cards, count = paginate(card_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(cards.to_grid_json(
-                                              [:card_code, :name,:description, :background_color, :font_color,:status_meaning,:system_flag],
-                                              count))}
+      format.json {render :json=>to_jsonp(cards.to_grid_json([:card_code, :name,:description, :background_color, :font_color,:status_meaning,:system_flag],count))}
+      format.html {
+        @datas = cards
+        @count = count
+      }
     end
   end
 

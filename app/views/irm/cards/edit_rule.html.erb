@@ -1,54 +1,45 @@
 <%= common_title(:show_data=>@card[:name]) %>
-<%= form_for(@card,:url=>{:action=>"update_rule"},:builder => LabellingFormBuilder) do |f| %>
-<%= f.hidden_field :return_url, :value => @return_url %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_card_rule_edit)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <% if !@return_url.present? %>
-                <div class="button"><%= link_to t(:cancel), {:action=>"index"}%></div>
-            <% else %>
-                <div class="button"><%= link_to t(:cancel), @return_url%></div>
-            <% end %>
+<%= form_for(@card,:url=>{:action=>"update_rule"},:builder => CustomFormBuilder) do |f| %>
+  <%= f.hidden_field :return_url, :value => @return_url %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save), :class=>"btn btn-primary" %>
+        <% if !@return_url.present? %>
+          <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+        <% else %>
+          <%= link_to t(:cancel), @return_url, {:class => "btn cancel"}%>
+        <% end %>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%=t(:label_irm_card_rule_edit)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
           </td>
         </tr>
-      </tbody>
     </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @card%>
-    <%= error_for @rule_filter%>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_irm_card_rule) %></h3>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 卡片规则 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= t(:label_irm_card_rule) %></h3>
+        </div>
+        <% if @rule_filter %>
+          <%= render "rule_filter" %>
+        <% end %>
+      </div>
     </div>
-    <% if @rule_filter %>
-        <%= render "rule_filter" %>
-      <% end %>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:cancel), {:action=>"index"}%></div>
-          </td>
-        </tr>
-      </tbody>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
     </table>
   </div>
-</div>
 <% end %>

@@ -71,6 +71,10 @@ class Irm::MailTemplatesController < ApplicationController
     mail_templates,count = paginate(mail_templates_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(mail_templates.to_grid_json([:template_code,:name,:description,:status_meaning],count))}
+      format.html  {
+        @count = count
+        @datas = mail_templates
+      }
     end
   end
 

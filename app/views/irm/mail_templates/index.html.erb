@@ -1,36 +1,20 @@
 <%= setting_title %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_mail_template_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="permissionsSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="mail_template" class="datatable" style="width:100%;">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>&nbsp;
-            <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
-        </div>
-        <%= datatable("mail_template",{:action=>"get_data",:format=>"json"},
-                  [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"template_code",:label=>t(:label_irm_mail_template_template_code),:searchable=>true,:width=>"150px"},
-                   {:key=>"name",:label=>t(:label_irm_mail_template_name),:searchable=>true,:width=>"250px"},
-                   {:key=>"description",:label=>t(:label_irm_mail_template_description)},
-                   {:key=>"status_meaning",:label=>t(:label_irm_mail_template_status_code),:width=>"80px"}],
-                   {:paginator_box=>"mailTemplatePaginatorBox",:search_box=>"permissionsSearchBox"})%>
-        <div id="mailTemplatePaginatorBox"></div>
-      </div>
-    </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_mail_template_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), { :action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="mailTemplateSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="mail_template"></div>
+    <%= datatable("mail_template",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"mailTemplatePaginatorBox",:search_box=>"mailTemplateSearchBox"})%>
+    <div id="mailTemplatePaginatorBox"></div>
+  </div>
 </div>

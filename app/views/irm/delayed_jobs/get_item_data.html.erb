@@ -1,0 +1,6 @@
+<%=datatable_view({:columns=>[:created_at,:job_status_name,:content],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "40px"})%>
+  <% builder.column(:created_at,{:title=>t(:label_irm_delayed_jobs_record_item_record_at)})%>
+  <% builder.column(:job_status_name,{:title=>t(:label_irm_delayed_jobs_record_status)})%>
+  <% builder.column(:content,{:title=>t(:label_irm_delayed_jobs_record_item_content),:width=>"400px"})%>
+<% end %>

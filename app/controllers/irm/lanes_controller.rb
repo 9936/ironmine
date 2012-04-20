@@ -45,9 +45,11 @@ class Irm::LanesController < ApplicationController
 
     lanes,count = paginate(lanes_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(lanes.to_grid_json(
-                                              [:lane_code, :name,:description, :limit,:status_meaning, :background_color, :font_color],
-                                              count))}
+      format.json {render :json=>to_jsonp(lanes.to_grid_json([:lane_code, :name,:description, :limit,:status_meaning, :background_color, :font_color],count))}
+      format.html {
+        @datas = lanes
+        @count = count
+      }
     end
   end
 
@@ -64,8 +66,11 @@ class Irm::LanesController < ApplicationController
     owned_cards_scope= Irm::Lane.with_cards(params[:id])
 
     respond_to do |format|
-      format.json {render :json=>to_jsonp(owned_cards_scope.to_grid_json(
-                                              [:irm_card_id, :card_code, :card_name,:card_description, :background_color],50))}
+      format.json {render :json=>to_jsonp(owned_cards_scope.to_grid_json([:irm_card_id, :card_code, :card_name,:card_description, :background_color],50))}
+      format.html {
+        @datas = owned_cards_scope
+        @count = owned_cards_scope.count
+      }
     end
   end
 
@@ -82,7 +87,7 @@ class Irm::LanesController < ApplicationController
 
   def add_cards
     return_url=params[:return_url]
-    params[:irm_lane_cards][:ids].each do |p|
+    params[:card_ids].split(",").each do |p|
       Irm::LaneCard.create({:lane_id => params[:id],
                              :card_id => p})
     end
@@ -98,8 +103,11 @@ class Irm::LanesController < ApplicationController
   def get_available_cards
     owned_cards_scope= Irm::Card.select_all.without_lane(params[:id]).enabled
     respond_to do |format|
-      format.json {render :json=>to_jsonp(owned_cards_scope.to_grid_json(
-                                          [:card_code, :card_name,:card_description, :background_color],50))}
+      format.json {render :json=>to_jsonp(owned_cards_scope.to_grid_json([:card_code, :card_name,:card_description, :background_color],50))}
+      format.html {
+        @datas = owned_cards_scope
+        @count = owned_cards_scope.count
+      }
     end
   end
 

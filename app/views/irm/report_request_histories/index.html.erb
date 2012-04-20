@@ -1,4 +1,22 @@
 <%= page_title %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_report_request_history_list) %></h2>
+    </td>
+    <td class="page-block-button"></td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="histories"></div>
+    <%= datatable("histories",{:action=>"get_data",:format=>"json"},[],{:search_box=>"searchBox",:paginator_box=>"paginatorBox"})%>
+    <div id="paginatorBox"></div>
+  </div>
+</div>
+
 <div class="listRelatedObject setupBlock">
     <div class="page-block">
       <div class="pbHeader">
