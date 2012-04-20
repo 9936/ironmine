@@ -24,30 +24,48 @@ class Irm::WfRulesController < ApplicationController
   # GET /wf_rules/new.xml
   def new
     if params[:irm_wf_rule]
-      session[:irm_wf_rule].merge!(params[:irm_wf_rule])
-      session[:irm_wf_rule][:step] = params[:step].to_i-1
+      session[:irm_wf_rule].merge!(params[:irm_wf_rule].symbolize_keys)
     else
-      session[:irm_wf_rule]={}
-      session[:irm_rule_filter]=nil
-      session[:irm_wf_rule][:step] = 0
+      session[:irm_wf_rule]={:step=>1}
+      session[:irm_rule_filter] = nil
     end
     @wf_rule = Irm::WfRule.new(session[:irm_wf_rule])
-    if @wf_rule.valid?
-      @wf_rule.step = @wf_rule.step.to_i+1
-      session[:irm_wf_rule][:step] = @wf_rule.step
+    @wf_rule.step = @wf_rule.step.to_i if  @wf_rule.step.present?
+
+    validate_result = request.post?&&@wf_rule.valid?
+
+    if request.post?&&@wf_rule.step.eql?(2)
+      session[:irm_rule_filter] = params[:irm_rule_filter]
+      @rule_filter = Irm::RuleFilter.new(session[:irm_rule_filter])
+      validate_result = validate_result&&@rule_filter.valid?
     end
-    if @wf_rule.step.eql?(2)
-      @wf_rule.evaluate_criteria_rule= "CREATE_EDIT_FIRST_TIME"
-      if session[:irm_rule_filter]
-        @rule_filter =Irm::RuleFilter.new(session[:irm_rule_filter])
+
+    if validate_result
+      if(params[:pre_step]&&@wf_rule.step.to_i>1)
+        @wf_rule.step = @wf_rule.step.to_i-1
+        session[:irm_wf_rule][:step] = @wf_rule.step
       else
-        @rule_filter =Irm::RuleFilter.create_for_source(@wf_rule.bo_code,Irm::WfRule.name,0)
+        if @wf_rule.step<2
+          @wf_rule.step = @wf_rule.step.to_i+1
+          session[:irm_wf_rule][:step] = @wf_rule.step
+        end
       end
     end
+
+    if @wf_rule.step.eql?(2)
+      @wf_rule.evaluate_criteria_rule||= "CREATE_EDIT_FIRST_TIME"
+      if session[:irm_rule_filter]
+        @rule_filter ||=Irm::RuleFilter.new(session[:irm_rule_filter])
+      else
+        @rule_filter ||=Irm::RuleFilter.create_for_source(@wf_rule.bo_code,Irm::WfRule.name,0)
+      end
+    end
+
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @wf_rule }
+      format.xml  { render :xml => @report_type }
     end
+
   end
 
   # GET /wf_rules/1/edit
@@ -152,6 +170,10 @@ class Irm::WfRulesController < ApplicationController
     wf_rules,count = paginate(wf_rules_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(wf_rules.to_grid_json([:name,:bo_name,:rule_code,:evaluate_criteria_rule_name],count))}
+      format.html {
+        @datas = wf_rules
+        @count = count
+      }
     end
   end
 

@@ -55,7 +55,7 @@ class Irm::WfRule < ActiveRecord::Base
 
 
   def check_step(stp)
-    self.step.nil?||self.step>=stp
+    self.step.nil?||self.step.to_i>=stp
   end
 
   # is the event match the filter or formula ?
