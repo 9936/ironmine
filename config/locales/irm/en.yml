@@ -1815,3 +1815,7 @@ en:
   #============================== icm incident amount by day report ===================================
   label_icm_receive_amount: Received Amount
   #============================== end icm incident amount by day  ===================================
+  #============================== icm helpdesk solved rate report ===================================
+  label_icm_helpdesk_solved_amount: Helpdesk Solved Amount
+  label_icm_helpdesk_solved_rate: Helpdesk Solved Rate
+  #============================== end icm helpdesk solved rate day  ===================================

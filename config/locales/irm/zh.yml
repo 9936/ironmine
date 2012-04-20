@@ -1859,3 +1859,7 @@ zh:
   #============================== icm incident amount by day report ===================================
   label_icm_receive_amount: 接受事故单数量
   #============================== end icm incident amount by day  ===================================
+  #============================== icm helpdesk solved rate report ===================================
+  label_icm_helpdesk_solved_amount: 服务台直接解决单数
+  label_icm_helpdesk_solved_rate: 服务台直接解决比例
+  #============================== end icm helpdesk solved rate day  ===================================
