@@ -1852,3 +1852,7 @@ zh:
   label_icm_reopen_amount: 重新打开数
   label_icm_reopen_rate: 重新打开比例
   #============================== end icm reopen rate ===================================
+  #============================== icm upgrade rate report ===================================
+  label_icm_upgrade_amount: 升级事故单数量
+  label_icm_upgrade_rate: 升级比例
+  #============================== end icm upgrade rate ===================================

@@ -1808,3 +1808,7 @@ en:
   label_icm_reopen_amount: Reopen Amount
   label_icm_reopen_rate: Reopen Rate
   #============================== end icm reopen rate ===================================
+  #============================== icm upgrade rate report ===================================
+  label_icm_upgrade_amount: Upgrade Amount
+  label_icm_upgrade_rate: Upgrade Rate
+  #============================== end icm upgrade rate ===================================
