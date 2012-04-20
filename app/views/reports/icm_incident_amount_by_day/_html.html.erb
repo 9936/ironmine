@@ -1,0 +1,100 @@
+<div id="reportChart"></div>
+
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=datas[:datas].size%>" style="width: auto">
+         <thead>
+         <tr>
+           <th style="width:250px;"><%=t(:label_report_icm_incident_report_date) + ':' + Date.today.to_s  %>
+             <br/>
+             <%= "#{t(:label_statistic_date)}:" %> <br/>
+             <%= "#{t(:label_irm_report_filter_date_from)} #{datas[:params][:date_from]} #{t(:label_irm_report_filter_date_to)} #{datas[:params][:date_to]}"%>
+           </th>
+           <th style="width:80px;"></th>
+         </tr>
+           <tr>
+             <th>
+               <div><%= datas[:headers][0] %></div>
+             </th>
+             <th>
+               <div><%= datas[:headers][1] %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% datas[:datas].each do |data| %>
+           <tr>
+             <% 0.upto(datas[:headers].length-1) do |index| %>
+               <td>
+                 <div>
+                   <%= data[index] %>
+                 </div>
+               </td>
+             <% end %>
+           </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->
+<% require_javascript(:extjs) %>
+<% require_css(:extjs) %>
+
+<script type="text/javascript">
+  Ext.onReady(function(){
+    var store = Ext.create('Ext.data.JsonStore', {
+        fields: ['amount', 'date'],
+        data: <%=datas[:chart_datas].to_json.html_safe %>
+    });
+
+    Ext.create('Ext.chart.Chart', {
+        renderTo: Ext.get("reportChart"),
+        animate: true,
+        width: Ext.get("reportChart").getComputedWidth()-10,
+        height: 300,
+        store: store,
+        axes: [{
+            type: 'Numeric',
+            position: 'left',
+            dashSize: 1,
+            stackingEnabled : true,
+            fields: ['amount'],
+            label: {
+                renderer: Ext.util.Format.numberRenderer('0,0')
+            },
+            grid: true,
+            minimum: 0
+        }, {
+            type: 'Category',
+            position: 'bottom',
+            stackingEnabled : true,
+            fields: ['date'],
+            orientation:"vertical"
+        }],
+        series: [{
+            type: 'line',
+            highlight: {
+                size: 7,
+                radius: 7
+            },
+            smooth: true,
+            axis: 'left',
+            xField: 'date',
+            yField: 'amount',
+            tips: {
+                    trackMouse: true,
+                    width: 120,
+                    height: 40,
+                    renderer: function(storeItem, item) {
+                        this.setTitle("<%= I18n.t(:label_date) + ": "%>" +
+                                storeItem.get('date') + '<br />' +
+                                "<%= I18n.t(:label_icm_receive_amount) + ": "%>"
+                                + storeItem.get('amount'));
+                    }
+            }
+        }]
+    });
+  });
+</script>

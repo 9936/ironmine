@@ -1812,3 +1812,6 @@ en:
   label_icm_upgrade_amount: Upgrade Amount
   label_icm_upgrade_rate: Upgrade Rate
   #============================== end icm upgrade rate ===================================
+  #============================== icm incident amount by day report ===================================
+  label_icm_receive_amount: Received Amount
+  #============================== end icm incident amount by day  ===================================

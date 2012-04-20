@@ -1856,3 +1856,6 @@ zh:
   label_icm_upgrade_amount: 升级事故单数量
   label_icm_upgrade_rate: 升级比例
   #============================== end icm upgrade rate ===================================
+  #============================== icm incident amount by day report ===================================
+  label_icm_receive_amount: 接受事故单数量
+  #============================== end icm incident amount by day  ===================================

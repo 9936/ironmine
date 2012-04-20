@@ -18,7 +18,7 @@ class IcmUpgradeRate < Irm::ReportManager::ReportBase
     end
 
     datas = []
-    headers = [I18n.t(:label_date),
+    headers = [I18n.t(:label_irm_external_system),
                I18n.t(:label_icm_upgrade_amount),
                I18n.t(:label_total_amount),
                I18n.t(:label_icm_upgrade_rate)]
