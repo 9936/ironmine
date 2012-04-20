@@ -101,6 +101,10 @@ class Irm::ProductModulesController < ApplicationController
     product_modules,count = paginate(product_modules_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(product_modules.to_grid_json([:product_short_name,:name,:description,:installed_flag,:status_meaning, :status_code], count)) }
+      format.html {
+        @count = count
+        @datas = product_modules
+      }
     end
   end
 
