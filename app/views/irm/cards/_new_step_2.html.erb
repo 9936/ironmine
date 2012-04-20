@@ -1,61 +1,69 @@
-<div  class="wizard-block">
-    <div class="pbWizardTitle tertiaryPalette">
-        <div class="ptRightTitle">
+<%= form_for(@card,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common do%>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_card_title_column)%></label></td>
+            <td class="data-2col"><%=f.select :title_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_card_description_column)%></label></td>
+            <td class="data-2col"><%=f.select :description_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_card_date_column)%></label></td>
+            <td class="data-2col"><%=f.select :date_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_to t(:last), {:action => "new",:step=>1},:class => "btn" %>
+    <%= link_submit t(:save), :class=>"btn" %>
+    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:step_n, :n => "2") %><%= t(:label_irm_card_rule_config) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+          <td class="page-block-help">
             <%= t(:step_n_total_m, :n => "2", :m => "2") %>
+          </td>
+        </tr>
+    </table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 显示设置 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_irm_card_column_config) %></h3>
         </div>
-        <h2>
-            <%= t(:step_n, :n => "2") %><%= t(:label_irm_card_rule_config) %>
-        </h2>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+        <!-- 卡片规则 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= t(:label_irm_card_rule) %></h3>
+        </div>
+        <% if @rule_filter %>
+          <%= render "rule_filter" %>
+        <% end %>
+      </div>
     </div>
-  <div class="pbBody">
-    <%= form_for(@card,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-      <%= error_for @card %>
-      <%= error_for @rule_filter %>
-      <div id="head_3_ep" class="pbSubheader tertiaryPalette">
-        <h3><%= t(:label_irm_card_column_config) %></h3>
-      </div>
-
-      <div class="pbSubsection">
-          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-                <tr>
-                  <td class="labelCol"><label><%=(t :label_irm_card_title_column)%></label></td>
-                  <td class="data2Col"><%=f.select :title_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label><%=(t :label_irm_card_description_column)%></label></td>
-                  <td class="data2Col"><%=f.select :description_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
-                </tr>
-                <tr>
-                  <td class="labelCol"><label><%=t(:label_irm_card_date_column)%></label></td>
-                  <td class="data2Col"><%=f.select :date_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
-                </tr>
-            </tbody>
-          </table>
-      </div>
-
-      <div id="head_3_ep" class="pbSubheader tertiaryPalette">
-        <h3><%= t(:label_irm_card_rule) %></h3>
-      </div>
-      <% if @rule_filter %>
-        <%= render "rule_filter" %>
-      <% end %>
-      <div class="pbWizardFooter">
-          <div class="pbBottomButtons">
-              <table cellpadding="0" cellspacing="0" border="0">
-                <tbody>
-                  <tr>
-                    <td class="pbTitle"></td>
-                    <td id="bottomButtonRow" class="pbButtonb">
-                      <div class="button"><%= link_to t(:last), {:action => "new",:step=>1} %></div>
-                      <div class="button"><%= f.submit t :save %></div>
-                      <div class="button"><%= link_to t(:cancel), {:action => "index"} %></div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-          </div>
-      </div>
-    <%end%>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
   </div>
-</div>
+<% end %>

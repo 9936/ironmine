@@ -1,0 +1,14 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation),:width=>"130px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+    <% if data[:system_flag].eql?('N') %>
+      &nbsp;<%= link_to(t(:label_irm_card_rule), {:action=>"edit_rule", :id =>data[:id]})%>
+    <% end %>
+  <% end %>
+  <% builder.column(:card_code,{:title=>t(:label_irm_card_code),:width=>"80px"})%>
+  <% builder.column(:name,{:title=>t(:name),:width=>"150px"})%>
+  <% builder.column(:description,{:title=>t(:description)})%>
+  <% builder.column(:background_color,{:title=>t(:label_irm_card_background_color),:width=>"40px"})%>
+  <% builder.column(:status_meaning,{:title=>t(:active),:width=>"40px"})%>
+<% end %>
