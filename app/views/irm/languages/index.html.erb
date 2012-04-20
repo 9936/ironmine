@@ -1,34 +1,20 @@
 <%= common_title %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_language_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="language" class="datatable" style="width:100%;">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>&nbsp;
-            <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
-          </div>
-          <div id="installed_flag" style="display:none">
-            <%= check_img("{installed_flag}") %>
-          </div>
-        </div>
-        <%= datatable("language",{:action=>"get_data",:format=>"json"},
-                  [{:key=>"id",:label=>t(:edit),:formatter=>"Y.irm.template",:width=>"80px"},
-                   {:key=>"language_code",:label=>t(:label_irm_language_language_code),:width=>"10%"},
-                   {:key=>"installed_flag",:formatter=>"Y.irm.template",:label=>t(:label_irm_language_installed_flag),:width=>"10%"},
-                   {:key=>"description",:label=>t(:label_irm_language_description)},
-                   {:key=>"status_meaning",:label=>t(:label_irm_language_status_code),:width=>"40px"}])%>
-      </div>
-    </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_language_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="language"></div>
+    <%= datatable("language",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginatorBox"})%>
+    <div id="paginatorBox"></div>
+  </div>
 </div>
