@@ -88,6 +88,10 @@ class Irm::CloudOperationsController < ApplicationController
     operation_units,count = paginate(operation_units_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(operation_units.to_grid_json([:name,:short_name,:description,:license_name],count))}
+      format.html {
+        @count = count
+        @datas = operation_units
+      }
     end
   end
 end

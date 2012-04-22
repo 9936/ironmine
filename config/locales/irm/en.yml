@@ -1556,6 +1556,7 @@ en:
   #======================= end password policies ====================
 
   #======================= Operation Unit ====================
+  label_irm_operation_unit_new: New Operation Unit
   label_irm_operation_unit_edit: Operation Unit Setting
   label_irm_operation_unit_name: Name
   label_irm_operation_unit_short_name: Short Name
