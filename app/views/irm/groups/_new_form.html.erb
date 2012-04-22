@@ -26,7 +26,7 @@
 
           <tr>
             <td class="label-col"><label><%=(t :label_irm_group_description)%></label></td>
-            <td class="data-col"><%=f.text_area :description,:rows=>4%></td>
+            <td class="data-col"><%=f.text_area :description,:rows=>4,:class=>"input-xlarge"%></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
@@ -50,6 +50,7 @@
         </td>
       </tr>
     </table>
+    <%= error_for @group %>
     <div class="page-block-body">
       <div class="sub-page-block">
         <!-- 一般信息 -->

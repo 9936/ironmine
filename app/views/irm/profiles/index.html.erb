@@ -16,14 +16,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="profiles">
-    <%= datatable("profiles",{:action=>"get_data",:format=>"json"},
-                        [{:key=>"id",:label=>t(:operation)},
-                         { :key => "code", :label => t(:label_irm_profile_code),:searchable=>true },
-                         { :key => "name", :label => t(:label_irm_profile_name),:searchable=>true },
-                         { :key => "description", :label => t(:label_irm_profile_description),:searchable=>true }
-                        ],{:paginator_box=>"profilesPaginatorBox",:search_box=>"profilesSearchBox"})%>
-    </div>
+    <div id="profiles"></div>
+    <%= datatable("profiles",{:action=>"get_data"},[],{:paginator_box=>"profilesPaginatorBox",:search_box=>"profilesSearchBox"})%>
     <div id="profilesPaginatorBox"></div>
   </div>
 </div>
