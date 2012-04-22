@@ -13,9 +13,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="close_reason_list">
-      <%= datatable("close_reason_list",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"closePaginator"})%>
-    </div>
+    <div id="close_reason_list"></div>
+    <%= datatable("close_reason_list",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"closePaginator"})%>
     <div id="closePaginator"></div>
   </div>
 </div>

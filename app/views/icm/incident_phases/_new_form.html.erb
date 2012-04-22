@@ -1,7 +1,5 @@
 <%= common_title(:show_data=>@incident_phase[:name]) %>
 
-
-
 <%= form_for(@incident_phase,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
   <% content_for :form_block_common   do%>
     <table class="form-table" xmlns="http://www.w3.org/1999/html">
@@ -43,6 +41,7 @@
         </td>
       </tr>
     </table>
+    <%= error_for @incident_phase %>
     <div class="page-block-body">
       <div class="sub-page-block">
         <!-- 一般信息 -->

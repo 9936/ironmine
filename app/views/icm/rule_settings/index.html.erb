@@ -13,9 +13,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="rule_setting">
-      <%= datatable("rule_setting",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"rulePaginator"})%>
-    </div>
+    <div id="rule_setting"></div>
+    <%= datatable("rule_setting",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"rulePaginator"})%>
     <div id="rulePaginator"></div>
   </div>
 </div>
