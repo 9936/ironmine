@@ -1868,3 +1868,8 @@ zh:
   label_chm_rejected_rate: 拒绝比例
   label_chm_approval_amount: 审批总数
   #============================== end chm rejected request rate day  ===================================
+  #============================== chm rejected request rate report ===================================
+  label_icm_rank: 排名
+  label_icm_workload: 工作量
+  label_icm_workload_rate: 所占比例
+  #============================== end chm rejected request rate day  ===================================

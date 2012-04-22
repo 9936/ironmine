@@ -1824,3 +1824,8 @@ en:
   label_chm_rejected_rate: Rejected Rate
   label_chm_approval_amount: Approval Amount
   #============================== end chm rejected request rate day  ===================================
+  #============================== chm rejected request rate report ===================================
+  label_icm_rank: Rank
+  label_icm_workload: Workload
+  label_icm_workload_rate: Rate
+  #============================== end chm rejected request rate day  ===================================
