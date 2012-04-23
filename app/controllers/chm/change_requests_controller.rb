@@ -171,7 +171,7 @@ class Chm::ChangeRequestsController < ApplicationController
   def edit
     @change_request = Chm::ChangeRequest.find(params[:id])
     respond_to do |format|
-      format.html { render :layout => "application_full"}
+      format.html
     end
   end
 
@@ -188,7 +188,7 @@ class Chm::ChangeRequestsController < ApplicationController
         format.html { redirect_to({:action => "show",:id=>@change_request.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @change_request, :status => :created, :location => @change_request }
       else
-        format.html { render :action => "new",:layout => "application_full" }
+        format.html { render :action => "new" }
         format.xml  { render :xml => @change_request.errors, :status => :unprocessable_entity }
       end
     end
