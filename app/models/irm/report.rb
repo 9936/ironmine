@@ -46,7 +46,7 @@ class Irm::Report < ActiveRecord::Base
   }
   # 查找报表文件夹
   scope :with_report_folder,lambda{|language|
-    joins("JOIN #{Irm::ReportFolder.view_name} ON #{Irm::ReportFolder.view_name}.id = #{table_name}.report_folder_id  AND #{Irm::ReportFolder.view_name}.language = '#{language}'").
+    joins("JOIN #{Irm::ReportFolder.view_name} ON #{Irm::ReportFolder.view_name}.id = #{table_name}.report_folder_id  AND #{Irm::ReportFolder.view_name}.language = '#{language}' AND #{Irm::ReportFolder.view_name}.status_code = 'ENABLED'").
     select("#{Irm::ReportFolder.view_name}.name report_folder_name ,#{Irm::ReportFolder.view_name}.access_type,#{Irm::ReportFolder.view_name}.member_type")
   }
   # 查找当前用户能看到的报表
