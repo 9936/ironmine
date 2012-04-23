@@ -1,9 +1,10 @@
 class Chm::ChangeRequestsController < ApplicationController
+  layout "bootstrap_application_full"
   # GET /statuses
   # GET /statuses.xml
   def index
     respond_to do |format|
-      format.html { render :layout => "application_full"} # index.html.erb
+      format.html # index.html.erb
       format.xml  {
         @change_requests = Chm::ChangeRequest.all
         render :xml => @change_requests
@@ -110,7 +111,7 @@ class Chm::ChangeRequestsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :layout => "application_full"}# new.html.erb
+      format.html # new.html.erb
       format.xml  { render :xml => @change_request }
     end
   end
