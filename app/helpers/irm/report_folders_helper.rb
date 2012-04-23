@@ -26,11 +26,11 @@ module Irm::ReportFoldersHelper
   end
 
   def available_report_folder
-    Irm::ReportFolder.multilingual.collect{|i| [i[:name],i.id]}
+    Irm::ReportFolder.multilingual.enabled.collect{|i| [i[:name],i.id]}
   end
 
   def available_current_report_folder
-    Irm::Person.current.report_folders.collect{|i| [i[:name],i.id]}
+    Irm::Person.current.report_folders.enabled.collect{|i| [i[:name],i.id]}
   end
 
 
