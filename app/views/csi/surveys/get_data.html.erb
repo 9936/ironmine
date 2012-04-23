@@ -1,0 +1,14 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"show",:id=>data[:id]}) %>&nbsp;
+    <% unless data[:allow_author_only] %>
+      <%= link_to(t(:result),{:controller=>"csi/survey_results",:action=>"statistics",:id=>data[:id]},{:back=>true}) %>
+    <% end %>
+  <% end %>
+  <% builder.column(:title,{:title=>t(:label_csi_survey_title),:searchable=>true})  %>
+  <% builder.column(:joined_count,{:title=>t(:label_csi_survey_joined_count),:width => "50px"}) do |data|%>
+    <%= data.joined_count %>
+  <% end %>
+  <% builder.column(:person_count,{:title=>t(:label_csi_survey_person_count),:width => "50px"})%>
+  <% builder.column(:created_at,{:title=>t(:label_csi_survey_created_at),:width=>"150px"})%>
+<% end %>

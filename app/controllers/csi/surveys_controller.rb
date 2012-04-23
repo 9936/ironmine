@@ -1,11 +1,12 @@
 class Csi::SurveysController < ApplicationController
+  layout "bootstrap_application_full"
   # GET /surveys
   # GET /surveys.xml
   def index
     @surveys = Csi::Survey.all
 
     respond_to do |format|
-      format.html { render :layout => "application_full"}# index.html.erb
+      format.html # index.html.erb
       format.xml  { render :xml => @surveys }
     end
   end
@@ -16,7 +17,7 @@ class Csi::SurveysController < ApplicationController
     @survey = Csi::Survey.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout => "application_full"} # show.html.erb
+      format.html  # show.html.erb
       format.xml  { render :xml => @survey }
     end
   end
@@ -27,7 +28,7 @@ class Csi::SurveysController < ApplicationController
     @survey = Csi::Survey.new(:status_code=>"OFFLINE")
 
     respond_to do |format|
-      format.html { render :layout => "application_full"} # new.html.erb
+      format.html # new.html.erb
       format.xml  { render :xml => @survey }
     end
   end
@@ -36,7 +37,7 @@ class Csi::SurveysController < ApplicationController
   def edit
     @survey = Csi::Survey.find(params[:id])
     respond_to do |format|
-      format.html { render :layout => "application_full"}
+      format.html
     end
   end
 
@@ -51,7 +52,7 @@ class Csi::SurveysController < ApplicationController
         format.html { redirect_to({:action=>"show",:id=>@survey.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @survey, :status => :created, :location => @survey }
       else
-        format.html { render :action => "new", :layout => "application_full" }
+        format.html { render :action => "new"}
         format.xml  { render :xml => @survey.errors, :status => :unprocessable_entity }
       end
     end
@@ -67,7 +68,7 @@ class Csi::SurveysController < ApplicationController
         format.html { redirect_to({:action=>"show",:id=>@survey.id}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit", :layout => "application_full" }
+        format.html { render :action => "edit"}
         format.xml  { render :xml => @survey.errors, :status => :unprocessable_entity }
       end
     end
@@ -100,6 +101,10 @@ class Csi::SurveysController < ApplicationController
     end
     respond_to do |format|
       format.json {render :json=>to_jsonp(@surveys_new.to_grid_json([:title,:description,:status_meaning, :joined_count, :person_count, :created_at,:publish_result_flag], count))}
+      format.html {
+        @count = count
+        @datas = @surveys_new
+      }
     end
   end 
 
