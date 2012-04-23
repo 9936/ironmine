@@ -13,7 +13,7 @@
         <%= link_to t(:edit), {:action => "edit", :id => @wf_rule},:class=>"btn"%>
         <%= link_to t(:active), {:action => "active",:id=>@wf_rule.id,:active=>Irm::Constant::SYS_YES},:class=>"btn"%>
       <% end %>
-      <%= link_back t(:back),{:action=>"index"},:class=>"btn"%>
+      <%= link_back t(:back),{},:class=>"btn"%>
 
     </td>
   </tr></table>

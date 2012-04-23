@@ -191,7 +191,7 @@ module ApplicationHelper
       require_css(:extjs)
     end
 
-    source_url = url_for(url_options.merge(:format=>:json))
+    source_url = url_for(url_options.merge(:format=>:json,:back_url=>url_for({})))
     page_size = options[:row_perpage]||10
     search_box = options[:search_box]
     height = options[:height]||300
@@ -336,7 +336,7 @@ module ApplicationHelper
     output = ActiveSupport::SafeBuffer.new
     output.safe_concat "<div id='#{id}'></div>"
 
-    source_url = url_for(url_options.merge(:format=>:html))
+    source_url = url_for(url_options.merge(:format=>:html,:back_url=>url_for({})))
 
     page_size = options[:row_perpage]||10
 

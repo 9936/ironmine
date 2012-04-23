@@ -218,6 +218,10 @@ class Irm::WfRulesController < ApplicationController
     wf_rules,count = paginate(wf_rules_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(wf_rules.to_grid_json([:name,:description,:status_code,:bo_name], count)) }
+      format.html  {
+        @datas = wf_rules
+        @count = count
+      }
     end
   end
 end

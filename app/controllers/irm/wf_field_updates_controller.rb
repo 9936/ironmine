@@ -106,6 +106,10 @@ class Irm::WfFieldUpdatesController < Irm::WfActionsController
     wf_field_updates,count = paginate(wf_field_updates_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(wf_field_updates.to_grid_json([:name,:description,:field_update_code,:object_attribute_name,:bo_name,:value_type_name],count))}
+      format.html {
+        @count = count
+        @datas = wf_field_updates
+      }
     end
   end
 

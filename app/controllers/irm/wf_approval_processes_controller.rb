@@ -262,6 +262,10 @@ class Irm::WfApprovalProcessesController < ApplicationController
     wf_approval_processes,count = paginate(wf_approval_processes_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(wf_approval_processes.to_grid_json([:name,:description,:status_code,:bo_name], count)) }
+      format.html  {
+        @datas =  wf_approval_processes
+        @count = count
+      }
     end
   end
 

@@ -6,8 +6,8 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
       if options.delete(:normal)
           super
       else
-        if options[:required]
-          wrapped_field(super(field,options.merge!({:required=>true})),field, options)
+        if options.delete(:required)
+          wrapped_field(super(field,options.merge({:irequired=>true})),field, options.merge({:required=>true}))
         else
           wrapped_field(super,field,options)
         end

@@ -108,6 +108,10 @@ class Irm::WfMailAlertsController < Irm::WfActionsController
     wf_mail_alerts,count = paginate(wf_mail_alerts_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(wf_mail_alerts.to_grid_json([:name,:bo_name,:mail_template_name,:mail_alert_code,:from_email],count))}
+      format.html {
+        @count = count
+        @datas = wf_mail_alerts
+      }
     end
   end
 

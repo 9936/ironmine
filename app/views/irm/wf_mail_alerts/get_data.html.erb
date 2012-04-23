@@ -1,0 +1,11 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+          <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:back=>{:action=>"index"}}) %>
+          <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:back=>{:action=>"index"}}) %>
+    <% end %>
+    <% builder.column(:bo_name,{:title=>t(:label_irm_wf_mail_alert_bo_code)})%>
+    <% builder.column(:name,{:title=>t(:label_irm_wf_mail_alert_name),:searchable=>true})%>
+    <% builder.column(:mail_alert_code,{:title=>t(:label_irm_wf_mail_alert_mail_alert_code),:searchable=>true})%>
+    <% builder.column(:mail_template_name,{:title=>t(:label_irm_wf_mail_alert_mail_template_code)})%>
+    <% builder.column(:from_email,{:title=>t(:label_irm_wf_mail_alert_from_email)})%>
+<% end %>

@@ -30,8 +30,10 @@ $(function(){
     $('form a[type=submit]').live('click', function(e) {
       parent_forms = $(this).parents("form");
       e.preventDefault();
+
       if(parent_forms[0]){
           $(parent_forms[0]).trigger("submit");
+          console.debug(parent_forms);
       }
     });
 
