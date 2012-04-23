@@ -1,0 +1,11 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:product_short_name,{:title=>t(:label_irm_product_module_product_short_name),:searchable=>true})%>
+  <% builder.column(:name,{:title=>t(:label_irm_product_module_name),:searchable=>true})%>
+  <% builder.column(:description,{:title=>t(:description)})%>
+  <% builder.column(:installed_flag,{:title=>t(:label_irm_product_module_installed_flag),:width=>"40px"}) do |data|%>
+    <%= check_img(data[:installed_flag]) %>
+  <% end %>
+  <% builder.column(:status_code,{:title=>t(:active),:width=>"40px"}) do |data|%>
+    <%= check_img(data[:status_code]) %>
+  <% end %>
+<% end %>

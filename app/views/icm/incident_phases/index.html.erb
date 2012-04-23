@@ -16,9 +16,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="phase">
-      <%= datatable("phase",{:action=>"get_data",:format=>"json"},[],:paginator_box=>"phasePaginator",:search_box=>"incidentPhasesSearchBox")%>
-    </div>
+    <div id="phase"></div>
+    <%= datatable("phase",{:action=>"get_data",:format=>"json"},[],:paginator_box=>"phasePaginator",:search_box=>"incidentPhasesSearchBox")%>
     <div id="phasePaginator"></div>
   </div>
 </div>

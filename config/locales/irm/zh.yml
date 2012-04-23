@@ -1572,6 +1572,7 @@ zh:
   #======================= end password policies ====================
   #======================= Operation Unit ====================
   label_irm_operation_unit: 运维中心
+  label_irm_operation_unit_new: 新建运维中心
   label_irm_operation_unit_edit: 运维中心设置
   label_irm_operation_unit_name: 名称
   label_irm_operation_unit_short_name: 简称

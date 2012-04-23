@@ -46,9 +46,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="selectablePeople">
-      <%= datatable("selectablePeople",{:action=>"get_available_people_data",:external_system_id => @external_system_id,:format=>"json"},[],{:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
-    </div>
+    <div id="selectablePeople"></div>
+    <%= datatable("selectablePeople",{:action=>"get_available_people_data",:external_system_id => @external_system_id},[],{:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
     <div id="selectablePeoplePaginator"></div>
   </div>
 </div>
@@ -73,9 +72,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="external_people">
-      <%= datatable("external_people",{:action=>"get_owned_members_data",:format=>"json", :external_system_id => @external_system_id},[],{:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
-    </div>
+    <div id="external_people"></div>
+     <%= datatable("external_people",{:action=>"get_owned_members_data",:format=>"json", :external_system_id => @external_system_id},[],{:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
     <div id="external_peoplePaginatorBox"></div>
   </div>
 </div>

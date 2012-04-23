@@ -74,7 +74,7 @@
           <tr>
             <td class="label-col"><label for="organization_info_value"><%=t(:label_irm_organization_info_file)%></label></td>
             <% if @organization_info[:attachment_id].present? %>
-            <td  id="old_file">
+            <td id="old_file" style="text-align: left;">
                 <%= filename(@organization_info[:attachment_id]) %><span id="modify_file"><a href="javascript:void(0);"><%= t(:label_irm_edit_attachment) %></a></span> | <span id="delete_file" org_id="<%= @organization_info[:id] %>"><a href="javascript:void(0)"><%= t(:delete) %></a></span>
             </td>
             <td  id="new_file">
@@ -111,6 +111,7 @@
         <%= content_for :form_buttons   %>
       </td>
     </tr></table>
+    <%= error_for @organization_info %>
     <div class="page-block-body">
       <div class="sub-page-block">
         <div class="sub-page-block-header">

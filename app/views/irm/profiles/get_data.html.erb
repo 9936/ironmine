@@ -3,7 +3,7 @@
     <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
     <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
   <% end %>
-  <% builder.column(:code,{:title=>t(:label_irm_profile_code), :width => "20%"})%>
-  <% builder.column(:name,{:title=>t(:label_irm_profile_name), :width => "25%"})%>
-  <% builder.column(:description,{:title=>t(:label_irm_profile_description)})%>
+  <% builder.column(:code,{:title=>t(:label_irm_profile_code),:searchable=>true, :width => "20%"})%>
+  <% builder.column(:name,{:title=>t(:label_irm_profile_name),:searchable=>true, :width => "25%"})%>
+  <% builder.column(:description,{:title=>t(:label_irm_profile_description),:searchable=>true})%>
 <% end %>

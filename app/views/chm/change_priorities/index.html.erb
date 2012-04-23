@@ -82,9 +82,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="priorities">
-      <%= datatable("priorities",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"prioritiesPaginatorBox",:search_box=>"prioritiesSearchBox"})%>
-    </div>
+    <div id="priorities"></div>
+    <%= datatable("priorities",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"prioritiesPaginatorBox",:search_box=>"prioritiesSearchBox"})%>
     <div id="prioritiesPaginatorBox"></div>
   </div>
 </div>

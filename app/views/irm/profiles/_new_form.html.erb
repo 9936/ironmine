@@ -25,7 +25,7 @@
   <% end %>
   <% content_for :form_buttons  do %>
     <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-    <%= link_back t(:cancel),{}, {:class => "btn cancel"}%>
+    <%= link_to t(:cancel),{:action => "index"}, {:class => "btn cancel"}%>
   <% end %>
   <!--页面结构-->
   <div class="page-block">
@@ -39,6 +39,7 @@
         </td>
       </tr>
     </table>
+    <%= error_for @profile %>
     <div class="page-block-body">
       <div class="sub-page-block">
         <div class="sub-page-block-header">

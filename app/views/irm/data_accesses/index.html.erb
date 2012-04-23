@@ -1,112 +1,50 @@
 <%= page_title %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_data_access_list_opu) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to(t(:edit),{:action=>"edit"},:back=>true) %></div>
-              </td>
-              <td class="pbHelp">
-                <div id="data_accessesSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="data_accesses" class="datatable" style="width:100%">
-            <!--  irm datatable      -->
-            <div class="irm-datatable">
-              <div>
-                  <table count="<%=@data_accesses.length%>">
-                    <thead>
-                      <tr>
-                        <th style="width:250px;">
-                          <div><%= t(:label_irm_data_access_business_object) %></div>
-                        </th>
-                        <th  style="width:250px;">
-                          <div><%= t(:label_irm_data_access_access_level) %></div>
-                        </th>
-                        <th>
-                          <div><%= t(:label_irm_data_access_hierarchy_access_flag) %></div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    <% @data_accesses.each do |data_access| %>
-                    <tr id="<%=data_access[:id]%>">
-                      <td>
-                        <div>
-                          <%= data_access[:business_object_name] %>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <%= data_access[:access_level_name] %>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <%= check_img(data_access[:hierarchy_access_flag]) %>
-                        </div>
-                      </td>
-                    </tr>
-                    <% end -%>
-                    </tbody>
-                  </table>
-              </div>
-            </div>
-            <!--  end irm datatable      -->
-        </div>
-      </div>
-    </div>
-</div>
-<% require_javascript(:treeview) %>
-<% require_css(:treeview) %>
-
-<style type="text/css">
-  .listViewTitle{font-size:125%;font-weight:bold;}
-</style>
-  <div class="listRelatedObject setupBlock">
-      <div class="page-block">
-        <div class="pbBody">
-          <table class="split-table">
-            <tr>
-                <td >
-                  <div class="pbHeader">
-                   <table cellpadding="0" cellspacing="0" border="0">
-                     <tbody>
-                       <tr>
-                         <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_data_access_list_org) %></h2></td>
-                       </tr>
-                     </tbody>
-                   </table>
-                  </div>
-                </td>
-                <td rowspan="2">
-                  <div id="dataAccess" style="width:100%;" href="<%= url_for(:controller => "org_data_accesses",:action=>"show",:id=>"{org_id}",:org_name=>"{org_name}")%>">
-
-                  </div>
-
-              </td>
-            </tr>
-            <tr>
-              <td>
-                  <div id="orgTree">
-                      <%= organizations_tree_data  %>
-                  </div>
-              </td>
-
-            </tr>
-          </table>
-
-        </div>
-      </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_data_access_list_opu) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to(t(:edit),{:action=>"edit"},:back=>true,:class=>"btn") %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%=datatable_view({:count=>@data_accesses.count,:datas=>@data_accesses}) do |builder|%>
+      <% builder.column(:business_object_name,{:title=>t(:label_irm_data_access_business_object)})%>
+      <% builder.column(:access_level_name,{:title=>t(:label_irm_data_access_access_level)})%>
+      <% builder.column(:hierarchy_access_flag,{:title=>t(:label_irm_data_access_hierarchy_access_flag)}) do |data|%>
+        <%= check_img(data[:hierarchy_access_flag]) %>
+      <% end %>
+    <% end %>
   </div>
-
+</div>
+<style type="text/css">
+  .org-access-table {
+      text-align: left;
+  }
+</style>
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_data_access_list_org) %></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+      <table class="show-table">
+        <tbody>
+            <tr>
+              <td style="width:1%">
+                <div id="tree-div"><%= organizations_tree_data  %></div>
+              </td>
+              <td class="org-access-table" style="vertical-align:top;">
+                <div id="dataAccess" style="width:100%;" href="<%= url_for(:controller => "org_data_accesses",:action=>"show",:id=>"{org_id}",:org_name=>"{org_name}")%>"></div>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+  </div>
+</div>
 <script type="text/javascript">
   $(function(){
       $("#organizations").treeview({
@@ -121,117 +59,58 @@
            url = url.replace("{org_id}",$(event.currentTarget).attr("ref"));
            url = url.replace("{org_name}",$(event.currentTarget).html());
            dataAccess.attr("ref",$(event.currentTarget).attr("ref"));
-           //$("#mainTitle").html($(event.currentTarget).html());
+           if(url.indexOf("?") > 0) {
+               url += "&_dom_id=dataAccess"
+           }else{
+               url += "?_dom_id=dataAccess"
+           }
            dataAccess.load(url);
-
-
       });
       $('#organizations a.org:first').trigger("click");
-
       $(".loadButton").live("click",function(event){
           var dataAccess = $("#dataAccess");
           var node = $(event.currentTarget);
           var url = decodeURIComponent(node.attr("load_href"));
           url = url.replace("{org_id}",dataAccess.attr("ref"));
+          if(url.indexOf("?") > 0) {
+              url += "&_dom_id=dataAccess"
+          }else{
+              url += "?_dom_id=dataAccess"
+          }
           dataAccess.load(url);
       })
     });
 
 </script>
-
-
-
-
 <!--business object data share rule begin-->
 <% @data_accesses.each do |data_access| %>
-  <div class="listRelatedObject setupBlock">
+    <!--页面结构-->
     <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%=data_access[:business_object_name]+t(:label_irm_data_share_rule)  %></h2></td>
-              <td   class="pbButton">
-                <div class="button"><%= link_to(t(:new),{:controller => "irm/data_share_rules",:action=>"new",:business_object_id=>data_access[:business_object_id]},:back=>true) %></div>
-              </td>
-              <td class="pbHelp">
-                <div  ></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div   class="datatable" style="width:100%">
-            <!--  irm datatable      -->
-            <div class="irm-datatable">
-              <div>
-                  <table count="<%=@data_accesses.length%>">
-                    <thead>
-                      <tr>
-                        <th style="width:70px;">
-                          <div><%= t(:operation) %></div>
-                        </th>
-                        <th style="width:150px;">
-                          <div><%= t(:name) %></div>
-                        </th>
-                        <th style="width:150px;">
-                          <div><%= t(:label_irm_data_access_business_object) %></div>
-                        </th>
-                        <th style="width:150px;">
-                          <div><%= t(:label_irm_data_share_rule_belong_to) %></div>
-                        </th>
-                        <th style="width:150px;">
-                          <div><%= t(:label_irm_data_share_rule_share_with) %></div>
-                        </th>
-                        <th>
-                          <div><%= t(:label_irm_data_access) %></div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    <% get_rules(data_access[:business_object_id]).each do |rule| %>
-                    <tr id="<%=rule[:id]%>">
-                      <td>
-                        <div>
-                           <%= link_to(t(:edit),{:controller => "irm/data_share_rules",:action=>"edit",:id=>"#{rule[:id]}"}) %>|<%= link_to(t(:delete),{:controller => "irm/data_share_rules",:action=>"destroy",:id=>"#{rule[:id]}"},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <%= rule[:name] %>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <%= rule[:business_object_name] %>
-                        </div>
-                      </td>
-                       <td>
-                        <div>
-                          <%= rule[:source_type]+' '+rule[:source_name] %>
-                        </div>
-                      </td>
-                       <td>
-                        <div>
-                          <%= rule[:target_type]+' '+rule[:target_name] %>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <%= rule[:access_level_name] %>
-                        </div>
-                      </td>
-                    </tr>
-                    <% end -%>
-                    </tbody>
-                  </table>
-              </div>
-            </div>
-            <!--  end irm datatable      -->
-        </div>
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=data_access[:business_object_name]+t(:label_irm_data_share_rule)  %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_to(t(:new),{:controller => "irm/data_share_rules",:action=>"new",:business_object_id=>data_access[:business_object_id]},:back=>true,:class=>"btn") %>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%=datatable_view({:count=>get_rules(data_access[:business_object_id]).count,:datas=>get_rules(data_access[:business_object_id])}) do |builder|%>
+          <% builder.column(:id,{:title=>t(:operation),:width=>"60px"}) do |rule| %>
+            <%= bootstrap_icons("icon-edit",t(:edit),{:controller => "irm/data_share_rules",:action=>"edit",:id=>"#{rule[:id]}"}) %>&nbsp;
+            <%= bootstrap_icons(" icon-trash",t(:delete),{:controller => "irm/data_share_rules",:action=>"destroy",:id=>"#{rule[:id]}"},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+          <% end %>
+          <% builder.column(:name,{:title=>t(:name)})%>
+          <% builder.column(:business_object_name,{:title=>t(:label_irm_data_access_business_object)})%>
+          <% builder.column(:source_name,{:title=>t(:label_irm_data_share_rule_belong_to)}) do |rule|%>
+            <%= rule[:source_type]+' '+rule[:source_name] %>
+          <% end %>
+          <% builder.column(:target_name,{:title=>t(:label_irm_data_share_rule_share_with)}) do |rule|%>
+            <%= rule[:target_type]+' '+rule[:target_name] %>
+          <% end %>
+          <% builder.column(:access_level_name,{:title=>t(:label_irm_data_access)})%>
+        <% end %>
       </div>
     </div>
-</div>
-<% end -%>
+<% end %>
 

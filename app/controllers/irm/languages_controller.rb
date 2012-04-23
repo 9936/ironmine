@@ -90,6 +90,10 @@ class Irm::LanguagesController < ApplicationController
     @languages,count = paginate(@languages)
     respond_to do |format|
       format.json {render :json=>to_jsonp(@languages.to_grid_json([:status_meaning,:language_code,:description, :installed_flag, :status_code], count))}
+      format.html {
+        @count = count
+        @datas = @languages
+      }
     end
   end
   

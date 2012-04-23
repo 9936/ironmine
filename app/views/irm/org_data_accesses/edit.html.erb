@@ -1,60 +1,25 @@
-<%= form_tag({:action=>"update"},:remote=>true) do %>
-         <div class="pbHeader">
-           <table cellpadding="0" cellspacing="0" border="0">
-             <tbody>
-               <tr>
-                 <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_data_access_edit)%></h2></td>
-                 <td id="topButtonRow" class="pbButton">
-                   <div class="button"><%= link_submit t(:save)%></div>
-                   <div class="button" id="exportData"><a href="javascript:void(0)" class="loadButton" load_href="<%= url_for(:action=>"show",:id=>"{org_id}")%>"><%= t(:cancel) %></a></div>
-                 </td>
-               </tr>
-             </tbody>
-           </table>
-         </div>
-         <% data_accesses = org_data_accesses(params[:id]) %>
-         <div id="data_accesses" class="datatable" style="width:100%">
-          <!--  irm datatable      -->
-          <div class="irm-datatable">
-            <div>
-                <table count="<%=data_accesses.length%>">
-                  <thead>
-                    <tr>
-                      <th style="width:150px;">
-                        <div><%= t(:label_irm_data_access_business_object) %></div>
-                      </th>
-                      <th>
-                        <div><%= t(:label_irm_data_access_org_access_level) %></div>
-                      </th>
-                      <th>
-                        <div><%= t(:label_irm_data_access_opu_access_level) %></div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <% data_accesses.each do |data_access| %>
-                  <tr id="<%=data_access[:id]%>">
-                    <td>
-                      <div>
-                        <%= data_access[:business_object_name] %>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <%= select_tag_alias("access_levels[#{data_access[:business_object_id]}]",available_org_access_level,data_access[:org_access_level]) %>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <%= data_access[:access_level_name] %>
-                      </div>
-                    </td>
-                  </tr>
-                  <% end -%>
-                  </tbody>
-                </table>
-            </div>
-          </div>
-          <!--  end irm datatable      -->
-        </div>
+<%= form_tag({:action=>"update",:_dom_id=>"access-form"},:remote=>true,:id=>"access-form") do %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_data_access_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_submit t(:save), :class=>"btn btn-primary" %>
+          <a href="javascript:void(0)" class="loadButton btn" load_href="<%= url_for(:action=>"show",:id=>"{org_id}")%>"><%= t(:cancel) %></a>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <% data_accesses = org_data_accesses(params[:id]) %>
+        <%=datatable_view({:columns=>[:business_object_name,:org_access_level_name,:access_level_name],:count=>data_accesses.count,:datas=>data_accesses}) do |builder|%>
+          <% builder.column(:id,{:title=>t(:operation)})%>
+          <% builder.column(:business_object_name,{:title=>t(:label_irm_data_access_business_object)})%>
+          <% builder.column(:org_access_level_name,{:title=>t(:label_irm_data_access_org_access_level)}) do |data|%>
+            <%= select_tag_alias("access_levels[#{data[:business_object_id]}]",available_org_access_level,data[:org_access_level]) %>
+          <% end %>
+          <% builder.column(:access_level_name,{:title=>t(:label_irm_data_access_opu_access_level)})%>
+        <% end %>
+      </div>
+    </div>
 <% end %>

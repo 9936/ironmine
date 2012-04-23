@@ -1,6 +1,8 @@
 class Irm::License < ActiveRecord::Base
   set_table_name :irm_licenses
 
+  #验证
+  validates_presence_of :code
 
   #多语言关系
   attr_accessor :name,:description

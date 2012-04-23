@@ -110,6 +110,10 @@ class Irm::LicensesController < ApplicationController
     licenses,count = paginate(licenses_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(licenses.to_grid_json([:name,:description,:code],count))}
+      format.html {
+        @count = count
+        @datas = licenses
+      }
     end
   end
 end

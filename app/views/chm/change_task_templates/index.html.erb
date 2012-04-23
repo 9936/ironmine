@@ -15,9 +15,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="task_templates">
-      <%= datatable("task_templates",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"task_templatesPaginatorBox",:search_box=>"task_templatesSearchBox"})%>
-    </div>
+    <div id="task_templates"></div>
+    <%= datatable("task_templates",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"task_templatesPaginatorBox",:search_box=>"task_templatesSearchBox"})%>
     <div id="task_templatesPaginatorBox"></div>
   </div>
 </div>
