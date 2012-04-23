@@ -145,7 +145,9 @@
                 href = $.tmpl(decodeURIComponent(href),url_options).text();
                 //创建代理函数，修改this
                 var processor =  me.processResult.customCreateDelegate({me:me,index:i});
-                $.getJSON(href,{},processor);
+                //获取当前的表单的id
+                var dom_id = $($(me.$element).parents("form")[0]).attr("id");
+                $.getJSON(href,{_dom_id:dom_id},processor);
             }else
             {   target.html("");
                 if(target.attr("blank")!=""){
