@@ -6,6 +6,7 @@
  *= require bootstrap/bootstrap_and_overrides
  *= require framework/framework
  *= require plugins/treeview
+ *= require plugins/colorbox
 */
 
 

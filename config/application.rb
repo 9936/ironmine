@@ -101,9 +101,9 @@ module Ironmine
     }
 
     config.ironmine.jscss = {
-        :default =>{:css=>[:application],:js=>[:application,:bootstrap,"locales/jquery-{locale}"]},
+        :default =>{:css=>[:application],:js=>[:application,"locales/jquery-{locale}"]},
         :default_ie6=>{:css=>[:application_ie6]},
-        :colorbox=>{:css=>["plugins/colorbox"],:js=>["plugins/colorbox"]}
+        :colorbox=>{:css=>[],:js=>["plugins/colorbox"]}
     }
 
 
@@ -132,8 +132,7 @@ module Ironmine
         config.autoload_paths += [file_path]
       end
     end
-
-    config.assets.precompile += ['application_ie6.css','plugins/colorbox.css.less','plugins/colorbox.js']
+    config.assets.precompile += ['application_ie6.css','plugins/colorbox.js','locales/jquery-en.js','locales/jquery-zh.js']
 
     # 自动生成时不生成asset
     config.generators do |g|
