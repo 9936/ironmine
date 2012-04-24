@@ -1,15 +1,19 @@
-<%= page_block("showRequest") do |pb| %>
-    <%= pb.page_block_header({:title=>t(:label_chm_change_request_incident_requests)}) do%>
-      <td id="topButtonRow" class="pbButton">
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_change_request_incident_requests) %></h2>
       </td>
-      <td class="pbHelp" id="incidentForm">
-         <%= render :partial=>"chm/change_incident_relations/mini_form"%>
+      <td class="page-block-button"></td>
+      <td class="page-block-help form-inline" id="incidentForm">
+        <%= render :partial=>"chm/change_incident_relations/mini_form"%>
       </td>
-    <% end %>
-
-    <%= pb.page_block_body do %>
-        <div id="incidentRequests">
-          <%= render :partial=>"chm/change_incident_relations/change_incident_requests",:locals=>{:datas=>change_incident_requests(@change_request.id),:master_incident_request=>change_master_incident_request(@change_request.incident_request_id)} %>
-        </div>
-    <% end %>
-<% end %>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="incidentRequests">
+      <%= render :partial=>"chm/change_incident_relations/change_incident_requests",:locals=>{:datas=>change_incident_requests(@change_request.id),:master_incident_request=>change_master_incident_request(@change_request.incident_request_id)} %>
+    </div>
+  </div>
+</div>

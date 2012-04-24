@@ -1,14 +1,17 @@
-<%= page_block("tasks") do |pb| %>
-    <%= pb.page_block_header({:title=>t(:label_chm_change_request_task)}) do%>
-      <td id="topButtonRow" class="pbButton">
-        <div class="button"><%= link_to(t(:new),{:controller=>"chm/change_tasks",:action=>"new",:source_id=>@change_request.id},:back=>true)%></div>
-        <div class="button"><%= link_to(t(:label_chm_change_task_template_new),{:controller=>"chm/change_tasks",:action=>"template_new",:source_id=>@change_request.id},:back=>true)%></div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_change_request_task) %></h2>
       </td>
-      <td class="pbHelp">
+      <td class="page-block-button">
+        <%= link_to(t(:new),{:controller=>"chm/change_tasks",:action=>"new",:source_id=>@change_request.id},:back=>true,:class => "btn btn-primary")%>
+        <%= link_to(t(:label_chm_change_task_template_new),{:controller=>"chm/change_tasks",:action=>"template_new",:source_id=>@change_request.id},:back=>true,:class => "btn")%>
       </td>
-    <% end %>
-
-    <%= pb.page_block_body do %>
-      <%= render :partial=>"chm/change_requests/tasks",:locals=>{:datas=>change_tasks(@change_request.id)} %>
-    <% end %>
-<% end %>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= render :partial=>"chm/change_requests/tasks",:locals=>{:datas=>change_tasks(@change_request.id)} %>
+  </div>
+</div>

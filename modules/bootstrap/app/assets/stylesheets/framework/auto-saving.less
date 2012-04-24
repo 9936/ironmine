@@ -1,0 +1,51 @@
+@penPath: asset-path('framework/pencil.png');
+@loadingbarPath: asset-path('framework/ajax-loader-bar-small.gif');
+.edit_item .edit_icon {
+    float: left;
+    display: none;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    background: url(@penPath) no-repeat 0 0  transparent !important;
+}
+.edit_item:hover .edit_icon {
+    display: block;
+}
+
+.edit_item .name{
+    float:left;
+    max-width:150px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    -moz-user-select:none;
+    -khtml-user-select:none;
+    user-select:none
+}
+.edit_item .task_name span {
+    margin-left: 20px !important;
+}
+.edit_item .name_edit,.edit_item .loading_edit{
+    float: left;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color:#333;
+}
+.loading_edit .loading_img {
+    width: 16px;
+    height: 11px;
+    display: block;
+    background: url(@loadingbarPath) no-repeat 0 0 transparent;
+}
+.edit_item .name_edit,.edit_item .loading_edit {
+    display: none;
+}
+.edit_item .loading_edit {
+    margin-top:3px;
+}
+.edit_item .edit_input {
+    display: none;
+    width: auto !important;
+}

@@ -831,7 +831,7 @@ module ApplicationHelper
       selected = params[:controller].eql?(config[:url][:controller])&&params[:action].eql?(config[:url][:action])
       tab_id = config[:id]||"#{name}_#{index}"
       if selected
-        output.safe_concat("<li id='#{tab_id}' class='active' onclick='alert()'>")
+        output.safe_concat("<li id='#{tab_id}' class='active'>")
       else
         output.safe_concat("<li id='#{tab_id}'>")
       end
