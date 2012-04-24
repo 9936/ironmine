@@ -1,18 +1,20 @@
-<%= page_block("approvals") do |pb| %>
-    <%= pb.page_block_header({:title=>t(:label_chm_change_approval)}) do%>
-      <td id="topButtonRow" class="pbButton">
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_change_approval) %></h2>
+      </td>
+      <td class="page-block-button">
         <% if !@change_request.approve_status.present?||"ASSIGNED".eql?(@change_request.approve_status) %>
-            <div class="button"><%= link_to(t(:new),{:controller=>"chm/change_approvals",:action=>"new",:change_request_id=>@change_request.id},:back=>true)%></div>
+          <%= link_to(t(:new),{:controller=>"chm/change_approvals",:action=>"new",:change_request_id=>@change_request.id},:back=>true,:class => "btn")%>
         <% end %>
         <% if "ASSIGNED".eql?(@change_request.approve_status) %>
-            <div class="button"><%= link_to(t(:label_chm_change_approval_submit),{:controller=>"chm/change_approvals",:action=>"submit",:change_request_id=>@change_request.id},:back=>true)%></div>
+          <%= link_to(t(:label_chm_change_approval_submit),{:controller=>"chm/change_approvals",:action=>"submit",:change_request_id=>@change_request.id},:back=>true,:class => "btn")%>
         <% end %>
       </td>
-      <td class="pbHelp">
-      </td>
-    <% end %>
-
-    <%= pb.page_block_body do %>
-      <%= render :partial=>"chm/change_approvals/approvals",:locals=>{:datas=>change_approvals(@change_request.id)} %>
-    <% end %>
-<% end %>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= render :partial=>"chm/change_approvals/approvals",:locals=>{:datas=>change_approvals(@change_request.id)} %>
+  </div>
+</div>
