@@ -13,9 +13,8 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="config_relation_types">
-      <%= datatable("config_relation_types",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"config_relation_typesPaginatorBox",:search_box=>"config_relation_typesSearchBox"})%>
-    </div>
+    <div id="config_relation_types"></div>
+    <%= datatable("config_relation_types",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"config_relation_typesPaginatorBox",:search_box=>"config_relation_typesSearchBox"})%>
     <div id="config_relation_typesPaginatorBox"></div>
   </div>
 </div>

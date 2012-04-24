@@ -52,9 +52,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="config_attributes">
-      <%= datatable("config_attributes",{:controller=>"com/config_attributes",:action=>"get_data",:format=>"json",:class_id=>@config_class.id},[],{:paginator_box=>"config_attributesPaginatorBox",:select=>"multiple", :search_box=>"config_attributesSearchBox"})%>
-    </div>
+    <div id="config_attributes"></div>
+    <%= datatable("config_attributes",{:controller=>"com/config_attributes",:action=>"get_data",:format=>"json",:class_id=>@config_class.id},[],{:paginator_box=>"config_attributesPaginatorBox",:select=>"multiple", :search_box=>"config_attributesSearchBox"})%>
     <div id="config_attributesPaginatorBox"></div>
   </div>
 </div>
@@ -73,9 +72,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="config_relation_types">
-      <%= datatable("config_relation_types",{:controller=> "config_relation_types", :action=>"get_data",:format=>"json",:class_id=>@config_class.id},[],{:paginator_box=>"config_relation_typesPaginatorBox",:search_box=>"config_relation_typesSearchBox"})%>
-    </div>
+    <div id="config_relation_types"></div>
+    <%= datatable("config_relation_types",{:controller=> "config_relation_types", :action=>"get_data",:format=>"json",:class_id=>@config_class.id},[],{:paginator_box=>"config_relation_typesPaginatorBox",:search_box=>"config_relation_typesSearchBox"})%>
     <div id="config_relation_typesPaginatorBox"></div>
   </div>
 </div>
