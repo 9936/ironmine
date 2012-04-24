@@ -103,7 +103,8 @@ module Ironmine
     config.ironmine.jscss = {
         :default =>{:css=>[:application],:js=>[:application,"locales/jquery-{locale}"]},
         :default_ie6=>{:css=>[:application_ie6]},
-        :colorbox=>{:css=>[],:js=>["plugins/colorbox"]}
+        :colorbox=>{:css=>[],:js=>["plugins/colorbox"]},
+        :xheditor => {:css=>["xheditor-plugin"],:js=>["xheditor/xheditor-{locale}"]}
     }
 
 
@@ -161,9 +162,9 @@ module Ironmine
       Js::Generators::AssetsGenerator.send(:include,Gen::JsAssetsGeneratorExpand)
       require 'rails/generators/css/assets/assets_generator'
       Css::Generators::AssetsGenerator.send(:include,Gen::CssAssetsGeneratorExpand)
-     # #扩展Sass::Generators::ScaffoldBase，解决在设置--module= xx 参数后生成的scaffold.css.xx 不在指定目录下
-     # require 'rails/generators/sass_scaffold'
-     # Sass::Generators::ScaffoldBase.send(:include, Gen::SassScaffoldGeneratorExpand)
+      # #扩展Sass::Generators::ScaffoldBase，解决在设置--module= xx 参数后生成的scaffold.css.xx 不在指定目录下
+      # require 'rails/generators/sass_scaffold'
+      # Sass::Generators::ScaffoldBase.send(:include, Gen::SassScaffoldGeneratorExpand)
 
       #扩展Erb::Generators::ControllerGenerator 解决在设置--module= xx 参数后运行rails g controller命令在app/view/下生成一个xx空文件夹
       require 'rails/generators/erb/controller/controller_generator'

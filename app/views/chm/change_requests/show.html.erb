@@ -7,28 +7,26 @@
       border-right: 0px;
   }
 
-  div.reply div.replyHeader[submit_by="<%= @change_request.submitted_by%>"]{
+  div.reply div.reply-header[submit_by="<%= @change_request.submitted_by%>"]{
       /*提单人回复的*/
       background-color: #ffebeb !important;
   }
 
-  div.reply div.replyHeader{
+  div.reply div.reply-header{
       background-color: #efefef;
       padding: 3px 0 0 3px;
       height: 28px;
-      -moz-border-radius: 0 4px 4px 0;
-      -webkit-border-top-right-radius: 4px;
-      -webkit-border-bottom-right-radius: 4px;
+
       box-sizing: content-box;
   }
 
-  div.reply div.replyHeader[submit_by="<%= Irm::Person.current.id%>"]{
+  div.reply div.reply-header[submit_by="<%= Irm::Person.current.id%>"]{
       /*自己回复的*/
       background-color: #ddeef4 !important;
   }
 
 
-  div.reply div.replyHeaderSection{
+  div.reply div.reply-header-section{
     padding: 5px 5px 5px 0px;
     min-height: 40px;
   }

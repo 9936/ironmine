@@ -1,3 +1,8 @@
+<style type="text/css">
+  .table-xlarge  {
+     width: 980px !important;
+  }
+</style>
 <%= form_for(@change_request,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
     <%= f.hidden_field(:incident_request_id) %>
     <% content_for :form_block_common   do%>
@@ -58,21 +63,21 @@
             <td class="label-col"><label for="summary"><%=t(:label_chm_change_request_summary)%></label></td>
             <td class="data-2col" colspan="3">
               <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@change_request.summary, :required=>true ,:id=>"summary"%>
-              <%= rich_text_area("summary") %>
+              <%= xheditor("summary") %>
             </td>
 
           </tr>
           <tr>
             <td class="label-col"></td>
             <td class="data-2col" colspan="3">
-              <%= render :partial=>"helper/upload_file_template",:locals=>{:upload_file_id=>"new_change_request_file"} %>
+              <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_change_request_file"} %>
             </td>
           </tr>
       </tbody>
     </table>
   <% end %>
   <% content_for :form_block_additional   do%>
-    <table class="form-table">
+    <table class="form-table table-xlarge">
       <tbody>
           <tr>
             <td class="label-col"><label for="contact_id"><%=t(:label_chm_change_request_contact)%></label></td>
@@ -171,7 +176,7 @@
         <div class="sub-page-block-body">
           <%= content_for :form_block_common   %>
         </div>
-        <!-- 一般信息 -->
+        <!-- 额外信息 -->
         <div class="sub-page-block-header">
           <%= form_require_info %>
           <h3 class="sub-page-block-title"><%=t(:label_chm_change_request_additional_info)%></h3>

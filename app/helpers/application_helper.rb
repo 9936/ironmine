@@ -808,8 +808,7 @@ module ApplicationHelper
   #xheditor编辑器
   def xheditor(textarea_id)
     unless limit_device?
-      require_javascript(:xheditor)
-      require_css(:xheditor_plugin)
+      require_jscss(:xheditor)
       render :partial=>"helper/xheditor",:locals=>{:textarea_id=>textarea_id }
     end
   end
@@ -827,19 +826,19 @@ module ApplicationHelper
 
   def tabs(name,tabs_configs)
     output = ActiveSupport::SafeBuffer.new
-    output.safe_concat("<div id='#{name}' class='miniTab secondaryPalette'><ul class='miniTabList'>")
+    output.safe_concat("<ul class='nav nav-tabs'>")
     tabs_configs.each_with_index do |config,index|
       selected = params[:controller].eql?(config[:url][:controller])&&params[:action].eql?(config[:url][:action])
       tab_id = config[:id]||"#{name}_#{index}"
       if selected
-        output.safe_concat("<li id='#{tab_id}' class='currentTab'>")
+        output.safe_concat("<li id='#{tab_id}' class='active' onclick='alert()'>")
       else
-        output.safe_concat("<li id='#{tab_id}' >")
+        output.safe_concat("<li id='#{tab_id}'>")
       end
       output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
       output.safe_concat("</li>")
     end
-    output.safe_concat("</ul></div>")
+    output.safe_concat("</ul>")
     output
   end
 

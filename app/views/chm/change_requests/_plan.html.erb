@@ -1,6 +1,6 @@
 <% if !change_plan.new_record? %>
   <div class="reply">
-    <div id="planType_<%= change_plan_type.id %>" class="replyHeader">
+    <div id="planType_<%= change_plan_type.id %>" class="reply-header">
         <div style="float:left; padding:5px 0 0 5px;"><h3><%=change_plan_type[:name]%></h3></div>
         <div style="float:left"><div class="button"><%= link_to(t(:edit),{:controller=>"chm/change_plans",:action=>"change",:change_request_id=>change_plan.change_request_id,:change_plan_type_id=>change_plan.change_plan_type_id},:remote=>true)%></div></div>
 
@@ -13,7 +13,7 @@
         <div style="float:right"><img width="25" height="25" alt="" src="<%=person_avatar(change_plan[:planed_by])%>"></div>
 
     </div>
-    <div class="replyHeaderSection">
+    <div class="reply-header-section">
       <div class="message">
 
         <%= raw change_plan_body(change_plan)  %>
@@ -24,11 +24,11 @@
   </div>
 <% else %>
   <div class="reply">
-    <div id="planType_<%= change_plan_type.id %>" class="replyHeader">
+    <div id="planType_<%= change_plan_type.id %>" class="reply-header">
         <div style="float:left; padding:5px 0 0 5px;"><h3><%=change_plan_type[:name]%></h3></div>
         <div style="float:left"><div class="button"><%= link_to(t(:new),{:controller=>"chm/change_plans",:action=>"change",:change_request_id=>change_plan.change_request_id,:change_plan_type_id=>change_plan.change_plan_type_id},:remote=>true)%></div></div>
     </div>
-    <div class="replyHeaderSection">
+    <div class="reply-header-section">
       <div class="message">
          <%= t(:label_chm_change_plan_no_body) %> <%=change_plan_type[:name]%>
       </div>

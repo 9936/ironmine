@@ -1,3 +1,8 @@
+<style type="text/css">
+  .table-xlarge  {
+     width: 980px !important;
+  }
+</style>
 <%= form_for(@change_request,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
     <% content_for :form_block_common   do%>
     <table class="form-table">
@@ -57,7 +62,7 @@
             <td class="label-col"><label for="summary"><%=t(:label_chm_change_request_summary)%></label></td>
             <td class="data-2col" colspan="3">
               <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@change_request.summary, :required=>true ,:id=>"summary"%>
-              <%= rich_text_area("summary") %>
+              <%= xheditor("summary") %>
             </td>
 
           </tr>
@@ -65,7 +70,7 @@
     </table>
   <% end %>
   <% content_for :form_block_additional   do%>
-    <table class="form-table">
+    <table class="form-table table-xlarge">
       <tbody>
           <tr>
             <td class="label-col"><label for="contact_id"><%=t(:label_chm_change_request_contact)%></label></td>

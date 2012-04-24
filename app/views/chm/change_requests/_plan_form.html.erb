@@ -1,8 +1,8 @@
 <div class="reply">
-  <div id="planType_<%= change_plan_type.id %>" class="replyHeader">
+  <div id="planType_<%= change_plan_type.id %>" class="reply-header">
       <div style="float:left"><h3><%=change_plan_type[:name]%></h3></div>
   </div>
-  <div class="replyHeaderSection">
+  <div class="reply-header-section">
     <% options = change_plan.new_record? ? {:action=>"create"}:{:id=>change_plan.id,:action=>"update"} %>
     <%= form_for(change_plan,:url=>{:controller=>"chm/change_plans"}.merge(options),:builder => LabellingFormBuilder,:html=>{:multipart => true ,:target=>"hiddenFrame"}) do |f| %>
 

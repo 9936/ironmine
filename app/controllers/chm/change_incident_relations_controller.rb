@@ -1,5 +1,5 @@
 class Chm::ChangeIncidentRelationsController < ApplicationController
-  layout "application_full"
+  layout "bootstrap_application_full"
 
   # GET /statuses/new
   # GET /statuses/new.xml
