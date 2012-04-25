@@ -12,7 +12,7 @@ module Chm::ChangeRequestsHelper
     html = ""
     if !change_requests.nil?
       unless change_requests.count > 1
-        html << "<td class='expends'>"
+        html << "<td class='expends vt'>"
         html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
                           <tr>
                             <td><span class='header_name'>[#{change_requests[0][:request_number]}] #{link_to(change_requests[0][:title], {:controller => 'change_requests', :action => 'show_incident', :id=> change_request_id}, {:style => 'display: inline;'})}</span></td>
@@ -20,7 +20,7 @@ module Chm::ChangeRequestsHelper
                         </table>
                       </span>"
       else
-        html<< "<td><span>
+        html<< "<td class='vt'><span>
                  <a class='expand_icon' href='javascript:void(0);' title='expand'>expand</a>
                  <a class='collapse_icon' href='javascript:void(0);' title='collapse'>collapse</a>
                </span></td>"
@@ -51,7 +51,7 @@ module Chm::ChangeRequestsHelper
      unless change_request.nil?
        if change_request.change_plans.present?
          if change_request.change_plans.count > 1
-           html<< "<td><span>
+           html<< "<td class='vt'><span>
                  <a class='expand_icon' href='javascript:void(0);' title='expand'>expand</a>
                  <a class='collapse_icon' href='javascript:void(0);' title='collapse'>collapse</a>
                </span></td>"
@@ -86,7 +86,7 @@ module Chm::ChangeRequestsHelper
     tasks = Chm::ChangeTask.list_all.where(:source_type=>Chm::ChangeRequest.name,:source_id=>change_request_id)
     html = ""
     if tasks.present?
-        html<< "<td><span>
+        html<< "<td class='vt'><span>
                <a class='expand_icon' href='javascript:void(0);' title='expand'>expand</a>
                <a class='collapse_icon' href='javascript:void(0);' title='collapse'>collapse</a>
              </span></td>"

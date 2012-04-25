@@ -131,24 +131,24 @@ module Csi::SurveysHelper
   end
 
 
-  def csi_survey_show_button_bar(survey)
-    if survey.enabled?
-      edit_button = content_tag(:div, raw(link_to t(:edit), {}, :disabled => true) ,{:class => "button"})
-      active_button = content_tag(:div, raw(link_to t(:disable), {:action => "active",:id=>@survey.id,:active=>Irm::Constant::SYS_NO}) ,{:class => "button"})
-    else
-      edit_button = content_tag(:div, raw(link_to t(:edit), {:action => "edit", :id => @survey}) ,{:class => "button"})
-      if survey.has_any_subjects?
-        active_button = content_tag(:div, raw(link_to t(:active), {:action => "active",:id=>@survey.id,:active=>Irm::Constant::SYS_YES}) ,{:class => "button"})
-      else
-        active_button = content_tag(:div, raw(link_to t(:active), {}, {:href => "javascript:void(0);", :onclick => "alert('#{t(:label_csi_survey_cannot_enable_none_subject)}');"}), {:class => "button"})
-      end
-    end
-    new_button = content_tag(:div, raw(link_to t(:new), {:action => "new"}), :class => "button")
-    back_button = content_tag(:div, raw(link_to t(:back), {:action => "index"}), :class => "button")
-
-    ret_value = edit_button + active_button + new_button + back_button
-    ret_value
-  end
+  #def csi_survey_show_button_bar(survey)
+  #  if survey.enabled?
+  #    edit_button = content_tag(:div, raw(link_to t(:edit), {}, :disabled => true) ,{:class => "button"})
+  #    active_button = content_tag(:div, raw(link_to t(:disable), {:action => "active",:id=>@survey.id,:active=>Irm::Constant::SYS_NO}) ,{:class => "button"})
+  #  else
+  #    edit_button = content_tag(:div, raw(link_to t(:edit), {:action => "edit", :id => @survey}) ,{:class => "button"})
+  #    if survey.has_any_subjects?
+  #      active_button = content_tag(:div, raw(link_to t(:active), {:action => "active",:id=>@survey.id,:active=>Irm::Constant::SYS_YES}) ,{:class => "button"})
+  #    else
+  #      active_button = content_tag(:div, raw(link_to t(:active), {}, {:href => "javascript:void(0);", :onclick => "alert('#{t(:label_csi_survey_cannot_enable_none_subject)}');"}), {:class => "button"})
+  #    end
+  #  end
+  #  new_button = content_tag(:div, raw(link_to t(:new), {:action => "new"}), :class => "button")
+  #  back_button = content_tag(:div, raw(link_to t(:back), {:action => "index"}), :class => "button")
+  #
+  #  ret_value = edit_button + active_button + new_button + back_button
+  #  ret_value
+  #end
 
   def survey_subjects(survey_id)
     Csi::SurveySubject.query_by_survey_id(survey_id).order_by_seq_num

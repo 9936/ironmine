@@ -80,7 +80,7 @@
   <% end %>
 
   <% content_for :form_block_tabs do %>
-    <div class="tabbable" style="margin: 5px;">
+    <div class="tabbable">
       <ul class="nav nav-tabs"  currentlang="<%= I18n.locale %>">
         <% available_languages.each do |language| %>
            <li <% if I18n.locale.to_s.eql?language[:language_code].to_s %> class="active" <% end %>><a class="language" data-toggle="tab" id="<%= language[:language_code]%>" ref="template<%= language[:language_code]%>" href="#template<%= language[:language_code]%>"><%= language[:description] %></a></li>

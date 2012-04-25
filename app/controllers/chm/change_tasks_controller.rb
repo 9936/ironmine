@@ -1,5 +1,5 @@
 class Chm::ChangeTasksController < ApplicationController
-  layout "application_full"
+  layout "bootstrap_application_full"
   # GET /statuses/1
   # GET /statuses/1.xml
   def show

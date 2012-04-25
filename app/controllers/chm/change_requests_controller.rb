@@ -1,9 +1,10 @@
 class Chm::ChangeRequestsController < ApplicationController
+  layout "bootstrap_application_full"
   # GET /statuses
   # GET /statuses.xml
   def index
     respond_to do |format|
-      format.html { render :layout => "application_full"} # index.html.erb
+      format.html # index.html.erb
       format.xml  {
         @change_requests = Chm::ChangeRequest.all
         render :xml => @change_requests
@@ -20,7 +21,7 @@ class Chm::ChangeRequestsController < ApplicationController
     @change_journals = @change_request.change_journals.list_all
     @change_journal = @change_request.change_journals.build(:replied_by=>Irm::Person.current.id)
     respond_to do |format|
-      format.html { render :layout => "application_full"}# index.html.erb
+      format.html # show.html.erb
       format.xml  { render :xml => @change_request }
     end
   end
@@ -32,7 +33,7 @@ class Chm::ChangeRequestsController < ApplicationController
     @change_request = Chm::ChangeRequest.list_all.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout=>"application_full"}
+      format.html
       format.xml  { render :xml => @change_request }
     end
   end
@@ -56,7 +57,7 @@ class Chm::ChangeRequestsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :layout=>"application_full"}
+      format.html
       format.xml  { render :xml => @change_request }
     end
   end
@@ -67,7 +68,7 @@ class Chm::ChangeRequestsController < ApplicationController
     @change_request = Chm::ChangeRequest.list_all.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout=>"application_full"}
+      format.html
       format.xml  { render :xml => @change_request }
     end
   end
@@ -80,7 +81,7 @@ class Chm::ChangeRequestsController < ApplicationController
     @change_request = Chm::ChangeRequest.list_all.find(params[:id])
 
     respond_to do |format|
-      format.html { render :layout=>"application_full"}
+      format.html
       format.xml  { render :xml => @change_request }
     end
   end
@@ -110,7 +111,7 @@ class Chm::ChangeRequestsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :layout => "application_full"}# new.html.erb
+      format.html # new.html.erb
       format.xml  { render :xml => @change_request }
     end
   end
@@ -170,7 +171,7 @@ class Chm::ChangeRequestsController < ApplicationController
   def edit
     @change_request = Chm::ChangeRequest.find(params[:id])
     respond_to do |format|
-      format.html { render :layout => "application_full"}
+      format.html
     end
   end
 
@@ -187,7 +188,7 @@ class Chm::ChangeRequestsController < ApplicationController
         format.html { redirect_to({:action => "show",:id=>@change_request.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @change_request, :status => :created, :location => @change_request }
       else
-        format.html { render :action => "new",:layout => "application_full" }
+        format.html { render :action => "new" }
         format.xml  { render :xml => @change_request.errors, :status => :unprocessable_entity }
       end
     end

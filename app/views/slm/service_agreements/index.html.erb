@@ -13,9 +13,8 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="service_agreements">
-      <%= datatable("service_agreements",{:action=>"get_data",:format=>"json"},[],{:search_box=>"service_agreementsSearchBox",:paginator_box=>"service_agreementsPaginatorBox"})%>
-    </div>
+    <div id="service_agreements"></div>
+    <%= datatable("service_agreements",{:action=>"get_data",:format=>"json"},[],{:search_box=>"service_agreementsSearchBox",:paginator_box=>"service_agreementsPaginatorBox"})%>
     <div id="service_agreementsPaginatorBox"></div>
   </div>
 </div>

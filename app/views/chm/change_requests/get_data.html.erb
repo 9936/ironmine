@@ -55,7 +55,9 @@
       min-width: 50px;
   }
   .expand .name {
-      display: block !important;
+      display: inline-block !important;
+      min-width: 60px;
+      clear: left;
   }
   td.vt {
     vertical-align: top;
@@ -80,7 +82,7 @@
     });
 </script>
 <!--  icm datatable      -->
- <div class="irm-datatable">
+ <div class="datatable">
    <div>
        <table count="<%=@count%>">
          <thead>
@@ -136,7 +138,7 @@
            <td class="vt">
               <table class="table_icon">
                 <tr>
-                   <td>
+                   <td class="vt">
                      <span>
                        <a class="expand_icon" href="javascript:void(0);" title="expand">expand</a>
                        <a class="collapse_icon" href="javascript:void(0);" title="collapse">collapse</a>

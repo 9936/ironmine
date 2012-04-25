@@ -17,3 +17,4 @@
 //= require framework/bootstrap-datepicker
 //= require css_browser_selector
 //= require bootstrap
+//= require survey

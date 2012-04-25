@@ -1,67 +1,16 @@
-<!--  irm datatable      -->
 <% subjects = survey_subjects(@survey.id) %>
 <% exists_result = !check_survey_result_exist?(@survey.id) %>
- <div class="irm-datatable">
-   <div>
-       <table count="<%=subjects.length%>">
-         <thead>
-           <tr>
-             <% unless exists_result %>
-               <th style="width:80px;">
-                 <div><%= t(:operation) %></div>
-               </th>
-             <% end %>
-             <th style="width:40px;">
-               <div><%= t(:label_csi_survey_subject_seq_num) %></div>
-             </th>
-             <th>
-               <div><%= t(:label_csi_survey_subject_title) %></div>
-             </th>
-             <th>
-               <div><%= t(:label_csi_survey_subject_prompt) %></div>
-             </th>
-             <th style="width:40px;">
-               <div><%= t(:required) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% subjects.each do |data| %>
-         <tr id="<%=data[:id]%>">
-           <% unless exists_result %>
-             <td>
-               <div>
-                <%= link_to(t(:edit),{:controller=>"csi/survey_subjects",:action=>"edit",:id=>data[:id],
-                                      :survey_id=>@survey.id},{:back=>true}) %>&nbsp;&nbsp;
-                <%= link_to(t(:delete),{:controller=>"csi/survey_subjects",:action=>"destroy",:id=>data[:id],:survey_id=>@survey.id},:back=>true,:confirm => t(:label_are_you_sure) ,
-                                        :method => :delete) %>
-               </div>
-             </td>
-           <% end %>
-           <td>
-             <div>
-               <%=data[:display_sequence]%>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%=data[:name]%>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%=data[:description]%>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%=check_img(data[:required_flag])%>
-             </div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:count=>subjects.length,:datas=>subjects}) do |builder|%>
+    <% unless exists_result %>
+      <% builder.column(:id,{:title=>t(:operation),:width =>"80"}) do |data| %>
+        <%= link_to(t(:edit),{:controller=>"csi/survey_subjects",:action=>"edit",:id=>data[:id],:survey_id=>@survey.id},{:back=>true}) %>&nbsp;
+        <%= link_to(t(:delete),{:controller=>"csi/survey_subjects",:action=>"destroy",:id=>data[:id],:survey_id=>@survey.id},:back=>true,:confirm => t(:label_are_you_sure) ,:method => :delete) %>
+      <% end %>
+   <% end %>
+  <% builder.column(:display_sequence,{:title=>t(:label_csi_survey_subject_seq_num),:width =>"40"})%>
+  <% builder.column(:name,{:title=>t(:label_csi_survey_subject_title)}) %>
+  <% builder.column(:description,{:title=>t(:label_csi_survey_subject_prompt)}) %>
+  <% builder.column(:required_flag,{:title=>t(:required)}) do |data| %>
+    <%=check_img(data[:required_flag])%>
+  <% end %>
+<% end %>
