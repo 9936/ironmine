@@ -88,9 +88,9 @@ class Chm::ChangeApprovalsController < ApplicationController
     @change_approval = Chm::ChangeApproval.find(params[:id])
     @change_approval.attributes = params[:chm_change_approval]
     if Irm::Constant::SYS_YES.eql?(params[:reject])
-      @change_approval.approve
-    else
       @change_approval.reject
+    else
+      @change_approval.approve
     end
 
     respond_to do |format|
