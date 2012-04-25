@@ -1,13 +1,13 @@
 <%= form_for(@change_journal,:url=>{:controller=>"chm/change_journals",:action=>"create",:request_id=>@change_request.id},:builder => CustomFormBuilder,:html=>{:multipart => true ,:target=>"hiddenFrame"}) do |f| %>
   <% content_for :form_block_common   do%>
-    <table class="form-table">
+    <table class="form-table" style="width: 100%">
       <tbody>
         <tr>
           <%= f.hidden_field(:change_request_id) %>
           <%= f.hidden_field(:replied_by) %>
           <td class="data-col" colspan="4" width="100%">
             <%= f.text_area :message_body ,:id=>"msgEditor", :jrequired => true,:rows=>8%>
-            <%= xheditor("msgEditor") %>
+            <%= xheditor("msgEditor",true) %>
           </td>
         </tr>
         <tr>
