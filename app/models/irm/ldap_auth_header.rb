@@ -3,6 +3,9 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
   belongs_to :ldap_source,:foreign_key=>:ldap_source_id,:primary_key=>:id
   has_many :ldap_auth_attributes
 
+  #对必填属性进行校验
+  validates_presence_of :name, :auth_cn, :ldap_login_name_attr, :ldap_email_address_attr,:template_person_id,:ldap_source_id
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
