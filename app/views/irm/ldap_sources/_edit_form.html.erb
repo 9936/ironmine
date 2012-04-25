@@ -4,22 +4,22 @@
     <table class="form-table">
       <tbody>
           <tr>
-            <td class="labelCol"><label><%=(t :label_irm_ldap_source_name)%></label></td>
-            <td class="dataCol"><%=f.text_field :name,:required=>true%></td>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_source_account)%></label></td>
-            <td class="dataCol"><%= f.text_field :account,:required=>true%></td>
+            <td class="label-col"><label><%=(t :label_irm_ldap_source_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name,:required=>true%></td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_source_account)%></label></td>
+            <td class="data-col"><%= f.text_field :account,:required=>true%></td>
           </tr>
           <tr>
-            <td class="labelCol"><label><%=(t :label_irm_ldap_source_host)%></label></td>
-            <td class="dataCol"><%=f.text_field :host,:required=>true%></td>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_source_account_password)%></label></td>
-            <td class="dataCol"><%= f.password_field :account_password,:required=>true%></td>
+            <td class="label-col"><label><%=(t :label_irm_ldap_source_host)%></label></td>
+            <td class="data-col"><%=f.text_field :host,:required=>true%></td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_source_account_password)%></label></td>
+            <td class="data-col"><%= f.password_field :account_password,:required=>true%></td>
           </tr>
           <tr>
-            <td class="labelCol"><label><%=(t :label_irm_ldap_source_port)%></label></td>
-            <td class="dataCol"><%=f.text_field :port,:irm_numberonly=>true,:required=>true%></td>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_source_base_dn)%></label></td>
-            <td class="dataCol"><%= f.text_field :base_dn,:required=>true%></td>
+            <td class="label-col"><label><%=(t :label_irm_ldap_source_port)%></label></td>
+            <td class="data-col"><%=f.text_field :port,:irm_numberonly=>true,:required=>true%></td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_source_base_dn)%></label></td>
+            <td class="data-col"><%= f.text_field :base_dn,:required=>true%></td>
           </tr>
       </tbody>
     </table>

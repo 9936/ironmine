@@ -1,5 +1,5 @@
 class Skm::EntryHeadersController < ApplicationController
-  layout "application_full"
+  layout "bootstrap_application_full"
   def index
       session[:skm_entry_header] = nil
       session[:skm_entry_details] = nil
@@ -624,6 +624,11 @@ class Skm::EntryHeadersController < ApplicationController
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:entry_status_code,:entry_status_name, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date], count)) }
+      format.html  {
+        @datas = entry_headers
+        @count = entry_headers.count
+        render_html_data_table
+      }
     end
   end
 
@@ -636,6 +641,11 @@ class Skm::EntryHeadersController < ApplicationController
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:author_name,:entry_status_code,:entry_status_name, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date], count)) }
+      format.html  {
+        @datas = entry_headers
+        @count = entry_headers.count
+        render_html_data_table
+      }
     end
   end
 

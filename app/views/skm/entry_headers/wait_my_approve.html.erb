@@ -1,105 +1,73 @@
-<%= common_title(:model_meaning=>t(:label_skm),
-                 :buttons => content_tag(:div, link_to(t(:button_skm_entry_header_new), {:action => "new"}), :class => "button")) %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_skm_entry_header_wait_my_approve_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <%=render "tab_buttons" %>
-              </td>
-              <td class="pbHelp">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <table class="split-table">
-          <tr>
-            <td>
-              <%= render :partial =>"/irm/common/tree_sidebar", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json),
-                                                             :target_table => "wait_my_approve_list",
-                                                             :tree_id => "tree-div",
-                                                             :title => t(:label_skm_column),
-                                                             :root_text => t(:label_skm_column_all),
-                                                             :url_param_value => 'id',
-                                                             :url_param_name => 'column_id'} %>
-            </td>
-            <td>
-                <div id="wait_my_approve_list" class="datatable" style="width:100%">
-                  <div id="id" style="display:none">
-                    <%= link_to(t(:remove_from_favorite), {:controller => "skm/entry_headers", :action=>"remove_favorite",:person_id=>Irm::Person.current.id, :entry_header_id => "{id}"},:confirm => t(:label_are_you_sure)) %>
-                  </div>
-                  <div id="entry_title" style="display:none">
-                    var title = '<%= link_to("{entry_title}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>';
-                    if ('{type_code}' == 'VIDEO')
-                    {
-                        '<%= get_img_icon("video")%>' + title;
-                    }
-                    else
-                    {
-                        title;
-                    }
-                  </div>
-                  <div id="doc_number" style="display:none">
-                    <%= link_to("{doc_number}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
-                  </div>
-                </div>
-                <%= datatable("wait_my_approve_list",{:action=>"wait_my_approve_data",:column_id => @column_id,:format=>"json"},
-                          [{:key=>"id",:hidden=>true},
-                           {:key=>"published_date",:label=>t(:label_skm_entry_header_published_date), :width => "150px"},
-                           {:key=>"author_name",:label=>t(:label_skm_entry_header_author_name), :width => "150px"},
-                           {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number),:formatter=>"Y.irm.template", :width => "100px"},
-                           {:key=>"entry_title",:label=>t(:label_skm_entry_header_title),:formatter=>"Y.irm.stemplate"},
-                           {:key=>"type_code", :hidden => true},
+<%= common_title(:model_meaning=>t(:label_skm)) %>
 
-
-                           ],{ :paginator_box=>"wait_my_approve_list_paginator_box",:select=>"multiple"})%>
-              <div class="pbSubsection">
-                        <%= form_tag({:action=>"approve_knowledge",:format=>:js},:remote=>true) do |f|%>
-                        <%= hidden_field_tag(:entry_header_ids,:id=>"entry_header_ids")  %>
-                        <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-                          <tbody>
-                            <tr>
-                              <td class="dataCol" style="width:45%"></td>
-                              <td class="dataCol" style="width:5%"><div><%= submit_tag(t(:label_action_approve),{:id=>"btn_approve",:disabled=>true})  %></div></td>
-
-                              <td class="dataCol" style="width:5%"><div><%= submit_tag(t(:label_action_reject),{:id=>"btn_reject",:disabled=>true})  %></div></td>
-                              <td class="dataCol" style="width:45%"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <% end  %>
-              </div>
-            </td>
-          </tr>
-        </table>
-
-      </div>
-    </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_entry_header_wait_my_approve_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%=render "tab_buttons" %>
+        <%=render(:partial => "new_as_button") %>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="split-table" cellpadding="0" cellspacing="0">
+       <tr>
+         <td class="side-bar">
+           <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json),
+                                                                              :target_table => "wait_my_approve_list",
+                                                                              :tree_id => "tree-div",
+                                                                              :root_text => t(:label_skm_column_all),
+                                                                              :li_attrs => "id" } %>
+         </td>
+         <td class="side-content">
+           <div id="wait_my_approve_list"></div>
+           <%= datatable("wait_my_approve_list",{:action=>"wait_my_approve_data",:column_id => @column_id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox",:select=>"multiple"})%>
+           <div id="paginatorBox"></div>
+           <table class="page-block-footer">
+             <tr>
+               <td class="page-block-title"></td>
+               <td class="page-block-button">
+                 <%= form_tag({:action=>"approve_knowledge",:format=>:js},:remote=>true) do %>
+                   <%= hidden_field_tag(:entry_header_ids,:id=>"entry_header_ids")  %>
+                   <%= submit_tag(t(:label_action_approve),{:id=>"btn_approve",:disabled=>true,:class=>"btn"})  %>
+                   <%= submit_tag(t(:label_action_reject),{:id=>"btn_reject",:disabled=>true,:class=>"btn"})  %>
+                 <% end %>
+               </td>
+             </tr>
+           </table>
+         </td>
+       </tr>
+    </table>
+  </div>
 </div>
-<script type="text/javascript">
-  Ext.onReady(function(){
 
-      var processSelected = function(selModel,selected){
-          var ids = [];
-          for(var i = 0;i<selected.length;i++){
-            ids.push(selected[i].data.id);
-          }
-          $("#entry_header_ids").val(ids.join(","));
-          if(selected.length>0) {
-              Ext.get("btn_approve").dom.removeAttribute("disabled");
-              Ext.get("btn_reject").dom.removeAttribute("disabled");
-          }
-          else  {
-              $("#btn_approve").attr("disabled",true);
-              $("#btn_reject").attr("disabled",true);
-          }
-      }
-      Ext.getCmp("wait_my_approve_listDatatable").selModel.addListener("selectionchange",processSelected);
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#wait_my_approve_list").bind('selectionchange',function(event,ids){
+           $("#entry_header_ids").val(ids.join(","));
+           if (ids.length > 0) {
+             $("#btn_approve").removeAttr("disabled");
+             $("#btn_reject").removeAttr("disabled");
+           }else{
+             $("#btn_approve").attr("disabled",true);
+             $("#btn_reject").attr("disabled",true);
+           }
+      });
+
+      $("#tree-div").bind('nodeListener',function(event, element){
+          var params = {};
+          params['column_id'] = element.attr('id');
+          var current_target = $("#wait_my_approve_list").data("datatable").target;
+          current_target.data.options.searchOptions = params;
+          current_target.loadPage(1);
+      });
   });
 </script>
 <%= content_for :sidebar do%>

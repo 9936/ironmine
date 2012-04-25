@@ -3,7 +3,7 @@
        $("#wait_my_approve_list").datatable("loadPage",1)
    });
 <% else %>
-   Ext.onReady(function(){
-       Ext.getCmp("wait_my_approve_listDatatable").store.loadPage(1);
-   });
+$(document).ready(function(){
+    $("#wait_my_approve_list").data("datatable").target.loadPage(1);
+});
 <% end %>
