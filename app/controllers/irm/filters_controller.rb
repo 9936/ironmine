@@ -15,7 +15,7 @@ class Irm::FiltersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html{render :layout => "application_full" }
+      format.html{render :layout => "bootstrap_application_full" }
     end
   end
 

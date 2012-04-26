@@ -36,7 +36,7 @@
                <td class="page-block-button">
                  <%= form_tag({:action=>"approve_knowledge",:format=>:js},:remote=>true) do %>
                    <%= hidden_field_tag(:entry_header_ids,:id=>"entry_header_ids")  %>
-                   <%= submit_tag(t(:label_action_approve),{:id=>"btn_approve",:disabled=>true,:class=>"btn"})  %>
+                   <%= submit_tag(t(:label_action_approve),{:id=>"btn_approve",:disabled=>true,:class=>"btn btn-primary"})  %>
                    <%= submit_tag(t(:label_action_reject),{:id=>"btn_reject",:disabled=>true,:class=>"btn"})  %>
                  <% end %>
                </td>
