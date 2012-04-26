@@ -1,69 +1,54 @@
-<%= common_title(:model_meaning=>t(:label_skm),
-                 :buttons => content_tag(:div, link_to(t(:button_skm_entry_header_new), {:action => "new"}), :class => "button")) %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_skm_entry_header_my_favorites_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <%=render "tab_buttons" %>
-              </td>
-              <td class="pbHelp">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <table class="split-table">
-          <tr>
-            <td>
-              <%= render :partial =>"/irm/common/tree_sidebar", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json),
-                                                             :target_table => "favorites_list",
-                                                             :tree_id => "tree-div",
-                                                             :title => t(:label_skm_column),
-                                                             :root_text => t(:label_skm_column_all),
-                                                             :url_param_value => 'id',
-                                                             :url_param_name => 'column_id'} %>
-            </td>
-            <td>
-                <div id="favorites_list" class="datatable" style="width:100%">
-                  <div id="id" style="display:none">
-                    <%= link_to(t(:remove_from_favorite), {:controller => "skm/entry_headers", :action=>"remove_favorite",:person_id=>Irm::Person.current.id, :entry_header_id => "{id}"},:confirm => t(:label_are_you_sure)) %>
-                  </div>
-                  <div id="entry_title" style="display:none">
-                    var title = '<%= link_to("{entry_title}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>';
-                    if ('{type_code}' == 'VIDEO')
-                    {
-                        '<%= get_img_icon("video")%>' + title;
-                    }
-                    else
-                    {
-                        title;
-                    }
-                  </div>
-                  <div id="doc_number" style="display:none">
-                    <%= link_to("{doc_number}",{:controller => "skm/entry_headers", :action=>"show",:id=>"{id}"}) %>
-                  </div>
-                </div>
-                <%= datatable("favorites_list",{:action=>"my_favorites_data",:column_id => @column_id,:format=>"json", :person_id => Irm::Person.current.id},
-                          [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"60px"},
-                           {:key=>"published_date_f",:label=>t(:label_skm_entry_header_published_date), :width => "130px"},
-                           {:key=>"entry_title",:label=>t(:label_skm_entry_header_title),:formatter=>"Y.irm.stemplate"},
-                           {:key=>"type_code", :hidden => true},
-                           {:key=>"doc_number",:label=>t(:label_skm_entry_header_doc_number),:formatter=>"Y.irm.template", :width => "100px"},
-                           ],{:html=>true, :paginator_box=>"favorites_list_paginator_box"})%>
-                <div id="favorites_list_paginator_box"></div>
-            </td>
-          </tr>
-        </table>
+<%= common_title(:model_meaning=>t(:label_skm)) %>
 
-      </div>
-    </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_entry_header_my_favorites_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%=render "tab_buttons" %>
+        <%=render(:partial => "new_as_button") %>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="split-table" cellpadding="0" cellspacing="0">
+       <tr>
+         <td class="side-bar">
+           <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json),
+                                                                              :target_table => "favorites_list",
+                                                                              :tree_id => "tree-div",
+                                                                              :root_text => t(:label_skm_column_all),
+                                                                              :li_attrs => "id" } %>
+         </td>
+         <td class="side-content">
+           <div id="favorites_list"></div>
+           <%= datatable("favorites_list",{:action=>"my_favorites_data",:column_id => @column_id, :person_id => Irm::Person.current.id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox"})%>
+           <div id="paginatorBox"></div>
+         </td>
+       </tr>
+    </table>
+  </div>
 </div>
+
 
 <%= content_for :sidebar do%>
     <%= render "skm/entry_headers/sidebar_navigate_menu"%>
 <% end -%>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#tree-div").bind('nodeListener',function(event, element){
+          var params = {};
+          params['column_id'] = element.attr('id');
+          var current_target = $("#favorites_list").data("datatable").target;
+          current_target.data.options.searchOptions = params;
+          current_target.loadPage(1);
+      });
+  });
+</script>

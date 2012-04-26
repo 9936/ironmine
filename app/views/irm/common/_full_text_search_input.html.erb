@@ -1,8 +1,6 @@
-<% require_javascript(:extjs) %>
-<div>
-    <%= text_field_tag(id, tip_text,
-                       {:style => "padding-left:22px;height:25px;width:180px;float:left;background-image:url(/images/search.png);background-position:2px 2px;background-repeat: no-repeat;", :class => "grayTips", :id => id})%>
-    <div class="button" style="margin-top:0;"><%= link_to t(:search), {}, {:href =>"javascript:void(0);",:onclick => "getSearch()"} %></div>
+<div class="input-append">
+  <%= text_field_tag(id, tip_text,{:style => "padding-left:22px;width:180px;float:left;background-image:url(/images/search.png);background-position:2px 2px;background-repeat: no-repeat;", :class => "grayTips", :id => id})%>
+  <button class="btn" type="button" onclick="getSearch()"><%= t(:search) %></button>
 </div>
 <script type="text/javascript">
 var g_oldVal = "";
@@ -34,11 +32,12 @@ $(function(){
 
 function getSearch(){
     var text = $("#<%= id%>").val();
-    if(text != g_oldVal)
-    {
+    if(text != g_oldVal){
         var params = {};
         params["full_search"] = text;
-        Ext.getCmp("<%= target_table%>Datatable").store.dtStaticParams(params);
+        var current_target = $("#<%= target_table%>").data("datatable").target;
+        current_target.data.options.searchOptions = params;
+        current_target.loadPage(1);
     }
 }
 </script>

@@ -1,26 +1,41 @@
 <%= app_title({:description => t(:new)}) %>
-<%= form_for(@entry_header,:url=>{:action=>"new"},:builder => LabellingFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
-<div class="wizard-block detail-block">
-    <div class="pbWizardTitle tertiaryPalette">
-        <div class="ptRightTitle">
+
+<%= form_for(@entry_header,:url=>{:action=>"new"},:builder => CustomFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
+  <% content_for :form_buttons  do %>
+    <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()",:class => "btn "}%>
+    <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>
+    <%= link_to t(:cancel), {:action => "index"}, :confirm => t(:label_cancel_confirm),:class => "btn cancel" %>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:step_n, :n => "4") %><%= t(:notice_skm_entry_header_preview_entry)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+          <td class="page-block-help">
             <%= t(:step_n_total_m, :n => "4", :m => "4") %>
-        </div>
-        <h2>
-            <%= t(:step_n, :n => "4") %><%= t(:notice_skm_entry_header_preview_entry)%>
-        </h2>
+          </td>
+        </tr>
+    </table>
+    <%= error_for @entry_header %>
+    <div class="help-block" style="padding: 10px;">
+      <div style="font-weight: bold;font-size: 15px;float:left;"><%= t(:label_skm_entry_header_title)%>: <%= @entry_header.entry_title %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div><%= t(:label_skm_entry_header_keyword_tags) %>: <%= @entry_header.keyword_tags.blank? ? t(:none) : @entry_header.keyword_tags %></div>
     </div>
-    <div class="pbHeader">
-    <div class="pbBody lightBlueBorder noLineShow">
-      <div class="pbDescription" style="margin-bottom: -15px;">
-        <div style="font-weight: bold;font-size: 15px;float:left;"><%= t(:label_skm_entry_header_title)%>: <%= @entry_header.entry_title %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-        <div><%= t(:label_skm_entry_header_keyword_tags) %>: <%= @entry_header.keyword_tags.blank? ? t(:none) : @entry_header.keyword_tags %></div>
-      </div>
-    <% session[:skm_entry_details].each do |k,e| %>
-        <div class="pbSubheader tertiaryPalette">
-          <h3><%= raw(e[:element_name]) %></h3>
+    <div class="page-block-body">
+      <!-- 基本信息 -->
+      <% session[:skm_entry_details].each do |k,e| %>
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= raw(e[:element_name]) %></h3>
         </div>
-        <div class="pbSubsection">
-          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+        <div class="sub-page-block-body">
+          <table class="show-table">
             <tbody>
                 <tr>
                   <td><%= raw(e[:entry_content]) %></td>
@@ -28,26 +43,21 @@
             </tbody>
           </table>
         </div>
-    <% end %>
+      </div>
+      <% end %>
     </div>
+
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
   </div>
-    <div class="pbWizardFooter">
-        <div class="pbBottomButtons">
-            <table cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-                <tr>
-                  <td class="pbTitle"></td>
-                  <td id="bottomButtonRow" class="pbButtonb">
-                    <div class="button"><%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()"}%></div>
-                    <div class="button"><%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();"%></div>
-                    <div class="button"><%= link_to t(:cancel), {:controller => "skm/entry_headers", :action => "index"}, :confirm => t(:label_cancel_confirm)  %></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<% end %>
+
 <script type="text/javascript">
   function submit_last(){
     document.new_skm_entry_header.action = "new?step=3";
@@ -63,4 +73,3 @@
     document.new_skm_entry_header.submit();
   }
 </script>
-<% end %>

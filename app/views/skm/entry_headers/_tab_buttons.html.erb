@@ -1,6 +1,6 @@
-<div class="button-group">
-    <div class="button <%=params[:action].eql?("index")?"selected":''  %>" ><%= link_to(t(:label_skm_entry_header_index), {:action => "index"})%></div>
-    <div class="button <%=params[:action].eql?("my_favorites")?"selected":''  %>"><%= link_to(t(:label_action_my_favorites), {:action=>"my_favorites"})%></div>
-    <div class="button <%=params[:action].eql?("wait_my_approve")?"selected":''  %>"><%= link_to(t(:label_action_wait_my_approve), {:action => "wait_my_approve"})%></div>
-    <div class="button <%=params[:action].eql?("my_unpublished")?"selected":''  %>"><%= link_to(t(:label_action_my_unpublished), {:action => "my_unpublished"})%></div>
+<div class="btn-group" data-toggle="buttons-radio" style="float:left; display: inline-block;padding-right: 20px;">
+  <button class="btn <%=params[:action].eql?("index")?"active":'' %>"><%= link_to(t(:label_skm_entry_header_index), {:action => "index"})%></button>
+  <button class="btn <%=params[:action].eql?("my_favorites")?"active":''  %>"><%= link_to(t(:label_action_my_favorites), {:action=>"my_favorites"})%></button>
+  <button class="btn <%=params[:action].eql?("wait_my_approve")?"active":''  %>"><%= link_to(t(:label_action_wait_my_approve), {:action => "wait_my_approve"})%></button>
+  <button class="btn <%=params[:action].eql?("my_unpublished")?"active":''  %>"><%= link_to(t(:label_action_my_unpublished), {:action => "my_unpublished"})%></button>
 </div>

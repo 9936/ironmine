@@ -1,47 +1,49 @@
 <%= app_title({:description => t(:new)}) %>
-<%= form_for(@entry_header,:url=>{:action=>"new"},:builder => LabellingFormBuilder, :html => {:name => "new_skm_entry_header", :multipart => true}) do |f| %>
-    <%= f.hidden_field :entry_template_id %>
-    <%= f.hidden_field :entry_title %>
-    <%= f.hidden_field :keyword_tags %>
-<div  class="wizard-block">
-    <div class="pbWizardTitle tertiaryPalette">
-        <div class="ptRightTitle">
+<%= form_for(@entry_header,:url=>{:action=>"new"},:builder => CustomFormBuilder, :html => {:name => "new_skm_entry_header", :multipart => true}) do |f| %>
+  <%= f.hidden_field :entry_template_id %>
+  <%= f.hidden_field :entry_title %>
+  <%= f.hidden_field :keyword_tags %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()",:class => "btn "}%>
+    <%= link_to t(:next), {}, {:href => "javascript:void(0);", :onclick => "submit_next()",:class => "btn btn-primary"}%>
+    <%= link_to t(:cancel), {:action => "index"}, :confirm => t(:label_cancel_confirm),:class => "btn cancel" %>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:step_n, :n => "3") %><%= t(:notice_skm_entry_header_subject_and_att) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+          <td class="page-block-help">
             <%= t(:step_n_total_m, :n => "3", :m => "4") %>
-        </div>
-        <h2>
-            <%= t(:step_n, :n => "3") %><%= t(:notice_skm_entry_header_subject_and_att) %>
-        </h2>
-    </div>
-  <div class="pbBody">
-    <%= error_for @entry_header%>
+          </td>
+        </tr>
+    </table>
+    <%= error_for @entry_header %>
     <%= flash_notice %>
-    <div class="pbDescription ">
-      <%= t(:notice_skm_entry_step_3_desc) %>      
+    <p class="help-block" style="padding: 10px;"><%= t(:notice_skm_entry_step_3_desc) %> </p>
+    <div class="page-block-body">
+      <!-- 加载上传附件模板 -->
+      <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => true,:init_num => 5,:exist_attachments => list_exist_attachments_during_create(@attachments) } %>
     </div>
-    <div class="pbWizardBody">
-      <div class="secondary-palette">
-        <!-- 加载上传附件模板 -->
-        <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => true,:init_num => 5,:exist_attachments => list_exist_attachments_during_create(@attachments) } %>
-      </div>
-    </div>
-    <div class="pbWizardFooter">
-        <div class="pbBottomButtons">
-            <table cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-                <tr>
-                  <td class="pbTitle"></td>
-                  <td id="bottomButtonRow" class="pbButtonb">
-                    <div class="button"><%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()"}%></div>
-                    <div class="button"><%= link_to t(:next), {}, {:href => "javascript:void(0);", :onclick => "submit_next()"}%></div>
-                    <div class="button"><%= link_to t(:cancel), {:action => "index"}, :confirm => t(:label_cancel_confirm) %></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
-    </div>
+
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
   </div>
-</div>
+<% end %>
+
 <script type="text/javascript">
   function submit_next(){
       document.new_skm_entry_header.action = "new?step=4";
@@ -66,4 +68,3 @@
       file_form.submit();
   }
 </script>
-<% end %>

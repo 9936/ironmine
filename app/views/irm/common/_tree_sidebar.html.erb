@@ -2,11 +2,6 @@
 <% require_css(:extjs) %>
 <div id="tree-div" href="<%= tree_url %>">
 <script type="text/javascript">
-  $(function(){
-     alert("OK");
-  });
-</script>
-<script>
 Ext.onReady(function() {
     var treeNode = Ext.getDom("<%= tree_id%>");
 

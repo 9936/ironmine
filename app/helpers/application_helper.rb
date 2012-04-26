@@ -88,15 +88,15 @@ module ApplicationHelper
       title = model_title+":"+action_title
     end
 
-    description = content_tag(:h1, title, :class => "page-type noSecondHeader")
+    description = content_tag(:h1, title, :class => "page-type no-second-header")
 
 
-    content = raw(content_tag(:div, raw( description) + raw(content_tag(:div, "", :class => "blank")), :class => "content"))
-    button_tag = raw(content_tag(:div, raw(buttons) ,:class => "addNewButtons"))
+    content = raw(content_tag(:div, raw( description) + raw(content_tag(:div, "", :class => "blank")), :class => "page-title-content"))
+    button_tag = raw(content_tag(:div, raw(buttons) ,:class => "add-new-buttons"))
     content_for :html_title,do
       title
     end
-    pt_body = raw(content_tag(:div, content + button_tag, :class => "pt-body"))
+    pt_body = raw(content_tag(:div, content + button_tag, :class => "page-title-body"))
     b_page_title = raw(content_tag(:div, pt_body, :class => "page-title noicon"))
     raw(b_page_title)
   end
@@ -806,10 +806,10 @@ module ApplicationHelper
   end
 
   #xheditor编辑器
-  def xheditor(textarea_id)
+  def xheditor(textarea_id,force_fit_width=false)
     unless limit_device?
       require_jscss(:xheditor)
-      render :partial=>"helper/xheditor",:locals=>{:textarea_id=>textarea_id }
+      render :partial=>"helper/xheditor",:locals=>{:textarea_id=>textarea_id,:force_fit_width=>force_fit_width}
     end
   end
 
