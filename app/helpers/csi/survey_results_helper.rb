@@ -12,7 +12,7 @@ module Csi::SurveyResultsHelper
         where("#{Csi::SurveyResponse.table_name}.survey_id = ? AND #{Csi::SurveyResult.table_name}.result_type = ?",survey_id,"OPTION").group("#{Csi::SurveyResult.table_name}.survey_subject_option_id")
     grouped_option_counts = {}
     option_counts.each do |option_count|
-      grouped_option_counts[option_count[:survey_subject_option_id]] = {:survey_subject_option_id=>option_count[:survey_subject_option_id],:option_count=>option_count[:option_count],:percent=>response_count==0 ? 0 : option_count[:option_count]*100.fdiv(response_count).round(1)}
+      grouped_option_counts[option_count[:survey_subject_option_id]] = {:survey_subject_option_id=>option_count[:survey_subject_option_id],:option_count=>option_count[:option_count],:percent=>response_count==0 ? 0 : (option_count[:option_count]*100.fdiv(response_count)*100.round(1)).to_f / 100.0}
     end
 
     datas[:grouped_option_counts] = grouped_option_counts
