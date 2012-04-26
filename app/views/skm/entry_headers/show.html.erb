@@ -1,119 +1,121 @@
 <%= app_title %>
-<div id="ep" class="detail-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle" style="width:60%"><h2 style="float:left;">[<%= @entry_header.doc_number%>]&nbsp;&nbsp;&nbsp;</h2><h2><%= @entry_header.entry_title %></h2></td>
-          <td id="topButtonRow" class="pbButton" style="float:right;">
-            <% if @entry_header[:is_favorite] == Irm::Constant::SYS_NO %>
-                <div class="button"><%= link_to t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => @entry_header.id, :person_id => Irm::Person.current.id}%></div>
-            <% end %>
-            <% if @entry_header.history_flag == Irm::Constant::SYS_NO %>
-                <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @entry_header}%></div>
-            <% end %>
-            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  <div class="pbBody lightBlueBorder  noLineShow">
-        <div class="pbSubheader tertiaryPalette">
-          <h3><%= t(:label_skm_navigator) %></h3>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title">[<%= @entry_header.doc_number%>]&nbsp;&nbsp;&nbsp;<%= @entry_header.entry_title %></h2>
+    </td>
+    <td class="page-block-button">
+      <% if @entry_header[:is_favorite] == Irm::Constant::SYS_NO %>
+        <%= link_to t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => @entry_header.id, :person_id => Irm::Person.current.id},:class=>"btn btn-primary"%>
+      <% end %>
+      <% if @entry_header.history_flag == Irm::Constant::SYS_NO %>
+        <%= link_to t(:edit), {:action => "edit", :id => @entry_header},:class=>"btn"%>
+      <% end %>
+        <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= t(:label_skm_navigator) %></h3>
         </div>
-        <div class="pbSubsection">
-          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-                <% @entry_header.entry_details.each do |e| %>
-                    <tr>
-                      <td><a href="#<%= e.id%>"><%= e.element_name %></a></td>
-                    </tr>
-                <% end %>
-            </tbody>
-          </table>
-        </div>
-    <% @entry_header.entry_details.each do |e| %>
-        <div class="pbSubheader tertiaryPalette">
-          <h3><%= raw(e.element_name) %></h3>
-          <div style="float:right"><a href="javascript:void(0);" onclick="scrollTo(0, 0);"><%= t(:go_to_top) %></a></div>
-        </div>
-        <div class="pbSubsection">
-          <a id="<%= e.id %>" name="<%= e.id %>">&nbsp;</a>
-          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-                <tr>
-                  <td><pre><%= raw(e.entry_content) %></pre></td>
-                </tr>
-            </tbody>
-          </table>
-        </div>
-    <% end %>
-  </div>
-</div>
-
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_skm_entry_header_history_list) %></h2></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
-      <div class="pbBody">
-        <div class="irm-datatable">
-          <table>
-              <thead>
-                 <th style="width:130px;">
-                   <div><%= t(:label_skm_entry_header_published_date) %></div>
-                 </th>
-                 <th style="width:80px;">
-                   <div><%= t(:label_skm_entry_header_version) %></div>
-                 </th>
-                 <th>
-                   <div><%= t(:label_skm_entry_header_title) %></div>
-                 </th>
-                 <th style="width:120px;">
-                   <div><%= t(:label_skm_entry_header_doc_number) %></div>
-                 </th>
-              </thead>
-              <tbody>
-                 <% @entry_history.each do |data| %>
-                 <tr id="<%=data[:id]%>">
-                   <td>
-                     <div>
-                       <%= data[:published_date_f]%>
-                     </div>
-                   </td>
-                   <td>
-                     <div>
-                       <%= data[:version_number]%>
-                     </div>
-                   </td>
-                   <td>
-                     <div>
-                       <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
-                     </div>
-                   </td>
-                   <td>
-                     <div>
-                       <%= data[:doc_number]%>
-                     </div>
-                   </td>
-
-                 </tr>
-                 <% end -%>
-              </tbody>
-          </table>
-        </div>
-
+      <div class="sub-page-block-body">
+         <table class="show-table">
+           <tbody>
+               <% @entry_header.entry_details.each do |e| %>
+                   <tr>
+                     <td class="data-col"><a href="#<%= e.id%>"><%= e.element_name %></a></td>
+                   </tr>
+               <% end %>
+           </tbody>
+         </table>
       </div>
     </div>
+    <div class="sub-page-block">
+      <% @entry_header.entry_details.each do |e| %>
+          <div class="sub-page-block-header">
+            <div class="sub-page-block-header">
+              <h3 class="sub-page-block-title"><%= raw(e.element_name) %></h3>
+              <div class="sub-page-block-help" style="float: right;">
+                <a href="javascript:void(0);" onclick="scrollTo(0, 0);"><%= t(:go_to_top) %></a>
+              </div>
+            </div>
+          </div>
+          <div class="sub-page-block-body">
+             <a id="<%= e.id %>" name="<%= e.id %>">&nbsp;</a>
+             <table class="show-table">
+               <tbody>
+                   <tr>
+                     <td class="data-col" style="padding: 2px 10px !important;"><pre><%= raw(e.entry_content) %></pre></td>
+                   </tr>
+               </tbody>
+             </table>
+          </div>
+      <% end %>
+    </div>
+  </div>
 </div>
+<!-- 版本列表 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_entry_header_history_list) %></h2>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div class="datatable">
+      <table>
+          <thead>
+             <th style="width:130px;">
+               <div><%= t(:label_skm_entry_header_published_date) %></div>
+             </th>
+             <th style="width:80px;">
+               <div><%= t(:label_skm_entry_header_version) %></div>
+             </th>
+             <th>
+               <div><%= t(:label_skm_entry_header_title) %></div>
+             </th>
+             <th style="width:120px;">
+               <div><%= t(:label_skm_entry_header_doc_number) %></div>
+             </th>
+          </thead>
+          <tbody>
+             <% @entry_history.each do |data| %>
+             <tr id="<%=data[:id]%>">
+               <td>
+                 <div>
+                   <%= data[:published_date_f]%>
+                 </div>
+               </td>
+               <td>
+                 <div>
+                   <%= data[:version_number]%>
+                 </div>
+               </td>
+               <td>
+                 <div>
+                   <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+                 </div>
+               </td>
+               <td>
+                 <div>
+                   <%= data[:doc_number]%>
+                 </div>
+               </td>
+
+             </tr>
+             <% end -%>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 
 <%= content_for :sidebar do%>
     <%= render "skm/entry_headers/sidebar_navigate_menu"%>

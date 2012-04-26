@@ -93,11 +93,11 @@
               <h3 class="sub-page-block-title"><%= e.element_name %><%= e.required_flag == "Y" ? "(必填)" : "" %></h3>
             </div>
             <div class="sub-page-block-body">
-              <table class="form-table" style="width: 99%;">
+              <table class="show-table">
                 <tbody>
                     <tr>
                       <%= fields_for("skm_entry_details[]", e) do |ef|%>
-                      <td><% if e.required_flag == "Y"%>
+                      <td class="data-col" style="padding: 2px 20px 2px 10px !important;"><% if e.required_flag == "Y"%>
                           <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;", :jrequired => true} %>
                           <% else %>
                           <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;"} %>
