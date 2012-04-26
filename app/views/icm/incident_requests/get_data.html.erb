@@ -1,61 +1,12 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>">
-         <thead>
-           <tr>
-             <th style="width:55px;">
-               <div><%= t(:label_icm_incident_request_request_number_shot) %></div>
-             </th>
-             <th>
-               <div><%= t(:label_icm_incident_request_title) %></div>
-             </th>
-             <th>
-               <div><%= t(:label_icm_incident_request_organization) %></div>
-             </th>
-             <th style="width:110px;">
-               <div><%= t(:label_icm_incident_request_last_date) %></div>
-             </th>
-             <th  style="width:180px;">
-               <div><%= t(:label_irm_external_system) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |data| %>
-         <tr id="<%=data[:id]%>">
-           <td>
-             <div>
-               <%= data[:request_number] %>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%  if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
-                  <%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
-               <% end %>
-               <%= link_to( "(#{data[:incident_status_id_label]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%= data[:organization_id_label] %>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%= data[:last_response_date]%>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%= data[:external_system_id_label] %>
-             </div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:request_number,{:title=>t(:label_icm_incident_request_request_number_shot), :width => "55px"})%>
+  <% builder.column(:title,{:title=>t(:label_icm_incident_request_title),:searchable=>true})  do |data|%>
+        <%  if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
+           <%= icon_link("btn_reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
+        <% end %>
+        <%= link_to( "(#{data[:incident_status_id_label]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:organization_id_label,{:title=>t(:label_icm_incident_request_organization),:searchable=>true})%>
+  <% builder.column(:last_request_date,{:title=>t(:label_icm_incident_request_last_date), :width => "110px"})%>
+  <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:width => "180px"})%>
+<% end %>
