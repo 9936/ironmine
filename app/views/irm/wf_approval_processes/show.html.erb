@@ -1,108 +1,127 @@
-
 <style type="text/css">
-  .pbTitle{
-      vertical-align:middle;
-  }
-  .pbTitle img{
-      float: left;
-  }
-</style>
-<%= page_title %>
+    .pbTitle {
+        vertical-align: middle;
+    }
 
-<div id="ep" class="detail-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+    .pbTitle img {
+        float: left;
+    }
+</style>
+
+<%= common_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= bo_name(@wf_approval_process.bo_code)+":"+@wf_approval_process.name %></h2>
+    </td>
+    <td class="page-block-button">
+      <% unless @wf_approval_process.enabled? %>
+          <%= link_to t(:edit), {:action => "edit", :id => @wf_approval_process.id},:back=>true,:class=>"btn" %>
+      <% else %>
+          <%= link_to t(:edit), {}, :disabled => true,:class=>"btn" %>
+      <% end %>
+      <%= link_back t(:back),{:action => "index"},:class=>"btn" %>
+
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=bo_name(@wf_approval_process.bo_code)+":"+@wf_approval_process.name %></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <% unless @wf_approval_process.enabled? %>
-                <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @wf_approval_process.id}%></div>
-            <% else %>
-                <div class="button"><%= link_to t(:edit), {}, :disabled => true%></div>
+      <tr>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_name) %></label></td>
+        <td class="data-col">
+          <div><%= @wf_approval_process.name %></div>
+        </td>
+        <td class="label-col empty">
+          <div><%= t(:active) %></div>
+        </td>
+        <td class="data-col empty">
+          <div><%= check_img(@wf_approval_process.status_code) %></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_process_code) %></label></td>
+        <td class="data-col">
+          <div><%= @wf_approval_process.process_code %></div>
+        </td>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_next_approver_mode) %></label></td>
+        <td class="data-col">
+          <div><%= @wf_approval_process.next_approver_mode %></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_description) %></label></td>
+        <td class="data-col" colspan="3" width="82%">
+          <div><%= @wf_approval_process.description %></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_evaluate) %></label></td>
+        <td class="data-col" colspan="3" width="82%">
+          <div><%= @rule_filter.meaning %></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_record_editability) %></label></td>
+        <td class="data-col">
+          <div><%= @wf_approval_process[:record_editability_name] %></div>
+        </td>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_allow_submitter_recal) %></label></td>
+        <td class="data-col">
+          <div><%= check_img(@wf_approval_process.allow_submitter_recall) %></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_mail_template) %></label></td>
+        <td class="data-col">
+          <div><%= @wf_approval_process[:mail_template_name] %></div>
+        </td>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_display_history_flag) %></label></td>
+        <td class="data-col">
+          <div><%= check_img(@wf_approval_process.display_history_flag) %></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_irm_wf_approval_process_init_submiter) %></label></td>
+        <td class="data-col" colspan="3" width="82%">
+          <div>
+            <% @bo_duel_value = bo_person_field_duel_values(@wf_approval_process.bo_code, [Irm::ExternalSystem.name]);meaning = duel_meaning(@wf_approval_process.get_submitter_str, @bo_duel_value) %>
+            <% if meaning.any? %>
+                <% meaning.each do |r| %>
+                    <div><%= r %></div>
+                <% end %>
             <% end %>
-            <div class="button"><%= link_to t(:cancel),back_url_default({:action=>"index"})%></div>
-          </td>
-        </tr>
+          </div>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
-  <div class="pbBody">
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_wf_approval_process_name)%></label></td>
-              <td class="dataCol"><div><%= @wf_approval_process.name %></div></td>
-              <td class="labelCol empty"><div><%= t(:active) %></div></td>
-              <td class="dataCol empty"><div><%= check_img(@wf_approval_process.status_code) %></div></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_wf_approval_process_process_code)%></label></td>
-              <td class="dataCol"><div><%= @wf_approval_process.process_code %></div></td>
-              <td class="labelCol"><label ><%=t(:label_irm_wf_approval_process_next_approver_mode)%></label></td>
-              <td class="dataCol"><div><%= @wf_approval_process.next_approver_mode %></div></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_wf_approval_process_description)%></label></td>
-              <td class="dataCol" colspan="3" width="82%"><div><%= @wf_approval_process.description %></div></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_wf_approval_process_evaluate)%></label></td>
-              <td class="dataCol" colspan="3" width="82%"><div><%= @rule_filter.meaning %></div></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_wf_approval_process_record_editability)%></label></td>
-              <td class="dataCol"><div><%= @wf_approval_process[:record_editability_name] %></div></td>
-              <td class="labelCol"><label ><%=t(:label_irm_wf_approval_process_allow_submitter_recal)%></label></td>
-              <td class="dataCol"><div><%= check_img(@wf_approval_process.allow_submitter_recall) %></div></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_wf_approval_process_mail_template)%></label></td>
-              <td class="dataCol"><div><%= @wf_approval_process[:mail_template_name] %></div></td>
-              <td class="labelCol"><label ><%=t(:label_irm_wf_approval_process_display_history_flag)%></label></td>
-              <td class="dataCol"><div><%= check_img(@wf_approval_process.display_history_flag) %></div></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%= t(:label_irm_wf_approval_process_init_submiter) %></label></td>
-              <td class="dataCol" colspan="3" width="82%">
-                <div>
-                  <% @bo_duel_value = bo_person_field_duel_values(@wf_approval_process.bo_code,[Irm::ExternalSystem.name]);meaning = duel_meaning(@wf_approval_process.get_submitter_str,@bo_duel_value) %>
-                  <% if meaning.any? %>
-                      <% meaning.each do |r| %>
-                          <div><%= r %></div>
-                      <% end %>
-                  <% end %>
-                </div>
-              </td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
+
 <%= render :partial => "ap_sumit_actions" %>
-<%= render :partial => "show_steps",:locals => {:steps=>showable_steps(@wf_approval_process.id)} %>
-<%= render :partial => "ap_final_approval_actions"%>
-<%= render :partial => "ap_final_reject_actions"%>
-<%= render :partial => "ap_recall_actions"%>
+<%= render :partial => "show_steps", :locals => {:steps => showable_steps(@wf_approval_process.id)} %>
+<%= render :partial => "ap_final_approval_actions" %>
+<%= render :partial => "ap_final_reject_actions" %>
+<%= render :partial => "ap_recall_actions" %>
 <script type="text/javascript">
-  $(function(){
-      $(".showStepAction").click(function(e){
-          var step = $(e.target).attr("step");
-          if($("tr#stepApprovalActions"+step)){
-              if($("tr#stepApprovalActions"+step).css("display")!="none")
-                $("tr#stepApprovalActions"+step).css("display","none");
-              else
-                $("tr#stepApprovalActions"+step).css("display","");
-          }
-          if($("tr#stepRejectActions"+step)){
-              if($("tr#stepRejectActions"+step).css("display")!="none")
-                $("tr#stepRejectActions"+step).css("display","none");
-              else
-                $("tr#stepRejectActions"+step).css("display","");
-          }
-      });
-  });
+    $(function () {
+        $(".showStepAction").click(function (e) {
+            var step = $(e.target).attr("step");
+            if ($("tr#stepApprovalActions" + step)) {
+                if ($("tr#stepApprovalActions" + step).css("display") != "none")
+                    $("tr#stepApprovalActions" + step).css("display", "none");
+                else
+                    $("tr#stepApprovalActions" + step).css("display", "");
+            }
+            if ($("tr#stepRejectActions" + step)) {
+                if ($("tr#stepRejectActions" + step).css("display") != "none")
+                    $("tr#stepRejectActions" + step).css("display", "none");
+                else
+                    $("tr#stepRejectActions" + step).css("display", "");
+            }
+        });
+    });
 </script>
 

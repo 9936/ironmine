@@ -1,10 +1,10 @@
 
 <%= page_title %>
 <style type="text/css">
-  .processTitle {
+  .process-title {
       margin-bottom:15px;
   }
-  .processTitle h6{
+  .process-title h6{
       background-color: #333333;
     border-radius: 4px 4px 4px 4px;
     color: #FFFFFF;
@@ -14,57 +14,44 @@
   }
 </style>
 <%= form_tag({:action=>"reorder"})  do %>
-<div class="processTitle">
-   <h6 class="processTitle">
-     <%= t(:label_irm_wf_approval_process_manage) %> <%=select_tag_alias :bo_code, available_workflow_business_object,@bo_code,{:id=>"boCode",:href=>url_for({:bo_code=>"{bo_code}"})}%>
-   </h6>
-</div>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_wf_approval_process_active_list) %></h2></td>
-              <td  class="pbButton">
-                <div class="button"><%= submit_tag t(:label_irm_wf_approval_process_reorder)%></div>
-              </td>
-              <td class="pbHelp">
-                <div ></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <%= render :partial => "active_processes",:locals =>{:processes=>active_approval_process(@bo_code)}%>
-      </div>
+  <div class="process-title">
+     <h6 class="process-title">
+       <%= t(:label_irm_wf_approval_process_manage) %> <%=select_tag_alias :bo_code, available_workflow_business_object,@bo_code,{:id=>"boCode",:href=>url_for({:bo_code=>"{bo_code}"})}%>
+     </h6>
+  </div>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_irm_wf_approval_process_active_list)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%=link_submit(t(:label_irm_wf_approval_process_reorder),:class=>"btn") %>
+      </td>
+    </tr></table>
+    <div class="page-block-body">
+      <%= render :partial => "active_processes",:locals =>{:processes=>active_approval_process(@bo_code)}%>
     </div>
-</div>
+  </div>
 <% end %>
 
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_wf_approval_process_disable_list) %></h2></td>
-              <td  class="pbButton">
-                <div class="button"><%= link_to t(:label_irm_wf_approval_process_new), {:action => "new",:bo_code=>"{bo_code}"},{:id=>"newButton"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div ></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <%= render :partial => "disable_processes",:locals =>{:processes=>disable_approval_process(@bo_code)}%>
-      </div>
-    </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=t(:label_irm_wf_approval_process_disable_list)%></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:label_irm_wf_approval_process_new), {:action => "new",:bo_code=>"{bo_code}"},{:back=>true,:id=>"newButton",:class=>"btn"}%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= render :partial => "disable_processes",:locals =>{:processes=>disable_approval_process(@bo_code)}%>
+  </div>
 </div>
+
+
 <script type="text/javascript">
 $(function(){
     $("#newButton").click(function(e){
