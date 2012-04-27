@@ -48,7 +48,8 @@ class Icm::IncidentRequestsController < ApplicationController
     #加入创建事故单的默认参数
     prepared_for_create(@incident_request)
     respond_to do |format|
-      flag, now = validate_files(@incident_request)
+      flag = true
+      flag, now = validate_files(@incident_request) if params[:files].present?
       if !flag
         if now.is_a?(Integer)
           flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
@@ -122,14 +123,15 @@ class Icm::IncidentRequestsController < ApplicationController
   def update
     @incident_request = Icm::IncidentRequest.find(params[:id])
     respond_to do |format|
-      flag, now = validate_files(@incident_request)
+      flag = true
+      flag, now = validate_files(@incident_request) if params[:files].present?
       if !flag
         flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         format.html { render :action => "edit", :layout=>"application_right"}
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.update_attributes(params[:icm_incident_request])
         process_files(@incident_request)
-        format.html { redirect_to({:action=>"index"}) }
+        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES})}
         format.xml  { head :ok }
       else
         format.html { render :action => "edit", :layout => "application_full" }
