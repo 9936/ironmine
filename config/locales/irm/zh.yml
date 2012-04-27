@@ -1487,6 +1487,7 @@ zh:
   label_irm_report_folder: 报表文件夹
   label_irm_report_folder_all: 全部文件夹
   label_irm_report_folder_new: 新建报表文件夹
+  label_irm_report_folder_edit: 编辑报表文件夹
   label_irm_report_folder_create_new_folder: 创建报表文件夹
   label_irm_report_folder_name: 名称
   label_irm_report_folder_code: 编码

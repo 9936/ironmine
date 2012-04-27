@@ -1,5 +1,5 @@
 class Irm::ReportFoldersController < ApplicationController
-  layout "application_full"
+  layout "bootstrap_application_full"
   # GET /report_folders
   # GET /report_folders.xml
   def index

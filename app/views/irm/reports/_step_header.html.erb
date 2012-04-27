@@ -1,8 +1,10 @@
-<div class="pbWizardTitle tertiaryPalette">
-  <div class="ptRightTitle">
-      <%= t(:step_n_total_m, :n => step.to_s, :m => "5") %>
-  </div>
-  <h2>
-      <%= t(:step_n, :n => step.to_s) %><%= report_page_step_title[step.to_i] %>
-  </h2>
-</div>
+<table class="page-block-header">
+  <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:step_n, :n => step.to_s) %><%= report_page_step_title[step.to_i] %></h2>
+      </td>
+      <td class="page-block-help">
+        <%= t(:step_n_total_m, :n => step.to_s, :m => "5") %>
+      </td>
+    </tr>
+</table>

@@ -16,122 +16,143 @@
       display: block;
       margin-top: 5px;
   }
+  table .table-xlarge {
+      width: 980px;
+  }
 </style>
-<%= form_for(@report,:url=>{:action=>"create"},:builder => LabellingFormBuilder) do |f| %>
-<%= f.hidden_field(:step) %>
-<div  class="wizard-block">
-  <%= render :partial => "step_header",:locals => {:step=>@report.step} %>
+<%= form_for(@report,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+  <%= f.hidden_field(:step) %>
   <% selectable_fields = available_filter_field(@report.report_type_id) %>
-  <div class="pbBody">
-    <div class="pbDescription ">
-    </div>
-    <div class="pbWizardBody">
-      <div class="secondary-palette">
-        <div class="pbBody ">
-            <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-              <h3><%= t(:label_irm_report_base_data_filter) %></h3>
-            </div>
-            <div class="pbSubsection">
-              <table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
-                <tbody>
-                  <tr>
-                    <td width="30%"></td>
-                    <td></td>
-                    <td>
-                    </td>
-                    <td>
-                      <fieldset>
-                        <legend>
-                          <%= t(:label_irm_report_time_range) %>
-                        </legend>
-                        <table>
-                          <tr>
-                            <td colspan="2">
-                              <label for="filterDateField"><%= t(:label_irm_report_filter_date_field) %></label>
-                              <%= f.blank_select(:filter_date_field_id,grouped_options_for_select(available_date_filter_field(@report.report_type_id),@report.filter_date_field_id),{},{:id=>"filterDateField"})%>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
-                              <%= f.text_field(:filter_date_from,:id=>"filterDateFrom",:size=>12)%>
-                              <%= calendar_view("filterDateFrom","filterDateFrom","cal") %>
-                            </td>
-                            <td>
-                              <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
-                              <%= f.text_field(:filter_date_to,:id=>"filterDateTo",:size=>12)%>
-                              <%= calendar_view("filterDateTo","filterDateTo","cal") %>
-                            </td>
-                          </tr>
-                        </table>
-                      </fieldset>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <%= render :partial=>"param_criterions",:locals=>{:selectable_fields=>selectable_fields,:f=>f}%>
-            <div id="head_2_ep" class="pbSubheader tertiaryPalette">
-              <h3><%= t(:label_irm_report_data_filter) %></h3>
-            </div>
-            <div class="pbSubsection" id="filterContent" href="<%= url_for(:action=>"operator_value",:seq_num=>"{seq_num}",:field_id=>"{field_id}") %>">
-              <table cellpadding="0" cellspacing="0" border="0">
-                <thead>
-                  <tr>
-                    <th width="20%"></th>
-                    <th></th>
-                    <th><%=t(:irm_filter_criterions_column_code)%></th>
-                    <th><div style="width:30%;float:left;"><%=t(:irm_filter_criterions_operator_code)%></div> <div style="width:70%;float:left;"><%=t(:irm_filter_criterions_filter_value)%></div></th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                <%= f.fields_for :report_criterions,:normal=>true do |sub_f|%>
-                    <tr>
-                      <td width="20%"></td>
-                      <td width="10px" class="dataCol"><%=sub_f.object.seq_num%>.</td>
-                      <td class="dataCol">
-                        <%=sub_f.hidden_field(:seq_num)%>
-                        <%=sub_f.blank_select(:field_id,grouped_options_for_select(selectable_fields,sub_f.object.field_id),{},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
-                      </td>
-                      <td class="dataCol filterOperationValue" id="filter<%=sub_f.object.seq_num%>">
-                        <%= render_report_filter_field(sub_f.object.field_id,sub_f)  %>
-                      </td>
-                    </tr>
-                <%end %>
+  <% content_for :form_block_common do %>
+    <table class="form-table">
+      <tbody>
+        <tr>
+          <td width="30%"></td>
+          <td></td>
+          <td>
+          </td>
+          <td style="text-align: left;">
+            <fieldset>
+              <legend>
+                <%= t(:label_irm_report_time_range) %>
+              </legend>
+              <table>
                 <tr>
-                  <td width="20%"></td>
-                  <td colspan="3" class="dataCol"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
-                </tr>
-                <tr>
-                  <td width="20%"></td>
-                  <td class="dataCol" colspan="3"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause"%></td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-        </div>
-      </div>
-    </div>
-    <div class="pbWizardFooter">
-        <div class="pbBottomButtons">
-            <table cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-                <tr>
-                  <td class="pbTitle"></td>
-                  <td id="bottomButtonRow" class="pbButtonb">
-                    <div class="button"><%= link_to t(:last), {:action => "new",:pre_step=>true},{:class=>"submit"} %></div>
-                    <div class="button"><%= f.submit t :save%></div>
-                    <div class="button"><%= link_to t(:cancel), {:action => "index",:id=>params[:process_id]} %></div>
+                  <td colspan="2">
+                    <label for="filterDateField"><%= t(:label_irm_report_filter_date_field) %></label><br/>
+                    <%= f.blank_select(:filter_date_field_id,grouped_options_for_select(available_date_filter_field(@report.report_type_id),@report.filter_date_field_id),{},{:id=>"filterDateField"})%>
                   </td>
                 </tr>
-              </tbody>
-            </table>
+                <tr>
+                  <td>
+                    <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label><br/>
+                    <%= f.date_field(:filter_date_from,:id=>"filterDateFrom",:size=>12)%>
+
+                  </td>
+                  <td>
+                    <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label><br/>
+                    <%= f.date_field(:filter_date_to,:id=>"filterDateTo",:size=>12)%>
+                  </td>
+                </tr>
+              </table>
+            </fieldset>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+  <%= content_for :form_block_base do %>
+    <table class="form-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th width="160px"><%=t(:irm_filter_criterions_column_code)%></th>
+          <th>
+            <div style="width:30%;float:left;"><%=t(:irm_filter_criterions_operator_code)%></div>
+            <div style="width:70%;float:left;"><%=t(:irm_filter_criterions_filter_value)%></div>
+          </th>
+        </tr>
+      </thead>
+
+      <%= f.fields_for :report_criterions,:normal=>true do |sub_f|%>
+          <tr>
+            <td width="10px" class="label-col"><label><%=sub_f.object.seq_num%>.</label></td>
+            <td class="data-col">
+              <%=sub_f.hidden_field(:seq_num)%>
+              <%=sub_f.blank_select(:field_id,grouped_options_for_select(selectable_fields,sub_f.object.field_id),{},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
+            </td>
+            <td class="data-col filterOperationValue" id="filter<%=sub_f.object.seq_num%>">
+              <%= render_report_filter_field(sub_f.object.field_id,sub_f)  %>
+            </td>
+          </tr>
+      <%end %>
+      <tr>
+        <td width="20%"></td>
+        <td colspan="3" class="data-col"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
+      </tr>
+      <tr>
+        <td width="20%"></td>
+        <td class="data-3col" colspan="3"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause"%></td>
+      </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_to t(:last), {:action => "new",:pre_step=>true},{:class=>"btn"} %>
+    <%= link_submit t(:save),:class=>"btn btn-primary"%>
+    <%= link_to t(:cancel), {:action => "index"},:class => "btn cancel" %>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:step_n, :n => @report.step.to_s) %><%= report_page_step_title[@report.step.to_i] %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+          <td class="page-block-help">
+            <%= t(:step_n_total_m, :n => @report.step.to_s, :m => "5") %>
+          </td>
+        </tr>
+    </table>
+    <%= error_for @report%>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_irm_report_base_data_filter) %></h3>
         </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common %>
+        </div>
+
+        <%= render :partial=>"param_criterions",:locals=>{:selectable_fields=>selectable_fields,:f=>f}%>
+
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= t(:label_irm_report_data_filter) %></h3>
+        </div>
+        <div class="sub-page-block-body"  id="filterContent" href="<%= url_for(:action=>"operator_value",:seq_num=>"{seq_num}",:field_id=>"{field_id}") %>">
+          <%= content_for :form_block_base %>
+        </div>
+
+      </div>
     </div>
+
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
   </div>
-</div>
-<%end%>
+<% end %>
 
 
 <script type="text/javascript">

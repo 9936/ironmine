@@ -1470,6 +1470,7 @@ en:
   label_irm_report_folder: Report Folder
   label_irm_report_folder_all: All Folders
   label_irm_report_folder_new: New Report Folder
+  label_irm_report_folder_new: Edit Report Folder
   label_irm_report_folder_create_new_folder: New Report Folder
   label_irm_report_folder_name: Name
   label_irm_report_folder_code: Code
