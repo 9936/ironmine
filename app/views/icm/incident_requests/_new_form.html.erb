@@ -82,14 +82,13 @@
              </td>
 
            </tr>
-           <!--
+
            <tr>
              <td class="label-col"></td>
              <td class="data-3col" colspan="3">
                <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_file"} %>
              </td>
            </tr>
-           -->
        </tbody>
     </table>
   <% end %>
@@ -198,8 +197,6 @@
           <%= content_for :incident_request_base   %>
         </div>
       </div>
-      <!-- 加载上传附件模板 -->
-      <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => false, :exist_attachments => list_ir_existed_attachments(@incident_request) } %>
 
       <div class="sub-page-block">
         <div class="sub-page-block-header">

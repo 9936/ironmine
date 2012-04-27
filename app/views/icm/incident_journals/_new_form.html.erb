@@ -23,15 +23,21 @@
         border-right: 0px;
     }
 
-    div.reply div.reply-header[submit_by="<%= @incident_request.submitted_by%>"] {
-        /*提单人回复的*/
-        background-color: #ffebeb !important;
-    }
-
 
     div.reply div.reply-header[submit_by="<%= Irm::Person.current.id%>"] {
         /*自己回复的*/
         background-color: #ddeef4 !important;
+    }
+    div.reply div.reply-header[submit_by="<%= @incident_request.submitted_by%>"] {
+        /*提单人回复的*/
+        background-color: #ffebeb !important;
+    }
+    .tab-content .page-block {
+        margin-bottom: 0;
+    }
+
+    .sub-page-block-body {
+        padding-bottom: 0;
     }
 </style>
 <!--页面头部按钮-->
@@ -77,7 +83,7 @@
   </div>
 <% end %>
 
-<!--页面头部按钮-->
+<!--页面头部内容-->
 <% content_for :block_header_content do %>
     <div id="incidentDetail">
     <table class="detail-list" cellpadding="0" cellspacing="0" border="0">
@@ -180,121 +186,118 @@
 
 
 <% content_for :incident_request_reply_form do %>
-       <% if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close?&&!@incident_request.permanent_close? %>
-           <%= form_for(@incident_reply, :url=>{:action=>"create", :format => "js"}, :builder => CustomFormBuilder, :html => {:multipart => true, :target => "frame"}) do |f| %>
-            <div class="page-block">
-              <table class="page-block-header"><tr>
-                <td class="page-block-title">
-                  <div style="float:left;">
-                    <h2 class="block-title"><%= t(:label_icm_incident_journal_new) %></h2>
-                  </div>
-                  <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
-                      <div style="float:left;padding-top:5px; margin-left:20px;">
-                        <a href="javascript:void(0)" id="applySKM"><%= t(:apply_skm) %></a></div>
-                  <% end %>
-                </td>
-                <td class="page-block-button">
-
-                </td>
-                <td class="page-block-help" style="width: auto;">
-                </td>
-              </tr></table>
-              <div class="page-block-body">
-                <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
-                    <table class="form-table full" style="width: 100%;">
-                      <tr><td class="data-4col" colspan="4">
-                        <div id="linktoSKM" class="hidden form-inline">
-                          <div class="input-append">
-                            <input id="searchSKMText" type="text" class="span3"/>
-                            <%= link_to t(:search), {:controller => "icm/incident_journals", :action => "get_entry_header_data"},
-                                                                    :remote => true, :id => "searchSKM",:class=>"btn" %>
-                          </div>
-                        </div>
-                      </td></tr>
-                      <tr><td class="data-4col" colspan="4">
-                        <div id="entrySubsection" style="display: none;">
-                          <%= render :partial => "icm/incident_journals/apply_skm", :locals => {:skm_data => {}} %>
-                        </div>
-                      </td></tr>
-                    </table>
-
-                    <script type="text/javascript">
-                        $(function() {
-                            $("#applySKM").bind("click", function(e) {
-                                if ($("#linktoSKM").hasClass("hidden")) {
-                                    $("#linktoSKM").removeClass("hidden")
-                                } else {
-                                    $("#linktoSKM").addClass("hidden")
-                                    $("#entrySubsection").css("display", "none");
-                                }
-                            });
-
-                            $("#searchSKM").bind("click", function(e) {
-                                $("#entrySubsection").css("display", "");
-                            });
-
-                            $("#searchSKMText").keyup(function(e) {
-                                $("#searchSKM").attr("href", "<%= url_for(:controller => "icm/incident_journals", :action => "get_entry_header_data")%>?entry_title=" + $("#searchSKMText").val())
-                            });
-
-                            $("#searchSKMText").keydown(function(e) {
-                                if (e.keyCode == '13') {
-                                    e.preventDefault();
-                                    $("#searchSKM").trigger("click");
-                                }
-                            });
-                        })
-                    </script>
-                <% end %>
+   <% if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close?&&!@incident_request.permanent_close? %>
+       <%= form_for(@incident_reply, :url=>{:action=>"create", :format => "js"}, :builder => CustomFormBuilder, :html => {:multipart => true, :target => "frame",:style=>"margin:0;"}) do |f| %>
+        <div class="page-block">
+          <table class="page-block-header"><tr>
+            <td class="page-block-title">
+              <div style="float:left;">
+                <h2 class="block-title"><%= t(:label_icm_incident_journal_new) %></h2>
               </div>
+              <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
+                  <div style="float:left;padding-top:5px; margin-left:20px;">
+                    <a href="javascript:void(0)" id="applySKM"><%= t(:apply_skm) %></a></div>
+              <% end %>
+            </td>
+            <td class="page-block-button">
 
-
-              <div class="page-block-body">
-                <table class="form-table"  style="width: 100%;">
-                  <tbody>
-                  <tr>
-                    <%= fields_for @incident_journal, :as=>"incident_journal", :builder => CustomFormBuilder, :normal=>true do |sub_f| %>
-                        <%= sub_f.hidden_field(:incident_request_id) %>
-                        <td class="data-4col" colspan="4">
-                          <%= sub_f.text_area :message_body, :id=>"msgEditor", :jrequired => true, :rows=>8,:cols=>20,:class=>"input-xxlarge" %>
-                          <%= xheditor("msgEditor", true) %>
-                        </td>
-                    <% end %>
-                  </tr>
-
+            </td>
+            <td class="page-block-help" style="width: auto;">
+            </td>
+          </tr></table>
+          <div class="page-block-body">
+            <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
+                <table class="form-table full" style="width: 100%;">
                   <tr><td class="data-4col" colspan="4">
-                      <%= render :partial=>"helper/upload_file", :locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
-                    </td>
-                  </tr>
-                  </tbody>
+                    <div id="linktoSKM" class="hidden form-inline">
+                      <div class="input-append">
+                        <input id="searchSKMText" type="text" class="span3"/>
+                        <%= link_to t(:search), {:controller => "icm/incident_journals", :action => "get_entry_header_data"},:remote => true, :id => "searchSKM",:class=>"btn" %>
+                      </div>
+                    </div>
+                  </td></tr>
+                  <tr><td class="data-4col" colspan="4">
+                    <div id="entrySubsection" style="display: none;">
+                      <%= render :partial => "icm/incident_journals/apply_skm", :locals => {:skm_data => {}} %>
+                    </div>
+                  </td></tr>
                 </table>
-              </div>
-              <table class="page-block-footer"><tr>
-                    <td class="page-block-title">
-                    </td>
-                    <td class="page-block-button">
-                      <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-                    </td>
-                    <td class="page-block-help">
-                    </td>
-              </tr></table>
 
-            </div>
+                <script type="text/javascript">
+                    $(function() {
+                        $("#applySKM").bind("click", function(e) {
+                            if ($("#linktoSKM").hasClass("hidden")) {
+                                $("#linktoSKM").removeClass("hidden")
+                            } else {
+                                $("#linktoSKM").addClass("hidden")
+                                $("#entrySubsection").css("display", "none");
+                            }
+                        });
 
-           <% end %>
+                        $("#searchSKM").bind("click", function(e) {
+                            $("#entrySubsection").css("display", "");
+                        });
+
+                        $("#searchSKMText").keyup(function(e) {
+                            $("#searchSKM").attr("href", "<%= url_for(:controller => "icm/incident_journals", :action => "get_entry_header_data")%>?entry_title=" + $("#searchSKMText").val())
+                        });
+
+                        $("#searchSKMText").keydown(function(e) {
+                            if (e.keyCode == '13') {
+                                e.preventDefault();
+                                $("#searchSKM").trigger("click");
+                            }
+                        });
+                    })
+                </script>
+            <% end %>
+          </div>
+
+
+          <div class="page-block-body">
+            <table class="form-table"  style="width: 100%;">
+              <tbody>
+              <tr>
+                <%= fields_for @incident_journal, :as=>"incident_journal", :builder => CustomFormBuilder, :normal=>true do |sub_f| %>
+                    <%= sub_f.hidden_field(:incident_request_id) %>
+                    <td class="data-4col" colspan="4">
+                      <%= sub_f.text_area :message_body, :id=>"msgEditor", :jrequired => true, :rows=>8,:cols=>20,:class=>"input-xxlarge" %>
+                      <%= xheditor("msgEditor", true) %>
+                    </td>
+                <% end %>
+              </tr>
+
+              <tr><td class="data-4col" colspan="4">
+                  <%= render :partial=>"helper/upload_file", :locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <table class="page-block-footer">
+            <tr>
+                <td class="page-block-title"></td>
+                <td class="page-block-button">
+                  <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+                </td>
+                <td class="page-block-help"></td>
+            </tr>
+          </table>
+        </div>
        <% end %>
-       <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
+   <% end %>
+   <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
 <% end %>
 <% content_for :incident_request_journals do %>
 
- <div class="page-block" id="incidentReply">
+ <div class="page-block" id="incidentReply"  style="border-bottom: none;">
    <div id="histories">
      <div style="padding: 0 0 10px 0; font-weight: bold;">
        <table cellpadding="0" cellspacing="0" border="0">
          <tbody>
          <tr>
            <td>
-             <h2 style="font-size: 18px;">
+             <h2 style="font-size: 18px;margin-left: 5px;" id="journalsNum">
                <%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request)+1 %>)
              </h2>
            </td>
@@ -328,9 +331,7 @@
      </div>
    </div>
    <%= content_for :incident_request_reply_form  %>
-
  </div>
-
 <% end %>
 
 <% content_for :change_request_tab do %>
@@ -351,21 +352,6 @@
             </div>
           </div>
         </div>
-        <!--
-        <div class="mini-tab" id="tabNav" style="margin-bottom: 10px;">
-          <ul class="mini-tab-lists">
-            <li class="mini-tab-list current-tab" id="nav_0" ref="incidentReply">
-              <a href="javascript:void(0)"><%= t(:label_icm_incident_journal_list) %></a>
-            </li>
-            <li id="nav_1" class="mini-tab-list" ref="changeRequest">
-              <a href="javascript:void(0)"><%= t(:label_chm_change_request) %></a>
-            </li>
-          </ul>
-        </div> -->
-        <!-- end tab -->
-
-        <!-- <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>
-        -->
         <script type="text/javascript">
             $(function() {
                 $("#tabNav li").live("click", function(e) {
@@ -383,11 +369,6 @@
                         currentRef.removeClass("hidden");
                         if (currentRef.attr("href") && !currentRef.attr("loaded")) {
                             var url = currentRef.attr("href");
-//                            if(url.indexOf('?') > 0) {
-//                                url += '&_dom_id=tab2';
-//                            }else{
-//                                url += '?_dom_id=tab2';
-//                            }
                             currentRef.load(url);
                             currentRef.attr("loaded", "true");
                         }
@@ -395,6 +376,8 @@
                 });
             });
         </script>
+    <%else%>
+    <%= content_for :incident_request_journals %>
     <% end %>
 <% end %>
 
@@ -459,10 +442,8 @@
 
     function reset_rich_text() {
         if ($("#msgEditor")) {
-            var editor = Ext.getCmp("msgEditor");
-            editor.setValue("");
+            $("#msgEditor").val('');
         }
-
         $("#file-contents").html("");
         $("#file-template").attr("sequence", 0);
     }

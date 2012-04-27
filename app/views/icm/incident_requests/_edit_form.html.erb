@@ -86,6 +86,12 @@
               <%= xheditor("incident_request_summary") %>
             </td>
           </tr>
+          <tr>
+           <td class="label-col"></td>
+           <td class="data-3col" colspan="3">
+             <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_file"} %>
+           </td>
+         </tr>
       </tbody>
     </table>
   <% end %>
@@ -170,8 +176,6 @@
         <div class="sub-page-block-body">
           <%= content_for :form_block_common   %>
         </div>
-        <!-- 加载上传附件模板 -->
-        <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => false, :exist_attachments => list_ir_existed_attachments(@incident_request) } %>
         <!-- 附加信息 -->
         <div class="sub-page-block-header">
           <h3 class="sub-page-block-title"><%= t(:label_icm_incident_requset_addition_info) %></h3>
