@@ -1,49 +1,44 @@
-<%= page_title %>
-
-<div id="ep" class="detail-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+<%= common_title(:show_data=>@irm_portal_layout[:name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=t(:label_irm_portal_layout)%></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @irm_portal_layout},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_portal_layout) %></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @irm_portal_layout}%></div>
-            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
-          </td>
-        </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_portal_layout_name)%></label></td>
+            <td class="data-col"><div><%= @irm_portal_layout[:name] %></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_portal_layout_format)%></label></td>
+            <td class="data-col"><div><%= @irm_portal_layout[:layout] %></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label ><%=t(:default_flag)%></label></td>
+            <td class="data-col"><div><%= check_img(@irm_portal_layout[:default_flag]) %></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_portal_layout_description)%></label></td>
+            <td class="data-col" colspan="3" style="width:82%"><div><%= @irm_portal_layout[:description] %></div></td>
+          </tr>
       </tbody>
     </table>
   </div>
-  <div class="pbBody">
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-         <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_portal_layout_name)%></label></td>
-              <td class="dataCol"><div><%= @irm_portal_layout[:name] %></div></td>
-              <td class="labelCol empty"><div>&nbsp;</div></td>
-              <td class="dataCol empty"><div>&nbsp;</div></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_portal_layout_format)%></label></td>
-              <td class="dataCol"><div><%= @irm_portal_layout[:layout] %></div></td>
-              <td class="labelCol empty"><div>&nbsp;</div></td>
-              <td class="dataCol empty"><div>&nbsp;</div></td>
-            </tr>
-
-            <tr>
-              <td class="labelCol"><label ><%=t(:default_flag)%></label></td>
-              <td class="dataCol"><div><%= check_img(@irm_portal_layout[:default_flag]) %></div></td>
-              <td class="labelCol empty"><div>&nbsp;</div></td>
-              <td class="dataCol empty"><div>&nbsp;</div></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_portal_layout_description)%></label></td>
-              <td class="dataCol" colspan="3" style="width:82%"><div><%= @irm_portal_layout[:description] %></div></td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
+
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@irm_portal_layout} %>

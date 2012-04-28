@@ -37,7 +37,7 @@
         <%= text_field_tag "search_option_input", t(:input_keyword_you_want_to_search),:id=>"phSearchOptionInput", :class => "grayTips headerSearchInput", :style => "width:100%" %>
       </div>
       <fieldset>
-      <table style="font-size:12px;width:100%;">
+      <table style="font-size:12px;width:100%;" class="form-table">
         <tr><td><%= check_box_tag("search_option_all", "ALL", true,{:id => "checkAllSearchOptions", :class => "searchOptions"}) %>
           <label for="checkAllSearchOptions"><%= t :all %></label>
           </td>
@@ -64,13 +64,9 @@
       </fieldset>
       <table style="width:100%">
         <tr>
-          <td>
-            <div class="button" style="margin-left:35%;padding-top:10px;">
-              <%= submit_tag(t(:search), :class => "searchOptionSubmit") %>
-            </div>
-            <div class="button" style="padding-top:10px;">
-              <a href="javascript:void(0);" id="searchOptionCancel"><%= t(:cancel) %></a>
-            </div>
+          <td style="text-align: center">
+              <%= submit_tag(t(:search), :class => "btn btn-primary") %>
+              <a href="javascript:void(0);" id="searchOptionCancel" class="btn"><%= t(:cancel) %></a>
           </td>
         </tr>
       </table>

@@ -1,25 +1,4 @@
-<% require_css(:jpolite) %>
-<% require_javascript(:jpolite) %>
-<style type="text/css">
-  .dragging{
-      border: 2px dashed;
-      border-color: gray;
-      min-height: 80px;
-  }
-  td.added img{
-      visibility: hidden;
-  }
-  .current_layout {
-      margin: 0;
-      padding: 0;
-  }
-  .current_layout .dragging{
-      min-height: 20px !important;
-  }
-  .current_layout .span-12 {
-      width: 47.6%;
-  }
-</style>
+<% require_jscss(:jpolite) %>
 
 <ul id="main_nav" style="display:none;">
    <li id="t1"><b class="hover">homePage</b></li>
@@ -51,29 +30,27 @@
     <div id="portalLayouts" style="background-color: transparent; width: 400px; height:auto;padding: 30px 10px 10px 10px;">
       <%= form_tag(:controller => "portlet_configs", :action =>"save_portal_layout", :method => "post") do %>
           <%= hidden_field_tag "portal_layout_id", pconfig[1].id, :id=>"portal_layout_id" %>
-          <table style="font-size:12px;width:100%;">
+          <table class="form-table portal-setting" style="width: 100%">
               <tr>
-                <td style="width:100px; font-size: 13px; text-align: right; font-weight: bold;"><label for="portalLayoutSelect"><%= t(:label_irm_portlet_select_layout) %></label></td>
-                <td class="dataCol"><%= select_for_layouts "portalContainerSelect", available_portal_layouts , pconfig[1].id,{:required=>true,:id=>"portalContainerSelect" } %></td>
+                <td class="label-2col" colspan="2"><label for="portalLayoutSelect"><%= t(:label_irm_portlet_select_layout) %></label></td>
+                <td class="data-2col" colspan="2"><%= select_for_layouts "portalContainerSelect", available_portal_layouts , pconfig[1].id,{:required=>true,:id=>"portalContainerSelect" } %></td>
               </tr>
               <tr>
-                <td colspan="2"><hr></td>
-              </tr>
-              <tr>
-                <td height="auto" colspan="2">
+                <td class="button-col" colspan="4">
                   <!--  current portal_layout preview -->
-                    <div class="current_layout"></div>
+                    <div class="current-layout"></div>
                   <!--  end of current portal_layout preview -->
                 </td>
               </tr>
               <tr>
-                <td colspan="2"><hr></td>
+                <td colspan="4"></td>
               </tr>
               <tr>
-                <td>&nbsp;</td>
-                <td>
-                  <div class="button"><%= link_submit t(:save)%></div>
-                  <div class="button" id="portlalCancleButton"><%= link_to t(:cancel), "javascript:void(0);" %></div>
+                <td class="button-col" colspan="4">
+                  <div class="btn-toolbar">
+                    <%= link_submit(t(:save),{:class=>"btn"})%>
+                    <a href="javascript:void(0)" id="portlalCancleButton" class="btn"><%= t(:cancel) %></a>
+                  </div>
                 </td>
               </tr>
           </table>
@@ -166,7 +143,7 @@
       });
       //设置当前的布局
       var current_layout ='<%=pconfig[1].layout%>';
-      var current_layout_container = $(".current_layout");
+      var current_layout_container = $(".current-layout");
       setLayoutPreview(current_layout, current_layout_container);
       $("#portalChangeLayout").click(function(e){
           //设置portal_layout窗口
@@ -179,8 +156,6 @@
               current_layout = $(this).find("option:selected").attr("layout");
               if (typeof current_layout != undefined && current_layout) {
                   setLayoutPreview(current_layout, current_layout_container);
-              }else{
-                  console.log("ERROR INFO:", "System Data Error!");
               }
           }
       });
@@ -194,12 +169,13 @@
               //生成对应的html标签
               for(i=1; i<=parseInt(value); i++) {
                   if(i == parseInt(value)) {
-                     container.append('<div id='+index+' class="dragging cc span-'+(24/parseInt(value))+' last"></div>');
+                     container.append('<div id='+index+' class="dragging cc portlet-'+(24/parseInt(value))+' last"></div>');
                   }else{
-                      container.append('<div id='+index+' class="dragging cc span-'+(24/parseInt(value))+'"></div>');
+                      container.append('<div id='+index+' class="dragging cc portlet-'+(24/parseInt(value))+'"></div>');
                   }
               }
           });
+          $.colorbox.resize();
       }
   });
 

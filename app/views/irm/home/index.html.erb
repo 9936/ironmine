@@ -1,5 +1,5 @@
 <div class="page-title">
-  <div class="pt-body secondary-palette">
+  <div class="page-title-body">
       <%= image_tag Irm::Person.current.avatar.url(:large), :id => "crop_box", :style => "width: 45px; height: 45px;", :class => "thumbnail-visible" %>
 
     <div class="greeting">
@@ -28,26 +28,15 @@
     </div>
   </div>
 </div>
-<div class="pbSubsection" id="templateBody">
-    <div id="tab_portal">
-        <table class="tools-content">
-            <tbody>
-                <tr>
-                  <td colspan="2">
-                    <div class="protlet">
-                      <%= render({:partial=>"irm/home/portal",:locals=>{:pconfig=>pconfig}}) %>
-                    </div>
-                  </td>
-                </tr>
-            </tbody>
-        </table>
-  </div>
+<div class="portal">
+  <%= render({:partial=>"irm/home/portal",:locals=>{:pconfig=>pconfig}}) %>
 </div>
 
 
 
+
 <% content_for :sidebar do%>
-    <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
+    <%= render :partial =>"/icm/incident_requests/quick_create" %>
     <%= render :partial =>"/irm/common/recently_objects" %>
 <% end %>
 

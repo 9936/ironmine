@@ -112,6 +112,10 @@ class Irm::PortletsController < ApplicationController
     portlets,count = paginate(portlets_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(portlets.to_grid_json([:code,:name,:page_controller, :page_action, :description,:status_meaning],count))}
+      format.html {
+        @datas = portlets
+        @count = count
+      }
     end
   end
 
