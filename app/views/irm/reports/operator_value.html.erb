@@ -1,3 +1,3 @@
-<%= fields_for @named_form,@report_criterion,:builder => LabellingFormBuilder do |sub_f|%>
+<%= fields_for @named_form,@report_criterion,:builder => CustomFormBuilder do |sub_f|%>
     <%= render_report_filter_field(@field_id,sub_f) %>
 <% end%>

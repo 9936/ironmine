@@ -310,7 +310,10 @@ class Irm::ReportsController < ApplicationController
   def update_custom
     session[:irm_report].merge!(params[:irm_report].symbolize_keys)
     session[:irm_report][:report_group_columns_attributes].each{|key,value| value[:id]=nil}
-    session[:irm_report][:report_criterions_attributes].each{|key,value| value[:id]=nil}
+    session[:irm_report][:report_criterions_attributes].each do |key,value|
+       puts "====================================="
+    end
+    session[:irm_report][:report_criterions_attributes].each{|key,value| value["id"]=nil}
     @report = Irm::Report.new(session[:irm_report])
 
     respond_to do |format|

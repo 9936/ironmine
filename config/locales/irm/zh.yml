@@ -1496,6 +1496,7 @@ zh:
   #=======================end report_folder ====================
   #======================= report_trigger ====================
   label_irm_report_trigger_new: 新建报表执行计划
+  label_irm_report_trigger_edit: 编辑报表执行计划
   label_irm_report_trigger_person: 运行报表用户
   label_irm_report_trigger_receiver_type: 报表邮件发送
   label_irm_report_trigger_time_mode: 计划时间

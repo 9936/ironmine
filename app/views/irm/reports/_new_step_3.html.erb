@@ -28,7 +28,7 @@
   <% end %>
 
   <% content_for :form_buttons  do %>
-     <%= link_to t(:last), {:action => "new",:pre_step=>true},{:class=>"btn"} %>
+     <%= link_to t(:last), {:action => "new",:pre_step=>true},{:class=>"btn submit"} %>
     <%= link_submit t(:next),:class=>"btn btn-primary"%>
     <%= link_to t(:cancel), {:action => "index"},:class => "btn cancel" %>
   <% end %>

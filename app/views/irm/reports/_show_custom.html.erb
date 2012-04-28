@@ -2,6 +2,7 @@
   #baseFilter select{
       min-width: 128px;
   }
+
   #baseFilter tr{
       vertical-align: top;
   }
@@ -10,7 +11,7 @@
   }
   #baseFilter label{
       display: block;
-      margin-top: 28px;
+      margin-top: 38px;
   }
   #baseFilter fieldset label{
       display: block;
@@ -22,68 +23,34 @@
   #reportData th{
       background-color: #DBF2F9;
   }
-   .reportParameters .row {
-       margin-bottom: 15px;
-   }
-   .reportParameters .row tr {
-       vertical-align: top;
-   }
-   .reportParameters .row td {
-       padding-right: 10px;
-   }
-   .reportParameters label, .reportParameters .label {
-       display: block;
-       font-size: 91%;
-       margin-top: 20px;
-       white-space: nowrap;
-   }
-   .reportParameters fieldset label, .reportParameters fieldset .label {
-       margin-top: 0;
-   }
-   .reportParameters fieldset {
-       border: 1px solid;
-       margin:0 2px 0 2px;
-       border-color: gray;
-       padding: 7px;
-   }
+
 </style>
 <%= app_title %>
-<% require_javascript(:datepicker) %>
-<% require_css(:datepicker) %>
-<div id="ep" class="detail-block page-block">
-  <%= form_for(@report,:url=>{:action=>"run"},:builder => LabellingFormBuilder,:html=>{:id=>"customForm"}) do |f|%>
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
+<!--页面结构-->
+<%= form_for(@report,:url=>{:action=>"run"},:builder => CustomFormBuilder,:html=>{:id=>"customForm"}) do |f|%>
+    <div class="show-block">
+      <!-- 人员信息 -->
+      <table class="page-block-header">
         <tr>
-          <td class="pbTitle">
-            <h2 class="mainTitle" title="<%= @report[:description] %>"><%= @report[:name] %></h2>
-          </td>
-          <td></td>
+            <td class="page-block-title">
+              <h2 class="block-title"title="<%= @report[:description] %>"><%= @report[:name] %></h2>
+            </td>
+            <td class="page-block-button"></td>
         </tr>
+      </table>
+      <!-- 报表信息 -->
+      <div class="page-block-body">
+        <%= show_custom_report_params(@report,f) %>
+      </div>
+      <table class="page-block-header">
         <tr>
-          <td>
-            <div class="reportParameters">
-              <div class="row">
-                <%= show_custom_report_params(@report,f) %>
-              </div>
-            </div>
-          </td>
+          <td class="page-block-button"><%= render "show_report_actions" %></td>
         </tr>
-        <tr>
-          <td id="topButtonRow" class="pbButton" colspan="2">
-            <%= render "show_report_actions" %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <% end %>
-  <div class="listRelatedObject setupBlock">
+      </table>
+    </div>
     <% if auto_run?(@report) %>
       <div class="page-block">
         <%= render "show_#{@report.table_show_type.downcase}"%>
       </div>
     <% end %>
-  </div>
-</div>
+<% end %>

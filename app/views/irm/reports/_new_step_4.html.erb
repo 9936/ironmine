@@ -27,7 +27,7 @@
                         <th >
                           <%= t(:label_irm_report_group_column_sort_type)%>
                         </th>
-                        <th width="150px">
+                        <th width="100px">
                           <%= t(:label_irm_report_group_column_group_date_type)%>
                         </th>
                       </tr>
@@ -52,7 +52,7 @@
   <% end %>
 
   <% content_for :form_buttons  do %>
-     <%= link_to t(:last), {:action => "new",:pre_step=>true},{:class=>"btn"} %>
+     <%= link_to t(:last), {:action => "new",:pre_step=>true},{:class=>"btn submit"} %>
     <%= link_submit t(:next),:class=>"btn btn-primary"%>
     <%= link_to t(:cancel), {:action => "index"},:class => "btn cancel" %>
   <% end %>
@@ -99,20 +99,22 @@
           </table>
         </div>
         <!-- 图形类别 -->
-        <div class="sub-page-block-header">
-          <h3 class="sub-page-block-title"><%= t(:label_irm_report_chart_type) %></h3>
-        </div>
-        <div class="sub-page-block-body">
-          <table class="form-table">
-            <tbody>
-              <tr>
-                <td class="label-col"><label><%= t(:label_irm_report_chart_type) %></label></td>
-                <td class="data-3col" colspan="3">
-                  <%= f.lookup_field(:chart_type,"IRM_REPORT_CHART_TYPE") %>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div id="chartTypeHeader" style="padding: 0;margin: 0" >
+            <div class="sub-page-block-header">
+              <h3 class="sub-page-block-title"><%= t(:label_irm_report_chart_type) %></h3>
+            </div>
+            <div class="sub-page-block-body">
+              <table class="form-table">
+                <tbody>
+                  <tr>
+                    <td class="label-col"><label><%= t(:label_irm_report_chart_type) %></label></td>
+                    <td class="data-3col" colspan="3">
+                      <%= f.lookup_field(:chart_type,"IRM_REPORT_CHART_TYPE") %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
         </div>
         
       </div>

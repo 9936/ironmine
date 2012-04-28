@@ -1479,6 +1479,7 @@ en:
   #=======================end report_folder ====================
   #======================= report_trigger ====================
   label_irm_report_trigger_new: New Report Trigger
+  label_irm_report_trigger_edit: Edit Report Trigger
   label_irm_report_trigger_person: Run Report as Person
   label_irm_report_trigger_receiver_type: Email Receiver Type
   label_irm_report_trigger_time_mode: Schedule
