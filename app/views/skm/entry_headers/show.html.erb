@@ -18,12 +18,10 @@
   <div class="page-block-body">
     <div class="sub-page-block">
       <div class="sub-page-block-header">
-        <div class="sub-page-block-header">
-          <h3 class="sub-page-block-title"><%= t(:label_skm_navigator) %></h3>
-        </div>
+        <h3 class="sub-page-block-title"><%= t(:label_skm_navigator) %></h3>
       </div>
       <div class="sub-page-block-body">
-         <table class="show-table">
+         <table class="detail-list">
            <tbody>
                <% @entry_header.entry_details.each do |e| %>
                    <tr>
@@ -37,11 +35,9 @@
     <div class="sub-page-block">
       <% @entry_header.entry_details.each do |e| %>
           <div class="sub-page-block-header">
-            <div class="sub-page-block-header">
-              <h3 class="sub-page-block-title"><%= raw(e.element_name) %></h3>
-              <div class="sub-page-block-help" style="float: right;">
-                <a href="javascript:void(0);" onclick="scrollTo(0, 0);"><%= t(:go_to_top) %></a>
-              </div>
+            <h3 class="sub-page-block-title"><%= raw(e.element_name) %></h3>
+            <div class="sub-page-block-help" style="float: right;">
+              <a href="javascript:void(0);" onclick="scrollTo(0, 0);"><%= t(:go_to_top) %></a>
             </div>
           </div>
           <div class="sub-page-block-body">
@@ -68,51 +64,15 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div class="datatable">
-      <table>
-          <thead>
-             <th style="width:130px;">
-               <div><%= t(:label_skm_entry_header_published_date) %></div>
-             </th>
-             <th style="width:80px;">
-               <div><%= t(:label_skm_entry_header_version) %></div>
-             </th>
-             <th>
-               <div><%= t(:label_skm_entry_header_title) %></div>
-             </th>
-             <th style="width:120px;">
-               <div><%= t(:label_skm_entry_header_doc_number) %></div>
-             </th>
-          </thead>
-          <tbody>
-             <% @entry_history.each do |data| %>
-             <tr id="<%=data[:id]%>">
-               <td>
-                 <div>
-                   <%= data[:published_date_f]%>
-                 </div>
-               </td>
-               <td>
-                 <div>
-                   <%= data[:version_number]%>
-                 </div>
-               </td>
-               <td>
-                 <div>
-                   <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
-                 </div>
-               </td>
-               <td>
-                 <div>
-                   <%= data[:doc_number]%>
-                 </div>
-               </td>
-
-             </tr>
-             <% end -%>
-          </tbody>
-      </table>
-    </div>
+    <%=datatable_view({:count=>@entry_history.count,:datas=>@entry_history}) do |builder|%>
+      <% builder.column(:id,{:title=>t(:operation)})%>
+      <% builder.column(:published_date_f,{:title=>t(:label_skm_entry_header_published_date),:width=>"150px"})%>
+      <% builder.column(:version_number,{:title=>t(:label_skm_entry_header_version)}) %>
+      <% builder.column(:full_title,{:title=>t(:label_skm_entry_header_title)}) do |data|%>
+        <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+      <% end %>
+      <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number),:width => "120px"}) %>
+    <% end %>
   </div>
 </div>
 

@@ -1,43 +1,12 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>">
-         <thead>
-           <tr>
-             <th style="width:150px">
-               <div><%= t(:label_irm_report_name) %></div>
-             </th>
-             <th style="width:150px;">
-               <div><%= t(:label_irm_report_folder) %></div>
-             </th>
-             <th style="width:250px;">
-               <div><%= t(:label_irm_report_description) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |data| %>
-         <tr id="<%=data[:id]%>">
-           <td>
-             <div>
-               <%= link_to(data[:name], {:controller => "irm/reports", :action => "show", :id => data[:id]})%>
-             </div>
-           </td>
-           <td>
-             <div>
-               <%= data[:report_folder_name] %>
-             </div>
-           </td>
-            <td>
-             <div>
-               <%=data[:description]%>
-             </div>
-           </td>
-
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:name,{:title=>t(:label_irm_report_name),:searchable=>true,:width=>"250px"}) do |data|%>
+    <% if data[:report_trigger_id].eql?('') %>
+      <%= link_to(data[:name], {:controller => "irm/reports", :action => "show", :id => data[:id]})%>
+            <%=link_to(content_tag(:img,nil,:src=>theme_image_path("s.gif"),:class=>"scheduled-icon"),{:controller=>"irm/report_triggers",:action=>"edit",:id=>data[:report_trigger_id]}) %>
+    <% else %>
+      <%= link_to(data[:name], {:controller => "irm/reports", :action => "show", :id => data[:id]})%>
+    <% end %>
+  <% end %>
+  <% builder.column(:report_folder_name,{:title=>t(:label_irm_report_folder),:width=>"150px"}) %>
+  <% builder.column(:description,{:title=>t(:label_irm_report_description)})%>
+<% end %>

@@ -3,7 +3,7 @@
        $("#incident_requests").datatable("loadPage",1)
    });
 <% else %>
-   Ext.onReady(function(){
-       Ext.getCmp("incident_requests").store.loadPage(1);
+   $(document).ready(function(){
+        $("#incident_requests").data("datatable").target.loadPage(1);
    });
 <% end %>

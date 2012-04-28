@@ -2,14 +2,12 @@
 <!--页面结构-->
 <div class="sub-page-block">
   <div class="sub-page-block-header">
-    <div class="sub-page-block-header">
-      <h3 class="sub-page-block-title"><%= t(:label_attachment_info) %></h3>
-    </div>
+    <h3 class="sub-page-block-title"><%= t(:label_attachment_info) %></h3>
   </div>
   <div class="sub-page-block-body">
     <table cellpadding="0" cellspacing="0" border="0">
       <thead>
-        <tr>
+        <tr style="text-align: left;">
           <th width="5%"></th>
           <th class="data-col"><%= t :label_skm_file_name %></th>
           <% if type_flag %>
@@ -41,7 +39,7 @@
       <%= exist_attachments %>
       </tbody>
       <tbody>
-          <tr>
+          <tr style="text-align: left;">
             <td class="data-col"></td>
             <td class="data-col"><%= link_to t(:label_skm_file_add_line), {}, {:href => "javascript:void(0);", :onclick => "generate_line();"} %></td>
             <td class="data-col"></td>

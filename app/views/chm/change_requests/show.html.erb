@@ -7,10 +7,6 @@
       border-right: 0px;
   }
 
-  div.reply div.reply-header[submit_by="<%= @change_request.submitted_by%>"]{
-      /*提单人回复的*/
-      background-color: #ffebeb !important;
-  }
 
   div.reply div.reply-header{
       background-color: #efefef;
@@ -23,6 +19,12 @@
   div.reply div.reply-header[submit_by="<%= Irm::Person.current.id%>"]{
       /*自己回复的*/
       background-color: #ddeef4 !important;
+  }
+
+
+  div.reply div.reply-header[submit_by="<%= @change_request.submitted_by%>"]{
+      /*提单人回复的*/
+      background-color: #ffebeb !important;
   }
 
 

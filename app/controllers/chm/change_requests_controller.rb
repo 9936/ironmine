@@ -161,7 +161,7 @@ class Chm::ChangeRequestsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :action => "new",:layout => "application_full"}
+      format.html { render :action => "new"}
       format.xml  { render :xml => @change_request }
     end
   end

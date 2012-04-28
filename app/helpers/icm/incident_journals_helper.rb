@@ -13,7 +13,7 @@ module Icm::IncidentJournalsHelper
     html = ""
     @request_files.values.flatten.each do |e|
       html << "<div style='padding-bottom:5px;'><a target='_blank' href='#{e.data.url}' stats="">
-              <div class='fileInfo'><div title='#{e.data.original_filename}' class='fileName'><b>#{e.data.original_filename}(#{e.file_size_kb}KB)</b></div>
+              <div class='file-info'><div title='#{e.data.original_filename}' class='file-name'><b>#{e.data.original_filename}(#{e.file_size_kb}KB)</b></div>
               </div></a></div>"
     end
     raw(html)
@@ -26,7 +26,7 @@ module Icm::IncidentJournalsHelper
     @request_files[0].each do |f|
       file_lists << show_file(f)
     end
-    content_tag(:div,file_lists.html_safe,{:class=>"fileList"})
+    content_tag(:div,file_lists.html_safe,{:class=>"file-list"})
   end
 
   def list_journals(incident_request)
@@ -54,7 +54,7 @@ module Icm::IncidentJournalsHelper
     image_path = theme_image_path(Irm::AttachmentVersion.file_type_icon(f.data.original_filename)) unless image_path
     link = ""
     link = "<div class='file-icon'><img style='width:20px;height:20px;' src='#{image_path}'></div>" if with_image
-    description = "<a target='_blank' href='#{f.data.url}' stats=""><div class='file-info'><div title='#{f.data.original_filename}' class='fileName'><b>#{f.data.original_filename}</b></div>
+    description = "<a target='_blank' href='#{f.data.url}' stats=""><div class='file-info'><div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
                    <div title='#{f.description}' class='file-desc'>#{f.description}</div></div></a>"
     content_tag(:div, (link.html_safe + description.html_safe).html_safe,{:class=>"file-item"}).html_safe
   end

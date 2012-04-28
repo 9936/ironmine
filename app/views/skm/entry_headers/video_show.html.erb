@@ -1,45 +1,43 @@
 <% require_javascript(:video)%>
 <% require_css(:video)%>
 <%= app_title %>
-<div id="ep" class="detail-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle" style="width:60%"><h2 style="float:left;">[<%= @entry_header.doc_number%>]&nbsp;&nbsp;&nbsp;</h2><h2><%= @entry_header.entry_title %></h2></td>
-          <td id="topButtonRow" class="pbButton" style="float:right;">
-            <% if @entry_header.history_flag == Irm::Constant::SYS_NO %>
-                <div class="button"><%= link_to t(:edit), {:action => "video_edit", :id => @entry_header}%></div>
-            <% end %>
-            <div class="button"><%= link_to t(:back), {:action => "index"}%></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="pbBody lightBlueBorder  noLineShow">
-        <div class="pbSubheader tertiaryPalette">
-          <h3><%= t(:label_action_video_show) %></h3>
-        </div>
-        <div class="pbSubsection">
-          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-                <tr>
-                  <td>
-                    <div align=center>
-                        <video id="<%= @video.id%>" class="video-js vjs-default-skin" controls
-                          preload="auto" width="640" height="480"
-                          data-setup="{}">
-                          <source src="<%= @video.url%>" type='video/mp4'>
-                        </video>
-                    </div>
-                  </td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>
-                <tr><td><div align="center"><%= @video.description%></div></td></tr>
-            </tbody>
-          </table>
-        </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title">[<%= @entry_header.doc_number%>]&nbsp;&nbsp;&nbsp;<%= @entry_header.entry_title %></h2>
+    </td>
+    <td class="page-block-button">
+      <% if @entry_header.history_flag == Irm::Constant::SYS_NO %>
+        <%= link_to t(:edit), {:action => "video_edit", :id => @entry_header},:class => "btn btn-primary"%>
+      <% end %>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_action_video_show) %></h3>
+      </div>
+      <div class="sub-page-block-body">
+         <table class="detail-list">
+           <tbody>
+               <tr>
+                 <td>
+                   <div align=center>
+                       <video id="<%= @video.id%>" class="video-js vjs-default-skin" controls
+                         preload="auto" width="640" height="480"
+                         data-setup="{}">
+                         <source src="<%= @video.url%>" type='video/mp4'>
+                       </video>
+                   </div>
+                 </td>
+               </tr>
+               <tr><td>&nbsp;</td></tr>
+               <tr><td><div align="center"><%= @video.description%></div></td></tr>
+           </tbody>
+         </table>
+      </div>
+    </div>
   </div>
 </div>

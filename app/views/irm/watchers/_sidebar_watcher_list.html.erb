@@ -10,9 +10,11 @@
           <div class="sidebar-block-body">
             <% if l_editable %>
               <div class="form-inline">
-                  <%= lov_field_tag("watcher",Irm::Person, {:class=>"input-mini",:id => "watcher"}) %><%= hidden_field_tag "watchable_type", watchable.class.to_s%>
-
-                  <%= link_submit t(:add),{:class=>"btn btn-primary"}%>
+                  <%= lov_field_tag("watcher",Irm::Person, {:class=>"input-mini",:id => "watcher",:style=>"width:100px"}) %>
+                  <%= hidden_field_tag "watchable_type", watchable.class.to_s%>
+                  <div style="float: right;">
+                    <%= link_submit t(:add),{:class=>"btn btn-primary"}%>
+                  </div>
               </div>
             <% end %>
             <div class="form-inline">

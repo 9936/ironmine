@@ -1,60 +1,37 @@
 <%= common_title(:action_meaning=>t(:label_icm_incident_request_assign_me)) %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_icm_incident_request_assign_me_able_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests",:action => "index"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="incident_requestsSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="incident_requests" class="datatable" style="width:100%">
-          <div id="title" style="display:none">
-            <%= link_to( "({incident_status_id_label}){title}",{:controller=>"icm/incident_journals",:action=>"new",:request_id=>"{id}"}) %>
-          </div>
-        </div>
-        <%= datatable("incident_requests",{:action=>"assign_me_data",:format=>"json"},
-                              [{:key=>"id",:label=>t(:operation),:width=>"80px", :hidden => true},
-                               { :key => "request_number", :label => "#",:searchable=>true,:width=>"20px"},
-                               { :key => "title",:formatter=>"Y.irm.template",:label => t(:label_icm_incident_request_title),:searchable=>true },
-                               { :key => "organization_id_label", :label => t(:label_icm_incident_request_organization),:width=>"120px"},
-                               { :key => "priority_id_label", :label => t(:label_icm_incident_request_priority,:searchable=>true),:width=>"60px" },
-                               { :key => "incident_status_id_label",:hidden=>true },
-                               { :key => "requested_by_label", :label => t(:label_icm_incident_request_requested_by,:searchable=>true) },
-                               { :key => "external_system_id_label", :label => t(:label_irm_external_system,:searchable=>true) }
-                               ],{:select=>"multiple",:paginator_box=>'incidentRequestsPaginatorBox',:force_html=>true})%>
-        <div id="incidentRequestsPaginatorBox"></div>
-        <div class="pbSubsection">
-          <%= form_tag({:action=>"update_assign_me"}) do |f|%>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_incident_request_assign_me_able_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests",:action => "index"},:class=>"btn"%>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="incident_requests"></div>
+    <%= datatable("incident_requests",{:action=>"assign_me_data"},[],{:select=>"multiple",:paginator_box=>'paginatorBox'})%>
+    <div id="paginator"></div>
+  </div>
+  <table class="page-block-footer">
+    <tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <%= form_tag({:action=>"update_assign_me"}) do |f|%>
           <%= hidden_field_tag(:incident_request_ids,:id=>"incident_request_ids")  %>
-          <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-              <tr>
-                <td class="labelCol" style="width:10%;visibility:hidden;"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>
-                <td class="dataCol" style="width:30;visibility:hidden;%">
-
-                </td>
-                <td class="labelCol" style="width:10%;visibility:hidden;"><label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label></td>
-                <td class="dataCol" style="width:30%;visibility:hidden;"></td>
-                <td class="dataCol" style="width:20%;"><div><%= submit_tag(t(:label_icm_incident_request_assign_me),{:id=>"formSubmit",:disabled=>true})  %></div></td>
-
-              </tr>
-            </tbody>
-          </table>
-          <% end  %>
-        </div>
-      </div>
-    </div>
+          <%= submit_tag(t(:label_icm_incident_request_assign_me),{:id=>"formSubmit",:disabled=>true,:class=>"btn btn-primary"})  %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $("#incident_requests").bind('selectionchange',function(event,ids){
@@ -67,5 +44,5 @@
     });
 </script>
 <% content_for :sidebar do%>
-    <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
+    <%= render :partial =>"/icm/incident_requests/quick_create" %>
 <% end %>

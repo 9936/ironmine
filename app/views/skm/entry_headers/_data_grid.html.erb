@@ -25,7 +25,6 @@
                                                                               :li_attrs => "id" } %>
          </td>
          <td class="side-content">
-           <div id="entry_headers_list"></div>
            <%= datatable("entry_headers_list",{:action=>"get_data",:column_id => @column_id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox"})%>
            <div id="paginatorBox"></div>
          </td>

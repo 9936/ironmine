@@ -1,11 +1,11 @@
 class Irm::ReportsController < ApplicationController
-  layout "application_full"
+  layout "bootstrap_application_full"
 
   def index
     @folder_id = params[:folder_id]
 
     respond_to do |format|
-      format.html { render :layout => "application_full"}# index.html.erb
+      format.html # index.html.erb
     end
   end
 
@@ -57,7 +57,7 @@ class Irm::ReportsController < ApplicationController
     #end
 
     respond_to do |format|
-      format.html { render :layout => "application_full"}# index.html.erb
+      format.html { render :layout => "bootstrap_application_full"}# index.html.erb
     end
   end
 
@@ -74,7 +74,7 @@ class Irm::ReportsController < ApplicationController
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report, :status => :created, :location => @wf_rule }
       else
-        format.html { render :action => "new", :layout => "application_full" }
+        format.html { render :action => "new", :layout => "bootstrap_application_full" }
         format.xml  { render :xml => @report.errors, :status => :unprocessable_entity }
       end
     end
@@ -113,7 +113,7 @@ class Irm::ReportsController < ApplicationController
 
 
     respond_to do |format|
-      format.html { render :layout => "application_full"}# index.html.erb
+      format.html { render :layout => "bootstrap_application_full"}# index.html.erb
     end
   end
 
@@ -132,7 +132,7 @@ class Irm::ReportsController < ApplicationController
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @report, :status => :created, :location => @wf_rule }
       else
-        format.html { render({:action=>"edit",:id=>@report.id}, :layout => "application_full") }
+        format.html { render({:action=>"edit",:id=>@report.id}, :layout => "bootstrap_application_full") }
         format.xml  { render :xml => @report.errors, :status => :unprocessable_entity }
       end
     end
@@ -159,7 +159,7 @@ class Irm::ReportsController < ApplicationController
 
 
 
-    render :action=>"show",:layout=>"application_full"
+    render :action=>"show",:layout=>"bootstrap_application_full"
 
     end_time = Time.now
 
@@ -193,7 +193,7 @@ class Irm::ReportsController < ApplicationController
 
 
     respond_to do |format|
-        format.html { render(:action=>"show", :layout => "application_full") }
+        format.html { render(:action=>"show", :layout => "bootstrap_application_full") }
         format.xls  { send_data(export_report_data_to_excel(@report),:type => "text/plain", :filename=>"report_#{@report.code.downcase}_#{Time.now.strftime('%Y%m%d%H%M%S')}.xls") }
     end
 
@@ -331,7 +331,7 @@ class Irm::ReportsController < ApplicationController
   def new_program
     @report = Irm::Report.new(:program_type=>"PROGRAM", :auto_run_flag => Irm::Constant::SYS_NO)
     respond_to do |format|
-      format.html { render :layout => "application_full"}# index.html.erb
+      format.html { render :layout => "bootstrap_application_full"}# index.html.erb
     end
   end
 
@@ -349,7 +349,7 @@ class Irm::ReportsController < ApplicationController
   def edit_program
     @report = Irm::Report.multilingual.find(params[:id])
     respond_to do |format|
-      format.html { render :layout => "application_full"}# index.html.erb
+      format.html { render :layout => "bootstrap_application_full"}# index.html.erb
     end
   end
 
@@ -359,7 +359,7 @@ class Irm::ReportsController < ApplicationController
       if @report.update_attributes(params[:irm_report])
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
       else
-        format.html { render :action => "edit_program",:layout => "application_full" }
+        format.html { render :action => "edit_program",:layout => "bootstrap_application_full" }
       end
     end
   end
@@ -368,7 +368,7 @@ class Irm::ReportsController < ApplicationController
     @report = Irm::Report.find(params[:id])
     @report.attributes = {:name=>nil,:description=>nil,:code=>nil}
     respond_to do |format|
-      format.html { render :layout => "application_full"}# index.html.erb
+      format.html { render :layout => "bootstrap_application_full"}# index.html.erb
     end
   end
 
@@ -378,7 +378,7 @@ class Irm::ReportsController < ApplicationController
       if @report.save
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
       else
-        format.html { render :action => "edit_custom_program", :layout => "application_full" }
+        format.html { render :action => "edit_custom_program", :layout => "bootstrap_application_full" }
       end
     end
   end
