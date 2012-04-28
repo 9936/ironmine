@@ -9,7 +9,7 @@ class Irm::ReportTrigger < ActiveRecord::Base
   belongs_to :report
 
   validates_uniqueness_of :report_id
-  validates_presence_of :report_id
+  validates_presence_of :report_id,:start_at,:end_at,:person_id
 
   #加入activerecord的通用方法和scope
   query_extend
