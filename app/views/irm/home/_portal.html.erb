@@ -61,7 +61,7 @@
 
 <div style="display:none;">
     <div id="portletList" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
-      <table id="modules" style="font-size:12px;width:100%;">
+      <table id="modules" style="font-size:12px;width:100%;" class="form-table">
         <% (0..pconfig[0].length-1).step(3) do |index| %>
           <tr>
             <td>
@@ -102,7 +102,7 @@
         $.ajax({
           type: 'POST',
           url: '/portlet_configs/save_portal_config',
-          data: {portal_config: portal_options},
+          data: {portal_config: portal_options,_dom_id:"portal"},
           dataType: 'json',
           success: function(data) { },
           error: function() {}
@@ -119,7 +119,7 @@
           var showedModules = $.jpolite.getShowModules();
           $("#portletList input.addModule").each(function(index,module){
               var id = $(module).attr("ref");
-              if(showedModules.indexOf("m"+id)>-1){
+              if($.inArray("m"+id,showedModules)>-1){
                   $(module).attr("checked",true);
               }else{
                   $(module).attr("checked",false);
@@ -128,7 +128,6 @@
           $.colorbox({inline:true, opacity:0.55, title:"<%= t(:label_irm_portlet_custom_home_page) %>", speed: 0,href:"#portletList"});
       });
       $("#portletList input.addModule").click(function(e){
-            console.debug($(e.currentTarget).is(":checked"));
             if($(e.currentTarget).is(":checked")){
                 $.jpolite.addModule({
 			    	id: "m"+$(e.currentTarget).attr("ref"),

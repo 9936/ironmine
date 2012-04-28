@@ -59,7 +59,6 @@ $(function(){
           $(e.target).attr("thref",$(e.target).attr("href"))
         var url = decodeURIComponent($(e.target).attr("thref"));
         url = url.replace("{bo_code}",$("#boCode").val());
-        console.debug(url);
         $(e.target).attr("href",encodeURI(url));
     });
     $("#boCode").change(function(e){

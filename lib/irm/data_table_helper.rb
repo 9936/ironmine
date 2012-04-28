@@ -24,12 +24,14 @@ module Irm
       column_options = filter_columns(builder.columns,builder.display_columns)
       datatable_options = builder.options
       output = ActiveSupport::SafeBuffer.new
+      column_count = 0
       #==datatable
       output.safe_concat "<table count='#{datatable_options[:count]}'>"
       #==header
       output.safe_concat "<thead><tr>"
       column_options.each do |column|
         next if column[:hidden]
+        column_count = column_count + 1
         column_options_str = column_options_str(column)
         output.safe_concat "<th #{column_options_str} ><div>#{column[:title]}"
         output.safe_concat "</div></th>"
@@ -38,29 +40,33 @@ module Irm
 
       #==body
       output.safe_concat "<tbody>"
-      builder.options[:datas].each do |data|
-        output.safe_concat "<tr id='#{data[:id]}'>"
-        column_options.each do |column|
-          next if column[:hidden]
-          output.safe_concat "<td><div>"
-          if column[:block].present?
-            output.safe_concat capture(data,&column[:block])
-          else
-            if data[column[:key]].present?
-              if data[column[:key]].is_a?(Time)
-                output.safe_concat  data[column[:key]].strftime('%Y-%m-%d %H:%M:%S')
-              elsif data[column[:key]].is_a?(Date)
-                output.safe_concat  data[column[:key]].strftime('%Y-%m-%d')
-              else
-                output.safe_concat (data[column[:key]]||"").to_s
-              end
+      if builder.options[:datas].any?
+        builder.options[:datas].each do |data|
+          output.safe_concat "<tr id='#{data[:id]}'>"
+          column_options.each do |column|
+            next if column[:hidden]
+            output.safe_concat "<td><div>"
+            if column[:block].present?
+              output.safe_concat capture(data,&column[:block])
             else
-              output.safe_concat ""
+              if data[column[:key]].present?
+                if data[column[:key]].is_a?(Time)
+                  output.safe_concat  data[column[:key]].strftime('%Y-%m-%d %H:%M:%S')
+                elsif data[column[:key]].is_a?(Date)
+                  output.safe_concat  data[column[:key]].strftime('%Y-%m-%d')
+                else
+                  output.safe_concat (data[column[:key]]||"").to_s
+                end
+              else
+                output.safe_concat ""
+              end
             end
+            output.safe_concat "</div></td>"
           end
-          output.safe_concat "</div></td>"
+          output.safe_concat "</tr>"
         end
-        output.safe_concat "</tr>"
+      else
+        output.safe_concat "<tr class='no-data'><td colspan='#{column_count}'><div>#{t(:label_no_data)}</div></td></tr>"
       end
       output.safe_concat "</tbody>"
       output.safe_concat "</table>"
