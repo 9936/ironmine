@@ -122,14 +122,14 @@ $.extend({
 /**
  * Utility functions added to jQuery.fn
  */
-$.fn.extend({
-	// Shortcut function to for tab / menu item switching
-	on: function() {
-		if (this.is(".on")) return false;
-		this.siblings(".on").andSelf().toggleClass("on");
-		return true;
-	}
-});
+//$.fn.extend({
+//	// Shortcut function to for tab / menu item switching
+//	on: function() {
+//		if (this.is(".on")) return false;
+//		this.siblings(".on").andSelf().toggleClass("on");
+//		return true;
+//	}
+//});
 
 
 /**

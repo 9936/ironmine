@@ -1,22 +1,21 @@
-<div class="sub-block">
-    <h3 class="lbHeader"></h3>
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h3 class="lbHeader"><%= t(:label_irm_task_mine) %></h3></td>
-          <td id="topButtonRow" class="pbButton">
-          </td>
-          <td class="pbHelp">
-            <div><%= t(:label_irm_task_type) %>:<%= blank_select_tag(:task_entry,my_task_entries,params[:task_entry],{:id=>"myTaskEntryType"}) %></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="pbBody">
-    <div class="pbSubsection" id="myTasks" href="<%= back_url_for({:controller=> "home", :action=>"my_tasks",:task_entry=>"{task_entry}",:back=>true}) %>">
-      <%= render({:partial=>"irm/home/tasks",:locals=>{:tasks=>acts_as_tasks}}) %>
-    </div>
-    </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_task_mine) %></h2>
+    </td>
+    <td class="page-block-button">
+
+    </td>
+    <td class="page-block-help" style="width: auto">
+      <div><%= t(:label_irm_task_type) %>:<%= blank_select_tag(:task_entry,my_task_entries,params[:task_entry],{:id=>"myTaskEntryType"}) %></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= render({:partial=>"irm/home/tasks",:locals=>{:tasks=>acts_as_tasks}}) %>
+  </div>
+
+
 </div>
 
 

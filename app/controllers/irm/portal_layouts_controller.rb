@@ -104,6 +104,10 @@ class Irm::PortalLayoutsController < ApplicationController
     irm_portal_layouts,count = paginate(irm_portal_layouts_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(irm_portal_layouts.to_grid_json([:name,:description,:layout,:default_flag],count))}
+      format.html {
+        @datas =  irm_portal_layouts
+        @count = count
+      }
     end
   end
 

@@ -104,7 +104,7 @@ zh:
   failed_copyed:  复制数据失败
   failed_deleted:  删除数据失败
   label_delete_confirm: 你确定要删除该条数据吗?
-  label_no_data: 没有找到数据
+  label_no_data: 无可用数据
   label_sub_functions: 功能
   label_common_info: 一般信息
   label_description_info: 描述信息

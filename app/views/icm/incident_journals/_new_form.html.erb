@@ -359,7 +359,6 @@
                     $(e.currentTarget).addClass("active");
                     $("#tabNav li").each(function(index, element) {
                         var ref = $("#" + $(element).attr("ref"));
-                        console.debug("#" + $(element).attr("ref"));
                         if (ref && !ref.hasClass("hidden")) {
                             ref.addClass("hidden");
                         }

@@ -56,9 +56,9 @@ module Irm::HomeHelper
     portal_layout[:layout].split(",").each do |limit|
       1.upto(limit.to_i).each  do |index|
         if(index==limit.to_i)
-          layouts << "c#{layout_index+1}:'span-#{24/limit.to_i} last'"
+          layouts << "c#{layout_index+1}:'portlet-#{24/limit.to_i} last'"
         else
-          layouts << "c#{layout_index+1}:'span-#{24/limit.to_i}'"
+          layouts << "c#{layout_index+1}:'portlet-#{24/limit.to_i}'"
         end
         layout_index = layout_index+1
       end

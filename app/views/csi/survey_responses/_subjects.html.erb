@@ -39,10 +39,10 @@
           var requiredSubjectIds = [];
 
           for(var i=0;i<requiredFields.length;i++){
-               if(["string","drop","text"].indexOf(requiredFields[i].input_type)>-1&&(!result[requiredFields[i].id]||result[requiredFields[i].id].length<1)){
+               if($.inArray(requiredFields[i].input_type,["string","drop","text"])>-1&&(!result[requiredFields[i].id]||result[requiredFields[i].id].length<1)){
                    checked = false;
                    requiredSubjectIds.push({"id":requiredFields[i].id, "page":requiredFields[i].page});
-               }else if(["radio"].indexOf(requiredFields[i].input_type)>-1){
+               }else if($.inArray(requiredFields[i].input_type,["radio"])>-1){
                    if(!result[requiredFields[i].id]){
                        checked = false;
                        requiredSubjectIds.push({"id":requiredFields[i].id, "page":requiredFields[i].page});
@@ -51,7 +51,7 @@
                        requiredSubjectIds.push({"id":requiredFields[i].id, "page":requiredFields[i].page});
                    }
 
-               }else if(["check"].indexOf(requiredFields[i].input_type)>-1){
+               }else if($.inArray(requiredFields[i].input_type,["check"])>-1){
                    if(!result[requiredFields[i].id]){
                        checked = false;
                        requiredSubjectIds.push({"id":requiredFields[i].id, "page":requiredFields[i].page});

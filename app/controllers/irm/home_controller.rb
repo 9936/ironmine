@@ -1,4 +1,5 @@
 class Irm::HomeController < ApplicationController
+  layout 'bootstrap_application'
   def index
   end
 

@@ -4,6 +4,7 @@ $(function(){
     $(document).ajaxSend(function(event, jqXHR, ajaxOptions){
         var _dom_id = get_dom_id(ajaxOptions);
         if (typeof _dom_id != 'undefined' && _dom_id != null && _dom_id.length > 0) {
+            $("#"+_dom_id).addClass("table-placeholder");
             $("#"+_dom_id).mask($.i18n("processing"));
         }else{
             $("body").mask($.i18n("processing"));
@@ -16,6 +17,7 @@ $(function(){
     $(document).ajaxComplete(function(event, jqXHR, ajaxOptions){
         var _dom_id = get_dom_id(ajaxOptions);
         if (typeof _dom_id != 'undefined' && _dom_id != null && _dom_id.length > 0) {
+            $("#"+_dom_id).removeClass("table-placeholder");
             $("#"+_dom_id).unmask();
         }else {
             $("body").unmask();
@@ -33,7 +35,6 @@ $(function(){
 
       if(parent_forms[0]){
           $(parent_forms[0]).trigger("submit");
-          console.debug(parent_forms);
       }
     });
 
@@ -331,13 +332,15 @@ function dateFieldChooseToday(fieldId,fieldValue){
 
 //START =================================Ajax 监听帮助函数================================
 function get_dom_id(ajaxOptions) {
-    var _dom_id,
-    paraString = ajaxOptions.url.substring(ajaxOptions.url.indexOf("?")+1,ajaxOptions.url.length).split("&"),
-    paraObj = {};
-    for (i=0; j=paraString[i]; i++){
-        paraObj[j.substring(0,j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=")+1,j.length);
+
+    var url = ajaxOptions.url||"",data=  ajaxOptions.data||"";
+    if(url.indexOf("?")>-1){
+        url = url.substring(url.indexOf("?")+1,url.length);
     }
-    _dom_id = paraObj["_dom_id".toLowerCase()];
-    return _dom_id
+    else{
+        url = ""
+    }
+    data = data.substring(data.indexOf("?")+1,data.length);
+    return $.extend({},$.deserialize(data),$.deserialize(url))["_dom_id"]
 }
 //end =================================Ajax 监听帮助函数================================

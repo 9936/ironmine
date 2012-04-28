@@ -103,8 +103,10 @@ module Ironmine
     config.ironmine.jscss = {
         :default =>{:css=>[:application],:js=>[:application,"locales/jquery-{locale}"]},
         :default_ie6=>{:css=>[:application_ie6]},
+        :aceditor =>{:js=>["plugins/ace"]},
         :colorbox=>{:css=>[],:js=>["plugins/colorbox"]},
-        :xheditor => {:css=>["xheditor-plugin"],:js=>["xheditor/xheditor-{locale}"]}
+        :xheditor => {:css=>["xheditor-plugin"],:js=>["xheditor/xheditor-{locale}"]} ,
+        :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]}
     }
 
 
@@ -133,7 +135,16 @@ module Ironmine
         config.autoload_paths += [file_path]
       end
     end
-    config.assets.precompile += ['application_ie6.css','plugins/colorbox.js','locales/jquery-en.js','locales/jquery-zh.js']
+    config.assets.precompile += ["application_ie6.css",
+                                 "plugins/colorbox.js",
+                                 "plugins/jpolite.css",
+                                 "locales/jquery-en.js",
+                                 "locales/jquery-zh.js",
+                                 "xheditor-plugin.css",
+                                 "xheditor/xheditor-zh.js",
+                                 "xheditor/xheditor-en.js",
+                                 "plugins/jpolite.js",
+                                 "plugins/ace.js"]
 
     # 自动生成时不生成asset
     config.generators do |g|
