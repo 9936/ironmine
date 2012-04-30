@@ -1,42 +1,6 @@
-<!--  irm datatable      -->
- <div class="irm-datatable">
-   <div>
-       <table count="<%=@count%>">
-         <thead>
-           <tr>
-             <th style="width:80px">
-               <div><%= t(:label_irm_oauth_access_name)%></div>
-             </th>
-             <th style="width:200px;">
-               <div><%= t(:label_irm_oauth_access_ip) %></div>
-             </th>
-             <th style="width:200px;">
-               <div><%= t(:label_irm_oauth_access_updated) %></div>
-             </th>
-             <th>
-               <div><%= t(:label_irm_oauth_access_num) %></div>
-             </th>
-           </tr>
-         </thead>
-         <tbody>
-         <% @datas.each do |key, data| %>
-         <tr id="<%=key %>">
-           <td>
-             <div><%= data[:client] %></div>
-           </td>
-           <td>
-             <div><%= data[:ip_address] %></div>
-           </td>
-           <td>
-             <div><%= format_date(data[:updated_at]) %></div>
-           </td>
-           <td>
-             <div><%= data[:times] %></div>
-           </td>
-         </tr>
-         <% end -%>
-         </tbody>
-       </table>
-   </div>
- </div>
-<!--  end irm datatable      -->
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:client,{:title=>t(:label_irm_oauth_access_name),:width=>"150px"})%>
+  <% builder.column(:ip_address,{:title=>t(:label_irm_oauth_access_ip),:width=>"150px"}) %>
+  <% builder.column(:updated_at,{:title=>t(:label_irm_oauth_access_updated)})%>
+  <% builder.column(:times,{:title=>t(:label_irm_oauth_access_num)})%>
+<% end %>
