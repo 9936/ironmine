@@ -899,6 +899,7 @@ en:
   label_action_run: Run
   label_irm_report_new_custom: New Custom Report
   label_irm_report_new_program: New Program Report
+  label_irm_report_edit_program: Edit Program Report
   label_irm_report_apply_params: Apply Report Params
   label_irm_report_chart_type: Chart Type
   label_irm_report_record_count: Record Count
