@@ -1,6 +1,6 @@
 <%=datatable_view({:columns=>[:id,:system_name,:system_description],:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-    <%= link_to t(:remove), {:controller=>"irm/external_system_members",:action=>"delete_from_person",:external_system_id=>data[:id],:person_id=> @person.id},:confirm => t(:label_are_you_sure) ,:method => :delete %>
+  <% builder.column(:id,{:title=>t(:operation), :width => "30px"}) do |data|%>
+    <%= bootstrap_icons("icon-trash", t(:remove), {:controller=>"irm/external_system_members",:action=>"delete_from_person",:external_system_id=>data[:id],:person_id=> @person.id},:confirm => t(:label_are_you_sure) ,:method => :delete) %>
   <% end %>
   <% builder.column(:system_name,{:title=>t(:label_irm_group_name)})%>
   <% builder.column(:system_description,{:title=>t(:label_irm_group_description)})%>
