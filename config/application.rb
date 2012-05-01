@@ -106,7 +106,9 @@ module Ironmine
         :aceditor =>{:js=>["plugins/ace"]},
         :colorbox=>{:css=>[],:js=>["plugins/colorbox"]},
         :xheditor => {:css=>["xheditor-plugin"],:js=>["xheditor/xheditor-{locale}"]} ,
-        :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]}
+        :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]},
+        :jcrop => {:css=>["plugins/jcrop"],:js=>["plugins/jquery-crop"]},
+        :jcrop_ie6 => {:css=>["plugins/jcrop.ie6"],:js=>[]}
     }
 
 

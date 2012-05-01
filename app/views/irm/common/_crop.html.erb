@@ -1,6 +1,6 @@
 <%= image_tag source.avatar.url(:original), :id => "crop_box" %>
-<% require_javascript(:jcrop) %>
-<% require_css(:jcrop) %>
+<% require_jscss(:jcrop) %>
+<% require_jcss(:jcrop_ie6) if ie6? %>
 <script type="text/javascript">
   $(function(){
       function onChange(crop){
