@@ -1,7 +1,6 @@
 <%= common_title(:model_meaning=>t(:label_irm_person_my_profile)) %>
 
-<div id="ep" class="detail-block page-block">
   <%= render :partial => "irm/profiles/common_info", :locals => {:profile => @profile}%>
   <%= render :partial => "irm/profiles/kanban_info", :locals => {:profile => @profile}%>
   <%= render :partial => "irm/profiles/function_list", :locals => {:profile => @profile}%>
-</div>
+
