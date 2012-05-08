@@ -1,56 +1,37 @@
 <div id="reportChart"></div>
-
-<% require_javascript(:extjs) %>
-<% require_css(:extjs) %>
+<% require_jscss(:highcharts) %>
 
 <script type="text/javascript">
-  Ext.onReady(function(){
-
-    var store = Ext.create('Ext.data.JsonStore', {
-        fields: reportChartData.fields,
-        data: reportChartData.origin_data
-    });
-
-    var seriesTip = function(storeItem, item){
-        this.setTitle(storeItem.get('category')+ '<br />' + item.value[1]);
-    }
-
-    Ext.create('Ext.chart.Chart', {
-        renderTo: Ext.get("reportChart"),
-        width: Ext.get("reportChart").getComputedWidth()-10,
-        height: 300,
-        store: store,
-        legend: {
-                position: 'bottom'
-            },
-        axes: [{
-            type: 'Numeric',
-            position: 'left',
-            fields: reportChartData.data_fields,
-            label: {
-                renderer: Ext.util.Format.numberRenderer('0,0')
-            },
-            grid: true,
-            minimum: 0
-        }, {
-            type: 'Category',
-            position: 'bottom',
-            fields: ['category'],
-            orientation:"vertical"
-        }],
-        series: [{
-            type: 'column',
-            axis: 'left',
-            xField: 'category',
-            yField: reportChartData.data_fields,
-            title: reportChartData.series_title,
-            tips: {
-                    trackMouse: true,
-                    width: 120,
-                    renderer: seriesTip
-            }
-        }
-        ]
-    });
-      });
+  var chart;
+  $(document).ready(function() {
+  	chart = new Highcharts.Chart({
+  		chart: {
+  			renderTo: 'reportChart',
+  			type: 'column'
+  		},
+  		xAxis: {
+  			categories: reportChartData.categories_titles
+  		},
+  		yAxis: {
+  			title: {
+  				text: reportChartData.y_label
+  			},
+  			plotLines: [{
+  				value: 0,
+  				width: 1,
+  				color: '#808080'
+  			}]
+  		},
+  		tooltip: {
+  			formatter: function() {
+  					return '<b>'+ this.series.name +'</b><br/>'+
+  					this.x +': '+ this.y;
+  			}
+  		},
+        credits: {
+            enabled: false
+        },
+  		series: reportChartData.data
+  	});
+  });
 </script>

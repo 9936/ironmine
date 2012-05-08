@@ -1,53 +1,43 @@
 <div id="reportChart"></div>
-
-<% require_javascript(:extjs) %>
-<% require_css(:extjs) %>
+<% require_jscss(:highcharts) %>
 
 <script type="text/javascript">
-  Ext.onReady(function(){
-
-    var store = Ext.create('Ext.data.JsonStore', {
-        fields: reportChartData.fields,
-        data: reportChartData.origin_data
-    });
-
-    var total = 0;
-
-    store.each(function(rec) {
-        total += rec.get('data0');
-    });
-
-    var seriesTip = function(storeItem, item){
-        this.setTitle(storeItem.get('category') + ': ' +storeItem.get('data0')+': '+ Math.round(storeItem.get('data0') / total * 100) + '%');
-    }
-
-
-    Ext.create('Ext.chart.Chart', {
-        animate: true,
-        renderTo: Ext.get("reportChart"),
-        width: Ext.get("reportChart").getComputedWidth()-10,
-        height: 300,
-        store: store,
-        legend: {
-                position: 'bottom'
-            },
-        series: [{
+var chart;
+ $(document).ready(function() {
+     var pieData = [];
+     $.each(reportChartData.categories_titles,function(index,value){
+         pieData.push([value,reportChartData.data[0].data[index]])
+     });
+ 	chart = new Highcharts.Chart({
+ 		chart: {
+ 			renderTo: 'reportChart',
             type: 'pie',
-            field: 'data0',
-            showInLegend: true,
-            donut: 30,
-            tips: {
-                    trackMouse: true,
-                    width: 120,
-                    renderer: seriesTip
-            },
-            label: {
-                    field: 'category',
-                    display: 'rotate',
-                    contrast: true
-            }
-        }
-        ]
-    });
-      });
+ 			plotBackgroundColor: null,
+ 			plotBorderWidth: null,
+ 			plotShadow: false
+ 		},
+ 		tooltip: {
+ 			formatter: function() {
+                 return '<b>'+ this.point.name +'('+this.y+')</b>: '+ this.percentage.toFixed(1)+'% ';;
+ 			}
+ 		},
+ 		plotOptions: {
+ 			pie: {
+ 				allowPointSelect: true,
+ 				cursor: 'pointer',
+ 				dataLabels: {
+ 					enabled: true,
+ 					color: '#000000',
+ 					connectorColor: '#000000',
+ 					formatter: function() {
+ 						return '<b>'+ this.point.name +'('+this.y+')</b>: '+ this.percentage.toFixed(1)+'% ';;
+ 					}
+ 				}
+ 			}
+ 		},
+        series: [{name:reportChartData.data[0].name,data:pieData}]
+ 	});
+ });
+
+
 </script>

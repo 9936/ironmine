@@ -48,9 +48,11 @@
         </tr>
       </table>
     </div>
-    <% if auto_run?(@report) %>
-      <div class="page-block">
-        <%= render "show_#{@report.table_show_type.downcase}"%>
-      </div>
-    <% end %>
+
+<% end %>
+
+<% if auto_run?(@report) %>
+  <div class="page-block">
+    <%= render "show_#{@report.table_show_type.downcase}"%>
+  </div>
 <% end %>

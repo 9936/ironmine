@@ -1,57 +1,56 @@
 <%= app_title %>
 <style type="text/css">
-   .reportParameters .row {
-       margin-bottom: 15px;
-   }
-   .reportParameters .row tr {
-       vertical-align: top;
-   }
-   .reportParameters .row td {
-       padding-right: 10px;
-   }
-   .reportParameters label, .reportParameters .label {
-       display: block;
-       font-size: 91%;
-       margin-top: 20px;
-       white-space: nowrap;
-   }
-   .reportParameters fieldset label, .reportParameters fieldset .label {
-       margin-top: 0;
-   }
-   .reportParameters fieldset {
-       border: 1px solid;
-       margin:0 2px 0 2px;
-       border-color: gray;
-       padding: 7px;
-   }
+  #baseFilter select{
+      min-width: 128px;
+  }
+
+  #baseFilter tr{
+      vertical-align: top;
+  }
+  #baseFilter td{
+      padding-left: 10px;
+  }
+  #baseFilter label{
+      display: block;
+      margin-top: 38px;
+  }
+  #baseFilter fieldset label{
+      display: block;
+      margin-top: 5px;
+  }
+  #reportData th,td{
+      text-align:left
+  }
+  #reportData th{
+      background-color: #DBF2F9;
+  }
+
 </style>
 
 <div id="ep" class="detail-block page-block">
-  <%= form_for(@report,:url=>{:action=>"run"},:builder => LabellingFormBuilder,:html=>{:id=>"customForm"}) do |f|%>
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle" title="<%= @report[:description] %>"><%= @report[:name] %></h2></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="reportParameters">
-              <div class="row">
-                <%= show_program_report_params(@report) %>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td id="topButtonRow" class="pbButton" colspan="2">
-             <%= render "show_report_actions" %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <%= form_for(@report,:url=>{:action=>"run"},:builder => CustomFormBuilder,:html=>{:id=>"customForm"}) do |f|%>
+      <div class="show-block">
+        <!-- 人员信息 -->
+        <table class="page-block-header">
+          <tr>
+              <td class="page-block-title">
+                <h2 class="block-title"title="<%= @report[:description] %>"><%= @report[:name] %></h2>
+              </td>
+              <td class="page-block-button"></td>
+          </tr>
+        </table>
+        <!-- 报表信息 -->
+        <div class="page-block-body">
+          <%= show_program_report_params(@report) %>
+        </div>
+        <table class="page-block-header">
+          <tr>
+            <td class="page-block-button"><%= render "show_report_actions" %></td>
+          </tr>
+        </table>
+      </div>
+
+
   <% end %>
   <div class="listRelatedObject setupBlock">
     <% if auto_run?(@report) %>

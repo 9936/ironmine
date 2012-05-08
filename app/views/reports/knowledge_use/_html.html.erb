@@ -1,8 +1,7 @@
-<% require_javascript(:extjs) %>
-<% require_css(:extjs) %>
+
 <div id="reportChart"></div>
 <!--  irm datatable      -->
- <div class="irm-datatable">
+ <div class="datatable">
    <div>
        <table count="<%=datas[:datas].size%>">
          <thead>
@@ -30,63 +29,48 @@
        </table>
    </div>
  </div>
-<!--  end irm datatable      -->
+
+
+
+<% require_jscss(:highcharts) %>
+
 <script type="text/javascript">
-  Ext.onReady(function(){
-    var reportChartData = <%= datas[:chart_datas].to_json.html_safe%>;
-    var store = Ext.create('Ext.data.JsonStore', {
-        fields: reportChartData.fields,
-        data: reportChartData.origin_data
-    });
+  var chart;
+  $(document).ready(function() {
+      var reportChartData = <%= datas[:chart_datas].to_json.html_safe%>;
+      var  series = [];
+      var categories = reportChartData.origin_data[0]
 
-    var seriesTip = function(storeItem, item){
-        this.setTitle(storeItem.get(reportChartData.fields[0])+ '<br />' + item.series.title + '<br />' + item.value[1]);
-    }
+      for(var i=0;i<reportChartData.series_title.length;i++){
+          series[i] = {name:reportChartData.series_title[i],data:reportChartData.origin_data[i+1]}
+      }
+      console.debug(reportChartData);
+  	chart = new Highcharts.Chart({
+  		chart: {
+  			renderTo: 'reportChart',
+  			type: 'line'
+  		},
+  		xAxis: {
+  			categories: categories
+  		},
+  		yAxis: {
 
-    var seriesConfig ={
-            type: 'line',
-            smooth: true,
-            axis: 'left',
-            xField: reportChartData.fields[0],
-            tips: {
-                    trackMouse: true,
-                    width: 120,
-                    renderer: seriesTip
-            }
-    }
-
-    var  series = [];
-
-    for(var i=0;i<reportChartData.data_fields.length;i++){
-        var s = {}
-        Ext.apply(s,{yField:reportChartData.data_fields[i],title:reportChartData.series_title[i]},seriesConfig)
-        series[i] = s;
-    }
-
-    Ext.create('Ext.chart.Chart', {
-        renderTo: Ext.get("reportChart"),
-        width: Ext.get("reportChart").getComputedWidth()-10,
-        height: 300,
-        store: store,
-        legend: {
-                position: 'bottom'
-            },
-        axes: [{
-            type: 'Numeric',
-            position: 'left',
-            fields: reportChartData.data_fields,
-            label: {
-                renderer: Ext.util.Format.numberRenderer('0,0')
-            },
-            grid: true,
-            minimum: 0
-        }, {
-            type: 'Category',
-            position: 'bottom',
-            fields: [reportChartData.fields[0]],
-            orientation:"vertical"
-        }],
-        series: series
-    });
-      });
+  			plotLines: [{
+  				value: 0,
+  				width: 1,
+  				color: '#808080'
+  			}]
+  		},
+  		tooltip: {
+  			formatter: function() {
+  					return '<b>'+ this.series.name +'</b><br/>'+
+  					this.x +': '+ this.y;
+  			}
+  		},
+        credits: {
+            enabled: false
+        },
+  		series: series
+  	});
+  });
 </script>

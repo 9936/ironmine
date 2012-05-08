@@ -73,58 +73,40 @@
        </table>
    </div>
  </div>
-<!--  end irm datatable      -->
-<% require_javascript(:extjs) %>
-<% require_css(:extjs) %>
+
+<% require_jscss(:highcharts) %>
 
 <script type="text/javascript">
-  Ext.onReady(function(){
-    var store = Ext.create('Ext.data.JsonStore', {
-        fields: ['count', 'date'],
-        data: <%=datas[:chart_datas].to_json.html_safe %>
-    });
+  var chart;
+  $(document).ready(function() {
+      var reportChartData = <%=to_chart_data(datas[:chart_datas],"date","total_count").to_json.html_safe %>;
+      console.debug(reportChartData);
+  	chart = new Highcharts.Chart({
+  		chart: {
+  			renderTo: 'reportChart',
+  			type: 'line'
+  		},
+  		xAxis: {
+  			categories: reportChartData[0]
+  		},
+  		yAxis: {
 
-    Ext.create('Ext.chart.Chart', {
-        renderTo: Ext.get("reportChart"),
-        animate: true,
-        width: Ext.get("reportChart").getComputedWidth()-10,
-        height: 300,
-        store: store,
-        axes: [{
-            type: 'Numeric',
-            position: 'left',
-            fields: ['total_count'],
-            label: {
-                renderer: Ext.util.Format.numberRenderer('0,0')
-            },
-            grid: true,
-            minimum: 0
-        }, {
-            type: 'Category',
-            position: 'bottom',
-            fields: ['date'],
-            orientation:"vertical"
-        }],
-        series: [{
-            type: 'line',
-            highlight: {
-                size: 7,
-                radius: 7
-            },
-            smooth: true,
-            axis: 'left',
-            xField: 'date',
-            yField: 'total_count',
-            tips: {
-                    trackMouse: true,
-                    width: 120,
-                    height: 40,
-                    renderer: function(storeItem, item) {
-                        this.setTitle(storeItem.get('date') + '<br />' + storeItem.get('total_count'));
-                    }
-            }
-        }
-        ]
-    });
-      });
+  			plotLines: [{
+  				value: 0,
+  				width: 1,
+  				color: '#808080'
+  			}]
+  		},
+  		tooltip: {
+  			formatter: function() {
+  					return '<b>'+ this.series.name +'</b><br/>'+
+  					this.x +': '+ this.y;
+  			}
+  		},
+        credits: {
+            enabled: false
+        },
+  		series: reportChartData[1]
+  	});
+  });
 </script>

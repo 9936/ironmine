@@ -33,8 +33,6 @@ class KnowledgeUse < Irm::ReportManager::ReportBase
 
     chart_datas = {}
 
-    chart_datas[:fields] = ["date","show_amt","apply_amt"]
-    chart_datas[:data_fields] = ["show_amt","apply_amt"]
     chart_datas[:series_title] = [I18n.t(:label_report_knowledge_use_show),I18n.t(:label_report_knowledge_use_apply)]
 
 
@@ -54,7 +52,10 @@ class KnowledgeUse < Irm::ReportManager::ReportBase
       end
     end
 
-    chart_datas[:origin_data] = group_datas.values
+
+    origin_data =[[],[],[]]
+    group_datas.values.each{|d| origin_data[0]<<d[:date];origin_data[1]<<d[:show_amt];origin_data[2]<<d[:apply_amt] }
+    chart_datas[:origin_data] = origin_data
 
     headers = [I18n.t(:label_report_month),I18n.t(:label_report_knowledge_use_show),I18n.t(:label_report_knowledge_use_apply)]
 

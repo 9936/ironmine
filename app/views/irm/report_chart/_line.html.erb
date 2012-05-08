@@ -1,64 +1,38 @@
 <div id="reportChart"></div>
-
-<% require_javascript(:extjs) %>
-<% require_css(:extjs) %>
+<% require_jscss(:highcharts) %>
 
 <script type="text/javascript">
-  Ext.onReady(function(){
-
-    var store = Ext.create('Ext.data.JsonStore', {
-        fields: reportChartData.fields,
-        data: reportChartData.origin_data
-    });
-
-    var seriesTip = function(storeItem, item){
-        this.setTitle(storeItem.get('category')+ '<br />' + item.series.title + '<br />' + item.value[1]);
-    }
-
-    var seriesConfig ={
-            type: 'line',
-            smooth: true,
-            axis: 'left',
-            xField: 'category',
-            tips: {
-                    trackMouse: true,
-                    width: 120,
-                    renderer: seriesTip
-            }
-    }
-
-    var  series = [];
-
-    for(var i=0;i<reportChartData.data_fields.length;i++){
-        var s = {}
-        Ext.apply(s,{yField:reportChartData.data_fields[i],title:reportChartData.series_title[i]},seriesConfig)
-        series[i] = s;
-    }
-
-    Ext.create('Ext.chart.Chart', {
-        renderTo: Ext.get("reportChart"),
-        width: Ext.get("reportChart").getComputedWidth()-10,
-        height: 300,
-        store: store,
-        legend: {
-                position: 'bottom'
-            },
-        axes: [{
-            type: 'Numeric',
-            position: 'left',
-            fields: reportChartData.data_fields,
-            label: {
-                renderer: Ext.util.Format.numberRenderer('0,0')
-            },
-            grid: true,
-            minimum: 0
-        }, {
-            type: 'Category',
-            position: 'bottom',
-            fields: ['category'],
-            orientation:"vertical"
-        }],
-        series: series
-    });
-      });
+  var chart;
+  $(document).ready(function() {
+      console.debug(reportChartData);
+  	chart = new Highcharts.Chart({
+  		chart: {
+  			renderTo: 'reportChart',
+  			type: 'line'
+  		},
+  		xAxis: {
+  			categories: reportChartData.categories_titles
+  		},
+  		yAxis: {
+  			title: {
+  				text: reportChartData.y_label
+  			},
+  			plotLines: [{
+  				value: 0,
+  				width: 1,
+  				color: '#808080'
+  			}]
+  		},
+  		tooltip: {
+  			formatter: function() {
+  					return '<b>'+ this.series.name +'</b><br/>'+
+  					this.x +': '+ this.y;
+  			}
+  		},
+        credits: {
+            enabled: false
+        },
+  		series: reportChartData.data
+  	});
+  });
 </script>

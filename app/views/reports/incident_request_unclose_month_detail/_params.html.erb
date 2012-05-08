@@ -1,41 +1,39 @@
-<% require_javascript(:datepicker) %>
-<% require_css(:datepicker) %>
-<table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
+<table class="form-table baseFilter" id="baseFilter">
   <tbody>
-    <tr>
-      <td width="30%"></td>
-      <td></td>
-      <td>  <fieldset>
+  <tr>
+    <td width="30%"></td>
+    <td></td>
+    <td>
+      <fieldset>
         <legend><%= t(:label_irm_external_system) %></legend>
         <div style="white-space:nowrap">
           <%= select_tag_multiple(
                       "program_params[external_system_id][]",
                       nullable_options_for_select(current_person_assessible_external_system_full, program_params[:external_system_id]),
                       "program_params[external_system_mul]",
-                      program_params[:external_system_mul] ? program_params[:external_system_mul] : 'N')%>
+                      program_params[:external_system_mul] ? program_params[:external_system_mul] : 'N') %>
         </div>
       </fieldset>
-      </td>
+    </td>
 
-      <td>
-        <fieldset>
-          <legend>
-            <%= t(:label_report_date_month) %>
-          </legend>
-          <table>
-            <tr>
-              <td>
-                <div style="white-space:nowrap">
-                  <%= select_date program_params[:year].present? ? Date.strptime("#{program_params[:year]}-#{program_params[:month]}", "%Y-%m") : Time.now,
-                                  :prefix => 'program_params', :order =>[:year, :month], :include_blank => false %>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </fieldset>
-      </td>
+    <td>
+      <fieldset>
+        <legend>
+          <%= t(:label_report_date_month) %>
+        </legend>
+        <table>
+          <tr>
+            <td>
+              <div style="white-space:nowrap">
+                <%= select_date program_params[:year].present? ? Date.strptime("#{program_params[:year]}-#{program_params[:month]}", "%Y-%m") : Time.now,
+                                :prefix => 'program_params', :order => [:year, :month], :include_blank => false %>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+    </td>
 
-    </tr>
-  <%  %>
+  </tr>
   </tbody>
 </table>

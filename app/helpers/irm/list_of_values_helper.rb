@@ -46,7 +46,7 @@ module Irm::ListOfValuesHelper
     lov_link_str = link_to({},{:class=>"btn lov-btn",:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
       content_tag(:i,"",{:class=>"icon-search"}).html_safe
     end
-    content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str,{:class=>"input-append"},false)
+    content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str,{:class=>"form-inline input-append"},false)
 
   end
 

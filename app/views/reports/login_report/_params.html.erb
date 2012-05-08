@@ -1,35 +1,32 @@
-<% require_javascript(:datepicker) %>
-<% require_css(:datepicker) %>
-<table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
+<table class="form-table baseFilter" id="baseFilter">
   <tbody>
-    <tr>
-      <td width="30%"></td>
-      <td></td>
-      <td>
-        <label for="loginPerson_label"><%= t(:label_irm_person) %></label>
-        <div style="white-space:nowrap">
-          <%= lov_field_tag(:person_id,Irm::Person,:name=>"program_params[person_id]",:value=>program_params[:person_id],:id=>"loginPerson") %>
-        </div>
-      </td>
-      <td>
-        <fieldset>
-          <legend>
-            <%= t(:label_irm_report_time_range) %>
-          </legend>
-          <table>
-            <tr>
-              <td>
-                <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
-                <%= text_field_tag(:date_from,program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:size=>12,:class=>"date",:nobutton=>true)%>
-              </td>
-              <td>
-                <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
-                <%= text_field_tag(:date_to,program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:size=>12,:class=>"date",:nobutton=>true)%>
-              </td>
-            </tr>
-          </table>
-        </fieldset>
-      </td>
-    </tr>
+  <tr>
+        <td>
+          <label for="loginPerson_label"><%= t(:label_irm_person) %></label>
+          <div style="white-space:nowrap">
+            <%= lov_field_tag(:person_id,Irm::Person,:name=>"program_params[person_id]",:value=>program_params[:person_id],:id=>"loginPerson") %>
+          </div>
+        </td>
+        <td>
+          <fieldset>
+            <legend>
+              <%= t(:label_irm_report_time_range) %>
+            </legend>
+            <table>
+              <tr>
+                <td>
+                  <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                  <%= date_field_tag(:date_from,:value=>program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:nobutton=>true)%>
+                </td>
+                <td>
+                  <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                  <%= date_field_tag(:date_to,:value=>program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:nobutton=>true)%>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+        </td>
+      </tr>
+
   </tbody>
 </table>
