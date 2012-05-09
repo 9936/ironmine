@@ -95,6 +95,7 @@ en:
   code: Code
   #usual words
   notice_account_invalid_creditentials: User or Password Error
+  successfully_updated_password: Successfully Updated Password
   successfully_updated: Successfully Updated
   successfully_created: Successfully Created
   successfully_copyed:  Successfully Copyed
