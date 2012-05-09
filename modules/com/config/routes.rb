@@ -69,5 +69,18 @@ Rails.application.routes.draw do
     match '/config_item_relations/:id/show(.:format)'=> "config_item_relations#show",  :via => :get
     match '/config_item_relations/get_data(.:format)' => "config_item_relations#get_data"
     match '/config_item_relations/:id/destroy(.:format)' => "config_item_relations#destroy", :via => :delete
+
+    #config_item_statuses
+    match '/config_item_statuses(/index)(.:format)' => "config_item_statuses#index", :via => :get
+    match '/config_item_statuses/new(.:format)'      => "config_item_statuses#new",   :via => :get
+    match '/config_item_statuses/:id/edit(.:format)' => "config_item_statuses#edit", :via => :get
+    match '/config_item_statuses/create(.:format)'  => "config_item_statuses#create",:via => :post
+    match '/config_item_statuses/:id(.:format)'  => "config_item_statuses#update",:via => :put
+    match '/config_item_statuses/:id/show(.:format)'=> "config_item_statuses#show",  :via => :get
+    match '/config_item_statuses/get_data(.:format)' => "config_item_statuses#get_data"
+    match '/config_item_statuses/:id/destroy(.:format)' => "config_item_statuses#destroy", :via => :delete
+    match '/config_item_statuses/:id/multilingual_edit(.:format)' => "config_item_statuses#multilingual_edit", :via => :get
+    match '/config_item_statuses/:id/multilingual_update(.:format)' => "config_item_statuses#multilingual_update", :via => :put
+
   end
 end

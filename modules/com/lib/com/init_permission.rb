@@ -10,6 +10,10 @@ Irm::AccessControl.map do |map|
       "com/config_attributes"=>["index", "show","get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]
   }
 
+  map.function :config_item_status,{
+      "com/config_item_statuses"=>["index", "show","get_class_tree","get_data", "new", "create", "edit", "update", "multilingual_edit", "multilingual_update"]
+  }
+
 
 
   map.function :config_item,{"com/config_items"=>["index", "show","destroy", "new", "get_dynamic_attributes","create","edit", "update","get_data"],
