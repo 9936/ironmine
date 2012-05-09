@@ -500,8 +500,8 @@ module ApplicationHelper
 
   def flash_notice
     ret = ""
-    ret = content_tag("div", raw(flash[:notice]), {:id => "succDiv_ep", :class => "pbError"}) if flash[:notice].present?
-    ret = content_tag("div", raw(flash[:error]), {:id => "errorDiv_ep", :class => "pbError"}) if flash[:error].present?
+    ret = content_tag("div", raw(flash[:notice]), {:id => "succDiv_ep", :class => "alert alert-success"}) if flash[:notice].present?
+    ret = content_tag("div", raw(flash[:error]), {:id => "errorDiv_ep", :class => "alert alert-error"}) if flash[:error].present?
     ret
   end
 
