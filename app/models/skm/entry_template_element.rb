@@ -1,7 +1,9 @@
 class Skm::EntryTemplateElement < ActiveRecord::Base
   set_table_name :skm_entry_template_elements
   has_many :entry_template_details
-  validates_presence_of :entry_template_element_code
+
+  validates_presence_of :entry_template_element_code,:default_rows
+  validates_numericality_of :default_rows
   validates_uniqueness_of :entry_template_element_code,:scope=>[:opu_id]
   validates_presence_of :name
 
