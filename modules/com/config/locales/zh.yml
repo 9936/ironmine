@@ -57,3 +57,17 @@ zh:
   label_com_config_item_relation_list: 配置项关联关系列表
   label_com_config_item_relation_config_item: 关联配置项
   #===========================end config item==============================#
+
+  #=========================com config item status=======================#
+  label_com_config_item_status: 配置项状态
+  label_com_config_item_status_list: 配置项状态列表
+  label_com_config_item_status_new: 新建配置分类
+  label_com_config_item_status_edit: 编辑配置分类
+  label_com_config_item_status_code: 编码
+  label_com_config_item_status_name: 名称
+  label_com_config_item_status_description: 描述
+  close_flag: 关闭
+  label_com_config_item_status_close_flag: 关闭
+  label_com_config_item_status_default_flag: 默认
+  label_com_config_item_status_show: 查看配置分类
+  #=========================end com config item status=======================#

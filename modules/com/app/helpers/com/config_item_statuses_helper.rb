@@ -1,0 +1,2 @@
+module Com::ConfigItemStatusesHelper
+end

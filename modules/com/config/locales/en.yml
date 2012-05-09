@@ -48,3 +48,17 @@ en:
   label_com_config_item_relation_list: Configuration Item Relation List
   label_com_config_item_relation_config_item: Related Configuration Item
   #===========================end config item==============================#
+
+  #=========================com config item status=======================#
+  label_com_config_item_status: Config Item Status
+  label_com_config_item_status_list: Config Item Status List
+  label_com_config_item_status_new: New Config Item Status
+  label_com_config_item_status_edit: Edit Config Item Status
+  label_com_config_item_status_code: Code
+  label_com_config_item_status_name: Name
+  label_com_config_item_status_description: Description
+  close_flag: Close
+  label_com_config_item_status_close_flag: Close
+  label_com_config_item_status_default_flag: Default
+  label_com_config_item_status_show: Show
+  #=========================end com config item status=======================#

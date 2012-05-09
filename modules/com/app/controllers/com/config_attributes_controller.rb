@@ -125,7 +125,6 @@ class Com::ConfigAttributesController < ApplicationController
       format.html {
         @datas = config_attributes
         @count = count
-        render_html_data_table
       }
       format.json {render :json=>to_jsonp(config_attributes.values.to_grid_json([:code, :config_class_id,:input_type,:input_value,:regular,:name,:display_flag,:required_flag,:description,:from_parent,:status_code],count))}
     end
