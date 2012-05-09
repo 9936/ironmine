@@ -6,7 +6,7 @@ class Irm::Currency < ActiveRecord::Base
   has_many :currencies_tls,:dependent => :destroy
   acts_as_multilingual
   
-  validates_presence_of :currency_code
+  validates_presence_of :currency_code,:precision
   validates_uniqueness_of :currency_code,:scope=>[:opu_id], :if => Proc.new { |i| !i.currency_code.blank? }
   validates_format_of :currency_code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| !i.currency_code.blank?}
 
