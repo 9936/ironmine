@@ -28,7 +28,7 @@
     <% fzs.each do |zone|%>
       <% next unless gfs[zone[:code]]&&gfs[zone[:code]].any?%>
       <% tr_count = 2%>    
-      <table class="form-table">
+      <table class="form-table function-group">
         <tbody>
           <tr>
             <td style="font-weight:bold;font-size:13px;padding:15px 0 0 15px; text-align: left;"><%= zone[:name] %></td>
@@ -43,7 +43,7 @@
             </tr>
           <% end %>
         </tbody>
-        <tbody id="<%= zone[:code].downcase %>Group">
+        <tbody id="<%= zone[:code].downcase %>Group" class="item-list">
             <tr>
             <% gfs[zone[:code]].each do |func| %>
                 <%= raw("</tr><tr>") if tr_count == 0 %>
@@ -111,10 +111,40 @@
          var refFieldSet =  $(e.currentTarget).attr("ref");
          $("#"+refFieldSet).find("input[type=checkbox]").each(function(i,e){
              if(checkValue)
-                 $(e).attr("checked",true)
+                 $(e).attr("checked",true);
              else
-                 $(e).attr("checked",false)
+                 $(e).attr("checked",false);
            })
       });
+  });
+  $(document).ready(function(){
+     $("table .function-group").each(function(){
+        var allSelectFlag = true,
+            allTarget = $(this).find("input[name='select_all']"),
+            itemListBox = $(this).find(".item-list:first");
+        itemListBox.find("input[type=checkbox]").each(function(){
+          //为当前的checkbox添加处理事件
+          $(this).live("click", function(){
+              var allS = true;
+              itemListBox.find("input[type=checkbox]").each(function(){
+                 if(!$(this).is(':checked')){
+                   allS = false;
+                 }
+              });
+              if(allS) {
+                allTarget.attr("checked", true);
+              }else{
+                allTarget.attr("checked", false);
+              }
+          });
+          if (!$(this).is(':checked')) {
+            allSelectFlag = false;
+            return false;
+          }
+        });
+        if(allSelectFlag){
+          allTarget.attr("checked", true);
+        }
+     });
   });
 </script>
