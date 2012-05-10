@@ -6,6 +6,7 @@ tmp/**/*
 db/schema.rb
 vendor/cache/**
 vendor/cache/*
+vendor/bundle/**
 public/upload/**
 Gemfile.lock
 **/Thumbs.db
