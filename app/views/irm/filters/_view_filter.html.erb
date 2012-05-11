@@ -1,10 +1,10 @@
 <div id="<%= datatable_id %>ViewFilterOverview" style="display:none" class="form-inline btn-toolbar">
     <label for="<%= datatable_id %>ViewFilter" class="control-label"><%= t(:irm_view_filter) %></label>
-    <select id="<%= datatable_id %>ViewFilter"  ref="<%= datatable_id %>Datatable">
+    <select id="<%= datatable_id %>ViewFilter" class="view-filter"  ref="<%= datatable_id %>Datatable">
       <%=available_view_filter(source_code)%>
     </select>
     <span class="help-inline">
-      <%= link_to(t(:edit),{:controller => "irm/filters", :action=>"edit",:id=>"{id}",:pca=>"#{params[:controller]}-#{params[:action]}-#{back_url}",:back_url=>back_url},{:class=>"EditLink",:id=>"#{datatable_id}ViewFilterEditLink"}) %> |
+      <%= link_to(t(:edit),{:controller => "irm/filters", :action=>"edit",:id=>"{id}",:pca=>"#{params[:controller]}-#{params[:action]}-#{back_url}",:back_url=>back_url},{:class=>"edit-link",:id=>"#{datatable_id}ViewFilterEditLink"}) %> |
       <%= link_to(t(:label_irm_new_view_filter),{:controller => "irm/filters", :action=>"new",:sc=>source_code,:bc=>bo_code,:pca=>"#{params[:controller]}-#{params[:action]}-#{back_url}",:back_url=>back_url}) %>
     </span>
 </div>

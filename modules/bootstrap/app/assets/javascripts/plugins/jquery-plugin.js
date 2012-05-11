@@ -1526,8 +1526,8 @@ jQuery.fn.menubutton = function(){
         {
             var filterBox = $("#"+me.data.options.filterBox)
             if(filterBox){
-
-                var selectElement = filterBox.find("select.viewFilter:first");
+                console.log(filterBox);
+                var selectElement = filterBox.find("select.view-filter:first");
                 me.data.options.filterOptions = {_view_filter_id:selectElement.val()||""};
 
                 selectElement.change(function(event){
@@ -1535,7 +1535,7 @@ jQuery.fn.menubutton = function(){
                     me.loadPage(1);
                 });
 
-                var editLink = filterBox.find("a.EditLink:first");
+                var editLink = filterBox.find("a.edit-link:first");
 
                 editLink.click(function(event){
                     var link =  $(event.currentTarget);
