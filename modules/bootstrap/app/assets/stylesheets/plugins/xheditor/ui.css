@@ -7,7 +7,7 @@
 
 .xhe_default span.xheGStart{display:none;}
 .xhe_default span.xheGEnd{display:none;}
-.xhe_default span.xheSeparator{display:block;height:22px;width:4px;margin:2px 2px !important;background:url(img/icons.gif) no-repeat -660px 0;}
+.xhe_default span.xheSeparator{display:block;height:22px;width:4px;margin:2px 2px !important;background:url(/exassets/images/xheditor/icons.gif) no-repeat -660px 0;}
 
 .xhe_default a.xheButton{display:inline-block;margin:1px;border:0px;cursor:pointer;text-decoration:none;}
 .xhe_default a.xheButton span{opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30);}
@@ -16,7 +16,7 @@
 .xhe_default a.xheActive{margin:0px;border:1px solid #999; background:#fff;}
 
 .xhe_default a.xheButton span{display:block;margin:0px;height:20px;width:20px;overflow:hidden;}
-.xhe_default span.xheIcon{background:url(img/icons.gif) no-repeat 20px 20px}
+.xhe_default span.xheIcon{background:url(/exassets/images/xheditor/icons.gif) no-repeat 20px 20px}
 
 .xhe_default span.xheBtnCut {background-position:0 0}
 .xhe_default span.xheBtnCopy {background-position:-20px 0}
@@ -113,8 +113,8 @@
 	_position:absolute;_margin-top:expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 'px');
 }
 .xheModalTitle{padding:5px;background:#F0F0EE;border-bottom:1px solid #BBB;}
-.xheModalClose{float:right;width:16px;height:16px;background:url(img/close.gif);cursor:pointer;}
-.xheModalIfmWait{width:100%;height:100%;background:url(img/waiting.gif) no-repeat 50% 50%;margin:-16 0 0 -16;}
+.xheModalClose{float:right;width:16px;height:16px;background:url(/exassets/images/xheditor/close.gif);cursor:pointer;}
+.xheModalIfmWait{width:100%;height:100%;background:url(/exassets/images/xheditor/waiting.gif) no-repeat 50% 50%;margin:-16 0 0 -16;}
 .xheModalShadow{
 	position:fixed;z-index:1000009;top:50%;left:50%;background:#000;opacity:0.2; -ms-filter:'alpha(opacity=20)'; filter:alpha(opacity=20);
 	_position:absolute;_margin-top:expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 5 + 'px');
@@ -128,9 +128,9 @@
 	background-attachment:fixed;
 }
 
-.xheProgress{position:relative;width:280px;margin:auto;border:1px solid #C1C1C1;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;background:url(img/progressbg.gif) #E9E9E9;}
+.xheProgress{position:relative;width:280px;margin:auto;border:1px solid #C1C1C1;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;background:url(/exassets/images/xheditor/progressbg.gif) #E9E9E9;}
 .xheProgress span{position:absolute;left:0;top:0;width:100%;text-align:center;line-height:15px;font-size:12px;color:#222;text-shadow: 1px 1px 0 #eee;}
-.xheProgress div{height:15px;width:1px;background:url(img/progress.gif) #31C135;}
+.xheProgress div{height:15px;width:1px;background:url(/exassets/images/xheditor/progress.gif) #31C135;}
 
 .xhe_Fullfix{overflow:hidden;}
 .xhe_Fullfix body{width:100%;height:100%;}
