@@ -16,7 +16,8 @@
               <td style="width:1%">
                 <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:action=>"get_columns_data",  :format=>:json),
                                                      :tree_id => "tree-div",
-                                                     :li_attrs => "id,sc_id,sc_code,column_name,column_description" } %>
+                                                     :li_attrs => "id,sc_id,sc_code,column_name,column_description"
+                                                     } %>
               </td>
               <td class="data-2col" style="vertical-align:top;">
                   <table class="page-block-header"><tr>

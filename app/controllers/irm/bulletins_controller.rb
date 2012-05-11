@@ -3,7 +3,7 @@ class Irm::BulletinsController < ApplicationController
     @bulletin = Irm::Bulletin.new
     @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
-      format.html { render :layout => "application_full"}# new.html.erb
+      format.html { render :layout => "bootstrap_application_full"}# new.html.erb
       format.xml  { render :xml => @bulletin }
     end
   end
@@ -30,7 +30,7 @@ class Irm::BulletinsController < ApplicationController
 
       if !file_flag
         @requested_attachments = params[:files]
-        format.html { render :action => "new", :layout => "application_full" }
+        format.html { render :action => "new", :layout => "bootstrap_application_full" }
         format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
       elsif @bulletin.save
         column_ids.each do |c|
@@ -57,7 +57,7 @@ class Irm::BulletinsController < ApplicationController
           }
         format.xml  { render :xml => @bulletin, :status => :created, :location => @bulletin }
       else
-        format.html { render :action => "new", :layout => "application_full" }
+        format.html { render :action => "new", :layout => "bootstrap_application_full" }
         format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
       end
     end
@@ -68,7 +68,7 @@ class Irm::BulletinsController < ApplicationController
     @bulletin.column_ids = @bulletin.get_column_ids
 
     respond_to do |format|
-      format.html { render :layout => "application_full"}# new.html.erb
+      format.html { render :layout => "bootstrap_application_full"}# new.html.erb
     end
   end
 
@@ -117,12 +117,12 @@ class Irm::BulletinsController < ApplicationController
 #          if(params[:return_url])
 #            redirect_to params[:return_url]
 #          else
-            render :action => "show", :id => @bulletin, :layout => "application_full"
+            render :action => "show", :id => @bulletin, :layout => "bootstrap_application_full"
 #          end
         }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit", :layout => "application_full" }
+        format.html { render :action => "edit", :layout => "bootstrap_application_full" }
         format.xml  { render :xml => @bulletin.errors, :status => :unprocessable_entity }
       end
     end
@@ -137,7 +137,7 @@ class Irm::BulletinsController < ApplicationController
       session[:bulletins_show] << @bulletin.id
     end
     respond_to do |format|
-      format.html { render :layout => "application_full" }# show.html.erb
+      format.html { render :layout => "bootstrap_application_full" }# show.html.erb
       format.xml  { render :xml => @bulletin }
     end
   end
@@ -159,7 +159,7 @@ class Irm::BulletinsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html { render :layout => "application_full" }
+      format.html { render :layout => "bootstrap_application_full" }
     end
   end
 
@@ -187,7 +187,6 @@ class Irm::BulletinsController < ApplicationController
   def portlet
     respond_to do |format|
       format.html { render :layout => "portlet" }
-
     end
   end
 end
