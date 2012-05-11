@@ -1,0 +1,330 @@
+/******login form and login forgot password form**********************/
+@widePath: asset-path('plugins/login/login_form_wide.png');
+@wideBottomPath: asset-path('plugins/login/login_form_wide_bottom.png');
+@bottomNewPath: asset-path('plugins/login/login_form_new.png');
+@bottomNewBottomPath: asset-path('plugins/login/login_form_bottom_new.png');
+@headerBgPath: asset-path('plugins/login/header_bg.gif');
+@bkBluegradientBottomPath: asset-path('plugins/login/bk_bluegradient_bottom.png');
+@bkBluegradientTopPath: asset-path('plugins/login/bk_bluegradient_top.png');
+@horizontalRuleDotted362Path: asset-path('plugins/login/horizontal_rule_dotted362.png');
+@horizontalRuleDotted378Path: asset-path('plugins/login/horizontal_rule378.gif');
+@bkInfobarPath: asset-path('plugins/login/bk_infobar.gif');
+@bkInfobarBottomPath: asset-path('plugins/login/bk_infobar_bottom.gif');
+@bkRedButtonPath: asset-path('plugins/login/bk_red_button.png');
+@bkRedButtonRightPath: asset-path('plugins/login/bk_red_button_right.png');
+
+
+.login-form-box #login_form .login-error {
+    color:#FF0000;
+    padding-bottom:10px;
+    text-align:center;
+    width:310px;
+}
+
+#forgotpasswordbox {
+    background:url(@widePath) no-repeat scroll 0 0 transparent;
+    min-height:300px;
+    padding:42px 108px 50px 43px;
+    width:744px;
+}
+#forgotpasswordboxbottom {
+    background:url(@wideBottomPath) no-repeat scroll 0 0 transparent;
+    display:block;
+    height:28px;
+    margin-bottom:26px;
+    width:895px;
+}
+
+.login-form-box .grow-button .rightside, #forgotpasswordbox .grow-button .rightside {
+    background:url(@bkRedButtonRightPath) no-repeat scroll 100% 0 transparent;
+    display:block;
+    padding:9px 16px 12px 13px;
+}
+
+#forgotpasswordbox p {
+    color:#464646;
+    font-size:12px;
+    line-height:19px;
+    margin:0 30px 17px 0;
+}
+
+#forgotpasswordbox h1 {
+    color:#000000;
+    font-size:16px;
+    font-weight:bold;
+    line-height:22px;
+    margin:0 0 4px;
+    padding:5px 0 13px;
+}
+
+#forgotpasswordbox div.inputbox {
+    background:none no-repeat scroll 0 0 transparent;
+    overflow:hidden;
+    padding-bottom:7px;
+    position:relative;
+}
+
+#forgotpasswordbox div.inputbox label {
+    color:#666666;
+    float:left;
+    font-size:12px;
+    height:1.333em;
+    line-height:14px;
+    padding-right:5px;
+    padding-top:6px;
+    text-align:right;
+}
+
+#forgotpasswordbox div.inputbox span.inputcontainer {
+    display:block;
+    float:left;
+    height:2.167em;
+    padding:4px 0 0;
+    width:300px;
+}
+#forgotpasswordbox div.inputbox span input {height:22px;margin:0;width:280px;}
+#forgotpasswordbox .grow-button-container {float:left;}
+#forgotpasswordbox a.grow-button {
+    color:#FFFFFF;
+    font-weight:normal;
+    margin-left:0;
+    margin-top:1px;
+}
+
+.login-form-box .grow-button .container, #forgotpasswordbox .grow-button .container {
+    background:url(@bkRedButtonPath) no-repeat scroll 0 0 transparent;
+    display:block;
+    margin:0 -1px 0 0;
+    padding:0;
+}
+.login-form-box .grow-button .rightside, #forgotpasswordbox .grow-button .rightside {
+    background:url(@bkRedButtonRightPath) no-repeat scroll 100% 0 transparent;
+    display:block;
+    padding:9px 16px 12px 13px;
+}
+.login-form-box .grow-button:hover .rightside, #forgotpasswordbox .grow-button:hover .rightside {background-position: 100% -34px;}
+.login-form-box .grow-button:hover .container, #forgotpasswordbox .grow-button:hover .container {background-position: 0 -34px;}
+/*****************************************************************/
+*#loginpage{
+    text-align:center;
+    margin: 0;
+}
+
+#loginpage #gradientwrap {
+    background:url(@bkBluegradientTopPath) no-repeat scroll 0 0 transparent;
+    width:956px;
+    text-align:left;
+}
+
+#gradientwrap {
+    overflow:visible;
+}
+#loginpage #gradientwrap .bottom {
+    background:url(@bkBluegradientBottomPath) no-repeat scroll 0 100% transparent;
+    margin:0;
+    overflow:hidden;
+    padding:41px 0 0 33px;
+    width:100%;
+}
+.login-form-box {
+    float:left;
+    margin-bottom: 9px;
+    padding-bottom: 10px;
+    width:395px;
+}
+.login-form-box .content_new {
+    background:url(@bottomNewPath) no-repeat scroll 0 0 transparent;
+    height:auto !important;
+    margin:0;
+    min-height:331px;
+    overflow:hidden;
+    padding:39px 10px 13px 41px;
+    /*+padding:39px 10px 102px 41px;*/
+    width:395px;
+}
+
+#loginpage #gradientwrap .login-form-box .bottom_new {
+    background:url(@bottomNewBottomPath) no-repeat scroll 0 100% transparent;
+    display:block;
+    height:28px;
+    margin:0;
+    padding:0;
+}
+.login-form-box #login_form div {
+    //background:none no-repeat scroll 0 0 transparent;
+    overflow:hidden;
+    padding-bottom:7px;
+    position:relative;
+    width:100%;
+}
+.login-form-box #login_form .inputbox label {
+    height:1.333em;
+    //padding-bottom:4px;
+    padding-right:2px;
+    padding-top:4px;
+}
+.login-form-box #login_form div span {
+    display:block;
+    height:2.167em;
+    padding:3px 0 0;
+    width:300px;
+}
+.login-form-box #login_form input.txtbox {
+    height:1.8em;
+    height:1.333em\9;/* for ie */
+    margin:0;
+    width:280px;
+}
+.login-form-box #login_form {
+    color:#666666;
+    font-size:12px;
+    line-height:14px;
+}
+.inputs {
+    padding-left:10px;
+}
+.login-form-box #login_form .rememberme-txt {
+    background-image:none;
+    float:none;
+    font-size:12px;
+    line-height:14px;
+    min-height:2.833em;
+    padding:0 0 0 10px;
+    width:100%;
+
+}
+.login-form-box #login_form .rememberme-txt input {float:left;}
+.login-form-box #login_form .rememberme-txt label {
+    float:left;
+    line-height:20px;
+}
+.login-form-box #login_form .rememberme-txt {font-size:12px;line-height:14px;}
+
+#newheader {
+    background:url(@headerBgPath) no-repeat scroll 0 7px transparent;
+    height:91px;
+    overflow:visible;
+    padding-bottom:0 !important;
+    text-align:left;
+    width:955px;
+}
+#pagewrap {
+margin:0 auto;
+padding:0 10px;
+width:990px;
+}
+
+.login-form-box #login_form .forgotpass {
+    background-color:#FFFFFF;
+    color:#356FB6;
+    display:inline-block;
+    margin-right:30px;
+    margin-top:8px;
+    text-decoration:none;
+    width:160px;
+}
+
+#signupcontent .signupbox, .login-form-box .signupbox {
+    background:url(@horizontalRuleDotted362Path) no-repeat scroll 0 0 transparent;
+    color:#333333;
+    font-size:14px;
+    line-height:17px;
+    margin:0;
+    padding:20px 0 0;
+    text-align:center;
+    width:320px;
+}
+
+#shoutoutframe {
+    border-style: none;
+    border-width: 0;
+    border-collapse:collapse;
+    float:left;
+    height:420px;
+    height:410px\9;
+    margin-bottom:0;
+    margin-left:8px;
+    width:520px;
+    width:489px\9;
+    overflow:hidden\9;
+}
+.infobar {
+    background:url(@bkInfobarPath) no-repeat scroll 0 0 transparent;
+    clear:both;
+    color:#666666;
+    overflow:hidden;
+    padding:15px 0 0 27px;
+    width:100%;
+}
+.infobar_bottom {
+    background:url(@bkInfobarBottomPath) no-repeat scroll 0 0 transparent;
+    clear:both;
+    display:block;
+    height:24px;
+    margin:0 0 34px;
+}
+.infobar .col1 {padding-left:22px;}
+
+.infobar .col {
+    float:left;
+    font-size:12px;
+    line-height:14px;
+    margin:0 31px 0 0;
+    width:381px;
+}
+.infobar .col h2 {
+    background:url(@horizontalRuleDotted378Path) no-repeat scroll 0 100% transparent;
+    font-size:15px;
+    font-weight:bold;
+    line-height:17px;
+    margin:0 0 4px;
+    padding:4px 0;
+}
+
+/**************** footer ********************/
+body .page-footer a, body .page-footer {
+    border-bottom-color: -moz-use-text-color;
+    border-bottom-style: none;
+    border-bottom-width: medium;
+    border-left-color-ltr-source: physical;
+    border-left-color-rtl-source: physical;
+    border-left-color-value: -moz-use-text-color;
+    border-left-style-ltr-source: physical;
+    border-left-style-rtl-source: physical;
+    border-left-style-value: none;
+    border-left-width-ltr-source: physical;
+    border-left-width-rtl-source: physical;
+    border-left-width-value: medium;
+    border-right-color-ltr-source: physical;
+    border-right-color-rtl-source: physical;
+    border-right-color-value: -moz-use-text-color;
+    border-right-style-ltr-source: physical;
+    border-right-style-rtl-source: physical;
+    border-right-style-value: none;
+    border-right-width-ltr-source: physical;
+    border-right-width-rtl-source: physical;
+    border-right-width-value: medium;
+    border-top-color: -moz-use-text-color;
+    border-top-style: none;
+    border-top-width: medium;
+    color: #cbcbcb;
+    font-size: 12px;
+}
+div.no-table-footer {
+    margin-left: 0;
+}
+.no-table-footer {
+    clear: both;
+    margin-left: 205px;
+}
+.page-footer {
+    border-top-color: #E8E8E8;
+    border-top-style: solid;
+    border-top-width: 1px;
+    line-height: 1.8em;
+    padding-bottom: 20px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+    text-align: center;
+}

@@ -109,7 +109,9 @@ module Ironmine
         :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]},
         :jcrop => {:css=>["plugins/jcrop"],:js=>["plugins/jquery-crop"]},
         :jcrop_ie6 => {:css=>["plugins/jcrop.ie6"],:js=>[]},
-        :highcharts => {:css=>[],:js=>["highcharts"]}
+        :highcharts => {:css=>[],:js=>["highcharts"]},
+        :login => {:css=>["plugins/login"],:js=>[]},
+        :login_ie6 => {:css=>["plugins/login.ie6"],:js=>[]}
     }
 
 
