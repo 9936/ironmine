@@ -91,7 +91,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
       $("#tree-div").bind('nodeListener',function(event, element){
-          var column_ids = [];
+         var column_ids = [];
          $(this).find("input[name=ids]").each(function(){
              if($(this).is(':checked')){
                  column_ids.push($(this).val());

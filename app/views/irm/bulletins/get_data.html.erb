@@ -1,9 +1,7 @@
-<% if params[:type].eql?("portlet")%>
-    <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-      <% builder.column(:id,{:title=>t(:label_irm_bulletin_title)}) do |data|%>
-            <%= link_to(data[:bulletin_title], {:controller => "irm/bulletins", :action => "show", :id => data[:id]})%>
-      <% end %>
-      <% builder.column(:page_views,{:title=>t(:label_irm_bulletin_page_views), :width => "70px"})%>
-      <% builder.column(:published_date,{:title=>t(:label_irm_bulletin_published_date), :width => "140px"})%>
-    <% end %>
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:label_irm_bulletin_title)}) do |data|%>
+        <%= link_to(data[:bulletin_title], {:controller => "irm/bulletins", :action => "show", :id => data[:id]})%>
+  <% end %>
+  <% builder.column(:page_views,{:title=>t(:label_irm_bulletin_page_views), :width => "70px"})%>
+  <% builder.column(:published_date,{:title=>t(:label_irm_bulletin_published_date), :width => "140px"})%>
 <% end %>

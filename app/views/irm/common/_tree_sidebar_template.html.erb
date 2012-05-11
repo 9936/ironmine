@@ -5,7 +5,8 @@
 <%  root_text ||= nil %>
 <%  li_attrs ||= 'id' %>
 <%  checkbox ||=  false %>
-<div id="<%= tree_id%>" href="<%= tree_url %>">
+<% auto_css ||= false %>
+<div id="<%= tree_id%>" href="<%= tree_url %>" <% if auto_css %> style="height: auto;width: auto;" <% end%> >
   <script type="text/javascript">
     $(document).ready(function(){
         //初始化树
