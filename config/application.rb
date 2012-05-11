@@ -105,7 +105,7 @@ module Ironmine
         :default_ie6=>{:css=>[:application_ie6]},
         :aceditor =>{:js=>["plugins/ace"]},
         :colorbox=>{:css=>[],:js=>["plugins/colorbox"]},
-        :xheditor => {:css=>["xheditor-plugin"],:js=>["xheditor/xheditor-{locale}"]} ,
+        :xheditor => {:css=>["xheditor/xheditor-plugin"],:js=>["xheditor/xheditor-{locale}"]} ,
         :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]},
         :jcrop => {:css=>["plugins/jcrop"],:js=>["plugins/jquery-crop"]},
         :jcrop_ie6 => {:css=>["plugins/jcrop.ie6"],:js=>[]},
@@ -152,7 +152,8 @@ module Ironmine
                                  "plugins/ace.js",
                                  "highcharts.js",
                                  "login.css",
-                                 "login.ie6.css"]
+                                 "login.ie6.css",
+                                 "xheditor/xheditor-plugin.css"]
 
     # 自动生成时不生成asset
     config.generators do |g|
