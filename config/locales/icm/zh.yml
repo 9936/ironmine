@@ -151,6 +151,7 @@ zh:
   label_icm_create_relate_change_request: 创建RFC
   label_icm_incident_request_relation_type: 关联为
   label_icm_incident_request_estimated_date: 计划完成日期
+  label_icm_incident_request_relation_config_items: 配置项
   #========================= end icm incident_requests_controller=======================#
   #=========================    icm incident_journals_controller=======================#
   label_icm_incident_reply_support_group_id: 转交组

@@ -1116,6 +1116,9 @@ Ironmine::Application.routes.draw do
     match '/incident_sub_categories/:id/multilingual_update(.:format)' => "incident_sub_categories#multilingual_update", :via => :put
     match '/incident_sub_categories/:id/destroy(.:format)' => "incident_sub_categories#destroy", :via => :delete
     match '/incident_sub_categories/:incident_category_id/get_option(.:format)' => "incident_sub_categories#get_option", :via => :get
+
+    match '/incident_config_relations/create(.:format)' => "incident_config_relations#create", :via => :post
+    match '/incident_config_relations/:id/destroy(.:format)' => "incident_config_relations#destroy", :via => :delete
   end
 
 

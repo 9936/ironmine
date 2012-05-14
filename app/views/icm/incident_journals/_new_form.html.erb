@@ -334,22 +334,57 @@
  </div>
 <% end %>
 
+<% content_for :incident_config_items do %>
+    <!--页面结构-->
+    <div class="page-block" id="incidentConfigItemManage">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_icm_incident_request_relation_config_items) %></h2>
+          </td>
+          <td class="page-block-button"></td>
+          <td class="page-block-help form-inline" id="configItemForm">
+            <%= render :partial=>"icm/incident_config_relations/mini_form",:locals => {:incident_request=>@incident_request}%>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <div id="configItems">
+          <%= render :partial=>"icm/incident_config_relations/incident_config_items",:locals=>{:datas=>@incident_request.incident_config_relations.with_config_item.select_all} %>
+        </div>
+      </div>
+    </div>
+<% end %>
+
 <% content_for :change_request_tab do %>
-    <% if @incident_request.change_request_id.present? %>
+    <% chm = Irm::ProductModule.usable?(:chm)&&@incident_request.change_request_id.present?;com = Irm::ProductModule.usable?(:com) %>
+    <% if chm||com %>
         <!-- 处理关联的变更单 -->
         <!-- tabs -->
         <div class="tabbable" id="tabNav">
           <ul class="nav nav-tabs">
             <li class="active" id="nav_0" ref="incidentReply"><a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
-            <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
+            <% if chm %>
+              <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
+            <% end %>
+            <% if com %>
+              <li  ref="configItem"><a href="#tab3" data-toggle="tab"><%= t(:label_com_config_item) %></a></li>
+            <% end %>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab1">
               <%= content_for :incident_request_journals %>
             </div>
+            <% if chm %>
             <div class="tab-pane" id="tab2">
               <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>
             </div>
+            <% end %>
+            <% if com %>
+            <div class="tab-pane" id="tab3">
+              <%= content_for :incident_config_items  %>
+            </div>
+            <% end %>
           </div>
         </div>
         <script type="text/javascript">

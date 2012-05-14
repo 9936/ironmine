@@ -1,10 +1,13 @@
 module Irm::BusinessObjectsHelper
   def available_not_exists_model
-    Dir["#{Rails.root}/app/models/*/*.rb"].each { |file| require file }
+    Rails.application.paths["app/models"].each{|model_path|
+        Dir["#{Rails.root}/#{model_path}/*/*.rb"].each { |file| require file }
+    } unless Rails.env.eql?("production")
+
     models = ActiveRecord::Base.send(:subclasses)
 
     models.delete_if{|m| m.table_name.end_with?("s_tl")}
-    models = models.collect{|m| m.name}
+    models = models.collect{|m| m.name}.sort
     exists_models = Irm::BusinessObject.all.collect{|bo| bo.bo_model_name}
     models.delete_if{|m| exists_models.include?(m)}
     models

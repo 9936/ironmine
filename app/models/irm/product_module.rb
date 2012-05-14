@@ -11,4 +11,8 @@ class Irm::ProductModule < ActiveRecord::Base
   scope :query_by_short_name,lambda{|short_name|
     where(:product_short_name=>short_name)
   }
+
+  def self.usable?(module_name)
+    self.where(:installed_flag => Irm::Constant::SYS_YES,:product_short_name => module_name.to_s.upcase).exists?
+  end
 end

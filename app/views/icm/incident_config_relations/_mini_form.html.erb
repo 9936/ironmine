@@ -1,0 +1,8 @@
+<%= form_tag({:controller => "icm/incident_config_relations",:action => "create",:incident_request_id=>@incident_request.id,:_dom_id=>"incidentConfigItemManage"},{:remote=>true,:builder => CustomFormBuilder}) do %>
+    <div class="float-right" style="margin-left: 20px;">
+      <%= link_submit(t(:add), :class=>"btn") %>
+    </div>
+    <div  style="float:right;">
+      <%= lov_field_tag "config_item_id", Com::ConfigItem,{:style=>"width:150px;"}%>
+    </div>
+<% end %>
