@@ -38,6 +38,17 @@ class Chm::ChangeRequestsController < ApplicationController
     end
   end
 
+  # GET /statuses/1
+  # GET /statuses/1.xml
+  def show_config
+    @change_request = Chm::ChangeRequest.list_all.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @change_request }
+    end
+  end
+
 
   # GET /statuses/1
   # GET /statuses/1.xml

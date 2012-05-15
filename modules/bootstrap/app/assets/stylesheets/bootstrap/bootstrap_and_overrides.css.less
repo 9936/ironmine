@@ -1,7 +1,5 @@
 @import "twitter/bootstrap/bootstrap";
-
 @import "twitter/bootstrap/responsive";
-
 
 // Set the correct sprite paths
 @iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
@@ -21,9 +19,10 @@
 // 页面主体左右空白都为10px
 @gridGutterWidth: 10px;
 
-.form-inline{
+.form-inline {
     vertical-align: top;
 }
+
 //tab 设置距离左边默认的距离
 
 .tabbable ul {
@@ -35,8 +34,6 @@ select, input[type="file"] {
     height: 24px;
     line-height: 24px;
 }
-
-
 
 input, textarea, select, .uneditable-input {
     font-size: 11px;
@@ -60,18 +57,24 @@ input, textarea, select, .uneditable-input {
     margin-bottom: 0px;
 }
 
-
 .tabbable .nav-tabs {
     border-bottom: 1px solid #F8F8F8;
 }
+
 .tabbable .nav {
-    margin-bottom: 0;
+    margin-bottom: -1px;
 }
+
 .nav-tabs > .active > a,
 .nav-tabs > .active > a:hover {
-  color: #555555;
-  background-color: #ffffff;
-  border: 1px solid #1797C0;
-  border-bottom-color: transparent;
-  cursor: default;
+    color: #555555;
+    background-color: #ffffff;
+    border: 1px solid #1797C0;
+    cursor: default;
+
+}
+
+.nav-tabs > li > a {
+    padding-bottom: 4px;
+    padding-top: 4px;
 }

@@ -1,0 +1,6 @@
+$(function(){
+    $("#configItemForm").html("<%= escape_javascript(render :partial=>"chm/change_config_relations/mini_form")%>");
+
+    $("#configItems").html("<%= escape_javascript(render :partial=>"chm/change_config_relations/change_config_items",:locals=>{:datas=>@change_request.change_config_relations.select_all.with_config_item})%>");
+});
+

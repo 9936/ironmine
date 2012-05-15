@@ -27,4 +27,7 @@ Irm::AccessControl.map do |map|
   map.function :approve_change,{"chm/change_approvals"=>["approve","decide"]}
 
   map.function :perform_change_task,{}
+
+  map.function :change_incident,{"chm/change_requests"=>["show_config"],"chm/change_config_relations"=>["create","destroy"]}
+
 end
