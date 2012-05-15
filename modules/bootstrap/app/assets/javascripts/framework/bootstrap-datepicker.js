@@ -36,7 +36,7 @@
 			this.element.on({
 				focus: $.proxy(this.show, this),
                 click: $.proxy(this.show, this),
-				blur: $.proxy(this.hide, this),
+				blur: $.proxy(this.inputBlur, this),
 				keyup: $.proxy(this.update, this)
 			});
 		} else {
@@ -58,7 +58,11 @@
 	
 	Datepicker.prototype = {
 		constructor: Datepicker,
-		
+        inputBlur: function(e) {
+            var target = e.explicitOriginalTarget||document.activeElement;
+            if(this.picker.find(target).length<1)
+                this.hide();
+        },
 		show: function(e) {
 			this.picker.show();
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
