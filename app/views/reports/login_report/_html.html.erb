@@ -80,7 +80,6 @@
   var chart;
   $(document).ready(function() {
       var reportChartData = <%=to_chart_data(datas[:chart_datas],"date","total_count").to_json.html_safe %>;
-      console.debug(reportChartData);
   	chart = new Highcharts.Chart({
   		chart: {
   			renderTo: 'reportChart',

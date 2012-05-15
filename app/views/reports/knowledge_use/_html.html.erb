@@ -44,7 +44,6 @@
       for(var i=0;i<reportChartData.series_title.length;i++){
           series[i] = {name:reportChartData.series_title[i],data:reportChartData.origin_data[i+1]}
       }
-      console.debug(reportChartData);
   	chart = new Highcharts.Chart({
   		chart: {
   			renderTo: 'reportChart',

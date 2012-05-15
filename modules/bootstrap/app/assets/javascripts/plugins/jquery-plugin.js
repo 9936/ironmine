@@ -1526,7 +1526,6 @@ jQuery.fn.menubutton = function(){
         {
             var filterBox = $("#"+me.data.options.filterBox)
             if(filterBox){
-                console.log(filterBox);
                 var selectElement = filterBox.find("select.view-filter:first");
                 me.data.options.filterOptions = {_view_filter_id:selectElement.val()||""};
 
