@@ -110,7 +110,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
     link_text  = Time.now.strftime('%Y-%m-%d')
 
-    date_tag_str = self.text_field(field,options.merge(:id=>date_field_id,:class=>"span2",:onfocus=>"initDateField(this)",:normal=>true))
+    date_tag_str = self.text_field(field,options.merge(:id=>date_field_id,:size=>10,:class=>"span2",:onfocus=>"initDateField(this)",:normal=>true))
 
 
 

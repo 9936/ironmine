@@ -33,7 +33,7 @@ module FormHelper
 
     link_text  = Time.now.strftime('%Y-%m-%d')
 
-    date_tag_str = text_field_tag(field,options[:value],options.merge(:id=>date_field_id,:size=>10,:onfocus=>"initDateField(this)",:normal=>true))
+    date_tag_str = text_field_tag(field,options[:value],options.merge(:id=>date_field_id,:class=>"span2",:size=>10,:onfocus=>"initDateField(this)",:normal=>true))
 
     link_click_action = %Q(javascript:dateFieldChooseToday('#{date_field_id}','#{link_text}'))
 
