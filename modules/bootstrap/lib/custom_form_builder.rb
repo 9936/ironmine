@@ -110,13 +110,15 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
     link_text  = Time.now.strftime('%Y-%m-%d')
 
-    date_tag_str = self.text_field(field,options.merge(:id=>date_field_id,:size=>10,:class=>"span2",:onfocus=>"initDateField(this)",:normal=>true))
+    date_tag_str = self.text_field(field,options.merge(:id=>date_field_id,:size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:normal=>true))
 
 
 
     link_click_action = %Q(javascript:dateFieldChooseToday('#{date_field_id}','#{link_text}'))
 
-    link_str = @template.link_to("[#{link_text}]",{},{:href=>link_click_action})
+    link_str = ""
+
+    link_str = @template.link_to("[#{link_text}]",{},{:href=>link_click_action}) unless options[:no_button]
 
     wrapped_field(@template.content_tag(:div,date_tag_str+link_str,{:class=>"date-field"},false),field,options)
   end
