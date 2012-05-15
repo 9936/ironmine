@@ -39,7 +39,7 @@ module FormHelper
 
     link_str = ""
 
-    link_str = link_to("[#{link_text}]",{},{:href=>link_click_action}) unless options[:no_button]
+    link_str = link_to("[#{link_text}]",{},{:href=>link_click_action}) unless options[:nobutton]
 
     wrapped_field(content_tag(:div,date_tag_str+link_str,{:class=>"date-field"},false),options)
   end

@@ -118,7 +118,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
     link_str = ""
 
-    link_str = @template.link_to("[#{link_text}]",{},{:href=>link_click_action}) unless options[:no_button]
+    link_str = @template.link_to("[#{link_text}]",{},{:href=>link_click_action}) unless options[:nobutton]
 
     wrapped_field(@template.content_tag(:div,date_tag_str+link_str,{:class=>"date-field"},false),field,options)
   end
