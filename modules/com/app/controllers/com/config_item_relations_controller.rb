@@ -1,6 +1,7 @@
 class Com::ConfigItemRelationsController < ApplicationController
   # GET /com/config_item_relations
   # GET /com/config_item_relations.xml
+  layout "bootstrap_application_full"
   def index
     @config_item_relations = Com::ConfigItemRelation.all
 
@@ -91,6 +92,9 @@ class Com::ConfigItemRelationsController < ApplicationController
     com_config_item_relations,count = paginate(com_config_item_relations_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(com_config_item_relations.to_grid_json([:item_number,:description,:relation_type_name,:relation_item_number],count))}
+      format.html {
+        @datas = com_config_item_relations
+        @count = count}
     end
   end
 end

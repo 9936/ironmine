@@ -1,7 +1,7 @@
 <% @config_attributes.each do |config_attribute| %>
 <tr auto_generate="true">
-  <td class="labelCol"><label><%=config_attribute[:name]%></label></td>
-  <td class="dataCol">
+  <td class="label-col"><label><%=config_attribute[:name]%></label></td>
+  <td class="data-col">
     <% case config_attribute.input_type
          when "TEXT" %>
         <%=text_field_tag  "config_item_attribute[#{config_attribute[:id]}]",@attribute_values["#{config_attribute[:id]}"],:required=>config_attribute[:required_flag].eql?("Y")?true:false  %>
@@ -20,7 +20,7 @@
     %>
 
   </td>
-  <td class="labelCol empty">&nbsp;</td>
-  <td class="dataCol empty">&nbsp;</td>
+  <td class="label-col empty">&nbsp;</td>
+  <td class="data-col empty">&nbsp;</td>
 </tr>
 <%end  %>

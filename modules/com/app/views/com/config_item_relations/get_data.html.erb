@@ -1,0 +1,11 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+    <%= link_to(t(:edit),{:controller=>"com/config_item_relations",:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%=link_to(t(:show),{:controller=>"com/config_item_relations",:action=>"show",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:delete),{:controller=>"com/config_item_relations",:action=>"destroy",:id=>data[:id]},:back=>true,:confirm => t(:label_are_you_sure) ,:method => :delete) %>
+  <% end %>
+  <% builder.column(:item_number,{:title=>t(:label_com_config_item_number), :width => "170px"})%>
+  <% builder.column(:relation_type_name,{:title=>t(:label_com_config_relation_type), :width => "170px",:searchable=>true})%>
+  <% builder.column(:relation_item_number,{:title=>t(:label_com_config_item_relation_config_item),:width=>"170px",:searchable=>true})%>
+  <% builder.column(:description,{:title=>t(:description),:searchable=>true})%>
+<% end %>

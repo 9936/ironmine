@@ -1,5 +1,22 @@
+<!--
+<%#=datatable_view({:count=>@count,:datas=>@merged_config_items}) do |builder|%>
+  <% #builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%#= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%#= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <%# end %>
+  <% #builder.column(:item_number,{:title=>t(:label_com_config_item_number),:searchable=>true, :width => "15%"})%>
+  <% #builder.column(:config_class_name,{:title=>t(:label_com_config_item_config_class),:searchable=>true}) %>
+  <% #builder.column(:managed_group_name,{:title=>t(:label_com_config_item_managed_group),:searchable=>true})%>
+  <% #builder.column(:managed_person_name,{:title=>t(:label_com_config_item_managed_person)})%>
+  <% #builder.column(:last_checked_at,{:title=>t(:label_com_config_item_last_checked_at)})%>
+  <% #@class_attributes.each do |attr|  %>
+    <% #builder.column(attr["id"],{:title=>attr["name"]})%>
+  <% #end if @class_attributes  %>
+<% #end %>
+-->
+
 <!--  irm datatable      -->
- <div class="irm-datatable">
+ <div class="datatable">
    <div>
        <table count="<%=@count%>">
          <thead>
