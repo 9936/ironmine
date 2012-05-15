@@ -7,6 +7,8 @@ class Chm::ChangeRequest < ActiveRecord::Base
 
   has_many :change_incident_relations
 
+  has_many :change_config_relations
+
 
   validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,:organization_id,
                         :change_impact_id,:change_urgency_id,:change_status_id,:change_priority_id,:request_type,

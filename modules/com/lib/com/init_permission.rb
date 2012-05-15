@@ -11,7 +11,7 @@ Irm::AccessControl.map do |map|
   }
 
   map.function :config_item_status,{
-      "com/config_item_statuses"=>["index", "show","get_class_tree","get_data", "new", "create", "edit", "update", "multilingual_edit", "multilingual_update"]
+      "com/config_item_statuses"=>["index", "show","get_data", "new", "create", "edit", "update", "multilingual_edit", "multilingual_update"]
   }
 
 
