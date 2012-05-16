@@ -62,6 +62,8 @@ class Skm::ChannelsController < ApplicationController
 
   def get_data
     channel_scope = Skm::Channel.multilingual.status_meaning
+    channel_scope = channel_scope.match_value("#{Skm::Channel.table_name}.channel_code",params[:channel_code])
+    channel_scope = channel_scope.match_value("#{Skm::ChannelsTl.table_name}.name",params[:name])
     channels,count = paginate(channel_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(channels.to_grid_json([:channel_code, :name,:description,:status_meaning, :status_code], count)) }
