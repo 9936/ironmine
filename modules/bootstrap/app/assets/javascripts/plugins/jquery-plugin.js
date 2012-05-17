@@ -1639,8 +1639,6 @@ jQuery.fn.menubutton = function(){
         // 判断否需要滚动
         var scrollable = me.data.options.scrollOptions.scrollX||me.data.options.scrollOptions.scrollY;
 
-        scrollable = true;
-
         if(!scrollable)
             return;
 
