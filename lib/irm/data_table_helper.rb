@@ -6,11 +6,12 @@ module Irm
       raise ArgumentError, "Missing block" unless block_given?
       raise ArgumentError, "Missing row count or datas" unless options[:count].present?||options[:datas].present?
       output = ActiveSupport::SafeBuffer.new
+      if params[:_scroll]
+        options.merge!(:scroll=>params[:_scroll])
+      end
       builder = datatable_builder(options, &block)
-      output.safe_concat "<div class='datatable'>"
-        yield builder
+      yield builder
       output.safe_concat generate_content(builder)
-      output.safe_concat "</div>"
       output
     end
 
@@ -23,54 +24,73 @@ module Irm
     def generate_content(builder)
       column_options = filter_columns(builder.columns,builder.display_columns)
       datatable_options = builder.options
-      output = ActiveSupport::SafeBuffer.new
+
       column_count = 0
-      #==datatable
-      output.safe_concat "<table count='#{datatable_options[:count]}'>"
+
       #==header
-      output.safe_concat "<thead><tr>"
+      table_header =  ActiveSupport::SafeBuffer.new
+      table_header.safe_concat "<thead><tr>"
       column_options.each do |column|
         next if column[:hidden]
         column_count = column_count + 1
         column_options_str = column_options_str(column)
-        output.safe_concat "<th #{column_options_str} ><div>#{column[:title]}"
-        output.safe_concat "</div></th>"
+        table_header.safe_concat "<th #{column_options_str} ><div>#{column[:title]}"
+        table_header.safe_concat "</div></th>"
       end
-      output.safe_concat "</tr></thead>"
+      table_header.safe_concat "</tr></thead>"
 
       #==body
-      output.safe_concat "<tbody>"
+      table_body = ActiveSupport::SafeBuffer.new
+      table_body.safe_concat "<tbody>"
       if builder.options[:datas].any?
         builder.options[:datas].each do |data|
-          output.safe_concat "<tr id='#{data[:id]}'>"
+          table_body.safe_concat "<tr id='#{data[:id]}'>"
           column_options.each do |column|
             next if column[:hidden]
-            output.safe_concat "<td><div>"
+            table_body.safe_concat "<td><div>"
             if column[:block].present?
-              output.safe_concat capture(data,&column[:block])
+              table_body.safe_concat capture(data,&column[:block])
             else
               if data[column[:key]].present?
                 if data[column[:key]].is_a?(Time)
-                  output.safe_concat  data[column[:key]].strftime('%Y-%m-%d %H:%M:%S')
+                  table_body.safe_concat  data[column[:key]].strftime('%Y-%m-%d %H:%M:%S')
                 elsif data[column[:key]].is_a?(Date)
-                  output.safe_concat  data[column[:key]].strftime('%Y-%m-%d')
+                  table_body.safe_concat  data[column[:key]].strftime('%Y-%m-%d')
                 else
-                  output.safe_concat (data[column[:key]]||"").to_s
+                  table_body.safe_concat (data[column[:key]]||"").to_s
                 end
               else
-                output.safe_concat ""
+                table_body.safe_concat ""
               end
             end
-            output.safe_concat "</div></td>"
+            table_body.safe_concat "</div></td>"
           end
-          output.safe_concat "</tr>"
+          table_body.safe_concat "</tr>"
         end
       else
-        output.safe_concat "<tr class='no-data'><td colspan='#{column_count}'><div>#{t(:label_no_data)}</div></td></tr>"
+        table_body.safe_concat "<tr class='no-data'><td colspan='#{column_count}'><div>#{t(:label_no_data)}</div></td></tr>"
       end
-      output.safe_concat "</tbody>"
-      output.safe_concat "</table>"
-      output
+      table_body.safe_concat "</tbody>"
+
+      output = ActiveSupport::SafeBuffer.new
+
+      if builder.options[:scroll]
+        output.safe_concat "<div class='datatable datatable-scroll scroll#{builder.options[:scroll]}'>"
+        output.safe_concat "<div class='table-header scroll-header'><table>"
+        output.safe_concat "</table></div>"
+        output.safe_concat "<div class='table-body include-header'><table count='#{builder.options[:count]}'>"
+        output.safe_concat table_header
+        output.safe_concat table_body
+        output.safe_concat "</table></div>"
+        output.safe_concat "</div>"
+      else
+        output.safe_concat "<div class='datatable'>"
+        output.safe_concat "<div class='table-body include-header'><table count='#{builder.options[:count]}'>"
+        output.safe_concat table_header
+        output.safe_concat table_body
+        output.safe_concat "</table></div>"
+        output.safe_concat "</div>"
+      end
     end
 
     def column_options_str(column)
@@ -84,7 +104,7 @@ module Irm
         end
       end
 
-      options_str << "style='#{style}'"  unless style.blank?
+      options_str << "origin-width='#{column[:width]}' style='#{style}'"  unless style.blank?
 
 
       if column[:sortable].present?

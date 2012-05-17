@@ -1182,6 +1182,7 @@ jQuery.fn.menubutton = function(){
         paginatorBox: null,
         exportBox: null,
         columns :[],
+        scrollOptions:{},
         defaultOptions:{},
         filterOptions:{},
         searchOptions:{},
@@ -1288,11 +1289,12 @@ jQuery.fn.menubutton = function(){
     //初始化checkbox
     Internal.prototype.buildCheckbox = function(){
         var me = this;
-        if(parseInt(me.$element.find("table:first").attr("count")) <= 0) return;
+        // 仅在表格有数据时,才显示checkbox
+        if(parseInt(me.$element.find(".table-body table:first").attr("count")) <= 0) return;
         if(me.data.options.selectType) {
             //标题栏
             var ids = [];
-            var table_th = me.$element.find("table:first").find("thead").find("th:first");
+            var table_th = me.$element.find(".include-header table:first thead th:first");
             if(me.data.options.selectType == 'multiple') {
                 var th_check_box = $("<input type='checkbox' name='select_all'/>").attr("title", $.i18n("select_all"));
                 table_th.before($("<th/>").css({width:'15px'}).html($("<div/>").html(th_check_box)));
@@ -1300,17 +1302,17 @@ jQuery.fn.menubutton = function(){
                 th_check_box.click(function(e){
                     ids = [];
                     if ($(this).is(':checked')){
-                        me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
+                        me.$element.find(".table-body table:first tbody input[name='ids']").each(function(){
                             $(this).attr("checked", true);
                             ids.push($(this).val());
                         });
                     }else{
-                        me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
+                        me.$element.find(".table-body table:first tbody input[name='ids']").each(function(){
                             $(this).removeAttr("checked");
                         });
                     }
                     e.ids = ids;
-                    me.$element.find("table:first").trigger('selectionchange',[ids]);
+                    me.$element.trigger('selectionchange',[ids]);
                 });
             }else{
                 table_th.before($("<th/>").css({width:'15px'}).html($("<div/>")));
@@ -1318,7 +1320,7 @@ jQuery.fn.menubutton = function(){
             //表格列表中的值
             //判断当前表格中是否有数据，没有数据直接跳出该方法
 
-            me.$element.find("table:first").find("tbody").find("tr").each(function(){
+            me.$element.find(".table-body table:first tbody tr").each(function(){
                var table_td = $(this).find("td:first");
                //获取id
                var item_id = $(this).attr("id"),
@@ -1336,7 +1338,7 @@ jQuery.fn.menubutton = function(){
                    if(me.data.options.selectType == 'multiple') {
                        var all_selected = true;
                        ids = [];
-                       me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
+                       me.$element.find(".table-body table:first tbody input[name='ids']").each(function(){
                           if ($(this).is(':checked')) {
                               ids.push($(this).val());
                           }else{
@@ -1351,7 +1353,7 @@ jQuery.fn.menubutton = function(){
                        }
                    }else{
                        if(td_check_box.is(':checked')) {
-                           me.$element.find("table:first").find("tbody").find("input[name='ids']").each(function(){
+                           me.$element.find(".table-body table:first tbody input[name='ids']").each(function(){
                                if(!$(this).is(td_check_box)) {
                                    $(this).removeAttr("checked");
                                }
@@ -1359,7 +1361,7 @@ jQuery.fn.menubutton = function(){
                        }
                    }
                    e.ids = ids;
-                   me.$element.find("table:first").trigger('selectionchange',[ids]);
+                   me.$element.trigger('selectionchange',[ids]);
                    e.stopPropagation()||(e.cancelBubble = true);
                };
                table_td.parent().bind('click', hand_click);
@@ -1371,7 +1373,7 @@ jQuery.fn.menubutton = function(){
     Internal.prototype.buildOrderColumn = function(){
         var me = this;
 
-        me.$element.find("table:first thead th[sort]").each(function(){
+        me.$element.find(".include-header table:first thead th[sort]").each(function(){
             var currentColumn = $(this);
             currentColumn.addClass("sortable");
             //将当前的光标变为手形，并提交提示信息
@@ -1614,7 +1616,7 @@ jQuery.fn.menubutton = function(){
             var currentColumnValue = searchBox.find("select.search-select:first").val();
             var currentValue = searchBox.find("input.search-box-input:first").val();
             searchBox.find("select.search-select:first").html("");
-            me.$element.find("table:first thead th[search]").each(function(index,column){
+            me.$element.find(".include-header table:first thead th[search]").each(function(index,column){
                 if($(column).attr("search")){
                     showable = true;
                     var option = $("<option></option>")
@@ -1630,6 +1632,63 @@ jQuery.fn.menubutton = function(){
             else
                 searchBox.css({display:"none"});
         }
+    }
+
+    Internal.prototype.syncScrollUI = function(){
+        var me = this;
+        // 判断否需要滚动
+        var scrollable = me.data.options.scrollOptions.scrollX||me.data.options.scrollOptions.scrollY;
+
+        scrollable = true;
+
+        if(!scrollable)
+            return;
+
+
+        if(me.data.options.scrollOptions.scrollX){
+            var totalWidth = 0;
+            me.$element.find(".datatable-scroll .include-header table:first thead:first th").each(function(index,header){
+                totalWidth  = parseInt(($(header).attr("origin-width")||"80").replace(/\D/mg,""))+totalWidth;
+
+            });
+            var currentWidth = me.$element.find(".datatable-scroll .include-header table:first").outerWidth(true);
+            if(totalWidth>currentWidth){
+                var percentWidth = Math.ceil(totalWidth*100/currentWidth)
+                me.$element.find(".datatable-scroll .include-header table:first").css("width",percentWidth+"%");
+                me.$element.find(".datatable-scroll .scroll-header table:first").css("width",percentWidth+"%");
+            }
+            me.$element.find(".datatable-scroll .include-header:first").scroll(function(e){
+                me.$element.find(".datatable-scroll .scroll-header:first").scrollLeft($(this).scrollLeft());
+            })
+
+        }
+
+        // 设置表头宽度
+        me.$element.find(".datatable-scroll .include-header table:first thead:first th").each(function(index,header){
+            $(header).css("width",$(header).outerWidth(true));
+        });
+
+
+        if(me.data.options.scrollOptions.scrollY){
+            var height = parseInt(me.data.options.scrollOptions.height);
+
+            if(me.$element.find(".datatable-scroll .include-header:first").hasHorizontalScrollBar()){
+                height = $.scrollbarWidth()+height;
+            }
+            me.$element.find(".datatable-scroll .include-header:first").css("height",height);
+        }
+
+
+        me.$element.find(".datatable-scroll .scroll-header table:first").append(me.$element.find(".datatable-scroll .include-header table:first thead:first"));
+        me.$element.find(".datatable-scroll .include-header table:first").prepend("<thead>"+me.$element.find(".datatable-scroll .scroll-header table:first thead:first").html()+"</thead>")
+
+        if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
+            me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
+            me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+
+        }
+
+
     }
 
     Internal.prototype.getRightPage = function(page){
@@ -1673,7 +1732,7 @@ jQuery.fn.menubutton = function(){
         var me = this;
         var options = me.data.options;
         var request_url = options.baseUrl;
-        var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.defaultOptions,options.filterOptions,options.searchOptions,options.orderOptions,{_dom_id: me.$element.context.id});
+        var params =  $.extend({limit:options.pageSize,start:Math.max(options.currentPage-1,0)*options.pageSize},options.defaultOptions,options.filterOptions,options.searchOptions,options.orderOptions,{_dom_id: me.$element.context.id},{_scroll:options.scrollOptions.mode});
         if(!options.paginatorBox)
             params = $.extend({},params,{limit:""})
         var paramsStr = $.param(params);
@@ -1686,7 +1745,7 @@ jQuery.fn.menubutton = function(){
 
     Internal.prototype.processLoadResult = function(responseText, textStatus, XMLHttpRequest){
         var me = this;
-        var count = me.$element.find("table:first").attr("count");
+        var count = me.$element.find(".table-body table:first").attr("count");
         if(count&&count!="")
             me.data.options.totalCount = parseInt(count);
         me.syncPaginatorUI();
@@ -1694,6 +1753,7 @@ jQuery.fn.menubutton = function(){
         //必须等待当前页面的数据加载完成后才能够对表头数据进行处理
         me.buildOrderColumn();
         me.buildCheckbox();
+        me.syncScrollUI();
     };
 
 

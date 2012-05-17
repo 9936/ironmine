@@ -347,6 +347,7 @@ module ApplicationHelper
     #select 配置
     select_type = options[:select]
 
+
     column_models = ""
     columns.each do |c|
       next if c[:hidden]||(!c[:searchable].present? && !c[:orderable].present?)
@@ -390,6 +391,28 @@ module ApplicationHelper
 
     if options[:view_filter]
       table_options << ",filterBox:'#{id}ViewFilterOverview'"
+    end
+
+    if options[:scroll]
+      scroll_options = {}
+      scroll_mode = nil
+      if options[:scroll].is_a?(Hash)
+        scroll_mode = options[:scroll][:mode]
+        scroll_options = options[:scroll]
+      elsif options[:scroll].is_a?(String)
+        scroll_mode =  options[:scroll]
+        scroll_options = {:mode=>scroll_mode}
+      end
+
+      if scroll_mode.include?("x")
+        scroll_options[:scrollX] = true
+      end
+      if scroll_mode.include?("y")
+        scroll_options[:scrollY] = true
+        scroll_options[:height]||="235"
+      end
+
+      table_options << ",scrollOptions:#{scroll_options.to_json}"
     end
 
     table_options = "{#{table_options}}"

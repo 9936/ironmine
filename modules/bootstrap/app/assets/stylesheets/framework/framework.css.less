@@ -1036,6 +1036,7 @@ div.min-block-body {
     *border-collapse: collapse;
     border-spacing: 0; /* since ie6 and ie7 behave differently */
     width: 100%;
+    max-width: none;
 /*border:1px solid #7F7F7F;*/
 }
 
@@ -1168,6 +1169,44 @@ div.min-block-body {
 }
 .table-placeholder{
     min-height: 55px;
+}
+
+
+.datatable-scroll .table-body table thead tr{
+    height: 0px;
+    line-height: 0px;
+    th{
+        height: 0px;
+        line-height: 0px;
+        border: none;
+        div{
+            display: none;
+            }
+        }
+}
+
+
+.scrollx .table-header,.scrollxy .table-header{
+    overflow-x:hidden;
+}
+
+
+.scrolly .table-body,.scrollxy .table-body{
+    overflow-y: auto;
+}
+
+.scrollx .table-body,.scrollxy .table-body{
+    overflow-x: auto;
+}
+
+
+.scrolly .table-body{
+    width: 100%;
+}
+
+.datatable-scroll .scroll-header{
+    border-color: #EDF5FF;
+    border-width: 0;
 }
 
 //================datatable paginator

@@ -673,28 +673,55 @@ jQuery.log = function(message,level){
 
 
 // Simple plugin for deserialization of forms.
-    $.deserialize = function (str, options) {
-        var pairs = str.split(/&amp;|&/i),
-            h = {},
-            options = options || {};
-        for(var i = 0; i < pairs.length; i++) {
-            var kv = pairs[i].split('=');
-            kv[0] = decodeURIComponent(kv[0]);
-            if(!options.except || options.except.indexOf(kv[0]) == -1) {
-                if((/^\w+\[\w+\]$/).test(kv[0])) {
-                    var matches = kv[0].match(/^(\w+)\[(\w+)\]$/);
-                    if(typeof h[matches[1]] === 'undefined') {
-                        h[matches[1]] = {};
-                    }
-                    h[matches[1]][matches[2]] = decodeURIComponent(kv[1]);
-                } else {
-                    h[kv[0]] = decodeURIComponent(kv[1]);
+$.deserialize = function (str, options) {
+    var pairs = str.split(/&amp;|&/i),
+        h = {},
+        options = options || {};
+    for(var i = 0; i < pairs.length; i++) {
+        var kv = pairs[i].split('=');
+        kv[0] = decodeURIComponent(kv[0]);
+        if(!options.except || options.except.indexOf(kv[0]) == -1) {
+            if((/^\w+\[\w+\]$/).test(kv[0])) {
+                var matches = kv[0].match(/^(\w+)\[(\w+)\]$/);
+                if(typeof h[matches[1]] === 'undefined') {
+                    h[matches[1]] = {};
                 }
+                h[matches[1]][matches[2]] = decodeURIComponent(kv[1]);
+            } else {
+                h[kv[0]] = decodeURIComponent(kv[1]);
             }
         }
-        return h;
-    };
+    }
+    return h;
+};
 
-    $.fn.deserialize = function (options) {
-        return $.deserialize($(this).serialize(), options);
-    };
+$.fn.deserialize = function (options) {
+    return $.deserialize($(this).serialize(), options);
+};
+
+jQuery.scrollbarWidth = function() {
+    var div = $('<div style="width:50px;height:50px;overflow:hidden;position:absolute;top:-200px;left:-200px;"><div style="height:100px;"></div>');
+    // Append our div, do our calculation and then remove it
+    $('body').append(div);
+    var w1 = $('div', div).innerWidth();
+    div.css('overflow-y', 'scroll');
+    var w2 = $('div', div).innerWidth();
+    $(div).remove();
+    return (w1 - w2);
+}
+
+jQuery.fn.hasVerticalScrollBar = function () {
+  if (this[0].clientHeight < this[0].scrollHeight) {
+    return true
+  } else {
+    return false
+  }
+}
+
+jQuery.fn.hasHorizontalScrollBar = function() {
+  if (this[0].clientWidth < this[0].scrollWidth) {
+    return true
+  } else {
+    return false
+  }
+}
