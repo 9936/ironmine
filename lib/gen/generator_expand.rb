@@ -2,7 +2,7 @@ module Gen::GeneratorExpand
   def self.included(base)
     base.class_eval do
       class_option :module, :type => :string, :default => "", :desc => "tell which module to place the files"
-      private
+
       #重载模板方法
       no_tasks do
         def template(source, *args, &block)
