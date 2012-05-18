@@ -241,7 +241,7 @@ function setLastMousePosition(a) {
 }
 
 function openLookup(url, width) {
-    openPopup(url, "lookup", 350, 480, "width=" + width + ",height=480,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", true)
+    openPopup(url, "lookup", 350, 480, "width=" + width + ",height=480,left="+(screen.width-width)/2+",top="+(screen.height-480)+",toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", true)
 }
 
 function openPopup(url, name, positionX, positionY, frameParams) {
