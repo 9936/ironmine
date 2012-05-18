@@ -852,6 +852,23 @@ module ApplicationHelper
     output
   end
 
+  def mx_tabs(name,tabs_configs)
+    output = ActiveSupport::SafeBuffer.new
+    output.safe_concat("<div class='mx-tabs'><ul class='clear-fix'>")
+    tabs_configs.each_with_index do |config,index|
+      selected = params[:controller].eql?(config[:url][:controller])&&params[:action].eql?(config[:url][:action])
+      tab_id = config[:id]||"#{name}_#{index}"
+      if selected
+        output.safe_concat("<li id='#{tab_id}' class='active'>")
+      else
+        output.safe_concat("<li id='#{tab_id}'>")
+      end
+      output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
+      output.safe_concat("</li>")
+    end
+    output.safe_concat("</ul></div>")
+  end
+
 
   def custom_escape_javascript(javascript)
     result = (javascript || '').
