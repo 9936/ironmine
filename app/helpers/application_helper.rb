@@ -409,7 +409,12 @@ module ApplicationHelper
       end
       if scroll_mode.include?("y")
         scroll_options[:scrollY] = true
-        scroll_options[:height]||="235"
+        if  scroll_options[:height]
+          scroll_options[:staticY]=true
+        else
+          scroll_options[:height]=235
+        end
+
       end
 
       table_options << ",scrollOptions:#{scroll_options.to_json}"

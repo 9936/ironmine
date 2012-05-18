@@ -1638,11 +1638,11 @@ jQuery.fn.menubutton = function(){
         var me = this;
         // 判断否需要滚动
         var scrollable = me.data.options.scrollOptions.scrollX||me.data.options.scrollOptions.scrollY;
-
+        // 不需要滚动的
         if(!scrollable)
             return;
 
-
+        // 需要横向滚动 ,计算是否需要调整表格宽度
         if(me.data.options.scrollOptions.scrollX){
             var totalWidth = 0;
             me.$element.find(".datatable-scroll .include-header table:first thead:first th").each(function(index,header){
@@ -1666,11 +1666,11 @@ jQuery.fn.menubutton = function(){
             $(header).css("width",$(header).outerWidth(true));
         });
 
-
+        // 纵向滚动
         if(me.data.options.scrollOptions.scrollY){
             var height = parseInt(me.data.options.scrollOptions.height);
 
-            if(me.$element.find(".datatable-scroll .include-header:first").hasHorizontalScrollBar()){
+            if(!me.data.options.scrollOptions.staticY&&me.$element.find(".datatable-scroll .include-header:first").hasHorizontalScrollBar()){
                 height = $.scrollbarWidth()+height;
             }
             me.$element.find(".datatable-scroll .include-header:first").css("height",height);
