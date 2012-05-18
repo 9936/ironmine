@@ -1650,6 +1650,7 @@ jQuery.fn.menubutton = function(){
 
             });
             var currentWidth = me.$element.find(".datatable-scroll .include-header table:first").outerWidth(true);
+            // 如果列的实际所需宽度大于表格宽度,则使用百分比重置表格宽度
             if(totalWidth>currentWidth){
                 var percentWidth = Math.ceil(totalWidth*100/currentWidth)
                 me.$element.find(".datatable-scroll .include-header table:first").css("width",percentWidth+"%");
