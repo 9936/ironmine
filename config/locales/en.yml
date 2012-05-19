@@ -290,3 +290,8 @@ en:
   label_report_knowledge_use_show: Show Knowledge
   label_report_knowledge_use_apply: Use Knowledge
   #=========end reports===================
+  ##==============http error=============================
+  label_http_exception_show_detail: Show Detail
+  label_http_exception_save_as_file: Save Error Message
+  label_http_exception_system_error: System internal error,please contact administrator
+  #=========end http error====================

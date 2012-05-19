@@ -30,7 +30,7 @@
               <tr>
                   <td>
                     <div align="center">
-                    <div style="width:500px;height:200px;color:#fff;font-size: 24px;"><%= Irm::SystemParametersManager.error_500_text %></div>
+                    <div style="width:500px;height:200px;color:#fff;font-size: 24px;"><%= Irm::SystemParametersManager.respond_to?("error_#{}_text}".to_sym) ? Irm::SystemParametersManager.send("error_#{}_text}".to_sym): t(:system_error) %></div>
                     </div>
                   </td>
               </tr>

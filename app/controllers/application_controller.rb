@@ -33,12 +33,13 @@ class ApplicationController < ActionController::Base
 
   # 检查是否需要登录
   def check_if_login_required
+    raise "sdfsafas"
     # 如果用户已经登录,则无需登录,否则转向登录页面
-     if Irm::Person.current.logged?||public_permission?
-       return true
-     else
-       require_login
-     end
+    if Irm::Person.current.logged?||public_permission?
+      return true
+    else
+      require_login
+    end
   end
 
   # 设置当前页面访问的人员
