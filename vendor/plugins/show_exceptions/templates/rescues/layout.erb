@@ -55,7 +55,7 @@
   <input id="filename" type="hidden" value="<%= "#{Time.now.strftime('%Y%m%d%H%M%S')}_#{Irm::Person.current.id}" %>.html"></input>
 </div>
 <script>
-    var messageSaveAble = swfobject.getFlashPlayerVersion().major >= 10;
+    var messageSaveAble = false;
     function showDetail() {
         if (document.getElementById('errorMessage').style.display == "none") {
             document.getElementById('errorMessage').style.display = "";
@@ -68,6 +68,7 @@
     }
 
     function load() {
+        messageSaveAble = swfobject.getFlashPlayerVersion().major >= 10;
         if (messageSaveAble) {
             Downloadify.create('saveButton', {
                 filename:function () {
