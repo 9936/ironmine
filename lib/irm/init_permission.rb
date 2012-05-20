@@ -144,11 +144,6 @@ Irm::AccessControl.map do |map|
                                                            "selectable_columns", "relation_columns","change_type","destroy","person_columns"],
                                  "irm/search_layouts"=>["new", "create","edit","update"]}
 
-  #===================irm/list_of_values============================
-  #["index", "new", "create", "get_data", "edit", "update", "show", "multilingual_edit", "multilingual_update", "execute_test", "get_lov_data"]
-  map.function :list_of_value,{"irm/list_of_values"=>["index", "show", "get_lov_data", "get_data","new", "create",
-                                                      "edit", "update", "multilingual_edit", "multilingual_update","execute_test"]}
-
   #====================irm/my_info =================================
   map.function :my_info, {"irm/my_info" => ["index","edit","update", "get_my_remote_access"],
                           "irm/people"=>["get_owned_external_systems", "get_support_group"],
