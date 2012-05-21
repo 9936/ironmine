@@ -64,9 +64,6 @@ module Ironmine
     # add mail config
     config.ironmine = ActiveSupport::OrderedOptions.new
 
-    # 配置系统错误消息显示页面
-    config.ironmine.rescues_template_path = Rails.root.join('app', 'views')
-
     config.ironmine.javascript = ActiveSupport::OrderedOptions.new
     config.ironmine.css = ActiveSupport::OrderedOptions.new
     config.ironmine.javascript.source = {
