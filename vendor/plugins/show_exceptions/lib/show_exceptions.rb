@@ -14,9 +14,9 @@ module ShowExceptions
           else
             rescue_custom_action_locally(request, exception)
           end
-        #rescue Exception => failsafe_error
-        #  $stderr.puts "Error during failsafe response: #{failsafe_error}\n  #{failsafe_error.backtrace * "\n  "}"
-        #  FAILSAFE_RESPONSE
+        rescue Exception => failsafe_error
+          $stderr.puts "Error during failsafe response: #{failsafe_error}\n  #{failsafe_error.backtrace * "\n  "}"
+          FAILSAFE_RESPONSE
         end
 
 
