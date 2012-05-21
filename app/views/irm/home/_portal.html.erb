@@ -26,8 +26,13 @@
 	</div>
 </div>
 <!-- portal_layout设置窗口 -->
-<div style="display:none;">
-    <div id="portalLayouts" style="background-color: transparent; width: 400px; height:auto;padding: 30px 10px 10px 10px;">
+<div class="modal" id="portalLayoutModal" style="display: none;">
+  <div class="modal-header">
+    <a data-dismiss="modal" class="close" href="#">×</a>
+    <h3><%= t(:label_irm_portlet_change_layout) %></h3>
+  </div>
+  <div class="modal-body">
+    <div id="portalLayouts">
       <%= form_tag(:controller => "portlet_configs", :action =>"save_portal_layout", :method => "post") do %>
           <%= hidden_field_tag "portal_layout_id", pconfig[1].id, :id=>"portal_layout_id" %>
           <table class="form-table portal-setting" style="width: 100%">
@@ -45,46 +50,54 @@
               <tr>
                 <td colspan="4"></td>
               </tr>
-              <tr>
-                <td class="button-col" colspan="4">
-                  <div class="btn-toolbar">
-                    <%= link_submit(t(:save),{:class=>"btn"})%>
-                    <a href="javascript:void(0)" id="portlalCancleButton" class="btn"><%= t(:cancel) %></a>
-                  </div>
-                </td>
-              </tr>
           </table>
       <% end %>
     </div>
+  </div>
+  <div class="modal-footer">
+    <a data-dismiss="modal" class="btn" href="#"><%= t(:cancel) %></a>
+    <%= link_submit(t(:save),{:class=>"btn btn-primary"})%>
+  </div>
 </div>
 <!-- 结束portal_layout-->
 
-<div style="display:none;">
-    <div id="portletList" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
-      <table id="modules" style="font-size:12px;width:100%;" class="form-table">
-        <% (0..pconfig[0].length-1).step(3) do |index| %>
-          <tr>
-            <td>
-              <%= check_box_tag 'modules[]', pconfig[0][index].id,false,:class=>"addModule",:ref=> pconfig[0][index].id,:id=>"check#{pconfig[0][index].id}"%>
-              <label for="check<%=pconfig[0][index].id%>"><%= pconfig[0][index][:name] %></label>
-            </td>
-            <td>
-              <% if pconfig[0][index+1] %>
-                <%= check_box_tag 'modules[]', pconfig[0][index+1].id,false,:class=>"addModule",:ref=> pconfig[0][index+1].id,:id=>"check#{pconfig[0][index+1].id}"%>
-                <label for="check<%=pconfig[0][index+1].id%>"><%= pconfig[0][index+1][:name] %></label>
-              <% end %>
-            </td>
-            <td>
-              <% if pconfig[0][index+2] %>
-                <%= check_box_tag 'modules[]', pconfig[0][index+2].id,false,:class=>"addModule",:ref=> pconfig[0][index+2].id,:id=>"check#{pconfig[0][index+2].id}"%>
-                <label for="check<%=pconfig[0][index+2].id%>"><%= pconfig[0][index+2][:name] %></label>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </table>
 
-    </div>
+<!-- portal_layout设置窗口 -->
+<div class="modal" id="portletModal" style="display: none;">
+  <div class="modal-header">
+    <a data-dismiss="modal" class="close" href="#">×</a>
+    <h3><%= t(:label_irm_portlet_custom_home_page) %></h3>
+  </div>
+  <div class="modal-body">
+    <div id="portletList">
+          <table id="modules" style="font-size:12px;width:100%;" class="form-table">
+            <% (0..pconfig[0].length-1).step(3) do |index| %>
+              <tr>
+                <td>
+                  <%= check_box_tag 'modules[]', pconfig[0][index].id,false,:class=>"addModule",:ref=> pconfig[0][index].id,:id=>"check#{pconfig[0][index].id}"%>
+                  <label for="check<%=pconfig[0][index].id%>"><%= pconfig[0][index][:name] %></label>
+                </td>
+                <td>
+                  <% if pconfig[0][index+1] %>
+                    <%= check_box_tag 'modules[]', pconfig[0][index+1].id,false,:class=>"addModule",:ref=> pconfig[0][index+1].id,:id=>"check#{pconfig[0][index+1].id}"%>
+                    <label for="check<%=pconfig[0][index+1].id%>"><%= pconfig[0][index+1][:name] %></label>
+                  <% end %>
+                </td>
+                <td>
+                  <% if pconfig[0][index+2] %>
+                    <%= check_box_tag 'modules[]', pconfig[0][index+2].id,false,:class=>"addModule",:ref=> pconfig[0][index+2].id,:id=>"check#{pconfig[0][index+2].id}"%>
+                    <label for="check<%=pconfig[0][index+2].id%>"><%= pconfig[0][index+2][:name] %></label>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+
+        </div>
+  </div>
+  <div class="modal-footer">
+    <a data-dismiss="modal" class="btn" href="#"><%= t(:close) %></a>
+  </div>
 </div>
 
 <script>
@@ -114,6 +127,8 @@
   initPortal(portal_options);
 
   $(function(){
+      $("#portalLayoutModal").modal({show:false});
+      $("#portletModal").modal({show:false});
       $("#portalSetting").click(function(e){
           //已经显示在portal中的模块
           var showedModules = $.jpolite.getShowModules();
@@ -125,7 +140,7 @@
                   $(module).attr("checked",false);
               }
           });
-          $.colorbox({inline:true, opacity:0.55, title:"<%= t(:label_irm_portlet_custom_home_page) %>", speed: 0,href:"#portletList"});
+          $("#portletModal").modal("show");
       });
       $("#portletList input.addModule").click(function(e){
             if($(e.currentTarget).is(":checked")){
@@ -146,7 +161,7 @@
       setLayoutPreview(current_layout, current_layout_container);
       $("#portalChangeLayout").click(function(e){
           //设置portal_layout窗口
-          $.colorbox({inline:true, opacity:0.55, title:"<%= t(:label_irm_portlet_change_layout) %>", speed: 0,href:"#portalLayouts"});
+          $("#portalLayoutModal").modal("show");
       });
       //当选择某一中布局方式的时候
       $("#portalContainerSelect").change(function(){
@@ -158,9 +173,7 @@
               }
           }
       });
-      $("#portlalCancleButton").bind("click", function(){
-          $.colorbox.close();
-      });
+
 
       function setLayoutPreview(current_layout, container) {
           container.html("");
@@ -174,7 +187,6 @@
                   }
               }
           });
-          $.colorbox.resize();
       }
   });
 

@@ -26,13 +26,19 @@
         <div id="usid-blDropdown" class="usid-roundedCornerDropdown usid-blDropdown"></div>
     </div>
     <div id="searchOptionsContainer" class="headerSearchOptions">
-      <a href="#searchOptions" id="headerSearchOptionsLink" class="headerSearchOptionsLink"><%= t(:options) %></a>
+      <a id="headerSearchOptionsLink" data-toggle="modal" href="#searchModal"  class="headerSearchOptionsLink"><%= t(:options) %></a>
     </div>
   </div>
 <% end %>
 
-<div style="display:none;">
-    <div id="searchOptions" style="background-color: transparent; width: 300px; height:160px;padding: 30px 10px 10px 10px;">
+
+<div class="modal" id="searchModal" style="display: none;">
+  <div class="modal-header">
+    <a data-dismiss="modal" class="close" href="#">×</a>
+    <h3><%= t(:search_options) %></h3>
+  </div>
+  <div class="modal-body">
+    <div id="searchOptions">
       <div style="margin-right:5px;margin-bottom:5px">
         <%= text_field_tag "search_option_input", t(:input_keyword_you_want_to_search),:id=>"phSearchOptionInput", :class => "grayTips headerSearchInput", :style => "width:100%" %>
       </div>
@@ -62,15 +68,12 @@
         </tr>
       </table>
       </fieldset>
-      <table style="width:100%">
-        <tr>
-          <td style="text-align: center">
-              <%= submit_tag(t(:search), :class => "btn btn-primary") %>
-              <a href="javascript:void(0);" id="searchOptionCancel" class="btn"><%= t(:cancel) %></a>
-          </td>
-        </tr>
-      </table>
     </div>
+  </div>
+  <div class="modal-footer">
+    <a data-dismiss="modal" class="btn" href="#"><%= t(:cancel) %></a>
+    <a class="btn btn-primary searchOptionSubmit" href="#"><%= t(:search) %></a>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -80,14 +83,11 @@
           $("#phSearchButton").trigger("click");
         }
       });
+      $('#searchModal').modal({show:false});
   });
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $("#headerSearchOptionsLink").colorbox({inline:true, opacity:0.55, title:"<%= t(:search_options) %>", speed: 0});
-    $("#searchOptionCancel").click(function(e){
-        $.colorbox.close();
-    });
     $("#checkAllSearchOptions").click(function(e){
         $(".searchOptions").each(function(){
             if($(this).attr("id") != "checkAllSearchOptions" && $("#checkAllSearchOptions:checked").val() !== undefined) {

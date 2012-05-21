@@ -104,7 +104,6 @@ module Ironmine
         :default =>{:css=>[:application],:js=>[:application,"locales/jquery-{locale}"]},
         :default_ie6=>{:css=>[:application_ie6]},
         :aceditor =>{:js=>["plugins/ace"]},
-        :colorbox=>{:css=>[],:js=>["plugins/colorbox"]},
         :xheditor => {:css=>["plugins/xheditor"],:js=>["plugins/xheditor/xheditor-{locale}"]} ,
         :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]},
         :jcrop => {:css=>["plugins/jcrop"],:js=>["plugins/jquery-crop"]},
@@ -141,7 +140,6 @@ module Ironmine
       end
     end
     config.assets.precompile += ["application_ie6.css",
-                                 "plugins/colorbox.js",
                                  "plugins/jpolite.css",
                                  "locales/jquery-en.js",
                                  "locales/jquery-zh.js",
