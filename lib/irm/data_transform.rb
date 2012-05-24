@@ -1,3 +1,4 @@
+require 'yajl'
 class Irm::DataTransform
   include Singleton
 
@@ -27,6 +28,9 @@ class Irm::DataTransform
   end
 
   def upload(file_path)
+    json_file = File.new(file_path, 'r')
+    parser = Yajl::Parser.new
+    datas = parser.parse(json_file)
 
   end
 
@@ -58,8 +62,10 @@ class Irm::DataTransform
         # 取得当前列的值
         if data.respond_to?(column[:name].to_sym)
           value = data.send(column[:name].to_sym)
-          if(value.is_a? Time)
+          if(value.is_a? Time||value.is_a?(DateTime))
             value = value.strftime('%Y-%m-%d %H:%M:%S')
+          elsif value.is_a? Date
+            value = value.to_formatted_s(:db)
           end
           data_hash.merge!(column[:name].to_sym=>value)
         end
