@@ -6,11 +6,7 @@
   <% require_css([:default]) %>
   <%=render_loaded_javascript_css_files%>
   <%= csrf_meta_tag %>
-  <script type="text/javascript">
-    $(document).ready(function(){
-        $("#settingMenu").menubutton();
-    });
-  </script>
+
   <% if content_for?(:page_script) %>
     <%=javascript_tag(yield :page_script)%>
   <% end %>

@@ -92,6 +92,43 @@ body#body {
         background: url(@pageHeaderRightButtomPath) no-repeat scroll right bottom transparent;
         text-align: right;
         white-space: nowrap;
+        .nav-pills > li > a {
+            border-radius: 5px 5px 5px 5px;
+            margin-bottom: 2px;
+            margin-top: 2px;
+            padding-bottom: 8px;
+            padding-top: 8px;
+            font-weight: bold;
+            background-color: #35B4E9;
+            color: #FFFFFF;
+        }
+        .nav-pills > li > a:hover {
+            background-color: #FFFFFF;
+            color: #1797C0;
+        }
+        .nav-pills > .active > a, .nav-pills > .active > a:hover {
+            background-color: #FFFFFF;
+            color: #1797C0;
+        }
+        .nav-tabs .open .dropdown-toggle, .nav-pills .open .dropdown-toggle, .nav > .open.active > a:hover {
+            border-color: #999999;
+            background-color: #FFFFFF;
+            color: #1797C0;
+        }
+
+        .nav-pills .dropdown-toggle .caret {
+            border-bottom-color: #0088CC;
+            border-top-color: #0088CC;
+            margin-top: 6px;
+        }
+        .nav-pills .dropdown-toggle:hover .caret {
+            border-bottom-color: #005580;
+            border-top-color: #005580;
+        }
+        .nav-pills .active .dropdown-toggle .caret {
+            border-bottom-color: #333333;
+            border-top-color: #333333;
+        }
     }
 
 }

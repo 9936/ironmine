@@ -19,38 +19,19 @@
                       <%= render :partial =>"irm/search/box"%>
                     </td>
                     <td class="application-menu">
-                      <div>
-                        <div></div>
-                        <div>
-                          <%= current_application_menu %>
-                          <span id="settingMenu" class="menu-parent float-right">
-                            <div  class="menu-label">
-                              <span tabindex="0" style="" id="userNavTop" ><%= Irm::Person.current.name %></span>
-                              <div class="menu-label-tr"></div>
-                              <div class="menu-label-tl"></div>
-                              <div id="settingMenuArrow"></div>
-                            </div>
-                            <div class="menu-content" >
-                                <div class="menu-items-tr"></div>
-                                <div class="menu-items-tl"></div>
-                                <div class="menu-items-tc"></div>
-                                <div class="menu-items">
-                                  <%= setting_menu%>
-                                  <div class="menu-item"><%= link_to(t(:label_irm_common_logout),logout_url) %></div>
-                                </div>
-                                <div class="menu-items-br"></div>
-                                <div class="menu-items-bl"></div>
-                                <div class="menu-items-bc"></div>
-                            </div>
-                            <script type="text/javascript">
-                              $(document).ready(function(){
-                                  $("#settingMenu").menubutton();
-                              });
-                            </script>
-                          </span>
-
-                        </div>
-                      </div>
+                      <ul class="nav nav nav-pills pull-right" style="text-align: left;">
+                        <li class="dropdown">
+                          <a href="#fat" data-toggle="dropdown" class="dropdown-toggle"><%= Irm::Person.current.name %> <b class="caret"></b></a>
+                          <ul class="dropdown-menu" id="menu1">
+                            <%= setting_menu%>
+                            <li class="divider"></li>
+                            <li><%= link_to(t(:label_irm_common_logout),logout_url) %></li>
+                          </ul>
+                        </li>
+                      </ul>
+                      <ul class="nav nav-pills  pull-right" style="text-align: left;">
+                        <%= current_application_menu %>
+                      </ul>
                     </td>
                   </tr>
                 </tbody>

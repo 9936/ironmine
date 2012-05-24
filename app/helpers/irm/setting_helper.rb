@@ -16,7 +16,7 @@ module Irm::SettingHelper
     return nil unless menus&&menus.size>0
     links = ""
     menus.each do |m|
-      links << content_tag(:div,link_to(m[:name],{:controller=>m[:controller],:action=>m[:action],:mi=>m[:menu_entry_id],:level=>1}),{:class=>"menuItem"})
+      links << content_tag(:li,link_to(m[:name],{:controller=>m[:controller],:action=>m[:action],:mi=>m[:menu_entry_id],:level=>1}),{})
     end
 
     links.html_safe
