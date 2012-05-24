@@ -27,13 +27,14 @@
 </div>
 <!-- portal_layout设置窗口 -->
 <div class="modal" id="portalLayoutModal" style="display: none;">
+  <%= form_tag(:controller => "portlet_configs", :action =>"save_portal_layout", :method => "post") do %>
   <div class="modal-header">
     <a data-dismiss="modal" class="close" href="#">×</a>
     <h3><%= t(:label_irm_portlet_change_layout) %></h3>
   </div>
   <div class="modal-body">
     <div id="portalLayouts">
-      <%= form_tag(:controller => "portlet_configs", :action =>"save_portal_layout", :method => "post") do %>
+
           <%= hidden_field_tag "portal_layout_id", pconfig[1].id, :id=>"portal_layout_id" %>
           <table class="form-table portal-setting" style="width: 100%">
               <tr>
@@ -51,13 +52,14 @@
                 <td colspan="4"></td>
               </tr>
           </table>
-      <% end %>
+
     </div>
   </div>
   <div class="modal-footer">
     <a data-dismiss="modal" class="btn" href="#"><%= t(:cancel) %></a>
     <%= link_submit(t(:save),{:class=>"btn btn-primary"})%>
   </div>
+  <% end %>
 </div>
 <!-- 结束portal_layout-->
 
