@@ -1634,6 +1634,30 @@ jQuery.fn.menubutton = function(){
         }
     }
 
+
+    Internal.prototype.adjustScroll = function(){
+        var me = this;
+        // 判断否需要滚动
+        var scrollable = me.data.options.scrollOptions.scrollX||me.data.options.scrollOptions.scrollY;
+        // 不需要滚动的
+        if(!scrollable)
+            return;
+        // 设置表头宽度
+        var realHeaders = me.$element.find(".datatable-scroll .include-header table:first thead:first th");
+        me.$element.find(".datatable-scroll .scroll-header:first thead:first th").each(function(index,header){
+            $(header).css("width",$(realHeaders[index]).outerWidth(true));
+            $(realHeaders[index]).css("width",$(realHeaders[index]).outerWidth(true));
+        });
+
+        if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
+            me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
+            me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+        }else{
+            me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",0);
+        }
+
+    }
+
     Internal.prototype.syncScrollUI = function(){
         var me = this;
         // 判断否需要滚动
@@ -1774,6 +1798,13 @@ jQuery.fn.menubutton = function(){
             return this.each(function()
             {
                 I(this).loadPage(customOptions);
+            });
+        },
+        adjustScroll : function(/*Object*/ customOptions)
+        {
+            return this.each(function()
+            {
+                I(this).adjustScroll();
             });
         },
         destroy : function()

@@ -1,3 +1,143 @@
+<style type="text/css">
+    .datatable table tbody table.table-icon {
+        background-color: transparent;
+        text-align: left;
+    }
+
+    .datatable table tbody table.table-icon tr {
+        background-color: transparent;
+    }
+
+    .datatable table tbody table.table-icon tr td {
+        background-color: transparent;
+        border: none;
+    }
+
+
+    .datatable table tbody table.table-icon tr td.div {
+        padding: 0px;
+        border: none;
+    }
+
+    .datatable table tbody table.table-icon tr td.vt {
+        width: 21px;
+    }
+
+    .table-icon a.expand-icon {
+        background: url('../images/filter_hide.gifx') no-repeat 0 0 transparent;
+        width: 16px;
+        height: 16px;
+        text-indent: -9999px;
+        display: block;
+    }
+
+    .table-icon a.collapse-icon {
+        background: url('../images/filter_reveal.gifx') no-repeat 0 0 transparent;
+        width: 16px;
+        height: 16px;
+        text-indent: -9999px;
+        display: none;
+    }
+
+    .table-icon .workflow {
+        width: 18px;
+        height: 18px;
+    }
+
+    .table-icon .requested {
+        background: url('../images/workflow_requested.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .active {
+        background: url('../images/workflow_active.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .pending {
+        background: url('../images/workflow_pending.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .complete {
+        background: url('../images/workflow_complete.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon .closed {
+        background: url('../images/workflow_approval_rejected.gif') no-repeat 0 0 transparent;
+    }
+
+    .table-icon td {
+        background: transparent;
+        border: none;
+    }
+
+    .table-icon td.expends div {
+        float: left;
+        display: inline;
+        padding: 0;
+        border: none;
+    }
+
+    .table-icon td.expand div {
+        display: block;
+        float: none;
+    }
+
+    .table-icon td.expends div.name {
+        display: none;
+    }
+
+    .table-icon td.expand div.name  {
+        display: block;
+    }
+
+    .table-icon .expand {
+        min-width: 80px;
+        display: block;
+    }
+
+    .table-icon .name {
+        display: none;
+        padding: 3px;
+
+    }
+
+    .table-icon .header-name {
+        background: transparent;
+        padding: 2px 3px !important;
+        display: block;
+        min-width: 50px;
+    }
+
+    .expand .name {
+        display: inline-block;
+        min-width: 60px;
+        clear: left;
+    }
+
+    td.vt {
+        vertical-align: top;
+        padding: 4px 6px 4px 7px;
+        white-space: normal;
+        display: table-cell;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".expand-icon").live('click', function () {
+            var parent_table = $(this).parent();
+            parent_table.find(".collapse-icon").css("display", "block");
+            $(this).hide();
+            parent_table.parent().parent().find(".expends").addClass("expand");
+            $("#requests").datatable("adjustScroll");
+        });
+        $(".collapse-icon").live('click', function () {
+            var parent_table = $(this).parent();
+            parent_table.find(".expand-icon").show();
+            $(this).hide();
+            parent_table.parent().parent().find(".expends").removeClass("expand");
+            $("#requests").datatable("adjustScroll");
+        });
+    });
+</script>
 <%= common_title %>
 <%= view_filter("CHM_CHANGE_REQUESTS_INDEX","CHM_CHANGE_REQUESTS","requests") %>
 
