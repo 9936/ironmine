@@ -60,7 +60,6 @@ class Irm::MyInfoController < ApplicationController
       format.html{
         @datas = total_record
         @count = count
-        render_html_data_table
       }
       format.json {render :json=>to_jsonp(remove_access_record.to_grid_json([:client,:ip_address,:created_at,:updated_at, :times], count))}
     end

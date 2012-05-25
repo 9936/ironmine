@@ -223,7 +223,6 @@ class Irm::ReportsController < ApplicationController
         end
         @datas = reports_scope
         @count = count
-        render_html_data_table
       }
       format.json {
         reports_scope,count = paginate(reports_scope)

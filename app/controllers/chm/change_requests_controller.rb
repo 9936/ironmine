@@ -273,7 +273,6 @@ class Chm::ChangeRequestsController < ApplicationController
       }
       format.html {
         @datas,@count = paginate(change_requests_scope)
-        render_html_data_table
       }
       format.xls{
         change_requests = data_filter(change_requests_scope)

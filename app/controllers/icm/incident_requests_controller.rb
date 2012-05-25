@@ -185,7 +185,6 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.html {
         @datas,@count = paginate(incident_requests_scope)
-        render_html_data_table
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
@@ -239,7 +238,6 @@ class Icm::IncidentRequestsController < ApplicationController
       }
       format.html {
         @datas,@count = paginate(incident_requests_scope)
-        render_html_data_table
       }
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
@@ -320,7 +318,6 @@ class Icm::IncidentRequestsController < ApplicationController
       format.html {
         @datas = incident_requests
         @count = count
-        render_html_data_table
       }
       format.xml {
         incident_requests,count = paginate(incident_requests_scope)
@@ -413,7 +410,6 @@ class Icm::IncidentRequestsController < ApplicationController
       format.html {
         @datas = incident_requests
         @count = count
-        render_html_data_table
       }
       format.xml {
         incident_requests,count = paginate(incident_requests_scope)

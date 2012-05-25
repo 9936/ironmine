@@ -89,7 +89,6 @@ class Com::ConfigRelationMembersController < ApplicationController
       format.html {
         @datas = com_config_relation_members
         @count = count
-        render_html_data_table
       }
       format.json {render :json=>to_jsonp(com_config_relation_members.to_grid_json([:type_name,:config_relation_type_id,:config_class_id],count))}
     end

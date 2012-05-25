@@ -138,15 +138,14 @@ class Com::ConfigItemsController < ApplicationController
                end if grouped_config_item_attributes.present?
                #遍历每条配置项数据，给每条数据追加扩展属性字段
                com_config_items.each do |config_item|
-                 merged_config_item=config_item.attributes
+                 merged_config_item=config_item.attributes.symbolize_keys
                  @class_attributes.each do |class_attribute|
-                   merged_config_item.merge!({class_attribute[:id]=>grouped_config_item_attributes[config_item.id][class_attribute[:id]]}) if grouped_config_item_attributes[config_item.id].present?
+                   merged_config_item.merge!({class_attribute[:id].to_sym=>grouped_config_item_attributes[config_item.id][class_attribute[:id]]}) if grouped_config_item_attributes[config_item.id].present?
                  end
                   @merged_config_items<<merged_config_item
                end if grouped_config_item_attributes.present?
             end
             @merged_config_items=com_config_items if @merged_config_items.blank?
-            render_html_data_table
       }
       format.json {
         com_config_items=com_config_items.includes(:config_item_attributes)

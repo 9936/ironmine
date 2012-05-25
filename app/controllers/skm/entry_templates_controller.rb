@@ -130,7 +130,6 @@ class Skm::EntryTemplatesController < ApplicationController
       format.html {
         @datas = entry_elements
         @count = count
-        render_html_data_table
       }
     end    
   end

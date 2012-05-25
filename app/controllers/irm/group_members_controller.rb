@@ -32,7 +32,6 @@ class Irm::GroupMembersController < ApplicationController
         @group = Irm::Group.find(params[:id])
         @datas = group_members_scope
         @count = count
-        render_html_data_table
       }
       format.json {render :json=>to_jsonp(group_members_scope.to_grid_json([:person_name,:organization_name,:email_address], count))}
     end
@@ -103,7 +102,6 @@ class Irm::GroupMembersController < ApplicationController
       format.html {
         @datas = group_scope
         @count = count
-        render_html_data_table
       }
     end
   end
@@ -116,7 +114,6 @@ class Irm::GroupMembersController < ApplicationController
         @person = Irm::Person.find(params[:id])
         @datas = group_code
         @count = count
-        render_html_data_table
       }
       format.json {render :json=>to_jsonp(group_code.to_grid_json([:code,:name,:description], count))}
     end

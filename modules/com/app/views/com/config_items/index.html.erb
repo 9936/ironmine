@@ -25,7 +25,7 @@
                                                                                   :li_attrs => 'id'} %>
          </td>
          <td class="side-content">
-           <%= datatable("config_items", {:action => "get_data"},[], {:force_html => true, :paginator_box => "paginatorBox", :search_box => "searchBox"}) %>
+           <%= datatable("config_items", {:action => "get_data"},[], {:force_html => true, :paginator_box => "paginatorBox", :search_box => "searchBox",:scroll=>{:mode=>"xy",:height=>250}}) %>
          </td>
        </tr>
     </table>

@@ -36,7 +36,6 @@ class Irm::ExternalSystemMembersController < ApplicationController
       format.html {
         @datas = members
         @count = count
-        render_html_data_table
       }
     end
   end
@@ -55,7 +54,6 @@ class Irm::ExternalSystemMembersController < ApplicationController
       format.html {
         @datas = people
         @count = count
-        render_html_data_table
       }
     end
   end
@@ -100,7 +98,6 @@ class Irm::ExternalSystemMembersController < ApplicationController
       format.html {
         @datas = external_systems
         @count = count
-        render_html_data_table
       }
     end
   end

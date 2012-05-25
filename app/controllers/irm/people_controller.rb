@@ -203,7 +203,6 @@ class Irm::PeopleController < ApplicationController
       format.html  {
         @datas = systems
         @count = count
-        render_html_data_table
       }
       format.json {render :json => to_jsonp(systems.to_grid_json([:system_name, :system_description, :external_system_code, :status_code], count))}
     end

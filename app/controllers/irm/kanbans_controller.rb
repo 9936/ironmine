@@ -99,7 +99,6 @@ class Irm::KanbansController < ApplicationController
       format.html {
         @datas = kanbans
         @count = count
-        render_html_data_table
       }
     end
   end

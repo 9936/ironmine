@@ -54,7 +54,6 @@ class Chm::AdvisoryBoardMembersController < ApplicationController
       format.html {
         @datas = people
         @count = count
-        render_html_data_table
       }
     end
   end

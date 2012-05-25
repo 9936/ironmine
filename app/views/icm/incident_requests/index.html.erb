@@ -21,7 +21,7 @@
       <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
       <%= link_to t(:label_icm_incident_request_assign_me), {:action => "edit_assign_me"},{:class=>"btn"}%>
       <%= link_to t(:label_action_assign_dashboard), {:action => "assign_dashboard"},{:class=>"btn"}%>
-      <a href="javascript:void(0)" class="btn btn-info"><%= t(:export) %></a>
+      <a href="javascript:void(0)" id="exportData" class="btn btn-info"><%= t(:export) %></a>
     </td>
     <td class="page-block-help">
       <div id="incident_requestsSearchBox"></div>

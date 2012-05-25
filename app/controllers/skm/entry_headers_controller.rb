@@ -522,7 +522,6 @@ class Skm::EntryHeadersController < ApplicationController
       format.html  {
         @datas = entry_headers
         @count = entry_headers.count
-        render_html_data_table
       }
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json([:is_favorite, :entry_status_code, :full_title,
                                                                          :entry_title, :keyword_tags,:doc_number,:version_number,
@@ -568,7 +567,6 @@ class Skm::EntryHeadersController < ApplicationController
       format.html  {
         @datas = entry_headers
         @count = count
-        render_html_data_table
       }
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:entry_status_code, :type_code, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date_f], count)) }
     end    
@@ -627,7 +625,6 @@ class Skm::EntryHeadersController < ApplicationController
       format.html  {
         @datas = entry_headers
         @count = entry_headers.count
-        render_html_data_table
       }
     end
   end
@@ -644,7 +641,6 @@ class Skm::EntryHeadersController < ApplicationController
       format.html  {
         @datas = entry_headers
         @count = entry_headers.count
-        render_html_data_table
       }
     end
   end

@@ -11,7 +11,6 @@ class Irm::MyLoginHistoryController < ApplicationController
         login_records,count = paginate(login_records_scope)
         @datas = login_records
         @count = count
-        render_html_data_table
       }
       format.json {
         login_records,count = paginate(login_records_scope)

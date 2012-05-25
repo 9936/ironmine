@@ -118,7 +118,6 @@ class Skm::ChannelsController < ApplicationController
         @channel_id=params[:id]
         @datas=groups
         @count=count
-        render_html_data_table
       }
       format.json  {render :json => to_jsonp(groups.to_grid_json(['0',:code, :name, :description, :status_code], count)) }
     end
@@ -132,7 +131,6 @@ class Skm::ChannelsController < ApplicationController
       format.html {
         @datas = groups
         @count = count
-        render_html_data_table
       }
     end
   end
