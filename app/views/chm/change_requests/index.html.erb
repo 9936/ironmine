@@ -16,8 +16,6 @@
       </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="requests"></div>
-    <%= datatable("requests",{:action=>"get_data"},[],{:export_data=>"#requestsExport",:search_box=>"searchBox",:paginator_box=>'paginatorBox',:view_filter=>true})%>
-    <div id="paginator"></div>
+    <%= datatable("requests",{:action=>"get_data"},[],{:export_data=>"#requestsExport",:search_box=>"searchBox",:paginator_box=>'paginatorBox',:view_filter=>true,:scroll=>"xy"})%>
   </div>
 </div>

@@ -13,31 +13,31 @@ module Chm::ChangeRequestsHelper
     if !change_requests.nil?
       unless change_requests.count > 1
         html << "<td class='expends vt'>"
-        html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+        html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                           <tr>
-                            <td><span class='header_name'>[#{change_requests[0][:request_number]}] #{link_to(change_requests[0][:title], {:controller => 'change_requests', :action => 'show_incident', :id=> change_request_id}, {:style => 'display: inline;'})}</span></td>
+                            <td><div class='header-name'>[#{change_requests[0][:request_number]}] #{link_to(change_requests[0][:title], {:controller => 'change_requests', :action => 'show_incident', :id=> change_request_id}, {:style => 'display: inline;'})}</div></td>
                           </tr>
                         </table>
-                      </span>"
+                      </div>"
       else
-        html<< "<td class='vt'><span>
-                 <a class='expand_icon' href='javascript:void(0);' title='expand'>expand</a>
-                 <a class='collapse_icon' href='javascript:void(0);' title='collapse'>collapse</a>
-               </span></td>"
+        html<< "<td class='vt'><div>
+                 <a class='expand-icon' href='javascript:void(0);' title='expand'>expand</a>
+                 <a class='collapse-icon' href='javascript:void(0);' title='collapse'>collapse</a>
+               </div></td>"
         html << "<td class='expends'>"
-        html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+        html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                           <tr>
-                            <td><span class='header_name'> #{change_requests.count}</span></td>
+                            <td><div class='header-name'> #{change_requests.count}</div></td>
                           </tr>
                         </table>
-                      </span>"
+                      </div>"
         change_requests.each do |cr|
-          html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+          html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                             <tr>
-                              <td><span class='name'>[#{cr[:request_number]}] #{link_to(cr[:title], {:controller => 'change_requests', :action => 'show_incident', :id=> change_request_id}, {:style => 'display: inline;'})}</span></td>
+                              <td><div class='name'>[#{cr[:request_number]}] #{link_to(cr[:title], {:controller => 'change_requests', :action => 'show_incident', :id=> change_request_id}, {:style => 'display: inline;'})}</div></td>
                             </tr>
                           </table>
-                        </span>"
+                        </div>"
         end
         html << "</td>"
       end
@@ -51,30 +51,30 @@ module Chm::ChangeRequestsHelper
      unless change_request.nil?
        if change_request.change_plans.present?
          if change_request.change_plans.count > 1
-           html<< "<td class='vt'><span>
-                 <a class='expand_icon' href='javascript:void(0);' title='expand'>expand</a>
-                 <a class='collapse_icon' href='javascript:void(0);' title='collapse'>collapse</a>
-               </span></td>"
+           html<< "<td class='vt'><div>
+                 <a class='expand-icon' href='javascript:void(0);' title='expand'>expand</a>
+                 <a class='collapse-icon' href='javascript:void(0);' title='collapse'>collapse</a>
+               </div></td>"
            html << "<td class='expends'>"
-           html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
-                          <tr><td><span class='header_name'> #{change_request.change_plans.count}</span></td></tr>
-                      </table></span>"
+           html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
+                          <tr><td><div class='header-name'> #{change_request.change_plans.count}</div></td></tr>
+                      </table></div>"
            change_request.change_plans.each do  |plan|
-              html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+              html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                             <tr>
-                              <td><span class='name'>#{link_to(Chm::ChangePlanType.multilingual.find(plan[:change_plan_type_id])[:name], {:controller => 'change_requests', :action => 'show_plan', :id=> change_request.id}, {:style => 'display: inline;'})}</span></td>
+                              <td><div class='name'>#{link_to(Chm::ChangePlanType.multilingual.find(plan[:change_plan_type_id])[:name], {:controller => 'change_requests', :action => 'show_plan', :id=> change_request.id}, {:style => 'display: inline;'})}</div></td>
                             </tr>
                           </table>
-                        </span>"
+                        </div>"
            end
          else
            html << "<td class='expends'>"
-           html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+           html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                           <tr>
-                            <td><span class='header_name'>#{link_to(Chm::ChangePlanType.multilingual.find(change_request.change_plans[0][:change_plan_type_id])[:name], {:controller => 'change_requests', :action => 'show_plan', :id=> change_request.id}, {:style => 'display: inline;'})}</span></td>
+                            <td><div class='header-name'>#{link_to(Chm::ChangePlanType.multilingual.find(change_request.change_plans[0][:change_plan_type_id])[:name], {:controller => 'change_requests', :action => 'show_plan', :id=> change_request.id}, {:style => 'display: inline;'})}</div></td>
                           </tr>
                         </table>
-                      </span>"
+                      </div>"
          end
          html << "</td>"
        end
@@ -86,19 +86,19 @@ module Chm::ChangeRequestsHelper
     tasks = Chm::ChangeTask.list_all.where(:source_type=>Chm::ChangeRequest.name,:source_id=>change_request_id)
     html = ""
     if tasks.present?
-        html<< "<td class='vt'><span>
-               <a class='expand_icon' href='javascript:void(0);' title='expand'>expand</a>
-               <a class='collapse_icon' href='javascript:void(0);' title='collapse'>collapse</a>
-             </span></td>"
+        html<< "<td class='vt'><div>
+               <a class='expand-icon' href='javascript:void(0);' title='expand'>expand</a>
+               <a class='collapse-icon' href='javascript:void(0);' title='collapse'>collapse</a>
+             </div></td>"
         html << "<td class='expends'>"
         tasks.each do |task|
-          html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+          html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                           <tr>
                             <td>#{get_stage_icon_by_value(task[:status], task[:name])}</td>
-                            <td><span class='name'>[#{task[:status_name]}]#{link_to(task[:name], {:controller => 'change_requests', :action => 'show_implement', :id=> change_request_id}, {:style => 'display:block;'})}</span></td>
+                            <td><div class='name'>[#{task[:status_name]}]#{link_to(task[:name], {:controller => 'change_requests', :action => 'show_implement', :id=> change_request_id}, {:style => 'display:block;'})}</div></td>
                           </tr>
                         </table>
-                      </span>"
+                      </div>"
         end
         html << "</td>"
     end
@@ -114,39 +114,39 @@ module Chm::ChangeRequestsHelper
       if stage.id.eql?(stage_id)
         current_index = index
         if index == 0
-          html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+          html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                       <tr>
-                        <td><span class='workflow requested' title='#{stage[:name]}'></span></td>
-                        <td><span class='name'>#{stage[:name]}</span></td>
+                        <td><div class='workflow requested' title='#{stage[:name]}'></div></td>
+                        <td><div class='name'>#{stage[:name]}</div></td>
                       </tr>
                     </table>
-                  </span>"
+                  </div>"
         else
-          html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+          html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                           <tr>
-                            <td><span class='workflow active' title='#{stage[:name]}'></span></td>
-                            <td><span class='name'>#{stage[:name]}</span></td>
+                            <td><div class='workflow active' title='#{stage[:name]}'></div></td>
+                            <td><div class='name'>#{stage[:name]}</div></td>
                           </tr>
                         </table>
-                      </span>"
+                      </div>"
         end
       else
         if index > current_index and current_index > -1
-            html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+            html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                           <tr>
-                            <td><span class='workflow pending' title='#{stage[:name]}'></span></td>
-                            <td><span class='name'>#{stage[:name]}</span></td>
+                            <td><div class='workflow pending' title='#{stage[:name]}'></div></td>
+                            <td><div class='name'>#{stage[:name]}</div></td>
                           </tr>
                         </table>
-                      </span>"
+                      </div>"
         else
-           html << "<span><table cellpadding='0' cellspacing='0' style='display: inline;'>
+           html << "<div><table cellpadding='0' cellspacing='0' style='display: inline;'>
                           <tr>
-                            <td><span class='workflow complete' title='#{stage[:name]}'></span></td>
-                            <td><span class='name'>#{stage[:name]}</span></td>
+                            <td><div class='workflow complete' title='#{stage[:name]}'></div></td>
+                            <td><div class='name'>#{stage[:name]}</div></td>
                           </tr>
                         </table>
-                      </span>"
+                      </div>"
         end
       end
     end
@@ -166,15 +166,15 @@ module Chm::ChangeRequestsHelper
     end
     case current_index
       when 0
-         raw "<span class='workflow requested' title='#{task_name} [#{current_value}]'></span>"
+         raw "<div class='workflow requested' title='#{task_name} [#{current_value}]'></div>"
       when 1
-         raw "<span class='workflow active' title='#{task_name} [#{current_value}]'></span>"
+         raw "<div class='workflow active' title='#{task_name} [#{current_value}]'></div>"
       when 2
-         raw "<span class='workflow complete' title='#{task_name} [#{current_value}]'></span>"
+         raw "<div class='workflow complete' title='#{task_name} [#{current_value}]'></div>"
       when 3
-         raw "<span class='workflow closed' title='#{task_name} [#{current_value}]'></span>"
+         raw "<div class='workflow closed' title='#{task_name} [#{current_value}]'></div>"
       else
-         raw "<span class='workflow pending' title='#{task_name} [#{current_value}]'></span>"
+         raw "<div class='workflow pending' title='#{task_name} [#{current_value}]'></div>"
     end
   end
 
