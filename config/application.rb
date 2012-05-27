@@ -63,58 +63,46 @@ module Ironmine
 
     # add mail config
     config.ironmine = ActiveSupport::OrderedOptions.new
-
-    config.ironmine.javascript = ActiveSupport::OrderedOptions.new
-    config.ironmine.css = ActiveSupport::OrderedOptions.new
-    config.ironmine.javascript.source = {
-        :jquery =>%w(jquery-1.6.4.min  locales/jquery-{locale} jquery-rails jquery-extend jquery-application jquery-colorbox-min),
-        :jcrop => %w(jquery-crop),
-        :jplugin => %w(jquery-plugin),
-        :extjs=>%w(ext4-all ext-extend ext-application locales/ext-{locale}),
-        :survey=>%w(survey),
-        :datepicker=>%w(jquery-bigiframe jquery-datepicker locales/jquery-datepicker-{locale} jquery-datepicker-date),
-        :waypoints => %w(jquery-waypoints),
-        :video => %w(video),
-        :jpolite => %w(jpolite/jquery-ui-jpolite.min jpolite/jpolite.core jpolite/jpolite.ext),
-        :treeview => %w(jquery-treeview),
-        :treeview_async => %w(jquery-treeview-async),
-        :ace => %w(ace/ace ace/mode-html),
-        :xheditor => %w(xheditor/xheditor-{locale})
-    }
-    config.ironmine.css.source = {
-        :default =>%w(colorbox base button container form header icons layout other public sidebar table jmask),
-        :application=>%w(),
-        :setting=>%w(setting_base button container form header icons layout other public sidebar table jmask),
-        :home=>%w(),
-        :login=>%w(login),
-        :common=>%w(login),
-        :common_all=>%w(base button container form public),
-        :jcrop=>%w(jcrop),
-        :extjs=>%w(ext4-all ext4-cux),
-        :datepicker=>%w(jquery-datepicker),
-        :video => %w(video-js),
-        :jpolite => %w(screen style),
-        :treeview => %w(treeview),
-        :treeview_ie6 => %w(treeview.ie6.css.less),
-        :autosaving => %w(auto-saving),
-        :xheditor_plugin => %w(xheditor-plugin)
-    }
+    config.ironmine.languages = [:zh,:en]
 
     config.ironmine.jscss = {
-        :default =>{:css=>[:application],:js=>[:application,"locales/jquery-{locale}"]},
-        :default_ie6=>{:css=>[:application_ie6]},
+        :default =>{:css=>["application"],:js=>["application","locales/jquery-{locale}"]},
+        :default_ie6=>{:css=>["application-ie6"]},
         :aceditor =>{:js=>["plugins/ace"]},
         :xheditor => {:css=>["plugins/xheditor"],:js=>["plugins/xheditor/xheditor-{locale}"]} ,
         :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]},
         :jcrop => {:css=>["plugins/jcrop"],:js=>["plugins/jquery-crop"]},
-        :jcrop_ie6 => {:css=>["plugins/jcrop.ie6"],:js=>[]},
+        :jcrop_ie6 => {:css=>["plugins/jcrop-ie6"],:js=>[]},
         :highcharts => {:css=>[],:js=>["highcharts"]},
         :login => {:css=>["login"],:js=>[]},
-        :login_ie6 => {:css=>["login.ie6"],:js=>[]}
+        :login_ie6 => {:css=>["login-ie6"]}
     }
+    # 自动对资源文件进行预编译
+    config.ironmine.jscss.values.each do |asset|
+      files = []
 
+      asset[:css].each do |css|
+        if css.to_s.include?("{locale}")
+          config.ironmine.languages.each do |lang|
+            files << css.to_s.gsub("{locale}",lang.to_s).to_s+".css"
+          end
+        else
+          files << "#{css}.css"
+        end
+      end if asset[:css]
+      asset[:js].each do |js|
+        if js.to_s.include?("{locale}")
+          config.ironmine.languages.each do |lang|
+            files << js.to_s.gsub("{locale}",lang.to_s).to_s+".js"
+          end
+        else
+          files << "#{js}.js"
+        end
+      end if asset[:js]
+      config.assets.precompile +=  files
+    end
 
-    # config modules
+    # 配置加载系统模块
     modules = Dir["#{config.root}/modules/*"].sort.collect{|i| File.basename(i).split("_").last if File.directory?(i)}.compact
     origin_values =  paths.dup
     modules.reverse.each do |module_name|
@@ -139,19 +127,22 @@ module Ironmine
         config.autoload_paths += [file_path]
       end
     end
-    config.assets.precompile += ["application_ie6.css",
-                                 "plugins/jpolite.css",
-                                 "locales/jquery-en.js",
-                                 "locales/jquery-zh.js",
-                                 "xheditor-plugin.css",
-                                 "plugins/xheditor/xheditor-zh.js",
-                                 "plugins/xheditor/xheditor-en.js",
-                                 "plugins/jpolite.js",
-                                 "plugins/ace.js",
-                                 "highcharts.js",
-                                 "login.css",
-                                 "login.ie6.css",
-                                 "plugins/xheditor.css"]
+
+
+
+#    config.assets.precompile += ["application-ie6.css",
+#                                 "plugins/jpolite.css",
+#                                 "locales/jquery-en.js",
+#                                 "locales/jquery-zh.js",
+#                                 "xheditor-plugin.css",
+#                                 "plugins/xheditor/xheditor-zh.js",
+#                                 "plugins/xheditor/xheditor-en.js",
+#                                 "plugins/jpolite.js",
+#                                 "plugins/ace.js",
+#                                 "highcharts.js",
+#                                 "login.css",
+#                                 "login.ie6.css",
+#                                 "plugins/xheditor.css"]
 
     # 自动生成时不生成asset
     config.generators do |g|

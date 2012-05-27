@@ -88,6 +88,7 @@
 .xheColor a img{display:none;}
 
 .xheDialog{padding:10px;font-size:12px;font-family:monospace;}
+.xheDialog label{display: inline;}
 .xheDialog a{text-decoration:underline;color:#00f;}
 .xheDialog a:hover{text-decoration:underline;color:#00f}
 .xheDialog div{padding:2px 0;}
