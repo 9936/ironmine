@@ -75,7 +75,8 @@ module Ironmine
         :jcrop_ie6 => {:css=>["plugins/jcrop-ie6"],:js=>[]},
         :highcharts => {:css=>[],:js=>["highcharts"]},
         :login => {:css=>["login"],:js=>[]},
-        :login_ie6 => {:css=>["login-ie6"]}
+        :login_ie6 => {:css=>["login-ie6"]},
+        :jquery_ui => {:js=>["jquery-ui"]}
     }
     # 自动对资源文件进行预编译
     config.ironmine.jscss.values.each do |asset|
@@ -101,6 +102,8 @@ module Ironmine
       end if asset[:js]
       config.assets.precompile +=  files
     end
+
+    config.assets.precompile +=  ["report_types.css"]
 
     # 配置加载系统模块
     modules = Dir["#{config.root}/modules/*"].sort.collect{|i| File.basename(i).split("_").last if File.directory?(i)}.compact
@@ -128,21 +131,6 @@ module Ironmine
       end
     end
 
-
-
-#    config.assets.precompile += ["application-ie6.css",
-#                                 "plugins/jpolite.css",
-#                                 "locales/jquery-en.js",
-#                                 "locales/jquery-zh.js",
-#                                 "xheditor-plugin.css",
-#                                 "plugins/xheditor/xheditor-zh.js",
-#                                 "plugins/xheditor/xheditor-en.js",
-#                                 "plugins/jpolite.js",
-#                                 "plugins/ace.js",
-#                                 "highcharts.js",
-#                                 "login.css",
-#                                 "login.ie6.css",
-#                                 "plugins/xheditor.css"]
 
     # 自动生成时不生成asset
     config.generators do |g|

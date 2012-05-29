@@ -1417,6 +1417,7 @@ en:
   label_irm_report_type_field_business_object: Business Object
   label_irm_report_type_field_selectable_attribute: Report Type Fields
   label_irm_report_type_usable_field_and_section: Report Type Section and Field
+  label_irm_report_type_section_delete_last: Can not delete the last section
   #=======================end report_type section ====================
   #======================= kanbans ==================================
   label_irm_kanban: Kanban

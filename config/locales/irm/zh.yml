@@ -1433,7 +1433,8 @@ zh:
   label_irm_report_type_field_default_selection_flag: 默认选择
   label_irm_report_type_field_business_object: 业务对象
   label_irm_report_type_field_selectable_attribute: 报表可用字段
-  label_irm_report_type_usable_field_and_section: 报表分区及字段
+  label_irm_report_type_usable_field_and_section: 报表分区及字段 \
+  label_irm_report_type_section_delete_last: 至少保留一个报表分区
   #=======================end report_type section ====================
   #======================= kanbans ==================================
   label_irm_kanban: 看板

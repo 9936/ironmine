@@ -1,251 +1,249 @@
+<style type="text/css">
+    .section-heading a, .accordion-heading a {
+        font-weight: bold;
+    }
 
-<% require_javascript(:extjs) %>
-<% require_css(:extjs) %>
+    .section-heading {
+        margin-bottom: 2px;
+        margin-top: 2px;
+    }
+
+    .section-heading .section-name {
+        border: none;
+        background: transparent;
+    }
+
+    .field {
+        padding: 5px;
+        margin-bottom: 3px;
+    }
+
+    .default-flag {
+        float: right;
+    }
+
+    .close {
+        float: right;
+    }
+
+    .source-container .default-flag {
+        display: none;
+    }
+
+    .source-container .close {
+        display: none;
+    }
+
+    .target-container div.field, .target-container div.ui-sortable-placeholder {
+        width: 30%;
+        display: inline-block;
+    }
+
+    .dragging {
+        border: 2px dashed gray;
+        min-height: 40px;
+    }
+
+    .ui-sortable-placeholder {
+        border: 1px dotted #f00;
+        background: #faa;
+        height: 33px;
+    }
+</style>
 <%= page_title %>
-<%= form_for(@report_type,:url=>{:action=>"update",:format=>:js},:html=>{:id=>"editFields"},:builder => LabellingFormBuilder) do |f| %>
-<%= f.hidden_field(:relationship_str,:id=>"relationship_str",:value=>@report_type.relationship_str||@report_type.relationship_to_s) %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_report_type_define_field_and_section)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="pbBody" style="padding:10px;">
-            <div class="pbSubsection" width="100%">
-                <table>
-                  <tr>
-                    <th><%= t(:label_irm_report_type_field_selectable_attribute) %></th>
-                    <th><%= t(:label_irm_report_type_usable_field_and_section) %></th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div id="sourceTree" href=<%= url_for(:action=>"field_source",:format=>:json) %>></div>
-                    </td>
-                    <td>
-                      <div id="targetTree" href=<%= url_for(:action=>"section_field",:format=>:json) %>></div>
-                    </td>
-                  </tr>
-                </table>
-            </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
-          </td>
-        </tr>
-      </tbody>
+<% require_jscss(:jquery_ui) %>
+
+
+<% content_for :form_buttons  do %>
+    <a class="btn linkCreateSection" href="javascript:void(0);">
+      <%= t(:label_irm_report_type_define_field_and_section) %>
+    </a>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+<% end %>
+
+
+<%= form_for(@report_type, :url => {:action => "update", :format => :js}, :html => {:id => "editFields"}, :builder => LabellingFormBuilder) do |f| %>
+    <%= f.hidden_field(:relationship_str, :id => "relationship_str", :value => @report_type.relationship_str||@report_type.relationship_to_s) %>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+      <td class="page-block-help">
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="split-table" cellpadding="0" cellspacing="0">
+      <tr id="formContent">
+        <%= render :partial => "form",:locals => {:report_type_id=>params[:report_type_id]} %>
+      </tr>
     </table>
   </div>
 </div>
+
 <% end %>
-<script>
-    var treeNode = Ext.getDom("sourceTree");
-    var treeGridNode = Ext.getDom("targetTree");
-    Ext.onReady(function() {
-        function beforeadd(node, data, overModel,dropPosition,dropFunction,options){
-            if(["section","business_object"].indexOf(data.records[0].data.type)>-1){
-              if("business_object"== data.records[0].data.type||("section"== data.records[0].data.type&&dropPosition=="append"))
-                return false;
-              else
-                return true;
-            }
-            else{
-                if(overModel.data.type=="section"&&dropPosition!="append")
-                    return false;
-                else
-                  return true;
-            }
-        }
-        function beforedelete(node, data, overModel,dropPosition,dropFunction,options){
-            if(["section","business_object"].indexOf(data.records[0].data.type)>-1)
-              return false;
-            else
-            {
-                if(data.records[0].data.bo_id == overModel.data.bo_id){
-                    if(overModel.data.type=="business_object"&&dropPosition!="append")
-                      return false;
-                    else
-                      return true;
-                }
-                else{
-                    Ext.Msg.alert('Status', 'Please select correct BO.');
-                    return false;
-                }
-            }
-        }
-
-        function selectedSection(view, selections, options){
-            this.down("#deleteSection").setDisabled(!(selections.length>0&&selections[0].data.type == 'section'));
-            this.down("#renameSection").setDisabled(!(selections.length>0&&selections[0].data.type == 'section'));
-
-        }
-        function deleteSection(){
-            var view = Ext.getCmp("fields").getView();
-            var removedNode =  view.getRecord(view.getSelectedNodes()[0]);
-            var fieldSourceNodes = Ext.getCmp("fieldSource").getStore().getRootNode().childNodes;
-            Ext.each(removedNode.childNodes,function(node){
-
-                Ext.each(fieldSourceNodes,function(bo){
-                  if(bo.data.bo_id == node.data.bo_id)
-                    bo.appendChild(Ext.create("ReportTypeField",node.data));
-                });
-            });
-            Ext.getCmp("fields").getStore().getRootNode().removeChild(removedNode);
-
-        }
-        function addSection(){
-            Ext.Msg.prompt('', '<%=t(:label_irm_report_type_section_name)%>:', function(btn, text){
-                if (btn == 'ok'&&text!=""){
-                    Ext.getCmp("fields").getStore().getRootNode().appendChild(Ext.create("ReportTypeField",{id:null, type: "section", text: text,children:[]}));
-                }
-            });
-        }
-        function renameSection(){
-            var view = Ext.getCmp("fields").getView();
-            var renameNode =  view.getRecord(view.getSelectedNodes()[0]);
-            Ext.Msg.prompt('', '<%=t(:label_irm_report_type_section_name)%>:', function(btn, text){
-                if (btn == 'ok'&&text!=""&&text!=renameNode.data.text){
-                  renameNode.set("text",text);
-                }
-            },null,null,renameNode.data.text);
-        }
-        checkedSelectionFlag = function(target){
-          var view = Ext.getCmp("fields").getView();
-          var checkNode =  view.getRecord(view.getSelectedNodes()[0]);
-          checkNode.set("default_selection_flag",target.checked);
-        }
-        function renderSelectionFlag(value,p,record){
-            if(record.data.type!="section"){
-              if(record.data.default_selection_flag)
-                return "<input type='checkbox' onclick='checkedSelectionFlag(this)'  checked='checked'>"
-              else
-                return "<input type='checkbox' onclick='checkedSelectionFlag(this)'>"
-            }
-
-        }
-
-        Ext.define('ReportTypeField', {
-            extend: 'Ext.data.Model',
-            fields: [
-                {name: 'id',type: 'string'},
-                {name: 'type',type: 'string'},
-                {name: 'text',type: 'string'},
-                {name: 'bo_id',type: 'string'},
-                {name: 'bo_name',type: 'string'},
-                {name: 'boa_id',type: 'string'},
-                {name: 'section_id',type: 'string'},
-                {name: 'section_field_id',type: 'string'},
-                {name: 'default_selection_flag',type: 'bool'}
-            ]
-        });
-        var store = Ext.create('Ext.data.TreeStore', {
-            model: "ReportTypeField",
-            proxy: {type: 'ajax',url:  treeNode.getAttribute("href")}
-        });
-        Ext.create('Ext.tree.Panel', {
-            id: "fieldSource",
-            store: store,
-            rootVisible: false,
-            renderTo: 'sourceTree',
-            width: 200,
-            height: 300,
-            singleExpand: true,
-            viewConfig: {
-                  plugins: {
-                      ptype: 'treeviewdragdrop'
-                  },listeners: {'beforedrop':beforedelete }
-            }
-        });
-
-
-        var gridStore = Ext.create('Ext.data.TreeStore', {
-            model: "ReportTypeField",
-            proxy: {
-                type: 'ajax',
-                url: treeGridNode.getAttribute("href")
-            }
-        });
-
-        Ext.create('Ext.tree.Panel', {
-            id: "fields",
-            width: 500,
-            height: 300,
-            renderTo: 'targetTree',
-            store: gridStore,
-            singleExpand: true,
-            rootVisible: false,
-            columns: [{
-                xtype: 'treecolumn',
-                text: '<%=t(:label_irm_report_type_section_name)%>',
-                flex: 2,
-                dataIndex: 'text'
-            }, {
-                flex: 1,
-                renderer: renderSelectionFlag,
-                text: '<%=t(:label_irm_report_type_field_default_selection_flag)%>',
-                dataIndex: 'default_selection_flag'
-            }, {
-                flex: 1,
-                text: '<%=t(:label_irm_report_type_field_business_object)%>',
-                dataIndex: 'bo_name'
-            }],
-            viewConfig: {
-                  plugins: {
-                      ptype: 'treeviewdragdrop'
-                  },listeners: {'beforedrop':beforeadd }
+<script type="text/javascript">
+    $(function () {
+        var x = $(".field-container");
+        x.sortable({
+            start:function () {
+                $(".field-container").addClass("dragging")
             },
-            dockedItems: [
-                {
-                    xtype: 'toolbar',
-                    items:[{text: '<%=t(:add)%>',itemId:"addSection",handler: addSection},
-                           {text: '<%=t(:rename)%>',itemId:"renameSection",disabled: true,handler: renameSection},
-                           {text: '<%=t(:delete)%>',itemId:"deleteSection",disabled: true,handler: deleteSection}]
-                }
-            ],
-            listeners:{
-                'selectionchange': selectedSection
-            }
-
-         });
-
-        function postParams(){
-          var sections = [];
-          Ext.each(Ext.getCmp("fields").getStore().getRootNode().childNodes,function(section){
-              var sectionJ = {id:section.data.id,section_id:section.data.section_id,name:section.data.text,fields:[]}
-              Ext.each(section.childNodes,function(field){
-                var fieldJ = {section_field_id:field.data.section_field_id,boa_id:field.data.boa_id,default_selection_flag:field.data.default_selection_flag}
-                sectionJ.fields.push(fieldJ)
-              });
-              sections.push(sectionJ);
-          });
-          return sections;
-        }
-        Ext.get("editFields").on("submit",function(e){
-          e.preventDefault();
-          var form = this,
-              csrfParam = Ext.query('meta[name=csrf-param]')[0].getAttribute("content"),
-			  csrfToken = Ext.query('meta[name=csrf-token]')[0].getAttribute("content");
-          params={}
-          params["irm_report_type_sections"] =Ext.encode(postParams());
-          params[csrfParam] = csrfToken;
-          Ext.Ajax.request({
-              url: form.getAttribute("action"),
-              params: params,
-              success: function(response){
-                  location.reload(true);
-              }
-          });
-        })
+            stop:function (e, u) {
+                $(".field-container").removeClass("dragging");
+            },
+            connectWith:'.field-container',
+            placeholder:'ui-sortable-placeholder',
+            tolerance:'pointer',
+            revert:true
         });
+        $(".target-container a.close").live("click", function (e) {
+            var currentField = $(this).parents(".field");
+            $("#" + $(currentField).attr("bo") + " .accordion-inner:first").append(($(currentField)));
+        });
+        $(".linkCreateSection").click(function () {
+            $("#sectionName").val("");
+            $("#sectionId").val("");
+            $("#sectionModal").modal("show");
+        });
+
+        $("#submitCreateSection").click(function () {
+            if ($("#sectionName").val().length > 0) {
+                if ($("#sectionId").val().length > 0) {
+                    $("#"+$("#sectionId").val()).find(".section-text:first").html($("#sectionName").val());
+                } else {
+                    var template = $($.tmpl($("#sectionTemplate"), {id:"section" + $("#targetSources").find(".accordion-group").length, sectionName:$("#sectionName").val()}));
+                    $("#targetSources").append(template);
+                    template.find(".field-container").sortable({
+                        start:function (e, u) {
+                            $(".field-container").addClass("dragging")
+                        },
+                        stop:function (e, u) {
+                            $(".field-container").removeClass("dragging");
+                        },
+                        connectWith:'.field-container',
+                        opacity:.7,
+                        zIndex:5000,
+                        placeholder:'ui-sortable-placeholder',
+                        tolerance:'pointer',
+                        revert:true
+                    });
+                }
+                $("#sectionModal").modal("hide");
+            }
+        });
+
+        $(".accordion-group .delete-section").live("click", function (e) {
+            if($("#targetSources .accordion-group").length<2){
+                alert("<%= t(:label_irm_report_type_section_delete_last)%>");
+                return false;
+            }
+            var section = $(this).parents(".accordion-group");
+            $(section).find(".field").each(function (index, field) {
+                $("#" + $(field).attr("bo") + " .accordion-inner:first").append(($(field)));
+            });
+            $(section).remove();
+        });
+
+        $(".accordion-group .edit-section").live("click", function (e) {
+            var section = $(this).parents(".accordion-group");
+            $("#sectionName").val($(section).find(".section-text:first").html());
+            $("#sectionId").val($(section).attr("id"));
+            $("#sectionModal").modal("show");
+        });
+
+
+        function postResult(){
+            var sections = [];
+            $("#targetSources .accordion-group").each(function(index,section){
+                var $section = $(section);
+                var section = {id:$section.attr("id"),section_id:$section.attr("section_id"),name:$section.find(".section-text:first").html(),fields:[]};
+                $section.find(".field").each(function(index,field){
+                    var $field = $(field);
+                    var field = {boa_id:$field.attr("boa_id"),section_field_id:$field.attr("section_field_id"),default_selection_flag:$field.find("input[type=checkbox]:first").is(':checked')? "Y":"N"};
+                    section.fields.push(field);
+                });
+                sections.push(section);
+            });
+
+            var params = {irm_report_type_sections:sections};
+
+            var $form = $("#editFields"),
+                csrfParam = $('meta[name=csrf-param]:first').attr("content"),
+                csrfToken = $('meta[name=csrf-token]:first').attr("content");
+            params[csrfParam] = csrfToken;
+            params["_dom_id"] = "editFields";
+            $.post($form.attr("action"), params);
+
+        }
+
+        $("#editFields").submit(function(e){
+            e.preventDefault();
+            postResult();
+        });
+
+    });
 </script>
+
+
+
+
+<!-- portal_layout设置窗口 -->
+<div class="modal" id="sectionModal" style="display: none;">
+  <div class="modal-header">
+    <a data-dismiss="modal" class="close" href="#">×</a>
+
+    <h3><%= t(:label_irm_report_type_define_field_and_section) %></h3>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-error">
+      <%= t(:label_irm_report_type_section_name) %> : <%= t("activerecord.errors.messages.blank") %>
+    </div>
+    <table class="form-table" style="width: 100%">
+      <tr>
+        <td class="label-col"><label for="sectionName"><%= t(:label_irm_report_type_section_name) %></label></td>
+        <td class="data-3col" colspan="3">
+          <%= hidden_field_tag "sectionId", "", :id => "sectionId" %>
+          <%= text_field_tag "sectionName", "", :id => "sectionName", :required => true %>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <a data-dismiss="modal" class="btn" href="#"><%= t(:cancel) %></a>
+    <a id="submitCreateSection" class="btn btn-primary" href="javascript:void(0)"><%= t(:save) %></a>
+  </div>
+</div>
+
+<div id="sectionTemplate" style="display: none;">
+  <div class="accordion-group" id="${id}">
+    <div class="accordion-heading">
+      <div class="btn-toolbar section-heading">
+        <div class="btn-group">
+          <a href="javascript:void(0);" class="btn section-name">
+            <%= t(:label_irm_report_type_section) %>: <i class="section-text">${sectionName}</i>
+          </a>
+        </div>
+
+        <div class="btn-group">
+          <a href="javascript:void(0);" class="btn edit-section"><i class="icon-edit"></i><%= t(:edit) %></a>
+          <a href="javascript:void(0);" class="btn btn-danger delete-section"><i class="icon-trash icon-white"></i><%= t(:delete) %>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-body collapse in">
+      <div class="accordion-inner target-container field-container">
+      </div>
+    </div>
+  </div>
+</div>
+
+
