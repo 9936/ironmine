@@ -80,17 +80,20 @@
   <% end %>
 
   <% content_for :form_block_tabs do %>
-    <div class="tabbable">
-      <ul class="nav nav-tabs"  currentlang="<%= I18n.locale %>">
-        <% available_languages.each do |language| %>
-           <li <% if I18n.locale.to_s.eql?language[:language_code].to_s %> class="active" <% end %>><a class="language" data-toggle="tab" id="<%= language[:language_code]%>" ref="template<%= language[:language_code]%>" href="#template<%= language[:language_code]%>"><%= language[:description] %></a></li>
-        <% end %>
-      </ul>
-      <div class="tab-content">
+    <!-- tabs -->
+    <div class="tabs-container">
+      <div class="mx-tabs">
+         <ul class="mx-nav-tabs clear-fix" currentlang="<%= I18n.locale %>">
+           <% available_languages.each do |language| %>
+              <li <% if I18n.locale.to_s.eql?language[:language_code].to_s %> class="active" <% end %>><a class="language" data-toggle="tab" id="<%= language[:language_code]%>" ref="template<%= language[:language_code]%>" href="#template<%= language[:language_code]%>"><%= language[:description] %></a></li>
+           <% end %>
+         </ul>
+      </div>
+      <div class="mx-tab-content">
         <%= f.fields_for :mail_templates_tls,:normal=>true do |tl_f|%>
           <%= tl_f.hidden_field :mail_body, {:id => 'mail_body_value'+tl_f.object.language} %>
-            <div class="tab-pane<% if I18n.locale.to_s.eql?tl_f.object.language.to_s %> active <% end %>" id="template<%= tl_f.object.language%>">
-              <table class="form-table">
+            <div class="mx-tab-pane<% if I18n.locale.to_s.eql?tl_f.object.language.to_s %> active <% end %>" id="template<%= tl_f.object.language%>">
+              <table class="form-table" style="margin-top: 10px;">
                 <tbody>
                     <tr>
                       <td class="label-col"><label><%=t(:label_irm_mail_template_name)%></label></td>
@@ -120,6 +123,7 @@
         <% end %>
       </div>
     </div>
+    <!-- end tabs -->
   <% end %>
 
   <% content_for :form_buttons  do %>
@@ -174,7 +178,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
       var languages = [];
-      var currentLanguage =  $(".nav-tabs:first").attr("currentlang");
+      var currentLanguage =  $(".mx-nav-tabs:first").attr("currentlang");
       var currentIndex = 0;
       var currentEditor;
       var editors = new Array();
@@ -182,7 +186,7 @@
       var htmlMode = require("ace/mode/html").Mode;
       var plainMode = require("ace/mode/text").Mode;
       var currentMode = $("input[name='irm_mail_template[template_type]'][checked]").val();
-      $(".nav-tabs:first li a.language").each(function(){
+      $(".mx-nav-tabs:first li a.language").each(function(){
           languages.push({contentEl:$(this).attr("ref"),title:$(this).html,ref:$(this).attr("id")});
       });
       for(var i=0;i<languages.length;i++) {

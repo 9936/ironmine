@@ -361,32 +361,35 @@
     <% if chm||com %>
         <!-- 处理关联的变更单 -->
         <!-- tabs -->
-        <div class="tabbable" id="tabNav">
-          <ul class="nav nav-tabs">
-            <li class="active" id="nav_0" ref="incidentReply"><a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
-            <% if chm %>
-              <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
-            <% end %>
-            <% if com %>
-              <li  ref="configItem"><a href="#tab3" data-toggle="tab"><%= t(:label_com_config_item) %></a></li>
-            <% end %>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="tab1">
+        <div class="tabs-container">
+          <div class="mx-tabs" id="tabNav">
+             <ul class="clear-fix">
+               <li class="active" id="nav_0" ref="incidentReply"><a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
+               <% if chm %>
+                 <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
+               <% end %>
+               <% if com %>
+                 <li  ref="configItem"><a href="#tab3" data-toggle="tab"><%= t(:label_com_config_item) %></a></li>
+               <% end %>
+             </ul>
+          </div>
+          <div class="mx-tab-content">
+            <div class="mx-tab-pane active" id="tab1">
               <%= content_for :incident_request_journals %>
             </div>
             <% if chm %>
-            <div class="tab-pane" id="tab2">
+            <div class="mx-tab-pane" id="tab2">
               <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>
             </div>
-            <% end %>
-            <% if com %>
-            <div class="tab-pane" id="tab3">
+            <% else %>
+            <div class="mx-tab-pane" id="tab3">
               <%= content_for :incident_config_items  %>
             </div>
             <% end %>
           </div>
         </div>
+        <!-- end tabs -->
+
         <script type="text/javascript">
             $(function() {
                 $("#tabNav li").live("click", function(e) {
@@ -450,7 +453,7 @@
 </div>
 
 
-<script>
+<script type="text/javascript">
     $(function() {
         $(".toggle-button").each(function(index, element) {
             var me = $(element);
