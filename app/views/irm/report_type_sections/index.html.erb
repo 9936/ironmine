@@ -49,6 +49,9 @@
         background: #faa;
         height: 33px;
     }
+    #targetSources .collapse{
+        overflow: inherit;
+    }
 </style>
 <%= page_title %>
 <% require_jscss(:jquery_ui) %>
@@ -106,7 +109,7 @@
         });
         $(".target-container a.close").live("click", function (e) {
             var currentField = $(this).parents(".field");
-            $("#" + $(currentField).attr("bo") + " .accordion-inner:first").append(($(currentField)));
+            $("#" + $(currentField).attr("bo") + " .field-container:first").append(($(currentField)));
         });
         $(".linkCreateSection").click(function () {
             $("#sectionName").val("");
@@ -147,7 +150,7 @@
             }
             var section = $(this).parents(".accordion-group");
             $(section).find(".field").each(function (index, field) {
-                $("#" + $(field).attr("bo") + " .accordion-inner:first").append(($(field)));
+                $("#" + $(field).attr("bo") + " .field-container:first").append(($(field)));
             });
             $(section).remove();
         });
