@@ -67,7 +67,7 @@ module Ironmine
 
     config.ironmine.jscss = {
         :default =>{:css=>["application"],:js=>["application","locales/jquery-{locale}"]},
-        :default_ie6=>{:css=>["application-ie6"]},
+        :default_ie6=>{:css=>["application-ie6"],:js=>["application","locales/jquery-{locale}"]},
         :aceditor =>{:js=>["plugins/ace"]},
         :xheditor => {:css=>["plugins/xheditor"],:js=>["plugins/xheditor/xheditor-{locale}"]} ,
         :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]},

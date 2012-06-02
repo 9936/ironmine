@@ -1648,12 +1648,20 @@ jQuery.fn.menubutton = function(){
             $(header).css("width",$(realHeaders[index]).outerWidth(true));
             $(realHeaders[index]).css("width",$(realHeaders[index]).outerWidth(true));
         });
-
-        if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+        // 修正IE6中width:100%与border无法同时使用的BUG
+        if($.browser.msie && $.browser.version=="6.0"){
+            if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
+                me.$element.find(".datatable-scroll .scroll-header:first").addClass("y-scroll-bar");
+            }else{
+                me.$element.find(".datatable-scroll .scroll-header:first").removeClass("y-scroll-bar");
+            }
         }else{
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",0);
+            if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+            }else{
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",0);
+            }
         }
 
     }
@@ -1706,8 +1714,13 @@ jQuery.fn.menubutton = function(){
         me.$element.find(".datatable-scroll .include-header table:first").prepend("<thead>"+me.$element.find(".datatable-scroll .scroll-header table:first thead:first").html()+"</thead>")
 
         if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+             // 修正IE6中width:100%与border无法同时使用的BUG
+            if($.browser.msie && $.browser.version=="6.0"){
+                me.$element.find(".datatable-scroll .scroll-header:first").addClass("y-scroll-bar");
+            }else{
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+            }
 
         }
 
