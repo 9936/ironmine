@@ -180,8 +180,11 @@
 
             $(targets[i]).append(option);
         });
+        //如果当前select已经过chosen渲染过，则直接更新，否则检测当前的select的option是否大于25
         if($(targets[i]).attr('chosen') == 'true' && $(targets[i]).attr('depend') && typeof $(targets[i]).attr('depend') != 'undefined') {
             $(targets[i]).trigger("liszt:updated");
+        }else if ($(targets[i]).find('option').length > 25){
+            $(targets[i]).chosen({no_results_text: '没有对应的选项'});
         }
         // 使用 setTimeout防止IE6中 报 [无法设置selected属性。未指明的错误。]的错误.
         setTimeout(function() {
