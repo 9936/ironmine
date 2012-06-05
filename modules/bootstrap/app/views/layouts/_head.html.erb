@@ -2,13 +2,11 @@
 <%= render :partial => "irm/common/application_title" %>
 
 <!--加载基础javascript与css-->
-<% require_jscss(:default) %>
-
-<!--加载ie6基础javascript与css-->
-<% require_jscss(:default_ie6) if ie6? %>
+<% ie6? ? require_jscss(:default_ie6):require_jscss(:default) %>
 
 <!--生成javascript与css 标签-->
 <%=render_required_jscss%>
+
 
 <!--页面个性化css javascript文件加载-->
 <% if content_for?(:page_source) %>

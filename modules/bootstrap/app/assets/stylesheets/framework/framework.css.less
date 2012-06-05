@@ -1263,9 +1263,7 @@ div.min-block-body {
 }
 
 .paginator {
-    text-align: center;
     vertical-align: middle;
-    position: relative;
     height: 24px;
 }
 
@@ -1273,13 +1271,13 @@ div.min-block-body {
 
 }
 
-.paginator>span {
+.paginator div {
     height: 20px;
 }
 
 .paginator .paginator-left {
-    left: 0;
-    position: absolute;
+    display: inline;
+    float: left;
     text-align: left;
     padding: 2px 5px;
 }
@@ -1381,14 +1379,14 @@ div.min-block-body {
 
 .paginator .paginator-center {
     text-align: center;
-    width: auto;
+    display: none;
 }
 
 .paginator .paginator-right {
-    right: 0;
-    position: absolute;
+    display: inline;
+    float: right;
     text-align: right;
-    padding: 2px 5px 0 0;
+    padding: 2px 5px;
 }
 
 .paginator .paginator-right .select-page-size select {
@@ -1879,10 +1877,9 @@ table.split-table {
         vertical-align: top;
     }
     .side-bar {
-        width: 15%;
+        width: 200px;
     }
     .side-content {
-        width: 85%;
     }
 
 }
@@ -1923,7 +1920,7 @@ fieldset legend {
     padding-left: 0;
 }
 
-.page-title .greeting .content > span {
+.page-title .greeting .content  span {
     display: block;
     margin-left: 0;
 }
@@ -1961,7 +1958,7 @@ fieldset legend {
     text-align: center;
 }
 
-.portal .jpolite-container>div {
+.portal .jpolite-container div.cc {
     text-align: left;
 }
 

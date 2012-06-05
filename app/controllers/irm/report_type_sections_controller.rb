@@ -6,7 +6,7 @@ class Irm::ReportTypeSectionsController < ApplicationController
 
   def update
     @report_type = Irm::ReportType.find(params[:report_type_id])
-    sections = ActiveSupport::JSON.decode(params[:irm_report_type_sections])
+    sections = params[:irm_report_type_sections].values
     exists_section_ids = []
     exists_field_ids = []
     sections.each_with_index do |section_param,index|
@@ -20,15 +20,15 @@ class Irm::ReportTypeSectionsController < ApplicationController
         section = @report_type.report_type_sections.create(:name=>section_param["name"],:section_sequence=>index)
       end
       exists_section_ids << section.id
-      section_param["fields"].each_with_index do |field_param,fi|
+      section_param["fields"].values.each_with_index do |field_param,fi|
         field = nil
         if(field_param["section_field_id"].present?)
           field =Irm::ReportTypeField.find(field_param["section_field_id"])
         end
         if field
-          field.update_attributes(:section_id=>section.id,:default_selection_flag=>field_param["default_selection_flag"]?"Y":"N")
+          field.update_attributes(:section_id=>section.id,:default_selection_flag=>field_param["default_selection_flag"])
         else
-           field = section.report_type_fields.create(:object_attribute_id=>field_param["boa_id"],:default_selection_flag=>field_param["default_selection_flag"]?"Y":"N")
+           field = section.report_type_fields.create(:object_attribute_id=>field_param["boa_id"],:default_selection_flag=>field_param["default_selection_flag"])
         end
         exists_field_ids << field.id
       end
@@ -39,7 +39,7 @@ class Irm::ReportTypeSectionsController < ApplicationController
     # delete unusable section
     Irm::ReportTypeSection.where(:report_type_id=>@report_type.id).where("id NOT IN (?)",["#"]+exists_section_ids).each{|i| i.destroy}
     respond_to do |format|
-      format.js {render :json=>{:status=>:ok}.to_json}
+      format.js
     end
   end
 

@@ -1,0 +1,78 @@
+<% content_for :source_fields do %>
+    <div id="fieldSources" class="accordion">
+      <% field_source(report_type_id).each_with_index do |fs, index| %>
+          <div class="accordion-group" id="<%= fs[:id] %>">
+            <div class="accordion-heading">
+              <a href="#collapse<%= index %>" data-parent="#fieldSources" data-toggle="collapse" class="accordion-toggle">
+                <%= t(:label_irm_business_object) %>:<%= fs[:text] %>
+              </a>
+            </div>
+            <div class="accordion-body collapse in" id="collapse<%= index %>">
+              <div class="accordion-inner source-container field-container">
+                <% fs[:children].each do |fc| %>
+                    <div id="<%= fc[:id] %>" class="well field  form-inline" bo="<%= fc[:bo_id] %>" bo_id="<%= fc[:bo_id] %>" boa_id="<%= fc[:boa_id] %>">
+                      <label class="checkbox">
+                        <%= fc[:text] %>
+                      </label>
+                      <a class="close" data-dismiss="alert" href="#">&times;</a>
+                      <label class="checkbox default-flag">
+                        <input type="checkbox"> <%= t(:default) %>
+                      </label>
+                    </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+      <% end %>
+
+    </div>
+<% end %>
+<% content_for :section_fields do %>
+    <div id="targetSources" class="accordion">
+      <% section_field(report_type_id).each do |sf| %>
+          <div class="accordion-group" id="<%= sf[:id] %>" section_id="<%= sf[:section_id] %>">
+            <div class="btn-toolbar section-heading">
+              <div class="btn-group">
+                <a href="javascript:void(0);" class="btn section-name">
+                  <%= t(:label_irm_report_type_section) %>: <i class="section-text"><%= sf[:text] %></i>
+                </a>
+              </div>
+
+              <div class="btn-group">
+                <a href="javascript:void(0);" class="btn edit-section"><i class="icon-edit"></i><%= t(:edit) %></a>
+                <a href="javascript:void(0);" class="btn btn-danger delete-section"><i class="icon-trash icon-white"></i><%= t(:delete) %>
+                </a>
+              </div>
+            </div>
+            <div class="accordion-body collapse in">
+              <div class="accordion-inner target-container field-container">
+                <% sf[:children].each do |fc| %>
+                    <div id="<%= fc[:id] %>" class="well field form-inline" bo="<%= fc[:bo_id] %>" section_field_id="<%= fc[:section_field_id] %>" bo_id="<%= fc[:bo_id] %>" boa_id="<%= fc[:boa_id] %>" >
+                      <label class="checkbox">
+                        <%= fc[:text] %>
+                      </label>
+                      <a class="close" href="javascript:void(0);">&times;</a>
+                      <label class="checkbox default-flag">
+                        <% if Irm::Constant::SYS_YES.eql?(fc[:default_selection_flag]) %>
+                           <%= check_box_tag("default_selection_flags[]",nil,true) %>
+                        <% else %>
+                            <%= check_box_tag("default_selection_flags[]",nil,false) %>
+                        <% end %>
+                        <%= t(:default) %>
+                      </label>
+                    </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    </div>
+
+<% end %>
+
+<td class="side-bar" style="width: 24%">
+  <%= content_for :source_fields %>
+</td>
+<td class="side-content" style="width: 74%">
+  <%= content_for :section_fields %>
+</td>

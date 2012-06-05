@@ -778,11 +778,12 @@ module ApplicationHelper
 
 
     file_links = ""
-    css_files.each do |css_file|
+
+    css_files.uniq.each do |css_file|
       file = css_file.to_s.gsub("{locale}",I18n.locale.to_s).to_sym
       file_links << stylesheet_link_tag(file)
     end
-    javascript_files.each do |script_file|
+    javascript_files.uniq.each do |script_file|
 
       file = script_file.to_s.gsub("{locale}",I18n.locale.to_s).to_sym
       file_links << javascript_include_tag(file)

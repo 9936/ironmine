@@ -1422,8 +1422,8 @@ jQuery.fn.menubutton = function(){
         //build paginator
         if(me.data.options.paginatorBox)
         {   var paginatorBox = $("#"+me.data.options.paginatorBox);
-            me.paginator = $('<div class="paginator form-inline">' +
-                               '<span class="paginator-left">' +
+            me.paginator = $('<div class="paginator">' +
+                               '<div class="paginator-left">' +
                                  '<a class="paginator-button paginator-first-page"><i></i></a>' +
                                  '<a class="paginator-button paginator-pre-page"><i></i></a>' +
                                  '<span class="paginator-button paginator-split"><i></i></span>' +
@@ -1437,18 +1437,18 @@ jQuery.fn.menubutton = function(){
                                  '<a class="paginator-button paginator-last-page"><i></i></a>' +
                                  '<span class="paginator-button paginator-split"><i></i></span>' +
                                  '<a class="paginator-button paginator-refresh"><i></i></a>' +
-                               '</span>'+
-                               '<span class="paginator-center">' +
+                               '</div>'+
+                               '<div class="paginator-center">' +
 
-                               '</span>'+
-                               '<span class="paginator-right">' +
+                               '</div>'+
+                               '<div class="paginator-right">' +
                                  '<span>' +
                                    '<span>'+$.i18n("paginatorBeforeSize")+'</span>' +
                                    '<span class="select-page-size"><select name="page-size"><option value="10">10</option><option value="20">20</option><option value="50">50</option><option value="100">100</option></select></span>' +
                                    '<span>'+$.i18n("paginatorAfterSize")+'</span>' +
                                  '</span>' +
                                  '<span class="paginator-record-label"></span>' +
-                               '</span>'+
+                               '</div>'+
                              '</div>');
             paginatorBox.append(me.paginator);
             paginatorBox.find(".paginator-first-page:first").click(function(event){
@@ -1653,12 +1653,20 @@ jQuery.fn.menubutton = function(){
             $(header).css("width",$(realHeaders[index]).outerWidth(true));
             $(realHeaders[index]).css("width",$(realHeaders[index]).outerWidth(true));
         });
-
-        if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+        // 修正IE6中width:100%与border无法同时使用的BUG
+        if($.browser.msie && $.browser.version=="6.0"){
+            if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
+                me.$element.find(".datatable-scroll .scroll-header:first").addClass("y-scroll-bar");
+            }else{
+                me.$element.find(".datatable-scroll .scroll-header:first").removeClass("y-scroll-bar");
+            }
         }else{
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",0);
+            if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+            }else{
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",0);
+            }
         }
 
     }
@@ -1711,8 +1719,13 @@ jQuery.fn.menubutton = function(){
         me.$element.find(".datatable-scroll .include-header table:first").prepend("<thead>"+me.$element.find(".datatable-scroll .scroll-header table:first thead:first").html()+"</thead>")
 
         if(me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()){
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
-            me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+             // 修正IE6中width:100%与border无法同时使用的BUG
+            if($.browser.msie && $.browser.version=="6.0"){
+                me.$element.find(".datatable-scroll .scroll-header:first").addClass("y-scroll-bar");
+            }else{
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width",$.scrollbarWidth());
+                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style","solid");
+            }
 
         }
 
