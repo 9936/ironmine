@@ -41,7 +41,7 @@ $(function(){
     $('form a.submit').live('click', function(e) {
         href = $(this).attr("href");
         parent_forms = $(this).parents("form");
-        e.preventDefault()
+        e.preventDefault();
         if(parent_forms[0]){
             if($(this).attr("target"))
               $(parent_forms[0]).attr("target",$(this).attr("target"));
@@ -152,12 +152,13 @@ $(function(){
         if($(element).val()!=""){
             return
         }
-        var options = $(element).find("option")
+        var options = $(element).find("option");
         if(options.length==2&&$(options[0]).attr("value")==""&&$(options[1]).attr("value")!=""){
             $(element).val($(options[1]).attr("value"));
         }
     });
-
+    //$("select").chosen();
+    checkSelect();
 });
 
     var autoChooseFirst = function(element){
@@ -344,3 +345,17 @@ function get_dom_id(ajaxOptions) {
     return $.extend({},$.deserialize(data),$.deserialize(url))["_dom_id"]
 }
 //end =================================Ajax 监听帮助函数================================
+
+
+//START =================================Chosen 渲染select================================
+function checkSelect(){
+    $("select").each(function(index,element){
+        //如果当前select的options超过25项或者chosen=true属性对其进行渲染
+        if($(element).find("option").length > 25 || $(element).attr("chosen") == 'true') {
+            if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);
+            $(element).css('width', ($(element).width()+18)+'px');
+            $(element).chosen({no_results_text: '没有对应的选项'});
+        }
+    });
+}
+//end =================================Chosen 渲染select================================

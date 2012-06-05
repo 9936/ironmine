@@ -180,7 +180,9 @@
 
             $(targets[i]).append(option);
         });
-
+        if($(targets[i]).attr('chosen') == 'true' && $(targets[i]).attr('depend') && typeof $(targets[i]).attr('depend') != 'undefined') {
+            $(targets[i]).trigger("liszt:updated");
+        }
         // 使用 setTimeout防止IE6中 报 [无法设置selected属性。未指明的错误。]的错误.
         setTimeout(function() {
             $(targets[i]).val(targetValue);

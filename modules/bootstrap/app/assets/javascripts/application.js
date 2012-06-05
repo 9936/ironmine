@@ -12,6 +12,7 @@
 //= require plugins/jquery-treeview
 //= require plugins/jquery-treeview-async
 //= require plugins/jquery-application
+//= require plugins/jquery-chosen
 //= require framework/bootstrap-datepicker
 //= require css_browser_selector
 //= require bootstrap
