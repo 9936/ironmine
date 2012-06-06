@@ -61,4 +61,23 @@ module Irm::FormHelper
     output << fields_for
     output.safe_concat('</form>')
   end
+
+  def form_tag_in_block(html_options, &block)
+    content = capture(&block)
+    output = ActiveSupport::SafeBuffer.new
+    output.safe_concat(form_tag_html(html_options))
+
+    back_option = html_options.delete('back')
+    if back_option
+      if back_option.is_a?(Hash)
+        output.safe_concat(hidden_field_tag('back_url', CGI.escape(url_for(back_option))))
+      else
+        output.safe_concat(hidden_field_tag('back_url', CGI.escape(params[:back_url]||url_for({}))))
+      end
+    end
+
+
+    output << content
+    output.safe_concat("</form>")
+  end
 end

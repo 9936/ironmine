@@ -33,6 +33,10 @@ $(function(){
       parent_forms = $(this).parents("form");
       e.preventDefault();
 
+      if($(this).attr("disabled")){
+          return
+      }
+
       if(parent_forms[0]){
           $(parent_forms[0]).trigger("submit");
       }
@@ -42,6 +46,10 @@ $(function(){
         href = $(this).attr("href");
         parent_forms = $(this).parents("form");
         e.preventDefault();
+        if($(this).attr("disabled")){
+            return
+        }
+
         if(parent_forms[0]){
             if($(this).attr("target"))
               $(parent_forms[0]).attr("target",$(this).attr("target"));

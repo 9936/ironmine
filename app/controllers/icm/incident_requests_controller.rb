@@ -346,7 +346,9 @@ class Icm::IncidentRequestsController < ApplicationController
     end
     @count = incident_requests.size
     respond_to do |format|
-      format.html
+      format.html {
+        redirect_back_or_default
+      }
       format.js
     end
   end
@@ -380,7 +382,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
 
     respond_to do |format|
-        format.html { redirect_to({:action => "edit_assign_me"}) }
+        format.html { redirect_back_or_default({:action => "edit_assign_me"}) }
         format.xml  { render :xml => incident_requests, :status => :updated, :location => incident_requests }
     end
   end

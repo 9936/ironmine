@@ -141,7 +141,7 @@ zh:
   label_icm_incident_request_assignable_list: 待分配事故单
   label_icm_incident_request_assign: 分配
   label_icm_incident_request_incident_status: 状态
-  label_icm_incident_request_assign_me: 领取事故单
+  label_icm_incident_request_assign_me: 领取
   error_icm_requested_by_can_not_blank: 请求人不能为空
   label_icm_incident_request_view_filter_data_range_all: 我相关的
   label_icm_incident_request_view_filter_data_range_main: 我参与的

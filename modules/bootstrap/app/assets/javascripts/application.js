@@ -14,6 +14,7 @@
 //= require plugins/jquery-application
 //= require plugins/jquery-chosen
 //= require framework/bootstrap-datepicker
+//= require plugins/jquery-waypoints
 //= require css_browser_selector
 //= require bootstrap
 //= require survey
