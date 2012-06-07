@@ -339,6 +339,30 @@ function dateFieldChooseToday(fieldId,fieldValue){
 }
 //END========================datepicker 帮助函数========================================
 
+//BEGIN========================colorpicker 帮助函数========================================
+function initColorField(colorField){
+    var me = $(colorField);
+    me.css("background-color",me.val()) ;
+    me.css("color",getContrastYIQ(me.val().replace("#","")));
+    me.colorpicker({format: 'hex'}).on('changeColor', function(ev){
+        me.css("background-color",ev.color.toHex()) ;
+        me.val(ev.color.toHex()) ;
+        me.css("color",getContrastYIQ(ev.color.toHex().replace("#","")));
+    });;
+
+    me.attr("onfocus","");
+    me.trigger("focus");
+}
+
+function getContrastYIQ(hexcolor){
+	var r = parseInt(hexcolor.substr(0,2),16);
+	var g = parseInt(hexcolor.substr(2,2),16);
+	var b = parseInt(hexcolor.substr(4,2),16);
+	var yiq = ((r*299)+(g*587)+(b*114))/1000;
+	return (yiq >= 128) ? 'black' : 'white';
+}
+//END========================colorpicker 帮助函数========================================
+
 //START =================================Ajax 监听帮助函数================================
 function get_dom_id(ajaxOptions) {
 
