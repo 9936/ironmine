@@ -44,7 +44,7 @@ module Irm
       table_body.safe_concat "<tbody>"
       if builder.options[:datas].any?
         builder.options[:datas].each do |data|
-          table_body.safe_concat "<tr id='#{data[:id]}'>"
+          table_body.safe_concat "<tr id='#{data[:id]}' #{row_html_attributes(builder,data)}>"
           column_options.each do |column|
             next if column[:hidden]
             table_body.safe_concat "<td><div>"
@@ -135,10 +135,24 @@ module Irm
       end
     end
 
+    def row_html_attributes(builder,data)
+      row_config = builder.row_config
+      return "" unless row_config.present?
+      attribute = ActiveSupport::SafeBuffer.new
+      html_options =  row_config[:options][:html] if row_config[:options][:html].present?&&row_config[:options][:html].is_a?(Hash)
+      html_options||={}
+      attribute.safe_concat tag_options(html_options)||""
+      if row_config[:block].present?
+        attribute.safe_concat capture(data,&row_config[:block])
+      end
+      return attribute
+
+    end
+
   end
 
   class DataTableBuilder
-    attr_accessor :options ,:columns,:display_columns
+    attr_accessor :options ,:columns,:display_columns,:row_config
 
     def initialize(options)
       self.options = options
@@ -148,6 +162,10 @@ module Irm
 
     def column(key,column_options={},&render_block)
       self.columns.merge!({key.to_sym=>column_options.merge!({:key=>key.to_sym,:block=>render_block})})
+    end
+
+    def row(options={},&render_block)
+      self.row_config = {:options=>options,:block=>render_block}
     end
   end
 

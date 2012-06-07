@@ -114,6 +114,7 @@ zh:
   label_detail_info: 详细信息
   label_are_you_sure: 你确定要删除数据吗?
   display_sequence: 显示顺序
+  display_color: 颜色
   default_flag: 默认
   report: 报表
   common_report: 常用报表

@@ -17,6 +17,14 @@
             <td class="data-col"></td>
           </tr>
           <tr>
+            <td class="label-col"><label><%=(t :label_com_config_item_config_status)%></label></td>
+            <td class="data-col"><%= f.blank_select :config_item_status_id, available_config_item_status,@config_item.config_class_id,
+                                             {}, {:require=>true,:id=>"config_item_status_id"} %></td>
+
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
             <td class="label-col"><label><%=(t :label_com_config_item_managed_group)%></label></td>
             <td class="data-col"><%= f.select :managed_group_id, nullable_options_for_select(available_support_group, @config_item.managed_group_id ),
                                              {},{:id=>"config_item_managed_group_id"} %></td>
