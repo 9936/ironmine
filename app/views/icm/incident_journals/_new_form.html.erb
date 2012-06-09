@@ -42,7 +42,7 @@
 </style>
 <!--页面头部按钮-->
 <% content_for :block_header_buttons do %>
-  <div class="btn-toolbar">
+  <div class="btn-toolbar" >
     <div class="btn-group">
       <%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests", :action => "index"} ,{:class=>"btn"}%>
     </div>
@@ -61,6 +61,16 @@
               <%= link_to t(:close), {:action => "edit_close"},{:class=>"btn"} %>
           <% end %>
           <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn"} %>
+        </div>
+
+        <div class="btn-group">
+          <% if Icm::IncidentRequest.assignable_to_person(Irm::Person.current.id).query(@incident_request.id).present?%>
+              <%= link_to t(:label_icm_incident_request_assign_me), {:controller=>"icm/incident_requests",:action => "update_assign_me",:incident_request_ids=>@incident_request.id},{:class=>"btn",:back=>true} %>
+          <% end %>
+          <% if allow_to_function?(:assign_incident_request) %>
+              <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
+
+          <% end %>
         </div>
     <% else %>
 
@@ -82,6 +92,8 @@
     </div>
   </div>
 <% end %>
+
+<%= render "assign_modal" %>
 
 <!--页面头部内容-->
 <% content_for :block_header_content do %>
@@ -419,8 +431,9 @@
 <% end %>
 
 <!--页面结构  头部-->
-<div class="page-block">
-  <table class="page-block-header"><tr>
+<div class="page-block" id="pageBlock">
+  <div class="waypoint-header" id="toolbar">
+  <table class="page-block-header" ><tr>
     <td class="page-block-title">
       <h2 class="block-title"><%=t(:label_incident_request)%></h2>
     </td>
@@ -432,7 +445,7 @@
     <td class="page-block-help" style="width: auto;">
       <%= content_for :block_header_buttons  %>
     </td>
-  </tr></table>
+  </tr></table></div>
   <div class="page-block-body">
     <div id="notice">
       <%= error_for @incident_journal %>
@@ -487,34 +500,31 @@
 </script>
 <% unless limit_device? %>
     <style type="text/css">
-        .sticky #icm_new_journal_top_menu {
+        .sticky #toolbar {
             position: fixed;
             top: 0;
             width: auto;
-            left: 20px;
-            right: 235px;
+            left: 21px;
+            right: 243px;
             background-color: #F8F8F8;
             border: 1px solid #eaeaea;
             border-top-width: 0;
             border-bottom-width: 0;
+            border-top: 3px solid #1797C0;
         }
 
-        #ep.sticky {
+        #pageBlock.sticky {
             padding-top: 34px;
         }
+
     </style>
     <script type="text/javascript">
         $.waypoints.settings.scrollThrottle = 30;
 
-        $('#ep').waypoint(
-                function(event, direction) {
-
-                }, {
-                    offset: '-100%'
-                }).find('#icm_new_journal_top_menu').waypoint(function(event, direction) {
-                    $(this).parent().toggleClass('sticky', direction === "down");
-                    event.stopPropagation();
-                });
+        $('#pageBlock').waypoint(function(event, direction) { }, {offset: '-100%'}).find('#toolbar').waypoint(function(event, direction) {
+           $(this).parent().toggleClass('sticky', direction === "down");
+           event.stopPropagation();
+        });
     </script>
 <% end %>
 

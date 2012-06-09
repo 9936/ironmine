@@ -123,6 +123,17 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
     wrapped_field(@template.content_tag(:div,date_tag_str+link_str,{:class=>"date-field"},false),field,options)
   end
 
+
+  def color_field(field, options = {})
+    color_field_id =  options.delete(:id)||field
+
+    value = object.send(field.to_sym) ||options[:value]
+
+    color_tag_str = self.text_field(field,options.merge(:id=>color_field_id,:class=>"color-input",:size=>10,:onfocus=>"initColorField(this)",:normal=>true,:style=>"background-color:#{value};color:#{@template.get_contrast_yiq(value)};","data-color"=>value,"data-color-format"=>"hex"))
+
+    wrapped_field(@template.content_tag(:div,color_tag_str,{:class=>"color-field"},false),field,options)
+  end
+
   # Returns a label tag for the given field
   def wrapped_field(field,field_id, options = {})
     required_flag = options.delete(:required) ? true : false

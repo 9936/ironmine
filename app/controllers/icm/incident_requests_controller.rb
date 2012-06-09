@@ -172,7 +172,7 @@ class Icm::IncidentRequestsController < ApplicationController
     #  incident_requests_scope = incident_requests_scope
     #end
 
-    incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag")  if incident_status_table_alias.present?
+    incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
 
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
@@ -225,7 +225,7 @@ class Icm::IncidentRequestsController < ApplicationController
         order("close_flag ,reply_flag desc,last_request_date desc,last_response_date desc,weight_value,id")
 
 
-    incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag")  if incident_status_table_alias.present?
+    incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
 
 
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
@@ -346,7 +346,9 @@ class Icm::IncidentRequestsController < ApplicationController
     end
     @count = incident_requests.size
     respond_to do |format|
-      format.html
+      format.html {
+        redirect_back_or_default
+      }
       format.js
     end
   end
@@ -380,7 +382,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
 
     respond_to do |format|
-        format.html { redirect_to({:action => "edit_assign_me"}) }
+        format.html { redirect_back_or_default({:action => "edit_assign_me"}) }
         format.xml  { render :xml => incident_requests, :status => :updated, :location => incident_requests }
     end
   end

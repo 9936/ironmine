@@ -28,6 +28,12 @@
             <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
+            <td class="label-col"><%= t(:display_color) %></td>
+            <td class="data-col"><%= f.color_field :display_color,:value=>"#04fcc1" %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
             <td class="label-col"><label><%=(t :active)%></label></td>
             <td class="data-col"><%=f.select :status_code, available_active_status, {:include_blank => false}%></td>
             <td class="label-col empty">&nbsp;</td>

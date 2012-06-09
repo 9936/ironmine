@@ -1106,6 +1106,10 @@ div.min-block-body {
     text-align: left;
 }
 
+.datatable table td a {
+    text-decoration: underline;
+    color: inherit;
+}
 .datatable table th.sortable {
     cursor: pointer;
 }
@@ -1170,10 +1174,6 @@ div.min-block-body {
     background-color: #F9F9F9;
 }
 
-.datatable table tbody td {
-    background-color: transparent;
-}
-
 /* none */
 .datatable table tbody tr:hover {
     background-color: #EDF5FF;
@@ -1197,7 +1197,6 @@ div.min-block-body {
     border: none;
     border-bottom: 1px solid #CBCBCB;
     text-align: left;
-    background-color: #fff;
 }
 
 .datatable table tr.no-data div{
@@ -2011,6 +2010,7 @@ fieldset legend {
 @import "framework/setting";
 @import "plugins/mask";
 @import "framework/datepicker";
+@import "framework/colorpicker";
 @import "framework/tabs";
 
 

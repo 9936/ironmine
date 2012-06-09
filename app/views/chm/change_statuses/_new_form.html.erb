@@ -22,6 +22,12 @@
           <td class="data-col empty">&nbsp;</td>
         </tr>
         <tr>
+          <td class="label-col"><%= t(:display_color) %></td>
+          <td class="data-col"><%= f.color_field :display_color,:value=>"#04fcc1" %></td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+        </tr>
+        <tr>
           <td class="label-col"><label for="default_flag"><%=t(:default_flag)%></label></td>
           <td class="data-col"><%=f.check_box :default_flag%></td>
           <td class="label-col empty">&nbsp;</td>

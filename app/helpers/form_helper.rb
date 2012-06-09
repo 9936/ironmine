@@ -44,6 +44,15 @@ module FormHelper
     wrapped_field(content_tag(:div,date_tag_str+link_str,{:class=>"date-field"},false),options)
   end
 
+  def color_field_tag(field, options = {})
+    color_field_id =  options.delete(:id)||field
+
+    color_tag_str = text_field_tag(field,options[:value],options.merge(:id=>color_field_id,:class=>"color-input",:size=>10,:onfocus=>"initColorField(this)",:normal=>true,:style=>"background-color:#{options[:value]};color:#{get_contrast_yiq(options[:value])};","data-color"=>options[:value],"data-color-format"=>"hex"))
+
+    wrapped_field(content_tag(:div,color_tag_str,{:class=>"color-field"},false),options)
+  end
+
+
   private
 
 

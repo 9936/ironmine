@@ -117,6 +117,7 @@ en:
   check_error_msg_and_fix: Please check all error to correct data。
   label_are_you_sure: Are you sure?
   display_sequence: Display Sequence
+  display_color: Color
   default_flag: As Default
   report: Report
   common_report: Common Report

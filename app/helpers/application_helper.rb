@@ -880,4 +880,14 @@ module ApplicationHelper
     result
   end
 
+  def  get_contrast_yiq(hex_color)
+    return "black" unless hex_color&&hex_color.is_a?(String)&&hex_color.length>5&&hex_color.length<8
+    hex_color = hex_color.gsub("#","")
+  	r = hex_color[0..1].to_i(16)
+  	g = hex_color[2..3].to_i(16)
+    b = hex_color[4..5].to_i(16)
+  	yiq = ((r*299)+(g*587)+(b*114))/1000;
+  	return (yiq >= 128) ? 'black' : 'white';
+  end
+
 end
