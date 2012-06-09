@@ -162,26 +162,27 @@ $(function(){
     checkSelect();
     //对文件大小进行校验
     $("input[type=file]").live({change:function(){
-        var fileSize = 0;
-        if ( $.browser.msie && !this.files ) {
-            var file_system = new ActiveXObject("Scripting.FileSystemObject");
-            var file = file_system.GetFile (file_path);
-            fileSize = file.Size;
-        }else{
-            fileSize = this.files[0].size;
-        }
-        if(fileSize > 1024*1024*10) {
-            var alertModal = $("#alertModal");
-            if(alertModal.length < 1) {
-                alertModal = $("<div>",{"id":"alertModal","class":"modal hide fade","style":"display: none; "});
-                alertModal.append($("<div>",{"class":"modal-header"}).html("<button type='button' class='close' data-dismiss='modal'>&times;</button><h3>附件出错了</h3>"));
-                alertModal.append($("<div>",{"class":"modal-body"}).html("<p>附件内容太大，请从新选择附件！</p>"));
-                alertModal.append($("<div>",{"class":"modal-footer"}).html("<a href='#' data-dismiss='modal' class='btn btn-primary'>确定</a>"));
-                $("body").append(alertModal);
-            }
-            alertModal.modal({show:true});
-            $(this).val("");
-        }
+        checkAttachment(this, 1024*1024*10);
+//        var fileSize = 0;
+//        if ( $.browser.msie && !this.files ) {
+//            var file_system = new ActiveXObject("Scripting.FileSystemObject");
+//            var file = file_system.GetFile ($(this).val());
+//            fileSize = file.Size;
+//        }else{
+//            fileSize = this.files[0].size;
+//        }
+//        if(fileSize > 1024*1024*10) {
+//            var alertModal = $("#alertModal");
+//            if(alertModal.length < 1) {
+//                alertModal = $("<div>",{"id":"alertModal","class":"modal hide fade","style":"display: none; "});
+//                alertModal.append($("<div>",{"class":"modal-header"}).html("<button type='button' class='close' data-dismiss='modal'>&times;</button><h3>附件出错了</h3>"));
+//                alertModal.append($("<div>",{"class":"modal-body"}).html("<p>附件内容太大，请从新选择附件！</p>"));
+//                alertModal.append($("<div>",{"class":"modal-footer"}).html("<a href='#' data-dismiss='modal' class='btn btn-primary'>确定</a>"));
+//                $("body").append(alertModal);
+//            }
+//            alertModal.modal({show:true});
+//            $(this).val("");
+//        }
     }});
 });
 
@@ -383,3 +384,27 @@ function checkSelect(){
     });
 }
 //end =================================Chosen 渲染select================================
+//START =================================客户端校验文件大小================================
+function checkAttachment(target, limitSize){
+    var fileSize = 0;
+    if ( $.browser.msie && !target.files ) {
+        var file_system = new ActiveXObject("Scripting.FileSystemObject");
+        var file = file_system.GetFile($(target).val());
+        fileSize = file.Size;
+    }else{
+        fileSize = target.files[0].size;
+    }
+    if(fileSize > limitSize) {
+        var alertModal = $("#alertModal");
+        if(alertModal.length < 1) {
+            alertModal = $("<div>",{"id":"alertModal","class":"modal hide fade","style":"display: none; "});
+            alertModal.append($("<div>",{"class":"modal-header"}).html("<button type='button' class='close' data-dismiss='modal'>&times;</button><h3>附件出错了</h3>"));
+            alertModal.append($("<div>",{"class":"modal-body"}).html("<p>附件内容太大，请从新选择附件！</p>"));
+            alertModal.append($("<div>",{"class":"modal-footer"}).html("<a href='#' data-dismiss='modal' class='btn btn-primary'>确定</a>"));
+            $("body").append(alertModal);
+        }
+        alertModal.modal({show:true});
+        $(target).val("");
+    }
+}
+//end =================================客户端校验文件大小=================================
