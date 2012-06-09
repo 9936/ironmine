@@ -8,19 +8,19 @@
             <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
             <td class="data-col"><label><%= @person.login_name%></label></td>
             <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
-            <td class="data-col"><%=f.blank_select :role_id,available_roles,{},{:id=>"role_id", :style => "width:150px;"}%></td>
+            <td class="data-col"><%=f.blank_select :role_id,available_roles,{},{:id=>"role_id"}%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_email_address)%></label></td>
             <td class="data-col"><%=f.text_field :email_address, :required=>true%></td>
             <td class="label-col"><label><%=t(:label_irm_person_profile)%></label></td>
-            <td class="data-col"><%= f.blank_select(:profile_id,available_profile,{},{:required=>true,:id=>"profile_id", :style => "width:150px;"})%></td>
+            <td class="data-col"><%= f.blank_select(:profile_id,available_profile,{},{:required=>true,:id=>"profile_id"})%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_last_name)%></label></td>
             <td class="data-col"><%=f.text_field :last_name%></td>
             <td class="label-col"><label><%=t(:label_irm_person_organization)%></label></td>
-            <td class="data-col"><%= f.blank_select(:organization_id,available_organization,{},{:required=>true, :chosen => true, :style => "width:150px;"}) %></td>
+            <td class="data-col"><%= f.blank_select(:organization_id,available_organization,{},{:required=>true, :chosen => true}) %></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_first_name)%></label></td>
