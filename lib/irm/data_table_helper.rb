@@ -7,7 +7,7 @@ module Irm
       raise ArgumentError, "Missing row count or datas" unless options[:count].present?||options[:datas].present?
       output = ActiveSupport::SafeBuffer.new
       if params[:_scroll]
-        options.merge!(:scroll=>params[:_scroll])
+        options.merge!(:scroll => params[:_scroll])
       end
       builder = datatable_builder(options, &block)
       yield builder
@@ -22,13 +22,13 @@ module Irm
     end
 
     def generate_content(builder)
-      column_options = filter_columns(builder.columns,builder.display_columns)
+      column_options = filter_columns(builder.columns, builder.display_columns)
       datatable_options = builder.options
 
       column_count = 0
 
       #==header
-      table_header =  ActiveSupport::SafeBuffer.new
+      table_header = ActiveSupport::SafeBuffer.new
       table_header.safe_concat "<thead><tr>"
       column_options.each do |column|
         next if column[:hidden]
@@ -44,18 +44,18 @@ module Irm
       table_body.safe_concat "<tbody>"
       if builder.options[:datas].any?
         builder.options[:datas].each do |data|
-          table_body.safe_concat "<tr id='#{data[:id]}' #{row_html_attributes(builder,data)}>"
+          table_body.safe_concat "<tr id='#{data[:id]}' #{row_html_attributes(builder, data)}>"
           column_options.each do |column|
             next if column[:hidden]
             table_body.safe_concat "<td><div>"
             if column[:block].present?
-              table_body.safe_concat capture(data,&column[:block])
+              table_body.safe_concat capture(data, &column[:block])
             else
               if data[column[:key]].present?
                 if data[column[:key]].is_a?(Time)
-                  table_body.safe_concat  data[column[:key]].strftime('%Y-%m-%d %H:%M:%S')
+                  table_body.safe_concat data[column[:key]].strftime('%Y-%m-%d %H:%M:%S')
                 elsif data[column[:key]].is_a?(Date)
-                  table_body.safe_concat  data[column[:key]].strftime('%Y-%m-%d')
+                  table_body.safe_concat data[column[:key]].strftime('%Y-%m-%d')
                 else
                   table_body.safe_concat (data[column[:key]]||"").to_s
                 end
@@ -94,7 +94,7 @@ module Irm
     end
 
     def column_options_str(column)
-      options_str = ["key='#{column[:key]}'","title='#{column[:title]}'"]
+      options_str = ["key='#{column[:key]}'", "title='#{column[:title]}'"]
       style = ""
       if column[:width].present?
         if column[:width].include?("%")||column[:width].include?("px")
@@ -104,7 +104,7 @@ module Irm
         end
       end
 
-      options_str << "origin-width='#{column[:width]}' style='#{style}'"  unless style.blank?
+      options_str << "origin-width='#{column[:width]}' style='#{style}'" unless style.blank?
 
 
       if column[:sortable].present?
@@ -122,7 +122,7 @@ module Irm
     end
 
 
-    def filter_columns(columns,display_columns)
+    def filter_columns(columns, display_columns)
       if display_columns.present?&&display_columns.is_a?(Array)&&display_columns.any?
         origin_columns = columns
         result_columns = []
@@ -135,39 +135,40 @@ module Irm
       end
     end
 
-    def row_html_attributes(builder,data)
+    def row_html_attributes(builder, data)
       row_config = builder.row_config
       return "" unless row_config.present?
       attribute = ActiveSupport::SafeBuffer.new
-      html_options =  row_config[:options][:html] if row_config[:options][:html].present?&&row_config[:options][:html].is_a?(Hash)
+      html_options = row_config[:options][:html] if row_config[:options][:html].present?&&row_config[:options][:html].is_a?(Hash)
       html_options||={}
       attribute.safe_concat tag_options(html_options)||""
       if row_config[:block].present?
-        attribute.safe_concat capture(data,&row_config[:block])
+        attribute.safe_concat capture(data, &row_config[:block])
       end
       return attribute
 
     end
 
+    class DataTableBuilder
+      attr_accessor :options, :columns, :display_columns, :row_config
+
+      def initialize(options)
+        self.options = options
+        self.display_columns = self.options.delete(:columns)
+        self.columns = {}
+      end
+
+      def column(key, column_options={}, &render_block)
+        self.columns.merge!({key.to_sym => column_options.merge!({:key => key.to_sym, :block => render_block})})
+      end
+
+      def row(options={}, &render_block)
+        self.row_config = {:options => options, :block => render_block}
+      end
+    end
+
   end
 
-  class DataTableBuilder
-    attr_accessor :options ,:columns,:display_columns,:row_config
-
-    def initialize(options)
-      self.options = options
-      self.display_columns = self.options.delete(:columns)
-      self.columns = {}
-    end
-
-    def column(key,column_options={},&render_block)
-      self.columns.merge!({key.to_sym=>column_options.merge!({:key=>key.to_sym,:block=>render_block})})
-    end
-
-    def row(options={},&render_block)
-      self.row_config = {:options=>options,:block=>render_block}
-    end
-  end
 
 end
 
