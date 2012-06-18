@@ -8,6 +8,15 @@ require "active_resource/railtie"
 require "sprockets/railtie"
 require "rails/test_unit/railtie"
 
+# 加载各模块配置
+Dir["#{File.expand_path('../..', __FILE__)}/modules/*"].sort.reverse.each do |file|
+  m = File.basename(file).split("_").last
+  railtie_path = File.expand_path("#{file}/lib/#{m}/railtie.rb", __FILE__)
+  if File.exist?(railtie_path)
+    require railtie_path
+  end
+end
+
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(macdev development test)))
@@ -167,5 +176,7 @@ module Ironmine
       require 'rails/generators/erb/controller/controller_generator'
       Erb::Generators::ControllerGenerator.send(:include,Gen::ControllerGeneratorExpand)
     end
+
+
   end
 end

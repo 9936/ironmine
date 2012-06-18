@@ -103,13 +103,13 @@ module Irm::QueryExtend
             end
 
             def self.data_access(business_object_id,current_person_id=Irm::Person.current.id,field_name="#{self.table_name}.created_by")
-              joins("JOIN irm_data_accesses_v ON #{field_name} = irm_data_accesses_v.source_person_id AND irm_data_accesses_v.business_object_id = '#{business_object_id}' AND irm_data_accesses_v.target_person_id = '#{current_person_id}'").
-                  select("irm_data_accesses_v.access_level")
+              joins("JOIN irm_data_accesses_t ON #{field_name} = irm_data_accesses_t.source_person_id AND irm_data_accesses_t.business_object_id = '#{business_object_id}' AND irm_data_accesses_t.target_person_id = '#{current_person_id}'").
+                  select("irm_data_accesses_t.access_level")
             end
 
             def self.model_data_access(business_object_model_name,current_person_id=Irm::Person.current.id,field_name="#{self.table_name}.created_by")
-              joins("JOIN irm_data_accesses_v ON #{field_name} = irm_data_accesses_v.source_person_id AND irm_data_accesses_v.bo_model_name = '#{business_object_model_name}' AND irm_data_accesses_v.target_person_id = '#{current_person_id}'").
-                  select("irm_data_accesses_v.access_level")
+              joins("JOIN irm_data_accesses_t ON #{field_name} = irm_data_accesses_t.source_person_id AND irm_data_accesses_t.bo_model_name = '#{business_object_model_name}' AND irm_data_accesses_t.target_person_id = '#{current_person_id}'").
+                  select("irm_data_accesses_t.access_level")
             end
 
           end
