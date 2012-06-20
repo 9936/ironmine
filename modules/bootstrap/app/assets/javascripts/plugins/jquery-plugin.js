@@ -1557,18 +1557,38 @@ jQuery.fn.menubutton = function(){
                 filterBox.css({display:"block"});
             }
         }
-
-        if(me.data.options.exportBox){
-            if(me.data.options.exportBox.indexOf("#")<0)
+        //添加导自动识别数据格式导出功能响应
+        if(me.data.options.exportBox) {
+            if(me.data.options.exportBox.indexOf("#")<0) {
                 me.data.options.exportBox = "#"+me.data.options.exportBox;
-            $(me.data.options.exportBox).click(function(event){
-                var url = me.buildCurrentRequest();
-                var rp = new RegExp("\\..+\\?");
-                url = url.replace(rp,".xls?");
-
-                window.open(url, "_blank")
-            });
+            }
+            var url = me.buildCurrentRequest();
+            var rp = new RegExp("\\..+\\?");
+            if ($(me.data.options.exportBox).find("li").length > 0) {
+                $(me.data.options.exportBox).find("li").each(function(){
+                    $(this).click(function(event){
+                        url = url.replace(rp,"."+$(this).attr("data-format") + "?");
+                        window.open(url, "_blank");
+                    });
+                });
+            }else{
+                $(me.data.options.exportBox).click(function(event){
+                    url = url.replace(rp,".xls?");
+                    window.open(url, "_blank");
+                });
+            }
         }
+
+//        if(me.data.options.exportBox){
+//            if(me.data.options.exportBox.indexOf("#")<0)
+//                me.data.options.exportBox = "#"+me.data.options.exportBox;
+//            $(me.data.options.exportBox).click(function(event){
+//                var url = me.buildCurrentRequest();
+//                var rp = new RegExp("\\..+\\?");
+//                url = url.replace(rp,".xls?");
+//                window.open(url, "_blank")
+//            });
+//        }
     }
 
     Internal.prototype.syncPaginatorUI = function(){
