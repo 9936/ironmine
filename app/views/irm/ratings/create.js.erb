@@ -1,0 +1,10 @@
+$(function(){
+    var results = <%=raw @result.to_json%>;
+    console.debug(results);
+    $.each(results,function(index,dataObject){
+       var data = dataObject.rating;
+       console.debug(data);
+       $("#diggNum"+data.grade).html(data.rating_num);
+    });
+    $(".digg-link").attr("href","javascript:void(0)");
+});

@@ -958,6 +958,8 @@ Ironmine::Application.routes.draw do
     get '/oauth/authorize' => "oauth_authorize#show", defaults: { format: "html" }
     post '/oauth/authorize' => "oauth_authorize#create", defaults: { format: "html" }
     post '/oauth/token' => "oauth_authorize#token", defaults: { format: "json" }
+
+    match '/ratings/:rating_object_id/create(.:format)' => "ratings#create", :via => :get
   end
 
   scope :module => "icm" do
