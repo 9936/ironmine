@@ -6,7 +6,6 @@
       width: auto !important;
   }
 </style>
-<%= common_title({:action_meaning=>"(#{@change_request[:change_status_name]})[#{@change_request[:request_number]}]#{@change_request[:title]}"}) %>
 <!--页面结构-->
 <div class="page-block">
   <table class="page-block-header"><tr>
@@ -16,6 +15,7 @@
     <td class="page-block-button">
       <%= link_to t(:edit), {:action => "edit"},:class=>"btn btn-primary"%>
       <%= link_to t(:cancel), {:action => "index"},:class=>"btn cancel"%>
+      <%= link_to t(:export_pdf), {:action=>"show",:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
     </td>
   </tr></table>
   <div class="page-block-body">
@@ -82,6 +82,14 @@
     </div>
 
     <div class="sub-page-block">
+      <%- if params[:format].eql?('pdf') -%>
+        <%= render(:partial=> partial) %>
+        <%= render(:partial=> 'show_incident') %>
+        <%= render(:partial=> 'show_plan') %>
+        <%= render(:partial=> 'show_implement') %>
+        <%= render(:partial=> 'show_approve') %>
+        <%= render(:partial=> 'show_config') %>
+      <%- else -%>
       <div class="tabs-container">
       <%= mx_tabs("nav",[{:label=>t(:label_chm_change_request_tab_common),:url=>{:controller=>"chm/change_requests",:action=>"show"},:params=>{:id=>@change_request.id}},
                              {:label=>t(:label_chm_change_request_tab_incident),:url=>{:controller=>"chm/change_requests",:action=>"show_incident"},:params=>{:id=>@change_request.id}},
@@ -91,25 +99,11 @@
                              {:label=>t(:label_com_config_item),:url=>{:controller=>"chm/change_requests",:action=>"show_config"},:params=>{:id=>@change_request.id}}])  %>
       <%= render(:partial=>partial) %>
       </div>
-      <!--
-      <div class="tabbable">
-        <%#= tabs("nav",[{:label=>t(:label_chm_change_request_tab_common),:url=>{:controller=>"chm/change_requests",:action=>"show"},:params=>{:id=>@change_request.id}},
-                       {:label=>t(:label_chm_change_request_tab_incident),:url=>{:controller=>"chm/change_requests",:action=>"show_incident"},:params=>{:id=>@change_request.id}},
-                       {:label=>t(:label_chm_change_request_tab_plan),:url=>{:controller=>"chm/change_requests",:action=>"show_plan"},:params=>{:id=>@change_request.id}},
-                       {:label=>t(:label_chm_change_request_tab_implement),:url=>{:controller=>"chm/change_requests",:action=>"show_implement"},:params=>{:id=>@change_request.id}},
-                       {:label=>t(:label_chm_change_request_tab_approve),:url=>{:controller=>"chm/change_requests",:action=>"show_approve"},:params=>{:id=>@change_request.id}},
-                       {:label=>t(:label_com_config_item),:url=>{:controller=>"chm/change_requests",:action=>"show_config"},:params=>{:id=>@change_request.id}}])  %>
-        <div class="tab-content">
-          <div class="tab-pane active">
-           <%#= render(:partial=>partial) %>
-          </div>
-        </div>
-      </div>  -->
+      <%- end -%>
     </div>
 
   </div>
 </div>
-
 <script type="text/javascript">
     $(".toggle-button").each(function(index,element){
         var me =  $(element);

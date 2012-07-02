@@ -36,6 +36,13 @@ class Skm::EntryHeadersController < ApplicationController
 
                         render :json=>@entry_header.attributes
                       }
+        format.pdf {
+          render :pdf => @entry_header.entry_title,
+                         :print_media_type => true,
+                         :encoding => 'utf-8',
+                         #:show_as_html => true,
+                         :zoom => 0.8
+        }
       end
 
     end

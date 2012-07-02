@@ -6,7 +6,7 @@
     <div class="sidebar-block-body">
       <div class="form-inline">
         <table width="100%">
-          <% if allow_to_function?(:edit_relation)  %>
+          <% if allow_to_function?(:edit_relation) && !params[:format].eql?('pdf') %>
           <tbody id="new_relation_form">
             <tr>
               <td>

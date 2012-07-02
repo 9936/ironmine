@@ -23,6 +23,20 @@ class Chm::ChangeRequestsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @change_request }
+      format.pdf  {
+        @change_plan_types = Chm::ChangePlanType.multilingual.enabled
+        @grouped_change_plans={}
+        change_plans =  @change_request.change_plans.list_all
+        @change_plan_types.each do |change_plan_type|
+          change_plan = change_plans.detect{|i| i.change_plan_type_id.eql?(change_plan_type.id)}
+          change_plan = Chm::ChangePlan.new(:change_plan_type_id=>change_plan_type.id,:change_request_id=>@change_request.id) unless change_plan.present?
+          @grouped_change_plans[change_plan_type.id] = change_plan
+        end
+        render :pdf => @change_request.title,
+               :print_media_type => true,
+               :encoding => 'utf-8',
+               :zoom => 0.8
+      }
     end
   end
 

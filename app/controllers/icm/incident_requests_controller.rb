@@ -250,7 +250,14 @@ class Icm::IncidentRequestsController < ApplicationController
                                {:key=>:last_request_date,:label=>t(:label_icm_incident_request_last_date)},
                                {:key=>:external_system_id_label,:label=>t(:label_irm_external_system)}]
                   ))
-        }
+      }
+      format.pdf {
+        @datas, @count = paginate(incident_requests_scope)
+        render :pdf => "file_name",
+               :print_media_type => true,
+               :encoding => 'utf-8',
+               :zoom => 0.8
+      }
     end
   end
 

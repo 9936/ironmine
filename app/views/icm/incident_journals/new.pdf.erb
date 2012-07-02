@@ -1,0 +1,36 @@
+<%= wicked_pdf_stylesheet_link_tag "application","pdf" %>
+<%= wicked_pdf_javascript_include_tag "application","pdf" %>
+
+<div class="pdf-container">
+  <div class="row-fluid page-body-content">
+    <%- with_format('html') do %>
+      <table class="body-table">
+        <tbody>
+          <tr>
+            <td class="body-cell">
+              <div class="body-cell-div">
+                <%= render 'new_form'%>
+                <%= approval_history(@incident_request.id,Icm::IncidentRequest.name) %>
+              </div>
+            </td>
+            <td class="sidebar-cell">
+              <div class="sidebar-cell-div">
+                <%if has_content?(:sidebar) %>
+                    <%=yield :sidebar %>
+                <%end%>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <%- end %>
+  </div>
+</div>
+<script type="text/javascript">
+  $(".sidebar-cell a").each(function(){
+     $(this).parent().append($(this).text());
+  });
+</script>
+
+
+

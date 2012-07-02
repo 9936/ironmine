@@ -1562,33 +1562,23 @@ jQuery.fn.menubutton = function(){
             if(me.data.options.exportBox.indexOf("#")<0) {
                 me.data.options.exportBox = "#"+me.data.options.exportBox;
             }
-            var url = me.buildCurrentRequest();
             var rp = new RegExp("\\..+\\?");
             if ($(me.data.options.exportBox).find("li").length > 0) {
                 $(me.data.options.exportBox).find("li").each(function(){
                     $(this).click(function(event){
+                        var url = me.buildCurrentRequest();
                         url = url.replace(rp,"."+$(this).attr("data-format") + "?");
                         window.open(url, "_blank");
                     });
                 });
             }else{
                 $(me.data.options.exportBox).click(function(event){
+                    var url = me.buildCurrentRequest();
                     url = url.replace(rp,".xls?");
                     window.open(url, "_blank");
                 });
             }
         }
-
-//        if(me.data.options.exportBox){
-//            if(me.data.options.exportBox.indexOf("#")<0)
-//                me.data.options.exportBox = "#"+me.data.options.exportBox;
-//            $(me.data.options.exportBox).click(function(event){
-//                var url = me.buildCurrentRequest();
-//                var rp = new RegExp("\\..+\\?");
-//                url = url.replace(rp,".xls?");
-//                window.open(url, "_blank")
-//            });
-//        }
     }
 
     Internal.prototype.syncPaginatorUI = function(){

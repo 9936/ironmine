@@ -16,6 +16,13 @@ class Icm::IncidentJournalsController < ApplicationController
     respond_to do |format|
       format.html { render :layout=>"bootstrap_application_right"}
       format.xml  { render :xml => @incident_journal }
+      format.pdf {
+        render :pdf => @incident_request.title,
+               :print_media_type => true,
+               :encoding => 'utf-8',
+               #:show_as_html => true,
+               :zoom => 0.8
+      }
     end
   end
 

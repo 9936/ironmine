@@ -195,6 +195,15 @@ class Irm::ReportsController < ApplicationController
     respond_to do |format|
         format.html { render(:action=>"show", :layout => "bootstrap_application_full") }
         format.xls  { send_data(export_report_data_to_excel(@report),:type => "text/plain", :filename=>"report_#{@report.code.downcase}_#{Time.now.strftime('%Y%m%d%H%M%S')}.xls") }
+        format.pdf  {
+          render :pdf => @report[:name],
+                 :print_media_type => true,
+                 :encoding => 'utf-8',
+                 :page_size => 'A4',
+                 #:book => true,
+                 #:show_as_html => true,
+                 :zoom => 0.8
+        }
     end
 
     end_time = Time.now

@@ -1,3 +1,6 @@
+<%= wicked_pdf_stylesheet_link_tag "application","pdf" %>
+<%= wicked_pdf_javascript_include_tag "application","pdf" %>
+
 <style type="text/css">
 
   div#histories{
@@ -29,7 +32,7 @@
 
 
   div.reply div.reply-header-section{
-    padding: 5px 5px 5px 0;
+    padding: 5px 5px 5px 0px;
     min-height: 40px;
   }
   div.reply h3{
@@ -48,5 +51,10 @@
       margin-left: 46px;
   }
 </style>
-<%= common_title({:action_meaning=>"(#{@change_request[:change_status_name]})[#{@change_request[:request_number]}]#{@change_request[:title]}"}) %>
-<%= render :partial=>"show_tmp",:locals=>{:partial=>"show"}%>
+
+
+<div class="pdf-container">
+  <%- with_format('html') do %>
+    <%= render :partial=>"show_tmp",:locals=>{:partial=>"show"}%>
+  <%- end %>
+</div>

@@ -90,6 +90,9 @@
           <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
       <% end %>
     </div>
+    <div class="btn-group">
+      <%= link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
+    </div>
   </div>
 <% end %>
 
@@ -372,7 +375,15 @@
     <% chm = Irm::ProductModule.usable?(:chm)&&@incident_request.change_request_id.present?;com = Irm::ProductModule.usable?(:com) %>
     <% if chm||com %>
         <!-- 处理关联的变更单 -->
-        <!-- tabs -->
+        <%- if params[:format].eql?('pdf') -%>
+           <%= content_for :incident_request_journals %>
+           <%- if chm -%>
+             <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>
+           <%- else -%>
+             <%= content_for :incident_config_items  %>
+           <%- end -%>
+        <%- else -%>
+        <!-- start tabs -->
         <div class="tabs-container">
           <div class="mx-tabs" id="tabNav">
              <ul class="clear-fix">
@@ -401,6 +412,7 @@
           </div>
         </div>
         <!-- end tabs -->
+        <%- end -%>
 
         <script type="text/javascript">
             $(function() {
@@ -454,14 +466,15 @@
     <div class="sub-page-block">
       <div class="sub-page-block-header">
         <h3 class="sub-page-block-title">(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
-        <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" ExpandedText="<%= t(:label_icm_incident_more_info) %>"><%= t(:label_icm_incident_more_info) %></a>)</div>
-      </div>
+        <%- unless params[:format].eql?('pdf') -%>
+          <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" ExpandedText="<%= t(:label_icm_incident_more_info) %>"><%= t(:label_icm_incident_more_info) %></a>)</div>
+        <%- end -%>
+        </div>
       <div class="sub-page-block-body">
         <%= content_for :block_header_content %>
         <%= content_for :change_request_tab %>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -532,6 +545,8 @@
     <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
                :locals => {:watchable => @incident_request,
                            :editable => !@incident_request.close?} %>
+    <%- unless params[:format].eql?('pdf') -%>
     <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list" %>
+    <%- end -%>
     <%= render :partial =>"/icm/incident_requests/sidebar_relation_list", :locals => {:incident_request => @incident_request} %>
 <% end %>

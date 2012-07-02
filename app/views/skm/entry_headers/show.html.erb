@@ -12,7 +12,8 @@
       <% if @entry_header.history_flag == Irm::Constant::SYS_NO %>
         <%= link_to t(:edit), {:action => "edit", :id => @entry_header},:class=>"btn"%>
       <% end %>
-        <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
+      <%= link_to t(:export_pdf), {:controller=>"skm/entry_headers",:action=>"show",:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
     </td>
   </tr></table>
   <div class="page-block-body">

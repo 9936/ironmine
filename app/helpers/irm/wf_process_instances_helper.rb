@@ -19,7 +19,11 @@ module Irm::WfProcessInstancesHelper
     process_instances = Irm::WfProcessInstance.list_all.where(:bo_id=>bo_id,:bo_model_name=>bo_model_name).order("created_at desc")
     process_infos = []
     process_instances.each{|pi| process_infos<<process_instance_history(pi)}
-    render :partial=>"irm/wf_process_instances/process_history",:locals=>{:process_infos=>process_infos,:bo_id=>bo_id,:bo_model_name=>bo_model_name}
+    if process_instances.present?
+      render :partial=>"irm/wf_process_instances/process_history",:locals=>{:process_infos=>process_infos,:bo_id=>bo_id,:bo_model_name=>bo_model_name}
+    else
+      nil
+    end
   end
 
   def process_instance_history(pi)
