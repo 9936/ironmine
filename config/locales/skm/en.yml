@@ -9,6 +9,9 @@ en:
   label_skm_entry_status_edit: Edit SKM Status
   label_skm_entry_status_code: Status Code
   label_skm_entry_status_list: SKM Statuses List
+  label_skm_rating_7: 有用
+  label_skm_rating_8: 学习
+  label_skm_rating_5: 无用
 
   #========================entry templates===============================
   label_skm_entry_template: SKM Entry Template

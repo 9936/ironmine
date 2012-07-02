@@ -6,7 +6,7 @@ Irm::AccessControl.map do |map|
                                  "irm/common"=>[:login, :forgot_password,:edit_password,:update_password],
                                  "irm/navigations" => ["access_deny", "combo"],
                                  "irm/oauth_authorize" => ["show", "create","token"],
-                                 "irm/attach_screenshot" => ["index"]}
+                                 "irm/attach_screenshot" => ["index"],"irm/ratings"=>["create"]}
   map.function :login_function,{ "irm/common"=>[:logout,:upload_screen_shot,:search_options,:upload_file,:create_upload_file],
                                  "irm/people"=>[:info_card],
                                  "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"],

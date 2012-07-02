@@ -1,3 +1,4 @@
+
 <%= app_title %>
 <!--页面结构-->
 <div class="page-block">
@@ -15,43 +16,55 @@
       <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
       <%= link_to t(:export_pdf), {:controller=>"skm/entry_headers",:action=>"show",:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
     </td>
-  </tr></table>
+  </tr>
+  </table>
   <div class="page-block-body">
     <div class="sub-page-block">
       <div class="sub-page-block-header">
         <h3 class="sub-page-block-title"><%= t(:label_skm_navigator) %></h3>
       </div>
       <div class="sub-page-block-body">
-         <table class="detail-list">
-           <tbody>
-               <% @entry_header.entry_details.each do |e| %>
-                   <tr>
-                     <td class="data-col"><a href="#<%= e.id%>"><%= e.element_name %></a></td>
-                   </tr>
-               <% end %>
-           </tbody>
-         </table>
+        <table class="detail-list">
+          <tbody>
+          <% @entry_header.entry_details.each do |e| %>
+              <tr>
+                <td class="data-col"><a href="#<%= e.id %>"><%= e.element_name %></a></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="sub-page-block">
       <% @entry_header.entry_details.each do |e| %>
           <div class="sub-page-block-header">
             <h3 class="sub-page-block-title"><%= raw(e.element_name) %></h3>
+
             <div class="sub-page-block-help" style="float: right;">
               <a href="javascript:void(0);" onclick="scrollTo(0, 0);"><%= t(:go_to_top) %></a>
             </div>
           </div>
           <div class="sub-page-block-body">
-             <a id="<%= e.id %>" name="<%= e.id %>">&nbsp;</a>
-             <table class="show-table">
-               <tbody>
-                   <tr>
-                     <td class="data-col" style="padding: 2px 10px !important;"><pre><%= raw(e.entry_content) %></pre></td>
-                   </tr>
-               </tbody>
-             </table>
+            <a id="<%= e.id %>" name="<%= e.id %>">&nbsp;</a>
+            <table class="show-table">
+              <tbody>
+              <tr>
+                <td class="data-col" style="padding: 2px 10px !important;">
+                  <pre><%= raw(e.entry_content) %></pre>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
       <% end %>
+    </div>
+
+    <div class="sub-page-block">
+      <div class="sub-page-block-body">
+        <div class="digg-zone" id="diggZone">
+          <%= show_rating(@entry_header,[{:grade=>"7",:label=>t(:label_skm_rating_7)},{:grade=>"8",:label=>t(:label_skm_rating_8)},{:grade=>"5",:label=>t(:label_skm_rating_5)}]) %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -65,20 +78,20 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%=datatable_view({:count=>@entry_history.count,:datas=>@entry_history}) do |builder|%>
-      <% builder.column(:id,{:title=>t(:operation)})%>
-      <% builder.column(:published_date_f,{:title=>t(:label_skm_entry_header_published_date),:width=>"150px"})%>
-      <% builder.column(:version_number,{:title=>t(:label_skm_entry_header_version)}) %>
-      <% builder.column(:full_title,{:title=>t(:label_skm_entry_header_title)}) do |data|%>
-        <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
-      <% end %>
-      <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number),:width => "120px"}) %>
+    <%= datatable_view({:count => @entry_history.count, :datas => @entry_history}) do |builder| %>
+        <% builder.column(:id, {:title => t(:operation)}) %>
+        <% builder.column(:published_date_f, {:title => t(:label_skm_entry_header_published_date), :width => "150px"}) %>
+        <% builder.column(:version_number, {:title => t(:label_skm_entry_header_version)}) %>
+        <% builder.column(:full_title, {:title => t(:label_skm_entry_header_title)}) do |data| %>
+            <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]}) %>
+        <% end %>
+        <% builder.column(:doc_number, {:title => t(:label_skm_entry_header_doc_number), :width => "120px"}) %>
     <% end %>
   </div>
 </div>
 
 
-<%= content_for :sidebar do%>
-    <%= render "skm/entry_headers/sidebar_navigate_menu"%>
-    <%= render :partial =>"/irm/common/recently_objects" %>
+<%= content_for :sidebar do %>
+    <%= render "skm/entry_headers/sidebar_navigate_menu" %>
+    <%= render :partial => "/irm/common/recently_objects" %>
 <% end -%>
