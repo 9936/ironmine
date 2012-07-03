@@ -74,6 +74,16 @@
           <td colspan="2" align="center"><%= t(:label_icm_incident_journal_person) %>/<%= t(:label_icm_incident_journal_date) %></td>
           <td colspan="4" align="center"><%= t(:label_icm_incident_journal_content) %></td>
         </tr>
+        <!-- 事故单本身内容 -->
+        <tr>
+          <td colspan="2"  valign="top">
+            <%= @incident_request[:submitted_name]  %><br />
+            <%= format_date(@incident_request[:submitted_date]) %>
+          </td>
+          <td colspan="4">
+            <%= raw process_message(@incident_request[:summary]) %>
+          </td>
+        </tr>
         <%- list_journals(@incident_request).each do |journal|  -%>
         <tr>
           <td colspan="2" align="left" valign="top">

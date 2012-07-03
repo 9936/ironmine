@@ -378,7 +378,7 @@
         <%- if params[:format].eql?('pdf') -%>
            <%= content_for :incident_request_journals %>
            <%- if chm -%>
-             <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>
+
            <%- else -%>
              <%= content_for :incident_config_items  %>
            <%- end -%>

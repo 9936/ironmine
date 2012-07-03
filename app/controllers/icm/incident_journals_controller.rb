@@ -17,8 +17,9 @@ class Icm::IncidentJournalsController < ApplicationController
       format.html { render :layout=>"bootstrap_application_right"}
       format.xml  { render :xml => @incident_journal }
       format.pdf {
-        render :pdf => @incident_request.title,
+        render :pdf => "[#{@incident_request.request_number}]#{@incident_request.title}",
                :print_media_type => true,
+               :show_as_html => true,
                :encoding => 'utf-8'
       }
     end
