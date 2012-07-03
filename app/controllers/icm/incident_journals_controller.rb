@@ -19,9 +19,7 @@ class Icm::IncidentJournalsController < ApplicationController
       format.pdf {
         render :pdf => @incident_request.title,
                :print_media_type => true,
-               :encoding => 'utf-8',
-               #:show_as_html => true,
-               :zoom => 0.8
+               :encoding => 'utf-8'
       }
     end
   end

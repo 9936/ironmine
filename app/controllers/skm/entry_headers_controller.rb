@@ -40,8 +40,11 @@ class Skm::EntryHeadersController < ApplicationController
           render :pdf => @entry_header.entry_title,
                          :print_media_type => true,
                          :encoding => 'utf-8',
-                         #:show_as_html => true,
-                         :zoom => 0.8
+                         :book => true,
+                         :page_size => 'A4',
+                         :toc => {
+                             :depth => 3,
+                             :header_text => t(:table_of_contents) }
         }
       end
 

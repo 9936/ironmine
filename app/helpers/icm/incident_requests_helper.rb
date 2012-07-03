@@ -163,8 +163,12 @@ module Icm::IncidentRequestsHelper
     raw(html)
   end
 
+
   def list_all_icm_incident_relations(incident_request_id)
     relation_list = Icm::IncidentRequestRelation.list_all(incident_request_id)
+    if params[:format].eql?('pdf')
+      return relation_list
+    end
     ret = ""
 
     group_relation_list = {}
@@ -172,6 +176,7 @@ module Icm::IncidentRequestsHelper
       group_relation_list[r.relation_type] ||= []
       group_relation_list[r.relation_type] << r
     end
+
     group_relation_list.each do |key, gr|
        ret << content_tag(:tr,
                   content_tag(:td,

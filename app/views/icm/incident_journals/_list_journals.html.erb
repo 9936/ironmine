@@ -14,12 +14,10 @@
      <%if journal.incident_histories.any? %>
        <div class="message-header" style="font-style:italic;padding-bottom:10px;">
          <ul>
-
              <% journal.incident_histories.each do |h|%>
                <%next unless h.to_s %>
                <li><%= h %>
              <% end%>
-
          </ul>
        </div>
      <%end%>

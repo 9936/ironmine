@@ -150,6 +150,7 @@ en:
   label_icm_incident_request_incident_category: Category
   label_icm_incident_request_incident_sub_category: Subcategory
   label_icm_incident_request_relation_type: The Relation
+  label_icm_incident_request_relation: Relation Types
   label_icm_incident_request_estimated_date: Estimated Date
   label_icm_incident_request_relation_config_items: Config Item
   #========================= end icm incident_requests_controller=======================#
@@ -159,6 +160,9 @@ en:
   apply_skm: Search Service Knowledge
   label_icm_incident_reply_incident_status_code: New Incident Status
   label_icm_incident_journal_list: Request histories
+  label_icm_incident_journal_person: Request Person
+  label_icm_incident_journal_content: Request Content
+  label_icm_incident_journal_date: Request Date
   label_icm_incident_journal_new: Reply
   label_icm_incident_journal_back_to_request_list: Back to request list
   label_icm_incident_request_base_info: Base information

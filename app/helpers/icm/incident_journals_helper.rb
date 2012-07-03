@@ -31,8 +31,14 @@ module Icm::IncidentJournalsHelper
 
   def list_journals(incident_request)
     journals = Icm::IncidentJournal.list_all(incident_request.id).includes(:incident_histories).default_order
-    render :partial=>"icm/incident_journals/list_journals",:locals=>{:journals=>journals,:grouped_files=>@request_files}
+    unless params[:format].eql?('pdf')
+      render :partial=>"icm/incident_journals/list_journals",:locals=>{:journals=>journals,:grouped_files=>@request_files}
+    else
+      journals
+    end
   end
+
+
 
   def journals_size(incident_request)
     Icm::IncidentJournal.list_all(incident_request.id).size
