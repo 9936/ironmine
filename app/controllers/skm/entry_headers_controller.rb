@@ -37,13 +37,12 @@ class Skm::EntryHeadersController < ApplicationController
                         render :json=>@entry_header.attributes
                       }
         format.pdf {
-          render :pdf => @entry_header.entry_title,
+          render :pdf => "[#{@entry_header.doc_number}]#{@entry_header.entry_title}",
                          :print_media_type => true,
                          :encoding => 'utf-8',
                          :layout => 'layouts/pdf.html.erb',
                          :book => true,
                          :page_size => 'A4',
-                         #:show_as_html => true,
                          :toc => {
                              :depth => 3,
                              :header_text => t(:table_of_contents) }
