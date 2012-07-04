@@ -1827,3 +1827,11 @@ zh:
   label_irm_oauth_token_unavailable: 无效的 Token
   label_irm_oauth_username_or_password_error: 用户名或密码错误
   #============================== end oauth_authorize ===================================
+  #============================== rating config ======================================
+  label_irm_rating_config: 评分设置
+  label_irm_rating_config_grade: 评分选项
+  label_irm_rating_config_grade_grade: 分值
+  label_irm_rating_config_display_style: 显示风格
+  label_irm_rating_config_new: 新建评分设置
+  label_irm_rating_config_edit: 编辑评分配置
+  #============================== end rating config  ===================================
