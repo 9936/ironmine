@@ -1,0 +1,32 @@
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_entry_header_relation_list) %></h2>
+      </td>
+      <td class="page-block-help form-inline">
+        <%= form_tag({:controller => "skm/entry_headers",:action => "add_relation", :source_id => entry_header_id,:_dom_id=>"entryHeaderRelation"},{:remote=>true,:builder => CustomFormBuilder}) do %>
+            <div class="float-right" style="margin-left: 20px;">
+              <%= link_submit(t(:add), :class=>"btn") %>
+            </div>
+            <div  style="float:right;">
+              <%= lov_field_tag "skm_relation", Skm::EntryHeader,{:style=>"width:150px;"}%>
+            </div>
+        <%- end -%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable_view({:count => datas.count, :datas => datas}) do |builder| %>
+        <% builder.column(:id, {:title => t(:operation),:width => '30px'}) do |data| %>
+          <%= bootstrap_icons('icon-trash', t(:remove), {:controller=>"skm/entry_headers",:action=>"remove_relation",:id=>data[:relation_id],:source_id =>data[:entry_id],:_dom_id => "entryHeaderRelation"},:confirm => t(:label_are_you_sure) ,:remote=>true,:method => :delete) %>
+        <%- end -%>
+        <% builder.column(:entry_title, {:title => t(:label_skm_entry_header_title)}) do |data| %>
+            <%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:entry_id]}) %>
+        <% end %>
+        <% builder.column(:published_date, {:title => t(:label_skm_entry_header_published_date), :width => "150px"}) %>
+        <% builder.column(:version_number, {:title => t(:label_skm_entry_header_version)}) %>
+        <% builder.column(:doc_number, {:title => t(:label_skm_entry_header_doc_number), :width => "120px"}) %>
+    <% end %>
+  </div>
+</div>

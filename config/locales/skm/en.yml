@@ -53,6 +53,9 @@ en:
   label_skm_entry_header_published_date: Published Date
   label_skm_entry_header_author_name: Author
   label_skm_entry_header_history_list: History List
+  label_skm_entry_header_history: History
+  label_skm_entry_header_relation_list: Relation List
+  label_skm_entry_header_new_relation: New Relation
   notice_skm_entry_step_1_desc: Select a Entry Template, which will decide the entry structure that you create later
   notice_skm_entry_step_2_desc: Input entry content
   notice_skm_entry_step_3_desc: Add attachments

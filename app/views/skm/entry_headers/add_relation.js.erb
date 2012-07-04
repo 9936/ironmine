@@ -1,0 +1,3 @@
+$(function(){
+    $("#entryHeaderRelation").html("<%= escape_javascript(render :partial=>"skm/entry_headers/entry_header_relations",:locals=>{:datas=>@entry_relation, :entry_header_id => @entry_header_id})%>");
+});

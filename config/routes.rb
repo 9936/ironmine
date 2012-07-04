@@ -1234,6 +1234,10 @@ Ironmine::Application.routes.draw do
     match '/entry_headers/:id/video_show(.:format)' => "entry_headers#video_show", :via => :get
     match '/entry_headers/:id/video_edit(.:format)' => "entry_headers#video_edit", :via => :get
     match '/entry_headers/:id/video_update(.:format)' => "entry_headers#video_update", :via => :put
+    match '/entry_headers/:source_id/add_relation(.:format)' => "entry_headers#add_relation", :via => :post
+    match '/entry_headers/remove_relation(.:format)' => "entry_headers#remove_relation"
+    match '/entry_headers/:id/new_relation(.:format)' => "entry_headers#new_relation", :via => :get
+    match '/entry_headers/create_relation(.:format)' => "entry_headers#create_relation", :via => :post
 
     match '/entry_headers/index_search(.:format)' => "entry_headers#index_search", :via => :post
     match '/entry_headers/index_search_get_data(.:format)' => "entry_headers#index_search_get_data"

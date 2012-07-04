@@ -43,6 +43,7 @@ zh:
   label_skm_entry_header: 知识文章
   label_skm_entry_header_list: 知识文章列表
   label_skm_entry_header_new: 创建知识文章
+  label_action_new_relation: 新建关联知识
   label_skm_entry_header_edit: 编辑知识文章
   label_skm_entry_header_title: 标题
   label_skm_entry_header_portlet_title: 我的知识库
@@ -53,6 +54,9 @@ zh:
   label_skm_entry_header_published_date: 发布日期
   label_skm_entry_header_author_name: 提交人
   label_skm_entry_header_history_list: 历史版本列表
+  label_skm_entry_header_history: 历史版本
+  label_skm_entry_header_relation_list: 关联知识列表
+  label_skm_entry_header_new_relation: 新建关联知识
   notice_skm_entry_step_1_desc: 选择一个知识文章模板，模板将决定随后创建的文章结构。
   notice_skm_entry_step_2_desc: 根据步骤1中所选模板的结构，填入文章内容
   notice_skm_entry_step_3_desc: 为文章添加附件
