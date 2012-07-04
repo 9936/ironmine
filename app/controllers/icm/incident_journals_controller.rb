@@ -20,7 +20,6 @@ class Icm::IncidentJournalsController < ApplicationController
         render :pdf => "[#{@incident_request.request_number}]#{@incident_request.title}",
                :print_media_type => true,
                :layout => 'layouts/pdf.html.erb',
-               :show_as_html => true,
                :encoding => 'utf-8'
       }
     end

@@ -3,6 +3,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   has_many :entry_subjects
   has_many :entry_details
 
+
   acts_as_searchable
 
 

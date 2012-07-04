@@ -22,6 +22,8 @@ class Skm::EntryHeadersController < ApplicationController
     @history.save
 
     @entry_history = Skm::EntryHeader.list_all.history_entry.where(:doc_number => @entry_header[:doc_number])
+    #关联的知识文章
+    @entry_relation = Skm::EntryHeaderRelation.list_all(@entry_header.id)
 
     respond_to do |format|
 
@@ -222,6 +224,84 @@ class Skm::EntryHeadersController < ApplicationController
     end
   end
 
+  #新建关联知识
+  def new_relation
+    @entry_header = Skm::EntryHeader.find(params[:id])
+    @return_url=request.env['HTTP_REFERER'] if @return_url
+    respond_to do |format|
+      format.html #new_relation.html.erb
+    end
+  end
+
+  def create_relation
+    return_url = params[:return_url]
+    file_flag = true
+    now = 0
+    params[:files].each_value do |att|
+      file = att["file"]
+      next unless file && file.size > 0
+      file_flag, now = Irm::AttachmentVersion.validates?(file, Irm::SystemParametersManager.upload_file_limit)
+      if !file_flag
+        flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+        break
+      end
+    end if params[:files]
+
+    if file_flag
+      #查找出原有的知识文章并将其已有的属性进行复制
+      old_header = Skm::EntryHeader.find(params[:id])
+      @entry_header = Skm::EntryHeader.new(old_header.attributes)
+      @entry_header.history_flag = "N"
+      enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
+      if enable_entry_audit.eql? Irm::Constant::SYS_NO
+        @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+      else
+        @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+      end
+      #更新知识库的标题
+      @entry_header.entry_title = params[:skm_entry_header][:entry_title]
+      @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
+      @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
+      @entry_header.version_number = "1" #此处直接设置为1
+      @entry_header.published_date = Time.now
+      @entry_header.author_id = old_header.author_id
+      @entry_header.source_type = old_header.source_type
+      @entry_header.source_id = old_header.source_id
+
+      respond_to do |format|
+        if @entry_header.save &&  @entry_header.update_attributes(params[:skm_entry_header])
+          params[:skm_entry_details].each do |k, v|
+            old_detail = Skm::EntryDetail.find(k)
+            detail = Skm::EntryDetail.new(old_detail.attributes)
+            detail.update_attributes(v)
+            @entry_header.entry_details << detail
+          end
+          #创建关联关系
+          params[:relation_type] ||= 'RELATION'
+          Skm::EntryHeaderRelation.create(:source_id => old_header.id, :target_id => @entry_header.id, :relation_type => params[:relation_type])
+          #附件内容关联知识库
+          if params[:files]
+            files = params[:files]
+            #调用方法创建附件
+            begin
+              attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, @entry_header.id)
+            rescue
+              @entry_header.errors << "FILE UPLOAD ERROR"
+            end
+          end
+          format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+        else
+          @entry_header.id = params[:id]
+          format.html { render :action => "new_relation" }
+        end
+      end
+    else
+      @entry_header.id = params[:id]
+      format.html { render :action => "new_relation"}
+    end
+
+  end
+
   def create
     if params[:format].eql?("json")
       session[:skm_entry_header]=params[:skm_entry_header]
@@ -380,9 +460,7 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def update
-
     return_url = params[:return_url]
-#    column_ids = params[:skm_entry_header][:column_ids].split(",")
     file_flag = true
     now = 0
     params[:files].each_value do |att|
@@ -802,6 +880,32 @@ class Skm::EntryHeadersController < ApplicationController
       if @file.destroy
           format.js { render :remove_exits_attachment}
       end
+    end
+  end
+
+  #创建知识库关联
+  def add_relation
+    existed_relation =  Skm::EntryHeaderRelation.existed_relation(params[:source_id], params[:skm_relation])
+
+    unless existed_relation.any? || !params[:skm_relation].present? || params[:source_id].eql?(params[:skm_relation])
+      params[:relation_type] ||= 'RELATION'
+      entry_header_relation = Skm::EntryHeaderRelation.create(:source_id => params[:source_id], :target_id => params[:skm_relation], :relation_type => params[:relation_type])
+      @entry_header_id = entry_header_relation.source_id
+    end
+    @entry_header_id ||= params[:source_id]
+    @entry_relation = Skm::EntryHeaderRelation.list_all(@entry_header_id)
+    respond_to do |format|
+      format.js {render :add_relation}
+    end
+  end
+  #解除关联关系
+  def remove_relation
+    relation = Skm::EntryHeaderRelation.find(params[:id])
+    relation.destroy
+    @entry_header_id = params[:source_id]
+    @entry_relation = Skm::EntryHeaderRelation.list_all(@entry_header_id)
+    respond_to do |format|
+      format.js {render :add_relation}
     end
   end
 

@@ -14,6 +14,7 @@
         <%= link_to t(:edit), {:action => "edit", :id => @entry_header},:class=>"btn"%>
       <% end %>
       <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
+      <%= link_to t(:label_skm_entry_header_new_relation),{:action => "new_relation", :id => @entry_header.id }, :class => "btn btn-primary" %>
       <%= link_to t(:export_pdf), {:controller=>"skm/entry_headers",:action=>"show",:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
     </td>
   </tr>
@@ -69,6 +70,7 @@
   </div>
 </div>
 <!-- 版本列表 -->
+<%- content_for :entry_header_histories do -%>
 <div class="page-block">
   <table class="page-block-header">
     <tr>
@@ -80,15 +82,26 @@
   <div class="page-block-body">
     <%= datatable_view({:count => @entry_history.count, :datas => @entry_history}) do |builder| %>
         <% builder.column(:id, {:title => t(:operation)}) %>
-        <% builder.column(:published_date_f, {:title => t(:label_skm_entry_header_published_date), :width => "150px"}) %>
-        <% builder.column(:version_number, {:title => t(:label_skm_entry_header_version)}) %>
         <% builder.column(:full_title, {:title => t(:label_skm_entry_header_title)}) do |data| %>
             <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]}) %>
         <% end %>
+        <% builder.column(:published_date, {:title => t(:label_skm_entry_header_published_date), :width => "150px"}) %>
+        <% builder.column(:version_number, {:title => t(:label_skm_entry_header_version)}) %>
         <% builder.column(:doc_number, {:title => t(:label_skm_entry_header_doc_number), :width => "120px"}) %>
     <% end %>
   </div>
 </div>
+<%- end -%>
+<%= content_for :entry_header_histories %>
+<!-- 关联的知识库 -->
+<div id="entryHeaderRelation">
+  <%= render :partial=> "skm/entry_headers/entry_header_relations",:locals=>{:datas=>@entry_relation,:entry_header_id => @entry_header.id }%>
+</div>
+
+
+
+
+
 
 
 <%= content_for :sidebar do %>

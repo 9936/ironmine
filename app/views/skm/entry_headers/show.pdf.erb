@@ -32,9 +32,9 @@
         </tr>
         <%- @entry_history.each do |data| -%>
         <tr>
-           <td align="center"><%= data[:published_date_f] %></td>
+           <td align="center"><%= format_date data[:published_date] %></td>
            <td align="center"><%= data[:version_number] %></td>
-           <td align="center"><%= data[:full_title] %></td>
+           <td><%= data[:full_title] %></td>
            <td align="center"><%= data[:doc_number] %></td>
         </tr>
         <%- end -%>

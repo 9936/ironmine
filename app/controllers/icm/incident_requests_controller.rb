@@ -251,13 +251,7 @@ class Icm::IncidentRequestsController < ApplicationController
                                {:key=>:external_system_id_label,:label=>t(:label_irm_external_system)}]
                   ))
       }
-      format.pdf {
-        @datas, @count = paginate(incident_requests_scope)
-        render :pdf => "file_name",
-               :print_media_type => true,
-               :encoding => 'utf-8',
-               :zoom => 0.8
-      }
+
     end
   end
 
@@ -447,8 +441,7 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def add_relation
-    existed_relation = Icm::IncidentRequestRelation.
-                      where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:icm_relation], params[:icm_relation], params[:source_id])
+    existed_relation = Icm::IncidentRequestRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:icm_relation], params[:icm_relation], params[:source_id])
 
     unless existed_relation.any? || !params[:icm_relation].present?
       t = Icm::IncidentRequestRelation.create(:source_id => params[:source_id], :target_id => params[:icm_relation], :relation_type => params[:relation_type])
