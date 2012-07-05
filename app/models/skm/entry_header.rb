@@ -87,7 +87,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   }
 
   scope :max_number, lambda{|opu_id|
-    select("MAX(#{table_name}.doc_number) dnum").
+    select("MAX(CAST(#{table_name}.doc_number AS UNSIGNED)) dnum").
         where("#{table_name}.opu_id = ?", opu_id)
   }
 
