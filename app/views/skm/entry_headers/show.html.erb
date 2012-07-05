@@ -81,7 +81,6 @@
   </table>
   <div class="page-block-body">
     <%= datatable_view({:count => @entry_history.count, :datas => @entry_history}) do |builder| %>
-        <% builder.column(:id, {:title => t(:operation)}) %>
         <% builder.column(:full_title, {:title => t(:label_skm_entry_header_title)}) do |data| %>
             <%= link_to(data[:full_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]}) %>
         <% end %>

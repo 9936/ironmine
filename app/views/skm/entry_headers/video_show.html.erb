@@ -40,4 +40,9 @@
       </div>
     </div>
   </div>
+
+  <!-- 关联的知识库 -->
+  <div id="entryHeaderRelation">
+    <%= render :partial=> "skm/entry_headers/entry_header_relations",:locals=>{:datas=>@entry_relation,:entry_header_id => @entry_header.id }%>
+  </div>
 </div>

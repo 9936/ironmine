@@ -246,7 +246,6 @@ class Skm::EntryHeadersController < ApplicationController
         break
       end
     end if params[:files]
-
     if file_flag
       #查找出原有的知识文章并将其已有的属性进行复制
       old_header = Skm::EntryHeader.find(params[:id])
@@ -258,12 +257,14 @@ class Skm::EntryHeadersController < ApplicationController
       else
         @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
       end
-      #更新知识库的标题
+      #更新知识库的标题和id
       @entry_header.entry_title = params[:skm_entry_header][:entry_title]
+      @entry_header.id = nil
       @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
       @entry_header.doc_number = Skm::EntryHeader.generate_doc_number
       @entry_header.version_number = "1" #此处直接设置为1
       @entry_header.published_date = Time.now
+      @entry_header.created_at = Time.now
       @entry_header.author_id = old_header.author_id
       @entry_header.source_type = old_header.source_type
       @entry_header.source_id = old_header.source_id
@@ -273,6 +274,8 @@ class Skm::EntryHeadersController < ApplicationController
           params[:skm_entry_details].each do |k, v|
             old_detail = Skm::EntryDetail.find(k)
             detail = Skm::EntryDetail.new(old_detail.attributes)
+            detail.entry_header_id = @entry_header.id
+            detail.created_at = Time.now
             detail.update_attributes(v)
             @entry_header.entry_details << detail
           end
@@ -297,6 +300,12 @@ class Skm::EntryHeadersController < ApplicationController
       end
     else
       @entry_header.id = params[:id]
+      @elements = Skm::EntryTemplateDetail.owned_elements(old_header.entry_template_id)
+      if session[:skm_entry_details]
+        session[:skm_entry_details].merge!(params[:skm_entry_details]) if params[:skm_entry_details]
+      else
+        session[:skm_entry_details] = (params[:skm_entry_details]) if params[:skm_entry_details]
+      end
       format.html { render :action => "new_relation"}
     end
 
@@ -383,7 +392,7 @@ class Skm::EntryHeadersController < ApplicationController
                                                         params[:skm_video_description],
                                                         Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO"),
                                                         Skm::EntryHeader.name,
-                                                        temp_uniq_id) if params[:skm_video] && params[:skm_video].present?
+                                                        temp_uniq_id) #if params[:skm_video] && params[:skm_video].present?
     elsif !val
       flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
     elsif !params[:skm_video]
@@ -454,6 +463,8 @@ class Skm::EntryHeadersController < ApplicationController
                                              :version_number => @entry_header.version_number})
     @history.save
     @entry_history = Skm::EntryHeader.list_all.history_entry.where(:doc_number => @entry_header[:doc_number])
+    #关联的知识文章
+    @entry_relation = Skm::EntryHeaderRelation.list_all(@entry_header.id)
     respond_to do |format|
       format.html
     end
