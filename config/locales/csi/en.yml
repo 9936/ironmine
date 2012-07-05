@@ -30,6 +30,40 @@ en:
    return: Return
    label_csi_message_blank: This Question can't be blank
    label_csi_survey_please_input: Please Input Survey PassWord
+   label_csi_survey_close_date: Survey Close Date
+   label_csi_survey_date: Survey Date
+   label_csi_survey_end_message: Survey End Message
+   label_csi_survey_incident_flag: Survey Incident Flag
+   label_csi_survey_incident_setting: Survey Incident Setting
+   label_csi_survey_next_page: Next Page
+   label_csi_survey_notify_flag: Notify Flag
+   label_csi_survey_pre_page: Previous Page
+   label_csi_survey_publish_result_flag: Publish Result Flag
+   label_csi_survey_response: Survey Response
+   label_csi_survey_response_elapse: Response Elapse
+   label_csi_survey_response_ip_address: Ip Address
+   label_csi_survey_response_new: New Response
+   label_csi_survey_response_person: Response Person
+   label_csi_survey_response_start_at: Response Date
+   label_csi_survey_response_text_input: Text Input
+   label_csi_survey_result_count: Survey Result Count
+   label_csi_survey_result_list: Result List
+   label_csi_survey_result_percent: Survey Result Percent
+   label_csi_survey_result_response_list: Response List
+   label_csi_survey_result_show_answer: Show Answer
+   label_csi_survey_result_show_input: Show Input
+   label_csi_survey_result_show_more: Show More
+   label_csi_survey_result_show_response: Show Response
+   label_csi_survey_result_statistics: Statisics Reslut
+   label_csi_survey_result_total_count: Total Count
+   label_csi_survey_subject_type_checkboxes: CheckBoxes
+   label_csi_survey_subject_type_choose_from_a_list: Choose List
+   label_csi_survey_subject_type_multi_choice: Multi Choice
+   label_csi_survey_subject_type_page_break: Page Break
+   label_csi_survey_subject_type_paragraph_text: Paragraph Text
+   label_csi_survey_subject_type_text: Text Type
+   label_csi_survey_time_limit: Limited Time
+   label_csi_survey_validate_password: Validate Password
    label_csi_survey_timestamps: TimeStamp
    label_csi_survey_result: Survey Result
    label_csi_survey_result_chart: Survey Result Chart

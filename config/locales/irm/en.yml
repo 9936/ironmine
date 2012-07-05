@@ -93,6 +93,8 @@ en:
   no_data: No data for this entity
   label_alias: " Alias"
   code: Code
+  collapse_all: Collapse All
+  expand_all: Expand All
   #usual words
   notice_account_invalid_creditentials: User or Password Error
   successfully_updated_password: Successfully Updated Password
@@ -141,6 +143,8 @@ en:
   label_cancel_confirm: Data have not saved. Are you sure?
   all: All
   search_options: Search Options
+  search_all: Search
+  label_attachment_info: Attachment Info
   input_keyword_you_want_to_search: Input keyword you want to search
   display_all: Show All
   upload_from_clipboard: Upload Image From Clipboard
@@ -153,6 +157,7 @@ en:
   file_upload_limit_alert: File limit %{m} KB
   by_name: By name
   by_date: By date
+  search_options_with_dot: Advanced Search
   uncategory: Not classified
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
@@ -1670,6 +1675,7 @@ en:
   label_irm_portlet_name: Name
   label_irm_portlet_description: Description
   label_irm_portlet_custom_home_page: Add modulde
+  label_irm_portlet_change_layout: Setting Layout
   lable_irm_portlet_cancle_button: Cancle Setting
   label_irm_portlet_select_layout: Select A Layout：
   #======================= end Portlets====================
@@ -1703,6 +1709,46 @@ en:
   label_irm_data_access_org_access_level: Organization
   label_irm_data_access_opu_access_level: Operation Unit
   label_irm_data_access_org: Organization Level Data Access
+  label_irm_data_access_hierarchy_access_flag: Access Flag
+  label_irm_incident_status_transform_event_error: Incident Status Event Error
+  label_irm_lane_owned_cards: Owned Cards
+  label_irm_mail_host_name_tip: Mail Host Name Tip
+  label_irm_oauth_access_created: Oauth Access Created
+  label_irm_oauth_access_ip: Access Ip
+  label_irm_oauth_access_name: Access Name
+  label_irm_oauth_access_num: Access Num
+  label_irm_oauth_access_updated: Access Updated
+  label_irm_person_save_and_add_group: Save And Add Group
+  label_irm_person_save_and_add_system: Save And Add System
+  label_irm_rating_config: Rating Config
+  label_irm_rating_config_display_style: Tating Config Display Style
+  label_irm_rating_config_edit: Edit Rating Config
+  label_irm_rating_config_grade: Grade Rating Config
+  label_irm_rating_config_grade_grade: Grade
+  label_irm_rating_config_new: New Rating Config
+  label_irm_report_folder_edit: Edit Report Folder
+  label_irm_report_request_history: Report Request History
+  label_irm_report_request_history_elapse: Report Request History Elapse
+  label_irm_report_request_history_end_at: Report Request History End Date
+  label_irm_report_request_history_execute_type: Report Request History Execute Type
+  label_irm_report_request_history_executed_by: Report Request History Execute By
+  label_irm_report_request_history_list: Report Request History List
+  label_irm_report_request_history_report: Report Request History
+  label_irm_report_request_history_start_at: Report Request History Start Date
+  label_irm_role_edit_assignment: Edit Assignment
+  label_irm_role_people_list: People List
+  label_irm_site_group_edit_site: Edit Site
+  label_irm_task_end_at: Task End Date
+  label_irm_task_mine: My Task
+  label_irm_task_start_at: Task Start Date
+  label_irm_task_status_name: Task Status Name
+  label_irm_task_title: Task Title
+  label_irm_task_type: Task Type
+  label_irm_todo_event_event_status: Event Status
+  label_irm_todo_event_mail: Event Mail
+  label_irm_todo_event_phone: Event Phone
+  label_irm_todo_event_priority: Event Priority
+  label_irm_todo_task_priority: Task Priority
   #=========================end irm data accesses=======================#
 
   #=========================    irm data share rules=======================#
@@ -1739,6 +1785,11 @@ en:
   #======================= Report incident request month processing time ============
   label_report_submitted_date_and_priority: Submitted Date/Priority
   #================================================================================
+
+  #========================== end incident_amount_by_month_cate report  ===============================
+  label_report_icm_incident_params_is_report:  Hotline
+  label_report_icm_incident_params_is_report_yes: Report
+  label_report_icm_incident_params_is_report_no: Not Report
   #======================= Report incident request month detail ============
   label_report_incident_request_support: Assign To
   label_report_incident_request_journal: Journals
@@ -1747,6 +1798,8 @@ en:
   label_report_icm_incident_category: Category
   label_report_icm_incident_months: JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC,Total
   label_report_icm_incident_total:  Total
+  label_report_icm_incident_status: Incident Status
+  label_report_icm_incident_status_col_header: Header Status Colspan
   label_report_icm_incident_params_year:  Year
   label_report_icm_incident_params_ym_s:  Date From
   label_report_icm_incident_params_ym_e:  Date To

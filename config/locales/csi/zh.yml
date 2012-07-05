@@ -22,6 +22,14 @@ zh:
    label_csi_survey_edit: 编辑调查问卷
    label_csi_survey_show: 调查问卷
    label_csi_survey_list: 调查问卷列表
+   label_csi_survey_due_dates: 调查日期
+   label_csi_survey_email_notify: 提醒
+   label_csi_survey_notify_type: 提醒类型
+   label_csi_survey_notify_url: 提醒Url地址
+   label_csi_survey_publish_response: 公开回复
+   label_csi_survey_setting: 调查设置
+   label_csi_survey_thanks_message: 感谢词
+   label_csi_survey_with_incident_request: 调查事故
    label_csi_survey_closed: 调查问卷已关闭
    label_csi_survey_required_input: 必答题
    reply: 答题

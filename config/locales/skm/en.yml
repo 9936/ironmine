@@ -153,7 +153,12 @@ en:
   label_skm_column_list: Category List
   label_skm_column_new_child: New Child
   label_skm_column_choice: Set Category
+  label_skm_column_access: Column Access
+  label_skm_column_if_access_list_none: Column UnAcces List
+  label_skm_entry_header_index: Home
   label_skm_column_all: All Category
+  label_action_incident_new: New Incident
+  label_action_new_relation: New Relation
 
   #========================= skm columns ==========================================
   label_skm_channel: Knowledge Channel
@@ -170,6 +175,6 @@ en:
   label_skm_channel_group_management: Management Groups
 
   label_action_new_from_icm_request: Create Knowledge From Incident Request
-  button_skm_entry_header_new: New Knowledge Entry
+  button_skm_entry_header_new: New
   tip_skm_entry_header_full_search: Search knowledges title, content...
   label_skm_entry_header_reference: Reference

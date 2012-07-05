@@ -119,6 +119,7 @@ en:
   label_icm_incident_request_organization: Organization
   label_icm_incident_request_last_date: Last Update
   label_incident_request: Incident request
+  label_incident_request_title: Incident Request Title
   label_icm_incident_request_submitted_by: Submit by
   label_icm_incident_request_incident_phase_code: Phase
   label_icm_incident_request_submitted_date: Submit date
@@ -133,7 +134,7 @@ en:
   label_icm_incident_assign_dashboard: Assigned by Assign DashBoard
   label_icm_incident_request_attachment_list: Attachment List
   label_icm_incident_request_target_system: System
-  label_action_assign_dashboard: Incident Request Assign DashBoard
+  label_action_assign_dashboard: Assign DashBoard
   label_icm_incident_request_assignable_list: Assignable Incident Request
   label_icm_incident_request_assign: Assign
   error_icm_requested_by_can_not_blank: Requested by can not be blank
@@ -149,6 +150,10 @@ en:
   label_icm_incident_request_relation: Related Requests
   label_icm_incident_request_incident_category: Category
   label_icm_incident_request_incident_sub_category: Subcategory
+  label_icm_create_relate_change_request: Change Request
+  label_icm_incident_category_apply_system: Apply System
+  label_icm_incident_category_system: Category System
+  label_icm_incident_request_relation_types: Relation Types
   label_icm_incident_request_relation_type: The Relation
   label_icm_incident_request_relation: Relation Types
   label_icm_incident_request_estimated_date: Estimated Date

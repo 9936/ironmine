@@ -5,7 +5,7 @@ var irm_labels = {
     paginatorNext: "Next",
     paginatorBeforePage: "Page",
     paginatorAfterPage: "/Total ${totalPage}",
-    paginatorRecord: "Current Records From ${start}-${end}/${totalCount}",
+    paginatorRecord: "Current ${start}-${end}/${totalCount}",
     paginatorBeforeSize: "Each Page Show",
     paginatorAfterSize: "Records, ",
     paginatorRefresh: "Refresh",
