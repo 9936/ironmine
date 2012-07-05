@@ -33,7 +33,7 @@ en:
   #=========================end com config attributes=======================#
 
   #==========================config item==================================#
-  label_com_config_item: Configuration Item
+  label_com_config_item: Configuration
   label_com_config_item_all_class: All Classes
   label_com_config_item_list: Configuration Item List
   label_com_config_item_number: Configuration Item Number

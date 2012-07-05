@@ -46,14 +46,14 @@ en:
    label_csi_survey_response_person: Response Person
    label_csi_survey_response_start_at: Response Date
    label_csi_survey_response_text_input: Text Input
-   label_csi_survey_result_count: Survey Result Count
+   label_csi_survey_result_count: Count
    label_csi_survey_result_list: Result List
    label_csi_survey_result_percent: Survey Result Percent
    label_csi_survey_result_response_list: Response List
    label_csi_survey_result_show_answer: Show Answer
    label_csi_survey_result_show_input: Show Input
    label_csi_survey_result_show_more: Show More
-   label_csi_survey_result_show_response: Show Response
+   label_csi_survey_result_show_response: Show
    label_csi_survey_result_statistics: Statisics Reslut
    label_csi_survey_result_total_count: Total Count
    label_csi_survey_subject_type_checkboxes: CheckBoxes

@@ -106,11 +106,11 @@ en:
   label_chm_change_request_summary: Change Request Summary
   label_chm_change_request_support_group: Support Group
   label_chm_change_request_support_person: Support Person
-  label_chm_change_request_tab_approve: Approve Tab
-  label_chm_change_request_tab_common: Common Tab
-  label_chm_change_request_tab_implement: Implement Tab
-  label_chm_change_request_tab_incident: Incident Tab
-  label_chm_change_request_tab_plan: Plan Tab
+  label_chm_change_request_tab_approve: Approve
+  label_chm_change_request_tab_common: Common
+  label_chm_change_request_tab_implement: Implement
+  label_chm_change_request_tab_incident: Incident
+  label_chm_change_request_tab_plan: Plan
   label_chm_change_request_task: Change Request Task
   label_chm_change_request_title: Change Title
   label_chm_change_status_show: Show Change Show
