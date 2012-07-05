@@ -1,0 +1,3 @@
+$(function(){
+    $("#<%=params[:_dom_id]%>").html("<%= escape_javascript(show_rating(params[:code],{:class_name=>params[:bo_name],:id=>params[:rating_object_id]},params[:_dom_id]))%>");
+});

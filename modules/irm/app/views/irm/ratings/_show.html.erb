@@ -1,0 +1,26 @@
+<% datas.each do |d| %>
+    <div class="digg-btn" title="<%= d.description %>">
+      <div class="digg-action">
+        <% if rating&&allow_to?({:controller=>"irm/ratings",:action=>"create"}) %>
+          <%= link_to({:controller=>"irm/ratings",:action=>"create",:bo_name=>bo_name,:rating_object_id=>rating_object_id,:code=>code,:grade=>d.grade,:format=>:js,:_dom_id=>dom_id},{:remote=>true,:class=>"digg-link",:id=>"diggLink#{d.grade}"}) do%>
+            <% if d.grade <=5  %>
+              <i class="cus-thumb-down"></i>
+            <% else %>
+              <i class="cus-thumb-up"></i>
+            <% end %>
+            <span class="digg-text digg-label"><%= d.name %></span>
+          <% end %>
+        <% else %>
+            <% if d.grade <=5  %>
+              <i class="cus-thumb-down"></i>
+            <% else %>
+              <i class="cus-thumb-up"></i>
+            <% end %>
+            <span class="digg-text digg-label"><%= d.name %></span>
+        <% end %>
+      </div>
+      <div class="digg-count">
+        <span class="digg-text digg-num" id="diggNum<%=d.grade%>"><%= d.rating_num%></span>
+      </div>
+    </div>
+<% end %>

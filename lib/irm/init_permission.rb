@@ -333,5 +333,6 @@ Irm::AccessControl.map do |map|
 
   #====================irm/oauth_access_clients===============================
   map.function :remote_access_client,{"irm/oauth_access_clients"=>["index", "edit", "update","get_data", "new", "create", "destroy", "show"]}
-  #=============================
+  #====================irm/rating_configs===============================
+  map.function :rating_config,{"irm/rating_configs"=>["index", "edit", "update","get_data", "new", "create", "show"]}
 end
