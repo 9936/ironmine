@@ -13,7 +13,7 @@ en:
   or: or
   show: Show
   edit: Edit
-  delete: Del
+  delete: Delete
   delete_selected: Delete Selected
   back: Back
   disable: Disable
@@ -1738,12 +1738,12 @@ en:
   label_irm_role_edit_assignment: Edit Assignment
   label_irm_role_people_list: People List
   label_irm_site_group_edit_site: Edit Site
-  label_irm_task_end_at: Task End Date
+  label_irm_task_end_at: End Date
   label_irm_task_mine: My Task
-  label_irm_task_start_at: Task Start Date
-  label_irm_task_status_name: Task Status Name
-  label_irm_task_title: Task Title
-  label_irm_task_type: Task Type
+  label_irm_task_start_at: Start Date
+  label_irm_task_status_name: Status
+  label_irm_task_title: Title
+  label_irm_task_type: Type
   label_irm_todo_event_event_status: Event Status
   label_irm_todo_event_mail: Event Mail
   label_irm_todo_event_phone: Event Phone

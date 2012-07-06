@@ -5,16 +5,16 @@
     <h3 class="sub-page-block-title"><%= t(:label_attachment_info) %></h3>
   </div>
   <div class="sub-page-block-body">
-    <table cellpadding="0" cellspacing="0" border="0">
+    <table cellpadding="0" cellspacing="0" border="0" style="width: 800px;">
       <thead>
-        <tr style="text-align: left;">
-          <th width="5%"></th>
-          <th class="data-col"><%= t :label_skm_file_name %></th>
+        <tr style="text-align: center;">
+          <th class="label-col" style="width: 18%;"></th>
+          <th ><%= t :label_skm_file_name %></th>
           <% if type_flag %>
-          <th class="data-col"><%= t :label_skm_file_category %></th>
+          <th><%= t :label_skm_file_category %></th>
           <% end %>
-          <th class="data-col"><%= t :description%></th>
-          <th width="40px"></th>
+          <th><%= t :description%></th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="file_body">
@@ -22,12 +22,12 @@
           <% init_num ||= 1 %>
           <% init_num.times do %>
           <tr id="file_<%= size %>">
-            <td class="data-col"></td>
-            <td class="data-col"><%=file_field_tag "files[#{size}][file]"%></td>
+            <td class="label-col"></td>
+            <td class="data-col"><%=file_field_tag "files[#{size}][file]",:style => "width:150px;" %></td>
             <% if type_flag %>
             <td class="data-col"><%=select_tag "files[#{size}][file_category]", options_for_select(available_file_categories)%></td>
             <% end %>
-            <td class="data-col"><%=text_field_tag "files[#{size}][description]", "", {:rows => 3, :cols => 35}%>(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>
+            <td class="data-col"><%=text_field_tag "files[#{size}][description]", "", {:rows => 3, :cols => 25,:style => "width:150px;"}%>(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>
             <td class="data-col"><%= link_to t(:delete), {}, {:href => "javascript:void(0);", :onclick => "delete_line(#{size});"} %></td>
           </tr>
           <% size += 1 %>
@@ -40,8 +40,8 @@
       </tbody>
       <tbody>
           <tr style="text-align: left;">
-            <td class="data-col"></td>
-            <td class="data-col"><%= link_to t(:label_skm_file_add_line), {}, {:href => "javascript:void(0);", :onclick => "generate_line();"} %></td>
+            <td class="label-col" style="width: 18%;"></td>
+            <td class="data-col" style="padding-left: 20px; "><%= link_to t(:label_skm_file_add_line), {}, {:href => "javascript:void(0);", :onclick => "generate_line();"} %></td>
             <td class="data-col"></td>
             <td class="data-col"></td>
             <td class="data-col"></td>
@@ -57,12 +57,12 @@
     }
     function generate_line(){
         var node = '<tr id="file_' + line_count + '">'
-              + '<td class="data-col"></td>'
-              + '<td class="data-col"><input type="file" name="files[' + line_count + '][file]" id="files_' + line_count + '_file"></td>'
+              + '<td class="label-col" style="width: 18%;"></td>'
+              + '<td class="data-col"><input type="file" name="files[' + line_count + '][file]" id="files_' + line_count + '_file", style="width:150px;"></td>'
               <% if type_flag %>
               + '<td class="data-col"><select name="files[' + line_count + '][file_category]" id="files_' + line_count + '_file_category">' + '<%= raw(options_for_select(available_file_categories).gsub!(/\n+/, ""))%>' + '</select></td>'
               <% end %>
-              + '<td class="data-col"><input type="text" value="" rows="3" name="files[' + line_count + '][description]" id="files_' + line_count + '_description" cols="35">(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>'
+              + '<td class="data-col"><input type="text" value="" rows="3" name="files[' + line_count + '][description]" id="files_' + line_count + '_description" cols="25", style="width:150px;">(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>'
               + '<td class="data-col"><a onclick="delete_line(' + line_count + ');" href="javascript:void(0);"><%= t :delete%></a></td>'
           + '</tr>';
         $("#file_body").append(node);
