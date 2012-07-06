@@ -386,7 +386,7 @@ function get_dom_id(ajaxOptions) {
 
 //START =================================Chosen 渲染select================================
 function checkSelect(){
-    $("select").each(function(index,element){
+    $("select:not([multiple])").each(function(index,element){
         //如果当前select的options超过25项或者chosen=true属性对其进行渲染
         if($(element).find("option").length > 25 || $(element).attr("chosen") == 'true') {
             if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);

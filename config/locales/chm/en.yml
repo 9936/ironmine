@@ -32,7 +32,7 @@ en:
   label_chm_change_priority_default_flag: Change Priority Default Flag
   label_chm_change_priority_description: Change Priority Description
   label_chm_change_priority_display_sequecne: Display Sequence
-  label_chm_change_priority_edit: Edit Change Priority
+  label_chm_change_priority_edit: Edit Priority
   label_chm_change_priority_list: Change Priority List
   label_chm_change_priority_name: Change Priority Name
   label_chm_change_priority_new: Change Priority New
@@ -84,19 +84,19 @@ en:
   label_chm_change_request_contact_number: Change Request Contact Number
   label_chm_change_request_edit: Edit Change Request
   label_chm_change_request_external_system: Externam System
-  label_chm_change_request_implement: Change Request Implement
-  label_chm_change_request_incident: Change Request Incident
+  label_chm_change_request_implement: Implement
+  label_chm_change_request_incident: Incident
   label_chm_change_request_incident_requests: Change Request Incident Requests
   label_chm_change_request_list: Change Request List
   label_chm_change_request_master_incident_request: Change Request Master Incident Request
   label_chm_change_request_new: New Change Request
-  label_chm_change_request_organization: Change Request Organization
-  label_chm_change_request_plan: Change Request Plan
+  label_chm_change_request_organization: Organization
+  label_chm_change_request_plan: Plan
   label_chm_change_request_plan_end_date: Change Request Plan End Date
   label_chm_change_request_plan_start_date: Change Request Plan Start Date
   label_chm_change_request_relation_incident_request: Change Request Relational Incident Request
   label_chm_change_request_reply: Replay Change Replay
-  label_chm_change_request_request_number: Change Request Number
+  label_chm_change_request_request_number: Number
   label_chm_change_request_request_type: Change Request Type
   label_chm_change_request_requested_by: Request By
   label_chm_change_request_requested_by_role: Request Person
@@ -112,7 +112,7 @@ en:
   label_chm_change_request_tab_incident: Incident
   label_chm_change_request_tab_plan: Plan
   label_chm_change_request_task: Change Request Task
-  label_chm_change_request_title: Change Title
+  label_chm_change_request_title: Title
   label_chm_change_status_show: Show Change Show
   label_chm_change_task: Change Task
   label_chm_change_task_change_task_phase: Tack Phase
@@ -165,7 +165,7 @@ en:
   label_chm_advisory_board_show: Show Advisory Board
   #========================= end advisory board members ==================================
   #========================= change approvals =========================
-  label_chm_change_approval: Approve Change Request
+  label_chm_change_approval: Approve
   label_chm_change_approval_approve: Approve Change Reques
   label_chm_change_approval_approve_at: Approve Date
   label_chm_change_approval_approve_status: Approve Status
