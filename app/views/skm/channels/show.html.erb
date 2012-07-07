@@ -48,7 +48,6 @@
     <table class="show-table">
       <tbody>
           <tr>
-            <td class="label-col"></td>
             <td>
               <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data",  :format=>:json,:with_check=> @channel.column_ids ),
                                                    :tree_id => "tree-div",
@@ -60,7 +59,26 @@
     </table>
   </div>
 </div>
-<!-- 配置属性列表 -->
+<!-- 审核人员 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_skm_channel_approval_people)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:label_skm_channel_approval_management), {:controller=>"skm/channels",:action => "new_approvals",:id=>@channel.id},:class=>"btn btn-primary"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="approvalPeople">
+      <%= datatable("approvalPeople",{:controller=>"skm/channels",:action=>"get_owned_approvals_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"approvalPeoplePaginatorBox"})%>
+    </div>
+    <div id="approvalPeoplePaginatorBox"></div>
+  </div>
+</div>
+<!-- 所属组 -->
 <div class="page-block">
   <table class="page-block-header">
     <tr>
@@ -68,7 +86,7 @@
         <h2 class="block-title"><%=t(:label_irm_person_group)%></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to t(:label_skm_channel_group_management), {:controller=>"skm/channels",:action => "new_groups",:id=>@channel.id},:class=>"btn"%>
+        <%= link_to t(:label_skm_channel_group_management), {:controller=>"skm/channels",:action => "new_groups",:id=>@channel.id},:class=>"btn btn-primary"%>
       </td>
     </tr>
   </table>

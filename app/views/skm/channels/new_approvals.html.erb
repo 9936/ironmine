@@ -1,4 +1,4 @@
-<%= common_title(:action_meaning=>t(:label_skm_channel_group_management)) %>
+<%= common_title(:action_meaning=>t(:label_skm_channel_approval_management)) %>
 <!--页面结构-->
 <div class="page-block">
   <table class="page-block-header"><tr>
@@ -6,7 +6,7 @@
       <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2>
     </td>
     <td class="page-block-button">
-      <%= form_for(@channel_group,:url=>{:action=>"create_groups", :id => @channel.id},:builder => LabellingFormBuilder) do |f| %>
+      <%= form_for(@channel_approval,:url=>{:action=>"create_approvals", :id => @channel.id},:builder => CustomFormBuilder) do |f| %>
         <%= f.hidden_field(:status_code) %>
         <%= link_submit t(:save),:class=>"btn btn-primary"%>
         <%= link_to(t(:cancel),{:controller =>"skm/channels",:action=>"show",:id=>@channel.id},:class=>"btn")%>
@@ -14,17 +14,17 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-      <div id="avaGroupsList">
-        <%= datatable("avaGroupsList",{:controller => "skm/channels", :action=>"get_ava_groups_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"groupsPaginator",:select=>"multiple"})%>
+      <div id="people">
+        <%= datatable("people",{:controller => "skm/channels", :action=>"get_approvals_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"peoplePaginator",:select=>"multiple"})%>
       </div>
-      <div id="groupsPaginator"></div>
+      <div id="peoplePaginator"></div>
   </div>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#avaGroupsList").bind('selectionchange',function(event,ids){
-            $("#skm_channel_group_status_code").val(ids.join(","));
+        $("#people").bind('selectionchange',function(event,ids){
+            $("#skm_channel_approval_person_status_code").val(ids.join(","));
         });
     });
 </script>

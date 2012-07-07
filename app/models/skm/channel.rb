@@ -16,6 +16,9 @@ class Skm::Channel < ActiveRecord::Base
 
   has_many :channel_groups, :class_name => 'Skm::ChannelGroup'
   has_many :groups, :through => :channel_groups
+
+  has_many :channel_approval_people, :class_name => 'Skm::ChannelApprovalPerson',:dependent => :destroy
+
   has_many :entry_headers
 
   default_scope {default_filter}
@@ -37,4 +40,5 @@ class Skm::Channel < ActiveRecord::Base
     return origin_scope.where("EXISTS(SELECT * FROM irm_person_relations_v pr, #{Skm::ChannelGroup.table_name} cgvv WHERE pr.source_type = ? AND pr.person_id = ? AND pr.source_id = cgvv.group_id AND cgvv.channel_id = #{Skm::Channel.view_name}.id)",
           "IRM__GROUP", Irm::Person.current.id)
   end
+
 end

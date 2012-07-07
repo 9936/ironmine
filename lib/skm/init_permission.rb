@@ -41,9 +41,9 @@ Irm::AccessControl.map do |map|
   map.function :skm_column,{"skm/columns" => ["index", "edit", "update", "new", "create", "get_columns_data"]}
 
   map.function :skm_channel, {"skm/channels" => ["index", "get_data", "show", "get_owned_groups_data", "get_ava_groups_data",
-                                                 "get_all_columns_data", "get_owned_channels", "get_ava_channels"]}
+                                                 "get_all_columns_data", "get_owned_channels", "get_ava_channels","get_approvals_data","get_owned_approvals_data"]}
   map.function :edit_skm_channel, {"skm/channels" => ["edit", "update", "new", "create", "multilingual_edit", "multilingual_update",
-                                                      "new_groups","create_groups","remove_group"],
+                                                      "new_groups","create_groups","remove_group","new_approvals","create_approvals","remove_approval"],
                                    "irm/groups" => ["new_skm_channels", "create_skm_channels", "remove_skm_channel"]}
   #===================skm/entry_headers#portlet============================
   map.function :entry_header_portlet,{"skm/entry_headers"=>["portlet"]}

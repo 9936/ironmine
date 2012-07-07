@@ -40,6 +40,8 @@ class Irm::Person < ActiveRecord::Base
           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
   has_many :external_systems,:class_name => "Irm::ExternalSystem",:through => :external_system_people
 
+  has_many :channel_approval_people, :class_name => 'Skm::ChannelApprovalPerson', :dependent => :destroy
+
   has_attached_file :avatar,
                     :whiny => false,
                     :styles => {:thumb => "16x16>",:medium => "45x45>",:large => "100x100>"},
@@ -146,6 +148,17 @@ class Irm::Person < ActiveRecord::Base
     select("#{table_name}.*").
         where("NOT EXISTS (SELECT * FROM #{Irm::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{table_name}.id AND esp.external_system_id = ?)", external_system_id)
   }
+
+  scope :with_approvals, lambda {|channel_id|
+    select("#{table_name}.*").
+        where("#{table_name}.id IN (?)" ,Skm::Channel.find(channel_id).channel_approval_people.collect{|i| i.person_id})
+  }
+
+  scope :without_approvals, lambda {|channel_id|
+    select("#{table_name}.*").
+        where("NOT EXISTS (SELECT * FROM #{Skm::ChannelApprovalPerson.table_name} cap WHERE cap.person_id = #{table_name}.id AND cap.channel_id = ?)", channel_id)
+  }
+
   scope :group_memberable, lambda{|group_id|
     where("NOT EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name}  WHERE #{Irm::GroupMember.table_name}.person_id = #{table_name}.id AND #{Irm::GroupMember.table_name}.group_id = ?)",group_id).
     select("#{table_name}.id,#{table_name}.full_name person_name,#{table_name}.email_address")

@@ -53,9 +53,7 @@
         </tr>
     </table>
     <%= error_for @entry_header %>
-    <% if flash[:notice] -%>
-      <div id="notice"><%= flash[:notice] %></div>
-    <% end -%>
+    <%= flash_notice %>
     <div class="page-block-body">
       <div class="sub-page-block">
         <!-- 个人信息 -->

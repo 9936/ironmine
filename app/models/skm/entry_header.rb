@@ -2,6 +2,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   set_table_name :skm_entry_headers
   has_many :entry_subjects
   has_many :entry_details
+  has_many :entry_approval_people, :class_name => "Skm::EntryApprovalPerson", :dependent => :destroy
 
 
   acts_as_searchable
@@ -74,9 +75,11 @@ class Skm::EntryHeader < ActiveRecord::Base
     where("#{table_name}.author_id = ?", person_id).
     where("#{table_name}.entry_status_code"=>["WAIT_APPROVE","APPROVE_DENY"])
   }
+
   scope :wait_my_approve, lambda{
-    where("#{table_name}.entry_status_code"=>["WAIT_APPROVE"])
+    where("#{table_name}.entry_status_code=? AND #{table_name}.id IN (?)", "WAIT_APPROVE", Skm::EntryApprovalPerson.query_approvals_by_person(Irm::Person.current.id).collect{|i|i[:entry_header_id]})
   }
+
   scope :query_by_day,select("DATE_FORMAT(#{table_name}.created_at,'%Y-%m-%d') created_day,sum(1) entry_count").
                       group("DATE_FORMAT(#{table_name}.created_at,'%Y-%m-%d')").
                       order("DATE_FORMAT(#{table_name}.created_at,'%Y-%m-%d') asc")
