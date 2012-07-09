@@ -475,7 +475,6 @@ class Skm::EntryHeadersController < ApplicationController
     atts = params[:skm_entry_header].merge({:relation_id => @video.attachment_id})
     respond_to do |format|
       if file_succ && !@entry_header.errors.any? && @entry_header.update_attributes(atts)
-
         format.html { redirect_to({:action => "video_show", :id => params[:id]})}
       else
         format.html { render :action => "video_edit"}
@@ -586,18 +585,12 @@ class Skm::EntryHeadersController < ApplicationController
         end
       else
         @entry_header = Skm::EntryHeader.find(params[:id])
-  #      @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
-  #      @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
         respond_to do |format|
-          if @entry_header.update_attributes(params[:skm_entry_header]) &&
-              @entry_header.update_attribute( :entry_status_code, params[:status])
+          if @entry_header.update_attributes(params[:skm_entry_header]) && @entry_header.update_attribute( :entry_status_code, params[:status])
             params[:skm_entry_details].each do |k, v|
               detail = Skm::EntryDetail.find(k)
               detail.update_attributes(v)
             end
-#            column_ids.each do |t|
-#              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
-#            end
             if params[:files]
               files = params[:files]
               #调用方法创建附件
