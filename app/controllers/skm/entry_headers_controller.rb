@@ -336,7 +336,7 @@ class Skm::EntryHeadersController < ApplicationController
     end
     enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
     #读取当前系统中的审批设置
-    #不许需要审批直接发布
+    #不需要审批直接发布
     if enable_entry_audit.eql? Irm::Constant::SYS_NO
       @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
     #需要审批判断当前知识频道的审批人，如果返回false则自动发布
@@ -775,7 +775,6 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def approve_knowledge
-
      entry_header_ids=params[:entry_header_ids].split(",")   #将隐藏域传入进来ID转换成数组
      entry_header_ids.compact                     #去掉nil
      if(entry_header_ids.size>0)
