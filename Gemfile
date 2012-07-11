@@ -34,6 +34,7 @@ gem 'uuid' , '2.3.4'
 
 gem "sunspot", "1.2.1"
 gem "sunspot_rails", "1.2.1"
+gem "sunspot_plus", "~> 0.3.2"
 
 gem 'nokogiri', '1.5.0'
 

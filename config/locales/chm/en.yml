@@ -96,7 +96,7 @@ en:
   label_chm_change_request_plan_start_date: Change Request Plan Start Date
   label_chm_change_request_relation_incident_request: Change Request Relational Incident Request
   label_chm_change_request_reply: Replay Change Replay
-  label_chm_change_request_request_number: Number
+  label_chm_change_request_request_number: NO.
   label_chm_change_request_request_type: Change Request Type
   label_chm_change_request_requested_by: Request By
   label_chm_change_request_requested_by_role: Request Person

@@ -251,11 +251,16 @@ class Skm::EntryHeadersController < ApplicationController
       old_header = Skm::EntryHeader.find(params[:id])
       @entry_header = Skm::EntryHeader.new(old_header.attributes)
       @entry_header.history_flag = "N"
-      enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
+      enable_entry_audit = Irm::SystemParametersManager.enable_skm_header_audit
       if enable_entry_audit.eql? Irm::Constant::SYS_NO
-        @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+        @entry_header.entry_status_code = "PUBLISHED"
       else
-        @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+        approval_people = Skm::ChannelApprovalPerson.approval_people(params[:skm_entry_header][:channel_id])
+        if approval_people.any?
+          @entry_header.entry_status_code = "WAIT_APPROVE"
+        else
+          @entry_header.entry_status_code = "PUBLISHED"
+        end
       end
       #更新知识库的标题和id
       @entry_header.entry_title = params[:skm_entry_header][:entry_title]
@@ -278,6 +283,11 @@ class Skm::EntryHeadersController < ApplicationController
             detail.created_at = Time.now
             detail.update_attributes(v)
             @entry_header.entry_details << detail
+          end
+          if !approval_people.nil? && approval_people.any?
+            approval_people.each do |person|
+              Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id])
+            end
           end
           #创建关联关系
           params[:relation_type] ||= 'RELATION'
@@ -325,10 +335,18 @@ class Skm::EntryHeadersController < ApplicationController
       @entry_header.entry_details << t
     end
     enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
+    #读取当前系统中的审批设置
+    #不需要审批直接发布
     if enable_entry_audit.eql? Irm::Constant::SYS_NO
       @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+    #需要审批判断当前知识频道的审批人，如果返回false则自动发布
     else
-      @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+      approval_people = Skm::ChannelApprovalPerson.approval_people(session[:skm_entry_header][:channel_id])
+      if approval_people.any?
+        @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+      else
+        @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+      end
     end
 
     @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
@@ -337,12 +355,13 @@ class Skm::EntryHeadersController < ApplicationController
     @entry_header.version_number = @entry_header.next_version_number
     @entry_header.author_id = Irm::Person.current.id
     @entry_header.type_code = "ARTICLE"
-#    column_ids = params[:skm_entry_header][:column_ids].split(",")
     respond_to do |format|
       if @entry_header.save
-#        column_ids.each do |c|
-#          Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => c)
-#        end
+        if !approval_people.nil? && approval_people.any?
+          approval_people.each do |person|
+            Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id])
+          end
+        end
         #关联创建过程中关联的文件
         if session[:skm_entry_attachments] && session[:skm_entry_attachments].size > 0
           attachments = Irm::AttachmentVersion.where("id IN (?)", session[:skm_entry_attachments])
@@ -372,11 +391,16 @@ class Skm::EntryHeadersController < ApplicationController
   def video_create
     @entry_header = Skm::EntryHeader.new(params[:skm_entry_header])
     @entry_header.entry_template_id = -1
-    enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
+    enable_entry_audit = Irm::SystemParametersManager.enable_skm_header_audit
     if enable_entry_audit.eql? Irm::Constant::SYS_NO
       @entry_header.entry_status_code = "PUBLISHED"
     else
-      @entry_header.entry_status_code = "WAIT_APPROVE"
+      approval_people = Skm::ChannelApprovalPerson.approval_people(@entry_header.channel_id)
+      if approval_people.any?
+        @entry_header.entry_status_code = "WAIT_APPROVE"
+      else
+        @entry_header.entry_status_code = "PUBLISHED"
+      end
     end
 
     @entry_header.published_date = Time.now
@@ -394,14 +418,19 @@ class Skm::EntryHeadersController < ApplicationController
                                                         Skm::EntryHeader.name,
                                                         temp_uniq_id) #if params[:skm_video] && params[:skm_video].present?
     elsif !val
-      flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+      flash[:error] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
     elsif !params[:skm_video]
-      flash[:notice] = I18n.t(:label_skm_entry_video_upload_error)
+      flash[:error] = I18n.t(:label_skm_entry_video_upload_error)
     end
     respond_to do |format|
       if val && video && @entry_header.save
         @entry_header.update_attribute(:relation_id, video.attachment_id)
         video.update_attribute(:source_id, @entry_header.id)
+        if !approval_people.nil? && approval_people.any?
+          approval_people.each do |person|
+            Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id])
+          end
+        end
         format.html { redirect_to({:action => "video_show", :id => @entry_header.id})}
       else
         @video_description = params[:skm_video_description]
@@ -421,7 +450,6 @@ class Skm::EntryHeadersController < ApplicationController
     @video = Irm::Attachment.find(@entry_header.relation_id).last_version_entity
 
     temp_uniq_id = UUID.generate(:compact)[0, 21]
-#    video = false
     file_succ = true
     if @entry_header.valid? &&  params[:skm_video] && !params[:skm_video].nil?
       val, now = Irm::AttachmentVersion.validates?(params[:skm_video])
@@ -490,11 +518,16 @@ class Skm::EntryHeadersController < ApplicationController
         @entry_header = Skm::EntryHeader.new(old_header.attributes)
         old_header.history_flag = "Y"
         @entry_header.history_flag = "N"
-        enable_entry_audit=Irm::SystemParametersManager.enable_skm_header_audit
+        enable_entry_audit = Irm::SystemParametersManager.enable_skm_header_audit
         if enable_entry_audit.eql? Irm::Constant::SYS_NO
           @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
         else
-          @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+          approval_people = Skm::ChannelApprovalPerson.approval_people(params[:skm_entry_header][:channel_id])
+          if approval_people.any?
+            @entry_header.entry_status_code = "WAIT_APPROVE" if params[:status] && params[:status] == "PUBLISHED"
+          else
+            @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
+          end
         end
 
         @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
@@ -511,9 +544,11 @@ class Skm::EntryHeadersController < ApplicationController
               detail.update_attributes(v)
               @entry_header.entry_details << detail
             end
-#            column_ids.each do |t|
-#              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
-#            end
+            if !approval_people.nil? && approval_people.any?
+              approval_people.each do |person|
+                Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id])
+              end
+            end
             #更新 收藏 中的ID为最新的文章ID，保证收藏的永远是知识库文章的最新版本
             fas = Skm::EntryFavorite.where(:entry_header_id => old_header.id)
             fas.each do |fa|
@@ -550,18 +585,12 @@ class Skm::EntryHeadersController < ApplicationController
         end
       else
         @entry_header = Skm::EntryHeader.find(params[:id])
-  #      @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
-  #      @entry_header.entry_status_code = "DRAFT" if params[:status] && params[:status] == "DRAFT"
         respond_to do |format|
-          if @entry_header.update_attributes(params[:skm_entry_header]) &&
-              @entry_header.update_attribute( :entry_status_code, params[:status])
+          if @entry_header.update_attributes(params[:skm_entry_header]) && @entry_header.update_attribute( :entry_status_code, params[:status])
             params[:skm_entry_details].each do |k, v|
               detail = Skm::EntryDetail.find(k)
               detail.update_attributes(v)
             end
-#            column_ids.each do |t|
-#              Skm::EntryColumn.create(:entry_header_id => @entry_header.id, :column_id => t)
-#            end
             if params[:files]
               files = params[:files]
               #调用方法创建附件
@@ -746,17 +775,21 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def approve_knowledge
-
      entry_header_ids=params[:entry_header_ids].split(",")   #将隐藏域传入进来ID转换成数组
      entry_header_ids.compact                     #去掉nil
      if(entry_header_ids.size>0)
-            if(params[:commit].eql?(I18n.t(:label_action_approve)))    #如果通过
-
-                   Skm::EntryHeader.where(:id=>entry_header_ids).update_all(:entry_status_code=>"PUBLISHED")    #更新为发布状态
-            elsif(params[:commit].eql?(I18n.t(:label_action_reject)))    #如果拒绝
-                   Skm::EntryHeader.where(:id=>entry_header_ids).update_all(:entry_status_code=>"APPROVE_DENY")   #更新为审核拒绝状态
-
+        if(params[:commit].eql?(I18n.t(:label_action_approve)))    #如果通过
+          #检查该知识是否还有人未审核
+          entry_header_ids.each do |entry_header_id|
+            entry_approval_person = Skm::EntryApprovalPerson.where("person_id=? AND entry_header_id=?", Irm::Person.current.id, entry_header_id)
+            entry_approval_person.update_all("approval_flag" => Irm::Constant::SYS_YES)
+            unless Skm::EntryApprovalPerson.has_unaudited_person?(entry_header_id)
+              Skm::EntryHeader.where("id=?", entry_header_id).update_all(:entry_status_code=>"PUBLISHED") #更新为发布状态
             end
+          end
+        elsif(params[:commit].eql?(I18n.t(:label_action_reject)))    #如果拒绝
+          Skm::EntryHeader.where(:id=>entry_header_ids).update_all(:entry_status_code=>"APPROVE_DENY")   #更新为审核拒绝状态
+        end
      end
      respond_to do |format|
        format.js

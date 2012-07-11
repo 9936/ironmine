@@ -1318,6 +1318,11 @@ Ironmine::Application.routes.draw do
     match '/channels/:id/new_groups(.:format)' => "channels#new_groups", :via => :get
     match '/channels/:id/create_groups(.:format)' => "channels#create_groups", :via => :post
     match '/channels/:group_id/:channel_id/remove_group(.:format)' => "channels#remove_group"
+    match '/channels/:id/get_approvals_data(.:format)' => "channels#get_approvals_data"
+    match '/channels/:id/get_owned_approvals_data(.:format)' => "channels#get_owned_approvals_data", :via => :get
+    match '/channels/:id/new_approvals(.:format)' => "channels#new_approvals", :via => :get
+    match '/channels/:id/create_approvals(.:format)' => "channels#create_approvals", :via => :post
+    match '/channels/:person_id/:channel_id/remove_approval(.:format)' => "channels#remove_approval"
   end
 
   scope :module => "uid" do

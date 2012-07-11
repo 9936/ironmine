@@ -135,6 +135,76 @@ class Skm::ChannelsController < ApplicationController
     end
   end
 
+  #添加审核人员相关的actions
+  def get_approvals_data
+    people_scope =  Irm::Person.with_organization(I18n.locale).without_approvals(params[:id])
+    people, count = paginate(people_scope)
+    respond_to do |format|
+      format.html {
+        @datas = people
+        @count = count
+      }
+      format.json {render :json => people }
+    end
+  end
+
+  def get_owned_approvals_data
+    approval_scope = Irm::Person.with_organization(I18n.locale).with_approvals(params[:id])
+    approvals, count = paginate(approval_scope)
+    respond_to do |format|
+      format.html {
+        @channel_id=params[:id]
+        @datas = approvals
+        @count = count
+      }
+      format.json  {render :json => approvals }
+    end
+  end
+
+  def new_approvals
+    @channel = Skm::Channel.multilingual.find(params[:id])
+    @channel_approval = Skm::ChannelApprovalPerson.new
+    @channel_approval.status_code = ""
+  end
+
+  def create_approvals
+    @channel = Skm::Channel.find(params[:id])
+    person_ids = params[:skm_channel_approval_person][:status_code]
+    respond_to do |format|
+      if(!person_ids.blank?)
+        person_ids.split(",").delete_if{|i| i.blank?}.each do |id|
+          Skm::ChannelApprovalPerson.create(:person_id=>id,:channel_id=>@channel.id)
+        end
+        format.html { redirect_to({:controller => "skm/channels",:action=>"show",:id=>@channel.id}, :notice => t(:successfully_created)) }
+      else
+        format.html { render :action => "new_approvals" }
+      end
+    end
+  end
+
+  def remove_approval
+    approval_person = Skm::ChannelApprovalPerson.where("person_id =? AND channel_id = ? AND opu_id = ?",params[:person_id], params[:channel_id], Irm::OperationUnit.current.id).first
+    unless approval_person.nil?
+     if approval_person.destroy
+       #删除该用户下所有未审核的知识库标记记录
+       entry_approvals = Skm::EntryApprovalPerson.where("person_id=? AND opu_id = ?", params[:person_id], Irm::OperationUnit.current.id)
+       if entry_approvals.any?
+          entry_approvals.each do |entry_approval|
+            #如果知识库仅为当前用户审核则将知识库自动发布
+            unless Skm::EntryApprovalPerson.has_other_approval_people?(entry_approval[:entry_header_id], entry_approval[:person_id])
+              Skm::EntryHeader.where("id=?", entry_approval[:entry_header_id]).update_all(:entry_status_code=>"PUBLISHED") #更新为发布状态
+            end
+            entry_approval.destroy
+          end
+       end
+     end
+    end
+    respond_to do |format|
+      format.html { redirect_to({:controller=>"skm/channels",:action=>"show",:id=>params[:channel_id]}) }
+      format.xml  { head :ok }
+    end
+  end
+
   def remove_group
     @group_member = Skm::ChannelGroup.where("group_id =? AND channel_id = ? AND opu_id = ?",
                                             params[:group_id], params[:channel_id], Irm::OperationUnit.current.id).first

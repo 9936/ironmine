@@ -8,7 +8,7 @@
     <td class="page-block-button">
       <%= form_for(@channel_group,:url=>{:action=>"create_groups", :id => @channel.id},:builder => LabellingFormBuilder) do |f| %>
         <%= f.hidden_field(:status_code) %>
-        <%= link_submit t(:save),:class=>"btn"%>
+        <%= link_submit t(:save),:class=>"btn btn-primary"%>
         <%= link_to(t(:cancel),{:controller =>"skm/channels",:action=>"show",:id=>@channel.id},:class=>"btn")%>
       <% end %>
     </td>

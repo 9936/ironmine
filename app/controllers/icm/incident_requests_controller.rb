@@ -31,7 +31,7 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
-  # GET /incident_requests/1/edit
+  # GET /incident_rsolr_searchequests/1/edit
   def edit
     @incident_request = Icm::IncidentRequest.find(params[:id])
     respond_to do |format|
@@ -52,9 +52,9 @@ class Icm::IncidentRequestsController < ApplicationController
       flag, now = validate_files(@incident_request) if params[:files].present?
       if !flag
         if now.is_a?(Integer)
-          flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
+          flash[:error] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         else
-          flash[:notice] = now
+          flash[:error] = now
         end
 
         format.html { render :action => "new", :layout=>"bootstrap_application_full"}
@@ -72,8 +72,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
         #如果没有填写support_group, 插入Delay Job任务
         if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
-          Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id),
-                               [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
+          Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id), [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
         end
         format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
         format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }

@@ -172,7 +172,9 @@ en:
 
   label_skm_owned_channels: Owned Channels
   label_skm_channel_management: Management Channels
-  label_skm_channel_group_management: Management Groups
+  label_skm_channel_group_management: Add Groups
+  label_skm_channel_approval_people: Channel Approval People
+  label_skm_channel_approval_management: Add Approval Person
 
   label_action_new_from_icm_request: Create Knowledge From Incident Request
   button_skm_entry_header_new: New

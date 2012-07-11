@@ -98,6 +98,7 @@ en:
   label_icm_incident_request_service_code: Service
   label_icm_incident_requset_base_info: Base information
   label_icm_incident_request_title: Title
+  label_icm_incident_request_number: No.
   label_icm_incident_request_summary: Summary
   label_icm_incident_requset_addition_info: Addition information
   label_icm_incident_request_requested_by: Requester
