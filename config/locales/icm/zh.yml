@@ -100,6 +100,7 @@ zh:
   label_icm_incident_request_service_code: 服务
   label_icm_incident_requset_base_info: 基本信息
   label_icm_incident_request_title: 主题
+  label_icm_incident_request_number: 事故单号
   label_icm_incident_request_summary: 信息
   label_icm_incident_requset_addition_info: 附加信息
   label_icm_incident_request_requested_by: 请求人
