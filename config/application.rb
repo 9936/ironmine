@@ -177,6 +177,5 @@ module Ironmine
       Erb::Generators::ControllerGenerator.send(:include,Gen::ControllerGeneratorExpand)
     end
 
-
   end
 end

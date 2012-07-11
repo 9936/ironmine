@@ -31,7 +31,7 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
-  # GET /incident_requests/1/edit
+  # GET /incident_rsolr_searchequests/1/edit
   def edit
     @incident_request = Icm::IncidentRequest.find(params[:id])
     respond_to do |format|
