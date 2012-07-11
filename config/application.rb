@@ -85,7 +85,8 @@ module Ironmine
         :highcharts => {:css=>[],:js=>["highcharts"]},
         :login => {:css=>["login"],:js=>[]},
         :login_ie6 => {:css=>["login-ie6"]},
-        :jquery_ui => {:js=>["jquery-ui"]}
+        :jquery_ui => {:js=>["jquery-ui"]},
+        :gollum => {:js=>["plugins/gollum"],:css=>["plugins/gollum"]}
     }
     # 自动对资源文件进行预编译
     config.ironmine.jscss.values.each do |asset|
