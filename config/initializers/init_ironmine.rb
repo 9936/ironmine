@@ -138,5 +138,4 @@ end
 #sunspot_plus
 # set the session to the delayed_job handler - this will send all model CRUD reindexing to delayed_job
 require 'sunspot_rails'
-
 Sunspot.session = Sunspot::SessionProxy::DelayedJobSessionProxy.new(Sunspot.session)
