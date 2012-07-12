@@ -134,3 +134,7 @@ begin
 
 
 end
+
+#sunspot_plus
+require 'sunspot_plus'
+Sunspot.session = Sunspot::SessionProxy::DelayedJobSessionProxy.new(Sunspot.session)
