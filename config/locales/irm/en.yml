@@ -89,6 +89,8 @@ en:
   notice: Notice
   created_by: Created by
   created_at: Created at
+  updated_by: Updated by
+  updated_at: Updated at
   status: Status
   no_data: No data for this entity
   label_alias: " Alias"

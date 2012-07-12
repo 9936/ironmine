@@ -135,8 +135,10 @@ zh:
   input_keyword_you_want_to_search: 请输入你要搜索的关键词
   display_all: 全部显示
   upload_from_clipboard: 从剪贴板上传图片
-  created_by: 创建人
+  created_by: 创建者
   created_at: 创建时间
+  updated_by: 更新者
+  updated_at: 更新时间
   kanban_mode: 看板
   list_mode: 列表
   error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
@@ -1835,3 +1837,18 @@ zh:
   label_irm_rating_config_new: 新建评分设置
   label_irm_rating_config_edit: 编辑评分配置
   #============================== end rating config  ===================================
+  #============================== wiki ======================================
+  label_irm_wiki: Wiki
+  label_irm_wiki_name: 名称
+  label_irm_wiki_description: 描述
+  label_irm_wiki_content_format: 格式
+  label_irm_wiki_content: 内容
+  label_irm_wiki_new: 新建Wiki
+  label_irm_wiki_edit: 编辑Wiki
+  label_irm_wiki_history: 历史版本
+  label_irm_wiki_compare: 对比历史版本
+  label_irm_wiki_revert: 撤销修改
+  label_irm_wiki_revert_message:  撤销修改 %{from} 到 %{to} 之间的修改
+  label_irm_wiki_default_commit_message: 信息
+  label_irm_wiki_preview: 预览
+  #============================== end wiki  ===================================

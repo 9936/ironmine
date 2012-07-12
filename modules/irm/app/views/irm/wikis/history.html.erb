@@ -1,0 +1,52 @@
+<%= common_title(:action_meaning=>t(:label_irm_wiki_history)) %>
+
+<% content_for :form_buttons do %>
+    <% if @count >1 %>
+    <%= link_submit t(:label_irm_wiki_compare),:class=>"btn compare-btn"%>
+    <% end %>
+    <%= link_back t(:back), {:action=>"index"}, {:class => "btn cancel"} %>
+<% end %>
+<!--页面结构-->
+<%= form_tag({:action => "compare"}) do %>
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= @wiki.name %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= content_for  :form_buttons%>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+      <% builder.column(:id,{:title=>"", :width => "10px"}) do |data|%>
+        <%= check_box_tag "versions[]",data[:id],false,{:class=>"version-checkbox"} %>
+      <% end %>
+      <% builder.column(:person,{:title=>t(:name),:width => "80px"})  do |data| %>
+            <div>
+              <img width="16" height="16" alt="" src="<%=data[:person].avatar.url(:small)%>">
+              <span><%= data[:person].full_name %></span>
+            </div>
+      <% end %>
+      <% builder.column(:created_at,{:title=>t(:created_at), :width => "450px"}) do |data|%>
+        [<%= format_date(data[:created_at]) %>]    <%= data[:message]%>
+      <% end %>
+    <% end %>
+  </div>
+  <table class="page-block-footer">
+    <tr>
+      <td class="page-block-title">
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons %>
+      </td>
+    </tr>
+  </table>
+</div>
+<% end %>
+
+
+
