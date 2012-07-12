@@ -337,7 +337,7 @@ Irm::AccessControl.map do |map|
   map.function :rating_config,{"irm/rating_configs"=>["index", "edit", "update","get_data", "new", "create", "show"]}
   #====================irm/wikis===============================
   map.function :view_wiki,{"irm/wikis" => ["index","get_data","show","compare","history"]}
-  map.function :create_wiki,{"irm/wikis" => ["new","create"]}
-  map.function :edit_wiki,{"irm/wikis" => ["edit","update"]}
+  map.function :create_wiki,{"irm/wikis" => ["new","create","preview"]}
+  map.function :edit_wiki,{"irm/wikis" => ["edit","update","preview"]}
   map.function :manage_wiki,{"irm/wikis" => ["destroy","revert"]}
 end
