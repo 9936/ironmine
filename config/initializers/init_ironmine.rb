@@ -136,6 +136,5 @@ begin
 end
 
 #sunspot_plus
-#require 'rubygems'
-#require 'sunspot_rails'
-#Sunspot.session = Sunspot::SessionProxy::DelayedJobSessionProxy.new(Sunspot.session)
+require 'sunspot_rails'
+Sunspot.session = Sunspot::SessionProxy::DelayedJobSessionProxy.new(Sunspot.session)
