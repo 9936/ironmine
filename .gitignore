@@ -16,5 +16,6 @@ Capfile
 config/deploy.rb
 ironmine.ids
 solr/solr/data/**
+solr/data/**
 public/tmp/*
 public/assets/*
