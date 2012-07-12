@@ -51,12 +51,18 @@ $(function(){
         }
 
         if(parent_forms[0]){
+            var origin_target =  $(parent_forms[0]).attr("target");
             if($(this).attr("target"))
               $(parent_forms[0]).attr("target",$(this).attr("target"));
             else
               $(parent_forms[0]).removeAttr("target");
             $(parent_forms[0]).attr("action",href);
             $(parent_forms[0]).trigger("submit");
+
+            if(origin_target)
+                $(parent_forms[0]).attr("target",origin_target);
+            else
+                $(parent_forms[0]).removeAttr("target");
         }
     });
 
