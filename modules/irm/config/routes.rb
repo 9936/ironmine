@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     match '/wikis/create(.:format)' => "wikis#create", :via => :post
     match '/wikis/get_data(.:format)' => "wikis#get_data"
     match '/wikis/:id/show(.:format)' => "wikis#show", :via => :get
-    match '/wikis/:id/preview(.:format)' => "wikis#preview", :via => [:post,:put]
+    match '/wikis/preview(.:format)' => "wikis#preview", :via => [:post,:put]
     match '/wikis/:id/history(.:format)' => "wikis#history", :via => :get
     match '/wikis/:id/compare(.:format)' => "wikis#compare", :via => [:get,:post]
     match '/wikis/:id/revert(.:format)' => "wikis#revert", :via => [:post]
