@@ -27,7 +27,7 @@
       <% end %>
       <% builder.column(:person,{:title=>t(:name),:width => "80px"})  do |data| %>
             <div>
-              <img width="16" height="16" alt="" src="<%=data[:person].avatar.url(:small)%>">
+              <img width="16" height="16" alt="" src="<%=data[:person].avatar.url(:thumb)%>">
               <span><%= data[:person].full_name %></span>
             </div>
       <% end %>
