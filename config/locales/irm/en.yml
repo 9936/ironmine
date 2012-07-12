@@ -1836,3 +1836,18 @@ en:
   label_irm_oauth_token_unavailable: Unavailabled Token
   label_irm_oauth_username_or_password_error: Username Or Password Error
   #============================== end oauth_authorize ===================================
+  #============================== wiki ======================================
+  label_irm_wiki: Wiki
+  label_irm_wiki_name: Name
+  label_irm_wiki_description: Description
+  label_irm_wiki_content_format: Format
+  label_irm_wiki_content: Content
+  label_irm_wiki_new: New Wiki
+  label_irm_wiki_edit: Edit Wiki
+  label_irm_wiki_history: History
+  label_irm_wiki_compare: Versions Compare
+  label_irm_wiki_revert: Revert
+  label_irm_wiki_revert_message:  Revert change between %{from} and %{to}
+  label_irm_wiki_default_commit_message: Message
+  label_irm_wiki_preview: Preview
+  #============================== end wiki  ===================================
