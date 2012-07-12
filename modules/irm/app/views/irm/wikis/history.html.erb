@@ -47,6 +47,37 @@
   </table>
 </div>
 <% end %>
+<script type="text/javascript">
+  $(function(){
+    var checked = [];
+    function process(){
+
+        if(checked.length>2){
+          $(checked.shift()).attr("checked",false);
+        }
+        for(var i in checked)
+            $(i).attr("checked",true);
+        if(checked.length>1){
+            $(".compare-btn").removeAttr("disabled");
+
+        }else{
+            $(".compare-btn").attr("disabled",true);
+        }
+    }
+    $(".version-checkbox").click(function(){
+      if($(this).attr("checked")){
+          checked.push(this);
+      }
+      process();
+    });
+    $.each($(".version-checkbox"),function(index,element){
+      if($(element).attr("checked")){
+          checked.push(element);
+      }
+      process();
+    });
+  });
+</script>
 
 
 

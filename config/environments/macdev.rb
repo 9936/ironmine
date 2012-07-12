@@ -71,11 +71,13 @@ Ironmine::Application.configure do
 
   Paperclip.options[:command_path] = '/opt/local/bin'
 
+  # Compress JavaScripts and CSS
+  config.assets.compress = true
 
-  # Do not compress assets
-  config.assets.compress = false
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = false
 
-  # Expands the lines which load the assets
-  config.assets.debug = true
+  # Generate digests for assets URLs
+  config.assets.digest = true
 end
 
