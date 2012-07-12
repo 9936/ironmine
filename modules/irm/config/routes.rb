@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     #wikis
     match '/wikis(/index)(.:format)' => "wikis#index", :via => :get
     match '/wikis/:id/edit(.:format)' => "wikis#edit", :via => :get
-    match '/wikis/:id(.:format)' => "wikis#update", :via => :put
+    match '/wikis/:id/update(.:format)' => "wikis#update", :via => :put
     match '/wikis/new(.:format)' => "wikis#new", :via => :get
     match '/wikis/get_data(.:format)' => "wikis#get_data", :via => :get
     match '/wikis/create(.:format)' => "wikis#create", :via => :post
