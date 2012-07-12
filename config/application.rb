@@ -7,7 +7,6 @@ require "action_mailer/railtie"
 require "active_resource/railtie"
 require "sprockets/railtie"
 require "rails/test_unit/railtie"
-require "sunspot_rails"
 
 # 加载各模块配置
 Dir["#{File.expand_path('../..', __FILE__)}/modules/*"].sort.reverse.each do |file|
