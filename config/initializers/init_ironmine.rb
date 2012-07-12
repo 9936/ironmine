@@ -136,5 +136,12 @@ begin
 end
 
 #sunspot_plus
-require 'sunspot_rails'
+#require 'sunspot_rails'
+require 'sunspot/rails'
+
+if Rails::VERSION::MAJOR == 3
+  require 'sunspot/rails/railtie'
+else
+  require 'sunspot/rails/init'
+end
 Sunspot.session = Sunspot::SessionProxy::DelayedJobSessionProxy.new(Sunspot.session)
