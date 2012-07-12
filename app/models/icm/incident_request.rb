@@ -263,6 +263,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
     end
   end
 
+  #handle_asynchronously :solr_index
+
   def self.search(query)
 #    self.list_all.where("#{table_name}.title like ?","%#{query}%")
     results = Sunspot.search(Icm::IncidentRequest) do
