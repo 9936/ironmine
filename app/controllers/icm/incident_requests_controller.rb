@@ -440,11 +440,13 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def add_relation
-    existed_relation = Icm::IncidentRequestRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:icm_relation], params[:icm_relation], params[:source_id])
-
-    unless existed_relation.any? || !params[:icm_relation].present?
-      t = Icm::IncidentRequestRelation.create(:source_id => params[:source_id], :target_id => params[:icm_relation], :relation_type => params[:relation_type])
-      @incident_request_id = t.source_id
+    #确保事故单不能关联自身
+    unless params[:source_id].eql?(params[:icm_relation])
+      existed_relation = Icm::IncidentRequestRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:icm_relation], params[:icm_relation], params[:source_id])
+      unless existed_relation.any? || !params[:icm_relation].present?
+        t = Icm::IncidentRequestRelation.create(:source_id => params[:source_id], :target_id => params[:icm_relation], :relation_type => params[:relation_type])
+        @incident_request_id = t.source_id
+      end
     end
     respond_to do |format|
       format.js {render :add_relation}
