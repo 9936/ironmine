@@ -25,7 +25,8 @@
                   </td>
                 <% else %>
                   <td>
-                    <div><%= data[field[:key].to_sym] %></div>
+                    <div>
+                      <%= handler_lov_data(data[field[:key]]) %></div>
                   </td>
                 <% end %>
               <% end %>
