@@ -226,16 +226,21 @@
 .markdown-body h1 {
     color: #000000;
     font-size: 28px;
+    border-top: 8px solid black;
+    padding-top: 5px;
 }
 
 .markdown-body h2 {
-    border-bottom: 1px solid #CCCCCC;
+    border-top: 8px solid black;
     color: #000000;
+    display: table;
     font-size: 24px;
+    width: 200px;
 }
 
 .markdown-body h3 {
     font-size: 18px;
+    border-bottom: 1px solid black;
 }
 
 .markdown-body h4 {
@@ -501,4 +506,10 @@
 .markdown-body pre code, .markdown-body pre tt {
     background-color: transparent;
     border: medium none;
+}
+
+.markdown-body >{
+  h3,h4,h5,h6,pre,span,p,table,blockquote,dl{
+      margin-left: 100px;
+  }
 }
