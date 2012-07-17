@@ -95,4 +95,15 @@ module Irm::ListOfValuesHelper
     link_to(label,{},{:href=>"javascript:top.window.opener.lookupPick('#{field_id}','#{value}','#{label}',#{data.to_json})"})
   end
 
+  def handler_lov_data(data)
+    if data
+      if data.to_a?(Time)
+        data.strftime('%Y-%m-%d %H:%M:%S')
+      elsif data.to_a?(Date)
+        data.strftime('%Y-%m-%d')
+      end
+    end
+    data.to_sym
+  end
+
 end
