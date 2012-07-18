@@ -1,5 +1,5 @@
-class Irm::Wiki < ActiveRecord::Base
-  set_table_name :irm_wikis
+class Skm::Wiki < ActiveRecord::Base
+  set_table_name :skm_wikis
 
   attr_accessor :origin_name
 

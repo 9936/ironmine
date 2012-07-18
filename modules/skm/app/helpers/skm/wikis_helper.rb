@@ -1,4 +1,4 @@
-module Irm::WikisHelper
+module Skm::WikisHelper
   def wiki_formats
     [["AsciiDoc","asciidoc"],
      ["Creole","creole"],

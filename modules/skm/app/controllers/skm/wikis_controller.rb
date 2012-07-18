@@ -1,10 +1,10 @@
-class Irm::WikisController < ApplicationController
+class Skm::WikisController < ApplicationController
   layout "bootstrap_application_full"
 
   # GET /irm/wikis
   # GET /irm/wikis.xml
   def index
-    @wikis = Irm::Wiki.all
+    @wikis = Skm::Wiki.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +15,7 @@ class Irm::WikisController < ApplicationController
   # GET /irm/wikis/1
   # GET /irm/wikis/1.xml
   def show
-    @wiki = Irm::Wiki.find(params[:id])
+    @wiki = Skm::Wiki.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -26,7 +26,7 @@ class Irm::WikisController < ApplicationController
   # GET /irm/wikis/new
   # GET /irm/wikis/new.xml
   def new
-    @wiki = Irm::Wiki.new(:content_format=>'markdown')
+    @wiki = Skm::Wiki.new(:content_format=>'markdown')
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,14 +36,14 @@ class Irm::WikisController < ApplicationController
 
   # GET /irm/wikis/1/edit
   def edit
-    @wiki = Irm::Wiki.find(params[:id])
+    @wiki = Skm::Wiki.find(params[:id])
     @wiki.content =  @wiki.page.raw_data.force_encoding('utf-8')
   end
 
   # POST /irm/wikis
   # POST /irm/wikis.xml
   def create
-    @wiki = Irm::Wiki.new(params[:irm_wiki])
+    @wiki = Skm::Wiki.new(params[:skm_wiki])
 
     respond_to do |format|
       if @wiki.save
@@ -59,10 +59,10 @@ class Irm::WikisController < ApplicationController
   # PUT /irm/wikis/1
   # PUT /irm/wikis/1.xml
   def update
-    @wiki = Irm::Wiki.find(params[:id])
+    @wiki = Skm::Wiki.find(params[:id])
 
     respond_to do |format|
-      if @wiki.update_attributes(params[:irm_wiki])
+      if @wiki.update_attributes(params[:skm_wiki])
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -75,7 +75,7 @@ class Irm::WikisController < ApplicationController
   # DELETE /irm/wikis/1
   # DELETE /irm/wikis/1.xml
   def destroy
-    @wiki = Irm::Wiki.find(params[:id])
+    @wiki = Skm::Wiki.find(params[:id])
     @wiki.destroy
 
     respond_to do |format|
@@ -86,8 +86,8 @@ class Irm::WikisController < ApplicationController
   
   
   def get_data
-    irm_wikis_scope = Irm::Wiki.where("1=1")
-    irm_wikis_scope = irm_wikis_scope.match_value("#{Irm::Wiki.table_name}.name",params[:name])
+    irm_wikis_scope = Skm::Wiki.where("1=1")
+    irm_wikis_scope = irm_wikis_scope.match_value("#{Skm::Wiki.table_name}.name",params[:name])
     irm_wikis,count = paginate(irm_wikis_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(irm_wikis.to_grid_json([:name,:description,:content], count)) }
@@ -100,7 +100,7 @@ class Irm::WikisController < ApplicationController
 
 
   def history
-    @wiki = Irm::Wiki.find(params[:id])
+    @wiki = Skm::Wiki.find(params[:id])
     versions = @wiki.versions
     @datas = []
     person_login_names = versions.collect{|v| v.author.name}
@@ -114,7 +114,7 @@ class Irm::WikisController < ApplicationController
   end
 
   def compare
-    @wiki = Irm::Wiki.find(params[:id])
+    @wiki = Skm::Wiki.find(params[:id])
     #　version info
     version_ids = params[:versions]
     versions = @wiki.versions.collect{|i| i if params[:versions].include?(i.id)}.compact
@@ -143,7 +143,7 @@ class Irm::WikisController < ApplicationController
 
 
   def revert
-    @wiki = Irm::Wiki.find(params[:id])
+    @wiki = Skm::Wiki.find(params[:id])
     #　version info
     version_ids = params[:versions]
     versions = @wiki.versions.collect{|i| i if params[:versions].include?(i.id)}.compact
@@ -156,7 +156,7 @@ class Irm::WikisController < ApplicationController
   end
 
   def preview
-    @wiki = Irm::Wiki.new(params[:irm_wiki])
+    @wiki = Skm::Wiki.new(params[:skm_wiki])
     @preview = Ironmine::WIKI.preview_page(@wiki.name, @wiki.content, @wiki.content_format)
 
     respond_to do |format|

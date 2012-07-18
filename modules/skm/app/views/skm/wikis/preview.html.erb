@@ -1,0 +1,18 @@
+<%= common_title(:action_meaning=>t(:label_skm_wiki_preview))%>
+<% require_jscss(:gollum) %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=@wiki.name%></h2>
+    </td>
+    <td class="page-block-button">
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="markdown-body">
+      <%=raw @preview.formatted_data %>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ class Irm::PermissionChecker
   # 确认当前用户是否有权限访问链接
   # 页面上的链接数量太多，采用缓存将页面permission信息存储
   def self.allow_to_url?(url_options={})
+    return false unless (url_options[:page_controller]||url_options[:controller]).present?&&(url_options[:page_action]||url_options[:action]).present?
     url_options.symbolize_keys!
     assigned_to_functions = Irm::MenuManager.permissions[Irm::Permission.url_key(url_options[:page_controller]||url_options[:controller],url_options[:page_action]||url_options[:action])]
     assigned_to_functions||=[]

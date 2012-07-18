@@ -1,4 +1,3 @@
-require 'iconv'
 module Irm::Gollum::Markup
   def self.included(base)
     base.class_eval do
