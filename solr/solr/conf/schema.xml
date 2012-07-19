@@ -60,7 +60,7 @@
     <fieldType name="rand" class="solr.RandomSortField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
 
-		<fieldType name="text" class="solr.TextField" positionIncrementGap="100" >  
+		<fieldType name="text" class="solr.TextField" positionIncrementGap="100" multiValued="true">  
 				<analyzer>  
 				    <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="complex" dicPath="dict"/>  
 				    <filter class="solr.LowerCaseFilterFactory"/>  
