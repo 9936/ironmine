@@ -111,10 +111,23 @@ class Skm::EntryHeader < ActiveRecord::Base
   end
 
   def self.search(query)
-#    Skm::EntryHeader.list_all.published.current_entry.where("#{table_name}.entry_title like ? OR #{table_name}.doc_number like ?","%#{query}%","%#{query}%")
-    Sunspot.search Skm::EntryHeader do
-      keywords query
-    end.results
+    search = Sunspot.search(Skm::EntryHeader, Irm::AttachmentVersion) do |sq|
+      sq.keywords query
+      sq.with(:source_type, 'Skm::EntryHeader')
+      query.paginate(:page => params[:page], :per_page => 30)
+    end
+    #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
+    entry_header_ids = []
+    if search.results.any?
+      search.results.each do |result|
+        if result.class.to_s.eql?('Irm::AttachmentVersion')
+          entry_header_ids << result.source_id unless entry_header_ids.include?(result.source_id)
+        else
+          entry_header_ids << result.id unless entry_header_ids.include?(result.id)
+        end
+      end
+    end
+    Skm::EntryHeader.where("#{Skm::EntryHeader.table_name}.id IN (?)", entry_header_ids)
   end
 
   def self.generate_doc_number(prefix = "")

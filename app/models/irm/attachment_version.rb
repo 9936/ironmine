@@ -64,6 +64,15 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     end
   end
 
+  searchable do
+    text :source_id
+    text :source_type
+    text :attachment_id
+    text :data_file_name
+    attachment :data_path
+  end
+
+
   #返回附件url
   def url(*args)
     data.url(*args)
@@ -314,4 +323,10 @@ class Irm::AttachmentVersion < ActiveRecord::Base
       self.data.instance_write(:file_name, "#{UUID.generate(:compact)[0,21]}#{ext}")
     end
   end
+
+  private
+    def data_path
+      puts "==================Build attachment index And path:#{self.data.path}========================"
+      self.data.path
+    end
 end

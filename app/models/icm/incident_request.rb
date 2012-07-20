@@ -266,11 +266,23 @@ class Icm::IncidentRequest < ActiveRecord::Base
   #handle_asynchronously :solr_index
 
   def self.search(query)
-#    self.list_all.where("#{table_name}.title like ?","%#{query}%")
-    results = Sunspot.search(Icm::IncidentRequest) do
-      keywords query
-    end.results
-    Icm::IncidentRequest.where("#{Icm::IncidentRequest.table_name}.id IN (?)", results.collect(&:id)).list_all
+    search = Sunspot.search(Icm::IncidentRequest, Irm::AttachmentVersion) do |sq|
+      sq.keywords query
+      sq.with(:source_type, ['Icm::IncidentRequest', 'Icm::IncidentJournal'])
+      query.paginate(:page => params[:page], :per_page => 30)
+    end
+    #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
+    incident_request_ids = []
+    if search.results.any?
+      search.results.each do |result|
+        if result.class.to_s.eql?('Irm::AttachmentVersion')
+          incident_request_ids << result.source_id unless incident_request_ids.include?(result.source_id)
+        else
+          incident_request_ids << result.id unless incident_request_ids.include?(result.id)
+        end
+      end
+    end
+    Icm::IncidentRequest.where("#{Icm::IncidentRequest.table_name}.id IN (?)", incident_request_ids).list_all
   end
 
   def self.query_by_request_number(query)

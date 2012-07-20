@@ -1,53 +1,45 @@
-<div class="sub-block">
-    <h3 class="lbHeader"></h3>
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h3 class="lbHeader"><%= t(:label_skm_entry_header_list) %></h3></td>
-          <td id="topButtonRow" class="pbButton">
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_entry_header_list) %></h2>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div class="datatable">
+      <table id='rows' >
+        <thead>
+          <tr>
+            <th style="width:180px;">
+              <div><%= t(:label_skm_entry_header_title) %>
+              </div>
+            </th>
+            <th style="width:180px;">
+              <div><%= t(:label_skm_entry_header_published_date) %>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="yui3-datatable-data">
+        <% results.each do |r| %>
+        <tr id="<%=r.id%>" class="yui3-datatable-even">
+
+          <td>
+            <div>
+                <%=link_to "[#{r[:doc_number]}]#{r[:entry_title]}", {:controller => "skm/entry_headers", :action => "show", :id =>r[:id]}%>
+             </div>
           </td>
-          <td class="pbHelp">
+          <td>
+            <div>
+              <%=r[:published_date].strftime("%Y-%m-%d %H:%M:%S")%>
+            </div>
           </td>
         </tr>
-      </tbody>
-    </table>
-    <div class="lbBody">
-        <div class="datatable">
-          <div class="irm-datatable">
-            <div>
-                <table id='rows' >
-                  <thead>
-                    <tr>
-                      <th style="width:180px;">
-                        <div><%= t(:label_skm_entry_header_title) %>
-                        </div>
-                      </th>
-                      <th style="width:180px;">
-                        <div><%= t(:label_skm_entry_header_published_date) %>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="yui3-datatable-data">
-                  <% results.each do |r| %>
-                  <tr id="<%=r.id%>" class="yui3-datatable-even">
-
-                    <td>
-                      <div>
-                          <%=link_to "[#{r[:doc_number]}]#{r[:entry_title]}", {:controller => "skm/entry_headers", :action => "show", :id =>r[:id]}%>
-                       </div>
-                    </td>
-                    <td>
-                      <div>
-                        <%=r[:published_date].strftime("%Y-%m-%d %H:%M:%S")%>
-                      </div>
-                    </td>
-                  </tr>
-                  <% end -%>
-                  </tbody>
-                </table>
-            </div>
-          </div>
-        </div>
+        <% end -%>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
