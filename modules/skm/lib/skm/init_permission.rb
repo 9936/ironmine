@@ -1,4 +1,5 @@
 Irm::AccessControl.map do |map|
+  map.function :login_function,{"skm/wiki_templates"=>["index", "show", "get_data","new", "create","edit", "update","preview","sample"] }
   #===================skm/entry_statuses============================
   #["index", "edit", "update", "new", "create", "get_data", "show"]
   map.function :skm_status,{"skm/entry_statuses"=>["index", "show", "get_data","new", "create","edit", "update"]}

@@ -20,6 +20,15 @@ class Skm::WikisController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @wiki }
+      format.pdf {
+        render :pdf => "#{@wiki.name}",
+                       :print_media_type => false,
+                       :encoding => 'utf-8',
+                       :layout => nil,
+                       :book => true,
+                       :page_size => 'A4',
+                       :toc=>{:header_text=>t(:label_irm_new_view_filter),:disable_back_links=>true}
+      }
     end
   end
 
@@ -37,6 +46,7 @@ class Skm::WikisController < ApplicationController
   # GET /irm/wikis/1/edit
   def edit
     @wiki = Skm::Wiki.find(params[:id])
+    @wiki.description=""
     @wiki.content =  @wiki.page.raw_data.force_encoding('utf-8')
   end
 

@@ -8,6 +8,8 @@ class Skm::Wiki < ActiveRecord::Base
   #对运维中心数据进行隔离
   default_scope {default_filter}
 
+  validates_presence_of :name,:description
+
   validates_uniqueness_of :name,:if=>Proc.new{|i| i.name.present?}
 
   after_create do

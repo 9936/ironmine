@@ -195,3 +195,13 @@ en:
   label_skm_wiki_default_commit_message: Message
   label_skm_wiki_preview: Preview
   #============================== end wiki  ===================================
+  #============================== wiki ======================================
+  label_skm_wiki_template: Wiki Template
+  label_skm_wiki_template_name: Name
+  label_skm_wiki_template_description: Description
+  label_skm_wiki_template_content_format: Format
+  label_skm_wiki_template_content: Content
+  label_skm_wiki_template_new: 新建Wiki模板
+  label_skm_wiki_template_edit: 编辑Wiki模板
+  label_skm_wiki_template_preview: 预览
+  #============================== end wiki  ===================================

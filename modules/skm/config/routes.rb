@@ -144,6 +144,17 @@ Rails.application.routes.draw do
       match '/channels/:id/create_approvals(.:format)' => "channels#create_approvals", :via => :post
       match '/channels/:person_id/:channel_id/remove_approval(.:format)' => "channels#remove_approval"
 
+      #wiki_templates
+      match '/wiki_templates(/index)(.:format)' => "wiki_templates#index", :via => :get
+      match '/wiki_templates/:id/edit(.:format)' => "wiki_templates#edit", :via => :get
+      match '/wiki_templates/:id/update(.:format)' => "wiki_templates#update", :via => :put
+      match '/wiki_templates/new(.:format)' => "wiki_templates#new", :via => :get
+      match '/wiki_templates/get_data(.:format)' => "wiki_templates#get_data", :via => :get
+      match '/wiki_templates/create(.:format)' => "wiki_templates#create", :via => :post
+      match '/wiki_templates/get_data(.:format)' => "wiki_templates#get_data"
+      match '/wiki_templates/:id/show(.:format)' => "wiki_templates#show", :via => :get
+      match '/wiki_templates/preview(.:format)' => "wiki_templates#preview", :via => [:post,:put]
+      match '/wiki_templates/:id/sample(.:format)' => "wiki_templates#sample", :via => :get
 
       #wikis
       match '/wikis(/index)(.:format)' => "wikis#index", :via => :get

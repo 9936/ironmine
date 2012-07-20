@@ -1,4 +1,4 @@
-module Irm::Gollum::Markup
+module Skm::Gollum::Markup
   def self.included(base)
     base.class_eval do
       def process_headers(doc)

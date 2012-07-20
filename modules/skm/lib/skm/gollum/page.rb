@@ -1,4 +1,4 @@
-module Irm::Gollum::Page
+module Skm::Gollum::Page
   def self.included(base)
       base.class_eval do
 

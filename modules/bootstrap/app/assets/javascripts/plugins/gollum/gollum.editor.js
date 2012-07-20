@@ -95,6 +95,11 @@
           $('#gollum-editor-help').removeClass('jaws');
         }
 
+        if ( EditorHas.template() ) {
+           $('#gollum-editor-template').hide();
+           $('#gollum-editor-template').removeClass('jaws');
+        }
+
       }
       // EditorHas.functionBar
     }
@@ -416,8 +421,16 @@
      */
     titleDisplayed: function() {
       return ( ActiveOptions.NewFile );
+    },
+      /**
+     *  显示帮助模板
+     *  返回True如果页面存在template模块, 否则返回false.
+     *
+     *  @return boolean
+     */
+    template: function() {
+        return $('#gollum-editor #gollum-editor-template').length&&$('#gollum-editor #gollum-editor-template #gollum-editor-template-parent li a').length
     }
-
   };
 
 
@@ -445,8 +458,11 @@
           if ( LanguageDefinition.getDefinitionFor( $(this).attr('id') ) ) {
             $(this).click( FunctionBar.evtFunctionButtonClick );
             $(this).removeClass('disabled');
+          }else if($(this).attr('id') == 'function-template' ){
+            $(this).removeClass('disabled');
+            $(this).click( FunctionBar.evtFunctionButtonTemplateClick );
           }
-          else if ( $(this).attr('id') != 'function-help' ) {
+          else if ( $(this).attr('id') != 'function-help') {
             $(this).addClass('disabled');
           }
         });
@@ -477,6 +493,14 @@
         if ( typeof def == 'object' ) {
           FunctionBar.executeAction( def );
         }
+      },
+      evtFunctionButtonTemplateClick: function(e){
+        if(Template.isShown()){
+            Template.hide();
+        }else{
+            Template.show();
+        }
+        return false;
       },
 
 
@@ -921,6 +945,9 @@
     },
 
     show: function() {
+        if(Template.isShown()){
+            Template.hide();
+        }
       if ( $.browser.msie ) {
         // bypass effects for internet explorer, since it does weird crap
         // to text antialiasing with opacity animations
@@ -1079,6 +1106,70 @@
       $(this).addClass('selected');
       Help.showHelpFor( rawIndex[0], rawIndex[1] );
     }
+  };
+
+
+  var Template = {
+      bindEvent: false,
+      loadTemplate: function(e){
+          if($(this).hasClass("selected")){
+              return true;
+          }
+          $('#gollum-editor-template-parent li a').removeClass('selected');
+          $(this).addClass('selected');
+          if($(this).attr("path")){
+
+              $('#gollum-editor-template #gollum-editor-template-content').load($(this).attr("path"));
+          }
+          return true;
+      },
+      applyTemplate: function(e){
+          $("#gollum-editor-body").val($("#gollum-editor-template-content #raw").html()+$("#gollum-editor-body").val());
+          Template.hide();
+      },
+      bindTemplateEvent: function(){
+          if(!Template.bindEvent){
+              Template.bindEvent = true;
+              $('#gollum-editor-template #gollum-editor-template-parent li a').click(Template.loadTemplate);
+              $('#gollum-editor-template-parent li a').removeClass('selected');
+              $('#gollum-editor-template-parent li a:first').trigger("click");
+              $('#gollum-editor-template #gollum-editor-template-apply').click(Template.applyTemplate);
+          }
+      },
+      hide: function() {
+        if ( $.browser.msie ) {
+          $('#gollum-editor-template').css('display', 'none');
+        } else {
+          $('#gollum-editor-template').animate({
+            opacity: 0
+          }, 200, function() {
+            $('#gollum-editor-template')
+              .animate({ height: 'hide' }, 200);
+          });
+        }
+      },
+
+      show: function() {
+          if(Help.isShown()){
+              Help.hide();
+          }
+        Template.bindTemplateEvent();
+        if ( $.browser.msie ) {
+          // bypass effects for internet explorer, since it does weird crap
+          // to text antialiasing with opacity animations
+          $('#gollum-editor-template').css('display', 'block');
+        } else {
+          $('#gollum-editor-template').animate({
+            height: 'show'
+          }, 200, function() {
+            $('#gollum-editor-template')
+              .animate({ opacity: 1 }, 300);
+          });
+        }
+      },
+      isShown: function() {
+        return ($('#gollum-editor-template').is(':visible'));
+      }
   };
 
   // Publicly-accessible function to Help.define
