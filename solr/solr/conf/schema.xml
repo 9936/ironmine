@@ -101,6 +101,8 @@
 
     <!-- A specialized field for geospatial search. If indexed, this fieldType must not be multivalued. -->
     <fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate"/>
+    <!-- *** This fieldType is used by Sunspot_cell! *** -->
+    <fieldType name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" />
   </types>
   <fields>
     <!-- Valid attributes for fields:
@@ -243,7 +245,9 @@
     <dynamicField name="*_ets" stored="true" termVectors="true" type="tdouble" multiValued="false" indexed="true"/>
     <!-- *** This dynamicField is used by Sunspot! *** -->
     <dynamicField name="*_etms" stored="true" termVectors="true" type="tdouble" multiValued="true" indexed="true"/>
-
+    <!-- *** This dynamicField is used by Sunspot_cell! *** -->
+    <dynamicField name="*_attachment" stored="true" type="text" multiValued="true" indexed="true"/>
+    <dynamicField name="ignored_*" type="ignored"/>
     <!-- Type used to index the lat and lon components for the "location" FieldType -->
     <dynamicField name="*_coordinate"  type="tdouble" indexed="true"  stored="false" multiValued="false"/>
     <dynamicField name="*_p" type="location" indexed="true" stored="true" multiValued="false"/>
