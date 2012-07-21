@@ -114,7 +114,6 @@ class Skm::EntryHeader < ActiveRecord::Base
     search = Sunspot.search(Skm::EntryHeader, Irm::AttachmentVersion) do |sq|
       sq.keywords query
       sq.with(:source_type, 'Skm::EntryHeader')
-      query.paginate(:page => params[:page], :per_page => 30)
     end
     #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
     entry_header_ids = []

@@ -65,9 +65,9 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   end
 
   searchable do
-    text :source_id
-    text :source_type
-    text :attachment_id
+    string :source_id
+    string :source_type
+    string :attachment_id
     text :data_file_name
     attachment :data_path
   end
@@ -326,7 +326,6 @@ class Irm::AttachmentVersion < ActiveRecord::Base
 
   private
     def data_path
-      puts "==================Build attachment index And path:#{self.data.path}========================"
       self.data.path
     end
 end

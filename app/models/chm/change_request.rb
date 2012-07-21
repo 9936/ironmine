@@ -119,10 +119,28 @@ class Chm::ChangeRequest < ActiveRecord::Base
   end
 
   def self.search(query)
-    results = Sunspot.search(Chm::ChangeRequest) do
-      keywords query
-    end.results
-    Chm::ChangeRequest.where("#{Chm::ChangeRequest.table_name}.id IN (?)", results.collect(&:id)).list_all
+    search = Sunspot.search(Chm::ChangeRequest,Irm::AttachmentVersion) do |sq|
+      sq.keywords query
+      sq.with(:source_type, ['Chm::ChangeRequest', 'Chm::ChangeJournal'])
+    end
+    #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
+    change_request_ids = []
+    if search.results.any?
+      search.results.each do |result|
+        if result.class.to_s.eql?('Irm::AttachmentVersion')
+          #如果搜索附件来自于回复
+          if result.source_type.to_s.eql?('Chm::ChangeJournal')
+            result = Chm::ChangeJournal.find(result.source_id)
+            change_request_ids << result.change_request_id unless change_request_ids.include?(result.change_request_id)
+          else
+            change_request_ids << result.source_id unless change_request_ids.include?(result.source_id)
+          end
+        else
+          change_request_ids << result.id unless change_request_ids.include?(result.id)
+        end
+      end
+    end
+    Chm::ChangeRequest.where("#{Chm::ChangeRequest.table_name}.id IN (?)", change_request_ids).list_all
   end
 
   def self.list_all
