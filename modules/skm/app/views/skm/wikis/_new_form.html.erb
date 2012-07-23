@@ -1,49 +1,55 @@
 <%= app_title %>
-<%= form_for(@wiki, :url => {:action => "create"}, :builder => CustomFormBuilder) do |f| %>
+<%= form_for(@wiki, :url => {:action => "create"}, :builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
 
     <% content_for :form_block_a do %>
-            <table class="form-table" style="width: 100%;" cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-              <tr>
-                <td class="label-col"><label for="name"><%= t(:label_skm_wiki_name) %></label></td>
-                <td class="data-3col"><%= f.text_field :name, :required => true, :id => "name",:full=>true,:style=>"width:80%;" %></td>
-              </tr>
-              <tr>
-                <td class="label-col"><label for="name"><%= t(:label_skm_wiki_tags) %></label></td>
-                <td class="data-3col"><%= f.text_field :tags, :required => true, :id => "tags",:full=>true,:style=>"width:50%;" %></td>
-              </tr>
-              <tr>
-                <td class="label-col"><label for="name"><%= t(:label_skm_wiki_channel) %></label></td>
-                <td class="data-3col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true}%></td>
-              </tr>
+        <table class="form-table" style="width: 100%;" cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+          <tr>
+            <td class="label-col"><label for="name"><%= t(:label_skm_wiki_name) %></label></td>
+            <td class="data-3col"><%= f.text_field :name, :required => true, :id => "name", :full => true, :style => "width:80%;" %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="name"><%= t(:label_skm_wiki_tags) %></label></td>
+            <td class="data-3col"><%= f.text_field :tags, :required => true, :id => "tags", :full => true, :style => "width:50%;" %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="name"><%= t(:label_skm_wiki_channel) %></label></td>
+            <td class="data-3col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true} %></td>
+          </tr>
 
-              <tr>
-                <td class="label-col"><label for="content"><%= t(:label_skm_wiki_content) %></label></td>
-                <td class="data-3col">
-                  <%= render :partial=>"skm/wiki_templates/editor",:locals=>{:f=>f} %>
-                </td>
-    
-              </tr>
-              <tr>
-                <td class="label-col"><label for="description"><%= t(:label_skm_wiki_description) %></label></td>
-                <td class="data-col"><%= f.text_field :description, :id => "description",:full=>true,:style=>"width:80%;" %></td>
-                <td class="label-col">&nbsp;</td>
-                <td class="data-col">&nbsp;</td>
-              </tr>
-              <tr>
-                <td class="label-col"><label for="private_flag"><%= t(:label_skm_wiki_private_flag) %></label></td>
-                <td class="data-col"><%= f.check_box :private_flag, :id => "private_flag" %></td>
-                <td class="label-col">&nbsp;</td>
-                <td class="data-col">&nbsp;</td>
-              </tr>
-              </tbody>
-            </table>
-        <% end %>
+          <tr>
+            <td class="label-col"><label for="content"><%= t(:label_skm_wiki_content) %></label></td>
+            <td class="data-3col" colspan="3">
+              <%= render :partial => "skm/wiki_templates/editor", :locals => {:f => f} %>
+            </td>
+
+          </tr>
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3">
+              <%= render :partial=>"helper/upload_file_sample",:locals=>{:upload_file_id=>"new_wiki",:url_options=>{:source_id=>"nil",:source_type=>@wiki.class.name},:file_type=>"gif,png,jpg,jpeg",:pasted_zone=>"gollum-editor-body"} %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="description"><%= t(:label_skm_wiki_description) %></label></td>
+            <td class="data-col"><%= f.text_field :description, :id => "description", :full => true, :style => "width:80%;" %></td>
+            <td class="label-col">&nbsp;</td>
+            <td class="data-col">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="private_flag"><%= t(:label_skm_wiki_private_flag) %></label></td>
+            <td class="data-col"><%= f.check_box :private_flag, :id => "private_flag" %></td>
+            <td class="label-col">&nbsp;</td>
+            <td class="data-col">&nbsp;</td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
 
 
     <% content_for :form_buttons do %>
         <%= link_submit t(:save), {:class => "btn btn-primary"} %>
-        <%= link_to t(:label_skm_wiki_preview), {:action => "preview"},{ :target=>"_blank",:class=>"submit btn"} %>
+        <%= link_to t(:label_skm_wiki_preview), {:action => "preview"}, {:target => "_blank", :class => "submit btn"} %>
         <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
     <% end %>
 
@@ -82,3 +88,13 @@
     </div>
 
 <% end %>
+<script type="text/javascript">
+  $(function(){
+      $("#new_wiki").bind("cus.fileChange",function(e,data){
+        console.log(data);
+      });
+      $("#new_wiki").bind("cus.filePasted",function(e,data){
+        console.log(data);
+      });
+  });
+</script>

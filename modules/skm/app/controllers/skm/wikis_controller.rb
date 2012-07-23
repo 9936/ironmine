@@ -57,6 +57,7 @@ class Skm::WikisController < ApplicationController
 
     respond_to do |format|
       if @wiki.save
+        process_files(@wiki)
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @wiki, :status => :created, :location => @wiki }
       else
@@ -73,6 +74,7 @@ class Skm::WikisController < ApplicationController
 
     respond_to do |format|
       if @wiki.update_attributes(params[:skm_wiki])
+        process_files(@wiki)
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -226,5 +228,23 @@ class Skm::WikisController < ApplicationController
       @current_line_number = @right_diff_line_number - 1
     end
     ret
+  end
+
+  def process_files(ref)
+    @files = []
+    params[:files].each do |key,value|
+      if value[:file].present?
+      @files << Irm::AttachmentVersion.create({:source_id=>ref.id,
+                                               :source_type=>ref.class.name,
+                                               :data=>value[:file],
+                                               :description=>value[:description]})
+      elsif value[:id].present?
+        attachment = Irm::AttachmentVersion.where(:id=>value[:id]).first
+        attachment.update_attributes(:source_id=>ref.id,
+                                     :source_type=>ref.class.name,
+                                     :description=>value[:description])  if attachment
+        @files << attachment
+      end
+    end if params[:files]
   end
 end

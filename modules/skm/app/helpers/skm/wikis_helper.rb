@@ -10,4 +10,8 @@ module Skm::WikisHelper
      ["reStructuredText","rest"],
      ["Textile","textile"]]
   end
+
+  def wiki_files(wiki)
+    Irm::AttachmentVersion.select_all.where(:source_id=>wiki.id,:source_type=>wiki.class.name)
+  end
 end

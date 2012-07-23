@@ -16,7 +16,9 @@ Irm::AccessControl.map do |map|
                                  "irm/search"=>[:index],
                                  "irm/session_settings" => ["timeout_warn"],
                                  "irm/portlet_configs" => ["save_portal_config","save_portal_layout"],
-                                 "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
+                                 "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"],
+                                 "irm/attachments"=>["destroy_attachment","create_attachment"]
+  }
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
   #=====common setting===================

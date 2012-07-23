@@ -960,6 +960,9 @@ Ironmine::Application.routes.draw do
     post '/oauth/token' => "oauth_authorize#token", defaults: { format: "json" }
 
     match '/ratings/:rating_object_id/create(.:format)' => "ratings#create", :via => :get
+
+    match '/attachments/:source_id/destroy_attachment/:id(.:format)' => "attachments#destroy_attachment", :via => :delete
+    match '/attachments/create_attachment(.:format)' => "attachments#create_attachment", :via => :post
   end
 
   scope :module => "icm" do

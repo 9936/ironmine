@@ -15,7 +15,9 @@ var irm_labels = {
     sort_this_column: "点击此处切换显示顺序",
     select_all:"全选",
     select_single: "点击选择当前项",
-    search: "搜索"
+    search: "搜索",
+    upload_file_type_error: "文件类型错误",
+    upload_file_size_error: "文件超过限定大小"
 };
 
 if($.fn.datepicker.dpglobal){
