@@ -16,7 +16,9 @@ Irm::AccessControl.map do |map|
                                  "irm/search"=>[:index],
                                  "irm/session_settings" => ["timeout_warn"],
                                  "irm/portlet_configs" => ["save_portal_config","save_portal_layout"],
-                                 "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"]}
+                                 "irm/list_of_values"=>["lov","lov_search","lov_result","lov_value"],
+                                 "irm/attachments"=>["destroy_attachment","create_attachment"]
+  }
 
   map.function :view_kanban, { "irm/kanbans" => ["refresh_my_kanban"]}
   #=====common setting===================
@@ -335,9 +337,4 @@ Irm::AccessControl.map do |map|
   map.function :remote_access_client,{"irm/oauth_access_clients"=>["index", "edit", "update","get_data", "new", "create", "destroy", "show"]}
   #====================irm/rating_configs===============================
   map.function :rating_config,{"irm/rating_configs"=>["index", "edit", "update","get_data", "new", "create", "show"]}
-  #====================irm/wikis===============================
-  map.function :view_wiki,{"irm/wikis" => ["index","get_data","show","compare","history"]}
-  map.function :create_wiki,{"irm/wikis" => ["new","create","preview"]}
-  map.function :edit_wiki,{"irm/wikis" => ["edit","update","preview"]}
-  map.function :manage_wiki,{"irm/wikis" => ["destroy","revert"]}
 end

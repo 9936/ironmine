@@ -1,0 +1,13 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "40px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:back=>true) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},:back=>true) %>&nbsp;
+  <% end %>
+  <% builder.column(:name,{:title=>t(:name),:searchable=>true, :width => "180px"}) do |data| %>
+        <%= link_to(data[:name],{:action=>"show",:id=>data[:id]},:back=>true) %>
+  <% end %>
+  <% builder.column(:created_at,{:title=>t(:created_at), :width => "60px"}) do |data|%>
+    <%= format_date(data.created_at) %>
+  <% end %>
+  <% builder.column(:description,{:title=>t(:description), :width => "240px"})%>
+<% end %>

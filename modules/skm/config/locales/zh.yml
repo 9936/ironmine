@@ -181,3 +181,32 @@ zh:
   button_skm_entry_header_new: 新建知识
   tip_skm_entry_header_full_search: 搜索知识库文章标题、内容...
   label_skm_entry_header_reference: 请参考以下知识项
+  #============================== wiki ======================================
+  label_skm_wiki: Wiki
+  label_skm_wiki_name: 名称
+  label_skm_wiki_description: 描述
+  label_skm_wiki_content_format: 格式
+  label_skm_wiki_content: 内容
+  label_skm_wiki_new: 新建Wiki
+  label_skm_wiki_edit: 编辑Wiki
+  label_skm_wiki_history: 历史版本
+  label_skm_wiki_compare: 对比历史版本
+  label_skm_wiki_revert: 撤销修改
+  label_skm_wiki_revert_message:  撤销修改 %{from} 到 %{to} 之间的修改
+  label_skm_wiki_default_commit_message: 信息
+  label_skm_wiki_preview: 预览
+  label_skm_wiki_private_flag: 私有
+  label_skm_wiki_channel: 频道
+  label_skm_wiki_tags: 关键字
+  #============================== end wiki  ===================================
+  #============================== wiki ======================================
+  label_skm_wiki_template: Wiki模板
+  label_skm_wiki_template_name: 名称
+  label_skm_wiki_template_description: 描述
+  label_skm_wiki_template_content_format: 格式
+  label_skm_wiki_template_content: 内容
+  label_skm_wiki_template_new: 新建Wiki模板
+  label_skm_wiki_template_edit: 编辑Wiki模板
+  label_skm_wiki_template_preview: 预览
+  label_skm_wiki_template_private_flag: 私有
+  #============================== end wiki  ===================================

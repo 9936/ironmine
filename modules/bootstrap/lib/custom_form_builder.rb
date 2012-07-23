@@ -137,6 +137,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
   # Returns a label tag for the given field
   def wrapped_field(field,field_id, options = {})
     required_flag = options.delete(:required) ? true : false
+    full_flag = options.delete(:full) ? true : false
     text = ""
 
     field_text = @template.content_tag("span", field,{:class => "form-field"}, false)
@@ -154,6 +155,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
     field_class = ["form-field-wrapped"]
     field_class << "form-field-required" if required_flag
+    field_class << "form-field-full" if full_flag
     field_class << "form-field-error" if error_message_text.present?
 
     @template.content_tag("div", required_text+field_text + info_image + error_message_text,{:class => field_class.join(" ")}, false)

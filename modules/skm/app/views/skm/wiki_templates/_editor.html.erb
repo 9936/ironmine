@@ -1,0 +1,130 @@
+<% require_jscss(:gollum) %>
+<style type="text/css">
+    #gollum-editor {
+        border-radius: 0;
+        overflow: hidden;
+        padding: 0;
+        margin-left: -5px;
+    }
+
+    #gollum-editor #gollum-editor-function-bar {
+        width: 95%;
+    }
+
+    #gollum-editor textarea#gollum-editor-body {
+        margin: 0;
+    }
+
+    .form-table fieldset {
+        border: none;
+        margin: 5px;
+        padding: 0px;
+    }
+
+    #gollum-editor-help, #gollum-editor-template {
+        width: 95%;
+    }
+
+    #gollum-editor #gollum-editor-function-bar.active #gollum-editor-function-buttons {
+        padding-bottom: 5px;
+    }
+</style>
+<div id="gollum-editor" class="edit">
+  <fieldset id="gollum-editor-fields">
+    <div id="gollum-editor-function-bar">
+      <div id="gollum-editor-function-buttons">
+        <a href="#" id="function-bold" class="function-button">
+          <span>Bold</span></a>
+        <a href="#" id="function-italic" class="function-button">
+          <span>Italic</span></a>
+        <a href="#" id="function-code" class="function-button">
+          <span>Code</span></a>
+        <span class="function-divider">&nbsp;</span>
+        <a href="#" id="function-ul" class="function-button">
+          <span>Unordered List</span></a>
+        <a href="#" id="function-ol" class="function-button">
+          <span>Ordered List</span></a>
+        <a href="#" id="function-blockquote" class="function-button">
+          <span>Blockquote</span></a>
+
+        <a href="#" id="function-hr" class="function-button">
+          <span>Horizontal Rule</span></a>
+        <span class="function-divider">&nbsp;</span>
+        <a href="#" id="function-h1" class="function-button">
+          <span>h1</span></a>
+        <a href="#" id="function-h2" class="function-button">
+          <span>h2</span></a>
+        <a href="#" id="function-h3" class="function-button">
+          <span>h3</span></a>
+        <span class="function-divider">&nbsp;</span>
+        <a href="#" id="function-link" class="function-button">
+          <span>Link</span></a>
+        <a href="#" id="function-image" class="function-button">
+          <span>Image</span></a>
+        <span class="function-divider">&nbsp;</span>
+        <a href="#" id="function-template" class="function-button">
+          <span>Template</span></a>
+        <span class="function-divider">&nbsp;</span>
+        <a href="#" id="function-help" class="function-button">
+          <span>Help</span></a>
+
+      </div>
+
+
+      <div id="gollum-editor-format-selector" style="display: none;">
+        <%= f.select :content_format, wiki_formats, :normal => true %>
+        <label for="format">Edit Mode</label>
+      </div>
+    </div>
+
+    <div id="gollum-editor-template" class="jaws">
+      <ul id="gollum-editor-template-parent">
+        <% available_wiki_templates.each do |t| %>
+            <li><%= link_to t[0], {}, {:href => "javascript:void(0);", :path => url_for({:controller => "skm/wiki_templates", :action => "sample", :id => t[1], "_dom_id" => "gollum-editor-template-wrapper"})} %> </li>
+        <% end %>
+      </ul>
+      <div id="gollum-editor-template-wrapper">
+        <div id="gollum-editor-template-content">
+          <p>
+          </p>
+        </div>
+
+      </div>
+      <div id="gollum-editor-template-button">
+        <a id="gollum-editor-template-apply" href="javascript:void(0)" class="btn" style="float: right;padding-right: 10px;"><%= t(:apply) %></a>
+      </div>
+    </div>
+    <div id="gollum-editor-help" class="jaws">
+      <ul id="gollum-editor-help-parent">
+        <li><a href="javascript:void(0);" class="selected">Help 1</a></li>
+        <li><a href="javascript:void(0);">Help 1</a></li>
+        <li><a href="javascript:void(0);">Help 1</a></li>
+      </ul>
+      <ul id="gollum-editor-help-list">
+        <li><a href="javascript:void(0);">Help 2</a></li>
+        <li><a href="javascript:void(0);">Help 3</a></li>
+        <li><a href="javascript:void(0);">Help 4</a></li>
+        <li><a href="javascript:void(0);">Help 5</a></li>
+        <li><a href="javascript:void(0);">Help 6</a></li>
+        <li><a href="javascript:void(0);">Help 7</a></li>
+        <li><a href="javascript:void(0);">Help 8</a></li>
+      </ul>
+      <div id="gollum-editor-help-wrapper">
+        <div id="gollum-editor-help-content">
+          <p>
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <%= f.text_area :content, {:required => true, :full => true, :style => "width:95%", :id => "gollum-editor-body", "data-markup-lang" => f.object.content_format} %>
+  </fieldset>
+  </form>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $.GollumEditor({ NewFile:true, MarkupType:'<%=f.object.content_format%>' });
+    });
+</script>
+

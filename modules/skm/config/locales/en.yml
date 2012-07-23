@@ -180,3 +180,28 @@ en:
   button_skm_entry_header_new: New
   tip_skm_entry_header_full_search: Search knowledges title, content...
   label_skm_entry_header_reference: Reference
+  #============================== wiki ======================================
+  label_skm_wiki: Wiki
+  label_skm_wiki_name: Name
+  label_skm_wiki_description: Description
+  label_skm_wiki_content_format: Format
+  label_skm_wiki_content: Content
+  label_skm_wiki_new: New Wiki
+  label_skm_wiki_edit: Edit Wiki
+  label_skm_wiki_history: History
+  label_skm_wiki_compare: Versions Compare
+  label_skm_wiki_revert: Revert
+  label_skm_wiki_revert_message:  Revert change between %{from} and %{to}
+  label_skm_wiki_default_commit_message: Message
+  label_skm_wiki_preview: Preview
+  #============================== end wiki  ===================================
+  #============================== wiki ======================================
+  label_skm_wiki_template: Wiki Template
+  label_skm_wiki_template_name: Name
+  label_skm_wiki_template_description: Description
+  label_skm_wiki_template_content_format: Format
+  label_skm_wiki_template_content: Content
+  label_skm_wiki_template_new: 新建Wiki模板
+  label_skm_wiki_template_edit: 编辑Wiki模板
+  label_skm_wiki_template_preview: 预览
+  #============================== end wiki  ===================================

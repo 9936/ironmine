@@ -71,64 +71,75 @@ var MarkDown = {
                               replace: "### $1$2"
                             },
 
-  'function-link'       :   {
-                              exec: function( txt, selText, $field ) {
-                                var results = null;
-                                $.GollumEditor.Dialog.init({
-                                  title: 'Insert Link',
-                                  fields: [
-                                    {
-                                      id:   'text',
-                                      name: 'Link Text',
-                                      type: 'text'
-                                    },
-                                    {
-                                      id:   'href',
-                                      name: 'URL',
-                                      type: 'text'
-                                    }
-                                  ],
-                                  OK: function( res ) {
-                                   var rep = '';
-                                   if ( res['text'] && res['href'] ) {
-                                      rep = '[' + res['text'] + '](' +
-                                             res['href'] + ')';
-                                    }
-                                    $.GollumEditor.replaceSelection( rep );
-                                  }
-                                });
-                              }
-                            },
+  //'function-link'       :   {
+  //                            exec: function( txt, selText, $field ) {
+  //                              var results = null;
+  //                              $.GollumEditor.Dialog.init({
+  //                                title: 'Insert Link',
+  //                                fields: [
+  //                                  {
+  //                                    id:   'text',
+  //                                    name: 'Link Text',
+  //                                    type: 'text'
+  //                                  },
+  //                                  {
+  //                                    id:   'href',
+  //                                    name: 'URL',
+  //                                    type: 'text'
+  //                                  }
+  //                                ],
+  //                                OK: function( res ) {
+  //                                 var rep = '';
+  //                                 if ( res['text'] && res['href'] ) {
+  //                                    rep = '[' + res['text'] + '](' +
+  //                                           res['href'] + ')';
+  //                                  }
+  //                                  $.GollumEditor.replaceSelection( rep );
+  //                                }
+  //                              });
+  //                            }
+  //                          },
+    'function-link'       :   {
+                                exec: function( txt, selText, $field ) {
 
-  'function-image'      :   {
-                              exec: function( txt, selText, $field ) {
-                                var results = null;
-                                $.GollumEditor.Dialog.init({
-                                  title: 'Insert Image',
-                                  fields: [
-                                    {
-                                      id: 'url',
-                                      name: 'Image URL',
-                                      type: 'text'
-                                    },
-                                    {
-                                      id: 'alt',
-                                      name: 'Alt Text',
-                                      type: 'text'
-                                    }
-                                  ],
-                                  OK: function( res ) {
-                                    var rep = '';
-                                    if ( res['url'] && res['alt'] ) {
-                                      rep = '![' + res['alt'] + ']' +
-                                            '(' + res['url'] + ')';
-                                    }
-                                    $.GollumEditor.replaceSelection( rep );
-                                  }
-                                });
-                              }
-                            }
+                                      $.GollumEditor.replaceSelection( "[Hand](www.hand-china.com)" );
 
+                                }
+                              },
+
+  //'function-image'      :   {
+  //                            exec: function( txt, selText, $field ) {
+  //                              var results = null;
+  //                              $.GollumEditor.Dialog.init({
+  //                                title: 'Insert Image',
+  //                                fields: [
+  //                                  {
+  //                                    id: 'url',
+  //                                    name: 'Image URL',
+  //                                    type: 'text'
+  //                                  },
+  //                                  {
+  //                                    id: 'alt',
+  //                                    name: 'Alt Text',
+  //                                    type: 'text'
+  //                                  }
+  //                                ],
+  //                                OK: function( res ) {
+  //                                  var rep = '';
+  //                                  if ( res['url'] && res['alt'] ) {
+  //                                    rep = '![' + res['alt'] + ']' +
+  //                                          '(' + res['url'] + ')';
+  //                                  }
+  //                                  $.GollumEditor.replaceSelection( rep );
+  //                                }
+  //                              });
+  //                            }
+  //                          } ,
+    'function-image'      :   {
+                                exec: function( txt, selText, $field ) {
+                                    $.GollumEditor.replaceSelection( "[[imageName.png|alt=Change this alt]]" );
+                                }
+                              }
 };
 
 var MarkDownHelp = [

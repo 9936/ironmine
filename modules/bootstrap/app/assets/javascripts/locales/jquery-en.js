@@ -13,5 +13,7 @@ var irm_labels = {
     sort_this_column: "Click Here To Order This Column",
     select_all:"Click Here To Select All",
     select_single: "Click Here To Select Current Item",
-    search: "Search"
+    search: "Search" ,
+    upload_file_type_error: "Filetype not allowed",
+    upload_file_size_error: "File is too large"
 };

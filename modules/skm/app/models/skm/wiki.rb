@@ -1,5 +1,5 @@
-class Irm::Wiki < ActiveRecord::Base
-  set_table_name :irm_wikis
+class Skm::Wiki < ActiveRecord::Base
+  set_table_name :skm_wikis
 
   attr_accessor :origin_name
 
@@ -7,6 +7,8 @@ class Irm::Wiki < ActiveRecord::Base
   query_extend
   #对运维中心数据进行隔离
   default_scope {default_filter}
+
+  validates_presence_of :name,:description
 
   validates_uniqueness_of :name,:if=>Proc.new{|i| i.name.present?}
 
@@ -37,6 +39,17 @@ class Irm::Wiki < ActiveRecord::Base
   def page
     Ironmine::WIKI.page(self.wiki_name)
   end
+
+  def show_url(absolute = false)
+    return "#" unless self.id
+    if absolute
+      Irm::GlobalHelper.instance.absolute_url(:controller=>"skm/wikis",:action=>"show",:id=>self.id)
+    else
+      Irm::GlobalHelper.instance.url(:controller=>"skm/wikis",:action=>"show",:id=>self.id)
+    end
+
+  end
+
 
   protected
 
