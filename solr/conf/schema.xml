@@ -62,31 +62,10 @@
     <!-- mmseg4j -->
     <fieldType name="text" class="solr.TextField" positionIncrementGap="100" multiValued="true">
       <analyzer>
-          <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="complex" />
+          <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="max-word" />
           <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldType>
-    <fieldType name="textMaxWord" class="solr.TextField" positionIncrementGap="100" >
-      <analyzer>
-          <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="max-word"/>
-          <filter class="solr.LowerCaseFilterFactory"/>
-      </analyzer>
-    </fieldType>
-    <!--fieldType name="text" class="solr.TextField" omitNorms="false">
-      <analyzer type="index">
-          <tokenizer class="solr.StandardTokenizerFactory"/>
-          <filter class="solr.StandardFilterFactory"/>
-          <filter class="solr.LowerCaseFilterFactory"/>
-          <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="15"/>
-        </analyzer>
-      <analyzer type="query">
-        <tokenizer class="solr.StandardTokenizerFactory"/>
-        <filter class="solr.StandardFilterFactory"/>
-        <filter class="solr.LowerCaseFilterFactory"/>
-        <filter class="solr.PorterStemFilterFactory"/>
-        <filter class="solr.PhoneticFilterFactory" encoder="DoubleMetaphone" inject="true"/>
-      </analyzer>
-    </fieldType-->
     <!-- *** This fieldType is used by Sunspot! *** -->
     <fieldType name="boolean" class="solr.BoolField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
@@ -247,10 +226,7 @@
     <!-- *** This dynamicField is used by Sunspot! *** -->
     <dynamicField name="*_etms" stored="true" termVectors="true" type="tdouble" multiValued="true" indexed="true"/>
     <dynamicField name="*_attachment" stored="true" type="text" multiValued="true" indexed="true"/>
-    <!--dynamicField name="*_attachmentm" stored="true" type="text" multiValued="true" indexed="true"/-->
     <dynamicField name="ignored_*" type="ignored"/>
-    <field name="complex" type="text" indexed="true" stored="true"/>
-    <copyField source="text" dest="complex" />
   </fields>
   <!-- Field to use to determine and enforce document uniqueness. 
       Unless this field is marked with required="false", it will be a required field
