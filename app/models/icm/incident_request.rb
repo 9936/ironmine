@@ -268,11 +268,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
   def self.search(query)
     search = Sunspot.search(Icm::IncidentRequest,Irm::AttachmentVersion) do |sq|
       sq.keywords query
-      sq.with(:source_type, ['Icm::IncidentRequest', 'Icm::IncidentJournal'])
+      sq.facet :source_type => ['Icm::IncidentRequest', 'Icm::IncidentJournal']
     end
     #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
     incident_request_ids = []
     if search.results.any?
+
       search.results.each do |result|
         if result.class.to_s.eql?('Irm::AttachmentVersion')
           #如果搜索附件来自于回复

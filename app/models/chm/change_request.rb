@@ -121,7 +121,7 @@ class Chm::ChangeRequest < ActiveRecord::Base
   def self.search(query)
     search = Sunspot.search(Chm::ChangeRequest,Irm::AttachmentVersion) do |sq|
       sq.keywords query
-      sq.with(:source_type, ['Chm::ChangeRequest', 'Chm::ChangeJournal'])
+      sq.facet :source_type => ['Chm::ChangeRequest', 'Chm::ChangeJournal']
     end
     #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
     change_request_ids = []

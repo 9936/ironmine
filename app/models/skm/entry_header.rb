@@ -113,7 +113,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   def self.search(query)
     search = Sunspot.search(Skm::EntryHeader, Irm::AttachmentVersion) do |sq|
       sq.keywords query
-      sq.with(:source_type, 'Skm::EntryHeader')
+      sq.facet :source_type => 'Skm::EntryHeader'
     end
     #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
     entry_header_ids = []

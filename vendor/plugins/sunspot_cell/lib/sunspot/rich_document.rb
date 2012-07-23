@@ -21,7 +21,6 @@ module Sunspot
       data = nil
       
       @fields.each do |f|
-        puts "=============================#{f.value}===================================="
         if f.name.to_s.include?("_attachment") and f.value.present?
           data = open(f.value).read rescue ""
           params['fmap.content'] = f.name
