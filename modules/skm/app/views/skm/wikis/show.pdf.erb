@@ -10,6 +10,8 @@
     </style>
   </head>
   <body>
-    <div class="markdown-body"><%=raw @wiki.page.formatted_data %></div>
+    <div class="markdown-body">
+      <%=raw show_wiki(@wiki.page,@wiki.name,@wiki.id,:pdf) %>
+    </div>
   </body>
 </html>
