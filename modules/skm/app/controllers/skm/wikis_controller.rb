@@ -168,7 +168,13 @@ class Skm::WikisController < ApplicationController
   end
 
   def preview
-    @wiki = Skm::Wiki.new(params[:skm_wiki])
+    if params[:skm_wiki][:id]
+      @wiki = Skm::Wiki.find(params[:skm_wiki][:id])
+      @wiki.attributes = params[:skm_wiki]
+    else
+      @wiki = Skm::Wiki.new(params[:skm_wiki])
+    end
+
     @preview = Ironmine::WIKI.preview_page(@wiki.name, @wiki.content, @wiki.content_format)
 
     respond_to do |format|

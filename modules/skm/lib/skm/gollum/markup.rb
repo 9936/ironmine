@@ -28,10 +28,12 @@ module Skm::Gollum::Markup
 
         data = @data.dup
         data = preprocess(data)
+        puts data
         data = extract_code(data)
         data = extract_tex(data)
         data = extract_wsd(data)
         data = extract_tags(data)
+        puts data
         begin
           data = GitHub::Markup.render(@name, data)
           if data.nil?

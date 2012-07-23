@@ -40,6 +40,17 @@ class Skm::Wiki < ActiveRecord::Base
     Ironmine::WIKI.page(self.wiki_name)
   end
 
+  def show_url(absolute = false)
+    return "#" unless self.id
+    if absolute
+      Irm::GlobalHelper.instance.absolute_url(:controller=>"skm/wikis",:action=>"show",:id=>self.id)
+    else
+      Irm::GlobalHelper.instance.url(:controller=>"skm/wikis",:action=>"show",:id=>self.id)
+    end
+
+  end
+
+
   protected
 
   def origin_wiki_name

@@ -1,6 +1,6 @@
 <%= app_title %>
 <%= form_for(@wiki, :url => {:action => "update"}, :builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
-
+    <%= f.hidden_field :id %>
     <% content_for :form_block_a do %>
             <table class="form-table" style="width: 100%;" cellpadding="0" cellspacing="0" border="0">
               <tbody>
@@ -33,7 +33,7 @@
           </tr>
               <tr>
                 <td class="label-col"><label for="description"><%= t(:label_skm_wiki_description) %></label></td>
-                <td class="data-col"><%= f.text_field :description, :id => "description",:full=>true,:style=>"width:80%;" %></td>
+                <td class="data-col"><%= f.text_field :description, :id => "description",:required=>true,:full=>true,:style=>"width:80%;" %></td>
                 <td class="label-col">&nbsp;</td>
                 <td class="data-col">&nbsp;</td>
               </tr>
@@ -95,7 +95,7 @@
         console.log(data);
       });
       $("#edit_wiki").bind("cus.filePasted",function(e,data){
-        console.log(data);
+        $("#gollum-editor-body").insertAtCaret("[["+data+"]]");
       });
   });
 </script>

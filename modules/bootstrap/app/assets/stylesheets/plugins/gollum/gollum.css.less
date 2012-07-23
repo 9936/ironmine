@@ -508,8 +508,13 @@
     border: medium none;
 }
 
-.markdown-body >{
-  h3,h4,h5,h6,pre,span,p,table,blockquote,dl{
-      margin-left: 100px;
-  }
+.markdown-body {
+    h3, h4, h5, h6, pre, span, p, table, blockquote, dl, ul {
+        margin-left: 100px;
+    }
+    ul {
+        ul, p, pre, span {
+            margin-left: 0px;
+        }
+    }
 }
