@@ -84,9 +84,22 @@ class Irm::Bulletin < ActiveRecord::Base
   end
 
   def self.search(query)
-    Sunspot.search Irm::Bulletin do
-      keywords query
-    end.results
+    search = Sunspot.search(Irm::Bulletin, Irm::AttachmentVersion) do |sq|
+      sq.keywords query
+      sq.facet :source_type => 'Irm::Bulletin'
+    end
+    #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
+    bulletion_ids = []
+    if search.results.any?
+      search.results.each do |result|
+        if result.class.to_s.eql?('Irm::AttachmentVersion')
+          bulletion_ids << result.source_id unless bulletion_ids.include?(result.source_id)
+        else
+          bulletion_ids << result.id unless bulletion_ids.include?(result.id)
+        end
+      end
+    end
+    Irm::Bulletin.where("#{Irm::Bulletin.table_name}.id IN (?)", bulletion_ids)
   end
 
   # create access from str

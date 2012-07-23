@@ -64,6 +64,15 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     end
   end
 
+  searchable do
+    string :source_id
+    string :source_type
+    string :attachment_id
+    text :data_file_name
+    attachment :data_path
+  end
+
+
   #返回附件url
   def url(*args)
     data.url(*args)
@@ -314,4 +323,17 @@ class Irm::AttachmentVersion < ActiveRecord::Base
       self.data.instance_write(:file_name, "#{UUID.generate(:compact)[0,21]}#{ext}")
     end
   end
+
+  private
+    def data_path
+      #只对指定格式的附件内容进行索引
+      ext_arr = ['.doc','.docx','.txt','.pdf','.xls','.ppt','.pptx','.html','.xls','.xlsx']
+      ext =  self.data.path.scan(/\.[^\.]+$/)[0]
+      if ext_arr.include?(ext)
+        self.data.path
+      else
+        nil
+      end
+
+    end
 end
