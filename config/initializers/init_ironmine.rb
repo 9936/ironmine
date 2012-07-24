@@ -135,6 +135,5 @@ begin
 
 end
 
-#sunspot_plus
-#require 'sunspot_rails'
-#Sunspot.session = Sunspot::SessionProxy::DelayedJobSessionProxy.new(Sunspot.session)
+require "irm/sunspot/delayed_job_sunspot"
+Sunspot.session = Irm::Sunspot::DelayedJobSessionProxy.new(Sunspot.session)
