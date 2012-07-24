@@ -1,0 +1,13 @@
+<%=datatable_view({:count=>datas.count,:datas=>datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:delete),{:controller => "skm/book_wikis",:action => "destroy",:id=>data.id,:_dom_id=>"bookWikis"},{:remote=>true,:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+  <% end %>
+  <% builder.column(:name,{:title=>t(:name),:searchable=>true, :width => "140px"})  %>
+  <% builder.column(:created_at,{:title=>t(:created_at), :width => "60px"}) do |data|%>
+    <%= format_date(data[:created_at]) %>
+  <% end %>
+    <% builder.column(:updated_at,{:title=>t(:updated_at), :width => "60px"}) do |data|%>
+    <%= format_date(data[:updated_at]) %>
+  <% end %>
+  <% builder.column(:description,{:title=>t(:description), :width => "180px"})%>
+<% end %>

@@ -1,0 +1,2 @@
+module Skm::BooksHelper
+end
