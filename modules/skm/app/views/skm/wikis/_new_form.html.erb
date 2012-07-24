@@ -90,11 +90,8 @@
 <% end %>
 <script type="text/javascript">
   $(function(){
-      $("#new_wiki").bind("cus.fileChange",function(e,data){
-        console.log(data);
-      });
-      $("#new_wiki").bind("cus.filePasted",function(e,data){
-        console.log(data);
+      $("#edit_wiki").bind("cus.filePasted",function(e,data){
+        $("#gollum-editor-body").insertAtCaret("[["+data+"|alt="+data+"]]");
       });
   });
 </script>

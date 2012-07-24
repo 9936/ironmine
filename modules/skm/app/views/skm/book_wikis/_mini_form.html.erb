@@ -1,0 +1,8 @@
+<%= form_tag({:controller => "skm/book_wikis",:action => "create",:book_id=>book.id,:_dom_id=>"bookWikis"},{:remote=>true,:builder => CustomFormBuilder}) do %>
+    <div class="float-right" style="margin-left: 20px;">
+      <%= link_submit(t(:add), :class=>"btn") %>
+    </div>
+    <div  style="float:right;">
+      <%= lov_field_tag "wiki_id", Skm::Wiki,{:style=>"width:150px;"}%>
+    </div>
+<% end %>

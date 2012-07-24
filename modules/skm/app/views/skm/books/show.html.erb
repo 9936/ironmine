@@ -1,0 +1,79 @@
+<%= common_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_book) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit", :id => @book}, :class => "btn" %>
+        <%= link_to t(:back), {:action => "index"}, :class => "btn" %>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%= t(:label_skm_book_name) %></label></td>
+        <td class="data-col">
+          <div><%= @book.name %></div>
+        </td>
+        <td class="label-col empty">
+          <div>&nbsp;</div>
+        </td>
+        <td class="data-col empty">
+          <div>&nbsp;</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_skm_book_description) %></label></td>
+        <td class="data-col">
+          <div><%= @book.description %></div>
+        </td>
+        <td class="label-col empty">
+          <div>&nbsp;</div>
+        </td>
+        <td class="data-col empty">
+          <div>&nbsp;</div>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--页面结构-->
+<div class="page-block" id="bookWikis">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_book_wikis) %></h2>
+      </td>
+      <td class="page-block-button">
+      </td>
+      <td class="page-block-help form-inline" id="wikiBookForm">
+        <%= render :partial => "skm/book_wikis/mini_form", :locals => {:book => @book} %>
+      </td>
+    </tr>
+  </table>
+  <%= form_tag({:controller => "skm/book_wikis", :action => "order", :book_id => @book.id, :_dom_id => "bookWikis"}, :remote => true) do %>
+
+      <div class="page-block-body">
+        <div id="wikis">
+          <%= render :partial => "skm/book_wikis/book_wikis", :locals => {:datas => @book.book_wikis.with_wiki} %>
+        </div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= link_submit t(:label_skm_book_wiki_order), {:class => "btn btn-primary"} %>
+          </td>
+        </tr>
+      </table>
+  <% end %>
+
+</div>

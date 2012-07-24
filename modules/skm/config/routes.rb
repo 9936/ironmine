@@ -169,5 +169,18 @@ Rails.application.routes.draw do
       match '/wikis/:id/history(.:format)' => "wikis#history", :via => :get
       match '/wikis/:id/compare(.:format)' => "wikis#compare", :via => [:get,:post]
       match '/wikis/:id/revert(.:format)' => "wikis#revert", :via => [:post]
+      #books
+      match '/books(/index)(.:format)' => "books#index", :via => :get
+      match '/books/:id/edit(.:format)' => "books#edit", :via => :get
+      match '/books/:id/update(.:format)' => "books#update", :via => :put
+      match '/books/new(.:format)' => "books#new", :via => :get
+      match '/books/get_data(.:format)' => "books#get_data", :via => :get
+      match '/books/create(.:format)' => "books#create", :via => :post
+      match '/books/get_data(.:format)' => "books#get_data"
+      match '/books/:id/show(.:format)' => "books#show", :via => :get
+      match '/books/:id/publish(.:format)' => "books#publish", :via => :get
+      match '/book_wikis/:book_id/create(.:format)' => "book_wikis#create", :via => :post
+      match '/book_wikis/:id/destroy(.:format)' => "book_wikis#destroy", :via => :delete
+      match '/book_wikis/:book_id/order(.:format)' => "book_wikis#order", :via => :post
     end
 end

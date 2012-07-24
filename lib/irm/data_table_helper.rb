@@ -43,13 +43,13 @@ module Irm
       table_body = ActiveSupport::SafeBuffer.new
       table_body.safe_concat "<tbody>"
       if builder.options[:datas].any?
-        builder.options[:datas].each do |data|
+        builder.options[:datas].each_with_index do |data,index|
           table_body.safe_concat "<tr id='#{data[:id]}' #{row_html_attributes(builder, data)}>"
           column_options.each do |column|
             next if column[:hidden]
             table_body.safe_concat "<td><div>"
             if column[:block].present?
-              table_body.safe_concat capture(data, &column[:block])
+              table_body.safe_concat capture(data,index, &column[:block])
             else
               if data[column[:key]].present?
                 if data[column[:key]].is_a?(Time)

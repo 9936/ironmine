@@ -1,0 +1,6 @@
+$(function(){
+    $("#wikiBookForm").html("<%= escape_javascript(render :partial=>"skm/book_wikis/mini_form",:locals => {:book=>@book})%>");
+
+    $("#wikis").html("<%= escape_javascript(render :partial=>"skm/book_wikis/book_wikis",:locals=>{:datas=>@book.book_wikis.with_wiki})%>");
+});
+

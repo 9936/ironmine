@@ -27,7 +27,7 @@ class Skm::WikisController < ApplicationController
                        :layout => nil,
                        :book => true,
                        :page_size => 'A4',
-                       :toc=>{:header_text=>t(:label_irm_new_view_filter),:disable_back_links=>true}
+                       :toc=>{:header_text=>t(:label_skm_wiki_table_of_content),:disable_back_links=>true}
       }
     end
   end
