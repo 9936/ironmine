@@ -28,7 +28,7 @@ module Skm::Gollum::Markup
 
         data = @data.dup
         data = preprocess(data)
-        data = extract_code(data)
+        #data = extract_code(data)
         data = extract_tex(data)
         data = extract_wsd(data)
         data = extract_tags(data)
@@ -58,16 +58,23 @@ module Skm::Gollum::Markup
       end
 
       def preprocess(data)
+        data = data.gsub(/(```)\s+/m) do
+          "#{$1}\n"
+        end
+
+        data = extract_code(data)
+
         data = data.gsub(/!\[(.+?)\]\(([^\(]+)\)/m) do
           "[[#{$2}|alt=#{$1}]]"
         end
         data = data.gsub(/\[([^\[]+)\]\[internal-ref\]/m) do
           "[[#{$1}]]"
         end
-        data = data.gsub(/(\S)(\s{0,1}[\n\r]+)/) do
-          "#{$1}  #{$2}"
+        data = data.gsub(/(\S)(\s*[\n\r]+)/) do
+          "#{$1}  #{$2}  #{$2}"
         end
       end
+
 
       def process_headers(doc)
         temp_doc = Nokogiri::XML::Document.new
@@ -225,7 +232,7 @@ module Skm::Gollum::Markup
       end
 
       def find_page_from_name(cname)
-        Skm::Wiki.where(:name=>cname).first
+        Skm::Wiki.where(:name => cname).first
       end
     end
   end
