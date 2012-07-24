@@ -64,13 +64,13 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     end
   end
 
-  #searchable do
-  #  string :source_id
-  #  string :source_type
-  #  string :attachment_id
-  #  text :data_file_name
-  #  attachment :data_path
-  #end
+  searchable do
+    string :source_id
+    string :source_type
+    string :attachment_id
+    text :data_file_name
+    attachment :data_path
+  end
 
 
   #返回附件url
