@@ -97,13 +97,13 @@ module Irm::ListOfValuesHelper
 
   def handler_lov_data(data)
     if data
-      if data.to_a?(Time)
-        data.strftime('%Y-%m-%d %H:%M:%S')
-      elsif data.to_a?(Date)
-        data.strftime('%Y-%m-%d')
+      if data.is_a?(Time)
+        data = data.strftime('%Y-%m-%d %H:%M:%S')
+      elsif data.is_a?(Date)
+        data = data.strftime('%Y-%m-%d')
       end
     end
-    data.to_sym
+    data
   end
 
 end
