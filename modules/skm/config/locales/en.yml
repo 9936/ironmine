@@ -194,6 +194,8 @@ en:
   label_skm_wiki_revert_message:  Revert change between %{from} and %{to}
   label_skm_wiki_default_commit_message: Message
   label_skm_wiki_preview: Preview
+  label_skm_wiki_img: 图
+  label_skm_wiki_table: 表
   #============================== end wiki  ===================================
   #============================== wiki ======================================
   label_skm_wiki_template: Wiki Template

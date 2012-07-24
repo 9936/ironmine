@@ -198,6 +198,8 @@ zh:
   label_skm_wiki_private_flag: 私有
   label_skm_wiki_channel: 频道
   label_skm_wiki_tags: 关键字
+  label_skm_wiki_img: 图
+  label_skm_wiki_table: 表
   #============================== end wiki  ===================================
   #============================== wiki ======================================
   label_skm_wiki_template: Wiki模板
