@@ -27,6 +27,11 @@ class Skm::Wiki < ActiveRecord::Base
     Ironmine::WIKI.update_page(page, self.wiki_name, self.content_format.to_sym, self.content, commit)
   end
 
+  scope :by_book,lambda{ |book_id|
+    joins("JOIN #{Skm::BookWiki.table_name} ON #{Skm::BookWiki.table_name}.book_id = '#{book_id}' AND #{Skm::BookWiki.table_name}.wiki_id = #{table_name}.id").
+        order("#{Skm::BookWiki.table_name}.display_sequence")
+  }
+
   def wiki_name
     "#{self.name} #{self.id}"
   end

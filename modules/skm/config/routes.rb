@@ -181,6 +181,6 @@ Rails.application.routes.draw do
       match '/books/:id/publish(.:format)' => "books#publish", :via => :get
       match '/book_wikis/:book_id/create(.:format)' => "book_wikis#create", :via => :post
       match '/book_wikis/:id/destroy(.:format)' => "book_wikis#destroy", :via => :delete
-
+      match '/book_wikis/:book_id/order(.:format)' => "book_wikis#order", :via => :post
     end
 end

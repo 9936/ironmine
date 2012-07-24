@@ -1,13 +1,17 @@
-<%=datatable_view({:count=>datas.count,:datas=>datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-        <%= link_to(t(:delete),{:controller => "skm/book_wikis",:action => "destroy",:id=>data.id,:_dom_id=>"bookWikis"},{:remote=>true,:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
-  <% end %>
-  <% builder.column(:name,{:title=>t(:name),:searchable=>true, :width => "140px"})  %>
-  <% builder.column(:created_at,{:title=>t(:created_at), :width => "60px"}) do |data|%>
-    <%= format_date(data[:created_at]) %>
-  <% end %>
-    <% builder.column(:updated_at,{:title=>t(:updated_at), :width => "60px"}) do |data|%>
-    <%= format_date(data[:updated_at]) %>
-  <% end %>
-  <% builder.column(:description,{:title=>t(:description), :width => "180px"})%>
+<%= datatable_view({:count => datas.count, :datas => datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "40px"}) do |data| %>
+        <%= link_to(t(:delete), {:controller => "skm/book_wikis", :action => "destroy", :id => data.id, :_dom_id => "bookWikis"}, {:remote => true, :back => true, :method => :delete, :confirm => t(:label_are_you_sure)}) %>
+    <% end %>
+    <% builder.column(:display_sequence, {:title => t(:display_sequence), :width => "10px"}) do |data, index| %>
+        <%= hidden_field_tag("orders[#{index}][id]", data.id) %>
+        <%= text_field_tag("orders[#{index}][display_sequence]", data.display_sequence||1, :style => "width:30px;margin:0;") %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name), :searchable => true, :width => "200px"}) %>
+    <% builder.column(:created_at, {:title => t(:created_at), :width => "90px"}) do |data| %>
+        <%= format_date(data[:created_at]) %>
+    <% end %>
+    <% builder.column(:updated_at, {:title => t(:updated_at), :width => "90px"}) do |data| %>
+        <%= format_date(data[:updated_at]) %>
+    <% end %>
+    <% builder.column(:description, {:title => t(:description), :width => "380px"}) %>
 <% end %>

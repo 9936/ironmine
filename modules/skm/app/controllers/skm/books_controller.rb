@@ -82,23 +82,7 @@ class Skm::BooksController < ApplicationController
     end
   end
 
-  def multilingual_edit
-    @book = Skm::Book.find(params[:id])
-  end
 
-  def multilingual_update
-    @book = Skm::Book.find(params[:id])
-    @book.not_auto_mult=true
-    respond_to do |format|
-      if @book.update_attributes(params[:skm_book])
-        format.html { redirect_to({:action => "show"}, :notice => 'Book was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @book.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
 
   def get_data
     skm_books_scope = Skm::Book.where("1=1")
@@ -109,6 +93,23 @@ class Skm::BooksController < ApplicationController
       format.html  {
         @count = count
         @datas = skm_books
+      }
+    end
+  end
+
+  def publish
+    @book = Skm::Book.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.pdf {
+        render :pdf => "#{@book.name}",
+                       :print_media_type => false,
+                       :encoding => 'utf-8',
+                       :layout => nil,
+                       :book => true,
+                       :page_size => 'A4',
+                       :toc=>{:header_text=>t(:label_skm_wiki_table_of_content),:disable_back_links=>true}
       }
     end
   end

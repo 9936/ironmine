@@ -28,12 +28,10 @@ module Skm::Gollum::Markup
 
         data = @data.dup
         data = preprocess(data)
-        puts data
         data = extract_code(data)
         data = extract_tex(data)
         data = extract_wsd(data)
         data = extract_tags(data)
-        puts data
         begin
           data = GitHub::Markup.render(@name, data)
           if data.nil?
@@ -63,10 +61,12 @@ module Skm::Gollum::Markup
         data = data.gsub(/!\[(.+?)\]\(([^\(]+)\)/m) do
           "[[#{$2}|alt=#{$1}]]"
         end
-        data.gsub(/\[([^\[]+)\]\[internal-ref\]/m) do
+        data = data.gsub(/\[([^\[]+)\]\[internal-ref\]/m) do
           "[[#{$1}]]"
         end
-
+        data = data.gsub(/(\S)(\s{0,1}[\n\r]+)/) do
+          "#{$1}  #{$2}"
+        end
       end
 
       def process_headers(doc)

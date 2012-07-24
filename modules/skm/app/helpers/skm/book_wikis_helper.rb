@@ -1,2 +1,0 @@
-module Skm::BookWikisHelper
-end

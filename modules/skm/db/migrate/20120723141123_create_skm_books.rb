@@ -16,6 +16,7 @@ class CreateSkmBooks < ActiveRecord::Migration
       t.string   "opu_id",            :limit => 22 , :collate=>"utf8_bin"
       t.string   "book_id",           :limit => 22, :collate=>"utf8_bin"
       t.string   "wiki_id",           :limit => 22, :collate=>"utf8_bin"
+      t.integer  "display_sequence",  :default=>0
       t.string   "created_by",        :limit => 22, :collate=>"utf8_bin"
       t.string   "updated_by",        :limit => 22, :collate=>"utf8_bin"
       t.datetime "created_at"

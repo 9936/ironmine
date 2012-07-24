@@ -11,4 +11,8 @@ class Skm::Book < ActiveRecord::Base
   validates_uniqueness_of :name,:if=>Proc.new{|i| i.name.present?}
 
   has_many :book_wikis
+
+  def wikis
+    Skm::Wiki.by_book(self.id).select_all
+  end
 end

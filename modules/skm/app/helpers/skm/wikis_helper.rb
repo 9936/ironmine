@@ -1,37 +1,37 @@
 module Skm::WikisHelper
   def wiki_formats
-    [["AsciiDoc","asciidoc"],
-     ["Creole","creole"],
-     ["Markdown","markdown"],
-     ["MediaWiki","mediawiki"],
-     ["Org-mode","org"],
-     ["Pod","pod"],
-     ["RDoc","rdoc"],
-     ["reStructuredText","rest"],
-     ["Textile","textile"]]
+    [["AsciiDoc", "asciidoc"],
+     ["Creole", "creole"],
+     ["Markdown", "markdown"],
+     ["MediaWiki", "mediawiki"],
+     ["Org-mode", "org"],
+     ["Pod", "pod"],
+     ["RDoc", "rdoc"],
+     ["reStructuredText", "rest"],
+     ["Textile", "textile"]]
   end
 
   def wiki_files(wiki)
-    Irm::AttachmentVersion.select_all.where(:source_id=>wiki.id,:source_type=>wiki.class.name)
+    Irm::AttachmentVersion.select_all.where(:source_id => wiki.id, :source_type => wiki.class.name)
   end
 
-  def show_wiki(page,title="",wiki_id=nil,mode=nil)
+  def show_wiki(page, title="", wiki_id=nil, mode=nil)
     if wiki_id.present?
-      page.attachments = Irm::AttachmentVersion.select_all.where(:source_id=>wiki_id,:source_type=>Skm::Wiki.name)
+      page.attachments = Irm::AttachmentVersion.select_all.where(:source_id => wiki_id, :source_type => Skm::Wiki.name)
     end
     if mode
       page.mode = mode
     end
     doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data)
     if title.present?
-      doc = check_h1(title,doc)
+      doc = check_h1(title, doc)
     end
     doc = generate_sequence(doc)
     doc.to_html
   end
 
 
-  def check_h1(title,doc)
+  def check_h1(title, doc)
     if doc.css("h1").length < 1
       doc.children.before(Nokogiri::XML::DocumentFragment.parse("<h1>#{title}</h1>"))
     end
@@ -73,5 +73,22 @@ module Skm::WikisHelper
       end
     end
     doc
+  end
+
+  def show_book(book, mode=nil)
+    output = ActiveSupport::SafeBuffer.new
+    book.wikis.each do |wiki|
+      page = wiki.page
+      page.attachments = Irm::AttachmentVersion.select_all.where(:source_id => wiki.id, :source_type => Skm::Wiki.name)
+      if mode
+        page.mode = mode
+      end
+      doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data)
+      doc = check_h1(wiki.name, doc)
+      output.safe_concat doc.to_html
+    end
+    doc = Nokogiri::HTML::DocumentFragment.parse(output)
+    doc = generate_sequence(doc)
+    doc.to_html
   end
 end
