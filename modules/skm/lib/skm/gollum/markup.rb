@@ -210,8 +210,9 @@ module Skm::Gollum::Markup
 
         name, page_name = *parts.compact.map(&:strip)
         cname = @wiki.page_class.cname(page_name || name)
-
-        if name =~ %r{^https?://} && page_name.nil?
+        if name =~ /^.+(jpg|png|gif|svg|bmp)$/i
+          %{<a href="##{name}">#{name}</a>}
+        elsif name =~ %r{^https?://} && page_name.nil?
           %{<a href="#{name}">#{name}</a>}
         else
           presence = "absent"
