@@ -25,7 +25,7 @@ Irm::AccessControl.map do |map|
 
 
   #===================skm/entries ==========================================
-  map.function :view_skm_entries, {"skm/entry_headers" => ["index", "show", "index_search", "get_history_entries_data", "get_data",
+  map.function :view_skm_entries, {"skm/entry_headers" => ["index", "show","knowledge_details", "index_search", "get_history_entries_data", "get_data",
                                                            "my_favorites_data", "my_favorites", "add_favorites", "data_grid", "my_drafts",
                                                            "my_drafts_data", "remove_favorite", "video_show","my_unpublished","my_unpublished_data"],
                                    "icm/incident_journals" => ["get_entry_header_data", "apply_entry_header", "apply_entry_header_link"],
@@ -36,7 +36,7 @@ Irm::AccessControl.map do |map|
   map.function :create_skm_entries, {"skm/entry_headers" => ["new", "create","new_relation","create_relation", "new_step_1", "new_step_2",
                                                              "new_step_3", "new_step_4", "new_from_icm_request",
                                                              "remove_exits_attachment_during_create", "create_from_icm_request",
-                                                             "new_step_video_upload", "video_create"]}
+                                                             "new_step_video_upload", "video_create","reset_approve"]}
   map.function :edit_skm_entries, {"skm/entry_headers" => ["edit", "update", "remove_exits_attachment_during_create", "remove_exits_attachment", "video_edit", "video_update"]}
   map.function :edit_relation, {"skm/entry_headers" => ["add_relation", "remove_relation"]}
 

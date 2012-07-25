@@ -1,6 +1,11 @@
 class Skm::EntryStatus < ActiveRecord::Base
   set_table_name :skm_entry_statuses
 
+  #知识库状态相关的常量
+  PUBLISHED = "PUBLISHED"
+  WAIT_APPROVE = "WAIT_APPROVE"
+  APPROVE_DENY = "APPROVE_DENY"
+
   #多语言关系
   attr_accessor :name,:description
   has_many :entry_statuses_tls, :dependent => :destroy

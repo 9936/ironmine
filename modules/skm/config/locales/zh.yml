@@ -70,6 +70,22 @@ zh:
   label_skm_entry_header_my_favorites_list: 我收藏的文章列表
   label_skm_entry_header_my_unpublished_list: 我未发布的文章列表
   label_skm_entry_header_wait_my_approve_list: 待我审核的文章列表
+  #=========================entry headers approval================================
+  label_skm_entry_header_approval_record: 审批记录
+  label_skm_entry_header_approval_status: 审批状态
+  label_skm_entry_header_approval_person: 审批人
+  label_skm_entry_header_approval_note: 审批意见
+  label_skm_entry_header_approval_date: 审批日期
+  label_skm_entry_header_approval_status_note: 审批状态标识
+  label_skm_entry_header_approval_status_y: 通过
+  label_skm_entry_header_approval_status_n: 未审批
+  label_skm_entry_header_approval_status_r: 拒绝
+  label_skm_entry_header_approval_reset: 重新申请审核
+  label_skm_entry_header_load: 载入详情
+  label_skm_entry_header_approve: 审核知识：
+  label_skm_entry_header_approve_note_placeholder: 请填写审核意见......
+  label_skm_entry_header_button_ok: 通过审核
+  label_skm_entry_header_button_no: 拒绝
 
   label_skm_my_drafts: 我的草稿
   error_choice_template: 先选择一个模板
@@ -77,6 +93,7 @@ zh:
   label_action_my_drafts: 我的草稿
   label_action_wait_my_approve: 知识审核
   label_action_approve: 通过
+  label_action_knowledge_details: 审批知识
   label_action_reject: 拒绝
   label_action_my_unpublished: 我的未发布知识
   label_action_index_search: 搜索结果

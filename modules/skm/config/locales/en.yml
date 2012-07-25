@@ -9,9 +9,9 @@ en:
   label_skm_entry_status_edit: Edit SKM Status
   label_skm_entry_status_code: Status Code
   label_skm_entry_status_list: SKM Statuses List
-  label_skm_rating_7: 有用
-  label_skm_rating_8: 学习
-  label_skm_rating_5: 无用
+  label_skm_rating_7: Like
+  label_skm_rating_8: Learning
+  label_skm_rating_5: Unlike
 
   #========================entry templates===============================
   label_skm_entry_template: SKM Entry Template
@@ -76,6 +76,7 @@ en:
   label_action_my_unpublished: My Unpublished
   label_action_index_search: Search Result
   label_action_approve: Approve
+  label_action_knowledge_details: Approve
   label_action_reject: Reject
   label_action_new_step_1: Create, Step 1
   label_action_new_step_2: Create, Step 2
@@ -98,6 +99,22 @@ en:
   label_skm_entry_source_video_desc: Existing video will be replaced by the new one.
   label_skm_entry_video_edit: Edit knowledge video
   label_skm_entry_video_upload_error: Video must be uploaded.
+  #=========================entry headers approval================================
+  label_skm_entry_header_approval_record: Approval Record
+  label_skm_entry_header_approval_status: Status
+  label_skm_entry_header_approval_person: Person
+  label_skm_entry_header_approval_note: Note
+  label_skm_entry_header_approval_date: Dateline
+  label_skm_entry_header_approval_status_note: Approve Status Note
+  label_skm_entry_header_approval_status_y: Approved
+  label_skm_entry_header_approval_status_n: Wait Approve
+  label_skm_entry_header_approval_status_r: Refuse
+  label_skm_entry_header_approval_reset: Ask for Approve Again
+  label_skm_entry_header_load: Load Details
+  label_skm_entry_header_approve: Approve
+  label_skm_entry_header_approve_note_placeholder: Please write some note about the entry header ......
+  label_skm_entry_header_button_ok: Approval
+  label_skm_entry_header_button_no: Refuse
   #=========================skm FileManagement================================
   label_skm_file_management: Files
   label_skm_file_list: Files List
