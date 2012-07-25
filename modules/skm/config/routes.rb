@@ -159,6 +159,8 @@ Rails.application.routes.draw do
       #wikis
       match '/wikis(/index)(.:format)' => "wikis#index", :via => :get
       match '/wikis/:id/edit(.:format)' => "wikis#edit", :via => :get
+      match '/wikis/:id/edit_chapter(.:format)' => "wikis#edit_chapter", :via => :get
+      match '/wikis/:id/update_chapter(.:format)' => "wikis#update_chapter", :via => :put
       match '/wikis/:id/update(.:format)' => "wikis#update", :via => :put
       match '/wikis/new(.:format)' => "wikis#new", :via => :get
       match '/wikis/get_data(.:format)' => "wikis#get_data", :via => :get

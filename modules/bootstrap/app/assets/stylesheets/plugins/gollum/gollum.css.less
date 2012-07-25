@@ -234,7 +234,7 @@
     color: #000000;
     display: table;
     font-size: 12pt;
-    min-width: 120px;
+    min-width: 200px;
 }
 
 .markdown-body h3 {
@@ -515,7 +515,7 @@
         ul, p, pre, span {
             margin-left: 0px;
         }
-        p{
+        p {
             text-indent: 0;
         }
     }
@@ -538,11 +538,20 @@
         border-width: 1px 2px 2px 1px;
         background-color: white;
     }
-    span.img-alt,span.table-alt{
+    span.img-alt, span.table-alt {
         text-align: left;
         display: block;
         font-style: italic;
-        margin:0;
+        margin: 0;
+    }
+    span.hedit-link {
+        font-size: 10pt;
+        font-style: normal;
+    }
+    h1, h3 {
+        span.hedit-link {
+            float: right;
+        }
     }
 
 }

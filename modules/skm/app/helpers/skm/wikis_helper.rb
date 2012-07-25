@@ -27,6 +27,9 @@ module Skm::WikisHelper
       doc = check_h1(title, doc)
     end
     doc = generate_sequence(doc)
+    if !mode.present?&&wiki_id.present?&&allow_to?(:controller=>"skm/wikis",:action=>"edit_chapter")
+      add_wiki_edit_link(doc,wiki_id)
+    end
     doc.to_html
   end
 
@@ -73,6 +76,15 @@ module Skm::WikisHelper
       end
     end
     doc
+  end
+
+  def add_wiki_edit_link(doc,wiki_id)
+    sequences = [0,0,0]
+    doc.css("h1,h2,h3").each do |n|
+      type = n.name.downcase.gsub("h","").to_i
+      sequences[type-1] = sequences[type-1]+1
+      n.children.after(Nokogiri::XML::DocumentFragment.parse("<span class='hedit-link'>#{link_to(t(:edit),{:controller=>"skm/wikis",:action=>"edit_chapter",:id=>wiki_id,:hdata=>"#{type}##{sequences[type-1]}"})}</span>"))
+    end
   end
 
   def show_book(book, mode=nil)
