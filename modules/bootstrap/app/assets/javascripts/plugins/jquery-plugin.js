@@ -1322,9 +1322,14 @@ jQuery.fn.menubutton = function () {
         $.each(files, function (i, file) {
             if (!file.name) {
                 var tmpFileName = me.generateFileName();
+                // 使用弹出窗口确认文件上传
                 var inputFileName = prompt($.i18n("check_pasted_file_name"), tmpFileName);
-                if(inputFileName&&inputFileName.length>0){
-                    tmpFileName =  inputFileName;
+                if(inputFileName){
+                    if(inputFileName.length>0){
+                        tmpFileName =  inputFileName;
+                    }
+                }else{
+                    return false;
                 }
                 file.name = tmpFileName + "." + file.type.split("/").pop();
                 pasted = true;
