@@ -7,6 +7,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   has_many :incident_config_relations
 
+
   validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,
                         :impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code,
                         :contact_number,:contact_id
@@ -261,9 +262,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
     text :incident_journals_content do |incident|
       incident.incident_journals.map { |journal| journal.message_body }
     end
+    text :support_person_name do
+      Irm::Person.find(support_person_id).full_name if support_person_id.present?
+    end
   end
 
-  #handle_asynchronously :solr_index
 
   def self.search(query)
     search = Sunspot.search(Icm::IncidentRequest,Irm::AttachmentVersion) do |sq|
