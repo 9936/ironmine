@@ -36,7 +36,7 @@ module Skm::WikisHelper
 
   def check_h1(title, doc)
     if doc.css("h1").length < 1
-      doc.children.before(Nokogiri::XML::DocumentFragment.parse("<h1>#{title}</h1>"))
+      doc.children.before(Nokogiri::XML::DocumentFragment.parse("<h1 class='add-h1'>#{title}</h1>"))
     end
 
     doc
@@ -61,6 +61,7 @@ module Skm::WikisHelper
         h3 = 0
         h2 +=1
         n.content = "#{h1}.#{h2}. " + n.content
+        n.before(Nokogiri::XML::DocumentFragment.parse("<p class='h2-title'></p>"))
       end
       if "h3".eql?(n.name.downcase)
         h3 +=1
@@ -81,6 +82,7 @@ module Skm::WikisHelper
   def add_wiki_edit_link(doc,wiki_id)
     sequences = [0,0,0]
     doc.css("h1,h2,h3").each do |n|
+      next if (n['class']||"").include?("add-h1")
       type = n.name.downcase.gsub("h","").to_i
       sequences[type-1] = sequences[type-1]+1
       n.children.after(Nokogiri::XML::DocumentFragment.parse("<span class='hedit-link'>#{link_to(t(:edit),{:controller=>"skm/wikis",:action=>"edit_chapter",:id=>wiki_id,:hdata=>"#{type}##{sequences[type-1]}"})}</span>"))

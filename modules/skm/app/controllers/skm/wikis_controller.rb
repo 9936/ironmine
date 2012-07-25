@@ -91,7 +91,8 @@ class Skm::WikisController < ApplicationController
     @wiki.content = @wiki.page.raw_data.force_encoding('utf-8')
     if params[:hdata] && params[:hdata].split("#").length == 2
       type, index = params[:hdata].split("#").collect { |i| i.to_i }
-      start,final = chapter_content_index(type, index, @wiki.content)
+      start, final = chapter_content_index(type, index, @wiki.content)
+      tmp_content = @wiki.content
       @wiki.content = @wiki.content[start..final]
     end
 
@@ -103,8 +104,19 @@ class Skm::WikisController < ApplicationController
     @wiki.content = @wiki.page.raw_data.force_encoding('utf-8')
     if params[:hdata] && params[:hdata].split("#").length == 2
       type, index = params[:hdata].split("#").collect { |i| i.to_i }
-      start,final = chapter_content_index(type, index, @wiki.content)
-      @wiki.content = @wiki.content[0..start]+params[:skm_wiki][:content]+@wiki.content[final..-1]
+      start, final = chapter_content_index(type, index, @wiki.content)
+      tmp_content = @wiki.content
+      @wiki.content = params[:skm_wiki][:content]
+      if start!=0
+        @wiki.content = "\n"+@wiki.content unless ["\n","\r"].include?(@wiki.content[0])
+        @wiki.content = tmp_content[0..start-1] + @wiki.content
+      end
+      if final!=-1
+        @wiki.content = @wiki.content+"\n" unless ["\n","\r"].include?(tmp_content[0])||["\n","\r"].include?(@wiki.content[-1])
+        @wiki.content = @wiki.content+tmp_content[final+1..-1]
+      end
+
+
     end
     respond_to do |format|
       if @wiki.save
@@ -112,7 +124,8 @@ class Skm::WikisController < ApplicationController
         format.html { redirect_to({:action => "show", :id => @wiki.id}, :notice => t(:successfully_updated)) }
         format.xml { head :ok }
       else
-        format.html { render :action => "edit" }
+        @wiki.content = params[:skm_wiki][:content]
+        format.html { render :action => "edit_chapter" }
         format.xml { render :xml => @wiki.errors, :status => :unprocessable_entity }
       end
     end
@@ -303,7 +316,6 @@ class Skm::WikisController < ApplicationController
     count = 0
     find = 0
     results.sort! { |a, b| a[:position]<=>b[:position] }
-    puts results
     results.each_with_index do |r, i|
       if r[:type] == type
         count = count + 1
@@ -312,11 +324,10 @@ class Skm::WikisController < ApplicationController
         end
       end
     end
-    puts results
     if find == results.length-1
-      return [results[find][:position],-1]
+      return [results[find][:position], -1]
     else
-      return [results[find][:position],results[find+1][:position]]
+      return [results[find][:position], results[find+1][:position]-1]
     end
 
   end
