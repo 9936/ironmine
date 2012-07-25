@@ -227,6 +227,7 @@ class Skm::EntryHeadersController < ApplicationController
   #新建关联知识
   def new_relation
     @entry_header = Skm::EntryHeader.find(params[:id])
+    @entry_header.entry_title = nil
     @return_url=request.env['HTTP_REFERER'] if @return_url
     respond_to do |format|
       format.html #new_relation.html.erb
