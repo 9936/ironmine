@@ -24,7 +24,7 @@ class Skm::WikisController < ApplicationController
         render :pdf => "#{@wiki.name}",
                        :print_media_type => false,
                        :encoding => 'utf-8',
-                       :layout => nil,
+                       :layout => "layouts/markdown_pdf.html.erb",
                        :book => true,
                        :page_size => 'A4',
                        :toc=>{:header_text=>t(:label_skm_wiki_table_of_content),:disable_back_links=>true}
@@ -58,7 +58,7 @@ class Skm::WikisController < ApplicationController
     respond_to do |format|
       if @wiki.save
         process_files(@wiki)
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:action => "show",:id=>@wiki.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @wiki, :status => :created, :location => @wiki }
       else
         format.html { render :action => "new" }
@@ -75,7 +75,7 @@ class Skm::WikisController < ApplicationController
     respond_to do |format|
       if @wiki.update_attributes(params[:skm_wiki])
         process_files(@wiki)
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:action => "show",:id=>@wiki.id}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

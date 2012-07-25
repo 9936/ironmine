@@ -77,7 +77,7 @@ module Skm::WikisHelper
 
   def show_book(book, mode=nil)
     output = ActiveSupport::SafeBuffer.new
-    book.wikis.each do |wiki|
+    book.wikis.each_with_index do |wiki,index|
       page = wiki.page
       page.attachments = Irm::AttachmentVersion.select_all.where(:source_id => wiki.id, :source_type => Skm::Wiki.name)
       if mode
@@ -85,6 +85,10 @@ module Skm::WikisHelper
       end
       doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data)
       doc = check_h1(wiki.name, doc)
+      # page break
+      if(index>0)
+        output.safe_concat "<hr/>"
+      end
       output.safe_concat doc.to_html
     end
     doc = Nokogiri::HTML::DocumentFragment.parse(output)
