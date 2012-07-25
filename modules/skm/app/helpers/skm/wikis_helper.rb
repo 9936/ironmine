@@ -65,11 +65,11 @@ module Skm::WikisHelper
       end
       if "img".eql?(n.name.downcase)
         img +=1
-        n.before(Nokogiri::XML::DocumentFragment.parse("<label class='img-alt'>#{t(:label_skm_wiki_img)} #{h1}.#{img} #{n[:alt]}</label>"))
+        n.before(Nokogiri::XML::DocumentFragment.parse("<span class='img-alt'>#{t(:label_skm_wiki_img)} #{h1}.#{img} #{n[:alt]}</span>"))
       end
       if "table".eql?(n.name.downcase)
         table +=1
-        n.before(Nokogiri::XML::DocumentFragment.parse("<label class='table-alt'>#{t(:label_skm_wiki_table)} #{h1}.#{table}  #{n[:alt]}</label>"))
+        n.before(Nokogiri::XML::DocumentFragment.parse("<span class='table-alt'>#{t(:label_skm_wiki_table)} #{h1}.#{table}  #{n[:alt]}</span>"))
       end
     end
     doc
