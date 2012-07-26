@@ -28,9 +28,17 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
     doc = Nokogiri::HTML(File.new(html_file_path))
     mark, files = generate_markdown(doc)
     mark.gsub!(/(\s*[\n\r]){2,}/,"  \n\n")
+    File.open(log_file_path, 'w+') do |f1|
+      f1.puts("="*50+"before")
+      f1.puts(mark)
+    end
     wiki.content = mark
     wiki.description = "Generate content from #{attachment[:data_file_name]}"
     wiki.save
+    File.open(log_file_path, 'w+') do |f1|
+      f1.puts("="*50+"after")
+      f1.puts(wiki.content)
+    end
     files.each do |f|
       atch = Irm::AttachmentVersion.new({:source_id => wiki.id, :source_type => wiki.class.name})
       atch.data = File.new("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}/#{f[:origin_name]}")
