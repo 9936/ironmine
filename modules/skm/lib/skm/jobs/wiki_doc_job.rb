@@ -32,7 +32,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
     wiki.save
     files.each do |f|
       attachment = Irm::AttachmentVersion.new({:source_id=>wiki.id,:source_type=>wiki.class.name})
-      attachment.data = File.new("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}/#{f[:origin_name]}")
+      attachment.data = File.new("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}#{f[:origin_name]}")
       attachment.data.instance_write :file_name , f[:name]
       attachment.save
     end
