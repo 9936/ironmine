@@ -96,7 +96,7 @@
         <% end %>
         <%- end -%>
         <!-- 加载上传附件模板 -->
-        <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => true, :exist_attachments => list_exist_skm_entry_attachments(@entry_header.attachments, @entry_header.id), :attachments => @entry_header.attachments,:delete_url => {:controller => "skm/entry_headers", :action => "remove_exits_attachment"} } %>
+        <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => true, :exist_attachments => nil, :attachments => @entry_header.attachments,:delete_url => {:controller => "skm/entry_headers", :action => "remove_exits_attachment"} } %>
       </div>
     </div>
 

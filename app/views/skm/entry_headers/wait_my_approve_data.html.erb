@@ -1,12 +1,14 @@
-<%=datatable_view({:columns=>[:published_date,:author_name,:doc_number,:entry_title],:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation)})%>
+<%=datatable_view({:columns=>[:id,:author_name,:doc_number,:entry_title,:published_date],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "100px"}) do |data|%>
+    <%= link_to(t(:label_skm_entry_header_load), {:controller => "skm/entry_headers", :action => "knowledge_details", :id => data[:id]})%>
+  <% end %>
   <% builder.column(:published_date,{:title=>t(:label_skm_entry_header_published_date),:width=>"180px"})%>
   <% builder.column(:author_name,{:title=>t(:label_skm_entry_header_author_name),:width=>"150px"})%>
   <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number),:searchable=>true,:width=>"100px"}) do |data|%>
-    <%= link_to(data[:doc_number], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+    <%= link_to(data[:doc_number], {:controller => "skm/entry_headers", :action => "knowledge_details", :id => data[:id]})%>
   <% end %>
   <% builder.column(:entry_title,{:title=>t(:label_skm_entry_header_title),:searchable=>true}) do |data|%>
-    <% title =  link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+    <% title =  link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "knowledge_details", :id => data[:id]})%>
     <% if data[:type_code].eql?('VIDEO') %>
     <%= get_img_icon("video") + title %>
     <% else %>

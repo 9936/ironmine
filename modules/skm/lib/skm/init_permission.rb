@@ -36,13 +36,14 @@ Irm::AccessControl.map do |map|
   map.function :create_skm_entries, {"skm/entry_headers" => ["new", "create","new_relation","create_relation", "new_step_1", "new_step_2",
                                                              "new_step_3", "new_step_4", "new_from_icm_request",
                                                              "remove_exits_attachment_during_create", "create_from_icm_request",
-                                                             "new_step_video_upload", "video_create"]}
+                                                             "new_step_video_upload", "video_create","reset_approve"]}
   map.function :edit_skm_entries, {"skm/entry_headers" => ["edit", "update", "remove_exits_attachment_during_create", "remove_exits_attachment", "video_edit", "video_update"]}
   map.function :edit_relation, {"skm/entry_headers" => ["add_relation", "remove_relation"]}
 
-  map.function :approve_skm_entries, {"skm/entry_headers"=>["wait_my_approve","wait_my_approve_data","approve_knowledge"]  }
+  #map.function :approve_skm_entries, {"skm/entry_headers"=>["wait_my_approve","wait_my_approve_data","approve_knowledge"]  }
 
-  map.function :login_function,{ "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"]}
+  map.function :login_function,{ "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"],
+                                 "skm/entry_headers"=>["wait_my_approve","wait_my_approve_data","approve_knowledge","knowledge_details"]}
 
   map.function :skm_column,{"skm/columns" => ["index", "edit", "update", "new", "create", "get_columns_data"]}
 

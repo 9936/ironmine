@@ -1,5 +1,16 @@
+<style type="text/css">
+  .entry-header-search {
+      /*padding-left:22px;*/
+      width:180px;
+      float:left;
+      /*background-image:url(/images/search.png);*/
+      /*background-position:2px 2px;*/
+      /*background-repeat: no-repeat;*/
+  }
+
+</style>
 <div class="input-append">
-  <%= text_field_tag(id, tip_text,{:style => "padding-left:22px;width:180px;float:left;background-image:url(/images/search.png);background-position:2px 2px;background-repeat: no-repeat;", :class => "grayTips", :id => id})%>
+  <%= text_field_tag(id, tip_text,{:style => "", :class => "entry-header-search grayTips", :id => id})%>
   <button class="btn" type="button" onclick="getSearch()"><%= t(:search) %></button>
 </div>
 <script type="text/javascript">

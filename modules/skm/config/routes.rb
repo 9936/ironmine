@@ -58,6 +58,8 @@ Rails.application.routes.draw do
       match '/entry_headers/remove_relation(.:format)' => "entry_headers#remove_relation"
       match '/entry_headers/:id/new_relation(.:format)' => "entry_headers#new_relation", :via => :get
       match '/entry_headers/create_relation(.:format)' => "entry_headers#create_relation", :via => :post
+      match '/entry_headers/:id/knowledge_details(.:format)' => "entry_headers#knowledge_details", :via => :get
+      match '/entry_headers/:id/reset_approve(.:format)' => "entry_headers#reset_approve", :via => :post
 
       match '/entry_headers/index_search(.:format)' => "entry_headers#index_search", :via => :post
       match '/entry_headers/index_search_get_data(.:format)' => "entry_headers#index_search_get_data"
