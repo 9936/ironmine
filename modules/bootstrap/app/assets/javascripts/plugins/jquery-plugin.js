@@ -1224,7 +1224,7 @@ jQuery.fn.menubutton = function () {
                     sequence:me.data.options.fileCount - 1,
                     ref:"files",
                     fileName:options.fileName,
-                    fileUrl:options.fileUrl || "javascript:void(0)",
+                    fileUrl: options.fileUrl || "javascript:void(0)",
                     deleteTarget:options.deleteTarget || "",
                     attachmentId:options.attachmentId || ""
                 }
@@ -1232,6 +1232,7 @@ jQuery.fn.menubutton = function () {
 
         var checkResult = options.result;
         if (!checkResult.success) {
+            row.addClass("file-error");
             if (fileInput) {
                 fileInput.remove();
             }
@@ -1427,7 +1428,7 @@ jQuery.fn.menubutton = function () {
     Internal.prototype.syncFileNames = function () {
         var me = this;
         me.data.options.fileNames = [];
-        $.each(me.$element.find("tbody:not(.file-template) .file-name a"), function (i, fileNameLink) {
+        $.each(me.$element.find("tbody:not(.file-template) tr:not(.file-error) .file-name a"), function (i, fileNameLink) {
             me.data.options.fileNames.push($(fileNameLink).html());
         });
         me.data.options.fileRealNames = [];

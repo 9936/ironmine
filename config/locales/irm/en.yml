@@ -161,6 +161,8 @@ en:
   by_date: By date
   search_options_with_dot: Advanced Search
   uncategory: Not classified
+  label_attachment_file_size_limit: 文件大小限制 %{limit}
+  label_attachment_file_type: 文件类型限制 %{type}
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type

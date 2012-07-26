@@ -171,7 +171,7 @@ module Skm::Gollum::Markup
           if opts['frame'] || containered
             classes << 'frame' if opts['frame']
             %{<span class="#{classes.join(' ')}">} +
-                %{<span>} +
+                %{<span class='img-wrap'>} +
                 %{<img src="#{path}" #{attr_string}/>} +
                 %{</span>} +
                 %{</span>}
