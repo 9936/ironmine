@@ -6,7 +6,7 @@
       <h2 class="block-title">[<%= @entry_header.doc_number%>]&nbsp;&nbsp;&nbsp;<%= @entry_header.entry_title %></h2>
     </td>
     <td class="page-block-button">
-
+      <%= link_to t(:back), {:action => "wait_my_approve"},:class=>"btn cancel"%>
     </td>
   </tr>
   </table>
@@ -69,7 +69,9 @@
       <td class="page-block-title">
         <h2 class="block-title"><%= t(:label_skm_entry_header_approve) %></h2>
       </td>
-      <td class="page-block-button"></td>
+      <td class="page-block-button">
+        <%= link_to t(:cancel), {:action => "wait_my_approve"},:class=>"btn cancel"%>
+      </td>
     </tr>
   </table>
   <div class="page-block-body">

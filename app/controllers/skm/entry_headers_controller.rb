@@ -155,12 +155,14 @@ class Skm::EntryHeadersController < ApplicationController
 
     #验证上一步的输入正确性
     content_validate_flag = true
-    session[:skm_entry_details].each do |k, v|
-      t = Skm::EntryDetail.new(v)
-      @entry_details << t
-      if !t.valid?
-        (content_validate_flag = false )
-        @error_details << k
+    if session[:skm_entry_details].present?
+      session[:skm_entry_details].each do |k, v|
+        t = Skm::EntryDetail.new(v)
+        @entry_details << t
+        if !t.valid?
+          (content_validate_flag = false )
+          @error_details << k
+        end
       end
     end
     unless @entry_header.valid? && content_validate_flag
@@ -285,7 +287,7 @@ class Skm::EntryHeadersController < ApplicationController
           end
           if !approval_people.nil? && approval_people.any?
             approval_people.each do |person|
-              Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id])
+              Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id]) if !person[:person_id].eql?(Irm::Person.current.id)
             end
           end
           #创建关联关系
@@ -358,7 +360,7 @@ class Skm::EntryHeadersController < ApplicationController
       if @entry_header.save
         if !approval_people.nil? && approval_people.any?
           approval_people.each do |person|
-            Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id])
+            Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id]) if !person[:person_id].eql?(Irm::Person.current.id)
           end
         end
         #关联创建过程中关联的文件
@@ -427,7 +429,7 @@ class Skm::EntryHeadersController < ApplicationController
         video.update_attribute(:source_id, @entry_header.id)
         if !approval_people.nil? && approval_people.any?
           approval_people.each do |person|
-            Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id])
+            Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id]) if !person[:person_id].eql?(Irm::Person.current.id)
           end
         end
         format.html { redirect_to({:action => "video_show", :id => @entry_header.id})}
@@ -545,7 +547,7 @@ class Skm::EntryHeadersController < ApplicationController
             end
             if !approval_people.nil? && approval_people.any?
               approval_people.each do |person|
-                Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id])
+                Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id]) if !person[:person_id].eql?(Irm::Person.current.id)
               end
             end
             #更新 收藏 中的ID为最新的文章ID，保证收藏的永远是知识库文章的最新版本
