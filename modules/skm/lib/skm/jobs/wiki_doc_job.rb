@@ -31,10 +31,10 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
     wiki.description = "Generate content from #{attachment[:data_file_name]}"
     wiki.save
     files.each do |f|
-      attachment = Irm::AttachmentVersion.new({:source_id=>wiki.id,:source_type=>wiki.class.name})
-      attachment.data = File.new("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}#{f[:origin_name]}")
-      attachment.data.instance_write :file_name , f[:name]
-      attachment.save
+      atch = Irm::AttachmentVersion.new({:source_id=>wiki.id,:source_type=>wiki.class.name})
+      atch.data = File.new("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}/#{f[:origin_name]}")
+      atch.data.instance_write :file_name , f[:name]
+      atch.save
     end
     [mark,files]
   end
