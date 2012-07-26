@@ -18,6 +18,6 @@ class Skm::BookWiki < ActiveRecord::Base
 
   before_create do
     num = self.class.where(:book_id=>self.book_id).select("max(display_sequence) display_sequence").first
-    self.display_sequence = (num ? num.display_sequence : 0)+1
+    self.display_sequence = (num.display_sequence.present? ? num.display_sequence : 0)+1
   end
 end

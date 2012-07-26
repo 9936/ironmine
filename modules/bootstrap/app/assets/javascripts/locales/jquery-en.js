@@ -15,5 +15,6 @@ var irm_labels = {
     select_single: "Click Here To Select Current Item",
     search: "Search" ,
     upload_file_type_error: "Filetype not allowed",
-    upload_file_size_error: "File is too large"
+    upload_file_size_error: "File is too large",
+    check_pasted_file_name: "Confirm file name"
 };

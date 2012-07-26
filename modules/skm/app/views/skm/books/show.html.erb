@@ -8,6 +8,7 @@
       </td>
       <td class="page-block-button">
         <%= link_to t(:edit), {:action => "edit", :id => @book}, :class => "btn" %>
+        <%= link_to t(:label_skm_book_publish), {:action => "publish",:format=>:pdf}, :class => "btn" %>
         <%= link_to t(:back), {:action => "index"}, :class => "btn" %>
       </td>
     </tr>

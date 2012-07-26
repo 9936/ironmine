@@ -1099,7 +1099,7 @@ jQuery.fn.menubutton = function () {
 })(jQuery);
 // Ironmine file upload
 (function ($) {
-
+    // 监听页面粘贴事件
     $.event.fix = (function (originalFix) {
         return function (event) {
             event = originalFix.apply(this, arguments);
@@ -1199,6 +1199,7 @@ jQuery.fn.menubutton = function () {
         this.$element.removeData(PLUGIN_NAME);
     };
 
+    // 能过上传文件按钮添加新文件
     Internal.prototype.nextFileInput = function (fileInput) {
         var me = this;
         var inputClone = fileInput.clone(true);
@@ -1207,12 +1208,14 @@ jQuery.fn.menubutton = function () {
         me.generateFileInfo(fileInput);
     };
 
+    // 将新文件信息添加到页面上
     Internal.prototype.generateFileInfo = function (fileInput) {
         var me = this;
         var options = {result:me.checkFile(fileInput), fileName:fileInput.val().split('\\').pop()};
         me.appendToUi(options, fileInput);
     }
 
+    // 生成文件显示element
     Internal.prototype.appendToUi = function (options, fileInput) {
         var me = this;
         me.data.options.fileCount = me.data.options.fileCount + 1;
@@ -1246,7 +1249,7 @@ jQuery.fn.menubutton = function () {
         me.$element.find("tbody.file-contents").append(row);
         me.syncFileNames();
     }
-
+    // 检查通过按钮添加文件的合法性
     Internal.prototype.checkFile = function (fileInput) {
         var me = this;
         var result = {success:true, message:[]}
@@ -1262,7 +1265,7 @@ jQuery.fn.menubutton = function () {
         }
         return result;
     }
-
+    // 取得文件大小
     Internal.prototype.getFileSize = function (fileInput) {
         if ($.browser.msie) {
             var fileName = fileInput.val().split('\\').pop().split(".").pop();
@@ -1280,6 +1283,8 @@ jQuery.fn.menubutton = function () {
             return fileInput[0].files[0].size;
         }
     }
+
+    // 监听页面拖拽文件上传事件
     Internal.prototype.bindDropEvents = function () {
         var me = this;
         var methods = {
@@ -1310,12 +1315,23 @@ jQuery.fn.menubutton = function () {
         me.$element.bind('dragover', methods.dragOver);
         me.$element.bind('drop', methods.drop);
     }
+    //上传拖拽的文件到服务器
     Internal.prototype.uploadDropFile = function (files) {
         var me = this;
         var pasted = false;
         $.each(files, function (i, file) {
             if (!file.name) {
-                file.name = me.generateFileName() + "." + file.type.split("/").pop();
+                var tmpFileName = me.generateFileName();
+                // 使用弹出窗口确认文件上传
+                var inputFileName = prompt($.i18n("check_pasted_file_name"), tmpFileName);
+                if(inputFileName){
+                    if(inputFileName.length>0){
+                        tmpFileName =  inputFileName;
+                    }
+                }else{
+                    return false;
+                }
+                file.name = tmpFileName + "." + file.type.split("/").pop();
                 pasted = true;
             }
             var result = me.checkDropFile(file);
@@ -1360,6 +1376,7 @@ jQuery.fn.menubutton = function () {
         });
 
     }
+    //检查拖拽的文件是否合法
     Internal.prototype.checkDropFile = function (file) {
         var me = this;
         var result = {success:true, message:[]}
@@ -1374,6 +1391,18 @@ jQuery.fn.menubutton = function () {
         }
         return result;
     }
+
+
+
+    Internal.prototype.bindPastedEvents = function () {
+        var me = this;
+        if (me.data.options.pastedZone) {
+            $("html").bind("paste", function (e) {
+                return me.processPasted(e);
+            });
+        }
+    }
+
     Internal.prototype.processPasted = function (e) {
         var me = this;
         var files = [];
@@ -1395,15 +1424,6 @@ jQuery.fn.menubutton = function () {
         }
     }
 
-
-    Internal.prototype.bindPastedEvents = function () {
-        var me = this;
-        if (me.data.options.pastedZone) {
-            $("html").bind("paste", function (e) {
-                return me.processPasted(e);
-            });
-        }
-    }
     Internal.prototype.syncFileNames = function () {
         var me = this;
         me.data.options.fileNames = [];

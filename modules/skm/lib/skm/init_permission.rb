@@ -57,6 +57,6 @@ Irm::AccessControl.map do |map|
   #====================skm/wikis===============================
   map.function :view_wiki,{"skm/wikis" => ["index","get_data","show","compare","history"]}
   map.function :create_wiki,{"skm/wikis" => ["new","create","preview"]}
-  map.function :edit_wiki,{"skm/wikis" => ["edit","update","preview"]}
+  map.function :edit_wiki,{"skm/wikis" => ["edit","update","preview","edit_chapter","update_chapter"]}
   map.function :manage_wiki,{"skm/wikis" => ["destroy","revert"]}
 end

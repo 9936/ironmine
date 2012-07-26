@@ -45,7 +45,7 @@ class Skm::BooksController < ApplicationController
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:action => "show",:id=>@book.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @book, :status => :created, :location => @book }
       else
         format.html { render :action => "new" }
@@ -61,7 +61,7 @@ class Skm::BooksController < ApplicationController
 
     respond_to do |format|
       if @book.update_attributes(params[:skm_book])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:action => "show",:id=>@book.id}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -106,7 +106,7 @@ class Skm::BooksController < ApplicationController
         render :pdf => "#{@book.name}",
                        :print_media_type => false,
                        :encoding => 'utf-8',
-                       :layout => nil,
+                       :layout => "layouts/markdown_pdf.html.erb",
                        :book => true,
                        :page_size => 'A4',
                        :toc=>{:header_text=>t(:label_skm_wiki_table_of_content),:disable_back_links=>true}

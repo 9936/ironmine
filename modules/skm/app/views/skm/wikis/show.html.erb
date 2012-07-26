@@ -8,12 +8,12 @@
       <h2 class="block-title"></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:edit), {:action => "edit", :id => @wiki},:class=>"btn"%>
+      <%= link_to t(:edit), {:action => "edit", :id => @wiki,:x=>"ccc",:y=>"bbbb"},:class=>"btn"%>
       <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div class="markdown-body">
+    <div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
       <%=raw show_wiki(@wiki.page,@wiki.name,@wiki.id) %>
     </div>
   </div>

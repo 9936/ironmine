@@ -17,7 +17,8 @@ var irm_labels = {
     select_single: "点击选择当前项",
     search: "搜索",
     upload_file_type_error: "文件类型错误",
-    upload_file_size_error: "文件超过限定大小"
+    upload_file_size_error: "文件超过限定大小",
+    check_pasted_file_name: "确认文件名"
 };
 
 if($.fn.datepicker.dpglobal){
