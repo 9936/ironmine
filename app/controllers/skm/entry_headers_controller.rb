@@ -227,8 +227,9 @@ class Skm::EntryHeadersController < ApplicationController
 
   #审核知识页面
   def knowledge_details
-    @entry_header = Skm::EntryHeader.list_all.with_favorite_flag(Irm::Person.current.id).find(params[:id])
+    @entry_header = Skm::EntryHeader.list_all.find(params[:id])
     @return_url=request.env['HTTP_REFERER']
+    #Skm::EntryApprovalPerson.where()
   end
 
   def create_relation
@@ -806,26 +807,6 @@ class Skm::EntryHeadersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :action => "wait_my_approve" }
     end
-      #entry_header_ids=params[:entry_header_ids].split(",")   #将隐藏域传入进来ID转换成数组
-      #entry_header_ids.compact                     #去掉nil
-      #if(entry_header_ids.size>0)
-      #   if(params[:commit].eql?(I18n.t(:label_action_approve)))    #如果通过
-      #     #检查该知识是否还有人未审核
-      #     entry_header_ids.each do |entry_header_id|
-      #       entry_approval_person = Skm::EntryApprovalPerson.where("person_id=? AND entry_header_id=?", Irm::Person.current.id, entry_header_id)
-      #       entry_approval_person.update_all("approval_flag" => Irm::Constant::SYS_YES)
-      #       unless Skm::EntryApprovalPerson.has_unaudited_person?(entry_header_id)
-      #         Skm::EntryHeader.where("id=?", entry_header_id).update_all(:entry_status_code=>Skm::EntryStatus::PUBLISHED) #更新为发布状态
-      #       end
-      #     end
-      #   elsif(params[:commit].eql?(I18n.t(:label_action_reject)))    #如果拒绝
-      #     Skm::EntryHeader.where(:id=>entry_header_ids).update_all(:entry_status_code=>"APPROVE_DENY")   #更新为审核拒绝状态
-      #   end
-      #end
-      #respond_to do |format|
-      #  format.js
-      #end
-
   end
 
   def new_from_icm_request

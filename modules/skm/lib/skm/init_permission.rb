@@ -25,7 +25,7 @@ Irm::AccessControl.map do |map|
 
 
   #===================skm/entries ==========================================
-  map.function :view_skm_entries, {"skm/entry_headers" => ["index", "show","knowledge_details", "index_search", "get_history_entries_data", "get_data",
+  map.function :view_skm_entries, {"skm/entry_headers" => ["index", "show", "index_search", "get_history_entries_data", "get_data",
                                                            "my_favorites_data", "my_favorites", "add_favorites", "data_grid", "my_drafts",
                                                            "my_drafts_data", "remove_favorite", "video_show","my_unpublished","my_unpublished_data"],
                                    "icm/incident_journals" => ["get_entry_header_data", "apply_entry_header", "apply_entry_header_link"],
@@ -40,9 +40,10 @@ Irm::AccessControl.map do |map|
   map.function :edit_skm_entries, {"skm/entry_headers" => ["edit", "update", "remove_exits_attachment_during_create", "remove_exits_attachment", "video_edit", "video_update"]}
   map.function :edit_relation, {"skm/entry_headers" => ["add_relation", "remove_relation"]}
 
-  map.function :approve_skm_entries, {"skm/entry_headers"=>["wait_my_approve","wait_my_approve_data","approve_knowledge"]  }
+  #map.function :approve_skm_entries, {"skm/entry_headers"=>["wait_my_approve","wait_my_approve_data","approve_knowledge"]  }
 
-  map.function :login_function,{ "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"]}
+  map.function :login_function,{ "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"],
+                                 "skm/entry_headers"=>["wait_my_approve","wait_my_approve_data","approve_knowledge","knowledge_details"]}
 
   map.function :skm_column,{"skm/columns" => ["index", "edit", "update", "new", "create", "get_columns_data"]}
 

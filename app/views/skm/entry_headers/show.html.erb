@@ -107,10 +107,13 @@
           <h2 class="block-title"><%= t(:label_skm_entry_header_approval_record) %></h2>
         </td>
         <td class="page-block-button">
-          <%= form_tag({:controller => "skm/entry_headers",:action => "reset_approve"},:style => "padding:0; margin:0;") do %>
-            <%= hidden_field_tag :entry_header_id, @entry_header.id %>
-            <%= link_to t(:label_skm_entry_header_approval_reset),'reset_approve', :class => 'btn btn-primary submit' %>
-          <%- end -%>
+          <!-- 有拒绝的审批状态显示重新申请审核 -->
+          <%- if has_approval_deny?(@entry_header.id) %>
+            <%= form_tag({:controller => "skm/entry_headers",:action => "reset_approve"},:style => "padding:0; margin:0;") do %>
+              <%= hidden_field_tag :entry_header_id, @entry_header.id %>
+              <%= link_to t(:label_skm_entry_header_approval_reset),'reset_approve', :class => 'btn btn-primary submit' %>
+            <%- end -%>
+          <%- end %>
         </td>
         <td class="page-block-help form-inline">
           <strong><%= t(:label_skm_entry_header_approval_status_note) %>:</strong>
@@ -147,7 +150,15 @@
              <%= Irm::Person.query_person_name(data[:person_id]).first[:person_name] %>
           <% end %>
           <% builder.column(:updated_at, {:title => t(:label_skm_entry_header_approval_date), :width => "150px"}) %>
-          <% builder.column(:note, {:title => t(:label_skm_entry_header_approval_note)})  %>
+          <% builder.column(:note, {:title => t(:label_skm_entry_header_approval_note)}) do |data| %>
+            <% if data[:approval_flag].eql?(Irm::Constant::SYS_YES) %>
+              <span style="color:#468847"><%= data[:note] %></span>
+            <% elsif data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+              <span style="color:#3A87AD"><%= data[:note] %></span>
+            <% else %>
+              <span style="color: #B94A48"><%= data[:note] %></span>
+            <% end %>
+          <% end %>
       <% end %>
     </div>
   </div>
