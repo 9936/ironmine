@@ -163,6 +163,8 @@ Rails.application.routes.draw do
       match '/wikis/:id/update_chapter(.:format)' => "wikis#update_chapter", :via => :put
       match '/wikis/:id/update(.:format)' => "wikis#update", :via => :put
       match '/wikis/new(.:format)' => "wikis#new", :via => :get
+      match '/wikis/new_word(.:format)' => "wikis#new_word", :via => :get
+      match '/wikis/create_word(.:format)' => "wikis#create_word", :via => :post
       match '/wikis/get_data(.:format)' => "wikis#get_data", :via => :get
       match '/wikis/create(.:format)' => "wikis#create", :via => :post
       match '/wikis/get_data(.:format)' => "wikis#get_data"

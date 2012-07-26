@@ -44,7 +44,9 @@
               <span><%= t(:label_icm_incident_journal_add_attachment) %>...</span>
               <input type="file" multiple="" name="file_blank">
           </span>
-        <a class="add-file" href="javascript:void(0)"></a>
+          <% if defined?(message) %>
+            <label><%= message %></label>
+          <% end %>
       </td>
     </tr>
   </tbody>

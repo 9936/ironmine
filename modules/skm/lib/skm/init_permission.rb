@@ -55,7 +55,7 @@ Irm::AccessControl.map do |map|
   map.function :entry_header_portlet,{"skm/entry_headers"=>["portlet"]}
   #====================skm/wikis===============================
   map.function :view_wiki,{"skm/wikis" => ["index","get_data","show","compare","history"]}
-  map.function :create_wiki,{"skm/wikis" => ["new","create","preview"]}
+  map.function :create_wiki,{"skm/wikis" => ["new","create","preview","new_word","create_word"]}
   map.function :edit_wiki,{"skm/wikis" => ["edit","update","preview","edit_chapter","update_chapter"]}
   map.function :manage_wiki,{"skm/wikis" => ["destroy","revert"]}
 end

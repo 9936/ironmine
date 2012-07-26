@@ -891,12 +891,30 @@ module ApplicationHelper
   end
 
 
-  def with_format(format, &block)
-    old_formats = formats
-    self.formats = [format]
-    block.call
-    self.formats = old_formats
-    nil
+
+  # 上传文件控件
+  # options  :upload_file_id=>"new_wiki",:url_options=>{:source_id=>"nil",:source_type=>@wiki.class.name},:file_type=>"doc",:pasted_zone=>"gollum-editor-body"
+  # upload_file_id 控件ID
+  # url_options 文件上传url
+  # file_type 文件类型
+  # limit 文件大小 以M为单位
+  # pasted_zone 粘贴上传文件dom id
+  def upload_file_sample(options)
+    processed_options = options
+    message = []
+    message << options[:message] if options[:message].present?
+    if options[:limit].present?
+      processed_options[:limit] = options[:limit]*1024*1024
+      message << t(:label_attachment_file_size_limit,:limit=>"#{options[:limit]}M")
+    end
+
+    if options[:file_type].present?
+      message << t(:label_attachment_file_type,:type=>"#{options[:file_type]}")
+    end
+
+    processed_options[:message] = "(#{message.join(",")})" if message.any?
+
+    render :partial=>"helper/upload_file_sample",:locals=>processed_options
   end
 
 

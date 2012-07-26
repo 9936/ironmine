@@ -131,6 +131,36 @@ class Skm::WikisController < ApplicationController
     end
   end
 
+
+  def new_word
+    @wiki = Skm::Wiki.new(:content_format => 'markdown')
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml { render :xml => @wiki }
+    end
+  end
+
+  def create_word
+    @wiki = Skm::Wiki.new(params[:skm_wiki])
+    @wiki.content = t(:label_skm_wiki_word_content)
+    @wiki.description = t(:label_skm_wiki_word_description) unless @wiki.description.present?
+
+    respond_to do |format|
+      if params[:files]&&params[:files].any?&&@wiki.save
+        files = process_word_files(@wiki)
+        if files[0].present?
+          Delayed::Job.enqueue(Skm::Jobs::WikiDocJob.new({:wiki_id=>@wiki.id,:attachment_id=>files[0].id}))
+        end
+        format.html { redirect_to({:action => "show", :id => @wiki.id}, :notice => t(:successfully_created)) }
+        format.xml { render :xml => @wiki, :status => :created, :location => @wiki }
+      else
+        format.html { render :action => "new_word" }
+        format.xml { render :xml => @wiki.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /irm/wikis/1
   # DELETE /irm/wikis/1.xml
   def destroy
@@ -299,8 +329,31 @@ class Skm::WikisController < ApplicationController
         @files << attachment
       end
     end if params[:files]
+    @files
   end
 
+
+  def process_word_files(ref)
+    @files = []
+    params[:files].each do |key, value|
+      if value[:file].present?
+        @files << Irm::AttachmentVersion.create({:source_id => ref.id,
+                                                 :source_type => ref.class.name,
+                                                 :data => value[:file],
+                                                 :description => value[:description]})
+      elsif value[:id].present?
+        attachment = Irm::AttachmentVersion.where(:id => value[:id]).first
+        attachment.update_attributes(:source_id => ref.id,
+                                     :source_type => ref.class.name,
+                                     :description => value[:description]) if attachment
+        @files << attachment
+        if @files.any?
+          break
+        end
+      end
+    end if params[:files]
+    @files
+  end
 
   def chapter_content_index(type, index, content)
     results = []
