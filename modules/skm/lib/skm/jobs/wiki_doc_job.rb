@@ -17,7 +17,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
       raise("Miss lib:#{miss}")
     end
     Dir.mkdir("#{Rails.root.to_s}/tmp/wiki_word", 0700)  unless Dir.exists?("#{Rails.root.to_s}/tmp/wiki_word")
-    Dir.mkdir("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}", 0700)
+    Dir.mkdir("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}", 0700) unless Dir.exists?("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}")
     word_file_path = attachment.data.path
     html_file_path = "#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}/wiki_doc.html"
     log_file_path = "#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}/wiki_doc_log.txt"
@@ -35,6 +35,10 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
       atch.data = File.new("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}/#{f[:origin_name]}")
       atch.data.instance_write :file_name , f[:name]
       atch.save
+      File.open(log_file_path, 'w+') do |f1|
+        f1.puts(atch.errors)
+        f1.puts(atch.data.path)
+      end if atch.errors.any?
     end
     [mark,files]
   end
