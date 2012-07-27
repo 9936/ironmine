@@ -25,7 +25,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
     unless system(executable)
       raise(File.open(log_file_path, "rb").read)
     end
-    doc = Nokogiri::HTML(File.new(html_file_path))
+    doc = Nokogiri::HTML(process_html(File.open(html_file_path,"r").read))
     mark, files = generate_markdown(doc)
     mark.gsub!(/(\s*[\n\r]){2,}/,"  \n\n")
 
@@ -56,6 +56,12 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
 
     end
     [mark, files]
+  end
+
+  def process_html(html_str)
+    html_str = html_str.gsub(/<br>/i,"").gsub(/<br\/>/i,"")..gsub(/<\/font>/i,"").gsub(/<font.*>/i,"")
+
+    html_str
   end
 
   def generate_markdown(doc)
