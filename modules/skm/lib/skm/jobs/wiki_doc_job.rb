@@ -59,8 +59,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
   end
 
   def process_html(html_str)
-    html_str = html_str.gsub(/<br>/i,"").gsub(/<br\/>/i,"")..gsub(/<\/font>/i,"").gsub(/<font.*>/i,"")
-
+    html_str = html_str.force_encoding("utf-8").gsub("</FONT>","").gsub(/<FONT.*>/,"")
     html_str
   end
 
