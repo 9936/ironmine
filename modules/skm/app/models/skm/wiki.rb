@@ -1,7 +1,7 @@
 class Skm::Wiki < ActiveRecord::Base
   set_table_name :skm_wikis
 
-  attr_accessor :origin_name
+  attr_accessor :origin_name,:sync_git_flag
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -22,9 +22,11 @@ class Skm::Wiki < ActiveRecord::Base
   end
 
   after_update do
-    commit = {:message=>self.description,:name=>Irm::Person.current.login_name,:email=>Irm::Person.current.email_address}
-    page = Ironmine::WIKI.page(self.origin_wiki_name)
-    Ironmine::WIKI.update_page(page, self.wiki_name, self.content_format.to_sym, self.content, commit)
+    if (self.sync_git_flag.present?&&sync_git_flag.eql?(Irm::Constant::SYS_YES))||!self.sync_git_flag.present?
+      commit = {:message=>self.description,:name=>Irm::Person.current.login_name,:email=>Irm::Person.current.email_address}
+      page = Ironmine::WIKI.page(self.origin_wiki_name)
+      Ironmine::WIKI.update_page(page, self.wiki_name, self.content_format.to_sym, self.content, commit)
+    end
   end
 
   scope :by_book,lambda{ |book_id|
@@ -42,7 +44,20 @@ class Skm::Wiki < ActiveRecord::Base
   end
 
   def page
-    @page ||= Ironmine::WIKI.page(self.wiki_name)
+    if @page
+      return @page
+    else
+      #process flag from word
+      if self.sync_flag.present?&&self.sync_flag.eql?(Irm::Constant::SYS_YES)
+        Ironmine::WIKI.clear_cache
+        self.sync_flag = Irm::Constant::SYS_NO
+        self.sync_git_flag = Irm::Constant::SYS_NO
+        self.save
+      end
+      @page = Ironmine::WIKI.page(self.wiki_name)
+      return @page
+    end
+
   end
 
   def show_url(absolute = false)
