@@ -42,7 +42,7 @@ class Skm::Wiki < ActiveRecord::Base
   end
 
   def page
-    Ironmine::WIKI.page(self.wiki_name)
+    @page ||= Ironmine::WIKI.page(self.wiki_name)
   end
 
   def show_url(absolute = false)

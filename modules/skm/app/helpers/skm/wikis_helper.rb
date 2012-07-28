@@ -22,7 +22,7 @@ module Skm::WikisHelper
     if mode
       page.mode = mode
     end
-    doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data)
+    doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data.force_encoding("utf-8"))
     if title.present?
       doc = check_h1(title, doc)
     end
