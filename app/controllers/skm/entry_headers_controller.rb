@@ -785,7 +785,7 @@ class Skm::EntryHeadersController < ApplicationController
     entry_header_id = params[:entry_header_id]
     if entry_header_id.present?
       approval_people = Skm::EntryApprovalPerson.where("entry_header_id=? AND approval_flag=?", entry_header_id, Irm::Constant::SYS_REFUSE)
-      approval_people.update_all(:approval_flag => Irm::Constant::SYS_NO)
+      approval_people.update_all(:approval_flag => Irm::Constant::SYS_NO,:note => '')
       #将事故单的状态设置为等待审批
       Skm::EntryHeader.find(entry_header_id).update_attribute(:entry_status_code, Skm::EntryStatus::WAIT_APPROVE)
     end
