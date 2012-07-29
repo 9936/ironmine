@@ -61,7 +61,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
   end
 
   def process_html(html_str)
-    html_str = html_str.force_encoding("UTF-8").gsub("\u0004", "").gsub("\u0005", "")
+    html_str = html_str.force_encoding("UTF-8").gsub("\u0004","").gsub("\u0005","")
     html_str
   end
 
@@ -126,7 +126,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
           if text.gsub("\n", "").gsub("\r", "").length == 0
             text = "empty"
           end
-          text = text.gsub("\n", " ").gsub("\r", " ").gsub(/\s{2,}/, " ")
+          text = text.gsub("\n"," ").gsub("\r"," ").gsub(/\s{2,}/," ")
           mark_code << process_line("#{'#'*(h.name.gsub("h", "").to_i-@h_start)} #{text}")
         end
       end
@@ -140,16 +140,18 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
       end
 
 
+
       if !h_nodes.any?&&uol_nodes.any?
         uol_nodes.each do |u|
           if ("ul".eql?(u.name.downcase))
             u.css("li").each do |l|
-              mark_code << process_line("* #{l.text.gsub("\n", "").gsub("\r", "")}")
+
+              mark_code << process_line("* #{l.text.gsub("\n","").gsub("\r","")}") if l.text.gsub(/[\t\n\r\s]/,"").length>0
             end
           end
           if ("ol".eql?(u.name.downcase))
-            u.css("li").each_with_index do |l, i|
-              mark_code << process_line("#{i+1}. #{l.text.gsub("\n", "").gsub("\r", "")}")
+            u.css("li").each_with_index do |l,i|
+              mark_code << process_line("#{i+1}. #{l.text.gsub("\n","").gsub("\r","")}") if l.text.gsub(/[\t\n\r\s]/,"").length>0
             end
           end
         end
@@ -159,19 +161,19 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
         table_nodes.each do |t|
           next unless t.text.gsub("\s", "").gsub("\n", "").gsub("\r", "").length>0
           mark_code << "<table>\n"
-          added_one_row = false
+          add_blank_row = true
           t.css("tr").each do |tr|
-            next unless tr.css("th").length>0||!added_one_row||tr.text.gsub("\s", "").gsub("\n", "").gsub("\r", "").length>0
+            next unless tr.css("th").length>0||add_blank_row||tr.text.gsub(/[\s\n\t\r]/, "").length>0
             mark_code << "  <tr>\n"
             tr.css("td").each do |td|
               mark_code << "    <td>\n"
-              mark_code << "      "+process_line(td.text)
+              mark_code << "      "+process_line(td.text,"td")
               mark_code << "    </td>\n"
-              added_one_row = true
+              add_blank_row = false
             end
             tr.css("th").each do |th|
               mark_code << "    <th style='width:#{th['width']};'>\n"
-              mark_code << "      "+process_line(th.text.gsub("\n", "  ").gsub("\r", "  "))
+              mark_code << "      "+process_line(th.text.gsub("\n", "  ").gsub("\r", "  "),"td")
               mark_code << "    </th>\n"
             end
             mark_code << "  </tr>\n"
@@ -183,20 +185,26 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
 
       end
 
-      if !table_nodes.any?&&!img_nodes.any?&&!h_nodes.any?&&!uol_nodes.any?&&e.text.gsub("\s", "").gsub("\n", "").gsub("\r", "").length>0
-        mark_code << process_line("#{e.text.gsub("\n", " ").gsub("\r", " ").gsub(/\s{2,}/, " ")}")
-      end
+       if !table_nodes.any?&&!img_nodes.any?&&!h_nodes.any?&&!uol_nodes.any?&&e.text.gsub("\s", "").gsub("\n", "").gsub("\r", "").length>0
+         mark_code << process_line("#{e.text.gsub("\n"," ").gsub("\r"," ").gsub(/\s{2,}/," ")}")
+       end
     end
 
     [mark_code, files]
   end
 
-  def process_line(text, node_name=nil)
+  def process_line(text,node_name=nil)
+    text = text.gsub(/\t+/,"\t")
     text = text.gsub(/^\t*\s*(\S.*)\s*\t*$/) do
       $1
     end
-    text = text.gsub("<", "\\<").gsub(">", "\\>").gsub("#","\#").gsub("*","\*").gsub("[","\[")
-    text << "\n" unless ["\n", "\r"].include?(text[-1])
+    text = text.gsub("<","\\<").gsub(">","\\>")
+    if "td".eql?(node_name)
+      text << "\n" unless ["\n","\r"].include?(text[-1])
+    else
+      text << "\n\n"
+    end
+
     text
   end
 
