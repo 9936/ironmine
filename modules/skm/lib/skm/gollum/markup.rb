@@ -1,3 +1,4 @@
+require 'iconv'
 module Skm::Gollum::Markup
   def self.included(base)
     base.class_eval do
@@ -58,6 +59,7 @@ module Skm::Gollum::Markup
       end
 
       def preprocess(data)
+        data = data.encode('UTF-8', :invalid => :replace)
         data = data.gsub(/(```)\s+/m) do
           "#{$1}\n"
         end
@@ -67,11 +69,14 @@ module Skm::Gollum::Markup
         data = data.gsub(/!\[(.+?)\]\(([^\(]+)\)/m) do
           "[[#{$2}|alt=#{$1}]]"
         end
+
+        # 替换内部引用链接
         data = data.gsub(/\[([^\[]+)\]\[internal-ref\]/m) do
           "[[#{$1}]]"
         end
-        data = data.gsub(/(\S)(\s*[\n\r]+)/) do
-          "#{$1}  #{$2}  #{$2}"
+
+        data = data.gsub(/(\S)\s{0,1}$/) do
+          "#{$1}  "
         end
       end
 
