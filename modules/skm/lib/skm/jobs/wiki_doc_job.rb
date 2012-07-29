@@ -198,7 +198,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
     text = text.gsub(/^\t*\s*(\S.*)\s*\t*$/) do
       $1
     end
-    text = text.gsub("<","\\<").gsub(">","\\>")
+    text = text.gsub("<","\\<").gsub(">","\\>").gsub("#","\\#").gsub("[","\\[").gsub("]","\\]")
     if "td".eql?(node_name)
       text << "\n" unless ["\n","\r"].include?(text[-1])
     else
