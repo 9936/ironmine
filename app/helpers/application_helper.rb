@@ -703,7 +703,7 @@ module ApplicationHelper
     css_files = []
     javascript_prefix = "/javascripts/"
     css_prefix ="/themes/#{theme_name}/stylesheets/"
-    Ironmine::Application.config.ironmine.javascript.source.each do |name,paths|
+    Ironmine::Application.config.irm.javascript.source.each do |name,paths|
       if @loaded_javascript_files.keys.include?(name)
         paths.each do |path|
           if @loaded_javascript_files[name]
@@ -715,7 +715,7 @@ module ApplicationHelper
       end
     end if @loaded_javascript_files
 
-    Ironmine::Application.config.ironmine.css.source.each do |name,paths|
+    Ironmine::Application.config.irm.css.source.each do |name,paths|
       if @loaded_css_files.keys.include?(name)
         paths.each do |path|
           if @loaded_css_files[name]
@@ -764,7 +764,7 @@ module ApplicationHelper
     javascript_prefix = ""
     css_prefix =""
     @loaded_jscss_files.uniq!
-    Ironmine::Application.config.ironmine.jscss.each do |name,paths|
+    Ironmine::Application.config.irm.jscss.each do |name,paths|
       if @loaded_jscss_files.include?(name)
 
         paths[:js].each do |path|

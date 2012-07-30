@@ -13,19 +13,19 @@ module Irm
       end
 
       def receive_method
-        Ironmine::Application.config.ironmine.mail_receive_method
+        Ironmine::Application.config.irm.mail_receive_method
       end
 
       def receive_interval
-        Ironmine::Application.config.ironmine.mail_receive_interval||'10m'
+        Ironmine::Application.config.irm.mail_receive_interval||'10m'
       end
 
       def pop_receive_options
-        Ironmine::Application.config.ironmine.mail_receive_pop
+        Ironmine::Application.config.irm.mail_receive_pop
       end
 
       def imap_receive_options
-        Ironmine::Application.config.ironmine.mail_receive_imap
+        Ironmine::Application.config.irm.mail_receive_imap
       end
 
       def default_email_from

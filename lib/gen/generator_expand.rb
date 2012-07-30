@@ -19,12 +19,14 @@ module Gen::GeneratorExpand
 
       #获取传递过来的参数判断是否含有module
       def get_module
-        if options[:module].nil? or !options[:module].present?
-          ''
-        elsif Rails.application.config.module_folder && Rails.application.config.module_folder.present?
-          "#{Rails.application.config.module_folder}/#{options[:module]}/"
+        if !options[:module].present?
+          ""
         else
-          "#{options[:module]}/"
+          if Rails.application.config.irm.module_mapping[options[:module]]
+            "#{Rails.application.config.irm.module_folder||"modules"}/#{Rails.application.config.irm.module_mapping[options[:module]]}/"
+          else
+            ""
+          end
         end
       end
     end
