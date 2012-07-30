@@ -1,8 +1,7 @@
 Irm::AccessControl.map do |map|
   map.function :login_function,{"skm/wiki_templates"=>["index", "show", "get_data","new", "create","edit", "update","preview","sample"] }
   map.function :login_function,{
-      "skm/books"=>["index", "show", "get_data","new", "create","edit", "update","publish"],
-      "skm/book_wikis"=>[ "create", "destroy","order"]
+
   }
 
   #===================skm/entry_statuses============================
@@ -55,8 +54,8 @@ Irm::AccessControl.map do |map|
   #===================skm/entry_headers#portlet============================
   map.function :entry_header_portlet,{"skm/entry_headers"=>["portlet"]}
   #====================skm/wikis===============================
-  map.function :view_wiki,{"skm/wikis" => ["index","get_data","show","compare","history"]}
-  map.function :create_wiki,{"skm/wikis" => ["new","create","preview","new_word","create_word"]}
-  map.function :edit_wiki,{"skm/wikis" => ["edit","update","preview","edit_chapter","update_chapter"]}
-  map.function :manage_wiki,{"skm/wikis" => ["destroy","revert"]}
+  map.function :view_wiki,{"skm/wikis" => ["index","get_data","show","compare","history"],"skm/books"=>["index", "show", "get_data"]}
+  map.function :create_wiki,{"skm/wikis" => ["new","create","preview","new_word","create_word"],"skm/books"=>["new", "create"], "skm/book_wikis"=>[ "create", "destroy","order"]}
+  map.function :edit_wiki,{"skm/wikis" => ["edit","update","preview","edit_chapter","update_chapter"],"skm/books"=>["edit", "update"], "skm/book_wikis"=>[ "create", "destroy","order"]}
+  map.function :manage_wiki,{"skm/wikis" => ["destroy","revert"],"skm/books"=>["edit", "update","publish"]}
 end

@@ -220,7 +220,7 @@ zh:
   label_skm_wiki_table_of_content: 目录
   label_skm_wiki_edit_chapter: 编辑章节
   label_skm_wiki_new_word_file: 选择一个WORD文档
-  label_skm_wiki_new_word: 从文件导入
+  label_skm_wiki_new_word: 文件导入wiki
   label_skm_wiki_word_description: 初始化从WORD文档导入内容
   label_skm_wiki_word_content: 正在从WORD文档导入文章内容,请等待,不要修改文章内容
   #============================== end wiki  ===================================
