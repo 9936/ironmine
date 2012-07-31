@@ -22,8 +22,8 @@ module Gen::GeneratorExpand
         if !options[:module].present?
           ""
         else
-          if Rails.application.config.irm.module_mapping[options[:module]]
-            "#{Rails.application.config.irm.module_folder||"modules"}/#{Rails.application.config.irm.module_mapping[options[:module]]}/"
+          if Rails.application.config.fwk.module_mapping[options[:module]]
+            "#{Rails.application.config.fwk.module_folder||"modules"}/#{Rails.application.config.fwk.module_mapping[options[:module]]}/"
           else
             ""
           end

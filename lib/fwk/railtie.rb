@@ -3,27 +3,27 @@ module Fwk
     #配置框架
     config.before_configuration do
       # 配置
-      config.irm = ActiveSupport::OrderedOptions.new
+      config.fwk = ActiveSupport::OrderedOptions.new
       # 模块目录
-      config.irm.module_folder = 'modules'
+      config.fwk.module_folder = 'modules'
       # 模块名称与目录对应hash
-      config.irm.module_mapping = {}
+      config.fwk.module_mapping = {}
       # 系统模块
-      config.irm.modules = []
-      Dir["#{Rails.root}/#{config.irm.module_folder}/*"].sort.each { |i|
+      config.fwk.modules = []
+      Dir["#{Rails.root}/#{config.fwk.module_folder}/*"].sort.each { |i|
         if File.directory?(i)
-          config.irm.module_mapping.merge!({File.basename(i).split("_").last => File.basename(i)})
-          config.irm.modules << File.basename(i).split("_").last
+          config.fwk.module_mapping.merge!({File.basename(i).split("_").last => File.basename(i)})
+          config.fwk.modules << File.basename(i).split("_").last
         end
       }
       # 对系统模块加载顺序排序
-      config.irm.modules.sort! { |a, b| a.split("_").first.to_i<=>b.split("_").first.to_i }
-      config.irm.languages = [:zh, :en]
+      config.fwk.modules.sort! { |a, b| a.split("_").first.to_i<=>b.split("_").first.to_i }
+      config.fwk.languages = [:zh, :en]
       # javascript与css
-      config.irm.jscss = {}
+      config.fwk.jscss = {}
 
       # 配置基础模块javascript css
-      config.irm.jscss.merge!({
+      config.fwk.jscss.merge!({
                                   :default => {:css => ["application"], :js => ["application", "locales/jquery-{locale}"]},
                                   :default_ie6 => {:css => ["application-ie6"], :js => ["application", "locales/jquery-{locale}"]},
                                   :aceditor => {:js => ["plugins/ace"]},
@@ -43,12 +43,12 @@ module Fwk
     # 自动对资源文件进行预编译
     initializer "sprockets.environment" do |app|
       config = app.config
-      config.irm.jscss.values.each do |asset|
+      config.fwk.jscss.values.each do |asset|
         files = []
 
         asset[:css].each do |css|
           if css.to_s.include?("{locale}")
-            config.irm.languages.each do |lang|
+            config.fwk.languages.each do |lang|
               files << css.to_s.gsub("{locale}", lang.to_s).to_s+".css"
             end
           else
@@ -57,7 +57,7 @@ module Fwk
         end if asset[:css]
         asset[:js].each do |js|
           if js.to_s.include?("{locale}")
-            config.irm.languages.each do |lang|
+            config.fwk.languages.each do |lang|
               files << js.to_s.gsub("{locale}", lang.to_s).to_s+".js"
             end
           else

@@ -74,10 +74,10 @@ module Ironmine
 
     # 配置加载系统模块
     origin_values =  config.paths.dup
-    config.irm.modules.reverse.each do |module_name|
+    config.fwk.modules.reverse.each do |module_name|
       config.paths.keys.each do |key|
         next unless config.paths[key].is_a?(Array)
-        file_path ="modules/#{config.irm.module_mapping[module_name]}/#{origin_values[key][origin_values[key].length-1]}"
+        file_path ="modules/#{config.fwk.module_mapping[module_name]}/#{origin_values[key][origin_values[key].length-1]}"
         real_file_path = "#{config.root}/#{file_path}"
         if File.exist?(real_file_path)
           config.paths[key].insert(0,file_path)
@@ -85,7 +85,7 @@ module Ironmine
       end
 
       # 加载报表文件
-      report_path = "modules/#{config.irm.module_mapping[module_name]}/report"
+      report_path = "modules/#{config.fwk.module_mapping[module_name]}/report"
       real_report_path = "#{config.root}/#{report_path}"
       if File.exist?(real_report_path)
         config.autoload_paths += [real_report_path]
