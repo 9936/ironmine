@@ -1,5 +1,5 @@
 require 'yajl'
-class Irm::DataTransform
+class Dmt::DataTransform
   include Singleton
 
   def download(source,file_path=nil)

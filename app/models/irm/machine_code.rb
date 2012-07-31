@@ -11,7 +11,7 @@ class Irm::MachineCode < ActiveRecord::Base
 
   def generate_code
     unless self.machine_code.present?
-      self.machine_code = Irm::IdGenerator.instance.rjust_decimal_to_62(self.id,4)
+      self.machine_code = Fwk::IdGenerator.instance.rjust_decimal_to_62(self.id,4)
       self.save
     end
   end

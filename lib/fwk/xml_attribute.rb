@@ -1,6 +1,6 @@
 # 在ruby1.9.2中无法使用to_xml将scope查询出的数据转化为xml
 # 当值为nil的时候出错
-module Irm::XmlAttribute
+module Fwk::XmlAttribute
   def self.included(base)
     base.class_eval do
       def compute_type

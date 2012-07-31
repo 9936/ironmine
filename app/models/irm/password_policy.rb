@@ -64,7 +64,7 @@ class Irm::PasswordPolicy < ActiveRecord::Base
     password = "111111"
     # 验证密码长度
     if self.minimum_length
-      password = Irm::IdGenerator.instance.generate(self.class.table_name)
+      password = Fwk::IdGenerator.instance.generate(self.class.table_name)
       password = password[22-self.minimum_length.to_i,22]
     end
     # 验证密码复杂度

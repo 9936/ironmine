@@ -1,4 +1,4 @@
-module Irm::ModelErrors
+module Fwk::ModelErrors
   def self.included(base)
     base.class_eval do
       def generate_message(attribute, type = :invalid, options = {})

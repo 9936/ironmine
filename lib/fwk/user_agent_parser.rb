@@ -1,4 +1,4 @@
-class Irm::UserAgentParser
+class Fwk::UserAgentParser
 
   attr_reader :browser_name, :browser_version
   attr_reader :os_name, :os_version

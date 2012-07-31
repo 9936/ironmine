@@ -47,7 +47,7 @@ class Irm::DelayedJobLog < ActiveRecord::Base
     monitor_group = monitor.group_by{|t| YAML.load(t.handler).class.to_s}
     ret_logs = []
     monitor_group.each do |handler, logs|
-      if handler == "Irm::Jobs::IcmGroupAssignmentJob"
+      if handler == "Icm::Jobs::GroupAssignmentJob"
         ret_logs = logs
         break
       end

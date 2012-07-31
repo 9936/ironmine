@@ -1,5 +1,5 @@
 require 'uuid'
-module Irm
+module Fwk
   class IdGenerator
     include Singleton
     def decimal_to_62(decimal)

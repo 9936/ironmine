@@ -72,7 +72,7 @@ class Icm::IncidentRequestsController < ApplicationController
 
         #如果没有填写support_group, 插入Delay Job任务
         if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
-          Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id), [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
+          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(@incident_request.id), [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
         end
         format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
         format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
@@ -100,7 +100,7 @@ class Icm::IncidentRequestsController < ApplicationController
         if @incident_request.save
           #如果没有填写support_group, 插入Delay Job任务
           if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
-            Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(@incident_request.id),
+            Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(@incident_request.id),
                                  [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
           end
           format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
@@ -336,12 +336,12 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_requests.each do |req|
       if params[:support_group_id].present?
         if params[:support_person_id]
-          Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],:support_person_id=>params[:support_person_id],:assign_dashboard=>true,:assign_dashboard_operator=>Irm::Person.current.id}))
+          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],:support_person_id=>params[:support_person_id],:assign_dashboard=>true,:assign_dashboard_operator=>Irm::Person.current.id}))
         else
-          Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],:assign_dashboard=>true,:assign_dashboard_operator=>Irm::Person.current.id}))
+          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],:assign_dashboard=>true,:assign_dashboard_operator=>Irm::Person.current.id}))
         end
       else
-        Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(req.id,{}))
+        Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{}))
       end
     end
     @count = incident_requests.size

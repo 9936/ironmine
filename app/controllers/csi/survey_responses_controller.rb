@@ -70,7 +70,7 @@ class Csi::SurveyResponsesController < ApplicationController
     survey_member = Csi::SurveyMember.find(params[:survey_member_id])
     @survey = survey_member.survey
     confirm_survey =  Csi::Survey.new(params[:csi_survey])
-    session[:survey_token] = Irm::IdGenerator.instance.generate(Csi::Survey.table_name)
+    session[:survey_token] = Fwk::IdGenerator.instance.generate(Csi::Survey.table_name)
     redirect_with_back(:action=>"new",:survey_token=>session[:survey_token])
   end
 

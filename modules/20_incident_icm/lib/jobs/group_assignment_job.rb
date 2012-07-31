@@ -1,6 +1,6 @@
-module Irm
+module Icm
   module Jobs
-    class IcmGroupAssignmentJob < Struct.new(:incident_request_id,:assign_options)
+    class GroupAssignmentJob < Struct.new(:incident_request_id,:assign_options)
       def perform
 
         # 待分配事故单

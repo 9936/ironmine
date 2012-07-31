@@ -1,4 +1,4 @@
-Irm::AccessControl.map do |map|
+Fwk::AccessControl.map do |map|
   map.function :login_function,{"skm/wiki_templates"=>["index", "show", "get_data","new", "create","edit", "update","preview","sample"] }
   map.function :login_function,{
 

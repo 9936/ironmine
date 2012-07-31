@@ -1,4 +1,4 @@
-module Irm::ArrayToJson
+module Fwk::ArrayToJson
   include ActionView::Helpers::JavaScriptHelper
   include ActionView::Helpers::DateHelper
 

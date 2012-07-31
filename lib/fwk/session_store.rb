@@ -1,5 +1,5 @@
 # 修改session store,在get
-module Irm::SessionStore
+module Fwk::SessionStore
   def self.included(base)
     base.class_eval do
       private

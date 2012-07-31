@@ -1,6 +1,6 @@
 module Irm
   module Jobs
-    class IrmLdapSynJob<Struct.new(:syn_header_id)
+    class LdapSynJob<Struct.new(:syn_header_id)
       def perform
         # 查找需要处理的事件
         syn_header = Irm::LdapSynHeader.find(syn_header_id)

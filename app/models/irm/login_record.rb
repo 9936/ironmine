@@ -29,7 +29,7 @@ class Irm::LoginRecord < ActiveRecord::Base
   end
 
   def setup_os_browser
-    parser = Irm::UserAgentParser.new(self.user_agent)
+    parser = Fwk::UserAgentParser.new(self.user_agent)
     self.operate_system = parser.os
     self.browser = parser.browser
   end

@@ -1,4 +1,4 @@
-module Irm::DelayedJobBaseEx
+module Fwk::DelayedJobBaseEx
   def self.included(base)
     base.class_eval do
       def enqueue(*args)

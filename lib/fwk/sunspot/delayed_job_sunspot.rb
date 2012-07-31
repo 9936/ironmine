@@ -1,4 +1,4 @@
-module Irm::Sunspot
+module Fwk::Sunspot
   class DelayedJobSessionProxy < Sunspot::SessionProxy::AbstractSessionProxy
 
     attr_reader :original_session
@@ -20,7 +20,7 @@ module Irm::Sunspot
 
     def index(*objects)
       objects.flatten.compact.each do |object|
-        Delayed::Job.enqueue Irm::Sunspot::IndexingJob.new(object.class.name, object.id)
+        Delayed::Job.enqueue Fwk::Jobs::IndexingJob.new(object.class.name, object.id)
       end
     end
 
@@ -28,11 +28,3 @@ module Irm::Sunspot
 
 end
 
-module Irm::Sunspot
-  class IndexingJob < Struct.new(:entry, :id)
-    def perform
-      obj = entry.constantize.unscoped.find_by_id(id)
-      Sunspot.session.original_session.index!(*obj)
-    end
-  end
-end

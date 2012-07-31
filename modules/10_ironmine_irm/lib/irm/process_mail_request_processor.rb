@@ -30,7 +30,7 @@ module Irm
           if incident_request.save
             #如果没有填写support_group, 插入Delay Job任务
             if incident_request.support_group_id.nil? || incident_request.support_group_id.blank?
-              Delayed::Job.enqueue(Irm::Jobs::IcmGroupAssignmentJob.new(incident_request.id),
+              Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(incident_request.id),
                                    [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => incident_request.id}])
             end
             return true

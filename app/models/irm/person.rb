@@ -369,12 +369,12 @@ class Irm::Person < ActiveRecord::Base
   # required :id,:filename,:updated_at
   def self.avatar_url(attributes,style_name="original")
     attributes.merge!({:class_name=>self.name,:name=>"data"})
-    Irm::PaperclipHelper.gurl(attributes,style_name)
+    Fwk::PaperclipHelper.gurl(attributes,style_name)
   end
 
   def self.avatar_path(attributes,style_name="original")
     attributes.merge!({:class_name=>self.name,:name=>"data"})
-    Irm::PaperclipHelper.gpath(attributes,style_name)
+    Fwk::PaperclipHelper.gpath(attributes,style_name)
   end
 
   def self.env

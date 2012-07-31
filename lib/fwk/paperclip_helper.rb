@@ -1,4 +1,4 @@
-module Irm::PaperclipHelper
+module Fwk::PaperclipHelper
     extend self
 
     # Hash assignment of interpolations. Included only for compatability,

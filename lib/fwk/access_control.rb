@@ -1,4 +1,4 @@
-module Irm::AccessControl
+module Fwk::AccessControl
     class << self
       def map
         mapper = Mapper.new

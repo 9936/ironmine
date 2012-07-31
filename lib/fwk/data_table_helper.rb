@@ -1,4 +1,4 @@
-module Irm
+module Fwk
   module DataTableHelper
     extend ActiveSupport::Concern
 

@@ -1,4 +1,4 @@
-class Irm::DataStorage
+class Fwk::DataStorage
   include Singleton
 
   def get(key)

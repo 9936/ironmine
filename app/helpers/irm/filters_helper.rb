@@ -70,7 +70,7 @@ module Irm::FiltersHelper
 
     if relation_bo_id.present?
       relation_object_attribute = Irm::ObjectAttribute.find(object_attribute.relation_object_attribute_id)
-      value_tag = form.lov_field(:filter_value,relation_bo_id,{:id=>"filter_value_#{form.object.seq_num}_#{Irm::IdGenerator.instance.generate("irm_rule_filters")}",:value_field=>relation_object_attribute.attribute_name,:id_type=>true})
+      value_tag = form.lov_field(:filter_value,relation_bo_id,{:id=>"filter_value_#{form.object.seq_num}_#{Fwk::IdGenerator.instance.generate("irm_rule_filters")}",:value_field=>relation_object_attribute.attribute_name,:id_type=>true})
     else
       value_tag = form.text_field :filter_value,:size=>30
     end

@@ -1,4 +1,4 @@
-module Irm::ExtendsLogDelayedJob
+module Fwk::ExtendsLogDelayedJob
   def self.included(base)
     base.class_eval do
       after_save  :after_deal
