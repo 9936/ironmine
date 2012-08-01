@@ -46,3 +46,10 @@ end
                                                   Irm::Bulletin.name => "bulletin",
                                                   Chm::ChangeRequest.name => "change_request"}
 
+
+# 加载报表类
+Rails.application.config.fwk.modules.reverse.each do |module_name|
+  Dir[Rails.root.join('modules', Rails.application.config.fwk.module_mapping[module_name], 'reports', 'programs', module_name, '*.rb')].each do |file_path|
+    require "#{file_path}"
+  end
+end
