@@ -21,7 +21,7 @@ class Irm::SearchController < ApplicationController
   #end
 
   def index
-    params[:search_option_str] ||= 'ALL'
+    params[:search_option_str] ||= ''
     search_option_str = params[:search_option_str]
     entry_arr = []
     search_option_str.split(" ").each do |entry|
@@ -32,14 +32,14 @@ class Irm::SearchController < ApplicationController
     time_limit = get_time_limit(time_option)
     params[:q] ||= ''
     params[:page] ||= 1
-    params[:per_page] ||= 5
+    params[:per_page] ||= 10
     q = params[:q].gsub("-","")
     @search = Sunspot.search(entry_arr) do |query|
       query.keywords q, :highlight => true
       query.with(:updated_at).greater_than(time_limit) if time_limit
       query.paginate(:page => params[:page], :per_page => params[:per_page])
-    end if entry_arr.any?
-    @results_ids = @search.results.collect{|i| i[:id]}
+    end if entry_arr.any? and !q.eql?('')
+    @results_ids = @search.results.collect{|i| i[:id]}  if @search
     @results = {}
     @search.each_hit_with_result do |hit, result|
       #处理回复中的附件
@@ -87,7 +87,7 @@ class Irm::SearchController < ApplicationController
         @results[result.id.to_sym] ||= {}
         @results[result.id.to_sym][:hit] = hit
       end
-    end
+    end if @search
   end
 
   private

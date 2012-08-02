@@ -3,7 +3,7 @@
   <div id="phSearchContainer" class="headerSearchContainer">
     <div class="headerSearchLeftRoundedCorner">
       <div class="searchBoxClearContainer">
-        <%= text_field_tag "query", t(:search_all),{:id=>"phSearchInput", :class => "grayTips headerSearchBoxGhostText headerSearchInput", :type => "text", :size => 20, :maxlength=>100}%>
+        <%= text_field_tag "q", t(:search_all),{:id=>"phSearchInput", :class => "grayTips headerSearchBoxGhostText headerSearchInput", :type => "text", :size => 20, :maxlength=>100}%>
       </div>
       <div id="searchButtonContainer" class="headerSearchRightRoundedCorner">
         <%= submit_tag(t(:search),:id=>"phSearchButton") %>
