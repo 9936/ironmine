@@ -21,27 +21,12 @@ module Fwk
       config.fwk.languages = [:zh, :en]
       # javascript与css
       config.fwk.jscss = {}
-
-      # 配置基础模块javascript css
-      config.fwk.jscss.merge!({
-                                  :default => {:css => ["application"], :js => ["application", "locales/jquery-{locale}"]},
-                                  :default_ie6 => {:css => ["application-ie6"], :js => ["application", "locales/jquery-{locale}"]},
-                                  :aceditor => {:js => ["plugins/ace"]},
-                                  :xheditor => {:css => ["plugins/xheditor"], :js => ["plugins/xheditor/xheditor-{locale}"]},
-                                  :jpolite => {:css => ["plugins/jpolite"], :js => ["plugins/jpolite"]},
-                                  :jcrop => {:css => ["plugins/jcrop"], :js => ["plugins/jquery-crop"]},
-                                  :jcrop_ie6 => {:css => ["plugins/jcrop-ie6"], :js => []},
-                                  :highcharts => {:css => [], :js => ["highcharts"]},
-                                  :login => {:css => ["login"], :js => []},
-                                  :login_ie6 => {:css => ["login-ie6"]},
-                                  :jquery_ui => {:js => ["jquery-ui"]},
-                                  :gollum => {:js => ["plugins/gollum"], :css => ["plugins/gollum"]},
-                                  :markdown => {:css => ["markdown"]}
-                              })
     end
 
     # 自动对资源文件进行预编译
-    initializer "sprockets.environment" do |app|
+    config.after_initialize do |app|
+      puts "#{config.fwk.jscss.values}"
+
       config = app.config
       config.fwk.jscss.values.each do |asset|
         files = []

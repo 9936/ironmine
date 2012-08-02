@@ -1,20 +1,3 @@
-# Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
 module Fwk
   module Hook
     @@listener_classes = []
@@ -23,7 +6,7 @@ module Fwk
 
     class << self
       # Adds a listener class.
-      # Automatically called when a class inherits from Redmine::Hook::Listener.
+      # Automatically called when a class inherits from Fwk::Hook::Listener.
       def add_listener(klass)
         raise "Hooks must include Singleton module." unless klass.included_modules.include?(Singleton)
         @@listener_classes << klass
@@ -67,11 +50,10 @@ module Fwk
     # Base class for hook listeners.
     class Listener
       include Singleton
-      include Redmine::I18n
 
       # Registers the listener
       def self.inherited(child)
-        Redmine::Hook.add_listener(child)
+        Fwk::Hook.add_listener(child)
         super
       end
 
@@ -101,7 +83,7 @@ module Fwk
 
       # Helper method to directly render a partial using the context:
       #
-      #   class MyHook < Redmine::Hook::ViewListener
+      #   class MyHook < Fwk::Hook::ViewListener
       #     render_on :view_issues_show_details_bottom, :partial => "show_more_data"
       #   end
       #
@@ -149,18 +131,18 @@ module Fwk
     module Helper
       def call_hook(hook, context={})
         if is_a?(ActionController::Base)
-          default_context = {:controller => self, :project => @project, :request => request, :hook_caller => self}
-          Redmine::Hook.call_hook(hook, default_context.merge(context))
+          default_context = {:controller => self, :request => request, :hook_caller => self}
+          Fwk::Hook.call_hook(hook, default_context.merge(context))
         else
-          default_context = { :project => @project, :hook_caller => self }
+          default_context = { :hook_caller => self }
           default_context[:controller] = controller if respond_to?(:controller)
           default_context[:request] = request if respond_to?(:request)
-          Redmine::Hook.call_hook(hook, default_context.merge(context)).join(' ').html_safe
+          Fwk::Hook.call_hook(hook, default_context.merge(context)).join(' ').html_safe
         end
       end
     end
   end
 end
 
-ApplicationHelper.send(:include, Redmine::Hook::Helper)
-ActionController::Base.send(:include, Redmine::Hook::Helper)
+ApplicationHelper.send(:include, Fwk::Hook::Helper)
+ActionController::Base.send(:include, Fwk::Hook::Helper)

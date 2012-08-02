@@ -50,7 +50,7 @@ gem "wkhtmltopdf-binary"
 
 # wiki
 gem 'grit','2.5.0'
-gem 'gollum' ,:git=>"git://github.com/github/gollum.git"
+gem 'gollum' ,'2.1.0'
 
 
 # Gems used only for assets and not required
@@ -63,7 +63,7 @@ group :assets do
   gem 'therubyracer'
 
   gem 'uglifier', '>= 1.0.3'
-  gem 'twitter-bootstrap-rails' ,:git=>"git://github.com/seyhunak/twitter-bootstrap-rails.git"
+  gem 'twitter-bootstrap-rails' ,'2.1.1'
   gem 'jquery-rails'
 end
 
