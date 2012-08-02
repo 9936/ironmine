@@ -23,7 +23,7 @@
           <div class="form-inline">
             <div class="input-append">
               <input class="search-query" name="q" value="<%= params[:q] %>" type="text" style="width: 500px;"/>
-              <%= link_to t(:search), 'javascript:void(0);',:class => "btn",:type=> 'submit', :style => "margin-left: -4px;" %>
+              <%= link_to t(:search), 'javascript:void(0);',:class => "btn",:type=> 'submit', :style => "margin-left: -5px;" %>
             </div>
           </div>
         <% end %>
@@ -161,11 +161,16 @@
                     </li>
                   <% end %>
                 </ul>
+              <!-- 显示没有搜索结果提示 -->
+              <% else %>
+              <div class="alert alert-block" style="margin: 20px 0 0;">
+                <strong>Oh sorry! Please try again.</strong>
+              </div>
               <% end %>
             </span>
           </div>
           <p class="pager" id="pager" style="text-align: left;">
-            <%= init_paginate(@search.total, params[:page].to_i, params[:per_page].to_i, 10) %>
+            <%= init_paginate(@search? @search.total: 0, params[:page].to_i, params[:per_page].to_i, 10) %>
           </p>
         </div>
       </div>
