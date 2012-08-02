@@ -1858,6 +1858,7 @@ en:
   label_search_previous_page: Previous
   label_search_next_page: Next
   label_search_attachment: Attachment
+  label_before_forever: Unlimited
   label_before_one_day: 24 Hours
   label_before_one_week: 1 Week
   label_before_one_month: 1 Month
