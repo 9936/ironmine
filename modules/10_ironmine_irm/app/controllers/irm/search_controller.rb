@@ -21,7 +21,7 @@ class Irm::SearchController < ApplicationController
   #end
 
   def index
-    params[:search_option_str] ||= 'ALL'
+    params[:search_option_str] ||= ''
     search_option_str = params[:search_option_str]
     entry_arr = []
     search_option_str.split(" ").each do |entry|
@@ -38,7 +38,7 @@ class Irm::SearchController < ApplicationController
       query.keywords q, :highlight => true
       query.with(:updated_at).greater_than(time_limit) if time_limit
       query.paginate(:page => params[:page], :per_page => params[:per_page])
-    end if entry_arr.any?
+    end if entry_arr.any? and !q.eql?('')
     @results_ids = @search.results.collect{|i| i[:id]}  if @search
     @results = {}
     @search.each_hit_with_result do |hit, result|
