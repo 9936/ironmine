@@ -1865,4 +1865,8 @@ zh:
   label_search_result_count: 共搜到 %{count} 个结果
   label_search_options_setting: 搜索内容设置
   label_search_options_time: 搜索时间设置
+  label_search_no_result_alert_1: 1、搜索关键词不能为空；
+  label_search_no_result_alert_2: 2、换一个关键词试试；
+  label_search_no_result_alert_3: 3、左侧栏对应内容是否有选中；
+  label_search_no_result_alert_4: 4、搜索结果可能不在你所指定的时间范围内。
   #============================== end search page  ==============================

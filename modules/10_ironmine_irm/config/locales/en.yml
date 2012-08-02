@@ -1853,3 +1853,20 @@ en:
   label_irm_wiki_default_commit_message: Message
   label_irm_wiki_preview: Preview
   #============================== end wiki  ===================================
+
+  #============================== start search page  ==============================
+  label_search_previous_page: Previous
+  label_search_next_page: Next
+  label_search_attachment: Attachment
+  label_before_one_day: 24 Hours
+  label_before_one_week: 1 Week
+  label_before_one_month: 1 Month
+  label_before_one_year: 1 Year
+  label_search_result_count: There are about %{count} result
+  label_search_options_setting: Search options setting
+  label_search_options_time: Search options time
+  label_search_no_result_alert_1: 1.the keyword can't be blank；
+  label_search_no_result_alert_2: 2.please use another keyword；
+  label_search_no_result_alert_3: 3.check the search options setting；
+  label_search_no_result_alert_4: 4.check the search options time.
+  #============================== end search page  ==============================
