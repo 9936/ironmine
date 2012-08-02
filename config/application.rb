@@ -71,7 +71,6 @@ module Ironmine
     #由于资源文件根据locale，i18n会读取不同的语言的资源文件然后加载到内存中
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
-<<<<<<< HEAD
     # add mail config
     config.ironmine = ActiveSupport::OrderedOptions.new
     config.ironmine.languages = [:zh,:en]
@@ -118,8 +117,7 @@ module Ironmine
     end
 
     config.assets.precompile +=  ["report_types.css"]
-=======
->>>>>>> 62e54d94906d7e24c4c8e044e8a79d32ebb0f3ea
+
 
     # 配置加载系统模块
     origin_values =  config.paths.dup
