@@ -74,7 +74,9 @@ module Skm::Gollum::Markup
         data = data.gsub(/\[([^\[]+)\]\[internal-ref\]/m) do
           "[[#{$1}]]"
         end
-
+        data = data.gsub(/([^\r])\n/) do
+          "#{$1}\r\n"
+        end
         data = data.gsub(/(\S)\s{0,1}$/) do
           "#{$1}  "
         end
