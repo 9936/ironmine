@@ -16,18 +16,6 @@ EventCalendar::ClassMethods.send(:include, EventCalendar::EventCalendarEx)
 #扩展calendar helper
 EventCalendar::CalendarHelper.send(:include, EventCalendar::CalendarHelperEx)
 
-# 程序中使用的ironmine中的常量，建议配置型的常量放到此处
-module Ironmine
-  STORAGE = Fwk::DataStorage.instance
-  # PERSON_NAME_FORMAT = :lastname_firstname
-
-  #应用程序应用的host
-  HOST = "zj.hand-china.com"
-
-  PORT = "8282"
-
-end
-
 
 begin
   # 初始化模块数据 ，初始化脚本位于lib/模块/init.rb脚本中
@@ -46,3 +34,13 @@ end
                                                   Irm::Bulletin.name => "bulletin",
                                                   Chm::ChangeRequest.name => "change_request"}
 
+
+# 加载报表类
+Rails.application.config.fwk.modules.reverse.each do |module_name|
+  Dir[Rails.root.join('modules', Rails.application.config.fwk.module_mapping[module_name], 'reports', 'programs', module_name, '*.rb')].each do |file_path|
+    require "#{file_path}"
+  end
+end
+
+
+puts "init_irm"

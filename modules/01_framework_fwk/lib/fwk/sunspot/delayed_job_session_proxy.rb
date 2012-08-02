@@ -20,7 +20,7 @@ module Fwk::Sunspot
 
     def index(*objects)
       objects.flatten.compact.each do |object|
-        Delayed::Job.enqueue Fwk::Jobs::IndexingJob.new(object.class.name, object.id)
+        Delayed::Job.enqueue Fwk::Sunspot::IndexingJob.new(object.class.name, object.id)
       end
     end
 

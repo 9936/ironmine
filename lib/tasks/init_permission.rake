@@ -17,6 +17,9 @@ namespace :irm do
       Dir[Rails.root.join('modules','*','lib','*', 'init_permission.rb')].each do |file_path|
         require "#{file_path}"
       end
+      Dir[Rails.root.join('modules','*','lib', 'init_permission.rb')].each do |file_path|
+        require "#{file_path}"
+      end
 
     end
 

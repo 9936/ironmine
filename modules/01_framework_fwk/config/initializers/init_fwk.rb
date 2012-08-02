@@ -44,3 +44,57 @@ ActiveRecord::SessionStore.send(:include, Fwk::SessionStore)
 
 # format xml
 ActiveRecord::XmlSerializer::Attribute.send(:include, Fwk::XmlAttribute)
+
+
+# 程序中使用的ironmine中的常量，建议配置型的常量放到此处
+module Ironmine
+  STORAGE = Fwk::DataStorage.instance
+  # PERSON_NAME_FORMAT = :lastname_firstname
+
+  #应用程序应用的host
+  HOST = "zj.hand-china.com"
+
+  PORT = "8282"
+
+end
+
+rails_config = Rails.application.config
+# 配置加载系统模块
+rails_config.fwk.modules.reverse.each do |module_name|
+
+  # 加载报表文件
+  report_path = "modules/#{rails_config.fwk.module_mapping[module_name]}/reports/programs"
+  real_report_path = "#{rails_config.root}/#{report_path}"
+  if File.exist?(real_report_path)
+    Dir[Rails.root.join(report_path, "**", '*.rb')].each do |file_path|
+      require "#{file_path}"
+    end
+  end
+
+  # 加载hook文件
+  hook_path = "modules/#{rails_config.fwk.module_mapping[module_name]}/lib/#{module_name}/hooks"
+  real_hook_path = "#{rails_config.root}/#{hook_path}"
+  if File.exist?(real_hook_path)
+    Dir[Rails.root.join(real_hook_path, '*.rb')].each do |file_path|
+      require "#{file_path}"
+    end
+  end
+end
+
+# 配置基础模块javascript css
+rails_config.fwk.jscss.merge!({
+                                  :default => {:css => ["application"], :js => ["application", "locales/jquery-{locale}"]},
+                                  :default_ie6 => {:css => ["application-ie6"], :js => ["application", "locales/jquery-{locale}"]},
+                                  :aceditor => {:js => ["plugins/ace"]},
+                                  :xheditor => {:css => ["plugins/xheditor"], :js => ["plugins/xheditor/xheditor-{locale}"]},
+                                  :jpolite => {:css => ["plugins/jpolite"], :js => ["plugins/jpolite"]},
+                                  :jcrop => {:css => ["plugins/jcrop"], :js => ["plugins/jquery-crop"]},
+                                  :jcrop_ie6 => {:css => ["plugins/jcrop-ie6"], :js => []},
+                                  :highcharts => {:css => [], :js => ["highcharts"]},
+                                  :login => {:css => ["login"], :js => []},
+                                  :login_ie6 => {:css => ["login-ie6"]},
+                                  :jquery_ui => {:js => ["jquery-ui"]},
+                                  :gollum => {:js => ["plugins/gollum"], :css => ["plugins/gollum"]},
+                                  :markdown => {:css => ["markdown"]}
+                              })
+

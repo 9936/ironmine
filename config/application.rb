@@ -131,10 +131,18 @@ module Ironmine
         if File.exist?(real_file_path)
           config.paths[key].insert(0,file_path)
         end
+        # 加载报表页面文件
+        if key.eql?('app/views')
+          report_view_path = "modules/#{config.fwk.module_mapping[module_name]}/reports/views"
+          real_report_view_path = "#{config.root}/#{report_view_path}"
+          if File.exist?(real_report_view_path)
+            config.paths[key].insert(0,report_view_path)
+          end
+        end
       end
 
       # 加载报表文件
-      report_path = "modules/#{config.fwk.module_mapping[module_name]}/report"
+      report_path = "modules/#{config.fwk.module_mapping[module_name]}/reports/programs"
       real_report_path = "#{config.root}/#{report_path}"
       if File.exist?(real_report_path)
         config.autoload_paths += [real_report_path]
