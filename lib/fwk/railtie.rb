@@ -25,8 +25,6 @@ module Fwk
 
     # 自动对资源文件进行预编译
     config.after_initialize do |app|
-      puts "#{config.fwk.jscss.values}"
-
       config = app.config
       config.fwk.jscss.values.each do |asset|
         files = []
