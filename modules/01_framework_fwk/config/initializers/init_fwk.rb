@@ -95,6 +95,7 @@ rails_config.fwk.jscss.merge!({
                                   :login_ie6 => {:css => ["login-ie6"]},
                                   :jquery_ui => {:js => ["jquery-ui"]},
                                   :gollum => {:js => ["plugins/gollum"], :css => ["plugins/gollum"]},
-                                  :markdown => {:css => ["markdown"]}
+                                  :markdown => {:css => ["markdown"]},
+                                  :search => {:css => ["search"]}
                               })
 

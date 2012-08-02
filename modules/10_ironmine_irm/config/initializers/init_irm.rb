@@ -32,7 +32,8 @@ end
                                                   Csi::Survey.name => "view_survey",
                                                   Skm::EntryHeader.name => "view_skm_entries",
                                                   Irm::Bulletin.name => "bulletin",
-                                                  Chm::ChangeRequest.name => "change_request"}
+                                                  Chm::ChangeRequest.name => "change_request",
+                                                  Irm::AttachmentVersion.name => "attachment"}
 
 
 # 加载报表类
