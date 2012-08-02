@@ -132,9 +132,4 @@ begin
 
 #初始化系统参数
 #Irm::SystemParametersManager.prepare_system_parameters_cache
-
-
 end
-#扩增SunspotSessionProxy,将索引的创建过程放到delayed_job中
-require "irm/sunspot/delayed_job_sunspot"
-Sunspot.session = Irm::Sunspot::DelayedJobSessionProxy.new(Sunspot.session)

@@ -38,7 +38,7 @@ namespace :db do
       migrate_paths << "#{f.to_s.gsub('migrate','')}/*"
     end if Rails.application.paths["db/migrate"].length > 1
 
-    Irm::Migrator::TableMigrator.migrate(migrate_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+    Fwk::Migrator::TableMigrator.migrate(migrate_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
     Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby
   end
 

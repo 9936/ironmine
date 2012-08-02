@@ -6,8 +6,9 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 require "sprockets/railtie"
-require "rails/test_unit/railtie"
 
+# 加载框架配置
+require File.expand_path("../../lib/fwk/railtie", __FILE__)
 # 加载各模块配置
 Dir["#{File.expand_path('../..', __FILE__)}/modules/*"].sort.reverse.each do |file|
   m = File.basename(file).split("_").last
@@ -70,6 +71,7 @@ module Ironmine
     #由于资源文件根据locale，i18n会读取不同的语言的资源文件然后加载到内存中
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
+<<<<<<< HEAD
     # add mail config
     config.ironmine = ActiveSupport::OrderedOptions.new
     config.ironmine.languages = [:zh,:en]
@@ -116,32 +118,34 @@ module Ironmine
     end
 
     config.assets.precompile +=  ["report_types.css"]
+=======
+>>>>>>> 62e54d94906d7e24c4c8e044e8a79d32ebb0f3ea
 
     # 配置加载系统模块
-    modules = Dir["#{config.root}/modules/*"].sort.collect{|i| File.basename(i).split("_").last if File.directory?(i)}.compact
-    origin_values =  paths.dup
-    modules.reverse.each do |module_name|
-      paths.keys.each do |key|
-        next unless paths[key].is_a?(Array)
-        file_path ="modules/#{module_name}/#{origin_values[key][origin_values[key].length-1]}"
+    origin_values =  config.paths.dup
+    config.fwk.modules.reverse.each do |module_name|
+      config.paths.keys.each do |key|
+        next unless config.paths[key].is_a?(Array)
+        file_path ="modules/#{config.fwk.module_mapping[module_name]}/#{origin_values[key][origin_values[key].length-1]}"
         real_file_path = "#{config.root}/#{file_path}"
         if File.exist?(real_file_path)
-          paths[key].insert(0,file_path)
+          config.paths[key].insert(0,file_path)
         end
+      end
+
+      # 加载报表文件
+      report_path = "modules/#{config.fwk.module_mapping[module_name]}/report"
+      real_report_path = "#{config.root}/#{report_path}"
+      if File.exist?(real_report_path)
+        config.autoload_paths += [real_report_path]
       end
     end
 
     # auto load class in lib and module lib
-    config.autoload_paths += paths["lib"].expanded
+    config.autoload_paths += config.paths["lib"].expanded
 
     # auto load program report
     config.autoload_paths += %W(#{config.root}/program/report)
-    modules.reverse.each do |module_name|
-      file_path = "modules/program/report"
-      if File.exist?(file_path)
-        config.autoload_paths += [file_path]
-      end
-    end
 
 
     # 自动生成时不生成asset
@@ -149,36 +153,7 @@ module Ironmine
       g.stylesheets false
       g.javascripts false
     end
-    config.module_folder = 'modules'
-    #扩展rails 的生成器generators
-    generators do
-      #扩展Rails::Generators::NamedBase
-      Rails::Generators::NamedBase.send(:include,Gen::GeneratorExpand)
-      #扩展Erb::Generators::ScaffoldGenerator，解决设置--module= xx 以在app/view/xx空文件夹
-      require 'rails/generators/erb/scaffold/scaffold_generator'
-      Erb::Generators::ScaffoldGenerator.send(:include,Gen::ScaffoldGeneratorExpand)
-      #扩展ActiveRecord::Generators::MigrationGenerator，解决在设置--module= xx 参数后引起migration文件目录异常
-      require 'rails/generators/active_record/migration/migration_generator'
-      ActiveRecord::Generators::MigrationGenerator.send(:include, Gen::MigrationGeneratorExpand)
-      #扩展ActiveRecord::Generators::ModelGenerator，解决在设置--module= xx 参数后引起migration文件目录异常
-      require 'rails/generators/active_record/model/model_generator'
-      ActiveRecord::Generators::ModelGenerator.send(:include, Gen::ModelGeneratorExpand)
 
-      #由于不同版本rails生成器的差异，该版本中不能扩展扩展Sass::Generators::ScaffoldBase，需要用如下进行替代
-      require 'rails/generators/css/scaffold/scaffold_generator'
-      Css::Generators::ScaffoldGenerator.send(:include, Gen::CssScaffoldGeneratorExpand)
-      require 'rails/generators/js/assets/assets_generator'
-      Js::Generators::AssetsGenerator.send(:include,Gen::JsAssetsGeneratorExpand)
-      require 'rails/generators/css/assets/assets_generator'
-      Css::Generators::AssetsGenerator.send(:include,Gen::CssAssetsGeneratorExpand)
-      # #扩展Sass::Generators::ScaffoldBase，解决在设置--module= xx 参数后生成的scaffold.css.xx 不在指定目录下
-      # require 'rails/generators/sass_scaffold'
-      # Sass::Generators::ScaffoldBase.send(:include, Gen::SassScaffoldGeneratorExpand)
-
-      #扩展Erb::Generators::ControllerGenerator 解决在设置--module= xx 参数后运行rails g controller命令在app/view/下生成一个xx空文件夹
-      require 'rails/generators/erb/controller/controller_generator'
-      Erb::Generators::ControllerGenerator.send(:include,Gen::ControllerGeneratorExpand)
-    end
 
   end
 end
