@@ -257,14 +257,15 @@ class Icm::IncidentRequest < ActiveRecord::Base
   end
 
   searchable :auto_index => true, :auto_remove => true do
-    text :title
-    text :summary
-    text :incident_journals_content do |incident|
-      incident.incident_journals.map { |journal| journal.message_body }
+    text :title,:stored => true
+    text :summary,:stored => true
+    text :journals_content,:stored => true do
+      incident_journals.map(&:message_body)
     end
     text :support_person_name do
       Irm::Person.find(support_person_id).full_name if support_person_id.present?
     end
+    time :updated_at
   end
 
 

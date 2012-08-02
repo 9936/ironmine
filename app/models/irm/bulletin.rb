@@ -12,6 +12,7 @@ class Irm::Bulletin < ActiveRecord::Base
   searchable :auto_index => true, :auto_remove => true do
     text :title, :stored => true
     text :content, :stored => true
+    time :updated_at
   end
 
   acts_as_searchable

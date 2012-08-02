@@ -100,14 +100,15 @@ class Skm::EntryHeader < ActiveRecord::Base
   }
 
   searchable :auto_index => true, :auto_remove => true do
-    text :entry_title, :boost => 3
-    text :entry_content do |entry|
-      entry.entry_details.map { |detail| detail.entry_content }
+    text :entry_title,:stored => true, :boost => 3
+    text :entry_content,:stored => true do
+      entry_details.map(&:entry_content)
     end
     text :keyword_tags
     string :entry_status_code
     string :history_flag
     string :published_date
+    time :updated_at
   end
 
   def self.search(query)

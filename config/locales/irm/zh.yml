@@ -1854,3 +1854,15 @@ zh:
   label_irm_wiki_default_commit_message: 信息
   label_irm_wiki_preview: 预览
   #============================== end wiki  ===================================
+  #============================== start search page  ==============================
+  label_search_previous_page: 上一页
+  label_search_next_page: 下一页
+  label_search_attachment: 附件
+  label_before_one_day: 24 小时内
+  label_before_one_week: 1 周内
+  label_before_one_month: 1 月内
+  label_before_one_year: 1 年内
+  label_search_result_count: 共搜到 %{count} 个结果
+  label_search_options_setting: 搜索内容设置
+  label_search_options_time: 搜索时间设置
+  #============================== end search page  ==============================

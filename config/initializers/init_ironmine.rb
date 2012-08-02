@@ -121,10 +121,11 @@ ActiveRecord::XmlSerializer::Attribute.send(:include,Irm::XmlAttribute)
 ActiveRecord::SessionStore.send(:include,Irm::SessionStore)
 
 Ironmine::Acts::Searchable.searchable_entity = {Icm::IncidentRequest.name=>"view_incident_request",
-                                                 Csi::Survey.name=>"view_survey",
-                                                 Skm::EntryHeader.name=>"view_skm_entries",
+                                                Csi::Survey.name=>"view_survey",
+                                                Skm::EntryHeader.name=>"view_skm_entries",
                                                 Irm::Bulletin.name=>"bulletin",
-                                                Chm::ChangeRequest.name => "change_request"}
+                                                Chm::ChangeRequest.name => "change_request",
+                                                Irm::AttachmentVersion.name => "attachment"}
 
 
 begin

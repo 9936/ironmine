@@ -1,5 +1,5 @@
 <%=form_tag({:controller=>"irm/search",:action=>"index"},{:id=>"phSearchForm"})  do |f| %>
-  <%= hidden_field_tag :search_option_str, "", {:id => "searchOptionStr"} %>
+  <%= hidden_field_tag :search_option_str, "ALL Skm::EntryHeader Chm::ChangeRequest Icm::IncidentRequest Irm::Bulletin ALL Chm::ChangeRequest Icm::IncidentRequest Skm::EntryHeader Irm::Bulletin Irm::AttachmentVersion ", {:id => "searchOptionStr"} %>
   <div id="phSearchContainer" class="headerSearchContainer">
     <div class="headerSearchLeftRoundedCorner">
       <div class="searchBoxClearContainer">

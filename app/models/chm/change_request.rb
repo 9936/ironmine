@@ -111,11 +111,12 @@ class Chm::ChangeRequest < ActiveRecord::Base
   }
 
   searchable :auto_index => true, :auto_remove => true do
-    text :title
-    text :summary
-    text :change_journals_content do |change|
-      change.change_journals.map { |journal| journal.message_body }
+    text :title,:stored => true
+    text :summary,:stored => true
+    text :journals_content,:stored => true do
+      change_journals.map(&:message_body)
     end
+    time :updated_at
   end
 
   def self.search(query)

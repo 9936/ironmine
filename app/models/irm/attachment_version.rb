@@ -4,6 +4,8 @@ class Irm::AttachmentVersion < ActiveRecord::Base
 
   belongs_to :attachment
 
+  acts_as_searchable
+
   has_attached_file :data,:whiny => false, :styles => {:thumb=> "60x60>",:small => "100x100>" }
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
@@ -68,8 +70,9 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     string :source_id
     string :source_type
     string :attachment_id
-    text :data_file_name
+    text :data_file_name,:stored => true
     attachment :data_path
+    time :updated_at
   end
 
 

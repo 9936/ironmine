@@ -1,4 +1,6 @@
-<%= show_search_result(params[:query], params[:search_option_str]) %>
+<!--%= show_search_result(params[:query], params[:search_option_str]) %-->
+<%= render 'search' %>
+
 <% content_for :sidebar do %>
     <%= render :partial =>"/irm/common/recently_objects" %>
 <% end %>
