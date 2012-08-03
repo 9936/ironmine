@@ -1,4 +1,4 @@
-class SkmSolvedRate < Irm::ReportManager::ReportBase
+class Icm::IcmFirstLineSolved < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 
@@ -10,9 +10,9 @@ class SkmSolvedRate < Irm::ReportManager::ReportBase
     else
       return {:datas=>[],:headers=>[],:params=>params}
     end
-    statis = Icm::IncidentRequest.
-        select("#{incident_request_table}.external_system_id, count(1) amount").
-        group("#{incident_request_table}.external_system_id").
+
+    statis = Icm::IncidentRequest.select("external_system_id, count(1) amount")
+    statis = statis.
         where("#{incident_request_table}.incident_status_id = ?", close_statis).
         where(%Q(EXISTS(
                   SELECT * FROM icm_incident_journals ij
@@ -31,23 +31,25 @@ class SkmSolvedRate < Irm::ReportManager::ReportBase
 
     datas = []
     headers = [I18n.t(:label_irm_external_system),
-               I18n.t(:label_skm_solved_amount),
+               I18n.t(:label_first_line_solved_amount),
                I18n.t(:label_total_solved_amount),
-               I18n.t(:label_skm_solved_rate)]
+               I18n.t(:label_percentage)]
 
     external_systems.each do |e|
       data = Array.new(4)
       data[0] = e[:system_name]
-      rec = statis.where("#{incident_request_table}.external_system_id = ?", e.id)
-      skm_rec = rec.where(%Q(EXISTS(
-                  SELECT * FROM #{Icm::IncidentJournal.table_name} ij
-                  WHERE ij.incident_request_id = #{incident_request_table}.id
-                  AND ij.reply_type IN ('SUPPORTER_REPLY', 'CUSTOMER_REPLY', 'OTHER_REPLY')
-                  AND ij.message_body LIKE '%apply_from_skm%'
-                )))
-      data[1] = skm_rec.any? ? skm_rec.first[:amount]  : 0
-      data[2] = rec.any? ? rec.first[:amount]  : 0
-      percent = data[2] == 0 ? 0.to_f : ((data[1] / data[2].to_f * 100 * 100).round / 100.0).to_f
+      data[1] = statis.
+          where("#{incident_request_table}.external_system_id = ?", e.id).
+          where(%Q(NOT EXISTS(
+                    SELECT * FROM icm_incident_journals ij
+                    WHERE ij.incident_request_id = #{incident_request_table}.id
+                    AND ij.reply_type = 'UPGRADE'))).
+          group("#{incident_request_table}.external_system_id")
+      data[1] = data[1].any? ? data[1].first[:amount] : 0
+      data[2] = statis.where("#{incident_request_table}.external_system_id = ?", e.id).
+                group("#{incident_request_table}.external_system_id")
+      data[2] = data[2].any? ? data[2].first[:amount] : 0
+      percent = data[2] == 0 ? 0.to_f : (((data[1].to_f / data[2].to_f).to_f * 100 * 100).round / 100.0).to_f
       if percent == 0.to_f
         percent = 0
       end

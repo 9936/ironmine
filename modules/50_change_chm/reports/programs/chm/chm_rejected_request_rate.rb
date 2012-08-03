@@ -1,4 +1,4 @@
-class ChmRejectedRequestRate < Irm::ReportManager::ReportBase
+class Chm::ChmRejectedRequestRate < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 

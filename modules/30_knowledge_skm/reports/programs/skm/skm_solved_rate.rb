@@ -1,4 +1,4 @@
-class IcmAverageProcessingTime < Irm::ReportManager::ReportBase
+class Skm::SkmSolvedRate < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 
@@ -10,13 +10,8 @@ class IcmAverageProcessingTime < Irm::ReportManager::ReportBase
     else
       return {:datas=>[],:headers=>[],:params=>params}
     end
-
     statis = Icm::IncidentRequest.
-        joins(",#{Icm::IncidentJournal.table_name} ij").
-        joins(",#{Icm::IncidentJournalElapse.table_name} ije").
-        where("#{incident_request_table}.id = ij.incident_request_id").
-        where("ij.id = ije.incident_journal_id").
-        select("#{incident_request_table}.external_system_id, count(1) amount, sum(ije.distance) total_time").
+        select("#{incident_request_table}.external_system_id, count(1) amount").
         group("#{incident_request_table}.external_system_id").
         where("#{incident_request_table}.incident_status_id = ?", close_statis).
         where(%Q(EXISTS(
@@ -36,23 +31,27 @@ class IcmAverageProcessingTime < Irm::ReportManager::ReportBase
 
     datas = []
     headers = [I18n.t(:label_irm_external_system),
-               I18n.t(:label_total_solved_time),
+               I18n.t(:label_skm_solved_amount),
                I18n.t(:label_total_solved_amount),
-               I18n.t(:label_total_solved_average_time)]
+               I18n.t(:label_skm_solved_rate)]
 
     external_systems.each do |e|
       data = Array.new(4)
       data[0] = e[:system_name]
       rec = statis.where("#{incident_request_table}.external_system_id = ?", e.id)
-
-      data[1] = rec.any? ? ((rec.first[:total_time]/60.to_f) * 100).round / 100.0 : 0
+      skm_rec = rec.where(%Q(EXISTS(
+                  SELECT * FROM #{Icm::IncidentJournal.table_name} ij
+                  WHERE ij.incident_request_id = #{incident_request_table}.id
+                  AND ij.reply_type IN ('SUPPORTER_REPLY', 'CUSTOMER_REPLY', 'OTHER_REPLY')
+                  AND ij.message_body LIKE '%apply_from_skm%'
+                )))
+      data[1] = skm_rec.any? ? skm_rec.first[:amount]  : 0
       data[2] = rec.any? ? rec.first[:amount]  : 0
-
-      percent = data[2] == 0 ? 0.to_f : ((data[1] / data[2].to_f * 100).round / 100.0).to_f
+      percent = data[2] == 0 ? 0.to_f : ((data[1] / data[2].to_f * 100 * 100).round / 100.0).to_f
       if percent == 0.to_f
         percent = 0
       end
-      data[3] = percent.to_s
+      data[3] = percent.to_s + "%"
       datas << data
     end
 

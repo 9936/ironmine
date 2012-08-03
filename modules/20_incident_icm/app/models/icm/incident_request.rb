@@ -396,7 +396,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   # 处理创建知识库
   def process_knowledge(entry_header_id)
-    self.kb_flag = Icm::Constant::SYS_YES
+    self.kb_flag = Irm::Constant::SYS_YES
     self.incident_status_id = Icm::IncidentStatus.transform(self.incident_status_id,"CREATE_SKM")
     self.save
   end

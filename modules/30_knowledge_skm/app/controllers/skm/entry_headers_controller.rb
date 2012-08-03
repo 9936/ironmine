@@ -918,6 +918,13 @@ class Skm::EntryHeadersController < ApplicationController
         format.html { redirect_to({:action=>"show", :id => @entry_header}, :notice =>t(:successfully_created)) }
         format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
       else
+        @entry_details = []
+        @error_details = []
+        @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
+        session[:skm_entry_details].each do |k, v|
+          t = Skm::EntryDetail.new(v)
+          @entry_details << t
+        end
         format.html { render :action => "new_from_icm_request" }
         format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
       end

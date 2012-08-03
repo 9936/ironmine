@@ -1,4 +1,4 @@
-class HighestPriorityIncidents < Irm::ReportManager::ReportBase
+class Icm::HighestPriorityIncidents < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 

@@ -1,4 +1,4 @@
-class IcmIncidentAmountByDay < Irm::ReportManager::ReportBase
+class Icm::IcmIncidentAmountByDay < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 
