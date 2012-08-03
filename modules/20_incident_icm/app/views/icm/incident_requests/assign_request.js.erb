@@ -1,0 +1,9 @@
+<% if limit_device?%>
+   $(function(){
+       $("#incident_requests").datatable("loadPage",1)
+   });
+<% else %>
+   $(document).ready(function(){
+        $("#incident_requests").data("datatable").target.loadPage(1);
+   });
+<% end %>

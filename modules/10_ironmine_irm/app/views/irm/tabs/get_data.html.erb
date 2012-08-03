@@ -1,0 +1,11 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "70px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:code,{:title=>t(:label_irm_tab_code),:searchable=>true})%>
+  <% builder.column(:name,{:title=>t(:label_irm_tab_name),:searchable=>true})%>
+  <% builder.column(:description,{:title=>t(:label_irm_tab_description),:searchable=>true})%>
+  <% builder.column(:function_group_name,{:title=>t(:label_irm_tab_function_group)})%>
+  <% builder.column(:business_object_name,{:title=>t(:label_irm_tab_business_object)})%>
+<% end %>

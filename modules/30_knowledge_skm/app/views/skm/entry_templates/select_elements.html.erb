@@ -1,0 +1,37 @@
+<%= page_title %>
+
+<!--页面结构-->
+<% if @template %>
+    <%= form_tag({:action => 'add_elements',:template_id => @template}) do%>
+    <%= hidden_field_tag("template_ids") %>
+    <%= hidden_field_tag "return_url", @return_url%>
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_submit t(:save),:class=>"btn btn-primary"%>
+          <% if !@return_url.blank? %>
+            <%= link_to t(:cancel), @return_url,:class=>"btn"%>
+          <% else %>
+            <%= link_to t(:cancel), {:action => "show",:id=>@template},:class=>"btn"%>
+          <% end %>
+        </td>
+      </tr></table>
+      <% end %>
+      <div class="page-block-body">
+        <div id="available_elements_list">
+          <%= datatable("available_elements_list",{:action=>"get_available_elements", :template_id=>@template},[],{:paginator_box=>"available_elementsPaginatorBox",:select=>"multiple"})%>
+        </div>
+        <div id="available_elementsPaginatorBox"></div>
+      </div>
+    </div>
+<% end %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#available_elements_list").bind('selectionchange',function(event,ids){
+            $("#template_ids").val(ids.join(","));
+        });
+    });
+</script>

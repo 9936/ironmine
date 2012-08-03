@@ -1,0 +1,79 @@
+<%= setting_show_title(:show_data => @role[:name]) %>
+
+<!--页面结构-->
+<div class="show-block">
+  <!-- 人员信息 -->
+  <table class="page-block-header">
+    <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_role) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_to t(:edit), {:action => "edit", :id => @role},:class=>"btn btn-primary" %>
+          <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+        </td>
+    </tr>
+  </table>
+  <!-- 一般信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_common_info) %>:</h2></td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_role_code)%></label></td>
+            <td class="data-col"><%= @role.code%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :name)%></label></td>
+            <td class="data-col"><%=@role[:name]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_role_report_to_role)%></label></td>
+            <td class="data-col"><%=@role[:report_to_role_name]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :description)%></label></td>
+            <td class="data-col" colspan="4" style="width:82%"><%=@role[:description]%></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_role_people_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:label_irm_role_edit_assignment), {:action => "edit_assignment", :id => @role.id},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="permissionsSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="people">
+      <%= datatable("people",{:action=>"role_people",:id=>@role.id,:format=>"json"},
+                                    [{:key=>"id"},
+                                     {:key=>"login_name",:label=>t(:label_irm_person_login)},
+                                     {:key=>"person_name",:label=>t(:label_irm_person_name)},
+                                     {:key=>"email_address",:label=>t(:label_irm_person_email_address)},
+                                     {:key=>"bussiness_phone",:label=>t(:label_irm_person_bussiness_phone)},
+                                     ],{:row_perpage=>10,:paginator_box=>'peoplePaginatorBox'})%>
+    </div>
+    <div id="peoplePaginatorBox"></div>
+  </div>
+</div>
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@role} %>

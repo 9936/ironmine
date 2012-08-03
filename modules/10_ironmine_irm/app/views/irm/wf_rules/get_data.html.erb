@@ -1,0 +1,10 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+          <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:back=>{:action=>"index"}}) %>
+          <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:back=>{:action=>"index"}}) %>
+    <% end %>
+    <% builder.column(:bo_name,{:title=>t(:label_irm_wf_rule_bo_code),:searchable=>true})%>
+    <% builder.column(:rule_code,{:title=>t(:label_irm_wf_rule_rule_code),:searchable=>true})%>
+    <% builder.column(:name,{:title=>t(:label_irm_wf_rule_name),:searchable=>true})%>
+    <% builder.column(:evaluate_criteria_rule_name,{:title=>t(:label_irm_wf_rule_evaluate_criteria_rule),:searchable=>true})%>
+<% end %>

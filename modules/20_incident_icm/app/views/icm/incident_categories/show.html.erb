@@ -1,0 +1,71 @@
+<%= common_title %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= @incident_category[:name] %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @incident_category},:class=>"btn btn-primary"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label for="report_code"><%=t(:label_icm_incident_category_code)%></label></td>
+            <td class="data-col"><%=@incident_category.code%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="report_name"><%=t(:label_icm_incident_category_name)%></label></td>
+            <td class="data-col"><%=@incident_category[:name]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="report_description"><%=t(:label_icm_incident_category_description)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><%=@incident_category[:description]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="service_catalog_description"><%=t(:label_icm_incident_category_external_system)%></label></td>
+             <td class="data-col" colspan="3" width="82%"><div>
+              <% meaning = duel_meaning(@incident_category.get_system_str,external_system_duel_values) %>
+              <% if meaning.any? %>
+                  <% meaning.each do |r| %>
+                      <div><%= r %></div>
+                  <% end %>
+              <% end %>
+            </div></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_incident_sub_category) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:controller => "icm/incident_sub_categories",:action => "new",:category_id=>@incident_category.id,:back_url=>url_for({})},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="incident_sub_categories">
+      <% incident_sub_categories = incident_sub_categories(@incident_category.id) %>
+      <%= render :partial=>"icm/incident_categories/incident_sub_categories",:locals=>{:datas=>incident_sub_categories} %>
+    </div>
+  </div>
+</div>
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@incident_category} %>

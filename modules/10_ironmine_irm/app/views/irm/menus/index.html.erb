@@ -1,0 +1,22 @@
+<%= setting_title %>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_menu_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("menus_list",{:action=>"get_data",:format=>"json"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"}) %>
+  </div>
+</div>
+
+
+

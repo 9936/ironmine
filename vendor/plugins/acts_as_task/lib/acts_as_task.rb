@@ -77,7 +77,6 @@ module Ironmine
 
           Ironmine::STORAGE.put(:task_entries,task_entries)
 
-          puts self.task_entries
         end
 
         def self.task_entries

@@ -1,0 +1,10 @@
+<% values = available_object_attribute(@business_object.id) %>
+<%=datatable_view({:count=>datas.length,:datas=>datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "70px"}) do |data|%>
+        <%= link_to(t(:edit),{:controller => "irm/search_layouts", :action => "edit", :bo_id => @business_object.id,:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:code_name,{:title=>t(:label_irm_search_layout_code),:searchable=>true})%>
+  <% builder.column(:columns,{:title=>t(:label_irm_search_layout_columns),:searchable=>true}) do |data|%>
+        <%= duel_meaning(data.get_columns_str,values).join(",") %>
+  <% end %>
+<% end %>

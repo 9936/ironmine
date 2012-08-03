@@ -1,0 +1,109 @@
+<%= common_title(:action_meaning=>t(:label_irm_external_system_add_people)) %>
+<style type="text/css">
+  .processTitle {
+      border: 1px solid #EAEAEA;
+      margin-bottom:15px;
+  }
+  .unreal-hidden {
+    visibility:hidden;
+    position:absolute;
+    top:-2000px;
+    left:-2000px;
+  }
+  .page-block-button form{
+      margin: 0;
+  }
+</style>
+
+<div class="page-block processTitle">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_external_system) %></h2>
+        <%=select_tag_alias :external_system_id, ava_external_systems,@external_system_id,{:id=>"externalSystemId",:href=>url_for({:external_system_id=>"{external_system_id}"})}%>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!--页面结构-->
+<div class="page-block unreal-hidden" id="select_people">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_external_system_add_people) %>&nbsp;<%= t(:label_irm_select_result) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= form_for(@external_system_person,:url=>{:action=>"add_people", :external_system_id => @external_system_id},:builder => CustomFormBuilder) do |f| %>
+          <%= f.hidden_field(:status_code) %>
+          <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+          <%= link_to(t(:cancel),{}, :href =>"javascript:void(0);", :onclick=>"display_member_grid()",:class=>"btn")%>
+        <% end %>
+      </td>
+      <td class="page-block-help">
+        <div id="selectablePeopleSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="selectablePeople"></div>
+    <%= datatable("selectablePeople",{:action=>"get_available_people_data",:external_system_id => @external_system_id},[],{:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
+    <div id="selectablePeoplePaginator"></div>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block" id="member_grid">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_external_system_people) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_id => @external_system_id},:builder => CustomFormBuilder) do |f| %>
+            <%= f.hidden_field(:temp_id_string, :value => "") %>
+            <%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()",:class=>"btn btn-primary" %>
+            <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn"%>
+        <% end %>
+      </td>
+      <td class="page-block-help">
+        <div id="external_peopleSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="external_people"></div>
+     <%= datatable("external_people",{:action=>"get_owned_members_data",:format=>"json", :external_system_id => @external_system_id},[],{:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
+    <div id="external_peoplePaginatorBox"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#externalSystemId").change(function(e){
+      var url = decodeURIComponent($(e.target).attr("href"));
+      var externalSystemId = $(e.target).val();
+      url = url.replace("{external_system_id}",externalSystemId);
+      window.location = url;
+  });
+  function display_select_people(){
+      $("#select_people").removeClass("unreal-hidden");
+      $("#member_grid").addClass("unreal-hidden");
+      $("#irm_external_system_person_temp_id_string").val("");
+  }
+
+  function display_member_grid(){
+      $("#select_people").addClass("unreal-hidden");
+      $("#member_grid").removeClass("unreal-hidden");
+      $("#irm_external_system_person_status_code").val("");
+  }
+
+  $(document).ready(function(){
+      $("#external_people").bind('selectionchange',function(event,ids){
+         $("#irm_external_system_person_temp_id_string").val(ids.join(","));
+      });
+
+      $("#selectablePeople").bind('selectionchange',function(event,ids){
+        $("#irm_external_system_person_status_code").val(ids.join(","));
+      });
+  });
+</script>

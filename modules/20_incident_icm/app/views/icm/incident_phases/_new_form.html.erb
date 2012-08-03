@@ -1,0 +1,67 @@
+<%= common_title(:show_data=>@incident_phase[:name]) %>
+
+<%= form_for(@incident_phase,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table" xmlns="http://www.w3.org/1999/html">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_icm_incident_phase_phase_code)%></label></td>
+            <td class="data-col"><%=f.text_field :phase_code, :required=>true ,:irm_uppercase=>true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_icm_incident_phase_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name, :required=>true %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:display_sequence)%></label></td>
+            <td class="data-col"><%=f.text_field :display_sequence, :required=>true, :irm_number_only => true %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><%=t(:label_icm_incident_phase_description)%></td>
+            <td class="data-col"><%= f.text_area :description, :rows => 4, :class=>"input-xlarge"%></td>
+          </tr>       
+      </tbody>
+    </table>
+  <% end %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_incident_phase_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @incident_phase %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+

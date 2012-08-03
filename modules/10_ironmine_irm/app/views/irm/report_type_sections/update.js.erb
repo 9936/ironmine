@@ -1,0 +1,18 @@
+$(function () {
+    $("#formContent").html('<%= escape_javascript(render(:partial => "form",:locals => {:report_type_id=>@report_type.id}))%>');
+    var x = $(".field-container");
+    x.sortable({
+        start:function () {
+            x.addClass("dragging")
+        },
+        stop:function (e, u) {
+            x.removeClass("dragging");
+        },
+        connectWith:'.field-container',
+        opacity:.7,
+        zIndex:5000,
+        placeholder:'ui-sortable-placeholder',
+        tolerance:'pointer',
+        revert:true
+    });
+});

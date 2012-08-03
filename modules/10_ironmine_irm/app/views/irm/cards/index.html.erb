@@ -1,0 +1,20 @@
+<%= common_title %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_card) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="card_list"></div>
+    <%= datatable("card_list",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"})%>
+    <div id="paginator"></div>
+  </div>
+</div>

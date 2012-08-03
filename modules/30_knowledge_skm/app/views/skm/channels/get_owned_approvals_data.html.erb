@@ -1,0 +1,9 @@
+<%=datatable_view({:columns=>[:id,:full_name,:email_address,:organization_name],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "30px"}) do |data|%>
+    <%= bootstrap_icons("icon-trash", t(:remove), {:controller=>"skm/channels",:action=>"remove_approval",:person_id=>data[:id],:channel_id=>@channel_id},:confirm => t(:label_are_you_sure) ,:method => :delete) %>
+  <% end %>
+    <% builder.column(:full_name,{:title=>t(:label_irm_person_full_name), :width => "20%"})%>
+    <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address), :width => "25%"})%>
+    <% builder.column(:organization_name,{:title=>t(:label_irm_organization)})%>
+<% end %>
+

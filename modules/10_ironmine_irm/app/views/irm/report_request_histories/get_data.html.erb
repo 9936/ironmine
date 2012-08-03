@@ -1,0 +1,10 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:report_name,{:title=>t(:label_irm_report_request_history_report),:searchable=>true})%>
+  <% builder.column(:executed_name,{:title=>t(:label_irm_report_request_history_executed_by),:searchable=>true})%>
+  <% builder.column(:start_at,{:title=>t(:label_irm_report_request_history_start_at),:searchable=>true})%>
+  <% builder.column(:end_at,{:title=>t(:label_irm_report_request_history_end_at),:searchable=>true})%>
+  <% builder.column(:elapse,{:title=>t(:label_irm_report_request_history_elapse),:width=>"70px"}) do |data|%>
+    <%= data.elapse||0.0 %>
+  <% end %>
+  <% builder.column(:execute_type,{:title=>t(:label_irm_report_request_history_execute_type),:width=>"70px"})%>
+<% end %>

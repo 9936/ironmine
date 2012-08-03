@@ -1,0 +1,43 @@
+<%= common_title(:action_meaning=>t(:label_chm_advisory_board_member_new)) %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_advisory_board_member_new) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= form_tag({:action=>"create", :advisory_board_id => @advisory_board.id}) do |f| %>
+          <%= hidden_field_tag(:person_ids,params[:person_ids],:id=>"person_ids") %>
+          <%= hidden_params_field(:back_url) %>
+          <%= link_submit t(:add),:id=>"formSubmit",:class=>"btn btn-primary"%>
+          <%= link_back t(:back),{}, :class=>"btn"%>
+        <% end %>
+      </td>
+      <td class="page-block-help">
+        <div id="advisory_boardsSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="people">
+      <%= datatable("people",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"advisory_boardsPaginatorBox",:search_box=>"advisory_boardsSearchBox",:select=>"multiple"})%>
+    </div>
+    <div id="advisory_boardsPaginatorBox"></div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#people").bind('selectionchange',function(event,ids){
+            $("#person_ids").val(ids.join(","));
+        });
+    });
+    $("#formSubmit").click(function(e){
+        if($("#person_ids").val().length<1){
+          alert($.i18n("atLastSelectOneRecord"));
+          return false;
+        }
+    });
+</script>

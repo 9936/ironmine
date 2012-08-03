@@ -1,0 +1,71 @@
+<%= common_title(:show_data=>@survey.title,:action_meaning=>t(:label_csi_survey_result_statistics)) %>
+<style type="text/css">
+    .subject-result table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .subject-result th, .subject-result tr, .subject-result td {
+        border: 1px solid #DCE0E1;
+        padding: 6px;
+    }
+    .subject-result th {
+        background: none repeat scroll 0 0 #DEE7ED;
+    }
+    .subject-result  table tr:hover {
+        background: none repeat scroll 0 0 #F9F9FA;
+    }
+    .subject-result td.left{
+        text-align: left;
+    }
+    .subject-result td.right{
+        text-align: right;
+    }
+    .subject-result td.center{
+        text-align: center;
+    }
+    div.barBgs {
+        background-color:#efefef;
+        cursor: pointer;
+    }
+    .subject-result td div.progressBar{
+        height: 20px;
+    }
+    .subject-result td div.progressBar1{
+      background-color: #acd689;
+    }
+    .subject-result td div.progressBar2{
+      background-color: #f47a5d;
+    }
+    .subject-result td div.progressBar3{
+      background-color: #fff579;
+    }
+    .subject-result td div.progressBar4{
+      background-color: #6cd0f7;
+    }
+    .subject-result td div.progressBar5{
+      background-color: #9996c9;
+    }
+    .subject-result td div.progressBar6{
+      background-color: #ef67a7;
+    }
+</style>
+<% datas = survey_statistics(@survey.id); %>
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_csi_survey_result_total_count)%>:<%= datas[:response_count]%>[<%= link_to(t(:label_csi_survey_result_response_list),{:action=>"list",:id=>@survey.id},{:back=>true})%>]</h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:export),{:action => "export", :id => @survey.id,:format=>:xls},:id=>"exportSurvey",:class=>"btn btn-primary",:target=>"_blank"%>
+        <%= link_back t(:back), {}, :class => "btn"%>
+      </td>
+      <td class="page-block-help"></td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= render :partial => '/csi/survey_results/survey_statistics',:locals=>{:datas=>datas}%>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,33 @@
+<table class="form-table baseFilter" id="baseFilter">
+  <tbody>
+    <tr>
+
+      <td >
+        <label for="loginPerson_label"><%= t(:label_csi_survey_title) %></label>
+        <div style="white-space:nowrap" class="form-inline">
+          <%= lov_field_tag(:survey_id,Csi::Survey,:name=>"program_params[survey_id]",:value=>program_params[:survey_id],:id=>"surveyReport") %>
+        </div>
+      </td>
+
+      <td>
+        <fieldset>
+          <legend class="btn disabled">
+            <%= t(:label_irm_report_time_range) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                <%= date_field_tag(:date_from,:value=>program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:nobutton=>true)%>
+              </td>
+              <td>
+                <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                <%= date_field_tag(:date_to,:value=>program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:nobutton=>true)%>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+    </tr>
+  </tbody>
+</table>

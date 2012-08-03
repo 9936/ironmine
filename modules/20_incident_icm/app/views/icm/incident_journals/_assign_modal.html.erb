@@ -1,0 +1,69 @@
+<!-- 分配事故单弹出窗口 -->
+<script type="text/javascript">
+  $(function(){
+      function validateAssignRequestSubmit(){
+          if($("#incident_request_support_group_id").val()&&$("#incident_request_support_group_id").val().length>0){
+              $("#assignRequestSubmit").removeAttr("disabled");
+          }
+          else{
+              $("#assignRequestSubmit").attr("disabled",true);
+          }
+      }
+      $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
+      $("#assignRequest").click(
+              function(e){
+                  $("#assignModal").modal("show");
+              }
+      );
+
+      validateAssignRequestSubmit();
+      $("#incident_request_support_group_id").change(validateAssignRequestSubmit);
+
+  });
+</script>
+<div class="modal" id="assignModal" style="display: none;">
+  <%= form_tag({:controller => "icm/incident_requests", :action =>"assign_request", :method => "post"},{:back=>true}) do %>
+  <div class="modal-header">
+    <a data-dismiss="modal" class="close" href="#">×</a>
+    <h3><%= t(:label_icm_incident_request_assign) %></h3>
+  </div>
+  <div class="modal-body">
+    <div id="portalLayouts">
+      <div class="alert alert-error">
+       <%= t(:label_icm_incident_request_support_group) %> : <%= t("activerecord.errors.messages.blank") %>
+     </div>
+          <%= hidden_field_tag "incident_request_ids", @incident_request.id, :id=>"incident_request_ids" %>
+          <table class="form-table portal-setting" style="width: 100%">
+              <tr>
+                <td class="label-col">
+                  <label for="portalLayoutSelect"><%= t(:label_icm_incident_request_support_group) %></label>
+                </td>
+                <td class="data-3col" colspan="3">
+                  <%= blank_select_tag :support_group_id, available_support_group, {}, {:id => "incident_request_support_group_id"} %>
+                </td>
+              </tr>
+            <tr>
+              <td class="label-col">
+                <label for="portalLayoutSelect"><%= t(:label_icm_incident_request_support_person) %></label>
+              </td>
+              <td class="data-col" style="width:30%"><%= blank_select_tag(:support_person_id, [], {},
+                                                                          {
+                                                                                  :id => "incident_request_support_person_id",
+                                                                                  :href => url_for(:controller => "icm/support_groups", :action => "get_member_options", :format => "json", :id => "${incident_request_support_group_id}"),
+                                                                                  :depend => "incident_request_support_group_id",
+                                                                          }) %></td>
+            </tr>
+              <tr>
+                <td colspan="4"></td>
+              </tr>
+          </table>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a data-dismiss="modal" class="btn" href="#"><%= t(:cancel) %></a>
+    <%= link_submit(t(:save),{:id=>"assignRequestSubmit",:class=>"btn btn-primary"})%>
+  </div>
+  <% end %>
+</div>
+<!-- 结束分配事故单弹出窗口-->

@@ -1,0 +1,52 @@
+<%= common_title(:model_meaning=>t(:label_skm)) %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_entry_header_my_unpublished_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%=render "tab_buttons" %>
+        <%=render(:partial => "new_as_button") %>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="split-table" cellpadding="0" cellspacing="0">
+       <tr>
+         <td class="side-bar">
+           <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data", :access => "current", :format=>:json),
+                                                                              :target_table => "my_unpublished_list",
+                                                                              :tree_id => "tree-div",
+                                                                              :root_text => t(:label_skm_column_all),
+                                                                              :li_attrs => "id" } %>
+         </td>
+         <td class="side-content">
+           <div id="my_unpublished_list"></div>
+           <%= datatable("my_unpublished_list",{:action=>"my_unpublished_data",:column_id => @column_id, :person_id => Irm::Person.current.id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox"})%>
+           <div id="paginatorBox"></div>
+         </td>
+       </tr>
+    </table>
+  </div>
+</div>
+
+<%= content_for :sidebar do%>
+    <%= render "skm/entry_headers/sidebar_navigate_menu"%>
+<% end -%>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#tree-div").bind('nodeListener',function(event, element){
+          var params = {};
+          params['column_id'] = element.attr('id');
+          var current_target = $("#my_unpublished_list").data("datatable").target;
+          current_target.data.options.searchOptions = params;
+          current_target.loadPage(1);
+      });
+  });
+</script>

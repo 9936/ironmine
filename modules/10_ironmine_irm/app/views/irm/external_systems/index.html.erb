@@ -1,0 +1,25 @@
+<%= common_title%>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_external_system_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+      <td class="page-block-help">
+        <div id="external_systemsSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="external_systems"></div>
+      <%= datatable("external_systems",{:action=>"get_data"},[],{:search_box=>"external_systemsSearchBox",:paginator_box=>"external_systemsPaginatorBox"})%>
+    <div id="external_systemsPaginatorBox"></div>
+  </div>
+</div>
+
+

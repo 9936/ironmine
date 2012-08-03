@@ -1,0 +1,54 @@
+<%= common_title %>
+<%= form_for(@lane,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_lane_code)%></label></td>
+            <td class="data-2col"><%=f.text_field :lane_code, :required=>true, :irm_uppercase => true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :name)%></label></td>
+            <td class="data-2col"><%=f.text_field :name, :required=>true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :description)%></label></td>
+            <td class="data-2col"><%=f.text_area :description, :rows => 4,:class=>"input-xlarge"%></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel),{:action => "index"},{:class=>"btn cancel"}%>
+  <% end %>
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_irm_lane_new)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer"><tr>
+      <td class="page-block-title">
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>        
+      </td>
+    </tr></table>
+  </div>
+<% end %>

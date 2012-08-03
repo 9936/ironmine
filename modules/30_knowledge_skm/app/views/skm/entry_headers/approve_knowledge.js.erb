@@ -1,0 +1,9 @@
+<% if limit_device?%>
+   $(function(){
+       $("#wait_my_approve_list").datatable("loadPage",1)
+   });
+<% else %>
+$(document).ready(function(){
+    $("#wait_my_approve_list").data("datatable").target.loadPage(1);
+});
+<% end %>

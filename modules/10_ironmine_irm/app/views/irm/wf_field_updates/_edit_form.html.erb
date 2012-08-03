@@ -1,0 +1,88 @@
+<%= form_for(@wf_field_update,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+    <%= hidden_params_field(:source_str)%>
+    <% content_for :form_block_a do %>
+        <table class="form-table">
+          <tbody>
+              <tr>
+                <td class="label-col"><label for="wf_field_update_name"><%=t(:label_irm_wf_field_update_name)%></label></td>
+                <td class="data-col"><%=f.text_field :name, :required=>true ,:id=>"wf_field_update_name"%></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="label-col"><label for="wf_field_update_field_update_code"><%=t(:label_irm_wf_field_update_field_update_code)%></label></td>
+                <td class="data-col"><%=f.text_field :field_update_code ,:irm_uppercase=>true,:required=>true ,:id=>"wf_field_update_field_update_code"%></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="label-col"><label for="wf_field_update_description"><%=(t :label_irm_wf_field_update_description)%></label></td>
+                <td class="data-col" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>60,:id=>"wf_field_update_description"%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label for="bo_code"><%=t(:label_irm_wf_field_update_bo_code)%></label></td>
+                <td class="data-col"><label><%=@wf_field_update[:bo_name]%></label></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="label-col"><label for="object_attribute"><%=t(:label_irm_wf_field_update_object_attribute)%></label></td>
+                <td class="data-col"><label><%=@wf_field_update[:object_attribute_name]%></label></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_b do%>
+        <%= render :partial => "edit_update_value",:locals => {:object_attribute=>bo_attribute(@wf_field_update.bo_code,@wf_field_update.object_attribute),:f=>f} %>
+    <% end %>
+
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <%= link_to t(:delete), {:action => "destroy", :id => @wf_field_update},:method => :delete,:confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
+    <% end %>
+
+
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_irm_wf_field_update_new) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= error_for @wf_field_update %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a %>
+          </div>
+        </div>
+
+        <%= content_for :form_block_b %>
+
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+<% end %>

@@ -1,0 +1,50 @@
+<%= common_title(:show_data=>@card[:name]) %>
+
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_card) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @card},:class=>"btn btn-primary"%>
+      <% if @card.system_flag == "N" %>
+        <%= link_to t(:label_irm_card_rule_edit), {:action => "edit_rule", :id => @card},:class => "btn"%>
+      <% end %>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_card_code)%></label></td>
+            <td class="data-col"><div><%= @card.card_code%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :name)%></label></td>
+            <td class="data-col"><div><%= @card[:name]%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :description)%></label></td>
+            <td class="dataCol"><%= @card[:description]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_card_background_color)%></label></td>
+            <td class="dataCol"><div id="selected_color" style="background-color:<%= @card.background_color%>;height:14px;width:50px;display:inline-block;border:solid 1px #000000;"></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :active)%></label></td>
+            <td class="data-col"><div><%= check_img(@card.status_code)%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_wf_rule_filter)%></label></td>
+            <td class="dataCol" colspan="3" style="width:82%"><div><%= @rule_filter.meaning %></div></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@card} %>

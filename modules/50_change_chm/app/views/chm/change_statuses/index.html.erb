@@ -1,0 +1,25 @@
+<%= page_title %>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_change_status_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+      <td class="page-block-help">
+        <div id="statusesSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="statuses"></div>
+    <%= datatable("statuses",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"statusesPaginatorBox",:search_box=>"statusesSearchBox"})%>
+    <div id="statusesPaginatorBox"></div>
+  </div>
+</div>
+
+

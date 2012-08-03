@@ -1,0 +1,76 @@
+<%= setting_title %>
+<%= form_for(@function_group,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+
+
+  <% content_for :form_block_a   do%>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_function_group_group_code)%></label></td>
+            <td class="data-col"><label><%= @function_group.code%></label></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_function_group_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name, :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_function_group_description)%></label></td>
+            <td class="data-col"><%= f.text_area :description, :rows => 4%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :active)%></label></td>
+            <td class="data-col"><%=f.select :status_code, available_active_status, {:include_blank => false}%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+  <% end %>
+
+
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_irm_function_group_edit)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+
+      </td>
+    </tr></table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= error_for @function_group %>
+          <%= content_for :form_block_a   %>
+        </div>
+      </div>
+
+    </div>
+
+    <table class="page-block-footer"><tr>
+      <td class="page-block-title">
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
+  </div>
+
+<% end %>

@@ -7,8 +7,12 @@
           _this.showIframeModal($.i18n("image_from_clipboard"),'/common/upload_screen_shot',function(v){_this.loadBookmark();},420,365);
         }}
       };
+      var width = '600px';
+      <%if force_fit_width%>
+        width = $("#<%= textarea_id %>").parents("td").width() - 10+"px";
+      <%end%>
       $("#<%= textarea_id %>").xheditor({
-          width:'600px',
+          width:width,
           height: '150px',
           forcePtag:false,
           plugins: show_domal,

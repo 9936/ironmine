@@ -1,0 +1,48 @@
+<%= common_title(:action_meaning=>t(:label_icm_incident_request_assign_me)) %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_incident_request_assign_me_able_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests",:action => "index"},:class=>"btn"%>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="incident_requests"></div>
+    <%= datatable("incident_requests",{:action=>"assign_me_data"},[],{:select=>"multiple",:paginator_box=>'paginatorBox'})%>
+    <div id="paginator"></div>
+  </div>
+  <table class="page-block-footer">
+    <tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <%= form_tag({:action=>"update_assign_me"}) do |f|%>
+          <%= hidden_field_tag(:incident_request_ids,:id=>"incident_request_ids")  %>
+          <%= submit_tag(t(:label_icm_incident_request_assign_me),{:id=>"formSubmit",:disabled=>true,:class=>"btn btn-primary"})  %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#incident_requests").bind('selectionchange',function(event,ids){
+            $("#incident_request_ids").val(ids.join(","));
+            if(ids.length>0)
+                $("#formSubmit").removeAttr("disabled");
+            else
+              $("#formSubmit").attr("disabled",true);
+        });
+    });
+</script>
+<% content_for :sidebar do%>
+    <%= render :partial =>"/icm/incident_requests/quick_create" %>
+<% end %>

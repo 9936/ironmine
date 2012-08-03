@@ -1,0 +1,57 @@
+<%= page_title %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_organization_info) %></h2>
+    </td>
+    <td class="page-block-button">
+
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_organization_short_name)%></label></td>
+            <td class="data-col"><%=@organization.short_name%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_organization_name)%></label></td>
+            <td class="data-col"><%=@organization[:name]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_organization_description)%></label></td>
+            <td class="data-col"><%=@organization[:description]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_organization_info_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="organization_infos"></div>
+    <%= datatable("organization_infos",{:action=>"get_data"},[],{:paginator_box=>"organization_infosPaginatorBox",:search_box=>"organization_infosSearchBox"})%>
+    <div id="organization_infosPaginatorBox"></div>
+  </div>
+</div>
+
+
+

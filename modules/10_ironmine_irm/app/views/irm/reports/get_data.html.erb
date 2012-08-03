@@ -1,0 +1,12 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:name,{:title=>t(:label_irm_report_name),:searchable=>true,:width=>"250px"}) do |data|%>
+    <% if data[:report_trigger_id].present? %>
+      <%= link_to(data[:name], {:controller => "irm/reports", :action => "show", :id => data[:id]})%>
+      <%= bootstrap_icons("icon-time",t(:edit),{:controller=>"irm/report_triggers",:action=>"edit",:id=>data[:report_trigger_id]}) %>
+    <% else %>
+      <%= link_to(data[:name], {:controller => "irm/reports", :action => "show", :id => data[:id]})%>
+    <% end %>
+  <% end %>
+  <% builder.column(:report_folder_name,{:title=>t(:label_irm_report_folder),:width=>"150px"}) %>
+  <% builder.column(:description,{:title=>t(:label_irm_report_description)})%>
+<% end %>

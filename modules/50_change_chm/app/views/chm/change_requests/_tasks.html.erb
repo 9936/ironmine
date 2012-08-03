@@ -1,0 +1,279 @@
+<%= detail_data_table(datas.length) do %>
+  <!--  irm datatable      -->
+  <div class="datatable">
+    <div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:80px;">
+                <div><%= t(:operation) %></div>
+              </th>
+              <th style="width: 200px;">
+                <div><%= t(:label_chm_change_task_name) %></div>
+              </th>
+              <th style="width:200px">
+                <div><%= t(:label_chm_change_task_support_group) %></div>
+              </th>
+              <th style="width: 200px;">
+                <div><%= t(:label_chm_change_task_support_person) %></div>
+              </th>
+              <th style="width: 150px;">
+                <div><%= t(:label_chm_change_task_status) %></div>
+              </th>
+              <th>
+                <div><%= t(:label_chm_change_task_description) %></div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <%datas[0].each do |phase|  %>
+              <tr>
+                <td>
+                  <div>
+                    <%= link_to(t(:new),{:controller => "chm/change_tasks", :action => "new",:source_id=>@change_request.id,:phase_id=>phase.id},:back=>true) %>
+                  </div>
+                </td>
+                <td>
+                  <div><b><%= t(:label_chm_change_task_change_task_phase) %>:<%= phase[:name] %></b></div>
+                </td>
+                <td>
+                  <div></div>
+                </td>
+                <td>
+                  <div></div>
+                </td>
+                <td>
+                  <div></div>
+                </td>
+                <td>
+                  <div></div>
+                </td>
+              </tr>
+              <% datas[1][phase.id].each do |data| %>
+                <tr id="<%=data[:id]%>">
+                  <td>
+                    <div>
+                      <%= link_to(t(:edit),{:controller => "chm/change_tasks", :action => "edit",:id=>data[:id]},:back=>true) %>
+                      <%= link_to(t(:delete),{:controller => "chm/change_tasks",:action => "destroy",:id=>data.id},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+                    </div>
+                  </td>
+
+                  <td class="edit_item">
+                    <div class="name task_name"><span><%= data[:name] %></span></div>
+                    <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
+                    <div class="name_edit">
+                        <%= text_field_tag :name,data[:name] %>
+                    </div>
+                    <div class="loading_edit"><span class="loading_img"></span></div>
+                  </td>
+
+                  <td class="edit_item">
+                    <div class="name"><span><%= data[:support_group_name] %></span></div>
+                    <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
+                    <div class="name_edit">
+                      <%= select_tag_alias :support_group_id, available_support_group,data[:support_group_id],{:id=>"support_group_id",:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---", "select_type" => "group" }%>
+                    </div>
+                    <div class="loading_edit"><span class="loading_img"></span></div>
+                  </td>
+
+                  <td class="edit_item">
+                    <div class="name"><span><%= data[:support_person_name] %></span></div>
+                    <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
+                    <div class="name_edit">
+                      <%= select_tag_alias :support_person_id, available_support_person(data[:support_group_id]),data[:support_person_id],{:id=>"person-#{data[:id]}",:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---", "select_type" => "person" }%>
+                    </div>
+                    <div class="loading_edit"><span class="loading_img"></span></div>
+                  </td>
+
+                  <td class="edit_item">
+                    <div class="name"><span><%= data[:status_name] %></span></div>
+                    <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
+                    <div class="name_edit">
+                        <%= select_tag_alias :status, options_for(Chm::ChangeStatus),data[:status],{:id=>"status", "select_type" => "status" }%>
+                    </div>
+                    <div class="loading_edit"><span class="loading_img"></span></div>
+                  </td>
+
+                  <td class="edit_item">
+                    <div class="name"><span><%= data[:description] %></span></div>
+                    <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
+                    <div class="name_edit">
+                        <%= text_field_tag :description,data[:description] %>
+                    </div>
+                    <div class="loading_edit"><span class="loading_img"></span></div>
+                  </td>
+                </tr>
+              <% end -%>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  <!--  end irm datatable      -->
+<% end %>
+<script type="text/javascript">
+  var esc_key_flag = false, edit_flag = false;
+  $(function(){
+     $(".edit").click(function(e){
+        //获取该单元格所在行的id即任务id
+        edit_flag = true;
+        var node = {}, item = $(this).parent(),
+        id = item.parent().attr("id"),
+        name = item.find(".name"),
+        name_edit =  item.find(".name_edit"),
+        input_name = name_edit.find("input"),
+        edit = item.find(".edit");
+
+        node.name = name;
+        node.type = input_name.length == 0? 'select' : 'input';
+        node.id = id;
+        node.name_value = name.find("span").html();
+        node.name_edit = name_edit;
+        node.input_name = input_name;
+        node.edit = edit;
+        node.text_node_loading = item.find(".loading_edit");
+        edit.hide();
+        name.hide();
+        name_edit.show();
+        node.selector = name_edit.find("select");
+        node.selector.change(function(){
+            if($(this).attr("select_type") && $(this).attr("select_type") == 'group') {
+                node.select_type = 'group';
+            }else if($(this).attr("select_type") && $(this).attr("select_type") == 'person') {
+                node.select_type = 'person';
+            }
+            //edit_flag = true;
+            this.blur();
+        });
+        if (node.type == 'select') {
+            input_name = node.selector;
+        }
+        input_name.focus();
+        node.field_name = input_name.attr("name"); //用于保存数据所用
+        if (node.type == 'input') {
+            //keypress 处理
+            input_name.keypress(function (e) {
+               if (e.which == '13') {
+                   node.name_value = $(this).val();
+                   if(node.name_value == '') {
+                       node.name_value = '';
+                   }
+                   updateItemName(item,node,name_edit, this, node.name_value);
+                   return false; //修复在IE下的Bug
+               }
+            });
+            //keyup 处理
+            input_name.keyup(function (e) {
+                if (e.which != '13') {
+                    var res = validateItemName($(this).val());
+                    if (!res.result) {
+                        $(this).focus();
+                    }
+                }
+            });
+        }
+        //blur 处理
+        input_name.blur(function(){
+            //esc 处理
+            var esc_func = function () {
+                validateItemName($(this));
+                $(this).val($(this).val()).change();
+            }.bind(this);
+            //判断是否编辑
+            if(edit_flag && $(this).is(':visible')) {
+                if(validateItemName($(this).val())) {
+                    node.name_value = $(this).val();
+                    if(node.type == 'select') {
+                        node.name_value = node.name_value == ''? node.name_value : $.trim($(this).find("option:selected").html());
+                    }
+                    edit_flag = false;
+                    updateItemName(item,node,name_edit, this, node.name_value);
+                }else{
+                    esc_func();
+                }
+            }else if(esc_key_flag) {
+                esc_func();
+            }else{
+                node.text_node_loading.hide();
+                node.name_edit.hide();
+                node.name.show();
+                node.edit.show();
+            }
+        });
+        //change 处理
+        input_name.change(function () {
+            edit_flag = true;
+        });
+     });
+  }).unbind("click");
+  //验证输入
+  function validateItemName(name) {
+      var new_name = $.trim(name);
+      if (new_name.length == 0) {
+          return {result: false, msg: '不能为空'};
+      } else if (new_name.length > 100) {
+          return {result: false, msg: '不能输入太多'};
+      }
+      	return {result: true};
+  }
+
+    //保存更新的选项
+    function updateItemName(file, item, text_div, text_box, display_name) {
+      var val = $(text_box).val();
+      var success_func = function (data) {
+        //如果更新列支持组则去获取支持组下的支持人员
+        if(item.select_type == 'group') {
+            edit_flag = false;
+            getSupportPerson(val, item.id);
+        }
+        //设置当前文本框和下拉列表不可用
+        $(text_box).attr('disabled', false);
+        $(item.text_node_loading).hide();
+        $(item.name).html('<span>'+display_name+'</span>').show();
+        $(item.edit).show();
+      };
+      $.ajax({
+          url: '/change_tasks/'+item.id+'',
+          type: 'PUT',
+          dataType: 'json',
+          data: "chm_change_task["+item.field_name+"]="+ val,
+          beforeSend: function () {
+              $(text_box).attr('disabled', true);
+              $(text_div).hide();
+              $(item.text_node_loading).show();
+          },
+          success: success_func,
+          error: function(){
+          }
+      });
+      return false;
+    }
+  function getSupportPerson(group_id, id) {
+      if (group_id == null || group_id == '') return;
+      $.ajax({
+         type: 'GET',
+         url: '/support_groups/'+group_id+'/get_member_options.json',
+         dataType: 'json',
+         success: function(data){
+            //将支持人员json格式数据进行遍历成下拉可选
+            var options = "<option value=''>--- 请选择 ---</option>", selector = $('#person-'+id);
+            $.each(data.items,function(index,person){
+              options += "<option id='"+person.id+"' value='"+person.value+"'>"+person.label+"</option>"
+            });
+            selector.html(options);
+            selector.parent().parent().find(".edit").click();
+         }
+      });
+  }
+  //处理特殊键
+  $(document).keydown(function(e) {
+      if(e.keyCode == 27) {
+          esc_key_flag = true;
+          $('.name_edit:visible').each(function() {
+            $(this).find('input').blur();
+            $(this).find('select').blur();
+          });
+          esc_key_flag = false;
+      }
+  })
+</script>

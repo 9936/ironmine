@@ -116,9 +116,8 @@ namespace :irm do
 
     data = Irm::DataTransform.instance.download(source)
     data.sort{|a,b| a[:origin_type]<=>b[:origin_type]}
-    puts data
     File.open(Rails.root + "public/temp.json","w") do |f|
-      f.write(data.to_json)
+        f.write(JSON.pretty_generate(data))
     end
     puts Time.now - start
   end

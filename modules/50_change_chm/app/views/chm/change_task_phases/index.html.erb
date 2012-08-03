@@ -1,0 +1,22 @@
+<%= page_title %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_change_task_phase_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+      <td class="page-block-help">
+        <div id="task_phasesSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="task_phases"></div>
+    <%= datatable("task_phases",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"task_phasesPaginatorBox",:search_box=>"task_phasesSearchBox"})%>
+    <div id="task_phasesPaginatorBox"></div>
+  </div>
+</div>

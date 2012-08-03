@@ -1,0 +1,80 @@
+<%= common_title(:model_meaning => @person[:full_name],:action_meaning=>  t(:label_irm_external_system_select_system)) %>
+
+<%= form_for(@system_person,:url=>{:action=>"create_from_person"},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:status_code) %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <% if @step %>
+           <td class="page-block-title">
+                <h2 class="block-title"><%= t(:step_n, :n => "2") %><%= t(:label_irm_external_system_select_system) %></h2>
+           </td>
+           <td class="page-block-button">
+             <%= link_to t(:last), {}, {:href => "javascript:void(0);", :class => "btn add_group_button_last"}%>
+             <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn add_group_button"} %>
+             <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class => "btn" )%>
+           </td>
+           <td class="page-block-help">
+             <%= t(:step_n_total_m, :n => "2", :m => "3") %>
+           </td>
+          <% else %>
+              <td class="page-block-title">
+                <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2>
+              </td>
+              <td class="page-block-button">
+                <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+                <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class=>"btn cancel")%>
+              </td>
+              <td class="page-block-help">
+                <div id="selectableSystemSearchBox"></div>
+              </td>
+          <% end %>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <div id="externalSystemList">
+          <%= datatable("externalSystemList",{:action=>"get_available_external_system_data",:person_id=>@person.id},
+                            [{:key=>"id",:hidden=>true},
+                             {:key=>"external_system_code",:label=>t(:label_irm_external_system),:searchable=>true},
+                             {:key=>"system_name",:label=>t(:name),:searchable=>true},
+                             {:key=>"system_description",:label=>t(:description)},],
+                             {:paginator_box=>"systemPaginator",:search_box=>"selectableSystemSearchBox",:select=>"multiple",:force_html=>true})%>
+        </div>
+        <div id="systemPaginator"></div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <% if @step %>
+              <%= link_to t(:last), {}, {:href => "javascript:void(0);", :class => "btn add_group_button_last"}%>
+              <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn add_group_button"} %>
+              <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class => "btn" )%>
+            <% else %>
+              <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+              <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class=>"btn cancel")%>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+    $(".add_group_button").click(function(){
+        $("#new_irm_external_system_person").attr('action', '<%= url_for(:action => "create_from_person", :controller => "irm/external_system_members", :next_action => "next")%>');
+        $("#new_irm_external_system_person").submit();
+    });
+    $(".add_group_button_last").click(function(){
+        $("#new_irm_external_system_person").attr('action', '<%= url_for(:action => "create_from_person", :controller => "irm/external_system_members", :next_action => "last")%>');
+        $("#new_irm_external_system_person").submit();
+    });
+  });
+  $(document).ready(function(){
+      $("#externalSystemList").bind('selectionchange',function(event,ids){
+          $("#irm_external_system_person_status_code").val(ids.join(","));
+      });
+  });
+</script>

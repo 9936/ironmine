@@ -1,0 +1,74 @@
+<%= app_title({:description => t(:new)}) %>
+<%= form_for(@entry_header,:url=>{:action=>"new", :step => "2"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common   do%>
+    <table class="split-table" cellpadding="0" cellspacing="0">
+       <tr>
+         <td class="side-bar">
+           <%= f.select :entry_template_id, available_entry_templates.collect{|p| [p.name, p.id]}, {},{:style => "width: 100%;min-height: 290px; min-width: 180px;", :id => "template_select", :size => "18" , :selected => (@entry_header.entry_template_id ? @entry_header.entry_template_id : false)} %>
+         </td>
+         <td class="side-content">
+           <div id="entry_elements_list"></div>
+           <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_header.entry_template_id ? @entry_header.entry_template_id : "-1" ,:format=>"json"},[]) %>
+         </td>
+       </tr>
+    </table>
+
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:next), {:class => "btn btn-primary"} %>
+    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:step_n, :n => "1") %><%= t(:notice_skm_entry_header_choice_template) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+          <td class="page-block-help">
+            <%= t(:step_n_total_m, :n => "1", :m => "4") %>
+
+          </td>
+        </tr>
+    </table>
+    <%= error_for @entry_header %>
+    <p class="help-block" style="padding: 10px;"><%= t(:notice_skm_entry_step_1_desc) %></p>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 个人信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_common_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+      $("select#template_select").change(function(e){
+          var params = {};
+          params['template_id_t'] = $(this).val();
+          var current_target = $("#entry_elements_list").data("datatable").target;
+          current_target.data.options.searchOptions = params;
+          current_target.loadPage(1);
+      });
+  });
+</script>

@@ -1,0 +1,19 @@
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_change_request_incident_requests) %></h2>
+      </td>
+      <td class="page-block-button"></td>
+      <td class="page-block-help form-inline" id="incidentForm">
+        <%= render :partial=>"chm/change_incident_relations/mini_form"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="incidentRequests">
+      <%= render :partial=>"chm/change_incident_relations/change_incident_requests",:locals=>{:datas=>change_incident_requests(@change_request.id),:master_incident_request=>change_master_incident_request(@change_request.incident_request_id)} %>
+    </div>
+  </div>
+</div>

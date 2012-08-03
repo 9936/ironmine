@@ -2,10 +2,12 @@
 db/*.sqlite3
 log/**
 tmp/**/*
+wiki
 .idea
 db/schema.rb
 vendor/cache/**
 vendor/cache/*
+vendor/bundle/**
 public/upload/**
 Gemfile.lock
 **/Thumbs.db
@@ -13,5 +15,7 @@ index
 Capfile
 config/deploy.rb
 ironmine.ids
+solr/solr/data/**
 solr/data/**
 public/tmp/*
+public/assets/*

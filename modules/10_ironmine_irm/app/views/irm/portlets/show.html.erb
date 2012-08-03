@@ -1,0 +1,38 @@
+<%= common_title(:show_data=>@portlet[:name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=t(:label_irm_portlet)%></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @portlet},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_portlet_code)%></label></td>
+            <td class="data-col"><div><%= @portlet.code %></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_portlet_controller)%></label></td>
+            <td class="data-col"><div><%= @portlet.controller %></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_portlet_action)%></label></td>
+            <td class="data-col"><div><%= @portlet.action %></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@portlet} %>

@@ -4,6 +4,7 @@ zh:
   language_code_en: 英语
   language_code_jp: 日语
   language_code_zh: 中文
+  table_of_contents: 目录
 
   label_entry_headers_step: 步骤
   label_entry_headers_totle_step: 步
@@ -296,3 +297,8 @@ zh:
   label_irm_task_start_at: 开始时间
   label_irm_task_end_at: 结束时间
   ##==============end=============================
+  ##==============http error=============================
+  label_http_exception_show_detail: 详细信息
+  label_http_exception_save_as_file: 保存错误消息到本机
+  label_http_exception_system_error: 系统内部错误,请联系管理员
+  #=========end http error====================

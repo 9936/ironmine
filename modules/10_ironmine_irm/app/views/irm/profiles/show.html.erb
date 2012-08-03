@@ -1,0 +1,22 @@
+<%= common_title %>
+
+<div class="show-block">
+  <!-- 人员信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_profile) %></h2>
+      </td>
+      <td class="page-block-button">
+          <%= link_to t(:edit), {:action => "edit", :id =>@profile},:class=>"btn btn-primary" %>
+          <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+  <%= render :partial => "common_info", :locals => {:profile => @profile}%>
+  <%= render :partial => "kanban_info", :locals => {:profile => @profile}%>
+  <%= render :partial => "function_list", :locals => {:profile => @profile}%>
+</div>
+
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@profile} %>

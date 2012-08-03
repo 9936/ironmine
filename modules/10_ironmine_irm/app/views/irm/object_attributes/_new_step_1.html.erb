@@ -1,0 +1,146 @@
+<%= form_for(@object_attribute,:url=>{:action=>"new"},:builder => CustomFormBuilder) do |f| %>
+
+
+  <% content_for :form_block_a   do%>
+    <table class="form-table">
+      <tbody>
+        <% categories = object_attribute_categories %>
+        <% category = categories["LOOKUP_RELATION"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+
+        <% category = categories["MASTER_DETAIL_RELATION"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+
+        <% category = categories["CHECK_BOX"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+        <% category = categories["DATE_TIME"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+        <% category = categories["EMAIL"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+        <% category = categories["NUMBER"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+        <% category = categories["PHONE"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+        <% category = categories["PICK_LIST"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+        <% category = categories["PICK_LIST_MULTI"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+        <% category = categories["TEXT"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+        <% category = categories["TEXT_AREA"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+        <% category = categories["TEXT_AREA_RICH"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
+        <% category = categories["URL"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+        <tr>
+          <td class="labelCol"></td>
+          <td class="data-col"></td>
+          <td class="labelCol"></td>
+          <td class="data-col"></td>
+        </tr>
+
+      </tbody>
+    </table>
+  <% end %>
+
+  <% content_for :form_buttons  do %>
+        <%= link_to t(:next), {:action => "new"},{:class=>"submit btn"} %>
+        <%= link_to t(:cancel), {:id=>params[:bo_id],:action => "show",:controller=>"irm/business_objects"},:class=>"btn" %>
+  <% end %>
+
+
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:step_n, :n => "1") %><%= t(:label_irm_object_attribute_choose_attribute_type) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+
+        </td>
+        <td class="page-block-help">
+          <h2 class="block-title"><%= t(:step_n_total_m, :n => "1", :m => "2") %></h2>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @object_attribute%>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_irm_object_attribute_choose_attribute_type) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+        </div>
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+    </div>
+
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+      $.checkRadioButton("input.attributeCategory")
+  });
+</script>

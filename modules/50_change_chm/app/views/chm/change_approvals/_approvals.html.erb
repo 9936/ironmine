@@ -1,0 +1,16 @@
+<% deletable = !@change_request.approve_status.present?||"ASSIGNED".eql?(@change_request.approve_status) %>
+<%=datatable_view({:count=>datas.count,:datas=>datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation),:width=>"40px"}) do |data|%>
+    <% if deletable %>
+      <%= link_to t(:delete),{:controller => "chm/change_approvals",:id=>data[:id],:action => "destroy"} ,{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) } %>
+    <% elsif data.approve_able?(Irm::Person.current)  %>
+      <%= link_to t(:label_chm_change_approval_approve),{:controller => "chm/change_approvals",:id=>data[:id],:action => "approve"} ,{:back=>true } %>
+    <% end %>
+
+  <% end %>
+  <% builder.column(:full_name,{:title=>t(:label_irm_person_full_name)})%>
+  <% builder.column(:organization_name,{:title=>t(:label_irm_person_organization)})%>
+  <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address)})%>
+  <% builder.column(:approve_status_name,{:title=>t(:label_chm_change_approval_approve_status)})%>
+  <% builder.column(:approve_at,{:title=>t(:label_chm_change_approval_approve_at)})%>
+<% end %>

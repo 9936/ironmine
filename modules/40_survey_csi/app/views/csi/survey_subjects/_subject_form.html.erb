@@ -1,0 +1,39 @@
+<table class="form-table">
+  <tbody>
+      <tr>
+        <td class="label-col"><label><%=t(:label_csi_survey_subject_seq_num)%></label></td>
+        <td class="data-col"><%= form.text_field :display_sequence,:size=>5 %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_csi_survey_subject_title)%></label></td>
+        <td class="data-col"><%= form.text_field :name, :required => true, :onfocus => "clear_initial(this);",
+                                                :onblur => "set_initial(this)" %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_csi_survey_subject_prompt)%></label></td>
+        <td class="data-col"><%= form.text_field :description %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_csi_survey_subject_input_type)%></label></td>
+        <td class="data-col"><%= form.select :input_type, survey_subject_type,{},:onchange => "subject_input_changed(this);" ,:id=>"id_input_type",:selected=>"text"%></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="survey data-col" colspan="3">
+          <div id="input_options" class="input_options">
+              <%= render :partial => "/csi/survey_subjects/#{subject.input_type}_form",:locals => {:subject => subject,:parent => parent,:form=>form} %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:required)%></label></td>
+        <td class="data-col"><label><%= form.check_box :required_flag %></label></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+  </tbody>
+</table>

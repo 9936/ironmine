@@ -1,0 +1,41 @@
+<div id="reportChart"></div>
+
+<!--  irm datatable      -->
+ <div class="datatable">
+   <div>
+       <table count="<%=datas[:datas].size%>">
+         <thead>
+           <tr>
+             <th><%=t(:label_report_icm_incident_report_date)+':'+Date.today.to_s  %></th>
+             <th style="text-align:center" colspan=<%=datas[:headers].length%>><%=t(:label_report_icm_incident_prior) %></th>
+             <th><%=t(:label_report_icm_incident_total)  %></th>
+           </tr>
+           <tr>
+             <th >
+               <div><%= t(:label_report_icm_incident_params_month) %></div>
+             </th>
+             <% 0.upto(datas[:headers].length-1) do |index| %>
+               <th >
+                 <div><%= datas[:headers][index] %></div>
+               </th>
+             <% end %>
+             <th></th>
+           </tr>
+         </thead>
+         <tbody>
+         <% datas[:datas].each do |data| %>
+           <tr>
+             <% 0.upto(datas[:headers].length+1) do |index| %>
+               <td>
+                 <div>
+                   <%= data[index] %>
+                 </div>
+               </td>
+             <% end %>
+           </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

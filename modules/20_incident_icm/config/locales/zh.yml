@@ -1,0 +1,265 @@
+zh:
+  #=========================    icm role_settings_controller=======================#
+  label_icm_rule_setting_new: 新建事件规则
+  label_icm_rule_setting_list: 列表事件规则
+  label_icm_rule_setting_company: 公司
+  label_icm_rule_setting_report_date_changable: 更改报告日期
+  label_icm_rule_setting_respond_date_changable: 更改回复日期
+  label_icm_rule_setting_auto_closure_days: 自动关闭解决请求(天)
+  label_icm_rule_setting_assignment_process_code: 分配流程
+  label_icm_rule_setting_slove_date_changable: 更改解决日期
+  label_icm_rule_setting_auto_assignable: 自动分配
+  label_icm_rule_setting_description: 描述
+  label_icm_rule_setting_edit: 编辑事件规则
+  label_icm_rule_setting_info: 事件规则详细信息
+  label_icm_rule_setting_show: 事件规则
+  label_icm_rule_setting_status_code: 记录状态
+  #========================= end icm role_settings_controller=======================#
+  #=========================    icm impact_ranges_controller=======================#
+  label_icm_impact_range: 影响度
+  label_icm_impact_range_list: 影响度列表
+  label_icm_impact_range_new: 新建影响度
+  label_icm_impact_range_impact_code: 简称
+  label_icm_impact_range_company: 公司
+  label_icm_impact_range_weight_values: 权重
+  label_icm_impact_range_name: 名称
+  label_icm_impact_range_description: 描述
+  label_icm_impact_range_edit: 编辑影响度
+  #========================= end icm impact_ranges_controller=======================#
+  #=========================    icm urgence_codes_controller=======================#
+  label_icm_urgence_code: 紧急度
+  label_icm_urgence_code_list: 紧急度列表
+  label_icm_urgence_code_new: 新建紧急度
+  label_icm_urgence_code_urgency_code: 简称
+  label_icm_urgence_code_company: 公司
+  label_icm_urgence_code_weight_values: 权重
+  label_icm_urgence_code_name: 名称
+  label_icm_urgence_code_description: 描述
+  label_icm_urgence_code_edit: 编辑紧急度
+  label_icm_urgence_code_info: 紧急度详细信息
+  label_icm_urgence_code_show: 紧急度
+  label_icm_urgence_code_status_code: 记录状态
+  #========================= end icm urgence_codes_controller=======================#
+  #=========================    icm priority_codes_controller=======================#
+  label_icm_priority_code_list: 优先级列表
+  label_icm_priority_code_new: 新建优先级范围
+  label_icm_priority_code_company: 公司
+  label_icm_priority_code_weight_values: 权重
+  label_icm_priority_code_priority_code: 编码
+  label_icm_priority_code_name: 名称
+  label_icm_priority_code_description: 描述
+  label_icm_priority_code_edit: 编辑优先级范围
+  label_icm_priority_code_info: 优先级详细信息
+  label_icm_priority_code_show: 优先级
+  label_icm_priority_code_status_code: 记录状态
+  #========================= end icm priority_codes_controller=======================#
+  #=========================    icm close_reasons_controller=======================#
+  label_icm_close_reason_list: 关闭原因列表
+  label_icm_close_reason: 关闭原因
+  label_icm_close_reason_new: 新建关闭原因
+  label_icm_close_reason_company: 公司
+  label_icm_close_reason_close_code: 编码
+  label_icm_close_reason_name: 名称
+  label_icm_close_reason_category: 关闭类型
+  label_icm_close_reason_description: 描述
+  label_icm_close_reason_edit: 编辑关闭原因
+  #========================= end icm close_reasons_controller=======================#
+  #=========================    icm incident_phases_controller=======================#
+  label_icm_incident_phase_list: 事故单阶段列表
+  label_icm_incident_phase: 事故单阶段
+  label_icm_incident_phase_new: 新建事故单阶段
+  label_icm_incident_phase_phase_code: 简称
+  label_icm_incident_phase_company: 公司
+  label_icm_incident_phase_name: 名称
+  label_icm_incident_phase_description: 描述
+  label_icm_incident_phase_edit: 编辑事故单阶段
+  #========================= end icm incident_phases_controller=======================#
+  #=========================    icm incident_statuses_controller=======================#
+  label_icm_incident_status_list: 事故单状态
+  label_icm_incident_status_edit: 编辑事故单状态
+  label_icm_incident_status_name: 名称
+  label_icm_incident_status_incident_status_code: 简称
+  label_icm_incident_status_phase_code: 阶段
+  label_icm_incident_status_new: 新建事故单状态
+  label_icm_incident_status_description: 描述
+  label_icm_incident_status_info: 事故单状态信息
+  label_icm_incident_status_show: 事故单状态
+  label_icm_incident_close_flag: 关闭状态
+  label_icm_incident_permanent_close_flag: 永久关闭状态
+  label_icm_incident_status_edit_transform: 事故单状态转移
+  label_irm_incident_status_transform_event_error: 错误 在同一行中一种事件只能使用一次
+  #========================= end icm incident_statuses_controller=======================#
+  #=========================    icm incident_requests_controller=======================#
+  label_icm_incident_request_assign_me_able_list: 可领取事故单列表
+  label_icm_reply: 回复
+  label_icm_incident_request: 事故单
+  label_icm_incident_request_list: 事故单列表
+  label_icm_incident_request_new: 新建事故单
+  label_icm_incident_request_edit: 编辑事故单
+  label_icm_incident_request_short_new: 快速创建事故单
+  label_icm_incident_request_service_code: 服务
+  label_icm_incident_requset_base_info: 基本信息
+  label_icm_incident_request_title: 主题
+  label_icm_incident_request_number: 事故单号
+  label_icm_incident_request_summary: 信息
+  label_icm_incident_requset_addition_info: 附加信息
+  label_icm_incident_request_requested_by: 请求人
+  label_icm_incident_request_requested_by_org: 请求人组织
+  label_icm_incident_request_requested_by_role: 请求人角色
+  label_icm_incident_request_requested_by_profile: 请求人简档
+  label_icm_incident_request_contact: 联系人
+  label_icm_incident_request_urgence_code: 紧急度
+  label_icm_incident_request_impact_range_code: 影响度
+  label_icm_incident_request_support_group: 支持组
+  label_icm_incident_request_support_person: 支持人员
+  label_icm_incident_request_request_type_code: 请求类型
+  label_icm_incident_request_incident_status_code: 状态
+  label_icm_incident_request_report_source_code: 来源类型
+  label_icm_incident_request_request_number: 事故单号
+  label_icm_incident_request_request_number_shot: 单号
+  label_icm_incident_request_contact_number: 联系电话
+  label_icm_incident_request_priority: 优先级
+  label_icm_incident_request_organization: 组织
+  label_icm_incident_request_last_date: 最后回应日期
+  label_icm_incident_request_upgrade: 升级
+  label_incident_request: 事故单
+  label_incident_request_title: 事故单主题
+  label_icm_incident_request_submitted_by: 提交人
+  label_icm_incident_request_incident_phase_code: 阶段
+  label_icm_incident_request_submitted_date: 提交日期
+  label_icm_incident_request_close_reason_code: 关闭原因
+  label_icm_incident_request_close_reason: 关闭原因
+  label_icm_wait_for_me_request_count: 待我回复的事故单
+  label_icm_reply_today_count: 今天已回复的事故单
+  label_icm_request_submitted_today_count: 今天提交的事故单
+  label_icm_my_un_solved_request: 我的未解决的事故单
+  label_icm_my_solved_request: 我的已解决的事故单
+  label_icm_save_as_skm: 创建知识
+  label_icm_incident_auto_assign: 系统自动分派
+  label_icm_incident_assign_dashboard: 分配工作台分派
+  label_icm_incident_request_attachment_list: 附件列表
+  label_icm_incident_request_target_system: 系统
+  label_action_assign_dashboard: 分配工作台
+  label_icm_incident_request_assignable_list: 待分配事故单
+  label_icm_incident_request_assign: 分配
+  label_icm_incident_request_incident_status: 状态
+  label_icm_incident_request_assign_me: 领取
+  error_icm_requested_by_can_not_blank: 请求人不能为空
+  label_icm_incident_request_view_filter_data_range_all: 我相关的
+  label_icm_incident_request_view_filter_data_range_main: 我参与的
+  label_icm_incident_request_relation: 相关事故单
+  label_icm_incident_request_incident_category: 分类
+  label_icm_incident_request_incident_sub_category: 子分类
+  label_icm_create_relate_change_request: 创建RFC
+  label_icm_incident_request_relation_type: 关联为
+  label_icm_incident_request_relation_types: 关联类别
+  label_icm_incident_request_estimated_date: 计划完成日期
+  label_icm_incident_request_relation_config_items: 配置项
+  #========================= end icm incident_requests_controller=======================#
+  #=========================    icm incident_journals_controller=======================#
+  label_icm_incident_reply_support_group_id: 转交组
+  label_icm_incident_reply_support_person_id: 转交人
+  label_icm_incident_reply_incident_status_code: 新状态
+  apply_skm: 搜索知识库
+  label_icm_incident_journal_list: 回复历史
+  label_icm_incident_journal_person: 回复人
+  label_icm_incident_journal_content: 回复内容
+  label_icm_incident_journal_date: 回复日期
+  label_icm_incident_journal_new: 回复
+  label_icm_incident_journal_back_to_request_list: 返回事故单列表
+  label_icm_incident_request_base_info: 基本信息
+  label_icm_incident_request_status_info: 状态信息
+  label_icm_incident_journal_reply: 回复信息
+  label_icm_incident_journal_attachment: 附件
+  label_icm_incident_journal_attachment_desc: 附件描述
+  label_icm_incident_journal_add_attachment: 添加新附件
+  label_icm_incident_journal_close: 关闭事故单
+  label_icm_incident_journal_reopen: 重新打开事故单
+  label_icm_incident_journal_permanent_close: 永久关闭事故单
+  label_icm_incident_joural_back_to_request: 返回事故单
+  label_icm_incident_journal_upgrade: 升级事故单
+  label_icm_reply_title: 于 %{message} 前回复
+  label_icm_submit_title: 于 %{message} 前提交
+  label_icm_incident_more_info: 更多信息
+  label_icm_incident_less_info: 更少信息
+  label_action_edit_pass: 转交事故单
+  label_action_update_pass: 转交事故单
+  label_action_edit_close: 关闭事故单
+  label_action_update_close: 关闭事故单
+  label_icm_incident_journal_pass: 转交事故单
+  label_action_short_create: 创建
+  label_icm_incident_journal_message_body_not_blank: 回复内容不能为空
+  #========================= end icm incident_journals_controller=======================#
+  #=========================    icm incident_reports_controller=======================#
+  label_icm_urgency_name: 紧急度
+  label_icm_incident_month: 月份
+  label_icm_urgency_count: 事故单数
+  label_icm_report_source_name: 来源类型
+  label_icm_report_source_count: 事故单数
+  label_icm_report_type_name: 请求类型
+  label_icm_report_type_count: 事故单数
+  label_icm_report_time_frame: 时间帧
+  label_icm_report_time_frame_column: 列
+  label_icm_report_time_frame_start_time: 开始时间
+  label_icm_report_time_frame_end_time: 结束时间
+  label_icm_report_param: 报表选项
+  #========================= end icm incident_reports_controller=======================#
+  #========================= icm group_assignments_controller =========================#
+  label_icm_group_assignment: 支持组指派
+  label_icm_group_assignment_rule: 支持组指派规则
+  label_icm_group_assignment_list: 支持组指派规则列表
+  label_icm_group_assignment_new: 创建指派规则
+  label_icm_group_assignment_edit: 编辑指派规则
+  label_icm_group_assignment_c_company: 公司
+  label_icm_group_assignment_c_department: 部门
+  label_icm_group_assignment_c_person: 人员
+  label_icm_group_assignment_c_site_group: 地点组
+  label_icm_group_assignment_c_site: 地点
+  label_icm_group_assignment_type: 分派维度
+  label_icm_group_assignment_detail: 指派规则来源对象
+  #========================= end icm group_assignments_controller =========================#
+  #========================= icm support_groups =========================#
+  label_icm_support_group: 支持组
+  label_icm_support_group_new: 新建支持组
+  label_icm_support_group_edit: 编辑支持组
+  label_icm_support_group_code: 编码
+  label_icm_support_group_name: 名称
+  label_icm_support_group_assignment_process_code: 分配流程
+  label_icm_support_group_oncall_flag: 待命组
+  label_icm_support_group_vendor_flag: 供应商组
+  label_icm_support_group_add_group_notice: 请添加人员组
+  #=========================  end icm support_groups =========================#
+  #========================= mail request ====================================
+  label_icm_mail_request: 邮件事故单规则
+  label_icm_mail_request_new: 创建邮件事故单规则
+  label_icm_mail_request_edit: 编辑邮件事故单规则
+  label_icm_mail_request_info: 邮件设置信息
+  label_icm_mail_request_default_info: 事故默认信息
+  #========================== end mail request ===============================
+  #========================= incident category ====================================
+  label_icm_incident_category: 事故单分类
+  label_icm_incident_category_list: 事故单分类列表
+  label_icm_incident_category_new: 新建事故单分类
+  label_icm_incident_category_edit: 编辑事故单分类
+  label_icm_incident_category_code: 编码
+  label_icm_incident_category_name: 名称
+  label_icm_incident_category_external_system: 系统
+  label_icm_incident_category_description: 描述
+  label_icm_incident_category_apply_system: 可应用系统
+  label_icm_incident_category_system: 应用系统可使用事故类别
+  #========================== end incident category  ===============================
+  #========================= incident category ====================================
+  label_icm_incident_sub_category: 事故单子分类
+  label_icm_incident_sub_category_list: 事故单子分类列表
+  label_icm_incident_sub_category_new: 新建事故单子分类
+  label_icm_incident_sub_category_edit: 编辑事故单子分类
+  label_icm_incident_sub_category_code: 编码
+  label_icm_incident_sub_category_name: 名称
+  label_icm_incident_sub_category_external_system: 系统
+  label_icm_incident_sub_category_description: 描述
+  #========================== end incident category  ===============================
+
+  #======================= Report incident request month detail ============
+  label_report_incident_request_support: 分派给
+  label_report_incident_request_journal: 解决记录
+  #================================================================================

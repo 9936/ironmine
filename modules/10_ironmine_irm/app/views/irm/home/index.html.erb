@@ -1,0 +1,42 @@
+<div class="page-title">
+  <div class="page-title-body">
+      <%= image_tag Irm::Person.current.avatar.url(:large), :id => "crop_box", :style => "width: 45px; height: 45px;", :class => "thumbnail-visible" %>
+
+    <div class="greeting">
+      <div class="content">
+          <span class="page-type">
+            <h1 class="current-status-user-name">
+              <%= link_to Irm::Person.current.name, {:controller => "irm/my_info", :action => "index"} %>
+            </h1>
+          </span>
+          <span class="page-description"><%= Time.now.strftime(t("date.formats.long")) + ' ' + t("date.day_names")[Time.now.strftime("%w").to_f]%></span>
+      </div>
+    </div>
+    <div class="links">
+      <% pconfig = portal_configs(params[:portal_layout]) %>
+      <style type="text/css">
+      #portalContainer {
+          float: left;
+          margin: -7px 0 0 !important;
+          padding: 0 !important;
+          display: none;
+      }
+      </style>
+      <a  href="javascript:void(0)" id="portalChangeLayout"><%= t(:label_irm_portlet_change_layout)%></a>
+      | <a href="javascript:void(0)" id="portalSetting"><%= t(:label_irm_portlet_custom_home_page)%></a>
+      <!--<a onclick="window.open ('/pagehelpfiles/home.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');" href="#"><% t(:current_page_help)%></a>-->
+    </div>
+  </div>
+</div>
+<div class="portal" id="portal">
+  <%= render({:partial=>"irm/home/portal",:locals=>{:pconfig=>pconfig}}) %>
+</div>
+
+
+
+
+<% content_for :sidebar do%>
+    <%= render :partial =>"/icm/incident_requests/quick_create" %>
+    <%= render :partial =>"/irm/common/recently_objects" %>
+<% end %>
+

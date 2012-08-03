@@ -1,0 +1,54 @@
+<style type="text/css">
+  .entry-header-search {
+      /*padding-left:22px;*/
+      width:180px;
+      float:left;
+      /*background-image:url(/images/search.png);*/
+      /*background-position:2px 2px;*/
+      /*background-repeat: no-repeat;*/
+  }
+
+</style>
+<div class="input-append">
+  <%= text_field_tag(id, tip_text,{:style => "", :class => "entry-header-search grayTips", :id => id})%>
+  <button class="btn" type="button" onclick="getSearch()"><%= t(:search) %></button>
+</div>
+<script type="text/javascript">
+var g_oldVal = "";
+function inputTipText(){
+    $("input[class*=grayTips]") //所有样式名中含有grayTips的input
+    .each(function(){
+       var oldVal=$(this).val();   //默认的提示性文本
+       g_oldVal = oldVal;
+       $(this)
+       .css({"color":"#888"})  //灰色
+       .focus(function(){
+        if($(this).val()!=oldVal){$(this).css({"color":"#000"})}else{$(this).val("").css({"color":"#888"})}
+       })
+       .blur(function(){
+        if($(this).val()==""){$(this).val(oldVal).css({"color":"#888"})}
+       })
+       .keydown(function(){$(this).css({"color":"#000"})})
+    })
+}
+
+$(function(){
+    inputTipText();  //直接调用就OK了
+    $("#<%= id%>").keypress(function(event){
+        if(event.which == 13){
+            getSearch();
+        }
+    });
+});
+
+function getSearch(){
+    var text = $("#<%= id%>").val();
+    if(text != g_oldVal){
+        var params = {};
+        params["full_search"] = text;
+        var current_target = $("#<%= target_table%>").data("datatable").target;
+        current_target.data.options.searchOptions = params;
+        current_target.loadPage(1);
+    }
+}
+</script>

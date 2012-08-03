@@ -1,0 +1,60 @@
+<%= page_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_com_config_relation_type) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @config_relation_type},:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+        <tbody>
+          <tr>
+            <td class="label-col"><label for="code"><%=t(:code)%></label></td>
+            <td class="data-col"><%=@config_relation_type.code%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="name"><%=t(:name)%></label></td>
+            <td class="data-col"><%=@config_relation_type[:name]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="description"><%=t(:description)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><%=@config_relation_type[:description]%></td>
+          </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_com_config_relation_member_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:controller=>"com/config_relation_members",:action => "new",:config_relation_type_id=>@config_relation_type.id,:config_relation_type_name=>@config_relation_type[:name]},:class=>"btn"%>
+      </td>
+      <td class="page-block-help">
+        <div id="config_relation_membersSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="config_relation_members">
+      <%= datatable("config_relation_members",{:controller=>"com/config_relation_members",:action=>"get_data",:config_relation_type_id=>@config_relation_type.id,:format=>"json"},[],{:paginator_box=>"config_relation_membersPaginatorBox",:search_box=>"config_relation_membersSearchBox"})%>
+    </div>
+    <div id="config_relation_membersPaginatorBox"></div>
+  </div>
+</div>
+
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@config_relation_type} %>

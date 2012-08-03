@@ -1,0 +1,554 @@
+<% require_jscss(:waypoints) %>
+<style type="text/css">
+    ul {
+        padding-left: 40px;
+    }
+
+    ol {
+        padding-left: 40px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+    div#histories {
+        background-color: #FFFFFF;
+        border-bottom: 0px;
+        border-left: 0px;
+        border-right: 0px;
+    }
+
+
+    div.reply div.reply-header[submit_by="<%= Irm::Person.current.id%>"] {
+        /*自己回复的*/
+        background-color: #ddeef4 !important;
+    }
+    div.reply div.reply-header[submit_by="<%= @incident_request.submitted_by%>"] {
+        /*提单人回复的*/
+        background-color: #ffebeb !important;
+    }
+    .tab-content .page-block {
+        margin-bottom: 0;
+    }
+
+    .sub-page-block-body {
+        padding-bottom: 0;
+    }
+</style>
+<!--页面头部按钮-->
+<% content_for :block_header_buttons do %>
+  <div class="btn-toolbar" >
+    <div class="btn-group">
+      <%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests", :action => "index"} ,{:class=>"btn"}%>
+    </div>
+    <% if !@incident_request.close? %>
+        <div class="btn-group">
+          <% if current_person?(@incident_request.support_person_id) %>
+              <%= link_to t(:pass), {:action => "edit_pass"},{:class=>"btn"} %>
+              <%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"},{:class=>"btn"}  %>
+          <% end %>
+          <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
+              <%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"} ,{:class=>"btn"}%>
+          <% end %>
+        </div>
+        <div class="btn-group">
+          <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
+              <%= link_to t(:close), {:action => "edit_close"},{:class=>"btn"} %>
+          <% end %>
+          <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn"} %>
+        </div>
+
+        <div class="btn-group">
+          <% if Icm::IncidentRequest.assignable_to_person(Irm::Person.current.id).query(@incident_request.id).present?%>
+              <%= link_to t(:label_icm_incident_request_assign_me), {:controller=>"icm/incident_requests",:action => "update_assign_me",:incident_request_ids=>@incident_request.id},{:class=>"btn",:back=>true} %>
+          <% end %>
+          <% if allow_to_function?(:assign_incident_request) %>
+              <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
+          <% end %>
+        </div>
+    <% else %>
+
+         <div class="btn-group">
+           <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
+               <%= link_to t(:permanent_close), {:action => "edit_permanent_close"},{:class=>"btn"}%>
+               <%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id},{:class=>"btn"}%>
+           <% end %>
+         </div>
+    <% end %>
+
+    <div class="btn-group">
+      <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>
+          <%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers", :action => "new_from_icm_request", :request_id => @incident_request.id},{:class=>"btn"} %>
+      <% end %>
+      <% unless @incident_request.change_request_id.present? %>
+          <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
+      <% end %>
+    </div>
+    <div class="btn-group">
+      <%= link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
+    </div>
+  </div>
+<% end %>
+
+<%= render "assign_modal" %>
+
+<!--页面头部内容-->
+<% content_for :block_header_content do %>
+    <div id="incidentDetail">
+    <table class="detail-list" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_target_system) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:external_system_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_incident_category) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:incident_category_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_incident_sub_category) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:incident_sub_category_name] %></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:requested_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_contact) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:contact_name] %>(<%= @incident_request[:contact_number] %>)</div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_by) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:submitted_name] %></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_org) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:requested_organization_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_role) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:requested_role_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_profile) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:requested_profile_name] %></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_incident_status_code) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:incident_status_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_estimated_date) %></label></td>
+          <td class="data-col">
+            <div><%= calendar_date(@incident_request[:estimated_date]) %></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_date) %></label></td>
+          <td class="data-col">
+            <div><%= format_date(@incident_request[:submitted_date]) %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_request_type_code) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:request_type_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_report_source_code) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:report_source_name] %></div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_urgence_code) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:urgence_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_impact_range_code) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:impact_range_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_priority) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:priority_name] %></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:support_group_name] %></div>
+          </td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_support_person) %></label></td>
+          <td class="data-col">
+            <div><%= @incident_request[:supporter_name] %></div>
+          </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+<% end %>
+
+
+<% content_for :incident_request_reply_form do %>
+   <% if @incident_request.watcher?(Irm::Person.current.id)&&allow_to_function?(:reply_incident_request)&&!@incident_request.close?&&!@incident_request.permanent_close? %>
+       <%= form_for(@incident_reply, :url=>{:action=>"create", :format => "js"}, :builder => CustomFormBuilder, :html => {:multipart => true, :target => "frame",:style=>"margin:0;"}) do |f| %>
+        <div class="page-block">
+          <table class="page-block-header"><tr>
+            <td class="page-block-title">
+              <div style="float:left;">
+                <h2 class="block-title"><%= t(:label_icm_incident_journal_new) %></h2>
+              </div>
+              <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
+                  <div style="float:left;padding-top:5px; margin-left:20px;">
+                    <a href="javascript:void(0)" id="applySKM"><%= t(:apply_skm) %></a></div>
+              <% end %>
+            </td>
+            <td class="page-block-button">
+
+            </td>
+            <td class="page-block-help" style="width: auto;">
+            </td>
+          </tr></table>
+          <div class="page-block-body">
+            <% if !limit_device?&&allow_to_function?(:view_skm_entries) %>
+                <table class="form-table full" style="width: 100%;">
+                  <tr><td class="data-4col" colspan="4">
+                    <div id="linktoSKM" class="hidden form-inline">
+                      <div class="input-append">
+                        <input id="searchSKMText" type="text" class="span3"/>
+                        <%= link_to t(:search), {:controller => "icm/incident_journals", :action => "get_entry_header_data"},:remote => true, :id => "searchSKM",:class=>"btn" %>
+                      </div>
+                    </div>
+                  </td></tr>
+                  <tr><td class="data-4col" colspan="4">
+                    <div id="entrySubsection" style="display: none;">
+                      <%= render :partial => "icm/incident_journals/apply_skm", :locals => {:skm_data => {}} %>
+                    </div>
+                  </td></tr>
+                </table>
+
+                <script type="text/javascript">
+                    $(function() {
+                        $("#applySKM").bind("click", function(e) {
+                            if ($("#linktoSKM").hasClass("hidden")) {
+                                $("#linktoSKM").removeClass("hidden")
+                            } else {
+                                $("#linktoSKM").addClass("hidden")
+                                $("#entrySubsection").css("display", "none");
+                            }
+                        });
+
+                        $("#searchSKM").bind("click", function(e) {
+                            $("#entrySubsection").css("display", "");
+                        });
+
+                        $("#searchSKMText").keyup(function(e) {
+                            $("#searchSKM").attr("href", "<%= url_for(:controller => "icm/incident_journals", :action => "get_entry_header_data")%>?entry_title=" + $("#searchSKMText").val())
+                        });
+
+                        $("#searchSKMText").keydown(function(e) {
+                            if (e.keyCode == '13') {
+                                e.preventDefault();
+                                $("#searchSKM").trigger("click");
+                            }
+                        });
+                    })
+                </script>
+            <% end %>
+          </div>
+
+
+          <div class="page-block-body">
+            <table class="form-table"  style="width: 100%;">
+              <tbody>
+              <tr>
+                <%= fields_for @incident_journal, :as=>"incident_journal", :builder => CustomFormBuilder, :normal=>true do |sub_f| %>
+                    <%= sub_f.hidden_field(:incident_request_id) %>
+                    <td class="data-4col" colspan="4">
+                      <%= sub_f.text_area :message_body, :id=>"msgEditor", :jrequired => true, :rows=>8,:cols=>20,:class=>"input-xxlarge" %>
+                      <%= xheditor("msgEditor", true) %>
+                    </td>
+                <% end %>
+              </tr>
+
+              <tr><td class="data-4col" colspan="4">
+                  <%= render :partial=>"helper/upload_file", :locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <table class="page-block-footer">
+            <tr>
+                <td class="page-block-title"></td>
+                <td class="page-block-button">
+                  <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+                </td>
+                <td class="page-block-help"></td>
+            </tr>
+          </table>
+        </div>
+       <% end %>
+   <% end %>
+   <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
+<% end %>
+<% content_for :incident_request_journals do %>
+
+ <div class="page-block" id="incidentReply"  style="border-bottom: none;">
+   <div id="histories">
+     <div style="padding: 0 0 10px 0; font-weight: bold;">
+       <table cellpadding="0" cellspacing="0" border="0">
+         <tbody>
+         <tr>
+           <td>
+             <h2 style="font-size: 18px;margin-left: 5px;" id="journalsNum">
+               <%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request)+1 %>)
+             </h2>
+           </td>
+         </tr>
+         </tbody>
+       </table>
+     </div>
+     <div class="page-block-body">
+       <div class="reply">
+         <div id="journal_0" class="reply-header" submit_by="<%= @incident_request.submitted_by %>">
+           <div style="float:left">
+             <img width="25" height="25" alt="" src="<%= person_avatar(@incident_request.submitted_by) %>"></div>
+           <div style="float:left; padding:0px 0 0 5px;">
+             <h3><%= @incident_request[:submitted_name] %></h3>
+             <span style="color:#666666;font-style:italic;">
+               <%= t(:label_reply_title, :time_distance=>distance_of_time_in_words(Time.now, @incident_request[:submitted_date]), :date_format=>format_date(@incident_request[:submitted_date])) %>
+             </span>
+           </div>
+         </div>
+         <div class="reply-body">
+           <div class="message-body">
+             <% prepare_request_files(@incident_request) %>
+             <%= raw process_message(@incident_request[:summary]) %>
+           </div>
+           <%= list_request_file %>
+         </div>
+       </div>
+       <div id="replies">
+         <%= list_journals(@incident_request) %>
+       </div>
+     </div>
+   </div>
+   <%= content_for :incident_request_reply_form  %>
+ </div>
+<% end %>
+
+<% content_for :incident_config_items do %>
+    <!--页面结构-->
+    <div class="page-block" id="incidentConfigItemManage">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_icm_incident_request_relation_config_items) %></h2>
+          </td>
+          <td class="page-block-button"></td>
+          <td class="page-block-help form-inline" id="configItemForm">
+            <%= render :partial=>"icm/incident_config_relations/mini_form",:locals => {:incident_request=>@incident_request}%>
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <div id="configItems">
+          <%= render :partial=>"icm/incident_config_relations/incident_config_items",:locals=>{:datas=>@incident_request.incident_config_relations.with_config_item.select_all} %>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+<% content_for :change_request_tab do %>
+    <% chm = Irm::ProductModule.usable?(:chm)&&@incident_request.change_request_id.present?;com = Irm::ProductModule.usable?(:com) %>
+    <% if chm||com %>
+        <!-- 处理关联的变更单 -->
+        <%- if params[:format].eql?('pdf') -%>
+           <%= content_for :incident_request_journals %>
+           <%- if chm -%>
+
+           <%- else -%>
+             <%= content_for :incident_config_items  %>
+           <%- end -%>
+        <%- else -%>
+        <!-- start tabs -->
+        <div class="tabs-container">
+          <div class="mx-tabs" id="tabNav">
+             <ul class="clear-fix">
+               <li class="active" id="nav_0" ref="incidentReply"><a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
+               <% if chm %>
+                 <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
+               <% end %>
+               <% if com %>
+                 <li  ref="configItem"><a href="#tab3" data-toggle="tab"><%= t(:label_com_config_item) %></a></li>
+               <% end %>
+             </ul>
+          </div>
+          <div class="mx-tab-content">
+            <div class="mx-tab-pane active" id="tab1">
+              <%= content_for :incident_request_journals %>
+            </div>
+            <% if chm %>
+            <div class="mx-tab-pane" id="tab2">
+              <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>
+            </div>
+            <% else %>
+            <div class="mx-tab-pane" id="tab3">
+              <%= content_for :incident_config_items  %>
+            </div>
+            <% end %>
+          </div>
+        </div>
+        <!-- end tabs -->
+        <%- end -%>
+
+        <script type="text/javascript">
+            $(function() {
+                $("#tabNav li").live("click", function(e) {
+                    $("#tabNav li").removeClass("active");
+                    $(e.currentTarget).addClass("active");
+                    $("#tabNav li").each(function(index, element) {
+                        var ref = $("#" + $(element).attr("ref"));
+                        if (ref && !ref.hasClass("hidden")) {
+                            ref.addClass("hidden");
+                        }
+                    });
+                    var currentRef = $("#" + $(e.currentTarget).attr("ref"));
+                    if (currentRef && currentRef.hasClass("hidden")) {
+                        currentRef.removeClass("hidden");
+                        if (currentRef.attr("href") && !currentRef.attr("loaded")) {
+                            var url = currentRef.attr("href");
+                            currentRef.load(url);
+                            currentRef.attr("loaded", "true");
+                        }
+                    }
+                });
+            });
+        </script>
+    <%else%>
+    <%= content_for :incident_request_journals %>
+    <% end %>
+<% end %>
+
+<!--页面结构  头部-->
+<div class="page-block" id="pageBlock">
+  <div class="waypoint-header" id="toolbar">
+  <table class="page-block-header" ><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=t(:label_incident_request)%></h2>
+    </td>
+    <td class="page-block-button">
+      <% if !@incident_request.close? &&!@incident_request.permanent_close?&& allow_to_function?(:reply_incident_request)&&@incident_request.watcher?(Irm::Person.current.id) %>
+          <a href="#new_icm_incident_reply" class="btn"><%= t(:label_icm_incident_journal_new) %></a>
+      <% end %>
+    </td>
+    <td class="page-block-help" style="width: auto;">
+      <%= content_for :block_header_buttons  %>
+    </td>
+  </tr></table></div>
+  <div class="page-block-body">
+    <div id="notice">
+      <%= error_for @incident_journal %>
+      <%= flash_notice %>
+    </div>
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title">(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
+        <div style="margin-left: 15px; display:inline; float: right;">
+          <span>
+            <a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" ExpandedText="<%= t(:label_icm_incident_more_info) %>">
+              <i class="icon-chevron-down"></i>
+              <%= t(:label_icm_incident_more_info) %>
+            </a>
+          </span>
+        </div>
+      </div>
+      <div class="sub-page-block-body">
+        <%= content_for :block_header_content %>
+        <%= content_for :change_request_tab %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function() {
+        $(".toggle-button").each(function(index, element) {
+            var me = $(element);
+            var ref = $("#" + me.attr("ref"));
+            if (ref.hasClass("hidden")) {
+                me.html('<i class="icon-chevron-down"></i>'+ me.attr("expandedText"));
+            } else {
+                me.html('<i class="icon-chevron-up"></i>'+ me.attr("collapsedText"));
+            }
+        });
+        $(".toggle-button").bind("click", function(event) {
+            var me = $(this);
+            var ref = $("#" + me.attr("ref"));
+            if (ref.hasClass("hidden")) {
+                me.html('<i class="icon-chevron-up"></i>'+ me.attr("collapsedText"));
+                ref.removeClass("hidden");
+            } else {
+                me.html('<i class="icon-chevron-down"></i>'+ me.attr("expandedText"));
+                ref.addClass("hidden");
+            }
+        });
+    });
+
+    function reset_rich_text() {
+        if ($("#msgEditor")) {
+            $("#msgEditor").val('');
+        }
+        $("#file-contents").html("");
+        $("#file-template").attr("sequence", 0);
+    }
+</script>
+<% unless limit_device? %>
+    <style type="text/css">
+        .sticky #toolbar {
+            position: fixed;
+            top: 0;
+            width: auto;
+            left: 21px;
+            right: 243px;
+            background-color: #F8F8F8;
+            border: 1px solid #eaeaea;
+            border-top-width: 0;
+            border-bottom-width: 0;
+            border-top: 3px solid #1797C0;
+        }
+
+        #pageBlock.sticky {
+            padding-top: 34px;
+        }
+
+    </style>
+    <script type="text/javascript">
+        $.waypoints.settings.scrollThrottle = 30;
+
+        $('#pageBlock').waypoint(function(event, direction) { }, {offset: '-100%'}).find('#toolbar').waypoint(function(event, direction) {
+           $(this).parent().toggleClass('sticky', direction === "down");
+           event.stopPropagation();
+        });
+    </script>
+<% end %>
+
+<% content_for :sidebar do %>
+    <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
+               :locals => {:watchable => @incident_request,
+                           :editable => !@incident_request.close?} %>
+    <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list" %>
+    <%= render :partial =>"/icm/incident_requests/sidebar_relation_list", :locals => {:incident_request => @incident_request} %>
+<% end %>

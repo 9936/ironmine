@@ -38,7 +38,16 @@ namespace :db do
       migrate_paths << "#{f.to_s.gsub('migrate','')}/*"
     end if Rails.application.paths["db/migrate"].length > 1
 
-    Irm::Migrator::TableMigrator.migrate(migrate_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+    Fwk::Migrator::TableMigrator.migrate(migrate_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
     Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby
   end
+
+  namespace :irm do
+    desc "(For Ironmine) Sync Data Access"
+    task :sync_data_access => :environment do
+      ActiveRecord::Base.connection.execute("DELETE FROM irm_data_accesses_t")
+      ActiveRecord::Base.connection.execute("INSERT INTO irm_data_accesses_t(opu_id,business_object_id,bo_model_name,source_person_id,target_person_id,access_level,created_at) SELECT *,NOW() FROM irm_data_accesses_v")
+    end
+  end
 end
+

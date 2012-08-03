@@ -1,0 +1,18 @@
+<%= common_title(:action_meaning=>t(:label_skm_book_publish),:show_data=>@book.name)%>
+<% require_jscss(:markdown) %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"></h2>
+    </td>
+    <td class="page-block-button">
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
+      <%=raw show_book(@book) %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<%= common_title(:show_data=>@ldap_auth_header[:name]) %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header">
+    <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_ldap_auth_header_name) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_to t(:edit), {:action => "edit", :id => @ldap_auth_header},:class=>"btn btn-primary"%>
+          <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+        </td>
+    </tr>
+  </table>
+  <!-- 一般信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_common_info) %>:</h2></td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_auth_name)%></label></td>
+            <td class="data-col"><div><%=@ldap_auth_header.name%></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_ldap_source)%></label></td>
+            <td class="data-col"><div><%=@ldap_auth_header[:ldap_source_name]%></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_auth_cn)%></label></td>
+            <td class="data-col"><div><%=@ldap_auth_header.auth_cn%></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_ldap_login_name_attr)%></label></td>
+            <td class="data-col"><div><%=@ldap_auth_header.ldap_login_name_attr%></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_ldap_email_address_attr)%></label></td>
+            <td class="data-col"><div><%=@ldap_auth_header.ldap_email_address_attr%></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_template_person)%></label></td>
+            <td class="data-col"><div><%=@ldap_auth_header.template_person_name%></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_description)%></label></td>
+            <td class="data-col"><div><%=@ldap_auth_header.description%></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_object_attributes) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:controller => "irm/ldap_auth_attributes", :action => "new", :ah_id => @ldap_auth_header.id},:class => "btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="object_attributesSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="ldap_auth_attributes">
+      <%= datatable("ldap_auth_attributes",{:controller => "irm/ldap_auth_attributes", :action => "get_data", :ah_id => @ldap_auth_header.id,:format=>"json"},[],{:search_box=>"object_attributesSearchBox",:paginator_box=>"object_attributesPaginator"})%>
+    </div>
+    <div id="object_attributesPaginator"></div>
+  </div>
+</div>

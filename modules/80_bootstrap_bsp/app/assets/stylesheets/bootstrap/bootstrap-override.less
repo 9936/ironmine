@@ -1,0 +1,82 @@
+@import "twitter/bootstrap/bootstrap";
+@import "twitter/bootstrap/responsive";
+@import "bootstrap/cus-icons";
+
+// Set the correct sprite paths
+@iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
+@iconWhiteSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings-white.png');
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/less.html for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+
+// 页面主体左右空白都为10px
+@gridGutterWidth: 10px;
+
+.form-inline {
+    vertical-align: top;
+}
+
+//tab 设置距离左边默认的距离
+
+.tabbable ul {
+    padding-left: 20px;
+}
+
+// 修改输入字段,按钮高度
+select, input[type="file"] {
+    height: 24px;
+    line-height: 24px;
+}
+
+input, textarea, select, .uneditable-input {
+    font-size: 11px;
+    padding: 2px 4px !important;
+
+}
+
+.btn {
+    font-size: 11px;
+    padding: 2px 10px;
+
+}
+
+.input-prepend .add-on, .input-append .add-on {
+
+    padding: 2px 5px;
+
+}
+
+.input-prepend, .input-append {
+    margin-bottom: 0px;
+}
+
+.tabbable .nav-tabs {
+    border-bottom: 1px solid #F8F8F8;
+}
+
+.tabbable .nav {
+    margin-bottom: -1px;
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover {
+    color: #555555;
+    background-color: #ffffff;
+    border: 1px solid #1797C0;
+    cursor: default;
+
+}
+
+.nav-tabs > li > a {
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+

@@ -1,0 +1,37 @@
+<div id="reportChart"></div>
+<% require_jscss(:highcharts) %>
+
+<script type="text/javascript">
+  var chart;
+  $(document).ready(function() {
+  	chart = new Highcharts.Chart({
+  		chart: {
+  			renderTo: 'reportChart',
+  			type: 'column'
+  		},
+  		xAxis: {
+  			categories: reportChartData.categories_titles
+  		},
+  		yAxis: {
+  			title: {
+  				text: reportChartData.y_label
+  			},
+  			plotLines: [{
+  				value: 0,
+  				width: 1,
+  				color: '#808080'
+  			}]
+  		},
+  		tooltip: {
+  			formatter: function() {
+  					return '<b>'+ this.series.name +'</b><br/>'+
+  					this.x +': '+ this.y;
+  			}
+  		},
+        credits: {
+            enabled: false
+        },
+  		series: reportChartData.data
+  	});
+  });
+</script>

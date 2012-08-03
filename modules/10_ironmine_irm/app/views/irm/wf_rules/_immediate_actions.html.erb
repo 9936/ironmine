@@ -1,0 +1,14 @@
+<%=datatable_view({:count=>actions.length,:datas=>actions}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "90px"}) do |data|%>
+        <%= link_to(t(:edit),data[:edit_url_options].merge(:source_str=>"WF_RULE,#{data[:action].rule_id}",:back_url=>url_for({}))) %>
+        <% unless wf_rule.enabled? %>
+            <%= link_to(t(:delete),{:action=>"destroy_action",:id=>data[:action].id,:back_url=>url_for({})},{:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
+        <% else %>
+            <%= t(:delete) %>
+        <% end %>
+    <% end %>
+    <% builder.column(:action_type_name,{:title=>t(:label_irm_wf_rule_action_type), :width => "200px"})%>
+    <% builder.column(:label_irm_wf_rule_action_description,{:title=>t(:label_irm_wf_rule_action_description),:searchable=>true}) do |data|%>
+        <%= link_to(data[:ref_action].name,data[:show_url_options].merge(:source_str=>"WF_RULE,#{data[:action].rule_id}",:back_url=>url_for({}))) %>
+    <% end %>
+<% end %>

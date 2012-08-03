@@ -1,0 +1,76 @@
+<%= common_title %>
+
+<%= form_for(@rule_setting,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_icm_rule_setting_report_date_changable)%></label></td>
+            <td class="data-col"><%=f.check_box :report_date_changable%></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><%=(t :label_icm_rule_setting_auto_closure_days)%></td>
+            <td class="data-col"><%=f.text_field :auto_closure_days,:required=>true%></td>
+            <td class="label-col"><label><%=t(:label_icm_rule_setting_slove_date_changable)%></label></td>
+            <td class="data-col"><%= f.check_box :slove_date_changable%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :status)%></label></td>
+            <td class="data-col"><%=f.select :status_code,"<option value=\"\">--- #{t(:actionview_instancetag_blank_option)} ---</option>".html_safe +
+                    options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning,@rule_setting.status_code)%></td>
+
+            <td class="label-col"><label><%=(t :label_icm_rule_setting_respond_date_changable)%></label></td>
+            <td class="data-col"><%=f.check_box :respond_date_changable%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><%=t(:label_icm_rule_setting_description)%></td>
+            <td class="data-col"><%= f.text_area :description, :cols => 40, :rows => 2%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_rule_setting_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @rule_setting %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_icm_rule_setting_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+

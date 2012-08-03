@@ -1,0 +1,47 @@
+<%= page_title %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_com_config_item_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class => "btn btn-primary" %>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="split-table" cellpadding="0" cellspacing="0">
+       <tr>
+         <td class="side-bar">
+           <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "com/config_classes", :action=>"get_class_tree", :format=>:json),
+                                                                                  :tree_id => "tree-div",
+                                                                                  :title => t(:label_com_config_class),
+                                                                                  :root_text => t(:label_com_config_item_all_class),
+                                                                                  :li_attrs => 'id'} %>
+         </td>
+         <td class="side-content">
+           <%= datatable("config_items", {:action => "get_data"},[], {:force_html => true, :paginator_box => "paginatorBox", :search_box => "searchBox",:scroll=>{:mode=>"xy",:height=>250}}) %>
+         </td>
+       </tr>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+          $("#tree-div").bind('nodeListener',function(event, element){
+              var params = {};
+              params['config_class_id'] = element.attr('id');
+              var current_target = $("#config_items").data("datatable").target;
+              current_target.data.options.searchOptions = params;
+              current_target.loadPage(1);
+          });
+    });
+</script>
+
+

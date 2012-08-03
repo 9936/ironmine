@@ -1,0 +1,40 @@
+<%= setting_show_title(:show_data => @lookup_value.lookup_code) %>
+
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_lookup_value_show) %>&nbsp;<%= t(:label_detail_info) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @lookup_value},:class=>"btn"%>
+      <%= link_to t(:back), {:controller=>"irm/lookup_types",:action => "show",:id=>@lookup_type.id},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+        <tr>
+          <td class="label-col"><label><%=(t :label_lookup_code)%></label></td>
+          <td class="data-col"><%=@lookup_value.lookup_code%></td>
+          <td class="label-col"><label><%=(t :label_lookup_types)%></label></td>
+          <td class="data-col"><%=@lookup_type[:meaning]%></td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%=(t :label_meaning)%></label></td>
+          <td class="data-col"><%=@lookup_value[:meaning]%></td>
+          <td class="label-col"><label><%=(t :label_start_date_active)%></label></td>
+          <td class="data-col"><%=@lookup_value.start_date_active%></td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%=(t :label_description)%></label></td>
+          <td class="data-col"><%=@lookup_value[:meaning]%></td>
+          <td class="label-col"><label><%=(t :label_end_date_active)%></label></td>
+          <td class="data-col"><%=@lookup_value.end_date_active%></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@lookup_value} %>

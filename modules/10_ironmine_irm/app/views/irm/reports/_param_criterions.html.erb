@@ -1,0 +1,67 @@
+<div class="sub-page-block-header">
+  <h3 class="sub-page-block-title"><%= t(:label_irm_report_params_config) %></h3>
+</div>
+<div class="sub-page-block-body" id="paramsContent" href="<%= url_for(:action=>"operator_value",:seq_num=>"{seq_num}",:field_id=>"{field_id}") %>">
+  <table class="form-table">
+    <tbody>
+      <tr>
+        <td class="label-col"><label><%= t(:label_irm_report_params_config) %></label></td>
+        <td class="data-4col" colspan="4">
+          <table class="filter-table">
+              <thead>
+                <tr>
+                  <td class="num-col"></td>
+                  <td class="field-col"><%=t(:irm_filter_criterions_column_code)%></td>
+                  <td class="value-col">
+                    <table style="width: 100%;">
+                      <tr>
+                        <td class="filter-operator-cell"><%=t(:irm_filter_criterions_operator_code)%></td>
+                        <td class="filter-value-cell"><%=t(:irm_filter_criterions_filter_value)%></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+              <%= f.fields_for :param_criterions,:normal=>true do |sub_f|%>
+                  <tr>
+                    <td class="num-col"><label><%=sub_f.object.seq_num%></label></td>
+                    <td class="field-col">
+                      <%=sub_f.hidden_field(:seq_num)%>
+                      <%=sub_f.hidden_field(:param_flag)%>
+                      <%=sub_f.blank_select(:field_id,grouped_options_for_select(selectable_fields,sub_f.object.field_id),{},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
+                    </td>
+                    <td class="value-col filterOperationValue" id="param<%=sub_f.object.seq_num%>">
+                      <%= render_report_filter_field(sub_f.object.field_id,sub_f)  %>
+                    </td>
+                  </tr>
+              <%end %>
+              </tbody>
+            </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+      var refreshParamFilter = function(container,e) {
+          var con = $("#"+container);
+          var currentTarget  = $(e.currentTarget);
+          var seq_num = currentTarget.attr("ref");
+          var attribute_id = $(e.target).val();
+          var refreshNode = $("#param"+seq_num);
+
+
+          var url = decodeURIComponent(con.attr("href"));
+          url = url.replace("{seq_num}",seq_num);
+          url = url.replace("{field_id}",attribute_id);
+          refreshNode.load(url);
+
+      };
+      $("#paramsContent .filterColumnSelect").live("change",function(event){
+          refreshParamFilter("paramsContent",event);
+      });
+  });
+</script>

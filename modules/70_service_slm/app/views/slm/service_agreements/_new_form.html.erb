@@ -1,0 +1,82 @@
+<%= form_for(@service_agreement,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label for="service_agreement_service_agreement_code"><%=t(:label_slm_service_agreement_agreement_code)%></label></td>
+            <td class="data-col"><%=f.text_field :agreement_code, :required=>true,:id=>"service_agreement_agreement_code"%></td>
+            <td class="label-col"><label for="service_agreement_active_start_date"><%=t(:label_slm_service_agreement_active_start_date)%></label></td>
+            <td class="data-col"><%= f.date_field :active_start_date, :id=>"service_agreement_active_start_date"%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="service_agreement_name"><%=t(:label_slm_service_agreement_name)%></label></td>
+            <td class="data-col"><%= f.text_field :name, :required=>true ,:id=>"service_agreement_system_name"%></td>
+            <td class="label-col"><label for="service_agreement_active_end_date"><%=t(:label_slm_service_agreement_active_end_date)%></label></td>
+            <td class="data-col"><%= f.date_field :active_end_date, :id=>"service_agreement_active_end_date"%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="service_agreement_response_time"><%=t(:label_slm_service_agreement_response_time)%></label></td>
+            <td class="data-col"><%= f.text_field :response_day, :size => 2,:id=>"service_agreement_response_day",:style=>"width:30px;"%>
+                                <label><%=t(:label_slm_service_agreement_response_day)%></label>
+                                <%= f.select :response_hour, available_lookup_type('SLM_SERVICE_HOUR'),:size => 2,:id=>"service_agreement_response_hour"%>
+                                <label><%=t(:label_slm_service_agreement_response_hour)%></label>
+                                <%= f.select :response_minute,available_lookup_type('SLM_SERVICE_MINUTE'), :size => 2,:id=>"service_agreement_response_minute"%>
+                                <label><%=t(:label_slm_service_agreement_response_minute)%></label>
+            </td>
+            <td class="label-col"><label for="service_agreement_resolve_time"><%=t(:label_slm_service_agreement_resolve_time)%></label></td>
+            <td class="data-col"><%= f.text_field :solve_day, :size => 2,:id=>"service_agreement_response_day",:style=>"width:30px;"%>
+                                <label><%=t(:label_slm_service_agreement_solve_day)%></label>
+                                <%= f.select :solve_hour, available_lookup_type('SLM_SERVICE_HOUR'),:size => 2,:id=>"service_agreement_response_hour"%>
+                                <label><%=t(:label_slm_service_agreement_solve_hour)%></label>
+                                <%= f.select :solve_minute,available_lookup_type('SLM_SERVICE_MINUTE'), :size => 2,:id=>"service_agreement_response_minute"%>
+                                <label><%=t(:label_slm_service_agreement_solve_minute)%></label></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="service_agreement_description"><%=t(:label_slm_service_agreement_description)%></label></td>
+            <td class="data-col"><%= f.text_area :description, :rows => 4,:id=>"service_agreement_system_description",:class=>"input-xlarge"%></td>
+            <td class="label-col empty"></td>
+            <td class="data-col empty"></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_slm_service_agreement_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @service_agreement %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_common_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>

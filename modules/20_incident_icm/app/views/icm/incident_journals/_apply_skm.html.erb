@@ -1,0 +1,49 @@
+ <div>
+    <div class="datatable">
+        <table id='rows'>
+          <thead>
+            <tr >
+              <th style="width:90px;">
+                <div><%= t(:apply) %></div>
+              </th>
+              <th style="width:140px;">
+                <div><%= t(:label_skm_entry_header_published_date) %></div>
+              </th>
+              <th>
+                <div><%= t(:label_skm_entry_header_title) %></div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+        <% if skm_data.size == 0 %>
+          <tr>
+            <td colspan="3"><div style="font-size: 15px;"><%= t(:label_no_data) %></div></td>
+          </tr>
+        <% else %>
+          <% skm_data.each do |data| %>
+
+          <tr id="<%=data[:id]%>">
+            <td>
+              <div>
+                <%= link_to(t(:content),{ :action=>"apply_entry_header",:id=>data[:id]},:remote=>true) %>
+                <%= link_to(t(:link),{ :action=>"apply_entry_header_link",:id=>data[:id]},:remote=>true) %>
+              </div>
+            </td>
+            <td>
+              <div>
+                <%= data.published_date_f%>
+              </div>
+            </td>
+            <td>
+              <div>
+                <%= link_to( data.full_title,{:controller => "skm/entry_headers", :action=>"show",:id=>data[:id]},{:target => "_blank"}) %>
+              </div>
+            </td>
+          </tr>
+          <% end -%>
+
+        <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>

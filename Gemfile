@@ -2,6 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.1.rc1'
 
+gem 'rake','0.9.2'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -32,42 +34,42 @@ gem 'uuid' , '2.3.4'
 
 gem "sunspot", "1.2.1"
 gem "sunspot_rails", "1.2.1"
+#gem "sunspot_plus", "0.3.2"
 
 gem 'nokogiri', '1.5.0'
-#gem 'composite_primary_keys', '=3.1.0'
-#gem "rmmseg"
 
-# Use unicorn as the web server
-# gem 'unicorn'
+gem 'mysql2','0.3.7'
 
-# Deploy with Capistrano
-# gem 'capistrano'
+gem 'sprockets','2.0.3'
 
-# To use debugger
-# gem 'ruby-debug'
+gem 'yajl-ruby','1.1.0'
 
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
+#Gems used to export data to pdf
+gem 'wicked_pdf'
+gem "wkhtmltopdf-binary"
 
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-group :development, :test do
-#gem 'ferret'
-  gem 'mysql2'
+# wiki
+gem 'grit','2.5.0'
+gem 'gollum' ,'2.1.0'
+
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   '~> 3.1.5'
+  gem 'coffee-rails', '~> 3.1.1'
+
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  gem 'therubyracer'
+
+  gem 'uglifier', '>= 1.0.3'
+  gem 'twitter-bootstrap-rails' ,'2.1.1'
+  gem 'jquery-rails'
 end
 
-group :production do
-#gem 'jk-ferret'
-  gem 'mysql2'
-end
 
-group :macdev do
-  gem 'mysql2'
-end
+
+
 
 if RUBY_VERSION =~ /1.9/
   Encoding.default_external = Encoding::UTF_8

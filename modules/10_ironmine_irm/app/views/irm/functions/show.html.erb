@@ -1,0 +1,68 @@
+<%= setting_show_title(:show_data => @function[:name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_function) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit", :id => @function}, :class => "btn" %>
+        <%= link_back t(:back), {}, {:class => "btn back"} %>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_function_function_code)%></label></td>
+            <td class="data-3col"><div><%= @function.code%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_function_name)%></label></td>
+            <td class="data-3col"><div><%= @function[:name]%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_function_default_flag)%></label></td>
+            <td class="data-3col"><div><%= check_img(@function[:default_flag])%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_function_public_flag)%></label></td>
+            <td class="data-3col"><div><%= check_img(@function[:public_flag])%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_function_description)%></label></td>
+            <td class="data-3col"><div><%= @function[:description]%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :active)%></label></td>
+            <td class="data-3col"><div><%= check_img(@function[:status_code])%></div></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_permission_list) %></h2>
+      </td>
+      <td class="page-block-button">
+      </td>
+      <td class="page-block-help">
+        <div id="permissionsSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("permissions_list",{:controller => "irm/permissions", :action=>"get_data" ,:function_id=>@function[:id],:format=>"json"},
+                   [],{:search_box=>"permissionsSearchBox"})%>
+  </div>
+</div>
+
+
+<%= render :partial => "multilingual/show", :locals => {:main_data => @function} %>
+

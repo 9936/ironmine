@@ -1,0 +1,175 @@
+<%= common_title %>
+<%= form_for(@survey,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+  <%= f.hidden_field :status_code %>
+  <% content_for :form_block_common  do %>
+    <table class="form-table" xmlns="http://www.w3.org/1999/html">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_csi_survey_title)%></label></td>
+            <td class="data-col" colspan="3"><%=f.text_field :title, :required=>true,:size=>80%></td>
+          </tr>
+          <tr>
+            <td class="label-col text-col"><%=f.check_box :notify_flag, :id=>"notify_flag"%></td>
+            <td class="data-col"><label for="notify_flag"><%=(t :label_csi_survey_notify_flag)%></label></td>
+
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=f.check_box :publish_result_flag, :id=>"publish_result_flag"%></label></td>
+            <td class="data-col"><label for="publish_result_flag"><%=(t :label_csi_survey_publish_result_flag)%></label></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_csi_survey_end_message)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><%=f.text_area :end_message,:rows=>3,:cols=>80,:class=>"input-xlarge"%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_csi_survey_description)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><%=f.text_area :description,:rows=>2,:cols=>80,:class=>"input-xlarge"%></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_block_incident do %>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><%=f.check_box :incident_flag, :id=>"incident_flag"%></td>
+            <td class="data-col"><label for="incident_flag"><%=(t :label_csi_survey_incident_flag)%></label></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr id="timeLimitTr">
+            <td class="label-col"><label><%=(t :label_csi_survey_time_limit)%></label></td>
+            <td class="data-col">
+              <%=f.text_field :time_limit,:size=>18,:required => true,:class =>"span4"%>
+              <p class="help-block"><%= t(:info_csi_survey_due_dates) %></p>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_block_access do %>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_csi_survey_password)%></label></td>
+            <td class="data-col"><%= f.text_field :password %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr id="closeDateTr">
+            <td class="label-col"><label for="close_date"><%=(t :label_csi_survey_closed_datetime)%></label></td>
+            <td class="data-col"><%= f.date_field :close_date,:value =>calendar_date(@survey.close_date),:id=>"close_date",:required => true,:class=>"date",:nobutton=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_block_range do %>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col text-col"><%= t(:label_irm_wf_rule_action_type) %></td>
+            <td class="data-col" style="width:82%">
+              <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:range_str,:str_value=>@survey.get_range_str,:size=>7} %>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_csi_survey_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @survey%>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_csi_survey_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+        <!-- 事故单关联设置 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%=t(:label_csi_survey_incident_setting)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_incident   %>
+        </div>
+        <!-- 访问控制 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%=t(:label_csi_survey_access_control)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_access   %>
+        </div>
+        <!-- 调查范围 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%=t(:label_csi_survey_range)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_range   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+  $(function(){
+
+     function checkIncidentFlag(){
+          var checkValue = $("#incident_flag").attr("checked");
+          if(checkValue)
+          {
+             $("#closeDateTr").css("display","none");
+             $("#timeLimitTr").css("display","");
+          }
+          else
+          {
+
+             $("#closeDateTr").css("display","");
+             $("#timeLimitTr").css("display","none");
+          }
+     }
+
+     checkIncidentFlag();
+     $("#incident_flag").click(checkIncidentFlag);
+
+  });
+</script>

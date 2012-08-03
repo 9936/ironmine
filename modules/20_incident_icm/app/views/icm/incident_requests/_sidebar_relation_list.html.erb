@@ -1,0 +1,39 @@
+<%= form_tag({:controller => "icm/incident_requests", :action => "add_relation", :source_id => incident_request.id}, :remote => true) do |f| %>
+<div class="sidebar-block">
+    <div class="sidebar-block-header"><h2>
+      <%= t :label_icm_incident_request_relation %>
+    </h2></div>
+    <div class="sidebar-block-body">
+      <div class="form-inline">
+        <table width="100%">
+          <% if allow_to_function?(:edit_relation) %>
+          <tbody id="new_relation_form">
+            <tr>
+              <td>
+                <div id="relation_select" class="form-inline">
+                  <%= lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:147px;" %>
+                </div>
+              </td>
+            </tr>
+            <!-- 关联的类别 -->
+            <tr>
+              <td>
+                <div class="form-inline" style="width: 100%;">
+                  <label><%= t(:label_icm_incident_request_relation_type) %></label>
+                  <%= select_tag_alias(:relation_type,Irm::LookupValue.get_lookup_value("ICM_INCIDENT_REQUEST_REL_TYPE").collect{|p| [p[:meaning], p.lookup_code]},nil, :style=>"width:80px;") %>
+                  <div style="float: right;">
+                    <%= link_submit t(:add),{:class=>"btn btn-primary"}%>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <% end %>
+          <tbody id="relation_list">
+            <%= list_all_icm_incident_relations(incident_request.id)%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+<% end %>

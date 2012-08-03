@@ -1,0 +1,117 @@
+<%content_for :page_source do%>
+  <%= stylesheet_link_tag :report_types%>
+<%end%>
+<%= common_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_report_type) %>:<%=@report_type[:name]%></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @report_type.id},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_report_type_code)%></label></td>
+            <td class="data-col"><div><%= @report_type.code %></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_report_type_category)%></label></td>
+            <td class="data-col"><div><%= @report_type[:category_name] %></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_report_type_name)%></label></td>
+            <td class="data-col"><div><%= @report_type[:name] %></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_report_type_description)%></label></td>
+            <td class="data-col"><div><%= @report_type[:description] %></div></td>
+            <td class="label-col empty"><div>&nbsp;</div></td>
+            <td class="data-col empty"><div>&nbsp;</div></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_report_type_object_relationship) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), { :action => "edit_relation", :id => @report_type.id},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body" id="objectRelation">
+    <table width="100%">
+      <tr>
+        <td>
+          <% object_index = ["A","B","C","D"]  %>
+          <%@report_type.report_type_objects.select_all.with_bo(I18n.locale).each do |rto| %>
+            <div class="olevel olevel<%=rto.object_sequence.to_i%>">
+              <% if rto.object_sequence.to_i ==0  %>
+                <span class="levelLabel levelLabel<%=rto.object_sequence.to_i%>"><%= rto[:relation_business_object_name] %>(<%=object_index[rto.object_sequence.to_i]%>)</span>
+              <% else %>
+                <%= t("label_irm_report_type_object_relationship_#{rto.relationship_type}") %> <span class="levelLabel levelLabel<%=rto.object_sequence.to_i%>"><%= rto[:relation_business_object_name] %>(<%=object_index[rto.object_sequence.to_i]%>)</span>
+              <% end %>
+            </div>
+          <% end %>
+        </td>
+        <td>
+          <div>
+            <img width="190" height="226" id="joinImage" title="Object Relationships" alt="" src="<%=theme_image_path("report/crt_rel_#{@report_type.relationship_image_path}.gif")  %>">
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_report_type_usable_fields) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:label_irm_report_type_edit_section_layout), {:controller => "irm/report_type_sections",:action => "index", :report_type_id => @report_type.id},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="datatable">
+      <div class="irm-datatable">
+          <table id='rows' >
+            <thead>
+              <tr>
+                <th>
+                  <div><%=t(:label_irm_report_type_usable_field_source)%></div>
+                </th>
+                <th>
+                  <div><%=t(:label_irm_report_type_usable_count)%></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% report_type_fields(@report_type).each do |obj| %>
+                <tr>
+                  <td>
+                    <div><%=obj[0]%></div>
+                  </td>
+                  <td>
+                    <div><%=obj[2]%></div>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+</div>
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@report_type} %>

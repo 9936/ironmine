@@ -1,0 +1,8 @@
+<%= form_tag({:controller => "chm/change_incident_relations",:action => "create",:change_request_id=>@change_request.id},{:remote=>true,:builder => CustomFormBuilder}) do %>
+    <div class="float-right" style="margin-left: 20px;">
+      <%= link_submit(t(:add), :class=>"btn") %>
+    </div>
+    <div  style="float:right;">
+      <%= lov_field_tag "incident_request_id", Icm::IncidentRequest %>
+    </div>
+<% end %>

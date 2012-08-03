@@ -1,0 +1,12 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:external_system_code,{:title=>t(:label_irm_external_system_external_system_code),:searchable=>true, :width => "20%"})%>
+  <% builder.column(:system_name,{:title=>t(:label_irm_external_system_system_name),:searchable=>true, :width => "25%"})%>
+  <% builder.column(:system_description,{:title=>t(:label_irm_external_system_system_description)})%>
+  <% builder.column(:external_hostname,{:title=>t(:label_irm_external_system_external_hostname),:searchable=>true})%>
+  <% builder.column(:external_ip_address,{:title=>t(:label_irm_external_system_external_ip_address),:searchable=>true})%>
+  <% builder.column(:status_meaning,{:title=>t(:label_irm_external_system_status_meaning)})%>
+<% end %>

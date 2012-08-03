@@ -1,0 +1,15 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:label_skm_wiki_history),{:action=>"history",:id=>data[:id]}) %>&nbsp;
+  <% end %>
+  <% builder.column(:name,{:title=>t(:name),:searchable=>true, :width => "140px"})  %>
+  <% builder.column(:created_at,{:title=>t(:created_at), :width => "60px"}) do |data|%>
+    <%= format_date(data.created_at) %>
+  <% end %>
+  <% builder.column(:updated_at,{:title=>t(:updated_at), :width => "60px"}) do |data|%>
+    <%= format_date(data.updated_at) %>
+  <% end %>
+  <% builder.column(:description,{:title=>t(:description), :width => "180px"})%>
+<% end %>

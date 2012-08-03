@@ -1,0 +1,40 @@
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=t(:label_irm_report_list)%></h2>
+    </td>
+    <td class="page-block-button">
+
+    </td>
+    <td class="page-block-help">
+      <div id="portletReportSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("report_list",{:controller => "irm/reports",:action=>"get_data", :folder_id => @folder_id,:format=>"json"},
+                                 [],{:search_box=>"portletReportSearchBox",:paginator_box=>"portletReportPaginator",:export_data=>"#exportData"})%>
+
+  </div>
+
+
+</div>
+<script type="text/javascript">
+  $(function(){
+      if($("#folderEditLink")){
+          $("#folderEditLink").click(function(e){
+              var folderId =  $('#folderId').val();
+              if(folderId&&folderId!=''){
+                  var url = decodeURIComponent($("#folderEditLink").attr("href"));
+                  url = jQuery.tmpl(url,{folderId:folderId}).text();
+                  $("#folderEditLink").attr("href",url);
+              }
+              else
+              {
+                  return false;
+              }
+      });
+    }
+  });
+
+</script>

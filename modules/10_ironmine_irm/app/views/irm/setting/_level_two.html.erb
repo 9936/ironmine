@@ -1,0 +1,36 @@
+<style type="text/css">
+  body .page-title .pt-body h1.noSecondHeader {
+    color: #000000;
+    font-size: 2em;
+    font-weight: normal;
+    margin-bottom: 0;
+    margin-top: 9px;
+}
+</style>
+<div class="page-title">
+  <div class="pt-body secondary-palette">
+    <div class="content">
+      <h1 class="pageType noSecondHeader"><%=@menu_entry[:name]%></h1>
+  </div></div>
+  <div class="ptBreadcrumb">
+
+  </div>
+</div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=@menu_entry[:name]%></h2>
+    </td>
+
+  </tr></table>
+  <div class="page-block-body">
+    <div class="content">
+    <table class="form-table setting-menu" style="width: 100%;">
+      <tbody>
+        <%= generate_entries_table(@menu_entry.id) %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>

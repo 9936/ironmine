@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale%>" class="<%= controller_action_css_class%>"  debug="true">
+<head>
+  <%= render "layouts/head" %>
+
+</head>
+<body id ="body">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div>
+          <div id="pageContainerHeader" class="page-container-header">
+              <table id="navMenu" class="nav-menu" cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                  <tr>
+                    <td class="page-logo">
+                      <%= render :partial => "irm/common/app_top_logo"%>
+                    </td>
+                    <td class="global-search">
+
+                      <%= render :partial =>"irm/search/box"%>
+                    </td>
+                    <td class="application-menu">
+                      <ul class="nav nav nav-pills pull-right" style="text-align: left;">
+                        <li class="dropdown">
+                          <a href="#fat" data-toggle="dropdown" class="dropdown-toggle"><%= Irm::Person.current.name %> <b class="caret"></b></a>
+                          <ul class="dropdown-menu" id="menu1">
+                            <%= setting_menu%>
+                            <li class="divider"></li>
+                            <li><%= link_to(t(:label_irm_common_logout),logout_url) %></li>
+                          </ul>
+                        </li>
+                      </ul>
+                      <ul class="nav nav-pills  pull-right" style="text-align: left;">
+                        <%= current_application_menu %>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table id="tabsNewBar" class="nav-tab-bar" cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                      <tr>
+                          <td>
+                              <div id="navTab" class="nav-tab">
+                                  <div class="nav-tab-left"></div>
+                                  <table id="navTabTable" class="nav-tab-table" cellpadding="0" cellspacing="0">
+                                      <%= render_bootstrap_tabs %>
+                                  </table>
+                                  <div class="nav-tab-right"></div>
+                              </div>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div>
+           <div class="page-body-content-header">
+               <div class="left-round"></div>
+               <div class="right-round"></div>
+           </div>
+        </div>
+      </div>
+      <div class="row-fluid page-body-content">
+        <div>
+          <table class="body-table">
+            <tbody>
+              <tr>
+
+                <td class="body-cell">
+                  <div class="body-cell-div">
+                    <%= yield %>
+                  </div>
+                </td>
+                <td class="sidebar-cell">
+                  <div class="sidebar-cell-div">
+                    <%= render :partial =>"/common/quick_create"%>
+                    <%if has_content?(:sidebar) %>
+                        <%=yield :sidebar %>
+                    <%end%>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div>
+           <div class="page-body-content-footer">
+               <div class="left-round"></div>
+               <div class="right-round"></div>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid page-body-footer">
+      <div class="row-fluid">
+        <div>
+          <%= render :partial => "/irm/common/footer"%>
+        </div>
+      </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "100px"}) do |data|%>
+    <%= link_to(t(:show),{:controller => "skm/entry_headers", :action=>"show",:id => data[:id]}) %>&nbsp;
+    <%= link_to(t(:remove_from_favorite), {:controller => "skm/entry_headers", :action=>"remove_favorite",:person_id=>Irm::Person.current.id, :entry_header_id => data[:id]},:confirm => t(:label_are_you_sure)) %>
+  <% end %>
+  <% builder.column(:published_date,{:title=>t(:label_skm_entry_header_published_date),:width=>"180px"})%>
+  <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number),:searchable=>true}) do |data|%>
+    <%= link_to(data[:doc_number], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+  <% end %>
+  <% builder.column(:entry_title,{:title=>t(:label_skm_entry_header_title),:searchable=>true}) do |data|%>
+    <% title =  link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+    <% if data[:type_code].eql?('VIDEO') %>
+    <%= get_img_icon("video") + title %>
+    <% else %>
+    <%= title %>
+    <% end %>
+  <% end %>
+<% end %>

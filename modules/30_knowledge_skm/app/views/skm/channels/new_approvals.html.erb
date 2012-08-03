@@ -1,0 +1,30 @@
+<%= common_title(:action_meaning=>t(:label_skm_channel_approval_management)) %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= form_for(@channel_approval,:url=>{:action=>"create_approvals", :id => @channel.id},:builder => CustomFormBuilder) do |f| %>
+        <%= f.hidden_field(:status_code) %>
+        <%= link_submit t(:save),:class=>"btn btn-primary"%>
+        <%= link_to(t(:cancel),{:controller =>"skm/channels",:action=>"show",:id=>@channel.id},:class=>"btn")%>
+      <% end %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+      <div id="people">
+        <%= datatable("people",{:controller => "skm/channels", :action=>"get_approvals_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"peoplePaginator",:select=>"multiple"})%>
+      </div>
+      <div id="peoplePaginator"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#people").bind('selectionchange',function(event,ids){
+            $("#skm_channel_approval_person_status_code").val(ids.join(","));
+        });
+    });
+</script>

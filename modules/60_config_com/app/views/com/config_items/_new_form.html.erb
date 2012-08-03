@@ -1,0 +1,158 @@
+<%= form_for(@config_item,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common  do%>
+    <table class="form-table" id="config_item_table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_com_config_item_number)%></label></td>
+            <td class="data-col"><%=f.text_field :item_number, :required=>true %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_com_config_item_config_class)%></label></td>
+            <td class="data-col"><%= f.select :config_class_id, nullable_options_for_select(available_config_class,@config_item.config_class_id),
+                                             {}, {:require=>true,:id=>"config_class_id"} %></td>
+    
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_com_config_item_config_status)%></label></td>
+            <td class="data-col"><%= f.blank_select :config_item_status_id, available_config_item_status,@config_item.config_class_id,
+                                             {}, {:require=>true,:id=>"config_item_status_id"} %></td>
+
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_com_config_item_managed_group)%></label></td>
+            <td class="data-col"><%= f.select :managed_group_id, nullable_options_for_select(available_support_group, @config_item.managed_group_id ),
+                                             {},{:id=>"config_item_managed_group_id"} %></td>
+    
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_com_config_item_managed_person)%></label></td>
+            <td class="data-col"><%= f.select(:managed_person_id,nullable_options_for_select([],nil),{},{
+                                                     :id=>"config_item_managed_person_id",
+                                                     :href=>url_for(:controller=>"icm/support_groups",:action=>"get_member_options",:format=>"json",:id=>"${config_item_managed_group_id}"),
+                                                     :depend=>"config_item_managed_group_id",
+                                                     :origin_value=>@config_item.managed_person_id,
+                                                     :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---"
+                                             }) %></td>    
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_com_config_item)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+
+      </td>
+    </tr></table>
+    <%= error_for @config_item %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <div style="display: none;" id="get_dynamic_attributes_url" href="<%=url_for(:controller=>"com/config_items",:action=>"get_dynamic_attributes",:config_class_id=>"{config_class_id}",:_dom_id=>"new_com_config_item")%>"></div>
+    <table class="page-block-footer"><tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
+  </div>
+
+<% end %>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+                if($("#config_item_managed_group_id")){
+                    $("#config_item_managed_group_id").cascade("#config_item_managed_person_id");
+                }
+
+                $("#config_class_id").change(function(){
+                    $("[auto_generate='true']").remove();
+                    var config_class_id=$("#config_class_id").val();
+                    var url = decodeURIComponent($("#get_dynamic_attributes_url").attr("href"));
+                     url = url.replace("{config_class_id}",config_class_id);
+                    if (config_class_id){
+
+                        $.get(url, function(result){
+                            $("#config_item_table").append(result);
+                            refresh_required();
+                            refresh_datepiker();
+                          });
+
+
+                    }
+
+                });
+                $("#config_class_id").change();
+            }
+    )
+    function refresh_required(){
+        $("input[required='required']").each(function(index, n){
+                var parent_node = $(n).parent();
+                var node = '<div class="required-input"><div class="required-block"></div>' + $(parent_node).html() + '</div>';
+                $(parent_node).html(node);
+            });
+    }
+    function refresh_datepiker(){
+        if($.fn.datePicker){
+                $("input.date").each(function(i,e){
+                    var options = {};
+                    if(!$(e).attr("future")){
+                        options["startDate"] =new Date(1996, 1, 1);
+                    }
+                    if($(e).attr("nobutton")){
+                        options["createButton"] =false;
+                    }
+                    if($(e).attr("today")){
+                        $(e).datePicker(options).val(new Date().asString()).trigger('change');
+                    }
+                    else
+                    {
+                        $(e).datePicker(options);
+                    }
+                    $(e).bind("click",function(event){
+                        $(this).dpDisplay();
+                    })
+                    $(e).bind("keyup",function(event){
+                        if(event.keyCode=="9"){
+                            $(this).dpDisplay();
+                        }
+                    })
+                    $(e).bind("keydown",function(event){
+                        if(event.keyCode=="9"){
+                          $(this).dpClose();
+                        }
+                    })
+
+                });
+            }
+    }
+
+</script>

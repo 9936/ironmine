@@ -1,0 +1,107 @@
+<style type="text/css">
+  #statusMatrix{
+    padding-left: 20px;
+  }
+  #statusMatrix th{
+    font-weight:bold;
+    padding:5px;
+  }
+  #statusMatrix td{
+    font-weight:bold;
+    padding:5px;
+  }
+  #statusMatrix th.to{
+    text-align: center;
+  }
+  #statusMatrix th.from{
+    text-align: right;
+  }
+</style>
+<%= common_title(:action_meaning=>t(:label_icm_incident_status_edit_transform)) %>
+<%= form_tag({:action=>"update_transform"},:builder => CustomFormBuilder) do |f| %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_incident_status_edit_transform)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%=t(:label_icm_incident_status_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <table id="statusMatrix" cellpadding="0" cellspacing="0" border="0" error="<%=t(:label_irm_incident_status_transform_event_error) %>">
+            <% incident_statuses = available_incident_status;
+               incident_status_ids = incident_statuses.collect{|i| i.id};
+               events = available_incident_request_event;
+               status_transforms = available_status_transform;
+            %>
+            <tbody>
+              <tr>
+                <th class="from"></th>
+                <% incident_statuses.each do |to_status| %>
+                  <th class="to"><%= to_status[:name]%></th>
+                <% end %>
+              </tr>
+              <% incident_statuses.each do |from_status| %>
+                <tr>
+                  <th class="from"><%= from_status[:name]%></th>
+                  <% incident_status_ids.each do |to_id| %>
+                    <td>
+                      <%= blank_select_tag("status_transforms[#{from_status.id}][#{to_id}]",events,(status_transforms[from_status.id]&&status_transforms[from_status.id][to_id]) ? status_transforms[from_status.id][to_id] : nil,{:class=>"eventSelect",:ref=>from_status.id,:title=>from_status[:name]}) %>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+      function getRefValues(ref,value){
+        if(!value||value==""){
+            return 0;
+        }
+        var count = 0;
+        $("select.eventSelect[ref="+ref+"]").each(function(index,node){
+            if($(node).val()==value)
+              count = count+1;
+        });
+        return count;
+      }
+      $("select.eventSelect").change(function(e){
+        if(getRefValues($(e.target).attr("ref"),$(e.target).val())>1){
+          $(e.target).val("");
+          alert($("#statusMatrix").attr("error"));
+        }
+      })
+  });
+</script>
+

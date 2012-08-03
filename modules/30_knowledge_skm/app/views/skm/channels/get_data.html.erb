@@ -1,0 +1,13 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:controller => "skm/channels", :action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:controller => "skm/channels", :action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:channel_code,{:title=>t(:label_skm_channel_code), :searchable => true,:width=>"100px"})%>
+  <% builder.column(:name,{:title=>t(:name), :searchable => true,:width=>"150px"})%>
+  <% builder.column(:description,{:title=>t(:description)})%>
+  <% builder.column(:status_code,{:title=>t(:active),:width=>"40px"}) do |data|%>
+    <%= check_img(data[:status_code]) %>
+  <% end %>
+<% end %>
+

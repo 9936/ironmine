@@ -1,0 +1,60 @@
+<%= setting_show_title(:show_data => @mail_template[:name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header">
+    <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_mail_template_show) %>&nbsp;<%= t(:label_detail_info) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_to t(:edit), {:action => "edit", :id => @mail_template},:class => "btn btn-primary"%>
+          <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+          <%= link_to t(:back), {:action => "index"},:class => "btn"%>
+        </td>
+    </tr>
+  </table>
+  <!-- 一般信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_common_info) %>:</h2></td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_mail_template_template_code)%></label></td>
+            <td class="data-2col"><%=@mail_template[:template_code]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_mail_template_name)%></label></td>
+            <td class="data-2col"><%=@mail_template[:name]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_mail_template_description)%></label></td>
+            <td class="data-2col"><%=@mail_template[:description]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_mail_template_subject)%></label></td>
+            <td class="data-2col"><%=@mail_template[:subject]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_mail_template_template_type)%></label></td>
+            <td class="data-2col"><%=@mail_template.template_type%></td>
+          </tr>
+          <% if("html".eql?(@mail_template.template_type)) %>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_mail_template_mail_body)%></label></td>
+            <td class="data-2col" colspan="3"><%= @mail_template[:mail_body].html_safe %></td>
+          </tr>
+          <% else %>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_mail_template_mail_body)%></label></td>
+            <td class="data-2col" colspan="3"><pre><%= @mail_template[:mail_body] %></pre></td>
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

@@ -1,0 +1,1873 @@
+zh:
+  #=========================usual custom=======================#
+  errors:
+    already_exists_in_service_center: 邮箱地址在当前服务中心中已经被某个人员使用过
+  access_denied: 访问 {{permission}} 被拒绝!
+  invalid_invitation_key: 无效的邀请验证码！
+  current_page_help: 此页面帮助
+  #公用按钮
+  unknow: 未知
+  cancel: 取消
+  next: 下一步
+  last: 上一步
+  or: 或者
+  show: 查看
+  edit: 编辑
+  delete: 删除
+  delete_selected: 删除所选
+  back: 返回
+  disable: 失效
+  done: 完成
+  loading: 加载中...
+  apply: 应用
+  clear: 清除
+  save: 保存
+  new: 新建
+  confirm: 确认
+  update: 更新
+  create: 创建
+  new: 新建
+  add: 添加
+  close: 关闭
+  permanent_close: 永久关闭
+  reopen: 重新打开
+  multilingual: 多语言
+  active: 启用
+  status: 状态
+  copy:  复制
+  list: 列表
+  processing: 处理中...
+  button_add_file: 添加文件
+  more: 更多
+  jump: 转至！
+  name: 名称
+  description: 描述
+  actionview_instancetag_blank_option: 请选择
+  more_info: 更多信息
+  enable: 启用
+  disable: 失效
+  cut_image: 裁剪当前图片
+  close: 关闭
+  default: 默认
+  select: 请选择
+  select_ac: 选择
+  upload: 上传
+  save_and_new: 保存并新建
+  save_and_update_new: 保存并继续上传
+  edit_icon: 修改图标
+  error: 错误
+  error_invalid_data: 错误：无效数据。
+  error_value_existed: 错误：该值已存在。
+  check_error_msg_and_fix: 请审查下列所有错误消息以纠正数据。
+  operation: 操作
+  content: 内容
+  link: 链接
+  remove: 移除
+  search: 搜索
+  options: 选项
+  move_up: 上移
+  move_down: 下移
+  save_page: 收藏
+  none: 无
+  save_as_draft: 存为草稿
+  save_as_published: 发布
+  go_to_top: 回到顶部
+  step_n: "步骤 %{n}  "
+  step_n_total_m: "第 %{n} 步，共 %{m} 步"
+  label_checked: 选取的
+  label_unchecked: 未选取的
+  help: 帮助
+  pass: 转交
+  select_all: 全选
+  null_string: 空
+  test: 测试
+  duel_selectable: 可选项
+  duel_selected: 已选择项
+  else: 否则
+  up: 上移
+  down: 下移
+  notice: 注意
+  no_data: 无可用数据
+  label_alias: 别名
+  uncategory: 未分类
+  code: 编码
+  expand_all: 全部展开
+  collapse_all: 全部折叠
+  #常用语句
+  notice_account_invalid_creditentials: 用户名或密码错误
+  successfully_updated_password: 成功修改密码！
+  successfully_updated: 已经成功更新数据
+  successfully_created: 已经成功创建新数据
+  successfully_copyed:  已经成功复制数据
+  successfully_deleted:  已经成功删除数据
+  failed_updated: 更新数据失败
+  failed_created: 创建数据失败
+  failed_copyed:  复制数据失败
+  failed_deleted:  删除数据失败
+  label_delete_confirm: 你确定要删除该条数据吗?
+  label_no_data: 无可用数据
+  label_sub_functions: 功能
+  label_common_info: 一般信息
+  label_description_info: 描述信息
+  label_is_required: 必填信息
+  label_help_about_page: 此页面帮助
+  label_detail_info: 详细信息
+  label_are_you_sure: 你确定要删除数据吗?
+  display_sequence: 显示顺序
+  display_color: 颜色
+  default_flag: 默认
+  report: 报表
+  common_report: 常用报表
+  go_to_report: 转至报表
+  tool: 工具
+  new_event: 创建事件
+  my_event: 我的事件
+  my_all_count: 我的一览表
+  label_irm_no_event: 没有事件
+  find: 查找
+  my_view: 我的视图
+  calendar_task: 工作日历
+  remember_user_name: 记住用户名
+  no_account: 没有账户
+  label_cancel_confirm: 数据没有保存，您确定要取消吗？
+  all: 全部
+  search_options: 搜索选项
+  input_keyword_you_want_to_search: 请输入你要搜索的关键词
+  display_all: 全部显示
+  upload_from_clipboard: 从剪贴板上传图片
+  created_by: 创建者
+  created_at: 创建时间
+  updated_by: 更新者
+  updated_at: 更新时间
+  kanban_mode: 看板
+  list_mode: 列表
+  error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
+  error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB, 现上传 _ KB)
+  error_file_upload_repeat: 附件中有文件重复上传
+  error_file_upload_empty: 附件内容为空，请重新选择文件
+  file_upload_limit_alert: 最大尺寸 %{m} KB
+  by_name: 按名称
+  by_date: 按时间
+  search_options_with_dot: 搜索选项...
+  search_options: 搜索选项
+  search_all: 搜索全部
+  label_attachment_info: 附件信息
+  label_attachment_file_size_limit: 文件大小限制 %{limit}
+  label_attachment_file_type: 文件类型限制 %{type}
+  #=========================end usual custom=======================#
+  #=========================    irm lookup_types_controller=====================#
+  label_lookup_types: 快速编码类型
+  label_lookup_types_code: 编码
+  label_lookup_level: 范围
+  label_meaning: 含义
+  label_description: 描述
+  label_lookup_code: 快速编码
+  label_start_date_active: 生效日期
+  label_end_date_active: 失效日期
+  label_active_flag: 可用
+  label_global_level: 系统级
+  label_extended_level: 可扩展
+  label_user_level: 用户级
+  label_status_code: 记录状态
+  label_add_another_lookup_value: 增加新的快速编码值
+  label_delete_last_lookup_value: 删除最后一行的快速编码值
+  label_new_lookup_type: 新建快速编码
+  label_irm_lookup_type_edit: 编辑快速编码
+  label_irm_lookup_type_lookup_type: 快速编码类型
+  label_irm_lookup_type_meaning: 含义
+  lable_irm_lookup_type_editing_multilingual: 编辑多语言
+  label_irm_lookup_value_lookup_code: 编码
+  label_lookup_code: 快速编码
+  label_irm_lookup_value_meaning: 含义
+  label_irm_lookup_value_description: 描述
+  label_irm_lookup_type_description: 描述
+  label_edit_lookup_type: 编辑快速编码类型
+  label_new_lookup_type: 创建快速编码类型
+  label_list_lookup_types: 快速编码类型列表
+  label_add_lookup_code: 添加快速编码
+  label_irm_lookup_type_new: 新建快速编码类型
+  label_irm_lookup_type_list: 快速编码类型列表
+  label_irm_lookup_type_info: 快速编码类型信息
+  label_irm_lookup_type_show: 快速编码类型
+  label_irm_lookup_value_index: 快速编码值
+  label_irm_lookup_value_list: 快速编码值列表
+  label_lookup_value_new: 新建快速编码值
+  label_irm_lookup_value_info: 快速编码值信息
+  label_lookup_value_edit: 编辑快速编码值
+  label_lookup_value_show: 快速编码值
+  #=========================end irm lookup_types_controller================#
+  #=========================    irm product_modules_controller=====================#
+  label_irm_product_module: 产品模块
+  label_irm_product_module_new: 创建产品模块
+  label_irm_product_module_edit: 编辑产品模块
+  label_irm_product_module_list: 产品模块列表
+  label_irm_product_module_product_short_name: 产品简称
+  label_irm_product_module_name: 产品名称
+  label_irm_product_module_description: 描述
+  label_irm_product_module_installed_flag: 安装
+  #=========================end irm product_modules_controller================#
+  #=========================    irm languages_controller=======================#
+  label_irm_language: 语言
+  label_irm_language_new: 创建语言
+  label_irm_language_edit: 编辑语言
+  label_irm_language_list: 语言列表
+  label_irm_language_language_code: 语言
+  label_irm_language_info: 语言信息
+  label_irm_language_description: 描述
+  label_irm_language_installed_flag: 是否安装
+  label_irm_language_status_code: 状态
+  label_irm_language_show: 显示语言
+  #=========================    irm languages_controller=======================#
+  #=========================    irm common_controller=======================#
+  label_irm_common_login: 登录
+  label_irm_common_username: 用户名
+  label_irm_common_password: 密码
+  label_irm_common_logout: 退出系统
+  label_irm_common_forgot_password: 忘记密码？
+  label_irm_recently_objects: 最近的项目
+  notice_account_locked: 你的帐户已经被锁定,请联系管理员!
+  label_irm_common_continue: 继续工作
+  #=========================    end common_controller=======================#
+  #=========================    irm menus_controller=======================#  
+  label_irm_menu: 菜单
+  label_irm_menu_new: 创建菜单
+  label_irm_menu_edit: 编辑菜单
+  label_irm_menu_list: 菜单列表
+  label_irm_menu_menu_code: 菜单编码
+  label_irm_menu_icon: 图标
+  label_irm_menu_name: 名称
+  label_irm_menu_name_full: 菜单名称
+  label_irm_menu_description: 描述
+  label_irm_menu_icon: 图标
+  
+  label_irm_menu_entry_name: 子菜单项名称
+  label_irm_menu_entry_list: 子菜单项列表
+  label_irm_menu_entry_new: 创建子菜单项
+  label_irm_menu_entry_edit: 编辑子菜单项
+  label_irm_menu_entry_sub_menu: 子菜单
+  label_irm_menu_entry_sub_menu_name: 子菜单名称
+  label_irm_menu_entry_page_controller: 页面Controller
+  label_irm_menu_entry_page_action: 页面Action
+  label_irm_menu_entry_display_sequence: 显示顺序
+  label_irm_menu_entry_display_flag: 显示
+  label_irm_menu_entry_prompt: 提示
+  label_irm_menu_entry_description: 描述
+  label_irm_menu_entry_add: 添加子菜单项
+  error_irm_menu_entry_permission_sub_menu_at_least_one: 子菜单和页面至少输入一项
+  error_irm_menu_entry_sub_menu_sub_group_must_only_one: 子菜单和子功能组必须且只能选择一项
+  label_irm_menu_entry_icon: 图标
+  label_irm_menu_entry_sub_function_group:  子功能组
+  label_irm_menu_entry_sub_function_group_code: 子功能组编码
+  label_irm_menu_entry_sub_function_group_name: 子功能组名称
+  label_irm_menu_entry_css_name: 样式名称
+  label_irm_menu_entry: 菜单项
+  #=========================    end menus_controller=======================#
+  #=========================    irm permissions_controller=======================#
+  label_irm_permission: 权限
+  label_irm_permission_new: 创建权限
+  label_irm_permission_edit: 编辑权限
+  label_irm_permission_permission_code: 权限编码
+  label_irm_permission_permission_type: 权限类型
+  label_irm_permission_name: 权限名称
+  label_irm_permission_description: 描述
+  icm_rule_settinglabel_irm_permission_product_name: 模块
+  label_irm_permission_page_controller: Controller
+  label_irm_permission_page_action: Action
+  label_irm_permission_param_count: 参数数量
+  label_irm_permission_direct_get_flag: GET方法
+  label_irm_permission_function_name: 功能名称
+  label_irm_permission_status_code: 状态
+  label_irm_permission_list: 权限列表
+  label_irm_permission_product_name: 所属模块
+  #=========================    end permissions_controller=======================#
+  #=========================    irm identities_controller=======================#
+  label_irm_identity_new: 新建帐号
+  label_irm_identity_edit: 编辑帐号
+  label_irm_identity_login_name: 登陆名
+  label_irm_identity_password: 密码
+  label_irm_identity_password_confirmation: 确认密码
+  label_irm_identity_full_name: 姓名
+  label_irm_identity_email: 电子邮件
+  label_irm_identity_language_code: 语言
+  label_irm_identity_status_code: 状态
+  label_irm_identity_list: 帐号列表
+  edit_password: 修改密码
+  label_irm_identity_old_password: 原密码
+  label_irm_identity_new_password: 新密码
+  label_irm_identity_new_password_confirmation: 确认密码
+  label_irm_identity_edit_info: 编辑个人信息
+  label_irm_identity_edit_password: 修改个人密码
+  label_irm_identity_last_login_at: 最后登录时间
+  label_identity_anonymous: Anonymous
+  #=========================    end irm identities_controller=======================#
+
+  #=========================    irm global_settings_controller=======================#
+  label_irm_global_setting: 全局设置
+  label_irm_global_setting_edit: 全局设置编辑
+  label_irm_global_setting_theme_name: 主题
+  label_irm_global_setting_timezone: 时区
+  label_irm_global_setting_upload_file_limit: 上传文件大小(KB)
+  label_irm_global_setting_logo: 图标
+  recommended_size: 推荐分辨率
+  label_irm_global_setting_error_page_info: 错误页面信息
+  label_irm_global_setting_file_limit_tip: 上传文件大小超过限制
+  #=========================    end global_settings_controller=======================#
+  #=========================    irm auth_sources_controller=======================#
+  label_irm_auth_source_name: 认证源名称
+  label_irm_auth_source_host: 主机
+  label_irm_auth_source_port: 端口
+  label_irm_auth_source_account: 账户
+  label_irm_auth_source_account_password: 密码
+  label_irm_auth_source_base_dn: 基准DN
+  label_irm_auth_source_attr_login: 用户名属性
+  label_irm_auth_source_attr_firstname: 名属性
+  label_irm_auth_source_attr_lastname: 姓属性
+  label_irm_auth_source_attr_email: 电子邮件属性
+  label_irm_auth_source_onthefly_register_flag: 拷贝
+  label_irm_auth_source: 认证源
+  label_irm_auth_source_list: 认证源列表
+  label_irm_auth_source_new: 创建认证源
+  label_irm_auth_source_edit: 编辑认证源
+  label_irm_auth_source_data_info: LDAP数据属性
+  #=========================    end auth_sources_controller=======================#
+  #=========================    irm ldap_sources_controller=======================#
+  label_irm_ldap_source_type: 认证源类型
+  label_irm_ldap_source_name: 认证源名称
+  label_irm_ldap_source_host: 主机
+  label_irm_ldap_source_port: 端口
+  label_irm_ldap_source_account: 账户
+  label_irm_ldap_source_account_password: 密码
+  label_irm_ldap_source_base_dn: 基准DN
+  label_irm_ldap_source_attr_login: 用户名属性
+  label_irm_ldap_source_attr_firstname: 名属性
+  label_irm_ldap_source_attr_lastname: 姓属性
+  label_irm_ldap_source_attr_email: 电子邮件属性
+  label_irm_ldap_source_onthefly_register_flag: 拷贝
+  label_irm_ldap_source: 认证源
+  label_irm_ldap_source_list: 认证源列表
+  label_irm_ldap_source_new: 创建认证源
+  label_irm_ldap_source_edit: 编辑认证源
+  label_irm_ldap_source_data_info: LDAP数据属性
+  #=========================    end ldap_sources_controller=======================#
+
+  #=========================    irm ldap_auth_headers_controller=======================#
+  label_ldap_auth_header_list: 认证方案列表
+  label_irm_ldap_auth_header_name: 认证方案
+  label_irm_ldap_auth_header_new: 新建认证方案
+  label_irm_ldap_auth_header_edit: 编辑认证方案
+  ldap_auth_header_ldap_source: LDAP源
+  ldap_auth_header_auth_name: 认证方案名称
+  ldap_auth_header_auth_cn: 认证方案域
+  ldap_auth_header_description: 认证方案描述
+  ldap_auth_header_status_code: 认证方案状态
+  ldap_auth_header_ldap_login_name_attr: LDAP登录名属性
+  ldap_auth_header_ldap_email_address_attr: LDAP邮件属性
+  ldap_auth_header_template_person: 同步人员模板
+  #=========================    end ldap_auth_headers_controller=======================#
+
+  label_irm_ldap_auth_attribute_new: 新建认证方案属性
+  label_irm_ldap_auth_attribute_edit: 编辑认证方案属性
+  label_ldap_auth_attribute: 认证方案属性
+  label_ldap_auth_attribute_local_attr: 认证属性
+  label_ldap_auth_attribute_attr_type: 字段类型
+  label_ldap_auth_attribute_ldap_attr: ldap认证域
+  label_ldap_auth_attribute_description: 属性描述
+  label_ldap_auth_attribute_status_code: 是否可用
+
+  label_irm_ldap_syn_header_list: 同步方案列表
+  label_irm_ldap_syn_header: 同步方案
+  label_irm_ldap_syn_header_new: 新建同步方案
+  label_irm_ldap_syn_header_syn_type: 同步实体类型
+  label_irm_ldap_syn_header_syn_object: 同步对象
+  label_irm_ldap_syn_header_syn_cn: LDAP域
+  label_irm_ldap_syn_header_syn_multi_language_flag: 多语言同步
+  label_irm_ldap_syn_header_ldap_filter: 过滤条件
+  label_irm_ldap_syn_header_description: 同步方案描述
+  label_irm_ldap_syn_header_status_code: 启用
+  label_irm_ldap_syn_header_comp_title: 公司同步信息
+  label_irm_ldap_syn_header_org_title: 组织同步信息
+  label_irm_ldap_syn_header_dept_title: 部门同步信息
+  label_irm_ldap_syn_header_peo_title: 人员同步信息
+  label_irm_ldap_syn_header_syn_name: 方案名称
+  label_irm_ldap_syn_header_base_dn: LDAP同步起点域
+  label_irm_ldap_syn_header_comp_level: 公司层次级别
+  label_irm_ldap_syn_header_comp_filter: 公司过滤条件
+  label_irm_ldap_syn_header_comp_desc: 公司同步备注
+  label_irm_ldap_syn_header_org_level: 组织层次级别
+  label_irm_ldap_syn_header_org_filter: 组织过滤条件
+  label_irm_ldap_syn_header_org_desc: 组织同步备注
+  label_irm_ldap_syn_header_dept_level: 部门层次级别
+  label_irm_ldap_syn_header_dept_filter: 部门过滤条件
+  label_irm_ldap_syn_header_dept_desc: 部门同步备注
+  label_irm_ldap_syn_header_peo_level: 人员层次级别
+  label_irm_ldap_syn_header_peo_filter: 人员过滤条件
+  label_irm_ldap_syn_header_peo_desc: 人员同步备注
+  label_irm_ldap_syn_header_peo_auth_header: 人员同步备注
+  label_irm_ldap_syn_header_comp_syn_flag: 是否同步公司
+  label_irm_ldap_syn_header_org_syn_flag: 是否同步组织
+  label_irm_ldap_syn_header_dept_syn_flag: 是否同步部门
+  label_irm_ldap_syn_header_peo_syn_flag: 是否同步人员
+  label_irm_ldap_syn_header_ldap_auth_header: 人员同步属性
+  label_irm_ldap_syn_attribute_comp_list: 公司同步属性列表
+  label_irm_ldap_syn_attribute_org_list: 组织同步属性列表
+  label_irm_ldap_syn_attribute_dept_list: 部门同步属性列表
+  label_irm_ldap_syn_attribute_peo_list: 人员同步属性列表
+
+  label_irm_ldap_filter: 过滤条件
+  label_irm_ldap_description: 备注
+  label_irm_ldap_base_dn: LDAP域
+  label_irm_ldap_syn_attribute_list: 同步属性列表
+  label_irm_ldap_syn_attribute: 同步属性
+  label_irm_ldap_syn_attribute_new: 新建同步属性
+  label_irm_ldap_syn_attribute_local_attr: 本地字段
+  label_irm_ldap_syn_attribute_ldap_attr: ldap域/默认值
+  label_irm_ldap_syn_attribute_ldap_attr_type: 值类型
+  label_irm_ldap_syn_attribute_language_code: 值语言
+
+  label_irm_ldap_syn_attribute_null_able: 非空
+  label_irm_ldap_syn_attribute_description: 描述
+
+  label_irm_ldap_syn_person_list: 人员默认值设置
+  label_irm_ldap_syn_person_new: 新建人员默认值
+  label_irm_ldap_syn_person_edit: 编辑人员默认值
+  label_irm_ldap_syn_person_name: 默认值方案名称
+  label_irm_ldap_syn_people_role: 默认角色
+  #=========================    irm functions_controller=======================#
+  label_irm_function: 功能
+  label_irm_function_list: 功能列表
+  label_irm_function_new: 创建功能
+  label_irm_function_edit: 编辑功能
+  label_irm_function_function_code: 功能编码
+  label_irm_function_group_code: 功能組
+  label_irm_function_name: 名称
+  label_irm_function_name_full: 功能名称
+  label_irm_function_description: 描述
+  label_irm_function_permission: 管理权限
+  label_irm_function_permission_add: 添加/移除权限
+  label_irm_function_own_permission: 功能拥有的权限
+  label_irm_function_default_flag: 默认
+  label_irm_function_public_flag: 公开
+  #=========================    end functions_controller=======================#
+  #=========================    irm function_groups_controller=======================#
+  label_irm_function_group: 功能组
+  label_irm_function_group_list: 功能组列表
+  label_irm_function_group_new: 创建功能组
+  label_irm_function_group_edit: 编辑功能组
+  label_irm_function_group_group_code: 功能组编码
+  label_irm_function_group_name: 名称
+  label_irm_function_group_description: 描述
+  label_irm_function_group_function: 管理功能
+  label_irm_function_group_function_add: 添加/移除功能
+  label_irm_function_group_own_function: 功能组拥有的功能
+  #=========================    end function_groups_controller=======================#
+  #==================    irm mail_templates_controller=======================#
+  label_irm_mail_template_list: 通知模板列表
+  label_irm_mail_template_entity_code: 所属实体
+  label_irm_mail_template_template_code: 模板编码
+  label_irm_mail_template_name: 模板名称
+  label_irm_mail_template_description: 描述
+  label_irm_mail_template_template_type: 模板类型
+  label_irm_mail_template_subject: 邮件标题
+  label_irm_mail_template_new: 新建通知模板
+  label_irm_mail_template_language_code: 模板语言
+  label_irm_mail_template_type: 模板类型
+  label_irm_mail_html_template_type: html
+  label_irm_mail_simple_template_type: 简单
+  label_irm_mail_template_mail_body: 邮件内容
+  label_irm_mail_template_edit: 编辑通知模板
+  label_copy_mail_template: 复制通知模板
+  label_test_mail_template: 测试当前通知模板
+  label_irm_mail_template_from: 发件人
+  label_mail_template_plural: 通知模板
+  label_test_mail_template_info: 请输入需要测试通知模板的邮件地址.这样你的邮箱会收到一封测试邮件，请检查收件箱。
+  label_test: 测试
+  label_send_mail_successfully: 邮件发送成功，请检查收件箱。
+  label_irm_mail_template_active_flag: 可用
+  label_deliver_mail_template_result: 邮件发送成功，请检查收件箱。
+  label_irm_mail_template_editing_mail_template: 通知模板多语言
+  label_irm_mail_template_status_code: 记录状态
+  label_irm_mail_template_multilingual: 多语言
+  label_irm_mail_template_multilingual_edit: 多语言编辑
+  label_irm_mail_template_info: 通知模板信息
+  label_irm_mail_template_content: 模板内容
+  label_irm_mail_template_show: 通知模板
+  label_irm_mail_template_parameter_field: 通知模板参数查询
+  label_irm_mail_template_parameter_bo: 参数业务对象
+  label_irm_mail_template_parameter_field_name: 参数名称
+  label_irm_mail_template_parameter_field_key: 参数值
+  #==================end irm mail_templates_controller=======================#
+  #=========================    irm currencies_controller=======================#
+  label_irm_currency_currency_code: 编码
+  label_irm_currency_name: 名称
+  label_irm_currency_precision: 精度
+  label_irm_currency_description: 描述
+  label_irm_currency_status_code: 记录状态
+  label_irm_currency_new: 新建币种
+  label_irm_currency_edit: 编辑币种
+  label_irm_currency_list: 币种列表
+  label_irm_currency_show: 币种
+  label_irm_currency_info: 币种信息
+  label_irm_currency_function_description: 显示币种的描述和编码。
+  label_irm_currency_currencies_tls:
+    name: 名称
+  #=========================end irm currencies_controller=======================#
+  #=========================    irm regions_controller=======================#
+  label_irm_region_region_code: 编码
+  label_irm_region_name: 名称
+  label_irm_region_description: 描述
+  label_irm_region_status_code: 记录状态
+  label_irm_region_new: 新建区域
+  label_irm_region_edit: 编辑区域
+  label_irm_region_list: 区域列表
+  label_irm_region_show: 区域显示
+  label_irm_region_info: 区域信息
+  label_irm_region_function_description: 定义区域，例如，亚太区。
+  label_irm_region_regions_tls:
+    name: 名称
+  #=========================end irm regions_controller=======================#
+  #=========================    irm companies_controller=======================#
+  label_irm_company_company_short_name: 简称
+  label_irm_company_name: 公司名称
+  label_irm_company_company_type: 公司类型
+  label_irm_company_description: 描述
+  label_irm_company_status_code: 记录状态
+  label_irm_company_new: 新建公司
+  label_irm_company_edit: 编辑公司
+  label_irm_company_list: 公司列表
+  label_irm_company_companies_tls:
+    name: 名称
+  label_irm_company_base_info: 基本信息
+  label_irm_company_site_info: 地点
+  label_irm_company_support_group: 支持组
+  label_irm_company_time_zone: 时区
+  label_irm_company_hotline: 热线
+  label_irm_company_cost_center: 成本中心
+  label_irm_company_currency_code: 币种
+  label_irm_company_budget_code: 预算代码
+  label_irm_company_home_page: 主页
+  label_irm_company_site_name: 地点名称
+  label_irm_company_site_group_name: 地点组名称
+  label_irm_company_organization: 组织名称
+  label_irm_company_department: 部门名称
+  label_irm_company_site_maintenance: 维护地点
+  label_irm_location_list: 列表公司地点
+  label_irm_location_new: 新建公司地点
+  label_irm_location_organization: 组织
+  label_irm_location_department: 部门
+  label_irm_location_site_group: 地点组
+  label_irm_location_site: 地点
+  label_irm_location_status: 记录状态
+  label_irm_company_short_name: 编码
+  label_irm_location_edit: 编辑地点
+  label_irm_company_info: 公司详细信息
+  label_irm_company_show: 公司
+  label_irm_company: 公司
+  label_irm_location_info: 位置信息
+  label_irm_company_support_manager: 支持管理员
+  #=========================end irm companies_controller=======================#
+  #=========================    irm login_records_controller=======================#
+  label_irm_login_record_list: 用户登录历史
+  label_irm_login_record_user_ip: 用户IP
+  label_irm_login_record_login_at: 登录时间
+  label_irm_login_record_logout_at: 退出时间
+  label_irm_login_record_operate_system: 操作系统
+  label_irm_login_record_browser: 浏览器
+  #=========================end irm login_records_controller=======================#
+  #=========================    irm organizations_controller=======================#
+  label_irm_organization_explosion: 组织及下属组织
+  label_irm_organization_parent_org: 父组织
+  label_irm_organization_short_name: 简称
+  label_irm_organization_name: 名称
+  label_irm_organization_description: 描述
+  label_irm_organization_status_code: 状态编码
+  label_irm_organization_new: 新建组织
+  label_irm_organization_edit: 编辑组织
+  label_irm_organization_list: 组织列表
+  label_irm_organization_show: 组织显示
+  label_irm_organization_function_description: 在公司中的定义组织。
+  label_irm_organization: 组织
+  label_irm_organization_organizations_tls:
+    name: 名称
+  label_irm_organization_structure: 组织层次结构
+  #=========================end irm organizations_controller=======================#
+  #=========================    irm value_sets_controller=======================#
+  label_irm_value_set: 值集
+  label_irm_value_set_list: 值集列表
+  label_irm_value_set_new: 创建值集
+  label_irm_value_set_edit: 编辑值集
+  label_irm_value_set_value_set_code: 值集编码
+  label_irm_value_set_name: 值集名称
+  label_irm_value_set_description: 描述
+  label_irm_value_set_validation_type: 验证类型
+  #=========================end irm value_sets_controller=======================#
+  #=========================    irm flex_values_controller=======================#
+  label_irm_flex_value: 值
+  label_irm_flex_value_list: 值列表
+  label_irm_flex_value_new: 创建值
+  label_irm_flex_value_add: 添加值
+  label_irm_flex_value_edit: 编辑值
+  label_irm_flex_value_value_code: 值编码
+  label_irm_flex_value_name: 值名称
+  label_irm_flex_value_description: 描述
+  label_irm_flex_value_position: 显示顺序
+  label_irm_flex_value_start_date_active: 开始生效日期
+  label_irm_flex_value_end_date_active: 截至失效日期
+  #=========================end irm flex_values_controller=======================#
+  #=========================    irm site_groups_controller=======================#
+  label_irm_site_group_group_code: 编码
+  label_irm_site_group_region_name: 区域
+  label_irm_site_group_name: 名称
+  label_irm_site_group_create_site: 创建地点
+  label_irm_site_group_edit_site: 编辑地点
+  label_irm_site_group_add_site: 添加地点
+  label_irm_site_group_description: 描述
+  label_irm_site_group_status_code: 记录状态
+  label_irm_site_group_new: 新建地点组
+  label_irm_site_group_edit: 编辑地点组
+  label_irm_site_group_list: 地点组列表
+  label_irm_site_group_show: 地点组
+  label_irm_site_group_site_groups_tls:
+    name: 名称
+  label_irm_site_new: 新建地点
+  label_irm_site_index: 地点
+  label_irm_site_edit: 编辑地点
+  label_irm_site_list: 地点列表
+  label_irm_site_site_code: 地点编码
+  label_irm_site_name: 名称
+  label_irm_site_info: 地点详细信息
+  label_irm_site_site_group_name: 地点组名称
+  label_irm_site_description: 描述
+  label_irm_site_address_line: 详细地址
+  label_irm_site_country: 国家
+  label_irm_site_city: 城市
+  label_irm_site_postal_code: 邮编
+  label_irm_site_state: 省
+  label_irm_site_timezone_code: 时区
+  label_add_another_site: 增加新的地点
+  label_delete_last_site: 删除最后一行的地点
+  label_irm_site_status_code: 记录状态
+  label_irm_site_show: 地点
+  label_action_select_site: 选择地点
+  label_irm_site: 地点
+  #=========================end irm site_groups_controller=======================#
+  #=========================end irm flex_values_controller=======================#
+  #=========================irm general_category_controller=======================#
+  label_irm_general_category: 公共分类
+  label_irm_general_category_list: 公共分类列表
+  label_irm_general_category_new: 创建公共分类
+  label_irm_general_category_edit: 编辑公共分类
+  label_irm_general_category_type: 类型
+  label_irm_general_category_company: 公司
+  label_irm_general_category_segment1: 第一段
+  label_irm_general_category_segment2: 第二段
+  label_irm_general_category_segment3: 第三段
+  label_irm_general_category_concact_segment: 分类组合
+  error_segment_combination_existed: 同一公司下不能有相同的分类组合
+  #=========================end general_category_controller=======================#
+  #=========================    irm support_groups_controller=======================#
+  label_irm_group: 组
+  label_irm_group_explosion: 组及下属组
+  label_irm_group_company_name: 公司名称
+  label_irm_group_organization_name: 组织名称
+  label_irm_group_group_code: 组编码
+  label_irm_group_name: 名称
+  label_irm_group_description: 描述
+  label_irm_group_status_code: 记录状态
+  label_irm_group_new: 新建支持组
+  label_irm_group_edit: 编辑支持组
+  label_irm_group_list: 支持组列表
+  label_irm_group_support_groups_tls:
+    name: 名称
+  label_irm_group_oncall_flag: 待命组
+  label_irm_group_support_role: 角色
+  label_irm_group_vendor_flag: 供应商组
+  label_irm_group_base_info: 基本信息
+  label_irm_group_member: 支持组成员
+  label_irm_group_choose_person: 选择人员
+  label_irm_group_add_person: 添加成员
+  label_irm_group_show: 支持组
+  label_irm_group_person_name: 人员名称
+  label_action_select_person: 选择支持组成员
+  label_action_new_from_person: 选择加入的支持组
+  label_irm_group_parent: 上级组
+  label_irm_group_structure: 支持组层次结构
+  #=========================end irm support_groups_controller=======================#
+  #=========================    irm people_controller=======================#
+  label_irm_person: 人员
+  label_irm_person_login: 登录名
+  label_irm_person_name: 姓名
+  label_irm_person_language: 语言
+  label_irm_person_list: 人员列表
+  label_irm_person_mobile_phone: 移动电话
+  label_irm_person_edit: 编辑人员
+  label_irm_person_new: 新建人员
+  label_irm_person_show: 人员信息
+  label_irm_person_organization: 组织
+  label_irm_person_title: 称谓
+  label_irm_person_first_name: 名
+  label_irm_person_last_name: 姓
+  label_irm_person_full_name: 姓名
+  label_irm_person_job_title: 工作职位
+  label_irm_person_vip_flag: VIP
+  label_irm_person_support_staff_flag: 支持组成员
+  label_irm_person_assignment_availability_flag: 是否可分单
+  label_irm_person_security_flag: 安全标识
+  label_irm_person_email_address: 邮件地址
+  label_irm_person_home_phone: 家庭电话
+  label_irm_person_home_address: 家庭地址
+  label_irm_person_mobile_phone: 移动电话
+  label_irm_person_fax_number: 传真
+  label_irm_person_bussiness_phone: 办公电话
+  label_irm_person_region_code: 区域
+  label_irm_person_site_group_code: 地点组
+  label_irm_person_site_code: 地点
+  label_irm_person_function_group_code: 功能组
+  label_irm_person_avatar: 头像
+  label_irm_person_unrestricted_access_flag: 无限制
+  label_irm_person_notification_lang: 通知语言
+  label_irm_person_notification_flag: 是否通知
+  label_irm_person_base_info: 基本信息
+  label_irm_person_other_info: 其他信息
+  label_irm_person_login_and_access: 访问控制
+  label_irm_person_company_access: 可访问公司
+  label_irm_person_support_group: 支持组
+  label_irm_person_group: 所属组
+  label_irm_person_notification: 通知
+  label_irm_person_status_code: 记录状态
+  label_irm_person_login_access_company: 公司名称
+  label_irm_person_login_access_status_code: 记录状态
+  label_irm_person_maintenance_company_access: 维护公司访问
+  label_irm_person_add_company_access: 增加公司
+  label_irm_person_person_name: 姓名
+  label_irm_person_all_support_groups: 所在支持组
+  label_irm_person_choose_company: 选择公司
+  label_irm_person_info: 个人信息
+  label_irm_person_my_profile: 我的简档
+  label_irm_person_other_info: 其他信息
+  label_irm_person_company_access_flag: 是否可以访问
+  label_irm_person_support_stuff_flag: 是否支持组
+  label_irm_person_owned_roles: 已经拥有的角色
+  label_irm_person_available_roles: 可用角色
+  label_irm_person_avatar: 头像
+  label_irm_person_avatar_new: 上传新头像
+  label_irm_person_avatar_crop: 裁剪头像
+  label_irm_person_avatar_edit: 编辑头像
+  label_irm_person_avatar_current: 当前头像
+  label_irm_person_avatar_best_size: 最佳大小为100px * 100px
+  label_irm_person_approve_info: 审批信息
+  label_irm_person_delegate_approver: 代理审批人
+  label_irm_person_approve_request_mail: 审批邮件通知
+  label_irm_person_delegate_manager: 主管
+  label_action_select_roles: 选择角色
+  label_action_add_roles: 选择角色
+  label_irm_person_add_to_support_group: 加入组
+  label_irm_person_template_flag: 模板用户
+  label_irm_person_profile: 简档
+  label_irm_person_role: 角色
+  label_irm_person_access_system: 可访问系统
+  label_irm_person_add_to_company: 加入公司
+  label_irm_person_add_to_system: 加入应用系统
+  label_irm_person_password_info: 设置密码
+  label_irm_person_save_and_add_system: 保存后添加可访问应用系统
+  label_irm_person_save_and_add_group: 保存后添加用户组
+  error_irm_person_new_old_password_same: 新密码不能和旧密码相同
+  label_irm_person_reset_password: 重置密码
+  #=========================end irm people_controller=======================#
+  #=========================irm id_flexes_controller=======================#
+  label_irm_id_flex: 弹性域
+  label_irm_id_flex_list: 弹性域列表
+  label_irm_id_flex_new: 创建弹性域
+  label_irm_id_flex_edit: 编辑弹性域
+  label_irm_id_flex_code: 弹性域编码
+  label_irm_id_flex_name: 名称
+  label_irm_id_flex_name_full: 弹性域名称
+  label_irm_id_flex_description: 描述
+  #=========================end id_flexes_controller=======================#
+  #=========================irm id_flex_structures_controller=======================#
+  label_irm_id_flex_structure: 弹性域构造
+  label_irm_id_flex_structure_list: 弹性域构造列表
+  label_irm_id_flex_structure_new: 创建弹性域构造
+  label_irm_id_flex_structure_edit: 编辑弹性域构造
+  label_irm_id_flex_structure_name: 名称
+  label_irm_id_flex_structure_name_full: 弹性域构造名称
+  label_irm_id_flex_structure_code: 构造编码
+  label_irm_id_flex_structure_description: 描述
+  label_irm_id_flex_structure_concatenated_segment_delimiter: 分隔符
+  label_irm_id_flex_structure_id_flex_structure_name: 名称
+  label_flex_choice: 选择弹性域
+
+  label_irm_add_id_flex_segments: 管理弹性域段
+  label_irm_id_flex_segment: 弹性域段
+  label_irm_id_flex_segment_edit: 编辑弹性域段
+  label_irm_id_flex_segment_new: 创建弹性域段
+  label_irm_id_flex_segment_list: 弹性域段列表
+  label_irm_id_flex_segment_name: 段编码
+  label_irm_id_flex_segment_segment_num: 显示顺序
+  label_irm_id_flex_segment_description: 描述
+  label_irm_id_flex_segment_form_left_prompt: 段名称
+  #=========================end id_flex_structures_controller=======================#
+  #=========================    irm people_controller=======================#
+  label_irm_company_access_new: 新建公司访问
+  label_irm_company_access_info: 公司访问信息
+  #=========================end irm people_controller=======================#
+  #=========================    irm support_group_controller=======================#
+  label_irm_group_member_new: 新增支持组成员
+  label_irm_group_member_group_list: 支持组成员列表
+  label_irm_group_member_info: 支持组成员
+  label_irm_select_result: 搜索结果
+  label_irm_group_member_select_group: 请选择用户所属支持组
+  #=========================end irm  support_group_controller=======================#
+  #=========================    irm filters_controller=======================#
+  label_irm_filter: 视图过滤器
+  label_irm_new_view_filter: 创建新视图
+  label_irm_view_filter_new: 新建视图
+  label_irm_view_filter_edit: 编辑视图
+  label_irm_view_filter_base_info: 步骤 1。输入视图名称
+  label_irm_view_filter_data_range: 步骤 2。指定数据范围
+  label_irm_view_filter_criterion: 步骤 3。指定过滤条件
+  label_irm_view_filter_access_control: 步骤 4。限制可视性
+  label_irm_view_filter_data_range_all: 全部
+  label_irm_view_filter_data_range_main: 我的
+  label_irm_view_filter_view_name: 视图名称
+  label_irm_view_filter_view_code: 视图唯一名称
+  label_irm_view_filter_view_condition_clause: 高级筛选器条件
+  label_irm_view_filter_default_flag: 默认选项
+  label_irm_view_filter_restrict_visibility: 只有我可见
+  irm_filter_criterions_column_code: 字段
+  irm_filter_criterions_operator_code: 运算符
+  irm_filter_criterions_filter_value: 值
+  view_filter_use_invalid_seq_num: 行号错误
+  view_filter_use_invalid_key_word: 关键字错误
+  view_filter_use_invalid_syntax: 语法错误
+  irm_view_filter: 视图
+  label_irm_view_filter_restrict_visibility_for_me: 仅对我可见
+  label_irm_view_filter_restrict_visibility_for_all: 所有用户皆可见
+  #=========================end irm filters_controller=======================#
+  #========================= irm roles ===================================
+  label_irm_role_list: 角色列表
+  label_irm_role: 角色
+  label_irm_role_explosion: 角色及下属角色
+  label_irm_role_new: 创建角色
+  label_irm_role_edit: 编辑角色
+  label_irm_role_code: 角色编码
+  label_irm_role_name: 角色名称
+  label_irm_role_description: 角色描述
+  label_irm_role_menu: 菜单
+  label_irm_role_type: 角色类型
+  label_irm_role_report_group_code: 报表组
+  label_irm_function_list: 功能列表
+  label_irm_role_hidden_flag: 隐藏
+  label_irm_role_menu_code: 菜单
+  label_irm_role_service_role_type: 角色类型
+  label_irm_role_report_to_role: 上级角色
+  label_irm_role_people_list: 当前角色下的人员
+  label_irm_role_edit_assignment: 分配人员
+  label_irm_role_mode_list: 以列表视图显示
+  label_irm_role_mode_tree: 以树状视图显示
+  label_irm_role_structure: 组织角色层次结构
+  #=========================end irm roles ===================================
+  #========================= irm reports ===================================
+  label_irm_report_step_report_type: 报表类型
+  label_irm_report_step_base_info: 基础信息
+  label_irm_report_step_column: 报表列
+  label_irm_report_step_group: 数据分组
+  label_irm_report_step_data_filter: 数据过滤
+  label_irm_report_list: 报表列表
+  label_irm_report: 报表
+  label_irm_report_code: 报表编码
+  label_irm_report_program: 报表程序
+  label_irm_report_name: 报表名称
+  label_irm_report_category_code: 报表类别
+  label_irm_report_status_code: 状态
+  label_irm_report_new: 新建报表
+  label_irm_report_description: 描述
+  label_irm_report_edit: 编辑报表
+  label_irm_report_choose_report_type: 选择报表类型
+  label_irm_report_choose_display_column: 选择报表列
+  label_irm_report_filter_company: 公司
+  label_irm_report_time_range: 时间范围
+  label_irm_report_filter_date_field: 时间字段
+  label_irm_report_filter_date_from: 从
+  label_irm_report_filter_date_to: 至
+  label_irm_report_base_data_filter: 基本过滤
+  label_irm_report_data_filter: 数据过滤器
+  label_irm_report_detail_display_flag: 显示详细信息
+  label_irm_report_run: 运行报表
+  label_irm_report_report_type: 报表类型
+  label_irm_report_record_count: 记录数
+  label_irm_report_records: 条记录
+  label_irm_report_report_folder: 报表文件夹
+  label_irm_report_create_new: 创建新的自定义报表
+  label_irm_report_custom: 自定义
+  label_irm_report_run_immediate: 立即执行
+  label_irm_report_run_schedule: 建立执行计划
+  label_irm_report_choose_report_category: 选择报表类别
+  label_action_edit_custom: 自定义
+  label_action_run: 运行
+  label_irm_report_new_custom: 新建自定义报表
+  label_irm_report_new_program: 新建编程报表
+  label_irm_report_edit_program: 编辑编程报表
+  label_irm_report_apply_params: 应用报表参数
+  label_irm_report_chart_type: 图表类型
+  label_irm_report_record_count: 记录数
+  label_irm_report_params_config: 报表参数设置
+  label_irm_report_params_default_value: 参数默认值
+  label_irm_report_auto_run_flag: 自动运行
+  #========================= end irm reports ===================================
+  #========================= irm report column ===================================
+  label_irm_report_setup_group_column_header: 设置数据列 分组
+  label_irm_report_setup_group_row_header: 设置数据行 分组
+  label_irm_report_group_column_field: 分组列
+  label_irm_report_group_column_sort_type: 排序
+  label_irm_report_group_column_group_date_type: 日期分组方式
+  #========================= end irm report column ===================================
+  #========================= irm report request histories ===================================
+  label_irm_report_request_history: 报表运行历史
+  label_irm_report_request_history_list: 报表运行历史列表
+  label_irm_report_request_history_report: 报表
+  label_irm_report_request_history_executed_by: 报表运行用户
+  label_irm_report_request_history_start_at: 开始时间
+  label_irm_report_request_history_end_at: 结束时间
+  label_irm_report_request_history_execute_type: 运行方式
+  label_irm_report_request_history_elapse: 耗时
+  #========================= end report request histories ===================================
+  #=========================start irm  report_lists_controllers=====================#
+  label_icm_incident_report_all: 事故单模块报表汇总
+  label_csi_survey_report_all: 问卷调查报表
+  label_please_input_search: 输入用来查找匹配自定义报表的关键字
+  #=========================end irm  report_lists_controllers=======================#
+  #=========================start irm  common_reports_controllers=====================#
+  label_irm_person_login_day: 日期
+  label_irm_report_count: 计数
+  #=========================end irm  common_reports_controllers=======================#
+  #=========================start irm  multilingual=====================#
+  label_multilingual_fields: 多语言
+  label_multilingual_edit_files: 编辑多语言字段
+  #=========================end irm  multilingual=====================#
+  #=========================start irm  multilingual=====================#
+  label_company_access_menu_label: 公司
+  #=========================end irm  multilingual=====================#
+  #======================== bulletin controller ======================
+  label_irm_bulletin: 公告
+  label_irm_bulletin_new: 创建公告
+  label_irm_bulletin_edit: 编辑公告
+  label_irm_bulletin_list: 公告列表
+  label_irm_bulletin_title: 标题
+  label_irm_bulletin_content: 内容
+  label_irm_bulletin_sticky_flag: 置顶
+  label_irm_bulletin_highlight_flag: 高亮
+  label_irm_bulletin_page_views: 浏览量
+  label_irm_bulletin_published_date: 发布时间
+  label_irm_bulletin_access: 访问控制
+  label_irm_bulletin_access_list: 可访问对象列表
+  label_irm_bulletin_access_type: 控制类型
+  label_irm_bulletin_add_access_line: 增加控制规则
+  label_irm_bulletin_add_to_access_rule: 添加到可访问列表
+  label_irm_bulletin_access_availabel_companies: 公司, 组织和部门
+  label_irm_bulletin_access_availabel_departments: 部门
+  label_irm_bulletin_access_availabel_roles: 角色
+  label_irm_bulletin_selected_companies: 公司
+  label_irm_bulletin_selected_departments: 部门
+  label_irm_bulletin_selected_roles: 角色
+  label_irm_bulletin_selected_organizations: 组织
+  label_irm_bulletin_if_access_list_none: 如果没有限制可访问对象，则该公告对所有用户可见
+  label_irm_bulletin_attachment: 公告附件
+  error_irm_bulletin_content_can_not_blank: 公告内容不能为空
+  #======================== end bulletin controller ======================
+  #======================== bu_column controller ======================
+  label_irm_bu_column: 公告栏目
+  label_irm_bu_column_code: 栏目编码
+  label_irm_bu_column_list: 栏目列表
+  label_irm_bu_column_new: 创建栏目
+  label_irm_bu_column_edit: 编辑栏目
+  label_irm_bu_column_parent: 父栏目
+  label_irm_bu_column_new_child: 创建子栏目
+  label_irm_bu_column_choice: 选择栏目
+  #======================== end bu_column controller ======================
+  #======================== watcher ======================
+  label_irm_watcher: 跟踪者
+  label_irm_watcher_new: 添加跟踪者
+  label_irm_watcher_list: 跟踪者列表
+  #======================== end watcher ======================
+  #======================== calendar events====================
+  label_action_calendar_view: 工作日历
+  label_irm_todo_event: 事件
+  label_irm_todo_event_new: 创建事件
+  label_irm_todo_event_edit: 编辑事件
+  label_irm_todo_event_start_at: 开始日期
+  label_irm_todo_event_end_at: 结束日期
+  label_irm_todo_event_color: 显示颜色
+  label_irm_todo_event_name: 事件名称
+  label_irm_wf_relation_object: 相关项
+  label_irm_todo_event_location: 地点
+  label_irm_todo_event_percent_complete: 完成度
+  label_irm_todo_event_recurrence: 周期
+  label_irm_todo_event_recurrence_new: 创建事件的重复序列
+  label_irm_todo_event_recurrence_frequency: 频率
+  label_irm_todo_event_recurrence_every_weekday: 每个工作日
+  label_irm_todo_event_recurrence_every: 每
+  label_irm_todo_event_recurrence_day: 天
+  label_irm_todo_event_recurrence_daily: 每天
+  label_irm_todo_event_recurrence_weekly: 每周
+  label_irm_todo_event_recurrence_monthly: 每月
+  label_irm_todo_event_recurrence_yearly: 每年
+  label_irm_todo_event_recurrence_every_week: 每 %{m} 个星期重复
+  label_irm_todo_event_recurrence_day_of_every_month: 在每 %{m} 个月的第 %{n} 天
+  label_irm_todo_event_recurrence_weekday_of_every_month: 在每 %{m} 个月的第 %{n}
+  label_irm_todo_event_assigned_to: 分配给
+  label_irm_todo_event_recurrence_edit: 编辑重复序列
+  label_irm_todo_event_priority: 优先级
+  label_irm_todo_event_event_status: 事件状态
+  label_irm_todo_event_mail: 电子邮件
+  label_irm_todo_event_phone: 联系电话
+  label_action_edit_recurrence: 编辑重复序列
+  label_action_my_events_index: 我的事件
+  recurrence_occurs: Occurs
+  recurrence_byday: on day %{m}
+  recurrence_byday_week: on %{m}
+  recurrence_until: until %{m}
+  recurrence_daily: day(s)
+  recurrence_weekly: week(s)
+  recurrence_monthly: month(s)
+  recurrence_interval: every %{m}
+  label_irm_calendar_view: 日历视图
+  label_irm_todo_event_list_view: 事件列表视图
+  #======================== end calendar tasks====================
+  #======================== business objects====================
+  label_business_object_list: 业务对象
+  label_irm_business_object_business_object_code: 编码
+  label_irm_business_object_name: 名称
+  label_irm_business_object_name_full: 业务对象名称
+  label_irm_business_object_bo_table_name: 表名
+  label_irm_business_object_bo_model_name: Model名称
+  label_irm_business_object_auto_generate_flag: 自动生成
+  label_irm_business_object_multilingual_flag: 多语言
+  label_irm_business_object_new: 新建业务对象
+  label_irm_business_object_edit: 编辑业务对象
+  label_irm_business_object_description: 描述
+  label_irm_business_object_description_full: 业务对象描述
+  label_irm_business_object_workflow_flag: 启用工作流
+  label_irm_business_object_report_flag: 启用报表
+  label_irm_business_object_standard_flag: 内置业务对像
+  label_irm_business_object_function: 启用功能
+  label_irm_business_object_api: API信息
+  label_irm_object_attribute_new_table_column: 新建数据库属性
+  label_irm_object_attribute_new_model_attribute: 新建model属性
+  label_irm_business_object_data_access_flag: 访问权限控制
+  #======================== business objects====================
+  #======================== object attributes====================
+  label_irm_object_attributes: 属性
+  label_irm_object_attribute_name: 名称
+  label_irm_object_attribute_attribute_name: 属性名
+  label_irm_object_attribute_attribute_type: 属性类型
+  label_irm_object_attribute_category: 属性类别
+  label_irm_object_attribute_field_type: 字段类型
+  label_irm_object_attribute_approval_page_field_flag: 审批
+  label_irm_object_attribute_filter_flag: 过滤
+  label_irm_object_attribute_relation_bo_code: 关联BO
+  label_irm_object_attribute_relation_column: 关联列
+  label_irm_object_attribute_relation_table_alias_name: 关联表别名
+  label_irm_object_attribute_new: 新建对象属性
+  label_irm_object_attribute_choose_attribute_type: 选择对象属性类型
+  label_irm_object_attribute_exists_relation_flag: 使用该BO已有关联
+  label_irm_object_attribute_relation_type: 关联类型
+  label_irm_object_attribute_lov_code: LOV
+  label_irm_object_attribute_where_clause: 关联条件
+  label_irm_object_attribute_fill_attribute_info: 属性信息
+  label_irm_object_attribute_database_info: 属性数据库信息
+  label_irm_object_attribute_data_type: 数据类型
+  label_irm_object_attribute_data_length: 数据长度
+  label_irm_object_attribute_data_null_flag: 可为空
+  label_irm_object_attribute_data_key_type: 键类型
+  label_irm_object_attribute_data_default_value: 默认值
+  label_irm_object_attribute_data_extra_info: 额外信息
+  label_irm_object_attribute_edit: 编辑BO属性
+  label_irm_object_attribute_description: 描述
+  label_irm_object_attributes_test_information: 测试信息
+  label_irm_object_attribute_invalid_exists_relation_table: 请填写已经存在的表别名
+  label_irm_object_attribute_invalid_model_attribute: 业务对象中无该属性
+  label_irm_object_attribute_person_flag: 人员属性
+  label_irm_object_attribute_update_flag: 可更新
+  label_irm_object_attribute_change_type_link: 类型
+  label_irm_object_attribute_change_type: 更改属性类型
+  label_irm_object_standard_attributes: 标准字段
+  label_irm_object_custom_attributes: 自定义字段
+  label_irm_object_attribute_label_flag: 名称字段
+  label_irm_object_attribute_required_flag: 必输字段
+  label_irm_business_object_relation: 关联的业务对像信息
+  label_irm_object_attribute_relation_bo: 关联业务对像
+  label_irm_object_attribute_relation_object_attribute: 关联属性
+  label_irm_object_attribute_relation_type: 关联类型
+  label_irm_object_attribute_function: 属性可用功能
+  label_irm_object_attribute_approve_flag: 在审批页面显示
+  label_irm_object_attribute_attribute_name_format: 只能输入小写字母,下划线,数字,且必须以字母开头
+  label_irm_object_attribute_invalid_table_attribute: 数据库表中没有该字段
+  #======================== object attributes====================
+  #======================== list of values====================
+  label_irm_list_of_value_list: 值列表
+  label_irm_list_of_value_lov_code: 编码
+  label_irm_list_of_value_name: 名称
+  label_irm_list_of_value_description: 描述
+  label_irm_list_of_value_bo_code: 业务对象
+  label_irm_list_of_value_id_column: ID列
+  label_irm_list_of_value_value_column: 值列
+  label_irm_list_of_value_value_title: 值标题
+  label_irm_list_of_value_desc_column: 描述列
+  label_irm_list_of_value_desc_title: 描述标题
+  label_irm_list_of_value_listable_flag: 下拉列表
+  label_irm_list_of_value_value_column_width: 值列宽
+  label_irm_list_of_value_desc_column_width: 描述列宽
+  label_irm_list_of_value_addition_column: 附加列
+  label_irm_list_of_value_addition_title: 附加列标题
+  label_irm_list_of_value_addition_column_width: 附加列宽
+  label_irm_list_of_value_where_clause: 条件
+  label_irm_list_of_value_query_clause: 查询参数条件
+  label_irm_list_of_value_addition_clause: 其他查询条件
+  label_irm_list_of_value_new: 新建值列表
+  label_irm_list_of_value_edit: 编辑值列表
+  label_irm_list_of_value_test_information: 值列表测试结果
+  #======================== end list of values====================
+  #======================== wf settings====================
+  label_irm_wf_setting_new: 工作流设置
+  label_irm_wf_setting_default_workflow_person: 工作流默认审批人
+  label_irm_wf_setting_email_approval_flag:  启用电子邮件审批
+  #======================== end wf settings====================
+  #======================== wf rules====================
+  label_rule_filter_clause_and: 和
+  label_rule_filter_clause_or: 或
+  label_irm_wf_rule_list: 工作流规则
+  label_irm_wf_rule_new: 新建工作流规则
+  label_irm_wf_rule_edit: 编辑工作流规则
+  label_irm_wf_rule_bo_code: 业务对象
+  label_irm_wf_rule_name: 名称
+  label_irm_wf_rule_rule_code: 编码
+  label_irm_wf_rule_evaluate_criteria_rule: 评估规则
+  label_irm_wf_rule_evaluate_rule_mode: 评估方式
+  label_irm_wf_rule_status_code: 状态
+  label_irm_wf_rule_evaluation_criteria: 评估规则
+  label_irm_wf_rule_filter: 评估过滤规则
+  label_irm_wf_rule_select_bo: 选择工作流规则业务对象
+  label_irm_wf_rule_config: 设置工作流规则
+  label_irm_wf_rule_description: 描述
+  label_irm_wf_rule_active: 启用
+  label_irm_wf_rule_actions: 工作流操作
+  label_irm_wf_rule_add_actions: 添加工作流操作
+  label_irm_wf_rule_immediate_actions: 立即执行的操作
+  label_irm_wf_rule_time_dependent_actions: 信赖于时间的操作
+  label_irm_wf_rule_action_type: 类型
+  label_irm_wf_rule_action_description: 描述
+  label_irm_wf_rule_add_time_trigger: 添加时间触发器
+  label_action_add_exists_action: 选择现有的操作
+  #========================end wf rules====================
+  #======================== wf_rule_time_triggers====================
+  label_irm_wf_rule_time_trigger_new: 新建时间触发器
+  label_irm_wf_rule_time_trigger_edit: 编辑时间触发器
+  label_irm_wf_rule_time_trigger_rule: 工作流规则
+  label_irm_wf_rule_trigger_datetime: 规则触发时间
+  #========================end wf_rule_time_triggers====================
+
+  #======================== calendar tasks====================
+  label_irm_todo_task: 任务
+  label_irm_todo_task_new: 创建任务
+  label_irm_todo_task_edit: 编辑任务
+  label_irm_todo_task_created_at: 创建日期
+  label_irm_todo_task_start_at: 开始日期
+  label_irm_todo_task_end_at: 结束日期
+  label_irm_todo_task_due_date: 到期日期
+  label_irm_todo_task_color: 显示颜色
+  label_irm_todo_task_name: 任务名称
+  label_irm_todo_task_location: 地点
+  label_irm_todo_task_percent_complete: 完成度
+  label_irm_todo_task_recurrence: 周期
+  label_irm_todo_task_recurrence_new: 创建任务的重复序列
+  label_irm_todo_task_recurrence_frequency: 频率
+  label_irm_todo_task_recurrence_every_weekday: 每个工作日
+  label_irm_todo_task_recurrence_every: 每
+  label_irm_todo_task_recurrence_day: 天
+  label_irm_todo_task_recurrence_daily: 每天
+  label_irm_todo_task_recurrence_weekly: 每周
+  label_irm_todo_task_recurrence_monthly: 每月
+  label_irm_todo_task_recurrence_yearly: 每年
+  label_irm_todo_task_recurrence_every_week: 每 %{m} 个星期重复
+  label_irm_todo_task_recurrence_day_of_every_month: 在每 %{m} 个月的第 %{n} 天
+  label_irm_todo_task_recurrence_weekday_of_every_month: 在每 %{m} 个月的第 %{n}
+  label_irm_todo_task_assigned_to: 分配给
+  label_irm_todo_task_recurrence_edit: 编辑重复序列
+  label_irm_todo_task_priority: 优先级
+  label_irm_todo_task_task_status: 任务状态
+  label_irm_todo_task_mail: 电子邮件
+  label_irm_todo_task_phone: 联系电话
+  label_action_my_tasks_index: 我的任务
+  label_irm_todo_task_display_opts_open: 所有打开
+  label_irm_todo_task_display_opts_today: 今天
+  label_irm_todo_task_display_opts_over_due: 逾期
+  label_irm_todo_task_display_opts_next_7_days: 未来7天内
+  label_action_portlet: 待办事项
+
+  #======================== end calendar tasks====================
+  #======================== wf actions====================
+  label_irm_wf_action_rules: 使用此操作的工作流规则
+  label_irm_wf_action_processes: 使用此操作的审批流程
+  label_irm_wf_action_name: 操作名称
+  label_irm_wf_action_type: 操作类型
+  #======================== end wf actions====================
+  #======================== wf field updates====================
+  label_irm_wf_field_update: 字段更新
+  label_irm_wf_field_update_list: 字段更新列表
+  label_irm_wf_field_update_bo_code: 业务对象
+  label_irm_wf_field_update_name: 名称
+  label_irm_wf_field_update_field_update_code: 编码
+  label_irm_wf_field_update_description: 描述
+  label_irm_wf_field_update_object_attribute: 更新字段
+  label_irm_wf_field_update_value_type: 值类型
+  label_irm_wf_field_update_value: 值
+  label_irm_wf_field_update_new: 新建字段更新
+  label_irm_wf_field_update_edit: 编辑字段更新
+  label_irm_wf_field_update_set_value: 指定新字段值
+  label_irm_wf_field_update_value_type_null_value: 空值(null)
+  label_irm_wf_field_update_value_type_formula_value: 使用公式设置新值
+  label_irm_wf_field_update_value_type_options_value: 从列中选择新值
+  label_irm_wf_field_update_object_attribute_type_int: 数字类型
+  label_irm_wf_field_update_object_attribute_type_varchar: 文本类型
+  label_irm_wf_field_update_object_attribute_type_datetime: 日期类型
+  label_irm_insert_selected_formula_function: 插入选中函数
+  check_syntax: 检查语法
+  label_irm_formula_function_syntax_miss_parameter: 请在公式输入框中写入公式
+  label_irm_formula_function_syntax_return_value: 语法正确，返回值为
+  #======================== end wf field updates====================
+  #======================== wf mail alert====================
+  label_irm_wf_mail_alert: 邮件警告
+  label_irm_wf_mail_alert_list: 邮件警告列表
+  label_irm_wf_mail_alert_bo_code: 业务对象
+  label_irm_wf_mail_alert_name: 名称
+  label_irm_wf_mail_alert_mail_alert_code: 编码
+  label_irm_wf_mail_alert_description: 描述
+  label_irm_wf_mail_alert_mail_template_code: 通知模板
+  label_irm_wf_mail_recipients: 收件人
+  label_irm_wf_mail_recipient: 收件人
+  label_irm_wf_mail_alert_additional_email: 其他电子邮件
+  label_irm_wf_mail_alert_from_email: 发件人
+  label_irm_wf_mail_alert_new: 新建邮件警告
+  label_irm_wf_mail_alert_edit: 编辑邮件警告
+  label_irm_wf_mail_alert_recipient_and_send: 收发人员
+  label_irm_wf_mail_default_recipient: 请选择收件人类型
+  label_irm_wf_mail_available_recipient: 可选收件人
+  label_irm_wf_mail_alert_selected_recipients: 已添加的收件人
+  label_irm_wf_mail_alert_recipient_notice: 请选收件人类型，并选择收件人，添加到收件人列表；注意：请不要重复添加！
+  #========================  end wf mail alert====================
+  #======================== wf approval process====================
+  label_irm_wf_approval_process_info: 审批流程信息
+  label_irm_wf_approval_process_name: 名称
+  label_irm_wf_approval_process_name_full: 审批流程名称
+  label_irm_wf_approval_process_process_order: 过程顺序
+  label_irm_wf_approval_process_process_code: 编码
+  label_irm_wf_approval_process_mail_template: 审批通知邮件模板
+  label_irm_wf_approval_process_allow_submitter_recal: 允许提交人调回批准请求
+  label_irm_wf_approval_process_description: 描述
+  label_irm_wf_approval_process_filter: 指定条目条件
+  label_irm_wf_approval_process_editable_and_next_approver: 指定批准人字段和记录可编辑性属性
+  label_irm_wf_approval_process_next_approver: 选择用于自动传送批准的字段
+  label_irm_wf_approval_process_next_approver_mode: 下一个批准人的自动确定方式
+  label_irm_wf_approval_process_record_editability: 记录可编辑性属性
+  label_irm_wf_approval_process_submit: 指定初始提交人
+  label_irm_wf_approval_process_init_submiter: 初始提交人
+  label_irm_wf_approval_process_submit_config: 提交设置
+  label_irm_wf_approval_process: 审批流程
+  label_irm_wf_approval_process_new: 创建新的审批流程
+  label_irm_wf_approval_process_manage: 管理审批流程
+  label_irm_wf_approval_process_active_list: 已启用的审批流程
+  label_irm_wf_approval_process_disable_list: 未启用的审批流程
+  label_irm_wf_approval_process_bo_code: 业务对象
+  label_irm_person: 人员
+  label_irm_role: 角色
+  label_related_person: 相关人员
+  label_irm_wf_approval_process_display_history_flag: 审批页面显示审批历史
+  label_irm_wf_approval_process_evaluate: 条件
+  label_irm_wf_approval_action_ap_submit_actions: 初始提交操作
+  label_irm_wf_approval_action_ap_final_approval_actions: 最终批准操作
+  label_irm_wf_approval_action_ap_final_reject_actions: 最终拒绝操作
+  label_irm_wf_approval_action_ap_recall_actions: 调回操作
+  label_irm_wf_approval_process_add_exists_action: 添加现有的
+  label_irm_wf_approval_add_actions: 添加新的
+  label_irm_wf_approval_action_ap_step_approval_actions: 批准操作
+  label_irm_wf_approval_action_ap_step_reject_actions: 拒绝操作
+  label_irm_wf_approval_process_reorder: 重新排序
+  label_irm_wf_approval_process_can_not_find_next_approver: 无法找到下一步骤审批人
+  label_irm_wf_approval_process_can_not_find_match_process: 无法找到适用的审批流程
+  label_irm_wf_approval_process_edit_layout: 编辑审批页面布局
+  label_irm_wf_approval_process_select_show_fields: 选择审批页面要显示的字段
+  #========================end  wf approval process====================
+  #======================== wf approval step====================
+  label_irm_wf_approval_step: 审批步骤
+  label_irm_wf_approval_step_new: 创建审批步骤
+  label_irm_wf_approval_step_process: 审批流程
+  label_irm_wf_approval_step_name: 名称
+  label_irm_wf_approval_step_name_full: 审批步骤名称
+  label_irm_wf_approval_step_step_code: 编码
+  label_irm_wf_approval_step_description: 描述
+  label_irm_wf_approval_step_step_number: 步骤编号
+  label_irm_wf_approval_step_filter_config: 指定步骤条件
+  label_irm_wf_approval_step_filter: 条件
+  label_irm_wf_approval_step_evaluate_mode_all: 所有记录都应进入此步骤。
+  label_irm_wf_approval_step_evaluate_mode_all_filter: 如果满足以下条件，则进入此步骤
+  label_irm_wf_approval_step_validate_step_number: 必须大于%{min}小于%{max}
+  label_irm_wf_approval_step_select_approver: 选择批准人
+  label_irm_wf_approval_ste_approver_type: 审批人类型
+  label_irm_wf_approval_step_approver: 审批人
+  label_irm_wf_approval_step_allow_delegation_approve: 允许代理审批
+  label_irm_wf_approval_step_approver_mode_by_approver: 允许提交人手动选择批准人
+  label_irm_wf_approval_step_approver_mode_process_default: 使用之前审批人的用户字段自动分配
+  label_irm_wf_approval_step_approver_mode_auto: 自动分配至批准人
+  label_irm_wf_approval_step_multiple_approver_mode: 当选择多个批准人时
+  label_irm_wf_approval_step_multiple_approver_mode_first_approved: 基于 首次 回复的批准或拒绝
+  label_irm_wf_approval_step_multiple_approver_mode_all_approved: 要求所有选定批准人的 一致 批准
+  label_irm_wf_approval_step_reject_behavior: 拒绝行为
+  label_irm_wf_approval_step_reject_behavior_step_reject: 只执行此步骤的拒绝操作并将批准请求发回到最近的批准人。（返回 1 步）
+  label_irm_wf_approval_step_reject_behavior_process_reject: 执行此步骤的所有拒绝操作和所有最终拒绝操作。（最终拒绝）
+  #======================== wf approval step====================
+  #======================== wf process instance====================
+  label_irm_process_instance_submit_error: 无法提交待审批
+  label_irm_step_instance_step: 审批步骤
+  label_irm_process_instance_process: 审批流程
+  label_irm_wf_process_instance_select_next_approver: 选择下一步审批人
+  label_irm_wf_process_instance_next_approver: 下一步审批人
+  label_irm_wf_step_instance_submit: 批准/拒绝批准请求
+  label_irm_wf_step_instance_comment: 注释
+  label_irm_wf_step_instance_approved: 批准
+  label_irm_wf_step_instance_reject: 拒绝
+  label_irm_wf_process_instance_next_created_at: 时间
+  label_irm_wf_step_instance_approval_status_code: 状态
+  label_irm_wf_step_instance_assign_approver: 分配审批人
+  label_irm_wf_step_instance_actual_approver: 实际审批人
+  label_irm_wf_process_instance_global_status: 总体状态
+  label_irm_wf_process_approval_history: 审批历史
+  label_irm_wf_step_instance_reassign: 转交
+  label_irm_wf_step_instance_approve_or_reject: 审批通过/拒绝
+  label_irm_wf_step_instance_reassing_approver: 转交审批人
+  label_irm_wf_process_instance_submit: 提交待审批
+  label_irm_wf_process_instance_recall: 回调审批
+  label_irm_wf_process_instance_bo_instance: 相关项
+  label_irm_wf_process_instance_bo_model_name: 类型
+  label_irm_wf_process_instance_submitter_name: 提交人
+  label_irm_wf_process_instance_submitted_at: 提交日期
+  label_irm_wf_process_instance_end_at: 结束日期
+  label_irm_wf_my_process_step_instance: 待审批项
+  label_action_submit: 提交审批
+  label_action_reassign: 转交
+  label_irm_wf_process_instance_comment: 备注
+  label_irm_wf_step_instance_allow_mail_approve: 你可以回复此邮件来完成审批，回复时第一行为APPROVED/REJECT,第二行为回复注释
+  label_irm_wf_step_instance_not_allow_mail_approve: 此次审批不接受邮件审批，请登录系统进行审批
+  #======================== end wf process instance====================
+
+  #======================== screen saver ===========================
+  label_screenshots: 从剪切板插入截图
+  label_add_another_screenshot: Add another screenshot
+  label_button_paste: 从剪切板获得图片
+  label_image: 屏幕截图
+  button_attach: 插入截图
+  button_cancel: 取消
+  error_close_msg: 关闭Applet错误, {0}
+  error_close_title: 错误
+  error_attach_msg: 错误, {0}
+  error_attach_title: 上传错误
+  #======================= delayed_jobs step ====================
+  label_irm_delayed_job_info: Delayed Job运行信息
+  label_irm_delayed_jobs_record: Delayed jobs日志记录
+  label_irm_delayed_jobs_record_priority: 优先级
+  label_irm_delayed_jobs_record_handler: 处理程序
+  label_irm_delayed_jobs_record_run_at: 开始执行时间
+  label_irm_delayed_jobs_record_end_at: 执行结束时间
+  label_irm_delayed_jobs_record_status: 执行状态
+  label_irm_delayed_jobs_record_item: 执行记录
+  label_irm_delayed_jobs_record_item_content: 日志信息
+  label_irm_delayed_jobs_record_item_attempt: 尝试次数
+  label_irm_delayed_jobs_record_item_record_at: 记录时间
+
+
+  label_irm_delayed_job_icm_group_assign_monitor: 事故单组指派作业
+  label_irm_delayed_job_ir_rule_process_monitor: 事故单工作流作业
+  label_irm_delayed_job_wf_approval_mail_monitor: 审批邮件发送作业
+  label_action_item_list: 详细记录
+
+  label_irm_monitor_ir_rule_process: 事故单工作流规则作业
+  label_irm_delayed_job: Delayed Job
+  label_irm_monitor_approval_mail: Approval Mail Job
+  label_irm_monitor_icm_group_assign: IR Group Assignment Job
+  #======================= end delayed_jobs step ====================
+  #======================= report_type_category  ====================
+  label_irm_report_type_category_list: 报表类别列表
+  label_irm_report_type_category: 报表类别
+  label_irm_report_type_category_code: 编码
+  label_irm_report_type_category_name: 名称
+  label_irm_report_type_category_description: 描述
+  label_irm_report_type_category_new: 新建邮件警告
+  label_irm_report_type_category_edit: 编辑邮件警告
+  #======================= end report_type_category  ====================
+  #======================= report_type  ====================
+  label_irm_report_type: 报表类型
+  label_irm_report_type_list: 报表类型列表
+  label_irm_report_type_new: 新建报表类型
+  label_irm_report_type_edit: 编辑报表类型
+  label_irm_report_type_define: 定义报表类型
+  label_irm_report_type_business_object_select: 选择主业务对象
+  label_irm_report_type_business_object: 主业务对象
+  label_irm_report_type_code: 编码
+  label_irm_report_type_name: 名称
+  label_irm_report_type_description: 描述
+  label_irm_report_type_category: 类别
+  label_irm_report_type_define_record_sets: 定义报表记录集
+  label_irm_report_type_object_relationship: 对象关系
+  label_irm_report_type_click_to_relate_to_other_bo: (点击以相关另一个对象）
+  label_irm_report_type_relate_to: %{master}到 %{detail} 关系
+  label_irm_report_type_relate_inner: 每个 %{master} 记录必须至少有一个相关 %{detail} 记录.
+  label_irm_report_type_relate_outer: %{master} 记录可能有或没有相关 %{detail} 记录.
+  label_irm_report_type_relate_no_detail: 选择的对象没有可以进一步关联的对象。
+  label_irm_report_type_relate_limit: 您最多可以将四个对象关联到自定义报表类型
+  label_irm_report_type_object_relationship_inner: 具有至少一个相关记录
+  label_irm_report_type_object_relationship_outer: 具有或没有相关记录
+  label_irm_report_type_usable_fields: 报表可用字段
+  label_irm_report_type_edit_section_layout: 编辑布局
+  label_irm_report_type_usable_field_source: 字段来源
+  label_irm_report_type_usable_count: 选取的字段
+  label_action_edit_relation: 定义业务对象关系
+  #=======================end report_type  ====================
+  #======================= report_type section ====================
+  label_irm_report_type_define_field_and_section: 定义报表分区及字段
+  rename: 修改名称
+  label_irm_report_type_section_name: 名称
+  label_irm_report_type_field_default_selection_flag: 默认选择
+  label_irm_report_type_field_business_object: 业务对象
+  label_irm_report_type_field_selectable_attribute: 报表可用字段
+  label_irm_report_type_usable_field_and_section: 报表分区及字段 \
+  label_irm_report_type_section_delete_last: 至少保留一个报表分区
+  #=======================end report_type section ====================
+  #======================= kanbans ==================================
+  label_irm_kanban: 看板
+  label_irm_kanban_code: 看板编码
+  label_irm_kanban_refresh_interval: 刷新间隔(秒)
+  label_irm_kanban_owned_lane: 拥有的泳道
+  label_irm_kanban_range: 看板可用范围
+  label_irm_kanban_new: 新建看板
+  label_irm_kanban_edit: 编辑看板
+  label_irm_kanban_range_desc: 只有范围中的人员可以使用该看板
+  label_irm_kanban_add_lane: 添加泳道
+  label_action_select_lanes: 可选泳道
+  label_irm_kanban_name: 看板名称
+  label_irm_kanban_description: 看板描述
+  label_irm_kanban_position: 看板位置
+  #==================================================================
+  #======================= lanes ==================================
+  label_irm_lane: 泳道
+  label_irm_lane_code: 泳道编码
+  label_irm_lane_limit: 泳道上限
+  label_irm_font_color: 颜色
+  label_irm_lane_owned_cards: 拥有的卡片
+  label_irm_lane_new: 新建泳道
+  label_irm_lane_edit: 编辑泳道
+  label_irm_lane_add_card: 添加卡片
+  label_irm_lane_name: 泳道名称
+  label_irm_lane_description: 泳道描述
+  label_irm_lane_sequence: 显示顺序
+  #==================================================================
+  #======================= cards ==================================
+  label_irm_card: 卡片
+  label_irm_card_new: 新建卡片
+  label_irm_card_edit: 编辑卡片
+  label_irm_card_rule: 卡片规则
+  label_irm_card_rule_config: 卡片规则设置
+  label_irm_card_code: 卡片编码
+  label_irm_card_background_color: 背景颜色
+  label_irm_card_font_color: 字体颜色
+  label_irm_card_system_flag: 系统内置
+  label_irm_card_title_column: 标题列
+  label_irm_card_date_column: 日期列
+  label_irm_card_description_column: 描述列
+  label_irm_card_column_config: 显示设置
+  label_irm_card_rule_edit: 编辑卡片规则
+  label_action_edit_rule: 编辑卡片规则
+  label_action_select_cards: 可选的卡片
+  label_irm_card_available_color: 备选颜色
+  label_irm_card_url: 卡片链接
+  label_irm_card_name: 卡片名称
+  label_irm_card_description: 卡片描述
+  #==================================================================
+  #======================= report_folder ====================
+  label_irm_report_folder: 报表文件夹
+  label_irm_report_folder_all: 全部文件夹
+  label_irm_report_folder_new: 新建报表文件夹
+  label_irm_report_folder_edit: 编辑报表文件夹
+  label_irm_report_folder_create_new_folder: 创建报表文件夹
+  label_irm_report_folder_name: 名称
+  label_irm_report_folder_code: 编码
+  label_irm_report_folder_access_type: 非私有报表访问类型
+  label_irm_report_folder_member_type: 可访问成员类型
+  #=======================end report_folder ====================
+  #======================= report_trigger ====================
+  label_irm_report_trigger_new: 新建报表执行计划
+  label_irm_report_trigger_edit: 编辑报表执行计划
+  label_irm_report_trigger_person: 运行报表用户
+  label_irm_report_trigger_receiver_type: 报表邮件发送
+  label_irm_report_trigger_time_mode: 计划时间
+  label_irm_report_trigger_start_at: 开始日期
+  label_irm_report_trigger_end_at:  结束日期
+  label_irm_report_trigger_start_time:  执行时间
+  label_irm_report_trigger_delete: 取消执行计划
+  label_irm_report_trigger_receiver_type_only_self: 仅发送给我
+  label_irm_report_trigger_receiver_type_choose_staff: 发送给选定的人员
+  #=======================end report_trigger ====================
+  #======================= tab ====================
+  label_irm_tab_list: 页面标签列表
+  label_irm_tab: 页面标签
+  label_irm_tab_new: 新建页面标签
+  label_irm_tab_edit: 编辑页面标签
+  label_irm_tab_code: 编码
+  label_irm_tab_name: 名称
+  label_irm_tab_description: 描述
+  label_irm_tab_business_object: 业务对像
+  label_irm_tab_function_group: 功能组
+  label_irm_tab_style_image: 图标
+  label_irm_tab_style_image_no: 图标%{no}
+  #=======================end tab====================
+  #======================= tab ====================
+  label_irm_application_list: 应用列表
+  label_irm_application: 应用
+  label_irm_application_new: 新建应用
+  label_irm_application_edit: 编辑应用
+  label_irm_application_name: 名称
+  label_irm_application_description: 描述
+  label_irm_application_business_object: 业务对像
+  label_irm_application_function_group: 功能组
+  label_irm_application_tabs: 可用标签页
+  label_irm_application_default_tab: 默认标签页
+  label_irm_application_code: 编码
+  #=======================end tab====================
+  #======================= profiles ====================
+  label_irm_profile: 简档
+  label_irm_profile_list: 简档列表
+  label_irm_profile_new: 新建
+  label_irm_profile_edit: 编辑
+  label_irm_profile_code: 编码
+  label_irm_profile_name: 名称
+  label_irm_profile_description: 描述
+  label_irm_profile_user_license: 简档类型
+  label_irm_profile_function_list: 功能列表
+  label_irm_profile_application_list: 应用列表
+  label_irm_profile_application_visual: 可见
+  label_irm_profile_application_default: 默认
+  label_irm_profile_owned_kanban: 拥有的看板
+  label_irm_profile_select_kanban: 选择要添加的看板
+  label_irm_profile_kanban_position: 看板位置
+  label_irm_profile_add_kanban: 添加看板
+  label_irm_profile_edit_kanban: 编辑看板
+  label_irm_profile_manage_lane: 管理泳道
+  label_irm_profile_add_lane: 添加泳道
+  label_irm_profile_reorder_lane: 重新排序
+  label_irm_profile_ir_page_kanban: 事故单首页看板
+  label_irm_profile_select_copy_from: 选择一个已有的简档进行克隆
+  label_irm_profile_existing_profile: 已有的简档
+  #=======================end profiles ====================
+
+  #======================= password policies ====================
+  label_irm_psw_policy: 密码策略
+  label_irm_psw_policy_expire_in: 用户密码有效期
+  label_irm_psw_policy_enforce_history: 强制密码历史
+  label_irm_psw_policy_min_length: 最小密码长度
+  label_irm_psw_policy_complexity_requirement: 密码复杂性要求
+  label_irm_psw_policy_question_requirement: 密码提问要求
+  label_irm_psw_policy_max_attempts: 最大无效登陆尝试次数
+  label_irm_psw_policy_lockout_period: 锁定有效期间
+  label_irm_psw_policy_requirement: 密码要求
+  label_irm_psw_policy_expire: 密码已经过期
+  label_irm_psw_policy_last_upadated_at: 上一次修改密码时间
+  #======================= end password policies ====================
+  #======================= Operation Unit ====================
+  label_irm_operation_unit: 运维中心
+  label_irm_operation_unit_new: 新建运维中心
+  label_irm_operation_unit_edit: 运维中心设置
+  label_irm_operation_unit_name: 名称
+  label_irm_operation_unit_short_name: 简称
+  label_irm_operation_unit_default_language_code: 默认语言
+  label_irm_operation_unit_default_time_zone_code: 默认时区
+  label_irm_operation_unit_description: 描述
+  label_irm_operation_unit_license: 许可
+  label_irm_operation_unit_list: 运维中心列表
+  label_irm_operation_unit_admin: 管理员
+  #======================= end Operation Unit ====================
+
+
+
+  #=========================    irm external_systems_controller=======================#
+  label_irm_external_system_member: 应用系统成员
+  label_irm_external_system_list: 应用系统列表
+  label_irm_external_system_new:  新建应用系统
+  label_irm_external_system_edit: 编辑应用系统
+  label_irm_external_system_external_system_code: 系统编码
+  label_irm_external_system_system_name: 系统名称
+  label_irm_external_system_system_description: 描述
+  label_irm_external_system_external_hostname: 主机名
+  label_irm_external_system_external_ip_address: IP地址
+  label_irm_external_system_status_meaning: 记录状态
+  label_irm_external_system:  应用系统
+  label_irm_external_system_info: 应用系统信息
+  label_irm_external_system_select_system: 选择加入的应用系统
+  label_irm_external_system_people: 系统人员
+  label_irm_external_system_people_type: 类型
+  label_irm_external_system_add_people: 添加成员
+  error_irm_external_system_ip_invalid: IP地址无效
+  #=========================    end external_systems_controller=======================#
+  #=========================    license=======================#
+  label_irm_license: 许可
+  label_irm_license_list: 许可列表
+  label_irm_license_new: 新建许可
+  label_irm_license_edit: 编辑许可
+  label_irm_license_name: 名称
+  label_irm_license_code: 编码
+  label_irm_license_description: 描述
+  #=========================  end  license=======================#
+  #=========================    search layouts  =======================#
+  label_irm_search_layout: 搜索布局
+  label_irm_search_layout_new: 新建搜索布局
+  label_irm_search_layout_edit: 编辑搜索布局
+  label_irm_search_layout_code: 布局类型
+  label_irm_search_layout_columns: 布局显示列
+  #=========================  end search layouts  =======================#
+  #========================= rich text editor upload image window======================
+  label_irm_rich_editor_win_tab_from_clipboard: 从剪贴板上传图片
+  label_irm_rich_editor_win_tab_from_file: 从文件上传图片
+  label_irm_rich_editor_win_tab_select_file: 从本地选择要上传的图片
+  label_irm_rich_editor_win_tab_selected_file: 选择的图片
+  label_irm_rich_editor_win_tab_upload_image: 上传图片
+  #========================= end ======================
+
+  #========================= mail setting =========================
+  label_irm_mail_from_address: 来源邮箱地址
+  label_irm_mail_prefix: 邮件前缀
+  label_irm_mail_protocol: 协议
+  label_irm_mail_smtp_host_name: 发件服务器
+  label_irm_mail_imap_host_name: 收件服务器
+  label_irm_mail_smtp_port: SMTP端口
+  label_irm_mail_timeout: 超时
+  label_irm_mail_tls: TLS
+  label_irm_mail_username: 用户名
+  label_irm_mail_password: 密码
+  label_irm_mail_imap_port: POP/IMAP 端口
+  label_irm_mail_setting: 邮件服务器设置
+  label_irm_mail_edit_setting: 编辑邮件服务器设置
+  label_irm_mail_smtp_server: SMTP邮件服务器
+  label_irm_mail_imap_server: POP/IMAP邮件服务器
+  label_irm_mail_server: 邮件服务器
+
+  label_irm_mail_imap_protocol_choose: 从POP、IMAP中选择。
+  label_irm_mail_host_name_tip: 邮件服务器名。
+  label_irm_mail_imap_host_name_tip: POP/IMAP邮件服务器。
+  label_irm_mail_imap_port_tip: 用于从POP/IMAP账户取回邮件的端口。（默认：POP-100; IMAP-143）
+  label_irm_mail_timeout_tip: 超时时间（毫秒）。0表示从不超时。
+  label_irm_mail_imap_username_tip: 用于登陆POP/IMAP的用户名。
+  label_irm_mail_imap_password_tip: 用于登陆POP/IMAP的密码。
+
+  label_irm_mail_smtp_host_name_tip: SMTP邮件服务器。
+  label_irm_mail_smtp_from_address_tip: 系统会使用此邮箱地址发送邮件。
+  label_irm_mail_smtp_prefix_tip: 邮件的标题会使用它作为前缀。这将会方便您的用户对邮件进行过滤。
+  label_irm_mail_smtp_port_tip: SMTP使用的端口。（默认： SMTP-25）
+  label_irm_mail_smtp_username_tip: 用于登陆SMTP的用户名。
+  label_irm_mail_smtp_password_tip: 用于登陆SMTP的密码。
+  #========================= end ==================================
+
+  #=========================    irm protlet_config=======================#
+  label_irm_portlet_config: Portal配置
+  label_irm_portlet_config_list: 配置列表
+  label_irm_portlet_config_info: 配置信息
+  label_irm_portlet_config_portal_code: Portal编码
+  label_irm_portlet_config_person: 用户
+  label_irm_portlet_config_config: 配置
+  #=========================end irm protlet_config=======================#
+
+
+  #======================= Portlets ====================
+  label_irm_portlet: Portlet
+  label_irm_portlet_new: 新建 Portlet
+  label_irm_portlet_code: 编码
+  label_irm_portlet_controller: 页面Contrller
+  label_irm_portlet_action: 页面Action
+  label_irm_portlet_default_flag: 默认显示
+  portlet_default_flag_yes: 是
+  portlet_default_flag_no: 否
+  label_irm_portlet_list: Portlet 列表
+  label_irm_portlet_name: 名称
+  label_irm_portlet_description: 描述
+  label_irm_portlet_custom_home_page: 添加显示模块
+  label_irm_portlet_change_layout: 设置页面布局
+  lable_irm_portlet_cancle_button: 取消
+  label_irm_portlet_select_layout: 选择布局样式：
+  #======================= end Portlets====================
+
+  #======================= portal layouts ====================
+  label_irm_portal_layout: Portal布局
+  label_irm_portal_layout_list: Portal布局列表
+  label_irm_portal_layout_name: 布局名称
+  label_irm_portal_layout_description: 布局说明
+  label_irm_portal_layout_format: 布局版式
+  label_irm_portal_layout_format_error: 只能输入1个或多个数字（1或2），中间用逗号分割，如1,2,2
+  #=======================  portal layouts====================
+
+  #======================= session times ====================
+  label_irm_session_setting: 会话设置
+  label_irm_session_time_out: 会话超时
+  label_irm_session_time_out_value: 超时值
+  label_irm_session_warn: 由于安全原因，您的 Ironmine 会话即将超时。<br><br>您希望作何选择？
+  #=======================  portal layouts====================
+
+  #=========================    irm data accesses=======================#
+  label_irm_data_access: 访问权限
+  label_irm_data_access_list: 访问权限列表
+  label_irm_data_access_list_opu: 运维中心访问权限
+  label_irm_data_access_list_org: 组织访问权限
+  label_irm_data_access_new: 新建访问权限
+  label_irm_data_access_edit: 编辑访问权限
+  label_irm_data_access_business_object: 对象
+  label_irm_data_access_access_level: 默认访问权限
+  label_irm_data_access_all_business_object: 所有对象
+  label_irm_data_access_org_not_set: 未设置
+  label_irm_data_access_org_access_level: 组织层
+  label_irm_data_access_opu_access_level: 运维中心层
+  label_irm_data_access_org: 组织层访问权限
+  label_irm_data_access_hierarchy_access_flag: 使用组织层次访问权限
+  #=========================end irm data accesses=======================#
+
+  #=========================    irm data share rules=======================#
+  label_irm_data_share_rule: 共享规则
+  label_irm_data_share_rule_step1: 步骤一：规则名
+  label_irm_data_share_rule_step2: 步骤二：选择要共享的记录
+  label_irm_data_share_rule_step3: 步骤三：选择与其共享记录的用户
+  label_irm_data_share_rule_step4: 步骤四：选择用户的访问权限等级
+  label_irm_data_share_rule_belong_to: 由下列成员拥有
+  label_irm_data_share_rule_share_with: 与之共享
+
+  #=========================end irm data share rules=======================#
+
+  #=========================    irm organization_infos=======================#
+  label_irm_organization_info: 组织信息
+  label_irm_organization_info_list: 组织信息列表
+  label_irm_organization_info_new: 新建组织信息
+  label_irm_organization_info_name: 名称
+  label_irm_organization_info_value: 值
+  label_irm_organization_info_file: 附件
+  label_irm_organization_info_description: 描述
+  label_irm_edit_attachment: 修改
+  #=========================end organization_infos=======================#
+
+  #======================= Report incident request month summary ============
+  label_report_incident_request_last_month_unclose: 上月未解决数量
+  label_report_incident_request_this_month_submit: 本月接单数量
+  label_report_incident_request_this_month_close: 本月解决数量
+  label_report_incident_request_this_month_unclose: 本月未解决数量
+  label_report_date_month: 统计月份
+  #======================= Report incident request month summary end=========
+
+  #======================= Report incident request month processing time ============
+  label_report_submitted_date_and_priority: 报告日期/优先级
+  #================================================================================
+
+  #========================== end incident_amount_by_month_cate report  ===============================
+  label_report_icm_incident_params_is_report:  Hotline
+  label_report_icm_incident_params_is_report_yes: Report
+  label_report_icm_incident_params_is_report_no: Not Report
+
+
+  #========================== incident_amount_by_month_cate report  ===============================
+  label_report_icm_incident_category: 类别
+  label_report_icm_incident_total: 合计
+
+  #========================== end incident_amount_by_month_cate report  ===============================
+
+  #========================= incident_amount_by_month_status report ====================================
+  label_report_icm_incident_status: 状态
+  label_report_icm_incident_params_year: 年份
+  label_report_icm_incident_months: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月,合计
+  label_report_icm_incident_status_col_header: 状态,新增,已解决,未解决,合计
+  #========================== end incident_amount_by_month_status report  ===============================
+
+  #========================= incident_amount_by_month_cate report ====================================
+  label_report_icm_incident_category: 类别
+  label_report_icm_incident_months: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月,合计
+  label_report_icm_incident_total:  合计
+  label_report_icm_incident_params_year:  年份
+  label_report_icm_incident_params_ym_s:  月份从
+  label_report_icm_incident_params_ym_e:  月份至
+  label_report_icm_incident_params_month:  月份
+  label_report_icm_incident_report_date:  报告日期
+  label_report_icm_incident_prior:  优先级
+  #========================== end incident_amount_by_month_cate report  ===============================
+
+  #======================= Report incident request season detail ============
+  label_report_last_updated: 最后更新
+  label_report_processing_time: 处理所花费时间
+  label_report_continued_day: 持续天数
+  label_report_month: 月份
+  label_report_quarter: 季度
+  #================================================================================
+
+  #========================begin oauth_access_clients===================================
+  label_irm_oauth_access_client: 远程访问
+  label_irm_oauth_access_client_list: 远程访问列表
+  label_irm_oauth_access_client_site_image_url: 网站图标URL
+  label_irm_oauth_access_client_site_url: 网站URL
+  label_irm_oauth_access_client_callback_url: 回调URL
+  label_irm_oauth_access_client_token: 标记
+  label_irm_oauth_access_client_secret: 密码
+  label_irm_oauth_access_created: 创建日期
+  label_irm_oauth_access_updated: 上次访问日期
+  label_irm_oauth_access_num: 访问累计
+  label_irm_oauth_access_ip: 远程IP
+  label_irm_oauth_access_name: 应用名称
+  #========================end oauth_access_clients=====================================
+
+  #============================== oauth_authorize ======================================
+  label_irm_oauth_grant_access: 授权
+  label_irm_oauth_deny_access: 取消
+  label_irm_oauth_client_not_found: 没有找到相应的应用
+  label_irm_oauth_code_unavailable: 无效的 Code
+  label_irm_oauth_code_expired: 授权码过期了
+  label_irm_oauth_token_unavailable: 无效的 Token
+  label_irm_oauth_username_or_password_error: 用户名或密码错误
+  #============================== end oauth_authorize ===================================
+  #============================== rating config ======================================
+  label_irm_rating_config: 评分设置
+  label_irm_rating_config_grade: 评分选项
+  label_irm_rating_config_grade_grade: 分值
+  label_irm_rating_config_display_style: 显示风格
+  label_irm_rating_config_new: 新建评分设置
+  label_irm_rating_config_edit: 编辑评分配置
+  #============================== end rating config  ===================================
+  #============================== wiki ======================================
+  label_irm_wiki: Wiki
+  label_irm_wiki_name: 名称
+  label_irm_wiki_description: 描述
+  label_irm_wiki_content_format: 格式
+  label_irm_wiki_content: 内容
+  label_irm_wiki_new: 新建Wiki
+  label_irm_wiki_edit: 编辑Wiki
+  label_irm_wiki_history: 历史版本
+  label_irm_wiki_compare: 对比历史版本
+  label_irm_wiki_revert: 撤销修改
+  label_irm_wiki_revert_message:  撤销修改 %{from} 到 %{to} 之间的修改
+  label_irm_wiki_default_commit_message: 信息
+  label_irm_wiki_preview: 预览
+  #============================== end wiki  ===================================
+  #============================== start search page  ==============================
+  label_search_previous_page: 上一页
+  label_search_next_page: 下一页
+  label_search_attachment: 附件
+  label_before_forever: 所有时间内
+  label_before_one_day: 24 小时内
+  label_before_one_week: 1 周内
+  label_before_one_month: 1 月内
+  label_before_one_year: 1 年内
+  label_search_result_count: 共搜到 %{count} 个结果
+  label_search_options_setting: 搜索内容设置
+  label_search_options_time: 搜索时间设置
+  label_search_no_result_alert_1: 1、搜索关键词不能为空；
+  label_search_no_result_alert_2: 2、换一个关键词试试；
+  label_search_no_result_alert_3: 3、左侧栏对应内容是否有选中；
+  label_search_no_result_alert_4: 4、搜索结果可能不在你所指定的时间范围内。
+  #============================== end search page  ==============================

@@ -1,0 +1,14 @@
+<%=datatable_view({:count=>actions.count,:datas=>actions}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:edit),data[:edit_url_options]) %>
+        <% unless @wf_approval_process.enabled? %>
+            <%= link_to(t(:delete),data[:delete_url_options],{:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
+        <% else %>
+            <%= t(:delete) %>
+        <% end %>
+    <% end %>
+    <% builder.column(:action_type_name,{:title=>t(:label_irm_wf_rule_action_type)})%>
+    <% builder.column(:description,{:title=>t(:label_irm_wf_rule_action_description)}) do |data|%>
+        <%= link_to(data[:ref_action].name,data[:show_url_options]) %>
+    <% end %>
+<% end %>

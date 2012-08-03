@@ -1,0 +1,83 @@
+<%= detail_data_table(datas.length) do %>
+  <!--  irm datatable      -->
+  <div class="datatable">
+    <div>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <div><%= t(:label_chm_change_task_name) %></div>
+              </th>
+              <th>
+                <div><%= t(:label_chm_change_task_support_group) %></div>
+              </th>
+              <th>
+                <div><%= t(:label_chm_change_task_support_person) %></div>
+              </th>
+              <th>
+                <div><%= t(:label_chm_change_task_status) %></div>
+              </th>
+              <th>
+                <div><%= t(:label_chm_change_task_description) %></div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <%datas[0].each do |phase|  %>
+              <tr>
+                <td>
+                  <div><b><%= t(:label_chm_change_task_change_task_phase) %>:<%= phase[:name] %></b></div>
+                </td>
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                  </div>
+                </td>
+              </tr>
+              <% datas[1][phase.id].each do |data| %>
+                <tr id="<%=data[:id]%>">
+                  <td>
+                    <div>
+                      &nbsp;&nbsp;&nbsp;&nbsp;<%= data[:name] %>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <%= data[:support_group_name] %>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <%= data[:support_person_name] %>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <%= data[:status_name] %>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <%= data[:description] %>
+                    </div>
+                  </td>
+                </tr>
+              <% end -%>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  <!--  end irm datatable      -->
+<% end %>

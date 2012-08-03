@@ -50,9 +50,9 @@ module ApplicationHelper
 
     title =  content_tag(:h1, title, :class => "page-type")
 
-    content = raw(content_tag(:div, raw(title)+raw(image_icon)+raw(description), :class => "content"))
+    content = raw(content_tag(:div, raw(title)+raw(image_icon)+raw(description), :class => "page-title-content"))
 
-    pt_body = raw(content_tag(:div, content, :class => "pt-body"))
+    pt_body = raw(content_tag(:div, content, :class => "page-title-body"))
     b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     raw(b_page_title)
   end
@@ -69,12 +69,12 @@ module ApplicationHelper
     description = content_tag(:h2, title, :class => "page-description")
 
 
-    content = raw(content_tag(:div, raw( description), :class => "content"))
+    content = raw(content_tag(:div, raw( description), :class => "page-title-content"))
 
     content_for :html_title,do
       title
     end
-    pt_body = raw(content_tag(:div, content, :class => "pt-body"))
+    pt_body = raw(content_tag(:div, content, :class => "page-title-body"))
     b_page_title = raw(content_tag(:div, pt_body, :class => "page-title"))
     raw(b_page_title)
   end
@@ -88,15 +88,15 @@ module ApplicationHelper
       title = model_title+":"+action_title
     end
 
-    description = content_tag(:h1, title, :class => "page-type noSecondHeader")
+    description = content_tag(:h1, title, :class => "page-type no-second-header")
 
 
-    content = raw(content_tag(:div, raw( description) + raw(content_tag(:div, "", :class => "blank")), :class => "content"))
-    button_tag = raw(content_tag(:div, raw(buttons) ,:class => "addNewButtons"))
+    content = raw(content_tag(:div, raw( description) + raw(content_tag(:div, "", :class => "blank")), :class => "page-title-content"))
+    button_tag = raw(content_tag(:div, raw(buttons) ,:class => "add-new-buttons"))
     content_for :html_title,do
       title
     end
-    pt_body = raw(content_tag(:div, content + button_tag, :class => "pt-body"))
+    pt_body = raw(content_tag(:div, content + button_tag, :class => "page-title-body"))
     b_page_title = raw(content_tag(:div, pt_body, :class => "page-title noicon"))
     raw(b_page_title)
   end
@@ -121,7 +121,11 @@ module ApplicationHelper
   def app_show_title(options = {})
     common_title(:model_meaning=>options[:title],:action_meaning=>options[:description],:show_data=>options[:show_data])
   end  
-  
+
+
+  def form_require_info
+    raw "<span class='required-help-info'> = #{t(:label_is_required)}</span> "
+  end
   #显示form提交的出错信息
   def error_message_for(*args)
     lis=""
@@ -178,7 +182,7 @@ module ApplicationHelper
 
     select = options[:select]
     html = options[:html]||false
-    force_html = options[:force_html]||false
+    force_html = true #options[:force_html]||false
 
     if force_html||(html&&limit_device?&&!select.present?)
       return plain_datatable(id,url_options,columns,options)
@@ -187,7 +191,7 @@ module ApplicationHelper
       require_css(:extjs)
     end
 
-    source_url = url_for(url_options.merge(:format=>:json))
+    source_url = url_for(url_options.merge(:format=>:json,:back_url=>url_for({})))
     page_size = options[:row_perpage]||10
     search_box = options[:search_box]
     height = options[:height]||300
@@ -328,9 +332,11 @@ module ApplicationHelper
 
 
   def plain_datatable(id,url_options,columns,options={})
-    require_javascript(:jplugin)
 
-    source_url = url_for(url_options.merge(:format=>:html))
+    output = ActiveSupport::SafeBuffer.new
+    output.safe_concat "<div id='#{id}'></div>"
+
+    source_url = url_for(url_options.merge(:format=>:html,:back_url=>url_for({})))
 
     page_size = options[:row_perpage]||10
 
@@ -340,6 +346,7 @@ module ApplicationHelper
 
     #select 配置
     select_type = options[:select]
+
 
     column_models = ""
     columns.each do |c|
@@ -372,6 +379,7 @@ module ApplicationHelper
 
     if paginator_box
       table_options << ",paginatorBox:'#{paginator_box}'"
+      output.safe_concat "<div id='#{paginator_box}'></div>"
     end
     if export_box
       table_options << ",exportBox:'#{export_box}'"
@@ -385,13 +393,42 @@ module ApplicationHelper
       table_options << ",filterBox:'#{id}ViewFilterOverview'"
     end
 
+    if options[:scroll]
+      scroll_options = {}
+      scroll_mode = nil
+      if options[:scroll].is_a?(Hash)
+        scroll_mode = options[:scroll][:mode]
+        scroll_options = options[:scroll]
+      elsif options[:scroll].is_a?(String)
+        scroll_mode =  options[:scroll]
+        scroll_options = {:mode=>scroll_mode}
+      end
+
+      if scroll_mode.include?("x")
+        scroll_options[:scrollX] = true
+      end
+      if scroll_mode.include?("y")
+        scroll_options[:scrollY] = true
+        if  scroll_options[:height]
+          scroll_options[:staticY]=true
+        else
+          scroll_options[:height]=235
+        end
+
+      end
+
+      table_options << ",scrollOptions:#{scroll_options.to_json}"
+    end
+
     table_options = "{#{table_options}}"
 
 
     script = %Q(
         $(function(){$('##{id}').datatable(#{table_options})});
     )
-    javascript_tag(script)
+
+    output.safe_concat javascript_tag(script)
+    output
   end
 
 
@@ -485,14 +522,14 @@ module ApplicationHelper
 
   def error_for(object)
     if object && object.errors && object.errors.any?
-      content_tag("div", raw(t(:error_invalid_data) + "<br>" + t(:check_error_msg_and_fix)), {:id => "errorDiv_ep", :class => "pbError"})
+      content_tag("div", raw(t(:error_invalid_data) + "<br>" + t(:check_error_msg_and_fix)), {:id => "errorDiv_ep", :class => "alert alert-error"})
     end
   end
 
   def flash_notice
     ret = ""
-    ret = content_tag("div", raw(flash[:notice]), {:id => "succDiv_ep", :class => "pbError"}) if flash[:notice].present?
-    ret = content_tag("div", raw(flash[:error]), {:id => "errorDiv_ep", :class => "pbError"}) if flash[:error].present?
+    ret = content_tag("div", raw(flash[:notice]), {:id => "succDiv_ep", :class => "alert alert-success"}) if flash[:notice].present?
+    ret = content_tag("div", raw(flash[:error]), {:id => "errorDiv_ep", :class => "alert alert-error"}) if flash[:error].present?
     ret
   end
 
@@ -508,13 +545,13 @@ module ApplicationHelper
     (@has_content && @has_content[name]) || false
   end
   
-  def link_back(text = t(:back),default_options={})
+  def link_back(text = t(:back),default_options={},html_options={})
     if params[:back_url].present?
-      link_to text, {}, {:href => CGI.unescape(params[:back_url].to_s)}
+      link_to text, {}, html_options.merge({:href => CGI.unescape(params[:back_url].to_s)})
     elsif default_options.any?
-      link_to text, default_options
+      link_to text, default_options ,html_options
     else
-      link_to text, {}, {:href => "javascript:history.back();"}
+      link_to text, {}, html_options.merge({:href => "javascript:history.back();"})
     end
 
   end
@@ -576,24 +613,6 @@ module ApplicationHelper
      advance = options[:months_advance]||0
      (Time.now.advance(:months => advance)).strftime("%Y-%m-%d").to_s
   end
-
-  #简单讲hash和数组中的数据转换成图表所需要的数据
-   def to_chart_json(chart_data)
-      json = %Q([)
-      if chart_data.is_a?(Hash)
-        chart_data.each do |key,value|
-          json << %Q({category:"#{key}",value:#{value}},)
-        end
-        json.chomp!(",")
-      elsif chart_data.is_a?(Array)
-        chart_data.each do |elem|
-          json << %Q({category:"#{elem[0]}",value:#{elem[1]}},)
-        end
-        json.chomp!(",")
-      end
-      json << "]"
-      json
-   end
 
   def link_to_checker(body, url_options = {}, html_options = {})
     if Irm::PermissionChecker.allow_to_url?(url_options)
@@ -664,6 +683,7 @@ module ApplicationHelper
     end
   end
 
+
   # 页面添加css文件，防止重复添加
   def require_css(name,param=nil)
     @loaded_css_files ||= {}
@@ -677,13 +697,13 @@ module ApplicationHelper
     end
   end
 
+
   def render_loaded_javascript_css_files
-    env =
     javascript_files = []
     css_files = []
     javascript_prefix = "/javascripts/"
     css_prefix ="/themes/#{theme_name}/stylesheets/"
-    Ironmine::Application.config.ironmine.javascript.source.each do |name,paths|
+    Ironmine::Application.config.fwk.javascript.source.each do |name,paths|
       if @loaded_javascript_files.keys.include?(name)
         paths.each do |path|
           if @loaded_javascript_files[name]
@@ -695,7 +715,7 @@ module ApplicationHelper
       end
     end if @loaded_javascript_files
 
-    Ironmine::Application.config.ironmine.css.source.each do |name,paths|
+    Ironmine::Application.config.fwk.css.source.each do |name,paths|
       if @loaded_css_files.keys.include?(name)
         paths.each do |path|
           if @loaded_css_files[name]
@@ -724,6 +744,58 @@ module ApplicationHelper
     raw file_links
   end
 
+
+  # 页面添加bootstrap javascript css文件，防止重复添加
+  def require_jscss(name)
+    @loaded_jscss_files ||= []
+
+    if name.is_a?(String)||name.is_a?(Symbol)
+      @loaded_jscss_files << name.to_sym
+    elsif name.is_a?(Array)
+      name.each do |file|
+        @loaded_jscss_files << file.to_sym
+      end
+    end
+  end
+
+  def render_required_jscss
+    javascript_files = []
+    css_files = []
+    javascript_prefix = ""
+    css_prefix =""
+    @loaded_jscss_files.uniq!
+    Ironmine::Application.config.fwk.jscss.each do |name,paths|
+      if @loaded_jscss_files.include?(name)
+
+        paths[:js].each do |path|
+          javascript_files << path
+        end if paths[:js]
+        paths[:css].each do |path|
+          css_files << path
+        end if paths[:css]
+      end
+    end if @loaded_jscss_files
+
+
+    file_links = ""
+
+    css_files.uniq.each do |css_file|
+      file = css_file.to_s.gsub("{locale}",I18n.locale.to_s).to_sym
+      file_links << stylesheet_link_tag(file)
+    end
+    javascript_files.uniq.each do |script_file|
+
+      file = script_file.to_s.gsub("{locale}",I18n.locale.to_s).to_sym
+      file_links << javascript_include_tag(file)
+    end
+
+    raw file_links
+  end
+
+  def controller_action_css_class
+    "#{params[:controller]}".gsub("/","-").gsub("_","-")
+  end
+
   # 判断浏览器是否为ie6
   def ie6?
     ies = request.user_agent.scan(/MSIE \d\.\d*/)
@@ -745,11 +817,10 @@ module ApplicationHelper
   end
 
   #xheditor编辑器
-  def xheditor(textarea_id)
+  def xheditor(textarea_id,force_fit_width=false)
     unless limit_device?
-      require_javascript(:xheditor)
-      require_css(:xheditor_plugin)
-      render :partial=>"helper/xheditor",:locals=>{:textarea_id=>textarea_id }
+      require_jscss(:xheditor)
+      render :partial=>"helper/xheditor",:locals=>{:textarea_id=>textarea_id,:force_fit_width=>force_fit_width}
     end
   end
 
@@ -766,20 +837,37 @@ module ApplicationHelper
 
   def tabs(name,tabs_configs)
     output = ActiveSupport::SafeBuffer.new
-    output.safe_concat("<div id='#{name}' class='miniTab secondaryPalette'><ul class='miniTabList'>")
+    output.safe_concat("<ul class='nav nav-tabs'>")
     tabs_configs.each_with_index do |config,index|
       selected = params[:controller].eql?(config[:url][:controller])&&params[:action].eql?(config[:url][:action])
       tab_id = config[:id]||"#{name}_#{index}"
       if selected
-        output.safe_concat("<li id='#{tab_id}' class='currentTab'>")
+        output.safe_concat("<li id='#{tab_id}' class='active'>")
       else
-        output.safe_concat("<li id='#{tab_id}' >")
+        output.safe_concat("<li id='#{tab_id}'>")
+      end
+      output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
+      output.safe_concat("</li>")
+    end
+    output.safe_concat("</ul>")
+    output
+  end
+
+  def mx_tabs(name,tabs_configs)
+    output = ActiveSupport::SafeBuffer.new
+    output.safe_concat("<div class='mx-tabs'><ul class='clear-fix'>")
+    tabs_configs.each_with_index do |config,index|
+      selected = params[:controller].eql?(config[:url][:controller])&&params[:action].eql?(config[:url][:action])
+      tab_id = config[:id]||"#{name}_#{index}"
+      if selected
+        output.safe_concat("<li id='#{tab_id}' class='active'>")
+      else
+        output.safe_concat("<li id='#{tab_id}'>")
       end
       output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
       output.safe_concat("</li>")
     end
     output.safe_concat("</ul></div>")
-    output
   end
 
 
@@ -792,6 +880,42 @@ module ApplicationHelper
     result
   end
 
+  def  get_contrast_yiq(hex_color)
+    return "black" unless hex_color&&hex_color.is_a?(String)&&hex_color.length>5&&hex_color.length<8
+    hex_color = hex_color.gsub("#","")
+  	r = hex_color[0..1].to_i(16)
+  	g = hex_color[2..3].to_i(16)
+    b = hex_color[4..5].to_i(16)
+  	yiq = ((r*299)+(g*587)+(b*114))/1000;
+  	return (yiq >= 128) ? 'black' : 'white';
+  end
+
+
+
+  # 上传文件控件
+  # options  :upload_file_id=>"new_wiki",:url_options=>{:source_id=>"nil",:source_type=>@wiki.class.name},:file_type=>"doc",:pasted_zone=>"gollum-editor-body"
+  # upload_file_id 控件ID
+  # url_options 文件上传url
+  # file_type 文件类型
+  # limit 文件大小 以M为单位
+  # pasted_zone 粘贴上传文件dom id
+  def upload_file_sample(options)
+    processed_options = options
+    message = []
+    message << options[:message] if options[:message].present?
+    if options[:limit].present?
+      processed_options[:limit] = options[:limit]*1024*1024
+      message << t(:label_attachment_file_size_limit,:limit=>"#{options[:limit]}M")
+    end
+
+    if options[:file_type].present?
+      message << t(:label_attachment_file_type,:type=>"#{options[:file_type]}")
+    end
+
+    processed_options[:message] = "(#{message.join(",")})" if message.any?
+
+    render :partial=>"helper/upload_file_sample",:locals=>processed_options
+  end
 
 
 end

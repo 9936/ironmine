@@ -1,0 +1,6 @@
+<%=datatable_view({:columns=>[:name,:code,:description],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id)%>
+  <% builder.column(:name,{:title=>t(:label_irm_group_name), :width => "20%"})%>
+  <% builder.column(:code,{:title=>t(:label_irm_group_group_code), :width => "25%"})%>
+  <% builder.column(:description,{:title=>t(:label_irm_group_description)})%>
+<% end %>

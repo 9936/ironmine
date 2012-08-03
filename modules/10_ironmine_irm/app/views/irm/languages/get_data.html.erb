@@ -1,0 +1,12 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation),:width=>"80px"}) do |data| %>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:language_code,{:title=>t(:label_irm_language_language_code)})%>
+  <% builder.column(:description,{:title=>t(:label_irm_language_description)})%>
+  <% builder.column(:installed_flag,{:title=>t(:label_irm_language_installed_flag),:width=>"40px"}) do |data|%>
+    <%= check_img(data[:installed_flag]) %>
+  <% end %>
+  <% builder.column(:status_meaning,{:title=>t(:label_irm_language_status_code),:width=>"40px"}) %>
+<% end %>

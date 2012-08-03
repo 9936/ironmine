@@ -1,0 +1,61 @@
+
+<%= common_title %>
+<%= form_tag({:action=>"save_exists_action"}) do |f| %>
+
+  <% content_for :form_block_a   do%>
+    <table class="form-table">
+      <tbody>
+          <%= hidden_params_field(:trigger_id)%>
+          <tr>
+             <td class="label-col">
+               <label for="duelType"><%=t(:label_irm_wf_rule_action_type)%></label>
+             </td>
+             <td class="data-3col" colspan="3">
+               <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>available_action_type,:sources=>wf_rule_exists_actions(params[:id]),:str_value_field=>:selected_actions,:str_value=>wf_rule_belongs_actions(params[:id],params[:trigger_id]),:size=>10} %>
+             </td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+  <% end %>
+
+
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @application%>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+    </div>
+
+<% end %>

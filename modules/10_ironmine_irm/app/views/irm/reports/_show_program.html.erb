@@ -1,0 +1,62 @@
+<%= app_title %>
+<style type="text/css">
+  #baseFilter select{
+      min-width: 128px;
+  }
+
+  #baseFilter tr{
+      vertical-align: top;
+  }
+  #baseFilter td{
+      padding-left: 10px;
+  }
+  #baseFilter label{
+      display: block;
+      margin-top: 38px;
+  }
+  #baseFilter fieldset label{
+      display: block;
+      margin-top: 5px;
+  }
+  #reportData th,td{
+      text-align:left
+  }
+  #reportData th{
+      background-color: #DBF2F9;
+  }
+
+</style>
+
+<div id="ep" class="detail-block page-block">
+  <%= form_for(@report,:url=>{:action=>"run"},:builder => CustomFormBuilder,:html=>{:id=>"customForm"}) do |f|%>
+      <div class="show-block">
+        <!-- 人员信息 -->
+        <table class="page-block-header">
+          <tr>
+              <td class="page-block-title">
+                <h2 class="block-title"title="<%= @report[:description] %>"><%= @report[:name] %></h2>
+              </td>
+              <td class="page-block-button"></td>
+          </tr>
+        </table>
+        <!-- 报表信息 -->
+        <div class="page-block-body">
+          <%= show_program_report_params(@report) %>
+        </div>
+        <table class="page-block-header">
+          <tr>
+            <td class="page-block-button"><%= render "show_report_actions" %></td>
+          </tr>
+        </table>
+      </div>
+
+
+  <% end %>
+  <div class="listRelatedObject setupBlock">
+    <% if auto_run?(@report) %>
+    <div class="page-block">
+      <%= show_program_report_data(@report) %>
+    </div>
+    <% end %>
+  </div>
+</div>

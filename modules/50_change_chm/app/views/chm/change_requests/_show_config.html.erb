@@ -1,0 +1,19 @@
+<!--页面结构-->
+<div class="page-block" id="changeConfigItem">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_change_request_config_items) %></h2>
+      </td>
+      <td class="page-block-button"></td>
+      <td class="page-block-help form-inline" id="configItemForm">
+        <%= render :partial=>"chm/change_config_relations/mini_form"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="configItems">
+      <%= render :partial=>"chm/change_config_relations/change_config_items",:locals=>{:datas=>@change_request.change_config_relations.select_all.with_config_item} %>
+    </div>
+  </div>
+</div>

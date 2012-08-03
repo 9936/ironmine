@@ -1,0 +1,12 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:name,{:title=>t(:label_irm_portal_layout_name)})%>
+  <% builder.column(:description,{:title=>t(:label_irm_portal_layout_description)})%>
+  <% builder.column(:layout,{:title=>t(:label_irm_portal_layout_format)})%>
+  <% builder.column(:default_flag,{:title=>t(:default_flag),:width=>"70px"}) do |data|%>
+    <%= check_img(data[:default_flag]) %>
+  <% end %>
+<% end %>

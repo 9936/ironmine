@@ -1,0 +1,60 @@
+<%= wicked_pdf_stylesheet_link_tag "application","pdf" %>
+<%= wicked_pdf_javascript_include_tag "application","pdf" %>
+
+<style type="text/css">
+
+  div#histories{
+      background-color: #FFFFFF;
+      border-bottom: 0px;
+      border-left: 0px;
+      border-right: 0px;
+  }
+
+
+  div.reply div.reply-header{
+      background-color: #efefef;
+      padding: 3px 0 0 3px;
+      height: 28px;
+
+      box-sizing: content-box;
+  }
+
+  div.reply div.reply-header[submit_by="<%= Irm::Person.current.id%>"]{
+      /*自己回复的*/
+      background-color: #ddeef4 !important;
+  }
+
+
+  div.reply div.reply-header[submit_by="<%= @change_request.submitted_by%>"]{
+      /*提单人回复的*/
+      background-color: #ffebeb !important;
+  }
+
+
+  div.reply div.reply-header-section{
+    padding: 5px 5px 5px 0px;
+    min-height: 40px;
+  }
+  div.reply h3{
+      font-weight:bold;
+  }
+  div.reply .avatar{
+    background-color: white;
+    border: 1px solid #D0D0D0;
+    float: left;
+    line-height: 0;
+    margin-right: 0.7em;
+    padding: 2px;
+  }
+
+  div.reply .message{
+      margin-left: 46px;
+  }
+</style>
+
+
+<div class="pdf-container">
+  <%- with_format('html') do %>
+    <%= render :partial=>"show_tmp",:locals=>{:partial=>"show"}%>
+  <%- end %>
+</div>

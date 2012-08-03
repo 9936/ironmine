@@ -1,0 +1,6 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:card_code,{:title=>t(:label_irm_card_code),:width => "150px"})%>
+  <% builder.column(:card_name,{:title=>t(:name),:width => "150px"})%>
+  <% builder.column(:card_description,{:title=>t(:description),:width => "200px"})%>
+  <% builder.column(:background_color,{:title=>t(:label_irm_card_background_color),:width => "80px"})%>
+<% end %>

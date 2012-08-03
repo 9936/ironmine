@@ -1,0 +1,72 @@
+<%= page_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_com_config_item) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @config_item},:class=>"btn btn-primary"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn btn-cancel" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=t(:label_com_config_item_number)%></label></td>
+            <td class="data-col"><%=@config_item.item_number %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_com_config_item_config_class)%></label></td>
+            <td class="data-col"><%=@config_item[:config_class_name] %></td>
+
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_com_config_item_managed_group)%></label></td>
+            <td class="data-col"><%=@config_item[:managed_group_name] %></td>
+
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_com_config_item_managed_person)%></label></td>
+            <td class="data-col"><%= @config_item[:managed_person_name]%></td>
+
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <% @config_item_attributes.each do |config_attribute| %>
+          <tr auto_generate="true">
+            <td class="label-col"><label><%=config_attribute[:config_attribute_name]%></label></td>
+            <td class="data-col">
+                <%=config_attribute[:value]  %>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <%end  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_com_config_item_relation_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:controller=>"com/config_item_relations",:config_item_id=>@config_item.id,:action => "new"},:class => "btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="menu_entries_list"></div>
+    <%= datatable("config_item_relations",{:controller=>"com/config_item_relations",:action=>"get_data",:config_item_id=>@config_item.id,:format=>"json"},[],{:paginator_box=>"paginatorBox",:search_box=>"searchBox"})%>
+  </div>
+</div>

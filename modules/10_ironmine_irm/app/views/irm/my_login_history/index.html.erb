@@ -1,0 +1,16 @@
+<%= common_title(:model_meaning=>t(:label_irm_login_record_list)) %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_login_record_list) %></h2>
+    </td>
+    <td class="page-block-button"></td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("login_history_list",{:action => "get_login_data",:format=>"json", :id => Irm::Person.current.id},[],{:paginator_box=>"historiesBox"})%>
+  </div>
+</div>

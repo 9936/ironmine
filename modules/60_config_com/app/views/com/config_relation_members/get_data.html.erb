@@ -1,0 +1,8 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:type_name,{:title=>t(:label_com_config_relation_type_name)})%>
+  <% builder.column(:config_class_name,{:title=>t(:label_com_config_relation_member_class_name),:searchable=>true})%>
+<% end %>

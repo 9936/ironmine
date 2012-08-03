@@ -1,0 +1,261 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  #=========================    icm rule_settings_controller=======================#
+  label_icm_rule_setting_new: New rule setting
+  label_icm_rule_setting_list: List rule setting
+  label_icm_rule_setting_company: Company
+  label_icm_rule_setting_report_date_changable: Report date changable
+  label_icm_rule_setting_respond_date_changable: Respond date changable
+  label_icm_rule_setting_auto_closure_days: Auto close days
+  label_icm_rule_setting_assignment_process_code: Process
+  label_icm_rule_setting_slove_date_changable: slove date changable
+  label_icm_rule_setting_auto_assignable: Auot assign
+  label_icm_rule_setting_description: Description
+  label_icm_rule_setting_edit: Edit rule setting
+  label_icm_rule_setting_info: Rule Setting Info
+  label_icm_rule_setting_show: Rule Setting
+  label_icm_rule_setting_status_code: Status Code
+  #========================= end icm rule_settings_controller=======================#
+  #=========================    icm impact_ranges_controller=======================#
+  label_icm_impact_range_list: Impact range list
+  label_icm_impact_range_new: New impate range
+  label_icm_impact_range_impact_code: Impate code
+  label_icm_impact_range_company: Company
+  label_icm_impact_range_weight_values: Weight value
+  label_icm_impact_range_name: Name
+  label_icm_impact_range_description: Description
+  label_icm_impact_range_edit: Edit impate range
+  #========================= end icm impact_ranges_controller=======================#
+  #=========================    icm urgence_codes_controller=======================#
+  label_icm_urgence_code_list: List urgence code
+  label_icm_urgence_code_new: New urgence code
+  label_icm_urgence_code_urgency_code: Code
+  label_icm_urgence_code_company: Company
+  label_icm_urgence_code_weight_values: Weight values
+  label_icm_urgence_code_name: Name
+  label_icm_urgence_code_description: Description
+  label_icm_urgence_code_edit: Edit urgence code
+  label_icm_urgence_code_info: Urgency Detail Info
+  label_icm_urgence_code_show: Urgency
+  label_icm_urgence_code_status_code: Status Code
+  #========================= end icm urgence_codes_controller=======================#
+  #=========================    icm priority_codes_controller=======================#
+  label_icm_priority_code_list: Priority codes list
+  label_icm_priority_code_new: New priority code
+  label_icm_priority_code_company: Company
+  label_icm_priority_code_priority_code: Code
+  label_icm_priority_code_name: Name
+  label_icm_priority_code_description: Description
+  label_icm_priority_code_edit: Edit priority code
+  label_icm_priority_code_info: Priority Code Deatail Info
+  label_icm_priority_code_show: Priority Code
+  label_icm_priority_code_status_code: Status Code
+  label_icm_priority_code_weight_values: Weight Value
+  #========================= end icm priority_codes_controller=======================#
+  #=========================    icm close_reasons_controller=======================#
+  label_icm_close_reason_list: Close reason list
+  label_icm_close_reason_new: New close reason
+  label_icm_close_reason_company: Company
+  label_icm_close_reason_close_code: Code
+  label_icm_close_reason_name: Name
+  label_icm_close_reason_category: Catetory
+  label_icm_close_reason_description: Description
+  label_icm_close_reason_edit: Edit close reason
+  #========================= end icm close_reasons_controller=======================#
+  #=========================    icm incident_phases_controller=======================#
+  label_icm_incident_phase_list: Incident phase list
+  label_icm_incident_phase_new: New incident phase
+  label_icm_incident_phase_phase_code: Code
+  label_icm_incident_phase_company: Company
+  label_icm_incident_phase_name: Name
+  label_icm_incident_phase_description: Description
+  label_icm_incident_phase_edit: Edit incident phase
+  #========================= end icm incident_phases_controller=======================#
+  #=========================    icm incident_statuses_controller=======================#
+  label_icm_incident_status_list: Incident status list
+  label_icm_incident_status_edit: Edit incident status
+  label_icm_incident_status_name: Name
+  label_icm_incident_status_incident_status_code: Code
+  label_icm_incident_status_phase_code: Incident phase
+  label_icm_incident_status_new: New incident status
+  label_icm_incident_status_description: Description
+  label_icm_incident_status_info: Incident Status Info
+  label_icm_incident_status_new: New Incident Status
+  label_icm_incident_status_list: List Incident Status
+  label_icm_incident_status_show: Incident Status
+  label_icm_incident_close_flag: Close
+  label_icm_incident_permanent_close_flag: Permanently Close
+  #========================= end icm incident_statuses_controller=======================#
+  #=========================    icm incident_requests_controller=======================#
+  label_icm_reply: Reply
+  label_icm_incident_request: Incident request
+  label_icm_incident_request_list: Incident request list
+  label_icm_incident_request_new: New incident request
+  label_icm_incident_request_edit: Edit incident request
+  label_icm_incident_request_short_new: New incident request
+  label_icm_incident_request_service_code: Service
+  label_icm_incident_requset_base_info: Base information
+  label_icm_incident_request_title: Title
+  label_icm_incident_request_number: No.
+  label_icm_incident_request_summary: Summary
+  label_icm_incident_requset_addition_info: Addition information
+  label_icm_incident_request_requested_by: Requester
+  label_icm_incident_request_requested_by_org: Requester Org.
+  label_icm_incident_request_requested_by_role: Requester Role
+  label_icm_incident_request_requested_by_profile: Requester Profile
+  label_icm_incident_request_contact: Contact
+  label_icm_incident_request_urgence_code: Urgence
+  label_icm_incident_request_impact_range_code: Impact range
+  label_icm_incident_request_support_group: Support group
+  label_icm_incident_request_support_person: Supporter
+  label_icm_incident_request_request_type_code: Request type
+  label_icm_incident_request_incident_status_code: Status
+  label_icm_incident_request_report_source_code: Report source
+  label_icm_incident_request_request_number: Serial number
+  label_icm_incident_request_request_number_shot: No.
+  label_icm_incident_request_contact_number: Contact number
+  label_icm_incident_request_priority: Priority
+  label_icm_incident_request_organization: Organization
+  label_icm_incident_request_last_date: Last Update
+  label_incident_request: Incident request
+  label_incident_request_title: Incident Request Title
+  label_icm_incident_request_submitted_by: Submit by
+  label_icm_incident_request_incident_phase_code: Phase
+  label_icm_incident_request_submitted_date: Submit date
+  label_icm_incident_request_close_reason_code: Close reason
+  label_icm_wait_for_me_request_count: Requests Waiting for Me
+  label_icm_reply_today_count: Today Replied
+  label_icm_request_submitted_today_count: Today Submitted
+  label_icm_my_un_solved_request: My Unsolved Requests
+  label_icm_my_solved_request: My Solved Requests
+  label_icm_save_as_skm: Save As SKM Entry
+  label_icm_incident_auto_assign: System Auto Assign
+  label_icm_incident_assign_dashboard: Assigned by Assign DashBoard
+  label_icm_incident_request_attachment_list: Attachment List
+  label_icm_incident_request_target_system: System
+  label_action_assign_dashboard: Assign DashBoard
+  label_icm_incident_request_assignable_list: Assignable Incident Request
+  label_icm_incident_request_assign: Assign
+  error_icm_requested_by_can_not_blank: Requested by can not be blank
+  label_icm_incident_request_view_filter_data_range_all: 我相关的
+  label_icm_incident_request_view_filter_data_range_main: 我参与的
+  label_icm_incident_journal_upgrade: Upgrade
+  label_icm_incident_request_assign_me: Assign to Me
+  label_icm_incident_request_assign_me_able_list: Incident Request for My Group
+  label_icm_incident_request_close_reason: Close Reason
+  label_icm_incident_request_incident_status: Change Status
+  label_icm_incident_request_upgrade: Upgrade
+  label_icm_incident_status_edit_transform: Edit Status Transform
+  label_icm_incident_request_relation: Related Requests
+  label_icm_incident_request_incident_category: Category
+  label_icm_incident_request_incident_sub_category: Subcategory
+  label_icm_create_relate_change_request: Change Request
+  label_icm_incident_category_apply_system: Apply System
+  label_icm_incident_category_system: Category System
+  label_icm_incident_request_relation_types: Relation Types
+  label_icm_incident_request_relation_type: Relation
+  label_icm_incident_request_relation: Relation Types
+  label_icm_incident_request_estimated_date: Estimated Date
+  label_icm_incident_request_relation_config_items: Config Item
+  #========================= end icm incident_requests_controller=======================#
+  #=========================    icm incident_journals_controller=======================#
+  label_icm_incident_reply_support_group_id: Referred group
+  label_icm_incident_reply_support_person_id: Referred person
+  apply_skm: Search Service Knowledge
+  label_icm_incident_reply_incident_status_code: New Incident Status
+  label_icm_incident_journal_list: Replies
+  label_icm_incident_journal_person: Request Person
+  label_icm_incident_journal_content: Request Content
+  label_icm_incident_journal_date: Request Date
+  label_icm_incident_journal_new: Reply
+  label_icm_incident_journal_back_to_request_list: Back List
+  label_icm_incident_request_base_info: Base information
+  label_icm_incident_request_status_info: Status information
+  label_icm_incident_journal_reply: Comments
+  label_icm_incident_journal_attachment: Attachments
+  label_icm_incident_journal_attachment_desc: Description
+  label_icm_incident_journal_add_attachment: Add a attachment
+  label_icm_incident_journal_close: Close incident request
+  label_icm_incident_journal_permanent_close: Permanently Close incident request
+  label_icm_incident_journal_reopen: Ropen incident request
+  label_icm_incident_joural_back_to_request: Back to incident
+  label_icm_reply_title: reply at %{message} ago
+  label_icm_submit_title: submit at %{message} ago
+  label_icm_incident_more_info: More
+  label_icm_incident_less_info: Less
+  label_action_edit_pass: Pass Incident Request
+  label_action_update_pass: Pass Incident Request
+  label_action_edit_close: Close Incident Request
+  label_action_update_close: Close Incident Request
+  label_icm_incident_journal_pass: Pass Incident Request
+  label_action_short_create: Create
+  label_icm_incident_journal_message_body_not_blank: Please fill information
+  #========================= end icm incident_journals_controller=======================#
+  #=========================    icm incident_reports_controller=======================#
+  label_icm_urgency_name: Urgency Name
+  label_icm_incident_month: Month
+  label_icm_urgency_count: Urgency Count
+  label_icm_report_source_name: Source Type
+  label_icm_report_source_count: Source Type Count
+  label_icm_report_type_name: Request Type
+  label_icm_report_type_count: Request Type Count
+  label_icm_report_time_frame: Time Frame
+  label_icm_report_time_frame_column: Column
+  label_icm_report_time_frame_start_time: Start Time
+  label_icm_report_time_frame_end_time: End Time
+  label_icm_report_param: Report Param
+  #========================= end icm incident_reports_controller=======================#
+  #========================= icm group_assignments_controller =========================#
+  label_icm_group_assignment: Support Group Assignment
+  label_icm_group_assignment_rule: Support Group Assignment Rule
+  label_icm_group_assignment_list: Support Group Assignment List
+  label_icm_group_assignment_new: Create Support Group Assignment
+  label_icm_group_assignment_edit: Edit Support Group Assignment
+  label_icm_group_assignment_c_company: Company
+  label_icm_group_assignment_c_department: Department
+  label_icm_group_assignment_c_person: Staff
+  label_icm_group_assignment_c_site_group: Site Group
+  label_icm_group_assignment_c_site: Site
+  label_icm_group_assignment_type: Assignment Type
+  label_icm_group_assignment_detail: Assigned Source Target
+  #========================= end icm group_assignments_controller =========================#  
+  #========================= icm support_groups =========================#
+  label_icm_support_group: 支持组
+  label_icm_support_group_new: 新建支持组
+  label_icm_support_group_edit: 编辑支持组
+  label_icm_support_group_code: 编码
+  label_icm_support_group_name: 名称
+  label_icm_support_group_assignment_process_code: 分配流程
+  label_icm_support_group_oncall_flag: 待命组
+  label_icm_support_group_vendor_flag: 供应商组
+  label_icm_support_group_add_group_notice: Please add person group
+  #=========================  end icm support_groups =========================#
+  #========================= mail request ====================================
+  label_icm_mail_request: Mail Request
+  label_icm_mail_request_new: Create Mail Request
+  label_icm_mail_request_edit: Edit Mail Request
+  label_icm_mail_request_info: Mail Configuration Info
+  label_icm_mail_request_default_info: Request Info
+  #========================== end mail request ===============================
+  #========================= incident category ====================================
+  label_icm_incident_category: Incident Category
+  label_icm_incident_category_new: New Incident Category
+  label_icm_incident_category_list: Incident Category List
+  label_icm_incident_category_edit: Edit Incident Category
+  label_icm_incident_category_code: Code
+  label_icm_incident_category_name: Name
+  label_icm_incident_category_external_system: System
+  label_icm_incident_category_description: Description
+  #========================== end incident category  ===============================
+  #========================= incident category ====================================
+  label_icm_incident_sub_category: Incident Sub Category
+  label_icm_incident_sub_category_list: Incident Sub Category List
+  label_icm_incident_sub_category_new: New Incident Sub Category
+  label_icm_incident_sub_category_edit: Edit Incident Sub Category
+  label_icm_incident_sub_category_code: Code
+  label_icm_incident_sub_category_name: Name
+  label_icm_incident_sub_category_external_system: System
+  label_icm_incident_sub_category_description: Description
+  #========================== end incident category  ===============================

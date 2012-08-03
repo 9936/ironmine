@@ -1,0 +1,115 @@
+<% if object_attribute %>
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_irm_wf_field_update_set_value) %>
+          (<%= t("label_irm_wf_field_update_object_attribute_type_#{object_attribute.data_type}") %>)</h3>
+      </div>
+      <div class="sub-page-body">
+        <table class="form-table">
+          <tbody>
+          <% if Irm::Constant::SYS_YES.eql?(object_attribute.data_null_flag) %>
+              <tr>
+                <td class="label-col"><label><%= f.radio_button(:value_type, "NULL_VALUE", :id => "nullValueButton", :class => "typeButton") %></label></td>
+                <td class="data-col">
+                  <label for="nullValueButton"><%= t(:label_irm_wf_field_update_value_type_null_value) %></label></td>
+                <td class="label-col"></td>
+                <td class="data-col"></td>
+              </tr>
+          <% end %>
+          <% if object_attribute.lov_code.present? %>
+              <tr>
+                <td class="label-col"><label><%= f.radio_button(:value_type, "OPTIONS_VALUE", :id => "optionsValueButton", :class => "typeButton") %></label></td>
+                <td class="data-col">
+                  <label for="optionsValueButton"><%= t(:label_irm_wf_field_update_value_type_options_value) %></label>
+                </td>
+                <td class="label-col"></td>
+                <td class="data-col"></td>
+              </tr>
+              <tr id="optionsValue" refValue="OPTIONS_VALUE" class="updateValueTR" style="display:none">
+                <td class="label-col">
+                  <label for="wf_field_update_value"><%= t(:label_irm_wf_field_update_value) %></label></td>
+                <td class="data-col"><%= f.lov_field :value, object_attribute.lov_code, {}, :required => true, :class => "updateValue", :id => "wf_field_update_value" %></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+          <% end %>
+          <tr>
+            <td class="label-col"><label><%= f.radio_button(:value_type, "FORMULA_VALUE", :id => "formulaValueButton", :class => "typeButton") %></label></td>
+            <td class="data-col">
+              <label for="formulaValueButton"><%= t(:label_irm_wf_field_update_value_type_formula_value) %></label></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr id="formulaValue" refValue="FORMULA_VALUE" class="updateValueTR" style="display:none">
+            <td class="label-col"><label for="wf_field_update_value"><%= t(:label_irm_wf_field_update_value) %></label>
+            </td>
+            <td class="data-col" colspan="3" width="82%">
+              <div style="float:left">
+                <div><%= f.text_area :value, :required => true, :class => "updateValue", :cols => 60, :rows => 12, :id => "wf_field_update_formula_value" %></div>
+                <div>
+                  <div class="button"><%= link_to t(:check_syntax), {:controller => "irm/formula_functions", :action => "check_syntax", :formula_value => "{formula_value}", :result_div => "formulaSyntaxMessage", :data_type => object_attribute.data_type, :format => :js}, {:id => "formulaCheckSyntax", :remote => true} %></div>
+                  <div id="formulaSyntaxMessage"></div>
+                </div>
+
+              </div>
+              <div style="float:left;padding:3px;">
+                <div><%= select_tag_alias(:formula_function_type, available_formula_function_type, nil, :style => "width: 14em;", :id => "formula_function_type") %></div>
+                <div><%= blank_select_tag(:formula_function, [], nil, :href => url_for(:controller => "irm/formula_functions", :action => "formula_function_options", :format => "json", :formula_function_type => "${formula_function_type}"),
+                                          :depend => "formula_function_type", :size => 5, :style => "width: 14em;", :multiple => true, :id => "formula_function") %></div>
+                <div style="width: 14em;word-wrap:break-word; overflow:hidden;clear:both">
+                  <div class="button"><%= link_to t(:label_irm_insert_selected_formula_function), {}, {:href => "javascript:void(0)", :id => "addFunction"} %></div>
+                </div>
+                <div id="functionGuide" style="width: 14em;word-wrap:break-word; overflow:hidden;">
+
+                </div>
+                <div id="functionsDescription" style="width: 14em;word-wrap:break-word; overflow:hidden;">
+
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("input.typeButton").click(function (e) {
+                $(".updateValueTR").css({display:"none"});
+                $(".updateValueTR .updateValue").attr("disabled", "true");
+                var updateValueTR = $(".updateValueTR[refValue=" + $(e.target).val() + "]:first");
+                if (updateValueTR) {
+                    updateValueTR.css({display:""});
+                    updateValueTR.find(".updateValue").removeAttr("disabled");
+                }
+            });
+            $.checkRadioButton("input.typeButton");
+
+
+            $("#formula_function_type").cascade("#formula_function");
+
+            $("#formula_function").change(function (e) {
+                var option = $(e.target).find("option[value=" +$(e.target).val() + "]:first");
+                $("#functionGuide").html(option.attr("guide"));
+                $("#functionsDescription").html(option.attr("description"));
+            });
+
+            $("#addFunction").click(function (e) {
+                var guide = $("#wf_field_update_formula_value").val() + " " + $("#functionGuide").html() + " ";
+                $("#wf_field_update_formula_value").val(guide);
+            });
+
+            $("#formulaCheckSyntax").click(function (e) {
+                if (!$(e.target).attr("thref"))
+                    $(e.target).attr("thref", e.target.getAttribute("href"));
+
+
+                var href = decodeURIComponent($(e.target).attr("thref"));
+                href = href.replace("{formula_value}", $("#wf_field_update_formula_value").val())
+                $(e.target).attr("href", href);
+            });
+
+        });
+    </script>
+<% end %>

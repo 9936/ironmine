@@ -1,2 +1,0 @@
-module Irm::ReportTypeSectionsHelper
-end

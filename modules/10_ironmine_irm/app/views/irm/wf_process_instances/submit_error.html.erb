@@ -1,0 +1,57 @@
+<%= page_title("",t(:label_irm_process_instance_submit_error) ) %>
+<!--页面结构-->
+<div class="page-block">
+  <div class="page-block-body">
+    <div class="sub-page-block">
+      <div class="sub-page-block-body">
+        <table class="detail-list">
+          <tbody>
+              <% if @wf_process_instance.errors[:process_id].present?%>
+              <tr>
+                <td class="label-col"></td>
+                <td class="data-col"><%= @wf_process_instance.errors[:process_id]  %></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <% end %>
+              <% if @next_step&&@wf_process_instance.errors[:next_approver_id].present?%>
+              <tr>
+                <td class="label-col"></td>
+                <td class="data-col"><h1><%= @wf_process_instance.errors[:next_approver_id]  %></h1></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="label-col"><%= t(:label_irm_process_instance_process) %></td>
+                <td class="data-col"><%= Irm::WfApprovalProcess.find(@wf_process_instance.process_id).name  %></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="label-col"><%= t(:label_irm_step_instance_step) %></td>
+                <td class="data-col"><%= @next_step.name  %></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="label-col"><%= t(:label_irm_wf_approval_ste_approver_type) %></td>
+                <td class="data-col"><%= @next_step[:approver_mode_name]  %></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <table class="page-block-footer">
+    <tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <%= link_back t(:back),{},:class=>"btn cancel"%>
+      </td>
+    </tr>
+  </table>
+</div>
+

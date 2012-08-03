@@ -1,10 +1,29 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+# Pick the frameworks you want:
+require "active_record/railtie"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "active_resource/railtie"
+require "sprockets/railtie"
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+# 加载框架配置
+require File.expand_path("../../lib/fwk/railtie", __FILE__)
+# 加载各模块配置
+Dir["#{File.expand_path('../..', __FILE__)}/modules/*"].sort.reverse.each do |file|
+  m = File.basename(file).split("_").last
+  railtie_path = File.expand_path("#{file}/lib/#{m}/railtie.rb", __FILE__)
+  if File.exist?(railtie_path)
+    require railtie_path
+  end
+end
+
+if defined?(Bundler)
+  # If you precompile assets before deploying to production, use this line
+  Bundler.require(*Rails.groups(:assets => %w(macdev development test)))
+  # If you want your assets lazily compiled in production, use this line
+  # Bundler.require(:default, :assets, Rails.env)
+end
 
 module Ironmine
   class Application < Rails::Application
@@ -28,6 +47,12 @@ module Ironmine
     config.time_zone = 'Beijing'
     config.active_record.default_timezone = 'Beijing'
 
+    # Enable the asset pipeline
+    config.assets.enabled = true
+
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
+
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
@@ -48,99 +73,93 @@ module Ironmine
 
     # add mail config
     config.ironmine = ActiveSupport::OrderedOptions.new
+    config.ironmine.languages = [:zh,:en]
 
-    config.ironmine.javascript = ActiveSupport::OrderedOptions.new
-    config.ironmine.css = ActiveSupport::OrderedOptions.new
-    config.ironmine.javascript.source = {
-        :jquery =>%w(jquery-1.6.4.min  locales/jquery-{locale} jquery-rails jquery-extend jquery-application jquery-colorbox-min),
-        :jcrop => %w(jquery-crop),
-        :jplugin => %w(jquery-plugin),
-        :extjs=>%w(ext4-all ext-extend ext-application locales/ext-{locale}),
-        :survey=>%w(survey),
-        :datepicker=>%w(jquery-bigiframe jquery-datepicker locales/jquery-datepicker-{locale} jquery-datepicker-date),
-        :waypoints => %w(jquery-waypoints),
-        :video => %w(video),
-        :jpolite => %w(jpolite/jquery-ui-jpolite.min jpolite/jpolite.core jpolite/jpolite.ext),
-        :treeview => %w(jquery-treeview),
-        :treeview_async => %w(jquery-treeview-async),
-        :ace => %w(ace/ace ace/mode-html),
-        :xheditor => %w(xheditor/xheditor-{locale})
+    config.ironmine.jscss = {
+        :default =>{:css=>["application"],:js=>["application","locales/jquery-{locale}"]},
+        :default_ie6=>{:css=>["application-ie6"],:js=>["application","locales/jquery-{locale}"]},
+        :aceditor =>{:js=>["plugins/ace"]},
+        :xheditor => {:css=>["plugins/xheditor"],:js=>["plugins/xheditor/xheditor-{locale}"]} ,
+        :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]},
+        :jcrop => {:css=>["plugins/jcrop"],:js=>["plugins/jquery-crop"]},
+        :jcrop_ie6 => {:css=>["plugins/jcrop-ie6"],:js=>[]},
+        :highcharts => {:css=>[],:js=>["highcharts"]},
+        :login => {:css=>["login"],:js=>[]},
+        :login_ie6 => {:css=>["login-ie6"]},
+        :jquery_ui => {:js=>["jquery-ui"]},
+        :gollum => {:js=>["plugins/gollum"],:css=>["plugins/gollum"]},
+        :markdown => {:css=>["markdown"]},
+        :search => {:css => ["search"]}
     }
-    config.ironmine.css.source = {
-        :default =>%w(colorbox base button container form header icons layout other public sidebar table jmask),
-        :application=>%w(),
-        :setting=>%w(setting_base button container form header icons layout other public sidebar table jmask),
-        :home=>%w(),
-        :login=>%w(login),
-        :common=>%w(login),
-        :common_all=>%w(base button container form public),
-        :jcrop=>%w(jcrop),
-        :extjs=>%w(ext4-all ext4-cux),
-        :datepicker=>%w(jquery-datepicker),
-        :video => %w(video-js),
-        :jpolite => %w(screen style),
-        :treeview => %w(treeview),
-        :treeview_ie6 => %w(treeview.ie6.css),
-        :autosaving => %w(auto-saving),
-        :xheditor_plugin => %w(xheditor-plugin)
-    }
+    # 自动对资源文件进行预编译
+    config.ironmine.jscss.values.each do |asset|
+      files = []
 
-    # config modules
-    modules = Dir["#{config.root}/modules/*"].sort.collect{|i| File.basename(i).split("_").last if File.directory?(i)}.compact
-    origin_values =  paths.dup
-    modules.reverse.each do |module_name|
-      paths.keys.each do |key|
-        next unless paths[key].is_a?(Array)
-        file_path ="modules/#{module_name}/#{origin_values[key][0]}"
+      asset[:css].each do |css|
+        if css.to_s.include?("{locale}")
+          config.ironmine.languages.each do |lang|
+            files << css.to_s.gsub("{locale}",lang.to_s).to_s+".css"
+          end
+        else
+          files << "#{css}.css"
+        end
+      end if asset[:css]
+      asset[:js].each do |js|
+        if js.to_s.include?("{locale}")
+          config.ironmine.languages.each do |lang|
+            files << js.to_s.gsub("{locale}",lang.to_s).to_s+".js"
+          end
+        else
+          files << "#{js}.js"
+        end
+      end if asset[:js]
+      config.assets.precompile +=  files
+    end
+
+    config.assets.precompile +=  ["report_types.css"]
+
+
+    # 配置加载系统模块
+    origin_values =  config.paths.dup
+    config.fwk.modules.reverse.each do |module_name|
+      config.paths.keys.each do |key|
+        next unless config.paths[key].is_a?(Array)
+        file_path ="modules/#{config.fwk.module_mapping[module_name]}/#{origin_values[key][origin_values[key].length-1]}"
         real_file_path = "#{config.root}/#{file_path}"
         if File.exist?(real_file_path)
-          paths[key].insert(0,file_path)
+          config.paths[key].insert(0,file_path)
         end
+        # 加载报表页面文件
+        if key.eql?('app/views')
+          report_view_path = "modules/#{config.fwk.module_mapping[module_name]}/reports/views"
+          real_report_view_path = "#{config.root}/#{report_view_path}"
+          if File.exist?(real_report_view_path)
+            config.paths[key].insert(0,report_view_path)
+          end
+        end
+      end
+
+      # 加载报表文件
+      report_path = "modules/#{config.fwk.module_mapping[module_name]}/reports/programs"
+      real_report_path = "#{config.root}/#{report_path}"
+      if File.exist?(real_report_path)
+        config.autoload_paths += [real_report_path]
       end
     end
 
     # auto load class in lib and module lib
-    config.autoload_paths += paths["lib"].expanded
+    config.autoload_paths += config.paths["lib"].expanded
 
     # auto load program report
     config.autoload_paths += %W(#{config.root}/program/report)
-    modules.reverse.each do |module_name|
-      file_path = "modules/program/report"
-      if File.exist?(file_path)
-        config.autoload_paths += [file_path]
-      end
+
+
+    # 自动生成时不生成asset
+    config.generators do |g|
+      g.stylesheets false
+      g.javascripts false
     end
 
-    config.module_folder = 'modules'
-    #扩展rails 的生成器generators
-    generators do
-      #扩展Rails::Generators::NamedBase
-      Rails::Generators::NamedBase.send(:include,Gen::GeneratorExpand)
-      #扩展Erb::Generators::ScaffoldGenerator，解决设置--module= xx 以在app/view/xx空文件夹
-      require 'rails/generators/erb/scaffold/scaffold_generator'
-      Erb::Generators::ScaffoldGenerator.send(:include,Gen::ScaffoldGeneratorExpand)
-      #扩展ActiveRecord::Generators::MigrationGenerator，解决在设置--module= xx 参数后引起migration文件目录异常
-      require 'rails/generators/active_record/migration/migration_generator'
-      ActiveRecord::Generators::MigrationGenerator.send(:include, Gen::MigrationGeneratorExpand)
-      #扩展ActiveRecord::Generators::ModelGenerator，解决在设置--module= xx 参数后引起migration文件目录异常
-      require 'rails/generators/active_record/model/model_generator'
-      ActiveRecord::Generators::ModelGenerator.send(:include, Gen::ModelGeneratorExpand)
-
-      #由于不同版本rails生成器的差异，该版本中不能扩展扩展Sass::Generators::ScaffoldBase，需要用如下进行替代
-      require 'rails/generators/css/scaffold/scaffold_generator'
-      Css::Generators::ScaffoldGenerator.send(:include, Gen::CssScaffoldGeneratorExpand)
-      require 'rails/generators/js/assets/assets_generator'
-      Js::Generators::AssetsGenerator.send(:include,Gen::JsAssetsGeneratorExpand)
-      require 'rails/generators/css/assets/assets_generator'
-      Css::Generators::AssetsGenerator.send(:include,Gen::CssAssetsGeneratorExpand)
-     # #扩展Sass::Generators::ScaffoldBase，解决在设置--module= xx 参数后生成的scaffold.css.xx 不在指定目录下
-     # require 'rails/generators/sass_scaffold'
-     # Sass::Generators::ScaffoldBase.send(:include, Gen::SassScaffoldGeneratorExpand)
-
-      #扩展Erb::Generators::ControllerGenerator 解决在设置--module= xx 参数后运行rails g controller命令在app/view/下生成一个xx空文件夹
-      require 'rails/generators/erb/controller/controller_generator'
-      Erb::Generators::ControllerGenerator.send(:include,Gen::ControllerGeneratorExpand)
-    end
 
   end
 end

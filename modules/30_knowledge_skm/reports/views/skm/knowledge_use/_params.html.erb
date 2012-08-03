@@ -1,0 +1,32 @@
+<table class="form-table baseFilter" id="baseFilter">
+  <tbody>
+  <tr>
+        <td>
+          <label for="loginPerson_label"><%= t(:label_skm_channel) %></label>
+          <div style="white-space:nowrap">
+            <%= lov_field_tag(:channel_id,Skm::Channel ,:name=>"program_params[channel_id]",:value=>program_params[:channel_id],:id=>"channel_id") %>
+          </div>
+        </td>
+        <td>
+          <fieldset>
+            <legend>
+              <%= t(:label_irm_report_time_range) %>
+            </legend>
+            <table>
+              <tr>
+                <td>
+                  <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                  <%= date_field_tag(:date_from,:value=>program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:nobutton=>true)%>
+                </td>
+                <td>
+                  <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                  <%= date_field_tag(:date_to,:value=>program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:nobutton=>true)%>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+        </td>
+      </tr>
+
+  </tbody>
+</table>

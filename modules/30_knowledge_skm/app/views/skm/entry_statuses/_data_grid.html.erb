@@ -1,0 +1,19 @@
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_skm_entry_status_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="statusesSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="entry_statuses_list"></div>
+    <%= datatable("entry_statuses_list",{:action=>"get_data",:format=>"json"},[],{:search_box => "statusesSearchBox",:paginator_box=>"entry_statusesPaginatorBox"})%>
+    <div id="entry_statusesPaginatorBox"></div>
+  </div>
+</div>

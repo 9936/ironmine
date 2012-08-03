@@ -1,0 +1,13 @@
+$(function(){
+    <% prepare_request_files(@incident_request) %>
+    <% unless flash[:notice].present?%>
+        $("#replies").append("<%= escape_javascript(render :partial => "list_journals", :locals => {:journals => @current_journals, :grouped_files => @request_files})%>");
+        //回复历史数加1
+        $("#journalsNum").html('<%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request)+1 %>)');
+        reset_rich_text();
+        $("#notice").html("");
+//        $("#new_incident_request_journal_file").upload_file();
+    <% else %>
+        $("#notice").html("<%= escape_javascript(flash_notice)%>");
+    <% end %>
+});

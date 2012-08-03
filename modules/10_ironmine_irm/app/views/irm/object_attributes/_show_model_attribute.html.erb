@@ -1,0 +1,89 @@
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= @object_attribute.attribute_type_name %>:<%= @object_attribute.attribute_name %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @object_attribute},:class=>"btn"%>
+      <%= link_to t(:label_irm_object_attribute_change_type), {:action=>"change_type",:id=>@object_attribute.id,:bo_id=>@business_object.id},:class=>"btn"%>
+      <%= link_to t(:back), {:controller=>"irm/business_objects",:action=>"show",:id=>@business_object.id},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label for="object_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
+            <td class="data-col">
+              <%=@object_attribute[:name]%>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      
+          <tr>
+            <td class="label-col"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
+            <td class="data-col"><%=@object_attribute.attribute_name%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="object_attribute_description"><%=t(:label_irm_object_attribute_description)%></label></td>
+            <td class="data-col" colspan="3"><%=@object_attribute[:description]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="relation_bo_id"><%=t(:label_irm_object_attribute_field_type)%></label></td>
+            <td class="data-col"><%= @object_attribute[:field_type_name] %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+    <% if @object_attribute.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(@object_attribute.category) %>
+
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_irm_business_object_relation) %></h3>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="show-table">
+          <tbody>
+
+           <tr>
+             <td class="label-col"><label for="relation_bo_id"><%=t(:label_irm_object_attribute_relation_bo)%></label></td>
+             <td class="data-col"><%= @object_attribute[:relation_bo_name] %>(<%= @object_attribute[:relation_bo_table_name] %>)</td>
+             <td class="label-col empty">&nbsp;</td>
+             <td class="data-col empty">&nbsp;</td>
+           </tr>
+           <tr>
+             <td class="label-col"><label for="relation_object_attribute_id"><%=t(:label_irm_object_attribute_relation_object_attribute)%></label></td>
+             <td class="data-col"><%= @object_attribute[:relation_bo_attribute_name] %>(<%= @object_attribute[:relation_attribute_name] %>)</td>
+             <td class="label-col empty">&nbsp;</td>
+             <td class="data-col empty">&nbsp;</td>
+           </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <% end %>
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_irm_object_attribute_function) %></h3>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="show-table">
+          <tbody>
+            <tr>
+              <td class="label-col"><label for="object_attribute_person_flag"><%=t(:label_irm_object_attribute_person_flag)%></label></td>
+              <td class="data-col"><%=check_img(@object_attribute.person_flag)%></td>
+              <td class="label-col"><label for="object_attribute_approve_flag"><%=t(:label_irm_object_attribute_approve_flag)%></label></td>
+              <td class="data-col"><%=check_img(@object_attribute.approve_flag)%></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:lane_code,{:title=>t(:label_irm_lane_code)})%>
+  <% builder.column(:lane_name,{:title=>t(:name)})%>
+  <% builder.column(:lane_description,{:title=>t(:description)})%>
+<% end %>

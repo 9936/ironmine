@@ -1,0 +1,7 @@
+<%=datatable_view({:columns=>[:external_system_code,:system_name,:system_description],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id)%>
+  <% builder.column(:external_system_code,{:title=>t(:label_irm_external_system), :width => "20%"})%>
+  <% builder.column(:system_name,{:title=>t(:label_irm_menu_name), :width => "25%"})%>
+  <% builder.column(:system_description,{:title=>t(:description)})%>
+<% end %>
+

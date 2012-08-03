@@ -20,7 +20,7 @@ $.extend({
 	 */
 	alert: function(msg) {
 		//this.gritter.add(msg);
-        console.log(msg);
+        //console.log(msg);
         //console.debug(msg);
 	},
 

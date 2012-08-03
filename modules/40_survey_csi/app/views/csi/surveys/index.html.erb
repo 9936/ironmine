@@ -1,0 +1,26 @@
+<%= common_title%>
+
+<%= view_filter("CSI_SURVEYS_INDEX","CSI_SURVEYS","survey") %>
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_csi_survey_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="survey"></div>
+    <%= datatable("survey",{:action=>"get_data"},[],:paginator_box=>"paginator",:search_box=>"searchBox")%>
+    <div id="paginator"></div>
+  </div>
+</div>
+
+<% content_for :sidebar do %>
+    <%= render :partial =>"/irm/common/recently_objects" %>
+<% end %>

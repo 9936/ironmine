@@ -1,0 +1,109 @@
+<%= setting_title %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_skm_channel) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @channel },:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_channel_code)%></label></td>
+            <td class="data-2col"><%= @channel.channel_code%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :name)%></label></td>
+            <td class="data-2col"><%= @channel[:name]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:description)%></label></td>
+            <td class="data-2col"><%= @channel[:description]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :active)%></label></td>
+            <td class="data-2col"><%= check_img(@channel.status_code)%></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- 知识分类 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_channel_column) %></h2>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td>
+              <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data",  :format=>:json,:with_check=> @channel.column_ids ),
+                                                   :tree_id => "tree-div",
+                                                   :checkbox => true,
+                                                   :li_attrs => "id" } %>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- 审核人员 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_skm_channel_approval_people)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:label_skm_channel_approval_management), {:controller=>"skm/channels",:action => "new_approvals",:id=>@channel.id},:class=>"btn btn-primary"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="approvalPeople">
+      <%= datatable("approvalPeople",{:controller=>"skm/channels",:action=>"get_owned_approvals_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"approvalPeoplePaginatorBox"})%>
+    </div>
+    <div id="approvalPeoplePaginatorBox"></div>
+  </div>
+</div>
+<!-- 所属组 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_irm_person_group)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:label_skm_channel_group_management), {:controller=>"skm/channels",:action => "new_groups",:id=>@channel.id},:class=>"btn btn-primary"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="groupList">
+      <%= datatable("groupList",{:controller=>"skm/channels",:action=>"get_owned_groups_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"groupPaginatorBox"})%>
+    </div>
+    <div id="groupPaginatorBox"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#tree-div").bind('nodeListener',function(event, element){
+          event.stopPropagation();
+          return false;
+      });
+  });
+</script>
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@channel} %>

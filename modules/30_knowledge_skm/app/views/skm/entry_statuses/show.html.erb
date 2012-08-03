@@ -1,0 +1,36 @@
+<%= page_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_skm_entry_status) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id =>  @entry_status},:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_entry_status_code)%></label></td>
+            <td class="data-col"><%= @entry_status[:entry_status_code]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :name)%></label></td>
+            <td class="data-col"><%= @entry_status[:name]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:description)%></label></td>
+            <td class="data-col"><%= @entry_status[:description]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_entry_status_visiable)%></label></td>
+            <td class="data-col"><%= check_img(@entry_status.visiable_flag)%></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

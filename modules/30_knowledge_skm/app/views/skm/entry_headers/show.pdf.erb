@@ -1,0 +1,46 @@
+<div class="pdf-container">
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#333333">
+   <tr>
+    <td>
+      <table width="100%" height="25" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+        <tr>
+          <td width="59%">
+            <strong>[<%= @entry_header.doc_number%>]&nbsp;&nbsp;&nbsp;<%= @entry_header.entry_title %>&nbsp; &nbsp;&nbsp;&nbsp;</strong>
+          </td>
+          <td width="41%" align="right"><strong><%= t(:label_skm_entry_header_published_date) %>:</strong><%= format_date(@entry_header.created_at) %></td>
+        </tr>
+      </table>
+      <table class="show-table" width="100%" border="0" align="center" cellpadding="3" cellspacing="2">
+        <!-- 知识库内容 -->
+        <%- @entry_header.entry_details.each do |e| -%>
+        <tr>
+          <td colspan="4"><h3><%= raw(e.element_name) %></h3></td>
+        </tr>
+        <tr>
+          <td colspan="4"><pre><%= raw(e.entry_content) %></pre></td>
+        </tr>
+        <%- end -%>
+        <!--- 版本列表 -->
+        <tr>
+          <td colspan="4"><h3><%= t(:label_skm_entry_header_history_list) %></h3></td>
+        </tr>
+        <tr class="header">
+          <td align="center" width="30%" ><%= t(:label_skm_entry_header_published_date) %></td>
+          <td align="center" width="15%"><%= t(:label_skm_entry_header_version) %></td>
+          <td align="center" width="40%"><%= t(:label_skm_entry_header_title) %></td>
+          <td align="center" width="15%"><%= t(:label_skm_entry_header_doc_number) %></td>
+        </tr>
+        <%- @entry_history.each do |data| -%>
+        <tr>
+           <td align="center"><%= format_date data[:published_date] %></td>
+           <td align="center"><%= data[:version_number] %></td>
+           <td><%= data[:full_title] %></td>
+           <td align="center"><%= data[:doc_number] %></td>
+        </tr>
+        <%- end -%>
+      </table>
+    </td>
+   </tr>
+  </table>
+</div>
+

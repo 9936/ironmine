@@ -1,0 +1,46 @@
+<%= app_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_delayed_job_info) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_delayed_jobs_record_run_at)%></label></td>
+            <td class="data-2col"><%=@log.run_at.strftime("%F %T")%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_delayed_jobs_record_end_at)%></label></td>
+            <td class="data-2col"><%=@log.end_at.strftime("%F %T") if @log.end_at.present?%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_delayed_jobs_record_handler)%></label></td>
+            <td class="data-2col"><%=raw(@log.handler)%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_delayed_jobs_record_item_attempt)%></label></td>
+            <td class="data-2col"><%=@log.attempts%></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_delayed_jobs_record_item) %></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="menu_entries_list"></div>
+    <%= datatable("delayed_job",{:action=>"get_item_data",:controller => "irm/delayed_jobs",:delayed_job_id => @log.delayed_job_id},[])%>
+  </div>
+</div>

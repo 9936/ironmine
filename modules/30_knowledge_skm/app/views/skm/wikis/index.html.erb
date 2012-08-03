@@ -1,0 +1,36 @@
+<%= common_title %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_wiki) %></h2>
+      </td>
+      <td class="page-block-button btn-toolbar">
+        <div class="btn-group" >
+          <%= link_to t(:new), {:action =>"new"}, :back => true, :class => "btn btn-primary" %>
+          <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to(t(:label_skm_wiki_new_word), {:action => "new_word"},:back=>true) %></li>
+            <li class="divider"></li>
+            <li><%= link_to(t(:label_skm_book_new), {:controller=>"skm/books",:action => "new"},:back=>true) %></li>
+          </ul>
+        </div>
+        <div class="btn-group" >
+        <%= link_to t(:label_skm_book), {:controller=>"skm/books",:action => "index"}, :class => "btn" %>
+        </div>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("lookup_type", {:controller => "skm/wikis", :action => "get_data", :format => "json"},
+                  [],
+                  {:search_box => "searchBox", :paginator_box => "paginator"}) %>
+    <div id="paginator"></div>
+  </div>
+</div>
+
+

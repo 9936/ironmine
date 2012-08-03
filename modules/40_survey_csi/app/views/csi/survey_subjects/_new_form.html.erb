@@ -1,0 +1,60 @@
+<%= common_title%>
+<% require_javascript(:survey) %>
+<%= form_for(@survey_subject,:url=>{:controller=>"csi/survey_subjects",:action=>"create",:survey_id=>@survey_subject.survey_id},:builder => CustomFormBuilder) do |f| %>
+  <%= f.hidden_field :survey_id %>
+  <% content_for :form_block_common  do %>
+    <%= render :partial => "subject_form", :locals => {:parent => @survey, :subject => @survey_subject,:form=>f} %>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:save_and_new), {:controller=>"csi/survey_subjects",:action=>"create",:survey_id=>@survey_subject.survey_id,:save_and_new=>true},{:class=>"btn"} %>
+    <%= link_to t(:cancel), {:controller=>"csi/surveys",:action => "show",:id=>@survey_subject.survey_id},:class =>"btn cancel"%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_csi_survey_subject_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @survey%>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_csi_survey_subject_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+<div id="hidden_form">
+  <% ['string', 'text', 'radio', 'check', 'drop'].each do |input| %>
+    <div id="<%= input %>_type" style="display:none">
+         <%= render :partial => "#{input}_form", :locals => {:parent => @survey, :subject => nil} %>
+    </div>
+  <% end %>
+</div>
+
+<% content_for :sidebar do %>
+    <%= render :partial =>"/irm/common/recently_objects" %>
+<% end %>

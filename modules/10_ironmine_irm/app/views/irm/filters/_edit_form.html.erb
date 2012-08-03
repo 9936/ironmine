@@ -1,0 +1,181 @@
+<%=bo=filter_bo(@rule_filter.bo_code); common_title(:model_name=>bo.bo_model_name,:action_meaning=>t(:label_irm_view_filter_new)) %>
+
+<%= form_for(@rule_filter,:url=>{:action=>"update",:pca=>params[:pca]},:builder => CustomFormBuilder) do |f| %>
+  <%= back_url_hidden_field_tag %>
+  <%= f.hidden_field(:filter_type) %>
+  <%= f.hidden_field(:source_code) %>
+  <%= f.hidden_field(:bo_code) %>
+  <% content_for :form_block_common   do%>
+
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_view_filter_view_code)%></label></td>
+            <td class="data-col"><label><%=@rule_filter.filter_code%></label></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_view_filter_view_name)%></label></td>
+            <td class="data-col"><%=f.text_field :filter_name, :required=>true,:size=>40%></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_view_filter_default_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :default_flag%></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_block_range do %>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><%=f.radio_button(:data_range,"Y")%></td>
+            <td class="data-col"><label><%= filter_data_range_all_label(bo)%></label></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><%=f.radio_button(:data_range,"N")%></td>
+            <td class="data-col"><label><%= filter_data_range_main_label(bo)%></label></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% content_for :form_block_criterion do %>
+    <div class="pbSubsection" style="padding-left:40px;" id="filterContent" href="<%= url_for(:controller=>"irm/filters",:action=>"operator_value",:seq_num=>"{seq_num}",:attribute_id=>"{attribute_id}") %>">
+
+      <table class="filter-table">
+        <thead>
+          <tr>
+            <td class="num-col"></td>
+            <td class="field-col"><%=t(:irm_filter_criterions_column_code)%></td>
+            <td class="value-col">
+              <table style="width: 100%;"><tr><td class="filter-operator-cell"><%=t(:irm_filter_criterions_operator_code)%></td><td class="filter-value-cell"><%=t(:irm_filter_criterions_filter_value)%></td></tr></table>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+        <%= f.fields_for :rule_filter_criterions,:builder => CustomFormBuilder do |sub_f|%>
+            <tr>
+              <td class="num-col"><label><%=sub_f.object.seq_num%></label></td>
+              <td class="field-col">
+                <%=sub_f.hidden_field(:seq_num)%>
+                <%=sub_f.hidden_field(:bo_code,:value=>@rule_filter.bo_code)%>
+                <%=sub_f.blank_select(:attribute_name,available_view_column(@rule_filter.bo_code),{:required=>true,:size=>10},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
+              </td>
+              <td class="value-col filterOperationValue" id="filter<%=sub_f.object.seq_num%>">
+                <%= render_exists_operator_and_value(@rule_filter.bo_code,sub_f.object.attribute_name,sub_f)  %>
+              </td>
+            </tr>
+        <%end %>
+        <tr>
+          <td class="num-col"></td>
+          <td class="text-col" colspan="2"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
+        </tr>
+        <tr>
+          <td class="num-col"></td>
+          <td class="text-col" colspan="2"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause"%></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  <% end %>
+
+  <% content_for :form_block_control do  %>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><%=f.radio_button(:restrict_visibility,"Y")%></td>
+            <td class="data-col"><label><%=t(:label_irm_view_filter_restrict_visibility_for_me)%></label></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><%=f.radio_button(:restrict_visibility,"N")%></td>
+            <td class="data-col"><label><%=t(:label_irm_view_filter_restrict_visibility_for_all)%></label></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel), params[:back_url], {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_view_filter_new)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @view_filter%>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_irm_view_filter_base_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%=t(:label_irm_view_filter_data_range)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_range   %>
+        </div>
+
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%=t(:label_irm_view_filter_criterion)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_criterion   %>
+        </div>
+
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%=t(:label_irm_view_filter_access_control)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_control   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+      $("#filterContent .filterColumnSelect").live("change",function(event){
+          rawConditionClause("rawConditionClause",event);
+          refreshFilterOptions("filterContent",event);
+      });
+  });
+</script>

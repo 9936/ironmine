@@ -1,0 +1,52 @@
+<%= common_title %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header">
+    <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_ldap_auth_attribute) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_to(t(:edit),{:controller => "irm/ldap_auth_attributes", :action => "edit", :ah_id => @ldap_auth_attribute.ldap_auth_header_id,:id=>@ldap_auth_attribute.id},:class=>"btn btn-primary") %>
+          <%= link_to(t(:back),{:controller => "irm/ldap_auth_headers", :action => "show", :id =>  @ldap_auth_attribute.ldap_auth_header_id},:class=>"btn") %>
+        </td>
+    </tr>
+  </table>
+  <!-- 一般信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title"><h2 class="block-title"><%= t(:label_common_info) %>:</h2></td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_ldap_auth_attribute_local_attr)%></label></td>
+            <td class="data-col"><%= @ldap_auth_attribute.local_attr %></td>
+            <td class="label-col"><label ><%=t(:label_ldap_auth_attribute_attr_type)%></label></td>
+            <td class="data-col"><%= @ldap_auth_attribute.attr_type %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_ldap_auth_attribute_ldap_attr)%></label></td>
+            <td class="data-col"><%= @ldap_auth_attribute.ldap_attr %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_ldap_auth_attribute_description)%></label></td>
+            <td class="data-col"><%= @ldap_auth_attribute.description %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+                    <tr>
+            <td class="label-col"><label ><%=t(:label_ldap_auth_attribute_status_code)%></label></td>
+            <td class="data-col"><%= @ldap_auth_attribute.status_code %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<style type="text/css">
+  #statusMatrix{
+    padding-left: 20px;
+  }
+  #statusMatrix th{
+    font-weight:bold;
+    padding:5px;
+  }
+  #statusMatrix td{
+    text-align: center;
+    min-width: 50px;
+    padding:5px;
+    border: solid 1px;
+    border-color:#CBCBCB;
+  }
+  #statusMatrix th.to{
+    text-align: center;
+  }
+  #statusMatrix th.from{
+    text-align: right;
+  }
+</style>
+<%= common_title %>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_incident_status_edit_transform) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit_transform"}, :class => "btn btn-primary" %>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table id="statusMatrix" cellpadding="0" cellspacing="0" border="0">
+      <% incident_statuses = available_incident_status;
+         incident_status_ids = incident_statuses.collect{|i| i.id};
+         events = available_incident_event_name;
+         status_transforms = available_status_transform;
+      %>
+      <tbody>
+        <tr>
+          <th class="from"></th>
+          <% incident_statuses.each do |to_status| %>
+            <th class="to"><%= to_status[:name]%></th>
+          <% end %>
+        </tr>
+        <% incident_statuses.each do |from_status| %>
+          <tr>
+            <th class="from"><%= from_status[:name]%></th>
+            <% incident_status_ids.each do |to_id| %>
+              <td title="<%=from_status[:name]%>">
+                <%= events[(status_transforms[from_status.id]&&status_transforms[from_status.id][to_id]) ? status_transforms[from_status.id][to_id] : nil] %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_incident_status_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+      <td class="page-block-help">
+        <div id="incidentStatusesSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="incident_status"></div>
+    <%= datatable("incident_status",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"statusPaginator",:search_box=>"incidentStatusesSearchBox"})%>
+    <div id="statusPaginator"></div>
+  </div>
+</div>

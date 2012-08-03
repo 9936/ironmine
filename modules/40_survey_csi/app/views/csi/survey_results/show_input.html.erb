@@ -1,0 +1,23 @@
+<%= common_title(:show_data=>@survey_subject.survey.title,:action_meaning=>t(:label_csi_survey_result_show_input)) %>
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= @survey_subject.name %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_back t(:back), {}, :class => "btn cancel"%>
+      </td>
+      <td class="page-block-help"></td>
+  </tr></table>
+  <div class="page-block-body">
+    <%=datatable_view({:count=>@text_inputs.length,:datas=>@text_inputs}) do |builder|%>
+      <% builder.column(:survey_response_id,{:title=>t(:operation),:width=>"80"}) do |data| %>
+        <%= link_to t(:label_csi_survey_result_show_response),{:controller => "csi/survey_results",:id=>data[:survey_response_id],:action => "show_response"} ,{:back=>true } %>
+      <% end %>
+      <% builder.column(:person_name,{:title=>t(:label_csi_survey_response_person)})%>
+      <% builder.column(:start_at,{:title=>t(:label_csi_survey_response_start_at)}) %>
+      <% builder.column(:text_input,{:title=>t(:label_csi_survey_response_text_input)}) %>
+    <% end %>
+  </div>
+</div>

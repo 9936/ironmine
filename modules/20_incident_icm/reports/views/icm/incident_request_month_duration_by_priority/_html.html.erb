@@ -1,0 +1,35 @@
+<div id="reportChart"></div>
+
+<!--  irm datatable      -->
+ <div class="datatable">
+   <div>
+       <table count="<%=datas[:datas].size%>">
+         <thead>
+           <tr>
+             <td >
+               <div><%= datas[:headers][0] %></div>
+             </td>
+             <% 1.upto(datas[:headers].length) do |index| %>
+               <th >
+                 <div><%= datas[:headers][index] %></div>
+               </th>
+             <% end %>
+           </tr>
+         </thead>
+         <tbody>
+         <% datas[:datas].each do |data| %>
+           <tr>
+             <% 0.upto(datas[:headers].length) do |index| %>
+               <td>
+                 <div>
+                   <%= data[index] %>
+                 </div>
+               </td>
+             <% end %>
+           </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

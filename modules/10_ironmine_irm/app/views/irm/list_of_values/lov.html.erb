@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <%= render :partial => "irm/common/application_title" %>
+  <%= csrf_meta_tag %>
+  <%= render :partial => "irm/common/address_bar_logo" %>
+</head>
+<frameset border="0" frameborder="0" framespacing="0" cols="250" rows="100,*">
+  <frame scrolling="auto" framespacing="0" marginheight="0" marginwidth="0" noresize="noresize" frameborder="0" id="searchFrame" name="searchFrame"
+         src="<%= url_for(:action=>"lov_search",
+                          :lkfm=>params[:lkfm],
+                          :lkfid=>params[:lkfid],
+                          :lkvfid=>params[:lkvfid],
+                          :lktp=>params[:lktp],
+                          :lksrch=>params[:lksrch])%>"
+  title="" />
+  <frame scrolling="auto" framespacing="0" marginheight="0" marginwidth="0" frameborder="0" id="resultsFrame" name="resultsFrame"
+         src="<%= url_for(:action=>"lov_result",
+                          :lkfm=>params[:lkfm],
+                          :lkfid=>params[:lkfid],
+                          :lkvfid=>params[:lkvfid],
+                          :lktp=>params[:lktp],
+                          :lksrch=>params[:lksrch])%>"
+  title="" />
+</frameset>
+</html>

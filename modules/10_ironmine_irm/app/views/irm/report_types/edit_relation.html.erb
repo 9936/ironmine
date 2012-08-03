@@ -1,0 +1,325 @@
+<%= page_title %>
+
+
+
+<%content_for :page_source do%>
+  <%= stylesheet_link_tag :report_types%>
+<%end%>
+<%= form_for(@report_type, :url => {:action => "update_relation"}, :builder => CustomFormBuilder) do |f| %>
+
+
+    <% content_for :form_block_a do %>
+        <%= f.hidden_field(:step) %>
+        <%= f.hidden_field(:relationship_str,:id=>"relationship_str",:value=>@report_type.relationship_str||@report_type.relationship_to_s) %>
+        <table id="reportType" cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+          <tr>
+            <td>
+              <div id="reportTypeRelation">
+                <div style="margin-top: 10px;"></div>
+                <% object_index = ["A", "B", "C", "D"] %>
+                <% object_index.each_with_index do |o, index| %>
+                    <div id="level<%= index %>" class="level level<%= index %>" style="margin-left: <%= index*40%>px">
+                      <% if index>0 %>
+                          <img width="34" height="80" title="" id="level<%= index %>_elbow_inner" class="elbow" alt="" src="<%= theme_image_path("report/elbow_inner.gif") %>" style="display: none;">
+                          <img width="34" height="80" title="" id="level<%= index %>_elbow_outer" class="elbow" alt="" src="<%= theme_image_path("report/elbow_outer.gif") %>">
+                      <% end %>
+                      <div id="level<%= index %>_ghost_elbow" class="elbow ghostElbow" style="display: none;">
+                      </div>
+                      <a onclick="handleAdd(<%= index%>)" id="level<%= index %>_ghost0" class="ghost_box" href="javascript:void(0)" style="display: none;">
+                        <%= t(:label_irm_report_type_click_to_relate_to_other_bo) %>
+                      </a>
+
+                      <div id="level<%= index %>_ghost1" class="ghostContainer" style="display: block;">
+                        <div class="rightShadow">
+                          <div class="box">
+                            <div class="objectLetter">
+                              <%= o %>
+                            </div>
+                            <div class="objectInfoBox">
+                              <% if index>0 %>
+                                  <span id="level<%= index %>_remove" onclick="handleRemove(<%= index%>)" class="boxRemoveLink">X</span>
+
+                                  <div id="level<%= index %>_estObjLabel" class="objectLabel">
+                                  </div>
+                                  <select name="level<%= index %>_select" onchange="handleSelect(<%= index%>,this)" id="level<%= index %>_select">
+                                    <option value="">---<%= t(:actionview_instancetag_blank_option) %>---</option>
+                                  </select>
+                                  <span class="relationshipLabel"><%= t(:label_irm_report_type_relate_to, :master => object_index[index-1], :detail => object_index[index]) %></span>
+
+                                  <div id="level<%= index %>_inner_join_option">
+                                    <input type="radio" value="inner" onclick="return handleRadio(<%= index%>, 'inner');" name="level<%= index %>_radio" checked="true" id="level<%= index %>_radioinner">
+                                    <label for="level<%= index %>_radioinner"><%= t(:label_irm_report_type_relate_inner, :master => object_index[index-1], :detail => object_index[index]) %></label>
+                                  </div>
+                                  <input type="radio" value="outer" onclick="return handleRadio(<%= index%>, 'outer');" name="level<%= index %>_radio" id="level<%= index %>_radioouter">
+                                  <label for="level<%= index %>_radioouter"><%= t(:label_irm_report_type_relate_outer, :master => object_index[index-1], :detail => object_index[index]) %></label>
+                              <% else %>
+                                  <div id="level<%= index %>_estObjLabel" class="objectLabel"></div>
+                                  <input id="level<%= index %>_select" type="hidden"/>
+                                  <span class="relationshipLabel"><%= t(:label_irm_report_type_business_object) %></span>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="bottomShadow">
+                          <div class="cornerShadow">
+                          </div>
+                        </div>
+                      </div>
+                      <div id="level<%= index %>_endWarning" class="infoWarning" style="display: none;">
+                        <%= t(:label_irm_report_type_relate_no_detail) %>
+                      </div>
+                      <div id="level<%= index %>_warning" class="infoWarning" style="display: none;">
+                        <strong><%= t(:label_irm_report_type_relate_no_detail) %></strong>
+                      </div>
+                    </div>
+                <% end %>
+              </div>
+            </td>
+            <td>
+              <div style="padding-right: 5px;">
+                <div>
+                  <img width="190" height="226" id="joinImage" title="Object Relationships" alt="" tsrc="<%= theme_image_path("report/crt_rel_{0}.gif") %>">
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+
+    <% content_for :form_buttons do %>
+        <%= link_submit(t(:save), :class => "btn btn-primary") %>
+        <%= link_to t(:cancel), {:controller => "irm/report_types", :action => "index"}, :class => "btn" %>
+    <% end %>
+
+
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%=t(:label_irm_report_type_define_record_sets)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+
+          </td>
+          <td class="page-block-help">
+          </td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <%= error_for @report_type %>
+        <%= content_for :form_block_a %>
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title">
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+<% end %>
+
+
+
+<%= selectable_master_detail(@report_type.business_object_id) %>
+<script>
+    var relationObjects = [];
+    var joinOptions = [];
+    var allDisplays = [];
+    function syncComponent() {
+        allDisplays = [];
+        var allElements = allControlElement();
+        sync(0);
+        $.each(allDisplays, function (dindex, d) {
+            if (d.substr(d.length - "_radioouter".length) == "_radioouter")
+                $("#"+d).css({display:""});
+            else
+                $("#"+d).css({display:"block"});
+            allElements = $.grep(allElements, function(value) {
+                      return value != d;
+            });
+        });
+        $.each(allElements, function (dindex, d) {
+            if ($("#"+d))
+                $("#"+d).css({display:"none"});
+        });
+        generateJoinImage();
+    }
+
+    function generateJoinImage() {
+        var objects = ["A", "B", "C", "D"];
+        var config = {"inner":"w", "outer":"wwo"};
+        var storeData = [];
+        storeData.push(relationObjects[0]);
+        for (var i = 1; i < relationObjects.length; i++) {
+            if (relationObjects[i] && joinOptions[i - 1]) {
+                storeData.push(joinOptions[i - 1]);
+                storeData.push(relationObjects[i]);
+            }
+        }
+        $("#relationship_str").val(storeData.join(","));
+        var str = "A"
+        for (var i = 1; i < relationObjects.length; i++) {
+            if (joinOptions[i - 1]) {
+                str = str + config[joinOptions[i - 1]] + objects[i];
+            }
+        }
+        var t = decodeURIComponent($("#joinImage").attr("tsrc"));
+        $("#joinImage").attr("src", t.replace("{0}",str));
+    }
+
+    function sync(index) {
+        if (index == 0) {
+            $("#level0_estObjLabel").html(detailNames[relationObjects[index]]);
+            $("#level0_select").val(relationObjects[index]);
+            allDisplays.push("level0_ghost1");
+            allDisplays.push("level0_estObjLabel");
+        } else {
+            if (!relationObjects[index] && !joinOptions[index - 1]) {
+                allDisplays.push("level" + index + "_ghost0");
+                allDisplays.push("level" + index + "_ghost_elbow");
+                return;
+            }
+            if (joinOptions[index - 1]) {
+                allDisplays.push("level" + index + "_ghost1");
+                if (relationObjects[index] && joinOptions[index]) {
+                    $("#level" + index + "_estObjLabel").html(detailNames[relationObjects[index]]);
+                    allDisplays.push("level" + index + "_estObjLabel");
+                } else {
+                    allDisplays.push("level" + index + "_select");
+                    $("#level" + index + "_select").val(relationObjects[index] || "");
+                }
+
+                if (joinOptions[index - 1] == "inner") {
+                    $("#level" + index + "_radioinner").attr("checked","checked")
+                    allDisplays.push("level" + index + "_elbow_inner");
+                }
+                else {
+                    $("#level" + index + "_radioouter").attr("checked","checked")
+                    allDisplays.push("level" + index + "_elbow_outer");
+                }
+
+                if (!(index > 1 && joinOptions[index - 1] == "outer" && joinOptions[index - 2] == "outer")) {
+                    allDisplays.push("level" + index + "_inner_join_option");
+                    allDisplays.push("level" + index + "_radioouter");
+                }
+            }
+        }
+
+        if (joinOptions[index] && index > 2) {
+            allDisplays.push("level" + (index) + "_warning");
+            return;
+        }
+        if (relationObjects[index]) {
+            var currentDetails = masterDetails[relationObjects[index]];
+            if (currentDetails.length > 0) {
+                setOptions($("#level" + (index + 1) + "_select"), currentDetails);
+            } else {
+                allDisplays.push("level" + (index) + "_endWarning");
+                return;
+            }
+            sync(index + 1);
+        }
+
+
+    }
+
+
+    function initReportTypeRelation() {
+        var relationships = $("#relationship_str").val().split(",");
+        relationships = $.grep(relationships, function(value) {
+          return value != "";
+        });
+        for (var i = 0; i < relationships.length; i = i + 2) {
+            if (relationships[i])
+                relationObjects.push(relationships[i]);
+            if (relationships[i + 1])
+                joinOptions.push(relationships[i + 1]);
+        }
+        if (relationObjects.length < 1)
+            relationObjects.push(masterDetails[0][0]["id"]);
+        syncComponent();
+    }
+
+    function handleRadio(index, type) {
+        joinOptions[index - 1] = type;
+        if (type == "outer") {
+            for (var i = index; i < 4; i++) {
+                if (joinOptions[i])
+                    joinOptions[i] = "outer";
+            }
+        }
+        syncComponent();
+    }
+
+    function handleRemove(index) {
+        for (var i = index; i < 4; i++) {
+            relationObjects[i] = null;
+            joinOptions[i - 1] = null;
+
+        }
+        syncComponent();
+    }
+    function handleAdd(index) {
+        for (var i = index; i < 4; i++) {
+            relationObjects[i] = null;
+            joinOptions[i - 1] = null;
+
+        }
+        if (joinOptions[index - 2]) {
+            joinOptions[index - 1] = joinOptions[index - 2];
+        }
+        else {
+            joinOptions[index - 1] = "inner";
+        }
+
+        syncComponent();
+    }
+    function handleSelect(index, context) {
+        relationObjects[index] = context.value;
+        syncComponent();
+    }
+
+    function setOptions(element, options) {
+        var first_options = element.find("option:first");
+        element.html("");
+        if (first_options && first_options.attr("value") == "") {
+            element.append($("<option></option>").attr("value",first_options.attr("value")).html(first_options.html()));
+        }
+        $.each(options, function(index,bo) {
+            element.append($("<option></option>").attr("value",bo.id).html(bo.name));
+        });
+    }
+
+
+    function allControlElement() {
+        var elements = new Array();
+        for (var index = 0; index < 4; index++) {
+            elements.push("level" + index + "_elbow_inner");
+            elements.push("level" + index + "_elbow_outer");
+            elements.push("level" + index + "_ghost_elbow");
+            elements.push("level" + index + "_ghost0");
+            elements.push("level" + index + "_ghost1");
+            elements.push("level" + index + "_select");
+            elements.push("level" + index + "_estObjLabel");
+            elements.push("level" + index + "_inner_join_option");
+            elements.push("level" + index + "_radioouter");
+            elements.push("level" + index + "_warning");
+            elements.push("level" + index + "_endWarning");
+
+        }
+        return elements;
+    }
+
+    initReportTypeRelation();
+
+</script>

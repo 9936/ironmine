@@ -1,0 +1,93 @@
+<%= form_for(@wf_approval_process,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+
+
+  <% content_for :form_block_a   do%>
+    <%= f.hidden_field(:step) %>
+    <table class="form-table">
+      <tbody>
+        <tr>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+        </tr>
+        <tr>
+           <td class="label-col">
+             <label for="duelType"><%=t(:label_irm_wf_rule_action_type)%></label>
+           </td>
+           <td class="data-col" colspan="3">
+             <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>bo_person_field_duel_types([Irm::ExternalSystem.name]),:sources=>bo_person_field_duel_values(@wf_approval_process.bo_code,[Irm::ExternalSystem.name]),:str_value_field=>:submitter_str,:str_value=>@wf_approval_process.get_submitter_str} %>
+           </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+    <% content_for :form_block_b   do%>
+     <%= f.hidden_field(:step) %>
+     <table class="form-table">
+       <tbody>
+         <tr>
+           <td class="label-col"><label for="wf_approval_process_allow_submitter_recal"><%=t(:label_irm_wf_approval_process_allow_submitter_recal)%></label></td>
+           <td class="data-col"><label><%=f.check_box :allow_submitter_recall, :id=>"wf_approval_process_allow_submitter_recal"%></label></td>
+           <td class="label-col empty">&nbsp;</td>
+           <td class="data-col empty">&nbsp;</td>
+         </tr>
+       </tbody>
+     </table>
+   <% end %>
+
+  <% content_for :form_buttons  do %>
+        <%= link_to t(:last), {:action => "edit",:pre_step=>true},{:class=>"submit btn"} %>
+        <%= link_submit t(:save),{:class=>"btn"} %>
+        <%= link_back t(:cancel), {},:class=>"btn" %>
+  <% end %>
+
+
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:step_n, :n => "5") %><%= t(:label_irm_wf_approval_process_submit) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+
+        </td>
+        <td class="page-block-help">
+          <h2 class="block-title"><%= t(:step_n_total_m, :n => "5", :m => "5") %></h2>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @wf_approval_process%>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_irm_wf_approval_process_init_submiter)  %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+        </div>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_irm_wf_approval_process_submit_config)  %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_b   %>
+          </div>
+        </div>
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+    </div>
+
+<% end %>
+

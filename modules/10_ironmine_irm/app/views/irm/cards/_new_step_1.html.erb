@@ -1,0 +1,85 @@
+<%= form_for(@card,:url=>{:action=>"new", :step => 2},:builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_card_code)%></label></td>
+            <td class="data-2col"><%=f.text_field :card_code, :required=>true, :irm_uppercase => true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :name)%></label></td>
+            <td class="data-2col"><%=f.text_field :name, :required=>true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :description)%></label></td>
+            <td class="data-2col"><%=f.text_area :description, :rows => 4,:class=>"input-xlarge"%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_card_url)%></label></td>
+            <td class="data-2col"><%=f.text_field :card_url, :required=>true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_card_background_color)%></label></td>
+            <td class="data-2col">
+              <%= f.hidden_field :background_color, :id => "background_color", :value => "#ffffff"%>
+              <div id="selected_color" style="background-color:white;height:14px;width:50px;display:inline-block;border:solid 1px #000000;"></div>
+              <label for="ava_color">备选颜色</label>
+              <div id="ava_color" style="display:inline;">
+              <% card_background_color_list.each do |b| %>
+                  <a href="javascript:void(0);" style="display:inline" onclick="set_color('<%= b[1]%>')">
+                    <div style="background-color:<%= b[1]%>;width:14px;height:14px;display:inline-block;border:solid 1px #000000;"></div>
+                  </a>
+              <% end %>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="object_attribute_attribute_type"><%=t(:label_irm_wf_rule_bo_code)%></label></td>
+            <td class="data-2col"><%=f.blank_select :bo_code, available_business_object, :required => true%></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:next),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel),{:action => "index"},{:class=>"btn cancel"}%>
+  <% end %>
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:step_n, :n => "1") %><%=t(:label_irm_card_new)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+      <td class="page-block-help">
+        <%= t(:step_n_total_m, :n => "1", :m => "2") %>
+      </td>
+    </tr></table>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer"><tr>
+      <td class="page-block-title">
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>        
+      </td>
+    </tr></table>
+  </div>
+<% end %>
+<script type="text/javascript">
+function set_color(color){
+        $("#selected_color").attr("style", "background-color:" + color + ";height:14px;width:50px;display:inline-block;border:solid 1px #000000;");
+        $("#background_color").val(color);
+}
+</script>

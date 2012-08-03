@@ -1,0 +1,80 @@
+<div id="reportChart"></div>
+
+<!--  irm datatable      -->
+ <div class="datatable">
+   <div>
+       <table count="<%=datas[:datas].count%>">
+         <thead>
+           <tr>
+             <th style="width:110px;">
+               <div><%= t(:label_csi_survey_title) %></div>
+             </th>
+             <th style="width:110px;">
+               <div><%= t(:label_csi_survey_person_count) %></div>
+             </th>
+             <th style="width:110px;">
+                <div><%= t(:label_csi_survey_date) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% datas[:datas].each do |data| %>
+         <tr id="<%=data[:id]%>">
+           <td>
+             <div>
+               <%= data[:title] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:total_count] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:date] %>
+             </div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+
+
+<% require_jscss(:highcharts) %>
+
+<script type="text/javascript">
+  var chart;
+  $(document).ready(function() {
+      var reportChartData = <%=to_chart_data(datas[:chart_datas],"date","total_count").to_json.html_safe %>;
+  	chart = new Highcharts.Chart({
+  		chart: {
+  			renderTo: 'reportChart',
+  			type: 'line'
+  		},
+  		xAxis: {
+  			categories: reportChartData[0]
+  		},
+  		yAxis: {
+
+  			plotLines: [{
+  				value: 0,
+  				width: 1,
+  				color: '#808080'
+  			}]
+  		},
+  		tooltip: {
+  			formatter: function() {
+  					return '<b>'+ this.series.name +'</b><br/>'+
+  					this.x +': '+ this.y;
+  			}
+  		},
+        credits: {
+            enabled: false
+        },
+  		series: reportChartData[1]
+  	});
+  });
+</script>

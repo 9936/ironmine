@@ -1,0 +1,116 @@
+<%= common_title(:action_meaning=>t(:label_common_info)) %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=t(:label_irm_global_setting)%></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit"},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="show-table">
+          <tbody>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:APPLICATION_TITLE])%></label></td>
+                <td class="data-3col"><%= @setting_values[:APPLICATION_TITLE]%>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:HOST_NAME])%></label></td>
+                <td class="data-3col"><%= @setting_values[:HOST_NAME]%>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:HOST_PATH])%></label></td>
+                <td class="data-3col"><%= @setting_values[:HOST_PATH]%>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:HOST_PORT])%></label></td>
+                <td class="data-3col"><%=@setting_values[:HOST_PORT]  %>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:EMISSION_EMAIL_ADDRESS])%></label></td>
+                <td class="data-3col"><%= @setting_values[:EMISSION_EMAIL_ADDRESS]%>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:UPLOAD_FILE_LIMIT])%></label></td>
+                <td class="data-3col"><%= @setting_values[:UPLOAD_FILE_LIMIT]%>
+                </td>
+              </tr>
+              <tr class="last">
+                <td class="label-col"><label><%=(@setting_names[:TIMEZONE])%></label></td>
+                <td class="data-3col"><%=Irm::LookupValue.multilingual.query_by_lookup_code(@setting_values[:TIMEZONE]).first.wrap_meaning%>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_irm_global_setting_logo) %></h3>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="show-table" cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:APP_TOP_LOGO])%></label></td>
+                <td class="data-3col">
+                <%= image_tag Irm::SystemParametersManager.app_top_logo, :style => "width: 175px; height:65px;border: 1px solid #c9c9c9 !important;"%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:LOGIN_PAGE_LOGO])%></label></td>
+                <td class="data-3col">
+                <%= image_tag Irm::SystemParametersManager.login_page_logo, :style => "width: 300px; height:124px; border: 1px solid #c9c9c9 !important" %></td>
+              </tr>
+              <tr class="last">
+                <td class="label-col"><label><%=(@setting_names[:ADDRESS_BAR_LOGO])%></label></td>
+                <td class="data-3col">
+                <%= image_tag Irm::SystemParametersManager.address_bar_logo, :style => "width: 16px; height:16px; border: 1px solid #c9c9c9 !important" %></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_irm_global_setting_error_page_info) %></h3>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="show-table">
+          <tbody>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:ERROR_404])%></label></td>
+                <td class="data-3col"><%= @setting_values[:ERROR_404]%>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:ERROR_500])%></label></td>
+                <td class="data-3col"><%= @setting_values[:ERROR_500]%>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(@setting_names[:ERROR_422])%></label></td>
+                <td class="data-3col"><%= @setting_values[:ERROR_422]%>
+              </tr>
+              <tr class="last">
+                <td class="label-col"><label><%=(@setting_names[:ERROR_ACCESS_DENY])%></label></td>
+                <td class="data-3col"><%= @setting_values[:ERROR_ACCESS_DENY]%>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

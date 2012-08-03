@@ -1,0 +1,55 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:request_number, {:title => t(:label_chm_change_request_request_number), :width => "40px"}) %>
+    <% builder.column(:title, {:title => t(:label_chm_change_request_title), :searchable => true, :width => "400px"}) do |data| %>
+        <%= link_to(data.title, {:controller => 'chm/change_requests', :action => 'show', :id => data.id}) %>
+    <% end %>
+    <% builder.column(:change_status_id, {:title => t(:label_chm_change_request_stage), :width => "120px"}) do |data| %>
+        <table class="table-icon">
+          <tr>
+            <td class="vt">
+               <span>
+                 <a class="expand-icon" href="javascript:void(0);" title="expand">expand</a>
+                 <a class="collapse-icon" href="javascript:void(0);" title="collapse">collapse</a>
+               </span>
+            </td>
+            <td class="expends"><%= build_stage_collapse(data.change_status_id) %></td>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:incidents, {:title => t(:label_chm_change_request_incident), :width => "120px"}) do |data| %>
+        <table class="table-icon">
+          <tr><%= change_incident_show(data[:incidents], data.id) %></tr>
+        </table>
+    <% end %>
+    <% builder.column(:plans, {:title => t(:label_chm_change_request_plan), :width => "200px"}) do |data| %>
+        <table class="table-icon">
+          <tr>
+            <%= change_pan_show(data) %>
+          </tr>
+        </table>
+    <% end %>
+    <% builder.column(:implements, {:title => t(:label_chm_change_request_implement), :width => "250px", :sortable => true}) do |data| %>
+        <table class="table-icon">
+          <tr><%= change_request_tasks(data.id) %></tr>
+        </table>
+    <% end %>
+    <% builder.column(:approve_stauts, {:title => t(:label_chm_change_request_approve), :width => "130px"}) do |data| %>
+        <%= data[:approve_status_meaning] %>
+    <% end %>
+    <% builder.column(:origanization_id, {:title => t(:label_chm_change_request_organization), :width => "130px"}) do |data| %>
+        <%= data.organization_id_label %>
+    <% end %>
+    <% builder.column(:change_priority_id, {:title => t(:label_chm_change_request_change_priority), :width => "130px"}) do |data| %>
+        <%= data.change_priority_id_label %>
+    <% end %>
+    <% builder.column(:requrested_by, {:title => t(:label_chm_change_request_requested_by), :width => "130px"}) do |data| %>
+        <%= data.requested_by_label %>
+    <% end %>
+    <% builder.column(:submitted_date, {:title => t(:label_chm_change_request_submitted_date), :width => "130px"}) do |data| %>
+        <%= format_date(data.submitted_date) %>
+    <% end %>
+    <% builder.column(:external_system_id_, {:title => t(:label_chm_change_request_external_system), :width => "130px"}) do |data| %>
+        <%= data.external_system_id_label %>
+    <% end %>
+<% end %>
+

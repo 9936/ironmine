@@ -1,3 +1,0 @@
-<%= fields_for(@wf_field_update,:builder => LabellingFormBuilder) do |f| %>
-    <%= render :partial => "set_attribute_value",:locals => {:object_attribute=>@object_attribute,:f=>f} %>
-<% end %>

@@ -1,0 +1,67 @@
+<%= setting_title %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_skm_column_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+      <table class="show-table">
+        <tbody>
+            <tr>
+              <td style="width:1%">
+                <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "skm/columns", :action=>"get_columns_data",  :format=>:json),
+                         :tree_id => "tree-div",
+                         :li_attrs => "id,sc_id,sc_code,column_name,column_description" } %>
+
+              </td>
+              <td class="data-2col" style="vertical-align:top;">
+                  <table class="page-block-header"><tr>
+                      <td class="page-block-title">
+                        <h2 class="block-title"></h2>
+                      </td>
+                      <td class="page-block-button">
+                        <%= link_to t(:edit), {}, {:onclick => "javascript:void(0)", :href=>"#",:class=>"btn",:id=>"edit_button"}%>
+                        <%= link_to t(:label_skm_column_new_child), {}, {:onclick => "javascript:void(0)", :href=>"#",:class=>"btn",:id=>"new_child_button"}%>
+                      </td>
+                  </tr></table>
+
+                  <div class="page-block-body">
+                      <table class="show-table">
+                        <tbody>
+                            <tr>
+                              <td class="label-col"><label><%=(t :label_skm_column_code)%></label></td>
+                              <td class="data-2col" id="column_code"></td>
+                            </tr>
+                            <tr>
+                              <td class="label-col"><label><%=(t :name)%></label></td>
+                              <td class="data-2col" id="column_name"></td>
+                            </tr>
+                            <tr>
+                              <td class="label-col"><label><%=t(:description)%></label></td>
+                              <td class="data-2col" id="column_description"></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                  </div>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#tree-div").bind('nodeListener',function(event, element){
+          $("#column_code").html(element.attr("sc_code"));
+          $("#column_name").html(element.attr("column_name"));
+          $("#column_description").html(element.attr("column_description"));
+          $("#edit_button").attr("href","/skm_columns/" + element.attr("sc_id") + "/edit");
+          $("#new_child_button").attr("href","/skm_columns/new?parent_column_id=" + element.attr("sc_id"));
+      });
+  });
+</script>

@@ -1,0 +1,25 @@
+<style type="text/css">
+  .survey-data {
+      width:100%;
+      display: block;
+      overflow-x: auto !important;
+  }
+</style>
+<div class="survey-data">
+    <%=datatable_view({:count=>@count,:datas=>@survey_data}) do |builder|%>
+      <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:label_csi_survey_result_show_response),{:action=>"show_response",:id=>data[:id]},{:back=>true}) %>
+      <% end %>
+      <% builder.column(:person_name,{:title=>t(:label_csi_survey_title),:searchable=>true})  %>
+      <% builder.column(:start_at,{:title=>t(:label_csi_survey_response_start_at)})%>
+      <% builder.column(:elapse,{:title=>t(:label_csi_survey_response_elapse),:width => "50px"}) do |data|%>
+        <%= data.elapse %>
+      <% end %>
+      <% builder.column(:ip_address,{:title=>t(:label_csi_survey_response_ip_address),:width=>"150px"})%>
+      <% @survey_subjects.each do |ss| %>
+        <% builder.column(ss[:id],{:title=>ss[:name]}) do |data| %>
+          <%= raw data[ss[:id]] %>
+        <% end %>
+      <% end %>
+    <% end %>
+</div>

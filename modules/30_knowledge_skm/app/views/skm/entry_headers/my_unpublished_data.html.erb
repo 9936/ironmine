@@ -1,0 +1,17 @@
+<%=datatable_view({:columns=>[:published_date,:doc_number,:entry_title],:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation),:width=>"40px"}) do |data|%>
+    <%= link_to(t(:edit),{:controller => "skm/entry_headers", :action=>"edit",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:published_date,{:title=>t(:label_skm_entry_header_published_date),:width=>"180px"})%>
+  <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number),:searchable=>true,:width=>"100px"}) do |data|%>
+    <%= link_to(data[:doc_number], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+  <% end %>
+  <% builder.column(:entry_title,{:title=>t(:label_skm_entry_header_title),:searchable=>true}) do |data|%>
+    <% title =  link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
+    <% if data[:type_code].eql?('VIDEO') %>
+    <%= get_img_icon("video") + title %>
+    <% else %>
+    <%= title %>
+    <% end %>
+  <% end %>
+<% end %>

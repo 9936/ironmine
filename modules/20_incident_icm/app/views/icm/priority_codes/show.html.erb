@@ -1,0 +1,51 @@
+<%= common_title(:show_data=>@priority_code[:name]) %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_icm_priority_code_show) %>&nbsp;<%= t(:label_detail_info) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @priority_code},:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_icm_priority_code_priority_code)%></label></td>
+            <td class="data-col"><%=@priority_code.priority_code%></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_icm_priority_code_name)%></label></td>
+            <td class="data-col"><%= @priority_code[:name]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_icm_priority_code_weight_values)%></label></td>
+            <td class="data-col"><%= @priority_code.weight_values%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_icm_priority_code_description)%></label></td>
+            <td class="data-col" colspan="3"><%= @priority_code[:description]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_icm_priority_code_status_code)%></label></td>
+            <td class="data-col"><%= @priority_code[:status_meaning]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@priority_code} %>
+

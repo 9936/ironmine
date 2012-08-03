@@ -1,0 +1,6 @@
+$(function(){
+    $("#configItemForm").html("<%= escape_javascript(render :partial=>"icm/incident_config_relations/mini_form",:locals => {:incident_request=>@incident_request})%>");
+
+    $("#configItems").html("<%= escape_javascript(render :partial=>"icm/incident_config_relations/incident_config_items",:locals=>{:datas=>@incident_request.incident_config_relations.with_config_item.select_all})%>");
+});
+

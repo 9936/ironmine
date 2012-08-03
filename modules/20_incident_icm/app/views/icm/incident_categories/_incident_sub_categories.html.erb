@@ -1,0 +1,10 @@
+<%=datatable_view({:count=>datas.size,:datas=>datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+    <%= link_to(t(:edit),{:controller => "icm/incident_sub_categories",:action => "edit",:id=>data[:id]},{:back=>true}) %>&nbsp;
+    <%= link_to(t(:multilingual),{:controller => "icm/incident_sub_categories",:action => "multilingual_edit",:id=>data[:id]},{:back=>true}) %>&nbsp;
+    <%= link_to(t(:delete),{:controller => "icm/incident_sub_categories",:action => "destroy",:id=>data[:id]},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+  <% end %>
+  <% builder.column(:code,{:title=>t(:label_icm_incident_sub_category_code)})%>
+  <% builder.column(:name,{:title=>t(:label_icm_incident_sub_category_name)})%>
+  <% builder.column(:description,{:title=>t(:label_icm_incident_sub_category_description)})%>
+<% end %>

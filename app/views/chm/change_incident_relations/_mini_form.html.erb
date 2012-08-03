@@ -1,8 +1,0 @@
-<%= form_tag({:controller => "chm/change_incident_relations",:action => "create",:change_request_id=>@change_request.id},:remote=>true) do %>
-        <div class="float-right">
-          <div class="button"><%= link_submit(t(:add))%></div>
-        </div>
-        <div  style="float:right;">
-          <%= lov_field_tag "incident_request_id", Icm::IncidentRequest %>
-        </div>
-<% end %>

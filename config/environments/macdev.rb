@@ -46,23 +46,23 @@ Ironmine::Application.configure do
 		:authentication => :login
   }
   # config for receive mail
-  config.ironmine.mail_receive_method = :imap
-  config.ironmine.mail_receive_interval = '1m'
-  #config.ironmine.mail_receive_imap = {
+  config.fwk.mail_receive_method = :imap
+  config.fwk.mail_receive_interval = '1m'
+  #config.fwk.mail_receive_imap = {
   #  :username => 'root.ironmine@gmail.com',
   #  :password => 'handhand',
   #  :host   => 'imap.gmail.com',
   #  :port     => 993,
   #  :ssl    => true
   #}
-  config.ironmine.mail_receive_imap = {
+  config.fwk.mail_receive_imap = {
     :username => 'rootironmine@163.com',
     :password => 'handhand',
     :host   => 'imap.163.com',
     :port     => 993,
     :ssl    => true
   }
-  config.ironmine.mail_receive_pop = {
+  config.fwk.mail_receive_pop = {
     :username => 'rootironmine@163.com',
     :password => 'handhand',
     :host   => 'pop3.163.com',
@@ -70,5 +70,14 @@ Ironmine::Application.configure do
   }
 
   Paperclip.options[:command_path] = '/opt/local/bin'
+
+  # Compress JavaScripts and CSS
+  config.assets.compress = true
+
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = false
+
+  # Generate digests for assets URLs
+  config.assets.digest = true
 end
 

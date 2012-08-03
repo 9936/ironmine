@@ -1,0 +1,36 @@
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_task_mine) %></h2>
+    </td>
+    <td class="page-block-button">
+
+    </td>
+    <td class="page-block-help" style="width: auto">
+      <div><%= t(:label_irm_task_type) %>:<%= blank_select_tag(:task_entry,my_task_entries,params[:task_entry],{:id=>"myTaskEntryType"}) %></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= render({:partial=>"irm/home/tasks",:locals=>{:tasks=>acts_as_tasks}}) %>
+  </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+  $(function(){
+      $("#myTaskEntryType").change(function(e){
+          var refreshNode = $("#myTasks")
+          var url = decodeURIComponent(refreshNode.attr("href"));
+          url = url.replace("{task_entry}",$("#myTaskEntryType").val());
+          if (url.indexOf("?") > 0) {
+              url += "&_dom_id=myTasks";
+          }else{
+              url += "?_dom_id=myTasks";
+          }
+          refreshNode.load(url);
+      });
+  });
+</script>

@@ -2,7 +2,7 @@ module Gen::GeneratorExpand
   def self.included(base)
     base.class_eval do
       class_option :module, :type => :string, :default => "", :desc => "tell which module to place the files"
-      private
+
       #重载模板方法
       no_tasks do
         def template(source, *args, &block)
@@ -19,12 +19,14 @@ module Gen::GeneratorExpand
 
       #获取传递过来的参数判断是否含有module
       def get_module
-        if options[:module].nil? or !options[:module].present?
-          ''
-        elsif Rails.application.config.module_folder && Rails.application.config.module_folder.present?
-          "#{Rails.application.config.module_folder}/#{options[:module]}/"
+        if !options[:module].present?
+          ""
         else
-          "#{options[:module]}/"
+          if Rails.application.config.fwk.module_mapping[options[:module]]
+            "#{Rails.application.config.fwk.module_folder||"modules"}/#{Rails.application.config.fwk.module_mapping[options[:module]]}/"
+          else
+            ""
+          end
         end
       end
     end

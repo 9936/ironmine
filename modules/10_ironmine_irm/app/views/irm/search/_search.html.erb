@@ -1,0 +1,256 @@
+<% require_jscss(:search) %>
+<div class="search-page-block">
+<table class="split-table" cellpadding="0" cellspacing="0">
+  <tbody><tr>
+    <td class="side-bar">
+      <div class="left-sidebar">
+        <span class="record-toggle toggle-on"><%= t(:label_search_options_setting) %></span>
+        <ul class="tabs" id="entryList">
+          <%= init_search_options %>
+        </ul>
+        <span class="record-toggle toggle-on"><%= t(:label_search_options_time) %></span>
+        <ul class="tabs" id="timeList">
+          <%= init_time_limit(params[:time_option]) %>
+        </ul>
+      </div>
+    </td>
+    <td class="side-content">
+      <div id="header">
+        <%=form_tag({:controller=>"irm/search",:action=>"index"},{:id=>"searchForm"})  do %>
+          <%= hidden_field_tag :page, "1", {:id => "resultPage"} %>
+          <%= hidden_field_tag :search_option_str, "#{params[:search_option_str]}", {:id => "entries"} %>
+          <%= hidden_field_tag :time_option, "#{params[:time_option]}", {:id => "timeOption"} %>
+          <div class="form-inline">
+            <div class="input-append">
+              <input class="search-query" name="q" value="<%= params[:q] %>" type="text" style="width: 500px;"/>
+              <%= link_to t(:search), 'javascript:void(0);',:class => "btn",:type=> 'submit', :style => "margin-left: -5px;" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div id="main" style="margin-left: auto;">
+        <div>
+          <div class="result">
+            <div class="allnum"><%= t(:label_search_result_count, :count => @results.count > 0? @search.total : 0) %></div>
+            <span id="result-items">
+              <% if @results.any? %>
+                <ul>
+                  <% @results.values.each do |value| %>
+                    <li>
+                      <!-- 显示事故单 -->
+                      <% if (value[:hit].present? && value[:hit].result.class.to_s.eql?('Icm::IncidentRequest')) || value[:result].class.to_s.eql?('Icm::IncidentRequest') %>
+                        <% if value[:hit].nil? %>
+                          <% title = value[:result][:title] %>
+                          <% summary =  truncate(value[:result][:summary],{:length => 100,:omission => '......'}) %>
+                          <% id = value[:result][:id] %>
+                          <% updated_at = value[:result][:updated_at] %>
+                          <% journals_content = '' %>
+                        <% else %>
+                          <% title = search_result_highlight(value[:hit], :title) %>
+                          <% summary = search_result_highlight(value[:hit], :summary) %>
+                          <% id = value[:hit].result[:id] %>
+                          <% updated_at =  value[:hit].result[:updated_at] %>
+                          <% journals_content = search_result_highlight(value[:hit], "journals_content") %>
+                        <% end %>
+                        <h3 class="title">【<%= t :label_icm_incident_request %>】
+                          <%= link_to(title, {:controller=>"icm/incident_journals",:action=>"new",:request_id => id}) %>
+                        </h3>
+                        <p class="content"><%= summary %></p>
+                        <p class="meta">
+                          <!-- 显示回复的内容 -->
+                          <span class="reply"><%= journals_content %></span>
+                        </p>
+                        <p class="meta">
+                          <%= format_date(updated_at) %>
+                        </p>
+                      <!-- 显示知识库 -->
+                      <% elsif (value[:hit].present? && value[:hit].result.class.to_s.eql?('Skm::EntryHeader')) || value[:result].class.to_s.eql?('Skm::EntryHeader') %>
+                        <% if value[:hit].nil? %>
+                          <% entry_title = value[:result][:entry_title] %>
+                          <% entry_id = value[:result][:id] %>
+                          <% entry_content = entry_header_content(value[:result]) %>
+                          <% updated_at = value[:result][:updated_at] %>
+                          <% keyword_tags = value[:result][:keyword_tags] %>
+                        <% else %>
+                          <% entry_title = search_result_highlight(value[:hit], :entry_title) %>
+                          <% entry_id = value[:hit].result[:id] %>
+                          <% entry_content = search_result_highlight(value[:hit], "entry_content") %>
+                          <% updated_at = value[:hit].result[:updated_at] %>
+                          <% keyword_tags = value[:hit].result[:keyword_tags] %>
+                        <% end %>
+                        <h3 class="title">【<%= t :label_skm_entry_header %>】
+                          <%= link_to(entry_title, {:controller => "skm/entry_headers", :action=>"show",:id => entry_id }) %>
+                        </h3>
+                        <p class="meta"><%=t(:label_skm_entry_header_keyword_tags)%>:<%= keyword_tags %></p>
+                        <p class="content">
+                          <!-- 知识库中的内容 -->
+                          <%= entry_content %>
+                        </p>
+                        <p class="meta"><%= format_date(updated_at) %></p>
+                      <!-- 显示变更单 -->
+                      <% elsif (value[:hit].present? && value[:hit].result.class.to_s.eql?('Chm::ChangeRequest')) || value[:result].class.to_s.eql?('Chm::ChangeRequest') %>
+                        <% if value[:hit].nil? %>
+                          <% title = value[:result][:title] %>
+                          <% summary =  truncate(value[:result][:summary],{:length => 100,:omission => '......'}) %>
+                          <% id = value[:result][:id] %>
+                          <% updated_at = value[:result][:updated_at] %>
+                          <% journals_content = '' %>
+                        <% else %>
+                          <% title = search_result_highlight(value[:hit], :title) %>
+                          <% summary = search_result_highlight(value[:hit], :summary) %>
+                          <% id = value[:hit].result[:id] %>
+                          <% updated_at =  value[:hit].result[:updated_at] %>
+                          <% journals_content = search_result_highlight(value[:hit], "journals_content") %>
+                        <% end %>
+                        <h3 class="title">【<%= t :label_chm_change_request %>】
+                          <%= link_to(title, {:controller=>"chm/change_requests",:action=>"show",:id => id}) %>
+                        </h3>
+                        <p class="content"><%= summary %></p>
+                        <p class="meta">
+                          <!-- 显示回复的内容 -->
+                          <span class="reply"><%= journals_content %></span>
+                        </p>
+                        <p class="meta">
+                          <%= format_date(updated_at) %>
+                        </p>
+                      <!-- 显示搜索结果中的公告 -->
+                      <% elsif (value[:hit].present? && value[:hit].result.class.to_s.eql?('Chm::ChangeRequest')) || value[:result].class.to_s.eql?('Chm::ChangeRequest') %>
+                        <% if value[:hit].nil? %>
+                          <% title = value[:result][:title] %>
+                          <% content =  truncate(value[:result][:content],{:length => 100,:omission => '......'}) %>
+                          <% id = value[:result][:id] %>
+                          <% updated_at = value[:result][:updated_at] %>
+                        <% else %>
+                          <% title = search_result_highlight(value[:hit], :title) %>
+                          <% content = search_result_highlight(value[:hit], :content) %>
+                          <% id = value[:hit].result[:id] %>
+                          <% updated_at =  value[:hit].result[:updated_at] %>
+                        <% end %>
+                        <h3 class="title">【<%= t :label_irm_bulletin %>】
+                          <%= link_to(title, {:controller=>"irm/bulletins",:action=>"show",:id => id}) %>
+                        </h3>
+                        <p class="content"><%= content %></p>
+                        <p class="meta"><%= format_date(updated_at) %></p>
+                      <!-- 文件列表 -->
+                      <% elsif value[:hit].present? && value[:hit].result.class.to_s.eql?('Irm::AttachmentVersion') %>
+                        <h3 class="title">【<%= t :label_search_attachment %>】
+                          <%= link_to(search_result_highlight(value[:hit], :data_file_name), value[:hit].result.url) %>
+                        </h3>
+                        <p class="content"><%= search_result_highlight(value[:hit], :data_path) %></p>
+                        <p class="meta"><%= format_date(value[:hit].result[:updated_at]) %></p>
+                      <% end %>
+                      <!-- 附件列表 -->
+                      <% if !value[:attachments].nil? && value[:attachments].any?  %>
+                        <% value[:attachments].each do |hit| %>
+                          <div class="box">
+                            <ul>
+                              <li>
+                                <h3 class="title">
+                                  <i class="attachment" title="<%= t :label_search_attachment %>"></i>
+                                  <%= search_result_highlight(hit, :data_file_name) %>
+                                </h3>
+                                <p class="content">
+                                  <!-- 知识库中的内容 -->
+                                  <%= search_result_highlight(hit, "data_path") %>
+                                </p>
+                              </li>
+                            </ul>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              <!-- 显示没有搜索结果提示 -->
+              <% else %>
+              <div class="alert alert-block" style="margin: 20px 0 0;">
+                <p>
+                  <strong>Oh sorry! Please try again and check as the following:</strong>
+                </p>
+                <ul style="margin: 10px 5px;">
+                  <li><%= t :label_search_no_result_alert_1 %></li>
+                  <li><%= t :label_search_no_result_alert_2 %></li>
+                  <li><%= t :label_search_no_result_alert_3 %></li>
+                  <li><%= t :label_search_no_result_alert_4 %></li>
+                </ul>
+              </div>
+              <% end %>
+            </span>
+          </div>
+          <p class="pager" id="pager" style="text-align: left;">
+            <%= init_paginate(@search? @search.total: 0, params[:page].to_i, params[:per_page].to_i, 10) %>
+          </p>
+        </div>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</div>
+<script type="text/javascript">
+  //处理搜索设置以及初始化搜选项
+  $(function(){
+    $("#entryList").find('li').each(function(){
+      var li = $(this);
+      var checkbox = $(this).find('input')[0];
+      if ($(checkbox).is(":checked")) {
+        li.addClass('current');
+      }
+      $(this).bind('click', function(){
+        var checkbox = $(this).find('input')[0];
+        if ($(checkbox).is(":checked")) {
+          li.addClass('current');
+        }else if(li.hasClass('current')) {
+          li.removeClass('current');
+        }
+      });      
+    });
+    $(".search-page-block #searchAll").click(function(e){
+      $(".search-page-block .searchOptions").each(function(){
+        if($(this).attr("id") != "searchAll" && $("#searchAll:checked").val() !== undefined) {
+          $("#entryList").find("li").addClass('current');
+          $(this).attr("checked", true);
+        }
+        else if($(this).attr("id") != "searchAll" && $("#searchAll:checked").val() === undefined){
+          $("#entryList").find("li").removeClass('current');
+          $(this).attr("checked", false);
+        }
+      });
+    });
+    $(".search-page-block .searchOptions").click(function(e){
+      $(".search-page-block #entries").val("");
+      if(!this.checked){
+        $(".search-page-block #searchAll").attr("checked", false);
+        $(".search-page-block #searchAll").parents('li').removeClass('current');
+      }
+      $(".search-page-block .searchOptions").each(function(){
+        if(this.checked){
+          $("#entries").val($("#entries").val() + this.value + " ");
+        }
+      })
+    });
+    $("#timeList").find('input').each(function(){
+      var radio = $(this),li = radio.parents('li');
+      $(this).bind('click', function(){
+        if(radio.is(":checked")) {
+          $("#timeList").find('li').each(function(){
+            if ($(this).hasClass('current')){
+              $(this).removeClass('current')
+            }
+          });
+          $("#timeOption").val(radio.val());
+          li.addClass('current');
+        }
+      });
+    });
+    //页码响应函数处理
+    $(".search-page-block #pager").find('a').each(function(e){
+      $(this).bind('click',function(){
+        var page = $(this).attr('page');
+        $("#resultPage").val(page);
+        $("#searchForm").submit();
+      });
+    });
+  });
+</script>
+

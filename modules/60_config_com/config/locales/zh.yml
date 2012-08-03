@@ -1,0 +1,73 @@
+zh:
+  label_com_config_relation_type: 配置项关系类型
+  label_com_config_relation_type_list: 配置项关系类型列表
+  label_com_config_relation_type_name: 配置项关系类型名称
+  label_com_config_relation_type_description: 配置项关系类型说明
+
+  label_com_config_relation_member_list: 适用的配置项分类列表
+  label_com_config_relation_member: 适用的配置项分类
+  label_com_config_relation_member_class_name: 适用的配置项分类名称
+
+  #=========================com config classes=======================#
+  label_com_config_class: 配置项分类
+  label_com_config_class_list: 配置项分类列表
+  label_com_config_class_structure: 配置分类层次结构
+  label_com_config_class_new: 新建配置分类
+  label_com_config_class_edit: 编辑配置分类
+  label_com_config_class_code: 编码
+  label_com_config_class_name: 名称
+  label_com_config_class_description: 描述
+  label_com_config_class_leaf_flag: 叶子节点
+  label_com_config_class_parent: 所属父类
+  label_config_class_attribute_extend: 继承父类
+  #=========================end com config classes=======================#
+
+  #=========================com config attributes=======================#
+  label_com_config_attribute: 配置项分类属性
+  label_com_config_attribute_list: 配置项分类属性列表
+  label_com_config_attribute_new: 新建配置项分类属性
+  label_com_config_attribute_edit: 编辑配置项分类属性
+  label_com_config_attribute_code: 编码
+  label_com_config_attribute_name: 名称
+  label_com_config_attribute_description: 描述
+  label_com_config_attribute_input_type: 属性输入类型
+  label_com_config_attribute_value_from: 值来源
+  label_com_config_attribute_input_value: 值来源
+  config_class_attribute_required_flag: 必填
+  config_class_attribute_display_flag: 显示
+  #=========================end com config attributes=======================#
+
+
+  #==========================config item==================================#
+  label_com_config_item: 配置项
+  label_com_config_item_all_class: 全部分类
+  label_com_config_item_list: 配置项列表
+  label_com_config_item_number: 配置项编号
+  label_com_config_item_config_class: 配置项分类
+  label_com_config_item_managed_group: 管理组
+  label_com_config_item_managed_person: 管理人员
+  label_com_config_item_last_checked_at: 上一次扫描时间
+  label_com_config_item_error_no_such_attribute: 没有这个ID的属性
+  label_com_config_item_error_value_required: %{name}：值不能为空
+  #===========================end config item==============================#
+
+
+  #==========================config item==================================#
+  label_com_config_item_relation: 配置项关联关系
+  label_com_config_item_relation_list: 配置项关联关系列表
+  label_com_config_item_relation_config_item: 关联配置项
+  #===========================end config item==============================#
+
+  #=========================com config item status=======================#
+  label_com_config_item_status: 配置项状态
+  label_com_config_item_status_list: 配置项状态列表
+  label_com_config_item_status_new: 新建配置分类
+  label_com_config_item_status_edit: 编辑配置分类
+  label_com_config_item_status_code: 编码
+  label_com_config_item_status_name: 名称
+  label_com_config_item_status_description: 描述
+  close_flag: 关闭
+  label_com_config_item_status_close_flag: 关闭
+  label_com_config_item_status_default_flag: 默认
+  label_com_config_item_status_show: 查看配置分类
+  #=========================end com config item status=======================#

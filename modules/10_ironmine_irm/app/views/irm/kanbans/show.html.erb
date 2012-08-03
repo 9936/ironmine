@@ -1,0 +1,61 @@
+<%= common_title(:show_data=>@kanban[:name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_kanban) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @kanban},:class=>"btn btn-primary"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_kanban_code)%></label></td>
+            <td class="data-2col"><div><%= @kanban.kanban_code%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :name)%></label></td>
+            <td class="data-2col"><div><%= @kanban[:name]%></div></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :description)%></label></td>
+            <td class="data-2col"><%= @kanban[:description]%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_kanban_refresh_interval)%></label></td>
+            <td class="data-2col"><%= @kanban.refresh_interval%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_lane_limit)%></label></td>
+            <td class="data-2col"><%= @kanban.limit%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :active)%></label></td>
+            <td class="data-2col"><div><%= check_img(@kanban.status_code)%></div></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=t(:label_irm_kanban_owned_lane)%></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:label_irm_kanban_add_lane), {:controller=>"irm/kanbans",:action => "select_lanes",:id=>@kanban.id},:class => "btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="owned_lanes_list"></div>
+    <%= datatable("owned_lanes_list",{:controller=>"irm/kanbans",:action=>"get_owned_lanes",:id=>@kanban.id},[])%>
+  </div>
+</div>
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@kanban} %>

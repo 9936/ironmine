@@ -1,0 +1,58 @@
+<%= setting_show_title(:show_data => @function_group[:name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_function_group) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit", :id => @function_group}, :class => "btn" %>
+        <%= link_back t(:back), {}, {:class => "btn back"} %>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%= (t :label_irm_function_group_group_code) %></label></td>
+        <td class="data-3col"><%= @function_group.code %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= (t :label_irm_function_group_name) %></label></td>
+        <td class="data-3col"><%= @function_group[:name] %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_irm_function_group_description) %></label></td>
+        <td class="data-3col">
+          <div><%= @function_group[:description] %></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%= (t :active) %></label></td>
+        <td class="data-3col"><%= check_img(@function_group.status_code) %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_function_list) %></h2>
+      </td>
+      <td class="page-block-button">
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("functions_list", {:controller => "irm/functions", :action => "get_data", :function_group_id => @function_group.id, :format => "json"},
+                  []) %>
+  </div>
+</div>
+<%= render :partial => "multilingual/show", :locals => {:main_data => @function_group} %>
+

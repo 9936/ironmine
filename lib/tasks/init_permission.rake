@@ -17,6 +17,9 @@ namespace :irm do
       Dir[Rails.root.join('modules','*','lib','*', 'init_permission.rb')].each do |file_path|
         require "#{file_path}"
       end
+      Dir[Rails.root.join('modules','*','lib', 'init_permission.rb')].each do |file_path|
+        require "#{file_path}"
+      end
 
     end
 
@@ -33,6 +36,7 @@ namespace :irm do
      path_regex = /:([a-z_]+)/
      except_path_regex = /\([\.\/a-z_]*:([a-z_]+)[\/a-z_]*\)/
      routes.each do |r|
+       next unless r[:reqs].present?
        params_count = r[:path].scan(path_regex).delete_if{|i| !i.any?}.count
        except_params_count = r[:path].scan(except_path_regex).delete_if{|i| !i.any?}.count
        params_count = params_count - except_params_count
@@ -43,7 +47,7 @@ namespace :irm do
     end
     not_inited_route_permissions = route_permissions.dup
 
-    functions = Irm::AccessControl.functions
+    functions = Fwk::AccessControl.functions
     functions ||={}
     function_codes = Irm::Function.all.collect{|f| f.code.downcase.to_sym}
     missing_function_codes = functions.keys.collect{|fc| fc if !function_codes.include?(fc)}.compact

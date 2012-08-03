@@ -1,0 +1,12 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% end %>
+  <% builder.column(:catalog_code,{:title=>t(:label_slm_service_catalog_catalog_code),:searchable=>true})%>
+  <% builder.column(:name,{:title=>t(:label_slm_service_catalog_name),:searchable=>true})%>
+  <% builder.column(:parent_catalog_name,{:title=>t(:label_slm_service_catalog_parent_catalog),:searchable=>true})%>
+  <% builder.column(:description,{:title=>t(:label_slm_service_catalog_description)})%>
+  <% builder.column(:status_meaning,{:title=>t(:label_slm_service_catalog_status_meaning)})%>
+<% end %>
+

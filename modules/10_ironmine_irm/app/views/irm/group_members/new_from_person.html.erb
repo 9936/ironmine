@@ -1,0 +1,76 @@
+<%= common_title(:model_meaning => @person[:full_name], :action_meaning=>t(:label_irm_group_member_select_group)) %>
+
+<%= form_for(@group_member,:url=>{:action=>"create_from_person"},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:status_code) %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <% if @step %>
+           <td class="page-block-title">
+             <h2 class="block-title"><%= t(:step_n, :n => "3") %><%= t(:label_irm_group_member_select_group) %></h2>
+           </td>
+           <td class="page-block-button">
+             <%= link_to t(:last), {}, {:href => "javascript:void(0);", :class => "btn add_system_button"} %>
+             <%= link_submit t(:save),{:class=>"btn"}%>
+             <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class => "btn" )%>
+           </td>
+           <td class="page-block-help">
+             <%= t(:step_n_total_m, :n => "3", :m => "3") %>
+           </td>
+          <% else %>
+              <td class="page-block-title">
+                <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2>
+              </td>
+              <td class="page-block-button">
+                <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+                <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class=>"btn cancel")%>
+              </td>
+              <td class="page-block-help">
+                <div id="selectablePersonSearchBox"></div>
+              </td>
+          <% end %>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <div id="supportGroupMembers">
+          <%= datatable("supportGroupMembers",{:action=>"get_groupable_data",:id=>@person.id,:format=>:json},
+                            [{:key=>"id",:hidden=>true},
+                             {:key=>"name",:label=>t(:label_irm_group_name),:searchable=>true},
+                             {:key=>"code",:label=>t(:label_irm_group_group_code),:searchable=>true},
+                             {:key=>"description",:label=>t(:label_irm_group_description),:searchable=>true}
+                             ],
+                             {:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple"})%>
+        </div>
+        <div id="personPaginator"></div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <% if @step %>
+              <%= link_to t(:last), {}, {:href => "javascript:void(0);", :class => "add_system_button"} %>
+              <%= link_submit t(:save),{:class=>"btn"}%>
+              <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class => "btn" )%>
+            <% else %>
+              <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+              <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class=>"btn cancel")%>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+<script type="text/javascript">
+  $(function(){
+    $(".add_system_button").click(function(){
+        $("#new_irm_group_member").attr('action', '<%= url_for(:action => "create_from_person", :controller => "irm/group_members", :next_action => "last")%>');
+        $("#new_irm_group_member").submit();
+    });
+  })
+  $(document).ready(function(){
+      $("#supportGroupMembers").bind('selectionchange',function(event,ids){
+          $("#irm_group_member_status_code").val(ids.join(","));
+      });
+  });
+</script>

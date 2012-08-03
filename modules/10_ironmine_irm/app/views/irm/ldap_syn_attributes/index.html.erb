@@ -1,0 +1,23 @@
+<%= page_title %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_ldap_syn_attribute_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class => "btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="ldap_syn_attributesSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+      <div id="ldap_syn_attributes">
+        <%= datatable("ldap_syn_attributes",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"ldap_syn_attributesPaginatorBox",:search_box=>"ldap_syn_attributesSearchBox"})%>
+      </div>
+      <div id="ldap_syn_attributesPaginatorBox"></div>
+  </div>
+</div>
+
+

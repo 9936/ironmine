@@ -1,0 +1,142 @@
+<%= app_title({:description => t(:new)}) %>
+<%= form_for(@entry_header,:url=>{:action=>"new"},:builder => CustomFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
+  <%= f.hidden_field :entry_template_id %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table" cellpadding="0" cellspacing="0">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_entry_header_title)%></label></td>
+            <td class="data-2col"><%= f.text_field :entry_title, :size => 80, :required => true%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_entry_header_keyword_tags)%></label></td>
+            <td class="data-2col"><%= f.text_field :keyword_tags, :size => 80%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_channel)%></label></td>
+            <td class="data-2col"><%= f.lov_field :channel_id, Skm::Channel, {:required => true}%></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+
+  <% content_for :form_buttons  do %>
+    <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()",:class => "btn "}%>
+    <%= link_to t(:next), {}, {:href => "javascript:void(0);", :onclick => "submit_next()",:class => "btn btn-primary"}%>
+    <%= link_to t(:cancel), {:action => "index"}, :confirm => t(:label_cancel_confirm),:class => "btn cancel" %>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:step_n, :n => "2") %><%= t(:notice_skm_entry_header_input_content) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+          <td class="page-block-help">
+            <%= t(:step_n_total_m, :n => "2", :m => "4") %>
+          </td>
+        </tr>
+    </table>
+    <p class="help-block" style="padding: 10px;"><%= t(:notice_skm_entry_step_2_desc) %> </p>
+    <%= error_for @entry_header %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 基本信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_common_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+
+        <!-- 基本信息 -->
+        <% if session[:skm_entry_details] %>
+          <% @elements.each do |e| %>
+            <div class="sub-page-block-header">
+              <h3 class="sub-page-block-title"><%= e.element_name %><%= e.required_flag == "Y" ? "(必填)" : "" %></h3>
+            </div>
+            <div class="sub-page-block-body">
+              <table class="form-table" style="width: 99%;">
+                <tbody>
+                    <tr>
+                      <%= fields_for("skm_entry_details[]", e) do |ef|%>
+                      <td><% if e.required_flag == "Y"%>
+                          <%= ef.text_area :entry_content, {:required => true, :rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details])} %>
+                              <% if @error_details.include?(e.id) %>
+                              <div class="errorMsg"><strong><%= t(:error) %>:</strong>["<%= t(:error_skm_entry_detail_can_not_blank)%>"]</div>
+                              <% end if @error_details %>
+                          <% else %>
+                            <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details])} %>
+                          <% end %>
+                      </td>
+                          <%= ef.hidden_field :default_rows, :value => e.default_rows %>
+                          <%= ef.hidden_field :element_name, :value => e.element_name %>
+                          <%= ef.hidden_field :element_description, :value => e.element_description %>
+                          <%= ef.hidden_field :required_flag, :value => e.required_flag %>
+                          <%= ef.hidden_field :line_num, :value => e.line_num %>
+                          <%= ef.hidden_field :entry_template_element_id, :value => e.entry_template_element_id %>
+                      <% end %>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+        <% else %>
+        <% @elements.each do |e| %>
+            <div class="sub-page-block-header">
+              <h3 class="sub-page-block-title"><%= e.element_name %><%= e.required_flag == "Y" ? "(必填)" : "" %></h3>
+            </div>
+            <div class="sub-page-block-body">
+              <table class="show-table">
+                <tbody>
+                    <tr>
+                      <%= fields_for("skm_entry_details[]", e) do |ef|%>
+                      <td class="data-col" style="padding: 2px 20px 2px 10px !important;"><% if e.required_flag == "Y"%>
+                          <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;", :required => true} %>
+                          <% else %>
+                          <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;"} %>
+                          <% end %>
+                      </td>
+                          <%= ef.hidden_field :default_rows, :value => e.default_rows %>
+                          <%= ef.hidden_field :element_name, :value => e.element_name %>
+                          <%= ef.hidden_field :element_description, :value => e.element_description %>
+                          <%= ef.hidden_field :required_flag, :value => e.required_flag %>
+                          <%= ef.hidden_field :line_num, :value => e.line_num %>
+                          <%= ef.hidden_field :entry_template_element_id, :value => e.entry_template_element_id %>
+                      <% end %>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+<script type="text/javascript">
+  function submit_next(){
+    document.new_skm_entry_header.action = "new?step=3";
+    document.new_skm_entry_header.submit();
+  }
+
+  function submit_last(){
+    document.new_skm_entry_header.action = "new?step=1";
+    document.new_skm_entry_header.submit();
+  }
+</script>

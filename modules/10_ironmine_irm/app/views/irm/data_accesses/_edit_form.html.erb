@@ -1,0 +1,27 @@
+<%= form_tag({:action=>"update"}) do %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_data_access_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_submit t(:save), :class=>"btn btn-primary" %>
+          <%= link_to t(:cancel),{:action => "index"},:class => "btn cancel" %>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%=datatable_view({:columns=>[:business_object_name,:access_level,:hierarchy_access_flag],:count=>@data_accesses.count,:datas=>@data_accesses}) do |builder|%>
+          <% builder.column(:id,{:title=>t(:operation)})%>
+          <% builder.column(:business_object_name,{:title=>t(:label_irm_data_access_business_object)})%>
+          <% builder.column(:access_level,{:title=>t(:label_irm_data_access_access_level)}) do |data|%>
+            <%= select_tag_alias("access_levels[#{data[:business_object_id]}]",available_access_level,data[:access_level]) %>
+          <% end %>
+          <% builder.column(:hierarchy_access_flag,{:title=>t(:label_irm_data_access_opu_access_level)}) do |data_access|%>
+            <%= hidden_field_tag("hierarchy_accesses[#{data_access[:business_object_id]}]",Irm::Constant::SYS_NO) %>
+            <%= check_box_tag("hierarchy_accesses[#{data_access[:business_object_id]}]","Y",Irm::Constant::SYS_YES.eql?(data_access[:hierarchy_access_flag])) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+<% end %>

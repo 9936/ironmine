@@ -1,0 +1,7 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:user_ip,{:title=>t(:label_irm_login_record_user_ip), :width => "15%"})%>
+  <% builder.column(:operate_system,{:title=>t(:label_irm_login_record_operate_system), :width => "15%"})%>
+  <% builder.column(:browser,{:title=>t(:label_irm_login_record_browser)})%>
+  <% builder.column(:login_at,{:title=>t(:label_irm_login_record_login_at)})%>
+  <% builder.column(:logout_at,{:title=>t(:label_irm_login_record_logout_at)})%>
+<% end %>

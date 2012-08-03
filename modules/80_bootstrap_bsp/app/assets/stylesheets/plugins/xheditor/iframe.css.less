@@ -1,0 +1,148 @@
+@xheditorFlashPath: asset-path('plugins/xheditor/flash.gif');
+@xheditorWmpPath: asset-path('plugins/xheditor/wmp.gif');
+@xheditorAnchorPath: asset-path('plugins/xheditor/anchor.gif');
+@xheditorTagAddressPath: asset-path('plugins/xheditor/tag-address.gif');
+@xheditorTagDivPath: asset-path('plugins/xheditor/tag-div.gif');
+@xheditorTagPrePath: asset-path('plugins/xheditor/tag-pre.gif');
+@xheditorTagh1Path: asset-path('plugins/xheditor/tag-h1.gif');
+@xheditorTagh2Path: asset-path('plugins/xheditor/tag-h2.gif');
+@xheditorTagh3Path: asset-path('plugins/xheditor/tag-h3.gif');
+@xheditorTagh4Path: asset-path('plugins/xheditor/tag-h4.gif');
+@xheditorTagh5Path: asset-path('plugins/xheditor/tag-h5.gif');
+@xheditorTagh6Path: asset-path('plugins/xheditor/tag-h6.gif');
+@xheditorTagpPath: asset-path('plugins/xheditor/tag-p.gif');
+
+html {
+    height: 100%;
+}
+
+body, td, th {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+body {
+    height: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    word-break: break-word;
+    word-wrap: break-word;
+}
+
+.editMode {
+    margin: 0px;
+    padding: 5px;
+    overflow-y: auto;
+}
+
+.editMode img:-moz-broken {
+    -moz-force-broken-image-icon: 1;
+    height: 24px;
+    width: 24px;
+}
+
+.editMode table.xhe-border, .editMode table.xhe-border th, .editMode table.xhe-border td {
+    border: 1px dotted #d3d3d3;
+}
+
+.editMode embed {
+    display: inline-block;
+    border: 1px dashed #FF4E4E;
+}
+
+.editMode embed[type="application/x-shockwave-flash"] {
+    background: url(@xheditorFlashPath) center center no-repeat;
+}
+
+.editMode embed[type="application/x-mplayer2"] {
+    background: url(@xheditorWmpPath) center center no-repeat;
+}
+
+.editMode .xhe-paste {
+    position: absolute;
+    left: -1000px;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+}
+
+.editMode .xhe-anchor {
+    display: inline-block;
+    background: url(@xheditorAnchorPath) no-repeat;
+    border: 1px dotted #0000FF;
+    width: 16px;
+    height: 15px;
+    overflow: hidden;
+}
+
+.sourceMode {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.sourceMode textarea {
+    *position: absolute;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 10pt;
+    resize: none;
+    outline: 0;
+}
+
+.previewMode {
+    margin: 5px;
+    padding: 0px;
+}
+
+.showBlocktag p, .showBlocktag h1, .showBlocktag h2, .showBlocktag h3, .showBlocktag h4, .showBlocktag h5, .showBlocktag h6, .showBlocktag pre, .showBlocktag address, .showBlocktag div {
+    background: none no-repeat scroll right top;
+    border: 1px dotted gray;
+}
+
+.showBlocktag p {
+    background-image: url(@xheditorTagpPath);
+}
+
+.showBlocktag h1 {
+    background-image: url(@xheditorTagh1Path);
+}
+
+.showBlocktag h2 {
+    background-image: url(@xheditorTagh2Path);
+}
+
+.showBlocktag h3 {
+    background-image: url(@xheditorTagh3Path);
+}
+
+.showBlocktag h4 {
+    background-image: url(@xheditorTagh4Path);
+}
+
+.showBlocktag h5 {
+    background-image: url(@xheditorTagh5Path);
+}
+
+.showBlocktag h6 {
+    background-image: url(@xheditorTagh6Path);
+}
+
+.showBlocktag pre {
+    background-image: url(@xheditorTagPrePath);
+}
+
+.showBlocktag address {
+    background-image: url(@xheditorTagAddressPath);
+}
+
+.showBlocktag div {
+    background-image: url(@xheditorTagDivPath);
+}

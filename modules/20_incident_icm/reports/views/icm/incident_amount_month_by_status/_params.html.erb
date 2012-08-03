@@ -1,0 +1,22 @@
+<table class="form-table baseFilter" id="baseFilter">
+  <tbody>
+    <tr>
+      <td>
+        <label for="external_system_id"><%= t(:label_irm_external_system) %></label>
+        <div style="white-space:nowrap">
+           <%= select_tag_multiple(
+              "program_params[external_system_id][]",
+              nullable_options_for_select(current_person_assessible_external_system_full, program_params[:external_system_id]),
+              "program_params[external_system_mul]",
+              program_params[:external_system_mul] ? program_params[:external_system_mul] : 'N')%>
+        </div>
+      </td>
+      <td>
+        <label for="year"><%= t(:label_report_icm_incident_params_year) %></label>
+        <div style="white-space:nowrap">
+          <%=  select_year(program_params[:year]?Date.new(program_params[:year].to_i):Date.today,{ :start_year => 2005, :end_year => Time.now.strftime("%Y").to_i},{:name=>'program_params[year]' ,:id=>'year'}) %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

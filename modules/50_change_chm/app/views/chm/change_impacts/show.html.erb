@@ -1,0 +1,50 @@
+<%= common_title(:show_data=>@change_impact[:name]) %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_chm_change_urgency_show) %>&nbsp;<%= t(:label_detail_info) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @change_impact},:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label for="code"><%=t(:code)%></label></td>
+            <td class="data-col"><%=@change_impact.code%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="name"><%=t(:name)%></label></td>
+            <td class="data-col"><%=@change_impact[:name]%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="display_sequence"><%=t(:display_sequence)%></label></td>
+            <td class="data-col"><%=@change_impact.display_sequence%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="default_flag"><%=t(:default_flag)%></label></td>
+            <td class="data-col"><%=check_img(@change_impact.default_flag)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="description"><%=t(:description)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><%=@change_impact[:description]%></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@change_impact} %>

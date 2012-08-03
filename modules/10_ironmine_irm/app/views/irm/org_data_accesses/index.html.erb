@@ -1,0 +1,67 @@
+<%= app_title({:title=>"#{t(:label_irm_data_access_org)}"}) %>
+<style type="text/css">
+  .org-access-table {
+      text-align: left;
+  }
+</style>
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_data_access_list_org) %></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+      <table class="show-table">
+        <tbody>
+            <tr>
+              <td style="width:1%">
+                <div id="tree-div"><%= organizations_tree_data  %></div>
+              </td>
+              <td class="org-access-table" style="vertical-align:top;">
+                <div id="dataAccess" style="width:100%;" href="<%= url_for(:controller => "org_data_accesses",:action=>"show",:id=>"{org_id}",:org_name=>"{org_name}")%>"></div>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+      $("#organizations").treeview({
+         animated: "fast",
+         collapsed: true,
+         unique: false,
+         persist: "cookie"
+      });
+      $('#organizations a.org').live('click', function(event){
+           var dataAccess = $("#dataAccess");
+           var url = decodeURIComponent(dataAccess.attr("href"));
+           url = url.replace("{org_id}",$(event.currentTarget).attr("ref"));
+           url = url.replace("{org_name}",$(event.currentTarget).html());
+           dataAccess.attr("ref",$(event.currentTarget).attr("ref"));
+           if(url.indexOf("?") > 0) {
+               url += "&_dom_id=dataAccess"
+           }else{
+               url += "?_dom_id=dataAccess"
+           }
+           dataAccess.load(url);
+      });
+      $('#organizations a.org:first').trigger("click");
+      $(".loadButton").live("click",function(event){
+          var dataAccess = $("#dataAccess");
+          var node = $(event.currentTarget);
+          var url = decodeURIComponent(node.attr("load_href"));
+          url = url.replace("{org_id}",dataAccess.attr("ref"));
+          if(url.indexOf("?") > 0) {
+              url += "&_dom_id=dataAccess"
+          }else{
+              url += "?_dom_id=dataAccess"
+          }
+          dataAccess.load(url);
+      })
+    });
+
+</script>
+
+
+

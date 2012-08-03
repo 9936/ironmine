@@ -1,0 +1,91 @@
+<style type="text/css">
+  table.matrix{
+    padding-left: 20px;
+  }
+  table.matrix th{
+    font-weight:bold;
+    padding:5px;
+  }
+  table.matrix td{
+    text-align: center;
+    min-width: 50px;
+    padding:5px;
+    border: solid 1px;
+    border-color:#CBCBCB;
+  }
+  table.matrix th.to{
+    text-align: center;
+  }
+  table.matrix th.from{
+    text-align: right;
+  }
+</style>
+<%= page_title %>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_change_priority) %></h2>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="matrix" cellpadding="0" cellspacing="0" border="0">
+      <% urgencies = Chm::ChangeUrgency.multilingual.order("display_sequence Desc")
+         impacts = Chm::ChangeImpact.multilingual.order("display_sequence Desc")
+         priority_weight_value_hashes = change_priority_weight_value_hash
+      %>
+      <tbody>
+        <tr>
+          <th></th>
+          <th></th>
+          <th class="to" colspan="<%=urgencies.length%>"><%=t(:label_chm_change_urgency)  %></th>
+        </tr>
+        <tr>
+          <th rowspan="<%= impacts.length+1 %>" style="vertical-align:middle;"><%=t(:label_chm_change_impact)  %></th>
+          <th></th>
+          <% urgencies.each do |urgency| %>
+            <th class="to"><%= urgency[:name]%></th>
+          <% end %>
+        </tr>
+        <% impacts.each do |impact| %>
+          <tr>
+            <th class="from"><%= impact[:name]%></th>
+            <% urgencies.each do |urgency| %>
+              <td title="<%=impact[:name]%>">
+                <% current_weight = impact.weight_values+urgency.weight_values-1 %>
+                <%= current_weight %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_chm_change_priority_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      </td>
+      <td class="page-block-help">
+        <div id="prioritiesSearchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="priorities"></div>
+    <%= datatable("priorities",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"prioritiesPaginatorBox",:search_box=>"prioritiesSearchBox"})%>
+    <div id="prioritiesPaginatorBox"></div>
+  </div>
+</div>
+
+

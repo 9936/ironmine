@@ -1,0 +1,43 @@
+<div id="reportChart"></div>
+<% require_jscss(:highcharts) %>
+
+<script type="text/javascript">
+var chart;
+ $(document).ready(function() {
+     var pieData = [];
+     $.each(reportChartData.categories_titles,function(index,value){
+         pieData.push([value,reportChartData.data[0].data[index]])
+     });
+ 	chart = new Highcharts.Chart({
+ 		chart: {
+ 			renderTo: 'reportChart',
+            type: 'pie',
+ 			plotBackgroundColor: null,
+ 			plotBorderWidth: null,
+ 			plotShadow: false
+ 		},
+ 		tooltip: {
+ 			formatter: function() {
+                 return '<b>'+ this.point.name +'('+this.y+')</b>: '+ this.percentage.toFixed(1)+'% ';;
+ 			}
+ 		},
+ 		plotOptions: {
+ 			pie: {
+ 				allowPointSelect: true,
+ 				cursor: 'pointer',
+ 				dataLabels: {
+ 					enabled: true,
+ 					color: '#000000',
+ 					connectorColor: '#000000',
+ 					formatter: function() {
+ 						return '<b>'+ this.point.name +'('+this.y+')</b>: '+ this.percentage.toFixed(1)+'% ';;
+ 					}
+ 				}
+ 			}
+ 		},
+        series: [{name:reportChartData.data[0].name,data:pieData}]
+ 	});
+ });
+
+
+</script>

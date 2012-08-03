@@ -1,0 +1,163 @@
+<%= wicked_pdf_stylesheet_link_tag "pdf" %>
+
+<div class="pdf-container">
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#333333">
+   <tr>
+    <td>
+      <table width="100%" height="25" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+        <tr>
+          <td width="59%">
+            <strong><%= t(:label_incident_request) %>:</strong>[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %>&nbsp; &nbsp;&nbsp;&nbsp;
+            <strong><%= t(:status) %>:</strong><%= @incident_request[:incident_status_name] %>
+          </td>
+          <td width="41%" align="right"><strong><%= t(:created_at) %>:</strong><%= format_date(@incident_request.created_at) %></td>
+        </tr>
+      </table>
+      <table class="show-table" width="100%" border="0" align="center" cellpadding="3" cellspacing="2">
+        <!-- 事故单基本信息 -->
+        <tr>
+          <td colspan="6"><strong><%= @incident_request[:title] %></strong></td>
+        </tr>
+        <tr>
+          <td width="15%" align="center"><%= t(:label_icm_incident_request_target_system) %></td>
+          <td width="20%"><%= @incident_request[:external_system_name] %></td>
+          <td width="12%" align="center"><%= t(:label_icm_incident_request_incident_category) %></td>
+          <td width="18%"><%= @incident_request[:incident_category_name] %></td>
+          <td width="15%" align="center"><%= t(:label_icm_incident_request_incident_sub_category) %></td>
+          <td width="20%"><%= @incident_request[:incident_sub_category_name] %></td>
+        </tr>
+        <tr>
+          <td align="center"><%= t(:label_icm_incident_request_requested_by) %></td>
+          <td><%= @incident_request[:requested_name] %></td>
+          <td align="center"><%= t(:label_icm_incident_request_contact) %></td>
+          <td><%= @incident_request[:contact_name] %>(<%= @incident_request[:contact_number] %>)</td>
+          <td align="center"><%= t(:label_icm_incident_request_submitted_by) %></td>
+          <td><%= @incident_request[:submitted_name] %></td>
+        </tr>
+        <tr>
+          <td align="center"><%= t(:label_icm_incident_request_requested_by_org) %></td>
+          <td><%= @incident_request[:requested_organization_name] %></td>
+          <td align="center"><%= t(:label_icm_incident_request_requested_by_role) %></td>
+          <td><%= @incident_request[:requested_role_name] %></td>
+          <td align="center"><%= t(:label_icm_incident_request_requested_by_profile) %></td>
+          <td><%= @incident_request[:requested_profile_name] %></td>
+        </tr>
+        <tr>
+          <td align="center"><%= t(:label_icm_incident_request_estimated_date) %></td>
+          <td><%= calendar_date(@incident_request[:estimated_date]) %></td>
+          <td align="center"><%= t(:label_icm_incident_request_request_type_code) %></td>
+          <td><%= @incident_request[:request_type_name] %></td>
+          <td align="center"><%= t(:label_icm_incident_request_submitted_date) %></td>
+          <td><%= format_date(@incident_request[:submitted_date]) %></td>
+        </tr>
+        <tr>
+          <td align="center"><%= t(:label_icm_incident_request_report_source_code) %></td>
+          <td><%= @incident_request[:report_source_name] %></td>
+          <td align="center"><%= t(:label_icm_incident_request_urgence_code) %></td>
+          <td><%= @incident_request[:urgence_name] %></td>
+          <td align="center"><%= t(:label_icm_incident_request_impact_range_code) %></td>
+          <td><%= @incident_request[:impact_range_name] %></td>
+        </tr>
+        <tr>
+          <td align="center"><%= t(:label_icm_incident_request_priority) %></td>
+          <td><%= @incident_request[:priority_name] %></td>
+          <td align="center"><%= t(:label_icm_incident_request_support_group) %></td>
+          <td><%= @incident_request[:support_group_name] %></td>
+          <td align="center"><%= t(:label_icm_incident_request_support_person) %></td>
+          <td><%= @incident_request[:supporter_name] %></td>
+        </tr>
+        <!-- 回复历史 -->
+        <tr>
+          <td colspan="6"><strong><%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request)+1 %>)</strong></td>
+        </tr>
+        <tr class="header">
+          <td colspan="2" align="center"><%= t(:label_icm_incident_journal_person) %>/<%= t(:label_icm_incident_journal_date) %></td>
+          <td colspan="4" align="center"><%= t(:label_icm_incident_journal_content) %></td>
+        </tr>
+        <!-- 事故单本身内容 -->
+        <tr>
+          <td colspan="2"  valign="top">
+            <%= @incident_request[:submitted_name]  %><br />
+            <%= format_date(@incident_request[:submitted_date]) %>
+          </td>
+          <td colspan="4">
+            <%= raw process_message(@incident_request[:summary]) %>
+          </td>
+        </tr>
+        <%- list_journals(@incident_request).each do |journal|  -%>
+        <tr>
+          <td colspan="2" align="left" valign="top">
+            <%= journal[:replied_name]  %><br />
+            <%= format_date(journal[:created_at]) %>
+          </td>
+          <td colspan="4" align="left">
+            <%- if journal.incident_histories.any? -%>
+              <ul>
+                <%- journal.incident_histories.each do |h|-%>
+                  <%- next unless h.to_s -%>
+                  <li><%= h %></li>
+                <% end%>
+              </ul>
+            <%- end -%>
+            <%= raw process_message(journal[:message_body])  %>
+          </td>
+        </tr>
+        <%- end -%>
+        <!--- 配置项 -->
+        <tr>
+          <td colspan="6"><strong><%= t(:label_icm_incident_request_relation_config_items) %></strong></td>
+        </tr>
+        <tr class="header">
+          <td align="center" ><%= t(:label_com_config_item_number) %></td>
+          <td align="center"><%= t(:label_com_config_item_config_class) %></td>
+          <td align="center"><%= t(:label_com_config_item_managed_group) %></td>
+          <td align="center"><%= t(:label_com_config_item_managed_person) %></td>
+          <td colspan="2" align="center"><%= t(:label_com_config_item_last_checked_at) %></td>
+        </tr>
+        <%- @incident_request.incident_config_relations.with_config_item.select_all.each do |data| -%>
+        <tr>
+           <td align="center"><%= data[:item_number] %></td>
+           <td align="center"><%= data[:config_class_name] %></td>
+           <td align="center"><%= data[:managed_group_name] %></td>
+           <td align="center"><%= data[:managed_person_name] %></td>
+           <td colspan="2" align="center"><%= format_date data[:last_checked_at] %></td>
+        </tr>
+        <%- end -%>
+        <!-- 关联的事故单 -->
+        <tr>
+          <td colspan="6"><strong><%= t :label_icm_incident_request_relation %></strong></td>
+        </tr>
+        <tr class="header">
+          <td align="center"><%= t(:label_icm_incident_request_relation_types) %></td>
+          <td align="center"><%= t(:label_icm_incident_request_request_number) %></td>
+          <td colspan="4" align="center"><%= t(:label_icm_incident_request_title) %></td>
+        </tr>
+        <%- list_all_icm_incident_relations(@incident_request.id).each do |incident| -%>
+        <tr>
+          <td><%= Irm::LookupValue.get_meaning("ICM_INCIDENT_REQUEST_REL_TYPE",incident[:relation_type]) %></td>
+          <td align="center"><%= incident[:request_number] %></td>
+          <td colspan="4"><%= incident[:title] %></td>
+        </tr>
+        <%- end -%>
+        <!-- 跟踪者 -->
+        <tr>
+          <td colspan="6">
+            <strong><%= t :label_irm_watcher %><%= ("(" + watchers_size(@incident_request).to_s + ")")%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <%- @incident_request.all_person_watchers.each do |watcher| %>
+              <%= watcher[:person_name] %>&nbsp;&nbsp;
+            <%- end -%>
+          </td>
+        </tr>
+      </table>
+    </td>
+   </tr>
+  </table>
+</div>
+
+
+
+

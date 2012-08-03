@@ -1,0 +1,82 @@
+<%= app_title({:title=>"#{t(:label_irm_report)}"}) %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <%= link_to(t(:label_irm_report_folder_create_new_folder),{:controller => "irm/report_folders",:action=>"new"},:class=>"btn btn-primary") %>
+        <%= link_to(t(:edit),{:controller => "irm/report_folders",:action=>"edit",:id=>"${folderId}"},{:style=>"display:none;",:id=>"folderEditLink",:class=>"btn"}) %>
+      </td>
+      <td class="page-block-button">
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              <%= t(:new)  %>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to(t(:label_irm_report_new_custom),{:action => "new"})%></li>
+              <li><%= link_to(t(:label_irm_report_new_program),{:action => "new_program"}) %></li>
+            </ul>
+          </div>
+          <div class="btn-group">
+            <a href="javascript:void(0)" class="submit btn btn-info"><%= t(:export) %></a>
+          </div>
+        </div>
+
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <table class="split-table" cellpadding="0" cellspacing="0">
+       <tr>
+         <td class="side-bar">
+           <input type="hidden" id="folderId"/>
+           <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "irm/reports", :action=>"get_reports_tree", :format=>:json),
+                                                                        :tree_id => "tree-div",
+                                                                        :root_text => t(:label_irm_report_folder_all),
+                                                                        :li_attr => 'id'} %>
+         </td>
+         <td class="side-content">
+           <%= datatable("report_list",{:action=>"get_data", :folder_id => @folder_id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox",:scroll=>{:mode=>"xy",:height=>250}})%>
+           <div id="paginatorBox"></div>
+         </td>
+       </tr>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $("#tree-div").bind('nodeListener',function(event, element){
+          var params = {};
+          params['folder_id'] = element.attr('id');
+          var current_target = $("#report_list").data("datatable").target;
+          current_target.data.options.searchOptions = params;
+          current_target.loadPage(1);
+          $('#folderId').val(element.attr('id'));
+          if(element.attr('id')!="" && element.attr('id') !="root")
+            $("#folderEditLink").css("display","");
+          else
+            $("#folderEditLink").css("display","none");
+      });
+    });
+    $(function(){
+      if($("#folderEditLink")){
+          $("#folderEditLink").click(function(e){
+              var folderId =  $('#folderId').val();
+              if(folderId&&folderId!=''){
+                  var url = decodeURIComponent($("#folderEditLink").attr("href"));
+                  url = jQuery.tmpl(url,{folderId:folderId}).text();
+                  $("#folderEditLink").attr("href",url);
+              }
+              else{
+                  return false;
+              }
+          });
+      }
+    });
+</script>

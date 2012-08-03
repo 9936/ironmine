@@ -1,0 +1,138 @@
+<%= common_title(:show_data=>@bulletin.title) %>
+<%= form_for(@bulletin,:url=>{:action=>"update"},:builder => CustomFormBuilder, :html => {:multipart => true}) do |f| %>
+<%= hidden_field_tag :return_url,@return_url %>
+<%= f.hidden_field :column_ids %>
+  <% content_for :form_block_common   do%>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_bulletin_title)%></label></td>
+            <td class="data-2col"><%=f.text_field :title, :required=>true,:style => "width:80%;min-with:200px;"%></td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_bulletin_content)%></label></td>
+            <td class="data-2col" colspan="4" width="100%">
+              <%= f.text_area :content ,:id=>"msgEditor",:rows=>8, :required => true%>
+              <%= xheditor("msgEditor",true) %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_bulletin_sticky_flag)%></label></td>
+            <td class="data-2col"><%=f.check_box :sticky_flag%></td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_block_column do %>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_bu_column_choice)%></label></td>
+            <td class="data-col" width="1%">
+              <%= render :partial =>"/irm/common/tree_sidebar_template", :locals =>{:tree_url => url_for(:controller => "irm/bu_columns", :action=>"get_columns_data", :format=>:json,"with_check"=>@bulletin.column_ids),
+                                                                   :tree_id => "tree-div",
+                                                                   :li_attrs => "id",
+                                                                   :auto_css => true,
+                                                                   :checkbox => true} %>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_block_access do %>
+    <table class="form-table">
+      <tbody>
+          <tr>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+           <tr>
+            <td class="label-col"><label><%= t(:label_irm_wf_rule_action_type) %></label></td>
+            <td class="data-3col">
+              <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>duel_types,:sources=>duel_values,:str_value_field=>:access_str,:str_value=>""} %>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary",:id => "new_bulletin_submit_top"}%>
+    <% if @return_url%>
+      <%= link_to t(:cancel), @return_url, {:class => "btn cancel"}%>
+    <% else %>
+      <%= link_to t(:cancel), {:controller => "irm/home",:action=>"index"}, {:class => "btn cancel"}%>
+    <% end %>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_bulletin_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @bulletin%>
+    <%= flash_notice %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%=t(:label_common_info)%></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= t(:label_irm_bu_column) %></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_column  %>
+        </div>
+
+        <div class="sub-page-block-header">
+          <h3 class="sub-page-block-title"><%= t(:label_irm_bulletin_access) %><span style="font-weight:normal;font-size:12px;">&nbsp;-&nbsp;<%= t(:label_irm_bulletin_if_access_list_none)  %></span></h3>
+        </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_access  %>
+        </div>
+        <!-- 加载上传附件模板 -->
+        <%= render :partial=>"helper/upload_file_template",:locals=>{:type_flag => true, :exist_attachments => list_bulletin_existed_attachments(@bulletin) } %>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#tree-div").bind('nodeListener',function(event, element){
+        var column_ids = [];
+        $(this).find("input[name=ids]").each(function(){
+            if($(this).is(':checked')){
+                column_ids.push($(this).val());
+            }
+        });
+        $("#irm_bulletin_column_ids").val(column_ids);
+    });
+  });
+</script>

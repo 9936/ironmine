@@ -1,0 +1,131 @@
+<%= common_title(:show_data=>@business_object[:name]) %>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= @business_object[:name] %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @business_object},:class=>"btn btn-primary"%>
+      <%= link_to t(:test), {:action => "execute_test",:format=>:js},{:remote=>true,:class=>"btn"}%>
+      <%= link_to t(:delete), {:action => "destroy", :id => @business_object},:method => :delete,:confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+      <%= link_to t(:back), {:action => "index"},{:class=>"btn"}%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_name)%></label></td>
+            <td class="data-col"><%= @business_object[:name] %></td>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_description)%></label></td>
+            <td class="data-col"><%= @business_object[:description] %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_business_object_code)%></label></td>
+            <td class="data-col"><%= @business_object.business_object_code %></td>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_workflow_flag)%></label></td>
+            <td class="data-col"><%= check_img(@business_object.workflow_flag) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_bo_table_name)%></label></td>
+            <td class="data-col"><%= @business_object.bo_table_name %></td>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_report_flag)%></label></td>
+            <td class="data-col"><%= check_img(@business_object.report_flag) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_bo_model_name)%></label></td>
+            <td class="data-col"><%= @business_object.bo_model_name %></td>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_standard_flag)%></label></td>
+            <td class="data-col"><%= check_img(@business_object.standard_flag) %></td>
+
+          </tr>
+          <tr>
+            <td class="label-col"><div></div></td>
+            <td class="data-col"><div></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_auto_generate_flag)%></label></td>
+            <td class="data-col"><%= check_img(@business_object.auto_generate_flag) %></td>
+          </tr>
+          <tr>
+            <td class="label-col"><div></div></td>
+            <td class="data-col"><div></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_business_object_multilingual_flag)%></label></td>
+            <td class="data-col"><%= check_img(@business_object.multilingual_flag) %></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="executeTest"></div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_object_standard_attributes) %></h2>
+    </td>
+    <td class="page-block-button">
+      <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><%= t(:new)  %><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><%= link_to t(:label_irm_object_attribute_new_table_column), {:controller => "irm/object_attributes", :action => "new", :bo_id => @business_object.id}%></li>
+          <li><%= link_to t(:label_irm_object_attribute_new_model_attribute), {:controller => "irm/object_attributes", :action => "new_model_attribute", :bo_id => @business_object.id}%></li>
+        </ul>
+      </div>
+    </td>
+    <td class="page-block-help">
+      <div id="standardSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= render :partial=>"standard_object_attributes",:locals=>{:datas=>standard_object_attributes(@business_object.id)}%>
+  </div>
+</div>
+
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_object_custom_attributes) %></h2>
+    </td>
+    <td class="page-block-button">
+      <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><%= t(:new)  %><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><%= link_to t(:label_irm_object_attribute_new_table_column), {:controller => "irm/object_attributes", :action => "new", :bo_id => @business_object.id}%></li>
+          <li><%= link_to t(:label_irm_object_attribute_new_model_attribute), {:controller => "irm/object_attributes", :action => "new_model_attribute", :bo_id => @business_object.id}%></li>
+        </ul>
+      </div>
+    </td>
+    <td class="page-block-help">
+      <div id="object_attributesSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= render :partial=>"customize_object_attributes",:locals=>{:datas=>customize_object_attributes(@business_object.id)}%>
+  </div>
+</div>
+
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_search_layout) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:controller => "irm/search_layouts",:action => "new", :bo_id => @business_object.id},:class=>"btn"%>
+    </td>
+
+  </tr></table>
+  <div class="page-block-body">
+    <%= render :partial=>"search_layouts",:locals=>{:datas=>available_search_layouts(@business_object.id)}%>
+  </div>
+</div>
+
+
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@business_object} %>

@@ -1,0 +1,8 @@
+<%= render "list_journals" %>
+<%- unless params[:format].eql?('pdf') -%>
+  <iframe name="hiddenFrame" style="display: none;"></iframe>
+  <div id="journalForm">
+    <%= render "journal_form" %>
+  </div>
+<%- end -%>
+

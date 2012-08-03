@@ -1,0 +1,5 @@
+<%= datatable("incident_requests",{:action=>"get_help_desk_data"},[],{:export_data=>"#incidentRequestExport",
+                                                                      :search_box=>"incident_requestsSearchBox",
+                                                                      :paginator_box=>'incidentRequestsPaginatorBox',
+                                                                      :view_filter=>true,:scroll=>"xy",
+                                                                      :export_data=>"#exportData"})%>

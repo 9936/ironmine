@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale%>" class="<%= controller_action_css_class%>">
+<head>
+  <%= render :partial => "irm/common/application_title" %>
+  <!--加载基础javascript与css-->
+  <% require_jscss(:default) %>
+  <!--加载ie6基础javascript与css-->
+  <% require_jscss(:default_ie6) if ie6? %>
+  <!--生成javascript与css 标签-->
+  <%=render_required_jscss%>
+</head>
+<%= yield %>
+</html>

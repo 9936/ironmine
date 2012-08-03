@@ -1,0 +1,63 @@
+<%= page_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_skm_entry_template) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @entry_template },:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_entry_template_code)%></label></td>
+            <td class="data-col"><%= @entry_template.entry_template_code%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :name)%></label></td>
+            <td class="data-col"><%= @entry_template.name%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:description)%></label></td>
+            <td class="data-col"><div><%= @entry_template.description%></div></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :active)%></label></td>
+            <td class="data-col"><%= check_img(@entry_template.status_code)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- 配置属性列表 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_skm_entry_template_element_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:add),{:controller => "skm/entry_templates", :action => "select_elements", :template_id => @entry_template},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="entry_elements_list">
+      <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_template,:format=>"json"},[],{:paginator_box=>"entry_elementsPaginatorBox"}) %>
+    </div>
+    <div id="entry_elementsPaginatorBox"></div>
+  </div>
+</div>

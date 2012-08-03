@@ -1,0 +1,23 @@
+<table>
+  <tbody>
+    <tr>
+       <td class="data-4col" colspan="4">
+         <%= render :partial => "irm/duel_select/tmpl",:locals => {:f=>f,:types=>bo_person_field_duel_types([Irm::ExternalSystem.name]),:sources=>bo_person_field_duel_values(@wf_approval_process.bo_code,[Irm::ExternalSystem.name]),:str_value_field=>:approver_str,:str_value=>@wf_approval_step.get_approver_str} %>
+       </td>
+    </tr>
+
+    <tr>
+      <td class="data-4col" colspan="4"><b><%= t(:label_irm_wf_approval_step_multiple_approver_mode) %></b></td>
+    </tr>
+    <tr>
+      <td class="data-4col" colspan="4"><%=f.radio_button(:multiple_approver_mode,"FIRST_APPROVED",:id=>"firstApproved",:class=>"multipleApproveModeButton")%>
+        <label for="firstApproved"><%=t(:label_irm_wf_approval_step_multiple_approver_mode_first_approved)%></label></td>
+    </tr>
+    <tr>
+      <td class="data-4col" colspan="4">
+        <%=f.radio_button(:multiple_approver_mode,"ALL_APPROVED",:id=>"allApproved",:class=>"multipleApproveModeButton")%>
+        <label for="allApproved"><%=t(:label_irm_wf_approval_step_multiple_approver_mode_all_approved)%></label>
+      </td>
+    </tr>
+  </tbody>
+</table>

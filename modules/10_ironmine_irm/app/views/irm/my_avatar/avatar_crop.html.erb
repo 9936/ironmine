@@ -1,0 +1,41 @@
+<%= common_title(:model_meaning=>t(:label_irm_person_avatar)) %>
+<%= form_for(@person, :url => {:controller => "irm/my_avatar", :action => "update", :id => @person.id, :return_url => {:controller => "irm/my_avatar", :action => "index"}}, :builder => CustomFormBuilder) do |f| %>
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:cancel), {:controller => "irm/my_avatar", :action => "index"},:class=>"btn cancel"%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header"><tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%=t(:label_irm_person_avatar_crop)%></h2>
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
+    <%= error_for @person %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-body">
+          <div style="padding: 5px 0 5px 0; margin-left: 30%;"><%= t(:label_irm_person_avatar_best_size)%><label id="currentCrop"></label></div>
+          <%= render :partial => "irm/common/crop", :locals => {:source => @person,:best_size=>[100,100],:display_dom=>"currentCrop"}%>
+          <% for attribute in [:crop_x, :crop_y, :crop_w, :crop_h] %>
+           <%= f.hidden_field attribute, :id => attribute %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
+    <table class="page-block-footer"><tr>
+      <td class="page-block-title">
+      </td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr></table>
+  </div>
+
+<% end %>

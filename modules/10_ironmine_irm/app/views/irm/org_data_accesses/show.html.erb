@@ -1,0 +1,20 @@
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=params[:org_name].to_s+ t(:label_irm_data_access) %></h2>
+    </td>
+    <td class="page-block-button">
+      <a href="javascript:void(0)" class="loadButton btn" load_href="<%= url_for(:action=>"edit",:id=>"{org_id}")%>"><%= t(:edit) %></a>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <% data_accesses = org_data_accesses(params[:id]) %>
+    <%=datatable_view({:columns=>[:business_object_name,:org_access_level_name,:access_level_name],:count=>data_accesses.count,:datas=>data_accesses}) do |builder|%>
+      <% builder.column(:id,{:title=>t(:operation)})%>
+      <% builder.column(:business_object_name,{:title=>t(:label_irm_data_access_business_object)})%>
+      <% builder.column(:org_access_level_name,{:title=>t(:label_irm_data_access_org_access_level)})%>
+      <% builder.column(:access_level_name,{:title=>t(:label_irm_data_access_opu_access_level)})%>
+    <% end %>
+  </div>
+</div>
