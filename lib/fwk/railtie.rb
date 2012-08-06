@@ -13,7 +13,6 @@ module Fwk
       if File.exists?("#{Rails.root}/modules/.ignore")
         config.fwk.module_ignore = File.open("#{Rails.root}/modules/.ignore", "rb").read.split(",").collect{|i|i if i.present?}.compact
       end
-      puts "="*20+File.open("#{Rails.root}/modules/.ignore", "rb").read
       # 系统模块
       config.fwk.modules = []
       Dir["#{Rails.root}/#{config.fwk.module_folder}/*"].sort.each { |i|
