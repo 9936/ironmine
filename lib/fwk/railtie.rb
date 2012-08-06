@@ -8,12 +8,20 @@ module Fwk
       config.fwk.module_folder = 'modules'
       # 模块名称与目录对应hash
       config.fwk.module_mapping = {}
+      # 忽略模块
+      config.fwk.module_ignore = []
+      if File.exists?("#{Rails.root}/modules/.ignore")
+        config.fwk.module_ignore = File.open("#{Rails.root}/modules/.ignore", "rb").read.split(",").collect{|i|i if i.present?}.compact
+      end
+      puts "="*20+File.open("#{Rails.root}/modules/.ignore", "rb").read
       # 系统模块
       config.fwk.modules = []
       Dir["#{Rails.root}/#{config.fwk.module_folder}/*"].sort.each { |i|
         if File.directory?(i)
+          short_name = File.basename(i).split("_").last
+          next if config.fwk.module_ignore.include?(short_name)
           config.fwk.module_mapping.merge!({File.basename(i).split("_").last => File.basename(i)})
-          config.fwk.modules << File.basename(i).split("_").last
+          config.fwk.modules <<  short_name
         end
       }
       # 对系统模块加载顺序排序

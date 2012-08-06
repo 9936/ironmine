@@ -19,3 +19,4 @@ solr/solr/data/**
 solr/data/**
 public/tmp/*
 public/assets/*
+modules/.ignore
