@@ -59,10 +59,9 @@ module Skm::Gollum::Markup
       end
 
       def preprocess(data)
-        data = data.encode('UTF-8', :invalid => :replace)
-        data = data.gsub(/(```)\s+/m) do
-          "#{$1}\n"
-        end
+        #data = data.gsub(/(```)\s+/m) do
+        #  "#{$1}\n"
+        #end
 
         data = extract_code(data)
 
@@ -241,6 +240,18 @@ module Skm::Gollum::Markup
 
       def find_page_from_name(cname)
         Skm::Wiki.where(:name => cname).first
+      end
+
+      def extract_code(data)
+        data.gsub!(/^([ \t]*)``` ?([^\r\n]+)?\r?\n(.+?)\r?\n\1```\r?$/m) do
+          id = Digest::SHA1.hexdigest("#{$2}.#{$3}")
+          cached = check_cache(:code, id)
+          @codemap[id] = cached ?
+              {:output => cached} :
+              {:lang => $2, :code => $3, :indent => $1}
+          "#{$1}#{id}\n" # print the SHA1 ID with the proper indentation
+        end
+        data
       end
     end
   end
