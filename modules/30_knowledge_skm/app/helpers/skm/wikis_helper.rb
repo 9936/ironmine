@@ -85,7 +85,7 @@ module Skm::WikisHelper
       next if (n['class']||"").include?("add-h1")
       type = n.name.downcase.gsub("h","").to_i
       sequences[type-1] = sequences[type-1]+1
-      n.children.after(Nokogiri::XML::DocumentFragment.parse("<span class='hedit-link'>#{link_to(t(:edit),{:controller=>"skm/wikis",:action=>"edit_chapter",:id=>wiki_id,:hdata=>"#{type}##{sequences[type-1]}"})}</span>"))
+      n.children.after(Nokogiri::XML::DocumentFragment.parse("<span class='hedit-link'>[#{link_to(t(:edit),{:controller=>"skm/wikis",:action=>"edit_chapter",:id=>wiki_id,:hdata=>"#{type}##{sequences[type-1]}"})}]</span>"))
     end
   end
 
@@ -101,7 +101,7 @@ module Skm::WikisHelper
       doc = check_h1(wiki.name, doc)
       # page break
       if(index>0)
-        output.safe_concat "<hr/>"
+        output.safe_concat "<br class='page-break'/>"
       end
       output.safe_concat doc.to_html
     end

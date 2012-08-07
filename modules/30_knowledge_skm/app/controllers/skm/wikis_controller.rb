@@ -25,6 +25,7 @@ class Skm::WikisController < ApplicationController
                :print_media_type => false,
                :encoding => 'utf-8',
                :layout => "layouts/markdown_pdf.html.erb",
+               :show_as_html=>true,
                :book => true,
                :page_size => 'A4',
                :toc => {:header_text => t(:label_skm_wiki_table_of_content), :disable_back_links => true}
