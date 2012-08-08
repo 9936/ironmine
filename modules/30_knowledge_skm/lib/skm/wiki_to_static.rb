@@ -136,9 +136,7 @@ class Skm::WikiToStatic
     if wiki_id.present?
       page.attachments = Irm::AttachmentVersion.select_all.where(:source_id => wiki_id, :source_type => Skm::Wiki.name)
     end
-    if mode
-      page.mode = mode
-    end
+    page.mode = mode
     doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data.force_encoding("utf-8"))
     if title.present?
       doc = check_h1(title, doc)
