@@ -22,6 +22,7 @@ class Skm::Wiki < ActiveRecord::Base
   end
 
   after_update do
+
     if (self.sync_git_flag.present?&&sync_git_flag.eql?(Irm::Constant::SYS_YES))||!self.sync_git_flag.present?
       commit = {:message=>self.description,:name=>Irm::Person.current.login_name,:email=>Irm::Person.current.email_address}
       page = Ironmine::WIKI.page(self.origin_wiki_name)
@@ -60,6 +61,10 @@ class Skm::Wiki < ActiveRecord::Base
 
   end
 
+  def page=(page)
+    @page = page
+  end
+
   def show_url(absolute = false)
     return "#" unless self.id
     if absolute
@@ -68,6 +73,23 @@ class Skm::Wiki < ActiveRecord::Base
       Irm::GlobalHelper.instance.url(:controller=>"skm/wikis",:action=>"show",:id=>self.id)
     end
 
+  end
+
+  def md5_flag
+    Digest::SHA1.hexdigest("#{self.updated_at}#{self.created_at}")
+  end
+
+
+  after_save do
+    self.class.sync_static(self.id)
+  end
+
+  after_destroy do
+    self.class.sync_static(self.id)
+  end
+
+  def self.sync_static(wiki_id)
+    Skm::WikiToStatic.instance.sync_wiki_static(wiki_id)
   end
 
 

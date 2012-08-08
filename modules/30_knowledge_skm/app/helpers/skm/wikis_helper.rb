@@ -15,7 +15,26 @@ module Skm::WikisHelper
     Irm::AttachmentVersion.select_all.where(:source_id => wiki.id, :source_type => wiki.class.name)
   end
 
-  def show_wiki(page, title="", wiki_id=nil, mode=nil)
+  def show_wiki(wiki,preview=false)
+    doc = nil
+    if wiki.id.present?&&!preview
+      doc = Nokogiri::HTML(File.open(Skm::WikiToStatic.instance.wiki_to_static(wiki,:html),"r").read)
+    else
+      doc = Skm::WikiToStatic.instance.wiki_to_doc(wiki)
+    end
+    if !preview&&doc.present?&&wiki.id.present?&&allow_to?(:controller=>"skm/wikis",:action=>"edit_chapter")
+      doc =  add_wiki_edit_link(doc,wiki.id)
+    end
+
+    if doc.present?
+      return doc.to_html
+    else
+      return ""
+    end
+
+  end
+
+  def show_wiki_tmp(page, title="", wiki_id=nil, mode=nil)
     if wiki_id.present?
       page.attachments = Irm::AttachmentVersion.select_all.where(:source_id => wiki_id, :source_type => Skm::Wiki.name)
     end
@@ -87,26 +106,11 @@ module Skm::WikisHelper
       sequences[type-1] = sequences[type-1]+1
       n.children.after(Nokogiri::XML::DocumentFragment.parse("<span class='hedit-link'>[#{link_to(t(:edit),{:controller=>"skm/wikis",:action=>"edit_chapter",:id=>wiki_id,:hdata=>"#{type}##{sequences[type-1]}"})}]</span>"))
     end
+    doc
   end
 
-  def show_book(book, mode=nil)
-    output = ActiveSupport::SafeBuffer.new
-    book.wikis.each_with_index do |wiki,index|
-      page = wiki.page
-      page.attachments = Irm::AttachmentVersion.select_all.where(:source_id => wiki.id, :source_type => Skm::Wiki.name)
-      if mode
-        page.mode = mode
-      end
-      doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data)
-      doc = check_h1(wiki.name, doc)
-      # page break
-      if(index>0)
-        output.safe_concat "<br class='page-break'/>"
-      end
-      output.safe_concat doc.to_html
-    end
-    doc = Nokogiri::HTML::DocumentFragment.parse(output)
-    doc = generate_sequence(doc)
+  def show_book(book)
+    doc = Nokogiri::HTML(File.open(Skm::WikiToStatic.instance.book_to_static(book,:html),"r").read)
     doc.to_html
   end
 end

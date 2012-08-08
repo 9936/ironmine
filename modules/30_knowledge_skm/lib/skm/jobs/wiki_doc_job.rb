@@ -16,11 +16,11 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
     if check_for_unoconv.any?
       raise("Miss lib:#{miss}")
     end
-    Dir.mkdir("#{Rails.root.to_s}/tmp/wiki_word", 0700) unless Dir.exists?("#{Rails.root.to_s}/tmp/wiki_word")
-    Dir.mkdir("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}", 0700) unless Dir.exists?("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}")
+    tmp_folder =  "#{Rails.root.to_s}/tmp/skm/wikis/wiki_word/#{wiki.id}"
+    FileUtils.mkdir_p(tmp_folder, :mode=>0700)
     word_file_path = attachment.data.path
-    html_file_path = "#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}/wiki_doc.html"
-    log_file_path = "#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}/wiki_doc_log.txt"
+    html_file_path = "#{tmp_folder}/wiki_doc.html"
+    log_file_path = "#{tmp_folder}/wiki_doc_log.txt"
     executable = "xvfb-run -a unoconv -f html --output=#{html_file_path} #{word_file_path} > #{log_file_path}"
     unless system(executable)
       raise(File.open(log_file_path, "rb").read)
@@ -42,7 +42,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
 
     files.each do |f|
       atch = Irm::AttachmentVersion.new({:source_id => wiki.id, :source_type => wiki.class.name})
-      atch.data = File.new("#{Rails.root.to_s}/tmp/wiki_word/#{attachment.id}/#{f[:origin_name]}")
+      atch.data = File.new("#{tmp_folder}/#{f[:origin_name]}")
       atch.data.instance_write :file_name, f[:name]
       atch.save
 

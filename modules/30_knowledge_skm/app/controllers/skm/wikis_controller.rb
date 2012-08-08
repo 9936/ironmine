@@ -21,15 +21,19 @@ class Skm::WikisController < ApplicationController
       format.html # show.html.erb
       format.xml { render :xml => @wiki }
       format.pdf {
-        render :pdf => "#{@wiki.name}",
-               :print_media_type => false,
-               :encoding => 'utf-8',
-               :layout => "layouts/markdown_pdf.html.erb",
-               :show_as_html=>true,
-               :book => true,
-               :page_size => 'A4',
-               :toc => {:header_text => t(:label_skm_wiki_table_of_content), :disable_back_links => true}
+        pdf_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki,:pdf)
+        send_file pdf_path, :filename=>"#{@wiki.name}.pdf",:type => 'application/pdf', :disposition => 'inline'
       }
+      #format.pdf {
+      #  render :pdf => "#{@wiki.name}",
+      #         :print_media_type => false,
+      #         :encoding => 'utf-8',
+      #         :layout => "layouts/markdown_pdf.html.erb",
+      #         :show_as_html=>true,
+      #         :book => true,
+      #         :page_size => 'A4',
+      #         :toc => {:header_text => t(:label_skm_wiki_table_of_content), :disable_back_links => true}
+      #}
     end
   end
 
@@ -252,8 +256,6 @@ class Skm::WikisController < ApplicationController
     else
       @wiki = Skm::Wiki.new(params[:skm_wiki])
     end
-
-    @preview = Ironmine::WIKI.preview_page(@wiki.name, @wiki.content, @wiki.content_format)
 
     respond_to do |format|
       format.html # show.html.erb

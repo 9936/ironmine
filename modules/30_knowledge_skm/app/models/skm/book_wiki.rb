@@ -6,6 +6,9 @@ class Skm::BookWiki < ActiveRecord::Base
   #对运维中心数据进行隔离
   default_scope {default_filter}
 
+  belongs_to :wiki
+  belongs_to :book
+
   validates_presence_of :book_id,:wiki_id
   validates_presence_of :display_sequence,:if=>Proc.new{|i| !i.new_record?}
   validates_uniqueness_of :wiki_id,:scope => [:book_id],:if=>Proc.new{|i| i.book_id.present?&&i.wiki_id.present?}
@@ -19,5 +22,15 @@ class Skm::BookWiki < ActiveRecord::Base
   before_create do
     num = self.class.where(:book_id=>self.book_id).select("max(display_sequence) display_sequence").first
     self.display_sequence = (num.display_sequence.present? ? num.display_sequence : 0)+1
+  end
+
+
+
+  after_save do
+    Skm::Book.sync_static(self.book_id)
+  end
+
+  after_destroy do
+    Skm::Book.sync_static(self.book_id)
   end
 end
