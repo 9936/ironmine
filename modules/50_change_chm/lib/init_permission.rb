@@ -1,4 +1,4 @@
-Fwk::AccessControl.map do |map|
+Fwk::MenuAndFunctionManager.map do |map|
   map.function :change_status,{"chm/change_statuses"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
   map.function :change_urgency,{"chm/change_urgencies"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
   map.function :change_impact,{"chm/change_impacts"=>["index", "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}

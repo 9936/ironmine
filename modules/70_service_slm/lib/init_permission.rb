@@ -1,4 +1,4 @@
-Fwk::AccessControl.map do |map|
+Fwk::MenuAndFunctionManager.map do |map|
   #===================slm/service catalogs============================
   map.function :service_category,{"slm/service_categories" => ["index", "edit", "update", "new", "create", "show", "get_data"]}
   map.function :service_catalog,{"slm/service_catalogs" => ["index", "edit", "update", "new", "create", "show", "get_data"],

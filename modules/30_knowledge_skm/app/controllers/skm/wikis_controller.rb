@@ -22,7 +22,7 @@ class Skm::WikisController < ApplicationController
       format.xml { render :xml => @wiki }
       format.pdf {
         pdf_path = Skm::WikiToStatic.instance.wiki_to_static(@wiki,:pdf)
-        send_file pdf_path, :filename=>"#{@wiki.name}.pdf",:type => 'application/pdf', :disposition => 'inline'
+        send_data File.open(pdf_path,"r").read, :filename=>"#{@wiki.name}.pdf",:type => 'application/pdf', :disposition => 'inline'
       }
       #format.pdf {
       #  render :pdf => "#{@wiki.name}",
@@ -256,6 +256,8 @@ class Skm::WikisController < ApplicationController
     else
       @wiki = Skm::Wiki.new(params[:skm_wiki])
     end
+    preview = Ironmine::WIKI.preview_page(@wiki.name, @wiki.content, @wiki.content_format)
+    @wiki.page = preview
 
     respond_to do |format|
       format.html # show.html.erb

@@ -1,4 +1,4 @@
-Fwk::AccessControl.map do |map|
+Fwk::MenuAndFunctionManager.map do |map|
   #============= 系统主页==============================
   # 主页
   map.function :home_page,{"irm/home"=>[:index,:my_tasks], "irm/calendars" => ["get_full_calendar"]}
