@@ -46,7 +46,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理服务类别", :description => "管理服务类别"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "slm/service_categories" => ["create", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
@@ -68,7 +68,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理服务目录", :description => "管理服务目录"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "slm/service_breaks" => ["create", "edit", "new", "update"],
               "slm/service_catalogs" => ["create", "edit", "get_data", "index", "new", "show", "update"],
               "slm/service_members" => ["create", "edit", "new", "update"],
@@ -92,7 +92,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理服务协议", :description => "管理服务协议"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "slm/service_agreements" => ["create", "edit", "get_data", "index", "new", "show", "update"],
           },
       }

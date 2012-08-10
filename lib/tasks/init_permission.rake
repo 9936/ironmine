@@ -50,7 +50,7 @@ namespace :irm do
     #functions = Fwk::AccessControl.functions
     functions = Fwk::MenuAndFunctionManager.functions
     functions ||={}
-    function_codes = Irm::Function.all.collect{|f| f.code.upcase.to_sym}
+    function_codes = Irm::Function.all.collect{|f| f.code.downcase.to_sym}
     missing_function_codes = functions.keys.collect{|fc| fc if !function_codes.include?(fc)}.compact
     puts "#{BOLD}#{RED}Missing function codes:#{missing_function_codes.to_json}#{CLEAR}"
     Irm::Permission.update_all("status_code = 'UNKNOW'")
