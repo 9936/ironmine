@@ -256,6 +256,8 @@ class Skm::WikisController < ApplicationController
     else
       @wiki = Skm::Wiki.new(params[:skm_wiki])
     end
+    preview = Ironmine::WIKI.preview_page(@wiki.name, @wiki.content, @wiki.content_format)
+    @wiki.page = preview
 
     respond_to do |format|
       format.html # show.html.erb
