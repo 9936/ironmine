@@ -61,7 +61,7 @@ end
 rails_config = Rails.application.config
 # 配置加载系统模块
 require 'fwk/hook'
-rails_config.fwk.modules.reverse.each do |module_name|
+rails_config.fwk.modules.each do |module_name|
 
   # 加载报表文件
   report_path = "modules/#{rails_config.fwk.module_mapping[module_name]}/reports/programs"
