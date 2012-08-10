@@ -1,4 +1,4 @@
-Fwk::AccessControl.map do |map|
+Fwk::MenuAndFunctionManager.map do |map|
   map.function :login_function,{"icm/incident_categories"=>["get_option"],
                                 "icm/incident_sub_categories"=>["get_option"]}
   #============= 事故单==============================

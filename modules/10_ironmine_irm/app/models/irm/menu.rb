@@ -8,7 +8,7 @@ class Irm::Menu < ActiveRecord::Base
 
   # 菜单子项
   has_many :menu_entries ,:dependent => :destroy
-  has_many :as_sub_menu_entries,:class_name => "Irm::MenuEntry",:primary_key => :sub_menu_id,:dependent => :destroy
+  has_many :as_sub_menu_entries, :class_name => "Irm::MenuEntry", :foreign_key => :sub_menu_id ,:dependent => :destroy
 
   # 验证权限编码唯一性
   validates_presence_of :code
