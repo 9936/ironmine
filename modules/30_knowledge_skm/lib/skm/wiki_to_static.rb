@@ -43,12 +43,20 @@ class Skm::WikiToStatic
 
   end
 
-  def book_static_exists?(book)
-    File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}")
+  def book_static_exists?(book,mode=nil)
+    if mode.present?
+      return File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/#{mode.to_s}.#{mode.to_s}")
+    else
+      return File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/html.html")&&File.exists?("#{Rails.root.to_s}/tmp/skm/books/wiki_static/#{book.id}/#{book.md5_flag}/pdf.pdf")
+    end
   end
 
-  def wiki_static_exists?(wiki)
-    File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}")
+  def wiki_static_exists?(wiki,mode=nil)
+    if mode.present?
+      return File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/#{mode.to_s}.#{mode.to_s}")
+    else
+      return File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/html.html")&&File.exists?("#{Rails.root.to_s}/tmp/skm/wikis/wiki_static/#{wiki.id}/#{wiki.md5_flag}/pdf.pdf")
+    end
   end
 
 
