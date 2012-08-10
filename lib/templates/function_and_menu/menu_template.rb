@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 #====================================START MENUS======================================
-Fwk::MenuManager.map do |map|
+Fwk::MenuAndFunctionManager.map do |map|
  <% menus.each do |menu| -%>
   #====================================START:<%= menu[:code] %>======================================
   map.menu :<%= menu[:code].downcase%>, {
