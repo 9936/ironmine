@@ -1839,6 +1839,67 @@ zh:
   label_irm_rating_config_new: 新建评分设置
   label_irm_rating_config_edit: 编辑评分配置
   #============================== end rating config  ===================================
+  #============================== highest_priority_incident report ===================================
+  label_date: 日期
+  label_highest_priority_incident_highest_amount: 最高优先级
+  label_total_amount: 总数
+  label_percentage: 比例
+  label_statistic_date: 统计日期
+  #============================== end highest_priority_incident ===================================
+  #============================== first line solved report ===================================
+  label_first_line_solved_amount: 一线解决数量
+  label_total_solved_amount: 解决事故总数
+  #============================== end first line solved ===================================
+  #============================== icm average processing time report ===================================
+  label_total_solved_time: 解决总耗时(分钟)
+  label_total_solved_average_time: 平均处理时间(分钟/单)
+  #============================== end icm average processing time ===================================
+  #============================== icm wrong assign rate report ===================================
+  label_icm_total_wrong_assigned: 错误分派数
+  label_icm_wrong_assigned_rate: 错误分派比例
+  #============================== end icm wrong assign rate ===================================
+  #============================== icm secondary assign rate report ===================================
+  label_icm_total_secondary_assigned: 二次分派数
+  label_icm_secondary_assigned_rate: 二次分派分派比例
+  #============================== end icm secondary assign rate ===================================
+  #============================== skm solved rate report ===================================
+  label_skm_solved_amount: 知识库解决事故数量
+  label_skm_solved_rate: 知识库解决事故比例
+  #============================== end skm solved rate ===================================
+  #============================== icm once solved rate report ===================================
+  label_icm_once_solved_amount: 一次性解决数量
+  label_icm_once_solved_rate: 一次性解决比例
+  #============================== end icm once solved rate ===================================
+  #============================== icm to rfc rate report ===================================
+  label_icm_to_rfc_amount: 生成RFC总数
+  label_icm_to_rfc_rate: 生成RFC比例
+  #============================== end icm to rfc rate ===================================
+  #============================== icm reopen rate report ===================================
+  label_icm_reopen_amount: 重新打开数
+  label_icm_reopen_rate: 重新打开比例
+  #============================== end icm reopen rate ===================================
+  #============================== icm upgrade rate report ===================================
+  label_icm_upgrade_amount: 升级事故单数量
+  label_icm_upgrade_rate: 升级比例
+  #============================== end icm upgrade rate ===================================
+  #============================== icm incident amount by day report ===================================
+  label_icm_receive_amount: 接受事故单数量
+  #============================== end icm incident amount by day  ===================================
+  #============================== icm helpdesk solved rate report ===================================
+  label_icm_helpdesk_solved_amount: 服务台直接解决单数
+  label_icm_helpdesk_solved_rate: 服务台直接解决比例
+  #============================== end icm helpdesk solved rate day  ===================================
+  #============================== chm rejected request rate report ===================================
+  label_chm_rejected_amount: 请求拒绝总数
+  label_chm_rejected_rate: 拒绝比例
+  label_chm_approval_amount: 审批总数
+  #============================== end chm rejected request rate day  ===================================
+  #============================== chm rejected request rate report ===================================
+  label_icm_rank: 排名
+  label_icm_workload: 工作量
+  label_icm_workload_rate: 所占比例
+  #============================== end chm rejected request rate day  ===================================
+
   #============================== wiki ======================================
   label_irm_wiki: Wiki
   label_irm_wiki_name: 名称

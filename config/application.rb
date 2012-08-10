@@ -10,8 +10,14 @@ require "sprockets/railtie"
 # 加载框架配置
 require File.expand_path("../../lib/fwk/railtie", __FILE__)
 # 加载各模块配置
+# 忽略模块
+module_ignore = []
+if File.exists?("#{Rails.root}/modules/.ignore")
+  module_ignore = File.open("#{Rails.root}/modules/.ignore", "rb").read.split(",").collect { |i| i if i.present? }.compact
+end
 Dir["#{File.expand_path('../..', __FILE__)}/modules/*"].sort.reverse.each do |file|
   m = File.basename(file).split("_").last
+  next if module_ignore.include?(m)
   railtie_path = File.expand_path("#{file}/lib/#{m}/railtie.rb", __FILE__)
   if File.exist?(railtie_path)
     require railtie_path
@@ -73,22 +79,22 @@ module Ironmine
 
     # add mail config
     config.ironmine = ActiveSupport::OrderedOptions.new
-    config.ironmine.languages = [:zh,:en]
+    config.ironmine.languages = [:zh, :en]
 
     config.ironmine.jscss = {
-        :default =>{:css=>["application"],:js=>["application","locales/jquery-{locale}"]},
-        :default_ie6=>{:css=>["application-ie6"],:js=>["application","locales/jquery-{locale}"]},
-        :aceditor =>{:js=>["plugins/ace"]},
-        :xheditor => {:css=>["plugins/xheditor"],:js=>["plugins/xheditor/xheditor-{locale}"]} ,
-        :jpolite => {:css=>["plugins/jpolite"],:js=>["plugins/jpolite"]},
-        :jcrop => {:css=>["plugins/jcrop"],:js=>["plugins/jquery-crop"]},
-        :jcrop_ie6 => {:css=>["plugins/jcrop-ie6"],:js=>[]},
-        :highcharts => {:css=>[],:js=>["highcharts"]},
-        :login => {:css=>["login"],:js=>[]},
-        :login_ie6 => {:css=>["login-ie6"]},
-        :jquery_ui => {:js=>["jquery-ui"]},
-        :gollum => {:js=>["plugins/gollum"],:css=>["plugins/gollum"]},
-        :markdown => {:css=>["markdown"]},
+        :default => {:css => ["application"], :js => ["application", "locales/jquery-{locale}"]},
+        :default_ie6 => {:css => ["application-ie6"], :js => ["application", "locales/jquery-{locale}"]},
+        :aceditor => {:js => ["plugins/ace"]},
+        :xheditor => {:css => ["plugins/xheditor"], :js => ["plugins/xheditor/xheditor-{locale}"]},
+        :jpolite => {:css => ["plugins/jpolite"], :js => ["plugins/jpolite"]},
+        :jcrop => {:css => ["plugins/jcrop"], :js => ["plugins/jquery-crop"]},
+        :jcrop_ie6 => {:css => ["plugins/jcrop-ie6"], :js => []},
+        :highcharts => {:css => [], :js => ["highcharts"]},
+        :login => {:css => ["login"], :js => []},
+        :login_ie6 => {:css => ["login-ie6"]},
+        :jquery_ui => {:js => ["jquery-ui"]},
+        :gollum => {:js => ["plugins/gollum"], :css => ["plugins/gollum"]},
+        :markdown => {:css => ["markdown"]},
         :search => {:css => ["search"]}
     }
     # 自动对资源文件进行预编译
@@ -98,7 +104,7 @@ module Ironmine
       asset[:css].each do |css|
         if css.to_s.include?("{locale}")
           config.ironmine.languages.each do |lang|
-            files << css.to_s.gsub("{locale}",lang.to_s).to_s+".css"
+            files << css.to_s.gsub("{locale}", lang.to_s).to_s+".css"
           end
         else
           files << "#{css}.css"
@@ -107,34 +113,37 @@ module Ironmine
       asset[:js].each do |js|
         if js.to_s.include?("{locale}")
           config.ironmine.languages.each do |lang|
-            files << js.to_s.gsub("{locale}",lang.to_s).to_s+".js"
+            files << js.to_s.gsub("{locale}", lang.to_s).to_s+".js"
           end
         else
           files << "#{js}.js"
         end
       end if asset[:js]
-      config.assets.precompile +=  files
+      config.assets.precompile += files
     end
 
-    config.assets.precompile +=  ["report_types.css"]
-
+    config.assets.precompile += ["report_types.css"]
 
     # 配置加载系统模块
-    origin_values =  config.paths.dup
-    config.fwk.modules.reverse.each do |module_name|
+    origin_values = config.paths.dup
+    config.fwk.modules.each do |module_name|
       config.paths.keys.each do |key|
         next unless config.paths[key].is_a?(Array)
         file_path ="modules/#{config.fwk.module_mapping[module_name]}/#{origin_values[key][origin_values[key].length-1]}"
         real_file_path = "#{config.root}/#{file_path}"
         if File.exist?(real_file_path)
-          config.paths[key].insert(0,file_path)
+          if key.eql?('config/database')
+            config.paths[key][0] = file_path
+          else
+            config.paths[key].insert(0, file_path)
+          end
         end
         # 加载报表页面文件
         if key.eql?('app/views')
           report_view_path = "modules/#{config.fwk.module_mapping[module_name]}/reports/views"
           real_report_view_path = "#{config.root}/#{report_view_path}"
           if File.exist?(real_report_view_path)
-            config.paths[key].insert(0,report_view_path)
+            config.paths[key].insert(0, report_view_path)
           end
         end
       end

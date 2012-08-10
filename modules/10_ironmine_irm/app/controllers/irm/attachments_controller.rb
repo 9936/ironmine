@@ -14,8 +14,8 @@ class Irm::AttachmentsController < ApplicationController
     attachment = Irm::AttachmentVersion.new({:source_id=>params[:source_id],:source_type=>params[:source_type]})
     file_name = request.env['HTTP_X_FILENAME']
     file_type = request.env['HTTP_X_FILETYPE']
-    Dir.mkdir("#{Rails.root.to_s}/tmp/attachment", 0700)  unless Dir.exists?("#{Rails.root.to_s}/tmp/attachment")
-    tmp_file_path = "#{Rails.root.to_s}/tmp/attachment/#{Fwk::IdGenerator.instance.generate(Irm::AttachmentVersion.table_name)}#{file_name}"
+    FileUtils.mkdir_p("#{Rails.root.to_s}/tmp/irm/attachment_versions", :mode => 0700)
+    tmp_file_path = "#{Rails.root.to_s}/tmp/irm/attachment_versions/#{Fwk::IdGenerator.instance.generate(Irm::AttachmentVersion.table_name)}#{file_name}"
 
     File.open(tmp_file_path, "wb") do |f|
         f.write(request.env['rack.input'].read)

@@ -103,14 +103,18 @@ class Skm::BooksController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.pdf {
-        render :pdf => "#{@book.name}",
-                       :print_media_type => false,
-                       :encoding => 'utf-8',
-                       :layout => "layouts/markdown_pdf.html.erb",
-                       :book => true,
-                       :page_size => 'A4',
-                       :toc=>{:header_text=>t(:label_skm_wiki_table_of_content),:disable_back_links=>true}
+        pdf_path = Skm::WikiToStatic.instance.book_to_static(@book,:pdf)
+        send_data File.open(pdf_path,"r").read :filename=>"#{@book.name}.pdf", :type => 'application/pdf', :disposition => 'inline'
       }
+      #format.pdf {
+      #  render :pdf => "#{@book.name}",
+      #                 :print_media_type => false,
+      #                 :encoding => 'utf-8',
+      #                 :layout => "layouts/markdown_pdf.html.erb",
+      #                 :book => true,
+      #                 :page_size => 'A4',
+      #                 :toc=>{:header_text=>t(:label_skm_wiki_table_of_content),:disable_back_links=>true}
+      #}
     end
   end
 end

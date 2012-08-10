@@ -1,4 +1,4 @@
-class KnowledgeUse < Irm::ReportManager::ReportBase
+class Skm::KnowledgeUse < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 

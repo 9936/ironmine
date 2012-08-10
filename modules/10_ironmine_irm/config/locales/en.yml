@@ -1838,6 +1838,62 @@ en:
   label_irm_oauth_token_unavailable: Unavailabled Token
   label_irm_oauth_username_or_password_error: Username Or Password Error
   #============================== end oauth_authorize ===================================
+  #============================== highest_priority_incident report ===================================
+  label_date: Date
+  label_highest_priority_incident_highest_amount: Highest Amount
+  label_total_amount: Amount
+  label_percentage: Percentage
+  label_statistic_date: Reference Date
+  #============================== end highest_priority_incident ===================================
+  #============================== first line solved report ===================================
+  label_first_line_solved_amount: First-line Solved
+  label_total_solved_amount: Solved Amount
+  #============================== end first line solved ===================================
+  #============================== icm average processing time report ===================================
+  label_total_solved_time: Total Solved Time(mins)
+  label_total_solved_average_time: Avg. Solved Time(mins/sheet)
+  #============================== end icm average processing time ===================================
+  #============================== icm wrong assign rate report ===================================
+  label_icm_total_wrong_assigned: Wrong Assigned
+  label_icm_wrong_assigned_rate: Wrong Assigned Rate
+  #============================== end icm wrong assign rate ===================================
+  #============================== icm secondary assign rate report ===================================
+  label_icm_total_secondary_assigned: Secondary Assigned
+  label_icm_secondary_assigned_rate: Secondary Assigned Rate
+  #============================== end icm secondary assign rate ===================================
+  #============================== skm solved rate report ===================================
+  label_skm_solved_amount: Skm Solved Amount
+  label_skm_solved_rate: Skm Solved Rate
+  #============================== end skm solved rate ===================================
+  #============================== icm once solved rate report ===================================
+  label_icm_once_solved_amount: Once Solved Amount
+  label_icm_once_solved_rate: Once Solved Rate
+  #============================== end icm once solved rate ===================================
+  #============================== icm reopen rate report ===================================
+  label_icm_reopen_amount: Reopen Amount
+  label_icm_reopen_rate: Reopen Rate
+  #============================== end icm reopen rate ===================================
+  #============================== icm upgrade rate report ===================================
+  label_icm_upgrade_amount: Upgrade Amount
+  label_icm_upgrade_rate: Upgrade Rate
+  #============================== end icm upgrade rate ===================================
+  #============================== icm incident amount by day report ===================================
+  label_icm_receive_amount: Received Amount
+  #============================== end icm incident amount by day  ===================================
+  #============================== icm helpdesk solved rate report ===================================
+  label_icm_helpdesk_solved_amount: Helpdesk Solved Amount
+  label_icm_helpdesk_solved_rate: Helpdesk Solved Rate
+  #============================== end icm helpdesk solved rate day  ===================================
+  #============================== chm rejected request rate report ===================================
+  label_chm_rejected_amount: Rejected Amount
+  label_chm_rejected_rate: Rejected Rate
+  label_chm_approval_amount: Approval Amount
+  #============================== end chm rejected request rate day  ===================================
+  #============================== chm rejected request rate report ===================================
+  label_icm_rank: Rank
+  label_icm_workload: Workload
+  label_icm_workload_rate: Rate
+  #============================== end chm rejected request rate day  ===================================
   #============================== wiki ======================================
   label_irm_wiki: Wiki
   label_irm_wiki_name: Name

@@ -1,23 +1,13 @@
-class IcmReopenRate < Irm::ReportManager::ReportBase
+class Icm::IcmUpgradeRate < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 
     incident_request_table = Icm::IncidentRequest.table_name
-    #查询关闭状态ID
-    close_statis = Icm::IncidentStatus.where("close_flag = ?", Irm::Constant::SYS_YES)
-    if close_statis.any?
-      close_statis = close_statis.first.id
-    else
-      return {:datas=>[],:headers=>[],:params=>params}
-    end
 
     statis = Icm::IncidentRequest.
         select("#{incident_request_table}.external_system_id, count(1) amount").
-        group("#{incident_request_table}.external_system_id").
-        where(%Q(EXISTS(
-                  SELECT * FROM icm_incident_journals ij
-                  WHERE ij.incident_request_id = #{incident_request_table}.id
-                  AND ij.reply_type = 'CLOSE')))
+        group("#{incident_request_table}.external_system_id")
+
     external_systems = Irm::ExternalSystem.multilingual
 
     if params[:external_system_id].present? &&
@@ -29,19 +19,28 @@ class IcmReopenRate < Irm::ReportManager::ReportBase
 
     datas = []
     headers = [I18n.t(:label_irm_external_system),
-               I18n.t(:label_icm_reopen_amount),
+               I18n.t(:label_icm_upgrade_amount),
                I18n.t(:label_total_amount),
-               I18n.t(:label_icm_reopen_rate)]
+               I18n.t(:label_icm_upgrade_rate)]
 
     external_systems.each do |e|
       data = Array.new(4)
       data[0] = e[:system_name]
-      rec = statis.where("#{incident_request_table}.external_system_id = ?", e.id)
-      reopen_rec = rec.where(%Q(EXISTS(
-                        SELECT * FROM icm_incident_journals ij
-                        WHERE ij.incident_request_id = #{incident_request_table}.id
-                        AND ij.reply_type = 'REOPEN')))
-      data[1] = reopen_rec.any? ? reopen_rec.first[:amount]  : 0
+      rec = statis.
+          where("#{incident_request_table}.external_system_id = ?", e.id).
+          where(%Q(date_format(#{incident_request_table}.submitted_date, '%Y-%m') = ? OR
+            EXISTS (SELECT * FROM icm_incident_journals ir
+                      WHERE ir.incident_request_id = #{incident_request_table}.id AND ir.reply_type = 'UPGRADE'
+                      AND date_format(ir.created_at, '%Y-%m') = ?)),
+            Date.strptime("#{params[:year]}-#{params[:month]}", '%Y-%m').strftime("%Y-%m"),
+            Date.strptime("#{params[:year]}-#{params[:month]}", '%Y-%m').strftime("%Y-%m"))
+      upgrade_rec = statis.
+                where("#{incident_request_table}.external_system_id = ?", e.id).
+                where(%Q(EXISTS (SELECT * FROM icm_incident_journals ir
+                            WHERE ir.incident_request_id = #{incident_request_table}.id AND ir.reply_type = 'UPGRADE'
+                            AND date_format(ir.created_at, '%Y-%m') = ?)),
+                  Date.strptime("#{params[:year]}-#{params[:month]}", '%Y-%m').strftime("%Y-%m"))
+      data[1] = upgrade_rec.any? ? upgrade_rec.first[:amount]  : 0
       data[2] = rec.any? ? rec.first[:amount]  : 0
       percent = data[2] == 0 ? 0.to_f : ((data[1] / data[2].to_f * 100 * 100).round / 100.0).to_f
       if percent == 0.to_f

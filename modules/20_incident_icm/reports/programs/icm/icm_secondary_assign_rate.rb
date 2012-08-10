@@ -1,4 +1,4 @@
-class IcmSecondaryAssignRate < Irm::ReportManager::ReportBase
+class Icm::IcmSecondaryAssignRate < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 

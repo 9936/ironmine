@@ -4,6 +4,7 @@ module Skm::Gollum::Markup
     base.class_eval do
       #　加入附件
       def initialize(page)
+        @page = page
         @wiki = page.wiki
         @name = page.filename
         @data = page.text_data
@@ -11,8 +12,6 @@ module Skm::Gollum::Markup
         @format = page.format
         @sub_page = page.sub_page
         @parent_page = page.parent_page
-        @attachments = page.attachments||[]
-        @mode = page.mode||:normal
         @dir = ::File.dirname(page.path)
         @tagmap = {}
         @codemap = {}
@@ -26,6 +25,8 @@ module Skm::Gollum::Markup
         sanitize = no_follow ?
             @wiki.history_sanitizer :
             @wiki.sanitizer
+
+        puts  sanitize
 
         data = @data.dup
         data = preprocess(data)
@@ -58,11 +59,18 @@ module Skm::Gollum::Markup
         data
       end
 
+      def page_attachments
+        @page.attachments||[]
+      end
+
+      def page_mode
+        @page.mode||:normal
+      end
+
       def preprocess(data)
-        data = data.encode('UTF-8', :invalid => :replace)
-        data = data.gsub(/(```)\s+/m) do
-          "#{$1}\n"
-        end
+        #data = data.gsub(/(```)\s+/m) do
+        #  "#{$1}\n"
+        #end
 
         data = extract_code(data)
 
@@ -198,9 +206,9 @@ module Skm::Gollum::Markup
           file =@wiki.file(path, @version)
         end
         unless file
-          file = @attachments.detect { |i| name.eql?(i[:data_file_name]) }
+          file = page_attachments.detect { |i| name.eql?(i[:data_file_name]) }
           if file
-            if @mode.eql?(:pdf)
+            if page_mode.eql?(:pdf)
               file = Skm::Gollum::File.new(file.data.path)
             else
               file = Skm::Gollum::File.new(file.data.url)
@@ -228,7 +236,7 @@ module Skm::Gollum::Markup
           link="#"
           if page
             presence = "present"
-            if @mode.eql?(:pdf)
+            if page_mode.eql?(:pdf)
               link = page.show_url(true)
             else
               link = page.show_url
@@ -241,6 +249,18 @@ module Skm::Gollum::Markup
 
       def find_page_from_name(cname)
         Skm::Wiki.where(:name => cname).first
+      end
+
+      def extract_code(data)
+        data.gsub!(/^([ \t]*)``` ?([^\r\n]+)?\r?\n(.+?)\r?\n\1```\r?$/m) do
+          id = Digest::SHA1.hexdigest("#{$2}.#{$3}")
+          cached = check_cache(:code, id)
+          @codemap[id] = cached ?
+              {:output => cached} :
+              {:lang => $2, :code => $3, :indent => $1}
+          "#{$1}#{id}\n" # print the SHA1 ID with the proper indentation
+        end
+        data
       end
     end
   end

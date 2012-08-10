@@ -1,4 +1,4 @@
-class IcmOnceSolvedRate < Irm::ReportManager::ReportBase
+class Icm::IcmWrongAssignRate < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 
@@ -20,6 +20,8 @@ class IcmOnceSolvedRate < Irm::ReportManager::ReportBase
                   AND ij.reply_type = 'CLOSE'
                   AND date_format(ij.created_at, '%Y-%m') = '#{Date.strptime("#{params[:year]}-#{params[:month]}", '%Y-%m').strftime("%Y-%m")}')))
 
+
+
     external_systems = Irm::ExternalSystem.multilingual
 
     if params[:external_system_id].present? &&
@@ -31,20 +33,22 @@ class IcmOnceSolvedRate < Irm::ReportManager::ReportBase
 
     datas = []
     headers = [I18n.t(:label_irm_external_system),
-               I18n.t(:label_icm_once_solved_amount),
+               I18n.t(:label_icm_total_wrong_assigned),
                I18n.t(:label_total_solved_amount),
-               I18n.t(:label_icm_once_solved_rate)]
+               I18n.t(:label_icm_wrong_assigned_rate)]
 
     external_systems.each do |e|
       data = Array.new(4)
       data[0] = e[:system_name]
       rec = statis.where("#{incident_request_table}.external_system_id = ?", e.id)
-      once_rec = rec.where(%Q(
-                        (SELECT count(*) FROM icm_incident_journals ij
+      wrong_rec = rec.where(%Q(EXISTS(
+                        SELECT * FROM icm_incident_journals ij, icm_incident_histories ih
                         WHERE ij.incident_request_id = #{incident_request_table}.id
-                        AND ij.reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY')
-                        AND ij.replied_by = #{incident_request_table}.support_person_id) = 1))
-      data[1] = once_rec.any? ? once_rec.first[:amount]  : 0
+                        AND ij.id = ih.journal_id
+                        AND ih.property_key = 'charge_group_id'
+                        AND ih.old_value IS NOT NULL AND ih.old_value <> ""
+                        AND ih.old_value <> ih.new_value)))
+      data[1] = wrong_rec.any? ? wrong_rec.first[:amount]  : 0
       data[2] = rec.any? ? rec.first[:amount]  : 0
       percent = data[2] == 0 ? 0.to_f : ((data[1] / data[2].to_f * 100 * 100).round / 100.0).to_f
       if percent == 0.to_f

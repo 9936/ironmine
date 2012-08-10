@@ -1,4 +1,4 @@
-class IcmWorkloadRank < Irm::ReportManager::ReportBase
+class Icm::IcmWorkloadRank < Irm::ReportManager::ReportBase
   def data(params={})
     params||={}
 

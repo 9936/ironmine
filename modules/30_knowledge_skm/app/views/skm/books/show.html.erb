@@ -8,7 +8,7 @@
       </td>
       <td class="page-block-button">
         <%= link_to t(:edit), {:action => "edit", :id => @book}, :class => "btn" %>
-        <%= link_to t(:label_skm_book_publish), {:action => "publish",:format=>:pdf}, :class => "btn" %>
+        <%= link_to t(:export), {:action => "publish",:format=>:pdf},:target=>"_blank", :class => "btn" %>
         <%= link_to t(:back), {:action => "index"}, :class => "btn" %>
       </td>
     </tr>
@@ -50,7 +50,7 @@
   <table class="page-block-header">
     <tr>
       <td class="page-block-title">
-        <h2 class="block-title"><%= t(:label_skm_book_wikis) %></h2>
+        <h2 class="block-title"><%= t(:label_skm_book_wiki) %></h2>
       </td>
       <td class="page-block-button">
       </td>
