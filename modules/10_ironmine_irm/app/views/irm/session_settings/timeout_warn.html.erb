@@ -2,8 +2,10 @@
 <html>
 <head>
   <%= render :partial => "irm/common/application_title" %>
-  <% require_css([:default]) %>
-  <%=render_loaded_javascript_css_files%>
+  <!--加载基础javascript与css-->
+  <% ie6? ? require_jscss(:default_ie6):require_jscss(:default) %>
+  <!--生成javascript与css 标签-->
+  <%=render_required_jscss%>
 </head>
 <body style="margin: 0;">
     <div id="contentWrapper">
@@ -20,9 +22,7 @@
                       <div>
                         <%= current_application_menu %>
                         <span class="navLinks" style="float:right">
-                          <span class="linkElements">
-                            <!--<a style="margin-right:29px;" href="#" onclick="window.open('/helpfiles/index.html', 'Ironmine_Help', 'height=800px, width=870px, top=0, left=0, toolbar=no, menubar=no,scrollbars=yes, location=no, status=no');"><% t :help %></a>-->
-                          </span>
+                          <span class="linkElements"></span>
                         </span>
                       </div>
                     </div>
