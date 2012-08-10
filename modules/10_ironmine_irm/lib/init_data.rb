@@ -962,7 +962,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/setting" => ["common"],
               "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"],
               "skm/wiki_templates" => ["create", "edit", "get_data", "index", "new", "preview", "sample", "show", "update"],
-              "skm/entry_headers" => ["knowledge_details"]
+              "skm/entry_headers" => ["knowledge_details","reset_approve"]
           },
           :home_page => {
               :en => {:name => "Home page", :description => "Home page"},
