@@ -19,3 +19,5 @@ solr/solr/data/**
 solr/data/**
 public/tmp/*
 public/assets/*
+lib/function_data.rb
+lib/menu_data.rb
