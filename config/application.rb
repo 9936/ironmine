@@ -124,10 +124,9 @@ module Ironmine
 
     config.assets.precompile += ["report_types.css"]
 
-
     # 配置加载系统模块
     origin_values = config.paths.dup
-    config.fwk.modules.reverse.each do |module_name|
+    config.fwk.modules.each do |module_name|
       config.paths.keys.each do |key|
         next unless config.paths[key].is_a?(Array)
         file_path ="modules/#{config.fwk.module_mapping[module_name]}/#{origin_values[key][origin_values[key].length-1]}"

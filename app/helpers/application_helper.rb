@@ -918,4 +918,9 @@ module ApplicationHelper
   end
 
 
+  def theme_image_path(path)
+    image_path(path)
+  end
+
+
 end

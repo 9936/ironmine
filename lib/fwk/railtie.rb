@@ -19,12 +19,12 @@ module Fwk
         if File.directory?(i)
           short_name = File.basename(i).split("_").last
           next if config.fwk.module_ignore.include?(short_name)
-          config.fwk.module_mapping.merge!({File.basename(i).split("_").last => File.basename(i)})
+          config.fwk.module_mapping.merge!({short_name => File.basename(i)})
           config.fwk.modules <<  short_name
         end
       }
       # 对系统模块加载顺序排序
-      config.fwk.modules.sort! { |a, b| a.split("_").first.to_i<=>b.split("_").first.to_i }
+      config.fwk.modules.sort! { |a, b| config.fwk.module_mapping[a].split("_").first.to_i<=>config.fwk.module_mapping[b].split("_").first.to_i }
       config.fwk.languages = [:zh, :en]
       # javascript与css
       config.fwk.jscss = {}

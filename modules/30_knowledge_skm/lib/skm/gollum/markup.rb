@@ -4,6 +4,7 @@ module Skm::Gollum::Markup
     base.class_eval do
       #　加入附件
       def initialize(page)
+        @page = page
         @wiki = page.wiki
         @name = page.filename
         @data = page.text_data
@@ -11,8 +12,6 @@ module Skm::Gollum::Markup
         @format = page.format
         @sub_page = page.sub_page
         @parent_page = page.parent_page
-        @attachments = page.attachments||[]
-        @mode = page.mode||:normal
         @dir = ::File.dirname(page.path)
         @tagmap = {}
         @codemap = {}
@@ -26,6 +25,8 @@ module Skm::Gollum::Markup
         sanitize = no_follow ?
             @wiki.history_sanitizer :
             @wiki.sanitizer
+
+        puts  sanitize
 
         data = @data.dup
         data = preprocess(data)
@@ -56,6 +57,14 @@ module Skm::Gollum::Markup
         data = process_wsd(data)
         data.gsub!(/<p><\/p>/, '')
         data
+      end
+
+      def page_attachments
+        @page.attachments||[]
+      end
+
+      def page_mode
+        @page.mode||:normal
       end
 
       def preprocess(data)
@@ -197,9 +206,9 @@ module Skm::Gollum::Markup
           file =@wiki.file(path, @version)
         end
         unless file
-          file = @attachments.detect { |i| name.eql?(i[:data_file_name]) }
+          file = page_attachments.detect { |i| name.eql?(i[:data_file_name]) }
           if file
-            if @mode.eql?(:pdf)
+            if page_mode.eql?(:pdf)
               file = Skm::Gollum::File.new(file.data.path)
             else
               file = Skm::Gollum::File.new(file.data.url)
@@ -227,7 +236,7 @@ module Skm::Gollum::Markup
           link="#"
           if page
             presence = "present"
-            if @mode.eql?(:pdf)
+            if page_mode.eql?(:pdf)
               link = page.show_url(true)
             else
               link = page.show_url

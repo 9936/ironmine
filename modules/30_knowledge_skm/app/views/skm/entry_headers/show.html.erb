@@ -1,4 +1,10 @@
 <%= app_title %>
+<style type="text/css">
+  .page-doc pre{
+      background-color: transparent;
+      border: none;
+  }
+</style>
 <!--页面结构-->
 <div class="page-block">
   <table class="page-block-header"><tr>
@@ -38,7 +44,7 @@
         </table>
       </div>
     </div>
-    <div class="sub-page-block">
+    <div class="sub-page-block page-doc">
       <% @entry_header.entry_details.each do |e| %>
         <div class="sub-page-block-header">
           <h3 class="sub-page-block-title"><%= raw(e.element_name) %></h3>
