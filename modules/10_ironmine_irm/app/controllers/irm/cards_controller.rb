@@ -7,6 +7,7 @@ class Irm::CardsController < ApplicationController
     session[:irm_card] = nil unless params[:step].present?
 
     if params[:irm_card]
+      session[:irm_card] ||= {}
       session[:irm_card].merge!(params[:irm_card])
       session[:irm_card][:step] = params[:step].to_i - 1
     elsif params[:step].present? && params[:step].to_i == 1
