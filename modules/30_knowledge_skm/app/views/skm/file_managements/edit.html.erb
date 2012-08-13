@@ -1,86 +1,83 @@
 <%= app_title %>
-<%= form_tag({ :action=>"update"}, :id =>"file_form", :name => "file_form", :multipart => true) do %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_skm_file_edit)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:save), {},{:href => "javascript:void(0);", :onclick => "save()"} %></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @files%>
-    <%= flash_notice%>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_common_info) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_skm_file)%></label></td>
-              <td class="data2Col"><%= @file[:data_file_name]%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_skm_upload_new_file)%></label></td>
-              <td class="data2Col"><%=file_field_tag "file[0][file]", :required=>true%>&nbsp;<%= link_to t(:remove), {}, {:href => "javascript:void(0);", :onclick => "clear_file();"} %></td>
-            </tr>            
-            <tr>
-              <td class="labelCol"><label><%=(t :label_skm_file_category)%></label></td>
-              <td class="data2Col"><%=select_tag "file[0][file_category]", options_for_select(available_file_categories, @file[:category_id])%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :description)%></label></td>
-              <td class="data2Col"><%=text_area_tag "file[0][description]", @file[:description], {:rows => 3, :cols => 35}%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_skm_file_private_tag)%></label></td>
-              <td class="data2Col"><%=check_box_tag "file[0][private_flag]", nil, @file[:private_flag] == "Y"%></td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= link_to t(:save), {},{:href => "javascript:void(0);", :onclick => "save()"} %></div>
-            <div class="button"><%= link_to t(:cancel), {:action => "index"}%></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-<script type="text/javascript">
-  function save(){
-    document.file_form.action = "update";
-    document.file_form.submit();
-  }
+<%= form_tag({ :action=>"update"}, :id =>"file_form", :name => "file_form", :multipart => true,:builder => CustomFormBuilder) do %>
+    <% content_for :form_block_common   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_file)%></label></td>
+            <td class="data-2col"><label><%= @file[:data_file_name]%></label></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_upload_new_file)%></label></td>
+            <td class="data-2col">
+              <%=file_field_tag "file[0][file]", :required=>true%>&nbsp;
+              <label><%= link_to t(:remove), {}, {:href => "javascript:void(0);", :onclick => "clear_file();"} %></label>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_file_category)%></label></td>
+            <td class="data-2col"><%=select_tag "file[0][file_category]", options_for_select(available_file_categories, @file[:category_id])%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :description)%></label></td>
+            <td class="data-2col"><%=text_area_tag "file[0][description]", @file[:description], {:rows => 3, :cols => 35}%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_skm_file_private_tag)%></label></td>
+            <td class="data-2col"><%=check_box_tag "file[0][private_flag]", nil, @file[:private_flag] == "Y"%></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons  do %>
+        <%= link_to t(:save), {},{:href => "javascript:void(0);", :onclick => "save()",:class=>"btn btn-primary"} %>
+        <%= link_to t(:cancel), {:action => "index"},:class=>"btn cancel"%>
+    <% end %>
 
-  function clear_file()
-  {
-      $("#file_0_file").set("value", "")
-  }
-</script>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_skm_file_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+      <%= error_for @files%>
+      <%= flash_notice%>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_common   %>
+          </div>
+        </div>
+      </div>
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+    </div>
 <% end %>
+
+<script type="text/javascript">
+    function save(){
+        document.file_form.action = "update";
+        document.file_form.submit();
+    }
+
+    function clear_file(){
+        $("#file_0_file").val('');
+    }
+</script>
+
 <%= content_for :sidebar do%>
     <%= render "skm/entry_headers/sidebar_navigate_menu"%>
     <%= render :partial =>"/irm/common/recently_objects" %>
