@@ -22,7 +22,12 @@
     <div class="sub-page-block">
       <div class="sub-page-block-header">
         <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
-        <div style="margin-left: 15px; display:inline;">(<a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" expandedText="<%= t(:label_icm_incident_more_info) %>"><%= t(:label_icm_incident_more_info) %></a>)</div>
+        <div style="margin-left: 15px; display:inline; float: right;">
+          <a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_icm_incident_less_info) %>" expandedText="<%= t(:label_icm_incident_more_info) %>">
+            <i class="icon-chevron-down"></i>
+            <%= t(:label_icm_incident_more_info) %>
+          </a>
+        </div>
       </div>
       <div class="sub-page-block-body" id="incidentDetail">
         <table class="detail-list">
@@ -109,19 +114,19 @@
         var me =  $(element);
         var ref = $("#"+me.attr("ref"));
         if(ref.hasClass("hidden")){
-            me.html(me.attr("expandedText"));
+            me.html('<i class="icon-chevron-down"></i>'+me.attr("expandedText"));
         }else{
-            me.html(me.attr("collapsedText"));
+            me.html('<i class="icon-chevron-up"></i>'+ me.attr("collapsedText"));
         }
     });
     $(".toggle-button").bind("click",function(event){
         var me = $(this);
         var ref = $("#"+me.attr("ref"));
         if(ref.hasClass("hidden")){
-            me.html(me.attr("collapsedText"));
+            me.html('<i class="icon-chevron-up"></i>'+ me.attr("collapsedText"));
             ref.removeClass("hidden");
         }else{
-            me.html(me.attr("expandedText"));
+            me.html('<i class="icon-chevron-down"></i>'+ me.attr("expandedText"));
             ref.addClass("hidden");
         }
     });
