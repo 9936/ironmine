@@ -296,3 +296,4 @@ en:
   label_http_exception_save_as_file: Save Error Message
   label_http_exception_system_error: System internal error,please contact administrator
   #=========end http error====================
+  label_submit_replay: Subbmit Reply
