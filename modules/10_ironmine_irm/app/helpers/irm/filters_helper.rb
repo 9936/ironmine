@@ -64,7 +64,7 @@ module Irm::FiltersHelper
     operators = view_filter_operators(object_attribute.data_type,relation_bo_id.present?)
 
     operator_tag = form.select(:operator_code,operators, {:required=>true})
-    operator_tag = content_tag(:div,operator_tag,{:class=>"filter-operator"},false)
+    operator_tag = content_tag(:div,operator_tag,{:class=>"filter-operator",:style=> "display:inline-block;"},false)
 
     value_tag = ""
 
@@ -74,7 +74,7 @@ module Irm::FiltersHelper
     else
       value_tag = form.text_field :filter_value,:size=>30
     end
-    value_tag = content_tag(:div,value_tag,{:class=>"filter-value"},false)
+    value_tag = content_tag(:div,value_tag,{:class=>"filter-value",:style=> "display:inline-block;"},false)
     (operator_tag + value_tag).html_safe
   end
 
@@ -99,10 +99,10 @@ module Irm::FiltersHelper
   def render_nil_object_attribute(form)
     operators = view_filter_operators(:common)
     operator_tag = form.blank_select(:operator_code,operators, {:required=>true},{})
-    operator_tag = content_tag(:div,operator_tag,{:class=>"filter-operator"},false)
+    operator_tag = content_tag(:div,operator_tag,{:class=>"filter-operator",:style=> "display:inline-block;"},false)
     value_tag = ""
     value_tag = form.text_field :filter_value,:size=>30
-    value_tag = content_tag(:div,value_tag,{:class=>"filter-value"},false)
+    value_tag = content_tag(:div,value_tag,{:class=>"filter-value",:style=> "display:inline-block;margin-left:5px;"},false)
     (operator_tag + value_tag).html_safe
   end
 

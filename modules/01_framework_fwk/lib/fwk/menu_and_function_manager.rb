@@ -255,6 +255,7 @@ module Fwk::MenuAndFunctionManager
 
     #处理权限
     def function(name, hash, options={})
+      name = name.upcase
       @functions ||= {}
       if @functions.keys.include?(name.to_sym)
         exists_permissions  = @functions[name.to_sym][:permissions]

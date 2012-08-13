@@ -8,7 +8,7 @@
          </td>
          <td class="side-content">
            <div id="entry_elements_list"></div>
-           <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_header.entry_template_id ? @entry_header.entry_template_id : "-1" ,:format=>"json"},[]) %>
+           <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_header.entry_template_id ? @entry_header.entry_template_id : "-1" ,:format=>"json",:operation => 'false'},[]) %>
          </td>
        </tr>
     </table>

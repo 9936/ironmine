@@ -959,10 +959,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/portlet_configs" => ["save_portal_config", "save_portal_layout"],
               "irm/search" => ["index"],
               "irm/session_settings" => ["timeout_warn"],
-              "irm/setting" => ["common"],
-              "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"],
-              "skm/wiki_templates" => ["create", "edit", "get_data", "index", "new", "preview", "sample", "show", "update"],
-              "skm/entry_headers" => ["knowledge_details","reset_approve"]
+              "irm/setting" => ["common"]
           },
           :home_page => {
               :en => {:name => "Home page", :description => "Home page"},

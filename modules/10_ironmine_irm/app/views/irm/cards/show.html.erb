@@ -1,6 +1,5 @@
 <%= common_title(:show_data=>@card[:name]) %>
 
-
 <!--页面结构-->
 <div class="show-block">
   <table class="page-block-header"><tr>
@@ -28,11 +27,11 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :description)%></label></td>
-            <td class="dataCol"><%= @card[:description]%></td>
+            <td class="data-col"><%= @card[:description]%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_card_background_color)%></label></td>
-            <td class="dataCol"><div id="selected_color" style="background-color:<%= @card.background_color%>;height:14px;width:50px;display:inline-block;border:solid 1px #000000;"></div></td>
+            <td class="data-col"><div id="selected_color" style="background-color:<%= @card.background_color%>;height:14px;width:50px;display:inline-block;border:solid 1px #000000;"></div></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :active)%></label></td>
@@ -40,7 +39,7 @@
           </tr>
           <tr>
             <td class="label-col"><label ><%=t(:label_irm_wf_rule_filter)%></label></td>
-            <td class="dataCol" colspan="3" style="width:82%"><div><%= @rule_filter.meaning %></div></td>
+            <td class="data-col" colspan="3" style="width:82%"><div><%= @rule_filter.meaning if @rule_filter.present? %></div></td>
           </tr>
       </tbody>
     </table>
