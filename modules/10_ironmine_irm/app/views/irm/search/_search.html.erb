@@ -114,7 +114,7 @@
                           <%= format_date(updated_at) %>
                         </p>
                       <!-- 显示搜索结果中的公告 -->
-                      <% elsif (value[:hit].present? && value[:hit].result.class.to_s.eql?('Chm::ChangeRequest')) || value[:result].class.to_s.eql?('Chm::ChangeRequest') %>
+                      <% elsif (value[:hit].present? && value[:hit].result.class.to_s.eql?('Irm::Bulletin')) || value[:result].class.to_s.eql?('Irm::Bulletin') %>
                         <% if value[:hit].nil? %>
                           <% title = value[:result][:title] %>
                           <% content =  truncate(value[:result][:content],{:length => 100,:omission => '......'}) %>
