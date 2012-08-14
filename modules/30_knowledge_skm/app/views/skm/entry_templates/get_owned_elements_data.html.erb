@@ -1,8 +1,8 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
   <% unless params[:operation] and params[:operation].eql?('false') %>
       <% builder.column(:id,{:title=>t(:operation), :width => "100px"}) do |data|%>
-        <%= bootstrap_icons("icon-arrow-up", t(:move_up), {:controller => "skm/entry_templates", :action => "up_element", :element_id => data[:id], :template_id => @template_id})%>&nbsp;
-        <%= bootstrap_icons("icon-arrow-down", t(:move_down), {:controller => "skm/entry_templates", :action => "down_element", :element_id => data[:id], :template_id => @template_id})%>&nbsp;
+        <%= bootstrap_icons("icon-arrow-up",t(:move_up),{:controller => "skm/entry_templates", :action => "up_element", :element_id => data[:id], :template_id => @template_id}) %>&nbsp;
+        <%= bootstrap_icons("icon-arrow-down",t(:move_down),{:controller => "skm/entry_templates", :action => "down_element", :element_id => data[:id], :template_id => @template_id}) %>&nbsp;
         <%= bootstrap_icons("icon-trash",t(:remove),{:controller => "skm/entry_templates", :action => "remove_element", :element_id => data[:id], :template_id => @template_id}) %>&nbsp;
         <%= bootstrap_icons("icon-edit",t(:edit),{:controller => "skm/entry_templates", :action => "edit_detail", :id => data[:detail_id]}) %>
       <% end %>
