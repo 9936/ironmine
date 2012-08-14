@@ -24,6 +24,12 @@ module Fwk::Sunspot
       end
     end
 
+    def remove(*objects)
+      objects.flatten.compact.each do |object|
+        Delayed::Job.enqueue Fwk::Sunspot::IndexingJob.new(object.class.name, object.id,"remove")
+      end
+    end
+
   end
 
 end
