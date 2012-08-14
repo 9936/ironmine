@@ -23,7 +23,7 @@
                       <ul class="nav nav nav-pills pull-right" style="text-align: left;">
                         <li class="dropdown">
                           <a href="#fat" data-toggle="dropdown" class="dropdown-toggle"><%= Irm::Person.current.name %> <b class="caret"></b></a>
-                          <ul class="dropdown-menu" id="menu1">
+                          <ul class="dropdown-menu" id="menu1" style="min-width: 115px;">
                             <%= setting_menu%>
                             <li class="divider"></li>
                             <li><%= link_to(t(:label_irm_common_logout),logout_url) %></li>
