@@ -1,4 +1,4 @@
-<%= fields_for @rule_filter,:builder => LabellingFormBuilder do |f|%>
+<%= fields_for @rule_filter,:builder => CustomFormBuilder do |f|%>
   <%= f.hidden_field(:source_id) %>
   <%= f.hidden_field(:source_type) %>
   <%= f.hidden_field(:filter_type) %>

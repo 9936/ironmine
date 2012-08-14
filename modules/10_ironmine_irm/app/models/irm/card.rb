@@ -15,7 +15,7 @@ class Irm::Card < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
-  validates_presence_of :bo_code
+  validates_presence_of :card_code,:bo_code,:card_url
 
   scope :select_all, lambda{
     select("#{table_name}.*")

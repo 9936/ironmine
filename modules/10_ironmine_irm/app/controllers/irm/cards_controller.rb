@@ -24,6 +24,7 @@ class Irm::CardsController < ApplicationController
       session[:irm_card][:step] = @card.step
     end
     if @card.step.eql?(2)
+      @rule_filter =Irm::RuleFilter.create_for_source('CHM_CHANGE_PRIORITIES_VL',Irm::Card.name,0)
       if session[:irm_rule_filter]
         @rule_filter =Irm::RuleFilter.new(session[:irm_rule_filter])
       else
