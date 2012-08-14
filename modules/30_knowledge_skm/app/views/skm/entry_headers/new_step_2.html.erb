@@ -66,10 +66,10 @@
                 <tbody>
                     <tr>
                       <%= fields_for("skm_entry_details[]", e) do |ef|%>
-                      <td><% if e.required_flag == "Y"%>
+                      <td class="data-col"><% if e.required_flag == "Y"%>
                           <%= ef.text_area :entry_content, {:required => true, :rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details])} %>
                               <% if @error_details.include?(e.id) %>
-                              <div class="errorMsg"><strong><%= t(:error) %>:</strong>["<%= t(:error_skm_entry_detail_can_not_blank)%>"]</div>
+                              <span class="error-message" style="color: #C00;"><strong><%= t(:error) %>:</strong>["<%= t(:error_skm_entry_detail_can_not_blank)%>"]</span>
                               <% end if @error_details %>
                           <% else %>
                             <%= ef.text_area :entry_content, {:rows => e.default_rows, :style => "width:100%;", :value => (session[:skm_entry_details][e.id.to_s.to_sym][:entry_content] if session[:skm_entry_details])} %>
