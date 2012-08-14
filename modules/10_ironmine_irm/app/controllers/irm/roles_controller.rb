@@ -150,15 +150,19 @@ class Irm::RolesController < ApplicationController
       end
     end
     respond_to do |format|
-        format.html { render :action => "edit_assignment" }
+      format.html {redirect_to({:action=>"show",:id => @role.id}) }
     end
   end
 
   def assignable_people
-    @people= Irm::Person.list_all.order(:id).where("role_id != ? OR role_id IS NULL OR role_id=''",params[:id])
+    @people = Irm::Person.list_all.order(:id).where("role_id != ? OR role_id IS NULL OR role_id=''",params[:id])
 
     @people,count = paginate(@people)
     respond_to do |format|
+      format.html {
+        @count = count
+        @datas = @people
+      }
       format.json {render :json=>to_jsonp(@people.to_grid_json([:login_name,:person_name,:region_name,:email_address,:bussiness_phone], count))}
     end
   end
@@ -175,4 +179,21 @@ class Irm::RolesController < ApplicationController
       }
     end
   end
+
+  def delete_people
+    @role = Irm::Role.find(params[:id])
+    if params[:person_ids]&&params[:person_ids].strip.length>0
+      person_ids =params[:person_ids].strip.split(",")
+      person_ids.each do |pid|
+        if pid.present?
+          person = Irm::Person.find(pid)
+          person.update_attribute(:role_id,nil) if person.id.to_s.eql?(pid.to_s)
+        end
+      end
+    end
+    respond_to do |format|
+      format.html {redirect_to({:action=>"show",:id => @role.id}) }
+    end
+  end
+
 end

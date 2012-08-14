@@ -671,6 +671,7 @@ en:
   label_irm_site_show: Site
   label_action_select_site: Select Site
   label_irm_site: Site
+  label_action_edit_assignment: Add People
   #=========================end irm site_groups_controller=======================#
   #=========================    irm support_groups_controller=======================#
   label_irm_group: Group

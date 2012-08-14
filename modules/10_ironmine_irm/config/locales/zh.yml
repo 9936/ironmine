@@ -649,6 +649,7 @@ zh:
   label_irm_site_show: 地点
   label_action_select_site: 选择地点
   label_irm_site: 地点
+  label_action_edit_assignment: 添加人员
   #=========================end irm site_groups_controller=======================#
   #=========================end irm flex_values_controller=======================#
   #=========================irm general_category_controller=======================#

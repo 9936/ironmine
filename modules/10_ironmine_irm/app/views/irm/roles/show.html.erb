@@ -1,5 +1,9 @@
 <%= setting_show_title(:show_data => @role[:name]) %>
-
+<style type="text/css">
+    .page-block-button form{
+        margin: 0;
+    }
+</style>
 <!--页面结构-->
 <div class="show-block">
   <!-- 人员信息 -->
@@ -57,7 +61,11 @@
       <h2 class="block-title"><%= t(:label_irm_role_people_list) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:label_irm_role_edit_assignment), {:action => "edit_assignment", :id => @role.id},:class=>"btn"%>
+      <%= form_for(@role,:url=>{:action=>"delete_people"},:builder => CustomFormBuilder) do |f| %>
+          <%= f.hidden_field(:person_ids, :name => "person_ids", :value => "") %>
+          <%= link_to t(:label_irm_role_edit_assignment), {:action => "edit_assignment", :id => @role.id},:class=>"btn btn-primary"%>
+          <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+      <% end %>
     </td>
     <td class="page-block-help">
       <div id="permissionsSearchBox"></div>
@@ -65,15 +73,16 @@
   </tr></table>
   <div class="page-block-body">
     <div id="people">
-      <%= datatable("people",{:action=>"role_people",:id=>@role.id,:format=>"json"},
-                                    [{:key=>"id"},
-                                     {:key=>"login_name",:label=>t(:label_irm_person_login)},
-                                     {:key=>"person_name",:label=>t(:label_irm_person_name)},
-                                     {:key=>"email_address",:label=>t(:label_irm_person_email_address)},
-                                     {:key=>"bussiness_phone",:label=>t(:label_irm_person_bussiness_phone)},
-                                     ],{:row_perpage=>10,:paginator_box=>'peoplePaginatorBox'})%>
+      <%= datatable("people",{:action=>"role_people",:id=>@role.id,:format=>"json"},[],{:row_perpage=>10,:paginator_box=>'peoplePaginatorBox',:select=>"multiple"})%>
     </div>
     <div id="peoplePaginatorBox"></div>
   </div>
 </div>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@role} %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#people").bind('selectionchange',function(event,ids){
+            $("#irm_role_person_ids").val(ids.join(","));
+        });
+    })
+</script>
