@@ -144,5 +144,5 @@ module Fwk
   end
 end
 
-ApplicationHelper.send(:include, Fwk::Hook::Helper)
+ActionView::Base.send(:include, Fwk::Hook::Helper)
 ActionController::Base.send(:include, Fwk::Hook::Helper)
