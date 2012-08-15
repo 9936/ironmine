@@ -933,7 +933,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "Y",
               "irm/attach_screenshot" => ["index"],
-              "irm/common" => ["edit_password", "forgot_password", "login", "update_password"],
+              "irm/common" => ["edit_password", "forgot_password", "login", "update_password","send_email","reset_pwd","update_pwd"],
               "irm/demo" => ["get_data", "index"],
               "irm/navigations" => ["access_deny", "combo"],
               "irm/oauth_authorize" => ["create", "show", "token"],

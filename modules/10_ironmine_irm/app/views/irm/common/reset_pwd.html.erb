@@ -1,0 +1,72 @@
+<% require_jscss(:login) %>
+<% require_jscss(:login_ie6) if ie6? %>
+<body id="loginpage">
+<div id="pagewrap">
+  <div id="newheader">
+  </div>
+  <div id="gradientwrap">
+    <div class="bottom">
+      <div id="forgotpasswordbox" style="width: auto;">
+        <% if @person.present? %>
+            <%= form_tag({:action=> "update_pwd"},{:id=>"pwdForm"}) do %>
+                <%= hidden_field_tag 'person_id', @person.id %>
+                <%= hidden_field_tag 'type', params[:type] %>
+                <%= hidden_field_tag 'pwd_token', params[:pwd_token] %>
+                <div class="alert">
+                  <a href="javascript:void(0); " class="close" data-dismiss="alert">×</a>
+                  <% if notice %>
+                    <%= notice %>
+                  <% else %>
+                    <strong><%= @person.name %>你好!</strong> 请在下面完成你的密码修改！
+                  <% end %>
+                </div>
+                <table class="form-table">
+                  <tbody>
+                  <tr>
+                    <td class="label-col"><label><%= t(:lable_new_password) %></label></td>
+                    <td class="data-col"><%=password_field_tag :password, nil, :class => "txtbox",:id=>"password",:autocomplete=>"off", :span => true%></td>
+                    <td class="label-col empty">&nbsp;</td>
+                    <td class="data-col empty">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td class="label-col"><label><%= t(:lable_new_password_confirm) %></label></td>
+                    <td class="data-col"><%=password_field_tag :password_confirm, nil, :class => "txtbox",:id=>"password",:autocomplete=>"off", :span => true%></td>
+                    <td class="label-col empty">&nbsp;</td>
+                    <td class="data-col empty">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"><hr/></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <a type="submit" href="javascript:void(0);" style="margin-left: 150px;" class="btn btn-primary"><%= t(:save) %></a>
+                      <a class="btn" href="javascript:void(0);"><%= t(:back) %></a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+            <% end -%>
+        <% else -%>
+            <div class="alert alert-error">
+              <a href="javascript:void(0);" class="close" data-dismiss="alert">×</a>
+              <strong>Sorry!</strong> <%= t(:lable_update_password_error) %>
+            </div>
+            <table class="form-table">
+              <tbody>
+              <tr>
+                <td colspan="4"><hr/></td>
+              </tr>
+              <tr>
+                <td colspan="4" style="text-align: center;">
+                  <%= link_to t(:label_back_to_login), {:action => "login"}, :class => "btn" %>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+        <% end -%>
+      </div>
+      <span id="forgotpasswordboxbottom"><!-- bottom --></span>
+    </div>
+  </div>
+</div>
+</body>

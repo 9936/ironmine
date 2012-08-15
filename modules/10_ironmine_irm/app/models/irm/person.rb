@@ -42,6 +42,8 @@ class Irm::Person < ActiveRecord::Base
 
   has_many :channel_approval_people, :class_name => 'Skm::ChannelApprovalPerson', :dependent => :destroy
 
+  has_many :user_tokens, :class_name => "Irm::UserToken", :dependent => :destroy
+
   has_attached_file :avatar,
                     :whiny => false,
                     :styles => {:thumb => "16x16>",:medium => "45x45>",:large => "100x100>"},
@@ -77,7 +79,6 @@ class Irm::Person < ActiveRecord::Base
                            where(:id=>person_id)}
 
   scope :query_all_person,select("#{table_name}.*")
-
 
   scope :query_by_support_staff_flag,lambda{|support_staff_flag| where(:support_staff_flag=>support_staff_flag)}
 

@@ -1933,3 +1933,12 @@ zh:
   label_search_no_result_alert_3: 3、左侧栏对应内容是否有选中；
   label_search_no_result_alert_4: 4、搜索结果可能不在你所指定的时间范围内。
   #============================== end search page  ==============================
+
+  #============================== start reset password  ==============================
+  label_back_to_login: 返回到登录页面
+  lable_update_password_error: 您所请求的地址来源不合法或者Token已经过期!
+  lable_new_password: 新密码
+  lable_new_password_confirm: 重复密码
+  label_update_password_successfully: 密码修改成功，请用新密码登录
+  label_update_password_error: 错误，请重新设置您的新密码
+  #============================== end reset password  ==============================

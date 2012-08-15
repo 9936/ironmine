@@ -17,6 +17,9 @@ Rails.application.routes.draw do
     match 'access_deny' => 'navigations#access_deny'
     match 'logout' => 'common#logout', :as => :logout
     match 'forgot_password' => "common#forgot_password"
+    match 'send_email' => "common#send_email", :via => :post
+    match 'reset_pwd' => "common#reset_pwd"
+    match 'update_pwd' => "common#update_pwd", :via => :post
     match 'edit_password/:id' => "common#edit_password", :via => :get
     match 'update_password/:id' => "common#update_password", :via => :put
     match 'common/search_options' => "common#search_options"

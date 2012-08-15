@@ -1928,3 +1928,13 @@ en:
   label_search_no_result_alert_3: 3.check the search options setting；
   label_search_no_result_alert_4: 4.check the search options time.
   #============================== end search page  ==============================
+
+
+  #============================== start reset password  ==============================
+  label_back_to_login: Back to login
+  lable_update_password_error: Invid url or the token is expired!
+  lable_new_password: New password
+  lable_new_password_confirm: New password confirm
+  label_update_password_successfully: Update password successlly!Please login with new password.
+  label_update_password_error: Error,please reset your new password.
+  #============================== end reset password  ==============================
