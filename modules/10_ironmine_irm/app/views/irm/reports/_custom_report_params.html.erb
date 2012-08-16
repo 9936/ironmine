@@ -45,7 +45,7 @@
 <script type="text/javascript">
   $(function(){
       var tdNum = $("#baseFilter").find("tr")[0].cells.length;
-      if(tdNum > 5) {
+      if(tdNum >= 5) {
           var width = $(window).width();
           $("#baseFilter").find('fieldset').css("width", (width/tdNum - 50) + "px");
           $("#baseFilter .params-div").each(function(){
