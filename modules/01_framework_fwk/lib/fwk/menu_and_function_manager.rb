@@ -19,8 +19,8 @@ module Fwk::MenuAndFunctionManager
             if @menus[code.to_sym][i.to_sym].is_a?(Array)
               #判断是否重复添加
               menu[i.to_sym].each do |m|
-                @menus[code.to_sym][i.to_sym].delete_if {|n| n[:sub_menu_code].to_s.eql?(m[:sub_menu_code].to_s)}
-                @menus[code.to_sym][i.to_sym].delete_if {|n| n[:sub_function_group_code].to_s.eql?(m[:sub_function_group_code].to_s)}
+                @menus[code.to_sym][i.to_sym].delete_if {|n| n[:sub_menu_code].to_s.eql?(m[:sub_menu_code].to_s)}  if m[:sub_menu_code].present?
+                @menus[code.to_sym][i.to_sym].delete_if {|n| n[:sub_function_group_code].to_s.eql?(m[:sub_function_group_code].to_s)} if m[:sub_function_group_code].present?
                 @menus[code.to_sym][i.to_sym] << m
               end
             else
