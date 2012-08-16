@@ -1941,4 +1941,6 @@ zh:
   lable_new_password_confirm: 重复密码
   label_update_password_successfully: 密码修改成功，请用新密码登录
   label_update_password_error: 错误，请重新设置您的新密码
+  label_error_email_not_existed: 系统中不存在该邮箱地址
+  label_error_email_blank: 邮箱地址不能为空
   #============================== end reset password  ==============================

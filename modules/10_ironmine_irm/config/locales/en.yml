@@ -1937,4 +1937,6 @@ en:
   lable_new_password_confirm: New password confirm
   label_update_password_successfully: Update password successlly!Please login with new password.
   label_update_password_error: Error,please reset your new password.
+  label_error_email_not_existed: this email is not existd in system.
+  label_error_email_blank: The Email can't blank.
   #============================== end reset password  ==============================

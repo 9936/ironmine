@@ -35,7 +35,6 @@ class Irm::CommonController < ApplicationController
       if person.present?
         #查找该用户该类型的token是否存在
         user_token = person.user_tokens.where(:token_type => "RESET_PWD").first
-        new_flag = true
         if user_token.present?
           new_flag = false
           user_token.created_at = Time.now
@@ -49,7 +48,12 @@ class Irm::CommonController < ApplicationController
           url = "#{request.protocol}#{request.host_with_port}/reset_pwd?type=RESET_PWD&pwd_token=#{token}"
           user_token.reset_pwd(params[:email],person.id,url) if new_flag
         end
+      else
+        #email地址不存在
+        redirect_to({:action =>'forgot_password' }, :notice => t(:label_error_email_not_existed))
       end
+    else
+      redirect_to({:action =>'forgot_password' }, :notice => t(:label_error_email_blank))
     end
   end
 
