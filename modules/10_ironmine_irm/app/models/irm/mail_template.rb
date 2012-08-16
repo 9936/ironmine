@@ -97,8 +97,8 @@ class Irm::MailTemplate < ActiveRecord::Base
     bcc_people = Irm::Person.query_by_ids(params_dup[:bcc_person_ids]) if params_dup[:bcc_person_ids]
     bcc_emails = bcc_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact.join(",")
 
-    to_emails = to_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact.join(",")
-    to_emails = to_emails + additional_emails.join(",")
+    to_emails = to_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact
+    to_emails = (to_emails + additional_emails).join(",")
     email_template = nil
     if to_people.first
       email_template  = self.class.query_by_language(to_people.first.language_code).find(self.id)
