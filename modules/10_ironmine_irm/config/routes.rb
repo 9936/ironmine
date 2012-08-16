@@ -696,7 +696,7 @@ Rails.application.routes.draw do
     match '/delayed_jobs(/index)(.:format)' => "delayed_jobs#index", :via => :get
     match '/delayed_jobs/:delayed_job_id/item_list(.:format)' => "delayed_jobs#item_list", :via => [:get, :post]
     match '/delayed_jobs/:delayed_job_id/item_view(.:format)' => "delayed_jobs#item_view", :via => [:get, :post]
-    match '/delayed_jobs/action_process_monitor' => "delayed_job#action_process_monitor"
+    #match '/delayed_jobs/action_process_monitor' => "delayed_job#action_process_monitor"
     match '/delayed_jobs/get_data(.:format)' => "delayed_jobs#get_data"
     match '/delayed_jobs/get_item_data(.:format)' => "delayed_jobs#get_item_data"
 

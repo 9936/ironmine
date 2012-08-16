@@ -1,9 +1,36 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
   label_icm_incident_request_hotline: Hotline
   label_icm_incident_request_hotline_y: Report
   label_icm_incident_request_hotline_n: Not Report
   label_icm_incident_request_client_info: Client Info
+  label_icm_incident_request_real_processing_time: Processing Time(H)
+  label_icm_incident_request_cancel_confirm: This request will be cancelled, are you sure?
+  label_icm_incident_request_enable_confirm: This request will be enabled, are you sure?
+  label_icm_incident_request_cancel_request: Cancel Request
+  label_icm_incident_request_enable_request: Enable Request
+  label_icm_incident_journal_edit_workload: Add Workload
+
+  label_icm_incident_journal_history: Journal Histories
+  label_icm_incident_journal_created_by: Created by
+  label_icm_incident_journal_event: Event
+  label_icm_incident_journal_new_value: New value
+  label_icm_incident_journal_date: Date
+
+  label_icm_incident_request_remove_journal: Remove Journal
+  label_report_incident_request_update_priority: Update urgence and impact range
+
+  label_icm_incident_request_impact_range: Impact Range
+  label_icm_incident_request_urgence: Urgence
+  label_icm_incident_request_new_reply: Reply
+  label_icm_incident_request_add_watcher: Add Watcher
+  label_icm_incident_request_remove_watcher: Remove Watcher
+  label_icm_incident_request_add_relation: Add Relation
+  label_icm_incident_request_remove_relation: Remove Relation
+  label_icm_incident_request_incident_request: Create Request
+  label_icm_incident_request_attachment: New Attachment
+  label_icm_incident_request_remove_attachment: Remove Attachment
+  label_icm_incident_request_contact_way: Contact
+
+  label_icm_incident_request_contact_number_tip_a: 请务必输入联系人名字！
+  label_icm_incident_request_contact_number_tip_b: 请务必输入实际联系人名字, 否则有可能影响问题处理进度
 

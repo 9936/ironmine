@@ -5,7 +5,7 @@ Fwk::MenuAndFunctionManager.map do |map|
   # 查看事故单
   map.function :view_incident_request,{"icm/incident_requests"=>[:index, :get_data, :get_help_desk_data,
                                                                  :get_external_systems,
-                                                                 :get_slm_services],
+                                                                 :get_slm_services, :update, :remove_attachment],
                                        "icm/incident_journals"=>[:index,:new]}
   # 创建事故单
   map.function :create_incident_request,{"icm/incident_requests"=>[:new,:create, :short_create],"icm/incident_config_relations"=>[:create,:destroy]}
@@ -41,6 +41,19 @@ Fwk::MenuAndFunctionManager.map do |map|
   map.function :view_icm_kanban,{"icm/incident_requests" => [:kanban_index]}
 
   map.function :edit_relation, {"icm/incident_requests" => [:add_relation, :remove_relation]}
+
+  #删除附件
+  map.function :remove_attachment,{"icm/incident_requests" => [:remove_attachment]}
+  #登记工时
+  map.function :edit_workload,{"icm/incident_journals" => [:edit_workload, :update_workload]}
+  #删除自己的回复
+  map.function :remove_self_journal,{"icm/incident_journals" => [:remove_journal]}
+  #删除任何回复
+  map.function :remove_any_journal,{"icm/incident_journals" => [:remove_journal]}
+  #取消事故单
+  map.function :cancel_request, {"icm/incident_requests" => [:cancel_request, :enable_request]}
+  #更改事故单优先级
+  map.function :edit_incident_request_priority, {"icm/incident_requests" => [:update]}
   #===================icm/rule_settings============================
   #["index", "edit", "update", "new", "create", "get_data", "show"]
   map.function :icm_rule_setting,{"icm/rule_settings"=>["index", "show", "get_data","new", "create","edit", "update"]}

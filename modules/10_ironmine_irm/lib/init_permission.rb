@@ -48,25 +48,27 @@ Fwk::MenuAndFunctionManager.map do |map|
 
   #===================irm/people============================
   map.function :person,{"irm/people"=>["index", "show", "get_data", "get_choose_people","new", "create",
-                                       "get_support_group", "get_owned_roles","edit", "update",
+                                       "get_support_group", "get_owned_roles",
                                        "multilingual_edit", "multilingual_update","add_roles","remove_role",
-                                       "select_roles", "get_available_roles","reset_password"],
+                                       "select_roles", "get_available_roles"],
                         "irm/external_system_members" => ["new_from_person",
                                                           "create_from_person",
                                                           "delete_from_person",
                                                           "get_available_external_system_data",
                                                           "get_owned_members_data",
                                                           "get_available_people_data"],
-                        "irm/group_members"=>["new_from_person", "get_groupable_data", "create_from_person", "get_data_from_person", "delete_from_person"]}
+                        "irm/group_members"=>["new_from_person", "get_groupable_data",
+                                              "create_from_person", "get_data_from_person", "delete_from_person"]}
 
-
+  map.function :edit_person, {"irm/people" => ["edit", "update"]}
+  map.function :reset_person_password, {"irm/people" => ["reset_password"]}
   #===================irm/groups============================
   #["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "show"]
   #===================irm/group_members============================
   #["new", "create", "get_data", "get_memberable_data", "delete", "new_from_person", "create_from_person", "get_data_from_person", "delete_from_person"]
   map.function :group,{"irm/groups"=>["index", "edit", "update", "new", "create", "multilingual_edit", "multilingual_update", "show"],
                         "irm/group_members"=>["new", "create", "get_data", "get_memberable_data", "delete", "new_from_person", "create_from_person", "get_data_from_person", "delete_from_person"]}
-
+  map.function :view_group,{"irm/group_members" => ["get_memberable_data", "get_data", "get_data_from_person"]}
   #===================irm/regions============================
   #["index", "get_data", "edit", "update", "new", "show", "create", "multilingual_edit", "multilingual_update"]
   map.function :region,{"irm/regions"=>[ "show", "get_data","new", "create","edit", "update", "multilingual_edit", "multilingual_update"]}
@@ -227,7 +229,7 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================== job monitors ============================
   map.function :monitor_group_assign,{"irm/monitor_icm_group_assigns"=>["index"]}
   map.function :monitor_workflow_rule,{"irm/monitor_ir_rule_processes"=>["index"]}
-  map.function :monitor_delayed_jobs,{"irm/delayed_jobs"=>["index","get_data","item_list","item_view","action_process_monitor","get_item_data","wf_process_job_monitor","icm_group_assign_monitor","ir_rule_process_monitor"]}
+  map.function :monitor_delayed_jobs,{"irm/delayed_jobs"=>["index","get_data","item_list","item_view","get_item_data","wf_process_job_monitor","icm_group_assign_monitor","ir_rule_process_monitor"]}
   map.function :monitor_approve_mail,{"irm/monitor_approval_mails"=>["index"]}
 
 
@@ -253,9 +255,13 @@ Fwk::MenuAndFunctionManager.map do |map|
   #===================irm/reports============================
   #["index", "edit", "update", "new", "run", "operator_value", "create", "get_data", "show", "multilingual_edit", "multilingual_update", "destroy", "edit_custom", "update_custom"]
   map.function :view_reports,{"irm/reports"=>["index", "show","run","get_data", "get_reports_tree"]}
-  map.function :create_reports,{"irm/reports"=>["new", "create","operator_value","destroy","new_program","create_program", "edit_custom", "update_custom","edit_custom_program","update_custom_program"],
+  map.function :create_reports,{"irm/reports"=>["new", "new_template", "create_template",
+                                                "create","operator_value","destroy","new_program",
+                                                "create_program", "edit_custom", "update_custom",
+                                                "edit_custom_program","update_custom_program","show_template"],
                                 "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]}
-  map.function :edit_reports,{"irm/reports"=>["edit", "update","operator_value", "multilingual_edit", "multilingual_update","edit_program","update_program"],
+  map.function :edit_reports,{"irm/reports"=>["edit", "update","operator_value", "multilingual_edit", "multilingual_update",
+                                              "edit_program","update_program", "edit_template", "update_template"],
                               "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]}
   #===================irm/report_folders============================
   #["index", "edit", "update", "new", "create", "get_data", "show", "multilingual_edit", "multilingual_update"]

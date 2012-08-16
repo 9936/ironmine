@@ -398,7 +398,7 @@ function get_dom_id(ajaxOptions) {
 function checkSelect(){
     $("select:not([multiple])").each(function(index,element){
         //如果当前select的options超过25项或者chosen=true属性对其进行渲染
-        if($(element).find("option").length > 25 || $(element).attr("chosen") == 'true') {
+        if($(element).find("option").length > 10 || $(element).attr("chosen") == 'true') {
             if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);
             $(element).css('width', ($(element).width()+18)+'px');
             $(element).chosen({no_results_text: '没有对应的选项'});

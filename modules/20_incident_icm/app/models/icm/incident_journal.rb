@@ -7,6 +7,8 @@ class Icm::IncidentJournal < ActiveRecord::Base
 
   has_many :incident_histories,:foreign_key => "journal_id"
 
+  before_create :generate_journal_number
+
   validates_presence_of :replied_by
   validate :validate_message_body
   acts_as_recently_objects(:title => "title",
@@ -119,6 +121,9 @@ class Icm::IncidentJournal < ActiveRecord::Base
 
   private
   #
+  def generate_journal_number
+    self.journal_number = Irm::Sequence.nextval(self.class.name)
+  end
 
   def validate_message_body
     str = Irm::Sanitize.sanitize(self.message_body,'').strip

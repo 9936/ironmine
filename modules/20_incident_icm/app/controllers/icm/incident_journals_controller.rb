@@ -440,6 +440,7 @@ class Icm::IncidentJournalsController < ApplicationController
     if limit_device?
       @incident_journal.message_body = "<pre>"+@incident_journal.message_body+"</pre>"
     end
+    @incident_request.last_response_date = Time.now
     #if Irm::Person.current.id.eql?(@incident_request.requested_by)
     #  @incident_request.last_request_date = Time.now
     #end
@@ -452,7 +453,8 @@ class Icm::IncidentJournalsController < ApplicationController
     attributes.each do |key|
       ovalue = old_value.send(key)
       nvalue = new_value.send(key)
-        Icm::IncidentHistory.create({:journal_id=>ref_journal.id,
+      Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
+                                   :journal_id=>ref_journal.id,
                                      :property_key=>key.to_s,
                                      :old_value=>ovalue,
                                      :new_value=>nvalue}) if !ovalue.eql?(nvalue)
@@ -462,10 +464,18 @@ class Icm::IncidentJournalsController < ApplicationController
   def process_files(ref_journal)
     @files = []
     params[:files].each do |key,value|
-      @files << Irm::AttachmentVersion.create({:source_id=>ref_journal.id,
+      file << Irm::AttachmentVersion.create({:source_id=>ref_journal.id,
                                                :source_type=>ref_journal.class.name,
                                                :data=>value[:file],
                                                :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
+      if file
+        Icm::IncidentHistory.create({:request_id => ref_journal.incident_request_id,
+                                     :journal_id=> ref_journal.id,
+                                     :property_key=> "attachment",
+                                     :old_value=>file.name,
+                                     :new_value=>""})
+        @files << file
+      end
     end if params[:files]
   end
 

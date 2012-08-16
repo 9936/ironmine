@@ -1,0 +1,71 @@
+<%= common_title %>
+
+<% if allow_to_function?(:view_icm_kanban) %>
+  <div class="btn-toolbar">
+    <div class="btn-group">
+      <%= link_to(content_tag(:i, "", {:class => "icon-th-list"}) + t(:list_mode), {}, {:class=>"btn btn-mini active",:href => "javascript:void(0)"})%>
+      <%= link_to(content_tag(:i, "", {:class => "icon-th"}) + t(:kanban_mode), {:action=>"kanban_index"}, {:class=>"btn btn-mini"})%>
+    </div>
+  </div>
+<% end %>
+<% unless Irm::Person.current.profile&&Irm::Person.current.profile.user_license.eql?("REQUESTER") %>
+<div style="float: right;">
+  <%= I18n.t(:label_irm_external_system)%>
+  <%=blank_select_tag :external_system_id, current_person_assessible_external_system_full, session[:current_external_system], {:with_add_button => true,:id => "external_system_select", :autocomplete => "off"}%>
+</div>
+<% end %>
+
+<%= view_filter("ICM_INCIDENT_REQUEST_INDEX_B","ICM_INCIDENT_REQUESTS","incident_requests") %>
+
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_icm_incident_request_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:label_icm_incident_request_short_new), {},
+                  {:href => "javascript:void(0);", :class=>"btn", :style => "color:#cc3300;", :id => "hide_left"}%>
+      <%= link_to t(:new), {:action => "new"},{:class=>"btn btn-primary"}%>
+      <%= link_to t(:label_icm_incident_request_assign_me), {:action => "edit_assign_me"},{:class=>"btn"}%>
+      <%= link_to t(:label_action_assign_dashboard), {:action => "assign_dashboard"},{:class=>"btn"}%>
+      <a href="javascript:void(0)" id="exportData" class="btn btn-info"><%= t(:export) %></a>
+    </td>
+    <td class="page-block-help">
+      <div id="incident_requestsSearchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <% if Irm::Person.current.profile&&Irm::Person.current.profile.user_license.eql?("REQUESTER") %>
+      <%=render(:partial =>"customer_list") %>
+    <% else %>
+      <%=render(:partial =>"help_desk_list") %>
+    <% end %>
+  </div>
+</div>
+<script type="text/javascript">
+
+$(function(){
+    $("#external_system_select").change(function(e){
+        var current_target = $("#incident_requests").data("datatable").target;
+        current_target.data.options.defaultOptions = {"external_system_id_param": $(e.target).val()};
+        current_target.loadPage(1);
+    });
+
+    $(".sidebar-cell").css("display", "none");
+
+    $("#hide_left").click(function(e){
+        if($(".sidebar-cell").css("display") == "none")
+        {
+            $(".sidebar-cell").css("display", "");
+        }
+        else
+        {
+            $(".sidebar-cell").css("display", "none");
+        }
+    });
+});
+</script>
+
+<% content_for :sidebar do%>
+    <%= render :partial =>"/icm/incident_requests/quick_create" %>
+<% end %>

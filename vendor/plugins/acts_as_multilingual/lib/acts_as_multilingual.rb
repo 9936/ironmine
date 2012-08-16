@@ -9,6 +9,8 @@ module Ironmine
          ['zh','en']
       end
 
+      USABLE_LANGUAGE_CODING = {:zh => "gbk", :en => "utf8"}
+
       module ClassMethods
         # acts_as_multilingual
         # acts_as_multilingual传入一个hash做参数，参数分为四部分
@@ -30,6 +32,8 @@ module Ironmine
           # 多语言lang scope
           # 1，拼接多语言字段的查询字符
           column_str = ""
+          name_column = multilingual_options[:required].size > 0 ? multilingual_options[:required][0] : ''
+          current_coding = Ironmine::Acts::Multilingual::USABLE_LANGUAGE_CODING
           lang_table_name = multilingual_options[:lang_model].constantize.table_name
           multilingual_options[:columns].each do |attr|
             column_str<<"#{lang_table_name}.#{attr}"
@@ -48,6 +52,9 @@ module Ironmine
               joins(multilingual_options[:lang_relation].to_sym).
               select("#{table_name}.*,#{lang_table_name}.id lang_id,#{column_str}").
               where("#{lang_table_name}.language = ?", I18n.locale)
+            }
+            scope :order_with_name, lambda{|type = 'ASC', column = name_column, coding = current_coding|
+                order("CONVERT(#{lang_table_name}.#{column} USING #{coding[I18n.locale.to_sym]}) #{type}")
             }
             # lang_column scope 用来查询多语言字段
             scope :multilingual_colmun,lambda{
