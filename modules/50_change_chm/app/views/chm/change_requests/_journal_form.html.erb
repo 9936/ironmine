@@ -20,7 +20,7 @@
   <% end %>
 
   <% content_for :form_buttons  do %>
-    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary",:style=>"min-width:50px;"}%>
   <% end %>
 
   <!--页面结构-->
@@ -35,10 +35,10 @@
     </div>
     <table class="page-block-footer">
       <tr>
-        <td class="page-block-title"></td>
-        <td class="page-block-button">
+        <td class="page-block-title">
           <%= content_for :form_buttons   %>
         </td>
+        <td class="page-block-button"></td>
       </tr>
     </table>
   </div>

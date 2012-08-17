@@ -82,7 +82,7 @@
       <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
           <%= f.hidden_field(:temp_id_string, :value => "") %>
           <%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()",:class=>"btn" %>
-          <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn"%>
+          <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
       <% end %>
     </td>
     <td class="page-block-help">

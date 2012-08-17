@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require "base64"
 
 class Irm::CommonController < ApplicationController
@@ -5,6 +6,7 @@ class Irm::CommonController < ApplicationController
   #skip_before_filter :prepare_application
 
   def login
+    params[:notice] = notice
     if request.get?
       # 注销用户
       self.logged_user = nil
@@ -22,6 +24,71 @@ class Irm::CommonController < ApplicationController
 
   def forgot_password
     
+  end
+
+  #当用户输入邮箱提交的时候发送一个链接
+  def send_email
+    #查找该email是否有效
+    if params[:email].present?
+      person = Irm::Person.where(:email_address => params[:email]).first
+      #生成一个随机的token
+      if person.present?
+        #查找该用户该类型的token是否存在
+        user_token = person.user_tokens.where(:token_type => "RESET_PWD").first
+        if user_token.present?
+          new_flag = false
+          user_token.created_at = Time.now
+          user_token.updated_at = Time.now
+        else
+          new_flag = true
+          user_token = Irm::UserToken.new(:person_id => person.id,:token_type => "RESET_PWD")
+        end
+        if user_token.save
+          token = user_token.token
+          url = "#{request.protocol}#{request.host_with_port}/reset_pwd?type=RESET_PWD&pwd_token=#{token}"
+          user_token.reset_pwd(params[:email],person.id,url) if new_flag
+        end
+      else
+        #email地址不存在
+        redirect_to({:action =>'forgot_password' }, :notice => t(:label_error_email_not_existed))
+      end
+    else
+      redirect_to({:action =>'forgot_password' }, :notice => t(:label_error_email_blank))
+    end
+  end
+
+  def reset_pwd
+    if params[:type] and params[:pwd_token]
+      user_token = Irm::UserToken.where(:token_type => params[:type], :token => params[:pwd_token], :status_code => "ENABLED").first
+      if user_token.present? && !user_token.expired?
+        @person = user_token.person
+      end
+    end
+  end
+
+  def update_pwd
+    respond_to do |format|
+      @person = Irm::Person.find(params[:person_id])
+      if params[:person_id] and params[:password] and params[:password_confirm] and params[:password].eql?(params[:password_confirm]) and params[:password].present?
+        if @person.present?
+          user_token = @person.user_tokens.where(:token_type => params[:type]).first if @person.user_tokens.any?
+          if user_token.present? and user_token[:token].to_s.eql?(params[:pwd_token].to_s)
+            @person.password = params[:password]
+            @person.password_updated_at = Time.now
+            @person.unlock
+            if @person.save
+              user_token.destroy
+            end
+            format.html {redirect_to({ :action =>'login' }, :notice => t(:label_update_password_successfully))}
+          end
+          format.html {redirect_to({ :action =>'reset_pwd',:type=> params[:type],:pwd_token => params[:pwd_token]}, :notice => t(:label_update_password_error))}
+        else
+          format.html {redirect_to({ :action =>'reset_pwd',:type=> params[:type],:pwd_token => params[:pwd_token] }, :notice => t(:label_update_password_error))}
+        end
+      else
+        format.html {redirect_to({ :action =>'reset_pwd',:type=> params[:type],:pwd_token => params[:pwd_token] }, :notice => t(:label_update_password_error))}
+      end
+    end
   end
 
   def upload_screen_shot

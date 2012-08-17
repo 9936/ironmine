@@ -933,7 +933,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "Y",
               "irm/attach_screenshot" => ["index"],
-              "irm/common" => ["edit_password", "forgot_password", "login", "update_password"],
+              "irm/common" => ["edit_password", "forgot_password", "login", "update_password","send_email","reset_pwd","update_pwd"],
               "irm/demo" => ["get_data", "index"],
               "irm/navigations" => ["access_deny", "combo"],
               "irm/oauth_authorize" => ["create", "show", "token"],
@@ -943,8 +943,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :en => {:name => "Login Accessage Function", :description => "Login Accessage Function"},
               :zh => {:name => "登录可访问功能", :description => "登录可访问功能"},
               :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "Y",
+              :login_flag => "Y",
+              :public_flag => "N",
               "csi/survey_responses" => ["create", "fill_password", "new", "validate_password"],
               "csi/survey_results" => ["export", "get_data", "list", "show_input", "show_response", "statistics"],
               "icm/incident_categories" => ["get_option"],
@@ -959,41 +959,39 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/portlet_configs" => ["save_portal_config", "save_portal_layout"],
               "irm/search" => ["index"],
               "irm/session_settings" => ["timeout_warn"],
-              "irm/setting" => ["common"],
-              "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"],
-              "skm/wiki_templates" => ["create", "edit", "get_data", "index", "new", "preview", "sample", "show", "update"],
+              "irm/setting" => ["common"]
           },
           :home_page => {
               :en => {:name => "Home page", :description => "Home page"},
               :zh => {:name => "首页", :description => "首页"},
-              :default_flag => "N",
+              :default_flag => "Y",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/calendars" => ["get_full_calendar"],
               "irm/home" => ["index", "my_tasks"],
           },
           :todo_event => {
               :en => {:name => "Todo Event", :description => "Todo Event"},
               :zh => {:name => "待办事件", :description => "待办事件"},
-              :default_flag => "N",
+              :default_flag => "Y",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/todo_events" => ["calendar_view", "create", "edit", "edit_recurrence", "get_data", "get_top_data", "index", "my_events_get_data", "my_events_index", "new", "quick_show", "show", "update", "update_recurrence"],
           },
           :todo_task => {
               :en => {:name => "Todo Task", :description => "Todo Task"},
               :zh => {:name => "待办任务", :description => "待办任务"},
-              :default_flag => "N",
+              :default_flag => "Y",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/todo_tasks" => ["create", "edit", "edit_recurrence", "get_data", "get_top_data", "index", "my_tasks_get_data", "my_tasks_index", "new", "show", "update", "update_recurrence"],
           },
           :bulletin => {
               :en => {:name => "View Bulletin", :description => "View Bulletin"},
               :zh => {:name => "公告查看", :description => "公告查看"},
-              :default_flag => "N",
+              :default_flag => "Y",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/bulletins" => ["get_data", "index", "show"],
           },
           :edit_bulletin => {
@@ -1001,7 +999,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑公告", :description => "编辑公告"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/bulletins" => ["edit", "update"],
           },
           :new_bulletin => {
@@ -1009,7 +1007,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "新建公告", :description => "新建公告"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/bulletins" => ["create", "new"],
           },
           :delete_bulletin => {
@@ -1017,15 +1015,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "删除公告", :description => "删除公告"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/bulletins" => ["destroy", "remove_exits_attachments"],
           },
           :workflow_approval => {
               :en => {:name => "Workflow Approval", :description => "Workflow Approval"},
               :zh => {:name => "工作流审批", :description => "工作流审批"},
-              :default_flag => "N",
+              :default_flag => "Y",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/wf_process_instances" => ["execute_recall", "recall", "submit"],
               "irm/wf_step_instances" => ["reassign", "save_reassign", "show", "submit"],
           },
@@ -1033,8 +1031,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :en => {:name => "Manage Kanban View", :description => "Manage Kanban View"},
               :zh => {:name => "看板访问功能", :description => "看板访问功能"},
               :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "Y",
+              :login_flag => "Y",
+              :public_flag => "N",
               "irm/kanbans" => ["refresh_my_kanban"],
           },
           :approve_change => {
@@ -1042,13 +1040,12 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "审批变更请求", :description => "审批提交上来的变更请求"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_approvals" => ["approve", "decide"],
           },
       }
   }
   #=================================END:HOME_PAGE=================================
-
   #=================================START:IRM_REPORT=================================
   map.function_group :irm_report, {
       :en => {:name => "Report", :description => "Report"},
@@ -1064,15 +1061,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "查看,运行报表", :description => "查看,运行报表"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
-              "irm/reports" => ["get_data", "get_reports_tree", "index", "run", "show"],
+              :public_flag => "N",
+              "irm/reports" => ["index", "show", "run", "get_data", "get_reports_tree"],
           },
           :create_reports => {
               :en => {:name => "New Report", :description => "New Report"},
               :zh => {:name => "新建报表", :description => "新建报表"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/reports" => ["create", "create_program", "destroy", "edit_custom", "edit_custom_program", "new", "new_program", "operator_value", "update_custom", "update_custom_program"],
               "irm/report_triggers" => ["create", "destroy", "edit", "index", "new", "update"],
           },
@@ -1081,7 +1078,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑报表", :description => "编辑报表"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/reports" => ["edit", "edit_program", "multilingual_edit", "multilingual_update", "operator_value", "update", "update_program"],
               "irm/report_triggers" => ["create", "destroy", "edit", "index", "new", "update"],
           },
@@ -1090,7 +1087,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "报表文件夹", :description => "报表文件夹"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/report_folders" => ["index"],
           },
           :create_report_folders => {
@@ -1098,7 +1095,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "新建报表文件夹", :description => "新建报表文件夹"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/report_folders" => ["create", "new"],
           },
           :edit_report_folders => {
@@ -1106,7 +1103,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑报表文件夹", :description => "编辑报表文件夹"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/report_folders" => ["edit", "multilingual_edit", "multilingual_update", "update"],
           },
       }
@@ -1128,7 +1125,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "个人信息", :description => "个人信息"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/group_members" => ["get_data_from_person"],
               "irm/my_info" => ["edit", "get_my_remote_access", "index", "update"],
               "irm/people" => ["get_owned_external_systems", "get_support_group"],
@@ -1152,7 +1149,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "修改我的密码", :description => "修改我的密码"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/my_password" => ["edit_password", "index", "update_password"],
           },
       }
@@ -1174,7 +1171,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "修改我的头像", :description => "修改我的头像"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/my_avatar" => ["avatar_crop", "edit", "index", "update"],
           },
       }
@@ -1196,7 +1193,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "我的登录历史", :description => "我的登录历史"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/my_login_history" => ["get_login_data", "index"],
           },
       }
@@ -1218,7 +1215,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理全局设置", :description => "管理全局设置"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/global_settings" => ["crop", "edit", "index", "update"],
           },
       }
@@ -1240,7 +1237,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理语言", :description => "管理语言"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/languages" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -1262,7 +1259,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理汇率", :description => "管理汇率"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/currencies" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -1284,7 +1281,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理快速编码", :description => "管理快速编码"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/lookup_types" => ["add_code", "check_lookup_code", "create", "create_edit_value", "create_value", "edit", "get_lookup_types", "get_lookup_values", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
               "irm/lookup_values" => ["create", "edit", "get_data", "get_lookup_values", "index", "multilingual_edit", "multilingual_update", "new", "select_lookup_type", "show", "update"],
           },
@@ -1307,7 +1304,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理公共分类", :description => "管理公共分类"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/general_categories" => ["create", "edit", "get_data", "new", "show", "update"],
           },
       }
@@ -1329,7 +1326,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理值集", :description => "管理值集"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/flex_values" => ["create", "edit", "get_data", "index", "new", "select_set", "show", "update"],
               "irm/flex_value_sets" => ["create", "edit", "get_data", "new", "show", "update"],
           },
@@ -1352,7 +1349,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理弹性域", :description => "管理弹性域"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/id_flexes" => ["create", "edit", "get_data", "new", "show", "update"],
               "irm/id_flex_segments" => ["create", "edit", "get_data", "index", "new", "show", "update"],
               "irm/id_flex_structures" => ["create", "edit", "get_data", "index", "new", "select_parent", "show", "update"],
@@ -1362,7 +1359,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理弹性域结构", :description => "管理弹性域结构"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
           },
       }
   }
@@ -1383,7 +1380,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理产品模块", :description => "管理产品模块"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/product_modules" => ["create", "edit", "get_data", "index", "new", "update"],
           },
       }
@@ -1405,7 +1402,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理应用", :description => "管理应用"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/applications" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -1427,7 +1424,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理业务对像", :description => "管理业务对像"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/business_objects" => ["index", "show", "get_data", "new", "create", "edit", "update", "multilingual_edit", "multilingual_update", "execute_test", "destroy"],
               "irm/object_attributes" => ["index", "show", "get_data", "get_standard_data", "new", "create", "selectable_columns", "relation_columns", "edit", "update", "multilingual_edit", "multilingual_update", "change_type", "destroy", "person_columns", "new_model_attribute", "create_model_attribute"],
               "irm/search_layouts" => ["new", "create", "edit", "update"],
@@ -1451,7 +1448,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理值列表", :description => "管理值列表"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
           },
       }
   }
@@ -1472,7 +1469,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理标签页", :description => "管理标签页"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/tabs" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -1494,7 +1491,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理报表类别", :description => "管理报表类别"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/report_type_categories" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -1516,7 +1513,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理报表类型", :description => "管理报表类型"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/report_types" => ["create", "edit", "edit_relation", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update", "update_relation"],
               "irm/report_type_sections" => ["field_source", "index", "section_field", "update"],
           },
@@ -1539,7 +1536,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理菜单", :description => "管理菜单"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/menus" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "remove_entry", "show", "update"],
               "irm/menu_entries" => ["create", "edit", "get_data", "index", "new", "select_parent", "show", "update"],
           },
@@ -1562,7 +1559,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理功能组", :description => "管理功能组"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/function_groups" => ["create", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
@@ -1584,7 +1581,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理功能", :description => "管理功能"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/functions" => ["add_permissions", "create", "edit", "get_available_permissions", "get_data", "index", "new", "remove_permission", "select_permissions", "show", "update"],
           },
       }
@@ -1606,7 +1603,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理权限", :description => "管理权限"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/permissions" => ["create", "data_grid", "edit", "function_get_data", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -1628,7 +1625,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理工作流规则", :description => "管理工作流规则"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/wf_rules" => ["active", "add_exists_action", "create", "destroy_action", "edit", "get_data", "index", "new", "save_exists_action", "show", "update"],
               "irm/wf_rule_time_triggers" => ["create", "destroy", "edit", "new", "update"],
           },
@@ -1651,7 +1648,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理审批流程", :description => "管理审批流程"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/wf_approval_processes" => ["active", "add_exists_action", "create", "destroy", "destroy_action", "edit", "get_data", "index", "new", "reorder", "save_exists_action", "show", "update"],
               "irm/wf_approval_steps" => ["create", "destroy", "edit", "index", "new", "update"],
           },
@@ -1674,7 +1671,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理邮件警告", :description => "管理邮件警告"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/wf_approval_processes" => ["get_data_by_action"],
               "irm/wf_mail_alerts" => ["create", "destroy", "edit", "get_data", "index", "new", "recipient_source", "show", "update"],
               "irm/wf_rules" => ["get_data_by_action"],
@@ -1698,7 +1695,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理字段更新", :description => "管理字段更新"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/formula_functions" => ["check_syntax", "formula_function_options"],
               "irm/object_attributes" => ["updateable_columns"],
               "irm/wf_approval_processes" => ["get_data_by_action"],
@@ -1724,7 +1721,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理工作流设置", :description => "管理工作流设置"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/wf_settings" => ["edit", "index", "update"],
           },
       }
@@ -1746,7 +1743,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理用户", :description => "管理用户"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/people" => ["index", "show", "get_data", "get_choose_people", "new", "create", "get_support_group", "get_owned_roles", "edit", "update", "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles", "reset_password"],
               "irm/external_system_members" => ["new_from_person", "create_from_person", "delete_from_person", "get_available_external_system_data", "get_owned_members_data", "get_available_people_data"],
               "irm/group_members" => ["new_from_person", "get_groupable_data", "create_from_person", "get_data_from_person", "delete_from_person"],
@@ -1770,7 +1767,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理简档", :description => "管理简档"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/profiles" => ["index", "show", "new", "create", "edit", "update", "get_data", "multilingual_edit", "multilingual_update"],
           },
       }
@@ -1792,8 +1789,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理角色", :description => "管理角色"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
-              "irm/roles" => ["assignable_people", "create", "edit", "edit_assignment", "index", "multilingual_edit", "multilingual_update", "new", "role_people", "show", "update", "update_assignment"],
+              :public_flag => "N",
+              "irm/roles" => ["assignable_people", "create", "edit", "edit_assignment", "index", "multilingual_edit", "multilingual_update", "new", "role_people", "show", "update", "update_assignment","delete_people"],
           },
       }
   }
@@ -1814,7 +1811,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理组", :description => "管理组"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/groups" => ["create", "edit", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
               "irm/group_members" => ["create", "create_from_person", "delete", "delete_from_person", "get_data", "get_data_from_person", "get_memberable_data", "new", "new_from_person"],
           },
@@ -1837,7 +1834,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理运维中心", :description => "管理运维中心"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/operation_units" => ["edit", "show", "update"],
           },
       }
@@ -1859,7 +1856,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理组织", :description => "管理组织"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/organizations" => ["belongs_to", "create", "edit", "get_by_company", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -1881,7 +1878,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理区域", :description => "管理区域"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/regions" => ["create", "edit", "get_data", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -1903,7 +1900,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理地点组", :description => "管理地点组"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/site_groups" => ["belongs_to", "create", "edit", "get_by_region_code", "get_current_group_site", "get_data", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -1925,7 +1922,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理地点", :description => "管理地点"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/sites" => ["create", "edit", "get_by_site_group_code", "get_data", "multilingual_edit", "multilingual_update", "new", "select_site", "show", "update"],
           },
       }
@@ -1947,55 +1944,12 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理应用系统", :description => "管理应用系统"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/external_systems" => ["add_people", "create", "delete_people", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
   }
   #=================================END:SYSTEM=================================
-
-  #=================================START:EXTERNAL_LOINGID=================================
-  map.function_group :external_loingid, {
-      :en => {:name => "External LoginID", :description => "External LoginID"},
-      :zh => {:name => "外部LoginID", :description => "外部LoginID"}, }
-  map.function_group :external_loingid, {
-      :zone_code => "SYSTEM_SETTING",
-      :controller => "uid/external_logins",
-      :action => "index"}
-  map.function_group :external_loingid, {
-      :children => {
-          :external_loingid => {
-              :en => {:name => "Manage External LoginID", :description => "Manage External LoginID"},
-              :zh => {:name => "管理外部LoginID", :description => "管理外部LoginID"},
-              :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "Y",
-          },
-      }
-  }
-  #=================================END:EXTERNAL_LOINGID=================================
-
-  #=================================START:LOGIN_MAPPING=================================
-  map.function_group :login_mapping, {
-      :en => {:name => "LoginID Mapping", :description => "LoginID Mapping"},
-      :zh => {:name => "用户&外部用户映射", :description => "用户&外部用户映射"}, }
-  map.function_group :login_mapping, {
-      :zone_code => "SYSTEM_SETTING",
-      :controller => "uid/login_mappings",
-      :action => "index"}
-  map.function_group :login_mapping, {
-      :children => {
-          :login_mapping => {
-              :en => {:name => "Manage LoginID Mapping", :description => "Manage LoginID Mapping"},
-              :zh => {:name => "管理用户&外部用户映射", :description => "管理用户&外部用户映射"},
-              :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "Y",
-          },
-      }
-  }
-  #=================================END:LOGIN_MAPPING=================================
-
   #=================================START:EXTERNAL_SYSTEM_MEMBER=================================
   map.function_group :external_system_member, {
       :en => {:name => "External System Members", :description => "External System Members"},
@@ -2011,14 +1965,12 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理应用系统成员", :description => "管理应用系统成员"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/external_system_members" => ["add_people", "create_from_person", "delete_from_person", "delete_people", "get_available_external_system_data", "get_available_people_data", "get_owned_members_data", "index", "new_from_person"],
           },
       }
   }
   #=================================END:EXTERNAL_SYSTEM_MEMBER=================================
-
-
   #=================================START:LDAP_SOURCE=================================
   map.function_group :ldap_source, {
       :en => {:name => "LDAP Source", :description => "LDAP Source"},
@@ -2034,7 +1986,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理LDAP源", :description => "管理LDAP源"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/ldap_sources" => ["active", "create", "edit", "execute_test", "get_data", "index", "new", "show", "update"],
           },
       }
@@ -2056,7 +2008,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理LDAP用户", :description => "管理LDAP用户"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/ldap_auth_attributes" => ["create", "destroy", "edit", "get_data", "index", "new", "show", "update"],
               "irm/ldap_auth_headers" => ["create", "edit", "get_by_ldap_source", "get_data", "index", "new", "show", "update"],
           },
@@ -2079,7 +2031,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理LDAP组织", :description => "管理LDAP组织"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/ldap_auth_headers" => ["get_by_ldap_source"],
               "irm/ldap_syn_attributes" => ["create", "edit", "index", "new", "show", "update"],
               "irm/ldap_syn_headers" => ["active", "create", "edit", "index", "new", "show", "update"],
@@ -2103,7 +2055,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理邮件模板", :description => "管理邮件模板"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/mail_templates" => ["create", "edit", "get_data", "get_mail_templates", "get_script_context_fields", "index", "new", "show", "update"],
               "irm/object_attributes" => ["all_columns"],
           },
@@ -2126,7 +2078,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单工作流规则作业", :description => "管理事故单工作流规则作业"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/monitor_ir_rule_processes" => ["index"],
           },
       }
@@ -2148,7 +2100,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单组指派作业", :description => "管理事故单组指派作业"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/monitor_icm_group_assigns" => ["index"],
           },
       }
@@ -2170,7 +2122,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理Delayed Job运行记录", :description => "管理Delayed Job运行记录"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/delayed_jobs" => ["get_data", "get_item_data", "icm_group_assign_monitor", "index", "ir_rule_process_monitor", "item_list", "item_view", "wf_process_job_monitor"],
           },
       }
@@ -2192,7 +2144,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理审批邮件发送作业", :description => "管理审批邮件发送作业"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/monitor_approval_mails" => ["index"],
           },
       }
@@ -2214,7 +2166,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理看板", :description => "管理看板"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/kanbans" => ["add_lanes", "create", "delete_lane", "down_lane", "edit", "get_available_lanes", "get_data", "get_owned_lanes", "index", "new", "refresh_my_kanban", "select_lanes", "show", "update", "up_lane"],
           },
       }
@@ -2236,7 +2188,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理看板泳道", :description => "管理看板泳道"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/lanes" => ["add_cards", "create", "delete_card", "edit", "get_available_cards", "get_data", "get_owned_cards", "index", "new", "select_cards", "show", "update"],
           },
       }
@@ -2258,8 +2210,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理看板卡片", :description => "管理看板卡片"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
-              "irm/cards" => ["create", "edit", "edit_rule", "get_data", "index", "new", "show", "update", "update_rule"],
+              :public_flag => "N",
+              "irm/cards" => ["index", "show", "get_data", "new", "create", "edit", "update", "edit_rule", "update_rule"],
           },
       }
   }
@@ -2294,12 +2246,13 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理公告栏目", :description => "管理公告栏目"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/bu_columns" => ["create", "edit", "get_columns_data", "index", "new", "update"],
           },
       }
   }
   #=================================END:BULLETIN_COLUMN=================================
+
 
   #=================================START:PASSWORD_POLICY=================================
   map.function_group :password_policy, {
@@ -2316,7 +2269,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理密码策略", :description => "管理密码策略"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/password_policies" => ["index", "update"],
           },
       }
@@ -2338,7 +2291,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "运维中心License", :description => "运维中心License"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/licenses" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -2360,7 +2313,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "云运维中心", :description => "云运维中心"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/cloud_operations" => ["edit", "get_data", "index", "show", "update"],
           },
       }
@@ -2382,7 +2335,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "我的简档", :description => "我的简档"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/my_profiles" => ["index"],
           },
       }
@@ -2404,7 +2357,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "查看邮件服务器信息", :description => "查看邮件服务器信息"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/mail_settings" => ["index"],
           },
           :edit_mail_setting => {
@@ -2412,7 +2365,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑邮件服务器配置", :description => "编辑邮件服务器配置"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/mail_settings" => ["edit", "update"],
           },
       }
@@ -2434,7 +2387,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "报表运行历史", :description => "查看报表运行的明细历史记录"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/report_request_histories" => ["get_data", "index"],
           },
       }
@@ -2456,7 +2409,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "查看公告Portlet", :description => "查看公告Portlet"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/bulletins" => ["portlet"],
           },
           :entry_header_portlet => {
@@ -2464,7 +2417,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "查看我的知识库Portlet", :description => "查看我的知识库Portlet"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/entry_headers" => ["portlet"],
           },
           :todo_task_portlet => {
@@ -2472,7 +2425,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "待办事项Portlet", :description => "待办事项Portlet"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/todo_tasks" => ["portlet"],
           },
           :report_portlet => {
@@ -2480,7 +2433,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "报表Portlet", :description => "报表Portlet"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/reports" => ["portlet"],
           },
       }
@@ -2502,7 +2455,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理Portlet", :description => "管理Portlet"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/portlets" => ["create", "destroy", "edit", "get_actions_options", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -2524,7 +2477,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "Portal布局", :description => "查看，提交，编辑，操作Portal布局"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/portal_layouts" => ["create", "destroy", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -2546,7 +2499,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "数据访问权限", :description => "数据访问权限"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/data_accesses" => ["edit", "index", "update"],
               "irm/org_data_accesses" => ["edit", "index", "show", "update"],
           },
@@ -2555,7 +2508,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "数据共享规则", :description => "数据共享规则"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/data_share_rules" => ["create", "destroy", "edit", "get_data", "get_option", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -2577,7 +2530,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "会话设置", :description => "会话设置"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/session_settings" => ["index", "update"],
           },
       }
@@ -2599,7 +2552,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理组织信息", :description => "管理组织信息"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/organization_infos" => ["create", "delete_attachment", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
@@ -2621,7 +2574,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "远程访问", :description => "远程访问"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/oauth_access_clients" => ["create", "destroy", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
@@ -2643,12 +2596,10 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "评价设置", :description => "评价设置"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/rating_configs" => ["create", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
   }
   #=================================END:RATING_CONFIG=================================
-
-
 end

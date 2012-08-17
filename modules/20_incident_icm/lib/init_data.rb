@@ -92,9 +92,9 @@ Fwk::MenuAndFunctionManager.map do |map|
           :view_incident_request => {
               :en => {:name => "View", :description => "View"},
               :zh => {:name => "查看", :description => "查看"},
-              :default_flag => "N",
+              :default_flag => "Y",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_requests" => ["show_detail"],
               "icm/incident_journals" => ["index", "new"],
               "icm/incident_requests" => ["get_data", "get_external_systems", "get_help_desk_data", "get_slm_services", "index"],
@@ -104,15 +104,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "查看所有", :description => "查看所有"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_requests" => ["index", "info_card"],
           },
           :reply_incident_request => {
               :en => {:name => "Reply", :description => "Reply"},
               :zh => {:name => "回复", :description => "回复"},
-              :default_flag => "N",
+              :default_flag => "Y",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_journals" => ["apply_entry_header", "create", "get_entry_header_data", "index", "new"],
           },
           :pass_incident_request => {
@@ -120,7 +120,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "转交", :description => "转交"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_journals" => ["edit_pass", "edit_upgrade", "update_pass", "update_upgrade"],
               "icm/support_groups" => ["get_pass_member_options"],
           },
@@ -129,15 +129,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑", :description => "编辑"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_requests" => ["edit", "update"],
           },
           :create_incident_request => {
               :en => {:name => "New", :description => "New"},
               :zh => {:name => "新建", :description => "新建"},
-              :default_flag => "N",
+              :default_flag => "Y",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_config_relations" => ["create", "destroy"],
               "icm/incident_requests" => ["create", "new", "short_create"],
           },
@@ -146,7 +146,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "为他人提单", :description => "为他人提单"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_requests" => ["create", "new"],
           },
           :close_incident_request => {
@@ -154,7 +154,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "关闭", :description => "关闭"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_journals" => ["edit_close", "update_close"],
           },
           :assign_incident_request => {
@@ -162,15 +162,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "分配", :description => "分配"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_requests" => ["assignable_data", "assign_dashboard", "assign_request"],
           },
           :view_icm_kanban => {
               :en => {:name => "View ICM Kanban", :description => "View ICM Kanban"},
               :zh => {:name => "查看看板", :description => "查看看板"},
               :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "Y",
+              :login_flag => "Y",
+              :public_flag => "N",
               "icm/incident_requests" => ["kanban_index"],
           },
           :view_watcher => {
@@ -178,7 +178,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "查看观察者", :description => "查看观察者"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/watchers" => ["order"],
           },
           :edit_watcher => {
@@ -186,7 +186,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑观察者", :description => "编辑观察者"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/watchers" => ["add_watcher", "delete_watcher"],
           },
           :incident_request_assign_me => {
@@ -194,7 +194,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "领取", :description => "领取"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_requests" => ["assign_me_data", "edit_assign_me", "update_assign_me"],
           },
           :incident_request_edit_status => {
@@ -202,7 +202,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "修改状态", :description => "修改状态"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_journals" => ["edit_status", "update_status"],
           },
           :upgrade_incident_request => {
@@ -210,7 +210,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "升级", :description => "升级"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_journals" => ["edit_upgrade", "update_upgrade"],
               "icm/support_groups" => ["get_member_options"],
           },
@@ -219,7 +219,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑相关问题", :description => "编辑相关问题"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_requests" => ["add_relation", "remove_relation"],
               "skm/entry_headers" => ["add_relation", "remove_relation"],
           },
@@ -228,7 +228,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "永久关闭", :description => "永久关闭"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_journals" => ["edit_permanent_close", "update_permanent_close"],
           },
           :reopen_incident_request => {
@@ -236,7 +236,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "重新打开", :description => "重新打开"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_journals" => ["edit_reopen", "update_reopen"],
           },
           :edit_myself_request => {
@@ -244,15 +244,12 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑自己的事故单", :description => "编辑自己的事故单"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_requests" => ["edit", "update"],
           },
       }
   }
   #=================================END:INCIDENT_REQUEST=================================
-
-
-
   #=================================START:ICM_CLOSE_REASON=================================
   map.function_group :icm_close_reason, {
       :en => {:name => "Close Reason", :description => "Close Reason"},
@@ -268,7 +265,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单关闭原因", :description => "管理事故单关闭原因"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/close_reasons" => ["create", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
@@ -290,7 +287,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单规则设置", :description => "管理事故单规则设置"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/rule_settings" => ["create", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
@@ -312,7 +309,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单紧急度", :description => "管理事故单紧急度"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/urgence_codes" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -334,7 +331,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单影响度", :description => "管理事故单影响度"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/impact_ranges" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -356,7 +353,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单优先级", :description => "管理事故单优先级"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/priority_codes" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -378,7 +375,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单阶段", :description => "管理事故单阶段"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_phases" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -400,7 +397,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单状态", :description => "管理事故单状态"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_statuses" => ["create", "edit", "edit_transform", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update", "update_transform"],
           },
       }
@@ -422,7 +419,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理支持组", :description => "管理支持组"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/support_groups" => ["create", "index", "update"],
           },
       }
@@ -444,7 +441,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "查看邮件事故单配置", :description => "查看邮件事故单配置"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/mail_requests" => ["get_data", "index", "show"],
           },
           :edit_mail_request => {
@@ -452,7 +449,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑邮件事故单配置", :description => "编辑邮件事故单配置"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/mail_requests" => ["create", "disable", "edit", "enable", "new", "update"],
           },
       }
@@ -474,7 +471,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理事故单分类", :description => "管理事故单分类"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_categories" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
               "icm/incident_sub_categories" => ["create", "destroy", "edit", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },

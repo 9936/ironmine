@@ -19,8 +19,8 @@ module Fwk::MenuAndFunctionManager
             if @menus[code.to_sym][i.to_sym].is_a?(Array)
               #判断是否重复添加
               menu[i.to_sym].each do |m|
-                @menus[code.to_sym][i.to_sym].delete_if {|n| n[:sub_menu_code].to_s.eql?(m[:sub_menu_code].to_s)}
-                @menus[code.to_sym][i.to_sym].delete_if {|n| n[:sub_function_group_code].to_s.eql?(m[:sub_function_group_code].to_s)}
+                @menus[code.to_sym][i.to_sym].delete_if {|n| n[:sub_menu_code].to_s.eql?(m[:sub_menu_code].to_s)}  if m[:sub_menu_code].present?
+                @menus[code.to_sym][i.to_sym].delete_if {|n| n[:sub_function_group_code].to_s.eql?(m[:sub_function_group_code].to_s)} if m[:sub_function_group_code].present?
                 @menus[code.to_sym][i.to_sym] << m
               end
             else
@@ -162,9 +162,9 @@ module Fwk::MenuAndFunctionManager
             function[:code] = child[:code] if child[:code]
             function[:en] = child[:en] if child[:en]
             function[:zh] = child[:zh] if child[:zh]
-            function[:default_flag] = child[:default_flag] || 'N'
-            function[:login_flag] = child[:login_flag] || 'N'
-            function[:public_flag] = child[:public_flag] || 'N'
+            function[:default_flag] = child[:default_flag] if child[:default_flag]
+            function[:login_flag] = child[:login_flag] if child[:login_flag]
+            function[:public_flag] = child[:public_flag] if child[:public_flag]
             @function_groups[code.to_sym][:functions].delete_if {|i| i[:code].to_s.eql?(child[:code].to_s)}
             @function_groups[code.to_sym][:functions] << function
 
@@ -255,6 +255,7 @@ module Fwk::MenuAndFunctionManager
 
     #处理权限
     def function(name, hash, options={})
+      name = name.upcase
       @functions ||= {}
       if @functions.keys.include?(name.to_sym)
         exists_permissions  = @functions[name.to_sym][:permissions]

@@ -4,22 +4,28 @@
       <tbody>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_card_title_column)%></label></td>
-            <td class="data-2col"><%=f.select :title_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
+            <td class="data-col"><%=f.select :title_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_card_description_column)%></label></td>
             <td class="data-2col"><%=f.select :description_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_card_date_column)%></label></td>
             <td class="data-2col"><%=f.select :date_attribute_name, available_selectable_object_attribute(@card.bo_code)%></td>
+            <td></td>
+            <td></td>
           </tr>
       </tbody>
     </table>
   <% end %>
   <% content_for :form_buttons  do %>
     <%= link_to t(:last), {:action => "new",:step=>1},:class => "btn" %>
-    <%= link_submit t(:save), :class=>"btn" %>
+    <%= link_submit t(:save), :class=>"btn btn-primary" %>
     <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
   <% end %>
 

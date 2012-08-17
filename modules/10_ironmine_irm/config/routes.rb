@@ -17,6 +17,9 @@ Rails.application.routes.draw do
     match 'access_deny' => 'navigations#access_deny'
     match 'logout' => 'common#logout', :as => :logout
     match 'forgot_password' => "common#forgot_password"
+    match 'send_email' => "common#send_email", :via => :post
+    match 'reset_pwd' => "common#reset_pwd"
+    match 'update_pwd' => "common#update_pwd", :via => :post
     match 'edit_password/:id' => "common#edit_password", :via => :get
     match 'update_password/:id' => "common#update_password", :via => :put
     match 'common/search_options' => "common#search_options"
@@ -445,6 +448,7 @@ Rails.application.routes.draw do
     match '/roles/:id/update_assignment(.:format)' => "roles#update_assignment", :via => [:put, :post]
     match '/roles/:id/assignable_people(.:format)' => "roles#assignable_people", :via => :get
     match '/roles/:id/role_people(.:format)' => "roles#role_people", :via => :get
+    match '/roles/:id/delete_people(.:format)' => "roles#delete_people"
 
     match '/roles/:id/show(.:format)' => "roles#show", :via => :get
     match '/roles/:id/multilingual_edit(.:format)' => "roles#multilingual_edit", :via => :get

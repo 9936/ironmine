@@ -10,6 +10,9 @@
     <% builder.column(:default_flag, {:title => t(:default_flag), :width => "70px"}) do |data| %>
         <%= check_img(data[:default_flag]) %>
     <% end %>
+    <% builder.column(:close_flag,{:title=>t(:label_icm_incident_close_flag),:width => "80px"}) do |data|%>
+        <%= check_img(data[:close_flag]) %>
+    <% end %>
     <% builder.row do |data| %>
         style="background-color:<%= data[:display_color] %>;color:<%= get_contrast_yiq(data[:display_color]) %>;"
     <% end %>

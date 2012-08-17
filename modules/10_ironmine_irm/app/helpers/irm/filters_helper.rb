@@ -66,6 +66,7 @@ module Irm::FiltersHelper
     operator_tag = form.select(:operator_code,operators, {:required=>true})
     operator_tag = content_tag(:td,operator_tag,{:class=>"operator-col"},false)
 
+
     value_tag = ""
 
     if relation_bo_id.present?
@@ -103,6 +104,7 @@ module Irm::FiltersHelper
     value_tag = ""
     value_tag = form.text_field :filter_value,:size=>30
     value_tag = content_tag(:td,value_tag,{:class=>"value-col"},false)
+
     (operator_tag + value_tag).html_safe
   end
 

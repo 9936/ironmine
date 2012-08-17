@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #======================================START FUNCTION GROUPS======================================
 
-Fwk::MenuManager.map do |map|
+Fwk::MenuAndFunctionManager.map do |map|
 <% function_groups.each do |group| -%>
   #=================================START:<%= group[:code]%>=================================
   map.function_group :<%= group[:code].downcase %>, {<% group.function_groups_tls.each do |language| -%><%= "\n" %>:<%=language[:language] %>=>{:name=>"<%= language[:name] %>", :description=>"<%= language[:description] %>"},<% end -%>}

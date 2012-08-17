@@ -7,6 +7,7 @@ class Irm::CardsController < ApplicationController
     session[:irm_card] = nil unless params[:step].present?
 
     if params[:irm_card]
+      session[:irm_card] ||= {}
       session[:irm_card].merge!(params[:irm_card])
       session[:irm_card][:step] = params[:step].to_i - 1
     elsif params[:step].present? && params[:step].to_i == 1
@@ -23,6 +24,7 @@ class Irm::CardsController < ApplicationController
       session[:irm_card][:step] = @card.step
     end
     if @card.step.eql?(2)
+      @rule_filter =Irm::RuleFilter.create_for_source('CHM_CHANGE_PRIORITIES_VL',Irm::Card.name,0)
       if session[:irm_rule_filter]
         @rule_filter =Irm::RuleFilter.new(session[:irm_rule_filter])
       else

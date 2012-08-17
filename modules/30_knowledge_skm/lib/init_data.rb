@@ -66,7 +66,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "查看知识库文章", :description => "查看知识库文章"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "icm/incident_journals" => ["apply_entry_header", "apply_entry_header_link", "get_entry_header_data"],
               "skm/columns" => ["get_columns_data"],
               "skm/entry_headers" => ["add_favorites", "data_grid", "get_data", "get_history_entries_data", "index", "index_search", "my_drafts", "my_drafts_data", "my_favorites", "my_favorites_data", "my_unpublished", "my_unpublished_data", "remove_favorite", "show", "video_show"],
@@ -78,7 +78,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑知识库文章", :description => "编辑知识库文章"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/entry_headers" => ["edit", "remove_exits_attachment", "remove_exits_attachment_during_create", "update", "video_edit", "video_update"],
           },
           :create_skm_entries => {
@@ -86,7 +86,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "新建知识库文章", :description => "新建知识库文章"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/entry_headers" => ["create", "create_from_icm_request", "create_relation", "new", "new_from_icm_request", "new_relation", "new_step_1", "new_step_2", "new_step_3", "new_step_4", "new_step_video_upload", "remove_exits_attachment_during_create", "video_create"],
           },
           :approve_skm_entries => {
@@ -94,7 +94,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "审核知识库文章", :description => "审核知识库文章"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/entry_headers" => ["approve_knowledge", "wait_my_approve", "wait_my_approve_data"],
           },
       }
@@ -116,7 +116,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理知识状态", :description => "管理知识状态"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/entry_statuses" => ["create", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
@@ -138,7 +138,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理知识模板", :description => "管理知识模板"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/entry_templates" => ["add_elements", "create", "down_element", "edit", "edit_detail", "get_available_elements", "get_data", "get_data_rest", "get_owned_elements_data", "index", "new", "remove_element", "select_elements", "show", "update", "update_detail", "up_element"],
           },
       }
@@ -160,7 +160,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理知识模板元素", :description => "管理知识模板元素"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/entry_template_elements" => ["create", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
@@ -182,7 +182,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理知识库设置", :description => "管理知识库设置"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/settings" => ["edit", "index", "update"],
           },
       }
@@ -205,12 +205,13 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理知识分类", :description => "管理知识分类"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/columns" => ["create", "edit", "get_columns_data", "index", "new", "update"],
           },
       }
   }
   #=================================END:SKM_COLUMN=================================
+
 
   #=================================START:SKM_CHANNEL=================================
   map.function_group :skm_channel, {
@@ -227,7 +228,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理知识频道", :description => "管理知识频道"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/channels" => ["get_all_columns_data", "get_approvals_data", "get_ava_channels", "get_ava_groups_data", "get_data", "get_owned_approvals_data", "get_owned_channels", "get_owned_groups_data", "index", "show"],
           },
           :edit_skm_channel => {
@@ -235,7 +236,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑知识频道", :description => "编辑知识频道"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "irm/groups" => ["create_skm_channels", "new_skm_channels", "remove_skm_channel"],
               "skm/channels" => ["create", "create_approvals", "create_groups", "edit", "multilingual_edit", "multilingual_update", "new", "new_approvals", "new_groups", "remove_approval", "remove_group", "update"],
           },
@@ -259,7 +260,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "查看Wiki", :description => "查看Wiki"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/books" => ["get_data", "index", "show"],
               "skm/wikis" => ["compare", "get_data", "history", "index", "show"],
           },
@@ -268,7 +269,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "新建Wiki", :description => "新建Wiki"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/books" => ["create", "new"],
               "skm/book_wikis" => ["create", "destroy", "order"],
               "skm/wikis" => ["create", "create_word", "new", "new_word", "preview"],
@@ -278,7 +279,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑Wiki", :description => "编辑Wiki"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/books" => ["edit", "update"],
               "skm/book_wikis" => ["create", "destroy", "order"],
               "skm/wikis" => ["edit", "edit_chapter", "preview", "update", "update_chapter"],
@@ -288,12 +289,16 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理Wiki", :description => "管理Wiki"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "skm/books" => ["edit", "publish", "update"],
               "skm/wikis" => ["revert"],
           },
       }
   }
   #=================================END:SKM_WIKI=================================
-
+  map.function :login_function, {
+      "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"],
+      "skm/wiki_templates" => ["create", "edit", "get_data", "index", "new", "preview", "sample", "show", "update"],
+      "skm/entry_headers" => ["knowledge_details","reset_approve","wait_my_approve","wait_my_approve_data","approve_knowledge"]
+  }
 end

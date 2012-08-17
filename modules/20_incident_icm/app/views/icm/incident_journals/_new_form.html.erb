@@ -225,8 +225,8 @@
                   <tr><td class="data-4col" colspan="4">
                     <div id="linktoSKM" class="hidden form-inline">
                       <div class="input-append">
-                        <input id="searchSKMText" type="text" class="span3"/>
-                        <%= link_to t(:search), {:controller => "icm/incident_journals", :action => "get_entry_header_data"},:remote => true, :id => "searchSKM",:class=>"btn" %>
+                        <input id="searchSKMText" type="text"/>
+                        <%= link_to t(:search), {:controller => "icm/incident_journals", :action => "get_entry_header_data"},:remote => true, :id => "searchSKM",:class=>"btn",:style=>"margin-left:-5px;" %>
                       </div>
                     </div>
                   </td></tr>
@@ -290,10 +290,10 @@
           </div>
           <table class="page-block-footer">
             <tr>
-                <td class="page-block-title"></td>
-                <td class="page-block-button">
-                  <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+                <td class="page-block-title">
+                  <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary"}%>
                 </td>
+                <td class="page-block-button"></td>
                 <td class="page-block-help"></td>
             </tr>
           </table>
@@ -395,7 +395,7 @@
                <% end %>
              </ul>
           </div>
-          <div class="mx-tab-content">
+          <div class="mx-tab-content" style="overflow: hidden;">
             <div class="mx-tab-pane active" id="tab1">
               <%= content_for :incident_request_journals %>
             </div>

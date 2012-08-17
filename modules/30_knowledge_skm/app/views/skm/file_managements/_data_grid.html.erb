@@ -1,41 +1,19 @@
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_skm_file_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:label_skm_upload_new_file), {:action => "new"}%></div>
-                <div class="button"><%= link_to t(:label_skm_upload_batch_file), {:action => "batch_new"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="filesSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="skm_files_list" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:controller => "skm/file_managements", :action => "edit", :id => "{id}"}) %>&nbsp;
-            <%= link_to(t(:remove),{:controller => "skm/file_managements", :action=>"destroy",:id=>"{id}"},:confirm => t(:label_are_you_sure)) %>
-          </div>
-          <div id="data_file_name" style="display:none">
-            <%= link_to("{data_file_name}",{:controller => "skm/file_managements", :action => "show",:id=>"{id}", :version_id => "{version_id}",:data_file_name=>"{data_file_name}"}) %>
-          </div>
-        </div>
-        <%= datatable("skm_files_list",{:action=>"get_data",:format=>"json"},
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"75px"},
-                   {:key=>"data_file_name",:label=>t(:label_skm_file_name),:formatter=>"Y.irm.template", :searchable => true,:width=>"300px"},
-                   {:key=>"category_name",:label=>t(:label_skm_file_category), :width=>"60px"},
-                   {:key=>"description",:label=>t(:description), :searchable => true},
-                   {:key=>"data_file_size",:label=>t(:label_skm_file_size), :width => "100px"},
-                   {:key=>"data_updated_at",:label=>t(:label_skm_file_data_updated_at),:width=>"130px"},
-                   {:key=>"version_id", :label=> "version", :hidden => true}],
-                   {:paginator_box=>"filesPaginatorBox",:html=>true})%>
-        <div id="filesPaginatorBox"></div>
-      </div>
-    </div>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_skm_file_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:label_skm_upload_new_file), {:action => "new"}, :class => "btn btn-primary" %>
+      <%= link_to t(:label_skm_upload_batch_file), {:action => "batch_new"},:class=> "btn" %>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("skm_files_list",{:action=>"get_data",:format=>"json"},[], {:search_box=>"searchBox",:paginator_box=>"filesPaginatorBox",:html=>true})%>
+    <div id="filesPaginatorBox"></div>
+  </div>
 </div>

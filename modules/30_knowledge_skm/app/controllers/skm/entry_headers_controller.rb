@@ -342,7 +342,6 @@ class Skm::EntryHeadersController < ApplicationController
     if enable_entry_audit.eql? Irm::Constant::SYS_NO
       @entry_header.entry_status_code = "PUBLISHED" if params[:status] && params[:status] == "PUBLISHED"
     #需要审批判断当前知识频道的审批人，如果返回false则自动发布
-    #a =  Skm::ChannelApprovalPerson.approval_people('0040000700Fx8zwgHEwy6C')
     else
       approval_people = Skm::ChannelApprovalPerson.approval_people(session[:skm_entry_header][:channel_id])
       approval_people.delete_if{|i| i[:person_id] == Irm::Person.current.id }

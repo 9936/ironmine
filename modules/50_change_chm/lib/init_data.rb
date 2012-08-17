@@ -80,7 +80,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更单状态", :description => "变更单状态"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_statuses" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -102,7 +102,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更单优先级", :description => "变更单优先级"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_priorities" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -124,7 +124,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更单紧急度", :description => "变更单紧急度"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_urgencies" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -146,7 +146,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更单影响度", :description => "变更单影响度"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_impacts" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -168,7 +168,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更单", :description => "变更单"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_requests" => ["get_data", "index", "show", "show_approve", "show_implement", "show_plan"],
           },
           :new_change_request => {
@@ -176,7 +176,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "新建变更单", :description => "新建变更单"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_requests" => ["create", "incident_new", "new"],
           },
           :edit_change_request => {
@@ -184,7 +184,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "编辑变更单", :description => "编辑变更单"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_requests" => ["edit", "update"],
           },
           :change_journal => {
@@ -192,7 +192,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "回复变理单", :description => "回复变理单"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_journals" => ["create"],
           },
           :change_plan => {
@@ -200,7 +200,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "管理变更计划", :description => "管理变更计划"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_plans" => ["change", "create", "refresh", "update"],
           },
           :change_task => {
@@ -208,7 +208,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更任务", :description => "变更任务"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_tasks" => ["create", "destroy", "edit", "new", "show", "template_create", "template_new", "update"],
               "chm/change_task_templates" => ["show_tasks"],
           },
@@ -217,17 +217,17 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更关联事故单", :description => "变更关联事故单"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
-              "chm/change_config_relations" => ["create", "destroy"],
+              :public_flag => "N",
+              "chm/change_requests" => ["show_incident", "show_config"],
               "chm/change_incident_relations" => ["create", "destroy", "incident_requests"],
-              "chm/change_requests" => ["show_config", "show_incident"],
+              "chm/change_config_relations" => ["create", "destroy"],
           },
           :change_approve => {
               :en => {:name => "Change Approve History", :description => "Change Approve History"},
               :zh => {:name => "变更审批", :description => "查看变更的审批记录"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_approvals" => ["create", "destroy", "get_available_member", "new", "submit"],
           },
           :perform_change_task => {
@@ -235,7 +235,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "更新变理任务", :description => "更新分配到个人的变更任务"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
           },
       }
   }
@@ -256,7 +256,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "计划类型", :description => "计划类型"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_plan_types" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -278,7 +278,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更任务阶段", :description => "变更任务阶段"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_task_phases" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
       }
@@ -300,7 +300,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更任务模板", :description => "变更任务模板"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/change_task_templates" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
               "chm/change_template_tasks" => ["create", "destroy", "edit", "new", "show", "update"],
           },
@@ -323,7 +323,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :zh => {:name => "变更委员会", :description => "管理变更委员会,变理委员会成员"},
               :default_flag => "N",
               :login_flag => "N",
-              :public_flag => "Y",
+              :public_flag => "N",
               "chm/advisory_boards" => ["create", "edit", "get_data", "index", "new", "show", "update"],
               "chm/advisory_board_members" => ["create", "destroy", "get_data", "new"],
           },

@@ -1,4 +1,4 @@
-<%= fields_for @rule_filter,:builder => LabellingFormBuilder do |f|%>
+<%= fields_for @rule_filter,:builder => CustomFormBuilder do |f|%>
   <%= f.hidden_field(:source_id) %>
   <%= f.hidden_field(:source_type) %>
   <%= f.hidden_field(:filter_type) %>
@@ -6,37 +6,38 @@
   <div class="sub-page-block-body" id="filterContent" href="<%= url_for(:controller=>"irm/filters",:action=>"operator_value",:seq_num=>"{seq_num}",:attribute_id=>"{attribute_id}") %>">
     <table class="form-table">
       <thead>
-          <tr>
-            <th width="20%"></th>
-            <th></th>
-            <th><%=t(:irm_filter_criterions_column_code)%></th>
-            <th><div style="width:30%;float:left;"><%=t(:irm_filter_criterions_operator_code)%></div> <div style="width:70%;float:left;"><%=t(:irm_filter_criterions_filter_value)%></div></th>
-          </tr>
-        </thead>
-        <tbody>
+        <tr>
+          <th></th>
+          <th style="width: 200px;"><%=t(:irm_filter_criterions_column_code)%></th>
+          <th>
+            <div style="width:30%;float:left;"><%=t(:irm_filter_criterions_operator_code)%></div>
+            <div style="width:70%;float:left;"><%=t(:irm_filter_criterions_filter_value)%></div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
         <%= f.fields_for :rule_filter_criterions,:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
-            <tr>
-              <td width="10%"></td>
-              <td width="10px" class="dataCol"><%=sub_f.object.seq_num%>.</td>
-              <td class="dataCol">
-                <%=sub_f.hidden_field(:seq_num)%>
-                <%=sub_f.hidden_field(:bo_code,:value=>@rule_filter.bo_code)%>
-                <%=sub_f.blank_select(:attribute_name,available_view_column(@rule_filter.bo_code),{:required=>true,:size=>10},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
-              </td>
-              <td class="dataCol" id="filter<%=sub_f.object.seq_num%>">
-                <%= render_exists_operator_and_value(@rule_filter.bo_code,sub_f.object.attribute_name,sub_f)  %>
-              </td>
-            </tr>
-        <%end %>
+          <tr>
+            <td class="label-col">
+              <%=sub_f.object.seq_num%>.
+            </td>
+            <td class="data-col" style="text-align: left;width: 200px;">
+              <%=sub_f.hidden_field(:seq_num)%>
+              <%=sub_f.hidden_field(:bo_code,:value=>@rule_filter.bo_code)%>
+              <%=sub_f.blank_select(:attribute_name,available_view_column(@rule_filter.bo_code),{:required=>true,:size=>10},{:class=>"filterColumnSelect",:style=>"width:100%;", :ref=>sub_f.object.seq_num})%>
+            </td>
+            <td class="data-2col form-inline" id="filter<%=sub_f.object.seq_num%>">
+              <%= render_exists_operator_and_value(@rule_filter.bo_code,sub_f.object.attribute_name,sub_f)  %>
+            </td>
+          </tr>
+        <% end %>
         <tr>
-          <td width="10%"></td>
-          <td colspan="3" style="text-align: left;"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
+          <td class="label-col"><label><%=(t :label_irm_view_filter_view_condition_clause)%></label></td>
+          <td class="data-col" colspan="2" style="text-align: left;">
+            <%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause",:style=>"width:90%;"%>
+          </td>
         </tr>
-        <tr>
-          <td width="10%"></td>
-          <td style="text-align: left;" colspan="3"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause",:class=>"span5"%></td>
-        </tr>
-        </tbody>
+      </tbody>
     </table>
   </div>
 <% end %>
