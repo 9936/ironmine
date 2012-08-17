@@ -69,36 +69,32 @@
                   <tr>
                     <td class="num-col"></td>
                     <td class="field-col"><%=t(:irm_filter_criterions_column_code)%></td>
+                    <td class="operator-col">
+                      <%=t(:irm_filter_criterions_operator_code)%>
+                    </td>
                     <td class="value-col">
-                      <table style="width: 100%;">
-                        <tr>
-                          <td class="filter-operator-cell"><%=t(:irm_filter_criterions_operator_code)%></td>
-                          <td class="filter-value-cell"><%=t(:irm_filter_criterions_filter_value)%></td>
-                        </tr>
-                      </table>
+                      <%=t(:irm_filter_criterions_filter_value)%>
                     </td>
                   </tr>
                 </thead>
                 <tbody>
                 <%= f.fields_for :report_criterions,:normal=>true do |sub_f|%>
-                    <tr>
+                    <tr id="filter<%=sub_f.object.seq_num%>">
                       <td class="num-col"><label><%=sub_f.object.seq_num%></label></td>
                       <td class="field-col">
                         <%=sub_f.hidden_field(:seq_num)%>
                         <%=sub_f.blank_select(:field_id,grouped_options_for_select(selectable_fields,sub_f.object.field_id),{},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
                       </td>
-                      <td class="value-col filterOperationValue" id="filter<%=sub_f.object.seq_num%>">
-                        <%= render_report_filter_field(sub_f.object.field_id,sub_f)  %>
-                      </td>
+                      <%= render_report_filter_field(sub_f.object.field_id,sub_f)  %>
                     </tr>
                 <%end %>
                 <tr>
                   <td class="num-col"></td>
-                  <td class="text-col" colspan="2"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
+                  <td class="text-col" colspan="3"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
                 </tr>
                 <tr>
                   <td class="num-col"></td>
-                  <td class="text-col" colspan="2"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause"%></td>
+                  <td class="text-col" colspan="3"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause",:style=>"width:100%;"%></td>
                 </tr>
                 </tbody>
               </table>
@@ -173,7 +169,17 @@
           var url = decodeURIComponent(con.attr("href"));
           url = url.replace("{seq_num}",seq_num);
           url = url.replace("{field_id}",attribute_id);
-          refreshNode.load(url);
+          var placeholderTr = refreshNode.parent().find("tr.placehoder:first");
+          if (placeholderTr.length < 1) {
+              placeholderTr = refreshNode.parent().append("<tr class='placehoder'></tr>")
+              placeholderTr = placeholderTr.find("tr.placehoder:first");
+          }
+          placeholderTr.load(url, function () {
+              refreshNode.find("td.operator-col:first").after(placeholderTr.find("td.operator-col:first"));
+              refreshNode.find("td.operator-col:first").remove();
+              refreshNode.find("td.value-col:first").after(placeholderTr.find("td.value-col:first"));
+              refreshNode.find("td.value-col:first").remove();
+          });
 
       };
       $("#filterContent .filterColumnSelect").live("change",function(event){

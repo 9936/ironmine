@@ -249,8 +249,18 @@ var refreshFilterOptions = function(container,e) {
     var url = decodeURIComponent(con.attr("href"));
     url = url.replace("{seq_num}",seq_num);
     url = url.replace("{attribute_id}",attribute_id);
-    refreshNode.load(url);
 
+    var placeholderTr = refreshNode.parent().find("tr.placehoder:first");
+    if (placeholderTr.length < 1) {
+        placeholderTr = refreshNode.parent().append("<tr class='placehoder'></tr>")
+        placeholderTr = placeholderTr.find("tr.placehoder:first");
+    }
+    placeholderTr.load(url, function () {
+        refreshNode.find("td.operator-col:first").after(placeholderTr.find("td.operator-col:first"));
+        refreshNode.find("td.operator-col:first").remove();
+        refreshNode.find("td.value-col:first").after(placeholderTr.find("td.value-col:first"));
+        refreshNode.find("td.value-col:first").remove();
+    });
 };
 
 //END========================过滤器 帮助函数========================================

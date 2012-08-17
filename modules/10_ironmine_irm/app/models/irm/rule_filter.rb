@@ -59,7 +59,7 @@ class Irm::RuleFilter < ActiveRecord::Base
       meaning.gsub!(sq,"^#{sq}")
     end
     seq_nums.each do |sq|
-      meaning.gsub!("^#{sq}",conditions[sq.to_i])
+      meaning.gsub!("^#{sq}",conditions[sq.to_i]||"")
     end
     meaning.gsub!("AND",I18n.t(:label_rule_filter_clause_and))
     meaning.gsub!("OR",I18n.t(:label_rule_filter_clause_or))
