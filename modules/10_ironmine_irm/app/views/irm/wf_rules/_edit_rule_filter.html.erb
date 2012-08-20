@@ -9,32 +9,34 @@
         <tr>
           <td class="num-col"></td>
           <td class="field-col"><%=t(:irm_filter_criterions_column_code)%></td>
+
+          <td class="operator-col">
+            <%=t(:irm_filter_criterions_operator_code)%>
+          </td>
           <td class="value-col">
-            <table style="width: 100%;"><tr><td class="filter-operator-cell"><%=t(:irm_filter_criterions_operator_code)%></td><td class="filter-value-cell"><%=t(:irm_filter_criterions_filter_value)%></td></tr></table>
+            <%=t(:irm_filter_criterions_filter_value)%>
           </td>
         </tr>
       </thead>
       <tbody>
       <%= f.fields_for :rule_filter_criterions,:builder => CustomFormBuilder do |sub_f|%>
-          <tr>
+          <tr id="filter<%=sub_f.object.seq_num%>">
             <td class="num-col"><label><%=sub_f.object.seq_num%></label></td>
             <td class="field-col">
               <%=sub_f.hidden_field(:seq_num)%>
               <%=sub_f.hidden_field(:bo_code,:value=>@rule_filter.bo_code)%>
               <%=sub_f.blank_select(:attribute_name,available_view_column(@rule_filter.bo_code),{:required=>true,:size=>10},{:class=>"filterColumnSelect",:ref=>sub_f.object.seq_num})%>
             </td>
-            <td class="value-col filterOperationValue" id="filter<%=sub_f.object.seq_num%>">
-              <%= render_exists_operator_and_value(@rule_filter.bo_code,sub_f.object.attribute_name,sub_f)  %>
-            </td>
+            <%= render_exists_operator_and_value(@rule_filter.bo_code,sub_f.object.attribute_name,sub_f)  %>
           </tr>
       <%end %>
       <tr>
         <td class="num-col"></td>
-        <td class="text-col" colspan="2"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
+        <td class="text-col" colspan="3"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
       </tr>
       <tr>
         <td class="num-col"></td>
-        <td class="text-col" colspan="2"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause"%></td>
+        <td class="text-col" colspan="3"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"rawConditionClause",:style=>"width:100%;"%></td>
       </tr>
       </tbody>
     </table>
