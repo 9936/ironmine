@@ -11,7 +11,7 @@ module Skm::Gollum::Repo
         else
           diff = ''
         end
-        Diff.list_from_string(self, diff)
+        Grit::Diff.list_from_string(self, diff)
       end
     end
   end
