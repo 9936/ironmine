@@ -409,7 +409,9 @@ module Irm::ReportsHelper
 
   # 显示编程报表的参数页面块
   def show_program_report_params(report)
-    render :partial => report.program_instance.params_partial, :locals => {:program_params => report.program_params||{}}
+    if report and report.program_instance
+      render :partial => report.program_instance.params_partial, :locals => {:program_params => report.program_params||{}}
+    end
   end
 
   # 显示编程报表的数据展示页面块

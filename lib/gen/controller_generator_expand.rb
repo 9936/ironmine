@@ -12,6 +12,11 @@ module Gen::ControllerGeneratorExpand
           template filename_with_extensions(:view), @path
         end
       end
+
+      protected
+        def available_views
+          %w(index edit show _new_form _edit_form get_data)
+        end
     end
   end
 end

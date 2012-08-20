@@ -239,6 +239,12 @@
 }
 
 .login-form-box #login_form .rememberme-txt input {
+    display:inline-block;
+    line-height:18px;
+    height:18px;
+    width:18px;
+    padding-left:0px;
+    margin: 0 0 9px -2px;
     float: left;
 }
 
@@ -252,7 +258,7 @@
     line-height: 14px;
 }
 
-div.login-button a[type="submit"] {
+div.login-button a[type="submit"],#forgotpasswordbox a[type="submit"] {
     -moz-border-radius: 3px 3px 3px 3px;
     -webkit-border-radius: 3px;
     background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;
@@ -271,7 +277,7 @@ div.login-button a[type="submit"] {
     margin: 4px 9px 5px 12px;
 }
 
-*#sumbitlogin {
+*#sumbitlogin,#forgotpasswordbox.btn,#forgotpasswordbox .btn-primary {
     -moz-border-radius: 3px 3px 3px 3px;
     -webkit-border-radius: 3px;
     background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;

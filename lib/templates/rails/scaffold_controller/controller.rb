@@ -104,6 +104,10 @@ class <%= controller_class_name %>Controller < ApplicationController
     <%= plural_table_name %>_scope = <%= plural_table_name %>_scope.match_value("<%= singular_table_name %>.name",params[:name])
     <%= plural_table_name %>,count = paginate(<%= plural_table_name %>_scope)
     respond_to do |format|
+      format.html  {
+        @datas = <%= plural_table_name %>
+        @count = count
+      }
       format.json {render :json=>to_jsonp(<%= plural_table_name %>.to_grid_json([:name,:description,:status_meaning],count))}
     end
   end
