@@ -6,7 +6,8 @@
  *= require bootstrap/bootstrap-ie6
  *= require framework/framework
  *= require plugins/treeview.ie6
-  *= require browser/ie6
+ *= require browser/ie6
+ *= require ie6
 */
 /*修正IE6 下img 标签中的png不透明*/
 .png-transparent {

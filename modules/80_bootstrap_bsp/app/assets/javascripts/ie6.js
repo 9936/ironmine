@@ -4,5 +4,5 @@ $(function () {
     $(':button[class="btn"], :reset[class="btn"], :submit[class="btn"], input[type="button"]').addClass("button-reset");
     $(":checkbox").addClass("input-checkbox");
     $('[class^="icon-"], [class=" icon-"]').addClass("icon-sprite");
-})
+});
 
