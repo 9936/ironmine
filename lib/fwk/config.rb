@@ -3,7 +3,7 @@ module Fwk
   class Config
     include Singleton
 
-    attr_accessor :modules, :module_mapping, :module_folder, :framework_modules,:module_dependencies, :languages, :javascript, :css, :jscss
+    attr_accessor :rails_root,:modules, :module_mapping, :module_folder, :framework_modules,:module_dependencies, :languages, :javascript, :css, :jscss
     attr_accessor :mail_receive_method, :mail_receive_interval, :mail_receive_imap, :mail_receive_pop
 
     def initialize
@@ -16,17 +16,19 @@ module Fwk
       self.css = ActiveSupport::OrderedOptions.new
       self.languages = [:zh, :en]
       self.jscss = {}
+      # 加载此文件时,rails的配置还没有开始
+      self.rails_root = Rails.root||File.expand_path("../../..", __FILE__)
 
       # 额外加载模块
       addition_modules = []
-      if File.exists?("#{Rails.root}/#{self.module_folder}/module")
-        addition_modules = File.open("#{Rails.root}/#{self.module_folder}/module", "rb").read.gsub("\s", "").split(",").collect { |i| i if i.present? }.compact
+      if File.exists?("#{self.rails_root}/#{self.module_folder}/module")
+        addition_modules = File.open("#{self.rails_root}/#{self.module_folder}/module", "rb").read.gsub("\s", "").split(",").collect { |i| i if i.present? }.compact
       end
 
       load_modules = self.framework_modules + addition_modules||[]
       load_modules = load_modules.collect{|i| i.to_s}.uniq
       # 系统模块
-      Dir["#{Rails.root||File.expand_path("../../..", __FILE__)}/#{self.module_folder}/*"].sort.each { |i|
+      Dir["#{self.rails_root}/#{self.module_folder}/*"].sort.each { |i|
         if File.directory?(i)
           short_name = File.basename(i).split("_").last
           next unless load_modules.include?(short_name)
@@ -39,7 +41,7 @@ module Fwk
     end
 
     def module_path(m)
-      "#{Rails.root}/#{self.module_folder}/#{self.module_mapping[m]}"
+      "#{self.rails_root}/#{self.module_folder}/#{self.module_mapping[m]}"
     end
   end
 end
