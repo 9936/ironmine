@@ -43,7 +43,7 @@ module Fwk
 
       dir = @options[:pid_dir]
       Dir.mkdir(dir) unless File.exists?(dir)
-      run_process("fusion_scheduler", dir)
+      run_process("ironmine_scheduler", dir)
     end
 
     def run_process(process_name, dir)
