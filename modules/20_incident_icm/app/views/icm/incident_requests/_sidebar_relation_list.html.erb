@@ -11,7 +11,7 @@
             <tr>
               <td>
                 <div id="relation_select" class="form-inline">
-                  <%= lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:147px;" %>
+                  <%= lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:130px;" %>
                 </div>
               </td>
             </tr>
@@ -20,10 +20,8 @@
               <td>
                 <div class="form-inline" style="width: 100%;">
                   <label><%= t(:label_icm_incident_request_relation_type) %></label>
-                  <%= select_tag_alias(:relation_type,Irm::LookupValue.get_lookup_value("ICM_INCIDENT_REQUEST_REL_TYPE").collect{|p| [p[:meaning], p.lookup_code]},nil, :style=>"width:80px;") %>
-                  <div style="float: right;">
-                    <%= link_submit t(:add),{:class=>"btn btn-primary"}%>
-                  </div>
+                  <%= select_tag_alias(:relation_type,Irm::LookupValue.get_lookup_value("ICM_INCIDENT_REQUEST_REL_TYPE").collect{|p| [p[:meaning], p.lookup_code]},nil, :style=>"width:80px;display:inline-block;") %>
+                  <%= link_submit t(:add),{:class=>"btn btn-primary"}%>
                 </div>
               </td>
             </tr>
