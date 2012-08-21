@@ -64,6 +64,10 @@
                 this.hide();
         },
 		show: function(e) {
+            //解决在IE6下被select覆盖的bug
+            if($.browser.msie&&parseInt($.browser.version,10)===6){
+                select_for_ie6(true);
+            }
 			this.picker.show();
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
 			this.place();
@@ -97,6 +101,9 @@
 		},
 		
 		setValue: function() {
+            if($.browser.msie&&parseInt($.browser.version,10)===6){
+                select_for_ie6(false);
+            }
 			var formated = DPGlobal.formatDate(this.date, this.format);
             if(this.date<new Date(1970,1,1,0,0,0))
                 formated = "";
