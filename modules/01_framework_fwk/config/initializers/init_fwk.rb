@@ -64,7 +64,7 @@ require 'fwk/hook'
 rails_config.fwk.modules.each do |module_name|
 
   # 加载报表文件
-  report_path = "modules/#{rails_config.fwk.module_mapping[module_name]}/reports/programs"
+  report_path = "#{rails_config.fwk.module_folder}/#{rails_config.fwk.module_mapping[module_name]}/reports/programs"
   real_report_path = "#{rails_config.root}/#{report_path}"
   if File.exist?(real_report_path)
     Dir[Rails.root.join(report_path, "**", '*.rb')].each do |file_path|
@@ -73,7 +73,7 @@ rails_config.fwk.modules.each do |module_name|
   end
 
   # 加载hook文件
-  hook_path = "modules/#{rails_config.fwk.module_mapping[module_name]}/lib/#{module_name}/hooks"
+  hook_path = "#{rails_config.fwk.module_folder}/#{rails_config.fwk.module_mapping[module_name]}/lib/#{module_name}/hooks"
   real_hook_path = "#{rails_config.root}/#{hook_path}"
   if File.exist?(real_hook_path)
     Dir[Rails.root.join(real_hook_path, '*.rb')].each do |file_path|

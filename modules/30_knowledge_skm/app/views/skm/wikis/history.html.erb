@@ -51,7 +51,6 @@
   $(function(){
     var checked = [];
     function process(){
-
         if(checked.length>2){
           $(checked.shift()).attr("checked",false);
         }
@@ -67,6 +66,14 @@
     $(".version-checkbox").click(function(){
       if($(this).attr("checked")){
           checked.push(this);
+      }
+      else{
+          for(var i=0;i<checked.length;i++){
+            if($(checked[i]).attr("value") == $(this).attr("value")) {
+                checked.splice(i, 1);
+                break;
+            }
+          }
       }
       process();
     });

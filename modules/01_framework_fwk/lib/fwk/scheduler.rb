@@ -43,7 +43,7 @@ module Fwk
 
       dir = @options[:pid_dir]
       Dir.mkdir(dir) unless File.exists?(dir)
-      run_process("fusion_scheduler", dir)
+      run_process("ironmine_scheduler", dir)
     end
 
     def run_process(process_name, dir)
@@ -72,7 +72,8 @@ module Fwk
       config = Rails.application.config
 
       config.fwk.modules.each do |module_name|
-        scheduler_path =  "#{config.root}/modules/#{config.fwk.module_mapping[module_name]}/lib/#{module_name}/scheduler"
+        next if module_name.eql?("fwk")
+        scheduler_path =  "#{config.fwk.module_path(module_name)}/lib/#{module_name}/scheduler"
         if File.exist?(scheduler_path)
           "#{module_name}/scheduler".classify.constantize.new(scheduler,logger).perform
         end

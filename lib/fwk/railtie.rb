@@ -3,31 +3,7 @@ module Fwk
     #配置框架
     config.before_configuration do
       # 配置
-      config.fwk = ActiveSupport::OrderedOptions.new
-      # 模块目录
-      config.fwk.module_folder = 'modules'
-      # 模块名称与目录对应hash
-      config.fwk.module_mapping = {}
-      # 忽略模块
-      config.fwk.module_ignore = []
-      if File.exists?("#{Rails.root}/modules/.ignore")
-        config.fwk.module_ignore = File.open("#{Rails.root}/modules/.ignore", "rb").read.split(",").collect{|i|i if i.present?}.compact
-      end
-      # 系统模块
-      config.fwk.modules = []
-      Dir["#{Rails.root}/#{config.fwk.module_folder}/*"].sort.each { |i|
-        if File.directory?(i)
-          short_name = File.basename(i).split("_").last
-          next if config.fwk.module_ignore.include?(short_name)
-          config.fwk.module_mapping.merge!({short_name => File.basename(i)})
-          config.fwk.modules <<  short_name
-        end
-      }
-      # 对系统模块加载顺序排序
-      config.fwk.modules.sort! { |a, b| config.fwk.module_mapping[a].split("_").first.to_i<=>config.fwk.module_mapping[b].split("_").first.to_i }
-      config.fwk.languages = [:zh, :en]
-      # javascript与css
-      config.fwk.jscss = {}
+      config.fwk = Fwk::Config.instance
     end
 
     # 自动对资源文件进行预编译

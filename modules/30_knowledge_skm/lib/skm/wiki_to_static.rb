@@ -156,7 +156,7 @@ class Skm::WikiToStatic
   def check_folder(folder_parent, folder)
     FileUtils.rm_r Dir.glob("#{folder_parent}/*")
     tmp_folder = "#{folder_parent}/#{folder}"
-    FileUtils.mkdir_p(tmp_folder, :mode => 0700)
+    FileUtils.mkdir_p(tmp_folder, :mode => 0777)
     tmp_folder
   end
 

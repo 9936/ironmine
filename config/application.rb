@@ -8,17 +8,14 @@ require "active_resource/railtie"
 require "sprockets/railtie"
 
 # 加载框架配置
+require File.expand_path("../../lib/fwk/config", __FILE__)
 require File.expand_path("../../lib/fwk/railtie", __FILE__)
+
 # 加载各模块配置
 # 忽略模块
-module_ignore = []
-if File.exists?("#{Rails.root}/modules/.ignore")
-  module_ignore = File.open("#{Rails.root}/modules/.ignore", "rb").read.split(",").collect { |i| i if i.present? }.compact
-end
-Dir["#{File.expand_path('../..', __FILE__)}/modules/*"].sort.reverse.each do |file|
-  m = File.basename(file).split("_").last
-  next if module_ignore.include?(m)
-  railtie_path = File.expand_path("#{file}/lib/#{m}/railtie.rb", __FILE__)
+Fwk::Config.instance.modules.each do |m|
+  module_path = Fwk::Config.instance.module_path(m)
+  railtie_path = "#{module_path}/lib/#{m}/railtie.rb"
   if File.exist?(railtie_path)
     require railtie_path
   end
@@ -77,59 +74,14 @@ module Ironmine
     #由于资源文件根据locale，i18n会读取不同的语言的资源文件然后加载到内存中
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
-    # add mail config
-    config.ironmine = ActiveSupport::OrderedOptions.new
-    config.ironmine.languages = [:zh, :en]
-
-    config.ironmine.jscss = {
-        :default => {:css => ["application"], :js => ["application", "locales/jquery-{locale}"]},
-        :default_ie6 => {:css => ["application-ie6"], :js => ["application", "locales/jquery-{locale}"]},
-        :aceditor => {:js => ["plugins/ace"]},
-        :xheditor => {:css => ["plugins/xheditor"], :js => ["plugins/xheditor/xheditor-{locale}"]},
-        :jpolite => {:css => ["plugins/jpolite"], :js => ["plugins/jpolite"]},
-        :jcrop => {:css => ["plugins/jcrop"], :js => ["plugins/jquery-crop"]},
-        :jcrop_ie6 => {:css => ["plugins/jcrop-ie6"], :js => []},
-        :highcharts => {:css => [], :js => ["highcharts"]},
-        :login => {:css => ["login"], :js => []},
-        :login_ie6 => {:css => ["login-ie6"]},
-        :jquery_ui => {:js => ["jquery-ui"]},
-        :gollum => {:js => ["plugins/gollum"], :css => ["plugins/gollum"]},
-        :markdown => {:css => ["markdown"]},
-        :search => {:css => ["search"]}
-    }
-    # 自动对资源文件进行预编译
-    config.ironmine.jscss.values.each do |asset|
-      files = []
-
-      asset[:css].each do |css|
-        if css.to_s.include?("{locale}")
-          config.ironmine.languages.each do |lang|
-            files << css.to_s.gsub("{locale}", lang.to_s).to_s+".css"
-          end
-        else
-          files << "#{css}.css"
-        end
-      end if asset[:css]
-      asset[:js].each do |js|
-        if js.to_s.include?("{locale}")
-          config.ironmine.languages.each do |lang|
-            files << js.to_s.gsub("{locale}", lang.to_s).to_s+".js"
-          end
-        else
-          files << "#{js}.js"
-        end
-      end if asset[:js]
-      config.assets.precompile += files
-    end
-
     config.assets.precompile += ["report_types.css"]
 
-    # 配置加载系统模块
+    # 配置加载系统应用模块
     origin_values = config.paths.dup
     config.fwk.modules.each do |module_name|
       config.paths.keys.each do |key|
         next unless config.paths[key].is_a?(Array)
-        file_path ="modules/#{config.fwk.module_mapping[module_name]}/#{origin_values[key][origin_values[key].length-1]}"
+        file_path ="#{config.fwk.module_folder}/#{config.fwk.module_mapping[module_name]}/#{origin_values[key][origin_values[key].length-1]}"
         real_file_path = "#{config.root}/#{file_path}"
         if File.exist?(real_file_path)
           if key.eql?('config/database')
@@ -140,7 +92,7 @@ module Ironmine
         end
         # 加载报表页面文件
         if key.eql?('app/views')
-          report_view_path = "modules/#{config.fwk.module_mapping[module_name]}/reports/views"
+          report_view_path = "#{config.fwk.module_folder}/#{config.fwk.module_mapping[module_name]}/reports/views"
           real_report_view_path = "#{config.root}/#{report_view_path}"
           if File.exist?(real_report_view_path)
             config.paths[key].insert(0, report_view_path)
@@ -149,7 +101,7 @@ module Ironmine
       end
 
       # 加载报表文件
-      report_path = "modules/#{config.fwk.module_mapping[module_name]}/reports/programs"
+      report_path = "#{config.fwk.module_folder}/#{config.fwk.module_mapping[module_name]}/reports/programs"
       real_report_path = "#{config.root}/#{report_path}"
       if File.exist?(real_report_path)
         config.autoload_paths += [real_report_path]

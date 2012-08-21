@@ -17,7 +17,7 @@ class Skm::Jobs::WikiDocJob<Struct.new(:options)
       raise("Miss lib:#{miss}")
     end
     tmp_folder =  "#{Rails.root.to_s}/tmp/skm/wikis/wiki_word/#{wiki.id}"
-    FileUtils.mkdir_p(tmp_folder, :mode=>0700)
+    FileUtils.mkdir_p(tmp_folder, :mode=>0777)
     word_file_path = attachment.data.path
     html_file_path = "#{tmp_folder}/wiki_doc.html"
     log_file_path = "#{tmp_folder}/wiki_doc_log.txt"
