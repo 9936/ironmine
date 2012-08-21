@@ -10,41 +10,45 @@ body {background:#ffffff;background-image:none; padding:0}
 .nav-collapse {width:auto}
 .nav li a {display: block}
 .navbar .nav .active  a, .navbar .nav .active  a:hover {background-color:#000;color: #FFFFFF;text-decoration: none}
-    .navbar .nav li {display:block;float:left}
-        .navbar .nav li a {float:none;line-height:19px;padding:10px 10px 11px}
-        .navbar .nav li a:hover {background-color:transparent;color:#ffffff;text-decoration:none}
+.navbar .nav li {display:block;float:left}
+.navbar .nav li a {float:none;line-height:19px;padding:10px 10px 11px}
+.navbar .nav li a:hover {background-color:transparent;color:#ffffff;text-decoration:none}
 
-        .navbar .nav .active a, 
-            .navbar .nav .active a:hover {color:#ffffff;text-decoration:none;background-color:#222222;background-color:#000}
-        .navbar .nav .open .dropdown-toggle, 
-            .navbar .nav .active .dropdown-toggle,
-            .navbar .nav .open.active .dropdown-toggle{background-color:transparent}
-        .navbar .nav .active .dropdown-toggle:hover {color:#ffffff}
+.navbar .nav .active a,.navbar .nav .active a:hover {color:#ffffff;text-decoration:none;background-color:#222222;background-color:#000}
+.navbar .nav .open .dropdown-toggle,.navbar .nav .active .dropdown-toggle,
+.navbar .nav .open.active .dropdown-toggle{background-color:transparent}
+.navbar .nav .active .dropdown-toggle:hover {color:#ffffff}
 
-    .dropdown .dropdown-toggle {margin-bottom:1px;position:relative;top:2px;left:0px}
+.dropdown .dropdown-toggle {margin-bottom:1px;position:relative;top:2px;left:0px}
     
-    .dropdown-menu li {width:100%}
-        .dropdown-menu li a {width:100%;padding:3px 0px 3px 5px}
-        .dropdown-menu li a:hover, 
-        .dropdown-menu .active a, 
-        .dropdown-menu .active a:hover {background-color:#0088CC;color:#FFFFFF;text-decoration:none}
+.dropdown-menu li {width:100%}
+.dropdown-menu li a {width:100%;padding:3px 0px 3px 5px}
+.dropdown-menu li a:hover,
+.dropdown-menu .active a,
+.dropdown-menu .active a:hover {background-color:#0088CC;color:#FFFFFF;text-decoration:none}
 
-/* Tabs */
+/* 修复标签 */
 .nav-tabs li {float:left;display:inline;margin-bottom:-2px}
-    .nav-tabs li a {padding: 9px 12px;line-height:14px;margin-right:2px}
-        .nav-tabs li.active {background:none;border:1px solid #ddd;border-color:#eeeeee #eeeeee #dddddd}
+.nav-tabs li a {padding: 9px 12px;line-height:14px;margin-right:2px}
+.nav-tabs li.active {background:none;border:1px solid #ddd;border-color:#eeeeee #eeeeee #dddddd}
 
 .tab-content .tab-pane {display:none}
 .tab-content .tab-pane.active {display:block;background-color:transparent}
                
 
-/* Forms */
-.button-reset {height:auto;width:auto;margin-bottom:0px}
-.input-text {display:inline-block;line-height:18px;height:18px;padding:4px;margin:0px;margin-bottom:9px;border:1px solid #ccc;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif}
+/* 修复表单 */
+input,select,textarea{
+    border:1px solid #ccc;
+}
+select {
+    font-size: 13px;
+}
+.button-reset {height:auto;width:auto;margin-bottom:0}
+.input-text {display:inline-block;line-height:18px;height:18px;padding:1px 0;margin:0px;margin-bottom:9px;border:1px solid #ccc;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif}
 .help-inline {display:block;line-height:18px;height:18px;padding:4px 0px 4px 5px}
 
 label.checkbox {display:block;line-height:18px;height:18px;width:100%;padding-left:0px;margin: 0px 0px 9px -2px}
-.input-checkbox {width:auto;float:left;display:inline-block;padding:0px;margin:0px;height:auto;border:none}
+.input-checkbox,.treeview input {width:auto;float:left;display:inline-block;padding:0px;margin:0px;height:auto;border:none}
 
 label.radio {display:block;line-height:18px;height:18px;width:100%;padding-left:0px;margin:0px 0px 9px -2px}
 .input-radio {width:auto;float:left;display:inline-block;padding:0px;margin:0px;height:auto;border:none}
@@ -69,13 +73,12 @@ legend { width:auto}
 
 input.span1, input.span2, input.span3, input.span4, input.span5, input.span6, input.span7, input.span8, input.span9, input.span10, input.span11, input.span12,
 select.span1, select.span2, select.span3, select.span4, select.span5, select.span6, select.span7, select.span8, select.span9, select.span10, select.span11, select.span12  {float:left;display:inline-block;margin:0px}
-/*.docs-input-sizes input, .docs-input-sizes select {display: block; float:none; margin:0px; margin:bottom: 9px; }*/
 
 input.btn, a.btn, button.btn {height:auto;width:auto}
 .input-prepend input {margin-top:1px}
 
 /* Icons */
-.icon-sprite {background-image:url("img/glyphicons-halflings.png");background-repeat:no-repeat;display:inline-block;height:14px;line-height:14px;vertical-align:text-top;width:14px;padding-left:3px}
+.icon-sprite {background: url("twitter/bootstrap/glyphicons-halflings.png") ;background-repeat:no-repeat;display:inline-block;height:14px;line-height:14px;vertical-align:text-top;width:14px;padding-left:3px}
 
 /* Navbar */
 .dropdown .caret {font-size:1px;height:2px;background:none;background-color:#292929;color:#292929}
@@ -99,13 +102,36 @@ ul.thumbnails {margin-left:-20px;float:none;display:inline-block;zoom:1;clear:bo
 .popover.bottom{margin-top:7px}
 
 /* Buttons */
-.btn {margin-left:0px;padding:2px 8px}
+.btn {margin-left:0;padding:2px 8px}
 /*.btn:hover {opacity:.4;filter:alpha(opacity=40);background-color:transparent;background-position:0 0; color: #000000}*/
 
 /* Modal */
 /*.modal {*/
     /*position:relative;filter:alpha(opacity=99);top: 55%}*/
     /*.modal-header a.close {cursor: pointer}*/
+/*.btn {*/
+    /*background: url("../images/btn_sprite.png") repeat-x scroll right top #E8E8E9;*/
+    /*color: #333333;*/
+    /*height: 16px;*/
+    /*line-height: 16px;*/
+    /*border-color: #B5B5B5 #B5B5B5 #7F7F7F;*/
+    /*border-width: 1px;*/
+    /*border-style: solid;*/
+    /*padding: 1px 10px;*/
+/*}*/
+
+.btn-primary {color: #fff;background-color: #0074CC;}
+a:hover .btn-primary {background-color: #0055cc;;}
+
+.btn-info {color: #fff;background-color: #49AFCD;}
+a:hover .btn-info {background-color: #2f96b4;}
+
+.modal-open select,.modal-open .moduleFrame {
+    display: none;
+}
+.modal-open .modal select {
+    display: inline-block;
+}
 
 .dropdown-menu {
   position: absolute;
@@ -130,12 +156,19 @@ a:hover .caret  {
     float:left;
     margin-left:-1px;
 }
+/*修正在IE6中引起下面元素浮动*/
 #createNewMenu {
     position: absolute;
     top: 100%;
     left: 0;
 }
 
+/*修正快速创建中select*/
+.quick-create-field {
+    padding-bottom: 5px;
+}
+
+/*修正应用菜单中下拉菜单错位*/
 .application-menu .dropdown-menu {
     position: absolute;
     top: 34px;
@@ -152,6 +185,53 @@ a:hover .caret  {
 
 .active {
     background-color: #E6E6E6;
+}
+/*fix datepicker*/
+.datepicker table {  width: 250px; }
+
+
+/*搜索框*/
+.headerSearchContainer input {
+   border: none;
+   float: left;
+   display: inline-block;
+   background:#ffffff;
+   color:#999;
+   font-size:12px;
+   height:19px;
+   line-height:19px;
+   padding:2px 0 0 5px;
+   padding-top:0\9;
+   width:200px;
+   outline:none
+}
+.headerSearchContainer .search-btn {
+    background-image: url("framework/search-ie6.png");
+    cursor:pointer;
+    float:left;
+    width:24px;
+    height:23px;
+    border-left:1px #dfdfdf solid;
+    background-position:-1px -4px;
+}
+
+.headerSearchContainer .search-btn-on {background-position:-26px -4px}
+
+/*修复必填标志*/
+.form-field-required-flag {
+    height: 25px;
+    line-height: 25px;
+}
+
+/*tab标签*/
+.mx-tabs ul{margin-bottom: 0;height: 28px;}
+.mx-tabs ul li{float: left;width: 120px;display: inline-block;height: 27px;}
+.mx-tabs {border-bottom: 1px solid #2BA6D0;}
+
+/*修复IE6在没有设置宽度浮动引起换行*/
+.toggle-button {
+    display: inline-block;
+    width: 60px;
 }
 
 
