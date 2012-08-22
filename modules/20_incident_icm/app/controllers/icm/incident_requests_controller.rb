@@ -467,6 +467,24 @@ class Icm::IncidentRequestsController < ApplicationController
     render :layout => "common_all"
   end
 
+  def remove_attachment
+    attachment = Irm::AttachmentVersion.find(params[:attachment_id])
+    source = attachment.source_id
+    name = attachment.name
+    respond_to do |format|
+      if attachment.destroy
+        Icm::IncidentHistory.create({:request_id => source,
+                                     :journal_id=> "",
+                                     :property_key=> "remove_attachment",
+                                     :old_value=> name,
+                                     :new_value=> ""})
+        format.js {render :after_remove_attachment}
+      else
+        format.js {render ""}
+      end
+    end
+  end
+
   private
   def prepared_for_create(incident_request)
     incident_request.submitted_by = Irm::Person.current.id

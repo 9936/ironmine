@@ -1,6 +1,11 @@
 module Irm::RolesHelper
-  def available_roles
-    all_roles = Irm::Role.enabled.multilingual
+  def available_roles(untree = false)
+    all_roles = Irm::Role.enabled.multilingual.order_with_name
+
+    if untree
+      all_roles = all_roles.collect{|i| [i[:name], i.id]}
+      return all_roles
+    end
 
     grouped_roles = all_roles.collect{|i| [i.id,i.report_to_role_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
 
@@ -32,6 +37,7 @@ module Irm::RolesHelper
     leveled_roles.collect{|i|[(level_str(i.level)+i[:name]).html_safe,i.id]}
 
   end
+
 
 
   def available_parentable_role(role_id=nil)

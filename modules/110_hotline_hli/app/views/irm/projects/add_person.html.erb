@@ -1,0 +1,161 @@
+<%= common_title() %>
+<%= form_for(@person,:url=>{:controller => "irm/projects", :action=>"create_person"},:as=>"irm_person",:html => {:id => "irm_project_add_person"}, :builder => LabellingFormBuilder) do |f| %>
+<%= hidden_field_tag :project_code, @project_code %>
+
+    <% content_for :form_block_person_info do%>
+      <table class="form-table">
+        <tbody>
+            <tr>
+              <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
+              <td class="data-col"><%= f.text_field(:login_name,:required=>true) %></td>
+              <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
+              <td class="data-col"><%=f.blank_select :role_id,available_roles,{},{:id=>"role_id"}%></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=(t :label_irm_person_email_address)%></label></td>
+              <td class="data-col"><%=f.text_field :email_address, :required=>true%></td>
+              <td class="label-col"><label><%=t(:label_irm_person_profile)%></label></td>
+              <td class="data-col"><%= f.blank_select(:profile_id,available_profile,{},{:required=>true,:id=>"profile_id"})%></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=(t :label_irm_person_last_name)%></label></td>
+              <td class="data-col"><%=f.text_field :last_name%></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=(t :label_irm_person_first_name)%></label></td>
+              <td class="data-col"><%=f.text_field :first_name, :required=>true%></td>
+              <td class="label-col"><label><%=t(:label_irm_person_bussiness_phone)%></label></td>
+              <td class="data-col">
+                <%=f.text_field :bussiness_phone,{:required=>true, :irm_number_and_cross => true}%>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col"><%= t(:label_irm_identity_language_code) %></td>
+              <td class="data-col"><%= f.select(:language_code, selectable_languages) %></td>
+               <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
+               <td class="data-col">
+                   <%=f.text_field :fax_number, {:irm_number_and_cross => true}%>
+               </td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=t(:label_irm_person_notification_lang)%></label></td>
+              <td class="data-col"><%=f.select :notification_lang,selectable_languages%></td>
+              <td class="label-col"><label><%=t(:label_irm_person_mobile_phone)%></label></td>
+               <td class="data-col">
+                 <%=f.text_field :mobile_phone, {:irm_number_only => true}%>
+               </td>
+            </tr>
+            <tr>
+               <td class="label-col">
+                 <label><%=t(:label_irm_person_notification_flag)%></label>
+               </td>
+               <td class="data-col"><%=f.check_box :notification_flag%></td>
+
+              <td class="label-col"><label><%=t(:label_irm_person_home_phone)%></label></td>
+              <td class="data-col">
+                <%=f.text_field :home_phone, {:irm_number_and_cross => true}%>
+              </td>
+            </tr>
+            <tr>
+               <td class="label-col"><label><%=t(:label_irm_person_vip_flag)%></label></td>
+               <td class="data-col"><%=f.check_box :vip_flag%></td>
+              <td class="label-col"><label><%=t(:label_irm_person_home_address)%></label></td>
+              <td class="data-col">
+                 <%=f.text_field :home_address%>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=t(:label_irm_person_assignment_availability_flag)%></label></td>
+              <td class="data-col"><%=f.check_box :assignment_availability_flag%></td>
+              <td class="label-col"></td>
+              <td class="data-col"></td>
+            </tr>
+            <tr>
+              <td class="label-col"><%= t(:label_irm_person_template_flag) %></td>
+              <td class="data-col"><%= f.check_box(:template_flag) %></td>
+              <td class="label-col"></td>
+              <td class="data-col"></td>
+            </tr>
+        </tbody>
+      </table>
+    <% end %>
+    <% content_for :form_block_person_password do%>
+      <table class="form-table">
+        <tbody>
+            <tr>
+              <td class="label-col"><label><%= t(:label_irm_identity_password)%></label></td>
+              <td class="data-col"><%=f.password_field(:password, :size=>40,:required=>true,:autocomplete=>"off")%></td>
+              <td class="label-col"></td>
+              <td class="data-col"></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%= t(:label_irm_identity_password_confirmation)%></label></td>
+              <td class="data-col"><%=f.password_field(:password_confirmation, :size=>40,:required=>true,:autocomplete=>"off")%></td>
+              <td class="label-col"></td>
+              <td class="data-col"></td>
+            </tr>
+        </tbody>
+      </table>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <%= link_to t(:last), {:action => "edit", :project_code => @project_code},
+                    {:class => "btn"}%>
+        <%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "btn btn-primary"} %>
+        <%= link_to(t(:cancel),{:controller =>"irm/projects",:action=>"new"}, {:class => "btn"})%>
+
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+            <td class="page-block-title">
+              <h2 class="block-title"><%= t(:step_n, :n => "2") %><%= t(:label_irm_project_add_person) %></h2>
+            </td>
+            <td class="page-block-button">
+              <%= content_for :form_buttons   %>
+            </td>
+            <td class="page-block-help">
+              <%= t(:step_n_total_m, :n => "2", :m => "2") %>
+            </td>
+          </tr>
+      </table>
+      <%= error_for @person%>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%=t(:label_irm_person_info)%></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_person_info   %>
+          </div>
+
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%=t(:label_irm_person_password_info)%></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_person_password   %>
+          </div>
+        </div>
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+<% end %>
+<script type="text/javascript">
+  $(function(){
+    $(".btn-primary").click(function(){
+        $("#irm_project_add_person").attr('action', '<%= url_for(:action => "create_person", :controller => "irm/projects")%>');
+        $("#irm_project_add_person").submit();
+    });
+  })
+</script>

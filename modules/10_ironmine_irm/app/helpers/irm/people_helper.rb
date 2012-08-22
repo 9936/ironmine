@@ -7,6 +7,10 @@ module Irm::PeopleHelper
      Irm::Person.real.collect{|p| ["#{p[:login_name]}(#{p[:full_name]})",p[:id]]}
    end
 
+   def available_people
+     Irm::Person.real.enabled.order("CONVERT(full_name USING gbk)").collect{|p| ["#{p[:full_name]}(#{p[:login_name]})",p[:id]]}
+   end
+
   def current_person_accessible_people_full
     accesses = Irm::CompanyAccess.query_by_person_id(Irm::Person.current.id).collect{|c| c.accessable_company_id}
     accessable_companies = Irm::Company.multilingual.query_by_ids(accesses)

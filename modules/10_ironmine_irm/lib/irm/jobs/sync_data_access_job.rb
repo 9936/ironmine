@@ -1,65 +1,66 @@
 class Irm::Jobs::SyncDataAccessJob<Struct.new(:options)
   def perform
-    case options[:type]
-      # 处理新建,编辑人员(组织与角色字段)
-      when Irm::Person.name
-        case options[:operation]
-          when :create
-            refresh_person(options[:id])
-          when :update
-            refresh_person(options[:id])
-        end
-      # 处理编辑组
-      when Irm::Group.name
-        case options[:operation]
-          when :update
-            refresh_group(options[:id])
-        end
-      # 处理添加,删除组成员
-      when Irm::GroupMember.name
-        case options[:operation]
-          when :create
-            refresh_person(options[:person_id])
-          when :update
-            refresh_person(options[:person_id])
-        end
-      when Irm::Organization.name
-        case options[:operation]
-          when :update
-            refresh_organization(options[:id])
-        end
-      when Irm::Role.name
-        case options[:operation]
-          when :update
-            refresh_role(options[:id])
-        end
-
-      when Irm::BusinessObject.name
-        case options[:operation]
-          when :create
-            refresh_business_object(options[:id])
-          when :update
-            refresh_business_object(options[:id])
-          when :destroy
-            refresh_business_object(options[:id])
-        end
-      when Irm::DataAccess.name
-        case options[:operation]
-          when :create
-            refresh_data_access(options[:organization_id],options[:business_object_id])
-          when :update
-            refresh_data_access(options[:organization_id],options[:business_object_id])
-        end
-      when Irm::DataShareRule.name
-        case options[:operation]
-          when :create
-            refresh_data_share_rule(options[:rule],options[:origin_rule])
-          when :update
-            refresh_data_share_rule(options[:rule],options[:origin_rule])
-          when :destroy
-            refresh_data_share_rule(options[:rule],options[:origin_rule])
-        end
-    end
+    #case options[:type]
+    #  # 处理新建,编辑人员(组织与角色字段)
+    #  when Irm::Person.name
+    #    case options[:operation]
+    #      when :create
+    #        refresh_person(options[:id])
+    #      when :update
+    #        refresh_person(options[:id])
+    #    end
+    #  # 处理编辑组
+    #  when Irm::Group.name
+    #    case options[:operation]
+    #      when :update
+    #        refresh_group(options[:id])
+    #    end
+    #  # 处理添加,删除组成员
+    #  when Irm::GroupMember.name
+    #    case options[:operation]
+    #      when :create
+    #        refresh_person(options[:person_id])
+    #      when :update
+    #        refresh_person(options[:person_id])
+    #    end
+    #  when Irm::Organization.name
+    #    case options[:operation]
+    #      when :update
+    #        refresh_organization(options[:id])
+    #    end
+    #  when Irm::Role.name
+    #    case options[:operation]
+    #      when :update
+    #        refresh_role(options[:id])
+    #    end
+    #
+    #  when Irm::BusinessObject.name
+    #    case options[:operation]
+    #      when :create
+    #        refresh_business_object(options[:id])
+    #      when :update
+    #        refresh_business_object(options[:id])
+    #      when :destroy
+    #        refresh_business_object(options[:id])
+    #    end
+    #  when Irm::DataAccess.name
+    #    case options[:operation]
+    #      when :create
+    #        refresh_data_access(options[:organization_id],options[:business_object_id])
+    #      when :update
+    #        refresh_data_access(options[:organization_id],options[:business_object_id])
+    #    end
+    #  when Irm::DataShareRule.name
+    #    case options[:operation]
+    #      when :create
+    #        refresh_data_share_rule(options[:rule],options[:origin_rule])
+    #      when :update
+    #        refresh_data_share_rule(options[:rule],options[:origin_rule])
+    #      when :destroy
+    #        refresh_data_share_rule(options[:rule],options[:origin_rule])
+    #    end
+    #end
+    Irm::Person.refresh_relation_table
   end
 
   # 刷新用户数据权限访问控制

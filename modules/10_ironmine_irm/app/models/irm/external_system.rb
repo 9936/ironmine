@@ -20,7 +20,7 @@ class Irm::ExternalSystem < ActiveRecord::Base
   default_scope {default_filter}
 
   validates_uniqueness_of :external_system_code,:scope=>[:opu_id]
-  validates_presence_of :external_system_code, :external_hostname
+  validates_presence_of :external_system_code #, :external_hostname
 
   scope :with_person, lambda{|person_id|
     joins(",#{Irm::ExternalSystemPerson.table_name} esp").

@@ -1,0 +1,16 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:edit),{:action=>"edit",:project_code=>data[:short_name]}) %>&nbsp;
+        <%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>
+    <% end %>
+    <% builder.column(:org_name,{:title=>t(:label_irm_organization)})%>
+    <% builder.column(:system_name,{:title=>t(:label_irm_external_system),:searchable=>true})%>
+    <% builder.column(:group_name,{:title=>t(:label_irm_group_show)})%>
+    <% builder.column(:short_name,{:title=>t(:label_irm_project_code), :width => "80px",:searchable=>true})%>
+    <% builder.column(:hotline,{:title=>t(:label_irm_project), :width => "60px"}) do |data|%>
+        <%= check_img(data[:hotline]) %>
+    <% end %>
+    <% builder.column(:project_status,{:title=>t(:active), :width => "40px"}) do |data| %>
+        <%= check_img(data[:project_status]) %>
+    <% end %>
+<% end %>
