@@ -1,0 +1,8 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:person_name,{:title=>"#{t(:label_irm_person_name)}", :width => "80px"})%>
+    <% builder.column(:login_name,{:title=>t(:label_irm_person_login)})%>
+    <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address)})%>
+    <% builder.column(:organization_name,{:title=>t(:label_irm_person_organization)})%>
+    <% builder.column(:profile_name,{:title=>t(:label_irm_person_profile)})%>
+    <% builder.column(:role_name,{:title=>t(:label_irm_person_role)})%>
+<% end %>

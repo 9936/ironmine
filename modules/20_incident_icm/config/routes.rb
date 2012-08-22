@@ -159,5 +159,8 @@ Ironmine::Application.routes.draw do
 
     match '/incident_config_relations/create(.:format)' => "incident_config_relations#create", :via => :post
     match '/incident_config_relations/:id/destroy(.:format)' => "incident_config_relations#destroy", :via => :delete
+
+    #remove attachements
+    match '/incident_requests/:attachment_id/remove_attachment(.:format)' => "incident_requests#remove_attachment", :via => :get
   end
 end

@@ -1,0 +1,49 @@
+zh:
+  label_icm_incident_request_hotline: Hotline
+  label_icm_incident_request_hotline_y: Report
+  label_icm_incident_request_hotline_n: Not Report
+  label_icm_incident_request_client_info: 提交人客户端信息
+  label_icm_incident_request_client_info: 提交人客户端信息
+  label_icm_incident_request_real_processing_time: 实际耗费时间(小时)
+  label_icm_incident_request_cancel_confirm: 你确定要取消该问题吗？
+  label_icm_incident_request_enable_confirm: 你确定要重新启用该问题吗？
+  label_icm_incident_request_cancel_request: 取消问题
+  label_icm_incident_request_enable_request: 启用问题
+  label_icm_incident_journal_edit_workload: 登记工时
+
+  label_icm_incident_journal_history: 问题历史
+  label_icm_incident_journal_created_by: 账号
+  label_icm_incident_journal_event: 事件
+  label_icm_incident_journal_new_value: 修订
+  label_icm_incident_journal_date: 日期
+
+  label_report_incident_request_update_priority: 更改紧急度和影响度
+
+  label_icm_incident_request_impact_range: 影响度
+  label_icm_incident_request_urgence: 紧急度
+  label_icm_incident_request_new_reply: 回复问题
+  label_icm_incident_request_add_watcher: 添加跟踪者
+  label_icm_incident_request_remove_watcher: 移除跟踪者
+  label_icm_incident_request_add_relation: 添加关联
+  label_icm_incident_request_remove_relation: 移除关联
+  label_icm_incident_request_incident_request: 创建问题
+  label_icm_incident_request_attachment: 上传附件
+  label_icm_incident_request_remove_attachment: 移除附件
+  label_icm_incident_request_contact_way: 联系人与联系电话
+  label_icm_incident_request_remove_journal: 删除回复
+  label_icm_incident_request_contact_number_tip_a: 请务必输入联系人名字！
+  label_icm_incident_request_contact_number_tip_b: 请务必输入实际联系人名字, 否则有可能影响问题处理进度
+
+  #========================= hotline project ====================================
+  label_irm_project_new: 创建新项目
+  label_irm_project_name: 项目名称
+  label_irm_project_description: 项目描述
+  label_irm_project_code: 项目编码
+  label_irm_project_info: 项目信息
+  label_irm_project_customer_list: 客户账户
+  label_irm_project_support_group: 支持组
+  label_irm_project: Hotline项目
+  label_irm_project_add_person: 添加客户成员
+  label_action_add_person: 添加客户账号
+  label_irm_project_add_supporter: 添加运维人员
+  #========================== end hotline project  ===============================

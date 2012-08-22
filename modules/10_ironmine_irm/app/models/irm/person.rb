@@ -203,6 +203,15 @@ class Irm::Person < ActiveRecord::Base
         status_meaning
   end
 
+  def self.list_all_a
+        select_all.
+        with_role.
+        with_profile.
+        with_organization(I18n.locale).
+        with_language(I18n.locale).
+        with_notification_lang(I18n.locale)
+  end
+
   def self.lov(origin_scope,params)
     puts params.to_json
     return origin_scope
@@ -316,6 +325,12 @@ class Irm::Person < ActiveRecord::Base
     false
   end
 
+  # 刷新关系表
+  def self.refresh_relation_table
+    #ActiveRecord::Base.connection.execute(%Q(LOCK TABLE irm_person_relations_tmp WRITE))
+    ActiveRecord::Base.connection.execute(%Q(DELETE FROM irm_person_relations_tmp))
+    ActiveRecord::Base.connection.execute(%Q(INSERT INTO irm_person_relations_tmp SELECT * FROM irm_person_relations_v2))
+  end
 
   # 用户所能访问的功能
   def functions

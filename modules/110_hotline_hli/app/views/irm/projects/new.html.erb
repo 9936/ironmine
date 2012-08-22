@@ -1,0 +1,76 @@
+<%= common_title() %>
+<%= form_tag(url_for(:controller => "irm/projects",:action=>"create"),:id => "irm_project_new", :builder => LabellingFormBuilder) do %>
+    <% content_for :form_block do%>
+      <table class="form-table">
+        <tbody>
+            <tr>
+              <td class="label-col"><label><%=t(:label_irm_project_name)%></label></td>
+              <td class="data-col"><%= text_field_tag(:project_name, nil, :jrequired => true) %></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%=(t :label_irm_project_description)%></label></td>
+              <td class="data-col"><%= text_area_tag :project_description, nil, :cols => 40, :rows => 4%></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label>Hotline</label></td>
+              <td class="data-col">
+                <%= radio_button_tag :hotline, Irm::Constant::SYS_YES, true, {:id => "hotline_y"}%>
+                <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <%= radio_button_tag :hotline, Irm::Constant::SYS_NO, false, {:id => "hotline_n"}%>
+                <label for="hotline_n">N</label>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn btn-primary"} %>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+            <td class="page-block-title">
+              <h2 class="block-title"><%= t(:step_n, :n => "1") %><%= t(:label_irm_project_new) %></h2>
+            </td>
+            <td class="page-block-button">
+              <%= content_for :form_buttons   %>
+            </td>
+            <td class="page-block-help">
+              <%= t(:step_n_total_m, :n => "1", :m => "2") %>
+            </td>
+          </tr>
+      </table>
+      <%= content_tag("div", raw(t(:error_invalid_data) + "<br>" + t(:check_error_msg_and_fix) + "<br>" + @errors.to_s),
+                      {:id => "errorDiv_ep", :class => "alert alert-error"}) unless @errors.nil? %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%=t(:label_irm_person_info)%></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block   %>
+          </div>
+
+        </div>
+      </div>
+
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+<script type="text/javascript">
+  $(function(){
+    $(".btn-primary").click(function(){
+        $("#irm_project_new").attr('action', '<%= url_for(:action => "create", :controller => "irm/projects", :next => "add_person")%>');
+        $("#irm_project_new").submit();
+    });
+  })
+</script>

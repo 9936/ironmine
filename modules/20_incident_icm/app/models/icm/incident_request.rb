@@ -31,6 +31,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
     setup_priority
   end
 
+  before_validation({:on => :update}) do
+    setup_priority
+  end
 
   acts_as_recently_objects(:title => "title",
                            :target_controller => "icm/incident_journals",
@@ -69,7 +72,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Irm::Organization.view_name} requested_organization ON  requested_organization.id = requested.organization_id AND requested_organization.language = '#{language}'").
     joins("LEFT OUTER JOIN #{Irm::Profile.view_name} requested_profile ON  requested_profile.id = requested.profile_id AND requested_profile.language = '#{language}'").
     joins("LEFT OUTER JOIN #{Irm::Role.view_name} requested_role ON  requested_role.id = requested.role_id AND requested_role.language = '#{language}'").
-    select("requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
+    select("requested.organization_id requested_organization_id, requested.full_name requested_name,requested_organization.name requested_organization_name,requested_profile.name requested_profile_name,requested_role.name requested_role_name")
   }
 
   scope :with_organization,lambda{|language|
@@ -144,7 +147,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
-    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (EXISTS(SELECT 1 FROM irm_data_accesses_t ida WHERE ida.source_person_id = #{table_name}.requested_by AND ida.target_person_id = ?  AND ida.bo_model_name = ? AND ida.access_level > ?))",
+    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (EXISTS(SELECT 1 FROM irm_data_accesses_v ida WHERE ida.source_person_id = #{table_name}.requested_by AND ida.target_person_id = ?  AND ida.bo_model_name = ? AND ida.access_level > ?))",
     Icm::IncidentRequest.name,person_id,Irm::Person.name,person_id,Icm::IncidentRequest.name,"0")
   }
 
@@ -257,6 +260,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   end
 
   searchable :auto_index => true, :auto_remove => true do
+    text :request_number
     text :title,:stored => true
     text :summary,:stored => true
     text :journals_content,:stored => true do
@@ -265,6 +269,13 @@ class Icm::IncidentRequest < ActiveRecord::Base
     text :support_person_name do
       Irm::Person.find(support_person_id).full_name if support_person_id.present?
     end
+    text :incident_category_name do
+      Icm::IncidentCategoriesTl.where(:incident_category_id => incident_category_id).map { |category| category.name } if incident_category_id.present?
+    end
+    text :incident_sub_category_name do
+      Icm::IncidentSubCategoriesTl.where(:incident_sub_category_id => incident_sub_category_id).map { |category| category.name } if incident_sub_category_id.present?
+    end
+
     time :updated_at
   end
 
@@ -307,6 +318,36 @@ class Icm::IncidentRequest < ActiveRecord::Base
     end
     return_val.gsub!(/<(br)(| [^>]*)>/i, "\n")
     Irm::Sanitize.sanitize(return_val.to_s,"")
+  end
+
+  def concat_journals_with_html
+    return_val = ""
+    journals = self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at ASC")
+    journals.each do |i|
+      break if i == journals.last
+      person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
+      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
+      return_val << "<br>"
+      return_val << i.message_body.to_s
+      return_val << "<br>"
+      return_val << "--------------------------------------------------------------------------------<br>"
+    end
+    return_val
+  end
+
+  def concat_journals_with_html_desc
+    return_val = ""
+    journals = self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at DESC")
+    journals.each do |i|
+      #break if i == journals.last
+      person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
+      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
+      return_val << "<br>"
+      return_val << i.message_body.to_s
+      return_val << "<br>"
+      return_val << "--------------------------------------------------------------------------------<br>"
+    end
+    return_val
   end
 
   def need_customer_reply
@@ -382,6 +423,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
     @watcher_person_ids
   end
 
+  def vip_person_ids
+    return @related_person_ids if @related_person_ids
+    @related_person_ids = Irm::Person.where("vip_flag = ?", Irm::Constant::SYS_YES).enabled
+  end
+
   def watcher?(person_id)
     self.watcher_person_ids.include?(person_id)
   end
@@ -403,8 +449,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   private
   def generate_request_number
-    count = self.class.count
-    self.request_number = count
+    #count = self.class.count
+    #self.request_number = count
+    self.request_number = Irm::Sequence.nextval(self.class.name)
     self.save
     self.add_watcher(Irm::Person.find(self.support_person_id),false) if self.support_person_id.present?
     self.add_watcher(Irm::Person.find(self.requested_by),false)

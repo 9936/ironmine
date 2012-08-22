@@ -1,0 +1,93 @@
+<%= common_title(:show_data=>@project[:org_name]) %>
+
+
+<div class="show-block">
+  <!-- 人员信息 -->
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_project_info) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:edit), {:action => "edit", :project_code => @project[:short_name]},:class=>"btn btn-primary"%>
+        <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+        <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+           <td class="page-block-title"><h2 class="block-title"><%= t(:label_common_info) %>:</h2></td>
+        </tr>
+      </table>
+      <div class="page-block-body">
+        <table class="show-table">
+          <tbody>
+              <tr>
+                <td class="label-col"><label><%=t(:label_irm_project_name)%></label></td>
+                <td class="data-col"><%= @project[:org_name]%></td>
+                <td class="label-col"><label><%=(t :label_irm_project_code)%></label></td>
+                <td class="data-col"><%=@project[:short_name]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(t :label_irm_organization)%></label></td>
+                <td class="data-col"><%=@project[:org_name]%></td>
+                <td class="label-col"><label><%=t(:label_irm_external_system)%></label></td>
+                <td class="data-col"><%=@project[:system_name]%></td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%=(t :label_irm_group_show)%></label></td>
+                <td class="data-col"><%=@project[:group_name]%></td>
+                <td class="label-col"><label><%=t(:label_irm_project)%></label></td>
+                <td class="data-col"><%= check_img( @project[:hotline] )%></td>
+              </tr>
+
+              <tr>
+                <td class="label-col"><label><%=t(:label_irm_project_description)%></label></td>
+                <td class="data-col"><%= @project[:project_description]%></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_icm_incident_request_support_person) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:label_irm_project_add_supporter),
+                    {:action => "add_supporter_to_project", :project_code => @project[:short_name]},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("support_person_list", {:controller=>"irm/projects", :project_code => @project[:short_name], :action => "get_support_person_list_data", :format=>"json", :id => @project.id},
+                          [],{:paginator_box=>"support_person_list_paginator"})%>
+  </div>
+</div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_project_customer_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:label_action_add_person),
+                    {:action => "add_customer_to_project", :project_code => @project[:short_name]}, :class => "btn"%>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("customer_list", {:controller=>"irm/projects", :project_code => @project[:short_name],
+                                    :action => "get_customer_list_data", :format=>"json", :id => @project.id},
+                  [],{:paginator_box=>"customer_list_paginator"})%>
+  </div>
+</div>
