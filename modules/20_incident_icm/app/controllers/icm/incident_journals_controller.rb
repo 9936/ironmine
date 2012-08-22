@@ -193,7 +193,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit_close
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
-      format.html { render :layout => "bootstrap_application_right"}# new.html.erb
+      format.html { render :layout => "bootstrap_application_full"}# new.html.erb
       format.xml  { render :xml => @incident_journal }
     end
   end
