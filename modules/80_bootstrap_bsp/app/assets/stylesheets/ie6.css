@@ -43,6 +43,10 @@ input,select,textarea{
 select {
     font-size: 13px;
 }
+input {
+    width: auto;
+}
+
 .button-reset {height:auto;width:auto;margin-bottom:0}
 .input-text {display:inline-block;line-height:18px;height:18px;padding:1px 0;margin:0px;margin-bottom:9px;border:1px solid #ccc;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif}
 .help-inline {display:block;line-height:18px;height:18px;padding:4px 0px 4px 5px}
@@ -232,6 +236,11 @@ a:hover .caret  {
 .toggle-button {
     display: inline-block;
     width: 60px;
+}
+/*IE6下duel select组件*/
+table.duel-select tr.duel-list select {
+    width: 180px;
+    height: auto;
 }
 
 
