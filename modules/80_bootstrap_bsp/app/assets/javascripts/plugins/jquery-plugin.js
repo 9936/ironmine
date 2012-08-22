@@ -44,7 +44,6 @@
         // 初始化内部类
     Internal.prototype.init = function (/*Object*/ customOptions) {
         var data = this.getData();
-
         // 初始化插件内部数据
         if (!data.initialised) {
             data.initialised = true;
@@ -171,21 +170,22 @@
 
             $(targets[i]).append(option);
         });
-        //如果当前select已经过chosen渲染过，则直接更新，否则检测当前的select的option是否大于25
-        if ($(targets[i]).attr('chosen') == 'true' && $(targets[i]).attr('depend') && typeof $(targets[i]).attr('depend') != 'undefined') {
-            $(targets[i]).trigger("liszt:updated");
-        } else if ($(targets[i]).find('option').length > 25) {
-            $(targets[i]).chosen({no_results_text:'没有对应的选项'});
-        }
+
         // 使用 setTimeout防止IE6中 报 [无法设置selected属性。未指明的错误。]的错误.
         setTimeout(function () {
             $(targets[i]).val(targetValue);
-
             // 自动选择第一个
-            if ($(targets[i]).attr("irequired"))
-                autoChooseFirst(targets[i]);
-
+            if ($(targets[i]).attr("irequired")) autoChooseFirst(targets[i]);
             $(targets[i]).trigger('change');
+            //如果当前select已经过chosen渲染过，则直接更新，否则检测当前的select的option是否大于25
+            if ($(targets[i]).attr('chosen') == 'true' && $(targets[i]).attr('depend') && typeof $(targets[i]).attr('depend') != 'undefined') {
+                $(targets[i]).css('width', ($(targets[i]).width()+18)+'px');
+                $(targets[i]).trigger("liszt:updated");
+            } else if ($(targets[i]).find('option').length > CHOSEN_MINI_NUM) {
+                if (typeof $(targets[i]).attr("chosen") == 'undefined') $(targets[i]).attr("chosen",true);
+                $(targets[i]).css('width', ($(targets[i]).width()+18)+'px');
+                $(targets[i]).chosen({no_results_text: '没有对应的选项'});
+            }
         }, 1);
 
     }
