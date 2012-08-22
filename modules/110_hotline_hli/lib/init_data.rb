@@ -8,7 +8,7 @@ Fwk::MenuAndFunctionManager.map do |map|
       :controller => "irm/projects",
       :action => "index"}
 
-map.function_group :incident_request, {
+map.function_group :hotline_project, {
       :children => {
           :hotline_project_new => {
               :en => {:name => "Create Project", :description => "Create Project"},
@@ -57,7 +57,8 @@ map.function_group :incident_request, {
                   :sequence => 10,
                   :en => {:name => "Hotline", :description => "Hotline"},
                   :zh => {:name => "Hotline", :description => "Hotline"},
-              }}
+              }
+          }
       }
   }
 end
