@@ -92,12 +92,8 @@
        </tbody>
     </table>
   <% end %>
-
-
-
-    <!--事故单基本信息-->
+  <!--事故单基本信息-->
   <% content_for :incident_request_additional do %>
-
     <table class="form-table">
       <tbody>
         <tr>
@@ -111,7 +107,6 @@
             <td class="data-col">
               <%=f.text_field :contact_number,:size=>17,:id=>"incident_request_contact_number",:required=>true%>
             </td>
-
         </tr>
         <tr>
           <td class="label-col"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
