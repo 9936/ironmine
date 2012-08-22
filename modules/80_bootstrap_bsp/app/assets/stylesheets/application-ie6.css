@@ -5,7 +5,7 @@
  *= require_self
  *= require bootstrap/bootstrap-ie6
  *= require framework/framework
- *= require plugins/treeview.ie6
+ *= require plugins/treeview
  *= require browser/ie6
  *= require ie6
 */
