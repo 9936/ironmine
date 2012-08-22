@@ -1,18 +1,18 @@
 <%= form_for(@incident_request,:url=>{:action=>"update"},:builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
   <% content_for :form_block_common   do%>
-    <table class="form-table" xmlns="http://www.w3.org/1999/html">
+    <table class="form-table">
       <tbody>
           <% if allow_to_function?(:create_icdt_rqst_for_other) %>
             <tr>
               <td class="label-col"><label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%></label></td>
-              <td class="data-col"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"incident_request_requested_by"}%></td>
+              <td class="data-3col"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"incident_request_requested_by"}%></td>
             </tr>
           <% else %>
               <%= f.hidden_field(:requested_by,:value=>Irm::Person.current.id) %>
           <% end %>
           <tr>
             <td class="label-col"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_target_system)%></label></td>
-            <td class="data-col">
+            <td class="data-3col">
               <% if allow_to_function?(:create_icdt_rqst_for_other) %>
                   <%=f.select :external_system_id,
                               nullable_options_for_select(available_external_systems_with_person(@incident_request.requested_by).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),{},
@@ -34,13 +34,11 @@
                            :required => true}%>
               <% end %>
             </td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
           </tr>
 
          <tr>
             <td class="label-col"><label for=""><%=t(:label_icm_incident_request_incident_category)%></label></td>
-            <td class="data-col"><%=f.select :incident_category_id,
+            <td class="data-3col"><%=f.select :incident_category_id,
                                           nullable_options_for_select([],@incident_request.incident_category_id),
                                           {},
                                           {:id=>"incident_category_id",
@@ -50,12 +48,10 @@
                                            :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
                                                           :external_system_id=>"${ass_external_system}")}%>
             </td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
             <td class="label-col"><label for=""><%=t(:label_icm_incident_request_incident_sub_category)%></label></td>
-            <td class="data-col"><%=f.select :incident_sub_category_id,
+            <td class="data-3col"><%=f.select :incident_sub_category_id,
                                           nullable_options_for_select([],@incident_request.incident_sub_category_id),
                                           {},
                                           {:id=>"incident_sub_category_id",
@@ -65,12 +61,10 @@
                                            :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
                                                           :incident_category_id=>"${incident_category_id}")}%>
             </td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_icm_incident_request_estimated_date)%></label></td>
-            <td class="data-col">
+            <td class="data-3col">
               <%= f.date_field(:estimated_date,:size=>12,:class=>"date")%>
             </td>
           </tr>
@@ -81,8 +75,8 @@
 
           <tr>
             <td class="label-col"><label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%></label></td>
-            <td class="data-col" colspan="3" style="width:82%">
-              <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@incident_request.summary, :required=>true ,:id=>"incident_request_summary"%>
+            <td class="data-3col" colspan="3" style="width:82%">
+              <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@incident_request.summary, :required=>true ,:id=>"incident_request_summary", :style=>"width:100%;" %>
               <%= xheditor("incident_request_summary") %>
             </td>
           </tr>
@@ -102,7 +96,7 @@
               <td class="label-col"><label for="incident_request_contact_id"><%=t(:label_icm_incident_request_contact)%></label></td>
               <td class="data-col">
                 <div style="display:inline">
-                  <%=f.lov_field :contact_id,Irm::Person,{:required=>true,:id=>"incident_request_contact_id"}%>
+                  <%=f.lov_field :contact_id,Irm::Person,{:required=>true,:id=>"incident_request_contact_id",:class=>"input-medium"}%>
                 </div>
               </td>
               <td class="label-col"><label for="incident_request_contact_number"><%=t(:label_icm_incident_request_contact_number)%></label></td>
@@ -125,22 +119,18 @@
         <% if false && allow_to_function?(:create_icdt_rqst_for_other) %>
           <tr>
             <td class="label-col"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
-            <td class="data-col">
+            <td class="data-3col">
               <%=f.blank_select :request_type_code,available_request_type,
                                                   {},{:required=>true,:id=>"incident_request_request_type_code"}%>
             </td>
-            <td class="label-col"></td>
-            <td class="data-col"></td>
           </tr>
 
           <tr>
             <td class="label-col"><label for="incident_request_report_source_code"><%=t(:label_icm_incident_request_report_source_code)%></label></td>
-            <td class="data-col">
+            <td class="data-3col">
               <%=f.select :report_source_code,nullable_options_for_select(available_request_report_source,@incident_request.report_source_code),
                                                   {},{:required=>true,:id=>"incident_request_report_source_code"}%>
             </td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
           </tr>
        <%end%>
       </tbody>
