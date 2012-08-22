@@ -35,8 +35,7 @@
                            :origin_value=>@change_request.category_id,
                            :depend=>"external_system_id",
                            :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                           :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
-                                          :external_system_id=>"${external_system_id}")}%>
+                           :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",:external_system_id=>"${external_system_id}")}%>
             </td>
 
           </tr>
@@ -56,20 +55,20 @@
           </tr>
           <tr>
             <td class="label-col"><label for="title"><%=t(:label_chm_change_request_title)%></label></td>
-            <td class="data-2col" colspan="3"><%=f.text_field :title,:size=>80, :required=>true ,:id=>"title"%></td>
+            <td class="data-3col" colspan="3"><%=f.text_field :title,:size=>80, :required=>true ,:id=>"title"%></td>
           </tr>
 
           <tr>
             <td class="label-col"><label for="summary"><%=t(:label_chm_change_request_summary)%></label></td>
-            <td class="data-2col" colspan="3">
-              <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@change_request.summary, :required=>true ,:id=>"summary"%>
+            <td class="data-3col" colspan="3">
+              <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@change_request.summary, :required=>true ,:id=>"summary",:style=>"width:100%;" %>
               <%= xheditor("summary") %>
             </td>
 
           </tr>
           <tr>
             <td class="label-col"></td>
-            <td class="data-2col" colspan="3">
+            <td class="data-3col" colspan="3">
               <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_change_request_file"} %>
             </td>
           </tr>
@@ -142,9 +141,6 @@
                                  }) %></td>
 
           </tr>
-
-
-
       </tbody>
     </table>
   <% end %>
@@ -222,11 +218,11 @@
         $("#requested_by").cascade("#external_system_id");
      }
      if($("#external_system_id")){
-        $("#external_system_id").cascade(["#category_id"]);
+        $("#external_system_id").cascade("#category_id");
      }
 
      if($("#category_id")){
-        $("#category_id").cascade("#sub_category_id");
+         $("#category_id").cascade("#sub_category_id");
      }
   });
 </script>

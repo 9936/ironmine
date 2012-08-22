@@ -12,7 +12,7 @@
           <tr>
             <td class="label-col"><label><%=(t :label_irm_bulletin_content)%></label></td>
             <td class="data-3col">
-              <%= f.text_area :content ,:id=>"msgEditor",:rows=>8, :required => true%>
+              <%= f.text_area :content ,:id=>"msgEditor",:rows=>8, :required => true,:style => "width:100%;" %>
               <%= xheditor("msgEditor",true) %>
             </td>
           </tr>
