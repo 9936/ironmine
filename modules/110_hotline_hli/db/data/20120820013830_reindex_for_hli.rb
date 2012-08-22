@@ -17,7 +17,7 @@ class ReindexForHli < ActiveRecord::Migration
     end
     add_index "irm_watchers", ["opu_id", "watchable_id", "watchable_type"], :name => "IRM_WATCHERS_N1"
     add_index "irm_watchers", ["opu_id", "member_id", "watchable_id", "member_type"], :name => "IRM_WATCHERS_N2"
-    add_index "irm_watchers", ["member_id", "watchable_id", "member_type", "watchable_type"], :name => "IRM_WATCHERS_U1", :unique => true
+    #add_index "irm_watchers", ["member_id", "watchable_id", "member_type", "watchable_type"], :name => "IRM_WATCHERS_U1", :unique => true
 
     indexes(:irm_person_relations_tmp).each do |i|
       remove_index(:irm_person_relations_tmp, :name => i.name)
