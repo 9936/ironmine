@@ -10,9 +10,7 @@
           </tr>
           <tr>
             <td class="label-col"><label for="name"><%=t(:name)%></label></td>
-            <td class="data-col"><%=f.text_field :name, :required=>true ,:id=>"name"%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
+            <td class="data-3col" colspan="3"><%=f.text_field :name, :required=>true ,:id=>"name"%></td>
           </tr>
       </tbody>
     </table>
@@ -22,7 +20,7 @@
       <tbody>
           <tr>
             <td class="label-col"><label for="code"><%=t(:label_irm_data_share_rule_belong_to)%></label></td>
-            <td class="data-col">
+            <td class="data-3col" colspan="3">
               <div class="float-left">
               <%=f.select :source_type,available_types,{},{:required=>true,:id=>"source_type",:name=>"irm_data_share_rule[source_type]"}%>
               <%=f.select :source_id,[],{},{:id=>"source_id" ,
@@ -31,8 +29,6 @@
                                            :href=>url_for(:controller=>"irm/data_share_rules",:action=>"get_option",:format=>"json",:subject_type=>"${source_type}")}%>
               </div>
             </td>
-            <td class="label-col empty"></td>
-            <td class="data-col empty">&nbsp;</td>
           </tr>
       </tbody>
     </table>
@@ -42,14 +38,12 @@
        <tbody>
            <tr>
              <td class="label-col"><label for="code"><%=t(:label_irm_data_share_rule_share_with)%></label></td>
-             <td class="data-col">
+             <td class="data-3col" colspan="3">
                <div class="float-left">
                  <%=f.select :target_type,available_types,{},{:id=>"target_type",:required=>true }%>
                  <%=f.select :target_id,[],{},{:id=>"target_id" ,:depend=>"target_type",:blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",:href=>url_for(:controller=>"irm/data_share_rules",:action=>"get_option",:format=>"json",:subject_type=>"${target_type}")}%>
                </div>
              </td>
-             <td class="label-col empty"></td>
-             <td class="data-col empty">&nbsp;</td>
            </tr>
        </tbody>
      </table>
@@ -59,13 +53,11 @@
        <tbody>
           <tr>
             <td class="label-col"><label for="code"><%=t(:label_irm_data_access)%></label></td>
-            <td class="data-col">
+            <td class="data-3col" colspan="3">
               <div class="float-left">
                 <%=f.select :access_level,available_access_level,{},{:required=>true,:id=>"access_level",:name=>"irm_data_share_rule[access_level]"}%>
               </div>
             </td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
           </tr>
        </tbody>
      </table>
