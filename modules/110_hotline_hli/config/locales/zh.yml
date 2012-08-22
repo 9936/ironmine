@@ -33,3 +33,17 @@ zh:
   label_icm_incident_request_remove_journal: 删除回复
   label_icm_incident_request_contact_number_tip_a: 请务必输入联系人名字！
   label_icm_incident_request_contact_number_tip_b: 请务必输入实际联系人名字, 否则有可能影响问题处理进度
+
+  #========================= hotline project ====================================
+  label_irm_project_new: 创建新项目
+  label_irm_project_name: 项目名称
+  label_irm_project_description: 项目描述
+  label_irm_project_code: 项目编码
+  label_irm_project_info: 项目信息
+  label_irm_project_customer_list: 客户账户
+  label_irm_project_support_group: 支持组
+  label_irm_project: Hotline项目
+  label_irm_project_add_person: 添加客户成员
+  label_action_add_person: 添加客户账号
+  label_irm_project_add_supporter: 添加运维人员
+  #========================== end hotline project  ===============================

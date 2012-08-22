@@ -35,7 +35,7 @@ Ironmine::Application.routes.draw do
     match '/projects/:project_code/add_customer_to_project(.:format)' => "projects#add_customer_to_project"
     match '/projects/:project_code/add_supporters(.:format)' => "projects#add_supporters"
     match '/projects/:project_code/add_customers(.:format)' => "projects#add_customers"
-    match '/projects/:project_code/:project_code/get_available_project_supporter_data(.:format)' => "projects#get_available_project_supporter_data"
-    match '/projects/:project_code/:project_code/get_available_project_customer_data(.:format)' => "projects#get_available_project_customer_data"
+    match '/projects/:project_code/get_available_project_supporter_data(.:format)' => "projects#get_available_project_supporter_data"
+    match '/projects/:project_code/get_available_project_customer_data(.:format)' => "projects#get_available_project_customer_data"
  end
 end

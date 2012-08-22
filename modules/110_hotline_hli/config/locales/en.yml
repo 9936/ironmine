@@ -34,3 +34,15 @@ en:
   label_icm_incident_request_contact_number_tip_a: 请务必输入联系人名字！
   label_icm_incident_request_contact_number_tip_b: 请务必输入实际联系人名字, 否则有可能影响问题处理进度
 
+  #========================= hotline project ====================================
+  label_irm_project_new: New Project
+  label_irm_project_name: Name
+  label_irm_project_description: Description
+  label_irm_project_code: Project Code
+  label_irm_project_info: Project Information
+  label_irm_project_customer_list: Customers
+  label_irm_project_support_group: Support Group
+  label_action_add_person: Add Customer Account
+  label_irm_project: Hotline Project
+  #========================== end hotline project  ===============================
+

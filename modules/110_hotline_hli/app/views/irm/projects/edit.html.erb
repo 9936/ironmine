@@ -1,0 +1,83 @@
+<%= common_title() %>
+<%= form_tag(url_for(:controller => "irm/projects",:action=>"update", :project_code => @project[:short_name]),
+             :id => "irm_project_edit", :builder => LabellingFormBuilder) do %>
+<div  class="wizard-block">
+  <%= content_tag("div", raw(t(:error_invalid_data) + "<br>" + t(:check_error_msg_and_fix) + "<br>" + @errors.to_s),
+                  {:id => "errorDiv_ep", :class => "pbError"} ) unless @errors.nil? %>
+    <div class="pbBody">
+        <div class="pbBottomButtons">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td class="pbTitle"></td>
+                  <td class="pbButton">
+                    <div class="button"><%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "edit_project_button"} %></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div class="pbWizardBody">
+            <div class="secondary-palette">
+              <div class="pbBody">
+                <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
+                  <span class="pbSubExtra">
+                      <span class="requiredLegend">
+                        <span class="requiredExampleOuter">
+                        <span class="requiredExample">&nbsp;</span>
+                        </span>
+                      <span class="requiredMark">*</span>
+                      <span class="requiredText"> = <%=t(:label_is_required)%></span>
+                      </span>
+                  </span>
+                  <h3><%=t(:label_irm_person_info)%></h3>
+                </div>
+                <div class="pbSubsection">
+                  <table class="detailList" cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                          <td class="labelCol"><label><%=t(:label_irm_project_name)%></label></td>
+                          <td class="dataCol"><%= text_field_tag(:project_name, @project[:name], :jrequired => true) %></td>
+                        </tr>
+                        <tr>
+                          <td class="labelCol"><label><%=(t :label_irm_project_description)%></label></td>
+                          <td class="dataCol"><%= text_area_tag :project_description, @project[:description], :cols => 40, :rows => 4%></td>
+                        </tr>
+                        <tr>
+                          <td class="labelCol"><label>Hotline</label></td>
+                          <td class="dataCol">
+                            <%= radio_button_tag :hotline, Irm::Constant::SYS_YES, @project[:hotline].present? && @project[:hotline].eql?('Y'), {:id => "hotline_y"}%>
+                            <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <%= radio_button_tag :hotline, Irm::Constant::SYS_NO, !(@project[:hotline].present? && @project[:hotline].eql?('Y')), {:id => "hotline_n"}%>
+                            <label for="hotline_n">N</label>
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="pbBottomButtons">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                    <tr>
+                      <td class="pbTitle"></td>
+                      <td id="bottomButtonRow" class="pbButtonb">
+                        <div class="button"><%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "edit_project_button"} %></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>
+<script type="text/javascript">
+  $(function(){
+    $(".edit_project_button").click(function(){
+        $("#irm_project_edit").attr('action', '<%= url_for(:action => "update", :controller => "irm/projects", :project_code => @project[:short_name])%>');
+        $("#irm_project_edit").submit();
+    });
+  })
+</script>

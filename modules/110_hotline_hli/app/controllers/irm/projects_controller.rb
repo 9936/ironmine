@@ -29,9 +29,10 @@ class Irm::ProjectsController < ApplicationController
         Irm::GroupMember.create(:group_id => group.id, :person_id => @person.id) unless Irm::GroupMember.where(:group_id => group.id).where(:person_id => @person.id).any?
         Irm::ExternalSystemPerson.create(:external_system_id => external_system.id, :person_id => @person.id) unless Irm::ExternalSystemPerson.where(:external_system_id => external_system.id).where(:person_id => @person.id).any?
 
-        format.html { redirect_to({:action=>"new"},:notice => (t :successfully_created))}
+        format.html { redirect_to({:action=>"show", :id => organization.id},:notice => (t :successfully_created))}
         format.xml  { render :xml => @person, :status => :created, :location => @person }
       else
+        @project_code = params[:project_code]
         format.html { render "add_person" }
         format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
       end
@@ -63,7 +64,6 @@ class Irm::ProjectsController < ApplicationController
                                          :name=> params[:project_name],
                                          :description=> params[:project_description])
 
-
     #创建应用系统
     external_system = Irm::ExternalSystem.new(:opu_id => Irm::Person.current.opu_id,
                                               :hotline_flag => params[:hotline],
@@ -78,7 +78,6 @@ class Irm::ProjectsController < ApplicationController
                                                :source_lang => 'en',
                                                :system_name => params[:project_name],
                                                :system_description => params[:project_description])
-
 
     #创建项目二级运维组
     group = Irm::Group.new(:opu_id => Irm::Person.current.opu_id,
@@ -95,7 +94,6 @@ class Irm::ProjectsController < ApplicationController
                            :description => params[:project_description])
     @errors = ""
     bo = Irm::BusinessObject.where(:bo_model_name => 'Icm::IncidentRequest').first
-
     respond_to do |format|
       if organization.valid?() && external_system.valid?() && group.valid?()
         organization.save
@@ -193,14 +191,18 @@ class Irm::ProjectsController < ApplicationController
         select("gp.id group_id, gp.name group_name").order("CONVERT( ot.name USING gbk ) asc")
 
     projects_scope = projects_scope.match_value("#{Irm::Organization.table_name}.short_name",params[:short_name])
-    projects_scope = projects_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:system_name])
-    projects_scope = projects_scope.match_value("#{Irm::OrganizationsTl.table_name}.name",params[:org_name])
-    projects_scope = projects_scope.match_value("#{Irm::Group.view_name}.name",params[:group_name])
+    projects_scope = projects_scope.match_value("es.system_name",params[:system_name])
+    projects_scope = projects_scope.match_value("ot.name",params[:org_name])
+    projects_scope = projects_scope.match_value("gp.name",params[:group_name])
 
     projects,count = paginate(projects_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(projects.to_grid_json([:id, :hotline,:short_name,:org_name,:system_name,
                                                                  :group_name, :system_id,:group_id, :project_status],count))}
+      format.html  {
+        @datas = projects
+        @count = count
+      }
     end
   end
 
