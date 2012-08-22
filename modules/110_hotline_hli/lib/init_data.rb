@@ -1,5 +1,33 @@
 #-*- coding: utf-8 -*-
 Fwk::MenuAndFunctionManager.map do |map|
+  map.menu :management_setting, {
+      :children => {
+          :hotline_project => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 100,
+                  :en => {:name => "Hotline", :description => "Hotline"},
+                  :zh => {:name => "Hotline", :description => "Hotline"}
+              }
+          }
+      }
+  }
+
+  map.menu :hotline_project, {
+      :en => {:name => "Hotline", :description => "Hotline"},
+      :zh => {:name => "Hotline", :description => "Hotline"},
+      :children => {
+          :hotline_project => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "Hotline", :description => "Hotline"},
+                  :zh => {:name => "Hotline", :description => "Hotline"}
+              }
+          }
+      }
+  }
+
   map.function_group :hotline_project, {
       :en => {:name => "Hotline Project", :description => "Hotline Project"},
       :zh => {:name => "Hotline项目", :description => "Hotline项目"}, }
@@ -36,28 +64,6 @@ map.function_group :hotline_project, {
                                  "remove_project_supporter", "add_customer_to_project", "add_supporter_to_project",
                                  "remove_project_customer", "get_available_project_supporter_data",
                                  "get_available_project_customer_data"]
-          },
-          :edit_self_hotline_project => {
-              :en => {:name => "Edit Self Project", :description => "Edit Self Project"},
-              :zh => {:name => "编辑自己的项目", :description => "编辑自己的项目"},
-              :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "N"
-          }
-      }
-  }
-
-  map.menu :hotline, {
-      :en => {:name => "Hotline", :description => "Hotline"},
-      :zh => {:name => "Hotline", :description => "Hotline"},
-      :children => {
-          :hotline_project => {
-              :type => "function",
-              :entry => {
-                  :sequence => 10,
-                  :en => {:name => "Hotline", :description => "Hotline"},
-                  :zh => {:name => "Hotline", :description => "Hotline"},
-              }
           }
       }
   }
