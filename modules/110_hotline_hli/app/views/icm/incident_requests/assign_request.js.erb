@@ -1,0 +1,9 @@
+<% if limit_device?%>
+   $(function(){
+       $("#incident_requests").datatable("loadPage",1)
+   });
+<% else %>
+   Ext.onReady(function(){
+       Ext.getCmp("incident_requests").store.loadPage(1);
+   });
+<% end %>

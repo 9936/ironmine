@@ -292,6 +292,23 @@ module Hli::IncidentJournalsControllerEx
             with_external_system(I18n.locale).
             with_organization(I18n.locale).find(params[:request_id])
       end
+
+      def validate_files(ref_journal)
+        flash[:notice] = nil
+        now = 0
+        flag = true
+        flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files]) if params[:files]
+        return false, now unless flag
+        params[:files].each do |key, value|
+          next unless value[:file] && value[:file].original_filename.present?
+          flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit.to_s)
+          return false, now.to_s unless flag
+        end if params[:files]
+        return true, now
+      rescue Exception => e
+        logger.debug(e.message)
+        return false, now
+      end
     end
   end
 end

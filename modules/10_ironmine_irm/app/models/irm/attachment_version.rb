@@ -25,12 +25,12 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   }
 
   scope :query_by_incident_request,lambda{|request_id|
-    joins("JOIN #{Icm::IncidentJournal.table_name} ON #{table_name}.source_type= '#{Icm::IncidentJournal.name}' AND #{table_name}.source_id = #{Icm::IncidentJournal.table_name}.id").
+    joins("JOIN #{Icm::IncidentJournal.table_name} ON #{table_name}.source_type= '#{Icm::IncidentJournal.name}' AND #{table_name}.source_id = #{Icm::IncidentJournal.table_name}.id AND #{Icm::IncidentJournal.table_name}.status_code = 'ENABLED'").
     where("#{Icm::IncidentJournal.table_name}.incident_request_id = ?", request_id)
   }
 
   scope :query_incident_request_file,lambda{|request_id|
-    where("#{table_name}.source_type = ? AND #{table_name}.source_id = ?",Icm::IncidentRequest.name, request_id)
+    where("#{table_name}.source_type = ? AND #{table_name}.source_id = ? AND #{table_name}.status_code = 'ENABLED'",Icm::IncidentRequest.name, request_id)
   }
 
   scope :query_by_change_request,lambda{|request_id|
@@ -293,7 +293,8 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   end
 
   def self.validates_repeat?(files_array)
-    values = files_array.values.collect{|p| [p["file"].original_filename, p["file"].size]}
+    a = files_array.values.delete_if{|p| p["file"].nil?}
+    values = a.collect{|p| [p["file"].original_filename, p["file"].size]}
     if values.uniq.size != values.size
       return false, I18n.t(:error_file_upload_repeat)
     end

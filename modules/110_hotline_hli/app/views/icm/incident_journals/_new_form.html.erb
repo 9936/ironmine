@@ -135,9 +135,11 @@
           <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
       <% end %>
     </div>
+    <% if false%>
     <div class="btn-group">
       <%= link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
     </div>
+    <% end %>
   </div>
 <% end %>
 
@@ -456,7 +458,7 @@
 
 <% content_for :change_request_tab do %>
     <% chm = Irm::ProductModule.usable?(:chm)&&@incident_request.change_request_id.present?;com = Irm::ProductModule.usable?(:com) %>
-    <% if chm||com %>
+    <% if allow_to_function?(:config_item) &&( chm||com )%>
         <!-- 处理关联的变更单 -->
         <%- if params[:format].eql?('pdf') -%>
            <%= content_for :incident_request_journals %>
@@ -617,7 +619,7 @@
   </tr></table>
   <div class="page-block-body">
     <%= datatable("incident_request_histories",{:action=>"get_incident_history_data", :format => "json"},[],
-                  {:paginator_box=>'incidentHistoriesPaginatorBox',:scroll=>"y"})%>
+                  {:paginator_box=>'incidentHistoriesPaginatorBox'})%>
   </div>
 </div>
 

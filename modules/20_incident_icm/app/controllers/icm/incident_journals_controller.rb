@@ -463,7 +463,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def process_files(ref_journal)
     @files = []
     params[:files].each do |key,value|
-      file << Irm::AttachmentVersion.create({:source_id=>ref_journal.id,
+      file = Irm::AttachmentVersion.create({:source_id=>ref_journal.id,
                                                :source_type=>ref_journal.class.name,
                                                :data=>value[:file],
                                                :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
