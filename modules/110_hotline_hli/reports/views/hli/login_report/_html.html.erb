@@ -1,0 +1,111 @@
+<div id="reportChart"></div>
+
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table count="<%=datas[:datas].count%>">
+         <thead>
+           <tr>
+             <th style="width:110px;">
+               <div><%= t(:label_irm_person) %></div>
+             </th>
+             <th style="width:110px;">
+               <div><%= t(:label_irm_person_login) %></div>
+             </th>
+             <th style="width:110px;">
+               <div><%= t(:label_irm_login_record_user_ip) %></div>
+             </th>
+             <th style="width:160px;">
+               <div><%= t(:label_irm_login_record_operate_system) %></div>
+             </th>
+             <th  style="width:160px;">
+               <div><%= t(:label_irm_login_record_browser) %></div>
+             </th>
+             <th style="width:180px;">
+               <div><%= t(:label_irm_login_record_login_at) %></div>
+             </th>
+             <th style="width:180px;">
+               <div><%= t(:label_irm_login_record_logout_at) %></div>
+             </th>
+           </tr>
+         </thead>
+         <tbody>
+         <% datas[:datas].each do |data| %>
+         <tr id="<%=data[:id]%>">
+           <td>
+             <div>
+               <%= data[:full_name] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:login_name] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:user_ip] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:operate_system] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= data[:browser] %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= format_date(data[:login_at]) %>
+             </div>
+           </td>
+           <td>
+             <div>
+               <%= format_date(data[:logout_at]) %>
+             </div>
+           </td>
+         </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->
+<% require_jscss(:highcharts) %>
+
+<script type="text/javascript">
+  var chart;
+  $(document).ready(function() {
+      var reportChartData = <%=to_chart_data(datas[:chart_datas],"date","total_count").to_json.html_safe %>;
+  	chart = new Highcharts.Chart({
+  		chart: {
+  			renderTo: 'reportChart',
+  			type: 'line'
+  		},
+  		xAxis: {
+  			categories: reportChartData[0]
+  		},
+  		yAxis: {
+
+  			plotLines: [{
+  				value: 0,
+  				width: 1,
+  				color: '#808080'
+  			}]
+  		},
+  		tooltip: {
+  			formatter: function() {
+  					return '<b>'+ this.series.name +'</b><br/>'+
+  					this.x +': '+ this.y;
+  			}
+  		},
+        credits: {
+            enabled: false
+        },
+  		series: reportChartData[1]
+  	});
+  });
+</script>

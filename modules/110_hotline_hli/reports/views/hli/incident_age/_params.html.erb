@@ -1,0 +1,68 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<table class="form-table baseFilter" id="baseFilter">
+  <tbody>
+    <tr>
+      <td width="30%"></td>
+      <td>
+        <label for="organization"><%= t(:label_icm_incident_request_organization) %></label>
+        <div style="white-space:nowrap">
+          <%= lov_field_tag(:organization_id,Irm::Organization,:name=>"program_params[organization_id]",:value=>program_params[:organization_id],:id=>"organization") %>
+        </div>
+      </td>
+      <td>
+        <label for="support_group"><%= t(:label_icm_incident_request_support_group) %></label>
+        <div style="white-space:nowrap">
+          <%= lov_field_tag(:support_group_id,Icm::SupportGroup,:name=>"program_params[support_group_id]",:value=>program_params[:support_group_id],:id=>"support_group") %>
+        </div>
+      </td>
+      <td>
+        <label for="incident_status"><%= t(:label_icm_incident_request_incident_status) %></label>
+        <div style="white-space:nowrap">
+          <%= lov_field_tag(:incident_status_id,Icm::IncidentStatus,:name=>"program_params[incident_status_id]",:value_field=>:catalog_code,:value=>program_params[:incident_status_id],:id=>"incident_status") %>
+        </div>
+      </td>
+
+
+      <td>
+        <label for="show_option"><%= t(:label_icm_incident_request_submitted_date) %></label>
+        <div style="white-space:nowrap">
+          <span>
+               <%=text_field_tag :time_lead,program_params[:time_lead], {:size=>5,:id=>"time_lead",:name=>"program_params[time_lead]"}%>
+          </span>
+          <span>
+               <%=select_tag_alias :time_unit,available_wf_trigger_time_unit,program_params[:time_unit],{:id=>"time_unit",:name=>"program_params[time_unit]"}%>
+          </span>
+        </div>
+      </td>
+
+      <td>
+        <label for="show_detail"><%= t(:label_irm_report_detail_display_flag) %></label>
+        <div style="white-space:nowrap">
+          <%= check_box_tag "program_params[show_detail]","Y",Irm::Constant::SYS_YES.eql?(program_params[:show_detail]),{:id=>"show_detail"} %>
+        </div>
+      </td>
+
+
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_irm_report_time_range) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                <%= text_field_tag(:date_from,program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:size=>12,:class=>"date",:nobutton=>true)%>
+              </td>
+              <td>
+                <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                <%= text_field_tag(:date_to,program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:size=>12,:class=>"date",:nobutton=>true)%>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+    </tr>
+  </tbody>
+</table>

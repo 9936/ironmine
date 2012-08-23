@@ -1,0 +1,35 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
+  <tbody>
+    <tr>
+      <td width="30%"></td>
+      <td></td>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_csi_survey_title) %></label>
+        <div style="white-space:nowrap">
+          <%= lov_field_tag(:survey_id,Csi::Survey,:name=>"program_params[survey_id]",:value=>program_params[:survey_id],:id=>"surveyReport") %>
+        </div>
+      </td>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_irm_report_time_range) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                <%= date_field_tag(:date_from,program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:size=>12,:nobutton=>true)%>
+              </td>
+              <td>
+                <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                <%= date_field_tag(:date_to,program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:size=>12,:nobutton=>true)%>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+    </tr>
+  </tbody>
+</table>

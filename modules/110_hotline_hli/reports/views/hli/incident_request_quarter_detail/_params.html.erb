@@ -1,0 +1,60 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
+  <tbody>
+    <tr>
+      <td width="30%"></td>
+      <td></td>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_irm_external_system) %></label>
+        <div style="white-space:nowrap">
+          <%= select_tag_multiple(
+                      "program_params[external_system_id][]",
+                      nullable_options_for_select(current_person_assessible_external_system_full, program_params[:external_system_id]),
+                      "program_params[external_system_mul]",
+                      program_params[:external_system_mul] ? program_params[:external_system_mul] : 'N', true)%>
+        </div>
+      </td>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_icm_incident_status) %></label>
+        <div style="white-space:nowrap">
+          <%= select_tag_multiple(
+                      "program_params[incident_status_id][]",
+                      nullable_options_for_select(Icm::IncidentStatus.multilingual.order_display.collect{|i|[i[:name],i.id]}, program_params[:incident_status_id]),
+                      "program_params[incident_status_mul]",
+                      program_params[:incident_status_mul] ? program_params[:incident_status_mul] : 'N')%>
+        </div>
+      </td>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_report_date_month) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <div style="white-space:nowrap">
+                  <%= select_date program_params[:year].present? ? Date.strptime("#{program_params[:year]}-#{program_params[:month]}", "%Y-%m") : Time.now,
+                                  :prefix => 'program_params',
+                                  :order =>[:year], :include_blank => false %>
+                  <%= I18n.t(:label_report_quarter) %>
+                  <%= select_quarter("program_params[quarter]", "#{program_params[:quarter]}")%>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+      <td>
+        <label><%=t(:label_icm_incident_request_hotline)%></label>
+        <div style="white-space:nowrap">
+            <%= radio_button_tag "program_params[hotline]", Irm::Constant::SYS_YES, program_params[:hotline].eql?("Y"), :id => "incident_request_hotline_y" %>
+            <label for="incident_request_hotline_y" style="display:inline;"><%=t(:label_icm_incident_request_hotline_y)%></label>&nbsp;&nbsp;
+            <%= radio_button_tag "program_params[hotline]", Irm::Constant::SYS_NO, program_params[:hotline].eql?("N"), :id => "incident_request_hotline_n"%>
+            <label for="incident_request_hotline_n" style="display:inline;"><%=t(:label_icm_incident_request_hotline_n)%></label>
+        </div>
+      </td>
+    </tr>
+  <%  %>
+  </tbody>
+</table>
