@@ -1,1 +1,0 @@
-var CHOSEN_MINI_NUM = 25;

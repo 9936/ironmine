@@ -7,7 +7,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require config
+//= require global/global_variables
 //= require plugins/jquery-extend
 //= require plugins/jquery-plugin
 //= require plugins/jquery-treeview
