@@ -1,1 +1,1 @@
-var chosenMiniNum = 2;
+var chosenMiniNum = 20;
