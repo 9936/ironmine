@@ -165,6 +165,10 @@
                                              }) %>
         <%= submit_tag(t(:label_icm_incident_request_assign),{:id=>"formSubmit"})  %>
     <% end  %>
+    <script type="text/javascript">
+        $("#incident_request_support_group_id").cascade("#incident_request_support_person_id")
+        $("#person_role_id").cascade("#incident_request_support_person_id")
+    </script>
 <% end %>
 
 <% content_for :block_priority_controll_bar do %>
@@ -559,10 +563,6 @@
           </td>
       </tr>
     </table>
-
-    <script type="text/javascript">
-        $("#incident_request_support_group_id").cascade("#incident_request_support_person_id")
-    </script>
     <% end %>
     <% if (allow_to_function?(:edit_incident_request_priority) ||
             Irm::Person.current.id == @incident_request.requested_by ||
