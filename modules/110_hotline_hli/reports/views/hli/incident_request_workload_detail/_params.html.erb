@@ -33,12 +33,12 @@
             <tr>
               <td>
                 <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
-                <%= text_field_tag(:start_date,program_params[:start_date],:id=>"filterDateFrom",:name=>"program_params[start_date]",:size=>12,:class=>"date",:nobutton=>true)%>
+                <%= date_field_tag(:start_date,:value => program_params[:start_date],:id=>"filterDateFrom",:name=>"program_params[start_date]",:size=>12,:nobutton=>true)%>
                 <%= hidden_field_tag "program_params[running_person_id]", Irm::Person.current.id %>
               </td>
               <td>
                 <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
-                <%= text_field_tag(:end_date,program_params[:end_date],:id=>"filterDateTo",:name=>"program_params[end_date]",:size=>12,:class=>"date",:nobutton=>true)%>
+                <%= date_field_tag(:end_date,:value => program_params[:end_date],:id=>"filterDateTo",:name=>"program_params[end_date]",:size=>12,:nobutton=>true)%>
               </td>
             </tr>
           </table>

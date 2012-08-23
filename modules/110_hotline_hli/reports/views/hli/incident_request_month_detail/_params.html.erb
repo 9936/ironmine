@@ -29,7 +29,7 @@
               </td>
               <td>
                 <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
-                <%= date_field_tag(:end_date,program_params[:end_date],:id=>"filterDateTo",:name=>"program_params[end_date]",:size=>12,:nobutton=>true)%>
+                <%= date_field_tag(:end_date,:value => program_params[:end_date],:id=>"filterDateTo",:name=>"program_params[end_date]",:size=>12,:nobutton=>true)%>
               </td>
             </tr>
           </table>

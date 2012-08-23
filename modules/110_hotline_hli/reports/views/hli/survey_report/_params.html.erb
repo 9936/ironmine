@@ -20,11 +20,11 @@
             <tr>
               <td>
                 <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
-                <%= date_field_tag(:date_from,program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:size=>12,:nobutton=>true)%>
+                <%= date_field_tag(:date_from,:value => program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:size=>12,:nobutton=>true)%>
               </td>
               <td>
                 <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
-                <%= date_field_tag(:date_to,program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:size=>12,:nobutton=>true)%>
+                <%= date_field_tag(:date_to,:value => program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:size=>12,:nobutton=>true)%>
               </td>
             </tr>
           </table>
