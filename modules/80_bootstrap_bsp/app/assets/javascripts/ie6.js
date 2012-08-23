@@ -33,7 +33,7 @@ $(function () {
 function select_for_ie6(show){
     //隐藏select
     if(show){
-        $("select").each(function(){
+        $("select:visible").each(function(){
             $(this).attr("show_select",true);
             $(this).hide();
         })
