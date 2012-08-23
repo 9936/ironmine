@@ -1,7 +1,7 @@
 class Icm::IncidentJournalsController < ApplicationController
 
   before_filter :setup_up_incident_request
-  before_filter :backup_incident_request ,:only=>[:create,:update_close,:update_permanent_close,:update_reopen,:update_pass,:update_status,:update_upgrade]
+  before_filter :backup_incident_request ,:only=>[:create,:update_close,:update_permanent_close,:update_reopen,:update_pass,:update_status,:update_upgrade, :update_workload]
 
   def index
    redirect_to :action=>"new"
@@ -236,13 +236,12 @@ class Icm::IncidentJournalsController < ApplicationController
 
   def update_pass
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
-
+    @incident_journal.reply_type = "PASS"
     @incident_request.attributes = params[:icm_incident_request]
 
     perform_create(true)
     respond_to do |format|
       if @incident_journal.valid?&&@incident_request.support_group_id
-        @incident_journal.reply_type = "PASS"
         @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
         support_person_id = @incident_request.support_person_id
         support_person_id = Icm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
@@ -464,7 +463,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def process_files(ref_journal)
     @files = []
     params[:files].each do |key,value|
-      file << Irm::AttachmentVersion.create({:source_id=>ref_journal.id,
+      file = Irm::AttachmentVersion.create({:source_id=>ref_journal.id,
                                                :source_type=>ref_journal.class.name,
                                                :data=>value[:file],
                                                :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
