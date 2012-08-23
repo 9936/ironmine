@@ -34,6 +34,16 @@ class Icm::IncidentJournal < ActiveRecord::Base
     select("#{Irm::Profile.view_name}.name profile_name,#{Irm::Profile.view_name}.code profile_code,#{Irm::Profile.view_name}.user_license")
   }
 
+  scope :with_replied_by_name,lambda{
+    joins("JOIN #{Irm::Person.table_name} replied ON  replied.id = #{table_name}.replied_by").
+    select("replied.full_name full_name, replied.login_name login_name")
+  }
+
+  scope :without_attribute_change_journal, lambda{
+    where("#{table_name}.reply_type IN (?)",
+          ["OTHER_REPLY", "CUSTOMER_REPLY", "SUPPORTER_REPLY"])
+  }
+
   scope :query_by_request,lambda{|request_id|
     select("#{table_name}.*").where(:incident_request_id => request_id)
   }
@@ -67,6 +77,22 @@ class Icm::IncidentJournal < ActiveRecord::Base
     self.incident_request.watcher_person_ids
   end
 
+  def relation_vips
+    ids = Irm::Person.
+        where("organization_id = ?", self.incident_request.organization_id).
+        where("vip_flag = ?", Irm::Constant::SYS_YES).
+        collect{|p|p[:id]}
+
+    ids
+  end
+
+  def incident_organization_id
+    self.incident_request.organization_id
+  end
+
+  def incident_support_person_id
+    self.incident_request.support_person_id
+  end
 
   def create_elapse
     return unless Icm::IncidentJournalElapse.where(:incident_journal_id=>self.id).count<1

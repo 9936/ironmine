@@ -62,7 +62,13 @@ module Icm::IncidentJournalsHelper
     link = "<div class='file-icon'><img style='width:20px;height:20px;' src='#{image_path}'></div>" if with_image
     description = "<a target='_blank' href='#{f.data.url}' stats=""><div class='file-info'><div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
                    <div title='#{f.description}' class='file-desc'>#{f.description}</div></div></a>"
-    content_tag(:div, (link.html_safe + description.html_safe).html_safe,{:class=>"file-item"}).html_safe
+    delete_link = ""
+    delete_link << "<a data-remote=true data-confirm='#{I18n.t(:label_delete_confirm)}' href='#{url_for(:controller => "icm/incident_requests",
+                                               :action => "remove_attachment",
+                                               :attachment_id => f.id)}'>#{btn_delete_icon}</a>" if allow_to_function?(:remove_attachment) || f.created_by == Irm::Person.current.id
+    #content_tag(:div, (link.html_safe + description.html_safe).html_safe,{:class=>"file-item"}).html_safe
+    content_tag(:div, (content_tag(:div, link.html_safe + description.html_safe, {:style => "display:inline;", :class=>"file-item"}) +
+        "&nbsp;&nbsp;".html_safe + delete_link.html_safe).html_safe,{:class=>"fileItem"}).html_safe
   end
 
   def process_message(msg)
@@ -110,7 +116,7 @@ module Icm::IncidentJournalsHelper
 
 
   def available_passable_supporter(group_id)
-    people =  Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(group_id).order_id.collect{|p|[p[:person_name],p[:person_id]]}
+    people =  Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(group_id).order("CONVERT( #{Irm::Person.table_name}.full_name USING gbk )").collect{|p|[p[:person_name],p[:person_id]]}
     people.delete_if{|p| Irm::Person.current.id.eql?(p[1])}
   end
 
