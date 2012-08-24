@@ -6,6 +6,8 @@
  *= require bootstrap/bootstrap-ie6
  *= require framework/framework
  *= require plugins/treeview
+ *= require plugins/jquery-chosen
+ *= require plugins/chosen-overrides
  *= require browser/ie6
  *= require ie6
 */
