@@ -1,4 +1,4 @@
-<%= form_for(@incident_request,:url=>{:action=>"update_close"},:builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
+<%= form_for(@incident_request,:url=>{:action=>"update_close"},:builder => CustomFormBuilder) do |f| %>
   <% content_for :form_block_common   do%>
     <table class="form-table" style="width: 100%;">
       <tbody>
@@ -177,6 +177,17 @@
             <tr>
               <td class="label-col"><label ><%=t(:label_icm_incident_request_contact_number)%></label></td>
               <td class="data-col" colspan="5"><div><%= @incident_request[:contact_number] %></div></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
+              <td class="data-col" colspan="5" style="word-WRAP: break-word;">
+                <div class="reply-body">
+                  <div class="message-body">
+                    <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3><br><br>
+                    <%= raw process_message(@incident_request[:summary])  %>
+                  </div>
+                </div>
+              </td>
             </tr>
             </tbody>
         </table>

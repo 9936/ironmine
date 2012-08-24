@@ -163,7 +163,7 @@
                                                             :role_id => "${person_role_id}"),
                                              :depend=>"incident_request_support_group_id",
                                              }) %>
-        <%= submit_tag(t(:label_icm_incident_request_assign),{:id=>"formSubmit"})  %>
+        <%= submit_tag(t(:label_icm_incident_request_assign),{:id=>"formSubmit",:class=>"btn btn-primary"})  %>
     <% end  %>
     <script type="text/javascript">
         $("#incident_request_support_group_id").cascade("#incident_request_support_person_id")
@@ -178,7 +178,7 @@
     <label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label>
     <%=f.select :impact_range_id,available_impact_range,
                                         {},{:id=>"incident_request_impact_range_code"}%>
-    <%= submit_tag(t(:update),{:id=>"updatePriorityFormSubmit"})  %>
+    <%= submit_tag(t(:update),{:id=>"updatePriorityFormSubmit",:class=>"btn btn-primary"})  %>
 <% end %>
 <% end %>
 
@@ -287,6 +287,17 @@
         <tr>
           <td class="label-col"><label ><%=t(:label_irm_project_info)%></label></td>
           <td class="data-col" colspan="5"><div><%= @incident_request[:project_info] %></div></td>
+        </tr>
+        <% end %>
+        <% if @incident_request.incident_workloads.any? %>
+        <tr>
+          <td class="label-col"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
+          <td class="data-col" colspan="5"><label>
+            <% @incident_request.incident_workloads.each do |iw| %>
+                <% next if iw.person.nil? %>
+                <%= iw.person[:full_name]%>:<%= iw[:real_processing_time]%>&nbsp;<%= ", " unless iw == @incident_request.incident_workloads.last %>
+            <% end %>
+            </label></td>
         </tr>
         <% end %>
         <tr>
