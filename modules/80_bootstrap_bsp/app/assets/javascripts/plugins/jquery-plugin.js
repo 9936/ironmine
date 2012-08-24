@@ -184,7 +184,7 @@
             } else if (($(targets[i]).find('option').length > chosenMiniNum && $(targets[i]).attr("chosen") != 'false') || $(targets[i]).attr("chosen") == 'true') {
                 if (typeof $(targets[i]).attr("chosen") == 'undefined') $(targets[i]).attr("chosen",true);
                 $(targets[i]).css('width', ($(targets[i]).width()+18)+'px');
-                $(targets[i]).chosen({no_results_text: '没有对应的选项'});
+                $(targets[i]).chosen({no_results_text: '没有对应的选项',search_contains: true,disable_search_threshold: searchMiniNum});
             }
         }, 1);
 

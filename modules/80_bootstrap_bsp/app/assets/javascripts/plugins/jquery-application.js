@@ -433,7 +433,7 @@ function checkSelect(){
         if(($(element).find("option").length > chosenMiniNum && $(element).attr("chosen") != 'false') || $(element).attr("chosen") == 'true') {
             if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);
             $(element).css('width', ($(element).width()+18)+'px');
-            $(element).chosen({no_results_text: '没有对应的选项'});
+            $(element).chosen({no_results_text: '没有对应的选项',search_contains: true,disable_search_threshold: searchMiniNum});
         }
     });
 }
