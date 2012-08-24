@@ -304,6 +304,10 @@
       }
     };
     Chosen.prototype.results_show = function() {
+      //解决在IE6下被select覆盖的bug
+      if($.browser.msie&&parseInt($.browser.version,10)===6){
+          select_for_ie6(true);
+      }
       var dd_top;
       if (!this.is_multiple) {
         this.selected_item.addClass("chzn-single-with-drop");
@@ -322,6 +326,9 @@
       return this.winnow_results();
     };
     Chosen.prototype.results_hide = function() {
+      if($.browser.msie&&parseInt($.browser.version,10)===6){
+        select_for_ie6(false);
+      }
       if (!this.is_multiple) {
         this.selected_item.removeClass("chzn-single-with-drop");
       }
@@ -461,7 +468,8 @@
       this.no_results_clear();
       results = 0;
       searchText = this.search_field.val() === this.default_text ? "" : $('<div/>').text($.trim(this.search_field.val())).html();
-      regex = new RegExp('^' + searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
+//      regex = new RegExp('^' + searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
+      regex = new RegExp(searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
       zregex = new RegExp(searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
       _ref = this.results_data;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
