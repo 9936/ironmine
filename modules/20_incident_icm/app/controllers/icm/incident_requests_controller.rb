@@ -258,7 +258,7 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def get_external_systems
-    external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by])
+    external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by]).order("CONVERT( system_name USING gbk ) ")
     external_systems_scope = external_systems_scope.uniq
     external_systems = external_systems_scope.collect{|i| {:label=>i[:system_name], :value=>i.id,:id=>i.id}}
     respond_to do |format|

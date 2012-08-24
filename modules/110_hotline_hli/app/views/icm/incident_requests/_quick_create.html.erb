@@ -33,7 +33,7 @@
                          :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
             <% else %>
                 <%=f.select :external_system_id,
-                        nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
+                        nullable_options_for_select(current_person_assessible_external_system_full(Irm::Person.current.id),nil),
                         {},
                         {:id=>"ass_external_system",:required=>true,:style => "width:180px",
                          :depend=>"incident_request_requested_by",
