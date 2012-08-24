@@ -1,4 +1,4 @@
-@jqueryChosenPath: asset-path('plugins/chosen/jquery.chosen.png');
+@jqueryChosenPath: asset-path('plugins/chosen/chosen-sprite.png');
 .chzn-container {
   font-size: 11px;
 }
@@ -10,6 +10,10 @@
 
 .chzn-container-single .chzn-single div b {
   background: url(@jqueryChosenPath) no-repeat 0 -1px;
+}
+
+.chzn-container-active .chzn-single-with-drop div b {
+    background-position: -18px 0;
 }
 
 .chzn-container-single .chzn-search input {
