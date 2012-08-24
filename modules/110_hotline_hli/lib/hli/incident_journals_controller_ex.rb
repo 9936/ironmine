@@ -132,7 +132,7 @@ module Hli::IncidentJournalsControllerEx
                 where("#{Icm::IncidentJournal.table_name}.incident_request_id = ?", @incident_request.id) unless @supporters.any?
 
         respond_to do |format|
-          format.html { render :layout => "application_full"}# new.html.erb
+          format.html { render :layout => "bootstrap_application_full"}# new.html.erb
           format.xml  { render :xml => @incident_journal }
         end
       end

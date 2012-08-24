@@ -1,0 +1,49 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<table  class="form-table baseFilter"  id="baseFilter">
+  <tbody>
+    <tr>
+      <td width="30%"></td>
+      <td></td>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_irm_external_system) %></label>
+        <div style="white-space:nowrap">
+          <%= select_tag_multiple(
+                      "program_params[external_system_id][]",
+                      nullable_options_for_select(current_person_assessible_external_system_full, program_params[:external_system_id]),
+                      "program_params[external_system_mul]",
+                      program_params[:external_system_mul] ? program_params[:external_system_mul] : 'N', true)%>
+        </div>
+      </td>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_irm_report_time_range) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                <%= date_field_tag(:start_date,:value => program_params[:start_date],:id=>"filterDateFrom",:name=>"program_params[start_date]",:size=>12,:nobutton=>true)%>
+                <%= hidden_field_tag "program_params[running_person_id]", Irm::Person.current.id %>
+              </td>
+              <td>
+                <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                <%= date_field_tag(:end_date,:value => program_params[:end_date],:id=>"filterDateTo",:name=>"program_params[end_date]",:size=>12,:nobutton=>true)%>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+      <td>
+        <label><%=t(:label_icm_incident_request_hotline)%></label>
+        <div style="white-space:nowrap">
+            <%= radio_button_tag "program_params[hotline]", Irm::Constant::SYS_YES, program_params[:hotline].eql?("Y"), :id => "incident_request_hotline_y" %>
+            <label for="incident_request_hotline_y" style="display:inline;"><%=t(:label_icm_incident_request_hotline_y)%></label>&nbsp;&nbsp;
+            <%= radio_button_tag "program_params[hotline]", Irm::Constant::SYS_NO, program_params[:hotline].eql?("N"), :id => "incident_request_hotline_n"%>
+            <label for="incident_request_hotline_n" style="display:inline;"><%=t(:label_icm_incident_request_hotline_n)%></label>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

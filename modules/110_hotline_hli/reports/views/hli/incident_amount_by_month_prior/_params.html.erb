@@ -1,0 +1,42 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<table  class="form-table baseFilter"  id="baseFilter">
+  <tbody>
+    <tr>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_report_icm_incident_params_ym_s) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <div style="white-space:nowrap">
+                  <%=  select_year(program_params[:year_from]?Date.new(program_params[:year_from].to_i):Date.today,{ :start_year => 2005, :end_year => Time.now.strftime("%Y").to_i},{:name=>'program_params[year_from]' ,:id=>'year_from'}) %>
+                  <%=  select_month(program_params[:month_from]?Date.new(program_params[:year_from].to_i,program_params[:month_from].to_i):Date.today,{},{:name=>'program_params[month_from]' ,:id=>'month_from'}) %>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_report_icm_incident_params_ym_e) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <div style="white-space:nowrap">
+                  <%=  select_year(program_params[:year_to]?Date.new(program_params[:year_to].to_i):Date.today,{ :start_year => 2005, :end_year => Time.now.strftime("%Y").to_i},{:name=>'program_params[year_to]' ,:id=>'year_to'}) %>
+                  <%=  select_month(program_params[:month_to]?Date.new(program_params[:year_to].to_i,program_params[:month_to].to_i):Date.today,{},{:name=>'program_params[month_to]' ,:id=>'month_to'}) %>                </div>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+
+    </tr>
+  </tbody>
+</table>

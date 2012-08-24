@@ -1,0 +1,31 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<table  class="form-table baseFilter"  id="baseFilter">
+  <tbody>
+    <tr>
+      <td width="30%"></td>
+      <td></td>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_report_date_month) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <div style="white-space:nowrap">
+                  <%= I18n.t(:label_irm_report_filter_date_from) %>
+                  <%= select_date program_params[:from_year].present? ? Date.strptime("#{program_params[:from_year][:year]}-#{program_params[:from_year][:month]}", "%Y-%m") : Time.now,
+                                  :prefix => 'program_params[from_year]', :order =>[:year, :month], :include_blank => false %>
+                  <%= I18n.t(:label_irm_report_filter_date_to) %>
+                  <%= select_date program_params[:to_year].present? ? Date.strptime("#{program_params[:to_year][:year]}-#{program_params[:to_year][:month]}", "%Y-%m") : Time.now,
+                                  :prefix => 'program_params[to_year]', :order =>[:year, :month], :include_blank => false %>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+    </tr>
+  </tbody>
+</table>

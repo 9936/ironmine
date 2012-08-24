@@ -24,7 +24,7 @@
                            :required => true}%>
               <% else %>
                   <%=f.select :external_system_id,
-                          nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),
+                          nullable_options_for_select(current_person_assessible_external_system_full(Irm::Person.current.id),@incident_request.external_system_id),
                           {},
                           {:id=>"ass_external_system",
                            :depend=>"incident_request_requested_by",
