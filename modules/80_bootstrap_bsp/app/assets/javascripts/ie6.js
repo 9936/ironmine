@@ -17,6 +17,15 @@ $(function () {
        $(this).addClass("add-on");
        $(this).text("查找");
     });
+
+
+    var zIndexNumber = 1000;
+    // Put your target element(s) in the selector below!
+    $("div").each(function() {
+        $(this).css('zIndex', zIndexNumber);
+        zIndexNumber -= 10;
+    });
+
     //修复IE6下select样式无法生效
 //    $("select").each(function(){
 //       $(this).css("margin", "-2px").css("overflow","hidden");
@@ -33,13 +42,14 @@ $(function () {
 function select_for_ie6(show){
     //隐藏select
     if(show){
-        $("select").each(function(){
+        $("select:visible").each(function(){
             $(this).attr("show_select",true);
             $(this).hide();
         })
     }else{
         $("select").each(function(){
             if($(this).attr("show_select")){
+              $(this).removeAttr("show_select");
               $(this).show();
             }
         })

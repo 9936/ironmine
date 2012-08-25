@@ -1,5 +1,5 @@
 body {background:#ffffff;background-image:none; padding:0}
-               
+
 /* Original hacks by Jonathon Joyce (edited) */
 .row {margin:0;margin-left:-20px}
 .span1, .span2, .span3, .span4, .span5, .span6, .span7, .span8, .span9, .span10, .span11, .span12  {float:left;display:inline}
@@ -20,7 +20,7 @@ body {background:#ffffff;background-image:none; padding:0}
 .navbar .nav .active .dropdown-toggle:hover {color:#ffffff}
 
 .dropdown .dropdown-toggle {margin-bottom:1px;position:relative;top:2px;left:0px}
-    
+
 .dropdown-menu li {width:100%}
 .dropdown-menu li a {width:100%;padding:3px 0px 3px 5px}
 .dropdown-menu li a:hover,
@@ -34,7 +34,7 @@ body {background:#ffffff;background-image:none; padding:0}
 
 .tab-content .tab-pane {display:none}
 .tab-content .tab-pane.active {display:block;background-color:transparent}
-               
+
 
 /* 修复表单 */
 input,select,textarea{
@@ -43,6 +43,10 @@ input,select,textarea{
 select {
     font-size: 13px;
 }
+input {
+    width: auto;
+}
+
 .button-reset {height:auto;width:auto;margin-bottom:0}
 .input-text {display:inline-block;line-height:18px;height:18px;padding:1px 0;margin:0px;margin-bottom:9px;border:1px solid #ccc;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif}
 .help-inline {display:block;line-height:18px;height:18px;padding:4px 0px 4px 5px}
@@ -56,7 +60,7 @@ label.radio {display:block;line-height:18px;height:18px;width:100%;padding-left:
 .form-inline label.checkbox {display:inline-block;line-height:18px;height:18px;width:auto;padding-left:0px;margin: 0px}
 .form-inline .input-checkbox {width:auto;float:left;display:inline-block;padding:0px;margin:0px;height:auto;border:none}
 
-legend { width:auto}	
+legend { width:auto}
 
 .form-horizontal .help-block {display:inline-block;margin-left: 3px}
 .form-horizontal .control-label {float:left;display:inline-block;width:140px;text-align:right;padding-top:5px}
@@ -233,5 +237,28 @@ a:hover .caret  {
     display: inline-block;
     width: 60px;
 }
+/*IE6下duel select组件*/
+table.duel-select tr.duel-list select {
+    width: 180px;
+    height: auto;
+}
+/*修复IE6下jquery chosen*/
+.chzn-container {
+    display: inline;
+}
+
+/*.chzn-container-active {*/
+    /*position: relative;*/
+    /*z-index: 1;*/
+/*}*/
+
+.chzn-container .chzn-results {
+    height:expression(this.height > 240? "240px": "auto" );
+}
+
+div.chzn-container a:hover {
+    text-decoration: no-underline;
+}
+
 
 

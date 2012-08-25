@@ -1,0 +1,47 @@
+<style type="text/css">
+  table#reportData td,th{
+       padding: 3px 2px 3px 5px;
+  }
+</style>
+<!--  irm datatable      -->
+ <div class="irm-datatable">
+   <div>
+       <table id="reportData" count="<%=datas[:datas].count%>">
+         <thead>
+            <tr>
+              <th style="width:110px;">
+                <div><%= t(:label_csi_survey_title) %></div>
+              </th>
+              <th style="width:110px;">
+                <div><%= t(:label_csi_survey_person_count) %></div>
+              </th>
+              <th style="width:110px;">
+                 <div><%= t(:label_csi_survey_date) %></div>
+              </th>
+            </tr>
+         </thead>
+         <tbody>
+         <% datas[:datas].each do |data| %>
+          <tr id="<%=data[:id]%>">
+            <td>
+              <div>
+                <%= data[:title] %>
+              </div>
+            </td>
+            <td>
+              <div>
+                <%= data[:total_count] %>
+              </div>
+            </td>
+            <td>
+              <div>
+                <%= data[:date] %>
+              </div>
+            </td>
+          </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+<!--  end irm datatable      -->

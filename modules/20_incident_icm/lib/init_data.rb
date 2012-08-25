@@ -97,7 +97,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "chm/change_requests" => ["show_detail"],
               "icm/incident_journals" => ["index", "new"],
-              "icm/incident_requests" => ["get_data", "get_external_systems", "get_help_desk_data", "get_slm_services", "index"],
+              "icm/incident_requests" => ["get_data", "get_external_systems", "get_help_desk_data", "get_slm_services", "index",
+                                          "update", "remove_attachment"],
           },
           :view_all_incident_request => {
               :en => {:name => "View ALL", :description => "View ALL"},
@@ -113,7 +114,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "Y",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/incident_journals" => ["apply_entry_header", "create", "get_entry_header_data", "index", "new"],
+              "icm/incident_journals" => ["apply_entry_header", "create", "get_entry_header_data", "index", "new", "get_incident_history_data"],
           },
           :pass_incident_request => {
               :en => {:name => "Pass", :description => "Pass"},
@@ -245,7 +246,61 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/incident_requests" => ["edit", "update"],
+              "icm/incident_requests" => ["edit", "update"]
+          },
+
+          :remove_attachment => {
+              :en => {:name => "Remove Attachment", :description => "Remove Attachment"},
+              :zh => {:name => "删除附件", :description => "删除附件"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => ["remove_attachment"]
+          },
+
+          :edit_workload => {
+              :en => {:name => "Edit Workload", :description => "Edit Workload"},
+              :zh => {:name => "登记工时", :description => "登记工时"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_journals" => ["edit_workload", "update_workload"]
+          },
+
+          :remove_self_journal => {
+              :en => {:name => "Remove Self Journal", :description => "Remove Self Journal"},
+              :zh => {:name => "删除自己的回复", :description => "删除自己的回复"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_journals" => [:remove_journal]
+          },
+
+          :remove_any_journal => {
+              :en => {:name => "Remove Any Journal", :description => "Remove Any Journal"},
+              :zh => {:name => "删除任何回复", :description => "删除任何回复"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_journals" => [:remove_journal]
+          },
+
+          :cancel_request => {
+              :en => {:name => "Cancel Request", :description => "Cancel Request"},
+              :zh => {:name => "取消问题", :description => "取消问题"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => [:cancel_request, :enable_request]
+          },
+
+          :edit_incident_request_priority => {
+              :en => {:name => "Edit Priority", :description => "Edit Priority"},
+              :zh => {:name => "修改优先级", :description => "修改优先级"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => [:update]
           },
       }
   }

@@ -1,0 +1,1 @@
+var chosenMiniNum = 20;

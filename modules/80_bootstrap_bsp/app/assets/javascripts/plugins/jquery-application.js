@@ -111,6 +111,28 @@ $(function(){
     $("*[jrequired]").each(function(i,e){
         e.removeAttribute("jrequired");
     });
+
+    /*只允许输入小数*/
+    $('input[irm_pos_real_number]').live('keypress', function(event){
+        if (!$.browser.mozilla) {
+         if (event.keyCode && (event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 46)
+          event.preventDefault();
+        }
+        else {
+         if (event.charCode && (event.charCode < 48 || event.charCode > 57) && event.charCode != 46)
+          event.preventDefault();
+        }
+        $(this).attr("autocomplete", "off");
+    });
+
+    $('input[irm_pos_real_number]').live('blur', function(event){
+        var input = $(this);
+        var v = $.trim(input.val());
+         var reg = new RegExp("^[0-9]+(.[0-9]{1,3})?$", "g");
+         if (!reg.test(v)) {
+             input.val("0");
+         }
+    });
     $('form:not([data-remote]):not([target])').bind("submit",function(e){
          if($(this).attr("target")){
            return;
@@ -407,8 +429,8 @@ function get_dom_id(ajaxOptions) {
 //START =================================Chosen 渲染select================================
 function checkSelect(){
     $("select:not([multiple])").each(function(index,element){
-        //如果当前select的options超过25项或者chosen=true属性对其进行渲染
-        if($(element).find("option").length > 20 || $(element).attr("chosen") == 'true') {
+        //如果当前select的options超过chosenMiniNum项或者chosen=true属性对其进行渲染
+        if(($(element).find("option").length > chosenMiniNum && $(element).attr("chosen") != 'false') || $(element).attr("chosen") == 'true') {
             if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);
             $(element).css('width', ($(element).width()+18)+'px');
             $(element).chosen({no_results_text: '没有对应的选项'});

@@ -85,6 +85,8 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
     lov_link_str = @template.link_to({},{:class=>"btn lov-btn",:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
       @template.content_tag(:i,"",{:class=>"icon-search"}).html_safe
     end
+
+
     wrapped_field(@template.content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str,{:class=>"from-inline input-append"},false),field,options)
 
   end

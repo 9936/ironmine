@@ -1070,8 +1070,11 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/reports" => ["create", "create_program", "destroy", "edit_custom", "edit_custom_program", "new", "new_program", "operator_value", "update_custom", "update_custom_program"],
-              "irm/report_triggers" => ["create", "destroy", "edit", "index", "new", "update"],
+              "irm/reports"=>["new", "new_template", "create_template",
+                              "create","operator_value","destroy","new_program",
+                              "create_program", "edit_custom", "update_custom",
+                              "edit_custom_program","update_custom_program","show_template"],
+              "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]
           },
           :edit_reports => {
               :en => {:name => "Edit Report", :description => "Edit Report"},
@@ -1079,7 +1082,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/reports" => ["edit", "edit_program", "multilingual_edit", "multilingual_update", "operator_value", "update", "update_program"],
+              "irm/reports" => ["edit", "update","operator_value", "multilingual_edit", "multilingual_update",
+                                "edit_program","update_program", "edit_template", "update_template"],
               "irm/report_triggers" => ["create", "destroy", "edit", "index", "new", "update"],
           },
           :view_report_folders => {
@@ -1744,10 +1748,28 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/people" => ["index", "show", "get_data", "get_choose_people", "new", "create", "get_support_group", "get_owned_roles", "edit", "update", "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles", "reset_password"],
+              "irm/people" => ["index", "show", "get_data", "get_choose_people", "new", "create",
+                               "get_support_group", "get_owned_roles",
+                               "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles", "reset_password"],
               "irm/external_system_members" => ["new_from_person", "create_from_person", "delete_from_person", "get_available_external_system_data", "get_owned_members_data", "get_available_people_data"],
-              "irm/group_members" => ["new_from_person", "get_groupable_data", "create_from_person", "get_data_from_person", "delete_from_person"],
+              "irm/group_members" => ["new_from_person", "get_groupable_data", "create_from_person", "get_data_from_person", "delete_from_person"]
           },
+          :edit_person => {
+              :en => {:name => "Edit User", :description => "Edit User"},
+              :zh => {:name => "编辑用户", :description => "编辑用户"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/people" => ["edit", "update"]
+          },
+          :reset_person_password => {
+              :en => {:name => "Reset Password", :description => "Reset Person Password"},
+              :zh => {:name => "重置密码", :description => "重置密码"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/people" => ["reset_password"]
+          }
       }
   }
   #=================================END:PERSON=================================
@@ -1815,6 +1837,14 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/groups" => ["create", "edit", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
               "irm/group_members" => ["create", "create_from_person", "delete", "delete_from_person", "get_data", "get_data_from_person", "get_memberable_data", "new", "new_from_person"],
           },
+          :view_group => {
+              :en => {:name => "View Group", :description => "View Group"},
+              :zh => {:name => "查看组", :description => "查看组"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/group_members" => ["get_memberable_data", "get_data", "get_data_from_person"]
+          }
       }
   }
   #=================================END:GROUP=================================

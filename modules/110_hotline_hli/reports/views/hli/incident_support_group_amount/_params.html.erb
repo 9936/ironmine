@@ -1,0 +1,72 @@
+<% require_javascript(:datepicker) %>
+<% require_css(:datepicker) %>
+<table  class="form-table baseFilter"  id="baseFilter">
+  <tbody>
+    <tr>
+      <td width="30%"></td>
+      <td></td>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_icm_incident_request_target_system) %></label>
+        <div style="white-space:nowrap">
+          <%= lov_field_tag(:external_system_id,Irm::ExternalSystem,:name=>"program_params[external_system_id]",:value=>program_params[:external_system_id],:id=>"external_system_id") %>
+        </div>
+      </td>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_icm_incident_request_incident_category) %></label>
+        <div style="white-space:nowrap">
+                <%=select_tag_alias :incident_category_id,
+                                    [],
+                                    nil,
+                                    {:id=>"incident_category_id",
+                                     :name=>"program_params[incident_category_id]",
+                                     :origin_value=>program_params[:incident_category_id],
+                                     :depend=>"external_system_id",
+                                     :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                     :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
+                                                    :external_system_id=>"${external_system_id}")}%>
+        </div>
+      </td>
+
+      <td>
+        <label for="loginPerson_label"><%= t(:label_icm_incident_request_incident_sub_category) %></label>
+        <div style="white-space:nowrap">
+              <%=select_tag_alias  :incident_sub_category_id,
+                          [],
+                          nil,
+                          {
+                           :id=>"incident_sub_category_id",
+                           :name=>"program_params[incident_sub_category_id]",
+                           :origin_value=>program_params[:incident_sub_category_id],
+                           :depend=>"incident_category_id",
+                           :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                           :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
+                                          :incident_category_id=>"${incident_category_id}")}%>        </div>
+      </td>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_irm_report_time_range) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+                <%= date_field_tag(:date_from,:value => program_params[:date_from],:id=>"filterDateFrom",:name=>"program_params[date_from]",:size=>12,:nobutton=>true)%>
+              </td>
+              <td>
+                <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+                <%= date_field_tag(:date_to,:value => program_params[:date_to],:id=>"filterDateTo",:name=>"program_params[date_to]",:size=>12,:nobutton=>true)%>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<script type="text/javascript">
+  $(function(){
+      $("#external_system_id").cascade("#incident_category_id");
+      $("#incident_category_id").cascade("#incident_sub_category_id");
+  });
+</script>

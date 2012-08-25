@@ -1,6 +1,9 @@
 module Hli::IncidentRequestsControllerEx
   def self.included(base)
     base.class_eval do
+      before_filter :setup_up_incident_request, :only => [:update]
+      before_filter :backup_incident_request ,:only =>[:update]
+
       def get_help_desk_data
         return_columns = [:request_number,
                           :organization_id,
@@ -137,6 +140,43 @@ module Hli::IncidentRequestsControllerEx
       end
 
       private
+      def validate_files(ref_request)
+        flash[:notice] = nil
+        now = 0
+        flag = true
+        flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files]) if params[:files]
+        return false, now unless flag
+        params[:files].each do |key,value|
+          next unless value[:file] && value[:file].original_filename.present?
+          flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit)
+          return false, now unless flag
+        end if params[:files]
+        return true, now
+      rescue
+        return false, now
+      end
+
+      def setup_up_incident_request
+        @incident_request = Icm::IncidentRequest.select_all.
+            with_workloads.
+            with_requested_by(I18n.locale).
+            with_urgence(I18n.locale).
+            with_impact_range(I18n.locale).
+            with_contact.
+            with_incident_status(I18n.locale).
+            with_priority(I18n.locale).
+            with_submitted_by.
+            with_category(I18n.locale).
+            with_support_group(I18n.locale).
+            with_supporter(I18n.locale).
+            with_external_system(I18n.locale).
+            with_organization(I18n.locale).find(params[:id])
+      end
+
+      def backup_incident_request
+        @incident_request_bak = @incident_request.dup
+      end
+
       def perform_assignment(incident_request_id, assign_options)
         # 待分配事故单
         request = Icm::IncidentRequest.unscoped.find(incident_request_id)

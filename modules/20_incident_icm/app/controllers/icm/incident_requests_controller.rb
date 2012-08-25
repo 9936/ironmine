@@ -116,24 +116,23 @@ class Icm::IncidentRequestsController < ApplicationController
       end
     end      
   end
-  
-  # PUT /incident_requests/1
-  # PUT /incident_requests/1.xml
+
   def update
+    @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
     @incident_request = Icm::IncidentRequest.find(params[:id])
     respond_to do |format|
-      flag = true
-      flag, now = validate_files(@incident_request) if params[:files].present?
+      flag, now = validate_files(@incident_request)
       if !flag
         flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
-        format.html { render :action => "edit", :layout=>"application_right"}
+        format.html { render :action => "edit", :layout=>"bootstrap_application_full"}
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.update_attributes(params[:icm_incident_request])
         process_files(@incident_request)
-        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES})}
+        process_change_attributes(Icm::IncidentReply.all_attributes,@incident_request,@incident_request_bak, @incident_request.id)
+        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit", :layout => "application_full" }
+        format.html { render :action => "edit", :layout => "bootstrap_application_full" }
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       end
     end
@@ -259,7 +258,7 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   def get_external_systems
-    external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by])
+    external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by]).order("CONVERT( system_name USING gbk ) ")
     external_systems_scope = external_systems_scope.uniq
     external_systems = external_systems_scope.collect{|i| {:label=>i[:system_name], :value=>i.id,:id=>i.id}}
     respond_to do |format|
@@ -486,6 +485,17 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   private
+  def process_change_attributes(attributes,new_value,old_value,ref_request)
+    attributes.each do |key|
+      ovalue = old_value.send(key.to_s)
+      nvalue = new_value.send(key.to_s)
+      hi = Icm::IncidentHistory.create({:request_id=> ref_request,
+                                     :property_key=>key.to_s,
+                                     :old_value=>ovalue,
+                                     :new_value=>nvalue}) if !ovalue.eql?(nvalue)
+    end
+  end
+
   def prepared_for_create(incident_request)
     incident_request.submitted_by = Irm::Person.current.id
     incident_request.submitted_date = Time.now

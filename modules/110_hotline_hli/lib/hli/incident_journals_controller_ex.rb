@@ -1,6 +1,28 @@
 module Hli::IncidentJournalsControllerEx
   def self.included(base)
     base.class_eval do
+      def new
+        @incident_journal = @incident_request.incident_journals.build()
+
+        @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").
+                        select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time").
+                        where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
+                        where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0").
+                        where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES)
+
+        @incident_reply = Icm::IncidentReply.new()
+        respond_to do |format|
+          format.html { render :layout=>"bootstrap_application_right"}
+          format.xml  { render :xml => @incident_journal }
+          format.pdf {
+            render :pdf => "[#{@incident_request.request_number}]#{@incident_request.title}",
+                   :print_media_type => true,
+                   :layout => 'layouts/pdf.html.erb',
+                   :encoding => 'utf-8'
+          }
+        end
+      end
+
       def create
         @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
         @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
@@ -110,7 +132,7 @@ module Hli::IncidentJournalsControllerEx
                 where("#{Icm::IncidentJournal.table_name}.incident_request_id = ?", @incident_request.id) unless @supporters.any?
 
         respond_to do |format|
-          format.html { render :layout => "application_full"}# new.html.erb
+          format.html { render :layout => "bootstrap_application_full"}# new.html.erb
           format.xml  { render :xml => @incident_journal }
         end
       end
@@ -204,6 +226,55 @@ module Hli::IncidentJournalsControllerEx
         end
       end
 
+      def update_close
+        @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+        @incident_request.attributes = params[:icm_incident_request]
+        @incident_journal.reply_type = "OTHER_REPLY"
+
+        is_with_reply = @incident_journal.valid?
+        if is_with_reply
+          incident_journal_b = @incident_journal
+          @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+        end
+        @incident_journal.reply_type = "CLOSE"
+
+        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+        perform_create
+        respond_to do |format|
+          if @incident_request.save
+            Icm::IncidentWorkload.where("incident_request_id = ?", @incident_request.id).each do |t|
+              t.destroy
+            end
+            params[:incident_workloads].each do |work|
+              if work[:real_processing_time].blank? || work[:real_processing_time].to_f == 0 || work[:person_id].blank?
+                next
+              end
+              Icm::IncidentWorkload.create(:incident_request_id => @incident_request.id,
+                                           :real_processing_time => work[:real_processing_time],
+                                           :person_id => work[:person_id])
+            end if params[:incident_workloads]
+
+            incident_journal_b.create_elapse if is_with_reply
+            Icm::IncidentHistory.create({:request_id => incident_journal_b.incident_request_id,
+                                         :journal_id=> incident_journal_b.id,
+                                         :property_key=> "new_reply",
+                                         :old_value=>"",
+                                         :new_value=>incident_journal_b.journal_number}) if is_with_reply
+
+            process_change_attributes([:incident_status_id,:close_reason_id],@incident_request,@incident_request_bak,@incident_journal)
+            #process_files(@incident_journal)
+            @incident_journal.create_elapse
+            #关闭事故单时，产生一个与之关联的投票任务
+            #Delayed::Job.enqueue(Irm::Jobs::IcmIncidentRequestSurveyTaskJob.new(@incident_request.id))
+            format.html { redirect_to({:action => "new"}) }
+            format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+          else
+            format.html { render :action => "edit_close", :layout => "bootstrap_application_full" }
+            format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+          end
+        end
+      end
+
       private
       def setup_up_incident_request
         @incident_request = Icm::IncidentRequest.select_all.
@@ -220,6 +291,23 @@ module Hli::IncidentJournalsControllerEx
             with_supporter(I18n.locale).
             with_external_system(I18n.locale).
             with_organization(I18n.locale).find(params[:request_id])
+      end
+
+      def validate_files(ref_journal)
+        flash[:notice] = nil
+        now = 0
+        flag = true
+        flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files]) if params[:files]
+        return false, now unless flag
+        params[:files].each do |key, value|
+          next unless value[:file] && value[:file].original_filename.present?
+          flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit.to_s)
+          return false, now.to_s unless flag
+        end if params[:files]
+        return true, now
+      rescue Exception => e
+        logger.debug(e.message)
+        return false, now
       end
     end
   end

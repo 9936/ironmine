@@ -135,9 +135,11 @@
           <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
       <% end %>
     </div>
+    <% if false%>
     <div class="btn-group">
       <%= link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
     </div>
+    <% end %>
   </div>
 <% end %>
 
@@ -161,8 +163,12 @@
                                                             :role_id => "${person_role_id}"),
                                              :depend=>"incident_request_support_group_id",
                                              }) %>
-        <%= submit_tag(t(:label_icm_incident_request_assign),{:id=>"formSubmit"})  %>
+        <%= submit_tag(t(:label_icm_incident_request_assign),{:id=>"formSubmit",:class=>"btn btn-primary"})  %>
     <% end  %>
+    <script type="text/javascript">
+        $("#incident_request_support_group_id").cascade("#incident_request_support_person_id")
+        $("#person_role_id").cascade("#incident_request_support_person_id")
+    </script>
 <% end %>
 
 <% content_for :block_priority_controll_bar do %>
@@ -172,7 +178,7 @@
     <label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label>
     <%=f.select :impact_range_id,available_impact_range,
                                         {},{:id=>"incident_request_impact_range_code"}%>
-    <%= submit_tag(t(:update),{:id=>"updatePriorityFormSubmit"})  %>
+    <%= submit_tag(t(:update),{:id=>"updatePriorityFormSubmit",:class=>"btn btn-primary"})  %>
 <% end %>
 <% end %>
 
@@ -281,6 +287,17 @@
         <tr>
           <td class="label-col"><label ><%=t(:label_irm_project_info)%></label></td>
           <td class="data-col" colspan="5"><div><%= @incident_request[:project_info] %></div></td>
+        </tr>
+        <% end %>
+        <% if @incident_request.incident_workloads.any? %>
+        <tr>
+          <td class="label-col"><label for="incident_request_close_reason_code"><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
+          <td class="data-col" colspan="5"><label>
+            <% @incident_request.incident_workloads.each do |iw| %>
+                <% next if iw.person.nil? %>
+                <%= iw.person[:full_name]%>:<%= iw[:real_processing_time]%>&nbsp;<%= ", " unless iw == @incident_request.incident_workloads.last %>
+            <% end %>
+            </label></td>
         </tr>
         <% end %>
         <tr>
@@ -456,7 +473,7 @@
 
 <% content_for :change_request_tab do %>
     <% chm = Irm::ProductModule.usable?(:chm)&&@incident_request.change_request_id.present?;com = Irm::ProductModule.usable?(:com) %>
-    <% if chm||com %>
+    <% if allow_to_function?(:config_item) &&( chm||com )%>
         <!-- 处理关联的变更单 -->
         <%- if params[:format].eql?('pdf') -%>
            <%= content_for :incident_request_journals %>
@@ -557,10 +574,6 @@
           </td>
       </tr>
     </table>
-
-    <script type="text/javascript">
-        $("#incident_request_support_group_id").cascade("#incident_request_support_person_id")
-    </script>
     <% end %>
     <% if (allow_to_function?(:edit_incident_request_priority) ||
             Irm::Person.current.id == @incident_request.requested_by ||
@@ -617,7 +630,7 @@
   </tr></table>
   <div class="page-block-body">
     <%= datatable("incident_request_histories",{:action=>"get_incident_history_data", :format => "json"},[],
-                  {:paginator_box=>'incidentHistoriesPaginatorBox',:scroll=>"y"})%>
+                  {:paginator_box=>'incidentHistoriesPaginatorBox'})%>
   </div>
 </div>
 

@@ -553,7 +553,6 @@ module ApplicationHelper
     else
       link_to text, {}, html_options.merge({:href => "javascript:history.back();"})
     end
-
   end
 
   def link_submit(text = t(:save),options={})
