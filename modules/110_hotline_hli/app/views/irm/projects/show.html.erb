@@ -64,11 +64,17 @@
         <%= link_to t(:label_irm_project_add_supporter),
                     {:action => "add_supporter_to_project", :project_code => @project[:short_name]},:class=>"btn"%>
       </td>
+      <td class="page-block-help">
+        <div id="support_person_listSearchBox"></div>
+      </td>
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("support_person_list", {:controller=>"irm/projects", :project_code => @project[:short_name], :action => "get_support_person_list_data", :format=>"json", :id => @project.id},
-                          [],{:paginator_box=>"support_person_list_paginator"})%>
+    <%= datatable("support_person_list",
+                  {:controller=>"irm/projects", :project_code => @project[:short_name],
+                   :action => "get_support_person_list_data", :format=>"json", :id => @project.id},
+                  [],{:paginator_box=>"support_person_list_paginator",
+                      :search_box=>"support_person_listSearchBox"})%>
   </div>
 </div>
 
@@ -81,13 +87,18 @@
       </td>
       <td class="page-block-button">
         <%= link_to t(:label_action_add_person),
-                    {:action => "add_customer_to_project", :project_code => @project[:short_name]}, :class => "btn"%>
+                    {:action => "add_customer_to_project",
+                     :project_code => @project[:short_name]}, :class => "btn"%>
+      </td>
+      <td class="page-block-help">
+        <div id="customer_listSearchBox"></div>
       </td>
     </tr>
   </table>
   <div class="page-block-body">
     <%= datatable("customer_list", {:controller=>"irm/projects", :project_code => @project[:short_name],
                                     :action => "get_customer_list_data", :format=>"json", :id => @project.id},
-                  [],{:paginator_box=>"customer_list_paginator"})%>
+                  [],{:paginator_box=>"customer_list_paginator",
+                      :search_box=>"customer_listSearchBox"})%>
   </div>
 </div>

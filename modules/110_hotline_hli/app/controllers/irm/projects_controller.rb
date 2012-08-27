@@ -268,6 +268,12 @@ class Irm::ProjectsController < ApplicationController
                 OR EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name} gm WHERE gm.person_id = #{Irm::Person.table_name}.id AND gm.group_id = ?)),
               rel_group.id, admin_group.id)
 
+    support_people_scope = support_people_scope.match_value("#{Irm::Person.table_name}.full_name",params[:person_name])
+    support_people_scope = support_people_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
+    support_people_scope = support_people_scope.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
+    support_people_scope = support_people_scope.match_value("pv.name",params[:profile_name])
+    support_people_scope = support_people_scope.match_value("rv.name",params[:role_name])
+
     @datas, @count = paginate(support_people_scope)
     @project_code = params[:project_code]
     respond_to do |format|
@@ -285,6 +291,12 @@ class Irm::ProjectsController < ApplicationController
     customer_people_scope = Irm::Person.list_all_a.
         where("EXISTS (SELECT 1 FROM #{Irm::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{Irm::Person.table_name}.id AND esp.external_system_id = ?)", rel_external_system.id).
         where("EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name} gm WHERE gm.person_id = #{Irm::Person.table_name}.id AND gm.group_id = ?)", gen_group.id)
+
+    customer_people_scope = customer_people_scope.match_value("#{Irm::Person.table_name}.full_name",params[:person_name])
+    customer_people_scope = customer_people_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
+    customer_people_scope = customer_people_scope.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
+    customer_people_scope = customer_people_scope.match_value("pv.name",params[:profile_name])
+    customer_people_scope = customer_people_scope.match_value("rv.name",params[:role_name])
 
     @datas, @count = paginate(customer_people_scope)
     @project_code = params[:project_code]
@@ -404,11 +416,15 @@ class Irm::ProjectsController < ApplicationController
     support_people_scope = support_people_scope.match_value("#{Irm::Person.table_name}.login_name",params[:login_name])
     support_people_scope = support_people_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
     support_people_scope = support_people_scope.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
+    support_people_scope = support_people_scope.match_value("pv.name",params[:profile_name])
+    support_people_scope = support_people_scope.match_value("rv.name",params[:role_name])
     datas, count = paginate(support_people_scope)
     @project_code = params[:project_code]
     respond_to do |format|
-      format.json {render :json=>to_jsonp(datas.to_grid_json([:id, :person_name, :email_address, :profile_name, :role_name,
-                                                                 :organization_name, :login_name],count))}
+      format.html  {
+        @datas = datas
+        @count = count
+      }
     end
   end
 
@@ -421,11 +437,15 @@ class Irm::ProjectsController < ApplicationController
     customer_people_scope = customer_people_scope.match_value("#{Irm::Person.table_name}.login_name",params[:login_name])
     customer_people_scope = customer_people_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
     customer_people_scope = customer_people_scope.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
+    customer_people_scope = customer_people_scope.match_value("pv.name",params[:profile_name])
+    customer_people_scope = customer_people_scope.match_value("rv.name",params[:role_name])
     datas, count = paginate(customer_people_scope)
     @project_code = params[:project_code]
     respond_to do |format|
-      format.json {render :json=>to_jsonp(datas.to_grid_json([:id, :person_name, :email_address, :profile_name, :role_name,
-                                                                 :organization_name, :login_name],count))}
+      format.html  {
+        @datas = datas
+        @count = count
+      }
     end
   end
 end
