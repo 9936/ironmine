@@ -1,6 +1,8 @@
 class Skm::EntryApprovalPerson < ActiveRecord::Base
   set_table_name :skm_entry_approval_people
 
+  validates_uniqueness_of :entry_header_id, :scope => :person_id
+
   belongs_to :entry_header, :class_name => "Skm::EntryHeader", :foreign_key => "entry_header_id"
 
   scope :query_approvals_by_person, lambda{|person_id|
