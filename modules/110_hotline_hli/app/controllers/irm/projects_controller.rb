@@ -412,7 +412,17 @@ class Irm::ProjectsController < ApplicationController
         where("NOT EXISTS (SELECT 1 FROM #{Irm::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{Irm::Person.table_name}.id AND esp.external_system_id = ?)", rel_external_system.id).
         where(%Q(NOT EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name} gm WHERE gm.person_id = #{Irm::Person.table_name}.id AND gm.group_id = ?)
                 AND NOT EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name} gm WHERE gm.person_id = #{Irm::Person.table_name}.id AND gm.group_id = ?)), rel_group.id, admin_group.id)
-    support_people_scope = support_people_scope.match_value("#{Irm::Person.table_name}.first_name",params[:person_name])
+    if params[:person_name] && params[:person_name].include?(" ")
+      pns = params[:person_name].split(" ")
+      query = ""
+      pns.each do |pn|
+        query << " OR " if query.present? && pn.present?
+        query << "#{Irm::Person.table_name}.full_name LIKE '%#{pn}%'" if pn.present?
+      end if pns
+      support_people_scope = support_people_scope.where(query) if query.present?
+    else
+      support_people_scope = support_people_scope.match_value("#{Irm::Person.table_name}.full_name",params[:person_name])
+    end
     support_people_scope = support_people_scope.match_value("#{Irm::Person.table_name}.login_name",params[:login_name])
     support_people_scope = support_people_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
     support_people_scope = support_people_scope.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])

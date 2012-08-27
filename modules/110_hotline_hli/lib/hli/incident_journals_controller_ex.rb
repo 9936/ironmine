@@ -182,16 +182,6 @@ module Hli::IncidentJournalsControllerEx
             order_by_created_at
 
         respond_to do |format|
-          format.json {
-            history_scope.each do |t|
-              meaning = t.meaning
-              t[:new_value_label] = meaning[:new_meaning]
-              t[:old_value_label] = meaning[:old_meaning]
-            end
-            histories,count = paginate(history_scope)
-            render :json=>to_jsonp(histories.to_grid_json([:new_value_label, :old_value_label, :new_value, :old_value,
-                                                           :created_by_full_name, :created_at, :property_key],count))
-          }
           format.html {
             @datas,@count = paginate(history_scope)
             @datas.each do |t|
