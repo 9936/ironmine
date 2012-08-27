@@ -5,7 +5,7 @@
 // Set the correct sprite paths
 @iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
 @iconWhiteSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings-white.png');
-
+@iconLoadingPath: asset-path('twitter/bootstrap/loading-circle.gif');
 // Your custom LESS stylesheets goes here
 //
 // Since bootstrap was imported above you have access to its mixins which
@@ -111,5 +111,13 @@ input, textarea, select, .uneditable-input {
 
 .open .dropdown-menu {
     display:block;
+}
+
+.modal .loading {
+    display: none;
+    height: 32px;
+    width: 32px;
+    margin: 0 auto;
+    background: url(@iconLoadingPath) no-repeat;
 }
 
