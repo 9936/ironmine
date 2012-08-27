@@ -128,19 +128,22 @@
       <td class="page-block-button">
         <%= link_to t(:label_irm_person_add_to_system), {:controller=>"irm/external_system_members",:action => "new_from_person",:person_id=>@person.id},:class=>"btn" %>
       </td>
+      <td class="page-block-help">
+        <div id="person_system_listSearchBox"></div>
+      </td>
     </tr>
   </table>
   <div class="page-block-body">
     <div id="person_system_list">
-      <!-- Begin company access table -->
-      <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id},
-                        [{:key=>"id",:label=>t(:operation)},
-                         {:key=>"system_name",:label=>t(:label_irm_external_system)},
-                         {:key=>"system_description",:label=>t(:description)},
-                         {:key=>"external_system_code", :hidden => true}],
-                        {:paginator_box=>"externalSystemsPaginatorBox"})%>
-      <!-- End company access table -->
     </div>
+    <!-- Begin company access table -->
+    <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id},
+                      [{:key=>"id",:label=>t(:operation)},
+                       {:key=>"system_name",:label=>t(:label_irm_external_system)},
+                       {:key=>"system_description",:label=>t(:description)},
+                       {:key=>"external_system_code", :hidden => true}],
+                      {:paginator_box=>"externalSystemsPaginatorBox",:search_box=>"person_system_listSearchBox"})%>
+    <!-- End company access table -->
     <div id="externalSystemsPaginatorBox"></div>
   </div>
 </div>
@@ -152,18 +155,22 @@
         <h2 class="block-title"><%=t(:label_irm_person_group)%></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to t(:label_irm_person_add_to_support_group), {:controller=>"irm/group_members",:action => "new_from_person",:id=>@person.id},:class=>"btn" %>
+        <%= link_to t(:label_irm_person_add_to_support_group),
+                    {:controller=>"irm/group_members",:action => "new_from_person",:id=>@person.id},:class=>"btn" %>
+      </td>
+      <td class="page-block-help">
+        <div id="support_groupSearchBox"></div>
       </td>
     </tr>
   </table>
   <div class="page-block-body">
     <div id="support_group">
-      <%= datatable("support_group", {:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id},
-                                    [{:key=>"id"},
-                                     {:key=>"name",:label=>t(:label_irm_group_name)},
-                                     {:key=>"description",:label=>t(:label_irm_group_description)}],
-                                    {:paginator_box=>"supportGroupPaginatorBox"})%>
     </div>
+    <%= datatable("support_group", {:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id},
+                                  [{:key=>"id"},
+                                   {:key=>"name",:label=>t(:label_irm_group_name),:searchable => true},
+                                   {:key=>"description",:label=>t(:label_irm_group_description)}],
+                                  {:paginator_box=>"supportGroupPaginatorBox",:search_box=>"support_groupSearchBox"})%>
     <div id="supportGroupPaginatorBox"></div>
   </div>
 </div>
@@ -183,14 +190,14 @@
   </table>
   <div class="page-block-body">
     <div id="login_history_list">
-      <%= datatable("login_history_list", {:controller=>"irm/my_login_history", :action => "get_login_data", :format=>"json", :id => @person.id},
-                            [{:key=>"user_ip",:label=>t(:label_irm_login_record_user_ip)},
-                             { :key =>"operate_system", :label => t(:label_irm_login_record_operate_system) },
-                             { :key =>"browser", :label => t(:label_irm_login_record_browser) },
-                             { :key =>"login_at", :label => t(:label_irm_login_record_login_at)},
-                             { :key =>"logout_at", :label => t(:label_irm_login_record_logout_at) }],
-                            {:export_data=>"#loginHistoryExportData",:paginator_box=>"historiesBox"})%>
     </div>
+    <%= datatable("login_history_list", {:controller=>"irm/my_login_history", :action => "get_login_data", :format=>"json", :id => @person.id},
+                          [{:key=>"user_ip",:label=>t(:label_irm_login_record_user_ip)},
+                           { :key =>"operate_system", :label => t(:label_irm_login_record_operate_system) },
+                           { :key =>"browser", :label => t(:label_irm_login_record_browser) },
+                           { :key =>"login_at", :label => t(:label_irm_login_record_login_at)},
+                           { :key =>"logout_at", :label => t(:label_irm_login_record_logout_at) }],
+                          {:export_data=>"#loginHistoryExportData",:paginator_box=>"historiesBox"})%>
     <div id="historiesBox"></div>
   </div>
 </div>
