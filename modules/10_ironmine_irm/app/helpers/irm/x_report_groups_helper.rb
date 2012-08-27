@@ -1,2 +1,0 @@
-module Irm::XReportGroupsHelper
-end

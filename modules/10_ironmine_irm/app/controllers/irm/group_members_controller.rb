@@ -108,6 +108,7 @@ class Irm::GroupMembersController < ApplicationController
 
   def get_data_from_person
     group_code =  Irm::GroupMember.select_all.with_group(I18n.locale).where(:person_id=>params[:id])
+    group_code = group_code.match_value("#{Irm::Group.view_name}.name",params[:name])
     group_code,count = paginate(group_code)
     respond_to do |format|
       format.html  {

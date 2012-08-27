@@ -1823,6 +1823,7 @@ jQuery.fn.menubutton = function () {
                     me.loadPage(Math.ceil(options.totalCount / options.pageSize));
                 }
             });
+            paginatorBox.find("select[name='page-size']:first").val(me.data.options.pageSize);
             paginatorBox.find("select[name='page-size']:first").change(function () {
                 if (me.data.options.pageSize != $(this).val()) {
                     me.data.options.pageSize = $(this).val();

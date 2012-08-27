@@ -110,13 +110,13 @@ class Irm::SyncDataAccessExtend
       before_update do
         origin_dsr = self.class.query(self.id).first
         unless self.source_type.eql?(origin_dsr.source_type)&&self.source_id.eql?(origin_dsr.source_id)&&self.target_id.eql?(origin_dsr.target_id)&&self.target_type.eql?(origin_dsr.target_type)
-          Delayed::Job.enqueue(Irm::Jobs::SyncDataAccessJob.new({:type => self.class.name, :id => self.id,:rule=>{:source_type=>origin_dsr.source_type,:source_id=>origin_dsr.source_id,:target_type=>origin_dsr.target_type,:target_id=>origin_dsr.target_id},:rule=>{:source_type=>self.source_type,:source_id=>self.source_id,:target_type=>self.target_type,:target_id=>self.target_id}, :operation => :update}))
+          Delayed::Job.enqueue(Irm::Jobs::SyncDataAccessJob.new({:type => self.class.name, :id => self.id,:origin_rule=>{:source_type=>origin_dsr.source_type,:source_id=>origin_dsr.source_id,:target_type=>origin_dsr.target_type,:target_id=>origin_dsr.target_id},:rule=>{:source_type=>self.source_type,:source_id=>self.source_id,:target_type=>self.target_type,:target_id=>self.target_id}, :operation => :update}))
         end
       end
 
 
       after_destroy do
-        Delayed::Job.enqueue(Irm::Jobs::SyncDataAccessJob.new({:type => self.class.name, :id => self.id,:rule=>{:source_type=>self.source_type,:source_id=>self.source_id,:target_type=>self.target_type,:target_id=>self.target_id}, :operation => :destroy}))
+        Delayed::Job.enqueue(Irm::Jobs::SyncDataAccessJob.new({:type => self.class.name, :id => self.id,:origin_rule=>{:source_type=>self.source_type,:source_id=>self.source_id,:target_type=>self.target_type,:target_id=>self.target_id}, :operation => :destroy}))
       end
     end
   end
