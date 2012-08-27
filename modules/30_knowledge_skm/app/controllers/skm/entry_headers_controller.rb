@@ -140,7 +140,6 @@ class Skm::EntryHeadersController < ApplicationController
       session[:skm_entry_header].each do |k, v|
         @entry_header[k.to_sym] = v
       end
-#      @entry_header.column_ids = session[:skm_entry_header][:column_ids] if session[:skm_entry_header][:column_ids].present?
       @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
     end
   end  
@@ -231,7 +230,51 @@ class Skm::EntryHeadersController < ApplicationController
   def knowledge_details
     @entry_header = Skm::EntryHeader.list_all.find(params[:id])
     @return_url=request.env['HTTP_REFERER']
-    #Skm::EntryApprovalPerson.where()
+
+    entry_header = Skm::EntryHeader.find(params[:id])
+    entry_approval_people = entry_header.entry_approval_people.collect(&:person_id)
+    #更具传递过来的频道id获取该频道下面的支持组人员
+    group_ids = Skm::Channel.find(@entry_header[:channel_id]).groups.collect(&:id)
+    @group_members = Irm::GroupMember.select_all.with_person(I18n.locale).where(:group_id=>group_ids)
+    #这些人不在审批人员内
+    @group_members.delete_if{|i| entry_approval_people.include?(i[:person_id])} if entry_approval_people.any?
+    @group_members.delete_if{|i| entry_header[:author_id].to_s.eql?(i[:person_id].to_s)}
+    @group_members = @group_members.collect{|i|[i[:person_name],i[:person_id]]}.uniq
+  end
+
+  #获取转交的人员
+  def get_available_people
+    entry_header = Skm::EntryHeader.find(params[:id])
+    entry_approval_people = entry_header.entry_approval_people.collect(&:person_id)
+
+    #更具传递过来的频道id获取该频道下面的支持组人员
+    group_ids = Skm::Channel.find(params[:channel_id]).groups.collect(&:id)
+    @group_members = Irm::GroupMember.select_all.with_person(I18n.locale).where(:group_id=>group_ids)
+    #不能转交给知识库创建人
+    @group_members.delete_if
+    #这些人不在审批人员内
+    @group_members.delete_if{|i| entry_approval_people.include?(i[:person_id])} if entry_approval_people.any?
+    @group_members.delete_if{|i| entry_header[:author_id].to_s.eql?(i[:person_id].to_s)}
+    @group_members = @group_members.collect{|i|[i[:person_name],i[:person_id]]}.uniq
+  end
+
+  #转交处理
+  def next_approval
+    pre_approval_person = Skm::EntryApprovalPerson.where(:entry_header_id=> params[:id], :person_id=>Irm::Person.current.id).first
+    respond_to do |format|
+      if pre_approval_person.present?
+        next_approval_person = Skm::EntryApprovalPerson.new(:pre_approval_id => pre_approval_person.id, :entry_header_id => params[:id], :person_id => params[:person_id])
+        if next_approval_person.save
+          pre_approval_person.next_approval_id = next_approval_person.id
+          pre_approval_person.note = t(:label_skm_entry_header_to_people, :person_name => Irm::Person.query_person_name(params[:person_id])[:person_name])
+          pre_approval_person.approval_flag = Irm::Constant::SYS_YES
+          pre_approval_person.save
+          format.html { redirect_to :action => "wait_my_approve" }
+        end
+      end
+      #处理失败
+      format.html { render 'knowledge_details' }
+    end
   end
 
   def create_relation
