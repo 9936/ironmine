@@ -1,40 +1,4 @@
 $(function(){
     $("#watcher_list").html('<%= escape_javascript(watchers_list(@watchable))%>');
     $("#watcher_select").html('<%= escape_javascript(lov_field_tag("watcher",Irm::Person, {:id => "watcher"}))%>');
-
-
-<% unless limit_device? %>
-      $('.watcher_info').each(function(){
-        try{
-            Ext.getCmp("person-info-tip-" + $(this).attr('pid')).destroy();
-        }
-        catch(err){}
-        var qtip = Ext.create('Ext.tip.ToolTip', {
-              target: this,
-              id: 'person-info-tip-' + $(this).attr('pid'),
-              anchor: 'left',
-              title: $(this).attr('pname'),//"<a href='/people/" + $(this).attr('pid') + "'>" + $(this).attr('pname') + "</a>",
-              html: "<iframe frameborder=0 scrolling='no'  src='/people/" + $(this).attr('pid') + "/info_card' style='width:100%;height:90px;'></iframe>",
-              width: 400,
-              autoHide: true,
-              dismissDelay: 0,
-              closable: false,
-              listeners: {
-                'afterrender': function(){
-                    this.el.on('mouseout', function(e){
-                        if(!qtip.getChildByElement(this)){
-                            qtip.hide();
-                        }
-                    });
-
-                    this.el.on('mouseover', function(e){
-                        qtip.suspendEvents();
-                        qtip.show();
-                    });
-
-                }
-              }
-          });
-      });
-<% end %>
 });

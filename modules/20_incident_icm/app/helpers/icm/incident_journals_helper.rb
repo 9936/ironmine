@@ -60,7 +60,7 @@ module Icm::IncidentJournalsHelper
     image_path = theme_image_path(Irm::AttachmentVersion.file_type_icon(f.data.original_filename)) unless image_path
     link = ""
     link = "<div class='file-icon'><img style='width:20px;height:20px;' src='#{image_path}'></div>" if with_image
-    description = "<a target='_blank' href='#{f.data.url}' stats=""><div class='file-info'><div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
+    description = "<a target='_blank' href='#{f.data.url}' stats='' style='float:left'><div class='file-info'><div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
                    <div title='#{f.description}' class='file-desc'>#{f.description}</div></div></a>"
     delete_link = ""
     delete_link << "<a data-remote=true data-confirm='#{I18n.t(:label_delete_confirm)}' href='#{url_for(:controller => "icm/incident_requests",
