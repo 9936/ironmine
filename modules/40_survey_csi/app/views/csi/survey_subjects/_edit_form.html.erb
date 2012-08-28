@@ -1,4 +1,4 @@
-<% require_javascript(:survey) %>
+<% require_jscss(:survey) %>
 <%= common_title %>
 <div id="edit_form">
 <%= form_for(@survey_subject,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
