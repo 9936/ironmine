@@ -299,6 +299,6 @@ Fwk::MenuAndFunctionManager.map do |map|
   map.function :login_function, {
       "skm/entry_reports" => ["get_rpt_apply_data", "get_rpt_show_data", "get_search_history_data"],
       "skm/wiki_templates" => ["create", "edit", "get_data", "index", "new", "preview", "sample", "show", "update"],
-      "skm/entry_headers" => ["knowledge_details","reset_approve","wait_my_approve","wait_my_approve_data","approve_knowledge"]
+      "skm/entry_headers" => ["knowledge_details","reset_approve","wait_my_approve","wait_my_approve_data","approve_knowledge","next_approval"]
   }
 end

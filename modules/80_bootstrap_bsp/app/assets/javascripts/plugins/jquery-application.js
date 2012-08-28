@@ -426,14 +426,15 @@ function get_dom_id(ajaxOptions) {
 //end =================================Ajax 监听帮助函数================================
 
 
-//START =================================Chosen 渲染select================================
+//START =================================Chosen 渲染select==========w======================
 function checkSelect(){
     $("select:not([multiple])").each(function(index,element){
         //如果当前select的options超过chosenMiniNum项或者chosen=true属性对其进行渲染
         if(($(element).find("option").length > chosenMiniNum && $(element).attr("chosen") != 'false') || $(element).attr("chosen") == 'true') {
+            if ($(element).attr('depend')) return false;
             if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);
             $(element).css('width', ($(element).width()+18)+'px');
-            $(element).chosen({no_results_text: '没有对应的选项'});
+            $(element).chosen({no_results_text: '没有对应的选项',search_contains: true,disable_search_threshold: searchMiniNum});
         }
     });
 }

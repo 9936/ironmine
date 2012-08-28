@@ -153,7 +153,7 @@
             <% end %>
           <% end %>
           <% builder.column(:person_id, {:title => t(:label_skm_entry_header_approval_person), :width => "150px"}) do |data| %>
-             <%= Irm::Person.query_person_name(data[:person_id]).first[:person_name] %>
+             <%= Irm::Person.query_person_name(data[:person_id]).first[:person_name] if Irm::Person.query_person_name(data[:person_id]).first %>
           <% end %>
           <% builder.column(:updated_at, {:title => t(:label_skm_entry_header_approval_date), :width => "150px"}) %>
           <% builder.column(:note, {:title => t(:label_skm_entry_header_approval_note)}) do |data| %>
