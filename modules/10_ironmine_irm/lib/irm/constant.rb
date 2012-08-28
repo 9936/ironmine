@@ -8,7 +8,6 @@ module Irm
     #整个系统中进行SYS_YES
     SYS_YES = 'Y'
     SYS_NO = 'N'
-    SYS_REFUSE = 'R'
 
     #规则类似ebs中的快码，针对于global类型只能
     #用数据库脚本进入，属于系统级别

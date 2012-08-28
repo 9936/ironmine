@@ -109,9 +109,12 @@ en:
   label_skm_entry_header_approval_status_y: Approved
   label_skm_entry_header_approval_status_n: Wait Approve
   label_skm_entry_header_approval_status_r: Refuse
+  label_skm_entry_header_approval_status_c: Hand over
   label_skm_entry_header_approval_reset: Ask for Approve Again
   label_skm_entry_header_load: Load Details
   label_skm_entry_header_approve: Approve
+  label_skm_entry_header_approve_note: Note
+  label_skm_entry_header_approve_select_people: Select
   label_skm_entry_header_approve_note_placeholder: Please write some note about the entry header ......
   label_skm_entry_header_button_ok: Approval
   label_skm_entry_header_button_to: To other people...

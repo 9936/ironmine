@@ -1,7 +1,7 @@
 class Skm::EntryApprovalPerson < ActiveRecord::Base
   set_table_name :skm_entry_approval_people
 
-  validates :entry_header_id, :uniqueness => {:scope => :person_id }
+  validates :person_id, :uniqueness => {:scope => :entry_header_id }
 
   belongs_to :entry_header, :class_name => "Skm::EntryHeader", :foreign_key => "entry_header_id"
 
@@ -11,7 +11,7 @@ class Skm::EntryApprovalPerson < ActiveRecord::Base
   }
 
   scope :query_approval_deny_by_entry_header_id, lambda {|entry_header_id|
-    where("#{self.table_name}.approval_flag=? AND #{table_name}.entry_header_id=?", Irm::Constant::SYS_REFUSE, entry_header_id)
+    where("#{self.table_name}.approval_flag=? AND #{table_name}.entry_header_id=?", Skm::EntryStatus::SYS_REFUSE, entry_header_id)
   }
 
   def self.has_unaudited_person?(entry_header_id)
