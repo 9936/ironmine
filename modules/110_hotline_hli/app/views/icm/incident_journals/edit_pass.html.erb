@@ -1,93 +1,148 @@
-<style type="text/css">
-  ul{
-      padding-left: 40px;
-  }
-  ol{
-      padding-left: 40px;
-  }
-  div.reply{
-      margin-bottom: 2px;
-      border: 1px solid #0F5C8E;
-  }
-  div.reply div.replyHeader{
-      padding: 5px 5px 5px 5px;
-      background: none repeat scroll 0 0 #ADCBE7;
-  }
-  div.reply div.replyHeaderSection{
-    padding: 5px 5px 5px 5px;
-  }
-  .yui-skin-sam .yui-toolbar-container div.yui-toolbar-subcont{
-    border-bottom-width: 1px;
-    padding-bottom: 0;
-    padding-left: 1px;
-  }
-  div.fileList {
-    color: #333333;
-    line-height: 1.6em;
-    margin-top: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
-    overflow: hidden;
-    position: relative;
-    border-top: 2px solid #E3EEF8;
-  }
-  div.fileList div.fileItem{
-    color: #888888;
-    display: inline;
-    float: left;
-    padding-bottom: 5px;
-    width: 60px;
-  }
-
-  div.fileList div.fileItem span.fileDesc{
-    color: #888888;
-    display: block;
-  }
-
-  div.fileList div.fileItem img.fileIcon{
-    border: 1px solid #BBC9E2;
-    float: left;
-    margin-bottom: 5px;
-    margin-right: 10px;
-    padding: 3px;
-    vertical-align: top;
-  }
-</style>
 <%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:pass)) %>
 <%= form_for(@incident_request,:url=>{:action=>"update_pass"},:builder => LabellingFormBuilder,:html => { :multipart => true }) do |f| %>
   <%=f.hidden_field :pass_flag,:value=>"Y" %>
-<div id="reply" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+  <% content_for :form_block_common   do%>
+    <table class="form-table" style="width: 100%;">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_icm_incident_journal_pass)%></h2></td>
-          <td class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:label_icm_incident_joural_back_to_request), {:action => "new"}%></div>
-          </td>
-        </tr>
+      <tr>
+        <td class="label-col">
+      <% if @incident_request.support_group_id.blank?%>
+        <label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label>
+        </td>
+        <td class="data-col">
+            <%=f.select :support_group_id,available_support_group(nil, true),
+                                            {},{:required=>true,:id=>"incident_request_support_group_id"}%>
+        </td>
+
+        <td class="label-col"><label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label></td>
+        <td class="data-col"><%= f.blank_select(:support_person_id,available_passable_supporter(@incident_request.support_group_id||0),{},
+                            {:id=>"incident_request_support_person_id",
+                             :href=>url_for(:controller=>"icm/support_groups",:action=>"get_pass_member_options",:format=>"json",:id=>"${incident_request_support_group_id}"),
+                             :depend=>"incident_request_support_group_id"
+                             }) %></td>
+        <script type="text/javascript">
+            $(function(){
+                $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
+            });
+        </script>
+      <% else %>
+        </td>
+        <td class="data-col">
+          <%= f.blank_select :support_group_id,available_support_group(@incident_request.requested_organization_id, true, @incident_request.external_system_id),
+                                                                {},{:id=>"incident_request_support_group_id"}%>
+        </td>
+        <td class="label-col"><label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label></td>
+        <td class="data-col"><%= f.blank_select(:support_person_id,available_passable_supporter(@incident_request.support_group_id||0),{},
+                            {:id=>"incident_request_support_person_id",
+                             :href=>url_for(:controller=>"icm/support_groups",:action=>"get_pass_member_options",:format=>"json",:id=>"${incident_request_support_group_id}"),
+                             :depend=>"incident_request_support_group_id"
+                             }) %></td>
+            <script type="text/javascript">
+                $(function(){
+                    $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
+                });
+            </script>
+      <% end %>
+      </tr>
       </tbody>
     </table>
-  </div>
-  <div class="pbBody">
-    <div class="pbSubsection">
-      <table class="detailList"  cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>
-              <td class="dataCol">
-                <%=f.select :support_group_id,available_support_group,
-                                                    {},{:required=>true,:id=>"incident_request_support_group_id"}%>
-              </td>
-              <td class="labelCol"><label for="incident_request_support_person_id"><%=t(:label_icm_incident_request_support_person)%></label></td>
-              <td class="dataCol"><%= f.blank_select(:support_person_id,available_passable_supporter(@incident_request.support_group_id||0),{},
-                                  {:id=>"incident_request_support_person_id",
-                                   :href=>url_for(:controller=>"icm/support_groups",:action=>"get_pass_member_options",:format=>"json",:id=>"${incident_request_support_group_id}"),
-                                   :depend=>"incident_request_support_group_id"
-                                   }) %></td>
+  <% end %>
 
+    <% content_for :block_header_content do %>
+        <div id="incidentDetail">
+        <table class="detail-list" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+            <tr>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_target_system) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:external_system_name] %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_incident_category) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:incident_category_name] %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_incident_sub_category) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:incident_sub_category_name] %></div>
+              </td>
             </tr>
+            <tr>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:requested_name] %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_contact) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:contact_name] %>(<%= @incident_request[:contact_number] %>)</div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_by) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:submitted_name] %></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_org) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:requested_organization_name] %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_role) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:requested_role_name] %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_profile) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:requested_profile_name] %></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col">
+                <label><%= t(:label_icm_incident_request_incident_status_code) %></label>
+              </td>
+              <td class="data-col">
+                <div><%= @incident_request[:incident_status_name] %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_date) %></label></td>
+              <td class="data-col">
+                <div><%= format_date(@incident_request[:submitted_date]) %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_last_date) %></label></td>
+              <td class="data-col">
+                <div><%= format_date(@incident_request[:last_response_date]) %></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_urgence_code) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:urgence_name] %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_impact_range_code) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:impact_range_name] %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_priority) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:priority_name] %></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col"><label ><%=t(:label_icm_incident_request_client_info)%></label></td>
+              <td class="data-col"><div><%= @incident_request[:client_info] %></div></td>
+              <td class="label-col"><label ><%=t(:label_icm_incident_request_hotline)%></label></td>
+              <td class="data-col"><div><%= @incident_request[:hotline].eql?(Irm::Constant::SYS_YES) ? t(:label_icm_incident_request_hotline_y) : t(:label_icm_incident_request_hotline_n)%></div></td>
+              <td class="label-col"><label ><%=t(:label_icm_incident_request_real_processing_time)%></label></td>
+              <td class="data-col"><div><%= @incident_request[:total_processing_time]%></div></td>
+            </tr>
+            <tr>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_support_group) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:support_group_name] %></div>
+              </td>
+              <td class="label-col"><label><%= t(:label_icm_incident_request_support_person) %></label></td>
+              <td class="data-col">
+                <div><%= @incident_request[:supporter_name] %></div>
+              </td>
+            </tr>
+<<<<<<< HEAD
               <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
                 <%= sub_f.hidden_field(:incident_request_id) %>
               <td class="labelCol"><%= t(:label_icm_incident_journal_reply) %></td>
@@ -96,43 +151,67 @@
                 <%= xheditor("msgEditor",true) %>
               </td>
               <% end%>
+=======
+            <tr>
+              <td class="label-col"><label ><%=t(:label_icm_incident_request_contact_number)%></label></td>
+              <td class="data-col" colspan="5"><div><%= @incident_request[:contact_number] %></div></td>
+>>>>>>> 53bb6ed39c9093aef9db37477756c0d5fa103ad7
             </tr>
             <tr>
-              <td class="labelCol"><%= t(:label_icm_incident_journal_attachment) %></td>
-              <td class="dataCol" colspan="3" width="82%">
-                <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"pass_incident_request_file"} %>
+              <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
+              <td class="data-col" colspan="5" style="word-WRAP: break-word;">
+                <div class="reply-body">
+                  <div class="message-body">
+                    <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3><br><br>
+                    <%= raw process_message(@incident_request[:summary])  %>
+                  </div>
+                </div>
               </td>
             </tr>
-        </tbody>
-      </table>
+            </tbody>
+        </table>
+        </div>
+    <% end %>
 
+  <% content_for :form_buttons  do %>
+    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_to t(:label_icm_incident_joural_back_to_request), {:action => "new"}, {:class => "btn cancel"}%>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_incident_journal_pass)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @incident_request %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_to t(:label_icm_incident_joural_back_to_request), {:action => "new"}%></div>
-          </td>
-        </tr>
-      </tbody>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <div class="sub-page-block-body">
+          <%= content_for :block_header_content   %>
+        </div>
+      </div>
+    </div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
     </table>
   </div>
-</div>
-<% end %>
-
-
-
-
-<script type="text/javascript">
-    $(function(){
-        $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
-    });
-</script>
-
-<% content_for :sidebar do %>
-    <%= render :partial =>"/irm/common/recently_objects" %>
 <% end %>
