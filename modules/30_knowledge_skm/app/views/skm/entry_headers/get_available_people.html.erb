@@ -1,0 +1,12 @@
+<%= form_tag(:url => {:controller => 'skm/entry_headers', :action => 'approve_knowledge'},:html => {:class => "modal-form"}) do %>
+    <%= select_tag_alias(:person_id,@group_members,nil,{:id=>"select_people", "data-placeholder" => t(:label_skm_entry_header_choice_people), :style=>"width:520px;", :multiple=>false}) %>
+<% end -%>
+<script type="text/javascript">
+  $("#select_people").chosen();
+//  $(".chzn-choices").find("input").focus(function(){
+//    $("#modal-content").css("min-height", "300px");
+//    $(this).blur(function(){
+//      $("#modal-content").css("min-height", "100px");
+//    });
+//  });
+</script>

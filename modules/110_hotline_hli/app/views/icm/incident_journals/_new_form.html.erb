@@ -630,7 +630,7 @@
   </tr></table>
   <div class="page-block-body">
     <%= datatable("incident_request_histories",{:action=>"get_incident_history_data", :format => "json"},[],
-                  {:paginator_box=>'incidentHistoriesPaginatorBox'})%>
+                  {:paginator_box=>'incidentHistoriesPaginatorBox', :row_perpage => 20})%>
   </div>
 </div>
 

@@ -4,14 +4,19 @@
                                  :person_id => data[:id]}, :confirm => t(:label_are_you_sure) ,
                                  :method => :delete %>
     <% end %>
-    <% builder.column(:person_name,{:title=>"#{t(:label_irm_person_name)}(#{t(:label_irm_person_login)})", :width => "140px"}) do |data|%>
+    <% builder.column(:person_name,{:title=>"#{t(:label_irm_person_name)}(#{t(:label_irm_person_login)})",
+                                    :width => "140px",
+                                    :searchable => true}) do |data|%>
         <%= data[:person_name] %>(<%= data[:login_name]%>)
     <% end %>
-    <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address), :width => "180px"})%>
-    <% builder.column(:organization_name,{:title=>t(:label_irm_person_organization)})%>
-    <% builder.column(:profile_name,{:title=>t(:label_irm_person_profile), :width => "90px"})%>
-    <% builder.column(:role_name,{:title=>t(:label_irm_person_role), :width => "90px"})%>
-    <% builder.column(:status_code,{:title=>t(:active), :width => "40px"}) do |data| %>
-        <%= check_img(data[:status_code]) %>
-    <% end %>
+    <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address),
+                                      :width => "180px",
+                                      :searchable => true})%>
+    <% builder.column(:organization_name,{:title=>t(:label_irm_person_organization),
+                                          :searchable => true})%>
+    <% builder.column(:profile_name,{:title=>t(:label_irm_person_profile), :width => "90px",
+                                          :searchable => true})%>
+    <% builder.column(:role_name,{:title=>t(:label_irm_person_role),
+                                  :width => "90px",
+                                  :searchable => true})%>
 <% end %>

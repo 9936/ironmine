@@ -140,7 +140,6 @@ class Skm::EntryHeadersController < ApplicationController
       session[:skm_entry_header].each do |k, v|
         @entry_header[k.to_sym] = v
       end
-#      @entry_header.column_ids = session[:skm_entry_header][:column_ids] if session[:skm_entry_header][:column_ids].present?
       @elements = Skm::EntryTemplateDetail.owned_elements(@entry_header.entry_template_id)
     end
   end  
@@ -229,9 +228,46 @@ class Skm::EntryHeadersController < ApplicationController
 
   #审核知识页面
   def knowledge_details
-    @entry_header = Skm::EntryHeader.list_all.find(params[:id])
-    @return_url=request.env['HTTP_REFERER']
-    #Skm::EntryApprovalPerson.where()
+    #检查知识库是否已经审批
+    approval_person = Skm::EntryApprovalPerson.where(:entry_header_id=> params[:id], :person_id=>Irm::Person.current.id).first
+    if approval_person.approval_flag.eql?(Irm::Constant::SYS_NO)
+      @entry_header = Skm::EntryHeader.list_all.find(params[:id])
+      @return_url=request.env['HTTP_REFERER']
+
+      entry_header = Skm::EntryHeader.find(params[:id])
+      entry_approval_people = entry_header.entry_approval_people.collect(&:person_id)
+      #更具传递过来的频道id获取该频道下面的支持组人员
+      group_ids = Skm::Channel.find(@entry_header[:channel_id]).groups.collect(&:id)
+      @group_members = Irm::GroupMember.select_all.with_person(I18n.locale).where(:group_id=>group_ids)
+      #这些人不在审批人员内
+      @group_members.delete_if{|i| entry_approval_people.include?(i[:person_id])} if entry_approval_people.any?
+      @group_members.delete_if{|i| entry_header[:author_id].to_s.eql?(i[:person_id].to_s)}
+      @group_members = @group_members.collect{|i|[i[:person_name],i[:person_id]]}.uniq
+    else
+      redirect_to :action => "wait_my_approve"
+    end
+  end
+
+  #转交处理
+  def next_approval
+    pre_approval_person = Skm::EntryApprovalPerson.where(:entry_header_id=> params[:id], :person_id=>Irm::Person.current.id).first
+
+      if pre_approval_person.present?
+        next_approval_person = Skm::EntryApprovalPerson.new(:pre_approval_id => pre_approval_person.id, :entry_header_id => params[:id], :person_id => params[:person_id])
+        if next_approval_person.save
+          pre_approval_person.next_approval_id = next_approval_person.id
+          if params[:note]
+            pre_approval_person.note = params[:note]
+          else
+            pre_approval_person.note = t(:label_skm_entry_header_to_people, :person_name => Irm::Person.query_person_name(params[:person_id]).first[:person_name])
+          end
+          pre_approval_person.approval_flag = Skm::EntryStatus::SYS_CHANGE
+          pre_approval_person.save
+        end
+      end
+    respond_to do |format|
+      format.html { redirect_to :action => "wait_my_approve" }
+    end
   end
 
   def create_relation
@@ -783,7 +819,7 @@ class Skm::EntryHeadersController < ApplicationController
   def reset_approve
     entry_header_id = params[:entry_header_id]
     if entry_header_id.present?
-      approval_people = Skm::EntryApprovalPerson.where("entry_header_id=? AND approval_flag=?", entry_header_id, Irm::Constant::SYS_REFUSE)
+      approval_people = Skm::EntryApprovalPerson.where("entry_header_id=? AND approval_flag=?", entry_header_id, Skm::EntryStatus::SYS_REFUSE)
       approval_people.update_all(:approval_flag => Irm::Constant::SYS_NO,:note => '')
       #将事故单的状态设置为等待审批
       Skm::EntryHeader.find(entry_header_id).update_attribute(:entry_status_code, Skm::EntryStatus::WAIT_APPROVE)
@@ -805,7 +841,7 @@ class Skm::EntryHeadersController < ApplicationController
           Skm::EntryHeader.find(entry_header_id).update_attribute(:entry_status_code,Skm::EntryStatus::PUBLISHED) #更新为发布状态
         end
       else
-        params[:skm_entry_approval_person][:approval_flag] = Irm::Constant::SYS_REFUSE
+        params[:skm_entry_approval_person][:approval_flag] = Skm::EntryStatus::SYS_REFUSE
         entry_approval_person.update_attributes(params[:skm_entry_approval_person])
         Skm::EntryHeader.find(entry_header_id).update_attribute(:entry_status_code, Skm::EntryStatus::APPROVE_DENY)   #更新为审核拒绝状态
       end

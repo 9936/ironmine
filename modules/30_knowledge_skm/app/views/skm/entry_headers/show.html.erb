@@ -130,6 +130,9 @@
             <i class="icon-remove-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_r) %>
           </span>
           <span class="badge badge-info">
+            <i class="icon-user icon-white"></i><%= t(:label_skm_entry_header_approval_status_c) %>
+          </span>
+          <span class="badge">
             <i class="icon-question-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_n) %>
           </span>
         </td>
@@ -143,8 +146,12 @@
                 <i class="icon-ok-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_y) %>
               </span>
             <% elsif data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
-              <span class="badge badge-info">
+              <span class="badge">
                 <i class="icon-question-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_n) %>
+              </span>
+            <% elsif data[:approval_flag].eql?(Skm::EntryStatus::SYS_CHANGE) %>
+              <span class="badge badge-info">
+                <i class="icon-user icon-white"></i><%= t(:label_skm_entry_header_approval_status_c) %>
               </span>
             <% else %>
               <span class="badge badge-important">
@@ -153,13 +160,15 @@
             <% end %>
           <% end %>
           <% builder.column(:person_id, {:title => t(:label_skm_entry_header_approval_person), :width => "150px"}) do |data| %>
-             <%= Irm::Person.query_person_name(data[:person_id]).first[:person_name] %>
+             <%= Irm::Person.query_person_name(data[:person_id]).first[:person_name] if Irm::Person.query_person_name(data[:person_id]).first %>
           <% end %>
           <% builder.column(:updated_at, {:title => t(:label_skm_entry_header_approval_date), :width => "150px"}) %>
           <% builder.column(:note, {:title => t(:label_skm_entry_header_approval_note)}) do |data| %>
             <% if data[:approval_flag].eql?(Irm::Constant::SYS_YES) %>
               <span style="color:#468847"><%= data[:note] %></span>
             <% elsif data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+              <span><%= data[:note] %></span>
+            <% elsif data[:approval_flag].eql?(Skm::EntryStatus::SYS_CHANGE) %>
               <span style="color:#3A87AD"><%= data[:note] %></span>
             <% else %>
               <span style="color: #B94A48"><%= data[:note] %></span>

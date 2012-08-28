@@ -243,21 +243,23 @@ table.duel-select tr.duel-list select {
     height: auto;
 }
 /*修复IE6下jquery chosen*/
-.chzn-container {
-    display: inline;
-}
-
-/*.chzn-container-active {*/
-    /*position: relative;*/
-    /*z-index: 1;*/
+/*.chzn-container {*/
+    /*display: inline;*/
 /*}*/
 
-.chzn-container .chzn-results {
-    height:expression(this.height > 240? "240px": "auto" );
-}
+/*.chzn-container .chzn-results {*/
+    /*height:expression(this.height > 240? "240px": "auto" );*/
+/*}*/
 
-div.chzn-container a:hover {
-    text-decoration: no-underline;
+/*div.chzn-container a:hover {*/
+    /*text-decoration: no-underline;*/
+/*}*/
+
+.chzn-container {
+    z-index: 1008;
+}
+.chzn-container-active {
+    z-index: 1009;
 }
 
 
