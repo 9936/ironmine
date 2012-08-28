@@ -148,7 +148,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
   private
   #
   def generate_journal_number
-    self.journal_number = Irm::Sequence.nextval(self.class.name)
+    #self.journal_number = Irm::Sequence.nextval(self.class.name)
   end
 
   def validate_message_body
