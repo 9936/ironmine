@@ -81,13 +81,13 @@
         <table class="form-table">
         <tbody>
           <tr>
-            <td class="label-col"><label><%= t(:label_skm_entry_header_approve_note) %></label></td>
+            <td class="label-col" style="width: 8%;"><label><%= t(:label_skm_entry_header_approve_note) %></label></td>
             <td class="data-3col">
               <%= f.text_area(:note, :rows => 3, :style => 'width: 100%;',:placeholder=> t(:label_skm_entry_header_approve_note_placeholder) ) %>
             </td>
           </tr>
           <tr>
-            <td class="label-col"></td>
+            <td class="label-col" style="width: 8%;"></td>
             <td class="data-3col">
               <span class="approve_btn btn btn-success">
                 <span><i class="icon-ok icon-white"></i></span>
@@ -110,19 +110,19 @@
         <table class="form-table">
           <tbody>
           <tr>
-            <td class="label-col"><label><%= t(:label_skm_entry_header_approve_select_people) %></label></td>
+            <td class="label-col" style="width: 8%;"><label><%= t(:label_skm_entry_header_approve_select_people) %></label></td>
             <td class="data-3col">
               <%= select_tag_alias(:person_id,@group_members,nil,{:id=>"select_people", "data-placeholder" => t(:label_skm_entry_header_choice_people), :style=>"width:350px;", :multiple=>false}) %>
             </td>
           </tr>
           <tr>
-            <td class="label-col"><label><%= t(:label_skm_entry_header_approve_note) %></label></td>
+            <td class="label-col" style="width: 8%;"><label><%= t(:label_skm_entry_header_approve_note) %></label></td>
             <td class="data-3col">
               <textarea cols="30" id="to_person_note" name="note" placeholder="<%= t(:label_skm_entry_header_approve_note_placeholder) %>" rows="3" style="width: 100%;"></textarea>
             </td>
           </tr>
           <tr>
-            <td class="label-col"></td>
+            <td class="label-col" style="width: 8%;"></td>
             <td class="data-col">
               <%= link_submit t(:label_skm_entry_header_to_people_save),{:class=>"btn btn-info"}%>
               <%= link_to t(:cancel), "javascript:void(0);", :class => "btn btn-cancel",:id => "cancelToPeople" %></td>
