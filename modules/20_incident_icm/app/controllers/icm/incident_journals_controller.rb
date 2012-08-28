@@ -98,30 +98,28 @@ class Icm::IncidentJournalsController < ApplicationController
 
 
   def update_status
-
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
 
     @incident_request.attributes = params[:icm_incident_request]
-    # 设置回复类开
-    # 1,服务台回复
-    # 2,客户回复
-    if Irm::Person.current.profile&& Irm::Person.current.profile.user_license.eql?("REQUESTER")
-      @incident_journal.reply_type = "CUSTOMER_REPLY"
-    else
-      @incident_journal.reply_type = "SUPPORTER_REPLY"
-    end
-
+    @incident_journal.reply_type = "STATUS"
+    incident_request_bak = Icm::IncidentRequest.find(@incident_request.id)
     perform_create
+
     respond_to do |format|
-      if @incident_journal.valid?&&@incident_request.save
-        process_change_attributes([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal)
-        process_files(@incident_journal)
-        @incident_journal.create_elapse
+      unless incident_request_bak.close?
+        if @incident_journal.valid?&&@incident_request.save
+          process_change_attributes([:incident_status_id],@incident_request,@incident_request_bak,@incident_journal)
+          process_files(@incident_journal)
+          @incident_journal.create_elapse
+          format.html { redirect_to({:action => "new"}) }
+          format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+        else
+          format.html { render :action => "edit_status", :layout => "bootstrap_application_full" }
+          format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+        end
+      else
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
-      else
-        format.html { render :action => "edit_status", :layout => "bootstrap_application_full" }
-        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
   end
