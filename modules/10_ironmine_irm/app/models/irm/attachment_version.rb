@@ -60,9 +60,9 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   def self.file_type_icon(file_name)
     extension = File.extname(file_name).gsub(/^\.+/, "")
     if ['doc','docx','rar','sql','txt','xls','xlsx','zip'].include?(extension)
-      return "/filetypes/#{extension}.png"
+      return "filetypes/#{extension}.png"
     else
-      return "/filetypes/default.png"
+      return "filetypes/default.png"
     end
   end
 
