@@ -550,9 +550,12 @@
 <% end %>
 
 <% content_for :sidebar do %>
+    <div id="request_watcher_list">
     <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
                :locals => {:watchable => @incident_request,
-                           :editable => !@incident_request.close?} %>
+                           :editable => !@incident_request.close?,
+                           :dom_id=>"request_watcher_list"} %>
+    </div>
     <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list" %>
     <%= render :partial =>"/icm/incident_requests/sidebar_relation_list", :locals => {:incident_request => @incident_request} %>
 <% end %>

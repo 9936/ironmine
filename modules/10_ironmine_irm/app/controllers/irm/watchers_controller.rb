@@ -6,6 +6,8 @@ class Irm::WatchersController < ApplicationController
     @watchable.save
 
 #    prepare_order
+    @editable = params[:editable]
+    @dom_id = params[:_dom_id]
 
     respond_to do |format|
       format.js {render :add_watcher}
@@ -22,6 +24,8 @@ class Irm::WatchersController < ApplicationController
 
     prepare_order
 
+    @editable = params[:editable]
+    @dom_id = params[:_dom_id]
     respond_to do |format|
       format.js {render :add_watcher}
     end
