@@ -142,20 +142,9 @@
                 <div><%= @incident_request[:supporter_name] %></div>
               </td>
             </tr>
-<<<<<<< HEAD
-              <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
-                <%= sub_f.hidden_field(:incident_request_id) %>
-              <td class="labelCol"><%= t(:label_icm_incident_journal_reply) %></td>
-              <td class="dataCol" colspan="3" width="82%">
-                <%= sub_f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true%>
-                <%= xheditor("msgEditor",true) %>
-              </td>
-              <% end%>
-=======
             <tr>
               <td class="label-col"><label ><%=t(:label_icm_incident_request_contact_number)%></label></td>
               <td class="data-col" colspan="5"><div><%= @incident_request[:contact_number] %></div></td>
->>>>>>> 53bb6ed39c9093aef9db37477756c0d5fa103ad7
             </tr>
             <tr>
               <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
