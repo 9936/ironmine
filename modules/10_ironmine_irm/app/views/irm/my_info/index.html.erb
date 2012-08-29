@@ -136,7 +136,7 @@
     <td class="page-block-button"></td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id},[],{:force_html=>true})%>
+    <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id,:editable=>"N"},[],{:paginator_box=>"system"})%>
   </div>
 </div>
 <!--所属组-->
@@ -148,7 +148,7 @@
     <td class="page-block-button"></td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("support_group",{:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id},[],{:force_html=>true})%>
+    <%= datatable("support_group",{:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id,:editable=>"N"},[],{:force_html=>true})%>
   </div>
 </div>
 

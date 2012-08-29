@@ -1,6 +1,8 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% unless Irm::Constant::SYS_NO.eql?(params[:editable]) %>
   <% builder.column(:id,{:title=>t(:operation), :width => "3px"}) do |data|%>
     <%= bootstrap_icons "icon-trash", t(:remove), {:controller=>"irm/group_members",:action=>"delete_from_person",:id=>data[:id], :person_id=>@person.id},:confirm => t(:label_are_you_sure),:method => :delete %>
+  <% end %>
   <% end %>
   <% builder.column(:name,{:title=>t(:label_irm_group_name), :searchable => true})%>
   <% builder.column(:description,{:title=>t(:label_irm_group_description)})%>
