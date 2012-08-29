@@ -193,12 +193,10 @@
             //如果当前select已经过chosen渲染过，则直接更新，否则检测当前的select的option是否大于chosenMiniNum
             if ($(targets[i]).attr('chosen') == 'true' && $(targets[i]).attr('depend') && typeof $(targets[i]).attr('depend') != 'undefined') {
                 $(targets[i]).css('width', ($(targets[i]).width()+18)+'px');
-                alert("2");
                 $(targets[i]).trigger("liszt:updated");
             } else if (($(targets[i]).find('option').length > chosenMiniNum && $(targets[i]).attr("chosen") != 'false') || $(targets[i]).attr("chosen") == 'true') {
                 if (typeof $(targets[i]).attr("chosen") == 'undefined') $(targets[i]).attr("chosen",true);
                 $(targets[i]).css('width', ($(targets[i]).width()+18)+'px');
-                alert('3');
                 $(targets[i]).chosen({no_results_text: '没有对应的选项',search_contains: true,disable_search_threshold: searchMiniNum});
             }
         }, 1);

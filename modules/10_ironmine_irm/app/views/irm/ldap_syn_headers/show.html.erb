@@ -1,59 +1,49 @@
 <%= page_title %>
 
-<div id="ep" class="detail-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= @ldap_syn_header.name %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:controller =>"irm/ldap_syn_headers",:action => "edit", :id => @ldap_syn_header},:class=>"btn btn-primary" %>
+      <% if @ldap_syn_header.enabled?  %>
+          <%= link_to t(:disable), {:action => "active",:id=>@ldap_syn_header.id,:active=>Irm::Constant::SYS_NO},:class=>"btn btn-info" %>
+      <% else %>
+          <%= link_to t(:active), {:action => "active",:id=>@ldap_syn_header.id,:active=>Irm::Constant::SYS_YES},:class=>"btn btn-info" %>
+      <% end %>
+      <%= link_to t(:back), {:controller =>"irm/ldap_syn_headers",:action => "index"},:class=>"btn"%>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
       <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%= @ldap_syn_header.name %></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:controller =>"irm/ldap_syn_headers",:action => "edit", :id => @ldap_syn_header}%></div>
-            <% if @ldap_syn_header.enabled?  %>
-              <div class="button"><%= link_to t(:disable), {:action => "active",:id=>@ldap_syn_header.id,:active=>Irm::Constant::SYS_NO}%></div>
-            <% else %>
-              <div class="button"><%= link_to t(:active), {:action => "active",:id=>@ldap_syn_header.id,:active=>Irm::Constant::SYS_YES}%></div>
-            <% end %>
-            <div class="button"><%= link_to t(:back), {:controller =>"irm/ldap_syn_headers",:action => "index"}%></div>
-          </td>
-        </tr>
+      <tr>
+        <td class="label-col"><label ><%=t(:ldap_auth_header_ldap_source)%></label></td>
+        <td class="data-col"><%= @ldap_syn_header.ldap_source.name %></td>
+        <td class="label-col"><label ><%=t(:label_irm_ldap_syn_header_syn_name)%></label></td>
+        <td class="data-col"><div><%= @ldap_syn_header.name %></div></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label ><%=t(:label_irm_ldap_syn_header_base_dn)%></label></td>
+        <td class="data-col"><div><%= @ldap_syn_header.base_dn %></div></td>
+        <td class="label-col"><label ><%=t(:label_irm_ldap_syn_header_status_code)%></label></td>
+        <td class="data-col"><%= check_img(@ldap_syn_header.status_code) %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label ><%=t(:label_irm_ldap_syn_header_peo_syn_flag)%></label></td>
+        <td class="data-col"><%= check_img(@ldap_syn_header.peo_syn_flag) %></td>
+        <td class="label-col"><label ><%=t(:label_irm_ldap_syn_header_ldap_auth_header)%></label></td>
+        <td class="data-col"><div><%= @ldap_syn_header[:ldap_auth_header_name] %></div></td>
+      </tr>
       </tbody>
     </table>
   </div>
-  <div class="pbBody">
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <h3><%= t(:label_common_info) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label ><%=t(:ldap_auth_header_ldap_source)%></label></td>
-              <td class="dataCol"><%= @ldap_syn_header.ldap_source.name %></td>
-              <td class="labelCol"><label ><%=t(:label_irm_ldap_syn_header_syn_name)%></label></td>
-              <td class="dataCol"><div><%= @ldap_syn_header.name %></div></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_ldap_syn_header_base_dn)%></label></td>
-              <td class="dataCol"><div><%= @ldap_syn_header.base_dn %></div></td>
-              <td class="labelCol"><label ><%=t(:label_irm_ldap_syn_header_status_code)%></label></td>
-               <td class="dataCol"><%= check_img(@ldap_syn_header.status_code) %></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label ><%=t(:label_irm_ldap_syn_header_peo_syn_flag)%></label></td>
-              <td class="dataCol"><%= check_img(@ldap_syn_header.peo_syn_flag) %></td>
-              <td class="labelCol"><label ><%=t(:label_irm_ldap_syn_header_ldap_auth_header)%></label></td>
-              <td class="dataCol"><div><%= @ldap_syn_header[:ldap_auth_header_name] %></div></td>
-            </tr>
-         </tbody>
-      </table>
-      <div></div>
-    </div>
-      <%= render 'show_comp' %>
-      <%= render 'show_org' %>
-      <%= render 'show_dept' %>
-
-  </div>
 </div>
+<%= render 'show_comp' %>
+<%= render 'show_org' %>
+<%= render 'show_dept' %>
 
 
 
