@@ -9,12 +9,12 @@
             <td class="data-col" colspan="3"><%=f.text_field :title, :required=>true,:size=>80%></td>
           </tr>
           <tr>
-            <td class="label-col text-col"><%=f.check_box :notify_flag, :id=>"notify_flag"%></td>
-            <td class="data-col"><label for="notify_flag"><%=(t :label_csi_survey_notify_flag)%></label></td>
+            <td class="label-col"><label for="notify_flag"><%=(t :label_csi_survey_notify_flag)%></label></td>
+            <td class="data-col text-col"><%=f.check_box :notify_flag, :id=>"notify_flag"%></td>
           </tr>
           <tr>
-            <td class="label-col  text-col"><%=f.check_box :publish_result_flag, :id=>"publish_result_flag"%></td>
-            <td class="data-col"><label for="publish_result_flag"><%=(t :label_csi_survey_publish_result_flag)%></label></td>
+            <td class="label-col"><label for="publish_result_flag"><%=(t :label_csi_survey_publish_result_flag)%></label></td>
+            <td class="data-col text-col"><%=f.check_box :publish_result_flag, :id=>"publish_result_flag"%></td>
             <td class="label-col"></td>
             <td class="data-col"></td>
           </tr>
@@ -33,8 +33,8 @@
     <table class="form-table">
       <tbody>
           <tr>
-            <td class="label-col text-col"><%=f.check_box :incident_flag, :id=>"incident_flag"%></td>
-            <td class="data-col"><label for="incident_flag"><%=(t :label_csi_survey_incident_flag)%></label></td>
+            <td class="label-col"><label for="incident_flag"><%=(t :label_csi_survey_incident_flag)%></label></td>
+            <td class="data-col text-col"><%=f.check_box :incident_flag, :id=>"incident_flag"%></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
