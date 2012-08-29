@@ -105,6 +105,37 @@ ul.thumbnails {margin-left:-20px;float:none;display:inline-block;zoom:1;clear:bo
 .popover.top{margin-top:-7px}
 .popover.bottom{margin-top:7px}
 
+.modal-backdrop {
+    *position: absolute;
+    *background-color: rgb(0, 0, 0);
+    *opacity: 0.3;
+    top:0;
+    *width: 1400px;
+    *height: 500px;
+}
+
+/* Modal */
+.modal {
+    overflow: hidden;
+    position:absolute;
+    opacity: 1.0;
+    filter: alpha(opacity=100);
+
+}
+
+.modal-backdrop {
+    position: absolute;
+    overflow: hidden;
+    opacity: 0.3;
+    top:0;
+    width: 100%;
+    height: 800px;
+}
+
+.open .dropdown-menu {
+    display:block;
+}
+
 /* Buttons */
 .btn {margin-left:0;padding:2px 8px}
 /*.btn:hover {opacity:.4;filter:alpha(opacity=40);background-color:transparent;background-position:0 0; color: #000000}*/
