@@ -1,4 +1,18 @@
 <script type="text/javascript">
+    function finishAttach(file_path, render_target, msg){
+        $(".xheModalClose").trigger('click');
+        if($("#<%=textarea_id%>")){
+            if(msg != ""){
+                alert(msg);
+            }else{
+                $("#<%= textarea_id %>").xheditor().pasteHTML("<img src='"+file_path+"'/>")
+            }
+        }
+    }
+
+    function cancelAttach(){
+        $(".xheModalClose").trigger('click');
+    }
     $(function(){
       var show_domal = {
         ironmine:{c:'screen_shot',t: $.i18n("image_from_clipboard"),s:'ctrl+7',e:function(){
@@ -11,7 +25,7 @@
       <%if force_fit_width%>
         width = $("#<%= textarea_id %>").parents("td").width() - 10+"px";
       <%end%>
-      $("#<%= textarea_id %>").xheditor({
+      var editor = $("#<%= textarea_id %>").xheditor({
           width:width,
           height: '150px',
           forcePtag:false,

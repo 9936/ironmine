@@ -5,6 +5,8 @@ class Skm::EntryStatus < ActiveRecord::Base
   PUBLISHED = "PUBLISHED"
   WAIT_APPROVE = "WAIT_APPROVE"
   APPROVE_DENY = "APPROVE_DENY"
+  SYS_REFUSE = 'R'
+  SYS_CHANGE = 'C'
 
   #多语言关系
   attr_accessor :name,:description

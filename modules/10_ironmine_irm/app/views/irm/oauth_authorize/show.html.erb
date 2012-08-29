@@ -2,8 +2,10 @@
 <html>
 <head>
   <%= render :partial => "irm/common/application_title" %>
-  <% require_css([:default]) %>
-  <%=render_loaded_javascript_css_files%>
+  <!--加载基础javascript与css-->
+  <% ie6? ? require_jscss(:default_ie6):require_jscss(:default) %>
+  <!--生成javascript与css 标签-->
+  <%=render_required_jscss%>
 </head>
 <body style="margin: 0;">
     <div id="contentWrapper">

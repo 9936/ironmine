@@ -1,5 +1,6 @@
 $(function(){
-    $("#watcher_list").html('<%= escape_javascript(watchers_list(@watchable))%>');
-    $("#watcher_select").html('<%= escape_javascript(lov_field_tag("watcher",Irm::Person, {:id => "watcher", :style => "width:110px;"}))%>');
+    $("#<%=@dom_id%>").html('<%= escape_javascript(render :partial =>"/irm/watchers/sidebar_watcher_list",
+                                                          :locals => {:watchable => @watchable,
+                                                          :editable =>@editable,:dom_id=>@dom_id})%>')
 });
 

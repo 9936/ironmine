@@ -1,5 +1,5 @@
 <%= common_title%>
-<% require_javascript(:survey) %>
+<% require_jscss(:survey) %>
 <%= form_for(@survey_subject,:url=>{:controller=>"csi/survey_subjects",:action=>"create",:survey_id=>@survey_subject.survey_id},:builder => CustomFormBuilder) do |f| %>
   <%= f.hidden_field :survey_id %>
   <% content_for :form_block_common  do %>

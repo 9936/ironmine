@@ -92,6 +92,7 @@ rails_config.fwk.jscss.merge!({
                                   :jcrop => {:css => ["plugins/jcrop"], :js => ["plugins/jquery-crop"]},
                                   :jcrop_ie6 => {:css => ["plugins/jcrop-ie6"], :js => []},
                                   :highcharts => {:css => [], :js => ["highcharts"]},
+                                  :survey => {:css => [], :js => ["survey"]},
                                   :login => {:css => ["login"], :js => []},
                                   :login_ie6 => {:css => ["login-ie6"]},
                                   :jquery_ui => {:js => ["jquery-ui"]},

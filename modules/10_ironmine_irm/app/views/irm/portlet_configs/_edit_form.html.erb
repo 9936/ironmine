@@ -39,7 +39,7 @@
               <td class="labelCol"><label for="config"><%=t(:label_irm_portlet_config_config)%></label></td>
               <td class="data2Col" colspan="3">
                 <%=f.text_area :config,:rows=>8,:cols=>100,:value=>@portlet_config.config, :required=>true ,:id=>"config"%>
-                <%= rich_text_area("incident_request_summary") %>
+                <%= xheditor("incident_request_summary") %>
               </td>
             </tr>
         </tbody>
