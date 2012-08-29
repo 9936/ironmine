@@ -4,6 +4,77 @@ module Hli::IncidentRequestsControllerEx
       before_filter :setup_up_incident_request, :only => [:update]
       before_filter :backup_incident_request ,:only =>[:update]
 
+      def get_data
+        return_columns = [:request_number,
+                          :organization_id,
+                          :organization_id_label,
+                          :title,
+                          :incident_status_id,
+                          :incident_status_id_label,
+                          :close_flag,
+                          :requested_by,
+                          :requested_by_label,
+                          :support_group_id,
+                          :support_group_id_label,
+                          :support_person_id,
+                          :support_person_id_label,
+                          :last_response_date,
+                          :external_system_id,
+                          :external_system_id_label,
+                          :incident_category_id,
+                          :incident_category_id_label,
+                          :incident_sub_category_id,
+                          :incident_sub_category_id_label,
+                          :kb_flag,
+                          :reply_flag,
+                          :reply_count,
+                          :background_color]
+        bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
+
+        incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
+
+        incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
+            filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
+
+        if params[:order_name]
+          order_value = params[:order_value] ? params[:order_value] : "DESC"
+          incident_requests_scope = incident_requests_scope.order("#{params[:order_name]} #{order_value}")
+        else
+          incident_requests_scope = incident_requests_scope.order("last_response_date DESC")
+        end
+
+        incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag, #{incident_status_table_alias}.background_color background_color")  if incident_status_table_alias.present?
+        incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
+        incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
+        incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
+
+        respond_to do |format|
+          format.json {
+            incident_requests,count = paginate(incident_requests_scope)
+            render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+          }
+          format.html {
+            @datas,@count = paginate(incident_requests_scope)
+            render_html_data_table
+          }
+          format.xls{
+            incident_requests = data_filter(incident_requests_scope)
+            send_data(data_to_xls(incident_requests,
+                                  [
+                                   { :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot)},
+                                   { :key => "title",:label => t(:label_icm_incident_request_title)},
+                                   { :key => "reply_count", :label =>"#"},
+                                   { :key => "external_system_id_label", :label => t(:label_irm_external_system)},
+                                   { :key => "priority_id_label", :label => t(:label_icm_incident_request_priority)},
+                                   { :key => "submitted_date", :label => t(:label_icm_incident_request_submitted_date)},
+                                   { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date)},
+                                   { :key => "incident_status_id_label", :label => t(:label_icm_incident_request_incident_status)},
+                                   { :key => "support_person_id_label", :label => t(:label_icm_incident_request_support_person)}]
+                      ))
+          }
+        end
+      end
+
       def get_help_desk_data
         return_columns = [:request_number,
                           :organization_id,
@@ -35,12 +106,18 @@ module Hli::IncidentRequestsControllerEx
         incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_sub_category_id")
 
         incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-            filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).
-            order("last_response_date desc")
+            filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
 
         session[:current_external_system] = params[:external_system_id_param] if params[:external_system_id_param]
         unless session[:current_external_system].blank?
           incident_requests_scope = incident_requests_scope.where("#{Icm::IncidentRequest.table_name}.external_system_id = ?", session[:current_external_system])
+        end
+
+        if params[:order_name]
+          order_value = params[:order_value] ? params[:order_value] : "DESC"
+          incident_requests_scope = incident_requests_scope.order("#{params[:order_name]} #{order_value}")
+        else
+          incident_requests_scope = incident_requests_scope.order("last_response_date DESC")
         end
 
         incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
