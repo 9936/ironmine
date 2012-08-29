@@ -187,12 +187,12 @@ module Icm::IncidentRequestsHelper
           ret << content_tag(:tr,
                   content_tag(:td,
                               content_tag(:div,
-                                          link_to(w[:request_number] + "#" + w[:title], {:controller => "icm/incident_journals", :action => "new", :request_id => w[:request_id]},
-                                                  {:class => "request_info", :request_id => w[:request_id], :request_name => w[:request_number] + "#" + w[:title]}),
+                                          link_to(truncate(w[:request_number] + "#" + w[:title],:length=>17), {:controller => "icm/incident_journals", :action => "new", :request_id => w[:request_id]},
+                                                  {:class => "request_info",:title=>w[:request_number] + "#" + w[:title], :request_id => w[:request_id], :request_name => w[:request_number] + "#" + w[:title]}),
                                           {:style => "float:left"}) + raw("&nbsp;") + (icon_link_delete({:controller => "icm/incident_requests",
                                                                                                          :action => "remove_relation",
                                                                                                          :source_id => w[:source_id],
-                                                                                                         :id => w[:relation_id]}, :remote => true, :confirm => t(:label_are_you_sure)))))
+                                                                                                         :id => w[:relation_id],:_dom_id=>"relation_list"}, :remote => true, :confirm => t(:label_are_you_sure)))))
        end
     end
     raw(ret)
