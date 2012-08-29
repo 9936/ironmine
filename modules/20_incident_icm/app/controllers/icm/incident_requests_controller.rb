@@ -440,7 +440,9 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def add_relation
     #确保事故单不能关联自身
+
     unless params[:source_id].eql?(params[:icm_relation])
+      @incident_request = IncidentRequest.find(params[:source_id])
       existed_relation = Icm::IncidentRequestRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:icm_relation], params[:icm_relation], params[:source_id])
       unless existed_relation.any? || !params[:icm_relation].present?
         t = Icm::IncidentRequestRelation.create(:source_id => params[:source_id], :target_id => params[:icm_relation], :relation_type => params[:relation_type])
@@ -449,9 +451,9 @@ class Icm::IncidentRequestsController < ApplicationController
                                      :property_key=> "add_relation",
                                      :old_value=>params[:relation_type],
                                      :new_value=>params[:icm_relation]})
-        @incident_request_id = t.source_id
       end
     end
+    @dom_id = params[:_dom_id]
     respond_to do |format|
       format.js {render :add_relation}
     end
@@ -465,7 +467,8 @@ class Icm::IncidentRequestsController < ApplicationController
                                  :old_value=>relation.relation_type,
                                  :new_value=>relation.source_id})
     relation.destroy
-    @incident_request_id = params[:source_id]
+    @incident_request =  IncidentRequest.find(relation.source_id)
+    @dom_id = params[:_dom_id]
     respond_to do |format|
       format.js {render :add_relation}
     end
