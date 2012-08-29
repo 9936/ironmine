@@ -2063,8 +2063,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/ldap_auth_headers" => ["get_by_ldap_source"],
-              "irm/ldap_syn_attributes" => ["create", "edit", "index", "new", "show", "update"],
-              "irm/ldap_syn_headers" => ["active", "create", "edit", "index", "new", "show", "update"],
+              "irm/ldap_syn_attributes" => ["create", "edit", "index", "new", "show", "update","get_data"],
+              "irm/ldap_syn_headers" => ["active", "create", "edit", "index", "new", "show", "update", "get_data"],
           },
       }
   }
