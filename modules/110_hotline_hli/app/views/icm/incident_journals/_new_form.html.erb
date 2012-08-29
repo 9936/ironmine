@@ -166,8 +166,16 @@
         <%= submit_tag(t(:label_icm_incident_request_assign),{:id=>"formSubmit",:class=>"btn btn-primary"})  %>
     <% end  %>
     <script type="text/javascript">
-        $("#incident_request_support_group_id").cascade("#incident_request_support_person_id")
-        $("#person_role_id").cascade("#incident_request_support_person_id")
+      $(function(){
+         if($("#incident_request_support_group_id")){
+            $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
+         }
+//         if($("#person_role_id")){
+//            $("#person_role_id").cascade("#incident_request_support_person_id");
+//         }
+      });
+
+
     </script>
 <% end %>
 
@@ -181,8 +189,6 @@
     <%= submit_tag(t(:update),{:id=>"updatePriorityFormSubmit",:class=>"btn btn-primary"})  %>
 <% end %>
 <% end %>
-
-<%= render "assign_modal" %>
 
 <!--页面头部内容-->
 <% content_for :block_header_content do %>
@@ -698,10 +704,14 @@
 <% end %>
 
 <% content_for :sidebar do %>
+    <div id="request_watcher_list">
     <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
                :locals => {:watchable => @incident_request,
                            :editable => !@incident_request.close?,
                            :dom_id=>"request_watcher_list"} %>
+    </div>
     <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list" %>
-    <%= render :partial =>"/icm/incident_requests/sidebar_relation_list", :locals => {:incident_request => @incident_request} %>
+    <div id="relation_list">
+      <%= render :partial =>"/icm/incident_requests/sidebar_relation_list", :locals => {:incident_request => @incident_request,:dom_id=>"relation_list"} %>
+    </div>
 <% end %>

@@ -1,42 +1,5 @@
 $(function(){
-    <% if @incident_request_id %>
-    $("#relation_list").html('<%= escape_javascript(list_all_icm_incident_relations(@incident_request_id))%>');
-    $("#relation_select").html('<%= escape_javascript(lov_field_tag "icm_relation", Icm::IncidentRequest, :style => "width:110px;")%>');
-    $("#relation_type").html('<%=  escape_javascript(select_tag_alias :relation_type,Irm::LookupValue.get_lookup_value("ICM_INCIDENT_REQUEST_REL_TYPE").collect{|p| [p[:meaning], p.lookup_code]}, nil) %>');
+    <% if @incident_request %>
+    $("#<%= @dom_id%>").html('<%= escape_javascript(render :partial =>"/icm/incident_requests/sidebar_relation_list", :locals => {:incident_request => @incident_request,:dom_id=>@dom_id})%>');
     <% end %>
-
-<% unless limit_device? %>
-  $('.request_info').each(function(){
-      try{
-        Ext.getCmp('request-info-tip-' + $(this).attr('request_id')).destroy();
-      }
-      catch(err){}
-      var qtip = Ext.create('Ext.tip.ToolTip', {
-                  target: this,
-                  id: 'request-info-tip-' + $(this).attr('request_id'),
-                  anchor: 'left',
-                  title: "<a href='/incident_requests/" + $(this).attr('request_id') + "/journals/new'>" + $(this).attr('request_name') + "</a>",
-                  html: "<iframe frameborder=0 scrolling='no'  src='/incident_requests/" + $(this).attr('request_id') + "/info_card' style='width:100%;height:90px;'></iframe>",
-                  width: 400,
-                  autoHide: true,
-                  dismissDelay: 0,
-                  closable: false,
-                  listeners: {
-                    'afterrender': function(){
-                        this.el.on('mouseout', function(e){
-                            if(!qtip.getChildByElement(this)){
-                                qtip.hide();
-                            }
-                        });
-
-                        this.el.on('mouseover', function(e){
-                            qtip.suspendEvents();
-                            qtip.show();
-                        });
-
-                    }
-                  }
-              });
-  });
-<% end %>
 });

@@ -1,6 +1,8 @@
 <!--页面标题-->
 <%= render :partial => "irm/common/application_title" %>
 
+<!-- IE8浏览器模拟某个特定版本IE浏览器的渲染方式，以此来解决IE浏览器的兼容问题 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <!--加载基础javascript与css-->
 <% ie6? ? require_jscss(:default_ie6):require_jscss(:default) %>
 
@@ -12,7 +14,6 @@
 <% if content_for?(:page_source) %>
     <%=yield :page_source%>
 <% end %>
-
 
 <%= csrf_meta_tag %>
 

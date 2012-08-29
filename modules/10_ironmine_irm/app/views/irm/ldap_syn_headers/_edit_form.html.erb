@@ -1,207 +1,192 @@
-<%= form_for(@ldap_syn_header,:url=>{:action=>"update"},:builder => LabellingFormBuilder) do |f| %>
-<div id="ep" class="edit-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td class="pbTitle"><h2 class="mainTitle"><%=t(:label_irm_ldap_syn_header_new)%></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="pbBody">
-    <%= error_for @ldap_syn_header %>
-    <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_common_info) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-             <tr>
-              <td class="labelCol"><label><%=(t :ldap_auth_header_ldap_source)%></label></td>
-              <td class="dataCol"><%=f.blank_select(:ldap_source_id,available_ldap_sources,
-                                                {},:required=>true)%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
+<%= form_for(@ldap_syn_header,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:status_code) %>
+    <% content_for :form_block_common   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%=(t :ldap_auth_header_ldap_source)%></label></td>
+            <td class="data-col"><%=f.blank_select(:ldap_source_id,available_ldap_sources,
+                                                  {},:required=>true)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
 
-            <tr>
-              <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_syn_name)%></label></td>
-              <td class="dataCol"><%=f.text_field :name,:required=>true%></td></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_base_dn)%></label></td>
-              <td class="dataCol"><%=f.text_field :base_dn  , :required=>true%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_peo_syn_flag)%></label></td>
-              <td class="dataCol"><%=f.check_box :peo_syn_flag  , :required=>true%></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_ldap_auth_header)%></label></td>
-              <td class="dataCol"><%= f.blank_select(:ldap_auth_header_id,available_ldap_auth_headers(@ldap_syn_header.ldap_source_id),{},
-                                  {
-                                   :id=>"syn_people_id",
-                                   :href=>url_for(:controller=>"irm/ldap_auth_headers",:action=>"get_by_ldap_source",:format=>"json",:belonged_ldap_source_id=>"{ldap_source_id}"),
-                                   :depend=>"ldap_source_id"
-                                   }) %></td>
-              <td class="labelCol empty">&nbsp;</td>
-              <td class="dataCol empty">&nbsp;</td>
-            </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_syn_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name,:required=>true%></td></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_base_dn)%></label></td>
+            <td class="data-col"><%=f.text_field :base_dn  , :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_peo_syn_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :peo_syn_flag  , :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_ldap_auth_header)%></label></td>
+            <td class="data-col"><%= f.blank_select(:ldap_auth_header_id,available_ldap_auth_headers(@ldap_syn_header.ldap_source_id),{},
+                                                   {
+                                                           :id=>"syn_people_id",
+                                                           :href=>url_for(:controller=>"irm/ldap_auth_headers",:action=>"get_by_ldap_source",:format=>"json",:belonged_ldap_source_id=>"{ldap_source_id}"),
+                                                           :depend=>"ldap_source_id"
+                                                   }) %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
           </tbody>
-      </table>
-    </div>
+        </table>
+    <% end %>
 
-    <div id="head_2_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_irm_ldap_syn_header_comp_title) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
+    <% content_for :form_block_company   do%>
+        <table class="form-table">
+          <tbody>
           <tr>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_comp_syn_flag)%></label></td>
-            <td class="dataCol"><%=f.check_box :comp_syn_flag  , :required=>true%></td>
-            <td class="labelCol empty">&nbsp;</td>
-            <td class="dataCol empty">&nbsp;</td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_comp_syn_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :comp_syn_flag  , :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
 
           </tr>
           <tr>
 
-            <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_comp_level)%></label></td>
-            <td class="dataCol"><%=f.text_field :comp_level  , :required=>true%></td>
-            <td class="labelCol empty">&nbsp;</td>
-            <td class="dataCol empty">&nbsp;</td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_comp_level)%></label></td>
+            <td class="data-col"><%=f.text_field :comp_level  , :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
-             <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_comp_filter)%></label></td>
-            <td class="dataCol"><%=f.text_area :comp_filter, :rows=>4%></td>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_comp_desc)%></label></td>
-            <td class="dataCol"><%=f.text_area :comp_desc, :rows=>4%></td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_comp_filter)%></label></td>
+            <td class="data-col"><%=f.text_area :comp_filter, :rows=>4%></td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_comp_desc)%></label></td>
+            <td class="data-col"><%=f.text_area :comp_desc, :rows=>4%></td>
           </tr>
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+    <% end %>
 
-    <div id="head_3_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_irm_ldap_syn_header_org_title) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
+    <% content_for :form_block_organization do %>
+        <table class="form-table">
+          <tbody>
           <tr>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_org_syn_flag)%></label></td>
-            <td class="dataCol"><%=f.check_box :org_syn_flag  , :required=>true%></td>
-            <td class="labelCol empty">&nbsp;</td>
-            <td class="dataCol empty">&nbsp;</td>
-          </tr>
-           <tr>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_org_level)%></label></td>
-            <td class="dataCol"><%=f.text_field :org_level  , :required=>true%></td>
-            <td class="labelCol empty">&nbsp;</td>
-            <td class="dataCol empty">&nbsp;</td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_org_syn_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :org_syn_flag  , :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
-             <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_org_filter)%></label></td>
-            <td class="dataCol"><%=f.text_area :org_filter, :rows=>4%></td>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_org_desc)%></label></td>
-            <td class="dataCol"><%=f.text_area :org_desc, :rows=>4%></td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_org_level)%></label></td>
+            <td class="data-col"><%=f.text_field :org_level  , :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
-        </tbody>
-      </table>
-    </div>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_org_filter)%></label></td>
+            <td class="data-col"><%=f.text_area :org_filter, :rows=>4%></td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_org_desc)%></label></td>
+            <td class="data-col"><%=f.text_area :org_desc, :rows=>4%></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
 
-    <div id="head_4_ep" class="pbSubheader first tertiaryPalette">
-      <span class="pbSubExtra">
-        <span class="requiredLegend">
-          <span class="requiredExampleOuter">
-            <span class="requiredExample">&nbsp;</span>
-          </span><span class="requiredMark">*</span>
-          <span class="requiredText"> = <%=t(:label_is_required)%></span>
-        </span>
-      </span>
-      <h3><%= t(:label_irm_ldap_syn_header_dept_title) %></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
+    <% content_for :form_block_dept do %>
+        <table class="form-table">
+          <tbody>
           <tr>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_dept_syn_flag)%></label></td>
-            <td class="dataCol"><%=f.check_box :dept_syn_flag  , :required=>true%></td>
-            <td class="labelCol empty">&nbsp;</td>
-            <td class="dataCol empty">&nbsp;</td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_dept_syn_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :dept_syn_flag  , :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_dept_level)%></label></td>
-            <td class="dataCol"><%=f.text_field :dept_level  , :required=>true%></td>
-            <td class="labelCol empty">&nbsp;</td>
-            <td class="dataCol empty">&nbsp;</td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_dept_level)%></label></td>
+            <td class="data-col"><%=f.text_field :dept_level  , :required=>true%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
-             <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_dept_filter)%></label></td>
-            <td class="dataCol"><%=f.text_area :dept_filter, :rows=>4%></td>
-            <td class="labelCol"><label><%=t(:label_irm_ldap_syn_header_dept_desc)%></label></td>
-            <td class="dataCol"><%=f.text_area :dept_desc, :rows=>4%></td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_dept_filter)%></label></td>
+            <td class="data-col"><%=f.text_area :dept_filter, :rows=>4%></td>
+            <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_dept_desc)%></label></td>
+            <td class="data-col"><%=f.text_area :dept_desc, :rows=>4%></td>
           </tr>
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons  do %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"}%>
+    <% end %>
 
-
-
-  </div>
-  <div class="pbBottomButtons">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
         <tr>
-          <td class="pbTitle"></td>
-          <td id="bottomButtonRow" class="pbButtonb">
-            <div class="button"><%= f.submit t(:save)%></div>
-            <div class="button"><%= link_back t(:cancel)%></div>
+          <td class="page-block-title">
+            <h2 class="block-title"><%=t(:label_irm_ldap_syn_header_new)%></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
           </td>
         </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+      </table>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_common   %>
+          </div>
+          <!-- 公司同步信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_irm_ldap_syn_header_comp_title) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_company   %>
+          </div>
+          <!-- 组织同步信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_irm_ldap_syn_header_org_title) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_organization   %>
+          </div>
+          <!-- 部门同步信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_irm_ldap_syn_header_dept_title) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_dept   %>
+          </div>
+        </div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
 <% end %>
-
-
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#ldap_source_id",target:["#syn_people_id"]});
-   });
+    $(function(){
+        if($("#ldap_source_id")){
+            $("#ldap_source_id").cascade("#syn_people_id");
+        }
+    });
 </script>

@@ -30,10 +30,9 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_ldap_syn_header_ldap_auth_header)%></label></td>
-            <td class="data-col"><%= f.blank_select(:ldap_auth_header_id,available_ldap_auth_headers(@ldap_syn_header.ldap_source_id),{},
-                                {
+            <td class="data-col"><%= f.blank_select(:ldap_auth_header_id,available_ldap_auth_headers(@ldap_syn_header.ldap_source_id),{},{
                                  :id=>"syn_people_id",
-                                 :href=>url_for(:controller=>"irm/ldap_auth_headers",:action=>"get_by_ldap_source",:format=>"json",:belonged_ldap_source_id=>"{ldap_source_id}"),
+                                 :href=>url_for(:controller=>"irm/ldap_auth_headers",:action=>"get_by_ldap_source",:format=>"json",:belonged_ldap_source_id=>"${ldap_source_id}"),
                                  :depend=>"ldap_source_id"
                                  }) %></td>
             <td class="label-col empty">&nbsp;</td>
@@ -183,7 +182,9 @@
   </div>
 <% end %>
 <script type="text/javascript">
-  GY.use("cascadeselect",function(Y){
-     new Y.CascadeSelect({source: "#ldap_source_id",target:["#syn_people_id"]});
-   });
+    $(function(){
+        if($("#ldap_source_id")){
+            $("#ldap_source_id").cascade("#syn_people_id");
+        }
+    });
 </script>

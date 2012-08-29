@@ -118,6 +118,10 @@ class Irm::LdapSynHeadersController < ApplicationController
     ldap_syn_headers,count = paginate(ldap_syn_headers_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(ldap_syn_headers.to_grid_json([:ldap_source_name,:name,:base_dn,:status_code],count))}
+      format.html  {
+        @count = count
+        @datas = ldap_syn_headers
+      }
     end
   end
 end

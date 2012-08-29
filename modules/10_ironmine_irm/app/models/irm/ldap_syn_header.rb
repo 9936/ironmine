@@ -252,13 +252,15 @@ class Irm::LdapSynHeader < ActiveRecord::Base
     Irm::LdapSynAttribute::SYN_ATTRS.each do |key,value|
       value[:attrs].each do |attr|
         bo_attr = Irm::ObjectAttribute.multilingual.query_by_business_object_code(value[:bo_code]).where(:attribute_name=>attr.to_s).first
-        self.ldap_syn_attributes.create(:object_type=>value[:bo_code],
-                                        :ldap_attr_type=>"LDAP",
-                                        :local_attr=>attr.to_s,
-                                        :local_attr_type=>bo_attr.data_type,
-                                        :ldap_attr=>attr.to_s,
-                                        :null_able=> bo_attr.nullable_flag.eql?(Irm::Constant::SYS_NO) ? Irm::Constant::SYS_YES : Irm::Constant::SYS_NO,
-                                        :description=>bo_attr[:name])
+        if bo_attr.present? and bo_attr.data_null_flag and bo_attr.data_type
+          self.ldap_syn_attributes.create(:object_type=>value[:bo_code],
+                                          :ldap_attr_type=>"LDAP",
+                                          :local_attr=>attr.to_s,
+                                          :local_attr_type=>bo_attr.data_type,
+                                          :ldap_attr=>attr.to_s,
+                                          :null_able=> bo_attr.data_null_flag.eql?(Irm::Constant::SYS_NO) ? Irm::Constant::SYS_YES : Irm::Constant::SYS_NO,
+                                          :description=>bo_attr[:name])
+        end
       end
 
     end
