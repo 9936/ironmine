@@ -166,8 +166,16 @@
         <%= submit_tag(t(:label_icm_incident_request_assign),{:id=>"formSubmit",:class=>"btn btn-primary"})  %>
     <% end  %>
     <script type="text/javascript">
-        $("#incident_request_support_group_id").cascade("#incident_request_support_person_id")
-        $("#person_role_id").cascade("#incident_request_support_person_id")
+      $(function(){
+         if($("#incident_request_support_group_id")){
+            $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
+         }
+//         if($("#person_role_id")){
+//            $("#person_role_id").cascade("#incident_request_support_person_id");
+//         }
+      });
+
+
     </script>
 <% end %>
 
