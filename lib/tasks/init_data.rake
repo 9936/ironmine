@@ -19,19 +19,14 @@ namespace :irm do
     YELLOW  = "\e[33m"
     BLUE    = "\e[34m"
     puts "Init data,it will takes a few seconds......"
-    #初始化脚本位于lib/模块/init_menu.rb脚本中
+    #根据启用的模块初始化功能组、菜单和权限数据
     begin
-      Irm::ProductModule.enabled.each do |p|
-        if File::exists?(File.join(Rails.root, "lib","#{p.product_short_name.downcase}","init_data.rb"))
-          require "#{p.product_short_name.downcase}/init_data"
+      rails_config = Rails.application.config
+      rails_config.fwk.modules.each do |module_name|
+        data_file_path = File.join(Rails.root,rails_config.fwk.module_folder,rails_config.fwk.module_mapping[module_name],'lib','init_data.rb')
+        if File::exists?(data_file_path)
+         require data_file_path
         end
-      end
-
-      Dir[Rails.root.join('modules','*','lib','*', 'init_data.rb')].each do |file_path|
-        require "#{file_path}"
-      end
-      Dir[Rails.root.join('modules','*','lib', 'init_data.rb')].each do |file_path|
-        require "#{file_path}"
       end
     end
 

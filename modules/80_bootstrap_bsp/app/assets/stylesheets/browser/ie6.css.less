@@ -213,6 +213,7 @@
 
 @iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.gif');
 @iconSearchPath: asset-path('framework/search-ie6.png');
+@iconCaretPath: asset-path('framework/caret.png');
 body {background:#ffffff;background-image:none; padding:0}
 
 /* Original hacks by Jonathon Joyce (edited) */
@@ -305,7 +306,7 @@ input.btn, a.btn, button.btn {height:auto;width:auto}
 .icon-sprite {background: url(@iconSpritePath) ;background-repeat:no-repeat;display:inline-block;height:14px;line-height:14px;vertical-align:text-top;width:14px;padding-left:3px}
 
 /* Navbar */
-.dropdown .caret {font-size:1px;height:2px;background:none;background-color:#292929;color:#292929}
+//.dropdown .caret {font-size:1px;height:2px;background:none;background-color:#292929;color:#292929}
 
 /* Pagination */
 .pagination-first-child {border-left-width:1px !important}
@@ -381,15 +382,15 @@ ul.thumbnails {margin-left:-20px;float:none;display:inline-block;zoom:1;clear:bo
 .open .dropdown-menu {
     display:block;
 }
-.caret {font-size:1px;height:2px;line-height:2px;background:none;background-color:#292929;color:#292929}
-.btn-primary .caret {
-    border-left:#0074CC;
-    border-right:#0074CC;
-}
-a:hover .caret  {
-    border-left: #E6E6E6;
-    border-right: #E6E6E6;
-}
+//.caret {font-size:1px;height:2px;line-height:2px;background:none;background-color:#292929;color:#292929}
+//.btn-primary .caret {
+//    border-left:#0074CC;
+//    border-right:#0074CC;
+//}
+//a:hover .caret  {
+//    border-left: #E6E6E6;
+//    border-right: #E6E6E6;
+//}
 
 
 .btn-group .btn{
@@ -487,4 +488,19 @@ table.duel-select tr.duel-list select {
 }
 .chzn-container-active {
     z-index: 1009;
+}
+
+.caret{
+    border-width: 0;
+    background:transparent url(@iconCaretPath) no-repeat -1px -1px;
+    display:inline-block;
+    height:5px;
+    vertical-align:text-top;
+    width:8px;
+    overflow:hidden;
+    margin-top:-2px;
+    padding:0;
+}
+.dropdown-toggle .caret {
+    padding-top: -5px;
 }

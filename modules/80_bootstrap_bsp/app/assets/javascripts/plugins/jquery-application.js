@@ -206,15 +206,15 @@ $(function(){
     }});
 });
 
-    var autoChooseFirst = function(element){
-        if($(element).val()!=""){
-            return
-        }
-        var options = $(element).find("option");
-        if(options.length==2&&$(options[0]).attr("value")==""&&$(options[1]).attr("value")!=""){
-            $(element).val($(options[1]).attr("value"));
-        }
+var autoChooseFirst = function(element){
+    if($(element).val()!=""){
+        return
     }
+    var options = $(element).find("option");
+    if(options.length==2&&$(options[0]).attr("value")==""&&$(options[1]).attr("value")!=""){
+        $(element).val($(options[1]).attr("value"));
+    }
+};
 
 //BEGIN========================过滤器 帮助函数========================================
 var rawConditionClause = function (clause_dom_id,e){
@@ -433,8 +433,13 @@ function checkSelect(){
         if(($(element).find("option").length > chosenMiniNum && $(element).attr("chosen") != 'false') || $(element).attr("chosen") == 'true') {
             if ($(element).attr('depend')) return false;
             if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);
-            $(element).css('width', ($(element).width()+18)+'px');
-            $(element).chosen({no_results_text: '没有对应的选项',search_contains: true,disable_search_threshold: searchMiniNum});
+//            $(element).css('width', ($(element).width()+18)+'px');
+            var width = "100px";
+            if ($(element).width() > 100){
+                width = ($(element).width()+18)+"px";
+            }
+            $(element).css('width', width);
+            $(element).chosen({search_contains: true,disable_search_threshold: searchMiniNum});
         }
     });
 }
