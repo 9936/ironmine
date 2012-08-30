@@ -1,5 +1,6 @@
-<%= datatable("incident_requests",{:action=>"get_data"},[],{:export_data=>"#incidentRequestExport",:not_load=>true,:search_box=>"incident_requestsSearchBox",:html=>true,:export_data=>"#exportData",:view_filter=>true})%>
-<div id="incidentRequestsPaginatorBox"></div>
-
-
-
+<%= datatable("incident_requests",{:action=>"get_data"},[],
+              {:export_data=>"#incidentRequestExport",
+               :search_box=>"incident_requestsSearchBox",
+               :paginator_box=>'incidentRequestsPaginatorBox',
+               :view_filter=>true,:row_perpage => 50,
+               :export_data=>"#exportData"})%>
