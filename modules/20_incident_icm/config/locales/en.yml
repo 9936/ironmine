@@ -260,3 +260,4 @@ en:
   label_icm_incident_sub_category_description: Description
   #========================== end incident category  ===============================
   label_icm_incident_request_watcher: Watcher
+  label_icm_incident_request_update_journal: Update Reply
