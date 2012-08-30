@@ -285,6 +285,24 @@ Fwk::MenuAndFunctionManager.map do |map|
               "icm/incident_journals" => [:remove_journal]
           },
 
+          :edit_self_journal => {
+              :en => {:name => "Edit Self Journal", :description => "Edit Self Journal"},
+              :zh => {:name => "编辑自己的回复", :description => "编辑自己的回复"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_journals" => [:edit, :update]
+          },
+
+          :edit_any_journal => {
+              :en => {:name => "Edit Any Journal", :description => "Edit Any Journal"},
+              :zh => {:name => "编辑任何回复", :description => "编辑任何回复"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_journals" => [:edit, :update]
+          },
+
           :cancel_request => {
               :en => {:name => "Cancel Request", :description => "Cancel Request"},
               :zh => {:name => "取消问题", :description => "取消问题"},

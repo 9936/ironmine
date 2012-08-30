@@ -7,6 +7,9 @@
          <h3><%= journal[:replied_name]  %></h3>
             <span style="color:#666666;font-style:italic;">
               <%= t(:label_reply_title,:time_distance=>distance_of_time_in_words(Time.now,journal[:created_at]),:date_format=>format_date(journal[:created_at])) %>
+              <% if journal[:created_at] != journal[:updated_at] %>
+              <%= "(#{t(:updated_at)}: #{format_date(journal[:updated_at])}, #{distance_of_time_in_words(Time.now,journal[:updated_at])})"%>
+              <% end %>
               - <%= journal[:journal_number]%>
             </span>
        </div>
@@ -15,6 +18,10 @@
             <%= link_to t(:delete), {:controller => "icm/incident_journals", :action => "remove_journal",
                                      :request_id => @incident_request.id, :journal_id => journal[:id]},
                         {:confirm => t(:label_delete_confirm)}  %>
+         <% end %>
+         <% if allow_to_function?(:edit_any_journal) || (allow_to_function?(:edit_self_journal) && journal[:replied_by].eql?(Irm::Person.current.id)) %>
+             &nbsp;&nbsp;<%= link_to t(:edit), {:controller => "icm/incident_journals", :action => "edit",
+                                                :request_id => @incident_request.id, :id => journal[:id]}%>
          <% end %>
        </div>
    </div>

@@ -2,13 +2,19 @@
  <div class="reply">
    <div id="journal_<%= journal.id %>" class="reply-header"  submit_by="<%= journal[:replied_by]%>">
 
-       <div style="float:left"><img width="25" height="25" alt="" src="<%=replied_avatar(journal)%>"></div>
-       <div style="float:left; padding:0 0 0 5px;">
-         <h3><%= journal[:replied_name]  %></h3>
-            <span style="color:#666666;font-style:italic;">
-              <%= t(:label_reply_title,:time_distance=>distance_of_time_in_words(Time.now,journal[:created_at]),:date_format=>format_date(journal[:created_at])) %>
-            </span>
-       </div>
+    <div style="float:left"><img width="25" height="25" alt="" src="<%=replied_avatar(journal)%>"></div>
+    <div style="float:left; padding:0 0 0 5px;">
+     <h3><%= journal[:replied_name]  %></h3>
+        <span style="color:#666666;font-style:italic;">
+          <%= t(:label_reply_title,:time_distance=>distance_of_time_in_words(Time.now,journal[:created_at]),:date_format=>format_date(journal[:created_at])) %>
+        </span>
+    </div>
+     <div style="float:right;">
+       <% if allow_to_function?(:edit_any_journal) || (allow_to_function?(:edit_self_journal) && journal[:replied_by].eql?(Irm::Person.current.id)) %>
+           &nbsp;&nbsp;<%= link_to t(:edit), {:controller => "icm/incident_journals", :action => "edit",
+                                              :request_id => @incident_request.id, :id => journal[:id]}%>
+       <% end %>
+     </div>
    </div>
    <div class="reply-body">
      <%if journal.incident_histories.any? %>

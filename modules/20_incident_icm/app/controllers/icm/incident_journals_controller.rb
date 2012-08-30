@@ -423,6 +423,41 @@ class Icm::IncidentJournalsController < ApplicationController
     end
   end
 
+  def edit
+    @incident_journal = Icm::IncidentJournal.find(params[:id])
+    respond_to do |format|
+      format.html { render :layout => "bootstrap_application_full"}# new.html.erb
+      format.xml  { render :xml => @incident_journal }
+    end
+  end
+
+  def update
+    @incident_journal = Icm::IncidentJournal.find(params[:id])
+    source_message_body = @incident_journal.message_body
+    source_updated_at = @incident_journal.updated_at
+    source_updated_by = @incident_journal.updated_by
+    respond_to do |format|
+      if @incident_journal.update_attributes(params[:icm_incident_journal])
+
+        hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
+                                     :journal_id=> @incident_journal.id,
+                                     :property_key=> "update_journal",
+                                     :old_value=>"",
+                                     :new_value=>""})
+
+        Icm::JournalHistory.create({:incident_history_id => hi.id,
+                                 :incident_journal_id => @incident_journal.id,
+                                 :message_body => source_message_body,
+                                 :source_updated_by => source_updated_by,
+                                 :source_updated_at => source_updated_at})
+
+        format.html { redirect_to({:action => "new"}) }
+      else
+        format.html { render "edit" }
+      end
+    end
+  end
+
   private
   def setup_up_incident_request
     @incident_request = Icm::IncidentRequest.list_all.find(params[:request_id])

@@ -265,6 +265,36 @@ module Hli::IncidentJournalsControllerEx
         end
       end
 
+      def update
+        @incident_journal = Icm::IncidentJournal.find(params[:id])
+        source_number = @incident_journal.journal_number
+        source_message_body = @incident_journal.message_body
+        source_updated_at = @incident_journal.updated_at
+        source_updated_by = @incident_journal.updated_by
+        respond_to do |format|
+          if @incident_journal.update_attributes(params[:icm_incident_journal]) &&
+              @incident_journal.update_attribute(:journal_number, @incident_journal.generate_journal_number)
+
+            hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
+                                         :journal_id=> @incident_journal.id,
+                                         :property_key=> "update_journal",
+                                         :old_value=>source_number,
+                                         :new_value=>@incident_journal.journal_number})
+
+            Icm::JournalHistory.create({:incident_history_id => hi.id,
+                                     :source_journal_number => source_number,
+                                     :incident_journal_id => @incident_journal.id,
+                                     :message_body => source_message_body,
+                                     :source_updated_by => source_updated_by,
+                                     :source_updated_at => source_updated_at})
+
+            format.html { redirect_to({:action => "new"}) }
+          else
+            format.html { render "edit" }
+          end
+        end
+      end
+
       private
       def setup_up_incident_request
         @incident_request = Icm::IncidentRequest.select_all.

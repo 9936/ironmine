@@ -117,6 +117,8 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/:request_id/journals/apply_entry_header_link(.:format)' => "incident_journals#apply_entry_header_link", :via => :get
     match '/incident_requests/:request_id/journals/edit_status(.:format)' => "incident_journals#edit_status", :via => :get
     match '/incident_requests/:request_id/journals/update_status(.:format)' => "incident_journals#update_status", :via => :put
+    match '/incident_requests/:request_id/journals/:id/edit(.:format)' => "incident_journals#edit", :via => :get
+    match '/incident_requests/:request_id/journals/:id/update(.:format)' => "incident_journals#update"
     #support_groups
     match '/support_groups(/:group_id)(/index)(.:format)' => "support_groups#index", :via => :get
     match '/support_groups/:id(.:format)' => "support_groups#update", :via => :put
