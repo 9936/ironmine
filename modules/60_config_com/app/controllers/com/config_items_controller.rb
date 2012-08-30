@@ -111,9 +111,16 @@ class Com::ConfigItemsController < ApplicationController
   end
 
   def get_data
+    #根据当前的config_class_id查找出其子config_classes
+    config_class_ids = []
+    if params[:config_class_id] && params[:config_class_id].present? && params[:config_class_id] != "root"
+      config_class_ids = Com::ConfigClassExplosion.children_ids(params[:config_class_id]).collect(&:config_class_id)
+      config_class_ids << params[:config_class_id]
+      config_class_ids.uniq
+    end
     com_config_items_scope = Com::ConfigItem.select_all.with_config_class.with_managed_group.with_managed_person
     com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigClass.view_name}.name",params[:config_class_name])
-    com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigItem.table_name}.config_class_id",params[:config_class_id]) if params[:config_class_id] && params[:config_class_id].present? && params[:config_class_id] != "root"
+    com_config_items_scope = com_config_items_scope.where(:config_class_id => config_class_ids) if config_class_ids.any?
     com_config_items_scope = com_config_items_scope.match_value("#{Icm::SupportGroup.multilingual_view_name}.name",params[:managed_group_name])
     com_config_items_scope = com_config_items_scope.match_value("#{Irm::Person.table_name}.full_name",params[:managed_person_name])
     com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigItem.table_name}.item_number",params[:item_number])
