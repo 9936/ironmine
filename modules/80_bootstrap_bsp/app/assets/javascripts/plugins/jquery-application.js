@@ -433,10 +433,6 @@ function checkSelect(){
         if(($(element).find("option").length > chosenMiniNum && $(element).attr("chosen") != 'false') || $(element).attr("chosen") == 'true') {
             if ($(element).attr('depend')) return false;
             if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);
-//            var width = "100px";
-//            if ($(element).width() > 100){
-//                width = ($(element).width()+18)+"px";
-//            }
             $(element).css('width', getSelectWidth($(element)));
             $(element).chosen({search_contains: true,disable_search_threshold: searchMiniNum});
         }
