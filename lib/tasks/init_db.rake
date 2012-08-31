@@ -16,7 +16,7 @@ module SchemaStatements
     end
 end
 
-ActiveRecord::ConnectionAdapters::AbstractAdapter.send(:include,SchemaStatements)  if defined? Mysql2
+
 
 
 # 新增加覆盖原来task的方法
@@ -30,6 +30,10 @@ Rake.application.alias_task("db:migrate", "db:migrate_original")
 namespace :db do
   desc "(For Ironmine)Migrate the database (options: VERSION=x, VERBOSE=false,PRODUCT=sr)."
   task :migrate => :environment do
+    if defined? Mysql2
+      ActiveRecord::ConnectionAdapters::AbstractAdapter.send(:include,SchemaStatements)
+      ActiveRecord::SchemaDumper.send(:include,Fwk::MysqlSchemaDumper)
+    end
     ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
     # main app migrate
     migrate_paths = ["db/*/*"]

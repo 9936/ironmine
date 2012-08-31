@@ -18,14 +18,29 @@ EventCalendar::CalendarHelper.send(:include, EventCalendar::CalendarHelperEx)
 
 
 begin
-  # 初始化模块数据 ，初始化脚本位于lib/模块/init.rb脚本中
-  Irm::ProductModule.enabled.each do |p|
-    if File::exists?(File.join(File.expand_path(File.dirname(__FILE__)), "..", "..", "lib", "#{p.product_short_name.downcase}", "init.rb"))
-      require "#{p.product_short_name.downcase}/init"
+# IRM模块初始化脚本
+  require File.dirname(__FILE__) + '/../../lib/irm/process_approve_mail_processor'
+  require File.dirname(__FILE__) + '/../../lib/irm/process_mail_request_processor'
+  require File.dirname(__FILE__) + '/../../lib/irm/process_mail_journal_processor'
+#注册IRM模块菜单
+  Irm::MenuManager.reset_menu
+
+  module Wf
+    class Error < ::StandardError;
+    end
+    class ApproveError < Error
+
+    end
+
+    class MissingSelectApproverError < ApproveError;
+    end
+    class MissingDefaultApproverError < ApproveError;
+    end
+    class MissingAutoApproverError < ApproveError;
+    end
+    class RollbackApproveError < ApproveError;
     end
   end
-rescue => text
-  puts("Init module error :#{text}")
 end
 
 ::Ironmine::Acts::Searchable.searchable_entity = {Icm::IncidentRequest.name => "view_incident_request"#,
