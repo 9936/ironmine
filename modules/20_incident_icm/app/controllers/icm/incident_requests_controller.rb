@@ -574,4 +574,8 @@ class Icm::IncidentRequestsController < ApplicationController
   rescue
     return false, now
   end
+
+  def check_support_group(support_group_id,system_id)
+    Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).assignable.query(support_group_id).first.present?
+  end
 end

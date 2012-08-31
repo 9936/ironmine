@@ -260,13 +260,13 @@ class Icm::IncidentRequest < ActiveRecord::Base
   end
 
   searchable :auto_index => true, :auto_remove => true do
+    text :title
+    text :summary
     text :request_number
-    text :title,:stored => true
-    text :summary,:stored => true
-    text :journals_content,:stored => true do
-      incident_journals.map(&:message_body)
+    text :incident_journals_content do |incident|
+      incident.incident_journals.map { |journal| journal.message_body }
     end
-    text :support_person_name do
+    text :supporter_name do
       Irm::Person.find(support_person_id).full_name if support_person_id.present?
     end
     text :incident_category_name do
@@ -275,6 +275,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     text :incident_sub_category_name do
       Icm::IncidentSubCategoriesTl.where(:incident_sub_category_id => incident_sub_category_id).map { |category| category.name } if incident_sub_category_id.present?
     end
+    string :external_system_id
 
     time :updated_at
   end
