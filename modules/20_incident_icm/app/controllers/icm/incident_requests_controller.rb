@@ -483,7 +483,7 @@ class Icm::IncidentRequestsController < ApplicationController
     attachment = Irm::AttachmentVersion.find(params[:attachment_id])
     source = attachment.source_id
     name = attachment.name
-    request_id = Icm::IncidentJournal.find(source).incident_request_id
+    request_id = eval(attachment.source_type).find(source).incident_request_id
     respond_to do |format|
       if attachment.destroy
         Icm::IncidentHistory.create({:request_id => request_id,
