@@ -433,14 +433,29 @@ function checkSelect(){
         if(($(element).find("option").length > chosenMiniNum && $(element).attr("chosen") != 'false') || $(element).attr("chosen") == 'true') {
             if ($(element).attr('depend')) return false;
             if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);
-            var width = "100px";
-            if ($(element).width() > 100){
-                width = ($(element).width()+18)+"px";
-            }
-            $(element).css('width', width);
+            $(element).css('width', getSelectWidth($(element)));
             $(element).chosen({search_contains: true,disable_search_threshold: searchMiniNum});
         }
     });
+}
+//获取select宽度
+function getSelectWidth(selectObj){
+    if(!selectObj) return 0;
+    var width = selectObj.width();
+    //当select的父级元素不可见时
+    if(width == 0){
+        var cloneObj = selectObj.clone();
+        cloneObj.css({visibility:'hidden'});
+        $('body').append(cloneObj);
+        width = cloneObj.width();
+        cloneObj.remove();
+    }
+    //设置默认宽度当宽度小于100
+    if(width < 100){
+        width = 100
+    }
+    width = (width + 18) + "px";
+    return width;
 }
 //end =================================Chosen 渲染select================================
 //START =================================客户端校验文件大小================================
