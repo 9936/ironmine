@@ -190,10 +190,10 @@
 
     Internal.prototype.handChosen = function(targetObj){
         //如果当前select已经过chosen渲染过，则直接更新，否则检测当前的select的option是否大于chosenMiniNum
-        var width = "100px";
-        if (targetObj.width() > 100){
-            width = (targetObj.width()+18)+"px";
-        }
+        var width = getSelectWidth(targetObj);
+//        if (targetObj.width() > 100){
+//            width = (targetObj.width()+18)+"px";
+//        }
         if (targetObj.attr('chosen') == 'true' && targetObj.attr('depend') && typeof targetObj.attr('depend') != 'undefined') {
             targetObj.css('width', width);
             targetObj.trigger("liszt:updated");
