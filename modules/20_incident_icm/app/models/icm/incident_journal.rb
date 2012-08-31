@@ -64,6 +64,7 @@ class Icm::IncidentJournal < ActiveRecord::Base
         ovalue = incident_request_bak.send(key)
         nvalue = incident_request.send(key)
           Icm::IncidentHistory.create({:journal_id=>incident_journal.id,
+                                       :request_id => incident_journal.incident_request_id,
                                        :property_key=>key.to_s,
                                        :old_value=>ovalue,
                                        :new_value=>nvalue}) if !ovalue.eql?(nvalue)
