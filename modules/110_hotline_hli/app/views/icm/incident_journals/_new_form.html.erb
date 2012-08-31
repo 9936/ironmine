@@ -83,38 +83,42 @@
     </div>
     <% if !@incident_request.close? %>
         <div class="btn-group">
-          <% if current_person?(@incident_request.support_person_id) || allow_to_function?(:pass_incident_request)  %>
-              <%= link_to t(:pass), {:action => "edit_pass"},{:class=>"btn"} %>
-              <%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"},{:class=>"btn"}  %>
-          <% end %>
-          <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
-              <%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"} ,{:class=>"btn"}%>
-          <% end %>
+          <% if @incident_request.status_code.eql?("ENABLED") %>
+              <% if current_person?(@incident_request.support_person_id) || allow_to_function?(:pass_incident_request)  %>
+                  <%= link_to t(:pass), {:action => "edit_pass"},{:class=>"btn"} %>
+                  <%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"},{:class=>"btn"}  %>
+              <% end %>
+              <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
+                  <%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"} ,{:class=>"btn"}%>
+              <% end %>
+          <% end%>
         </div>
 
         <div class="btn-group">
-          <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
-              <%= link_to t(:close), {:action => "edit_close"},{:class=>"btn"} %>
-          <% end %>
-          <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn"} %>
-
           <% if @incident_request.status_code.eql?("ENABLED") %>
+            <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
+                <%= link_to t(:close), {:action => "edit_close"},{:class=>"btn"} %>
+            <% end %>
+            <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn"} %>
+
             <%= link_to t(:cancel), {:controller => "icm/incident_requests", :action => "cancel_request", :id => @incident_request.id},
                         :confirm => t(:label_icm_incident_request_cancel_confirm), :class=>"btn", :method => :delete %>
+              <%= link_to t(:label_icm_incident_journal_edit_workload),
+                          {:controller=>"icm/incident_journals",:action => "edit_workload"}, {:class=>"btn"}%>
           <% elsif @incident_request.status_code.eql?("OFFLINE") %>
             <%= link_to t(:enable), {:controller => "icm/incident_requests", :action => "enable_request", :id => @incident_request.id},
                         :confirm => t(:label_icm_incident_request_enable_confirm), :class=>"btn",:method => :delete %>
           <% end %>
-          <%= link_to t(:label_icm_incident_journal_edit_workload),
-                      {:controller=>"icm/incident_journals",:action => "edit_workload"}, {:class=>"btn"}%>
         </div>
 
         <div class="btn-group">
-          <% if Icm::IncidentRequest.assignable_to_person(Irm::Person.current.id).query(@incident_request.id).present?%>
-              <%= link_to t(:label_icm_incident_request_assign_me), {:controller=>"icm/incident_requests",:action => "update_assign_me",:incident_request_ids=>@incident_request.id},{:class=>"btn",:back=>true} %>
-          <% end %>
-          <% if allow_to_function?(:assign_incident_request) %>
-              <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
+          <% if @incident_request.status_code.eql?("ENABLED") %>
+              <% if Icm::IncidentRequest.assignable_to_person(Irm::Person.current.id).query(@incident_request.id).present?%>
+                  <%= link_to t(:label_icm_incident_request_assign_me), {:controller=>"icm/incident_requests",:action => "update_assign_me",:incident_request_ids=>@incident_request.id},{:class=>"btn",:back=>true} %>
+              <% end %>
+              <% if allow_to_function?(:assign_incident_request) %>
+                  <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
+              <% end %>
           <% end %>
         </div>
     <% else %>
@@ -128,11 +132,13 @@
     <% end %>
 
     <div class="btn-group">
-      <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>
-          <%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers", :action => "new_from_icm_request", :request_id => @incident_request.id},{:class=>"btn"} %>
-      <% end %>
-      <% unless @incident_request.change_request_id.present? %>
-          <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
+      <% if @incident_request.status_code.eql?("ENABLED") %>
+          <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>
+              <%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers", :action => "new_from_icm_request", :request_id => @incident_request.id},{:class=>"btn"} %>
+          <% end %>
+          <% unless @incident_request.change_request_id.present? %>
+              <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
+          <% end %>
       <% end %>
     </div>
     <% if false%>
@@ -170,9 +176,6 @@
          if($("#incident_request_support_group_id")){
             $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
          }
-//         if($("#person_role_id")){
-//            $("#person_role_id").cascade("#incident_request_support_person_id");
-//         }
       });
 
 

@@ -13,10 +13,10 @@ module Hli::IncidentJournalModelEx
         -1
       end
 
-      private
       def generate_journal_number
         self.journal_number = Irm::Sequence.nextval(self.class.name)
       end
+      private
 
       def validate_message_body
         return if self.reply_type == 'CLOSE'

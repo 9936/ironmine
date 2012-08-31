@@ -483,10 +483,11 @@ class Icm::IncidentRequestsController < ApplicationController
     attachment = Irm::AttachmentVersion.find(params[:attachment_id])
     source = attachment.source_id
     name = attachment.name
+    request_id = eval(attachment.source_type).find(source).incident_request_id
     respond_to do |format|
       if attachment.destroy
-        Icm::IncidentHistory.create({:request_id => source,
-                                     :journal_id=> "",
+        Icm::IncidentHistory.create({:request_id => request_id,
+                                     :journal_id=> source,
                                      :property_key=> "remove_attachment",
                                      :old_value=> name,
                                      :new_value=> ""})
@@ -572,5 +573,9 @@ class Icm::IncidentRequestsController < ApplicationController
     return true, now
   rescue
     return false, now
+  end
+
+  def check_support_group(support_group_id,system_id)
+    Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).assignable.query(support_group_id).first.present?
   end
 end

@@ -206,15 +206,15 @@ $(function(){
     }});
 });
 
-    var autoChooseFirst = function(element){
-        if($(element).val()!=""){
-            return
-        }
-        var options = $(element).find("option");
-        if(options.length==2&&$(options[0]).attr("value")==""&&$(options[1]).attr("value")!=""){
-            $(element).val($(options[1]).attr("value"));
-        }
+var autoChooseFirst = function(element){
+    if($(element).val()!=""){
+        return
     }
+    var options = $(element).find("option");
+    if(options.length==2&&$(options[0]).attr("value")==""&&$(options[1]).attr("value")!=""){
+        $(element).val($(options[1]).attr("value"));
+    }
+};
 
 //BEGIN========================过滤器 帮助函数========================================
 var rawConditionClause = function (clause_dom_id,e){
@@ -433,10 +433,29 @@ function checkSelect(){
         if(($(element).find("option").length > chosenMiniNum && $(element).attr("chosen") != 'false') || $(element).attr("chosen") == 'true') {
             if ($(element).attr('depend')) return false;
             if (typeof $(element).attr("chosen") == 'undefined') $(element).attr("chosen",true);
-            $(element).css('width', ($(element).width()+18)+'px');
-            $(element).chosen({no_results_text: '没有对应的选项',search_contains: true,disable_search_threshold: searchMiniNum});
+            $(element).css('width', getSelectWidth($(element)));
+            $(element).chosen({search_contains: true,disable_search_threshold: searchMiniNum});
         }
     });
+}
+//获取select宽度
+function getSelectWidth(selectObj){
+    if(!selectObj) return 0;
+    var width = selectObj.width();
+    //当select的父级元素不可见时
+    if(width == 0){
+        var cloneObj = selectObj.clone();
+        cloneObj.css({visibility:'hidden'});
+        $('body').append(cloneObj);
+        width = cloneObj.width();
+        cloneObj.remove();
+    }
+    //设置默认宽度当宽度小于100
+    if(width < 100){
+        width = 100
+    }
+    width = (width + 18) + "px";
+    return width;
 }
 //end =================================Chosen 渲染select================================
 //START =================================客户端校验文件大小================================

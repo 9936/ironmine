@@ -9,6 +9,10 @@ class Com::ConfigClassExplosion < ActiveRecord::Base
   #对运维中心数据进行隔离
   default_scope {default_filter}
 
+  scope :children_ids,lambda{|config_class_id|
+    select(:config_class_id).where(:parent_id => config_class_id)
+  }
+
   def self.explore_hierarchy(id,parent_id)
     #当前配置分类的父组织没有发生变化，则不进行重新计算
     current_parent = self.where(:config_class_id=>id).first

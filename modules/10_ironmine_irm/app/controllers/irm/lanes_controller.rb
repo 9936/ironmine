@@ -11,7 +11,7 @@ class Irm::LanesController < ApplicationController
     @lane = Irm::Lane.find(params[:id])
 
     respond_to do |format|
-      if @lane.update_attributes(params[:irm_lane]) && (@lane.update_attribute(:limit, 10) if @lane.limit.nil? || @lane.limit <= 0)
+      if @lane.update_attributes(params[:irm_lane]) #&& (@lane.update_attribute(:limit, 10) if @lane.limit.nil? || @lane.limit <= 0)
         format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
@@ -27,7 +27,7 @@ class Irm::LanesController < ApplicationController
 
   def create
     @lane = Irm::Lane.new(params[:irm_lane])
-    @lane.limit = 10 if @lane.limit.nil? || @lane.limit <= 0
+    #@lane.limit = 10 if @lane.limit.nil? || @lane.limit <= 0
     respond_to do |format|
       if @lane.save
         format.html {redirect_to({:action=>"index"}, :notice =>t(:successfully_created))}

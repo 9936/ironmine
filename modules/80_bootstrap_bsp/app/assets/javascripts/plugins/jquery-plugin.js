@@ -149,19 +149,12 @@
                 setTimeout(function () {
                     target.val("");
                     target.trigger("change");
-                    //如果当前select已经过chosen渲染过，则直接更新，否则检测当前的select的option是否大于chosenMiniNum
-                    if (target.attr('chosen') == 'true' && target.attr('depend') && typeof target.attr('depend') != 'undefined') {
-                        target.css('width', (target.width()+18)+'px');
-                       target.trigger("liszt:updated");
-                    } else if ((target.find('option').length > chosenMiniNum && target.attr("chosen") != 'false') || target.attr("chosen") == 'true') {
-                        if (typeof target.attr("chosen") == 'undefined') target.attr("chosen",true);
-                        target.css('width', (target.width()+18)+'px');
-                        target.chosen({no_results_text: '没有对应的选项',search_contains: true,disable_search_threshold: searchMiniNum});
-                    }
+                    me.handChosen(target);
                 }, 1);
             }
         }
     }
+
 
     Internal.prototype.processResult = function (datas) {
         var me = this.me;
@@ -190,17 +183,22 @@
             // 自动选择第一个
             if ($(targets[i]).attr("irequired")) autoChooseFirst(targets[i]);
             $(targets[i]).trigger('change');
-            //如果当前select已经过chosen渲染过，则直接更新，否则检测当前的select的option是否大于chosenMiniNum
-            if ($(targets[i]).attr('chosen') == 'true' && $(targets[i]).attr('depend') && typeof $(targets[i]).attr('depend') != 'undefined') {
-                $(targets[i]).css('width', ($(targets[i]).width()+18)+'px');
-                $(targets[i]).trigger("liszt:updated");
-            } else if (($(targets[i]).find('option').length > chosenMiniNum && $(targets[i]).attr("chosen") != 'false') || $(targets[i]).attr("chosen") == 'true') {
-                if (typeof $(targets[i]).attr("chosen") == 'undefined') $(targets[i]).attr("chosen",true);
-                $(targets[i]).css('width', ($(targets[i]).width()+18)+'px');
-                $(targets[i]).chosen({no_results_text: '没有对应的选项',search_contains: true,disable_search_threshold: searchMiniNum});
-            }
+            me.handChosen($(targets[i]));
         }, 1);
 
+    }
+
+    Internal.prototype.handChosen = function(targetObj){
+        //如果当前select已经过chosen渲染过，则直接更新，否则检测当前的select的option是否大于chosenMiniNum
+        var width = getSelectWidth(targetObj);
+        if (targetObj.attr('chosen') == 'true' && targetObj.attr('depend') && typeof targetObj.attr('depend') != 'undefined') {
+            targetObj.css('width', width);
+            targetObj.trigger("liszt:updated");
+        } else if ((targetObj.find('option').length > chosenMiniNum && targetObj.attr("chosen") != 'false') || targetObj.attr("chosen") == 'true') {
+            if (typeof targetObj.attr("chosen") == 'undefined') targetObj.attr("chosen",true);
+            targetObj.css('width', width);
+            targetObj.chosen({search_contains: true,disable_search_threshold: searchMiniNum});
+        }
     }
 
     // 插件的公有方法
