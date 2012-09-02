@@ -121,13 +121,21 @@ module Hli::IncidentRequestsControllerEx
         end
 
         incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
-        incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
+        #incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
         incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
         incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
+
+        if params[:request_number] && !params[:request_number].blank?
+          results = Sunspot.search(Icm::IncidentRequest) do |s|
+            s.keywords params[:request_number]
+            s.paginate :per_page => 30000
+          end.results
+          incident_requests_scope = incident_requests_scope.where("#{Icm::IncidentRequest.table_name}.id IN (?)", results.collect(&:id))
+        end
 
         respond_to do |format|
           format.json {
