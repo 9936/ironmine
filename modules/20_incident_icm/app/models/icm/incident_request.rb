@@ -9,8 +9,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
 
   validates_presence_of :title,:external_system_id,:requested_by,:submitted_by,
-                        :impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code,
-                        :contact_number,:contact_id
+                        :impact_range_id,:urgence_id,:priority_id,:request_type_code,:incident_status_id,:report_source_code#,
+                        #:contact_number,:contact_id
 
   attr_accessor :pass_flag,:close_flag,:permanent_close_flag
 
