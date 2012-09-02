@@ -216,7 +216,84 @@ module Hli::IncidentRequestsControllerEx
         end
       end
 
+      def short_create
+        @incident_request = Icm::IncidentRequest.new(params[:icm_incident_request])
+        #@incident_request.urgence_id = Icm::UrgenceCode.default_id
+        @incident_request.incident_status_id = Icm::IncidentStatus.default_id
+        #@incident_request.impact_range_id = Icm::ImpactRange.default_id
+        #加入创建事故单的默认参数
+        prepared_for_create(@incident_request)
+        @incident_request.summary = "<pre>" + @incident_request.summary+"</pre>" unless limit_device?
+        respond_to do |format|
+          if @incident_request.valid?
+
+            if @incident_request.save
+              #如果没有填写support_group, 插入Delay Job任务
+              if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
+                Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(@incident_request.id),
+                                     [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
+              end
+              Icm::IncidentHistory.create({:request_id => @incident_request.id,
+                                           :journal_id=> "",
+                                           :property_key=> "incident_request_id",
+                                           :old_value=> @incident_request.title,
+                                           :new_value=> ""})
+              format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
+              format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
+            else
+              format.html { render :action => "new", :layout => "bootstrap_application_full" }
+              format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+            end
+          else
+            #@incident_request.errors[:requested_by] << I18n.t(:error_icm_requested_by_can_not_blank)
+            format.html { render :action => "new", :layout => "bootstrap_application_full" }
+            format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+          end
+        end
+      end
+
       private
+      def prepared_for_create(incident_request)
+        incident_request.submitted_by = Irm::Person.current.id
+        incident_request.submitted_date = Time.now
+        incident_request.last_request_date = Time.now
+        incident_request.last_response_date = 1.minute.ago
+        incident_request.next_reply_user_license="SUPPORTER"
+
+        #HOTLINE项目中，暂时用不到请求类型和来源类型，先进行默认
+        incident_request.request_type_code = "REQUESTED_TO_PERFORM"
+        incident_request.report_source_code = "CUSTOMER_SUBMIT"
+        if incident_request.incident_status_id.nil?||incident_request.incident_status_id.blank?
+          incident_request.incident_status_id = Icm::IncidentStatus.default_id
+        end
+        if incident_request.request_type_code.nil?||incident_request.request_type_code.blank?
+          incident_request.request_type_code = "REQUESTED_TO_CHANGE"
+        end
+
+        if incident_request.report_source_code.nil?||incident_request.report_source_code.blank?
+          incident_request.report_source_code = "CUSTOMER_SUBMIT"
+        end
+        if incident_request.requested_by.present?
+          incident_request.contact_id = incident_request.requested_by
+        end
+        if incident_request.contact_number.present? && incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_a)) ||
+            incident_request.contact_number.eql?(I18n.t(:label_icm_incident_request_contact_number_tip_b))
+          if incident_request.hotline.eql?(Irm::Constant::SYS_YES)
+            incident_request.contact_number = nil
+          else
+            incident_request.contact_number = "NULL"
+          end
+        end
+        #必须手工填写联系方式
+    #    if !incident_request.contact_number.present?&&incident_request.contact_id.present?
+    #      incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
+    #    end
+
+        if limit_device?
+          incident_request.summary = "<pre>"+incident_request.summary+"</pre>"
+        end
+      end
+
       def validate_files(ref_request)
         flash[:notice] = nil
         now = 0
