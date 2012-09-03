@@ -52,7 +52,7 @@ module Irm::MenuManager
         menus_cache = {}
         menus.each do |m|
           # 子菜单项
-          tmp_menu_entries = m.menu_entries.where("sub_menu_id IS NOT NULL AND sub_menu_id!=''").order(:display_sequence)
+          tmp_menu_entries = m.menu_entries.where("sub_menu_id IS NOT NULL AND length(sub_menu_id)!=0").order(:display_sequence)
           menu_entries = []
           tmp_menu_entries.each do |tm|
             data = {:menu_entry_id=>tm.id,:sub_menu_id=>tm.sub_menu_id,:display_sequence=>tm.display_sequence}
@@ -62,7 +62,7 @@ module Irm::MenuManager
             menu_entries<<data
           end
           # 子功能组项
-          tmp_function_group_entries = m.menu_entries.where("(sub_menu_id IS NULL OR sub_menu_id='') AND (sub_function_group_id IS NOT NULL AND sub_function_group_id!='')").order(:display_sequence)
+          tmp_function_group_entries = m.menu_entries.where("(sub_menu_id IS NULL OR length(sub_menu_id)=0) AND (sub_function_group_id IS NOT NULL AND length(sub_function_group_id)!=0)").order(:display_sequence)
           function_group_entries = []
           tmp_function_group_entries.each do |tp|
             data = {:menu_entry_id=>tp.id,:sub_function_group_id=>tp.sub_function_group_id,:display_sequence=>tp.display_sequence}
