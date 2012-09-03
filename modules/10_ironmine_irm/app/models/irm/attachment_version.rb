@@ -6,7 +6,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
 
   acts_as_searchable
 
-  has_attached_file :data,:whiny => false, :styles => {:thumb=> "60x60>",:small => "100x100>" }
+  has_attached_file :data,:whiny => false, :styles => {:thumb=> "60x60>",:small => "100x100>" }, :url=>Irm::Constant::ATTACHMENT_URL
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => Irm::SystemParametersManager.upload_file_limit.kilobytes
 

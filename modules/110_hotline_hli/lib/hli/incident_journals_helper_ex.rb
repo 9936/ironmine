@@ -9,6 +9,10 @@ module Hli::IncidentJournalsHelperEx
           journals
         end
       end
+
+      def journals_size(incident_request)
+        incident_request.reply_count
+      end
     end
   end
 end

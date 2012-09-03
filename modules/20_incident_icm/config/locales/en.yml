@@ -192,6 +192,7 @@ en:
   label_icm_incident_journal_pass: Pass Incident Request
   label_action_short_create: Create
   label_icm_incident_journal_message_body_not_blank: Please fill information
+  label_icm_incident_journal_message_body_not_repeat: You can not submit the same reply twice
   #========================= end icm incident_journals_controller=======================#
   #=========================    icm incident_reports_controller=======================#
   label_icm_urgency_name: Urgency Name

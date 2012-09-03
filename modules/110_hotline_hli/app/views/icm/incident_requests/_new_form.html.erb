@@ -37,7 +37,7 @@
                             :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
                <% else %>
                    <%=f.select :external_system_id,
-                           nullable_options_for_select(current_person_assessible_external_system_full(Irm::Person.current.id),@incident_request.external_system_id),
+                               nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
                            {:value=>@incident_request.external_system_id},
                            {:required=>true,:id=>"ass_external_system",
                             :origin_value=>@incident_request.external_system_id,
@@ -133,11 +133,14 @@
                 <%=f.lov_field :contact_id,Irm::Person,{:required=>true,:id=>"incident_request_contact_id",:class=>"input-medium"}%>
               </div>
             </td>
-            <td class="label-col"><label for="incident_request_contact_number"><%=t(:label_icm_incident_request_contact_number)%></label></td>
-            <td class="data-col">
-              <%=f.text_field :contact_number,:size=>17,:id=>"incident_request_contact_number",:required=>true%>
-            </td>
-
+        </tr>
+        <tr>
+          <td class="label-col"><label for="incident_request_contact_number"><%=t(:label_icm_incident_request_contact_way)%></label></td>
+          <td class="data-col" colspan=3>
+            <%=f.text_field :contact_number,:style => "width:500px", :id=>"incident_request_contact_number",
+                           :value=> I18n.t(:label_icm_incident_request_contact_number_tip_b),
+                           :class => "grayTips", :required=>true%>
+          </td>
         </tr>
         <tr>
           <td class="label-col"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
@@ -249,13 +252,13 @@
          })
          setLookupValue("incident_request_contact_id",requester.val())
      }
-     if($("#incident_request_contact_id")){
-         $("#incident_request_contact_id").change(function(event){
-           if($(event.target).val()&&$(event.target).data("lov")&&$(event.target).data("lov").bussiness_phone){
-             $("#incident_request_contact_number").val($(event.target).data("lov").bussiness_phone);
-           }
-         })
-     }
+//     if($("#incident_request_contact_id")){
+//         $("#incident_request_contact_id").change(function(event){
+//           if($(event.target).val()&&$(event.target).data("lov")&&$(event.target).data("lov").bussiness_phone){
+//             $("#incident_request_contact_number").val($(event.target).data("lov").bussiness_phone);
+//           }
+//         })
+//     }
      if($("#incident_request_support_group_id")){
          $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
      }

@@ -33,7 +33,7 @@
                          :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
             <% else %>
                 <%=f.select :external_system_id,
-                        nullable_options_for_select(current_person_assessible_external_system_full(Irm::Person.current.id),nil),
+                            nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
                         {},
                         {:id=>"ass_external_system",:required=>true,:style => "width:180px",
                          :depend=>"incident_request_requested_by",
@@ -50,6 +50,10 @@
               <label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%><%= required_icon %></label>
               <%=f.text_area :summary,:rows=>3, :style => "width:175px;" ,:id=>"incident_request_summary",:required=>true%>
             </div>
+              <div class="quickCreateField">
+                <label><%=t(:label_icm_incident_request_contact_way)%><%= required_icon %></label>
+                <%=f.text_field :contact_number,:id=>"incident_request_contact_number", :value=> I18n.t(:label_icm_incident_request_contact_number_tip_a), :class => "grayTips", :style => "width:175px;"%>
+              </div>
             <div class="quick-create-field">
               <table>
                 <tr>

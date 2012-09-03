@@ -481,13 +481,22 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def remove_attachment
     attachment = Irm::AttachmentVersion.find(params[:attachment_id])
-    source = attachment.source_id
+    source_id = attachment.source_id
+    source = eval(attachment.source_type).find(source_id)
     name = attachment.name
-    request_id = Icm::IncidentJournal.find(source).incident_request_id
+
+    if source.source_type.eql?("Icm::IncidentRequest")
+      request_id = source.id
+      journal_id = ""
+    else source.source_type.eql?("Icm::IncidentJournal")
+      request_id = source.incident_request_id
+      journal_id = source.id
+    end
+
     respond_to do |format|
       if attachment.destroy
         Icm::IncidentHistory.create({:request_id => request_id,
-                                     :journal_id=> source,
+                                     :journal_id=> journal_id,
                                      :property_key=> "remove_attachment",
                                      :old_value=> name,
                                      :new_value=> ""})

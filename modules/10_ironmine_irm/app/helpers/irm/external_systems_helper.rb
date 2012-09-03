@@ -4,7 +4,7 @@ module Irm::ExternalSystemsHelper
   end
 
   def available_external_systems_with_person(person_id)
-     Irm::ExternalSystem.multilingual.enabled.with_person(person_id)
+     Irm::ExternalSystem.multilingual.enabled.order_with_name.with_person(person_id)
   end
 
   def current_person_assessible_external_system_full

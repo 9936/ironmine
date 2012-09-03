@@ -189,6 +189,7 @@ zh:
   label_icm_incident_journal_pass: 转交事故单
   label_action_short_create: 创建
   label_icm_incident_journal_message_body_not_blank: 回复内容不能为空
+  label_icm_incident_journal_message_body_not_repeat: 回复内容不能重复
   #========================= end icm incident_journals_controller=======================#
   #=========================    icm incident_reports_controller=======================#
   label_icm_urgency_name: 紧急度
