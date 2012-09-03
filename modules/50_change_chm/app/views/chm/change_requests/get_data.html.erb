@@ -4,9 +4,9 @@
         <%= link_to(data.title, {:controller => 'chm/change_requests', :action => 'show', :id => data.id}) %>
     <% end %>
     <% builder.column(:change_status_id, {:title => t(:label_chm_change_request_stage), :width => "120px"}) do |data| %>
-        <table class="table-icon">
+        <table class="table-icon" style="vertical-align: top;">
           <tr>
-            <td class="vt">
+            <td class="vt" style="vertical-align: top;">
                <span>
                  <a class="expand-icon" href="javascript:void(0);" title="expand">expand</a>
                  <a class="collapse-icon" href="javascript:void(0);" title="collapse">collapse</a>

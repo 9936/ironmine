@@ -11,7 +11,9 @@
               </div>
                 <script type="text/javascript">
                    $(function(){
-                       $("#incident_request_requested_by").cascade("#ass_external_system");
+                       if($("#incident_request_requested_by")){
+                           $("#incident_request_requested_by").cascade("#ass_external_system");
+                       }
                    });
                 </script>
             <% else %>
@@ -30,10 +32,7 @@
                 <%=f.select :external_system_id,
                         nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
                         {},
-                        {:id=>"ass_external_system",:required=>true,
-                         :depend=>"incident_request_requested_by",
-                         :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
-                         :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
+                        {:id=>"ass_external_system",:required=>true}%>
             <% end %>
               </div>
 

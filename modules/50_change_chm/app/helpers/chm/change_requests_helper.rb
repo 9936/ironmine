@@ -51,7 +51,7 @@ module Chm::ChangeRequestsHelper
      unless change_request.nil?
        if change_request.change_plans.present?
          if change_request.change_plans.count > 1
-           html<< "<td class='vt'><div>
+           html<< "<td class='vt' style='vertical-align: top;'><div>
                  <a class='expand-icon' href='javascript:void(0);' title='expand'>expand</a>
                  <a class='collapse-icon' href='javascript:void(0);' title='collapse'>collapse</a>
                </div></td>"
@@ -86,7 +86,7 @@ module Chm::ChangeRequestsHelper
     tasks = Chm::ChangeTask.list_all.where(:source_type=>Chm::ChangeRequest.name,:source_id=>change_request_id)
     html = ""
     if tasks.present?
-        html<< "<td class='vt'><div>
+        html<< "<td class='vt' style='vertical-align: top;'><div>
                <a class='expand-icon' href='javascript:void(0);' title='expand'>expand</a>
                <a class='collapse-icon' href='javascript:void(0);' title='collapse'>collapse</a>
              </div></td>"
