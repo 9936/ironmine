@@ -293,15 +293,16 @@ module ApplicationHelper
 
   def error_for(object)
     if object && object.errors && object.errors.any?
-      content_tag("div", raw(t(:error_invalid_data) + "<br>" + t(:check_error_msg_and_fix)), {:id => "errorDiv_ep", :class => "alert alert-error"})
+      content_tag :div,{:id => "errorDiv_ep", :class => "alert alert-error"} do
+        error = raw(t(:error_invalid_data) + "<br>" + t(:check_error_msg_and_fix))
+        error += raw("<br>" + flash[:error]) if flash[:error].present?
+        error
+      end
     end
   end
 
   def flash_notice
-    ret = ""
-    ret = content_tag("div", raw(flash[:notice]), {:id => "succDiv_ep", :class => "alert alert-success"}) if flash[:notice].present?
-    ret = content_tag("div", raw(flash[:error]), {:id => "errorDiv_ep", :class => "alert alert-error"}) if flash[:error].present?
-    ret
+    content_tag("div", raw(flash[:notice]), {:id => "succDiv_ep", :class => "alert alert-success"}) if flash[:notice].present?
   end
 
   #重写content_for方法,当调用content_for时,修改has_content
