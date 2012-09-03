@@ -24,7 +24,7 @@
                 <label for="ass_external_system"><%=t(:label_icm_incident_request_target_system)%><%= required_icon %></label>
             <% if allow_to_function?(:create_icdt_rqst_for_other) %>
                 <%=f.select :external_system_id,nullable_options_for_select([], nil),{},
-                        {:id=>"ass_external_system",:required=>true,
+                        {:id=>"ass_external_system",:required=>true,:style => "max-width:180px;",
                          :depend=>"incident_request_requested_by",
                          :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                          :href=>url_for(:controller=>"icm/incident_requests",:action=>"get_external_systems",:format=>"json",:requested_by=>"${incident_request_requested_by}")}%>
@@ -32,7 +32,7 @@
                 <%=f.select :external_system_id,
                         nullable_options_for_select(available_external_systems_with_person(Irm::Person.current.id).collect{|p| [p[:system_name], p.id]},nil),
                         {},
-                        {:id=>"ass_external_system",:required=>true}%>
+                        {:id=>"ass_external_system",:required=>true,:style => "max-width:180px;"}%>
             <% end %>
               </div>
 
