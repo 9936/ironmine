@@ -7,6 +7,56 @@ module Hli::IncidentRequestModelEx
         select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id) total_processing_time")
       }
 
+    #  def self.search(query)
+    ##    self.list_all.where("#{table_name}.title like ?","%#{query}%")
+    #    results = Sunspot.search(Icm::IncidentRequest) do |s|
+    #        s.fulltext query
+    #        #s.with(:external_system_content, '000q00073mabtnlQVNXL5U')
+    #        s.paginate :per_page => 30000
+    #    end.results
+    #    Icm::IncidentRequest.where("#{Icm::IncidentRequest.table_name}.id IN (?)", results.collect(&:id)).
+    #        relate_person(Irm::Person.current.id).
+    #        select_all.
+    #        with_incident_status(I18n.locale).
+    #        with_requested_by(I18n.locale).
+    #        with_supporter(I18n.locale).
+    #        with_organization(I18n.locale).
+    #        order("(request_number + 0) DESC")
+    #  end
+
+      def self.search(query)
+        search = Sunspot.search(Icm::IncidentRequest) do |sq|
+          sq.keywords query
+          s.paginate :per_page => 30000
+        end
+        #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
+        #incident_request_ids = []
+        #if search.results.any?
+        #  search.results.each do |result|
+        #    #if result.class.to_s.eql?('Irm::AttachmentVersion')
+        #    #  #如果搜索附件来自于回复
+        #    #  if result.source_type.to_s.eql?('Icm::IncidentJournal')
+        #    #    result = Icm::IncidentJournal.find(result.source_id)
+        #    #    incident_request_ids << result.incident_request_id unless incident_request_ids.include?(result.incident_request_id)
+        #    #  else
+        #    #    incident_request_ids << result.source_id unless incident_request_ids.include?(result.source_id)
+        #    #  end
+        #    #else
+        #      incident_request_ids << result.id unless incident_request_ids.include?(result.id)
+        #    #end
+        #  end
+        #end
+        Icm::IncidentRequest.where("#{Icm::IncidentRequest.table_name}.id IN (?)", search.results.collect(&:id)).
+            relate_person(Irm::Person.current.id).
+            select_all.
+            with_incident_status(I18n.locale).
+            with_requested_by(I18n.locale).
+            with_supporter(I18n.locale).
+            with_organization(I18n.locale).
+            order("(request_number + 0) DESC")
+        #Icm::IncidentRequest.where("#{Icm::IncidentRequest.table_name}.id IN (?)", incident_request_ids).list_all
+      end
+
       #scope :relate_person,lambda{|person_id|
       #  where(%Q(EXISTS(SELECT 1 FROM
       #            #{Irm::Watcher.table_name} watcher
