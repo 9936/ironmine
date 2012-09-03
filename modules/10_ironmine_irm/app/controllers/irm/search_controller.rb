@@ -2,7 +2,7 @@
 class Irm::SearchController < ApplicationController
   layout "bootstrap_application_full"
 
-  #def index
+  #def indexs
   #  results = []
   #  Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
   #    next unless !value.present?||allow_to_function?(value)
@@ -27,18 +27,34 @@ class Irm::SearchController < ApplicationController
     search_option_str.split(" ").each do |entry|
       entry_arr << entry.to_s.constantize if Ironmine::Acts::Searchable.searchable_entity.keys.include?(entry.to_s)
     end
-    #时间过滤
+    #根据单号搜素
+    Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
+      next unless !value.present?||allow_to_function?(value)
+      search_entity = key.constantize
+      if search_entity.searchable_options[:direct].present?&&search_entity.respond_to?(search_entity.searchable_options[:direct].to_sym)
+        results =  search_entity.send(search_entity.searchable_options[:direct].to_sym,params[:q])
+        if results.first
+          redirect_to(results.first.searchable_show_url_options) and return
+        end
+      end
+    end if params[:q].present?
+
+
+    #时间过滤以及一些基本的参数
     time_option = params[:time_option]
     time_limit = get_time_limit(time_option)
     params[:q] ||= ''
+    q = params[:q].gsub("-","")
     params[:page] ||= 1
     params[:per_page] ||= 10
-    q = params[:q].gsub("-","")
+
+
     @search = Sunspot.search(entry_arr) do |query|
       query.keywords q, :highlight => true
       query.with(:updated_at).greater_than(time_limit) if time_limit
       query.paginate(:page => params[:page], :per_page => params[:per_page])
     end if entry_arr.any? and !q.eql?('')
+
     @results_ids = @search.results.collect{|i| i[:id]}  if @search
     @results = {}
     @search.each_hit_with_result do |hit, result|

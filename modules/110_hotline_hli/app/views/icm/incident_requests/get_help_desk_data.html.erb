@@ -13,8 +13,8 @@
           </CENTER>
     <% end %>
     <% builder.column(:reply_count,{:title=>t("#"), :width => "25px"})%>
-    <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority), :width => "60px"})%>
-    <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person), :width => "90px"}) do |data| %>
+    <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority),:searchable=>true, :width => "60px"})%>
+    <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px"}) do |data| %>
           <%= "#{data[:incident_status_id_label]}(#{data[:support_person_id_label]})"%>
     <% end %>
     <% builder.column(:last_response_date,{:title=>t(:label_icm_incident_request_last_date), :width => "150px",:sortable=>true})%>
