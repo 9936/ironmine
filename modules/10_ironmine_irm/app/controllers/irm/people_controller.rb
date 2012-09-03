@@ -198,7 +198,6 @@ class Irm::PeopleController < ApplicationController
   def get_owned_external_systems
     @person = Irm::Person.find(params[:person_id])
     systems_scope = @person.external_systems
-    systems_scope = @person.external_systems
     systems_scope = systems_scope.match_value("#{Irm::ExternalSystemsTl.table_name}.system_name",params[:system_name])
     systems, count = paginate(systems_scope)
     respond_to do |format|
