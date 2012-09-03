@@ -24,10 +24,8 @@ class Irm::SearchController < ApplicationController
     params[:search_option_str] ||= ''
     search_option_str = params[:search_option_str]
     entry_arr = []
-    search_option_str.split(" ").each do |entry|
-      entry_arr << entry.to_s.constantize if Ironmine::Acts::Searchable.searchable_entity.keys.include?(entry.to_s)
-    end
-    #根据单号搜素
+    search_option_arr = search_option_str.split(" ")
+    #为系统搜索添加权限控制以及根据单号搜素
     Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
       next unless !value.present?||allow_to_function?(value)
       search_entity = key.constantize
@@ -37,6 +35,7 @@ class Irm::SearchController < ApplicationController
           redirect_to(results.first.searchable_show_url_options) and return
         end
       end
+      entry_arr << search_entity if search_option_arr.include?(key.to_s)
     end if params[:q].present?
 
 
