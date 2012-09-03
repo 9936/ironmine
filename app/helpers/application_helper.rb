@@ -302,7 +302,11 @@ module ApplicationHelper
   end
 
   def flash_notice
-    content_tag("div", raw(flash[:notice]), {:id => "succDiv_ep", :class => "alert alert-success"}) if flash[:notice].present?
+    if flash[:notice].present?
+      content_tag :div, {:id => "succDiv_ep", :class => "alert alert-success"} do
+        raw("<a href='javascript:void(0);' class='close' data-dismiss='alert'>&times</a>" + "<p>#{flash[:notice]}</p>")
+      end
+    end
   end
 
   #重写content_for方法,当调用content_for时,修改has_content
