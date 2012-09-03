@@ -961,24 +961,6 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/setting" => ["common"]
           },
 
-          :edit_filter => {
-              :en => {:name => "Edit Filter", :description => "Edit Filter"},
-              :zh => {:name => "编辑视图", :description => "编辑视图"},
-              :default_flag => "N",
-              :login_flag => "Y",
-              :public_flag => "N",
-              "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"]
-          },
-
-          :view_filter => {
-              :en => {:name => "View Filter", :description => "View Filter"},
-              :zh => {:name => "查看视图", :description => "查看视图"},
-              :default_flag => "N",
-              :login_flag => "Y",
-              :public_flag => "N",
-              "irm/filters" => ["index"]
-          },
-
           :home_page => {
               :en => {:name => "Home page", :description => "Home page"},
               :zh => {:name => "首页", :description => "首页"},
@@ -2484,6 +2466,24 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/reports" => ["portlet"],
           },
+          :edit_filter => {
+              :en => {:name => "Edit Filter", :description => "Edit Filter"},
+              :zh => {:name => "编辑视图", :description => "编辑视图"},
+              :default_flag => "N",
+              :login_flag => "Y",
+              :public_flag => "N",
+              "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"]
+          },
+
+          :view_filter => {
+              :en => {:name => "View Filter", :description => "View Filter"},
+              :zh => {:name => "查看视图", :description => "查看视图"},
+              :default_flag => "N",
+              :login_flag => "Y",
+              :public_flag => "N",
+              "irm/filters" => ["index"]
+          },
+
       }
   }
   #=================================END:PORTAL_PORTLET=================================
