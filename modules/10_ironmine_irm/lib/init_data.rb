@@ -952,7 +952,6 @@ Fwk::MenuAndFunctionManager.map do |map|
               "icm/support_groups" => ["get_member_options"],
               "irm/attachments" => ["create_attachment", "destroy_attachment"],
               "irm/common" => ["create_upload_file", "logout", "search_options", "upload_file", "upload_screen_shot"],
-              "irm/filters" => ["create", "edit", "index", "new", "operator_value", "update"],
               "irm/list_of_values" => ["lov", "lov_result", "lov_search", "lov_value"],
               "irm/navigations" => ["change_application", "index"],
               "irm/people" => ["info_card"],
@@ -961,6 +960,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/session_settings" => ["timeout_warn"],
               "irm/setting" => ["common"]
           },
+
           :home_page => {
               :en => {:name => "Home page", :description => "Home page"},
               :zh => {:name => "首页", :description => "首页"},
@@ -2466,6 +2466,24 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/reports" => ["portlet"],
           },
+          :edit_filter => {
+              :en => {:name => "Edit Filter", :description => "Edit Filter"},
+              :zh => {:name => "编辑视图", :description => "编辑视图"},
+              :default_flag => "N",
+              :login_flag => "Y",
+              :public_flag => "N",
+              "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"]
+          },
+
+          :view_filter => {
+              :en => {:name => "View Filter", :description => "View Filter"},
+              :zh => {:name => "查看视图", :description => "查看视图"},
+              :default_flag => "N",
+              :login_flag => "Y",
+              :public_flag => "N",
+              "irm/filters" => ["index"]
+          },
+
       }
   }
   #=================================END:PORTAL_PORTLET=================================

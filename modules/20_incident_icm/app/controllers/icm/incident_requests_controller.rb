@@ -63,12 +63,18 @@ class Icm::IncidentRequestsController < ApplicationController
       elsif @incident_request.save
         process_files(@incident_request)
         #add watchers
-        if params[:cwatcher] && params[:cwatcher].size > 0
-          params[:cwatcher].collect{|p| [p[0]]}.uniq.each do |w|
-            watcher = Irm::Person.find(w)
-            @incident_request.person_watchers << watcher
-          end
-        end
+        #if params[:cwatcher] && params[:cwatcher].size > 0
+        #  params[:cwatcher].collect{|p| [p[0]]}.uniq.each do |w|
+        #    watcher = Irm::Person.find(w)
+        #    @incident_request.person_watchers << watcher
+        #  end
+        #end
+
+        Icm::IncidentHistory.create({:request_id => @incident_request.id,
+                                     :journal_id=> "",
+                                     :property_key=> "incident_request_id",
+                                     :old_value=> @incident_request.title,
+                                     :new_value=> ""})
 
         #如果没有填写support_group, 插入Delay Job任务
         if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
@@ -481,13 +487,22 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def remove_attachment
     attachment = Irm::AttachmentVersion.find(params[:attachment_id])
-    source = attachment.source_id
+    source_id = attachment.source_id
+    source = eval(attachment.source_type).find(source_id)
     name = attachment.name
-    request_id = eval(attachment.source_type).find(source).incident_request_id
+
+    if source.source_type.eql?("Icm::IncidentRequest")
+      request_id = source.id
+      journal_id = ""
+    else source.source_type.eql?("Icm::IncidentJournal")
+      request_id = source.incident_request_id
+      journal_id = source.id
+    end
+
     respond_to do |format|
       if attachment.destroy
         Icm::IncidentHistory.create({:request_id => request_id,
-                                     :journal_id=> source,
+                                     :journal_id=> journal_id,
                                      :property_key=> "remove_attachment",
                                      :old_value=> name,
                                      :new_value=> ""})

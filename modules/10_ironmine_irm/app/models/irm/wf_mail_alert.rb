@@ -95,7 +95,9 @@ class Irm::WfMailAlert < ActiveRecord::Base
     mail_template = Irm::MailTemplate.query_by_template_code(self.mail_template_code).first
 
     # loop send mail
+    bo_create_by = bo.respond_to?(:created_by)? bo.created_by : "nocreatedby" # do not send to creater
     recipient_ids.each do |pid|
+      next if pid.eql?(bo_create_by)     # do not send to creater
       mail_template.deliver_to(params.merge(:to_person_ids=>[pid]))
     end
   end
