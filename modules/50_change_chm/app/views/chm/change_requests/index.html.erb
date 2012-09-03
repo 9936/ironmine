@@ -74,7 +74,7 @@
 
     .table-icon td.expends div {
         float: left;
-        display: inline;
+        display: inline-block;
         padding: 0;
         border: none;
     }
@@ -89,6 +89,7 @@
     }
 
     .table-icon td.expand div.name  {
+        *height: 20px;
         display: block;
     }
 
@@ -116,12 +117,8 @@
         clear: left;
     }
 
-    td.vt {
-        vertical-align: top;
-        padding: 4px 6px 4px 7px;
-        white-space: normal;
-        display: table-cell;
-    }
+
+
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
