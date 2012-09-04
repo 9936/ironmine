@@ -55,7 +55,6 @@ module Hli::IncidentRequestsControllerEx
           }
           format.html {
             @datas,@count = paginate(incident_requests_scope)
-            render_html_data_table
           }
           format.xls{
             incident_requests = data_filter(incident_requests_scope)
