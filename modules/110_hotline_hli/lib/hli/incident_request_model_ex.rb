@@ -27,7 +27,7 @@ module Hli::IncidentRequestModelEx
       def self.search(query)
         search = Sunspot.search(Icm::IncidentRequest) do |sq|
           sq.keywords query
-          s.paginate :per_page => 30000
+          sq.paginate :per_page => 30000
         end
         #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
         #incident_request_ids = []
