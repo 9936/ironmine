@@ -51,8 +51,8 @@ macdev:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: irm_prod_rms
+  database: irm_dev
   pool: 5
   username: root
-  password: handoracle
-  host: 172.20.0.53
+  password: root
+  host: localhost
