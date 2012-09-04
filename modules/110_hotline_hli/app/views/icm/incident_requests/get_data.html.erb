@@ -6,15 +6,15 @@
           <% end %>
           <%= link_to( "(#{data[:incident_status_id_label]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
     <% end %>
-    <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:searchable=>true,:width => "120px"}) do |data| %>
+    <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:searchable=>true,:width => "240px"}) do |data| %>
           <CENTER>
           [<%= data[:external_system_id_label] %>]<br>
           <%= "#{data[:incident_category_id_label]}" %><%= "(#{data[:incident_sub_category_id_label]})" if data[:incident_sub_category_id_label].present?%>
           </CENTER>
     <% end %>
-    <% builder.column(:reply_count,{:title=>t("#"), :width => "40px"})%>
-    <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority), :width => "60px"})%>
-    <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person), :width => "90px"}) do |data| %>
+    <% builder.column(:reply_count,{:title=>t("#"), :width => "25px"})%>
+    <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority),:searchable=>true, :width => "60px"})%>
+    <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px"}) do |data| %>
           <%= "#{data[:incident_status_id_label]}(#{data[:support_person_id_label]})"%>
     <% end %>
     <% builder.column(:last_response_date,{:title=>t(:label_icm_incident_request_last_date), :width => "150px",:sortable=>true})%>
