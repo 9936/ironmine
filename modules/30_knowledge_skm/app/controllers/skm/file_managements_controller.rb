@@ -16,7 +16,6 @@ class Skm::FileManagementsController < ApplicationController
   end
 
   def create
-
     file_flag = true
     files = params[:file]
 

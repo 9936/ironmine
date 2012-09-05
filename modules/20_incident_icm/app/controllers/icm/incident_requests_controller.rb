@@ -173,10 +173,6 @@ class Icm::IncidentRequestsController < ApplicationController
         order("last_response_date desc")
         #order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
 
-    #if !allow_to_function?(:view_all_incident_request)
-    #  incident_requests_scope = incident_requests_scope
-    #end
-
     incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
 
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])

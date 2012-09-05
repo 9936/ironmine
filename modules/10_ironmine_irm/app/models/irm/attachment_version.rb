@@ -69,10 +69,28 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   searchable do
     string :source_id
     string :source_type
+    string :external_system_id do
+      get_external_system_id
+    end
     string :attachment_id
     text :data_file_name,:stored => true
     attachment :data_path
     time :updated_at
+  end
+
+  def get_external_system_id
+    if source_type.eql?('Icm::IncidentRequest')
+      incident_request_id = source_id
+    elsif source_type.eql?('Icm::IncidentJournal') and Icm::IncidentJournal(source_id).present?
+      incident_request_id = Icm::IncidentJournal(source_id).incident_request_id
+    else
+      incident_request_id = ''
+    end
+    if incident_request_id.present? and Icm::IncidentRequest(incident_request_id).present?
+      Icm::IncidentRequest(incident_request_id).incident_request.external_system_id
+    else
+      ''
+    end
   end
 
 

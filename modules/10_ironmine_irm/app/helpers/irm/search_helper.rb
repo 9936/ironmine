@@ -60,6 +60,18 @@ module Irm::SearchHelper
     end
     html.html_safe
   end
+  #分页显示记录
+  def new_paginate(start_page = 1, total=0, page = 1, per_page = 10, current_to_pre=1)
+    total_page = total % per_page == 0? total/per_page : total/per_page + 1
+    page_html = ''
+    if page > start_page
+      page_html += link_to t(:label_search_previous_page), "javascript:void(0);", :page => page - current_to_pre.to_i
+    end
+    if page < total_page
+      page_html += link_to t(:label_search_next_page), "javascript:void(0);", :page => page + 1
+    end
+    page_html.html_safe
+  end
 
   #分页显示记录
   def init_paginate(total=0, page = 1, per_page = 10, limit_page = 10)
@@ -128,5 +140,10 @@ module Irm::SearchHelper
       html += li
     end
     html.html_safe
+  end
+
+  #过滤掉html标签
+  def plain_text(html_input)
+    sanitize(truncate(html_input,{:length => 100,:omission => '......'}), :tags=>["em"])
   end
 end
