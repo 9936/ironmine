@@ -267,7 +267,6 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_organization(I18n.locale)
   end
 
-
   searchable :auto_index => true, :auto_remove => true do
     string :id
     text :title, :stored => true, :boost => 2.5 do
@@ -277,10 +276,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
       strip_tags(summary)
     end
     text :request_number, :boost => 3.0
-    text :incident_journals_content do |incident|
-      incident.incident_journals.map { |journal| journal.message_body }
+    text :journals_content,:stored => true do
+      incident_journals.map(&:message_body)
     end
-    text :supporter_name do
+    text :support_person_name do
       Irm::Person.find(support_person_id).full_name if support_person_id.present?
     end
     text :incident_category_name do
@@ -292,6 +291,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     string :external_system_id
     time :updated_at
   end
+
 
 
   def self.search(query)
