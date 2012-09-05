@@ -133,21 +133,32 @@ $(function(){
              input.val("0");
          }
     });
-    $('form:not([data-remote]):not([target])').bind("submit",function(e){
-         if($(this).attr("target")){
-           return;
+    $('form:not([data-remote])').bind("submit",function(e){
+         if($(this).attr("nomask"))
+         {
+           $(e.target).find("input[type=submit]").each(function(index,el){
+               $(el).attr("disabled",true);
+               $(el).addClass("disabled");
+               $(el).attr("value",$.i18n("processing"));
+           });
          }
-         $(e.target).find("input[type=submit]").each(function(index,el){
-             $(el).attr("disabled",true);
-             $(el).addClass("disabled");
-             $(el).attr("value",$.i18n("processing"));
-         });
-         $(e.target).find("div.button a").each(function(index,el){
-             $(el).attr("disabled",true);
-             $(el).attr("onclick","alert('"+$.i18n("processing")+"');return false;");
-             $(el).addClass("disabled");
-             $(el).html($.i18n("processing"));
-         });
+         else
+         {   if(!$(e.target).hasClass("masked")){
+                $(e.target).mask($.i18n("processing"));
+             }
+         }
+
+         //$(e.target).find("input[type=submit]").each(function(index,el){
+         //    $(el).attr("disabled",true);
+         //    $(el).addClass("disabled");
+         //    $(el).attr("value",$.i18n("processing"));
+         //});
+         //$(e.target).find("div.button a").each(function(index,el){
+         //    $(el).attr("disabled",true);
+         //    $(el).attr("onclick","alert('"+$.i18n("processing")+"');return false;");
+         //    $(el).addClass("disabled");
+         //    $(el).html($.i18n("processing"));
+         //});
     });
 
     $('a[disabled]').each(function(index,n){
