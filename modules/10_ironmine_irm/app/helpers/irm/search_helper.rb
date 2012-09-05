@@ -121,6 +121,9 @@ module Irm::SearchHelper
 
   #初始化时间设置
   def init_time_limit(selected = '')
+    unless selected.present?
+      selected = 'all'
+    end
     time_options_hash = {"all" => t(:label_before_forever),
                          "day" => t(:label_before_one_day),
                          "week" => t(:label_before_one_week),
