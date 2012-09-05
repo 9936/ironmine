@@ -32,8 +32,12 @@ gem 'hz2py', '0.0.4'
 
 gem 'uuid' , '2.3.4'
 
-gem "sunspot", "1.2.1"
-gem "sunspot_rails", "1.2.1"
+gem 'sunspot_rails','1.3.3'
+gem 'sunspot_solr', '1.3.3'
+gem 'sunspot_cell', :git => 'git://github.com/zheileman/sunspot_cell.git'
+
+#gem "sunspot", "1.2.1"
+#gem "sunspot_rails", "1.2.1"
 
 gem 'nokogiri', '1.5.0'
 
