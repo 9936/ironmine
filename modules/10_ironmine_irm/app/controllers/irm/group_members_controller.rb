@@ -95,7 +95,7 @@ class Irm::GroupMembersController < ApplicationController
   def get_groupable_data
     group_scope = Irm::Group.multilingual.enabled.select_all.group_memberable(params[:id])
     group_scope = group_scope.match_value("#{Irm::Group.table_name}.code",params[:code])
-    group_scope = group_scope.match_value("#{Irm::Group.table_name}.name",params[:name])
+    group_scope = group_scope.match_value("#{Irm::GroupsTl.table_name}.name",params[:name])
     group_scope,count = paginate(group_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(group_scope.to_grid_json([:code,:name,:description], count))}

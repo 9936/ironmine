@@ -170,7 +170,8 @@ class Icm::IncidentRequestsController < ApplicationController
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
         filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).
-        order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
+        order("last_response_date desc")
+        #order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
 
     incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
 
@@ -222,7 +223,8 @@ class Icm::IncidentRequestsController < ApplicationController
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
         filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).
-        order("close_flag ,reply_flag desc,last_request_date desc,last_response_date desc,weight_value,id")
+        order("last_request_date desc")
+        #order("close_flag ,reply_flag desc,last_request_date desc,last_response_date desc,weight_value,id")
 
 
     incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?

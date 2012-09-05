@@ -1,5 +1,5 @@
 <body style="padding:5px;">
-  <form class="well form-search" action="<%=url_for(:action=>"lov_result")%>" id="theForm" method="GET" name="theForm" target="resultsFrame">
+  <form class="well form-search" nomask="true" action="<%=url_for(:action=>"lov_result")%>" id="theForm" method="GET" name="theForm" target="resultsFrame">
     <%= hidden_params_field(:lkfm) %>
     <%= hidden_params_field(:lkfid) %>
     <%= hidden_params_field(:lkvfid) %>

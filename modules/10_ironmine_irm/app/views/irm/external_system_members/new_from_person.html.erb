@@ -33,14 +33,9 @@
         </tr>
       </table>
       <div class="page-block-body">
-        <div id="externalSystemList">
-          <%= datatable("externalSystemList",{:action=>"get_available_external_system_data",:person_id=>@person.id},
-                            [{:key=>"id",:hidden=>true},
-                             {:key=>"external_system_code",:label=>t(:label_irm_external_system),:searchable=>true},
-                             {:key=>"system_name",:label=>t(:name),:searchable=>true},
-                             {:key=>"system_description",:label=>t(:description)},],
-                             {:paginator_box=>"systemPaginator",:search_box=>"selectableSystemSearchBox",:select=>"multiple",:force_html=>true})%>
-        </div>
+        <div id="externalSystemList"></div>
+        <%= datatable("externalSystemList",{:action=>"get_available_external_system_data",:person_id=>@person.id},
+                          [],{:paginator_box=>"systemPaginator",:search_box=>"selectableSystemSearchBox",:select=>"multiple"})%>
         <div id="systemPaginator"></div>
       </div>
       <table class="page-block-footer">
