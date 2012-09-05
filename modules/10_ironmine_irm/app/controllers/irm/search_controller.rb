@@ -46,16 +46,25 @@ class Irm::SearchController < ApplicationController
     q = params[:q].gsub("-","")
     params[:page] ||= 1
     params[:per_page] ||= 10
+    #查找出与我关联的事故单
+    system_ids = Irm::Person.current.system_ids
+    filter_ids = Icm::IncidentRequest.filter_incident_by_person(Irm::Person.current.id).collect(&:id)
+    #当前页码到上一页
+    @current_to_pre ||= 1
+    search(entry_arr, params[:page].to_i, params[:per_page], q, time_limit, filter_ids, system_ids)
+  end
 
-
+  #将搜索逻辑i独立到方法中
+  def search(entry_arr, page, per_page, key_word,time_limit,filter_ids = [], system_ids= [])
     @search = Sunspot.search(entry_arr) do |query|
-      query.keywords q, :highlight => true
+      query.keywords key_word, :highlight => true
+      query.with(:external_system_id, system_ids)
       query.with(:updated_at).greater_than(time_limit) if time_limit
-      query.paginate(:page => params[:page], :per_page => params[:per_page])
-    end if entry_arr.any? and !q.eql?('')
+      query.paginate(:page => page, :per_page => per_page)
+    end if entry_arr.any? and !key_word.eql?('') and system_ids.any?
 
     @results_ids = @search.results.collect{|i| i[:id]}  if @search
-    @results = {}
+    @results ||= {}
     @search.each_hit_with_result do |hit, result|
       #处理回复中的附件
       if result.class.to_s.eql?('Irm::AttachmentVersion') and result.source_type
@@ -103,6 +112,14 @@ class Irm::SearchController < ApplicationController
         @results[result.id.to_sym][:hit] = hit
       end
     end if @search
+    #过滤数据
+    @results.delete_if{|key, value| !filter_ids.include?(key.to_s) } if filter_ids.any?
+    if @results.count < 10 and @search and @search.total > 10 and filter_ids.any? and @search.total > filter_ids.count
+      per_page = per_page * 10
+      params[:page] = page + per_page/10
+      @current_to_pre += per_page
+      search(entry_arr, params[:page], per_page, key_word, time_limit,filter_ids, system_ids)
+    end
   end
 
   private
@@ -116,5 +133,4 @@ class Irm::SearchController < ApplicationController
       end
       time_limit
     end
-
 end

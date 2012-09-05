@@ -18,6 +18,7 @@
       <div id="header">
         <%=form_tag({:controller=>"irm/search",:action=>"index"},{:id=>"searchForm"})  do %>
           <%= hidden_field_tag :page, "1", {:id => "resultPage"} %>
+          <%= hidden_field_tag :start_page, params[:start_page] %>
           <%= hidden_field_tag :search_option_str, "#{params[:search_option_str]}", {:id => "entries"} %>
           <%= hidden_field_tag :time_option, "#{params[:time_option]}", {:id => "timeOption"} %>
           <div class="form-inline">
@@ -31,7 +32,12 @@
       <div id="main" style="margin-left: auto;">
         <div>
           <div class="result">
-            <div class="allnum"><%= t(:label_search_result_count, :count => @results.count > 0? @search.total : 0) %></div>
+            <div class="allnum">
+              <%= t(:label_search_result_count, :count => @results.count > 0? @search.total : 0) %>
+            </div>
+            <p class="pager" id="pagerTop" style="text-align: right;">
+              <%= new_paginate(1, @search? @search.total: 0, params[:page].to_i, params[:per_page].to_i, @current_to_pre) %>
+            </p>
             <span id="result-items">
               <% if @results.any? %>
                 <ul>
@@ -41,16 +47,16 @@
                       <% if (value[:hit].present? && value[:hit].result.class.to_s.eql?('Icm::IncidentRequest')) || value[:result].class.to_s.eql?('Icm::IncidentRequest') %>
                         <% if value[:hit].nil? %>
                           <% title = value[:result][:title] %>
-                          <% summary =  truncate(value[:result][:summary],{:length => 100,:omission => '......'}) %>
+                          <% summary = plain_text(value[:result][:summary]) %>
                           <% id = value[:result][:id] %>
                           <% updated_at = value[:result][:updated_at] %>
                           <% journals_content = '' %>
                         <% else %>
                           <% title = search_result_highlight(value[:hit], :title) %>
-                          <% summary = search_result_highlight(value[:hit], :summary) %>
+                          <% summary = plain_text(search_result_highlight(value[:hit], :summary)) %>
                           <% id = value[:hit].result[:id] %>
                           <% updated_at =  value[:hit].result[:updated_at] %>
-                          <% journals_content = search_result_highlight(value[:hit], "journals_content") %>
+                          <% journals_content = plain_text(search_result_highlight(value[:hit], "journals_content")) %>
                         <% end %>
                         <h3 class="title">【<%= t :label_icm_incident_request %>】
                           <%= link_to(title, {:controller=>"icm/incident_journals",:action=>"new",:request_id => id}) %>
@@ -244,7 +250,7 @@
       });
     });
     //页码响应函数处理
-    $(".search-page-block #pager").find('a').each(function(e){
+    $(".search-page-block #pager, .search-page-block #pagerTop").find('a').each(function(e){
       $(this).bind('click',function(){
         var page = $(this).attr('page');
         $("#resultPage").val(page);

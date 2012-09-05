@@ -1,3 +1,5 @@
+include ActionView::Helpers::SanitizeHelper
+
 class Icm::IncidentRequest < ActiveRecord::Base
   set_table_name :icm_incident_requests
 
@@ -145,6 +147,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
   scope :query_by_support_person, lambda{|person_id|
     where("#{table_name}.support_person_id = ?", person_id)
   }
+
+  scope :filter_incident_by_person, lambda{|person_id|
+    select("#{table_name}.id").#where("#{table_name}.external_system_id IN (?)",system_ids).
+        where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{Irm::DataAccess.data_access(Icm::IncidentRequest.name,"#{table_name}.requested_by",0)})",
+              Icm::IncidentRequest.name,person_id,Irm::Person.name)
+  }
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
     where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{Irm::DataAccess.data_access(Icm::IncidentRequest.name,"#{table_name}.requested_by",0)})",
@@ -167,7 +175,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   scope :filter_system_ids,lambda{|system_ids|
     if system_ids.length<1
-      system_ids = system_ids+[0]
+      system_ids = system_ids+["null"]
     end
     where("#{table_name}.external_system_id IN (?)",system_ids)
   }
@@ -259,10 +267,16 @@ class Icm::IncidentRequest < ActiveRecord::Base
         with_organization(I18n.locale)
   end
 
+
   searchable :auto_index => true, :auto_remove => true do
-    text :title
-    text :summary
-    text :request_number
+    string :id
+    text :title, :stored => true, :boost => 2.5 do
+      strip_tags(title)
+    end
+    text :summary, :stored => true, :boost => 2.0 do
+      strip_tags(summary)
+    end
+    text :request_number, :boost => 3.0
     text :incident_journals_content do |incident|
       incident.incident_journals.map { |journal| journal.message_body }
     end
@@ -276,7 +290,6 @@ class Icm::IncidentRequest < ActiveRecord::Base
       Icm::IncidentSubCategoriesTl.where(:incident_sub_category_id => incident_sub_category_id).map { |category| category.name } if incident_sub_category_id.present?
     end
     string :external_system_id
-
     time :updated_at
   end
 
@@ -289,7 +302,6 @@ class Icm::IncidentRequest < ActiveRecord::Base
     #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
     incident_request_ids = []
     if search.results.any?
-
       search.results.each do |result|
         if result.class.to_s.eql?('Irm::AttachmentVersion')
           #如果搜索附件来自于回复
@@ -308,7 +320,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
   end
 
   def self.query_by_request_number(query)
-    self.list_all.where(:request_number=>query)
+    #self.list_all.where(:request_number=>query)
+    self.select("#{table_name}.id").where(:request_number=>query)
   end
 
   def concat_journals
