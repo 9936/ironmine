@@ -1,2 +1,6 @@
-<%= common_title(:action_meaning=>t(:new)) %>
+<% if @source_incident_request.present? %>
+  <%= common_title(:action_meaning=> t(:label_icm_incident_request_relation_new)) %>
+<% else %>
+  <%= common_title(:action_meaning=> t(:new)) %>
+<% end %>
 <%= render 'new_form'%>

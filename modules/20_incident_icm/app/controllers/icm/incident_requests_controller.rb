@@ -24,6 +24,9 @@ class Icm::IncidentRequestsController < ApplicationController
   # GET /incident_requests/new.xml
   def new
     @incident_request = Icm::IncidentRequest.new(({:requested_by=>Irm::Person.current.id}).merge(params[:icm_incident_request]||{}))
+    if params[:source_id].present? and params[:relation_type].present?
+      @source_incident_request = Icm::IncidentRequest.list_all.find(params[:source_id])
+    end
     @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
       format.html { render :layout => "bootstrap_application_full"}# new.html.erb
@@ -62,6 +65,9 @@ class Icm::IncidentRequestsController < ApplicationController
         format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.save
         process_files(@incident_request)
+        if params[:source_id].present? and params[:relation_type].present?
+          create_relation(params[:source_id], @incident_request.id, params[:relation_type])
+        end
         #add watchers
         #if params[:cwatcher] && params[:cwatcher].size > 0
         #  params[:cwatcher].collect{|p| [p[0]]}.uniq.each do |w|
@@ -444,19 +450,8 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def add_relation
     #确保事故单不能关联自身
-
-    unless params[:source_id].eql?(params[:icm_relation])
-      @incident_request = Icm::IncidentRequest.find(params[:source_id])
-      existed_relation = Icm::IncidentRequestRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:icm_relation], params[:icm_relation], params[:source_id])
-      unless existed_relation.any? || !params[:icm_relation].present?
-        t = Icm::IncidentRequestRelation.create(:source_id => params[:source_id], :target_id => params[:icm_relation], :relation_type => params[:relation_type])
-        Icm::IncidentHistory.create({:request_id => params[:source_id],
-                                     :journal_id=> "",
-                                     :property_key=> "add_relation",
-                                     :old_value=>params[:relation_type],
-                                     :new_value=>params[:icm_relation]})
-      end
-    end
+    @incident_request = Icm::IncidentRequest.find(params[:source_id])
+    create_relation(params[:source_id], params[:icm_relation], params[:relation_type])
     @dom_id = params[:_dom_id]
     respond_to do |format|
       format.js {render :add_relation}
@@ -512,6 +507,27 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
   private
+  #将创建关联事故单放在一个单独的方法中，因为在多个action中用到
+  def create_relation(source_id, target_id, relation_type)
+    #确保事故单不能关联自身
+    if source_id.to_s.eql?(target_id)
+      flash[:error] = t(:label_icm_incident_request_relation_error_self)
+    else
+      existed_relation = Icm::IncidentRequestRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", source_id, target_id, target_id, source_id)
+      if existed_relation.any?
+        flash[:error] = t(:label_icm_incident_request_relation_error_exists)
+      elsif !target_id.present?
+        flash[:error] = t(:label_icm_incident_request_relation_error_no_target)
+      else
+        Icm::IncidentRequestRelation.create(:source_id => source_id, :target_id => target_id, :relation_type => relation_type)
+        Icm::IncidentHistory.create({:request_id => source_id,
+                                     :journal_id=> "",
+                                     :property_key=> "add_relation",
+                                     :old_value=>relation_type,
+                                     :new_value=>target_id})
+      end
+    end
+  end
   def process_change_attributes(attributes,new_value,old_value,ref_request)
     attributes.each do |key|
       ovalue = old_value.send(key.to_s)
