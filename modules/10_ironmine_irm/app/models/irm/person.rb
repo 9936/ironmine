@@ -94,16 +94,6 @@ class Irm::Person < ActiveRecord::Base
   }
 
 
-  scope :with_site_group,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::SiteGroup.view_name} ON #{Irm::SiteGroup.view_name}.group_code = #{table_name}.site_group_code AND #{Irm::SiteGroup.view_name}.language = '#{language}'").
-    select("#{Irm::SiteGroup.view_name}.name site_group_name")
-  }
-
-  scope :with_site,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Site.view_name} ON #{Irm::Site.view_name}.site_code = #{table_name}.site_code AND #{Irm::Site.view_name}.language = '#{language}'").
-    select("#{Irm::Site.view_name}.name site_name")
-  }
-
   scope :with_language,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::Language.view_name} ON #{Irm::Language.view_name}.language_code=#{table_name}.language_code AND #{Irm::Language.view_name}.language = '#{language}'").
     select("#{Irm::Language.view_name}.description language_description")
@@ -191,8 +181,6 @@ class Irm::Person < ActiveRecord::Base
         with_profile.
         with_title(I18n.locale).
         with_organization(I18n.locale).
-        with_site_group(I18n.locale).
-        with_site(I18n.locale).
         with_language(I18n.locale).
         with_notification_lang(I18n.locale).
         status_meaning
