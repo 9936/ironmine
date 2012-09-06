@@ -1,5 +1,6 @@
 $(function(){
     $("#new_icm_incident_reply").unmask();
+    $("#new_icm_incident_reply_error").remove();
     <% prepare_request_files(@incident_request) %>
     <% unless flash[:notice].present?%>
         $("#replies").append("<%= escape_javascript(render :partial => "list_journals", :locals => {:journals => @current_journals, :grouped_files => @request_files})%>");

@@ -1,0 +1,5 @@
+$(function(){
+    $("#new_icm_incident_reply").unmask();
+    $("#new_icm_incident_reply_error").remove();
+    $("#msgEditorParent").prepend("<div id='new_icm_incident_reply_error'><%= escape_javascript(error_message_for(@incident_journal)) %><div>");
+});

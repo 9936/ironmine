@@ -10,6 +10,8 @@ class Icm::IncidentJournal < ActiveRecord::Base
   before_create :generate_journal_number
 
   validates_presence_of :replied_by
+  validates_length_of :message_body, :maximum => 65535
+
   validate :validate_message_body
   acts_as_recently_objects(:title => "title",
                            :target => "incident_request",

@@ -166,6 +166,7 @@ en:
   apply_skm: Search Service Knowledge
   label_icm_incident_reply_incident_status_code: New Incident Status
   label_icm_incident_journal_list: Replies
+  label_icm_incident_journal_message_body: Reply Message
   label_icm_incident_journal_person: Request Person
   label_icm_incident_journal_content: Request Content
   label_icm_incident_journal_date: Request Date

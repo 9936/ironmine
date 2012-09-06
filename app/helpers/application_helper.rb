@@ -140,12 +140,10 @@ module ApplicationHelper
        end
     end
     full_messages.each do |msg|
-     lis<<content_tag(:li,msg,nil,false)
+     lis<<content_tag(:div,msg,nil,false)
     end
-    uls=content_tag(:ul,lis,nil,false)
-    h2s=content_tag(:h2,"Errors",nil,false)
     if error_count>0
-      content_tag(:div,content_tag(:div, raw("#{h2s}\n#{uls}"), {:class=>"errormsgbox"}) ,{:id=>"system_message_box"},false)
+      content_tag(:div,content_tag(:div, raw("#{lis}"), {:class=>"alert alert-error"}) ,{:id=>"system_message_box"},false)
     else
       nil
     end
