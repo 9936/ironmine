@@ -47,6 +47,11 @@
 <!--页面头部按钮-->
 <% content_for :block_header_buttons do %>
   <div class="btn-toolbar" >
+    <% if !@incident_request.close? &&!@incident_request.permanent_close?&& allow_to_function?(:reply_incident_request)&&@incident_request.watcher?(Irm::Person.current.id) %>
+      <div class="btn-group">
+        <a href="#new_icm_incident_reply" class="btn"><%= t(:label_icm_incident_journal_new) %></a>
+      </div>
+    <% end %>
     <div class="btn-group">
       <%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests", :action => "index"} ,{:class=>"btn"}%>
     </div>
@@ -453,17 +458,13 @@
 <div class="page-block" id="pageBlock">
   <div class="waypoint-header" id="toolbar">
   <table class="page-block-header" ><tr>
-    <td class="page-block-title">
+    <td class="page-block-title" style="width: auto;">
       <h2 class="block-title"><%=t(:label_incident_request)%></h2>
     </td>
-    <td class="page-block-button">
-      <% if !@incident_request.close? &&!@incident_request.permanent_close?&& allow_to_function?(:reply_incident_request)&&@incident_request.watcher?(Irm::Person.current.id) %>
-          <a href="#new_icm_incident_reply" class="btn"><%= t(:label_icm_incident_journal_new) %></a>
-      <% end %>
-    </td>
-    <td class="page-block-help" style="width: auto;">
+    <td class="page-block-button" colspan="2" style="width: auto;text-align: right;">
       <%= content_for :block_header_buttons  %>
     </td>
+
   </tr></table></div>
   <div class="page-block-body">
     <div id="notice">

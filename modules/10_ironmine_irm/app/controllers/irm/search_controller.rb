@@ -116,9 +116,9 @@ class Irm::SearchController < ApplicationController
     @results.delete_if{|key, value| !filter_ids.include?(key.to_s) } if filter_ids.any?
     if @results.count < 10 and @search and @search.total > 10 and filter_ids.any? and @search.total > filter_ids.count
       per_page = per_page * 10
-      params[:page] = page + per_page/10
       @current_to_pre += per_page
-      search(entry_arr, params[:page], per_page, key_word, time_limit,filter_ids, system_ids)
+      search(entry_arr, (params[:page].to_i + 1), per_page, key_word, time_limit,filter_ids, system_ids)
+      params[:page] = page + per_page/10
     end
   end
 
