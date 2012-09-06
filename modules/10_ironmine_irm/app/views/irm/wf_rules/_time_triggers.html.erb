@@ -1,7 +1,7 @@
 <% time_triggers.each do |time_trigger|%>
   <div class="min-block">
     <div class="min-block-header">
-      <img class="min-block-icon" width="16" height="16" src="<%= theme_image_path("alarmClock16.gif") %>"/>
+      <img class="min-block-icon" width="16" height="16" src="<%= theme_image_path("icons/alarm_clock.gif") %>"/>
       <span class="min-block-title"><%=time_trigger.meaning%></span>
       <span class="min-block-button">
         <%= link_to(t(:edit),:controller=>"irm/wf_rule_time_triggers",:action=>"edit",:id=>time_trigger.id,:rule_id=>time_trigger.rule_id,:back_url=>url_for({}))%> |

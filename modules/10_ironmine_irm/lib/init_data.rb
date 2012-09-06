@@ -178,28 +178,7 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :sequence => 30,
                   :en => {:name => "Lookup Code", :description => "Lookup Code"},
                   :zh => {:name => "快速编码", :description => "快速编码"},
-              }},
-          :general_category => {
-              :type => "function",
-              :entry => {
-                  :sequence => 40,
-                  :en => {:name => "General Category", :description => "General Category"},
-                  :zh => {:name => "公共分类", :description => "公共分类"},
-              }},
-          :value_set => {
-              :type => "function",
-              :entry => {
-                  :sequence => 50,
-                  :en => {:name => "Value Set", :description => "Value Set"},
-                  :zh => {:name => "值集定义", :description => "值集定义"},
-              }},
-          :id_flex => {
-              :type => "function",
-              :entry => {
-                  :sequence => 60,
-                  :en => {:name => "Flex Field", :description => "Flex Field"},
-                  :zh => {:name => "弹性域", :description => "弹性域"},
-              }},
+              }}
       }
   }
   #====================================END:GLOBAL_CUSTOM======================================
@@ -222,13 +201,6 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :sequence => 20,
                   :en => {:name => "Business Object", :description => "Business Object"},
                   :zh => {:name => "业务对像", :description => "定义业务对像，或修改业务对象属性"},
-              }},
-          :list_of_value => {
-              :type => "function",
-              :entry => {
-                  :sequence => 30,
-                  :en => {:name => "List of Value", :description => "List of Value"},
-                  :zh => {:name => "值列表", :description => "值列表"},
               }},
           :tab => {
               :type => "function",
@@ -1455,25 +1427,6 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
   #=================================END:BUSINESS_OBJECT=================================
 
-  #=================================START:LIST_OF_VALUE=================================
-  map.function_group :list_of_value, {
-      :en => {:name => "List of Value", :description => "List of Value"},
-      :zh => {:name => "值列表", :description => "值列表"}, }
-  map.function_group :list_of_value, {
-      :zone_code => "SYSTEM_CREATE",
-      :controller => "irm/list_of_values",
-      :action => "index"}
-  map.function_group :list_of_value, {
-      :children => {
-          :list_of_value => {
-              :en => {:name => "Manage List of Value", :description => "Manage List of Value"},
-              :zh => {:name => "管理值列表", :description => "管理值列表"},
-              :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "N",
-          },
-      }
-  }
   #=================================END:LIST_OF_VALUE=================================
 
   #=================================START:TAB=================================

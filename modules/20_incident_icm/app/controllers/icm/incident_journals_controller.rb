@@ -76,14 +76,14 @@ class Icm::IncidentJournalsController < ApplicationController
             end
           end
         end
-
-        format.html { redirect_to({:action => "new"}) }
-        format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
-        format.json { render :json => @incident_journal }
       else
-        format.html { render :action => "new", :layout=>"application_right"}
-        format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
-        format.json { render :json => @incident_journal.errors }
+
+        format.js do
+          responds_to_parent do
+            render :create do |page|
+            end
+          end
+        end
       end
     end
   end

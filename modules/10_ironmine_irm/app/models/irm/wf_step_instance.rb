@@ -172,15 +172,15 @@ class Irm::WfStepInstance < ActiveRecord::Base
     end
   end
 
-  private
+  #private
   def check_approvable(person_id)
     approve_able = false
-    if person_id&&self.approval_status_code.eql?("PENDING")&&Irm::Constant::SYS_YES.eql?(wf_approval_step.allow_delegation_approve)
+    if person_id.present?&&self.approval_status_code.eql?("PENDING")
       if person_id.eql?(self.assign_approver_id)
         approve_able = true
       else
         delegate_person_id = Irm::Person.find(self.assign_approver_id).delegate_approver
-        if delegate_person_id&&person_id.eql?(delegate_person_id.to_i)
+        if delegate_person_id&&person_id.eql?(delegate_person_id)&&Irm::Constant::SYS_YES.eql?(wf_approval_step.allow_delegation_approve)
           approve_able = true
         end
       end
