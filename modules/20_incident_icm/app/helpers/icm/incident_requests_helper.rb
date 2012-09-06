@@ -166,9 +166,6 @@ module Icm::IncidentRequestsHelper
 
   def list_all_icm_incident_relations(incident_request_id)
     relation_list = Icm::IncidentRequestRelation.list_all(incident_request_id)
-    if params[:format].eql?('pdf')
-      return relation_list
-    end
     ret = ""
 
     group_relation_list = {}
@@ -188,17 +185,24 @@ module Icm::IncidentRequestsHelper
                   content_tag(:td,
                       content_tag(:div,
                           Irm::LookupValue.get_meaning("ICM_INCIDENT_REQUEST_REL_TYPE", key) + ':',
-                          {:style => "font-weight:bold;font-size:1.1em;"})))
+                          {:style => "font-weight:bold;font-size:1.1em; margin:5px auto 3px auto;"})))
        gr.each do |w|
           ret << content_tag(:tr,
                   content_tag(:td,
+                              (icon_link_delete({:controller => "icm/incident_requests",
+                                                 :action => "remove_relation",
+                                                 :source_id => w[:source_id],
+                                                 :id => w[:relation_id],:_dom_id=>"relation_list"},
+                                                 :remote => true,
+                                                 :style => "float: left;margin:auto 2px auto 5px;",
+                                                 :confirm => t(:label_are_you_sure)))+
                               content_tag(:div,
-                                          link_to(truncate(w[:request_number] + "#" + w[:title],:length=>17), {:controller => "icm/incident_journals", :action => "new", :request_id => w[:request_id]},
-                                                  {:class => "request_info",:title=>w[:request_number] + "#" + w[:title], :request_id => w[:request_id], :request_name => w[:request_number] + "#" + w[:title]}),
-                                          {:style => "float:left"}) + raw("&nbsp;") + (icon_link_delete({:controller => "icm/incident_requests",
-                                                                                                         :action => "remove_relation",
-                                                                                                         :source_id => w[:source_id],
-                                                                                                         :id => w[:relation_id],:_dom_id=>"relation_list"}, :remote => true, :confirm => t(:label_are_you_sure)))))
+                                          link_to(w[:request_number] + "#" + w[:title], {:controller => "icm/incident_journals", :action => "new", :request_id => w[:request_id]},
+                                                  {:class => "request_info",:style => "display:block;text-overflow:ellipsis;-o-text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:150px;",:title=>w[:request_number] + "#" + w[:title], :request_id => w[:request_id], :request_name => w[:request_number] + "#" + w[:title]}),
+                                          {:style => "float:left;"}) + raw("&nbsp;") ,
+
+                              {:style=>"display:block;white-space:nowrap;"}
+                  ))
        end
     end
     raw(ret)
