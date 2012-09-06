@@ -151,6 +151,8 @@ zh:
   label_icm_incident_request_incident_category: 分类
   label_icm_incident_request_incident_sub_category: 子分类
   label_icm_create_relate_change_request: 创建RFC
+  label_icm_incident_request_relation_new: 创建关联事故单
+  label_icm_incident_request_relation_source: 源事故单
   label_icm_incident_request_relation_type: 关联为
   label_icm_incident_request_relation_types: 关联类别
   label_icm_incident_request_estimated_date: 计划完成日期

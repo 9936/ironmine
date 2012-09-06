@@ -19,9 +19,10 @@
             <tr>
               <td>
                 <div class="form-inline" style="width: 100%;">
+                  <%= link_to t(:new), {:controller=>"icm/incident_requests",:action => "new",:source_id =>incident_request.id },{:id=>"newRelation",:class=>"btn btn-primary",:style=>"display:none;"}%>
                   <label><%= t(:label_icm_incident_request_relation_type) %></label>
                   <%= select_tag_alias(:relation_type,Irm::LookupValue.get_lookup_value("ICM_INCIDENT_REQUEST_REL_TYPE").collect{|p| [p[:meaning], p.lookup_code]},nil, :style=>"width:80px;display:inline-block;") %>
-                  <%= link_submit t(:add),{:class=>"btn btn-primary"}%>
+                  <%= link_submit t(:add),{:id => "addRelationBtn",:class=>"btn btn-primary"}%>
                 </div>
               </td>
             </tr>
@@ -35,3 +36,19 @@
     </div>
 </div>
 <% end %>
+<script type="text/javascript">
+  $(function(){
+      $("#addRelationBtn").click(function(){
+          //检查是否直接跳转
+          if($("#icm_relation").val().length > 0) {
+              return true;
+          }else{
+              var url = $("#newRelation").attr("href");
+              url += "&relation_type="+$("#relation_type").val();
+              window.location = url;
+              return false;
+          }
+
+      })
+  })
+</script>
