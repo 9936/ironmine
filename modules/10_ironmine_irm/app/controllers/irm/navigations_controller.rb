@@ -18,7 +18,8 @@ class Irm::NavigationsController < ApplicationController
       format.html {render :layout=>"bootstrap_application_full"}
       format.xml  { render :status => :access_deny }
       format.js  { render :json=>{:status => :access_deny}.to_json }
-      format.json  { render :json=>{:status => :access_deny}.to_json }
+      #format.json  { render :json=>{:status => :access_deny}.to_json }
+      format.json  { render "access_deny_with_ajax.html.erb" }
     end
   end
 

@@ -54,7 +54,11 @@ class ApplicationController < ActionController::Base
   def check_permission
     if Irm::Person.current.logged?&&!Irm::PermissionChecker.allow_to_url?({:controller=>params[:controller],:action=>params[:action]})
         flash[:error]=t(:access_denied,:permission=>"#{params[:controller]}/#{params[:action]}")
-        redirect_to({:controller => 'irm/navigations', :action => 'access_deny'})
+        if request.xhr?
+          redirect_to({:controller => 'irm/navigations', :action => 'access_deny', :format => "json"})
+        else
+          redirect_to({:controller => 'irm/navigations', :action => 'access_deny', :format => params[:format]})
+        end
     end
   end
 
