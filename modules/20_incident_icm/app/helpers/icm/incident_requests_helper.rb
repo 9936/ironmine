@@ -173,8 +173,14 @@ module Icm::IncidentRequestsHelper
 
     group_relation_list = {}
     relation_list.each do |r|
-      group_relation_list[r.relation_type] ||= []
-      group_relation_list[r.relation_type] << r
+      type = r.relation_type
+      if r.relation_type.to_s.eql?("CHILD")
+        type = "PARENT" if incident_request_id.to_s.eql?(r.target_id.to_s)
+      elsif r.relation_type.to_s.eql?("PARENT")
+        type = "CHILD"  if incident_request_id.to_s.eql?(r.target_id.to_s)
+      end
+      group_relation_list[type] ||= []
+      group_relation_list[type] << r
     end
 
     group_relation_list.each do |key, gr|

@@ -444,7 +444,6 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def add_relation
     #确保事故单不能关联自身
-
     unless params[:source_id].eql?(params[:icm_relation])
       @incident_request = Icm::IncidentRequest.find(params[:source_id])
       existed_relation = Icm::IncidentRequestRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", params[:source_id], params[:icm_relation], params[:icm_relation], params[:source_id])
