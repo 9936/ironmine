@@ -155,6 +155,9 @@ en:
   label_icm_incident_category_apply_system: Apply System
   label_icm_incident_category_system: Category System
   label_icm_incident_request_relation_new: New Relation Incident
+  label_icm_incident_request_relation_error_self: Incident request can't relation itself！
+  label_icm_incident_request_relation_error_exists: Don't add the same incident request again！
+  label_icm_incident_request_relation_error_no_target: The target request can't be blank！
   label_icm_incident_request_relation_source: Source Incident Request
   label_icm_incident_request_relation_types: Relation Types
   label_icm_incident_request_relation_type: Relation

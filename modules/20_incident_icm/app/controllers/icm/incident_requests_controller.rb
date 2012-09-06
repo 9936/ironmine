@@ -510,10 +510,16 @@ class Icm::IncidentRequestsController < ApplicationController
   #将创建关联事故单放在一个单独的方法中，因为在多个action中用到
   def create_relation(source_id, target_id, relation_type)
     #确保事故单不能关联自身
-    unless source_id.to_s.eql?(target_id)
+    if source_id.to_s.eql?(target_id)
+      flash[:error] = t(:label_icm_incident_request_relation_error_self)
+    else
       existed_relation = Icm::IncidentRequestRelation.where("(source_id = ? AND target_id = ?) OR (source_id = ? AND target_id = ?)", source_id, target_id, target_id, source_id)
-      unless existed_relation.any? || !target_id.present?
-        t = Icm::IncidentRequestRelation.create(:source_id => source_id, :target_id => target_id, :relation_type => relation_type)
+      if existed_relation.any?
+        flash[:error] = t(:label_icm_incident_request_relation_error_exists)
+      elsif !target_id.present?
+        flash[:error] = t(:label_icm_incident_request_relation_error_no_target)
+      else
+        Icm::IncidentRequestRelation.create(:source_id => source_id, :target_id => target_id, :relation_type => relation_type)
         Icm::IncidentHistory.create({:request_id => source_id,
                                      :journal_id=> "",
                                      :property_key=> "add_relation",

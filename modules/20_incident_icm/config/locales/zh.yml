@@ -152,6 +152,9 @@ zh:
   label_icm_incident_request_incident_sub_category: 子分类
   label_icm_create_relate_change_request: 创建RFC
   label_icm_incident_request_relation_new: 创建关联事故单
+  label_icm_incident_request_relation_error_self: 事故单不能关联自身！
+  label_icm_incident_request_relation_error_exists: 请不要重复创建关联关系！
+  label_icm_incident_request_relation_error_no_target: 关联的事故单不存在！
   label_icm_incident_request_relation_source: 源事故单
   label_icm_incident_request_relation_type: 关联为
   label_icm_incident_request_relation_types: 关联类别
