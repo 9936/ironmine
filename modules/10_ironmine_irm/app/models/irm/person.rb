@@ -93,10 +93,6 @@ class Irm::Person < ActiveRecord::Base
     select("#{Irm::Organization.view_name}.name organization_name")
   }
 
-  scope :with_region,lambda{|language|
-    joins("LEFT OUTER JOIN #{Irm::Region.view_name} ON #{Irm::Region.view_name}.region_code = #{table_name}.region_code AND #{Irm::Region.view_name}.language = '#{language}'").
-    select("#{Irm::Region.view_name}.name region_name")
-  }
 
   scope :with_site_group,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::SiteGroup.view_name} ON #{Irm::SiteGroup.view_name}.group_code = #{table_name}.site_group_code AND #{Irm::SiteGroup.view_name}.language = '#{language}'").
@@ -195,7 +191,6 @@ class Irm::Person < ActiveRecord::Base
         with_profile.
         with_title(I18n.locale).
         with_organization(I18n.locale).
-        with_region(I18n.locale).
         with_site_group(I18n.locale).
         with_site(I18n.locale).
         with_language(I18n.locale).
