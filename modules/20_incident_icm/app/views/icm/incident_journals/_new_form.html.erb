@@ -43,6 +43,7 @@
     .sub-page-block-body {
         padding-bottom: 0;
     }
+
 </style>
 <!--页面头部按钮-->
 <% content_for :block_header_buttons do %>
@@ -306,6 +307,13 @@
             </table>
           </div>
 
+          <a id="scrollToTop" href="javascript:void(0);" class="go-top" style="visibility: hidden; ">
+            <span class="">
+              <em class="icon"></em>
+              <em><%= t(:label_go_to_top) %></em>
+            </span>
+          </a>
+
         </div>
        <% end %>
    <% end %>
@@ -519,6 +527,10 @@
         $("#file-contents").html("");
         $("#file-template").attr("sequence", 0);
     }
+
+    $(document).ready(function () {
+        scrollToTop.setup();
+    });
 </script>
 <% unless limit_device? %>
     <style type="text/css">

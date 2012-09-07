@@ -2050,6 +2050,47 @@ fieldset legend {
     font-weight: bold;
 }
 
+//========the css of go top
+@goTopPath: asset-path('framework/go-top-icon.png');
+a.go-top {
+    position:fixed;
+    _position:absolute;
+    bottom:100px;
+    left:50%;
+    margin-left:433px;
+    display:block;
+    border-style:solid;
+    border-width:1px;
+    border-radius:2px;
+    width:22px;
+    height:85px;
+    border-color:#CCC;
+    background-color: #F7F7F7;
+    line-height:12px;
+    text-align:center;
+    text-decoration:none;
+}
+a.go-top span {
+    display:block;
+    height:73px;
+    padding-top:10px;
+    text-decoration:none;
+    cursor:pointer;
+}
+a.go-top em {
+    font-style: normal;
+    color:#808080;
+    text-decoration:none;
+    cursor:pointer;
+}
+a.go-top .icon {
+    margin-bottom:5px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url(@goTopPath) 0 0;
+}
+
 //=====auto saving =====================
 @import "framework/auto-saving";
 
