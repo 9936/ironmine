@@ -18,8 +18,9 @@
           <td class="data-3col" colspan="3" width="100%">
             <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_change_journal_file"} %>
           </td>
-          <td class="page-block-help" style="width: 200px; text-align: right; vertical-align: top;padding-right: 10px;">
-            <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary"}%>
+          <td class="page-block-help" style="width: 450px; text-align: right; vertical-align: top;padding-right: 10px;">
+            <span style="color:#ccc;"><%= t(:label_shortcuts_submit_form).html_safe %></span>
+            <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary",:style => "padding:4px 10px;font-size:12px;"}%>
           </td>
         </tr>
       </tbody>

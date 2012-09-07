@@ -303,3 +303,4 @@ zh:
   label_http_exception_system_error: 系统内部错误,请联系管理员
   #=========end http error====================
   label_submit_replay: 提交回复
+  label_shortcuts_submit_form: 输入内容后按<code>Ctrl</code> + <code>Enter</code>键提交表单
