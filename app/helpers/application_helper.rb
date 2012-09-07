@@ -506,10 +506,10 @@ module ApplicationHelper
   end
 
   #xheditor编辑器
-  def xheditor(textarea_id,force_fit_width=false)
+  def xheditor(textarea_id,force_fit_width=false,shortcuts = false)
     unless limit_device?
       require_jscss(:xheditor)
-      render :partial=>"helper/xheditor",:locals=>{:textarea_id=>textarea_id,:force_fit_width=>force_fit_width}
+      render :partial=>"helper/xheditor",:locals=>{:textarea_id=>textarea_id,:force_fit_width=>force_fit_width, :shortcuts => shortcuts}
     end
   end
 
@@ -520,7 +520,6 @@ module ApplicationHelper
     else
       data_scope = klass.enabled
     end
-
     data_scope.collect{|i| [i[label_field.to_sym],i[value_field.to_sym]]}
   end
 
