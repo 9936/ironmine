@@ -77,7 +77,6 @@ class Icm::IncidentJournalsController < ApplicationController
           end
         end
       else
-
         format.js do
           responds_to_parent do
             render :create do |page|
