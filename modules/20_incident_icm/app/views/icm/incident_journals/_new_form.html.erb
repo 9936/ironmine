@@ -293,23 +293,18 @@
                     </td>
                 <% end %>
               </tr>
-
-              <tr><td class="data-4col" colspan="4">
+              <tr>
+                <td class="data-3col" colspan="3">
                   <%= render :partial=>"helper/upload_file", :locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
+                </td>
+                <td class="page-block-help" style="width: 200px; text-align: right; vertical-align: top;padding-right: 10px;">
+                  <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary"}%>
                 </td>
               </tr>
               </tbody>
             </table>
           </div>
-          <table class="page-block-footer">
-            <tr>
-                <td class="page-block-title">
-                  <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary"}%>
-                </td>
-                <td class="page-block-button"></td>
-                <td class="page-block-help"></td>
-            </tr>
-          </table>
+
         </div>
        <% end %>
    <% end %>
