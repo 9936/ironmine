@@ -67,7 +67,7 @@ module Icm::IncidentJournalsHelper
                                                :action => "remove_attachment",
                                                :attachment_id => f.id)}'>#{btn_delete_icon}</a>" if allow_to_function?(:remove_attachment) || f.created_by == Irm::Person.current.id
     #content_tag(:div, (link.html_safe + description.html_safe).html_safe,{:class=>"file-item"}).html_safe
-    content_tag(:div, (content_tag(:div, link.html_safe + description.html_safe, {:style => "display:inline;", :class=>"file-item"}) +
+    content_tag(:div, (content_tag(:div, link.html_safe + description.html_safe, {:style => "display:block;", :class=>"file-item"}) +
         "&nbsp;&nbsp;".html_safe + delete_link.html_safe).html_safe,{:class=>"fileItem"}).html_safe
   end
 
