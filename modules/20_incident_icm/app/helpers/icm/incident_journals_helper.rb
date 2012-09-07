@@ -59,14 +59,14 @@ module Icm::IncidentJournalsHelper
     image_path = f.data.url(:thumb) if f.image?
     image_path = theme_image_path(Irm::AttachmentVersion.file_type_icon(f.data.original_filename)) unless image_path
     link = ""
-    link = "<div class='file-icon'>#{image_tag(image_path,:style => "width:20px;height:20px;") }</div>" if with_image
+    link = "<div class='file-icon'>#{image_tag(image_path,:alt => "#{f.description}", :title => "#{f.description}",:style => "width:20px;height:20px;") }</div>" if with_image
     description = "<a target='_blank' href='#{f.data.url}' stats='' style='float:left'><div class='file-info'><div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
-                   <div title='#{f.description}' class='file-desc'>#{f.description}</div></div></a>"
+                   </div></a>"
     delete_link = ""
     delete_link << "<a data-remote=true data-confirm='#{I18n.t(:label_delete_confirm)}' href='#{url_for(:controller => "icm/incident_requests",
                                                :action => "remove_attachment",
                                                :attachment_id => f.id)}'>#{btn_delete_icon}</a>" if allow_to_function?(:remove_attachment) || f.created_by == Irm::Person.current.id
-    content_tag(:div, (content_tag(:div, link.html_safe + description.html_safe, {:style => "display:block; padding-bottom:2px;", :class=>"file-item"}) +
+    content_tag(:div, (content_tag(:div, link.html_safe + description.html_safe, {:class=>"file-item"}) +
         "&nbsp;&nbsp;".html_safe + delete_link.html_safe).html_safe,{:class=>"fileItem"}).html_safe
   end
 
