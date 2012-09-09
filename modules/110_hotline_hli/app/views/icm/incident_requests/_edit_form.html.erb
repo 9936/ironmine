@@ -101,6 +101,12 @@
               <label for="incident_request_hotline_n"><%=t(:label_icm_incident_request_hotline_n)%></label>
             </td>
           </tr>
+          <tr>
+            <td class="label-col"><label for="incident_estimated_date"><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+            <td class="data-3col">
+              <%= f.date_field(:estimated_date,:size=>12,:class=>"date",:id=>"incident_estimated_date")%>
+            </td>
+          </tr>
       </tbody>
     </table>
   <% end %>

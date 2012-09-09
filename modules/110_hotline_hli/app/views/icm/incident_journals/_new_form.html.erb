@@ -287,6 +287,12 @@
           <td class="data-col">
             <div><%= @incident_request[:supporter_name] %></div>
           </td>
+          <% unless @incident_request[:estimated_date].blank?%>
+          <td class="label-col"><label for="incident_estimated_date"><%=t(:label_icm_incident_request_estimated_date)%></label></td>
+          <td class="data-3col">
+            <%= format_date(@incident_request[:estimated_date])%>
+          </td>
+          <% end %>
         </tr>
         <tr>
           <td class="label-col"><label ><%=t(:label_icm_incident_request_contact_number)%></label></td>
