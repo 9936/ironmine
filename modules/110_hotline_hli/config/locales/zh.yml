@@ -90,3 +90,5 @@ zh:
   label_report_request_last_updated: 最后更新
   label_report_request_workload: 工时
   label_action_show_template: 模版报表运行中
+
+  label_icm_incident_request_update_workload: 登记工时
