@@ -13,8 +13,15 @@
     function cancelAttach(){
         $(".xheModalClose").trigger('click');
     }
+
+    function submitForm(){
+        if($("#<%= textarea_id %>").val().length > 0) {
+            $($("#<%= textarea_id %>").parents("form")[0]).submit();
+        }
+    }
+
     $(function(){
-      var show_domal = {
+      var custom_plugins = {
         ironmine:{c:'screen_shot',t: $.i18n("image_from_clipboard"),s:'ctrl+7',e:function(){
           var _this=this;
           _this.saveBookmark();
@@ -22,20 +29,24 @@
         }}
       };
       var width = '600px';
-      <%if force_fit_width%>
+      <%if force_fit_width %>
         width = $("#<%= textarea_id %>").parents("td").width() - 10+"px";
       <%end%>
       var editor = $("#<%= textarea_id %>").xheditor({
           width:width,
           height: '150px',
           forcePtag:false,
-          plugins: show_domal,
+          plugins: custom_plugins,
           tools:'Bold,Italic,Underline,Strikethrough,FontColor,BackColor,Fontface,FontSize,|,Align,List,Outdent,Indent,|,Cut,Copy,Paste,|,ironmine,Img,Hr,Table,Source',
           html5Upload:false,
           upImgUrl:'/common/create_upload_file.json',
           localUrlTest:/^https?:\/\/[^\/]*?(xheditor\.com)\//i,
           remoteImgSaveUrl:'/common/create_upload_file.html',
+          <% if shortcuts -%>
+          shortcuts:{'ctrl+enter':submitForm},
+          <% end -%>
           upImgExt:'jpg,jpeg,gif,png'
+
       });
     });
 </script>

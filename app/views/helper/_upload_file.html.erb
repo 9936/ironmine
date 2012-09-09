@@ -1,19 +1,73 @@
-<table class="upload-file" id="<%= upload_file_id%>">
-  <tbody class="file-template" style="display:none" sequence="0" id="file-template">
-    <tr class="file-item" ref="${sequence}">
-        <td><input type="file" name="${ref}[${sequence}][file]"/></td>
-        <td class="file-desc-label"><%= t(:label_icm_incident_journal_attachment_desc) %></td>
-        <td><input type="text" name="${ref}[${sequence}][description]" size="30"/></td>
-        <td><div><a class="delete-file" delete_ref="${sequence}" href="javascript:void(0)"><%= t(:delete) %></a></div></td>
-    </tr>
-  </tbody>
-  <tbody class="file-contents" id="file-contents"></tbody>
+<style>
+    .fileinput-button {
+        float: left;
+        margin-right: 4px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .fileinput-button input {
+        -moz-border-bottom-colors: none;
+        -moz-border-image: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        -moz-transform: translate(-300px, 0pt) scale(4);
+        border-color: transparent;
+        border-style: solid;
+        border-width: 0 0 100px 200px;
+        cursor: pointer;
+        direction: ltr;
+        margin: 0;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .upload-file .file-cell {
+        display: none;
+    }
+
+    .upload-file .file-description input {
+        padding: 0;
+        margin: 0;
+    }
+
+</style>
+<table class="upload-file" id="<%= upload_file_id %>">
   <tbody class="file-buttons">
-    <tr>
-      <td colspan="4"><a class="add-file" href="javascript:void(0)"><%= t(:label_icm_incident_journal_add_attachment) %></a></td>
-    </tr>
+  <tr>
+    <td colspan="3">
+          <span class="btn btn-success fileinput-button">
+              <i class="icon-plus icon-white"></i>
+              <span><%= t(:label_icm_incident_journal_add_attachment) %>...</span>
+              <input type="file" multiple="" name="file_blank">
+          </span>
+      <% if defined?(message) %>
+          <label><%= message %></label>
+      <% end %>
+    </td>
+  </tr>
   </tbody>
+  <tbody class="file-template" style="display:none" id="file-template">
+  <tr class="file-item" ref="${sequence}">
+    <td><span class="file-name"><a target="_blank" href="${fileUrl}">${fileName}</a></span><span class="file-cell"></span></td>
+    <td class="file-description">
+      <input type="hidden" value="${attachmentId}" name="${ref}[${sequence}][id]"/>
+      <input type="text" name="${ref}[${sequence}][description]" size="30"/></td>
+    <td>
+      <div><a class="delete-file" delete_ref="${sequence}" delete_target="${deleteTarget}" href="javascript:void(0)"><%= t(:delete) %></a></div>
+    </td>
+  </tr>
+  </tbody>
+  <tbody class="file-contents"></tbody>
 </table>
 <script type="text/javascript">
-   $("#<%= upload_file_id%>").upload_file();
+    $(function(){
+        var options = {};
+        options.type =  '';
+        options.pastedZone =  null;
+        $("#<%= upload_file_id%>").upload_file_sample(options);
+    });
 </script>

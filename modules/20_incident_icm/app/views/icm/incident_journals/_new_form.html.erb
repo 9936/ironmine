@@ -43,6 +43,7 @@
     .sub-page-block-body {
         padding-bottom: 0;
     }
+
 </style>
 <!--页面头部按钮-->
 <% content_for :block_header_buttons do %>
@@ -289,27 +290,30 @@
                     <td class="data-4col" id="msgEditorParent" colspan="4">
                     <% end -%>
                       <%= sub_f.text_area :message_body, :id=>"msgEditor", :jrequired => true, :rows=>8,:cols=>20,:class=>"input-xxlarge",:style=>"width:100%" %>
-                      <%= xheditor("msgEditor", true) %>
+                      <%= xheditor("msgEditor", true,true) %>
                     </td>
                 <% end %>
               </tr>
-
-              <tr><td class="data-4col" colspan="4">
+              <tr>
+                <td class="data-3col" colspan="3">
                   <%= render :partial=>"helper/upload_file", :locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
+                </td>
+                <td class="page-block-help" style="width: 450px; text-align: right; vertical-align: top;padding-right: 10px;">
+                  <span style="color:#ccc;"><%= t(:label_shortcuts_submit_form).html_safe %></span>
+                  <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary",:style => "padding:4px 10px;font-size:12px;"}%>
                 </td>
               </tr>
               </tbody>
             </table>
           </div>
-          <table class="page-block-footer">
-            <tr>
-                <td class="page-block-title">
-                  <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary"}%>
-                </td>
-                <td class="page-block-button"></td>
-                <td class="page-block-help"></td>
-            </tr>
-          </table>
+
+          <a id="scrollToTop" href="javascript:void(0);" class="go-top" style="visibility: hidden; ">
+            <span class="">
+              <em class="icon"></em>
+              <em><%= t(:label_go_to_top) %></em>
+            </span>
+          </a>
+
         </div>
        <% end %>
    <% end %>
@@ -523,6 +527,10 @@
         $("#file-contents").html("");
         $("#file-template").attr("sequence", 0);
     }
+
+    $(document).ready(function () {
+        scrollToTop.setup();
+    });
 </script>
 <% unless limit_device? %>
     <style type="text/css">

@@ -493,3 +493,20 @@ function checkAttachment(target, limitSize){
     }
 }
 //end =================================客户端校验文件大小=================================
+
+//START =================================返回顶部================================
+var scrollToTop = scrollToTop || {
+    setup:function () {
+        var height = $(window).height() / 2;
+        $(window).scroll(function () {
+            (window.innerWidth ? window.pageYOffset : document.documentElement.scrollTop) >= height ? $("#scrollToTop").css("visibility", "visible") : $("#scrollToTop").css("visibility", "hidden");
+        });
+        $("#scrollToTop").click(function () {
+            $("html, body").animate({
+                scrollTop:"0px"
+            },400);
+            return false
+        })
+    }
+};
+//END =================================返回顶部================================

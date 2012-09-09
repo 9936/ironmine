@@ -11,20 +11,20 @@
           <td class="data-4col" colspan="4">
           <% end -%>
             <%= f.text_area :message_body ,:id=>"msgEditor", :jrequired => true,:rows=>8,:style=>"width:100%;" %>
-            <%= xheditor("msgEditor",true) %>
+            <%= xheditor("msgEditor",true,true) %>
           </td>
         </tr>
         <tr>
-          <td class="data-col" colspan="4" width="100%">
+          <td class="data-3col" colspan="3" width="100%">
             <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_change_journal_file"} %>
+          </td>
+          <td class="page-block-help" style="width: 450px; text-align: right; vertical-align: top;padding-right: 10px;">
+            <span style="color:#ccc;"><%= t(:label_shortcuts_submit_form).html_safe %></span>
+            <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary",:style => "padding:4px 10px;font-size:12px;"}%>
           </td>
         </tr>
       </tbody>
     </table>
-  <% end %>
-
-  <% content_for :form_buttons  do %>
-    <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary",:style=>"min-width:50px;"}%>
   <% end %>
 
   <!--页面结构-->
@@ -37,13 +37,6 @@
         </div>
       </div>
     </div>
-    <table class="page-block-footer">
-      <tr>
-        <td class="page-block-title">
-          <%= content_for :form_buttons   %>
-        </td>
-        <td class="page-block-button"></td>
-      </tr>
-    </table>
+
   </div>
 <% end %>
