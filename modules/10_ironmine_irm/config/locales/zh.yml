@@ -711,7 +711,8 @@ zh:
   label_irm_person_job_title: 工作职位
   label_irm_person_vip_flag: VIP
   label_irm_person_support_staff_flag: 支持组成员
-  label_irm_person_assignment_availability_flag: 是否可分单
+  label_irm_person_assignment_availability_flag: 可分单
+  label_irm_person_status_enabled: 启用
   label_irm_person_security_flag: 安全标识
   label_irm_person_email_address: 邮件地址
   label_irm_person_home_phone: 家庭电话

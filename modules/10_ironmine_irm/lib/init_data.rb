@@ -1708,7 +1708,7 @@ Fwk::MenuAndFunctionManager.map do |map|
       :en => {:name => "User", :description => "User"},
       :zh => {:name => "用户", :description => "添加或编辑用户，更改用户简档、组织、密码等信息"}, }
   map.function_group :person, {
-      :zone_code => "SYSTEM_SETTING",
+      :zone_code => "PERSON_MANAGEMENT",
       :controller => "irm/people",
       :action => "index"}
   map.function_group :person, {
@@ -1719,27 +1719,70 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/people" => ["index", "show", "get_data", "get_choose_people", "new", "create",
-                               "get_support_group", "get_owned_roles",
-                               "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles", "reset_password"],
-              "irm/external_system_members" => ["new_from_person", "create_from_person", "delete_from_person", "get_available_external_system_data", "get_owned_members_data", "get_available_people_data"],
-              "irm/group_members" => ["new_from_person", "get_groupable_data", "create_from_person", "get_data_from_person", "delete_from_person"]
+              "irm/people" => ["index", "show","get_data", "get_choose_people","get_support_group", "get_owned_roles","multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles"]
           },
-          :edit_person => {
-              :en => {:name => "Edit User", :description => "Edit User"},
-              :zh => {:name => "编辑用户", :description => "编辑用户"},
+          :edit_person_basic_info => {
+              :en => {:name => "Edit Basic Info", :description => "Edit Basic Info"},
+              :zh => {:name => "更改用户基础信息", :description => "更改用户基础信息"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/people" => ["edit", "update" ]
+          },
+          :edit_person_email_and_password => {
+              :en => {:name => "Edit Email/Password", :description => "Edit Email/Password"},
+              :zh => {:name => "更改用户邮箱/密码", :description => "更改用户邮箱/密码"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/people" => ["edit", "update", "reset_password"]
+          },
+          :edit_person_permission => {
+              :en => {:name => "Edit User Permission", :description => "Edit User Permission"},
+              :zh => {:name => "更改用户权限", :description => "更改用户权限"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
               "irm/people" => ["edit", "update"]
           },
-          :reset_person_password => {
-              :en => {:name => "Reset Password", :description => "Reset Person Password"},
-              :zh => {:name => "重置密码", :description => "重置密码"},
+          :edit_person_login_name => {
+              :en => {:name => "Edit User Login Name", :description => "Edit User Login Name"},
+              :zh => {:name => "更改用户登录名", :description => "更改用户登录名"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/people" => ["reset_password"]
+              "irm/people" => ["edit", "update"]
+          },
+          :manage_user_and_group => {
+              :en => {:name => "Manage User And Group", :description => "Manage User And Group"},
+              :zh => {:name => "管理用户和组", :description => "管理用户和组"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/group_members" => ["new_from_person", "get_groupable_data", "create_from_person", "get_data_from_person", "delete_from_person"]
+          },
+          :manage_user_and_system => {
+              :en => {:name => "Manage User And System", :description => "Manage User And System"},
+              :zh => {:name => "管理用户和应用系统", :description => "管理用户和应用系统"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/external_system_members" => ["new_from_person", "create_from_person", "delete_from_person", "get_available_external_system_data"]
+          },
+          :add_person => {
+              :en => {:name => "Add New User", :description => "Add New User"},
+              :zh => {:name => "新建用户", :description => "新建用户"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/people" => ["new", "create"]
+          },
+          :edit_assignment => {
+              :en => {:name => "Edit Assignment Availability", :description => "Edit Assignment Availability"},
+              :zh => {:name => "编辑是否分单", :description => "编辑是否分单"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N"
           }
       }
   }
@@ -1806,7 +1849,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/groups" => ["create", "edit", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
-              "irm/group_members" => ["create", "create_from_person", "delete", "delete_from_person", "get_data", "get_data_from_person", "get_memberable_data", "new", "new_from_person"],
+              #"irm/group_members" => ["create", "create_from_person", "delete", "delete_from_person", "get_data", "get_data_from_person", "get_memberable_data", "new", "new_from_person"],
+              "irm/group_members" => ["create", "delete", "get_data", "get_memberable_data", "new"],
           },
           :view_group => {
               :en => {:name => "View Group", :description => "View Group"},
@@ -1967,7 +2011,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/external_system_members" => ["add_people", "create_from_person", "delete_from_person", "delete_people", "get_available_external_system_data", "get_available_people_data", "get_owned_members_data", "index", "new_from_person"],
+              #"irm/external_system_members" => ["add_people", "create_from_person", "delete_from_person", "delete_people", "get_available_external_system_data", "get_available_people_data", "get_owned_members_data", "index", "new_from_person"],
+              "irm/external_system_members" => ["add_people", "delete_people", "get_available_people_data", "get_owned_members_data", "index"],
           },
       }
   }
