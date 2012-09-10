@@ -295,7 +295,7 @@
                 <% end %>
               </tr>
               <tr>
-                <td class="data-3col" colspan="3">
+                <td class="data-2col" colspan="2">
                   <%= render :partial=>"helper/upload_file", :locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
                 </td>
                 <td class="page-block-help" style="width: 450px; text-align: right; vertical-align: top;padding-right: 10px;">
@@ -307,10 +307,9 @@
             </table>
           </div>
 
-          <a id="scrollToTop" href="javascript:void(0);" class="go-top" style="visibility: hidden; ">
-            <span class="">
+          <a id="scrollToTop" href="javascript:void(0);" title="<%= t(:label_go_to_top) %>" class="go-top" style="visibility: hidden; ">
+            <span>
               <em class="icon"></em>
-              <em><%= t(:label_go_to_top) %></em>
             </span>
           </a>
 
