@@ -121,8 +121,7 @@ module Hli::IncidentJournalsControllerEx
         @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").
                     select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time").
                     where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
-                    where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0").
-                    where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES)
+                    where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0")
 
         @supporters = Icm::IncidentJournal.where("1=1").
                 joins(",#{Irm::Person.table_name} ip").
@@ -139,7 +138,8 @@ module Hli::IncidentJournalsControllerEx
 
       def update_workload
         respond_to do |format|
-            Icm::IncidentWorkload.where("incident_request_id = ?", @incident_request.id).each do |t|
+          ir = Icm::IncidentRequest.find(@incident_request.id)
+            Icm::IncidentWorkload.where("incident_request_id = ?", ir.id).each do |t|
               t.destroy
             end
             params[:incident_workloads].each do |work|
@@ -149,6 +149,12 @@ module Hli::IncidentJournalsControllerEx
               Icm::IncidentWorkload.create(:incident_request_id => @incident_request.id,
                                            :real_processing_time => work[:real_processing_time],
                                            :person_id => work[:person_id])
+              Icm::IncidentHistory.create({:request_id => @incident_request.id,
+                                           :journal_id=> "",
+                                           :property_key=> "update_workload",
+                                           :old_value => work[:person_id],
+                                           :new_value => work[:real_processing_time]})
+              ir.update_attribute(:last_response_date, Time.now)
             end if params[:incident_workloads]
 
             format.html { redirect_to({:action => "new"}) }

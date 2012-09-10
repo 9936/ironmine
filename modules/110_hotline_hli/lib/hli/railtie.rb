@@ -10,6 +10,7 @@ module Hli
       Irm::ReportsController.send(:include, Hli::ReportsControllerEx)
       Icm::IncidentRequestsHelper.send(:include, Hli::IncidentRequestsHelperEx)
       Icm::IncidentJournalsHelper.send(:include, Hli::IncidentJournalsHelperEx)
+      Irm::WatchersController.send(:include, Hli::WatchersControllerEx)
     end
   end
 end

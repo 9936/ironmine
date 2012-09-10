@@ -226,6 +226,14 @@ module Hli::IncidentHistoryModelEx
           when "remove_journal"
             old_meaning = ""
             new_meaning = new_value
+          when "update_workload"
+            if old_meaning.nil?
+              real_value = Irm::Person.find(self.old_value).name
+              old_meaning = real_value if real_value
+            end
+            if new_meaning.nil?
+              new_meaning = self.new_value
+            end
         end
         old_meaning = "" if old_meaning.nil?
         new_meaning = "" if new_meaning.nil?

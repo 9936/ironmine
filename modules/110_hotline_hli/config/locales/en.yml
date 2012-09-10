@@ -91,3 +91,4 @@ en:
   label_report_request_last_updated: Last Updated At
   label_report_request_workload: Workload
   label_action_show_template: Running template report
+  label_icm_incident_request_update_workload: Update Workload

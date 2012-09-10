@@ -174,6 +174,7 @@ module Hli::IncidentRequestsControllerEx
         ir = Icm::IncidentRequest.find(params[:id])
         respond_to do |format|
           if ir.update_attribute(:status_code, "OFFLINE")
+            ir.update_attribute(:last_response_date, Time.now)
             Icm::IncidentHistory.create({:request_id => ir.id,
                                          :journal_id=> "",
                                          :property_key=> "cancel_request",
@@ -188,6 +189,7 @@ module Hli::IncidentRequestsControllerEx
         ir = Icm::IncidentRequest.find(params[:id])
         respond_to do |format|
           if ir.update_attribute(:status_code, "ENABLED")
+            ir.update_attribute(:last_response_date, Time.now)
             Icm::IncidentHistory.create({:request_id => ir.id,
                                          :journal_id=> "",
                                          :property_key=> "enable_request",
@@ -271,7 +273,7 @@ module Hli::IncidentRequestsControllerEx
         incident_request.submitted_by = Irm::Person.current.id
         incident_request.submitted_date = Time.now
         incident_request.last_request_date = Time.now
-        incident_request.last_response_date = 1.minute.ago
+        incident_request.last_response_date = Time.now
         incident_request.next_reply_user_license="SUPPORTER"
 
         #HOTLINE项目中，暂时用不到请求类型和来源类型，先进行默认
