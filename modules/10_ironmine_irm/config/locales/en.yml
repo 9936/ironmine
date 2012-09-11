@@ -722,6 +722,7 @@ en:
   label_irm_person_vip_flag: VIP
   label_irm_person_support_staff_flag: Support Staff
   label_irm_person_assignment_availability_flag: assignment availability
+  label_irm_person_status_enabled: Enabled
   label_irm_person_email_address: Email Address
   label_irm_person_home_phone: Home Phone
   label_irm_person_home_address: Home Address

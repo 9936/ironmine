@@ -54,7 +54,13 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_person_assignment_availability_flag)%></label></td>
-            <td class="data-col"><%=check_img(@person.assignment_availability_flag)%></td>
+            <td class="data-col">
+              <% if allow_to_function?(:edit_assignment) -%>
+                  <%=f.check_box :assignment_availability_flag%>
+              <% else -%>
+                <%=check_img(@person.assignment_availability_flag)%>
+              <% end -%>
+            </td>
              <td class="label-col"><div></div></td>
             <td class="data-col"><div></div></td>
           </tr>
