@@ -66,17 +66,17 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     end
   end
 
-  searchable do
-    string :source_id
-    string :source_type
-    string :external_system_id do
-      get_external_system_id
-    end
-    string :attachment_id
-    text :data_file_name,:stored => true
-    attachment :data_path
-    time :updated_at
-  end
+  #searchable do
+  #  string :source_id
+  #  string :source_type
+  #  string :external_system_id do
+  #    get_external_system_id
+  #  end
+  #  string :attachment_id
+  #  text :data_file_name,:stored => true
+  #  attachment :data_path
+  #  time :updated_at
+  #end
 
   def get_external_system_id
     if source_type.eql?('Icm::IncidentRequest')
