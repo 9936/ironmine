@@ -26,4 +26,15 @@ module Irm::PeopleHelper
     people = people.uniq
     people.collect{|p| [p[:company_name] +"-" +p[:organization_name] +"-" +p[:full_name], p.id]}
   end
+
+   def available_person
+     people = Irm::Person.real.order("full_name_pinyin").collect{|p|[p.name,p[:id]]}
+     needed_to_replace = people.detect{|person| Irm::Person.current.id.eql?(person[1])}
+     if needed_to_replace
+       people.delete_if{|person| Irm::Person.current.id.eql?(person[1])}
+       people.unshift([Irm::Person.current.full_name,Irm::Person.current.id])
+     end
+     people
+   end
+
 end
