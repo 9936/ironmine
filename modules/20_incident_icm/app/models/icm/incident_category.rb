@@ -30,6 +30,15 @@ class Icm::IncidentCategory < ActiveRecord::Base
     where("EXISTS (SELECT 1 FROM  #{Icm::IncidentCategorySystem.table_name} WHERE #{Icm::IncidentCategorySystem.table_name}.incident_category_id = #{table_name}.id AND #{Icm::IncidentCategorySystem.table_name}.external_system_id IN (?) OR #{table_name}.created_by = ?)",system_ids + [''], self_id)
   }
 
+  scope :query_with_system_ids_and_self_and_name,lambda{|system_ids, self_id, system_name|
+    where(%Q(EXISTS (SELECT 1 FROM  #{Icm::IncidentCategorySystem.table_name}, #{Irm::ExternalSystemsTl.table_name}
+              WHERE #{Icm::IncidentCategorySystem.table_name}.incident_category_id = #{table_name}.id
+                AND (#{Icm::IncidentCategorySystem.table_name}.external_system_id IN (?) OR #{table_name}.created_by = ?)
+                AND #{Irm::ExternalSystemsTl.table_name}.system_name LIKE ?
+                AND #{Irm::ExternalSystemsTl.table_name}.external_system_id = #{Icm::IncidentCategorySystem.table_name}.external_system_id)),
+          system_ids + [''], self_id, '%' + system_name + '%')
+  }
+
   def self.list_all
     self.select_all.multilingual
   end
