@@ -22,11 +22,13 @@ class Icm::IncidentCategory < ActiveRecord::Base
 
 
   scope :query_by_system,lambda{|system_id|
-    joins("JOIN #{Icm::IncidentCategorySystem.table_name} ON #{Icm::IncidentCategorySystem.table_name}.incident_category_id = #{table_name}.id").
-        where("#{Icm::IncidentCategorySystem.table_name}.external_system_id = ? ",system_id)
+    where("EXISTS (SELECT 1 FROM #{Icm::IncidentCategorySystem.table_name} WHERE #{Icm::IncidentCategorySystem.table_name}.incident_category_id = #{table_name}.id AND #{Icm::IncidentCategorySystem.table_name}.external_system_id = ?)" ,system_id)
 
   }
 
+  scope :query_with_system_ids_and_self,lambda{|system_ids, self_id|
+    where("EXISTS (SELECT 1 FROM  #{Icm::IncidentCategorySystem.table_name} WHERE #{Icm::IncidentCategorySystem.table_name}.incident_category_id = #{table_name}.id AND #{Icm::IncidentCategorySystem.table_name}.external_system_id IN (?) OR #{table_name}.created_by = ?)",system_ids + [''], self_id)
+  }
 
   def self.list_all
     self.select_all.multilingual

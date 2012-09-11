@@ -3,7 +3,15 @@
     <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
     <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
   <% end %>
-  <% builder.column(:code,{:title=>t(:label_icm_incident_category_code)})  %>
-  <% builder.column(:name,{:title=>t(:label_icm_incident_category_name),:searchable=>true})%>
-  <% builder.column(:description,{:title=>t(:label_icm_incident_category_description),:searchable=>true})%>
+  <% builder.column(:code,{:title=>t(:label_icm_incident_category_code), :width => "80px"})  %>
+  <% builder.column(:name,{:title=>t(:label_icm_incident_category_name),:searchable=>true, :width => "150px"})%>
+  <% builder.column(:description,{:title=>t(:label_icm_incident_category_description),:width => "200px"})%>
+  <% builder.column(:external_system_name,{:title=>t(:label_icm_incident_category_external_system)}) do |data|%>
+    <% meaning = duel_meaning(Icm::IncidentCategory.find(data[:id]).get_system_str,external_system_duel_values) %>
+    <% if meaning.any? %>
+        <% meaning.each do |r| %>
+            <%= r %>
+        <% end %>
+    <% end %>
+  <% end %>
 <% end %>
