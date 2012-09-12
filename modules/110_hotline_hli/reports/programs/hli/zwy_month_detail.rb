@@ -46,7 +46,7 @@ class Hli::ZwyMonthDetail < Irm::ReportManager::ReportBase
       data[0] = s[:request_number]
       data[1] = s[:external_system_name]
       data[2] = s[:title]
-      data[3] = Irm::Sanitize.sanitize(s[:summary],"")  unless s[:summary].nil?
+      data[3] = Irm::Sanitize.sanitize(s[:summary],"").gsub("&nbsp;", " ")  unless s[:summary].nil?
       data[4] = s[:requested_name]
       data[5] = s[:supporter_name]
       data[6] = s[:urgence_name]
