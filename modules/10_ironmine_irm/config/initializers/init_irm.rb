@@ -43,7 +43,7 @@ begin
   end
 end
 
-::Ironmine::Acts::Searchable.searchable_entity = {Icm::IncidentRequest.name => "view_incident_request"#,
+::Ironmine::Acts::Searchable.searchable_entity = {
                                                   #Csi::Survey.name => "view_survey",
                                                   #Skm::EntryHeader.name => "view_skm_entries",
                                                   #Irm::Bulletin.name => "bulletin",

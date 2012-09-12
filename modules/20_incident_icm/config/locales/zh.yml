@@ -185,8 +185,6 @@ zh:
   label_icm_incident_journal_upgrade: 升级事故单
   label_icm_reply_title: 于 %{message} 前回复
   label_icm_submit_title: 于 %{message} 前提交
-  label_icm_incident_more_info: 更多信息
-  label_icm_incident_less_info: 更少信息
   label_action_edit_pass: 转交事故单
   label_action_update_pass: 转交事故单
   label_action_edit_close: 关闭事故单

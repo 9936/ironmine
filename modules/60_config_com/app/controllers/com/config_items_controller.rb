@@ -121,7 +121,7 @@ class Com::ConfigItemsController < ApplicationController
     com_config_items_scope = Com::ConfigItem.select_all.with_config_class.with_managed_group.with_managed_person
     com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigClass.view_name}.name",params[:config_class_name])
     com_config_items_scope = com_config_items_scope.where(:config_class_id => config_class_ids) if config_class_ids.any?
-    com_config_items_scope = com_config_items_scope.match_value("#{Icm::SupportGroup.multilingual_view_name}.name",params[:managed_group_name])
+    com_config_items_scope = com_config_items_scope.match_value("#{Icm::SupportGroup.multilingual_view_name}.name",params[:managed_group_name]) if Ironmine::Application.config.fwk.modules.include?(:icm)
     com_config_items_scope = com_config_items_scope.match_value("#{Irm::Person.table_name}.full_name",params[:managed_person_name])
     com_config_items_scope = com_config_items_scope.match_value("#{Com::ConfigItem.table_name}.item_number",params[:item_number])
     com_config_items,@count = paginate(com_config_items_scope)

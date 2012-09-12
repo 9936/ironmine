@@ -38,8 +38,6 @@ module Icm::IncidentRequestsHelper
   end
 
   def available_support_group
-#    Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all.collect{|s| [s[:name],s.id]}
-
     all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
 
     grouped_groups = all_groups.collect{|i| [i.id,i.parent_group_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}

@@ -95,24 +95,6 @@ module Icm::IncidentJournalsHelper
     Icm::CloseReason.multilingual.collect{|i|[i[:name],i.id]}
   end
 
-  def replied_avatar(journal)
-    if(journal[:avatar_file_name])
-      Irm::Person.avatar_url({:id=>journal[:replied_by],:updated_at=>journal[:avatar_updated_at],:filename=>journal[:avatar_file_name]},:medium)
-    else
-      "/images/default_medium_avatar.jpg"
-    end
-  end
-
-  def person_avatar(person_id)
-    person = Irm::Person.find(person_id)
-    if person&&person.avatar_file_name
-      person.avatar.url(:medium)
-    else
-      "/images/default_medium_avatar.jpg"
-    end
-
-  end
-
 
   def available_passable_supporter(group_id)
     people =  Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(group_id).order("CONVERT( #{Irm::Person.table_name}.full_name USING gbk )").collect{|p|[p[:person_name],p[:person_id]]}

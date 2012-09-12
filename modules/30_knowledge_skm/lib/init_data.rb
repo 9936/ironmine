@@ -301,4 +301,7 @@ Fwk::MenuAndFunctionManager.map do |map|
       "skm/wiki_templates" => ["create", "edit", "get_data", "index", "new", "preview", "sample", "show", "update"],
       "skm/entry_headers" => ["knowledge_details","reset_approve","wait_my_approve","wait_my_approve_data","approve_knowledge","next_approval"]
   }
+  map.function :edit_relation, {
+      "skm/entry_headers" => ["add_relation", "remove_relation"]
+  }
 end

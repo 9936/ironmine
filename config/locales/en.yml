@@ -13,6 +13,7 @@ en:
   label_entry_headers_totle_step: Step
   label_entry_headers_totle: totle
   label_entry_headers_first: Step
+  submit: Submit
   today: Today
   tomorrow: Tomorrow
   ago: %{message} ago
@@ -172,6 +173,8 @@ en:
   label_action_multilingual_edit: Multilingual edit
   label_action_multilingual_update: Multilingual edit
   label_reply_title: reply at %{date_format} (%{time_distance}ago)
+  label_more_info: More
+  label_less_info: Less
   #=========paginator==============
   paginator_record: Record
   paginator_rowperpage: Row per Page
@@ -299,3 +302,6 @@ en:
   label_submit_replay: Subbmit Reply
   label_shortcuts_submit_form: After enter content and press <code>Ctrl</code> + <code>Enter</code> to submit form
   label_go_to_top: Go To Top
+  label_add_file: Add File
+  label_file_category: File type
+  label_file_name: File name
