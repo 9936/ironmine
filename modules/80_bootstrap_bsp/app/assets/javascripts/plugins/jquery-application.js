@@ -456,7 +456,7 @@ function getSelectWidth(selectObj){
     //当select的父级元素不可见时
     if(width == 0){
         var cloneObj = selectObj.clone();
-        cloneObj.css({visibility:'hidden'});
+        cloneObj.css({visibility:"hidden"});
         $('body').append(cloneObj);
         width = cloneObj.width();
         cloneObj.remove();
@@ -464,6 +464,13 @@ function getSelectWidth(selectObj){
     //设置默认宽度当宽度小于100
     if(width < 100){
         width = 100
+    }
+    //检查元素是否设置了最大宽度
+    if (selectObj.attr("max-width")){
+        var maxWidth = parseInt(selectObj.attr("max-width").replace(/[^0-9]/ig, ""));
+        if(width > maxWidth){
+            width = maxWidth
+        }
     }
     width = (width + 18) + "px";
     return width;
