@@ -65,8 +65,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
   # 查询出服务
   scope :with_service,lambda{|language|
-    joins("LEFT OUTER JOIN #{Slm::ServiceCatalog.view_name} service ON service.catalog_code = #{table_name}.service_code AND service.language= '#{language}'").
-    select(" service.name service_name")
+    if Ironmine::Application.config.fwk.modules.include?(:slm)
+      joins("LEFT OUTER JOIN #{Slm::ServiceCatalog.view_name} service ON service.catalog_code = #{table_name}.service_code AND service.language= '#{language}'").
+      select(" service.name service_name")
+    else
+      scoped
+    end
   }
   # 查询出客户
   scope :with_requested_by,lambda{|language|

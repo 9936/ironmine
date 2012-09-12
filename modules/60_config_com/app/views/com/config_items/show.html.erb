@@ -26,6 +26,7 @@
             <td class="label-col"></td>
             <td class="data-col"></td>
           </tr>
+          <% if has_module?(:icm) %>
           <tr>
             <td class="label-col"><label><%=(t :label_com_config_item_managed_group)%></label></td>
             <td class="data-col"><%=@config_item[:managed_group_name] %></td>
@@ -40,6 +41,7 @@
             <td class="label-col"></td>
             <td class="data-col"></td>
           </tr>
+          <% end -%>
           <% @config_item_attributes.each do |config_attribute| %>
           <tr auto_generate="true">
             <td class="label-col"><label><%=config_attribute[:config_attribute_name]%></label></td>

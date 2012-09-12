@@ -67,11 +67,6 @@ en:
    label_csi_survey_timestamps: TimeStamp
    label_csi_survey_result: Survey Result
    label_csi_survey_result_chart: Survey Result Chart
-   result: Result
-   export: Export
-   export_xls: Export Excel
-   export_pdf: Export PDF
-   range: Range
    label_csi_survey_joined_count: Joined
    label_csi_survey_person_count: Total People
    label_csi_survey_created_at: Created At

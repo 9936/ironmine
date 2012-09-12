@@ -221,8 +221,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/incident_requests" => ["add_relation", "remove_relation"],
-              "skm/entry_headers" => ["add_relation", "remove_relation"],
+              "icm/incident_requests" => ["add_relation", "remove_relation"]
           },
           :permanent_close_incdnt_request => {
               :en => {:name => "Permanently Close", :description => "Permanently Close"},

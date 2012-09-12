@@ -10,7 +10,7 @@ module Fwk
       self.modules = []
       self.module_mapping = {}
       self.module_folder = "modules"
-      self.framework_modules = [:fwk, :irm, :icm, :skm, :csi, :chm, :com, :bsp,:slm]
+      self.framework_modules = [:fwk, :irm, :bsp, :icm, :chm, :skm, :com, :csi, :slm]
       self.module_dependencies = {}
       self.javascript = ActiveSupport::OrderedOptions.new
       self.css = ActiveSupport::OrderedOptions.new
