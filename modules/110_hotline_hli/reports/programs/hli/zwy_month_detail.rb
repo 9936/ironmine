@@ -55,7 +55,11 @@ class Hli::ZwyMonthDetail < Irm::ReportManager::ReportBase
       data[9] = s[:incident_status_name]
       data[10] = s[:incident_category_name]
       data[11] = s[:incident_sub_category_name]
-      data[12] = s[:estimated_date].strftime('%F %T')
+      begin
+        data[12] = s[:estimated_date].strftime('%F %T')
+      rescue
+        data[12] = ""
+      end
       data[13] = s[:hotline]
       datas << data
     end
