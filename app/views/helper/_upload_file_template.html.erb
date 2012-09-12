@@ -9,9 +9,9 @@
       <thead>
         <tr style="text-align: center;">
           <th class="label-col" style="width: 18%;"></th>
-          <th ><%= t :label_skm_file_name %></th>
+          <th ><%= t :label_file_name %></th>
           <% if type_flag %>
-          <th><%= t :label_skm_file_category %></th>
+          <th><%= t :label_file_category %></th>
           <% end %>
           <th><%= t :description%></th>
           <th></th>
@@ -41,7 +41,7 @@
       <tbody>
           <tr style="text-align: left;">
             <td class="label-col" style="width: 18%;"></td>
-            <td class="data-col" style="padding-left: 20px; "><%= link_to t(:label_skm_file_add_line), {}, {:href => "javascript:void(0);", :onclick => "generate_line();"} %></td>
+            <td class="data-col" style="padding-left: 20px; "><%= link_to t(:label_add_file), {}, {:href => "javascript:void(0);", :onclick => "generate_line();"} %></td>
             <td class="data-col"></td>
             <td class="data-col"></td>
             <td class="data-col"></td>

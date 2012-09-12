@@ -7,6 +7,8 @@
             <td class="data-col">
               <%=f.select :close_reason_id,options_for_select(available_close_code,@incident_request.close_reason_id),
                                                   {},{:required=>true,:id=>"incident_request_close_reason_code"}%>
+          </tr>
+          <tr>
             <td class="label-col"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_target_system)%></label></td>
             <td class="data-col"><%=f.select :external_system_id,
                                              nullable_options_for_select(available_external_systems_with_person(@incident_request.requested_by).collect{|p| [p[:system_name], p.id]},@incident_request.external_system_id),
@@ -28,6 +30,8 @@
                                            :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
                                                           :external_system_id=>"${ass_external_system}")}%>
             </td>
+          </tr>
+          <tr>
             <td class="label-col"><label for=""><%=t(:label_icm_incident_request_incident_sub_category)%></label></td>
             <td class="data-col"><%=f.select :incident_sub_category_id,
                                           nullable_options_for_select([],@incident_request.incident_sub_category_id),

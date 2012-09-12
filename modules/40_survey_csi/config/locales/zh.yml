@@ -40,11 +40,6 @@ zh:
    label_csi_survey_timestamps: 时间
    label_csi_survey_result: 调查结果
    label_csi_survey_result_chart: 调查结果图表
-   result: 结果
-   export: 导出
-   export_xls: 导出Excel
-   export_pdf: 导出PDF
-   range: 范围
    label_csi_survey_joined_count: 参与人数
    label_csi_survey_person_count: 应参加人数
    label_csi_survey_created_at: 发起时间

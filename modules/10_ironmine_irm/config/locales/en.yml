@@ -6,6 +6,11 @@ en:
   invalid_invitation_key: Invalid invitation key!
   current_page_help: Current page help
   #usual button
+  result: Result
+  export: Export
+  export_xls: Export Excel
+  export_pdf: Export PDF
+  range: Range
   unknow: Unknow
   cancel: Cancel
   next: Next
@@ -116,6 +121,7 @@ en:
   label_is_required: Required Info
   label_help_about_page: Page Help
   label_detail_info: Detail Info
+  label_new_child: New child
   error: Error
   error_invalid_data: Error：Invalid Data。
   check_error_msg_and_fix: Please check all error to correct data。

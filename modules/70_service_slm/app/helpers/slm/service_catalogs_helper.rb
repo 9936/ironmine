@@ -8,6 +8,7 @@ module Slm::ServiceCatalogsHelper
     servicecatalogs.collect{|p| [p[:external_system_name] + '-' + p[:name], p.id]}
   end
 
+<<<<<<< HEAD
   def accessable_external_system_duel_values
     values = []
     values +=Irm::ExternalSystem.with_person(Irm::Person.current.id).
@@ -20,6 +21,8 @@ module Slm::ServiceCatalogsHelper
         enabled.order_with_name.multilingual.collect.collect{|i| [i[:system_name],i.id,{:type=>"",:query=>i[:system_name]}]}
   end
 
+=======
+>>>>>>> module
 
   def available_service_catalogs
     all_service_catalogs = Slm::ServiceCatalog.enabled.multilingual

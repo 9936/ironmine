@@ -6,6 +6,11 @@ zh:
   invalid_invitation_key: 无效的邀请验证码！
   current_page_help: 此页面帮助
   #公用按钮
+  result: 结果
+  export: 导出
+  export_xls: 导出Excel
+  export_pdf: 导出PDF
+  range: 范围
   unknow: 未知
   cancel: 取消
   next: 下一步
@@ -141,6 +146,7 @@ zh:
   updated_at: 更新时间
   kanban_mode: 看板
   list_mode: 列表
+  label_new_child: 创建子分类
   error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
   error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB, 现上传 _ KB)
   error_file_upload_repeat: 附件中有文件重复上传

@@ -44,9 +44,13 @@ class Chm::ChangeRequest < ActiveRecord::Base
   }
   # 类别
   scope :with_category,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ON  #{Icm::IncidentCategory.view_name}.id = #{table_name}.category_id AND #{Icm::IncidentCategory.view_name}.language= '#{language}'").
-    joins("LEFT OUTER JOIN #{Icm::IncidentSubCategory.view_name} ON  #{Icm::IncidentSubCategory.view_name}.id = #{table_name}.sub_category_id AND #{Icm::IncidentSubCategory.view_name}.language= '#{language}'").
-    select(" #{Icm::IncidentCategory.view_name}.name category_name,#{Icm::IncidentSubCategory.view_name}.name sub_category_name")
+    if Ironmine::Application.config.fwk.modules.include?(:icm)
+      joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ON  #{Icm::IncidentCategory.view_name}.id = #{table_name}.category_id AND #{Icm::IncidentCategory.view_name}.language= '#{language}'").
+      joins("LEFT OUTER JOIN #{Icm::IncidentSubCategory.view_name} ON  #{Icm::IncidentSubCategory.view_name}.id = #{table_name}.sub_category_id AND #{Icm::IncidentSubCategory.view_name}.language= '#{language}'").
+      select(" #{Icm::IncidentCategory.view_name}.name category_name,#{Icm::IncidentSubCategory.view_name}.name sub_category_name")
+    else
+      scoped
+    end
   }
 
   # 优先级
@@ -74,9 +78,13 @@ class Chm::ChangeRequest < ActiveRecord::Base
 
   # 查询出优先级
   scope :with_support,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::SupportGroup.multilingual_view_name} support_group ON  #{table_name}.support_group_id = support_group.id AND support_group.language= '#{language}'").
-    joins("LEFT OUTER JOIN #{Irm::Person.table_name} support_person ON  #{table_name}.support_person_id = support_person.id").
-    select(" support_group.name support_group_name,support_person.full_name support_person_name")
+    if Ironmine::Application.config.fwk.modules.include?(:icm)
+      joins("LEFT OUTER JOIN #{Icm::SupportGroup.multilingual_view_name} support_group ON  #{table_name}.support_group_id = support_group.id AND support_group.language= '#{language}'").
+      joins("LEFT OUTER JOIN #{Irm::Person.table_name} support_person ON  #{table_name}.support_person_id = support_person.id").
+      select(" support_group.name support_group_name,support_person.full_name support_person_name")
+    else
+      scoped
+    end
   }
 
   # 紧急度

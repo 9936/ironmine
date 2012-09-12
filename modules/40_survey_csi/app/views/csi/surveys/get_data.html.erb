@@ -1,6 +1,6 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-    <%= link_to(t(:edit),{:action=>"show",:id=>data[:id]}) %>&nbsp;
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>&nbsp;
     <% unless data[:allow_author_only] %>
       <%= link_to(t(:result),{:controller=>"csi/survey_results",:action=>"statistics",:id=>data[:id]},{:back=>true}) %>
     <% end %>

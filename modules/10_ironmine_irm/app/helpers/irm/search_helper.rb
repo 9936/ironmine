@@ -30,11 +30,16 @@ module Irm::SearchHelper
 
   #初始化搜索选项设置
   def init_search_options(selected = params[:search_option_str].split(" "))
-    search_options_hash = {Chm::ChangeRequest.name.to_s => {:label =>t(:label_chm_change_request), :name => "search_option_chm_change_request"},
-                           Icm::IncidentRequest.name.to_s =>{:label=> t(:label_icm_incident_request), :name => "search_option_icm_incident_request"},
-                           Skm::EntryHeader.name.to_s => {:label => t(:label_skm_entry_header), :name => "search_option_skm_entry"},
-                           Irm::Bulletin.name.to_s => {:label => t(:label_irm_bulletin), :name => "search_option_irm_bulletin"},
-                           Irm::AttachmentVersion.name.to_s => {:label => t(:label_search_attachment), :name => "search_option_irm_attachment"}}
+    search_entities = Ironmine::Acts::Searchable.searchable_entity
+    search_options_hash = {}
+    search_entities.each do |key, value|
+      search_options_hash[key.to_s] = {:label =>t("label#{build_meaning(key)}"), :name => "search_option#{build_meaning(key)}"}
+    end
+    #search_options_hash = {Chm::ChangeRequest.name.to_s => {:label =>t(:label_chm_change_request), :name => "search_option_chm_change_request"},
+    #                       Icm::IncidentRequest.name.to_s =>{:label=> t(:label_icm_incident_request), :name => "search_option_icm_incident_request"},
+    #                       Skm::EntryHeader.name.to_s => {:label => t(:label_skm_entry_header), :name => "search_option_skm_entry"},
+    #                       Irm::Bulletin.name.to_s => {:label => t(:label_irm_bulletin), :name => "search_option_irm_bulletin"},
+    #                       Irm::AttachmentVersion.name.to_s => {:label => t(:label_search_attachment), :name => "search_option_irm_attachment"}}
     html = ''
     if selected.include?("ALL")
       li = "<li class='current'><em></em>#{t(:all)}<span class='check-btn'>"
@@ -148,5 +153,26 @@ module Irm::SearchHelper
   #过滤掉html标签
   def plain_text(html_input)
     sanitize(truncate(html_input,{:length => 100,:omission => '......'}), :tags=>["em"])
+  end
+
+  #根据模块显示搜索的配置可选项
+  def init_search_option
+    html = "<ul>"
+    search_entities = Ironmine::Acts::Searchable.searchable_entity
+    if search_entities.any? and search_entities.count == 1
+      html += "<li style='width:100%;'>" + check_box_tag("search_option_all", "ALL", true,{:id => "checkAllSearchOptions", :class => "searchOptions"})
+      html += "<label for='checkAllSearchOptions' style='display:inline-block'>#{t(:all)}</label></li>"
+    end
+    search_entities.each do |key, value|
+      html += "<li>" + check_box_tag("#{value}", key, true, :class => "searchOptions")
+      html += "<label for="+"search_option#{build_meaning(key)}"+" style='display:inline-block'>#{t("label#{build_meaning(key)}")}</label>"
+      html += "</li>"
+    end
+    html += "</ul>"
+    html.html_safe
+  end
+
+  def build_meaning(str)
+    str.gsub(/::/,'').gsub(/([A-Z])/){ "_#{$1.downcase}" }
   end
 end

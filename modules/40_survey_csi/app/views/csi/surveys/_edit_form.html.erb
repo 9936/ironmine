@@ -50,7 +50,7 @@
           </tr>
       </tbody>
     </table>
-  <% end %>
+  <% end if has_module?(:icm) %>
   <% content_for :form_block_access do %>
     <table class="form-table">
       <tbody>
@@ -116,12 +116,14 @@
           <%= content_for :form_block_common   %>
         </div>
         <!-- 事故单关联设置 -->
-        <div class="sub-page-block-header">
-          <h3 class="sub-page-block-title"><%=t(:label_csi_survey_incident_setting)%></h3>
-        </div>
-        <div class="sub-page-block-body">
-          <%= content_for :form_block_incident   %>
-        </div>
+        <% if has_module?(:icm) -%>
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%=t(:label_csi_survey_incident_setting)%></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_incident   %>
+          </div>
+        <% end -%>
         <!-- 访问控制 -->
         <div class="sub-page-block-header">
           <h3 class="sub-page-block-title"><%=t(:label_csi_survey_access_control)%></h3>

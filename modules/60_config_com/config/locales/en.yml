@@ -43,6 +43,7 @@ en:
   label_com_config_item_last_checked_at: Last Checked At
   label_com_config_item_error_no_such_attribute: No Such Attribute ID
   label_com_config_item_error_value_required: %{name} ：Value Is Required
+  label_com_config_item_config_status: Config Status
   #===========================end config item==============================#
 
   #==========================config item==================================#
@@ -63,4 +64,6 @@ en:
   label_com_config_item_status_close_flag: Close
   label_com_config_item_status_default_flag: Default
   label_com_config_item_status_show: Show
+  label_com_status_description: Status Description
+  label_com_close_flag: Close flag
   #=========================end com config item status=======================#

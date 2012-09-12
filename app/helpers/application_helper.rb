@@ -1,4 +1,17 @@
 module ApplicationHelper
+  #获取系统加载的所有模块
+  def available_modules
+    @modules ||= Ironmine::Application.config.fwk.modules
+  end
+  #判断模块是否存在
+  def has_module?(module_name)
+    available_modules.include?(module_name.to_s)
+  end
+  #判断是否只加载了基础模块
+  def only_basic_modules?
+    available_modules.any? and available_modules.count < 4
+  end
+
   def common_title(options={:model_meaning=>"",:model_name=>"",:action_meaning=>"",:show_data=>"", :buttons => ""})
     model_title = ""
     if options[:model_meaning].present?
