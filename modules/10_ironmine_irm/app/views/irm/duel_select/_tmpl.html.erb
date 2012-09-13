@@ -1,6 +1,6 @@
 <% size = 14 unless defined?(size)%>
 <%column_size = (defined?(order)&&order ? 4:3 )%>
-<table class="duel-select" id="<%= str_value_field %>DuelSelect" >
+<table class="duel-select" id="<%= str_value_field %>DuelSelect" style="_width:100%;" >
   <%if defined?(types)&&types&&types.is_a?(Array)&&types.any?%>
     <tr class="duel-search-box">
       <td colspan="<%= column_size %>">
