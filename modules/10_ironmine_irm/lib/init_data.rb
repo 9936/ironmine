@@ -1014,24 +1014,6 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "chm/change_approvals" => ["approve", "decide"],
-          },
-
-          :edit_filter => {
-              :en => {:name => "Edit Filter", :description => "Edit Filter"},
-              :zh => {:name => "编辑视图", :description => "编辑视图"},
-              :default_flag => "N",
-              :login_flag => "Y",
-              :public_flag => "N",
-              "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"]
-          },
-
-          :view_filter => {
-              :en => {:name => "View Filter", :description => "View Filter"},
-              :zh => {:name => "查看视图", :description => "查看视图"},
-              :default_flag => "N",
-              :login_flag => "Y",
-              :public_flag => "N",
-              "irm/filters" => ["index"]
           }
       }
   }
@@ -1399,6 +1381,23 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/applications" => ["create", "edit", "get_data", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
           },
+          :edit_filter => {
+              :en => {:name => "Edit Filter", :description => "Edit Filter"},
+              :zh => {:name => "编辑视图", :description => "编辑视图"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"]
+          },
+
+          :view_filter => {
+              :en => {:name => "View Filter", :description => "View Filter"},
+              :zh => {:name => "查看视图", :description => "查看视图"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/filters" => ["index"]
+          }
       }
   }
   #=================================END:APPLICATION=================================

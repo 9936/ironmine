@@ -1,0 +1,12 @@
+<script type="text/javascript">
+    $("#process_code").change(function (e) {
+        // 指定组处理人员
+        if($("#process_code").val()=="ASSIGN_PERSON"){
+            $("#assignPersonTr").show();
+        }else{
+            $("#assignPersonTr").hide();
+        }
+    });
+    $("#process_code").trigger("change");
+
+</script>

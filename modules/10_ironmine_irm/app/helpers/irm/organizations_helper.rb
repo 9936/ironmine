@@ -1,7 +1,7 @@
 module Irm::OrganizationsHelper
   def available_organization
     all_organizations = Irm::Organization.enabled.multilingual
-
+    return [] unless all_organizations.any?
     grouped_organizations = all_organizations.collect{|i| [i.id,i.parent_org_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
 
     organizations = {}
