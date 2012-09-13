@@ -17,10 +17,16 @@
 
           <tr>
             <td class="label-col"><label><%=t(:label_icm_support_group_assignment_process_code)%></label></td>
-            <td class="data-col"><%=f.select :assignment_process_code,available_processes,{},{:required=>true}%></td>
+            <td class="data-col"><%=f.select :assignment_process_code,available_processes,{},{:required=>true,:id=>"process_code"}%></td>
             <td class="label-col"><label><%=(t :label_status_code)%></label></td>
             <td class="data-col"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning,@support_group.status_code)%>
             </td>
+          </tr>
+          <tr id="assignPersonTr">
+            <td class="label-col"><label><%= t(:label_icm_support_group_assign_person) %></label></td>
+            <td class="data-col"><%= f.blank_select :assign_person_id, available_group_member(@group.id), {}, {:required => true} %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
           </tr>
       </tbody>
     </table>
@@ -90,3 +96,4 @@
     </table>
   </div>
 <% end %>
+<%= render(:partial=>"icm/support_groups/edit_script") %>

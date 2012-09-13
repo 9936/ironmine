@@ -234,6 +234,7 @@ zh:
   label_icm_support_group_oncall_flag: 待命组
   label_icm_support_group_vendor_flag: 供应商组
   label_icm_support_group_add_group_notice: 请添加人员组
+  label_icm_support_group_assign_person: 指定处理人
   #=========================  end icm support_groups =========================#
   #========================= mail request ====================================
   label_icm_mail_request: 邮件事故单规则
