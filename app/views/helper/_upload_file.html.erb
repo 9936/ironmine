@@ -50,9 +50,9 @@
   <tr>
     <td colspan="3">
       <span class="btn btn-success fileinput-button">
-         <% unless ie6? -%>
+
            <i class="icon-plus icon-white"></i>
-         <% end -%>
+
           <span><%= t(:label_icm_incident_journal_add_attachment) %>...</span>
           <input type="file" multiple="" name="file_blank">
       </span>
@@ -84,8 +84,8 @@
 <script type="text/javascript">
     $(function(){
         var options = {};
-        options.type =  '';
-        options.pastedZone =  null;
+        options.type =  'jpg,png,gif';
+//        options.pastedZone =  null;
         $("#<%= upload_file_id %>").upload_file_sample(options);
     });
 </script>

@@ -42,6 +42,10 @@ module ApplicationHelper
     end
   end
 
+  def ie6s
+    ie6?
+  end
+
   def common_app_title(current_tab,model_title,action_title,data_meaning)
     image_icon = ""
     if current_tab.style_image
@@ -516,6 +520,10 @@ module ApplicationHelper
   # 将使用IE6和Android 2的设备设置为限制设备
   def limit_device?
     ie6? || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
+  end
+
+  def lov_text
+    t(:find)
   end
 
   #xheditor编辑器

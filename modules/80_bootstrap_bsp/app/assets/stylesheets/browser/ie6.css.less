@@ -382,15 +382,6 @@ ul.thumbnails {margin-left:-20px;float:none;display:inline-block;zoom:1;clear:bo
 .open .dropdown-menu {
     display:block;
 }
-//.caret {font-size:1px;height:2px;line-height:2px;background:none;background-color:#292929;color:#292929}
-//.btn-primary .caret {
-//    border-left:#0074CC;
-//    border-right:#0074CC;
-//}
-//a:hover .caret  {
-//    border-left: #E6E6E6;
-//    border-right: #E6E6E6;
-//}
 
 
 .btn-group .btn{
@@ -508,4 +499,23 @@ table.duel-select tr.duel-list select {
 }
 .dropdown-toggle .caret {
     padding-top: -5px;
+}
+
+@iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
+@iconWhiteSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings-white.png');
+//修复在IE6下图标
+i {
+    background-image: url(@iconSpritePath);
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: text-top;
+    width: 14px;
+    padding-left: 3px;
+    cursor: pointer;
+}
+
+i.icon-white {
+    background-image: url(@iconWhiteSpritePath);
 }
