@@ -1,0 +1,1 @@
+::Ironmine::Acts::Searchable.searchable_entity.merge!({Icm::IncidentRequest.name => "view_incident_request"})

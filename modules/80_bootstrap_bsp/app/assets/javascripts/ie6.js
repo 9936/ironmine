@@ -20,21 +20,10 @@ $(function () {
 
 
     var zIndexNumber = 1000;
-    $(".chzn-container").each(function() {
+    $("div").each(function() {
         $(this).css('zIndex', zIndexNumber);
         zIndexNumber -= 10;
     });
-
-    //修复IE6下select样式无法生效
-//    $("select").each(function(){
-//       $(this).css("margin", "-2px").css("overflow","hidden");
-//       var w = ($(this).width() -3) + 'px';
-//       alert($(this).outerHTML());
-//       var select_box = $("<div>"+$(this).outerHTML()+"</div>");
-//       select_box.css("width",w).css("position","relative").css("height","20px").css("border","1px solid #ccc");
-//       $(this).parent().append(select_box);
-//       $(this).remove();
-//    });
 });
 
 //处理IE中的select

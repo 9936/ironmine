@@ -250,21 +250,24 @@ class Skm::EntryHeadersController < ApplicationController
 
   #转交处理
   def next_approval
-    pre_approval_person = Skm::EntryApprovalPerson.where(:entry_header_id=> params[:id], :person_id=>Irm::Person.current.id).first
-
-      if pre_approval_person.present?
-        next_approval_person = Skm::EntryApprovalPerson.new(:pre_approval_id => pre_approval_person.id, :entry_header_id => params[:id], :person_id => params[:person_id])
-        if next_approval_person.save
-          pre_approval_person.next_approval_id = next_approval_person.id
-          if params[:note]
-            pre_approval_person.note = params[:note]
-          else
-            pre_approval_person.note = t(:label_skm_entry_header_to_people, :person_name => Irm::Person.query_person_name(params[:person_id]).first[:person_name])
-          end
-          pre_approval_person.approval_flag = Skm::EntryStatus::SYS_CHANGE
-          pre_approval_person.save
+    if params[:person_id].present?
+      pre_approval_person = Skm::EntryApprovalPerson.where(:entry_header_id=> params[:id], :person_id=>Irm::Person.current.id).first
+    else
+      pre_approval_person = nil
+    end
+    if pre_approval_person.present?
+      next_approval_person = Skm::EntryApprovalPerson.new(:pre_approval_id => pre_approval_person.id, :entry_header_id => params[:id], :person_id => params[:person_id])
+      if next_approval_person.save
+        pre_approval_person.next_approval_id = next_approval_person.id
+        if params[:note]
+          pre_approval_person.note = params[:note]
+        else
+          pre_approval_person.note = t(:label_skm_entry_header_to_people, :person_name => Irm::Person.query_person_name(params[:person_id]).first[:person_name])
         end
+        pre_approval_person.approval_flag = Skm::EntryStatus::SYS_CHANGE
+        pre_approval_person.save
       end
+    end
     respond_to do |format|
       format.html { redirect_to :action => "wait_my_approve" }
     end

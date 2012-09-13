@@ -67,31 +67,30 @@
       <div style="margin-right:5px;margin-bottom:5px">
         <%= text_field_tag "search_option_input", t(:input_keyword_you_want_to_search),:id=>"phSearchOptionInput", :class => "grayTips headerSearchInput", :style => "width:100%" %>
       </div>
+      <style type="text/css">
+        .options-container ul,
+        .options-container li {
+            list-style: none;
+            display: block;
+        }
+        .options-container ul {
+            margin-left: 0;
+            padding-left: 0;
+        }
+        .options-container li {
+            float: left;
+            line-height: 30px;
+            margin-right: 15px;
+        }
+        .options-container li label {
+            padding: 2px 5px;
+        }
+      </style>
       <fieldset>
-      <table style="font-size:12px;width:100%;" class="form-table">
-        <tr><td><%= check_box_tag("search_option_all", "ALL", true,{:id => "checkAllSearchOptions", :class => "searchOptions"}) %>
-          <label for="checkAllSearchOptions"><%= t :all %></label>
-          </td>
-        </tr>
-        <tr><td><%= check_box_tag("search_option_skm_entry", Skm::EntryHeader.name, true, :class => "searchOptions") %>
-          <label for="search_option_skm_entry"><%= t :label_skm_entry_header %></label>
-          </td>
-          <td><%= check_box_tag("search_option_chm_change_request", Chm::ChangeRequest.name, true, :class => "searchOptions") %>
-          <label for="search_option_chm_change_request"><%= t :label_chm_change_request %></label>
-          </td>
-        </tr>
-        <tr><td><%= check_box_tag("search_option_icm_incident_request", Icm::IncidentRequest.name, true, :class => "searchOptions") %>
-          <label for="search_option_icm_incident_request"><%= t :label_icm_incident_request %></label>
-          </td>
-          <td><%= check_box_tag("search_option_irm_bulletin", Irm::Bulletin.name, true, :class => "searchOptions") %>
-          <label for="search_option_irm_bulletin"><%= t :label_irm_bulletin %></label>
-          </td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-        </tr>
-      </table>
+        <div class="options-container">
+          <%= init_search_option %>
+        </div>
+
       </fieldset>
     </div>
   </div>
@@ -100,6 +99,8 @@
     <a class="btn btn-primary searchOptionSubmit" href="#"><%= t(:search) %></a>
   </div>
 </div>
+
+
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -145,8 +146,7 @@ $(document).ready(function(){
     });
 
     $(document).click(function(e){
-        if(!$.contains($("#phSearchContainer")[0] ,e.target))
-        {
+        if(!$.contains($("#phSearchContainer")[0] ,e.target)){
             headerSearchOptionsBoxHide();
         }
     });

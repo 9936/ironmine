@@ -13,6 +13,7 @@ zh:
   ago: %{message}前
   today: 今天
   tomorrow: 明天
+  submit: 提交
 
   date:
     formats:
@@ -169,6 +170,8 @@ zh:
   label_action_multilingual_edit: 多语言编辑
   label_action_multilingual_update: 多语言编辑
   label_reply_title: 于%{date_format}(%{time_distance}前)回复
+  label_more_info: 更多信息
+  label_less_info: 更少信息
   #=========paginator==============
   paginator_record: 记录数
   paginator_rowperpage: 每页显示
@@ -305,3 +308,6 @@ zh:
   label_submit_replay: 提交回复
   label_shortcuts_submit_form: 输入内容后按<code>Ctrl</code> + <code>Enter</code>键提交表单
   label_go_to_top: 返回顶部
+  label_add_file: 添加附件
+  label_file_category: 文件类型
+  label_file_name: 文件名

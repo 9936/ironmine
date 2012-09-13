@@ -5,4 +5,4 @@
     <div  style="float:right;">
       <%= lov_field_tag "config_item_id", Com::ConfigItem,{:style=>"width:150px;"}%>
     </div>
-<% end %>
+<% end if has_module?(:com) %>

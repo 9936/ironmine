@@ -567,6 +567,9 @@
         };
 
         Chosen.prototype.results_show = function() {
+            if (($.browser.msie && ($.browser.version === "6.0" || $.browser.version === "7.0")) && chosenAllowIe6Or7) {
+                select_for_ie6(true);
+            }
             var dd_top;
             if (!this.is_multiple) {
                 this.selected_item.addClass("chzn-single-with-drop");
@@ -594,6 +597,9 @@
         };
 
         Chosen.prototype.results_hide = function() {
+            if (($.browser.msie && ($.browser.version === "6.0" || $.browser.version === "7.0")) && chosenAllowIe6Or7) {
+                select_for_ie6(false);
+            }
             if (!this.is_multiple) {
                 this.selected_item.removeClass("chzn-single-with-drop");
             }

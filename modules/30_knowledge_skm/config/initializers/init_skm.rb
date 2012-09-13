@@ -1,0 +1,1 @@
+::Ironmine::Acts::Searchable.searchable_entity.merge!({Skm::EntryHeader.name => "view_skm_entries"})

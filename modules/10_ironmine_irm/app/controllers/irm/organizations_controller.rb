@@ -6,7 +6,6 @@ class Irm::OrganizationsController < ApplicationController
     all_organizations = Irm::Organization.with_parent(I18n.locale).multilingual
 
     grouped_organizations = all_organizations.collect{|i| [i.id,i.parent_org_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
-
     organizations = {}
     all_organizations.each do |ao|
       organizations.merge!({ao.id=>ao})
@@ -25,13 +24,11 @@ class Irm::OrganizationsController < ApplicationController
       end
     }
 
-
     grouped_organizations["blank"].each do |go|
       organizations[go[0]].level = 1
       @leveled_organizations << organizations[go[0]]
       proc.call(organizations[go[0]].id,2)
-    end
-
+    end if grouped_organizations["blank"]
     unless params[:mode].present?
       params[:mode] = cookies['organization_view']
     end

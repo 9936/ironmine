@@ -32,9 +32,13 @@ class Chm::ChangeTask < ActiveRecord::Base
 
   # 查询出优先级
   scope :with_support,lambda{|language|
-    joins("LEFT OUTER JOIN #{Icm::SupportGroup.multilingual_view_name} support_group ON  #{table_name}.support_group_id = support_group.id AND support_group.language= '#{language}'").
-    joins("LEFT OUTER JOIN #{Irm::Person.table_name} support_person ON  #{table_name}.support_person_id = support_person.id").
-    select(" support_group.name support_group_name,support_person.full_name support_person_name")
+    if Ironmine::Application.config.fwk.modules.include?(:icm)
+      joins("LEFT OUTER JOIN #{Icm::SupportGroup.multilingual_view_name} support_group ON  #{table_name}.support_group_id = support_group.id AND support_group.language= '#{language}'").
+      joins("LEFT OUTER JOIN #{Irm::Person.table_name} support_person ON  #{table_name}.support_person_id = support_person.id").
+      select(" support_group.name support_group_name,support_person.full_name support_person_name")
+    else
+      scoped
+    end
   }
 
   scope :with_change_task_phase,lambda{|language|
@@ -56,7 +60,10 @@ class Chm::ChangeTask < ActiveRecord::Base
   }
 
   def self.list_all
-    select_all.with_support(I18n.locale).with_change_task_phase(I18n.locale).with_change_status(I18n.locale)
+    select_all.
+        with_support(I18n.locale).
+        with_change_task_phase(I18n.locale).
+        with_change_status(I18n.locale)
   end
 
 
