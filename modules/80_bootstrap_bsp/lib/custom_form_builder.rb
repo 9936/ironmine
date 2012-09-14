@@ -82,7 +82,10 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
     link_click_action = %Q(javascript:openLookup('#{@template.url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
 
-    if @template.limit_device?
+    puts "=====================#{@template.limit_device?}================#{@template.ie6?}============================="
+
+    if @template.ie6?
+      puts "==================================================================="
       lov_link_str = @template.link_to({},{:class=>"btn lov-btn add-on",:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
         @template.lov_text.html_safe
       end
