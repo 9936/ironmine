@@ -499,7 +499,6 @@ module ApplicationHelper
       file_links << stylesheet_link_tag(file)
     end
     javascript_files.uniq.each do |script_file|
-
       file = script_file.to_s.gsub("{locale}",I18n.locale.to_s).to_sym
       file_links << javascript_include_tag(file)
     end
@@ -572,9 +571,18 @@ module ApplicationHelper
       if selected
         li_class += 'active'
       end
-      if index.to_s.eql?('0') and limit_device?
+      if index.to_s.eql?('0') and lim
         li_class += ' first'
       end
+      #if selected
+      #  if index.to_s.eql?('0')
+      #    output.safe_concat("<li id='#{tab_id}' class='first active'>")
+      #  else
+      #
+      #  end
+      #else
+      #  output.safe_concat("<li id='#{tab_id}'>")
+      #end
       output.safe_concat("<li id='#{tab_id}' class='#{li_class}'>")
       output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
       output.safe_concat("</li>")

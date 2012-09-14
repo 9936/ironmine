@@ -16,7 +16,7 @@
     </td>
     <td class="side-content">
       <div id="header">
-        <%=form_tag({:controller=>"irm/search",:action=>"index"},{:id=>"searchForm"})  do %>
+        <%=form_tag({:controller=>"irm/search",:action=>"index"},{:nomask=>true,:id=>"searchForm"})  do %>
           <%= hidden_field_tag :page, "1", {:id => "resultPage"} %>
           <%= hidden_field_tag :start_page, params[:start_page] %>
           <%= hidden_field_tag :search_option_str, "#{params[:search_option_str]}", {:id => "entries"} %>
