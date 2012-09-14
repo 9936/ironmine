@@ -48,4 +48,8 @@ module Irm::ExternalSystemsHelper
     values +=Irm::ExternalSystem.enabled.multilingual.collect.collect{|i| [i[:system_name],i.id,{:type=>"",:query=>i[:system_name]}]}
   end
 
+  def external_system_duel_type
+    [Irm::ExternalSystem.name].collect{|i| [Irm::BusinessObject.class_name_to_meaning(i),""]}
+  end
+
 end

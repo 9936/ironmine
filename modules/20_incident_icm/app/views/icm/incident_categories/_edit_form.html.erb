@@ -36,7 +36,7 @@
            <td class="label-col"></td>
            <td class="data-col" colspan="3">
                <%= render :partial => "irm/duel_select/tmpl",
-                          :locals => {:f=>f,:sources=>external_system_duel_values,:str_value_field=>:system_str,
+                          :locals => {:f=>f,:types=>external_system_duel_type,:sources=>external_system_duel_values,:str_value_field=>:system_str,
                                       :str_value=>@incident_category.get_system_str, :size => 25} %>
            </td>
         </tr>
