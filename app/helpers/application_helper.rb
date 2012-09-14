@@ -568,11 +568,14 @@ module ApplicationHelper
     tabs_configs.each_with_index do |config,index|
       selected = params[:controller].eql?(config[:url][:controller])&&params[:action].eql?(config[:url][:action])
       tab_id = config[:id]||"#{name}_#{index}"
+      li_class = ''
       if selected
-        output.safe_concat("<li id='#{tab_id}' class='active'>")
-      else
-        output.safe_concat("<li id='#{tab_id}'>")
+        li_class += 'active'
       end
+      if index.to_s.eql?('0') and limit_device?
+        li_class += ' first'
+      end
+      output.safe_concat("<li id='#{tab_id}' class='#{li_class}'>")
       output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
       output.safe_concat("</li>")
     end
