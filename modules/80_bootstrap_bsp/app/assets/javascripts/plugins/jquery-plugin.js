@@ -1546,6 +1546,7 @@ jQuery.fn.menubutton = function () {
         paginatorBox:null,
         exportBox:null,
         columns:[],
+        lazyLoad: false,
         scrollOptions:{},
         defaultOptions:{},
         filterOptions:{},
@@ -1638,7 +1639,9 @@ jQuery.fn.menubutton = function () {
         var me = this;
         me.data.options = $.extend({}, me.data.options, {currentPage:1});
         me.buildUI();
-        me.load();
+        if(!me.data.options.lazyLoad){
+            me.load();
+        }
     };
 
     //初始化checkbox

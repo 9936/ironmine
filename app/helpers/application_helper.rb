@@ -211,6 +211,7 @@ module ApplicationHelper
     search_box = options[:search_box]
     paginator_box = options[:paginator_box]
     export_box = options[:export_data]
+    lazy_load = options[:lazy_load]
 
     #select 配置
     select_type = options[:select]
@@ -255,6 +256,10 @@ module ApplicationHelper
 
     if select_type
       table_options << ",selectType:'#{select_type}'"
+    end
+
+    if lazy_load.present?
+      table_options << ",lazyLoad:'#{lazy_load}'"
     end
 
     if options[:view_filter]
