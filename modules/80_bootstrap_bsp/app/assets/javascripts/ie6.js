@@ -21,8 +21,10 @@ $(function () {
 
     var zIndexNumber = 1000;
     $("div").each(function() {
-        $(this).css('zIndex', zIndexNumber);
-        zIndexNumber -= 10;
+        if($(this).css("position") != "absolute") {
+            $(this).css('zIndex', zIndexNumber);
+            zIndexNumber -= 10;
+        }
     });
 });
 
