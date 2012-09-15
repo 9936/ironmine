@@ -48,4 +48,10 @@ module Irm::ExternalSystemsHelper
     values +=Irm::ExternalSystem.enabled.multilingual.collect.collect{|i| [i[:system_name],i.id,{:type=>"",:query=>i[:system_name]}]}
   end
 
+  def accessable_external_system_duel_values
+    values = []
+    values +=Irm::ExternalSystem.with_person(Irm::Person.current.id).
+        enabled.order_with_name.multilingual.collect.collect{|i| [i[:system_name],i.id,{:type=>"",:query=>i[:system_name]}]}
+  end
+
 end
