@@ -11,7 +11,14 @@ class Icm::SupportGroup < ActiveRecord::Base
   has_many :group_assignments, :dependent => :destroy, :class_name => "Icm::GroupAssignment"
 
   validates_presence_of :group_id,:assignment_process_code
+  validates_presence_of :assign_person_id ,:if=>Proc.new{|i| i.assignment_process_code.present?&&i.assignment_process_code.eql?("ASSIGN_PERSON")}
   attr_accessor :level
+
+  before_validation do
+    unless self.assignment_process_code.present?&&self.assignment_process_code.eql?("ASSIGN_PERSON")
+      self.assign_person_id = nil
+    end
+  end
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -116,7 +123,9 @@ class Icm::SupportGroup < ActiveRecord::Base
 
   def assign_member_id
     assigner = nil
-    if "LONGEST_TIME_NOT_ASSIGN".eql?(self.assignment_process_code)
+    if "ASSIGN_PERSON".eql?(self.assignment_process_code)&&self.assign_person_id.present?
+      assigner = self.assign_person_id
+    elsif "LONGEST_TIME_NOT_ASSIGN".eql?(self.assignment_process_code)
       assigner = Irm::GroupMember.select_all.where(:group_id=>self.group_id).
                                          with_person(I18n.locale).
                                          where("#{Irm::Person.table_name}.assignment_availability_flag = ?",Irm::Constant::SYS_YES).

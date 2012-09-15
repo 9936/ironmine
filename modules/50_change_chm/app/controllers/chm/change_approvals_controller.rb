@@ -49,9 +49,15 @@ class Chm::ChangeApprovalsController < ApplicationController
   def get_available_member
     advisory_board_members_scope = Chm::AdvisoryBoardMember.list_all.available_for_request(params[:change_request_id]).where("advisory_board_id = ?",params[:advisory_board_id])
     advisory_board_members_scope = advisory_board_members_scope.match_value("people.full_name",params[:full_name])
-    advisory_board_members,count = paginate(advisory_board_members_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(advisory_board_members.to_grid_json([:full_name,:email_address,:organization_name,:person_id],count))}
+      format.json {
+        advisory_board_members,count = paginate(advisory_board_members_scope)
+
+        render :json=>to_jsonp(advisory_board_members.to_grid_json([:full_name,:email_address,:organization_name,:person_id],count))
+      }
+      format.html {
+        @datas,@count = paginate(advisory_board_members_scope)
+      }
     end
   end
 

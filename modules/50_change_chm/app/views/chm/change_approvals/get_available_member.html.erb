@@ -1,0 +1,5 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+  <% builder.column(:full_name,{:title=>t(:label_irm_person_full_name), :width => "110px",:searchable=>true})%>
+  <% builder.column(:organization_name,{:title=>t(:label_irm_organization), :width => "110px"})%>
+  <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address)})%>
+<% end %>

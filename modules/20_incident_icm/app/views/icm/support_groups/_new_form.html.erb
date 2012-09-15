@@ -1,32 +1,38 @@
-<%= form_for(@support_group,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
-  <%= f.hidden_field(:group_id) %>
-  <% content_for :form_block_common   do%>
-    <table class="form-table">
-      <tbody>
+<%= form_for(@support_group, :url => {:action => "create"}, :builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:group_id) %>
+    <% content_for :form_block_common do %>
+        <table class="form-table">
+          <tbody>
           <tr>
-            <td class="label-col"><label><%=(t :label_icm_support_group_code)%></label></td>
-            <td class="data-col"><%=@group.code%></td>
-            <td class="label-col"><label><%=(t :label_icm_support_group_oncall_flag)%></label></td>
-            <td class="data-col"><%=f.check_box :oncall_flag%></td>
+            <td class="label-col"><label><%= (t :label_icm_support_group_code) %></label></td>
+            <td class="data-col"><%= @group.code %></td>
+            <td class="label-col"><label><%= (t :label_icm_support_group_oncall_flag) %></label></td>
+            <td class="data-col"><%= f.check_box :oncall_flag %></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_icm_support_group_name)%></label></td>
-            <td class="data-col"><%=@group[:name]%></td>
-            <td class="label-col"><label><%=(t :label_icm_support_group_vendor_flag)%></label></td>
-            <td class="data-col"><%=f.check_box :vendor_flag%></td>
+            <td class="label-col"><label><%= (t :label_icm_support_group_name) %></label></td>
+            <td class="data-col"><%= @group[:name] %></td>
+            <td class="label-col"><label><%= (t :label_icm_support_group_vendor_flag) %></label></td>
+            <td class="data-col"><%= f.check_box :vendor_flag %></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=t(:label_icm_support_group_assignment_process_code)%></label></td>
-            <td class="data-col"><%=f.select :assignment_process_code,available_processes,{},{:required=>true}%></td>
+            <td class="label-col"><label><%= t(:label_icm_support_group_assignment_process_code) %></label></td>
+            <td class="data-col"><%= f.select :assignment_process_code, available_processes, {}, {:required => true, :id => "process_code"} %></td>
             <td class="label-col"></td>
             <td class="data-col"></td>
           </tr>
-      </tbody>
-    </table>
-  <% end %>
-  <% content_for :form_block_group   do%>
-    <table class="form-table">
-      <tbody>
+          <tr id="assignPersonTr">
+            <td class="label-col"><label><%= t(:label_icm_support_group_assign_person) %></label></td>
+            <td class="data-col"><%= f.select :assign_person_id, available_group_member(@group.id), {}, {:required => true} %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_group do %>
+        <table class="form-table">
+          <tbody>
           <tr>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
@@ -36,59 +42,60 @@
           <tr>
             <td class="label-col"></td>
             <td class="data-col" style="width:82%">
-              <%= render :partial => "irm/duel_select/tmpl",:locals => {:label=>"",:f=>f,:types=>support_group_duel_types,:sources=>support_group_duel_values,:str_value_field=>:assignment_str,:str_value=>@support_group.get_assignment_str,:size=>10} %>
+              <%= render :partial => "irm/duel_select/tmpl", :locals => {:label => "", :f => f, :types => support_group_duel_types, :sources => support_group_duel_values, :str_value_field => :assignment_str, :str_value => @support_group.get_assignment_str, :size => 10} %>
             </td>
           </tr>
-      </tbody>
-    </table>
-  <% end %>
-  <% content_for :form_buttons  do %>
-    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
-  <% end %>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"} %>
+    <% end %>
 
-  <!--页面结构-->
-  <div class="page-block">
-    <table class="page-block-header">
-      <tr>
-        <td class="page-block-title">
-          <h2 class="block-title"><%=t(:label_icm_support_group_new)%></h2>
-        </td>
-        <td class="page-block-button">
-          <%= content_for :form_buttons   %>
-        </td>
-      </tr>
-    </table>
-    <%= error_for @support_group %>
-    <div class="page-block-body">
-      <div class="sub-page-block">
-        <!-- 一般信息 -->
-        <div class="sub-page-block-header">
-          <%= form_require_info %>
-          <h3 class="sub-page-block-title"><%=t(:label_common_info)%></h3>
-        </div>
-        <div class="sub-page-block-body">
-          <%= content_for :form_block_common   %>
-        </div>
-        <!-- 支持组信息 -->
-        <div class="sub-page-block-header">
-          <h3 class="sub-page-block-title"><%= t(:label_icm_group_assignment_detail) %></h3>
-        </div>
-        <div class="sub-page-block-body">
-          <%= content_for :form_block_group  %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_icm_support_group_new) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+      <%= error_for @support_group %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_common %>
+          </div>
+          <!-- 支持组信息 -->
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_icm_group_assignment_detail) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_group %>
+          </div>
         </div>
       </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
     </div>
-    <table class="page-block-footer">
-      <tr>
-        <td class="page-block-title"></td>
-        <td class="page-block-button">
-          <%= content_for :form_buttons   %>
-        </td>
-      </tr>
-    </table>
-  </div>
 <% end %>
+<%= render(:partial=>"icm/support_groups/edit_script") %>
 
 
 

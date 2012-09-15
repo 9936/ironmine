@@ -16,6 +16,9 @@
 .mx-tabs ul li:first-child {
   border-left:1px solid #e7e7e7;
 }
+.mx-tabs ul li.first {
+    border-left:1px solid #e7e7e7;
+}
 .mx-tabs ul li{
   border-top:1px solid #e7e7e7;
   border-right:1px solid #e7e7e7;
@@ -43,12 +46,13 @@
   padding-top:9px;
   position:relative;
   text-decoration:none;}
-.tabs-container> .mx-tab-content{
+.tabs-container .mx-tab-content{
     overflow:auto}
-.tabs-container>.mx-tab-content>.mx-tab-pane{
+.tabs-container .mx-tab-content .mx-tab-pane{
     display:none}
-.tabs-container>.mx-tab-content>.active{
+.tabs-container .mx-tab-content .mx-tab-pane.active{
     display:block}
-.tabs-container:first-child .page-block,.mx-tab-pane>.page-block:first-child {
+.tabs-container:first-child .page-block,
+.mx-tab-pane .page-block:first-child {
     border-top: none !important;
 }

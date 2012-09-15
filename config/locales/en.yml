@@ -17,6 +17,7 @@ en:
   today: Today
   tomorrow: Tomorrow
   ago: %{message} ago
+  find: find
 
   date:
     formats:

@@ -279,15 +279,15 @@
 
 
           <div class="page-block-body">
-            <table class="form-table"  style="width: 100%;">
+            <table  style="width: 100%;">
               <tbody>
               <tr>
                 <%= fields_for @incident_journal, :as=>"incident_journal", :builder => CustomFormBuilder, :normal=>true do |sub_f| %>
                     <%= sub_f.hidden_field(:incident_request_id) %>
                     <% if ie6? -%>
-                        <td class="data-4col" id="msgEditorParent" colspan="4" style="padding: 2px 20px 2px 10px;">
+                        <td class="data-2col" id="msgEditorParent" colspan="4" style="padding: 2px 20px 2px 10px;">
                     <% else -%>
-                    <td class="data-4col" id="msgEditorParent" colspan="4">
+                    <td class="data-2col" id="msgEditorParent" colspan="4">
                     <% end -%>
                       <%= sub_f.text_area :message_body, :id=>"msgEditor", :jrequired => true, :rows=>8,:cols=>20,:class=>"input-xxlarge",:style=>"width:100%" %>
                       <%= xheditor("msgEditor", true,true) %>
@@ -295,10 +295,10 @@
                 <% end %>
               </tr>
               <tr>
-                <td class="data-2col" colspan="2">
+                <td style="padding: 2px 10px;">
                   <%= render :partial=>"helper/upload_file", :locals=>{:upload_file_id=>"new_incident_request_journal_file"} %>
                 </td>
-                <td class="page-block-help" style="width: 450px; text-align: right; vertical-align: top;padding-right: 10px;">
+                <td style="float: right; width: 450px; text-align: right; vertical-align: top;padding-right: 10px;">
                   <span style="color:#ccc;"><%= t(:label_shortcuts_submit_form).html_safe %></span>
                   <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary",:style => "padding:4px 10px;font-size:12px;"}%>
                 </td>
@@ -371,8 +371,7 @@
           <td class="page-block-title">
             <h2 class="block-title"><%= t(:label_icm_incident_request_relation_config_items) %></h2>
           </td>
-          <td class="page-block-button"></td>
-          <td class="page-block-help form-inline" id="configItemForm">
+          <td class="page-block-help form-inline" id="configItemForm" colspan="2">
             <%= render :partial=>"icm/incident_config_relations/mini_form",:locals => {:incident_request=>@incident_request}%>
           </td>
         </tr>
@@ -389,24 +388,16 @@
     <% chm = Irm::ProductModule.usable?(:chm)&&@incident_request.change_request_id.present?;com = Irm::ProductModule.usable?(:com) %>
     <% if chm||com %>
         <!-- 处理关联的变更单 -->
-        <%- if params[:format].eql?('pdf') -%>
-           <%= content_for :incident_request_journals %>
-           <%- if chm -%>
-
-           <%- else -%>
-             <%= content_for :incident_config_items  %>
-           <%- end -%>
-        <%- else -%>
         <!-- start tabs -->
         <div class="tabs-container">
           <div class="mx-tabs" id="tabNav">
              <ul class="clear-fix">
-               <li class="active" id="nav_0" ref="incidentReply"><a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
+               <li class="first active" id="nav_0" ref="incidentReply"><a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
                <% if chm and has_module?(:chm) %>
                  <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
                <% end %>
                <% if com and has_module?(:com) %>
-                 <li  ref="configItem"><a href="#tab3" data-toggle="tab"><%= t(:label_com_config_item) %></a></li>
+                 <li ref="configItem"><a href="#tab3" data-toggle="tab"><%= t(:label_com_config_item) %></a></li>
                <% end %>
              </ul>
           </div>
@@ -426,7 +417,6 @@
           </div>
         </div>
         <!-- end tabs -->
-        <%- end -%>
 
         <script type="text/javascript">
             $(function() {
@@ -475,7 +465,6 @@
     </div>
     <div class="sub-page-block">
       <div class="sub-page-block-header">
-        <h3 class="sub-page-block-title">(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
         <div style="margin-left: 15px; display:inline; float: right;">
           <span>
             <a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_less_info) %>" ExpandedText="<%= t(:label_more_info) %>">
@@ -484,6 +473,7 @@
             </a>
           </span>
         </div>
+        <h3 class="sub-page-block-title">(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
       </div>
       <div class="sub-page-block-body">
         <%= content_for :block_header_content %>

@@ -8,4 +8,9 @@ module Irm::GroupMembersHelper
       true
     end
   end
+
+
+  def available_group_member(group_id)
+    Irm::GroupMember.select("#{Irm::GroupMember.table_name}.person_id").with_person(Irm::Person.current.language_code).where(:group_id=>group_id).collect{|gp| [gp[:person_name],gp.person_id]}
+  end
 end

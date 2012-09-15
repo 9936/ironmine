@@ -1,24 +1,24 @@
 <%= form_for(@change_journal,:url=>{:controller=>"chm/change_journals",:action=>"create",:request_id=>@change_request.id},:builder => CustomFormBuilder,:html=>{:multipart => true ,:target=>"hiddenFrame"}) do |f| %>
   <% content_for :form_block_common   do%>
-    <table class="form-table" style="width: 100%">
+    <table style="width: 100%">
       <tbody>
         <tr>
           <%= f.hidden_field(:change_request_id) %>
           <%= f.hidden_field(:replied_by) %>
           <% if ie6? -%>
-          <td class="data-4col" colspan="4" style="padding: 2px 20px 2px 10px;">
+          <td class="data-2col" colspan="2" style="padding: 2px 20px 2px 10px;">
           <% else -%>
-          <td class="data-4col" colspan="4">
+          <td class="data-2col" colspan="2">
           <% end -%>
             <%= f.text_area :message_body ,:id=>"msgEditor", :jrequired => true,:rows=>8,:style=>"width:100%;" %>
             <%= xheditor("msgEditor",true,true) %>
           </td>
         </tr>
         <tr>
-          <td class="data-3col" colspan="3" width="100%">
+          <td style="padding: 2px 10px;">
             <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_change_journal_file"} if has_module?(:skm) %>
           </td>
-          <td class="page-block-help" style="width: 450px; text-align: right; vertical-align: top;padding-right: 10px;">
+          <td style="float: right;width: 450px; text-align: right; vertical-align: top;padding-right: 10px;">
             <span style="color:#ccc;"><%= t(:label_shortcuts_submit_form).html_safe %></span>
             <%= link_submit t(:label_submit_replay),{:class=>"btn btn-primary",:style => "padding:4px 10px;font-size:12px;"}%>
           </td>

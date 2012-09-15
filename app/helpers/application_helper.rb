@@ -42,6 +42,10 @@ module ApplicationHelper
     end
   end
 
+  def ie6s
+    ie6?
+  end
+
   def common_app_title(current_tab,model_title,action_title,data_meaning)
     image_icon = ""
     if current_tab.style_image
@@ -211,6 +215,7 @@ module ApplicationHelper
     search_box = options[:search_box]
     paginator_box = options[:paginator_box]
     export_box = options[:export_data]
+    lazy_load = options[:lazy_load]
 
     #select 配置
     select_type = options[:select]
@@ -255,6 +260,10 @@ module ApplicationHelper
 
     if select_type
       table_options << ",selectType:'#{select_type}'"
+    end
+
+    if lazy_load.present?
+      table_options << ",lazyLoad:'#{lazy_load}'"
     end
 
     if options[:view_filter]
@@ -495,7 +504,6 @@ module ApplicationHelper
       file_links << stylesheet_link_tag(file)
     end
     javascript_files.uniq.each do |script_file|
-
       file = script_file.to_s.gsub("{locale}",I18n.locale.to_s).to_sym
       file_links << javascript_include_tag(file)
     end
@@ -516,6 +524,10 @@ module ApplicationHelper
   # 将使用IE6和Android 2的设备设置为限制设备
   def limit_device?
     ie6? || request.user_agent.include?("Android 2") || request.user_agent.include?("iPad")||request.user_agent.include?("iPhone")
+  end
+
+  def lov_text
+    t(:find)
   end
 
   #xheditor编辑器
@@ -560,11 +572,23 @@ module ApplicationHelper
     tabs_configs.each_with_index do |config,index|
       selected = params[:controller].eql?(config[:url][:controller])&&params[:action].eql?(config[:url][:action])
       tab_id = config[:id]||"#{name}_#{index}"
+      li_class = ''
       if selected
-        output.safe_concat("<li id='#{tab_id}' class='active'>")
-      else
-        output.safe_concat("<li id='#{tab_id}'>")
+        li_class += 'active'
       end
+      if index.to_s.eql?('0') and lim
+        li_class += ' first'
+      end
+      #if selected
+      #  if index.to_s.eql?('0')
+      #    output.safe_concat("<li id='#{tab_id}' class='first active'>")
+      #  else
+      #
+      #  end
+      #else
+      #  output.safe_concat("<li id='#{tab_id}'>")
+      #end
+      output.safe_concat("<li id='#{tab_id}' class='#{li_class}'>")
       output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
       output.safe_concat("</li>")
     end
