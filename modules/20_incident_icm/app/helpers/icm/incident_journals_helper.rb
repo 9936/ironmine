@@ -59,9 +59,12 @@ module Icm::IncidentJournalsHelper
     image_path = f.data.url(:thumb) if f.image?
     image_path = theme_image_path(Irm::AttachmentVersion.file_type_icon(f.data.original_filename)) unless image_path
     link = ""
-    link = "<div class='file-icon'>#{image_tag(image_path,:alt => "#{f.description}", :title => "#{f.description}",:style => "width:20px;height:20px;") }</div>" if with_image
-    description = "<a target='_blank' href='#{f.data.url}' stats='' style='float:left'><div class='file-info'><div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
-                   </div></a>"
+    link = "<div class='file-icon' style='*display:inline-block;'>#{image_tag(image_path,:alt => "#{f.description}", :title => "#{f.description}",:style => "width:20px;height:20px;") }</div>" if with_image
+    description = "<a target='_blank' href='#{f.data.url}' stats='' style='float:left'>
+                    <div class='file-info'>
+                      <div title='#{f.data.original_filename}' class='file-name'><b>#{f.data.original_filename}</b></div>
+                    </div>
+                   </a>"
     delete_link = ""
     delete_link << "<a data-remote=true data-confirm='#{I18n.t(:label_delete_confirm)}' href='#{url_for(:controller => "icm/incident_requests",
                                                :action => "remove_attachment",

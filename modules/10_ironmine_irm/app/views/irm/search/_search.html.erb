@@ -3,7 +3,7 @@
 <table class="split-table" cellpadding="0" cellspacing="0">
   <tbody><tr>
     <td class="side-bar">
-      <div class="left-sidebar">
+      <div class='<%= ie6?? "left-sidebar" : "left-sidebar except-ie6"%>'>
         <span class="record-toggle toggle-on"><%= t(:label_search_options_setting) %></span>
         <ul class="tabs" id="entryList">
           <%= init_search_options %>
@@ -16,7 +16,7 @@
     </td>
     <td class="side-content">
       <div id="header">
-        <%=form_tag({:controller=>"irm/search",:action=>"index"},{:id=>"searchForm"})  do %>
+        <%=form_tag({:controller=>"irm/search",:action=>"index"},{:nomask=>true,:id=>"searchForm"})  do %>
           <%= hidden_field_tag :page, "1", {:id => "resultPage"} %>
           <%= hidden_field_tag :start_page, params[:start_page] %>
           <%= hidden_field_tag :search_option_str, "#{params[:search_option_str]}", {:id => "entries"} %>

@@ -35,11 +35,6 @@ module Irm::SearchHelper
     search_entities.each do |key, value|
       search_options_hash[key.to_s] = {:label =>t("label#{build_meaning(key)}"), :name => "search_option#{build_meaning(key)}"}
     end
-    #search_options_hash = {Chm::ChangeRequest.name.to_s => {:label =>t(:label_chm_change_request), :name => "search_option_chm_change_request"},
-    #                       Icm::IncidentRequest.name.to_s =>{:label=> t(:label_icm_incident_request), :name => "search_option_icm_incident_request"},
-    #                       Skm::EntryHeader.name.to_s => {:label => t(:label_skm_entry_header), :name => "search_option_skm_entry"},
-    #                       Irm::Bulletin.name.to_s => {:label => t(:label_irm_bulletin), :name => "search_option_irm_bulletin"},
-    #                       Irm::AttachmentVersion.name.to_s => {:label => t(:label_search_attachment), :name => "search_option_irm_attachment"}}
     html = ''
     if selected.include?("ALL")
       li = "<li class='current'><em></em>#{t(:all)}<span class='check-btn'>"
