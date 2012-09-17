@@ -65,7 +65,7 @@
    <% end %>
 
   <% content_for :form_buttons  do %>
-        <%= link_to t(:next), {:action => "edit",:pre_step=>true},{:class=>"submit btn"} %>
+        <%= link_to t(:last), {:action => "edit",:pre_step=>true},{:class=>"submit btn"} %>
         <%= link_submit t(:save),{:class=>"btn"} %>
         <%= link_back t(:cancel), {},:class=>"btn" %>
   <% end %>
