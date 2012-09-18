@@ -58,11 +58,11 @@
         </div>
     </div>
 <script>
-  setTimeout(doLogout, 25*1000);
+  setTimeout(doLogout, 30*1000);
   var continue_flag= true; //默认将继续工作
   window.onunload=function(){
       if(continue_flag != null && continue_flag) {
-          window.opener.checkSessionTimeout();
+          window.opener.updateSessionTimeouts();
       }else if(continue_flag == false) {
           window.opener.doLogout();
       }
