@@ -267,3 +267,13 @@ en:
   #========================== end incident category  ===============================
   label_icm_incident_request_watcher: Watcher
   label_icm_incident_request_update_journal: Update Reply
+
+  #========================= Assign rule ====================================
+  label_icm_assign_rule: Assign Rule
+  label_icm_assign_rule_list: Assign Rule List
+  label_icm_assign_rule_new: New Assign Rule
+  label_icm_assign_rule_edit: Edit Assign Rule
+  label_icm_assign_rule_filter: Assign Rule Filter
+  label_icm_assign_rule_filter_choice: Chose Filter
+  label_icm_assign_rule_join_type: Join Type
+  #========================= End Assign rule ====================================

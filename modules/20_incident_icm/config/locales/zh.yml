@@ -270,3 +270,13 @@ zh:
   #================================================================================
   label_icm_incident_request_watcher: 跟踪者
   label_icm_incident_request_update_journal: 更新回复
+
+  #========================= Assign rule ====================================
+  label_icm_assign_rule: 分派规则
+  label_icm_assign_rule_list: 分派规则列表
+  label_icm_assign_rule_new: 新建分派规则
+  label_icm_assign_rule_edit: 编辑分派规则
+  label_icm_assign_rule_filter: 分派规则条件
+  label_icm_assign_rule_filter_choice: 选择条件
+  label_icm_assign_rule_join_type: 条件连接
+  #========================= End Assign rule ====================================

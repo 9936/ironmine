@@ -9,6 +9,7 @@ class Icm::SupportGroup < ActiveRecord::Base
 
   #多语言关系
   has_many :group_assignments, :dependent => :destroy, :class_name => "Icm::GroupAssignment"
+  has_one :assign_rule, :dependent => :destroy, :class_name => "Icm::AssignRule"
 
   validates_presence_of :group_id,:assignment_process_code
   validates_presence_of :assign_person_id ,:if=>Proc.new{|i| i.assignment_process_code.present?&&i.assignment_process_code.eql?("ASSIGN_PERSON")}
@@ -178,9 +179,7 @@ class Icm::SupportGroup < ActiveRecord::Base
       first_group = Irm::Group.first
       return first_group.id if first_group
     end
-
     return nil
-
   end
 
 

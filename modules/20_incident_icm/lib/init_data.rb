@@ -75,6 +75,14 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :en => {:name => "Incident Category", :description => "Incident Category"},
                   :zh => {:name => "事故单分类设置", :description => "创建、编辑事故的分类，或为分类添加子分类"},
               }},
+          :assign_rule => {
+              :type => "function",
+              :entry => {
+                  :sequence => 110,
+                  :en => {:name => "Assign Rules", :description => "Assign Rules"},
+                  :zh => {:name => "分派规则", :description => "分派规则"}
+              }
+          }
       }
   }
   #====================================END:INCIDENT_MANAGEMENT======================================
@@ -550,5 +558,27 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #=================================END:INCIDENT_CATEGORY=================================
+
+  #=================================START:ASSIGN RULE=================================
+  map.function_group :assign_rule, {
+      :en => {:name => "Assign Rules", :description => "New or edit assign Rules"},
+      :zh => {:name => "分派规则", :description => "创建、编辑分派规则"}, }
+  map.function_group :assign_rule, {
+      :zone_code => "INCIDENT_SETTING",
+      :controller => "icm/assign_rules",
+      :action => "index"}
+  map.function_group :assign_rule, {
+      :children => {
+          :assign_rule => {
+              :en => {:name => "Manage Assign Rules", :description => "Manage Assign Rules"},
+              :zh => {:name => "管理分派规则", :description => "管理分派规则"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/assign_rules" => ["create", "edit", "get_data", "index", "new", "show", "update","up_rule","down_rule"]
+          },
+      }
+  }
+  #=================================END:ASSIGN RULE=================================
 
 end

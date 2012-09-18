@@ -1,0 +1,15 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "100px"}) do |data|%>
+        <%= bootstrap_icons("icon-arrow-up",t(:move_up),{:controller => "icm/assign_rules", :action => "up_rule", :id => data[:id]}) %>&nbsp;
+        <%= bootstrap_icons("icon-arrow-down",t(:move_down),{:controller => "icm/assign_rules", :action => "down_rule", :id => data[:id]}) %>&nbsp;
+        <%= bootstrap_icons("icon-eye-open",t(:show),{:controller => "icm/assign_rules", :action => "show", :id => data[:id]}) %>&nbsp;
+        <%= bootstrap_icons("icon-edit",t(:edit),{:controller => "icm/assign_rules", :action => "edit", :id => data[:id]}) %>
+    <% end %>
+    <% builder.column(:support_group_id,{:title=>t(:label_icm_support_group)}) do |data| %>
+        <%= support_group_name(data[:support_group_id]) %>
+    <% end %>
+    <% builder.column(:join_type,{:title=>t(:label_icm_assign_rule_join_type),:width => "80px"})%>
+    <% builder.column(:name,{:title=>t(:name),:searchable => true})%>
+    <% builder.column(:description,{:title=>t(:description)})%>
+
+<% end %>

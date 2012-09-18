@@ -37,7 +37,7 @@ module Icm
 
           support_group_ids = support_group_scope.collect{|i| i.id}
 
-          # 如果不存可用的支持组，则中断自动分配
+          # 如果不存在可用的支持组，则中断自动分配
           return unless support_group_ids.any?
 
           # 1 按照事故单提交人直接查找
