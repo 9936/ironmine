@@ -96,7 +96,7 @@
 
         <div class="btn-group">
           <% if @incident_request.status_code.eql?("ENABLED") %>
-            <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
+              <% if allow_to_function?(:close_incident_request) %>
                 <%= link_to t(:close), {:action => "edit_close"},{:class=>"btn"} %>
             <% end %>
             <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn"} %>
