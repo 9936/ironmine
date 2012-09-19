@@ -227,14 +227,15 @@ en:
   label_icm_group_assignment_detail: Assigned Source Target
   #========================= end icm group_assignments_controller =========================#  
   #========================= icm support_groups =========================#
-  label_icm_support_group: 支持组
-  label_icm_support_group_new: 新建支持组
-  label_icm_support_group_edit: 编辑支持组
-  label_icm_support_group_code: 编码
-  label_icm_support_group_name: 名称
-  label_icm_support_group_assignment_process_code: 分配流程
-  label_icm_support_group_oncall_flag: 待命组
-  label_icm_support_group_vendor_flag: 供应商组
+  label_icm_support_group: Support Group
+  label_icm_support_group_new: New Support Group
+  label_icm_support_group_edit: Edit Support Group
+  label_icm_support_group_show: Show Support Group
+  label_icm_support_group_code: Code
+  label_icm_support_group_name: Name
+  label_icm_support_group_assignment_process_code: Assign Process
+  label_icm_support_group_oncall_flag: Oncall
+  label_icm_support_group_vendor_flag: Vendor
   label_icm_support_group_add_group_notice: Please add person group
   label_icm_support_group_assign_person: Assign Person
   #=========================  end icm support_groups =========================#
@@ -276,4 +277,5 @@ en:
   label_icm_assign_rule_filter: Assign Rule Filter
   label_icm_assign_rule_filter_choice: Chose Filter
   label_icm_assign_rule_join_type: Join Type
+  label_icm_chose_group: Chose Group
   #========================= End Assign rule ====================================

@@ -500,7 +500,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/support_groups" => ["create", "index", "update"],
+              "icm/support_groups" => ["create", "edit", "get_data", "index", "new", "show", "update"],
           },
       }
   }

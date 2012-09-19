@@ -226,6 +226,7 @@ zh:
   label_icm_support_group: 支持组
   label_icm_support_group_new: 新建支持组
   label_icm_support_group_edit: 编辑支持组
+  label_icm_support_group_show: 查看支持组
   label_icm_support_group_code: 编码
   label_icm_support_group_name: 名称
   label_icm_support_group_assignment_process_code: 分配流程
@@ -279,4 +280,5 @@ zh:
   label_icm_assign_rule_filter: 分派规则条件
   label_icm_assign_rule_filter_choice: 选择条件
   label_icm_assign_rule_join_type: 条件连接
+  label_icm_chose_group: 选择组
   #========================= End Assign rule ====================================

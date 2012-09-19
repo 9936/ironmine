@@ -1,0 +1,21 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "50px"}) do |data|%>
+        <%= bootstrap_icons("icon-eye-open",t(:show),{:controller => "icm/support_groups", :action => "show", :id => data[:id]}) %>&nbsp;
+        <%= bootstrap_icons("icon-edit",t(:edit),{:controller => "icm/support_groups", :action => "edit", :id => data[:id]}) %>
+    <% end %>
+    <% builder.column(:group_id,{:title=>t(:label_icm_support_group_name)}) do |data| %>
+        <%= support_name(data[:group_id]) %>
+    <% end %>
+    <% builder.column(:oncall_flag,{:title=>t(:label_icm_support_group_oncall_flag)}) do |data| %>
+        <%= check_img(data[:oncall_flag]) %>
+    <% end %>
+    <% builder.column(:vendor_flag,{:title=>t(:label_icm_support_group_vendor_flag)}) do |data| %>
+        <%= check_img(data[:vendor_flag]) %>
+    <% end %>
+    <% builder.column(:assignment_process_code,{:title=>t(:label_icm_support_group_assignment_process_code)}) do |data| %>
+        <%=look_up_meaning("ICM_ASSIGN_PROCESS_TYPE", data[:assignment_process_code]) %>
+    <% end %>
+    <% builder.column(:status_code,{:title=>t(:label_status_code)}) do |data| %>
+        <%=look_up_meaning("SYSTEM_STATUS_CODE", data[:status_code]) %>
+    <% end %>
+<% end %>

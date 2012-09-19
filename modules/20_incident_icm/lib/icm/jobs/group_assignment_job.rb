@@ -40,51 +40,10 @@ module Icm
           # 如果不存在可用的支持组，则中断自动分配
           return unless support_group_ids.any?
 
-          # 1 按照事故单提交人直接查找
-          groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_person(person.id)
-
-          # 2 按照事故单所属分类查找
-          if !groups.any?&&request.incident_category_id.present?
-            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_category(request.incident_category_id)
-          end
-
-          # 3 按照事故单所属系统查找
-          unless groups.any?||system.nil?
-            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_system(system.id)
-          end
-
-          # 4 按照事故单提单人所属组
-          unless groups.any?
-            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_group(person.id)
-          end
-
-          # 5 按照事故单提单人所属组或子组
-          unless groups.any?
-            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_group_explosion(person.id)
-          end
-
-          # 6 按照事故单提单人所属角色
-          unless groups.any?
-            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_role(person.id)
-          end
-
-          # 7 按照事故单提单人所属角色或子角色
-          unless groups.any?
-            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_role_explosion(person.id)
-          end
-
-          # 8 按照事故单提单人所属组织
-          unless groups.any?
-            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_organization(person.id)
-          end
-
-          # 9 按照事故单提单人所属子组织
-          unless groups.any?
-            groups = Icm::SupportGroup.query_by_ids(support_group_ids).support_for_organization_explosion(person.id)
-          end
-
-          if groups.any?
-            assign_result[:support_group_id] = groups.first.id
+          #对事故单按照分派规则进行分单
+          assign_rule = Icm::AssignRule.get_support_group_by_incident(request.id)
+          if assign_rule.present? and assign_rule.support_group.present?
+            assign_result[:support_group_id] = assign_rule.support_group
           else
             return
           end

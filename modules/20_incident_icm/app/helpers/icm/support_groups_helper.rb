@@ -2,7 +2,30 @@ module Icm::SupportGroupsHelper
   def support_group_duel_types(exclude=[])
     duel_types = duel_types(exclude)
     duel_types << [Irm::BusinessObject.class_name_to_meaning(Icm::IncidentCategory.name),Irm::BusinessObject.class_name_to_code(Icm::IncidentCategory.name)]
+  end
 
+  #获取分派处理人名
+  def assign_person_name(person_id)
+    Irm::Person.query_person_name(person_id).first.person_name
+  end
+
+  def support_name(group_id)
+    Irm::Group.multilingual.query(group_id).first[:name]
+  end
+
+  def look_up_meaning(type, code)
+    Irm::LookupValue.get_meaning(type, code)
+  end
+
+  #没有支持组的组
+  def not_support_groups
+    not_support_groups = Irm::Group.enabled.multilingual.where("NOT EXISTS (SELECT group_id FROM #{Icm::SupportGroup.table_name} WHERE #{Irm::Group.table_name}.id = #{Icm::SupportGroup.table_name}.group_id)")
+    not_support_groups.collect{|i|[i[:name],i.id]}
+  end
+
+  def has_support_groups
+    has_support_groups = Irm::Group.enabled.multilingual.where("EXISTS (SELECT group_id FROM #{Icm::SupportGroup.table_name} WHERE #{Irm::Group.table_name}.id = #{Icm::SupportGroup.table_name}.group_id)")
+    has_support_groups.collect{|i|[i[:name],i.id]}
   end
 
   def support_group_duel_values(exclude=[])

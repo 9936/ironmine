@@ -2,29 +2,70 @@ class Icm::SupportGroupsController < ApplicationController
   # GET /support_groups
   # GET /support_groups.xml
   def index
-    group_id = params[:group_id]
-    group_id ||= Icm::SupportGroup.first_group_id
-    @support_group = Icm::SupportGroup.where(:group_id=>group_id).first
-    if @support_group.nil?
-      @support_group = Icm::SupportGroup.new(:group_id=>group_id)
+    respond_to do |format|
+      format.html # index.html.erb
     end
-    @group = Irm::Group.multilingual.query(group_id).first
+  end
+
+  def new
+    params[:step] = 1
+    @support_group = Icm::SupportGroup.new
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @support_group }
+    end
+  end
+
+  def edit
+    @support_group = Icm::SupportGroup.find(params[:id])
+    @group = Irm::Group.multilingual.query(@support_group.group_id).first
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @support_group }
+    end
+  end
+
+  def show
+    @support_group = Icm::SupportGroup.find(params[:id])
+    @group = Irm::Group.multilingual.query(@support_group.group_id).first
+
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @support_group }
+    end
+  end
+
+  def get_data
+    support_group_scope = Icm::SupportGroup
+    support_groups,count = paginate(support_group_scope)
+    respond_to do |format|
+      format.html  {
+        @datas = support_groups
+        @count = count
+      }
+      format.json {render :json=>to_jsonp(assign_rules.to_grid_json([:name,:description,:status_meaning],count))}
+    end
   end
 
   # POST /support_groups
   # POST /support_groups.xml
   def create
-    @support_group = Icm::SupportGroup.new(params[:icm_support_group])
-
     respond_to do |format|
-
-      if @support_group.save
-        @support_group.create_assignment_from_str
-        format.html { redirect_to({:action=>"index",:group_id=>@support_group.group_id},:notice => (t :successfully_created))}
-        format.xml  { render :xml => @support_group, :status => :created, :location => @support_group }
+      @support_group = Icm::SupportGroup.new(params[:icm_support_group])
+      if params[:step].present? and params[:step].to_s.eql?("2")
+        if @support_group.save
+          format.html { redirect_to({:action=>"index",:group_id=>@support_group.group_id},:notice => (t :successfully_created))}
+          format.xml  { render :xml => @support_group, :status => :created, :location => @support_group }
+        else
+          @group = Irm::Group.multilingual.find(@support_group.group_id)
+          format.html { render "new" }
+          format.xml  { render :xml => @support_group.errors, :status => :unprocessable_entity }
+        end
       else
-        @group = Irm::Group.multilingual.find(@support_group.group_id)
-        format.html { render "index" }
+        params[:step] = 2 if @support_group.group_id.present?
+        @group = Irm::Group.multilingual.query(@support_group.group_id).first
+        format.html { render "new" }
         format.xml  { render :xml => @support_group.errors, :status => :unprocessable_entity }
       end
     end
@@ -37,7 +78,6 @@ class Icm::SupportGroupsController < ApplicationController
 
     respond_to do |format|
       if @support_group.update_attributes(params[:icm_support_group])
-        @support_group.create_assignment_from_str
         format.html { redirect_to({:action=>"index",:group_id=>@support_group.group_id},:notice => (t :successfully_updated)) }
         format.xml  { head :ok }
       else

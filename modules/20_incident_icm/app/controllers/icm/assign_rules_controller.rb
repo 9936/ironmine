@@ -2,11 +2,8 @@ class Icm::AssignRulesController < ApplicationController
   # GET /assign_rules
   # GET /assign_rules.xml
   def index
-    @assign_rules = Icm::AssignRule.all
-
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @assign_rules }
     end
   end
 
