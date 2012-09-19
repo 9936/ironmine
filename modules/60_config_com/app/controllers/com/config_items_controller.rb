@@ -1,5 +1,5 @@
 class Com::ConfigItemsController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
   # GET /com/config_items
   # GET /com/config_items.xml
   def index

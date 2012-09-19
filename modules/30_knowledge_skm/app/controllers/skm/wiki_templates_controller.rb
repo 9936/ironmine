@@ -1,5 +1,5 @@
 class Skm::WikiTemplatesController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
   # GET /skm/wiki_templates
   # GET /skm/wiki_templates.xml
   def index

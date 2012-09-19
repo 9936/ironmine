@@ -74,8 +74,8 @@
                 <td class="sidebar-cell">
                   <div class="sidebar-cell-div">
                     <%= render :partial =>"/common/quick_create"%>
-                    <%if has_content?(:sidebar) %>
-                        <%=yield :sidebar %>
+                    <% if has_content?(:sidebar) and !only_basic_modules? %>
+                      <%=yield :sidebar %>
                     <%end%>
                   </div>
                 </td>

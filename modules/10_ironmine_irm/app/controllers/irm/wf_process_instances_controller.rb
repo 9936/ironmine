@@ -1,5 +1,5 @@
 class Irm::WfProcessInstancesController < ApplicationController
-  layout "bootstrap_application"
+  layout "application"
   # GET /wf_process_instances
   # GET /wf_process_instances.xml
   def index

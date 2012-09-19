@@ -1,5 +1,5 @@
 class Csi::SurveysController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
   # GET /surveys
   # GET /surveys.xml
   def index

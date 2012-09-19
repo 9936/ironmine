@@ -1,5 +1,5 @@
 class Chm::ChangeConfigRelationsController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
 
   # POST /statuses
   # POST /statuses.xml

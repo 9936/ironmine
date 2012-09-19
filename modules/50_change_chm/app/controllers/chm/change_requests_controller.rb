@@ -1,5 +1,5 @@
 class Chm::ChangeRequestsController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
   # GET /statuses
   # GET /statuses.xml
   def index

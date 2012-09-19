@@ -46,7 +46,7 @@
   }
   function alertTimeout() {
       var popupValue = secondsLeftValue*1000-(new Date().getTime()- lastPageActivityTime );
-
+      //如果用户在这期间有过活动,则将session过期检测的时间点往后推
       if(popupValue>0){
           schedulePopup(popupValue);
       }

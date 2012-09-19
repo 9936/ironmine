@@ -15,7 +15,7 @@ class Irm::NavigationsController < ApplicationController
 
   def access_deny
     respond_to do |format|
-      format.html {render :layout=>"bootstrap_application_full"}
+      format.html {render :layout=>"application_full"}
       format.xml  { render :status => :access_deny }
       format.js  { render :json=>{:status => :access_deny}.to_json }
       #format.json  { render :json=>{:status => :access_deny}.to_json }

@@ -1,7 +1,7 @@
 class Com::ConfigItemRelationsController < ApplicationController
   # GET /com/config_item_relations
   # GET /com/config_item_relations.xml
-  layout "bootstrap_application_full"
+  layout "application_full"
   def index
     @config_item_relations = Com::ConfigItemRelation.all
 

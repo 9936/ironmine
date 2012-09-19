@@ -1,5 +1,5 @@
 class Skm::WikisController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
 
   # GET /irm/wikis
   # GET /irm/wikis.xml

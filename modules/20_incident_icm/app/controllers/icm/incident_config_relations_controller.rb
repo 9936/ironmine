@@ -1,5 +1,5 @@
 class Icm::IncidentConfigRelationsController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
 
   def create
     @incident_request = Icm::IncidentRequest.find(params[:incident_request_id])

@@ -1,6 +1,6 @@
 # coding: utf-8
 class Irm::SearchController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
   #def indexs
   #  results = []
   #  Ironmine::Acts::Searchable.searchable_entity.each do |key,value|

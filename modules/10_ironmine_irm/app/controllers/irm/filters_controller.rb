@@ -15,7 +15,7 @@ class Irm::FiltersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html{render :layout => "bootstrap_application_full" }
+      format.html{render :layout => "application_full" }
     end
   end
 
@@ -35,7 +35,7 @@ class Irm::FiltersController < ApplicationController
         format.html {redirect_back}
         format.xml  {redirect_back}
       else
-        format.html { render "new", :layout => "bootstrap_application_full" }
+        format.html { render "new", :layout => "application_full" }
         format.xml  { render :xml => @view_filter.errors, :status => :unprocessable_entity }
       end
     end
@@ -44,7 +44,7 @@ class Irm::FiltersController < ApplicationController
   def edit
     @rule_filter = Irm::RuleFilter.find(params[:id])
     respond_to do |format|
-      format.html{render :layout => "bootstrap_application_full" }
+      format.html{render :layout => "application_full" }
     end
   end
 
@@ -56,7 +56,7 @@ class Irm::FiltersController < ApplicationController
         format.html {redirect_back}
         format.xml  {redirect_back}
       else
-        format.html { render "edit", :layout => "bootstrap_application_full" }
+        format.html { render "edit", :layout => "application_full" }
         format.xml  { render :xml => @action.errors, :status => :unprocessable_entity }
       end
     end

@@ -1,5 +1,5 @@
 class Irm::RatingConfigsController < ApplicationController
-  layout "bootstrap_application"
+  layout "application"
 
   # GET /irm/rating_configs
   # GET /irm/rating_configs.xml
