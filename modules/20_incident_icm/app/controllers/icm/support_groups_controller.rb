@@ -8,7 +8,6 @@ class Icm::SupportGroupsController < ApplicationController
   end
 
   def new
-    params[:step] = 1
     @support_group = Icm::SupportGroup.new
     respond_to do |format|
       format.html
@@ -53,18 +52,10 @@ class Icm::SupportGroupsController < ApplicationController
   def create
     respond_to do |format|
       @support_group = Icm::SupportGroup.new(params[:icm_support_group])
-      if params[:step].present? and params[:step].to_s.eql?("2")
-        if @support_group.save
-          format.html { redirect_to({:action=>"index",:group_id=>@support_group.group_id},:notice => (t :successfully_created))}
-          format.xml  { render :xml => @support_group, :status => :created, :location => @support_group }
-        else
-          @group = Irm::Group.multilingual.find(@support_group.group_id)
-          format.html { render "new" }
-          format.xml  { render :xml => @support_group.errors, :status => :unprocessable_entity }
-        end
+      if @support_group.save
+        format.html { redirect_to({:action=>"index",:group_id=>@support_group.group_id},:notice => (t :successfully_created))}
+        format.xml  { render :xml => @support_group, :status => :created, :location => @support_group }
       else
-        params[:step] = 2 if @support_group.group_id.present?
-        @group = Irm::Group.multilingual.query(@support_group.group_id).first
         format.html { render "new" }
         format.xml  { render :xml => @support_group.errors, :status => :unprocessable_entity }
       end
