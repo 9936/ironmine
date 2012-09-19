@@ -1,56 +1,64 @@
 <script type="text/javascript">
   //全局参数
 
-  var secondsLeftValue = parseInt('<%= get_session_time %>');  //当前session过期的时剩余间值（秒）
-  var secondsPopupValue = secondsLeftValue - 30; //弹出警告窗口的时间值（秒）
+  var secondsLeftValue = ('<%= get_session_time %>');  //当前session过期的时剩余间值（秒）
+  //var secondsPopupValue = secondsLeftValue - 30; //弹出警告窗口的时间值（秒）
   var lastPageActivityTime = new Date().getTime(); //最后一次活动的时间
+  //  用户打开页面则开始页面session过期检测
+  $(document).ready(function(){
+      if (typeof(startSessionTimer)!='undefined') startSessionTimer();
+      //页面活动后调用
+      document.documentElement.onkeydown=updateSessionTimeouts;
+      document.documentElement.onclick=updateSessionTimeouts;
+  });
+
   //开始session 会话计时
   function startSessionTimer() {
-    schedulePopup(secondsPopupValue);
+      // 下一次检查session是否超时的时间结点
+      var popupValue = secondsLeftValue*1000-(new Date().getTime()- lastPageActivityTime );
+
+      schedulePopup(popupValue);
   }
   //设置在等待多长时间后弹出警告
   function schedulePopup(t) {
       if (timeoutUniqueId != null) {
           clearTimeout(timeoutUniqueId);
       }
-      timeoutUniqueId = setTimeout(alertTimeout, t * 1000);
+      timeoutUniqueId = setTimeout(alertTimeout, t);
   }
   //退出登录处理
   function doLogout() {
-      window.location.href = "<%=logout_url %>";
+      var popupValue = secondsLeftValue*1000-(new Date().getTime()- lastPageActivityTime );
+
+      if(popupValue>0){
+          schedulePopup(popupValue);
+      }
+      else{
+          window.location.href = "<%=logout_url %>";
+      }
   }
   var alertWindow = null;
   var parentWindow = null;
   var timeoutUniqueId = null;
   //更新session 过期时间
-  function updateSessionTimeouts(secondsLeft, secondsUntilPopup) {
-      if (typeof(secondsLeft) != 'undefined') secondsLeftValue = secondsLeft;
-      if (typeof(secondsUntilPopup) != 'undefined') secondsPopupValue = secondsUntilPopup;
+  function updateSessionTimeouts() {
       lastPageActivityTime = new Date().getTime();
-      schedulePopup(secondsPopupValue);
   }
   function alertTimeout() {
-     timeoutUniqueId = null;
-     alertWindow = window.open('/session_settings/timeout_warn', "ironmine",'width=360,height=280,left='+(screen.width-360)/2+',top='+(screen.height-280)/2+',location=no,dependent=no,resizable=yes,toolbar=no,status=no,directories=no,menubar=no,scrollbars=yes', false);
-     parentWindow = window;
-     document.body.onfocus = alertFocus;
-  }
-  function checkSessionTimeout() {
-      var currentTime = new Date().getTime();
-      var sessionTimeLeft = secondsLeftValue - ((currentTime - lastPageActivityTime) / 1000);
-      if (sessionTimeLeft <= 5) {
-          var url = window.location.pathname + window.location.hash;
-          if (window.location.search && window.location.search.length > 1) {
-              url += window.location.search;
-          }
-          var loc = '/?back_url=' + encodeURIComponent(url);
-          top.location =  loc;
-      } else {
-          lastPageActivityTime = currentTime;
-          closePopups();
-          startSessionTimer();
+      var popupValue = secondsLeftValue*1000-(new Date().getTime()- lastPageActivityTime );
+
+      if(popupValue>0){
+          schedulePopup(popupValue);
+      }
+      else{
+          alertWindow = window.open('/session_settings/timeout_warn', "ironmine",'width=360,height=280,left='+(screen.width-360)/2+',top='+(screen.height-280)/2+',location=no,dependent=no,resizable=yes,toolbar=no,status=no,directories=no,menubar=no,scrollbars=yes', false);
+          parentWindow = window;
+          document.body.onfocus = alertFocus;
+          // 自动退出系统前等待30秒
+          setTimeout(doLogout, 30 * 1000);
       }
   }
+
   function alertFocus() {
       if (alertWindow) {
           if (!alertWindow.closed) {
@@ -61,12 +69,7 @@
           }
       }
   }
-  $(document).ready(function(){
-      if (typeof(startSessionTimer)!='undefined') startSessionTimer();
-      //页面活动后调用
-      document.documentElement.onkeydown=checkSessionTimeout;
-      document.documentElement.onclick=checkSessionTimeout;
-  });
+
   //关闭弹出窗口
   function closePopups(){
       if(alertWindow !=null){

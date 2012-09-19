@@ -9,7 +9,6 @@
   <% builder.column(:organization_id_label,{:title=>t(:label_icm_incident_request_organization),:searchable=>true,:width => "120px"})%>
   <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority), :width => "60px"})%>
   <% builder.column(:requested_by_label,{:title=>t(:label_icm_incident_request_requested_by), :width => "90px"})%>
-  <% builder.column(:last_request_date,{:title=>t(:label_icm_incident_request_last_date), :width => "150px",:sortable=>true})%>
   <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:width => "130px"})%>
   <% builder.row do |data|%>
         style="background-color:<%=data[:display_color]%>;color:<%=get_contrast_yiq(data[:display_color])%>;"
