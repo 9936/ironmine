@@ -38,6 +38,59 @@ class Icm::AssignRule < ActiveRecord::Base
     @get_assignment_str
   end
 
+  #根据事故单寻找分配组
+
+  def self.get_support_group_by_incident(incident_request_id)
+    assign_rule_result = nil
+    self.order_by_sequence.each do |assign_rule|
+      if assign_rule.build_sql(incident_request_id).any?
+        assign_rule_result = assign_rule
+        break
+      end
+    end
+    assign_rule_result
+  end
+
+  #组拼sql语句
+  def build_sql(incident_request_id)
+    sql_str = "SELECT DISTINCT ir.id FROM icm_incident_requests ir LEFT JOIN irm_person_relations_v irv ON ir.requested_by = irv.person_id"
+    if self.group_assignments.any?
+      where_arr = []
+      if self.group_assignments.collect(&:source_type).include?("IRM__ORGANIZATION_EXPLOSION")
+        sql_str += " LEFT JOIN irm_organization_explosions ire ON ir.organization_id = ire.organization_id"
+      end
+      sql_str += " WHERE(ir.id='#{incident_request_id}') AND ("
+      self.group_assignments.each do |ga|
+        case ga.source_type.to_s
+          when "ICM__INCIDENT_CATEGORY"
+            where_arr << "(ir.incident_category_id='#{ga.source_id}')"
+          when "IRM__ORGANIZATION"
+            where_arr << "(ir.organization_id='#{ga.source_id}')"
+          when "IRM__ORGANIZATION_EXPLOSION"
+            where_arr << "(ire.organization_id= '#{ga.source_id}')"
+          when "IRM__EXTERNAL_SYSTEM"
+            where_arr << "(ir.external_system_id='#{ga.source_id}')"
+          when "IRM__ROLE","IRM__ROLE_EXPLOSION","IRM__GROUP","IRM__GROUP_EXPLOSION","IRM__PERSON"
+            where_arr << "(irv.source_type='#{ga.source_type}' AND irv.source_id = '#{ga.source_id}')"
+        end
+      end
+      sql_str += where_arr.join(" #{self.join_type} ") if where_arr.any?
+      sql_str += " )"
+    end
+    Icm::IncidentRequest.find_by_sql(sql_str)
+  end
+
+  def filter_source_type
+    if self.group_assignments.any?
+      assignment_types = group_assignments.collect(&:source_type)
+      if self.join_type.to_s.eql?("AND")
+        group_assignments.delete_if{|i| i.source_type.to_s.eql?("IRM__ORGANIZATION_EXPLOSION") and assignment_types.include?("IRM__ORGANIZATION") }
+        group_assignments.delete_if{|i| (i.source_type.to_s.eql?("IRM__GROUP_EXPLOSION") or i.source_type.to_s.eql?("IRM__GROUP_EXPLOSION") or i.source_type.to_s.eql?("IRM__GROUP") or i.source_type.to_s.eql?("IRM__ROLE_EXPLOSION") or i.source_type.to_s.eql?("IRM__ROLE")) and assignment_types.include?("IRM__PERSON")}
+      end
+    end
+    group_assignments
+  end
+
 
   #前一条规则
   def pre_rule

@@ -1,14 +1,13 @@
 class Icm::SupportGroup < ActiveRecord::Base
   set_table_name :icm_support_groups
 
-  attr_accessor :assignment_str
+  #attr_accessor :assignment_str
 
   class << self
     attr_accessor_with_default :multilingual_view_name,"icm_support_groups_vl"
   end
 
   #多语言关系
-  has_many :group_assignments, :dependent => :destroy, :class_name => "Icm::GroupAssignment"
   has_one :assign_rule, :dependent => :destroy, :class_name => "Icm::AssignRule"
 
   validates_presence_of :group_id,:assignment_process_code
@@ -53,10 +52,10 @@ class Icm::SupportGroup < ActiveRecord::Base
         where("#{Irm::Person.table_name}.assignment_availability_flag=?",Irm::Constant::SYS_YES)
   }
 
-  scope :support_for_person,lambda{|person_id|
-    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::Person.name))
-  }
+  #scope :support_for_person,lambda{|person_id|
+  #  joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+  #      where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::Person.name))
+  #}
 
   scope :support_for_service,lambda{|service_code|
     joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
@@ -64,51 +63,51 @@ class Icm::SupportGroup < ActiveRecord::Base
         where("#{Slm::ServiceCatalog.table_name}.catalog_code = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",service_code,Irm::BusinessObject.class_name_to_code(Slm::ServiceCatalog.name))
   }
 
-  scope :support_for_category,lambda{|incident_category_id|
-    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",incident_category_id,Irm::BusinessObject.class_name_to_code(Icm::IncidentCategory.name))
-  }
+  #scope :support_for_category,lambda{|incident_category_id|
+  #  joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+  #      where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",incident_category_id,Irm::BusinessObject.class_name_to_code(Icm::IncidentCategory.name))
+  #}
 
-  scope :support_for_system,lambda{|system_id|
-    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",system_id,Irm::BusinessObject.class_name_to_code(Irm::ExternalSystem.name))
-  }
+  #scope :support_for_system,lambda{|system_id|
+  #  joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+  #      where("#{Icm::GroupAssignment.table_name}.source_id = ?  AND #{Icm::GroupAssignment.table_name}.source_type = ?",system_id,Irm::BusinessObject.class_name_to_code(Irm::ExternalSystem.name))
+  #}
 
-  scope :support_for_group,lambda{|person_id|
-    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
-            where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::Group.name))
-  }
+  #scope :support_for_group,lambda{|person_id|
+  #  joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+  #      joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
+  #          where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::Group.name))
+  #}
 
-  scope :support_for_group_explosion,lambda{|person_id|
-    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
-            where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::GroupExplosion.name))
-  }
+  #scope :support_for_group_explosion,lambda{|person_id|
+  #  joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+  #      joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
+  #          where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::GroupExplosion.name))
+  #}
 
-  scope :support_for_role,lambda{|person_id|
-    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
-            where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::Role.name))
-  }
+  #scope :support_for_role,lambda{|person_id|
+  #  joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+  #      joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
+  #          where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::Role.name))
+  #}
 
-  scope :support_for_role_explosion,lambda{|person_id|
-    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
-            where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::RoleExplosion.name))
-  }
+  #scope :support_for_role_explosion,lambda{|person_id|
+  #  joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+  #      joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
+  #          where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::RoleExplosion.name))
+  #}
 
-  scope :support_for_organization,lambda{|person_id|
-    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
-            where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::Organization.name))
-  }
+  #scope :support_for_organization,lambda{|person_id|
+  #  joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+  #      joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
+  #          where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::Organization.name))
+  #}
 
-  scope :support_for_organization_explosion,lambda{|person_id|
-    joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
-        joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
-            where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::OrganizationExplosion.name))
-  }
+  #scope :support_for_organization_explosion,lambda{|person_id|
+  #  joins("JOIN #{Icm::GroupAssignment.table_name} ON #{Icm::GroupAssignment.table_name}.support_group_id = #{table_name}.id").
+  #      joins("JOIN #{Irm::Person.relation_view_name} ON #{Irm::Person.relation_view_name}.source_id  = #{Icm::GroupAssignment.table_name}.source_id AND #{Irm::Person.relation_view_name}.source_type  = #{Icm::GroupAssignment.table_name}.source_type").
+  #          where("#{Irm::Person.relation_view_name}.person_id = ?  AND #{Irm::Person.relation_view_name}.source_type = ?",person_id,Irm::BusinessObject.class_name_to_code(Irm::OrganizationExplosion.name))
+  #}
   # 待命组
   scope :oncall,lambda{
     where(:oncall_flag=>Irm::Constant::SYS_YES)
@@ -143,32 +142,6 @@ class Icm::SupportGroup < ActiveRecord::Base
     assigner
   end
 
-
-  # create assignment from str
-  def create_assignment_from_str
-    return unless self.assignment_str
-    str_values = self.assignment_str.split(",").delete_if{|i| !i.present?}
-    exists_values = Icm::GroupAssignment.where(:support_group_id=>self.id)
-    exists_values.each do |value|
-      if str_values.include?("#{value.source_type}##{value.source_id}")
-        str_values.delete("#{value.source_type}##{value.source_id}")
-      else
-        value.destroy
-      end
-
-    end
-
-    str_values.each do |value_str|
-      next unless value_str.strip.present?
-      value = value_str.strip.split("#")
-      self.group_assignments.create(:source_type=>value[0],:source_id=>value[1])
-    end
-  end
-
-  def get_assignment_str
-    return @get_assignment_str if @get_assignment_str
-    @get_assignment_str = Icm::GroupAssignment.where(:support_group_id=>self.id).collect{|value| "#{value.source_type}##{value.source_id}"}.join(",")
-  end
 
   # 第一个支持组对应的组id
   def self.first_group_id
