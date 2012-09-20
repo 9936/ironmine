@@ -1,5 +1,5 @@
 class Skm::FileManagementsController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
   def index
     respond_to do |format|
       format.html

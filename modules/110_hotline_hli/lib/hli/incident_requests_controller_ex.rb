@@ -259,12 +259,12 @@ module Hli::IncidentRequestsControllerEx
               format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
               format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
             else
-              format.html { render :action => "new", :layout => "bootstrap_application_full" }
+              format.html { render :action => "new", :layout => "application_full" }
               format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
             end
           else
             #@incident_request.errors[:requested_by] << I18n.t(:error_icm_requested_by_can_not_blank)
-            format.html { render :action => "new", :layout => "bootstrap_application_full" }
+            format.html { render :action => "new", :layout => "application_full" }
             format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
           end
         end

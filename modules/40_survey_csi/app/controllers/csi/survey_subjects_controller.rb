@@ -1,5 +1,5 @@
 class Csi::SurveySubjectsController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
   # GET /survey_subjects/1
   # GET /survey_subjects/1.xml
   def show

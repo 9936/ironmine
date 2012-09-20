@@ -14,7 +14,7 @@ class Icm::IncidentJournalsController < ApplicationController
 
     @incident_reply = Icm::IncidentReply.new()
     respond_to do |format|
-      format.html { render :layout=>"bootstrap_application_right"}
+      format.html { render :layout=>"application_right"}
       format.xml  { render :xml => @incident_journal }
       format.pdf {
         render :pdf => "[#{@incident_request.request_number}]#{@incident_request.title}",
@@ -90,7 +90,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit_status
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
-      format.html { render :layout => "bootstrap_application_full"}# new.html.erb
+      format.html { render :layout => "application_full"}# new.html.erb
       format.xml  { render :xml => @incident_journal }
     end
   end
@@ -113,7 +113,7 @@ class Icm::IncidentJournalsController < ApplicationController
           format.html { redirect_to({:action => "new"}) }
           format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
         else
-          format.html { render :action => "edit_status", :layout => "bootstrap_application_full" }
+          format.html { render :action => "edit_status", :layout => "application_full" }
           format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
         end
       else
@@ -126,7 +126,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit_permanent_close
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
-      format.html { render :layout => "bootstrap_application_full"}# new.html.erb
+      format.html { render :layout => "application_full"}# new.html.erb
       format.xml  { render :xml => @incident_journal }
     end
   end
@@ -150,7 +150,7 @@ class Icm::IncidentJournalsController < ApplicationController
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
-        format.html { render :action => "edit_permanent_close", :layout => "bootstrap_application_full" }
+        format.html { render :action => "edit_permanent_close", :layout => "application_full" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
@@ -158,7 +158,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit_reopen
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
-      format.html { render :layout => "bootstrap_application_right"}# new.html.erb
+      format.html { render :layout => "application_right"}# new.html.erb
       format.xml  { render :xml => @incident_journal }
     end
   end
@@ -181,7 +181,7 @@ class Icm::IncidentJournalsController < ApplicationController
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
-        format.html { render :action => "edit_reopen", :layout => "bootstrap_application_right" }
+        format.html { render :action => "edit_reopen", :layout => "application_right" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
@@ -190,7 +190,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit_close
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
-      format.html { render :layout => "bootstrap_application_full"}# new.html.erb
+      format.html { render :layout => "application_full"}# new.html.erb
       format.xml  { render :xml => @incident_journal }
     end
   end
@@ -216,7 +216,7 @@ class Icm::IncidentJournalsController < ApplicationController
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
-        format.html { render :action => "edit_close", :layout => "bootstrap_application_full" }
+        format.html { render :action => "edit_close", :layout => "application_full" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
@@ -226,7 +226,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit_pass
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
-      format.html { render :action => "edit_pass",:layout => "bootstrap_application_full" }
+      format.html { render :action => "edit_pass",:layout => "application_full" }
       format.xml  { render :xml => @incident_journal }
     end
   end
@@ -262,7 +262,7 @@ class Icm::IncidentJournalsController < ApplicationController
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
-        format.html { render :action => "edit_pass",:layout => "bootstrap_application_full" }
+        format.html { render :action => "edit_pass",:layout => "application_full" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
@@ -273,7 +273,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit_upgrade
     @incident_journal = @incident_request.incident_journals.build()
     respond_to do |format|
-      format.html { render :action => "edit_upgrade",:layout => "bootstrap_application_full" }
+      format.html { render :action => "edit_upgrade",:layout => "application_full" }
       format.xml  { render :xml => @incident_journal }
     end
   end
@@ -314,7 +314,7 @@ class Icm::IncidentJournalsController < ApplicationController
         format.html { redirect_to({:action => "new"}) }
         format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
       else
-        format.html { render :action => "edit_upgrade",:layout => "bootstrap_application_full" }
+        format.html { render :action => "edit_upgrade",:layout => "application_full" }
         format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
       end
     end
@@ -425,7 +425,7 @@ class Icm::IncidentJournalsController < ApplicationController
   def edit
     @incident_journal = Icm::IncidentJournal.find(params[:id])
     respond_to do |format|
-      format.html { render :layout => "bootstrap_application_full"}# new.html.erb
+      format.html { render :layout => "application_full"}# new.html.erb
       format.xml  { render :xml => @incident_journal }
     end
   end

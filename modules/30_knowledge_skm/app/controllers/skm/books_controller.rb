@@ -1,5 +1,5 @@
 class Skm::BooksController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
   # GET /skm/books
   # GET /skm/books.xml
   def index

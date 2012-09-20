@@ -1,5 +1,5 @@
 class Csi::SurveyResultsController < ApplicationController
-  layout "bootstrap_application_full"
+  layout "application_full"
   def statistics
     @survey = Csi::Survey.find(params[:id])
     respond_to do |format|
