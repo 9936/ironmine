@@ -6,6 +6,10 @@ en:
   invalid_invitation_key: Invalid invitation key!
   current_page_help: Current page help
   #usual button
+  fresh: Resh
+  after_n_fresh: Auto refresh in %{n} seconds
+  not_auto_refresh: Not auto refresh
+  fresh_time: Setting fresh time
   result: Result
   export: Export
   export_xls: Export Excel

@@ -6,6 +6,10 @@ zh:
   invalid_invitation_key: 无效的邀请验证码！
   current_page_help: 此页面帮助
   #公用按钮
+  fresh: 立即刷新
+  after_n_fresh: %{n} 秒后自动刷新
+  not_auto_refresh: 禁用自动刷新
+  fresh_time: 设置定时刷新
   result: 结果
   export: 导出
   export_xls: 导出Excel

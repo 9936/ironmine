@@ -21,10 +21,7 @@ module Irm::KanbansHelper
       cards = la.cards.multilingual
       cards_array = []
       cards.each do |ca|
-
-      ca_result = ca.prepare_card_content(kanban[:limit],[])
-
-
+        ca_result = ca.prepare_card_content(kanban[:limit],[])
         ca_result.each do |cr|
           begin
            url = ca[:card_url].clone
@@ -38,7 +35,7 @@ module Irm::KanbansHelper
           rescue
            cr[:card_url] = "javascript:void(0);"
           end
-        end
+        end if ca_result
 
         ca_result.collect{|p| [p[:id],
                                p[ca.title_attribute_name.to_sym],
@@ -48,7 +45,7 @@ module Irm::KanbansHelper
                                p[:card_url],
                                ]}.each do |cap|
           cards_array << cap
-        end
+        end if ca_result
       end
       cards_array.sort!{|x, y| y[3] <=> x[3]}
 
@@ -62,7 +59,7 @@ module Irm::KanbansHelper
         ct << content_tag(:a,
                 content_tag(:div,
                   content_tag(:div, content_tag(:table, raw(title_tag) + raw(description_tag)), :class => "card-div") + raw(date_tag),
-                  {:class => "card", :style => "background-color:" + c_array[4]}), {:href=>c_array[5], :title => c_array[1] + ": " + c_array[2]})
+                  {:class => "card", :rel=>"popover","data-original-title"=>c_array[1], "data-content" => c_array[1] + ": " + c_array[2], :style => "background-color:" + c_array[4]}), {:href=>c_array[5]})
 
         break if c_array == cards_array[kanban[:limit] - 1] #超过限制数时跳出
       end
@@ -84,6 +81,16 @@ module Irm::KanbansHelper
 
   def current_person_available_kanbans_array
     Irm::Person.current
+  end
+
+  def available_seconds
+    #当前用户看板默认自动刷新时间
+    options = []
+    (5..60).step(5).each do |i|
+      options << [t(:after_n_fresh, :n=> i),i]
+    end
+    options << [t(:not_auto_refresh),-1]
+    options
   end
 
   def available_kanbans

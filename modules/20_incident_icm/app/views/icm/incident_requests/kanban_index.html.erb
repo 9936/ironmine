@@ -1,34 +1,44 @@
 <%= common_title(:model_name=>Icm::IncidentRequest.name,:action_meaning=>t(:kanban_mode)) %>
 
-
 <% if allow_to_function?(:view_icm_kanban) %>
-<div class="toolbar">
-  <div class="button-group">
-    <div class="button"><%= link_to(content_tag(:img, "", {:src => "/images/s.gif", :class => "list-mode"}) + t(:list_mode), {:controller => "icm/incident_requests",:action=>"index"})%></div>
-    <div class="button selected"><%= link_to(content_tag(:img, "", {:src => "/images/s.gif", :class => "preview-mode"}) + t(:kanban_mode),{:href => "javascript:void(0)"})%></div>
-  </div>
-</div>
-<% end %>
-
-<% if allow_to_function?(:view_icm_kanban)%>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-        <table class="tools-content">
-            <tbody>
-                <tr>
-                  <td colspan="2">
-                    <div class="toolsContentRight">
-                      <%= render :partial => "irm/kanbans/kanban_main", :locals => {:position_code => "INCIDENT_REQUEST_PAGE"}%>
-                    </div>
-                  </td>
-                </tr>
-            </tbody>
-        </table>
+    <% position_code = "INCIDENT_REQUEST_PAGE" %>
+    <% kanban = Irm::Kanban.select_all.query_by_position_and_profile(Irm::Person.current.profile.id, position_code).enabled.first %>
+    <div class="btn-toolbar">
+      <div class="btn-group" style="float: right;">
+        <div class="input-prepend">
+          <span class="add-on btn" id="refreshBtn">
+            <i class="icon-refresh"></i>
+            <%= t(:fresh) %>
+          </span>
+          <% if kanban -%>
+            <%= select_tag "refreshOften", options_for_select(available_seconds,[t(:after_n_fresh, :n=> kanban.refresh_interval), kanban.refresh_interval]),{:style => "margin-left:-3px;"} %>
+          <% end -%>
+          </div>
+      </div>
+      <div class="btn-group">
+        <%= link_to(content_tag(:i, "", {:class => "icon-th-list"}) + t(:list_mode), {:action => "index"}, {:class=>"btn"})%>
+        <%= link_to(content_tag(:i, "", {:class => "icon-th"}) + t(:kanban_mode), {:action=>"kanban_index"}, {:class=>"btn active"})%>
+      </div>
     </div>
-</div>
+
+    <div class="listRelatedObject setupBlock">
+        <div class="page-block">
+            <table class="tools-content" style="width: 100%;">
+                <tbody>
+                    <tr>
+                      <td colspan="2">
+                        <div class="toolsContentRight">
+                          <%= render :partial => "irm/kanbans/kanban_main", :locals => {:kanban => kanban,:position_code => position_code}%>
+                        </div>
+                      </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 <% end %>
 
 
 <% content_for :sidebar do%>
-    <%= render :partial =>"/icm/incident_requests/short_cut_new" %>
+    <%= render :partial =>"/icm/incident_requests/quick_create" %>
 <% end %>
