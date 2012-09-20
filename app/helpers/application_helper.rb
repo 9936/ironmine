@@ -312,7 +312,7 @@ module ApplicationHelper
 
 
   def error_for(object)
-    if object && object.errors && object.errors.any?
+    if (object && object.errors && object.errors.any?) || (flash[:error].present?)
       content_tag :div,{:id => "errorDiv_ep", :class => "alert alert-error"} do
         error = raw(t(:error_invalid_data) + "<br>" + t(:check_error_msg_and_fix))
         error += raw("<br>" + flash[:error]) if flash[:error].present?
