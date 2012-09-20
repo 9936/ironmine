@@ -130,4 +130,12 @@ class Irm::GroupMembersController < ApplicationController
     end
   end
 
+  def get_group_member_options
+    group_members_scope = Irm::GroupMember.select("#{Irm::GroupMember.table_name}.person_id").with_person(Irm::Person.current.language_code).where(:group_id => params[:group_id])
+    group_members = group_members_scope.collect{|p| {:label=>p[:person_name],:value=>p[:person_id]}}
+    respond_to do |format|
+      format.json {render :json=>group_members.to_grid_json([:label,:value],group_members.count)}
+    end
+  end
+
 end

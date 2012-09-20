@@ -3,48 +3,44 @@
     <% content_for :form_block_common do %>
         <table class="form-table">
           <tbody>
-          <% if params[:step].to_s.eql?("1") -%>
-            <tr>
-              <td class="label-col"><label><%= t(:label_icm_chose_group) %></label></td>
-              <td class="data-col">
-                <%= f.blank_select :group_id, not_support_groups, {}, {:required => true} %>
-              </td>
-              <td class="label-col"></td>
-              <td class="data-col"></td>
-            </tr>
-          <% else -%>
-              <tr>
-                <td class="label-col"><label><%=(t :label_icm_support_group_code)%></label></td>
-                <td class="data-col"><label><%=@group.code%></label></td>
-                <td class="label-col"><label><%=(t :label_icm_support_group_oncall_flag)%></label></td>
-                <td class="data-col"><%=f.check_box :oncall_flag%></td>
-              </tr>
-              <tr>
-                <td class="label-col"><label><%=(t :label_icm_support_group_name)%></label></td>
-                <td class="data-col"><label><%=@group[:name]%></label></td>
-                <td class="label-col"><label><%=(t :label_icm_support_group_vendor_flag)%></label></td>
-                <td class="data-col"><%=f.check_box :vendor_flag%></td>
-              </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_icm_chose_group) %></label></td>
+            <td class="data-col">
+              <%= f.blank_select :group_id, not_support_groups, {}, {:required => true, :id => "group_id"} %>
+            </td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_icm_support_group_oncall_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :oncall_flag%></td>
+            <td class="label-col"><label><%=(t :label_icm_support_group_vendor_flag)%></label></td>
+            <td class="data-col"><%=f.check_box :vendor_flag%></td>
+          </tr>
 
-              <tr>
-                <td class="label-col"><label><%=t(:label_icm_support_group_assignment_process_code)%></label></td>
-                <td class="data-col"><%=f.select :assignment_process_code,available_processes,{},{:required=>true,:id=>"process_code"}%></td>
-                <td class="label-col"><label><%=(t :label_status_code)%></label></td>
-                <td class="data-col"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning,@support_group.status_code)%>
-                </td>
-              </tr>
-              <tr id="assignPersonTr">
-                <td class="label-col"><label><%= t(:label_icm_support_group_assign_person) %></label></td>
-                <td class="data-col"><%= f.blank_select :assign_person_id, available_group_member(@group.id), {}, {:required => true} %></td>
-                <td class="label-col"></td>
-                <td class="data-col"></td>
-              </tr>
-          <% end -%>
+          <tr>
+            <td class="label-col"><label><%=t(:label_icm_support_group_assignment_process_code)%></label></td>
+            <td class="data-col"><%=f.select :assignment_process_code,available_processes,{},{:required=>true,:id=>"process_code"}%></td>
+            <td class="label-col"><label><%=(t :label_status_code)%></label></td>
+            <td class="data-col"><%=f.select :status_code,options_from_collection_for_select(available_status,:lookup_code,:wrap_meaning,@support_group.status_code)%>
+            </td>
+          </tr>
+          <tr id="assignPersonTr">
+            <td class="label-col"><label><%= t(:label_icm_support_group_assign_person) %></label></td>
+            <td class="data-col"><%= f.blank_select :assign_person_id, {}, {}, {
+                :required => true,
+                :id=>"assign_person_id",
+                :href=>url_for(:controller=>"irm/group_members",:action=>"get_group_member_options",:format=>"json",:group_id=>"${group_id}"),
+                :depend =>"group_id"
+            } %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
           </tbody>
         </table>
     <% end %>
     <% content_for :form_buttons do %>
-        <%= link_submit t(:next), {:class => "btn btn-primary"} %>
+        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
         <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"} %>
     <% end %>
 
@@ -86,6 +82,13 @@
       </table>
     </div>
 <% end %>
+<script type="text/javascript">
+    $(function(){
+        if($("#group_id")){
+            $("#group_id").cascade("#assign_person_id");
+        }
+    })
+</script>
 <%= render(:partial=>"icm/support_groups/edit_script") %>
 
 

@@ -356,6 +356,7 @@ Rails.application.routes.draw do
     match '/group_members/:id/create_from_person(.:format)' => "group_members#create_from_person", :via => :post
     match '/group_members/:id/get_data_from_person(.:format)' => "group_members#get_data_from_person", :via => :get
     match '/group_members/:id/:person_id/delete_from_person(.:format)' => "group_members#delete_from_person"
+    match '/group_members/:group_id/get_group_member_options(.:format)' => "group_members#get_group_member_options"
     #sites
     match '/sites(/index)(.:format)' => "sites#index", :via => :get
     match '/sites/get_data(.:format)' => "sites#get_data"

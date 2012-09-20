@@ -501,6 +501,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/support_groups" => ["create", "edit", "get_data", "index", "new", "show", "update"],
+              "irm/group_members" => ["get_group_member_options"]
           },
       }
   }
