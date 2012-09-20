@@ -46,7 +46,7 @@
 </style>
 <% if kanban %>
     <div id="kanban_<%= position_code%>">
-    <%= show_kanban(Irm::Person.current.profile.id, position_code)%>
+        <%= show_kanban(Irm::Person.current.profile.id, position_code)%>
     </div>
     <script type="text/javascript">
       $(function(){
@@ -55,7 +55,10 @@
           function refresh_kanban(){
               var mode = refresh_mode;
               var uri = "/kanbans/<%= position_code%>/refresh_my_kanban/" + mode+"?_dom_id=kanban_<%= position_code%>";
-              $("#kanban_<%= position_code%>").load(uri);
+              $("#kanban_<%= position_code%>").load(uri, function() {
+                  $("div.card").popover({"trigger":"hover","placement":"right"});
+              });
+
           }
           $("#refreshBtn").click(function(e){
               set_mode(refresh_mode);
