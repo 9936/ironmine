@@ -1,4 +1,4 @@
-module Irm::FormHelper
+module Fwk::FormHelper
   extend ActiveSupport::Concern
 
   def array_form_for(record_array, *args, &proc)
