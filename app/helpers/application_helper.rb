@@ -483,6 +483,7 @@ module ApplicationHelper
     css_files = []
     javascript_prefix = ""
     css_prefix =""
+    @loaded_jscss_files ||= []
     @loaded_jscss_files.uniq!
     Ironmine::Application.config.fwk.jscss.each do |name,paths|
       if @loaded_jscss_files.include?(name)

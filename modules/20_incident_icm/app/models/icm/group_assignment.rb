@@ -1,6 +1,7 @@
 class Icm::GroupAssignment < ActiveRecord::Base
   set_table_name :icm_group_assignments
-  belongs_to :support_group, :class_name => "Icm::SupportGroup"
+
+  belongs_to :assign_rule, :class_name => "Icm::AssignRule"
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离

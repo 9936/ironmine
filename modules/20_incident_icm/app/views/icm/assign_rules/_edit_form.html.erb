@@ -1,0 +1,105 @@
+<%= common_title %>
+<%= form_for(@assign_rule,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_block_common   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label><%= t(:label_icm_support_group) %></label></td>
+            <td class="data-col">
+              <%= f.blank_select :support_group_id, available_support_groups, {:value=>@assign_rule.support_group_id}, {:required => true} %>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_menu_name)%></label></td>
+            <td class="data-col"><%= f.text_field :name, {:required => true,:class=> "input-xlarge" }%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_menu_description)%></label></td>
+            <td class="data-col"><%= f.text_area :description, {:rows => 4,:class=> "input-xlarge"}%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_group   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label>选择</label></td>
+            <td class="data-3col" style="width:82%">
+              <%= render :partial => "irm/duel_select/tmpl",:locals => {:label=>"",:f=>f,:types=>support_group_duel_types,:sources=>support_group_duel_values,:str_value_field=>:assignment_str,:str_value=>@assign_rule.get_assignment_str,:size=>10} %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t(:label_icm_assign_rule_join_type) %></label></td>
+            <td class="data-3col">
+          <span class="inline" style="padding: 2px 15px;">
+            <%= f.radio_button(:join_type, "OR") %>
+            <span class="help-inline">OR</span>
+          </span>
+          <span class="inline">
+             <%= f.radio_button(:join_type, "AND") %>
+            <span class="help-inline">AND</span>
+          </span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+
+    <% content_for :form_buttons  do %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_assign_rule_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @assign_rule %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_common   %>
+          </div>
+          <!-- 支持组信息 -->
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_icm_group_assignment_detail) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_group  %>
+          </div>
+
+        </div>
+
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+    </div>
+<% end %>

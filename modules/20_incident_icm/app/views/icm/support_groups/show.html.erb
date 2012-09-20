@@ -1,0 +1,53 @@
+<%= common_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_icm_support_group_show) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @support_group },:class=>"btn"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%=(t :label_icm_support_group_code)%></label></td>
+        <td class="data-col"><%=@group.code%></td>
+        <td class="label-col"><label><%=(t :label_icm_support_group_oncall_flag)%></label></td>
+        <td class="data-col"><%= check_img(@support_group.oncall_flag)%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=(t :label_icm_support_group_name)%></label></td>
+        <td class="data-col"><%=@group[:name]%></td>
+        <td class="label-col"><label><%=(t :label_icm_support_group_vendor_flag)%></label></td>
+        <td class="data-col"><%= check_img(@support_group.vendor_flag) %></td>
+      </tr>
+
+      <tr>
+        <td class="label-col"><label><%=t(:label_icm_support_group_assignment_process_code)%></label></td>
+        <td class="data-col">
+          <%=look_up_meaning("ICM_ASSIGN_PROCESS_TYPE", @support_group.assignment_process_code) %>
+        </td>
+        <!-- 如果流程为指派人 -->
+        <% if @support_group.assign_person_id.present? -%>
+        <td class="label-col"><label><%=(t :label_icm_support_group_assign_person)%></label></td>
+        <td class="data-col">
+          <%= assign_person_name(@support_group.assign_person_id) %>
+        </td>
+        <% end -%>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=(t :label_status_code)%></label></td>
+        <td class="data-col">
+          <%=look_up_meaning("SYSTEM_STATUS_CODE", @support_group.status_code) %>
+        </td>
+        <td class="label-col"></td>
+        <td class="data-col"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

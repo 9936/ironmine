@@ -6,21 +6,17 @@
       <h2 class="block-title"><%= t(:label_icm_assign_rule_list) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
     </td>
     <td class="page-block-help">
       <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="support_groups"></div>
-    <%= datatable("support_groups",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"})%>
-    <div id="paginator"></div>
+    <div id="assign_rules"></div>
+      <%= datatable("assign_rules",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"})%>
+      <div id="paginator"></div>
   </div>
 </div>
 
-<%# if @group %>
-    <%#= render :partial => "support_group_index" %>
-<%# else %>
-    <%#= render :partial => "no_group_notice"%>
-<%# end %>
+

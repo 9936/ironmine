@@ -120,11 +120,16 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/:request_id/journals/:id/edit(.:format)' => "incident_journals#edit", :via => :get
     match '/incident_requests/:request_id/journals/:id/update(.:format)' => "incident_journals#update"
     #support_groups
-    match '/support_groups(/:group_id)(/index)(.:format)' => "support_groups#index", :via => :get
-    match '/support_groups/:id(.:format)' => "support_groups#update", :via => :put
-    match '/support_groups/create(.:format)' => "support_groups#create", :via => :post
     match '/support_groups/:id/get_member_options(.:format)' => "support_groups#get_member_options", :via => :get
     match '/support_groups/:id/get_pass_member_options(.:format)' => "support_groups#get_pass_member_options", :via => :get
+    match '/support_groups(/index)(.:format)' => "support_groups#index", :via => :get
+    match '/support_groups/:id/edit(.:format)' => "support_groups#edit", :via => :get
+    match '/support_groups/:id(.:format)' => "support_groups#update", :via => :put
+    match '/support_groups/new(.:format)' => "support_groups#new", :via => :get
+    match '/support_groups/create(.:format)' => "support_groups#create", :via => :post
+    match '/support_groups/get_data(.:format)' => "support_groups#get_data"
+    match '/support_groups/:id/show(.:format)' => "support_groups#show", :via => :get
+
     #mail request
     match '/mail_requests(/index)(.:format)' => "mail_requests#index", :via => :get
     match '/mail_requests/new(.:format)' => "mail_requests#new", :via => :get
@@ -164,5 +169,16 @@ Ironmine::Application.routes.draw do
 
     #remove attachements
     match '/incident_requests/:attachment_id/remove_attachment(.:format)' => "incident_requests#remove_attachment", :via => :get
+
+    #assign rules
+    match '/assign_rules(/index)(.:format)' => "assign_rules#index", :via => :get
+    match '/assign_rules/:id/edit(.:format)' => "assign_rules#edit", :via => :get
+    match '/assign_rules/:id(.:format)' => "assign_rules#update", :via => :put
+    match '/assign_rules/new(.:format)' => "assign_rules#new", :via => :get
+    match '/assign_rules/create(.:format)' => "assign_rules#create", :via => :post
+    match '/assign_rules/get_data(.:format)' => "assign_rules#get_data"
+    match '/assign_rules/:id/show(.:format)' => "assign_rules#show", :via => :get
+    match '/assign_rules/:id/up_rule(.:format)' => "assign_rules#up_rule", :via => :get
+    match '/assign_rules/:id/down_rule(.:format)' => "assign_rules#down_rule", :via => :get
   end
 end

@@ -8,17 +8,6 @@
   }
 </style>
 
-<div class="page-block processTitle">
-  <table class="page-block-header">
-    <tr>
-      <td class="page-block-title">
-        <h2 class="block-title"><%= t(:label_icm_support_group) %></h2>
-        <%=select_tag_alias :group_id, available_group,@support_group.group_id,{:id=>"groupId",:href=>url_for({:group_id=>"{group_id}"})}%>
-      </td>
-    </tr>
-  </table>
-</div>
-
 <% if @support_group.id %>
     <%= render "edit_form" %>
 <% else %>

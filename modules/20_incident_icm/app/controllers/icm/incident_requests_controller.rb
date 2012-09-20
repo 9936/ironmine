@@ -59,7 +59,6 @@ class Icm::IncidentRequestsController < ApplicationController
         else
           flash[:error] = now
         end
-
         format.html { render :action => "new", :layout=>"application_full"}
         format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
@@ -112,8 +111,7 @@ class Icm::IncidentRequestsController < ApplicationController
         if @incident_request.save
           #如果没有填写support_group, 插入Delay Job任务
           if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
-            Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(@incident_request.id),
-                                 [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
+            Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(@incident_request.id), [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
           end
           format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
           format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
