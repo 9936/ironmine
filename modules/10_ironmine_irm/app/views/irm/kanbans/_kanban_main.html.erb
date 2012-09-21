@@ -51,7 +51,7 @@
     <script type="text/javascript">
       $(function(){
           var refresh_mode = 0;
-          var iId, timeOften = '<%= kanban.refresh_interval * 1000 %>';
+          var iId, timeOften = parseInt($("#refreshOften").val()) * 1000;
           function refresh_kanban(){
               var mode = refresh_mode;
               var uri = "/kanbans/<%= position_code%>/refresh_my_kanban/" + mode+"?_dom_id=kanban_<%= position_code%>";
@@ -82,8 +82,11 @@
                 iId = setInterval(refresh_kanban, timeOften);
               }
           }
-          iId = setInterval(refresh_kanban, timeOften);
-          $("div.card").popover({"trigger":"hover","placement":"right"})
+          if(timeOften > 0){
+            iId = setInterval(refresh_kanban, timeOften);
+          }
+          $("div.card").popover({"trigger":"hover","placement":"right"});
+
       });
     </script>
 <% end %>
