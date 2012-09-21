@@ -105,7 +105,11 @@
     </table>
   <% end %>
   <% content_for :form_buttons  do %>
-    <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn btn-primary"} %>
+    <% if allow_to_function?(:manage_user_and_system) -%>
+      <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn btn-primary next-step-btn"} %>
+    <% else -%>
+      <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <% end -%>
     <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
   <% end %>
 
@@ -169,7 +173,7 @@
 
 <script type="text/javascript">
   $(function(){
-    $(".btn-primary").click(function(){
+    $("#irm_person_new a.next-step-btn").click(function(){
         $("#irm_person_new").attr('action', '<%= url_for(:action => "create", :controller => "irm/people", :next_action => "add_system")%>');
         $("#irm_person_new").submit();
     });
