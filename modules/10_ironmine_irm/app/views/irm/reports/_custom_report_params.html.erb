@@ -1,58 +1,87 @@
 <table class="form-table" id="baseFilter" style="width: auto;">
   <tbody>
-    <tr>
-      <% param_criterions.each do |param_criterion| %>
-          <% next unless param_criterion.field_id.present? %>
-          <td>
-            <label for="<%=param_criterion.id %>_label"><b><%= param_criterion[:name] %></b>[<%= param_criterion[:operator_meaning] %>]</label>
-            <div style="white-space:nowrap;" class="form-inline params-div">
-              <% if param_criterion[:relation_bo_id].present? %>
+  <tr>
+    <% param_criterions.each do |param_criterion| %>
+        <% next unless param_criterion.field_id.present? %>
+        <td>
+          <label for="<%=param_criterion.id %>_label"><b><%= param_criterion[:name] %></b>[<%= param_criterion[:operator_meaning] %>]</label>
+          <div style="white-space:nowrap;" class="form-inline params-div">
+            <% if param_criterion[:relation_bo_id].present? %>
                 <%= lov_field_tag("program_params[#{param_criterion.field_id}]",param_criterion[:relation_bo_id],{:id_type=>true,:id=>param_criterion.id,:value_field=>param_criterion[:relation_object_attribute_name],:value=>program_params["#{param_criterion.field_id}"]}) %>
-              <% else %>
+            <% else %>
                 <%= text_field_tag("program_params[#{param_criterion.field_id}]",program_params["#{param_criterion.field_id}"],{:id=>"#{param_criterion.id}_label"})  %>
-              <% end %>
-            </div>
-          </td>
-      <% end %>
-      <td>
-        <fieldset>
-          <legend class="btn">
+            <% end %>
+          </div>
+        </td>
+    <% end %>
+    <td>
+      <fieldset>
+        <legend  class="input-append" style="border: none;padding: 0;">
+          <span class="add-on" style="border-radius:3px;">
+            <i class="icon-time"></i>
             <%= t(:label_irm_report_time_range) %>
-          </legend>
-          <table>
-            <tr>
-              <td colspan="2">
-                <label for="filterDateField"><%= t(:label_irm_report_filter_date_field) %></label>
-                <%= f.blank_select(:filter_date_field_id,grouped_options_for_select(available_date_filter_field(@report.report_type_id),@report.filter_date_field_id),{},{:id=>"filterDateField"})%>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
-                <%= f.date_field(:filter_date_from,:value=>calendar_date(@filter_date_from),:id=>"filterDateFrom",:size=>12,:class=>"date",:nobutton=>true)%>
-              </td>
-              <td>
-                <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
-                <%= f.date_field(:filter_date_to,:value=>calendar_date(@filter_date_to),:id=>"filterDateTo",:size=>12,:class=>"date",:nobutton=>true)%>
-              </td>
-            </tr>
-          </table>
-        </fieldset>
-      </td>
-    </tr>
+          </span>
+
+        </legend>
+        <table>
+          <tr>
+            <td>
+              <label for="filterDateField"><%= t(:label_irm_report_filter_date_field) %></label>
+              <%= f.blank_select(:filter_date_field_id,grouped_options_for_select(available_date_filter_field(@report.report_type_id),@report.filter_date_field_id),{},{:id=>"filterDateField"})%>
+            </td>
+            <td colspan="2">
+              <label for="filterDateField"><%= t(:label_report_time_during) %></label>
+              <%= f.blank_select(:filter_date_range_type,grouped_options_for_select(time_during_options, @report.filter_date_range_type),{},{:id => "filterDateRangeType",:style => "min-width:200px"}) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+
+            </td>
+            <td>
+              <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
+              <%= f.date_field(:filter_date_from,:value=>calendar_date(@filter_date_from),:id=>"filterDateFrom",:size=>12,:class=>"date",:nobutton=>true)%>
+            </td>
+            <td>
+              <label for="filterDateTo"><%= t(:label_irm_report_filter_date_to) %></label>
+              <%= f.date_field(:filter_date_to,:value=>calendar_date(@filter_date_to),:id=>"filterDateTo",:size=>12,:class=>"date",:nobutton=>true)%>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+    </td>
+  </tr>
   </tbody>
 </table>
 <script type="text/javascript">
-  $(function(){
-      var tdNum = $("#baseFilter").find("tr")[0].cells.length;
-      if(tdNum >= 5) {
-          var width = $(window).width();
-          $("#baseFilter").find('fieldset').css("width", (width/tdNum - 50) + "px");
-          $("#baseFilter .params-div").each(function(){
-              $(this).css("width", (width/tdNum - 30) + "px");
-              $(this).find("input").css("width",  (width/tdNum -60) + "px")
-          });
-      }
-
+  $("#filterDateRangeType").change(function(){
+     changeDate($(this).val());
   });
+  function changeDate(val){
+    <% Irm::ConvertTime.date_str_arr.each do |date_text| -%>
+      if(val == '<%= date_text%>'){
+        <% result = Irm::ConvertTime.convert(date_text) -%>
+        $("#filterDateFrom").val('<%= result[:from] %>');
+        $("#filterDateTo").val('<%= result[:to] %>')
+      }
+    <% end -%>
+      if(val == 'CUSTOM'){
+        $("#filterDateFrom").val('');
+        $("#filterDateTo").val('')
+      }
+  }
+</script>
+<script type="text/javascript">
+    $(function(){
+        var tdNum = $("#baseFilter").find("tr")[0].cells.length;
+        if(tdNum >= 5) {
+            var width = $(window).width();
+            $("#baseFilter").find('fieldset').css("width", (width/tdNum - 50) + "px");
+            $("#baseFilter .params-div").each(function(){
+                $(this).css("width", (width/tdNum - 30) + "px");
+                $(this).find("input").css("width",  (width/tdNum -60) + "px")
+            });
+        }
+
+    });
 </script>

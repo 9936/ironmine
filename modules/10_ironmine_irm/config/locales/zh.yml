@@ -1956,3 +1956,43 @@ zh:
   label_error_email_not_existed: 系统中不存在该邮箱地址
   label_error_email_blank: 邮箱地址不能为空
   #============================== end reset password  ==============================
+
+  #============================== start report time ==============================
+  label_report_time_during: 持续时间
+  label_num_one: 一
+  label_num_two: 两
+  label_num_three: 三
+  label_report_time_future: 未来
+  label_report_time_year: 年度
+  label_report_time_season: 季度
+  label_report_time_accountancy: 会计
+  label_report_time_calendar: 日历
+  label_report_time_custom: 自定义
+  label_report_time_pre: 上
+  label_report_time_last: 前
+  label_report_time_next: 下
+  label_report_time_unit: 个
+  label_report_time_now: 当前
+  label_report_time_current: 本
+  label_report_time_and: 和
+  label_report_time_ago: 之前
+  label_report_time_week: 周
+  label_report_time_month: 月
+  label_report_time_months: 月份
+  label_report_time_yesterday: 昨天
+  label_report_time_today: 今天
+  label_report_time_tomorrow: 明天
+  label_report_time_future_n_days: 未来 %{n} 天
+  label_report_time_ago_n_days: 过去 %{n} 天
+  label_report_time_grouped_year: 会计年度
+  label_report_time_grouped_season: 会计季度
+  label_report_time_grouped_circle: 会计周期
+  label_report_time_grouped_week: 会计星期
+  label_report_time_grouped_calendar_year: 日历年度
+  label_report_time_grouped_calendar_season: 日历季度
+  label_report_time_grouped_calendar_month: 日历月
+  label_report_time_grouped_calendar_week: 日历星期
+  label_report_time_grouped_calendar_day: 日
+
+#  label_report_time_
+  #============================== end report time  ==============================
