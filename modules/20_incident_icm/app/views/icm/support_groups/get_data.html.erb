@@ -3,7 +3,7 @@
         <%= bootstrap_icons("icon-eye-open",t(:show),{:controller => "icm/support_groups", :action => "show", :id => data[:id]}) %>&nbsp;
         <%= bootstrap_icons("icon-edit",t(:edit),{:controller => "icm/support_groups", :action => "edit", :id => data[:id]}) %>
     <% end %>
-    <% builder.column(:group_id,{:title=>t(:label_icm_support_group_name)}) do |data| %>
+    <% builder.column(:group_id,{:title=>t(:label_icm_support_group_name),:searchable => true}) do |data| %>
         <%= support_name(data[:group_id]) %>
     <% end %>
     <% builder.column(:oncall_flag,{:title=>t(:label_icm_support_group_oncall_flag)}) do |data| %>

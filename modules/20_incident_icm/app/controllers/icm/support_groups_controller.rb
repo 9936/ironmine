@@ -36,7 +36,10 @@ class Icm::SupportGroupsController < ApplicationController
   end
 
   def get_data
-    support_group_scope = Icm::SupportGroup
+    support_group_scope = Icm::SupportGroup.with_groups(I18n.locale)
+    group_name = params[:group_id]
+
+    support_group_scope = support_group_scope.match_value("#{Irm::Group.view_name}.name ",group_name) if group_name
     support_groups,count = paginate(support_group_scope)
     respond_to do |format|
       format.html  {

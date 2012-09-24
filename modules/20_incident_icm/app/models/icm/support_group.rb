@@ -34,6 +34,10 @@ class Icm::SupportGroup < ActiveRecord::Base
         select("#{Irm::Group.view_name}.name, #{Irm::Group.view_name}.parent_group_id, #{Irm::Group.view_name}.id group_id")
   }
 
+  scope :with_groups, lambda{|language|
+    joins("JOIN #{Irm::Group.view_name} ON #{Irm::Group.view_name}.id = #{table_name}.group_id AND #{Irm::Group.view_name}.language ='#{language}'")
+  }
+
   scope :access_system,lambda{
     joins("JOIN #{Irm::GroupMember.table_name} ON #{Irm::GroupMember.table_name}.group_id  = #{table_name}.group_id").
         joins("JOIN #{Irm::Person.table_name} ON #{Irm::Person.table_name}.id  = #{Irm::GroupMember.table_name}.person_id").
