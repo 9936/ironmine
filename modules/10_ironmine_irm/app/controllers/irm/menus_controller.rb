@@ -1,7 +1,7 @@
 class Irm::MenusController < ApplicationController
   def index
     @menu = Irm::Menu.new
-
+    params[:mode] = cookies[:menu_view] || 'list'
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @menu }

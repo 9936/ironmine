@@ -39,7 +39,6 @@ class Icm::AssignRule < ActiveRecord::Base
   end
 
   #根据事故单寻找分配组
-
   def self.get_support_group_by_incident(incident_request_id)
     assign_rule_result = nil
     self.order_by_sequence.each do |assign_rule|
@@ -78,17 +77,6 @@ class Icm::AssignRule < ActiveRecord::Base
       sql_str += " )"
     end
     Icm::IncidentRequest.find_by_sql(sql_str)
-  end
-
-  def filter_source_type
-    if self.group_assignments.any?
-      assignment_types = group_assignments.collect(&:source_type)
-      if self.join_type.to_s.eql?("AND")
-        group_assignments.delete_if{|i| i.source_type.to_s.eql?("IRM__ORGANIZATION_EXPLOSION") and assignment_types.include?("IRM__ORGANIZATION") }
-        group_assignments.delete_if{|i| (i.source_type.to_s.eql?("IRM__GROUP_EXPLOSION") or i.source_type.to_s.eql?("IRM__GROUP_EXPLOSION") or i.source_type.to_s.eql?("IRM__GROUP") or i.source_type.to_s.eql?("IRM__ROLE_EXPLOSION") or i.source_type.to_s.eql?("IRM__ROLE")) and assignment_types.include?("IRM__PERSON")}
-      end
-    end
-    group_assignments
   end
 
 

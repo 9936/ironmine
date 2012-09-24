@@ -89,7 +89,7 @@ class Irm::PeopleController < ApplicationController
             format.html {redirect_to(params[:return_url])}
             format.xml { head :ok}
           else
-            format.html { redirect_to({:action=>"edit"},:notice => (t :successfully_updated)) }
+            format.html { redirect_to({:action=>"show", :id=>@person.id},:notice => (t :successfully_updated)) }
             format.xml  { head :ok }
           end
           format.json { render :json=>@person}

@@ -1,12 +1,12 @@
 <style>
 .kanban_body > table{width:100%;}
-.card-div > table{width:160px;height:76px;table-layout:fixed;overflow:hidden;}
+.card-div > table{width:80%;height:76px;table-layout:fixed;overflow:hidden;}
 .card-div{height:76px;overflow:hidden;}
 .kanban_body .card{
     background-color:#f5f2bc;
     margin:5px;
     height:90px;
-    width: 160px;
+    /*width: 100%;*/
     border: 1px solid #808080;
 
     -moz-border-radius: 5px 5px 5px 5px;
@@ -44,33 +44,49 @@
 .kanban_body .th_r{border-left: 1px solid #ffffff;}
 .kanban_body .th_c{border-right: 1px solid #ffffff;border-left: 1px solid #ffffff;}
 </style>
-<!--<div id="kanban_model">-->
-  <!--<a href="javascript:void(0);" id="mode_preview" onclick="set_mode(0);">预览模式</a>-->
-  <!--<a href="javascript:void(0);" id="mode_list" onclick="set_mode(1);">列表模式</a>-->
-<!--</div>-->
-<% kanban = Irm::Kanban.select_all.query_by_position_and_profile(Irm::Person.current.profile.id, position_code).enabled.first%>
-<% if kanban%>
+<% if kanban %>
     <div id="kanban_<%= position_code%>">
-    <%= show_kanban(Irm::Person.current.profile.id, position_code)%>
+        <%= show_kanban(Irm::Person.current.profile.id, position_code)%>
     </div>
     <script type="text/javascript">
-      var refresh_mode = 0;
-      var iId;
-      function refresh_kanban(){
-          var mode = refresh_mode;
-          var uri = "/kanbans/<%= position_code%>/refresh_my_kanban/" + mode;
-          $("#kanban_<%= position_code%>").load(uri);
-      }
+      $(function(){
+          var refresh_mode = 0;
+          var iId, timeOften = parseInt($("#refreshOften").val()) * 1000;
+          function refresh_kanban(){
+              var mode = refresh_mode;
+              var uri = "/kanbans/<%= position_code%>/refresh_my_kanban/" + mode+"?_dom_id=kanban_<%= position_code%>";
+              $("#kanban_<%= position_code%>").load(uri, function() {
+                  $("div.card").popover({"trigger":"hover","placement":"right"});
+              });
 
-      function set_mode(mode)
-      {
-          clearInterval(iId);
-          refresh_mode = mode;
+          }
+          $("#refreshBtn").click(function(e){
+              set_mode(refresh_mode);
+          });
+          //当页面设置了自定义刷新时间后
+          $("#refreshOften").change(function(){
+              clearInterval(iId);
+              timeOften = parseInt($(this).val()) * 1000;
+              if(timeOften > 0){
+                  iId = setInterval(refresh_kanban, timeOften);
+              }else{
+                  iId = null;
+              }
 
-          refresh_kanban();
-          iId = setInterval(refresh_kanban, '<%= kanban.refresh_interval * 1000 %>');
-      }
+          });
+          function set_mode(mode){
+              clearInterval(iId);
+              refresh_mode = mode;
+              refresh_kanban();
+              if(timeOften > 0){
+                iId = setInterval(refresh_kanban, timeOften);
+              }
+          }
+          if(timeOften > 0){
+            iId = setInterval(refresh_kanban, timeOften);
+          }
+          $("div.card").popover({"trigger":"hover","placement":"right"});
 
-      iId = setInterval(refresh_kanban, '<%= kanban.refresh_interval * 1000 %>');
+      });
     </script>
 <% end %>

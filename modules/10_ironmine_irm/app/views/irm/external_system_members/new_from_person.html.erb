@@ -12,11 +12,14 @@
            </td>
            <td class="page-block-button">
              <%= link_to t(:last), {}, {:href => "javascript:void(0);", :class => "btn add_group_button_last"}%>
-             <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn add_group_button"} %>
+             <% if allow_to_function?(:manage_user_and_group) -%>
+               <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn btn-primary add_group_button"} %>
+             <% end -%>
              <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class => "btn" )%>
            </td>
            <td class="page-block-help">
              <%= t(:step_n_total_m, :n => "2", :m => "3") %>
+             <div id="selectableSystemSearchBox" class="inline-search-box"></div>
            </td>
           <% else %>
               <td class="page-block-title">
@@ -44,7 +47,11 @@
           <td class="page-block-button">
             <% if @step %>
               <%= link_to t(:last), {}, {:href => "javascript:void(0);", :class => "btn add_group_button_last"}%>
-              <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn add_group_button"} %>
+              <% if allow_to_function?(:manage_user_and_group) -%>
+                <%= link_to t(:next), {}, {:href => "javascript:void(0);", :class => "btn btn-primary add_group_button"} %>
+              <% else -%>
+                <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+              <% end -%>
               <%= link_to(t(:cancel),{:controller =>"irm/people",:action=>"show",:id=>@person.id},:class => "btn" )%>
             <% else %>
               <%= link_submit t(:save),{:class=>"btn btn-primary"}%>

@@ -428,7 +428,8 @@ module Irm::ReportsHelper
 
   def auto_run?(report)
     #如果当前Action是show，并且该报表不自动运行，则设置不自动运行
-    if params[:action].eql?('show') and !report.auto_run?
+    params ||= {}
+    if !report.auto_run? && params.present? && params[:action].eql?('show')
       false
     else
       true
@@ -468,5 +469,71 @@ module Irm::ReportsHelper
 
     [categories_titles,chart_datas]
 
+  end
+
+  #构造持续时间选项
+  def time_during_options
+    grouped_options = {}
+    #自定义
+    grouped_options[t(:label_report_time_custom)] = []
+    grouped_options[t(:label_report_time_custom)] << ["#{t(:label_report_time_custom)}","CUSTOM"]
+    ##会计年度
+    #grouped_options[t(:label_report_time_grouped_year)] = []
+    #grouped_options[t(:label_report_time_grouped_year)] << ["#{t(:label_report_time_pre)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_grouped_year)}", "PREVFY"]
+    #grouped_options[t(:label_report_time_grouped_year)] << ["#{t(:label_report_time_last)}#{t(:label_num_two)}#{t(:label_report_time_unit)}#{t(:label_report_time_grouped_year)}", "PREV2FY"]
+    #grouped_options[t(:label_report_time_grouped_year)] << ["#{t(:label_num_two)}#{t(:label_report_time_unit)}#{t(:label_report_time_grouped_year)}#{t(:label_report_time_ago)}", "AGO2FY"]
+    ##会计季度
+    #grouped_options[t(:label_report_time_grouped_season)] = []
+    #grouped_options[t(:label_report_time_grouped_season)] << ["#{t(:label_report_time_pre)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_grouped_season)}", "PREVFS"]
+    ##会计周期
+    #grouped_options[t(:label_report_time_grouped_circle)] = []
+    #grouped_options[t(:label_report_time_grouped_circle)] << ["#{t(:label_report_time_pre)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_grouped_circle)}", "PREVFC"]
+    ##会计星期
+    #grouped_options[t(:label_report_time_grouped_week)] = []
+    #grouped_options[t(:label_report_time_grouped_week)] << ["#{t(:label_report_time_pre)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_grouped_week)}", "PREVFW"]
+    #日历年度
+    grouped_options[t(:label_report_time_grouped_calendar_year)] = []
+    grouped_options[t(:label_report_time_grouped_calendar_year)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_calendar)}#{t(:label_report_time_year)}", "CURY"]
+    grouped_options[t(:label_report_time_grouped_calendar_year)] << ["#{t(:label_report_time_pre)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_year)}", "PREVY"]
+    grouped_options[t(:label_report_time_grouped_calendar_year)] << ["#{t(:label_report_time_pre)}#{t(:label_num_two)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_year)}", "PREV2Y"]
+    grouped_options[t(:label_report_time_grouped_calendar_year)] << ["#{t(:label_num_two)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_year)}#{t(:label_report_time_ago)}", "AGO2Y"]
+    grouped_options[t(:label_report_time_grouped_calendar_year)] << ["#{t(:label_report_time_next)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_year)}", "NEXTY"]
+    grouped_options[t(:label_report_time_grouped_calendar_year)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_and)}#{t(:label_report_time_pre)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_year)}", "PREVCURY"]
+    grouped_options[t(:label_report_time_grouped_calendar_year)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_and)}#{t(:label_report_time_last)}#{t(:label_num_two)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_year)}", "PREVCUR2Y"]
+    grouped_options[t(:label_report_time_grouped_calendar_year)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_and)}#{t(:label_report_time_next)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_year)}", "CURNEXTY"]
+    #日历季度
+    grouped_options[t(:label_report_time_grouped_calendar_season)] = []
+    grouped_options[t(:label_report_time_grouped_calendar_season)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_calendar)}#{t(:label_report_time_season)}", "CURRENTQ"]
+    grouped_options[t(:label_report_time_grouped_calendar_season)] << ["#{t(:label_report_time_pre)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_season)}", "PREVQ"]
+    grouped_options[t(:label_report_time_grouped_calendar_season)] << ["#{t(:label_report_time_next)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_season)}", "NEXTQ"]
+    grouped_options[t(:label_report_time_grouped_calendar_season)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_and)}#{t(:label_report_time_pre)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_season)}", "CURPREVQ"]
+    grouped_options[t(:label_report_time_grouped_calendar_season)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_and)}#{t(:label_report_time_next)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_season)}", "CURNEXTQ"]
+    grouped_options[t(:label_report_time_grouped_calendar_season)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_and)}#{t(:label_report_time_future)}#{t(:label_num_three)}#{t(:label_report_time_unit)}#{t(:label_report_time_calendar)}#{t(:label_report_time_season)}", "CURNEXT3Q"]
+    #日历月
+    grouped_options[t(:label_report_time_grouped_calendar_month)] = []
+    grouped_options[t(:label_report_time_grouped_calendar_month)] << ["#{t(:label_report_time_pre)}#{t(:label_report_time_month)}", "LASTMONTH"]
+    grouped_options[t(:label_report_time_grouped_calendar_month)] << ["#{t(:label_report_time_current)}#{t(:label_report_time_month)}", "CURMONTH"]
+    grouped_options[t(:label_report_time_grouped_calendar_month)] << ["#{t(:label_report_time_next)}#{t(:label_report_time_month)}", "NEXTMONTH"]
+    grouped_options[t(:label_report_time_grouped_calendar_month)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_and)}#{t(:label_report_time_pre)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_months)}", "LASTTHISMONTH"]
+    grouped_options[t(:label_report_time_grouped_calendar_month)] << ["#{t(:label_report_time_now)}#{t(:label_report_time_and)}#{t(:label_report_time_next)}#{t(:label_num_one)}#{t(:label_report_time_unit)}#{t(:label_report_time_months)}", "NEXTTHISMONTH"]
+    #日历星期
+    grouped_options[t(:label_report_time_grouped_calendar_week)] = []
+    grouped_options[t(:label_report_time_grouped_calendar_week)] << ["#{t(:label_report_time_pre)}#{t(:label_report_time_week)}", "LASTWEEK"]
+    grouped_options[t(:label_report_time_grouped_calendar_week)] << ["#{t(:label_report_time_current)}#{t(:label_report_time_week)}", "CURWEEK"]
+    grouped_options[t(:label_report_time_grouped_calendar_week)] << ["#{t(:label_report_time_next)}#{t(:label_report_time_week)}", "NEXTWEEK"]
+    #日
+    grouped_options[t(:label_report_time_grouped_calendar_day)] = []
+    grouped_options[t(:label_report_time_grouped_calendar_day)] <<  ["#{t(:label_report_time_yesterday)}", "YESTERDAY"]
+    grouped_options[t(:label_report_time_grouped_calendar_day)] <<  ["#{t(:label_report_time_today)}", "TODAY"]
+    grouped_options[t(:label_report_time_grouped_calendar_day)] <<  ["#{t(:label_report_time_tomorrow)}", "TOMORROW"]
+    grouped_options[t(:label_report_time_grouped_calendar_day)] <<  ["#{t(:label_report_time_ago_n_days, :n=> 7)}", "LAST7"]
+    (30..120).step(30).each do |num|
+      grouped_options[t(:label_report_time_grouped_calendar_day)] <<  ["#{t(:label_report_time_ago_n_days, :n=> num)}", "LAST#{num}"]
+    end
+    grouped_options[t(:label_report_time_grouped_calendar_day)] <<  ["#{t(:label_report_time_future_n_days, :n=> 7)}", "NEXT7"]
+    (30..120).step(30).each do |num|
+      grouped_options[t(:label_report_time_grouped_calendar_day)] <<  ["#{t(:label_report_time_future_n_days, :n=> num)}", "NEXT#{num}"]
+    end
+    grouped_options
   end
 end

@@ -1,1 +1,3 @@
-<%= render "show_#{@report.program_type.downcase}"%>
+<% if auto_run?(@report) %>
+  <%= render "show_#{@report.program_type.downcase}"%>
+<% end %>

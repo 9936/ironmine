@@ -47,7 +47,7 @@ class Irm::Card < ActiveRecord::Base
             ir_my_relation
           else
             filter = Irm::RuleFilter.where(:source_type => Irm::Card.name, :source_id => self.id).first
-            filter.generate_scope.select("'' card_url").order(self.date_attribute_name + " DESC")
+            filter.generate_scope.select("'' card_url").order(self.date_attribute_name + " DESC") if filter
         end
     card_content_scope
   end

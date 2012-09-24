@@ -30,9 +30,7 @@
       <%= config_classes_tree_data %>
       <!-- 树形展示结束 -->
     <% else %>
-     <!--  irm datatable      -->
-        <%=render :partial=>"leveled_config_classes",:locals=>{:datas=>@leveled_config_classes} %>
-     <!--  end irm datatable      -->
+     <%=render :partial=>"leveled_config_classes",:locals=>{:datas=>@leveled_config_classes} %>
    <% end %>
   </div>
 </div>

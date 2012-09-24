@@ -6,6 +6,10 @@ en:
   invalid_invitation_key: Invalid invitation key!
   current_page_help: Current page help
   #usual button
+  fresh: Resh
+  after_n_fresh: Auto refresh in %{n} seconds
+  not_auto_refresh: Not auto refresh
+  fresh_time: Setting fresh time
   result: Result
   export: Export
   export_xls: Export Excel
@@ -248,6 +252,7 @@ en:
   label_irm_menu_new: Create Menu
   label_irm_menu_edit: Edit Menu
   label_irm_menu_list: Menus List
+  label_irm_menu_structure: Menus Tree
   label_irm_menu_menu_code: Menu Code
   label_irm_menu_icon: Icon
   label_irm_menu_name: Name

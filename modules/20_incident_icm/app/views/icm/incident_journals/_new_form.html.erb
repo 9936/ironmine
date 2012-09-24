@@ -70,7 +70,7 @@
           <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
               <%= link_to t(:close), {:action => "edit_close"},{:class=>"btn"} %>
           <% end %>
-          <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn"} %>
+          <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn",:back => true} %>
         </div>
 
         <div class="btn-group">

@@ -359,12 +359,12 @@ class ApplicationController < ActionController::Base
   end
 
   def auto_run?(auto_run)
-      if auto_run.blank?
-         true
-      else
-         auto_run == Irm::Constant::SYS_YES
-      end
+    if auto_run.blank?
+       true
+    else
+       auto_run == Irm::Constant::SYS_YES
     end
+  end
 
     def allow_to_function?(function)
       Irm::PermissionChecker.allow_to_function?(function)

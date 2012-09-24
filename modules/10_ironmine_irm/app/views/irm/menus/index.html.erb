@@ -1,22 +1,49 @@
 <%= setting_title %>
-
+<!--页面结构-->
+<style type="text/css">
+    .select-mode {
+        margin: 0 !important;
+    }
+</style>
 <!--页面结构-->
 <div class="page-block">
   <table class="page-block-header"><tr>
-    <td class="page-block-title">
-      <h2 class="block-title"><%= t(:label_irm_menu_list) %></h2>
-    </td>
-    <td class="page-block-button">
-      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
-    </td>
+    <% if params[:mode] == 'tree' %>
+        <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_menu_structure) %></h2></td>
+    <% else %>
+        <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_menu_list) %></h2></td>
+        <td class="page-block-button"><%= link_to t(:new), {:action => "new"},:class=>"btn"%></td>
+    <% end %>
     <td class="page-block-help">
+      <%= form_tag({:controller => "irm/menus"}, {:method => 'get',:class => 'select-mode'}) do %>
+          <%= select_tag_alias(:mode,available_mode_views, params[:mode], {:onchange => 'javascript: $.cookie("menu_view", this.value);this.form.submit();',:class => 'search-select'}) %>
+      <% end %>
       <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("menus_list",{:action=>"get_data",:format=>"json"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"}) %>
+    <% if(params[:mode] == 'tree') %>
+        <!-- 树形展示开始 -->
+        <div id="sidetreecontrol"> <a href="?#"><%= t(:collapse_all) %></a> | <a href="?#"><%= t(:expand_all) %></a> </div>
+        <%= menu_tree_data %>
+        <!-- 树形展示结束 -->
+    <% else %>
+        <%= datatable("menus_list",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"}) %>
+    <% end %>
   </div>
 </div>
+
+<script type="text/javascript">
+    $(function(){
+        $("#menu_tree").treeview({
+            animated: "fast",
+            control:"#sidetreecontrol",
+            collapsed: true,
+            unique: false,
+            persist: "cookie"
+        });
+    })
+</script>
 
 
 
