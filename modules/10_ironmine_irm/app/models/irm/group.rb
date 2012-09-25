@@ -66,7 +66,7 @@ class Irm::Group < ActiveRecord::Base
   end
 
   private
-  def explore_group_hierarchy
-    Irm::GroupExplosion.explore_hierarchy(self.id,self.parent_group_id)
-  end
+    def explore_group_hierarchy
+      Irm::GroupExplosion.explore_hierarchy(self.id,self.parent_group_id)
+    end
 end

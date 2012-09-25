@@ -127,6 +127,5 @@ module Irm
         time_or_date.strftime('%Y-%m-%d') if time_or_date
       end
     end
-    #module_function :date_str_arr, :convert,:date_format
   end
 end
