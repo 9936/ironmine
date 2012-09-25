@@ -25,7 +25,8 @@ class Irm::Report < ActiveRecord::Base
   has_many :param_criterions,:order=>:seq_num,:dependent => :destroy,:class_name => "Irm::ReportCriterion",:conditions => "param_flag = '#{Irm::Constant::SYS_YES}'"
   accepts_nested_attributes_for :param_criterions
 
-
+  validates_presence_of :report_folder_id
+  validates_presence_of :program, :if => Proc.new{|i| "PROGRAM".eql?(i.program_type)}
   validates_presence_of :report_type_id, :if => Proc.new { |i| "CUSTOM".eql?(i.program_type)&&i.check_step(1) }
   validates_presence_of :code, :if => Proc.new { |i| i.check_step(2) }
   validates_uniqueness_of :code,:scope=>[:opu_id], :if => Proc.new { |i| i.code.present? }
