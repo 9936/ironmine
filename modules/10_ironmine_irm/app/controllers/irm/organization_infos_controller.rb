@@ -2,12 +2,7 @@ class Irm::OrganizationInfosController < ApplicationController
   # GET /organization_infos
   # GET /organization_infos.xml
   def index
-    @organization = Irm::Organization.multilingual.with_parent(I18n.locale).where(:id, Irm::Person.current.organization_id)
-    if @organization.size > 0
-      @organization = @organization.first
-    else
-      @organization = []
-    end
+    @organization = Irm::Organization.multilingual.with_parent(I18n.locale).where(:id => Irm::Person.current.organization_id).first
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @organization_infos }
