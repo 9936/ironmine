@@ -412,7 +412,9 @@ class Irm::ReportsController < ApplicationController
 
   #报表文件夹
   def get_reports_tree
-    folders = Irm::ReportFolder.multilingual.enabled.collect{|i| {:id=>i.id ,:type=>"folder",:text=>i[:name],:folder_id=>i.id,:leaf=>true,:iconCls=>"x-tree-icon-parent"}}
+    folder_ids = Irm::Person.current.report_folders.collect{|i| i.id}
+
+    folders = Irm::ReportFolder.multilingual.enabled.query_by_ids(folder_ids).collect{|i| {:id=>i.id ,:type=>"folder",:text=>i[:name],:folder_id=>i.id,:leaf=>true,:iconCls=>"x-tree-icon-parent"}}
     #root_folder = {:id=>"",:type=>"root",:folder_id=>"",:text=>t(:label_irm_report_folder_all),:draggable=>false,:leaf=>false,:expanded=>true}
     #root_folder[:children] = folders
     respond_to do |format|
