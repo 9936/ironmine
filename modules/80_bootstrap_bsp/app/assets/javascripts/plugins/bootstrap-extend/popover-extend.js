@@ -148,9 +148,9 @@
             this.$tip.mouseenter(function(){
                 $(this).addClass('mouseover');
             }).mouseleave(function(){
-                    $(this).removeClass('mouseover');
-                    that.hide();
-                });
+                $(this).removeClass('mouseover');
+                that.hide();
+            });
             return this.$tip
         }
 

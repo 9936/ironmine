@@ -57,7 +57,7 @@
               var mode = refresh_mode;
               var uri = "/kanbans/<%= position_code%>/refresh_my_kanban/" + mode+"?_dom_id=kanban_<%= position_code%>";
               $("#kanban_<%= position_code%>").load(uri, function() {
-                  $("div.card").popover({trigger:"hover",placement:"right",delay: { show: 100, hide: 500 }});
+                  $("div.card").popover({trigger:"hover",placement:"right",html: true,delay: { show: 100, hide: 500 }});
               });
 
           }
@@ -86,7 +86,7 @@
           if(timeOften > 0){
             iId = setInterval(refresh_kanban, timeOften);
           }
-          $("div.card").popover({trigger:"hover",placement:"right",delay: { show: 100, hide: 500 }});
+          $("div.card").popover({trigger:"hover",placement:"right",html: true,delay: { show: 100, hide: 500 }});
 
       });
     </script>
