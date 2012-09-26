@@ -70,9 +70,9 @@ class Irm::LookupValuesController < ApplicationController
     respond_to do |format|
       if @lookup_value.update_attributes(params[:irm_lookup_value])
         format.html {
-                 lookup_type = Irm::LookupType.multilingual.query_by_lookup_type(@lookup_value.lookup_type).first
-                 redirect_to({:controller => "irm/lookup_types",:action=>"show",:id=>lookup_type.id})
-               }
+          lookup_type = Irm::LookupType.multilingual.query_by_lookup_type(@lookup_value.lookup_type).first
+          redirect_to({:controller => "irm/lookup_types",:action=>"show",:id=>lookup_type.id})
+        }
         format.xml  { head :ok }
       else
         format.html { render "edit" }
@@ -83,7 +83,7 @@ class Irm::LookupValuesController < ApplicationController
 
   def get_lookup_values
     lookup_type=params[:lookup_type]
-    @lookup_values = Irm::LookupValue.query_by_lookup_type(lookup_type).query_wrap_info(I18n.locale).multilingual
+    @lookup_values = Irm::LookupValue.order_by_sequence.query_by_lookup_type(lookup_type).query_wrap_info(I18n.locale).multilingual
     @lookup_values = @lookup_values.match_value("#{Irm::LookupValue.table_name}.lookup_code",params[:lookup_code])
     @lookup_values = @lookup_values.match_value("#{Irm::LookupValuesTl.table_name}.meaning",params[:meaning])
     @lookup_values = @lookup_values.match_value("#{Irm::LookupValuesTl.table_name}.description",params[:description])
@@ -107,6 +107,38 @@ class Irm::LookupValuesController < ApplicationController
       @lookup_type= Irm::LookupType.new
     end
     render :action => "index"
+  end
+
+
+  def up_value
+    current_value = Irm::LookupValue.find(params[:id])
+    #查找出lookup_type
+    lookup_type = Irm::LookupType.where(:lookup_type => current_value.lookup_type).first
+    if current_value.present?
+      pre_value = current_value.pre_value
+      tmp_sequence = current_value.sequence
+      current_value.sequence = pre_value.sequence
+      pre_value.sequence = tmp_sequence
+      current_value.not_auto_mult = pre_value.not_auto_mult = true
+      current_value.save
+      pre_value.save
+    end
+    redirect_to({:controller => "irm/lookup_types",:action => "show",:id => lookup_type.id })
+  end
+
+  def down_value
+    current_value = Irm::LookupValue.find(params[:id])
+    lookup_type = Irm::LookupType.where(:lookup_type => current_value.lookup_type).first
+    if current_value.present?
+      next_value = current_value.next_value
+      tmp_sequence = current_value.sequence
+      current_value.sequence = next_value.sequence
+      next_value.sequence = tmp_sequence
+      current_value.not_auto_mult = next_value.not_auto_mult = true
+      current_value.save
+      next_value.save
+    end
+    redirect_to({:controller => "irm/lookup_types",:action => "show",:id => lookup_type.id })
   end
 
 end
