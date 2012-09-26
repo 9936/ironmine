@@ -48,6 +48,7 @@
     <div id="kanban_<%= position_code%>">
         <%= show_kanban(Irm::Person.current.profile.id, position_code)%>
     </div>
+
     <script type="text/javascript">
       $(function(){
           var refresh_mode = 0;
@@ -56,7 +57,7 @@
               var mode = refresh_mode;
               var uri = "/kanbans/<%= position_code%>/refresh_my_kanban/" + mode+"?_dom_id=kanban_<%= position_code%>";
               $("#kanban_<%= position_code%>").load(uri, function() {
-                  $("div.card").popover({"trigger":"hover","placement":"right"});
+                  $("div.card").popover({trigger:"hover",placement:"right",delay: { show: 100, hide: 500 }});
               });
 
           }
@@ -85,7 +86,7 @@
           if(timeOften > 0){
             iId = setInterval(refresh_kanban, timeOften);
           }
-          $("div.card").popover({"trigger":"hover","placement":"right"});
+          $("div.card").popover({trigger:"hover",placement:"right",delay: { show: 100, hide: 500 }});
 
       });
     </script>

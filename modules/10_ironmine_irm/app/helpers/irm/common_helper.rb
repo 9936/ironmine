@@ -60,25 +60,21 @@ module Irm::CommonHelper
   def select_tag_multiple(name, option_tags, hidden_name, hidden_value, options = {})
     id_str = name.gsub('[', '_').gsub(']', '')
     hidden_id_str = hidden_name.gsub('[', '_').gsub(']', '')
-    select_field = select_tag("#{name}", option_tags)
+    select_field = select_tag("#{name}", option_tags,{:chosen => false})
     link_button = link_to "+", {}, {:href => "javascript:void(0);", :id => "#{id_str}button"}
     hidden_flag = hidden_field_tag hidden_name, hidden_value
     scripts = %Q(
                 <script type="text/javascript">
                 $(function(){
-                    if ($("##{hidden_id_str}").val() == "Y")
-                    {
+                    if ($("##{hidden_id_str}").val() == "Y"){
                         $("##{id_str}").attr("multiple", "multiple");
                         $("select##{id_str} option[selected='selected']").attr("selected","selected");
                     }
                     $("##{id_str}button").click(function(){
-                        if($("##{id_str}").attr("multiple"))
-                        {
+                        if($("##{id_str}").attr("multiple")){
                             $("##{id_str}").removeAttr("multiple");
                             $("##{hidden_id_str}").val("N");
-                        }
-                        else
-                        {
+                        }else{
                             $("##{id_str}").attr("multiple", "multiple");
                             $("##{hidden_id_str}").val("Y");
                         }
