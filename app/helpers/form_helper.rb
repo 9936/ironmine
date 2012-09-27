@@ -28,9 +28,14 @@ module FormHelper
     end
   end
 
-  def lookup_field_tag(name,lookup_type,selected=nil, options ={})
+  def blank_lookup_field_tag(name,lookup_type,selected=nil, options ={})
     values =  available_lookup_type(lookup_type)
     blank_select_tag(name,values,selected,options)
+  end
+
+  def lookup_field_tag(name,lookup_type,selected=nil, options ={})
+    values =  available_lookup_type(lookup_type)
+    select_tag_alias(name,values,selected,options)
   end
 
   def date_field_tag(field, options = {})

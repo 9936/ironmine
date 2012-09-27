@@ -98,8 +98,15 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
   #封装lookup_value标签
   def lookup_field(field, lookup_type, options={}, html_options = {})
     values =  @template.available_lookup_type(lookup_type)
+    select(field, values, options, html_options)
+  end
+
+  def blank_lookup_field(field, lookup_type, options={}, html_options = {})
+    values =  @template.available_lookup_type(lookup_type)
     blank_select(field, values, options, html_options)
   end
+
+
 
 
 
