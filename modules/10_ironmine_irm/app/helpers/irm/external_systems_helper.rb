@@ -7,8 +7,8 @@ module Irm::ExternalSystemsHelper
      Irm::ExternalSystem.multilingual.enabled.order_with_name.with_person(person_id)
   end
 
-  def current_person_assessible_external_system_full
-    systems = Irm::ExternalSystem.multilingual.order_with_name.with_person(Irm::Person.current.id).enabled#.order("CONVERT( system_name USING gbk ) ")
+  def current_person_assessible_external_system_full(person_id=Irm::Person.current.id)
+    systems = Irm::ExternalSystem.multilingual.order_with_name.with_person(person_id).enabled#.order("CONVERT( system_name USING gbk ) ")
     systems.collect{|p| [p[:system_name], p.id]}
   end
 

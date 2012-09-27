@@ -22,7 +22,7 @@ module Irm::QueryExtend
 
             scope :query_by_ids ,lambda{|ids|
               if ids.length<1
-                ids = ids+[""]
+                ids = ids+["_empty_"]
               end
               where("#{table_name}.id IN (?)",ids)
             }
