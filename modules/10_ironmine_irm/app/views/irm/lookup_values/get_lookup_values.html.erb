@@ -1,7 +1,9 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% builder.column(:id,{:title=>t(:operation), :width => "100px"}) do |data|%>
+    <%= bootstrap_icons("icon-arrow-up",t(:move_up),{:action => "up_value", :id => data[:id]}) %>&nbsp;
+    <%= bootstrap_icons("icon-arrow-down",t(:move_down),{:action => "down_value", :id => data[:id]}) %>&nbsp;
+    <%= bootstrap_icons("icon-eye-open",t(:show),{:action => "show", :id => data[:id]}) %>&nbsp;
+    <%= bootstrap_icons("icon-edit",t(:edit),{ :action => "edit", :id => data[:id]}) %>
   <% end %>
   <% builder.column(:lookup_code,{:title=>t(:label_irm_lookup_value_lookup_code), :width => "20%"})%>
   <% builder.column(:meaning,{:title=>t(:label_meaning), :width => "25%",:searchable=>true,:sortable=>true})%>

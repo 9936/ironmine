@@ -42,7 +42,7 @@ module Fwk
       #==body
       table_body = ActiveSupport::SafeBuffer.new
       table_body.safe_concat "<tbody>"
-      if builder.options[:datas].any?
+      if builder.options[:datas].length>0
         builder.options[:datas].each_with_index do |data,index|
           table_body.safe_concat "<tr id='#{data[:id]}' #{row_html_attributes(builder, data)}>"
           column_options.each do |column|
