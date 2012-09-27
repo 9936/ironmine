@@ -11,7 +11,7 @@ class Icm::IncidentSubCategory < ActiveRecord::Base
 
   validates_presence_of :code,:incident_category_id
   validates_uniqueness_of :code, :scope=>[:opu_id],:if => Proc.new { |i| i.code.present? }
-  validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present? },:message=>:code
+  #validates_format_of :code, :with => /^[A-Z0-9_]*$/ ,:if=>Proc.new{|i| i.code.present? },:message=>:code
 
   query_extend
 
