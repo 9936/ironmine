@@ -1,6 +1,8 @@
 class Irm::LookupValue < ActiveRecord::Base
   set_table_name :irm_lookup_values
 
+  before_create :build_sequence
+
   has_many :lookup_values_tls,:class_name =>"Irm::LookupValuesTl",:foreign_key=>"lookup_value_id",:dependent => :destroy
 
   attr_accessor :meaning,:description
@@ -15,6 +17,10 @@ class Irm::LookupValue < ActiveRecord::Base
 
   scope :query_by_lookup_type,lambda{|lookup_type|where(:lookup_type=>lookup_type)}
   scope :query_by_lookup_code,lambda{|lookup_code|where(:lookup_code=>lookup_code)}
+
+  scope :order_by_sequence,lambda{
+    self.order("sequence ASC")
+  }
 
   scope :query_wrap_info,lambda{|language|
     select("#{table_name}.*,v1.meaning,v1.description, v1.meaning status_meaning").
@@ -57,6 +63,37 @@ class Irm::LookupValue < ActiveRecord::Base
   end
 
   def self.get_lookup_value(lookup_type)
-    Irm::LookupValue.multilingual.query_by_lookup_type(lookup_type)
+    Irm::LookupValue.multilingual.order_by_sequence.query_by_lookup_type(lookup_type)
   end
+
+  #前一value
+  def pre_value
+    pre_value = Irm::LookupValue.query_by_lookup_type(self.lookup_type).where("sequence < ?", self.sequence).order("sequence DESC").first
+    if pre_value.present?
+      pre_value
+    else
+      self
+    end
+  end
+
+  #后一value
+  def next_value
+    next_value = Irm::LookupValue.query_by_lookup_type(self.lookup_type).where("sequence > ?",self.sequence).order("sequence ASC").first
+    if next_value.present?
+      next_value
+    else
+      self
+    end
+  end
+
+  private
+    #构建sequence
+    def build_sequence
+      current_sequence = Irm::LookupValue.select("sequence").where("lookup_type=?",self.lookup_type).order("sequence DESC").first
+      if current_sequence.present?
+        self.sequence = current_sequence[:sequence] + 1
+      else
+        self.sequence = 1
+      end
+    end
 end

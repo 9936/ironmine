@@ -155,8 +155,8 @@ class Irm::ReportsController < ApplicationController
 
     if @report.filter_date_range_type.present? and !@report.filter_date_range_type.to_s.eql?('CUSTOM')
       from_and_to = Irm::ConvertTime.convert(@report.filter_date_range_type)
-      @filter_date_from = from_and_to[:from]
-      @filter_date_to = from_and_to[:to]
+      @filter_date_from = @report.filter_date_from = from_and_to[:from]
+      @filter_date_to = @report.filter_date_to = from_and_to[:to]
     else
       @filter_date_from = @report.filter_date_from.strftime("%Y-%m-%d") if @report.filter_date_from.present?
       @filter_date_to = @report.filter_date_to.strftime("%Y-%m-%d") if @report.filter_date_to.present?

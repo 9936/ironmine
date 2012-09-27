@@ -7,6 +7,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require plugins/bootstrap-extend/popover-extend
 //= require global/global_variables
 //= require plugins/jquery-extend
 //= require plugins/jquery-plugin

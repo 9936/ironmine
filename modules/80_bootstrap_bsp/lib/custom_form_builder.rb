@@ -33,9 +33,9 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
 
   def blank_select(field, choices, options = {}, html_options = {})
-     options=(options||{}).merge({:include_blank=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---"})
-     html_options =(html_options||{}).merge(:blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
-     select(field, choices, options, html_options)
+    options=(options||{}).merge({:include_blank=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---"})
+    html_options =(html_options||{}).merge(:blank=> "--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
+    select(field, choices, options, html_options)
   end
 
 
@@ -95,10 +95,18 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
   end
 
-  def lookup_field(field,lookup_type,options={})
+  #封装lookup_value标签
+  def lookup_field(field, lookup_type, options={}, html_options = {})
     values =  @template.available_lookup_type(lookup_type)
-    blank_select(field,values,options)
+    select(field, values, options, html_options)
   end
+
+  def blank_lookup_field(field, lookup_type, options={}, html_options = {})
+    values =  @template.available_lookup_type(lookup_type)
+    blank_select(field, values, options, html_options)
+  end
+
+
 
 
 
@@ -110,6 +118,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
       return label_for_field(method, options) +@template.check_box(@object_name, method, objectify_options(options), checked_value, unchecked_value)
     end
   end
+
 
   def date_field(field, options = {})
     date_field_id =  options.delete(:id)||field

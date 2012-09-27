@@ -21,7 +21,7 @@
                 <div class="form-inline" style="width: 100%;">
                   <%= link_to t(:new), {:controller=>"icm/incident_requests",:action => "new",:source_id =>incident_request.id },{:id=>"newRelation",:class=>"btn btn-primary",:style=>"display:none;"}%>
                   <label><%= t(:label_icm_incident_request_relation_type) %></label>
-                  <%= select_tag_alias(:relation_type,Irm::LookupValue.get_lookup_value("ICM_INCIDENT_REQUEST_REL_TYPE").collect{|p| [p[:meaning], p.lookup_code]},nil, :style=>"width:80px;display:inline-block;") %>
+                  <%= lookup_field_tag(:relation_type,"ICM_INCIDENT_REQUEST_REL_TYPE",nil,{:style=>"width:80px;display:inline-block;height:22px;"}) %>
                   <%= link_submit t(:add),{:id => "addRelationBtn",:class=>"btn btn-primary"}%>
                 </div>
               </td>

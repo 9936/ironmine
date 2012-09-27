@@ -30,8 +30,11 @@
           <td></td>
           <td style="text-align: left;">
             <fieldset>
-              <legend class="btn disabled">
-                <label><%= t(:label_irm_report_time_range) %></label>
+              <legend  class="input-append" style="border: none;padding: 0;">
+                <span class="add-on" style="border-radius:3px;">
+                  <i class="icon-time"></i>
+                  <%= t(:label_irm_report_time_range) %>
+                </span>
               </legend>
               <table class="detail-list">
                 <tr>
@@ -66,7 +69,7 @@
           <td class="data-3col" colspan="3">
             <table class="filter-table">
                 <thead>
-                  <tr id="filter<%=sub_f.object.seq_num%>">
+                  <tr>
                     <td class="num-col"></td>
                     <td class="field-col"><%=t(:irm_filter_criterions_column_code)%></td>
                     <td class="operator-col">

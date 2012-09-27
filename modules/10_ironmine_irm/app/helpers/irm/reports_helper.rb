@@ -428,8 +428,7 @@ module Irm::ReportsHelper
 
   def auto_run?(report)
     #如果当前Action是show，并且该报表不自动运行，则设置不自动运行
-    params ||= {}
-    if !report.auto_run? && params.present? && params[:action].eql?('show')
+    if !report.auto_run? && params[:action].eql?('show')
       false
     else
       true

@@ -1,11 +1,13 @@
-<table cellpadding="0" cellspacing="0" border="0" id="baseFilter">
+<table class="form-table" id="baseFilter" style="width: auto;">
   <tbody>
     <tr>
-      <td width="30%"></td>
-      <td></td>
       <td>
         <fieldset>
-          <legend><%= t(:label_irm_external_system) %> </legend>
+          <legend  class="input-append" style="border: none;padding: 0;">
+          <span class="add-on" style="border-radius:3px;">
+            <%= t(:label_irm_external_system) %>
+          </span>
+          </legend>
         <div style="white-space:nowrap">
           <%= select_tag_multiple(
                       "program_params[external_system_id][]",
@@ -17,8 +19,11 @@
       </td>
       <td>
         <fieldset>
-          <legend>
+          <legend  class="input-append" style="border: none;padding: 0;">
+          <span class="add-on" style="border-radius:3px;">
+            <i class="icon-time"></i>
             <%= t(:label_report_date_month) %>
+          </span>
           </legend>
           <table>
             <tr>

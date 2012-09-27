@@ -21,7 +21,6 @@
             <i class="icon-time"></i>
             <%= t(:label_irm_report_time_range) %>
           </span>
-
         </legend>
         <table>
           <tr>
@@ -35,9 +34,7 @@
             </td>
           </tr>
           <tr>
-            <td>
-
-            </td>
+            <td></td>
             <td>
               <label for="filterDateFrom"><%= t(:label_irm_report_filter_date_from) %></label>
               <%= f.date_field(:filter_date_from,:value=>calendar_date(@filter_date_from),:id=>"filterDateFrom",:size=>12,:class=>"date",:nobutton=>true)%>

@@ -5,37 +5,44 @@
       <tbody>
           <tr>
             <td class="label-col"><label><%= t :label_irm_psw_policy_expire_in %></label></td>
-            <td class="data-2col"><%= f.select :expire_in, Irm::LookupValue.get_lookup_value("IRM_PSW_EXPIRE_IN").collect{|p| [p[:meaning], p.lookup_code]}, {}, :required => true %>
+            <td class="data-2col">
+              <%= f.lookup_field :expire_in, "IRM_PSW_EXPIRE_IN", {:required => true} %>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label><%= t :label_irm_psw_policy_enforce_history %></label></td>
-            <td class="data-2col"><%= f.select :enforce_history, Irm::LookupValue.get_lookup_value("IRM_PSW_ENFORCE_HISTORY").collect{|p| [p[:meaning], p.lookup_code]}, {}, :required => true %>
+            <td class="data-2col">
+              <%= f.lookup_field :enforce_history, "IRM_PSW_ENFORCE_HISTORY", {:required => true} %>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label><%= t :label_irm_psw_policy_min_length %></label></td>
-            <td class="data-2col"><%= f.select :minimum_length, Irm::LookupValue.get_lookup_value("IRM_PSW_MINIMUM_LENGTH").collect{|p| [p[:meaning], p.lookup_code]}, {}, :required => true  %>
+            <td class="data-2col">
+              <%= f.lookup_field :minimum_length, "IRM_PSW_MINIMUM_LENGTH", {:required => true} %>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label><%= t :label_irm_psw_policy_complexity_requirement %></label></td>
-            <td class="data-2col"><%= f.select :complexity_requirement, Irm::LookupValue.get_lookup_value("IRM_PSW_COMPLEXITY_REQ").collect{|p| [p[:meaning], p.lookup_code]}, {}, :required => true  %>
+            <td class="data-2col">
+              <%= f.lookup_field :complexity_requirement, "IRM_PSW_COMPLEXITY_REQ", {:required => true} %>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label><%= t :label_irm_psw_policy_question_requirement %></label></td>
-            <td class="data-2col"><%= f.select :question_requirement, Irm::LookupValue.get_lookup_value("IRM_PSW_QUESTION_REQ").collect{|p| [p[:meaning], p.lookup_code]}, {}, :required => true  %>
+            <td class="data-2col">
+              <%= f.lookup_field :question_requirement, "IRM_PSW_QUESTION_REQ", {:required => true} %>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label><%= t :label_irm_psw_policy_max_attempts %></label></td>
-            <td class="data-2col"><%= f.select :maximum_attempts, Irm::LookupValue.get_lookup_value("IRM_PSW_MAXIMUM_ATTEMPTS").collect{|p| [p[:meaning], p.lookup_code]}, {}, :required => true  %>
+            <td class="data-2col">
+              <%= f.lookup_field :maximum_attempts, "IRM_PSW_MAXIMUM_ATTEMPTS", {:required => true} %>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label><%= t :label_irm_psw_policy_lockout_period %></label></td>
-            <td class="data-2col"><%= f.select :lockout_period, Irm::LookupValue.get_lookup_value("IRM_PSW_LOCKOUT_PERIOD").collect{|p| [p[:meaning], p.lookup_code]}, {}, :required => true  %>
+            <td class="data-2col">
+              <%= f.lookup_field :lockout_period, "IRM_PSW_LOCKOUT_PERIOD", {:required => true} %>
             </td>
           </tr>
       </tbody>

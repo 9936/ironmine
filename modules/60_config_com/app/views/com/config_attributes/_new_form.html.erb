@@ -27,7 +27,8 @@
           <tr>
             <td class="label-col"><label for="config_attribute_input_type"><%=t(:label_com_config_attribute_input_type)%></label></td>
             <td class="data-col">
-              <%=f.blank_select(:input_type,Irm::LookupValue.get_lookup_value("CONFIG_ATTRIBUTE_INPUT_TYPE").collect{|p| [p[:meaning], p.lookup_code]},{}, {:required => true}) %></td>
+              <%= f.blank_lookup_field :input_type, "CONFIG_ATTRIBUTE_INPUT_TYPE", {:required => true} %>
+            </td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
