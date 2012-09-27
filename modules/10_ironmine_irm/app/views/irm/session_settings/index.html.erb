@@ -1,11 +1,12 @@
 <%= setting_title %>
-<%= form_for(@session_timeout,:url=>{:action=>"update", :id=> @session_timeout},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@session_timeout,:url=>{:action=>"update", :id=> @session_timeout},:builder => CustomFormBuilder) do |f| %>
   <% content_for :form_block_common  do%>
     <table class="form-table">
       <tbody>
           <tr>
             <td class="label-col"><label><%= t :label_irm_session_time_out_value %></label></td>
-            <td class="data-2col"><%= f.select :time_out, Irm::LookupValue.get_lookup_value("IRM_SESSION_TIME_OUT").collect{|p| [p[:meaning], p.lookup_code]}, {}, :required => true %>
+            <td class="data-2col">
+              <%= f.lookup_field :time_out,"IRM_SESSION_TIME_OUT",{:required => true } %>
             </td>
           </tr>
       </tbody>
