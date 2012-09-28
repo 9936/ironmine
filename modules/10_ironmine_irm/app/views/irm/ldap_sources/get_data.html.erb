@@ -6,7 +6,6 @@
   <% builder.column(:name,{:title=>t(:label_irm_ldap_source_name), :searchable => true})%>
   <% builder.column(:host,{:title=>t(:label_irm_ldap_source_host), :searchable => true})%>
   <% builder.column(:port,{:title=>t(:label_irm_ldap_source_port)})%>
-  <% builder.column(:account,{:title=>t(:label_irm_ldap_source_port), :searchable => true})%>
   <% builder.column(:base_dn,{:title=>t(:label_irm_ldap_source_base_dn)})%>
   <% builder.column(:status_code,{:title=>t(:active),:width=>"40px"}) do |data|%>
     <%= check_img(data[:status_code]) %>

@@ -355,7 +355,7 @@ en:
   label_irm_ldap_source_port: Port
   label_irm_ldap_source_account: Account
   label_irm_ldap_source_account_password: Password
-  label_irm_ldap_source_base_dn: Base DN
+  label_irm_ldap_source_base_dn: Domain
   label_irm_ldap_source_attr_login: Login Name Attribute
   label_irm_ldap_source_attr_firstname: First Name Attribute
   label_irm_ldap_source_attr_lastname: Last Name Attribute

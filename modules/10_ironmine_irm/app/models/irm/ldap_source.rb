@@ -5,12 +5,10 @@ class Irm::LdapSource < ActiveRecord::Base
   #多个帐号使用同一个认证源认证
   has_many :ldap_auth_attribute
 
-  validates_presence_of :name, :host, :port, :account, :account_password, :base_dn
+  validates_presence_of :name, :host, :port, :base_dn
 
   validates_length_of :name, :maximum => 60
   validates_length_of :host, :maximum => 60
-  validates_length_of :account, :maximum => 60
-  validates_length_of :account_password, :maximum => 60
   validates_length_of :base_dn, :maximum => 255
   validates_uniqueness_of :name, :scope => :opu_id, :if => Proc.new { |i| !i.name.blank? }
 

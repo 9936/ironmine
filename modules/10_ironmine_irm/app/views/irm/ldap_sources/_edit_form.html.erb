@@ -1,66 +1,70 @@
 <%= setting_title %>
-<%= form_for(@ldap_source,:url=>{:action=>"update"},:builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
-  <% content_for :form_block_common   do%>
-    <table class="form-table">
-      <tbody>
+<%= form_for(@ldap_source, :url => {:action => "update"}, :builder => CustomFormBuilder, :html => {:multipart => true}) do |f| %>
+    <% content_for :form_block_common do %>
+        <table class="form-table">
+          <tbody>
           <tr>
-            <td class="label-col"><label><%=(t :label_irm_ldap_source_name)%></label></td>
-            <td class="data-col"><%=f.text_field :name,:required=>true%></td>
-            <td class="label-col"><label><%=t(:label_irm_ldap_source_account)%></label></td>
-            <td class="data-col"><%= f.text_field :account,:required=>true%></td>
+            <td class="label-col"><label><%= (t :label_irm_ldap_source_name) %></label></td>
+            <td class="data-col"><%= f.text_field :name, :required => true %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_irm_ldap_source_host)%></label></td>
-            <td class="data-col"><%=f.text_field :host,:required=>true%></td>
-            <td class="label-col"><label><%=t(:label_irm_ldap_source_account_password)%></label></td>
-            <td class="data-col"><%= f.password_field :account_password,:required=>true%></td>
+            <td class="label-col"><label><%= (t :label_irm_ldap_source_host) %></label></td>
+            <td class="data-col"><%= f.text_field :host, :required => true %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_irm_ldap_source_port)%></label></td>
-            <td class="data-col"><%=f.text_field :port,:irm_numberonly=>true,:required=>true%></td>
-            <td class="label-col"><label><%=t(:label_irm_ldap_source_base_dn)%></label></td>
-            <td class="data-col"><%= f.text_field :base_dn,:required=>true%></td>
+            <td class="label-col"><label><%= (t :label_irm_ldap_source_port) %></label></td>
+            <td class="data-col"><%= f.text_field :port, :irm_numberonly => true, :required => true, :class => "input-small" %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
-      </tbody>
-    </table>
-  <% end %>
-  <% content_for :form_buttons  do %>
-    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-    <%= link_back t(:cancel), {}, {:class => "btn cancel"}%>
-  <% end %>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_ldap_source_base_dn) %></label></td>
+            <td class="data-3col" colspan="3"><%= f.text_field :base_dn, :required => true, :class => "input-xxlarge" %></td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
+    <% end %>
 
-  <!--页面结构-->
-  <div class="page-block">
-    <table class="page-block-header">
-      <tr>
-        <td class="page-block-title">
-          <h2 class="block-title"><%=t(:label_irm_ldap_source_edit)%></h2>
-        </td>
-        <td class="page-block-button">
-          <%= content_for :form_buttons   %>
-        </td>
-      </tr>
-    </table>
-    <%= error_for @ldap_source %>
-    <div class="page-block-body">
-      <div class="sub-page-block">
-        <!-- 一般信息 -->
-        <div class="sub-page-block-header">
-          <%= form_require_info %>
-          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
-        </div>
-        <div class="sub-page-block-body">
-          <%= content_for :form_block_common   %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_irm_ldap_source_edit) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+      <%= error_for @ldap_source %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_common %>
+          </div>
         </div>
       </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
     </div>
-    <table class="page-block-footer">
-      <tr>
-        <td class="page-block-title"></td>
-        <td class="page-block-button">
-          <%= content_for :form_buttons   %>
-        </td>
-      </tr>
-    </table>
-  </div>
 <% end %>
