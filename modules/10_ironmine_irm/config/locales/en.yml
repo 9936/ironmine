@@ -1952,3 +1952,41 @@ en:
   label_error_email_not_existed: this email is not existd in system.
   label_error_email_blank: The Email can't blank.
   #============================== end reset password  ==============================
+
+  #============================== start report time ==============================
+  label_report_time_during: During time
+  label_num_one: One
+  label_num_two: Two
+  label_num_three: Three
+  label_report_time_future: Future
+  label_report_time_year: Year
+  label_report_time_season: Quarter
+  label_report_time_accountancy: Fiscal
+  label_report_time_calendar: Calendar
+  label_report_time_custom: Custom
+  label_report_time_pre: Last
+  label_report_time_last: Next
+  label_report_time_next: Next
+  label_report_time_unit: Unit
+  label_report_time_now: Current
+  label_report_time_current: Current
+  label_report_time_and: ANd
+  label_report_time_ago: Ago
+  label_report_time_week: Week
+  label_report_time_month: Month
+  label_report_time_months: Months
+  label_report_time_yesterday: Yesterday
+  label_report_time_today: Today
+  label_report_time_tomorrow: Tomorrow
+  label_report_time_future_n_days: Next %{n} days
+  label_report_time_ago_n_days: Last %{n} days
+  label_report_time_grouped_year: CY
+  label_report_time_grouped_season: Fiscal year
+  label_report_time_grouped_circle: Fiscal period
+  label_report_time_grouped_week: Fiscal week
+  label_report_time_grouped_calendar_year: Calendar year
+  label_report_time_grouped_calendar_season: Calendar quarter
+  label_report_time_grouped_calendar_month: Calendar month
+  label_report_time_grouped_calendar_week: Calendar week
+  label_report_time_grouped_calendar_day: Day
+  #============================== end report time  ==============================
