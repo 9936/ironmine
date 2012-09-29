@@ -1551,7 +1551,8 @@ jQuery.fn.menubutton = function () {
         defaultOptions:{},
         filterOptions:{},
         searchOptions:{},
-        orderOptions:{}
+        orderOptions:{},
+        dragOptions:{}
     };
 
     // 插件实例计数器
@@ -1727,6 +1728,19 @@ jQuery.fn.menubutton = function () {
             });
         }
     };
+    //build dragsort
+    Internal.prototype.buildDrag = function(){
+        var me = this;
+        if (me.data.options.dragOptions.dragAble) {
+            var options = me.data.options.dragOptions, url = options.saveUrl;
+            url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id=null";
+            me.$element.find("table:first tbody").dragsort({ dragSelector: "tr", dragEnd: saveOrder, placeHolderTemplate: "<tr class='place-holder'></tr>" });
+            function saveOrder(){
+                var data = me.$element.find("table:first tbody tr").map(function() {return $(this).attr("id");}).get();
+                $.post(url, { ordered_ids: data.join(",")} );
+            }
+        }
+    };
     //初始化排序列
     Internal.prototype.buildOrderColumn = function () {
         var me = this;
@@ -1850,6 +1864,9 @@ jQuery.fn.menubutton = function () {
             });
             me.syncPaginatorUI();
         }
+
+
+
         //build searchbox
         if (me.data.options.searchBox) {
             var show_able = false;
@@ -2154,6 +2171,7 @@ jQuery.fn.menubutton = function () {
         //必须等待当前页面的数据加载完成后才能够对表头数据进行处理
         me.buildOrderColumn();
         me.buildCheckbox();
+        me.buildDrag();
         me.syncScrollUI();
     };
 

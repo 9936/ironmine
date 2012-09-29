@@ -1259,7 +1259,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/lookup_types" => ["add_code", "check_lookup_code", "create", "create_edit_value", "create_value", "edit", "get_lookup_types", "get_lookup_values", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
-              "irm/lookup_values" => ["create", "edit", "get_data", "get_lookup_values", "index", "multilingual_edit", "multilingual_update", "new", "select_lookup_type", "show", "update","up_value","down_value"],
+              "irm/lookup_values" => ["create", "edit", "get_data", "get_lookup_values", "index", "multilingual_edit", "multilingual_update", "new", "select_lookup_type", "show", "update","switch_sequence"],
           },
       }
   }

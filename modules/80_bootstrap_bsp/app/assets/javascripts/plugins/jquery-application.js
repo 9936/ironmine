@@ -6,7 +6,7 @@ $(function(){
         if (typeof _dom_id != 'undefined' && _dom_id != null && _dom_id.length > 0) {
             $("#"+_dom_id).addClass("table-placeholder");
             $("#"+_dom_id).mask($.i18n("processing"));
-        }else{
+        }else if(_dom_id != "null"){
             $("body").mask($.i18n("processing"));
         }
     });
@@ -19,7 +19,7 @@ $(function(){
         if (typeof _dom_id != 'undefined' && _dom_id != null && _dom_id.length > 0) {
             $("#"+_dom_id).removeClass("table-placeholder");
             $("#"+_dom_id).unmask();
-        }else {
+        }else if(_dom_id != "null") {
             $("body").unmask();
         }
     });

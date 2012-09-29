@@ -194,7 +194,6 @@ module ApplicationHelper
   #     3,width 宽度
   #     4,formatter 列数据显示方式
   def datatable(id,url_options,columns,options={})
-
     select = options[:select]
     html = options[:html]||false
     return plain_datatable(id,url_options,columns,options)
@@ -216,7 +215,6 @@ module ApplicationHelper
     paginator_box = options[:paginator_box]
     export_box = options[:export_data]
     lazy_load = options[:lazy_load]
-
     #select 配置
     select_type = options[:select]
 
@@ -269,6 +267,16 @@ module ApplicationHelper
     if options[:view_filter]
       table_options << ",filterBox:'#{id}ViewFilterOverview'"
     end
+    #添加拖拽排序参数
+    if options[:drag_sort]
+      drag_sort = options[:drag_sort]
+      if drag_sort[:save_url].present?
+        require_jscss(:dragsort)
+        drag_able = true
+        drag_able = drag_sort[:drag_able] if !drag_sort[:drag_able].nil?
+        table_options << ",dragOptions:{dragAble:#{drag_able},saveUrl:'#{drag_sort[:save_url]}'}"
+      end
+    end
 
     if options[:scroll]
       scroll_options = {}
@@ -301,7 +309,9 @@ module ApplicationHelper
 
 
     script = %Q(
-        $(function(){$('##{id}').datatable(#{table_options})});
+        $(function(){
+          $('##{id}').datatable(#{table_options});
+        });
     )
 
     output.safe_concat javascript_tag(script)

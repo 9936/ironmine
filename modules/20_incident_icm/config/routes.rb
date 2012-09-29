@@ -172,13 +172,12 @@ Ironmine::Application.routes.draw do
 
     #assign rules
     match '/assign_rules(/index)(.:format)' => "assign_rules#index", :via => :get
+    match '/assign_rules/switch_sequence(.:format)' => "assign_rules#switch_sequence"
     match '/assign_rules/:id/edit(.:format)' => "assign_rules#edit", :via => :get
     match '/assign_rules/:id(.:format)' => "assign_rules#update", :via => :put
     match '/assign_rules/new(.:format)' => "assign_rules#new", :via => :get
     match '/assign_rules/create(.:format)' => "assign_rules#create", :via => :post
     match '/assign_rules/get_data(.:format)' => "assign_rules#get_data"
     match '/assign_rules/:id/show(.:format)' => "assign_rules#show", :via => :get
-    match '/assign_rules/:id/up_rule(.:format)' => "assign_rules#up_rule", :via => :get
-    match '/assign_rules/:id/down_rule(.:format)' => "assign_rules#down_rule", :via => :get
   end
 end

@@ -576,7 +576,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/assign_rules" => ["create", "edit", "get_data", "index", "new", "show", "update","up_rule","down_rule"]
+              "icm/assign_rules" => ["create", "edit", "get_data", "index", "new", "show", "update","switch_sequence"]
           },
       }
   }

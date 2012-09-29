@@ -110,35 +110,23 @@ class Irm::LookupValuesController < ApplicationController
   end
 
 
-  def up_value
-    current_value = Irm::LookupValue.find(params[:id])
-    #查找出lookup_type
-    lookup_type = Irm::LookupType.where(:lookup_type => current_value.lookup_type).first
-    if current_value.present?
-      pre_value = current_value.pre_value
-      tmp_sequence = current_value.sequence
-      current_value.sequence = pre_value.sequence
-      pre_value.sequence = tmp_sequence
-      current_value.not_auto_mult = pre_value.not_auto_mult = true
-      current_value.save
-      pre_value.save
+  def switch_sequence
+    sequence_str = params[:ordered_ids]
+    if sequence_str.present?
+      sequence = 0
+      lookup_ids = sequence_str.split(",")
+      lookup_values = Irm::LookupValue.where(:id => lookup_ids).index_by(&:id)
+      lookup_ids.each do |id|
+        lookup_value = lookup_values[id]
+        lookup_value.sequence = sequence
+        lookup_value.not_auto_mult = true
+        lookup_value.save
+        sequence += 1
+      end
     end
-    redirect_to({:controller => "irm/lookup_types",:action => "show",:id => lookup_type.id })
-  end
-
-  def down_value
-    current_value = Irm::LookupValue.find(params[:id])
-    lookup_type = Irm::LookupType.where(:lookup_type => current_value.lookup_type).first
-    if current_value.present?
-      next_value = current_value.next_value
-      tmp_sequence = current_value.sequence
-      current_value.sequence = next_value.sequence
-      next_value.sequence = tmp_sequence
-      current_value.not_auto_mult = next_value.not_auto_mult = true
-      current_value.save
-      next_value.save
+    respond_to do |format|
+      format.json  {render :json => {:success => true}}
     end
-    redirect_to({:controller => "irm/lookup_types",:action => "show",:id => lookup_type.id })
   end
 
 end
