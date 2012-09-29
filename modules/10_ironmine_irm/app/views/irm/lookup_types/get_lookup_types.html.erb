@@ -1,7 +1,6 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|&nbsp;<%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>
   <% end %>
   <% builder.column(:lookup_level,{:title=>t(:label_lookup_level), :width => "20%"})%>
   <% builder.column(:lookup_type,{:title=>t(:label_lookup_types_code), :width => "25%",:searchable=>true,:sortable=>true})%>

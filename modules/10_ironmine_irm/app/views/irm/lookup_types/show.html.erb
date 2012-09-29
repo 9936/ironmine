@@ -1,6 +1,5 @@
 <%= setting_show_title(:show_data => @lookup_type.lookup_type) %>
 
-
 <!--页面结构-->
 <div class="show-block">
   <table class="page-block-header"><tr>
@@ -32,8 +31,7 @@
           <tr>
             <td class="label-col"><label><%=(t :label_irm_lookup_type_description)%></label></td>
             <td class="data-col"><%=@lookup_type[:description]%></td>
-            <td class="label-col"><%=radio_button_tag :lookup_level,Irm::Constant::USER_LOOKUP_LEVEL,Irm::Constant::USER_LOOKUP_LEVEL.eql?(@lookup_type.lookup_level),{:disabled=>true}%>
-                                    </td>
+            <td class="label-col"><%=radio_button_tag :lookup_level,Irm::Constant::USER_LOOKUP_LEVEL,Irm::Constant::USER_LOOKUP_LEVEL.eql?(@lookup_type.lookup_level),{:disabled=>true}%></td>
             <td class="data-col"><%=t(:label_user_level)%></td>
           </tr>
       </tbody>
@@ -43,26 +41,19 @@
 
 <!--页面结构-->
 <div class="page-block">
-  <table class="page-block-header"><tr>
-    <td class="page-block-title">
-      <h2 class="block-title"><%= t(:label_irm_menu_entry_list) %></h2>
-    </td>
-    <td class="page-block-button">
-      <%= link_to t(:add), {:controller=>"irm/lookup_values",:action => "new",:lookup_type=>@lookup_type.lookup_type,:_from=>"lookup_type"},:class=>"btn"%>
-    </td>
-  </tr></table>
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_lookup_code) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:add), {:controller=>"irm/lookup_values",:action => "new",:lookup_type=>@lookup_type.lookup_type,:_from=>"lookup_type"},:class=>"btn"%>
+      </td>
+    </tr>
+  </table>
   <div class="page-block-body">
-    <div id="lookup_type" class="datatable" style="width:100%">
-    </div>
-    <%= datatable("lookup_type",{:controller=>"irm/lookup_values",:action=>"get_lookup_values", :lookup_type=>@lookup_type.lookup_type},
-                  [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template"},
-                   {:key=>"lookup_code",:label=>(t :label_irm_lookup_value_lookup_code),:searchable=>true},
-                   {:key=>"meaning",:label=>t(:label_irm_lookup_value_meaning),:searchable=>true},
-                   {:key=>"description",:label=>t(:label_irm_lookup_type_description),:searchable=>true},
-                   {:key=>"start_date_active",:label=>t(:label_start_date_active)},
-                   {:key=>"end_date_active",:label=>t(:label_end_date_active)},
-                   {:key=>"status_meaning",:label=>t(:label_status_code)}],
-                   {:search_box=>"searchBox"}) %>
+    <div id="lookup_value"></div>
+    <%= datatable("lookup_value",{:controller=>"irm/lookup_values",:action=>"get_lookup_values", :lookup_type=>@lookup_type.lookup_type},[],{:search_box=>"searchBox",:drag_sort => {:save_url => "/lookup_values/switch_sequence"} }) %>
   </div>
 </div>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@lookup_type} %>

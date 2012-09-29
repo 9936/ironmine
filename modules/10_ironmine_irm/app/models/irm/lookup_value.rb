@@ -66,25 +66,6 @@ class Irm::LookupValue < ActiveRecord::Base
     Irm::LookupValue.multilingual.order_by_sequence.query_by_lookup_type(lookup_type)
   end
 
-  #前一value
-  def pre_value
-    pre_value = Irm::LookupValue.query_by_lookup_type(self.lookup_type).where("sequence < ?", self.sequence).order("sequence DESC").first
-    if pre_value.present?
-      pre_value
-    else
-      self
-    end
-  end
-
-  #后一value
-  def next_value
-    next_value = Irm::LookupValue.query_by_lookup_type(self.lookup_type).where("sequence > ?",self.sequence).order("sequence ASC").first
-    if next_value.present?
-      next_value
-    else
-      self
-    end
-  end
 
   private
     #构建sequence

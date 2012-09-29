@@ -71,6 +71,7 @@ class Icm::AssignRulesController < ApplicationController
   def destroy
     @assign_rule = Icm::AssignRule.find(params[:id])
     @assign_rule.destroy
+    Icm::AssignRule.update_all
 
     respond_to do |format|
       format.html { redirect_to(assign_rules_url) }
@@ -78,45 +79,27 @@ class Icm::AssignRulesController < ApplicationController
     end
   end
 
-  def up_rule
-    return_url = params[:return_url]
-    current_rule = Icm::AssignRule.find(params[:id])
-    if current_rule.present?
-      pre_rule = current_rule.pre_rule
-      tmp_sequence = current_rule.sequence
-      current_rule.sequence = pre_rule.sequence
-      pre_rule.sequence = tmp_sequence
-      current_rule.save
-      pre_rule.save
-    end
-    if return_url.blank?
-      redirect_to({:action => "index"})
-    else
-      redirect_to(return_url)
-    end
-  end
 
-  def down_rule
-    return_url = params[:return_url]
-    current_rule = Icm::AssignRule.find(params[:id])
-    if current_rule.present?
-      next_rule = current_rule.next_rule
-      tmp_sequence = current_rule.sequence
-      current_rule.sequence = next_rule.sequence
-      next_rule.sequence = tmp_sequence
-      current_rule.save
-      next_rule.save
+  def switch_sequence
+    sequence_str = params[:ordered_ids]
+    if sequence_str.present?
+      sequence = 0
+      assign_rule_ids = sequence_str.split(",")
+      assign_rules = Icm::AssignRule.where(:id => assign_rule_ids).index_by(&:id)
+      assign_rule_ids.each do |id|
+        assign_rule = assign_rules[id]
+        assign_rule.sequence = sequence
+        assign_rule.save
+        sequence += 1
+      end
     end
-    if return_url.blank?
-      redirect_to({:action => "index"})
-    else
-      redirect_to(return_url)
+    respond_to do |format|
+      format.json  {render :json => {:success => true}}
     end
   end
 
   def get_data
     assign_rules_scope = Icm::AssignRule.order_by_sequence
-    #assign_rules_scope = assign_rules_scope.match_value("assign_rule.name",params[:name])
     assign_rules,count = paginate(assign_rules_scope)
     respond_to do |format|
       format.html  {

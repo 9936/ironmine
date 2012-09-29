@@ -80,25 +80,25 @@ class Icm::AssignRule < ActiveRecord::Base
   end
 
 
-  #前一条规则
-  def pre_rule
-    pre_rule = Icm::AssignRule.where("sequence < ?", self.sequence).order("sequence DESC").first
-    if pre_rule.present?
-      pre_rule
-    else
-      self
-    end
-  end
-
-  #后一条规则
-  def next_rule
-    next_rule = Icm::AssignRule.where("sequence > ?", self.sequence).order("sequence ASC").first
-    if next_rule.present?
-      next_rule
-    else
-      self
-    end
-  end
+  ##前一条规则
+  #def pre_rule
+  #  pre_rule = Icm::AssignRule.where("sequence < ?", self.sequence).order("sequence DESC").first
+  #  if pre_rule.present?
+  #    pre_rule
+  #  else
+  #    self
+  #  end
+  #end
+  #
+  ##后一条规则
+  #def next_rule
+  #  next_rule = Icm::AssignRule.where("sequence > ?", self.sequence).order("sequence ASC").first
+  #  if next_rule.present?
+  #    next_rule
+  #  else
+  #    self
+  #  end
+  #end
 
   private
     #构建sequence

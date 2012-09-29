@@ -128,6 +128,7 @@ Rails.application.routes.draw do
 
     #lookup_values
     match '/lookup_values(/index)(.:format)' => "lookup_values#index", :via => :get
+    match '/lookup_values/switch_sequence(.:format)' => "lookup_values#switch_sequence"
     match '/lookup_values/get_data(.:format)' => "lookup_values#get_data"
     match '/lookup_values/:id/edit(.:format)' => "lookup_values#edit", :via => :get
     match '/lookup_values/:id(.:format)' => "lookup_values#update", :via => :put
@@ -138,8 +139,7 @@ Rails.application.routes.draw do
     match '/lookup_values/:id/multilingual_update(.:format)' => "lookup_values#multilingual_update", :via => :put
     match '/lookup_values/select_lookup_type(.:format)' => "lookup_values#select_lookup_type"
     match '/lookup_values/:id(.:format)' => "lookup_values#show", :via => :get
-    match '/lookup_values/:id/up_value(.:format)' => "lookup_values#up_value", :via => :get
-    match '/lookup_values/:id/down_value(.:format)' => "lookup_values#down_value", :via => :get
+
 
     #my_info
     match '/my_info(/index)(.:format)' => "my_info#index", :via => :get

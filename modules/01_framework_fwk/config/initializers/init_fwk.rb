@@ -98,6 +98,7 @@ rails_config.fwk.jscss.merge!({
                                   :jquery_ui => {:js => ["jquery-ui"]},
                                   :gollum => {:js => ["plugins/gollum"], :css => ["plugins/gollum"]},
                                   :markdown => {:css => ["markdown"]},
-                                  :search => {:css => ["search"], :js => []}
+                                  :search => {:css => ["search"], :js => []},
+                                  :dragsort => {:js => ["plugins/jquery-dragsort"]}
                               })
 
