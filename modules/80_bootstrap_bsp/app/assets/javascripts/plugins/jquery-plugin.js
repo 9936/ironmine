@@ -1732,13 +1732,13 @@ jQuery.fn.menubutton = function () {
     Internal.prototype.buildDrag = function(){
         var me = this;
         if (me.data.options.dragOptions.dragAble) {
-            var options = me.data.options.dragOptions, url = options.saveUrl;
-            url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id=null";
-            me.$element.find("table:first tbody").dragsort({ dragSelector: "tr", dragEnd: saveOrder, placeHolderTemplate: "<tr class='place-holder'></tr>" });
-            function saveOrder(){
-                var data = me.$element.find("table:first tbody tr").map(function() {return $(this).attr("id");}).get();
+            var url = me.data.options.dragOptions.saveUrl;
+
+            me.$element.find(".table-body table:first tbody").dragsort({ itemSelector: "tr", dragSelector: "tr",dragEnd: function() {
+                url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id=null";
+                var data = me.$element.find(".table-body table:first tbody tr").map(function() {return $(this).attr("id");}).get();
                 $.post(url, { ordered_ids: data.join(",")} );
-            }
+            }, placeHolderTemplate: "<tr class='place-holder'></tr>" });
         }
     };
     //初始化排序列
