@@ -1,7 +1,7 @@
 <%=datatable_view({:count=>@count,:datas=>@organization_infos}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:class => "action-link") %>&nbsp;|
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},:class => "action-link") %>
   <% end %>
   <% builder.column(:name,{:title=>t(:label_irm_tab_name), :width => "20%"})%>
   <% builder.column(:value,{:title=>t(:label_irm_organization_info_value), :width => "25%"})%>

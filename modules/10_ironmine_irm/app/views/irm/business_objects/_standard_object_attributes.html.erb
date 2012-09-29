@@ -1,13 +1,13 @@
 <%=datatable_view({:count=>datas.length,:datas=>datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation), :width => "70px"}) do |data|%>
-       <%= link_to(t(:edit),{:controller => "irm/object_attributes", :action => "edit", :bo_id => @business_object.id,:id=>data[:id]}) %>
+  <% builder.column(:id,{:title=>t(:operation), :width => "40px"}) do |data|%>
+    <%= link_to(t(:edit),{:controller => "irm/object_attributes", :action => "edit", :bo_id => @business_object.id,:id=>data[:id]},{:class => "action-link"}) %>
   <% end %>
   <% builder.column(:name,{:title=>t(:label_irm_object_attribute_name),:searchable=>true}) do |data|%>
-        <% if Irm::Constant::SYS_YES.eql?(data[:label_flag]) %>
-            <%= link_to("#{data[:name]}(#{t(:label_irm_object_attribute_label_flag)})",{:controller => "irm/object_attributes", :action => "show", :bo_id => @business_object.id,:id=>data[:id]}) %>
-        <% else %>
-            <%= link_to(data[:name],{:controller => "irm/object_attributes", :action => "show", :bo_id => @business_object.id,:id=>data[:id]}) %>
-        <% end %>
+    <% if Irm::Constant::SYS_YES.eql?(data[:label_flag]) %>
+      <%= link_to("#{data[:name]}(#{t(:label_irm_object_attribute_label_flag)})",{:controller => "irm/object_attributes", :action => "show", :bo_id => @business_object.id,:id=>data[:id]}) %>
+    <% else %>
+      <%= link_to(data[:name],{:controller => "irm/object_attributes", :action => "show", :bo_id => @business_object.id,:id=>data[:id]}) %>
+    <% end %>
   <% end %>
   <% builder.column(:attribute_name,{:title=>t(:label_irm_object_attribute_attribute_name),:searchable=>true})%>
   <% builder.column(:category,{:title=>t(:label_irm_object_attribute_category),:searchable=>true}) do |data|%>

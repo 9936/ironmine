@@ -89,8 +89,8 @@
               <tr id="<%=organization.id%>">
                 <td >
                   <div>
-                    <%= link_to(t(:edit),{:action=>"edit",:id=>organization.id}) %>
-                    <%= link_to(t(:show),{:action=>"show",:id=>organization.id}) %>
+                    <%= link_to(t(:edit),{:action=>"edit",:id=>organization.id},:class => "action-link") %>&nbsp;|
+                    <%= link_to(t(:show),{:action=>"show",:id=>organization.id},:class => "action-link") %>
                    </div>
                 </td>
                 <td>

@@ -89,6 +89,10 @@ class Irm::OauthAccessClientsController < ApplicationController
     oauth_access_clients,count = paginate(oauth_access_clients_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(oauth_access_clients.to_grid_json([:name,:description,:code,:token],count))}
+      format.html  {
+        @count = count
+        @datas = oauth_access_clients
+      }
     end
   end
 end

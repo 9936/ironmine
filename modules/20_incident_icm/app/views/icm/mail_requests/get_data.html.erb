@@ -1,11 +1,11 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
     <% if data[:status_code].eql?('ENABLED') %>
-      <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-      <%= link_to(t(:disable),{:action=>"disable", :id => data[:id]})%>
+      <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:class => "action-link") %>&nbsp;|
+      <%= link_to(t(:disable),{:action=>"disable", :id => data[:id]},:class => "action-link")%>
     <% else %>
-      <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-      <%= link_to(t(:enable),{:action=>"enable", :id => data[:id]})%>
+      <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:class => "action-link") %>&nbsp;|
+      <%= link_to(t(:enable),{:action=>"enable", :id => data[:id]},:class => "action-link")%>
     <% end %>
   <% end %>
   <% builder.column(:username,{:title=>t(:label_irm_common_username),:searchable=>true})  %>

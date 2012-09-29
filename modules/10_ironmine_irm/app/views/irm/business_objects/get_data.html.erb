@@ -7,9 +7,9 @@
   <% builder.column(:bo_table_name,{:title=>t(:label_irm_business_object_bo_table_name),:searchable=>true})%>
   <% builder.column(:bo_model_name,{:title=>t(:label_irm_business_object_bo_model_name),:searchable=>true})%>
   <% builder.column(:auto_generate_flag,{:title=>t(:label_irm_business_object_auto_generate_flag)}) do |data|%>
-        <%= check_img(data[:auto_generate_flag]) %>
+    <%= check_img(data[:auto_generate_flag]) %>
   <% end %>
   <% builder.column(:multilingual_flag,{:title=>t(:label_irm_business_object_multilingual_flag)}) do |data|%>
-        <%= check_img(data[:multilingual_flag]) %>
+    <%= check_img(data[:multilingual_flag]) %>
   <% end %>
 <% end %>

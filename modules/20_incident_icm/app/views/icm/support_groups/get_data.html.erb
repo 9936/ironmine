@@ -1,7 +1,7 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation), :width => "50px"}) do |data|%>
-        <%= bootstrap_icons("icon-eye-open",t(:show),{:controller => "icm/support_groups", :action => "show", :id => data[:id]}) %>&nbsp;
-        <%= bootstrap_icons("icon-edit",t(:edit),{:controller => "icm/support_groups", :action => "edit", :id => data[:id]}) %>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+        <%= link_to(t(:show),{:controller => "icm/support_groups", :action => "show", :id => data[:id]},:class => "action-link") %>&nbsp;|
+        <%= link_to(t(:edit),{:controller => "icm/support_groups", :action => "edit", :id => data[:id]},:class => "action-link") %>
     <% end %>
     <% builder.column(:group_id,{:title=>t(:label_icm_support_group_name),:searchable => true}) do |data| %>
         <%= support_name(data[:group_id]) %>

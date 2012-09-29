@@ -1,13 +1,12 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-        <%= link_to(t(:edit),{:controller => "irm/function_groups",:action=>"edit",:id=>data[:id]},{:back=>{:controller => "irm/function_groups",:action=>"index"}}) %>
-        <%= link_to(t(:show),{:controller=>"irm/function_groups",:action=>"show",:id=>data[:id]},{:back=>{:controller => "irm/function_groups",:action=>"index"}}) %>
+      <%= link_to(t(:edit),{:controller => "irm/function_groups",:action=>"edit",:id=>data[:id]},{:class => "action-link",:back=>{:controller => "irm/function_groups",:action=>"index"}})%>&nbsp;|&nbsp;<%= link_to(t(:show),{:controller=>"irm/function_groups",:action=>"show",:id=>data[:id]},{:class => "action-link",:back=>{:controller => "irm/function_groups",:action=>"index"}}) %>
     <% end %>
     <% builder.column(:code,{:title=>t(:label_irm_function_group_group_code)})%>
     <% builder.column(:name,{:title=>t(:label_irm_function_group_name)})%>
     <% builder.column(:description,{:title=>t(:label_irm_function_group_description)})%>
     <% builder.column(:status_code,{:title=>t(:active), :width => "40px"}) do |data|%>
-        <%= check_img(data[:status_code]) %>
+      <%= check_img(data[:status_code]) %>
     <% end %>
 
 <% end %>

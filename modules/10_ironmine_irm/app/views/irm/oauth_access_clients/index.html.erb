@@ -1,37 +1,21 @@
 <%= page_title %>
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_oauth_access_client_list) %></h2></td>
-              <td id="topButtonRow" class="pbButton">
-                <div class="button"><%= link_to t(:new), {:action => "new"}%></div>
-              </td>
-              <td class="pbHelp">
-                <div id="oauth_access_clientsSearchBox"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <div id="oauth_access_clients" class="datatable" style="width:100%">
-          <div id="id" style="display:none">
-            <%= link_to(t(:edit),{:action=>"edit",:id=>"{id}"}) %>|<%= link_to(t(:show),{:action=>"show",:id=>"{id}"}) %>|<%= link_to(t(:delete),{:action=>"destroy",:id=>"{id}"},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure)}) %>
-          </div>
-        </div>
-        <%= datatable("oauth_access_clients",{:action=>"get_data",:format=>"json"},
-                      [{:key=>"id",:label=>t(:operation),:formatter=>"Y.irm.template",:width=>"140px"},
-                       {:key=>"code",:label=>t(:code),:width=>"200px",:searchable=>true},
-                       {:key=>"name",:label=>t(:name),:width=>"200px",:searchable=>true},
-                       {:key=>"description",:label=>t(:description),:searchable=>true },
-                       {:key=>"token",:label=>t(:label_irm_oauth_access_client_token),:width=>"300px"},
-                                              ],{:paginator_box=>"oauth_access_clientsPaginatorBox",:search_box=>"oauth_access_clientsSearchBox"})%>
-        <div id="oauth_access_clientsPaginatorBox"></div>
-      </div>
-    </div>
+
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_oauth_access_client_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <div id="oauth_access_clients"></div>
+    <%= datatable("oauth_access_clients",{:action=>"get_data"}, [],{:paginator_box=>"oauth_access_clientsPaginatorBox",:search_box=>"oauth_access_clientsSearchBox"})%>
+    <div id="oauth_access_clientsPaginatorBox"></div>
+  </div>
 </div>
-
-

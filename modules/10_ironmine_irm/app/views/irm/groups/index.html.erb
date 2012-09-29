@@ -64,7 +64,7 @@
           <table count="<%=@leveled_groups.length%>">
              <thead>
                <tr>
-                 <th style="width:70px;">
+                 <th style="width:90px;">
                    <div><%= t(:operation) %></div>
                  </th>
                  <th  style="width:300px;">
@@ -83,8 +83,8 @@
               <tr id="<%=group.id%>">
                 <td>
                   <div>
-                    <%= link_to(t(:edit),{:action=>"edit",:id=>group.id}) %>
-                    <%= link_to(t(:show),{:action=>"show",:id=>group.id}) %>
+                    <%= link_to(t(:edit),{:action=>"edit",:id=>group.id},:class => "action-link") %>&nbsp;|
+                    <%= link_to(t(:show),{:action=>"show",:id=>group.id},:class => "action-link") %>
                    </div>
                 </td>
 

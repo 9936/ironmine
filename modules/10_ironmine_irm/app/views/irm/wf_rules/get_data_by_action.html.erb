@@ -1,6 +1,6 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation), :width => "70px"}) do |data|%>
-        <%= link_to(t(:show),{:controller => "irm/wf_rules", :action => "show",:id=>data[:id]},:back=>true) %>
+  <% builder.column(:id,{:title=>t(:operation), :width => "30px"}) do |data|%>
+    <%= link_to(t(:show),{:controller => "irm/wf_rules", :action => "show",:id=>data[:id]},:class => "action-link",:back=>true) %>
   <% end %>
   <% builder.column(:name,{:title=>t(:label_irm_wf_rule_name),:searchable=>true}) do |data|%>
         <%= link_to(data[:name],{:controller => "irm/wf_rules", :action => "show",:id=>data[:id]},:back=>true) %>

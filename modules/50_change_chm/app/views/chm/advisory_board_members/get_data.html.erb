@@ -1,6 +1,5 @@
 <%=datatable_view({:columns=>[:full_name,:email_address,:organization_name],:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation)})%>
-
   <% builder.column(:full_name,{:title=>t(:label_irm_person_full_name),:searchable=>true})  %>
   <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address),:searchable=>true})%>
   <% builder.column(:organization_name,{:title=>t(:label_irm_organization),:searchable=>true})%>

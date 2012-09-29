@@ -14,20 +14,20 @@
     <table class="show-table">
       <tbody>
           <tr>
-            <td class="labelCol"><label ><%=t(:label_irm_wf_mail_alert_name)%></label></td>
-            <td class="dataCol"><div><%= @wf_mail_alert.name %></div></td>
-            <td class="labelCol"><label ><%=t(:label_irm_wf_mail_alert_mail_template_code)%></label></td>
-            <td class="dataCol"><div><%= @wf_mail_alert[:mail_template_name] %></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_wf_mail_alert_name)%></label></td>
+            <td class="data-col"><div><%= @wf_mail_alert.name %></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_wf_mail_alert_mail_template_code)%></label></td>
+            <td class="data-col"><div><%= @wf_mail_alert[:mail_template_name] %></div></td>
           </tr>
           <tr>
-            <td class="labelCol"><label ><%=t(:label_irm_wf_mail_alert_mail_alert_code)%></label></td>
-            <td class="dataCol"><div><%= @wf_mail_alert.mail_alert_code %></div></td>
-            <td class="labelCol"><label ><%=t(:label_irm_wf_mail_alert_bo_code)%></label></td>
-            <td class="dataCol"><div><%= @wf_mail_alert[:bo_name] %></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_wf_mail_alert_mail_alert_code)%></label></td>
+            <td class="data-col"><div><%= @wf_mail_alert.mail_alert_code %></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_wf_mail_alert_bo_code)%></label></td>
+            <td class="data-col"><div><%= @wf_mail_alert[:bo_name] %></div></td>
           </tr>
           <tr>
-            <td class="labelCol"><label ><%=t(:label_irm_wf_mail_recipients)%></label></td>
-            <td class="dataCol" colspan="3" width="82%">
+            <td class="label-col"><label ><%=t(:label_irm_wf_mail_recipients)%></label></td>
+            <td class="data-col" colspan="3" width="82%">
               <div>
                 <% @bo_duel_value = bo_person_field_duel_values(@wf_mail_alert.bo_code,[Irm::ExternalSystem.name]);meaning = duel_meaning(@wf_mail_alert.get_recipient_str,@bo_duel_value) %>
                 <% if meaning.any? %>
@@ -40,16 +40,16 @@
 
           </tr>
           <tr>
-            <td class="labelCol"><label ><%=t(:label_irm_wf_mail_alert_description)%></label></td>
-            <td class="dataCol" colspan="3" width="82%"><div><%= @wf_mail_alert.description %></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_wf_mail_alert_description)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><div><%= @wf_mail_alert.description %></div></td>
           </tr>
           <tr>
-            <td class="labelCol"><label ><%=t(:label_irm_wf_mail_alert_additional_email)%></label></td>
-            <td class="dataCol" colspan="3" width="82%"><div><%= @wf_mail_alert.additional_email %></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_wf_mail_alert_additional_email)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><div><%= @wf_mail_alert.additional_email %></div></td>
           </tr>
           <tr>
-            <td class="labelCol"><label ><%=t(:label_irm_wf_mail_alert_from_email)%></label></td>
-            <td class="dataCol" colspan="3" width="82%"><div><%= @wf_mail_alert.from_email %></div></td>
+            <td class="label-col"><label ><%=t(:label_irm_wf_mail_alert_from_email)%></label></td>
+            <td class="data-col" colspan="3" width="82%"><div><%= @wf_mail_alert.from_email %></div></td>
           </tr>
       </tbody>
     </table>

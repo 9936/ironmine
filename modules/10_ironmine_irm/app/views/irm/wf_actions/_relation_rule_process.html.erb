@@ -9,8 +9,7 @@
 
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("action_rules",{:controller => "irm/wf_rules", :action => "get_data_by_action", :action_type => action_type,:action_id=>action_id,:format=>"json"},
-                  [],{})%>
+    <%= datatable("action_rules",{:controller => "irm/wf_rules", :action => "get_data_by_action", :action_type => action_type,:action_id=>action_id,:format=>"json"},[],{})%>
   </div>
 </div>
 

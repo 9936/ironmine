@@ -92,8 +92,8 @@
                 <tr id="<%=role.id%>">
                   <td>
                     <div >
-                      <%= link_to(t(:edit),{:action=>"edit",:id=>role.id}) %>
-                      <%= link_to(t(:show),{:action=>"show",:id=>role.id}) %>
+                      <%= link_to(t(:edit),{:action=>"edit",:id=>role.id},:class => "action-link") %>&nbsp;|
+                      <%= link_to(t(:show),{:action=>"show",:id=>role.id},:class => "action-link") %>
                      </div>
                   </td>
                   <td >
