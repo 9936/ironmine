@@ -1733,8 +1733,8 @@ jQuery.fn.menubutton = function () {
         var me = this;
         if (me.data.options.dragOptions.dragAble) {
             var url = me.data.options.dragOptions.saveUrl;
-
-            me.$element.find(".table-body table:first tbody").dragsort({ itemSelector: "tr", dragSelector: "tr",dragEnd: function() {
+            $(".table-body table:first tbody tr td:not(:first-child)", me.$element).addClass("un-drag-td");
+            $(".table-body table:first tbody", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr",dragSelectorExclude:".un-drag-td",dragEnd: function() {
                 url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id=null";
                 var data = me.$element.find(".table-body table:first tbody tr").map(function() {return $(this).attr("id");}).get();
                 $.post(url, { ordered_ids: data.join(",")} );
