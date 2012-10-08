@@ -558,6 +558,7 @@ en:
   label_irm_company_base_info: Base Info
   label_irm_company_site_info: Site Info
   label_irm_company_support_group: Support Group
+  label_irm_company_support_group_list: Support Group List
   label_irm_company_time_zone: Time Zone
   label_irm_company_hotline: HotLine
   label_irm_company_cost_center: Cost Center
