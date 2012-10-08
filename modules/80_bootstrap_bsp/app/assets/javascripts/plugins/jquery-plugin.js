@@ -677,7 +677,7 @@ jQuery.fn.menubutton = function () {
         }
 
         this.createTree();
-
+        //
     };
 
     /**
@@ -728,17 +728,21 @@ jQuery.fn.menubutton = function () {
                 $(this).removeClass("nav-tree-col");
                 $(this).addClass("nav-tree-exp");
                 $('#tree_' + $(this).attr("real") + "_child").css({display:"block"});
-                var menu_code = $(this).attr("real");
-
-            }
-            else {
+            }else {
                 $(this).removeClass("nav-tree-exp");
                 $(this).addClass("nav-tree-col");
                 $('#tree_' + $(this).attr("real") + "_child").css({display:"none"});
-                var menu_code = $(this).attr("real");
             }
-
         });
+
+        //如果当前只有一个菜单默认将其展开
+        if($("#MenuNavTree .parent-2").length == 1){
+            var navLink = $($("#MenuNavTree .parent-2 .nav-icon-link")[0]);
+            if(navLink.hasClass("nav-tree-col")){
+                navLink.removeClass("nav-tree-col").addClass("nav-tree-exp");
+                $('#tree_' + navLink.attr("real") + "_child").css({display:"block"});
+            }
+        }
 
         for (var i = 0; i < opened_menus.length; i++) {
             $("a.nav-icon-link[real='" + opened_menus[i] + "']").each(function (index, child) {
@@ -750,10 +754,9 @@ jQuery.fn.menubutton = function () {
                 });
             });
             var leaf = $("div.setup-leaf[ti=" + opened_menus[i] + "]:first");
-            if (leaf)
-                leaf.addClass("setup-highlight-leaf");
+            if (leaf) leaf.addClass("setup-highlight-leaf");
         }
-    }
+    };
 
     // 插件的公有方法
 
