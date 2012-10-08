@@ -1198,6 +1198,11 @@ div.min-block-body {
     background-color: #EDF5FF;
 }
 
+.drag-able .datatable tbody tr:hover{
+    background-color: #DAECF6;
+    border: 2px dotted #ff0000;
+}
+
 .datatable table th > div {
     white-space: nowrap;
 }
@@ -1209,6 +1214,21 @@ div.min-block-body {
     overflow: visible; /*to make ths where the title is really long work*/
     line-height: auto;
 }
+
+.page-block.drag-able .table-body table {
+    border: 2px dashed gray;
+//    z-index: 1050;
+//    position: absolute;
+}
+
+.drag-able .page-block-help {
+    display: none;
+}
+
+.drag-able .datatable table td {
+    border-bottom: 1px dashed #c2c0c0;
+}
+
 
 .datatable table td {
     margin: 0;
