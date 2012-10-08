@@ -13,7 +13,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="assign_rules"></div>
       <%= datatable("assign_rules",{:action=>"get_data"},[],{:search_box=>"searchBox",:drag_sort => {:save_url => url_for(:controller => 'icm/assign_rules', :action => 'switch_sequence')} })%>
   </div>
 </div>

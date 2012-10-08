@@ -18,7 +18,10 @@ var irm_labels = {
     search: "搜索",
     upload_file_type_error: "文件类型错误",
     upload_file_size_error: "文件超过限定大小",
-    check_pasted_file_name: "确认文件名"
+    check_pasted_file_name: "确认文件名",
+    reset_order_btn_text: "调整显示顺序",
+    save_btn_text: "保存",
+    cancel_btn_text: "取消"
 };
 
 if($.fn.datepicker.dpglobal){

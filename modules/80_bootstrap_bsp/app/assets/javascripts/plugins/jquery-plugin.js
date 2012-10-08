@@ -1732,13 +1732,46 @@ jQuery.fn.menubutton = function () {
     Internal.prototype.buildDrag = function(){
         var me = this;
         if (me.data.options.dragOptions.dragAble) {
-            var url = me.data.options.dragOptions.saveUrl;
-            $(".table-body table:first tbody tr td:not(:first-child)", me.$element).addClass("un-drag-td");
-            $(".table-body table:first tbody", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr",dragSelectorExclude:".un-drag-td",dragEnd: function() {
-                url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id=null";
-                var data = me.$element.find(".table-body table:first tbody tr").map(function() {return $(this).attr("id");}).get();
+            //为页面元素添加排序操作按钮
+            var orderBtn = $('<a href="javascript:void(0);" class="btn"><i class="icon-move"></i>'+$.i18n("reset_order_btn_text")+'</a>'),
+                pageBlock = $(me.$element.parents(".page-block")[0]),
+                saveBtn = $('<a href="javascript:void(0);" class="btn btn-success" style="display: none;"><i class="icon-ok icon-white"></i>'+$.i18n("save_btn_text")+'</a>'),
+                cancelBtn = $('<a href="javascript:void(0);" class="btn" style="margin-right:10px;display: none;">'+$.i18n("cancel_btn_text")+'</a>'),
+                btns = $(".page-block-header .page-block-button .btn",pageBlock),
+                html = $(".datatable", pageBlock).html(),
+                url = me.data.options.dragOptions.saveUrl;
+            url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id=null";
+            orderBtn.bind("click", function(){
+                btns.css("display","none");
+                $(this).hide();
+                saveBtn.show();
+                cancelBtn.show();
+                $(".table-body table:first tbody", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr", placeHolderTemplate: "<tr class='place-holder'></tr>" });
+                pageBlock.addClass("drag-able");
+            });
+            saveBtn.bind("click", function(){
+                btns.css("display","inline-block");
+                orderBtn.show();
+                $(this).hide();
+                cancelBtn.hide();
+                pageBlock.removeClass('drag-able');
+                $(".table-body table:first tbody", me.$element).dragsort("destroy");
+                var data = $(".table-body table:first tbody tr",me.$element).map(function() {return $(this).attr("id");}).get();
                 $.post(url, { ordered_ids: data.join(",")} );
-            }, placeHolderTemplate: "<tr class='place-holder'></tr>" });
+                //保存后将html修改
+                html = $(".datatable", pageBlock).html();
+            });
+            //取消按钮
+            cancelBtn.bind("click",function(){
+                btns.css("display","inline-block");
+                orderBtn.show();
+                cancelBtn.hide();
+                saveBtn.hide();
+                pageBlock.removeClass('drag-able');
+                $(".table-body table:first tbody", me.$element).dragsort("destroy");
+                $(".datatable", pageBlock).html(html);
+            });
+            $(".page-block-header .page-block-button",pageBlock).append(orderBtn).append(cancelBtn).append(saveBtn);
         }
     };
     //初始化排序列

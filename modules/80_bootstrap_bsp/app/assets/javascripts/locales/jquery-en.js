@@ -16,5 +16,8 @@ var irm_labels = {
     search: "Search" ,
     upload_file_type_error: "Filetype not allowed",
     upload_file_size_error: "File is too large",
-    check_pasted_file_name: "Confirm file name"
+    check_pasted_file_name: "Confirm file name",
+    reset_order_btn_text: "Reset order",
+    save_btn_text: "Save",
+    cancel_btn_text: "Cancel"
 };
