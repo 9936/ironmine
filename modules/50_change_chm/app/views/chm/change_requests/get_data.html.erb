@@ -51,5 +51,8 @@
     <% builder.column(:external_system_id_, {:title => t(:label_chm_change_request_external_system), :width => "130px"}) do |data| %>
         <%= data.external_system_id_label %>
     <% end %>
+    <% builder.row do |data|%>
+        style="vertical-align: top;"
+    <% end %>
 <% end %>
 
