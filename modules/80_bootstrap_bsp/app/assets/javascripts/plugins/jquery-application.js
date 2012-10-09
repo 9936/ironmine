@@ -490,10 +490,10 @@ function getSelectWidth(selectObj){
 //START =================================客户端校验文件大小================================
 function checkAttachment(target, limitSize){
     var fileSize = 0;
-    if ( $.browser.msie && !target.files ) {
+    if ( $.browser.msie ) {
         var file_system = new ActiveXObject("Scripting.FileSystemObject");
         var file = file_system.GetFile($(target).val());
-        fileSize = file.Size;
+        fileSize = file.size;
     }else{
         fileSize = target.files[0].size;
     }
