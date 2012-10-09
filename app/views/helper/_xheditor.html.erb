@@ -45,8 +45,11 @@
           <% if shortcuts -%>
           shortcuts:{'ctrl+enter':submitForm},
           <% end -%>
-          upImgExt:'jpg,jpeg,gif,png'
+          upImgExt:'jpg,jpeg,gif,png',
+          focus: function(){$(".xheLayout",$("#<%=textarea_id%>").parent()).addClass("focused")},
+          blur: function(){$(".xheLayout",$("#<%=textarea_id%>").parent()).removeClass("focused")}
 
       });
+      editor.focus();
     });
 </script>
