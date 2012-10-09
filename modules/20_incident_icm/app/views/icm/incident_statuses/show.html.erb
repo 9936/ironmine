@@ -36,8 +36,8 @@
           <tr>
             <td class="label-col"><label><%=(t :status)%></label></td>
             <td class="data-col"><%= @incident_status[:status_meaning]%></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
+            <td class="label-col"><label><%=t(:display_color)%></label></td>
+            <td class="data-col"><div style="width: 40px; height: 20px; background-color: <%= @incident_status.display_color %>;"></div></td>
           </tr>
       </tbody>
     </table>

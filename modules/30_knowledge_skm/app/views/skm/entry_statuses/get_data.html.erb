@@ -13,6 +13,6 @@
     <%= check_img(data[:status_code]) %>
   <% end %>
   <% builder.row do |data|%>
-        style="background-color:<%=data[:display_color]%>;color:<%=get_contrast_yiq(data[:display_color])%>;"
+       style="background-color:<%=data[:display_color]%>;color:<%=get_contrast_yiq(data[:display_color])%>;"
   <% end %>
 <% end %>

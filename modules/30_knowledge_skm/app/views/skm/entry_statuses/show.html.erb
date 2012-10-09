@@ -15,11 +15,11 @@
     <table class="show-table">
       <tbody>
           <tr>
-            <td class="label-col"><label><%=(t :label_skm_entry_status_code)%></label></td>
+            <td class="label-col"><label><%=t(:label_skm_entry_status_code)%></label></td>
             <td class="data-col"><%= @entry_status[:entry_status_code]%></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :name)%></label></td>
+            <td class="label-col"><label><%=t(:name)%></label></td>
             <td class="data-col"><%= @entry_status[:name]%></td>
           </tr>
           <tr>
@@ -27,8 +27,12 @@
             <td class="data-col"><%= @entry_status[:description]%></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_skm_entry_status_visiable)%></label></td>
+            <td class="label-col"><label><%=t(:label_skm_entry_status_visiable)%></label></td>
             <td class="data-col"><%= check_img(@entry_status.visiable_flag)%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:display_color)%></label></td>
+            <td class="data-col"><div style="width: 30px; height: 40px; background-color: <%= @entry_status.display_color %>;"></div></td>
           </tr>
       </tbody>
     </table>
