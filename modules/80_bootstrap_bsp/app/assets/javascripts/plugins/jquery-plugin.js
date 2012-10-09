@@ -1225,7 +1225,7 @@ jQuery.fn.menubutton = function () {
     // 将新文件信息添加到页面上
     Internal.prototype.generateFileInfo = function (fileInput) {
         var me = this;
-        var options = {result:me.checkFile(fileInput), fileName:fileInput.val().split('\\').pop()};
+        var options = {result:me.checkFile(fileInput), fileSize:formatFileSize(me.getFileSize(fileInput)) ,fileName:fileInput.val().split('\\').pop()};
         me.appendToUi(options, fileInput);
     }
 
@@ -1238,6 +1238,7 @@ jQuery.fn.menubutton = function () {
                     sequence:me.data.options.fileCount - 1,
                     ref:"files",
                     fileName:options.fileName,
+                    fileSize:options.fileSize,
                     fileUrl: options.fileUrl || "javascript:void(0)",
                     deleteTarget:options.deleteTarget || "",
                     attachmentId:options.attachmentId || ""
