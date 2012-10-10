@@ -9,7 +9,7 @@ en:
   label_icm_rule_setting_report_date_changable: Report date changable
   label_icm_rule_setting_respond_date_changable: Respond date changable
   label_icm_rule_setting_auto_closure_days: Auto close days
-  label_icm_rule_setting_assignment_process_code: Process
+  label_icm_rule_setting_assignment_process_code: Assignment process
   label_icm_rule_setting_slove_date_changable: slove date changable
   label_icm_rule_setting_auto_assignable: Auot assign
   label_icm_rule_setting_description: Description
@@ -19,6 +19,7 @@ en:
   label_icm_rule_setting_status_code: Status Code
   #========================= end icm rule_settings_controller=======================#
   #=========================    icm impact_ranges_controller=======================#
+  label_icm_impact_range: Impact range
   label_icm_impact_range_list: Impact range list
   label_icm_impact_range_new: New impate range
   label_icm_impact_range_impact_code: Impate code
@@ -29,6 +30,7 @@ en:
   label_icm_impact_range_edit: Edit impate range
   #========================= end icm impact_ranges_controller=======================#
   #=========================    icm urgence_codes_controller=======================#
+  label_icm_urgence_code: Urgency
   label_icm_urgence_code_list: List urgence code
   label_icm_urgence_code_new: New urgence code
   label_icm_urgence_code_urgency_code: Code
@@ -55,6 +57,7 @@ en:
   label_icm_priority_code_weight_values: Weight Value
   #========================= end icm priority_codes_controller=======================#
   #=========================    icm close_reasons_controller=======================#
+  label_icm_close_reason: Close reason
   label_icm_close_reason_list: Close reason list
   label_icm_close_reason_new: New close reason
   label_icm_close_reason_company: Company
@@ -65,6 +68,7 @@ en:
   label_icm_close_reason_edit: Edit close reason
   #========================= end icm close_reasons_controller=======================#
   #=========================    icm incident_phases_controller=======================#
+  label_icm_incident_phase: Incident Phase
   label_icm_incident_phase_list: Incident phase list
   label_icm_incident_phase_new: New incident phase
   label_icm_incident_phase_phase_code: Code
@@ -100,7 +104,7 @@ en:
   label_icm_incident_request_title: Title
   label_icm_incident_request_number: No.
   label_icm_incident_request_summary: Summary
-  label_icm_incident_requset_addition_info: Addition information
+  label_icm_incident_requset_addition_info: Additional information
   label_icm_incident_request_requested_by: Requester
   label_icm_incident_request_requested_by_org: Requester Org.
   label_icm_incident_request_requested_by_role: Requester Role
@@ -136,22 +140,22 @@ en:
   label_icm_incident_request_attachment_list: Attachment List
   label_icm_incident_request_target_system: System
   label_action_assign_dashboard: Assign DashBoard
-  label_icm_incident_request_assignable_list: Assignable Incident Request
+  label_icm_incident_request_assignable_list: Incident request to be assigned
   label_icm_incident_request_assign: Assign
-  error_icm_requested_by_can_not_blank: Requested by can not be blank
-  label_icm_incident_request_view_filter_data_range_all: 我相关的
-  label_icm_incident_request_view_filter_data_range_main: 我参与的
+  error_icm_requested_by_can_not_blank: Requestor can't be blank
+  label_icm_incident_request_view_filter_data_range_all: My related
+  label_icm_incident_request_view_filter_data_range_main: My engaged
   label_icm_incident_journal_upgrade: Upgrade
   label_icm_incident_request_assign_me: Assign to Me
   label_icm_incident_request_assign_me_able_list: Incident Request for My Group
   label_icm_incident_request_close_reason: Close Reason
   label_icm_incident_request_incident_status: Change Status
   label_icm_incident_request_upgrade: Upgrade
-  label_icm_incident_status_edit_transform: Edit Status Transform
+  label_icm_incident_status_edit_transform: Incident status transform
   label_icm_incident_request_relation: Related Requests
   label_icm_incident_request_incident_category: Category
   label_icm_incident_request_incident_sub_category: Subcategory
-  label_icm_create_relate_change_request: Change Request
+  label_icm_create_relate_change_request: Create RFC
   label_icm_incident_category_apply_system: Apply System
   label_icm_incident_category_system: Category System
   label_icm_incident_request_relation_new: New Relation Incident
@@ -162,8 +166,9 @@ en:
   label_icm_incident_request_relation_types: Relation Types
   label_icm_incident_request_relation_type: Relation
   label_icm_incident_request_relation: Relation Types
-  label_icm_incident_request_estimated_date: Estimated Date
+  label_icm_incident_request_estimated_date: Estimated completion date
   label_icm_incident_request_relation_config_items: Config Item
+  label_irm_incident_status_transform_event_error: One incident could only use once in same line
   #========================= end icm incident_requests_controller=======================#
   #=========================    icm incident_journals_controller=======================#
   label_icm_incident_reply_support_group_id: Referred group
@@ -172,11 +177,11 @@ en:
   label_icm_incident_reply_incident_status_code: New Incident Status
   label_icm_incident_journal_list: Replies
   label_icm_incident_journal_message_body: Reply Message
-  label_icm_incident_journal_person: Request Person
-  label_icm_incident_journal_content: Request Content
-  label_icm_incident_journal_date: Request Date
+  label_icm_incident_journal_person: Replied by
+  label_icm_incident_journal_content: Replied content
+  label_icm_incident_journal_date: Replied date
   label_icm_incident_journal_new: Reply
-  label_icm_incident_journal_back_to_request_list: Back List
+  label_icm_incident_journal_back_to_request_list: Back to list
   label_icm_incident_request_base_info: Base information
   label_icm_incident_request_status_info: Status information
   label_icm_incident_journal_reply: Comments
@@ -268,7 +273,8 @@ en:
   #========================== end incident category  ===============================
   label_icm_incident_request_watcher: Watcher
   label_icm_incident_request_update_journal: Update Reply
-
+  label_report_incident_request_support: Assign to
+  label_report_incident_request_journal: Solved record
   #========================= Assign rule ====================================
   label_icm_assign_rule: Assign Rule
   label_icm_assign_rule_list: Assign Rule List
