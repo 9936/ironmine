@@ -2220,7 +2220,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/incident_requests" => ["kanban_index"],
+              "icm/kanbans" => [],
           },
       }
   }
