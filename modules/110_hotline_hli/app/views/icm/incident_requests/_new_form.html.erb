@@ -11,7 +11,7 @@
              <tr>
                <td class="label-col"><label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%></label></td>
                <td class="data-3col"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"incident_request_requested_by",:class=>"input-medium"}%><br>
-                 > <a href="javascript:void(0);" id="incident_request_requested_by_self">自己</a></td>
+                 > <a href="javascript:void(0);" id="incident_request_requested_by_self"><%= I18n.t(:self) %></a></td>
              </tr>
           <script type="text/javascript">
              $(function(){

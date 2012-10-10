@@ -173,6 +173,7 @@ en:
   uncategory: Not classified
   label_attachment_file_size_limit: File size limit %{limit}
   label_attachment_file_type: File type limit %{type}
+  self: Self
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
