@@ -164,6 +164,7 @@ zh:
   label_attachment_info: 附件信息
   label_attachment_file_size_limit: 文件大小限制 %{limit}
   label_attachment_file_type: 文件类型限制 %{type}
+  self: 自己
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型

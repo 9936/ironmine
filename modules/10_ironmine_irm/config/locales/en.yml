@@ -1,10 +1,10 @@
 en:
   #=========================usual custom=======================#
   errors:
-    already_exists_in_service_center: Email is token by someone in current ServiceCenter
-  access_denied: Access {{permission}} Deny!
+    already_exists_in_service_center: Email is used by someone in current Service center
+  access_denied: Access {{permission}} is Denied!
   invalid_invitation_key: Invalid invitation key!
-  current_page_help: Current page help
+  current_page_help: Current help page
   #usual button
   fresh: Resh
   after_n_fresh: Auto refresh in %{n} seconds
@@ -51,14 +51,14 @@ en:
   list: List
   button_add_file: Add File
   more: More
-  jump: Jump
+  jump: Go to
   name: Name
   description: Description
   actionview_instancetag_blank_option: Please Select
   more_info: More Info
   enable: Enable
   disable: Disable
-  cut_image: Crop picture
+  cut_image: Cut current picture
   close: Close
   default: Default
   select: Options
@@ -88,7 +88,7 @@ en:
   help: Help
   pass: Pass
   select_all: Select All
-  null_string: Empty
+  null_string: Blank
   test: Test
   duel_selectable: Selectable item
   duel_selected: Selected item
@@ -101,13 +101,13 @@ en:
   updated_by: Updated by
   updated_at: Updated at
   status: Status
-  no_data: No data for this entity
+  no_data: No data available
   label_alias: " Alias"
   code: Code
   collapse_all: Collapse All
   expand_all: Expand All
   #usual words
-  notice_account_invalid_creditentials: User or Password Error
+  notice_account_invalid_creditentials: Incorrect username or password
   successfully_updated_password: Successfully Updated Password
   successfully_updated: Successfully Updated
   successfully_created: Successfully Created
@@ -118,7 +118,7 @@ en:
   failed_copyed:  Failed Copyed
   failed_deleted:  Failed Deleted
   label_delete_confirm: Are you sure to delete this record?
-  label_no_data: No Data
+  label_no_data: No data available
   label_sub_functions: Functions
   label_common_info: Common Info
   label_description_info: Description Info
@@ -132,7 +132,7 @@ en:
   label_are_you_sure: Are you sure?
   display_sequence: Display Sequence
   display_color: Color
-  default_flag: As Default
+  default_flag: Default
   report: Report
   common_report: Common Report
   go_to_report: Go To Report
@@ -162,17 +162,18 @@ en:
   upload_from_clipboard: Upload Image From Clipboard
   kanban_mode: Kanban
   list_mode: List
-  error_file_upload_limit: File beyond the limit(Limit %{m} Kb, Now %{n} Kb)
-  error_file_upload_limit_shot: File beyond the limit(Limit %{m} Kb, Now _ Kb)
-  error_file_upload_repeat: Some files upload repeated.
+  error_file_upload_limit: Attachment beyond the limit(Limit %{m} Kb, Now %{n} Kb)
+  error_file_upload_limit_shot: Attachment beyond the limit(Limit %{m} Kb, Now %{n} Kb)
+  error_file_upload_repeat: Attached file upload repeatly.
   error_file_upload_empty: Not Choose File,Please Choose Again!
   file_upload_limit_alert: File limit %{m} KB
   by_name: By name
   by_date: By date
   search_options_with_dot: Advanced Search
   uncategory: Not classified
-  label_attachment_file_size_limit: 文件大小限制 %{limit}
-  label_attachment_file_type: 文件类型限制 %{type}
+  label_attachment_file_size_limit: File size limit %{limit}
+  label_attachment_file_type: File type limit %{type}
+  self: Self
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
@@ -273,7 +274,7 @@ en:
   label_irm_menu_entry_description: Description
   label_irm_menu_entry_add: Add Menu Entries
   error_irm_menu_entry_permission_sub_menu_at_least_one: Input Sub Menu or Page At Least
-  error_irm_menu_entry_sub_menu_sub_group_must_only_one: Choose Either Sub Menu or Sub Function Group
+  error_irm_menu_entry_sub_menu_sub_group_must_only_one: Must and can only choose either sub menu or sub function group
   label_irm_menu_entry_icon: Icon
   label_irm_menu_entry_sub_function_group:  Sub Function Group
   label_irm_menu_entry_sub_function_group_code: Sub Function Group Code
@@ -369,7 +370,7 @@ en:
   #=========================    end ldap_sources_controller=======================#
 
   #=========================    irm ldap_auth_headers_controller=======================#
-  label_ldap_auth_header_list: Auth Hearder
+  label_ldap_auth_header_list: Auth. header list
   label_irm_ldap_auth_header_name: Name
   label_irm_ldap_auth_header_new: New Auth Header
   label_irm_ldap_auth_header_edit: Edit Auth Header
@@ -380,7 +381,7 @@ en:
   ldap_auth_header_status_code: Status
   ldap_auth_header_ldap_login_name_attr: Login Attribute
   ldap_auth_header_ldap_email_address_attr: Email Attribute
-  ldap_auth_header_template_person: Template Person
+  ldap_auth_header_template_person: SYNC person template
   #=========================    end ldap_auth_headers_controller=======================#
   #=========================    irm ldap=======================#
   label_irm_ldap_auth_attribute_new: New Ldap Auth Attribute
@@ -497,11 +498,11 @@ en:
   label_test_mail_template: Test Notice Template
   label_irm_mail_template_from: From
   label_mail_template_plural: Notice Template
-  label_test_mail_template_info: Please input the test mail,and submit.your mailbox will revice,please check it.
+  label_test_mail_template_info: Please input email address for testing notice template.Check your mailbox after submit.
   label_test: Test
   label_send_mail_successfully:  Successfully_send_mail,please check the your mailbox.
   label_irm_mail_template_active_flag: Active
-  label_deliver_mail_template_result: The Test Mail have sent,please check the your mail box.
+  label_deliver_mail_template_result: The Test Mail has been sent,please check your mail box.
   label_irm_mail_template_editing_mail_template: Notice Template Multilingual
   label_irm_mail_template_status_code: Status Code
   label_irm_mail_template_multilingual: Multilingual
@@ -509,7 +510,7 @@ en:
   label_irm_mail_template_info: Notice Template Info
   label_irm_mail_template_content: Notice Template Content
   label_irm_mail_template_show: Notice Template
-  label_irm_mail_template_edit: Edit Template
+  label_irm_mail_template_edit: Edit notice template
   label_irm_mail_template_parameter_field: Notice Template parameters
   label_irm_mail_template_parameter_bo: Business Object
   label_irm_mail_template_parameter_field_name: Parameter name
@@ -590,7 +591,7 @@ en:
   label_irm_login_record_user_ip: User IP
   label_irm_login_record_login_at: Login at
   label_irm_login_record_logout_at: Logout at
-  label_irm_login_record_operate_system: Operate Systme
+  label_irm_login_record_operate_system: Operating System
   label_irm_login_record_browser: Browser
   #=========================end irm login_records_controller=======================#
   #=========================    irm organizations_controller=======================#
@@ -842,15 +843,15 @@ en:
   label_irm_new_view_filter: New view
   label_irm_view_filter_new: New view filter
   label_irm_view_filter_edit: Edit view filter
-  label_irm_view_filter_base_info: Step 1. View info
-  label_irm_view_filter_data_range: Step 2. Data range
-  label_irm_view_filter_criterion: Step 3.View data criterion
+  label_irm_view_filter_base_info: Step 1. Input View info
+  label_irm_view_filter_data_range: Step 2. Define Data range
+  label_irm_view_filter_criterion: Step 3. Define data filter criterion
   label_irm_view_filter_access_control: Step 4. Access control
   label_irm_view_filter_data_range_all: All
   label_irm_view_filter_data_range_main: My
   label_irm_view_filter_view_name: View name
-  label_irm_view_filter_view_code: View code
-  label_irm_view_filter_view_condition_clause: Condition clause
+  label_irm_view_filter_view_code: View unique name
+  label_irm_view_filter_view_condition_clause: Senior filter condition
   label_irm_view_filter_default_flag: As default
   label_irm_view_filter_restrict_visibility: Only for me
   irm_filter_criterions_column_code: Field
@@ -933,11 +934,11 @@ en:
   label_irm_report_auto_run_flag: Auto Run
   #========================= end irm reports ===================================
   #========================= irm report column ===================================
-  label_irm_report_setup_group_column_header: 设置数据列 分组
-  label_irm_report_setup_group_row_header: 设置数据行 分组
-  label_irm_report_group_column_field: 分组列
-  label_irm_report_group_column_sort_type: 排序
-  label_irm_report_group_column_group_date_type: 日期分组方式
+  label_irm_report_setup_group_column_header: Set data column grouping
+  label_irm_report_setup_group_row_header: Set data line grouping
+  label_irm_report_group_column_field: Grouping column
+  label_irm_report_group_column_sort_type: Sort
+  label_irm_report_group_column_group_date_type: Date grouping way
   #========================= end irm report column ===================================
   #=========================start irm  report_lists_controllers=====================#
   label_icm_incident_report_all: Incident Report Summary
@@ -978,7 +979,7 @@ en:
   label_irm_bulletin_selected_departments: Department
   label_irm_bulletin_selected_roles: Role
   label_irm_bulletin_selected_organizations: Organization
-  label_irm_bulletin_if_access_list_none: Everyone can visit this bulletin if access list did not set anything.
+  label_irm_bulletin_if_access_list_none: This bulletin is opened to all users if not limit accesiable list.
   label_irm_bulletin_attachment: Attachments
   error_irm_bulletin_content_can_not_blank: Bulletin content can not be blank
   #======================== end bulletin controller ======================
@@ -1012,7 +1013,7 @@ en:
   label_irm_todo_event_recurrence: Recurrence
   label_irm_todo_event_recurrence_new: Create Recurring Series of Events
   label_irm_todo_event_recurrence_frequency: Frequency
-  label_irm_todo_event_recurrence_every_weekday: Every Weekday
+  label_irm_todo_event_recurrence_every_weekday: Every Workday
   label_irm_todo_event_recurrence_every: Every
   label_irm_todo_event_recurrence_day: Day
   label_irm_todo_event_recurrence_daily: Daily
@@ -1054,9 +1055,9 @@ en:
   label_irm_business_object_workflow_flag: Workflow
   label_irm_business_object_api: API Information
   label_irm_business_object_function: Function
-  label_irm_business_object_relation: Relationship
+  label_irm_business_object_relation: Related BO Info.
   label_irm_business_object_report_flag: Report
-  label_irm_business_object_standard_flag: Standard
+  label_irm_business_object_standard_flag: Built-in BO
   label_irm_business_object_data_access_flag: Data Access
   #======================== end business objects====================
   #======================== object attributes====================
@@ -1074,14 +1075,14 @@ en:
   label_irm_object_attribute_exists_relation_flag: Already Relationed
   label_irm_object_attribute_relation_type: Relation Type
   label_irm_object_attribute_lov_code: LOV
-  label_irm_object_attribute_where_clause: Where Clause
+  label_irm_object_attribute_where_clause: Relation criteria
   label_irm_object_attribute_fill_attribute_info: Attribute Info
   label_irm_object_attribute_data_type: Data Type
   label_irm_object_attribute_data_length: Data Length
   label_irm_object_attribute_edit: Edit Object Attribute
   label_irm_object_attribute_description: Description
   label_irm_object_attributes_test_information: Test Infomation
-  label_irm_object_attribute_invalid_exists_relation_table: Please use exists table alias
+  label_irm_object_attribute_invalid_exists_relation_table: Please use existed table alias
   label_irm_object_attribute_invalid_model_attribute: Missing Attribute In BO
   label_irm_object_attribute_person_flag: Person Attribute
   label_irm_object_attribute_update_flag: Updateable
@@ -1090,7 +1091,7 @@ en:
   label_irm_object_standard_attributes: Standard Field
   label_irm_object_custom_attributes: Custom Field
   label_irm_object_attribute_approve_flag: Approve Field
-  label_irm_object_attribute_attribute_name_format: Name Field Format
+  label_irm_object_attribute_attribute_name_format: Can only input lowercase letters, underline, digital,and must start with letter.
   label_irm_object_attribute_category: Category
   label_irm_object_attribute_data_default_value: Default Value
   label_irm_object_attribute_data_extra_info: Extra Info
@@ -1099,7 +1100,7 @@ en:
   label_irm_object_attribute_database_info: Database Information
   label_irm_object_attribute_field_type: Field Type
   label_irm_object_attribute_function: Function
-  label_irm_object_attribute_invalid_table_attribute: Invalid table column
+  label_irm_object_attribute_invalid_table_attribute: Invalid field in database
   label_irm_object_attribute_label_flag: Label Field
   label_irm_object_attribute_new_model_attribute: New Model Attribute
   label_irm_object_attribute_new_table_column: New Table Column
@@ -1122,12 +1123,12 @@ en:
   label_irm_list_of_value_listable_flag: List
   label_irm_list_of_value_value_column_width: Value Col Width
   label_irm_list_of_value_desc_column_width: Desc Col Width
-  label_irm_list_of_value_addition_column: Addition Col
-  label_irm_list_of_value_addition_title: Addition Title
-  label_irm_list_of_value_addition_column_width: Addition Col Width
-  label_irm_list_of_value_where_clause: Where Clause
-  label_irm_list_of_value_query_clause: Query Clause
-  label_irm_list_of_value_addition_clause: Addition Clause
+  label_irm_list_of_value_addition_column: Additional Col
+  label_irm_list_of_value_addition_title: Additional Title
+  label_irm_list_of_value_addition_column_width: Additional Col Width
+  label_irm_list_of_value_where_clause: Where criteria
+  label_irm_list_of_value_query_clause: Query criteria
+  label_irm_list_of_value_addition_clause: Addition criteria
   label_irm_list_of_value_new: New List of Value
   label_irm_list_of_value_edit: Edit List of Value
   label_irm_list_of_value_test_information: Test Result for List of Value
@@ -1147,10 +1148,10 @@ en:
   label_irm_wf_rule_name: Name
   label_irm_wf_rule_rule_code: Code
   label_irm_wf_rule_evaluate_criteria_rule: Evaluate Rule
-  label_irm_wf_rule_evaluate_rule_mode: Criteria Rule
+  label_irm_wf_rule_evaluate_rule_mode: Evaluate way
   label_irm_wf_rule_status_code: Status
   label_irm_wf_rule_evaluation_criteria: Evaluation Criteria
-  label_irm_wf_rule_filter: Rule Criteria
+  label_irm_wf_rule_filter: Evaluate filter Rule
   label_irm_wf_rule_select_bo: Select Business Object
   label_irm_wf_rule_config: Config Workflow Rule
   label_irm_wf_rule_description: Description
@@ -1162,7 +1163,7 @@ en:
   label_irm_wf_rule_action_type: Action Type
   label_irm_wf_rule_action_description: Description
   label_irm_wf_rule_add_time_trigger: Add Time Trigger
-  label_action_add_exists_action: Add Exists Action
+  label_action_add_exists_action: Add Existed Action
   #========================end wf rules====================
   #======================== wf_rule_time_triggers====================
   label_irm_wf_rule_time_trigger_new: New time trigger
@@ -1212,6 +1213,7 @@ en:
 
 
   #======================== wf field updates====================
+  label_irm_wf_field_update: Field update
   label_irm_wf_field_update_list: Field Update List
   label_irm_wf_field_update_bo_code: Business Object
   label_irm_wf_field_update_name: Name
@@ -1222,12 +1224,12 @@ en:
   label_irm_wf_field_update_value: Value
   label_irm_wf_field_update_new: New Field Update
   label_irm_wf_field_update_edit: Edit Field Update
-  label_irm_wf_field_update_set_value: Set Value of Field Update
+  label_irm_wf_field_update_set_value: Specify new field value
   label_irm_wf_field_update_value_type_null_value: Null Value(null)
   label_irm_wf_field_update_value_type_formula_value: Formula Value
   label_irm_wf_field_update_value_type_options_value: Select from list of value
   label_irm_wf_field_update_object_attribute_type_int: Integer
-  label_irm_wf_field_update_object_attribute_type_varchar: String
+  label_irm_wf_field_update_object_attribute_type_varchar: Text
   label_irm_wf_field_update_object_attribute_type_datetime: DateTime
   label_irm_insert_selected_formula_function: Insert Selected Function
   check_syntax: Check Syntax
@@ -1250,11 +1252,11 @@ en:
   label_irm_wf_mail_alert_from_email: From
   label_irm_wf_mail_alert_new: New Mail Alert
   label_irm_wf_mail_alert_edit: Edit Mail Alert
-  label_irm_wf_mail_alert_recipient_and_send: Recipient and Send
-  label_irm_wf_mail_default_recipient: Default Recipient
+  label_irm_wf_mail_alert_recipient_and_send: Recipient and Sender
+  label_irm_wf_mail_default_recipient: Please select recipient type.
   label_irm_wf_mail_available_recipient: Available Recipient
   label_irm_wf_mail_alert_selected_recipients: Selected Recipients
-  label_irm_wf_mail_alert_recipient_notice: Please choose the recipient type, and then select the recipient, add them to the list of recipients; Note, Please do not repeat the add!
+  label_irm_wf_mail_alert_recipient_notice: Please select the recipient type and recipient, add them to the list of recipients; Note, Please do not add repeatly!
   #========================  end wf mail alert====================
   #======================== wf approval process====================
   label_irm_wf_approval_process_info: Approval Process Information
@@ -1266,8 +1268,8 @@ en:
   label_irm_wf_approval_process_allow_submitter_recal: Allow Submitter Recall
   label_irm_wf_approval_process_description: Description
   label_irm_wf_approval_process_filter: Specify Entry Criteria
-  label_irm_wf_approval_process_editable_and_next_approver: Select Field Used for Automated Approval Routing
-  label_irm_wf_approval_process_next_approver: Next Approver
+  label_irm_wf_approval_process_editable_and_next_approver: Specify approver field and record editable attribute
+  label_irm_wf_approval_process_next_approver: Select field for auto-transfer approver
   label_irm_wf_approval_process_next_approver_mode: Next Approver Mode
   label_irm_wf_approval_process_record_editability: Record Editability Properties
   label_irm_wf_approval_process_submit: Specify Initial Submitters
@@ -1276,13 +1278,13 @@ en:
   label_irm_wf_approval_process: Approval Process
   label_irm_wf_approval_process_new: New Approval Process
   label_irm_wf_approval_process_manage: Manage Approval Process
-  label_irm_wf_approval_process_active_list: Active Approval Process
-  label_irm_wf_approval_process_disable_list: Disable Approval Process
+  label_irm_wf_approval_process_active_list: Enabled Approval Process
+  label_irm_wf_approval_process_disable_list: Disabled Approval Process
   label_irm_wf_approval_process_bo_code: Business Object
   label_irm_person: Person
   label_irm_role: Role
   label_related_person: Relation Person
-  label_irm_wf_approval_process_display_history_flag: Display approval history information in addition to the fields selected above.
+  label_irm_wf_approval_process_display_history_flag: Display approval history information in approval page.
   label_irm_wf_approval_process_evaluate: Record Editability
   label_irm_wf_approval_action_ap_submit_actions: Initial Submission Actions
   label_irm_wf_approval_action_ap_final_approval_actions: Final Approval Actions
@@ -1311,14 +1313,14 @@ en:
   label_irm_wf_approval_step_filter_config: Specify Entry Criteria
   label_irm_wf_approval_step_filter: Criteria
   label_irm_wf_approval_step_evaluate_mode_all: All records should enter this step.
-  label_irm_wf_approval_step_evaluate_mode_all_filter: Enter this step if the following
-  label_irm_wf_approval_step_validate_step_number: Must greater than %{min} and letter than%{max}
+  label_irm_wf_approval_step_evaluate_mode_all_filter: Enter this step if satisfied the followings
+  label_irm_wf_approval_step_validate_step_number: Must greater than %{min} and less than%{max}
   label_irm_wf_approval_step_select_approver: Select Approver
   label_irm_wf_approval_ste_approver_type: Approver Type
   label_irm_wf_approval_step_approver: Approver
-  label_irm_wf_approval_step_allow_delegation_approve: The approver's delegate may also approve this request.
-  label_irm_wf_approval_step_approver_mode_by_approver: Let the submitter choose the approver manually.
-  label_irm_wf_approval_step_approver_mode_process_default: Automatically assign to approver(s).
+  label_irm_wf_approval_step_allow_delegation_approve: Allow delegate approver.
+  label_irm_wf_approval_step_approver_mode_by_approver: Allow the submitter choose the approver manually.
+  label_irm_wf_approval_step_approver_mode_process_default: Automatically assigned by user field of former approver
   label_irm_wf_approval_step_approver_mode_auto: Automatically assign to approver(s).
   label_irm_wf_approval_step_multiple_approver_mode: When multiple approvers are selected
   label_irm_wf_approval_step_multiple_approver_mode_first_approved: Approve or reject based on the FIRST response.
@@ -1362,7 +1364,7 @@ en:
   #======================== end wf process instance====================
 
   #======================== screen saver ===========================
-  label_screenshots: Screenshots
+  label_screenshots: Insert screenshot from clipboard.
   label_add_another_screenshot: Add another screenshot
   label_button_paste: Paste image from clipboard
   label_image: Screenshot
@@ -1411,8 +1413,8 @@ en:
   label_irm_report_type_new: New Report Type
   label_irm_report_type_edit: Edit Report Type
   label_irm_report_type_define: Define Report Type
-  label_irm_report_type_business_object_select: Select Business Object
-  label_irm_report_type_business_object: Business Object
+  label_irm_report_type_business_object_select: Select Primary Business Object
+  label_irm_report_type_business_object: Primary Business Object
   label_irm_report_type_code: Code
   label_irm_report_type_name: Name
   label_irm_report_type_description: Description
@@ -1424,14 +1426,14 @@ en:
   label_irm_report_type_relate_inner: Each "%{master}" record must have at least one related "%{detail}" record.
   label_irm_report_type_relate_outer: %{master} records may or may not have related "%{detail}" records.
   label_irm_report_type_relate_no_detail: The selected object has no further relatable objects.
-  label_irm_report_type_relate_limit: You can associate up to four objects to a custom report type.
+  label_irm_report_type_relate_limit: You can associate 4 objects to report type at most
   label_irm_report_type_object_relationship_inner: with at least one related record from
   label_irm_report_type_object_relationship_outer: with or without related records from
-  label_irm_report_type_usable_fields: Report Fields
-  label_irm_report_type_edit_section_layout: Report Field Sections
+  label_irm_report_type_usable_fields: Report usable fields
+  label_irm_report_type_edit_section_layout: Edit layout
   label_irm_report_type_usable_field_source: Field Source
-  label_irm_report_type_usable_count: Field Count
-  label_action_edit_relation: Edit Business Object Relations
+  label_irm_report_type_usable_count: Selected field
+  label_action_edit_relation: Define Business Object Relations
   #=======================end report_type  ====================
   #======================= report_type section ====================
   label_irm_report_type_define_field_and_section: Define Report Type Section and Field
@@ -1441,7 +1443,7 @@ en:
   label_irm_report_type_field_business_object: Business Object
   label_irm_report_type_field_selectable_attribute: Report Type Fields
   label_irm_report_type_usable_field_and_section: Report Type Section and Field
-  label_irm_report_type_section_delete_last: Can not delete the last section
+  label_irm_report_type_section_delete_last: Reserve one report section at least
   #=======================end report_type section ====================
   #======================= kanbans ==================================
   label_irm_kanban: Kanban
@@ -1460,8 +1462,8 @@ en:
   #==================================================================
   #======================= lanes ==================================
   label_irm_lane: Lane
-  label_irm_lane_code: Line Code
-  label_irm_lane_limit: Card Limit
+  label_irm_lane_code: Lane Code
+  label_irm_lane_limit: Lane Limit
   label_irm_lane_new: New Lane
   label_irm_lane_edit: Edit Lane
   label_irm_lane_add_card: Add Card
@@ -1507,15 +1509,15 @@ en:
   #======================= report_trigger ====================
   label_irm_report_trigger_new: New Report Trigger
   label_irm_report_trigger_edit: Edit Report Trigger
-  label_irm_report_trigger_person: Run Report as Person
+  label_irm_report_trigger_person: Running report users
   label_irm_report_trigger_receiver_type: Email Receiver Type
   label_irm_report_trigger_time_mode: Schedule
   label_irm_report_trigger_start_at: Start
   label_irm_report_trigger_end_at:  End
-  label_irm_report_trigger_start_time:  Time
+  label_irm_report_trigger_start_time: Time
   label_irm_report_trigger_delete: Cansel Schedule
-  label_irm_report_trigger_receiver_type_only_self: Only Self
-  label_irm_report_trigger_receiver_type_choose_staff: Choose People
+  label_irm_report_trigger_receiver_type_only_self: Only send to myself
+  label_irm_report_trigger_receiver_type_choose_staff: Send to selected person
   #=======================end report_trigger ====================
   #======================= tab ====================
   label_irm_tab_list: Tab List
@@ -1565,14 +1567,14 @@ en:
   label_irm_profile_add_lane: Add Lane
   label_irm_profile_reorder_lane: Reorder
   label_irm_profile_ir_page_kanban: Incident Index Kanban
-  label_irm_profile_select_copy_from: You must select an existing profile to clone from.
+  label_irm_profile_select_copy_from: Clone from existing profile
   label_irm_profile_existing_profile: Existing Profile
   #=======================end profiles ====================
 
 
   #======================= password policies ====================
   label_irm_psw_policy: Password Policies
-  label_irm_psw_policy_expire_in: User passwords expire in
+  label_irm_psw_policy_expire_in: Password expiry
   label_irm_psw_policy_enforce_history: Enforce password history
   label_irm_psw_policy_min_length: Minimum password length
   label_irm_psw_policy_complexity_requirement: Password complexity requirement
@@ -1598,23 +1600,23 @@ en:
   #======================= end Operation Unit ====================
 
   #=========================    irm external_systems_controller=======================#
-  label_irm_external_system_member: External System User
-  label_irm_external_system_list: External System List
+  label_irm_external_system_member: System Member
+  label_irm_external_system_list: System List
   label_irm_external_system_external_system_code: Code
   label_irm_external_system_system_name: System Name
   label_irm_external_system_system_description: System Description
   label_irm_external_system_external_hostname: Host Name
   label_irm_external_system_external_ip_address: IP Address
-  label_irm_external_system:  External System
+  label_irm_external_system:  System
   label_irm_external_system_status_meaning: Status Meaning
-  label_irm_external_system_info: External System Info
+  label_irm_external_system_info: System Info
   label_irm_external_system_select_system: Select System
   label_irm_external_system_people: System Member
   label_irm_external_system_people_type: Type
   label_irm_external_system_add_people: Add Member
   error_irm_external_system_ip_invalid: IP invalid
-  label_irm_external_system_new:  New External System
-  label_irm_external_system_edit: Edit External System
+  label_irm_external_system_new:  New System
+  label_irm_external_system_edit: Edit System
   #=========================    end external_systems_controller=======================#
   #=========================    license=======================#
   label_irm_license: License
@@ -1641,7 +1643,7 @@ en:
   #========================= end ======================
 
   #========================= mail setting =========================
-  label_irm_mail_from_address: From Address
+  label_irm_mail_from_address: Source email address
   label_irm_mail_prefix: Email Prefix
   label_irm_mail_protocol: Protocal
   label_irm_mail_smtp_host_name: Send Server
@@ -1660,17 +1662,17 @@ en:
 
   label_irm_mail_imap_protocol_choose: Choose form IMAP, POP.
   label_irm_mail_imap_host_name_tip: POP/IMAP Email server.
-  label_irm_mail_imap_port_tip: The port to use to retrieve mail from your POP / IMAP account. Defaults are： POP-110; IMAP-143.
-  label_irm_mail_timeout_tip: Timeout (in milliseconds). 0 indicate infinite timeout.
-  label_irm_mail_imap_username_tip: The username used to authenticate your POP / IMAP account.
-  label_irm_mail_imap_password_tip: The password for your POP / IMAP account.
+  label_irm_mail_imap_port_tip: Port for retrieving mail from POP/IMAP account. Default as:POP-100; IMAP-143.
+  label_irm_mail_timeout_tip: Timeout (in milliseconds). 0 indicates never timeout.
+  label_irm_mail_imap_username_tip: Username for login POP/IMAP.
+  label_irm_mail_imap_password_tip: Password for login POP/IMAP.
 
   label_irm_mail_smtp_host_name_tip: SMTP Email server.
-  label_irm_mail_smtp_from_address_tip: The email address that outgoing mails will appear to have come from.
-  label_irm_mail_smtp_prefix_tip: The subject of emails sent from this server will use this string as a prefix. This is useful for your users so that they can filter their email.
-  label_irm_mail_smtp_port_tip: The port to use to send mail from your SMTP account. Defaults are： SMTP-25.
-  label_irm_mail_smtp_username_tip: The username used to authenticate your SMTP account.
-  label_irm_mail_smtp_password_tip: The password for your SMTP account.
+  label_irm_mail_smtp_from_address_tip: System will use this emailbox to send email.
+  label_irm_mail_smtp_prefix_tip: Email title will use it as prefix, which is convenient for you to filter your emails.
+  label_irm_mail_smtp_port_tip: Port used by SMTP. Default as:SMTP-25.
+  label_irm_mail_smtp_username_tip: Username for login SMTP.
+  label_irm_mail_smtp_password_tip: Password for login SMTP.
   #========================= end ==================================
   #=========================    irm protlet_config=======================#
   label_irm_portlet_config: Portal Configuration
@@ -1710,8 +1712,8 @@ en:
   #======================= session times ====================
   label_irm_session_setting: Session Setting
   label_irm_session_time_out: Session Time Out
-  label_irm_session_time_out_value: Time Value
-  label_irm_session_warn: For security Reasons, Your Ironmine Session Is About To Timeout,What Do You Want to Choose??
+  label_irm_session_time_out_value: Timeout value
+  label_irm_session_warn: For security Reasons, Your Ironmine Session is about to Timeout,What's your option?
   #=======================  portal layouts====================
   #=========================    irm data accesses=======================#
   label_irm_data_access: Data Access Control
@@ -1730,7 +1732,7 @@ en:
   label_irm_data_access_hierarchy_access_flag: Access Flag
   label_irm_incident_status_transform_event_error: Incident Status Event Error
   label_irm_lane_owned_cards: Owned Cards
-  label_irm_mail_host_name_tip: Mail Host Name Tip
+  label_irm_mail_host_name_tip: Mail Host Name
   label_irm_oauth_access_created: Oauth Access Created
   label_irm_oauth_access_ip: Access Ip
   label_irm_oauth_access_name: Access Name
@@ -1745,14 +1747,14 @@ en:
   label_irm_rating_config_grade_grade: Grade
   label_irm_rating_config_new: New Rating Config
   label_irm_report_folder_edit: Edit Report Folder
-  label_irm_report_request_history: Report Request History
-  label_irm_report_request_history_elapse: Report Request History Elapse
-  label_irm_report_request_history_end_at: Report Request History End Date
-  label_irm_report_request_history_execute_type: Report Request History Execute Type
-  label_irm_report_request_history_executed_by: Report Request History Execute By
-  label_irm_report_request_history_list: Report Request History List
-  label_irm_report_request_history_report: Report Request History
-  label_irm_report_request_history_start_at: Report Request History Start Date
+  label_irm_report_request_history: Report History
+  label_irm_report_request_history_elapse: Elapse
+  label_irm_report_request_history_end_at: End Date
+  label_irm_report_request_history_execute_type: Execute Type
+  label_irm_report_request_history_executed_by: Execute By
+  label_irm_report_request_history_list: History List
+  label_irm_report_request_history_report: History
+  label_irm_report_request_history_start_at: Start Date
   label_irm_role_edit_assignment: Edit Assignment
   label_irm_role_people_list: People List
   label_irm_site_group_edit_site: Edit Site
@@ -1817,13 +1819,13 @@ en:
   label_report_icm_incident_months: JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC,Total
   label_report_icm_incident_total:  Total
   label_report_icm_incident_status: Incident Status
-  label_report_icm_incident_status_col_header: Header Status Colspan
-  label_report_icm_incident_params_year:  Year
-  label_report_icm_incident_params_ym_s:  Date From
-  label_report_icm_incident_params_ym_e:  Date To
-  label_report_icm_incident_params_month:  Month
-  label_report_icm_incident_report_date:  Report Date
-  label_report_icm_incident_prior:  Priority
+  label_report_icm_incident_status_col_header: Status,New,Closed,Unclosed,Total
+  label_report_icm_incident_params_year: Year
+  label_report_icm_incident_params_ym_s: Month from
+  label_report_icm_incident_params_ym_e: Month to
+  label_report_icm_incident_params_month: Month
+  label_report_icm_incident_report_date: Report Date
+  label_report_icm_incident_prior: Priority
   #========================== end incident_amount_by_month_cate report  ===============================
   #======================= Report incident request season detail ============
   label_report_last_updated: Last Updated At
@@ -1933,25 +1935,25 @@ en:
   label_before_one_week: 1 Week
   label_before_one_month: 1 Month
   label_before_one_year: 1 Year
-  label_search_result_count: There are about %{count} result
+  label_search_result_count: %{count} Results found
   label_search_options_setting: Search options setting
   label_search_options_time: Search options time
   label_search_no_result_alert_1: 1.the keyword can't be blank；
-  label_search_no_result_alert_2: 2.please use another keyword；
+  label_search_no_result_alert_2: 2.please try another keyword；
   label_search_no_result_alert_3: 3.check the search options setting；
-  label_search_no_result_alert_4: 4.check the search options time.
+  label_search_no_result_alert_4: 4.Searching result may exceed your specified range.
   #============================== end search page  ==============================
 
 
   #============================== start reset password  ==============================
-  label_back_to_login: Back to login
+  label_back_to_login: Back to login page
   lable_update_password_error: Invid url or the token is expired!
   lable_new_password: New password
   lable_new_password_confirm: New password confirm
   label_update_password_successfully: Update password successlly!Please login with new password.
   label_update_password_error: Error,please reset your new password.
   label_error_email_not_existed: this email is not existd in system.
-  label_error_email_blank: The Email can't blank.
+  label_error_email_blank: The Email can not be blank.
   #============================== end reset password  ==============================
 
   #============================== start report time ==============================

@@ -6,7 +6,7 @@
         <%= form_for(@incident_request,:url=>{:controller => "icm/incident_requests", :action=>"short_create"},:builder => CustomFormBuilder) do |f| %>
             <% if allow_to_function?(:create_icdt_rqst_for_other) %>
               <div class="quick-create-field">
-                <label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%><%= required_icon %>  > <a href="javascript:void(0);" id="incident_request_requested_by_self">自己</a></label>
+                <label for="incident_request_requested_by"><%=t(:label_icm_incident_request_requested_by)%><%= required_icon %>  > <a href="javascript:void(0);" id="incident_request_requested_by_self"><%= I18n.t(:self) %></a></label>
                 <%=f.lov_field :requested_by,Irm::Person,{:id=>"incident_request_requested_by",:class=>"input-medium",:required=>true}%>
               </div>
                 <script type="text/javascript">
