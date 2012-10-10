@@ -365,6 +365,10 @@ module ApplicationHelper
     link_to text, {}, {:type=>"submit",:href => "javascript:void(0);"}.merge(options)
   end
 
+  def link_modal(text, options={},html_options={:modal_title=> "The missing modal title."})
+    link_to text, options, html_options.merge({:rel => "modal"})
+  end
+
   #构建日历控件，其中text_field是输入的日期框，id_button是点击日历的
   #button，而id_cal是日历显示的ID，最好不一致
   def calendar_view(id_text_field,id_button,id_cal)
@@ -590,15 +594,6 @@ module ApplicationHelper
       if index.to_s.eql?('0') and lim
         li_class += ' first'
       end
-      #if selected
-      #  if index.to_s.eql?('0')
-      #    output.safe_concat("<li id='#{tab_id}' class='first active'>")
-      #  else
-      #
-      #  end
-      #else
-      #  output.safe_concat("<li id='#{tab_id}'>")
-      #end
       output.safe_concat("<li id='#{tab_id}' class='#{li_class}'>")
       output.safe_concat(link_to(config[:label],config[:url].merge(config[:params])))
       output.safe_concat("</li>")
@@ -616,7 +611,7 @@ module ApplicationHelper
     result
   end
 
-  def  get_contrast_yiq(hex_color)
+  def get_contrast_yiq(hex_color)
     return "black" unless hex_color&&hex_color.is_a?(String)&&hex_color.length>5&&hex_color.length<8
     hex_color = hex_color.gsub("#","")
   	r = hex_color[0..1].to_i(16)
@@ -657,6 +652,7 @@ module ApplicationHelper
   def theme_image_path(path)
     image_path(path)
   end
+
 
 
 end

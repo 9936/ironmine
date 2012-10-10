@@ -40,9 +40,11 @@ class Irm::MenusController < ApplicationController
       if @menu.save
         format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
         format.xml  { render :xml => @menu, :status => :created, :location => @menu }
+        format.js
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @menu.errors, :status => :unprocessable_entity }
+        format.js
       end
     end
   end

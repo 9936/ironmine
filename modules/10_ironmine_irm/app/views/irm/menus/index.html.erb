@@ -12,7 +12,9 @@
         <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_menu_structure) %></h2></td>
     <% else %>
         <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_menu_list) %></h2></td>
-        <td class="page-block-button"><%= link_to t(:new), {:action => "new"},:class=>"btn"%></td>
+        <td class="page-block-button">
+          <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+        </td>
     <% end %>
     <td class="page-block-help">
       <%= form_tag({:controller => "irm/menus"}, {:method => 'get',:class => 'select-mode'}) do %>
