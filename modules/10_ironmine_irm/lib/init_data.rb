@@ -999,14 +999,6 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/wf_process_instances" => ["execute_recall", "recall", "submit"],
               "irm/wf_step_instances" => ["reassign", "save_reassign", "show", "submit"],
           },
-          :view_kanban => {
-              :en => {:name => "Manage Kanban View", :description => "Manage Kanban View"},
-              :zh => {:name => "看板访问功能", :description => "看板访问功能"},
-              :default_flag => "N",
-              :login_flag => "Y",
-              :public_flag => "N",
-              "irm/kanbans" => ["refresh_my_kanban"],
-          },
           :approve_change => {
               :en => {:name => "Approve Change Request", :description => "Approve Change Request"},
               :zh => {:name => "审批变更请求", :description => "审批提交上来的变更请求"},
