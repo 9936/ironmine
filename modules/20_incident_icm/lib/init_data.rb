@@ -174,14 +174,6 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "icm/incident_requests" => ["assignable_data", "assign_dashboard", "assign_request"],
           },
-          :view_icm_kanban => {
-              :en => {:name => "View ICM Kanban", :description => "View ICM Kanban"},
-              :zh => {:name => "查看看板", :description => "查看看板"},
-              :default_flag => "N",
-              :login_flag => "Y",
-              :public_flag => "N",
-              "icm/incident_requests" => ["kanban_index"],
-          },
           :view_watcher => {
               :en => {:name => "View Watcher", :description => "View Watcher"},
               :zh => {:name => "查看观察者", :description => "查看观察者"},

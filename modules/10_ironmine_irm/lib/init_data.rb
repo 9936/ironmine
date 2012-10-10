@@ -2216,6 +2216,19 @@ Fwk::MenuAndFunctionManager.map do |map|
           },
       }
   }
+
+  map.function_group :kanban, {
+      :children => {
+          :view_kanban => {
+              :en => {:name => "View Signboard", :description => "View Signboard"},
+              :zh => {:name => "查看看板", :description => "查看看板"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => ["kanban_index"],
+          },
+      }
+  }
   #=================================END:KANBAN=================================
 
   #=================================START:KANBAN_LANE=================================
