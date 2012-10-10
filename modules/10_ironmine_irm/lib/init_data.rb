@@ -2214,11 +2214,6 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/kanbans" => ["add_lanes", "create", "delete_lane", "down_lane", "edit", "get_available_lanes", "get_data", "get_owned_lanes", "index", "new", "refresh_my_kanban", "select_lanes", "show", "update", "up_lane"],
           },
-      }
-  }
-
-  map.function_group :kanban, {
-      :children => {
           :view_kanban => {
               :en => {:name => "View Signboard", :description => "View Signboard"},
               :zh => {:name => "查看看板", :description => "查看看板"},
