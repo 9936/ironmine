@@ -242,7 +242,7 @@ class Irm::WfApprovalProcessesController < ApplicationController
     end
 
     respond_to do |format|
-        format.html { redirect_back_or_default({:action=>"show",:id=>@wf_approval_process.id}) }
+        format.html { redirect_to({:action=>"index"}) }
         format.xml  { head :ok }
     end
   end
