@@ -676,6 +676,7 @@ Rails.application.routes.draw do
     match '/wf_approval_processes/:id/save_exists_action(.:format)' => "wf_approval_processes#save_exists_action", :via => :post
     match '/wf_approval_processes/reorder(.:format)' => "wf_approval_processes#reorder", :via => :post
     match '/wf_approval_processes/get_data_by_action(.:format)' => "wf_approval_processes#get_data_by_action", :via => :get
+    match '/wf_approval_processes/:bo_code/get_active_processes(.:format)' => "wf_approval_processes#get_active_processes", :via => :get
 
     # wf_approval_steps
     match '/wf_approval_steps(/index)(.:format)' => "wf_approval_steps#index", :via => :get

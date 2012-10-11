@@ -13,7 +13,6 @@
     text-align: center;
   }
 </style>
-<%= form_tag({:action=>"reorder"})  do %>
   <div class="process-title">
      <h6 class="process-title">
        <%= t(:label_irm_wf_approval_process_manage) %> <%=select_tag_alias :bo_code, available_workflow_business_object,@bo_code,{:id=>"boCode",:href=>url_for({:bo_code=>"{bo_code}"})}%>
@@ -26,15 +25,12 @@
       <td class="page-block-title">
         <h2 class="block-title"><%=t(:label_irm_wf_approval_process_active_list)%></h2>
       </td>
-      <td class="page-block-button">
-        <%=link_submit(t(:label_irm_wf_approval_process_reorder),:class=>"btn") %>
-      </td>
+      <td class="page-block-button"></td>
     </tr></table>
     <div class="page-block-body">
-      <%= render :partial => "active_processes",:locals =>{:processes=>active_approval_process(@bo_code)}%>
+      <%= datatable("active_processes",{:action=>"get_active_processes",:bo_code => @bo_code},[],{:drag_sort => {:save_url => url_for(:action => 'reorder') }})%>
     </div>
   </div>
-<% end %>
 
 <!--页面结构-->
 <div class="page-block">
@@ -43,7 +39,7 @@
       <h2 class="block-title"><%=t(:label_irm_wf_approval_process_disable_list)%></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:label_irm_wf_approval_process_new), {:action => "new",:bo_code=>"{bo_code}"},{:back=>true,:id=>"newButton",:class=>"btn"}%>
+      <%= link_to t(:label_irm_wf_approval_process_new), {:action => "new",:bo_code=>"{bo_code}"},{:back=>true,:id=>"newButton",:class=>"btn btn-info"}%>
     </td>
   </tr></table>
   <div class="page-block-body">

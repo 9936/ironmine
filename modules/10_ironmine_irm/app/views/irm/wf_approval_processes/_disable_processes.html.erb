@@ -2,8 +2,8 @@
     <% builder.column(:id,{:title=>t(:operation), :width => "160px"}) do |data|%>
       <%= link_to(t(:edit),{:action=>"edit",:id=>data.id},:class => "action-link",:back=>true) %>&nbsp;|
       <%= link_to(t(:active),{:action=>"active",:id=>data.id,:active=>Irm::Constant::SYS_YES},:class => "action-link",:back=>true) %>&nbsp;|
-      <%= link_to(t(:delete),{:action=>"destroy",:id=>data.id,:back_url=>url_for({})},{:class => "action-link",:back=>true,:confirm => t(:label_are_you_sure) ,:method => :delete} )%>&nbsp;|
-      <%= link_to(t(:show),{:action=>"show",:id=>data.id},:back=>true) %>
+      <%= link_to(t(:show),{:action=>"show",:id=>data.id},:back=>true,:class => "action-link") %>&nbsp;|
+      <%= link_to(t(:delete),{:action=>"destroy",:id=>data.id,:back_url=>url_for({})},{:class => "action-link",:back=>true,:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
     <% end %>
     <% builder.column(:name,{:title=>t(:label_irm_wf_approval_process_name)}) do |data|%>
         <%= data.name %>
