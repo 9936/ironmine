@@ -18,16 +18,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="supportGroupMembers">
-      <%= datatable("supportGroupMembers",{:action=>"get_memberable_data",:id=>@group.id,:format=>:json},
-                        [{:key=>"id"},
-                         {:key=>"person_name",:label=>t(:label_irm_group_person_name),:searchable=>true},
-                         {:key=>"organization_name",:label=>t(:label_irm_group_organization_name)},
-                         {:key=>"email_address",:label=>t(:label_irm_person_email_address),:searchable=>true},],
-                         {:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple"})%>
-
-    </div>
-    <div id="personPaginator"></div>
+      <%= datatable("supportGroupMembers",{:action=>"get_memberable_data",:id=>@group.id},[],{:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple"})%>
   </div>
 </div>
 

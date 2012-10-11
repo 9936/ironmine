@@ -20,7 +20,6 @@
   <div class="page-block-body">
     <%= datatable("availableProjectSupportList",{:action=>"get_available_project_supporter_data", :project_code => @project[:short_name]},
               [],{:paginator_box=>"availableProjectSupportListPaginator",:search_box=>"availableProjectSupportListSearchBox",:select=>"multiple"})%>
-    <div id="availableProjectSupportListPaginator"></div>
   </div>
 </div>
 

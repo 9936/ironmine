@@ -15,9 +15,7 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="incident_requests"></div>
     <%= datatable("incident_requests",{:action=>"assign_me_data"},[],{:select=>"multiple",:paginator_box=>'paginatorBox'})%>
-    <div id="paginator"></div>
   </div>
   <table class="page-block-footer">
     <tr>

@@ -68,7 +68,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="menu_entries_list"></div>
     <%= datatable("config_item_relations",{:controller=>"com/config_item_relations",:action=>"get_data",:config_item_id=>@config_item.id,:format=>"json"},[],{:paginator_box=>"paginatorBox",:search_box=>"searchBox"})%>
   </div>
 </div>

@@ -13,10 +13,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="config_attributes">
-      <%= datatable("config_attributes",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"config_attributesPaginatorBox",:search_box=>"config_attributesSearchBox"})%>
-    </div>
-    <div id="config_attributesPaginatorBox"></div>
+      <%= datatable("config_attributes",{:action=>"get_data"},[],{:paginator_box=>"config_attributesPaginatorBox",:search_box=>"config_attributesSearchBox"})%>
   </div>
 </div>
 

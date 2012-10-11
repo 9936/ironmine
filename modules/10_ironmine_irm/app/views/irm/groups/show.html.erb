@@ -66,10 +66,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="person">
       <%= datatable("person",{:controller=>"irm/group_members",:action=>"get_data",:id=>@group.id},[],{:paginator_box=>"personPaginator"})%>
-    </div>
-    <div id="personPaginator"></div>
   </div>
 </div>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@group} %>

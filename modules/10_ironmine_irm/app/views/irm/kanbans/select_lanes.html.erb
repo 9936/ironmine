@@ -25,7 +25,6 @@
         </td>
       </tr></table>
       <div class="page-block-body">
-        <div id="available_lanes_list"></div>
         <%= datatable("available_lanes_list",{:action=>"get_available_lanes", :id=>@kanban},[],{:paginator_box=>"paginatorBox",:select=>"multiple"})%>
       </div>
     </div>

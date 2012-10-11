@@ -52,7 +52,6 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="config_attributes"></div>
     <%= datatable("config_attributes",{:controller=>"com/config_attributes",:action=>"get_data",:format=>"json",:class_id=>@config_class.id},[],{:select=>"multiple", :search_box=>"config_attributesSearchBox"})%>
   </div>
 </div>
@@ -71,7 +70,6 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="config_relation_types"></div>
     <%= datatable("config_relation_types",{:controller=> "config_relation_types", :action=>"get_data",:format=>"json",:class_id=>@config_class.id},[],{:search_box=>"config_relation_typesSearchBox"})%>
   </div>
 </div>

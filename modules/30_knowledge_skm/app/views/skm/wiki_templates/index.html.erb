@@ -13,11 +13,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="lookup_type"></div>
-      <%= datatable("lookup_type",{:action=>"get_data",:format=>"json"},
-                [],
-                 {:search_box=>"searchBox",:paginator_box=>"paginator"})%>
-      <div id="paginator"></div>
+     <%= datatable("lookup_type",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"})%>
   </div>
 </div>
 

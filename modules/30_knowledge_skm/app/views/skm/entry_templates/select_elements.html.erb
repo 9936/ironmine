@@ -21,10 +21,7 @@
       </tr></table>
       <% end %>
       <div class="page-block-body">
-        <div id="available_elements_list">
           <%= datatable("available_elements_list",{:action=>"get_available_elements", :template_id=>@template},[],{:paginator_box=>"available_elementsPaginatorBox",:select=>"multiple"})%>
-        </div>
-        <div id="available_elementsPaginatorBox"></div>
       </div>
     </div>
 <% end %>

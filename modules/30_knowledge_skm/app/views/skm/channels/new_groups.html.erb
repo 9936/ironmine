@@ -14,10 +14,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-      <div id="avaGroupsList">
-        <%= datatable("avaGroupsList",{:controller => "skm/channels", :action=>"get_ava_groups_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"groupsPaginator",:select=>"multiple"})%>
-      </div>
-      <div id="groupsPaginator"></div>
+     <%= datatable("avaGroupsList",{:controller => "skm/channels", :action=>"get_ava_groups_data",:id=>@channel.id},[],{:paginator_box=>"groupsPaginator",:select=>"multiple"})%>
   </div>
 </div>
 

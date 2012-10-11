@@ -53,7 +53,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="owned_lanes_list"></div>
     <%= datatable("owned_lanes_list",{:controller=>"irm/kanbans",:action=>"get_owned_lanes",:id=>@kanban.id},[])%>
   </div>
 </div>

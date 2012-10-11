@@ -14,10 +14,8 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="priority_code"></div>
-    <%= datatable("projects",{:action=>"get_data",:format=>"json"},[],
+    <%= datatable("projects",{:action=>"get_data"},[],
                   {:paginator_box=>"external_systemsPaginatorBox",:search_box=>"external_systemsSearchBox",:page_size => "50"})%>
-    <div id="external_systemsPaginatorBox"></div>
   </div>
 </div>
 

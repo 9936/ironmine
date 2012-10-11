@@ -14,10 +14,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-      <div id="people">
-        <%= datatable("people",{:controller => "skm/channels", :action=>"get_approvals_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"peoplePaginator",:select=>"multiple"})%>
-      </div>
-      <div id="peoplePaginator"></div>
+    <%= datatable("people",{:controller => "skm/channels", :action=>"get_approvals_data",:id=>@channel.id},[],{:paginator_box=>"peoplePaginator",:select=>"multiple"})%>
   </div>
 </div>
 

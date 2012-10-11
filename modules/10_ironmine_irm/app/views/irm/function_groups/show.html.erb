@@ -50,8 +50,7 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("functions_list", {:controller => "irm/functions", :action => "get_data", :function_group_id => @function_group.id, :format => "json"},
-                  []) %>
+    <%= datatable("functions_list", {:controller => "irm/functions", :action => "get_data", :function_group_id => @function_group.id}, []) %>
   </div>
 </div>
 <%= render :partial => "multilingual/show", :locals => {:main_data => @function_group} %>

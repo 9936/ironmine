@@ -11,6 +11,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("login_history_list",{:action => "get_login_data",:format=>"json", :id => Irm::Person.current.id},[],{:paginator_box=>"historiesBox"})%>
+    <%= datatable("login_history_list",{:action => "get_login_data", :id => Irm::Person.current.id},[],{:paginator_box=>"historiesBox"})%>
   </div>
 </div>

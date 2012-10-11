@@ -26,7 +26,6 @@
          </td>
          <td class="side-content">
            <%= datatable("entry_headers_list",{:action=>"get_data",:column_id => @column_id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox",:scroll=>{:mode=>"xy",:height=>250}})%>
-           <div id="paginatorBox"></div>
          </td>
        </tr>
     </table>

@@ -49,10 +49,7 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="config_relation_members">
-      <%= datatable("config_relation_members",{:controller=>"com/config_relation_members",:action=>"get_data",:config_relation_type_id=>@config_relation_type.id,:format=>"json"},[],{:paginator_box=>"config_relation_membersPaginatorBox",:search_box=>"config_relation_membersSearchBox"})%>
-    </div>
-    <div id="config_relation_membersPaginatorBox"></div>
+      <%= datatable("config_relation_members",{:controller=>"com/config_relation_members",:action=>"get_data",:config_relation_type_id=>@config_relation_type.id},[],{:paginator_box=>"config_relation_membersPaginatorBox",:search_box=>"config_relation_membersSearchBox"})%>
   </div>
 </div>
 

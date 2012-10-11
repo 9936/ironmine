@@ -42,7 +42,6 @@
          </td>
          <td class="side-content">
            <%= datatable("report_list",{:action=>"get_data", :folder_id => @folder_id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox",:scroll=>{:mode=>"xy",:height=>250}})%>
-           <div id="paginatorBox"></div>
          </td>
        </tr>
     </table>

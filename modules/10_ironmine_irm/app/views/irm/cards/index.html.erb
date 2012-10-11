@@ -13,8 +13,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="card_list"></div>
     <%= datatable("card_list",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"})%>
-    <div id="paginator"></div>
   </div>
 </div>

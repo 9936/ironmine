@@ -27,9 +27,7 @@
                                                                               :li_attrs => "id" } %>
          </td>
          <td class="side-content">
-           <div id="wait_my_approve_list"></div>
            <%= datatable("wait_my_approve_list",{:action=>"wait_my_approve_data",:column_id => @column_id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox"})%>
-           <div id="paginatorBox"></div>
          </td>
        </tr>
     </table>

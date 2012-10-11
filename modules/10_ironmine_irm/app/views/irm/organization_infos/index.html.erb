@@ -53,9 +53,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="organization_infos"></div>
     <%= datatable("organization_infos",{:action=>"get_data"},[],{:paginator_box=>"organization_infosPaginatorBox",:search_box=>"organization_infosSearchBox"})%>
-    <div id="organization_infosPaginatorBox"></div>
   </div>
 </div>
 <% end %>
