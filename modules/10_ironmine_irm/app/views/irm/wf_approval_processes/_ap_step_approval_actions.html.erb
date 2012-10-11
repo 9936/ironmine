@@ -19,15 +19,11 @@
           </div>
       <% else %>
           <div class="btn-toolbar">
-          <%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{},:back=>true,:class=>"btn disabled") %>
-          <div class="btn-group">
-            <button data-toggle="dropdown" class="btn dropdown-toggle disabled"><%= t(:label_irm_wf_approval_add_actions)  %><span class="caret"></span></button>
-            <ul class="dropdown-menu">
-            </ul>
-          </div>
+            <div class="btn-group">
+              <%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{},:back=>true,:class=>"btn disabled") %>
+            </div>
           </div>
       <% end %>
-
     </td>
     <td class="page-block-help">
     </td>

@@ -22,7 +22,9 @@
           </div>
       <% else %>
           <div class="btn-toolbar">
-          <%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{:action => "add_exists_action",:source_str=>"AP_SUBMIT,#{@wf_approval_process.id}"},:back=>true,:class=>"btn btn-info disabled") %>
+            <div class="btn-group">
+              <%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{:action => "add_exists_action",:source_str=>"AP_SUBMIT,#{@wf_approval_process.id}"},:back=>true,:class=>"btn btn-info disabled") %>
+            </div>
           </div>
       <% end %>
     </td>

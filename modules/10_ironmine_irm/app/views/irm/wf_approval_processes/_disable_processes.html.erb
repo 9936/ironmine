@@ -1,11 +1,12 @@
 <%=datatable_view({:count=>processes.count,:datas=>processes}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "160px"}) do |data|%>
       <%= link_to(t(:edit),{:action=>"edit",:id=>data.id},:class => "action-link",:back=>true) %>&nbsp;|
       <%= link_to(t(:active),{:action=>"active",:id=>data.id,:active=>Irm::Constant::SYS_YES},:class => "action-link",:back=>true) %>&nbsp;|
-      <%= link_to(t(:delete),{:action=>"destroy",:id=>data.id,:back_url=>url_for({})},{:class => "action-link",:back=>true,:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
+      <%= link_to(t(:delete),{:action=>"destroy",:id=>data.id,:back_url=>url_for({})},{:class => "action-link",:back=>true,:confirm => t(:label_are_you_sure) ,:method => :delete} )%>&nbsp;|
+      <%= link_to(t(:show),{:action=>"show",:id=>data.id},:back=>true) %>
     <% end %>
     <% builder.column(:name,{:title=>t(:label_irm_wf_approval_process_name)}) do |data|%>
-        <%= link_to(data.name,{:action=>"show",:id=>data.id},:back=>true) %>
+        <%= data.name %>
     <% end %>
     <% builder.column(:description,{:title=>t(:label_irm_wf_approval_process_description)})%>
 <% end %>
