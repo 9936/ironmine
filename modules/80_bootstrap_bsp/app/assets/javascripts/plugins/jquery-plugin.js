@@ -2208,7 +2208,9 @@ jQuery.fn.menubutton = function () {
         //必须等待当前页面的数据加载完成后才能够对表头数据进行处理
         me.buildOrderColumn();
         me.buildCheckbox();
-        me.buildDrag();
+        if(count > 1){
+            me.buildDrag();
+        }
         me.syncScrollUI();
     };
 
