@@ -25,10 +25,8 @@
           <%= link_to(t(:label_irm_wf_approval_process_add_exists_action),{:action => "add_exists_action",:source_str=>"AP_SUBMIT,#{@wf_approval_process.id}"},:back=>true,:class=>"btn btn-info disabled") %>
           </div>
       <% end %>
-
     </td>
-    <td class="page-block-help">
-    </td>
+    <td class="page-block-help"></td>
   </tr></table>
   <div class="page-block-body">
     <%= render :partial => "show_process_actions",:locals => {:actions=>wf_process_actions("AP_SUBMIT",@wf_approval_process.id)} %>
