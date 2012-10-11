@@ -930,7 +930,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/portlet_configs" => ["save_portal_config", "save_portal_layout"],
               "irm/search" => ["index"],
               "irm/session_settings" => ["timeout_warn"],
-              "irm/setting" => ["common"]
+              "irm/setting" => ["common"],
+              "irm/filters" => ["operator_value"]
           },
 
           :home_page => {
