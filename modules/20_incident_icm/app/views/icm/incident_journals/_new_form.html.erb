@@ -396,7 +396,7 @@
                <% if chm and has_module?(:chm) %>
                  <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
                <% end %>
-               <% if com and has_module?(:com) %>
+               <% if com and has_module?(:com) and allow_to_function?(:config_item) %>
                  <li ref="configItem"><a href="#tab3" data-toggle="tab"><%= t(:label_com_config_item) %></a></li>
                <% end %>
              </ul>
@@ -409,7 +409,7 @@
             <div class="mx-tab-pane" id="tab2">
               <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>
             </div>
-            <% elsif has_module?(:com) %>
+            <% elsif has_module?(:com) and allow_to_function?(:config_item) %>
             <div class="mx-tab-pane" id="tab3">
               <%= content_for :incident_config_items  %>
             </div>
