@@ -10,7 +10,11 @@
           <% step_instance_approvable_fields(@wf_process_instance).each do |attr| %>
               <tr>
                 <td class="label-col"><label><%= attr[:name] %></label></td>
-                <td class="data-3col" colspan="3" width="82%"><%= Irm::BusinessObject.attribute_of(@bo_instance, attr.attribute_name) %></td>
+                <td class="data-3col" colspan="3" width="82%">
+                  <label>
+                    <%= Irm::BusinessObject.attribute_of(@bo_instance, attr.attribute_name) %>
+                  </label>
+                </td>
               </tr>
           <% end %>
           <tr>
@@ -36,9 +40,6 @@
         <%= link_to t(:label_irm_wf_step_instance_reject), {:action => "submit", :reject => Irm::Constant::SYS_YES}, {:class => "submit btn"} %>
         <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
     <% end %>
-
-
-
     <!--页面结构-->
     <div class="page-block">
       <table class="page-block-header">

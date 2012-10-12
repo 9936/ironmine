@@ -1,5 +1,5 @@
 <%= common_title(:action_meaning => t(:label_irm_wf_process_instance_select_next_approver)) %>
-<%= form_for(@wf_process_instance, :url => {:action => "submit"}, :builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@wf_process_instance, :url => {:action => "submit"}, :builder => CustomFormBuilder) do |f| %>
 
 
     <% content_for :form_block_a do %>

@@ -17,7 +17,7 @@ class Irm::WfStepInstancesController < ApplicationController
     @wf_process_instance = Irm::WfProcessInstance.find(@wf_step_instance.process_instance_id)
     @bo_instance = @wf_process_instance.bo_instance
     respond_to do |format|
-      format.html # show.html.erb
+      format.html {render :layout => "application_full"}# show.html.erb
       format.xml  { render :xml => @wf_step_instance }
     end
   end
