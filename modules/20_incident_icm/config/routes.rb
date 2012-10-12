@@ -179,5 +179,6 @@ Ironmine::Application.routes.draw do
     match '/assign_rules/create(.:format)' => "assign_rules#create", :via => :post
     match '/assign_rules/get_data(.:format)' => "assign_rules#get_data"
     match '/assign_rules/:id/show(.:format)' => "assign_rules#show", :via => :get
+    match '/assign_rules/:id/switch_status_code(.:format)' => "assign_rules#switch_status_code", :via => :get
   end
 end

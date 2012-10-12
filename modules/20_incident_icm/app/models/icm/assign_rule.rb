@@ -9,9 +9,27 @@ class Icm::AssignRule < ActiveRecord::Base
   belongs_to :support_group, :class_name => "Icm::SupportGroup"
   has_many :group_assignments, :dependent => :destroy, :class_name => "Icm::GroupAssignment"
 
+  scope :enabled, lambda{
+    self.where(:status_code => Irm::Constant::ENABLED)
+  }
+
+  scope :disabled, lambda{
+    self.where(:status_code => Irm::Constant::DISABLED)
+  }
+
   scope :order_by_sequence,lambda{
      self.order("sequence ASC")
   }
+
+
+  def self.next_active_sequence
+    active_assign_rule = Icm::AssignRule.select("sequence").enabled.order("sequence DESC").first
+    if active_assign_rule.present?
+      return active_assign_rule[:sequence] + 1
+    else
+      0
+    end
+  end
 
   # create assignment from str
   def create_assignment_from_str
@@ -41,7 +59,7 @@ class Icm::AssignRule < ActiveRecord::Base
   #根据事故单寻找分配组
   def self.get_support_group_by_incident(incident_request_id)
     assign_rule_result = nil
-    self.order_by_sequence.each do |assign_rule|
+    self.enabled.order_by_sequence.each do |assign_rule|
       if assign_rule.build_sql(incident_request_id).any?
         assign_rule_result = assign_rule
         break
@@ -78,27 +96,6 @@ class Icm::AssignRule < ActiveRecord::Base
     end
     Icm::IncidentRequest.find_by_sql(sql_str)
   end
-
-
-  ##前一条规则
-  #def pre_rule
-  #  pre_rule = Icm::AssignRule.where("sequence < ?", self.sequence).order("sequence DESC").first
-  #  if pre_rule.present?
-  #    pre_rule
-  #  else
-  #    self
-  #  end
-  #end
-  #
-  ##后一条规则
-  #def next_rule
-  #  next_rule = Icm::AssignRule.where("sequence > ?", self.sequence).order("sequence ASC").first
-  #  if next_rule.present?
-  #    next_rule
-  #  else
-  #    self
-  #  end
-  #end
 
   private
     #构建sequence

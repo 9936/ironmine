@@ -99,7 +99,11 @@ class Icm::AssignRulesController < ApplicationController
   end
 
   def get_data
-    assign_rules_scope = Icm::AssignRule.order_by_sequence
+    if params[:status_code].eql?(Irm::Constant::DISABLED)
+      assign_rules_scope = Icm::AssignRule.disabled.order_by_sequence
+    else
+      assign_rules_scope = Icm::AssignRule.enabled.order_by_sequence
+    end
     assign_rules,count = paginate(assign_rules_scope)
     respond_to do |format|
       format.html  {
@@ -107,6 +111,22 @@ class Icm::AssignRulesController < ApplicationController
         @count = count
       }
       format.json {render :json=>to_jsonp(assign_rules.to_grid_json([:name,:description,:status_meaning],count))}
+    end
+  end
+
+  #启用或者失效
+  def switch_status_code
+    assign_rule = Icm::AssignRule.find(params[:id])
+    if assign_rule.status_code.eql?(Irm::Constant::DISABLED)
+      assign_rule.status_code = Irm::Constant::ENABLED
+      assign_rule.sequence = Icm::AssignRule.next_active_sequence
+    else
+      assign_rule.status_code = Irm::Constant::DISABLED
+    end
+    assign_rule.save
+    respond_to do |format|
+      format.html { redirect_to({:action => "index"}) }
+      format.xml  { head :ok }
     end
   end
 end

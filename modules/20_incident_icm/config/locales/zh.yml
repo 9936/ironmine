@@ -275,6 +275,8 @@ zh:
   #========================= Assign rule ====================================
   label_icm_assign_rule: 分派规则
   label_icm_assign_rule_list: 分派规则列表
+  label_icm_enabled_assign_rules: 已启用的分派规则
+  label_icm_disabled_assign_rules: 未启用的分派规则
   label_icm_assign_rule_new: 新建分派规则
   label_icm_assign_rule_edit: 编辑分派规则
   label_icm_assign_rule_filter: 分派规则条件

@@ -278,6 +278,8 @@ en:
   #========================= Assign rule ====================================
   label_icm_assign_rule: Assign Rule
   label_icm_assign_rule_list: Assign Rule List
+  label_icm_enabled_assign_rules: Enabled assign rules
+  label_icm_disabled_assign_rules: Disabled assign rules
   label_icm_assign_rule_new: New Assign Rule
   label_icm_assign_rule_edit: Edit Assign Rule
   label_icm_assign_rule_filter: Assign Rule Filter

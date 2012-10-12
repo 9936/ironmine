@@ -3,17 +3,30 @@
 <div class="page-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
-      <h2 class="block-title"><%= t(:label_icm_assign_rule_list) %></h2>
+      <h2 class="block-title"><%= t(:label_icm_enabled_assign_rules) %></h2>
+    </td>
+    <td class="page-block-button"></td>
+    <td class="page-block-help"></td>
+  </tr></table>
+  <div class="page-block-body">
+      <%= datatable("enabled_assign_rules",{:action=>"get_data",:status_code => Irm::Constant::ENABLED},[],{:drag_sort => {:save_url => url_for(:controller => 'icm/assign_rules', :action => 'switch_sequence')} })%>
+  </div>
+</div>
+
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_icm_disabled_assign_rules) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
     </td>
     <td class="page-block-help">
       <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-      <%= datatable("assign_rules",{:action=>"get_data"},[],{:search_box=>"searchBox",:drag_sort => {:save_url => url_for(:controller => 'icm/assign_rules', :action => 'switch_sequence')} })%>
+    <%= datatable("disabled_assign_rules",{:action=>"get_data",:status_code => Irm::Constant::DISABLED},[],{:search_box=>"searchBox",:paginator_box=>"paginator"})%>
   </div>
 </div>
 

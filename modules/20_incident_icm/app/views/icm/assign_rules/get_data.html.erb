@@ -1,9 +1,15 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation), :width => "90px"}) do |data|%>
-      <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|&nbsp;<%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>
+    <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+      <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+      <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+      <% if data.status_code.eql?(Irm::Constant::ENABLED) -%>
+        <%= link_to(t(:disable),{:action => "switch_status_code", :id => data[:id]},:class => "action-link") %>
+      <% else -%>
+        <%= link_to(t(:active),{:action => "switch_status_code", :id => data[:id]},:class => "action-link") %>
+      <% end -%>
     <% end %>
     <% builder.column(:support_group_id,{:title=>t(:label_icm_support_group)}) do |data| %>
-        <%= support_group_name(data[:support_group_id]) %>
+      <%= support_group_name(data[:support_group_id]) %>
     <% end %>
     <% builder.column(:join_type,{:title=>t(:label_icm_assign_rule_join_type),:width => "80px"})%>
     <% builder.column(:name,{:title=>t(:name),:searchable => true})%>
