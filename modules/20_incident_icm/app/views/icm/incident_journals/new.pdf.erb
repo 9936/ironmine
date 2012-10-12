@@ -132,7 +132,7 @@
           <td align="center"><%= t(:label_icm_incident_request_request_number) %></td>
           <td colspan="4" align="center"><%= t(:label_icm_incident_request_title) %></td>
         </tr>
-        <%- list_all_icm_incident_relations(@incident_request.id).each do |incident| -%>
+        <%- available_incident_relations(@incident_request.id).each do |incident| -%>
         <tr>
           <td><%= Irm::LookupValue.get_meaning("ICM_INCIDENT_REQUEST_REL_TYPE",incident[:relation_type]) %></td>
           <td align="center"><%= incident[:request_number] %></td>

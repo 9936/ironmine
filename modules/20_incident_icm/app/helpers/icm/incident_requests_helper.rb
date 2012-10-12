@@ -151,6 +151,22 @@ module Icm::IncidentRequestsHelper
     raw(html)
   end
 
+  def available_incident_relations(incident_request_id)
+    if incident_request_id
+      relation_list = Icm::IncidentRequestRelation.list_all(incident_request_id)
+    else
+      relation_list= []
+    end
+    relation_list.each do |r|
+      if r.relation_type.to_s.eql?("CHILD")
+        r.relation_type = "PARENT" if incident_request_id.to_s.eql?(r.target_id.to_s)
+      elsif r.relation_type.to_s.eql?("PARENT")
+        r.relation_type = "CHILD"  if incident_request_id.to_s.eql?(r.target_id.to_s)
+      end
+    end
+    relation_list
+  end
+
 
   def list_all_icm_incident_relations(incident_request_id)
     relation_list = Icm::IncidentRequestRelation.list_all(incident_request_id)
