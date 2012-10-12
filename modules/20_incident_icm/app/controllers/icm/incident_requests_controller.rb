@@ -547,7 +547,7 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_request.submitted_by = Irm::Person.current.id
     incident_request.submitted_date = Time.now
     incident_request.last_request_date = Time.now
-    incident_request.last_response_date = 1.minute.ago
+    incident_request.last_response_date = Time.now
     incident_request.next_reply_user_license="SUPPORTER"
     if incident_request.incident_status_id.nil?||incident_request.incident_status_id.blank?
       incident_request.incident_status_id = Icm::IncidentStatus.default_id

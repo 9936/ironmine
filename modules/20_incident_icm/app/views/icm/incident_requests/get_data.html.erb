@@ -1,16 +1,26 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:request_number,{:title=>t(:label_icm_incident_request_request_number_shot), :width => "55px"})%>
-  <% builder.column(:title,{:title=>t(:label_icm_incident_request_title),:searchable=>true,:width => "480px"})  do |data|%>
-        <% if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
-           <%= icon_link("btn-reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
-        <% end %>
-        <%= link_to( "(#{data[:incident_status_id_label]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
-  <% end %>
-  <% builder.column(:organization_id_label,{:title=>t(:label_icm_incident_request_organization),:searchable=>true,:width => "120px"})%>
-  <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority), :width => "60px"})%>
-  <% builder.column(:requested_by_label,{:title=>t(:label_icm_incident_request_requested_by), :width => "90px"})%>
-  <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:width => "130px"})%>
-  <% builder.row do |data|%>
-        style="background-color:<%=data[:display_color]%>;color:<%=get_contrast_yiq(data[:display_color])%>;"
-  <% end %>
+    <% builder.column(:request_number,{:title=>t(:label_icm_incident_request_request_number_shot), :width => "55px",:searchable=>true,:sortable=>true})%>
+    <% builder.column(:title,{:title=>t(:label_icm_incident_request_title),:searchable=>true,:width => "480px"})  do |data|%>
+          <% if(data[:reply_flag].eql?("Y") && data[:close_flag].eql?("N"))%>
+             <%= icon_link("btn-reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
+          <% end %>
+          <%= link_to( "(#{data[:incident_status_id_label]})"+data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
+    <% end %>
+    <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:searchable=>true,:width => "240px"}) do |data| %>
+          <CENTER>
+          [<%= data[:external_system_id_label] %>]<br>
+          <%= "#{data[:incident_category_id_label]}" %><%= "(#{data[:incident_sub_category_id_label]})" if data[:incident_sub_category_id_label].present?%>
+          </CENTER>
+    <% end %>
+    <% builder.column(:reply_count,{:title=>t("#"), :width => "25px"})%>
+    <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority),:searchable=>true, :width => "60px"})%>
+    <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px"}) do |data| %>
+        <CENTER>
+          <%= "#{data[:support_person_id_label]}"%><br><%= "[#{data[:incident_status_id_label]}]" %>
+        </CENTER>
+    <% end %>
+    <% builder.column(:last_response_date,{:title=>t(:label_icm_incident_request_last_date), :width => "150px",:sortable=>true})%>
+    <% builder.row do |data|%>
+          style="background-color:<%=data[:display_color]%>;color:<%=get_contrast_yiq(data[:display_color])%>;"
+    <% end %>
 <% end %>

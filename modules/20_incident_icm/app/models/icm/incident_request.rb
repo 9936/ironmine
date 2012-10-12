@@ -19,7 +19,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   validate :validate_summary
 
 
-  validates_presence_of :support_group_id,:support_person_id,:if=>Proc.new{|i| !i.pass_flag.nil?&&!i.pass_flag.blank?}
+  validates_presence_of :support_group_id,:if=>Proc.new{|i| !i.pass_flag.nil?&&!i.pass_flag.blank?}
 
   #加入activerecord的通用方法和scope
   query_extend
