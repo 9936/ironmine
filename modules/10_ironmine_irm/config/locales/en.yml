@@ -1957,27 +1957,30 @@ en:
   #============================== end reset password  ==============================
 
   #============================== start report time ==============================
-  label_report_time_during: During time
-  label_num_one: One
-  label_num_two: Two
-  label_num_three: Three
-  label_report_time_future: Future
-  label_report_time_year: Year
-  label_report_time_season: Quarter
-  label_report_time_accountancy: Fiscal
-  label_report_time_calendar: Calendar
+  label_report_time_during: Range
+  label_report_time_cury: Current CY
+  label_report_time_prevy: Previous CY
+  label_report_time_prev2y: Previous 2 CY
+  label_report_time_ago2y: 2 CY Ago
+  label_report_time_nexty: Next CY
+  label_report_time_prevcury: Current and Previous CY
+  label_report_time_prevcur2y: Current and Previous 2 CY
+  label_report_time_curnexty: Current and Next CY
+  label_report_time_currentq: Current CQ
+  label_report_time_prevq: Previous CQ
+  label_report_time_nextq: Next CQ
+  label_report_time_curprevq: Current and Next CQ
+  label_report_time_curnextq: Current and Previous CQ
+  label_report_time_curnext3q: Current and Next 3 CQ
+  label_report_time_last_month: Last Month
+  label_report_time_current_month: This Month
+  label_report_time_next_month: Next Month
+  label_report_time_last_this_month: Current and Previous Month
+  label_report_time_next_this_month: Current and Next Month
+  label_report_time_last_week: Last Week
+  label_report_time_current_week: This Week
+  label_report_time_next_week: Next Month
   label_report_time_custom: Custom
-  label_report_time_pre: Last
-  label_report_time_last: Next
-  label_report_time_next: Next
-  label_report_time_unit: Unit
-  label_report_time_now: Current
-  label_report_time_current: Current
-  label_report_time_and: ANd
-  label_report_time_ago: Ago
-  label_report_time_week: Week
-  label_report_time_month: Month
-  label_report_time_months: Months
   label_report_time_yesterday: Yesterday
   label_report_time_today: Today
   label_report_time_tomorrow: Tomorrow

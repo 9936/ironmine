@@ -1960,26 +1960,29 @@ zh:
 
   #============================== start report time ==============================
   label_report_time_during: 持续时间
-  label_num_one: 一
-  label_num_two: 两
-  label_num_three: 三
-  label_report_time_future: 未来
-  label_report_time_year: 年度
-  label_report_time_season: 季度
-  label_report_time_accountancy: 会计
-  label_report_time_calendar: 日历
+  label_report_time_cury: 当前日历年度
+  label_report_time_prevy: 上一个日历年度
+  label_report_time_prev2y: 上两个日历年度
+  label_report_time_ago2y: 两个日历年度之前
+  label_report_time_nexty: 下一个日历年度
+  label_report_time_prevcury: 当前和上一个日历年度
+  label_report_time_prevcur2y: 当前和前两个日历年度
+  label_report_time_curnexty: 当前和下一个日历年度
+  label_report_time_currentq: 当前日历季度
+  label_report_time_prevq: 上一个日历季度
+  label_report_time_nextq: 下一个日历季度
+  label_report_time_curprevq: 当前和上一个日历季度
+  label_report_time_curnextq: 当前和下一个日历季度
+  label_report_time_curnext3q: 当前和未来三个日历季度
+  label_report_time_last_month: 上月
+  label_report_time_current_month: 本月
+  label_report_time_next_month: 下月
+  label_report_time_last_this_month: 当前和上一个月份
+  label_report_time_next_this_month: 当前和下一个月份
+  label_report_time_last_week: 上周
+  label_report_time_current_week: 本周
+  label_report_time_next_week: 下周
   label_report_time_custom: 自定义
-  label_report_time_pre: 上
-  label_report_time_last: 前
-  label_report_time_next: 下
-  label_report_time_unit: 个
-  label_report_time_now: 当前
-  label_report_time_current: 本
-  label_report_time_and: 和
-  label_report_time_ago: 之前
-  label_report_time_week: 周
-  label_report_time_month: 月
-  label_report_time_months: 月份
   label_report_time_yesterday: 昨天
   label_report_time_today: 今天
   label_report_time_tomorrow: 明天
