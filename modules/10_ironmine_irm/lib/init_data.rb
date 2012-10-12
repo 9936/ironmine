@@ -930,7 +930,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/portlet_configs" => ["save_portal_config", "save_portal_layout"],
               "irm/search" => ["index"],
               "irm/session_settings" => ["timeout_warn"],
-              "irm/setting" => ["common"]
+              "irm/setting" => ["common"],
+              "irm/filters" => ["operator_value"]
           },
 
           :home_page => {
@@ -1638,7 +1639,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/wf_approval_processes" => ["get_data_by_action"],
+              "irm/wf_approval_processes" => ["get_data_by_action","get_active_processes"],
               "irm/wf_mail_alerts" => ["create", "destroy", "edit", "get_data", "index", "new", "recipient_source", "show", "update"],
               "irm/wf_rules" => ["get_data_by_action"],
           },
@@ -1664,7 +1665,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/formula_functions" => ["check_syntax", "formula_function_options"],
               "irm/object_attributes" => ["updateable_columns"],
-              "irm/wf_approval_processes" => ["get_data_by_action"],
+              "irm/wf_approval_processes" => ["get_data_by_action","get_active_processes"],
               "irm/wf_field_updates" => ["create", "destroy", "edit", "get_data", "index", "new", "set_value", "show", "update"],
               "irm/wf_rules" => ["get_data_by_action"],
           },

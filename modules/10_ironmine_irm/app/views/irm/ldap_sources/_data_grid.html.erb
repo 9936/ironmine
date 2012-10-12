@@ -12,8 +12,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="channels_list"></div>
-    <%= datatable("ldap_sources_list",{:controller => "irm/ldap_sources", :action=>"get_data",:format=>"json"},[],{:search_box=>"sourcesSearchBox",:paginator_box=>"ldapSourcePaginator"})%>
-    <div id="ldapSourcePaginator"></div>
+    <%= datatable("ldap_sources_list",{:controller => "irm/ldap_sources", :action=>"get_data"},[],{:search_box=>"sourcesSearchBox",:paginator_box=>"ldapSourcePaginator"})%>
   </div>
 </div>

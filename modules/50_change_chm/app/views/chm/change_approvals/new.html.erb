@@ -21,7 +21,7 @@
   </table>
   <%end%>
   <div class="page-block-body">
-    <%= datatable("people", {:action => "get_available_member", :change_request_id => @change_request.id, :format => "json"}, [], {:lazy_load => true, :select => "multiple", :paginator_box => 'peoplePaginatorBox'}) %>
+    <%= datatable("people", {:action => "get_available_member", :change_request_id => @change_request.id}, [], {:lazy_load => true, :select => "multiple", :paginator_box => 'peoplePaginatorBox'}) %>
   </div>
 </div>
 

@@ -40,7 +40,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="menu_entries_list"></div>
     <%= datatable("delayed_job",{:action=>"get_item_data",:controller => "irm/delayed_jobs",:delayed_job_id => @log.delayed_job_id},[])%>
   </div>
 </div>

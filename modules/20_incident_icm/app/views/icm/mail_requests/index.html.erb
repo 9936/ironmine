@@ -16,8 +16,6 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="mail_requests_list"></div>
-    <%= datatable("mail_requests_list",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"mailRequestPaginator",:search_box=>"mailRequestSearchBox"})%>
-    <div id="mailRequestPaginator"></div>
+    <%= datatable("mail_requests_list",{:action=>"get_data"},[],{:paginator_box=>"mailRequestPaginator",:search_box=>"mailRequestSearchBox"})%>
   </div>
 </div>

@@ -27,9 +27,7 @@
                                                                               :li_attrs => "id" } %>
          </td>
          <td class="side-content">
-           <div id="favorites_list"></div>
            <%= datatable("favorites_list",{:action=>"my_favorites_data",:column_id => @column_id, :person_id => Irm::Person.current.id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox"})%>
-           <div id="paginatorBox"></div>
          </td>
        </tr>
     </table>

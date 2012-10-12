@@ -34,11 +34,7 @@
         </tr>
       </table>
       <div class="page-block-body">
-        <div id="supportGroupMembers">
-        </div>
-        <%= datatable("supportGroupMembers",{:action=>"get_groupable_data",:id=>@person.id,:format=>:json},
-                          [],{:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple"})%>
-        <div id="personPaginator"></div>
+        <%= datatable("supportGroupMembers",{:action=>"get_groupable_data",:id=>@person.id},[],{:paginator_box=>"personPaginator",:search_box=>"selectablePersonSearchBox",:select=>"multiple"})%>
       </div>
       <table class="page-block-footer">
         <tr>

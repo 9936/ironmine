@@ -66,9 +66,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="selectablePeople"></div>
     <%= datatable("selectablePeople",{:controller=>"irm/external_system_members", :action=>"get_available_people_data", :external_system_id => @external_system.id,:format=>"json"}, [],{:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
-    <div id="selectablePeoplePaginator"></div>
   </div>
 </div>
 

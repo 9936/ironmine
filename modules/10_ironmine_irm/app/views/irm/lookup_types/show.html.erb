@@ -52,7 +52,6 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="lookup_value"></div>
     <%= datatable("lookup_value",{:controller=>"irm/lookup_values",:action=>"get_lookup_values", :lookup_type=>@lookup_type.lookup_type},[],{:search_box=>"searchBox",:drag_sort => {:save_url => url_for(:controller => 'irm/lookup_values', :action => 'switch_sequence') } }) %>
   </div>
 </div>

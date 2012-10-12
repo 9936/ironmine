@@ -53,7 +53,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="menu_entries_list"></div>
     <%= datatable("menu_entries_list",{:controller => "irm/menu_entries", :action=>"get_data", :menu_id => @menu.id,:format=>"json"},[]) %>
   </div>
 </div>

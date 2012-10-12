@@ -2,9 +2,7 @@
   <% builder.column(:id,{:title=>t(:operation), :width => "70px"}) do |data|%>
      <%= link_to(t(:show),{:controller => "irm/wf_approval_processes", :action => "show",:id=>data[:id]},:class => "action-link",:back=>true) %>
   <% end %>
-  <% builder.column(:name,{:title=>t(:label_irm_wf_approval_process_name),:searchable=>true}) do |data|%>
-    <%= link_to(data[:name],{:controller => "irm/wf_approval_processes", :action => "show",:id=>data[:id]},:class => "action-link",:back=>true) %>
-  <% end %>
+  <% builder.column(:name,{:title=>t(:label_irm_wf_approval_process_name),:searchable=>true}) %>
   <% builder.column(:description,{:title=>t(:label_irm_wf_approval_process_description),:searchable=>true})%>
   <% builder.column(:bo_name,{:title=>t(:label_irm_wf_rule_bo_code),:searchable=>true})%>
   <% builder.column(:bo_name,{:title=>t(:active)}) do |data|%>

@@ -84,8 +84,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="ldap_auth_attributes">
-      <%= datatable("ldap_auth_attributes",{:controller => "irm/ldap_auth_attributes", :action => "get_data", :ah_id => @ldap_auth_header.id,:format=>"json"},[],{:search_box=>"object_attributesSearchBox",:paginator_box=>"object_attributesPaginator"})%>
-    </div>
+    <%= datatable("ldap_auth_attributes",{:controller => "irm/ldap_auth_attributes", :action => "get_data", :ah_id => @ldap_auth_header.id},[],{:search_box=>"object_attributesSearchBox",:paginator_box=>"object_attributesPaginator"})%>
   </div>
 </div>

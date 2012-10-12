@@ -13,10 +13,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-      <div id="ldap_syn_attributes">
-        <%= datatable("ldap_syn_attributes",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"ldap_syn_attributesPaginatorBox",:search_box=>"ldap_syn_attributesSearchBox"})%>
-      </div>
-      <div id="ldap_syn_attributesPaginatorBox"></div>
+    <%= datatable("ldap_syn_attributes",{:action=>"get_data"},[],{:paginator_box=>"ldap_syn_attributesPaginatorBox",:search_box=>"ldap_syn_attributesSearchBox"})%>
   </div>
 </div>
 

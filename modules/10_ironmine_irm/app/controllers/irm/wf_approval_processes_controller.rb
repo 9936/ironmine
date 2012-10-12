@@ -242,17 +242,27 @@ class Irm::WfApprovalProcessesController < ApplicationController
     end
 
     respond_to do |format|
-        format.html { redirect_back_or_default({:action=>"show",:id=>@wf_approval_process.id}) }
+        format.html { redirect_to({:action=>"index"}) }
         format.xml  { head :ok }
     end
   end
 
   def reorder
-    process_orders = params[:process_orders]
-    process_orders.to_a.sort{|a,b| a[1]<=>b[1]}.each_with_index do |pair,index|
-      Irm::WfApprovalProcess.find(pair[0]).update_attribute(:process_order,index+1)
+    sequence_str = params[:ordered_ids]
+    if sequence_str.present?
+      sequence = 0
+      ids = sequence_str.split(",")
+      values = Irm::WfApprovalProcess.where(:id => ids).index_by(&:id)
+      ids.each do |id|
+        value = values[id]
+        value.process_order = sequence
+        value.save
+        sequence += 1
+      end
     end
-    redirect_to({:action=>"index"})
+    respond_to do |format|
+      format.json  {render :json => {:success => true}}
+    end
   end
 
   def get_data_by_action
@@ -267,6 +277,12 @@ class Irm::WfApprovalProcessesController < ApplicationController
         @count = count
       }
     end
+  end
+
+  def get_active_processes
+    bo_code = params[:bo_code]
+    @datas = Irm::WfApprovalProcess.where(:bo_code=>bo_code).enabled.order("process_order")
+    @count = @datas.count
   end
 
 end

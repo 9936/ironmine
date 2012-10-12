@@ -19,6 +19,7 @@ class Irm::WfProcessInstancesController < ApplicationController
     @wf_process_instance = Irm::WfProcessInstance.new(:bo_id=>params[:bo_id],:bo_model_name=>params[:bo_model_name],:next_approver_id=>params[:next_approver_id],:submitter_id=>Irm::Person.current.id)
     process = @wf_process_instance.detect_process
     if process
+
       @wf_process_instance.process_id = process.id
       begin
         Irm::WfProcessInstance.transaction do
@@ -38,7 +39,6 @@ class Irm::WfProcessInstancesController < ApplicationController
     else
       @wf_process_instance.errors.add(:process_id,t(:label_irm_wf_approval_process_can_not_find_match_process))
     end
-
     respond_to do |format|
       if @wf_process_instance.errors.any?
         format.html { render "submit_error" }

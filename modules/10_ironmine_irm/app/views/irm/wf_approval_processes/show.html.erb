@@ -17,9 +17,9 @@
     </td>
     <td class="page-block-button">
       <% unless @wf_approval_process.enabled? %>
-          <%= link_to t(:edit), {:action => "edit", :id => @wf_approval_process.id},:back=>true,:class=>"btn" %>
+          <%= link_to t(:edit), {:action => "edit", :id => @wf_approval_process.id},:back=>true,:class=>"btn btn-primary" %>
       <% else %>
-          <%= link_to t(:edit), {}, :disabled => true,:class=>"btn" %>
+          <%= link_to t(:edit), {}, :disabled => true,:class=>"btn btn-primary" %>
       <% end %>
       <%= link_back t(:back),{:action => "index"},:class=>"btn" %>
 

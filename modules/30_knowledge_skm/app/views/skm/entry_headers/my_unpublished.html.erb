@@ -26,9 +26,7 @@
                                                                               :li_attrs => "id" } %>
          </td>
          <td class="side-content">
-           <div id="my_unpublished_list"></div>
            <%= datatable("my_unpublished_list",{:action=>"my_unpublished_data",:column_id => @column_id, :person_id => Irm::Person.current.id},[],{:search_box => "searchBox", :paginator_box=>"paginatorBox"})%>
-           <div id="paginatorBox"></div>
          </td>
        </tr>
     </table>

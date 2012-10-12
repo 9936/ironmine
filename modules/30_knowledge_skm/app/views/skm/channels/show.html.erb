@@ -72,10 +72,7 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="approvalPeople">
-      <%= datatable("approvalPeople",{:controller=>"skm/channels",:action=>"get_owned_approvals_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"approvalPeoplePaginatorBox"})%>
-    </div>
-    <div id="approvalPeoplePaginatorBox"></div>
+     <%= datatable("approvalPeople",{:controller=>"skm/channels",:action=>"get_owned_approvals_data",:id=>@channel.id},[],{:paginator_box=>"approvalPeoplePaginatorBox"})%>
   </div>
 </div>
 <!-- 所属组 -->
@@ -91,10 +88,7 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="groupList">
-      <%= datatable("groupList",{:controller=>"skm/channels",:action=>"get_owned_groups_data",:id=>@channel.id,:format=>:json},[],{:paginator_box=>"groupPaginatorBox"})%>
-    </div>
-    <div id="groupPaginatorBox"></div>
+    <%= datatable("groupList",{:controller=>"skm/channels",:action=>"get_owned_groups_data",:id=>@channel.id},[],{:paginator_box=>"groupPaginatorBox"})%>
   </div>
 </div>
 

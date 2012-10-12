@@ -7,7 +7,6 @@
            <%= f.select :entry_template_id, available_entry_templates.collect{|p| [p.name, p.id]}, {},{:style => "width: 100%;min-height: 290px; min-width: 180px;", :id => "template_select", :size => "18" , :selected => (@entry_header.entry_template_id ? @entry_header.entry_template_id : false)} %>
          </td>
          <td class="side-content">
-           <div id="entry_elements_list"></div>
            <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_header.entry_template_id ? @entry_header.entry_template_id : "-1" ,:format=>"json",:operation => 'false'},[]) %>
          </td>
        </tr>

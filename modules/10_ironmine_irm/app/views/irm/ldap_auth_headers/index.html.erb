@@ -13,9 +13,7 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="ldap_auth_headers"></div>
-    <%= datatable("ldap_auth_headers",{:action=>"get_data",:format=>"json"},[],{:search_box=>"ldap_auth_headersSearchBox",:paginator_box=>"ldap_auth_headersPaginator"})%>
-    <div id="ldap_auth_headersPaginator"></div>
+    <%= datatable("ldap_auth_headers",{:action=>"get_data"},[],{:search_box=>"ldap_auth_headersSearchBox",:paginator_box=>"ldap_auth_headersPaginator"})%>
   </div>
 </div>
 

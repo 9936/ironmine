@@ -13,8 +13,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="mail_template"></div>
-    <%= datatable("mail_template",{:action=>"get_data",:format=>"json"},[],{:paginator_box=>"mailTemplatePaginatorBox",:search_box=>"mailTemplateSearchBox"})%>
-    <div id="mailTemplatePaginatorBox"></div>
+    <%= datatable("mail_template",{:action=>"get_data"},[],{:paginator_box=>"mailTemplatePaginatorBox",:search_box=>"mailTemplateSearchBox"})%>
   </div>
 </div>

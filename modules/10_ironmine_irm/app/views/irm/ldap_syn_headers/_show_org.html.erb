@@ -35,7 +35,6 @@
     <td class="page-block-button"></td>
   </tr></table>
   <div class="page-block-body">
-    <div id="org_syn_attributes"></div>
     <%= datatable("org_syn_attributes",{:controller => "irm/ldap_syn_attributes", :action=>"get_data",:ah_id => @ldap_syn_header.id,:type=>@ldap_syn_header.org_object},[]) %>
   </div>
 </div>

@@ -46,7 +46,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <div id="owned_cards_list"></div>
     <%= datatable("owned_cards_list",{:controller=>"irm/lanes",:action=>"get_owned_cards",:id=>@lane.id},[])%>
   </div>
 </div>

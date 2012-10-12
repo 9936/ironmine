@@ -55,9 +55,6 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <div id="entry_elements_list">
-      <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_template,:format=>"json"},[],{:paginator_box=>"entry_elementsPaginatorBox"}) %>
-    </div>
-    <div id="entry_elementsPaginatorBox"></div>
+      <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_template},[],{:paginator_box=>"entry_elementsPaginatorBox"}) %>
   </div>
 </div>

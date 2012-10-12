@@ -12,8 +12,7 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("incident_requests", {:action => "assignable_data", :format => "json"}, [], {:select => "multiple", :paginator_box => 'incidentRequestsPaginatorBox'}) %>
-    <div id="incidentRequestsPaginatorBox"></div>
+    <%= datatable("incident_requests", {:action => "assignable_data"}, [], {:select => "multiple", :paginator_box => 'incidentRequestsPaginatorBox'}) %>
     <div class="sub-page-block">
       <div class="sub-page-block-body">
         <%= form_tag({:action => "assign_request", :format => :js}, :remote => true) do |f| %>

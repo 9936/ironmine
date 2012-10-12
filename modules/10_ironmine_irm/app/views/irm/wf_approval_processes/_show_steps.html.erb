@@ -5,9 +5,9 @@
     </td>
     <td class="page-block-button">
       <% unless @wf_approval_process.enabled? %>
-          <%= link_to t(:label_irm_wf_approval_step_new), {:controller => "irm/wf_approval_steps", :action => "new", :process_id => @wf_approval_process.id},:back=>true,:class=>"btn"%>
+          <%= link_to t(:label_irm_wf_approval_step_new), {:controller => "irm/wf_approval_steps", :action => "new", :process_id => @wf_approval_process.id},:back=>true,:class=>"btn btn-info"%>
       <% else %>
-          <%= link_to t(:label_irm_wf_approval_step_new), {}, :disabled => true,:class=>"btn"%>
+          <%= link_to t(:label_irm_wf_approval_step_new), {}, :disabled => true,:class=>"btn btn-info"%>
       <% end %>
     </td>
     <td class="page-block-help">
@@ -20,32 +20,25 @@
                 <thead>
                   <tr>
                     <th style="width:100px;">
-                      <div><%= t(:operation) %>
-                      </div>
+                      <div><%= t(:operation) %></div>
                     </th>
                     <th style="width:60px;">
-                      <div><%= t(:label_irm_wf_approval_step_step_number) %>
-                      </div>
+                      <div><%= t(:label_irm_wf_approval_step_step_number) %></div>
                     </th>
                     <th style="width:60px;">
-                      <div><%= t(:label_irm_wf_approval_step_name) %>
-                      </div>
+                      <div><%= t(:label_irm_wf_approval_step_name) %></div>
                     </th>
                     <th style="width:120px;">
-                      <div><%= t(:label_irm_wf_approval_process_description) %>
-                      </div>
+                      <div><%= t(:label_irm_wf_approval_process_description) %></div>
                     </th>
                     <th style="width:120px;">
-                      <div><%= t(:label_irm_wf_approval_step_filter) %>
-                      </div>
+                      <div><%= t(:label_irm_wf_approval_step_filter) %></div>
                     </th>
                     <th style="width:120px;">
-                      <div><%= t(:label_irm_wf_approval_step_approver) %>
-                      </div>
+                      <div><%= t(:label_irm_wf_approval_step_approver) %></div>
                     </th>
                     <th style="width:60px;">
-                      <div><%= t(:label_irm_wf_approval_step_reject_behavior) %>
-                      </div>
+                      <div><%= t(:label_irm_wf_approval_step_reject_behavior) %></div>
                     </th>
                   </tr>
                 </thead>
@@ -54,13 +47,11 @@
                   <tr id="<%=step.id%>">
                     <td>
                       <div>
-                        <%= link_to(t(:operation),{},:href=>"javascript:void(0)",:class=>"showStepAction",:step=>step.id) %>
+                        <%= link_to(t(:operation),{},:href=>"javascript:void(0)",:class=>"showStepAction",:step=>step.id,:class => "action-link") %>
                         <% unless @wf_approval_process.enabled?%>
-                          <%= link_to(t(:edit),{:controller => "irm/wf_approval_steps",:process_id=>step.process_id,:action=>"edit",:id=>step.id},:back=>true) %>
-                          <%= link_to(t(:delete),{:controller => "irm/wf_approval_steps",:process_id=>step.process_id,:action=>"destroy",:id=>step.id},{:back=>true,:confirm => t(:label_are_you_sure) ,:method => :delete} )%>
-                        <% else %>
-                          <%= t(:edit) %>
-                          <%= t(:delete) %>
+                          |
+                          <%= link_to(t(:edit),{:controller => "irm/wf_approval_steps",:process_id=>step.process_id,:action=>"edit",:id=>step.id},:back=>true, :class => "action-link") %>&nbsp;|
+                          <%= link_to(t(:delete),{:controller => "irm/wf_approval_steps",:process_id=>step.process_id,:action=>"destroy",:id=>step.id},{:back=>true,:confirm => t(:label_are_you_sure),:class => "action-link" ,:method => :delete} )%>
                         <% end %>
                        </div>
                     </td>
@@ -117,8 +108,6 @@
         </div>
     <% end %>
   </div>
-
-
 </div>
 
 
