@@ -82,7 +82,6 @@
           <% end %>
         </div>
     <% else %>
-
          <div class="btn-group">
            <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
                <%= link_to t(:permanent_close), {:action => "edit_permanent_close"},{:class=>"btn"}%>
@@ -223,9 +222,7 @@
                     <a href="javascript:void(0)" id="applySKM"><%= t(:apply_skm) %></a></div>
               <% end %>
             </td>
-            <td class="page-block-button">
-
-            </td>
+            <td class="page-block-button"></td>
             <td class="page-block-help" style="width: auto;">
             </td>
           </tr></table>

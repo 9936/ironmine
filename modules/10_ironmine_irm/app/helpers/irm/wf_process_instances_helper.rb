@@ -1,4 +1,13 @@
 module Irm::WfProcessInstancesHelper
+  def process_instance_button?(bo_id,bo_model_name)
+    wf_process_instance = Irm::WfProcessInstance.new(:bo_id=>bo_id,:bo_model_name=>bo_model_name,:submitter_id=>Irm::Person.current.id)
+    if wf_process_instance.detect_process
+      true
+    else
+      false
+    end
+  end
+
   def process_instance_button(bo_id,bo_model_name)
     submitted_process_instance = Irm::WfProcessInstance.list_all.where(:bo_id=>bo_id,:bo_model_name=>bo_model_name,:process_status_code=>"SUBMITTED").first
     links = ""
@@ -56,9 +65,9 @@ module Irm::WfProcessInstancesHelper
   def operations_for(step_instance)
     if(step_instance.approval_status_code.eql?("PENDING")&&(current_person?(step_instance.assign_approver_id)||(Irm::Constant::SYS_YES.eql?(step_instance[:allow_delegation_approve])&&current_person?(step_instance[:delegate_approver]))))
       links = ""
-      links << link_to(t(:label_irm_wf_step_instance_reassign),{:controller => "irm/wf_step_instances",:action=>"reassign",:id=>step_instance.id,:back_url=>url_for({})})
-      links << "  "
-      links << link_to(t(:label_irm_wf_step_instance_approve_or_reject),{:controller => "irm/wf_step_instances",:action=>"show",:id=>step_instance.id,:back_url=>url_for({})})
+      links << link_to(t(:label_irm_wf_step_instance_reassign),{:controller => "irm/wf_step_instances",:action=>"reassign",:id=>step_instance.id,:back_url=>url_for({})},{:class=>"action-link"})
+      links << "&nbsp;|&nbsp;"
+      links << link_to(t(:label_irm_wf_step_instance_approve_or_reject),{:controller => "irm/wf_step_instances",:action=>"show",:id=>step_instance.id,:back_url=>url_for({})},{:class=>"action-link"})
       links.html_safe
     end
   end
