@@ -15,15 +15,15 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("incident_requests",{:action=>"assign_me_data"},[],{:select=>"multiple",:paginator_box=>'paginatorBox'})%>
+    <%= datatable("incident_requests",{:action=>"assign_me_data"},[],{:paginator_box=>'paginatorBox'})%>
   </div>
   <table class="page-block-footer">
     <tr>
       <td class="page-block-title"></td>
       <td class="page-block-button">
-        <%= form_tag({:action=>"update_assign_me"}) do |f|%>
+        <% form_tag({:action=>"update_assign_me"}) do |f|%>
           <%= hidden_field_tag(:incident_request_ids,:id=>"incident_request_ids")  %>
-          <%= submit_tag(t(:label_icm_incident_request_assign_me),{:id=>"formSubmit",:disabled=>true,:class=>"btn btn-primary"})  %>
+          <% submit_tag(t(:label_icm_incident_request_assign_me),{:id=>"formSubmit",:disabled=>true,:class=>"btn btn-primary"})  %>
         <% end %>
       </td>
     </tr>
