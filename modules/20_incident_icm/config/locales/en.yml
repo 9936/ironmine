@@ -94,11 +94,11 @@ en:
   #========================= end icm incident_statuses_controller=======================#
   #=========================    icm incident_requests_controller=======================#
   label_icm_reply: Reply
-  label_icm_incident_request: Incident request
-  label_icm_incident_request_list: Incident request list
-  label_icm_incident_request_new: New incident request
-  label_icm_incident_request_edit: Edit incident request
-  label_icm_incident_request_short_new: New incident request
+  label_icm_incident_request: Ticket
+  label_icm_incident_request_list: Ticket list
+  label_icm_incident_request_new: New ticket
+  label_icm_incident_request_edit: Edit ticket
+  label_icm_incident_request_short_new: New ticket
   label_icm_incident_request_service_code: Service
   label_icm_incident_requset_base_info: Base information
   label_icm_incident_request_title: Title
@@ -123,8 +123,8 @@ en:
   label_icm_incident_request_priority: Priority
   label_icm_incident_request_organization: Organization
   label_icm_incident_request_last_date: Last Update
-  label_incident_request: Incident request
-  label_incident_request_title: Incident Request Title
+  label_incident_request: Ticket
+  label_incident_request_title: Ticket Title
   label_icm_incident_request_submitted_by: Submit by
   label_icm_incident_request_incident_phase_code: Phase
   label_icm_incident_request_submitted_date: Submit date
@@ -140,14 +140,15 @@ en:
   label_icm_incident_request_attachment_list: Attachment List
   label_icm_incident_request_target_system: System
   label_action_assign_dashboard: Assign DashBoard
-  label_icm_incident_request_assignable_list: Incident request to be assigned
+  label_icm_incident_request_assignable_list: Tickets to be assigned
   label_icm_incident_request_assign: Assign
   error_icm_requested_by_can_not_blank: Requestor can't be blank
   label_icm_incident_request_view_filter_data_range_all: My related
   label_icm_incident_request_view_filter_data_range_main: My engaged
   label_icm_incident_journal_upgrade: Upgrade
-  label_icm_incident_request_assign_me: Assign to Me
-  label_icm_incident_request_assign_me_able_list: Incident Request for My Group
+  label_icm_incident_request_assign_me: New Coming Tickets
+  label_icm_incident_request_assign_me_recevie: Receive Current Ticket
+  label_icm_incident_request_assign_me_able_list: Tickets for My Group
   label_icm_incident_request_close_reason: Close Reason
   label_icm_incident_request_incident_status: Change Status
   label_icm_incident_request_upgrade: Upgrade
@@ -159,10 +160,10 @@ en:
   label_icm_incident_category_apply_system: Apply System
   label_icm_incident_category_system: Category System
   label_icm_incident_request_relation_new: New Relation Incident
-  label_icm_incident_request_relation_error_self: Incident request can't relation itself！
-  label_icm_incident_request_relation_error_exists: Don't add the same incident request again！
+  label_icm_incident_request_relation_error_self: Ticket can't be related itself！
+  label_icm_incident_request_relation_error_exists: Don't add the same ticket again！
   label_icm_incident_request_relation_error_no_target: The target request can't be blank！
-  label_icm_incident_request_relation_source: Source Incident Request
+  label_icm_incident_request_relation_source: Source ticket
   label_icm_incident_request_relation_types: Relation Types
   label_icm_incident_request_relation_type: Relation
   label_icm_incident_request_relation: Relation Types
@@ -188,17 +189,17 @@ en:
   label_icm_incident_journal_attachment: Attachments
   label_icm_incident_journal_attachment_desc: Description
   label_icm_incident_journal_add_attachment: Add a attachment
-  label_icm_incident_journal_close: Close incident request
-  label_icm_incident_journal_permanent_close: Permanently Close incident request
-  label_icm_incident_journal_reopen: Ropen incident request
+  label_icm_incident_journal_close: Close ticket
+  label_icm_incident_journal_permanent_close: Permanently Close ticket
+  label_icm_incident_journal_reopen: Ropen ticket
   label_icm_incident_joural_back_to_request: Back to incident
   label_icm_reply_title: reply at %{message} ago
   label_icm_submit_title: submit at %{message} ago
-  label_action_edit_pass: Pass Incident Request
-  label_action_update_pass: Pass Incident Request
-  label_action_edit_close: Close Incident Request
-  label_action_update_close: Close Incident Request
-  label_icm_incident_journal_pass: Pass Incident Request
+  label_action_edit_pass: Pass ticket
+  label_action_update_pass: Pass ticket
+  label_action_edit_close: Close ticket
+  label_action_update_close: Close ticket
+  label_icm_incident_journal_pass: Pass ticket
   label_action_short_create: Create
   label_icm_incident_journal_message_body_not_blank: Please fill information
   label_icm_incident_journal_message_body_not_repeat: You can not submit the same reply twice
