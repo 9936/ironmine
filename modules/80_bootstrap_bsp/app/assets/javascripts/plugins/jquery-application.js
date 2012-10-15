@@ -39,11 +39,12 @@ $(function(){
       if(parent_forms[0]){
         //对a的属性设置为target=_blank做特殊处理
         if($(this).attr("target") == '_blank' && typeof $(parent_forms[0]).attr('nomask') == 'undefined' ){
-          $(parent_forms[0]).attr('from_blank','true').attr('nomask', 'true');
-        }else if($(this).attr("target") != '_blank' && $(parent_forms[0]).attr('from_blank')) {
-            $(parent_forms[0]).removeAttr('from_blank').removeAttr('nomask');
+            $(parent_forms[0]).attr('nomask', 'true');
+            $(parent_forms[0]).trigger("submit");
+            $(parent_forms[0]).removeAttr('nomask');
+        }else{
+            $(parent_forms[0]).trigger("submit");
         }
-        $(parent_forms[0]).trigger("submit");
       }
     });
 
@@ -65,12 +66,12 @@ $(function(){
             $(parent_forms[0]).attr("action",href);
             //对a的属性设置为target=_blank做特殊处理
             if($(this).attr("target") == '_blank' && typeof $(parent_forms[0]).attr('nomask') == 'undefined' ){
-                $(parent_forms[0]).attr('from_blank','true').attr('nomask', 'true');
-            }else if($(this).attr("target") != '_blank' && $(parent_forms[0]).attr('from_blank')) {
-                $(parent_forms[0]).removeAttr('from_blank').removeAttr('nomask');
+                $(parent_forms[0]).attr('nomask', 'true');
+                $(parent_forms[0]).trigger("submit");
+                $(parent_forms[0]).removeAttr('nomask');
+            }else{
+                $(parent_forms[0]).trigger("submit");
             }
-            $(parent_forms[0]).trigger("submit");
-
             if(origin_target)
                 $(parent_forms[0]).attr("target",origin_target);
             else
