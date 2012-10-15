@@ -1,5 +1,5 @@
 <% btn_flag = process_instance_button?(bo_id,bo_model_name) %>
-<%# if process_infos.any? and !btn_flag -%>
+<% if process_infos.any? or btn_flag -%>
 <div class="page-block">
     <table class="page-block-header"><tr>
       <td class="page-block-title">
@@ -89,7 +89,6 @@
         </div>
       </div>
       <% end %>
-
     </div>
   </div>
-<%# end -%>
+<% end -%>
