@@ -75,7 +75,7 @@
 
         <div class="btn-group">
           <% if Icm::IncidentRequest.assignable_to_person(Irm::Person.current.id).query(@incident_request.id).present?%>
-              <%= link_to t(:label_icm_incident_request_assign_me), {:controller=>"icm/incident_requests",:action => "update_assign_me",:incident_request_ids=>@incident_request.id},{:class=>"btn",:back=>true} %>
+              <%= link_to t(:label_icm_incident_request_assign_me_recevie), {:controller=>"icm/incident_requests",:action => "update_assign_me",:incident_request_ids=>@incident_request.id},{:class=>"btn",:back=>true} %>
           <% end %>
           <% if allow_to_function?(:assign_incident_request) %>
               <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
@@ -140,27 +140,9 @@
           </td>
         </tr>
         <tr>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_org) %></label></td>
-          <td class="data-col">
-            <div><%= @incident_request[:requested_organization_name] %></div>
-          </td>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_role) %></label></td>
-          <td class="data-col">
-            <div><%= @incident_request[:requested_role_name] %></div>
-          </td>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_requested_by_profile) %></label></td>
-          <td class="data-col">
-            <div><%= @incident_request[:requested_profile_name] %></div>
-          </td>
-        </tr>
-        <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_incident_status_code) %></label></td>
           <td class="data-col">
             <div><%= @incident_request[:incident_status_name] %></div>
-          </td>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_estimated_date) %></label></td>
-          <td class="data-col">
-            <div><%= calendar_date(@incident_request[:estimated_date]) %></div>
           </td>
         </tr>
         <tr>
@@ -168,13 +150,9 @@
           <td class="data-col">
             <div><%= format_date(@incident_request[:submitted_date]) %></div>
           </td>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_request_type_code) %></label></td>
+          <td class="label-col"><label><%= t(:label_icm_incident_request_estimated_date) %></label></td>
           <td class="data-col">
-            <div><%= @incident_request[:request_type_name] %></div>
-          </td>
-          <td class="label-col"><label><%= t(:label_icm_incident_request_report_source_code) %></label></td>
-          <td class="data-col">
-            <div><%= @incident_request[:report_source_name] %></div>
+            <div><%= calendar_date(@incident_request[:estimated_date]) %></div>
           </td>
         </tr>
 

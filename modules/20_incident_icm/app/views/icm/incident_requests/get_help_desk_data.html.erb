@@ -12,7 +12,6 @@
           <%= "#{data[:incident_category_id_label]}" %><%= "(#{data[:incident_sub_category_id_label]})" if data[:incident_sub_category_id_label].present?%>
           </CENTER>
     <% end %>
-    <% builder.column(:reply_count,{:title=>t("#"), :width => "25px"})%>
     <% builder.column(:priority_id_label,{:title=>t(:label_icm_incident_request_priority),:searchable=>true, :width => "60px"})%>
     <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px"}) do |data| %>
         <CENTER>
