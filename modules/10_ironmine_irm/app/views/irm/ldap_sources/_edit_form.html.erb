@@ -25,6 +25,22 @@
             <td class="label-col"><label><%= t(:label_irm_ldap_source_base_dn) %></label></td>
             <td class="data-3col" colspan="3"><%= f.text_field :base_dn, :required => true, :class => "input-xxlarge" %></td>
           </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_ldap_source_account)%></label></td>
+            <td class="data-3col" colspan="3"><%= f.text_field :account,:class=>"input-xxlarge"%></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_ldap_source_account_password)%></label></td>
+            <td class="data-col"><%=f.password_field :account_password,:autocomplete=>"off"%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :active)%></label></td>
+            <td class="data-col"><%=f.select :status_code, available_active_status%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
           </tbody>
         </table>
     <% end %>

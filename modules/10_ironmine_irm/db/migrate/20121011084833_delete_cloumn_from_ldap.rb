@@ -5,7 +5,7 @@ class DeleteCloumnFromLdap < ActiveRecord::Migration
   end
 
   def down
-    add_column :irm_ldap_sources,:account, :limit => 60, :null => false
-    add_column :irm_ldap_sources,:account_password, :limit => 60, :null => false
+    add_column :irm_ldap_sources,:account, :string,:limit => 60, :null => false
+    add_column :irm_ldap_sources,:account_password, :string, :limit => 60, :null => false
   end
 end

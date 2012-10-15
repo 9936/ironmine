@@ -17,17 +17,15 @@ class Irm::LdapSource < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope { default_filter }
 
-  def test_auth
-    ldap = Net::LDAP.new
-    ldap.host = self.host
-    ldap.port = self.port
-    ldap.authenticate self.account, self.account_password
-    if ldap.bind
-      "The connection was authenticated successfully"
-      return true
+  def anonymous?
+    !self.account.present?||!self.account_password.present?
+  end
+
+  def auth_options
+    if anonymous?
+      {:method => :anonymous}
     else
-      "The connection was authenticated failed"
-      return false
+      {:method => :simple, :username => self.account, :password => self.account_password}
     end
   end
 
@@ -54,7 +52,7 @@ class Irm::LdapSource < ActiveRecord::Base
     object_filter = Net::LDAP::Filter.eq("objectClass", "*")
     login_filter = Net::LDAP::Filter.eq( "employeeNumber", "none" )
 
-    ldap.search(:auth => {:method => :anonymous},
+    ldap.search(:auth => auth_options,
                 :base => self.base_dn,
                 :filter => object_filter&login_filter,
                 :attributes => (['dn']))

@@ -52,6 +52,18 @@
             <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
+            <td class="label-col"><label><%=t(:label_irm_ldap_source_account)%></label></td>
+            <td class="data-col"><%= @ldap_source.account%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%=t(:label_irm_ldap_source_account_password)%></label></td>
+            <td class="data-col">******</td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
             <td class="label-col"><label><%=(t :active)%></label></td>
             <td class="data-col"><%= check_img(@ldap_source.status_code)%></td>
             <td class="label-col empty">&nbsp;</td>

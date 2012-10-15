@@ -58,7 +58,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     ldap.host = self.ldap_source.host
     ldap.port = self.ldap_source.port
 
-    ldap.search(:auth => {:method => :anonymous},
+    ldap.search(:auth => self.ldap_source.auth_options,
                 :base => self.ldap_source.base_dn,
                 :filter => login_filter,
                 :attributes => (['dn'])) do |entry|
