@@ -57,15 +57,8 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     ldap = Net::LDAP.new
     ldap.host = self.ldap_source.host
     ldap.port = self.ldap_source.port
-
-    ldap.search(:auth => self.ldap_source.auth_options,
-                :base => self.ldap_source.base_dn,
-                :filter => login_filter,
-                :attributes => (['dn'])) do |entry|
-      dn = entry.dn
-
-
-      ldap.search(:auth => {:method => :simple, :dn => dn, :password => password},
+    if self.ldap_login_name_attr.eql?("uid")
+      ldap.search(:auth => {:method => :simple, :dn => "uid=#{login_name},#{self.auth_cn}", :password => password},
                   :base => self.auth_cn,
                   :filter => login_filter,
                   # only ask for the DN if on-the-fly registration is disabled
@@ -83,7 +76,36 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
         return person.id if person
 
       end
+    else
+      ldap.search(:auth => self.ldap_source.auth_options,
+                  :base => self.ldap_source.base_dn,
+                  :filter => login_filter,
+                  :attributes => (['dn'])) do |entry|
+        dn = entry.dn
+
+
+        ldap.search(:auth => {:method => :simple, :dn => dn, :password => password},
+                    :base => self.auth_cn,
+                    :filter => login_filter,
+                    # only ask for the DN if on-the-fly registration is disabled
+                    :attributes => (['dn']+return_attrs.values)) do |return_entry|
+          exists_person = Irm::Person.where(:login_name => login_name).first
+          return exists_person.id if exists_person
+          return_attrs.each do |key, value|
+            return_value = self.class.get_attr(return_entry, value).force_encoding("utf-8")
+            person_attr[key]= return_value if return_value
+          end
+          person_attr[:auth_source_id] = self.id
+          person_attr[:email_address] = "#{person_attr[:login_name]}@ironmine.com" unless person_attr[:email_address].present?
+          person_attr[:first_name] = login_name unless person_attr[:first_name].present?
+          person = create_ldap_person(person_attr)
+          return person.id if person
+
+        end
+      end
     end
+
+
     return nil
 
   end
