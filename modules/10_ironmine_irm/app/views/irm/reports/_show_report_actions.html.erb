@@ -38,7 +38,7 @@
           <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#"><%= t(:export) %><span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li data-format="xls"><%= link_to t(:export_xls), {:action => "run", :id => @report.id,:format=>:xls},:id=>"exportReport",:class=>"submit",:target=>"_blank"%></li>
-            <li data-format="pdf"><%= link_to t(:export_pdf),{:action => "run", :id => @report.id,:format=>:pdf},:class=>"submit",:target=>"_blank" %></li>
+            <li data-format="pdf"><%= link_to t(:export_pdf),{:action => "run", :id => @report.id,:format=>:pdf},:id=>"exportReportPdf",:class=>"submit",:target=>"_blank" %></li>
           </ul>
         </div>
 

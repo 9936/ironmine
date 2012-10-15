@@ -79,5 +79,10 @@ Ironmine::Application.configure do
 
   # Generate digests for assets URLs
   config.assets.digest = true
+  config.logger = Logger.new(Rails.root.join("log",Rails.env + ".log"),3,5*1024*1024)
+  #配置日志输出格式
+  config.logger.formatter = proc { |severity, datetime, progname, msg|
+    "#{datetime.strftime("%Y-%m-%d %H:%M:%S")}: #{msg}\n"
+  }
 end
 
