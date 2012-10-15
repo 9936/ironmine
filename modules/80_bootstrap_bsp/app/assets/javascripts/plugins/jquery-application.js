@@ -40,7 +40,7 @@ $(function(){
         //对a的属性设置为target=_blank做特殊处理
         if($(this).attr("target") == '_blank' && typeof $(parent_forms[0]).attr('nomask') == 'undefined' ){
           $(parent_forms[0]).attr('from_blank','true').attr('nomask', 'true');
-        }else if($(parent_forms[0]).attr('from_blank')) {
+        }else if($(this).attr("target") != '_blank' && $(parent_forms[0]).attr('from_blank')) {
             $(parent_forms[0]).removeAttr('from_blank').removeAttr('nomask');
         }
         $(parent_forms[0]).trigger("submit");
@@ -66,7 +66,7 @@ $(function(){
             //对a的属性设置为target=_blank做特殊处理
             if($(this).attr("target") == '_blank' && typeof $(parent_forms[0]).attr('nomask') == 'undefined' ){
                 $(parent_forms[0]).attr('from_blank','true').attr('nomask', 'true');
-            }else if($(parent_forms[0]).attr('from_blank')) {
+            }else if($(this).attr("target") != '_blank' && $(parent_forms[0]).attr('from_blank')) {
                 $(parent_forms[0]).removeAttr('from_blank').removeAttr('nomask');
             }
             $(parent_forms[0]).trigger("submit");
