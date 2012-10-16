@@ -1,71 +1,152 @@
-<% type_flag ||= false %>
+<style type="text/css">
+  .input-file-value {
+      width: 100px;
+  }
+  .input-file-btn {
+      margin-left: -4px !important;
+  }
+  td.data-col-1{
+      width: 180px;
+      text-align:left;
+      padding:2px 2px 2px 10px;
+      vertical-align:top
+  }
+  td.data-col-2{
+      width: 150px;
+      text-align:left;
+      padding:2px 2px 2px 10px;
+      vertical-align:top
+  }
+  td.data-col-2 select{
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+  }
+  td.data-col-3 {
+      width: auto;
+      text-align:left;
+      padding:2px 2px 2px 10px;
+      vertical-align:top
+  }
+
+  .file-upload-box{
+      width:100%;
+      cursor: pointer;
+  }
+
+  .file-upload-box .file-input{
+      display:block;
+      position:absolute;
+      opacity:0;
+      filter:alpha(opacity=0);
+      cursor: pointer;
+      border: solid transparent;
+      border-width: 0 0 100px 200px;
+  }
+  .chrome .file-input,.gecko .file-input {
+      border-width: 0;
+  }
+</style>
 <!--页面结构-->
 <div class="sub-page-block">
   <div class="sub-page-block-header">
     <h3 class="sub-page-block-title"><%= t(:label_attachment_info) %></h3>
+    <span style="font-weight:normal;font-size:12px;">&nbsp;-&nbsp;<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %></span>
   </div>
   <div class="sub-page-block-body">
-    <table cellpadding="0" cellspacing="0" border="0" style="width: 800px;">
-      <thead>
-        <tr style="text-align: center;">
-          <th class="label-col" style="width: 18%;"></th>
-          <th ><%= t :label_file_name %></th>
-          <% if type_flag %>
-          <th><%= t :label_file_category %></th>
-          <% end %>
-          <th><%= t :description%></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="file_body">
-          <% size = 0 %>
-          <% init_num ||= 1 %>
-          <% init_num.times do %>
-          <tr id="file_<%= size %>">
-            <td class="label-col"></td>
-            <td class="data-col"><%=file_field_tag "files[#{size}][file]",:style => "width:150px;" %></td>
-            <% if type_flag %>
-            <td class="data-col"><%=select_tag "files[#{size}][file_category]", options_for_select(available_file_categories)%></td>
-            <% end %>
-            <td class="data-col"><%=text_field_tag "files[#{size}][description]", "", {:rows => 3, :cols => 25,:style => "width:150px;"}%>(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>
-            <td class="data-col"><%= link_to t(:delete), {}, {:href => "javascript:void(0);", :onclick => "delete_line(#{size});"} %></td>
-          </tr>
-          <% size += 1 %>
-          <% end %>
-      </tbody>
-      <!-- 列表显示已有附件 -->
-      <tbody id="exist_attachments_list">
-      <% exist_attachments ||= ''  %>
-      <%= exist_attachments %>
-      </tbody>
+    <table id="fileTemplate" style="display: none;">
+      <% type_flag ||= false %>
+      <% size = 0 %>
+      <% init_num ||= 1 %>
       <tbody>
-          <tr style="text-align: left;">
-            <td class="label-col" style="width: 18%;"></td>
-            <td class="data-col" style="padding-left: 20px; "><%= link_to t(:label_add_file), {}, {:href => "javascript:void(0);", :onclick => "generate_line();"} %></td>
-            <td class="data-col"></td>
-            <td class="data-col"></td>
-            <td class="data-col"></td>
-          </tr>
+      <tr id="file_${size}">
+        <td class="label-col">
+          <a href="javascript:void(0);" data-num="${size}"  class="btn btn-danger delete">
+            <i class="icon-trash icon-white"></i>
+            <span><%= t(:delete) %></span>
+          </a>
+        </td>
+        <td class="data-col-1">
+          <div class="input-append">
+            <% if ie6? -%>
+              <input type="file" name="files[${size}][file]"/>
+            <% else -%>
+            <div class="file-upload-box">
+              <input type="file" name="files[${size}][file]" class="file-input"/>
+              <input class="input-file-value" type="text"/>
+              <a class="btn input-file-btn" href="javascript:void(0);">浏览...</a>
+            </div>
+            <% end -%>​
+          </div>
+        </td>
+        <% if type_flag %>
+            <td class="data-col-2">
+              <div class="input-append">
+                <label><%= t(:label_file_category) %></label>
+                <%=select_tag "files[${size}][file_category]", options_for_select(available_file_categories),:id => "file_${size}_category"%>
+              </div>
+            </td>
+        <% end %>
+        <td class="data-col-3">
+          <div class="input-append">
+            <label><%= t(:description)%></label>
+            <%=text_field_tag "files[${size}][description]", "", :id => "file_${size}_description" %>
+          </div>
+        </td>
+      </tr>
       </tbody>
+    </table>
+    <table class="form-table">
+       <tbody id="file_body"></tbody>
+       <tbody>
+         <tr>
+           <td class="label-col"></td>
+           <td class="data-col-1">
+             <a id="addFileBtn" class="btn btn-success" href="javascript:void(0)">
+               <i class="icon-plus icon-white"></i>
+               <span><%= t(:label_add_file) %></span>
+             </a>
+           </td>
+         </tr>
+       </tbody>
+       <!-- 列表显示已有附件 -->
+       <tbody id="exist_attachments_list">
+         <% exist_attachments ||= ''  %>
+         <%= exist_attachments %>
+        </tbody>
     </table>
   </div>
 </div>
 <script type="text/javascript">
-    var line_count = parseInt('<%= size %>');
-    function delete_line(l){
-        $("#file_" + l).remove();
-    }
-    function generate_line(){
-        var node = '<tr id="file_' + line_count + '">'
-              + '<td class="label-col" style="width: 18%;"></td>'
-              + '<td class="data-col"><input type="file" name="files[' + line_count + '][file]" id="files_' + line_count + '_file", style="width:150px;"></td>'
-              <% if type_flag %>
-              + '<td class="data-col"><select name="files[' + line_count + '][file_category]" id="files_' + line_count + '_file_category">' + '<%= raw(options_for_select(available_file_categories).gsub!(/\n+/, ""))%>' + '</select></td>'
-              <% end %>
-              + '<td class="data-col"><input type="text" value="" rows="3" name="files[' + line_count + '][description]" id="files_' + line_count + '_description" cols="25", style="width:150px;">(<%= t(:file_upload_limit_alert, :m => Irm::SystemParametersManager.upload_file_limit) %>)</td>'
-              + '<td class="data-col"><a onclick="delete_line(' + line_count + ');" href="javascript:void(0);"><%= t :delete%></a></td>'
-          + '</tr>';
-        $("#file_body").append(node);
-        line_count ++;
-    }
+  $(function(){
+      var size = parseInt('<%= size %>'),
+          initNum = parseInt('<%= init_num %>'),
+          templateHtml = $("#fileTemplate tbody:first").html();
+      for(var i = 0; i < initNum; i++){
+          addFile(size,templateHtml);
+          size ++;
+      }
+      $("#addFileBtn").click(function(e){
+          addFile(size, templateHtml);
+          size ++;
+          e.preventDefault();
+      });
+      $("#file_body").on("click", ".delete", function() {
+          var dataNum = $(this).attr('data-num');
+          deleteLine(dataNum);
+      });
+      $("#file_body").on("change", ".file-upload-box .file-input",function(){
+          $(this).parent().find(".input-file-value").val($(this).val());
+      });
+      function addFile(size,templateHtml){
+          var node = $.tmpl(templateHtml, {size:size});
+          $("#file_body").append(node);
+      }
+      function deleteLine(size){
+          $("#file_" + size).remove();
+      }
+  });
+
 </script>
+
+
