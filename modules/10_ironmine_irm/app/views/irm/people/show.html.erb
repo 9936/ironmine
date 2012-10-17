@@ -8,8 +8,8 @@
           <h2 class="block-title"><%= t(:label_irm_person_show) %></h2>
         </td>
         <td class="page-block-button">
-          <%= link_to t(:edit), {:action => "edit", :id => @person},:class=>"btn" %>
-          <%= link_to t(:new), {:action => "new"},:class=>"btn"%>
+          <%= link_to t(:edit), {:action => "edit", :id => @person},:class=>"btn btn-info" %>
+          <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
           <%= link_to t(:label_irm_person_reset_password), {:action => "reset_password"},:class=>"btn"%>
           <%= link_to t(:back), {:action => "index"},:class=>"btn"%>
         </td>
@@ -18,6 +18,12 @@
   <div class="page-block-body">
     <table class="show-table">
       <tbody>
+          <tr>
+            <td class="label-col"><label for="time_zone_code"><%=t(:label_irm_person_time_zone)%></label></td>
+            <td class="data-col"><%= Irm::LookupValue.get_meaning('TIMEZONE', @person.time_zone_code) %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
             <td class="data-col"><%= @person.login_name%></td>
@@ -40,17 +46,13 @@
             <td class="label-col"><label><%=(t :label_irm_person_first_name)%></label></td>
             <td class="data-col"><%=@person.first_name%></td>
             <td class="label-col"><label><%=t(:label_irm_person_bussiness_phone)%></label></td>
-            <td class="data-col">
-              <%=@person.bussiness_phone%>
-            </td>
+            <td class="data-col"><%=@person.bussiness_phone%></td>
           </tr>
           <tr>
-            <td class="label-col"><%= t(:label_irm_identity_language_code) %></td>
+            <td class="label-col"><label><%= t(:label_irm_identity_language_code) %></label></td>
             <td class="data-col"><%= @person[:language_description] %></td>
              <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
-             <td class="data-col">
-                 <%=@person.fax_number%>
-             </td>
+             <td class="data-col"><%=@person.fax_number%></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_person_notification_lang)%></label></td>
@@ -126,7 +128,7 @@
         <h2 class="block-title"><%=t(:label_irm_person_access_system)%></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to t(:label_irm_person_add_to_system), {:controller=>"irm/external_system_members",:action => "new_from_person",:person_id=>@person.id},:class=>"btn" %>
+        <%= link_to t(:label_irm_person_add_to_system), {:controller=>"irm/external_system_members",:action => "new_from_person",:person_id=>@person.id},:class=>"btn btn-info" %>
       </td>
       <td class="page-block-help">
         <div id="person_system_listSearchBox"></div>
@@ -150,7 +152,7 @@
       </td>
       <td class="page-block-button">
         <%= link_to t(:label_irm_person_add_to_support_group),
-                    {:controller=>"irm/group_members",:action => "new_from_person",:id=>@person.id},:class=>"btn" %>
+                    {:controller=>"irm/group_members",:action => "new_from_person",:id=>@person.id},:class=>"btn btn-info" %>
       </td>
       <td class="page-block-help">
         <div id="support_groupSearchBox"></div>
@@ -170,7 +172,7 @@
       </td>
       <td class="page-block-button">
         <div id="loginHistoryExportData">
-          <%= link_to t(:export), {},:href => "javascript:void(0)",:class=>"btn" %>
+          <%= link_to t(:export), {},:href => "javascript:void(0)",:class=>"btn btn-info" %>
         </div>
       </td>
     </tr>

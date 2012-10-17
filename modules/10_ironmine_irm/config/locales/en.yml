@@ -739,6 +739,7 @@ en:
   label_irm_person_email_address: Email Address
   label_irm_person_home_phone: Home Phone
   label_irm_person_home_address: Home Address
+  label_irm_person_time_zone: User Time Zone
   label_irm_person_mobile_phone: Mobile Phone
   label_irm_person_fax_number: Fax Number
   label_irm_person_bussiness_phone: Bussiness Phone
