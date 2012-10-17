@@ -126,6 +126,10 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
       person.external_system_people.create(:external_system_id => pr.external_system_id)
     end
 
+    template_person.group_members.each do |gm|
+      person.group_members.create(:group_id => gm.group_id)
+    end
+
     person
   end
 

@@ -40,6 +40,10 @@ class Irm::Person < ActiveRecord::Base
           :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
   has_many :external_systems,:class_name => "Irm::ExternalSystem",:through => :external_system_people
 
+  has_many :group_members,:class_name => "Irm::GroupMember",:foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
+  has_many :groups,:class_name => "Irm::Group",:through => :group_members
+
+
   has_many :channel_approval_people, :class_name => 'Skm::ChannelApprovalPerson', :dependent => :destroy
 
   has_many :user_tokens, :class_name => "Irm::UserToken", :dependent => :destroy
