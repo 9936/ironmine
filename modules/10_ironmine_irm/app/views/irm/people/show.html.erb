@@ -77,7 +77,6 @@
             <td class="data-col">
                <%=@person.home_address%>
             </td>
-
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_person_assignment_availability_flag)%></label></td>
@@ -91,10 +90,17 @@
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
+          <tr>
+            <td class="label-col"><label><%=(t :label_irm_person_ldap_source)%></label></td>
+            <td class="data-col"><div><%= @person[:ldap_source_name].blank? ? check_img("N") : @person[:ldap_source_name]%></div></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
       </tbody>
     </table>
   </div>
   <!-- 审批信息 -->
+  <% if false %>
   <table class="page-block-header">
     <tr>
       <td class="page-block-title"><h2 class="block-title"><%=t(:label_irm_person_access_system)%></h2></td>
@@ -116,6 +122,7 @@
         </tbody>
       </table>
   </div>
+  <% end %>
 </div>
 
 <!-- 用户可访问的系统列表 -->

@@ -167,6 +167,10 @@ class Irm::Person < ActiveRecord::Base
         select("pv.name profile_name")
   }
 
+  scope :with_ldap, lambda{
+    joins("LEFT OUTER JOIN #{Irm::LdapAuthHeader.table_name} lds ON lds.id = #{table_name}.auth_source_id").
+        select("lds.name ldap_source_name, IF(lds.name is NULL, 'N', 'Y') ldap_flag")
+  }
   before_save do
      #如果password变量值不为空,则修改密码
      self.hashed_password = Irm::Person.hash_password(self.password) if self.password&&!self.password.blank?
@@ -177,6 +181,7 @@ class Irm::Person < ActiveRecord::Base
 
   def self.list_all
         select_all.
+        with_ldap.
         with_role.
         with_profile.
         with_title(I18n.locale).
