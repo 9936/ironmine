@@ -1,8 +1,10 @@
 <%=datatable_view({:count=>tasks.length,:datas=>tasks}) do |builder|%>
+  <% if false %>
   <% builder.column(:id,{:title=>t(:label_irm_task_type)}) do |data|%>
     <%= Irm::BusinessObject.class_name_to_meaning(data[:type])%>
   <% end %>
-  <% builder.column(:page_views,{:title=>t(:label_irm_task_title), :width => "140px"}) do |data|%>
+  <% end %>
+  <% builder.column(:page_views,{:title=>t(:label_irm_task_title)}) do |data|%>
     <%= link_to data[:title],data[:url_options] %>
   <% end %>
   <% builder.column(:status_name,{:title=>t(:label_irm_task_status_name), :width => "100px"})%>
