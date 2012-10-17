@@ -57,6 +57,8 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     ldap = Net::LDAP.new
     ldap.host = self.ldap_source.host
     ldap.port = self.ldap_source.port
+    Irm::OperationUnit.current = Irm::OperationUnit.find(self.ldap_source.opu_id)
+    # 使用UID作为登录名
     if self.ldap_login_name_attr.eql?("uid")
       ldap.search(:auth => {:method => :simple, :dn => "uid=#{login_name},#{self.auth_cn}", :password => password},
                   :base => self.auth_cn,
@@ -122,6 +124,10 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     return nil if person.errors.any?
     template_person.external_system_people.each do |pr|
       person.external_system_people.create(:external_system_id => pr.external_system_id)
+    end
+
+    template_person.group_members.each do |gm|
+      person.group_members.create(:group_id => gm.group_id)
     end
 
     person
