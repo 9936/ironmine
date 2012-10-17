@@ -177,6 +177,7 @@ class Icm::IncidentRequestsController < ApplicationController
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
 
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
+    supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"support_person_id")
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
         filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).
@@ -187,7 +188,9 @@ class Icm::IncidentRequestsController < ApplicationController
 
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
-
+    incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name",params[:priority_id_label])
 
     respond_to do |format|
       format.json {
@@ -230,6 +233,7 @@ class Icm::IncidentRequestsController < ApplicationController
                       :reply_flag]
     bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
     incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
+    supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"support_person_id")
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
         filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).
@@ -242,6 +246,9 @@ class Icm::IncidentRequestsController < ApplicationController
 
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
+    incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name",params[:priority_id_label])
 
     respond_to do |format|
       format.json {

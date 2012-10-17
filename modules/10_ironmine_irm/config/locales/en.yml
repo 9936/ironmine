@@ -793,6 +793,8 @@ en:
   label_irm_person_password_info: Set Password
   error_irm_person_new_old_password_same: New password can not be same as the old one.
   label_irm_person_reset_password: Reset Password
+  label_irm_person_is_ldap: LDAP
+  label_irm_person_ldap_source: LDAP Source
   #=========================end irm people_controller=======================#
   #=========================irm id_flexes_controller=======================#
   label_irm_id_flex: Flex

@@ -8,4 +8,10 @@
   <% builder.column(:bussiness_phone,{:title=>t(:label_irm_person_bussiness_phone),:searchable=>true})%>
   <% builder.column(:organization_name,{:title=>t(:label_irm_person_organization),:searchable=>true})%>
   <% builder.column(:profile_name,{:title=>t(:label_irm_person_profile)})%>
+  <% builder.column(:ldap_flag,{:title=>t(:label_irm_person_is_ldap),:width => "40px"}) do |data|%>
+    <%= check_img(data[:ldap_flag]) %>
+  <% end %>
+  <% builder.column(:status_code,{:title=>t(:active),:width => "40px"}) do |data|%>
+    <%= check_img(data[:status_code]) %>
+  <% end %>
 <% end %>
