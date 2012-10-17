@@ -7,9 +7,11 @@
     <td class="page-block-button">
 
     </td>
+    <% if false %>
     <td class="page-block-help" style="width: auto">
       <div><%= t(:label_irm_task_type) %>:<%= blank_select_tag(:task_entry,my_task_entries,params[:task_entry],{:id=>"myTaskEntryType"}) %></div>
     </td>
+    <% end %>
   </tr></table>
   <div class="page-block-body">
     <%= render({:partial=>"irm/home/tasks",:locals=>{:tasks=>acts_as_tasks}}) %>
