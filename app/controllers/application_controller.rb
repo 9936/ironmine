@@ -62,20 +62,25 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  #设置当前用户使用的语言
+  #设置当前用户使用的语言和时区
   def localization_setup
     lang = nil
     if Irm::Person.current.logged?
       lang = find_language(Irm::Person.current.language_code)
+      time_zone_code = Fwk::CustomTimeZone.value_to_name(Irm::Person.current.time_zone_code)
     end
     lang = params[:_lang]||lang
+    time_zone_code ||= 'Beijing'
     if lang.nil? && request.env['HTTP_ACCEPT_LANGUAGE']
       accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.downcase
       if !accept_lang.blank?
         lang = find_language(accept_lang) || find_language(accept_lang.split('-').first)
       end
     end
+
     set_language_if_valid(lang)
+    #设置时区
+    Time.zone = time_zone_code
   end
 
   #动态设定layout,使用default_layout保存每个controller原有的layout

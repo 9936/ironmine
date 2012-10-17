@@ -729,6 +729,7 @@ zh:
   label_irm_person_email_address: 邮件地址
   label_irm_person_home_phone: 家庭电话
   label_irm_person_home_address: 家庭地址
+  label_irm_person_time_zone: 所在时区
   label_irm_person_mobile_phone: 移动电话
   label_irm_person_fax_number: 传真
   label_irm_person_bussiness_phone: 办公电话
