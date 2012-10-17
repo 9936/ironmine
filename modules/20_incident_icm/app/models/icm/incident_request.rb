@@ -342,7 +342,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     return_val = ""
     journals = self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at ASC")
     journals.each do |i|
-      break if i == journals.last
+      #break if i == journals.last
       person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
       return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
       return_val << "<br>"

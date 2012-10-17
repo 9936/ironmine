@@ -12,7 +12,7 @@
                 <td class="label-col"><label><%= attr[:name] %></label></td>
                 <td class="data-3col" colspan="3" width="82%">
                   <label>
-                    <%= Irm::BusinessObject.attribute_of(@bo_instance, attr.attribute_name) %>
+                    <%= raw(Irm::BusinessObject.attribute_of(@bo_instance, attr.attribute_name)) %>
                   </label>
                 </td>
               </tr>
