@@ -172,7 +172,15 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/incident_requests" => ["assignable_data", "assign_dashboard", "assign_request"],
+              "icm/incident_requests" => ["assignable_data", "assign_request"],
+          },
+          :assign_incident_request_dashboard => {
+              :en => {:name => "Assign Dashboard", :description => "Assign Dashboard"},
+              :zh => {:name => "分配工作台", :description => "分配工作台"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => ["assign_dashboard"],
           },
           :view_watcher => {
               :en => {:name => "View Watcher", :description => "View Watcher"},
