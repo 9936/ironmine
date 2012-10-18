@@ -1,6 +1,6 @@
 <% if step&&step_instances.any? %>
   <tr id="step<%=step[:id]%>" class="yui3-datatable-even stepDef">
-    <td colspan="6">
+    <td colspan="5">
       <div>
         <b><%=t(:label_irm_wf_approval_step)%>#<%= step[:step_number] %>: <%= step[:name] %> </b>
        </div>
@@ -30,12 +30,7 @@
     </td>
     <td>
       <div>
-        <%= step_instance[:assign_approver_name] %>
-      </div>
-    </td>
-    <td>
-      <div>
-        <%= step_instance[:actual_approver_name] %>
+        <%= step_instance[:assign_approver_name] %>/<%= step_instance[:actual_approver_name] %>
       </div>
     </td>
     <td colspan="2">
