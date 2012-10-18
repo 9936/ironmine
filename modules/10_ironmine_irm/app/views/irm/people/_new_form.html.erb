@@ -5,6 +5,12 @@
     <table class="form-table">
       <tbody>
           <tr>
+            <td class="label-col"><label for="time_zone_code"><%=t(:label_irm_person_time_zone)%></label></td>
+            <td class="data-col" colspan="3">
+              <%= f.time_zone_select :time_zone,nil, :model => Fwk::I18nTimeZone %>
+            </td>
+          </tr>
+          <tr>
             <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
             <td class="data-col"><%= f.text_field(:login_name,:required=>true) %></td>
             <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
@@ -30,16 +36,16 @@
           </tr>
 
           <tr>
-            <td class="label-col"><%= t(:label_irm_identity_language_code) %></td>
+            <td class="label-col"><label><%= t(:label_irm_identity_language_code) %></label></td>
             <td class="data-col"><%= f.select(:language_code, selectable_languages) %></td>
-            <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
-            <td class="data-col"><%=f.text_field :fax_number, {:irm_number_and_cross => true}%></td>
-          </tr>
-          <tr>
             <td class="label-col"><label><%=t(:label_irm_person_notification_lang)%></label></td>
             <td class="data-col"><%=f.select :notification_lang,selectable_languages%></td>
+          </tr>
+          <tr>
             <td class="label-col"><label><%=t(:label_irm_person_mobile_phone)%></label></td>
             <td class="data-col"><%=f.text_field :mobile_phone, {:irm_number_only => true}%></td>
+            <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
+            <td class="data-col"><%=f.text_field :fax_number, {:irm_number_and_cross => true}%></td>
           </tr>
           <tr>
              <td class="label-col"><label><%=t(:label_irm_person_notification_flag)%></label></td>
@@ -60,7 +66,7 @@
             <td class="data-col empty"></td>
           </tr>
           <tr>
-            <td class="label-col"><%= t(:label_irm_person_template_flag) %></td>
+            <td class="label-col"><label><%= t(:label_irm_person_template_flag) %></label></td>
             <td class="data-col"><%= f.check_box(:template_flag) %></td>
             <td class="label-col empty"></td>
             <td class="data-col empty"></td>

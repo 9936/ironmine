@@ -155,6 +155,11 @@ class Icm::IncidentJournal < ActiveRecord::Base
   end
 
   def validate_message_body
+    return if self.reply_type == 'CLOSE'
+    return if self.reply_type == 'REOPEN'
+    return if self.reply_type == 'PASS'
+    return if self.reply_type == 'STATUS'
+
     str = Irm::Sanitize.sanitize(self.message_body,'').strip
     if !str.present?||(str.length==1&&str.bytes.to_a.eql?([226, 128, 139]))
       self.errors.add(:message_body,I18n.t(:label_icm_incident_journal_message_body_not_blank))

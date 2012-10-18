@@ -4,8 +4,14 @@
     <table class="form-table">
       <tbody>
           <tr>
+            <td class="label-col"><label for="time_zone_code"><%=t(:label_irm_person_time_zone)%></label></td>
+            <td class="data-col" colspan="3">
+              <%= f.time_zone_select :time_zone,nil, :model => Fwk::I18nTimeZone %>
+            </td>
+          </tr>
+          <tr>
             <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
-            <td class="data-col"><%= @person.login_name%></td>
+            <td class="data-col"><label><%= @person.login_name%></label></td>
             <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
             <td class="data-col"><%=@person[:role_name]%></td>
           </tr>

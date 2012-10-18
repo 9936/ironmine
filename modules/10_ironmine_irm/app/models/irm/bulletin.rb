@@ -35,11 +35,11 @@ class Irm::Bulletin < ActiveRecord::Base
   }
 
   scope :select_all, lambda{
-    select("#{table_name}.*, #{table_name}.title bulletin_title, DATE_FORMAT(#{table_name}.created_at, '%Y/%c/%e %H:%I:%S') published_date")
+    select("#{table_name}.*, #{table_name}.title bulletin_title, #{table_name}.created_at published_date")
   }
 
   scope :select_all_top, lambda{
-    select("#{table_name}.id id, CONCAT('[#{I18n.t(:label_irm_bulletin_sticky_flag)}] ', #{table_name}.title) bulletin_title, #{table_name}.content, DATE_FORMAT(#{table_name}.created_at, '%Y/%c/%e %H:%I:%S') published_date").
+    select("#{table_name}.id id, CONCAT('[#{I18n.t(:label_irm_bulletin_sticky_flag)}] ', #{table_name}.title) bulletin_title, #{table_name}.content, #{table_name}.created_at published_date").
         select("#{table_name}.page_views page_views, #{table_name}.sticky_flag")
   }
 

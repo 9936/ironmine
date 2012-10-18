@@ -180,8 +180,7 @@ class Icm::IncidentRequestsController < ApplicationController
     supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"support_person_id")
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-        filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).
-        order("last_response_date desc")
+        filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
         #order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
 
     incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
@@ -191,6 +190,13 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name",params[:priority_id_label])
+
+    if params[:order_name]
+      order_value = params[:order_value] ? params[:order_value] : "DESC"
+      incident_requests_scope = incident_requests_scope.order("#{params[:order_name]} #{order_value}")
+    else
+      incident_requests_scope = incident_requests_scope.order("last_response_date DESC")
+    end
 
     respond_to do |format|
       format.json {
@@ -236,8 +242,7 @@ class Icm::IncidentRequestsController < ApplicationController
     supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"support_person_id")
 
     incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
-        filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).
-        order("last_request_date desc")
+        filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
         #order("close_flag ,reply_flag desc,last_request_date desc,last_response_date desc,weight_value,id")
 
 
@@ -249,6 +254,13 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
     incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name",params[:priority_id_label])
+
+    if params[:order_name]
+      order_value = params[:order_value] ? params[:order_value] : "DESC"
+      incident_requests_scope = incident_requests_scope.order("#{params[:order_name]} #{order_value}")
+    else
+      incident_requests_scope = incident_requests_scope.order("last_response_date DESC")
+    end
 
     respond_to do |format|
       format.json {
@@ -389,6 +401,7 @@ class Icm::IncidentRequestsController < ApplicationController
     end
 
     incident_requests.each do |irq|
+      next unless irq.support_person_id.nil?
       request_attributes = {}
       journal_attributes = {}
       journal_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_request_assign_me))

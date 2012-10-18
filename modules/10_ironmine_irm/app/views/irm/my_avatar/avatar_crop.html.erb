@@ -19,7 +19,8 @@
     <div class="page-block-body">
       <div class="sub-page-block">
         <div class="sub-page-block-body">
-          <div style="padding: 5px 0 5px 0; margin-left: 30%;"><%= t(:label_irm_person_avatar_best_size)%><label id="currentCrop"></label></div>
+          <div style="padding: 5px 0 5px 0; margin-left: 30%;">
+            <%= t(:label_irm_person_avatar_best_size)%><label id="currentCrop"></label></div>
           <%= render :partial => "irm/common/crop", :locals => {:source => @person,:best_size=>[100,100],:display_dom=>"currentCrop"}%>
           <% for attribute in [:crop_x, :crop_y, :crop_w, :crop_h] %>
            <%= f.hidden_field attribute, :id => attribute %>

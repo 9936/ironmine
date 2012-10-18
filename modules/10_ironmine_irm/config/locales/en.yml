@@ -739,6 +739,7 @@ en:
   label_irm_person_email_address: Email Address
   label_irm_person_home_phone: Home Phone
   label_irm_person_home_address: Home Address
+  label_irm_person_time_zone: User Time Zone
   label_irm_person_mobile_phone: Mobile Phone
   label_irm_person_fax_number: Fax Number
   label_irm_person_bussiness_phone: Bussiness Phone
@@ -1346,6 +1347,7 @@ en:
   label_irm_wf_step_instance_approval_status_code: Status
   label_irm_wf_step_instance_assign_approver: Assign Approver
   label_irm_wf_step_instance_actual_approver: Actual Approver
+  label_irm_wf_step_instance_assign_or_actual_approver: Assign/Actual Approver
   label_irm_wf_process_instance_global_status: Status
   label_irm_wf_process_approval_history: Approval History
   label_irm_wf_step_instance_reassign: Reassign
