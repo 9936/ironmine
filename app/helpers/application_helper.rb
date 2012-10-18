@@ -42,10 +42,6 @@ module ApplicationHelper
     end
   end
 
-  def ie6s
-    ie6?
-  end
-
   def common_app_title(current_tab,model_title,action_title,data_meaning)
     image_icon = ""
     if current_tab.style_image
@@ -386,6 +382,7 @@ module ApplicationHelper
 
   def format_date(time)
     return time if time&&time.is_a?(String)
+    time = time.in_time_zone if time&&time.is_a?(Time)
     time.strftime('%Y-%m-%d %H:%M:%S') if time
   end
 
