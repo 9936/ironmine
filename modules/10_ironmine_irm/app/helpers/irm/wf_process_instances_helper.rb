@@ -17,7 +17,7 @@ module Irm::WfProcessInstancesHelper
         links << link_to(t(:label_irm_wf_process_instance_recall),{:controller => "irm/wf_process_instances",:action=>"recall",:id=>submitted_process_instance.id,:back_url=>url_for({})},:class=>"btn")
       end
     else
-      links << link_to(t(:label_irm_wf_process_instance_submit),{:controller => "irm/wf_process_instances",:action=>"submit",:bo_id=>bo_id,:bo_model_name=>bo_model_name,:back_url=>url_for({})},:class=>"btn")
+      links << link_to(t(:label_irm_wf_process_instance_submit),{:controller => "irm/wf_process_instances",:action=>"submit",:bo_id=>bo_id,:bo_model_name=>bo_model_name,:back_url=>url_for({})},:class=>"btn btn-danger")
     end
     links.html_safe
   end
