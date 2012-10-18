@@ -159,7 +159,7 @@ en:
   label_icm_create_relate_change_request: Create RFC
   label_icm_incident_category_apply_system: Apply System
   label_icm_incident_category_system: Category System
-  label_icm_incident_request_relation_new: New Relation Incident
+  label_icm_incident_request_relation_new: New Relation Ticket
   label_icm_incident_request_relation_error_self: Ticket can't be related itself！
   label_icm_incident_request_relation_error_exists: Don't add the same ticket again！
   label_icm_incident_request_relation_error_no_target: The target request can't be blank！
