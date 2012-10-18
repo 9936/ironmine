@@ -18,6 +18,12 @@
         <table class="show-table">
           <tbody>
               <tr>
+                <td class="label-col"><label for="time_zone_code"><%=t(:label_irm_person_time_zone)%></label></td>
+                <td class="data-col"><%= Time.zone.to_s %></td>
+                <td class="label-col"></td>
+                <td class="data-col"></td>
+              </tr>
+              <tr>
                 <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
                 <td class="data-col"><%= @person.login_name%></td>
                 <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
