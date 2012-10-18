@@ -1356,6 +1356,7 @@ zh:
   label_irm_wf_step_instance_approval_status_code: 状态
   label_irm_wf_step_instance_assign_approver: 分配审批人
   label_irm_wf_step_instance_actual_approver: 实际审批人
+  label_irm_wf_step_instance_assign_or_actual_approver: 分配/实际审批人
   label_irm_wf_process_instance_global_status: 总体状态
   label_irm_wf_process_approval_history: 审批历史
   label_irm_wf_step_instance_reassign: 转交
