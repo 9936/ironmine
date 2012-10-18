@@ -3,6 +3,15 @@
 <% require_jcss(:jcrop_ie6) if ie6? %>
 <script type="text/javascript">
   $(function(){
+      var currentSelect = [0, 0, 100, 100];
+      <% if defined?(best_size)%>
+        currentSelect = <%=[0,0]+best_size %>;
+      <% end%>
+      $('#crop_box').Jcrop({
+          onSelect: onSelect,
+          bgChange: onChange,
+          setSelect: currentSelect
+      });
       function onChange(crop){
             $("#crop_x").val(crop.x);
             $("#crop_y").val(crop.y);
@@ -21,13 +30,5 @@
             $("#<%=display_dom%>").html("=>"+crop.w+"px X "+crop.h+"px");
           <%end%>
       }
-      var currentCrop = $.Jcrop('#crop_box',{
-          onChange: onChange,
-          onSelect: onSelect
-      });
-      <% if defined?(best_size)%>
-        <% current_size = [0,0]+best_size %>
-        currentCrop.animateTo(<%=current_size%>);
-      <% end%>
   });
 </script>
