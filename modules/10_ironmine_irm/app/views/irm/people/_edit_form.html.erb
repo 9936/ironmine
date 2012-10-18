@@ -4,6 +4,12 @@
   <% content_for :form_block_person   do%>
     <table class="form-table">
       <tbody>
+        <tr>
+          <td class="label-col"><label for="time_zone_code"><%=t(:label_irm_person_time_zone)%></label></td>
+          <td class="data-col" colspan="3">
+            <%= f.time_zone_select :time_zone,nil, :model => Fwk::I18nTimeZone %>
+          </td>
+        </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
             <td class="data-col">
@@ -50,14 +56,14 @@
           <tr>
             <td class="label-col"><label><%= t(:label_irm_identity_language_code) %></label></td>
             <td class="data-col"><%= f.select(:language_code, selectable_languages) %></td>
-            <td class="label-col"><label for="time_zone_code"><%=t(:label_irm_person_time_zone)%></label></td>
-            <td class="data-col"><%=f.select :time_zone_code,options_for_select(available_timezone,@person.time_zone_code),{}, :required=>true %></td>
-          </tr>
-          <tr>
             <td class="label-col"><label><%=t(:label_irm_person_notification_lang)%></label></td>
             <td class="data-col"><%=f.select :notification_lang,selectable_languages%></td>
+          </tr>
+          <tr>
             <td class="label-col"><label><%=t(:label_irm_person_mobile_phone)%></label></td>
             <td class="data-col"><%=f.text_field :mobile_phone, {:irm_number_only => true}%></td>
+            <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
+            <td class="data-col"><%=f.text_field :fax_number, {:irm_number_and_cross => true}%></td>
           </tr>
           <tr>
              <td class="label-col"><label><%=t(:label_irm_person_notification_flag)%></label></td>
@@ -86,8 +92,8 @@
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_ldap_source)%></label></td>
             <td class="data-col"><div><%= @person[:ldap_source_name].blank? ? check_img("N") : @person[:ldap_source_name]%></div></td>
-            <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
-            <td class="data-col"><%=f.text_field :fax_number, {:irm_number_and_cross => true}%></td>
+            <td class="label-col empty"></td>
+            <td class="data-col empty"></td>
           </tr>
       </tbody>
     </table>

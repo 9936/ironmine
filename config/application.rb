@@ -48,7 +48,7 @@ module Ironmine
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
     config.time_zone = 'Beijing'
-    config.active_record.default_timezone = 'Beijing'
+    #config.active_record.default_timezone = 'Beijing'
 
     # Enable the asset pipeline
     config.assets.enabled = true

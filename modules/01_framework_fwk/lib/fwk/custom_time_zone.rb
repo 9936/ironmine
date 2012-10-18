@@ -252,5 +252,28 @@ module Fwk
       puts "================#{MAPPING}======================"
     end
 
+
+    def get_en_meaning
+      ActiveSupport::TimeZone::MAPPING.each do |k, v|
+        puts "\"#{k}\": #{k}(#{v})"
+      end
+    end
+
+    def get_zh_meaning
+      I18n.locale = :zh
+      lookup_zones = Irm::LookupValue.query_by_lookup_type("TIMEZONE").multilingual.index_by(&:lookup_code)
+      mapping = MAPPING.invert
+
+      rails_time_zones = ActiveSupport::TimeZone::MAPPING
+      rails_time_zones.each do |k,v|
+        if mapping[k.to_s].present?
+          name = lookup_zones[mapping[k].to_s][:meaning]
+        else
+          name = k
+        end
+        puts "\"#{k}\": #{name}(#{v})"
+      end
+    end
+
   end
 end

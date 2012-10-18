@@ -67,10 +67,10 @@ class ApplicationController < ActionController::Base
     lang = nil
     if Irm::Person.current.logged?
       lang = find_language(Irm::Person.current.language_code)
-      time_zone_code = Fwk::CustomTimeZone.value_to_name(Irm::Person.current.time_zone_code)
+      time_zone = Irm::Person.current.time_zone
     end
     lang = params[:_lang]||lang
-    time_zone_code ||= 'Beijing'
+    time_zone ||= 'Beijing'
     if lang.nil? && request.env['HTTP_ACCEPT_LANGUAGE']
       accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.downcase
       if !accept_lang.blank?
@@ -80,7 +80,7 @@ class ApplicationController < ActionController::Base
 
     set_language_if_valid(lang)
     #设置时区
-    Time.zone = time_zone_code
+    Time.zone = time_zone
   end
 
   #动态设定layout,使用default_layout保存每个controller原有的layout
