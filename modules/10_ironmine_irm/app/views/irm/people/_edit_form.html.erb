@@ -86,12 +86,8 @@
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_ldap_source)%></label></td>
             <td class="data-col"><div><%= @person[:ldap_source_name].blank? ? check_img("N") : @person[:ldap_source_name]%></div></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
             <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
             <td class="data-col"><%=f.text_field :fax_number, {:irm_number_and_cross => true}%></td>
-            <td class="label-col empty"></td>
-            <td class="data-col empty"></td>
           </tr>
       </tbody>
     </table>
