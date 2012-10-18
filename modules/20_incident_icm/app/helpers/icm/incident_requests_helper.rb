@@ -219,6 +219,6 @@ module Icm::IncidentRequestsHelper
         assignable_to_person(person.id).
         order("created_at")
 
-    return incident_requests_scope.size
+    return incident_requests_scope.size.to_s
   end
 end
