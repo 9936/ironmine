@@ -174,7 +174,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "icm/incident_requests" => ["assignable_data", "assign_request"],
           },
-          :assign_incident_request_dashboard => {
+          :assign_incident_request_db => {
               :en => {:name => "Assign Dashboard", :description => "Assign Dashboard"},
               :zh => {:name => "分配工作台", :description => "分配工作台"},
               :default_flag => "N",
