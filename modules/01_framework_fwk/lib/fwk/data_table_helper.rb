@@ -53,7 +53,7 @@ module Fwk
             else
               if data[column[:key]].present?
                 if data[column[:key]].is_a?(Time)
-                  table_body.safe_concat data[column[:key]].strftime('%Y-%m-%d %H:%M:%S')
+                  table_body.safe_concat data[column[:key]].in_time_zone.strftime('%Y-%m-%d %H:%M:%S')
                 elsif data[column[:key]].is_a?(Date)
                   table_body.safe_concat data[column[:key]].strftime('%Y-%m-%d')
                 else
