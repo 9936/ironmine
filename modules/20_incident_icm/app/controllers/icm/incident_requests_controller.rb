@@ -401,6 +401,7 @@ class Icm::IncidentRequestsController < ApplicationController
     end
 
     incident_requests.each do |irq|
+      next unless irq.support_person_id.nil?
       request_attributes = {}
       journal_attributes = {}
       journal_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_request_assign_me))
