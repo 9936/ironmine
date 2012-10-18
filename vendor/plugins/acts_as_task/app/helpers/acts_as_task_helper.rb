@@ -11,6 +11,7 @@ module ActsAsTaskHelper
         end
       end
     end
+    all_results = all_results.sort{|x,y| y[:start_at] <=> x[:start_at]}
     all_results
   end
 
