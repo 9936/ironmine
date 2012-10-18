@@ -59,7 +59,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     ldap.port = self.ldap_source.port
     Irm::OperationUnit.current = Irm::OperationUnit.find(self.ldap_source.opu_id)
     # 使用UID作为登录名
-    if self.ldap_login_name_attr.eql?("uid")
+    if self.ldap_source.anonymous?&&self.ldap_login_name_attr.eql?("uid")
       ldap.search(:auth => {:method => :simple, :dn => "uid=#{login_name},#{self.auth_cn}", :password => password},
                   :base => self.auth_cn,
                   :filter => login_filter,
