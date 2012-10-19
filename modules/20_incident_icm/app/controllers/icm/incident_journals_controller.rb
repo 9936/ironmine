@@ -452,6 +452,21 @@ class Icm::IncidentJournalsController < ApplicationController
     end
   end
 
+  #设置回复失效
+  def delete
+    incident_journal = Icm::IncidentJournal.find(params[:id])
+    incident_journal.status_code = 'OFFLINE'
+    incident_journal.save
+    @incident_request = incident_journal.incident_request
+  end
+  #还原删除的回复
+  def recover
+    incident_journal = Icm::IncidentJournal.find(params[:id])
+    incident_journal.status_code = 'ENABLED'
+    incident_journal.save
+    @incident_request = incident_journal.incident_request
+  end
+
   private
   def setup_up_incident_request
     @incident_request = Icm::IncidentRequest.list_all.find(params[:request_id])

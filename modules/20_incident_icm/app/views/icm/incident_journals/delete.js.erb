@@ -1,0 +1,10 @@
+$(function(){
+    //添加删除线
+    if($("#allJournals").length > 0){
+        <% prepare_request_files(@incident_request) %>
+        $("#allJournals").html('<%= escape_javascript(list_all_journals(@incident_request)) %>');
+    }
+    $("#enabled_<%= params[:id]%>").remove();
+    //回复历史数-1
+    $("#journalsNum").html('<%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request) + 1 %>)');
+});

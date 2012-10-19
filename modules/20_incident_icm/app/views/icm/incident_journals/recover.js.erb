@@ -1,0 +1,12 @@
+$(function(){
+    //添加到回复列表中
+    if($("#replies").length > 0){
+        var journal = $("#<%= params[:id]%>"),enableJournal;
+        $(".reply-body", journal).removeClass("delete-line"); //移除删除线
+        $(".recover-action",journal).remove(); //删除撤消按钮
+        <% prepare_request_files(@incident_request) %>
+        $("#replies").html('<%= escape_javascript(list_journals(@incident_request)) %>');
+    }
+    //回复历史数-1
+    $("#journalsNum").html('<%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request) + 1 %>)');
+});

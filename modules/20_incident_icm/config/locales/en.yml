@@ -177,6 +177,7 @@ en:
   apply_skm: Search Service Knowledge
   label_icm_incident_reply_incident_status_code: New Incident Status
   label_icm_incident_journal_list: Replies
+  label_icm_incident_all_journal_list: All Replies
   label_icm_incident_journal_message_body: Reply Message
   label_icm_incident_journal_person: Replied by
   label_icm_incident_journal_content: Replied content
@@ -193,6 +194,7 @@ en:
   label_icm_incident_journal_permanent_close: Permanently Close ticket
   label_icm_incident_journal_reopen: Ropen ticket
   label_icm_incident_joural_back_to_request: Back to incident
+  label_icm_incident_joural_recover: Recover
   label_icm_reply_title: reply at %{message} ago
   label_icm_submit_title: submit at %{message} ago
   label_action_edit_pass: Pass ticket

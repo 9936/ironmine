@@ -1,7 +1,6 @@
 <%journals.each_with_index do |journal,index|  %>
- <div class="reply">
+ <div class="reply" id="enabled_<%= journal.id %>">
    <div id="journal_<%= journal.id %>" class="reply-header"  submit_by="<%= journal[:replied_by]%>">
-
     <div style="float:left"><img width="25" height="25" alt="" src="<%=replied_avatar(journal)%>"></div>
     <div style="float:left; padding:0 0 0 5px;">
      <h3><%= journal[:replied_name]  %></h3>
@@ -10,9 +9,9 @@
         </span>
     </div>
      <div style="float:right; padding: 5px 10px;">
+       <%= link_to t(:delete), {:controller => "icm/incident_journals", :action => "delete",:request_id => @incident_request.id, :id => journal[:id], :_dom_id => "enabled_#{journal[:id]}}"},:remote => true %>
        <% if allow_to_function?(:edit_any_journal) || (allow_to_function?(:edit_self_journal) && journal[:replied_by].eql?(Irm::Person.current.id)) %>
-           &nbsp;&nbsp;<%= link_to t(:edit), {:controller => "icm/incident_journals", :action => "edit",
-                                              :request_id => @incident_request.id, :id => journal[:id]}%>
+           &nbsp;|&nbsp;<%= link_to t(:edit), {:controller => "icm/incident_journals", :action => "edit",:request_id => @incident_request.id, :id => journal[:id]}%>
        <% end %>
      </div>
    </div>
@@ -21,7 +20,7 @@
        <div class="message-header" style="font-style:italic;padding-bottom:10px;">
          <ul>
              <% journal.incident_histories.each do |h|%>
-               <%next unless h.to_s %>
+               <% next unless h.to_s %>
                <li><%= h %>
              <% end%>
          </ul>

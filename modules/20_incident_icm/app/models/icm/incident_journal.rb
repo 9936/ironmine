@@ -54,6 +54,13 @@ class Icm::IncidentJournal < ActiveRecord::Base
 
   scope :default_order,lambda{order("#{table_name}.created_at")}
 
+  #失效的回复
+  scope :with_offline,lambda{where(:status_code => "OFFLINE")}
+
+  #可用的回复
+  scope :with_enabled,lambda{where(:status_code => "ENABLED")}
+
+
   def self.list_all(request_id)
     query_by_request(request_id).with_replied_by
   end
