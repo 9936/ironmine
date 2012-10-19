@@ -310,6 +310,7 @@ zh:
   label_irm_identity_edit_password: 修改个人密码
   label_irm_identity_last_login_at: 最后登录时间
   label_identity_anonymous: Anonymous
+  label_irm_identity_ldap_can_not_edit_password: 您的信息来自LDAP验证服务器，不能在此更改密码。
   #=========================    end irm identities_controller=======================#
 
   #=========================    irm global_settings_controller=======================#

@@ -89,6 +89,12 @@
                  <td class="label-col"><div></div></td>
                 <td class="data-col"><div></div></td>
               </tr>
+              <tr>
+                <td class="label-col"><label><%=(t :label_irm_person_ldap_source)%></label></td>
+                <td class="data-col"><div><%= @person[:ldap_source_name].blank? ? check_img("N") : @person[:ldap_source_name]%></div></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
           </tbody>
         </table>
       </div>

@@ -319,6 +319,7 @@ en:
   label_irm_identity_edit_password: Edit personal password
   label_irm_identity_last_login_at: Last Login Date
   label_identity_anonymous: Anonymous
+  label_irm_identity_ldap_can_not_edit_password: You come from ldap server, who can not modify password here.
   #=========================    end identities_controller=======================#
   #=========================    irm global_settings_controller=======================#
   label_irm_global_setting: Global Setting
