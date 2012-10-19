@@ -1,8 +1,8 @@
 $(function(){
     //添加删除线
-    if($("#allJournals").length > 0){
+    if($("#allReplies").length > 0){
         <% prepare_request_files(@incident_request) %>
-        $("#allJournals").html('<%= escape_javascript(list_all_journals(@incident_request)) %>');
+        $("#allReplies").html('<%= escape_javascript(list_all_journals(@incident_request)) %>');
     }
     $("#enabled_<%= params[:id]%>").remove();
     //回复历史数-1
