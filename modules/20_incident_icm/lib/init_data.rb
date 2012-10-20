@@ -122,7 +122,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "Y",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/incident_journals" => ["apply_entry_header", "create", "get_entry_header_data", "index", "new", "get_incident_history_data","delete","recover"],
+              "icm/incident_journals" => ["apply_entry_header", "create", "get_entry_header_data", "index", "new", "get_incident_history_data"],
           },
           :pass_incident_request => {
               :en => {:name => "Pass", :description => "Pass"},
@@ -581,5 +581,28 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #=================================END:ASSIGN RULE=================================
+
+  #=================================START: INCIDENT JOURNAL=================================
+  map.function_group :incident_request, {
+      :children => {
+          :delete_recover_my_journals => {
+              :zh => {:name => "删除/还原自己的回复", :description => "删除/还原自己的回复"},
+              :en => {:name => "Delete/Recover my journals", :description => "Delete/Recover my journals"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_journals" => ["delete","recover","all_journals"]
+          },
+          :delete_recover_any_journals => {
+              :zh => {:name => "删除/还原任何回复", :description => "删除/还原任何回复"},
+              :en => {:name => "Delete/Recover anyone's journals", :description => "Delete/Recover anyone's journals"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_journals" => ["delete","recover","all_journals"]
+          }
+      }
+  }
+  #=================================END:INCIDENT JOURNAL=================================
 
 end

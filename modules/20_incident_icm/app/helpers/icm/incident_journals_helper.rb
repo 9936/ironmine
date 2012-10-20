@@ -37,8 +37,34 @@ module Icm::IncidentJournalsHelper
     end
   end
 
+  def display_all_journals?(incident_request)
+    if has_offline_journals?(incident_request)
+      if allow_to_function?(:delete_recover_any_journals)
+        return true
+      elsif allow_to_function?(:delete_recover_my_journals) and has_my_offline_journasl?(incident_request)
+         return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
+  def has_offline_journals?(incident_request)
+    Icm::IncidentJournal.with_offline.list_all(incident_request.id).any?
+  end
+
+  def has_my_offline_journasl?(incident_request)
+    Icm::IncidentJournal.with_replied_person(Irm::Person.current.id).list_all(incident_request.id).any?
+  end
+
   def list_all_journals(incident_request)
-    journals = Icm::IncidentJournal.list_all(incident_request.id).includes(:incident_histories).default_order
+    if allow_to_function?(:delete_recover_any_journals)
+      journals = Icm::IncidentJournal.list_all(incident_request.id).includes(:incident_histories).default_order
+    else
+      journals = Icm::IncidentJournal.list_all(incident_request.id).with_mine_all(Irm::Person.current.id).includes(:incident_histories).default_order
+    end
     render :partial=>"icm/incident_journals/list_all_journals",:locals=>{:journals=>journals,:grouped_files=>@request_files}
   end
 

@@ -294,47 +294,7 @@
 <% end %>
 
 
-<% content_for :incident_request_all_journals do %>
-    <div class="page-block" id="incidentReply"  style="border-bottom: none;">
-      <div id="allJournals">
-        <div style="padding: 0 0 10px 0; font-weight: bold;">
-          <table cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-            <tr>
-              <td>
-                <h2 style="font-size: 18px;margin-left: 5px;" id="journalsAllNum"><%= t(:label_icm_incident_all_journal_list) %>&nbsp;(<%= all_journals_size(@incident_request)+1 %>)</h2>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="page-block-body">
-          <div class="reply">
-            <div id="all_journal_0" class="reply-header" submit_by="<%= @incident_request.submitted_by %>">
-              <div style="float:left">
-                <img width="25" height="25" alt="" src="<%= person_avatar(@incident_request.submitted_by) %>"></div>
-              <div style="float:left; padding:0px 0 0 5px;">
-                <h3><%= @incident_request[:submitted_name] %></h3>
-             <span style="color:#666666;font-style:italic;">
-               <%= t(:label_reply_title, :time_distance=>distance_of_time_in_words(Time.now, @incident_request[:submitted_date]), :date_format=>format_date(@incident_request[:submitted_date])) %>
-             </span>
-              </div>
-            </div>
-            <div class="reply-body">
-              <div class="message-body">
-                <% prepare_request_files(@incident_request) %>
-                <%= raw process_message(@incident_request[:summary]) %>
-              </div>
-              <%= list_request_file %>
-            </div>
-          </div>
-          <div id="allReplies">
-            <%= list_all_journals(@incident_request) %>
-          </div>
-        </div>
-      </div>
-    </div>
-<% end %>
+
 
 
 <% content_for :incident_request_journals do %>
@@ -410,8 +370,11 @@
           <div class="mx-tabs" id="tabNav">
              <ul class="clear-fix">
                <li class="first active" id="nav_0" ref="incidentReply"><a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
-               <!-- 失效的回复 -->
-               <li id="nav_3" ref="offlineReplies"><a href="#tab4" data-toggle="tab"><%= t(:label_icm_incident_all_journal_list) %></a></li>
+               <!-- 所有的回复 -->
+               <% display_all = display_all_journals?(@incident_request) %>
+               <% if display_all %>
+                 <li id="nav_3" ref="allJournal"><a href="#tab4" data-toggle="tab"><%= t(:label_icm_incident_all_journal_list) %></a></li>
+               <% end %>
                <% if chm and has_module?(:chm) %>
                  <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
                <% end %>
@@ -424,9 +387,12 @@
             <div class="mx-tab-pane active" id="tab1">
               <%= content_for :incident_request_journals %>
             </div>
+            <% if display_all %>
             <div class="mx-tab-pane" id="tab4">
-              <%= content_for :incident_request_all_journals %>
+              <%#= content_for :incident_request_all_journals %>
+              <div class="hidden" id="allJournal" href="<%= url_for(:controller=>"icm/incident_journals",:action=>"all_journals",:request_id=>@incident_request.id) %>"></div>
             </div>
+            <% end %>
             <% if chm and has_module?(:chm) %>
             <div class="mx-tab-pane" id="tab2">
               <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>

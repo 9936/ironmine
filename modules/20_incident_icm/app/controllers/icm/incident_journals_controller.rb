@@ -25,6 +25,10 @@ class Icm::IncidentJournalsController < ApplicationController
     end
   end
 
+  def all_journals
+
+  end
+
 
   # POST /incident_journals
   # POST /incident_journals.xml
