@@ -7,6 +7,7 @@ en:
   current_page_help: Current help page
   #usual button
   fresh: Resh
+  browse: Browse
   after_n_fresh: Auto refresh in %{n} seconds
   not_auto_refresh: Not auto refresh
   fresh_time: Setting fresh time

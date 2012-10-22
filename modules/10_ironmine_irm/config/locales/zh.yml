@@ -7,6 +7,7 @@ zh:
   current_page_help: 此页面帮助
   #公用按钮
   fresh: 立即刷新
+  browse: 浏览
   after_n_fresh: %{n} 秒后自动刷新
   not_auto_refresh: 禁用自动刷新
   fresh_time: 设置定时刷新

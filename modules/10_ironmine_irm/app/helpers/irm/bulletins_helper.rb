@@ -23,12 +23,13 @@ module Irm::BulletinsHelper
     attachments = Irm::Attachment.list_all.where("source_id = ? AND source_type = ?", bulletin.id, Irm::Bulletin.name)
     if attachments && attachments.any?
       attachments.each do |a|
-        d1 = content_tag(:td, "", :class => "dataCol")
-        d2 = content_tag(:td, a.file_name, :class => "dataCol")
-        d3 = content_tag(:td, a.category_name, :class => "dataCol")
-        d4 = content_tag(:td, a.description, :class => "dataCol")
+        delete = link_to( t(:delete),{:controller => "irm/bulletins", :action => "remove_exits_attachments",:att_id => a.latest_version_id, :bulletin_id => bulletin.id}, :remote => "true", :confirm => t(:label_are_you_sure))
+        d1 = content_tag(:td, delete, :class => "label-col")
+        d2 = content_tag(:td, a.file_name, :class => "data-col-1")
+        d3 = content_tag(:td, a.category_name, :class => "data-col-2")
+        d4 = content_tag(:td, a.description, :class => "data-col-3")
         d5 = content_tag(:td, link_to(t(:delete),{:controller => "irm/bulletins", :action => "remove_exits_attachments",:att_id => a.latest_version_id, :bulletin_id => bulletin.id}, :remote => "true", :confirm => t(:label_are_you_sure)), :class => "dataCol")
-        r = content_tag(:tr, d1 + d2 + d3 + d4 + d5)
+        r = content_tag(:tr, d1 + d2 + d3 + d4)
         html << r
       end
     end
