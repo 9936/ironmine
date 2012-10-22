@@ -88,6 +88,7 @@ zh:
   label_icm_incident_permanent_close_flag: 永久关闭状态
   label_icm_incident_status_edit_transform: 事故单状态转移
   label_irm_incident_status_transform_event_error: 错误 在同一行中一种事件只能使用一次
+  label_icm_incident_status_next_status: 下一状态
   #========================= end icm incident_statuses_controller=======================#
   #=========================    icm incident_requests_controller=======================#
   label_icm_incident_request_assign_me_able_list: 可领取事故单列表

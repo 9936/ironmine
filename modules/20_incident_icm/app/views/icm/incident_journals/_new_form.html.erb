@@ -60,8 +60,8 @@
         <div class="btn-group">
           <% if current_person?(@incident_request.support_person_id) %>
               <%= link_to t(:pass), {:action => "edit_pass"},{:class=>"btn"} %>
-              <%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"},{:class=>"btn"}  %>
           <% end %>
+            <%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"},{:class=>"btn"}  %>
           <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
               <%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"} ,{:class=>"btn"}%>
           <% end %>
@@ -213,6 +213,12 @@
             </td>
             <td class="page-block-button"></td>
             <td class="page-block-help" style="width: auto;">
+              <% if allow_to_function?(:incident_request_edit_status)%>
+                  <div>
+                      <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_status_next_status)%></label>
+                      <%= blank_select_tag(:new_incident_status_id, available_request_status_code, "", {:autocomplete => "off", :id => "new_incident_status_id"})%>
+                  </div>
+              <% end %>
             </td>
           </tr></table>
           <div class="page-block-body">
