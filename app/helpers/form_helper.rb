@@ -9,6 +9,18 @@ module FormHelper
     end
   end
 
+  def input_file_tag(name, options = {})
+    if limit_device? || options.delete(:normal)
+      file_field_tag(name, options )
+    else
+      file_input = file_field_tag(name, options.merge(:normal => true, :class => "file-input", :onchange => %Q($('#input-file-name-#{sanitize_to_id(name)}').val($(this).val());)))
+      file_input_value = text_field_tag("input-file-name-#{name}", nil, :class => "input-file-value", :normal => true)
+      file_input_btn = link_to("#{t(:browse)}...",{},{:href=>"javascript:void(0);", :class => "btn input-file-btn"})
+      file_upload_box = content_tag(:div,file_input+file_input_value+file_input_btn, :class => "file-upload-box")
+      wrapped_field(content_tag(:div, file_upload_box,{:class => "input-append"}, false),options)
+    end
+  end
+
 
   def text_area_tag(name, content = nil, options = {})
     options.stringify_keys!

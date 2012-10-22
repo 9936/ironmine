@@ -149,6 +149,20 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
     wrapped_field(@template.content_tag(:div,color_tag_str,{:class=>"color-field"},false),field,options)
   end
 
+
+  def file_field(field, options = {})
+    file_field_id = options.delete(:id)||field
+    if @template.limit_device? || options.delete(:normal)
+      super(field, options)
+    else
+      file_input = super(field, options.merge(:id => file_field_id, :class => "file-input", :onchange => %Q($('#input-file-name-#{field}').val($(this).val());)))
+      file_input_value = @template.text_field_tag("input-file-name-#{field}", nil, :class => "input-file-value")
+      file_input_btn = @template.link_to("#{I18n.t(:browse)}...",{},{:href=>"javascript:void(0);", :class => "btn input-file-btn"})
+      file_upload_box = @template.content_tag(:div,file_input+file_input_value+file_input_btn, :class => "file-upload-box")
+      wrapped_field(@template.content_tag(:div, file_upload_box,{:class => "input-append"}, false),field, options)
+    end
+  end
+
   # Returns a label tag for the given field
   def wrapped_field(field,field_id, options = {})
     required_flag = options.delete(:required) ? true : false
@@ -166,7 +180,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
       info_image = @template.content_tag(:span, info_text,false)
     end
 
-    error_message_text =   error_message(object,field_id)
+    error_message_text = error_message(object,field_id)
 
     field_class = ["form-field-wrapped"]
     field_class << "form-field-required" if required_flag
