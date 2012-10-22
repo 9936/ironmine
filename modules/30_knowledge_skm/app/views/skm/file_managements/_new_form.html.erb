@@ -5,7 +5,9 @@
           <tbody>
           <tr>
             <td class="label-col"><label><%=(t :label_skm_file)%></label></td>
-            <td class="data-2col"><%=file_field_tag "file[0][file]", :required=>true%></td>
+            <td class="data-2col">
+              <%=input_file_tag "file[0][file]", :required=>true%>
+            </td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_skm_file_category)%></label></td>
