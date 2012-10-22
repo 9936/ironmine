@@ -25,4 +25,9 @@ module Icm::IncidentStatusesHelper
     Irm::LookupValue.query_by_lookup_type("ICM_INCIDENT_REQUEST_EVENT").enabled.multilingual.each{|p|names.merge!({p[:lookup_code]=>p[:meaning]})}
     names
   end
+
+  def incident_status_color(status_id)
+    status = Icm::IncidentStatus.find(status_id)
+    return status.display_color
+  end
 end

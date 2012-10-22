@@ -47,7 +47,10 @@ class Icm::IncidentJournalsController < ApplicationController
       @incident_journal.reply_type = "OTHER_REPLY"
     end
     #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
-    unless @incident_reply.incident_status_id.present?
+    #unless @incident_reply.incident_status_id.present?
+    if params[:new_incident_status_id] && !params[:new_incident_status_id].blank? && !params[:new_incident_status_id].eql?(@incident_request.incident_status_id)
+      @incident_reply.incident_status_id = params[:new_incident_status_id]
+    else
       @incident_reply.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
     end
 

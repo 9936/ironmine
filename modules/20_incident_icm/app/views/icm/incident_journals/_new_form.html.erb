@@ -60,8 +60,8 @@
         <div class="btn-group">
           <% if current_person?(@incident_request.support_person_id) %>
               <%= link_to t(:pass), {:action => "edit_pass"},{:class=>"btn"} %>
-              <%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"},{:class=>"btn"}  %>
           <% end %>
+            <%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"},{:class=>"btn"}  %>
           <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
               <%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"} ,{:class=>"btn"}%>
           <% end %>
@@ -109,7 +109,7 @@
 <!--页面头部内容-->
 <% content_for :block_header_content do %>
     <div id="incidentDetail">
-    <table class="detail-list" cellpadding="0" cellspacing="0" border="0">
+    <table class="detail-list" cellpadding="0" cellspacing="0" border="1px">
         <tbody>
         <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_target_system) %></label></td>
@@ -141,11 +141,10 @@
         </tr>
         <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_incident_status_code) %></label></td>
-          <td class="data-col">
+          <td class="data-col"
+              style="background-color:<%= incident_status_color(@incident_request[:incident_status_id])%>;color=<%= get_contrast_yiq(incident_status_color(@incident_request[:incident_status_id]))%>">
             <div><%= @incident_request[:incident_status_name] %></div>
           </td>
-        </tr>
-        <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_submitted_date) %></label></td>
           <td class="data-col">
             <div><%= format_date(@incident_request[:submitted_date]) %></div>
@@ -155,7 +154,6 @@
             <div><%= calendar_date(@incident_request[:estimated_date]) %></div>
           </td>
         </tr>
-
         <tr>
           <td class="label-col"><label><%= t(:label_icm_incident_request_urgence_code) %></label></td>
           <td class="data-col">
@@ -180,6 +178,19 @@
             <div><%= @incident_request[:supporter_name] %></div>
           </td>
         </tr>
+        <tr>
+          <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
+          <td class="data-col" colspan="5" style="word-WRAP: break-word;">
+            <% prepare_request_files(@incident_request) %>
+            <div class="reply-body">
+              <div class="message-body">
+                <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3><br><br>
+                <%= raw process_message(@incident_request[:summary])  %>
+              </div>
+              <%= list_request_file %>
+            </div>
+          </td>
+        </tr>
         </tbody>
     </table>
     </div>
@@ -202,6 +213,12 @@
             </td>
             <td class="page-block-button"></td>
             <td class="page-block-help" style="width: auto;">
+              <% if allow_to_function?(:incident_request_edit_status)%>
+                  <div>
+                      <label for="new_incident_status_id" style="display:inline;"><%= I18n.t(:label_icm_incident_status_next_status)%></label>
+                      <%= blank_select_tag(:new_incident_status_id, available_request_status_code, "", {:autocomplete => "off", :id => "new_incident_status_id"})%>
+                  </div>
+              <% end %>
             </td>
           </tr></table>
           <div class="page-block-body">
@@ -305,32 +322,13 @@
          <tbody>
          <tr>
            <td>
-             <h2 style="font-size: 18px;margin-left: 5px;" id="journalsNum"><%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request)+1 %>)</h2>
+             <h2 style="font-size: 18px;margin-left: 5px;" id="journalsNum"><%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request) %>)</h2>
            </td>
          </tr>
          </tbody>
        </table>
      </div>
      <div class="page-block-body">
-       <div class="reply">
-         <div id="journal_0" class="reply-header" submit_by="<%= @incident_request.submitted_by %>">
-           <div style="float:left">
-             <img width="25" height="25" alt="" src="<%= person_avatar(@incident_request.submitted_by) %>"></div>
-           <div style="float:left; padding:0px 0 0 5px;">
-             <h3><%= @incident_request[:submitted_name] %></h3>
-             <span style="color:#666666;font-style:italic;">
-               <%= t(:label_reply_title, :time_distance=>distance_of_time_in_words(Time.now, @incident_request[:submitted_date]), :date_format=>format_date(@incident_request[:submitted_date])) %>
-             </span>
-           </div>
-         </div>
-         <div class="reply-body">
-           <div class="message-body">
-             <% prepare_request_files(@incident_request) %>
-             <%= raw process_message(@incident_request[:summary]) %>
-           </div>
-           <%= list_request_file %>
-         </div>
-       </div>
        <div id="replies">
          <%= list_journals(@incident_request) %>
        </div>

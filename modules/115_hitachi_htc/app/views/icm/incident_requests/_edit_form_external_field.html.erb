@@ -1,0 +1,40 @@
+<tr>
+    <td class="label-col"><label for="incident_request_cux_submit_time"><%= I18n.t(:label_icm_incident_request_cux_submit_time)%></label></td>
+    <td class="data-col">
+        <%=f.text_field :cux_submit_time, :class => "timepicker-1"%>
+    </td>
+    <td class="label-col"><label for="incident_request_cux_response_time"><%= I18n.t(:label_icm_incident_request_cux_response_time)%></label></td>
+    <td class="data-col">
+        <%=f.text_field :cux_response_time, :class => "timepicker-1"%>
+    </td>
+</tr>
+<tr>
+    <td class="label-col"><label for="incident_request_cux_resolve_time"><%= I18n.t(:label_icm_incident_request_cux_resolve_time)%></label></td>
+    <td class="data-col">
+        <%=f.text_field :cux_resolve_time, :class => "timepicker-1"%>
+    </td>
+    <td class="label-col"><label for="incident_request_cux_close_time"><%= I18n.t(:label_icm_incident_request_cux_close_time)%></label></td>
+    <td class="data-col">
+        <%=f.text_field :cux_close_time, :class => "timepicker-1"%>
+    </td>
+</tr>
+<tr>
+    <td class="label-col"><label for="incident_request_cux_response_hours"><%= I18n.t(:label_icm_incident_request_cux_response_hours)%></label></td>
+    <td class="data-col">
+        <%=f.text_field :cux_response_hours%>
+    </td>
+    <td class="label-col"><label for="incident_request_cux_resolve_hours"><%= I18n.t(:label_icm_incident_request_cux_resolve_hours)%></label></td>
+    <td class="data-col">
+        <%=f.text_field :cux_resolve_hours%>
+    </td>
+</tr>
+
+<script type="text/javascript">
+    $(".timepicker-1").timepicker({
+    minuteStep: 1,
+    showSeconds: true,
+    showMeridian: false,
+    defaultTime: false
+    });
+    $(".timepicker-1").css("width", "100px");
+</script>

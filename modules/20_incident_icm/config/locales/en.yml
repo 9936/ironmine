@@ -91,6 +91,7 @@ en:
   label_icm_incident_status_show: Incident Status
   label_icm_incident_close_flag: Close
   label_icm_incident_permanent_close_flag: Permanently Close
+  label_icm_incident_status_next_status: Next Status
   #========================= end icm incident_statuses_controller=======================#
   #=========================    icm incident_requests_controller=======================#
   label_icm_reply: Reply

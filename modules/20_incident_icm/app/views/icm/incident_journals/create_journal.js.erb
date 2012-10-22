@@ -7,6 +7,7 @@ $(function(){
         //回复历史数加1
         $("#journalsNum").html('<%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request)+1 %>)');
         reset_rich_text();
+        $("#new_incident_status_id").val("");
         $("#notice").html("");
         $("#new_incident_request_journal_file .file-item").remove();
     <% else %>
