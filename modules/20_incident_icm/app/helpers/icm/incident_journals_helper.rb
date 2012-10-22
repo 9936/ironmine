@@ -6,7 +6,6 @@ module Icm::IncidentJournalsHelper
     files_belong_to_request = Irm::AttachmentVersion.query_incident_request_file((incident_request.id))
 
     @request_files.merge!({0=>files_belong_to_request}) if files_belong_to_request.size > 0 #防止事故单没有附件的时候, 产生一个空的数组
-
   end
 
   def list_all_files
@@ -30,7 +29,7 @@ module Icm::IncidentJournalsHelper
   end
 
   def list_journals(incident_request)
-    journals = Icm::IncidentJournal.list_all(incident_request.id).enabled.includes(:incident_histories).default_order
+    journals = Icm::IncidentJournal.list_all(incident_request.id).with_enabled.enabled.includes(:incident_histories).default_order
     unless params[:format].eql?('pdf')
       render :partial=>"icm/incident_journals/list_journals",:locals=>{:journals=>journals,:grouped_files=>@request_files}
     else
@@ -38,9 +37,42 @@ module Icm::IncidentJournalsHelper
     end
   end
 
+  def display_all_journals?(incident_request)
+    if has_offline_journals?(incident_request)
+      if allow_to_function?(:delete_recover_any_journals)
+        return true
+      elsif allow_to_function?(:delete_recover_my_journals) and has_my_offline_journasl?(incident_request)
+         return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
 
+  def has_offline_journals?(incident_request)
+    Icm::IncidentJournal.with_offline.list_all(incident_request.id).any?
+  end
+
+  def has_my_offline_journasl?(incident_request)
+    Icm::IncidentJournal.with_replied_person(Irm::Person.current.id).list_all(incident_request.id).any?
+  end
+
+  def list_all_journals(incident_request)
+    if allow_to_function?(:delete_recover_any_journals)
+      journals = Icm::IncidentJournal.list_all(incident_request.id).includes(:incident_histories).default_order
+    else
+      journals = Icm::IncidentJournal.list_all(incident_request.id).with_mine_all(Irm::Person.current.id).includes(:incident_histories).default_order
+    end
+    render :partial=>"icm/incident_journals/list_all_journals",:locals=>{:journals=>journals,:grouped_files=>@request_files}
+  end
 
   def journals_size(incident_request)
+    Icm::IncidentJournal.with_enabled.list_all(incident_request.id).size
+  end
+
+  def all_journals_size(incident_request)
     Icm::IncidentJournal.list_all(incident_request.id).size
   end
 

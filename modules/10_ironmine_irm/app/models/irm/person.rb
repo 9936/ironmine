@@ -233,6 +233,11 @@ class Irm::Person < ActiveRecord::Base
      true
    end
 
+  def is_ldap?
+    return false if self.auth_source_id.blank?
+    true
+  end
+
    #用户是否激活
    def active?
      !self.locked?&&self.enabled?

@@ -25,6 +25,10 @@ class Icm::IncidentJournalsController < ApplicationController
     end
   end
 
+  def all_journals
+
+  end
+
 
   # POST /incident_journals
   # POST /incident_journals.xml
@@ -450,6 +454,21 @@ class Icm::IncidentJournalsController < ApplicationController
         format.html { render "edit" }
       end
     end
+  end
+
+  #设置回复失效
+  def delete
+    incident_journal = Icm::IncidentJournal.find(params[:id])
+    incident_journal.status_code = 'OFFLINE'
+    incident_journal.save
+    @incident_request = incident_journal.incident_request
+  end
+  #还原删除的回复
+  def recover
+    incident_journal = Icm::IncidentJournal.find(params[:id])
+    incident_journal.status_code = 'ENABLED'
+    incident_journal.save
+    @incident_request = incident_journal.incident_request
   end
 
   private

@@ -287,12 +287,16 @@
               <em class="icon"></em>
             </span>
           </a>
-
         </div>
        <% end %>
    <% end %>
    <iframe id='frame' name="frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
 <% end %>
+
+
+
+
+
 <% content_for :incident_request_journals do %>
  <div class="page-block" id="incidentReply"  style="border-bottom: none;">
    <div id="histories">
@@ -301,9 +305,7 @@
          <tbody>
          <tr>
            <td>
-             <h2 style="font-size: 18px;margin-left: 5px;" id="journalsNum">
-               <%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request)+1 %>)
-             </h2>
+             <h2 style="font-size: 18px;margin-left: 5px;" id="journalsNum"><%= t(:label_icm_incident_journal_list) %>&nbsp;(<%= journals_size(@incident_request)+1 %>)</h2>
            </td>
          </tr>
          </tbody>
@@ -368,6 +370,11 @@
           <div class="mx-tabs" id="tabNav">
              <ul class="clear-fix">
                <li class="first active" id="nav_0" ref="incidentReply"><a href="#tab1" data-toggle="tab"><%= t(:label_icm_incident_journal_list) %></a></li>
+               <!-- 所有的回复 -->
+               <% display_all = display_all_journals?(@incident_request) %>
+               <% if display_all %>
+                 <li id="nav_3" ref="allJournal"><a href="#tab4" data-toggle="tab"><%= t(:label_icm_incident_all_journal_list) %></a></li>
+               <% end %>
                <% if chm and has_module?(:chm) %>
                  <li id="nav_1" ref="changeRequest"><a href="#tab2" data-toggle="tab"><%= t(:label_chm_change_request) %></a></li>
                <% end %>
@@ -380,6 +387,12 @@
             <div class="mx-tab-pane active" id="tab1">
               <%= content_for :incident_request_journals %>
             </div>
+            <% if display_all %>
+            <div class="mx-tab-pane" id="tab4">
+              <%#= content_for :incident_request_all_journals %>
+              <div class="hidden" id="allJournal" href="<%= url_for(:controller=>"icm/incident_journals",:action=>"all_journals",:request_id=>@incident_request.id) %>"></div>
+            </div>
+            <% end %>
             <% if chm and has_module?(:chm) %>
             <div class="mx-tab-pane" id="tab2">
               <div class="hidden" id="changeRequest" href="<%= url_for(:controller=>"chm/change_requests", :action=>"show_detail", :id=>@incident_request.change_request_id||"001") %>"></div>

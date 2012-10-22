@@ -167,6 +167,7 @@ zh:
   label_icm_incident_reply_incident_status_code: 新状态
   apply_skm: 搜索知识库
   label_icm_incident_journal_list: 回复历史
+  label_icm_incident_all_journal_list: 所有回复
   label_icm_incident_journal_person: 回复人
   label_icm_incident_journal_content: 回复内容
   label_icm_incident_journal_date: 回复日期
@@ -182,6 +183,7 @@ zh:
   label_icm_incident_journal_reopen: 重新打开事故单
   label_icm_incident_journal_permanent_close: 永久关闭事故单
   label_icm_incident_joural_back_to_request: 返回事故单
+  label_icm_incident_joural_recover: 撤消删除
   label_icm_incident_journal_upgrade: 升级事故单
   label_icm_reply_title: 于 %{message} 前回复
   label_icm_submit_title: 于 %{message} 前提交
