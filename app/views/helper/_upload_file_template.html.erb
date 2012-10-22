@@ -31,17 +31,25 @@
 
   .file-upload-box{
       width:100%;
+      overflow:hidden;
+      position: relative;
       cursor: pointer;
   }
 
   .file-upload-box .file-input{
-      display:block;
       position:absolute;
+      left:0;
+      top:0;
+      border:0 none;
+      width:100%;
+      height:30px;
+      margin:0;
+      padding:0;
+      cursor:pointer;
+      font-size:21px;
+      _font-size:15px;
       opacity:0;
-      filter:alpha(opacity=0);
-      cursor: pointer;
-      border: solid transparent;
-      border-width: 0 0 100px 200px;
+      filter:alpha(opacity:1);
   }
   .chrome .file-input,.gecko .file-input {
       border-width: 0;
@@ -74,7 +82,7 @@
             <div class="file-upload-box">
               <input type="file" name="files[${size}][file]" class="file-input"/>
               <input class="input-file-value" type="text"/>
-              <a class="btn input-file-btn" href="javascript:void(0);">浏览...</a>
+              <a class="btn input-file-btn" href="javascript:void(0);"><%= t(:browse) %>...</a>
             </div>
             <% end -%>​
           </div>
