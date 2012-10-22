@@ -17,6 +17,7 @@
 //= require plugins/jquery-chosen
 //= require framework/bootstrap-datepicker
 //= require framework/bootstrap-colorpicker
+//= require framework/bootstrap-timepicker
 //= require plugins/jquery-waypoints
 //= require css_browser_selector
 //= require bootstrap
