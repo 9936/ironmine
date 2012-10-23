@@ -420,7 +420,7 @@ function dateFieldChooseToday(fieldId,fieldValue,timeField,timeValue){
   $("#"+fieldId).trigger("keyup");
   if(timeField && timeValue){
       $("#"+timeField).val(timeValue);
-      $("#"+timeField).focus();
+      $("#"+timeField).trigger('change');
   }
 }
 //END========================datepicker 帮助函数========================================
