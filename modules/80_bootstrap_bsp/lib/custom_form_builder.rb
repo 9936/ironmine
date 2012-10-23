@@ -134,7 +134,6 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
       else
         init_date = init_time = nil
       end
-
       date_field_id = "#{field_id}_date"
       time_field_id = "#{field_id}_time"
       #需要设置一个隐藏的input保留值
@@ -153,6 +152,12 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
                 showInputs: true,
                 disableFocus: false
             });
+            if('#{init_time}'){
+                $("##{time_field_id}").val('#{init_time}');
+                $("##{time_field_id}").trigger('blur');
+            }else{
+                $("##{time_field_id}").val('');
+            }
             var date_time = $("##{field_id}").val();
             $("##{time_field_id}").bind('change',function(){
                 if($("##{date_field_id}").val()){
