@@ -403,18 +403,7 @@ function initDateField(dateField){
     me.attr("onfocus","");
     me.trigger("focus");
 }
-function initTimeField(timeField,defaultTime){
-    var me = $(timeField)
-    me.timepicker({
-        minuteStep: 5,
-        showSeconds: true,
-        secondStep: 10,
-        defaultTime: defaultTime,
-        showMeridian: false,
-        showInputs: true,
-        disableFocus: false
-    });
-}
+
 function dateFieldChooseToday(fieldId,fieldValue,timeField,timeValue){
   $("#"+fieldId).val(fieldValue);
   $("#"+fieldId).trigger("keyup");
