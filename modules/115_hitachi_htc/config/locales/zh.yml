@@ -1,0 +1,7 @@
+zh:
+  label_icm_incident_request_cux_submit_time: 提交日期
+  label_icm_incident_request_cux_response_time: 开始响应日期
+  label_icm_incident_request_cux_resolve_time: 解决日期
+  label_icm_incident_request_cux_close_time: 关闭日期
+  label_icm_incident_request_cux_response_hours: 响应耗时(Hours)
+  label_icm_incident_request_cux_resolve_hours: 解决耗时(Hours)

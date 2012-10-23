@@ -1,0 +1,7 @@
+en:
+  label_icm_incident_request_cux_submit_time: Submit Time
+  label_icm_incident_request_cux_response_time: Response Time
+  label_icm_incident_request_cux_resolve_time: Resolve Time
+  label_icm_incident_request_cux_close_time: Close Time
+  label_icm_incident_request_cux_response_hours: Response Hours
+  label_icm_incident_request_cux_resolve_hours: Resolve Hours

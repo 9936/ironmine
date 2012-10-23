@@ -116,6 +116,7 @@
                <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"new_incident_request_file"} %>
              </td>
            </tr>
+
        </tbody>
     </table>
   <% end %>
@@ -189,6 +190,8 @@
           <td class="data-col empty">&nbsp;</td>
         </tr>
      <%end%>
+
+     <%= render :partial=>"new_form_external_field", :locals=>{:f => f} %>
     </tbody>
   </table>
   <% end %>
