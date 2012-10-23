@@ -127,7 +127,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
     date_text = datetime.strftime('%Y-%m-%d')
     if options.delete(:with_time)
       @object || @template_object.instance_variable_get("@#{@object_name}")
-      if @object.send(method).to_s.capitalize
+      if @object.send(method).to_s.capitalize.present?
         init_datetime = Time.parse("#{@object.send(method).to_s.capitalize}")
         init_date = init_datetime.strftime('%Y-%m-%d')
         init_time = init_datetime.strftime('%H:%M:%S')
