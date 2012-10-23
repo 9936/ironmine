@@ -116,9 +116,7 @@
 
             this.updateFromElementVal();
 
-            $('html')
-                .trigger('click.timepicker.data-api')
-                .one('click.timepicker.data-api', $.proxy(this.hideWidget, this));
+            $('html').trigger('click.timepicker.data-api').one('click.timepicker.data-api', $.proxy(this.hideWidget, this));
 
             if (this.template === 'modal') {
                 this.$widget.modal('show').on('hidden', $.proxy(this.hideWidget, this));
@@ -434,7 +432,7 @@
             this.updateWidget();
         }
 
-        , blurElement: function() {
+        , blurElement: function(e) {
           this.highlightedUnit = undefined;
           this.updateFromElementVal();
         }
