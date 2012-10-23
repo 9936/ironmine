@@ -387,8 +387,9 @@ module ApplicationHelper
   end
 
   def calendar_date(time)
-    return time if time && time.is_a?(String)
-    time.strftime('%Y-%m-%d') if time
+    return time
+    #return time if time && time.is_a?(String)
+    #time.strftime('%Y-%m-%d') if time
   end
 
   def show_check_box(value = "", y_value = "")
