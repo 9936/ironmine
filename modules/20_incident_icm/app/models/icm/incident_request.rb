@@ -446,6 +446,21 @@ class Icm::IncidentRequest < ActiveRecord::Base
     @related_person_ids = Irm::Person.where("vip_flag = ?", Irm::Constant::SYS_YES).enabled
   end
 
+  def group_vip_person_ids
+    return @group_related_person_ids if @group_related_person_ids
+    return nil if self.support_group_id.nil?
+    @group_related_person_ids = Irm::Person.
+        joins(",#{Irm::GroupMember.table_name} gm").
+        joins(",#{Icm::SupportGroup.table_name} sg").
+        where("gm.group_id = sg.group_id").
+        where("gm.person_id = #{Irm::Person.table_name}.id").
+        where("sg.id = ?", self.support_group_id).
+        where("#{Irm::Person.table_name}.vip_flag = ?", Irm::Constant::SYS_YES).
+        enabled
+  end
+
+
+
   def watcher?(person_id)
     self.watcher_person_ids.include?(person_id)
   end
