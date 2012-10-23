@@ -128,7 +128,7 @@ en:
   label_incident_request_title: Ticket Title
   label_icm_incident_request_submitted_by: Submit by
   label_icm_incident_request_incident_phase_code: Phase
-  label_icm_incident_request_submitted_date: Submit date
+  label_icm_incident_request_submitted_date: Create(User Submit) date
   label_icm_incident_request_close_reason_code: Close reason
   label_icm_wait_for_me_request_count: Requests Waiting for Me
   label_icm_reply_today_count: Today Replied
