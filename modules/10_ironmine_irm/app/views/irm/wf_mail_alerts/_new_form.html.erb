@@ -118,7 +118,7 @@
           $("select#bo_code").change(function(event){
               var bo = $(this);
               var url = decodeURIComponent(bo.attr("href"));
-              url = url.replace("{bo_code}",bo.val());
+              url = url.replace("${bo_code}",bo.val());
               $.getJSON(url,{},function(datas){
                   var items = [];
                   datas = datas["items"] ;

@@ -20,7 +20,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
   def select(field, choices, options = {}, html_options = {})
     if options.delete(:normal)
-        super
+      super
     else
       if html_options[:required]||options[:required]
         options.merge!({:required=>true})
@@ -121,21 +121,70 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
 
   def date_field(field, options = {})
-    date_field_id =  options.delete(:id)||field
+    method = field
+    field_id =  options.delete(:id)|| field
+    datetime = Time.now
+    date_text = datetime.strftime('%Y-%m-%d')
+    if options.delete(:with_time)
+      @object || @template_object.instance_variable_get("@#{@object_name}")
+      if @object.send(method).to_s.capitalize
+        init_datetime = Time.parse("#{@object.send(method).to_s.capitalize}")
+        init_date = init_datetime.strftime('%Y-%m-%d')
+        init_time = init_datetime.strftime('%H:%M:%S')
+      else
+        init_date = init_time = nil
+      end
 
-    link_text  = Time.now.strftime('%Y-%m-%d')
-
-    date_tag_str = self.text_field(field,options.merge(:id=>date_field_id,:size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:normal=>true))
-
-
-
-    link_click_action = %Q(javascript:dateFieldChooseToday('#{date_field_id}','#{link_text}'))
-
+      date_field_id = "#{field_id}_date"
+      time_field_id = "#{field_id}_time"
+      #需要设置一个隐藏的input保留值
+      date_time_tag =  self.hidden_field(field,options.merge(:id=>field_id))
+      date_tag_str = @template.text_field_tag(date_field_id, init_date, :size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:autocomplete => "off")
+      link_text  = datetime.strftime('%Y-%m-%d %H:%M:%S')
+      time_text = datetime.strftime('%H:%M:%S')
+      time_tag_str = @template.text_field_tag(time_field_id,init_time,:class => "timepicker", :id => time_field_id, :style => "width:75px;",:autocomplete => "off")
+      script = %Q(
+         $(document).ready(function () {
+            $('##{time_field_id}').timepicker({
+                minuteStep: 5,
+                showSeconds: true,
+                secondStep: 10,
+                showMeridian: false,
+                showInputs: true,
+                disableFocus: false
+            });
+            var date_time = $("##{field_id}").val();
+            $("##{time_field_id}").bind('change',function(){
+                if($("##{date_field_id}").val()){
+                    date_time = $("##{date_field_id}").val() +" " + $(this).val();
+                    $("##{field_id}").val(date_time);
+                }else{
+                    $("##{field_id}").val('');
+                }
+            });
+            $("##{date_field_id}").bind('blur',function(){
+                if($(this).val()){
+                    date_time = $(this).val() + " " + $("##{time_field_id}").val();
+                    $("##{field_id}").val(date_time);
+                }else{
+                    $("##{field_id}").val('');
+                }
+            });
+         });
+      )
+      link_click_action = %Q(javascript:dateFieldChooseToday('#{date_field_id}','#{date_text}','#{time_field_id}','#{time_text}'))
+      content = date_time_tag + date_tag_str +@template.raw("&nbsp;-&nbsp;")+ time_tag_str
+      content += @template.javascript_tag(script)
+    else
+      date_tag_str = self.text_field(field,options.merge(:id=>field_id,:size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:normal=>true,:autocomplete => "off"))
+      link_text  = datetime.strftime('%Y-%m-%d')
+      content = date_tag_str
+      link_click_action = %Q(javascript:dateFieldChooseToday('#{field_id}','#{date_text}'))
+    end
     link_str = ""
-
     link_str = @template.link_to("[#{link_text}]",{},{:href=>link_click_action}) unless options[:nobutton]
-
-    wrapped_field(@template.content_tag(:div,date_tag_str+link_str,{:class=>"date-field"},false),field,options)
+    content += link_str
+    wrapped_field(@template.content_tag(:div,content,{:class=>"date-field"},false),field,options)
   end
 
 
