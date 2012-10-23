@@ -178,6 +178,7 @@
             <div><%= @incident_request[:supporter_name] %></div>
           </td>
         </tr>
+        <%= render :partial=>"new_form_external_field"%>
         <tr>
           <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
           <td class="data-col" colspan="5" style="word-WRAP: break-word;">
