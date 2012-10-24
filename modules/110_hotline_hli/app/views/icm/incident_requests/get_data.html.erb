@@ -1,3 +1,9 @@
+<style type="text/css">
+.datatable table td{
+    padding:5px 0 !important;
+    border-right:1px solid #CBCBCB !important;
+}
+</style>
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:request_number,{:title=>t(:label_icm_incident_request_request_number_shot), :width => "55px",:searchable=>true,:sortable=>true})%>
     <% builder.column(:title,{:title=>t(:label_icm_incident_request_title),:searchable=>true,:width => "480px"})  do |data|%>
