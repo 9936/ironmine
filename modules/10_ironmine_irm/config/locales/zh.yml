@@ -1570,7 +1570,8 @@ zh:
   label_irm_profile_name: 名称
   label_irm_profile_description: 描述
   label_irm_profile_user_license: 简档类型
-  label_irm_profile_function_list: 功能列表
+  label_irm_profile_global_function_list: 全局功能列表
+  label_irm_profile_system_function_list: 系统功能列表
   label_irm_profile_application_list: 应用列表
   label_irm_profile_application_visual: 可见
   label_irm_profile_application_default: 默认

@@ -1560,7 +1560,8 @@ en:
   label_irm_profile_name: Name
   label_irm_profile_description: Description
   label_irm_profile_user_license: Profile Type
-  label_irm_profile_function_list: Function List
+  label_irm_profile_global_function_list: Global Function List
+  label_irm_profile_system_function_list: System Function List
   label_irm_profile_application_list: Application List
   label_irm_profile_application_visual: Display
   label_irm_profile_application_default: Default
