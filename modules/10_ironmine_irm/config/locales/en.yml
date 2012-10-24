@@ -1576,6 +1576,7 @@ en:
   label_irm_profile_ir_page_kanban: Incident Index Kanban
   label_irm_profile_select_copy_from: Clone from existing profile
   label_irm_profile_existing_profile: Existing Profile
+  label_irm_profile_system_profile: System Profile
   #=======================end profiles ====================
 
 
