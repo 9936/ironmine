@@ -15,7 +15,7 @@ class Irm::ReportTypeSectionsController < ApplicationController
         section = Irm::ReportTypeSection.where(:report_type_id=>@report_type.id).find(section_param["section_id"])
       end
       if section
-        section.update_attribute(:section_sequence,index)
+        section.update_attributes(:name=>section_param["name"],:section_sequence=>index)
       else
         section = @report_type.report_type_sections.create(:name=>section_param["name"],:section_sequence=>index)
       end
