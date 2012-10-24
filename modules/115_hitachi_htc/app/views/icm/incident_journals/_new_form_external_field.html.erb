@@ -1,0 +1,28 @@
+<tr>
+  <td class="label-col"><label><%= t(:label_icm_incident_request_cux_submit_time) %></label></td>
+  <td class="data-col">
+    <div><%= format_date(@incident_request[:cux_submit_time]) %></div>
+  </td>
+  <td class="label-col"><label><%= t(:label_icm_incident_request_cux_response_time) %></label></td>
+  <td class="data-col">
+    <div><%= format_date(@incident_request[:cux_response_time]) %></div>
+  </td>
+  <td class="label-col"><label><%= t(:label_icm_incident_request_cux_resolve_time) %></label></td>
+  <td class="data-col">
+    <div><%= format_date(@incident_request[:cux_resolve_time]) %></div>
+  </td>
+</tr>
+<tr>
+  <td class="label-col"><label><%= t(:label_icm_incident_request_cux_close_time) %></label></td>
+  <td class="data-col">
+    <div><%= format_date(@incident_request[:cux_close_time]) %></div>
+  </td>
+  <td class="label-col"><label><%= t(:label_icm_incident_request_cux_response_hours) %></label></td>
+  <td class="data-col">
+    <div><%= @incident_request[:cux_response_hours] %></div>
+  </td>
+  <td class="label-col"><label><%= t(:label_icm_incident_request_cux_resolve_hours) %></label></td>
+  <td class="data-col">
+    <div><%= @incident_request[:cux_resolve_hours] %></div>
+  </td>
+</tr>

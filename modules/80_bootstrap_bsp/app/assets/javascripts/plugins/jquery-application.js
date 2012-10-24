@@ -403,9 +403,14 @@ function initDateField(dateField){
     me.attr("onfocus","");
     me.trigger("focus");
 }
-function dateFieldChooseToday(fieldId,fieldValue){
+
+function dateFieldChooseToday(fieldId,fieldValue,timeField,timeValue){
   $("#"+fieldId).val(fieldValue);
   $("#"+fieldId).trigger("keyup");
+  if(timeField && timeValue){
+      $("#"+timeField).val(timeValue);
+      $("#"+timeField).trigger('change');
+  }
 }
 //END========================datepicker 帮助函数========================================
 
