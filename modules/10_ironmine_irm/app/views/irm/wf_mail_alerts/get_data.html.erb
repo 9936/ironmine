@@ -8,4 +8,7 @@
     <% builder.column(:mail_alert_code,{:title=>t(:label_irm_wf_mail_alert_mail_alert_code),:searchable=>true})%>
     <% builder.column(:mail_template_name,{:title=>t(:label_irm_wf_mail_alert_mail_template_code)})%>
     <% builder.column(:from_email,{:title=>t(:label_irm_wf_mail_alert_from_email)})%>
+    <% builder.column(:all_flag,{:title=>t(:label_irm_wf_mail_alert_all)}) do |data| %>
+      <%= check_img(data[:all_flag]) %>
+    <% end %>
 <% end %>
