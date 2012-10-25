@@ -395,8 +395,8 @@ class Icm::IncidentRequest < ActiveRecord::Base
       return_val << "<br>"
       return_val << "--------------------------------------------------------------------------------<br>"
     end
-    return_val
     return_val.gsub!(/<(br)(| [^>]*)>/i, "\n")
+    return_val
   end
 
   def need_customer_reply
