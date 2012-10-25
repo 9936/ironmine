@@ -390,14 +390,13 @@ class Icm::IncidentRequest < ActiveRecord::Base
       #break if i == journals.last
       person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
       return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
-      return_val << "\n"
+      return_val << "<br>"
       return_val << i.message_body.to_s
-      return_val << "\n"
-      return_val << "--------------------------------------------------------------------------------\n"
+      return_val << "<br>"
+      return_val << "--------------------------------------------------------------------------------<br>"
     end
-    return_val.gsub!(/<(br)(| [^>]*)>/i, "\n")
-    return_val = Irm::Sanitize.sanitize(return_val.to_s,"")
     return_val
+    return_val.gsub!(/<(br)(| [^>]*)>/i, "\n")
   end
 
   def need_customer_reply
