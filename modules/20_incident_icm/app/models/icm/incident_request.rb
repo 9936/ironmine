@@ -390,10 +390,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
       #break if i == journals.last
       person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
       return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
-      return_val << "\n\r"
+      return_val << ""
       return_val << i.message_body.to_s
-      return_val << "\n\r"
-      return_val << "--------------------------------------------------------------------------------\n\r"
+      return_val << ""
+      return_val << "--------------------------------------------------------------------------------"
     end
     return_val
   end
