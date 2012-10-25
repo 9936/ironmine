@@ -105,6 +105,14 @@ class Icm::IncidentJournal < ActiveRecord::Base
     ids
   end
 
+  def group_vip_person_ids
+    self.incident_request.group_vip_person_ids
+  end
+
+  def support_group_member_ids
+    self.incident_request.support_group_member_ids
+  end
+
   def incident_organization_id
     self.incident_request.organization_id
   end
