@@ -4,7 +4,7 @@ module Fwk
     include Singleton
 
     attr_accessor :rails_root,:modules, :module_mapping, :module_folder, :framework_modules,:module_dependencies, :languages, :javascript, :css, :jscss
-    attr_accessor :mail_receive_method, :mail_receive_interval, :mail_receive_imap, :mail_receive_pop
+    attr_accessor :mail_receive_method, :mail_receive_interval, :mail_receive_imap, :mail_receive_pop ,:mail_send_from
 
     def initialize
       self.modules = []
