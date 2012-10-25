@@ -1,5 +1,5 @@
 namespace :irm do
-  desc "(For Ironmine)Menu init config."
+  desc "(For Ironmine)Menu and functions init config."
 
   def merge_languages(tls, languages_hash)
     if tls and tls.any?
@@ -9,6 +9,15 @@ namespace :irm do
       end
     end
     tls
+  end
+
+  #判断某一hash中是否存在着system_flag = 'Y'
+  def system_flag?(options = {})
+    if options[:system_flag] and options[:system_flag].to_s.upcase.eql?('Y')
+      true
+    else
+      false
+    end
   end
 
   task :initdata => :environment do
@@ -50,10 +59,18 @@ namespace :irm do
     end
     #保存或者更新function信息
     function_groups.each do |group_code, group|
+      #判断system_flag
+      group_system_flag = system_flag?(group)
+
       group[:languages] ||= {}
       group[:languages][:zh] = group[:zh] if group[:zh]
       group[:languages][:en] = group[:en] if group[:en]
       group[:code] = group_code if group_code
+      if group_system_flag
+        group[:system_flag] = group[:system_flag]
+      else
+        group[:system_flag] = 'N'
+      end
       if group and group[:zone_code].present? and group[:code].present? and group[:controller].present? and group[:action].present?
         need_delete_groups.delete_if{|i| i[:code].to_s.eql?(group[:code].to_s)} if group.present?
         function_group = Irm::FunctionGroup.where(:code => group[:code]).first
@@ -87,6 +104,7 @@ namespace :irm do
           end
           success_create_groups << group[:code] unless success_create_groups.include?(group[:code])
         end
+        function_group.system_flag = group[:system_flag]    #设置system_flag
         #########################################################################################
         #保存function_group中的function
         #########################################################################################
@@ -98,6 +116,10 @@ namespace :irm do
               function[:languages] ||= {}
               function[:languages][:zh] = function[:zh] if function[:zh]
               function[:languages][:en] = function[:en] if function[:en]
+
+              #检查function的system_flag
+              function_system_flag = system_flag?(function)
+
               #查找该function是否存在
               tmp_function = Irm::Function.where(:code => function[:code]).first
               if tmp_function.present?
@@ -132,6 +154,16 @@ namespace :irm do
                   missing_languages_function << function[:code] unless missing_languages_function.include?(function[:code])
                 end
                 success_create_functions << function[:code] unless success_create_functions.include?(function[:code])
+              end
+              #如果group_system_flag = 'Y',将所有的function的的system_flag 设置为'Y'
+              if group_system_flag or function_system_flag
+                unless function_system_flag
+                  #给予警告
+                  puts "#{RED} Function[#{function[:code]}] is auto set system_flag = 'Y', because the function group's system_flag is 'Y'#{CLEAR}"
+                end
+                tmp_function.system_flag = 'Y'
+              else
+                tmp_function.system_flag = 'N'
               end
               ###################################################################################################
               tmp_function.save
@@ -369,9 +401,11 @@ namespace :irm do
         next unless r[:reqs].present?
         params_count = r[:path].scan(path_regex).delete_if{|i| !i.any?}.count
         except_params_count = r[:path].scan(except_path_regex).delete_if{|i| !i.any?}.count
+        #从path中获取sid
+        system_flag = r[:path].scan(/:sid/).any?? 'Y' : 'N'
         params_count = params_count - except_params_count
         permission_params = eval(r[:reqs])
-        permission_params.merge!({:params_count=>params_count,:direct_get_flag=>r[:verb].include?("GET") ? Irm::Constant::SYS_YES : Irm::Constant::SYS_NO})
+        permission_params.merge!({:params_count=>params_count,:system_flag => system_flag,:direct_get_flag=>r[:verb].include?("GET") ? Irm::Constant::SYS_YES : Irm::Constant::SYS_NO})
         route_permissions<<permission_params
       end
     end
@@ -396,9 +430,9 @@ namespace :irm do
           not_inited_route_permissions.delete_if{|rp| rp[:controller].eql?(controller)&&rp[:action].eql?(action.to_s)}
           permission = Irm::Permission.query_by_function_code(function_code.to_s.upcase).where(:controller=>controller,:action=>action.to_s).readonly(false).first
           if permission
-            permission.update_attributes({:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag],:status_code=>"ENABLED"})
+            permission.update_attributes({:system_flag => route_permission[:system_flag],:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag],:status_code=>"ENABLED"})
           else
-            permission = Irm::Permission.new(:code=>Irm::Permission.url_key(controller,action).upcase,:function_code=>function_code.to_s.upcase,:controller=>controller,:action=>action.to_s,:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag])
+            permission = Irm::Permission.new(:system_flag => route_permission[:system_flag],:code=>Irm::Permission.url_key(controller,action).upcase,:function_code=>function_code.to_s.upcase,:controller=>controller,:action=>action.to_s,:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag])
             permission.save
             if permission.errors.any?
               puts "#{BOLD}#{RED}Add [#{function_code}]#{controller}/#{action} errors:#{permission.errors}#{CLEAR}"

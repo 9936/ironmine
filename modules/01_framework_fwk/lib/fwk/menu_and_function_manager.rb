@@ -149,12 +149,13 @@ module Fwk::MenuAndFunctionManager
         tmp[code.to_sym] ||= {}
         tmp[code.to_sym][:zh] = hash[:zh] if hash[:zh]
         tmp[code.to_sym][:en] = hash[:en] if hash[:en]
+        tmp[code.to_sym][:system_flag] = hash[:system_flag] if hash[:system_flag]
         tmp[code.to_sym][:zone_code] = hash[:zone_code].upcase if hash[:zone_code]
         tmp[code.to_sym][:controller] = hash[:controller] if hash[:controller]
         tmp[code.to_sym][:action] = hash[:action] if hash[:action]
         if hash[:children] and hash[:children].any?
           @function_groups[code.to_sym][:functions] ||= []
-          function_keys = ["code","en","zh","default_flag", "public_flag", "login_flag"]
+          function_keys = ["code","en","zh","default_flag", "public_flag", "login_flag", "system_flag"]
           hash[:children].each do |key, child|
             child[:code] = key.upcase
             child = child.dup
@@ -162,6 +163,7 @@ module Fwk::MenuAndFunctionManager
             function[:code] = child[:code] if child[:code]
             function[:en] = child[:en] if child[:en]
             function[:zh] = child[:zh] if child[:zh]
+            function[:system_flag] = child[:system_flag] if child[:system_flag]
             function[:default_flag] = child[:default_flag] if child[:default_flag]
             function[:login_flag] = child[:login_flag] if child[:login_flag]
             function[:public_flag] = child[:public_flag] if child[:public_flag]
@@ -238,7 +240,7 @@ module Fwk::MenuAndFunctionManager
               @menus[code.to_sym][:entries].delete_if {|i| i[type_code.to_sym].to_s.eql?(child[:code].to_s)}
               @menus[code.to_sym][:entries] << entry
             else
-              "==============================ERROR=========================="
+              puts "==============================ERROR=========================="
             end
             @menus[code.to_sym].merge!(tmp[code.to_sym])
             handle_menu(child)
