@@ -891,7 +891,8 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================START:HOME_PAGE=================================
   map.function_group :home_page, {
       :en => {:name => "Home Page", :description => "Home Page"},
-      :zh => {:name => "系统主页", :description => "系统主页"}, }
+      :zh => {:name => "系统主页", :description => "系统主页"}
+  }
   map.function_group :home_page, {
       :zone_code => "HOME_PAGE",
       :controller => "irm/home",

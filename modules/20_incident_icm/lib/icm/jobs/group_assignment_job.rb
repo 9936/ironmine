@@ -11,7 +11,12 @@ module Icm
         system = Irm::ExternalSystem.where(:id=>request.external_system_id).first if request.external_system_id.present?
 
         # 如果事故单已经被分配,则中断分自动分配
-        return if request.support_group_id.present?&&request.support_person_id.present?
+        # 强制重分配选项 force_assign
+        if assign_options && assign_options.is_a?(Hash) && assign_options[:force_assign]
+          nil
+        else
+          return if request.support_group_id.present?&&request.support_person_id.present?
+        end
 
         # assign_options为分配选项
         assign_result =  assign_options if  assign_options&&assign_options.is_a?(Hash)

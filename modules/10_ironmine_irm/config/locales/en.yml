@@ -175,6 +175,8 @@ en:
   label_attachment_file_size_limit: File size limit %{limit}
   label_attachment_file_type: File type limit %{type}
   self: Self
+  hide: Hide
+  show: Show
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
@@ -1344,7 +1346,7 @@ en:
   label_irm_wf_process_instance_next_approver: Next Approver
   label_irm_wf_step_instance_submit: Approve / Reject
   label_irm_wf_step_instance_comment: Comment
-  label_irm_wf_step_instance_approved: Approval
+  label_irm_wf_step_instance_approved: Approve
   label_irm_wf_step_instance_reject: Reject
   label_irm_wf_process_instance_next_created_at: Created at
   label_irm_wf_step_instance_approval_status_code: Status
@@ -1356,7 +1358,7 @@ en:
   label_irm_wf_step_instance_reassign: Reassign
   label_irm_wf_step_instance_approve_or_reject: Approve / Reject
   label_irm_wf_step_instance_reassing_approver: Reassign Approver
-  label_irm_wf_process_instance_submit: Submit Approval
+  label_irm_wf_process_instance_submit: Submit for Approval
   label_irm_wf_process_instance_recall: Recall Approval
   label_irm_wf_process_instance_bo_instance: Business Object
   label_irm_wf_process_instance_bo_model_name: Type
