@@ -395,7 +395,6 @@ class Icm::IncidentRequest < ActiveRecord::Base
       return_val << "<br>"
       return_val << "--------------------------------------------------------------------------------<br>"
     end
-    return_val.gsub!(/<(br)(| [^>]*)>/i, "\n")
     return_val
   end
 
