@@ -168,7 +168,7 @@ en:
   label_icm_incident_request_relation_types: Relation Types
   label_icm_incident_request_relation_type: Relation
   label_icm_incident_request_relation: Relation Types
-  label_icm_incident_request_estimated_date: Estimated completion date
+  label_icm_incident_request_estimated_date: Expected completion date
   label_icm_incident_request_relation_config_items: Config Item
   label_irm_incident_status_transform_event_error: One incident could only use once in same line
   #========================= end icm incident_requests_controller=======================#
