@@ -48,6 +48,13 @@
   </div>
 </div>
 
+<% content_for :form_buttons do %>
+    <%= link_submit t(:label_irm_external_system_save_selected),{:class=>"btn btn-info"}%>
+    <%= link_to(t(:cancel),{}, :href =>"javascript:void(0);", :onclick=>"display_member_grid()",:class=>"btn")%>
+<% end %>
+
+<%= form_for(@external_system_person,:url=>{:action=>"add_people", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
+<%= f.hidden_field(:status_code) %>
 <!--页面结构-->
 <div class="page-block unreal-hidden" id="select_people">
   <table class="page-block-header"><tr>
@@ -55,33 +62,58 @@
       <h2 class="block-title"><%= t(:label_irm_external_system_add_people) %>&nbsp;<%= t(:label_irm_select_result) %></h2>
     </td>
     <td class="page-block-button">
-      <%= form_for(@external_system_person,:url=>{:action=>"add_people", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
-         <%= f.hidden_field(:status_code) %>
-         <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-         <%= link_to(t(:cancel),{}, :href =>"javascript:void(0);", :onclick=>"display_member_grid()",:class=>"btn")%>
-      <% end %>
+      <%= content_for :form_buttons %>
     </td>
     <td class="page-block-help">
       <div id="selectablePeopleSearchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("selectablePeople",{:controller=>"irm/external_system_members", :action=>"get_available_people_data", :external_system_id => @external_system.id,:format=>"json"}, [],{:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
+    <div class="sub-page-block">
+      <div class="sub-page-block-body">
+        <%= datatable("selectablePeople",{:controller=>"irm/external_system_members", :action=>"get_available_people_data", :external_system_id => @external_system.id}, [],{:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
+      </div>
+    </div>
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_irm_external_system_select_system_profile) %></h3>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col" style="width: 10%;"><label for="system_profile"><%=t(:label_irm_profile_system_profile)%></label></td>
+            <td class="data-col" colspan="3"><%=blank_select_tag "system_profile_id", available_profile('Y'),nil,{:require => true} %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+  <table class="page-block-footer">
+    <tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons   %>
+      </td>
+    </tr>
+  </table>
 </div>
+<% end %>
 
 <!--页面结构-->
+<%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
+<%= f.hidden_field(:temp_id_string, :value => "") %>
 <div class="page-block" id="member_grid">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
       <h2 class="block-title"><%= t(:label_irm_external_system_people) %></h2>
     </td>
     <td class="page-block-button">
-      <%= form_for(@external_system_person,:url=>{:action=>"delete_people", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
-          <%= f.hidden_field(:temp_id_string, :value => "") %>
-          <%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()",:class=>"btn" %>
-          <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
-      <% end %>
+      <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+      <%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()",:class=>"btn btn-info" %>
     </td>
     <td class="page-block-help">
       <div id="external_peopleSearchBox"></div>
@@ -92,7 +124,17 @@
     <%= datatable("external_people",{:controller => "irm/external_system_members",:action=>"get_owned_members_data",:format=>"json", :external_system_id => @external_system.id},[],{:row_perpage=>10,:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
     <div id="external_peoplePaginatorBox"></div>
   </div>
+  <table class="page-block-footer">
+    <tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+        <%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()",:class=>"btn btn-info" %>
+      </td>
+    </tr>
+  </table>
 </div>
+<% end %>
 
 <script type="text/javascript">
     $("#externalSystemId").change(function(e){
