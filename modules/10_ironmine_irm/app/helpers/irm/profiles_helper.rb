@@ -38,7 +38,7 @@ module Irm::ProfilesHelper
     Irm::LookupValue.query_by_lookup_type("IRM_PROFILE_USER_LICENSE").multilingual.order_id.collect{|p| [p[:meaning],p[:lookup_code]]}
   end
 
-  def available_profile(system_flag = 'N')
+  def available_profile(system_flag = Irm::Constant::SYS_NO)
     Irm::Profile.multilingual.enabled.where(:system_flag => system_flag).collect{|i|[i[:name],i.id]}
   end
 end
