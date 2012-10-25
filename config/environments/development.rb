@@ -46,8 +46,8 @@ Ironmine::Application.configure do
   #按照大小进行日志分割
   config.logger = Logger.new(Rails.root.join("log",Rails.env + ".log"),3,5*1024*1024)
   #配置日志输出格式
-  config.logger.formatter = proc { |severity, datetime, progname, msg|
-    "#{datetime.strftime("%Y-%m-%d %H:%M:%S")}: #{msg}\n"
-  }
+  #config.logger.formatter = proc { |severity, datetime, progname, msg|
+  #  "#{datetime.strftime("%Y-%m-%d %H:%M:%S")}: #{msg}\n"
+  #}
 end
 
