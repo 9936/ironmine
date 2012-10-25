@@ -365,12 +365,21 @@ class Icm::IncidentRequestsController < ApplicationController
       incident_requests << Icm::IncidentRequest.query(icid).first
     end
     incident_requests.compact!
+    force_assign = false
+    force_assign = params[:force_assign] if params[:force_assign]
     incident_requests.each do |req|
       if params[:support_group_id].present?
         if params[:support_person_id]
-          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],:support_person_id=>params[:support_person_id],:assign_dashboard=>true,:assign_dashboard_operator=>Irm::Person.current.id}))
+          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],
+                                                                         :support_person_id=>params[:support_person_id],
+                                                                         :assign_dashboard=>true,
+                                                                         :force_assign => force_assign,
+                                                                         :assign_dashboard_operator=>Irm::Person.current.id}))
         else
-          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],:assign_dashboard=>true,:assign_dashboard_operator=>Irm::Person.current.id}))
+          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],
+                                                                         :assign_dashboard=>true,
+                                                                         :force_assign => force_assign,
+                                                                         :assign_dashboard_operator=>Irm::Person.current.id}))
         end
       else
         Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{}))

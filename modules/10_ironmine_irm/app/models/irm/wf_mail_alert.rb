@@ -96,9 +96,15 @@ class Irm::WfMailAlert < ActiveRecord::Base
 
     # loop send mail
     bo_create_by = bo.respond_to?(:created_by)? bo.created_by : "nocreatedby" # do not send to creater
-    recipient_ids.each do |pid|
-      next if pid.eql?(bo_create_by)     # do not send to creater
-      mail_template.deliver_to(params.merge(:to_person_ids=>[pid]))
+    # 检查是否需要进行合并发送
+    if self.all_flag.eql?(Irm::Constant::SYS_YES)
+      recipient_ids.delete_if{|i| i.eql?(bo_create_by)}
+      mail_template.deliver_to(params.merge(:to_person_ids=>recipient_ids))
+    else
+      recipient_ids.each do |pid|
+        next if pid.eql?(bo_create_by)     # do not send to creater
+        mail_template.deliver_to(params.merge(:to_person_ids=>[pid]))
+      end
     end
   end
 

@@ -57,8 +57,8 @@ en:
   label_icm_priority_code_weight_values: Weight Value
   #========================= end icm priority_codes_controller=======================#
   #=========================    icm close_reasons_controller=======================#
-  label_icm_close_reason: Close reason
-  label_icm_close_reason_list: Close reason list
+  label_icm_close_reason: Root Cause
+  label_icm_close_reason_list: Root Cause list
   label_icm_close_reason_new: New close reason
   label_icm_close_reason_company: Company
   label_icm_close_reason_close_code: Code
