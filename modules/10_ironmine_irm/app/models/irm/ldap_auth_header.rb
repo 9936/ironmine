@@ -95,7 +95,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
           return exists_person.id if exists_person
           return_attrs.each do |key, value|
             return_value = self.class.get_attr(return_entry, value).force_encoding("utf-8")
-            person_attr[key]= return_value if return_value
+            person_attr[key]= return_value if return_value.present?
           end
           person_attr[:auth_source_id] = self.id
           person_attr[:email_address] = "#{person_attr[:login_name]}@ironmine.com" unless person_attr[:email_address].present?
