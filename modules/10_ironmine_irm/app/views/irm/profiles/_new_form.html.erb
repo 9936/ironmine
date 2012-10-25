@@ -3,22 +3,48 @@
     <table class="form-table">
       <tbody>
           <tr>
+            <td class="label-col"><label for="profile_system_flag"><%=t(:label_irm_profile_system_profile)%></label></td>
+            <td class="data-col"><%= f.check_box :system_flag, :id => "systemFlag" %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
             <td class="label-col"><label for="profile_code"><%=t(:label_irm_profile_existing_profile)%></label></td>
-            <td class="data-col"><%=select_tag_alias "existing_profile", available_profile%></td>
+            <td class="data-col">
+              <% if @profile.system_flag and @profile.system_flag.eql?('Y') %>
+                <%=blank_select_tag "existing_profile", available_profile('N'),nil, {:id => "existingGlobalProfile", :style => "display:none;", :disabled => true} %>
+                <%=blank_select_tag "existing_profile", available_profile('Y'),nil,:id => "existingSystemProfile" %>
+              <% else %>
+                <%=blank_select_tag "existing_profile", available_profile('N'),nil, :id => "existingGlobalProfile" %>
+                <%=blank_select_tag "existing_profile", available_profile('Y'),nil, {:id => "existingSystemProfile", :style => "display:none;", :disabled => true} %>
+              <% end %>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr id="userLicense">
+            <td class="label-col"><label for="profile_user_license"><%=t(:label_irm_profile_user_license)%></label></td>
+            <td class="data-col"><%=f.blank_select :user_license,available_profile_user_license,{},:required=>true ,:id=>"profile_user_license"%></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
             <td class="label-col"><label for="profile_name"><%=t(:label_irm_profile_code)%></label></td>
             <td class="data-col"><%=f.text_field :code, :required=>true ,:id=>"profile_code"%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
             <td class="label-col"><label for="profile_name"><%=t(:label_irm_profile_name)%></label></td>
             <td class="data-col"><%=f.text_field :name, :required=>true ,:id=>"profile_name"%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
             <td class="label-col"><label for="profile_description"><%=t(:label_irm_profile_description)%></label></td>
-            <td class="data-col" colspan="3" width="82%"><%=f.text_area :description,:rows=>4,:cols=>90 ,:id=>"profile_description",:class => "input-xlarge" %></td>
+            <td class="data-col" colspan="3"><%=f.text_area :description,:rows=>4,:cols=>90 ,:id=>"profile_description",:class => "input-xlarge" %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
       </tbody> 
     </table>
@@ -61,4 +87,26 @@
     </table>
   </div>
 <% end %>
+<script type="text/javascript">
+  $(function(){
+      $("#systemFlag").bind("click",function(){
+          if($(this).attr("checked")){
+              $("#existingGlobalProfile").hide().attr("disabled", true);
+              $("#existingSystemProfile").show().removeAttr("disabled");
+          }else{
+              $("#existingGlobalProfile").show().removeAttr("disabled");
+              $("#existingSystemProfile").hide().attr("disabled", true);
+          }
+      });
+      $("select[name='existing_profile']").change(function(){
+          if($(this).val()){
+              $("#userLicense").hide();
+              $("#profile_user_license").attr("disabled", true);
+          }else{
+              $("#userLicense").show();
+              $("#profile_user_license").removeAttr("disabled").parent().parent().show();
+          }
+      });
+  })
+</script>
 

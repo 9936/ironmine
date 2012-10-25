@@ -16,7 +16,7 @@ class Irm::Profile < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
-  validates_presence_of :code
+  validates_presence_of :code, :user_license
   validates_uniqueness_of :code, :scope => :opu_id
 
   scope :with_kanban, lambda{
@@ -40,6 +40,10 @@ class Irm::Profile < ActiveRecord::Base
     profile_function_ids = self.profile_functions.collect{|i| i.function_id}
     sub_function_ids = profile_function_ids - operation_unit_function_ids
     @function_ids = profile_function_ids - sub_function_ids
+  end
+
+  def system_flag?
+    self.system_flag.eql?(Irm::Constant::SYS_YES)
   end
 
   def application_ids
