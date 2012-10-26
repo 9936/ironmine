@@ -1,0 +1,18 @@
+
+<% unless Irm::Person.current.profile&&Irm::Person.current.profile.user_license.eql?("REQUESTER") %>
+<div style="float: right;">
+  <%= I18n.t(:label_irm_external_system)%>
+  <%=blank_select_tag :external_system_id, current_person_assessible_external_system_full, session[:current_external_system], {:with_add_button => true,:id => "external_system_select", :autocomplete => "off"}%>
+</div>
+<% end %>
+
+<script type="text/javascript">
+
+$(function(){
+    $("#external_system_select").change(function(e){
+        var current_target = $("#incident_requests").data("datatable").target;
+        current_target.data.options.defaultOptions = {"external_system_id_param": $(e.target).val()};
+        current_target.loadPage(1);
+    });
+});
+</script>

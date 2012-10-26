@@ -153,7 +153,7 @@ zh:
   list_mode: 列表
   label_new_child: 创建子分类
   error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
-  error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB, 现上传 _ KB)
+  error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB)
   error_file_upload_repeat: 附件中有文件重复上传
   error_file_upload_empty: 附件内容为空，请重新选择文件
   file_upload_limit_alert: 最大尺寸 %{m} KB
@@ -166,6 +166,8 @@ zh:
   label_attachment_file_size_limit: 文件大小限制 %{limit}
   label_attachment_file_type: 文件类型限制 %{type}
   self: 自己
+  hide: 隐藏
+  show: 还原
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型
@@ -1256,6 +1258,7 @@ zh:
   #======================== end wf field updates====================
   #======================== wf mail alert====================
   label_irm_wf_mail_alert: 邮件警告
+  label_irm_wf_mail_alert_all: 合并发送
   label_irm_wf_mail_alert_list: 邮件警告列表
   label_irm_wf_mail_alert_bo_code: 业务对象
   label_irm_wf_mail_alert_name: 名称

@@ -163,8 +163,8 @@ en:
   upload_from_clipboard: Upload Image From Clipboard
   kanban_mode: Kanban
   list_mode: List
-  error_file_upload_limit: Attachment beyond the limit(Limit %{m} Kb, Now %{n} Kb)
-  error_file_upload_limit_shot: Attachment beyond the limit(Limit %{m} Kb, Now %{n} Kb)
+  error_file_upload_limit: Attachment beyond the limit(Limit %{m} Kb, Now %{n} KB)
+  error_file_upload_limit_shot: Attachment beyond the limit(Limit %{m} Kb)
   error_file_upload_repeat: Attached file upload repeatly.
   error_file_upload_empty: Not Choose File,Please Choose Again!
   file_upload_limit_alert: File limit %{m} KB
@@ -175,6 +175,8 @@ en:
   label_attachment_file_size_limit: File size limit %{limit}
   label_attachment_file_type: File type limit %{type}
   self: Self
+  hide: Hide
+  show: Show
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
@@ -1245,6 +1247,7 @@ en:
   label_irm_wf_action_type: Action Type
   #======================== wf mail alert====================
   label_irm_wf_mail_alert: Mail Alert
+  label_irm_wf_mail_alert_all: Send In All
   label_irm_wf_mail_alert_list: Mail Aler List
   label_irm_wf_mail_alert_bo_code: Business Object
   label_irm_wf_mail_alert_name: Name
@@ -1343,7 +1346,7 @@ en:
   label_irm_wf_process_instance_next_approver: Next Approver
   label_irm_wf_step_instance_submit: Approve / Reject
   label_irm_wf_step_instance_comment: Comment
-  label_irm_wf_step_instance_approved: Approval
+  label_irm_wf_step_instance_approved: Approve
   label_irm_wf_step_instance_reject: Reject
   label_irm_wf_process_instance_next_created_at: Created at
   label_irm_wf_step_instance_approval_status_code: Status
@@ -1355,7 +1358,7 @@ en:
   label_irm_wf_step_instance_reassign: Reassign
   label_irm_wf_step_instance_approve_or_reject: Approve / Reject
   label_irm_wf_step_instance_reassing_approver: Reassign Approver
-  label_irm_wf_process_instance_submit: Submit Approval
+  label_irm_wf_process_instance_submit: Submit for Approval
   label_irm_wf_process_instance_recall: Recall Approval
   label_irm_wf_process_instance_bo_instance: Business Object
   label_irm_wf_process_instance_bo_model_name: Type
