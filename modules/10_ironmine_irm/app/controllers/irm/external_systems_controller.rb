@@ -123,7 +123,7 @@ class Irm::ExternalSystemsController < ApplicationController
     respond_to do |format|
       if(!@external_system_person.status_code.blank?)
         @external_system_person.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
-          Irm::ExternalSystemPerson.create(:external_system_id => params[:external_system_id],:person_id => id, :system_profile_id => params[:system_profile_id])
+          Irm::ExternalSystemPerson.create(:external_system_id => params[:external_system_id],:person_id => id, :system_profile_id => params[:irm_external_system_person][:system_profile_id])
         end
       end
       system_id = Irm::ExternalSystem.where(:id=>params[:external_system_id]).first

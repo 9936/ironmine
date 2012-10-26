@@ -68,6 +68,7 @@
       <div id="selectablePeopleSearchBox"></div>
     </td>
   </tr></table>
+  <%= error_for @external_system_person %>
   <div class="page-block-body">
     <div class="sub-page-block">
       <div class="sub-page-block-body">
@@ -76,6 +77,7 @@
     </div>
     <div class="sub-page-block">
       <div class="sub-page-block-header">
+        <%= form_require_info %>
         <h3 class="sub-page-block-title"><%= t(:label_irm_external_system_select_system_profile) %></h3>
       </div>
       <div class="sub-page-block-body">
@@ -83,7 +85,7 @@
           <tbody>
           <tr>
             <td class="label-col" style="width: 10%;"><label for="system_profile"><%=t(:label_irm_profile_system_profile)%></label></td>
-            <td class="data-col" colspan="3"><%=blank_select_tag "system_profile_id", available_profile('Y'),nil,{:require => true} %></td>
+            <td class="data-col" colspan="3"><%= f.blank_select :system_profile_id, available_profile('Y'),{},{:required=>true} %></td>
             <td class="label-col"></td>
             <td class="data-col"></td>
           </tr>

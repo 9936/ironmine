@@ -3,7 +3,8 @@ class Irm::ExternalSystemPerson < ActiveRecord::Base
 
   attr_accessor :temp_id_string
 
-  validates_uniqueness_of :person_id, :scope => :external_system_id
+  validates_uniqueness_of :person_id, :scope => [:external_system_id]
+  validates_presence_of :system_profile_id
 
   #加入activerecord的通用方法和scope
   query_extend
