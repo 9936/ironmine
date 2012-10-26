@@ -1633,6 +1633,10 @@ zh:
   label_irm_external_system_info: 应用系统信息
   label_irm_external_system_select_system: 选择加入的应用系统
   label_irm_external_system_people: 系统人员
+  label_irm_external_system_select_people: 选择人员
+  label_irm_external_system_save_selected: 保存所选人员
+  label_irm_external_system_select_system_profile: 系统简档
+  label_irm_external_system_exists_people: 系统已有人员
   label_irm_external_system_people_type: 类型
   label_irm_external_system_add_people: 添加成员
   error_irm_external_system_ip_invalid: IP地址无效
