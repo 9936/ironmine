@@ -234,6 +234,7 @@ zh:
   label_irm_common_username: 用户名
   label_irm_common_password: 密码
   label_irm_common_logout: 退出系统
+  label_irm_common_system_setting: 系统设置
   label_irm_common_forgot_password: 忘记密码？
   label_irm_recently_objects: 最近的项目
   notice_account_locked: 你的帐户已经被锁定,请联系管理员!
@@ -1635,7 +1636,7 @@ zh:
   label_irm_external_system_people: 系统人员
   label_irm_external_system_select_people: 选择人员
   label_irm_external_system_save_selected: 保存所选人员
-  label_irm_external_system_select_system_profile: 系统简档
+  label_irm_external_system_select_system_profile: 选择系统简档
   label_irm_external_system_exists_people: 系统已有人员
   label_irm_external_system_people_type: 类型
   label_irm_external_system_add_people: 添加成员
@@ -2010,3 +2011,7 @@ zh:
   label_report_time_grouped_calendar_week: 日历星期
   label_report_time_grouped_calendar_day: 日
   #============================== end report time  ==============================
+
+  #============================== start system setting  ==============================
+  label_irm_system: 系统设置
+  #============================== end system setting  ==============================

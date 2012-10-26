@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   before_filter :localization_setup
   before_filter :layout_setup
   before_filter :prepare_application
+  before_filter :system_setup
   #before_filter :menu_setup,:menu_entry_setup
 
   # 设置当前用户，为下步检查用户是否登录做准备
@@ -28,6 +29,10 @@ class ApplicationController < ActionController::Base
     if(!Irm::Person.current.logged?&&(request.user_agent.present? && request.user_agent.include?("#jmeter000U00024DKEUmX5unzepk#")))
       Irm::Person.current = Irm::Person.unscoped.where(:login_name=>"ironmine").first
     end
+  end
+
+  def system_setup
+    Irm::ExternalSystem.current_system = find_current_system
   end
 
   # 检查是否需要登录
@@ -291,6 +296,14 @@ class ApplicationController < ActionController::Base
       (Irm::Person.unscoped.find(session[:user_id]) rescue nil)
     else
       oauth_authorized
+    end
+  end
+
+  def find_current_system
+    if session[:sid]
+      (Irm::ExternalSystem.multilingual.enabled.find(session[:sid]) rescue nil)
+    else
+      nil
     end
   end
 
