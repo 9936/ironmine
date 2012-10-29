@@ -171,6 +171,10 @@ class Icm::IncidentRequestsController < ApplicationController
                       :last_response_date,
                       :external_system_id,
                       :external_system_id_label,
+                      :incident_category_id,
+                      :incident_category_id_label,
+                      :incident_sub_category_id,
+                      :incident_sub_category_id_label,
                       :estimated_date,
                       :kb_flag,
                       :reply_flag]
@@ -234,6 +238,10 @@ class Icm::IncidentRequestsController < ApplicationController
                       :priority_id_label,
                       :external_system_id_label,
                       :external_system_id,
+                      :incident_category_id,
+                      :incident_category_id_label,
+                      :incident_sub_category_id,
+                      :incident_sub_category_id_label,
                       :kb_flag,
                       :estimated_date,
                       :reply_flag]
