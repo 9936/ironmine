@@ -36,17 +36,17 @@ class Irm::CommonController < ApplicationController
         #查找该用户该类型的token是否存在
         user_token = person.user_tokens.where(:token_type => "RESET_PWD").first
         if user_token.present?
-          new_flag = false
+          #new_flag = false
           user_token.created_at = Time.now
           user_token.updated_at = Time.now
         else
-          new_flag = true
+          #new_flag = true
           user_token = Irm::UserToken.new(:person_id => person.id,:token_type => "RESET_PWD")
         end
         if user_token.save
           token = user_token.token
           url = "#{request.protocol}#{request.host_with_port}/reset_pwd?type=RESET_PWD&pwd_token=#{token}"
-          user_token.reset_pwd(params[:email],person.id,url) if new_flag
+          user_token.reset_pwd(params[:email],person.id,url)
         end
       else
         #email地址不存在
