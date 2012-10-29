@@ -174,6 +174,14 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "icm/incident_requests" => ["assignable_data", "assign_request"],
           },
+          :assign_incident_request_owned => {
+              :en => {:name => "Assign Owned", :description => "Assign Owned"},
+              :zh => {:name => "分配自己处理的问题", :description => "分配自己处理的问题"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => ["assignable_data", "assign_request"],
+          },
           :assign_incident_request_db => {
               :en => {:name => "Assign Dashboard", :description => "Assign Dashboard"},
               :zh => {:name => "分配工作台", :description => "分配工作台"},
