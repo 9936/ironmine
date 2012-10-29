@@ -79,6 +79,8 @@
           <% end %>
           <% if allow_to_function?(:assign_incident_request) %>
               <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
+          <% elsif allow_to_function?(:assign_incident_request_owned) && (current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by))%>
+              <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
           <% end %>
         </div>
     <% else %>
