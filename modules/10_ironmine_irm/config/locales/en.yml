@@ -176,7 +176,7 @@ en:
   label_attachment_file_type: File type limit %{type}
   self: Self
   hide: Hide
-  show: Show
+  display: Show
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
@@ -1115,6 +1115,7 @@ en:
   label_irm_object_attribute_relation_type: Relation Type
   label_irm_object_attribute_relation_object_attribute: Relation Attribute
   label_irm_object_attribute_required_flag: Required
+  label_irm_object_attribute_trigger_flag: Trace History
   #======================== object attributes====================
   #======================== list of values====================
   label_irm_list_of_value_list: List of Value

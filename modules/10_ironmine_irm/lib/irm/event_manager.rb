@@ -1,13 +1,18 @@
 class Irm::EventManager
   class << self
-    def publish_bo(bo_model_name,bo_model_id,event_type="UPDATE")
+    def publish_bo(bo_model_name,bo_model_id,bo_instance,event_type="UPDATE")
       return if Irm::Event.name.eql?(bo_model_name)||Delayed::Backend::ActiveRecord::Job.name.eql?(bo_model_name)
       bo = Irm::BusinessObject.where(:bo_model_name=>bo_model_name).first
       #raise(ArgumentError, "Missing Business Object: #{bo_model_name}")
       return unless bo&&bo.workflow_flag.eql?(Irm::Constant::SYS_YES)
-      event = Irm::Event.create(:bo_code=>bo.business_object_code,:business_object_id=>bo_model_id,:event_code=>"WORKFLOW_EVENT",:event_type=>event_type)
       timestamp = Time.now
-      timestamp = 1.minutes.from_now  if "UPDATE".eql?(event_type)
+      # 当产生更新事件时,被修改属性的trigger_flag必须为Y
+      if "UPDATE".eql?(event_type)
+        timestamp = 1.minutes.from_now
+        return unless (bo_instance.event_change_attributes.keys&Irm::ObjectAttribute.where(:business_object_id=>bo.id,:trigger_flag=>Irm::Constant::SYS_YES,:attribute_type=>"TABLE_COLUMN").collect{|i| i.attribute_name}).any?
+        bo_instance.event_change_attributes = {}
+      end
+      event = Irm::Event.create(:bo_code=>bo.business_object_code,:business_object_id=>bo_model_id,:event_code=>"WORKFLOW_EVENT",:event_type=>event_type)
       Delayed::Job.enqueue(Irm::Jobs::RuleProcessJob.new(event.id),[{:bo_code => "IRM_EVENTS", :instance_id => event.id}], 0,timestamp)
     end
 

@@ -57,6 +57,12 @@
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
+          <tr>
+            <td class="label-col"><label for="object_attribute_trigger_flag"><%=t(:label_irm_object_attribute_trigger_flag)%></label></td>
+            <td class="data-col"><%=check_img(@object_attribute.trigger_flag)%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
       </tbody>
     </table>
     <% if @object_attribute.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(@object_attribute.category) %>
