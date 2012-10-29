@@ -1120,6 +1120,7 @@ zh:
   label_irm_object_custom_attributes: 自定义字段
   label_irm_object_attribute_label_flag: 名称字段
   label_irm_object_attribute_required_flag: 必输字段
+  label_irm_object_attribute_trigger_flag: 触发更新事件
   label_irm_business_object_relation: 关联的业务对像信息
   label_irm_object_attribute_relation_bo: 关联业务对像
   label_irm_object_attribute_relation_object_attribute: 关联属性

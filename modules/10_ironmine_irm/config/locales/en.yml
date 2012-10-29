@@ -1120,6 +1120,7 @@ en:
   label_irm_object_attribute_relation_type: Relation Type
   label_irm_object_attribute_relation_object_attribute: Relation Attribute
   label_irm_object_attribute_required_flag: Required
+  label_irm_object_attribute_trigger_flag: Trace History
   #======================== object attributes====================
   #======================== list of values====================
   label_irm_list_of_value_list: List of Value
