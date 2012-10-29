@@ -92,3 +92,5 @@ zh:
   label_action_show_template: 模版报表运行中
 
   label_icm_incident_request_update_workload: 登记工时
+  label_report_rank: 排名
+  label_report_share: 占有率

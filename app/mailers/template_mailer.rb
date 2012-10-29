@@ -36,7 +36,7 @@ class TemplateMailer < ActionMailer::Base
     send_options = mail_options
 
     # 设置邮件类型
-    send_options.merge!({:content_type=>("html".eql?(email_template.template_type))? "text/html":"text/plain"})
+    send_options.merge!({:content_type=>("html".eql?(email_template.template_type)) ? "text/html" : "text/plain"})
     # 设置邮件主题
     # 1，如果邮件主题为liquid模板，则使用liquid解释
     # 2，如果为普通文本则直接作为主题
@@ -45,6 +45,10 @@ class TemplateMailer < ActionMailer::Base
     send_options.merge!({:subject=>subject})
     # 设置邮件主体内容
     body = email_template.render_body(template_params)
+    body = body.gsub!(/<(br)(| [^>]*)>/i, "\n") unless "html".eql?(email_template.template_type)
+
+    body = strip_tags(body) unless "html".eql?(email_template.template_type)
+
     body = before_body + body + after_body
     send_options.merge!({:body=>body})
     headers(header_options)
