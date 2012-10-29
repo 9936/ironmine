@@ -22,6 +22,7 @@ module Irm::SystemsHelper
     link.html_safe
   end
 
+
   def current_system
     Irm::ExternalSystem.current_system
   end

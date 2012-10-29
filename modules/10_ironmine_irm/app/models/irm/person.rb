@@ -238,6 +238,10 @@ class Irm::Person < ActiveRecord::Base
     true
   end
 
+  def system_profile(system_id)
+    self.external_system_people.where(:external_system_id => system_id).first
+  end
+
    #用户是否激活
    def active?
      !self.locked?&&self.enabled?

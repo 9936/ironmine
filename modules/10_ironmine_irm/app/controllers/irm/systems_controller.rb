@@ -3,12 +3,13 @@ class Irm::SystemsController < ApplicationController
 
   def index
     sid = params[:sid]
+    sid = params[:sid]
     system = Irm::ExternalSystem.multilingual.enabled.find(sid)
     if system
       Irm::ExternalSystem.current_system = system
       session[:sid] = system.id
     end
-    redirect_to({:action=>"show",:sid=> sid })
+    @profile = Irm::Profile.multilingual.with_user_license_name.find(Irm::Person.current.system_profile(sid).system_profile_id)
   end
 
   def show
