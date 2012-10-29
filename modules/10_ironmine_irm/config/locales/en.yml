@@ -247,6 +247,11 @@ en:
   label_irm_common_password: Password
   label_irm_common_logout: Logout
   label_irm_common_forgot_password: Forget password？
+  label_irm_common_email: Email Address
+  label_irm_common_send: Send
+  label_irm_common_forgot_password_tooltip: <p>Verify you're entering the correct user name in the form of an email address (username@company.com).</p><p>Passwords are case sensitive, so ensure you don't have caps lock enabled.</p>
+  label_irm_common_reset_pwd_tooltip: Hi, Please fill your new password.
+  label_irm_common_email_sent: E-mail has sent to your mailbox, please reset your password within 30 minutes of receiving..
   label_irm_recently_objects: Recent Items
   notice_account_locked: Your account has been locked, please contact administrator!
   label_irm_common_continue: Continue
