@@ -20,7 +20,7 @@
                   <% if notice %>
                     <%= notice %>
                   <% else %>
-                    <strong><%= @person.name %>你好!</strong> 请在下面填写你的新密码！
+                    <strong><%= @person.name %></strong> <%= t(:label_irm_common_reset_pwd_tooltip) %>
                   <% end %>
                 </div>
                 <table class="form-table">

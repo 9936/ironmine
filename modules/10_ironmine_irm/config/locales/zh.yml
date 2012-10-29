@@ -237,6 +237,11 @@ zh:
   label_irm_common_password: 密码
   label_irm_common_logout: 退出系统
   label_irm_common_forgot_password: 忘记密码？
+  label_irm_common_email: 电子邮箱
+  label_irm_common_send: 发送
+  label_irm_common_forgot_password_tooltip: <p>请记住，您的用户名是电子邮件地址的形式 (username@company.com)，并且密码区分大小写。 重试登录。</p><p>如果仍无法登录，请在下面重置密码。</p>
+  label_irm_common_reset_pwd_tooltip: 你好,请在下面填写你的新密码！
+  label_irm_common_email_sent: 邮件发送到您的邮箱中，请在30分钟内收信重置密码。.
   label_irm_recently_objects: 最近的项目
   notice_account_locked: 你的帐户已经被锁定,请联系管理员!
   label_irm_common_continue: 继续工作
