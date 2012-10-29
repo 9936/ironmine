@@ -23,9 +23,7 @@ class Irm::ExternalSystemMembersController < ApplicationController
   end
 
   def get_owned_members_data
-    member_scope = Irm::Person.
-                      with_organization(I18n.locale).
-                      with_external_system(params[:external_system_id])
+    member_scope = Irm::Person.with_organization(I18n.locale).with_external_system(params[:external_system_id])
     member_scope = member_scope.match_value("#{Irm::Organization.view_name}.name", params[:organization_name])
     member_scope = member_scope.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
     member_scope = member_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
