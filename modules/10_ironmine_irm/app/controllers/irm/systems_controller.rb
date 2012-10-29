@@ -3,7 +3,6 @@ class Irm::SystemsController < ApplicationController
 
   def index
     sid = params[:sid]
-    sid = params[:sid]
     system = Irm::ExternalSystem.multilingual.enabled.find(sid)
     if system
       Irm::ExternalSystem.current_system = system
