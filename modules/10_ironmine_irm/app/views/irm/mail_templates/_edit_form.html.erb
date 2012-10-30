@@ -21,11 +21,10 @@
       font-weight: bold;
   }
   .editor {
-     position: absolute;
      width: 618px;
      height: 200px;
-     border: solid 1px #AAAAAA;
   }
+
 </style>
 <%= setting_title %>
 <%= form_for(@mail_template,:url=>{:action=>"update"},:html => {:id => "mail_template"},:builder => CustomFormBuilder) do |f| %>
@@ -182,8 +181,8 @@
       var currentEditor;
       var editors = new Array();
 
-      var htmlMode = require("ace/mode/html").Mode;
-      var plainMode = require("ace/mode/text").Mode;
+      var htmlMode = "ace/mode/html";
+      var plainMode = "ace/mode/text";
       var currentMode = $("input[name='irm_mail_template[template_type]'][checked]").val();
       $(".mx-nav-tabs:first li a.language").each(function(){
           languages.push({contentEl:$(this).attr("ref"),title:$(this).html,ref:$(this).attr("id")});
@@ -191,9 +190,9 @@
       for(var i=0;i<languages.length;i++) {
           var editor= ace.edit("editor"+languages[i].ref);
           if(currentMode && currentMode == 'simple') {
-              editor.getSession().setMode(new plainMode());
+              editor.getSession().setMode(plainMode);
           }else {
-              editor.getSession().setMode(new htmlMode());
+              editor.getSession().setMode(htmlMode);
           }
           editor.getSession().setValue($("#mail_body_value"+languages[i].ref).val());
           if(languages[i].ref == currentLanguage) {
@@ -206,15 +205,13 @@
       $("[name='irm_mail_template[template_type]']:radio").bind("click",function(){
           if ($(this).val() && $(this).val() == 'simple') {
              for(var i=0;i<editors.length;i++) {
-                editors[i] = ace.edit("editor"+languages[i].ref);
+                editors[i].getSession().setMode(plainMode);
                 editors[i].getSession().setValue($("#mail_body_value"+languages[i].ref).val());
-                editors[i].getSession().setMode(new plainMode());
              }
           }else{
              for(var i=0;i<editors.length;i++) {
-                editors[i] = ace.edit("editor"+languages[i].ref);
+                editors[i].getSession().setMode(htmlMode);
                 editors[i].getSession().setValue($("#mail_body_value"+languages[i].ref).val());
-                editors[i].getSession().setMode(new htmlMode());
              }
           }
       });
@@ -222,13 +219,13 @@
       //提交表单之前将编辑器中的内容保存到隐藏表单中
       $("#mail_template").submit(function(){
         for(var i=0;i<languages.length;i++) {
-            $(this).find("#mail_body_value"+languages[i].ref).val(currentEditor.getSession().getValue());
+            $(this).find("#mail_body_value"+languages[i].ref).val(editors[i].getSession().getValue());
         }
         this.submit();
       });
       $("#parameter_bo").cascade("#parameter_field_name");
       $("#parameter_field_name").change(function(e){
-          var target = $(e.target)
+          var target = $(e.target);
           if(target.val()&&target.val()!=""){
             var option = target.find("option[value="+target.val()+"]:first");
             $("#parameter_field_key").val("{{"+option.attr("business_object_code").toLowerCase()+"."+target.val()+"}}")

@@ -86,7 +86,7 @@ end
 rails_config.fwk.jscss.merge!({
                                   :default => {:css => ["application"], :js => ["application", "locales/jquery-{locale}"]},
                                   :default_ie6 => {:css => ["application-ie6"], :js => ["application", "locales/jquery-{locale}","ie6"]},
-                                  :aceditor => {:js => ["plugins/ace"]},
+                                  :aceditor => {:js => ["plugins/ace"],:css => ["plugins/ace"]},
                                   :xheditor => {:css => ["plugins/xheditor"], :js => ["plugins/xheditor/xheditor-{locale}"]},
                                   :jpolite => {:css => ["plugins/jpolite"], :js => ["plugins/jpolite"]},
                                   :jcrop => {:css => ["plugins/jcrop"], :js => ["plugins/jquery-crop"]},
