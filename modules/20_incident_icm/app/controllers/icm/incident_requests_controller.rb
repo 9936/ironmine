@@ -213,11 +213,16 @@ class Icm::IncidentRequestsController < ApplicationController
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
         send_data(data_to_xls(incident_requests,
-                              [{:key=>:request_number,:label=>t(:label_icm_incident_request_request_number_shot)},
-                               {:key=>:title,:label=>t(:label_icm_incident_request_title)},
-                               {:key=>:incident_status_id_label,:label=>t(:label_icm_incident_request_incident_status_code)},
-                               {:key=>:last_response_date,:label=>t(:label_icm_incident_request_last_date)},
-                               {:key=>:external_system_id_label,:label=>t(:label_irm_external_system)}]
+                              [{ :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot)},
+                               { :key => "title",:label => t(:label_icm_incident_request_title)},
+                               { :key => "external_system_id_label", :label => t(:label_irm_external_system)},
+                               { :key => "priority_id_label", :label => t(:label_icm_incident_request_priority)},
+                               { :key => "incident_category_id_label", :label => t(:label_icm_incident_category)},
+                               { :key => "incident_sub_category_id_label", :label => t(:label_icm_incident_sub_category)},
+                               { :key => "submitted_date", :label => t(:label_icm_incident_request_submitted_date)},
+                               { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date)},
+                               { :key => "incident_status_id_label", :label => t(:label_icm_incident_request_incident_status)},
+                               { :key => "support_person_id_label", :label => t(:label_icm_incident_request_support_person)}]
                   ))
       }
     end
@@ -281,13 +286,16 @@ class Icm::IncidentRequestsController < ApplicationController
       format.xls{
         incident_requests = data_filter(incident_requests_scope)
         send_data(data_to_xls(incident_requests,
-                              [{:key=>:request_number,:label=>t(:label_icm_incident_request_request_number_shot)},
-                               {:key=>:title,:label=>t(:label_icm_incident_request_title)},
-                               {:key=>:incident_status_id_label,:label=>t(:label_icm_incident_request_incident_status_code)},
-                               {:key=>:organization_id_label,:label=>t(:label_icm_incident_request_organization)},
-                               {:key=>:priority_id_label,:label=>t(:label_icm_incident_request_priority)},
-                               {:key=>:last_request_date,:label=>t(:label_icm_incident_request_last_date)},
-                               {:key=>:external_system_id_label,:label=>t(:label_irm_external_system)}]
+                                      [{ :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot)},
+                                         { :key => "title",:label => t(:label_icm_incident_request_title)},
+                                         { :key => "external_system_id_label", :label => t(:label_irm_external_system)},
+                                         { :key => "priority_id_label", :label => t(:label_icm_incident_request_priority)},
+                                         { :key => "incident_category_id_label", :label => t(:label_icm_incident_category)},
+                                         { :key => "incident_sub_category_id_label", :label => t(:label_icm_incident_sub_category)},
+                                         { :key => "submitted_date", :label => t(:label_icm_incident_request_submitted_date)},
+                                         { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date)},
+                                         { :key => "incident_status_id_label", :label => t(:label_icm_incident_request_incident_status)},
+                                         { :key => "support_person_id_label", :label => t(:label_icm_incident_request_support_person)}]
                   ))
       }
 
