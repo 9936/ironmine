@@ -2179,7 +2179,7 @@ jQuery.fn.menubutton = function () {
         var me = this;
         me.$element.load(me.buildCurrentRequest(), function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "error"){
-                alert($.i18n("load_data_error"));
+                window.console && console.log($.i18n("load_data_error"));
                 return false;
             }
             me.processLoadResult(responseText, textStatus, XMLHttpRequest);
