@@ -932,7 +932,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/search" => ["index"],
               "irm/session_settings" => ["timeout_warn"],
               "irm/setting" => ["common"],
-              "irm/filters" => ["operator_value"]
+              "irm/filters" => ["operator_value"],
+              "irm/systems" => ["index","show","add_people","delete_people"]
           },
 
           :home_page => {
@@ -1015,7 +1016,8 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================START:IRM_REPORT=================================
   map.function_group :irm_report, {
       :en => {:name => "Report", :description => "Report"},
-      :zh => {:name => "报表", :description => "管理报表类别和类型"}, }
+      :zh => {:name => "报表", :description => "管理报表类别和类型"}
+  }
   map.function_group :irm_report, {
       :zone_code => "IRM_REPORT",
       :controller => "irm/reports",

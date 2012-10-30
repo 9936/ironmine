@@ -246,6 +246,7 @@ en:
   label_irm_common_username: User Name
   label_irm_common_password: Password
   label_irm_common_logout: Logout
+  label_irm_common_system_setting: System setting
   label_irm_common_forgot_password: Forget password？
   label_irm_recently_objects: Recent Items
   notice_account_locked: Your account has been locked, please contact administrator!
@@ -2012,3 +2013,6 @@ en:
   label_report_time_grouped_calendar_week: Calendar week
   label_report_time_grouped_calendar_day: Day
   #============================== end report time  ==============================
+  #============================== start system setting  ==============================
+  label_irm_system: 系统设置
+  #============================== end system setting  ==============================

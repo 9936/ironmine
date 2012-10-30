@@ -58,4 +58,13 @@ module Irm::ExternalSystemsHelper
     [Irm::ExternalSystem.name].collect{|i| [Irm::BusinessObject.class_name_to_meaning(i),""]}
   end
 
+  def profile_name(person_id,system_id)
+    system_person = Irm::ExternalSystemPerson.where(:person_id=> person_id, :external_system_id=>system_id).first
+    if system_person and system_person.system_profile_id
+      Irm::Profile.multilingual.find(system_person.system_profile_id)[:name]
+    else
+      ''
+    end
+  end
+
 end

@@ -36,8 +36,7 @@ class Irm::Person < ActiveRecord::Base
   validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,:message=>:email
 
-  has_many :external_system_people,:class_name => "Irm::ExternalSystemPerson",
-          :foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
+  has_many :external_system_people,:class_name => "Irm::ExternalSystemPerson",:foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
   has_many :external_systems,:class_name => "Irm::ExternalSystem",:through => :external_system_people
 
   has_many :group_members,:class_name => "Irm::GroupMember",:foreign_key => "person_id",:primary_key => "id",:dependent => :destroy
@@ -79,8 +78,7 @@ class Irm::Person < ActiveRecord::Base
     where(:identity_id=>identity)
   }
 
-  scope :query_person_name,lambda{|person_id|select("CONCAT(#{table_name}.last_name,#{table_name}.first_name) person_name").
-                           where(:id=>person_id)}
+  scope :query_person_name,lambda{|person_id|select("CONCAT(#{table_name}.last_name,#{table_name}.first_name) person_name").where(:id=>person_id)}
 
   scope :query_all_person,select("#{table_name}.*")
 
@@ -96,6 +94,7 @@ class Irm::Person < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = #{table_name}.organization_id AND #{Irm::Organization.view_name}.language = '#{language}'").
     select("#{Irm::Organization.view_name}.name organization_name")
   }
+
 
 
   scope :with_language,lambda{|language|
@@ -134,6 +133,7 @@ class Irm::Person < ActiveRecord::Base
         where("esp.external_system_id = ?", external_system_id).
         where("esp.person_id = #{table_name}.id")
   }
+
 
   scope :without_external_system, lambda{|external_system_id|
     select("#{table_name}.*").
@@ -236,6 +236,10 @@ class Irm::Person < ActiveRecord::Base
   def is_ldap?
     return false if self.auth_source_id.blank?
     true
+  end
+
+  def system_profile(system_id)
+    self.external_system_people.where(:external_system_id => system_id).first
   end
 
    #用户是否激活
