@@ -187,8 +187,12 @@
             <% prepare_request_files(@incident_request) %>
             <div class="reply-body">
               <div class="message-body">
-                <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3><br><br>
-                <%= raw process_message(@incident_request[:summary])  %>
+                <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3>
+                <br/>
+                <br/>
+                <div style="padding: 10px;">
+                  <%= raw  process_message(@incident_request[:summary])  %>
+                </div>
               </div>
               <%= list_request_file %>
             </div>
