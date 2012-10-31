@@ -605,4 +605,10 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
   #=================================END:INCIDENT JOURNAL=================================
 
+  #=================================START: SYSTEM SETTING=================================
+  map.function :systems_setting, {
+      "icm/systems" => ["index","edit_transform","update_transform"]
+  }
+  #=================================END: SYSTEM SETTING=================================
+
 end
