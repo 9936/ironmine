@@ -101,7 +101,6 @@ class Irm::MailTemplate < ActiveRecord::Base
     #删除多处重复的邮箱地址
     to_emails.delete_if {|e| additional_emails.include?(e) }
     to_emails = (to_emails + additional_emails).join(",")
-    email_template = nil
     if to_people.first
       email_template  = self.class.query_by_language(to_people.first.language_code).find(self.id)
     else
