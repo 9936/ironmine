@@ -45,10 +45,8 @@ class TemplateMailer < ActionMailer::Base
     send_options.merge!({:subject=>subject})
     # 设置邮件主体内容
     body = email_template.render_body(template_params)
-    body = body.gsub!(/<(br)(| [^>]*)>/i, "\n") unless "html".eql?(email_template.template_type)
-
+    body = body.gsub(/<br\s*\/?>/i, "\n") unless "html".eql?(email_template.template_type)
     body = strip_tags(body) unless "html".eql?(email_template.template_type)
-
     body = (before_body.nil? ? "" : before_body) + body + (after_body.nil? ? "" : after_body)
     send_options.merge!({:body=>body})
     headers(header_options)
