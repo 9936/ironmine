@@ -10,7 +10,7 @@
           <tr>
             <td class="label-col"><label><%=(t :label_skm_upload_new_file)%></label></td>
             <td class="data-2col">
-              <%=file_field_tag "file[0][file]", :required=>true%>&nbsp;
+              <%=input_file_tag "file[0][file]", :required=>true%>&nbsp;
               <label><%= link_to t(:remove), {}, {:href => "javascript:void(0);", :onclick => "clear_file();"} %></label>
             </td>
           </tr>
