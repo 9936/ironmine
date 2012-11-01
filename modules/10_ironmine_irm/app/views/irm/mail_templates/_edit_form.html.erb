@@ -202,6 +202,9 @@
           editors.push(editor);
       }
       //点击切换模式函数处理
+      $(".mx-nav-tabs li").bind("click",function(){
+          $("[name='irm_mail_template[template_type]']:radio:checked").trigger('click');
+      });
       $("[name='irm_mail_template[template_type]']:radio").bind("click",function(){
           if ($(this).val() && $(this).val() == 'simple') {
              for(var i=0;i<editors.length;i++) {
