@@ -1254,6 +1254,7 @@ en:
   #======================== wf mail alert====================
   label_irm_wf_mail_alert: Mail Alert
   label_irm_wf_mail_alert_all: Send In All
+  label_irm_wf_mail_alert_default_language: Template Language
   label_irm_wf_mail_alert_list: Mail Aler List
   label_irm_wf_mail_alert_bo_code: Business Object
   label_irm_wf_mail_alert_name: Name
