@@ -86,30 +86,52 @@ class Irm::MailTemplate < ActiveRecord::Base
     # crash when no people
     return unless to_people.any?
 
-    additional_emails = []
-    additional_emails = params_dup[:to_emails] if  params_dup[:to_emails]
-
-    cc_people = []
-    cc_people = Irm::Person.query_by_ids(params_dup[:cc_person_ids]) if params_dup[:cc_person_ids]
-    cc_emails = cc_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact.join(",")
-
-    bcc_people = []
-    bcc_people = Irm::Person.query_by_ids(params_dup[:bcc_person_ids]) if params_dup[:bcc_person_ids]
-    bcc_emails = bcc_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact.join(",")
-
-    to_emails = to_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact
-    #删除多处重复的邮箱地址
-    to_emails.delete_if {|e| additional_emails.include?(e) }
-    to_emails = (to_emails + additional_emails).join(",")
-    if to_people.first
-      email_template  = self.class.query_by_language(to_people.first.language_code).find(self.id)
+    ##################################################################
+    #将人员按照语言进行分组(前提是:cc和：bcc没有时候以及额外邮箱和模板语言)
+    if params_dup[:cc_person_ids].nil? and params_dup[:bcc_person_ids].nil? and params_dup[:to_emails].nil? and params_dup[:template_lang].nil?
+      people_hash = {}
+      to_people.each do |p|
+        people_hash[p.language_code.to_sym] ||= []
+        people_hash[p.language_code.to_sym] << p
+      end
+      people_hash.each do |k,v|
+        #查找出对应语言的模板
+        to_emails = v.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact.join(",")
+        email_template = self.class.query_by_language(k.to_s).find(self.id)
+        mail_options.merge!(:to=>to_emails)
+        TemplateMailer.template_email(mail_options,email_template,template_params,header_options).deliver
+      end if people_hash.any?
     else
-      email_template  = self.class.query_by_language(Irm::Person.current.language_code).find(self.id)
+    #################################################################
+      additional_emails = []
+      additional_emails = params_dup[:to_emails] if  params_dup[:to_emails]
+
+      cc_people = []
+      cc_people = Irm::Person.query_by_ids(params_dup[:cc_person_ids]) if params_dup[:cc_person_ids]
+      cc_emails = cc_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact.join(",")
+
+      bcc_people = []
+      bcc_people = Irm::Person.query_by_ids(params_dup[:bcc_person_ids]) if params_dup[:bcc_person_ids]
+      bcc_emails = bcc_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact.join(",")
+
+      to_emails = to_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact
+      #删除多处重复的邮箱地址
+      to_emails.delete_if {|e| additional_emails.include?(e) }
+      to_emails = (to_emails + additional_emails).join(",")
+
+
+      if to_people.first
+        if params_dup[:template_lang] and to_people.count > 1
+          email_template  = self.class.query_by_language(params_dup[:template_lang]).find(self.id)
+        else
+          email_template  = self.class.query_by_language(to_people.first.language_code).find(self.id)
+        end
+      else
+        email_template  = self.class.query_by_language(Irm::Person.current.language_code).find(self.id)
+      end
+      mail_options.merge!(:to=>to_emails,:cc=>cc_emails,:bcc=>bcc_emails)
+      TemplateMailer.template_email(mail_options,email_template,template_params,header_options).deliver
     end
-
-    mail_options.merge!(:to=>to_emails,:cc=>cc_emails,:bcc=>bcc_emails)
-    TemplateMailer.template_email(mail_options,email_template,template_params,header_options).deliver
-
 
   end
 

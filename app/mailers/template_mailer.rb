@@ -49,8 +49,8 @@ class TemplateMailer < ActionMailer::Base
     body = strip_tags(body) unless "html".eql?(email_template.template_type)
     body = (before_body.nil? ? "" : before_body) + body + (after_body.nil? ? "" : after_body)
     send_options.merge!({:body=>body})
+    #send_options.merge!({:date=> Time.now.in_time_zone.strftime('%Y-%m-%d %H:%M:%S')})
     headers(header_options)
-
     mail(send_options)
   end
 
