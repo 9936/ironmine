@@ -1265,6 +1265,7 @@ zh:
   #======================== wf mail alert====================
   label_irm_wf_mail_alert: 邮件警告
   label_irm_wf_mail_alert_all: 合并发送
+  label_irm_wf_mail_alert_default_language: 默认模板语言
   label_irm_wf_mail_alert_list: 邮件警告列表
   label_irm_wf_mail_alert_bo_code: 业务对象
   label_irm_wf_mail_alert_name: 名称
