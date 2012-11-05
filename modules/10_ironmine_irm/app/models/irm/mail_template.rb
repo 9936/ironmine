@@ -88,7 +88,7 @@ class Irm::MailTemplate < ActiveRecord::Base
 
     ##################################################################
     #将人员按照语言进行分组(前提是:cc和：bcc没有时候以及额外邮箱和模板语言)
-    if params_dup[:cc_person_ids].nil? and params_dup[:bcc_person_ids].nil? and params_dup[:to_emails].nil? and params_dup[:template_lang].nil?
+    if to_people.count > 1 and params_dup[:cc_person_ids].nil? and params_dup[:bcc_person_ids].nil? and params_dup[:to_emails].nil? and params_dup[:template_lang].nil?
       people_hash = {}
       to_people.each do |p|
         people_hash[p.language_code.to_sym] ||= []
