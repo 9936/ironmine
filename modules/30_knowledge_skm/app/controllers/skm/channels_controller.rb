@@ -112,6 +112,8 @@ class Skm::ChannelsController < ApplicationController
 
   def get_owned_groups_data
     group_scope = Skm::Channel.find(params[:id]).groups.multilingual.enabled
+    group_scope = group_scope.match_value("#{Irm::Group.table_name}.code",params[:code])
+    group_scope = group_scope.match_value("#{Irm::GroupsTl.table_name}.name",params[:name])
     groups, count = paginate(group_scope)
     respond_to do |format|
       format.html {
@@ -138,6 +140,9 @@ class Skm::ChannelsController < ApplicationController
   #添加审核人员相关的actions
   def get_approvals_data
     people_scope =  Irm::Person.with_organization(I18n.locale).without_approvals(params[:id])
+    people_scope = people_scope.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
+    people_scope = people_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
+    people_scope = people_scope.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
     people, count = paginate(people_scope)
     respond_to do |format|
       format.html {
@@ -150,6 +155,9 @@ class Skm::ChannelsController < ApplicationController
 
   def get_owned_approvals_data
     approval_scope = Irm::Person.with_organization(I18n.locale).with_approvals(params[:id])
+    approval_scope = approval_scope.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
+    approval_scope = approval_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
+    approval_scope = approval_scope.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
     approvals, count = paginate(approval_scope)
     respond_to do |format|
       format.html {
