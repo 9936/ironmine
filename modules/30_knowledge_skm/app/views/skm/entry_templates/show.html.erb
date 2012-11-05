@@ -50,11 +50,11 @@
         <h2 class="block-title"><%= t(:label_skm_entry_template_element_list) %></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to t(:add),{:controller => "skm/entry_templates", :action => "select_elements", :template_id => @entry_template},:class=>"btn"%>
+        <%= link_to t(:add),{:controller => "skm/entry_templates", :action => "select_elements", :template_id => @entry_template},:class=>"btn btn-info"%>
       </td>
     </tr>
   </table>
   <div class="page-block-body">
-      <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_template},[],{:paginator_box=>"entry_elementsPaginatorBox"}) %>
+      <%= datatable("entry_elements_list",{:controller => "skm/entry_templates", :action=>"get_owned_elements_data", :template_id => @entry_template},[],{:drag_sort => {:save_url => url_for(:controller => 'skm/entry_templates', :action => 'switch_sequence',:template_id => @entry_template.id)} }) %>
   </div>
 </div>
