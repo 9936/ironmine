@@ -10,7 +10,7 @@ class Irm::GroupMembersController < ApplicationController
     @group = Irm::Group.find(params[:id])
     @group_member = Irm::GroupMember.new(params[:irm_group_member])
     respond_to do |format|
-        if(@group_member.status_code.present?)
+        if @group_member.status_code.present?
           @group_member.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
           Irm::GroupMember.create(:person_id=>id,:group_id=>@group.id)
         end
