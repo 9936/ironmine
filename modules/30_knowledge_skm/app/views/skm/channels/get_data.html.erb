@@ -4,7 +4,7 @@
     <%= link_to(t(:show),{:controller => "skm/channels", :action=>"show",:id=>data[:id]},:class => "action-link") %>
   <% end %>
   <% builder.column(:channel_code,{:title=>t(:label_skm_channel_code), :searchable => true,:width=>"100px"})%>
-  <% builder.column(:name,{:title=>t(:name), :searchable => true,:width=>"150px"})%>
+  <% builder.column(:name,{:title=>t(:name), :searchable => true,:width=>"200px"})%>
   <% builder.column(:description,{:title=>t(:description)})%>
   <% builder.column(:status_code,{:title=>t(:active),:width=>"40px"}) do |data|%>
     <%= check_img(data[:status_code]) %>

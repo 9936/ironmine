@@ -2206,7 +2206,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/kanbans" => ["add_lanes", "create", "delete_lane", "down_lane", "edit", "get_available_lanes", "get_data", "get_owned_lanes", "index", "new", "refresh_my_kanban", "select_lanes", "show", "update", "up_lane"],
+              "irm/kanbans" => ["add_lanes", "create", "delete_lane", "edit", "get_available_lanes", "get_data", "get_owned_lanes", "index", "new", "refresh_my_kanban", "select_lanes", "show", "update", "switch_sequence"],
           },
           :view_kanban => {
               :en => {:name => "View Signboard", :description => "View Signboard"},
