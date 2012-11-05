@@ -2,6 +2,14 @@
 
 <!--页面结构-->
 <% if @template %>
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save),:class=>"btn btn-info btn-submit",:disabled => true %>
+        <% if !@return_url.blank? %>
+            <%= link_to t(:cancel), @return_url,:class=>"btn"%>
+        <% else %>
+            <%= link_to t(:cancel), {:action => "show",:id=>@template},:class=>"btn"%>
+        <% end %>
+    <% end %>
     <%= form_tag({:action => 'add_elements',:template_id => @template}) do%>
     <%= hidden_field_tag("template_ids") %>
     <%= hidden_field_tag "return_url", @return_url%>
@@ -11,24 +19,32 @@
           <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2></h2>
         </td>
         <td class="page-block-button">
-          <%= link_submit t(:save),:class=>"btn btn-primary"%>
-          <% if !@return_url.blank? %>
-            <%= link_to t(:cancel), @return_url,:class=>"btn"%>
-          <% else %>
-            <%= link_to t(:cancel), {:action => "show",:id=>@template},:class=>"btn"%>
-          <% end %>
+          <%= content_for :form_buttons %>
         </td>
       </tr></table>
       <% end %>
       <div class="page-block-body">
           <%= datatable("available_elements_list",{:action=>"get_available_elements", :template_id=>@template},[],{:paginator_box=>"available_elementsPaginatorBox",:select=>"multiple"})%>
       </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
     </div>
 <% end %>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#available_elements_list").bind('selectionchange',function(event,ids){
             $("#template_ids").val(ids.join(","));
+            if (ids.length > 0){
+                $(".btn-submit").removeClass("disabled");
+            }else{
+                $(".btn-submit").addClass("disabled");
+            }
         });
     });
 </script>
