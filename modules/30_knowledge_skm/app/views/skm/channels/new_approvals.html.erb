@@ -14,11 +14,14 @@
       <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2>
     </td>
     <td class="page-block-button">
-      <%= content_for :form_buttons   %>
+      <%= content_for :form_buttons %>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("skm_channels",{:controller => "skm/channels", :action=>"get_approvals_data",:id=>@channel.id},[],{:paginator_box=>"peoplePaginator",:select=>"multiple"})%>
+    <%= datatable("skm_channels",{:controller => "skm/channels", :action=>"get_approvals_data",:id=>@channel.id},[],{:search_box=>"searchBox",:paginator_box=>"peoplePaginator",:select=>"multiple"})%>
   </div>
   <table class="page-block-footer">
     <tr>
