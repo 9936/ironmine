@@ -32,9 +32,9 @@ $(function(){
     $('form a[type=submit]').live('click', function(e) {
       parent_forms = $(this).parents("form");
       e.preventDefault();
-
-      if($(this).attr("disabled")){
-          return
+      //当该元素含有disabled属性或者有class为disabled不进行提交
+      if($(this).attr("disabled") || $(this).hasClass('disabled')){
+          return false;
       }
       if(parent_forms[0]){
         //对a的属性设置为target=_blank做特殊处理
@@ -52,8 +52,9 @@ $(function(){
         href = $(this).attr("href");
         parent_forms = $(this).parents("form");
         e.preventDefault();
-        if($(this).attr("disabled")){
-            return
+        //当该元素含有disabled属性或者有class为disabled不进行提交
+        if($(this).attr("disabled") || $(this).hasClass('disabled')){
+            return false;
         }
 
         if(parent_forms[0]){
