@@ -171,9 +171,12 @@ class Skm::ChannelsController < ApplicationController
     @channel = Skm::Channel.find(params[:id])
     person_ids = params[:skm_channel_approval_person][:status_code]
     respond_to do |format|
-      if(!person_ids.blank?)
+      if person_ids.present?
         person_ids.split(",").delete_if{|i| i.blank?}.each do |id|
-          Skm::ChannelApprovalPerson.create(:person_id=>id,:channel_id=>@channel.id)
+          approval_person = Skm::ChannelApprovalPerson.where("person_id =? AND channel_id = ?",id, @channel.id).first
+          unless approval_person.present?
+            Skm::ChannelApprovalPerson.create(:person_id=>id,:channel_id=>@channel.id)
+          end
         end
         format.html { redirect_to({:controller => "skm/channels",:action=>"show",:id=>@channel.id}, :notice => t(:successfully_created)) }
       else

@@ -1,27 +1,44 @@
 <%= common_title(:action_meaning=>t(:label_skm_channel_approval_management)) %>
+
+<% content_for :form_buttons do %>
+  <%= link_submit t(:save),{:class=>"btn btn-info btn-submit",:disabled => true} %>
+  <%= link_to(t(:cancel),{:controller =>"skm/channels",:action=>"show",:id=>@channel.id},:class=>"btn")%>
+<% end %>
+
 <!--页面结构-->
+<%= form_for(@channel_approval,:url=>{:action=>"create_approvals", :id => @channel.id},:builder => CustomFormBuilder) do |f| %>
+<%= f.hidden_field(:status_code) %>
 <div class="page-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
       <h2 class="block-title"><%= t(:label_irm_select_result) %>&nbsp;<%= t(:label_detail_info) %></h2>
     </td>
     <td class="page-block-button">
-      <%= form_for(@channel_approval,:url=>{:action=>"create_approvals", :id => @channel.id},:builder => CustomFormBuilder) do |f| %>
-        <%= f.hidden_field(:status_code) %>
-        <%= link_submit t(:save),:class=>"btn btn-primary"%>
-        <%= link_to(t(:cancel),{:controller =>"skm/channels",:action=>"show",:id=>@channel.id},:class=>"btn")%>
-      <% end %>
+      <%= content_for :form_buttons   %>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("people",{:controller => "skm/channels", :action=>"get_approvals_data",:id=>@channel.id},[],{:paginator_box=>"peoplePaginator",:select=>"multiple"})%>
+    <%= datatable("skm_channels",{:controller => "skm/channels", :action=>"get_approvals_data",:id=>@channel.id},[],{:paginator_box=>"peoplePaginator",:select=>"multiple"})%>
   </div>
+  <table class="page-block-footer">
+    <tr>
+      <td class="page-block-title"></td>
+      <td class="page-block-button">
+        <%= content_for :form_buttons %>
+      </td>
+    </tr>
+  </table>
 </div>
-
+<% end %>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#people").bind('selectionchange',function(event,ids){
+        $("#skm_channels").bind('selectionchange',function(event,ids){
             $("#skm_channel_approval_person_status_code").val(ids.join(","));
+            if (ids.length > 0){
+                $(".btn-submit").removeClass("disabled");
+            }else{
+                $(".btn-submit").addClass("disabled");
+            }
         });
     });
 </script>
