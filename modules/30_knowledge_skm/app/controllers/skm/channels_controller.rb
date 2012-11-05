@@ -127,6 +127,8 @@ class Skm::ChannelsController < ApplicationController
 
   def get_ava_groups_data
     group_scope = Irm::Group.multilingual.where("#{Irm::Group.table_name}.id NOT IN (?)", Skm::Channel.find(params[:id]).groups.collect(&:id) + ['']).enabled
+    group_scope = group_scope.match_value("#{Irm::Group.table_name}.code",params[:code])
+    group_scope = group_scope.match_value("#{Irm::GroupsTl.table_name}.name",params[:name])
     groups, count = paginate(group_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(groups.to_grid_json(['0',:code, :name, :description, :status_code], count)) }
