@@ -6,34 +6,50 @@
 </style>
 <% if @kanban %>
     <!--页面结构-->
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save),:class=>"btn btn-info btn-submit",:disabled => true %>
+        <% if !@return_url.blank? %>
+            <%= link_to t(:cancel), @return_url,:class=>"btn"%>
+        <% else %>
+            <%= link_to t(:cancel), {:action => "show",:id=>@kanban},:class=>"btn"%>
+        <% end %>
+    <% end %>
+    <%= form_tag({:action => 'add_lanes',:id => @kanban}) do%>
+    <%= hidden_field_tag "return_url", @return_url%>
+    <%= hidden_field_tag(:lane_ids) %>
     <div class="page-block">
       <table class="page-block-header"><tr>
         <td class="page-block-title">
           <h2 class="block-title"><%= t(:label_irm_select_result) %></h2>
         </td>
         <td class="page-block-button">
-          <%= form_tag({:action => 'add_lanes',:id => @kanban}) do%>
-            <%= hidden_field_tag "return_url", @return_url%>
-            <%= hidden_field_tag(:lane_ids) %>
-            <%= link_submit t(:save), :class=>"btn btn-primary" %>
-            <% if !@return_url.blank? %>
-              <%= link_to t(:cancel), @return_url, :class => "btn"%>
-            <% else %>
-              <%= link_to t(:cancel), {:action => "show",:id=>@kanban},:class => "btn"%>
-            <% end %>
-          <% end %>
+          <%= content_for :form_buttons %>
         </td>
       </tr></table>
       <div class="page-block-body">
         <%= datatable("available_lanes_list",{:action=>"get_available_lanes", :id=>@kanban},[],{:paginator_box=>"paginatorBox",:select=>"multiple"})%>
       </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
     </div>
+    <% end %>
 <% end %>
 
 <script type="text/javascript">
     $(document).ready(function(){
         $("#available_lanes_list").bind('selectionchange',function(event,ids){
             $("#lane_ids").val(ids.join(","));
+            if (ids.length > 0){
+                $(".btn-submit").removeClass("disabled");
+            }else{
+                $(".btn-submit").addClass("disabled");
+            }
         });
     });
 </script>
