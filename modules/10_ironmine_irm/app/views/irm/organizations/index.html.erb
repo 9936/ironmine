@@ -27,37 +27,16 @@
   <div class="page-block-body">
     <% if(params[:mode] == 'tree') %>
      <div id="sidetreecontrol"> <a href="?#"><%= t(:collapse_all) %></a> | <a href="?#"><%= t(:expand_all) %></a> </div>
-        <ul id="red" class="treeview-red">
-           <script type="text/javascript">
-             function buildNode(id, level,name,parent_id, new_action, edit_action, show_action) {
-                    if(id) {
-                       var node = '<li><span class="name">'+name+'</span>&nbsp;&nbsp;<span class="actions">'+edit_action+'</span> | <span class="actions">'+show_action+'</span>';
-                       node += '<ul id="'+id+'"><li><span class="actions add-child">'+new_action+'</span></li></ul>';
-                       node += '</li>'
-                       if(level && level == 1) {
-                         $("#red").append(node);
-                       }else{
-                         $("#"+parent_id).append(node);
-                       }
-                    }
-                }
-               var new_action,edit_action, show_action;
-               <% @leveled_organizations.each do |organization| %>
-               new_action = '<%= link_to(t(:new), {:controller => "irm/organizations", :action => "new", :parent_id => organization.id },{:onclick => "event.stopPropagation()||(event.cancelBubble = true);"})%>',
-               edit_action = '<%= link_to(t(:edit),{:action=>"edit",:id=>organization.id}, {:onclick => "event.stopPropagation()||(event.cancelBubble = true);"}) %>',
-               show_action = '<%= link_to(t(:show),{:action=>"show",:id=>organization.id}, {:onclick => "event.stopPropagation()||(event.cancelBubble = true);"}) %>';
-               buildNode('<%= organization.id %>', '<%= organization.level %>','<%= organization[:name] %>','<%= organization[:parent_org_id] %>', new_action, edit_action, show_action);
-               <% end %>
-             $("#red").treeview({
-                animated: "fast",
-                control:"#sidetreecontrol",
-                collapsed: true,
-                unique: false,
-                persist: "cookie"
-             });
-           </script>
-
-         </ul>
+       <%= org_tree_data %>
+       <script type="text/javascript">
+         $("#organizations").treeview({
+            animated: "fast",
+            control:"#sidetreecontrol",
+            collapsed: true,
+            unique: false,
+            persist: "cookie"
+         });
+       </script>
      <% else %>
      <!--  irm datatable      -->
       <div class="datatable">

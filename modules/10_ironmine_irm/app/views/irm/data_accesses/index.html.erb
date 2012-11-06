@@ -98,8 +98,7 @@
         </td>
       </tr></table>
       <div class="page-block-body">
-        <%= datatable("menu_entries_list_#{data_access[:business_object_id]}",{:controller => "irm/data_share_rules", :action=>"get_share_rules", :business_object_id => data_access[:business_object_id]},[],{:search_box => "searchBox_#{data_access[:business_object_id]}",:paginator_box=>"paginatorBox_#{data_access[:business_object_id]}"}) %>
-
+        <%= datatable("data_accesses_#{data_access[:business_object_id]}",{:controller => "irm/data_share_rules", :action=>"get_share_rules", :business_object_id => data_access[:business_object_id]},[],{:search_box => "searchBox_#{data_access[:business_object_id]}",:paginator_box=>"paginatorBox_#{data_access[:business_object_id]}"}) %>
       </div>
     </div>
 <% end %>
