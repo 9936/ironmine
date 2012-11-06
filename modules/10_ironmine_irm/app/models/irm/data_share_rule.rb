@@ -18,71 +18,11 @@ class Irm::DataShareRule < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} access_level ON access_level.lookup_type='IRM_DATA_ACCESS_LEVEL' AND access_level.lookup_code = #{table_name}.access_level AND access_level.language= '#{language}'").
     select(" access_level.meaning access_level_name")
   }
+
+
   def self.list_all(business_object_id)
     share_rules=self.with_business_object(I18n.locale).with_access_level(I18n.locale).where("#{Irm::BusinessObject.view_name}.data_access_flag=? and #{table_name}.business_object_id=?",Irm::Constant::SYS_YES,business_object_id).
                 select("#{table_name}.*")
-    share_rules.collect do |r|
-      case r[:source_type]
-        when "IRM__ORGANIZATION"
-          org=Irm::Organization.multilingual.find(r[:source_id])
-          r[:source_name]=org[:name]
-          r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Organization.name)
-
-        when "IRM__ORGANIZATION_EXPLOSION"
-          org=Irm::Organization.multilingual.find(r[:source_id])
-          r[:source_name]=org[:name]
-          r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::OrganizationExplosion.name)
-
-        when "IRM__ROLE"
-          role=Irm::Role.multilingual.find(r[:source_id])
-          r[:source_name]=role[:name]
-          r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Role.name)
-
-        when "IRM_ROLE_EXPLOSION"
-          role=Irm::Role.multilingual.find(r[:source_id])
-          r[:source_name]=role[:name]
-          r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::RoleExplosion.anme)
-
-        when "IRM__GROUP"
-          group=Irm::Group.multilingual.find(r[:source_id])
-          r[:source_name]=group[:name]
-          r[:source_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Group.name)
-
-        else
-          nil
-      end
-
-      case r[:target_type]
-        when "IRM__ORGANIZATION"
-          org=Irm::Organization.multilingual.find(r[:target_id])
-          r[:target_name]=org[:name]
-          r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Organization.name)
-
-        when "IRM__ORGANIZATION_EXPLOSION"
-          org=Irm::Organization.multilingual.find(r[:target_id])
-          r[:target_name]=org[:name]
-          r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::OrganizationExplosion.name)
-
-        when "IRM__ROLE"
-          role=Irm::Role.multilingual.find(r[:target_id])
-          r[:target_name]=role[:name]
-          r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Role.name)
-
-        when "IRM_ROLE_EXPLOSION"
-          role=Irm::Role.multilingual.find(r[:target_id])
-          r[:target_name]=role[:name]
-          r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::RoleExplosion.anme)
-
-        when "IRM__GROUP"
-          group=Irm::Group.multilingual.find(r[:target_id])
-          r[:target_name]=group[:name]
-          r[:target_type]=Irm::BusinessObject.class_name_to_meaning(Irm::Group.name)
-
-        else
-          nil
-      end
-      r
-    end
 
   end
 end

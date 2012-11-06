@@ -9,7 +9,7 @@
     <td class="page-block-button">
       <%= link_to t(:edit), {:action => "edit", :id => @card},:class=>"btn btn-primary"%>
       <% if @card.system_flag == "N" %>
-        <%= link_to t(:label_irm_card_rule_edit), {:action => "edit_rule", :id => @card},:class => "btn"%>
+        <%= link_to t(:label_irm_card_rule_edit), {:action => "edit_rule", :id => @card},:class => "btn btn-info"%>
       <% end %>
       <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
     </td>

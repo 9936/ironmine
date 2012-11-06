@@ -2556,7 +2556,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/data_share_rules" => ["create", "destroy", "edit", "get_data", "get_option", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
+              "irm/data_share_rules" => ["create", "destroy", "edit", "get_data", "get_option", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","get_share_rules"],
           },
       }
   }
