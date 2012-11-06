@@ -73,19 +73,15 @@
                    </div>
                 </td>
                 <td>
-                  <div >
+                  <div>
                      <% organization.level.times do %>&nbsp;&nbsp;&nbsp;&nbsp;<%end%><%= organization[:name] %>(<%= organization.short_name %>)
                   </div>
                 </td>
                 <td>
-                  <div >
-                     <%= organization[:parent_org_name] %>
-                  </div>
+                  <div><%= organization[:parent_org_name] %></div>
                 </td>
                 <td>
-                  <div >
-                     <%= organization[:description] %>
-                  </div>
+                  <div><%= organization[:description] %></div>
                 </td>
               </tr>
               <% end -%>
