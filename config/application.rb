@@ -120,7 +120,7 @@ module Ironmine
       g.stylesheets false
       g.javascripts false
     end
-
+    config.middleware.insert_before "ActionDispatch::Cookies", "Middlewares::ClearDuplicatedSession"
 
   end
 end
