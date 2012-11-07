@@ -124,6 +124,16 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "icm/incident_journals" => ["apply_entry_header", "create", "get_entry_header_data", "index", "new", "get_incident_history_data"],
           },
+
+          :view_incident_journal_his => {
+              :en => {:name => "View Journal Histories", :description => "View Journal Histories"},
+              :zh => {:name => "查看问题历史", :description => "查看问题历史"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_journals" => ["get_incident_history_data"],
+          },
+
           :pass_incident_request => {
               :en => {:name => "Pass", :description => "Pass"},
               :zh => {:name => "转交", :description => "转交"},
