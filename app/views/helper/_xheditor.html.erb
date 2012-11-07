@@ -66,7 +66,7 @@
           inlineStyle: false,
           onPaste: function(sHtml){
               //过滤掉除了空格和换行的其他标签
-              sHtml = sHtml.replace(/<\/?(?!br|nbsp;)[^> ]*>/ig, '');
+              sHtml = sHtml.replace(/<\/?(?!br|nbsp;)[^>]*>/ig,'');
               if(sHtml.length > textAreaMaxLength){
                   alert("<%= t(:label_past_text_too_long) %>");
                   sHtml = sHtml.substring(0,textAreaMaxLength);
