@@ -31,6 +31,20 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
     end
   end
 
+  def hour_select(field, choices = [], options = {}, html_options = {})
+     if choices.empty?
+       choices = (0..23).collect{|i|[i,i]}
+     end
+     select(field, choices, options, html_options)
+  end
+
+  def minute_select(field, choices = [], options = {}, html_options = {})
+    if choices.empty?
+      choices = (0..59).collect{|i|[i,i]}
+    end
+    select(field, choices, options, html_options)
+  end
+
 
   def blank_select(field, choices, options = {}, html_options = {})
     options=(options||{}).merge({:include_blank=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---"})
