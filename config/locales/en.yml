@@ -306,3 +306,5 @@ en:
   label_add_file: Add File
   label_file_category: File type
   label_file_name: File name
+  label_text_too_long: Text content is too long so that the form could't be submit.
+  label_past_text_too_long: Text content is too long,and the part of verlength will be ignore,you should past it on a text first.
