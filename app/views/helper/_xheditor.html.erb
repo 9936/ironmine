@@ -54,7 +54,7 @@
           blur: function(){
               if($("#<%= textarea_id %>").val().length > textAreaMaxLength) {
                   alert("<%= t(:label_past_text_too_long) %>");
-                  $("#<%= textarea_id %>").val($("#<%= textarea_id %>").val().substring(0,textAreaMaxLength));
+                  $("#<%= textarea_id %>").val($("#<%= textarea_id %>").val().substring(0,textAreaMaxLength -1));
               }
               $(".xheLayout",$("#<%=textarea_id%>").parent()).removeClass("focused")
           },
@@ -69,7 +69,7 @@
               sHtml = sHtml.replace(/<\/?(?!br|nbsp;)[^>]*>/ig,'');
               if(sHtml.length > textAreaMaxLength){
                   alert("<%= t(:label_past_text_too_long) %>");
-                  sHtml = sHtml.substring(0,textAreaMaxLength);
+                  sHtml = sHtml.substring(0,textAreaMaxLength -1);
               }
               return sHtml;
           }
