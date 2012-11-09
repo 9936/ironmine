@@ -177,6 +177,8 @@ en:
   self: Self
   hide: Hide
   display: Show
+  lov_tooltip_text: If you don't know how to blank,you can click the search button to select a value.
+  lov_error_tooltip_text: Invaild value!Please try again or click the search button to select a value.
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type

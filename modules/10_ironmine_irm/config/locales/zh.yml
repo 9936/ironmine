@@ -168,6 +168,8 @@ zh:
   self: 自己
   hide: 隐藏
   display: 还原
+  lov_tooltip_text: 如果您不知道怎么填写，或者不能准确记住，请点击后边的搜索按钮查找选值.
+  lov_error_tooltip_text: 您所填写的值不合法，请重新填写或点击查找按钮进行选值.
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型

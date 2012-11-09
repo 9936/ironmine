@@ -200,7 +200,7 @@ class Irm::ListOfValuesController < ApplicationController
           value = label = false
           status = 'fail'
         end
-        render :json => {:value=> value, :label => label, :status => status}
+        render :json => {:value=> value, :label => label, :status => status, :num => @datas.count}
       }
     end
 
