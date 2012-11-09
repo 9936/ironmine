@@ -1153,6 +1153,8 @@ zh:
   label_irm_list_of_value_new: 新建值列表
   label_irm_list_of_value_edit: 编辑值列表
   label_irm_list_of_value_test_information: 值列表测试结果
+  label_irm_list_of_value_go: 转至
+  label_irm_list_of_value_use_percentages: 可使用"%"作为通配符跟在其它字符后面以提高搜索效率。
   #======================== end list of values====================
   #======================== wf settings====================
   label_irm_wf_setting_new: 工作流设置
