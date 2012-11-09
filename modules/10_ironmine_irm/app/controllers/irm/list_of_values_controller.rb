@@ -186,7 +186,24 @@ class Irm::ListOfValuesController < ApplicationController
       params[:lksrch] = "%"
     end
     @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid],params)
-    render :layout => "frame"
+    respond_to do |format|
+      format.html {render :layout => "frame"}
+      format.json {
+        if @datas.count == 1
+          label_field = @fields.detect{|i| i[:label]}
+          value_field = @fields.detect{|i| i[:value_field]}
+          data = @datas.first
+          value = data[value_field[:key]]
+          label = data[label_field[:key]]
+          status = 'success'
+        else
+          value = label = false
+          status = 'fail'
+        end
+        render :json => {:value=> value, :label => label, :status => status}
+      }
+    end
+
   end
 
   def lov_value

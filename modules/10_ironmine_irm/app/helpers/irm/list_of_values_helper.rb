@@ -39,20 +39,48 @@ module Irm::ListOfValuesHelper
     end
 
     hidden_tag_str = hidden_field_tag(name,value,{:name=>options.delete(:name)||name,:id=>lov_field_id,:href=>url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)})
-    label_tag_str = text_field_tag("#{name.to_s.gsub("[","_").gsub("]","")}_label",label_value,options.merge(:id=>"#{lov_field_id}_label",:onchange=>"clearLookup('#{lov_field_id}')"))
+    label_tag_str = text_field_tag("#{name.to_s.gsub("[","_").gsub("]","")}_label",label_value,options.merge(:id=>"#{lov_field_id}_label",:placeholder => "",:onchange=>"clearLookup('#{lov_field_id}')"))
+
+    onblur_script = %Q(
+      $(document).ready(function(){
+         $("##{lov_field_id}_label").bind('blur',function(e){
+           var url = '#{url_for(:controller => "irm/list_of_values",:action=>"lov_result",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val();
+           url = url.replace(/%/g, '%25');
+           url += '&_dom_id=null';
+           $.ajax({
+             url:encodeURI(url),
+             type:"GET",
+             dataType:"json",
+             error: function(data){},
+             success: function(data){
+                var parent_forms = $("##{lov_field_id}").parents("form");
+                if(data.status == 'success'){
+                  $(parent_forms[0]).removeAttr("lov-data-error");
+                  $("##{lov_field_id}").val(data.value);
+                  $("##{lov_field_id}_label").val(data.label);
+                }else{
+                  $("##{lov_field_id}").val('');
+                  //openLookup(url.replace(/lov_result/g, 'lov'),670);
+                  //$(parent_forms[0]).attr("lov-data-error", "#{lov_field_id}");
+                }
+             }
+           });
+         })
+      });
+    )
 
     link_click_action = %Q(javascript:openLookup('#{url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
 
     if limit_device?
-      lov_link_str = link_to({},{:class=>"btn lov-btn add-on",:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
+      lov_link_str = link_to({},{:id => "#{lov_field_id}_btn",:class=>"btn lov-btn add-on",:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
         lov_text.html_safe
       end
     else
-      lov_link_str = link_to({},{:class=>"btn lov-btn",:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
+      lov_link_str = link_to({},{:id => "#{lov_field_id}_btn",:class=>"btn lov-btn",:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
         content_tag(:i,"",{:class=>"icon-search"}).html_safe
       end
     end
-    content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str,{:class=>"form-inline input-append"},false)
+    content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str+javascript_tag(onblur_script),{:class=>"form-inline input-append"},false)
 
   end
 

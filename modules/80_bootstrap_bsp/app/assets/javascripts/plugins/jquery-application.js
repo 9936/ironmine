@@ -321,8 +321,10 @@ function setLastMousePosition(a) {
 }
 
 function openLookup(url, width) {
+    url = url.replace(/%/,'%25');
     openPopup(url, "lookup", 350, 480, "width=" + width + ",height=480,left="+(screen.width-width)/2+",top="+(screen.height-480)+",toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", true)
 }
+
 
 function openPopup(url, name, positionX, positionY, frameParams) {
     closePopup();
