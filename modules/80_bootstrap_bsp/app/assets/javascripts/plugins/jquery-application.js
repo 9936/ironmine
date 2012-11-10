@@ -36,6 +36,10 @@ $(function(){
       if($(this).attr("disabled") || $(this).hasClass('disabled')){
           return false;
       }
+      if($(this).attr('open-lov-first')){
+          openLookup($(this).attr('open-lov-first'),670);
+          return false;
+      }
       if(parent_forms[0]){
         //对a的属性设置为target=_blank做特殊处理
         if($(this).attr("target") == '_blank' && typeof $(parent_forms[0]).attr('nomask') == 'undefined' ){
@@ -56,7 +60,10 @@ $(function(){
         if($(this).attr("disabled") || $(this).hasClass('disabled')){
             return false;
         }
-
+        if($(this).attr('open-lov-first')){
+            openLookup($(this).attr('open-lov-first'),670);
+            return false;
+        }
         if(parent_forms[0]){
             var origin_target =  $(parent_forms[0]).attr("target");
             var origin_action = $(parent_forms[0]).attr("action");
@@ -228,6 +235,7 @@ $(function(){
     $("input[type=file]").live({change:function(){
         checkAttachment(this, 1024*1024*10);
     }});
+    $("input").placeholder();
 });
 
 var autoChooseFirst = function(element){
@@ -321,7 +329,7 @@ function setLastMousePosition(a) {
 }
 
 function openLookup(url, width) {
-    url = url.replace(/%/,'%25');
+    url = encodeURI(url);
     openPopup(url, "lookup", 350, 480, "width=" + width + ",height=480,left="+(screen.width-width)/2+",top="+(screen.height-480)+",toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", true)
 }
 
@@ -357,10 +365,21 @@ function closePopup() {
 
 function lookupPick(fieldId,value,valueLabel,data){
     $("#"+fieldId).val(value);
+    //移除提示框中的错误信息
+    if($("#"+fieldId+"Tip").hasClass("alert-error")){
+        $("#"+fieldId+"Tip").removeClass("alert-error");
+        $("#"+fieldId+"Tip").html($("#"+fieldId+"Tip").attr("tooltip-text"));
+    }
+    var parent_forms = $("#"+fieldId).parents("form");
+    $('a[type=submit]', $(parent_forms[0])).removeAttr('open-lov-first');
+    $('a.submit', $(parent_forms[0])).removeAttr('open-lov-first');
+
     $("#"+fieldId+"_label").val(valueLabel);
+    $("#"+fieldId+"_label").attr("data-old-value",valueLabel);
     $("#"+fieldId+"_label").focus();
     $("#"+fieldId).data("lov",data);
     $("#"+fieldId).trigger("change");
+
     closePopup();
 }
 
