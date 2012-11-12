@@ -36,10 +36,17 @@ class Irm::Profile < ActiveRecord::Base
 
   def function_ids
     return @function_ids if @function_ids
-    operation_unit_function_ids = Irm::OperationUnit.current.function_ids
-    profile_function_ids = self.profile_functions.collect{|i| i.function_id}
-    sub_function_ids = profile_function_ids - operation_unit_function_ids
-    @function_ids = profile_function_ids - sub_function_ids
+    if Irm::Constant::SYS_YES.eql?(self.system_flag)
+      operation_unit_function_ids = Irm::OperationUnit.current.system_function_ids
+      profile_function_ids = self.profile_functions.collect{|i| i.function_id}
+      @function_ids = operation_unit_function_ids&profile_function_ids
+    else
+      operation_unit_function_ids = Irm::OperationUnit.current.function_ids
+      profile_function_ids = self.profile_functions.collect{|i| i.function_id}
+      @function_ids = operation_unit_function_ids&profile_function_ids
+    end
+
+
   end
 
   def system_flag?

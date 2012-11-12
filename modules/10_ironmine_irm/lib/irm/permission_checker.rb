@@ -6,6 +6,9 @@ class Irm::PermissionChecker
     url_options.symbolize_keys!
     assigned_to_functions = Irm::MenuManager.permissions[Irm::Permission.url_key(url_options[:page_controller]||url_options[:controller],url_options[:page_action]||url_options[:action])]
     assigned_to_functions||=[]
+    if url_options[:sid].present?
+      assigned_to_functions = assigned_to_functions.collect{|i| i.gsub("{sid}","#{url_options[:sid]}")}
+    end
     if assigned_to_functions
       public_functions = Irm::MenuManager.public_functions
       return true if assigned_to_functions.detect{|f| public_functions.include?(f)}
@@ -25,13 +28,15 @@ class Irm::PermissionChecker
   end
 
 
-  def self.allow_to_function?(function_code)
+  def self.allow_to_function?(function_code,sid=nil)
     function = Irm::Function.where(:code=>function_code.to_s.upcase).first
     return false unless function
     return true if Irm::MenuManager.public_functions.include?(function.id)
     return false unless Irm::Person.current.logged?
     return true if Irm::MenuManager.login_functions.include?(function.id)
-    Irm::Person.current.allowed_to?([function.id])
+    function_ids =  [function.id]
+    function_ids = ["#{sid}_#{function.id}"] if sid.present?
+    Irm::Person.current.allowed_to?(function_ids)
   end
 
 end

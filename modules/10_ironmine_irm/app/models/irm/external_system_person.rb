@@ -11,4 +11,10 @@ class Irm::ExternalSystemPerson < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
+  scope :function_ids_by_person,lambda{|person_id |
+    select("#{self.table_name}.external_system_id,#{Irm::ProfileFunction.table_name}.function_id").
+     joins("JOIN #{Irm::ProfileFunction.table_name} ON #{Irm::ProfileFunction.table_name}.profile_id = #{self.table_name}.system_profile_id").
+         where("#{self.table_name}.person_id = ? AND #{self.table_name}.system_profile_id IS NOT NULL",person_id)
+  }
+
 end

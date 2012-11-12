@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
 
   # 检查用户的权限
   def check_permission
-    if Irm::Person.current.logged?&&!Irm::PermissionChecker.allow_to_url?({:controller=>params[:controller],:action=>params[:action]})
+    if Irm::Person.current.logged?&&!Irm::PermissionChecker.allow_to_url?({:controller=>params[:controller],:action=>params[:action],:sid=>params[:sid]})
         flash[:error]=t(:access_denied,:permission=>"#{params[:controller]}/#{params[:action]}")
         if request.xhr?
           redirect_to({:controller => 'irm/navigations', :action => 'access_deny', :format => "json"})
@@ -384,8 +384,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-    def allow_to_function?(function)
-      Irm::PermissionChecker.allow_to_function?(function)
+    def allow_to_function?(function,sid=nil)
+      Irm::PermissionChecker.allow_to_function?(function,sid)
     end
 
   def public_permission?

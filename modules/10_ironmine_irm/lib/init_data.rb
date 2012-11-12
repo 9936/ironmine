@@ -2610,6 +2610,7 @@ Fwk::MenuAndFunctionManager.map do |map|
 
   #=================================START:REMOTE_ACCESS_CLIENT=================================
   map.function_group :remote_access_client, {
+      :system_flag=>"Y",
       :en => {:name => "Remote Access", :description => "Remote Access"},
       :zh => {:name => "远程访问", :description => "远程访问"}, }
   map.function_group :remote_access_client, {
