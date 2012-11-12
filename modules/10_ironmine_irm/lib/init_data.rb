@@ -2631,7 +2631,7 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================START:RATING_CONFIG=================================
   map.function_group :rating_config, {
       :en => {:name => "Config Rating", :description => "Config Rating"},
-      :zh => {:name => "评价设置", :description => "评价设置"}, }
+      :zh => {:name => "评价设置", :description => "评价设置"} }
   map.function_group :rating_config, {
       :zone_code => "SYSTEM_CREATE",
       :controller => "irm/rating_configs",
