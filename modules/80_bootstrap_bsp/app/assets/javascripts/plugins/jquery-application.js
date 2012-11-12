@@ -235,7 +235,7 @@ $(function(){
     $("input[type=file]").live({change:function(){
         checkAttachment(this, 1024*1024*10);
     }});
-    $("input").placeholder();
+//    $("input").placeholder();
 });
 
 var autoChooseFirst = function(element){

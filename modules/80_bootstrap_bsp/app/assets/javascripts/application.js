@@ -11,7 +11,6 @@
 //= require global/global_variables
 //= require plugins/jquery-extend
 //= require plugins/jquery-plugin
-//= require plugins/jquery-placeholder
 //= require plugins/jquery-treeview
 //= require plugins/jquery-treeview-async
 //= require plugins/jquery-application
