@@ -80,6 +80,7 @@ module Irm::ListOfValuesHelper
                   $("##{lov_field_id}_label").val(data.label);
                   $("##{lov_field_id}Tip").removeClass("alert-error");
                   $("##{lov_field_id}Tip").html("#{t(:lov_tooltip_text)}");
+                  $("##{lov_field_id}").trigger("change");
                   if(relationSubmit === 'true'){
                     $('a[type=submit]', $(parent_forms[0])).removeAttr('open-lov-first');
                     $('a.submit', $(parent_forms[0])).removeAttr('open-lov-first');
