@@ -398,6 +398,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
     return_val
   end
 
+  def last_reply_journal
+    self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at DESC").first
+  rescue
+    nil
+  end
+
   def need_customer_reply
   # if the request is closed
    return "C" if self.close?
