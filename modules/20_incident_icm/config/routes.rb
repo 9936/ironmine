@@ -184,5 +184,11 @@ Ironmine::Application.routes.draw do
     match '/assign_rules/get_data(.:format)' => "assign_rules#get_data"
     match '/assign_rules/:id/show(.:format)' => "assign_rules#show", :via => :get
     match '/assign_rules/:id/switch_status_code(.:format)' => "assign_rules#switch_status_code", :via => :get
+
+    #System setting
+    match '/systems/:sid/incident_statuses(.:format)' => "systems#index", :via => :get
+    match '/systems/:sid/edit_transform(.:format)' => "systems#edit_transform",:via => :get
+    match '/systems/:sid/update_transform(.:format)' => "systems#update_transform", :via => :post
+
   end
 end

@@ -291,3 +291,7 @@ en:
   label_icm_assign_rule_join_type: Join Type
   label_icm_chose_group: Chose Group
   #========================= End Assign rule ====================================
+
+  #========================= System setting ====================================
+  label_icm_system_incident_status: Incident Status
+  #========================= End System setting ====================================

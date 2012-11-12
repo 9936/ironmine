@@ -287,3 +287,7 @@ zh:
   label_icm_assign_rule_join_type: 条件连接
   label_icm_chose_group: 选择组
   #========================= End Assign rule ====================================
+
+  #========================= System setting ====================================
+  label_icm_system_incident_status: 事故单状态
+  #========================= End System setting ====================================

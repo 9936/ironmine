@@ -90,7 +90,7 @@ class Icm::IncidentStatusesController < ApplicationController
     if(params[:status_transforms])
       params[:status_transforms].each do |from_status_id,to_statuses|
         to_statuses.each do |to_status_id,event|
-          exists_status_transform = Icm::StatusTransform.where(:from_status_id=>from_status_id,:to_status_id=>to_status_id).first
+          exists_status_transform = Icm::StatusTransform.with_global.where(:from_status_id=>from_status_id,:to_status_id=>to_status_id).first
           if(exists_status_transform)
             if(event.present?)
               exists_status_transform.update_attribute(:event_code,event)

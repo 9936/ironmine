@@ -932,8 +932,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/search" => ["index"],
               "irm/session_settings" => ["timeout_warn"],
               "irm/setting" => ["common"],
-              "irm/filters" => ["operator_value"],
-              "irm/systems" => ["index","show","add_people","delete_people"]
+              "irm/filters" => ["operator_value"]
           },
 
           :home_page => {
@@ -2652,4 +2651,19 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #=================================END:RATING_CONFIG=================================
+
+  #=================================START: SYSTEM SETTING=================================
+  map.function_group :home_page, {
+      :children => {
+          :systems_setting => {
+              :en => {:name => "System Setting", :description => "System Setting"},
+              :zh => {:name => "系统设置", :description => "系统设置"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/systems" => ["index","show","add_people","delete_people"]
+          }
+      }
+  }
+  #=================================END: SYSTEM SETTING=================================
 end
