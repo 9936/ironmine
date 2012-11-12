@@ -87,9 +87,11 @@ module Irm::ListOfValuesHelper
                 }else{
                   $("##{lov_field_id}_label").attr('data-old-value', $("##{lov_field_id}_label").val());
                   $("##{lov_field_id}").val('');
-                  $("##{lov_field_id}Tip").addClass("alert-error");
-                  $("##{lov_field_id}Tip").html("#{t(:lov_error_tooltip_text)}");
-                  $("##{lov_field_id}_label").focus();
+                  if(data.num == 0){
+                    $("##{lov_field_id}Tip").addClass("alert-error");
+                    $("##{lov_field_id}Tip").html("#{t(:lov_error_tooltip_text)}");
+                    $("##{lov_field_id}_label").focus();
+                  }
                   url = url.replace(/lov_result/,'lov');
                   if(data.num > 1){
                      openLookup(url,670);
