@@ -343,7 +343,7 @@ class Irm::Person < ActiveRecord::Base
     if self.profile
       @function_ids = @function_ids + self.profile.function_ids
     end
-    @function_ids = @function_ids + Irm::ExternalSystem.function_ids_by_person.collect{|i| "#{i.external_system_id}_#{i[:function_id]}"}
+    @function_ids = @function_ids + Irm::ExternalSystemPerson.function_ids_by_person(self.id).collect{|i| "#{i.external_system_id}_#{i[:function_id]}"}
     @function_ids.uniq!
     return @function_ids
   end
