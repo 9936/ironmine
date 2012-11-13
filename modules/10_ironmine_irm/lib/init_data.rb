@@ -2652,17 +2652,45 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================END:RATING_CONFIG=================================
 
   #=================================START: SYSTEM SETTING=================================
-  map.function_group :home_page, {
+  #map.function_group :home_page, {
+  #    :children => {
+  #        :systems_setting => {
+  #            :en => {:name => "System Setting", :description => "System Setting"},
+  #            :zh => {:name => "系统设置", :description => "系统设置"},
+  #            :default_flag => "N",
+  #            :login_flag => "N",
+  #            :public_flag => "N",
+  #            "irm/systems" => ["index","show","add_people","delete_people"]
+  #        }
+  #    }
+  #}
+  #=================================END: SYSTEM SETTING=================================
+  map.function_group :systems_setting, {
+      :en => {:name => "System Setting", :description => "System Setting"},
+      :zh => {:name => "系统设置", :description => "系统设置"},
+      :system_flag => 'Y' }
+  map.function_group :systems_setting, {
+      :zone_code => "SYSTEM_CUSTOM",
+      :controller => "irm/systems",
+      :action => "index"}
+  map.function_group :systems_setting, {
       :children => {
-          :systems_setting => {
-              :en => {:name => "System Setting", :description => "System Setting"},
-              :zh => {:name => "系统设置", :description => "系统设置"},
+          :systems_info => {
+              :en => {:name => "System Info", :description => "System info"},
+              :zh => {:name => "系统信息", :description => "系统信息"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/systems" => ["index","show","add_people","delete_people"]
+              "irm/systems" => ["index","show"]
+          },
+          :systems_manage_people => {
+              :en => {:name => "Manage People", :description => "Manage People"},
+              :zh => {:name => "管理成员", :description => "管理成员"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/systems" => ["add_people","delete_people"]
           }
       }
   }
-  #=================================END: SYSTEM SETTING=================================
 end
