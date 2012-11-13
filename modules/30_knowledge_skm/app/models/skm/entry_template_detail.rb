@@ -28,21 +28,21 @@ class Skm::EntryTemplateDetail < ActiveRecord::Base
     1
   end
   
-  def pre_detail
-    pre_detail = Skm::EntryTemplateDetail.where(:entry_template_id => self.entry_template_id).where("line_num < ?", self.line_num).order("line_num DESC").first()
-    if pre_detail then
-      pre_detail
-    else
-      self
-    end
-  end
-
-  def next_detail
-    next_detail = Skm::EntryTemplateDetail.where(:entry_template_id => self.entry_template_id).where("line_num > ?", self.line_num).order("line_num ASC").first()
-    if next_detail then
-      next_detail 
-    else
-      self
-    end
-  end
+  #def pre_detail
+  #  pre_detail = Skm::EntryTemplateDetail.where(:entry_template_id => self.entry_template_id).where("line_num < ?", self.line_num).order("line_num DESC").first()
+  #  if pre_detail then
+  #    pre_detail
+  #  else
+  #    self
+  #  end
+  #end
+  #
+  #def next_detail
+  #  next_detail = Skm::EntryTemplateDetail.where(:entry_template_id => self.entry_template_id).where("line_num > ?", self.line_num).order("line_num ASC").first()
+  #  if next_detail then
+  #    next_detail
+  #  else
+  #    self
+  #  end
+  #end
 end

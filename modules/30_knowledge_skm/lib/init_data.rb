@@ -139,7 +139,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/entry_templates" => ["add_elements", "create", "down_element", "edit", "edit_detail", "get_available_elements", "get_data", "get_data_rest", "get_owned_elements_data", "index", "new", "remove_element", "select_elements", "show", "update", "update_detail", "up_element"],
+              "skm/entry_templates" => ["add_elements", "create", "edit", "edit_detail", "get_available_elements", "get_data", "get_data_rest", "get_owned_elements_data", "index", "new", "remove_element", "select_elements", "show", "update", "update_detail","switch_sequence"],
           },
       }
   }

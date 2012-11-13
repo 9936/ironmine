@@ -2207,7 +2207,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/kanbans" => ["add_lanes", "create", "delete_lane", "down_lane", "edit", "get_available_lanes", "get_data", "get_owned_lanes", "index", "new", "refresh_my_kanban", "select_lanes", "show", "update", "up_lane"],
+              "irm/kanbans" => ["add_lanes", "create", "delete_lane", "edit", "get_available_lanes", "get_data", "get_owned_lanes", "index", "new", "refresh_my_kanban", "select_lanes", "show", "update", "switch_sequence"],
           },
           :view_kanban => {
               :en => {:name => "View Signboard", :description => "View Signboard"},
@@ -2557,7 +2557,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/data_share_rules" => ["create", "destroy", "edit", "get_data", "get_option", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
+              "irm/data_share_rules" => ["create", "destroy", "edit", "get_data", "get_option", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","get_share_rules"],
           },
       }
   }
@@ -2632,7 +2632,7 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================START:RATING_CONFIG=================================
   map.function_group :rating_config, {
       :en => {:name => "Config Rating", :description => "Config Rating"},
-      :zh => {:name => "评价设置", :description => "评价设置"}, }
+      :zh => {:name => "评价设置", :description => "评价设置"} }
   map.function_group :rating_config, {
       :zone_code => "SYSTEM_CREATE",
       :controller => "irm/rating_configs",

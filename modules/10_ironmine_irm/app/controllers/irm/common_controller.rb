@@ -62,6 +62,11 @@ class Irm::CommonController < ApplicationController
       user_token = Irm::UserToken.where(:token_type => params[:type], :token => params[:pwd_token], :status_code => "ENABLED").first
       if user_token.present? && !user_token.expired?
         @person = user_token.person
+        #将当前的语言设置为用户设置的语言
+        if @person.language_code
+          lang = find_language(@person.language_code)
+          set_language_if_valid(lang)
+        end
       end
     end
   end

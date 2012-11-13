@@ -4,8 +4,8 @@
     <%= hidden_params_field(:lkfid) %>
     <%= hidden_params_field(:lkvfid) %>
     <input type="text" class="input-medium search-query" id="lksrch"  placeholder="<%= t(:search) %>" maxlength="80" name="lksrch" size="20" value="<%=params[:lksrch]%>">
-    <button type="submit" class="btn" name="go" title="转至！"> 转至！ </button>
-    <span class="help-inline">可使用"%"作为通配符跟在其它字符后面以提高搜索效率。</span>
+    <button type="submit" class="btn" name="go" title="<%= I18n.t(:label_irm_list_of_value_go)%>"><%= I18n.t(:label_irm_list_of_value_go)%></button>
+    <span class="help-inline"><%= I18n.t(:label_irm_list_of_value_use_percentages)%></span>
   <% end %>
 </body>
 

@@ -31,6 +31,20 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
     end
   end
 
+  def hour_select(field, choices = [], options = {}, html_options = {})
+     if choices.empty?
+       choices = (0..23).collect{|i|[i,i]}
+     end
+     select(field, choices, options, html_options)
+  end
+
+  def minute_select(field, choices = [], options = {}, html_options = {})
+    if choices.empty?
+      choices = (0..59).collect{|i|[i,i]}
+    end
+    select(field, choices, options, html_options)
+  end
+
 
   def blank_select(field, choices, options = {}, html_options = {})
     options=(options||{}).merge({:include_blank=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---"})
@@ -41,6 +55,8 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
   def lov_field(field, lov_code, options = {}, html_options = {})
     lov_field_id =  options.delete(:id)||field
+    relation_submit = options.delete(:relation_submit) || false
+
     bo = nil
 
     # 使用业务对像的id作为lov_code
@@ -80,6 +96,77 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
     hidden_tag_str = hidden_field(field,{:id=>lov_field_id,:href=>@template.url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)})
     label_tag_str = @template.text_field_tag("#{field}_label",label_value,options.merge(:id=>"#{lov_field_id}_label",:onchange=>"clearLookup('#{lov_field_id}')",:normal=>true))
 
+
+    onblur_script = %Q(
+      $(document).ready(function(){
+         var width = $("##{lov_field_id}Box").width(),relationSubmit = "#{relation_submit}";;
+         if(width == 0) width = 150;
+         $("##{lov_field_id}Tip").css("width",width + "px");
+         var parent_forms = $("##{lov_field_id}").parents("form");
+         if(!$(parent_forms[0]).attr('id')){
+           $(parent_forms[0]).attr('id','#{lov_field_id}Form');
+         }
+         //show tip text
+         $("##{lov_field_id}_label").bind('focus', function(){
+           $("##{lov_field_id}Tip").show();
+         });
+
+         $("##{lov_field_id}_label").bind('blur',function(e){
+           $("##{lov_field_id}Tip").hide();
+           if($("##{lov_field_id}_label").val() === '' || $("##{lov_field_id}_label").val() === $("##{lov_field_id}_label").attr("placeholder")){
+             $("##{lov_field_id}Tip").removeClass("alert-error");
+             $("##{lov_field_id}Tip").html("#{I18n.t(:lov_tooltip_text)}");
+             return false;
+           }
+           if($("##{lov_field_id}_label").val() === $("##{lov_field_id}_label").attr('data-old-value')){
+             return false;
+           }
+           var url = '#{@template.url_for(:controller => "irm/list_of_values",:action=>"lov_result",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val();
+           //url = url.replace(/%/g, '%25');
+           url += '&_dom_id='+$(parent_forms[0]).attr('id');
+           $.ajax({
+             url:encodeURI(url),
+             type:"GET",
+             dataType:"json",
+             error: function(data){},
+             success: function(data){
+                if(data.status == 'success'){
+                  $("##{lov_field_id}_label").attr('data-old-value', data.label);
+                  lookupPick("#{lov_field_id}",data.value,data.label,data);
+                  //$("##{lov_field_id}").val(data.value);
+                  //$("##{lov_field_id}").data("lov",data);
+                  //$("##{lov_field_id}").trigger("change");
+                  //$("##{lov_field_id}_label").val(data.label);
+                  //$("##{lov_field_id}Tip").removeClass("alert-error");
+                  //$("##{lov_field_id}Tip").html("#{I18n.t(:lov_tooltip_text)}");
+                  //if(relationSubmit === 'true'){
+                   // $('a[type=submit]', $(parent_forms[0])).removeAttr('open-lov-first');
+                   // $('a.submit', $(parent_forms[0])).removeAttr('open-lov-first');
+                 // }
+                }else{
+                  $("##{lov_field_id}_label").attr('data-old-value', $("##{lov_field_id}_label").val());
+                  $("##{lov_field_id}").val('');
+                  if(data.num == 0){
+                    $("##{lov_field_id}Tip").addClass("alert-error");
+                    $("##{lov_field_id}Tip").html("#{I18n.t(:lov_error_tooltip_text)}");
+                    $("##{lov_field_id}_label").focus();
+                  }
+                  url = url.replace(/lov_result/,'lov');
+                  if(data.num > 1){
+                     openLookup(url,670);
+                  }
+                  if(relationSubmit === 'true'){
+                    $('a[type=submit]', $(parent_forms[0])).attr('open-lov-first', url);
+                    $('a.submit', $(parent_forms[0])).attr('open-lov-first',url);
+                  }
+                }
+             }
+           });
+         })
+      });
+    )
+
+
     link_click_action = %Q(javascript:openLookup('#{@template.url_for(:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
 
     if @template.limit_device?
@@ -91,7 +178,9 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
         @template.content_tag(:i,"",{:class=>"icon-search"}).html_safe
       end
     end
-    wrapped_field(@template.content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str,{:class=>"from-inline input-append"},false),field,options)
+    tooltip = @template.content_tag(:div,I18n.t(:lov_tooltip_text),{:id => "#{lov_field_id}Tip",:class => "alert fade in",:style => "z-index:99;position:absolute;display:none;padding:5px;","tooltip-text" => I18n.t(:lov_tooltip_text), "tooltip-error-text" => I18n.t(:lov_error_tooltip_text)})
+
+    wrapped_field(@template.content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str+@template.javascript_tag(onblur_script)+tooltip,{:class=>"from-inline input-append"},false),field,options)
 
   end
 

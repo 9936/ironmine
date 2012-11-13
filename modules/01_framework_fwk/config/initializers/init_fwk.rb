@@ -34,6 +34,9 @@ Delayed::Worker.backend=:active_record
 ActiveModel::Errors.send(:include, Fwk::ModelErrors)
 # 修改paperclip的验证方法,添加对Proc的支持
 Paperclip::ClassMethods.send(:include, Fwk::PaperclipValidator)
+
+require 'active_support/values/time_zone'
+ActiveSupport::TimeZone.send(:include, Fwk::ExtendsTimeZone)
 # 配置paperclip
 # Paperclip.options[:command_path] = "C:/Applications/ImageMagick-6.6.7-Q16"
 Paperclip::Attachment.default_options[:url] = "/upload/:class/:id/:style/:basename.:extension"
@@ -86,7 +89,7 @@ end
 rails_config.fwk.jscss.merge!({
                                   :default => {:css => ["application"], :js => ["application", "locales/jquery-{locale}"]},
                                   :default_ie6 => {:css => ["application-ie6"], :js => ["application", "locales/jquery-{locale}","ie6"]},
-                                  :aceditor => {:js => ["plugins/ace"]},
+                                  :aceditor => {:js => ["plugins/ace"],:css => ["plugins/ace"]},
                                   :xheditor => {:css => ["plugins/xheditor"], :js => ["plugins/xheditor/xheditor-{locale}"]},
                                   :jpolite => {:css => ["plugins/jpolite"], :js => ["plugins/jpolite"]},
                                   :jcrop => {:css => ["plugins/jcrop"], :js => ["plugins/jquery-crop"]},

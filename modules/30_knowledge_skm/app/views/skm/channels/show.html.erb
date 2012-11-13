@@ -69,10 +69,13 @@
       <td class="page-block-button">
         <%= link_to t(:label_skm_channel_approval_management), {:controller=>"skm/channels",:action => "new_approvals",:id=>@channel.id},:class=>"btn btn-primary"%>
       </td>
+      <td class="page-block-help">
+        <div id="searchApprovalPeople"></div>
+      </td>
     </tr>
   </table>
   <div class="page-block-body">
-     <%= datatable("approvalPeople",{:controller=>"skm/channels",:action=>"get_owned_approvals_data",:id=>@channel.id},[],{:paginator_box=>"approvalPeoplePaginatorBox"})%>
+     <%= datatable("approvalPeople",{:controller=>"skm/channels",:action=>"get_owned_approvals_data",:id=>@channel.id},[],{:search_box => "searchApprovalPeople",:paginator_box=>"approvalPeoplePaginatorBox"})%>
   </div>
 </div>
 <!-- 所属组 -->
@@ -85,10 +88,13 @@
       <td class="page-block-button">
         <%= link_to t(:label_skm_channel_group_management), {:controller=>"skm/channels",:action => "new_groups",:id=>@channel.id},:class=>"btn btn-primary"%>
       </td>
+      <td class="page-block-help">
+        <div id="searchGroup"></div>
+      </td>
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("groupList",{:controller=>"skm/channels",:action=>"get_owned_groups_data",:id=>@channel.id},[],{:paginator_box=>"groupPaginatorBox"})%>
+    <%= datatable("groupList",{:controller=>"skm/channels",:action=>"get_owned_groups_data",:id=>@channel.id},[],{:search_box => "searchGroup",:paginator_box=>"groupPaginatorBox"})%>
   </div>
 </div>
 

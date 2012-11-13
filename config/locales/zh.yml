@@ -312,3 +312,5 @@ zh:
   label_add_file: 添加附件
   label_file_category: 文件类型
   label_file_name: 文件名
+  label_text_too_long: 输入的文本太长,无法进行提交.
+  label_past_text_too_long: 输入的文本太长，多出的部分将会被截忽略，你可一先将内容粘贴到记事本中，然后再复制过来。

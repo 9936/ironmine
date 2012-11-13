@@ -398,6 +398,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
     return_val
   end
 
+  def last_reply_journal
+    self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at DESC").first
+  rescue
+    nil
+  end
+
   def need_customer_reply
   # if the request is closed
    return "C" if self.close?
@@ -473,7 +479,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   def vip_person_ids
     return @related_person_ids if @related_person_ids
-    @related_person_ids = Irm::Person.where("vip_flag = ?", Irm::Constant::SYS_YES).enabled
+    @related_person_ids = Irm::Person.where("vip_flag = ?", Irm::Constant::SYS_YES).enabled.collect(&:id)
   end
 
   def group_vip_person_ids
@@ -486,7 +492,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         where("gm.person_id = #{Irm::Person.table_name}.id").
         where("sg.id = ?", self.support_group_id).
         where("#{Irm::Person.table_name}.vip_flag = ?", Irm::Constant::SYS_YES).
-        enabled
+        enabled.collect(&:id)
   end
 
   def support_group_member_ids
@@ -498,7 +504,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         where("gm.group_id = sg.group_id").
         where("gm.person_id = #{Irm::Person.table_name}.id").
         where("sg.id = ?", self.support_group_id).
-        enabled
+        enabled.collect(&:id)
   end
 
   def watcher?(person_id)

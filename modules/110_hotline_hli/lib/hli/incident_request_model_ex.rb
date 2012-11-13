@@ -57,6 +57,10 @@ module Hli::IncidentRequestModelEx
         #Icm::IncidentRequest.where("#{Icm::IncidentRequest.table_name}.id IN (?)", incident_request_ids).list_all
       end
 
+      scope :with_external_system, lambda{|language|
+        joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").
+            select("external_system.system_name external_system_name, external_system.system_description project_info")
+      }
       #scope :relate_person,lambda{|person_id|
       #  where(%Q(EXISTS(SELECT 1 FROM
       #            #{Irm::Watcher.table_name} watcher

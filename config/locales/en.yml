@@ -300,9 +300,11 @@ en:
   label_http_exception_save_as_file: Save Error Message
   label_http_exception_system_error: System internal error,please contact administrator
   #=========end http error====================
-  label_submit_replay: Subbmit Reply
+  label_submit_replay: Submit Reply
   label_shortcuts_submit_form: After enter content and press <code>Ctrl</code> + <code>Enter</code> to submit form
   label_go_to_top: Go To Top
   label_add_file: Add File
   label_file_category: File type
   label_file_name: File name
+  label_text_too_long: Text content is too long so that the form could't be submit.
+  label_past_text_too_long: Text content is too long,and the part of verlength will be ignore,you should past it on a text first.

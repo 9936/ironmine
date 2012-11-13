@@ -106,7 +106,6 @@ class Irm::KanbansController < ApplicationController
   def get_owned_lanes
     owned_lanes_scope= Irm::Kanban.where(:id => params[:id]).with_lanes.order("display_sequence ASC")
 
-#    kanbans,count = paginate(owned_lanes_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(owned_lanes_scope.to_grid_json(
                                               [:irm_lane_id, :lane_code, :lane_name,:lane_description],
@@ -124,7 +123,6 @@ class Irm::KanbansController < ApplicationController
       Irm::KanbanLane.create({:kanban_id => params[:id],
                                :lane_id => p,
                                :display_sequence => Irm::KanbanLane.max_display_seq(params[:id]) + 1})
-      puts("+++++++++++++++++++++++++++++++++++" + p)
     end
 
     flash[:notice] = t(:successfully_updated)
@@ -148,6 +146,25 @@ class Irm::KanbansController < ApplicationController
       redirect_to({:action=>"show", :id=> params[:kanban_id]})
     else
       redirect_to(return_url)
+    end
+  end
+
+  def switch_sequence
+    sequence_str = params[:ordered_ids]
+    if sequence_str.present?
+      sequence = 0
+      kanbanlanes_ids = sequence_str.split(",")
+
+      kanbanlanes = Irm::KanbanLane.where(:kanban_id => params[:kanban_id], :lane_id => kanbanlanes_ids).index_by(&:lane_id)
+      kanbanlanes_ids.each do |id|
+        kanbanlane = kanbanlanes[id]
+        kanbanlane.display_sequence = sequence
+        kanbanlane.save
+        sequence += 1
+      end
+    end
+    respond_to do |format|
+      format.json  {render :json => {:success => true}}
     end
   end
 

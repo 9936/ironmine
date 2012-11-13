@@ -26,7 +26,7 @@ class Irm::Kanban < ActiveRecord::Base
         where("la.language = ?", I18n.locale).
         where("#{table_name}.id = kl.kanban_id").
         where("la.status_code = ?", Irm::Constant::ENABLED).
-        select("la.lane_code lane_code, la.name lane_name, la.description lane_description, la.id irm_lane_id, kl.display_sequence display_sequence")
+        select("la.lane_code lane_code, la.name lane_name, la.description lane_description, la.id id, kl.display_sequence display_sequence")
   }
 
   scope :query_by_position_and_profile, lambda{|profile_id, position_code|

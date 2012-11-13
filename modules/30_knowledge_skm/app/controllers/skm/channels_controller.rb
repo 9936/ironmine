@@ -112,6 +112,8 @@ class Skm::ChannelsController < ApplicationController
 
   def get_owned_groups_data
     group_scope = Skm::Channel.find(params[:id]).groups.multilingual.enabled
+    group_scope = group_scope.match_value("#{Irm::Group.table_name}.code",params[:code])
+    group_scope = group_scope.match_value("#{Irm::GroupsTl.table_name}.name",params[:name])
     groups, count = paginate(group_scope)
     respond_to do |format|
       format.html {
@@ -125,6 +127,8 @@ class Skm::ChannelsController < ApplicationController
 
   def get_ava_groups_data
     group_scope = Irm::Group.multilingual.where("#{Irm::Group.table_name}.id NOT IN (?)", Skm::Channel.find(params[:id]).groups.collect(&:id) + ['']).enabled
+    group_scope = group_scope.match_value("#{Irm::Group.table_name}.code",params[:code])
+    group_scope = group_scope.match_value("#{Irm::GroupsTl.table_name}.name",params[:name])
     groups, count = paginate(group_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(groups.to_grid_json(['0',:code, :name, :description, :status_code], count)) }
@@ -138,6 +142,9 @@ class Skm::ChannelsController < ApplicationController
   #添加审核人员相关的actions
   def get_approvals_data
     people_scope =  Irm::Person.with_organization(I18n.locale).without_approvals(params[:id])
+    people_scope = people_scope.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
+    people_scope = people_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
+    people_scope = people_scope.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
     people, count = paginate(people_scope)
     respond_to do |format|
       format.html {
@@ -150,6 +157,9 @@ class Skm::ChannelsController < ApplicationController
 
   def get_owned_approvals_data
     approval_scope = Irm::Person.with_organization(I18n.locale).with_approvals(params[:id])
+    approval_scope = approval_scope.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
+    approval_scope = approval_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
+    approval_scope = approval_scope.match_value("#{Irm::Organization.view_name}.name",params[:organization_name])
     approvals, count = paginate(approval_scope)
     respond_to do |format|
       format.html {
@@ -171,9 +181,12 @@ class Skm::ChannelsController < ApplicationController
     @channel = Skm::Channel.find(params[:id])
     person_ids = params[:skm_channel_approval_person][:status_code]
     respond_to do |format|
-      if(!person_ids.blank?)
+      if person_ids.present?
         person_ids.split(",").delete_if{|i| i.blank?}.each do |id|
-          Skm::ChannelApprovalPerson.create(:person_id=>id,:channel_id=>@channel.id)
+          approval_person = Skm::ChannelApprovalPerson.where("person_id =? AND channel_id = ?",id, @channel.id).first
+          unless approval_person.present?
+            Skm::ChannelApprovalPerson.create(:person_id=>id,:channel_id=>@channel.id)
+          end
         end
         format.html { redirect_to({:controller => "skm/channels",:action=>"show",:id=>@channel.id}, :notice => t(:successfully_created)) }
       else

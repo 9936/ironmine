@@ -20,7 +20,8 @@ class Irm::UserToken < ActiveRecord::Base
 
   private
     def random_token
-      self.token = ActiveSupport::SecureRandom.hex(32)
+      puts "#{Irm::Person.find(self.person_id).id}===============#{ActiveSupport::SecureRandom.hex(32)}"
+      self.token = "#{Irm::Person.find(self.person_id).id}#{ActiveSupport::SecureRandom.hex(32)}"
     end
 
 end

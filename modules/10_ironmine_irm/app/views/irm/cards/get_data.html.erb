@@ -1,9 +1,10 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation),:width=>"130px"}) do |data|%>
-    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]}) %>&nbsp;
-    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]}) %>
+  <% builder.column(:id,{:title=>t(:operation),:width=>"150px"}) do |data|%>
+    <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:class => "action-link") %>&nbsp;|
+    <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},:class => "action-link") %>
     <% if data[:system_flag].eql?('N') %>
-      &nbsp;<%= link_to(t(:label_irm_card_rule), {:action=>"edit_rule", :id =>data[:id]})%>
+      &nbsp;|
+      <%= link_to(t(:label_irm_card_rule), {:action=>"edit_rule", :id =>data[:id]},:class => "action-link")%>
     <% end %>
   <% end %>
   <% builder.column(:card_code,{:title=>t(:label_irm_card_code),:width=>"80px"})%>
@@ -11,4 +12,7 @@
   <% builder.column(:description,{:title=>t(:description)})%>
   <% builder.column(:background_color,{:title=>t(:label_irm_card_background_color),:width=>"40px"})%>
   <% builder.column(:status_meaning,{:title=>t(:active),:width=>"40px"})%>
+  <% builder.row do |data|%>
+    style="background-color:<%=data[:background_color]%>;color:<%=get_contrast_yiq(data[:background_color])%>;"
+  <% end %>
 <% end %>

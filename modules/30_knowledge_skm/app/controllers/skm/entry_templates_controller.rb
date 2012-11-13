@@ -163,35 +163,53 @@ class Skm::EntryTemplatesController < ApplicationController
     @template = Skm::EntryTemplate.find(params[:template_id])  
   end
 
-  def up_element
-    return_url=params[:return_url]        
-    detail = Skm::EntryTemplateDetail.where(:entry_template_id => params[:template_id], :entry_template_element_id => params[:element_id]).first
-    pre_detail = detail.pre_detail
-    pre_line_num = pre_detail.line_num
-    cur_line_num = detail.line_num
-    detail.update_attribute(:line_num, pre_line_num)
-    pre_detail.update_attribute(:line_num, cur_line_num)
-    if return_url.blank?
-      redirect_to({:action=>"show", :id=> params[:template_id]})
-    else
-      redirect_to(return_url)
-    end        
+  #def up_element
+  #  return_url=params[:return_url]
+  #  detail = Skm::EntryTemplateDetail.where(:entry_template_id => params[:template_id], :entry_template_element_id => params[:element_id]).first
+  #  pre_detail = detail.pre_detail
+  #  pre_line_num = pre_detail.line_num
+  #  cur_line_num = detail.line_num
+  #  detail.update_attribute(:line_num, pre_line_num)
+  #  pre_detail.update_attribute(:line_num, cur_line_num)
+  #  if return_url.blank?
+  #    redirect_to({:action=>"show", :id=> params[:template_id]})
+  #  else
+  #    redirect_to(return_url)
+  #  end
+  #end
+
+  def switch_sequence
+    sequence_str = params[:ordered_ids]
+    if sequence_str.present?
+      sequence = 0
+      details_ids = sequence_str.split(",")
+      details = Skm::EntryTemplateDetail.where(:entry_template_element_id => details_ids,:entry_template_id => params[:template_id]).index_by(&:entry_template_element_id)
+      details_ids.each do |id|
+        detail = details[id]
+        detail.line_num = sequence
+        detail.save
+        sequence += 1
+      end
+    end
+    respond_to do |format|
+      format.json  {render :json => {:success => true}}
+    end
   end
 
-  def down_element
-    return_url=params[:return_url]    
-    detail = Skm::EntryTemplateDetail.where(:entry_template_id => params[:template_id], :entry_template_element_id => params[:element_id]).first
-    next_detail = detail.next_detail
-    next_line_num = next_detail.line_num
-    cur_line_num = detail.line_num
-    detail.update_attribute(:line_num, next_line_num)
-    next_detail.update_attribute(:line_num, cur_line_num)
-    if return_url.blank?
-      redirect_to({:action=>"show", :id=> params[:template_id]})
-    else
-      redirect_to(return_url)
-    end        
-  end
+  #def down_element
+  #  return_url=params[:return_url]
+  #  detail = Skm::EntryTemplateDetail.where(:entry_template_id => params[:template_id], :entry_template_element_id => params[:element_id]).first
+  #  next_detail = detail.next_detail
+  #  next_line_num = next_detail.line_num
+  #  cur_line_num = detail.line_num
+  #  detail.update_attribute(:line_num, next_line_num)
+  #  next_detail.update_attribute(:line_num, cur_line_num)
+  #  if return_url.blank?
+  #    redirect_to({:action=>"show", :id=> params[:template_id]})
+  #  else
+  #    redirect_to(return_url)
+  #  end
+  #end
 
   def edit_detail
     @detail = Skm::EntryTemplateDetail.find(params[:id])

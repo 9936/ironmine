@@ -1,7 +1,7 @@
 <%=datatable_view({:columns=>[:code,:name,:description,:status_code],:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation)})%>
-  <% builder.column(:code,{:title=>t(:label_irm_group_group_code)})%>
-  <% builder.column(:name,{:title=>t(:label_irm_group_name)})%>
+  <% builder.column(:code,{:title=>t(:label_irm_group_group_code),:searchable => true})%>
+  <% builder.column(:name,{:title=>t(:label_irm_group_name),:searchable => true})%>
   <% builder.column(:description,{:title=>t(:label_irm_group_description)})%>
   <% builder.column(:status_code,{:title=>t(:active)}) do |data|%>
     <%= check_img(data[:status_code]) %>

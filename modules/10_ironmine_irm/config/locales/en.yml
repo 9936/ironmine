@@ -177,6 +177,8 @@ en:
   self: Self
   hide: Hide
   display: Show
+  lov_tooltip_text: If you don't know how to blank,you can click the search button to select a value.
+  lov_error_tooltip_text: Invaild value!Please try again or click the search button to select a value.
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
@@ -248,6 +250,11 @@ en:
   label_irm_common_logout: Logout
   label_irm_common_system_setting: System setting
   label_irm_common_forgot_password: Forget password？
+  label_irm_common_email: Email Address
+  label_irm_common_send: Send
+  label_irm_common_forgot_password_tooltip: <p>Verify you're entering the correct user name in the form of an email address (username@company.com).</p><p>Passwords are case sensitive, so ensure you don't have caps lock enabled.</p>
+  label_irm_common_reset_pwd_tooltip: Hi, Please fill your new password.
+  label_irm_common_email_sent: E-mail has sent to your mailbox, please reset your password within 30 minutes of receiving..
   label_irm_recently_objects: Recent Items
   notice_account_locked: Your account has been locked, please contact administrator!
   label_irm_common_continue: Continue
@@ -1141,6 +1148,8 @@ en:
   label_irm_list_of_value_new: New List of Value
   label_irm_list_of_value_edit: Edit List of Value
   label_irm_list_of_value_test_information: Test Result for List of Value
+  label_irm_list_of_value_go: Go
+  label_irm_list_of_value_use_percentages: You can use '%' as a wildcard.
   #======================== end list of values====================
   #======================== wf settings====================
   label_irm_wf_setting_new: Workflow Setting
@@ -1250,6 +1259,7 @@ en:
   #======================== wf mail alert====================
   label_irm_wf_mail_alert: Mail Alert
   label_irm_wf_mail_alert_all: Send In All
+  label_irm_wf_mail_alert_default_language: Template Language
   label_irm_wf_mail_alert_list: Mail Aler List
   label_irm_wf_mail_alert_bo_code: Business Object
   label_irm_wf_mail_alert_name: Name

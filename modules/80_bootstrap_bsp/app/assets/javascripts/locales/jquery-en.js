@@ -19,5 +19,6 @@ var irm_labels = {
     check_pasted_file_name: "Confirm file name",
     reset_order_btn_text: "Reset order",
     save_btn_text: "Save",
-    cancel_btn_text: "Cancel"
+    cancel_btn_text: "Cancel",
+    load_data_error: "Load data error."
 };

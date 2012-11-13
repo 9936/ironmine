@@ -49,11 +49,11 @@
       <h2 class="block-title"><%=t(:label_irm_kanban_owned_lane)%></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:label_irm_kanban_add_lane), {:controller=>"irm/kanbans",:action => "select_lanes",:id=>@kanban.id},:class => "btn"%>
+      <%= link_to t(:label_irm_kanban_add_lane), {:controller=>"irm/kanbans",:action => "select_lanes",:id=>@kanban.id},:class => "btn btn-info"%>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("owned_lanes_list",{:controller=>"irm/kanbans",:action=>"get_owned_lanes",:id=>@kanban.id},[])%>
+    <%= datatable("owned_lanes_list",{:controller=>"irm/kanbans",:action=>"get_owned_lanes",:id=>@kanban.id},[],{:drag_sort => {:save_url => url_for(:controller => 'irm/kanbans', :action => 'switch_sequence',:kanban_id => @kanban.id )}})%>
   </div>
 </div>
 

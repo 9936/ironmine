@@ -6,7 +6,6 @@ module Irm::MenusHelper
 
   def menu_tree_data
     menus = available_menus
-    #menu_entries = Irm::MenuEntry.where("sub_menu_id !=?", '').count.index_by(&:sub_menu_id)
     data = {:root => []}
     menus.each do |menu|
       menu_entry = Irm::MenuEntry.where(:sub_menu_id => menu.id).first

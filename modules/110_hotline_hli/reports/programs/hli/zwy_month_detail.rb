@@ -29,6 +29,7 @@ class Hli::ZwyMonthDetail < Irm::ReportManager::ReportBase
                I18n.t(:label_project),
                I18n.t(:label_icm_incident_request_title),
                I18n.t(:label_icm_incident_request_summary),
+               I18n.t(:label_icm_reply),
                I18n.t(:label_reporter),
                I18n.t(:label_report_incident_request_support),
                I18n.t(:label_icm_incident_request_urgence_code),
@@ -46,21 +47,23 @@ class Hli::ZwyMonthDetail < Irm::ReportManager::ReportBase
       data[0] = s[:request_number]
       data[1] = s[:external_system_name]
       data[2] = s[:title]
-      data[3] = Irm::Sanitize.sanitize(s[:summary],"").gsub("&nbsp;", " ")  unless s[:summary].nil?
-      data[4] = s[:requested_name]
-      data[5] = s[:supporter_name]
-      data[6] = s[:urgence_name]
-      data[7] = s[:submitted_date].strftime('%F %T')
-      data[8] = s[:last_response_date].strftime('%F %T')
-      data[9] = s[:incident_status_name]
-      data[10] = s[:incident_category_name]
-      data[11] = s[:incident_sub_category_name]
+      data[3] = Irm::Sanitize.sanitize(s[:summary],"").gsub("&amp;", "&").gsub("&nbsp;", " ")  unless s[:summary].nil?
+      data[4] = ""
+      data[4] = Irm::Sanitize.sanitize(s.last_reply_journal.message_body,"").gsub("&amp;", "&").gsub("&nbsp;", " ")  unless s.last_reply_journal.nil?
+      data[5] = s[:requested_name]
+      data[6] = s[:supporter_name]
+      data[7] = s[:urgence_name]
+      data[8] = s[:submitted_date].strftime('%F %T')
+      data[9] = s[:last_response_date].strftime('%F %T')
+      data[10] = s[:incident_status_name]
+      data[11] = s[:incident_category_name]
+      data[12] = s[:incident_sub_category_name]
       begin
-        data[12] = s[:estimated_date].strftime('%F %T')
+        data[13] = s[:estimated_date].strftime('%F %T')
       rescue
-        data[12] = ""
+        data[13] = ""
       end
-      data[13] = s[:hotline]
+      data[14] = s[:hotline]
       datas << data
     end
 

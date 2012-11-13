@@ -103,8 +103,6 @@
 
             <%= link_to t(:cancel), {:controller => "icm/incident_requests", :action => "cancel_request", :id => @incident_request.id},
                         :confirm => t(:label_icm_incident_request_cancel_confirm), :class=>"btn", :method => :delete %>
-              <%= link_to t(:label_icm_incident_journal_edit_workload),
-                          {:controller=>"icm/incident_journals",:action => "edit_workload"}, {:class=>"btn"}%>
           <% elsif @incident_request.status_code.eql?("OFFLINE") %>
             <%= link_to t(:enable), {:controller => "icm/incident_requests", :action => "enable_request", :id => @incident_request.id},
                         :confirm => t(:label_icm_incident_request_enable_confirm), :class=>"btn",:method => :delete %>
@@ -122,14 +120,17 @@
           <% end %>
         </div>
     <% else %>
-
          <div class="btn-group">
-           <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
-               <%= link_to t(:permanent_close), {:action => "edit_permanent_close"},{:class=>"btn"}%>
-               <%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id},{:class=>"btn"}%>
-           <% end %>
+           <%= link_to t(:permanent_close), {:action => "edit_permanent_close"},{:class=>"btn"}%>
+           <%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id},{:class=>"btn"}%>
          </div>
     <% end %>
+    <div class="btn-group">
+      <% if @incident_request.status_code.eql?("ENABLED") %>
+          <%= link_to t(:label_icm_incident_journal_edit_workload),
+                      {:controller=>"icm/incident_journals",:action => "edit_workload"}, {:class=>"btn"}%>
+      <% end %>
+    </div>
 
     <div class="btn-group">
       <% if @incident_request.status_code.eql?("ENABLED") %>
@@ -636,6 +637,7 @@
   </div>
 </div>
 
+<% if allow_to_function?(:view_incident_journal_his) %>
 <div class="page-block" id="pageBlock">
   <table class="page-block-header" ><tr>
     <td class="page-block-title">
@@ -648,7 +650,7 @@
     <%= datatable("incident_request_histories",{:action=>"get_incident_history_data"},[],{:paginator_box=>'incidentHistoriesPaginatorBox', :row_perpage => 20})%>
   </div>
 </div>
-
+<% end %>
 
 <script type="text/javascript">
     $(function() {
