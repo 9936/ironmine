@@ -353,6 +353,21 @@ class Icm::IncidentRequest < ActiveRecord::Base
     return_val
   end
 
+  def concat_journals_with_text
+    return_val = ""
+    journals = self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at ASC")
+    journals.each do |i|
+      #break if i == journals.last
+      person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
+      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
+      return_val << "\n\r"
+      return_val << i.message_body.to_s
+      return_val << "\n\r"
+      return_val << "--------------------------------------------------------------------------------\n\r"
+    end
+    return_val
+  end
+
   def concat_journals_with_html_desc
     return_val = ""
     journals = self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at DESC")
@@ -366,6 +381,27 @@ class Icm::IncidentRequest < ActiveRecord::Base
       return_val << "--------------------------------------------------------------------------------<br>"
     end
     return_val
+  end
+
+  def concat_journals_with_text_desc
+    return_val = ""
+    journals = self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at DESC")
+    journals.each do |i|
+      #break if i == journals.last
+      person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
+      return_val << person.full_name + "(#{person.login_name})-" + i.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s
+      return_val << "<br>"
+      return_val << i.message_body.to_s
+      return_val << "<br>"
+      return_val << "--------------------------------------------------------------------------------<br>"
+    end
+    return_val
+  end
+
+  def last_reply_journal
+    self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at DESC").first
+  rescue
+    nil
   end
 
   def need_customer_reply
@@ -443,7 +479,32 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   def vip_person_ids
     return @related_person_ids if @related_person_ids
-    @related_person_ids = Irm::Person.where("vip_flag = ?", Irm::Constant::SYS_YES).enabled
+    @related_person_ids = Irm::Person.where("vip_flag = ?", Irm::Constant::SYS_YES).enabled.collect(&:id)
+  end
+
+  def group_vip_person_ids
+    return @group_related_person_ids if @group_related_person_ids
+    return nil if self.support_group_id.nil?
+    @group_related_person_ids = Irm::Person.
+        joins(",#{Irm::GroupMember.table_name} gm").
+        joins(",#{Icm::SupportGroup.table_name} sg").
+        where("gm.group_id = sg.group_id").
+        where("gm.person_id = #{Irm::Person.table_name}.id").
+        where("sg.id = ?", self.support_group_id).
+        where("#{Irm::Person.table_name}.vip_flag = ?", Irm::Constant::SYS_YES).
+        enabled.collect(&:id)
+  end
+
+  def support_group_member_ids
+    return @support_group_member_ids if @support_group_member_ids
+    return nil if self.support_group_id.nil?
+    @support_group_member_ids = Irm::Person.
+        joins(",#{Irm::GroupMember.table_name} gm").
+        joins(",#{Icm::SupportGroup.table_name} sg").
+        where("gm.group_id = sg.group_id").
+        where("gm.person_id = #{Irm::Person.table_name}.id").
+        where("sg.id = ?", self.support_group_id).
+        enabled.collect(&:id)
   end
 
   def watcher?(person_id)

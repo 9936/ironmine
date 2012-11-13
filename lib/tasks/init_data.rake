@@ -419,10 +419,18 @@ namespace :irm do
     end
     Irm::Permission.update_all("status_code = 'UNKNOW'")
     functions.each do |function_code,function|
+      #如果当前的function的system_flag为‘Y’,其permission对应的route 必须带有sid参数，即system_flag为‘Y’
+      function_system_flag = Irm::Function.where(:code => function_code).first.system_flag
       permissions =  function[:permissions]
       permissions.each do |controller,actions|
         actions.each do |action|
           route_permission = route_permissions.detect{|rp| rp[:controller].eql?(controller)&&rp[:action].eql?(action.to_s)}
+          #当function的为system_flag时，permission为“N”时候，警告用户
+          if function_system_flag.eql?('Y') and route_permission[:system_flag].eql?('N')
+            puts "#{BOLD}#{RED}The route match #{controller}/#{action.to_s} must include param [:sid]. #{CLEAR}"
+            next
+          end
+
           if route_permission.nil?
             puts "#{BOLD}#{RED}No route match #{controller}/#{action.to_s}#{CLEAR}"
             next

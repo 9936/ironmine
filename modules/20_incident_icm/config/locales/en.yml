@@ -57,8 +57,8 @@ en:
   label_icm_priority_code_weight_values: Weight Value
   #========================= end icm priority_codes_controller=======================#
   #=========================    icm close_reasons_controller=======================#
-  label_icm_close_reason: Close reason
-  label_icm_close_reason_list: Close reason list
+  label_icm_close_reason: Root Cause
+  label_icm_close_reason_list: Root Cause list
   label_icm_close_reason_new: New close reason
   label_icm_close_reason_company: Company
   label_icm_close_reason_close_code: Code
@@ -111,7 +111,7 @@ en:
   label_icm_incident_request_requested_by_role: Requester Role
   label_icm_incident_request_requested_by_profile: Requester Profile
   label_icm_incident_request_contact: Contact
-  label_icm_incident_request_urgence_code: Urgence
+  label_icm_incident_request_urgence_code: Urgency
   label_icm_incident_request_impact_range_code: Impact range
   label_icm_incident_request_support_group: Support group
   label_icm_incident_request_support_person: Supporter
@@ -128,7 +128,7 @@ en:
   label_incident_request_title: Ticket Title
   label_icm_incident_request_submitted_by: Submit by
   label_icm_incident_request_incident_phase_code: Phase
-  label_icm_incident_request_submitted_date: Submit date
+  label_icm_incident_request_submitted_date: Create(User Submit) date
   label_icm_incident_request_close_reason_code: Close reason
   label_icm_wait_for_me_request_count: Requests Waiting for Me
   label_icm_reply_today_count: Today Replied
@@ -148,7 +148,7 @@ en:
   label_icm_incident_request_view_filter_data_range_main: My engaged
   label_icm_incident_journal_upgrade: Upgrade
   label_icm_incident_request_assign_me: New Coming Tickets
-  label_icm_incident_request_assign_me_recevie: Receive Current Ticket
+  label_icm_incident_request_assign_me_recevie: Accept
   label_icm_incident_request_assign_me_able_list: Tickets for My Group
   label_icm_incident_request_close_reason: Close Reason
   label_icm_incident_request_incident_status: Change Status
@@ -168,7 +168,7 @@ en:
   label_icm_incident_request_relation_types: Relation Types
   label_icm_incident_request_relation_type: Relation
   label_icm_incident_request_relation: Relation Types
-  label_icm_incident_request_estimated_date: Estimated completion date
+  label_icm_incident_request_estimated_date: Expected completion date
   label_icm_incident_request_relation_config_items: Config Item
   label_irm_incident_status_transform_event_error: One incident could only use once in same line
   #========================= end icm incident_requests_controller=======================#
@@ -190,7 +190,7 @@ en:
   label_icm_incident_journal_reply: Comments
   label_icm_incident_journal_attachment: Attachments
   label_icm_incident_journal_attachment_desc: Description
-  label_icm_incident_journal_add_attachment: Add a attachment
+  label_icm_incident_journal_add_attachment: Add attachment
   label_icm_incident_journal_close: Close ticket
   label_icm_incident_journal_permanent_close: Permanently Close ticket
   label_icm_incident_journal_reopen: Ropen ticket

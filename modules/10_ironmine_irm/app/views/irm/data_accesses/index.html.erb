@@ -91,25 +91,14 @@
           <h2 class="block-title"><%=data_access[:business_object_name]+t(:label_irm_data_share_rule)  %></h2>
         </td>
         <td class="page-block-button">
-          <%= link_to(t(:new),{:controller => "irm/data_share_rules",:action=>"new",:business_object_id=>data_access[:business_object_id]},:back=>true,:class=>"btn") %>
+          <%= link_to(t(:new),{:controller => "irm/data_share_rules",:action=>"new",:business_object_id=>data_access[:business_object_id]},:back=>true,:class=>"btn btn-info") %>
+        </td>
+        <td class="page-block-help">
+          <div id="searchBox_<%= data_access[:business_object_id] %>"></div>
         </td>
       </tr></table>
       <div class="page-block-body">
-        <%=datatable_view({:count=>get_rules(data_access[:business_object_id]).count,:datas=>get_rules(data_access[:business_object_id])}) do |builder|%>
-          <% builder.column(:id,{:title=>t(:operation),:width=>"60px"}) do |rule| %>
-            <%= bootstrap_icons("icon-edit",t(:edit),{:controller => "irm/data_share_rules",:action=>"edit",:id=>"#{rule[:id]}"}) %>&nbsp;
-            <%= bootstrap_icons(" icon-trash",t(:delete),{:controller => "irm/data_share_rules",:action=>"destroy",:id=>"#{rule[:id]}"},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
-          <% end %>
-          <% builder.column(:name,{:title=>t(:name)})%>
-          <% builder.column(:business_object_name,{:title=>t(:label_irm_data_access_business_object)})%>
-          <% builder.column(:source_name,{:title=>t(:label_irm_data_share_rule_belong_to)}) do |rule|%>
-            <%= rule[:source_type]+' '+rule[:source_name] %>
-          <% end %>
-          <% builder.column(:target_name,{:title=>t(:label_irm_data_share_rule_share_with)}) do |rule|%>
-            <%= rule[:target_type]+' '+rule[:target_name] %>
-          <% end %>
-          <% builder.column(:access_level_name,{:title=>t(:label_irm_data_access)})%>
-        <% end %>
+        <%= datatable("data_accesses_#{data_access[:business_object_id]}",{:controller => "irm/data_share_rules", :action=>"get_share_rules", :business_object_id => data_access[:business_object_id]},[],{:search_box => "searchBox_#{data_access[:business_object_id]}",:paginator_box=>"paginatorBox_#{data_access[:business_object_id]}"}) %>
       </div>
     </div>
 <% end %>

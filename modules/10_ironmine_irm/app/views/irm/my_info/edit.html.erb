@@ -6,26 +6,26 @@
           <tr>
             <td class="label-col"><label for="time_zone_code"><%=t(:label_irm_person_time_zone)%></label></td>
             <td class="data-col" colspan="3">
-              <%= f.time_zone_select :time_zone,nil, :model => Fwk::I18nTimeZone %>
+              <%= f.time_zone_select :time_zone,nil %>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
             <td class="data-col"><label><%= @person.login_name%></label></td>
             <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
-            <td class="data-col"><%=@person[:role_name]%></td>
+            <td class="data-col"><label><%=@person[:role_name]%></label></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_email_address)%></label></td>
             <td class="data-col"><%=f.text_field :email_address, :required=>true%></td>
             <td class="label-col"><label><%=t(:label_irm_person_profile)%></label></td>
-            <td class="data-col"><%=@person[:profile_name]%></td>
+            <td class="data-col"><label><%=@person[:profile_name]%></label></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_last_name)%></label></td>
             <td class="data-col"><%=f.text_field :last_name%></td>
             <td class="label-col"><label><%=t(:label_irm_person_organization)%></label></td>
-            <td class="data-col"><%= @person[:organization_name] %></td>
+            <td class="data-col"><label><%= @person[:organization_name] %></label></td>
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_irm_person_first_name)%></label></td>
@@ -35,7 +35,7 @@
           </tr>
 
           <tr>
-            <td class="label-col"><%= t(:label_irm_identity_language_code) %></td>
+            <td class="label-col"><label><%= t(:label_irm_identity_language_code)%></label></td>
             <td class="data-col"><%= f.select(:language_code, selectable_languages) %></td>
              <td class="label-col"><label><%=t(:label_irm_person_fax_number)%></label></td>
              <td class="data-col"><%=f.text_field :fax_number%></td>

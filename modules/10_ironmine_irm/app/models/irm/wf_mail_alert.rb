@@ -25,8 +25,13 @@ class Irm::WfMailAlert < ActiveRecord::Base
     select("mt.name mail_template_name")
   }
 
+  scope :with_language,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::Language.view_name} ON #{Irm::Language.view_name}.language_code=#{table_name}.language_code AND #{Irm::Language.view_name}.language = '#{language}'").
+        select("#{Irm::Language.view_name}.description language_description")
+  }
+
   def self.list_all
-    select("#{table_name}.*").with_bo(I18n.locale).with_mail_template(I18n.locale)
+    select("#{table_name}.*").with_language(I18n.locale).with_bo(I18n.locale).with_mail_template(I18n.locale)
   end
 
 
@@ -96,9 +101,20 @@ class Irm::WfMailAlert < ActiveRecord::Base
 
     # loop send mail
     bo_create_by = bo.respond_to?(:created_by)? bo.created_by : "nocreatedby" # do not send to creater
-    recipient_ids.each do |pid|
-      next if pid.eql?(bo_create_by)     # do not send to creater
-      mail_template.deliver_to(params.merge(:to_person_ids=>[pid]))
+    # 检查是否需要进行合并发送
+    if self.all_flag.eql?(Irm::Constant::SYS_YES)
+      recipient_ids.delete_if{|i| i.eql?(bo_create_by)}
+      #合并发送中是否设置了模板语言
+      if self.language_code
+        mail_template.deliver_to(params.merge(:to_person_ids=>recipient_ids,:template_lang => self.language_code ))
+      else
+        mail_template.deliver_to(params.merge(:to_person_ids=>recipient_ids))
+      end
+    else
+      recipient_ids.each do |pid|
+        next if pid.eql?(bo_create_by)     # do not send to creater
+        mail_template.deliver_to(params.merge(:to_person_ids=>[pid]))
+      end
     end
   end
 

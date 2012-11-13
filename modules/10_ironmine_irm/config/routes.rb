@@ -768,8 +768,9 @@ Rails.application.routes.draw do
     match '/kanbans/:id/select_lanes(.:format)' => "kanbans#select_lanes", :via => :get
     match '/kanbans/:kanban_id/:lane_id/delete_lane(.:format)' => "kanbans#delete_lane"
     match '/kanbans/:position_code/refresh_my_kanban/:mode(.:format)' => "kanbans#refresh_my_kanban"
-    match '/kanbans/:kanban_id/:lane_id/up_lane(.:format)' => "kanbans#up_lane", :via => :get
-    match '/kanbans/:kanban_id/:lane_id/down_lane(.:format)' => "kanbans#down_lane", :via => :get
+    #match '/kanbans/:kanban_id/:lane_id/up_lane(.:format)' => "kanbans#up_lane", :via => :get
+    #match '/kanbans/:kanban_id/:lane_id/down_lane(.:format)' => "kanbans#down_lane", :via => :get
+    match '/kanbans/:kanban_id/switch_sequence(.:format)' => "kanbans#switch_sequence"
 
     match '/kanbans/:id/multilingual_edit(.:format)' => "kanbans#multilingual_edit", :via => :get
     match '/kanbans/:id/multilingual_update(.:format)' => "kanbans#multilingual_update", :via => :put
@@ -954,6 +955,7 @@ Rails.application.routes.draw do
     #data_share_rules
     match '/data_share_rules(/index)(.:format)' => "data_share_rules#index", :via => :get
     match '/data_share_rules/:business_object_id/new(.:format)' => "data_share_rules#new", :via => :get
+    match '/data_share_rules/:business_object_id/get_share_rules(.:format)' => "data_share_rules#get_share_rules", :via => :get
     match '/data_share_rules/get_option(.:format)' => "data_share_rules#get_option", :via => :get
     match '/data_share_rules/:id/edit(.:format)' => "data_share_rules#edit", :via => :get
     match '/data_share_rules/:business_object_id/create(.:format)' => "data_share_rules#create", :via => :post

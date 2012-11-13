@@ -21,7 +21,8 @@ var irm_labels = {
     check_pasted_file_name: "确认文件名",
     reset_order_btn_text: "调整显示顺序",
     save_btn_text: "保存",
-    cancel_btn_text: "取消"
+    cancel_btn_text: "取消",
+    load_data_error: "加载数据出错了."
 };
 
 if($.fn.datepicker.dpglobal){

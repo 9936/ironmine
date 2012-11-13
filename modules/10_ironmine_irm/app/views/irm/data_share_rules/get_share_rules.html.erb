@@ -1,0 +1,15 @@
+<%=datatable_view({:count=> @count,:datas=> hand_rules(@datas)}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation),:width=>"60px"}) do |rule| %>
+      <%= bootstrap_icons("icon-edit",t(:edit),{:controller => "irm/data_share_rules",:action=>"edit",:id=>"#{rule[:id]}"}) %>&nbsp;
+      <%= bootstrap_icons(" icon-trash",t(:delete),{:controller => "irm/data_share_rules",:action=>"destroy",:id=>"#{rule[:id]}"},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+    <% end %>
+    <% builder.column(:name,{:title=>t(:name),:searchable => true})%>
+    <% builder.column(:business_object_name,{:title=>t(:label_irm_data_access_business_object)})%>
+    <% builder.column(:source_name,{:title=>t(:label_irm_data_share_rule_belong_to)}) do |rule|%>
+      <%= rule[:source_type]+' '+rule[:source_name] %>
+    <% end %>
+    <% builder.column(:target_name,{:title=>t(:label_irm_data_share_rule_share_with)}) do |rule|%>
+      <%= rule[:target_type]+' '+rule[:target_name] %>
+    <% end %>
+    <% builder.column(:access_level_name,{:title=>t(:label_irm_data_access),:searchable => true})%>
+<% end %>

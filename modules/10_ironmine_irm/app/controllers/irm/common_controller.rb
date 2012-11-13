@@ -36,17 +36,17 @@ class Irm::CommonController < ApplicationController
         #查找该用户该类型的token是否存在
         user_token = person.user_tokens.where(:token_type => "RESET_PWD").first
         if user_token.present?
-          new_flag = false
+          #new_flag = false
           user_token.created_at = Time.now
           user_token.updated_at = Time.now
         else
-          new_flag = true
+          #new_flag = true
           user_token = Irm::UserToken.new(:person_id => person.id,:token_type => "RESET_PWD")
         end
         if user_token.save
           token = user_token.token
           url = "#{request.protocol}#{request.host_with_port}/reset_pwd?type=RESET_PWD&pwd_token=#{token}"
-          user_token.reset_pwd(params[:email],person.id,url) if new_flag
+          user_token.reset_pwd(params[:email],person.id,url)
         end
       else
         #email地址不存在
@@ -62,6 +62,11 @@ class Irm::CommonController < ApplicationController
       user_token = Irm::UserToken.where(:token_type => params[:type], :token => params[:pwd_token], :status_code => "ENABLED").first
       if user_token.present? && !user_token.expired?
         @person = user_token.person
+        #将当前的语言设置为用户设置的语言
+        if @person.language_code
+          lang = find_language(@person.language_code)
+          set_language_if_valid(lang)
+        end
       end
     end
   end

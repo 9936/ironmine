@@ -2178,6 +2178,10 @@ jQuery.fn.menubutton = function () {
     Internal.prototype.load = function () {
         var me = this;
         me.$element.load(me.buildCurrentRequest(), function (responseText, textStatus, XMLHttpRequest) {
+            if (textStatus == "error"){
+                window.console && console.log($.i18n("load_data_error"));
+                return false;
+            }
             me.processLoadResult(responseText, textStatus, XMLHttpRequest);
         });
     };

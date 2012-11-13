@@ -55,6 +55,9 @@ gem "wkhtmltopdf-binary"
 gem 'grit','2.5.0'
 gem 'gollum' ,'2.1.0'
 
+#解决blankslate 3.1.2 运行rake命令老式提示错误警告
+gem 'blankslate', '2.1.2.4'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -67,7 +70,7 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
   gem 'twitter-bootstrap-rails' ,'2.1.1'
-  gem 'jquery-rails'
+  gem 'jquery-rails', '1.0.19'
 end
 
 

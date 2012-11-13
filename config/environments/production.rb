@@ -81,6 +81,7 @@ Ironmine::Application.configure do
   }
   # config for receive mail
   config.fwk.mail_receive_method = :imap
+  config.fwk.mail_send_from = "rootironmine@163.com"
   config.fwk.mail_receive_interval = '1m'
   #config.fwk.mail_receive_imap = {
   #  :username => 'root.ironmine@gmail.com',

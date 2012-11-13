@@ -64,6 +64,7 @@
                 this.hide();
         },
 		show: function(e) {
+            $("html").trigger('click');
             //解决在IE6下被select覆盖的bug
             if($.browser.msie&&parseInt($.browser.version,10)===6){
                 select_for_ie6(true);

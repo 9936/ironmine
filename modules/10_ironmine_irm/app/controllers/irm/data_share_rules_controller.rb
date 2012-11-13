@@ -101,8 +101,23 @@ class Irm::DataShareRulesController < ApplicationController
     end
   end
 
-  def get_data
+  def get_share_rules
+    business_object_id = params[:business_object_id]
+    if business_object_id.present?
+      data_share_scope = Irm::DataShareRule.multilingual.list_all(business_object_id)
+      #添加查询功能，根据名称进行查找
+      data_share_scope = data_share_scope.match_value("#{Irm::DataShareRulesTl.table_name}.name",params[:name])
+      data_share_rules, count = paginate(data_share_scope)
+      respond_to do |format|
+        format.html {
+          @datas = data_share_rules
+          @count = count
+        }
+      end
+    end
+  end
 
+  def get_data
     irm_data_share_rules_scope = Irm::DataShareRule.multilingual
     irm_data_share_rules_scope = irm_data_share_rules_scope.match_value("irm_data_share_rule.business_object_id",params[:business_object_id])
     irm_data_share_rules,count = paginate(irm_data_share_rules_scope)

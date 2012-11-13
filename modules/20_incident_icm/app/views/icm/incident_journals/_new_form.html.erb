@@ -79,6 +79,8 @@
           <% end %>
           <% if allow_to_function?(:assign_incident_request) %>
               <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
+          <% elsif allow_to_function?(:assign_incident_request_owned) && (current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by))%>
+              <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
           <% end %>
         </div>
     <% else %>
@@ -178,14 +180,19 @@
             <div><%= @incident_request[:supporter_name] %></div>
           </td>
         </tr>
+        <%= render :partial=>"new_form_external_field"%>
         <tr>
           <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
           <td class="data-col" colspan="5" style="word-WRAP: break-word;">
             <% prepare_request_files(@incident_request) %>
             <div class="reply-body">
               <div class="message-body">
-                <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3><br><br>
-                <%= raw process_message(@incident_request[:summary])  %>
+                <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3>
+                <br/>
+                <br/>
+                <div style="padding: 10px;">
+                  <%= raw  process_message(@incident_request[:summary])  %>
+                </div>
               </div>
               <%= list_request_file %>
             </div>

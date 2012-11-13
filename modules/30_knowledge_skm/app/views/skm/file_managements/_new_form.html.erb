@@ -26,7 +26,7 @@
     <% end %>
     <% content_for :form_buttons  do %>
       <%= link_to t(:save), {},{:href => "javascript:void(0);", :onclick => "save()",:class=>"btn btn-primary"} %>
-      <%= link_to t(:save_and_update_new), {}, {:href => "javascript:void(0);", :onclick => "save_and_new()",:class=>"btn"}%>
+      <%= link_to t(:save_and_update_new), {}, {:href => "javascript:void(0);", :onclick => "save_and_new()",:class=>"btn btn-info"}%>
       <%= link_to t(:cancel), {:action => "index"},:class=>"btn cancel"%>
     <% end %>
 

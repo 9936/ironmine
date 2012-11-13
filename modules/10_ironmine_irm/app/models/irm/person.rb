@@ -27,7 +27,7 @@ class Irm::Person < ActiveRecord::Base
   #validates_presence_of :bussiness_phone,:if=> Proc.new{|i| i.validate_as_person?}
   validates_format_of :bussiness_phone, :with => /^[0-9\-]*$/,:message=>:phone_number ,:if => Proc.new { |i| i.bussiness_phone.present?}
   validates_uniqueness_of :login_name, :if => Proc.new { |i| !i.login_name.blank? }
-  validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/,:message=>:downcase_number
+  #validates_format_of :login_name, :with => /^[a-z0-9_\-@\.]*$/,:message=>:downcase_number
   validates_length_of :login_name, :maximum => 30
   validates_presence_of :password,:if=> Proc.new{|i| i.hashed_password.blank?&&i.validate_as_person?}
   validates_confirmation_of :password, :allow_nil => true,:if=> Proc.new{|i|i.hashed_password.blank?||!i.password.blank?}

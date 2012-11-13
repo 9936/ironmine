@@ -350,7 +350,7 @@ module ApplicationHelper
   def link_back(text = t(:back),default_options={},html_options={})
     if params[:back_url].present?
       link_to text, {}, html_options.merge({:href => CGI.unescape(params[:back_url].to_s)})
-    elsif default_options.any?
+    elsif default_options && default_options.any?
       link_to text, default_options ,html_options
     else
       link_to text, {}, html_options.merge({:href => "javascript:history.back();"})

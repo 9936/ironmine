@@ -16,7 +16,11 @@
 
     function submitForm(){
         if($("#<%= textarea_id %>").val().length > 0) {
-            $($("#<%= textarea_id %>").parents("form")[0]).submit();
+            if($("#<%= textarea_id %>").val().length > textAreaMaxLength) {
+                alert("<%= t(:label_text_too_long) %>");
+            }else{
+                $($("#<%= textarea_id %>").parents("form")[0]).submit();
+            }
         }
     }
 
@@ -47,8 +51,28 @@
           <% end -%>
           upImgExt:'jpg,jpeg,gif,png',
           focus: function(){$(".xheLayout",$("#<%=textarea_id%>").parent()).addClass("focused")},
-          blur: function(){$(".xheLayout",$("#<%=textarea_id%>").parent()).removeClass("focused")}
-
+          blur: function(){
+              if($("#<%= textarea_id %>").val().length > textAreaMaxLength) {
+                  alert("<%= t(:label_past_text_too_long) %>");
+                  $("#<%= textarea_id %>").val($("#<%= textarea_id %>").val().substring(0,textAreaMaxLength -1));
+              }
+              $(".xheLayout",$("#<%=textarea_id%>").parent()).removeClass("focused")
+          },
+          internalStyle: false,
+          cleanPaste: 2,
+          internalStyle: false,
+          inlineStyle: false,
+          inlineScript: false,
+          inlineStyle: false,
+          onPaste: function(sHtml){
+              //过滤掉除了空格和换行的其他标签
+              sHtml = sHtml.replace(/<\/?(?!br|nbsp;)[^>]*>/ig,'');
+              if(sHtml.length > textAreaMaxLength){
+                  alert("<%= t(:label_past_text_too_long) %>");
+                  sHtml = sHtml.substring(0,textAreaMaxLength -1);
+              }
+              return sHtml;
+          }
       });
     });
 </script>

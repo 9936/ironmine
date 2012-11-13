@@ -44,6 +44,18 @@
                 <td class="label-col empty">&nbsp;</td>
                 <td class="data-col empty">&nbsp;</td>
               </tr>
+              <tr>
+                <td class="label-col"><label for="wf_mail_alert_all_flag"><%=t(:label_irm_wf_mail_alert_all)%></label></td>
+                <td class="data-col"><%=f.check_box :all_flag, :id=>"wf_mail_alert_all_flag"%></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <tr id="selectLanguage" style="display: <%= @wf_mail_alert.all_flag.eql?(Irm::Constant::SYS_YES)? '': 'none' %>;">
+                <td class="label-col"><label><%= t(:label_irm_wf_mail_alert_default_language) %></label></td>
+                <td class="data-col"><%= f.blank_select(:language_code, selectable_languages) %></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
           </tbody>
         </table>
     <% end %>
@@ -95,4 +107,17 @@
 
 <% end %>
 
+<script type="text/javascript">
+  $(function(){
+      $("#wf_mail_alert_all_flag").bind("click",function(){
+          if(this.checked){
+              //将选择语言显示出来
+              $("#selectLanguage").show();
+          }else{
+              $("#selectLanguage").hide();
+              $("#selectLanguage select").val('');
+          }
+      });
+  });
+</script>
 

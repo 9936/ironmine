@@ -153,7 +153,7 @@ zh:
   list_mode: 列表
   label_new_child: 创建子分类
   error_file_upload_limit: 附件大小超出限制(最大限制 %{m} KB, 现上传 %{n} KB)
-  error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB, 现上传 _ KB)
+  error_file_upload_limit_shot: 附件大小超出限制(最大限制 %{m} KB)
   error_file_upload_repeat: 附件中有文件重复上传
   error_file_upload_empty: 附件内容为空，请重新选择文件
   file_upload_limit_alert: 最大尺寸 %{m} KB
@@ -166,6 +166,10 @@ zh:
   label_attachment_file_size_limit: 文件大小限制 %{limit}
   label_attachment_file_type: 文件类型限制 %{type}
   self: 自己
+  hide: 隐藏
+  display: 还原
+  lov_tooltip_text: 如果您不知道怎么填写，或者不能准确记住，请点击后边的搜索按钮查找选值.
+  lov_error_tooltip_text: 您所填写的值不合法，请重新填写或点击查找按钮进行选值.
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=====================#
   label_lookup_types: 快速编码类型
@@ -236,6 +240,11 @@ zh:
   label_irm_common_logout: 退出系统
   label_irm_common_system_setting: 系统设置
   label_irm_common_forgot_password: 忘记密码？
+  label_irm_common_email: 电子邮箱
+  label_irm_common_send: 发送
+  label_irm_common_forgot_password_tooltip: <p>请记住，您的用户名是电子邮件地址的形式 (username@company.com)，并且密码区分大小写。 重试登录。</p><p>如果仍无法登录，请在下面重置密码。</p>
+  label_irm_common_reset_pwd_tooltip: 你好,请在下面填写你的新密码！
+  label_irm_common_email_sent: 邮件发送到您的邮箱中，请在30分钟内收信重置密码。.
   label_irm_recently_objects: 最近的项目
   notice_account_locked: 你的帐户已经被锁定,请联系管理员!
   label_irm_common_continue: 继续工作
@@ -1114,6 +1123,7 @@ zh:
   label_irm_object_custom_attributes: 自定义字段
   label_irm_object_attribute_label_flag: 名称字段
   label_irm_object_attribute_required_flag: 必输字段
+  label_irm_object_attribute_trigger_flag: 触发更新事件
   label_irm_business_object_relation: 关联的业务对像信息
   label_irm_object_attribute_relation_bo: 关联业务对像
   label_irm_object_attribute_relation_object_attribute: 关联属性
@@ -1146,6 +1156,8 @@ zh:
   label_irm_list_of_value_new: 新建值列表
   label_irm_list_of_value_edit: 编辑值列表
   label_irm_list_of_value_test_information: 值列表测试结果
+  label_irm_list_of_value_go: 转至
+  label_irm_list_of_value_use_percentages: 可使用"%"作为通配符跟在其它字符后面以提高搜索效率。
   #======================== end list of values====================
   #======================== wf settings====================
   label_irm_wf_setting_new: 工作流设置
@@ -1257,6 +1269,8 @@ zh:
   #======================== end wf field updates====================
   #======================== wf mail alert====================
   label_irm_wf_mail_alert: 邮件警告
+  label_irm_wf_mail_alert_all: 合并发送
+  label_irm_wf_mail_alert_default_language: 默认模板语言
   label_irm_wf_mail_alert_list: 邮件警告列表
   label_irm_wf_mail_alert_bo_code: 业务对象
   label_irm_wf_mail_alert_name: 名称
