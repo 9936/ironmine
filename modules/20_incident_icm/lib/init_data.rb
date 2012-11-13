@@ -624,8 +624,25 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================END:INCIDENT JOURNAL=================================
 
   #=================================START: SYSTEM SETTING=================================
-  map.function :systems_setting, {
-      "icm/systems" => ["index","edit_transform","update_transform"]
+  map.function_group :icm_system_incident_status, {
+      :en => {:name => "Manage Request Status", :description => "Manage System Request Status"},
+      :zh => {:name => "系统事故单状态管理", :description => "系统事故单状态管理"},
+      :system_flag => 'Y' }
+  map.function_group :icm_system_incident_status, {
+      :zone_code => "INCIDENT_SETTING",
+      :controller => "icm/systems",
+      :action => "index"}
+  map.function_group :icm_system_incident_status, {
+      :children => {
+          :icm_system_incident_status => {
+              :en => {:name => "Status Setting", :description => "System Status Setting"},
+              :zh => {:name => "状态设置", :description => "状态设置"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/systems" => ["index","edit_transform","update_transform"],
+          }
+      }
   }
   #=================================END: SYSTEM SETTING=================================
 
