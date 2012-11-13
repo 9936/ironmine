@@ -2050,6 +2050,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/ldap_auth_attributes" => ["create", "destroy", "edit", "get_data", "index", "new", "show", "update"],
               "irm/ldap_auth_headers" => ["create", "edit", "get_by_ldap_source", "get_data", "index", "new", "show", "update"],
+              "irm/ldap_auth_rules" => ["create", "destroy", "edit", "get_data", "index", "new", "show", "update","switch_sequence"]
           },
       }
   }

@@ -380,7 +380,7 @@ zh:
   ldap_auth_header_ldap_source: LDAP源
   ldap_auth_header_auth_name: 认证方案名称
   ldap_auth_header_auth_cn: 认证方案域
-  ldap_auth_header_description: 认证方案描述
+  ldap_auth_header_description: LDAP属性描述
   ldap_auth_header_status_code: 认证方案状态
   ldap_auth_header_ldap_login_name_attr: LDAP登录名属性
   ldap_auth_header_ldap_email_address_attr: LDAP邮件属性
@@ -390,9 +390,9 @@ zh:
   label_irm_ldap_auth_attribute_new: 新建认证方案属性
   label_irm_ldap_auth_attribute_edit: 编辑认证方案属性
   label_ldap_auth_attribute: 认证方案属性
-  label_ldap_auth_attribute_local_attr: 认证属性
+  label_ldap_auth_attribute_local_attr: 人员属性
   label_ldap_auth_attribute_attr_type: 字段类型
-  label_ldap_auth_attribute_ldap_attr: ldap认证域
+  label_ldap_auth_attribute_ldap_attr: LDAP属性
   label_ldap_auth_attribute_description: 属性描述
   label_ldap_auth_attribute_status_code: 是否可用
 
@@ -1083,6 +1083,15 @@ zh:
   label_irm_object_attribute_new_model_attribute: 新建model属性
   label_irm_business_object_data_access_flag: 访问权限控制
   #======================== business objects====================
+
+  #======================== object rules====================
+  label_irm_object_rules: 模板用户匹配规则
+  label_irm_ldap_auth_rule: 模板用户匹配规则
+  label_irm_ldap_auth_rule_new: 新建模板用户匹配规则
+  label_irm_ldap_auth_rule_edit: 编辑模板用户匹配规则
+  label_irm_ldap_auth_rule_filter: 满足的条件
+  #======================== end object rules====================
+
   #======================== object attributes====================
   label_irm_object_attributes: 属性
   label_irm_object_attribute_name: 名称

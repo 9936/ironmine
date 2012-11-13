@@ -2,6 +2,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
   set_table_name :irm_ldap_auth_headers
   belongs_to :ldap_source, :foreign_key => :ldap_source_id, :primary_key => :id
   has_many :ldap_auth_attributes
+  has_many :ldap_auth_rules
 
   #对必填属性进行校验
   validates_presence_of :name, :auth_cn, :ldap_login_name_attr, :ldap_email_address_attr, :template_person_id, :ldap_source_id
@@ -114,7 +115,14 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
 
 
   def create_ldap_person(person_attr)
-    template_person = Irm::Person.find(self.template_person_id)
+    #首先查找规则中的模板用户，当不存在时候用自身的模板用户同步数据
+    template_person_id = Irm::LdapAuthRule.get_template_person('','')
+    if template_person_id.present?
+      template_person = Irm::Person.find(template_person_id)
+    else
+      template_person = Irm::Person.find(self.template_person_id)
+    end
+
     person = template_person.attributes.merge(person_attr.stringify_keys!)
     # setup person and password
     random_password = Irm::PasswordPolicy.random_password(template_person.opu_id)
