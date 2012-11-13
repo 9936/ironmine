@@ -6,22 +6,25 @@
           <tr>
             <td class="label-col"><label for="incident_request_incident_status_code"><%=t(:label_icm_incident_reply_incident_status_code)%></label></td>
             <td class="data-col">
-              <%=f.blank_select :incident_status_id,available_request_status_code,
-                                                      {},{:id=>"incident_request_incident_status_code", :required => true}%>
+              <%=f.blank_select :incident_status_id,available_request_status_code,{},{:id=>"incident_request_incident_status_code", :required => true}%>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td></tr>
           <tr>
-            <%= fields_for @incident_journal,:as=>"incident_journal",:builder => LabellingFormBuilder,:normal=>true do |sub_f|%>
+            <%= fields_for @incident_journal,:as=>"incident_journal",:builder =>CustomFormBuilder,:normal=>true do |sub_f|%>
               <%= sub_f.hidden_field(:incident_request_id) %>
-            <td class="label-col"><%= t(:label_icm_incident_journal_reply) %></td>
-            <td class="data-col" colspan="3">
-              <%= sub_f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true%>
-              <%= xheditor("msgEditor",true) %>
-            </td>
+              <td class="label-col">
+                <label for="incident_request_journal_reply"><%= t(:label_icm_incident_journal_reply) %></label>
+              </td>
+              <td class="data-col" colspan="3">
+                <%= sub_f.text_area :message_body ,:id=>"msgEditor",:cols=>150,:rows=>8,:required=>true%>
+                <%= xheditor("msgEditor",true) %>
+              </td>
             <% end%>
           </tr>
           <tr>
-            <td class="label-col"><%= t(:label_icm_incident_journal_attachment) %></td>
+            <td class="label-col">
+              <label for="incident_request_journal_attachment"><%= t(:label_icm_incident_journal_attachment) %></label>
+            </td>
             <td class="data-col" colspan="3">
               <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"pass_incident_request_file"} %>
             </td>
@@ -31,7 +34,7 @@
   <% end %>
 
   <% content_for :form_buttons  do %>
-    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+    <%= link_submit t(:save),{:class=>"btn btn-primary btn-submit",:disabled => true}%>
     <%= link_to t(:cancel), {:action => "new"}, {:class => "btn cancel"}%>
   <% end %>
 
@@ -65,3 +68,33 @@
     </table>
   </div>
 <% end %>
+<script type="text/javascript">
+  //当状态和备注都没有填写时候不予提交
+  $(function(){
+      var currentStatus = $("#incident_request_incident_status_code").val(), statusFlag = false,noteFlag = false;
+      $("#incident_request_incident_status_code").bind("change",function(){
+         //当状态发生变化时候
+         if($(this).val() != currentStatus){
+             statusFlag = true;
+             $(".btn-submit").removeClass("disabled");
+         }else{
+             statusFlag = false;
+         }
+         if(!statusFlag && !noteFlag){
+             $(".btn-submit").addClass("disabled");
+         }
+      });
+      $("#msgEditor").bind("blur",function(){
+         if($(this).val() != ''){
+             noteFlag = true;
+             $(".btn-submit").removeClass("disabled");
+         }else{
+             noteFlag = false;
+         }
+         if(!statusFlag && !noteFlag){
+             $(".btn-submit").addClass("disabled");
+         }
+      });
+  })
+
+</script>
