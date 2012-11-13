@@ -95,11 +95,11 @@ module Irm::MenuManager
         permissions.each do |p|
           permission_key = Irm::Permission.url_key(p.controller,p.action)
           function_id = p.function_id
-          function_id = "{sid}_#{p.function_id}"
+          function_id = "{sid}_#{p.function_id}" if Irm::Constant::SYS_YES.eql?(p.system_flag)
           if(permissions_cache[permission_key])
-            permissions_cache[permission_key]+=[p.function_id]
+            permissions_cache[permission_key]+=[function_id]
           else
-            permissions_cache[permission_key]=[p.function_id]
+            permissions_cache[permission_key]=[function_id]
           end
         end
 
