@@ -4,6 +4,8 @@ class Irm::LdapAuthRule < ActiveRecord::Base
 
   before_create :build_sequence
 
+  validates_presence_of :ldap_auth_header_id, :attr_field, :operator_code, :attr_value, :template_person_id
+
   scope :order_by_sequence,lambda{
     self.order("sequence ASC")
   }

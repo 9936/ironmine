@@ -1085,10 +1085,10 @@ zh:
   #======================== business objects====================
 
   #======================== object rules====================
-  label_irm_object_rules: 模板用户匹配规则
-  label_irm_ldap_auth_rule: 模板用户匹配规则
-  label_irm_ldap_auth_rule_new: 新建模板用户匹配规则
-  label_irm_ldap_auth_rule_edit: 编辑模板用户匹配规则
+  label_irm_object_rules: 用户同步模板规则
+  label_irm_ldap_auth_rule: 用户同步模板规则
+  label_irm_ldap_auth_rule_new: 新建用户同步模板规则
+  label_irm_ldap_auth_rule_edit: 编辑用户同步模板规则
   label_irm_ldap_auth_rule_filter: 满足的条件
   #======================== end object rules====================
 
