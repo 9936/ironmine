@@ -1,20 +1,12 @@
-<div class="listRelatedObject setupBlock">
-    <div class="page-block">
-      <div class="pbHeader">
-        <table cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td class="pbTitle"><h2 class="mainTitle"><%= t(:label_irm_object_attributes_test_information) %></h2></td>
-              <td class="pbButton">
-              </td>
-              <td class="pbHelp">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pbBody">
-        <%= text_area_tag(:message,@result_message,:style=>"width:100%",:rows=>@rows) %>
-      </div>
-    </div>
+<div class="page-block">
+  <table class="page-block-header">
+    <tbody>
+      <tr>
+        <td class="page-block-title"><h2 class="block-title"><%= t(:label_irm_object_attributes_test_information) %></h2></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="page-block-body" style="padding: 2px 20px 2px 10px !important;">
+    <%= text_area_tag(:message,@result_message,:style=>"width:100%;",:rows=>@rows) %>
+  </div>
 </div>
