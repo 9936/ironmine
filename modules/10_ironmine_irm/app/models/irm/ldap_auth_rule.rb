@@ -13,15 +13,21 @@ class Irm::LdapAuthRule < ActiveRecord::Base
         select("#{Irm::Person.table_name}.full_name,#{table_name}.*")
   }
 
-  def self.get_template_person(field, value)
+  def self.get_template_person(field_to_value)
     #查找是否含有field和value的记录
-    rule = self.order_by_sequence.where("(attr_field = ? AND attr_value = ?) OR (attr_field = ? AND attr_value != ?)", field, value, field, value).first
-    if rule.present?
-      if rule.attr_value.eql?(value)
-        return rule.template_person_id
-      end
-      if !rule.attr_value.eql?(value) and rule.operator_code.eql?('N')
-        return rule.template_person_id
+    field_to_value.each do |field, value|
+      rule = self.order_by_sequence.where("attr_field = ? AND attr_value = ?", field, value).first
+      if rule.present?
+        if rule.operator_code.eql?('E')
+          return rule.template_person_id
+        else
+          rule = self.order_by_sequence.where("attr_field = ? AND attr_value != ?", field, value).first
+          if !rule.attr_value.eql?(value) and rule.operator_code.eql?('N')
+            return rule.template_person_id
+          else
+            return nil
+          end
+        end
       end
     end
   end
