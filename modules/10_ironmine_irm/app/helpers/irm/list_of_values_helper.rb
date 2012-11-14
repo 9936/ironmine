@@ -75,16 +75,7 @@ module Irm::ListOfValuesHelper
              error: function(data){},
              success: function(data){
                 if(data.status == 'success'){
-                  $("##{lov_field_id}_label").attr('data-old-value', data.label);
-                  $("##{lov_field_id}").val(data.value);
-                  $("##{lov_field_id}_label").val(data.label);
-                  $("##{lov_field_id}Tip").removeClass("alert-error");
-                  $("##{lov_field_id}Tip").html("#{t(:lov_tooltip_text)}");
-                  $("##{lov_field_id}").trigger("change");
-                  if(relationSubmit === 'true'){
-                    $('a[type=submit]', $(parent_forms[0])).removeAttr('open-lov-first');
-                    $('a.submit', $(parent_forms[0])).removeAttr('open-lov-first');
-                  }
+                  setTimeout(function () {lookupPick("#{lov_field_id}",data.value,data.label,data);},100);
                 }else{
                   $("##{lov_field_id}_label").attr('data-old-value', $("##{lov_field_id}_label").val());
                   $("##{lov_field_id}").val('');
