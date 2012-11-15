@@ -2669,15 +2669,15 @@ Fwk::MenuAndFunctionManager.map do |map|
 
   #====================================START:SYSTEM_MENU======================================
   map.menu :system_menu, {
-      :en => {:name => "System Menu", :description => "System Menu"},
-      :zh => {:name => "系统级菜单 ", :description => "系统级菜单"},
+      :en => {:name => "System Top Menu", :description => "System Top Menu"},
+      :zh => {:name => "系统顶层菜单", :description => "系统顶层菜单"},
       :children => {
           :system_common_setting => {
               :type => "menu",
               :entry => {
                   :sequence => 10,
-                  :en => {:name => "Common", :description => "Common"},
-                  :zh => {:name => "通用", :description => "通用"},
+                  :en => {:name => "System setting", :description => "System setting"},
+                  :zh => {:name => "系统设置", :description => "系统设置"},
               }}
       }
   }
@@ -2686,42 +2686,93 @@ Fwk::MenuAndFunctionManager.map do |map|
 
   #====================================START:PERSONAL_SETTING======================================
   map.menu :system_common_setting, {
-      :en => {:name => "System common setting", :description => "System common setting"},
-      :zh => {:name => "系统常用设置", :description => "系统常用设置"},
+      :en => {:name => "System setting", :description => "System setting"},
+      :zh => {:name => "系统设置", :description => "系统设置"},
       :children => {
-          :systems_setting => {
-              :type => "function",
+          :system_global_setting => {
+              :type => "menu",
               :entry => {
                   :sequence => 10,
-                  :en => {:name => "My Personal Information", :description => "My Personal Information"},
-                  :zh => {:name => "我的个人信息", :description => "我的个人信息"},
-              }},
+                  :en => {:name => "Global setting", :description => "Global setting"},
+                  :zh => {:name => "全局设置", :description => "全局设置"}
+              }
+          },
+          :system_members_manage => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 20,
+                  :en => {:name => "Manage members", :description => "Manage members"},
+                  :zh => {:name => "管理成员", :description => "管理成员"}
+              }
+          }
       }
   }
   #====================================END:PERSONAL_SETTING======================================
-
-
-  map.function_group :systems_setting, {
-      :en => {:name => "System Setting", :description => "System Setting"},
-      :zh => {:name => "系统设置", :description => "系统设置"},
-      :system_flag => 'Y'}
-  map.function_group :systems_setting, {
+  map.menu :system_global_setting, {
+      :en => {:name => "Global setting", :description => "Global setting"},
+      :zh => {:name => "全局设置", :description => "全局设置"},
+      :children => {
+          :system_basic_info => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "My System Info", :description => "My System Info"},
+                  :zh => {:name => "我的系统信息", :description => "查看、编辑系统信息"},
+              }}
+      }
+  }
+  map.function_group :system_basic_info, {
+      :en => {:name => "My System Info", :description => "My System Info"},
+      :zh => {:name => "我的系统信息", :description => "查看、编辑系统信息"},
+      :system_flag => 'Y'
+  }
+  map.function_group :system_basic_info, {
       :zone_code => "SYSTEM_CUSTOM",
       :controller => "irm/systems",
-      :action => "index"}
-  map.function_group :systems_setting, {
+      :action => "index"
+  }
+  map.function_group :system_basic_info, {
       :children => {
-          :systems_info => {
-              :en => {:name => "System Info", :description => "System info"},
-              :zh => {:name => "系统信息", :description => "系统信息"},
+          :system_basic_info => {
+              :en => {:name => "My System Info", :description => "My System info"},
+              :zh => {:name => "我的系统信息", :description => "我的系统信息"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
               "irm/systems" => ["index","show","edit","update"]
-          },
-          :systems_manage_people => {
-              :en => {:name => "Manage People", :description => "Manage People"},
-              :zh => {:name => "管理成员", :description => "管理成员"},
+          }
+      }
+  }
+
+  ###
+  map.menu :system_members_manage, {
+      :en => {:name => "Manage members", :description => "Manage members"},
+      :zh => {:name => "管理成员", :description => "管理成员"},
+      :children => {
+          :system_person_manage => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "Add/Delete Person", :description => "Add or Delete Person"},
+                  :zh => {:name => "添加/删除成员", :description => "添加/删除成员"},
+              }}
+      }
+  }
+  map.function_group :system_person_manage, {
+      :en => {:name => "Add/Delete Person", :description => "Add/Delete Person"},
+      :zh => {:name => "添加/删除成员", :description => "添加/删除成员"},
+      :system_flag => 'Y'
+  }
+  map.function_group :system_person_manage, {
+      :zone_code => "SYSTEM_CUSTOM",
+      :controller => "irm/systems",
+      :action => "show"
+  }
+  map.function_group :system_person_manage, {
+      :children => {
+          :system_person_manage => {
+              :en => {:name => "Add/Delete Person", :description => "Add/Delete Person"},
+              :zh => {:name => "添加/删除成员", :description => "添加/删除成员"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
@@ -2729,6 +2780,7 @@ Fwk::MenuAndFunctionManager.map do |map|
           }
       }
   }
+
 end
 
 

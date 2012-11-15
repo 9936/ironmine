@@ -623,24 +623,52 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
   #=================================END:INCIDENT JOURNAL=================================
 
-  #=================================START: SYSTEM SETTING=================================
-  map.function_group :icm_system_incident_status, {
-      :en => {:name => "Manage Request Status", :description => "Manage System Request Status"},
-      :zh => {:name => "系统事故单状态管理", :description => "系统事故单状态管理"},
-      :system_flag => 'Y' }
-  map.function_group :icm_system_incident_status, {
-      :zone_code => "INCIDENT_SETTING",
-      :controller => "icm/systems",
-      :action => "index"}
-  map.function_group :icm_system_incident_status, {
+
+  map.menu :system_common_setting, {
       :children => {
-          :icm_system_incident_status => {
-              :en => {:name => "Status Setting", :description => "System Status Setting"},
+          :system_incident_setting => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 30,
+                  :en => {:name => "Incident Setting", :description => "Incident Setting"},
+                  :zh => {:name => "事故单设置", :description => "事故单设置"}
+              }
+          }
+      }
+  }
+
+  map.menu :system_incident_setting, {
+      :en => {:name => "Incident Setting", :description => "Incident Setting"},
+      :zh => {:name => "事故单设置", :description => "事故单设置"},
+      :children => {
+          :system_incident_status => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "Status", :description => "Status"},
+                  :zh => {:name => "状态设置", :description => "状态设置"},
+              }}
+      }
+  }
+  map.function_group :system_incident_status, {
+      :en => {:name => "Status", :description => "Status"},
+      :zh => {:name => "状态设置", :description => "状态设置"},
+      :system_flag => 'Y'
+  }
+  map.function_group :system_incident_status, {
+          :zone_code => "INCIDENT_SETTING",
+          :controller => "icm/systems",
+          :action => "index"
+  }
+  map.function_group :system_incident_status, {
+      :children => {
+          :system_incident_status => {
+              :en => {:name => "Status Setting", :description => "Status Setting"},
               :zh => {:name => "状态设置", :description => "状态设置"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/systems" => ["index","edit_transform","update_transform"],
+              "icm/systems" => ["index","edit_transform","update_transform"]
           }
       }
   }
