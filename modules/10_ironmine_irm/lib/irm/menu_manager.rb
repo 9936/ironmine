@@ -185,9 +185,10 @@ module Irm::MenuManager
       # 通过菜单编码取得子菜单项
       # 在返回子项前进行菜单子项的权限验证
       # must_permission_code 表示entry的permission_code不能为空，如果为空使用IRM_SETTING_COMMON填充
-      def sub_entries_by_menu(menu_code_or_id,is_id=true)
+      def sub_entries_by_menu(menu_code_or_id,is_id=true,sid=nil)
         sub_entries = []
         menu_id = nil
+        # 判断传入的是菜单的ID还是CODE
         if is_id
           menu_id = menu_code_or_id
         else
@@ -210,11 +211,13 @@ module Irm::MenuManager
                              :description=>me[::I18n.locale.to_sym][:description]
                             }
             # 确定当前子菜单项是否可显示
-            show_options = menu_showable(me)
+            show_options = menu_showable(me,sid)
 
             if show_options
-              show_options = {:controller=>"irm/setting",:action=>"common"}
-              sub_entries<< entries_options.merge!(show_options)
+              menu_url_options = {:controller=>"irm/setting",:action=>"common"}
+              menu_url_options = menu_url_options.merge(:sid=>sid) if sid.present?
+              menu_url_options = menu_url_options.merge(:url_options=>menu_url_options)
+              sub_entries<< entries_options.merge!(menu_url_options)
             end
 
         end
@@ -231,7 +234,12 @@ module Irm::MenuManager
           else
             next
           end
-          sub_entries<< entries_options if Irm::PermissionChecker.allow_to_url?({:controller=>entries_options[:controller],:action=>entries_options[:action]})
+          function_group_url_options = {:controller=>entries_options[:controller],:action=>entries_options[:action]}
+          function_group_url_options = function_group_url_options.merge(:sid=>sid) if sid.present?
+          if Irm::PermissionChecker.allow_to_url?(function_group_url_options)
+            function_group_url_options = function_group_url_options.merge(:url_options=>function_group_url_options)
+            sub_entries<< entries_options.merge(function_group_url_options)
+          end
         end
         sub_entries.sort {|x,y| x[:display_sequence] <=> y[:display_sequence] } 
       end
@@ -239,17 +247,20 @@ module Irm::MenuManager
       # 供外部调用
       # 确定菜单是否可显示
       # 只要菜单下有一个可以显示的权限，则表示需要显示该菜单
-      def menu_showable(menu_entry)
+      def menu_showable(menu_entry,sid=nil)
           menu = menus[menu_entry[:sub_menu_id]]
           if menu
             menu[:menu_entries].each do |me|
-              showable = menu_showable(me)
+              showable = menu_showable(me,sid)
               return showable if showable
             end
 
             menu[:function_group_entries].each do |fge|
-              if function_groups[fge[:sub_function_group_id]]&&Irm::PermissionChecker.allow_to_url?(function_groups[fge[:sub_function_group_id]])
-                return function_groups[fge[:sub_function_group_id]]
+              function_group_url_options = function_groups[fge[:sub_function_group_id]]
+              function_group_url_options = function_group_url_options.merge(:sid=>sid) if function_group_url_options.present?&&sid.present?
+              if function_group_url_options&&Irm::PermissionChecker.allow_to_url?(function_group_url_options)
+                function_group_url_options = function_group_url_options.merge(:url_options=>function_group_url_options)
+                return function_group_url_options
               end
             end
 
