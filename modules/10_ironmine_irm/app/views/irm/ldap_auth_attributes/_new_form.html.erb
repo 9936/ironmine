@@ -1,4 +1,3 @@
-<%= common_title %>
 <%= form_for(@ldap_auth_attribute,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
   <% content_for :form_block_common   do%>
     <table class="form-table">
@@ -17,7 +16,7 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=t(:label_ldap_auth_attribute_description)%></label></td>
-            <td class="data-col"><%=f.text_area :description,:rows=>4, :required=>true,:class=>"input-xlarge" %></td>
+            <td class="data-col"><%=f.text_area :description,:rows=>4,:class=>"input-xlarge" %></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
