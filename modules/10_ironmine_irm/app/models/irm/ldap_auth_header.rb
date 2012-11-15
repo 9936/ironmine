@@ -125,7 +125,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
   def create_ldap_person(person_attr, filed_to_value = {})
     #首先查找规则中的模板用户，当不存在时候用自身的模板用户同步数据
     if filed_to_value.any?
-      template_person_id = Irm::LdapAuthRule.get_template_person(filed_to_value)
+      template_person_id = Irm::LdapAuthRule.get_template_person(filed_to_value,self.id)
       unless template_person_id.present?
         template_person_id = self.template_person_id
       end

@@ -10,15 +10,20 @@ class Irm::LdapAuthRule < ActiveRecord::Base
     self.order("sequence ASC")
   }
 
+  scope :with_auth_header,lambda{|header_id|
+    self.where(:ldap_auth_header_id => header_id )
+  }
+
   scope :with_person,lambda{
     joins("JOIN #{Irm::Person.table_name} ON #{Irm::Person.table_name}.id = #{table_name}.template_person_id").
         select("#{Irm::Person.table_name}.full_name,#{table_name}.*")
   }
 
-  def self.get_template_person(field_to_value)
+  def self.get_template_person(field_to_value,header_id)
     #查找是否含有field和value的记录
+    rule_scoped = self.order_by_sequence.with_auth_header(header_id)
     field_to_value.each do |field, value|
-      rule = self.order_by_sequence.where("attr_field = ? AND attr_value = ?", field, value).first
+      rule = rule_scoped.where("attr_field = ? AND attr_value = ?", field, value).first
       if rule.present?
         if rule.operator_code.eql?('E')
           return rule.template_person_id
