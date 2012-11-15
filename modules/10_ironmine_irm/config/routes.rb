@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     #systems
     match '/systems/:sid/setting' => "systems#index"
     match '/systems/:sid/show' => "systems#show"
+    match '/systems/:sid/edit(.:format)' => "systems#edit"
+    match '/systems/:sid(.:format)' => "systems#update", :via => :put
     match '/systems/:sid/add_people(.:format)' => "systems#add_people"
     match '/systems/:sid/delete_people(.:format)' => "systems#delete_people"
     #lookup_types

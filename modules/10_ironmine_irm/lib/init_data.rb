@@ -2717,7 +2717,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/systems" => ["index", "show"]
+              "irm/systems" => ["index","show","edit","update"]
           },
           :systems_manage_people => {
               :en => {:name => "Manage People", :description => "Manage People"},
