@@ -44,7 +44,7 @@ class Irm::FunctionGroup < ActiveRecord::Base
   # 能直接使用get方法访问的链接
   scope :visitable,lambda{
     joins("JOIN #{Irm::Permission.table_name} ON #{Irm::Permission.table_name}.controller = #{table_name}.controller AND #{Irm::Permission.table_name}.action = #{table_name}.action ").
-    where("#{Irm::Permission.table_name}.params_count = ? AND #{Irm::Permission.table_name}.direct_get_flag = ?",0,Irm::Constant::SYS_YES)
+    where("(#{Irm::Permission.table_name}.params_count = ? AND #{Irm::Permission.table_name}.direct_get_flag = ?) OR (#{Irm::Permission.table_name}.params_count = ? AND #{Irm::Permission.table_name}.system_flag = ?)",0,Irm::Constant::SYS_YES,1,Irm::Constant::SYS_YES)
   }
 
   def self.current
