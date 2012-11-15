@@ -22,21 +22,24 @@ class Irm::LdapAuthRule < ActiveRecord::Base
   def self.get_template_person(field_to_value,header_id)
     #查找是否含有field和value的记录
     rule_scoped = self.order_by_sequence.with_auth_header(header_id)
-    field_to_value.each do |field, value|
+    #查看是否有这些属性，如果同时存在多个需要根据sequence排序
+    new_field_to_value = {}
+    ordered_rules = rule_scoped.where(:attr_field => field_to_value.keys)
+    ordered_rules.each do |rule|
+      new_field_to_value[rule.attr_field.to_sym] = field_to_value[rule.attr_field.to_sym]
+    end
+    new_field_to_value.each do |field, value|
       rule = rule_scoped.where("attr_field = ? AND attr_value = ?", field, value).first
       if rule.present?
         if rule.operator_code.eql?('E')
           return rule.template_person_id
-        else
-          rule = self.order_by_sequence.where("attr_field = ? AND attr_value != ?", field, value).first
-          if !rule.attr_value.eql?(value) and rule.operator_code.eql?('N')
-            return rule.template_person_id
-          else
-            return nil
-          end
         end
+      else
+        rule = self.order_by_sequence.where("attr_field = ? AND operator_code =? AND attr_value != ?", field,'N' ,value).first
+        return rule.template_person_id if rule
       end
     end
+    return nil
   end
 
   private
