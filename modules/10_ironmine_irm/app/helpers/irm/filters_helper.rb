@@ -85,7 +85,7 @@ module Irm::FiltersHelper
   end
 
   def view_filters(source_code)
-    Irm::RuleFilter.hold.query_by_source_code(source_code)
+    Irm::RuleFilter.hold.query_by_source_code(source_code).order("display_sequence ASC")
   end
 
   def view_filter_operators(data_type,lov_flag=false)
