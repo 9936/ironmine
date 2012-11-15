@@ -17,6 +17,10 @@
     <td class="page-block-title">
       <h2 class="block-title"><%= t(:label_irm_external_system) %></h2>
     </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :sid => @external_system},:class=>"btn btn-primary"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
   </tr></table>
   <div class="page-block-body">
     <table class="show-table">
