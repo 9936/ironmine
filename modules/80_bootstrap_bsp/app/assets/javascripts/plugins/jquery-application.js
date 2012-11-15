@@ -387,6 +387,7 @@ function setLookupValue(fieldId,value){
     $.getJSON(url,{_dom_id:dom_id},function(data) {
         $("#"+fieldId).val(data.value);
         $("#"+fieldId+"_label").val(data.label_value);
+        $("#"+fieldId+"_label").attr("data-old-value",data.label_value);
         $("#"+fieldId).data("lov",data.data);
         $("#"+fieldId).trigger("change");
     });
@@ -399,6 +400,7 @@ function setLookupLabelValue(fieldId,labelValue){
     $.getJSON(url, function(data) {
         $("#"+fieldId).val(data.value);
         $("#"+fieldId+"_label").val(data.label_value);
+        $("#"+fieldId+"_label").attr("data-old-value",data.label_value);
         $("#"+fieldId).data("lov",data.data);
         $("#"+fieldId).trigger("change");
     });
