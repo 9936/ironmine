@@ -59,6 +59,11 @@ namespace :irm do
     end
     #保存或者更新function信息
     function_groups.each do |group_code, group|
+      #检查group_code的长度是否超过30
+      if group_code and group_code.length > 30
+        put "#{RED} Function Group's code [#{function[:code]}] must limited in 30 chart.#{CLEAR}"
+        next
+      end
       #判断system_flag
       group_system_flag = system_flag?(group)
 
