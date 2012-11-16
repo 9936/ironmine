@@ -30,8 +30,8 @@ Rails.application.routes.draw do
 
     #systems
     match '/systems/:sid/info' => "systems#index"
-    match '/systems/:sid/edit(.:format)' => "systems#edit"
-    match '/systems/:sid(.:format)' => "systems#update", :via => :put
+    #match '/systems/:sid/edit(.:format)' => "systems#edit"
+    #match '/systems/:sid(.:format)' => "systems#update", :via => :put
 
     #system_members
     match '/system_members/:sid/(/index)(.:format)' => "system_members#index"
