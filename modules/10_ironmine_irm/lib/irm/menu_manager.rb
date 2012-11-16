@@ -10,6 +10,14 @@ module Irm::MenuManager
         items[:permissions]
       end
 
+      def system_permissions
+        items[:system_permissions]
+      end
+
+      def functions
+        items[:functions]
+      end
+
       def function_groups
         items[:function_groups]
       end
@@ -102,9 +110,16 @@ module Irm::MenuManager
             permissions_cache[permission_key]=[function_id]
           end
         end
+        functions_cache = {}
+        Irm::Function.all.each do |function|
+          functions_cache.merge!({function.id=>{:id=>function.id,:code=>function.code,:system_flag=>function.system_flag}})
+          functions_cache.merge!({function.code.upcase=>{:id=>function.id,:code=>function.code,:system_flag=>function.system_flag}})
+        end
 
+        system_permissions_cache = Irm::Permission.where(:system_flag=>Irm::Constant::SYS_YES).collect{|p| Irm::Permission.url_key(p.controller,p.action)}
         map do |m|
           m.merge!({:permissions=>permissions_cache,:public_functions=>public_functions_cache,:login_functions=>login_functions_cache})
+          m.merge!({:system_permissions=>system_permissions_cache,:functions=>functions_cache})
         end
       end
 
