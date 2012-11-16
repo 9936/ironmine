@@ -1,5 +1,4 @@
 class Icm::SystemsController < ApplicationController
-  layout "system_setting"
 
   def index
 
