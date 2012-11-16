@@ -36,7 +36,7 @@ class Irm::PermissionChecker
     return true if Irm::MenuManager.public_functions.include?(function[:id])
     return false unless Irm::Person.current.logged?
     return true if Irm::MenuManager.login_functions.include?(function[:id])
-    function_ids =  [function.id]
+    function_ids =  [function[:id]]
     function_ids = ["#{sid}_#{function.id}"] if sid.present?&&Irm::Constant::SYS_YES.eql?(function[:system_flag])
     Irm::Person.current.allowed_to?(function_ids)
   end
