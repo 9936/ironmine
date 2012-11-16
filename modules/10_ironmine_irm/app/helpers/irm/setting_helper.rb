@@ -123,4 +123,9 @@ module Irm::SettingHelper
       content_tag(:tr,tr.html_safe).html_safe
     end
   end
+
+  # 展开菜单第一项内容
+  def auth_explore_menu
+
+  end
 end
