@@ -10,6 +10,7 @@ class Irm::PermissionChecker
     if url_options[:sid].present?&&Irm::MenuManager.system_permissions.include?(permission_key)
       assigned_to_functions = assigned_to_functions.collect{|i| i.gsub("{sid}","#{url_options[:sid]}")}
     end
+
     if assigned_to_functions
       public_functions = Irm::MenuManager.public_functions
       return true if assigned_to_functions.detect{|f| public_functions.include?(f)}

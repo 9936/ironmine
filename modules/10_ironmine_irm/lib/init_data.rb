@@ -2723,7 +2723,7 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
   map.function_group :system_basic_info, {
       :en => {:name => "My System Info", :description => "My System Info"},
-      :zh => {:name => "我的系统信息", :description => "查看、编辑系统信息"},
+      :zh => {:name => "我的系统信息", :description => "我的系统信息"},
       :system_flag => 'Y'
   }
   map.function_group :system_basic_info, {
@@ -2739,7 +2739,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/systems" => ["index","edit","update"]
+              "irm/systems" => ["index"]
           }
       }
   }

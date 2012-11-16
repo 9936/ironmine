@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def system_setup
-    Irm::ExternalSystem.current_system = find_current_system
+    Irm::ExternalSystem.current_system = find_current_system if params[:sid]
   end
 
   # 检查是否需要登录
