@@ -2739,7 +2739,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/systems" => ["index","show","edit","update"]
+              "irm/systems" => ["index","edit","update"]
           }
       }
   }
@@ -2765,8 +2765,8 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
   map.function_group :system_person_manage, {
       :zone_code => "SYSTEM_CUSTOM",
-      :controller => "irm/systems",
-      :action => "show"
+      :controller => "irm/system_members",
+      :action => "index"
   }
   map.function_group :system_person_manage, {
       :children => {
@@ -2776,7 +2776,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/systems" => ["add_people", "delete_people"]
+              "irm/system_members" => ["index","add_people", "delete_people"]
           }
       }
   }

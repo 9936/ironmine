@@ -29,12 +29,15 @@ Rails.application.routes.draw do
     match 'search(/index)(.:format)' => "search#index", :via => [:get, :post]
 
     #systems
-    match '/systems/:sid/setting' => "systems#index"
-    match '/systems/:sid/show' => "systems#show"
+    match '/systems/:sid/info' => "systems#index"
     match '/systems/:sid/edit(.:format)' => "systems#edit"
     match '/systems/:sid(.:format)' => "systems#update", :via => :put
-    match '/systems/:sid/add_people(.:format)' => "systems#add_people"
-    match '/systems/:sid/delete_people(.:format)' => "systems#delete_people"
+
+    #system_members
+    match '/system_members/:sid/(/index)(.:format)' => "system_members#index"
+    match '/system_members/:sid/add_people(.:format)' => "system_members#add_people"
+    match '/system_members/:sid/delete_people(.:format)' => "system_members#delete_people"
+
     #lookup_types
     match '/lookup_types/new(.:format)' => "lookup_types#new", :via => :get
     match '/lookup_types/create(.:format)' => "lookup_types#create", :via => :post
