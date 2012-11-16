@@ -14,7 +14,8 @@ module Irm
           html_options = convert_options_to_data_attributes(options, html_options)
           if options.is_a?(Hash)
               options[:controller] ||= params[:controller]
-              options[:action] ||= params[:action]              
+              options[:action] ||= params[:action]
+              options[:sid] ||= params[:sid]
               #扩展权限验证,当用户无权访问链接时,隐藏链接
               if(options[:controller]&&options[:action]&&!allow_to?(options))
                 if(!html_options['show'])
@@ -55,6 +56,7 @@ module Irm
       def checked_url_for(options = {})
         options[:controller] ||= params[:controller]
         options[:action] ||= params[:action]
+        options[:sid] ||= params[:sid]
         if(options[:controller]&&options[:action]&&allow_to?(options))
           url_for(options)
         else

@@ -428,8 +428,8 @@ module ApplicationHelper
   end
 
 
-  def allow_to_function?(function)
-    Irm::PermissionChecker.allow_to_function?(function)
+  def allow_to_function?(function,sid=nil)
+    Irm::PermissionChecker.allow_to_function?(function,sid)
   end
 
   def current_person?(person_id)
