@@ -3,6 +3,7 @@ module Irm::SystemsHelper
     return nil unless Irm::Person.current&&Irm::Person.current.profile
     return nil unless params[:sid]
     systems = Irm::Person.current.external_systems
+    systems.delete_if{|i| i.id == current_system[:id] }
     return nil unless systems.size>1
     system = ""
 
