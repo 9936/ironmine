@@ -1,3 +1,5 @@
+<!-- 当菜单没有子菜单时，避免右侧部分空白，将菜单第一项展开 -->
+<% if sub_entries(@menu_entry[:sub_menu_id]).any? %>
 <style type="text/css">
   body .page-title .pt-body h1.noSecondHeader {
     color: #000000;
@@ -14,8 +16,6 @@
   </div></div>
   <div class="ptBreadcrumb"></div>
 </div>
-<!-- 当菜单没有子菜单时，避免右侧部分空白，将菜单第一项展开 -->
-<% if sub_entries(@menu_entry[:sub_menu_id]).any? %>
   <% sub_entries(@menu_entry[:sub_menu_id]).each do |en| %>
     <!--页面结构-->
     <div class="page-block">
@@ -36,9 +36,12 @@
     </div>
   <% end %>
 <% else %>
+  <div id="firstMenu"></div>
   <script type="text/javascript">
     $(document).ready(function(){
-        window.location =$("#MenuNavTree").find(".setup-leaf:first a").attr('href');
+        var target = $("#MenuNavTree").find(".setup-leaf:first a");
+        $("#firstMenu").load(target.attr('href'));
+        target.parent().addClass('setup-highlight-leaf');
     })
   </script>
 <% end %>
