@@ -18,7 +18,7 @@ module Irm::SettingHelper
     menus.each do |m|
       links << content_tag(:li,link_to(m[:name],{:controller=>m[:controller],:action=>m[:action],:mi=>m[:menu_entry_id],:level=>1}),{})
     end
-    links.html_safe
+    (links+system_setting_menu).html_safe
   end
 
 
@@ -28,16 +28,17 @@ module Irm::SettingHelper
       return
     end
     menus = []
+    menus = Irm::MenuManager.sub_entries_by_menu(Irm::Menu.system_menu.id,true,session[:sid]) if session[:sid].present?
     Irm::Person.current.external_systems.each do |system|
       menus = Irm::MenuManager.sub_entries_by_menu(Irm::Menu.system_menu.id,true,system.id)
       break if menus&&menus.size>0
-    end
+    end unless menus&&menus.size>0
     return nil unless menus&&menus.size>0
     links = ""
     menus.each do |m|
       links << content_tag(:li,link_to(m[:name],m[:url_options].merge({:controller=>m[:controller],:action=>m[:action],:mi=>m[:menu_entry_id],:level=>1})),{})
     end
-    links.html_safe
+    links
   end
 
   # 生成左侧菜单
