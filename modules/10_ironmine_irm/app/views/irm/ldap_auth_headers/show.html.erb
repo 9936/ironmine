@@ -72,12 +72,13 @@
 </div>
 <!--页面结构-->
 <div class="page-block">
+  <!-- ldap属性 -->
   <table class="page-block-header"><tr>
     <td class="page-block-title">
       <h2 class="block-title"><%= t(:label_irm_object_attributes) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:new), {:controller => "irm/ldap_auth_attributes", :action => "new", :ah_id => @ldap_auth_header.id},:class => "btn"%>
+      <%= link_to t(:new), {:controller => "irm/ldap_auth_attributes", :action => "new", :ah_id => @ldap_auth_header.id},:class => "btn btn-info"%>
     </td>
     <td class="page-block-help">
       <div id="object_attributesSearchBox"></div>
@@ -85,5 +86,21 @@
   </tr></table>
   <div class="page-block-body">
     <%= datatable("ldap_auth_attributes",{:controller => "irm/ldap_auth_attributes", :action => "get_data", :ah_id => @ldap_auth_header.id},[],{:search_box=>"object_attributesSearchBox",:paginator_box=>"object_attributesPaginator"})%>
+  </div>
+</div>
+
+<div class="page-block">
+  <!-- ldap模板用户规则 -->
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_object_rules) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:controller => "irm/ldap_auth_rules", :action => "new", :ah_id => @ldap_auth_header.id},:class => "btn btn-info"%>
+    </td>
+    <td class="page-block-help"></td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("ldap_auth_rules",{:controller => "irm/ldap_auth_rules", :action => "get_data", :ah_id => @ldap_auth_header.id},[],{:drag_sort => {:save_url => url_for(:controller => 'irm/ldap_auth_rules', :action => 'switch_sequence',:ah_id => @ldap_auth_header.id)} })%>
   </div>
 </div>

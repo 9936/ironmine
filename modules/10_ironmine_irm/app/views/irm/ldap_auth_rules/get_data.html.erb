@@ -1,0 +1,11 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+        <%= link_to(t(:edit),{:controller => "irm/ldap_auth_rules", :action => "edit", :ah_id => params[:ah_id],:id=>data[:id]},:class => "action-link") %>&nbsp;|
+        <%= link_to(t(:show),{:controller => "irm/ldap_auth_rules", :action => "show", :ah_id => params[:ah_id],:id=>data[:id]},:class => "action-link") %>&nbsp;|
+        <%= link_to(t(:delete),{:controller => "irm/ldap_auth_rules", :action => "destroy", :ah_id => params[:ah_id],:id=>data[:id]},{:class => "action-link",:method => :delete,:confirm => t(:label_are_you_sure)}) %>
+    <% end %>
+    <% builder.column(:operator_code,{:title => t(:label_irm_ldap_auth_rule_filter)}) do |data| %>
+      <%= raw t(:irm_filter_criterions_column_code) +" :  <span class='label'>"+ data[:attr_field] + "</span> <span class='label label-important'>" + Irm::LookupValue.get_meaning("RULE_FILTER_OPERATOR", data[:operator_code])  + "</span>  <span class='label label-info'>" +  data[:attr_value] + "</span>" %>
+    <% end %>
+    <% builder.column(:full_name,{:title => t(:ldap_auth_header_template_person)}) %>
+<% end %>

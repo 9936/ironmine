@@ -1,78 +1,72 @@
 <%= common_title() %>
+
 <%= form_tag(url_for(:controller => "irm/projects",:action=>"update", :project_code => @project[:short_name]),
              :id => "irm_project_edit", :builder => LabellingFormBuilder) do %>
-<div  class="wizard-block">
-  <%= content_tag("div", raw(t(:error_invalid_data) + "<br>" + t(:check_error_msg_and_fix) + "<br>" + @errors.to_s),
-                  {:id => "errorDiv_ep", :class => "pbError"} ) unless @errors.nil? %>
-    <div class="pbBody">
-        <div class="pbBottomButtons">
-            <table cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-                <tr>
-                  <td class="pbTitle"></td>
-                  <td class="pbButton">
-                    <div class="button"><%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "edit_project_button"} %></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  <% content_for :form_block_common   do%>
+    <table class="form-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%=t(:label_irm_project_name)%></label></td>
+        <td class="data-col"><%= text_field_tag(:project_name, @project[:name], :jrequired => true) %></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=(t :label_irm_project_description)%></label></td>
+        <td class="data-col"><%= text_area_tag :project_description, @project[:description], :cols => 40, :rows => 4%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label>Hotline</label></td>
+        <td class="data-col">
+          <%= radio_button_tag :hotline, Irm::Constant::SYS_YES, @project[:hotline].present? && @project[:hotline].eql?('Y'), {:id => "hotline_y"}%>
+          <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <%= radio_button_tag :hotline, Irm::Constant::SYS_NO, !(@project[:hotline].present? && @project[:hotline].eql?('Y')), {:id => "hotline_n"}%>
+          <label for="hotline_n">N</label>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% content_for :form_buttons  do %>
+    <%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "edit_project_button btn btn-primary"} %>
+  <% end %>
+
+  <!--页面结构-->
+  <div class="page-block">
+    <table class="page-block-header">
+      <tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_project_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+    <%= error_for @group %>
+    <div class="page-block-body">
+      <div class="sub-page-block">
+        <!-- 一般信息 -->
+        <div class="sub-page-block-header">
+          <%= form_require_info %>
+          <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
         </div>
-        <div class="pbWizardBody">
-            <div class="secondary-palette">
-              <div class="pbBody">
-                <div id="head_1_ep" class="pbSubheader first tertiaryPalette">
-                  <span class="pbSubExtra">
-                      <span class="requiredLegend">
-                        <span class="requiredExampleOuter">
-                        <span class="requiredExample">&nbsp;</span>
-                        </span>
-                      <span class="requiredMark">*</span>
-                      <span class="requiredText"> = <%=t(:label_is_required)%></span>
-                      </span>
-                  </span>
-                  <h3><%=t(:label_irm_person_info)%></h3>
-                </div>
-                <div class="pbSubsection">
-                  <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-                    <tbody>
-                        <tr>
-                          <td class="labelCol"><label><%=t(:label_irm_project_name)%></label></td>
-                          <td class="dataCol"><%= text_field_tag(:project_name, @project[:name], :jrequired => true) %></td>
-                        </tr>
-                        <tr>
-                          <td class="labelCol"><label><%=(t :label_irm_project_description)%></label></td>
-                          <td class="dataCol"><%= text_area_tag :project_description, @project[:description], :cols => 40, :rows => 4%></td>
-                        </tr>
-                        <tr>
-                          <td class="labelCol"><label>Hotline</label></td>
-                          <td class="dataCol">
-                            <%= radio_button_tag :hotline, Irm::Constant::SYS_YES, @project[:hotline].present? && @project[:hotline].eql?('Y'), {:id => "hotline_y"}%>
-                            <label for="hotline_y">Y</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <%= radio_button_tag :hotline, Irm::Constant::SYS_NO, !(@project[:hotline].present? && @project[:hotline].eql?('Y')), {:id => "hotline_n"}%>
-                            <label for="hotline_n">N</label>
-                          </td>
-                        </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="pbBottomButtons">
-                <table cellpadding="0" cellspacing="0" border="0">
-                  <tbody>
-                    <tr>
-                      <td class="pbTitle"></td>
-                      <td id="bottomButtonRow" class="pbButtonb">
-                        <div class="button"><%= link_to t(:save), {}, {:href => "javascript:void(0);", :class => "edit_project_button"} %></div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+        <div class="sub-page-block-body">
+          <%= content_for :form_block_common   %>
         </div>
+      </div>
     </div>
-</div>
+    <table class="page-block-footer">
+      <tr>
+        <td class="page-block-title"></td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr>
+    </table>
+  </div>
 <% end %>
+
+
+
 <script type="text/javascript">
   $(function(){
     $(".edit_project_button").click(function(){

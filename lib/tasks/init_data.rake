@@ -59,6 +59,11 @@ namespace :irm do
     end
     #保存或者更新function信息
     function_groups.each do |group_code, group|
+      #检查group_code的长度是否超过30
+      if group_code and group_code.length > 30
+        puts "#{RED} Function Group's code [#{group_code}] is too long, must limited in 30 chart.#{CLEAR}"
+        next
+      end
       #判断system_flag
       group_system_flag = system_flag?(group)
 
@@ -112,6 +117,11 @@ namespace :irm do
           need_delete_functions = function_group.functions
           group[:functions].each do |function|
             if function[:code]
+              #检查function code的长度是否超过30
+              if function[:code].length > 30
+                puts "#{RED} Function's code [#{function[:code]}] is too long, must limited in 30 chart.#{CLEAR}"
+                next
+              end
               need_delete_functions.delete_if{|f|f[:code].to_s.eql?(function[:code].to_s)}
               function[:languages] ||= {}
               function[:languages][:zh] = function[:zh] if function[:zh]
@@ -231,6 +241,11 @@ namespace :irm do
     end
     has_not_saved_entries = {}
     menus.each do |code, menu|
+      #检查menu code的长度是否超过30
+      if code and code.length > 30
+        puts "#{RED} Menu's code [#{code}] is too long,it must limited in 30 chart.#{CLEAR}"
+        next
+      end
       need_delete_menus.delete_if {|m| m[:code].to_s.include?(code.to_s)} if menu.present?
       menu[:languages] = {}
       menu[:code] = code if code.present?
@@ -420,7 +435,9 @@ namespace :irm do
     Irm::Permission.update_all("status_code = 'UNKNOW'")
     functions.each do |function_code,function|
       #如果当前的function的system_flag为‘Y’,其permission对应的route 必须带有sid参数，即system_flag为‘Y’
-      function_system_flag = Irm::Function.where(:code => function_code).first.system_flag
+      tmp_function = Irm::Function.where(:code => function_code).first
+      next unless tmp_function.present?
+      function_system_flag = tmp_function.system_flag
       permissions =  function[:permissions]
       permissions.each do |controller,actions|
         actions.each do |action|

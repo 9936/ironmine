@@ -122,7 +122,6 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
              return false;
            }
            var url = '#{@template.url_for(:controller => "irm/list_of_values",:action=>"lov_result",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val();
-           //url = url.replace(/%/g, '%25');
            url += '&_dom_id='+$(parent_forms[0]).attr('id');
            $.ajax({
              url:encodeURI(url),
@@ -131,18 +130,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
              error: function(data){},
              success: function(data){
                 if(data.status == 'success'){
-                  $("##{lov_field_id}_label").attr('data-old-value', data.label);
-                  lookupPick("#{lov_field_id}",data.value,data.label,data);
-                  //$("##{lov_field_id}").val(data.value);
-                  //$("##{lov_field_id}").data("lov",data);
-                  //$("##{lov_field_id}").trigger("change");
-                  //$("##{lov_field_id}_label").val(data.label);
-                  //$("##{lov_field_id}Tip").removeClass("alert-error");
-                  //$("##{lov_field_id}Tip").html("#{I18n.t(:lov_tooltip_text)}");
-                  //if(relationSubmit === 'true'){
-                   // $('a[type=submit]', $(parent_forms[0])).removeAttr('open-lov-first');
-                   // $('a.submit', $(parent_forms[0])).removeAttr('open-lov-first');
-                 // }
+                  setTimeout(function () {lookupPick("#{lov_field_id}",data.value,data.label,data);},100);
                 }else{
                   $("##{lov_field_id}_label").attr('data-old-value', $("##{lov_field_id}_label").val());
                   $("##{lov_field_id}").val('');

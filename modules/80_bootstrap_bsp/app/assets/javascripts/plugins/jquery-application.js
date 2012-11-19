@@ -167,18 +167,6 @@ $(function(){
                 $(e.target).mask($.i18n("processing"));
              }
          }
-
-         //$(e.target).find("input[type=submit]").each(function(index,el){
-         //    $(el).attr("disabled",true);
-         //    $(el).addClass("disabled");
-         //    $(el).attr("value",$.i18n("processing"));
-         //});
-         //$(e.target).find("div.button a").each(function(index,el){
-         //    $(el).attr("disabled",true);
-         //    $(el).attr("onclick","alert('"+$.i18n("processing")+"');return false;");
-         //    $(el).addClass("disabled");
-         //    $(el).html($.i18n("processing"));
-         //});
     });
 
     $('a[disabled]').each(function(index,n){
@@ -376,7 +364,7 @@ function lookupPick(fieldId,value,valueLabel,data){
 
     $("#"+fieldId+"_label").val(valueLabel);
     $("#"+fieldId+"_label").attr("data-old-value",valueLabel);
-    $("#"+fieldId+"_label").focus();
+    //$("#"+fieldId+"_label").focus();
     $("#"+fieldId).data("lov",data);
     $("#"+fieldId).trigger("change");
 
@@ -399,6 +387,7 @@ function setLookupValue(fieldId,value){
     $.getJSON(url,{_dom_id:dom_id},function(data) {
         $("#"+fieldId).val(data.value);
         $("#"+fieldId+"_label").val(data.label_value);
+        $("#"+fieldId+"_label").attr("data-old-value",data.label_value);
         $("#"+fieldId).data("lov",data.data);
         $("#"+fieldId).trigger("change");
     });
@@ -411,6 +400,7 @@ function setLookupLabelValue(fieldId,labelValue){
     $.getJSON(url, function(data) {
         $("#"+fieldId).val(data.value);
         $("#"+fieldId+"_label").val(data.label_value);
+        $("#"+fieldId+"_label").attr("data-old-value",data.label_value);
         $("#"+fieldId).data("lov",data.data);
         $("#"+fieldId).trigger("change");
     });

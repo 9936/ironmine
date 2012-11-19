@@ -212,6 +212,17 @@ Rails.application.routes.draw do
     match '/ldap_auth_headers/:ah_id/ldap_auth_attributes/:id/delete(.:format)' => "ldap_auth_attributes#destroy"
     match '/ldap_auth_headers/get_by_ldap_source(.:format)' => "ldap_auth_headers#get_by_ldap_source", :via => :get
 
+    #ldap_auth_rules
+    match '/ldap_auth_rules(/index)(.:format)' => "ldap_auth_rules#index", :via => :get
+    match '/ldap_auth_rules/:ah_id/ldap_auth_rules/new(.:format)' => "ldap_auth_rules#new", :via => [:get, :post, :put]
+    match '/ldap_auth_rules/:ah_id/ldap_auth_rules/switch_sequence(.:format)' => "ldap_auth_rules#switch_sequence"
+    match '/ldap_auth_rules/:ah_id/ldap_auth_rules/create(.:format)' => "ldap_auth_rules#create", :via => :post
+    match '/ldap_auth_rules/:ah_id/ldap_auth_rules/get_data(.:format)' => "ldap_auth_rules#get_data"
+    match '/ldap_auth_rules/:ah_id/ldap_auth_rules/:id/edit(.:format)' => "ldap_auth_rules#edit", :via => :get
+    match '/ldap_auth_rules/:ah_id/ldap_auth_rules/:id/update(.:format)' => "ldap_auth_rules#update", :via => :put
+    match '/ldap_auth_rules/:ah_id/ldap_auth_rules/:id/show(.:format)' => "ldap_auth_rules#show", :via => :get
+    match '/ldap_auth_rules/:ah_id/ldap_auth_rules/:id/delete(.:format)' => "ldap_auth_rules#destroy"
+
     #ldap_syn_header
     match '/ldap_syn_headers(/index)(.:format)' => "ldap_syn_headers#index", :via => :get
     match '/ldap_syn_headers/:id/edit(.:format)' => "ldap_syn_headers#edit", :via => :get

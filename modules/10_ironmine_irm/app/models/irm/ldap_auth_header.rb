@@ -2,6 +2,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
   set_table_name :irm_ldap_auth_headers
   belongs_to :ldap_source, :foreign_key => :ldap_source_id, :primary_key => :id
   has_many :ldap_auth_attributes
+  has_many :ldap_auth_rules
 
   #对必填属性进行校验
   validates_presence_of :name, :auth_cn, :ldap_login_name_attr, :ldap_email_address_attr, :template_person_id, :ldap_source_id
@@ -67,14 +68,18 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
                   :attributes => (['dn']+return_attrs.values)) do |return_entry|
         exists_person = Irm::Person.where(:login_name => login_name).first
         return exists_person.id if exists_person
+
+        filed_to_value = {}
         return_attrs.each do |key, value|
           return_value = self.class.get_attr(return_entry, value).force_encoding("utf-8")
+          filed_to_value[value.to_sym] = return_value if return_value.present?
           person_attr[key]= return_value if return_value
         end
         person_attr[:auth_source_id] = self.id
         person_attr[:email_address] = "#{person_attr[:login_name]}@ironmine.com" unless person_attr[:email_address].present?
         person_attr[:first_name] = login_name unless person_attr[:first_name].present?
-        person = create_ldap_person(person_attr)
+
+        person = create_ldap_person(person_attr,filed_to_value)
         return person.id if person
 
       end
@@ -85,7 +90,6 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
                   :attributes => (['dn'])) do |entry|
         dn = entry.dn
 
-
         ldap.search(:auth => {:method => :simple, :dn => dn, :password => password},
                     :base => self.auth_cn,
                     :filter => login_filter,
@@ -93,14 +97,19 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
                     :attributes => (['dn']+return_attrs.values)) do |return_entry|
           exists_person = Irm::Person.where(:login_name => login_name).first
           return exists_person.id if exists_person
+
+          filed_to_value = {}
           return_attrs.each do |key, value|
             return_value = self.class.get_attr(return_entry, value).force_encoding("utf-8")
+            filed_to_value[value.to_sym] = return_value if return_value.present?
             person_attr[key]= return_value if return_value.present?
           end
+
           person_attr[:auth_source_id] = self.id
           person_attr[:email_address] = "#{person_attr[:login_name]}@ironmine.com" unless person_attr[:email_address].present?
           person_attr[:first_name] = login_name unless person_attr[:first_name].present?
-          person = create_ldap_person(person_attr)
+
+          person = create_ldap_person(person_attr,filed_to_value)
           return person.id if person
 
         end
@@ -113,8 +122,19 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
   end
 
 
-  def create_ldap_person(person_attr)
-    template_person = Irm::Person.find(self.template_person_id)
+  def create_ldap_person(person_attr, filed_to_value = {})
+    #首先查找规则中的模板用户，当不存在时候用自身的模板用户同步数据
+    if filed_to_value.any?
+      template_person_id = Irm::LdapAuthRule.get_template_person(filed_to_value,self.id)
+      unless template_person_id.present?
+        template_person_id = self.template_person_id
+      end
+    else
+      template_person_id = self.template_person_id
+    end
+
+    template_person = Irm::Person.find(template_person_id)
+
     person = template_person.attributes.merge(person_attr.stringify_keys!)
     # setup person and password
     random_password = Irm::PasswordPolicy.random_password(template_person.opu_id)

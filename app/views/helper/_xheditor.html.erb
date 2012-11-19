@@ -50,12 +50,16 @@
           shortcuts:{'ctrl+enter':submitForm},
           <% end -%>
           upImgExt:'jpg,jpeg,gif,png',
-          focus: function(){$(".xheLayout",$("#<%=textarea_id%>").parent()).addClass("focused")},
+          focus: function(){
+              $("#<%= textarea_id %>").trigger("focus");
+              $(".xheLayout",$("#<%=textarea_id%>").parent()).addClass("focused")
+          },
           blur: function(){
               if($("#<%= textarea_id %>").val().length > textAreaMaxLength) {
                   alert("<%= t(:label_past_text_too_long) %>");
                   $("#<%= textarea_id %>").val($("#<%= textarea_id %>").val().substring(0,textAreaMaxLength -1));
               }
+              $("#<%= textarea_id %>").trigger("blur");
               $(".xheLayout",$("#<%=textarea_id%>").parent()).removeClass("focused")
           },
           internalStyle: false,

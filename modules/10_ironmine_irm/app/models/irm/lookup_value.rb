@@ -18,6 +18,8 @@ class Irm::LookupValue < ActiveRecord::Base
   scope :query_by_lookup_type,lambda{|lookup_type|where(:lookup_type=>lookup_type)}
   scope :query_by_lookup_code,lambda{|lookup_code|where(:lookup_code=>lookup_code)}
 
+  scope :with_eql_or_not, lambda{where(:lookup_code => ['N','E'])}
+
   scope :order_by_sequence,lambda{
     self.order("sequence ASC")
   }

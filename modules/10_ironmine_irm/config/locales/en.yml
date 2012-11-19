@@ -177,8 +177,8 @@ en:
   self: Self
   hide: Hide
   display: Show
-  lov_tooltip_text: If you don't know how to blank,you can click the search button to select a value.
-  lov_error_tooltip_text: Invaild value!Please try again or click the search button to select a value.
+  lov_tooltip_text: Use '%' as wildcard.
+  lov_error_tooltip_text: No data found.
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
@@ -399,7 +399,7 @@ en:
   label_irm_ldap_auth_attribute_new: New Ldap Auth Attribute
   label_irm_ldap_auth_attribute_edit: Edit Ldap Auth Attribute
   label_ldap_auth_attribute: Auth Attribute
-  label_ldap_auth_attribute_local_attr: Local Attribute
+  label_ldap_auth_attribute_local_attr: Person Attribute
   label_ldap_auth_attribute_attr_type: Attribute Type
   label_ldap_auth_attribute_ldap_attr: Ldap Attribute
   label_ldap_auth_attribute_description: Description
@@ -1075,6 +1075,15 @@ en:
   label_irm_business_object_standard_flag: Built-in BO
   label_irm_business_object_data_access_flag: Data Access
   #======================== end business objects====================
+
+  #======================== object rules====================
+  label_irm_object_rules: Template person rules
+  label_irm_ldap_auth_rule: Template person rules
+  label_irm_ldap_auth_rule_new: New Template person rule
+  label_irm_ldap_auth_rule_edit: Edit Template person rule
+  label_irm_ldap_auth_rule_filter: The filter
+  #======================== end object rules====================
+
   #======================== object attributes====================
   label_irm_object_attributes: Object Attributes
   label_irm_object_attribute_name: Name
