@@ -1,9 +1,8 @@
 module Irm::SystemsHelper
   def current_system_menu
-    return nil unless Irm::Person.current&&Irm::Person.current.profile
-    return nil unless params[:sid]
+    return nil unless Irm::Person.current && Irm::Person.current.profile && params[:sid]
     systems = Irm::Person.current.external_systems
-    return nil unless systems.size > 1
+    return nil unless systems.size > 0
     systems.delete_if{|i| i.id == current_system[:id] }
     system = ""
     if systems.size == 0
