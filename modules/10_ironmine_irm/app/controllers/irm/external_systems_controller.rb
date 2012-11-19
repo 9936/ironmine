@@ -57,7 +57,7 @@ class Irm::ExternalSystemsController < ApplicationController
   # PUT /external_systems/1
   # PUT /external_systems/1.xml
   def update
-    @external_system = Irm::ExternalSystem.find(params[:id])
+    @external_system = Irm::ExternalSystem.multilingual.find(params[:id])
 
     respond_to do |format|
       if @external_system.update_attributes(params[:irm_external_system])
