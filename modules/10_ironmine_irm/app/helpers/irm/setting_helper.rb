@@ -18,7 +18,7 @@ module Irm::SettingHelper
     menus.each do |m|
       links << content_tag(:li,link_to(m[:name],{:controller=>m[:controller],:action=>m[:action],:mi=>m[:menu_entry_id],:level=>1}),{})
     end
-    (links+system_setting_menu).html_safe
+    (links+(system_setting_menu||"")).html_safe
   end
 
 
