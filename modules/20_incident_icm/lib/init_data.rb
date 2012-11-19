@@ -668,7 +668,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/systems" => ["index","edit_transform","update_transform"]
+              "icm/systems" => ["index","edit_transform","update_transform","get_status_data"]
           }
       }
   }

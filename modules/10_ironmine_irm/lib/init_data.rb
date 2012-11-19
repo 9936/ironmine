@@ -2776,7 +2776,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/system_members" => ["index","add_people", "delete_people"]
+              "irm/system_members" => ["index","add_people", "delete_people","get_available_people_data", "get_owned_members_data"]
           }
       }
   }

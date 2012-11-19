@@ -76,6 +76,6 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("incident_status",{:controller => "icm/incident_statuses",:action=>"get_data",:sid => params[:sid]},[],{:paginator_box=>"statusPaginator",:search_box=>"incidentStatusesSearchBox"})%>
+    <%= datatable("incident_status",{:action=>"get_status_data",:sid => params[:sid]},[],{:paginator_box=>"statusPaginator",:search_box=>"incidentStatusesSearchBox"})%>
   </div>
 </div>

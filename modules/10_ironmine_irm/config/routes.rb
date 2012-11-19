@@ -37,6 +37,8 @@ Rails.application.routes.draw do
     match '/system_members/:sid/(/index)(.:format)' => "system_members#index"
     match '/system_members/:sid/add_people(.:format)' => "system_members#add_people"
     match '/system_members/:sid/delete_people(.:format)' => "system_members#delete_people"
+    match '/system_members/:sid/get_available_people_data(.:format)' => "system_members#get_available_people_data"
+    match '/system_members/:sid/get_owned_members_data(.:format)' => "system_members#get_owned_members_data"
 
     #lookup_types
     match '/lookup_types/new(.:format)' => "lookup_types#new", :via => :get

@@ -91,7 +91,7 @@
             </td>
           </tr></table>
           <div class="sub-page-block-body">
-            <%= datatable("selectablePeople",{:controller=>"irm/external_system_members", :action=>"get_available_people_data", :external_system_id => @external_system.id}, [],{:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
+            <%= datatable("selectablePeople",{:action=>"get_available_people_data", :sid => @external_system.id}, [],{:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@
         </td>
       </tr></table>
       <div class="page-block-body">
-        <%= datatable("external_people",{:controller => "irm/external_system_members",:action=>"get_owned_members_data", :external_system_id => @external_system.id},[],{:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
+        <%= datatable("external_people",{:action=>"get_owned_members_data", :sid => @external_system.id},[],{:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
         <div id="external_peoplePaginatorBox"></div>
       </div>
       <table class="page-block-footer">
