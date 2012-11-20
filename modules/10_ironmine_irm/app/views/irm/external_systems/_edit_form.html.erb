@@ -8,14 +8,14 @@
             <td class="label-col"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
             <td class="data-col"><%=f.text_field :external_system_code, :required=>true ,:id=>"external_system_external_system_code"%></td>
             <td class="label-col"><label for="external_system_external_hostname"><%=t(:label_irm_external_system_external_hostname)%></label></td>
-            <td class="data-col"><%=f.text_field :external_hostname, :required=>true ,:id=>"external_system_external_hostname"%></td>
+            <td class="data-col"><%=f.text_field :external_hostname, :id=>"external_system_external_hostname"%></td>
           </tr>
 
           <tr>
             <td class="label-col"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
             <td class="data-col"><%=f.text_field :system_name,:value=>@external_system[:system_name],  :required=>true ,:id=>"external_system_system_name"%></td>
             <td class="label-col"><label for="external_system_external_ip_address"><%=t(:label_irm_external_system_external_ip_address)%></label></td>
-            <td class="data-col"><%=f.text_field :external_ip_address, :required=>true ,:id=>"external_system_external_ip_address"%></td>
+            <td class="data-col"><%=f.text_field :external_ip_address, :id=>"external_system_external_ip_address"%></td>
           </tr>
 
           <tr>

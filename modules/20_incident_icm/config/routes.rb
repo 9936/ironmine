@@ -187,6 +187,7 @@ Ironmine::Application.routes.draw do
 
     #System setting
     match '/systems/:sid/incident_statuses(.:format)' => "systems#index", :via => :get
+    match '/systems/:sid/get_status_data(.:format)' => "systems#get_status_data",:via => :get
     match '/systems/:sid/edit_transform(.:format)' => "systems#edit_transform",:via => :get
     match '/systems/:sid/update_transform(.:format)' => "systems#update_transform", :via => :post
 

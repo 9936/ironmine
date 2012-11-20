@@ -1,23 +1,30 @@
 module Irm::SystemsHelper
   def current_system_menu
-    return nil unless Irm::Person.current&&Irm::Person.current.profile
-    return nil unless params[:sid]
+    return nil unless Irm::Person.current && Irm::Person.current.profile && params[:sid]
     systems = Irm::Person.current.external_systems
+    return nil unless systems.size > 0
     systems.delete_if{|i| i.id == current_system[:id] }
-    return nil unless systems.size>1
     system = ""
-
-    system << <<-BEGIN_HEML
-    <ul class="nav nav-pills  pull-right" style="text-align: left;">
-      <li class="dropdown">
-        <a href="#" data-toggle="dropdown" class="dropdown-toggle">#{current_system[:system_name]} <b class="caret"></b></a>
-        <ul class="dropdown-menu" style="min-width:130px;right:0;left:auto;" >
-          #{list_systems(systems)}
-        </ul>
-      </li>
-    </ul>
-    BEGIN_HEML
-
+    if systems.size == 0
+      system << <<-BEGIN_HEML
+      <ul class="nav nav-pills  pull-right" style="text-align: left;">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">#{current_system[:system_name]}</a>
+        </li>
+      </ul>
+      BEGIN_HEML
+    else
+      system << <<-BEGIN_HEML
+      <ul class="nav nav-pills  pull-right" style="text-align: left;">
+        <li class="dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle">#{current_system[:system_name]} <b class="caret"></b></a>
+          <ul class="dropdown-menu" style="min-width:130px;right:0;left:auto;" >
+            #{list_systems(systems)}
+          </ul>
+        </li>
+      </ul>
+      BEGIN_HEML
+    end
     system.html_safe
   end
 

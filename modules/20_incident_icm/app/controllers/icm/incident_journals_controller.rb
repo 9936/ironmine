@@ -51,7 +51,7 @@ class Icm::IncidentJournalsController < ApplicationController
     if params[:new_incident_status_id] && !params[:new_incident_status_id].blank? && !params[:new_incident_status_id].eql?(@incident_request.incident_status_id)
       @incident_reply.incident_status_id = params[:new_incident_status_id]
     else
-      @incident_reply.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+      @incident_reply.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
     end
 
     perform_create
@@ -144,7 +144,7 @@ class Icm::IncidentJournalsController < ApplicationController
     @incident_request.attributes = params[:icm_incident_request]
     @incident_journal.reply_type = "PERMANENT_CLOSE"
 
-    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
 
     perform_create
     respond_to do |format|
@@ -176,7 +176,7 @@ class Icm::IncidentJournalsController < ApplicationController
     @incident_request.attributes = params[:icm_incident_request]
     @incident_journal.reply_type = "REOPEN"
 
-    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
 
     perform_create
     respond_to do |format|
@@ -210,7 +210,7 @@ class Icm::IncidentJournalsController < ApplicationController
     @incident_request.attributes = params[:icm_incident_request]
     @incident_journal.reply_type = "CLOSE"
 
-    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+    @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
 
     perform_create
     respond_to do |format|
@@ -246,7 +246,7 @@ class Icm::IncidentJournalsController < ApplicationController
     perform_create(true)
     respond_to do |format|
       if @incident_journal.valid?&&@incident_request.support_group_id
-        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
         support_person_id = @incident_request.support_person_id
         support_person_id = Icm::SupportGroup.find(@incident_request.support_group_id).assign_member_id unless support_person_id.present?
         @incident_request.support_person_id = support_person_id
@@ -291,7 +291,7 @@ class Icm::IncidentJournalsController < ApplicationController
     respond_to do |format|
       if current_support_group_id.present?&&@incident_journal.valid?&&@incident_request.support_group_id
         @incident_journal.reply_type = "UPGRADE"
-        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
 
         # 设置升级组
         @incident_request.upgrade_person_id = @incident_request_bak.support_person_id
@@ -333,7 +333,7 @@ class Icm::IncidentJournalsController < ApplicationController
       respond_to do |format|
         if current_support_group_id.present?&&@incident_journal.valid?&&@incident_request.support_group_id
           @incident_journal.reply_type = "UPGRADE"
-          @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+          @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
 
           # 设置升级组
           @incident_request.upgrade_person_id = @incident_request.support_person_id

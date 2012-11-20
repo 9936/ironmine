@@ -14,7 +14,7 @@ class Irm::ExternalSystem < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
 
-  #validate :ip_valid
+  validate :ip_valid, :if=> Proc.new{|i| i.external_ip_address.present?}
   query_extend
   # 对运维中心数据进行隔离
   default_scope {default_filter}

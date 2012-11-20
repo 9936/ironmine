@@ -69,15 +69,13 @@
       <td class="page-block-title">
         <h2 class="block-title"><%= t(:label_icm_incident_status_list) %></h2>
       </td>
-      <td class="page-block-button">
-        <%#= link_to t(:new), {:action => "new"},:class=>"btn"%>
-      </td>
+      <td class="page-block-button"></td>
       <td class="page-block-help">
         <div id="incidentStatusesSearchBox"></div>
       </td>
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("incident_status",{:controller => "icm/incident_statuses",:action=>"get_data"},[],{:paginator_box=>"statusPaginator",:search_box=>"incidentStatusesSearchBox"})%>
+    <%= datatable("incident_status",{:action=>"get_status_data",:sid => params[:sid]},[],{:paginator_box=>"statusPaginator",:search_box=>"incidentStatusesSearchBox"})%>
   </div>
 </div>
