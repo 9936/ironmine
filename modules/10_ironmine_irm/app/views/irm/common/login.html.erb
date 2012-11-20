@@ -25,7 +25,7 @@
                   <!-- 当有ldap同步信息错误时 -->
                   <% if params[:ldap_errors] %>
                     <div class="alert alert-block alert-error" style="width: 250px;">
-                      <p><strong>LDAP属性同步用户出现如下问题无法登录:</strong></p>
+                      <p><strong><%= t(:label_irm_oauth_ldap_error)  %></strong></p>
                       <ul>
                         <% params[:ldap_errors].each do |msg| %>
                           <li><%= msg %></li>
