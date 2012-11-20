@@ -1882,7 +1882,7 @@ en:
   label_irm_oauth_code_expired: Expired Code
   label_irm_oauth_token_unavailable: Unavailabled Token
   label_irm_oauth_username_or_password_error: Username Or Password Error
-  label_irm_oauth_ldap_error: There are somethin wrong that can't login
+  label_irm_oauth_ldap_error: There are somethin wrong with LDAP settings so that you can't login
   #============================== end oauth_authorize ===================================
   #============================== highest_priority_incident report ===================================
   label_date: Date
