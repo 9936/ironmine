@@ -38,7 +38,7 @@ class Irm::LdapAuthRule < ActiveRecord::Base
         rule = self.order_by_sequence.where("attr_field = ? AND operator_code =? AND attr_value != ?", field,'N' ,value).first
         return rule.template_person_id if rule
       end
-    end
+    end if new_field_to_value.any?
     return nil
   end
 

@@ -1880,6 +1880,7 @@ zh:
   label_irm_oauth_code_expired: 授权码过期了
   label_irm_oauth_token_unavailable: 无效的 Token
   label_irm_oauth_username_or_password_error: 用户名或密码错误
+  label_irm_oauth_ldap_error: LDAP属性同步用户出现如下问题无法登录
   #============================== end oauth_authorize ===================================
   #============================== rating config ======================================
   label_irm_rating_config: 评分设置

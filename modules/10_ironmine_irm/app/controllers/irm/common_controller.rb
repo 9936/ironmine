@@ -15,6 +15,7 @@ class Irm::CommonController < ApplicationController
     end
   end
 
+
   # 用户退出系统
   def logout
     logout_successful
@@ -178,18 +179,22 @@ class Irm::CommonController < ApplicationController
   #成功,则转向用户的默认页面
   #失败,返回原来的页面,并显示登录出错的消息
   def password_authentication
-    person = Irm::Person.try_to_login(params[:username], params[:password])
-    if person.nil?||!person.logged?
-      #失败
-      user = Irm::Person.unscoped.where("login_name=?", params[:username]).first
-      invalid_credentials(user)
-      reset_session
-    elsif person.locked?
-      params[:error] = t(:notice_account_locked)
-      reset_session
-    else
-      # 成功
-      successful_authentication(person)
+    begin
+      person = Irm::Person.try_to_login(params[:username], params[:password])
+      if person.nil?||!person.logged?
+        #失败
+        user = Irm::Person.unscoped.where("login_name=?", params[:username]).first
+        invalid_credentials(user)
+        reset_session
+      elsif person.locked?
+        params[:error] = t(:notice_account_locked)
+        reset_session
+      else
+        # 成功
+        successful_authentication(person)
+      end
+    rescue Irm::LdapPersonError => error
+      params[:ldap_errors] = error.message
     end
   end
 

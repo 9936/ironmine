@@ -1,3 +1,6 @@
+class Irm::LdapPersonError < Exception
+end
+
 class Irm::LdapAuthHeader < ActiveRecord::Base
   set_table_name :irm_ldap_auth_headers
   belongs_to :ldap_source, :foreign_key => :ldap_source_id, :primary_key => :id
@@ -36,8 +39,10 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     self.enabled.each do |auth_header|
       begin
         attrs = auth_header.authenticate(login_name, password)
+      rescue Irm::LdapPersonError => error
+        raise error
       rescue => e
-        logger.error "Error during authentication: #{e.message}"
+        logger.error "Error during authentication: #{e.backtrace}"
         attrs = nil
       end
       return attrs if attrs
@@ -55,6 +60,12 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
       return_attrs[attr.local_attr.to_sym] = attr.ldap_attr
     end
 
+    #查找出规则中设置的属性
+    self.ldap_auth_rules.each do |rule|
+      return_attrs[rule.attr_field.to_sym] = rule.attr_field unless return_attrs[rule.attr_field.to_sym].present?
+    end
+
+
     ldap = Net::LDAP.new
     ldap.host = self.ldap_source.host
     ldap.port = self.ldap_source.port
@@ -71,9 +82,12 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
 
         filed_to_value = {}
         return_attrs.each do |key, value|
-          return_value = self.class.get_attr(return_entry, value).force_encoding("utf-8")
-          filed_to_value[value.to_sym] = return_value if return_value.present?
-          person_attr[key]= return_value if return_value
+          return_value = self.class.get_attr(return_entry, value)
+          if return_value.present?
+            return_value = return_value.force_encoding("utf-8")
+            filed_to_value[value.to_sym] = return_value
+            person_attr[key]= return_value
+          end
         end
         person_attr[:auth_source_id] = self.id
         person_attr[:email_address] = "#{person_attr[:login_name]}@ironmine.com" unless person_attr[:email_address].present?
@@ -100,9 +114,12 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
 
           filed_to_value = {}
           return_attrs.each do |key, value|
-            return_value = self.class.get_attr(return_entry, value).force_encoding("utf-8")
-            filed_to_value[value.to_sym] = return_value if return_value.present?
-            person_attr[key]= return_value if return_value.present?
+            return_value = self.class.get_attr(return_entry, value)
+            if return_value.present?
+              return_value = return_value.force_encoding("utf-8")
+              filed_to_value[value.to_sym] = return_value
+              person_attr[key]= return_value
+            end
           end
 
           person_attr[:auth_source_id] = self.id
@@ -123,8 +140,11 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
 
 
   def create_ldap_person(person_attr, filed_to_value = {})
+    #将模板中的属性从person_attr中删除
+    person_attr.delete_if{|k,v| !Irm::Person.new.attributes.keys.include?(k.to_s)}
+    #person_attr.delete_if{|k,v| self.ldap_auth_rules.collect(&:attr_field).include?(k.to_s)}
     #首先查找规则中的模板用户，当不存在时候用自身的模板用户同步数据
-    if filed_to_value.any?
+    if filed_to_value.any? and self.ldap_auth_rules.any?
       template_person_id = Irm::LdapAuthRule.get_template_person(filed_to_value,self.id)
       unless template_person_id.present?
         template_person_id = self.template_person_id
@@ -141,7 +161,10 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     person.merge!({:password => random_password, :password_confirmation => random_password})
     person = Irm::Person.new(person)
     person.save
-    return nil if person.errors.any?
+    #return nil if person.errors.any?
+    #当保存ldap用户不成功时，抛出自定义异常
+    raise Irm::LdapPersonError, person.errors.full_messages if person.errors.any?
+
     template_person.external_system_people.each do |pr|
       person.external_system_people.create(:external_system_id => pr.external_system_id)
     end
@@ -160,4 +183,8 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     end
   end
 
+
+
 end
+
+
