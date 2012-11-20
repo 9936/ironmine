@@ -300,12 +300,17 @@ class Irm::Person < ActiveRecord::Base
          return nil unless Irm::Person.hash_password(password) == person.hashed_password
        end
      else
-       person_id = Irm::LdapAuthHeader.try_to_login(login,password)
-       if person_id
-         person = Irm::Person.find(person_id)
-       else
-         return nil
+       begin
+         person_id = Irm::LdapAuthHeader.try_to_login(login,password)
+         if person_id
+           person = Irm::Person.find(person_id)
+         else
+           return nil
+         end
+       rescue Irm::LdapPersonError => error
+         raise error
        end
+
      end
 
      person.update_attribute(:last_login_at, Time.now) if person && !person.new_record?

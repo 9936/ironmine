@@ -22,6 +22,18 @@
                   <% if params[:error] %>
                     <div class="alert alert-error" style="width: 250px;"><%= params[:error] %></div>
                   <% end %>
+                  <!-- 当有ldap同步信息错误时 -->
+                  <% if params[:ldap_errors] %>
+                    <div class="alert alert-block alert-error" style="width: 250px;">
+                      <p><strong>LDAP属性同步用户出现如下问题无法登录:</strong></p>
+                      <ul>
+                        <% params[:ldap_errors].each do |msg| %>
+                          <li><%= msg %></li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  <% end %>
+                  <!-- 当有ldap同步信息错误时 -->
                   <div class="inputs">
                     <div class="inputbox">
                       <label><%=(t :label_irm_common_username)%></label>

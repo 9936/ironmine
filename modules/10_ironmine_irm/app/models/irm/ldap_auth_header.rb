@@ -1,3 +1,6 @@
+class Irm::LdapPersonError < Exception
+end
+
 class Irm::LdapAuthHeader < ActiveRecord::Base
   set_table_name :irm_ldap_auth_headers
   belongs_to :ldap_source, :foreign_key => :ldap_source_id, :primary_key => :id
@@ -36,8 +39,9 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     self.enabled.each do |auth_header|
       begin
         attrs = auth_header.authenticate(login_name, password)
+      rescue Irm::LdapPersonError => error
+        raise error
       rescue => e
-        puts "==============#{e.backtrace}========================"
         logger.error "Error during authentication: #{e.backtrace}"
         attrs = nil
       end
@@ -140,7 +144,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     person_attr.delete_if{|k,v| !Irm::Person.new.attributes.keys.include?(k.to_s)}
     #person_attr.delete_if{|k,v| self.ldap_auth_rules.collect(&:attr_field).include?(k.to_s)}
     #首先查找规则中的模板用户，当不存在时候用自身的模板用户同步数据
-    if filed_to_value.any?
+    if filed_to_value.any? and self.ldap_auth_rules.any?
       template_person_id = Irm::LdapAuthRule.get_template_person(filed_to_value,self.id)
       unless template_person_id.present?
         template_person_id = self.template_person_id
@@ -157,7 +161,10 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     person.merge!({:password => random_password, :password_confirmation => random_password})
     person = Irm::Person.new(person)
     person.save
-    return nil if person.errors.any?
+    #return nil if person.errors.any?
+    #当保存ldap用户不成功时，抛出自定义异常
+    raise Irm::LdapPersonError, person.errors.full_messages if person.errors.any?
+
     template_person.external_system_people.each do |pr|
       person.external_system_people.create(:external_system_id => pr.external_system_id)
     end
@@ -176,4 +183,8 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     end
   end
 
+
+
 end
+
+
