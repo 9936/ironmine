@@ -8,7 +8,7 @@
               <td class="data-3col"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"incident_request_requested_by"}%></td>
             </tr>
           <% else %>
-              <%= f.hidden_field(:requested_by,:value=>Irm::Person.current.id) %>
+              <%= f.hidden_field(:requested_by,:value=>@incident_request.requested_by) %>
           <% end %>
           <tr>
             <td class="label-col"><label for="incident_request_service_code"><%=t(:label_icm_incident_request_target_system)%></label></td>
