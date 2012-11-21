@@ -63,7 +63,7 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
 #          where("ps.id = #{Icm::IncidentJournal.table_name}.replied_by")
       messages = ''
 #      journals.each do |t|
-      messages << s.concat_journals
+      messages << s.concat_journals_with_text
 #      end
 
       data[11] = messages

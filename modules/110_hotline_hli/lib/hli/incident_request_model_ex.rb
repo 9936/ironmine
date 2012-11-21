@@ -7,6 +7,8 @@ module Hli::IncidentRequestModelEx
         select("(SELECT sum(iw.real_processing_time) FROM icm_incident_workloads iw WHERE iw.real_processing_time > 0 AND iw.incident_request_id = #{Icm::IncidentRequest.table_name}.id) total_processing_time")
       }
 
+      validates_presence_of :contact_number
+
     #  def self.search(query)
     ##    self.list_all.where("#{table_name}.title like ?","%#{query}%")
     #    results = Sunspot.search(Icm::IncidentRequest) do |s|
