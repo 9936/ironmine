@@ -7,6 +7,10 @@ class Skm::EntryHeaderRelation < ActiveRecord::Base
         where("(eh.id = #{table_name}.source_id AND ? = #{table_name}.target_id) OR (eh.id = #{table_name}.target_id AND ? = #{table_name}.source_id)", entry_header_id, entry_header_id)
   }
 
+  scope :with_created_by,lambda{
+    select("#{table_name}.created_by")
+  }
+
   scope :existed_relation, lambda{|source_id, target_id|
     where("(#{table_name}.source_id = ? AND #{table_name}.target_id = ?) OR (#{table_name}.source_id = ? AND #{table_name}.target_id = ?)", source_id, target_id, target_id, source_id)
   }

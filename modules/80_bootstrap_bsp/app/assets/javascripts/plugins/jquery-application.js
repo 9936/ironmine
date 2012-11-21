@@ -90,28 +90,60 @@ $(function(){
         }
     });
 
-    $('input[irm_uppercase]').live('keyup', function(event){
-         $(this).val($(this).val().toUpperCase().replace(/^(_+)|[^A-Z_]/g, ""));
+    $('input[irm_uppercase]').live('blur', function(event){
+        var reg = /^(_+)|[^A-Z_]/g, $this = $(this);
+        if(reg.test($(this).val())){
+            alert($.i18n("uppercase"));
+            $this.val($this.val().toUpperCase().replace(reg, ""));
+            setTimeout(function() {
+                $this.focus();
+            },0);
+        }
+        // $(this).val($(this).val().toUpperCase().replace(/^(_+)|[^A-Z_]/g, ""));
     });
 
     $('input[irm_uppercase]').each(function(index,n){
          $(n).attr("autocomplete", "off");
     });
 
-    $('input[irm_chr_only]').live('keyup', function(event){
-         $(this).val($(this).val().replace(/^(_+)|^( +)|[^A-Z a-z0-9_]/g, ""));
+    $('input[irm_chr_only]').live('blur', function(event){
+        var reg = /^(_+)|^( +)|[^A-Z a-z0-9_]/g, $this = $(this);
+        if(reg.test($(this).val())){
+            alert($.i18n("chr_only"));
+            $this.val($this.val().replace(reg, ""));
+            setTimeout(function() {
+                $this.focus();
+            },0);
+        }
+        // $(this).val($(this).val().replace(/^(_+)|^( +)|[^A-Z a-z0-9_]/g, ""));
     });
 
     $('input[irm_chr_only]').each(function(index,n){
          $(n).attr("autocomplete", "off");
     });
 
-    $('input[irm_number_only]').live('keyup', function(event){
-         $(this).val($(this).val().replace(/[^0-9]/g, ""));
+    $('input[irm_number_only]').live('blur', function(event){
+        var reg = /[^0-9]/g, $this = $(this);
+        if(reg.test($(this).val())){
+            alert($.i18n("number_only"));
+            $this.val($this.val().replace(reg, ""));
+            setTimeout(function() {
+                $this.focus();
+            },0);
+        }
+        // $(this).val($(this).val().replace(/[^0-9]/g, ""));
     });
 
-    $('input[irm_number_and_cross]').live('keyup', function(event){
-         $(this).val($(this).val().replace(/[^- 0-9]/g, ""));
+    $('input[irm_number_and_cross]').live('blur', function(event){
+        var reg = /[^- 0-9]/g, $this = $(this);
+        if(reg.test($(this).val())){
+            alert($.i18n("number_and_cross"));
+            $this.val($this.val().replace(reg, ""));
+            setTimeout(function() {
+                $this.focus();
+            },0);
+        }
+        //$(this).val($(this).val().replace(/[^- 0-9]/g, ""));
     });
 
     $('input[irm_number_and_cross]').each(function(index,n){
@@ -561,3 +593,60 @@ function formatFileSize(bytes){
     return (bytes / 1000).toFixed(2) + ' KB';
 }
 //END =================================根据bytes值返回文件大小================================
+
+//START =================================检查lov输入的值================================
+function checkLovResult(base_url,lov_field_id,relation_submit){
+    var width = $("#"+lov_field_id +"Box").width(),relationSubmit = relation_submit;
+    if(width == 0) width = 150;
+    $("#"+lov_field_id +"Tip").css("width",width + "px");
+    var parent_forms = $("#"+lov_field_id).parents("form");
+    if(!$(parent_forms[0]).attr('id')){
+        $(parent_forms[0]).attr('id', lov_field_id+'Form');
+    }
+    //show tip text
+    $("#"+lov_field_id +"_label").bind('focus', function(){
+        $("#"+lov_field_id +"Tip").show();
+    });
+
+    $("#"+lov_field_id +"_label").bind('blur',function(e){
+        $("#"+lov_field_id +"Tip").hide();
+        if($("#"+lov_field_id +"_label").val() === '' || $("#"+lov_field_id +"_label").val() === $("#"+lov_field_id +"_label").attr("placeholder")){
+            $("#"+lov_field_id +"Tip").removeClass("alert-error");
+            $("#"+lov_field_id +"Tip").html($("#"+lov_field_id +"Tip").attr("tooltip-text"));
+            return false;
+        }
+        if($("#"+lov_field_id +"_label").val() === $("#"+lov_field_id +"_label").attr('data-old-value')){
+            return false;
+        }
+        var url = base_url + "&lksrch="+$("#"+lov_field_id +"_label").val();
+        url += '&_dom_id='+$(parent_forms[0]).attr('id');
+        $.ajax({
+            url:encodeURI(url),
+            type:"GET",
+            dataType:"json",
+            error: function(data){},
+            success: function(data){
+                if(data.status == 'success'){
+                    setTimeout(function () {lookupPick(lov_field_id,data.value,data.label,data);},100);
+                }else{
+                    $("#"+lov_field_id +"_label").attr('data-old-value', $("#"+lov_field_id +"_label").val());
+                    $("#"+lov_field_id).val('');
+                    if(data.num == 0){
+                        $("#"+lov_field_id +"Tip").addClass("alert-error");
+                        $("#"+lov_field_id +"Tip").html($("#"+lov_field_id +"Tip").attr("tooltip-error-text"));
+                        $("#"+lov_field_id +"_label").focus();
+                    }
+                    url = url.replace(/lov_result/,'lov');
+                    if(data.num > 1){
+                        openLookup(url,670);
+                    }
+                    if(relationSubmit === 'true'){
+                        $('a[type=submit]', $(parent_forms[0])).attr('open-lov-first', url);
+                        $('a.submit', $(parent_forms[0])).attr('open-lov-first',url);
+                    }
+                }
+            }
+        });
+    })
+}
+//END =================================检查lov输入的值================================

@@ -5,12 +5,6 @@
     <table class="form-table">
       <tbody>
           <tr>
-            <td class="label-col"><label for="time_zone_code"><%=t(:label_irm_person_time_zone)%></label></td>
-            <td class="data-col" colspan="3">
-              <%= f.time_zone_select :time_zone,nil %>
-            </td>
-          </tr>
-          <tr>
             <td class="label-col"><label><%=t(:label_irm_identity_login_name)%></label></td>
             <td class="data-col"><%= f.text_field(:login_name,:required=>true) %></td>
             <td class="label-col"><label><%=(t :label_irm_person_role)%></label></td>
@@ -70,6 +64,12 @@
             <td class="data-col"><%= f.check_box(:template_flag) %></td>
             <td class="label-col empty"></td>
             <td class="data-col empty"></td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="time_zone_code"><%=t(:label_irm_person_time_zone)%></label></td>
+            <td class="data-col" colspan="3">
+              <%= f.time_zone_select :time_zone,nil %>
+            </td>
           </tr>
       </tbody>
     </table>
