@@ -20,5 +20,9 @@ var irm_labels = {
     reset_order_btn_text: "Reset order",
     save_btn_text: "Save",
     cancel_btn_text: "Cancel",
-    load_data_error: "Load data error."
+    load_data_error: "Load data error.",
+    number_and_cross: "Only allowed to enter the num and crossed.",
+    number_only: "Only allowed to enter the num",
+    chr_only: "Can't allow to enter Chinese characters",
+    uppercase: "Only allowed to enter Caps letters and underline."
 };

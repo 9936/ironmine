@@ -90,28 +90,60 @@ $(function(){
         }
     });
 
-    $('input[irm_uppercase]').live('keyup', function(event){
-         $(this).val($(this).val().toUpperCase().replace(/^(_+)|[^A-Z_]/g, ""));
+    $('input[irm_uppercase]').live('blur', function(event){
+        var reg = /^(_+)|[^A-Z_]/g, $this = $(this);
+        if(reg.test($(this).val())){
+            alert($.i18n("uppercase"));
+            $this.val($this.val().toUpperCase().replace(reg, ""));
+            setTimeout(function() {
+                $this.focus();
+            },0);
+        }
+        // $(this).val($(this).val().toUpperCase().replace(/^(_+)|[^A-Z_]/g, ""));
     });
 
     $('input[irm_uppercase]').each(function(index,n){
          $(n).attr("autocomplete", "off");
     });
 
-    $('input[irm_chr_only]').live('keyup', function(event){
-         $(this).val($(this).val().replace(/^(_+)|^( +)|[^A-Z a-z0-9_]/g, ""));
+    $('input[irm_chr_only]').live('blur', function(event){
+        var reg = /^(_+)|^( +)|[^A-Z a-z0-9_]/g, $this = $(this);
+        if(reg.test($(this).val())){
+            alert($.i18n("chr_only"));
+            $this.val($this.val().replace(reg, ""));
+            setTimeout(function() {
+                $this.focus();
+            },0);
+        }
+        // $(this).val($(this).val().replace(/^(_+)|^( +)|[^A-Z a-z0-9_]/g, ""));
     });
 
     $('input[irm_chr_only]').each(function(index,n){
          $(n).attr("autocomplete", "off");
     });
 
-    $('input[irm_number_only]').live('keyup', function(event){
-         $(this).val($(this).val().replace(/[^0-9]/g, ""));
+    $('input[irm_number_only]').live('blur', function(event){
+        var reg = /[^0-9]/g, $this = $(this);
+        if(reg.test($(this).val())){
+            alert($.i18n("number_only"));
+            $this.val($this.val().replace(reg, ""));
+            setTimeout(function() {
+                $this.focus();
+            },0);
+        }
+        // $(this).val($(this).val().replace(/[^0-9]/g, ""));
     });
 
-    $('input[irm_number_and_cross]').live('keyup', function(event){
-         $(this).val($(this).val().replace(/[^- 0-9]/g, ""));
+    $('input[irm_number_and_cross]').live('blur', function(event){
+        var reg = /[^- 0-9]/g, $this = $(this);
+        if(reg.test($(this).val())){
+            alert($.i18n("number_and_cross"));
+            $this.val($this.val().replace(reg, ""));
+            setTimeout(function() {
+                $this.focus();
+            },0);
+        }
+        //$(this).val($(this).val().replace(/[^- 0-9]/g, ""));
     });
 
     $('input[irm_number_and_cross]').each(function(index,n){
@@ -561,3 +593,14 @@ function formatFileSize(bytes){
     return (bytes / 1000).toFixed(2) + ' KB';
 }
 //END =================================根据bytes值返回文件大小================================
+
+//START =================================判断是否为特殊键值================================
+function hasValueKey(event){
+    //限制keyCode
+    if(event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 8 || event.keyCode == 46){
+        return false;
+    }else{
+        return true;
+    }
+}
+//END =================================判断是否为特殊键值================================
