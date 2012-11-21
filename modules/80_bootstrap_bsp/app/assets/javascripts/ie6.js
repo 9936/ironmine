@@ -12,6 +12,9 @@ $(function () {
             zIndexNumber -= 10;
         }
     });
+
+    //计算body的高度
+    $("body .modal-backdrop").css("height",$(document).height()+"px");
 });
 
 //处理IE中的select
