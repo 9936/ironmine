@@ -99,58 +99,10 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
 
     onblur_script = %Q(
       $(document).ready(function(){
-         var width = $("##{lov_field_id}Box").width(),relationSubmit = "#{relation_submit}";;
-         if(width == 0) width = 150;
-         $("##{lov_field_id}Tip").css("width",width + "px");
-         var parent_forms = $("##{lov_field_id}").parents("form");
-         if(!$(parent_forms[0]).attr('id')){
-           $(parent_forms[0]).attr('id','#{lov_field_id}Form');
-         }
-         //show tip text
-         $("##{lov_field_id}_label").bind('focus', function(){
-           $("##{lov_field_id}Tip").show();
-         });
-
-         $("##{lov_field_id}_label").bind('blur',function(e){
-           $("##{lov_field_id}Tip").hide();
-           if($("##{lov_field_id}_label").val() === '' || $("##{lov_field_id}_label").val() === $("##{lov_field_id}_label").attr("placeholder")){
-             $("##{lov_field_id}Tip").removeClass("alert-error");
-             $("##{lov_field_id}Tip").html("#{I18n.t(:lov_tooltip_text)}");
-             return false;
-           }
-           if($("##{lov_field_id}_label").val() === $("##{lov_field_id}_label").attr('data-old-value')){
-             return false;
-           }
-           var url = '#{@template.url_for(:controller => "irm/list_of_values",:action=>"lov_result",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}'+'&lksrch='+$('##{lov_field_id}_label').val();
-           url += '&_dom_id='+$(parent_forms[0]).attr('id');
-           $.ajax({
-             url:encodeURI(url),
-             type:"GET",
-             dataType:"json",
-             error: function(data){},
-             success: function(data){
-                if(data.status == 'success'){
-                  setTimeout(function () {lookupPick("#{lov_field_id}",data.value,data.label,data);},100);
-                }else{
-                  $("##{lov_field_id}_label").attr('data-old-value', $("##{lov_field_id}_label").val());
-                  $("##{lov_field_id}").val('');
-                  if(data.num == 0){
-                    $("##{lov_field_id}Tip").addClass("alert-error");
-                    $("##{lov_field_id}Tip").html("#{I18n.t(:lov_error_tooltip_text)}");
-                    $("##{lov_field_id}_label").focus();
-                  }
-                  url = url.replace(/lov_result/,'lov');
-                  if(data.num > 1){
-                     openLookup(url,670);
-                  }
-                  if(relationSubmit === 'true'){
-                    $('a[type=submit]', $(parent_forms[0])).attr('open-lov-first', url);
-                    $('a.submit', $(parent_forms[0])).attr('open-lov-first',url);
-                  }
-                }
-             }
-           });
-         })
+         var relation_submit = "#{relation_submit}",
+             url = '#{@template.url_for(:controller => "irm/list_of_values",:action=>"lov_result",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id)}',
+             lov_field_id = "#{lov_field_id}";
+         checkLovResult(url,lov_field_id,relation_submit)
       });
     )
 

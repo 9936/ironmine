@@ -594,13 +594,59 @@ function formatFileSize(bytes){
 }
 //END =================================根据bytes值返回文件大小================================
 
-//START =================================判断是否为特殊键值================================
-function hasValueKey(event){
-    //限制keyCode
-    if(event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 8 || event.keyCode == 46){
-        return false;
-    }else{
-        return true;
+//START =================================检查lov输入的值================================
+function checkLovResult(base_url,lov_field_id,relation_submit){
+    var width = $("#"+lov_field_id +"Box").width(),relationSubmit = relation_submit;
+    if(width == 0) width = 150;
+    $("#"+lov_field_id +"Tip").css("width",width + "px");
+    var parent_forms = $("#"+lov_field_id).parents("form");
+    if(!$(parent_forms[0]).attr('id')){
+        $(parent_forms[0]).attr('id', lov_field_id+'Form');
     }
+    //show tip text
+    $("#"+lov_field_id +"_label").bind('focus', function(){
+        $("#"+lov_field_id +"Tip").show();
+    });
+
+    $("#"+lov_field_id +"_label").bind('blur',function(e){
+        $("#"+lov_field_id +"Tip").hide();
+        if($("#"+lov_field_id +"_label").val() === '' || $("#"+lov_field_id +"_label").val() === $("#"+lov_field_id +"_label").attr("placeholder")){
+            $("#"+lov_field_id +"Tip").removeClass("alert-error");
+            $("#"+lov_field_id +"Tip").html($("#"+lov_field_id +"Tip").attr("tooltip-text"));
+            return false;
+        }
+        if($("#"+lov_field_id +"_label").val() === $("#"+lov_field_id +"_label").attr('data-old-value')){
+            return false;
+        }
+        var url = base_url + "&lksrch="+$("#"+lov_field_id +"_label").val();
+        url += '&_dom_id='+$(parent_forms[0]).attr('id');
+        $.ajax({
+            url:encodeURI(url),
+            type:"GET",
+            dataType:"json",
+            error: function(data){},
+            success: function(data){
+                if(data.status == 'success'){
+                    setTimeout(function () {lookupPick(lov_field_id,data.value,data.label,data);},100);
+                }else{
+                    $("#"+lov_field_id +"_label").attr('data-old-value', $("#"+lov_field_id +"_label").val());
+                    $("#"+lov_field_id).val('');
+                    if(data.num == 0){
+                        $("#"+lov_field_id +"Tip").addClass("alert-error");
+                        $("#"+lov_field_id +"Tip").html($("#"+lov_field_id +"Tip").attr("tooltip-error-text"));
+                        $("#"+lov_field_id +"_label").focus();
+                    }
+                    url = url.replace(/lov_result/,'lov');
+                    if(data.num > 1){
+                        openLookup(url,670);
+                    }
+                    if(relationSubmit === 'true'){
+                        $('a[type=submit]', $(parent_forms[0])).attr('open-lov-first', url);
+                        $('a.submit', $(parent_forms[0])).attr('open-lov-first',url);
+                    }
+                }
+            }
+        });
+    })
 }
-//END =================================判断是否为特殊键值================================
+//END =================================检查lov输入的值================================
