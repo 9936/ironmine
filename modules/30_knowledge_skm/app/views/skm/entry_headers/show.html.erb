@@ -180,10 +180,10 @@
 <%- end -%>
 <!-- 关联的知识库 -->
 <div id="entryHeaderRelation">
-  <%= render :partial=> "skm/entry_headers/entry_header_relations",:locals=>{:datas=>@entry_relation,:entry_header_id => @entry_header.id }%>
+  <%= render :partial=> "skm/entry_headers/entry_header_relations",:locals=>{:datas=>@entry_relation, :entry_header_id => @entry_header.id }%>
 </div>
 
 <%= content_for :sidebar do %>
-    <%= render "skm/entry_headers/sidebar_navigate_menu" %>
-    <%= render :partial => "/irm/common/recently_objects" %>
+ <%= render "skm/entry_headers/sidebar_navigate_menu" %>
+ <%= render :partial => "/irm/common/recently_objects" %>
 <% end -%>
