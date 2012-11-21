@@ -118,9 +118,9 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
         @template.content_tag(:i,"",{:class=>"icon-search"}).html_safe
       end
     end
-    tooltip = @template.content_tag(:div,I18n.t(:lov_tooltip_text),{:id => "#{lov_field_id}Tip",:class => "alert fade in",:style => "z-index:99;position:absolute;display:none;padding:5px;","tooltip-text" => I18n.t(:lov_tooltip_text), "tooltip-error-text" => I18n.t(:lov_error_tooltip_text)})
+    tooltip = @template.content_tag(:div,I18n.t(:lov_tooltip_text),{:id => "#{lov_field_id}Tip",:class => "alert fade in",:style => "z-index:99;position:absolute;display:none;padding:5px;*left:0;*top:24px;","tooltip-text" => I18n.t(:lov_tooltip_text), "tooltip-error-text" => I18n.t(:lov_error_tooltip_text)})
 
-    wrapped_field(@template.content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str+@template.javascript_tag(onblur_script)+tooltip,{:class=>"from-inline input-append"},false),field,options)
+    wrapped_field(@template.content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str+@template.javascript_tag(onblur_script)+tooltip,{:class => "from-inline input-append", :style => "width: 100%;"},false),field,options)
 
   end
 
@@ -173,37 +173,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
       time_tag_str = @template.text_field_tag(time_field_id,init_time,:class => "timepicker", :id => time_field_id, :style => "width:75px;",:autocomplete => "off")
       script = %Q(
          $(document).ready(function () {
-            $('##{time_field_id}').timepicker({
-                minuteStep: 5,
-                showSeconds: true,
-                secondStep: 10,
-                showMeridian: false,
-                showInputs: true,
-                disableFocus: false
-            });
-            if('#{init_time}'){
-                $("##{time_field_id}").val('#{init_time}');
-                $("##{time_field_id}").trigger('blur');
-            }else{
-                $("##{time_field_id}").val('');
-            }
-            var date_time = $("##{field_id}").val();
-            $("##{time_field_id}").bind('change',function(){
-                if($("##{date_field_id}").val()){
-                    date_time = $("##{date_field_id}").val() +" " + $(this).val();
-                    $("##{field_id}").val(date_time);
-                }else{
-                    $("##{field_id}").val('');
-                }
-            });
-            $("##{date_field_id}").bind('blur',function(){
-                if($(this).val()){
-                    date_time = $(this).val() + " " + $("##{time_field_id}").val();
-                    $("##{field_id}").val(date_time);
-                }else{
-                    $("##{field_id}").val('');
-                }
-            });
+             initDateTime("#{time_field_id}", "#{date_field_id}", "#{field_id}", "#{init_time}");
          });
       )
       link_click_action = %Q(javascript:dateFieldChooseToday('#{date_field_id}','#{date_text}','#{time_field_id}','#{time_text}'))
