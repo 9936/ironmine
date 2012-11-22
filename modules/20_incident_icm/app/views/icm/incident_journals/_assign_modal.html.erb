@@ -10,11 +10,9 @@
           }
       }
       $("#incident_request_support_group_id").cascade("#incident_request_support_person_id");
-      $("#assignRequest").click(
-              function(e){
-                  $("#assignModal").modal("show");
-              }
-      );
+      $("#assignRequest").click(function(e){
+          $("#assignModal").modal("show");
+      });
 
       validateAssignRequestSubmit();
       $("#incident_request_support_group_id").change(validateAssignRequestSubmit);
