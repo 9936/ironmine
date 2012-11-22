@@ -61,7 +61,7 @@
           </tr>
           <tr>
              <td class="label-col"><label><%=t(:label_irm_person_notification_flag)%></label></td>
-             <td class="data-col"><%=f.check_box :notification_flag,:checked => true%></td>
+             <td class="data-col"><%=f.check_box :notification_flag%></td>
              <td class="label-col"><label><%=t(:label_irm_person_home_phone)%></label></td>
              <td class="data-col"><%=f.text_field :home_phone, {:irm_number_and_cross => true}%></td>
           </tr>
@@ -123,7 +123,7 @@
          <td class="label-col"><label><%=t(:label_irm_person_delegate_approver)%></label></td>
          <td class="data-col"><%=f.blank_select(:delegate_approver,available_person)%></td>
          <td class="labelCol"><label><%=t(:label_irm_person_approve_request_mail)%></label></td>
-         <td class="data-col"><%=f.check_box :approve_request_mail,:checked => true%></td>
+         <td class="data-col"><%=f.check_box :approve_request_mail%></td>
        </tr>
        <tr>
          <td class="label-col"><label><%=t(:label_irm_person_delegate_manager)%></label></td>
