@@ -62,8 +62,8 @@ module Irm::ListOfValuesHelper
         content_tag(:i,"",{:class=>"icon-search"}).html_safe
       end
     end
-    tooltip = content_tag(:div,t(:lov_tooltip_text),{:id => "#{lov_field_id}Tip",:class => "alert fade in",:style => "z-index:99;position:absolute;display:none;padding:5px;","tooltip-text" => t(:lov_tooltip_text), "tooltip-error-text" => t(:lov_error_tooltip_text)})
-    content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str+javascript_tag(onblur_script)+tooltip,{:id => "#{lov_field_id}Box",:class=>"form-inline input-append", :style => "position:relative;zoom:1"},false)
+    tooltip = content_tag(:div,t(:lov_tooltip_text),{:id => "#{lov_field_id}Tip",:class => "alert fade in",:style => "z-index:99;position:absolute;display:none;padding:5px;left:0;","tooltip-text" => t(:lov_tooltip_text), "tooltip-error-text" => t(:lov_error_tooltip_text)})
+    content_tag(:div,hidden_tag_str+label_tag_str+lov_link_str+javascript_tag(onblur_script)+tooltip,{:id => "#{lov_field_id}Box",:class=>"form-inline input-append", :style => "zoom:1;"},false)
 
   end
 
