@@ -1,6 +1,17 @@
 module Irm::LdapAuthRulesHelper
   def filter_operators
-    operators = Irm::LookupValue.query_by_lookup_type("RULE_FILTER_OPERATOR").with_eql_or_not.multilingual.order_id
-    operators.collect{|o| [o[:meaning],o[:lookup_code]]}.compact
+    [[t(:label_equal), 'E'], [t(:label_unequal), 'N'],[t(:label_include), 'I']]
   end
+
+  def get_operator_meaning(operator)
+    case operator
+      when 'E'
+        t(:label_equal)
+      when 'N'
+        t(:label_unequal)
+      when 'I'
+        t(:label_include)
+    end
+  end
+
 end
