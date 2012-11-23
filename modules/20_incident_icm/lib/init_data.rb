@@ -176,6 +176,22 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "icm/incident_journals" => ["edit_close", "update_close"],
           },
+          :edit_closed_incident_request => {
+              :en => {:name => "Edit closed", :description => "Edit closed"},
+              :zh => {:name => "编辑已关闭问题", :description => "编辑已关闭问题"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => ["edit", "update"],
+          },
+          :edit_self_closed_incident_request => {
+              :en => {:name => "Edit self closed", :description => "Edit self closed"},
+              :zh => {:name => "编辑自己的已关闭问题", :description => "编辑自己的已关闭问题"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/incident_requests" => ["edit", "update"],
+          },
           :assign_incident_request => {
               :en => {:name => "Assign", :description => "Assign"},
               :zh => {:name => "分配", :description => "分配"},
