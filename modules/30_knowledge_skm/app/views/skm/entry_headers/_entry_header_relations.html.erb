@@ -10,7 +10,7 @@
               <%= link_submit(t(:add), :class=>"btn") %>
             </div>
             <div  style="float:right;">
-              <%= lov_field_tag "skm_relation", Skm::EntryHeader,{:style=>"width:150px;"}%>
+              <%= lov_field_tag "skm_relation", Skm::EntryHeader,{:style=>"width:150px;",:lov_params=>{:lktkn=>"entry_relation",:entry_header_id=>entry_header_id}}%>
             </div>
         <%- end -%>
       </td>
