@@ -594,6 +594,41 @@ function formatFileSize(bytes){
 }
 //END =================================根据bytes值返回文件大小================================
 
+function initDateTime(time_field_id, date_field_id, field_id, init_time){
+    $("#"+time_field_id).timepicker({
+        minuteStep: 5,
+        showSeconds: true,
+        secondStep: 10,
+        showMeridian: false,
+        showInputs: true,
+        disableFocus: false
+    });
+    if(init_time){
+        $("#"+time_field_id).val(init_time);
+        $("#"+time_field_id).trigger('blur');
+    }else{
+        $("#"+time_field_id).val('');
+    }
+    var date_time = $("#"+field_id).val();
+    $("#"+time_field_id).bind('change',function(){
+        if($("#"+date_field_id).val()){
+            date_time = $("#"+date_field_id).val() +" " + $(this).val();
+            $("#"+field_id).val(date_time);
+        }else{
+            $("#"+field_id).val('');
+        }
+    });
+    $("#"+date_field_id).bind('blur',function(){
+        if($(this).val()){
+            date_time = $(this).val() + " " + $("#"+time_field_id).val();
+            $("#"+field_id).val(date_time);
+        }else{
+            $("#"+field_id).val('');
+        }
+    });
+}
+
+
 //START =================================检查lov输入的值================================
 function checkLovResult(base_url,lov_field_id,relation_submit){
     var width = $("#"+lov_field_id +"Box").width(),relationSubmit = relation_submit;
