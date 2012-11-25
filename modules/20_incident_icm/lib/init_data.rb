@@ -184,7 +184,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "icm/incident_requests" => ["edit", "update"],
           },
-          :edit_self_closed_incident_request => {
+          :edit_self_closed_ir => {
               :en => {:name => "Edit self closed", :description => "Edit self closed"},
               :zh => {:name => "编辑自己的已关闭问题", :description => "编辑自己的已关闭问题"},
               :default_flag => "N",
