@@ -23,11 +23,11 @@ module SearchableHelper
         <p>
           <strong>Oh sorry! Please try again and check as the following:</strong>
         </p>
-        <ul style="margin: 10px 5px;">
-          <li>"#{t :label_search_no_result_alert_1}"</li>
-          <li>"#{t :label_search_no_result_alert_2}"</li>
-          <li>"#{t :label_search_no_result_alert_3}"</li>
-          <li>"#{t :label_search_no_result_alert_4}"</li>
+        <ul style="margin: 10px 5px;" class="no-result">
+          <li>#{t :label_search_no_result_alert_1}</li>
+          <li>#{t :label_search_no_result_alert_2}</li>
+          <li>#{t :label_search_no_result_alert_3}</li>
+          <li>#{t :label_search_no_result_alert_4}</li>
         </ul>
       </div>
       BEGIN_HEML
