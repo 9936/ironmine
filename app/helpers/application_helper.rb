@@ -658,4 +658,16 @@ module ApplicationHelper
     nil
   end
 
+
+  def get_time_limit(time_option)
+    time_limit = nil
+    if time_option
+      time_limit = 1.days.ago if time_option.eql?('day')
+      time_limit = 1.weeks.ago if time_option.eql?('week')
+      time_limit = 1.months.ago if time_option.eql?('month')
+      time_limit = 1.years.ago if time_limit.eql?('year')
+    end
+    time_limit
+  end
+
 end

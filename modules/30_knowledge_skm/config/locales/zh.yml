@@ -54,6 +54,7 @@ zh:
   label_skm_entry_header_published_date: 发布日期
   label_skm_entry_header_author_name: 提交人
   label_skm_entry_header_history_list: 历史版本列表
+  label_skm_entry_header_versions: 版本列表
   label_skm_entry_header_history: 历史版本
   label_skm_entry_header_relation_list: 关联知识列表
   label_skm_entry_header_new_relation: 新建关联知识

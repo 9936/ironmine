@@ -72,37 +72,7 @@ module FormHelper
       time_tag_str = text_field_tag(time_field_id,init_time,:class => "timepicker", :id => time_field_id, :style => "width:75px;",:autocomplete => "off",:normal=>true)
       script = %Q(
          $(document).ready(function () {
-            $('##{time_field_id}').timepicker({
-                minuteStep: 5,
-                showSeconds: true,
-                secondStep: 10,
-                showMeridian: false,
-                showInputs: true,
-                disableFocus: false
-            });
-            if('#{init_time}'){
-                $("##{time_field_id}").val('#{init_time}');
-                $("##{time_field_id}").trigger('blur');
-            }else{
-                $("##{time_field_id}").val('');
-            }
-            var date_time = $("##{field_id}").val();
-            $("##{time_field_id}").bind('change',function(){
-                if($("##{date_field_id}").val()){
-                    date_time = $("##{date_field_id}").val() +" " + $(this).val();
-                    $("##{field_id}").val(date_time);
-                }else{
-                    $("##{field_id}").val('');
-                }
-            });
-            $("##{date_field_id}").bind('blur',function(){
-                if($(this).val()){
-                    date_time = $(this).val() + " " + $("##{time_field_id}").val();
-                    $("##{field_id}").val(date_time);
-                }else{
-                    $("##{field_id}").val('');
-                }
-            });
+            initDateTime("#{time_field_id}", "#{date_field_id}", "#{field_id}", "#{init_time}");
          });
       )
       link_click_action = %Q(javascript:dateFieldChooseToday('#{date_field_id}','#{date_text}','#{time_field_id}','#{time_text}'))

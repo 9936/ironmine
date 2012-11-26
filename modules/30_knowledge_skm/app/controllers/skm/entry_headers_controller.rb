@@ -21,7 +21,7 @@ class Skm::EntryHeadersController < ApplicationController
                                              :version_number => @entry_header.version_number})
     @history.save
 
-    @entry_history = Skm::EntryHeader.list_all.history_entry.where(:doc_number => @entry_header[:doc_number])
+    @entry_history = Skm::EntryHeader.list_all.where(:doc_number => @entry_header[:doc_number])
     #关联的知识文章
     @entry_relation = Skm::EntryHeaderRelation.list_all(@entry_header.id)
 
@@ -558,6 +558,7 @@ class Skm::EntryHeadersController < ApplicationController
     if file_flag
       if params[:new]
         old_header = Skm::EntryHeader.find(params[:id])
+
         @entry_header = Skm::EntryHeader.new(old_header.attributes)
         old_header.history_flag = "Y"
         @entry_header.history_flag = "N"
@@ -598,6 +599,13 @@ class Skm::EntryHeadersController < ApplicationController
             fas.each do |fa|
               fa.update_attribute(:entry_header_id, @entry_header.id)
             end
+            #同步关联的知识
+            header_relations = Skm::EntryHeaderRelation.with_created_by.list_all(old_header.id)
+            header_relations.each do |hr|
+              target_id = (hr.source_id == old_header.id)? hr.target_id : hr.source_id
+              Skm::EntryHeaderRelation.create(:source_id => @entry_header.id, :target_id => target_id, :relation_type => hr.relation_type, :created_by => hr.created_by)
+            end
+
             if params[:files]
               files = params[:files]
               #调用方法创建附件

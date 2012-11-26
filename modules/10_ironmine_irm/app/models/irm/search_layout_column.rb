@@ -13,6 +13,6 @@ class Irm::SearchLayoutColumn < ActiveRecord::Base
   }
 
   def self.lookup_columns(business_object_id)
-    self.query_business_object("LOOKUP",business_object_id,I18n.locale)
+    self.query_business_object("LOOKUP",business_object_id,I18n.locale).order(:seq_num)
   end
 end

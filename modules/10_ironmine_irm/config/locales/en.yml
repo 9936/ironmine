@@ -179,6 +179,11 @@ en:
   display: Show
   lov_tooltip_text: Use '%' as wildcard.
   lov_error_tooltip_text: No data found.
+  label_equal: Equal
+  label_unequal: Not Equal
+  label_include: Include
+  label_note: Note
+  label_note_text: As the operator is「Include」,the value character「%」mean any characters,for example:%value(end of 'value'),value%(start of 'value') or val%ue(start of 'val' and end of 'ue')
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type
@@ -1975,10 +1980,10 @@ en:
   label_search_result_count: %{count} Results found
   label_search_options_setting: Search options setting
   label_search_options_time: Search options time
-  label_search_no_result_alert_1: 1.the keyword can't be blank；
-  label_search_no_result_alert_2: 2.please try another keyword；
-  label_search_no_result_alert_3: 3.check the search options setting；
-  label_search_no_result_alert_4: 4.Searching result may exceed your specified range.
+  label_search_no_result_alert_1: the keyword can't be blank；
+  label_search_no_result_alert_2: please try another keyword；
+  label_search_no_result_alert_3: check the search options setting；
+  label_search_no_result_alert_4: Searching result may exceed your specified range.
   #============================== end search page  ==============================
 
 

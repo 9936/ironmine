@@ -111,23 +111,89 @@ class Skm::EntryHeader < ActiveRecord::Base
     time :updated_at
   end
 
-  def self.search(query)
-    search = Sunspot.search(Skm::EntryHeader, Irm::AttachmentVersion) do |sq|
-      sq.keywords query
-      sq.facet :source_type => 'Skm::EntryHeader'
+  def self.search(args, page = 1, per_page = 30)
+    query = args[0]
+    time_limit = args[1]
+    results ||= {}
+
+    #搜索知识库本身
+    search = Sunspot.search(Skm::EntryHeader) do |sp|
+      sp.keywords query, :highlight => true
+      sp.with(:history_flag, Irm::Constant::SYS_NO)
+      sp.with(:entry_status_code, "PUBLISHED")
+      sp.with(:updated_at).greater_than(time_limit) if time_limit
     end
-    #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
-    entry_header_ids = []
-    if search.results.any?
-      search.results.each do |result|
-        if result.class.to_s.eql?('Irm::AttachmentVersion')
-          entry_header_ids << result.source_id unless entry_header_ids.include?(result.source_id)
+
+    search.each_hit_with_result do |hit, result|
+      results[result.id.to_sym] ||= {}
+      results[result.id.to_sym][:hit] = hit
+    end if search
+
+    #搜索知识库附件关联
+    search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
+      sp.keywords query, :highlight => true
+      sp.with(:source_type,["Skm::EntryHeader"])
+      sp.with(:updated_at).greater_than(time_limit) if time_limit
+    end
+
+    search_att.each_hit_with_result do |hit, result|
+      results[result.source_id.to_sym] ||= {}
+      results[result.source_id.to_sym][:attachments] ||= []
+      if results_ids.include?(result.source_id.to_s)
+        results[result.source_id.to_sym][:attachments] << hit
+      else
+        if results[result.source_id.to_sym][:result].present?
+          results[result.source_id.to_sym][:attachments] << hit
         else
-          entry_header_ids << result.id unless entry_header_ids.include?(result.id)
+          begin
+            record = result.source_type.constantize.find(result.source_id)
+          rescue
+            record = nil
+          end
+          if record.present?
+            results[result.source_id.to_sym][:attachments] << hit
+            results[result.source_id.to_sym][:result] =  record
+          end
         end
       end
+    end if search_att
+
+    total_records = (search.total > search_att.total)? search.total : search_att.total
+    if total_records > per_page
+      page +=  1
+      per_page *= 10
+      results.merge!(self.search(args, page, per_page))
     end
-    Skm::EntryHeader.where("#{Skm::EntryHeader.table_name}.id IN (?)", entry_header_ids)
+
+    results
+
+    #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
+    #entry_header_ids = []
+    #if search.results.any?
+    #  search.results.each do |result|
+    #    if result.class.to_s.eql?('Irm::AttachmentVersion')
+    #      entry_header_ids << result.source_id unless entry_header_ids.include?(result.source_id)
+    #    else
+    #      entry_header_ids << result.id unless entry_header_ids.include?(result.id)
+    #    end
+    #  end
+    #end
+    #Skm::EntryHeader.where("#{Skm::EntryHeader.table_name}.id IN (?)", entry_header_ids)
+  end
+
+  # LOV额外处理方法
+  def self.lov(lov_scope,params)
+    if params[:lov_params].present?&&params[:lov_params].is_a?(Hash)&&params[:lov_params][:lktkn].present?
+
+      #根据lov的使用不同,进行不同的处理
+      if "entry_relation".eql?(params[:lov_params][:lktkn])&&params[:lov_params][:entry_header_id].present?
+        lov_scope = lov_scope.where("#{self.table_name}.history_flag='N' AND #{self.table_name}.id!= ? AND NOT EXISTS(SELECT 1 FROM #{Skm::EntryHeaderRelation.table_name} WHERE (#{Skm::EntryHeaderRelation.table_name}.target_id=#{self.table_name}.id AND #{Skm::EntryHeaderRelation.table_name}.source_id = ?) OR (#{Skm::EntryHeaderRelation.table_name}.target_id = ? AND #{Skm::EntryHeaderRelation.table_name}.source_id = #{self.table_name}.id))",params[:lov_params][:entry_header_id],params[:lov_params][:entry_header_id],params[:lov_params][:entry_header_id])
+      end
+
+
+    end
+
+    lov_scope
   end
 
   def self.generate_doc_number(prefix = "")

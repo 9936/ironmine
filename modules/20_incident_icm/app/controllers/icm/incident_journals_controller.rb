@@ -242,7 +242,6 @@ class Icm::IncidentJournalsController < ApplicationController
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
     @incident_journal.reply_type = "PASS"
     @incident_request.attributes = params[:icm_incident_request]
-
     perform_create(true)
     respond_to do |format|
       if @incident_journal.valid?&&@incident_request.support_group_id

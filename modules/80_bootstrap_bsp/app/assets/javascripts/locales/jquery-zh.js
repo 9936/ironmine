@@ -22,7 +22,11 @@ var irm_labels = {
     reset_order_btn_text: "调整显示顺序",
     save_btn_text: "保存",
     cancel_btn_text: "取消",
-    load_data_error: "加载数据出错了."
+    load_data_error: "加载数据出错了.",
+    number_and_cross: "只允许输入数字和中划线",
+    number_only: "只允许输入数字",
+    chr_only: "不能输入中文字符",
+    uppercase: "只允许输入大写字母和下划线"
 };
 
 if($.fn.datepicker.dpglobal){

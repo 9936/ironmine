@@ -59,6 +59,7 @@
               <%= render :partial=>"helper/upload_file",:locals=>{:upload_file_id=>"pass_incident_request_file"} %>
             </td>
           </tr>
+          <%= render :partial=>"edit_close_external_field", :locals => {:f => f}%>
       </tbody>
     </table>
   <% end %>

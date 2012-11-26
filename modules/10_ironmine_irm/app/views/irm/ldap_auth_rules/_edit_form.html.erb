@@ -52,7 +52,10 @@
             <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
           </div>
           <div class="sub-page-block-body">
-            <%= content_for :form_block_common   %>
+            <div class="alert alert-block" style="text-align: left;">
+              <p><strong><%= t(:label_note) %>:</strong><%= t(:label_note_text) %></p>
+            </div>
+            <%= content_for :form_block_common %>
           </div>
         </div>
 

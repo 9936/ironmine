@@ -1,4 +1,10 @@
 <tr>
+    <td class="label-col"><label for="incident_request_cux_organization_id"><%= I18n.t(:label_icm_incident_request_cux_organization)%></label></td>
+    <td class="data-col">
+        <%=f.select :cux_organization_id, nullable_options_for_select(available_roles, @incident_request.cux_organization_id),{}%>
+    </td>
+</tr>
+<tr>
     <td class="label-col"><label for="incident_request_cux_submit_time"><%= I18n.t(:label_icm_incident_request_cux_submit_time)%></label></td>
     <td class="data-col">
         <%=f.date_field :cux_submit_time, :class=>"date", :with_time =>true,:id=>"incident_cux_submit_time"%>
