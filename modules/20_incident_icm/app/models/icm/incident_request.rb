@@ -298,7 +298,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
 
 
-  def self.search(args, page = 1, per_page = 30)
+  def self.search(args, page = 1, per_page = 30, offset = 0)
     query = args[0]
     time_limit = args[1]
     system_ids = Irm::Person.current.system_ids
@@ -309,7 +309,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
       sp.keywords query, :highlight => true
       sp.with(:external_system_id, system_ids)
       sp.with(:updated_at).greater_than(time_limit) if time_limit
-      sp.paginate(:page => page, :per_page => per_page)
+      sp.paginate(:offset => offset, :per_page => per_page)
     end
 
     results_ids = search.results.collect{|i| i[:id]}  if search
@@ -325,7 +325,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
       sp.keywords query, :highlight => true
       sp.with(:source_type,["Icm::IncidentRequest", "Icm::IncidentJournal"])
       sp.with(:updated_at).greater_than(time_limit) if time_limit
-      sp.paginate(:page => page, :per_page => per_page)
+      sp.paginate(:offset => offset, :per_page => per_page)
     end
     search_att.each_hit_with_result do |hit, result|
       results[result.source_id.to_sym] ||= {}
@@ -357,9 +357,21 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
     total_records = (search.total > search_att.total)? search.total : search_att.total
     if total_records > per_page
+
+      offset = 0
+      if page > 1
+        (1..(page-1)).each do |p|
+          offset += 10**(p-1)
+        end
+        offset *= 30
+      else
+        offset = 0
+      end
+
+
       page +=  1
       per_page *= 10
-      results.merge!(self.search(args, page, per_page))
+      results.merge!(self.search(args, page, per_page, offset))
     end
     #获取事故单的详细信息
     incident_requests = self.select_all.with_requested_by(I18n.locale).
