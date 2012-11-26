@@ -1,30 +1,8 @@
 # coding: utf-8
 class Irm::SearchController < ApplicationController
   layout "application_full"
-  #def indexs
-  #  results = []
-  #  Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
-  #    next unless !value.present?||allow_to_function?(value)
-  #    search_entity = key.constantize
-  #    if search_entity.searchable_options[:direct].present?&&search_entity.respond_to?(search_entity.searchable_options[:direct].to_sym)
-  #      results =  search_entity.send(search_entity.searchable_options[:direct].to_sym,params[:query])
-  #      if results.first
-  #        redirect_to(results.first.searchable_show_url_options) and return
-  #      end
-  #    end
-  #  end if params[:query].present?
-  #  respond_to do |format|
-  #    format.html # index.html.erb
-  #    format.xml  { render :xml => results }
-  #  end
-  #end
-
-  def index
-    params[:search_option_str] ||= ''
-    search_option_str = params[:search_option_str]
-    entry_arr = []
-    search_option_arr = search_option_str.split(" ")
-    #为系统搜索添加权限控制以及根据单号搜素
+  def indexs
+    results = []
     Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
       next unless !value.present?||allow_to_function?(value)
       search_entity = key.constantize
@@ -34,27 +12,56 @@ class Irm::SearchController < ApplicationController
           redirect_to(results.first.searchable_show_url_options) and return
         end
       end
-      entry_arr << search_entity if search_option_arr.include?(key.to_s)
     end if params[:q].present?
-
-
-    #时间过滤以及一些基本的参数
-    time_option = params[:time_option]
-    time_limit = get_time_limit(time_option)
-    params[:q] ||= ''
-    q = params[:q].gsub("-","")
-    params[:page] ||= 1
-    params[:per_page] ||= 10
-    #查找出与我关联的事故单
-    system_ids = Irm::Person.current.system_ids
-    filter_ids = Icm::IncidentRequest.filter_incident_by_person(Irm::Person.current.id).collect(&:id)
-    #当前页码到上一页
-    @current_to_pre ||= 1
-    search(entry_arr, params[:page].to_i, params[:per_page], q, time_limit, filter_ids, system_ids)
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => results }
+    end
   end
 
-  #将搜索逻辑i独立到方法中
+  def index
+    params[:search_option_str] ||= ''
+    search_option_str = params[:search_option_str]
+
+    params[:q] ||= ''
+    q = params[:q].gsub("-","")
+
+    #时间过滤以及一些基本的参数
+    #time_option = params[:time_option]
+    #time_limit = get_time_limit(time_option)
+    #
+    #@results = {}
+    search_option_arr = search_option_str.split(" ")
+    #为系统搜索添加权限控制以及根据单号搜素
+    Ironmine::Acts::Searchable.searchable_entity.each do |key,value|
+      next unless !value.present? || allow_to_function?(value) && search_option_arr.include?(key.to_s)
+      search_entity = key.constantize
+      if search_entity.searchable_options[:direct].present?&&search_entity.respond_to?(search_entity.searchable_options[:direct].to_sym)
+        results =  search_entity.send(search_entity.searchable_options[:direct].to_sym,q)
+        if results.first
+          redirect_to(results.first.searchable_show_url_options) and return
+        end
+      end
+      #if search_entity.searchable_options[:all].present?&&search_entity.respond_to?(search_entity.searchable_options[:all].to_sym)
+      #  @results.merge!(search_entity.send(search_entity.searchable_options[:all].to_sym, [q, time_limit]))
+      #end
+    end if q.present?
+
+
+
+    #params[:page] ||= 1
+    #params[:per_page] ||= 10
+    ##查找出与我关联的事故单
+    #system_ids = Irm::Person.current.system_ids
+    #filter_ids = Icm::IncidentRequest.filter_incident_by_person(Irm::Person.current.id).collect(&:id)
+    ##当前页码到上一页
+    #@current_to_pre ||= 1
+    #search(entry_arr, params[:page].to_i, params[:per_page], q, time_limit, filter_ids, system_ids)
+  end
+
+  #将搜索逻辑独立到方法中
   def search(entry_arr, page, per_page, key_word,time_limit,filter_ids = [], system_ids= [])
+
     @search = Sunspot.search(entry_arr) do |query|
       query.keywords key_word, :highlight => true
       query.with(:external_system_id, system_ids)

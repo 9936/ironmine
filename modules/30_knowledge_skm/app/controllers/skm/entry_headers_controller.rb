@@ -21,7 +21,7 @@ class Skm::EntryHeadersController < ApplicationController
                                              :version_number => @entry_header.version_number})
     @history.save
 
-    @entry_history = Skm::EntryHeader.list_all.history_entry.where(:doc_number => @entry_header[:doc_number])
+    @entry_history = Skm::EntryHeader.list_all.where(:doc_number => @entry_header[:doc_number])
     #关联的知识文章
     @entry_relation = Skm::EntryHeaderRelation.list_all(@entry_header.id)
 

@@ -286,10 +286,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
     text :support_person_name do
       Irm::Person.find(support_person_id).full_name if support_person_id.present?
     end
-    text :incident_category_name do
+    text :incident_category_name,:stored => true do
       Icm::IncidentCategoriesTl.where(:incident_category_id => incident_category_id).map { |category| category.name } if incident_category_id.present?
     end
-    text :incident_sub_category_name do
+    text :incident_sub_category_name,:stored => true do
       Icm::IncidentSubCategoriesTl.where(:incident_sub_category_id => incident_sub_category_id).map { |category| category.name } if incident_sub_category_id.present?
     end
     string :external_system_id
@@ -298,29 +298,71 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
 
 
-  def self.search(query)
-    search = Sunspot.search(Icm::IncidentRequest,Irm::AttachmentVersion) do |sq|
-      sq.keywords query
-      sq.facet :source_type => ['Icm::IncidentRequest', 'Icm::IncidentJournal']
+  def self.search(args, page = 1, per_page = 30)
+    query = args[0]
+    time_limit = args[1]
+    system_ids = Irm::Person.current.system_ids
+    filter_ids = Icm::IncidentRequest.filter_incident_by_person(Irm::Person.current.id).collect(&:id)
+
+    #检索事故单本身
+    search = Sunspot.search(Icm::IncidentRequest) do |sp|
+      sp.keywords query, :highlight => true
+      sp.with(:external_system_id, system_ids)
+      sp.with(:updated_at).greater_than(time_limit) if time_limit
+      sp.paginate(:page => page, :per_page => per_page)
     end
-    #对result进行判断是否来自于附件，如果来自于附件需要对其进行特殊处理
-    incident_request_ids = []
-    if search.results.any?
-      search.results.each do |result|
-        if result.class.to_s.eql?('Irm::AttachmentVersion')
-          #如果搜索附件来自于回复
-          if result.source_type.to_s.eql?('Icm::IncidentJournal')
-            result = Icm::IncidentJournal.find(result.source_id)
-            incident_request_ids << result.incident_request_id unless incident_request_ids.include?(result.incident_request_id)
-          else
-            incident_request_ids << result.source_id unless incident_request_ids.include?(result.source_id)
-          end
+
+    results_ids = search.results.collect{|i| i[:id]}  if search
+
+    results ||= {}
+    search.each_hit_with_result do |hit, result|
+      results[result.id.to_sym] ||= {}
+      results[result.id.to_sym][:hit] = hit
+    end if search
+
+    #检索附件
+    search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
+      sp.keywords query, :highlight => true
+      sp.with(:source_type,["Icm::IncidentRequest", "Icm::IncidentJournal"])
+      sp.with(:updated_at).greater_than(time_limit) if time_limit
+      sp.paginate(:page => page, :per_page => per_page)
+    end
+    search_att.each_hit_with_result do |hit, result|
+      results[result.source_id.to_sym] ||= {}
+      results[result.source_id.to_sym][:attachments] ||= []
+      if results_ids.include?(result.source_id.to_s)
+        results[result.source_id.to_sym][:attachments] << hit
+      else
+        if results[result.source_id.to_sym][:result].present?
+          results[result.source_id.to_sym][:attachments] << hit
         else
-          incident_request_ids << result.id unless incident_request_ids.include?(result.id)
+          begin
+            record = result.source_type.constantize.find(result.source_id)
+          rescue
+            record = nil
+          end
+          #附件是否来自于回复
+          if record && result.source_type.to_s.eql?('Icm::IncidentJournal')
+            record = Icm::IncidentRequest.find(record.incident_request_id)
+          end
+          if record.present?
+            results[result.source_id.to_sym][:attachments] << hit
+            results[result.source_id.to_sym][:result] =  record
+          end
         end
       end
+    end if search_att
+
+    results.delete_if{|key, value| !filter_ids.include?(key.to_s) } if filter_ids.any?
+
+    total_records = (search.total > search_att.total)? search.total : search_att.total
+    if total_records > per_page
+      page +=  1
+      per_page *= 10
+      results.merge!(self.search(args, page, per_page))
     end
-    Icm::IncidentRequest.where("#{Icm::IncidentRequest.table_name}.id IN (?)", incident_request_ids).list_all
+
+    results
   end
 
   def self.query_by_request_number(query)

@@ -70,7 +70,9 @@
           <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
               <%= link_to t(:close), {:action => "edit_close"},{:class=>"btn"} %>
           <% end %>
-          <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn",:back => true} %>
+          <% if allow_to_function?(:edit_incident_request)%>
+            <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn",:back => true} %>
+          <% end %>
         </div>
 
         <div class="btn-group">
@@ -88,6 +90,11 @@
            <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
                <%= link_to t(:permanent_close), {:action => "edit_permanent_close"},{:class=>"btn"}%>
                <%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id},{:class=>"btn"}%>
+           <% end %>
+           <% if (allow_to_function?(:edit_self_closed_incident_request) &&
+                   (current_person?(@incident_request.support_person_id) ||
+                   current_person?(@incident_request.requested_by))) || allow_to_function?(:edit_closed_incident_request)  %>
+               <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn",:back => true} %>
            <% end %>
          </div>
     <% end %>

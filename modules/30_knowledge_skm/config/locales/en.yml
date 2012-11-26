@@ -53,6 +53,7 @@ en:
   label_skm_entry_header_published_date: Published Date
   label_skm_entry_header_author_name: Author
   label_skm_entry_header_history_list: History List
+  label_skm_entry_header_versions: Versions
   label_skm_entry_header_history: History
   label_skm_entry_header_relation_list: Relation List
   label_skm_entry_header_new_relation: New Relation

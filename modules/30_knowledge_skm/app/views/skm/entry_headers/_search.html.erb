@@ -1,45 +1,27 @@
-<!--页面结构-->
-<div class="page-block">
-  <table class="page-block-header">
-    <tr>
-      <td class="page-block-title">
-        <h2 class="block-title"><%= t(:label_skm_entry_header_list) %></h2>
-      </td>
-    </tr>
-  </table>
-  <div class="page-block-body">
-    <div class="datatable">
-      <table id='rows' >
-        <thead>
-          <tr>
-            <th style="width:180px;">
-              <div><%= t(:label_skm_entry_header_title) %>
-              </div>
-            </th>
-            <th style="width:180px;">
-              <div><%= t(:label_skm_entry_header_published_date) %>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody class="yui3-datatable-data">
-        <% results.each do |r| %>
-        <tr id="<%=r.id%>" class="yui3-datatable-even">
-
-          <td>
-            <div>
-                <%=link_to "[#{r[:doc_number]}]#{r[:entry_title]}", {:controller => "skm/entry_headers", :action => "show", :id =>r[:id]}%>
-             </div>
-          </td>
-          <td>
-            <div>
-              <%=r[:published_date].strftime("%Y-%m-%d %H:%M:%S")%>
-            </div>
-          </td>
-        </tr>
-        <% end -%>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+<% results.values.each do |value| %>
+    <li>
+      <!-- 显示知识库 -->
+      <% if value[:hit].nil? %>
+          <% entry_title = value[:result][:entry_title] %>
+          <% entry_id = value[:result][:id] %>
+          <% entry_content = entry_header_content(value[:result]) %>
+          <% updated_at = value[:result][:updated_at] %>
+          <% keyword_tags = value[:result][:keyword_tags] %>
+      <% else %>
+          <% entry_title = search_result_highlight(value[:hit], :entry_title) %>
+          <% entry_id = value[:hit].result[:id] %>
+          <% entry_content = search_result_highlight(value[:hit], "entry_content") %>
+          <% updated_at = value[:hit].result[:updated_at] %>
+          <% keyword_tags = value[:hit].result[:keyword_tags] %>
+      <% end %>
+      <h3 class="title">【<%= t :label_skm_entry_header %>】
+        <%= link_to(entry_title, {:controller => "skm/entry_headers", :action=>"show",:id => entry_id }) %>
+      </h3>
+      <p class="meta"><%=t(:label_skm_entry_header_keyword_tags)%>:<%= keyword_tags %></p>
+      <p class="content">
+        <!-- 知识库中的内容 -->
+        <%= entry_content %>
+      </p>
+      <p class="meta"><%= format_date(updated_at) %></p>
+    </li>
+<% end %>

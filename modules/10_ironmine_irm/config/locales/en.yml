@@ -179,6 +179,11 @@ en:
   display: Show
   lov_tooltip_text: Use '%' as wildcard.
   lov_error_tooltip_text: No data found.
+  label_equal: Equal
+  label_unequal: Not Equal
+  label_include: Include
+  label_note: Note
+  label_note_text: As the operator is「Include」,the value character「%」mean any characters,for example:%value(end of 'value'),value%(start of 'value') or val%ue(start of 'val' and end of 'ue')
   #=========================end usual custom=======================#
   #=========================    irm lookup_types_controller=======================#
   label_lookup_types: Lookup Type

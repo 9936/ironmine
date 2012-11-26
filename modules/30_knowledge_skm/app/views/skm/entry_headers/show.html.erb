@@ -9,7 +9,7 @@
 <div class="page-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
-      <h2 class="block-title">[<%= @entry_header.doc_number%>]&nbsp;&nbsp;&nbsp;<%= @entry_header.entry_title %></h2>
+      <h2 class="block-title">[<%= @entry_header.doc_number%>]&nbsp;&nbsp;<%= @entry_header.entry_title %></h2>
     </td>
     <td class="page-block-button">
       <% if @entry_header[:is_favorite] == Irm::Constant::SYS_NO %>
@@ -24,7 +24,10 @@
         <%= link_to t(:label_skm_entry_header_new_relation),{:action => "new_relation", :id => @entry_header.id }, :class => "btn btn-primary" %>
         <%= link_to t(:export_pdf), {:controller=>"skm/entry_headers",:action=>"show",:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
       <%- end -%>
-      </td>
+    </td>
+    <td class="page-block-help">
+      (<%= t(:label_skm_entry_header_version) + "  " + @entry_header.version_number %>)
+    </td>
   </tr>
   </table>
   <div class="page-block-body">
@@ -86,7 +89,7 @@
       <table class="page-block-header">
         <tr>
           <td class="page-block-title">
-            <h2 class="block-title"><%= t(:label_skm_entry_header_history_list) %></h2>
+            <h2 class="block-title"><%= t(:label_skm_entry_header_versions) %></h2>
           </td>
         </tr>
       </table>

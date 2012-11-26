@@ -29,12 +29,19 @@ module Fwk
 
       #==header
       table_header = ActiveSupport::SafeBuffer.new
+      #== display columns count
+      total_count = column_options.collect{|i| [i] unless i[:hidden]}.count
+
       table_header.safe_concat "<thead><tr>"
       column_options.each do |column|
         next if column[:hidden]
         column_count = column_count + 1
         column_options_str = column_options_str(column)
-        table_header.safe_concat "<th #{column_options_str} ><div>#{column[:title]}"
+        if total_count == column_count
+          table_header.safe_concat "<th #{column_options_str} class='last' ><div>#{column[:title]}"
+        else
+          table_header.safe_concat "<th #{column_options_str} ><div>#{column[:title]}"
+        end
         table_header.safe_concat "</div></th>"
       end
       table_header.safe_concat "</tr></thead>"

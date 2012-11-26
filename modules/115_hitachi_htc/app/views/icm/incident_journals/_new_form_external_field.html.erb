@@ -29,7 +29,7 @@
 <tr>
   <td class="label-col"><label><%= t(:label_icm_incident_request_cux_organization) %></label></td>
   <td class="data-col">
-    <div><%= Irm::Role.multilingual.find(@incident_request[:cux_organization_id]) unless @incident_request[:cux_organization_id].blank?  %></div>
+    <div><%= Irm::Role.multilingual.find(@incident_request[:cux_organization_id])[:name] unless @incident_request[:cux_organization_id].blank?  %></div>
   </td>
   <td class="label-col"><label><%= t(:label_icm_incident_request_cux_requested_by_role) %></label></td>
   <td class="data-col">
