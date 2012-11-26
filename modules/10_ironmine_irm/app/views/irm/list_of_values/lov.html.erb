@@ -12,7 +12,7 @@
                           :lkfid=>params[:lkfid],
                           :lkvfid=>params[:lkvfid],
                           :lktp=>params[:lktp],
-                          :lksrch=>params[:lksrch])%>"
+                          :lksrch=>params[:lksrch],:lov_params=>params[:lov_params])%>"
   title="" />
   <frame scrolling="auto" framespacing="0" marginheight="0" marginwidth="0" frameborder="0" id="resultsFrame" name="resultsFrame"
          src="<%= url_for(:action=>"lov_result",
@@ -20,7 +20,7 @@
                           :lkfid=>params[:lkfid],
                           :lkvfid=>params[:lkvfid],
                           :lktp=>params[:lktp],
-                          :lksrch=>params[:lksrch])%>"
+                          :lksrch=>params[:lksrch],:lov_params=>params[:lov_params])%>"
   title="" />
 </frameset>
 </html>
