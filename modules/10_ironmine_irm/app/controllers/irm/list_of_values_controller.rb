@@ -185,6 +185,9 @@ class Irm::ListOfValuesController < ApplicationController
     unless params[:lksrch].present?
       params[:lksrch] = "%"
     end
+    if params[:lov_params].present?&&params[:lov_params].is_a?(String)&&params[:lov_params].include?("{")
+      params[:lov_params] = eval(params[:lov_params])
+    end
     @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid],params)
     respond_to do |format|
       format.html {render :layout => "frame"}

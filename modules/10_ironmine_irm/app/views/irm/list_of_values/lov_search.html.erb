@@ -1,8 +1,9 @@
 <body style="padding:5px;">
-  <%= form_tag({:action=>"lov_result"},{:id=>"theForm",:class=>"well form-search",:nomask=>"true",:method=>:get,:target=>"resultsFrame",:name=>"theForm"}) do %>
+  <%= form_tag({:action=>"lov_result",:lov_params=>params[:lov_params]},{:id=>"theForm",:class=>"well form-search",:nomask=>"true",:method=>:get,:target=>"resultsFrame",:name=>"theForm"}) do %>
     <%= hidden_params_field(:lkfm) %>
     <%= hidden_params_field(:lkfid) %>
     <%= hidden_params_field(:lkvfid) %>
+    <%= hidden_params_field(:lov_params) %>
     <input type="text" class="input-medium search-query" id="lksrch"  placeholder="<%= t(:search) %>" maxlength="80" name="lksrch" size="20" value="<%=params[:lksrch]%>">
     <button type="submit" class="btn" name="go" title="<%= I18n.t(:label_irm_list_of_value_go)%>"><%= I18n.t(:label_irm_list_of_value_go)%></button>
     <span class="help-inline"><%= I18n.t(:label_irm_list_of_value_use_percentages)%></span>
