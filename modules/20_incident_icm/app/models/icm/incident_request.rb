@@ -283,7 +283,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     text :journals_content,:stored => true do
       incident_journals.map(&:message_body)
     end
-    text :support_person_name do
+    text :support_person_name,:stored => true do
       Irm::Person.find(support_person_id).full_name if support_person_id.present?
     end
     text :incident_category_name,:stored => true do
@@ -360,6 +360,20 @@ class Icm::IncidentRequest < ActiveRecord::Base
       page +=  1
       per_page *= 10
       results.merge!(self.search(args, page, per_page))
+    end
+    #获取事故单的详细信息
+    incident_requests = self.select_all.with_requested_by(I18n.locale).
+                            with_incident_status(I18n.locale).
+                            with_submitted_by.
+                            with_category(I18n.locale).
+                            with_support_group(I18n.locale).
+                            with_supporter(I18n.locale).
+                            with_external_system(I18n.locale).
+                            with_organization(I18n.locale).
+                            where(:id => results.keys).index_by(&:id)
+
+    results.each do |k,v|
+      results[k][:details] = incident_requests[k.to_s]
     end
 
     results

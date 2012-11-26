@@ -7,31 +7,43 @@
           <% id = value[:result][:id] %>
           <% updated_at = value[:result][:updated_at] %>
           <% journals_content = '' %>
-          <% support_person = value[:support_person_id].present?? Irm::Person.find(value[:support_person_id]).full_name : '' %>
-          <% system_name = value[:external_system_id] %>
       <% else %>
           <% title = search_result_highlight(value[:hit], :title) %>
           <% summary = plain_text(search_result_highlight(value[:hit], :summary)) %>
           <% id = value[:hit].result[:id] %>
           <% updated_at =  value[:hit].result[:updated_at] %>
           <% journals_content = plain_text(search_result_highlight(value[:hit], "journals_content")) %>
-          <% support_person = value[:hit].result[:support_person_name] %>
-          <% system_name = value[:hit].result[:external_system_id] %>
       <% end %>
       <h3 class="title">【<%= t :label_icm_incident_request %>】
-        <%= link_to(title, {:controller=>"icm/incident_journals",:action=>"new",:request_id => id}) %>
+        (<%= value[:details][:incident_status_name] %>)[<%= value[:details][:request_number] %>]<%= link_to(title, {:controller=>"icm/incident_journals",:action=>"new",:request_id => id}) %>
       </h3>
       <p class="content"><%= summary %></p>
       <p class="meta">
         <span class="reply"><%= journals_content %></span>
       </p>
+      <p class="meta" style="height: 15px;">=========================================================================</p>
       <p class="meta">
-        <% if support_person.present? %>
-          <span class="label"><%= t(:label_icm_incident_request_support_person) %>:<%= support_person %></span>
+        <span class="item-info"><%= t(:label_irm_external_system) %>:<%= value[:details][:external_system_name] %></span>
+        <span class="item-info"><%= t(:label_icm_incident_request_incident_category) %>: <%= value[:details][:incident_category_name] %></span>
+        <% if value[:details][:incident_sub_category_name] %>
+          <span class="item-info"><%= t(:label_icm_incident_request_incident_sub_category) %>: <%= value[:details][:incident_sub_category_name] %></span>
         <% end %>
-        <span class="label label-info"><%= t(:label_irm_external_system) %>:<%= Irm::ExternalSystem.multilingual.find(system_name)[:system_name] %></span>
+        <span class="item-info"><%= t(:label_icm_incident_request_support_group) %>: <%= value[:details][:organization_name] %></span>
       </p>
-
-      <p class="meta"><%= t(:label_icm_incident_request_last_date) %>:<%= format_date(updated_at) %></p>
+      <p class="meta">
+        <% if value[:details][:supporter_name].present? %>
+          <span class="item-info"><%= t(:label_icm_incident_request_support_person) %>: <%= value[:details][:supporter_name] %></span>
+        <% end %>
+        <span class="item-info"><%= t(:label_icm_incident_request_requested_by) %>: <%= value[:details][:requested_name] %></span>
+        <span class="item-info"><%= t(:label_icm_incident_request_submitted_by) %>: <%= value[:details][:submitted_name] %></span>
+      </p>
+      <p class="meta">
+        <span class="item-info"><%= t(:label_icm_incident_request_submitted_date) %>: <%= format_date(value[:details][:submitted_date]) %></span>
+        <span class="item-info"><%= t(:label_icm_incident_request_last_date) %>: <%= format_date(updated_at) %></span>
+        <% if value[:details][:estimated_date] %>
+          <span class="item-info"><%= t(:label_icm_incident_request_estimated_date) %>: <%= format_date(value[:details][:estimated_date]) %></span>
+        <% end %>
+      </p>
+      <p class="meta" style="height: 15px;">=========================================================================</p>
   </li>
 <% end %>

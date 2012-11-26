@@ -1973,10 +1973,10 @@ en:
   label_search_result_count: %{count} Results found
   label_search_options_setting: Search options setting
   label_search_options_time: Search options time
-  label_search_no_result_alert_1: 1.the keyword can't be blank；
-  label_search_no_result_alert_2: 2.please try another keyword；
-  label_search_no_result_alert_3: 3.check the search options setting；
-  label_search_no_result_alert_4: 4.Searching result may exceed your specified range.
+  label_search_no_result_alert_1: the keyword can't be blank；
+  label_search_no_result_alert_2: please try another keyword；
+  label_search_no_result_alert_3: check the search options setting；
+  label_search_no_result_alert_4: Searching result may exceed your specified range.
   #============================== end search page  ==============================
 
 

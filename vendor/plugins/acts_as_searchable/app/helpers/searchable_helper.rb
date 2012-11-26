@@ -19,11 +19,11 @@ module SearchableHelper
 
     if no_result
       result_box << <<-BEGIN_HEML
-      <div class="alert alert-block" style="margin: 20px 0 0;">
+      <div class="alert alert-block no-result" style="margin: 20px 0 0;">
         <p>
           <strong>Oh sorry! Please try again and check as the following:</strong>
         </p>
-        <ul style="margin: 10px 5px;" class="no-result">
+        <ul style="margin: 10px 5px;">
           <li>#{t :label_search_no_result_alert_1}</li>
           <li>#{t :label_search_no_result_alert_2}</li>
           <li>#{t :label_search_no_result_alert_3}</li>
@@ -35,4 +35,5 @@ module SearchableHelper
 
     result_box.html_safe
   end
+
 end
