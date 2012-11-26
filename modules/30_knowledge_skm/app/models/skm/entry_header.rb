@@ -189,9 +189,11 @@ class Skm::EntryHeader < ActiveRecord::Base
       if "entry_relation".eql?(params[:lov_params][:lktkn])&&params[:lov_params][:entry_header_id].present?
         lov_scope = lov_scope.where("#{self.table_name}.id!= ? AND NOT EXISTS(SELECT 1 FROM #{Skm::EntryHeaderRelation.table_name} WHERE (#{Skm::EntryHeaderRelation.table_name}.target_id=#{self.table_name}.id AND #{Skm::EntryHeaderRelation.table_name}.source_id = ?) OR (#{Skm::EntryHeaderRelation.table_name}.target_id = ? AND #{Skm::EntryHeaderRelation.table_name}.source_id = #{self.table_name}.id))",params[:lov_params][:entry_header_id],params[:lov_params][:entry_header_id],params[:lov_params][:entry_header_id])
       end
-      lov_scope
+
 
     end
+
+    lov_scope
   end
 
   def self.generate_doc_number(prefix = "")
