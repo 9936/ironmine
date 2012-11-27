@@ -168,8 +168,19 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
   end
 
   def parse_date_condition(operator,filter_value)
+    begin
+      try_parse = Date.parse(filter_value)
+    rescue
+      filter_value = eval(filter_value)
+    end
+    #formated_filter_value = %Q({{Date.parse('#{filter_value}')}})
+
     formated_filter_value = %Q({{Date.parse('#{filter_value}')}})
-    formated_filter_value = %Q(#{filter_value}) if filter_value.scan(/^\{\{\S+\}\}$/).length==1
+    begin
+      formated_filter_value = %Q(#{filter_value}) if filter_value.scan(/^\{\{\S+\}\}$/).length==1
+    rescue
+      nil
+    end
     case
       when OPERATORS[:common].include?(operator)
         parse_common_condition(operator,formated_filter_value)
