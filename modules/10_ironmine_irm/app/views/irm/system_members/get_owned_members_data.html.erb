@@ -3,7 +3,7 @@
   <% builder.column(:full_name,{:title=>t(:label_irm_person_full_name),:searchable=>true, :width => "20%"})%>
   <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address),:searchable=>true, :width => "25%"})%>
   <% builder.column(:system_profile,{:title=>t(:label_irm_profile_system_profile)}) do |data|%>
-    <%= profile_name(data[:id], params[:external_system_id]) %>
+    <%= profile_name(data[:id], params[:sid]) %>
   <% end %>
   <% builder.column(:organization_name,{:title=>t(:label_irm_organization),:searchable=>true})%>
 <% end %>
