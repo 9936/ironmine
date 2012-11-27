@@ -612,6 +612,14 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "icm/assign_rules" => ["create", "edit", "get_data", "index", "new", "show", "update","switch_sequence","switch_status_code"]
           },
+          :system_support_group => {
+              :en => {:name => "Manage External System Groups", :description => "Manage External System Groups"},
+              :zh => {:name => "管理应用系统支持组", :description => "管理应用系统支持组"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/external_system_groups" => ["add_groups", "delete_groups", "get_available_groups_data", "get_owned_groups_data"]
+          }
       }
   }
   #=================================END:ASSIGN RULE=================================

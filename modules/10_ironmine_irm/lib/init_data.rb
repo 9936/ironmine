@@ -1985,7 +1985,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/external_systems" => ["add_people", "create", "delete_people", "edit", "get_data", "index", "new", "show", "update"],
-          },
+          }
       }
   }
   #=================================END:SYSTEM=================================
@@ -2781,6 +2781,7 @@ Fwk::MenuAndFunctionManager.map do |map|
           }
       }
   }
+
 
 end
 

@@ -144,6 +144,78 @@
 </div>
 <% end %>
 
+
+<!-- 添加支持组 -->
+<% content_for :form_group_buttons do %>
+    <%= link_submit t(:label_icm_external_system_save_selected),{:class=>"btn btn-info"}%>
+    <%= link_to(t(:cancel),{}, :href =>"javascript:void(0);", :onclick=>"display_group_grid()",:class=>"btn")%>
+<% end %>
+
+<%= form_for(Icm::ExternalSystemGroup.new,:url=>{:controller => "icm/external_system_groups", :action=>"add_groups", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:status_code) %>
+    <!--页面结构-->
+    <div class="page-block unreal-hidden" id="select_groups">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_icm_external_system_add_group) %>&nbsp;<%= t(:label_irm_select_result) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_group_buttons %>
+        </td>
+        <td class="page-block-help">
+          <div id="selectableGroupSearchBox"></div>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <div class="sub-page-block-body">
+            <%= datatable("selectableGroup",{:controller=>"icm/external_system_groups", :action=>"get_available_groups_data", :external_system_id => @external_system.id}, [],{:paginator_box=>"selectableGroupPaginator",:search_box=>"selectableGroupSearchBox",:select=>"multiple"})%>
+          </div>
+        </div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_group_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<!--支持组页面结构-->
+<%= form_for(Icm::ExternalSystemGroup.new,:url=>{:controller => "icm/external_system_groups", :action=>"delete_groups", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:temp_group_ids, :value => "") %>
+    <div class="page-block" id="group_grid">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_company_support_group_list) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+          <%= link_to t(:label_icm_external_system_add_group),{}, :href => "javascript:void(0)", :onclick=>"display_select_group()",:class=>"btn btn-info" %>
+        </td>
+        <td class="page-block-help">
+          <div id="external_groupSearchBox"></div>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= datatable("external_groups",{:controller => "icm/external_system_groups",:action=>"get_owned_groups_data", :external_system_id => @external_system.id},[],{:search_box=>"external_groupSearchBox",:paginator_box=>"external_groupPaginatorBox",:select=>"multiple"})%>
+        <div id="external_groupPaginatorBox"></div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+            <%= link_to t(:label_icm_external_system_add_group),{}, :href => "javascript:void(0)", :onclick=>"display_select_group()",:class=>"btn btn-info" %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
 <script type="text/javascript">
     $("#externalSystemId").change(function(e){
         var url = decodeURIComponent($(e.target).attr("href"));
@@ -163,6 +235,18 @@
       $("#irm_external_system_person_status_code").val("");
   }
 
+  function display_select_group(){
+      $("#select_groups").removeClass("unreal-hidden");
+      $("#group_grid").addClass("unreal-hidden");
+      $("#icm_external_system_group_temp_group_ids").val("");
+  }
+
+  function display_group_grid(){
+      $("#select_groups").addClass("unreal-hidden");
+      $("#group_grid").removeClass("unreal-hidden");
+      $("#icm_external_system_group_status_code").val("");
+  }
+
   $(document).ready(function(){
       $("#external_people").bind('selectionchange',function(event,ids){
          $("#irm_external_system_person_temp_id_string").val(ids.join(","));
@@ -170,6 +254,15 @@
 
       $("#selectablePeople").bind('selectionchange',function(event,ids){
         $("#irm_external_system_person_status_code").val(ids.join(","));
+      });
+
+
+      $("#external_groups").bind('selectionchange',function(event,ids){
+          $("#icm_external_system_group_temp_group_ids").val(ids.join(","));
+      });
+
+      $("#selectableGroup").bind('selectionchange',function(event,ids){
+          $("#icm_external_system_group_status_code").val(ids.join(","));
       });
   });
 </script>

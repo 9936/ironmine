@@ -290,4 +290,6 @@ zh:
 
   #========================= System setting ====================================
   label_icm_system_incident_status: 事故单状态
+  label_icm_external_system_add_group: 添加支持组
+  label_icm_external_system_save_selected: 保存所选支持组
   #========================= End System setting ====================================
