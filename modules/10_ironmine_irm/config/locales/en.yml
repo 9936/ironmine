@@ -1995,6 +1995,7 @@ en:
   label_update_password_successfully: Update password successlly!Please login with new password.
   label_update_password_error: Error,please reset your new password.
   label_error_email_not_existed: this email is not existd in system.
+  label_error_ldap_user: The user login as ldap and you can't reset password in the system.
   label_error_email_blank: The Email can not be blank.
   #============================== end reset password  ==============================
 

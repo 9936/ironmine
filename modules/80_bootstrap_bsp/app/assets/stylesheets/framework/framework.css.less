@@ -46,6 +46,14 @@ input, textarea, select, .uneditable-input {
     width: 120px;
 }
 
+.ellipsis {
+    display:block;
+    text-overflow:ellipsis;
+    -o-text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+}
+
 // layout=========
 @bodyBackgroundPath: asset-path('framework/gradient_body.png');
 
@@ -54,7 +62,7 @@ body#body {
     line-height: 14px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 75% !important;
-    //解决chrome下中文字体不能小于11px
+    //解决chrome下中文字体不能小于12px
     -webkit-text-size-adjust: none;
 }
 

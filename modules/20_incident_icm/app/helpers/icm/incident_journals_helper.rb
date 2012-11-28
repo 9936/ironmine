@@ -12,7 +12,7 @@ module Icm::IncidentJournalsHelper
     html = ""
     @request_files.values.flatten.each do |e|
       html << "<div style='padding-bottom:5px;'><a target='_blank' href='#{e.data.url}' stats="">
-              <div class='file-info'><div title='#{e.data.original_filename}' class='file-name'><b>#{e.data.original_filename}(#{e.file_size_kb}KB)</b></div>
+              <div class='file-info'><div title='#{e.data.original_filename}(#{e.file_size_kb}KB)' class='file-name'><b class='ellipsis' style='width:150px;'>#{e.data.original_filename}(#{e.file_size_kb}KB)</b></div>
               </div></a></div>"
     end
     raw(html)

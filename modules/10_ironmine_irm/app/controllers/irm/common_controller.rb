@@ -31,23 +31,28 @@ class Irm::CommonController < ApplicationController
   def send_email
     #查找该email是否有效
     if params[:email].present?
-      person = Irm::Person.where(:email_address => params[:email]).first
+      person = Irm::Person.with_ldap.where(:email_address => params[:email]).first
       #生成一个随机的token
       if person.present?
-        #查找该用户该类型的token是否存在
-        user_token = person.user_tokens.where(:token_type => "RESET_PWD").first
-        if user_token.present?
-          #new_flag = false
-          user_token.created_at = Time.now
-          user_token.updated_at = Time.now
+        #如果是LDAP用户不能重置密码
+        if person.ldap_flag.eql?(Irm::Constant::SYS_YES)
+          redirect_to({:action =>'login' }, :notice => t(:label_error_ldap_user))
         else
-          #new_flag = true
-          user_token = Irm::UserToken.new(:person_id => person.id,:token_type => "RESET_PWD")
-        end
-        if user_token.save
-          token = user_token.token
-          url = "#{request.protocol}#{request.host_with_port}/reset_pwd?type=RESET_PWD&pwd_token=#{token}"
-          user_token.reset_pwd(params[:email],person.id,url)
+          #查找该用户该类型的token是否存在
+          user_token = person.user_tokens.where(:token_type => "RESET_PWD").first
+          if user_token.present?
+            #new_flag = false
+            user_token.created_at = Time.now
+            user_token.updated_at = Time.now
+          else
+            #new_flag = true
+            user_token = Irm::UserToken.new(:person_id => person.id,:token_type => "RESET_PWD")
+          end
+          if user_token.save
+            token = user_token.token
+            url = "#{request.protocol}#{request.host_with_port}/reset_pwd?type=RESET_PWD&pwd_token=#{token}"
+            user_token.reset_pwd(params[:email],person.id,url)
+          end
         end
       else
         #email地址不存在
