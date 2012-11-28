@@ -46,7 +46,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   acts_as_searchable(:direct =>"query_by_request_number",
                      :all=>"search",
                      :show_url  => {:controller=>"icm/incident_journals",:action=>"new",:request_id=>:id})
-  acts_as_urlable(:show=>{:controller=>"icm/incident_journals",:action=>"new",:request_id=>:id},:title=>:title)
+  acts_as_urlable(:show=>{:controller=>"icm/incident_journals",:action=>"new",:request_id=>:id},:title=>:long_title)
 
 
   # 查询当天新建的事故单，根据数量生成序列号
@@ -587,6 +587,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
     self.save
   end
 
+  def long_title
+    "[#{self.request_number}]#{self.title}"
+  end
   # 处理创建知识库
   def process_knowledge(entry_header_id)
     self.kb_flag = Irm::Constant::SYS_YES
