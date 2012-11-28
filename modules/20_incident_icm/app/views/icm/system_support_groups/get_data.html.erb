@@ -1,0 +1,15 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "40px"}) do |data|%>
+        <%= link_to(t(:show),{:controller => "icm/system_support_groups", :action => "show", :id => data[:id],:sid => current_system.id },:class => "action-link") %>
+    <% end %>
+    <% builder.column(:group_name,{:title=>t(:label_icm_support_group_name),:searchable => true}) %>
+    <% builder.column(:system_count,{:title => t(:label_icm_support_group_system_num)}) do |data| %>
+        <%= @support_group_systems_hash[data[:id]][:system_count] %>
+    <% end %>
+    <% builder.column(:assignment_process_code,{:title=>t(:label_icm_support_group_assignment_process_code)}) do |data| %>
+        <%=look_up_meaning("ICM_ASSIGN_PROCESS_TYPE", data[:assignment_process_code]) %>
+    <% end %>
+    <% builder.column(:group_status_code,{:title=>t(:label_status_code)}) do |data| %>
+        <%=look_up_meaning("SYSTEM_STATUS_CODE", data[:group_status_code]) %>
+    <% end %>
+<% end %>

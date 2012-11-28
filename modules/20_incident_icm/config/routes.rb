@@ -196,5 +196,14 @@ Ironmine::Application.routes.draw do
     match '/external_system_groups/:external_system_id/delete_groups(.:format)' => "external_system_groups#delete_groups"
     match '/external_system_groups/:external_system_id/get_owned_groups_data(.:format)' => "external_system_groups#get_owned_groups_data", :via => :get
     match '/external_system_groups/:external_system_id/get_available_groups_data(.:format)' => "external_system_groups#get_available_groups_data", :via => :get
+
+    #system_support_group
+    match '/system_support_groups/:sid(/index)(.:format)' => "system_support_groups#index", :via => :get
+    match '/system_support_groups/:sid/get_data(.:format)' => "system_support_groups#get_data"
+    match '/system_support_groups/:sid/:id/show(.:format)' => "system_support_groups#show", :via => :get
+    match '/system_support_groups/:sid/:group_id/get_owned_people_data(.:format)' => "system_support_groups#get_owned_people_data"
+    match '/system_support_groups/:sid/:group_id/get_available_people_data(.:format)' => "system_support_groups#get_available_people_data"
+    match '/system_support_groups/:sid/:group_id/add_people(.:format)' => "system_support_groups#add_people"
+    match '/system_support_groups/:sid/:group_member_id/delete_people(.:format)' => "system_support_groups#delete_people"
   end
 end
