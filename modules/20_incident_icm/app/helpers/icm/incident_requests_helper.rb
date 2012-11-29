@@ -37,35 +37,44 @@ module Icm::IncidentRequestsHelper
     support_group_members_scope.collect{|p| [p[:person_name],p[:person_id]]}
   end
 
-  def available_support_group
-    all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
-
-    grouped_groups = all_groups.collect{|i| [i.id,i.parent_group_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
-    groups = {}
-    all_groups.each do |ao|
-      groups.merge!({ao.id=>ao})
-    end
-    leveled_groups = []
-
-    proc = Proc.new{|parent_id,level|
-      if(grouped_groups[parent_id.to_s]&&grouped_groups[parent_id.to_s].any?)
-        grouped_groups[parent_id.to_s].each do |o|
-          groups[o[0]].level = level
-          leveled_groups << groups[o[0]]
-
-          proc.call(groups[o[0]].id,level+1)
-        end
-      end
-    }
-
-    return [] unless grouped_groups["blank"]&&grouped_groups["blank"].any?
-    grouped_groups["blank"].each do |go|
-      groups[go[0]].level = 1
-      leveled_groups << groups[go[0]]
-      proc.call(groups[go[0]].id,2)
+  def available_support_group(sid = '')
+    if sid.present?
+      all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).with_system(sid).select_all
+    else
+      all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
     end
 
-    leveled_groups.collect{|i|[(level_str(i.level)+i[:name]).html_safe,i.id]}
+    all_groups.collect{|i|[i[:name], i[:id]]}
+
+
+    #grouped_groups = all_groups.collect{|i| [i.id,i.parent_group_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
+    #groups = {}
+    #all_groups.each do |ao|
+    #  groups.merge!({ao.id=>ao})
+    #end
+    #
+    #
+    #leveled_groups = []
+    #
+    #proc = Proc.new{|parent_id,level|
+    #  if(grouped_groups[parent_id.to_s]&&grouped_groups[parent_id.to_s].any?)
+    #    grouped_groups[parent_id.to_s].each do |o|
+    #      groups[o[0]].level = level
+    #      leveled_groups << groups[o[0]]
+    #
+    #      proc.call(groups[o[0]].id,level+1)
+    #    end
+    #  end
+    #}
+    #return [] unless grouped_groups["blank"]&&grouped_groups["blank"].any?
+    #grouped_groups["blank"].each do |go|
+    #  groups[go[0]].level = 1
+    #  leveled_groups << groups[go[0]]
+    #  proc.call(groups[go[0]].id,2)
+    #end
+    #
+    #
+    #leveled_groups.collect{|i|[(level_str(i.level)+i[:name]).html_safe,i.id]}
   end
 
   def available_urgence_code

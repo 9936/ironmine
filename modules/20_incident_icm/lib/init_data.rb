@@ -255,7 +255,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/incident_journals" => ["edit_upgrade", "update_upgrade"],
-              "icm/support_groups" => ["get_member_options"],
+              "icm/support_groups" => ["get_member_options", "get_group_options"],
           },
           :edit_relation => {
               :en => {:name => "Edit Relation", :description => "Edit Relation"},

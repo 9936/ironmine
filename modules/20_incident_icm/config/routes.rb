@@ -125,6 +125,7 @@ Ironmine::Application.routes.draw do
 
     #support_groups
     match '/support_groups/:id/get_member_options(.:format)' => "support_groups#get_member_options", :via => :get
+    match '/support_groups/:id/get_group_options(.:format)' => "support_groups#get_group_options", :via => :get
     match '/support_groups/:id/get_pass_member_options(.:format)' => "support_groups#get_pass_member_options", :via => :get
     match '/support_groups(/index)(.:format)' => "support_groups#index", :via => :get
     match '/support_groups/:id/edit(.:format)' => "support_groups#edit", :via => :get
