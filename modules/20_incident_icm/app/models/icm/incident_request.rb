@@ -602,18 +602,20 @@ class Icm::IncidentRequest < ActiveRecord::Base
   end
 
   def long_category
-    category = Icm::IncidentCategory.joins(",#{Icm::IncidentCategoriesTl.table_name} ict").
+    category = Icm::IncidentCategory.
+        joins(",#{Icm::IncidentCategoriesTl.table_name} ict").
         where("ict.incident_category_id = #{Icm::IncidentCategory.table_name}.id").
         where("ict.language = 'en'").
-        select("ict.name category_name")
-    sub_category = Icm::IncidentSubCategory.joins(",#{Icm::IncidentSubCategoriesTl.table_name} ict").
+        select("ict.name")
+    sub_category = Icm::IncidentSubCategory.
+        joins(",#{Icm::IncidentSubCategoriesTl.table_name} ict").
         where("ict.incident_sub_category_id = #{Icm::IncidentSubCategory.table_name}.id").
         where("ict.language = 'en'").
-        select("ict.name sub_category_name")
+        select("ict.name")
     category_label = ""
-    category_label = category.first[:category_name] if category.any?
+    category_label = category.first[:name] if category.any?
     sub_category_label = ""
-    sub_category_label = sub_category.first[:sub_category_name] if sub_category.any?
+    sub_category_label = sub_category.first[:name] if sub_category.any?
     rel = "#{category_label} - #{sub_category_label}"
     rel
   end
