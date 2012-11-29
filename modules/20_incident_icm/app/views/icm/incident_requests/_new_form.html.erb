@@ -153,8 +153,7 @@
         <tr>
           <td class="label-col"><label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label></td>
           <td class="data-col">
-            <%=f.select :support_group_id,nullable_options_for_select([],@incident_request.support_group_id),
-                                                {},{
+            <%=f.select :support_group_id,nullable_options_for_select([],@incident_request.support_group_id),{},{
                             :id=>"incident_request_support_group_id",
                             :href=>url_for(:controller=>"icm/support_groups",:action=>"get_group_options",:format=>"json",:id=>"${ass_external_system}"),
                             :depend=>"ass_external_system",
