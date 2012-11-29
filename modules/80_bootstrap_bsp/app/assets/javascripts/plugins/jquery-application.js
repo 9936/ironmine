@@ -1,5 +1,4 @@
 $(function(){
-
     //BEGIN========================全局ajax事件监听========================================
     $(document).ajaxSend(function(event, jqXHR, ajaxOptions){
         var _dom_id = get_dom_id(ajaxOptions);
