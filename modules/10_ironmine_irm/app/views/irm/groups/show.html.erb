@@ -62,11 +62,11 @@
       <%= link_to t(:label_irm_group_add_person), {:controller=>"irm/group_members",:action => "new",:id=>@group.id},:class=>"btn" %>
     </td>
     <td class="page-block-help">
-      <div id="permissionsSearchBox"></div>
+      <div id="groupMemberSearchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-      <%= datatable("person",{:controller=>"irm/group_members",:action=>"get_data",:id=>@group.id},[],{:paginator_box=>"personPaginator"})%>
+      <%= datatable("person",{:controller=>"irm/group_members",:action=>"get_data",:id=>@group.id},[],{:search_box => "groupMemberSearchBox",:paginator_box=>"personPaginator"})%>
   </div>
 </div>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@group} %>
