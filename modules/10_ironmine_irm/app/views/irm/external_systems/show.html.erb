@@ -144,7 +144,7 @@
 </div>
 <% end %>
 
-
+<% if has_module?(:chm) %>
 <!-- 添加支持组 -->
 <% content_for :form_group_buttons do %>
     <%= link_submit t(:label_icm_external_system_save_selected),{:class=>"btn btn-info"}%>
@@ -214,6 +214,7 @@
         </tr>
       </table>
     </div>
+<% end %>
 <% end %>
 
 <script type="text/javascript">
