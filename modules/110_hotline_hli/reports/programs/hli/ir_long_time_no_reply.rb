@@ -8,7 +8,7 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
         with_incident_status(I18n.locale).
         with_supporter(I18n.locale).
         with_priority(I18n.locale).
-        with_external_system(I18n.locale).order("(#{Icm::IncidentRequest.table_name}.request_number + 0) ASC")
+        with_external_system(I18n.locale).order("(#{Icm::IncidentRequest.table_name}.last_response_date + 0) DESC")
 
     if params[:long_time].present?
       statis = statis.where("date_format(last_response_date,'%Y-%m-%d') < ?",
