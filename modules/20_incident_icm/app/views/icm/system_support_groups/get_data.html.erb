@@ -4,7 +4,7 @@
     <% end %>
     <% builder.column(:group_name,{:title=>t(:label_icm_support_group_name),:searchable => true}) %>
     <% builder.column(:system_count,{:title => t(:label_icm_support_group_system_num)}) do |data| %>
-        <%= @support_group_systems_hash[data[:id]][:system_count] %>
+        <%= @support_group_systems_hash[data[:support_group_id]][:system_count] %>
     <% end %>
     <% builder.column(:assignment_process_code,{:title=>t(:label_icm_support_group_assignment_process_code)}) do |data| %>
         <%=look_up_meaning("ICM_ASSIGN_PROCESS_TYPE", data[:assignment_process_code]) %>

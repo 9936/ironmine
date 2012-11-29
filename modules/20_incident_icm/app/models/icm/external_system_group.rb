@@ -16,7 +16,7 @@ class Icm::ExternalSystemGroup < ActiveRecord::Base
   }
 
   scope :with_system_count,lambda{|support_group_ids|
-    select("#{table_name}.id, COUNT(1) as system_count").
+    select("#{table_name}.support_group_id, COUNT(1) as system_count").
         where("#{table_name}.support_group_id IN(?)", support_group_ids).
         group("#{table_name}.support_group_id")
   }

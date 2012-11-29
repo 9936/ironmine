@@ -14,7 +14,9 @@ class Icm::SystemSupportGroupsController < ApplicationController
     system_group_scope = system_group_scope.match_value("#{Irm::Group.view_name}.name ", params[:group_name]) if params[:group_name]
     system_groups,count = paginate(system_group_scope)
 
-    @support_group_systems_hash = Icm::ExternalSystemGroup.with_system_count(system_groups.collect(&:support_group_id)).index_by(&:id)
+    support_group_ids = system_groups.collect(&:support_group_id)
+    @support_group_systems_hash = Icm::ExternalSystemGroup.with_system_count(support_group_ids).index_by(&:support_group_id)
+
 
     respond_to do |format|
       format.html  {
@@ -61,21 +63,13 @@ class Icm::SystemSupportGroupsController < ApplicationController
     #
     person_ids = group_members_scope.collect(&:person_id)
     #查找用户在多少个系统中
-    #puts "======================#{person_ids}======================="
     @person_systems_count_hash = Irm::ExternalSystemPerson.with_systems_count(person_ids).index_by(&:person_id)
+    #查找用户在多少个组中
     @person_groups_count_hash = Irm::GroupMember.with_groups_count(person_ids).index_by(&:person_id)
 
-    puts "=============#{Irm::GroupMember.with_groups_count(person_ids).to_sql}================"
     #检查用户是否在系统中
     @person_system_delete_hash = Irm::ExternalSystemPerson.with_delete_flag(person_ids, params[:sid]).index_by(&:person_id)
 
-    #person_ids.each do |person_id|
-    #  if @person_system_delete_hash[person_id]
-    #    @person_system_delete_hash[person_id] = 'Y'
-    #  else
-    #    @person_system_delete_hash[person_id] = nil
-    #  end
-    #end
 
     respond_to do |format|
       format.html  {
