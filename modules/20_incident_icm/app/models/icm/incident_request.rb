@@ -590,11 +590,48 @@ class Icm::IncidentRequest < ActiveRecord::Base
   def long_title
     "[#{self.request_number}]#{self.title}"
   end
+
+  def long_title_with_status
+    is = Icm::IncidentStatus.
+        joins(",#{Icm::IncidentStatusesTl.table_name} ist").
+        where("ist.incident_status_id = #{Icm::IncidentStatus.table_name}.id").
+        where("ist.language = 'en'").
+        select("ist.name status_name").first
+    rel = "[#{self.request_number}](#{is[:status_name]})#{self.title}"
+    rel
+  end
+
+  def long_category
+    category = Icm::IncidentCategory.joins(",#{Icm::IncidentCategoriesTl.table_name} ict").
+        where("ict.incident_category_id = #{Icm::IncidentCategory.table_name}.id").
+        where("ict.language = 'en'").
+        select("ict.name category_name")
+    sub_category = Icm::IncidentSubCategory.joins(",#{Icm::IncidentSubCategoriesTl.table_name} ict").
+        where("ict.incident_sub_category_id = #{Icm::IncidentSubCategory.table_name}.id").
+        where("ict.language = 'en'").
+        select("ict.name sub_category_name")
+    category_label = ""
+    category_label = category.first[:category_name] if category.any?
+    sub_category_label = ""
+    sub_category_label = sub_category.first[:sub_category_name] if sub_category.any?
+    rel = "#{category_label} - #{sub_category_label}"
+    rel
+  end
+
   # 处理创建知识库
   def process_knowledge(entry_header_id)
     self.kb_flag = Irm::Constant::SYS_YES
     self.incident_status_id = Icm::IncidentStatus.transform(self.incident_status_id,"CREATE_SKM")
     self.save
+  end
+
+  def link_to_new_journal
+    url = Rails.application.routes.url_helpers.url_for(:controller => "icm/incident_journals", :action => "new", :request_id => self.id, :only_path => true).to_s
+    str = ""
+    str << "<a href='#{url}' target='_blank'>"
+    str << "[#{self.request_number}]#{self.title}"
+    str << "</a>"
+    str
   end
 
   private
