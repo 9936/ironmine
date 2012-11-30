@@ -148,7 +148,7 @@ en:
   label_icm_incident_request_view_filter_data_range_main: My engaged
   label_icm_incident_journal_upgrade: Upgrade
   label_icm_incident_request_assign_me: New Coming Tickets
-  label_icm_incident_request_assign_me_recevie: Accept
+  label_icm_incident_request_assign_me_receive: Accept
   label_icm_incident_request_assign_me_able_list: Tickets for My Group
   label_icm_incident_request_close_reason: Close Reason
   label_icm_incident_request_incident_status: Change Status
@@ -296,4 +296,6 @@ en:
   label_icm_system_incident_status: Incident Status
   label_icm_external_system_add_group: Add Support Group
   label_icm_external_system_save_selected: Save Selected Groups
+  label_icm_support_group_system_num: The Systems num
+  label_icm_support_group_group_num: The Groups num
   #========================= End System setting ====================================

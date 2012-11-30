@@ -15,10 +15,18 @@ class Icm::ExternalSystemGroup < ActiveRecord::Base
       where("external_system_id = ?", system_id)
   }
 
+  scope :with_system_count,lambda{|support_group_ids|
+    select("#{table_name}.support_group_id, COUNT(1) as system_count").
+        where("#{table_name}.support_group_id IN(?)", support_group_ids).
+        group("#{table_name}.support_group_id")
+  }
+
   scope :with_groups, lambda{|language|
     joins("JOIN #{Icm::SupportGroup.table_name} ON #{Icm::SupportGroup.table_name}.id=#{table_name}.support_group_id").
     joins("JOIN #{Irm::Group.view_name} ON #{Irm::Group.view_name}.id = #{Icm::SupportGroup.table_name}.group_id AND #{Irm::Group.view_name}.language ='#{language}'").
         select("#{table_name}.*, #{Irm::Group.view_name}.name group_name, #{Icm::SupportGroup.table_name}.status_code group_status_code, #{Icm::SupportGroup.table_name}.assignment_process_code")
   }
+
+
 
 end

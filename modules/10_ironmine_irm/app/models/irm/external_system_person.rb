@@ -11,6 +11,16 @@ class Irm::ExternalSystemPerson < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
+  scope :with_systems_count, lambda{|person_ids|
+    select("#{table_name}.person_id, COUNT(1) as system_count").
+        where("#{table_name}.person_id IN(?)", person_ids).
+        group("#{table_name}.person_id")
+  }
+
+  scope :with_delete_flag,lambda{|person_ids,system_id|
+    select("#{table_name}.person_id").
+      where("#{table_name}.person_id IN(?) AND #{table_name}.external_system_id=?", person_ids, system_id)
+  }
 
   scope :function_ids_by_person,lambda{|person_id |
     select("#{self.table_name}.external_system_id,#{Irm::ProfileFunction.table_name}.function_id").

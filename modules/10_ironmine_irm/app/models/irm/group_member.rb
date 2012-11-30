@@ -18,6 +18,11 @@ class Irm::GroupMember < ActiveRecord::Base
     select("#{Irm::Group.view_name}.name name,#{Irm::Group.view_name}.description description")
   }
 
+  scope :with_groups_count, lambda{|person_ids|
+    select("#{table_name}.person_id, COUNT(1) as group_count").
+        where("#{table_name}.person_id IN(?)", person_ids).
+        group("#{table_name}.person_id")
+  }
 
   scope :query_by_support_group,lambda{|support_group_id|
     joins("JOIN #{Icm::SupportGroup.table_name} ON #{Icm::SupportGroup.table_name}.group_id = #{table_name}.group_id").

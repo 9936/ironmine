@@ -37,7 +37,7 @@
                   <label for="portalLayoutSelect"><%= t(:label_icm_incident_request_support_group) %></label>
                 </td>
                 <td class="data-col" colspan="3">
-                  <%= blank_select_tag :support_group_id, available_support_group, {}, {:id => "incident_request_support_group_id"} %>
+                  <%= blank_select_tag :support_group_id, available_support_group(@incident_request.external_system_id), {}, {:id => "incident_request_support_group_id"} %>
                 </td>
              </tr>
              <tr>

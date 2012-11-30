@@ -145,6 +145,7 @@ zh:
   label_icm_incident_request_assign: 分配
   label_icm_incident_request_incident_status: 状态
   label_icm_incident_request_assign_me: 领取
+  label_icm_incident_request_assign_me_receive: 领取
   error_icm_requested_by_can_not_blank: 请求人不能为空
   label_icm_incident_request_view_filter_data_range_all: 我相关的
   label_icm_incident_request_view_filter_data_range_main: 我参与的
@@ -292,4 +293,6 @@ zh:
   label_icm_system_incident_status: 事故单状态
   label_icm_external_system_add_group: 添加支持组
   label_icm_external_system_save_selected: 保存所选支持组
+  label_icm_support_group_system_num: 所属系统数
+  label_icm_support_group_group_num: 所属组数
   #========================= End System setting ====================================
