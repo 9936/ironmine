@@ -139,12 +139,6 @@
 <% end %>
 
 <script type="text/javascript">
-    $("#externalSystemId").change(function(e){
-        var url = decodeURIComponent($(e.target).attr("href"));
-        var externalSystemId = $(e.target).val();
-        url = url.replace("{external_system_id}",externalSystemId);
-        window.location = url;
-    });
     function display_select_people(){
         $("#select_people").removeClass("unreal-hidden");
         $("#member_grid").addClass("unreal-hidden");

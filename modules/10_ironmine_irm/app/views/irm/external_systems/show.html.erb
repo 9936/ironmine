@@ -144,7 +144,7 @@
 </div>
 <% end %>
 
-
+<% if has_module?(:chm) %>
 <!-- 添加支持组 -->
 <% content_for :form_group_buttons do %>
     <%= link_submit t(:label_icm_external_system_save_selected),{:class=>"btn btn-info"}%>
@@ -215,14 +215,9 @@
       </table>
     </div>
 <% end %>
+<% end %>
 
 <script type="text/javascript">
-    $("#externalSystemId").change(function(e){
-        var url = decodeURIComponent($(e.target).attr("href"));
-        var externalSystemId = $(e.target).val();
-        url = url.replace("{external_system_id}",externalSystemId);
-        window.location = url;
-    });
   function display_select_people(){
       $("#select_people").removeClass("unreal-hidden");
       $("#member_grid").addClass("unreal-hidden");

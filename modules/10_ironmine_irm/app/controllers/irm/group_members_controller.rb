@@ -25,7 +25,11 @@ class Irm::GroupMembersController < ApplicationController
   end
   
   def get_data
-    group_members_scope= Irm::GroupMember.select_all.with_person(I18n.locale).where(:group_id=>params[:id])
+    group_members_scope = Irm::GroupMember.select_all.with_person(I18n.locale).where(:group_id=>params[:id])
+    group_members_scope = group_members_scope.match_value("#{Irm::Organization.view_name}.name", params[:organization_name])
+    group_members_scope = group_members_scope.match_value("#{Irm::Person.table_name}.full_name",params[:person_name])
+    group_members_scope = group_members_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
+
     group_members_scope,count = paginate(group_members_scope)
     respond_to do |format|
       format.html  {

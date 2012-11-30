@@ -38,7 +38,7 @@ module Icm
         unless request.support_group_id.present?||assign_result[:support_group_id].present?
           assign_result[:support_person_id] = nil
           # 在能处理当前系统事故单的待命组中选择合适的支持组
-          support_group_scope = Icm::SupportGroup.oncall.assignable
+          support_group_scope = Icm::SupportGroup.enabled.oncall.with_system(request.external_system_id).assignable
 
           support_group_ids = support_group_scope.collect{|i| i.id}
 

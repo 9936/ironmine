@@ -255,7 +255,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/incident_journals" => ["edit_upgrade", "update_upgrade"],
-              "icm/support_groups" => ["get_member_options"],
+              "icm/support_groups" => ["get_member_options", "get_group_options"],
           },
           :edit_relation => {
               :en => {:name => "Edit Relation", :description => "Edit Relation"},
@@ -537,6 +537,14 @@ Fwk::MenuAndFunctionManager.map do |map|
               "icm/support_groups" => ["create", "edit", "get_data", "index", "new", "show", "update"],
               "irm/group_members" => ["get_group_member_options"]
           },
+          :system_support_group => {
+              :en => {:name => "Manage External System Groups", :description => "Manage External System Groups"},
+              :zh => {:name => "管理应用系统支持组", :description => "管理应用系统支持组"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/external_system_groups" => ["add_groups", "delete_groups", "get_available_groups_data", "get_owned_groups_data"]
+          }
       }
   }
   #=================================END:ICM_SUPPORT_GROUP=================================
@@ -611,14 +619,6 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/assign_rules" => ["create", "edit", "get_data", "index", "new", "show", "update","switch_sequence","switch_status_code"]
-          },
-          :system_support_group => {
-              :en => {:name => "Manage External System Groups", :description => "Manage External System Groups"},
-              :zh => {:name => "管理应用系统支持组", :description => "管理应用系统支持组"},
-              :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "N",
-              "icm/external_system_groups" => ["add_groups", "delete_groups", "get_available_groups_data", "get_owned_groups_data"]
           }
       }
   }
@@ -671,9 +671,19 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :sequence => 10,
                   :en => {:name => "Status", :description => "Status"},
                   :zh => {:name => "状态设置", :description => "状态设置"},
-              }}
+              }
+          },
+          :system_support_groups => {
+              :type => "function",
+              :entry => {
+                  :sequence => 20,
+                  :en => {:name => "Support Groups", :description => "System Support Groups"},
+                  :zh => {:name => "支持组", :description => "系统支持组"}
+              }
+          }
       }
   }
+
   map.function_group :system_incident_status, {
       :en => {:name => "Status", :description => "Status"},
       :zh => {:name => "状态设置", :description => "状态设置"},
@@ -693,6 +703,29 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/systems" => ["index","edit_transform","update_transform","get_status_data"]
+          }
+      }
+  }
+
+  map.function_group :system_support_groups, {
+      :en => {:name => "Support Groups", :description => "System Support Groups"},
+      :zh => {:name => "支持组", :description => "系统支持组"},
+      :system_flag => 'Y'
+  }
+  map.function_group :system_support_groups, {
+      :zone_code => "INCIDENT_SETTING",
+      :controller => "icm/system_support_groups",
+      :action => "index"
+  }
+  map.function_group :system_support_groups, {
+      :children => {
+          :system_support_groups => {
+              :en => {:name => "Manage Support Groups", :description => "Manage System Support Groups"},
+              :zh => {:name => "管理支持组", :description => "管理系统支持组"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/system_support_groups" => ["index","get_data","show","get_available_people_data","get_owned_people_data","add_people","delete_people"]
           }
       }
   }
