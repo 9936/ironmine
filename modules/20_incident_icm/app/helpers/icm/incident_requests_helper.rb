@@ -150,8 +150,8 @@ module Icm::IncidentRequestsHelper
     if attachments && attachments.any?
       attachments.each do |a|
         d1 = content_tag(:td, "", :class => "dataCol")
-        d2 = content_tag(:td, a.data_file_name, :class => "dataCol")
-        d3 = content_tag(:td, a.description, :class => "dataCol")
+        d2 = content_tag(:td, a.data_file_name, :class => "data-col")
+        d3 = content_tag(:td, a.description, :class => "data-col")
         d4 = content_tag(:td, link_to(t(:delete), {:controller => "icm/incident_requests", :action => "remove_exists_attachments", :att_id => a.id, :incident_request_id => incident_request.id}, :remote => "true", :confirm => t(:label_are_you_sure)), :class => "dataCol")
         r = content_tag(:tr, d1 + d2 + d3 + d4)
         html << r
@@ -211,7 +211,7 @@ module Icm::IncidentRequestsHelper
                                                  :confirm => t(:label_are_you_sure)))+
                               content_tag(:div,
                                           link_to(w[:request_number] + "#" + w[:title], {:controller => "icm/incident_journals", :action => "new", :request_id => w[:request_id]},
-                                                  {:class => "request_info",:style => "display:block;text-overflow:ellipsis;-o-text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:150px;",:title=>w[:request_number] + "#" + w[:title], :request_id => w[:request_id], :request_name => w[:request_number] + "#" + w[:title]}),
+                                                  {:class => "request_info ellipsis",:style => "width:150px;",:title=>w[:request_number] + "#" + w[:title], :request_id => w[:request_id], :request_name => w[:request_number] + "#" + w[:title]}),
                                           {:style => "float:left;"}) + raw("&nbsp;") ,
 
                               {:style=>"display:block;white-space:nowrap;"}

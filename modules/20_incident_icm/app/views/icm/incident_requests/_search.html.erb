@@ -1,5 +1,5 @@
 <% results.values.each do |value| %>
-  <li>
+    <li xmlns="http://www.w3.org/1999/html">
       <!-- 显示事故单 -->
       <% if value[:hit].nil? %>
           <% title = value[:result][:title] %>
@@ -21,29 +21,50 @@
       <p class="meta">
         <span class="reply"><%= journals_content %></span>
       </p>
-      <p class="meta" style="height: 15px;">=========================================================================</p>
-      <p class="meta">
-        <span class="item-info"><%= t(:label_irm_external_system) %>:<%= value[:details][:external_system_name] %></span>
-        <span class="item-info"><%= t(:label_icm_incident_request_incident_category) %>: <%= value[:details][:incident_category_name] %></span>
-        <% if value[:details][:incident_sub_category_name] %>
-          <span class="item-info"><%= t(:label_icm_incident_request_incident_sub_category) %>: <%= value[:details][:incident_sub_category_name] %></span>
-        <% end %>
-        <span class="item-info"><%= t(:label_icm_incident_request_support_group) %>: <%= value[:details][:organization_name] %></span>
-      </p>
-      <p class="meta">
-        <% if value[:details][:supporter_name].present? %>
-          <span class="item-info"><%= t(:label_icm_incident_request_support_person) %>: <%= value[:details][:supporter_name] %></span>
-        <% end %>
-        <span class="item-info"><%= t(:label_icm_incident_request_requested_by) %>: <%= value[:details][:requested_name] %></span>
-        <span class="item-info"><%= t(:label_icm_incident_request_submitted_by) %>: <%= value[:details][:submitted_name] %></span>
-      </p>
-      <p class="meta">
-        <span class="item-info"><%= t(:label_icm_incident_request_submitted_date) %>: <%= format_date(value[:details][:submitted_date]) %></span>
-        <span class="item-info"><%= t(:label_icm_incident_request_last_date) %>: <%= format_date(updated_at) %></span>
-        <% if value[:details][:estimated_date] %>
-          <span class="item-info"><%= t(:label_icm_incident_request_estimated_date) %>: <%= format_date(value[:details][:estimated_date]) %></span>
-        <% end %>
-      </p>
-      <p class="meta" style="height: 15px;">=========================================================================</p>
+      <div class="meta">
+        <table style="border: none;">
+          <thead>
+          <tr><td colspan="6">============================================================================================</td></tr>
+          </thead>
+          <tr class="item-info">
+            <td class="label-col"><%= t(:label_irm_external_system) %>:</td>
+            <td class="data-col"><%= value[:details][:external_system_name] %></td>
+            <td class="label-col"><%= t(:label_icm_incident_request_incident_category) %>:</td>
+            <td class="data-col">
+              <%= value[:details][:incident_category_name] %>
+              <% if value[:details][:incident_sub_category_name] %>
+                > <%= value[:details][:incident_sub_category_name] %>
+              <% end %>
+            </td>
+            <td class="label-col"><%= t(:label_icm_incident_request_support_group) %>:</td>
+            <td class="data-col"><%= value[:details][:organization_name] %></td>
+          </tr>
+
+          <tr class="item-info">
+            <td class="label-col"><%= t(:label_icm_incident_request_requested_by) %>:</td>
+            <td class="data-col"><%= value[:details][:requested_name] %></td>
+            <td class="label-col"><%= t(:label_icm_incident_request_submitted_by) %>:</td>
+            <td class="data-col"><%= value[:details][:submitted_name] %></td>
+            <td class="label-col"><%= t(:label_icm_incident_request_support_person) %>:</td>
+            <td class="data-col"><%= value[:details][:supporter_name] %></td>
+          </tr>
+
+          <tr class="item-info">
+            <td class="label-col"><%= t(:label_icm_incident_request_submitted_date) %>:</td>
+            <td class="data-col"><%= format_date(value[:details][:submitted_date]) %></td>
+            <td class="label-col"><%= t(:label_icm_incident_request_last_date) %>:</td>
+            <td class="data-col"><%= format_date(updated_at) %></td>
+            <td class="label-col"><%= t(:label_icm_incident_request_estimated_date) %>:</td>
+            <td class="data-col">
+              <% if value[:details][:estimated_date] %>
+                <%= format_date(value[:details][:estimated_date]) %>
+              <% end %>
+            </td>
+          </tr>
+          <tfoot>
+          <tr><td colspan="6">============================================================================================</td></tr>
+          </tfoot>
+        </table>
+      </div>
   </li>
 <% end %>

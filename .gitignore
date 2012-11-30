@@ -17,6 +17,7 @@ config/deploy.rb
 ironmine.ids
 solr/solr/data/**
 solr/data/**
+solr/pids/**
 public/tmp/*
 public/assets/*
 lib/function_data.rb

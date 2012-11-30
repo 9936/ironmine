@@ -1,0 +1,99 @@
+<%= form_for(@object_attribute,:url=>{:action=>"create_cux"},:builder => CustomFormBuilder) do |f| %>
+
+  <% content_for :form_block_a   do%>
+        <table class="form-table">
+          <tbody>
+              <tr>
+                <td class="label-col"><label for="object_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
+                <td class="data-col"><%=f.text_field :name, :required=>true ,:id=>"object_attribute_name"%></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="label-col"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
+                <td class="data-col"><%=f.select :attribute_name,global_customize_object_attribute_names(@business_object), :required=>true ,:id=>"object_attribute_attribute_name"%></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+
+              <% if @object_attribute.category.present?&&["PICK_LIST","PICK_LIST_MULTI"].include?(@object_attribute.category) %>
+                <tr>
+                  <td class="label-col"><label for="object_attribute_pick_list_options"><%=t(:label_irm_object_attribute_pick_list_options)%></label></td>
+                  <td class="data-col"><%=f.text_area :pick_list_options,:required=>true ,:size => "20x10",:id=>"object_attribute_pick_list_options"%></td>
+                  <td class="label-col empty">&nbsp;</td>
+                  <td class="data-col empty">&nbsp;</td>
+                </tr>
+              <% end %>
+              <tr>
+                <td class="label-col"><label for="object_attribute_data_default_value"><%=t(:label_irm_object_attribute_data_default_value)%></label></td>
+                <td class="data-3col" colspan="3">
+                  <%=f.text_field :data_default_value,:id=>"object_attribute_data_default_value"%>
+                  <span class="help-block">dddd</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label for="object_attribute_required_flag"><%=t(:label_irm_object_attribute_required_flag)%></label></td>
+                <td class="data-col text-col"><%=f.check_box(:required_flag,:id=>"object_attribute_required_flag")%></td>
+                <td class="label-col empty">&nbsp;</td>
+                <td class="data-col empty">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="label-col"><label for="object_attribute_description"><%=t(:label_irm_object_attribute_description)%></label></td>
+                <td class="data-col" colspan="3"><%=f.text_area :description, :size=>"40x10",:id=>"object_attribute_description"%></td>
+              </tr>
+
+          </tbody>
+
+        </table>
+  <% end %>
+
+
+
+  <% content_for :form_buttons  do %>
+        <%= link_to t(:last), {:action => "new_cux",:pre_step=>true},{:class=>"submit btn"} %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
+        <%= link_to t(:cancel), {:id=>params[:bo_id],:action => "show",:controller=>"irm/business_objects"},{:class=>"btn"}  %>
+  <% end %>
+
+
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title">
+            <%= t(:step_n, :n => "2") %><%= t(:label_irm_object_attribute_fill_attribute_info) %>
+          </h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+
+        </td>
+        <td class="page-block-help">
+          <h2 class="block-title"><%= t(:step_n_total_m, :n => "2", :m => "2") %></h2>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @object_attribute%>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+    </div>
+
+<% end %>

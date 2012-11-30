@@ -1,2 +1,6 @@
 <%= page_title %>
-<%= render "edit_#{@object_attribute.attribute_type.downcase}"%>
+<% if @object_attribute.attribute_type.eql?("TABLE_COLUMN")&&["GLOBAL_CUX_FIELD","SYSTEM_CUX_FIELD"].include?(@object_attribute.field_type) %>
+    <%= render "edit_cux_attribute"%>
+<% else %>
+    <%= render "edit_#{@object_attribute.attribute_type.downcase}"%>
+<% end %>

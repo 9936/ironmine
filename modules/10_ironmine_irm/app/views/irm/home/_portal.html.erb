@@ -27,7 +27,7 @@
 </div>
 <!-- portal_layout设置窗口 -->
 <div class="modal" id="portalLayoutModal" style="display: none;">
-  <%= form_tag(:controller => "portlet_configs", :action =>"save_portal_layout", :method => "post") do %>
+  <%= form_tag({:controller => "portlet_configs", :action =>"save_portal_layout"}, :method => "post", :class=>"modal-form") do %>
   <div class="modal-header">
     <a data-dismiss="modal" class="close" href="#">×</a>
     <h3><%= t(:label_irm_portlet_change_layout) %></h3>

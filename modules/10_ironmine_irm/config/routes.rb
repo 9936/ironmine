@@ -599,6 +599,8 @@ Rails.application.routes.draw do
     match '/business_objects/:bo_id/object_attributes/create_model_attribute(.:format)' => "object_attributes#create_model_attribute", :via => :post
     match '/business_objects/:bo_id/object_attributes/new(.:format)' => "object_attributes#new", :via => [:get, :post, :put]
     match '/business_objects/:bo_id/object_attributes/create(.:format)' => "object_attributes#create", :via => :post
+    match '/business_objects/:bo_id/object_attributes/new_cux(.:format)' => "object_attributes#new_cux", :via => [:get, :post, :put]
+    match '/business_objects/:bo_id/object_attributes/create_cux(.:format)' => "object_attributes#create_cux", :via => :post
     match '/business_objects/:bo_id/object_attributes/get_data(.:format)' => "object_attributes#get_data"
     match '/business_objects/:bo_id/object_attributes/get_standard_data(.:format)' => "object_attributes#get_standard_data"
     match '/business_objects/:bo_id/object_attributes/:id/edit(.:format)' => "object_attributes#edit", :via => [:get, :put]
