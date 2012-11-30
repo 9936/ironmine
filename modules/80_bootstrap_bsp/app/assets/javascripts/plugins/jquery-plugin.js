@@ -1541,7 +1541,7 @@ jQuery.fn.menubutton = function () {
     // 插件默认配置参数
     var DEFAULT_OPTIONS =
     {
-        pageSize:10,
+        pageSize: parseInt($.cookie("PAGESIZE")) || 10,
         totalCount:0,
         currentPage:0,
         baseUrl:"",
@@ -1877,6 +1877,9 @@ jQuery.fn.menubutton = function () {
             paginatorBox.find("select[name='page-size']:first").change(function () {
                 if (me.data.options.pageSize != $(this).val()) {
                     me.data.options.pageSize = $(this).val();
+                    //将pageSize 存放到cookie中并重新加载
+                    $.cookie("PAGESIZE","");
+                    $.cookie("PAGESIZE", $(this).val());
                     me.loadPage(1);
                 }
             });
