@@ -1,3 +1,7 @@
 <%= page_title %>
-<%= render "show_#{@object_attribute.attribute_type.downcase}"%>
+<% if @object_attribute.attribute_type.eql?("TABLE_COLUMN")&&["GLOBAL_CUX_FIELD","SYSTEM_CUX_FIELD"].include?(@object_attribute.field_type) %>
+    <%= render "show_cux_attribute"%>
+<% else %>
+    <%= render "show_#{@object_attribute.attribute_type.downcase}"%>
+<% end %>
 <%=render :partial=>"multilingual/show",:locals=>{:main_data=>@object_attribute} %>

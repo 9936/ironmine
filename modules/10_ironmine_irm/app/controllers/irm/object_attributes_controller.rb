@@ -66,6 +66,49 @@ class Irm::ObjectAttributesController < ApplicationController
     end
   end
 
+
+  def new_cux
+    # 同步session和params中的数据
+    if params[:irm_object_attribute]
+      session[:irm_object_attribute].merge!(params[:irm_object_attribute].symbolize_keys)
+    else
+      session[:irm_object_attribute]={:business_object_id=>params[:bo_id],:step=>1,:field_type=>"GLOBAL_CUX_FIELD"}
+    end
+
+    # 将参数转化为对像
+    @object_attribute = Irm::ObjectAttribute.new(session[:irm_object_attribute])
+
+    # 设置当前step
+    @object_attribute.step = @object_attribute.step.to_i if  @object_attribute.step.present?
+
+
+    unless  @object_attribute.business_object_id.present?
+      redirect_to({:controller=>"irm/business_objects",:action => "index"})
+      return
+    end
+
+    # 对post数据进行有效性验证
+    validate_result =  request.post?&&@object_attribute.valid?
+
+
+    if validate_result
+      if(@object_attribute.step>1&&params[:pre_step])
+        @object_attribute.step = @object_attribute.step.to_i-1
+        session[:irm_object_attribute][:step] = @object_attribute.step
+      else
+        if @object_attribute.step<2
+          @object_attribute.step = @object_attribute.step.to_i+1
+          session[:irm_object_attribute][:step] = @object_attribute.step
+        end
+      end
+    end
+
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @object_attribute }
+    end
+  end
+
   # GET /object_attributes/1/edit
   def edit
     @object_attribute = Irm::ObjectAttribute.multilingual.find(params[:id])
@@ -85,6 +128,26 @@ class Irm::ObjectAttributesController < ApplicationController
          format.xml  { render :xml => @object_attribute, :status => :created, :location => @object_attribute }
       else
         format.html { render :action => "new" }
+        format.xml  { render :xml => @object_attribute.errors, :status => :unprocessable_entity }
+      end
+    end
+
+  end
+
+
+  # POST /object_attributes
+  # POST /object_attributes.xml
+  def create_cux
+    session[:irm_object_attribute].merge!(params[:irm_object_attribute].symbolize_keys)
+    @object_attribute = Irm::ObjectAttribute.new(session[:irm_object_attribute])
+
+    respond_to do |format|
+      if @object_attribute.save
+         session[:irm_object_attribute] = nil
+         format.html { redirect_to({:controller=>"irm/business_objects",:action=>"show",:id=>@business_object.id}, {:notice => t(:successfully_created)} ) }
+         format.xml  { render :xml => @object_attribute, :status => :created, :location => @object_attribute }
+      else
+        format.html { render :action => "new_cux" }
         format.xml  { render :xml => @object_attribute.errors, :status => :unprocessable_entity }
       end
     end

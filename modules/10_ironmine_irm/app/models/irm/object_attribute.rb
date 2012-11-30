@@ -29,7 +29,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
 
   # 验证属性名称的唯一性
-  validates_uniqueness_of :attribute_name,:scope=>[:opu_id,:business_object_id],:if => Proc.new { |i| i.attribute_name.present?&&i.business_object_id.present? }
+  validates_uniqueness_of :attribute_name,:scope=>[:opu_id,:business_object_id,:external_system_id],:if => Proc.new { |i| i.attribute_name.present?&&i.business_object_id.present? }
   validates_format_of :attribute_name, :with => /^[a-z]+[a-z0-9_]*$/ ,:if=>Proc.new{|i| i.attribute_name.present?},:message=>:label_irm_object_attribute_attribute_name_format
 
   # 当属性为表格属性时,从数据库读取表格列信息
@@ -43,8 +43,12 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   before_save :prepare_relation_table_alias
 
   # validate lookup master detail table name alias
-  # validate :validate_lookup_master_detail,:if=> Proc.new{|i| !self.relation_bo_code.blank?&&!i.attribute_type.blank?&&["LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(i.attribute_type)}
   validate :validate_model_attribute,:if=> Proc.new{|i| i.attribute_type.present?&&i.attribute_name.present?&&i.attribute_type.eql?("MODEL_ATTRIBUTE")}
+
+  validates_presence_of :pick_list_options,:if => Proc.new{|i| ["GLOBAL_CUX_FIELD","SYSTEM_CUX_FIELD"].include?(i.field_type)&&["PICK_LIST","PICK_LIST_MULTI"].include?(i.category)&&i.check_step(2)}
+
+  validate :validate_pick_list,:if => Proc.new{|i| i.pick_list_options.present?&&i.data_default_value.present?&&["GLOBAL_CUX_FIELD","SYSTEM_CUX_FIELD"].include?(i.field_type)&&["PICK_LIST","PICK_LIST_MULTI"].include?(i.category)}
+
   #加入activerecord的通用方法和scope
   query_extend
 
@@ -172,10 +176,10 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     case self.attribute_type
       when "TABLE_COLUMN"
         unless self.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(self.category)
-          clean_column([:relation_exists_flag,:relation_bo_code,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause])
+          clean_column([:relation_exists_flag,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause])
         end
       when "MODEL_ATTRIBUTE"
-        clean_column([:category,:relation_exists_flag,:relation_bo_code,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause,:lov_code,:pick_list_code,:data_type,:data_length,:data_null_flag,:data_key_type,:data_default_value,:data_extra_info])
+        clean_column([:category,:relation_exists_flag,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause,:lov_code,:pick_list_code,:data_type,:data_length,:data_null_flag,:data_key_type,:data_default_value,:data_extra_info])
     end
   end
 
@@ -247,11 +251,25 @@ class Irm::ObjectAttribute < ActiveRecord::Base
       self.data_length = data_type_length[1].gsub(/\)/,"") if data_type_length[1]
       self.data_null_flag = ("NO".eql?(column[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES)
       self.data_key_type = column[3]
-      self.data_default_value = column[4]
+      unless column[0].start_with?("attribute")|| column[0].start_with?("sattribute")
+        self.data_default_value = column[4]
+      end
+
       self.data_extra_info = column[5]
     else
       errors.add(:attribute_name,I18n.t(:label_irm_object_attribute_invalid_table_attribute))
     end
+  end
+
+
+  def validate_pick_list
+    unless pick_options.include?(self.data_default_value)
+      errors.add(:data_default_value,I18n.t(:label_irm_object_attribute_pick_list_default_value_error))
+    end
+  end
+
+  def pick_options
+    (self.pick_list_options||"").split("\r\n")
   end
 
   def clear_other_label_flag

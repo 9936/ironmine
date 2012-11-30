@@ -1079,6 +1079,7 @@ en:
   label_irm_business_object_report_flag: Report
   label_irm_business_object_standard_flag: Built-in BO
   label_irm_business_object_data_access_flag: Data Access
+  label_irm_object_user_custom_attributes: User Custom Field
   #======================== end business objects====================
 
   #======================== object rules====================
@@ -1138,6 +1139,8 @@ en:
   label_irm_object_attribute_relation_object_attribute: Relation Attribute
   label_irm_object_attribute_required_flag: Required
   label_irm_object_attribute_trigger_flag: Trace History
+  label_irm_object_attribute_pick_list_options: Options
+  label_irm_object_attribute_pick_list_default_value_error: The default value must included by pick list options
   #======================== object attributes====================
   #======================== list of values====================
   label_irm_list_of_value_list: List of Value
