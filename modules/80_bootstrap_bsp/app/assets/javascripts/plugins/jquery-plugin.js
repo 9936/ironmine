@@ -1241,7 +1241,7 @@ jQuery.fn.menubutton = function () {
                     fileSize:options.fileSize,
                     fileUrl: options.fileUrl || "javascript:void(0)",
                     deleteTarget:options.deleteTarget || "",
-                    attachmentId:options.attachmentId || ""
+                    attachmentId:options.attachmentId || options.fileName
                 }
         );
 
