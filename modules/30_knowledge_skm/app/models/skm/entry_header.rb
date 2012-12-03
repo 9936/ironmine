@@ -229,6 +229,10 @@ class Skm::EntryHeader < ActiveRecord::Base
     Irm::Attachment.list_all.query_by_source(Skm::EntryHeader.name, self.id)
   end
 
+  def attachment_versions
+    Irm::Attachment.list_all.query_by_source(Skm::EntryHeader.name, self.id)
+  end
+
   def self.within_accessible_columns_c
     columns = Skm::Column.current_person_accessible_columns
     where(" EXISTS (SELECT * FROM #{Skm::Channel.table_name} c, #{Skm::ChannelColumn.table_name} cc WHERE c.id = #{Skm::EntryHeader.table_name}.channel_id AND cc.channel_id = c.id AND cc.column_id IN (?))", columns + [''])
