@@ -99,6 +99,16 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     where(:attribute_type=>"TABLE_COLUMN")
   }
 
+  scope :without_external_system, lambda{|system_id|
+    where("NOT EXISTS(SELECT * FROM #{Irm::ObjectAttributeSystem.table_name} oas WHERE oas.external_system_id = ? AND oas.object_attribute_id = #{table_name}.id)", system_id)
+  }
+
+  scope :with_external_system, lambda{|system_id|
+    joins("JOIN #{Irm::ObjectAttributeSystem.table_name} ON #{Irm::ObjectAttributeSystem.table_name}.object_attribute_id = #{table_name}.id").
+        where("#{Irm::ObjectAttributeSystem.table_name}.external_system_id = ?", system_id).
+        select("#{Irm::ObjectAttributeSystem.table_name}.id global_flag")
+  }
+
 
   scope :selectable_column,lambda{
     where("#{table_name}.attribute_type='TABLE_COLUMN'")

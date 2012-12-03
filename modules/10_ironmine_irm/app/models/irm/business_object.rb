@@ -21,6 +21,7 @@ class Irm::BusinessObject < ActiveRecord::Base
 
   scope :query_detail,lambda{|bo_id| where("EXISTS(SELECT 1 FROM #{Irm::ObjectAttribute.table_name} WHERE  #{Irm::ObjectAttribute.table_name}.business_object_id = #{table_name}.id AND #{Irm::ObjectAttribute.table_name}.relation_bo_id =? AND #{Irm::ObjectAttribute.table_name}.category = ?)",bo_id,"MASTER_DETAIL_RELATION")}
 
+  scope :with_custom_flag, where(:custom_flag => Irm::Constant::SYS_YES)
 
   # generate business object
   def generate_query(execute=false)

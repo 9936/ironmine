@@ -1,0 +1,26 @@
+<%=datatable_view({:count=>datas.length,:datas=>datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "90px"}) do |data|%>
+      <% unless data[:global_flag] %>
+        <%= link_to(t(:edit),{:controller => "irm/object_attributes", :action => "edit", :bo_id => bo_id,:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:delete),{:controller => "irm/object_attributes", :action => "destroy", :bo_id => bo_id,:id=>data[:id]},{:method => :delete,:confirm => t(:label_are_you_sure),:class => "action-link"}) %>
+      <% else %>
+         <%= link_to(t(:disable),{:action => "disable", :attribute_id =>data[:id], :sid => params[:sid]},{:class => "action-link"}) %>
+      <% end %>
+    <% end %>
+    <% builder.column(:name,{:title=>t(:label_irm_object_attribute_name),:searchable=>true})%>
+    <% builder.column(:attribute_name,{:title=>t(:label_irm_object_attribute_attribute_name),:searchable=>true})%>
+    <% builder.column(:category,{:title=>t(:label_irm_object_attribute_category),:searchable=>true}) do |data|%>
+        <%= show_object_attribute_category(data) %>
+    <% end %>
+    <% builder.column(:data_type,{:title=>t(:label_irm_object_attribute_data_type),:searchable=>true})%>
+    <% builder.column(:filter_flag,{:title=>t(:label_irm_object_attribute_filter_flag)}) do |data|%>
+        <%= check_img(data[:filter_flag]) %>
+    <% end %>
+    <% builder.column(:global_flag,{:title=>t(:label_irm_global_custom_attributes)}) do |data|%>
+        <% if data[:global_flag] %>
+            <%= check_img('Y') %>
+        <% else %>
+            <%= check_img('N') %>
+        <% end %>
+    <% end %>
+<% end %>

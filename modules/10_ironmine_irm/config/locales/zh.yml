@@ -26,7 +26,6 @@ zh:
   delete: 删除
   delete_selected: 删除所选
   back: 返回
-  disable: 失效
   done: 完成
   loading: 加载中...
   apply: 应用
@@ -2047,4 +2046,10 @@ zh:
 
   #============================== start system setting  ==============================
   label_irm_system: 系统设置
+  label_irm_system_custom_field: 自定义字段
+  label_irm_system_custom_model_field: %{model_name}自定义字段
+  label_irm_system_custom_business_object_list: 可自定义字段业务对象
+  label_irm_system_custom_attribute: 系统自定义字段
+  label_irm_custom_attribute: 系统自定义字段
+  label_irm_global_custom_attributes: 全局自定义字段
   #============================== end system setting  ==============================

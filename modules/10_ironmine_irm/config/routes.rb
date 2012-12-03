@@ -40,6 +40,18 @@ Rails.application.routes.draw do
     match '/system_members/:sid/get_available_people_data(.:format)' => "system_members#get_available_people_data"
     match '/system_members/:sid/get_owned_members_data(.:format)' => "system_members#get_owned_members_data"
 
+    #custom_attributes
+    match '/custom_attributes/:sid/(/index)(.:format)' => "custom_attributes#index"
+    match '/custom_attributes/:sid/new(.:format)' => "custom_attributes#new"
+    match '/custom_attributes/:sid/create(.:format)' => "custom_attributes#create", :via => :post
+    match '/custom_attributes/:sid/get_data(.:format)' => "custom_attributes#get_data"
+    match '/custom_attributes/:sid/:id/edit(.:format)' => "custom_attributes#edit", :via => :get
+    match '/custom_attributes/:sid/:id(.:format)' => "custom_attributes#update", :via => :put
+    match '/custom_attributes/:sid/:id(.:format)' => "custom_attributes#show"
+    match '/custom_attributes/:sid/:attribute_id/active(.:format)' => "custom_attributes#active"
+    match '/custom_attributes/:sid/:attribute_id/disable(.:format)' => "custom_attributes#disable"
+
+
     #lookup_types
     match '/lookup_types/new(.:format)' => "lookup_types#new", :via => :get
     match '/lookup_types/create(.:format)' => "lookup_types#create", :via => :post

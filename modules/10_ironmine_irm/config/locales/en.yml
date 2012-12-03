@@ -2045,5 +2045,11 @@ en:
   label_report_time_grouped_calendar_day: Day
   #============================== end report time  ==============================
   #============================== start system setting  ==============================
-  label_irm_system: 系统设置
+  label_irm_system: System setting
+  label_irm_system_custom_field: Custom Fields
+  label_irm_system_custom_model_field: %{model_name}自定义字段
+  label_irm_system_custom_business_object_list: Custom Fields's Business Object List
+  label_irm_system_custom_attribute: System Custom Fields
+  label_irm_custom_attribute: System Custom Fields
+  label_irm_global_custom_attributes: Global Custom Fields
   #============================== end system setting  ==============================
