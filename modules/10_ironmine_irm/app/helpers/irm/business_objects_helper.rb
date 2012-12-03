@@ -28,4 +28,13 @@ module Irm::BusinessObjectsHelper
     Irm::LookupValue.query_by_lookup_type("BO_ATTRIBUTE_RELATION_TYPE").multilingual.collect{|i| [i[:meaning],i[:lookup_code]]}
   end
 
+  def editable_custom_flag?(model_name)
+    if model_name
+      model_name.constantize.new.attributes.keys.each do |attr|
+        return true if attr.to_s.match(/\Asattribute\d{1,}|attribute\d{1,}/)
+      end
+    end
+    false
+  end
+
 end

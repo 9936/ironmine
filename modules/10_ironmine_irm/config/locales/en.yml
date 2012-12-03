@@ -1080,6 +1080,8 @@ en:
   label_irm_business_object_standard_flag: Built-in BO
   label_irm_business_object_data_access_flag: Data Access
   label_irm_object_user_custom_attributes: User Custom Field
+  label_irm_object_user_custom_flag: Custom Field
+  label_action_new_cux: New Custom Field
   #======================== end business objects====================
 
   #======================== object rules====================

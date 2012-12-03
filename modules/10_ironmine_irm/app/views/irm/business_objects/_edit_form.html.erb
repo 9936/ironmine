@@ -79,6 +79,14 @@
            <td class="label-col empty">&nbsp;</td>
            <td class="data-col empty">&nbsp;</td>
          </tr>
+         <% if editable_custom_flag?(@business_object.bo_model_name) %>
+         <tr>
+           <td class="label-col"><label for="business_object_custom_flag"><%=t(:label_irm_object_user_custom_flag)%></label></td>
+           <td class="data-col  text-col"><%=f.check_box(:custom_flag,:id=>"business_object_custom_flag")%></td>
+           <td class="label-col empty">&nbsp;</td>
+           <td class="data-col empty">&nbsp;</td>
+         </tr>
+         <% end %>
          <tr>
            <td class="label-col"><label for="business_object_data_access_flag"><%=t(:label_irm_business_object_data_access_flag)%></label></td>
            <td class="data-col  text-col"><%=f.check_box(:data_access_flag,:id=>"business_object_data_access_flag")%></td>

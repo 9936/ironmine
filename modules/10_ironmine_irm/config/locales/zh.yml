@@ -1088,6 +1088,9 @@ zh:
   label_irm_object_attribute_new_table_column: 新建数据库属性
   label_irm_object_attribute_new_model_attribute: 新建model属性
   label_irm_business_object_data_access_flag: 访问权限控制
+  label_irm_object_user_custom_attributes: 用户自定义字段
+  label_irm_object_user_custom_flag: 自定义字段
+  label_action_new_cux: 新建自定义字段
   #======================== business objects====================
 
   #======================== object rules====================
