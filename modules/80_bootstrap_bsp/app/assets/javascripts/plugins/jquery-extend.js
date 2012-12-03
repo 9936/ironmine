@@ -764,3 +764,16 @@ jQuery.fn.insertAtCaret = function (myValue) {
 		}
 	});
 };
+
+$.extend({
+    getUrlVars:function () {
+        for (var varsArr = [], urlVar, urlVars = window.location.href.slice(window.location.href.indexOf("?") + 1).split("&"), i = 0; i < urlVars.length; i++) {
+            urlVar = urlVars[i].split("=");
+            varsArr.push(urlVar[0]);
+            varsArr[urlVar[0]] = urlVar[1];
+        }
+        return varsArr
+    }, getUrlVar:function (name) {
+        return $.getUrlVars()[name]
+    }
+});
