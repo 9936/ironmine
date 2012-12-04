@@ -45,6 +45,7 @@
               <label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%><%= required_icon %></label>
               <%=f.text_area :summary,:rows=>3, :style => "width:175px;" ,:id=>"incident_request_summary",:required=>true%>
             </div>
+            <%= render :partial=>"icm/incident_requests/quick_create_external_field", :locals=>{:f => f} %>
             <div class="quick-create-field">
               <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
               <%= link_to t(:more_info), {:controller => "icm/incident_requests", :action => "new"},{:class=>"submit more-info-link"} %>
