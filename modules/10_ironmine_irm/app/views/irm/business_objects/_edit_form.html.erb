@@ -1,6 +1,5 @@
 <%= form_for(@business_object,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
 
-
   <% content_for :form_block_a   do%>
     <table class="form-table">
       <tbody>
@@ -79,7 +78,7 @@
            <td class="label-col empty">&nbsp;</td>
            <td class="data-col empty">&nbsp;</td>
          </tr>
-         <% if editable_custom_flag?(@business_object.bo_model_name) %>
+         <% if editable_custom_flag?(@business_object.bo_model_name, nil, true) %>
          <tr>
            <td class="label-col"><label for="business_object_custom_flag"><%=t(:label_irm_object_user_custom_flag)%></label></td>
            <td class="data-col  text-col"><%=f.check_box(:custom_flag,:id=>"business_object_custom_flag")%></td>

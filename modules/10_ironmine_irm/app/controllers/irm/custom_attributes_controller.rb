@@ -54,7 +54,7 @@ class Irm::CustomAttributesController < ApplicationController
     respond_to do |format|
       if @object_attribute.save
         session[:irm_object_attribute] = nil
-        format.html { redirect_to({:action=>"show",:id=>params[:bo_id],:sid => params[:sid]}, {:notice => t(:successfully_created)} ) }
+        format.html { redirect_to({:action=>"index",:sid => params[:sid]}, {:notice => t(:successfully_created)} ) }
         format.xml  { render :xml => @object_attribute, :status => :created, :location => @object_attribute }
       else
         format.html { render :action => "new" }
@@ -64,37 +64,70 @@ class Irm::CustomAttributesController < ApplicationController
   end
 
   def edit
-
+    @object_attribute = Irm::ObjectAttribute.multilingual.find(params[:attribute_id])
+    @object_attribute.attributes = params[:irm_object_attribute] if request.put?&&params[:irm_object_attribute]
   end
 
   def update
+    @object_attribute = Irm::ObjectAttribute.find(params[:attribute_id])
 
+    respond_to do |format|
+      if @object_attribute.update_attributes(params[:irm_object_attribute])
+        format.html { redirect_to({:action=>"index",:sid=>params[:sid]}, :notice => t(:successfully_updated)) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit", :sid => params[:sid], :attribute_id => @object_attribute.id }
+        format.xml  { render :xml => @object_attribute.errors, :status => :unprocessable_entity }
+      end
+    end
   end
 
   def show
-    @business_object = Irm::BusinessObject.multilingual.find(params[:id])
+    @object_attribute = Irm::ObjectAttribute.list_all.multilingual.find(params[:attribute_id])
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @business_object }
+      format.html
+      format.xml  { render :xml => @object_attribute }
     end
   end
 
-  def get_data
-    business_objects_scope = Irm::BusinessObject.with_custom_flag.multilingual.order(:bo_table_name)
-    business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObjectsTl.table_name}.name",params[:name])
-    business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObject.table_name}.bo_table_name",params[:bo_table_name])
-    business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObject.table_name}.bo_model_name",params[:bo_model_name])
-    business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObject.table_name}.business_object_code",params[:business_object_code])
-    business_objects,count = paginate(business_objects_scope)
+  def multilingual_edit
+    @object_attribute = Irm::ObjectAttribute.find(params[:attribute_id])
+  end
+
+  def multilingual_update
+    @object_attribute = Irm::ObjectAttribute.find(params[:attribute_id])
+    @object_attribute.not_auto_mult=true
     respond_to do |format|
-      format.json {render :json=>to_jsonp(business_objects.to_grid_json([:business_object_code,:auto_generate_flag,:bo_table_name,:bo_model_name,:multilingual_flag,:name],count))}
-      format.html {
-        @count = count
-        @datas = business_objects
-      }
+      if @object_attribute.update_attributes(params[:irm_object_attribute])
+        format.html { redirect_to({:action=>"show",:attribute_id=> @object_attribute.id, :sid => params[:sid] }, :notice => 'Object attribute was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "multilingual_edit" }
+        format.xml  { render :xml => @object_attribute.errors, :status => :unprocessable_entity }
+      end
     end
   end
+
+  def enable_global_custom_fields
+    @business_object = Irm::BusinessObject.multilingual.find(params[:bo_id])
+  end
+
+  #def get_data
+  #  business_objects_scope = Irm::BusinessObject.with_custom_flag.multilingual.order(:bo_table_name)
+  #  business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObjectsTl.table_name}.name",params[:name])
+  #  business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObject.table_name}.bo_table_name",params[:bo_table_name])
+  #  business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObject.table_name}.bo_model_name",params[:bo_model_name])
+  #  business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObject.table_name}.business_object_code",params[:business_object_code])
+  #  business_objects,count = paginate(business_objects_scope)
+  #  respond_to do |format|
+  #    format.json {render :json=>to_jsonp(business_objects.to_grid_json([:business_object_code,:auto_generate_flag,:bo_table_name,:bo_model_name,:multilingual_flag,:name],count))}
+  #    format.html {
+  #      @count = count
+  #      @datas = business_objects
+  #    }
+  #  end
+  #end
 
   #启用的全局自定义字段
   def active
@@ -114,6 +147,16 @@ class Irm::CustomAttributesController < ApplicationController
     object_attribute_system.destroy
     respond_to do |format|
         format.html { redirect_to({:action=>"index",:sid => params[:sid]}) }
+    end
+  end
+
+  def destroy
+    business_object = Irm::ObjectAttribute.find(params[:attribute_id])
+    business_object.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(:action=>"index", :sid => params[:sid]) }
+      format.xml  { head :ok }
     end
   end
 

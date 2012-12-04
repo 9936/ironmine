@@ -1,11 +1,12 @@
 <%=datatable_view({:count=>datas.length,:datas=>datas}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation), :width => "90px"}) do |data|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
       <% unless data[:global_flag] %>
-        <%= link_to(t(:edit),{:controller => "irm/object_attributes", :action => "edit", :bo_id => bo_id,:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
-        <%= link_to(t(:delete),{:controller => "irm/object_attributes", :action => "destroy", :bo_id => bo_id,:id=>data[:id]},{:method => :delete,:confirm => t(:label_are_you_sure),:class => "action-link"}) %>
+        <%= link_to(t(:edit),{:action => "edit", :attribute_id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:delete),{:action => "destroy", :attribute_id=>data[:id]},{:method => :delete,:confirm => t(:label_are_you_sure),:class => "action-link"}) %>&nbsp;|
       <% else %>
-         <%= link_to(t(:disable),{:action => "disable", :attribute_id =>data[:id], :sid => params[:sid]},{:class => "action-link"}) %>
+         <%= link_to(t(:disable),{:action => "disable", :attribute_id =>data[:id], :sid => params[:sid]},{:class => "action-link"}) %>&nbsp;|
       <% end %>
+      <%= link_to(t(:show),{:action => "show", :attribute_id=>data[:id]},{:class => "action-link"}) %>
     <% end %>
     <% builder.column(:name,{:title=>t(:label_irm_object_attribute_name),:searchable=>true})%>
     <% builder.column(:attribute_name,{:title=>t(:label_irm_object_attribute_attribute_name),:searchable=>true})%>

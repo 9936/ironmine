@@ -32,7 +32,7 @@
   </div>
 </div>
 <% @business_objects.each do |business_object| %>
-    <% if editable_custom_flag?(business_object.bo_model_name, true) %>
+    <% if editable_custom_flag?(business_object.bo_model_name, nil, true) %>
         <!--页面结构-->
         <div class="page-block">
           <table class="page-block-header"><tr>
@@ -40,7 +40,12 @@
               <h2 class="block-title"><%= t(:label_irm_system_custom_model_field, :model_name => business_object[:name]) %></h2>
             </td>
             <td class="page-block-button">
-              <%= link_to t(:new), {:controller => "irm/custom_attributes",:action => "new", :sid => params[:sid] ,:bo_id => business_object.id},:class=>"btn btn-primary"%>
+              <% if editable_custom_flag?(business_object.bo_model_name, true) %>
+                <%= link_to t(:new), {:controller => "irm/custom_attributes",:action => "new", :sid => params[:sid], :bo_id => business_object.id},:class=>"btn btn-primary"%>
+              <% end %>
+              <% if editable_custom_flag?(business_object.bo_model_name, false) and has_available_global_fields?(business_object.id, params[:sid]) %>
+                <%= link_to t(:label_irm_system_custom_attribute_global), {:action => "enable_global_custom_fields", :sid => params[:sid] ,:bo_id => business_object.id},:class=>"btn" %>
+              <% end %>
             </td>
           </tr></table>
           <div class="page-block-body">
@@ -51,16 +56,16 @@
 <% end %>
 
 <!--页面结构-->
-<div class="page-block">
+<!--div class="page-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
-      <h2 class="block-title"><%= t(:label_irm_system_custom_business_object_list) %></h2>
+      <h2 class="block-title"><%#= t(:label_irm_system_custom_business_object_list) %></h2>
     </td>
     <td class="page-block-help">
       <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("business_objects",{:action=>"get_data"},[],{:paginator_box=>"paginator",:search_box=>"searchBox"})%>
+    <%#= datatable("business_objects",{:action=>"get_data"},[],{:paginator_box=>"paginator",:search_box=>"searchBox"})%>
   </div>
-</div>
+</div-->

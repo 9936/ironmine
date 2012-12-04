@@ -1,6 +1,7 @@
 module Irm::CustomAttributesHelper
 
   def system_custom_attributes(bo_id, sid)
+    #Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).custom_field_with_system(sid)
     system_custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", sid)
     system_custom_attributes + Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).with_external_system(sid).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
   end
@@ -8,6 +9,11 @@ module Irm::CustomAttributesHelper
   def global_custom_attributes(bo_id,sid)
     Irm::ObjectAttribute.multilingual.list_all.real_field.without_external_system(sid).query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
   end
+
+  def has_available_global_fields?(bo_id,sid)
+    Irm::ObjectAttribute.without_external_system(sid).query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD").any?
+  end
+
 
   def system_custom_attribute_names(bo, sid)
     #已经存在的系统用户自定义属性

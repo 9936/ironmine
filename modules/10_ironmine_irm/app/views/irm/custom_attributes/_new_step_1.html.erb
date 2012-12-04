@@ -64,7 +64,7 @@
 
     <% content_for :form_buttons  do %>
         <%= link_to t(:next), {:action => "new",:sid => params[:sid],:bo_id=>params[:bo_id]},{:class=>"submit btn btn-primary"} %>
-        <%= link_to t(:cancel), {:id=>params[:bo_id],:action => "show",:sid => params[:sid]},:class=>"btn" %>
+        <%= link_to t(:cancel), {:action => "index",:sid => params[:sid]},:class=>"btn" %>
     <% end %>
 
 

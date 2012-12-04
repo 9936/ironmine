@@ -2052,4 +2052,6 @@ en:
   label_irm_system_custom_attribute: System Custom Fields
   label_irm_custom_attribute: System Custom Fields
   label_irm_global_custom_attributes: Global Custom Fields
+  label_irm_system_custom_attribute_global: Add Global Custom Fields
+  label_irm_global_custom_model_field: %{model_name} Disabled Global Custom Fields
   #============================== end system setting  ==============================
