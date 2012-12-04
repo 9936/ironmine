@@ -559,6 +559,19 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
+
+  def custom_fields_block
+    @incident_request = Icm::IncidentRequest.new
+    bo = Irm::BusinessObject.where(:bo_model_name => 'Icm::IncidentRequest').first
+    @system_custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", params[:external_system_id])
+    @system_custom_attributes +=  Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).with_external_system(params[:external_system_id]).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+    #设置默认值
+    @system_custom_attributes.each do |field|
+      @incident_request[field[:attribute_name].to_sym] = field[:data_default_value]
+    end
+  end
+
+
   private
   #将创建关联事故单放在一个单独的方法中，因为在多个action中用到
   def create_relation(source_id, target_id, relation_type)
@@ -660,4 +673,6 @@ class Icm::IncidentRequestsController < ApplicationController
   def check_support_group(support_group_id,system_id)
     Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).assignable.query(support_group_id).first.present?
   end
+
+
 end

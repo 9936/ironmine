@@ -158,10 +158,10 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/incident_config_relations" => ["create", "destroy"],
-              "icm/incident_requests" => ["create", "new", "short_create"],
+              "icm/incident_requests" => ["create", "new", "short_create","custom_fields_block"],
           },
           :create_icdt_rqst_for_other => {
-              :en => {:name => "Summbit for other", :description => "Summbit for other"},
+              :en => {:name => "Submit for other", :description => "Submit for other"},
               :zh => {:name => "为他人提单", :description => "为他人提单"},
               :default_flag => "N",
               :login_flag => "N",
