@@ -34,7 +34,7 @@ module Fwk
 
       table_header.safe_concat "<thead><tr>"
       column_options.each do |column|
-        next if column[:hidden]
+        next if column[:hidden]&&!column[:searchable].present?
         column_count = column_count + 1
         column_options_str = column_options_str(column)
         if total_count == column_count
@@ -103,15 +103,19 @@ module Fwk
     def column_options_str(column)
       options_str = ["key='#{column[:key]}'", "title='#{column[:title]}'"]
       style = ""
+      origin_width = column[:width]
       if column[:width].present?
-        if column[:width].include?("%")||column[:width].include?("px")
+        if column[:hidden]
+          style << "width:0px;display:none;"
+          origin_width = "0"
+        elsif column[:width].include?("%")||column[:width].include?("px")
           style << "width:#{column[:width]};"
         else
           style << "width:#{column[:width]}px;"
         end
       end
 
-      options_str << "origin-width='#{column[:width]}' style='#{style}'" unless style.blank?
+      options_str << "origin-width='#{origin_width}' style='#{style}'" unless style.blank?
 
 
       if column[:sortable].present?
