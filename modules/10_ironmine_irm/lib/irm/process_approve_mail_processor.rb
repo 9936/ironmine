@@ -1,5 +1,5 @@
 module Irm
-  class ProcessApproveMailProcessor < Irm::MailManager::Processor
+  class ProcessApproveMailProcessor# < Irm::MailManager::Processor
     def perform(email,parsed_email)
       puts  parsed_email
       # get the person

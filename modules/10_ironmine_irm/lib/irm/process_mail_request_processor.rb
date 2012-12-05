@@ -1,5 +1,5 @@
 module Irm
-  class ProcessMailRequestProcessor < Irm::MailManager::Processor
+  class ProcessMailRequestProcessor# < Irm::MailManager::Processor
     def perform(email,parsed_email)
       people  = Irm::Person.unscoped.where(:email_address=>email.from_addrs.to_a.first).enabled
 
