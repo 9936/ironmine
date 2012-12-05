@@ -15,6 +15,7 @@
         <label>Last Response > N Day(s)</label>
         <div style="white-space:nowrap">
             <%= text_field_tag "program_params[long_time]", program_params[:long_time] %>
+            <%= hidden_field_tag "program_params[running_person_id]", Irm::Person.current.id %>
         </div>
       </td>
       <td width="60%"></td>
