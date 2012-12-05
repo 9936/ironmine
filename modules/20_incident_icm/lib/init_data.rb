@@ -729,6 +729,196 @@ Fwk::MenuAndFunctionManager.map do |map|
           }
       }
   }
+
+
+  map.function_group :incident_request, {
+      :children => {
+          ##转交
+          :system_pass_mine => {
+              :zh => {:name => "转交自己的事故单", :description => "转交自己的事故单"},
+              :en => {:name => "Pass My Request", :description => "Pass My Request"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_journals" => ["edit_pass", "update_pass"]
+          },
+          :system_pass_anyone => {
+              :zh => {:name => "转交任意事故单", :description => "转交任意事故单"},
+              :en => {:name => "Pass Any Request", :description => "Pass Any Request"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_journals" => ["edit_pass", "update_pass"]
+          },
+          ##状态
+          :system_status_mine => {
+              :zh => {:name => "更改自己的事故单状态", :description => "更改自己的事故单状态"},
+              :en => {:name => "Edit My Request Status", :description => "Edit My Request Status"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_journals" => ["edit_status", "update_status"]
+          },
+          :system_status_anyone => {
+              :zh => {:name => "更改任意事故单状态", :description => "更改任意事故单状态"},
+              :en => {:name => "Edit Any Request Status", :description => "Edit Any Request Status"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_journals" => ["edit_status", "update_status"]
+          },
+          ##升级
+          :system_upgrade_request => {
+              :zh => {:name => "升级事故单", :description => "升级事故单"},
+              :en => {:name => "Upgrade Request", :description => "Upgrade Request"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_journals" => ["edit_upgrade", "update_upgrade"]
+          },
+          ##关闭
+          :system_close_mine => {
+              :zh => {:name => "关闭自己的事故单", :description => "关闭自己的事故单"},
+              :en => {:name => "Close My Request", :description => "Close My Request"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_journals" => ["edit_close", "update_close"]
+          },
+          :system_close_anyone => {
+              :zh => {:name => "关闭任意事故单", :description => "关闭任意事故单"},
+              :en => {:name => "Close Any Request", :description => "Close Any Request"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_journals" => ["edit_close", "update_close"]
+          },
+          ##编辑
+          :system_edit_mine => {
+              :zh => {:name => "编辑自己的事故单", :description => "编辑自己的事故单"},
+              :en => {:name => "Edit My Request", :description => "Edit My Request"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_requests" => ["edit", "update"]
+          },
+          :system_edit_anyone => {
+              :zh => {:name => "编辑任意事故单", :description => "编辑任意事故单"},
+              :en => {:name => "Edit Any Request", :description => "Edit Any Request"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_requests" => ["edit", "update"]
+          },
+          ##目前只有hotline模块具有事故单取消功能，暂且不在主框架上添加
+          ##取消
+          #:system_cancel_mine => {
+          #    :zh => {:name => "取消自己的事故单", :description => "取消自己的事故单"},
+          #    :en => {:name => "Cancel My Request", :description => "Cancel My Request"},
+          #    :default_flag => "N",
+          #    :login_flag => "N",
+          #    :public_flag => "N",
+          #    :system_flag => "Y",
+          #    #"icm/incident_requests" => [:cancel_request, :enable_request]
+          #},
+          #:system_cancel_anyone => {
+          #    :zh => {:name => "取消任意事故单", :description => "取消任意事故单"},
+          #    :en => {:name => "Cancel Any Request", :description => "Cancel Any Request"},
+          #    :default_flag => "N",
+          #    :login_flag => "N",
+          #    :public_flag => "N",
+          #    :system_flag => "Y",
+          #    #"icm/incident_requests" => [:cancel_request, :enable_request]
+          #},
+          #删除回复附件
+          :system_delete_file_mine => {
+              :zh => {:name => "删除自己回复的附件", :description => "删除自己回复的附件"},
+              :en => {:name => "Delete My Comments' Attachments", :description => "Delete My Comments' Attachments"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_requests" => ["remove_attachment"]
+          },
+          :system_delete_file_anyone => {
+              :zh => {:name => "删除任意回复的附件", :description => "删除任意回复的附件"},
+              :en => {:name => "Delete Any Comments' Attachments", :description => "Delete Any Comments' Attachments"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_requests" => ["remove_attachment"]
+          },
+          #编辑回复
+          :system_edit_comment_mine => {
+              :zh => {:name => "编辑自己的回复", :description => "编辑自己的回复"},
+              :en => {:name => "Edit My Comments", :description => "Edit My Comments"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_journals" => [:edit, :update]
+          },
+          :system_edit_comment_anyone => {
+              :zh => {:name => "编辑任意回复", :description => "编辑任意回复"},
+              :en => {:name => "Edit Any Comments", :description => "Edit Any Comments"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_journals" => [:edit, :update]
+          },
+          ##跟踪者
+          :system_watcher_mine => {
+              :zh => {:name => "添加/移除自己为跟踪者", :description => "添加/移除自己为跟踪者"},
+              :en => {:name => "Add/Remove Me AS Watcher", :description => "Add/Remove Me AS Watcher"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"irm/watchers" => ["add_watcher", "delete_watcher"]
+          },
+          :system_watcher_anyone => {
+              :zh => {:name => "添加/移除任意跟踪者", :description => "添加/移除任意跟踪者"},
+              :en => {:name => "Add/Remove Any AS Watcher", :description => "Add/Remove Any AS Watcher"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"irm/watchers" => ["add_watcher", "delete_watcher"]
+          },
+          ##相关事故单
+          :system_relation_request => {
+              :zh => {:name => "添加/移除关联", :description => "添加/移除关联"},
+              :en => {:name => "Add/Remove Relation", :description => "Add/Remove Relation"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_requests" => ["add_relation", "remove_relation"]
+          },
+          ##为他人提单
+          :system_submit_others => {
+              :zh => {:name => "为他人提单", :description => "为他人提单"},
+              :en => {:name => "Submit Request For Others", :description => "Submit Request For Others"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              :system_flag => "Y",
+              #"icm/incident_requests" => ["create", "new"]
+          }
+      }
+  }
+
   #=================================END: SYSTEM SETTING=================================
 
 end
