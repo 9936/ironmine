@@ -170,6 +170,21 @@
         <div class="sub-page-block-body">
           <%= content_for :form_block_addition %>
         </div>
+        <!-- 自定义字段信息 -->
+        <div id="customBlock" style="display: none;" href= <%= url_for(:controller=>"icm/incident_requests",:action=>"custom_fields_block",:external_system_id=>"${external_system_id}", :_dom_id => "edit_icm_incident_request")%>>
+          <div class="sub-page-block">
+            <div class="sub-page-block-header">
+              <h3 class="sub-page-block-title"><%= t(:label_irm_system_custom_field) %></h3>
+            </div>
+            <div class="sub-page-block-body">
+              <table class="form-table">
+                <tbody>
+                <%= show_input_custom_fields(@incident_request, @incident_request.external_system_id) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <table class="page-block-footer">
@@ -185,7 +200,7 @@
 
 <script type="text/javascript">
   $(function(){
-     var requester = $("#incident_request_requested_by");
+     var requester = $("#incident_request_requested_by"), external_system_id = '<%= @incident_request.external_system_id %>', customBlockHtml = $("#customBlock").html();
      if(requester){
          requester.change(function(event){
              setLookupValue("incident_request_contact_id",$(event.target).val());
@@ -207,6 +222,23 @@
      if($("#ass_external_system")){
         $("#ass_external_system").cascade(["#incident_category_id"]);
      }
+
+     if(external_system_id){
+        $("#customBlock").show();
+     }
+
+    //系统改变重新加载其自定义字段信息
+    $("#ass_external_system").change(function(){
+      $("#customBlock").html('');
+      if($(this).val() == external_system_id){
+          $("#customBlock").html(customBlockHtml);
+      }
+      if($(this).val() && $(this).val() != external_system_id){
+          var href = $.tmpl(decodeURIComponent($("#customBlock").attr("href")), {external_system_id:$(this).val()}).text();
+          $("#customBlock").load(href);
+          $("#customBlock").show();
+      }
+    });
 
      if($("#incident_category_id")){
         $("#incident_category_id").cascade("#incident_sub_category_id");

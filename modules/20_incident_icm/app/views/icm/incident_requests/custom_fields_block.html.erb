@@ -1,0 +1,21 @@
+<% if @system_custom_attributes.any? %>
+  <%= fields_for @incident_request, nil, :builder => CustomFormBuilder do |f| %>
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_irm_system_custom_field) %></h3>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="form-table">
+          <tbody>
+          <% @system_custom_attributes.each do |attribute| %>
+            <tr>
+              <td class="label-col"><label><%= attribute[:name] %></label></td>
+              <td class="data-3col"><%= show_custom_field(attribute, f) %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+<% end %>

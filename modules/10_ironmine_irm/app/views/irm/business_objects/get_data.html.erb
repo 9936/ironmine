@@ -1,11 +1,14 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation), :width => "90px"}) do |data|%>
+  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
     <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|&nbsp;<%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>
   <% end %>
   <% builder.column(:business_object_code,{:title=>t(:label_irm_business_object_business_object_code),:searchable=>true})%>
   <% builder.column(:name,{:title=>t(:label_irm_business_object_name),:searchable=>true})%>
   <% builder.column(:bo_table_name,{:title=>t(:label_irm_business_object_bo_table_name),:searchable=>true})%>
   <% builder.column(:bo_model_name,{:title=>t(:label_irm_business_object_bo_model_name),:searchable=>true})%>
+  <% builder.column(:custom_flag,{:title=>t(:label_irm_object_user_custom_flag)}) do |data| %>
+    <%= check_img(data[:custom_flag]) %>
+  <% end %>
   <% builder.column(:auto_generate_flag,{:title=>t(:label_irm_business_object_auto_generate_flag)}) do |data|%>
     <%= check_img(data[:auto_generate_flag]) %>
   <% end %>

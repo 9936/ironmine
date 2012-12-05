@@ -82,7 +82,7 @@ module Irm::ObjectAttributesHelper
     case data[:category]
       when "LOOKUP_RELATION","MASTER_DETAIL_RELATION"
         return "#{data[:category_name]}(#{data[:relation_bo_name]})"
-      when "DATE_TIME","CHECK_BOX","PICK_LIST","PICK_LIST_MULTI"
+      when "DATE_TIME","CHECK_BOX","PICK_LIST","PICK_LIST_MULTI", "DATE"
         return data[:category_name]
       when "EMAIL","NUMBER" ,"TEXT","TEXT_AREA" ,"TEXT_AREA_RICH","URL"
         return "#{data[:category_name]}(#{data.data_length})"

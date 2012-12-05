@@ -1,0 +1,14 @@
+<%=datatable_view({:count=>datas.length,:datas=>datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "40px"}) do |data|%>
+      <%= link_to(t(:active), {:action =>"active", :sid => params[:sid], :attribute_id => data[:id] }, :class => "action-link")  %>
+    <% end %>
+    <% builder.column(:name,{:title=>t(:label_irm_object_attribute_name),:searchable=>true})%>
+    <% builder.column(:attribute_name,{:title=>t(:label_irm_object_attribute_attribute_name),:searchable=>true})%>
+    <% builder.column(:category,{:title=>t(:label_irm_object_attribute_category),:searchable=>true}) do |data|%>
+        <%= show_object_attribute_category(data) %>
+    <% end %>
+    <% builder.column(:data_type,{:title=>t(:label_irm_object_attribute_data_type),:searchable=>true})%>
+    <% builder.column(:filter_flag,{:title=>t(:label_irm_object_attribute_filter_flag)}) do |data|%>
+        <%= check_img(data[:filter_flag]) %>
+    <% end %>
+<% end %>
