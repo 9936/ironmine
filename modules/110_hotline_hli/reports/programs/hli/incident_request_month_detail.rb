@@ -57,6 +57,7 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
       if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
         messages = ''
         messages << s.concat_journals_with_text
+        messages = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(messages,""))
         data[11] = messages
       end
       datas << data
