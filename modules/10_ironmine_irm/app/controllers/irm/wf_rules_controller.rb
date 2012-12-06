@@ -169,7 +169,7 @@ class Irm::WfRulesController < ApplicationController
     wf_rules_scope = wf_rules_scope.match_value("#{Irm::WfRule.table_name}.rule_code",params[:rule_code])
     wf_rules,count = paginate(wf_rules_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(wf_rules.to_grid_json([:name,:bo_name,:rule_code,:evaluate_criteria_rule_name],count))}
+      format.json {render :json=>to_jsonp(wf_rules.to_grid_json([:name,:bo_name,:rule_code,:evaluate_criteria_rule_name, :status_code],count))}
       format.html {
         @datas = wf_rules
         @count = count

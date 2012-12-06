@@ -23,6 +23,9 @@
     <% builder.column(:support_person_id_label,{:title=>t(:label_icm_incident_request_support_person),:searchable=>true, :width => "90px"}) do |data| %>
           <%= "#{data[:incident_status_id_label]}(#{data[:support_person_id_label]})"%>
     <% end %>
+    <% builder.column(:incident_category_id_label,{:title=>t(:label_icm_incident_request_incident_category), :hidden => true, :searchable=>true, :width => "0"})%>
+    <% builder.column(:incident_sub_category_id_label,{:title=>t(:label_icm_incident_request_incident_sub_category), :hidden => true, :searchable=>true, :width => "0"})%>
+    <% builder.column(:incident_status_id_label,{:title=>t(:label_icm_incident_request_incident_status_code), :hidden => true, :searchable=>true, :width => "0"})%>
     <% builder.column(:last_response_date,{:title=>t(:label_icm_incident_request_last_date), :width => "150px",:sortable=>true})%>
     <% builder.row do |data|%>
           style="background-color:<%=data[:display_color]%>;color:<%=get_contrast_yiq(data[:display_color])%>;"

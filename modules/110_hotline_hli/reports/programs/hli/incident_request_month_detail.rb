@@ -36,12 +36,13 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_title),
                I18n.t(:label_icm_incident_request_summary),
                I18n.t(:label_icm_incident_request_incident_status_code),
-               I18n.t(:label_report_request_workload),
-               I18n.t(:label_report_incident_request_journal)
+               I18n.t(:label_report_request_workload)
                ]
+    headers << I18n.t(:label_report_incident_request_journal) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
 
     statis.each do |s|
-      data = Array.new(12)
+      data = Array.new(11)
+      data = Array.new(12) if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
       data[0] = s[:request_number]
       data[1] = s[:external_system_name]
       data[2] = s[:requested_name]
@@ -50,24 +51,15 @@ class Hli::IncidentRequestMonthDetail < Irm::ReportManager::ReportBase
       data[5] = s[:submitted_date].strftime('%F %T')
       data[6] = s[:last_response_date].strftime('%F %T')
       data[7] = s[:title]
-      data[8] = Irm::Sanitize.sanitize(s[:summary],"")  unless s[:summary].nil?
-      #data[8] = ""
+      data[8] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
       data[9] = s[:incident_status_name]
       data[10] = s[:total_processing_time]
-      #s.concat_journals
-#      journals = Icm::IncidentJournal.
-#          select("ps.full_name reply_name, #{Icm::IncidentJournal.table_name}.message_body").
-#          joins(",#{Irm::Person.table_name} ps ").
-#          where(:incident_request_id => s[:id]).
-#          where(:reply_type => 'SUPPORTER_REPLY').
-#          where("ps.id = #{Icm::IncidentJournal.table_name}.replied_by")
-      messages = ''
-#      journals.each do |t|
-      messages << s.concat_journals_with_text
-#      end
-
-      data[11] = messages
-      #data[11] = ""
+      if params[:inc_history].present? && params[:inc_history].eql?(Irm::Constant::SYS_YES)
+        messages = ''
+        messages << s.concat_journals_with_text
+        messages = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(messages,""))
+        data[11] = messages
+      end
       datas << data
     end
 

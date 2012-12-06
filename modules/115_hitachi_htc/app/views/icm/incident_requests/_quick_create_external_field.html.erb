@@ -1,0 +1,36 @@
+<%=f.hidden_field :cux_organization_id, :value => Irm::Person.current.role_id %>
+<div class="quick-create-field">
+  <label for="incident_category_id"><%=t(:label_icm_incident_request_incident_category)%><%= required_icon %></label>
+  <%=f.select :incident_category_id,
+                                  nullable_options_for_select([],@incident_request.incident_category_id),
+                                  {},
+                                  {:id=>"incident_category_id",
+                                   :origin_value=>@incident_request.incident_category_id,
+                                   :depend=>"ass_external_system",
+                                   :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                   :href=>url_for(:controller=>"icm/incident_categories",:action=>"get_option",:format=>"json",
+                                                  :external_system_id=>"${ass_external_system}")}%>
+</div>
+<div class="quick-create-field">
+  <label for="incident_sub_category_id"><%=t(:label_icm_incident_request_incident_sub_category)%><%= required_icon %></label>
+  <%=f.select :incident_sub_category_id,
+                                  nullable_options_for_select([],@incident_request.incident_sub_category_id),
+                                  {},
+                                  {:id=>"incident_sub_category_id",
+                                   :origin_value=>@incident_request.incident_sub_category_id,
+                                   :depend=>"incident_category_id",
+                                   :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                   :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
+                                                  :incident_category_id=>"${incident_category_id}")}%>
+</div>
+<script type="text/javascript">
+  $(function(){
+     if($("#ass_external_system")){
+        $("#ass_external_system").cascade(["#incident_category_id"]);
+     }
+
+     if($("#incident_category_id")){
+        $("#incident_category_id").cascade("#incident_sub_category_id");
+     }
+  });
+</script>

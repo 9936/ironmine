@@ -68,7 +68,18 @@
           </table>
         </div>
       <% end %>
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= I18n.t(:label_irm_attachment)%></h3>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="show-table">
+          <tbody>
+            <%= list_skm_entry_attachments(@entry_header.attachments, @entry_header.id)%>
+          </tbody>
+        </table>
+      </div>
     </div>
+
     <!-- 未发布的知识不能进行表态 -->
     <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
       <div class="sub-page-block">

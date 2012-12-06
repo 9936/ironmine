@@ -111,7 +111,7 @@ class Skm::EntryHeader < ActiveRecord::Base
     time :updated_at
   end
 
-  def self.search(args, page = 1, per_page = 30)
+  def self.search(args, page = 1, per_page = 30, offset = 0)
     query = args[0]
     time_limit = args[1]
     results ||= {}
@@ -122,6 +122,7 @@ class Skm::EntryHeader < ActiveRecord::Base
       sp.with(:history_flag, Irm::Constant::SYS_NO)
       sp.with(:entry_status_code, "PUBLISHED")
       sp.with(:updated_at).greater_than(time_limit) if time_limit
+      sp.paginate(:offset => offset, :per_page => per_page)
     end
 
     search.each_hit_with_result do |hit, result|
@@ -134,6 +135,7 @@ class Skm::EntryHeader < ActiveRecord::Base
       sp.keywords query, :highlight => true
       sp.with(:source_type,["Skm::EntryHeader"])
       sp.with(:updated_at).greater_than(time_limit) if time_limit
+      sp.paginate(:offset => offset, :per_page => per_page)
     end
 
     search_att.each_hit_with_result do |hit, result|
@@ -160,9 +162,19 @@ class Skm::EntryHeader < ActiveRecord::Base
 
     total_records = (search.total > search_att.total)? search.total : search_att.total
     if total_records > per_page
+      offset = 0
+      if page > 1
+        (1..(page-1)).each do |p|
+          offset += 10**(p-1)
+        end
+        offset *= 30
+      else
+        offset = 0
+      end
+
       page +=  1
       per_page *= 10
-      results.merge!(self.search(args, page, per_page))
+      results.merge!(self.search(args, page, per_page, offset))
     end
 
     results
@@ -212,6 +224,10 @@ class Skm::EntryHeader < ActiveRecord::Base
   end
 
   def attachments
+    Irm::Attachment.list_all.query_by_source(Skm::EntryHeader.name, self.id)
+  end
+
+  def attachment_versions
     Irm::Attachment.list_all.query_by_source(Skm::EntryHeader.name, self.id)
   end
 
