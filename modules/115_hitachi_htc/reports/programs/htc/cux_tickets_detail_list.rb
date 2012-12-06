@@ -51,7 +51,7 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
       data = Array.new(18)
       data[0] = s[:request_number]
       data[1] = s[:title]
-      data[2] = Irm::Sanitize.sanitize(s[:summary],"")  unless s[:summary].nil?
+      data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
       data[3] = s[:external_system_name]
       data[4] = s[:requested_name]
       data[5] = s[:supporter_name]
