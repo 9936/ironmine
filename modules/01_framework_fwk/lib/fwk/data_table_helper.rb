@@ -105,14 +105,15 @@ module Fwk
       style = ""
       origin_width = column[:width]
       if column[:width].present?
-        if column[:hidden]
-          style << "width:0px;display:none;"
-          origin_width = "0"
-        elsif column[:width].include?("%")||column[:width].include?("px")
+        if column[:width].include?("%")||column[:width].include?("px")
           style << "width:#{column[:width]};"
         else
           style << "width:#{column[:width]}px;"
         end
+      end
+      if column[:hidden]
+         style = "width:0px;display:none;"
+         origin_width = "0"
       end
 
       options_str << "origin-width='#{origin_width}' style='#{style}'" unless style.blank?
