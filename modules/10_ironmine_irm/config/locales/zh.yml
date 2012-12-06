@@ -102,6 +102,8 @@ zh:
   code: 编码
   expand_all: 全部展开
   collapse_all: 全部折叠
+  system: 系统
+  global: 全局
   #常用语句
   notice_account_invalid_creditentials: 用户名或密码错误
   successfully_updated_password: 成功修改密码！
@@ -2051,6 +2053,4 @@ zh:
   label_irm_system_custom_business_object_list: 可自定义字段业务对象
   label_irm_system_custom_attribute: 系统自定义字段
   label_irm_custom_attribute: 系统自定义字段
-  label_irm_global_custom_attributes: 全局自定义字段
-  label_irm_system_custom_attribute_global: 启用全局自定义字段
   #============================== end system setting  ==============================

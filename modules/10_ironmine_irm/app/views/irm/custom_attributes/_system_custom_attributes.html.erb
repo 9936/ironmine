@@ -1,27 +1,34 @@
 <%=datatable_view({:count=>datas.length,:datas=>datas}) do |builder|%>
     <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
-      <% unless data[:global_flag] %>
+      <% if data[:system_flag].eql?('Y') %>
         <%= link_to(t(:edit),{:action => "edit", :attribute_id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
         <%= link_to(t(:delete),{:action => "destroy", :attribute_id=>data[:id]},{:method => :delete,:confirm => t(:label_are_you_sure),:class => "action-link"}) %>&nbsp;|
       <% else %>
-         <%= link_to(t(:disable),{:action => "disable", :attribute_id =>data[:id], :sid => params[:sid]},{:class => "action-link"}) %>&nbsp;|
+         <% if data[:active_flag].eql?('Y') %>
+           <%= link_to(t(:disable),{:action => "disable", :attribute_id =>data[:id], :sid => params[:sid]},{:class => "btn btn-danger btn-mini", :style => "color:#fff;text-decoration:none;"}) %>&nbsp;|
+         <% else %>
+           <%= link_to(t(:active), {:action =>"active", :sid => params[:sid], :attribute_id => data[:id] }, :class => "btn btn-success btn-mini", :style => "color:#fff;text-decoration:none;" ) %>&nbsp;|
+         <% end %>
       <% end %>
       <%= link_to(t(:show),{:action => "show", :attribute_id=>data[:id]},{:class => "action-link"}) %>
     <% end %>
-    <% builder.column(:name,{:title=>t(:label_irm_object_attribute_name),:searchable=>true})%>
-    <% builder.column(:attribute_name,{:title=>t(:label_irm_object_attribute_attribute_name),:searchable=>true})%>
+    <% builder.column(:name,{:title=>t(:label_irm_object_attribute_name),:searchable=>true}) do |data| %>
+      <% if data[:system_flag].eql?('Y') %>
+        <%= "【#{t(:system)}】" + data[:name] %>
+      <% else %>
+        <%= "【#{t(:global)}】" + data[:name] %>
+      <% end %>
+    <% end %>
+    <% builder.column(:attribute_name,{:title=>t(:label_irm_object_attribute_attribute_name),:searchable=>true}) %>
     <% builder.column(:category,{:title=>t(:label_irm_object_attribute_category),:searchable=>true}) do |data|%>
         <%= show_object_attribute_category(data) %>
     <% end %>
     <% builder.column(:data_type,{:title=>t(:label_irm_object_attribute_data_type),:searchable=>true})%>
-    <% builder.column(:filter_flag,{:title=>t(:label_irm_object_attribute_filter_flag)}) do |data|%>
-        <%= check_img(data[:filter_flag]) %>
+    <% builder.column(:data_default_value,{:title=>t(:label_irm_object_attribute_data_default_value)})%>
+    <% builder.column(:required_flag,{:title=>t(:label_irm_object_attribute_required_flag)}) do |data|%>
+        <%= check_img(data[:required_flag]) %>
     <% end %>
-    <% builder.column(:global_flag,{:title=>t(:label_irm_global_custom_attributes)}) do |data|%>
-        <% if data[:global_flag] %>
-            <%= check_img('Y') %>
-        <% else %>
-            <%= check_img('N') %>
-        <% end %>
+    <% builder.row do |data|%>
+        style="background-color:<%=data[:display_color]%>;color:<%=get_contrast_yiq(data[:display_color])%>;"
     <% end %>
 <% end %>

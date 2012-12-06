@@ -1,9 +1,25 @@
 module Irm::CustomAttributesHelper
 
   def system_custom_attributes(bo_id, sid)
-    #Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).custom_field_with_system(sid)
-    system_custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", sid)
-    system_custom_attributes + Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).with_external_system(sid).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+    #查询出所有自定义字段(包括全局和系统层)
+    all_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).custom_field_with_system(sid)
+    #查找出系统下已经启用的自定义字段
+    system_attributes = Irm::ObjectAttributeSystem.where(:external_system_id => sid).index_by(&:object_attribute_id)
+    all_attributes.each do |attribute|
+      if system_attributes[attribute.id] or attribute[:system_flag].eql?('Y')
+        attribute[:active_flag] = 'Y'
+        #attribute[:display_color] = "#5bb75b"
+      else
+        attribute[:active_flag] = 'N'
+        attribute[:display_color] = "#faa732"
+      end
+    end
+
+    all_attributes.sort{|a,b| b[:active_flag] <=> a[:active_flag]}
+    #all_attributes.sort{|a,b| b[:system_flag] <=> a[:system_flag]}
+    #system_custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", sid)
+    #system_custom_attributes + Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).with_external_system(sid).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+
   end
 
   def global_custom_attributes(bo_id,sid)
