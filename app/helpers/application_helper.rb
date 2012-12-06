@@ -660,7 +660,6 @@ module ApplicationHelper
 
   def show_custom_field(attribute, form)
     if form
-
       case attribute[:category]
         when "TEXT"
           return form.text_field attribute[:attribute_name].to_sym, :required=> attribute[:required_flag].eql?('Y')? true : false
@@ -671,9 +670,11 @@ module ApplicationHelper
         when "CHECK_BOX"
           return form.check_box attribute[:attribute_name].to_sym, :required=> attribute[:required_flag].eql?('Y')? true : false
         when "PICK_LIST"
-          return
+          choices = attribute[:pick_list_options].gsub(/\r\n/, ',').split(',').collect{|i|[i,i]}
+          return form.blank_select attribute[:attribute_name].to_sym, choices, :required=> attribute[:required_flag].eql?('Y')? true : false
         when "PICK_LIST_MULTI"
-
+          choices = attribute[:pick_list_options].gsub(/\r\n/, ',').split(',').collect{|i|[i,i]}
+          return form.select attribute[:attribute_name].to_sym, choices, {:required=> attribute[:required_flag].eql?('Y')? true : false},:multiple=>true
         else
           return form.text_field attribute[:attribute_name].to_sym,:required=> attribute[:required_flag].eql?('Y')? true : false
       end
@@ -686,6 +687,10 @@ module ApplicationHelper
     bo = Irm::BusinessObject.where(:bo_model_name => model.class.to_s).first
     custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", sid)
     custom_attributes +=  Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).with_external_system(sid).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+    build_html(model, custom_attributes, columns)
+  end
+
+  def build_html(model, custom_attributes, columns = 4)
     column_count = 0
     html = ''
     if custom_attributes.any?
@@ -709,6 +714,7 @@ module ApplicationHelper
     end
     html.html_safe
   end
+
 
 
   def show_custom_field_info(model,sid, columns = 6)
