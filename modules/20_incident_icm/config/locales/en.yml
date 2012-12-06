@@ -123,7 +123,7 @@ en:
   label_icm_incident_request_contact_number: Contact number
   label_icm_incident_request_priority: Priority
   label_icm_incident_request_organization: Organization
-  label_icm_incident_request_last_date: Last Update
+  label_icm_incident_request_last_date: Last Response
   label_incident_request: Ticket
   label_incident_request_title: Ticket Title
   label_icm_incident_request_submitted_by: Submit by
