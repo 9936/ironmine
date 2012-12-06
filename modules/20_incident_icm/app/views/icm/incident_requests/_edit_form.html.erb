@@ -116,8 +116,7 @@
           <tr>
             <td class="label-col"><label for="incident_request_request_type_code"><%=t(:label_icm_incident_request_request_type_code)%></label></td>
             <td class="data-3col">
-              <%=f.blank_select :request_type_code,available_request_type,
-                                                  {},{:required=>true,:id=>"incident_request_request_type_code"}%>
+              <%=f.blank_select :request_type_code,available_request_type, {},{:required=>true,:id=>"incident_request_request_type_code"}%>
             </td>
           </tr>
 

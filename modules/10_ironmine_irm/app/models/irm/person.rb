@@ -228,6 +228,20 @@ class Irm::Person < ActiveRecord::Base
      anonymous_person
    end
 
+  # LOV额外处理方法
+  def self.lov(lov_scope,params)
+    if params[:lov_params].present?&&params[:lov_params].is_a?(Hash)&&params[:lov_params][:lktkn].present?
+
+      #根据lov的使用不同,进行不同的处理
+      if "relation_system".eql?(params[:lov_params][:lktkn])&&params[:lov_params][:external_system_id].present?
+        lov_scope = lov_scope.joins(",#{Irm::ExternalSystemPerson.table_name} esp").where("esp.external_system_id = ?", params[:lov_params][:external_system_id]).where("esp.person_id = #{table_name}.id")
+      end
+    end
+    lov_scope
+  end
+
+
+
    #判断是否已经登录
    def logged?
      true
