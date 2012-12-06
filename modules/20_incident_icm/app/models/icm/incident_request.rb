@@ -251,6 +251,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
     select(" #{Icm::IncidentCategory.view_name}.name incident_category_name,#{Icm::IncidentSubCategory.view_name}.name incident_sub_category_name")
   }
 
+  scope :with_close_reason, lambda{|language|
+    joins(" LEFT OUTER JOIN #{Icm::CloseReason.view_name} ON #{Icm::CloseReason.view_name}.id = #{table_name}.close_reason_id AND #{Icm::CloseReason.view_name}.language= '#{language}'").
+        select(" #{Icm::CloseReason.view_name}.name close_reason_name, #{Icm::CloseReason.view_name}.description close_reason_description")
+  }
+
   acts_as_watchable
   def self.list_all
     select_all.

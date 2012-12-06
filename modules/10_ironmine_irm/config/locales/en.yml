@@ -2042,3 +2042,4 @@ en:
   #============================== start system setting  ==============================
   label_irm_system: 系统设置
   #============================== end system setting  ==============================
+  label_total_data_size: Total %{m}

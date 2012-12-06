@@ -2041,7 +2041,7 @@ zh:
   label_report_time_grouped_calendar_week: 日历星期
   label_report_time_grouped_calendar_day: 日
   #============================== end report time  ==============================
-
   #============================== start system setting  ==============================
   label_irm_system: 系统设置
   #============================== end system setting  ==============================
+  label_total_data_size: 共 %{m} 条数据
