@@ -879,8 +879,8 @@ Fwk::MenuAndFunctionManager.map do |map|
           },
           ##跟踪者
           :system_watcher_mine => {
-              :zh => {:name => "添加/移除自己为跟踪者", :description => "添加/移除自己为跟踪者"},
-              :en => {:name => "Add/Remove Me AS Watcher", :description => "Add/Remove Me AS Watcher"},
+              :zh => {:name => "添加自己为跟踪者", :description => "添加自己为跟踪者"},
+              :en => {:name => "Add Me AS Watcher", :description => "Add Me AS Watcher"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
@@ -888,8 +888,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               #"irm/watchers" => ["add_watcher", "delete_watcher"]
           },
           :system_watcher_anyone => {
-              :zh => {:name => "添加/移除任意跟踪者", :description => "添加/移除任意跟踪者"},
-              :en => {:name => "Add/Remove Any AS Watcher", :description => "Add/Remove Any AS Watcher"},
+              :zh => {:name => "添加任意跟踪者", :description => "添加任意跟踪者"},
+              :en => {:name => "Add Any AS Watcher", :description => "Add Any AS Watcher"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
@@ -906,10 +906,10 @@ Fwk::MenuAndFunctionManager.map do |map|
               :system_flag => "Y",
               #"icm/incident_requests" => ["add_relation", "remove_relation"]
           },
-          ##为他人提单
-          :system_submit_others => {
-              :zh => {:name => "为他人提单", :description => "为他人提单"},
-              :en => {:name => "Submit Request For Others", :description => "Submit Request For Others"},
+          ##分配事故单
+          :system_assign_request => {
+              :zh => {:name => "分配", :description => "分配事故单"},
+              :en => {:name => "Assign", :description => "Assign Request"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",

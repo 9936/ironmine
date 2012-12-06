@@ -85,6 +85,15 @@ module Icm::IncidentPermissionCheckHelper
     end
   end
 
+  #检查是否具有添加关联权限
+  def can_relation?(incident_request)
+    if allow_to_function?(:edit_relation) and allow_to_function?(:system_relation_request, incident_request[:external_system_id])
+      return true
+    else
+      return false
+    end
+  end
+
   #检查是否具有添加跟踪者权限
   def can_watcher?(watchable)
     if allow_to_function?(:system_watcher_anyone, watchable[:external_system_id]) || allow_to_function?(:system_watcher_mine, watchable[:external_system_id])
