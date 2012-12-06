@@ -2054,3 +2054,4 @@ en:
   label_irm_system_custom_attribute: System Custom Fields
   label_irm_custom_attribute: System Custom Fields
   #============================== end system setting  ==============================
+  label_total_data_size: Total %{m}

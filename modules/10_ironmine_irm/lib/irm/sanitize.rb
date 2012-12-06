@@ -105,5 +105,15 @@ module Irm::Sanitize
     end
 
     result
-end
+  end
+
+  def self.trans_html(html)
+    result = html.
+        gsub("&nbsp;", " ").
+        gsub("&gt;", ">").
+        gsub("&lt;", "<").
+        gsub("&quot;", "\"").
+        gsub("&amp;", "&")
+    result
+  end
 end

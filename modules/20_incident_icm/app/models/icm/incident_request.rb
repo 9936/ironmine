@@ -154,12 +154,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   scope :filter_incident_by_person, lambda{|person_id|
     select("#{table_name}.id").#where("#{table_name}.external_system_id IN (?)",system_ids).
-        where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{Irm::DataAccess.data_access(Icm::IncidentRequest.name,"#{table_name}.requested_by",0)})",
+        where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
               Icm::IncidentRequest.name,person_id,Irm::Person.name)
   }
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
-    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{Irm::DataAccess.data_access(Icm::IncidentRequest.name,"#{table_name}.requested_by",0)})",
+    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
     Icm::IncidentRequest.name,person_id,Irm::Person.name)
   }
 
@@ -249,6 +249,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ON  #{Icm::IncidentCategory.view_name}.id = #{table_name}.incident_category_id AND #{Icm::IncidentCategory.view_name}.language= '#{language}'").
     joins("LEFT OUTER JOIN #{Icm::IncidentSubCategory.view_name} ON  #{Icm::IncidentSubCategory.view_name}.id = #{table_name}.incident_sub_category_id AND #{Icm::IncidentSubCategory.view_name}.language= '#{language}'").
     select(" #{Icm::IncidentCategory.view_name}.name incident_category_name,#{Icm::IncidentSubCategory.view_name}.name incident_sub_category_name")
+  }
+
+  scope :with_close_reason, lambda{|language|
+    joins(" LEFT OUTER JOIN #{Icm::CloseReason.view_name} ON #{Icm::CloseReason.view_name}.id = #{table_name}.close_reason_id AND #{Icm::CloseReason.view_name}.language= '#{language}'").
+        select(" #{Icm::CloseReason.view_name}.name close_reason_name, #{Icm::CloseReason.view_name}.description close_reason_description")
   }
 
   acts_as_watchable
@@ -590,11 +595,50 @@ class Icm::IncidentRequest < ActiveRecord::Base
   def long_title
     "[#{self.request_number}]#{self.title}"
   end
+
+  def long_title_with_status
+    is = Icm::IncidentStatus.
+        joins(",#{Icm::IncidentStatusesTl.table_name} ist").
+        where("ist.incident_status_id = #{Icm::IncidentStatus.table_name}.id").
+        where("ist.language = 'en'").
+        select("ist.name status_name").first
+    rel = "[#{self.request_number}](#{is[:status_name]})#{self.title}"
+    rel
+  end
+
+  def long_category
+    category = Icm::IncidentCategory.
+        joins(",#{Icm::IncidentCategoriesTl.table_name} ict").
+        where("ict.incident_category_id = #{Icm::IncidentCategory.table_name}.id").
+        where("ict.language = 'en'").
+        select("ict.name")
+    sub_category = Icm::IncidentSubCategory.
+        joins(",#{Icm::IncidentSubCategoriesTl.table_name} ict").
+        where("ict.incident_sub_category_id = #{Icm::IncidentSubCategory.table_name}.id").
+        where("ict.language = 'en'").
+        select("ict.name")
+    category_label = ""
+    category_label = category.first[:name] if category.any?
+    sub_category_label = ""
+    sub_category_label = sub_category.first[:name] if sub_category.any?
+    rel = "#{category_label} - #{sub_category_label}"
+    rel
+  end
+
   # 处理创建知识库
   def process_knowledge(entry_header_id)
     self.kb_flag = Irm::Constant::SYS_YES
     self.incident_status_id = Icm::IncidentStatus.transform(self.incident_status_id,"CREATE_SKM",self.external_system_id)
     self.save
+  end
+
+  def link_to_new_journal
+    url = Rails.application.routes.url_helpers.url_for(:controller => "icm/incident_journals", :action => "new", :request_id => self.id, :only_path => true).to_s
+    str = ""
+    str << "<a href='#{url}' target='_blank'>"
+    str << "[#{self.request_number}]#{self.title}"
+    str << "</a>"
+    str
   end
 
   private

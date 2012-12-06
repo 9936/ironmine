@@ -2,7 +2,6 @@ class AddObjectAttributeCuxField < ActiveRecord::Migration
   def up
     remove_column :irm_object_attributes, :relation_bo_code
     remove_column :irm_object_attributes, :relation_column
-    remove_column :irm_object_attributes, :relation_where_clause
     remove_column :irm_object_attributes, :relation_alias_ref_id
     remove_column :irm_object_attributes, :lov_code
     remove_column :irm_object_attributes, :pick_list_code
@@ -37,7 +36,6 @@ class AddObjectAttributeCuxField < ActiveRecord::Migration
   def down
     add_column :irm_object_attributes, :relation_bo_code, :string, :limit => 30
     add_column :irm_object_attributes, :relation_column, :string, :limit => 30
-    add_column :irm_object_attributes, :relation_where_clause, :string, :limit => 30
     add_column :irm_object_attributes, :relation_alias_ref_id, :string, :limit => 30
     add_column :irm_object_attributes, :lov_code, :string, :limit => 30
     add_column :irm_object_attributes, :pick_list_code, :string, :limit => 30

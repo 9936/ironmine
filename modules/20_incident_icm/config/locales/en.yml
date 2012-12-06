@@ -123,7 +123,7 @@ en:
   label_icm_incident_request_contact_number: Contact number
   label_icm_incident_request_priority: Priority
   label_icm_incident_request_organization: Organization
-  label_icm_incident_request_last_date: Last Update
+  label_icm_incident_request_last_date: Last Response
   label_incident_request: Ticket
   label_incident_request_title: Ticket Title
   label_icm_incident_request_submitted_by: Submit by
@@ -148,7 +148,7 @@ en:
   label_icm_incident_request_view_filter_data_range_main: My engaged
   label_icm_incident_journal_upgrade: Upgrade
   label_icm_incident_request_assign_me: New Coming Tickets
-  label_icm_incident_request_assign_me_recevie: Accept
+  label_icm_incident_request_assign_me_receive: Accept
   label_icm_incident_request_assign_me_able_list: Tickets for My Group
   label_icm_incident_request_close_reason: Close Reason
   label_icm_incident_request_incident_status: Change Status

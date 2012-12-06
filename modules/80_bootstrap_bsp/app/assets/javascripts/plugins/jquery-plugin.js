@@ -1241,7 +1241,7 @@ jQuery.fn.menubutton = function () {
                     fileSize:options.fileSize,
                     fileUrl: options.fileUrl || "javascript:void(0)",
                     deleteTarget:options.deleteTarget || "",
-                    attachmentId:options.attachmentId || ""
+                    attachmentId:options.attachmentId || options.fileName
                 }
         );
 
@@ -1541,7 +1541,7 @@ jQuery.fn.menubutton = function () {
     // 插件默认配置参数
     var DEFAULT_OPTIONS =
     {
-        pageSize:10,
+        pageSize: parseInt($.cookie("PAGESIZE")) || 10,
         totalCount:0,
         currentPage:0,
         baseUrl:"",
@@ -1590,16 +1590,26 @@ jQuery.fn.menubutton = function () {
 
         // 初始化内部类
     Internal.prototype.init = function (/*Object*/ customOptions) {
-        var data = this.getData();
+        var data = this.getData(), me = this;
 
         // 初始化插件内部数据
         if (!data.initialised) {
             data.initialised = true;
             data.options = $.extend({}, DEFAULT_OPTIONS, customOptions);
         }
-
         this.buildTable();
+        $(window).hashchange(function(){
+            var hashPage = me.getHashPage();
+            //判断hash中设置的页码是否同当前的页码相同
+            if(hashPage != me.data.options.currentPage)
+                me.loadPage(hashPage);
+        });
+    };
 
+    Internal.prototype.getHashPage = function(){
+        var hash = location.hash;
+        hash = hash.substring(hash.indexOf("?")+1, hash.length);
+        return parseInt($.extend({},$.deserialize(hash))[this.$element.attr('id')+'_page'] || 1);
     };
 
     /**
@@ -1642,7 +1652,7 @@ jQuery.fn.menubutton = function () {
 
     Internal.prototype.buildTable = function () {
         var me = this;
-        me.data.options = $.extend({}, me.data.options, {currentPage:1});
+        me.data.options = $.extend({}, me.data.options, {currentPage:me.getHashPage()});
         me.buildUI();
         if(!me.data.options.lazyLoad){
             me.load();
@@ -1877,6 +1887,9 @@ jQuery.fn.menubutton = function () {
             paginatorBox.find("select[name='page-size']:first").change(function () {
                 if (me.data.options.pageSize != $(this).val()) {
                     me.data.options.pageSize = $(this).val();
+                    //将pageSize 存放到cookie中并重新加载
+                    $.cookie("PAGESIZE","");
+                    $.cookie("PAGESIZE", $(this).val());
                     me.loadPage(1);
                 }
             });
@@ -2177,6 +2190,7 @@ jQuery.fn.menubutton = function () {
 
     Internal.prototype.load = function () {
         var me = this;
+        if (me.data.options.currentPage != 1) me.setHash(me.$element.attr("id") + "_page="+ me.data.options.currentPage);
         me.$element.load(me.buildCurrentRequest(), function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "error"){
                 window.console && console.log($.i18n("load_data_error"));
@@ -2216,6 +2230,16 @@ jQuery.fn.menubutton = function () {
             me.buildDrag();
         }
         me.syncScrollUI();
+    };
+    //设置地址栏hash
+    Internal.prototype.setHash = function(hashStr){
+        var urlHash = location.hash,reg = eval("/"+hashStr.substring(0, hashStr.indexOf('=')+1)+"\\d{1,}/g");
+        if(reg.test(urlHash)){
+            urlHash = urlHash.replace(reg, hashStr)
+        }else{
+            urlHash += urlHash.length > 0 ? '&' + hashStr : '#/?' + hashStr;
+        }
+        $.browser.msie? $.locationHash(urlHash) : location.hash = urlHash;
     };
 
 

@@ -7,4 +7,7 @@
     <% builder.column(:rule_code,{:title=>t(:label_irm_wf_rule_rule_code),:searchable=>true})%>
     <% builder.column(:name,{:title=>t(:label_irm_wf_rule_name),:searchable=>true})%>
     <% builder.column(:evaluate_criteria_rule_name,{:title=>t(:label_irm_wf_rule_evaluate_criteria_rule),:searchable=>true})%>
+    <% builder.column(:status_code,{:title=>t(:active),:width => "40px"}) do |data|%>
+      <%= check_img(data[:status_code]) %>
+    <% end %>
 <% end %>

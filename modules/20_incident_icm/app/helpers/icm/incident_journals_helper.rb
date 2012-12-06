@@ -98,9 +98,10 @@ module Icm::IncidentJournalsHelper
                     </div>
                    </a>"
     delete_link = ""
+    #检查是否具有删除回复附件功能
     delete_link << "<a data-remote=true data-confirm='#{I18n.t(:label_delete_confirm)}' href='#{url_for(:controller => "icm/incident_requests",
                                                :action => "remove_attachment",
-                                               :attachment_id => f.id)}'>#{btn_delete_icon}</a>" if allow_to_function?(:remove_attachment) || f.created_by == Irm::Person.current.id
+                                               :attachment_id => f.id)}'>#{btn_delete_icon}</a>" if can_delete_comment_file?(f, @incident_request)
     content_tag(:div, (content_tag(:div, link.html_safe + description.html_safe, {:class=>"file-item"}) +
         "&nbsp;&nbsp;".html_safe + delete_link.html_safe).html_safe,{:class=>"fileItem"}).html_safe
   end

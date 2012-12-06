@@ -38,9 +38,24 @@ module Irm::QueryExtend
             #动态构建语言查询,传入的column为当前表+字段名
             scope :match_value, lambda { |column, value|
               return {} if value.blank?
-              { :conditions => ["#{column} like ?", "%#{value}%"] }
+              if value.include?(" ")
+                value_arr = value.split(" ")
+                return {} if value_arr.nil? || value_arr.size == 0
+                ct = 0
+                con = Array.new(value_arr.size + 1)
+                con[0] = ""
+                value_arr.each do |v|
+                  ct = ct + 1
+                  con[0] << "#{column} like ?"
+                  con[0] << " OR " if ct < value_arr.size
+                  con[ct] = "%#{v}%"
+                end
+                return { :conditions => con}
+              else
+                return { :conditions => ["#{column} like ?", "%#{value}%"] }
+              end
             }
-            
+
             #动态构建语言查询,传入的column为当前表+字段名
             scope :equal_value, lambda { |column, value|
             return {} if value.blank?
@@ -121,7 +136,7 @@ module Irm::QueryExtend
       end
 
       def to_liquid
-        attributes.stringify_keys  
+        attributes.stringify_keys
       end
 
       module ClassMethods
