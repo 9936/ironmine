@@ -154,12 +154,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   scope :filter_incident_by_person, lambda{|person_id|
     select("#{table_name}.id").#where("#{table_name}.external_system_id IN (?)",system_ids).
-        where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{Irm::DataAccess.data_access(Icm::IncidentRequest.name,"#{table_name}.requested_by",0)})",
+        where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
               Icm::IncidentRequest.name,person_id,Irm::Person.name)
   }
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
-    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{Irm::DataAccess.data_access(Icm::IncidentRequest.name,"#{table_name}.requested_by",0)})",
+    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
     Icm::IncidentRequest.name,person_id,Irm::Person.name)
   }
 
