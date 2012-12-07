@@ -1,6 +1,7 @@
 class Irm::GroupMember < ActiveRecord::Base
   set_table_name :irm_group_members
-
+  belongs_to :group
+  belongs_to :person
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离

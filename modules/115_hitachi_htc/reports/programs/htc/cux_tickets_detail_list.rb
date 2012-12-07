@@ -85,19 +85,33 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
       data[15] = s[:cux_resolve_hours]
       data[16] = s[:close_reason_name]
       #get group history
-      group_history = Icm::IncidentHistory.
-                        joins(",icm_support_groups_vl isv").
-                        where("isv.id = #{Icm::IncidentHistory.table_name}.new_value").
-                        where("isv.language = ?", I18n.locale).
-                        where("#{Icm::IncidentHistory.table_name}.request_id = ?", s.id).
-                        where("#{Icm::IncidentHistory.table_name}.property_key = ?", "support_group_id").
-                        select("isv.name group_his_name").
-                        order("#{Icm::IncidentHistory.table_name}.created_at ASC")
-      data[17] = ""
-      group_history.each do |his|
-        data[17] << his[:group_his_name]
-        data[17] << "," if his != group_history.last
-      end
+      #group_history = Icm::IncidentHistory.
+      #                  joins(",icm_support_groups_vl isv").
+      #                  where("isv.id = #{Icm::IncidentHistory.table_name}.new_value").
+      #                  where("isv.language = ?", I18n.locale).
+      #                  where("#{Icm::IncidentHistory.table_name}.request_id = ?", s.id).
+      #                  where("#{Icm::IncidentHistory.table_name}.property_key = ?", "support_group_id").
+      #                  select("isv.name group_his_name").
+      #                  order("#{Icm::IncidentHistory.table_name}.created_at ASC")
+      #data[17] = ""
+      #group_history.each do |his|
+      #  data[17] << his[:group_his_name]
+      #  data[17] << "," if his != group_history.last
+      #end
+
+      #get replied person groups
+      persons = Icm::IncidentJournal.where("incident_request_id = ?", s.id).
+                where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").
+                enabled.
+                order("created_at ASC").collect(&:replied_by)
+      persons.uniq! if persons
+      g = []
+      persons.each do |p|
+        g << Irm::Person.find(p).groups.multilingual.enabled.collect{|p| p[:name]}
+      end if persons
+      g.flatten!
+      g.uniq!
+      data[17] = g.join(",")
 
       datas << data
     end
