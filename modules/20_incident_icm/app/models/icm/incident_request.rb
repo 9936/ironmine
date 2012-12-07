@@ -154,12 +154,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   scope :filter_incident_by_person, lambda{|person_id|
     select("#{table_name}.id").#where("#{table_name}.external_system_id IN (?)",system_ids).
-        where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{Irm::DataAccess.data_access(Icm::IncidentRequest.name,"#{table_name}.requested_by",0)})",
+        where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
               Icm::IncidentRequest.name,person_id,Irm::Person.name)
   }
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
-    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? ) OR (#{Irm::DataAccess.data_access(Icm::IncidentRequest.name,"#{table_name}.requested_by",0)})",
+    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
     Icm::IncidentRequest.name,person_id,Irm::Person.name)
   }
 
@@ -588,7 +588,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   def process_change(change_request_id)
     self.change_request_id = change_request_id
     self.change_requested_at = Time.now
-    self.incident_status_id = Icm::IncidentStatus.transform(self.incident_status_id,"CREATE_RFC")
+    self.incident_status_id = Icm::IncidentStatus.transform(self.incident_status_id,"CREATE_RFC",self.external_system_id)
     self.save
   end
 
@@ -628,7 +628,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
   # 处理创建知识库
   def process_knowledge(entry_header_id)
     self.kb_flag = Irm::Constant::SYS_YES
-    self.incident_status_id = Icm::IncidentStatus.transform(self.incident_status_id,"CREATE_SKM")
+    self.incident_status_id = Icm::IncidentStatus.transform(self.incident_status_id,"CREATE_SKM",self.external_system_id)
     self.save
   end
 

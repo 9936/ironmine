@@ -906,7 +906,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "Y",
               "irm/attach_screenshot" => ["index"],
-              "irm/common" => ["edit_password", "forgot_password", "login", "update_password","send_email","reset_pwd","update_pwd"],
+              "irm/common" => ["edit_password", "forgot_password", "login", "update_password", "send_email", "reset_pwd", "update_pwd"],
               "irm/demo" => ["get_data", "index"],
               "irm/navigations" => ["access_deny", "combo"],
               "irm/oauth_authorize" => ["create", "show", "token"],
@@ -1015,7 +1015,8 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================START:IRM_REPORT=================================
   map.function_group :irm_report, {
       :en => {:name => "Report", :description => "Report"},
-      :zh => {:name => "报表", :description => "管理报表类别和类型"}, }
+      :zh => {:name => "报表", :description => "管理报表类别和类型"}
+  }
   map.function_group :irm_report, {
       :zone_code => "IRM_REPORT",
       :controller => "irm/reports",
@@ -1036,11 +1037,11 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/reports"=>["new", "new_template", "create_template",
-                              "create","operator_value","destroy","new_program",
-                              "create_program", "edit_custom", "update_custom",
-                              "edit_custom_program","update_custom_program","show_template"],
-              "irm/report_triggers"=>["index", "edit", "update", "new", "create", "destroy"]
+              "irm/reports" => ["new", "new_template", "create_template",
+                                "create", "operator_value", "destroy", "new_program",
+                                "create_program", "edit_custom", "update_custom",
+                                "edit_custom_program", "update_custom_program", "show_template"],
+              "irm/report_triggers" => ["index", "edit", "update", "new", "create", "destroy"]
           },
           :edit_reports => {
               :en => {:name => "Edit Report", :description => "Edit Report"},
@@ -1048,8 +1049,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/reports" => ["edit", "update","operator_value", "multilingual_edit", "multilingual_update",
-                                "edit_program","update_program", "edit_template", "update_template"],
+              "irm/reports" => ["edit", "update", "operator_value", "multilingual_edit", "multilingual_update",
+                                "edit_program", "update_program", "edit_template", "update_template"],
               "irm/report_triggers" => ["create", "destroy", "edit", "index", "new", "update"],
           },
           :view_report_folders => {
@@ -1253,7 +1254,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/lookup_types" => ["add_code", "check_lookup_code", "create", "create_edit_value", "create_value", "edit", "get_lookup_types", "get_lookup_values", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
-              "irm/lookup_values" => ["create", "edit", "get_data", "get_lookup_values", "index", "multilingual_edit", "multilingual_update", "new", "select_lookup_type", "show", "update","switch_sequence"],
+              "irm/lookup_values" => ["create", "edit", "get_data", "get_lookup_values", "index", "multilingual_edit", "multilingual_update", "new", "select_lookup_type", "show", "update", "switch_sequence"],
           },
       }
   }
@@ -1640,7 +1641,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/wf_approval_processes" => ["get_data_by_action","get_active_processes"],
+              "irm/wf_approval_processes" => ["get_data_by_action", "get_active_processes"],
               "irm/wf_mail_alerts" => ["create", "destroy", "edit", "get_data", "index", "new", "recipient_source", "show", "update"],
               "irm/wf_rules" => ["get_data_by_action"],
           },
@@ -1666,7 +1667,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/formula_functions" => ["check_syntax", "formula_function_options"],
               "irm/object_attributes" => ["updateable_columns"],
-              "irm/wf_approval_processes" => ["get_data_by_action","get_active_processes"],
+              "irm/wf_approval_processes" => ["get_data_by_action", "get_active_processes"],
               "irm/wf_field_updates" => ["create", "destroy", "edit", "get_data", "index", "new", "set_value", "show", "update"],
               "irm/wf_rules" => ["get_data_by_action"],
           },
@@ -1712,7 +1713,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/people" => ["index", "show","get_data", "get_choose_people","get_support_group", "get_owned_roles","multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles"]
+              "irm/people" => ["index", "show", "get_data", "get_choose_people", "get_support_group", "get_owned_roles", "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles"]
           },
           :edit_person_basic_info => {
               :en => {:name => "Edit Basic Info", :description => "Edit Basic Info"},
@@ -1720,7 +1721,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/people" => ["edit", "update" ]
+              "irm/people" => ["edit", "update"]
           },
           :edit_person_email_and_password => {
               :en => {:name => "Edit Email/Password", :description => "Edit Email/Password"},
@@ -1819,7 +1820,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/roles" => ["assignable_people", "create", "edit", "edit_assignment", "index", "multilingual_edit", "multilingual_update", "new", "role_people", "show", "update", "update_assignment","delete_people"],
+              "irm/roles" => ["assignable_people", "create", "edit", "edit_assignment", "index", "multilingual_edit", "multilingual_update", "new", "role_people", "show", "update", "update_assignment", "delete_people"],
           },
       }
   }
@@ -1984,7 +1985,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/external_systems" => ["add_people", "create", "delete_people", "edit", "get_data", "index", "new", "show", "update"],
-          },
+          }
       }
   }
   #=================================END:SYSTEM=================================
@@ -2073,7 +2074,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/ldap_auth_headers" => ["get_by_ldap_source"],
-              "irm/ldap_syn_attributes" => ["create", "edit", "index", "new", "show", "update","get_data"],
+              "irm/ldap_syn_attributes" => ["create", "edit", "index", "new", "show", "update", "get_data"],
               "irm/ldap_syn_headers" => ["active", "create", "edit", "index", "new", "show", "update", "get_data"],
           },
       }
@@ -2557,7 +2558,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/data_share_rules" => ["create", "destroy", "edit", "get_data", "get_option", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","get_share_rules"],
+              "irm/data_share_rules" => ["create", "destroy", "edit", "get_data", "get_option", "index", "multilingual_edit", "multilingual_update", "new", "show", "update", "get_share_rules"],
           },
       }
   }
@@ -2632,7 +2633,7 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================START:RATING_CONFIG=================================
   map.function_group :rating_config, {
       :en => {:name => "Config Rating", :description => "Config Rating"},
-      :zh => {:name => "评价设置", :description => "评价设置"} }
+      :zh => {:name => "评价设置", :description => "评价设置"}}
   map.function_group :rating_config, {
       :zone_code => "SYSTEM_CREATE",
       :controller => "irm/rating_configs",
@@ -2650,4 +2651,138 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #=================================END:RATING_CONFIG=================================
+
+  #=================================START: SYSTEM SETTING=================================
+  #map.function_group :home_page, {
+  #    :children => {
+  #        :systems_setting => {
+  #            :en => {:name => "System Setting", :description => "System Setting"},
+  #            :zh => {:name => "系统设置", :description => "系统设置"},
+  #            :default_flag => "N",
+  #            :login_flag => "N",
+  #            :public_flag => "N",
+  #            "irm/systems" => ["index","show","add_people","delete_people"]
+  #        }
+  #    }
+  #}
+  #=================================END: SYSTEM SETTING=================================
+
+
+  #====================================START:SYSTEM_MENU======================================
+  map.menu :system_menu, {
+      :en => {:name => "System Top Menu", :description => "System Top Menu"},
+      :zh => {:name => "系统顶层菜单", :description => "系统顶层菜单"},
+      :children => {
+          :system_common_setting => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "System setting", :description => "System setting"},
+                  :zh => {:name => "系统设置", :description => "系统设置"},
+              }}
+      }
+  }
+  #====================================END:SYSTEM_MENU======================================
+
+
+  #====================================START:PERSONAL_SETTING======================================
+  map.menu :system_common_setting, {
+      :en => {:name => "System setting", :description => "System setting"},
+      :zh => {:name => "系统设置", :description => "系统设置"},
+      :children => {
+          :system_global_setting => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "Global setting", :description => "Global setting"},
+                  :zh => {:name => "全局设置", :description => "全局设置"}
+              }
+          },
+          :system_members_manage => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 20,
+                  :en => {:name => "Manage members", :description => "Manage members"},
+                  :zh => {:name => "管理成员", :description => "管理成员"}
+              }
+          }
+      }
+  }
+  #====================================END:PERSONAL_SETTING======================================
+  map.menu :system_global_setting, {
+      :en => {:name => "Global setting", :description => "Global setting"},
+      :zh => {:name => "全局设置", :description => "全局设置"},
+      :children => {
+          :system_basic_info => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "My System Info", :description => "My System Info"},
+                  :zh => {:name => "我的系统信息", :description => "查看、编辑系统信息"},
+              }}
+      }
+  }
+  map.function_group :system_basic_info, {
+      :en => {:name => "My System Info", :description => "My System Info"},
+      :zh => {:name => "我的系统信息", :description => "我的系统信息"},
+      :system_flag => 'Y'
+  }
+  map.function_group :system_basic_info, {
+      :zone_code => "SYSTEM_CUSTOM",
+      :controller => "irm/systems",
+      :action => "index"
+  }
+  map.function_group :system_basic_info, {
+      :children => {
+          :system_basic_info => {
+              :en => {:name => "My System Info", :description => "My System info"},
+              :zh => {:name => "我的系统信息", :description => "我的系统信息"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/systems" => ["index"]
+          }
+      }
+  }
+
+  ###
+  map.menu :system_members_manage, {
+      :en => {:name => "Manage members", :description => "Manage members"},
+      :zh => {:name => "管理成员", :description => "管理成员"},
+      :children => {
+          :system_person_manage => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "Add/Delete Person", :description => "Add or Delete Person"},
+                  :zh => {:name => "添加/删除成员", :description => "添加/删除成员"},
+              }}
+      }
+  }
+  map.function_group :system_person_manage, {
+      :en => {:name => "Add/Delete Person", :description => "Add/Delete Person"},
+      :zh => {:name => "添加/删除成员", :description => "添加/删除成员"},
+      :system_flag => 'Y'
+  }
+  map.function_group :system_person_manage, {
+      :zone_code => "SYSTEM_CUSTOM",
+      :controller => "irm/system_members",
+      :action => "index"
+  }
+  map.function_group :system_person_manage, {
+      :children => {
+          :system_person_manage => {
+              :en => {:name => "Add/Delete Person", :description => "Add/Delete Person"},
+              :zh => {:name => "添加/删除成员", :description => "添加/删除成员"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/system_members" => ["index","add_people", "delete_people","get_available_people_data", "get_owned_members_data"]
+          }
+      }
+  }
+
+
 end
+
+

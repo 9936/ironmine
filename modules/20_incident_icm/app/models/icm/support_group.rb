@@ -34,6 +34,15 @@ class Icm::SupportGroup < ActiveRecord::Base
         select("#{Irm::Group.view_name}.name, #{Irm::Group.view_name}.parent_group_id, #{Irm::Group.view_name}.id group_id")
   }
 
+  scope :with_system, lambda{|system_id|
+    joins("JOIN #{Icm::ExternalSystemGroup.table_name} esg ON esg.support_group_id = #{table_name}.id").
+        where("esg.external_system_id = ?", system_id)
+  }
+
+  scope :without_system, lambda{|system_id|
+    select("#{table_name}.*").where("NOT EXISTS (SELECT * FROM #{Icm::ExternalSystemGroup.table_name} esg WHERE esg.support_group_id = #{table_name}.id AND esg.external_system_id = ?)", system_id)
+  }
+
   scope :with_groups, lambda{|language|
     joins("JOIN #{Irm::Group.view_name} ON #{Irm::Group.view_name}.id = #{table_name}.group_id AND #{Irm::Group.view_name}.language ='#{language}'")
   }

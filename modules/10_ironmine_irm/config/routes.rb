@@ -27,6 +27,19 @@ Rails.application.routes.draw do
     match 'common/upload_file(.:format)' => "common#upload_file", :via => :get
     match 'common/create_upload_file(.:format)' => "common#create_upload_file", :via => :post
     match 'search(/index)(.:format)' => "search#index", :via => [:get, :post]
+
+    #systems
+    match '/systems/:sid/info' => "systems#index"
+    #match '/systems/:sid/edit(.:format)' => "systems#edit"
+    #match '/systems/:sid(.:format)' => "systems#update", :via => :put
+
+    #system_members
+    match '/system_members/:sid/(/index)(.:format)' => "system_members#index"
+    match '/system_members/:sid/add_people(.:format)' => "system_members#add_people"
+    match '/system_members/:sid/delete_people(.:format)' => "system_members#delete_people"
+    match '/system_members/:sid/get_available_people_data(.:format)' => "system_members#get_available_people_data"
+    match '/system_members/:sid/get_owned_members_data(.:format)' => "system_members#get_owned_members_data"
+
     #lookup_types
     match '/lookup_types/new(.:format)' => "lookup_types#new", :via => :get
     match '/lookup_types/create(.:format)' => "lookup_types#create", :via => :post

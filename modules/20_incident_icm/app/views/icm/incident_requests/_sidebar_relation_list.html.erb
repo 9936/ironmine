@@ -6,7 +6,7 @@
     <div class="sidebar-block-body">
       <div class="form-inline">
         <table width="100%">
-          <% if allow_to_function?(:edit_relation) %>
+          <% if can_relation?(incident_request) %>
           <tbody id="new_relation_form">
             <tr>
               <td>
@@ -29,7 +29,7 @@
           </tbody>
           <% end %>
           <tbody>
-            <%= list_all_icm_incident_relations(incident_request.id)%>
+            <%= list_all_icm_incident_relations(incident_request.id, incident_request)%>
           </tbody>
         </table>
       </div>

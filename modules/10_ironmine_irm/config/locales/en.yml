@@ -253,6 +253,7 @@ en:
   label_irm_common_username: User Name
   label_irm_common_password: Password
   label_irm_common_logout: Logout
+  label_irm_common_system_setting: System setting
   label_irm_common_forgot_password: Forget password？
   label_irm_common_email: Email Address
   label_irm_common_send: Send
@@ -1588,7 +1589,8 @@ en:
   label_irm_profile_name: Name
   label_irm_profile_description: Description
   label_irm_profile_user_license: Profile Type
-  label_irm_profile_function_list: Function List
+  label_irm_profile_global_function_list: Global Function List
+  label_irm_profile_system_function_list: System Function List
   label_irm_profile_application_list: Application List
   label_irm_profile_application_visual: Display
   label_irm_profile_application_default: Default
@@ -1603,6 +1605,7 @@ en:
   label_irm_profile_ir_page_kanban: Incident Index Kanban
   label_irm_profile_select_copy_from: Clone from existing profile
   label_irm_profile_existing_profile: Existing Profile
+  label_irm_profile_system_profile: System Profile
   #=======================end profiles ====================
 
 
@@ -1646,6 +1649,10 @@ en:
   label_irm_external_system_info: System Info
   label_irm_external_system_select_system: Select System
   label_irm_external_system_people: System Member
+  label_irm_external_system_select_people: Select people
+  label_irm_external_system_select_system_profile: Select System Profile
+  label_irm_external_system_save_selected: Save select people
+  label_irm_external_system_exists_people: System Exists People
   label_irm_external_system_people_type: Type
   label_irm_external_system_add_people: Add Member
   error_irm_external_system_ip_invalid: IP invalid
@@ -2032,4 +2039,7 @@ en:
   label_report_time_grouped_calendar_week: Calendar week
   label_report_time_grouped_calendar_day: Day
   #============================== end report time  ==============================
+  #============================== start system setting  ==============================
+  label_irm_system: 系统设置
+  #============================== end system setting  ==============================
   label_total_data_size: Total %{m}

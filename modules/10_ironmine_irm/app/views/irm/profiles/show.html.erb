@@ -14,7 +14,7 @@
     </tr>
   </table>
   <%= render :partial => "common_info", :locals => {:profile => @profile}%>
-  <%= render :partial => "kanban_info", :locals => {:profile => @profile}%>
+  <%= render :partial => "kanban_info", :locals => {:profile => @profile} unless @profile.system_flag? %>
   <%= render :partial => "function_list", :locals => {:profile => @profile}%>
 </div>
 

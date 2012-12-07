@@ -1,0 +1,64 @@
+<%= common_title(:model_meaning=>"【#{current_system[:system_name]}】") %>
+<style type="text/css">
+    .unreal-hidden {
+        visibility:hidden;
+        position:absolute;
+        top:-2000px;
+        left:-2000px;
+    }
+    .page-block-button form{
+        margin: 0;
+    }
+</style>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_external_system) %></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
+        <td class="data-col"><%=@external_system.external_system_code%></td>
+        <td class="label-col"><label for="external_system_external_hostname"><%=t(:label_irm_external_system_external_hostname)%></label></td>
+        <td class="data-col"><%=@external_system.external_hostname%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
+        <td class="data-col"><%=@external_system[:system_name]%></td>
+        <td class="label-col"><label for="external_system_external_ip_address"><%=t(:label_irm_external_system_external_ip_address)%></label></td>
+        <td class="data-col"><%=@external_system.external_ip_address%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="external_system_system_description"><%=t(:label_irm_external_system_system_description)%></label></td>
+        <td class="data-col"><%= @external_system[:system_description]%></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--支持组页面结构-->
+<%= form_for(Icm::ExternalSystemGroup.new,:url=>{:controller => "icm/external_system_groups", :action=>"delete_groups", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
+    <div class="page-block" id="group_grid">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_company_support_group_list) %></h2>
+        </td>
+        <td class="page-block-button"></td>
+        <td class="page-block-help">
+          <div id="external_groupSearchBox"></div>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= datatable("external_groups",{:action=>"get_data", :sid => @external_system.id},[],{:search_box=>"external_groupSearchBox",:paginator_box=>"external_groupPaginatorBox"})%>
+        <div id="external_groupPaginatorBox"></div>
+      </div>
+    </div>
+<% end %>

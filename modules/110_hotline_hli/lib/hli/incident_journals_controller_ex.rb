@@ -39,7 +39,7 @@ module Hli::IncidentJournalsControllerEx
         end
         #如果服务台人员手动修改状态，则使用手工修改的状态，如果状态为空则使用状态转移逻辑
         unless @incident_reply.incident_status_id.present?
-          @incident_reply.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+          @incident_reply.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
         end
 
         perform_create
@@ -243,7 +243,7 @@ module Hli::IncidentJournalsControllerEx
         end
         @incident_journal.reply_type = "CLOSE"
 
-        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type)
+        @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
         perform_create
         respond_to do |format|
           if @incident_request.save

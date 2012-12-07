@@ -1,7 +1,17 @@
 module Irm::ProfilesHelper
   def grouped_functions(function_ids=nil)
-    fs = Irm::Function.multilingual.enabled.with_function_group(I18n.locale).where(:public_flag=>Irm::Constant::SYS_NO,:login_flag=>Irm::Constant::SYS_NO)
+    fs = Irm::Function.multilingual.enabled.with_function_group(I18n.locale).with_system_flag(Irm::Constant::SYS_NO).where(:public_flag=>Irm::Constant::SYS_NO,:login_flag=>Irm::Constant::SYS_NO)
     operation_unit_function_ids = Irm::OperationUnit.current.function_ids
+    fs.delete_if{|i| !operation_unit_function_ids.include?(i.id) }
+    if function_ids&&function_ids.is_a?(Array)
+      fs.delete_if{|i| !function_ids.include?(i.id)}
+    end
+    fs.group_by{|i| i[:zone_code]}
+  end
+
+  def grouped_system_functions(function_ids=nil)
+    fs = Irm::Function.multilingual.enabled.with_function_group(I18n.locale).with_system_flag(Irm::Constant::SYS_YES).where(:public_flag=>Irm::Constant::SYS_NO,:login_flag=>Irm::Constant::SYS_NO)
+    operation_unit_function_ids = Irm::OperationUnit.current.system_function_ids
     fs.delete_if{|i| !operation_unit_function_ids.include?(i.id) }
     if function_ids&&function_ids.is_a?(Array)
       fs.delete_if{|i| !function_ids.include?(i.id)}
@@ -28,7 +38,7 @@ module Irm::ProfilesHelper
     Irm::LookupValue.query_by_lookup_type("IRM_PROFILE_USER_LICENSE").multilingual.order_id.collect{|p| [p[:meaning],p[:lookup_code]]}
   end
 
-  def available_profile
-    Irm::Profile.multilingual.enabled.collect{|i|[i[:name],i.id]}
+  def available_profile(system_flag = Irm::Constant::SYS_NO)
+    Irm::Profile.multilingual.enabled.where(:system_flag => system_flag).collect{|i|[i[:name],i.id]}
   end
 end

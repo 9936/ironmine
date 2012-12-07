@@ -1,3 +1,5 @@
+<!-- 当菜单没有子菜单时，避免右侧部分空白，将菜单第一项展开 -->
+<% if sub_entries(@menu_entry[:sub_menu_id]).any? %>
 <style type="text/css">
   body .page-title .pt-body h1.noSecondHeader {
     color: #000000;
@@ -12,29 +14,38 @@
     <div class="content">
       <h1 class="pageType noSecondHeader"><%=@menu_entry[:name]%></h1>
   </div></div>
-  <div class="ptBreadcrumb">
-
-  </div>
+  <div class="ptBreadcrumb"></div>
 </div>
-<% sub_entries(@menu_entry[:sub_menu_id]).each do |en| %>
+  <% sub_entries(@menu_entry[:sub_menu_id]).each do |en| %>
     <!--页面结构-->
     <div class="page-block">
       <table class="page-block-header"><tr>
         <td class="page-block-title">
           <h2 class="block-title"><%=menu_entry_name(en[:menu_entry_id])%></h2>
         </td>
-
       </tr></table>
       <div class="page-block-body">
         <div class="content">
-        <table class="form-table setting-menu" style="width: 100%;">
-          <tbody>
+          <table class="form-table setting-menu" style="width: 100%;">
+            <tbody>
             <%= generate_entries_table_ext(en) %>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
+  <% end %>
+<% else %>
+  <div id="firstMenu"></div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+        var target = $("#MenuNavTree").find(".setup-leaf:first a");
+        $("#firstMenu").load(target.attr('href'));
+        target.parent().addClass('setup-highlight-leaf');
+    })
+  </script>
 <% end %>
+
+
 
 

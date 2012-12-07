@@ -41,7 +41,7 @@ gem "sunspot_cell", '0.1.2'
 
 gem 'nokogiri', '1.5.0'
 
-gem 'mysql2','0.3.7'
+gem "mysql2", "~> 0.3.11"
 
 gem 'sprockets','2.0.3'
 

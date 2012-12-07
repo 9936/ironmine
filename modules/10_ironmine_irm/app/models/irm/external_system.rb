@@ -14,7 +14,7 @@ class Irm::ExternalSystem < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
 
-  #validate :ip_valid
+  validate :ip_valid, :if=> Proc.new{|i| i.external_ip_address.present?}
   query_extend
   # 对运维中心数据进行隔离
   default_scope {default_filter}
@@ -44,6 +44,14 @@ class Irm::ExternalSystem < ActiveRecord::Base
 
   def check_ip?
     (self.external_ip_address =~ /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$/) != nil
+  end
+
+  def self.current_system=(system)
+    @current_system = system
+  end
+
+  def self.current_system
+    @current_system ||= Irm::Person.current.external_systems.first
   end
 
   private

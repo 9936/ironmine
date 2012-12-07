@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   before_filter :localization_setup
   before_filter :layout_setup
   before_filter :prepare_application
+  before_filter :system_setup
   #before_filter :menu_setup,:menu_entry_setup
 
   # 设置当前用户，为下步检查用户是否登录做准备
@@ -28,6 +29,10 @@ class ApplicationController < ActionController::Base
     if(!Irm::Person.current.logged?&&(request.user_agent.present? && request.user_agent.include?("#jmeter000U00024DKEUmX5unzepk#")))
       Irm::Person.current = Irm::Person.unscoped.where(:login_name=>"ironmine").first
     end
+  end
+
+  def system_setup
+    Irm::ExternalSystem.current_system = find_current_system if params[:sid]
   end
 
   # 检查是否需要登录
@@ -52,7 +57,7 @@ class ApplicationController < ActionController::Base
 
   # 检查用户的权限
   def check_permission
-    if Irm::Person.current.logged?&&!Irm::PermissionChecker.allow_to_url?({:controller=>params[:controller],:action=>params[:action]})
+    if Irm::Person.current.logged?&&!Irm::PermissionChecker.allow_to_url?({:controller=>params[:controller],:action=>params[:action],:sid=>params[:sid]})
         flash[:error]=t(:access_denied,:permission=>"#{params[:controller]}/#{params[:action]}")
         if request.xhr?
           redirect_to({:controller => 'irm/navigations', :action => 'access_deny', :format => "json"})
@@ -294,6 +299,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def find_current_system
+    if session[:sid]
+      (Irm::ExternalSystem.multilingual.enabled.find(session[:sid]) rescue nil)
+    else
+      nil
+    end
+  end
+
   # 处理登录，跳转到登录页面
   def require_login
     if !Irm::Person.current.logged?
@@ -371,8 +384,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-    def allow_to_function?(function)
-      Irm::PermissionChecker.allow_to_function?(function)
+    def allow_to_function?(function,sid=nil)
+      Irm::PermissionChecker.allow_to_function?(function,sid)
     end
 
   def public_permission?

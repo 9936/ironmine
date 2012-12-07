@@ -13,8 +13,11 @@ class Irm::ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.xml
   def show
-    @profile = Irm::Profile.multilingual.with_kanban.with_user_license_name.find(params[:id])
-
+    if params[:system_flag] and params[:system_flag].eql?('Y')
+      @profile = Irm::Profile.multilingual.find(params[:id])
+    else
+      @profile = Irm::Profile.multilingual.with_kanban.with_user_license_name.find(params[:id])
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @profile }
@@ -25,7 +28,6 @@ class Irm::ProfilesController < ApplicationController
   # GET /profiles/new.xml
   def new
     @profile = Irm::Profile.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @profile }
@@ -41,15 +43,18 @@ class Irm::ProfilesController < ApplicationController
   # POST /profiles.xml
   def create
     @profile = Irm::Profile.new(params[:irm_profile])
-    existing_profile = Irm::Profile.find(params[:existing_profile])
-    @profile.user_license = existing_profile.user_license
-    @profile.opu_id = existing_profile.opu_id
+    existing_profile = Irm::Profile.find(params[:existing_profile]) unless params[:existing_profile].blank?
+    if existing_profile
+      @profile.user_license = existing_profile.user_license
+      @profile.opu_id = existing_profile.opu_id
+    end
     respond_to do |format|
       if @profile.valid? && @profile.save
-        @profile.clone_application_relation_from_profile(existing_profile)
-        @profile.clone_function_relation_from_profile(existing_profile)
-        @profile.clone_kanban_relation_from_profile(existing_profile)
-
+        if existing_profile
+          @profile.clone_application_relation_from_profile(existing_profile)
+          @profile.clone_function_relation_from_profile(existing_profile)
+          @profile.clone_kanban_relation_from_profile(existing_profile)
+        end
         format.html { redirect_to({:action => "show", :id => @profile}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @profile, :status => :created, :location => @profile }
       else

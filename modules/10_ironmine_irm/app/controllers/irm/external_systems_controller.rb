@@ -57,7 +57,7 @@ class Irm::ExternalSystemsController < ApplicationController
   # PUT /external_systems/1
   # PUT /external_systems/1.xml
   def update
-    @external_system = Irm::ExternalSystem.find(params[:id])
+    @external_system = Irm::ExternalSystem.multilingual.find(params[:id])
 
     respond_to do |format|
       if @external_system.update_attributes(params[:irm_external_system])
@@ -123,7 +123,7 @@ class Irm::ExternalSystemsController < ApplicationController
     respond_to do |format|
       if(!@external_system_person.status_code.blank?)
         @external_system_person.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
-          Irm::ExternalSystemPerson.create(:external_system_id => params[:external_system_id],:person_id => id)
+          Irm::ExternalSystemPerson.create(:external_system_id => params[:external_system_id],:person_id => id, :system_profile_id => params[:irm_external_system_person][:system_profile_id])
         end
       end
       system_id = Irm::ExternalSystem.where(:id=>params[:external_system_id]).first
