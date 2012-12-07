@@ -57,7 +57,7 @@ module ApplicationHelper
 
     description = content_tag(:h2, action_title, :class => "page-description")
 
-    content_for :html_title,do
+    content_for :html_title do
       title+":"+action_title
     end
 
@@ -84,7 +84,7 @@ module ApplicationHelper
 
     content = raw(content_tag(:div, raw( description), :class => "page-title-content"))
 
-    content_for :html_title,do
+    content_for :html_title do
       title
     end
     pt_body = raw(content_tag(:div, content, :class => "page-title-body"))
@@ -106,7 +106,7 @@ module ApplicationHelper
 
     content = raw(content_tag(:div, raw( description) + raw(content_tag(:div, "", :class => "blank")), :class => "page-title-content"))
     button_tag = raw(content_tag(:div, raw(buttons) ,:class => "add-new-buttons"))
-    content_for :html_title,do
+    content_for :html_title do
       title
     end
     pt_body = raw(content_tag(:div, content + button_tag, :class => "page-title-body"))
