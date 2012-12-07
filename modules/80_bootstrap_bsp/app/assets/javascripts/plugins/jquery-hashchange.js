@@ -1,9 +1,118 @@
-/*
- * jQuery hashchange event - v1.3pre - 7/17/2010
- * http://benalman.com/projects/jquery-hashchange-plugin/
- *
- * Copyright (c) 2010 "Cowboy" Ben Alman
- * Dual licensed under the MIT and GPL licenses.
- * http://benalman.com/about/license/
- */
-(function($,e,b){var c="hashchange",h=document,f,g=$.event.special,i=h.documentMode,d="on"+c in e&&(i===b||i>7);function a(j){j=j||location.href;return"#"+j.replace(/^[^#]*#?(.*)$/,"$1")}$[c+"Delay"]=50;$.fn[c]=function(j){return j?this.bind(c,j):this.trigger(c)};g[c]=$.extend(g[c],{setup:function(){if(d){return false}$(f.start)},teardown:function(){if(d){return false}$(f.stop)}});f=(function(){var j={},p,m=a(),k=function(q){return q},l=k,o=k;j.start=function(){p||n()};j.stop=function(){p&&clearTimeout(p);p=b};function n(){var r=a(),q=o(m);if(r!==m){l(m=r,q);$(e).trigger(c)}else{if(q!==m){location.href=location.href.replace(/#.*/,"")+q}}p=setTimeout(n,$[c+"Delay"])}(function(){var q=$.browser,r,s;if(!q.msie||q.version>7){return}j.start=function(){if(!r){s=$[c+"IframeSrc"];s=s&&s+a();r=$('<iframe tabindex="-1" title="empty"/>').hide().one("load",function(){s||l(a());n()}).attr("src",s||"javascript:0").insertAfter("body")[0].contentWindow;h.onpropertychange=function(){try{if(event.propertyName==="title"){r.document.title=h.title}}catch(t){}}}};j.stop=k;o=function(){return a(r.location.href)};l=function(w,t){var v=r.document,u=$[c+"Domain"];if(w!==t){v.title=h.title;v.open();u&&v.write('<script>document.domain="'+u+'"<\/script>');v.close();r.location.hash=w}}})();return j})()})(jQuery,this);
+(function ($) {
+
+    $.fn.extend({
+        hashchange:function (callback) {
+            this.bind('hashchange', callback)
+        },
+        openOnClick:function (href) {
+            if (href === undefined || href.length == 0)
+                href = '#';
+            return this.click(function (ev) {
+                if (href && href.charAt(0) == '#') {
+// execute load in separate call stack
+                    window.setTimeout(function () {
+                        $.locationHash(href)
+                    }, 0);
+                } else {
+                    window.location(href);
+                }
+                ev.stopPropagation();
+                return false;
+            });
+        }
+    });
+
+// IE 8 introduces the hashchange event natively - so nothing more to do
+    if ($.browser.msie && document.documentMode && document.documentMode >= 8) {
+        $.extend({
+            locationHash:function (hash) {
+                if (!hash) hash = '#';
+                else if (hash.charAt(0) != '#') hash = '#' + hash;
+                location.hash = hash;
+            }
+        });
+        return;
+    }
+
+    var curHash;
+// hidden iframe for IE (earlier than 8)
+    var iframe;
+
+    $.extend({
+        locationHash:function (hash) {
+            if (curHash === undefined) return;
+
+            if (!hash) hash = '#';
+            else if (hash.charAt(0) != '#') hash = '#' + hash;
+
+            location.hash = hash;
+
+            if (curHash == hash) return;
+            curHash = hash;
+
+            if ($.browser.msie) updateIEFrame(hash);
+            $.event.trigger('hashchange');
+        }
+    });
+
+    $(document).ready(function () {
+        curHash = location.hash;
+        if ($.browser.msie) {
+// stop the callback firing twice during init if no hash present
+            if (curHash == '') curHash = '#';
+// add hidden iframe for IE
+            iframe = $('<iframe />').hide().get(0);
+            $('body').prepend(iframe);
+            updateIEFrame(location.hash);
+            setInterval(checkHashIE, 100);
+        } else {
+            setInterval(checkHash, 100);
+        }
+    });
+    $(window).unload(function () {
+        iframe = null
+    });
+
+    function checkHash() {
+        var hash = location.hash;
+        if (hash != curHash) {
+            curHash = hash;
+            $.event.trigger('hashchange');
+        }
+    }
+
+    if ($.browser.msie) {
+// Attach a live handler for any anchor links
+        $('a[href^=#]').live('click', function () {
+            var hash = $(this).attr('href');
+// Don't intercept the click if there is an existing anchor on the page
+// that matches this hash
+            if ($(hash).length == 0 && $('a[name=' + hash.slice(1) + ']').length == 0) {
+                $.locationHash(hash);
+                return false;
+            }
+        });
+    }
+
+    function checkHashIE() {
+// On IE, check for location.hash of iframe
+        var idoc = iframe.contentDocument || iframe.contentWindow.document;
+        var hash = idoc.location.hash;
+        if (hash == '') hash = '#';
+
+        if (hash != curHash) {
+            if (location.hash != hash) location.hash = hash;
+            curHash = hash;
+            $.event.trigger('hashchange');
+        }
+    }
+
+    function updateIEFrame(hash) {
+        if (hash == '#') hash = '';
+        var idoc = iframe.contentWindow.document;
+        idoc.open();
+        idoc.close();
+        if (idoc.location.hash != hash) idoc.location.hash = hash;
+    }
+
+})(jQuery);
