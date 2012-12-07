@@ -82,6 +82,18 @@ class Icm::SupportGroupsController < ApplicationController
     end
   end
 
+  def get_group_options
+    #检查是否具有权限
+    if allow_to_function?(:system_assign_request, params[:id])
+      support_groups_scope = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).with_system(params[:id]).select_all
+      support_groups = support_groups_scope.collect{|p| {:label=>p[:name],:value=>p[:id]}}
+    else
+      support_groups = []
+    end
+    respond_to do |format|
+      format.json {render :json=>support_groups.to_grid_json([:label,:value],support_groups.count)}
+    end
+  end
 
   def get_member_options
     support_group_members_scope= Irm::GroupMember.select_all.with_person(I18n.locale).assignable.query_by_support_group(params[:id])

@@ -125,6 +125,7 @@ Ironmine::Application.routes.draw do
 
     #support_groups
     match '/support_groups/:id/get_member_options(.:format)' => "support_groups#get_member_options", :via => :get
+    match '/support_groups/:id/get_group_options(.:format)' => "support_groups#get_group_options", :via => :get
     match '/support_groups/:id/get_pass_member_options(.:format)' => "support_groups#get_pass_member_options", :via => :get
     match '/support_groups(/index)(.:format)' => "support_groups#index", :via => :get
     match '/support_groups/:id/edit(.:format)' => "support_groups#edit", :via => :get
@@ -184,5 +185,26 @@ Ironmine::Application.routes.draw do
     match '/assign_rules/get_data(.:format)' => "assign_rules#get_data"
     match '/assign_rules/:id/show(.:format)' => "assign_rules#show", :via => :get
     match '/assign_rules/:id/switch_status_code(.:format)' => "assign_rules#switch_status_code", :via => :get
+
+    #System setting
+    match '/systems/:sid/incident_statuses(.:format)' => "systems#index", :via => :get
+    match '/systems/:sid/get_status_data(.:format)' => "systems#get_status_data",:via => :get
+    match '/systems/:sid/edit_transform(.:format)' => "systems#edit_transform",:via => :get
+    match '/systems/:sid/update_transform(.:format)' => "systems#update_transform", :via => :post
+
+    #external_system_group
+    match '/external_system_groups/:external_system_id/add_groups(.:format)' => "external_system_groups#add_groups"
+    match '/external_system_groups/:external_system_id/delete_groups(.:format)' => "external_system_groups#delete_groups"
+    match '/external_system_groups/:external_system_id/get_owned_groups_data(.:format)' => "external_system_groups#get_owned_groups_data", :via => :get
+    match '/external_system_groups/:external_system_id/get_available_groups_data(.:format)' => "external_system_groups#get_available_groups_data", :via => :get
+
+    #system_support_group
+    match '/system_support_groups/:sid(/index)(.:format)' => "system_support_groups#index", :via => :get
+    match '/system_support_groups/:sid/get_data(.:format)' => "system_support_groups#get_data"
+    match '/system_support_groups/:sid/:id/show(.:format)' => "system_support_groups#show", :via => :get
+    match '/system_support_groups/:sid/:group_id/get_owned_people_data(.:format)' => "system_support_groups#get_owned_people_data"
+    match '/system_support_groups/:sid/:group_id/get_available_people_data(.:format)' => "system_support_groups#get_available_people_data"
+    match '/system_support_groups/:sid/:group_id/add_people(.:format)' => "system_support_groups#add_people"
+    match '/system_support_groups/:sid/:group_member_id/delete_people(.:format)' => "system_support_groups#delete_people"
   end
 end

@@ -18,8 +18,27 @@ module Irm::SettingHelper
     menus.each do |m|
       links << content_tag(:li,link_to(m[:name],{:controller=>m[:controller],:action=>m[:action],:mi=>m[:menu_entry_id],:level=>1}),{})
     end
+    (links+(system_setting_menu||"")).html_safe
+  end
 
-    links.html_safe
+
+  # 生成系统设置一级菜单
+  def system_setting_menu
+    if Irm::Person.current.nil?
+      return
+    end
+    menus = []
+    menus = Irm::MenuManager.sub_entries_by_menu(Irm::Menu.system_menu.id,true,session[:sid]) if session[:sid].present?
+    Irm::Person.current.external_systems.each do |system|
+      menus = Irm::MenuManager.sub_entries_by_menu(Irm::Menu.system_menu.id,true,system.id)
+      break if menus&&menus.size>0
+    end unless menus&&menus.size>0
+    return nil unless menus&&menus.size>0
+    links = ""
+    menus.each do |m|
+      links << content_tag(:li,link_to(m[:name],m[:url_options].merge({:controller=>m[:controller],:action=>m[:action],:mi=>m[:menu_entry_id],:level=>1})),{})
+    end
+    links
   end
 
   # 生成左侧菜单
@@ -47,14 +66,14 @@ module Irm::SettingHelper
   # 递归生成子菜单
   def generate_sidebar_menu(menu_id,level=1)
     next_level = level+1
-    entries = Irm::MenuManager.sub_entries_by_menu(menu_id)
+    entries = Irm::MenuManager.sub_entries_by_menu(menu_id,true,params[:sid])
     functions = ""
     if level == 1
       entries.each_with_index do |e,index|
         if index==0
-          functions << content_tag(:div,content_tag(:h2,link_to(e[:name],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id],:level=>1},{:title=>e[:description], :class => "setup-section"})),{:class=>"setup-nav-tree setup-nav-tree-first "})
+          functions << content_tag(:div,content_tag(:h2,link_to(e[:name],e[:url_options].merge({:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id],:level=>1}),{:title=>e[:description], :class => "setup-section"})),{:class=>"setup-nav-tree setup-nav-tree-first "})
         else
-          functions << content_tag(:div,content_tag(:h2,link_to(e[:name],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id],:level=>1},{:title=>e[:description], :class => "setup-section"})),{:class=>"setup-nav-tree"})
+          functions << content_tag(:div,content_tag(:h2,link_to(e[:name],e[:url_options].merge({:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id],:level=>1}),{:title=>e[:description], :class => "setup-section"})),{:class=>"setup-nav-tree"})
         end
         if(e[:entry_type].eql?("MENU"))
           functions << content_tag(:div,generate_sidebar_menu(e[:menu_id],next_level),{:id=>"tree_#{e[:menu_id]}_child"})
@@ -64,12 +83,12 @@ module Irm::SettingHelper
       entries.each do |e|
         if(e[:entry_type].eql?("MENU"))
             icon_link = link_to("",{},{:href=>"javascript:void(0)",:real=>"#{e[:menu_id]}",:class=>"nav-icon-link nav-tree-col",:id=>"tree_#{e[:menu_id]}_icon"})
-            font_link = link_to(e[:name],{:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]},{:title=>e[:description],:class=>"setup-folder",:id=>"#{e[:menu_id]}_font"})
+            font_link = link_to(e[:name],e[:url_options].merge({:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]}),{:title=>e[:description],:class=>"setup-folder",:id=>"#{e[:menu_id]}_font"})
             child_div = content_tag(:div,generate_sidebar_menu(e[:menu_id],next_level),{:style=>"display:none;",:class=>"child-container",:id=>"tree_#{e[:menu_id]}_child"})
             functions << content_tag(:div,icon_link+font_link+child_div,{:mi=>"#{e[:menu_id]}",:class=>"parent parent-#{level}",:id=>"#{e[:menu_id]}"})
         else
-          function_group = Irm::MenuManager.function_groups[e[:function_group_id]]
-          functions << content_tag(:div,link_to(e[:name],{:controller=>function_group[:controller],:action=>function_group[:action]}),{:class=>"setup-leaf",:ti=>e[:function_group_id],:mi=>e[:menu_entry_id]})
+          #function_group = Irm::MenuManager.function_groups[e[:function_group_id]]
+          functions << content_tag(:div,link_to(e[:name],e[:url_options].merge({:controller=>e[:controller],:action=>e[:action]})),{:class=>"setup-leaf",:ti=>e[:function_group_id],:mi=>e[:menu_entry_id]})
         end
       end
     end
@@ -104,5 +123,10 @@ module Irm::SettingHelper
       tr = content_tag(:td,("•"+link_to(entry[:description],{:controller=>entry[:controller],:action=>entry[:action],:mi=>entry[:menu_entry_id]})).html_safe,{:class=>"data-2col"}) if entry
       content_tag(:tr,tr.html_safe).html_safe
     end
+  end
+
+  # 展开菜单第一项内容
+  def auth_explore_menu
+
   end
 end

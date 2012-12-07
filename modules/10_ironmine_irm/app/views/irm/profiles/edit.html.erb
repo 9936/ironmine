@@ -1,2 +1,7 @@
 <%= page_title %>
-<%= render 'edit_form'%>
+<!-- 判断是否为系统简档 -->
+<% if @profile.system_flag? %>
+  <%= render 'edit_system_form'%>
+<% else %>
+  <%= render 'edit_global_form'%>
+<% end -%>

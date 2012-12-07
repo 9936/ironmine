@@ -21,6 +21,7 @@ class Irm::License < ActiveRecord::Base
   end
 
 
+
   def create_from_function_ids(function_ids)
     return unless function_ids.is_a?(Array)&&function_ids.any?
     exists_functions = Irm::LicenseFunction.where(:license_id=>self.id)

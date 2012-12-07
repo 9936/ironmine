@@ -228,6 +228,20 @@ class Irm::Person < ActiveRecord::Base
      anonymous_person
    end
 
+  # LOV额外处理方法
+  def self.lov(lov_scope,params)
+    if params[:lov_params].present?&&params[:lov_params].is_a?(Hash)&&params[:lov_params][:lktkn].present?
+
+      #根据lov的使用不同,进行不同的处理
+      if "relation_system".eql?(params[:lov_params][:lktkn])&&params[:lov_params][:external_system_id].present?
+        lov_scope = lov_scope.joins(",#{Irm::ExternalSystemPerson.table_name} esp").where("esp.external_system_id = ?", params[:lov_params][:external_system_id]).where("esp.person_id = #{table_name}.id")
+      end
+    end
+    lov_scope
+  end
+
+
+
    #判断是否已经登录
    def logged?
      true
@@ -236,6 +250,10 @@ class Irm::Person < ActiveRecord::Base
   def is_ldap?
     return false if self.auth_source_id.blank?
     true
+  end
+
+  def system_profile(system_id)
+    self.external_system_people.where(:external_system_id => system_id).first
   end
 
    #用户是否激活
@@ -337,15 +355,15 @@ class Irm::Person < ActiveRecord::Base
   # 用户所能访问的功能
   def functions
     return @function_ids if @function_ids
+    @function_ids = []
     if self.operation_unit&&self.operation_unit.primary_person_id.eql?(self.id)
-      @function_ids = self.operation_unit.function_ids
-      return @function_ids
+      @function_ids = @function_ids + self.operation_unit.function_ids
     end
     if self.profile
-      @function_ids = self.profile.function_ids
-    else
-      @function_ids = []
+      @function_ids = @function_ids + self.profile.function_ids
     end
+    @function_ids = @function_ids + Irm::ExternalSystemPerson.function_ids_by_person(self.id).collect{|i| "#{i.external_system_id}_#{i[:function_id]}"}
+    @function_ids.uniq!
     return @function_ids
   end
 

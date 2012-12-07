@@ -27,4 +27,9 @@ class Irm::Menu < ActiveRecord::Base
     self.where(:code=>"TOP_MENU").first
   end
 
+
+  def self.system_menu
+    self.where(:code=>"SYSTEM_MENU").first
+  end
+
 end

@@ -44,7 +44,15 @@ class Irm::OperationUnit < ActiveRecord::Base
 
   def function_ids
     if self.license
-      return self.license.function_ids
+      return self.license.functions.where(:system_flag=>Irm::Constant::SYS_NO).collect{|i| i.id}
+    else
+      return []
+    end
+  end
+
+  def system_function_ids
+    if self.license
+      return self.license.functions.where(:system_flag=>Irm::Constant::SYS_YES).collect{|i| i.id}
     else
       return []
     end

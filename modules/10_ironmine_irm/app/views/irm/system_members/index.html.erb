@@ -1,0 +1,163 @@
+<%= common_title(:model_meaning=>"【#{current_system[:system_name]}】") %>
+<style type="text/css">
+    .unreal-hidden {
+        visibility:hidden;
+        position:absolute;
+        top:-2000px;
+        left:-2000px;
+    }
+    .page-block-button form{
+        margin: 0;
+    }
+</style>
+
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_external_system) %></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
+        <td class="data-col"><%=@external_system.external_system_code%></td>
+        <td class="label-col"><label for="external_system_external_hostname"><%=t(:label_irm_external_system_external_hostname)%></label></td>
+        <td class="data-col"><%=@external_system.external_hostname%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
+        <td class="data-col"><%=@external_system[:system_name]%></td>
+        <td class="label-col"><label for="external_system_external_ip_address"><%=t(:label_irm_external_system_external_ip_address)%></label></td>
+        <td class="data-col"><%=@external_system.external_ip_address%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="external_system_system_description"><%=t(:label_irm_external_system_system_description)%></label></td>
+        <td class="data-col"><%= @external_system[:system_description]%></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% content_for :form_buttons do %>
+    <%= link_submit t(:label_irm_external_system_save_selected),{:class=>"btn btn-info"}%>
+    <%= link_to(t(:cancel),{}, :href =>"javascript:void(0);", :onclick=>"display_member_grid()",:class=>"btn")%>
+<% end %>
+
+<%= form_for(@external_system_person,:url=>{:action=>"add_people", :sid => @external_system.id},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:status_code) %>
+    <!--页面结构-->
+    <div class="page-block unreal-hidden" id="select_people">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_external_system_add_people) %>&nbsp;</h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons %>
+        </td>
+      </tr></table>
+      <%= error_for @external_system_person %>
+      <div class="page-block-body">
+        <div class="sub-page-block" style="padding-bottom: 0;">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_irm_external_system_select_system_profile) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <table class="form-table">
+              <tbody>
+              <tr>
+                <td class="data-col"><%= f.select :system_profile_id, available_profile('Y'),{},{:required=>true,:style =>"min-width:300px;_width:300px;"} %></td>
+                <td class="label-col"></td>
+                <td class="data-col"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <hr style="margin-top: 0px ;margin-bottom: -1px;">
+        <div class="sub-page-block">
+          <table class="page-block-header"><tr>
+            <td class="page-block-title">
+              <h2 class="block-title"><%= t(:label_irm_external_system_select_people) %>&nbsp;【<%= t(:label_irm_select_result) %>】</h2>
+            </td>
+            <td class="page-block-help">
+              <div id="selectablePeopleSearchBox"></div>
+            </td>
+          </tr></table>
+          <div class="sub-page-block-body">
+            <%= datatable("selectablePeople",{:action=>"get_available_people_data", :sid => @external_system.id}, [],{:paginator_box=>"selectablePeoplePaginator",:search_box=>"selectablePeopleSearchBox",:select=>"multiple"})%>
+          </div>
+        </div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons   %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<!--页面结构-->
+<%= form_for(@external_system_person,:url=>{:action=>"delete_people", :sid => @external_system.id},:builder => CustomFormBuilder) do |f| %>
+    <%= f.hidden_field(:temp_id_string, :value => "") %>
+    <div class="page-block" id="member_grid">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_external_system_people) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+          <%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()",:class=>"btn btn-info" %>
+        </td>
+        <td class="page-block-help">
+          <div id="external_peopleSearchBox"></div>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= datatable("external_people",{:action=>"get_owned_members_data", :sid => @external_system.id},[],{:search_box=>"external_peopleSearchBox",:paginator_box=>"external_peoplePaginatorBox",:select=>"multiple"})%>
+        <div id="external_peoplePaginatorBox"></div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+            <%= link_to t(:label_irm_external_system_add_people),{}, :href => "javascript:void(0)", :onclick=>"display_select_people()",:class=>"btn btn-info" %>
+          </td>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    function display_select_people(){
+        $("#select_people").removeClass("unreal-hidden");
+        $("#member_grid").addClass("unreal-hidden");
+        $("#irm_external_system_person_temp_id_string").val("");
+    }
+
+    function display_member_grid(){
+        $("#select_people").addClass("unreal-hidden");
+        $("#member_grid").removeClass("unreal-hidden");
+        $("#irm_external_system_person_status_code").val("");
+    }
+
+    $(document).ready(function(){
+        $("#external_people").bind('selectionchange',function(event,ids){
+            $("#irm_external_system_person_temp_id_string").val(ids.join(","));
+        });
+
+        $("#selectablePeople").bind('selectionchange',function(event,ids){
+            $("#irm_external_system_person_status_code").val(ids.join(","));
+        });
+    });
+</script>
