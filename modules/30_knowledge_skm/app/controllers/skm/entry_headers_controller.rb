@@ -605,7 +605,13 @@ class Skm::EntryHeadersController < ApplicationController
               target_id = (hr.source_id == old_header.id)? hr.target_id : hr.source_id
               Skm::EntryHeaderRelation.create(:source_id => @entry_header.id, :target_id => target_id, :relation_type => hr.relation_type, :created_by => hr.created_by)
             end
-
+            #同步附件
+            old_header.attachments.each do |at|
+              begin
+                Irm::AttachmentVersion.create_single_version_file(at.last_version_entity.data, at.last_version_entity.description, at.last_version_entity.category_id, Skm::EntryHeader.name, @entry_header.id)
+              rescue
+              end
+            end
             if params[:files]
               files = params[:files]
               #调用方法创建附件

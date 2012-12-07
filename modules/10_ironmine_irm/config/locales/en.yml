@@ -2032,3 +2032,4 @@ en:
   label_report_time_grouped_calendar_week: Calendar week
   label_report_time_grouped_calendar_day: Day
   #============================== end report time  ==============================
+  label_total_data_size: Total %{m}

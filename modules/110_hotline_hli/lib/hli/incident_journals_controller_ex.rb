@@ -118,8 +118,10 @@ module Hli::IncidentJournalsControllerEx
       def edit_workload
         @incident_journal = @incident_request.incident_journals.build()
 
-        @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").
-                    select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time").
+        @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
+                    where("lv.language = ?", I18n.locale).where("lv.lookup_type = ?", "WORKLOAD_TYPE").
+                    where("lv.lookup_code = #{Icm::IncidentWorkload.table_name}.workload_type").
+                    select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time, #{Icm::IncidentWorkload.table_name}.workload_type workload_type, lv.meaning workload_type_label").
                     where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
                     where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0")
 
@@ -148,6 +150,7 @@ module Hli::IncidentJournalsControllerEx
               end
               Icm::IncidentWorkload.create(:incident_request_id => @incident_request.id,
                                            :real_processing_time => work[:real_processing_time],
+                                           :workload_type => work[:workload_type],
                                            :person_id => work[:person_id])
               Icm::IncidentHistory.create({:request_id => @incident_request.id,
                                            :journal_id=> "",
@@ -203,11 +206,17 @@ module Hli::IncidentJournalsControllerEx
       def edit_close
         @incident_journal = @incident_request.incident_journals.build()
 
-        @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").
-                    select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time").
+        #@supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").
+        #            select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time").
+        #            where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
+        #            where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0").
+        #            where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES)
+        @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
+                    where("lv.language = ?", I18n.locale).where("lv.lookup_type = ?", "WORKLOAD_TYPE").
+                    where("lv.lookup_code = #{Icm::IncidentWorkload.table_name}.workload_type").
+                    select("DISTINCT ip.id supporter_id, ip.full_name supporter_name, ip.login_name login_name, #{Icm::IncidentWorkload.table_name}.real_processing_time real_processing_time, #{Icm::IncidentWorkload.table_name}.workload_type workload_type, lv.meaning workload_type_label").
                     where("#{Icm::IncidentWorkload.table_name}.incident_request_id = ? AND #{Icm::IncidentWorkload.table_name}.person_id = ip.id", @incident_request.id).
-                    where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0").
-                    where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES)
+                    where("LENGTH(#{Icm::IncidentWorkload.table_name}.real_processing_time) > 0")
 
         @supporters = Icm::IncidentJournal.where("1=1").
                 joins(",#{Irm::Person.table_name} ip").
@@ -247,6 +256,7 @@ module Hli::IncidentJournalsControllerEx
               end
               Icm::IncidentWorkload.create(:incident_request_id => @incident_request.id,
                                            :real_processing_time => work[:real_processing_time],
+                                           :workload_type => work[:workload_type],
                                            :person_id => work[:person_id])
             end if params[:incident_workloads]
 

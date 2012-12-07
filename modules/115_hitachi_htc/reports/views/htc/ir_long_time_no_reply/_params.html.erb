@@ -1,0 +1,24 @@
+<table  class="form-table baseFilter"  id="baseFilter">
+  <tbody>
+    <tr>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_irm_external_system) %></label>
+        <div style="white-space:nowrap">
+          <%= select_tag_multiple(
+                      "program_params[external_system_id][]",
+                      nullable_options_for_select(current_person_assessible_external_system_full, program_params[:external_system_id]),
+                      "program_params[external_system_mul]",
+                      program_params[:external_system_mul] ? program_params[:external_system_mul] : 'N', true)%>
+        </div>
+      </td>
+      <td>
+        <label>Last Response > N Day(s)</label>
+        <div style="white-space:nowrap">
+            <%= text_field_tag "program_params[long_time]", program_params[:long_time] %>
+            <%= hidden_field_tag "program_params[running_person_id]", Irm::Person.current.id %>
+        </div>
+      </td>
+      <td width="60%"></td>
+    </tr>
+  </tbody>
+</table>
