@@ -96,14 +96,14 @@ module Irm::MenuManager
 
       # =====================================生成权限缓存===============================================
       def prepare_permission_cache
-        permissions = Irm::Permission.all
+        permissions = Irm::Permission.includes(:function).all
         public_functions_cache = Irm::Function.where(:public_flag=>Irm::Constant::SYS_YES).collect{|f| f.id}
         login_functions_cache = Irm::Function.where(:login_flag=>Irm::Constant::SYS_YES).collect{|f| f.id}
         permissions_cache = {}
         permissions.each do |p|
           permission_key = Irm::Permission.url_key(p.controller,p.action)
           function_id = p.function_id
-          function_id = "{sid}_#{p.function_id}" if Irm::Constant::SYS_YES.eql?(p.system_flag)
+          function_id = "{sid}_#{p.function_id}" if Irm::Constant::SYS_YES.eql?(p.function.system_flag)
           if(permissions_cache[permission_key])
             permissions_cache[permission_key]+=[function_id]
           else

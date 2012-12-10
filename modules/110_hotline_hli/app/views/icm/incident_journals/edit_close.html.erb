@@ -53,6 +53,7 @@
                   <tr id="workload_<%= sp[:supporter_id]%>">
                     <td class="label-col"></td>
                     <td class="data-col">
+                      <%= w.select :workload_type, options_for_select(available_icm_workload_type, sp[:workload_type])%>
                       <%= w.text_field :real_processing_time, :value => sp[:real_processing_time].blank? ? '0' : sp[:real_processing_time], :irm_pos_real_number => true, :size => 5, :style => "width:30px"%>&nbsp;<%= sp[:login_name]%>(<%= sp[:supporter_name]%>)
                       <%= w.hidden_field :person_id, :value => sp[:supporter_id]%>
                       <%= link_to I18n.t(:remove), {}, {:class => "remove_workload", :href => "javascript:void(0)"}%>
@@ -260,6 +261,10 @@
         $("#workload_list").after('<tr id="workload_'+ wid +'">'+
                               '<td class="label-col"></td>'+
                               '<td id="ext-gen1127" class="data-col">'+
+                                '<select id="incident_workloads__workload_type" name="incident_workloads[][workload_type]">' +
+                                '<option value="SCENE">现场</option>' +
+                                '<option value="REMOTE">远程</option>' +
+                                '</select>' +
                                 '<input type="text" value="0" size="5" style="width:30px" name="incident_workloads[][real_processing_time]" irm_pos_real_number="true" id="incident_workloads__real_processing_time">&nbsp;'+ wtext +''+
                                 '<input type="hidden" value="'+ wid +'" name="incident_workloads[][person_id]" id="incident_workloads__person_id">'+
                                 '<a href="javascript:void(0)" class="remove_workload" onclick=$(this).parent().parent().remove() ><%= I18n.t(:remove)%></a>'+

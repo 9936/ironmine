@@ -69,7 +69,7 @@ class Skm::ChannelsController < ApplicationController
       format.json  {render :json => to_jsonp(channels.to_grid_json([:channel_code, :name,:description,:status_meaning, :status_code], count)) }
       format.html  {
         @datas = channels
-        @count = channels.count
+        @count = count
       }
     end
   end
