@@ -23,6 +23,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
   #加入activerecord的通用方法和scope
   query_extend
+
+  #对自定义字段的校验
+  validates_custom_field
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
@@ -665,6 +668,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
       self.organization_id =  Irm::Person.find(self.requested_by).organization_id
     end
   end
+
 
   def validate_summary
     str = Irm::Sanitize.sanitize(self.summary,'').strip
