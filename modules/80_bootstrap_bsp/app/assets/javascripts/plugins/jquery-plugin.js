@@ -2202,7 +2202,7 @@ jQuery.fn.menubutton = function () {
             //将当前的页码同其id保存到cookie中
             $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", "");
             //设置该cookie的过期时间为60分钟
-            $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", me.data.options.currentPage, {expires:new Date().getTime() + (60 * 60 * 1000)});
+            $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", me.data.options.currentPage);
         }
         me.$element.load(me.buildCurrentRequest(), function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "error"){
