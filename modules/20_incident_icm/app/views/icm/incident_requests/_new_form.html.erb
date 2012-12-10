@@ -1,4 +1,5 @@
 <%= form_for(@incident_request,:url=>{:action=>"create"},:builder => CustomFormBuilder,:html => { :multipart => true }) do |f| %>
+
   <%= hidden_field_tag :return_url,@return_url %>
   <!-- 创建关联事故单用到的参数 -->
   <%= hidden_field_tag :source_id, params[:source_id] %>
@@ -216,7 +217,7 @@
         <% end %>
       </td>
     </tr></table>
-    <%= error_for @change_request %>
+    <%= error_for @incident_request %>
     <div class="page-block-body">
     <% if @source_incident_request.present? -%>
       <div class="sub-page-block">
