@@ -248,7 +248,7 @@ class ApplicationController < ActionController::Base
      if limit==0
        limit = nil
      end
-     [scoped.offset(offset).limit(limit),scoped.count]
+     [scoped.offset(offset).limit(limit), scoped.count]
   end
   # 加入jsonp格式
   def to_jsonp(json)

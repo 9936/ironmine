@@ -1607,9 +1607,16 @@ jQuery.fn.menubutton = function () {
     };
 
     Internal.prototype.getHashPage = function(){
-        var hash = location.hash;
+        var hash = location.hash,me = this;
         hash = hash.substring(hash.indexOf("?")+1, hash.length);
-        return parseInt($.extend({},$.deserialize(hash))[this.$element.attr('id')+'_page'] || 1);
+        /**
+         * 取得最近访问记录的页码，获取优先级如下
+         * (1)获取url地址中的hash页码;
+         * (2)获取cookie中记录的页码
+         * (3)如果均不存在则设置默认页码1
+         *
+         */
+        return parseInt($.extend({},$.deserialize(hash))[this.$element.attr('id')+'_page'] || $.cookie(me.$element.attr("id").toUpperCase() + "_PAGE") || 1);
     };
 
     /**
@@ -2190,7 +2197,13 @@ jQuery.fn.menubutton = function () {
 
     Internal.prototype.load = function () {
         var me = this;
-        if (me.data.options.currentPage != 1) me.setHash(me.$element.attr("id") + "_page="+ me.data.options.currentPage);
+        if (me.data.options.currentPage != 1) {
+            me.setHash(me.$element.attr("id") + "_page="+ me.data.options.currentPage);
+            //将当前的页码同其id保存到cookie中
+            $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", "");
+            //设置该cookie的过期时间为60分钟
+            $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", me.data.options.currentPage);
+        }
         me.$element.load(me.buildCurrentRequest(), function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "error"){
                 window.console && console.log($.i18n("load_data_error"));

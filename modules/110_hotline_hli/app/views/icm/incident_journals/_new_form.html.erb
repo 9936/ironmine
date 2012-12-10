@@ -316,7 +316,7 @@
           <td class="data-col" colspan="5"><label>
             <% @incident_request.incident_workloads.each do |iw| %>
                 <% next if iw.person.nil? %>
-                <%= iw.person[:full_name]%>:<%= iw[:real_processing_time]%>&nbsp;<%= ", " unless iw == @incident_request.incident_workloads.last %>
+                <%= iw.person[:full_name]%>:<%= "#{iw.get_workload_type(I18n.locale)}-#{iw[:real_processing_time]}"%>&nbsp;<%= ", " unless iw == @incident_request.incident_workloads.last %>
             <% end %>
             </label></td>
         </tr>
