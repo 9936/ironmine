@@ -2,7 +2,7 @@
 module Irm::NavigationsHelper
 
   def sub_entries(menu_id)
-    Irm::MenuManager.sub_entries_by_menu(menu_id)
+    Irm::MenuManager.sub_entries_by_menu(menu_id,true,params[:sid])
   end
 
   def menu_by_code(menu_code)
