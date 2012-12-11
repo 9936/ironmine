@@ -28,9 +28,20 @@
                 <td class="label-col"><label for="object_attribute_data_default_value"><%=t(:label_irm_object_attribute_data_default_value)%></label></td>
                 <td class="data-3col" colspan="3">
                   <%=f.text_field :data_default_value,:id=>"object_attribute_data_default_value"%>
-                  <span class="help-block">请填写一个默认值</span>
+                  <span class="help-block"></span>
                 </td>
               </tr>
+              <% if @object_attribute.category.present?&&["TEXT","NUMBER"].include?(@object_attribute.category) %>
+              <tr>
+                <td class="label-col"><label for="object_attribute_data_min_and_max_length"><%=t(:label_irm_object_attribute_data_min_and_max_length)%></label></td>
+                <td class="data-3col" colspan="3">
+                  <%=f.text_field :min_length, :class => "input-mini" ,:id=>"object_attribute_data_min_length",:irm_number_only => true %>
+                  <label> ~ </label>
+                  <%=f.text_field :max_length, :class => "input-mini" ,:id=>"object_attribute_data_max_length",:irm_number_only => true %>
+                  <span class="help-block"><%= t(:label_irm_object_attribute_data_length_help_text) %></span>
+                </td>
+              </tr>
+              <% end %>
               <tr>
                 <td class="label-col"><label for="object_attribute_required_flag"><%=t(:label_irm_object_attribute_required_flag)%></label></td>
                 <td class="data-col text-col"><%=f.check_box(:required_flag,:id=>"object_attribute_required_flag")%></td>

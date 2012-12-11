@@ -45,7 +45,17 @@ module Irm::CustomFields
               self.errors.add attribute[:attribute_name], I18n.t("activerecord.errors.messages.blank")
             end
             #检查长度是否合适
-
+            if self[attribute[:attribute_name]].present? and (attribute[:min_length] > 0 or attribute[:max_length] > 0)
+              if  self[attribute[:attribute_name]].length < attribute[:min_length]
+                self.errors.add attribute[:attribute_name], I18n.t("activerecord.errors.messages.too_short", :count => attribute[:min_length])
+              elsif self[attribute[:attribute_name]].length > attribute[:max_length]
+                self.errors.add attribute[:attribute_name], I18n.t("activerecord.errors.messages.too_long", :count => attribute[:max_length])
+              end
+            end
+            #数字类型的添加判断
+            if self[attribute[:attribute_name]].present? and "NUMBER".eql?(attribute[:category]) and self[attribute[:attribute_name]].match(/\D{1,}/)
+              self.errors.add attribute[:attribute_name], I18n.t("activerecord.errors.messages.number")
+            end
           end
         end
       end
