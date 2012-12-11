@@ -1127,6 +1127,8 @@ zh:
   label_irm_object_attribute_data_null_flag: 可为空
   label_irm_object_attribute_data_key_type: 键类型
   label_irm_object_attribute_data_default_value: 默认值
+  label_irm_object_attribute_data_min_and_max_length: 最小 - 最大 长度
+  label_irm_object_attribute_data_length_help_text: 0 表示不限制
   label_irm_object_attribute_data_extra_info: 额外信息
   label_irm_object_attribute_edit: 编辑BO属性
   label_irm_object_attribute_description: 描述

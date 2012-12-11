@@ -23,14 +23,14 @@
             <td class="data-col empty">&nbsp;</td>
           </tr>
           <% if @object_attribute.category.present?&&["PICK_LIST", "PICK_LIST_MULTI"].include?(@object_attribute.category) %>
-              <tr>
-                <td class="label-col">
-                  <label for="object_attribute_pick_list_options"><%= t(:label_irm_object_attribute_pick_list_options) %></label>
-                </td>
-                <td class="data-col"><%= f.text_area :pick_list_options, :required => true, :size => "20x10", :id => "object_attribute_pick_list_options" %></td>
-                <td class="label-col empty">&nbsp;</td>
-                <td class="data-col empty">&nbsp;</td>
-              </tr>
+            <tr>
+              <td class="label-col">
+                <label for="object_attribute_pick_list_options"><%= t(:label_irm_object_attribute_pick_list_options) %></label>
+              </td>
+              <td class="data-col"><%= f.text_area :pick_list_options, :required => true, :size => "20x10", :id => "object_attribute_pick_list_options" %></td>
+              <td class="label-col empty">&nbsp;</td>
+              <td class="data-col empty">&nbsp;</td>
+            </tr>
           <% end %>
           <tr>
             <td class="label-col">
@@ -41,6 +41,17 @@
               <span class="help-block"></span>
             </td>
           </tr>
+          <% if @object_attribute.category.present?&&["TEXT","NUMBER"].include?(@object_attribute.category) %>
+            <tr>
+              <td class="label-col"><label for="object_attribute_data_min_and_max_length"><%=t(:label_irm_object_attribute_data_min_and_max_length)%></label></td>
+              <td class="data-3col" colspan="3">
+                <%=f.text_field :min_length, :class => "input-mini" ,:id=>"object_attribute_data_min_length",:irm_number_only => true %>
+                <label> ~ </label>
+                <%=f.text_field :max_length, :class => "input-mini" ,:id=>"object_attribute_data_max_length",:irm_number_only => true %>
+                <span class="help-block"><%= t(:label_irm_object_attribute_data_length_help_text) %></span>
+              </td>
+            </tr>
+          <% end %>
           <tr>
             <td class="label-col">
               <label for="object_attribute_required_flag"><%= t(:label_irm_object_attribute_required_flag) %></label>

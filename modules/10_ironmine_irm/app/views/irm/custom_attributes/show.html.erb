@@ -57,6 +57,14 @@
           <%=@object_attribute.data_default_value%>
         </td>
       </tr>
+      <% if @object_attribute.category.present?&&["TEXT","NUMBER"].include?(@object_attribute.category) %>
+          <tr>
+            <td class="label-col"><label for="object_attribute_data_min_and_max_length"><%=t(:label_irm_object_attribute_data_min_and_max_length)%></label></td>
+            <td class="data-3col" colspan="3">
+              <%= @object_attribute.min_length %> &nbsp; ~ &nbsp; <%= @object_attribute.max_length %>  (<span><%= t(:label_irm_object_attribute_data_length_help_text) %></span>)
+            </td>
+          </tr>
+      <% end %>
       <tr>
         <td class="label-col"><label for="object_attribute_required_flag"><%=t(:label_irm_object_attribute_required_flag)%></label></td>
         <td class="data-col"><%=check_img(@object_attribute.required_flag)%></td>
