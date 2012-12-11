@@ -10,7 +10,7 @@
         <label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label>
         </td>
         <td class="data-col">
-            <%=f.select :support_group_id,available_support_group(nil, true),
+            <%=f.select :support_group_id,available_support_group(@incident_request.external_system_id),
                                             {},{:required=>true,:id=>"incident_request_support_group_id"}%>
         </td>
 
