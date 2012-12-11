@@ -106,26 +106,31 @@ class Irm::ProjectsController < ApplicationController
                                    :vendor_flag => Irm::Constant::SYS_NO,
                                    :oncall_flag => Irm::Constant::SYS_YES)
         t_group.save
-        #create share rule
-        t_share = Irm::DataShareRule.new(:opu_id => Irm::Person.current.opu_id,:business_object_id => bo.id, :access_level => '2',:code => auto_code,
-                                         :rule_type => 'BASE_ON_REPORT_OWNER', :source_type => 'IRM__ORGANIZATION',
-                                         :source_id => organization.id,:target_type => 'IRM__GROUP', :target_id => group.id,
-                                         :status_code=>'ENABLED',:not_auto_mult=>true)
-        t_share.data_share_rules_tls.build(:opu_id => Irm::Person.current.opu_id, :language=>'zh',:source_lang=>'en',
-                                           :name=>params[:project_name],:status_code=>'ENABLED',:description=>params[:project_description])
-        t_share.data_share_rules_tls.build(:opu_id => Irm::Person.current.opu_id, :language=>'en',:source_lang=>'en',
-                                           :name=>params[:project_name],:status_code=>'ENABLED',:description=>params[:project_description])
-        t_share.save
 
-        t_share2 = Irm::DataShareRule.new(:opu_id => Irm::Person.current.opu_id,:business_object_id => bo.id, :access_level => '2',:code => auto_code + "_FARTHER",
-                                         :rule_type => 'BASE_ON_REPORT_OWNER', :source_type => 'IRM__ORGANIZATION',
-                                         :source_id => organization.id,:target_type => 'IRM__GROUP', :target_id => Irm::Group.where("code = ?", "EBS_HELP_DESK").first.id,
-                                         :status_code=>'ENABLED',:not_auto_mult=>true)
-        t_share2.data_share_rules_tls.build(:opu_id => Irm::Person.current.opu_id, :language=>'zh',:source_lang=>'en',
-                                           :name=>params[:project_name],:status_code=>'ENABLED',:description=>params[:project_description])
-        t_share2.data_share_rules_tls.build(:opu_id => Irm::Person.current.opu_id, :language=>'en',:source_lang=>'en',
-                                           :name=>params[:project_name],:status_code=>'ENABLED',:description=>params[:project_description])
-        t_share2.save
+        #create support group and system relation
+        t_group_system = Icm::ExternalSystemGroup.new(:opu_id => Irm::Person.current.opu_id)
+
+        #create share rule
+        ##### we do not need to create share in new hisms version ####
+        #t_share = Irm::DataShareRule.new(:opu_id => Irm::Person.current.opu_id,:business_object_id => bo.id, :access_level => '2',:code => auto_code,
+        #                                 :rule_type => 'BASE_ON_REPORT_OWNER', :source_type => 'IRM__ORGANIZATION',
+        #                                 :source_id => organization.id,:target_type => 'IRM__GROUP', :target_id => group.id,
+        #                                 :status_code=>'ENABLED',:not_auto_mult=>true)
+        #t_share.data_share_rules_tls.build(:opu_id => Irm::Person.current.opu_id, :language=>'zh',:source_lang=>'en',
+        #                                   :name=>params[:project_name],:status_code=>'ENABLED',:description=>params[:project_description])
+        #t_share.data_share_rules_tls.build(:opu_id => Irm::Person.current.opu_id, :language=>'en',:source_lang=>'en',
+        #                                   :name=>params[:project_name],:status_code=>'ENABLED',:description=>params[:project_description])
+        #t_share.save
+        #
+        #t_share2 = Irm::DataShareRule.new(:opu_id => Irm::Person.current.opu_id,:business_object_id => bo.id, :access_level => '2',:code => auto_code + "_FARTHER",
+        #                                 :rule_type => 'BASE_ON_REPORT_OWNER', :source_type => 'IRM__ORGANIZATION',
+        #                                 :source_id => organization.id,:target_type => 'IRM__GROUP', :target_id => Irm::Group.where("code = ?", "EBS_HELP_DESK").first.id,
+        #                                 :status_code=>'ENABLED',:not_auto_mult=>true)
+        #t_share2.data_share_rules_tls.build(:opu_id => Irm::Person.current.opu_id, :language=>'zh',:source_lang=>'en',
+        #                                   :name=>params[:project_name],:status_code=>'ENABLED',:description=>params[:project_description])
+        #t_share2.data_share_rules_tls.build(:opu_id => Irm::Person.current.opu_id, :language=>'en',:source_lang=>'en',
+        #                                   :name=>params[:project_name],:status_code=>'ENABLED',:description=>params[:project_description])
+        #t_share2.save
 
         if params[:next] && params[:next] == "add_person"
           format.html { redirect_to({:controller => "irm/projects",:action => "add_person", :project_code => auto_code})}
