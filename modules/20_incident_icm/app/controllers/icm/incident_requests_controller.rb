@@ -572,10 +572,8 @@ class Icm::IncidentRequestsController < ApplicationController
   def custom_fields_block
     @incident_request = Icm::IncidentRequest.new(:external_system_id => params[:external_system_id])
 
-    #设置默认值
-    @incident_request.custom_attributes.each do |field|
-      @incident_request[field[:attribute_name].to_sym] = field[:data_default_value]
-    end
+    #同步默认值
+    @incident_request = @incident_request.merge_default_values
   end
 
 

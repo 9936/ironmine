@@ -54,6 +54,14 @@ module Irm::CustomFields
           end
           custom_attributes
         end
+
+        #设置默认值
+        def merge_default_values
+          self.custom_attributes.each do |field|
+            self[field[:attribute_name].to_sym] = field[:data_default_value]
+          end
+          self
+        end
       end
     end
   end
