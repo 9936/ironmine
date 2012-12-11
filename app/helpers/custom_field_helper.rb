@@ -24,11 +24,10 @@ module CustomFieldHelper
     end
   end
 
-  def show_input_custom_fields(model,sid, columns = 4, &block)
-    #查找出自定义字段
-    bo = Irm::BusinessObject.where(:bo_model_name => model.class.to_s).first
-    custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", sid)
-    custom_attributes +=  Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).with_external_system(sid).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+  def show_input_custom_fields(model, columns = 4, &block)
+    #获取自定义字段
+    custom_attributes = model.custom_attributes
+
     block_fields = {}
     if block_given?
       builder = CustomFieldBuilder.new(&block)
@@ -74,8 +73,6 @@ module CustomFieldHelper
                 html += tmp_html
                 column_count += colspan
               end
-
-              #column_count += 2
             end
           else
             html += "<td class='label-col'><label>#{attribute[:name]}</label></td>"
@@ -96,11 +93,10 @@ module CustomFieldHelper
 
 
 
-  def show_custom_field_info(model,sid, columns = 6)
-    #查找出自定义字段
-    bo = Irm::BusinessObject.where(:bo_model_name => model.class.to_s).first
-    custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", sid)
-    custom_attributes +=  Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).with_external_system(sid).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+  def show_custom_field_info(model, columns = 6)
+    #获取出自定义字段
+    custom_attributes = model.custom_attributes
+
     column_count = 0
     html = ''
     if custom_attributes.any?

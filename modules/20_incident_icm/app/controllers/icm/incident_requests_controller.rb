@@ -570,12 +570,10 @@ class Icm::IncidentRequestsController < ApplicationController
 
 
   def custom_fields_block
-    @incident_request = Icm::IncidentRequest.new
-    bo = Irm::BusinessObject.where(:bo_model_name => 'Icm::IncidentRequest').first
-    @system_custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", params[:external_system_id])
-    @system_custom_attributes +=  Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).with_external_system(params[:external_system_id]).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+    @incident_request = Icm::IncidentRequest.new(:external_system_id => params[:external_system_id])
+
     #设置默认值
-    @system_custom_attributes.each do |field|
+    @incident_request.custom_attributes.each do |field|
       @incident_request[field[:attribute_name].to_sym] = field[:data_default_value]
     end
   end

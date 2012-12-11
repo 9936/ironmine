@@ -200,7 +200,7 @@
           <td class="data-col"></td>
         </tr>
         <!-- 显示自定义字段信息 -->
-        <%= show_custom_field_info(@incident_request, @incident_request.external_system_id) %>
+        <%= show_custom_field_info(@incident_request) %>
         <%= render :partial=>"new_form_external_field"%>
         <tr>
           <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
