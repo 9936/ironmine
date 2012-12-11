@@ -9,9 +9,7 @@ module Irm::CustomFields
       return if self.included_modules.include?(::Irm::CustomFields::InstanceMethods)
       send :include, ::Irm::CustomFields::InstanceMethods
 
-      system_flag = options[:system_flag]
-
-      if system_flag == 'Y'
+      if options[:system_flag] == 'Y'
         class_eval do
           def custom_attributes
             #取得对应model的自定义字段
