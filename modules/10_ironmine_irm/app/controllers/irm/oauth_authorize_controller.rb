@@ -125,13 +125,15 @@ class Irm::OauthAuthorizeController < ApplicationController
   def client_not_found
     flash.now.alert = I18n.t(:label_irm_oauth_client_not_found)
     @info = { client_id: params[:client_id], redirect_uri: params[:redirect_uri] }
-    render "show", and return
+    render "show"
+    return
   end
 
   def render_422(message, info)
     @message = I18n.t message
     @info    = info.to_json
-    render "422", status: 422 and return
+    render "422", status: 422
+    return
   end
 
   #根据用户名查找当前用户的安全标记,并返回密码
