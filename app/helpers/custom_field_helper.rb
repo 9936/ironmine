@@ -91,6 +91,9 @@ module CustomFieldHelper
     html.html_safe
   end
 
+  def get_custom_block_url(model_name,model_params={},dom_id="null")
+    url_for({:controller=>"irm/custom_attributes",:action=>"custom_fields_block",:model_name => model_name,:model_params => model_params, :_dom_id => dom_id})
+  end
 
 
   def show_custom_field_info(model, columns = 6)

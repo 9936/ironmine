@@ -932,7 +932,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/search" => ["index"],
               "irm/session_settings" => ["timeout_warn"],
               "irm/setting" => ["common"],
-              "irm/filters" => ["operator_value"]
+              "irm/filters" => ["operator_value"],
+              "irm/custom_attributes" => ["custom_fields_block"]
           },
 
           :home_page => {

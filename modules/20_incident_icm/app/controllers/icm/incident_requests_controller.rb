@@ -569,14 +569,6 @@ class Icm::IncidentRequestsController < ApplicationController
   end
 
 
-  def custom_fields_block
-    @incident_request = Icm::IncidentRequest.new(:external_system_id => params[:external_system_id])
-
-    #同步默认值
-    @incident_request = @incident_request.merge_default_values
-  end
-
-
   private
   #将创建关联事故单放在一个单独的方法中，因为在多个action中用到
   def create_relation(source_id, target_id, relation_type)
