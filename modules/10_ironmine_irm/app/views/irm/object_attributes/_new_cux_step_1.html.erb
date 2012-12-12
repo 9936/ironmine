@@ -12,6 +12,12 @@
           <td class="data-3col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
         </tr>
 
+        <% category = categories["TEXT_AREA"] %>
+        <tr>
+          <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
+          <td class="data-3col" colspan="3"><label for="category_<%=category[:lookup_code].downcase%>"><%=category[:description].downcase%></label></td>
+        </tr>
+
         <% category = categories["CHECK_BOX"] %>
         <tr>
           <td class="data-col"><%= f.radio_button(:category,category[:lookup_code],:class=>"attributeCategory",:id=>"category_#{category[:lookup_code].downcase}")%><label style="display: inline-block; padding-left: 5px;" for="category_<%=category[:lookup_code].downcase%>"><%=category[:meaning].downcase%></label></td>
