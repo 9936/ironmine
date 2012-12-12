@@ -36,8 +36,25 @@
         </tr>
       </table>
       <div class="page-block-body">
-        <%= datatable("externalSystemList",{:action=>"get_available_external_system_data",:person_id=>@person.id},
-                          [],{:paginator_box=>"systemPaginator",:search_box=>"selectableSystemSearchBox",:select=>"multiple"})%>
+        <div class="sub-page-block" style="padding-bottom: 0;">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_irm_external_system_select_system_profile) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <table class="form-table">
+              <tbody>
+              <tr>
+                <td class="data-col"><%= f.select :system_profile_id, available_profile('Y'),{},{:required=>true,:style =>"min-width:300px;_width:300px;"} %></td>
+                <td class="label-col"></td>
+                <td class="data-col"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <hr style="margin-top: 0px ;margin-bottom: -1px;">
+        <%= datatable("externalSystemList",{:action=>"get_available_external_system_data",:person_id=>@person.id},[],{:paginator_box=>"systemPaginator",:search_box=>"selectableSystemSearchBox",:select=>"multiple"})%>
       </div>
       <table class="page-block-footer">
         <tr>

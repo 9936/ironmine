@@ -144,9 +144,7 @@
   </table>
   <div class="page-block-body">
     <!-- Begin company access table -->
-    <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id},
-                      [],
-                      {:paginator_box=>"externalSystemsPaginatorBox",:search_box=>"person_system_listSearchBox"})%>
+    <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id},[],{:paginator_box=>"externalSystemsPaginatorBox",:search_box=>"person_system_listSearchBox"})%>
     <!-- End company access table -->
   </div>
 </div>
