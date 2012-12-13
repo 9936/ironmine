@@ -2056,5 +2056,6 @@ en:
   label_irm_system_custom_business_object_list: Custom Fields's Business Object List
   label_irm_system_custom_attribute: System Custom Fields
   label_irm_custom_attribute: System Custom Fields
+  label_irm_system_custom_attribute_order: Reorder Custom Fields
   #============================== end system setting  ==============================
   label_total_data_size: Total %{m}

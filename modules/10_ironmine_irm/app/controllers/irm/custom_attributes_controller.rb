@@ -1,7 +1,9 @@
 class Irm::CustomAttributesController < ApplicationController
   def index
     @external_system = Irm::ExternalSystem.multilingual.enabled.find(params[:sid])
-    @business_objects = Irm::BusinessObject.with_system_custom_flag.multilingual.order(:bo_table_name)
+    unless params[:bo_id].present?
+      @business_objects = Irm::BusinessObject.with_system_custom_flag.multilingual.order(:bo_table_name)
+    end
   end
 
   def new
@@ -125,6 +127,10 @@ class Irm::CustomAttributesController < ApplicationController
 
     #同步默认值
     @model_object = @model_object.merge_default_values
+  end
+
+  def get_data
+    @datas = Irm::ObjectAttribute.multilingual.list_all.order_by_sequence.real_field.query_by_business_object(params[:bo_id]).where("#{Irm::ObjectAttribute.table_name}.external_system_id=? AND #{Irm::ObjectAttribute.table_name}.field_type = ?", params[:sid], "SYSTEM_CUX_FIELD")
   end
 
 
