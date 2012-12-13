@@ -1,7 +1,7 @@
 class Irm::CustomAttributesController < ApplicationController
   def index
     @external_system = Irm::ExternalSystem.multilingual.enabled.find(params[:sid])
-    @business_objects = Irm::BusinessObject.with_custom_flag.multilingual.order(:bo_table_name)
+    @business_objects = Irm::BusinessObject.with_system_custom_flag.multilingual.order(:bo_table_name)
   end
 
   def new

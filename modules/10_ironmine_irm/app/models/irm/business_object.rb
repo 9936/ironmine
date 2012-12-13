@@ -15,6 +15,7 @@ class Irm::BusinessObject < ActiveRecord::Base
   validate :validate_database_info
 
   before_validation :before_validate_on_create,:on=>:create
+  before_save :check_system_custom_flag
   #加入activerecord的通用方法和scope
   query_extend
 
@@ -22,6 +23,19 @@ class Irm::BusinessObject < ActiveRecord::Base
   scope :query_detail,lambda{|bo_id| where("EXISTS(SELECT 1 FROM #{Irm::ObjectAttribute.table_name} WHERE  #{Irm::ObjectAttribute.table_name}.business_object_id = #{table_name}.id AND #{Irm::ObjectAttribute.table_name}.relation_bo_id =? AND #{Irm::ObjectAttribute.table_name}.category = ?)",bo_id,"MASTER_DETAIL_RELATION")}
 
   scope :with_custom_flag, where(:custom_flag => Irm::Constant::SYS_YES)
+  scope :with_system_custom_flag, where(:system_custom_flag => Irm::Constant::SYS_YES)
+
+  def check_system_custom_flag
+    if self.custom_flag == Irm::Constant::SYS_YES
+      if self.attributes.keys.delete_if{ |i| i.match(/^\Asattribute\d{1,}/)}
+        self.system_custom_flag = Irm::Constant::SYS_YES
+      else
+        self.system_custom_flag = Irm::Constant::SYS_NO
+      end
+    else
+      self.system_custom_flag = Irm::Constant::SYS_NO
+    end
+  end
 
   # generate business object
   def generate_query(execute=false)
