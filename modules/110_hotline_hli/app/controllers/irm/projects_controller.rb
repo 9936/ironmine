@@ -108,7 +108,9 @@ class Irm::ProjectsController < ApplicationController
         t_group.save
 
         #create support group and system relation
-        t_group_system = Icm::ExternalSystemGroup.new(:opu_id => Irm::Person.current.opu_id)
+        t_group_system = Icm::ExternalSystemGroup.new(:opu_id => Irm::Person.current.opu_id,
+                                                      :external_system_id => external_system.id,
+                                                      :support_group_id => t_group.id)
 
         #create share rule
         ##### we do not need to create share in new hisms version ####
@@ -131,12 +133,7 @@ class Irm::ProjectsController < ApplicationController
         #t_share2.data_share_rules_tls.build(:opu_id => Irm::Person.current.opu_id, :language=>'en',:source_lang=>'en',
         #                                   :name=>params[:project_name],:status_code=>'ENABLED',:description=>params[:project_description])
         #t_share2.save
-
-        if params[:next] && params[:next] == "add_person"
-          format.html { redirect_to({:controller => "irm/projects",:action => "add_person", :project_code => auto_code})}
-        else
-
-        end
+        format.html { redirect_to({:controller => "irm/external_systems",:action => "show", :id => external_system.id})}
       else
         @errors = organization.errors.any? ? organization.errors : external_system.errors.any? ? external_system.errors : group.errors.any? ? group.errors : ""
         format.html { render "new" }
@@ -179,31 +176,19 @@ class Irm::ProjectsController < ApplicationController
   end
 
   def get_data
-    projects_scope = Irm::Organization.multilingual.
-        joins(",#{Irm::ExternalSystem.view_name} es").
-        joins(",#{Irm::Group.view_name} gp").
-        joins(",#{Irm::OrganizationsTl.table_name} ot").
-        joins(",#{Irm::ExternalSystem.table_name} esa").
-        where("ot.organization_id = #{Irm::Organization.table_name}.id").
-        where("es.external_system_code = #{Irm::Organization.table_name}.short_name").
-        where("gp.code = #{Irm::Organization.table_name}.short_name").
-        where("es.language = ?", I18n.locale).
-        where("gp.language = ?", I18n.locale).
-        where("ot.language = ?", I18n.locale).
-        where("esa.id = es.id").
-        select("#{Irm::Organization.table_name}.id id, #{Irm::Organization.table_name}.short_name short_name, ot.name org_name, #{Irm::Organization.table_name}.status_code project_status").
-        select("es.id system_id, es.system_name system_name, esa.hotline_flag hotline").
-        select("gp.id group_id, gp.name group_name").order("CONVERT( ot.name USING gbk ) asc")
 
-    projects_scope = projects_scope.match_value("#{Irm::Organization.table_name}.short_name",params[:short_name])
-    projects_scope = projects_scope.match_value("es.system_name",params[:system_name])
-    projects_scope = projects_scope.match_value("ot.name",params[:org_name])
-    projects_scope = projects_scope.match_value("gp.name",params[:group_name])
+    projects_scope = Irm::ExternalSystem.multilingual.
+        select("#{Irm::ExternalSystem.table_name}.id id, #{Irm::ExternalSystem.table_name}.external_system_code project_code, #{Irm::ExternalSystem.table_name}.status_code project_status").
+        select("#{Irm::ExternalSystemsTl.table_name}.system_name system_name, #{Irm::ExternalSystem.table_name}.hotline_flag hotline").
+        order("CONVERT( #{Irm::ExternalSystemsTl.table_name}.system_name USING gbk ) asc")
+
+    projects_scope = projects_scope.match_value("#{Irm::ExternalSystem.table_name}.external_system_code",params[:project_code])
+    projects_scope = projects_scope.match_value("#{Irm::ExternalSystemsTl.table_name}.system_name",params[:system_name])
 
     projects,count = paginate(projects_scope)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(projects.to_grid_json([:id, :hotline,:short_name,:org_name,:system_name,
-                                                                 :group_name, :system_id,:group_id, :project_status],count))}
+      format.json {render :json=>to_jsonp(projects.to_grid_json([:id, :hotline,:project_code,:system_name,
+                                                                 :group_name, :project_status],count))}
       format.html  {
         @datas = projects
         @count = count
@@ -245,22 +230,11 @@ class Irm::ProjectsController < ApplicationController
   end
 
   def show
-    @project = Irm::Organization.multilingual.
-            joins(",#{Irm::ExternalSystem.view_name} es").
-            joins(",#{Irm::ExternalSystem.table_name} esa").
-            joins(",#{Irm::Group.view_name} gp").
-            joins(",#{Irm::OrganizationsTl.table_name} ot").
-            where("ot.organization_id = #{Irm::Organization.table_name}.id").
-            where("es.external_system_code = #{Irm::Organization.table_name}.short_name").
-            where("gp.code = #{Irm::Organization.table_name}.short_name").
-            where("es.language = ?", I18n.locale).
-            where("gp.language = ?", I18n.locale).
-            where("ot.language = ?", I18n.locale).
-            where("esa.id = es.id").
-            where("#{Irm::Organization.table_name}.id = ?", params[:id]).
-            select("#{Irm::Organization.table_name}.id id, #{Irm::Organization.table_name}.short_name short_name, ot.name org_name, #{Irm::Organization.table_name}.status_code project_status").
-            select("es.id system_id, es.system_name system_name, esa.hotline_flag hotline, es.system_description project_description").
-            select("gp.id group_id, gp.name group_name").first
+    @project = Irm::ExternalSystem.multilingual.
+        select("#{Irm::ExternalSystem.table_name}.id id, #{Irm::ExternalSystem.table_name}.external_system_code project_code, #{Irm::ExternalSystem.table_name}.status_code project_status").
+        select("#{Irm::ExternalSystemsTl.table_name}.system_name system_name, #{Irm::ExternalSystem.table_name}.hotline_flag hotline").
+        select("#{Irm::ExternalSystemsTl.table_name}.description system_description").
+        where("#{Irm::ExternalSystem.table_name}.id = ?", params[:id]).first
   end
 
   def get_support_person_list_data
