@@ -8,3 +8,4 @@ zh:
   label_icm_incident_request_cux_organization: 来源组织
   label_icm_incident_request_cux_requested_by_role: 请求人组织
   label_htc_report_incident_groups: 支持组历史
+  label_htc_report_incident_requester_group: 提交人组
