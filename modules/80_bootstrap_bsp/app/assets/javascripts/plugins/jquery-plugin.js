@@ -1767,20 +1767,15 @@ jQuery.fn.menubutton = function () {
                 $(this).hide();
                 saveBtn.show();
                 cancelBtn.show();
-                $(".table-body table:first tbody", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr", placeHolderTemplate: "<tr class='place-holder'></tr>" });
+                $(".table-body table:first tbody:first", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr", placeHolderTemplate: "<tr class='place-holder'></tr>" });
                 pageBlock.addClass("drag-able");
             });
             saveBtn.bind("click", function(){
-                btns.css("display","inline-block");
-                orderBtn.show();
-                $(this).hide();
-                cancelBtn.hide();
-                pageBlock.removeClass('drag-able');
-                $(".table-body table:first tbody", me.$element).dragsort("destroy");
                 var data = $(".table-body table:first tbody tr",me.$element).map(function() {return $(this).attr("id");}).get();
                 $.post(url, { ordered_ids: data.join(",")} );
                 //保存后将html修改
                 html = $(".datatable", pageBlock).html();
+                cancelBtn.trigger("click");
             });
             //取消按钮
             cancelBtn.bind("click",function(){
@@ -1789,7 +1784,7 @@ jQuery.fn.menubutton = function () {
                 cancelBtn.hide();
                 saveBtn.hide();
                 pageBlock.removeClass('drag-able');
-                $(".table-body table:first tbody", me.$element).dragsort("destroy");
+                $(".table-body table:first tbody:first", me.$element).dragsort("destroy");
                 $(".datatable", pageBlock).html(html);
             });
             $(".page-block-header .page-block-button",pageBlock).append(orderBtn).append(cancelBtn).append(saveBtn);
