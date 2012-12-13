@@ -1,0 +1,14 @@
+<% if model_object.custom_attributes.any? %>
+    <div class="sub-page-block">
+      <div class="sub-page-block-header">
+        <h3 class="sub-page-block-title"><%= t(:label_irm_system_custom_field) %></h3>
+      </div>
+      <div class="sub-page-block-body">
+        <table class="form-table">
+          <tbody>
+          <%= show_input_custom_fields(model_object, columns = 4) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+<% end %>

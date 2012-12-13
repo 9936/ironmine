@@ -5,6 +5,8 @@ module CustomFieldHelper
       case attribute[:category]
         when "TEXT"
           return form.text_field attribute[:attribute_name].to_sym, :required=> attribute[:required_flag].eql?('Y')? true : false
+        when "TEXT_AREA"
+          return form.text_area attribute[:attribute_name].to_sym, :required=> attribute[:required_flag].eql?('Y')? true : false,:rows=>3,:class => "input-xlarge"
         when "DATE_TIME"
           return form.date_field attribute[:attribute_name].to_sym, :size=>12,:class=>"date",:with_time => true,:required=> attribute[:required_flag].eql?('Y')? true : false
         when "DATE"
@@ -24,7 +26,10 @@ module CustomFieldHelper
     end
   end
 
-  def show_input_custom_fields(model, columns = 4, &block)
+  #参数only_block的值可为true | false.默认为false
+  #only_block => false 时默认显示格式和block自定义的格式合并显示；
+  #only_block => true 时，只显示block下定义的格式代码
+  def show_input_custom_fields(model, columns = 4, only_block = false , &block)
     #获取自定义字段
     custom_attributes = model.custom_attributes
 
@@ -34,7 +39,27 @@ module CustomFieldHelper
       yield builder
       block_fields = builder.fields
     end
-    build_html(model, custom_attributes, columns, block_fields)
+    if only_block
+      build_block_html(model, custom_attributes, block_fields)
+    else
+      build_html(model, custom_attributes, columns, block_fields)
+    end
+  end
+
+
+  #仅仅获取block中自定义的代码块
+  def build_block_html(model, custom_attributes, block_fields)
+    html = ""
+    if block_fields.present? and custom_attributes.any?
+      fields_for model, nil, :builder => CustomFormBuilder do |f|
+        custom_attributes.each do |attribute|
+          if block_fields[attribute[:attribute_name].to_sym].present? and block_fields[attribute[:attribute_name].to_sym][:block]
+             html += capture(attribute[:name], show_custom_field(attribute, f) ,attribute, f, &block_fields[attribute[:attribute_name].to_sym][:block])
+          end
+        end
+      end
+    end
+    html
   end
 
   def build_html(model, custom_attributes, columns = 4, block_fields)
@@ -64,7 +89,7 @@ module CustomFieldHelper
                 end
               end
 
-              if column_count % colspan < colspan
+              if colspan > 0 and column_count % colspan < colspan
                 html += "</tr><tr>"
                 html += tmp_html
                 column_count += columns - column_count % columns
@@ -91,6 +116,9 @@ module CustomFieldHelper
     html.html_safe
   end
 
+  def get_custom_block_url(model_name,model_params={},dom_id="null")
+    url_for({:controller=>"irm/custom_attributes",:action=>"custom_fields_block",:model_name => model_name,:model_params => model_params, :_dom_id => dom_id})
+  end
 
 
   def show_custom_field_info(model, columns = 6)

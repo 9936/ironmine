@@ -113,21 +113,20 @@ class Irm::CustomAttributesController < ApplicationController
     @business_object = Irm::BusinessObject.multilingual.find(params[:bo_id])
   end
 
-  #def get_data
-  #  business_objects_scope = Irm::BusinessObject.with_custom_flag.multilingual.order(:bo_table_name)
-  #  business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObjectsTl.table_name}.name",params[:name])
-  #  business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObject.table_name}.bo_table_name",params[:bo_table_name])
-  #  business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObject.table_name}.bo_model_name",params[:bo_model_name])
-  #  business_objects_scope = business_objects_scope.match_value("#{Irm::BusinessObject.table_name}.business_object_code",params[:business_object_code])
-  #  business_objects,count = paginate(business_objects_scope)
-  #  respond_to do |format|
-  #    format.json {render :json=>to_jsonp(business_objects.to_grid_json([:business_object_code,:auto_generate_flag,:bo_table_name,:bo_model_name,:multilingual_flag,:name],count))}
-  #    format.html {
-  #      @count = count
-  #      @datas = business_objects
-  #    }
-  #  end
-  #end
+  def custom_fields_block
+    if params[:model_params].present?&&params[:model_params].is_a?(String)&&params[:model_params].include?("{")
+      params[:model_params] = eval(params[:model_params])
+    end
+    if params[:model_params].present? && params[:model_params].any?
+      @model_object = params[:model_name].constantize.new(params[:model_params])
+    else
+      @model_object = params[:model_name].constantize.new
+    end
+
+    #同步默认值
+    @model_object = @model_object.merge_default_values
+  end
+
 
   #启用的全局自定义字段
   def active

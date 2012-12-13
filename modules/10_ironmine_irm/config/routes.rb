@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     match '/system_members/:sid/get_owned_members_data(.:format)' => "system_members#get_owned_members_data"
 
     #custom_attributes
+    match '/custom_attributes/custom_fields_block(.:format)' => "custom_attributes#custom_fields_block"
     match '/custom_attributes/:sid/(/index)(.:format)' => "custom_attributes#index"
     match '/custom_attributes/:sid/new(.:format)' => "custom_attributes#new"
     match '/custom_attributes/:sid/create(.:format)' => "custom_attributes#create", :via => :post
@@ -54,6 +55,7 @@ Rails.application.routes.draw do
     match '/custom_attributes/:sid/:attribute_id/disable(.:format)' => "custom_attributes#disable"
     match '/custom_attributes/:sid/:attribute_id/multilingual_edit(.:format)' => "custom_attributes#multilingual_edit", :via => :get
     match '/custom_attributes/:sid/:attribute_id/multilingual_update(.:format)' => "custom_attributes#multilingual_update", :via => :put
+
 
     #lookup_types
     match '/lookup_types/new(.:format)' => "lookup_types#new", :via => :get

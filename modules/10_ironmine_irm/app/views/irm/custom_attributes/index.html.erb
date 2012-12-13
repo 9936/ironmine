@@ -43,9 +43,6 @@
               <% if editable_custom_flag?(business_object.bo_model_name, true) %>
                 <%= link_to t(:new), {:controller => "irm/custom_attributes",:action => "new", :sid => params[:sid], :bo_id => business_object.id},:class=>"btn btn-primary"%>
               <% end %>
-              <%# if editable_custom_flag?(business_object.bo_model_name, false) and has_available_global_fields?(business_object.id, params[:sid]) %>
-                <%#= link_to t(:label_irm_system_custom_attribute_global), {:action => "enable_global_custom_fields", :sid => params[:sid] ,:bo_id => business_object.id},:class=>"btn" %>
-              <%# end %>
             </td>
           </tr></table>
           <div class="page-block-body">

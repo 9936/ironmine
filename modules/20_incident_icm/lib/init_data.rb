@@ -158,7 +158,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "icm/incident_config_relations" => ["create", "destroy"],
-              "icm/incident_requests" => ["create", "new", "short_create","custom_fields_block"],
+              "icm/incident_requests" => ["create", "new", "short_create"],
           },
           :create_icdt_rqst_for_other => {
               :en => {:name => "Submit for other", :description => "Submit for other"},
