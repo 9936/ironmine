@@ -1083,6 +1083,7 @@ en:
   label_irm_business_object_data_access_flag: Data Access
   label_irm_object_user_custom_attributes: User Custom Field
   label_irm_object_user_custom_flag: Custom Field
+  label_irm_object_user_system_custom_flag: System Custom Field
   label_action_new_cux: New Custom Field
   #======================== end business objects====================
 
@@ -2055,5 +2056,6 @@ en:
   label_irm_system_custom_business_object_list: Custom Fields's Business Object List
   label_irm_system_custom_attribute: System Custom Fields
   label_irm_custom_attribute: System Custom Fields
+  label_irm_system_custom_attribute_order: Reorder Custom Fields
   #============================== end system setting  ==============================
   label_total_data_size: Total %{m}

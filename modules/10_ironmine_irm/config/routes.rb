@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     match '/custom_attributes/:sid/(/index)(.:format)' => "custom_attributes#index"
     match '/custom_attributes/:sid/new(.:format)' => "custom_attributes#new"
     match '/custom_attributes/:sid/create(.:format)' => "custom_attributes#create", :via => :post
-    #match '/custom_attributes/:sid/get_data(.:format)' => "custom_attributes#get_data"
+    match '/custom_attributes/:sid/:bo_id/get_data(.:format)' => "custom_attributes#get_data"
     match '/custom_attributes/:sid/:attribute_id/edit(.:format)' => "custom_attributes#edit", :via => :get
     match '/custom_attributes/:sid/:attribute_id(.:format)' => "custom_attributes#update", :via => :put
     match '/custom_attributes/:sid/:attribute_id(.:format)' => "custom_attributes#show"
@@ -619,6 +619,8 @@ Rails.application.routes.draw do
     match '/business_objects/:bo_id/object_attributes/new_cux(.:format)' => "object_attributes#new_cux", :via => [:get, :post, :put]
     match '/business_objects/:bo_id/object_attributes/create_cux(.:format)' => "object_attributes#create_cux", :via => :post
     match '/business_objects/:bo_id/object_attributes/get_data(.:format)' => "object_attributes#get_data"
+    match '/business_objects/:bo_id/object_attributes/user_customize_object_attributes(.:format)' => "object_attributes#user_customize_object_attributes"
+    match '/business_objects/:bo_id/object_attributes/switch_sequence(.:format)' => "object_attributes#switch_sequence"
     match '/business_objects/:bo_id/object_attributes/get_standard_data(.:format)' => "object_attributes#get_standard_data"
     match '/business_objects/:bo_id/object_attributes/:id/edit(.:format)' => "object_attributes#edit", :via => [:get, :put]
     match '/business_objects/:bo_id/object_attributes/:id(.:format)' => "object_attributes#update", :via => :put

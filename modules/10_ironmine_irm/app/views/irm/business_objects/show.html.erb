@@ -123,7 +123,8 @@
         </td>
       </tr></table>
       <div class="page-block-body">
-        <%= render :partial=>"user_customize_object_attributes",:locals=>{:datas=>user_customize_object_attributes(@business_object.id)}%>
+        <%= datatable("user_customize_object_attributes",{:controller => "irm/object_attributes", :action=>"user_customize_object_attributes", :bo_id => @business_object.id },[],{:drag_sort => {:save_url => url_for(:controller => 'irm/object_attributes', :action => 'switch_sequence', :bo_id => @business_object.id)}})%>
+        <%#= render :partial=>"user_customize_object_attributes",:locals=>{:datas=>user_customize_object_attributes(@business_object.id)}%>
       </div>
     </div>
 <% end %>

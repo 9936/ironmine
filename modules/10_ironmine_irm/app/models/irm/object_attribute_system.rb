@@ -6,6 +6,8 @@ class Irm::ObjectAttributeSystem < ActiveRecord::Base
 
   before_create :build_sequence
 
+  scope :order_by_sequence, order("#{table_name}.display_sequence DESC")
+
   private
   #构建sequence
   def build_sequence

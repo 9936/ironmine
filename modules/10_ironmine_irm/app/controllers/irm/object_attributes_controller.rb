@@ -313,6 +313,30 @@ class Irm::ObjectAttributesController < ApplicationController
     end
   end
 
+  def user_customize_object_attributes
+    @datas = Irm::ObjectAttribute.multilingual.list_all.order_by_sequence.real_field.query_by_business_object(@business_object.id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+  end
+
+  def switch_sequence
+    sequence_str = params[:ordered_ids]
+    if sequence_str.present?
+      sequence = 1
+      ids = sequence_str.split(",")
+      attributes = Irm::ObjectAttribute.where(:id => ids).index_by(&:id)
+
+      ids.each do |id|
+        attribute = attributes[id]
+        attribute.display_sequence = sequence
+        attribute.not_auto_mult = true
+        attribute.save
+        sequence += 1
+      end if attributes.any?
+    end
+    respond_to do |format|
+      format.json  {render :json => {:success => true}}
+    end
+  end
+
 
   private
   def setup_business_object

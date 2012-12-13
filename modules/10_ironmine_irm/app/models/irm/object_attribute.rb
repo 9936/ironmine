@@ -9,6 +9,9 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   #多语言关系
   attr_accessor :name,:description
   has_many :object_attributes_tls,:dependent => :destroy
+  before_create :build_sequence
+
+
   acts_as_multilingual({:required=>[]})
 
   #删除关联字段的同时,删除别名字段
@@ -55,7 +58,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   # 设置名称字段,一个对像中只有一个名称字段
   after_save :clear_other_label_flag
 
-
+  scope :order_by_sequence, order("#{table_name}.display_sequence ASC")
 
   scope :with_relation_bo,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} relation_bo ON relation_bo.id = #{table_name}.relation_bo_id and relation_bo.language='#{language}'").
@@ -105,7 +108,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   scope :custom_field_with_system, lambda{|system_id|
     where("(#{Irm::ObjectAttribute.table_name}.field_type = ?) OR (#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?)", "GLOBAL_CUX_FIELD", "SYSTEM_CUX_FIELD", system_id).
-        order("system_flag DESC").
+        order("system_flag ASC").
         select("IF(#{Irm::ObjectAttribute.table_name}.external_system_id is NULL, 'N', 'Y') system_flag")
   }
 
@@ -291,6 +294,17 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   def clear_other_label_flag
     if Irm::Constant::SYS_YES.eql?(self.label_flag)
       self.class.where("business_object_id = ? AND label_flag = ? AND id != ?", self.business_object_id,Irm::Constant::SYS_YES,self.id).update_all(:label_flag=>Irm::Constant::SYS_NO)
+    end
+  end
+
+  private
+  #构建sequence
+  def build_sequence
+    current_sequence = Irm::ObjectAttribute.select("display_sequence").where(:business_object_id => self.business_object_id, :field_type => "GLOBAL_CUX_FIELD").order("display_sequence DESC").first
+    if current_sequence.present?
+      self.display_sequence = current_sequence[:display_sequence] + 1
+    else
+      self.display_sequence = 1
     end
   end
 
