@@ -1761,7 +1761,7 @@ jQuery.fn.menubutton = function () {
                 btns = $(".page-block-header .page-block-button .btn",pageBlock),
                 html = $(".datatable", pageBlock).html(),
                 url = me.data.options.dragOptions.saveUrl;
-            url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id=null";
+            url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id="+me.$element.attr("id");
             orderBtn.bind("click", function(){
                 btns.css("display","none");
                 $(this).hide();
@@ -1772,10 +1772,15 @@ jQuery.fn.menubutton = function () {
             });
             saveBtn.bind("click", function(){
                 var data = $(".table-body table:first tbody tr",me.$element).map(function() {return $(this).attr("id");}).get();
-                $.post(url, { ordered_ids: data.join(",")} );
-                //保存后将html修改
-                html = $(".datatable", pageBlock).html();
-                cancelBtn.trigger("click");
+                $.post(url, { ordered_ids: data.join(",")}, function(data){
+                    //保存后将html修改
+                    html = $(".datatable", pageBlock).html();
+                    cancelBtn.trigger("click");
+                    if(me.data.options.dragOptions.returnUrl){
+                        window.location = me.data.options.dragOptions.returnUrl;
+                    }
+                });
+
             });
             //取消按钮
             cancelBtn.bind("click",function(){
@@ -1788,7 +1793,12 @@ jQuery.fn.menubutton = function () {
                 $(".datatable", pageBlock).html(html);
             });
             $(".page-block-header .page-block-button",pageBlock).append(orderBtn).append(cancelBtn).append(saveBtn);
+            //当配置了
+            if(me.data.options.dragOptions.triggerClick){
+                orderBtn.trigger("click");
+            }
         }
+
     };
     //初始化排序列
     Internal.prototype.buildOrderColumn = function () {
