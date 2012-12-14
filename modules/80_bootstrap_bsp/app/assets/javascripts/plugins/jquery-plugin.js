@@ -1791,6 +1791,9 @@ jQuery.fn.menubutton = function () {
                 pageBlock.removeClass('drag-able');
                 $(".table-body table:first tbody:first", me.$element).dragsort("destroy");
                 $(".datatable", pageBlock).html(html);
+                $(".table-body table:first tbody:first", me.$element).find("tr").each(function(){
+                    $(this).css("cursor","default");
+                });
             });
             $(".page-block-header .page-block-button",pageBlock).append(orderBtn).append(cancelBtn).append(saveBtn);
             //当配置了
