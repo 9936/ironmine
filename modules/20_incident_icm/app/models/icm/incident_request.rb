@@ -162,8 +162,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
   }
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
-    where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
-    Icm::IncidentRequest.name,person_id,Irm::Person.name)
+    #where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
+    #Icm::IncidentRequest.name,person_id,Irm::Person.name)
+    where("1=1")
   }
 
   scope :with_reply_flag,lambda{|person_id|
