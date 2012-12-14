@@ -113,7 +113,9 @@
 <% end %>
 
 <% content_for :block_priority_controll_bar do %>
-<%= form_for(@incident_request,:url=>{:controller => "icm/incident_requests", :action=>"update", :id => @incident_request.id},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@incident_request,
+             :url=>{:controller => "icm/incident_requests", :action=>"update", :id => @incident_request.id, :sid => @incident_request.external_system_id},
+             :builder => LabellingFormBuilder) do |f| %>
     <label for="label_icm_incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label>
     <%=f.select :urgence_id,available_urgence_code,{},{:id=>"incident_request_urgence_code"}%>
     <label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label>
