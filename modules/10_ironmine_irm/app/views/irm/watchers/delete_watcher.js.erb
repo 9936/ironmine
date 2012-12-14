@@ -1,5 +1,5 @@
 $(function(){
     $("#<%=@dom_id%>").html('<%= escape_javascript(render :partial =>"/irm/watchers/sidebar_watcher_list",
-                                                          :locals => {:watchable => @watchable,
+                                                          :locals => {:watchable => @watchable, :sid => @sid,
                                                           :editable =>@editable,:dom_id=>@dom_id})%>')
 });

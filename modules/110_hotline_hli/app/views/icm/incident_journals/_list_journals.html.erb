@@ -18,8 +18,11 @@
            <%= link_to t(:hide), {:controller => "icm/incident_journals", :action => "delete",:request_id => @incident_request.id, :id => journal[:id], :_dom_id => "enabled_#{journal[:id]}"},:remote => true %>
          <% end %>
          <% if can_edit_comment?(journal, @incident_request) %>
-             &nbsp;|&nbsp;<%= link_to t(:edit), {:controller => "icm/incident_journals", :action => "edit", :sid => @incident_request.external_system_id,
-                                                 :request_id => @incident_request.id, :id => journal[:id]}%>
+             &nbsp;&nbsp;<%= link_to t(:edit), {:controller => "icm/incident_journals",
+                                                :action => "edit",
+                                                :sid => @incident_request.external_system_id,
+                                                :request_id => @incident_request.id,
+                                                :id => journal[:id]}%>
          <% end %>
        </div>
    </div>
@@ -38,7 +41,7 @@
 
        <%= raw process_message(journal[:message_body])  %>
      </div>
-     <%= list_journal_files(grouped_files,journal) %>
+     <%= list_journal_files(grouped_files,journal,@incident_request.external_system_id) %>
    </div>
 
  </div>
