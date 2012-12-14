@@ -1,15 +1,28 @@
 class HliUpgradeData < ActiveRecord::Migration
   def up
     opu = Irm::OperationUnit.where("short_name = ?", "Hand").first.id
-
+    ebs_helpdesk_group = Irm::Group.
+        joins(",#{Icm::SupportGroup.table_name} sg").
+        where("code = ?", "EBS_HELP_DESK").
+        where("sg.group_id = #{Irm::Group.table_name}.id").
+        select("#{Irm::Group.table_name}.*, sg.id support_group_id").
+        first.id
     #根据code，建立support group与external system的关联
     Irm::ExternalSystem.where("1=1").enabled.each do |es|
       Irm::Group.where("code = ?", es.external_system_code).each do |gp|
         Icm::SupportGroup.where("group_id = ?", gp.id).each do |sg|
-          group_system = Icm::ExternalSystemGroup.new(:opu_id => opu,
-                                                      :external_system_id => es.id,
-                                                      :support_group_id => sg.id)
+          group_system = Icm::ExternalSystemGroup.create(:opu_id => opu,
+                                                        :external_system_id => es.id,
+                                                        :support_group_id => sg.id)
         end
+      end
+      existed_ebs_group = Icm::ExternalSystemGroup.
+          where("external_system_id = ?", es.id).
+          where("support_group_id = ?", ebs_helpdesk_group.id)
+      unless existed_ebs_group.any?
+        Icm::ExternalSystemGroup.create(:opu_id => opu,
+                                        :external_system_id => es.id,
+                                        :support_group_id => ebs_helpdesk_group.id)
       end
     end
 
