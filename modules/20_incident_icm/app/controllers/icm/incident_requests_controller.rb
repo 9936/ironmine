@@ -546,10 +546,10 @@ class Icm::IncidentRequestsController < ApplicationController
     source = eval(attachment.source_type).find(source_id)
     name = attachment.name
 
-    if source.source_type.eql?("Icm::IncidentRequest")
+    if source.class.name.eql?("Icm::IncidentRequest")
       request_id = source.id
       journal_id = ""
-    else source.source_type.eql?("Icm::IncidentJournal")
+    else source.class.name.eql?("Icm::IncidentJournal")
       request_id = source.incident_request_id
       journal_id = source.id
     end
