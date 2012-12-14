@@ -87,7 +87,7 @@
             <td class="label-col"><label><%=(t :label_irm_person_ldap_source)%></label></td>
             <td class="data-col"><div>
               <% if allow_to_function?(:edit_person_permission) -%>
-                <%= f.blank_select(:auth_source_id, available_ldap_auth_headers,{})%>
+                <%= f.blank_select(:auth_source_id, available_ldap_auth_headers_helper,{},{})%>
               <% else -%>
                   <%= @person[:ldap_source_name].blank? ? check_img("N") : @person[:ldap_source_name]%>
               <% end -%>
