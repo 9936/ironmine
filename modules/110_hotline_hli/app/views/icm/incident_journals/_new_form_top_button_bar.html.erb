@@ -57,7 +57,7 @@
     <% else %>
          <div class="btn-group">
            <%= link_to t(:permanent_close), {:action => "edit_permanent_close"},{:class=>"btn"}%>
-           <%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id},{:class=>"btn"}%>
+           <%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id, :sid => @incident_request.external_system_id},{:class=>"btn"}%>
            <% if (allow_to_function?(:edit_self_closed_incident_request) &&
                    (current_person?(@incident_request.support_person_id) ||
                    current_person?(@incident_request.requested_by))) || allow_to_function?(:edit_closed_incident_request)  %>
