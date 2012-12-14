@@ -14,11 +14,6 @@
             </span>
        </div>
        <div style="float:right;">
-         <% if allow_to_function?(:remove_any_journal) || (allow_to_function?(:remove_self_journal) && journal[:replied_by].eql?(Irm::Person.current.id))%>
-            <%= link_to t(:delete), {:controller => "icm/incident_journals", :action => "remove_journal",
-                                     :request_id => @incident_request.id, :journal_id => journal[:id]},
-                        {:confirm => t(:label_delete_confirm)}  %>
-         <% end %>
          <% if allow_to_function?(:delete_recover_any_journals) or (allow_to_function?(:delete_recover_my_journals) and journal[:replied_by].eql?(Irm::Person.current.id)) %>
            <%= link_to t(:hide), {:controller => "icm/incident_journals", :action => "delete",:request_id => @incident_request.id, :id => journal[:id], :_dom_id => "enabled_#{journal[:id]}"},:remote => true %>
          <% end %>
