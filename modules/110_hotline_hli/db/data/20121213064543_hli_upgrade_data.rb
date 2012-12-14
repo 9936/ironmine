@@ -6,7 +6,7 @@ class HliUpgradeData < ActiveRecord::Migration
         where("code = ?", "EBS_HELP_DESK").
         where("sg.group_id = #{Irm::Group.table_name}.id").
         select("#{Irm::Group.table_name}.*, sg.id support_group_id").
-        first.id
+        first
     #根据code，建立support group与external system的关联
     Irm::ExternalSystem.where("1=1").enabled.each do |es|
       Irm::Group.where("code = ?", es.external_system_code).each do |gp|
