@@ -20,7 +20,25 @@ module Irm
             end
             to_people = Irm::Person.query_by_ids(report_trigger.receiver_person_ids)
             to_mails = to_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact.join(",")
-            ReportMailer.report_email(report.id,report_schedule.id,{:to=>to_mails}).deliver
+
+            #params ||= {}
+            #保存信息至日志记录表中
+            to_people.each do |p|
+              if to_mails.include?(p.email_address)
+                mailer_log = Irm::MailerLog.new()
+                mailer_log.reference_target = "REPORT_ID:#{report.id}"
+                mailer_log.to_params = "#{p.email_address}---------#{p.full_name}---------#{p.id}"
+                mailer_log.send_status = Irm::MailerLog::STATUS[1]
+                mailer_log.send_at = Time.now
+                mailer_log.save
+                #if mailer_log.save
+                #  params[:mailer_log_ids] ||= []
+                #  params[:mailer_log_ids] << { p.id.to_sym => mailer_log.id }
+                #end
+              end
+            end
+
+            ReportMailer.report_email(report.id,report_schedule.id,{:to => to_mails }).deliver
             report_schedule.update_attribute(:run_status,"DONE")
             end_time = Time.now
 

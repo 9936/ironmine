@@ -51,6 +51,7 @@ class TemplateMailer < ActionMailer::Base
     send_options.merge!({:body=>body})
     #send_options.merge!({:date=> Time.now.in_time_zone.strftime('%Y-%m-%d %H:%M:%S')})
     headers(header_options)
+
     mail(send_options)
   end
 
