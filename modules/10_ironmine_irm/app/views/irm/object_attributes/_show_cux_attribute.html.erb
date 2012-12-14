@@ -6,7 +6,6 @@
     </td>
     <td class="page-block-button">
       <%= link_to t(:edit), {:action => "edit", :id => @object_attribute},:class=>"btn"%>
-      <%= link_to t(:label_irm_object_attribute_change_type), {:action=>"change_type",:id=>@object_attribute.id,:bo_id=>@business_object.id},:class=>"btn"%>
       <%= link_to t(:back), {:controller=>"irm/business_objects",:action=>"show",:id=>@business_object.id},:class=>"btn"%>
     </td>
   </tr></table>
