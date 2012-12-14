@@ -6,6 +6,6 @@ module Irm::LdapAuthHeadersHelper
   end
 
   def available_ldap_auth_headers
-    Irm::LdapSource.enabled.collect{|i|[i[:name],i.id]}
+    Irm::LdapAuthHeader.enabled.collect{|i|[i[:name],i.id]}
   end
 end
