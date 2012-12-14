@@ -270,7 +270,7 @@ module ApplicationHelper
         require_jscss(:dragsort)
         drag_able = true
         drag_able = drag_sort[:drag_able] if !drag_sort[:drag_able].nil?
-        table_options << ",dragOptions:{dragAble:#{drag_able},saveUrl:'#{drag_sort[:save_url]}'}"
+        table_options << ",dragOptions:{dragAble:#{drag_able}, returnUrl:'#{drag_sort[:return_url]}', triggerClick:'#{drag_sort[:trigger_click]}' ,saveUrl:'#{drag_sort[:save_url]}'}"
       end
     end
 
