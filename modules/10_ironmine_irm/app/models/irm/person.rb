@@ -379,7 +379,7 @@ class Irm::Person < ActiveRecord::Base
   end
 
   def external_systems
-    Irm::ExternalSystem.multilingual.enabled.with_person(self.id)
+    Irm::ExternalSystem.multilingual.order_with_name.enabled.with_person(self.id)
   end
 
   def system_ids
