@@ -3,6 +3,7 @@ $(function(){
     alert("<%= flash[:error]%>");
   <%end %>
   <% if @incident_request %>
-    $("#<%= @dom_id%>").html('<%= escape_javascript(render :partial =>"/icm/incident_requests/sidebar_relation_list", :locals => {:incident_request => @incident_request,:dom_id=>@dom_id})%>');
+    $("#<%= @dom_id%>").html('<%= escape_javascript(render :partial =>"/icm/incident_requests/sidebar_relation_list",
+    :locals => {:incident_request => @incident_request,:dom_id=>@dom_id, :sid => @incident_request.external_system_id})%>');
   <% end %>
 });

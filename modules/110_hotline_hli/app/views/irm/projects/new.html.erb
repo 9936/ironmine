@@ -31,13 +31,10 @@
       <table class="page-block-header">
         <tr>
             <td class="page-block-title">
-              <h2 class="block-title"><%= t(:step_n, :n => "1") %><%= t(:label_irm_project_new) %></h2>
+              <h2 class="block-title"><%= t(:label_irm_project_new) %></h2>
             </td>
             <td class="page-block-button">
               <%= content_for :form_buttons   %>
-            </td>
-            <td class="page-block-help">
-              <%= t(:step_n_total_m, :n => "1", :m => "2") %>
             </td>
           </tr>
       </table>
@@ -69,7 +66,7 @@
 <script type="text/javascript">
   $(function(){
     $(".btn-primary").click(function(){
-        $("#irm_project_new").attr('action', '<%= url_for(:action => "create", :controller => "irm/projects", :next => "add_person")%>');
+        $("#irm_project_new").attr('action', '<%= url_for(:action => "create", :controller => "irm/projects")%>');
         $("#irm_project_new").submit();
     });
   })

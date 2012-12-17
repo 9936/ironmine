@@ -45,36 +45,6 @@ module Icm::IncidentRequestsHelper
     end
 
     all_groups.collect{|i|[i[:name], i[:id]]}
-
-
-    #grouped_groups = all_groups.collect{|i| [i.id,i.parent_group_id]}.group_by{|i|i[1].present? ? i[1] : "blank"}
-    #groups = {}
-    #all_groups.each do |ao|
-    #  groups.merge!({ao.id=>ao})
-    #end
-    #
-    #
-    #leveled_groups = []
-    #
-    #proc = Proc.new{|parent_id,level|
-    #  if(grouped_groups[parent_id.to_s]&&grouped_groups[parent_id.to_s].any?)
-    #    grouped_groups[parent_id.to_s].each do |o|
-    #      groups[o[0]].level = level
-    #      leveled_groups << groups[o[0]]
-    #
-    #      proc.call(groups[o[0]].id,level+1)
-    #    end
-    #  end
-    #}
-    #return [] unless grouped_groups["blank"]&&grouped_groups["blank"].any?
-    #grouped_groups["blank"].each do |go|
-    #  groups[go[0]].level = 1
-    #  leveled_groups << groups[go[0]]
-    #  proc.call(groups[go[0]].id,2)
-    #end
-    #
-    #
-    #leveled_groups.collect{|i|[(level_str(i.level)+i[:name]).html_safe,i.id]}
   end
 
   def available_urgence_code
@@ -152,7 +122,10 @@ module Icm::IncidentRequestsHelper
         d1 = content_tag(:td, "", :class => "dataCol")
         d2 = content_tag(:td, a.data_file_name, :class => "data-col")
         d3 = content_tag(:td, a.description, :class => "data-col")
-        d4 = content_tag(:td, link_to(t(:delete), {:controller => "icm/incident_requests", :action => "remove_exists_attachments", :att_id => a.id, :incident_request_id => incident_request.id}, :remote => "true", :confirm => t(:label_are_you_sure)), :class => "dataCol")
+        d4 = content_tag(:td, link_to(t(:delete), {:controller => "icm/incident_requests",
+                                                   :action => "remove_exists_attachments",
+                                                   :att_id => a.id, :incident_request_id => incident_request.id},
+                                      :remote => "true", :confirm => t(:label_are_you_sure)), :class => "dataCol")
         r = content_tag(:tr, d1 + d2 + d3 + d4)
         html << r
       end
@@ -177,7 +150,7 @@ module Icm::IncidentRequestsHelper
   end
 
 
-  def list_all_icm_incident_relations(incident_request_id, incident_request = nil)
+  def list_all_icm_incident_relations(incident_request_id, incident_request = nil, sid = "")
     relation_list = Icm::IncidentRequestRelation.list_all(incident_request_id)
     ret = ""
 
@@ -202,7 +175,7 @@ module Icm::IncidentRequestsHelper
        gr.each do |w|
          if can_relation?(incident_request)
            delete_content = (icon_link_delete({:controller => "icm/incident_requests",
-                             :action => "remove_relation",
+                             :action => "remove_relation",:sid=>sid,
                              :source_id => w[:source_id],
                              :id => w[:relation_id],:_dom_id=>"relation_list"},
                              :remote => true,

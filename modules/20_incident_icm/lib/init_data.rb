@@ -741,7 +741,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_journals" => ["edit_pass", "update_pass"]
+              "icm/incident_journals" => ["edit_pass", "update_pass"]
           },
           :system_pass_anyone => {
               :zh => {:name => "转交任意事故单", :description => "转交任意事故单"},
@@ -750,7 +750,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_journals" => ["edit_pass", "update_pass"]
+              "icm/incident_journals" => ["edit_pass", "update_pass"]
           },
           ##状态
           :system_status_mine => {
@@ -760,7 +760,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_journals" => ["edit_status", "update_status"]
+              "icm/incident_journals" => ["edit_status", "update_status"]
           },
           :system_status_anyone => {
               :zh => {:name => "更改任意事故单状态", :description => "更改任意事故单状态"},
@@ -769,7 +769,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_journals" => ["edit_status", "update_status"]
+              "icm/incident_journals" => ["edit_status", "update_status"]
           },
           ##升级
           :system_upgrade_request => {
@@ -779,7 +779,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_journals" => ["edit_upgrade", "update_upgrade"]
+              "icm/incident_journals" => ["edit_upgrade", "update_upgrade"]
           },
           ##关闭
           :system_close_mine => {
@@ -789,7 +789,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_journals" => ["edit_close", "update_close"]
+              "icm/incident_journals" => ["edit_close", "update_close"]
           },
           :system_close_anyone => {
               :zh => {:name => "关闭任意事故单", :description => "关闭任意事故单"},
@@ -798,7 +798,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_journals" => ["edit_close", "update_close"]
+              "icm/incident_journals" => ["edit_close", "update_close"]
           },
           ##编辑
           :system_edit_mine => {
@@ -808,7 +808,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_requests" => ["edit", "update"]
+              "icm/incident_requests" => ["edit", "update"]
           },
           :system_edit_anyone => {
               :zh => {:name => "编辑任意事故单", :description => "编辑任意事故单"},
@@ -817,7 +817,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_requests" => ["edit", "update"]
+              "icm/incident_requests" => ["edit", "update"]
           },
           ##目前只有hotline模块具有事故单取消功能，暂且不在主框架上添加
           ##取消
@@ -847,7 +847,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_requests" => ["remove_attachment"]
+              "icm/incident_requests" => ["remove_attachment"]
           },
           :system_delete_file_anyone => {
               :zh => {:name => "删除任意回复的附件", :description => "删除任意回复的附件"},
@@ -856,7 +856,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_requests" => ["remove_attachment"]
+              "icm/incident_requests" => ["remove_attachment"]
           },
           #编辑回复
           :system_edit_comment_mine => {
@@ -866,7 +866,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_journals" => [:edit, :update]
+              "icm/incident_journals" => [:edit, :update]
           },
           :system_edit_comment_anyone => {
               :zh => {:name => "编辑任意回复", :description => "编辑任意回复"},
@@ -875,7 +875,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_journals" => [:edit, :update]
+              "icm/incident_journals" => [:edit, :update]
           },
           ##跟踪者
           :system_watcher_mine => {
@@ -885,7 +885,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"irm/watchers" => ["add_watcher", "delete_watcher"]
+              "irm/watchers" => ["add_watcher", "delete_watcher"]
           },
           :system_watcher_anyone => {
               :zh => {:name => "添加任意跟踪者", :description => "添加任意跟踪者"},
@@ -894,7 +894,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"irm/watchers" => ["add_watcher", "delete_watcher"]
+              "irm/watchers" => ["add_watcher", "delete_watcher"]
           },
           ##相关事故单
           :system_relation_request => {
@@ -904,18 +904,18 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               :system_flag => "Y",
-              #"icm/incident_requests" => ["add_relation", "remove_relation"]
+              "icm/incident_requests" => ["add_relation", "remove_relation"]
           },
           ##分配事故单
-          :system_assign_request => {
-              :zh => {:name => "分配", :description => "分配事故单"},
-              :en => {:name => "Assign", :description => "Assign Request"},
-              :default_flag => "N",
-              :login_flag => "N",
-              :public_flag => "N",
-              :system_flag => "Y",
-              #"icm/incident_requests" => ["create", "new"]
-          }
+          #:system_assign_request => {
+          #    :zh => {:name => "分配", :description => "分配事故单"},
+          #    :en => {:name => "Assign", :description => "Assign Request"},
+          #    :default_flag => "N",
+          #    :login_flag => "N",
+          #    :public_flag => "N",
+          #    :system_flag => "Y",
+          #    "icm/incident_requests" => ["assignable_data", "assign_request"]
+          #}
       }
   }
 

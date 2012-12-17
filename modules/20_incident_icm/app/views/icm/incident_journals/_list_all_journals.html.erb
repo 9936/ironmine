@@ -33,7 +33,7 @@
       <div class="message-body">
         <%= raw process_message(journal[:message_body])  %>
       </div>
-      <%= list_journal_files(grouped_files,journal) %>
+      <%= list_journal_files(grouped_files,journal,@incident_request.external_system_id) %>
     </div>
   </div>
 <%end %>

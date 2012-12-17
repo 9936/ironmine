@@ -78,8 +78,8 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/get_slm_services(.:format)' => "incident_requests#get_slm_services", :via => :get
     match '/incident_requests/get_all_slm_services(.:format)' => "incident_requests#get_all_slm_services", :via => :get
     match '/incident_requests(/index)(.:format)' => "incident_requests#index", :via => :get
-    match '/incident_requests/:id/edit(.:format)' => "incident_requests#edit", :via => :get
-    match '/incident_requests/:id(.:format)' => "incident_requests#update", :via => :put
+    match '/incident_requests/:id/:sid/edit(.:format)' => "incident_requests#edit", :via => :get
+    match '/incident_requests/:id/:sid(.:format)' => "incident_requests#update", :via => :put
     match '/incident_requests/new(.:format)' => "incident_requests#new", :via => [:get,:post]
     match '/incident_requests/create(.:format)' => "incident_requests#create", :via => :post
     match '/incident_requests/get_data(.:format)' => "incident_requests#get_data",:via=>:get
@@ -90,37 +90,37 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/assign_request(.:format)' => "incident_requests#assign_request", :via => :post
     match '/incident_requests/kanban_index(.:format)' => "incident_requests#kanban_index", :via => :get
     match '/incident_requests/edit_assign_me(.:format)' => "incident_requests#edit_assign_me", :via => :get
-    match '/incident_requests/update_assign_me(.:format)' => "incident_requests#update_assign_me", :via => [:post ,:get]
-    match '/incident_requests/assign_me_data(.:format)' => "incident_requests#assign_me_data", :via => :get
+    match '/incident_requests/update_assign_me/:sid(.:format)' => "incident_requests#update_assign_me", :via => [:post ,:get]
+    match '/incident_requests/assign_me_data/:sid(.:format)' => "incident_requests#assign_me_data", :via => :get
 
     match '/incident_requests/:incident_request_id/:att_id/remove_exists_attachments(.:format)' => "incident_requests#remove_exists_attachments"
-    match '/incident_requests/:source_id/add_relation(.:format)' => "incident_requests#add_relation", :via => :post
-    match '/incident_requests/remove_relation(.:format)' => "incident_requests#remove_relation"
+    match '/incident_requests/:source_id/:sid/add_relation(.:format)' => "incident_requests#add_relation", :via => :post
+    match '/incident_requests/:sid/remove_relation(.:format)' => "incident_requests#remove_relation"
     match '/incident_requests/:request_id/info_card(.:format)' => "incident_requests#info_card", :via => :get
 
     #incident_journals
     match '/incident_requests/:request_id/journals(/index)(.:format)' => "incident_journals#index", :via => :get    
-    match '/incident_requests/:request_id/journals/edit_close(.:format)' => "incident_journals#edit_close", :via => :get
-    match '/incident_requests/:request_id/journals/update_close(.:format)' => "incident_journals#update_close", :via => :put
-    match '/incident_requests/:request_id/journals/edit_reopen(.:format)' => "incident_journals#edit_reopen", :via => :get
-    match '/incident_requests/:request_id/journals/update_reopen(.:format)' => "incident_journals#update_reopen", :via => :put
+    match '/incident_requests/:request_id/:sid/journals/edit_close(.:format)' => "incident_journals#edit_close", :via => :get
+    match '/incident_requests/:request_id/:sid/journals/update_close(.:format)' => "incident_journals#update_close", :via => :put
+    match '/incident_requests/:request_id/:sid/journals/edit_reopen(.:format)' => "incident_journals#edit_reopen", :via => :get
+    match '/incident_requests/:request_id/:sid/journals/update_reopen(.:format)' => "incident_journals#update_reopen", :via => :put
     match '/incident_requests/:request_id/journals/edit_permanent_close(.:format)' => "incident_journals#edit_permanent_close", :via => :get
     match '/incident_requests/:request_id/journals/update_permanent_close(.:format)' => "incident_journals#update_permanent_close", :via => :put
-    match '/incident_requests/:request_id/journals/edit_pass(.:format)' => "incident_journals#edit_pass", :via => :get
-    match '/incident_requests/:request_id/journals/edit_upgrade(.:format)' => "incident_journals#edit_upgrade", :via => :get
-    match '/incident_requests/:request_id/journals/update_upgrade(.:format)' => "incident_journals#update_upgrade", :via => :put
-    match '/incident_requests/:request_id/journals/update_pass(.:format)' => "incident_journals#update_pass", :via => :put
+    match '/incident_requests/:request_id/:sid/journals/edit_pass(.:format)' => "incident_journals#edit_pass", :via => :get
+    match '/incident_requests/:request_id/:sid/journals/edit_upgrade(.:format)' => "incident_journals#edit_upgrade", :via => :get
+    match '/incident_requests/:request_id/:sid/journals/update_upgrade(.:format)' => "incident_journals#update_upgrade", :via => :put
+    match '/incident_requests/:request_id/:sid/journals/update_pass(.:format)' => "incident_journals#update_pass", :via => :put
     match '/incident_requests/:request_id/journals/new(.:format)' => "incident_journals#new", :via => :get
     match '/incident_requests/:request_id/journals/create(.:format)' => "incident_journals#create", :via => :post
     match '/incident_requests/:request_id/journals/get_entry_header_data(.:format)' => "incident_journals#get_entry_header_data", :via => :get
     match '/incident_requests/:request_id/journals/apply_entry_header(.:format)' => "incident_journals#apply_entry_header", :via => :get
     match '/incident_requests/:request_id/journals/apply_entry_header_link(.:format)' => "incident_journals#apply_entry_header_link", :via => :get
-    match '/incident_requests/:request_id/journals/edit_status(.:format)' => "incident_journals#edit_status", :via => :get
-    match '/incident_requests/:request_id/journals/update_status(.:format)' => "incident_journals#update_status", :via => :put
-    match '/incident_requests/:request_id/journals/:id/edit(.:format)' => "incident_journals#edit", :via => :get
-    match '/incident_requests/:request_id/journals/:id/update(.:format)' => "incident_journals#update"
-    match '/incident_requests/:request_id/journals/:id/delete(.:format)' => "incident_journals#delete"
-    match '/incident_requests/:request_id/journals/:id/recover(.:format)' => "incident_journals#recover"
+    match '/incident_requests/:request_id/:sid/journals/edit_status(.:format)' => "incident_journals#edit_status", :via => :get
+    match '/incident_requests/:request_id/:sid/journals/update_status(.:format)' => "incident_journals#update_status", :via => :put
+    match '/incident_requests/:request_id/:sid/journals/:id/edit(.:format)' => "incident_journals#edit", :via => :get
+    match '/incident_requests/:request_id/:sid/journals/:id/update(.:format)' => "incident_journals#update"
+    match '/incident_requests/:request_id/:sid/journals/:id/delete(.:format)' => "incident_journals#delete"
+    match '/incident_requests/:request_id/:sid/journals/:id/recover(.:format)' => "incident_journals#recover"
     match '/incident_requests/:request_id/journals/all_journals(.:format)' => "incident_journals#all_journals", :via => :get
 
     #support_groups
@@ -173,7 +173,7 @@ Ironmine::Application.routes.draw do
     match '/incident_config_relations/:id/destroy(.:format)' => "incident_config_relations#destroy", :via => :delete
 
     #remove attachements
-    match '/incident_requests/:attachment_id/remove_attachment(.:format)' => "incident_requests#remove_attachment", :via => :get
+    match '/incident_requests/:attachment_id/:sid/remove_attachment(.:format)' => "incident_requests#remove_attachment", :via => :get
 
     #assign rules
     match '/assign_rules(/index)(.:format)' => "assign_rules#index", :via => :get

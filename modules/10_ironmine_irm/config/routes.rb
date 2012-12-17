@@ -546,8 +546,8 @@ Rails.application.routes.draw do
     match '/bu_columns/:id/update(.:format)' => "bu_columns#update", :via => :put
     match '/bu_columns/get_columns_data(.:format)' => "bu_columns#get_columns_data", :via => :get
 
-    match '/watchers/:watchable_id/add_watcher(.:format)' => "watchers#add_watcher"
-    match '/watchers/delete_watcher(.:format)' => "watchers#delete_watcher"
+    match '/watchers/:watchable_id/:sid/add_watcher(.:format)' => "watchers#add_watcher"
+    match '/watchers/:sid/delete_watcher(.:format)' => "watchers#delete_watcher"
     match '/watchers/order(.:format)' => "watchers#order"
 
     #    match '/calendar_tasks(/:year(/:month))' => 'calendar_tasks#index', :as => :calendar_task, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}

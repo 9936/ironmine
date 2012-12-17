@@ -1,4 +1,4 @@
-<%= form_tag({:controller => "icm/incident_requests", :action => "add_relation", :source_id => incident_request.id,:_dom_id=>dom_id}, :remote => true) do |f| %>
+<%= form_tag({:controller => "icm/incident_requests", :action => "add_relation", :sid=>sid, :source_id => incident_request.id,:_dom_id=>dom_id}, :remote => true) do |f| %>
 <div class="sidebar-block">
     <div class="sidebar-block-header"><h2>
       <%= t :label_icm_incident_request_relation %>
@@ -19,7 +19,8 @@
             <tr>
               <td>
                 <div class="form-inline" style="width: 100%;">
-                  <%= link_to t(:new), {:controller=>"icm/incident_requests",:action => "new",:source_id =>incident_request.id },{:id=>"newRelation",:class=>"btn btn-primary",:style=>"display:none;"}%>
+                  <%= link_to t(:new), {:controller=>"icm/incident_requests",:action => "new",:source_id =>incident_request.id },
+                              {:id=>"newRelation",:class=>"btn btn-primary",:style=>"display:none;"}%>
                   <label><%= t(:label_icm_incident_request_relation_type) %></label>
                   <%= lookup_field_tag(:relation_type,"ICM_INCIDENT_REQUEST_REL_TYPE",nil,{:style=>"width:80px;display:inline-block;height:22px;"}) %>
                   <%= link_submit t(:add),{:id => "addRelationBtn",:class=>"btn btn-primary"}%>
@@ -29,7 +30,7 @@
           </tbody>
           <% end %>
           <tbody>
-            <%= list_all_icm_incident_relations(incident_request.id, incident_request)%>
+            <%= list_all_icm_incident_relations(incident_request.id, incident_request,sid)%>
           </tbody>
         </table>
       </div>

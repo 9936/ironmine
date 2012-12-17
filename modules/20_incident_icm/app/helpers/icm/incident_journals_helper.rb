@@ -76,17 +76,17 @@ module Icm::IncidentJournalsHelper
     Icm::IncidentJournal.list_all(incident_request.id).size
   end
 
-  def list_journal_files(grouped_files,journal)
+  def list_journal_files(grouped_files,journal, sid="")
     return if grouped_files[journal.id].nil?||grouped_files[journal.id].size<1
     file_lists = ""
     grouped_files[journal.id].each do |f|
-      file_lists << show_file(f)
+      file_lists << show_file(f,true,sid)
     end
      content_tag(:div,file_lists.html_safe,{:class=>"file-list"})
   end
 
   # show file
-  def show_file(f, with_image = true)
+  def show_file(f, with_image = true, sid = "")
     image_path = nil
     image_path = f.data.url(:thumb) if f.image?
     image_path = theme_image_path(Irm::AttachmentVersion.file_type_icon(f.data.original_filename)) unless image_path
@@ -100,7 +100,7 @@ module Icm::IncidentJournalsHelper
     delete_link = ""
     #检查是否具有删除回复附件功能
     delete_link << "<a data-remote=true data-confirm='#{I18n.t(:label_delete_confirm)}' href='#{url_for(:controller => "icm/incident_requests",
-                                               :action => "remove_attachment",
+                                               :action => "remove_attachment", :sid => sid,
                                                :attachment_id => f.id)}'>#{btn_delete_icon}</a>" if can_delete_comment_file?(f, @incident_request)
     content_tag(:div, (content_tag(:div, link.html_safe + description.html_safe, {:class=>"file-item"}) +
         "&nbsp;&nbsp;".html_safe + delete_link.html_safe).html_safe,{:class=>"fileItem"}).html_safe
