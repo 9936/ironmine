@@ -17,10 +17,15 @@ module Irm::SystemsHelper
       system << <<-BEGIN_HEML
       <ul class="nav nav-pills  pull-right" style="text-align: left;">
         <li class="dropdown">
-          <a href="#" data-toggle="dropdown" class="dropdown-toggle">#{current_system[:system_name]} <b class="caret"></b></a>
-          <ul class="dropdown-menu" style="min-width:130px;right:0;left:auto;" >
-            #{list_systems(systems)}
-          </ul>
+          <a href="#" id="choseSystem" style="position: relative;z-index: 15;">#{current_system[:system_name]} <b class="caret"></b></a>
+          <div id="systemList">
+            <div class="input-append" id="systemSearchBox" style="margin-top:-18px;margin-left:-12px;display:none;">
+              <input type="text" id="searchText">
+              <button class="btn" id="searchBtn" type="button" style ="margin-left:-4px;">#{t(:search)}</button>
+            </div>
+            <hr/>
+            <ul>#{list_systems(systems)}</ul>
+          </div>
         </li>
       </ul>
       BEGIN_HEML
