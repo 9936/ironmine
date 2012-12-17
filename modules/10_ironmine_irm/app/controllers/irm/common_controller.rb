@@ -31,7 +31,7 @@ class Irm::CommonController < ApplicationController
   def send_email
     #查找该email是否有效
     if params[:email].present?
-      person = Irm::Person.with_ldap.where(:email_address => params[:email]).first
+      person = Irm::Person.list_all.where(:email_address => params[:email]).first
       #生成一个随机的token
       if person.present?
         #如果是LDAP用户不能重置密码
