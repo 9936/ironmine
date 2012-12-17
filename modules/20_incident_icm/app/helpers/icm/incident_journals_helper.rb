@@ -18,12 +18,12 @@ module Icm::IncidentJournalsHelper
     raw(html)
   end
 
-  def list_request_file
+  def list_request_file(request)
 
     return if @request_files[0].nil?||@request_files[0].size<1
     file_lists = ""
     @request_files[0].each do |f|
-      file_lists << show_file(f)
+      file_lists << show_file(f,true,request.external_system_id)
     end
     content_tag(:div,file_lists.html_safe,{:class=>"file-list"})
   end

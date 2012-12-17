@@ -16,14 +16,14 @@ class HliUpgradeData < ActiveRecord::Migration
                                                         :support_group_id => sg.id)
         end
       end
-      #existed_ebs_group = Icm::ExternalSystemGroup.
-      #    where("external_system_id = ?", es.id).
-      #    where("support_group_id = ?", ebs_helpdesk_group.id)
-      #unless existed_ebs_group.any?
-      #  Icm::ExternalSystemGroup.create(:opu_id => opu,
-      #                                  :external_system_id => es.id,
-      #                                  :support_group_id => ebs_helpdesk_group.id)
-      #end
+      existed_ebs_group = Icm::ExternalSystemGroup.
+          where("external_system_id = ?", es.id).
+          where("support_group_id = ?", ebs_helpdesk_group.id)
+      unless existed_ebs_group.any?
+        Icm::ExternalSystemGroup.create(:opu_id => opu,
+                                        :external_system_id => es.id,
+                                        :support_group_id => ebs_helpdesk_group[:support_group_id])
+      end
     end
 
     #给项目人员分配默认的system profile
