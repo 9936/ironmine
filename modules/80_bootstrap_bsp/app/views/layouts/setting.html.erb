@@ -81,14 +81,17 @@
                    all_data = $("li",container),
                    data_length = all_data.length;
                if(data_length > 42){
+                   //动态给添加搜索框
                    $("#systemSearchBox").show();
                }else if(data_length < 14){
                    container.css("width","220px");
+                   container.css("height", "auto");
+                   $("ul", container).css("height", "auto");
                }else if(data_length < 28){
                    container.css("width","500px");
                }
 
-               //动态给添加搜索框
+
                $("#choseSystem").click(function(){
                    var parent = $(this).parent();
                    if (parent.hasClass("open")){
