@@ -139,7 +139,7 @@ module CustomFieldHelper
       end
       #将填不满的给补齐
       if column_count % columns != 0
-        colspan = cloumns - column_count % columns
+        colspan = columns - column_count % columns
         html += "<td colspan='#{colspan}'></td>"
       end
 
