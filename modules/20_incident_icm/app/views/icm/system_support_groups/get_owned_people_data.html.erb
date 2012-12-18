@@ -2,14 +2,7 @@
     <% builder.column(:id,{:title=>t(:operation), :width => "20px"}) do |data|%>
         <%= link_to(t(:delete),{:controller=>"icm/system_support_groups",:action=>"delete_people",:sid=> current_system.id,:group_member_id => data[:id],:id => params[:id]},:confirm => t(:label_are_you_sure) ,:method => :delete,:class => "action-link") if @person_system_delete_hash[data[:person_id]] %>
     <% end %>
-
     <% builder.column(:person_name,{:title=>t(:label_irm_group_person_name), :width => "20%", :searchable => true})%>
-    <% builder.column(:system_count,{:title => t(:label_icm_support_group_system_num)}) do |data| %>
-        <%= @person_systems_count_hash[data[:person_id]][:system_count] %>
-    <% end %>
-    <% builder.column(:group_count,{:title => t(:label_icm_support_group_group_num)}) do |data| %>
-        <%= @person_groups_count_hash[data[:person_id]][:group_count] %>
-    <% end %>
     <% builder.column(:organization_name,{:title=>t(:label_irm_group_organization_name), :width => "25%"})%>
     <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address),:searchable => true})%>
 <% end %>

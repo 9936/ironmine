@@ -15,6 +15,11 @@ class Icm::ExternalSystemGroup < ActiveRecord::Base
       where("external_system_id = ?", system_id)
   }
 
+  scope :systems_num, lambda{|support_group_id|
+    select("COUNT(1) as system_count").
+        where("#{table_name}.support_group_id=?", support_group_id)
+  }
+
   scope :with_system_count,lambda{|support_group_ids|
     select("#{table_name}.support_group_id, COUNT(1) as system_count").
         where("#{table_name}.support_group_id IN(?)", support_group_ids).
