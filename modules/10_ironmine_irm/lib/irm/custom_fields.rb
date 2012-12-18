@@ -55,6 +55,19 @@ module Irm::CustomFields
           custom_attributes
         end
 
+        #获取对应model下必输的自定义属性
+        def required_custom_attributes
+          required_attributes = []
+          if self.custom_attributes.any?
+            self.custom_attributes.each do |attribute|
+              if attribute[:required_flag].eql?('Y')
+                required_attributes << attribute
+              end
+            end
+          end
+          required_attributes
+        end
+
         #设置默认值
         def merge_default_values
           self.custom_attributes.each do |field|

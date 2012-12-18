@@ -31,6 +31,7 @@ module Irm::CustomAttributesHelper
   end
 
 
+
   def system_custom_attribute_names(bo, sid)
     #已经存在的系统用户自定义属性
     g_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", sid).collect{|i| i.attribute_name}

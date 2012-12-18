@@ -127,6 +127,13 @@ class Irm::CustomAttributesController < ApplicationController
 
     #同步默认值
     @model_object = @model_object.merge_default_values
+    respond_to do |format|
+      if params[:template_name].present?
+        format.html {render params[:template_name] }
+      else
+        format.html
+      end
+    end
   end
 
   def get_data
