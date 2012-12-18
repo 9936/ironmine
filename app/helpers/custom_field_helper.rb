@@ -139,10 +139,8 @@ module CustomFieldHelper
       end
       #将填不满的给补齐
       if column_count % columns != 0
-        (cloumns - column_count % columns).times do
-          html += "<td class='label-col'></td>"
-          html += "<td class='data-col'></td>"
-        end
+        colspan = cloumns - column_count % columns
+        html += "<td colspan='#{colspan}'></td>"
       end
 
       html += "<tr>"
