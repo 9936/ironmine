@@ -170,19 +170,8 @@
           <%= content_for :form_block_addition %>
         </div>
         <!-- 自定义字段信息 -->
-        <div id="customBlock" style="display: none;" href= <%= url_for(:controller=>"icm/incident_requests",:action=>"custom_fields_block",:external_system_id=>"${external_system_id}", :_dom_id => "edit_icm_incident_request")%>>
-          <div class="sub-page-block">
-            <div class="sub-page-block-header">
-              <h3 class="sub-page-block-title"><%= t(:label_irm_system_custom_field) %></h3>
-            </div>
-            <div class="sub-page-block-body">
-              <table class="form-table">
-                <tbody>
-                <%= show_input_custom_fields(@incident_request) %>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <div id="customBlock" style="display: none;" href= <%= get_custom_block_url("Icm::IncidentRequest",{:external_system_id => "${external_system_id}"},"new_icm_incident_request")%>>
+          <%= render :partial => "irm/custom_attributes/custom_fields_block", :locals => {:model_object => @incident_request} %>
         </div>
       </div>
     </div>
