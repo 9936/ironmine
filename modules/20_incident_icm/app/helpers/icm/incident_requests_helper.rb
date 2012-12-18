@@ -122,7 +122,10 @@ module Icm::IncidentRequestsHelper
         d1 = content_tag(:td, "", :class => "dataCol")
         d2 = content_tag(:td, a.data_file_name, :class => "data-col")
         d3 = content_tag(:td, a.description, :class => "data-col")
-        d4 = content_tag(:td, link_to(t(:delete), {:controller => "icm/incident_requests", :action => "remove_exists_attachments", :att_id => a.id, :incident_request_id => incident_request.id}, :remote => "true", :confirm => t(:label_are_you_sure)), :class => "dataCol")
+        d4 = content_tag(:td, link_to(t(:delete), {:controller => "icm/incident_requests",
+                                                   :action => "remove_exists_attachments",
+                                                   :att_id => a.id, :incident_request_id => incident_request.id},
+                                      :remote => "true", :confirm => t(:label_are_you_sure)), :class => "dataCol")
         r = content_tag(:tr, d1 + d2 + d3 + d4)
         html << r
       end
@@ -147,7 +150,7 @@ module Icm::IncidentRequestsHelper
   end
 
 
-  def list_all_icm_incident_relations(incident_request_id, incident_request = nil)
+  def list_all_icm_incident_relations(incident_request_id, incident_request = nil, sid = "")
     relation_list = Icm::IncidentRequestRelation.list_all(incident_request_id)
     ret = ""
 
@@ -172,7 +175,7 @@ module Icm::IncidentRequestsHelper
        gr.each do |w|
          if can_relation?(incident_request)
            delete_content = (icon_link_delete({:controller => "icm/incident_requests",
-                             :action => "remove_relation",
+                             :action => "remove_relation",:sid=>sid,
                              :source_id => w[:source_id],
                              :id => w[:relation_id],:_dom_id=>"relation_list"},
                              :remote => true,

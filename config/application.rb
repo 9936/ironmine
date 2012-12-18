@@ -53,6 +53,10 @@ module Ironmine
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    #config.action_mailer.logger = nil
+    # Disable delivery errors, bad email addresses will be ignored
+    #config.action_mailer.raise_delivery_errors = false
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 

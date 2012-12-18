@@ -6,7 +6,7 @@ module Hli::WatchersControllerEx
         watcher = Irm::Person.find(params[:watcher])
         @watchable.add_watcher(watcher)
         @watchable.save
-
+        @sid = params[:sid] if params[:sid]
         if params[:watchable_type].eql?(Icm::IncidentRequest.name)
           Icm::IncidentHistory.create({:request_id => params[:watchable_id],
                                        :journal_id=> "",

@@ -93,27 +93,46 @@ class Irm::WfMailAlert < ActiveRecord::Base
 
     # header options
     header_options = {}
-    header_options.merge!({"References"=>Irm::BusinessObject.mail_message_id(self)})
+    mail_message_id = Irm::BusinessObject.mail_message_id(self)
+    header_options.merge!({"References"=>mail_message_id })
     params.merge!(:header_options=>header_options)
 
     # template 　
     mail_template = Irm::MailTemplate.query_by_template_code(self.mail_template_code).first
 
+
     # loop send mail
     bo_create_by = bo.respond_to?(:created_by)? bo.created_by : "nocreatedby" # do not send to creater
-    # 检查是否需要进行合并发送
+
+    recipient_ids.delete_if{|i| i.eql?(bo_create_by)}
+
+    #记录到邮件发送日志表
+    Irm::Person.where(:id => recipient_ids).each do |p|
+      mailer_log = Irm::MailerLog.new()
+      mailer_log.reference_target = "BUSINESS_OBJECT:#{bo.to_json}"
+      mailer_log.to_params = "#{p.email_address}---------#{p.full_name}---------#{p.id}"
+      mailer_log.template_code = self.mail_template_code
+      mailer_log.send_at = Time.now
+      mailer_log.save
+      #if mailer_log.save
+      #  params[:mailer_log_ids] ||= []
+      #  params[:mailer_log_ids] << { p.id.to_sym => mailer_log.id }
+      #end
+    end
+
+    #检查是否需要进行合并发送
+
     if self.all_flag.eql?(Irm::Constant::SYS_YES)
-      recipient_ids.delete_if{|i| i.eql?(bo_create_by)}
+
       #合并发送中是否设置了模板语言
       if self.language_code
-        mail_template.deliver_to(params.merge(:to_person_ids=>recipient_ids,:template_lang => self.language_code ))
+        mail_template.deliver_to(params.merge(:to_person_ids => recipient_ids,:template_lang => self.language_code ))
       else
-        mail_template.deliver_to(params.merge(:to_person_ids=>recipient_ids))
+        mail_template.deliver_to(params.merge(:to_person_ids => recipient_ids))
       end
     else
       recipient_ids.each do |pid|
-        next if pid.eql?(bo_create_by)     # do not send to creater
-        mail_template.deliver_to(params.merge(:to_person_ids=>[pid]))
+        mail_template.deliver_to(params.merge(:to_person_ids => [pid]))
       end
     end
   end

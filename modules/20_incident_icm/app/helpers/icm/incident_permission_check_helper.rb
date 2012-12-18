@@ -90,16 +90,14 @@ module Icm::IncidentPermissionCheckHelper
 
   #检查是否具有编辑回复权限
   def can_edit_comment?(journal, incident_request)
-    if allow_to_function?(:edit_any_journal)
-      if allow_to_function?(:system_edit_comment_anyone, incident_request.external_system_id)
-        return true
-      elsif allow_to_function?(:edit_self_journal) &&
-          allow_to_function?(:system_edit_comment_mine, incident_request.external_system_id) &&
-          (current_person?(journal[:replied_by]))
-        return true
-      else
-        return false
-      end
+    if allow_to_function?(:edit_any_journal) || allow_to_function?(:system_edit_comment_anyone, incident_request.external_system_id)
+      return true
+    elsif (allow_to_function?(:edit_self_journal) ||
+            allow_to_function?(:system_edit_comment_mine, incident_request.external_system_id)) &&
+            current_person?(journal[:replied_by])
+      return true
+    else
+      return false
     end
   end
 

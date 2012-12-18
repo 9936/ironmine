@@ -6,6 +6,131 @@
 <body id ="body">
     <div class="container-fluid">
       <div class="row-fluid">
+        <style>
+            .open #choseSystem {
+                background-color: #ffffff;
+                color: #0081c2;
+            }
+            .open #systemList {
+                display: block;
+            }
+            .page-container-header .nav-menu .application-menu .open {
+                white-space:normal;
+            }
+            #systemList {
+                width: 760px;
+                display: none;
+                background-color: #ffffff;
+                border: 1px solid #999;
+                border: 1px solid rgba(0, 0, 0, 0.3);
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                border-radius: 6px;
+                outline: none;
+                -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+                -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+                -webkit-background-clip: padding-box;
+                -moz-background-clip: padding-box;
+                background-clip: padding-box;
+                padding: 1.5em 2em;
+                position: absolute;
+                z-index: 10;
+                top: 1px;
+                right: 1px;
+                height: 400px;
+                padding-top: 2em;
+            }
+            #systemList hr {
+                display: block;
+                border: none;
+                margin: 10px 0;
+                height: 1px;
+                background:  #eee;
+            }
+            #systemList ul {
+                list-style: none;
+                overflow-x: hidden;
+                overflow-y:auto;
+                zoom: 1;
+                height: 360px;
+            }
+            #systemList ul li {
+                float: left;
+                width: 200px;
+                padding: 4px 12px;
+                word-break: break-all;
+            }
+            #systemList ul a {
+                font-weight: normal;
+                color: #333333;
+                word-break:break-all;
+                word-wrap:break-word;
+            }
+
+            #systemList ul a:hover {
+                color: #ffffff;
+                text-decoration: none;
+                background-color: #0081c2;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+            }
+        </style>
+        <script type="text/javascript">
+           $(function(){
+               var container = $("#systemList"),
+                   all_data = $("li",container),
+                   data_length = all_data.length;
+               if(data_length > 42){
+                   //动态给添加搜索框
+                   $("#systemSearchBox").show();
+               }else if(data_length < 14){
+                   container.css("width","220px");
+                   container.css("height", "auto");
+                   $("ul", container).css("height", "auto");
+               }else if(data_length < 28){
+                   container.css("width","500px");
+               }
+
+
+               $("#choseSystem").click(function(){
+                   var parent = $(this).parent();
+                   if (parent.hasClass("open")){
+                       parent.removeClass("open");
+                   }else{
+                       parent.addClass("open");
+                   }
+               });
+               //获取节点的所有结果
+               $("#searchBtn").click(function(){
+                   var $this = $(this),
+                       resultsCount = 0,
+                       results = [],
+                       searchText = $this.parent().find("input:first").val(),
+                       regex = new RegExp(searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
+                   if(searchText){
+                       for(var i=0; i < all_data.length; i++ ){
+                           if(regex.test($("a:first", all_data[i]).text())){
+                               resultsCount += 1;
+                               results.push(all_data[i])
+                           }
+                       }
+                       $("ul:first",container).html("");
+                       $("ul:first",container).append(results);
+                   }else{
+                       $("ul:first",container).html("");
+                       $("ul:first",container).append(all_data);
+                   }
+               });
+
+               //监控输入框中的回车
+               $("#searchText").keypress(function(e){
+                   if(e.keyCode == 13) {
+                       $("#searchBtn").trigger("click");
+                       return false;
+                   }
+               });
+           });
+        </script>
         <div>
           <div id="pageContainerHeader" class="page-container-header">
               <table id="navMenu" class="nav-menu" cellpadding="0" cellspacing="0" border="0">
@@ -23,7 +148,7 @@
                         <li class="dropdown">
                           <a href="#fat" data-toggle="dropdown" class="dropdown-toggle"><%= Irm::Person.current.name %> <b class="caret"></b></a>
                           <ul class="dropdown-menu" id="menu1" style="min-width:130px;right:0;left:auto;">
-                            <%= setting_menu%>
+                            <%= setting_menu %>
                             <li class="divider"></li>
                             <li><%= link_to(t(:label_irm_common_logout),logout_url) %></li>
                           </ul>

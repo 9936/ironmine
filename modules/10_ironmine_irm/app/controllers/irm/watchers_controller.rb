@@ -5,6 +5,7 @@ class Irm::WatchersController < ApplicationController
     @watchable.add_watcher(watcher)
     @watchable.save
 
+    @sid = params[:sid] if params[:sid]
 #    prepare_order
     @editable = params[:editable]
     @dom_id = params[:_dom_id]
@@ -23,7 +24,7 @@ class Irm::WatchersController < ApplicationController
     wat.first.destroy
 
     prepare_order
-
+    @sid = params[:sid] if params[:sid]
     @editable = params[:editable]
     @dom_id = params[:_dom_id]
     respond_to do |format|

@@ -256,7 +256,7 @@
                 <h3><%= raw process_message("#{I18n.t(:label_icm_incident_request_title)}: [#{@incident_request[:request_number]}]#{@incident_request[:title]}")  %></h3><br><br>
                 <%= raw process_message(@incident_request[:summary])  %>
               </div>
-              <%= list_request_file %>
+              <%= list_request_file(@incident_request) %>
             </div>
           </td>
         </tr>
@@ -657,10 +657,12 @@
     <%= render :partial =>"/irm/watchers/sidebar_watcher_list",
                :locals => {:watchable => @incident_request,
                            :editable => !@incident_request.close?,
+                           :sid => @incident_request.external_system_id,
                            :dom_id=>"request_watcher_list"} %>
     </div>
-    <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list" %>
+    <%= render :partial =>"/icm/incident_requests/sidebar_attachment_list", :sid => @incident_request.external_system_id %>
     <div id="relation_list">
-      <%= render :partial =>"/icm/incident_requests/sidebar_relation_list", :locals => {:incident_request => @incident_request,:dom_id=>"relation_list"} %>
+      <%= render :partial =>"/icm/incident_requests/sidebar_relation_list",
+                 :locals => {:incident_request => @incident_request,:dom_id=>"relation_list",:sid => @incident_request.external_system_id} %>
     </div>
 <% end %>

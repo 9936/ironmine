@@ -8,7 +8,7 @@ module Irm::WatchersHelper
     end
   end
 
-  def watchers_list(watchable, editable,dom_id)
+  def watchers_list(watchable, editable,dom_id, sid="")
     watchers = watchable.all_person_watchers
     ret = ""
     watchers.each do |w|
@@ -20,6 +20,7 @@ module Irm::WatchersHelper
                                                  {:style => "float:left"}) + raw("&nbsp;") + (icon_link_delete({:controller => "irm/watchers",
                                                                                                                 :action => "delete_watcher",
                                                                                                                 :watcher_id => w[:person_id],
+                                                                                                                :sid => sid,
                                                                                                                 :watchable_id => watchable.id,
                                                                                                                 :watchable_type => watchable.class.to_s,:eidtable=>editable,:_dom_id=>dom_id}, :remote => true) if deletable)))
     end
