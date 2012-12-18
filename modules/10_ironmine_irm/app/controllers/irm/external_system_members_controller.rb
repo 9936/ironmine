@@ -108,12 +108,13 @@ class Irm::ExternalSystemMembersController < ApplicationController
 
   def create_from_person
     @person = Irm::Person.find(params[:person_id])
+
     @system_person = Irm::ExternalSystemPerson.new(params[:irm_external_system_person])
     respond_to do |format|
       if true
         @system_person.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
           external_system = Irm::ExternalSystem.find(id)
-          Irm::ExternalSystemPerson.create(:person_id=>@person.id,:external_system_id=>external_system.id)
+          Irm::ExternalSystemPerson.create(:person_id=>@person.id,:external_system_id=>external_system.id,:system_profile_id => @system_person.system_profile_id)
         end if @system_person.status_code.present?
         if params[:next_action].eql?("next")
           format.html { redirect_to({:controller => "irm/group_members",:action => "new_from_person",:id=>@person.id, :next_action => params[:next_action]})}

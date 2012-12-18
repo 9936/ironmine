@@ -44,11 +44,12 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_cux_response_hours),
                I18n.t(:label_icm_incident_request_cux_resolve_hours),
                I18n.t(:label_icm_close_reason),
+               I18n.t(:label_htc_report_incident_requester_group),
                I18n.t(:label_htc_report_incident_groups_history)
                ]
 
     statis.each do |s|
-      data = Array.new(18)
+      data = Array.new(19)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
@@ -84,20 +85,50 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
       data[14] = s[:cux_response_hours]
       data[15] = s[:cux_resolve_hours]
       data[16] = s[:close_reason_name]
-      #get group history
-      group_history = Icm::IncidentHistory.
-                        joins(",icm_support_groups_vl isv").
-                        where("isv.id = #{Icm::IncidentHistory.table_name}.new_value").
-                        where("isv.language = ?", I18n.locale).
-                        where("#{Icm::IncidentHistory.table_name}.request_id = ?", s.id).
-                        where("#{Icm::IncidentHistory.table_name}.property_key = ?", "support_group_id").
-                        select("isv.name group_his_name").
-                        order("#{Icm::IncidentHistory.table_name}.created_at ASC")
+
       data[17] = ""
-      group_history.each do |his|
-        data[17] << his[:group_his_name]
-        data[17] << "," if his != group_history.last
+      if s.requested_by.present?
+        pt = Irm::Person.find(s.requested_by)
+        gp = pt.groups.multilingual.enabled.collect{|p| p[:name]}
+        gp.uniq!
+        data[17] = pt.full_name + "\\" + gp.join(",") if gp && gp.size > 0
       end
+
+      #get replied person groups
+      persons = Icm::IncidentJournal.where("incident_request_id = ?", s.id).
+                where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").
+                enabled.
+                order("created_at ASC").collect(&:replied_by)
+      persons.uniq! if persons
+      g = []
+      persons.each do |p|
+        pt = Irm::Person.find(p)
+        gp = pt.groups.multilingual.
+            where(" EXISTS(SELECT 1 FROM icm_support_groups isg WHERE isg.group_id = irm_groups.id AND isg.oncall_flag = ?)", "Y").
+            enabled.collect{|p| p[:name]}
+        gp.uniq!
+        g << pt.full_name + "\\" + gp.join(",") + "\r\n" if gp && gp.size > 0
+      end if persons
+      #get watchers group
+      s.watcher_person_ids.each do |w|
+        pt = Irm::Person.find(w)
+        gp = pt.groups.multilingual.
+            where(" EXISTS(SELECT 1 FROM icm_support_groups isg WHERE isg.group_id = irm_groups.id AND isg.oncall_flag = ?)", "Y").
+            enabled.collect{|p| p[:name]}
+        gp.uniq!
+        g << pt.full_name + "\\" + gp.join(",") + "\r\n" if gp && gp.size > 0
+      end
+      if s.support_person_id.present?
+        pt = Irm::Person.find(s.support_person_id)
+        gp = pt.groups.multilingual.
+            where(" EXISTS(SELECT 1 FROM icm_support_groups isg WHERE isg.group_id = irm_groups.id AND isg.oncall_flag = ?)", "Y").
+        enabled.collect{|p| p[:name]}
+        gp.uniq!
+        g << pt.full_name + "\\" + gp.join(",") + "\r\n" if gp && gp.size > 0
+      end
+      g.flatten!
+      g.uniq!
+      data[18] = g.join(" | ")
 
       datas << data
     end

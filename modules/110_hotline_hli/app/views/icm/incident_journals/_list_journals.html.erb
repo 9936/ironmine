@@ -20,7 +20,7 @@
                         {:confirm => t(:label_delete_confirm)}  %>
          <% end %>
          <% if allow_to_function?(:edit_any_journal) || (allow_to_function?(:edit_self_journal) && journal[:replied_by].eql?(Irm::Person.current.id)) %>
-             &nbsp;&nbsp;<%= link_to t(:edit), {:controller => "icm/incident_journals", :action => "edit",
+             &nbsp;&nbsp;<%= link_to t(:edit), {:controller => "icm/incident_journals", :action => "edit", :sid => @incident_request.external_system_id,
                                                 :request_id => @incident_request.id, :id => journal[:id]}%>
          <% end %>
        </div>

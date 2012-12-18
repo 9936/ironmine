@@ -6,8 +6,8 @@ module Irm::ReportTypeSectionsHelper
     report_type.report_type_objects.each do |rto|
       bo = Irm::BusinessObject.multilingual.find(rto.business_object_id)
       bo_node = {:id=>bo.id,:type=>'business_object',:text=>bo[:name],:bo_id=>bo.id,:leaf=>false,:children=>[]}
-      bo.object_attributes.multilingual.each do |oa|
-        next if oa.attribute_type.eql?("MODEL_COLUMN")||exclude_object_attribute_ids.include?(oa.id.to_s)
+      bo.object_attributes.where("#{Irm::ObjectAttribute.table_name}.field_type IN (?)",["CUSTOMED_FIELD","STANDARD_FIELD"]).multilingual.each do |oa|
+        next if oa.attribute_type.eql?("MODEL_ATTRIBUTE")||exclude_object_attribute_ids.include?(oa.id.to_s)
         bo_node[:children] << {:id=>oa.id,:type=>'object_attribute',:text=>oa[:name],:bo_id=>bo.id,:bo_name=>bo[:name],:boa_id=>oa.id,:data_type=>oa.data_type,:default_selection_flag=>false,:leaf=>true}
       end
       tree_nodes << bo_node

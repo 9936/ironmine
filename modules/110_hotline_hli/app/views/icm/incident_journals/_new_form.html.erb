@@ -75,85 +75,9 @@
         margin:0;
     }
 </style>
+
 <!--页面头部按钮-->
-<% content_for :block_header_buttons do %>
-  <div class="btn-toolbar" >
-    <div class="btn-group">
-      <%= link_to t(:label_icm_incident_journal_back_to_request_list), {:controller=>"icm/incident_requests", :action => "index"} ,{:class=>"btn"}%>
-    </div>
-    <% if !@incident_request.close? %>
-        <div class="btn-group">
-          <% if @incident_request.status_code.eql?("ENABLED") %>
-              <% if current_person?(@incident_request.support_person_id) || allow_to_function?(:pass_incident_request)  %>
-                  <%= link_to t(:pass), {:action => "edit_pass"},{:class=>"btn"} %>
-                  <%= link_to t(:label_icm_incident_request_incident_status), {:action => "edit_status"},{:class=>"btn"}  %>
-              <% end %>
-              <% if current_person?(@incident_request.support_person_id)&&available_upgradable_supporter(@incident_request.support_group_id).any? %>
-                  <%= link_to t(:label_icm_incident_request_upgrade), {:action => "edit_upgrade"} ,{:class=>"btn"}%>
-              <% end %>
-          <% end%>
-        </div>
-
-        <div class="btn-group">
-          <% if @incident_request.status_code.eql?("ENABLED") %>
-              <% if allow_to_function?(:close_incident_request) %>
-                <%= link_to t(:close), {:action => "edit_close"},{:class=>"btn"} %>
-            <% end %>
-            <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn"} %>
-
-            <%= link_to t(:cancel), {:controller => "icm/incident_requests", :action => "cancel_request", :id => @incident_request.id},
-                        :confirm => t(:label_icm_incident_request_cancel_confirm), :class=>"btn", :method => :delete %>
-          <% elsif @incident_request.status_code.eql?("OFFLINE") %>
-            <%= link_to t(:enable), {:controller => "icm/incident_requests", :action => "enable_request", :id => @incident_request.id},
-                        :confirm => t(:label_icm_incident_request_enable_confirm), :class=>"btn",:method => :delete %>
-          <% end %>
-        </div>
-
-        <div class="btn-group">
-          <% if @incident_request.status_code.eql?("ENABLED") %>
-              <% if Icm::IncidentRequest.assignable_to_person(Irm::Person.current.id).query(@incident_request.id).present?%>
-                  <%= link_to t(:label_icm_incident_request_assign_me), {:controller=>"icm/incident_requests",:action => "update_assign_me",:incident_request_ids=>@incident_request.id},{:class=>"btn",:back=>true} %>
-              <% end %>
-              <% if false && allow_to_function?(:assign_incident_request) %>
-                  <a id="assignRequest" href="javascript:void(0)" class="btn"><%= t(:label_icm_incident_request_assign) %></a>
-              <% end %>
-          <% end %>
-        </div>
-    <% else %>
-         <div class="btn-group">
-           <%= link_to t(:permanent_close), {:action => "edit_permanent_close"},{:class=>"btn"}%>
-           <%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id},{:class=>"btn"}%>
-           <% if (allow_to_function?(:edit_self_closed_incident_request) &&
-                   (current_person?(@incident_request.support_person_id) ||
-                   current_person?(@incident_request.requested_by))) || allow_to_function?(:edit_closed_incident_request)  %>
-               <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :id => @incident_request.id} ,{:class=>"btn",:back => true} %>
-           <% end %>
-         </div>
-    <% end %>
-    <div class="btn-group">
-      <% if @incident_request.status_code.eql?("ENABLED") %>
-          <%= link_to t(:label_icm_incident_journal_edit_workload),
-                      {:controller=>"icm/incident_journals",:action => "edit_workload"}, {:class=>"btn"}%>
-      <% end %>
-    </div>
-
-    <div class="btn-group">
-      <% if @incident_request.status_code.eql?("ENABLED") %>
-          <% if @incident_request.kb_flag==Irm::Constant::SYS_NO %>
-              <%= link_to t(:label_icm_save_as_skm), {:controller=>"skm/entry_headers", :action => "new_from_icm_request", :request_id => @incident_request.id},{:class=>"btn"} %>
-          <% end %>
-          <% unless @incident_request.change_request_id.present? %>
-              <%= link_to t(:label_icm_create_relate_change_request), {:controller=>"chm/change_requests", :action => "incident_new", :request_id => @incident_request.id}, {:back=>true,:class=>"btn"} %>
-          <% end %>
-      <% end %>
-    </div>
-    <% if false%>
-    <div class="btn-group">
-      <%= link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
-    </div>
-    <% end %>
-  </div>
-<% end %>
+<%= render :partial=>"new_form_top_button_bar"%>
 
 <!--页面头部按钮-->
 <% content_for :block_assign_controll_bar do %>
@@ -162,7 +86,7 @@
         <%= hidden_field_tag(:incident_request_ids, @incident_request.id, :id=>"incident_request_ids")  %>
         <%= hidden_field_tag(:from_incident_request, "true", :id=>"from_incident_request")  %>
         <label for="incident_request_support_group_id"><%=t(:label_icm_incident_request_support_group)%></label>
-        <%= blank_select_tag :support_group_id,available_support_group(nil, true, @incident_request.external_system_id),
+        <%= blank_select_tag :support_group_id,available_support_group(@incident_request.external_system_id),
                                                               {},{:id=>"incident_request_support_group_id"}%>
         <label for="person_role_id"><%=t(:label_irm_role)%></label>
         <%= blank_select_tag :role_id, available_roles(true),{},{:id=>"person_role_id"}%>
@@ -189,7 +113,9 @@
 <% end %>
 
 <% content_for :block_priority_controll_bar do %>
-<%= form_for(@incident_request,:url=>{:controller => "icm/incident_requests", :action=>"update", :id => @incident_request.id},:builder => LabellingFormBuilder) do |f| %>
+<%= form_for(@incident_request,
+             :url=>{:controller => "icm/incident_requests", :action=>"update", :id => @incident_request.id, :sid => @incident_request.external_system_id},
+             :builder => LabellingFormBuilder) do |f| %>
     <label for="label_icm_incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label>
     <%=f.select :urgence_id,available_urgence_code,{},{:id=>"incident_request_urgence_code"}%>
     <label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label>
