@@ -138,10 +138,13 @@ module CustomFieldHelper
         column_count += 2
       end
       #将填不满的给补齐
-      ((columns - custom_attributes.count * 2 % columns)/2).times do
-        html += "<td class='label-col'></td>"
-        html += "<td class='data-col'></td>"
+      if column_count % columns != 0
+        (cloumns - column_count % columns).times do
+          html += "<td class='label-col'></td>"
+          html += "<td class='data-col'></td>"
+        end
       end
+
       html += "<tr>"
     end
     html.html_safe
