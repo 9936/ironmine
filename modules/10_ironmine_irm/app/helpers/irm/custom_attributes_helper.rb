@@ -1,5 +1,5 @@
 module Irm::CustomAttributesHelper
-  def system_custom_attributes(bo_id, sid)
+  def system_custom_attributes(bo_id, sid, all = true)
     #查询出所有自定义字段(包括全局和系统层)
     all_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).custom_field_with_system(sid).order_by_sequence
     #查找出系统下已经启用的自定义字段
@@ -17,8 +17,11 @@ module Irm::CustomAttributesHelper
         disabled_attributes << attribute
       end
     end
-
-    active_attributes + disabled_attributes
+    if all
+      active_attributes + disabled_attributes
+    else
+      active_attributes
+    end
   end
 
   def can_reordered?(bo_id, sid)

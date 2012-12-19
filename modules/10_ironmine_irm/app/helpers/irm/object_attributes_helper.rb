@@ -91,6 +91,10 @@ module Irm::ObjectAttributesHelper
     end
   end
 
+  def show_object_attribute_value(data)
+    hand_value(data[:category], data[:data_default_value])
+  end
+
   #根据不同的类型设置默认值
   def attribute_default_value(type, form)
     case type

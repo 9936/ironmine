@@ -135,7 +135,7 @@ module CustomFieldHelper
           html += "</tr><tr>"
         end
         html += "<td class='label-col'><label>#{attribute[:name]}</label></td>"
-        html += "<td class='data-col'>#{model[attribute[:attribute_name].to_sym]}</td>"
+        html += "<td class='data-col'>#{hand_value attribute[:category], model[attribute[:attribute_name].to_sym]}</td>"
         column_count += 2
       end
       #将填不满的给补齐
@@ -147,6 +147,16 @@ module CustomFieldHelper
       html += "<tr>"
     end
     html.html_safe
+  end
+
+  def hand_value(type, value)
+    case type
+      when "CHECK_BOX"
+        return check_img(value)
+      else
+        return value.present?? value.html_safe : value
+    end
+
   end
 
   class CustomFieldBuilder
