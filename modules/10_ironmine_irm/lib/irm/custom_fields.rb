@@ -40,7 +40,6 @@ module Irm::CustomFields
           end
         end
 
-
         #取得对应model的自定义字段
         def custom_attributes
           bo = Irm::BusinessObject.with_custom_flag.where(:bo_model_name => self.class.to_s).first
@@ -68,10 +67,11 @@ module Irm::CustomFields
           required_attributes
         end
 
-        #设置默认值
+        #对象初始化完成后同步其默认值
+        #当对象一旦经过修改后不推荐再调用该方法，否则当可选字段默认值存在时，填写的值时将会自动设置为默认值
         def merge_default_values
           self.custom_attributes.each do |field|
-            self[field[:attribute_name].to_sym] = field[:data_default_value]
+            self[field[:attribute_name].to_sym] = field[:data_default_value] unless self[field[:attribute_name].to_sym].present?
           end
           self
         end
