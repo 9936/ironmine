@@ -16,6 +16,7 @@ class Irm::ExternalSystemsController < ApplicationController
     @external_system = Irm::ExternalSystem.multilingual.status_meaning.find(params[:id])
     @external_system_person = Irm::ExternalSystemPerson.new
     @external_system_person.status_code=""
+    @business_objects = Irm::BusinessObject.with_system_custom_flag.multilingual.order(:bo_table_name)
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @external_system }
