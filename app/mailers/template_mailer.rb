@@ -59,9 +59,9 @@ class TemplateMailer < ActionMailer::Base
 
     emails.each do |email|
       mailer_log = Irm::MailerLog.new()
-      mailer_log.reference_target = logger_options[:reference_target]
+      mailer_log.reference_target = logger_options[:reference_target] if logger_options[:reference_target]
       mailer_log.to_params = email
-      mailer_log.template_code = logger_options[:template_code]
+      mailer_log.template_code = logger_options[:template_code] if logger_options[:template_code]
       mailer_log.send_at = Time.now
       mailer_log.save
     end if emails.any?
