@@ -62,10 +62,10 @@ class Icm::SystemSupportGroupsController < ApplicationController
     group_members_scope,count = paginate(group_members_scope)
     #
     person_ids = group_members_scope.collect(&:person_id)
-    #查找用户在多少个系统中
-    @person_systems_count_hash = Irm::ExternalSystemPerson.with_systems_count(person_ids).index_by(&:person_id)
-    #查找用户在多少个组中
-    @person_groups_count_hash = Irm::GroupMember.with_groups_count(person_ids).index_by(&:person_id)
+    ##查找用户在多少个系统中
+    #@person_systems_count_hash = Irm::ExternalSystemPerson.with_systems_count(person_ids).index_by(&:person_id)
+    ##查找用户在多少个组中
+    #@person_groups_count_hash = Irm::GroupMember.with_groups_count(person_ids).index_by(&:person_id)
 
     #检查用户是否在系统中
     @person_system_delete_hash = Irm::ExternalSystemPerson.with_delete_flag(person_ids, params[:sid]).index_by(&:person_id)

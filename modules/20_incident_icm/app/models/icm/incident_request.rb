@@ -152,11 +152,11 @@ class Icm::IncidentRequest < ActiveRecord::Base
     where("#{table_name}.support_person_id = ?", person_id)
   }
 
-  scope :filter_incident_by_person, lambda{|person_id|
-    select("#{table_name}.id").#where("#{table_name}.external_system_id IN (?)",system_ids).
-        where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
-              Icm::IncidentRequest.name,person_id,Irm::Person.name)
-  }
+  #scope :filter_incident_by_person, lambda{|person_id|
+  #  select("#{table_name}.id").#where("#{table_name}.external_system_id IN (?)",system_ids).
+  #      where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
+  #            Icm::IncidentRequest.name,person_id,Irm::Person.name)
+  #}
   # use with_contact with_requested_by with_submmitted_by
   scope :relate_person,lambda{|person_id|
     #where("EXISTS(SELECT 1 FROM #{Irm::Watcher.table_name} watcher WHERE watcher.watchable_id = #{table_name}.id AND watcher.watchable_type = ? AND watcher.member_id = ? AND watcher.member_type = ? )",
@@ -307,93 +307,98 @@ class Icm::IncidentRequest < ActiveRecord::Base
   def self.search(args, page = 1, per_page = 30, offset = 0)
     query = args[0]
     time_limit = args[1]
-    system_ids = Irm::Person.current.system_ids
-    filter_ids = Icm::IncidentRequest.filter_incident_by_person(Irm::Person.current.id).collect(&:id)
-
-    #检索事故单本身
-    search = Sunspot.search(Icm::IncidentRequest) do |sp|
-      sp.keywords query, :highlight => true
-      sp.with(:external_system_id, system_ids)
-      sp.with(:updated_at).greater_than(time_limit) if time_limit
-      sp.paginate(:offset => offset, :per_page => per_page)
-    end
-
-    results_ids = search.results.collect{|i| i[:id]}  if search
 
     results ||= {}
-    search.each_hit_with_result do |hit, result|
-      results[result.id.to_sym] ||= {}
-      results[result.id.to_sym][:hit] = hit
-    end if search
+    system_ids = Irm::Person.current.system_ids
+    #filter_ids = Icm::IncidentRequest.filter_incident_by_person(Irm::Person.current.id).collect(&:id)
 
-    #检索附件
-    search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
-      sp.keywords query, :highlight => true
-      sp.with(:source_type,["Icm::IncidentRequest", "Icm::IncidentJournal"])
-      sp.with(:updated_at).greater_than(time_limit) if time_limit
-      sp.paginate(:offset => offset, :per_page => per_page)
-    end
-    search_att.each_hit_with_result do |hit, result|
-      results[result.source_id.to_sym] ||= {}
-      results[result.source_id.to_sym][:attachments] ||= []
-      if results_ids.include?(result.source_id.to_s)
-        results[result.source_id.to_sym][:attachments] << hit
-      else
-        if results[result.source_id.to_sym][:result].present?
+    #当当前人员有系统时候才进行搜索
+    if system_ids.any?
+      #检索事故单本身
+      search = Sunspot.search(Icm::IncidentRequest) do |sp|
+        sp.keywords query, :highlight => true
+        sp.with(:external_system_id, system_ids)
+        sp.with(:updated_at).greater_than(time_limit) if time_limit
+        #sp.paginate(:offset => offset, :per_page => per_page)
+        sp.paginate(:page => page, :per_page => per_page)
+      end
+
+      results_ids = search.results.collect{|i| i[:id]}  if search
+
+
+      search.each_hit_with_result do |hit, result|
+        results[result.id.to_sym] ||= {}
+        results[result.id.to_sym][:hit] = hit
+      end if search
+
+      #检索附件
+      search_att = Sunspot.search(Irm::AttachmentVersion) do |sp|
+        sp.keywords query, :highlight => true
+        sp.with(:source_type,["Icm::IncidentRequest", "Icm::IncidentJournal"])
+        sp.with(:updated_at).greater_than(time_limit) if time_limit
+        sp.paginate(:offset => offset, :per_page => per_page)
+      end
+      search_att.each_hit_with_result do |hit, result|
+        results[result.source_id.to_sym] ||= {}
+        results[result.source_id.to_sym][:attachments] ||= []
+        if results_ids.include?(result.source_id.to_s)
           results[result.source_id.to_sym][:attachments] << hit
         else
-          begin
-            record = result.source_type.constantize.find(result.source_id)
-          rescue
-            record = nil
-          end
-          #附件是否来自于回复
-          if record && result.source_type.to_s.eql?('Icm::IncidentJournal')
-            record = Icm::IncidentRequest.find(record.incident_request_id)
-          end
-          if record.present?
+          if results[result.source_id.to_sym][:result].present?
             results[result.source_id.to_sym][:attachments] << hit
-            results[result.source_id.to_sym][:result] =  record
+          else
+            begin
+              record = result.source_type.constantize.find(result.source_id)
+            rescue
+              record = nil
+            end
+            #附件是否来自于回复
+            if record && result.source_type.to_s.eql?('Icm::IncidentJournal')
+              record = Icm::IncidentRequest.find(record.incident_request_id)
+            end
+            if record.present?
+              results[result.source_id.to_sym][:attachments] << hit
+              results[result.source_id.to_sym][:result] =  record
+            end
           end
         end
+      end if search_att
+
+      #results.delete_if{|key, value| !filter_ids.include?(key.to_s) } if filter_ids.any?
+      #
+      #total_records = (search.total > search_att.total)? search.total : search_att.total
+      #if total_records > per_page
+      #
+      #  offset = 0
+      #  if page > 1
+      #    (1..(page-1)).each do |p|
+      #      offset += 10**(p-1)
+      #    end
+      #    offset *= 30
+      #  else
+      #    offset = 0
+      #  end
+      #
+      #
+      #  page +=  1
+      #  per_page *= 10
+      #  results.merge!(self.search(args, page, per_page, offset))
+      #end
+      #获取事故单的详细信息
+      incident_requests = self.select_all.with_requested_by(I18n.locale).
+                              with_incident_status(I18n.locale).
+                              with_submitted_by.
+                              with_category(I18n.locale).
+                              with_support_group(I18n.locale).
+                              with_supporter(I18n.locale).
+                              with_external_system(I18n.locale).
+                              with_organization(I18n.locale).
+                              where(:id => results.keys).index_by(&:id)
+
+      results.each do |k,v|
+        results[k][:details] = incident_requests[k.to_s]
       end
-    end if search_att
-
-    results.delete_if{|key, value| !filter_ids.include?(key.to_s) } if filter_ids.any?
-
-    total_records = (search.total > search_att.total)? search.total : search_att.total
-    if total_records > per_page
-
-      offset = 0
-      if page > 1
-        (1..(page-1)).each do |p|
-          offset += 10**(p-1)
-        end
-        offset *= 30
-      else
-        offset = 0
-      end
-
-
-      page +=  1
-      per_page *= 10
-      results.merge!(self.search(args, page, per_page, offset))
     end
-    #获取事故单的详细信息
-    incident_requests = self.select_all.with_requested_by(I18n.locale).
-                            with_incident_status(I18n.locale).
-                            with_submitted_by.
-                            with_category(I18n.locale).
-                            with_support_group(I18n.locale).
-                            with_supporter(I18n.locale).
-                            with_external_system(I18n.locale).
-                            with_organization(I18n.locale).
-                            where(:id => results.keys).index_by(&:id)
-
-    results.each do |k,v|
-      results[k][:details] = incident_requests[k.to_s]
-    end
-
     results
   end
 

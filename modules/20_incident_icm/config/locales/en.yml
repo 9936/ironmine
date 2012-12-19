@@ -298,4 +298,5 @@ en:
   label_icm_external_system_save_selected: Save Selected Groups
   label_icm_support_group_system_num: The Systems num
   label_icm_support_group_group_num: The Groups num
+  label_icm_support_group_has_n_systems: The support group has %{n} systems,as delete supportors may be invoke other systems!
   #========================= End System setting ====================================
