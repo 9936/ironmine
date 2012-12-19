@@ -15,7 +15,8 @@
       </div>
       <% if journal.status_code.eql?("OFFLINE") %>
         <div style="float:right; padding: 5px 10px;" class="recover-action">
-          <%= link_to t(:display), {:controller => "icm/incident_journals", :action => "recover",:request_id => @incident_request.id, :id => journal[:id], :_dom_id => journal[:id]},:remote => true %>
+          <%= link_to t(:display), {:controller => "icm/incident_journals", :action => "recover",:request_id => @incident_request.id,
+                                    :id => journal[:id], :_dom_id => journal[:id], :sid => @incident_request.external_system_id},:remote => true %>
         </div>
       <% end %>
     </div>

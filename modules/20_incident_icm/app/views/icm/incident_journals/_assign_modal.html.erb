@@ -20,7 +20,8 @@
   });
 </script>
 <div class="modal" id="assignModal" style="display: none;width: 560px;">
-  <%= form_tag({:controller => "icm/incident_requests", :action =>"assign_request", :force_assign => true, :method => "post"},{:back=>true,:class => "modal-form"}) do %>
+  <%= form_tag({:controller => "icm/incident_requests", :action =>"assign_request", :force_assign => true,
+                :method => "post"},{:back=>true,:class => "modal-form"}) do %>
   <div class="modal-header">
     <a data-dismiss="modal" class="close" href="#">×</a>
     <h3><%= t(:label_icm_incident_request_assign) %></h3>
