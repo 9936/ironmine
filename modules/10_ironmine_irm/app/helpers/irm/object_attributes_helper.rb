@@ -91,4 +91,22 @@ module Irm::ObjectAttributesHelper
     end
   end
 
+  def show_object_attribute_value(data)
+    hand_value(data[:category], data[:data_default_value])
+  end
+
+  #根据不同的类型设置默认值
+  def attribute_default_value(type, form)
+    case type
+      when "DATE_TIME"
+        return form.date_field :data_default_value,:id=>"object_attribute_data_default_value",:size=>12,:class=>"date",:with_time => true
+      when "DATE"
+        return form.date_field :data_default_value,:id=>"object_attribute_data_default_value",:size=>12,:class=>"date"
+      when "CHECK_BOX"
+        return form.check_box :data_default_value,:id=>"object_attribute_data_default_value"
+      else
+        return form.text_field :data_default_value,:id=>"object_attribute_data_default_value"
+    end
+  end
+
 end

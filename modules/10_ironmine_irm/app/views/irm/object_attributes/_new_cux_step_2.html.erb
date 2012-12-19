@@ -27,7 +27,7 @@
               <tr>
                 <td class="label-col"><label for="object_attribute_data_default_value"><%=t(:label_irm_object_attribute_data_default_value)%></label></td>
                 <td class="data-3col" colspan="3">
-                  <%=f.text_field :data_default_value,:id=>"object_attribute_data_default_value"%>
+                  <%= attribute_default_value(@object_attribute.category, f) %>
                   <span class="help-block"></span>
                 </td>
               </tr>

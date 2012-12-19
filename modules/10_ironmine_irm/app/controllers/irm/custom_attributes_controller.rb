@@ -29,14 +29,14 @@ class Irm::CustomAttributesController < ApplicationController
     end
 
     # 对post数据进行有效性验证
-    validate_result =  request.post?&&@object_attribute.valid?
+    validate_result =  request.post? && @object_attribute.valid?
 
     if validate_result
-      if(@object_attribute.step>1&&params[:pre_step])
-        @object_attribute.step = @object_attribute.step.to_i-1
+      if @object_attribute.step > 1 && params[:pre_step]
+        @object_attribute.step = @object_attribute.step.to_i - 1
         session[:irm_object_attribute][:step] = @object_attribute.step
       else
-        if @object_attribute.step<2
+        if @object_attribute.step < 2
           @object_attribute.step = @object_attribute.step.to_i+1
           session[:irm_object_attribute][:step] = @object_attribute.step
         end
@@ -127,6 +127,13 @@ class Irm::CustomAttributesController < ApplicationController
 
     #同步默认值
     @model_object = @model_object.merge_default_values
+    respond_to do |format|
+      if params[:template_name].present?
+        format.html {render params[:template_name] }
+      else
+        format.html
+      end
+    end
   end
 
   def get_data

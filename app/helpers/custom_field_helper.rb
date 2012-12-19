@@ -1,26 +1,27 @@
 module CustomFieldHelper
 
-  def show_custom_field(attribute, form)
+  def show_custom_field(attribute, form, options = {})
     if form
+      options.merge!(:required=> attribute[:required_flag].eql?('Y')? true : false)
       case attribute[:category]
         when "TEXT"
-          return form.text_field attribute[:attribute_name].to_sym, :required=> attribute[:required_flag].eql?('Y')? true : false
+          return form.text_field attribute[:attribute_name].to_sym, options
         when "TEXT_AREA"
-          return form.text_area attribute[:attribute_name].to_sym, :required=> attribute[:required_flag].eql?('Y')? true : false,:rows=>3,:class => "input-xlarge"
+          return form.text_area attribute[:attribute_name].to_sym, options.merge!({:rows=>3,:class => "input-xlarge"})
         when "DATE_TIME"
-          return form.date_field attribute[:attribute_name].to_sym, :size=>12,:class=>"date",:with_time => true,:required=> attribute[:required_flag].eql?('Y')? true : false
+          return form.date_field attribute[:attribute_name].to_sym, options.merge!({:size=>12,:class=>"date",:with_time => true})
         when "DATE"
-          return form.date_field attribute[:attribute_name].to_sym,:size=>12,:class=>"date",:required=> attribute[:required_flag].eql?('Y')? true : false
+          return form.date_field attribute[:attribute_name].to_sym, options.merge!({:size=>12,:class=>"date"})
         when "CHECK_BOX"
-          return form.check_box attribute[:attribute_name].to_sym, :required=> attribute[:required_flag].eql?('Y')? true : false
+          return form.check_box attribute[:attribute_name].to_sym, options
         when "PICK_LIST"
           choices = attribute[:pick_list_options].gsub(/\r\n/, ',').split(',').collect{|i|[i,i]}
-          return form.blank_select attribute[:attribute_name].to_sym, choices, :required=> attribute[:required_flag].eql?('Y')? true : false
+          return form.blank_select attribute[:attribute_name].to_sym, choices, options
         when "PICK_LIST_MULTI"
           choices = attribute[:pick_list_options].gsub(/\r\n/, ',').split(',').collect{|i|[i,i]}
           return form.select attribute[:attribute_name].to_sym, choices, {:required=> attribute[:required_flag].eql?('Y')? true : false},:multiple=>true
         else
-          return form.text_field attribute[:attribute_name].to_sym,:required=> attribute[:required_flag].eql?('Y')? true : false
+          return form.text_field attribute[:attribute_name].to_sym,options
       end
 
     end
@@ -54,12 +55,12 @@ module CustomFieldHelper
       fields_for model, nil, :builder => CustomFormBuilder do |f|
         custom_attributes.each do |attribute|
           if block_fields[attribute[:attribute_name].to_sym].present? and block_fields[attribute[:attribute_name].to_sym][:block]
-             html += capture(attribute[:name], show_custom_field(attribute, f) ,attribute, f, &block_fields[attribute[:attribute_name].to_sym][:block])
+             html += capture(attribute[:name], show_custom_field(attribute, f, block_fields[attribute[:attribute_name].to_sym][:options]) ,attribute, f, &block_fields[attribute[:attribute_name].to_sym][:block])
           end
         end
       end
     end
-    html
+    html.html_safe
   end
 
   def build_html(model, custom_attributes, columns = 4, block_fields)
@@ -134,7 +135,7 @@ module CustomFieldHelper
           html += "</tr><tr>"
         end
         html += "<td class='label-col'><label>#{attribute[:name]}</label></td>"
-        html += "<td class='data-col'>#{model[attribute[:attribute_name].to_sym]}</td>"
+        html += "<td class='data-col'>#{hand_value attribute[:category], model[attribute[:attribute_name].to_sym]}</td>"
         column_count += 2
       end
       #将填不满的给补齐
@@ -148,6 +149,16 @@ module CustomFieldHelper
     html.html_safe
   end
 
+  def hand_value(type, value)
+    case type
+      when "CHECK_BOX"
+        return check_img(value)
+      else
+        return value.present?? value.html_safe : value
+    end
+
+  end
+
   class CustomFieldBuilder
     attr_accessor :fields
 
@@ -155,8 +166,8 @@ module CustomFieldHelper
       self.fields = {}
     end
 
-    def custom_field(key, &block)
-      self.fields.merge!({key.to_sym => {:block => block}})
+    def custom_field(key, options ={}, &block)
+      self.fields.merge!({key.to_sym => {:options => options, :block => block}})
     end
   end
 

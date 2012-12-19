@@ -1,6 +1,5 @@
 module Irm::CustomAttributesHelper
-
-  def system_custom_attributes(bo_id, sid)
+  def system_custom_attributes(bo_id, sid, all = true)
     #查询出所有自定义字段(包括全局和系统层)
     all_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).custom_field_with_system(sid).order_by_sequence
     #查找出系统下已经启用的自定义字段
@@ -18,8 +17,20 @@ module Irm::CustomAttributesHelper
         disabled_attributes << attribute
       end
     end
+    if all
+      active_attributes + disabled_attributes
+    else
+      active_attributes
+    end
+  end
 
-    active_attributes + disabled_attributes
+  def can_reordered?(bo_id, sid)
+    system_attributes = Irm::ObjectAttribute.query_by_business_object(bo_id).where("external_system_id=?", sid)
+    if system_attributes.any? and system_attributes.size > 1
+      true
+    else
+      false
+    end
   end
 
   def global_custom_attributes(bo_id,sid)
@@ -29,6 +40,7 @@ module Irm::CustomAttributesHelper
   def has_available_global_fields?(bo_id,sid)
     Irm::ObjectAttribute.without_external_system(sid).query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD").any?
   end
+
 
 
   def system_custom_attribute_names(bo, sid)

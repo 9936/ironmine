@@ -65,8 +65,10 @@
                 <%= link_to t(:new), {:controller => "irm/custom_attributes",:action => "new", :sid => params[:sid], :bo_id => business_object.id},:class=>"btn btn-primary"%>
               <% end %>
               <!-- 调整自定义字段的显示顺序 -->
-              <%= link_to t(:label_irm_system_custom_attribute_order), {:controller => "irm/custom_attributes",:action => "index", :sid => params[:sid], :bo_id => business_object.id},:class=>"btn"%>
-            </td>
+              <% if can_reordered?(business_object.id, params[:sid]) %>
+                <%= link_to t(:label_irm_system_custom_attribute_order), {:controller => "irm/custom_attributes",:action => "index", :sid => params[:sid], :bo_id => business_object.id},:class=>"btn"%>
+              <% end %>
+              </td>
           </tr></table>
           <div class="page-block-body">
             <%= render :partial=>"system_custom_attributes",:locals=>{:datas=> system_custom_attributes(business_object.id, params[:sid]), :bo_id => business_object.id }%>
