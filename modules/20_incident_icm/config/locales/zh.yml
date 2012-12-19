@@ -295,4 +295,5 @@ zh:
   label_icm_external_system_save_selected: 保存所选支持组
   label_icm_support_group_system_num: 所属系统数
   label_icm_support_group_group_num: 所属组数
+  label_icm_support_group_has_n_systems: 该支持组下有%{n}个系统，删除支持组下的成员可能会影响到其他系统！
   #========================= End System setting ====================================

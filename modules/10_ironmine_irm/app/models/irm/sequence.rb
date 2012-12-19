@@ -13,6 +13,9 @@ class Irm::Sequence < ActiveRecord::Base
       max_id = '0' + max_id
       max_id_length = max_id.length
     end
+    if self.rules.present? && self.rules.include?("###sequence###")
+      max_id = rules.gsub("###sequence###", max_id)
+    end
     max_id
   end
 

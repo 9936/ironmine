@@ -7,14 +7,14 @@
     <div class="container-fluid">
       <div class="row-fluid">
         <style>
-            .open #choseSystem {
+            .opens #choseSystem {
                 background-color: #ffffff;
                 color: #0081c2;
             }
-            .open #systemList {
+            .opens #systemList {
                 display: block;
             }
-            .page-container-header .nav-menu .application-menu .open {
+            .page-container-header .nav-menu .application-menu .opens {
                 white-space:normal;
             }
             #systemList {
@@ -91,13 +91,12 @@
                    container.css("width","500px");
                }
 
-
                $("#choseSystem").click(function(){
                    var parent = $(this).parent();
-                   if (parent.hasClass("open")){
-                       parent.removeClass("open");
+                   if (parent.hasClass("opens")){
+                       parent.removeClass("opens");
                    }else{
-                       parent.addClass("open");
+                       parent.addClass("opens");
                    }
                });
                //获取节点的所有结果

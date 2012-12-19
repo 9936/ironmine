@@ -12,12 +12,20 @@
 </style>
 <!--页面结构-->
 <div class="show-block">
+  <% if support_group_systems_num(@support_group.id) > 1 %>
+    <div class="alert">
+      <strong>Tips！</strong><%= t(:label_icm_support_group_has_n_systems, :n => support_group_systems_num(@support_group.id) ) %>
+    </div>
+  <% end %>
   <table class="page-block-header"><tr>
     <td class="page-block-title">
       <h2 class="block-title"><%= t(:label_icm_support_group_show) %></h2>
     </td>
     <td class="page-block-button">
       <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+    <td class="page-block-help">
+
     </td>
   </tr></table>
   <div class="page-block-body">
