@@ -13,6 +13,8 @@ class ReportMailer < ActionMailer::Base
     end
     @report_schedule = Irm::ReportSchedule.find(report_schedule_id)
     send_options = mail_options
+
+
     subject = "#{@report[:name]}-#{@report_schedule.run_at.strftime('%Y-%m-%d %H:%M:%S')}"
     send_options.merge!(:subject=>subject)
     mail(send_options) do |format|

@@ -13,16 +13,13 @@ module Irm
          # template 　
          mail_template = Irm::MailTemplate.where(:template_code=>"FORGOTPWD").first
          if mail_template
-           mailer_log = Irm::MailerLog.new()
-           mailer_log.to_params = "#{email}---------#{person_id}"
-           mailer_log.template_code = "FORGOTPWD"
-           mailer_log.send_at = send_at
-           mailer_log.save
-           #if mailer_log.save
-           #  params[:mailer_log_ids] = [{person_id.to_sym => mailer_log.id}]
-           #end
+           #记录到邮件发送日志表
+           logger_options = {
+               :reference_target => "#{email}---------#{person_id}",
+               :template_code => "FORGOTPWD"
+           }
 
-           mail_template.deliver_to(params)
+           mail_template.deliver_to(params.merge!({:logger_options => logger_options}))
         end
        end
      end

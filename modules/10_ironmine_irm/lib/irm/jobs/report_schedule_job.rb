@@ -21,7 +21,6 @@ module Irm
             to_people = Irm::Person.query_by_ids(report_trigger.receiver_person_ids)
             to_mails = to_people.collect{|p| p.email_address if Irm::Constant::SYS_YES.eql?(p.notification_flag)}.compact.join(",")
 
-            #params ||= {}
             #保存信息至日志记录表中
             to_people.each do |p|
               if to_mails.include?(p.email_address)
@@ -31,10 +30,6 @@ module Irm
                 mailer_log.send_status = Irm::MailerLog::STATUS[1]
                 mailer_log.send_at = Time.now
                 mailer_log.save
-                #if mailer_log.save
-                #  params[:mailer_log_ids] ||= []
-                #  params[:mailer_log_ids] << { p.id.to_sym => mailer_log.id }
-                #end
               end
             end
 
