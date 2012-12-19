@@ -1,5 +1,4 @@
 module Irm::CustomAttributesHelper
-
   def system_custom_attributes(bo_id, sid)
     #查询出所有自定义字段(包括全局和系统层)
     all_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).custom_field_with_system(sid).order_by_sequence

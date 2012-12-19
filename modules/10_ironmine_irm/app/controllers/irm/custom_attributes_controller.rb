@@ -29,14 +29,14 @@ class Irm::CustomAttributesController < ApplicationController
     end
 
     # 对post数据进行有效性验证
-    validate_result =  request.post?&&@object_attribute.valid?
+    validate_result =  request.post? && @object_attribute.valid?
 
     if validate_result
-      if(@object_attribute.step>1&&params[:pre_step])
-        @object_attribute.step = @object_attribute.step.to_i-1
+      if @object_attribute.step > 1 && params[:pre_step]
+        @object_attribute.step = @object_attribute.step.to_i - 1
         session[:irm_object_attribute][:step] = @object_attribute.step
       else
-        if @object_attribute.step<2
+        if @object_attribute.step < 2
           @object_attribute.step = @object_attribute.step.to_i+1
           session[:irm_object_attribute][:step] = @object_attribute.step
         end

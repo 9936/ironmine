@@ -1,7 +1,15 @@
 <% if @model_object.required_custom_attributes.any? %>
+  <style>
+      #customBlock .quick-create-field input {
+          width: 175px;
+      }
+      #customBlock .quick-create-field .date-field input.date-input {
+        width: 70px;
+    }
+  </style>
   <%= show_input_custom_fields(@model_object, 4, true) do |builder|  %>
     <% @model_object.required_custom_attributes.each do |attribute| %>
-      <% builder.custom_field(attribute[:attribute_name],{:style => "width:175px;"}) do |label, value| %>
+      <% builder.custom_field(attribute[:attribute_name]) do |label, value| %>
         <div class="quick-create-field">
           <label><%= label %><%= required_icon %></label>
           <%= value %>
