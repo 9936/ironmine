@@ -1,0 +1,77 @@
+<%= common_title(:model_meaning=>"【#{current_system[:system_name]}】",:action_meaning=>t(:label_irm_system_custom_field)) %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_external_system) %></h2>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label for="external_system_external_system_code"><%=t(:label_irm_external_system_external_system_code)%></label></td>
+        <td class="data-col"><%=@external_system.external_system_code%></td>
+        <td class="label-col"><label for="external_system_external_hostname"><%=t(:label_irm_external_system_external_hostname)%></label></td>
+        <td class="data-col"><%=@external_system.external_hostname%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="external_system_system_name"><%=t(:label_irm_external_system_system_name)%></label></td>
+        <td class="data-col"><%=@external_system[:system_name]%></td>
+        <td class="label-col"><label for="external_system_external_ip_address"><%=t(:label_irm_external_system_external_ip_address)%></label></td>
+        <td class="data-col"><%=@external_system.external_ip_address%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label for="external_system_system_description"><%=t(:label_irm_external_system_system_description)%></label></td>
+        <td class="data-col"><%= @external_system[:system_description]%></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- 当调整顺序的时候只显示对应bo下的自定义属性 -->
+<% if params[:bo_id].present? %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%= t(:label_irm_system_custom_attribute) %></h2>
+        </td>
+        <td class="page-block-button">
+          <%= link_to t(:back), {:controller => "irm/custom_attributes",:action => "index", :sid => params[:sid]},:class=>"btn" %>
+        </td>
+        <td class="page-block-help"></td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= datatable("system_custom_attributes",{:controller => "irm/custom_attributes", :action=>"get_data", :bo_id => params[:bo_id] },[],{:drag_sort => {
+                :save_url => url_for(:controller => 'irm/object_attributes', :action => 'switch_sequence', :bo_id => params[:bo_id]),
+                :return_url => url_for(:controller => 'irm/custom_attributes', :action => 'index'),
+                :trigger_click => true}})%>
+      </div>
+    </div>
+<% else %>
+  <% @business_objects.each do |business_object| %>
+      <% if editable_custom_flag?(business_object.bo_model_name, nil, true) %>
+        <!--页面结构-->
+        <div class="page-block">
+          <table class="page-block-header"><tr>
+            <td class="page-block-title">
+              <h2 class="block-title"><%= t(:label_irm_system_custom_model_field, :model_name => business_object[:name]) %></h2>
+            </td>
+            <td class="page-block-button">
+              <% if editable_custom_flag?(business_object.bo_model_name, true) %>
+                <%= link_to t(:new), {:controller => "irm/custom_attributes",:action => "new", :sid => params[:sid], :bo_id => business_object.id},:class=>"btn btn-primary"%>
+              <% end %>
+              <!-- 调整自定义字段的显示顺序 -->
+              <%= link_to t(:label_irm_system_custom_attribute_order), {:controller => "irm/custom_attributes",:action => "index", :sid => params[:sid], :bo_id => business_object.id},:class=>"btn"%>
+            </td>
+          </tr></table>
+          <div class="page-block-body">
+            <%= render :partial=>"system_custom_attributes",:locals=>{:datas=> system_custom_attributes(business_object.id, params[:sid]), :bo_id => business_object.id }%>
+          </div>
+        </div>
+      <% end %>
+  <% end %>
+<% end %>

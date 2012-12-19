@@ -3,6 +3,9 @@ ActiveRecord::Base.send(:include, Irm::SetWho)
 #扩展ActionRecord::Base,自动生成scope query,active和instance方法active?
 ActiveRecord::Base.send(:include, Irm::QueryExtend)
 
+#扩展ActionRecord::Base,校验自定义字段
+ActiveRecord::Base.send(:include, Irm::CustomFields)
+
 #扩展ActionRecord::Base,自动生成event
 ActiveRecord::Base.send(:include, Irm::EventGenerator)
 

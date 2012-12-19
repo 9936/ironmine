@@ -9,6 +9,9 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   #多语言关系
   attr_accessor :name,:description
   has_many :object_attributes_tls,:dependent => :destroy
+  before_create :build_sequence
+
+
   acts_as_multilingual({:required=>[]})
 
   #删除关联字段的同时,删除别名字段
@@ -29,7 +32,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
 
   # 验证属性名称的唯一性
-  validates_uniqueness_of :attribute_name,:scope=>[:opu_id,:business_object_id],:if => Proc.new { |i| i.attribute_name.present?&&i.business_object_id.present? }
+  validates_uniqueness_of :attribute_name,:scope=>[:opu_id,:business_object_id,:external_system_id],:if => Proc.new { |i| i.attribute_name.present?&&i.business_object_id.present? }
   validates_format_of :attribute_name, :with => /^[a-z]+[a-z0-9_]*$/ ,:if=>Proc.new{|i| i.attribute_name.present?},:message=>:label_irm_object_attribute_attribute_name_format
 
   # 当属性为表格属性时,从数据库读取表格列信息
@@ -43,15 +46,19 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   before_save :prepare_relation_table_alias
 
   # validate lookup master detail table name alias
-  # validate :validate_lookup_master_detail,:if=> Proc.new{|i| !self.relation_bo_code.blank?&&!i.attribute_type.blank?&&["LOOKUP_COLUMN","MASTER_DETAIL_COLUMN"].include?(i.attribute_type)}
   validate :validate_model_attribute,:if=> Proc.new{|i| i.attribute_type.present?&&i.attribute_name.present?&&i.attribute_type.eql?("MODEL_ATTRIBUTE")}
+
+  validates_presence_of :pick_list_options,:if => Proc.new{|i| ["GLOBAL_CUX_FIELD","SYSTEM_CUX_FIELD"].include?(i.field_type)&&["PICK_LIST","PICK_LIST_MULTI"].include?(i.category)&&i.check_step(2)}
+
+  validate :validate_pick_list,:if => Proc.new{|i| i.pick_list_options.present?&&i.data_default_value.present?&&["GLOBAL_CUX_FIELD","SYSTEM_CUX_FIELD"].include?(i.field_type)&&["PICK_LIST","PICK_LIST_MULTI"].include?(i.category)}
+
   #加入activerecord的通用方法和scope
   query_extend
 
   # 设置名称字段,一个对像中只有一个名称字段
   after_save :clear_other_label_flag
 
-
+  scope :order_by_sequence, order("#{table_name}.display_sequence ASC")
 
   scope :with_relation_bo,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} relation_bo ON relation_bo.id = #{table_name}.relation_bo_id and relation_bo.language='#{language}'").
@@ -93,6 +100,22 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   scope :table_column,lambda{
     where(:attribute_type=>"TABLE_COLUMN")
+  }
+
+  scope :without_external_system, lambda{|system_id|
+    where("NOT EXISTS(SELECT * FROM #{Irm::ObjectAttributeSystem.table_name} oas WHERE oas.external_system_id = ? AND oas.object_attribute_id = #{table_name}.id)", system_id)
+  }
+
+  scope :custom_field_with_system, lambda{|system_id|
+    where("(#{Irm::ObjectAttribute.table_name}.field_type = ?) OR (#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?)", "GLOBAL_CUX_FIELD", "SYSTEM_CUX_FIELD", system_id).
+        order("system_flag ASC").
+        select("IF(#{Irm::ObjectAttribute.table_name}.external_system_id is NULL, 'N', 'Y') system_flag")
+  }
+
+  scope :with_external_system, lambda{|system_id|
+    joins("JOIN #{Irm::ObjectAttributeSystem.table_name} ON #{Irm::ObjectAttributeSystem.table_name}.object_attribute_id = #{table_name}.id").
+        where("#{Irm::ObjectAttributeSystem.table_name}.external_system_id = ?", system_id).
+        select("#{Irm::ObjectAttributeSystem.table_name}.id global_flag")
   }
 
 
@@ -172,10 +195,10 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     case self.attribute_type
       when "TABLE_COLUMN"
         unless self.category.present?&&["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(self.category)
-          clean_column([:relation_exists_flag,:relation_bo_code,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause])
+          clean_column([:relation_exists_flag,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause])
         end
       when "MODEL_ATTRIBUTE"
-        clean_column([:category,:relation_exists_flag,:relation_bo_code,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause,:lov_code,:pick_list_code,:data_type,:data_length,:data_null_flag,:data_key_type,:data_default_value,:data_extra_info])
+        clean_column([:category,:relation_exists_flag,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause,:lov_code,:pick_list_code,:data_type,:data_length,:data_null_flag,:data_key_type,:data_default_value,:data_extra_info])
     end
   end
 
@@ -247,16 +270,41 @@ class Irm::ObjectAttribute < ActiveRecord::Base
       self.data_length = data_type_length[1].gsub(/\)/,"") if data_type_length[1]
       self.data_null_flag = ("NO".eql?(column[2]) ? Irm::Constant::SYS_NO : Irm::Constant::SYS_YES)
       self.data_key_type = column[3]
-      self.data_default_value = column[4]
+      unless column[0].start_with?("attribute")|| column[0].start_with?("sattribute")
+        self.data_default_value = column[4]
+      end
+
       self.data_extra_info = column[5]
     else
       errors.add(:attribute_name,I18n.t(:label_irm_object_attribute_invalid_table_attribute))
     end
   end
 
+
+  def validate_pick_list
+    unless pick_options.include?(self.data_default_value)
+      errors.add(:data_default_value,I18n.t(:label_irm_object_attribute_pick_list_default_value_error))
+    end
+  end
+
+  def pick_options
+    (self.pick_list_options||"").split("\r\n")
+  end
+
   def clear_other_label_flag
     if Irm::Constant::SYS_YES.eql?(self.label_flag)
       self.class.where("business_object_id = ? AND label_flag = ? AND id != ?", self.business_object_id,Irm::Constant::SYS_YES,self.id).update_all(:label_flag=>Irm::Constant::SYS_NO)
+    end
+  end
+
+  private
+  #构建sequence
+  def build_sequence
+    current_sequence = Irm::ObjectAttribute.select("display_sequence").where(:business_object_id => self.business_object_id, :field_type => "GLOBAL_CUX_FIELD").order("display_sequence DESC").first
+    if current_sequence.present?
+      self.display_sequence = current_sequence[:display_sequence] + 1
+    else
+      self.display_sequence = 1
     end
   end
 

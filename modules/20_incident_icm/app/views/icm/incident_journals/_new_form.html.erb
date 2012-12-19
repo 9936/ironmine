@@ -121,7 +121,11 @@
           <td class="data-col">
             <div><%= @incident_request[:supporter_name] %></div>
           </td>
+          <td class="label-col"></td>
+          <td class="data-col"></td>
         </tr>
+        <!-- 显示自定义字段信息 -->
+        <%= show_custom_field_info(@incident_request) %>
         <%= render :partial=>"new_form_external_field"%>
         <tr>
           <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>

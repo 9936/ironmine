@@ -60,14 +60,29 @@ module Irm::ObjectAttributesHelper
   end
 
   def customize_object_attributes(bo_id)
-    Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type != ?","STANDARD_FIELD")
+    Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","CUSTOMED_FIELD")
+  end
+
+  def user_customize_object_attributes(bo_id)
+    Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+  end
+
+  def global_customize_object_attribute_names(bo)
+    #已经存在的全局用户自定义属性
+    g_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD").collect{|i| i.attribute_name}
+    columns = []
+    tcs = ActiveRecord::Base.connection.execute("DESCRIBE  #{bo.bo_table_name}")
+    tcs.each do |c|
+      columns << c[0] if c[0].start_with?("attribute")&&!g_attributes.include?(c[0])
+    end
+    columns
   end
 
   def show_object_attribute_category(data)
     case data[:category]
       when "LOOKUP_RELATION","MASTER_DETAIL_RELATION"
         return "#{data[:category_name]}(#{data[:relation_bo_name]})"
-      when "DATE_TIME","CHECK_BOX","PICK_LIST","PICK_LIST_MULTI"
+      when "DATE_TIME","CHECK_BOX","PICK_LIST","PICK_LIST_MULTI", "DATE"
         return data[:category_name]
       when "EMAIL","NUMBER" ,"TEXT","TEXT_AREA" ,"TEXT_AREA_RICH","URL"
         return "#{data[:category_name]}(#{data.data_length})"

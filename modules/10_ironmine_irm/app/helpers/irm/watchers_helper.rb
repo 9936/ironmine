@@ -22,7 +22,7 @@ module Irm::WatchersHelper
                                                                                                                 :watcher_id => w[:person_id],
                                                                                                                 :sid => sid,
                                                                                                                 :watchable_id => watchable.id,
-                                                                                                                :watchable_type => watchable.class.to_s,:eidtable=>editable,:_dom_id=>dom_id}, :remote => true) if deletable)))
+                                                                                                                :watchable_type => watchable.class.to_s,:editable=>editable,:_dom_id=>dom_id}, :remote => true) if deletable)))
     end
     raw(ret)
   end

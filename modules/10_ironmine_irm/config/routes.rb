@@ -40,6 +40,23 @@ Rails.application.routes.draw do
     match '/system_members/:sid/get_available_people_data(.:format)' => "system_members#get_available_people_data"
     match '/system_members/:sid/get_owned_members_data(.:format)' => "system_members#get_owned_members_data"
 
+    #custom_attributes
+    match '/custom_attributes/custom_fields_block(.:format)' => "custom_attributes#custom_fields_block"
+    match '/custom_attributes/:sid/(/index)(.:format)' => "custom_attributes#index"
+    match '/custom_attributes/:sid/new(.:format)' => "custom_attributes#new"
+    match '/custom_attributes/:sid/create(.:format)' => "custom_attributes#create", :via => :post
+    match '/custom_attributes/:sid/:bo_id/get_data(.:format)' => "custom_attributes#get_data"
+    match '/custom_attributes/:sid/:attribute_id/edit(.:format)' => "custom_attributes#edit", :via => :get
+    match '/custom_attributes/:sid/:attribute_id(.:format)' => "custom_attributes#update", :via => :put
+    match '/custom_attributes/:sid/:attribute_id(.:format)' => "custom_attributes#show"
+    match '/custom_attributes/:sid/:attribute_id/delete(.:format)' => "custom_attributes#destroy"
+    match '/custom_attributes/:sid/:bo_id/enable_global_custom_fields(.:format)' => "custom_attributes#enable_global_custom_fields"
+    match '/custom_attributes/:sid/:attribute_id/active(.:format)' => "custom_attributes#active"
+    match '/custom_attributes/:sid/:attribute_id/disable(.:format)' => "custom_attributes#disable"
+    match '/custom_attributes/:sid/:attribute_id/multilingual_edit(.:format)' => "custom_attributes#multilingual_edit", :via => :get
+    match '/custom_attributes/:sid/:attribute_id/multilingual_update(.:format)' => "custom_attributes#multilingual_update", :via => :put
+
+
     #lookup_types
     match '/lookup_types/new(.:format)' => "lookup_types#new", :via => :get
     match '/lookup_types/create(.:format)' => "lookup_types#create", :via => :post
@@ -599,7 +616,11 @@ Rails.application.routes.draw do
     match '/business_objects/:bo_id/object_attributes/create_model_attribute(.:format)' => "object_attributes#create_model_attribute", :via => :post
     match '/business_objects/:bo_id/object_attributes/new(.:format)' => "object_attributes#new", :via => [:get, :post, :put]
     match '/business_objects/:bo_id/object_attributes/create(.:format)' => "object_attributes#create", :via => :post
+    match '/business_objects/:bo_id/object_attributes/new_cux(.:format)' => "object_attributes#new_cux", :via => [:get, :post, :put]
+    match '/business_objects/:bo_id/object_attributes/create_cux(.:format)' => "object_attributes#create_cux", :via => :post
     match '/business_objects/:bo_id/object_attributes/get_data(.:format)' => "object_attributes#get_data"
+    match '/business_objects/:bo_id/object_attributes/user_customize_object_attributes(.:format)' => "object_attributes#user_customize_object_attributes"
+    match '/business_objects/:bo_id/object_attributes/switch_sequence(.:format)' => "object_attributes#switch_sequence"
     match '/business_objects/:bo_id/object_attributes/get_standard_data(.:format)' => "object_attributes#get_standard_data"
     match '/business_objects/:bo_id/object_attributes/:id/edit(.:format)' => "object_attributes#edit", :via => [:get, :put]
     match '/business_objects/:bo_id/object_attributes/:id(.:format)' => "object_attributes#update", :via => :put

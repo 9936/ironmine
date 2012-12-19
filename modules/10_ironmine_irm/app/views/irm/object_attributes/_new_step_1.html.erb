@@ -95,7 +95,7 @@
   <% end %>
 
   <% content_for :form_buttons  do %>
-        <%= link_to t(:next), {:action => "new"},{:class=>"submit btn"} %>
+        <%= link_to t(:next), {:action => "new"},{:class=>"submit btn btn-primary"} %>
         <%= link_to t(:cancel), {:id=>params[:bo_id],:action => "show",:controller=>"irm/business_objects"},:class=>"btn" %>
   <% end %>
 

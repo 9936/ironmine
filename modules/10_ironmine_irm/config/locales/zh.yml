@@ -26,7 +26,6 @@ zh:
   delete: 删除
   delete_selected: 删除所选
   back: 返回
-  disable: 失效
   done: 完成
   loading: 加载中...
   apply: 应用
@@ -103,6 +102,8 @@ zh:
   code: 编码
   expand_all: 全部展开
   collapse_all: 全部折叠
+  system: 系统
+  global: 全局
   #常用语句
   notice_account_invalid_creditentials: 用户名或密码错误
   successfully_updated_password: 成功修改密码！
@@ -1088,6 +1089,10 @@ zh:
   label_irm_object_attribute_new_table_column: 新建数据库属性
   label_irm_object_attribute_new_model_attribute: 新建model属性
   label_irm_business_object_data_access_flag: 访问权限控制
+  label_irm_object_user_custom_attributes: 用户自定义字段
+  label_irm_object_user_custom_flag: 自定义字段
+  label_irm_object_user_system_custom_flag: 系统自定义字段
+  label_action_new_cux: 新建自定义字段
   #======================== business objects====================
 
   #======================== object rules====================
@@ -1123,6 +1128,8 @@ zh:
   label_irm_object_attribute_data_null_flag: 可为空
   label_irm_object_attribute_data_key_type: 键类型
   label_irm_object_attribute_data_default_value: 默认值
+  label_irm_object_attribute_data_min_and_max_length: 最小 - 最大 长度
+  label_irm_object_attribute_data_length_help_text: 0 表示不限制
   label_irm_object_attribute_data_extra_info: 额外信息
   label_irm_object_attribute_edit: 编辑BO属性
   label_irm_object_attribute_description: 描述
@@ -2043,5 +2050,11 @@ zh:
   #============================== end report time  ==============================
   #============================== start system setting  ==============================
   label_irm_system: 系统设置
+  label_irm_system_custom_field: 自定义字段
+  label_irm_system_custom_model_field: %{model_name}自定义字段
+  label_irm_system_custom_business_object_list: 可自定义字段业务对象
+  label_irm_system_custom_attribute: 系统自定义字段
+  label_irm_custom_attribute: 系统自定义字段
+  label_irm_system_custom_attribute_order: 调整显示顺序
   #============================== end system setting  ==============================
   label_total_data_size: 共 %{m} 条数据

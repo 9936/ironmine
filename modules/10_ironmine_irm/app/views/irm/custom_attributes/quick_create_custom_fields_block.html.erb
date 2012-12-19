@@ -1,0 +1,12 @@
+<% if @model_object.required_custom_attributes.any? %>
+  <%= show_input_custom_fields(@model_object, 4, true) do |builder|  %>
+    <% @model_object.required_custom_attributes.each do |attribute| %>
+      <% builder.custom_field(attribute[:attribute_name],{:style => "width:175px;"}) do |label, value| %>
+        <div class="quick-create-field">
+          <label><%= label %><%= required_icon %></label>
+          <%= value %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

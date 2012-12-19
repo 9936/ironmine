@@ -932,7 +932,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               "irm/search" => ["index"],
               "irm/session_settings" => ["timeout_warn"],
               "irm/setting" => ["common"],
-              "irm/filters" => ["operator_value"]
+              "irm/filters" => ["operator_value"],
+              "irm/custom_attributes" => ["custom_fields_block"]
           },
 
           :home_page => {
@@ -1414,7 +1415,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/business_objects" => ["index", "show", "get_data", "new", "create", "edit", "update", "multilingual_edit", "multilingual_update", "execute_test", "destroy"],
-              "irm/object_attributes" => ["index", "show", "get_data", "get_standard_data", "new", "create", "selectable_columns", "relation_columns", "edit", "update", "multilingual_edit", "multilingual_update", "change_type", "destroy", "person_columns", "new_model_attribute", "create_model_attribute"],
+              "irm/object_attributes" => ["index", "show", "get_data", "get_standard_data", "new_cux", "create_cux", "new", "create", "selectable_columns", "relation_columns", "edit",
+                                          "update", "multilingual_edit", "multilingual_update", "change_type", "destroy", "person_columns", "new_model_attribute", "create_model_attribute","user_customize_object_attributes","switch_sequence"],
               "irm/search_layouts" => ["new", "create", "edit", "update"],
           },
       }
@@ -2719,7 +2721,16 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :sequence => 10,
                   :en => {:name => "My System Info", :description => "My System Info"},
                   :zh => {:name => "我的系统信息", :description => "查看、编辑系统信息"},
-              }}
+              }
+          },
+          :system_custom_field => {
+              :type => "function",
+              :entry => {
+                  :sequence => 20,
+                  :en => {:name => "Custom Field", :description => "System Custom Field"},
+                  :zh => {:name => "自定义字段", :description => "系统自定义字段"}
+              }
+          }
       }
   }
   map.function_group :system_basic_info, {
@@ -2741,6 +2752,30 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "irm/systems" => ["index"]
+          }
+      }
+  }
+
+
+  map.function_group :system_custom_field, {
+      :en => {:name => "Custom Field", :description => "System Custom Field"},
+      :zh => {:name => "自定义字段", :description => "系统自定义字段"},
+      :system_flag => 'Y'
+  }
+  map.function_group :system_custom_field, {
+      :zone_code => "SYSTEM_CUSTOM",
+      :controller => "irm/custom_attributes",
+      :action => "index"
+  }
+  map.function_group :system_custom_field, {
+      :children => {
+          :system_custom_field => {
+              :en => {:name => "Custom Field", :description => "System Custom Field"},
+              :zh => {:name => "自定义字段", :description => "系统自定义字段"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/custom_attributes" => ["index","new","create","edit","update","destroy","show","enable_global_custom_fields","active","disable","multilingual_edit","multilingual_update","get_data"]
           }
       }
   }

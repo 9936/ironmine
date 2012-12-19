@@ -161,7 +161,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "icm/incident_requests" => ["create", "new", "short_create"],
           },
           :create_icdt_rqst_for_other => {
-              :en => {:name => "Summbit for other", :description => "Summbit for other"},
+              :en => {:name => "Submit for other", :description => "Submit for other"},
               :zh => {:name => "为他人提单", :description => "为他人提单"},
               :default_flag => "N",
               :login_flag => "N",

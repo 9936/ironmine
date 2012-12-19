@@ -107,6 +107,8 @@ en:
   code: Code
   collapse_all: Collapse All
   expand_all: Expand All
+  system: System
+  global: Global
   #usual words
   notice_account_invalid_creditentials: Incorrect username or password
   successfully_updated_password: Successfully Updated Password
@@ -1079,6 +1081,10 @@ en:
   label_irm_business_object_report_flag: Report
   label_irm_business_object_standard_flag: Built-in BO
   label_irm_business_object_data_access_flag: Data Access
+  label_irm_object_user_custom_attributes: User Custom Field
+  label_irm_object_user_custom_flag: Custom Field
+  label_irm_object_user_system_custom_flag: System Custom Field
+  label_action_new_cux: New Custom Field
   #======================== end business objects====================
 
   #======================== object rules====================
@@ -1123,6 +1129,8 @@ en:
   label_irm_object_attribute_attribute_name_format: Can only input lowercase letters, underline, digital,and must start with letter.
   label_irm_object_attribute_category: Category
   label_irm_object_attribute_data_default_value: Default Value
+  label_irm_object_attribute_data_min_and_max_length: Min - Max Length
+  label_irm_object_attribute_data_length_help_text: 0 means unlimit
   label_irm_object_attribute_data_extra_info: Extra Info
   label_irm_object_attribute_data_key_type: Key Type
   label_irm_object_attribute_data_null_flag: nullable
@@ -1138,6 +1146,8 @@ en:
   label_irm_object_attribute_relation_object_attribute: Relation Attribute
   label_irm_object_attribute_required_flag: Required
   label_irm_object_attribute_trigger_flag: Trace History
+  label_irm_object_attribute_pick_list_options: Options
+  label_irm_object_attribute_pick_list_default_value_error: The default value must included by pick list options
   #======================== object attributes====================
   #======================== list of values====================
   label_irm_list_of_value_list: List of Value
@@ -2040,6 +2050,12 @@ en:
   label_report_time_grouped_calendar_day: Day
   #============================== end report time  ==============================
   #============================== start system setting  ==============================
-  label_irm_system: 系统设置
+  label_irm_system: System setting
+  label_irm_system_custom_field: Custom Fields
+  label_irm_system_custom_model_field: %{model_name}自定义字段
+  label_irm_system_custom_business_object_list: Custom Fields's Business Object List
+  label_irm_system_custom_attribute: System Custom Fields
+  label_irm_custom_attribute: System Custom Fields
+  label_irm_system_custom_attribute_order: Reorder Custom Fields
   #============================== end system setting  ==============================
   label_total_data_size: Total %{m}

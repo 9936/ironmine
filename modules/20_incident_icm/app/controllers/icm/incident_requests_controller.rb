@@ -546,10 +546,10 @@ class Icm::IncidentRequestsController < ApplicationController
     source = eval(attachment.source_type).find(source_id)
     name = attachment.name
 
-    if source.source_type.eql?("Icm::IncidentRequest")
+    if source.class.name.eql?("Icm::IncidentRequest")
       request_id = source.id
       journal_id = ""
-    else source.source_type.eql?("Icm::IncidentJournal")
+    else source.class.name.eql?("Icm::IncidentJournal")
       request_id = source.incident_request_id
       journal_id = source.id
     end
@@ -567,6 +567,7 @@ class Icm::IncidentRequestsController < ApplicationController
       end
     end
   end
+
 
   private
   #将创建关联事故单放在一个单独的方法中，因为在多个action中用到
@@ -669,4 +670,6 @@ class Icm::IncidentRequestsController < ApplicationController
   def check_support_group(support_group_id,system_id)
     Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).assignable.query(support_group_id).first.present?
   end
+
+
 end

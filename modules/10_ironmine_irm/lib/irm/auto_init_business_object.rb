@@ -174,7 +174,7 @@ class Irm::AutoInitBusinessObject
     columns = []
     tcs = ActiveRecord::Base.connection.execute("DESCRIBE  #{table_name}")
     tcs.each do |c|
-      columns << c
+      columns << c unless c[0].start_with?("attribute")||c[0].start_with?("sattribute")
     end
     columns
   end
