@@ -1,7 +1,7 @@
 <% if allow_to_function?(:view_watcher) %>
     <% l_editable = allow_to_function?(:edit_watcher)%>
     <% (l_editable = editable && l_editable) if editable.present?%>
-    <% l_editable = editable && can_watcher?(watchable) %>
+    <% l_editable = l_editable && can_watcher?(watchable) %>
     <%= form_tag({:controller => "irm/watchers", :action => "add_watcher", :watchable_id => watchable.id,
                   :sid => sid,:_dom_id=>dom_id,:editable=>editable}, :remote => true) do %>
       <div class="sidebar-block">
