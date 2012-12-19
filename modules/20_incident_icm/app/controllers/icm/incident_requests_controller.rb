@@ -568,6 +568,7 @@ class Icm::IncidentRequestsController < ApplicationController
     end
   end
 
+
   private
   #将创建关联事故单放在一个单独的方法中，因为在多个action中用到
   def create_relation(source_id, target_id, relation_type)
@@ -669,4 +670,6 @@ class Icm::IncidentRequestsController < ApplicationController
   def check_support_group(support_group_id,system_id)
     Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).assignable.query(support_group_id).first.present?
   end
+
+
 end

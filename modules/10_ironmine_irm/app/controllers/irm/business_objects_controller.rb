@@ -4,8 +4,9 @@ class Irm::BusinessObjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { @business_objects = BusinessObject.all
-                    render :xml => @business_objects }
+      format.xml  {
+        @business_objects = BusinessObject.all render :xml => @business_objects
+      }
     end
   end
 

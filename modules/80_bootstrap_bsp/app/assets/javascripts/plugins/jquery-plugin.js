@@ -1761,26 +1761,26 @@ jQuery.fn.menubutton = function () {
                 btns = $(".page-block-header .page-block-button .btn",pageBlock),
                 html = $(".datatable", pageBlock).html(),
                 url = me.data.options.dragOptions.saveUrl;
-            url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id=null";
+            url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id="+me.$element.attr("id");
             orderBtn.bind("click", function(){
                 btns.css("display","none");
                 $(this).hide();
                 saveBtn.show();
                 cancelBtn.show();
-                $(".table-body table:first tbody", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr", placeHolderTemplate: "<tr class='place-holder'></tr>" });
+                $(".table-body table:first tbody:first", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr", placeHolderTemplate: "<tr class='place-holder'></tr>" });
                 pageBlock.addClass("drag-able");
             });
             saveBtn.bind("click", function(){
-                btns.css("display","inline-block");
-                orderBtn.show();
-                $(this).hide();
-                cancelBtn.hide();
-                pageBlock.removeClass('drag-able');
-                $(".table-body table:first tbody", me.$element).dragsort("destroy");
                 var data = $(".table-body table:first tbody tr",me.$element).map(function() {return $(this).attr("id");}).get();
-                $.post(url, { ordered_ids: data.join(",")} );
-                //保存后将html修改
-                html = $(".datatable", pageBlock).html();
+                $.post(url, { ordered_ids: data.join(",")}, function(data){
+                    //保存后将html修改
+                    html = $(".datatable", pageBlock).html();
+                    cancelBtn.trigger("click");
+                    if(me.data.options.dragOptions.returnUrl){
+                        window.location = me.data.options.dragOptions.returnUrl;
+                    }
+                });
+
             });
             //取消按钮
             cancelBtn.bind("click",function(){
@@ -1789,11 +1789,19 @@ jQuery.fn.menubutton = function () {
                 cancelBtn.hide();
                 saveBtn.hide();
                 pageBlock.removeClass('drag-able');
-                $(".table-body table:first tbody", me.$element).dragsort("destroy");
+                $(".table-body table:first tbody:first", me.$element).dragsort("destroy");
                 $(".datatable", pageBlock).html(html);
+                $(".table-body table:first tbody:first", me.$element).find("tr").each(function(){
+                    $(this).css("cursor","default");
+                });
             });
             $(".page-block-header .page-block-button",pageBlock).append(orderBtn).append(cancelBtn).append(saveBtn);
+            //当配置了
+            if(me.data.options.dragOptions.triggerClick){
+                orderBtn.trigger("click");
+            }
         }
+
     };
     //初始化排序列
     Internal.prototype.buildOrderColumn = function () {

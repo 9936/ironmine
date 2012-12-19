@@ -17,6 +17,18 @@
                            $("#incident_request_requested_by_label").val("<%= Irm::Person.current.full_name%>");
                            $("#incident_request_requested_by").trigger("change");
                        });
+
+                       //系统改变重新加载其自定义字段信息
+                       $("#ass_external_system").change(function(){
+                           $("#customBlock").hide();
+                           $("#customBlock").html('');
+                           if($(this).val()){
+                               var href = $.tmpl(decodeURIComponent($("#customBlock").attr("href")), {external_system_id:$(this).val()}).text();
+                               href += "&template_name=quick_create_custom_fields_block";
+                               $("#customBlock").load(href);
+                               $("#customBlock").show();
+                           }
+                       });
                    });
                 </script>
             <% else %>
@@ -47,7 +59,7 @@
               <label for="incident_request_summary"><%=t(:label_icm_incident_request_summary)%><%= required_icon %></label>
               <%=f.text_area :summary,:rows=>3, :style => "width:175px;" ,:id=>"incident_request_summary",:required=>true%>
             </div>
-              <div class="quickCreateField">
+              <div class="quick-create-field">
                 <label><%=t(:label_icm_incident_request_contact_way)%><%= required_icon %></label>
                 <%=f.text_field :contact_number,:id=>"incident_request_contact_number", :value=> I18n.t(:label_icm_incident_request_contact_number_tip_a), :class => "grayTips", :style => "width:175px;"%>
               </div>
@@ -76,6 +88,10 @@
                 </tr>
               </table>
             </div>
+
+            <!-- 自定义字段信息 -->
+            <div id="customBlock" style="display: none;" href= <%= get_custom_block_url("Icm::IncidentRequest",{:external_system_id => "${external_system_id}"},"new_icm_incident_request")%>></div>
+
             <div class="quick-create-field">
               <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
               <%= link_to t(:more_info), {:controller => "icm/incident_requests", :action => "new"},{:class=>"submit more-info-link"} %>
