@@ -22,6 +22,15 @@ module Irm::CustomAttributesHelper
     active_attributes + disabled_attributes
   end
 
+  def can_reordered?(bo_id, sid)
+    system_attributes = Irm::ObjectAttribute.query_by_business_object(bo_id).where("external_system_id=?", sid)
+    if system_attributes.any? and system_attributes.size > 1
+      true
+    else
+      false
+    end
+  end
+
   def global_custom_attributes(bo_id,sid)
     Irm::ObjectAttribute.multilingual.list_all.real_field.without_external_system(sid).query_by_business_object(bo_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
   end
