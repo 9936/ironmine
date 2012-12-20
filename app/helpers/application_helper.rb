@@ -205,7 +205,7 @@ module ApplicationHelper
 
     source_url = url_for(url_options.merge(:format=>:html,:back_url=>url_for({})))
 
-    page_size = options[:row_perpage]|| cookies[:PAGESIZE] ||10
+    page_size = cookies[:PAGESIZE] || options[:row_perpage] || 10
 
     search_box = options[:search_box]
     paginator_box = options[:paginator_box]
