@@ -1225,9 +1225,12 @@ jQuery.fn.menubutton = function () {
     // 将新文件信息添加到页面上
     Internal.prototype.generateFileInfo = function (fileInput) {
         var me = this;
-        var options = {result:me.checkFile(fileInput), fileSize:formatFileSize(me.getFileSize(fileInput)) ,fileName:fileInput.val().split('\\').pop()};
-        me.appendToUi(options, fileInput);
-    }
+        if (window.fileLimit && me.getFileSize(fileInput) && window.fileLimit * 1024 > me.getFileSize(fileInput)){
+            var options = {result:me.checkFile(fileInput), fileSize:formatFileSize(me.getFileSize(fileInput)) ,fileName:fileInput.val().split('\\').pop()};
+            me.appendToUi(options, fileInput);
+        }
+
+    };
 
     // 生成文件显示element
     Internal.prototype.appendToUi = function (options, fileInput) {
