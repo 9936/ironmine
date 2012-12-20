@@ -1,8 +1,12 @@
 <%=datatable_view({:count=>datas.length,:datas=>datas}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "130px"}) do |data|%>
       <% if data[:system_flag].eql?('Y') %>
+        <% if data[:active_flag].eql?('Y') %>
+          <%= link_to(t(:disable),{:action => "switch_status", :sid => params[:sid], :attribute_id =>data[:id]},{:class => "btn btn-danger btn-mini", :style => "color:#fff;text-decoration:none;"}) %>&nbsp;|
+        <% else %>
+          <%= link_to(t(:active), {:action =>"switch_status", :sid => params[:sid], :attribute_id => data[:id] }, :class => "btn btn-success btn-mini", :style => "color:#fff;text-decoration:none;" ) %>&nbsp;|
+        <% end %>
         <%= link_to(t(:edit),{:action => "edit", :attribute_id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
-        <%= link_to(t(:delete),{:action => "destroy", :attribute_id=>data[:id]},{:method => :delete,:confirm => t(:label_are_you_sure),:class => "action-link"}) %>&nbsp;|
       <% else %>
          <% if data[:active_flag].eql?('Y') %>
            <%= link_to(t(:disable),{:action => "disable", :attribute_id =>data[:id], :sid => params[:sid]},{:class => "btn btn-danger btn-mini", :style => "color:#fff;text-decoration:none;"}) %>&nbsp;|

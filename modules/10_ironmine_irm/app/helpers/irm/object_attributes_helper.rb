@@ -29,6 +29,13 @@ module Irm::ObjectAttributesHelper
     object_attributes.collect{|i|[i.attribute_name,i.attribute_name,{:attribute_name=>i.attribute_name}]}
   end
 
+  #失效和启用状态
+  def available_custom_attributes_status
+    status_select = []
+    status_select << [t(:enable),'ENABLED']
+    status_select << [t(:disable),'DISABLED']
+  end
+
   # table column and relation column
   def available_selectable_object_attribute(business_object_code=nil)
     object_attributes =[]

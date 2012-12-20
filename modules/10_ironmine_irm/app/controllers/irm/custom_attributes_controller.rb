@@ -137,7 +137,7 @@ class Irm::CustomAttributesController < ApplicationController
   end
 
   def get_data
-    @datas = Irm::ObjectAttribute.multilingual.list_all.order_by_sequence.real_field.query_by_business_object(params[:bo_id]).where("#{Irm::ObjectAttribute.table_name}.external_system_id=? AND #{Irm::ObjectAttribute.table_name}.field_type = ?", params[:sid], "SYSTEM_CUX_FIELD")
+    @datas = Irm::ObjectAttribute.where(:status_code => "ENABLED").multilingual.list_all.order_by_sequence.real_field.query_by_business_object(params[:bo_id]).where("#{Irm::ObjectAttribute.table_name}.external_system_id=? AND #{Irm::ObjectAttribute.table_name}.field_type = ?", params[:sid], "SYSTEM_CUX_FIELD")
   end
 
 
@@ -159,6 +159,22 @@ class Irm::CustomAttributesController < ApplicationController
     object_attribute_system.destroy
     respond_to do |format|
         format.html { redirect_to({:action=>"index",:sid => params[:sid]}) }
+    end
+  end
+
+  def switch_status
+    @object_attribute = Irm::ObjectAttribute.find(params[:attribute_id])
+    if @object_attribute.status_code.eql?(Irm::Constant::ENABLED)
+      @object_attribute.status_code = Irm::Constant::DISABLED
+    else
+      @object_attribute.status_code = Irm::Constant::ENABLED
+    end
+    @object_attribute.not_auto_mult = true
+    @object_attribute.save
+
+    respond_to do |format|
+      format.html { redirect_to({:action=>"index",:sid => params[:sid]}) }
+      format.xml  { head :ok }
     end
   end
 

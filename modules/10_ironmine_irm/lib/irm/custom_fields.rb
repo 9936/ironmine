@@ -44,10 +44,10 @@ module Irm::CustomFields
         def custom_attributes
           bo = Irm::BusinessObject.with_custom_flag.where(:bo_model_name => self.class.to_s).first
           if bo.present? and self.custom_field_options[:system_flag] == Irm::Constant::SYS_YES and self.external_system_id
-            custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence.with_external_system(self.external_system_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
-            custom_attributes += Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence.where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", self.external_system_id)
+            custom_attributes = Irm::ObjectAttribute.where(:status_code => "ENABLED").multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence.with_external_system(self.external_system_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+            custom_attributes += Irm::ObjectAttribute.where(:status_code => "ENABLED").multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence.where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", self.external_system_id)
           elsif bo.present? and self.custom_field_options[:system_flag] == Irm::Constant::SYS_NO
-            custom_attributes = Irm::ObjectAttribute.multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence
+            custom_attributes = Irm::ObjectAttribute.where(:status_code => "ENABLED").multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence
           else
             custom_attributes = []
           end
