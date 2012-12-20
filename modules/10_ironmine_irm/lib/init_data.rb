@@ -1416,7 +1416,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "irm/business_objects" => ["index", "show", "get_data", "new", "create", "edit", "update", "multilingual_edit", "multilingual_update", "execute_test", "destroy"],
               "irm/object_attributes" => ["index", "show", "get_data", "get_standard_data", "new_cux", "create_cux", "new", "create", "selectable_columns", "relation_columns", "edit",
-                                          "update", "multilingual_edit", "multilingual_update", "change_type", "destroy", "person_columns", "new_model_attribute", "create_model_attribute","user_customize_object_attributes","switch_sequence"],
+                                          "update", "multilingual_edit", "multilingual_update", "change_type", "destroy", "person_columns", "new_model_attribute", "create_model_attribute",
+                                          "user_customize_object_attributes","switch_sequence"],
               "irm/search_layouts" => ["new", "create", "edit", "update"],
           },
       }
@@ -2775,7 +2776,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/custom_attributes" => ["index","new","create","edit","update","destroy","show","enable_global_custom_fields","active","disable","multilingual_edit","multilingual_update","get_data"]
+              "irm/custom_attributes" => ["index","new","create","edit","update","destroy","show","enable_global_custom_fields","active","disable","switch_status","multilingual_edit","multilingual_update","get_data"]
           }
       }
   }

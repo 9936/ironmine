@@ -187,6 +187,22 @@ class Irm::ObjectAttributesController < ApplicationController
     end
   end
 
+  #def switch_status
+  #  @object_attribute = Irm::ObjectAttribute.find(params[:id])
+  #  if @object_attribute.status_code.eql?(Irm::Constant::ENABLED)
+  #    @object_attribute.status_code = Irm::Constant::DISABLED
+  #  else
+  #    @object_attribute.status_code = Irm::Constant::ENABLED
+  #  end
+  #  @object_attribute.not_auto_mult = true
+  #  @object_attribute.save
+  #
+  #  respond_to do |format|
+  #    format.html { redirect_to(:controller=>"irm/business_objects",:action=>"show",:id=>@business_object.id) }
+  #    format.xml  { head :ok }
+  #  end
+  #end
+
   def multilingual_edit
     @object_attribute = Irm::ObjectAttribute.find(params[:id])
   end
