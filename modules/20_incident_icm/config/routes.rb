@@ -90,8 +90,8 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/assign_request(.:format)' => "incident_requests#assign_request", :via => :post
     match '/incident_requests/kanban_index(.:format)' => "incident_requests#kanban_index", :via => :get
     match '/incident_requests/edit_assign_me(.:format)' => "incident_requests#edit_assign_me", :via => :get
-    match '/incident_requests/update_assign_me/:sid(.:format)' => "incident_requests#update_assign_me", :via => [:post ,:get]
-    match '/incident_requests/assign_me_data/:sid(.:format)' => "incident_requests#assign_me_data", :via => :get
+    match '/incident_requests/update_assign_me(.:format)' => "incident_requests#update_assign_me", :via => [:post ,:get]
+    match '/incident_requests/assign_me_data(.:format)' => "incident_requests#assign_me_data", :via => :get
 
     match '/incident_requests/:incident_request_id/:att_id/remove_exists_attachments(.:format)' => "incident_requests#remove_exists_attachments"
     match '/incident_requests/:source_id/:sid/add_relation(.:format)' => "incident_requests#add_relation", :via => :post
