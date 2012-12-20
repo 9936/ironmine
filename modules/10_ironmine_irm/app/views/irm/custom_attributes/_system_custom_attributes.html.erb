@@ -24,7 +24,9 @@
         <%= show_object_attribute_category(data) %>
     <% end %>
     <% builder.column(:data_type,{:title=>t(:label_irm_object_attribute_data_type),:searchable=>true})%>
-    <% builder.column(:data_default_value,{:title=>t(:label_irm_object_attribute_data_default_value)})%>
+    <% builder.column(:data_default_value,{:title=>t(:label_irm_object_attribute_data_default_value)}) do |data| %>
+      <%= show_object_attribute_value(data) %>
+    <% end %>
     <% builder.column(:required_flag,{:title=>t(:label_irm_object_attribute_required_flag)}) do |data|%>
         <%= check_img(data[:required_flag]) %>
     <% end %>

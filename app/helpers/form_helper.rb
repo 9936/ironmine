@@ -56,11 +56,15 @@ module FormHelper
     date_text = datetime.strftime('%Y-%m-%d')
     if options.delete(:with_time)
       if options[:value].present?
-        init_datetime = Time.parse("#{options[:value]}")
-        init_date = init_datetime.strftime('%Y-%m-%d')
-        init_time = init_datetime.strftime('%H:%M:%S')
+        begin
+          init_datetime = Time.parse("#{options[:value]}")
+          init_date = init_datetime.strftime('%Y-%m-%d')
+          init_time = init_datetime.strftime('%H:%M:%S')
+        rescue
+          init_date = nil, init_time = nil
+        end
       else
-        init_date = init_time = nil
+        init_date = nil, init_time = nil
       end
       date_field_id = "#{field_id}_date"
       time_field_id = "#{field_id}_time"
