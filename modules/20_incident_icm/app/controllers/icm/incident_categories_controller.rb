@@ -125,7 +125,7 @@ class Icm::IncidentCategoriesController < ApplicationController
   end
 
   def get_option
-    incident_categories_scope = Icm::IncidentCategory.multilingual.enabled.query_by_system(params[:external_system_id])
+    incident_categories_scope = Icm::IncidentCategory.multilingual.enabled.query_by_system(params[:external_system_id]).order("display_sequence ASC")
     incident_categories_scope = incident_categories_scope.collect{|i| {:label=>i[:name], :value=>i.id,:id=>i.id}}
     respond_to do |format|
       format.json {render :json=>incident_categories_scope.to_grid_json([:label, :value],incident_categories_scope.count)}

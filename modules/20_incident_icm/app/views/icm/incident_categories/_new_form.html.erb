@@ -20,6 +20,10 @@
           <td class="label-col"><label for="description"><%=t(:label_icm_incident_category_description)%></label></td>
           <td class="data-col" colspan="3" width="82%"><%=f.text_area :description, :cols=>60,:rows=>5,:id=>"description",:class=>"input-xlarge" %></td>
         </tr>
+        <tr>
+          <td class="label-col"><label for="description">Sequence</label></td>
+          <td class="data-col"><%=f.text_field :display_sequence%></td>
+        </tr>
       </tbody>
     </table>
   <% end %>
