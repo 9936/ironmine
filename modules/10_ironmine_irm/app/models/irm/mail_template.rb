@@ -83,6 +83,9 @@ class Irm::MailTemplate < ActiveRecord::Base
 
     to_people = Irm::Person.query_by_ids(params_dup[:to_person_ids])
 
+    logger_options = {}
+    logger_options = params_dup[:logger_options] if  params_dup[:logger_options]
+
     # crash when no people
     return unless to_people.any?
 
@@ -129,8 +132,11 @@ class Irm::MailTemplate < ActiveRecord::Base
       else
         email_template  = self.class.query_by_language(Irm::Person.current.language_code).find(self.id)
       end
-      mail_options.merge!(:to=>to_emails,:cc=>cc_emails,:bcc=>bcc_emails)
-      TemplateMailer.template_email(mail_options,email_template,template_params,header_options).deliver
+      #logger_options[:emails] = to_emails + cc_emails + bcc_emails
+
+      mail_options.merge!(:to=> to_emails,:cc=> cc_emails,:bcc=>bcc_emails)
+
+      TemplateMailer.template_email(mail_options, email_template, template_params, header_options ,logger_options).deliver
     end
 
   end

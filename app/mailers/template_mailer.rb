@@ -27,7 +27,7 @@ class TemplateMailer < ActionMailer::Base
   end
 
 
-  def template_email(mail_options,email_template,template_params={},header_options={})
+  def template_email(mail_options, email_template, template_params={}, header_options={},logger_options ={})
     before_subject = mail_options.delete(:before_subject)||""
     before_body = mail_options.delete(:before_body)||""
     after_subject = mail_options.delete(:after_subject)||""
@@ -49,10 +49,28 @@ class TemplateMailer < ActionMailer::Base
     body = strip_tags(body) unless "html".eql?(email_template.template_type)
     body = (before_body.nil? ? "" : before_body) + body + (after_body.nil? ? "" : after_body)
     send_options.merge!({:body=>body})
-    #send_options.merge!({:date=> Time.now.in_time_zone.strftime('%Y-%m-%d %H:%M:%S')})
     headers(header_options)
 
+    #################记录日志开始#################
+    emails = []
+    emails += mail_options[:to].split(",")
+    emails += mail_options[:cc].split(",") if mail_options[:cc].present?
+    emails += mail_options[:bcc].split(",") if mail_options[:bcc].present?
+
+    emails.each do |email|
+      mailer_log = Irm::MailerLog.new()
+      mailer_log.reference_target = logger_options[:reference_target] if logger_options[:reference_target]
+      mailer_log.to_params = email
+      mailer_log.template_code = logger_options[:template_code] if logger_options[:template_code]
+      mailer_log.send_at = Time.now
+      mailer_log.save
+    end if emails.any?
+    #################日志记录结束#################
+
     mail(send_options)
+
+
+
   end
 
 

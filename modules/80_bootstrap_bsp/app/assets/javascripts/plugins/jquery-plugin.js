@@ -2205,13 +2205,13 @@ jQuery.fn.menubutton = function () {
 
     Internal.prototype.load = function () {
         var me = this;
-        if (me.data.options.currentPage != 1) {
+//        if (me.data.options.currentPage != 1) {
             me.setHash(me.$element.attr("id") + "_page="+ me.data.options.currentPage);
             //将当前的页码同其id保存到cookie中
             $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", "");
             //设置该cookie的过期时间为60分钟
             $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", me.data.options.currentPage);
-        }
+//        }
         me.$element.load(me.buildCurrentRequest(), function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "error"){
                 window.console && console.log($.i18n("load_data_error"));
