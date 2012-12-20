@@ -22,6 +22,7 @@
   <%=javascript_tag(yield :page_script)%>
 <% end %>
 
+<%= system_file_limit %>
 
 <%= render :partial => "irm/common/app_session_check" %>
 <%= render :partial => "irm/common/address_bar_logo" %>

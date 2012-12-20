@@ -252,7 +252,8 @@ $(function(){
     checkSelect();
     //对文件大小进行校验
     $("input[type=file]").live({change:function(){
-        checkAttachment(this, 1024*1024*10);
+        if (window.fileLimit)
+            checkAttachment(this, 1024*(parseInt(window.fileLimit)));
     }});
     $('[placeholder]').placeholder();
 });
@@ -557,6 +558,8 @@ function checkAttachment(target, limitSize){
         }
         alertModal.modal({show:true});
         $(target).val("");
+        //处理模拟表单中input的值进行修改
+        $(target).trigger("change");
     }
 }
 //end =================================客户端校验文件大小=================================

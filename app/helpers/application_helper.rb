@@ -670,4 +670,8 @@ module ApplicationHelper
     time_limit
   end
 
+  def system_file_limit
+    javascript_tag "window.fileLimit =  #{Irm::SystemParametersManager.upload_file_limit};"
+  end
+
 end
