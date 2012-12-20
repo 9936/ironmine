@@ -795,6 +795,7 @@ zh:
   label_action_add_roles: 选择角色
   label_irm_person_add_to_support_group: 加入组
   label_irm_person_template_flag: 模板用户
+  label_irm_person_admin_flag: 超级管理员
   label_irm_person_profile: 简档
   label_irm_person_role: 角色
   label_irm_person_access_system: 可访问系统
