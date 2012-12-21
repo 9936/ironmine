@@ -76,15 +76,14 @@ module Icm::IncidentPermissionCheckHelper
 
   #检查是否具有删除回复附件功能
   def can_delete_comment_file?(file, incident_request)
-    if allow_to_function?(:remove_attachment)
-      if allow_to_function?(:system_delete_file_anyone, incident_request.external_system_id)
-        return true
-      elsif allow_to_function?(:system_delete_file_mine, incident_request.external_system_id) &&
-          (current_person?(file.created_by))
-        return true
-      else
-        return false
-      end
+    if allow_to_function?(:remove_attachment) ||
+        allow_to_function?(:system_delete_file_anyone, incident_request.external_system_id)
+      return true
+    elsif allow_to_function?(:system_delete_file_mine, incident_request.external_system_id) &&
+        (current_person?(file.created_by))
+      return true
+    else
+      return false
     end
   end
 
