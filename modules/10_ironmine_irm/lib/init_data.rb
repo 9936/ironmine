@@ -2418,7 +2418,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/mail_settings" => ["edit", "update"],
+              "irm/mail_settings" => ["edit", "update", "test_smtp"],
           },
       }
   }

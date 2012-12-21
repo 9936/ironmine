@@ -4,7 +4,6 @@ module Irm
        def perform
          params = {:to_emails => [email],:to_person_ids =>[person_id]}
          #将邮件回复中的时区设置到用户当前的时区
-         send_at = Time.now
          time_zone = Irm::Person.find(person_id).time_zone
 
          time_zone ||= "Beijing"
