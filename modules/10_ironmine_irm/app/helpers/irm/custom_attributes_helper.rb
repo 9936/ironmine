@@ -7,7 +7,7 @@ module Irm::CustomAttributesHelper
     active_attributes = []
     disabled_attributes = []
     all_attributes.each do |attribute|
-      if system_attributes[attribute.id] or attribute[:system_flag].eql?('Y')
+      if system_attributes[attribute.id] or (attribute[:system_flag].eql?('Y') and attribute[:status_code].eql?("ENABLED"))
         attribute[:active_flag] = 'Y'
         #attribute[:display_color] = "#5bb75b"
         active_attributes << attribute

@@ -1,8 +1,7 @@
 <%=datatable_view({:count=>@datas.length,:datas=>@datas}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
-        <%= link_to(t(:edit),{:action => "edit", :attribute_id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
-        <%= link_to(t(:delete),{:action => "destroy", :attribute_id=>data[:id]},{:method => :delete,:confirm => t(:label_are_you_sure),:class => "action-link"}) %>&nbsp;|
-        <%= link_to(t(:show),{:action => "show", :attribute_id=>data[:id]},{:class => "action-link"}) %>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+      <%= link_to(t(:edit),{:action => "edit", :attribute_id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+      <%= link_to(t(:show),{:action => "show", :attribute_id=>data[:id]},{:class => "action-link"}) %>
     <% end %>
     <% builder.column(:name,{:title=>t(:label_irm_object_attribute_name),:searchable=>true})  %>
     <% builder.column(:attribute_name,{:title=>t(:label_irm_object_attribute_attribute_name),:searchable=>true}) %>

@@ -341,7 +341,7 @@ class Irm::Person < ActiveRecord::Base
   # 检查用户是否允许访问功能
   def allowed_to?(function_ids)
     return true if function_ids.detect{|fi| functions.include?(fi)}
-    return true if Irm::Person.current.login_name.eql?("admin")
+    return true if self.admin?
     false
   end
 
@@ -384,7 +384,12 @@ class Irm::Person < ActiveRecord::Base
 
   def system_ids
     return @system_ids if @system_ids
-    @system_ids = self.external_systems.collect{|i| i.id}
+    if self.admin?
+      @system_ids = Irm::ExternalSystem.all.collect{|i| i.id}
+    else
+      @system_ids = self.external_systems.collect{|i| i.id}
+    end
+    @system_ids
   end
 
 
@@ -399,6 +404,11 @@ class Irm::Person < ActiveRecord::Base
 
   def self.admin
     Irm::Person.where(:login_name=>"admin").first
+  end
+
+
+  def admin?
+    Irm::Constant::SYS_YES.eql?(self.admin_flag)
   end
 
   # get avatar

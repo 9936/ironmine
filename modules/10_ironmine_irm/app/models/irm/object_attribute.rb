@@ -107,7 +107,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   }
 
   scope :custom_field_with_system, lambda{|system_id|
-    where("(#{Irm::ObjectAttribute.table_name}.field_type = ?) OR (#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?)", "GLOBAL_CUX_FIELD", "SYSTEM_CUX_FIELD", system_id).
+    where("(#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.status_code = ?) OR (#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?)", "GLOBAL_CUX_FIELD", "ENABLED", "SYSTEM_CUX_FIELD", system_id).
         order("system_flag ASC").
         select("IF(#{Irm::ObjectAttribute.table_name}.external_system_id is NULL, 'N', 'Y') system_flag")
   }
