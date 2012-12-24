@@ -234,7 +234,7 @@
         <% if Irm::Person.current.email_address.include?("hand-china")%>
         <tr>
           <td class="label-col"><label ><%=t(:label_irm_project_info)%></label></td>
-          <td class="data-col" colspan="5"><div><%= @incident_request[:project_info] %></div></td>
+          <td class="data-col" colspan="5"><pre><div><%= @incident_request[:project_info] %></div></pre></td>
         </tr>
         <% end %>
         <% if @incident_request.incident_workloads.any? %>
