@@ -923,7 +923,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "icm/incident_categories" => ["get_option"],
               "icm/incident_sub_categories" => ["get_option"],
               "icm/support_groups" => ["get_member_options"],
-              "irm/attachments" => ["create_attachment", "destroy_attachment"],
+              "irm/attachments" => ["create_attachment", "destroy_attachment", "download"],
               "irm/common" => ["create_upload_file", "logout", "search_options", "upload_file", "upload_screen_shot"],
               "irm/list_of_values" => ["lov", "lov_result", "lov_search", "lov_value"],
               "irm/navigations" => ["change_application", "index"],

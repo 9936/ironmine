@@ -1025,5 +1025,6 @@ Rails.application.routes.draw do
 
     match '/attachments/:source_id/destroy_attachment/:id(.:format)' => "attachments#destroy_attachment", :via => :delete
     match '/attachments/create_attachment(.:format)' => "attachments#create_attachment", :via => :post
+    match '/attachments/:id/download(.:format)' => "attachments#download"
   end
 end
