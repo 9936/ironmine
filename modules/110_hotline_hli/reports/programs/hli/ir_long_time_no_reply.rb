@@ -50,7 +50,7 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
       data[5] = s[:submitted_date].strftime('%F %T')
       data[6] = s[:last_response_date].strftime('%F %T')
       data[7] = s[:title]
-      data[8] = Irm::Sanitize.sanitize(s[:summary],"")  unless s[:summary].nil?
+      data[8] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
       #data[8] = ""
       data[9] = s[:incident_status_name]
       data[10] = s[:total_processing_time]

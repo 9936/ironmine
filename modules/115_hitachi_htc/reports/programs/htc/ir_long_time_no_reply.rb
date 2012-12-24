@@ -46,7 +46,7 @@ class Htc::IrLongTimeNoReply < Irm::ReportManager::ReportBase
       data[1] = s[:last_response_date].strftime('%F %T')
       data[2] = s[:request_number]
       data[3] = s[:title]
-      data[4] = Irm::Sanitize.sanitize(s[:summary],"")  unless s[:summary].nil?
+      data[4] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
       data[5] = s[:external_system_name]
       data[6] = s[:requested_name]
       data[7] = s[:supporter_name]
