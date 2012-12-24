@@ -9,7 +9,7 @@ $(function(){
         reset_rich_text();
         $("#new_incident_status_id").val("");
         $("#notice").html("");
-        $("#new_incident_request_journal_file .file-item").remove();
+        $("#new_incident_request_journal_file .file-contents .file-item").remove();
     <% else %>
         $("#notice").html("<%= escape_javascript(flash_notice)%>");
     <% end %>
