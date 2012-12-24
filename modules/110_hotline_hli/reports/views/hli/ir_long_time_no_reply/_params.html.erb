@@ -1,7 +1,6 @@
 <table  class="form-table baseFilter"  id="baseFilter">
   <tbody>
     <tr>
-      <td width="30%"></td>
       <td></td>
       <td>
         <label for="loginPerson_label"><%= t(:label_irm_external_system) %></label>
@@ -17,6 +16,7 @@
         <label>N Date</label>
         <div style="white-space:nowrap">
             <%= text_field_tag "program_params[long_time]" %>
+            <%= hidden_field_tag "program_params[running_person_id]", Irm::Person.current.id %>
         </div>
       </td>
       <td>
@@ -28,6 +28,7 @@
             <label for="incident_request_hotline_n" style="display:inline;"><%=t(:label_icm_incident_request_hotline_n)%></label>
         </div>
       </td>
+      <td width="100%"></td>
     </tr>
   </tbody>
 </table>
