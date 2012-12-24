@@ -24,6 +24,7 @@
     }
 
 
+
     /* Fix for IE 6: */
     *html .fileinput-button {
         line-height: 22px;
@@ -42,6 +43,12 @@
     .upload-file .file-description input {
         padding: 0;
         margin: 0;
+    }
+
+    .file-item .file-name {
+        width: 120px;
+        _width:100px;
+        text-align: left;
     }
 
 </style>
@@ -63,8 +70,8 @@
   <tbody class="file-template" style="display:none" id="file-template">
   <tr class="file-item" ref="${sequence}">
     <td style="_width:100px;">
-      <span class="file-name">
-        <a target="_blank" href="${fileUrl}">${fileName}</a>&nbsp;(${fileSize})
+      <span class="file-name ellipsis">
+        (${fileSize})&nbsp;<a target="_blank" title="${fileName}" href="${fileUrl}">${fileName}</a>
       </span>
       <span class="file-cell"></span>
     </td>
@@ -73,7 +80,7 @@
       <input type="text" name="${ref}[${sequence}][description]" size="30" style="_width: 90%;"/>
     </td>
     <td>
-      <div><a class="delete-file" delete_ref="${sequence}" delete_target="${deleteTarget}" href="javascript:void(0)"><%= t(:delete) %></a></div>
+      <div><a class="delete-file btn btn-danger" delete_ref="${sequence}" delete_target="${deleteTarget}" href="javascript:void(0)"><%= t(:delete) %></a></div>
     </td>
   </tr>
   </tbody>
