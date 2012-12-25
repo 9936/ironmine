@@ -188,6 +188,18 @@ class Icm::IncidentJournal < ActiveRecord::Base
     if !str.present?||(str.length==1&&str.bytes.to_a.eql?([226, 128, 139]))
       self.errors.add(:message_body,I18n.t(:label_icm_incident_journal_message_body_not_blank))
     end
+
+    #验证前后两条回复是否相同
+    last_journal = Icm::IncidentJournal.
+        where("incident_request_id = ?", self.incident_request_id).
+        where("reply_type IN ('OTHER_REPLY', 'CUSTOMER_REPLY', 'SUPPORTER_REPLY')").
+        order("created_at desc").first
+    if last_journal.present?
+      if self.message_body == last_journal.message_body && self.replied_by == last_journal.replied_by
+        self.errors.add(:message_body,I18n.t(:label_icm_incident_journal_message_body_not_repeat))
+      end
+    end
+
   end
 
 end

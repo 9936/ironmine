@@ -1720,6 +1720,11 @@ zh:
   label_irm_mail_smtp_server: SMTP邮件服务器
   label_irm_mail_imap_server: POP/IMAP邮件服务器
   label_irm_mail_server: 邮件服务器
+  label_irm_mail_authentication: 认证
+  label_irm_mail_test: 测试SMTP配置参数
+  label_irm_mail_test_label: 请输入一个有效的Email地址：
+  label_irm_mail_test_help: 当你确定收到一封系统发送的邮件时标识smtp配置参数正确，否则系统将不能正常的发送邮件。
+  label_irm_mail_test_result: 请查收%{email}是否有收到系统邮件
 
   label_irm_mail_imap_protocol_choose: 从POP、IMAP中选择。
   label_irm_mail_host_name_tip: 邮件服务器名。

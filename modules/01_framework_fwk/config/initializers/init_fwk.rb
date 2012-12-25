@@ -37,6 +37,7 @@ Paperclip::ClassMethods.send(:include, Fwk::PaperclipValidator)
 
 require 'active_support/values/time_zone'
 ActiveSupport::TimeZone.send(:include, Fwk::ExtendsTimeZone)
+
 # 配置paperclip
 # Paperclip.options[:command_path] = "C:/Applications/ImageMagick-6.6.7-Q16"
 Paperclip::Attachment.default_options[:url] = "/upload/:class/:id/:style/:basename.:extension"

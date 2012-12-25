@@ -940,6 +940,7 @@ Rails.application.routes.draw do
     match '/mail_settings(/index)(.:format)' => "mail_settings#index", :via => :get
     match '/mail_settings/edit(.:format)' => "mail_settings#edit", :via => :get
     match '/mail_settings/update(.:format)' => "mail_settings#update", :via => :post
+    match '/mail_settings/test_smtp(.:format)' => "mail_settings#test_smtp", :via => :post
 
     #portlet_config
     match '/portlet_configs(/index)(.:format)' => "portlet_configs#index", :via => :get
@@ -1024,5 +1025,6 @@ Rails.application.routes.draw do
 
     match '/attachments/:source_id/destroy_attachment/:id(.:format)' => "attachments#destroy_attachment", :via => :delete
     match '/attachments/create_attachment(.:format)' => "attachments#create_attachment", :via => :post
+    match '/attachments/:id/download(.:format)' => "attachments#download"
   end
 end

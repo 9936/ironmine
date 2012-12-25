@@ -1,4 +1,5 @@
 require "iconv"
+
 class TemplateMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 

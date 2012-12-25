@@ -43,6 +43,12 @@
         margin: 0;
     }
 
+    .file-item .file-name {
+        width: 120px;
+        _width:100px;
+        text-align: left;
+    }
+
 </style>
 <table class="upload-file" id="<%= upload_file_id %>" url="<%= url_for({:controller=>"irm/attachments",:action=>"create_attachment",:format=>:json}.merge(url_options)) %>">
   <tbody class="file-buttons">
@@ -64,8 +70,8 @@
   <tbody class="file-template" style="display:none" id="file-template">
       <tr class="file-item" ref="${sequence}">
         <td>
-          <span class="file-name">
-            <a target="_blank" href="${fileUrl}">${fileName}&nbsp;(${fileSize})</a>
+          <span class="file-name ellipsis">
+            (${fileSize})&nbsp;<a target="_blank" href="${fileUrl}">${fileName}</a>
           </span>
           <span class="file-cell"></span></td>
         <td class="file-description">

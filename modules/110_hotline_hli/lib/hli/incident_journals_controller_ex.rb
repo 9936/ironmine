@@ -44,74 +44,50 @@ module Hli::IncidentJournalsControllerEx
 
         perform_create
 
-        last_journal = Icm::IncidentJournal.
-            where("incident_request_id = ?", @incident_request.id).
-            where("reply_type IN ('OTHER_REPLY', 'CUSTOMER_REPLY', 'SUPPORTER_REPLY')").
-            order("created_at desc").limit(1)
-        is_repeat = false
-        if last_journal.any?
-          last_journal = last_journal.first
-          if @incident_journal.message_body == last_journal.message_body &&
-              @incident_journal.replied_by == last_journal.replied_by
-            is_repeat = true
-          end
-        end
+
         respond_to do |format|
-          if is_repeat
-            flash[:notice] = I18n.t(:label_icm_incident_journal_message_body_not_repeat)
+
+          flag, now = validate_files(@incident_journal)
+          if !flag
+            flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
             format.js do
               responds_to_parent do
                 render :create_journal do |page|
                 end
               end
             end
-          else
-            flag, now = validate_files(@incident_journal)
-            if !flag
-              #if now.is_a?(Integer)
-                flash[:notice] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
-              #else
-              #  flash[:notice] = now
-              #end
-              format.js do
-                responds_to_parent do
-                  render :create_journal do |page|
-                  end
+            format.html { render :action => "new", :layout=>"application_right"}
+            format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
+          elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
+            process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
+            process_files(@incident_journal)
+            @incident_journal.create_elapse
+            @incident_request.save
+            Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
+                                         :journal_id=> @incident_journal.id,
+                                         :property_key=> "new_reply",
+                                         :old_value=>"",
+                                         :new_value=>@incident_journal.journal_number})
+            format.js do
+              @current_journals = Icm::IncidentJournal.list_all(@incident_request.id).includes(:incident_histories).where("#{Icm::IncidentJournal.table_name}.id = ?", @incident_journal.id)
+              responds_to_parent do
+                render :create_journal do |page|
                 end
               end
-              format.html { render :action => "new", :layout=>"application_right"}
-              format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
-            elsif @incident_reply.valid? && @incident_journal.valid? && @incident_request.update_attributes(@incident_reply.attributes)
-              process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
-              process_files(@incident_journal)
-              @incident_journal.create_elapse
-              @incident_request.save
-              Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
-                                           :journal_id=> @incident_journal.id,
-                                           :property_key=> "new_reply",
-                                           :old_value=>"",
-                                           :new_value=>@incident_journal.journal_number})
-              format.js do
-                @current_journals = Icm::IncidentJournal.list_all(@incident_request.id).includes(:incident_histories).where("#{Icm::IncidentJournal.table_name}.id = ?", @incident_journal.id)
-                responds_to_parent do
-                  render :create_journal do |page|
-                  end
-                end
-              end
-              format.html { redirect_to({:action => "new"}) }
-              format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
-            else
-              flash[:notice] = I18n.t(:label_icm_incident_journal_message_body_not_blank)
-              format.js do
-                responds_to_parent do
-                  render :create_journal do |page|
-                  end
-                end
-              end
-              format.html { render :action => "new", :layout=>"application_right"}
-              format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
             end
+            format.html { redirect_to({:action => "new"}) }
+            format.xml  { render :xml => @incident_journal, :status => :created, :location => @incident_journal }
+          else
+            format.js do
+              responds_to_parent do
+                render :create do |page|
+                end
+              end
+            end
+            format.html { render :action => "new", :layout=>"application_right"}
+            format.xml  { render :xml => @incident_journal.errors, :status => :unprocessable_entity }
           end
+
         end
       end
 

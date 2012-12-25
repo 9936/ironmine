@@ -25,6 +25,12 @@
               <p class="help-block"><%= t :label_irm_mail_smtp_password_tip%></p>
             </td>
           </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_authentication %></label></td>
+            <td class="data-2col">
+              <%= smtp.select(:authentication, available_authentication, :required => true) %>
+            </td>
+          </tr>
       </tbody>
     </table>
   <% end %>

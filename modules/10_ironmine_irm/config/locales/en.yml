@@ -1711,6 +1711,11 @@ en:
   label_irm_mail_smtp_server: SMTP Server
   label_irm_mail_imap_server: POP/IMAP Server
   label_irm_mail_server: Mail Server
+  label_irm_mail_authentication: Authentication
+  label_irm_mail_test: Test Smtp settings
+  label_irm_mail_test_label: Please enter a available email：
+  label_irm_mail_test_help: If you receive a email from the system means the smtp settings is corrently.
+  label_irm_mail_test_result: Please check your email： %{email}
 
   label_irm_mail_imap_protocol_choose: Choose form IMAP, POP.
   label_irm_mail_imap_host_name_tip: POP/IMAP Email server.

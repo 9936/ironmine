@@ -20,6 +20,8 @@ class Irm::MailSettingsController < ApplicationController
     new_imap.merge!({:username => new_smtp[:username]}) if new_smtp[:username].present?
     new_imap.merge!({:password => new_smtp[:password]}) if new_smtp[:password].present?
 
+
+
     respond_to do |format|
       if @smtp_setting.update_attributes(params[:smtp_setting]) &&
           @imap_setting.update_attributes(params[:imap_setting])
@@ -28,6 +30,11 @@ class Irm::MailSettingsController < ApplicationController
         format.html { render :action => "edit"}
       end
     end
+  end
+
+  def test_smtp
+    smtp_setting = Irm::SmtpSetting.first
+    smtp_setting.test_smtp(params[:email])
   end
 
   private
