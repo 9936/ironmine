@@ -176,6 +176,7 @@ en:
   uncategory: Not classified
   label_attachment_file_size_limit: File size limit %{limit}
   label_attachment_file_type: File type limit %{type}
+  label_attachment_file_not_exists: The download link semms bad.
   self: Self
   hide: Hide
   display: Show

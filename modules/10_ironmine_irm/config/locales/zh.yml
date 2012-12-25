@@ -166,6 +166,7 @@ zh:
   label_attachment_info: 附件信息
   label_attachment_file_size_limit: 文件大小限制 %{limit}
   label_attachment_file_type: 文件类型限制 %{type}
+  label_attachment_file_not_exists: 你所下载的附件似乎已经不存在了。
   self: 自己
   hide: 隐藏
   display: 还原

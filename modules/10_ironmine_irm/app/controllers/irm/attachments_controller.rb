@@ -39,7 +39,9 @@ class Irm::AttachmentsController < ApplicationController
 
   def download
     attachment = Irm::AttachmentVersion.find(params[:id])
-    send_file attachment.data.path if attachment
+    if attachment and File.exist?(attachment.data.path)
+      send_file attachment.data.path
+    end
   end
 
 end
