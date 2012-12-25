@@ -70,6 +70,10 @@
                 <td class="data-2col"><%= @smtp_setting.authentication %>
                 </td>
               </tr>
+              <tr>
+                <td class="label-col"><label><%= t :active %></label></td>
+                <td class="data-2col"><%= check_img @smtp_setting.active_flag %></td>
+              </tr>
           </tbody>
         </table>
       </div>
@@ -96,6 +100,10 @@
                 <td class="label-col"><label><%= t :label_irm_mail_imap_port %></label></td>
                 <td class="data-2col"><%= @imap_setting.port%>
                 </td>
+              </tr>
+              <tr>
+                <td class="label-col"><label><%= t :active %></label></td>
+                <td class="data-2col"><%= check_img @imap_setting.active_flag %></td>
               </tr>
           </tbody>
         </table>

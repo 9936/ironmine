@@ -41,25 +41,26 @@ class Irm::MailSettingsController < ApplicationController
   def init
     unless Irm::SmtpSetting.where("opu_id = ?", Irm::OperationUnit.current.id).any?
       Irm::SmtpSetting.create(:opu_id => Irm::OperationUnit.current.id,
-                              :from_address => "example@example.com",
+                              :from_address => Irm::MailManager.default_email_from,
                               :email_prefix => "IRONMINE",
                               :protocol => "SMTP",
-                              :port => "25",
+                              :port => Ironmine::Application.config.action_mailer.smtp_settings[:port] || "25",
                               :timeout => "10000",
-                              :host_name => "localhost",
+                              :host_name => Ironmine::Application.config.action_mailer.smtp_settings[:address],
                               :tls_flag => Irm::Constant::SYS_YES,
-                              :username => "ironmine",
-                              :password => "ironmine")
+                              :username => Ironmine::Application.config.action_mailer.smtp_settings[:user_name] || "rootironmine@163.com",
+                              :password => Ironmine::Application.config.action_mailer.smtp_settings[:password] || "handhand",
+                              :authentication => Ironmine::Application.config.action_mailer.smtp_settings[:authentication] || "login")
     end
 
     unless Irm::ImapSetting.where("opu_id = ?", Irm::OperationUnit.current.id).any?
       Irm::ImapSetting.create(:opu_id => Irm::OperationUnit.current.id,
                               :protocol => "POP",
-                              :host_name => "localhost",
+                              :host_name => Ironmine::Application.config.action_mailer.smtp_settings[:address],
                               :port => "110",
                               :timeout => "10000",
-                              :username => "ironmine",
-                              :password => "ironmine")
+                              :username => Ironmine::Application.config.action_mailer.smtp_settings[:user_name] || "rootironmine@163.com",
+                              :password => Ironmine::Application.config.action_mailer.smtp_settings[:password] || "handhand")
     end
   end
 end

@@ -100,7 +100,7 @@ Ironmine::Application.configure do
   config.fwk.mail_receive_pop = {
     :username => 'rootironmine@163.com',
     :password => 'handhand',
-    :host   => 'pop3.163.com',
+    :host     => 'pop3.163.com',
     :port     => 110
   }
 

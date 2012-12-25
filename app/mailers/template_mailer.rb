@@ -53,19 +53,9 @@ class TemplateMailer < ActionMailer::Base
     headers(header_options)
 
     #################记录日志开始#################
-    emails = []
-    emails += mail_options[:to].split(",")
-    emails += mail_options[:cc].split(",") if mail_options[:cc].present?
-    emails += mail_options[:bcc].split(",") if mail_options[:bcc].present?
 
-    emails.each do |email|
-      mailer_log = Irm::MailerLog.new()
-      mailer_log.reference_target = logger_options[:reference_target] if logger_options[:reference_target]
-      mailer_log.to_params = email
-      mailer_log.template_code = logger_options[:template_code] if logger_options[:template_code]
-      mailer_log.send_at = Time.now
-      mailer_log.save
-    end if emails.any?
+    send_options[:logger] = logger_options if logger_options
+
     #################日志记录结束#################
 
     mail(send_options)

@@ -16,7 +16,9 @@ class ReportMailer < ActionMailer::Base
 
 
     subject = "#{@report[:name]}-#{@report_schedule.run_at.strftime('%Y-%m-%d %H:%M:%S')}"
-    send_options.merge!(:subject=>subject)
+
+    send_options.merge!(:subject=>subject,:logger => {:reference_target => "REPORT_ID:#{report_id}"})
+
     mail(send_options) do |format|
       format.html
     end

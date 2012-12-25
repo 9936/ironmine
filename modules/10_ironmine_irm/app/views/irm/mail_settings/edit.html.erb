@@ -65,6 +65,13 @@
               <p class="help-block"><<%= t :label_irm_mail_smtp_port_tip%></p>
             </td>
           </tr>
+          <tr>
+            <td class="label-col"><label><%= t :active %></label></td>
+            <td class="data-2col">
+              <%= smtp.check_box :active_flag %>
+              <p class="help-block"><%= t :label_irm_mail_smtp_active_tip%></p>
+            </td>
+          </tr>
        </tbody>
     </table>
   <% end %>
@@ -89,6 +96,13 @@
             <td class="label-col"><label><%= t :label_irm_mail_imap_port %></label></td>
             <td class="data-2col"><%= imap.text_field :port, :irm_number_only => true, :required => true%>
               <p class="help-block"><%= t :label_irm_mail_imap_port_tip%></p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label-col"><label><%= t :active %></label></td>
+            <td class="data-2col"><%= imap.check_box :active_flag %>
+              <p class="help-block"><%= t :label_irm_mail_imap_active_tip %></p>
             </td>
           </tr>
         <% end %>
