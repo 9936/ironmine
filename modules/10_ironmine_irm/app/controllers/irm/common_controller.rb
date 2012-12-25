@@ -6,8 +6,6 @@ class Irm::CommonController < ApplicationController
   #skip_before_filter :prepare_application
 
   def login
-    a = Irm::Jobs::ForgetPwdJob.new("442453867@qq.com","000100073mX46ylYw1XCl6")
-    a.perform
     params[:notice] = notice
     if request.get?
       # 注销用户
