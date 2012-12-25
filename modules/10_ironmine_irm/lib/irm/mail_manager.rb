@@ -29,7 +29,7 @@ module Irm
       end
 
       def default_email_from
-        Ironmine::Application.config.action_mailer.smtp_settings[:user_name]||Ironmine::Application.config.fwk.mail_send_from
+        Ironmine::Application.config.action_mailer.smtp_settings[:user_name]||Ironmine::Application.config.fwk.mail_send_from || "root.ironmine@gmail.com"
       end
 
 
