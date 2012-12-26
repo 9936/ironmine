@@ -31,7 +31,7 @@ class Irm::ReportCriterion < ActiveRecord::Base
     joins("LEFT OUTER JOIN #{Irm::ReportTypeField.table_name} ON #{Irm::ReportTypeField.table_name}.id = #{table_name}.field_id").
         joins("LEFT OUTER JOIN #{Irm::ObjectAttribute.view_name} ON #{Irm::ObjectAttribute.view_name}.id = #{Irm::ReportTypeField.table_name}.object_attribute_id AND #{Irm::ObjectAttribute.view_name}.language='#{language}'").
         joins("LEFT OUTER JOIN #{Irm::ObjectAttribute.table_name} ON #{Irm::ObjectAttribute.view_name}.relation_object_attribute_id = #{Irm::ObjectAttribute.table_name}.id").
-        select("#{Irm::ObjectAttribute.view_name}.name,#{Irm::ObjectAttribute.view_name}.attribute_name,#{Irm::ObjectAttribute.view_name}.category attribute_category,#{Irm::ObjectAttribute.view_name}.pick_list_code,#{Irm::ObjectAttribute.view_name}.relation_bo_id,#{Irm::ObjectAttribute.table_name}.attribute_name relation_object_attribute_name")
+        select("#{Irm::ObjectAttribute.view_name}.name,#{Irm::ObjectAttribute.view_name}.attribute_name,#{Irm::ObjectAttribute.view_name}.category attribute_category,#{Irm::ObjectAttribute.view_name}.relation_bo_id,#{Irm::ObjectAttribute.table_name}.attribute_name relation_object_attribute_name")
   }
 
   #加入activerecord的通用方法和scope

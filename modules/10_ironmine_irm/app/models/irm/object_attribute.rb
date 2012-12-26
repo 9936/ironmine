@@ -198,7 +198,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
           clean_column([:relation_exists_flag,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause])
         end
       when "MODEL_ATTRIBUTE"
-        clean_column([:category,:relation_exists_flag,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause,:lov_code,:pick_list_code,:data_type,:data_length,:data_null_flag,:data_key_type,:data_default_value,:data_extra_info])
+        clean_column([:category,:relation_exists_flag,:relation_bo_id,:relation_table_alias,:relation_column,:relation_object_attribute_id,:relation_type,:relation_where_clause,:lov_code,:data_type,:data_length,:data_null_flag,:data_key_type,:data_default_value,:data_extra_info])
     end
   end
 

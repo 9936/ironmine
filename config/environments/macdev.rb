@@ -37,14 +37,14 @@ Ironmine::Application.configure do
 	#	:authentication => 'plain',
 	#	:enable_starttls_auto => true
   #}
-  #config.action_mailer.smtp_settings = {
-		#:address => "smtp.163.com",
-		#:port => 25,
-		#:domain => 'www.163.com',
-		#:user_name => 'rootironmine@163.com',
-		#:password => 'handhand',
-		#:authentication => :login
-  #}
+  config.action_mailer.smtp_settings = {
+		:address => "smtp.163.com",
+		:port => 25,
+		:domain => 'www.163.com',
+		:user_name => 'rootironmine@163.com',
+		:password => 'handhand',
+		:authentication => :login
+  }
   # config for receive mail
   config.fwk.mail_receive_method = :imap
   config.fwk.mail_receive_interval = '1m'
