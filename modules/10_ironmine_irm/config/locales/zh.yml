@@ -1132,6 +1132,8 @@ zh:
   label_irm_object_attribute_data_default_value: 默认值
   label_irm_object_attribute_data_min_and_max_length: 最小 - 最大 长度
   label_irm_object_attribute_data_length_help_text: 0 表示不限制
+  label_irm_object_attribute_data_required_default_value: 修正值
+  label_irm_object_attribute_data_required_help_text: 请填写一个对已有记录对应属性进行修正的值(可以同默认值相同,但不能为空)
   label_irm_object_attribute_data_extra_info: 额外信息
   label_irm_object_attribute_edit: 编辑BO属性
   label_irm_object_attribute_description: 描述

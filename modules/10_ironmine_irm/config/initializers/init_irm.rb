@@ -4,7 +4,7 @@ ActiveRecord::Base.send(:include, Irm::SetWho)
 ActiveRecord::Base.send(:include, Irm::QueryExtend)
 
 #扩展ActionRecord::Base,校验自定义字段
-ActiveRecord::Base.send(:include, Irm::CustomFields)
+ActiveRecord::Base.send(:include, Irm::Customizable)
 
 #扩展ActionRecord::Base,自动生成event
 ActiveRecord::Base.send(:include, Irm::EventGenerator)

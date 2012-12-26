@@ -5,11 +5,13 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   belongs_to :business_object
 
-  attr_accessor :step
+  attr_accessor :step, :required_default_value
   #多语言关系
   attr_accessor :name,:description
   has_many :object_attributes_tls,:dependent => :destroy
   before_create :build_sequence
+
+  after_save :fix_required_value
 
 
   acts_as_multilingual({:required=>[]})
@@ -30,6 +32,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   validates_presence_of :name,:if => Proc.new { |i|i.name=i.attributes[:name]  if i.attributes[:name];i.check_step(2)&&!not_auto_mult}
 
+  validates_presence_of :required_default_value, :if => Proc.new {|i| i.required_flag.eql?('Y')}
 
   # 验证属性名称的唯一性
   validates_uniqueness_of :attribute_name,:scope=>[:opu_id,:business_object_id,:external_system_id],:if => Proc.new { |i| i.attribute_name.present?&&i.business_object_id.present? }
@@ -208,6 +211,19 @@ class Irm::ObjectAttribute < ActiveRecord::Base
     end
   end
 
+  def fix_required_value
+    if self.required_flag.eql?("Y") and self.required_default_value.present?
+      bo = Irm::BusinessObject.find(self.business_object_id)
+      if bo.present?
+        if self.external_system_id.present?
+          bo.bo_model_name.constantize.update_all("#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} = '#{self.required_default_value}'", "#{bo.bo_model_name.constantize.table_name}.external_system_id = '#{self.external_system_id}' AND #{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} is NULL")
+        else
+          bo.bo_model_name.constantize.update_all("#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} = '#{self.required_default_value}'", "#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} is NULL")
+        end
+      end
+    end
+  end
+
   def prepare_relation_table_alias
     if self.relation_bo_id.present?&&self.category.present?&& ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(self.category)
       look_for_name = true
@@ -217,7 +233,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
       if self.relation_table_alias.present?&&self.relation_table_alias.start_with?(relation.bo_table_name)
         return
       end
-      count = 0;
+      count = 0
       while look_for_name
          tmp_table = relation.bo_table_name
          unless count == 0

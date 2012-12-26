@@ -48,6 +48,13 @@
                 <td class="label-col empty">&nbsp;</td>
                 <td class="data-col empty">&nbsp;</td>
               </tr>
+              <tr style="display: none;" id="requiredDefaultValue">
+                <td class="label-col"><label for="object_attribute_required_default_value"><%=t(:label_irm_object_attribute_data_required_default_value)%></label></td>
+                <td class="data-3col" colspan="3">
+                  <%= attribute_default_value(@object_attribute.category, f, {:name => 'required_default_value', :required => true }) %>
+                  <span class="help-block"><%= t(:label_irm_object_attribute_data_required_help_text) %></span>
+                </td>
+              </tr>
               <tr>
                 <td class="label-col"><label for="object_attribute_description"><%=t(:label_irm_object_attribute_description)%></label></td>
                 <td class="data-3col" colspan="3"><%=f.text_area :description, :rows=>3,:class => "input-xlarge",:id=>"object_attribute_description"%></td>
@@ -108,3 +115,33 @@
     </div>
 
 <% end %>
+
+
+<script type="text/javascript">
+    $(function(){
+        var required_flag = $("#object_attribute_required_flag"),
+            required_default_value = $("#requiredDefaultValue");
+
+        if(required_flag.is(":checked")){
+            setFixedValue();
+            required_default_value.show();
+        }
+        //绑定click事件
+        required_flag.bind("click", function(){
+            if($(this).is(":checked")){
+                //如果默认值存在直接将默认值赋值给文本
+                setFixedValue();
+                required_default_value.show();
+            }else{
+                $("#object_attribute_required_default_value").val("");
+                required_default_value.hide();
+            }
+        });
+
+        function setFixedValue(){
+            if($("#object_attribute_data_default_value").val()){
+                $("#object_attribute_required_default_value").val($("#object_attribute_data_default_value").val());
+            }
+        }
+    })
+</script>
