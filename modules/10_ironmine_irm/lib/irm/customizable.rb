@@ -1,24 +1,24 @@
-module Irm::CustomFields
+module Irm::Customizable
   #用来扩展ActiveRecord::Base,添加对自定义字段的校验
   def self.included(base)
     base.extend ClassMethods
   end
 
   module ClassMethods
-    def validates_custom_field(options = {:system_flag => 'Y'})
-      return if self.included_modules.include?(::Irm::CustomFields::InstanceMethods)
-      send :include, ::Irm::CustomFields::InstanceMethods
+
+    def acts_as_customizable(options = {:system_flag => 'Y'})
+      return if self.included_modules.include?(::Irm::Customizable::InstanceMethods)
+      send :include, ::Irm::Customizable::InstanceMethods
 
       cattr_accessor :custom_field_options
 
       self.custom_field_options = options
 
       class_eval do
-        validate :validate_fields
+        validate :validate_custom_fields
 
-        def validate_fields
+        def validate_custom_fields
           self.custom_attributes.each do |attribute|
-
             #检查是否必填
             if self[attribute[:attribute_name]].blank? and attribute[:required_flag].eql?('Y')
               self.errors.add attribute[:attribute_name], I18n.t("activerecord.errors.messages.blank")
@@ -44,10 +44,15 @@ module Irm::CustomFields
         def custom_attributes
           bo = Irm::BusinessObject.with_custom_flag.where(:bo_model_name => self.class.to_s).first
           if bo.present? and self.custom_field_options[:system_flag] == Irm::Constant::SYS_YES and self.external_system_id
-            custom_attributes = Irm::ObjectAttribute.where(:status_code => "ENABLED").multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence.with_external_system(self.external_system_id).where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
-            custom_attributes += Irm::ObjectAttribute.where(:status_code => "ENABLED").multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence.where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", self.external_system_id)
+            custom_attributes = Irm::ObjectAttribute.
+                where(:status_code => "ENABLED").multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence.with_external_system(self.external_system_id).
+                where("#{Irm::ObjectAttribute.table_name}.field_type = ?","GLOBAL_CUX_FIELD")
+            custom_attributes += Irm::ObjectAttribute.
+                where(:status_code => "ENABLED").multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence.
+                where("#{Irm::ObjectAttribute.table_name}.field_type = ? AND #{Irm::ObjectAttribute.table_name}.external_system_id=?","SYSTEM_CUX_FIELD", self.external_system_id)
           elsif bo.present? and self.custom_field_options[:system_flag] == Irm::Constant::SYS_NO
-            custom_attributes = Irm::ObjectAttribute.where(:status_code => "ENABLED").multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence
+            custom_attributes = Irm::ObjectAttribute.
+                where(:status_code => "ENABLED").multilingual.list_all.real_field.query_by_business_object(bo.id).order_by_sequence
           else
             custom_attributes = []
           end
