@@ -1025,6 +1025,7 @@ zh:
   label_irm_watcher: 跟踪者
   label_irm_watcher_new: 添加跟踪者
   label_irm_watcher_list: 跟踪者列表
+  label_irm_watcher_helper: 你只能添加自己为跟踪者
   #======================== end watcher ======================
   #======================== calendar events====================
   label_action_calendar_view: 工作日历

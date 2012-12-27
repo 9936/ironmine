@@ -18,8 +18,8 @@
                 <% if allow_to_function?(:system_watcher_anyone, watchable.external_system_id) %>
                   <%= lov_field_tag("watcher",Irm::Person, {:lov_params=>{:external_system_id=> watchable[:external_system_id],:lktkn => "relation_system"},:relation_submit => true,:class=>"input-mini",:id => "watcher",:style=>"width:90px;"}) %>
                 <% else %>
-                  <%= hidden_field_tag "watcher"  %>
-                  <%= text_field_tag "watcher_label", nil, {:class=>"input-mini",:id => "watcher_label",:style=>"width:90px;"} %>
+                  <%= hidden_field_tag "watcher", Irm::Person.current.id  %>
+                  <%= text_field_tag "watcher_label", Irm::Person.current.full_name, {:class=>"input-mini",:id => "watcher_label",:style=>"width:90px;", :disabled => true, :title => t(:label_irm_watcher_helper)} %>
                 <% end %>
                   <%= hidden_field_tag "watchable_type", watchable.class.to_s%>
                   <%= link_submit t(:add),{:class=>"btn btn-primary"}%>
