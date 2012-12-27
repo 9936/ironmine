@@ -24,8 +24,9 @@ class Icm::IncidentRequest < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
 
-  #对自定义字段的校验
-  validates_custom_field
+  #加入自定义字段
+  acts_as_customizable
+
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 

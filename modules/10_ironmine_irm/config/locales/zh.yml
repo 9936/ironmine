@@ -1025,6 +1025,7 @@ zh:
   label_irm_watcher: 跟踪者
   label_irm_watcher_new: 添加跟踪者
   label_irm_watcher_list: 跟踪者列表
+  label_irm_watcher_helper: 你只能添加自己为跟踪者
   #======================== end watcher ======================
   #======================== calendar events====================
   label_action_calendar_view: 工作日历
@@ -1132,6 +1133,8 @@ zh:
   label_irm_object_attribute_data_default_value: 默认值
   label_irm_object_attribute_data_min_and_max_length: 最小 - 最大 长度
   label_irm_object_attribute_data_length_help_text: 0 表示不限制
+  label_irm_object_attribute_data_required_default_value: 修正值
+  label_irm_object_attribute_data_required_help_text: 请填写一个对已有记录对应属性进行修正的值(可以同默认值相同,但不能为空)
   label_irm_object_attribute_data_extra_info: 额外信息
   label_irm_object_attribute_edit: 编辑BO属性
   label_irm_object_attribute_description: 描述

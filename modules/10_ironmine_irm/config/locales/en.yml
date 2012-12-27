@@ -1021,6 +1021,7 @@ en:
   label_irm_watcher: Watcher
   label_irm_watcher_new: Add Watcher
   label_irm_watcher_list: Watcher List
+  label_irm_watcher_helper: You can only add youself as the watcher.
   #======================== end watcher ======================
   #======================== calendar events====================
   label_action_calendar_view: Calendar
@@ -1133,6 +1134,8 @@ en:
   label_irm_object_attribute_data_default_value: Default Value
   label_irm_object_attribute_data_min_and_max_length: Min - Max Length
   label_irm_object_attribute_data_length_help_text: 0 means unlimit
+  label_irm_object_attribute_data_required_default_value: Fixed Value
+  label_irm_object_attribute_data_required_help_text: Please enter a recored fixed value to fix exists records
   label_irm_object_attribute_data_extra_info: Extra Info
   label_irm_object_attribute_data_key_type: Key Type
   label_irm_object_attribute_data_null_flag: nullable

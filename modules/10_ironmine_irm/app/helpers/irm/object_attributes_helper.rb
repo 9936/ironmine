@@ -103,16 +103,16 @@ module Irm::ObjectAttributesHelper
   end
 
   #根据不同的类型设置默认值
-  def attribute_default_value(type, form)
+  def attribute_default_value(type, form, options = {:name => 'data_default_value', :required => false})
     case type
       when "DATE_TIME"
-        return form.date_field :data_default_value,:id=>"object_attribute_data_default_value",:size=>12,:class=>"date",:with_time => true
+        return form.date_field options[:name].to_sym, :id=>"object_attribute_#{options[:name]}",:size=>12,:class=>"date",:with_time => true, :required => options[:required]
       when "DATE"
-        return form.date_field :data_default_value,:id=>"object_attribute_data_default_value",:size=>12,:class=>"date"
+        return form.date_field options[:name].to_sym, :id=>"object_attribute_#{options[:name]}",:size=>12,:class=>"date", :required => options[:required]
       when "CHECK_BOX"
-        return form.check_box :data_default_value,:id=>"object_attribute_data_default_value"
+        return form.check_box options[:name].to_sym, :id=>"object_attribute_#{options[:name]}", :required => options[:required]
       else
-        return form.text_field :data_default_value,:id=>"object_attribute_data_default_value"
+        return form.text_field options[:name].to_sym, :id=>"object_attribute_#{options[:name]}", :required => options[:required]
     end
   end
 
