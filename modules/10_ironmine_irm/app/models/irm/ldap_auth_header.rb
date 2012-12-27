@@ -166,7 +166,7 @@ class Irm::LdapAuthHeader < ActiveRecord::Base
     raise Irm::LdapPersonError, person.errors.full_messages if person.errors.any?
 
     template_person.external_system_people.each do |pr|
-      person.external_system_people.create(:external_system_id => pr.external_system_id)
+      person.external_system_people.create(:external_system_id => pr.external_system_id,:system_profile_id=>pr.system_profile_id)
     end
 
     template_person.group_members.each do |gm|
