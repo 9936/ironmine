@@ -8,7 +8,9 @@
         </td>
         <td class="page-block-button">
           <%= link_to t(:edit), {:action => "edit"},:class => "btn btn-primary" %>
-          <%= link_to t(:test), "#testSmtpSetting",{:class=>"btn", "data-toggle" => "modal"}%>
+          <% if @smtp_setting.active_flag.eql?('Y') %>
+            <%= link_to t(:test), "#testSmtpSetting",{:class=>"btn", "data-toggle" => "modal"}%>
+          <% end %>
         </td>
     </tr>
   </table>
@@ -111,7 +113,7 @@
     </div>
   </div>
 </div>
-
+<% if @smtp_setting.active_flag.eql?('Y') %>
 <div id="testSmtpSetting" class="modal hide fade" tabindex="-1" role="dialog"  aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -125,7 +127,8 @@
     </div>
     <div class="modal-footer">
       <%= link_to t(:cancel), "javascript:void(0);", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true"  %>
-      <%= link_submit t(:save),{:class=>"btn btn-primary" }%>
+      <%= link_submit t(:label_irm_common_send),{:class=>"btn btn-primary" }%>
     </div>
   <% end %>
 </div>
+<% end %>

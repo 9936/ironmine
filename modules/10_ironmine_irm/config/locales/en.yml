@@ -1021,6 +1021,7 @@ en:
   label_irm_watcher: Watcher
   label_irm_watcher_new: Add Watcher
   label_irm_watcher_list: Watcher List
+  label_irm_watcher_helper: You can only add youself as the watcher.
   #======================== end watcher ======================
   #======================== calendar events====================
   label_action_calendar_view: Calendar

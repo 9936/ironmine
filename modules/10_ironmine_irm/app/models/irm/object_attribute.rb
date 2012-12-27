@@ -216,9 +216,11 @@ class Irm::ObjectAttribute < ActiveRecord::Base
       bo = Irm::BusinessObject.find(self.business_object_id)
       if bo.present?
         if self.external_system_id.present?
-          bo.bo_model_name.constantize.update_all("#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} = '#{self.required_default_value}'", "#{bo.bo_model_name.constantize.table_name}.external_system_id = '#{self.external_system_id}' AND #{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} is NULL")
+          bo.bo_model_name.constantize.update_all("#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} = '#{self.required_default_value}'",
+                                                  "#{bo.bo_model_name.constantize.table_name}.external_system_id = '#{self.external_system_id}' AND (#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} is NULL OR #{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} = '')")
         else
-          bo.bo_model_name.constantize.update_all("#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} = '#{self.required_default_value}'", "#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} is NULL")
+          bo.bo_model_name.constantize.update_all("#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} = '#{self.required_default_value}'",
+                                                  "(#{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} is NULL OR #{bo.bo_model_name.constantize.table_name}.#{self.attribute_name} = '')")
         end
       end
     end
