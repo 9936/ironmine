@@ -651,6 +651,15 @@ class Icm::IncidentRequest < ActiveRecord::Base
     str
   end
 
+  def link_to_new_journal_add_watcher
+    url = Rails.application.routes.url_helpers.url_for(:controller => "icm/incident_journals", :action => "new", :request_id => self.id, :add_watcher => '1', :only_path => true).to_s
+    str = ""
+    str << "<a href='#{url}' target='_blank'>"
+    str << "[#{self.request_number}]#{self.title}"
+    str << "</a>"
+    str
+  end
+
   private
   def generate_request_number
     #count = self.class.count
