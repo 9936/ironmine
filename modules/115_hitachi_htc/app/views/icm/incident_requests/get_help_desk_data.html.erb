@@ -5,7 +5,7 @@
              <%= icon_link("btn-reply", t(:label_icm_reply),{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
           <% end %>
           <%= link_to(data[:title],{:controller=>"icm/incident_journals",:action=>"new",:request_id=>data[:id]}) %>
-          <%= raw("<br>") + data[:cux_organization_id_label] if data[:cux_organization_id].present?%>
+          <%= raw("<br>") + data[:attribute2] if data[:attribute2].present?%>
     <% end %>
     <% builder.column(:external_system_id_label,{:title=>t(:label_irm_external_system),:searchable=>true,:width => "240px"}) do |data| %>
           <CENTER>
