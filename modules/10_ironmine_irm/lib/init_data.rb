@@ -692,7 +692,16 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :sequence => 50,
                   :en => {:name => "Report Request History", :description => "Report Request History"},
                   :zh => {:name => "报表运行历史", :description => "查看报表运行的明细历史记录"},
-              }},
+              }
+          },
+          :mailer_send_logs => {
+              :type => "function",
+              :entry => {
+                  :sequence => 60,
+                  :en => {:name => "Mailer Send Log", :description => "Mailer Send Log"},
+                  :zh => {:name => "邮件发送日志", :description => "邮件发送日志"},
+              }
+          }
       }
   }
   #====================================END:MONITOR_MANAGEMENT======================================
@@ -2172,6 +2181,28 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #=================================END:MONITOR_DELAYED_JOBS=================================
+
+  #=================================START:MAILER_LOGS=================================
+  map.function_group :mailer_send_logs, {
+      :en => {:name => "Mailer Send Logs", :description => "Mailer Send Logs"},
+      :zh => {:name => "邮件发送记录", :description => "邮件发送记录"}, }
+  map.function_group :mailer_send_logs, {
+      :zone_code => "SYSTEM_SETTING",
+      :controller => "irm/mailer_logs",
+      :action => "index"}
+  map.function_group :mailer_send_logs, {
+      :children => {
+          :mailer_send_logs => {
+              :en => {:name => "Manage Mailer Send Logs", :description => "Manage Mailer Send Logs"},
+              :zh => {:name => "管理邮件发送日志", :description => "管理邮件发送日志"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/mailer_logs" => ["get_data", "index"],
+          },
+      }
+  }
+  #=================================END:MAILER_LOGS=================================
 
   #=================================START:MONITOR_APPROVE_MAIL=================================
   map.function_group :monitor_approve_mail, {

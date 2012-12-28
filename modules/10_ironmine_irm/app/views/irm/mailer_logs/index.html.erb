@@ -1,0 +1,27 @@
+<%= app_title %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_mailer_log) %></h2>
+    </td>
+    <td class="page-block-button"></td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("mailer_logs",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginatorBox"})%>
+  </div>
+</div>
+
+<div id="logModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Details info</h3>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true"><%= t(:close) %></button>
+  </div>
+</div>

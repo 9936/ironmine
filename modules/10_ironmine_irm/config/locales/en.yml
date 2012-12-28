@@ -2071,4 +2071,13 @@ en:
   label_irm_custom_attribute: System Custom Fields
   label_irm_system_custom_attribute_order: Reorder Custom Fields
   #============================== end system setting  ==============================
+
+  #============================== start mailer log  ==============================
+  label_irm_mailer_log: Mailer send logs
+  label_irm_mailer_log_reference_target: Send Target
+  label_irm_mailer_log_to_params: To params
+  label_irm_mailer_log_template_code: Template Code
+  label_irm_mailer_log_send_at: Send At
+  #============================== end mailer log  ==============================
+
   label_total_data_size: Total %{m}

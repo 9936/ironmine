@@ -2070,4 +2070,13 @@ zh:
   label_irm_custom_attribute: 系统自定义字段
   label_irm_system_custom_attribute_order: 调整显示顺序
   #============================== end system setting  ==============================
+
+  #============================== start mailer log  ==============================
+  label_irm_mailer_log: 邮件发送日志
+  label_irm_mailer_log_reference_target: 发送目标
+  label_irm_mailer_log_to_params: 发送给
+  label_irm_mailer_log_template_code: 模板Code
+  label_irm_mailer_log_send_at: 发送时间
+  #============================== end mailer log  ==============================
+
   label_total_data_size: 共 %{m} 条数据
