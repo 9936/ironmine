@@ -379,17 +379,17 @@ class Irm::Person < ActiveRecord::Base
   end
 
   def external_systems
-    Irm::ExternalSystem.multilingual.order_with_name.enabled.with_person(self.id)
+    if self.admin?
+      Irm::ExternalSystem.multilingual.order_with_name.enabled
+    else
+      Irm::ExternalSystem.multilingual.order_with_name.enabled.with_person(self.id)
+    end
   end
+
 
   def system_ids
     return @system_ids if @system_ids
-    if self.admin?
-      @system_ids = Irm::ExternalSystem.all.collect{|i| i.id}
-    else
-      @system_ids = self.external_systems.collect{|i| i.id}
-    end
-    @system_ids
+    @system_ids = self.external_systems.collect{|i| i.id}
   end
 
 
