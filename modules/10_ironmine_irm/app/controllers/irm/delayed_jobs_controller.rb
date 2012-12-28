@@ -5,14 +5,15 @@ class Irm::DelayedJobsController < ApplicationController
   end
 
   def get_data
-    @log = Irm::DelayedJobLog.list_all
-    @log,count = paginate(@log)
+    @logs = Irm::DelayedJobLog.list_all
+    #@logs = @logs.match_value("lvt.meaning",params[:job_status_name]) if params[:job_status_name].present?
+    @logs,count = paginate(@logs)
     respond_to do |format|
-      format.json {render :json=>to_jsonp(@log.to_grid_json([:id, :delayed_job_id, :priority, :attempts, :run_at,
+      format.json {render :json=>to_jsonp(@logs.to_grid_json([:id, :delayed_job_id, :priority, :attempts, :run_at,
                                                              :last_error, :end_at, :failed_at, :handler, :status, :job_status], count))}
       format.html  {
         @count = count
-        @datas =@log
+        @datas =@logs
       }
     end
   end
@@ -22,7 +23,7 @@ class Irm::DelayedJobsController < ApplicationController
   end
 
   def get_item_data
-    @item = Irm::DelayedJobLogItem.list_all(params[:delayed_job_id])
+    @item = Irm::DelayedJobLogItem.unscoped.list_all(params[:delayed_job_id])
     @item, count = paginate(@item)
     respond_to do |format|
       format.json {render :json=>to_jsonp(@item.to_grid_json([:created_at, :content, :id, :job_status, :job_status_name], count))}

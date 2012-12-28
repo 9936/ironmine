@@ -2,9 +2,41 @@
   <% builder.column(:delayed_job_id,{:title=>t(:operation), :width => "40px"}) do |data|%>
     <%= link_to(t(:show),{:action=>"item_list",:delayed_job_id=>data[:delayed_job_id]},:class => "action-link") %>
   <% end %>
-  <% builder.column(:job_status,{:title=>t(:label_irm_delayed_jobs_record_status), :width => "100px"})%>
+  <% builder.column(:job_status_name,{:title=>t(:label_irm_delayed_jobs_record_status), :width => "100px"}) do |data|%>
+    <% if data[:job_status].eql?('ERROR') %>
+      <span class="label label-important"><i class="icon-remove icon-white"></i><%= data[:job_status_name] %></span>
+    <% elsif data[:job_status].eql?('DESTROY')  %>
+      <span class="label label-success"><i class="icon-ok icon-white"></i><%= data[:job_status_name] %></span>
+    <% elsif data[:job_status].eql?('ENQUEUE') %>
+      <span class="label label-info"><i class="icon-time icon-white"></i><%= data[:job_status_name] %></span>
+    <% else %>
+      <span class="label"><i class="icon-question-sign icon-white"></i><%= data[:job_status_name] %></span>
+    <% end %>
+  <% end %>
   <% builder.column(:priority,{:title=>t(:label_irm_delayed_jobs_record_priority), :width => "50px"})%>
-  <% builder.column(:handler,{:title=>t(:label_irm_delayed_jobs_record_handler)})%>
+  <% builder.column(:attempts,{:title=>t(:label_irm_delayed_jobs_record_item_attempt), :width => "50px"})%>
+  <% builder.column(:handler,{:title=>t(:label_irm_delayed_jobs_record_handler)}) do |data|%>
+    <%= truncate(data[:handler],:length => 80) %>
+  <% end %>
+  <% builder.column(:last_error, {:title => t(:label_irm_delayed_jobs_record_error_info)}) do |data| %>
+    <% if data[:last_error] %>
+      <%= truncate(data[:last_error],:length => 80) %>
+      <%= link_to("more", "javascript:void(0);", :class => "action-link log-details", "data-content" => data[:last_error].gsub(/\\n|\n/, '<br/>')) %>
+    <% else %>
+
+    <% end %>
+  <% end %>
   <% builder.column(:run_at,{:title=>t(:label_irm_delayed_jobs_record_run_at), :width => "150px"})%>
   <% builder.column(:end_at,{:title=>t(:label_irm_delayed_jobs_record_end_at), :width => "150px"})%>
 <% end %>
+<script type="text/javascript">
+    $(function(){
+        $(".log-details").bind("click",  function(){
+            var logContent = $(this).data("content"),
+                logModal = $("#logModal");
+            logModal.modal("show");
+            $(".modal-body", logModal).html(logContent);
+        });
+    });
+</script>
+

@@ -22,6 +22,7 @@ class Irm::DelayedJobLogItem < ActiveRecord::Base
         where("lv.lookup_code = #{table_name}.job_status")
   }
 
+
   def self.list_all(delayed_job_id)
     select_all(delayed_job_id).with_job_status
   end

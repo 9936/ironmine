@@ -1437,6 +1437,7 @@ en:
   label_irm_delayed_jobs_record_item_content: Log content
   label_irm_delayed_jobs_record_item_attempt: Attempt
   label_irm_delayed_jobs_record_item_record_at: Record at
+  label_irm_delayed_jobs_record_error_info: Error info
 
   label_irm_delayed_job_icm_group_assign_monitor: IR Group Assignment Job
   label_irm_delayed_job_ir_rule_process_monitor: IR Rule Process Job

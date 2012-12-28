@@ -1444,7 +1444,7 @@ zh:
   label_irm_delayed_jobs_record_item_content: 日志信息
   label_irm_delayed_jobs_record_item_attempt: 尝试次数
   label_irm_delayed_jobs_record_item_record_at: 记录时间
-
+  label_irm_delayed_jobs_record_error_info: 错误信息
 
   label_irm_delayed_job_icm_group_assign_monitor: 事故单组指派作业
   label_irm_delayed_job_ir_rule_process_monitor: 事故单工作流作业
