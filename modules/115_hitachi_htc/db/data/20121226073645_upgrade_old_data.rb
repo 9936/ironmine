@@ -25,7 +25,7 @@ class UpgradeOldData < ActiveRecord::Migration
       ir.update_attribute(:close_reason_id, resolved_reason.id)
     end
 
-    Icm::IncidentRequest.each do |ir|
+    Icm::IncidentRequest.all.each do |ir|
       ir.update_attribute(:attribute2, "HEA")
     end
 
