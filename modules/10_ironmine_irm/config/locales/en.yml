@@ -1736,7 +1736,10 @@ en:
   label_irm_mail_smtp_port_tip: Port used by SMTP. Default as:SMTP-25.
   label_irm_mail_smtp_username_tip: Username for login SMTP.
   label_irm_mail_smtp_password_tip: Password for login SMTP.
+  label_irm_mail_smtp_active: Active SMTP Server
   label_irm_mail_smtp_active_tip: If not checked will not deliver mails.
+  label_irm_mail_smtp_authentication_flag: Active Authentication
+  label_irm_mail_smtp_authentication_tip:  If your mail server requires authentication
   #========================= end ==================================
   #=========================    irm protlet_config=======================#
   label_irm_portlet_config: Portal Configuration

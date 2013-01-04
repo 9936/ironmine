@@ -6,17 +6,26 @@ module ExtendsMailer
       def mail(headers={}, &block)
         #如果数据库中存在记录则直接用数据库中的数据
         smtp_setting = Irm::SmtpSetting.first
-        smtp_settings.merge!({
-             :address => smtp_setting.host_name,
-             :port => smtp_setting.port,
-             :user_name => smtp_setting.username,
-             :password => smtp_setting.password,
-             :active_flag => smtp_setting.active_flag,
-             :enable_starttls_auto => smtp_setting.tls_flag.eql?(Irm::Constant::SYS_YES)? true :false,
-             :authentication => smtp_setting.authentication
-        }) if smtp_setting.present?
+        if smtp_setting.present?
+          if smtp_setting.authentication_flag.eql?(Irm::Constant::SYS_NO)
+            smtp_setting.username = nil
+            smtp_setting.password = nil
+            smtp_setting.authentication = nil
+          end
 
-        if smtp_settings[:active_flag] && smtp_settings[:active_flag].eql?('N')
+          smtp_settings.merge!({
+               :address => smtp_setting.host_name,
+               :port => smtp_setting.port,
+               :user_name => smtp_setting.username,
+               :password => smtp_setting.password,
+               :active_flag => smtp_setting.active_flag,
+               :enable_starttls_auto => smtp_setting.tls_flag.eql?(Irm::Constant::SYS_YES)? true : false,
+               :authentication => smtp_setting.authentication
+          })
+        end
+
+
+        if smtp_settings[:active_flag] && smtp_settings[:active_flag].eql?(Irm::Constant::SYS_NO)
           return
         else
           #################记录日志开始#################
