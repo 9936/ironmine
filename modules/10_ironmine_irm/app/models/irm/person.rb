@@ -33,7 +33,7 @@ class Irm::Person < ActiveRecord::Base
   validates_confirmation_of :password, :allow_nil => true,:if=> Proc.new{|i|i.hashed_password.blank?||!i.password.blank?}
   validate :validate_password_policy,:if=> Proc.new{|i| i.password.present?&&i.password_confirmation.present?}
 
-  #validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }
+  validates_uniqueness_of :email_address, :if => Proc.new { |i| !i.email_address.blank? }, :if => :need_uniqueness_email
   validates_format_of :email_address, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,:message=>:email
 
   has_many :external_system_people,:class_name => "Irm::ExternalSystemPerson",
@@ -47,6 +47,10 @@ class Irm::Person < ActiveRecord::Base
   has_many :channel_approval_people, :class_name => 'Skm::ChannelApprovalPerson', :dependent => :destroy
 
   has_many :user_tokens, :class_name => "Irm::UserToken", :dependent => :destroy
+
+  def need_uniqueness_email
+    true
+  end
 
   has_attached_file :avatar,
                     :whiny => false,
