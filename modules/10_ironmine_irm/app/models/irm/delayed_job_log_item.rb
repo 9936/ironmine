@@ -10,7 +10,8 @@ class Irm::DelayedJobLogItem < ActiveRecord::Base
 
   scope :select_all, lambda{|delayed_job_id|
     select("#{table_name}.*").
-        where("#{table_name}.delayed_job_id = ?", delayed_job_id)
+        where("#{table_name}.delayed_job_id = ?", delayed_job_id).
+        order("#{table_name}.created_at ASC")
   }
 
   scope :with_job_status, lambda{
