@@ -2018,7 +2018,8 @@ zh:
   label_update_password_error: 错误，请重新设置您的新密码
   label_error_email_not_existed: 系统中不存在该邮箱地址
   label_error_ldap_user: 当前账号使用LDAP方式登录，请到对应的系统中找回你的密码
-  label_error_email_blank: 邮箱地址不能为空
+  label_error_email_or_username_blank: 邮箱地址或用户登录名不能为空
+  label_error_username_required: 请输入登录名
   #============================== end reset password  ==============================
 
   #============================== start report time ==============================
