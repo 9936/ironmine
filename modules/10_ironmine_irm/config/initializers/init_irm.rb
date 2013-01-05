@@ -53,3 +53,12 @@ end
                                                   #Chm::ChangeRequest.name => "change_request",
                                                   #Irm::AttachmentVersion.name => "attachment"
 }
+
+#Irm::Person.class_eval do
+#
+#  self._validators.reject!{|key, _| key == :email_address}
+#
+#  self._validate_callbacks.reject! do |callback|
+#    callback.raw_filter.class == ActiveRecord::Validations::UniquenessValidator and callback.raw_filter.attributes.include?(:email_address)
+#  end
+#end

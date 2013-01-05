@@ -1437,6 +1437,7 @@ en:
   label_irm_delayed_jobs_record_item_content: Log content
   label_irm_delayed_jobs_record_item_attempt: Attempt
   label_irm_delayed_jobs_record_item_record_at: Record at
+  label_irm_delayed_jobs_record_error_info: Error info
 
   label_irm_delayed_job_icm_group_assign_monitor: IR Group Assignment Job
   label_irm_delayed_job_ir_rule_process_monitor: IR Rule Process Job
@@ -1735,7 +1736,10 @@ en:
   label_irm_mail_smtp_port_tip: Port used by SMTP. Default as:SMTP-25.
   label_irm_mail_smtp_username_tip: Username for login SMTP.
   label_irm_mail_smtp_password_tip: Password for login SMTP.
+  label_irm_mail_smtp_active: Active SMTP Server
   label_irm_mail_smtp_active_tip: If not checked will not deliver mails.
+  label_irm_mail_smtp_authentication_flag: Active Authentication
+  label_irm_mail_smtp_authentication_tip:  If your mail server requires authentication
   #========================= end ==================================
   #=========================    irm protlet_config=======================#
   label_irm_portlet_config: Portal Configuration
@@ -2018,7 +2022,8 @@ en:
   label_update_password_error: Error,please reset your new password.
   label_error_email_not_existed: this email is not existd in system.
   label_error_ldap_user: The user login as ldap and you can't reset password in the system.
-  label_error_email_blank: The Email can not be blank.
+  label_error_email_or_username_blank: The Email or Username can't be blank.
+  label_error_username_required: The Username is required.
   #============================== end reset password  ==============================
 
   #============================== start report time ==============================
@@ -2070,4 +2075,13 @@ en:
   label_irm_custom_attribute: System Custom Fields
   label_irm_system_custom_attribute_order: Reorder Custom Fields
   #============================== end system setting  ==============================
+
+  #============================== start mailer log  ==============================
+  label_irm_mailer_log: Mailer send logs
+  label_irm_mailer_log_reference_target: Send Target
+  label_irm_mailer_log_to_params: To params
+  label_irm_mailer_log_template_code: Template Code
+  label_irm_mailer_log_send_at: Send At
+  #============================== end mailer log  ==============================
+
   label_total_data_size: Total %{m}

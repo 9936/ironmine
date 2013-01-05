@@ -1,0 +1,24 @@
+Description:
+    This generator creates a sub app folders and files.
+
+Example:
+    rails generate module 120_test_blg
+      create  modules/120_test_blg
+      create  modules/120_test_blg/app
+      create  modules/120_test_blg/app/controllers
+      create  modules/120_test_blg/app/helpers
+      create  modules/120_test_blg/app/models
+      create  modules/120_test_blg/app/views
+      create  modules/120_test_blg/config
+      create  modules/120_test_blg/config/initializers
+      create  modules/120_test_blg/config/locales
+      create  modules/120_test_blg/db
+      create  modules/120_test_blg/db/data
+      create  modules/120_test_blg/db/migrate
+      create  modules/120_test_blg/lib
+      create  modules/120_test_blg/lib/blg
+      create  modules/120_test_blg/initializers/init_blg.rb
+      create  modules/120_test_blg/config/routes.rb
+      create  modules/120_test_blg/config/locales/en.yml
+      create  modules/120_test_blg/config/locales/zh.yml
+      create  modules/120_test_blg/lib/blg/init_data.rb

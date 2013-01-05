@@ -28,6 +28,12 @@
             <td class="label-col"><label><%=(t :label_irm_delayed_jobs_record_item_attempt)%></label></td>
             <td class="data-2col"><%=@log.attempts%></td>
           </tr>
+          <% if @log.last_error %>
+          <tr>
+            <td class="label-col"><label><%= t(:label_irm_delayed_jobs_record_error_info) %></label></td>
+            <td class="data-2col"><%=raw(@log.last_error)%></td>
+          </tr>
+          <% end %>
       </tbody>
     </table>
   </div>
@@ -40,6 +46,17 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("delayed_job",{:action=>"get_item_data",:controller => "irm/delayed_jobs",:delayed_job_id => @log.delayed_job_id},[])%>
+    <%= datatable("delayed_job_items",{:action=>"get_item_data",:controller => "irm/delayed_jobs",:delayed_job_id => @log.delayed_job_id},[])%>
+  </div>
+</div>
+
+<div id="logModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Error details info</h3>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true"><%= t(:close) %></button>
   </div>
 </div>

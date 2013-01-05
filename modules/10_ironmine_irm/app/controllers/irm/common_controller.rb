@@ -30,13 +30,24 @@ class Irm::CommonController < ApplicationController
   #当用户输入邮箱提交的时候发送一个链接
   def send_email
     #查找该email是否有效
-    if params[:email].present?
-      person = Irm::Person.list_all.where(:email_address => params[:email]).first
+    if params[:username].present? or params[:email].present?
+      if params[:username].present?
+        person = Irm::Person.list_all.where("login_name=?", params[:username]).first
+      else
+        persons = Irm::Person.list_all.where("email_address=?", params[:email])
+        if persons.size > 1
+          redirect_to({:action =>'forgot_password' }, :notice => t(:label_error_username_required))
+          return
+        else
+          person = persons.first
+        end
+      end
       #生成一个随机的token
       if person.present?
         #如果是LDAP用户不能重置密码
         if person.ldap_flag.eql?(Irm::Constant::SYS_YES)
           redirect_to({:action =>'login' }, :notice => t(:label_error_ldap_user))
+          return
         else
           #查找该用户该类型的token是否存在
           user_token = person.user_tokens.where(:token_type => "RESET_PWD").first
@@ -51,7 +62,7 @@ class Irm::CommonController < ApplicationController
           if user_token.save
             token = user_token.token
             url = "#{request.protocol}#{request.host_with_port}/reset_pwd?type=RESET_PWD&pwd_token=#{token}"
-            user_token.reset_pwd(params[:email],person.id,url)
+            user_token.reset_pwd(person.email_address, person.id,url)
           end
         end
       else
@@ -59,7 +70,7 @@ class Irm::CommonController < ApplicationController
         redirect_to({:action =>'forgot_password' }, :notice => t(:label_error_email_not_existed))
       end
     else
-      redirect_to({:action =>'forgot_password' }, :notice => t(:label_error_email_blank))
+      redirect_to({:action =>'forgot_password' }, :notice => t(:label_error_email_or_username_blank))
     end
   end
 

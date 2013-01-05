@@ -1,0 +1,22 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:reference_target,{:title=>t(:label_irm_mailer_log_reference_target)}) do |data| %>
+      <% if data[:reference_target] and data[:reference_target].length > 100 %>
+        <%= truncate(data[:reference_target],:length => 80) %>
+        <%= link_to("more", "javascript:void(0);", :class => "action-link log-details", "data-content" => data[:reference_target].gsub(/\\n|\n/, '<br/>')) %>
+      <% else %>
+        <%= data[:reference_target] %>
+      <% end %>
+    <% end %>
+    <% builder.column(:to_params,{:title=>t(:label_irm_mailer_log_to_params), :width => "150px"})%>
+    <% builder.column(:template_code,{:title=>t(:label_irm_mailer_log_template_code),:width => "150px"}) %>
+    <% builder.column(:send_at,{:title=>t(:label_irm_mailer_log_send_at), :width => "150px"})%>
+<% end %>
+
+<script type="text/javascript">
+    $(".log-details").bind("click",  function(){
+        var logContent = $(this).data("content"),
+            logModal = $("#logModal");
+        logModal.modal("show");
+        $(".modal-body", logModal).html(logContent);
+    });
+</script>

@@ -19,6 +19,8 @@ Delayed::Backend::Base::ClassMethods.send(:include, Fwk::DelayedJobBaseEx)
 Delayed::Backend::ActiveRecord::Job.send(:include, Fwk::ExtendsLogDelayedJob)
 Delayed::Worker.send(:include, Fwk::ExtendsLogDelayedWorker)
 
+
+
 #配置delayed_job
 #当job执行失败,是否从队列中删除
 Delayed::Worker.destroy_failed_jobs = false

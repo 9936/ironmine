@@ -745,6 +745,11 @@ Rails.application.routes.draw do
     #screen saver
     match '/attach_screenshot(/index)(.:format)' => "attach_screenshot#index"
     #
+
+    #mailer_log
+    match '/mailer_logs(/index)(.:format)' => "mailer_logs#index", :via => :get
+    match '/mailer_logs/get_data(.:format)' => "mailer_logs#get_data"
+
     #delayed_jobs
     match '/delayed_jobs(/index)(.:format)' => "delayed_jobs#index", :via => :get
     match '/delayed_jobs/:delayed_job_id/item_list(.:format)' => "delayed_jobs#item_list", :via => [:get, :post]

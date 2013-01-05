@@ -25,12 +25,6 @@
               <p class="help-block"><%= t :label_irm_mail_smtp_password_tip%></p>
             </td>
           </tr>
-          <tr>
-            <td class="label-col"><label><%= t :label_irm_mail_authentication %></label></td>
-            <td class="data-2col">
-              <%= smtp.select(:authentication, available_authentication, :required => true) %>
-            </td>
-          </tr>
       </tbody>
     </table>
   <% end %>
@@ -66,12 +60,26 @@
             </td>
           </tr>
           <tr>
-            <td class="label-col"><label><%= t :active %></label></td>
+            <td class="label-col"><label><%= t :label_irm_mail_smtp_authentication_flag %></label></td>
+            <td class="data-2col">
+              <%= smtp.check_box :authentication_flag, :id => "authentication_flag" %>
+              <p class="help-block"><%= t :label_irm_mail_smtp_authentication_tip %></p>
+            </td>
+          </tr>
+          <tr id="authenticationBox" style="display: none;">
+            <td class="label-col"><label><%= t :label_irm_mail_authentication %></label></td>
+            <td class="data-2col">
+              <%= smtp.blank_select(:authentication, available_authentication, :required => true) %>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label><%= t :label_irm_mail_smtp_active %></label></td>
             <td class="data-2col">
               <%= smtp.check_box :active_flag %>
               <p class="help-block"><%= t :label_irm_mail_smtp_active_tip%></p>
             </td>
           </tr>
+
        </tbody>
     </table>
   <% end %>
@@ -83,13 +91,13 @@
           <tr>
             <td class="label-col"><label><%= t :label_irm_mail_imap_host_name %></label></td>
             <td class="data-2col"><%= imap.text_field :host_name, :required => true%>
-              <p class="help-block"><%= t :label_irm_mail_imap_host_name_tip%></p>
+              <p class="help-block"><%= t :label_irm_mail_imap_host_name_tip %></p>
             </td>
           </tr>
           <tr>
             <td class="label-col"><label><%= t :label_irm_mail_protocol %></label></td>
             <td class="data-2col"><%= imap.radio_button(:protocol, "IMAP", :required => true)%>-IMAP&nbsp;&nbsp;<%= imap.radio_button(:protocol, "POP")%>-POP
-              <p class="help-block"><%= t :label_irm_mail_imap_protocol_choose%></p>
+              <p class="help-block"><%= t :label_irm_mail_imap_protocol_choose %></p>
             </td>
           </tr>
           <tr>
@@ -161,3 +169,22 @@
     </tr></table>
   </div>
 <% end %>
+
+<script type="text/javascript">
+  $(function(){
+      var authentication_flag = $("#authentication_flag"),
+          authentication_box = $("#authenticationBox");
+
+      if(authentication_flag.is(":checked")){
+          authentication_box.show();
+      }
+      //绑定click事件
+      authentication_flag.bind("click", function(){
+          if($(this).is(":checked")){
+              authentication_box.show();
+          }else{
+              authentication_box.hide();
+          }
+      });
+  });
+</script>
