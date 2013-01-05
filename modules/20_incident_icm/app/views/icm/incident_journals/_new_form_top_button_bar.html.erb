@@ -59,7 +59,7 @@
          <div class="btn-group">
            <% if current_person?(@incident_request.support_person_id)||current_person?(@incident_request.requested_by) %>
                <%= link_to t(:permanent_close), {:action => "edit_permanent_close"},{:class=>"btn"}%>
-               <%= link_to t(:reopen), {:action => "edit_reopen", :id => @incident_request.id},{:class=>"btn"}%>
+               <%= link_to t(:reopen), {:action => "edit_reopen", :sid => @incident_request.external_system_id, :id => @incident_request.id},{:class=>"btn"}%>
            <% end %>
            <% if can_edit?(@incident_request) %>
                <%= link_to t(:edit), {:controller=>"icm/incident_requests", :action => "edit", :sid => @incident_request.external_system_id, :id => @incident_request.id} ,{:class=>"btn",:back => true} %>
