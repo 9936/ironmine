@@ -125,8 +125,12 @@ class Irm::CustomAttributesController < ApplicationController
       @model_object = params[:model_name].constantize.new
     end
 
+
     #同步默认值
     @model_object = @model_object.merge_default_values
+
+    @request_url = request.url
+
     respond_to do |format|
       if params[:template_name].present?
         format.html {render params[:template_name] }

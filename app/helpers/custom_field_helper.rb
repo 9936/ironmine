@@ -30,9 +30,19 @@ module CustomFieldHelper
   #参数only_block的值可为true | false.默认为false
   #only_block => false 时默认显示格式和block自定义的格式合并显示；
   #only_block => true 时，只显示block下定义的格式代码
-  def show_input_custom_fields(model, columns = 4, only_block = false , &block)
+  def show_input_custom_fields(model, columns = 4, only_block = false, only_required = true, &block)
     #获取自定义字段
-    custom_attributes = model.custom_attributes
+    if params[:only_required] and params[:only_required].eql?("false")
+      only_required = true
+    end
+
+    only_required = false
+
+    if only_required
+      custom_attributes = model.required_custom_attributes
+    else
+      custom_attributes = model.custom_attributes
+    end
 
     block_fields = {}
     if block_given?
@@ -41,16 +51,19 @@ module CustomFieldHelper
       block_fields = builder.fields
     end
     if only_block
-      build_block_html(model, custom_attributes, block_fields)
+      build_block_html(model, custom_attributes, only_required, block_fields)
     else
-      build_html(model, custom_attributes, columns, block_fields)
+      build_html(model, custom_attributes,only_required, columns, block_fields)
     end
   end
 
 
   #仅仅获取block中自定义的代码块
-  def build_block_html(model, custom_attributes, block_fields)
+  def build_block_html(model, custom_attributes, only_required, block_fields)
     html = ""
+
+    html += "<input type='hidden' id='custom_field_only_required' name='only_required' value='#{only_required}'/>"
+
     if block_fields.present? and custom_attributes.any?
       fields_for model, nil, :builder => CustomFormBuilder do |f|
         custom_attributes.each do |attribute|
@@ -63,9 +76,11 @@ module CustomFieldHelper
     html.html_safe
   end
 
-  def build_html(model, custom_attributes, columns = 4, block_fields)
+  def build_html(model, custom_attributes, only_required, columns = 4, block_fields)
     column_count = 0
     html = ''
+    html += "<input type='hidden' id='custom_field_only_required' name='only_required' value='#{only_required}'/>"
+
     if custom_attributes.any?
       fields_for model, nil, :builder => CustomFormBuilder do |f|
         html += "<tr>"
@@ -101,13 +116,13 @@ module CustomFieldHelper
               end
             end
           else
-            html += "<td class='label-col'><label>#{attribute[:name]}</label></td>"
-            html += "<td class='data-col'>#{show_custom_field(attribute, f)}</td>"
+            html += "<td class='label-col' data-required='#{attribute[:required_flag]}'><label>#{attribute[:name]}</label></td>"
+            html += "<td class='data-col' data-required='#{attribute[:required_flag]}'>#{show_custom_field(attribute, f)}</td>"
             column_count += 2
           end
         end
         #将填不满的给补齐
-        ((columns - custom_attributes.count * 2 % columns)/2).times do
+        ((custom_attributes.count * 2 % columns)/2).times do
           html += "<td class='label-col'></td>"
           html += "<td class='data-col'></td>"
         end
