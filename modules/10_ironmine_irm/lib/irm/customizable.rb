@@ -42,6 +42,9 @@ module Irm::Customizable
 
         #取得对应model的自定义字段
         def custom_attributes
+          if @custom_attributes
+            return @custom_attributes
+          end
           bo = Irm::BusinessObject.with_custom_flag.where(:bo_model_name => self.class.to_s).first
           if bo.present? and self.custom_field_options[:system_flag] == Irm::Constant::SYS_YES and self.external_system_id
             custom_attributes = Irm::ObjectAttribute.
@@ -56,7 +59,17 @@ module Irm::Customizable
           else
             custom_attributes = []
           end
-          custom_attributes
+
+          #将必填放入到前面
+          @custom_attributes = [], required = [], options = []
+          custom_attributes.each do |ca|
+            if ca.required_flag.eql?(Irm::Constant::SYS_YES)
+               required << ca
+            else
+              options << ca
+            end
+          end
+          @custom_attributes = required + options
         end
 
         #获取对应model下必输的自定义属性
