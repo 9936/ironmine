@@ -1770,11 +1770,16 @@ jQuery.fn.menubutton = function () {
                 $(this).hide();
                 saveBtn.show();
                 cancelBtn.show();
-                $(".table-body table:first tbody:first", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr", placeHolderTemplate: "<tr class='place-holder'></tr>" });
+                $(".table-body table:first tbody:first", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr",dragEnd: afterDragHand, placeHolderTemplate: "<tr class='place-holder'></tr>" });
                 pageBlock.addClass("drag-able");
             });
+            function afterDragHand(){
+                me.$element.trigger('afterDrag');
+            }
+
             saveBtn.bind("click", function(){
                 var data = $(".table-body table:first tbody tr",me.$element).map(function() {return $(this).attr("id");}).get();
+
                 $.post(url, { ordered_ids: data.join(",")}, function(data){
                     //保存后将html修改
                     html = $(".datatable", pageBlock).html();
