@@ -34,6 +34,9 @@
 <!-- 当调整顺序的时候只显示对应bo下的自定义属性 -->
 <% if params[:bo_id].present? %>
     <!--页面结构-->
+    <style type="text/css">
+        .drag-able .page-block-help {display: table-cell !important;}
+    </style>
     <div class="page-block">
       <table class="page-block-header"><tr>
         <td class="page-block-title">
@@ -42,7 +45,9 @@
         <td class="page-block-button">
           <%= link_to t(:back), {:controller => "irm/custom_attributes",:action => "index", :sid => params[:sid]},:class=>"btn" %>
         </td>
-        <td class="page-block-help"></td>
+        <td class="page-block-help">
+          <span class="label label-warning"><%= t(:label_irm_system_custom_attribute_order_tip) %></span>
+        </td>
       </tr></table>
       <div class="page-block-body">
         <%= datatable("system_custom_attributes",{:controller => "irm/custom_attributes", :action=>"get_data", :bo_id => params[:bo_id] },[],{:drag_sort => {
@@ -51,6 +56,27 @@
                 :trigger_click => true}})%>
       </div>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#system_custom_attributes").on('afterDrag', function(e) {
+                var required_trs = new Array(),
+                    options_trs = new Array();
+
+                var trs = $(".datatable tbody:first tr", $(this));
+                for(var i = 0; i < trs.length; i++){
+                    if($(trs[i]).data("required") == 'Y'){
+                        required_trs.push(trs[i]);
+                    }
+                    if($(trs[i]).data("required") == 'N'){
+                        options_trs.push(trs[i]);
+                    }
+                }
+                $(".datatable tbody:first", $(this)).append(required_trs).append(options_trs);
+            });
+        });
+    </script>
+
 <% else %>
   <% @business_objects.each do |business_object| %>
       <% if editable_custom_flag?(business_object.bo_model_name, nil, true) %>
@@ -68,7 +94,7 @@
               <% if can_reordered?(business_object.id, params[:sid]) %>
                 <%= link_to t(:label_irm_system_custom_attribute_order), {:controller => "irm/custom_attributes",:action => "index", :sid => params[:sid], :bo_id => business_object.id},:class=>"btn"%>
               <% end %>
-              </td>
+            </td>
           </tr></table>
           <div class="page-block-body">
             <%= render :partial=>"system_custom_attributes",:locals=>{:datas=> system_custom_attributes(business_object.id, params[:sid]), :bo_id => business_object.id }%>
