@@ -248,8 +248,7 @@
             </label></td>
         </tr>
         <% end %>
-        <!-- 显示自定义字段信息 -->
-        <%= show_custom_field_info(@incident_request) %>
+
         <tr>
           <td class="label-col"><label ><%=t(:label_icm_incident_request_summary)%></label></td>
           <td class="data-col" colspan="5" style="word-WRAP: break-word;">
@@ -263,6 +262,8 @@
             </div>
           </td>
         </tr>
+        <!-- 显示自定义字段信息 -->
+        <%= show_custom_field_info(@incident_request) %>
         </tbody>
     </table>
     </div>
@@ -562,6 +563,12 @@
     <div class="sub-page-block">
       <div class="sub-page-block-header">
         <h3 class="sub-page-block-title">(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
+        <span>
+          【<a href="javascript:void(0);" class="more-or-less show-less">
+            <span class="expand"><%= t(:label_custom_attributes_show) %></span>
+            <span class="collapse"><%= t(:label_custom_attributes_hide) %></span>
+          </a>】
+        </span>
         <div style="margin-left: 15px; display:inline; float: right;">
           <span>
             <a href="javascript:void(0)" id="showMore" class="toggle-button" ref="incidentDetail" collapsedText="<%= t(:label_less_info) %>" ExpandedText="<%= t(:label_more_info) %>">
@@ -614,6 +621,17 @@
             } else {
                 me.html('<i class="icon-chevron-down"></i>'+ me.attr("expandedText"));
                 ref.addClass("hidden");
+            }
+        });
+
+        $("#incidentDetail tr[data-custom-flag='Y']").hide();
+        $(".more-or-less").bind("click", function(){
+            if($(this).hasClass("show-less")){
+                $(this).removeClass("show-less").addClass("show-all");
+                $("#incidentDetail tr[data-custom-flag='Y']").show();
+            }else{
+                $(this).removeClass("show-all").addClass("show-less");
+                $("#incidentDetail tr[data-custom-flag='Y']").hide();
             }
         });
     });

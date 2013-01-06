@@ -1088,6 +1088,8 @@ en:
   label_irm_object_user_custom_flag: Custom Field
   label_irm_object_user_system_custom_flag: System Custom Field
   label_action_new_cux: New Custom Field
+  label_custom_attributes_show: Show Custom Fields
+  label_custom_attributes_hide: Hide Custom Fields
   #======================== end business objects====================
 
   #======================== object rules====================
@@ -2074,6 +2076,9 @@ en:
   label_irm_system_custom_attribute: System Custom Fields
   label_irm_custom_attribute: System Custom Fields
   label_irm_system_custom_attribute_order: Reorder Custom Fields
+  label_irm_custom_attribute_show_all: Show All
+  label_irm_custom_attribute_show_required: Only show required
+  label_irm_system_custom_attribute_order_tip: Required fields are always displayed on the front
   #============================== end system setting  ==============================
 
   #============================== start mailer log  ==============================

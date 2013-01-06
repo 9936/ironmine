@@ -171,8 +171,7 @@
         </div>
         <!-- 自定义字段信息 -->
         <div id="customBlock" style="display: none;" href= <%= get_custom_block_url("Icm::IncidentRequest",{:external_system_id => "${external_system_id}"})%>>
-          <%= render :partial => "irm/custom_attributes/custom_fields_block", :locals => {:model_object => @incident_request,
-                                                                                          :request_url => get_custom_block_url("Icm::IncidentRequest",{:external_system_id => @incident_request.external_system_id})} %>
+          <%= render :partial => "irm/custom_attributes/custom_fields_block", :locals => {:model_object => @incident_request} %>
         </div>
       </div>
     </div>

@@ -345,7 +345,6 @@ class Irm::ObjectAttributesController < ApplicationController
         attribute.display_sequence = sequence
         attribute.not_auto_mult = true
         attribute.save
-        puts "===========#{attribute.errors}============="
         sequence += 1
       end if attributes.any?
     end

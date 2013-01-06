@@ -30,19 +30,11 @@ module CustomFieldHelper
   #参数only_block的值可为true | false.默认为false
   #only_block => false 时默认显示格式和block自定义的格式合并显示；
   #only_block => true 时，只显示block下定义的格式代码
-  def show_input_custom_fields(model, columns = 4, only_block = false, only_required = true, &block)
+  def show_input_custom_fields(model, columns = 4, only_block = false,  &block)
     #获取自定义字段
-    if params[:only_required] and params[:only_required].eql?("false")
-      only_required = true
-    end
+    custom_attributes = model.custom_attributes
 
-    only_required = false
-
-    if only_required
-      custom_attributes = model.required_custom_attributes
-    else
-      custom_attributes = model.custom_attributes
-    end
+    only_required = params[:only_required] || true
 
     block_fields = {}
     if block_given?
@@ -51,9 +43,9 @@ module CustomFieldHelper
       block_fields = builder.fields
     end
     if only_block
-      build_block_html(model, custom_attributes, only_required, block_fields)
+      build_block_html(model, custom_attributes,only_required, block_fields)
     else
-      build_html(model, custom_attributes,only_required, columns, block_fields)
+      build_html(model, custom_attributes, only_required, columns, block_fields)
     end
   end
 
@@ -126,7 +118,7 @@ module CustomFieldHelper
           html += "<td class='label-col'></td>"
           html += "<td class='data-col'></td>"
         end
-        html += "<tr>"
+        html += "</tr>"
       end
     end
     html.html_safe
@@ -144,10 +136,10 @@ module CustomFieldHelper
     column_count = 0
     html = ''
     if custom_attributes.any?
-      html += "<tr>"
+      html += "<tr data-custom-flag='Y'>"
       custom_attributes.each do |attribute|
         if column_count > 0 and column_count%columns == 0
-          html += "</tr><tr>"
+          html += "</tr><tr data-custom-flag='Y'>"
         end
         html += "<td class='label-col'><label>#{attribute[:name]}</label></td>"
         html += "<td class='data-col'>#{hand_value attribute[:category], model[attribute[:attribute_name].to_sym]}</td>"
@@ -159,7 +151,7 @@ module CustomFieldHelper
         html += "<td colspan='#{colspan}'></td>"
       end
 
-      html += "<tr>"
+      html += "</tr>"
     end
     html.html_safe
   end

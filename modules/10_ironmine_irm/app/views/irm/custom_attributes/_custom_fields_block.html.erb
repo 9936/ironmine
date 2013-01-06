@@ -1,20 +1,13 @@
 <% if model_object.custom_attributes.any? %>
-    <style>
-      a.show-less .collapse,a.show-all .expand {display: none;}
-      a.show-all .collapse, a.show-less .expand {display: inline;}
-    </style>
-
     <div class="sub-page-block" id="customFieldsContainer">
       <div class="sub-page-block-header">
         <h3 class="sub-page-block-title"><%= t(:label_irm_system_custom_field) %></h3>
-        <% if request_url %>
         <span>
-          【<a href="<%= request_url %>"  class="more-or-less <%= params[:only_required].eql?('false')? 'show-all': 'show-less' %>">
-            <span class="expand">显示全部</span>
-            <span class="collapse">只显示必填</span>
+          【<a href="javascript:void(0);"  class="more-or-less <%= params[:only_required].eql?('false')? 'show-all': 'show-less' %>">
+            <span class="expand"><%= t(:label_irm_custom_attribute_show_all) %></span>
+            <span class="collapse"><%= t(:label_irm_custom_attribute_show_required) %></span>
           </a>】
         </span>
-        <% end %>
       </div>
       <div class="sub-page-block-body">
         <table class="form-table">
@@ -23,55 +16,35 @@
           </tbody>
         </table>
       </div>
-      <script type="text/javascript">
-          $(function(){
-              var only_required = '<%= params[:only_required] %>',
-                  container = $("#customFieldsContainer");
-              setCustomFields(container, only_required);
-
-              function setCustomFields(container, only_required){
-                  $(".form-table td[data-required='N']", container).each(function(){
-                      if(only_required && only_required == "false"){
-                          $(this).show();
-                      }else{
-                          $(this).hide();
-                      }
-                  });
-              }
-
-
-              $(".more-or-less").bind("click",function(e){
-//                  var url = $(this).attr("href"),
-//                      container = $("#customFieldsContainer"),
-//                      regStr = "";
-
-                  if($(this).hasClass("show-less")) {
-                      $(this).removeClass("show-less").addClass("show-all");
-                      $("#custom_field_only_required").val("false");
-                      setCustomFields(container, "false");
-//                      regStr = "only_required=false";
-                  }else{
-//                      regStr = "only_required=true";
-                      $(this).removeClass("show-all").addClass("show-less");
-                      $("#custom_field_only_required").val("true");
-                      setCustomFields(container, "true");
-
-                  }
-
-//                  var reg = /only_required=true|only_required=false/g;
-//                  if(reg.test(url)){
-//                      url = url.replace(reg, regStr)
-//                  }else{
-//                      url += url.indexOf("?") > 0 ? '&' : '?';
-//                      url += regStr;
-//                  }
-//
-//
-//                  container.parent().load(url);
-//                  container.detach();
-                  e.preventDefault();
-              });
-          });
-      </script>
     </div>
 <% end %>
+
+<script type="text/javascript">
+    $(function(){
+        var only_required = '<%= params[:only_required] %>',
+            container = $("#customFieldsContainer");
+        setCustomFields(container, only_required);
+
+        $(".more-or-less").bind("click",function(){
+            if($(this).hasClass("show-less")) {
+                $(this).removeClass("show-less").addClass("show-all");
+                $("#custom_field_only_required").val("false");
+                setCustomFields(container, "false");
+            }else{
+                $(this).removeClass("show-all").addClass("show-less");
+                $("#custom_field_only_required").val("true");
+                setCustomFields(container, "true");
+            }
+        });
+
+        function setCustomFields(container, only_required){
+            $(".form-table td[data-required='N']", container).each(function(){
+                if(only_required && only_required == "false"){
+                    $(this).show();
+                }else{
+                    $(this).hide();
+                }
+            });
+        }
+    });
+</script>
