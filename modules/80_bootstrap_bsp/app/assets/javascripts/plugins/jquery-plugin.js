@@ -1558,6 +1558,7 @@ jQuery.fn.menubutton = function () {
         defaultOptions:{},
         filterOptions:{},
         searchOptions:{},
+        _searchOptions:{},
         orderOptions:{},
         dragOptions:{}
     };
@@ -1600,6 +1601,7 @@ jQuery.fn.menubutton = function () {
             data.initialised = true;
             data.options = $.extend({}, DEFAULT_OPTIONS, customOptions);
         }
+
         this.buildTable();
         $(window).hashchange(function(){
             var hashPage = me.getHashPage();
@@ -1664,6 +1666,9 @@ jQuery.fn.menubutton = function () {
         var me = this;
         me.data.options = $.extend({}, me.data.options, {currentPage:me.getHashPage()});
         me.buildUI();
+        if(me.data.options._searchOptions.searchColumn && me.data.options._searchOptions.searchValue){
+            me.data.options.searchOptions[me.data.options._searchOptions.searchColumn] = me.data.options._searchOptions.searchValue;
+        }
         if(!me.data.options.lazyLoad){
             me.load();
         }
@@ -1958,8 +1963,16 @@ jQuery.fn.menubutton = function () {
                 searchBox.find("a.search-box-button:first").html($.i18n("search"));
 
                 searchBox.find("a.search-box-button:first").click(function (event) {
-                    var params = {};
-                    params[searchBox.find("select.search-select:first").val()] = searchBox.find("input.search-box-input:first").val();
+                    var params = {},
+                        searchColumn = searchBox.find("select.search-select:first").val(),
+                        searchValue = searchBox.find("input.search-box-input:first").val();
+                    params[searchColumn] = searchValue;
+                    //将搜索的列和对应的值放入到cookie中
+                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN", "");
+                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE", "");
+                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN", searchColumn);
+                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE", searchValue);
+
                     me.data.options.searchOptions = params;
                     me.loadPage(1);
                 });
@@ -1973,7 +1986,7 @@ jQuery.fn.menubutton = function () {
         }
         //build viewFilter
         if (me.data.options.filterBox) {
-            var filterBox = $("#" + me.data.options.filterBox)
+            var filterBox = $("#" + me.data.options.filterBox);
             if (filterBox) {
                 var selectElement = filterBox.find("select.view-filter:first");
                 me.data.options.filterOptions = {_view_filter_id:selectElement.val() || ""};
@@ -2068,19 +2081,33 @@ jQuery.fn.menubutton = function () {
         var me = this;
         var showable = false;
         if (me.data.options.searchBox && typeof $("#" + me.data.options.searchBox) != "undefined") {
-            var searchBox = $("#" + me.data.options.searchBox);
-            var currentColumnValue = searchBox.find("select.search-select:first").val();
-            var currentValue = searchBox.find("input.search-box-input:first").val();
+            var searchBox = $("#" + me.data.options.searchBox),
+                currentColumnValue = '',
+                currentValue = '';
+
+            if($.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN") && $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE")){
+                currentColumnValue = $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN");
+                currentValue = $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE");
+            }else{
+                currentColumnValue = searchBox.find("select.search-select:first").val();
+                currentValue = searchBox.find("input.search-box-input:first").val();
+            }
+
             searchBox.find("select.search-select:first").html("");
             me.$element.find(".include-header table:first thead th[search]").each(function (index, column) {
                 if ($(column).attr("search")) {
                     showable = true;
-                    var option = $("<option></option>")
+                    var option = $("<option></option>");
                     option.html($(column).attr("title"));
                     option.attr("value", $(column).attr("key"));
                     searchBox.find("select.search-select:first").append(option);
                 }
             });
+
+            if(currentColumnValue && currentValue){
+                me.data.options.searchOptions[currentColumnValue] = currentValue;
+            }
+
             searchBox.find("select.search-select:first").val(currentColumnValue);
             searchBox.find("input.search-box-input:first").val(currentValue);
             if (showable)
@@ -2213,13 +2240,11 @@ jQuery.fn.menubutton = function () {
 
     Internal.prototype.load = function () {
         var me = this;
-//        if (me.data.options.currentPage != 1) {
-            me.setHash(me.$element.attr("id") + "_page="+ me.data.options.currentPage);
-            //将当前的页码同其id保存到cookie中
-            $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", "");
-            //设置该cookie的过期时间为60分钟
-            $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", me.data.options.currentPage);
-//        }
+        me.setHash(me.$element.attr("id") + "_page="+ me.data.options.currentPage);
+        //将当前的页码同其id保存到cookie中
+        $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", "");
+
+        $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", me.data.options.currentPage);
         me.$element.load(me.buildCurrentRequest(), function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "error"){
                 window.console && console.log($.i18n("load_data_error"));
@@ -2234,9 +2259,10 @@ jQuery.fn.menubutton = function () {
         var me = this;
         var options = me.data.options;
         var request_url = options.baseUrl;
+
         var params = $.extend({limit:options.pageSize, start:Math.max(options.currentPage - 1, 0) * options.pageSize}, options.defaultOptions, options.filterOptions, options.searchOptions, options.orderOptions, {_dom_id:me.$element.context.id}, {_scroll:options.scrollOptions.mode});
         if (!options.paginatorBox)
-            params = $.extend({}, params, {limit:""})
+            params = $.extend({}, params, {limit:""});
         var paramsStr = $.param(params);
 
         if (request_url.indexOf("?") > 0)
