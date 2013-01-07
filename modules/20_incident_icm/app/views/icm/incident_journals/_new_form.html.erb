@@ -416,12 +416,14 @@
           </span>
         </div>
         <h3 class="sub-page-block-title">(<%= @incident_request[:incident_status_name] %>)[<%= @incident_request[:request_number] %>]<%= @incident_request[:title] %></h3>
+        <% if @incident_request.has_custom_attributes? %>
         <span>
           【<a href="javascript:void(0);" class="more-or-less show-less">
             <span class="expand"><%= t(:label_custom_attributes_show) %></span>
             <span class="collapse"><%= t(:label_custom_attributes_hide) %></span>
           </a>】
         </span>
+        <% end %>
       </div>
       <div class="sub-page-block-body">
         <%= content_for :block_header_content %>
