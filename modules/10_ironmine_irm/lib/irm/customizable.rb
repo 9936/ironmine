@@ -74,16 +74,26 @@ module Irm::Customizable
 
         #获取对应model下必输的自定义属性
         def required_custom_attributes
-          required_attributes = []
+          if @required_attributes
+            return @required_attributes
+          end
+          @required_attributes = []
           if self.custom_attributes.any?
             self.custom_attributes.each do |attribute|
               if attribute[:required_flag].eql?('Y')
-                required_attributes << attribute
+                @required_attributes << attribute
               end
             end
           end
-          required_attributes
+          @required_attributes
         end
+
+        #判断是否有自定义字段
+        def has_custom_attributes?
+          return self.custom_attributes.any?
+        end
+
+
 
         #对象初始化完成后同步其默认值
         #当对象一旦经过修改后不推荐再调用该方法，否则当可选字段默认值存在时，填写的值时将会自动设置为默认值
