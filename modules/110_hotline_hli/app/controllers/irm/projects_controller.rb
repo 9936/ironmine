@@ -111,7 +111,7 @@ class Irm::ProjectsController < ApplicationController
         t_group_system = Icm::ExternalSystemGroup.new(:opu_id => Irm::Person.current.opu_id,
                                                       :external_system_id => external_system.id,
                                                       :support_group_id => t_group.id)
-
+        t_group_system.save
         #create share rule
         ##### we do not need to create share in new hisms version ####
         #t_share = Irm::DataShareRule.new(:opu_id => Irm::Person.current.opu_id,:business_object_id => bo.id, :access_level => '2',:code => auto_code,
