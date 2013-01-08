@@ -1,10 +1,11 @@
 module Irm::SystemParametersManager
   class << self
     def app_top_logo
-      if !Irm::OperationUnit.current
+      if Irm::OperationUnit.current
         value=Irm::SystemParameterValue.global_setting.detect{|i| i[:parameter_code].downcase.eql?("app_top_logo")}
+
         if value.present?
-          return value.img|| "/images/logos/logo.png"
+          return value.img || "/images/logos/logo.png"
         end
 
       else
