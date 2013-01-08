@@ -6,13 +6,11 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
         select_all.enabled.
         with_category(I18n.locale).
         with_close_reason(I18n.locale).
-        joins(" LEFT OUTER JOIN irm_roles_vl irv ON irv.id = #{Icm::IncidentRequest.table_name}.cux_organization_id AND irv.language = '#{I18n.locale}'").
         with_requested_by(I18n.locale).
         with_incident_status(I18n.locale).
         with_supporter(I18n.locale).
         with_priority(I18n.locale).
         with_external_system(I18n.locale).
-        select("irv.name role_name").
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
 
     if params[:end_date].present?
@@ -56,7 +54,7 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
       data[3] = s[:external_system_name]
       data[4] = s[:requested_name]
       data[5] = s[:supporter_name]
-      data[6] = s[:role_name]
+      data[6] = s[:attribute2]
       data[7] = s[:priority_name]
       data[8] = s[:incident_category_name]
       data[9] = s[:incident_sub_category_name]
