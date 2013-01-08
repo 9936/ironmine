@@ -1,5 +1,8 @@
 class Irm::DelayedJobLogItem < ActiveRecord::Base
   set_table_name :irm_delayed_job_log_items
+
+  before_create :generate_sequence
+
   belongs_to :delayed_job_log, :primary_key => "delayed_job_id", :foreign_key => "delayed_job_id"
 
 
@@ -11,7 +14,7 @@ class Irm::DelayedJobLogItem < ActiveRecord::Base
   scope :select_all, lambda{|delayed_job_id|
     select("#{table_name}.*").
         where("#{table_name}.delayed_job_id = ?", delayed_job_id).
-        order("#{table_name}.created_at ASC")
+        order("#{table_name}.sequence ASC")
   }
 
   scope :with_job_status, lambda{
@@ -27,4 +30,11 @@ class Irm::DelayedJobLogItem < ActiveRecord::Base
   def self.list_all(delayed_job_id)
     select_all(delayed_job_id).with_job_status
   end
+
+  private
+    def generate_sequence
+      self.sequence = (Time.now.to_f * 10000000).to_i
+    end
+
+
 end

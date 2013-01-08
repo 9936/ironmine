@@ -5,7 +5,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
 
   belongs_to :business_object
 
-  attr_accessor :step, :required_default_value
+  attr_accessor :step
   #多语言关系
   attr_accessor :name,:description
   has_many :object_attributes_tls,:dependent => :destroy
@@ -61,7 +61,7 @@ class Irm::ObjectAttribute < ActiveRecord::Base
   # 设置名称字段,一个对像中只有一个名称字段
   after_save :clear_other_label_flag
 
-  scope :order_by_sequence, order("#{table_name}.display_sequence ASC")
+  scope :order_by_sequence, order("#{table_name}.required_flag DESC, #{table_name}.display_sequence ASC")
 
   scope :with_relation_bo,lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::BusinessObject.view_name} relation_bo ON relation_bo.id = #{table_name}.relation_bo_id and relation_bo.language='#{language}'").

@@ -1096,6 +1096,8 @@ zh:
   label_irm_object_user_custom_flag: 自定义字段
   label_irm_object_user_system_custom_flag: 系统自定义字段
   label_action_new_cux: 新建自定义字段
+  label_custom_attributes_show: 显示自定义部分
+  label_custom_attributes_hide: 隐藏自定义部分
   #======================== business objects====================
 
   #======================== object rules====================
@@ -2073,6 +2075,9 @@ zh:
   label_irm_system_custom_attribute: 系统自定义字段
   label_irm_custom_attribute: 系统自定义字段
   label_irm_system_custom_attribute_order: 调整显示顺序
+  label_irm_custom_attribute_show_all: 显示全部
+  label_irm_custom_attribute_show_required: 只显示必填部分
+  label_irm_system_custom_attribute_order_tip: 必填字段部分将始终显示在可选字段前
   #============================== end system setting  ==============================
 
   #============================== start mailer log  ==============================

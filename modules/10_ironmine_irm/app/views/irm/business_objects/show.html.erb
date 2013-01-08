@@ -109,6 +109,9 @@
   </div>
 </div>
 <% if editable_custom_flag?(@business_object.bo_model_name) %>
+    <style type="text/css">
+        .drag-able .page-block-help {display: table-cell !important;}
+    </style>
     <!--页面结构-->
     <div class="page-block">
       <table class="page-block-header"><tr>
@@ -119,13 +122,33 @@
           <%= link_to t(:new), {:controller => "irm/object_attributes",:action => "new_cux", :bo_id => @business_object.id},:class=>"btn"%>
         </td>
         <td class="page-block-help">
-          <div id="cux_attributesSearchBox"></div>
+          <span class="label label-warning"><%= t(:label_irm_system_custom_attribute_order_tip) %></span>
         </td>
       </tr></table>
       <div class="page-block-body">
         <%= datatable("user_customize_object_attributes",{:controller => "irm/object_attributes", :action=>"user_customize_object_attributes", :bo_id => @business_object.id },[],{:drag_sort => {:save_url => url_for(:controller => 'irm/object_attributes', :action => 'switch_sequence', :bo_id => @business_object.id)}})%>
-        <%#= render :partial=>"user_customize_object_attributes",:locals=>{:datas=>user_customize_object_attributes(@business_object.id)}%>
       </div>
+
+      <script type="text/javascript">
+          $(document).ready(function(){
+              $("#user_customize_object_attributes").on('afterDrag', function(e) {
+                  var required_trs = new Array(),
+                      options_trs = new Array();
+
+                  var trs = $(".datatable tbody:first tr", $(this));
+                  for(var i = 0; i < trs.length; i++){
+                      if($(trs[i]).data("required") == 'Y'){
+                          required_trs.push(trs[i]);
+                      }
+                      if($(trs[i]).data("required") == 'N'){
+                          options_trs.push(trs[i]);
+                      }
+                  }
+                  $(".datatable tbody:first", $(this)).append(required_trs).append(options_trs);
+              });
+          });
+      </script>
+
     </div>
 <% end %>
 

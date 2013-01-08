@@ -5,7 +5,7 @@ class Irm::DelayedJobsController < ApplicationController
   end
 
   def get_data
-    @logs = Irm::DelayedJobLog.list_all
+    @logs = Irm::DelayedJobLog.unscoped.list_all
     #@logs = @logs.match_value("lvt.meaning",params[:job_status_name]) if params[:job_status_name].present?
     @logs,count = paginate(@logs)
     respond_to do |format|
@@ -19,7 +19,7 @@ class Irm::DelayedJobsController < ApplicationController
   end
 
   def item_list
-    @log = Irm::DelayedJobLog.list_all.where("delayed_job_id" => params[:delayed_job_id]).first
+    @log = Irm::DelayedJobLog.unscoped.list_all.where("delayed_job_id" => params[:delayed_job_id]).first
   end
 
   def get_item_data

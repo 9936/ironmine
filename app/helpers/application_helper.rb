@@ -190,8 +190,8 @@ module ApplicationHelper
   #     3,width 宽度
   #     4,formatter 列数据显示方式
   def datatable(id,url_options,columns,options={})
-    select = options[:select]
-    html = options[:html]||false
+    #select = options[:select]
+    #html = options[:html]||false
     return plain_datatable(id,url_options,columns,options)
 
   end
@@ -203,7 +203,7 @@ module ApplicationHelper
     output = ActiveSupport::SafeBuffer.new
     output.safe_concat "<div id='#{id}'></div>"
 
-    source_url = url_for(url_options.merge(:format=>:html,:back_url=>url_for({})))
+    source_url = url_for(url_options.merge(:format=>:html, :back_url=>url_for({})))
 
     page_size = cookies[:PAGESIZE] || options[:row_perpage] || 10
 
@@ -272,6 +272,11 @@ module ApplicationHelper
         drag_able = drag_sort[:drag_able] if !drag_sort[:drag_able].nil?
         table_options << ",dragOptions:{dragAble:#{drag_able}, returnUrl:'#{drag_sort[:return_url]}', triggerClick:'#{drag_sort[:trigger_click]}' ,saveUrl:'#{drag_sort[:save_url]}'}"
       end
+    end
+
+    #搜索列初始化参数
+    if cookies["#{id.upcase}_SEARCH_COLUMN".to_sym] and cookies["#{id.upcase}_SEARCH_VALUE".to_sym]
+      table_options << ",_searchOptions:{searchColumn:'#{cookies["#{id.upcase}_SEARCH_COLUMN".to_sym]}', searchValue:'#{cookies["#{id.upcase}_SEARCH_VALUE".to_sym]}' }"
     end
 
     if options[:scroll]

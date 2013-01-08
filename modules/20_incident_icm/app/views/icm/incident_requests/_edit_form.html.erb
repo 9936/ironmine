@@ -170,7 +170,7 @@
           <%= content_for :form_block_addition %>
         </div>
         <!-- 自定义字段信息 -->
-        <div id="customBlock" style="display: none;" href= <%= get_custom_block_url("Icm::IncidentRequest",{:external_system_id => "${external_system_id}"},"new_icm_incident_request")%>>
+        <div id="customBlock" style="display: none;" href= <%= get_custom_block_url("Icm::IncidentRequest",{:external_system_id => "${external_system_id}"})%>>
           <%= render :partial => "irm/custom_attributes/custom_fields_block", :locals => {:model_object => @incident_request} %>
         </div>
       </div>

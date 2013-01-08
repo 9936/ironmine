@@ -16,9 +16,9 @@ class Irm::DelayedJobLog < ActiveRecord::Base
             #{Irm::LookupValuesTl.table_name} lvt
             WHERE li.delayed_job_id = #{table_name}.delayed_job_id
               AND lv.lookup_type = 'IRM_DELAYED_JOB_STATUS' AND lvt.language='zh' AND lvt.lookup_value_id = lv.id AND lv.lookup_code = li.job_status
-            ORDER BY li.id DESC LIMIT 1) job_status_name,
+            ORDER BY li.sequence DESC LIMIT 1) job_status_name,
             (SELECT li.job_status FROM #{Irm::DelayedJobLogItem.table_name} li
-            WHERE li.delayed_job_id = #{table_name}.delayed_job_id ORDER BY li.id DESC LIMIT 1) job_status")
+            WHERE li.delayed_job_id = #{table_name}.delayed_job_id ORDER BY li.sequence DESC LIMIT 1) job_status")
   }
 
   scope :with_incident_request, lambda{

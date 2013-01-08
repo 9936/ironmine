@@ -13,4 +13,7 @@
     <% builder.column(:required_flag,{:title=>t(:label_irm_object_attribute_required_flag)}) do |data|%>
         <%= check_img(data[:required_flag]) %>
     <% end %>
+    <% builder.row do |data|%>
+        data-required="<%=data[:required_flag]%>"
+    <% end %>
 <% end %>
