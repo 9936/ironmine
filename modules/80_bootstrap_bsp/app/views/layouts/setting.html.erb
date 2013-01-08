@@ -80,6 +80,7 @@
                var container = $("#systemList"),
                    all_data = $("li",container),
                    data_length = all_data.length;
+
                if(data_length > 42){
                    //动态给添加搜索框
                    $("#systemSearchBox").show();
@@ -103,22 +104,23 @@
                $("#searchBtn").click(function(){
                    var $this = $(this),
                        resultsCount = 0,
-                       results = [],
+                       results = new Array(),
                        searchText = $this.parent().find("input:first").val(),
                        regex = new RegExp(searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
                    if(searchText){
                        for(var i=0; i < all_data.length; i++ ){
-                           if(regex.test($("a:first", all_data[i]).text())){
+                           if(regex.test($("a:first", $(all_data[i])).text())){
                                resultsCount += 1;
                                results.push(all_data[i])
                            }
                        }
-                       $("ul:first",container).html("");
+                       $("ul:first",container).find("li").remove();
                        $("ul:first",container).append(results);
                    }else{
-                       $("ul:first",container).html("");
+                       $("ul:first",container).find("li").remove();
                        $("ul:first",container).append(all_data);
                    }
+
                });
 
                //监控输入框中的回车
