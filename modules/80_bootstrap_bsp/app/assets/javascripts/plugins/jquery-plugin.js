@@ -1968,10 +1968,13 @@ jQuery.fn.menubutton = function () {
                         searchValue = searchBox.find("input.search-box-input:first").val();
                     params[searchColumn] = searchValue;
                     //将搜索的列和对应的值放入到cookie中
+                    //设置cookie过期时间为5分钟
+                    var date = new Date(), minutes = 5;
+                    date.setTime(date.getTime() + (minutes * 60 * 1000));
                     $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN", "");
                     $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE", "");
-                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN", searchColumn);
-                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE", searchValue);
+                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN", searchColumn, { expires: date });
+                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE", searchValue, { expires: date });
 
                     me.data.options.searchOptions = params;
                     me.loadPage(1);
@@ -2242,9 +2245,10 @@ jQuery.fn.menubutton = function () {
         var me = this;
         me.setHash(me.$element.attr("id") + "_page="+ me.data.options.currentPage);
         //将当前的页码同其id保存到cookie中
+        var date = new Date(), minutes = 5;
+        date.setTime(date.getTime() + (minutes * 60 * 1000));
         $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", "");
-
-        $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", me.data.options.currentPage);
+        $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", me.data.options.currentPage, { expires: date });
         me.$element.load(me.buildCurrentRequest(), function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "error"){
                 window.console && console.log($.i18n("load_data_error"));
