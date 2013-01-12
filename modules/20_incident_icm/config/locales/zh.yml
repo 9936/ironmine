@@ -297,4 +297,13 @@ zh:
   label_icm_support_group_system_num: 所属系统数
   label_icm_support_group_group_num: 所属组数
   label_icm_support_group_has_n_systems: 该支持组下有%{n}个系统，删除支持组下的成员可能会影响到其他系统！
+  label_icm_system_group_process: 支持组流程
+  label_irm_system_group_process_list: 流程列表
+  label_irm_system_group_process_new: 新建流程
+  label_irm_system_group_process_edit: 编辑流程
+  label_irm_system_group_process_show: 流程详情
+  label_irm_system_group_process_from: 当前支持组
+  label_irm_system_group_process_to: 流向支持组（一个或多个）
   #========================= End System setting ====================================
+
+

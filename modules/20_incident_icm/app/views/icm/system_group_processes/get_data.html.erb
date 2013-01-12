@@ -1,0 +1,30 @@
+<style>
+  .popover { width: auto !important;}
+  .popover .popover-content {min-height: 50px;}
+</style>
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+      <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
+      <a href="javascript:void(0);" class="action-link" rel="popover" data-content="<%= render :partial =>"groups_processes", :locals => {:group_processes => @processes_hash[data[:id]] } %>" data-original-title="<%= t(:label_icm_system_group_process) %>"><%= t :label_irm_system_group_process_show %></a>
+    <% end %>
+    <% builder.column(:external_system_id,{:title=>t(:label_icm_incident_request_target_system)}) do |data|%>
+        <%= data[:external_system_name] %>
+    <% end %>
+    <% builder.column(:category_id,{:title=>t(:label_icm_incident_request_incident_category)}) do |data|%>
+      <%= data[:category_name] %>
+    <% end %>
+    <% builder.column(:sub_category_id,{:title=>t(:label_icm_incident_request_incident_sub_category)}) do |data| %>
+      <%= data[:sub_category_name] %>
+    <% end %>
+    <% builder.column(:urgence_id,{:title=>t(:label_icm_incident_request_urgence_code)}) do |data|%>
+        <%= data[:urgence_name] %>
+    <% end %>
+    <% builder.column(:impact_range_id,{:title=>t(:label_icm_incident_request_impact_range_code)}) do |data| %>
+        <%= data[:impact_range_name] %>
+    <% end %>
+<% end %>
+<script>
+    $(function() {
+        $(".datatable a[rel=popover]").popover({html: true});
+    })
+</script>

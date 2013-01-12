@@ -1,0 +1,5 @@
+<% if group_processes and group_processes.any? %>
+<% group_processes.each do |process| %>
+  <%= process[:support_from_name] %> ==> <%= process[:support_to_name] %> <br/>
+<% end %>
+<% end %>

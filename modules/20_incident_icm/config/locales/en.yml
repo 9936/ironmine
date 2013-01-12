@@ -301,4 +301,11 @@ en:
   label_icm_support_group_system_num: The Systems num
   label_icm_support_group_group_num: The Groups num
   label_icm_support_group_has_n_systems: The support group has %{n} systems,as delete supportors may be invoke other systems!
+  label_icm_system_group_process: Support Group Processes
+  label_irm_system_group_process_list: Processes List
+  label_irm_system_group_process_new: New Process
+  label_irm_system_group_process_edit: Edit Process
+  label_irm_system_group_process_show: Processes details
+  label_irm_system_group_process_from: Processes From
+  label_irm_system_group_process_to: Processes To(One Or MOre)
   #========================= End System setting ====================================

@@ -680,6 +680,14 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :en => {:name => "Support Groups", :description => "System Support Groups"},
                   :zh => {:name => "支持组", :description => "系统支持组"}
               }
+          },
+          :system_group_processes => {
+              :type => "function",
+              :entry => {
+                  :sequence => 30,
+                  :en => {:name => "System Group Processes", :description => "System Group Processes"},
+                  :zh => {:name => "支持组流程", :description => "系统支持组流程"}
+              }
           }
       }
   }
@@ -730,7 +738,30 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
 
-
+  #=================================START:SUPPORT GROUP PROCESSES=================================
+  map.function_group :system_group_processes, {
+      :en => {:name => "Groups Processes", :description => "System Groups Processes"},
+      :zh => {:name => "支持组流程", :description => "系统支持组流程"},
+      :system_flag => 'Y'
+  }
+  map.function_group :system_group_processes, {
+      :zone_code => "INCIDENT_SETTING",
+      :controller => "icm/system_group_processes",
+      :action => "index"
+  }
+  map.function_group :system_group_processes, {
+      :children => {
+          :system_group_processes => {
+              :en => {:name => "Manage Group Processes", :description => "Manage System Group Processes"},
+              :zh => {:name => "管理支持组流程", :description => "管理系统支持组流程"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "icm/system_group_processes" => ["index","get_data","show","new","create","edit","update","switch_sequence","get_groups_processes"]
+          }
+      }
+  }
+  #=================================END:SUPPORT GROUP PROCESSES=================================
   map.function_group :incident_request, {
       :children => {
           ##转交
