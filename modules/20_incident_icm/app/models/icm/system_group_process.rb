@@ -6,16 +6,57 @@ class Icm::SystemGroupProcess < ActiveRecord::Base
   has_many :group_process_relations, :class_name => "Icm::GroupProcessRelation", :foreign_key => "group_process_id", :dependent => :destroy
 
   validates_presence_of :external_system_id
-  #attr_accessor :support_group_ids_str
 
+
+  def self.get_group_process(external_system_id, category_id='', sub_category_id='', urgence_id='', impact_range_id='')
+    all_group_processes = self.where("external_system_id=?",external_system_id).order_by_sequence
+    target_str = ""
+    target_str += "CID=#{category_id}"
+    target_str += "SUB_CID=#{sub_category_id}"
+    target_str += "URGID=#{urgence_id}"
+    target_str += "IRID=#{impact_range_id}"
+    all_group_processes.each do |gp|
+      if gp.match_process.eql?(target_str)
+        return gp.id
+      end
+    end if all_group_processes.any?
+    return nil
+  end
+
+  def match_process
+    result = ""
+    if self.category_id.present?
+      result += "CID=#{self.category_id}"
+    else
+      result += "CID="
+    end
+
+    if self.sub_category_id.present?
+      result += "SUB_CID=#{self.sub_category_id}"
+    else
+      result += "SUB_CID="
+    end
+
+    if self.urgence_id.present?
+      result += "URGID=#{self.urgence_id}"
+    else
+      result += "URGID="
+    end
+    if self.impact_range_id.present?
+      result += "IRID=#{self.impact_range_id}"
+    else
+      result += "IRID="
+    end
+    result
+  end
 
   scope :select_all,lambda{
     select("#{table_name}.*")
   }
 
-  def self.list_all
+  def self.list_all(external_system_id)
     select_all.
-        with_external_system(I18n.locale).
+        with_external_system(external_system_id, I18n.locale).
         with_category(I18n.locale).
         with_urgence(I18n.locale).
         with_impact_range(I18n.locale).
@@ -26,8 +67,9 @@ class Icm::SystemGroupProcess < ActiveRecord::Base
     self.order("display_sequence ASC")
   }
 
-  scope :with_external_system, lambda{|language|
+  scope :with_external_system, lambda{|external_system_id, language|
     joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").
+        where("#{table_name}.external_system_id=?", external_system_id).
         select("external_system.system_name external_system_name")
   }
 

@@ -6,14 +6,14 @@
       <h2 class="block-title"><%= t(:label_irm_system_group_process_list) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:new), {:action => "new"},:class=>"btn primary-btn"%>
+      <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
     </td>
     <td class="page-block-help">
       <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-      <%= datatable("group-processes",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginator"})%>
+    <%= datatable("group-processes",{:action=>"get_data"},[],{:drag_sort => {:save_url => url_for(:controller => 'icm/system_group_processes', :action => 'switch_sequence')} })%>
   </div>
 </div>
 

@@ -304,6 +304,7 @@ zh:
   label_irm_system_group_process_show: 流程详情
   label_irm_system_group_process_from: 当前支持组
   label_irm_system_group_process_to: 流向支持组（一个或多个）
+  label_irm_system_group_process_tips: 请在分类、子分类、紧急度和影响度中至少选择一个作为条件.
   #========================= End System setting ====================================
 
 

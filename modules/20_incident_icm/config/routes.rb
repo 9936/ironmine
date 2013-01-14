@@ -216,6 +216,6 @@ Ironmine::Application.routes.draw do
     match '/system_group_processes/:sid/switch_sequence(.:format)' => "system_group_processes#switch_sequence"
     match '/system_group_processes/:sid/:id/edit(.:format)' => "system_group_processes#edit", :via => :get
     match '/system_group_processes/:sid/:id(.:format)' => "system_group_processes#update", :via => :put
-    match '/system_group_processes/:sid/:id/get_groups_processes(.:format)' => "system_group_processes#get_groups_processes"
+    #match '/system_group_processes/:sid/:id/get_groups_processes(.:format)' => "system_group_processes#get_groups_processes"
   end
 end

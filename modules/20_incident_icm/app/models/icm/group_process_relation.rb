@@ -21,6 +21,7 @@ class Icm::GroupProcessRelation < ActiveRecord::Base
     where("#{table_name}.group_process_id=?", process_id)
   }
 
+
   def self.list_all
     select_all.
         with_group_from_name(I18n.locale).

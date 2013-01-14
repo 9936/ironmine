@@ -757,7 +757,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "icm/system_group_processes" => ["index","get_data","show","new","create","edit","update","switch_sequence","get_groups_processes"]
+              "icm/system_group_processes" => ["index","get_data","show","new","create","edit","update","switch_sequence"]
           }
       }
   }

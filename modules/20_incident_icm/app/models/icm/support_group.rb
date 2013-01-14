@@ -29,6 +29,11 @@ class Icm::SupportGroup < ActiveRecord::Base
       joins("LEFT OUTER JOIN irm_lookup_values_vl assignment_process ON assignment_process.lookup_type='ICM_ASSIGN_PROCESS_TYPE' AND assignment_process.lookup_code = #{table_name}.assignment_process_code AND assignment_process.language='#{language}'")
   }
 
+  scope :with_group_process, lambda{|support_group_from, group_process_id|
+    joins("LEFT OUTER JOIN #{Icm::GroupProcessRelation.table_name} gpr ON #{table_name}.id=gpr.support_group_to").
+        where("gpr.support_group_from=? AND gpr.group_process_id=?", support_group_from, group_process_id)
+  }
+
   scope :with_group,lambda{|language|
     joins("JOIN #{Irm::Group.view_name} ON #{Irm::Group.view_name}.id = #{table_name}.group_id AND #{Irm::Group.view_name}.language ='#{language}'").
         select("#{Irm::Group.view_name}.name, #{Irm::Group.view_name}.parent_group_id, #{Irm::Group.view_name}.id group_id")
