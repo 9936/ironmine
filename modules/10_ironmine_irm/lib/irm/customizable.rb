@@ -34,7 +34,7 @@ module Irm::Customizable
             end
 
             #数字类型的添加判断
-            if self[attribute[:attribute_name]].present? and "NUMBER".eql?(attribute[:category]) and self[attribute[:attribute_name]].match(/\D{1,}/)
+            if self[attribute[:attribute_name]].present? and "NUMBER".eql?(attribute[:category]) and !self[attribute[:attribute_name]].match(/^\d+\.\d+$|^\d+$/i)
               self.errors.add attribute[:attribute_name], I18n.t("activerecord.errors.messages.number")
             end
           end
