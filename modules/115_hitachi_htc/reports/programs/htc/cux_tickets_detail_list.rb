@@ -6,11 +6,13 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
         select_all.enabled.
         with_category(I18n.locale).
         with_close_reason(I18n.locale).
+        joins(" LEFT OUTER JOIN irm_roles_vl irv ON irv.id = #{Icm::IncidentRequest.table_name}.cux_organization_id AND irv.language = '#{I18n.locale}'").
         with_requested_by(I18n.locale).
         with_incident_status(I18n.locale).
         with_supporter(I18n.locale).
         with_priority(I18n.locale).
         with_external_system(I18n.locale).
+        select("irv.name role_name").
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
 
     if params[:end_date].present?
@@ -43,16 +45,15 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_cux_resolve_hours),
                I18n.t(:label_icm_close_reason),
                I18n.t(:label_htc_report_incident_requester_group),
-               I18n.t(:label_htc_report_incident_groups_history)
+               I18n.t(:label_htc_report_incident_groups_history),"Root Cause"
                ]
-
-    start_date = "1970-01-01"
-    if params[:start_date] && params[:start_date].present?
-      start_date = params[:start_date]
-    end
-
+    start_date = params[:start_date]
+    unless params[:start_date].present?
+       start_date = "1970-1-1"
+    end 
+   
     statis.each do |s|
-      data = Array.new(19)
+      data = Array.new(20)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
@@ -87,7 +88,7 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
 
       data[14] = s[:cux_response_hours]
       data[15] = s[:cux_resolve_hours]
-      data[16] = s[:attribute1]
+      data[16] = s[:close_reason_name]
 
       data[17] = ""
       if s.requested_by.present?
@@ -132,7 +133,7 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
       g.flatten!
       g.uniq!
       data[18] = g.join(" | ")
-
+      data[19] = s[:attribute1]
       datas << data
     end
 
