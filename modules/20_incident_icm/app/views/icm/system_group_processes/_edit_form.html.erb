@@ -1,0 +1,159 @@
+<%= common_title %>
+<%= form_for(@system_group_process,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_block_a   do%>
+        <table class="form-table">
+          <tbody>
+          <tr>
+            <td class="label-col"><label for=""><%=t(:label_icm_incident_request_incident_category)%></label></td>
+            <td class="data-3col">
+              <%=f.select :category_id,nullable_options_for_select(system_categories(current_system.id),@system_group_process.category_id),
+                          {},
+                          {:id=>"process_category_id", :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",:class => "filter-select"}%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for=""><%=t(:label_icm_incident_request_incident_sub_category)%></label></td>
+            <td class="data-3col"><%=f.select :sub_category_id,
+                                              nullable_options_for_select([],@system_group_process.sub_category_id),
+                                              {},
+                                              {:id=>"process_sub_category_id",
+                                               :origin_value=>@system_group_process.sub_category_id,
+                                               :depend=>"process_category_id",
+                                               :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
+                                               :class => "filter-select",
+                                               :href=>url_for(:controller=>"icm/incident_sub_categories",:action=>"get_option",:format=>"json",
+                                                              :incident_category_id=>"${process_category_id}")}%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="incident_request_urgence_code"><%=t(:label_icm_incident_request_urgence_code)%></label></td>
+            <td class="data-3col">
+              <%=f.blank_select :urgence_id,available_urgence_code,{},{:id=>"process_urgence_code",:class => "filter-select"}%>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="incident_request_impact_range_code"><%=t(:label_icm_incident_request_impact_range_code)%></label></td>
+            <td class="data-3col">
+              <%=f.blank_select :impact_range_id,available_impact_range,{},{:id=>"process_impact_range_code",:class => "filter-select"}%>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <style>
+        tr.label-column label {
+            font-weight: normal;
+        }
+    </style>
+    <% content_for :form_block_groups  do%>
+        <table class="form-table">
+          <tbody>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <th class="label-col"><label><%= t(:label_irm_system_group_process_from) %></label></th>
+            <th class="data-3col" style="text-align: left;padding-left: 10px;"><label><%= t(:label_irm_system_group_process_to) %></label></th>
+          </tr>
+          <% all_support_groups = support_group_process_rows(current_system.id) %>
+          <% all_support_groups.each do |group| %>
+              <tr class="label-column">
+                <td class="label-col" data-id="<%= group.support_group_id %>"><label><%= group[:group_name] %></label></td>
+                <td class="data-3col">
+                  <%#= select_tag "locations", "<option>Home</option><option selected='selected'>Work</option><option>Out</option>".html_safe, :multiple => true %>
+                  <%= blank_select_tag("support_group_to_ids[#{group.support_group_id}][]",
+                                       all_support_groups.reject{|i| i.support_group_id == group.support_group_id}.collect{|i| [i[:group_name], i[:support_group_id]] } ) %>
+                  <span class="switch-select" style="cursor: pointer;vertical-align: top;"> + </span>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+    <% end %>
+
+    <% content_for :form_buttons  do %>
+        <%= link_submit t(:save),{:class=>"btn btn-primary disabled submit-btn"}%>
+        <%= link_back t(:cancel),{},{:class=>"btn cancel"}%>
+    <% end %>
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header"><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_irm_system_group_process_edit)%></h2>
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= error_for @system_group_process %>
+        <div class="sub-page-block">
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="alert" style="margin-top: 20px;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <%= t(:label_irm_system_group_process_tips) %>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a   %>
+          </div>
+          <!-- 选择支持组 -->
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_icm_support_group) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_groups  %>
+          </div>
+
+        </div>
+
+      </div>
+
+      <table class="page-block-footer"><tr>
+        <td class="page-block-title">
+        </td>
+        <td class="page-block-button">
+          <%= content_for :form_buttons   %>
+        </td>
+      </tr></table>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    $(function(){
+        $("#process_category_id").cascade("#process_sub_category_id");
+
+        checkForm();
+        $(".filter-select").change(function(){
+            checkForm();
+        });
+
+        $(".switch-select").bind("click", function(){
+            if($(this).hasClass("open")){
+                $(this).removeClass("open");
+                $(this).text(" + ");
+                $("select", $(this).parent()).removeAttr("multiple");
+            }else{
+                $(this).addClass("open");
+                $(this).text(" - ");
+                $("select", $(this).parent()).attr("multiple", "true");
+            }
+        });
+        function checkForm(){
+            var filterSelects = $(".filter-select"), hasVal = false;
+            filterSelects.each(function(){
+                if($(this).val()){
+                    hasVal = true;
+                    if($(".submit-btn").hasClass("disabled")){
+                        $(".submit-btn").removeClass("disabled");
+                        return hasVal;
+                    }
+                }
+            });
+
+            if(!hasVal && !$(".submit-btn").hasClass("disabled")) {
+                $(".submit-btn").addClass("disabled");
+            }
+        }
+
+    });
+</script>

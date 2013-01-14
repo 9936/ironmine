@@ -37,7 +37,7 @@
     </td>
     <td class="target-cell">
       <% if defined?(f)&&f.present?%>
-        <%= f.hidden_field(str_value_field,:value=>str_value,:class=>"duel-value") %>
+        <%= f.hidden_field(str_value_field, :value=>str_value,:class=>"duel-value") %>
       <% else %>
         <%= hidden_field_tag(str_value_field,str_value,:class=>"duel-value") %>
       <% end %>

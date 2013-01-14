@@ -10,6 +10,10 @@ module Ironmine
   Gollum::Markup.send(:include,Skm::Gollum::Markup)
   Gollum::Page.send(:include,Skm::Gollum::Page)
   Grit::Repo.send(:include,Skm::Gollum::Repo)
-  WIKI = Gollum::Wiki.new(wiki_path)
-
+  begin
+    WIKI = Gollum::Wiki.new(wiki_path)
+  rescue
+    wiki_path_str = wiki_path.to_s.gsub(/.git/, '')
+    puts "Something is error, you can try the script:`mkdir #{wiki_path_str}; cd #{wiki_path_str} && git init`"
+  end
 end

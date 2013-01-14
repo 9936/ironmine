@@ -206,5 +206,16 @@ Ironmine::Application.routes.draw do
     match '/system_support_groups/:sid/:group_id/get_available_people_data(.:format)' => "system_support_groups#get_available_people_data"
     match '/system_support_groups/:sid/:group_id/add_people(.:format)' => "system_support_groups#add_people"
     match '/system_support_groups/:sid/:group_member_id/delete_people(.:format)' => "system_support_groups#delete_people"
+
+    #system support group process
+    match '/system_group_processes/:sid(/index)(.:format)' => "system_group_processes#index", :via => :get
+    match '/system_group_processes/:sid/get_data(.:format)' => "system_group_processes#get_data"
+    match '/system_group_processes/:sid/:id/show(.:format)' => "system_group_processes#show", :via => :get
+    match '/system_group_processes/:sid/new(.:format)' => "system_group_processes#new", :via => :get
+    match '/system_group_processes/:sid/create(.:format)' => "system_group_processes#create", :via => :post
+    match '/system_group_processes/:sid/switch_sequence(.:format)' => "system_group_processes#switch_sequence"
+    match '/system_group_processes/:sid/:id/edit(.:format)' => "system_group_processes#edit", :via => :get
+    match '/system_group_processes/:sid/:id(.:format)' => "system_group_processes#update", :via => :put
+    #match '/system_group_processes/:sid/:id/get_groups_processes(.:format)' => "system_group_processes#get_groups_processes"
   end
 end

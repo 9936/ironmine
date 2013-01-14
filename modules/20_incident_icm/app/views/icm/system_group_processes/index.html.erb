@@ -1,0 +1,28 @@
+<%= common_title %>
+<!--页面结构-->
+<div class="page-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_system_group_process_list) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:new), {:action => "new"},:class=>"btn btn-primary"%>
+    </td>
+    <td class="page-block-help">
+      <div id="searchBox"></div>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <%= datatable("group-processes",{:action=>"get_data"},[],{:drag_sort => {:save_url => url_for(:controller => 'icm/system_group_processes', :action => 'switch_sequence')} })%>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+      $("#group-processes").bind("customCallback", function(){
+          $("#group-processes .datatable a[rel=popover]").popover({html: true});
+      })
+  })
+</script>
+
+
+
