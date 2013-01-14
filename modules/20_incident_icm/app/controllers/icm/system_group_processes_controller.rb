@@ -157,8 +157,4 @@ class Icm::SystemGroupProcessesController < ApplicationController
     end
   end
 
-  #def get_groups_processes
-  #  @group_processes = Icm::GroupProcessRelation.list_all.with_process(params[:id])
-  #end
-
 end
