@@ -82,7 +82,7 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
 
       data[14] = s[:cux_response_hours]
       data[15] = s[:cux_resolve_hours]
-      data[16] = s[:close_reason_name]
+      data[16] = s[:attribute1]
 
       data[17] = ""
       if s.requested_by.present?

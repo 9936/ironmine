@@ -54,6 +54,16 @@ module Icm::IncidentRequestsHelper
     all_groups.collect{|i|[i[:name], i[:id]]}
   end
 
+  def available_support_group_relation_group(sid = '')
+    if sid.present?
+      all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).with_system(sid).select_all
+    else
+      all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
+    end
+
+    all_groups.collect{|i|[i[:name], i[:group_id]]}
+  end
+
   def available_urgence_code
     Icm::UrgenceCode.multilingual.order_display.collect{|p|[p[:name],p.id]}
   end

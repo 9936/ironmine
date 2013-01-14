@@ -58,10 +58,17 @@ class Irm::ExternalSystemMembersController < ApplicationController
 
   def add_people
     @external_system_person = Irm::ExternalSystemPerson.new(params[:irm_external_system_person])
+    group_id = params[:support_group].first
+    group_id = group_id[:group_id] if group_id.present?
     respond_to do |format|
       if(!@external_system_person.status_code.blank?)
         @external_system_person.status_code.split(",").delete_if{|i| i.blank?}.each do |id|
-          Irm::ExternalSystemPerson.create(:external_system_id => params[:external_system_id],:person_id => id, :system_profile_id => params[:irm_external_system_person][:system_profile_id] )
+          Irm::ExternalSystemPerson.create(:external_system_id => params[:external_system_id],
+                                           :person_id => id,
+                                           :system_profile_id => params[:irm_external_system_person][:system_profile_id] )
+          if group_id.present? && !Irm::GroupMember.where("group_id=?", group_id).where("person_id=?", id).any?
+            Irm::GroupMember.create(:group_id => group_id, :person_id => id)
+          end
         end
       end
       format.html { redirect_to({:action=>"index", :external_system_id => params[:external_system_id]}, :notice => t(:successfully_created)) }
