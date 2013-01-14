@@ -46,6 +46,11 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                I18n.t(:label_htc_report_incident_groups_history)
                ]
 
+    start_date = "1970-01-01"
+    if params[:start_date] && params[:start_date].present?
+      start_date = params[:start_date]
+    end
+
     statis.each do |s|
       data = Array.new(19)
       data[0] = s[:request_number]
@@ -70,11 +75,11 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
       if last_close_journal.any?
         data[13] = last_close_journal.first[:created_at]
         # (CloseDate is Null or CloseDate >= A)
-        next if s.close? && Date.strptime("#{data[13]}", '%Y-%m-%d') < Date.strptime("#{params[:start_date]}", '%Y-%m-%d')
+        next if s.close? && Date.strptime("#{data[13]}", '%Y-%m-%d') < Date.strptime("#{start_date}", '%Y-%m-%d')
       else
         if s.close?
           data[13] = s[:last_response_date]
-          next if Date.strptime("#{data[13]}", '%Y-%m-%d') < Date.strptime("#{params[:start_date]}", '%Y-%m-%d')
+          next if Date.strptime("#{data[13]}", '%Y-%m-%d') < Date.strptime("#{start_date}", '%Y-%m-%d')
         else
           data[13] = ""
         end
