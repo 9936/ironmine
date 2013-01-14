@@ -16,6 +16,13 @@
     <%= datatable("group-processes",{:action=>"get_data"},[],{:drag_sort => {:save_url => url_for(:controller => 'icm/system_group_processes', :action => 'switch_sequence')} })%>
   </div>
 </div>
+<script type="text/javascript">
+  $(function(){
+      $("#group-processes").bind("customCallback", function(){
+          $("#group-processes .datatable a[rel=popover]").popover({html: true});
+      })
+  })
+</script>
 
 
 

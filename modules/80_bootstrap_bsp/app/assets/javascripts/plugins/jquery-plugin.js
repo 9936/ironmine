@@ -1793,7 +1793,6 @@ jQuery.fn.menubutton = function () {
                         window.location = me.data.options.dragOptions.returnUrl;
                     }
                 });
-
             });
             //取消按钮
             cancelBtn.bind("click",function(){
@@ -1807,6 +1806,7 @@ jQuery.fn.menubutton = function () {
                 $(".table-body table:first tbody:first", me.$element).find("tr").each(function(){
                     $(this).css("cursor","default");
                 });
+                me.$element.trigger('customCallback');
             });
             $(".page-block-header .page-block-button",pageBlock).append(orderBtn).append(cancelBtn).append(saveBtn);
             //当配置了
