@@ -10,44 +10,48 @@ class Icm::SystemGroupProcess < ActiveRecord::Base
 
   def self.get_group_process(external_system_id, category_id='', sub_category_id='', urgence_id='', impact_range_id='')
     all_group_processes = self.where("external_system_id=?",external_system_id).order_by_sequence
-    target_str = ""
-    target_str += "CID=#{category_id}"
-    target_str += "SUB_CID=#{sub_category_id}"
-    target_str += "URGID=#{urgence_id}"
-    target_str += "IRID=#{impact_range_id}"
     all_group_processes.each do |gp|
-      if gp.match_process.eql?(target_str)
+      if gp.match_process(category_id, sub_category_id, urgence_id, impact_range_id)
         return gp.id
       end
     end if all_group_processes.any?
     return nil
   end
 
-  def match_process
-    result = ""
+  def match_process(category_id, sub_category_id, urgence_id, impact_range_id)
+    #将存在的值进行比较
+    match_flag = false
     if self.category_id.present?
-      result += "CID=#{self.category_id}"
-    else
-      result += "CID="
+      if self.category_id.eql?(category_id)
+        match_flag = true
+      else
+        match_flag = false
+      end
     end
 
     if self.sub_category_id.present?
-      result += "SUB_CID=#{self.sub_category_id}"
-    else
-      result += "SUB_CID="
+      if self.sub_category_id.eql?(sub_category_id)
+        match_flag = true
+      else
+        match_flag = false
+      end
     end
 
     if self.urgence_id.present?
-      result += "URGID=#{self.urgence_id}"
-    else
-      result += "URGID="
+      if self.urgence_id.eql?(urgence_id)
+        match_flag = true
+      else
+        match_flag = false
+      end
     end
     if self.impact_range_id.present?
-      result += "IRID=#{self.impact_range_id}"
-    else
-      result += "IRID="
+      if self.impact_range_id.eql?(impact_range_id)
+        match_flag = true
+      else
+        match_flag = false
+      end
     end
-    result
+    match_flag
   end
 
   scope :select_all,lambda{
