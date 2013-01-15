@@ -2143,8 +2143,8 @@ jQuery.fn.menubutton = function () {
             }
         } else {
             if (me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()) {
-                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width", $.scrollbarWidth());
-                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style", "solid");
+                me.$element.find(".datatable-scroll .scroll-header:first").css("margin-right", $.scrollbarWidth());
+//                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style", "solid");
             } else {
                 me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width", 0);
             }
@@ -2204,8 +2204,8 @@ jQuery.fn.menubutton = function () {
             if ($.browser.msie && $.browser.version == "6.0") {
                 me.$element.find(".datatable-scroll .scroll-header:first").addClass("y-scroll-bar");
             } else {
-                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width", $.scrollbarWidth());
-                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style", "solid");
+                me.$element.find(".datatable-scroll .scroll-header:first").css("margin-right", $.scrollbarWidth());
+//                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style", "solid");
             }
 
         }
