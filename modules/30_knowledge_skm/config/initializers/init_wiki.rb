@@ -14,6 +14,6 @@ module Ironmine
     WIKI = Gollum::Wiki.new(wiki_path)
   rescue
     wiki_path_str = wiki_path.to_s.gsub(/.git/, '')
-    puts "Something is error, you can try the script:`mkdir #{wiki_path_str}; cd #{wiki_path_str} && git init`"
+    puts "Something is error! Please run in command:`mkdir #{wiki_path_str}; cd #{wiki_path_str} && git init`"
   end
 end
