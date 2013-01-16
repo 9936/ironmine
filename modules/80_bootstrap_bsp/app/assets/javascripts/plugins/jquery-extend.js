@@ -708,15 +708,45 @@ $.fn.deserialize = function (options) {
 };
 
 jQuery.scrollbarWidth = function () {
-    var div = $('<div style="width:50px;height:50px;overflow:hidden;position:absolute;top:-200px;left:-200px;"><div style="height:100px;"></div>');
-    // Append our div, do our calculation and then remove it
-    $('body').append(div);
-    var w1 = $('div', div).innerWidth();
-    div.css('overflow-y', 'scroll');
-    var w2 = $('div', div).innerWidth();
-    $(div).remove();
-    return (w1 - w2);
-}
+//    var div = $('<div style="width:50px;height:50px;overflow:hidden;position:absolute;top:-200px;left:-200px;"><div style="height:100px;"></div>');
+//    // Append our div, do our calculation and then remove it
+//    $('body').append(div);
+//    var w1 = $('div', div).innerWidth();
+//    div.css('overflow-y', 'scroll');
+//    var w2 = $('div', div).innerWidth();
+//    $(div).remove();
+//    return (w1 - w2);
+
+    var i = document.createElement('p');
+    i.style.width = '100%';
+    i.style.height = '200px';
+
+    var o = document.createElement('div');
+    o.style.position = 'absolute';
+    o.style.top = '0px';
+    o.style.left = '0px';
+    o.style.visibility = 'hidden';
+    o.style.width = '200px';
+    o.style.height = '150px';
+    o.style.overflow = 'hidden';
+    o.appendChild(i);
+
+    document.body.appendChild(o);
+    var w1 = i.offsetWidth;
+    var h1 = i.offsetHeight;
+    o.style.overflow = 'scroll';
+    var w2 = i.offsetWidth;
+    var h2 = i.offsetHeight;
+    if (w1 == w2) w2 = o.clientWidth;
+    if (h1 == h2) h2 = o.clientWidth;
+
+    document.body.removeChild(o);
+
+    window.scrollbarWidth = w1-w2;
+    window.scrollbarHeight = h1-h2;
+    return w1-w2;
+
+};
 
 jQuery.fn.hasVerticalScrollBar = function () {
     if (this[0].clientHeight < this[0].scrollHeight) {

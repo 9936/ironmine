@@ -188,16 +188,16 @@
 
     }
 
-    Internal.prototype.handChosen = function(targetObj){
+    Internal.prototype.handChosen = function (targetObj) {
         //如果当前select已经过chosen渲染过，则直接更新，否则检测当前的select的option是否大于chosenMiniNum
         var width = getSelectWidth(targetObj);
         if (targetObj.attr('chosen') == 'true' && targetObj.attr('depend') && typeof targetObj.attr('depend') != 'undefined') {
             targetObj.css('width', width);
             targetObj.trigger("liszt:updated");
         } else if ((targetObj.find('option').length > chosenMiniNum && targetObj.attr("chosen") != 'false') || targetObj.attr("chosen") == 'true') {
-            if (typeof targetObj.attr("chosen") == 'undefined') targetObj.attr("chosen",true);
+            if (typeof targetObj.attr("chosen") == 'undefined') targetObj.attr("chosen", true);
             targetObj.css('width', width);
-            targetObj.chosen({search_contains: true,disable_search_threshold: searchMiniNum});
+            targetObj.chosen({search_contains:true, disable_search_threshold:searchMiniNum});
         }
     }
 
@@ -728,7 +728,7 @@ jQuery.fn.menubutton = function () {
                 $(this).removeClass("nav-tree-col");
                 $(this).addClass("nav-tree-exp");
                 $('#tree_' + $(this).attr("real") + "_child").css({display:"block"});
-            }else {
+            } else {
                 $(this).removeClass("nav-tree-exp");
                 $(this).addClass("nav-tree-col");
                 $('#tree_' + $(this).attr("real") + "_child").css({display:"none"});
@@ -736,9 +736,9 @@ jQuery.fn.menubutton = function () {
         });
 
         //如果当前只有一个菜单默认将其展开
-        if($("#MenuNavTree .parent-2").length == 1){
+        if ($("#MenuNavTree .parent-2").length == 1) {
             var navLink = $($("#MenuNavTree .parent-2 .nav-icon-link")[0]);
-            if(navLink.hasClass("nav-tree-col")){
+            if (navLink.hasClass("nav-tree-col")) {
                 navLink.removeClass("nav-tree-col").addClass("nav-tree-exp");
                 $('#tree_' + navLink.attr("real") + "_child").css({display:"block"});
             }
@@ -912,10 +912,10 @@ jQuery.fn.menubutton = function () {
         var minHeight = me.data.options.minHeight;
 
         me.div.html(
-                me.$element.val().replace(/<br \/>&nbsp;/, '<br />')
-                        .replace(/<|>/g, ' ')
-                        .replace(/&/g, "&amp;")
-                        .replace(/\n/g, '<br />&nbsp;')
+            me.$element.val().replace(/<br \/>&nbsp;/, '<br />')
+                .replace(/<|>/g, ' ')
+                .replace(/&/g, "&amp;")
+                .replace(/\n/g, '<br />&nbsp;')
         );
 
         var textHeight = me.div.height();
@@ -1225,8 +1225,8 @@ jQuery.fn.menubutton = function () {
     // 将新文件信息添加到页面上
     Internal.prototype.generateFileInfo = function (fileInput) {
         var me = this;
-        if (window.fileLimit && me.getFileSize(fileInput) && window.fileLimit * 1024 > me.getFileSize(fileInput)){
-            var options = {result:me.checkFile(fileInput), fileSize:formatFileSize(me.getFileSize(fileInput)) ,fileName:fileInput.val().split('\\').pop()};
+        if (window.fileLimit && me.getFileSize(fileInput) && window.fileLimit * 1024 > me.getFileSize(fileInput)) {
+            var options = {result:me.checkFile(fileInput), fileSize:formatFileSize(me.getFileSize(fileInput)), fileName:fileInput.val().split('\\').pop()};
             me.appendToUi(options, fileInput);
         }
 
@@ -1238,14 +1238,14 @@ jQuery.fn.menubutton = function () {
         me.data.options.fileCount = me.data.options.fileCount + 1;
         var templateElement = me.$element.find("tbody.file-template");
         var row = $.tmpl(templateElement.html(), {
-                    sequence:me.data.options.fileCount - 1,
-                    ref:"files",
-                    fileName:options.fileName,
-                    fileSize:options.fileSize,
-                    fileUrl: options.fileUrl || "javascript:void(0)",
-                    deleteTarget:options.deleteTarget || "",
-                    attachmentId:options.attachmentId || options.fileName
-                }
+                sequence:me.data.options.fileCount - 1,
+                ref:"files",
+                fileName:options.fileName,
+                fileSize:options.fileSize,
+                fileUrl:options.fileUrl || "javascript:void(0)",
+                deleteTarget:options.deleteTarget || "",
+                attachmentId:options.attachmentId || options.fileName
+            }
         );
 
         var checkResult = options.result;
@@ -1343,11 +1343,11 @@ jQuery.fn.menubutton = function () {
                 var tmpFileName = me.generateFileName();
                 // 使用弹出窗口确认文件上传
                 var inputFileName = prompt($.i18n("check_pasted_file_name"), tmpFileName);
-                if(inputFileName){
-                    if(inputFileName.length>0){
-                        tmpFileName =  inputFileName;
+                if (inputFileName) {
+                    if (inputFileName.length > 0) {
+                        tmpFileName = inputFileName;
                     }
-                }else{
+                } else {
                     return false;
                 }
                 file.name = tmpFileName + "." + file.type.split("/").pop();
@@ -1410,7 +1410,6 @@ jQuery.fn.menubutton = function () {
         }
         return result;
     }
-
 
 
     Internal.prototype.bindPastedEvents = function () {
@@ -1544,7 +1543,7 @@ jQuery.fn.menubutton = function () {
     // 插件默认配置参数
     var DEFAULT_OPTIONS =
     {
-        pageSize: parseInt($.cookie("PAGESIZE")) || 10,
+        pageSize:parseInt($.cookie("PAGESIZE")) || 10,
         totalCount:0,
         currentPage:0,
         baseUrl:"",
@@ -1553,7 +1552,7 @@ jQuery.fn.menubutton = function () {
         paginatorBox:null,
         exportBox:null,
         columns:[],
-        lazyLoad: false,
+        lazyLoad:false,
         scrollOptions:{},
         defaultOptions:{},
         filterOptions:{},
@@ -1603,17 +1602,17 @@ jQuery.fn.menubutton = function () {
         }
 
         this.buildTable();
-        $(window).hashchange(function(){
+        $(window).hashchange(function () {
             var hashPage = me.getHashPage();
             //判断hash中设置的页码是否同当前的页码相同
-            if(hashPage != me.data.options.currentPage)
+            if (hashPage != me.data.options.currentPage)
                 me.loadPage(hashPage);
         });
     };
 
-    Internal.prototype.getHashPage = function(){
-        var hash = location.hash,me = this;
-        hash = hash.substring(hash.indexOf("?")+1, hash.length);
+    Internal.prototype.getHashPage = function () {
+        var hash = location.hash, me = this;
+        hash = hash.substring(hash.indexOf("?") + 1, hash.length);
         /**
          * 取得最近访问记录的页码，获取优先级如下
          * (1)获取url地址中的hash页码;
@@ -1621,7 +1620,7 @@ jQuery.fn.menubutton = function () {
          * (3)如果均不存在则设置默认页码1
          *
          */
-        return parseInt($.extend({},$.deserialize(hash))[this.$element.attr('id')+'_page'] || $.cookie(me.$element.attr("id").toUpperCase() + "_PAGE") || 1);
+        return parseInt($.extend({}, $.deserialize(hash))[this.$element.attr('id') + '_page'] || $.cookie(me.$element.attr("id").toUpperCase() + "_PAGE") || 1);
     };
 
     /**
@@ -1666,10 +1665,10 @@ jQuery.fn.menubutton = function () {
         var me = this;
         me.data.options = $.extend({}, me.data.options, {currentPage:me.getHashPage()});
         me.buildUI();
-        if(me.data.options._searchOptions.searchColumn && me.data.options._searchOptions.searchValue){
+        if (me.data.options._searchOptions.searchColumn && me.data.options._searchOptions.searchValue) {
             me.data.options.searchOptions[me.data.options._searchOptions.searchColumn] = me.data.options._searchOptions.searchValue;
         }
-        if(!me.data.options.lazyLoad){
+        if (!me.data.options.lazyLoad) {
             me.load();
         }
     };
@@ -1712,7 +1711,7 @@ jQuery.fn.menubutton = function () {
                 var table_td = $(this).find("td:first");
                 //获取id
                 var item_id = $(this).attr("id"),
-                        td_check_box = $("<input type='checkbox' name='ids' value='" + item_id + "'/>");
+                    td_check_box = $("<input type='checkbox' name='ids' value='" + item_id + "'/>");
                 table_td.before($("<td/>").html($("<div/>").html(td_check_box)));
                 //更新全选框
                 var hand_click = function (e) {
@@ -1758,59 +1757,61 @@ jQuery.fn.menubutton = function () {
         }
     };
     //build dragsort
-    Internal.prototype.buildDrag = function(){
+    Internal.prototype.buildDrag = function () {
         var me = this;
         if (me.data.options.dragOptions.dragAble) {
             //为页面元素添加排序操作按钮
-            var orderBtn = $('<a href="javascript:void(0);" class="btn"><i class="icon-move"></i>'+$.i18n("reset_order_btn_text")+'</a>'),
+            var orderBtn = $('<a href="javascript:void(0);" class="btn"><i class="icon-move"></i>' + $.i18n("reset_order_btn_text") + '</a>'),
                 pageBlock = $(me.$element.parents(".page-block")[0]),
-                saveBtn = $('<a href="javascript:void(0);" class="btn btn-success" style="display: none;"><i class="icon-ok icon-white"></i>'+$.i18n("save_btn_text")+'</a>'),
-                cancelBtn = $('<a href="javascript:void(0);" class="btn" style="margin-right:10px;display: none;">'+$.i18n("cancel_btn_text")+'</a>'),
-                btns = $(".page-block-header .page-block-button .btn",pageBlock),
+                saveBtn = $('<a href="javascript:void(0);" class="btn btn-success" style="display: none;"><i class="icon-ok icon-white"></i>' + $.i18n("save_btn_text") + '</a>'),
+                cancelBtn = $('<a href="javascript:void(0);" class="btn" style="margin-right:10px;display: none;">' + $.i18n("cancel_btn_text") + '</a>'),
+                btns = $(".page-block-header .page-block-button .btn", pageBlock),
                 html = $(".datatable", pageBlock).html(),
                 url = me.data.options.dragOptions.saveUrl;
-            url += url.indexOf("?") > 0 ? "&_dom_id=null": "?_dom_id="+me.$element.attr("id");
-            orderBtn.bind("click", function(){
-                btns.css("display","none");
+            url += url.indexOf("?") > 0 ? "&_dom_id=null" : "?_dom_id=" + me.$element.attr("id");
+            orderBtn.bind("click", function () {
+                btns.css("display", "none");
                 $(this).hide();
                 saveBtn.show();
                 cancelBtn.show();
-                $(".table-body table:first tbody:first", me.$element).dragsort({ itemSelector: "tr", dragSelector: "tr",dragEnd: afterDragHand, placeHolderTemplate: "<tr class='place-holder'></tr>" });
+                $(".table-body table:first tbody:first", me.$element).dragsort({ itemSelector:"tr", dragSelector:"tr", dragEnd:afterDragHand, placeHolderTemplate:"<tr class='place-holder'></tr>" });
                 pageBlock.addClass("drag-able");
             });
-            function afterDragHand(){
+            function afterDragHand() {
                 me.$element.trigger('afterDrag');
             }
 
-            saveBtn.bind("click", function(){
-                var data = $(".table-body table:first tbody tr",me.$element).map(function() {return $(this).attr("id");}).get();
+            saveBtn.bind("click", function () {
+                var data = $(".table-body table:first tbody tr", me.$element).map(function () {
+                    return $(this).attr("id");
+                }).get();
 
-                $.post(url, { ordered_ids: data.join(",")}, function(data){
+                $.post(url, { ordered_ids:data.join(",")}, function (data) {
                     //保存后将html修改
                     html = $(".datatable", pageBlock).html();
                     cancelBtn.trigger("click");
-                    if(me.data.options.dragOptions.returnUrl){
+                    if (me.data.options.dragOptions.returnUrl) {
                         window.location = me.data.options.dragOptions.returnUrl;
                     }
                 });
             });
             //取消按钮
-            cancelBtn.bind("click",function(){
-                btns.css("display","inline-block");
+            cancelBtn.bind("click", function () {
+                btns.css("display", "inline-block");
                 orderBtn.show();
                 cancelBtn.hide();
                 saveBtn.hide();
                 pageBlock.removeClass('drag-able');
                 $(".table-body table:first tbody:first", me.$element).dragsort("destroy");
                 $(".datatable", pageBlock).html(html);
-                $(".table-body table:first tbody:first", me.$element).find("tr").each(function(){
-                    $(this).css("cursor","default");
+                $(".table-body table:first tbody:first", me.$element).find("tr").each(function () {
+                    $(this).css("cursor", "default");
                 });
                 me.$element.trigger('customCallback');
             });
-            $(".page-block-header .page-block-button",pageBlock).append(orderBtn).append(cancelBtn).append(saveBtn);
+            $(".page-block-header .page-block-button", pageBlock).append(orderBtn).append(cancelBtn).append(saveBtn);
             //当配置了
-            if(me.data.options.dragOptions.triggerClick){
+            if (me.data.options.dragOptions.triggerClick) {
                 orderBtn.trigger("click");
             }
         }
@@ -1865,33 +1866,33 @@ jQuery.fn.menubutton = function () {
         if (me.data.options.paginatorBox) {
             var paginatorBox = $("#" + me.data.options.paginatorBox);
             me.paginator = $('<div class="paginator">' +
-                    '<div class="paginator-left">' +
-                    '<a class="paginator-button paginator-first-page"><i></i></a>' +
-                    '<a class="paginator-button paginator-pre-page"><i></i></a>' +
-                    '<span class="paginator-button paginator-split"><i></i></span>' +
-                    '<span class="paginator-button">' +
-                    '<span class="paginator-before-page"></span>' +
-                    '<input class="paginator-current-page"/>' +
-                    '<span class="paginator-after-page"></span>' +
-                    '</span>' +
-                    '<span class="paginator-button paginator-split"><i></i></span>' +
-                    '<a class="paginator-button paginator-next-page"><i></i></a>' +
-                    '<a class="paginator-button paginator-last-page"><i></i></a>' +
-                    '<span class="paginator-button paginator-split"><i></i></span>' +
-                    '<a class="paginator-button paginator-refresh"><i></i></a>' +
-                    '</div>' +
-                    '<div class="paginator-center">' +
+                '<div class="paginator-left">' +
+                '<a class="paginator-button paginator-first-page"><i></i></a>' +
+                '<a class="paginator-button paginator-pre-page"><i></i></a>' +
+                '<span class="paginator-button paginator-split"><i></i></span>' +
+                '<span class="paginator-button">' +
+                '<span class="paginator-before-page"></span>' +
+                '<input class="paginator-current-page"/>' +
+                '<span class="paginator-after-page"></span>' +
+                '</span>' +
+                '<span class="paginator-button paginator-split"><i></i></span>' +
+                '<a class="paginator-button paginator-next-page"><i></i></a>' +
+                '<a class="paginator-button paginator-last-page"><i></i></a>' +
+                '<span class="paginator-button paginator-split"><i></i></span>' +
+                '<a class="paginator-button paginator-refresh"><i></i></a>' +
+                '</div>' +
+                '<div class="paginator-center">' +
 
-                    '</div>' +
-                    '<div class="paginator-right">' +
-                    '<span>' +
-                    '<span>' + $.i18n("paginatorBeforeSize") + '</span>' +
-                    '<span class="select-page-size"><select name="page-size"><option value="10">10</option><option value="20">20</option><option value="50">50</option><option value="100">100</option></select></span>' +
-                    '<span>' + $.i18n("paginatorAfterSize") + '</span>' +
-                    '</span>' +
-                    '<span class="paginator-record-label"></span>' +
-                    '</div>' +
-                    '</div>');
+                '</div>' +
+                '<div class="paginator-right">' +
+                '<span>' +
+                '<span>' + $.i18n("paginatorBeforeSize") + '</span>' +
+                '<span class="select-page-size"><select name="page-size"><option value="10">10</option><option value="20">20</option><option value="50">50</option><option value="100">100</option></select></span>' +
+                '<span>' + $.i18n("paginatorAfterSize") + '</span>' +
+                '</span>' +
+                '<span class="paginator-record-label"></span>' +
+                '</div>' +
+                '</div>');
             paginatorBox.append(me.paginator);
             paginatorBox.find(".paginator-first-page:first").click(function (event) {
                 if (!$(this).find("i:first").hasClass("disabled"))
@@ -1916,7 +1917,7 @@ jQuery.fn.menubutton = function () {
                 if (me.data.options.pageSize != $(this).val()) {
                     me.data.options.pageSize = $(this).val();
                     //将pageSize 存放到cookie中并重新加载
-                    $.cookie("PAGESIZE","");
+                    $.cookie("PAGESIZE", "");
                     $.cookie("PAGESIZE", $(this).val());
                     me.loadPage(1);
                 }
@@ -1944,7 +1945,6 @@ jQuery.fn.menubutton = function () {
         }
 
 
-
         //build searchbox
         if (me.data.options.searchBox) {
             var show_able = false;
@@ -1953,12 +1953,12 @@ jQuery.fn.menubutton = function () {
                 searchBox.css({display:"none"});
 
                 var search_template = '<div class="datable-search-box form-inline">' +
-                        '<select class="search-select"></select>' +
-                        '<div class="input-append">' +
-                        '<input class="search-box-input" type="text" />' +
-                        '<a class="add-on btn search-box-button" href="javascript:void(0)"></a>' +
-                        '</div>' +
-                        '</div>'
+                    '<select class="search-select"></select>' +
+                    '<div class="input-append">' +
+                    '<input class="search-box-input" type="text" />' +
+                    '<a class="add-on btn search-box-button" href="javascript:void(0)"></a>' +
+                    '</div>' +
+                    '</div>'
                 searchBox.append($(search_template));
                 searchBox.find("a.search-box-button:first").html($.i18n("search"));
 
@@ -1971,10 +1971,10 @@ jQuery.fn.menubutton = function () {
                     //设置cookie过期时间为5分钟
                     var date = new Date(), minutes = 5;
                     date.setTime(date.getTime() + (minutes * 60 * 1000));
-                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN", "");
-                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE", "");
-                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN", searchColumn, { expires: date });
-                    $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE", searchValue, { expires: date });
+                    $.cookie(me.$element.attr("id").toUpperCase() + "_SEARCH_COLUMN", "");
+                    $.cookie(me.$element.attr("id").toUpperCase() + "_SEARCH_VALUE", "");
+                    $.cookie(me.$element.attr("id").toUpperCase() + "_SEARCH_COLUMN", searchColumn, { expires:date });
+                    $.cookie(me.$element.attr("id").toUpperCase() + "_SEARCH_VALUE", searchValue, { expires:date });
 
                     me.data.options.searchOptions = params;
                     me.loadPage(1);
@@ -2088,10 +2088,10 @@ jQuery.fn.menubutton = function () {
                 currentColumnValue = '',
                 currentValue = '';
 
-            if($.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN") && $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE")){
-                currentColumnValue = $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_COLUMN");
-                currentValue = $.cookie(me.$element.attr("id").toUpperCase()+"_SEARCH_VALUE");
-            }else{
+            if ($.cookie(me.$element.attr("id").toUpperCase() + "_SEARCH_COLUMN") && $.cookie(me.$element.attr("id").toUpperCase() + "_SEARCH_VALUE")) {
+                currentColumnValue = $.cookie(me.$element.attr("id").toUpperCase() + "_SEARCH_COLUMN");
+                currentValue = $.cookie(me.$element.attr("id").toUpperCase() + "_SEARCH_VALUE");
+            } else {
                 currentColumnValue = searchBox.find("select.search-select:first").val();
                 currentValue = searchBox.find("input.search-box-input:first").val();
             }
@@ -2107,7 +2107,7 @@ jQuery.fn.menubutton = function () {
                 }
             });
 
-            if(currentColumnValue && currentValue){
+            if (currentColumnValue && currentValue) {
                 me.data.options.searchOptions[currentColumnValue] = currentValue;
             }
 
@@ -2143,8 +2143,8 @@ jQuery.fn.menubutton = function () {
             }
         } else {
             if (me.$element.find(".datatable-scroll .include-header:first").hasVerticalScrollBar()) {
-                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width", $.scrollbarWidth());
-                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style", "solid");
+                me.$element.find(".datatable-scroll .scroll-header:first").css("margin-right", $.scrollbarWidth());
+//                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style", "solid");
             } else {
                 me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width", 0);
             }
@@ -2204,8 +2204,8 @@ jQuery.fn.menubutton = function () {
             if ($.browser.msie && $.browser.version == "6.0") {
                 me.$element.find(".datatable-scroll .scroll-header:first").addClass("y-scroll-bar");
             } else {
-                me.$element.find(".datatable-scroll .scroll-header:first").css("border-right-width", $.scrollbarWidth());
-                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style", "solid");
+                me.$element.find(".datatable-scroll .scroll-header:first").css("margin-right", $.scrollbarWidth());
+//                me.$element.find(".datatable-scroll .scroll-header:first").css("border-style", "solid");
             }
 
         }
@@ -2243,14 +2243,14 @@ jQuery.fn.menubutton = function () {
 
     Internal.prototype.load = function () {
         var me = this;
-        me.setHash(me.$element.attr("id") + "_page="+ me.data.options.currentPage);
+        me.setHash(me.$element.attr("id") + "_page=" + me.data.options.currentPage);
         //将当前的页码同其id保存到cookie中
         var date = new Date(), minutes = 5;
         date.setTime(date.getTime() + (minutes * 60 * 1000));
-        $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", "");
-        $.cookie(me.$element.attr("id").toUpperCase()+"_PAGE", me.data.options.currentPage, { expires: date });
+        $.cookie(me.$element.attr("id").toUpperCase() + "_PAGE", "");
+        $.cookie(me.$element.attr("id").toUpperCase() + "_PAGE", me.data.options.currentPage, { expires:date });
         me.$element.load(me.buildCurrentRequest(), function (responseText, textStatus, XMLHttpRequest) {
-            if (textStatus == "error"){
+            if (textStatus == "error") {
                 window.console && console.log($.i18n("load_data_error"));
                 return false;
             }
@@ -2285,20 +2285,20 @@ jQuery.fn.menubutton = function () {
         //必须等待当前页面的数据加载完成后才能够对表头数据进行处理
         me.buildOrderColumn();
         me.buildCheckbox();
-        if(count > 1){
+        if (count > 1) {
             me.buildDrag();
         }
         me.syncScrollUI();
     };
     //设置地址栏hash
-    Internal.prototype.setHash = function(hashStr){
-        var urlHash = location.hash,reg = eval("/"+hashStr.substring(0, hashStr.indexOf('=')+1)+"\\d{1,}/g");
-        if(reg.test(urlHash)){
+    Internal.prototype.setHash = function (hashStr) {
+        var urlHash = location.hash, reg = eval("/" + hashStr.substring(0, hashStr.indexOf('=') + 1) + "\\d{1,}/g");
+        if (reg.test(urlHash)) {
             urlHash = urlHash.replace(reg, hashStr)
-        }else{
+        } else {
             urlHash += urlHash.length > 0 ? '&' + hashStr : '#/?' + hashStr;
         }
-        $.browser.msie? $.locationHash(urlHash) : location.hash = urlHash;
+        $.browser.msie ? $.locationHash(urlHash) : location.hash = urlHash;
     };
 
 
