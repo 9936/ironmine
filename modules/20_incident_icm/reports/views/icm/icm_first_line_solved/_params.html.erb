@@ -25,6 +25,7 @@
               <td>
                 <div style="white-space:nowrap">
                   <%= select_date program_params[:year].present? ? Date.strptime("#{program_params[:year]}-#{program_params[:month]}", "%Y-%m") : Time.now, :prefix => 'program_params', :order =>[:year, :month], :include_blank => false %>
+                  <%= hidden_field_tag "program_params[running_person_id]", Irm::Person.current.id %>
                 </div>
               </td>
             </tr>

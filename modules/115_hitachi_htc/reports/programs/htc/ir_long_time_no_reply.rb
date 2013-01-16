@@ -21,10 +21,10 @@ class Htc::IrLongTimeNoReply < Irm::ReportManager::ReportBase
     end
 
     if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
-      statis = statis.where("external_system.id IN (?)", params[:external_system_id] + [])
-    else
-      statis = statis.where("external_system.id IN (?)", Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id) + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
-    end
+          statis = statis.where("external_system.id IN (?)", params[:external_system_id] + [])
+        else
+          statis = statis.where("external_system.id IN (?)", Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id) + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
+        end
 
     datas = []
     headers = [
