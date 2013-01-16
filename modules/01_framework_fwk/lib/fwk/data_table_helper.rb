@@ -56,7 +56,7 @@ module Fwk
             next if column[:hidden]
             table_body.safe_concat "<td><div>"
             if column[:block].present?
-              table_body.safe_concat capture(data,index, &column[:block])
+              table_body.safe_concat capture(data,index, &column[:block])||""
             else
               if data[column[:key]].present?
                 if data[column[:key]].is_a?(Time)

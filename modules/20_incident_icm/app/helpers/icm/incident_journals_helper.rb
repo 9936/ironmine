@@ -129,7 +129,7 @@ module Icm::IncidentJournalsHelper
   end
 
   def available_close_code
-    Icm::CloseReason.multilingual.collect{|i|[i[:name],i.id]}
+    Icm::CloseReason.multilingual.enabled.collect{|i|[i[:name],i.id]}
   end
 
 
