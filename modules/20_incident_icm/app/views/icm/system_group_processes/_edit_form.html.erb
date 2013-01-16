@@ -58,7 +58,7 @@
             <td class="label-col"><label><%= t(:label_irm_system_group_process_blank)%></label></td>
             <td class="data-3col">
               <%= blank_select_tag("support_group_to_ids[0][]",
-                                   all_support_groups.collect{|i| [i[:group_name], i[:support_group_id]] }) %>
+                                   all_support_groups.collect{|i| [i[:group_name], i[:support_group_id]] },nil, {:class => "filter-select"}) %>
               <span class="switch-select" style="cursor: pointer;vertical-align: top;"> + </span>
             </td>
           </tr>
@@ -67,9 +67,8 @@
               <tr class="label-column">
                 <td class="label-col" data-id="<%= group.support_group_id %>"><label><%= group[:group_name] %></label></td>
                 <td class="data-3col">
-                  <%#= select_tag "locations", "<option>Home</option><option selected='selected'>Work</option><option>Out</option>".html_safe, :multiple => true %>
                   <%= blank_select_tag("support_group_to_ids[#{group.support_group_id}][]",
-                                       all_support_groups.reject{|i| i.support_group_id == group.support_group_id}.collect{|i| [i[:group_name], i[:support_group_id]] } ) %>
+                                       all_support_groups.reject{|i| i.support_group_id == group.support_group_id}.collect{|i| [i[:group_name], i[:support_group_id]] },nil, {:class => "filter-select"} ) %>
                   <span class="switch-select" style="cursor: pointer;vertical-align: top;"> + </span>
                 </td>
               </tr>

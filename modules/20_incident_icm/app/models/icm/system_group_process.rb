@@ -18,11 +18,11 @@ class Icm::SystemGroupProcess < ActiveRecord::Base
     return nil
   end
 
-  def match_process(category_id, sub_category_id, urgence_id, impact_range_id)
+  def match_process(ir_category_id, ir_sub_category_id, ir_urgence_id, ir_impact_range_id)
     #将存在的值进行比较
     match_flag = false
     if self.category_id.present?
-      if self.category_id.eql?(category_id)
+      if self.category_id.eql?(ir_category_id)
         match_flag = true
       else
         match_flag = false
@@ -30,7 +30,7 @@ class Icm::SystemGroupProcess < ActiveRecord::Base
     end
 
     if self.sub_category_id.present?
-      if self.sub_category_id.eql?(sub_category_id)
+      if self.sub_category_id.eql?(ir_sub_category_id)
         match_flag = true
       else
         match_flag = false
@@ -38,19 +38,24 @@ class Icm::SystemGroupProcess < ActiveRecord::Base
     end
 
     if self.urgence_id.present?
-      if self.urgence_id.eql?(urgence_id)
+      if self.urgence_id.eql?(ir_urgence_id)
         match_flag = true
       else
         match_flag = false
       end
     end
     if self.impact_range_id.present?
-      if self.impact_range_id.eql?(impact_range_id)
+      if self.impact_range_id.eql?(ir_impact_range_id)
         match_flag = true
       else
         match_flag = false
       end
     end
+    #当这些条件都为空时
+    if self.category_id.blank? and self.sub_category_id.blank? and self.urgence_id.blank? and self.impact_range_id.blank?
+      match_flag = true
+    end
+
     match_flag
   end
 

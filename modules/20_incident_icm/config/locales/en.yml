@@ -308,6 +308,6 @@ en:
   label_irm_system_group_process_show: Processes details
   label_irm_system_group_process_from: Processes From
   label_irm_system_group_process_to: Processes To(One Or MOre)
-  label_irm_system_group_process_tips: Select one or more In category, sub-category,urgency and impact as the condition.
+  label_irm_system_group_process_tips: Select one or more In category, sub-category,urgency and impact as the condition Or select a support groups process.
   label_irm_system_group_process_blank: None Support Group
   #========================= End System setting ====================================
