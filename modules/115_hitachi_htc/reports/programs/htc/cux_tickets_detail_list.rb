@@ -1,7 +1,5 @@
 class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
   def data(params={})
-    close_status = Icm::IncidentStatus.where("close_flag = ?", "Y").collect(&:id)
-
     params||={}
 
     statis = Icm::IncidentRequest.
@@ -14,7 +12,6 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
         with_supporter(I18n.locale).
         with_priority(I18n.locale).
         with_external_system(I18n.locale).
-        where("#{Icm::IncidentRequest.table_name}.incident_status_id NOT IN (?)", close_status + [])
         select("irv.name role_name").
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
 
