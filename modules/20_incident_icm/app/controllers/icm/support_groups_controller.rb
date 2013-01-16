@@ -84,7 +84,7 @@ class Icm::SupportGroupsController < ApplicationController
 
   def get_group_options
     #检查是否具有权限
-    if allow_to_function?(:system_assign_request, params[:id])
+    if allow_to_function?(:assign_incident_request)
       support_groups_scope = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).with_system(params[:id]).select_all
       support_groups = support_groups_scope.collect{|p| {:label=>p[:name],:value=>p[:id]}}
     else
