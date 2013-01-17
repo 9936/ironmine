@@ -28,9 +28,11 @@ module Irm::SettingHelper
       return
     end
     menus = []
-    menus = Irm::MenuManager.sub_entries_by_menu(Irm::Menu.system_menu.id,true,session[:sid]) if session[:sid].present?
+    if session[:sid].present? and Irm::ExternalSystem.enabled.where("id=?", session[:sid]).any?
+      menus = Irm::MenuManager.sub_entries_by_menu(Irm::Menu.system_menu.id,true, session[:sid])
+    end
     Irm::Person.current.external_systems.each do |system|
-      menus = Irm::MenuManager.sub_entries_by_menu(Irm::Menu.system_menu.id,true,system.id)
+      menus = Irm::MenuManager.sub_entries_by_menu(Irm::Menu.system_menu.id,true, system.id)
       break if menus&&menus.size>0
     end unless menus&&menus.size>0
     return nil unless menus&&menus.size>0
