@@ -46,7 +46,7 @@ module Icm
           return unless support_group_ids.any?
 
           #对事故单按照分派规则进行分单
-          assign_rule = Icm::AssignRule.get_support_group_by_incident(request.id)
+          assign_rule = Icm::AssignRule.get_support_group_by_incident(request.id, request.external_system_id)
           if assign_rule.present? and assign_rule.support_group.present?
             assign_result[:support_group_id] = assign_rule.support_group
           else

@@ -38,8 +38,22 @@ class Icm::AssignRulesController < ApplicationController
   # POST /assign_rules.xml
   def create
     @assign_rule = Icm::AssignRule.new(params[:icm_assign_rule])
+    @assign_rule.external_system_id = Irm::ExternalSystem.current_system.id
+
+    #处理传递过来的事故单属性值
+    if params[:custom_str].present?
+      custom_str = {}
+      params[:custom_str].each do |k,v|
+        if k.present? and v.present?
+          custom_str[k.to_sym] = v
+        end
+      end
+      @assign_rule.custom_str = custom_str.to_s
+    end
+
     respond_to do |format|
       if @assign_rule.save
+
         @assign_rule.create_assignment_from_str
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @assign_rule, :status => :created, :location => @assign_rule }
@@ -54,6 +68,18 @@ class Icm::AssignRulesController < ApplicationController
   # PUT /assign_rules/1.xml
   def update
     @assign_rule = Icm::AssignRule.find(params[:id])
+
+    #处理传递过来的事故单属性值
+    if params[:custom_str].present?
+      custom_str = {}
+      params[:custom_str].each do |k,v|
+        if k.present? and v.present?
+          custom_str[k.to_sym] = v
+        end
+      end
+      @assign_rule.custom_str = custom_str.to_s
+    end
+
     respond_to do |format|
       if @assign_rule.update_attributes(params[:icm_assign_rule])
         @assign_rule.create_assignment_from_str
