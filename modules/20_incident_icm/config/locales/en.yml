@@ -292,6 +292,7 @@ en:
   label_icm_assign_rule_filter_choice: Chose Filter
   label_icm_assign_rule_join_type: Join Type
   label_icm_chose_group: Chose Group
+  label_icm_assign_rule_attribyte: Value and Column filter
   #========================= End Assign rule ====================================
 
   #========================= System setting ====================================

@@ -35,6 +35,12 @@
         <td class="label-col"><label><%= t(:label_icm_assign_rule_filter) %></label></td>
         <td class="data-3col"><%= filter_and_type(@assign_rule.get_assignment_str, @assign_rule.join_type)%></td>
       </tr>
+      <tr>
+        <td class="label-col"><label><%= t(:label_icm_assign_rule_attribyte) %></label></td>
+        <td class="data-3col" colspan="3">
+          <%= assign_rule_attributes(@assign_rule.custom_hash, @assign_rule.join_type) %>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>

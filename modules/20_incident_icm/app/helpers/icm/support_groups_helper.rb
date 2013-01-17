@@ -1,7 +1,8 @@
 module Icm::SupportGroupsHelper
   def support_group_duel_types(exclude=[])
-    duel_types = duel_types(exclude)
-    duel_types << [Irm::BusinessObject.class_name_to_meaning(Icm::IncidentCategory.name),Irm::BusinessObject.class_name_to_code(Icm::IncidentCategory.name)]
+    duel_types(exclude)
+    #duel_types << [Irm::BusinessObject.class_name_to_meaning(Icm::IncidentCategory.name),
+    #               Irm::BusinessObject.class_name_to_code(Icm::IncidentCategory.name)]
   end
 
   #获取分派处理人名
@@ -37,8 +38,7 @@ module Icm::SupportGroupsHelper
   end
 
   def ava_supporters
-    supporters = Irm::Person.
-        enabled.
+    supporters = Irm::Person.enabled.
         select("#{Irm::Person.table_name}.*").
         where(%Q"EXISTS(SELECT * FROM #{Icm::SupportGroup.table_name} sg, #{Irm::GroupMember.table_name} gm
                  WHERE sg.group_id = gm.group_id
