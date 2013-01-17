@@ -1,5 +1,6 @@
 class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
   def data(params={})
+    close_status = Icm::IncidentStatus.where("close_flag = ?", "Y").collect(&:id)
     params||={}
 
     statis = Icm::IncidentRequest.
@@ -8,6 +9,7 @@ class Hli::IrLongTimeNoReply < Irm::ReportManager::ReportBase
         with_incident_status(I18n.locale).
         with_supporter(I18n.locale).
         with_priority(I18n.locale).
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id NOT IN (?)", close_status).
         with_external_system(I18n.locale).order("(#{Icm::IncidentRequest.table_name}.last_response_date + 0) DESC")
 
     if params[:long_time].present?

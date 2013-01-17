@@ -22,11 +22,14 @@ class Icm::IcmFirstLineSolved < Irm::ReportManager::ReportBase
 
     external_systems = Irm::ExternalSystem.multilingual
 
-    if params[:external_system_id].present? &&
-        params[:external_system_id].size > 0 &&
-        params[:external_system_id][0].present?
+    if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
       statis = statis.where("external_system_id IN (?)", params[:external_system_id] + [])
       external_systems = external_systems.where("#{Irm::ExternalSystem.table_name}.id IN (?)", params[:external_system_id] + [])
+    else
+      statis = statis.where("external_system_id IN (?)",
+                            Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id) + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
+      external_systems = external_systems.where("#{Irm::ExternalSystem.table_name}.id IN (?)",
+                                                Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id) + [])
     end
 
     datas = []
@@ -40,10 +43,9 @@ class Icm::IcmFirstLineSolved < Irm::ReportManager::ReportBase
       data[0] = e[:system_name]
       data[1] = statis.
           where("#{incident_request_table}.external_system_id = ?", e.id).
-          where(%Q(NOT EXISTS(
-                    SELECT * FROM icm_incident_journals ij
+          where(%Q( (SELECT COUNT(*) FROM icm_incident_journals ij
                     WHERE ij.incident_request_id = #{incident_request_table}.id
-                    AND ij.reply_type = 'UPGRADE'))).
+                    AND ij.reply_type IN ('ASSIGN', 'PASS')) = 1)).
           group("#{incident_request_table}.external_system_id")
       data[1] = data[1].any? ? data[1].first[:amount] : 0
       data[2] = statis.where("#{incident_request_table}.external_system_id = ?", e.id).
