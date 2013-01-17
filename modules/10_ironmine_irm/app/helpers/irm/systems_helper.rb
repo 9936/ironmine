@@ -49,7 +49,6 @@ module Irm::SystemsHelper
     systems.each do |s|
       menu = Irm::MenuManager.sub_entries_by_menu(Irm::Menu.system_menu.id,true,s.id).first
       links << content_tag(:li,link_to(s[:system_name],menu[:url_options].merge({:controller=>menu[:controller],:action=>menu[:action],:mi=>menu[:menu_entry_id],:level=>1})),{}) if menu
-      #links << content_tag(:li,link_to(s[:system_name],{:controller => "irm/systems", :action => "index", :sid => s.id}),{:class=>"menuItem"})
     end
 
     links.html_safe
