@@ -188,7 +188,22 @@ class Irm::CommonController < ApplicationController
     end
   end
 
+  def kpi_resolved_rate
+    close_statis = Icm::IncidentStatus.where("close_flag = ?", Irm::Constant::SYS_YES)
+    sys_ids = Irm::ExternalSystem.multilingual.order_with_name.with_person(Irm::Person.current.id).enabled.collect(&:id) + []
+    total = Icm::IncidentRequest.
+        select("external_system_id, count(1) amount").
+        where("external_system_id IN (?)", sys_ids)
+    closed = Icm::IncidentRequest.
+        select("external_system_id, count(1) amount").
+        where("external_system_id IN (?)", sys_ids).
+        where("#{Icm::IncidentRequest.table_name}.incident_status_id = ?", close_statis)
 
+    @percent = total.any? ? (((closed.first[:amount].to_f / total.first[:amount].to_f).to_f * 100 * 100).round / 100.0).to_f : 0.to_f
+    respond_to do |format|
+      format.html
+    end
+  end
 
   private
   #验证用户登录是否成功
