@@ -126,9 +126,9 @@ class Icm::AssignRulesController < ApplicationController
 
   def get_data
     if params[:status_code].eql?(Irm::Constant::DISABLED)
-      assign_rules_scope = Icm::AssignRule.disabled.order_by_sequence
+      assign_rules_scope = Icm::AssignRule.disabled.order_by_sequence.with_external_system(Irm::ExternalSystem.current_system.id)
     else
-      assign_rules_scope = Icm::AssignRule.enabled.order_by_sequence
+      assign_rules_scope = Icm::AssignRule.enabled.order_by_sequence.with_external_system(Irm::ExternalSystem.current_system.id)
     end
     assign_rules,count = paginate(assign_rules_scope)
     respond_to do |format|
