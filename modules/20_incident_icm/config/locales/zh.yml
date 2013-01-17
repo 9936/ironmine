@@ -288,6 +288,7 @@ zh:
   label_icm_assign_rule_filter_choice: 选择条件
   label_icm_assign_rule_join_type: 条件连接
   label_icm_chose_group: 选择组
+  label_icm_assign_rule_attribyte: 值和列对应条件
   #========================= End Assign rule ====================================
 
   #========================= System setting ====================================
