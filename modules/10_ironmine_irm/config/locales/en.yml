@@ -2090,3 +2090,4 @@ en:
   #============================== end mailer log  ==============================
 
   label_total_data_size: Total %{m}
+  label_kpi_resolved_rate: Resolved Rate

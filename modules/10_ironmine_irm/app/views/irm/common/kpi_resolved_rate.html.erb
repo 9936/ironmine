@@ -15,7 +15,7 @@
     	    },
 
     	    title: {
-    	        text: '事故单解决率'
+    	        text: '<%= I18n.t(:label_kpi_resolved_rate)%>'
     	    },
 
     	    pane: {
@@ -72,7 +72,7 @@
     	            rotation: 'auto'
     	        },
     	        title: {
-    	            text: '事故单解决率(%)'
+    	            text: '<%= I18n.t(:label_kpi_resolved_rate)%>(%)'
     	        },
     	        plotBands: [{
     	            from: 0,
@@ -90,7 +90,7 @@
     	    },
 
     	    series: [{
-    	        name: '事故单解决率',
+    	        name: '<%= I18n.t(:label_kpi_resolved_rate)%>',
     	        data: [<%= @percent %>],
     	        tooltip: {
     	            valueSuffix: ' %'
