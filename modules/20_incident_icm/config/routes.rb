@@ -176,15 +176,15 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/:attachment_id/:sid/remove_attachment(.:format)' => "incident_requests#remove_attachment", :via => :get
 
     #assign rules
-    match '/assign_rules(/index)(.:format)' => "assign_rules#index", :via => :get
-    match '/assign_rules/switch_sequence(.:format)' => "assign_rules#switch_sequence"
-    match '/assign_rules/:id/edit(.:format)' => "assign_rules#edit", :via => :get
-    match '/assign_rules/:id(.:format)' => "assign_rules#update", :via => :put
-    match '/assign_rules/new(.:format)' => "assign_rules#new", :via => :get
-    match '/assign_rules/create(.:format)' => "assign_rules#create", :via => :post
-    match '/assign_rules/get_data(.:format)' => "assign_rules#get_data"
-    match '/assign_rules/:id/show(.:format)' => "assign_rules#show", :via => :get
-    match '/assign_rules/:id/switch_status_code(.:format)' => "assign_rules#switch_status_code", :via => :get
+    match '/assign_rules/:sid(/index)(.:format)' => "assign_rules#index", :via => :get
+    match '/assign_rules/:sid/switch_sequence(.:format)' => "assign_rules#switch_sequence"
+    match '/assign_rules/:sid/:id/edit(.:format)' => "assign_rules#edit", :via => :get
+    match '/assign_rules/:sid/:id(.:format)' => "assign_rules#update", :via => :put
+    match '/assign_rules/:sid/new(.:format)' => "assign_rules#new", :via => :get
+    match '/assign_rules/:sid/create(.:format)' => "assign_rules#create", :via => :post
+    match '/assign_rules/:sid/get_data(.:format)' => "assign_rules#get_data"
+    match '/assign_rules/:sid/:id/show(.:format)' => "assign_rules#show", :via => :get
+    match '/assign_rules/:sid/:id/switch_status_code(.:format)' => "assign_rules#switch_status_code", :via => :get
 
     #System setting
     match '/systems/:sid/incident_statuses(.:format)' => "systems#index", :via => :get

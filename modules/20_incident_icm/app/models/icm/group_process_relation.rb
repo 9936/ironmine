@@ -32,11 +32,4 @@ class Icm::GroupProcessRelation < ActiveRecord::Base
     select("#{table_name}.*")
   }
 
-  #scope :with_group_name,lambda{|group_process_id, language|
-  #  joins("JOIN #{Icm::SupportGroup.view_name} sgv ON sgv.id = #{table_name}.support_group_to AND gv.language ='#{language}'").
-  #  joins("JOIN #{Icm::SupportGroup.view_name} sgv ON sgv.id = #{table_name}.support_group_from AND gv.language ='#{language}'").
-  #
-  #      where("#{table_name}.group_process_id=?", group_process_id)
-  #}
-
 end

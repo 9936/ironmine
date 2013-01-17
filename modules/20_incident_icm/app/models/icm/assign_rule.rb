@@ -1,7 +1,7 @@
 class Icm::AssignRule < ActiveRecord::Base
   set_table_name :icm_assign_rules
 
-  attr_accessor :assignment_str
+  attr_accessor :assignment_str,:custom_str
 
   before_create :build_sequence
   validates_presence_of :name, :support_group_id
@@ -19,6 +19,10 @@ class Icm::AssignRule < ActiveRecord::Base
 
   scope :order_by_sequence,lambda{
      self.order("sequence ASC")
+  }
+
+  scope :with_external_system, lambda{|external_system_id|
+    self.where("external_system_id=?", external_system_id)
   }
 
 
@@ -43,10 +47,14 @@ class Icm::AssignRule < ActiveRecord::Base
         value.destroy
       end
     end
-    str_values.each do |value_str|
-      next unless value_str.strip.present?
-      value = value_str.strip.split("#")
-      self.group_assignments.create(:source_type=>value[0],:source_id=>value[1])
+    if str_values.any?
+      str_values.each do |value_str|
+        next unless value_str.strip.present?
+        value = value_str.strip.split("#")
+        self.group_assignments.create(:source_type=>value[0],:source_id=>value[1], :custom_str => custom_str)
+      end
+    elsif custom_str.present?
+      self.group_assignments.create(:source_type=> 0, :source_id=> 0, :custom_str => custom_str)
     end
   end
 
@@ -56,11 +64,21 @@ class Icm::AssignRule < ActiveRecord::Base
     @get_assignment_str
   end
 
+  def custom_hash
+    return eval(self.custom_str) if self.custom_str.present?
+    if self.group_assignments.any?
+      self.custom_str = self.group_assignments.first.custom_str
+    else
+      return {}
+    end
+    eval(custom_str)
+  end
+
   #根据事故单寻找分配组
-  def self.get_support_group_by_incident(incident_request_id)
+  def self.get_support_group_by_incident(incident_request_id, external_system_id)
     assign_rule_result = nil
-    self.enabled.order_by_sequence.each do |assign_rule|
-      if assign_rule.build_sql(incident_request_id).any?
+    self.enabled.order_by_sequence.with_external_system(external_system_id).each do |assign_rule|
+      if assign_rule.build_sql(incident_request_id, external_system_id).any?
         assign_rule_result = assign_rule
         break
       end
@@ -69,15 +87,23 @@ class Icm::AssignRule < ActiveRecord::Base
   end
 
   #组拼sql语句
-  def build_sql(incident_request_id)
+  def build_sql(incident_request_id, external_system_id)
     sql_str = "SELECT DISTINCT ir.id FROM icm_incident_requests ir LEFT JOIN irm_person_relations_v irv ON ir.requested_by = irv.person_id"
     if self.group_assignments.any?
       where_arr = []
       if self.group_assignments.collect(&:source_type).include?("IRM__ORGANIZATION_EXPLOSION")
         sql_str += " LEFT JOIN irm_organization_explosions ire ON ir.organization_id = ire.organization_id"
       end
-      sql_str += " WHERE(ir.id='#{incident_request_id}') AND ("
+      sql_str += " WHERE(ir.id='#{incident_request_id}' AND ir.external_system_id='#{external_system_id}') AND ("
       self.group_assignments.each do |ga|
+        #将事故单的属性组装SQL
+        if ga.custom_str.present?
+          custom_str_hash = eval(ga.custom_str)
+          custom_str_hash.each do |k,v|
+            where_arr << "(ir.#{k}='#{v}')"
+          end if custom_str_hash.any?
+        end
+
         case ga.source_type.to_s
           when "ICM__INCIDENT_CATEGORY"
             where_arr << "(ir.incident_category_id='#{ga.source_id}')"

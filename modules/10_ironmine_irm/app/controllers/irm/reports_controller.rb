@@ -374,7 +374,7 @@ class Irm::ReportsController < ApplicationController
   end
 
   def update_program
-    @report = Irm::Report.multilingual.find(params[:id])
+    @report = Irm::Report.find(params[:id])
     respond_to do |format|
       if @report.update_attributes(params[:irm_report])
         format.html { redirect_to({:action=>"show",:id=>@report.id}, :notice => t(:successfully_created)) }
