@@ -19,13 +19,27 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
       statis = statis.where("date_format(icm_incident_requests.submitted_date, '%Y-%m-%d') <= ?", Date.strptime("#{params[:end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
     end
 
+    ex_attributes = []
     if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
       statis = statis.where("external_system.id IN (?)", params[:external_system_id] + [])
+      if params[:external_system_id].present? && params[:external_system_id].size == 1
+        ex_attributes = Irm::ObjectAttribute.multilingual.enabled.
+            where("external_system_id = ?", params[:external_system_id][0]).
+            where("field_type = ?", "SYSTEM_CUX_FIELD").order("display_sequence ASC")
+      end
     else
-      statis = statis.where("external_system.id IN (?)", Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id) + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
+      current_acc_systems = Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id)
+      statis = statis.where("external_system.id IN (?)", current_acc_systems + []) unless Irm::Person.where("login_name = ?",'anonymous').where("id = ?", params[:running_person_id]).any?
+      if current_acc_systems.present? && current_acc_systems.size == 1
+        ex_attributes = Irm::ObjectAttribute.multilingual.enabled.
+            where("external_system_id = ?", params[:external_system_id][0]).
+            where("field_type = ?", "SYSTEM_CUX_FIELD").order("display_sequence ASC")
+      end
     end
 
     datas = []
+
+
     headers = [
                I18n.t(:label_icm_incident_request_request_number),
                I18n.t(:label_icm_incident_request_title),
@@ -47,13 +61,18 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                I18n.t(:label_htc_report_incident_requester_group),
                I18n.t(:label_htc_report_incident_groups_history),"Root Cause"
                ]
+
+    ex_attributes.each do |ea|
+      headers << ea[:name]
+    end
+
     start_date = params[:start_date]
     unless params[:start_date].present?
        start_date = "1970-1-1"
     end 
    
     statis.each do |s|
-      data = Array.new(20)
+      data = Array.new(20 + ex_attributes.size)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
@@ -134,6 +153,11 @@ class Htc::CuxTicketsDetailList < Irm::ReportManager::ReportBase
       g.uniq!
       data[18] = g.join(" | ")
       data[19] = s[:attribute1]
+      nc = 20
+      ex_attributes.each do |ea|
+        data[nc] = s[ea[:attribute_name].to_sym]
+        nc = nc + 1
+      end
       datas << data
     end
 
