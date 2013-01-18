@@ -1,7 +1,8 @@
 class Chm::AdvisoryBoardMember < ActiveRecord::Base
   set_table_name :chm_advisory_board_members
 
-  validates_presence_of :advisory_board_id,:person_id
+  validates_presence_of :advisory_board_id, :person_id
+  validates_uniqueness_of :advisory_board_id, :scope => [:person_id]
 
   query_extend
 

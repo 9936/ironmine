@@ -3,6 +3,8 @@ class Chm::ChangeApproval < ActiveRecord::Base
 
   validates_presence_of :person_id,:change_request_id,:approve_status
 
+  validates_uniqueness_of :change_request_id, :scope => [:person_id]
+
   belongs_to :change_request
 
   # approve_status 分为以下几个审批状态 ASSIGNED 审批中 APPROVING 已经审批 APPROVED 审批通过 APPROVE 审批拒绝 REJECT
