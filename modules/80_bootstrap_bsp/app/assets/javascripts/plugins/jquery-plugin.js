@@ -1710,7 +1710,8 @@ jQuery.fn.menubutton = function () {
             me.$element.find(".table-body table:first tbody tr").each(function () {
                 var table_td = $(this).find("td:first");
                 //获取id
-                var item_id = $(this).attr("id"),
+                //如果当没有特殊设置checkbox_id时，默认为id
+                var item_id  = ($(this).data("checkbox-id").length > 0)? $(this).data("checkbox-id") : $(this).attr("id"),
                     td_check_box = $("<input type='checkbox' name='ids' value='" + item_id + "'/>");
                 table_td.before($("<td/>").html($("<div/>").html(td_check_box)));
                 //更新全选框
