@@ -129,6 +129,37 @@ class UploadIssueForGoe1 < ActiveRecord::Migration
       note = r[6]
       note = r[6].gsub("\\", /\\\\/.source).gsub("'", /\\'/.source)
       note = "<pre>" + note + "</pre>"
+
+      # create assign history
+      if supporter
+        j_assign_id = Fwk::IdGenerator.instance.generate("icm_incident_journals")
+
+        execute(%Q(INSERT INTO tmp_icm_incident_journals (id, opu_id, incident_request_id, reply_type, replied_by, message_body,
+                              status_code, created_by, updated_by, created_at, updated_at)
+                    VALUES ('#{j_assign_id}', '#{opu}', '#{request_id}', 'ASSIGN',
+                              '#{supporter.id}', 'Imported Assign', 'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')
+                    ))
+
+        execute(%Q(INSERT INTO tmp_icm_incident_journal_elapses (id, opu_id, incident_journal_id, elapse_type,
+                              support_group_id, incident_status_id, start_at, end_at, distance, real_distance,
+                              status_code, created_by, updated_by, created_at, updated_at)
+                              VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_journal_elapses")}', '#{opu}', '#{j_assign_id}', 'ASSIGN',
+                              '#{support_group.id}','#{status.id}','#{r[15]}', '#{r[7]}', '0', '0',
+                              'ENABLED', '#{supporter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')
+                              ))
+
+        execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
+                                    status_code, created_by, updated_by, created_at, updated_at)
+                             VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_histories")}', '#{opu}', '#{request_id}',
+                                    '#{j_assign_id}', 'support_group_id', '', '#{support_group.id}',
+                                    'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')))
+        execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
+                                    status_code, created_by, updated_by, created_at, updated_at)
+                             VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_histories")}', '#{opu}', '#{request_id}',
+                                    '#{j_assign_id}', 'support_person_id', '', '#{supporter.id}',
+                                    'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')))
+      end
+
       execute(%Q(INSERT INTO tmp_icm_incident_journals (id, journal_number, opu_id, incident_request_id, reply_type, replied_by, message_body,
                             status_code, created_by, updated_by, created_at, updated_at)
                   VALUES ('#{j_id}', '#{j_number}', '#{opu}', '#{request_id}', 'OTHER_REPLY',
@@ -164,35 +195,7 @@ class UploadIssueForGoe1 < ActiveRecord::Migration
                 VALUES ('#{Fwk::IdGenerator.instance.generate("irm_watchers")}', '#{opu}', '#{request_id}', 'Icm::IncidentRequest', '#{submitter.id}', 'Irm::Person',
                         'N', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')
                 )) unless ex_submit.any?
-      # create assign history
-      if supporter
-        j_assign_id = Fwk::IdGenerator.instance.generate("icm_incident_journals")
 
-        execute(%Q(INSERT INTO tmp_icm_incident_journals (id, opu_id, incident_request_id, reply_type, replied_by, message_body,
-                              status_code, created_by, updated_by, created_at, updated_at)
-                    VALUES ('#{j_assign_id}', '#{opu}', '#{request_id}', 'ASSIGN',
-                              '#{supporter.id}', 'Imported Assign', 'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')
-                    ))
-
-        execute(%Q(INSERT INTO tmp_icm_incident_journal_elapses (id, opu_id, incident_journal_id, elapse_type,
-                              support_group_id, incident_status_id, start_at, end_at, distance, real_distance,
-                              status_code, created_by, updated_by, created_at, updated_at)
-                              VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_journal_elapses")}', '#{opu}', '#{j_assign_id}', 'ASSIGN',
-                              '#{support_group.id}','#{status.id}','#{r[15]}', '#{r[7]}', '0', '0',
-                              'ENABLED', '#{supporter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')
-                              ))
-
-        execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
-                                    status_code, created_by, updated_by, created_at, updated_at)
-                             VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_histories")}', '#{opu}', '#{request_id}',
-                                    '#{j_assign_id}', 'support_group_id', '', '#{support_group.id}',
-                                    'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')))
-        execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
-                                    status_code, created_by, updated_by, created_at, updated_at)
-                             VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_histories")}', '#{opu}', '#{request_id}',
-                                    '#{j_assign_id}', 'support_person_id', '', '#{supporter.id}',
-                                    'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')))
-      end
 
       # create ticket history
       execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
@@ -207,7 +210,7 @@ class UploadIssueForGoe1 < ActiveRecord::Migration
         execute(%Q(INSERT INTO tmp_icm_incident_journals (id, opu_id, incident_request_id, reply_type, replied_by, message_body,
                               status_code, created_by, updated_by, created_at, updated_at)
                     VALUES ('#{j_id}', '#{opu}', '#{request_id}', 'CLOSE',
-                              '#{supporter.id}', '', 'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')
+                              '#{supporter.id}', 'Close this ticket', 'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')
                     ))
         execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
                               status_code, created_by, updated_by, created_at, updated_at)
