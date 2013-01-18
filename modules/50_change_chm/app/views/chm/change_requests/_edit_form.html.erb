@@ -9,12 +9,12 @@
       <tbody>
           <tr>
             <td class="label-col"><label for="requested_by"><%=t(:label_chm_change_request_requested_by)%></label></td>
-            <td class="data-2col"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"requested_by"}%></td>
+            <td class="data-3col"><%=f.lov_field :requested_by,Irm::Person,{:required=>true,:id=>"requested_by"}%></td>
 
           </tr>
           <tr>
             <td class="label-col"><label for="external_system_id"><%=t(:label_chm_change_request_external_system)%></label></td>
-            <td class="data-2col">
+            <td class="data-3col">
               <%=f.blank_select :external_system_id,[],{},
                   {:required=>true,
                    :id=>"external_system_id",
@@ -27,7 +27,7 @@
           </tr>
           <tr>
             <td class="label-col"><label for="category_id"><%=t(:label_chm_change_request_category)%></label></td>
-            <td class="data-2col">
+            <td class="data-3col">
               <%=f.blank_select :category_id,[],
                           {},
                           {:id=>"category_id",
@@ -41,7 +41,7 @@
           </tr>
           <tr>
             <td class="label-col"><label for="sub_category_id"><%=t(:label_chm_change_request_sub_category)%></label></td>
-            <td class="data-2col">
+            <td class="data-3col">
               <%=f.select :sub_category_id,[],
                           {},
                           {:id=>"sub_category_id",
@@ -55,12 +55,12 @@
           </tr>
           <tr>
             <td class="label-col"><label for="title"><%=t(:label_chm_change_request_title)%></label></td>
-            <td class="data-2col" colspan="3"><%=f.text_field :title,:size=>80, :required=>true ,:id=>"title"%></td>
+            <td class="data-3col" colspan="3"><%=f.text_field :title,:size=>80, :class => "input-xxlarge" ,:required=>true,:id=>"title"%></td>
           </tr>
 
           <tr>
             <td class="label-col"><label for="summary"><%=t(:label_chm_change_request_summary)%></label></td>
-            <td class="data-2col" colspan="3">
+            <td class="data-3col" colspan="3">
               <%=f.text_area :summary,:rows=>8,:cols=>100,:value=>@change_request.summary, :required=>true ,:id=>"summary"%>
               <%= xheditor("summary") %>
             </td>
