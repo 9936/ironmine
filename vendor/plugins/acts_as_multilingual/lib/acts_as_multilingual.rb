@@ -98,7 +98,6 @@ module Ironmine
           data = {}
           multilingual_options[:columns].each do |attr|
             value = self.send(attr.to_sym)||self.attributes[attr.to_sym]
-            puts "================#{value}================"
             data.merge!({attr.to_sym=>value}) unless value.nil?
           end
 
