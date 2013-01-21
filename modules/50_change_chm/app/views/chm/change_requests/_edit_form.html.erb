@@ -1,8 +1,3 @@
-<style type="text/css">
-  .table-xlarge  {
-     width: 980px !important;
-  }
-</style>
 <%= form_for(@change_request,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
     <% content_for :form_block_common   do%>
     <table class="form-table">
