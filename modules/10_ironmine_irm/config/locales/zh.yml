@@ -1096,6 +1096,7 @@ zh:
   label_irm_object_user_custom_flag: 自定义字段
   label_irm_object_user_system_custom_flag: 系统自定义字段
   label_action_new_cux: 新建自定义字段
+  label_action_create_cux: 新建自定义字段
   label_custom_attributes_show: 显示自定义部分
   label_custom_attributes_hide: 隐藏自定义部分
   #======================== business objects====================

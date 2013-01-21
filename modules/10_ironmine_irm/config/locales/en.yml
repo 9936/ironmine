@@ -1088,6 +1088,7 @@ en:
   label_irm_object_user_custom_flag: Custom Field
   label_irm_object_user_system_custom_flag: System Custom Field
   label_action_new_cux: New Custom Field
+  label_action_create_cux: New Custom Field
   label_custom_attributes_show: Show Custom Fields
   label_custom_attributes_hide: Hide Custom Fields
   #======================== end business objects====================
