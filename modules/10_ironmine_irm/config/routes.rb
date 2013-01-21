@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     match 'common/create_upload_file(.:format)' => "common#create_upload_file", :via => :post
     match 'search(/index)(.:format)' => "search#index", :via => [:get, :post]
     match 'common/kpi_resolved_rate(.:format)' => "common#kpi_resolved_rate", :via => [:get, :post]
+    match 'common/kpi_tto(.:format)' => "common#kpi_tto", :via => [:get, :post]
 
     #systems
     match '/systems/:sid/info' => "systems#index"
