@@ -2091,3 +2091,4 @@ zh:
   label_total_data_size: 共 %{m} 条数据
 
   label_kpi_resolved_rate: 事故单解决率
+  label_kpi_ttr: 平均处理时间

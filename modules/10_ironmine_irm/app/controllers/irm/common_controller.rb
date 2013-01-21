@@ -200,9 +200,38 @@ class Irm::CommonController < ApplicationController
         where("#{Icm::IncidentRequest.table_name}.incident_status_id = ?", close_statis)
 
     @percent = total.any? ? (((closed.first[:amount].to_f / total.first[:amount].to_f).to_f * 100 * 100).round / 100.0).to_f : 0.to_f
+
+    incident_request_table = Icm::IncidentRequest.table_name
+    #查询关闭状态ID
+
+    close_statis = Icm::IncidentStatus.where("close_flag = ?", Irm::Constant::SYS_YES)
+    if close_statis.any?
+      close_statis = close_statis.first.id
+    end
+
+    statis = Icm::IncidentRequest.
+        where("1=1").
+        where("external_system_id IN (?)",
+              Irm::ExternalSystem.multilingual.order_with_name.with_person(Irm::Person.current.id).enabled.collect(&:id) + [])
+
+    tmp_data = statis.
+             select(%Q(
+                       SUM(TIMESTAMPDIFF(DAY, #{incident_request_table}.submitted_date,
+                               (SELECT ij.created_at  FROM icm_incident_journals ij
+                                 WHERE ij.incident_request_id = #{incident_request_table}.id
+                                 AND ij.reply_type = 'CLOSE' order by created_at desc limit 1))) diff,
+                       count(1) total
+                   )).
+             where("#{incident_request_table}.incident_status_id = ?", close_statis)
+    @ttr_persent = tmp_data.any? ? ((tmp_data.first[:diff]/tmp_data.first[:total].to_f * 100).round / 100.0).to_f : 0.to_f
+
     respond_to do |format|
       format.html
     end
+  end
+
+  def kpi_tto
+
   end
 
   private

@@ -1,16 +1,10 @@
 <table style="width:100%;">
   <tr>
-    <td style="width:25%;">
+    <td style="width:50%;">
       <div id="kpi_resolved_rate"></div>
     </td>
-    <td style="width:25%;">
-      <div id="kpi_resolved_rate2"></div>
-    </td>
-    <td style="width:25%;">
-      <div id="kpi_resolved_rate3"></div>
-    </td>
-    <td style="width:25%;">
-      <div id="kpi_resolved_rate4"></div>
+    <td style="width:50%;">
+      <div id="kpi_ttr"></div>
     </td>
   </tr>
 </table>
@@ -133,16 +127,26 @@
         var chart = new Highcharts.Chart({
 
     	    chart: {
-    	        renderTo: 'kpi_resolved_rate2',
+    	        renderTo: 'kpi_ttr',
     	        type: 'gauge',
     	        plotBackgroundColor: null,
     	        plotBackgroundImage: null,
     	        plotBorderWidth: 0,
     	        plotShadow: false
     	    },
+            exporting: {
+                buttons: {
+                    exportButton: {
+                        enabled:false
+                    },
+                    printButton: {
+                        enabled:false
+                    }
 
+                }
+            },
     	    title: {
-    	        text: '<%= I18n.t(:label_kpi_resolved_rate)%>'
+    	        text: '<%= I18n.t(:label_kpi_ttr)%>'
     	    },
 
     	    pane: {
@@ -181,7 +185,7 @@
     	    // the value axis
     	    yAxis: {
     	        min: 0,
-    	        max: 100,
+    	        max: 50,
 
     	        minorTickInterval: 'auto',
     	        minorTickWidth: 1,
@@ -199,230 +203,28 @@
     	            rotation: 'auto'
     	        },
     	        title: {
-    	            text: '<%= I18n.t(:label_kpi_resolved_rate)%>(%)'
+    	            text: '<%= I18n.t(:label_kpi_ttr)%>'
     	        },
     	        plotBands: [{
     	            from: 0,
-    	            to: 40,
-    	            color: '#DF5353' // green
+    	            to: 30,
+    	            color: '#55BF3B' // green
     	        }, {
-    	            from: 40,
-    	            to: 70,
+    	            from: 30,
+    	            to: 45,
     	            color: '#DDDF0D' // yellow
     	        }, {
-    	            from: 70,
-    	            to: 100,
-    	            color: '#55BF3B' // red
+    	            from: 45,
+    	            to: 50,
+    	            color: '#DF5353' // red
     	        }]
     	    },
 
     	    series: [{
-    	        name: '<%= I18n.t(:label_kpi_resolved_rate)%>',
-    	        data: [<%= @percent %>],
+    	        name: '<%= I18n.t(:label_kpi_ttr)%>',
+    	        data: [<%= @ttr_persent %>],
     	        tooltip: {
-    	            valueSuffix: ' %'
-    	        }
-    	    }]
-
-    	});
-    });
-</script>
-
-<script type="text/javascript">
-    $(function () {
-
-        var chart = new Highcharts.Chart({
-
-    	    chart: {
-    	        renderTo: 'kpi_resolved_rate3',
-    	        type: 'gauge',
-    	        plotBackgroundColor: null,
-    	        plotBackgroundImage: null,
-    	        plotBorderWidth: 0,
-    	        plotShadow: false
-    	    },
-
-    	    title: {
-    	        text: '<%= I18n.t(:label_kpi_resolved_rate)%>'
-    	    },
-
-    	    pane: {
-    	        startAngle: -150,
-    	        endAngle: 150,
-    	        background: [{
-    	            backgroundColor: {
-    	                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-    	                stops: [
-    	                    [0, '#FFF'],
-    	                    [1, '#333']
-    	                ]
-    	            },
-    	            borderWidth: 0,
-    	            outerRadius: '109%'
-    	        }, {
-    	            backgroundColor: {
-    	                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-    	                stops: [
-    	                    [0, '#333'],
-    	                    [1, '#FFF']
-    	                ]
-    	            },
-    	            borderWidth: 1,
-    	            outerRadius: '107%'
-    	        }, {
-    	            // default background
-    	        }, {
-    	            backgroundColor: '#DDD',
-    	            borderWidth: 0,
-    	            outerRadius: '105%',
-    	            innerRadius: '103%'
-    	        }]
-    	    },
-
-    	    // the value axis
-    	    yAxis: {
-    	        min: 0,
-    	        max: 100,
-
-    	        minorTickInterval: 'auto',
-    	        minorTickWidth: 1,
-    	        minorTickLength: 10,
-    	        minorTickPosition: 'inside',
-    	        minorTickColor: '#666',
-
-    	        tickPixelInterval: 30,
-    	        tickWidth: 2,
-    	        tickPosition: 'inside',
-    	        tickLength: 10,
-    	        tickColor: '#666',
-    	        labels: {
-    	            step: 2,
-    	            rotation: 'auto'
-    	        },
-    	        title: {
-    	            text: '<%= I18n.t(:label_kpi_resolved_rate)%>(%)'
-    	        },
-    	        plotBands: [{
-    	            from: 0,
-    	            to: 40,
-    	            color: '#DF5353' // green
-    	        }, {
-    	            from: 40,
-    	            to: 70,
-    	            color: '#DDDF0D' // yellow
-    	        }, {
-    	            from: 70,
-    	            to: 100,
-    	            color: '#55BF3B' // red
-    	        }]
-    	    },
-
-    	    series: [{
-    	        name: '<%= I18n.t(:label_kpi_resolved_rate)%>',
-    	        data: [<%= @percent %>],
-    	        tooltip: {
-    	            valueSuffix: ' %'
-    	        }
-    	    }]
-
-    	});
-    });
-</script>
-
-<script type="text/javascript">
-    $(function () {
-
-        var chart = new Highcharts.Chart({
-
-    	    chart: {
-    	        renderTo: 'kpi_resolved_rate4',
-    	        type: 'gauge',
-    	        plotBackgroundColor: null,
-    	        plotBackgroundImage: null,
-    	        plotBorderWidth: 0,
-    	        plotShadow: false
-    	    },
-
-    	    title: {
-    	        text: '<%= I18n.t(:label_kpi_resolved_rate)%>'
-    	    },
-
-    	    pane: {
-    	        startAngle: -150,
-    	        endAngle: 150,
-    	        background: [{
-    	            backgroundColor: {
-    	                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-    	                stops: [
-    	                    [0, '#FFF'],
-    	                    [1, '#333']
-    	                ]
-    	            },
-    	            borderWidth: 0,
-    	            outerRadius: '109%'
-    	        }, {
-    	            backgroundColor: {
-    	                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-    	                stops: [
-    	                    [0, '#333'],
-    	                    [1, '#FFF']
-    	                ]
-    	            },
-    	            borderWidth: 1,
-    	            outerRadius: '107%'
-    	        }, {
-    	            // default background
-    	        }, {
-    	            backgroundColor: '#DDD',
-    	            borderWidth: 0,
-    	            outerRadius: '105%',
-    	            innerRadius: '103%'
-    	        }]
-    	    },
-
-    	    // the value axis
-    	    yAxis: {
-    	        min: 0,
-    	        max: 100,
-
-    	        minorTickInterval: 'auto',
-    	        minorTickWidth: 1,
-    	        minorTickLength: 10,
-    	        minorTickPosition: 'inside',
-    	        minorTickColor: '#666',
-
-    	        tickPixelInterval: 30,
-    	        tickWidth: 2,
-    	        tickPosition: 'inside',
-    	        tickLength: 10,
-    	        tickColor: '#666',
-    	        labels: {
-    	            step: 2,
-    	            rotation: 'auto'
-    	        },
-    	        title: {
-    	            text: '<%= I18n.t(:label_kpi_resolved_rate)%>(%)'
-    	        },
-    	        plotBands: [{
-    	            from: 0,
-    	            to: 40,
-    	            color: '#DF5353' // green
-    	        }, {
-    	            from: 40,
-    	            to: 70,
-    	            color: '#DDDF0D' // yellow
-    	        }, {
-    	            from: 70,
-    	            to: 100,
-    	            color: '#55BF3B' // red
-    	        }]
-    	    },
-
-    	    series: [{
-    	        name: '<%= I18n.t(:label_kpi_resolved_rate)%>',
-    	        data: [<%= @percent %>],
-    	        tooltip: {
-    	            valueSuffix: ' %'
+    	            valueSuffix: ' Hours'
     	        }
     	    }]
 
