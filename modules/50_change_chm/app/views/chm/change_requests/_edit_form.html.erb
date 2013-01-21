@@ -194,7 +194,7 @@
 
 <script type="text/javascript">
     $(function () {
-        var requester = $("#requested_by");
+        var requester = $("#requested_by"),external_system_id = '<%= @change_request.external_system_id %>', customBlockHtml = $("#customBlock").html();
         if (requester) {
             requester.change(function (event) {
                 setLookupValue("contact_id", $(event.target).val());
