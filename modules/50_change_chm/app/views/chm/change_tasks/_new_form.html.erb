@@ -1,13 +1,8 @@
-<style type="text/css">
-  .table-xlarge {
-      width: 980px !important;
-  }
-</style>
 <%= form_for(@change_task,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
     <%= f.hidden_field :source_id %>
     <%= f.hidden_field :source_type %>
     <% content_for :form_block_common   do%>
-    <table class="form-table table-xlarge">
+    <table class="form-table">
       <tbody>
         <tr>
           <td class="label-col"><label for="name"><%=t(:name)%></label></td>
@@ -88,7 +83,6 @@
         </tbody>
         <tbody>
             <% tasks = datas[1][phase.id] %>
-
             <% (0..tasks.length-1).step(2) do |index| %>
               <tr>
                 <td class="label-col"><label><%= tasks[index].name %></label></td>
@@ -133,12 +127,14 @@
           <%= content_for :form_block_common   %>
         </div>
         <!-- 一般信息 -->
+        <% if @change_task.depend_task_ids.any? %>
         <div class="sub-page-block-header">
           <h3 class="sub-page-block-title"><%=t(:label_chm_change_task_depends)%></h3>
         </div>
         <div class="sub-page-block-body">
           <%= content_for :form_block_depends   %>
         </div>
+        <% end %>
       </div>
     </div>
     <table class="page-block-footer">
