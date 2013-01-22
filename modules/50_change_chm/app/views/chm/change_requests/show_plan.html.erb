@@ -32,4 +32,5 @@
       margin-left: 46px;
   }
 </style>
+<%= common_title({:action_meaning=>"(#{@change_request[:change_status_name]})[#{@change_request[:request_number]}]#{@change_request[:title]}"}) %>
 <%= render :partial=>"show_tmp",:locals=>{:partial=>"show_plan"}%>
