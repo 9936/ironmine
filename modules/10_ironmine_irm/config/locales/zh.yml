@@ -2092,3 +2092,5 @@ zh:
 
   label_kpi_resolved_rate: 事故单解决率
   label_kpi_ttr: 平均处理时间
+
+  label_irm_person_work_number: 工号
