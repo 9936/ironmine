@@ -30,7 +30,7 @@
               <tr>
                 <td>
                   <div>
-                    <%= link_to(t(:new),{:controller => "chm/change_tasks", :action => "new",:source_id=>@change_request.id,:phase_id=>phase.id},:back=>true) %>
+                    <%= link_to(t(:new),{:controller => "chm/change_tasks", :action => "new",:source_id=>@change_request.id,:external_system_id => @change_request.external_system_id,:phase_id=>phase.id}, :class => "action-link", :back=>true) %>
                   </div>
                 </td>
                 <td>
@@ -53,8 +53,8 @@
                 <tr id="<%=data[:id]%>">
                   <td>
                     <div>
-                      <%= link_to(t(:edit),{:controller => "chm/change_tasks", :action => "edit",:id=>data[:id]},:back=>true) %>
-                      <%= link_to(t(:delete),{:controller => "chm/change_tasks",:action => "destroy",:id=>data.id},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+                      <%= link_to(t(:edit),{:controller => "chm/change_tasks", :action => "edit",:id=>data[:id], :external_system_id => @change_request.external_system_id},:back=>true, :class => "action-link") %>&nbsp;|
+                      <%= link_to(t(:delete),{:controller => "chm/change_tasks",:action => "destroy",:id=>data[:id]},{:back=>true,:class => "action-link",:method => :delete,:confirm => t(:label_are_you_sure) }) %>
                     </div>
                   </td>
 
@@ -71,7 +71,7 @@
                     <div class="name"><span><%= data[:support_group_name] %></span></div>
                     <div class="edit" title="<%= t(:edit) %>"><span class="edit_icon"></span></div>
                     <div class="name_edit">
-                      <%= select_tag_alias :support_group_id, available_support_group,data[:support_group_id],{:id=>"support_group_id",:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---", "select_type" => "group" }%>
+                      <%= select_tag_alias :support_group_id, available_support_group(@change_request.external_system_id), data[:support_group_id],{:id=>"support_group_id",:prompt=>"--- #{I18n.t(:actionview_instancetag_blank_option)} ---", "select_type" => "group" }%>
                     </div>
                     <div class="loading_edit"><span class="loading_img"></span></div>
                   </td>
