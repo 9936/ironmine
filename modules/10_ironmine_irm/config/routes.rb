@@ -751,6 +751,7 @@ Rails.application.routes.draw do
     #mailer_log
     match '/mailer_logs(/index)(.:format)' => "mailer_logs#index", :via => :get
     match '/mailer_logs/get_data(.:format)' => "mailer_logs#get_data"
+    match '/mailer_logs/clear_logs(.:format)' => "mailer_logs#clear_logs"
 
     #delayed_jobs
     match '/delayed_jobs(/index)(.:format)' => "delayed_jobs#index", :via => :get
@@ -759,6 +760,7 @@ Rails.application.routes.draw do
     #match '/delayed_jobs/action_process_monitor' => "delayed_job#action_process_monitor"
     match '/delayed_jobs/get_data(.:format)' => "delayed_jobs#get_data"
     match '/delayed_jobs/get_item_data(.:format)' => "delayed_jobs#get_item_data"
+    match '/delayed_jobs/clear_logs(.:format)' => "delayed_jobs#clear_logs"
 
     match '/delayed_jobs/wf_process_job_monitor(.:format)' => "delayed_jobs#wf_process_job_monitor", :via => [:get, :post]
     match '/delayed_jobs/icm_group_assign_monitor(.:format)' => "delayed_jobs#icm_group_assign_monitor", :via => [:get, :post]

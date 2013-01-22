@@ -75,6 +75,10 @@ group :assets do
   gem 'jquery-rails', '1.0.19'
 end
 
+group :development do
+  gem "better_errors"
+end
+
 # Deploy with Capistrano
 gem 'capistrano'
 gem 'rvm-capistrano', :require => false
