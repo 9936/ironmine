@@ -214,7 +214,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/columns" => ["create", "edit", "get_columns_data", "index", "new", "update"],
+              "skm/columns" => ["create", "edit", "get_columns_data", "index", "new", "update","show","multilingual_edit", "multilingual_update"],
           },
       }
   }

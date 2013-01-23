@@ -126,7 +126,10 @@ Rails.application.routes.draw do
       match '/skm_columns/create(.:format)' => "columns#create", :via => :post
       match '/skm_columns/:id/edit(.:format)' => "columns#edit", :via => :get
       match '/skm_columns/:id/update(.:format)' => "columns#update", :via => :put
+      match '/skm_columns/:id/show(.:format)' => "columns#show", :via => :get
       match '/skm_columns/get_columns_data(.:format)' => "columns#get_columns_data", :via => :get
+      match '/skm_columns/:id/multilingual_edit(.:format)' => "columns#multilingual_edit", :via => :get
+      match '/skm_columns/:id/multilingual_update(.:format)' => "columns#multilingual_update", :via => :put
 
       #skm_channels
       match '/channels(/index)(.:format)' => "channels#index", :via => :get
