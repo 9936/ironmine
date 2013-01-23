@@ -173,7 +173,8 @@ module Hli::IncidentRequestsControllerEx
       end
 
       def cancel_request
-        ir = Icm::IncidentRequest.find(params[:id])
+        ir = Icm::IncidentRequest.query(params[:id])
+        ir = check_incident_request_permission(ir)
         respond_to do |format|
           if ir.update_attribute(:status_code, "OFFLINE")
             ir.update_attribute(:last_response_date, Time.now)
@@ -188,7 +189,8 @@ module Hli::IncidentRequestsControllerEx
       end
 
       def enable_request
-        ir = Icm::IncidentRequest.find(params[:id])
+        ir = Icm::IncidentRequest.query(params[:id])
+        ir = check_incident_request_permission(ir)
         respond_to do |format|
           if ir.update_attribute(:status_code, "ENABLED")
             ir.update_attribute(:last_response_date, Time.now)
@@ -271,6 +273,7 @@ module Hli::IncidentRequestsControllerEx
       end
 
       private
+
       def prepared_for_create(incident_request)
         incident_request.submitted_by = Irm::Person.current.id
         incident_request.submitted_date = Time.now
