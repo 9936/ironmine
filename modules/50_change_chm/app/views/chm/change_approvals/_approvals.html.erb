@@ -5,6 +5,8 @@
       <%= link_to t(:delete),{:controller => "chm/change_approvals",:id=>data[:id],:action => "destroy"} ,{:back=>true,:method => :delete, :class => "action-link", :confirm => t(:label_are_you_sure) } %>
     <% elsif data.approve_able?(Irm::Person.current)  %>
       <%= link_to t(:label_chm_change_approval_approve),{:controller => "chm/change_approvals",:id=>data[:id],:action => "approve", :class => "action-link"} ,{:back=>true } %>
+    <% else %>
+      -----
     <% end %>
   <% end %>
   <% builder.column(:full_name,{:title=>t(:label_irm_person_full_name)})%>
