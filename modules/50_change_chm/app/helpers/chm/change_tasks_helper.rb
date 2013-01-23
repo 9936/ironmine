@@ -10,7 +10,7 @@ module Chm::ChangeTasksHelper
     tasks = Chm::ChangeTask.list_all.where(:source_type=>Chm::ChangeRequest.name,:source_id=>change_request_id)
     grouped_change_tasks = tasks.group_by{|i| i.change_task_phase_id}
     change_task_phases = Chm::ChangeTaskPhase.multilingual.order_sequence.query_by_ids(grouped_change_tasks.keys)
-    [change_task_phases,grouped_change_tasks]
+    [change_task_phases, grouped_change_tasks]
   end
 
   def except_self_change_tasks(change_request_id,task_id)

@@ -330,4 +330,36 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #=================================END:ADVISORY_BOARD=================================
+
+  #=================================START:CHANGE SETTING=================================
+
+  map.menu :system_common_setting, {
+      :children => {
+          :system_change_setting => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 40,
+                  :en => {:name => "Change Setting", :description => "Change Request Setting"},
+                  :zh => {:name => "变更单设置", :description => "变更单设置"}
+              }
+          }
+      }
+  }
+
+  map.menu :system_change_setting, {
+      :en => {:name => "Change Setting", :description => "Change Setting"},
+      :zh => {:name => "变更单设置", :description => "变更单设置"},
+      :children => {
+          #:system_incident_status => {
+          #    :type => "function",
+          #    :entry => {
+          #        :sequence => 10,
+          #        :en => {:name => "Status", :description => "Status"},
+          #        :zh => {:name => "状态设置", :description => "状态设置"},
+          #    }
+          #}
+      }
+  }
+
+  #=================================END:CHANGE SETTING=================================
 end

@@ -33,7 +33,7 @@ class Irm::DelayedJobLogItem < ActiveRecord::Base
 
   private
     def generate_sequence
-      self.sequence = (Time.now.to_f * 10000000).to_i
+      self.sequence = (Time.zone.now.to_f * 10000000).to_i
     end
 
 

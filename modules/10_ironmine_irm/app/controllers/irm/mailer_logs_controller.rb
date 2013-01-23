@@ -13,4 +13,18 @@ class Irm::MailerLogsController < ApplicationController
       }
     end
   end
+
+  def clear_logs
+    time_period = params[:time_period]
+    if time_period.present?
+      if time_period.eql?('ALL')
+        Irm::MailerLog.unscoped.delete_all
+      else
+        time_period = hand_period(time_period)
+        Irm::MailerLog.unscoped.where("created_at <?", time_period).find_each(&:destroy)
+      end
+
+    end
+    redirect_to({:action => "index"})
+  end
 end

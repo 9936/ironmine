@@ -24,7 +24,7 @@
                 <tr id="<%=data[:id]%>">
                   <td>
                     <div>
-                      <%= link_to t(:delete),{:controller => "chm/advisory_board_members",:id=>data.id,:action => "destroy"} ,{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) } %>
+                      <%= link_to t(:delete),{:controller => "chm/advisory_board_members",:id=>data.id,:action => "destroy"} ,{:back=>true, :class => "action-link", :method => :delete,:confirm => t(:label_are_you_sure) } %>
                     </div>
                   </td>
                   <td>

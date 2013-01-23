@@ -438,4 +438,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def hand_period(time_period)
+    if time_period.match(/\d+day/)
+      time_period = time_period.gsub(/\D+/, '').to_i.days.ago
+    elsif time_period.match(/\d+week/)
+      time_period = time_period.gsub(/\D+/, '').to_i.weeks.ago
+    elsif time_period.match(/\d+month/)
+      time_period = time_period.gsub(/\D+/, '').to_i.months.ago
+    elsif time_period.match(/\d+year/)
+      time_period = time_period.gsub(/\D+/, '').to_i.years.ago
+    else
+      time_period = ''
+    end
+    time_period
+  end
+
 end

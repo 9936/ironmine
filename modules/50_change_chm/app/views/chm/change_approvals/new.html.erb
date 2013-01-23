@@ -1,8 +1,7 @@
 <%= common_title(:action_meaning => t(:label_chm_change_approval_new)) %>
 <!--页面结构-->
 <div class="page-block">
-  <%= form_tag({:action=>"create", :change_request_id => @change_request.id},{:id=>"createForm"}) do %>
-
+  <%= form_tag({:action=>"create", :change_request_id => @change_request.id},{:id=>"createForm", :builder => CustomFormBuilder}) do %>
   <table class="page-block-header">
     <tr>
       <td class="page-block-title">
@@ -10,7 +9,7 @@
       </td>
       <td class="page-block-button">
         <div class="form-inline">
-          <%= select_tag_alias(:advisory_board_id, available_advisory_board, params[:advisory_board_id], {:id => "advisoryBoard"}) %>
+          <%= blank_select_tag(:advisory_board_id, available_advisory_board, params[:advisory_board_id], {:id => "advisoryBoard"}) %>
           <%= hidden_field_tag(:person_ids, params[:person_ids], :id => "person_ids") %>
           <%= hidden_params_field(:back_url) %>
           <%= link_submit t(:add), :id => "formSubmit", :class => "btn" %>
@@ -19,15 +18,14 @@
       </td>
     </tr>
   </table>
-  <%end%>
   <div class="page-block-body">
-    <%= datatable("people", {:action => "get_available_member", :change_request_id => @change_request.id}, [], {:lazy_load => true, :select => "multiple", :paginator_box => 'peoplePaginatorBox'}) %>
+    <%= datatable("people", {:action => "get_available_member", :change_request_id => @change_request.id, :advisory_board_id => ""}, [], {:select => "multiple", :paginator_box => 'peoplePaginatorBox'}) %>
   </div>
+  <% end %>
 </div>
 
 
 <script type="text/javascript">
-
     $(document).ready(function () {
         $("#advisoryBoard").change(function (e) {
             var current_target = $("#people").data("datatable").target;
@@ -52,8 +50,6 @@
     });
 </script>
 <style type="text/css">
-  #createForm{
-      margin-bottom: 0;
-  }
+  #createForm{margin-bottom: 0;}
 </style>
 

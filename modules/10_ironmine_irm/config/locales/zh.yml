@@ -1096,6 +1096,7 @@ zh:
   label_irm_object_user_custom_flag: 自定义字段
   label_irm_object_user_system_custom_flag: 系统自定义字段
   label_action_new_cux: 新建自定义字段
+  label_action_create_cux: 新建自定义字段
   label_custom_attributes_show: 显示自定义部分
   label_custom_attributes_hide: 隐藏自定义部分
   #======================== business objects====================
@@ -1448,10 +1449,19 @@ zh:
   label_irm_delayed_jobs_record_item_record_at: 记录时间
   label_irm_delayed_jobs_record_error_info: 错误信息
 
+
   label_irm_delayed_job_icm_group_assign_monitor: 事故单组指派作业
   label_irm_delayed_job_ir_rule_process_monitor: 事故单工作流作业
   label_irm_delayed_job_wf_approval_mail_monitor: 审批邮件发送作业
   label_action_item_list: 详细记录
+  label_clear_logs: 清空日志
+  label_clear_logs_btn: 清空
+  label_period_x_days_ago: %{x} 天前
+  label_period_x_weeks_ago: %{x} 星期前
+  label_period_x_months_ago: %{x} 月前
+  label_period_x_years_ago: %{x} 年前
+  label_period_log_clear_all: 清空所有
+  label_clear_logs_alert_tips: 当日志记录太多时，清空操作可能需要一定的时间请耐心等候
 
   label_irm_monitor_ir_rule_process: 事故单工作流规则作业
   label_irm_delayed_job: Delayed Job

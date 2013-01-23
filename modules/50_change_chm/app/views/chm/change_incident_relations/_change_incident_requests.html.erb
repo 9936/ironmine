@@ -9,7 +9,7 @@
               <th style="width:40px;">
                 <div><%= t(:operation) %></div>
               </th>
-              <th style="width:55px;">
+              <th style="width:80px;">
                 <div><%= t(:label_icm_incident_request_request_number_shot) %></div>
               </th>
               <th >
@@ -40,7 +40,6 @@
                     <b><%= t(:label_chm_change_request_master_incident_request) %></b>
                   </div>
                 </td>
-
               </tr>
 
               <tr id="<%=master_incident_request[:id]%>">
@@ -95,7 +94,7 @@
                   <tr id="<%=data[:id]%>">
                     <td>
                       <div>
-                        <%= link_to(t(:delete),{:controller => "chm/change_incident_relations",:action => "destroy",:incident_request_id=>data.id,:change_request_id=>@change_request.id},{:remote=>true,:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+                        <%= link_to(t(:delete),{:controller => "chm/change_incident_relations",:action => "destroy",:incident_request_id=>data.id,:change_request_id=>@change_request.id},{:remote=>true,:back=>true, :class => "action-link" ,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
                       </div>
                     </td>
                     <td>

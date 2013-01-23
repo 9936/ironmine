@@ -1,6 +1,6 @@
 class Irm::DelayedJobLog < ActiveRecord::Base
   set_table_name :irm_delayed_job_logs
-  has_many :delayed_job_log_items, :primary_key => "delayed_job_id", :foreign_key => "delayed_job_id"
+  has_many :delayed_job_log_items, :primary_key => "delayed_job_id", :foreign_key => "delayed_job_id", :dependent => :destroy
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -120,23 +120,24 @@ class Irm::DelayedJobLog < ActiveRecord::Base
     end
     ret_logs_new = []
     ret_logs.each do |t|
-#      begin
-        step_instance = Irm::WfStepInstance.where(:id => YAML.load(t.handler).step_instance_id).first
-        approval_step = Irm::WfApprovalStep.where(:id => step_instance.step_id).first
-        process_instance = Irm::WfProcessInstance.where(:id => step_instance.process_instance_id).first
-        approval_process = Irm::WfApprovalProcess.where(:id => process_instance.process_id).first
-        business_object = Irm::BusinessObject.multilingual.where("#{Irm::BusinessObject.table_name}.business_object_code = ?", approval_process.bo_code).first
+      step_instance = Irm::WfStepInstance.where(:id => YAML.load(t.handler).step_instance_id).first
+      approval_step = Irm::WfApprovalStep.where(:id => step_instance.step_id).first
+      process_instance = Irm::WfProcessInstance.where(:id => step_instance.process_instance_id).first
+      approval_process = Irm::WfApprovalProcess.where(:id => process_instance.process_id).first
+      business_object = Irm::BusinessObject.multilingual.where("#{Irm::BusinessObject.table_name}.business_object_code = ?", approval_process.bo_code).first
 
-        t.approval_process_name = approval_process.name
-        t.bo_description = process_instance.bo_description
-        t.approval_step_name = approval_step.name
-        t.bo_name = business_object[:name]
+      t.approval_process_name = approval_process.name
+      t.bo_description = process_instance.bo_description
+      t.approval_step_name = approval_step.name
+      t.bo_name = business_object[:name]
 
-        ret_logs_new << t
-#      rescue
-#        next
-#      end
+      ret_logs_new << t
     end
     ret_logs_new
   end
+
+  def delayed_job_log_items
+    Irm::DelayedJobLogItem.unscoped.where("delayed_job_id=?", self.delayed_job_id)
+  end
+
 end

@@ -1,6 +1,6 @@
 <%=datatable_view({:count=>datas.length,:datas=>datas}) do |builder|%>
-  <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
-    <%= link_to(t(:delete),{:controller => "chm/change_config_relations",:action => "destroy",:id=>data.id,:_dom_id=>"changeConfigItem"},{:remote=>true,:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+  <% builder.column(:id,{:title=>t(:operation), :width => "40px"}) do |data|%>
+    <%= link_to(t(:delete),{:controller => "chm/change_config_relations",:action => "destroy", :id=>data.id,:_dom_id=>"changeConfigItem"},{:remote=>true,:back=>true,:class => "action-link", :method => :delete,:confirm => t(:label_are_you_sure) }) %>
   <% end %>
   <% builder.column(:item_number,{:title=>t(:label_com_config_item_number),:searchable=>true})  %>
   <% builder.column(:config_class_name,{:title=>t(:label_com_config_item_config_class),:searchable=>true})%>

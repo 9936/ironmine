@@ -15,6 +15,9 @@ class Chm::ChangeRequest < ActiveRecord::Base
                         :contact_number,:contact_id
   acts_as_searchable
 
+  #加入自定义字段
+  acts_as_customizable
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离

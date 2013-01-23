@@ -1,18 +1,17 @@
 <%= common_title(:action_meaning=>t(:label_chm_advisory_board_member_new)) %>
 <!--页面结构-->
 <div class="page-block">
+  <%= form_tag({:action=>"create", :advisory_board_id => @advisory_board.id}) do |f| %>
   <table class="page-block-header">
     <tr>
       <td class="page-block-title">
         <h2 class="block-title"><%= t(:label_chm_advisory_board_member_new) %></h2>
       </td>
       <td class="page-block-button">
-        <%= form_tag({:action=>"create", :advisory_board_id => @advisory_board.id}) do |f| %>
-          <%= hidden_field_tag(:person_ids,params[:person_ids],:id=>"person_ids") %>
-          <%= hidden_params_field(:back_url) %>
-          <%= link_submit t(:add),:id=>"formSubmit",:class=>"btn btn-primary"%>
-          <%= link_back t(:back),{}, :class=>"btn"%>
-        <% end %>
+        <%= hidden_field_tag(:person_ids,params[:person_ids],:id=>"person_ids") %>
+        <%= hidden_params_field(:back_url) %>
+        <%= link_submit t(:add),:id=>"formSubmit",:class=>"btn btn-primary"%>
+        <%= link_back t(:back),{}, :class=>"btn"%>
       </td>
       <td class="page-block-help">
         <div id="advisory_boardsSearchBox"></div>
@@ -20,8 +19,9 @@
     </tr>
   </table>
   <div class="page-block-body">
-      <%= datatable("people",{:action=>"get_data"},[],{:paginator_box=>"advisory_boardsPaginatorBox",:search_box=>"advisory_boardsSearchBox",:select=>"multiple"})%>
+    <%= datatable("people",{:action=>"get_data"},[],{:paginator_box=>"advisory_boardsPaginatorBox",:search_box=>"advisory_boardsSearchBox",:select=>"multiple"})%>
   </div>
+  <% end %>
 </div>
 
 

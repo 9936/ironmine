@@ -52,7 +52,6 @@ class Chm::ChangeApprovalsController < ApplicationController
     respond_to do |format|
       format.json {
         advisory_board_members,count = paginate(advisory_board_members_scope)
-
         render :json=>to_jsonp(advisory_board_members.to_grid_json([:full_name,:email_address,:organization_name,:person_id],count))
       }
       format.html {

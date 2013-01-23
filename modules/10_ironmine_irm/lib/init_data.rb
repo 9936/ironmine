@@ -2177,7 +2177,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/delayed_jobs" => ["get_data", "get_item_data", "icm_group_assign_monitor", "index", "ir_rule_process_monitor", "item_list", "item_view", "wf_process_job_monitor"],
+              "irm/delayed_jobs" => ["get_data", "get_item_data", "icm_group_assign_monitor", "index","clear_logs",
+                                     "ir_rule_process_monitor", "item_list", "item_view", "wf_process_job_monitor"],
           },
       }
   }
@@ -2199,7 +2200,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/mailer_logs" => ["get_data", "index"],
+              "irm/mailer_logs" => ["get_data", "index", "clear_logs"]
           },
       }
   }

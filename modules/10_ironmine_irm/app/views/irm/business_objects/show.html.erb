@@ -108,7 +108,7 @@
     <%= render :partial=>"customize_object_attributes",:locals=>{:datas=>customize_object_attributes(@business_object.id)}%>
   </div>
 </div>
-<% if editable_custom_flag?(@business_object.bo_model_name) %>
+<% if editable_custom_flag?(@business_object.bo_model_name) and @business_object.custom_flag.eql?('Y') %>
     <style type="text/css">
         .drag-able .page-block-help {display: table-cell !important;}
     </style>

@@ -46,7 +46,7 @@ module Irm::PeopleHelper
    end
 
    def person_avatar(person_id)
-     person = Irm::Person.find(person_id)
+     person = Irm::Person.where("id=?",person_id).first
      if person&&person.avatar_file_name
        person.avatar.url(:medium)
      else

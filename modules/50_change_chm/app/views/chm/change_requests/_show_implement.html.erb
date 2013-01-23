@@ -6,7 +6,7 @@
         <h2 class="block-title"><%= t(:label_chm_change_request_task) %></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to(t(:new),{:controller=>"chm/change_tasks",:action=>"new",:source_id=>@change_request.id},:back=>true,:class => "btn btn-primary")%>
+        <%= link_to(t(:new),{:controller=>"chm/change_tasks",:action=>"new",:source_id=>@change_request.id, :external_system_id => @change_request.external_system_id },:back=>true,:class => "btn btn-primary")%>
         <%= link_to(t(:label_chm_change_task_template_new),{:controller=>"chm/change_tasks",:action=>"template_new",:source_id=>@change_request.id},:back=>true,:class => "btn")%>
       </td>
     </tr>

@@ -1,19 +1,43 @@
 <%= app_title %>
 <!--页面结构-->
-<div class="page-block">
+<div class="page-block" id="pageBlock">
+  <%= form_tag({:controller => "irm/delayed_jobs", :action => "clear_logs"}, :class => "form-inline", :style => "margin-bottom: 0;") do %>
   <table class="page-block-header"><tr>
     <td class="page-block-title">
       <h2 class="block-title"><%= t(:label_irm_delayed_jobs_record) %></h2>
     </td>
     <td class="page-block-button"></td>
-    <td class="page-block-help">
-      <div id="searchBox"></div>
+    <td class="page-block-help" style="text-align: left;">
+      <div>
+        <span><%= t(:label_clear_logs) %>：</span>
+        <%= blank_select_tag("time_period", available_time_period, nil, {:id => "timePeriod"}) %>
+        <%= link_submit t(:label_clear_logs_btn), :class => "btn btn-primary disabled", :id => "submitBtn" %>
+      </div>
     </td>
   </tr></table>
   <div class="page-block-body">
     <%= datatable("delayed_jobs",{:action=>"get_data"},[],{:search_box=>"searchBox",:paginator_box=>"paginatorBox"})%>
   </div>
+  <% end %>
 </div>
+
+<script type="text/javascript">
+  $(function(){
+      $("#timePeriod").change(function(){
+          if($(this).val()){
+              if($("#submitBtn").hasClass("disabled")){
+                  $("#submitBtn").removeClass("disabled");
+              }
+          }else{
+              $("#submitBtn").addClass("disabled");
+          }
+      });
+      $("#submitBtn").click(function(){
+         if($(this).hasClass("disabled")) return false;
+         else alert("<%= t(:label_clear_logs_alert_tips) %>");
+      });
+  });
+</script>
 
 
 <div id="logModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

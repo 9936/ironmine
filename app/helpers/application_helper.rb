@@ -593,7 +593,7 @@ module ApplicationHelper
       if selected
         li_class += 'active'
       end
-      if index.to_s.eql?('0') and lim
+      if index.to_s.eql?('0') #and lim
         li_class += ' first'
       end
       output.safe_concat("<li id='#{tab_id}' class='#{li_class}'>")
