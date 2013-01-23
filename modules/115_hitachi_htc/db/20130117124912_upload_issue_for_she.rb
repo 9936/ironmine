@@ -1,7 +1,7 @@
-class UploadIssueForGoe1 < ActiveRecord::Migration
+class UploadIssueForShe < ActiveRecord::Migration
   def up
     opu = Irm::OperationUnit.where("short_name = ?", "Hand").first.id
-    last_update_mark = "-2"
+    last_update_mark = "-3"
     begin
       execute("DROP TABLE tmp_icm_incident_requests")
     rescue
@@ -39,24 +39,17 @@ class UploadIssueForGoe1 < ActiveRecord::Migration
     execute("CREATE TABLE tmp_irm_watchers LIKE irm_watchers")
 
 
-    issue_list = execute(%Q(SELECT Number '0', Title '1', Summary '2', System '3', Category '4',
-                                    `Sub Category` '5', Reply '6', `Reply Date` '7', Priority '8', `Root Cause` '9', `Status` '10',
-                                    Submitter '11', `Contact Info_` '12', `Support group` '13', Supporter '14', `Submit date` '15',
-                                    `Last Response` '16', `Real Response Date` '17', `Real Submit Date` '18', `Real Resolve Date` '19',
-                                    `Resolve Hours` '20', `Real Close Date` '21', `Response Hours` '22', `Location` '23a1', `Defect Factor` '24s1',
-                                    `Defect Factor Detail` '25s2', `Policy of Countermeasures` '26s3', `Substance of Countermeasure` '27s6',
-                                    `Own Organization` '28s4', `Owner` '29s5', `Target Date` '30s7', `Completion Date` '31s8', `Verification Env_ Release Date` '32s9',
-                                    `Verification Env_` '33s10', `Verification Env_ Confirmed Date` '34s11', `Verification Env_ Comfirmed By` '35s12',
-                                    `Prod Env_ Release Due Date` '36s13', `Prod Env_ Released Date` '37s14', `Preventive Measures` '38s15',
-                                    `Improving Plan` '39s16', `Investigation Hours (Consultant)` '40s17', `Resolution Hours (Consultant)` '41s18',
-                                    `Investigation Hours (Technical)` '42s19', `Resolution Hours (Technical)` '43s20', `G-PMO Confirmed Date` '44s21',
-                                    `G-PMO Confirmed By` '45s22', `Remarks` '46s23', `Other Working Hours` '47s24', `Root Cause` '48a2'
-                                    FROM goe_list_1 il))
+    issue_list = execute(%Q(SELECT Number '0', Title '1', Summary '2', 'GSCM', Category '4',
+                                `Subcategory` '5', Reply '6', `Submit date` '7', Priority '8', `Close Reason` '9', `Status` '10',
+                                Submitter '11', '111111' '12', `Support group` '13', Supporter '14', `Submit date` '15',
+                                `Close Time` '16', `Resolve Hours` '17', `Response Hours` '18', `Location`
+                                FROM gscm_she_issue il))
 
     issue_list.each do |r|
-      request_number = Irm::Sequence.nextval("GOE", opu)
+      request_number = Irm::Sequence.nextval("GSCM", opu)
       request_id = Fwk::IdGenerator.instance.generate("icm_incident_requests")
-      external_system_id = Irm::ExternalSystem.where("external_system_code = ?", 'GOE').first.id
+      external_system_id = Irm::ExternalSystem.where("external_system_code = ?", 'GSCM').first.id
+
       category_id = Icm::IncidentCategory.
           joins(",#{Icm::IncidentCategoriesTl.table_name} ict").
           where("ict.name = ?", r[4]).
@@ -72,7 +65,9 @@ class UploadIssueForGoe1 < ActiveRecord::Migration
 
       subcategory_id = subcategory.first.id if subcategory.any?
 
-      submitter = Irm::Person.where("full_name = ?", r[11]).first
+
+      submitter = Irm::Person.where("login_name = ?", r[11]).first
+
       priority = Icm::PriorityCode.
           joins(",#{Icm::PriorityCodesTl.table_name} pct").
           where("pct.name = ?", r[8]).
@@ -88,12 +83,14 @@ class UploadIssueForGoe1 < ActiveRecord::Migration
           first
 
       urgence = Icm::UrgenceCode.where("weight_values = ?", priority.weight_values).first
+
       support_group = Icm::SupportGroup.
           joins(",icm_support_groups_vl sgv").
           where("sgv.id = #{Icm::SupportGroup.table_name}.id").
           where("sgv.name = ?", r[13]).first
-
       supporter = Irm::Person.where("full_name = ?", r[14]).first
+      submitter = supporter unless submitter
+
       close_reason_id = ""
       close_reason_id = "000900075CLlbiaXnFab8C" if status.incident_status_code.eql?("CLOSED")
       default_impact_range_id = "000C00081LfL1v88KZbqPg"
@@ -102,34 +99,28 @@ class UploadIssueForGoe1 < ActiveRecord::Migration
       title = r[1].gsub("'", /\\'/.source)
       content = r[2]
       content = r[2].gsub("'", /\\'/.source)
-      content = "<pre>" + content + "</pre>"
+
       # insert incident request
       execute(%Q(INSERT INTO tmp_icm_incident_requests (request_type_code, report_source_code, id, request_number, title, summary,
                   external_system_id, incident_category_id, incident_sub_category_id, requested_by, organization_id, submitted_by,
                   weight_value, contact_id, contact_number,
                   incident_status_id, priority_id, impact_range_id, urgence_id, close_reason_id,
-                  support_group_id, support_person_id, cux_resolve_hours,cux_response_hours,cux_close_time,cux_resolve_time,cux_response_time,cux_submit_time,
-                  submitted_date,reply_count, last_request_date, last_response_date, opu_id, status_code, created_by, updated_by, created_at, updated_at,
-                  attribute1, attribute2, sattribute1, sattribute2, sattribute3, sattribute4, sattribute5, sattribute6, sattribute7, sattribute8, sattribute9,
-                  sattribute10, sattribute11, sattribute12, sattribute13, sattribute14, sattribute15, sattribute16, sattribute17, sattribute18, sattribute19,
-                  sattribute20, sattribute21, sattribute22, sattribute23, sattribute24)
+                  support_group_id, support_person_id, cux_resolve_hours,cux_response_hours,attribute1, attribute2,
+                  submitted_date,reply_count, last_request_date, last_response_date, opu_id, status_code, created_by, updated_by, created_at, updated_at)
                 VALUES ('REQUESTED_TO_PERFORM', 'CUSTOMER_SUBMIT', '#{request_id}','#{request_number}', '#{title}','#{content}',
                         '#{external_system_id}','#{category_id}','#{subcategory_id}','#{submitter.id}','#{submitter.organization_id}','#{submitter.id}',
                         '#{priority.weight_values}', '#{submitter.id}','#{submitter.bussiness_phone}',
                         '#{status.id}','#{priority.id}','#{default_impact_range_id}','#{urgence.id}','#{close_reason_id}',
-                        '#{support_group.id}', '#{supporter.id}', '#{r[20]}','#{r[22]}','#{r[21]}', '#{r[19]}', '#{r[17]}','#{r[18]}',
-                        '#{r[15]}','1','#{r[16]}', '#{r[16]}', '#{opu}', 'ENABLED', '#{submitter.id}','#{last_update_mark}','#{r[15]}','#{r[16]}',
-                        '#{r[48]}', '#{r[23]}', '#{r[24]}', '#{r[25]}', '#{r[26]}', '#{r[28]}', '#{r[29]}', '#{r[27]}', '#{r[30]}', '#{r[31]}',
-                        '#{r[32]}', '#{r[33]}', '#{r[34]}', '#{r[35]}', '#{r[36]}', '#{r[37]}', '#{r[38]}', '#{r[39]}', '#{r[40]}', '#{r[41]}',
-                        '#{r[42]}', '#{r[43]}', '#{r[44]}', '#{r[45]}', '#{r[46]}', '#{r[47]}')
+                        '#{support_group.id}', '#{supporter.id}', '#{r[17]}', '#{r[18]}', '#{r[9]}', '#{r[19]}',
+                        '#{r[15]}','1','#{r[16]}', '#{r[16]}', '#{opu}', 'ENABLED', '#{submitter.id}','#{last_update_mark}','#{r[15]}','#{r[16]}')
                 ))
+
       # insert incident journal
       j_id = Fwk::IdGenerator.instance.generate("icm_incident_journals")
       j_number = Irm::Sequence.nextval("Icm::IncidentJournal", opu)
       note = r[6]
       note = r[6].gsub("\\", /\\\\/.source).gsub("'", /\\'/.source)
       note = "<pre>" + note + "</pre>"
-
       # create assign history
       if supporter
         j_assign_id = Fwk::IdGenerator.instance.generate("icm_incident_journals")
@@ -195,8 +186,6 @@ class UploadIssueForGoe1 < ActiveRecord::Migration
                 VALUES ('#{Fwk::IdGenerator.instance.generate("irm_watchers")}', '#{opu}', '#{request_id}', 'Icm::IncidentRequest', '#{submitter.id}', 'Irm::Person',
                         'N', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')
                 )) unless ex_submit.any?
-
-
       # create ticket history
       execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
                             status_code, created_by, updated_by, created_at, updated_at)
@@ -210,13 +199,13 @@ class UploadIssueForGoe1 < ActiveRecord::Migration
         execute(%Q(INSERT INTO tmp_icm_incident_journals (id, opu_id, incident_request_id, reply_type, replied_by, message_body,
                               status_code, created_by, updated_by, created_at, updated_at)
                     VALUES ('#{j_id}', '#{opu}', '#{request_id}', 'CLOSE',
-                              '#{supporter.id}', 'Close this ticket', 'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')
+                              '#{supporter.id}', 'Close This Ticket', 'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[16]}', '#{r[16]}')
                     ))
         execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
                               status_code, created_by, updated_by, created_at, updated_at)
                        VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_histories")}', '#{opu}', '#{request_id}',
                               '#{j_id}', 'status', 'NEW', 'CLOSE',
-                              'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[7]}', '#{r[7]}')))
+                              'ENABLED', '#{submitter.id}', '#{last_update_mark}', '#{r[16]}', '#{r[16]}')))
       end
     end
 
