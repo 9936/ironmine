@@ -105,6 +105,7 @@ zh:
   label_action_knowledge_details: 审批知识
   label_action_reject: 拒绝
   label_action_my_unpublished: 我的未发布知识
+  label_action_unpublished: 未发布的知识
   label_action_index_search: 搜索结果
   label_action_new_step_1: 新建, 步骤1
   label_action_new_step_2: 新建, 步骤2

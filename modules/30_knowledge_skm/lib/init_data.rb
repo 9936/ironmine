@@ -97,6 +97,14 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "skm/entry_headers" => ["approve_knowledge", "wait_my_approve", "wait_my_approve_data"],
           },
+          :unpublished_skm_entries => {
+              :en => {:name => "View Unpublished Skm Entries", :description => "View Unpublished Skm Entries"},
+              :zh => {:name => "查看未发布的知识", :description => "查看未发布的知识"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "skm/entry_headers" => ["unpublished_data", "unpublished"]
+          }
       }
   }
   #=================================END:KNOWLEDGE_MANAGEMENT=================================
