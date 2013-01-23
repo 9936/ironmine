@@ -695,6 +695,7 @@ class Skm::EntryHeadersController < ApplicationController
     else
       entry_headers_scope = Skm::EntryHeader.
         list_all.
+        with_author.
         published.
         current_entry.
         with_favorite_flag(Irm::Person.current.id)
@@ -805,6 +806,23 @@ class Skm::EntryHeadersController < ApplicationController
   end
   def my_unpublished_data
     entry_headers_scope = Skm::EntryHeader.list_all.with_entry_status.current_entry.my_unpublished(params[:person_id])
+    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+    entry_headers,count = paginate(entry_headers_scope)
+    respond_to do |format|
+      format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:entry_status_code,:entry_status_name, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date], count)) }
+      format.html  {
+        @datas = entry_headers
+        @count = entry_headers.count
+      }
+    end
+  end
+
+  def unpublished
+
+  end
+
+  def unpublished_data
+    entry_headers_scope = Skm::EntryHeader.list_all.with_author.with_entry_status.current_entry.unpublished
     entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|

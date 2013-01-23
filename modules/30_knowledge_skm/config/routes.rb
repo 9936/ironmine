@@ -76,6 +76,10 @@ Rails.application.routes.draw do
       match '/entry_headers/data_grid(.:format)' => "entry_headers#data_grid", :via => :get
       match '/entry_headers/my_favorites(.:format)' => "entry_headers#my_favorites", :via => :get
       match '/entry_headers/my_unpublished(.:format)' => "entry_headers#my_unpublished", :via => :get
+
+      match '/entry_headers/unpublished_data' => "entry_headers#unpublished_data"
+      match '/entry_headers/unpublished' => "entry_headers#unpublished", :via => :get
+
       match '/entry_headers/remove_favorite(.:format)' => "entry_headers#remove_favorite", :via => :get
       match '/entry_headers/my_drafts(.:format)' => "entry_headers#my_drafts", :via => :get
       match '/entry_headers/:person_id/my_drafts_data' => "entry_headers#my_drafts_data"
@@ -122,7 +126,10 @@ Rails.application.routes.draw do
       match '/skm_columns/create(.:format)' => "columns#create", :via => :post
       match '/skm_columns/:id/edit(.:format)' => "columns#edit", :via => :get
       match '/skm_columns/:id/update(.:format)' => "columns#update", :via => :put
+      match '/skm_columns/:id/show(.:format)' => "columns#show", :via => :get
       match '/skm_columns/get_columns_data(.:format)' => "columns#get_columns_data", :via => :get
+      match '/skm_columns/:id/multilingual_edit(.:format)' => "columns#multilingual_edit", :via => :get
+      match '/skm_columns/:id/multilingual_update(.:format)' => "columns#multilingual_update", :via => :put
 
       #skm_channels
       match '/channels(/index)(.:format)' => "channels#index", :via => :get

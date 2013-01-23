@@ -27,6 +27,7 @@
                       <td class="page-block-button">
                         <%= link_to t(:edit), {}, {:onclick => "javascript:void(0)", :href=>"#",:class=>"btn",:id=>"edit_button"}%>
                         <%= link_to t(:label_skm_column_new_child), {}, {:onclick => "javascript:void(0)", :href=>"#",:class=>"btn",:id=>"new_child_button"}%>
+                        <%= link_to t(:show), {}, {:onclick => "javascript:void(0)", :href=>"#",:class=>"btn",:id=>"show_button"}%>
                       </td>
                   </tr></table>
 
@@ -61,6 +62,7 @@
           $("#column_name").html(element.attr("column_name"));
           $("#column_description").html(element.attr("column_description"));
           $("#edit_button").attr("href","/skm_columns/" + element.attr("sc_id") + "/edit");
+          $("#show_button").attr("href","/skm_columns/" + element.attr("sc_id") + "/show");
           $("#new_child_button").attr("href","/skm_columns/new?parent_column_id=" + element.attr("sc_id"));
       });
   });

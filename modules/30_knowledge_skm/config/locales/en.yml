@@ -75,6 +75,7 @@ en:
   label_action_my_drafts: My Drafts
   label_action_wait_my_approve: Wait My Approval
   label_action_my_unpublished: My Unpublished
+  label_action_unpublished: Unpublished
   label_action_index_search: Search Result
   label_action_approve: Approve
   label_action_knowledge_details: Approve
@@ -183,8 +184,11 @@ en:
   label_skm_column_if_access_list_none: Column UnAcces List
   label_skm_entry_header_index: Home
   label_skm_column_all: All Category
+  label_skm_column_name: Category Name
+  label_skm_column_description: Category Description
   label_action_incident_new: New Incident
   label_action_new_relation: New Relation
+
 
   #========================= skm columns ==========================================
   label_skm_channel: Knowledge Channel

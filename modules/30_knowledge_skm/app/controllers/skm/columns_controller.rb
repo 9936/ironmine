@@ -34,6 +34,28 @@ class Skm::ColumnsController < ApplicationController
     @column = Skm::Column.multilingual.find(params[:id])
   end
 
+  def show
+    @column = Skm::Column.multilingual.find(params[:id])
+  end
+
+  def multilingual_edit
+    @column = Skm::Column.find(params[:id])
+  end
+
+  def multilingual_update
+    @column = Skm::Column.find(params[:id])
+    @column.not_auto_mult = true
+    respond_to do |format|
+      if @column.update_attributes(params[:skm_column])
+        format.html { redirect_to({:action=>"show"}, :notice => 'Column was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "multilingual_edit" }
+        format.xml  { render :xml => @column.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
   def update
     @column = Skm::Column.find(params[:id])
     @column.parent_column_id=params[:skm_columns] if params[:skm_columns].present?

@@ -3,4 +3,7 @@
   <%= link_to(t(:label_action_my_favorites), {:action=>"my_favorites"},:class=>"btn #{params[:action].eql?("my_favorites")?"active":''}")%>
   <%= link_to(t(:label_action_wait_my_approve), {:action => "wait_my_approve"},:class=>"btn #{params[:action].eql?("wait_my_approve")?"active":''}")%>
   <%= link_to(t(:label_action_my_unpublished), {:action => "my_unpublished"},:class => "btn #{params[:action].eql?("my_unpublished")?"active":''}")%>
+  <% if allow_to_function?(:unpublished_skm_entries) %>
+    <%= link_to(t(:label_action_unpublished), {:action => "unpublished"},:class => "btn #{params[:action].eql?("unpublished")?"active":''}")%>
+  <% end %>
 </div>
