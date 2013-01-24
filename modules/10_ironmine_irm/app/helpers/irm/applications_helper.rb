@@ -35,19 +35,19 @@ module Irm::ApplicationsHelper
   #清空日志时间段选择
   def available_time_period
     time_period = []
-    (1..6).each do |i|
-      time_period << [t(:label_period_x_days_ago, :x => i), "#{i}day"]
-    end
-    (1..4).each do |i|
-      time_period << [t(:label_period_x_weeks_ago, :x => i), "#{i}week"]
-    end
-    (1..11).each do |i|
+    #(1..6).each do |i|
+    #  time_period << [t(:label_period_x_days_ago, :x => i), "#{i}day"]
+    #end
+    #(1..4).each do |i|
+    #  time_period << [t(:label_period_x_weeks_ago, :x => i), "#{i}week"]
+    #end
+    (3..11).each do |i|
       time_period << [t(:label_period_x_months_ago, :x => i), "#{i}month"]
     end
     (1..2).each do |i|
       time_period << [t(:label_period_x_years_ago, :x => i), "#{i}year"]
     end
-    time_period << [t(:label_period_log_clear_all), 'ALL']
+    #time_period << [t(:label_period_log_clear_all), 'ALL']
     time_period
   end
 
