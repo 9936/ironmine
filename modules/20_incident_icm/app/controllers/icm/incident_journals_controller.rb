@@ -476,8 +476,20 @@ class Icm::IncidentJournalsController < ApplicationController
   end
 
   private
+  def check_incident_request_permission(scope)
+    incident_request = scope.filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).first
+    if incident_request.present?
+      return incident_request
+    else
+      redirect_to({:controller=>"icm/incident_requests",:action => "index"})
+    end
+
+  end
+
+
   def setup_up_incident_request
-    @incident_request = Icm::IncidentRequest.list_all.find(params[:request_id])
+    @incident_request = Icm::IncidentRequest.list_all.query(params[:request_id])
+    @incident_request = check_incident_request_permission(@incident_request)
   end
 
   def backup_incident_request

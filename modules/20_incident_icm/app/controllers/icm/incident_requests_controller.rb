@@ -12,8 +12,8 @@ class Icm::IncidentRequestsController < ApplicationController
   # GET /incident_requests/1
   # GET /incident_requests/1.xml
   def show
-    @incident_request = Icm::IncidentRequest.list_all.find(params[:id])
-
+    @incident_request = Icm::IncidentRequest.list_all.query(params[:id])
+    @incident_request = check_incident_request_permission(@incident_request)
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @incident_request }
@@ -36,7 +36,8 @@ class Icm::IncidentRequestsController < ApplicationController
 
   # GET /incident_rsolr_searchequests/1/edit
   def edit
-    @incident_request = Icm::IncidentRequest.find(params[:id])
+    @incident_request = Icm::IncidentRequest.list_all.query(params[:id])
+    @incident_request = check_incident_request_permission(@incident_request)
     respond_to do |format|
       format.html { render :layout => "application_full"}# new.html.erb
       format.xml  { render :xml => @incident_request }
@@ -129,7 +130,8 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def update
     @incident_reply = Icm::IncidentReply.new(params[:icm_incident_reply])
-    @incident_request = Icm::IncidentRequest.find(params[:id])
+    @incident_request = Icm::IncidentRequest.list_all.query(params[:id])
+    @incident_request = check_incident_request_permission(@incident_request)
     respond_to do |format|
       flag = true
       flag, now = validate_files(@incident_request) if params[:files].present?
@@ -570,6 +572,17 @@ class Icm::IncidentRequestsController < ApplicationController
 
 
   private
+
+
+  def check_incident_request_permission(scope)
+    incident_request = scope.filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id).first
+    if incident_request.present?
+      return incident_request
+    else
+      redirect_to({:action => "index"})
+    end
+
+  end
   #将创建关联事故单放在一个单独的方法中，因为在多个action中用到
   def create_relation(source_id, target_id, relation_type)
     #确保事故单不能关联自身
