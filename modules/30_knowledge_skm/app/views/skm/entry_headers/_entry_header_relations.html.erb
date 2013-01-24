@@ -10,7 +10,7 @@
               <%= link_submit(t(:add), :class=>"btn") %>
             </div>
             <div  style="float:right;">
-              <%= lov_field_tag "skm_relation", Skm::EntryHeader,{:style=>"width:150px;",:lov_params=>{:lktkn=>"entry_relation",:entry_header_id=>entry_header_id}}%>
+              <%= lov_field_tag "skm_relation", Skm::EntryHeader,{:style=>"width:150px;",:lov_params=>{:lktkn=>"entry_relation", :entry_header_id=> entry_header_id}}%>
             </div>
         <%- end -%>
       </td>
@@ -19,10 +19,10 @@
   <div class="page-block-body">
     <%= datatable_view({:count => datas.count, :datas => datas}) do |builder| %>
         <% builder.column(:id, {:title => t(:operation),:width => '30px'}) do |data| %>
-          <%= bootstrap_icons('icon-trash', t(:remove), {:controller=>"skm/entry_headers",:action=>"remove_relation",:id=>data[:relation_id],:source_id =>data[:entry_id],:_dom_id => "entryHeaderRelation"},:confirm => t(:label_are_you_sure) ,:remote=>true,:method => :delete) %>
+          <%= link_to(t(:remove), {:controller=>"skm/entry_headers",:action=>"remove_relation",:id=>data[:relation_id],:source_id =>data[:entry_id],:_dom_id => "entryHeaderRelation"},:confirm => t(:label_are_you_sure) ,:remote=>true,:method => :delete, :class => "action-link") %>
         <%- end -%>
         <% builder.column(:entry_title, {:title => t(:label_skm_entry_header_title)}) do |data| %>
-            <%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:entry_id]}) %>
+          <%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:entry_id]}) %>
         <% end %>
         <% builder.column(:published_date, {:title => t(:label_skm_entry_header_published_date), :width => "150px"}) %>
         <% builder.column(:version_number, {:title => t(:label_skm_entry_header_version)}) %>
