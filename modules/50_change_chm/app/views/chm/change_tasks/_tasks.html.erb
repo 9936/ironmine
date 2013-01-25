@@ -56,7 +56,7 @@
                 <tr id="<%=data[:id]%>">
                   <td>
                     <div>
-                      <%= link_to(t(:edit),{:controller => "chm/change_tasks", :action => "edit",:id=>data[:id]},:class => "action-link",:back=>true) %>
+                      <%= link_to(t(:edit),{:controller => "chm/change_tasks", :action => "edit",:id=>data[:id]},:class => "action-link",:back=>true) %>&nbsp;|
                       <%= link_to(t(:delete),{:controller => "chm/change_tasks",:action => "destroy",:id=>data.id},{:class => "action-link",:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
                     </div>
                   </td>
