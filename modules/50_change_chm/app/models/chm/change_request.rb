@@ -40,6 +40,11 @@ class Chm::ChangeRequest < ActiveRecord::Base
     where("#{table_name}.external_system_id IN (?)",system_ids)
   }
 
+  scope :with_approve_status,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} approve_status ON approve_status.lookup_type='CHANGE_APPROVE_STATUS' AND approve_status.lookup_code = #{table_name}.approve_status AND approve_status.language= '#{language}'").
+        select(" approve_status.meaning approve_status_name")
+  }
+
   #系统
   scope :with_external_system, lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").
@@ -167,6 +172,7 @@ class Chm::ChangeRequest < ActiveRecord::Base
         with_requested_by.
         with_submitted_by.
         with_contact.
+        with_approve_status(I18n.locale).
         with_request_type(I18n.locale)
   end
 

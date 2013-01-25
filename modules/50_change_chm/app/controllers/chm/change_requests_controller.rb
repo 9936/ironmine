@@ -273,6 +273,10 @@ class Chm::ChangeRequestsController < ApplicationController
 
     change_requests_scope = eval(bo.generate_query_by_attributes(return_columns, true))
 
+    change_requests_scope = change_requests_scope.with_approve_status(I18n.locale)
+
+
+
     if change_priority_table_alias.present?
       change_requests_scope.order("change_priority_table_alias.weight_values,#{bo.bo_table_name}.submitted_date DESC")
     end
