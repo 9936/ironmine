@@ -18,7 +18,7 @@ class Com::ConfigItem < ActiveRecord::Base
         select("#{Com::ConfigClass.view_name}.name config_class_name")
   }
   scope :with_managed_group,lambda{
-    if Ironmine::Application.config.fwk.modules.include?(:slm)
+    if Ironmine::Application.config.fwk.modules.include?("slm")
       joins("LEFT OUTER JOIN #{Icm::SupportGroup.multilingual_view_name} ON #{table_name}.managed_group_id=#{Icm::SupportGroup.multilingual_view_name}.id and #{Icm::SupportGroup.multilingual_view_name}.language='#{I18n.locale}'").
           select("#{Icm::SupportGroup.multilingual_view_name}.name managed_group_name")
     else
