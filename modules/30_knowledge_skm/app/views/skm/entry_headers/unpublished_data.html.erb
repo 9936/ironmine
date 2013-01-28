@@ -1,8 +1,11 @@
-<%=datatable_view({:columns=>[:id,:published_date,:author_name,:doc_number,:entry_title],:count=>@count,:datas=>@datas}) do |builder|%>
+<%=datatable_view({:columns=>[:id,:published_date,:entry_status_code,:author_name,:doc_number,:entry_title],:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:id,{:title=>t(:operation),:width=>"40px"}) do |data|%>
         <%= link_to(t(:show),{:controller => "skm/entry_headers", :action=>"show",:id=>data[:id]},:class => "action-link") %>
     <% end %>
     <% builder.column(:published_date,{:title=>t(:label_skm_entry_header_published_date),:width=>"180px"})%>
+    <% builder.column(:entry_status_code,{:title => t(:label_skm_entry_status), :width => "150px"}) do |data| %>
+      <%= data[:entry_status_name] %>
+    <% end %>
     <% builder.column(:author_name,{:title=>t(:label_skm_entry_header_author_name),:width=>"150px"})%>
     <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number),:searchable=>true,:width=>"100px"}) do |data|%>
         <%= link_to(data[:doc_number], {:controller => "skm/entry_headers", :action => "show", :id => data[:id]})%>
