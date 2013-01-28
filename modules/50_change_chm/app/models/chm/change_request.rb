@@ -40,6 +40,11 @@ class Chm::ChangeRequest < ActiveRecord::Base
     where("#{table_name}.external_system_id IN (?)",system_ids)
   }
 
+  scope :with_approve_status,lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::LookupValue.view_name} approve_status ON approve_status.lookup_type='CHANGE_APPROVE_STATUS' AND approve_status.lookup_code = #{table_name}.approve_status AND approve_status.language= '#{language}'").
+        select(" approve_status.meaning approve_status_name")
+  }
+
   #系统
   scope :with_external_system, lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").
@@ -47,7 +52,7 @@ class Chm::ChangeRequest < ActiveRecord::Base
   }
   # 类别
   scope :with_category,lambda{|language|
-    if Ironmine::Application.config.fwk.modules.include?(:icm)
+    if Ironmine::Application.config.fwk.modules.include?("icm")
       joins("LEFT OUTER JOIN #{Icm::IncidentCategory.view_name} ON  #{Icm::IncidentCategory.view_name}.id = #{table_name}.category_id AND #{Icm::IncidentCategory.view_name}.language= '#{language}'").
       joins("LEFT OUTER JOIN #{Icm::IncidentSubCategory.view_name} ON  #{Icm::IncidentSubCategory.view_name}.id = #{table_name}.sub_category_id AND #{Icm::IncidentSubCategory.view_name}.language= '#{language}'").
       select(" #{Icm::IncidentCategory.view_name}.name category_name,#{Icm::IncidentSubCategory.view_name}.name sub_category_name")
@@ -81,7 +86,7 @@ class Chm::ChangeRequest < ActiveRecord::Base
 
   # 查询出优先级
   scope :with_support,lambda{|language|
-    if Ironmine::Application.config.fwk.modules.include?(:icm)
+    if Ironmine::Application.config.fwk.modules.include?("icm")
       joins("LEFT OUTER JOIN #{Icm::SupportGroup.multilingual_view_name} support_group ON  #{table_name}.support_group_id = support_group.id AND support_group.language= '#{language}'").
       joins("LEFT OUTER JOIN #{Irm::Person.table_name} support_person ON  #{table_name}.support_person_id = support_person.id").
       select(" support_group.name support_group_name,support_person.full_name support_person_name")
@@ -167,6 +172,7 @@ class Chm::ChangeRequest < ActiveRecord::Base
         with_requested_by.
         with_submitted_by.
         with_contact.
+        with_approve_status(I18n.locale).
         with_request_type(I18n.locale)
   end
 

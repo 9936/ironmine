@@ -55,26 +55,23 @@ class Chm::ChangeApproval < ActiveRecord::Base
     self.save
 
     self.class.where(:change_request_id=>self.change_request_id).update_all(:approve_status=>"REJECT")
-
     Chm::ChangeRequest.find(self.change_request_id).update_attribute(:approve_status,"REJECT")
-
-
   end
 
   #审批拒绝
   def approve
-    self.approve_status="APPROVE"
+    self.approve_status="APPROVED"
     self.approve_at= Time.now
     self.save
 
-    if self.class.where(:change_request_id=>self.change_request_id).count== self.class.where(:change_request_id=>self.change_request_id,:approve_status=>"APPROVE").count
-      Chm::ChangeRequest.find(self.change_request_id).update_attribute(:approve_status,"APPROVE")
+    if self.class.where(:change_request_id=>self.change_request_id).count == self.class.where(:change_request_id=>self.change_request_id,:approve_status=>"APPROVED").count
+      Chm::ChangeRequest.find(self.change_request_id).update_attribute(:approve_status,"APPROVED")
     end
   end
 
 
   def approve_able?(person_id)
-    self.person_id.eql?(person_id)&&"APPROVING".eql?(self.approve_status)
+    self.person_id.eql?(person_id) && "APPROVING".eql?(self.approve_status)
   end
 
 end

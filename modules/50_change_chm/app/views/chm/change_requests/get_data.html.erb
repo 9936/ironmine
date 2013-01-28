@@ -34,7 +34,7 @@
         </table>
     <% end %>
     <% builder.column(:approve_stauts, {:title => t(:label_chm_change_request_approve), :width => "130px"}) do |data| %>
-        <%= data[:approve_status_meaning] %>
+        <%= data[:approve_status_name] %>
     <% end %>
     <% builder.column(:origanization_id, {:title => t(:label_chm_change_request_organization), :width => "130px"}) do |data| %>
         <%= data.organization_id_label %>

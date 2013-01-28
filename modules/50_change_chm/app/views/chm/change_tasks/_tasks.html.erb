@@ -1,5 +1,4 @@
 <%= detail_data_table(datas.length) do %>
-  <!--  irm datatable      -->
   <div class="datatable">
     <div>
         <table>
@@ -30,7 +29,7 @@
               <tr>
                 <td>
                   <div>
-                    <%= link_to(t(:new),{:controller => "chm/change_tasks", :action => "new",:source_id=>@change_request.id,:phase_id=>phase.id},:back=>true) %>
+                    <%= link_to(t(:new),{:controller => "chm/change_tasks", :action => "new",:source_id=>@change_request.id,:phase_id=>phase.id},:class => "action-link",:back=>true) %>
                   </div>
                 </td>
                 <td>
@@ -57,8 +56,8 @@
                 <tr id="<%=data[:id]%>">
                   <td>
                     <div>
-                      <%= link_to(t(:edit),{:controller => "chm/change_tasks", :action => "edit",:id=>data[:id]},:back=>true) %>
-                      <%= link_to(t(:delete),{:controller => "chm/change_tasks",:action => "destroy",:id=>data.id},{:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
+                      <%= link_to(t(:edit),{:controller => "chm/change_tasks", :action => "edit",:id=>data[:id]},:class => "action-link",:back=>true) %>&nbsp;|
+                      <%= link_to(t(:delete),{:controller => "chm/change_tasks",:action => "destroy",:id=>data.id},{:class => "action-link",:back=>true,:method => :delete,:confirm => t(:label_are_you_sure) }) %>
                     </div>
                   </td>
                   <td>
