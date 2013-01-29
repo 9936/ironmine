@@ -1,0 +1,75 @@
+
+<div id="reportChart"></div>
+<!--  irm datatable      -->
+ <div class="datatable">
+   <div>
+       <table count="<%=datas[:datas].size%>">
+         <thead>
+           <tr>
+             <% datas[:headers].each do |header| %>
+               <th >
+                 <div><%= header %></div>
+               </th>
+             <% end %>
+           </tr>
+         </thead>
+         <tbody>
+         <% datas[:datas].each do |data| %>
+           <tr>
+             <% data.each do |d| %>
+               <td>
+                 <div>
+                   <%= d %>
+                 </div>
+               </td>
+             <% end %>
+           </tr>
+         <% end -%>
+         </tbody>
+       </table>
+   </div>
+ </div>
+
+
+
+<% require_jscss(:highcharts) %>
+
+<script type="text/javascript">
+  var chart;
+  $(document).ready(function() {
+      var reportChartData = <%= datas[:chart_datas].to_json.html_safe%>;
+      var  series = [];
+      var categories = reportChartData.origin_data[0]
+
+      for(var i=0;i<reportChartData.series_title.length;i++){
+          series[i] = {name:reportChartData.series_title[i],data:reportChartData.origin_data[i+1]}
+      }
+  	chart = new Highcharts.Chart({
+  		chart: {
+  			renderTo: 'reportChart',
+  			type: 'line'
+  		},
+  		xAxis: {
+  			categories: categories
+  		},
+  		yAxis: {
+
+  			plotLines: [{
+  				value: 0,
+  				width: 1,
+  				color: '#808080'
+  			}]
+  		},
+  		tooltip: {
+  			formatter: function() {
+  					return '<b>'+ this.series.name +'</b><br/>'+
+  					this.x +': '+ this.y;
+  			}
+  		},
+        credits: {
+            enabled: false
+        },
+  		series: series
+  	});
+  });
+</script>
