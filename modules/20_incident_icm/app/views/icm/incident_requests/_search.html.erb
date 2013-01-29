@@ -1,5 +1,6 @@
 <% results.values.each do |value| %>
-    <li xmlns="http://www.w3.org/1999/html">
+  <% if value.present? and value[:details].present? %>
+    <li>
       <!-- 显示事故单 -->
       <% if value[:hit].nil? %>
           <% title = value[:result][:title] %>
@@ -23,9 +24,9 @@
       </p>
       <div class="meta">
         <table style="border: none;">
-          <thead>
-          <tr><td colspan="6">============================================================================================</td></tr>
-          </thead>
+          <!--<thead>-->
+          <!--<tr><td colspan="6">============================================================================================</td></tr>-->
+          <!--</thead>-->
           <tr class="item-info">
             <td class="label-col"><%= t(:label_irm_external_system) %>:</td>
             <td class="data-col"><%= value[:details][:external_system_name] %></td>
@@ -61,10 +62,11 @@
               <% end %>
             </td>
           </tr>
-          <tfoot>
-          <tr><td colspan="6">============================================================================================</td></tr>
-          </tfoot>
+          <!--<tfoot>-->
+          <!--<tr><td colspan="6"></td></tr>-->
+          <!--</tfoot>-->
         </table>
       </div>
-  </li>
+    </li>
+  <% end %>
 <% end %>

@@ -1,4 +1,5 @@
 <% results.values.each do |value| %>
+  <% if value.present? %>
     <li>
       <!-- 显示知识库 -->
       <% if value[:hit].nil? %>
@@ -24,4 +25,5 @@
       </p>
       <p class="meta"><%= format_date(updated_at) %></p>
     </li>
+  <% end %>
 <% end %>

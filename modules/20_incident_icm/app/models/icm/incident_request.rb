@@ -314,7 +314,6 @@ class Icm::IncidentRequest < ActiveRecord::Base
 
     results ||= {}
     system_ids = Irm::Person.current.system_ids
-    #filter_ids = Icm::IncidentRequest.filter_incident_by_person(Irm::Person.current.id).collect(&:id)
 
     #当当前人员有系统时候才进行搜索
     if system_ids.any?
@@ -323,12 +322,10 @@ class Icm::IncidentRequest < ActiveRecord::Base
         sp.keywords query, :highlight => true
         sp.with(:external_system_id, system_ids)
         sp.with(:updated_at).greater_than(time_limit) if time_limit
-        #sp.paginate(:offset => offset, :per_page => per_page)
         sp.paginate(:page => page, :per_page => per_page)
       end
 
       results_ids = search.results.collect{|i| i[:id]}  if search
-
 
       search.each_hit_with_result do |hit, result|
         results[result.id.to_sym] ||= {}
@@ -340,7 +337,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
         sp.keywords query, :highlight => true
         sp.with(:source_type,["Icm::IncidentRequest", "Icm::IncidentJournal"])
         sp.with(:updated_at).greater_than(time_limit) if time_limit
-        sp.paginate(:offset => offset, :per_page => per_page)
+        sp.paginate(:page => page, :per_page => per_page)
       end
       search_att.each_hit_with_result do |hit, result|
         results[result.source_id.to_sym] ||= {}
@@ -358,7 +355,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
             end
             #附件是否来自于回复
             if record && result.source_type.to_s.eql?('Icm::IncidentJournal')
-              record = Icm::IncidentRequest.find(record.incident_request_id)
+              record = Icm::IncidentRequest.where("id=?",record.incident_request_id).first
             end
             if record.present?
               results[result.source_id.to_sym][:attachments] << hit
@@ -367,27 +364,6 @@ class Icm::IncidentRequest < ActiveRecord::Base
           end
         end
       end if search_att
-
-      #results.delete_if{|key, value| !filter_ids.include?(key.to_s) } if filter_ids.any?
-      #
-      #total_records = (search.total > search_att.total)? search.total : search_att.total
-      #if total_records > per_page
-      #
-      #  offset = 0
-      #  if page > 1
-      #    (1..(page-1)).each do |p|
-      #      offset += 10**(p-1)
-      #    end
-      #    offset *= 30
-      #  else
-      #    offset = 0
-      #  end
-      #
-      #
-      #  page +=  1
-      #  per_page *= 10
-      #  results.merge!(self.search(args, page, per_page, offset))
-      #end
       #获取事故单的详细信息
       incident_requests = self.select_all.with_requested_by(I18n.locale).
                               with_incident_status(I18n.locale).
@@ -400,7 +376,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
                               where(:id => results.keys).index_by(&:id)
 
       results.each do |k,v|
-        results[k][:details] = incident_requests[k.to_s]
+        results[k][:details] = incident_requests[k.to_s] if incident_requests[k.to_s].present?
       end
     end
     results
