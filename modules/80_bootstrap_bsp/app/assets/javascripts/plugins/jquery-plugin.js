@@ -439,7 +439,8 @@ jQuery.fn.menubutton = function () {
             if (this.present(this.duelType()) && this.duelType() != option.attr("type")) {
                 selectableOption = null;
             }
-            if (this.present(this.duelQuery()) && option.attr("query").indexOf(this.duelQuery()) < 0) {
+
+            if (this.present(this.duelQuery()) && option.attr("query").toUpperCase().indexOf(this.duelQuery().toUpperCase()) < 0) {
                 selectableOption = null;
             }
             var valueIndex = $.inArray(option.attr("value"), this.selectedValues);
