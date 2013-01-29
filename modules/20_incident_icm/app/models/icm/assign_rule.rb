@@ -119,7 +119,7 @@ class Icm::AssignRule < ActiveRecord::Base
       end
       if where_arr.any?
         sql_str += " AND ("
-        sql_str += where_arr.join(" #{self.join_type} ") if where_arr.any?
+        sql_str += where_arr.join(" #{self.join_type} ")
         sql_str += " )"
       end
 
