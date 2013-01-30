@@ -94,7 +94,7 @@ class Icm::AssignRule < ActiveRecord::Base
       if self.group_assignments.collect(&:source_type).include?("IRM__ORGANIZATION_EXPLOSION")
         sql_str += " LEFT JOIN irm_organization_explosions ire ON ir.organization_id = ire.organization_id"
       end
-      sql_str += " WHERE(ir.id='#{incident_request_id}' AND ir.external_system_id='#{external_system_id}') AND ("
+      sql_str += " WHERE(ir.id='#{incident_request_id}' AND ir.external_system_id='#{external_system_id}')"
       self.group_assignments.each do |ga|
         #将事故单的属性组装SQL
         if ga.custom_str.present?
@@ -117,8 +117,12 @@ class Icm::AssignRule < ActiveRecord::Base
             where_arr << "(irv.source_type='#{ga.source_type}' AND irv.source_id = '#{ga.source_id}')"
         end
       end
-      sql_str += where_arr.join(" #{self.join_type} ") if where_arr.any?
-      sql_str += " )"
+      if where_arr.any?
+        sql_str += " AND ("
+        sql_str += where_arr.join(" #{self.join_type} ")
+        sql_str += " )"
+      end
+
     end
     Icm::IncidentRequest.find_by_sql(sql_str)
   end
