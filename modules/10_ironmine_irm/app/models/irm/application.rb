@@ -5,6 +5,9 @@ class Irm::Application < ActiveRecord::Base
 
   #多语言关系
   attr_accessor :name,:description
+
+  validates_presence_of :code, :name
+
   has_many :applications_tls,:dependent => :destroy
   acts_as_multilingual
 
