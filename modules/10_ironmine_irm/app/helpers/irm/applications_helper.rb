@@ -10,11 +10,13 @@ module Irm::ApplicationsHelper
     end
   end
 
+
   def application_default_tab_id(application)
-    if(application.default_tab_id.present?)
+    if application.default_tab_id.present?
       return application.default_tab_id
     end
-    if(application.application_tabs.any?)
+
+    if application.application_tabs.any?
        tab = application.application_tabs.detect{|i| i.default_flag.eql?(Irm::Constant::SYS_YES)}
        if tab
          return tab.tab_id
