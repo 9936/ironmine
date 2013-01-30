@@ -8,6 +8,37 @@ class Irm::FiltersController < ApplicationController
     redirect_to({:action => "new"})
   end
 
+  def show
+    @rule_filter = Irm::RuleFilter.multilingual.find(params[:id])
+    respond_to do |format|
+      format.html
+    end
+  end
+
+
+
+  def multilingual_edit
+    @rule_filter = Irm::RuleFilter.find(params[:id])
+  end
+
+  def multilingual_update
+    @rule_filter = Irm::RuleFilter.find(params[:id])
+    @rule_filter.not_auto_mult = true
+    respond_to do |format|
+      if params[:irm_rule_filter][:rule_filters_tls_attributes]
+        params[:irm_rule_filter][:rule_filters_tls_attributes].each do |k, v|
+          rule_filter_tl = Irm::RuleFiltersTl.find(v[:id])
+          rule_filter_tl.update_attributes(v)
+        end
+        format.html { redirect_to({:action=>"show"}, :notice => 'Role was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "multilingual_edit" }
+        format.xml  { render :xml => @rule_filter.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
   def new
     @rule_filter = Irm::RuleFilter.new({:filter_type=>"PAGE_FILTER",:bo_code=>params[:bc],:source_code=>params[:sc]})
     0.upto 4 do |index|
@@ -20,14 +51,9 @@ class Irm::FiltersController < ApplicationController
   end
 
   def create
-
     @rule_filter = Irm::RuleFilter.new(params[:irm_rule_filter])
     params[:sc] = @rule_filter.source_code
     params[:bc] = @rule_filter.bo_code
-    #@rule_filter.view_filter_criterions.each  do |fc|
-    #    fc[:view_code] = @view_filter[:view_code]
-    #    fc.view_filter = @view_filter
-    #end
     @rule_filter.own_id = Irm::Person.current.id
 
     respond_to do |format|
@@ -42,7 +68,7 @@ class Irm::FiltersController < ApplicationController
   end
 
   def edit
-    @rule_filter = Irm::RuleFilter.find(params[:id])
+    @rule_filter = Irm::RuleFilter.multilingual.find(params[:id])
     respond_to do |format|
       format.html{render :layout => "application_full" }
     end
@@ -73,8 +99,10 @@ class Irm::FiltersController < ApplicationController
   private
 
   def filters_menu
-    controller_action = params[:pca].split("-")
-    function_group_setup(controller_action[0],controller_action[1])
+    if params[:pca]
+      controller_action = params[:pca].split("-")
+      function_group_setup(controller_action[0],controller_action[1])
+    end
   end
 
   def redirect_back

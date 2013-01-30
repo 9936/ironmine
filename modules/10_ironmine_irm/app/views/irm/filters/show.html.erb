@@ -1,0 +1,36 @@
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%= t(:label_irm_filter) %></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @rule_filter.id},:class=>"btn btn-primary"%>
+      <%= link_back t(:back), {},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
+      <tbody>
+      <tr>
+        <td class="label-col"><label><%=(t :label_irm_view_filter_view_code)%></label></td>
+        <td class="data-2col"><div><%= @rule_filter.filter_code %></div></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=(t :label_irm_view_filter_view_name)%></label></td>
+        <td class="data-2col"><div><%= @rule_filter[:filter_name]%></div></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=(t :label_irm_view_filter_view_description)%></label></td>
+        <td class="dataCol"><%= @rule_filter[:filter_description]%></td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=(t :label_irm_view_filter_default_flag)%></label></td>
+        <td class="data-2col"><div><%= check_img(@rule_filter.default_flag)%></div></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@rule_filter} %>

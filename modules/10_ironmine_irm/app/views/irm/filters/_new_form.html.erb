@@ -22,6 +22,12 @@
             <td class="data-col"></td>
           </tr>
           <tr>
+            <td class="label-col"><label><%=(t :label_irm_view_filter_view_description)%></label></td>
+            <td class="data-col"><%=f.text_area :filter_description, :rows=>3, :class => "input-xlarge" %></td>
+            <td class="label-col"></td>
+            <td class="data-col"></td>
+          </tr>
+          <tr>
             <td class="label-col"><label><%=(t :label_irm_view_filter_default_flag)%></label></td>
             <td class="data-col"><%=f.check_box :default_flag%></td>
             <td class="label-col"></td>

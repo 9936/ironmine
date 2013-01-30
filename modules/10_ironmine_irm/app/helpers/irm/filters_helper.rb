@@ -37,15 +37,18 @@ module Irm::FiltersHelper
   end
 
 
-  def available_view_filter(source_code)
+  def available_view_filter(source_code, datatable_id)
     filters = view_filters(source_code)
+
     current = filters.detect{|f| f.id.to_s.eql?(session[:_view_filter_id].to_s)}
     # 取得我的默认选项
     current = filters.detect{|f| f.default_flag.eql?(Irm::Constant::SYS_YES)&&f.own_id.eql?(Irm::Person.current.id)} unless current
     # 如果我的默认选项不存在，则使用全局默认选项
     current = filters.detect{|f| f.default_flag.eql?(Irm::Constant::SYS_YES)} unless current
     current ||= {:id=>nil}
-    options_from_collection_for_select(filters,:id,:filter_name,current[:id])
+
+    filters = filters.collect {|i|[i[:filter_name], i[:id]]}
+    select_tag_alias("view_filter", filters, current[:id], {:id => "#{datatable_id}ViewFilter", :class => "view-filter", :ref => "#{datatable_id}Datatable" })
   end
 
   def back_url
@@ -85,7 +88,7 @@ module Irm::FiltersHelper
   end
 
   def view_filters(source_code)
-    Irm::RuleFilter.hold.query_by_source_code(source_code).order("display_sequence ASC")
+    Irm::RuleFilter.multilingual.hold.query_by_source_code(source_code).order("display_sequence ASC")
   end
 
   def view_filter_operators(data_type,lov_flag=false)

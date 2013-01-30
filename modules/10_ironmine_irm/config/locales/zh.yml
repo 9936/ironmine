@@ -866,6 +866,9 @@ zh:
   label_irm_view_filter_data_range_all: 全部
   label_irm_view_filter_data_range_main: 我的
   label_irm_view_filter_view_name: 视图名称
+  label_irm_rule_filter_filter_name: 视图名称
+  label_irm_rule_filter_filter_description: 视图描述
+  label_irm_view_filter_view_description: 视图描述
   label_irm_view_filter_view_code: 视图唯一名称
   label_irm_view_filter_view_condition_clause: 高级筛选器条件
   label_irm_view_filter_default_flag: 默认选项

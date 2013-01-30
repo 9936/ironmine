@@ -478,6 +478,9 @@ Rails.application.routes.draw do
     match '/home/my_tasks(.:format)' => "home#my_tasks", :via => :get
 
     #view_filter
+    match '/filters/:id/show(.:format)' => "filters#show", :via => :get
+    match '/filters/:id/multilingual_edit(.:format)' => "filters#multilingual_edit", :via => :get
+    match '/filters/:id/multilingual_update(.:format)' => "filters#multilingual_update", :via => :put
     match '/filters/index/:sc/:bc(.:format)' => "filters#index", :via => :get
     match '/filters/new/:sc/:bc(.:format)' => "filters#new", :via => :get
     match '/filters/create(.:format)' => "filters#create", :via => :post
