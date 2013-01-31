@@ -6,7 +6,7 @@ class Irm::CommonController < ApplicationController
   #skip_before_filter :prepare_application
 
   def login
-    params[:notice] = notice
+    params[:notice] ||= notice
     if request.get?
       # 注销用户
       self.logged_user = nil

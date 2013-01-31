@@ -111,6 +111,7 @@ en:
   global: Global
   #usual words
   notice_account_invalid_creditentials: Incorrect username or password
+  notice_require_login_again: Maybe the Session is expired,please login again.
   successfully_updated_password: Successfully Updated Password
   successfully_updated: Successfully Updated
   successfully_created: Successfully Created
