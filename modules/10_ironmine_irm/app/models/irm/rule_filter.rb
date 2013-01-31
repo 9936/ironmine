@@ -24,8 +24,8 @@ class Irm::RuleFilter < ActiveRecord::Base
 
   def require_multilingual
     if self.filter_type.eql?("RULE_FILTER")
-      self.filter_name = "--"
-      self.filter_description = '--'
+      self.filter_name = "--" if self.filter_name.blank?
+      self.filter_description = '--' if self.filter_description.blank?
     end
   end
 
