@@ -9,7 +9,7 @@ en:
   fresh: Resh
   browse: Browse
   after_n_fresh: Auto refresh in %{n} seconds
-  not_auto_refresh: Not auto refresh
+  not_auto_refresh: Not auto refresih
   fresh_time: Setting fresh time
   result: Result
   export: Export
@@ -874,6 +874,9 @@ en:
   label_irm_view_filter_data_range_all: All
   label_irm_view_filter_data_range_main: My
   label_irm_view_filter_view_name: View name
+  label_irm_rule_filter_filter_description: View name
+  label_irm_view_filter_view_description: View Description
+  label_irm_view_filter_view_description: View Description
   label_irm_view_filter_view_code: View unique name
   label_irm_view_filter_view_condition_clause: Senior filter condition
   label_irm_view_filter_default_flag: As default

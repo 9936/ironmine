@@ -1393,7 +1393,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/filters" => ["edit", "new", "create", "update", "index", "operator_value"]
+              "irm/filters" => ["edit", "new", "create", "update", "index","show", "operator_value","multilingual_edit", "multilingual_update"]
           },
 
           :view_filter => {

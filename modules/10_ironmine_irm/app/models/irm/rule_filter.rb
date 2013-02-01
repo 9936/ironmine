@@ -2,6 +2,11 @@ class Irm::RuleFilter < ActiveRecord::Base
   set_table_name :irm_rule_filters
 
   has_many :rule_filter_criterions
+
+  attr_accessor :filter_name,:filter_description
+  has_many :rule_filters_tls, :dependent => :destroy
+  acts_as_multilingual({:columns =>[:filter_name,:filter_description],:required=>[:filter_name]})
+
   accepts_nested_attributes_for :rule_filter_criterions
 
   belongs_to :business_object,:foreign_key=>:bo_code,:primary_key=>:business_object_code
@@ -11,11 +16,18 @@ class Irm::RuleFilter < ActiveRecord::Base
   validates_presence_of :filter_name,:filter_code,:source_code,:own_id,:if => Proc.new {|i| i.filter_type.eql?("PAGE_FILTER")}
   validates_presence_of :source_type,:source_id,:if => Proc.new {|i| i.filter_type.eql?("RULE_FILTER")}
   validates_uniqueness_of :filter_code,:scope=>[:source_code,:opu_id], :if => Proc.new { |i| i.filter_type.eql?("PAGE_FILTER")&&!i.source_code.blank?&&!i.filter_code.blank? }
-  validates_uniqueness_of :filter_name,:scope=>[:source_code,:opu_id], :if => Proc.new { |i| i.filter_type.eql?("PAGE_FILTER")&&!i.source_code.blank?&&!i.filter_name.blank? }
+  #validates_uniqueness_of :filter_name,:scope=>[:source_code,:opu_id], :if => Proc.new { |i| i.filter_type.eql?("PAGE_FILTER")&&!i.source_code.blank?&&!i.filter_name.blank? }
   validates_presence_of :raw_condition_clause,:if=> Proc.new{|i| i.rule_filter_criterions.detect{|fc| fc.attribute_name&&!fc.attribute_name.blank?}}
   validate :validate_raw_condition_clause,:if=> Proc.new{|i| !i.raw_condition_clause.blank?}
 
-  before_save :set_condition
+  before_save :set_condition, :require_multilingual
+
+  def require_multilingual
+    if self.filter_type.eql?("RULE_FILTER")
+      self.filter_name = "--" if self.filter_name.blank?
+      self.filter_description = '--' if self.filter_description.blank?
+    end
+  end
 
   #加入activerecord的通用方法和scope
   query_extend

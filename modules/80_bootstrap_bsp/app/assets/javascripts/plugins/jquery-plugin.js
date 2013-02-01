@@ -2014,6 +2014,21 @@ jQuery.fn.menubutton = function () {
                     if (!selectElement.val())
                         event.preventDefault();
                 });
+
+                var showLink = filterBox.find("a.show-link:first");
+
+                showLink.click(function (event) {
+                    var link = $(event.currentTarget);
+                    if (!link.attr("thref")) {
+                        link.attr("thref", link.attr("href"))
+                    }
+                    var href = decodeURIComponent(link.attr("thref"));
+                    href = href.replace("{id}", selectElement.val());
+                    link.attr("href", href);
+                    if (!selectElement.val())
+                        event.preventDefault();
+                });
+
                 filterBox.css({display:"block"});
             }
         }
