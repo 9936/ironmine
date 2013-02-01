@@ -13,7 +13,7 @@
   <div class="page-block-body">
     <%=datatable_view({:count=>@text_inputs.length,:datas=>@text_inputs}) do |builder|%>
       <% builder.column(:survey_response_id,{:title=>t(:operation),:width=>"80"}) do |data| %>
-        <%= link_to t(:label_csi_survey_result_show_response),{:controller => "csi/survey_results",:id=>data[:survey_response_id],:action => "show_response"} ,{:back=>true } %>
+        <%= link_to t(:label_csi_survey_result_show_response),{:controller => "csi/survey_results",:id=>data[:survey_response_id],:action => "show_response"} ,{:back=>true,:class => "action-link" } %>
       <% end %>
       <% builder.column(:person_name,{:title=>t(:label_csi_survey_response_person)})%>
       <% builder.column(:start_at,{:title=>t(:label_csi_survey_response_start_at)}) %>
