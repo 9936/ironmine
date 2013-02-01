@@ -1698,6 +1698,10 @@ zh:
   label_irm_external_system_people_type: 类型
   label_irm_external_system_add_people: 添加成员
   error_irm_external_system_ip_invalid: IP地址无效
+  label_merge_people_to_system_title: 同步人员
+  label_merge_people_to_system_checkbox: 同步人员到系统
+  label_merge_people_to_system_checkbox_tip: 将所选支持组中的人员添加到系统
+  label_delete_people_from_system_checkbox: 移除只属于该支持组的系统成员
   #=========================    end external_systems_controller=======================#
   #=========================    license=======================#
   label_irm_license: 许可

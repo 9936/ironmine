@@ -190,12 +190,49 @@
 <% if has_module?(:chm) %>
 <!-- 添加支持组 -->
 <% content_for :form_group_buttons do %>
-    <%= link_submit t(:label_icm_external_system_save_selected),{:class=>"btn btn-info"}%>
+    <%= link_to t(:label_icm_external_system_save_selected),{}, {:href =>"javascript:void(0);",:class=>"btn btn-info disabled add-support-group-btn"}%>
     <%= link_to(t(:cancel),{}, :href =>"javascript:void(0);", :onclick=>"display_group_grid()",:class=>"btn")%>
 <% end %>
 
 <%= form_for(Icm::ExternalSystemGroup.new,:url=>{:controller => "icm/external_system_groups", :action=>"add_groups", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
     <%= f.hidden_field(:status_code) %>
+    <div id="supportGroupModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="supportGroupModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3><%= t(:label_merge_people_to_system_title) %></h3>
+      </div>
+      <div class="modal-body">
+        <table class="form-table">
+          <tr>
+            <td class="label-col"><label><%= t(:label_merge_people_to_system_checkbox) %>：</label></td>
+            <td class="data-col"><%= check_box_tag("merge_people", 'Y', false, :id => "mergePeople") %><span class="help-block"><%= t(:label_merge_people_to_system_checkbox_tip) %></span></td>
+          </tr>
+          <tr id="defaultSystemProfile" style="display: none;">
+            <td class="label-col"><label><%= t(:label_irm_external_system_select_system_profile) %>：</label></td>
+            <td class="data-col">
+              <%= select_tag_alias "default_system_profile", available_profile('Y'), nil, {:chosen => false} %>
+            </td>
+          </tr>
+          <script type="text/javascript">
+            $(function(){
+                $("#mergePeople").bind("click", function(){
+                    if($(this).is(':checked')){
+                        $("#defaultSystemProfile").show();
+                    }else{
+                        $("#defaultSystemProfile").hide();
+                    }
+                });
+                $("#submitAddSupportGroup").click(function(){
+                   $("#supportGroupModal .close").trigger("click");
+                })
+            })
+          </script>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <%= link_submit t(:save), {:class => "btn btn-primary", :id => "submitAddSupportGroup"} %>
+      </div>
+    </div>
     <!--页面结构-->
     <div class="page-block unreal-hidden" id="select_groups">
       <table class="page-block-header"><tr>
@@ -228,15 +265,41 @@
 <% end %>
 
   <!--支持组页面结构-->
-  <%= form_for(Icm::ExternalSystemGroup.new,:url=>{:controller => "icm/external_system_groups", :action=>"delete_groups", :external_system_id => @external_system.id},:builder => CustomFormBuilder) do |f| %>
+  <%= form_for(Icm::ExternalSystemGroup.new,:url=>{:controller => "icm/external_system_groups", :action=>"delete_groups", :external_system_id => @external_system.id},:builder => CustomFormBuilder, :html => {:id => "delete_system_group"}) do |f| %>
     <%= f.hidden_field(:temp_group_ids, :value => "") %>
+    <div id="deleteGroupModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="deleteGroupModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3><%= t(:label_merge_people_to_system_title) %></h3>
+      </div>
+      <div class="modal-body">
+        <table class="form-table">
+          <tr>
+            <td class="label-col"><label><%= t(:label_delete_people_from_system_checkbox) %>：</label></td>
+            <td class="data-col"><%= check_box_tag("delete_people", 'Y') %><span class="help-block"></span></td>
+          </tr>
+          <script type="text/javascript">
+              $(function(){
+                  $("#submitDeleteSupportGroup").click(function(){
+                      $("#deleteGroupModal .close").trigger("click");
+                  })
+              })
+          </script>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <%= link_submit t(:delete_selected), :class=>"btn btn-danger", :id => "submitDeleteSupportGroup" %>
+      </div>
+    </div>
+
+
     <div class="page-block" id="group_grid">
       <table class="page-block-header"><tr>
         <td class="page-block-title">
           <h2 class="block-title"><%= t(:label_irm_company_support_group_list) %></h2>
         </td>
         <td class="page-block-button">
-          <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+          <%= link_to t(:delete_selected),{}, :class=>"btn btn-danger disabled delete-support-group-btn"%>
           <%= link_to t(:label_icm_external_system_add_group),{}, :href => "javascript:void(0)", :onclick=>"display_select_group()",:class=>"btn btn-info" %>
         </td>
         <td class="page-block-help">
@@ -251,7 +314,7 @@
         <tr>
           <td class="page-block-title"></td>
           <td class="page-block-button">
-            <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+            <%= link_to t(:delete_selected),{}, :class=>"btn btn-danger disabled delete-support-group-btn"%>
             <%= link_to t(:label_icm_external_system_add_group),{}, :href => "javascript:void(0)", :onclick=>"display_select_group()",:class=>"btn btn-info" %>
           </td>
         </tr>
@@ -297,10 +360,33 @@
 
       $("#external_groups").bind('selectionchange',function(event,ids){
           $("#icm_external_system_group_temp_group_ids").val(ids.join(","));
+          if (ids.length > 0) {
+              $("#delete_system_group .delete-support-group-btn").removeClass("disabled");
+          }else{
+              $("#delete_system_group .delete-support-group-btn").addClass("disabled");
+          }
+      });
+
+      $("#delete_system_group .delete-support-group-btn").bind("click", function(e){
+          if(!$(this).hasClass("disabled")) {
+              $("#deleteGroupModal").modal("show");
+          }
+          e.preventDefault();
       });
 
       $("#selectableGroup").bind('selectionchange',function(event,ids){
           $("#icm_external_system_group_status_code").val(ids.join(","));
+          if (ids.length > 0) {
+              $("#new_icm_external_system_group .add-support-group-btn").removeClass("disabled");
+          }else{
+              $("#new_icm_external_system_group .add-support-group-btn").addClass("disabled");
+          }
+      });
+      $("#new_icm_external_system_group .add-support-group-btn").bind("click", function(e){
+          if(!$(this).hasClass("disabled")) {
+              $("#supportGroupModal").modal("show");
+          }
+          e.preventDefault();
       });
   });
 </script>

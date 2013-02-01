@@ -1687,6 +1687,10 @@ en:
   label_irm_external_system_people_type: Type
   label_irm_external_system_add_people: Add Member
   error_irm_external_system_ip_invalid: IP invalid
+  label_merge_people_to_system_title: Merge People
+  label_merge_people_to_system_checkbox: Merge people to system
+  label_merge_people_to_system_checkbox_tip: Add selected groups' people to system
+  label_delete_people_from_system_checkbox: Remove people only owned by selected groups
   label_irm_external_system_new:  New System
   label_irm_external_system_edit: Edit System
   #=========================    end external_systems_controller=======================#
