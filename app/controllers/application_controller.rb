@@ -322,6 +322,8 @@ class ApplicationController < ActionController::Base
           # 防止在login页面进入循环跳转
           if params[:controller].eql?("irm/common")&&params[:action].eql?("login")
             return true
+          elsif params[:controller].eql?("irm/navigations")&&params[:action].eql?("index")
+            redirect_to({:controller => "irm/common", :action => "login", :back_url => url})
           else
             redirect_to({:controller => "irm/common", :action => "login", :back_url => url}, :notice => t(:notice_require_login_again) )
           end
