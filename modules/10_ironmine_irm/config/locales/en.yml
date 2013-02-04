@@ -109,6 +109,7 @@ en:
   expand_all: Expand All
   system: System
   global: Global
+  edit_multilingual: Edit Multilingual
   #usual words
   notice_account_invalid_creditentials: Incorrect username or password
   notice_require_login_again: Maybe the Session is expired,please login again.

@@ -104,6 +104,7 @@ zh:
   collapse_all: 全部折叠
   system: 系统
   global: 全局
+  edit_multilingual: 编辑多语言
   #常用语句
   notice_account_invalid_creditentials: 用户名或密码错误
   notice_require_login_again: 你没有登录或Session已过期，请重新登录

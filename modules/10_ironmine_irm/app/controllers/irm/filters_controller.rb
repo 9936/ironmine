@@ -11,7 +11,7 @@ class Irm::FiltersController < ApplicationController
   def show
     @rule_filter = Irm::RuleFilter.multilingual.find(params[:id])
     respond_to do |format|
-      format.html
+      format.html{render :layout => "application_full"}
     end
   end
 
@@ -19,6 +19,9 @@ class Irm::FiltersController < ApplicationController
 
   def multilingual_edit
     @rule_filter = Irm::RuleFilter.find(params[:id])
+    respond_to do |format|
+      format.html{render :layout => "application_full"}
+    end
   end
 
   def multilingual_update
