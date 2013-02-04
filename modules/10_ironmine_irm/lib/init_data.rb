@@ -1726,7 +1726,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/people" => ["index", "show", "get_data", "get_choose_people", "get_support_group", "get_owned_roles", "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles"]
+              "irm/people" => ["index", "show", "get_data", "get_choose_people", "get_support_group", "get_owned_roles", "multilingual_edit", "multilingual_update", "add_roles", "remove_role", "select_roles", "get_available_roles"],
+              "irm/external_system_members" => ["update"]
           },
           :edit_person_basic_info => {
               :en => {:name => "Edit Basic Info", :description => "Edit Basic Info"},

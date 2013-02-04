@@ -109,6 +109,7 @@ en:
   expand_all: Expand All
   system: System
   global: Global
+  edit_multilingual: Edit Multilingual
   #usual words
   notice_account_invalid_creditentials: Incorrect username or password
   notice_require_login_again: Maybe the Session is expired,please login again.
@@ -1637,6 +1638,8 @@ en:
   label_irm_profile_select_copy_from: Clone from existing profile
   label_irm_profile_existing_profile: Existing Profile
   label_irm_profile_system_profile: System Profile
+  label_irm_profile_system_profile_edit: Edit profile
+  label_irm_profile_system_profile_edit_modal_title: Edit user system profile
   #=======================end profiles ====================
 
 
