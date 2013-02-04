@@ -23,14 +23,14 @@ class Icm::StatusTransform < ActiveRecord::Base
     select("to_status.incident_status_code to_status_code")
   }
 
-  #scope :target,lambda{|from_status_id,event|
-  #  where("#{table_name}.from_status_id = ? AND #{table_name}.event_code = ?",from_status_id,event)
-  #}
 
   #进行状态转移时，如果系统没有自定义状态转移就沿用全局的
-  def self.target(from_status_id,event,sid)
-    status_transform = self.where("#{self.table_name}.from_status_id = ? AND #{self.table_name}.event_code = ? AND #{self.table_name}.sid= ?",from_status_id,event, sid)
-    unless status_transform.present?
+  def self.target(from_status_id, event, sid)
+    system_status_transform =  self.where("#{self.table_name}.sid=?", sid).first
+
+    if system_status_transform.present?
+      status_transform = self.where("#{self.table_name}.from_status_id = ? AND #{self.table_name}.event_code = ? AND #{self.table_name}.sid= ?", from_status_id, event, sid)
+    else
       status_transform = self.where("#{self.table_name}.from_status_id = ? AND #{self.table_name}.event_code = ?",from_status_id,event)
     end
     status_transform
