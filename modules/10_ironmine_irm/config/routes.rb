@@ -930,6 +930,8 @@ Rails.application.routes.draw do
     match '/external_system_members/:external_system_id/add_people(.:format)' => "external_system_members#add_people"
     match '/external_system_members/:external_system_id/get_available_people_data(.:format)' => "external_system_members#get_available_people_data"
     match '/external_system_members/:external_system_id/delete_people(.:format)' => "external_system_members#delete_people"
+    match '/external_system_members/:external_system_id/:id(.:format)' => "external_system_members#update"
+
 
     match '/external_system_members/:person_id/new_from_person(.:format)' => "external_system_members#new_from_person", :via => :get
     match '/external_system_members/:person_id/create_from_person(.:format)' => "external_system_members#create_from_person", :via => :post
