@@ -30,7 +30,7 @@
   function showProfileDialog(selected, system_member_id, system_id){
       if (selected && system_member_id) {
           $("#systemProfileSelect").val(selected);
-          $("#edit_system_profile_form").attr("action", "/external_system_members/"+system_id+"/"+system_member_id);
+          $("#edit_system_profile_form").attr("action", "/external_system_members/"+system_id+"/"+system_member_id+"/update");
           $("#editSystemProfileModal").modal("show");
       }
   }
