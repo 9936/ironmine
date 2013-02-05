@@ -349,7 +349,8 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   private
     def data_path
       #只对指定格式的附件内容进行索引
-      ext_arr = ['.doc','.docx','.txt','.pdf','.xls','.ppt','.pptx','.html','.xls','.xlsx']
+      #ext_arr = ['.doc','.docx','.txt','.pdf','.xls','.ppt','.pptx','.html','.xls','.xlsx']
+      ext_arr = ['.txt']
       ext =  self.data.path.scan(/\.[^\.]+$/)[0]
       if ext_arr.include?(ext)
         self.data.path
