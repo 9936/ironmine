@@ -4,8 +4,14 @@ class Irm::MailerLogsController < ApplicationController
   end
 
   def get_data
-    @mailer_logs = Irm::MailerLog.order_by_created_at
-    @mailer_logs, count = paginate(@mailer_logs)
+    mailer_logs_scope = Irm::MailerLog.order_by_created_at
+    #根据查询参数进行搜索过滤
+    mailer_logs_scope = mailer_logs_scope.match_value("#{Irm::MailerLog.table_name}.reference_target", params[:reference_target])
+    mailer_logs_scope = mailer_logs_scope.match_value("#{Irm::MailerLog.table_name}.to_params", params[:to_params])
+    mailer_logs_scope = mailer_logs_scope.match_value("#{Irm::MailerLog.table_name}.template_code", params[:template_code])
+    mailer_logs_scope = mailer_logs_scope.match_value("#{Irm::MailerLog.table_name}.send_at", params[:send_at])
+
+    @mailer_logs, count = paginate(mailer_logs_scope)
     respond_to do |format|
       format.html  {
         @count = count

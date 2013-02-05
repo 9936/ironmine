@@ -6,13 +6,15 @@
     <td class="page-block-title">
       <h2 class="block-title"><%= t(:label_irm_mailer_log) %></h2>
     </td>
-    <td class="page-block-button"></td>
-    <td class="page-block-help" style="text-align: left;">
+    <td class="page-block-button">
       <div>
         <span><%= t(:label_clear_logs) %>：</span>
         <%= blank_select_tag("time_period", available_time_period, nil, {:id => "timePeriod"}) %>
         <%= link_submit t(:label_clear_logs_btn), :class => "btn btn-primary disabled", :id => "submitBtn" %>
       </div>
+    </td>
+    <td class="page-block-help" style="text-align: left;">
+      <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
