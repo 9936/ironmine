@@ -142,13 +142,17 @@ class Irm::ExternalSystemMembersController < ApplicationController
   end
 
   def delete_from_person
-    system_person =
-        Irm::ExternalSystemPerson.
-            where(:external_system_id => params[:external_system_id]).
-            where(:person_id => params[:person_id])
-    system_person.each do |sp|
-      sp.destroy
+    if params[:temp_systems_ids].present?
+       system_ids = params[:temp_systems_ids].split(",")
+    elsif params[:external_system_id].present?
+       system_ids = [params[:external_system_id]]
+    else
+       system_ids = []
     end
+
+    system_people = Irm::ExternalSystemPerson.where(:external_system_id => system_ids).where(:person_id => params[:person_id])
+
+    system_people.collect(&:destroy)
 
     respond_to do |format|
       format.html { redirect_to({:controller=>"irm/people",:action=>"show",:id=>params[:person_id]}) }

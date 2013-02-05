@@ -128,6 +128,8 @@
 </div>
 
 <!-- 用户可访问的系统列表 -->
+<%= form_tag({:controller=>"irm/external_system_members",:action=>"delete_from_person", :person_id => @person.id},:builder => CustomFormBuilder) do |f| %>
+<%= hidden_field_tag(:temp_systems_ids) %>
 <div class="page-block">
   <table class="page-block-header">
     <tr>
@@ -135,6 +137,7 @@
         <h2 class="block-title"><%=t(:label_irm_person_access_system)%></h2>
       </td>
       <td class="page-block-button">
+        <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
         <%= link_to t(:label_irm_person_add_to_system), {:controller=>"irm/external_system_members",:action => "new_from_person",:person_id=>@person.id},:class=>"btn btn-info" %>
       </td>
       <td class="page-block-help">
@@ -143,11 +146,13 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <!-- Begin company access table -->
-    <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id},[],{:paginator_box=>"externalSystemsPaginatorBox",:search_box=>"person_system_listSearchBox"})%>
-    <!-- End company access table -->
+    <%= datatable("person_system_list",{:controller=>"irm/people",:action=>"get_owned_external_systems", :person_id => @person.id},[],{
+            :paginator_box=>"externalSystemsPaginatorBox",
+            :search_box=>"person_system_listSearchBox",
+            :select=>"multiple"})%>
   </div>
 </div>
+<% end %>
 <!-- 所属组列表 -->
 <div class="page-block">
   <table class="page-block-header">
@@ -186,3 +191,11 @@
     <%= datatable("login_history_list", {:controller=>"irm/my_login_history", :action => "get_login_data", :id => @person.id}, [],{:export_data=>"#loginHistoryExportData",:paginator_box=>"historiesBox"})%>
   </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#person_system_list").bind('selectionchange',function(event,ids){
+            $("#temp_systems_ids").val(ids.join(","));
+        });
+    })
+</script>

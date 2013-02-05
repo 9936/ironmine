@@ -147,6 +147,7 @@ class Irm::Person < ActiveRecord::Base
         select("#{Irm::ExternalSystemPerson.table_name}.id system_member_id,#{Irm::ProfilesTl.table_name}.profile_id system_profile_id, #{Irm::ProfilesTl.table_name}.name system_profile_name")
   }
 
+
   scope :without_external_system, lambda{|external_system_id|
     select("#{table_name}.*").
         where("NOT EXISTS (SELECT * FROM #{Irm::ExternalSystemPerson.table_name} esp WHERE esp.person_id = #{table_name}.id AND esp.external_system_id = ?)", external_system_id)
