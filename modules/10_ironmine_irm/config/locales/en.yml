@@ -109,8 +109,10 @@ en:
   expand_all: Expand All
   system: System
   global: Global
+  edit_multilingual: Edit Multilingual
   #usual words
   notice_account_invalid_creditentials: Incorrect username or password
+  notice_require_login_again: Maybe the Session is expired,please login again.
   successfully_updated_password: Successfully Updated Password
   successfully_updated: Successfully Updated
   successfully_created: Successfully Created
@@ -1636,6 +1638,8 @@ en:
   label_irm_profile_select_copy_from: Clone from existing profile
   label_irm_profile_existing_profile: Existing Profile
   label_irm_profile_system_profile: System Profile
+  label_irm_profile_system_profile_edit: Edit profile
+  label_irm_profile_system_profile_edit_modal_title: Edit user system profile
   #=======================end profiles ====================
 
 
@@ -1686,6 +1690,10 @@ en:
   label_irm_external_system_people_type: Type
   label_irm_external_system_add_people: Add Member
   error_irm_external_system_ip_invalid: IP invalid
+  label_merge_people_to_system_title: Merge People
+  label_merge_people_to_system_checkbox: Merge people to system
+  label_merge_people_to_system_checkbox_tip: Add selected groups' people to system
+  label_delete_people_from_system_checkbox: Remove people only owned by selected groups
   label_irm_external_system_new:  New System
   label_irm_external_system_edit: Edit System
   #=========================    end external_systems_controller=======================#

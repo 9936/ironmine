@@ -1,6 +1,10 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
     <% builder.column(:id,{:title=>t(:operation), :width => "20px"}) do |data|%>
-        <%= link_to(t(:delete),{:controller=>"icm/system_support_groups",:action=>"delete_people",:sid=> current_system.id,:group_member_id => data[:id],:id => params[:id]},:confirm => t(:label_are_you_sure) ,:method => :delete,:class => "action-link") if @person_system_delete_hash[data[:person_id]] %>
+      <% if @person_system_delete_hash[data[:person_id]] %>
+        <%= link_to(t(:delete),{:controller=>"icm/system_support_groups",:action=>"delete_people",:sid=> current_system.id,:group_member_id => data[:id],:id => params[:id]},:confirm => t(:label_are_you_sure) ,:method => :delete,:class => "action-link") %>
+      <% else %>
+        ----
+      <% end %>
     <% end %>
     <% builder.column(:person_name,{:title=>t(:label_irm_group_person_name), :width => "20%", :searchable => true})%>
     <% builder.column(:organization_name,{:title=>t(:label_irm_group_organization_name), :width => "25%"})%>

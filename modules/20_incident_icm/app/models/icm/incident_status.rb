@@ -34,8 +34,7 @@ class Icm::IncidentStatus < ActiveRecord::Base
   }
 
 
-  def self.transform(from_status_id,event,sid)
-    puts "===============#{event}==================="
+  def self.transform(from_status_id, event, sid)
     transform = Icm::StatusTransform.target(from_status_id,event,sid).first
     if transform
       return transform.to_status_id

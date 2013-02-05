@@ -104,8 +104,10 @@ zh:
   collapse_all: 全部折叠
   system: 系统
   global: 全局
+  edit_multilingual: 编辑多语言
   #常用语句
   notice_account_invalid_creditentials: 用户名或密码错误
+  notice_require_login_again: 你没有登录或Session已过期，请重新登录
   successfully_updated_password: 成功修改密码！
   successfully_updated: 已经成功更新数据
   successfully_created: 已经成功创建新数据
@@ -1644,6 +1646,8 @@ zh:
   label_irm_profile_select_copy_from: 选择一个已有的简档进行克隆
   label_irm_profile_existing_profile: 已有的简档
   label_irm_profile_system_profile: 系统简档
+  label_irm_profile_system_profile_edit: 修改简档
+  label_irm_profile_system_profile_edit_modal_title: 修改用户系统简档
   #=======================end profiles ====================
 
   #======================= password policies ====================
@@ -1697,6 +1701,10 @@ zh:
   label_irm_external_system_people_type: 类型
   label_irm_external_system_add_people: 添加成员
   error_irm_external_system_ip_invalid: IP地址无效
+  label_merge_people_to_system_title: 同步人员
+  label_merge_people_to_system_checkbox: 同步人员到系统
+  label_merge_people_to_system_checkbox_tip: 将所选支持组中的人员添加到系统
+  label_delete_people_from_system_checkbox: 移除只属于该支持组的系统成员
   #=========================    end external_systems_controller=======================#
   #=========================    license=======================#
   label_irm_license: 许可

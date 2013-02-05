@@ -15,8 +15,10 @@ module Irm
           if options.is_a?(Hash)
               options[:controller] ||= params[:controller]
               options[:action] ||= params[:action]
+              #兼容系统层权链接
+              options[:sid] ||= params[:sid] if params[:sid].present?
               #扩展权限验证,当用户无权访问链接时,隐藏链接
-              if(options[:controller]&&options[:action]&&!allow_to?(options.merge(:sid=>params[:sid])))
+              if(options[:controller]&&options[:action]&&!allow_to?(options))
                 if(!html_options['show'])
                   if(html_options['style'])
                     html_options['style'] ="display:none;"+html_options['style']

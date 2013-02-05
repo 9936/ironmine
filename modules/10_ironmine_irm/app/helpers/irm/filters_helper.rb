@@ -36,6 +36,10 @@ module Irm::FiltersHelper
     render :partial=>"irm/filters/view_filter",:locals=>{:source_code=>source_code,:bo_code=>bo_code,:datatable_id=>datatable_id}
   end
 
+  def has_filters?(source_code)
+    view_filters(source_code).any?
+  end
+
 
   def available_view_filter(source_code, datatable_id)
     filters = view_filters(source_code)

@@ -23,7 +23,9 @@ class Irm::ExternalSystemMembersController < ApplicationController
   end
 
   def get_owned_members_data
-    member_scope = Irm::Person.with_organization(I18n.locale).with_external_system(params[:external_system_id])
+    member_scope = Irm::Person.with_organization(I18n.locale).
+        with_system_profile(I18n.locale, params[:external_system_id]).
+        with_external_system(params[:external_system_id])
     member_scope = member_scope.match_value("#{Irm::Organization.view_name}.name", params[:organization_name])
     member_scope = member_scope.match_value("#{Irm::Person.table_name}.full_name",params[:full_name])
     member_scope = member_scope.match_value("#{Irm::Person.table_name}.email_address",params[:email_address])
@@ -152,5 +154,14 @@ class Irm::ExternalSystemMembersController < ApplicationController
       format.html { redirect_to({:controller=>"irm/people",:action=>"show",:id=>params[:person_id]}) }
       format.xml  { head :ok }
     end
+  end
+
+  def update
+    if params[:default_system_profile].present?
+      external_system_person = Irm::ExternalSystemPerson.find(params[:id])
+      external_system_person.system_profile_id = params[:default_system_profile]
+      external_system_person.save
+    end
+    redirect_to params[:redirect_to] if params[:redirect_to]
   end
 end

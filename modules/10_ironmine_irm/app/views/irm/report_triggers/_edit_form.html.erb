@@ -1,3 +1,11 @@
+<style type="text/css">
+    .form-inline label.radio,
+    .form-inline label.checkbox {font-weight: normal;}
+    .form-inline label.checkbox input {margin-top: 1px;}
+    #recurrences td.label-col {width: 200px;}
+    #recurrences td.data-2col {width: 90%;}
+    #recurrences .sub-container { white-space:nowrap;border:1px solid rgb(204,204,204);background-color:rgb(255,255,255);}
+</style>
 <%= form_for(@report_trigger,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
   <%= f.hidden_field(:report_id) %>
   <% content_for :form_block_common   do%>
@@ -33,7 +41,7 @@
           <tr>
             <td class="label-col"><label for="report_trigger_time_mode"><%=t(:label_irm_report_trigger_time_mode)%></label></td>
             <td class="data-col" colspan="3">
-              <table id="recurrences" class="detailList"  cellpadding="0" cellspacing="0" border="0" style="background-color: #EEEEEE; width: 500px;">
+              <table id="recurrences" class="detailList"  cellpadding="0" cellspacing="0" border="0" style="background-color: #EEEEEE; width: 100%;border:1px solid rgb(221,221,221);">
                 <tbody>
                 <tr>
                   <td class="label-col"><label><%= t :label_irm_todo_event_recurrence_frequency %></label></td>
@@ -50,9 +58,10 @@
                     </label>
                   </td>
                 </tr>
+
                 <tr id="rd_zone">
                   <td class="label-col"></td>
-                  <td class="data-2col form-inline">
+                  <td class="data-2col form-inline sub-container">
                     <label class="radio">
                       <%= radio_button_tag "time_mode_obj[daily][type]", "EVERYDAY",time_mode_obj[:daily][:type].eql?("EVERYDAY") %><%= t :label_irm_todo_event_recurrence_every_weekday %></div>
                     </label><br/>
@@ -67,7 +76,7 @@
 
                 <tr id="rw_zone">
                   <td class="label-col"></td>
-                  <td class="data-2col form-inline">
+                  <td class="data-2col form-inline sub-container">
                     <label class="radio">
                       <%= raw(t(:label_irm_todo_event_recurrence_every_week, :m => (text_field_tag "time_mode_obj[weekly][interval]", time_mode_obj[:weekly][:interval],:class => "input-mini", :size => 2)))%>
                     </label> <br/>
@@ -82,7 +91,7 @@
                     </label>
                     <label class="checkbox">
                       <%= check_box_tag "time_mode_obj[weekly][days][]", "TH", time_mode_obj[:weekly][:days].include?("TH"), :id => "recurrence_every_week_th"%><%= (t "date.day_names")[4]%>
-                    </label><br/>
+                    </label>
                     <label class="checkbox">
                       <%= check_box_tag "time_mode_obj[weekly][days][]", "FR", time_mode_obj[:weekly][:days].include?("FR"), :id => "recurrence_every_week_fr"%><%= (t "date.day_names")[5]%>
                     </label>
@@ -97,11 +106,11 @@
 
                 <tr id="rm_zone">
                   <td class="label-col"></td>
-                  <td class="data-col form-inline">
+                  <td class="data-col form-inline sub-container">
                     <label class="radio">
                       <%= radio_button_tag "time_mode_obj[monthly][type]", "DAY","DAY".eql?(time_mode_obj[:monthly][:type]) %>
                       <%= raw(t :label_irm_todo_event_recurrence_day_of_every_month,
-                                :n => (select_tag "time_mode_obj[monthly][day][dayno]", options_for_select(available_month_days,time_mode_obj[:monthly][:day][:dayno])),
+                                :n => (select_tag "time_mode_obj[monthly][day][dayno]", options_for_select(available_month_days,time_mode_obj[:monthly][:day][:dayno]), :chosen => false),
                                 :m => (text_field_tag "time_mode_obj[monthly][day][interval]", time_mode_obj[:monthly][:day][:interval], :size => 2, :class => "input-mini" )) %>
                     </label><br/>
                     <label class="radio">
@@ -113,7 +122,9 @@
                     </label>
                   </td>
                 </tr>
-
+                <tr>
+                  <td style="height: 10px;"></td>
+                </tr>
                 <tr>
                   <td class="label-col"><label for="report_trigger_start_at"><%=t(:label_irm_report_trigger_start_at)%></label></td>
                   <td class="data-2col">
@@ -130,7 +141,7 @@
                   <td class="label-col"><label for="report_trigger_start_time"><%=t(:label_irm_report_trigger_start_time)%></label></td>
                   <td class="data-2col form-inline">
                     <label class="radio">
-                      <%=f.time_select :start_time,:minute_step => 15, :required=>true,:id=>"report_trigger_start_time"%>
+                      <%=f.time_select :start_time,{:minute_step => 15}, {:chosen => false,:required=>true,:id=>"report_trigger_start_time"}%>
                     </label>
                   </td>
                 </tr>

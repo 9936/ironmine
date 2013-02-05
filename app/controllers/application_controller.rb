@@ -308,6 +308,7 @@ class ApplicationController < ActionController::Base
 
   # 处理登录，跳转到登录页面
   def require_login
+
     if !Irm::Person.current.logged?
       # 如果是get将url存起来就可以,如果是其他方法则需要存一些参数
       if request.get?
@@ -321,8 +322,10 @@ class ApplicationController < ActionController::Base
           # 防止在login页面进入循环跳转
           if params[:controller].eql?("irm/common")&&params[:action].eql?("login")
             return true
+          elsif params[:controller].eql?("irm/navigations")&&params[:action].eql?("index")
+            redirect_to({:controller => "irm/common", :action => "login", :back_url => url})
           else
-            redirect_to :controller => "irm/common", :action => "login", :back_url => url
+            redirect_to({:controller => "irm/common", :action => "login", :back_url => url}, :notice => t(:notice_require_login_again) )
           end
         }
         format.xml { render :xml=>Irm::Person.current,:status=> :unprocessable_entity }
@@ -383,9 +386,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-    def allow_to_function?(function,sid=nil)
-      Irm::PermissionChecker.allow_to_function?(function,sid)
-    end
+  def allow_to_function?(function,sid=nil)
+    Irm::PermissionChecker.allow_to_function?(function,sid)
+  end
 
   def public_permission?
     Irm::PermissionChecker.public?({:controller=>params[:controller],:action=>params[:action]})

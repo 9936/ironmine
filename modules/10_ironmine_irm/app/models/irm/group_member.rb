@@ -8,6 +8,7 @@ class Irm::GroupMember < ActiveRecord::Base
   default_scope {default_filter}
 
 
+
   scope :with_person,lambda{|language|
     joins("JOIN #{Irm::Person.table_name} ON #{Irm::Person.table_name}.id = #{table_name}.person_id").
     joins("JOIN #{Irm::Organization.view_name} ON #{Irm::Organization.view_name}.id = #{Irm::Person.table_name}.organization_id AND #{Irm::Organization.view_name}.language = '#{language}'").
