@@ -125,11 +125,20 @@ class Irm::GroupMembersController < ApplicationController
   end
 
   def delete_from_person
-    @group_member = Irm::GroupMember.find(params[:id])
-    @group_member.destroy
+    if params[:temp_groups_ids].present?
+      group_ids = params[:temp_groups_ids].split(",")
+    elsif params[:id].present?
+      group_ids = [params[:id]]
+    else
+      group_ids = []
+    end
+
+    group_members = Irm::GroupMember.where(:id => group_ids)
+
+    group_members.collect(&:destroy)
 
     respond_to do |format|
-      format.html { redirect_to({:controller=>"irm/people",:action=>"show",:id=>@group_member.person_id}) }
+      format.html { redirect_to({:controller=>"irm/people",:action=>"show",:id=> params[:person_id]})}
       format.xml  { head :ok }
     end
   end

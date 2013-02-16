@@ -154,6 +154,8 @@
 </div>
 <% end %>
 <!-- 所属组列表 -->
+<%= form_tag({:controller=>"irm/group_members",:action=>"delete_from_person", :person_id => @person.id},:builder => CustomFormBuilder) do |f| %>
+<%= hidden_field_tag(:temp_groups_ids) %>
 <div class="page-block">
   <table class="page-block-header">
     <tr>
@@ -161,8 +163,8 @@
         <h2 class="block-title"><%=t(:label_irm_person_group)%></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to t(:label_irm_person_add_to_support_group),
-                    {:controller=>"irm/group_members",:action => "new_from_person",:id=>@person.id},:class=>"btn btn-info" %>
+        <%= link_submit t(:delete_selected), :confirm => t(:label_are_you_sure),:class=>"btn btn-danger"%>
+        <%= link_to t(:label_irm_person_add_to_support_group), {:controller=>"irm/group_members",:action => "new_from_person",:id=>@person.id},:class=>"btn btn-info" %>
       </td>
       <td class="page-block-help">
         <div id="support_groupSearchBox"></div>
@@ -170,9 +172,14 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("support_group", {:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id},[],{:paginator_box=>"supportGroupPaginatorBox",:search_box=>"support_groupSearchBox"})%>
+    <%= datatable("support_group_list", {:controller=>"irm/group_members",:action=>"get_data_from_person",:id=>@person.id},[],{
+            :paginator_box=>"supportGroupPaginatorBox",
+            :search_box=>"support_groupSearchBox",
+            :select=>"multiple"
+    })%>
   </div>
 </div>
+<% end %>
 <!-- 用户登录历史列表 -->
 <div class="page-block">
   <table class="page-block-header">
@@ -194,8 +201,13 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        //对用户系统添加批量删除功能
         $("#person_system_list").bind('selectionchange',function(event,ids){
             $("#temp_systems_ids").val(ids.join(","));
+        });
+        //对用户组添加批量操作功能
+        $("#support_group_list").bind('selectionchange',function(event,ids){
+            $("#temp_groups_ids").val(ids.join(","));
         });
     })
 </script>
