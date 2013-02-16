@@ -1,0 +1,177 @@
+en:
+  #========================= status =========================
+  label_chm_change_status: 变更状态
+  label_chm_change_status_list: 变更状态列表
+  label_chm_change_status_new: 新建变更状态
+  label_chm_change_status_edit: 编辑变更状态
+  label_chm_change_status_code: 编码
+  label_chm_change_status_name: 名称
+  label_chm_change_request_stage: Stage
+  label_chm_change_status_description: 描述
+  label_chm_change_status_display_sequecne: 显示顺序
+  label_chm_change_status_default_flag: 默认
+  #========================= end status ==================================
+
+  #========================= end change urgencies ==================================
+  #========================= change impacts =========================
+  label_chm_change_impact: Change Impact
+  label_chm_change_impact_code: Change Impact Code
+  label_chm_change_impact_default_flag: Change Impact Default Flag
+  label_chm_change_impact_description: Change Impact Description
+  label_chm_change_impact_display_sequecne: Show Sequence
+  label_chm_change_impact_edit: Edit Impact
+  label_chm_change_impact_list: List Impact
+  label_chm_change_impact_name: Impact Name
+  label_chm_change_impact_new: New Impact
+  label_chm_change_impact_show: Show Impact
+  label_chm_change_impact_weight_values: Impact Weight Values
+  #========================= end change impacts ==================================
+  #========================= change priorities =========================
+  label_chm_change_priority: Priority
+  label_chm_change_priority_code: Priory Code
+  label_chm_change_priority_default_flag: Change Priority Default Flag
+  label_chm_change_priority_description: Change Priority Description
+  label_chm_change_priority_display_sequecne: Display Sequence
+  label_chm_change_priority_edit: Edit Priority
+  label_chm_change_priority_list: Change Priority List
+  label_chm_change_priority_name: Change Priority Name
+  label_chm_change_priority_new: Change Priority New
+  label_chm_change_priority_show: Show Change Priority
+  label_chm_change_priority_weight_values: Change Priority Weight Values
+  #========================= end change priorities ==================================
+  #========================= change plan types =========================
+  label_chm_change_plan: Change Plan
+  label_chm_change_plan_no_body: Change Plan No Body
+  label_chm_change_plan_type: Change Plan Type
+  label_chm_change_plan_type_code: Change Type Code
+  label_chm_change_plan_type_description: Change Type Description
+  label_chm_change_plan_type_display_sequecne: Display Sequence
+  label_chm_change_plan_type_edit: Edit Change Plan Type
+  label_chm_change_plan_type_list:  Change Plan Type List
+  label_chm_change_plan_type_name:  Change Plan Type Name
+  label_chm_change_plan_type_new: New Change Plan Type
+  label_chm_change_plan_type_show: Show Change Plan Type
+  #========================= end change plan types ==================================
+  #========================= change task phase =========================
+  label_chm_change_task_phase: Task Phase
+  label_chm_change_task_phase_code: Task Phase Codse
+  label_chm_change_task_phase_description: Task Phase Description
+  label_chm_change_task_phase_display_sequecne: Task Phase Display Sequence
+  label_chm_change_task_phase_edit: Edit Task Phase
+  label_chm_change_task_phase_list: Task Phase List
+  label_chm_change_task_phase_name: Task Phase Name
+  label_chm_change_task_phase_new: New Task Phase
+  label_chm_change_task_phase_show: Show Task Phase
+  #========================= end change task phase ==================================
+
+  label_chm_change_incident_relation: Change Incident Relation
+  label_chm_change_incident_relation_add: Add Change Incident Relation
+  label_chm_change_incident_relation_new: New Change Incident Relation
+
+
+  label_chm_change_request: Change Request
+  label_chm_change_request_additional_info: Change Request Additional Info
+  label_chm_change_request_approve: Approve Change Request
+  label_chm_change_request_approve_wait: Wait Approve
+  label_chm_change_request_base_info: Base Info
+  label_chm_change_request_category: Change Request Category
+  label_chm_change_request_change_impact: Change Impact
+  label_chm_change_request_change_priority: Change Priority
+  label_chm_change_request_change_status: Change Status
+  label_chm_change_request_change_urgency: Change Urgency
+  label_chm_change_request_config_items: Config Items
+  label_chm_change_request_contact: Change Request Contact
+  label_chm_change_request_contact_number: Change Request Contact Number
+  label_chm_change_request_edit: Edit Change Request
+  label_chm_change_request_external_system: Externam System
+  label_chm_change_request_implement: Implement
+  label_chm_change_request_incident: Incident
+  label_chm_change_request_incident_requests: Change Request Incident Requests
+  label_chm_change_request_list: Change Request List
+  label_chm_change_request_master_incident_request: Change Request Master Incident Request
+  label_chm_change_request_new: New Change Request
+  label_chm_change_request_organization: Organization
+  label_chm_change_request_plan: Plan
+  label_chm_change_request_plan_end_date: Change Request Plan End Date
+  label_chm_change_request_plan_start_date: Change Request Plan Start Date
+  label_chm_change_request_relation_incident_request: Change Request Relational Incident Request
+  label_chm_change_request_reply: Replay Change Replay
+  label_chm_change_request_request_number: NO.
+  label_chm_change_request_request_type: Change Request Type
+  label_chm_change_request_requested_by: Request By
+  label_chm_change_request_requested_by_role: Request Person
+  label_chm_change_request_show: Show Change Request
+  label_chm_change_request_sub_category: Subcategories
+  label_chm_change_request_submitted_date: Submitted Date
+  label_chm_change_request_summary: Change Request Summary
+  label_chm_change_request_support_group: Support Group
+  label_chm_change_request_support_person: Support Person
+  label_chm_change_request_tab_approve: Approve
+  label_chm_change_request_tab_common: Common
+  label_chm_change_request_tab_implement: Implement
+  label_chm_change_request_tab_incident: Incident
+  label_chm_change_request_tab_plan: Plan
+  label_chm_change_request_task: Change Request Task
+  label_chm_change_request_title: Title
+  label_chm_change_status_show: Show Change Show
+  label_chm_change_task: Change Task
+  label_chm_change_task_change_task_phase: Tack Phase
+  label_chm_change_task_change_task_template: Change task Template
+  label_chm_change_task_depends: Depends Tasks
+  label_chm_change_task_description: Task Description
+  label_chm_change_task_edit: Edit Task
+  label_chm_change_task_end_date: Task End Date
+  label_chm_change_task_message: Task Message
+  label_chm_change_task_my_tasks: My Tasks
+  label_chm_change_task_name: Task Name
+  label_chm_change_task_new: New Task
+  label_chm_change_task_plan_end_date: Change Task Plan End Date
+  label_chm_change_task_plan_start_date: Change Task Plan Start Date
+  label_chm_change_task_start_date: Change Task Start Date
+  label_chm_change_task_status: Change Task Status
+  label_chm_change_task_support_group: Support Group
+  label_chm_change_task_support_person: Support Person
+  label_chm_change_task_template: Change Task Template
+  label_chm_change_task_template_code: Template Code
+  label_chm_change_task_template_description: Template Description
+  label_chm_change_task_template_edit: Edit Template
+  label_chm_change_task_template_list: Template List
+  label_chm_change_task_template_name: Template Name
+  label_chm_change_task_template_new: Template New
+  label_chm_change_task_template_show: Template Show
+  label_chm_change_task_update: Update Change Task
+  label_chm_change_template_task: Template Task
+  label_chm_change_urgency: Change Urgency
+  label_chm_change_urgency_code: Urgency Code
+  label_chm_change_urgency_default_flag: Change Urgency Defalut Flag
+  label_chm_change_urgency_description: Urgency Description
+  label_chm_change_urgency_display_sequecne: Display Sequence
+  label_chm_change_urgency_edit: Edit Urgency
+  label_chm_change_urgency_list: Urgency List
+  label_chm_change_urgency_name: Urgency Name
+  label_chm_change_urgency_new: New Urgency
+  label_chm_change_urgency_show: Show Urgency
+  label_chm_change_urgency_weight_values: Urgency Weight Values
+  label_com_config_class_leaf_flag: Config Class Leaf Flag
+  label_com_config_class_parent: Parent Config Class
+  label_com_config_class_structure: Config Class Structure
+  #========================= advisory board members =========================
+  label_chm_advisory_board_member: Advisory Board Member
+  label_chm_advisory_board_member_list: Advisory Board Members
+  label_chm_advisory_board_member_new: New Advisory Board Member
+  label_chm_advisory_board_member_show: Show Advisory Board Member
+  label_chm_advisory_board_name: Advisory Board Name
+  label_chm_advisory_board_new: New Advisory Board
+  label_chm_advisory_board_show: Show Advisory Board
+  #========================= end advisory board members ==================================
+  #========================= change approvals =========================
+  label_chm_change_approval: Approve
+  label_chm_change_approval_approve: Approve Change Reques
+  label_chm_change_approval_approve_at: Approve Date
+  label_chm_change_approval_approve_status: Approve Status
+  label_chm_change_approval_comment: Approve Comment
+  label_chm_change_approval_list: Approve List
+  label_chm_change_approval_new: New Approve
+  label_chm_change_approval_show: Show Approve
+  label_chm_change_approval_submit: Submit Approve
+  #========================= end change approvals ==================================

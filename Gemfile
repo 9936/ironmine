@@ -68,7 +68,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.1.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer'
+  gem 'therubyracer', '0.10.1'
 
   gem 'uglifier', '>= 1.0.3'
   gem 'twitter-bootstrap-rails' ,'2.1.1'
