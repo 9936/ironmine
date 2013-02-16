@@ -60,7 +60,7 @@
                       <th><%= t(:label_irm_mail_template_parameter_field_name) %></th>
                       <th><%= t(:label_irm_mail_template_parameter_field_key) %></th>
                     </tr>
-                    <tr>
+                    <tr class="form-inline">
                       <td><%=blank_select_tag :parameter_bo,available_business_object,{}, {:id=>"parameter_bo",:required=>true}%></td>
                       <td><%=blank_select_tag(:parameter_field_name,[],nil,{:id=>"parameter_field_name",
                                  :href=>url_for(:controller=>"irm/object_attributes",:action=>"all_columns",:format=>"json",:business_object_code=>"${parameter_bo}"),
