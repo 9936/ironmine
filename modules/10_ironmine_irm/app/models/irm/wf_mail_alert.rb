@@ -112,23 +112,8 @@ class Irm::WfMailAlert < ActiveRecord::Base
         :template_code => self.mail_template_code
     }
 
-    #Irm::Person.where(:id => recipient_ids).each do |p|
-    #  mailer_log = Irm::MailerLog.new()
-    #  mailer_log.reference_target = "BUSINESS_OBJECT:#{bo.to_json}"
-    #  mailer_log.to_params = "#{p.email_address}---------#{p.full_name}---------#{p.id}"
-    #  mailer_log.template_code = self.mail_template_code
-    #  mailer_log.send_at = Time.now
-    #  mailer_log.save
-    #  #if mailer_log.save
-    #  #  params[:mailer_log_ids] ||= []
-    #  #  params[:mailer_log_ids] << { p.id.to_sym => mailer_log.id }
-    #  #end
-    #end
-
     #检查是否需要进行合并发送
-
     if self.all_flag.eql?(Irm::Constant::SYS_YES)
-
       #合并发送中是否设置了模板语言
       if self.language_code
         mail_template.deliver_to(params.merge(:to_person_ids => recipient_ids,:template_lang => self.language_code, :logger_options => logger_options ))

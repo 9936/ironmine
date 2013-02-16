@@ -368,7 +368,7 @@ class Irm::BusinessObject < ActiveRecord::Base
   end
 
   # 将业务对像转化为liquid 参数
-  def self.liquid_attributes(bo_instance,recursive=false)
+  def self.liquid_attributes(bo_instance, recursive=false)
     bo = Irm::BusinessObject.where(:bo_model_name=>bo_instance.class.name).first
     return {} unless bo
     origin_attributes = self.attributes_to_hash(bo_instance)
