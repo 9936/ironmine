@@ -4,20 +4,20 @@
     <table class="form-table">
       <tbody>
           <tr>
-            <td class="labelCol"><label for="object_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
-            <td class="dataCol"><%=f.text_field :name, :required=>true ,:id=>"object_attribute_name"%></td>
-            <td class="labelCol empty">&nbsp;</td>
-            <td class="dataCol empty">&nbsp;</td>
+            <td class="label-col"><label for="object_attribute_name"><%=t(:label_irm_object_attribute_name)%></label></td>
+            <td class="data-col"><%=f.text_field :name, :required=>true ,:id=>"object_attribute_name"%></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
-            <td class="labelCol"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
-            <td class="dataCol"><%=@object_attribute.attribute_name%></td>
-            <td class="labelCol empty">&nbsp;</td>
-            <td class="dataCol empty">&nbsp;</td>
+            <td class="label-col"><label for="object_attribute_attribute_name"><%=t(:label_irm_object_attribute_attribute_name)%></label></td>
+            <td class="data-col"><label><%=@object_attribute.attribute_name%></label></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
           </tr>
           <tr>
-            <td class="labelCol"><label for="object_attribute_description"><%=t(:label_irm_object_attribute_description)%></label></td>
-            <td class="dataCol" colspan="3"><%=f.text_area :description, :cols=>60,:rows=>5,:id=>"object_attribute_description"%></td>
+            <td class="label-col"><label for="object_attribute_description"><%=t(:label_irm_object_attribute_description)%></label></td>
+            <td class="data-col" colspan="3"><%=f.text_area :description, :cols=>60,:rows=>5,:id=>"object_attribute_description", :class => "input-xlarge" %></td>
           </tr>
       </tbody>
     </table>
@@ -27,10 +27,10 @@
     <table class="form-table">
       <tbody>
           <tr>
-            <td class="labelCol"><label for="object_attribute_person_flag"><%=t(:label_irm_object_attribute_person_flag)%></label></td>
-            <td class="dataCol"><%=f.check_box(:person_flag,:id=>"object_attribute_person_flag")%></td>
-            <td class="labelCol"><label for="object_attribute_approve_flag"><%=t(:label_irm_object_attribute_approve_flag)%></label></td>
-            <td class="dataCol"><%=f.check_box(:approve_flag,:id=>"object_attribute_approve_flag")%></td>
+            <td class="label-col"><label for="object_attribute_person_flag"><%=t(:label_irm_object_attribute_person_flag)%></label></td>
+            <td class="data-col"><%=f.check_box(:person_flag,:id=>"object_attribute_person_flag")%></td>
+            <td class="label-col"><label for="object_attribute_approve_flag"><%=t(:label_irm_object_attribute_approve_flag)%></label></td>
+            <td class="data-col"><%=f.check_box(:approve_flag,:id=>"object_attribute_approve_flag")%></td>
           </tr>
          </tbody>
     </table>
