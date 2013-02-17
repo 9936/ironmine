@@ -13,7 +13,7 @@
               - <%= journal[:journal_number]%>
             </span>
        </div>
-       <div style="float:right;">
+       <div style="float:right;padding: 5px 10px;">
          <% if allow_to_function?(:delete_recover_any_journals) or (allow_to_function?(:delete_recover_my_journals) and journal[:replied_by].eql?(Irm::Person.current.id)) %>
            <%= link_to t(:hide), {:controller => "icm/incident_journals", :action => "delete",
                                   :request_id => @incident_request.id, :id => journal[:id], :_dom_id => "enabled_#{journal[:id]}", :sid => @incident_request.external_system_id},:remote => true %>
