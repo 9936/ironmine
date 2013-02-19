@@ -2,7 +2,6 @@ module Icm
   module Jobs
     class GroupAssignmentJob < Struct.new(:incident_request_id,:assign_options)
       def perform
-
         # 待分配事故单
         request = Icm::IncidentRequest.unscoped.find(incident_request_id)
         Irm::Person.current = Irm::Person.find(request.requested_by)
@@ -32,7 +31,6 @@ module Icm
         if assign_result[:support_group_id].present?
           return unless check_support_group(assign_result[:support_group_id],system.id)
         end
-
 
         # 指定事故单处理组
         unless request.support_group_id.present?||assign_result[:support_group_id].present?

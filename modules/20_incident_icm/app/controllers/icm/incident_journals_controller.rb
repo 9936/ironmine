@@ -78,6 +78,13 @@ class Icm::IncidentJournalsController < ApplicationController
         process_change_attributes(@incident_reply.attributes.keys,@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         @incident_journal.create_elapse
+
+        Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
+                                     :journal_id=> @incident_journal.id,
+                                     :property_key=> "new_reply",
+                                     :old_value=>"",
+                                     :new_value=>@incident_journal.journal_number})
+
         format.js do
           @current_journals = Icm::IncidentJournal.list_all(@incident_request.id).includes(:incident_histories).where("#{Icm::IncidentJournal.table_name}.id = ?", @incident_journal.id)
           responds_to_parent do
@@ -210,6 +217,13 @@ class Icm::IncidentJournalsController < ApplicationController
     @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
 
     @incident_request.attributes = params[:icm_incident_request]
+
+    is_with_reply = @incident_journal.valid?
+    if is_with_reply
+      incident_journal_b = @incident_journal
+      @incident_journal = @incident_request.incident_journals.build(params[:icm_incident_journal])
+    end
+
     @incident_journal.reply_type = "CLOSE"
 
     @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
@@ -220,6 +234,12 @@ class Icm::IncidentJournalsController < ApplicationController
         process_change_attributes([:incident_status_id,:close_reason_id],@incident_request,@incident_request_bak,@incident_journal)
         process_files(@incident_journal)
         @incident_journal.create_elapse
+        Icm::IncidentHistory.create({:request_id => incident_journal_b.incident_request_id,
+                                     :journal_id=> incident_journal_b.id,
+                                     :property_key=> "new_reply",
+                                     :old_value=>"",
+                                     :new_value=>incident_journal_b.journal_number}) if is_with_reply
+
         #关闭事故单时，产生一个与之关联的投票任务
         Delayed::Job.enqueue(Icm::Jobs::IncidentRequestSurveyTaskJob.new(@incident_request.id))
         format.html { redirect_to({:action => "new"}) }
@@ -435,6 +455,7 @@ class Icm::IncidentJournalsController < ApplicationController
 
   def update
     @incident_journal = Icm::IncidentJournal.find(params[:id])
+    source_number = @incident_journal.journal_number
     source_message_body = @incident_journal.message_body
     source_updated_at = @incident_journal.updated_at
     source_updated_by = @incident_journal.updated_by
@@ -444,8 +465,8 @@ class Icm::IncidentJournalsController < ApplicationController
         hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                      :journal_id=> @incident_journal.id,
                                      :property_key=> "update_journal",
-                                     :old_value=>"",
-                                     :new_value=>""})
+                                     :old_value=> source_number,
+                                     :new_value=>@incident_journal.journal_number})
 
         Icm::JournalHistory.create({:incident_history_id => hi.id,
                                  :incident_journal_id => @incident_journal.id,
@@ -473,6 +494,28 @@ class Icm::IncidentJournalsController < ApplicationController
     incident_journal.status_code = 'ENABLED'
     incident_journal.save
     @incident_request = incident_journal.incident_request
+  end
+
+  def get_incident_history_data
+    history_scope = Icm::IncidentHistory.
+        select_all.
+        without_some_property_key.
+        with_value_label.
+        with_created_by.
+        only_with_request(params[:request_id]).
+        order_by_created_at
+
+    respond_to do |format|
+      format.html {
+        @datas,@count = paginate(history_scope)
+        @datas.each do |t|
+          meaning = t.meaning
+          t[:new_value_label] = meaning[:new_meaning]
+          t[:old_value_label] = meaning[:old_meaning]
+        end
+        render_html_data_table
+      }
+    end
   end
 
   private

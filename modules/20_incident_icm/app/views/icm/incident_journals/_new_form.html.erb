@@ -433,6 +433,20 @@
   </div>
 </div>
 
+<% if allow_to_function?(:view_incident_journal_his) %>
+    <div class="page-block" id="pageBlock">
+      <table class="page-block-header" ><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_icm_incident_journal_history)%></h2>
+        </td>
+        <td class="page-block-button">
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= datatable("incident_request_histories",{:action=>"get_incident_history_data"},[],{:paginator_box=>'incidentHistoriesPaginatorBox', :row_perpage => 20})%>
+      </div>
+    </div>
+<% end %>
 
 <script type="text/javascript">
     $(function() {

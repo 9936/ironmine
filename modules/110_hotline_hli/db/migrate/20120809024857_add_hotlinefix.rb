@@ -2,7 +2,6 @@ class AddHotlinefix < ActiveRecord::Migration
   def up
     add_column :irm_external_systems, :hotline_flag, :string, :limit => 1, :after => :opu_id, :default => 'Y'
     add_column :irm_reports, :attachment_version_id, :string, :limit => 22, :after => :opu_id
-    add_column :icm_incident_journals, :journal_number, :string, :limit => 30, :after => :id
     add_column :icm_incident_requests, :real_processing_time, :integer, :limit => 11, :after => :close_reason_id, :default => 0
     add_column :icm_incident_requests, :reply_count, :integer, :default => 0, :null => false, :after => :submitted_date
     add_column :icm_incident_requests, :client_info, :string, :limit => 150, :after => :summary
@@ -71,7 +70,6 @@ class AddHotlinefix < ActiveRecord::Migration
   def down
     remove_column :irm_external_systems, :hotline_flag
     remove_column :irm_reports, :attachment_version_id
-    remove_column :icm_incident_journals, :journal_number
     remove_column :icm_incident_requests, :real_processing_time
     remove_column :icm_incident_requests, :reply_count
     remove_column :icm_incident_requests, :client_info

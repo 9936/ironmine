@@ -309,4 +309,20 @@ zh:
   label_irm_system_group_process_blank: 无支持组
   #========================= End System setting ====================================
 
+  label_icm_incident_journal_history: 问题历史
+  label_icm_incident_journal_created_by: 帐号
+  label_icm_incident_journal_event: 事件
+  label_icm_incident_journal_new_value: 修订
+  label_icm_incident_journal_date: 日期
+  label_icm_incident_request_new_reply: 回复问题
+  label_icm_incident_request_add_watcher: 添加跟踪者
+  label_icm_incident_request_remove_watcher: 移除跟踪者
+  label_icm_incident_request_add_relation: 添加关联
+  label_icm_incident_request_remove_relation: 移除关联
+  label_icm_incident_request_incident_request: 创建问题
+  label_icm_incident_request_attachment: 上传附件
+  label_icm_incident_request_remove_attachment: 移除附件
+  label_icm_incident_request_contact_way: 联系人与联系电话
+  label_icm_incident_request_remove_journal: 删除回复
+
 

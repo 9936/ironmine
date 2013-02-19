@@ -122,6 +122,7 @@ Ironmine::Application.routes.draw do
     match '/incident_requests/:request_id/:sid/journals/:id/delete(.:format)' => "incident_journals#delete"
     match '/incident_requests/:request_id/:sid/journals/:id/recover(.:format)' => "incident_journals#recover"
     match '/incident_requests/:request_id/journals/all_journals(.:format)' => "incident_journals#all_journals", :via => :get
+    match '/incident_requests/:request_id/journals/get_incident_history_data(.:format)' => "incident_journals#get_incident_history_data", :via => :get
 
     #support_groups
     match '/support_groups/:id/get_member_options(.:format)' => "support_groups#get_member_options", :via => :get
