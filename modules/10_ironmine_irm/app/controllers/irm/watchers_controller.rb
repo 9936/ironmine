@@ -6,6 +6,14 @@ class Irm::WatchersController < ApplicationController
     @watchable.save
 
     @sid = params[:sid] if params[:sid]
+
+    if params[:watchable_type].eql?(Icm::IncidentRequest.name)
+      Icm::IncidentHistory.create({:request_id => params[:watchable_id],
+                                   :journal_id=> "",
+                                   :property_key=> "add_watcher",
+                                   :old_value=> params[:watcher],
+                                   :new_value=> ""})
+    end
 #    prepare_order
     @editable = params[:editable]
     @dom_id = params[:_dom_id]
@@ -21,7 +29,16 @@ class Irm::WatchersController < ApplicationController
                               params[:watcher_id],
                               params[:watchable_id],
                               params[:watchable_type])
-    wat.first.destroy
+    watcher = wat.first
+    if params[:watchable_type].eql?(Icm::IncidentRequest.name)
+      Icm::IncidentHistory.create({:request_id => params[:watchable_id],
+                                   :journal_id=> "",
+                                   :property_key=> "remove_watcher",
+                                   :old_value=> watcher[:member_id],
+                                   :new_value=> ""})
+    end
+
+    watcher.destroy
 
     prepare_order
     @sid = params[:sid] if params[:sid]
