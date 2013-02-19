@@ -102,7 +102,7 @@ module Icm::IncidentPermissionCheckHelper
 
   #检查是否具有添加关联权限
   def can_relation?(incident_request)
-    if allow_to_function?(:edit_relation) and
+    if allow_to_function?(:edit_relation) or
         allow_to_function?(:system_relation_request, incident_request[:external_system_id])
       return true
     else
