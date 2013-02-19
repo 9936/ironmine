@@ -108,7 +108,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
 
     #记录到邮件发送日志表
     logger_options = {
-        :reference_target => "BUSINESS_OBJECT:#{bo.to_json}",
+        :reference_target => "BUSINESS_OBJECT:#{params}",
         :template_code => self.mail_template_code
     }
 
