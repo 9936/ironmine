@@ -16,21 +16,21 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request = check_incident_request_permission(@incident_request)
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @incident_request }
+      format.xml { render :xml => @incident_request }
     end
   end
 
   # GET /incident_requests/new
   # GET /incident_requests/new.xml
   def new
-    @incident_request = Icm::IncidentRequest.new(({:requested_by=>Irm::Person.current.id}).merge(params[:icm_incident_request]||{}))
+    @incident_request = Icm::IncidentRequest.new(({:requested_by => Irm::Person.current.id}).merge(params[:icm_incident_request]||{}))
     if params[:source_id].present? and params[:relation_type].present?
       @source_incident_request = Icm::IncidentRequest.list_all.find(params[:source_id])
     end
     @return_url=request.env['HTTP_REFERER']
     respond_to do |format|
-      format.html { render :layout => "application_full"}# new.html.erb
-      format.xml  { render :xml => @incident_request }
+      format.html { render :layout => "application_full" } # new.html.erb
+      format.xml { render :xml => @incident_request }
     end
   end
 
@@ -39,8 +39,8 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request = Icm::IncidentRequest.list_all.query(params[:id])
     @incident_request = check_incident_request_permission(@incident_request)
     respond_to do |format|
-      format.html { render :layout => "application_full"}# new.html.erb
-      format.xml  { render :xml => @incident_request }
+      format.html { render :layout => "application_full" } # new.html.erb
+      format.xml { render :xml => @incident_request }
     end
   end
 
@@ -60,8 +60,8 @@ class Icm::IncidentRequestsController < ApplicationController
         else
           flash[:error] = now
         end
-        format.html { render :action => "new", :layout=>"application_full"}
-        format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+        format.html { render :action => "new", :layout => "application_full" }
+        format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.save
         process_files(@incident_request)
@@ -77,21 +77,21 @@ class Icm::IncidentRequestsController < ApplicationController
         #end
 
         Icm::IncidentHistory.create({:request_id => @incident_request.id,
-                                     :journal_id=> "",
-                                     :property_key=> "incident_request_id",
-                                     :old_value=> @incident_request.title,
-                                     :new_value=> ""})
+                                     :journal_id => "",
+                                     :property_key => "incident_request_id",
+                                     :old_value => @incident_request.title,
+                                     :new_value => ""})
 
         #如果没有填写support_group, 插入Delay Job任务
         if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
           Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(@incident_request.id), [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
         end
-        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
-        format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
-        format.json { render :json => @incident_request}
+        format.html { redirect_to({:controller => "icm/incident_journals", :action => "new", :request_id => @incident_request.id, :show_info => Irm::Constant::SYS_YES}) }
+        format.xml { render :xml => @incident_request, :status => :created, :location => @incident_request }
+        format.json { render :json => @incident_request }
       else
         format.html { render :action => "new", :layout => "application_full" }
-        format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         format.json { render :json => @incident_request.errors, :status => :unprocessable_entity }
       end
     end
@@ -110,20 +110,25 @@ class Icm::IncidentRequestsController < ApplicationController
       if @incident_request.valid?
 
         if @incident_request.save
+          Icm::IncidentHistory.create({:request_id => @incident_request.id,
+                                       :journal_id => "",
+                                       :property_key => "incident_request_id",
+                                       :old_value => @incident_request.title,
+                                       :new_value => ""})
           #如果没有填写support_group, 插入Delay Job任务
           if @incident_request.support_group_id.nil? || @incident_request.support_group_id.blank?
             Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(@incident_request.id), [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => @incident_request.id}])
           end
-          format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
-          format.xml  { render :xml => @incident_request, :status => :created, :location => @incident_request }
+          format.html { redirect_to({:controller => "icm/incident_journals", :action => "new", :request_id => @incident_request.id, :show_info => Irm::Constant::SYS_YES}) }
+          format.xml { render :xml => @incident_request, :status => :created, :location => @incident_request }
         else
-          format.html { render :action => "new", :layout => "application_full"}
-          format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+          format.html { render :action => "new", :layout => "application_full" }
+          format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
         end
       else
         #@incident_request.errors[:requested_by] << I18n.t(:error_icm_requested_by_can_not_blank)
         format.html { render :action => "new", :layout => "application_full" }
-        format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -135,23 +140,26 @@ class Icm::IncidentRequestsController < ApplicationController
     respond_to do |format|
       flag = true
       flag, now = validate_files(@incident_request) if params[:files].present?
-      incident_request_old = @incident_request
+
+      incident_request_old = @incident_request.dup
+
       if !flag
         if now.is_a?(Integer)
           flash[:error] = I18n.t(:error_file_upload_limit, :m => Irm::SystemParametersManager.upload_file_limit.to_s, :n => now.to_s)
         else
           flash[:error] = now
         end
-        format.html { render :action => "edit", :layout=>"bootstrap_application_full"}
-        format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+        format.html { render :action => "edit", :layout => "bootstrap_application_full" }
+        format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       elsif @incident_request.update_attributes(params[:icm_incident_request])
         process_files(@incident_request)
-        process_change_attributes(Icm::IncidentReply.all_attributes,@incident_request,incident_request_old, @incident_request.id)
-        format.html { redirect_to({:controller=>"icm/incident_journals",:action=>"new",:request_id=>@incident_request.id,:show_info=>Irm::Constant::SYS_YES}) }
-        format.xml  { head :ok }
+
+        process_change_attributes(Icm::IncidentReply.all_attributes, @incident_request, incident_request_old, @incident_request.id)
+        format.html { redirect_to({:controller => "icm/incident_journals", :action => "new", :request_id => @incident_request.id, :show_info => Irm::Constant::SYS_YES}) }
+        format.xml { head :ok }
       else
         format.html { render :action => "edit", :layout => "application_full" }
-        format.xml  { render :xml => @incident_request.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @incident_request.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -180,26 +188,26 @@ class Icm::IncidentRequestsController < ApplicationController
                       :estimated_date,
                       :kb_flag,
                       :reply_flag]
-    bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
+    bo = Irm::BusinessObject.where(:business_object_code => "ICM_INCIDENT_REQUESTS").first
 
-    incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
-    supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"support_person_id")
-    incident_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_category_id")
-    incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_sub_category_id")
+    incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_status_id")
+    supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "support_person_id")
+    incident_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_category_id")
+    incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_sub_category_id")
 
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns, true)).with_reply_flag(Irm::Person.current.id).
         filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
-        #order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
+    #order("close_flag ,reply_flag desc,last_response_date desc,last_request_date desc,weight_value")
 
-    incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
+    incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color") if incident_status_table_alias.present?
 
-    incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
-    incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
-    incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
-    incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
-    incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name",params[:incident_category_id_label])
-    incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name",params[:incident_sub_category_id_label])
-    incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name",params[:incident_status_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number", params[:request_number])
+    incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title", params[:title])
+    incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name", params[:external_system_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name", params[:support_person_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
 
     if params[:order_name]
       order_value = params[:order_value] ? params[:order_value] : "DESC"
@@ -210,25 +218,25 @@ class Icm::IncidentRequestsController < ApplicationController
 
     respond_to do |format|
       format.json {
-        incident_requests,count = paginate(incident_requests_scope)
-        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+        incident_requests, count = paginate(incident_requests_scope)
+        render :json => to_jsonp(incident_requests.to_grid_json(return_columns, count))
       }
       format.html {
-        @datas,@count = paginate(incident_requests_scope)
+        @datas, @count = paginate(incident_requests_scope)
       }
-      format.xls{
+      format.xls {
         incident_requests = data_filter(incident_requests_scope)
         send_data(data_to_xls(incident_requests,
-                              [{ :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot)},
-                               { :key => "title",:label => t(:label_icm_incident_request_title)},
-                               { :key => "external_system_id_label", :label => t(:label_irm_external_system)},
-                               { :key => "priority_id_label", :label => t(:label_icm_incident_request_priority)},
-                               { :key => "incident_category_id_label", :label => t(:label_icm_incident_category)},
-                               { :key => "incident_sub_category_id_label", :label => t(:label_icm_incident_sub_category)},
-                               { :key => "submitted_date", :label => t(:label_icm_incident_request_submitted_date)},
-                               { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date)},
-                               { :key => "incident_status_id_label", :label => t(:label_icm_incident_request_incident_status)},
-                               { :key => "support_person_id_label", :label => t(:label_icm_incident_request_support_person)}]
+                              [{:key => "request_number", :label => t(:label_icm_incident_request_request_number_shot)},
+                               {:key => "title", :label => t(:label_icm_incident_request_title)},
+                               {:key => "external_system_id_label", :label => t(:label_irm_external_system)},
+                               {:key => "priority_id_label", :label => t(:label_icm_incident_request_priority)},
+                               {:key => "incident_category_id_label", :label => t(:label_icm_incident_category)},
+                               {:key => "incident_sub_category_id_label", :label => t(:label_icm_incident_sub_category)},
+                               {:key => "submitted_date", :label => t(:label_icm_incident_request_submitted_date)},
+                               {:key => "last_response_date", :label => t(:label_icm_incident_request_last_date)},
+                               {:key => "incident_status_id_label", :label => t(:label_icm_incident_request_incident_status)},
+                               {:key => "support_person_id_label", :label => t(:label_icm_incident_request_support_person)}]
                   ))
       }
     end
@@ -256,28 +264,28 @@ class Icm::IncidentRequestsController < ApplicationController
                       :kb_flag,
                       :estimated_date,
                       :reply_flag]
-    bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_status_id")
-    supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"support_person_id")
-    incident_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_category_id")
-    incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id,"incident_sub_category_id")
+    bo = Irm::BusinessObject.where(:business_object_code => "ICM_INCIDENT_REQUESTS").first
+    incident_status_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_status_id")
+    supporter_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "support_person_id")
+    incident_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_category_id")
+    incident_sub_category_table_alias = Irm::ObjectAttribute.get_ref_bo_table_name(bo.id, "incident_sub_category_id")
 
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).with_reply_flag(Irm::Person.current.id).
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns, true)).with_reply_flag(Irm::Person.current.id).
         filter_system_ids(Irm::Person.current.system_ids).relate_person(Irm::Person.current.id)
-        #order("close_flag ,reply_flag desc,last_request_date desc,last_response_date desc,weight_value,id")
+    #order("close_flag ,reply_flag desc,last_request_date desc,last_response_date desc,weight_value,id")
 
 
-    incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color")  if incident_status_table_alias.present?
+    incident_requests_scope = incident_requests_scope.select("#{incident_status_table_alias}.close_flag,#{incident_status_table_alias}.display_color") if incident_status_table_alias.present?
 
 
-    incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number",params[:request_number])
-    incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title",params[:title])
-    incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name",params[:external_system_id_label])
-    incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name",params[:support_person_id_label])
-    incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name",params[:incident_category_id_label])
-    incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name",params[:incident_sub_category_id_label])
-    incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name",params[:incident_status_id_label])
-    incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name",params[:priority_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.request_number", params[:request_number])
+    incident_requests_scope = incident_requests_scope.match_value("#{Icm::IncidentRequest.table_name}.title", params[:title])
+    incident_requests_scope = incident_requests_scope.match_value("#{Irm::ExternalSystem.view_name}.system_name", params[:external_system_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{supporter_table_alias}.full_name", params[:support_person_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{incident_category_table_alias}.name", params[:incident_category_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{incident_sub_category_table_alias}.name", params[:incident_sub_category_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{incident_status_table_alias}.name", params[:incident_status_id_label])
+    incident_requests_scope = incident_requests_scope.match_value("#{Icm::PriorityCode.view_name}.name", params[:priority_id_label])
 
     if params[:order_name]
       order_value = params[:order_value] ? params[:order_value] : "DESC"
@@ -288,25 +296,25 @@ class Icm::IncidentRequestsController < ApplicationController
 
     respond_to do |format|
       format.json {
-        incident_requests,count = paginate(incident_requests_scope)
-        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+        incident_requests, count = paginate(incident_requests_scope)
+        render :json => to_jsonp(incident_requests.to_grid_json(return_columns, count))
       }
       format.html {
-        @datas,@count = paginate(incident_requests_scope)
+        @datas, @count = paginate(incident_requests_scope)
       }
-      format.xls{
+      format.xls {
         incident_requests = data_filter(incident_requests_scope)
         send_data(data_to_xls(incident_requests,
-                                      [{ :key => "request_number", :label => t(:label_icm_incident_request_request_number_shot)},
-                                         { :key => "title",:label => t(:label_icm_incident_request_title)},
-                                         { :key => "external_system_id_label", :label => t(:label_irm_external_system)},
-                                         { :key => "priority_id_label", :label => t(:label_icm_incident_request_priority)},
-                                         { :key => "incident_category_id_label", :label => t(:label_icm_incident_category)},
-                                         { :key => "incident_sub_category_id_label", :label => t(:label_icm_incident_sub_category)},
-                                         { :key => "submitted_date", :label => t(:label_icm_incident_request_submitted_date)},
-                                         { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date)},
-                                         { :key => "incident_status_id_label", :label => t(:label_icm_incident_request_incident_status)},
-                                         { :key => "support_person_id_label", :label => t(:label_icm_incident_request_support_person)}]
+                              [{:key => "request_number", :label => t(:label_icm_incident_request_request_number_shot)},
+                               {:key => "title", :label => t(:label_icm_incident_request_title)},
+                               {:key => "external_system_id_label", :label => t(:label_irm_external_system)},
+                               {:key => "priority_id_label", :label => t(:label_icm_incident_request_priority)},
+                               {:key => "incident_category_id_label", :label => t(:label_icm_incident_category)},
+                               {:key => "incident_sub_category_id_label", :label => t(:label_icm_incident_sub_category)},
+                               {:key => "submitted_date", :label => t(:label_icm_incident_request_submitted_date)},
+                               {:key => "last_response_date", :label => t(:label_icm_incident_request_last_date)},
+                               {:key => "incident_status_id_label", :label => t(:label_icm_incident_request_incident_status)},
+                               {:key => "support_person_id_label", :label => t(:label_icm_incident_request_support_person)}]
                   ))
       }
 
@@ -320,9 +328,9 @@ class Icm::IncidentRequestsController < ApplicationController
   def get_external_systems
     external_systems_scope = Irm::ExternalSystem.multilingual.enabled.with_person(params[:requested_by]).order("CONVERT( system_name USING gbk ) ")
     external_systems_scope = external_systems_scope.uniq
-    external_systems = external_systems_scope.collect{|i| {:label=>i[:system_name], :value=>i.id,:id=>i.id}}
+    external_systems = external_systems_scope.collect { |i| {:label => i[:system_name], :value => i.id, :id => i.id} }
     respond_to do |format|
-      format.json {render :json=>external_systems.to_grid_json([:label, :value],external_systems.count)}
+      format.json { render :json => external_systems.to_grid_json([:label, :value], external_systems.count) }
     end
   end
 
@@ -330,18 +338,18 @@ class Icm::IncidentRequestsController < ApplicationController
 
 
     services_scope = Slm::ServiceCatalog.multilingual.enabled.query_by_external_system(params[:external_system_id])
-    services = services_scope.collect{|i| {:label => i[:name], :value => i.catalog_code, :id => i.id}}
+    services = services_scope.collect { |i| {:label => i[:name], :value => i.catalog_code, :id => i.id} }
     respond_to do |format|
-      format.json {render :json=>services.to_grid_json([:label, :value],services.count)}
+      format.json { render :json => services.to_grid_json([:label, :value], services.count) }
     end
   end
 
   def get_all_slm_services
-    services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_id = ?",params[:external_system_id])
+    services_scope = Slm::ServiceCatalog.multilingual.enabled.where("external_system_id = ?", params[:external_system_id])
 
-    services = services_scope.collect{|i| {:label => i[:name], :value => i.catalog_code, :id => i.id}}
+    services = services_scope.collect { |i| {:label => i[:name], :value => i.catalog_code, :id => i.id} }
     respond_to do |format|
-      format.json {render :json=>services.to_grid_json([:label, :value],services.count)}
+      format.json { render :json => services.to_grid_json([:label, :value], services.count) }
     end
   end
 
@@ -354,32 +362,32 @@ class Icm::IncidentRequestsController < ApplicationController
   def assignable_data
     return_columns = [:request_number,
                       :title,
-                      :organization_id,:organization_id_label,
-                      :incident_status_id,:incident_status_id_label,
+                      :organization_id, :organization_id_label,
+                      :incident_status_id, :incident_status_id_label,
                       :close_flag,
-                      :requested_by,:requested_by_label,
+                      :requested_by, :requested_by_label,
                       :last_request_date,
-                      :priority_id,:priority_id_label,
-                      :external_system_id,:external_system_id_label]
-    bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+                      :priority_id, :priority_id_label,
+                      :external_system_id, :external_system_id_label]
+    bo = Irm::BusinessObject.where(:business_object_code => "ICM_INCIDENT_REQUESTS").first
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns, true)).
         with_external_system(I18n.locale).
         where("LENGTH(external_system_id) > 0").
         where("external_system_id IN (?)", Irm::Person.current.system_ids).
         order("created_at")
     incident_requests_scope = incident_requests_scope.where("support_person_id IS NULL")
-    incident_requests,count = paginate(incident_requests_scope)
+    incident_requests, count = paginate(incident_requests_scope)
     respond_to do |format|
       format.json {
 
-        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+        render :json => to_jsonp(incident_requests.to_grid_json(return_columns, count))
       }
       format.html {
         @datas = incident_requests
         @count = count
       }
       format.xml {
-        incident_requests,count = paginate(incident_requests_scope)
+        incident_requests, count = paginate(incident_requests_scope)
         render :xml => incident_requests
       }
     end
@@ -397,19 +405,19 @@ class Icm::IncidentRequestsController < ApplicationController
     incident_requests.each do |req|
       if params[:support_group_id].present?
         if params[:support_person_id]
-          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],
-                                                                         :support_person_id=>params[:support_person_id],
-                                                                         :assign_dashboard=>true,
-                                                                         :force_assign => force_assign,
-                                                                         :assign_dashboard_operator=>Irm::Person.current.id}))
+          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id, {:support_group_id => params[:support_group_id],
+                                                                          :support_person_id => params[:support_person_id],
+                                                                          :assign_dashboard => true,
+                                                                          :force_assign => force_assign,
+                                                                          :assign_dashboard_operator => Irm::Person.current.id}))
         else
-          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{:support_group_id=>params[:support_group_id],
-                                                                         :assign_dashboard=>true,
-                                                                         :force_assign => force_assign,
-                                                                         :assign_dashboard_operator=>Irm::Person.current.id}))
+          Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id, {:support_group_id => params[:support_group_id],
+                                                                          :assign_dashboard => true,
+                                                                          :force_assign => force_assign,
+                                                                          :assign_dashboard_operator => Irm::Person.current.id}))
         end
       else
-        Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id,{}))
+        Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(req.id, {}))
       end
     end
     @count = incident_requests.size
@@ -440,54 +448,55 @@ class Icm::IncidentRequestsController < ApplicationController
       next unless irq.support_person_id.nil?
       request_attributes = {}
       journal_attributes = {}
-      journal_attributes.merge!(:message_body=>I18n.t(:label_icm_incident_request_assign_me))
+      journal_attributes.merge!(:message_body => I18n.t(:label_icm_incident_request_assign_me))
       journal_attributes.merge!(:reply_type => "ASSIGN_TO_ME")
       journal_attributes.merge!(:replied_by => Irm::Person.current.id)
-      request_attributes.merge!({:incident_status_id=>Icm::IncidentStatus.transform(irq.incident_status_id,"ASSIGN_TO_ME",irq.external_system_id)})
-      request_attributes.merge!({:support_person_id=>Irm::Person.current.id,:charge_person_id=>Irm::Person.current.id,:upgrade_person_id=>Irm::Person.current.id})
+      request_attributes.merge!({:incident_status_id => Icm::IncidentStatus.transform(irq.incident_status_id, "ASSIGN_TO_ME", irq.external_system_id)})
+      request_attributes.merge!({:support_person_id => Irm::Person.current.id, :charge_person_id => Irm::Person.current.id, :upgrade_person_id => Irm::Person.current.id})
 
-      incident_journal = Icm::IncidentJournal::generate_journal(irq,request_attributes,journal_attributes)
+      incident_journal = Icm::IncidentJournal::generate_journal(irq, request_attributes, journal_attributes)
 
-      irq.incident_status_id = Icm::IncidentStatus.transform(irq.incident_status_id, incident_journal.reply_type,irq.external_system_id)
+      irq.incident_status_id = Icm::IncidentStatus.transform(irq.incident_status_id, incident_journal.reply_type, irq.external_system_id)
       incident_journal.save
       irq.save
     end
 
 
     respond_to do |format|
-        format.html { redirect_back_or_default({:action => "edit_assign_me"}) }
-        format.xml  { render :xml => incident_requests, :status => :updated, :location => incident_requests }
+      format.html { redirect_back_or_default({:action => "edit_assign_me"}) }
+      format.xml { render :xml => incident_requests, :status => :updated, :location => incident_requests }
     end
   end
 
   def assign_me_data
     return_columns = [:request_number,
                       :title,
-                      :organization_id,:organization_id_label,
-                      :incident_status_id,:incident_status_id_label,
+                      :organization_id, :organization_id_label,
+                      :incident_status_id, :incident_status_id_label,
                       :close_flag,
-                      :requested_by,:requested_by_label,
+                      :requested_by, :requested_by_label,
                       :last_request_date,
-                      :priority_id,:priority_id_label,
-                      :external_system_id,:external_system_id_label]
-    bo = Irm::BusinessObject.where(:business_object_code=>"ICM_INCIDENT_REQUESTS").first
-    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns,true)).
+                      :priority_id, :priority_id_label,
+                      :external_system_id, :external_system_id_label]
+    bo = Irm::BusinessObject.where(:business_object_code => "ICM_INCIDENT_REQUESTS").first
+    incident_requests_scope = eval(bo.generate_query_by_attributes(return_columns, true)).
         with_external_system(I18n.locale).
         where("LENGTH(external_system_id) > 0").
         where("external_system_id IN (?)", Irm::Person.current.system_ids).
         assignable_to_person(Irm::Person.current.id).
+        without_closed.
         order("created_at")
-    incident_requests,count = paginate(incident_requests_scope)
+    incident_requests, count = paginate(incident_requests_scope)
     respond_to do |format|
       format.json {
-        render :json=>to_jsonp(incident_requests.to_grid_json(return_columns,count))
+        render :json => to_jsonp(incident_requests.to_grid_json(return_columns, count))
       }
       format.html {
         @datas = incident_requests
         @count = count
       }
       format.xml {
-        incident_requests,count = paginate(incident_requests_scope)
+        incident_requests, count = paginate(incident_requests_scope)
         render :xml => incident_requests
       }
     end
@@ -507,7 +516,7 @@ class Icm::IncidentRequestsController < ApplicationController
     @incident_request = Icm::IncidentRequest.find(params[:incident_request_id])
     respond_to do |format|
       if @attachments.destroy
-          format.js { render :remove_exits_attachments}
+        format.js { render :remove_exits_attachments }
       end
     end
   end
@@ -518,22 +527,22 @@ class Icm::IncidentRequestsController < ApplicationController
     create_relation(params[:source_id], params[:icm_relation], params[:relation_type])
     @dom_id = params[:_dom_id]
     respond_to do |format|
-      format.js {render :add_relation}
+      format.js { render :add_relation }
     end
   end
 
   def remove_relation
     relation = Icm::IncidentRequestRelation.find(params[:id])
     Icm::IncidentHistory.create({:request_id => params[:source_id],
-                                 :journal_id=> "",
-                                 :property_key=> "remove_relation",
-                                 :old_value=>relation.relation_type,
-                                 :new_value=>relation.source_id})
+                                 :journal_id => "",
+                                 :property_key => "remove_relation",
+                                 :old_value => relation.relation_type,
+                                 :new_value => relation.source_id})
     relation.destroy
-    @incident_request =  Icm::IncidentRequest.find(relation.source_id)
+    @incident_request = Icm::IncidentRequest.find(relation.source_id)
     @dom_id = params[:_dom_id]
     respond_to do |format|
-      format.js {render :add_relation}
+      format.js { render :add_relation }
     end
   end
 
@@ -551,7 +560,8 @@ class Icm::IncidentRequestsController < ApplicationController
     if source.class.name.eql?("Icm::IncidentRequest")
       request_id = source.id
       journal_id = ""
-    else source.class.name.eql?("Icm::IncidentJournal")
+    else
+      source.class.name.eql?("Icm::IncidentJournal")
       request_id = source.incident_request_id
       journal_id = source.id
     end
@@ -559,13 +569,13 @@ class Icm::IncidentRequestsController < ApplicationController
     respond_to do |format|
       if attachment.destroy
         Icm::IncidentHistory.create({:request_id => request_id,
-                                     :journal_id=> journal_id,
-                                     :property_key=> "remove_attachment",
-                                     :old_value=> name,
-                                     :new_value=> ""})
-        format.js {render :after_remove_attachment}
+                                     :journal_id => journal_id,
+                                     :property_key => "remove_attachment",
+                                     :old_value => name,
+                                     :new_value => ""})
+        format.js { render :after_remove_attachment }
       else
-        format.js {render ""}
+        format.js { render "" }
       end
     end
   end
@@ -583,6 +593,7 @@ class Icm::IncidentRequestsController < ApplicationController
     end
 
   end
+
   #将创建关联事故单放在一个单独的方法中，因为在多个action中用到
   def create_relation(source_id, target_id, relation_type)
     #确保事故单不能关联自身
@@ -597,21 +608,22 @@ class Icm::IncidentRequestsController < ApplicationController
       else
         Icm::IncidentRequestRelation.create(:source_id => source_id, :target_id => target_id, :relation_type => relation_type)
         Icm::IncidentHistory.create({:request_id => source_id,
-                                     :journal_id=> "",
-                                     :property_key=> "add_relation",
-                                     :old_value=>relation_type,
-                                     :new_value=>target_id})
+                                     :journal_id => "",
+                                     :property_key => "add_relation",
+                                     :old_value => relation_type,
+                                     :new_value => target_id})
       end
     end
   end
-  def process_change_attributes(attributes,new_value,old_value,ref_request)
+
+  def process_change_attributes(attributes, new_value, old_value, ref_request)
     attributes.each do |key|
       ovalue = old_value.send(key.to_s)
       nvalue = new_value.send(key.to_s)
-      hi = Icm::IncidentHistory.create({:request_id=> ref_request,
-                                     :property_key=>key.to_s,
-                                     :old_value=>ovalue,
-                                     :new_value=>nvalue}) if !ovalue.eql?(nvalue)
+      hi = Icm::IncidentHistory.create({:request_id => ref_request,
+                                        :property_key => key.to_s,
+                                        :old_value => ovalue,
+                                        :new_value => nvalue}) if !ovalue.eql?(nvalue)
     end
   end
 
@@ -647,14 +659,14 @@ class Icm::IncidentRequestsController < ApplicationController
 
   def process_files(ref_request)
     @files = []
-    params[:files].each do |key,value|
-      @files << Irm::AttachmentVersion.create({:source_id=>ref_request.id,
-                                               :source_type=>ref_request.class.name,
-                                               :data=>value[:file],
-                                               :description=>value[:description]}) if(value[:file]&&!value[:file].blank?)
+    params[:files].each do |key, value|
+      @files << Irm::AttachmentVersion.create({:source_id => ref_request.id,
+                                               :source_type => ref_request.class.name,
+                                               :data => value[:file],
+                                               :description => value[:description]}) if (value[:file]&&!value[:file].blank?)
     end if params[:files]
 
-    @files.each do|f|
+    @files.each do |f|
       puts f.errors
     end
   end
@@ -663,14 +675,14 @@ class Icm::IncidentRequestsController < ApplicationController
     flash[:notice] = nil
     now = 0
     flag = true
-    params[:files].delete_if {|key, value| value[:file].nil? or value[:file].original_filename.blank? }
+    params[:files].delete_if { |key, value| value[:file].nil? or value[:file].original_filename.blank? }
     if params[:files] and params[:files].size > 0
       flag, now = Irm::AttachmentVersion.validates_repeat?(params[:files])
     else
       now = I18n.t(:error_file_upload_empty)
     end
     return false, now unless flag
-    params[:files].each do |key,value|
+    params[:files].each do |key, value|
       next unless value[:file] && value[:file].original_filename.present?
       flag, now = Irm::AttachmentVersion.validates?(value[:file], Irm::SystemParametersManager.upload_file_limit)
       return false, now unless flag
@@ -680,8 +692,8 @@ class Icm::IncidentRequestsController < ApplicationController
     return false, now
   end
 
-  def check_support_group(support_group_id,system_id)
-    Icm::SupportGroup.where(:oncall_flag=>Irm::Constant::SYS_YES).assignable.query(support_group_id).first.present?
+  def check_support_group(support_group_id, system_id)
+    Icm::SupportGroup.where(:oncall_flag => Irm::Constant::SYS_YES).assignable.query(support_group_id).first.present?
   end
 
 

@@ -328,3 +328,4 @@ en:
   label_icm_incident_request_remove_attachment: Remove Attachment
   label_icm_incident_request_contact_way: Contact
   label_icm_incident_request_remove_journal: Remove Journal
+  label_icm_incident_request_recover_journal: Recover Journal
