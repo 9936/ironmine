@@ -225,6 +225,7 @@ module Icm::IncidentRequestsHelper
         where("LENGTH(external_system_id) > 0").
         where("external_system_id IN (?)", person.system_ids).
         assignable_to_person(person.id).
+        without_closed.
         order("created_at")
 
     return incident_requests_scope.size.to_s

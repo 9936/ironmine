@@ -57,6 +57,12 @@ class Icm::IncidentRequest < ActiveRecord::Base
   scope :created_at_today,lambda{|cid|
     where("#{table_name}.created_at > ? AND #{table_name}.id <= ?",Date.today,cid)
   }
+
+  # 查询出非关闭状态的事故单
+  scope :without_closed,lambda {
+    joins("JOIN #{Icm::IncidentStatus.table_name} ics ON #{table_name}.incident_status_id = ics.id").
+        where("ics.close_flag=?", 'N')
+  }
   # 查询出优先级
   scope :with_priority,lambda{|language|
     joins("LEFT OUTER JOIN #{Icm::PriorityCode.view_name} priority_code ON  #{table_name}.priority_id = priority_code.id AND priority_code.language= '#{language}'").
