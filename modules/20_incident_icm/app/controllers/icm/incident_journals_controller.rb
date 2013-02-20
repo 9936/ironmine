@@ -465,8 +465,8 @@ class Icm::IncidentJournalsController < ApplicationController
         hi = Icm::IncidentHistory.create({:request_id => @incident_journal.incident_request_id,
                                      :journal_id=> @incident_journal.id,
                                      :property_key=> "update_journal",
-                                     :old_value=> source_number,
-                                     :new_value=>@incident_journal.journal_number})
+                                     :old_value=> source_message_body,
+                                     :new_value=> @incident_journal.message_body})
 
         Icm::JournalHistory.create({:incident_history_id => hi.id,
                                  :incident_journal_id => @incident_journal.id,
@@ -485,14 +485,27 @@ class Icm::IncidentJournalsController < ApplicationController
   def delete
     incident_journal = Icm::IncidentJournal.find(params[:id])
     incident_journal.status_code = 'OFFLINE'
-    incident_journal.save
+    if incident_journal.update_attributes({:status_code => "OFFLINE"})
+      Icm::IncidentHistory.create({:request_id => incident_journal.incident_request_id,
+                                 :journal_id=> incident_journal.id,
+                                 :property_key=> "remove_journal",
+                                 :old_value=> incident_journal.journal_number || incident_journal.id,
+                                 :new_value=> ""})
+    end
     @incident_request = incident_journal.incident_request
   end
   #还原删除的回复
   def recover
     incident_journal = Icm::IncidentJournal.find(params[:id])
     incident_journal.status_code = 'ENABLED'
-    incident_journal.save
+
+    if incident_journal.save
+      Icm::IncidentHistory.create({:request_id => incident_journal.incident_request_id,
+                                 :journal_id=> incident_journal.id,
+                                 :property_key=> "recover_journal",
+                                 :old_value=> "",
+                                 :new_value=> incident_journal.journal_number || incident_journal.id})
+    end
     @incident_request = incident_journal.incident_request
   end
 
