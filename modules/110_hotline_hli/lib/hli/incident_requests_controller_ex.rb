@@ -14,6 +14,8 @@ module Hli::IncidentRequestsControllerEx
                           :close_flag,
                           :requested_by,
                           :requested_by_label,
+                          :submitted_by,
+                          :submitted_by_label,
                           :support_group_id,
                           :support_group_id_label,
                           :support_person_id,
@@ -76,6 +78,8 @@ module Hli::IncidentRequestsControllerEx
                                    { :key => "submitted_date", :label => t(:label_icm_incident_request_submitted_date)},
                                    { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date)},
                                    { :key => "incident_status_id_label", :label => t(:label_icm_incident_request_incident_status)},
+                                   { :key => "requested_by_label", :label => t(:label_icm_incident_request_requested_by)},
+                                   { :key => "submitted_by_label", :label => t(:label_icm_incident_request_submitted_by)},
                                    { :key => "support_person_id_label", :label => t(:label_icm_incident_request_support_person)}]
                       ))
           }
@@ -94,6 +98,8 @@ module Hli::IncidentRequestsControllerEx
                           :support_person_id,
                           :support_person_id_label,
                           :requested_by_label,
+                          :submitted_by,
+                          :submitted_by_label,
                           :last_request_date,
                           :priority_id_label,
                           :external_system_id_label,
@@ -165,6 +171,8 @@ module Hli::IncidentRequestsControllerEx
                                    { :key => "submitted_date", :label => t(:label_icm_incident_request_submitted_date)},
                                    { :key => "last_response_date", :label => t(:label_icm_incident_request_last_date)},
                                    { :key => "incident_status_id_label", :label => t(:label_icm_incident_request_incident_status)},
+                                   { :key => "requested_by_label", :label => t(:label_icm_incident_request_requested_by)},
+                                   { :key => "submitted_by_label", :label => t(:label_icm_incident_request_submitted_by)},
                                    { :key => "support_person_id_label", :label => t(:label_icm_incident_request_support_person)}]
                       ))
           }
