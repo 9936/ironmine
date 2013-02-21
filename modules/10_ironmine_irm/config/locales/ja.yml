@@ -387,6 +387,7 @@ en:
   label_irm_ldap_source_new: New Ldap Source
   label_irm_ldap_source_edit: Edit Ldap Source
   label_irm_ldap_source_data_info: Ldap Data Attribute
+  label_irm_ldap_source_offline: LDAP Source is Unavailable
   #=========================    end ldap_sources_controller=======================#
 
   #=========================    irm ldap_auth_headers_controller=======================#

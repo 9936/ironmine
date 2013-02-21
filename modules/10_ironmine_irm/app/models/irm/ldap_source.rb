@@ -17,6 +17,15 @@ class Irm::LdapSource < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope { default_filter }
 
+  def self.enabled?(id)
+    ldap_sources = self.where("id=? AND status_code=?", id, Irm::Constant::ENABLED)
+    if ldap_sources.any?
+      return true
+    else
+      return false
+    end
+  end
+
   def anonymous?
     !self.account.present?||!self.account_password.present?
   end

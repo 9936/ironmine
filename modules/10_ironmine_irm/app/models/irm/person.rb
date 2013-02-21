@@ -321,6 +321,10 @@ class Irm::Person < ActiveRecord::Base
        # ldap user login
        if person.auth_source_id.present?
          ldap_auth_header = Irm::LdapAuthHeader.find(person.auth_source_id)
+         #判断当前的LDAP源是否已经禁用
+         unless Irm::LdapSource.enabled?(ldap_auth_header.ldap_source_id)
+           return "LDAP_SOURCES_OFFLINE"
+         end
          person_id = ldap_auth_header.authenticate(login,password)
          if person_id
            person = Irm::Person.find(person_id)

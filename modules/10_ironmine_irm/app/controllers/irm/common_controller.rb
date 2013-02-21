@@ -241,7 +241,10 @@ class Irm::CommonController < ApplicationController
   def password_authentication
     begin
       person = Irm::Person.try_to_login(params[:username], params[:password])
-      if person.nil?||!person.logged?
+      if person.eql?("LDAP_SOURCES_OFFLINE")
+        params[:error] = t(:label_irm_ldap_source_offline)
+        reset_session
+      elsif person.nil?||!person.logged?
         #失败
         user = Irm::Person.unscoped.where("login_name=?", params[:username]).first
         invalid_credentials(user)
@@ -253,6 +256,8 @@ class Irm::CommonController < ApplicationController
         # 成功
         successful_authentication(person)
       end
+
+
     rescue Irm::LdapPersonError => error
       params[:ldap_errors] = error.message
     end

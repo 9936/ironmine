@@ -380,6 +380,7 @@ zh:
   label_irm_ldap_source_new: 创建认证源
   label_irm_ldap_source_edit: 编辑认证源
   label_irm_ldap_source_data_info: LDAP数据属性
+  label_irm_ldap_source_offline: LDAP源不可用
   #=========================    end ldap_sources_controller=======================#
 
   #=========================    irm ldap_auth_headers_controller=======================#
