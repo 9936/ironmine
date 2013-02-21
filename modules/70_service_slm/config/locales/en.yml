@@ -134,3 +134,13 @@ en:
   label_slm_service_agreement_match_filter_edit: Edit Match Filter
   label_action_match_filter_update: Edit Match Filter
   #=========================    end service_agreements_controller=======================#
+
+  #========================= start calendar=======================#
+  label_slm_calendar: Work Calendar
+  label_irm_calendar_list: Calendars List
+  label_irm_calendar_new: New Calendar
+  label_irm_calendar_edit: Edit Calendar
+  slm_calendar_last_updated: Last Updated
+  label_slm_calendar_name: Calendar Name
+  label_slm_calendar_description: Calendar Description
+  #========================= end calendar=======================#

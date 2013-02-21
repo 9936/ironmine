@@ -56,6 +56,17 @@ Ironmine::Application.routes.draw do
     match '/service_agreements/:id/multilingual_update(.:format)' => "service_agreements#multilingual_update", :via => :put
     match '/service_agreements/:id/match_filter_edit(.:format)' => "service_agreements#match_filter_edit", :via => :get
     match '/service_agreements/:id/match_filter_update(.:format)' => "service_agreements#match_filter_update", :via => :put
+
+    #calendars
+    match '/calendars/:sid(/index)(.:format)' => "calendars#index", :via => :get
+    match '/calendars/:sid/get_data(.:format)' => "calendars#get_data"
+    match '/calendars/:sid/:id/edit(.:format)' => "calendars#edit", :via => :get
+    match '/calendars/:sid/:id(.:format)' => "calendars#update", :via => :put
+    match '/calendars/:sid/new(.:format)' => "calendars#new", :via => :get
+    match '/calendars/:sid/:id(.:format)' => "calendars#show", :via => :get
+    match '/calendars/:sid/create(.:format)' => "calendars#create", :via => :post
+    match '/calendars/:sid/:id/multilingual_edit(.:format)' => "calendars#multilingual_edit", :via => :get
+    match '/calendars/:sid/:id/multilingual_update(.:format)' => "calendars#multilingual_update", :via => :put
   end
 
 end

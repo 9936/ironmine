@@ -1,0 +1,2 @@
+module Slm::CalendarsHelper
+end

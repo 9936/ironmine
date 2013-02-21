@@ -98,4 +98,55 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #=================================END:SERVICE_AGREEMENT=================================
+
+  #=================================START:CALENDAR=================================
+  map.menu :system_common_setting, {
+      :children => {
+          :system_service_management => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 40,
+                  :en => {:name => "Service Management", :description => "Service Management"},
+                  :zh => {:name => "服务管理", :description => "服务管理"}
+              }
+          }
+      }
+  }
+  map.menu :system_service_management, {
+      :en => {:name => "Service Management", :description => "Service Management"},
+      :zh => {:name => "服务管理", :description => "服务管理"},
+      :children => {
+          :work_calendar => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "Work Calendar", :description => "Work Calendar"},
+                  :zh => {:name => "工作日历", :description => "工作日历"}
+              }
+          }
+      }
+  }
+  map.function_group :work_calendar, {
+      :en => {:name => "Work Calendar", :description => "Work Calendar"},
+      :zh => {:name => "工作日历", :description => "工作日历"},
+      :system_flag => 'Y'
+  }
+  map.function_group :work_calendar, {
+      :zone_code => "SYSTEM_SETTING",
+      :controller => "slm/calendars",
+      :action => "index"
+  }
+  map.function_group :work_calendar, {
+      :children => {
+          :work_calendar => {
+              :en => {:name => "Work Calendar", :description => "Work Calendar"},
+              :zh => {:name => "工作日历", :description => "工作日历"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "slm/calendars" => ["index", "show", "get_data","edit","update", "new", "create", "multilingual_edit", "multilingual_update"]
+          }
+      }
+  }
+  #=================================START:CALENDAR=================================
 end

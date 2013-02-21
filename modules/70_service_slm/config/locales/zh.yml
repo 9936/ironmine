@@ -131,4 +131,14 @@ zh:
   label_action_match_filter_edit: 编辑匹配规则
   label_slm_service_agreement_match_filter_edit: 编辑服务协议匹配规则
   label_action_match_filter_update: 编辑匹配规则
-  #=========================    end service_agreements_controller=======================#
+  #========================= end service_agreements_controller=======================#
+
+  #========================= start calendar=======================#
+  label_slm_calendar: 工作日历
+  label_irm_calendar_list: 日历列表
+  label_irm_calendar_new: 新建日历
+  label_irm_calendar_edit: 编辑日历
+  slm_calendar_last_updated: 最后更新日期
+  label_slm_calendar_name: 日历名称
+  label_slm_calendar_description: 日历描述
+  #========================= end calendar=======================#
