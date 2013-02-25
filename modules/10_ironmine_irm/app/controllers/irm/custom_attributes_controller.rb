@@ -192,4 +192,24 @@ class Irm::CustomAttributesController < ApplicationController
     end
   end
 
+  def switch_sequence
+    sequence_str = params[:ordered_ids]
+    if sequence_str.present?
+      sequence = 1
+      ids = sequence_str.split(",")
+      attributes = Irm::ObjectAttribute.where(:id => ids).index_by(&:id)
+
+      ids.each do |id|
+        attribute = attributes[id]
+        attribute.display_sequence = sequence
+        attribute.not_auto_mult = true
+        attribute.save
+        sequence += 1
+      end if attributes.any?
+    end
+    respond_to do |format|
+      format.json  {render :json => {:success => true}}
+    end
+  end
+
 end

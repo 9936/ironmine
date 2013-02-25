@@ -51,7 +51,7 @@
       </tr></table>
       <div class="page-block-body">
         <%= datatable("system_custom_attributes",{:controller => "irm/custom_attributes", :action=>"get_data", :bo_id => params[:bo_id] },[],{:drag_sort => {
-                :save_url => url_for(:controller => 'irm/object_attributes', :action => 'switch_sequence', :bo_id => params[:bo_id]),
+                :save_url => url_for(:controller => 'irm/custom_attributes', :action => 'switch_sequence', :bo_id => params[:bo_id], :sid => current_system.id ),
                 :return_url => url_for(:controller => 'irm/custom_attributes', :action => 'index'),
                 :trigger_click => true}})%>
       </div>

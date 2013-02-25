@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     match '/custom_attributes/:sid/:attribute_id/multilingual_edit(.:format)' => "custom_attributes#multilingual_edit", :via => :get
     match '/custom_attributes/:sid/:attribute_id/multilingual_update(.:format)' => "custom_attributes#multilingual_update", :via => :put
     match '/custom_attributes/:sid/:attribute_id/switch_status(.:format)' => "custom_attributes#switch_status"
+    match '/custom_attributes/:sid/:bo_id/switch_sequence(.:format)' => "custom_attributes#switch_sequence"
 
     #lookup_types
     match '/lookup_types/new(.:format)' => "lookup_types#new", :via => :get
