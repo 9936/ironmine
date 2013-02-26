@@ -89,7 +89,7 @@ class Slm::CalendarsController < ApplicationController
     @calendar = Slm::Calendar.find(params[:id])
     @calendar.not_auto_mult=true
     respond_to do |format|
-      if @calendar.update_attributes(params[:calendar])
+      if @calendar.update_attributes(params[:slm_calendar])
         format.html { redirect_to({:action => "show"}, :notice => 'Calendar was successfully updated.') }
         format.xml  { head :ok }
       else
