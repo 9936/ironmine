@@ -20,7 +20,9 @@ class Irm::RuleFilter < ActiveRecord::Base
   validates_presence_of :raw_condition_clause,:if=> Proc.new{|i| i.rule_filter_criterions.detect{|fc| fc.attribute_name&&!fc.attribute_name.blank?}}
   validate :validate_raw_condition_clause,:if=> Proc.new{|i| !i.raw_condition_clause.blank?}
 
-  before_save :set_condition, :require_multilingual
+  before_save :set_condition
+
+  before_validation :require_multilingual
 
   def require_multilingual
     if self.filter_type.eql?("RULE_FILTER")
