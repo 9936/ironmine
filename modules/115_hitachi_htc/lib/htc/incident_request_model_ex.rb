@@ -7,6 +7,7 @@ module Htc::IncidentRequestModelEx
         def generate_request_number
           system = Irm::ExternalSystem.find(self.external_system_id)
           self.request_number = Irm::Sequence.nextval(system.external_system_code)
+          self.request_number = Irm::Sequence.nextval(Icm::IncidentRequest.name) if self.request_number == -1
           self.save
           self.add_watcher(Irm::Person.find(self.support_person_id),false) if self.support_person_id.present?
           self.add_watcher(Irm::Person.find(self.requested_by),false)
