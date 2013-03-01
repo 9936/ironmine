@@ -709,7 +709,7 @@ class Skm::EntryHeadersController < ApplicationController
     respond_to do |format|
       format.html  {
         @datas = entry_headers
-        @count = entry_headers.count
+        @count = count
       }
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json([:is_favorite, :entry_status_code, :full_title,
                                                                          :entry_title, :keyword_tags,:doc_number,:version_number,
