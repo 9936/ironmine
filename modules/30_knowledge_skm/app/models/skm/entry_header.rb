@@ -17,7 +17,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
-  default_scope { default_filter.within_accessible_columns }
+  default_scope { default_filter}#.within_accessible_columns }
 
 #  acts_as_recently_objects(:title => "entry_title",
 #                           :target_controller => "skm/entry_headers")
@@ -36,9 +36,12 @@ class Skm::EntryHeader < ActiveRecord::Base
   end
 
 # 默认进行频道权限过滤
-  scope :within_accessible_columns, lambda {
-    within_accessible_columns_c
-  }
+  def self.within_accessible_columns(column_id=nil)
+    within_accessible_columns_c(column_id)
+  end
+  #scope :within_accessible_columns, lambda {
+  #  within_accessible_columns_c
+  #}
   scope :published, where("#{table_name}.entry_status_code = ?", "PUBLISHED")
   scope :draft, where("#{table_name}.entry_status_code = ?", "DRAFT")
   scope :current_entry, where("#{table_name}.history_flag = ?", Irm::Constant::SYS_NO)
@@ -220,8 +223,12 @@ class Skm::EntryHeader < ActiveRecord::Base
     Irm::Attachment.list_all.query_by_source(Skm::EntryHeader.name, self.id)
   end
 
-  def self.within_accessible_columns_c
+  def self.within_accessible_columns_c(column_id=nil)
     columns = Skm::Column.current_person_accessible_columns
+    if column_id and column = Skm::Column.where("id=?",column_id).first
+      column_ids = column.recursive_columns.delete_if{|i| !columns.include?(i)}
+      columns = column_ids
+    end
     where(" EXISTS (SELECT * FROM #{Skm::Channel.table_name} c, #{Skm::ChannelColumn.table_name} cc WHERE c.id = #{Skm::EntryHeader.table_name}.channel_id AND cc.channel_id = c.id AND cc.column_id IN (?))", columns + [''])
   end
 

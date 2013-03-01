@@ -86,6 +86,17 @@ class Skm::Column < ActiveRecord::Base
     all_columns.uniq.collect(&:id)
   end
 
+  #当前分类下的子分类
+  def recursive_columns
+    result_ids = [self.id]
+
+    children.each do |column|
+      result_ids += column.recursive_columns
+    end
+
+    result_ids
+  end
+
   def recursive_check_accessible(parent_accessible=false,person=Irm::Person.current)
     accessible_ids = []
     ac_flag = false
