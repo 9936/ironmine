@@ -341,10 +341,16 @@ class Irm::AttachmentVersion < ActiveRecord::Base
   def save_source_file_name
     self.source_file_name = data_file_name
 
-    if source_file_name.match(/#|\?|!|^.*(\\|\/)|[\/\?\%\*\:\|\"\'<>]+/)
-      self.source_file_name = source_file_name.gsub(/#|\?|!/, '_').gsub(/^.*(\\|\/)/, '').gsub(/[\/\?\%\*\:\|\"\'<>]+/, '_')
+    if source_file_name.match(/[&$+,\/:;=?@<>\[\]\{\}\|\\\^~%#! ]/)
+      self.source_file_name = source_file_name.gsub(/[&$+,\/:;=?@<>\[\]\{\}\|\\\^~%#! ]/, '_')
       self.data.instance_write(:file_name, self.source_file_name)
     end
+
+
+    #if source_file_name.match(/#|\?|!|^.*(\\|\/)|[\/\?\%\*\:\|\"\'<>]+/)
+    #  self.source_file_name = source_file_name.gsub(/#|\?|!/, '_').gsub(/^.*(\\|\/)/, '').gsub(/[\/\?\%\*\:\|\"\'<>]+/, '_')
+    #  self.data.instance_write(:file_name, self.source_file_name)
+    #end
 
     if self.source_type == Skm::EntryHeader.name && self.category_id == Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "VIDEO")
       ext = File.extname(data_file_name).downcase
