@@ -15,6 +15,8 @@ class Slm::CalendarsController < ApplicationController
   def show
     @calendar = Slm::Calendar.multilingual.find(params[:id])
 
+    @calendar_item = Slm::CalendarItem.new(:calendar_id => @calendar.id)
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @calendar }
@@ -109,6 +111,66 @@ class Slm::CalendarsController < ApplicationController
         @count = count
       }
       format.json {render :json=>to_jsonp(calendars.to_grid_json([:name,:description],count))}
+    end
+  end
+
+
+  def schedule_events
+    calendar = Slm::Calendar.find(params[:id])
+
+    year_months = {}
+    if params[:start] and params[:end]
+      start_time = Time.at(params[:start].to_i)
+      end_time = Time.at(params[:end].to_i)
+    else
+      start_time = Time.now - 1.month
+      end_time = Time.now + 1.month
+    end
+
+    s_year, s_month = start_time.year, start_time.month
+    e_year, e_month = end_time.year, end_time.month
+
+    year_months[s_year] ||= []
+    year_months[e_year] ||= []
+
+    if s_year == e_year
+      (s_month..e_month).each do |month|
+        months << month
+      end
+    else
+      while start_time <= Time.parse("#{s_year}-12-31", start_time)
+        year_months[s_year] << start_time.month
+        start_time += 1.month
+      end
+
+      start_time = Time.parse("#{e_year}-01-01", e_year)
+      while start_time <= end_time
+        year_months[e_year] << start_time.month
+        start_time += 1.month
+      end
+
+    end
+
+    calendar_items = Slm::CalendarItem.with_calendar(calendar.id).with_years(year_months.keys)
+
+    events_result = []
+    calendar_items.each do |item|
+      month_obj = eval(item[:calendar_obj])
+
+      year_months.each do |year, months|
+        unless item[:calendar_year].eql?(year.to_s)
+          next
+        end
+        months.each do |month|
+          month_obj[month].each do |day|
+            events_result << {:id => item.id, :title => "#{item[:start_at]} ~ #{item[:end_at]}", :start => "#{item[:calendar_year]}-#{month}-#{day}"}
+          end
+        end
+      end
+    end
+
+    respond_to do |format|
+      format.json {render :json=> events_result.to_json}
     end
   end
 end

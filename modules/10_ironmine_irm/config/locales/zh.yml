@@ -1055,7 +1055,10 @@ zh:
   label_irm_todo_event_recurrence_weekly: 每周
   label_irm_todo_event_recurrence_monthly: 每月
   label_irm_todo_event_recurrence_yearly: 每年
+  label_irm_todo_event_recurrence_every_day: 每 %{m} 天重复
   label_irm_todo_event_recurrence_every_week: 每 %{m} 个星期重复
+  label_irm_todo_event_recurrence_week_x: 星期 %{x}
+  label_irm_todo_event_recurrence_every_year: 每 %{m} 年重复
   label_irm_todo_event_recurrence_day_of_every_month: 在每 %{m} 个月的第 %{n} 天
   label_irm_todo_event_recurrence_weekday_of_every_month: 在每 %{m} 个月的第 %{n}
   label_irm_todo_event_assigned_to: 分配给

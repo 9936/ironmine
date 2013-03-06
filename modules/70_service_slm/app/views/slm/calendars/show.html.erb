@@ -1,4 +1,194 @@
+<% require_jscss([:fullcalendar, :jquery_ui]) %>
 <%= common_title %>
+
+<style type="text/css">
+        /* Widgets */
+    .widget-box {
+        background: none repeat scroll 0 0 #F9F9F9;
+        border-top: 1px solid #CDCDCD;
+        border-left: 1px solid #CDCDCD;
+        border-right: 1px solid #CDCDCD;
+        clear: both;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        position: relative;
+    }
+
+    .widget-box.widget-calendar, .widget-box.widget-chat {
+        overflow: hidden !important;
+    }
+
+    .accordion .widget-box {
+        margin-top: -2px;
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+
+    .widget-box.widget-plain {
+        background: transparent;
+        border: none;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .widget-title, .modal-header, .table th, div.dataTables_wrapper .ui-widget-header {
+        background-color: #efefef;
+        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
+        background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -moz-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -ms-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -o-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fdfdfd', endColorstr = '#eaeaea', GradientType = 0); /* IE6-9 */
+        border-bottom: 1px solid #CDCDCD;
+        height: 36px;
+    }
+
+    .widget-title .nav-tabs {
+        border-bottom: 0 none;
+    }
+
+    .widget-title .nav-tabs li a {
+        border-bottom: medium none !important;
+        border-left: 1px solid #DDDDDD;
+        border-radius: 0 0 0 0;
+        border-right: 1px solid #DDDDDD;
+        border-top: medium none;
+        color: #999999;
+        margin: 0;
+        outline: medium none;
+        padding: 9px 10px 8px;
+        font-weight: bold;
+        text-shadow: 0 1px 0 #FFFFFF;
+    }
+
+    .widget-title .nav-tabs li:first-child a {
+        border-left: medium none !important;
+    }
+
+    .widget-title .nav-tabs li a:hover {
+        background-color: transparent !important;
+        border-color: #D6D6D6;
+        border-width: 0 1px;
+        color: #666666;
+    }
+
+    .widget-title .nav-tabs li.active a {
+        background-color: #F9F9F9 !important;
+        color: #444444;
+    }
+
+    .widget-title span.icon {
+        border-right: 1px solid #cdcdcd;
+        padding: 9px 10px 7px 11px;
+        float: left;
+        opacity: .7;
+        line-height: 20px;
+    }
+
+    .widget-title h5 {
+        color: #666666;
+        text-shadow: 0 1px 0 #ffffff;
+        float: left;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px;
+        line-height: 12px;
+        margin: 0;
+    }
+
+    .widget-title .buttons {
+        float: right;
+        margin: 8px 10px 0 0;
+    }
+
+    .widget-title .label {
+        padding: 3px 5px 2px;
+        float: right;
+        margin: 9px 15px 0 0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
+    }
+
+    .widget-calendar .widget-title .label {
+        margin-right: 190px;
+    }
+
+    .widget-content {
+        padding: 0;
+        border-bottom: 1px solid #cdcdcd;
+    }
+
+    .widget-box.widget-plain .widget-content {
+        padding: 12px 0 0;
+    }
+
+    .widget-box.collapsible .collapse.in .widget-content {
+        border-bottom: 1px solid #CDCDCD;
+    }
+
+    .panel-left {
+        margin-right: 250px;
+    }
+
+    .panel-right {
+        width: 249px;
+        background-color: #f2f2f2;
+        border-left: 1px solid #dddddd;
+        position: absolute;
+        right: 0;
+        top: 37px;
+        height: 2500px;
+    }
+
+    .panel-right .panel-title {
+        width: 100%;
+        background-color: #ececec;
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .panel-right .panel-title h5 {
+        font-size: 12px;
+        color: #777777;
+        text-shadow: 0 1px 0 #ffffff;
+        padding: 6px 10px 5px;
+        margin: 0;
+        display: block;
+    }
+
+    .panel-right .panel-content {
+        padding: 10px;
+    }
+
+    .fc-event-skin,
+    .external-event.label-inverse {
+        background-color: #3366CC;
+    }
+    .week-container {
+        /*display: none;*/
+        margin: 10px 5px 5px 5px;
+    }
+    .week-container .checkbox {
+        display: inline-block;
+        padding-right: 5px;
+    }
+    .week-container .checkbox input[type="checkbox"] {
+       margin-top: 2px;
+    }
+    .modal-error-tip {
+        border-radius: 5px;
+        top: 50px;
+        font-size:14px;
+        left: 50%;
+        margin-left: -80px;
+        position: absolute;
+        width: auto;
+        background-color: #f00;
+        text-align: center;
+        padding: 5px;
+        color: #ffffff;
+    }
+</style>
+
 <!--页面结构-->
 <div class="show-block">
   <table class="page-block-header">
@@ -16,14 +206,16 @@
     <table class="show-table">
       <tbody>
       <tr>
-        <td class="label-col"><label><%=t(:name)%></label></td>
+        <td class="label-col"><label><%= t(:name) %></label></td>
         <td class="data-col"><%= @calendar[:name] %></td>
         <td class="label-col empty">&nbsp;</td>
         <td class="data-col empty">&nbsp;</td>
       </tr>
       <tr>
-        <td class="label-col"><label><%=t(:description)%></label></td>
-        <td class="data-col"><div><%= @calendar[:description] %></div></td>
+        <td class="label-col"><label><%= t(:description) %></label></td>
+        <td class="data-col">
+          <div><%= @calendar[:description] %></div>
+        </td>
         <td class="label-col empty">&nbsp;</td>
         <td class="data-col empty">&nbsp;</td>
       </tr>
@@ -31,5 +223,212 @@
     </table>
   </div>
 </div>
+<!--页面结构-->
+<div class="widget-box widget-calendar">
+  <%= link_to "", {:action => "schedule_events", :format => "json"}, :style => "display:none", :id => "schedulesUrl" %>
+  <div class="widget-title">
+    <span class="icon"><i class="icon-calendar"></i></span>
+    <h5>日历</h5>
 
-<%=render :partial=>"multilingual/show",:locals=>{:main_data=>@calendar} %>
+    <div class="buttons">
+      <a id="add-event" data-toggle="modal" href="#modal-add-event" class="btn btn-success"><i class="icon-plus icon-white"></i>新建班次</a>
+
+      <div class="modal hide" id="modal-add-event">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h3>新建班次</h3>
+        </div>
+        <div class="modal-body form-horizontal">
+        <%= form_for(@calendar_item, :url => {:controller => "slm/calendar_items",:action => "create", :calendar_id => @calendar.id, :sid => params[:sid]},:html => {:id => "scheduleForm", :class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
+          <%= f.hidden_field :calendar_id %>
+          <div class="control-group">
+            <label class="control-label">班次开始时间:</label>
+            <div class="controls">
+              <%= f.text_field :start_at, :id => "start_at", :required => true, :placeholder => "08:00" %>
+              <span class="help-inline"></span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">班次结束时间:</label>
+            <div class="controls">
+              <%= f.text_field :end_at, :id => "end_at", :required => true, :placeholder => "12:00" %>
+              <span class="help-inline"></span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">应用到:</label>
+            <div class="controls">
+              <%= f.text_field :start_time, :id => "start_time", :class => "input-mini", :style => "width: 90px;", :placeholder =>"2013-01-01" %>
+              ～
+              <%= f.text_field :end_time, :id => "end_time", :class => "input-mini", :style => "width: 90px;", :placeholder =>"2013-12-31" %>
+              <div class="week-container">
+                <label class="checkbox"><input type="checkbox" name="week_str[]" value="1"><%= (t "date.day_names")[1]%></label>
+                <label class="checkbox"><input type="checkbox" name="week_str[]" value="2"><%= (t "date.day_names")[2]%></label>
+                <label class="checkbox"><input type="checkbox" name="week_str[]" value="3"><%= (t "date.day_names")[3]%></label>
+                <label class="checkbox"><input type="checkbox" name="week_str[]" value="4"><%= (t "date.day_names")[4]%></label>
+                <label class="checkbox"><input type="checkbox" name="week_str[]" value="5"><%= (t "date.day_names")[5]%></label>
+                <br/>
+                <label class="checkbox"><input type="checkbox" name="week_str[]" value="6"><%= (t "date.day_names")[6]%></label>
+                <label class="checkbox"><input type="checkbox" name="week_str[]" value="0"><%= (t "date.day_names")[0]%></label>
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn" data-dismiss="modal">取消</a>
+          <a href="#" id="add-event-submit" class="btn btn-primary">确定添加</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="widget-content nopadding">
+    <div class="panel-left">
+      <div id="fullcalendar"></div>
+    </div>
+    <div id="external-events" class="panel-right">
+      <div class="panel-title"><h5>班次</h5></div>
+      <div class="panel-content">
+        <% available_schedules(@calendar).each do |schedule| %>
+          <div class="external-event ui-draggable label label-inverse">
+            <%= schedule.start_at %> ~ <%= schedule.end_at %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        calendar.init();
+        $('#add-event-submit').click(function () {
+            calendar.add_event();
+        });
+
+        $('#event-name').keypress(function (e) {
+            if (e.which == 13) {
+                calendar.add_event();
+            }
+        });
+        $("#fullcalendar .fc-button-prev").click()
+    });
+    calendar = {
+        init: function () {
+            // Prepare the dates
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+
+            $('#fullcalendar').fullCalendar({
+                header: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
+                editable: true,
+                events: $("#schedulesUrl").attr("href"),
+                droppable: false, // this allows things to be dropped onto the calendar !!!
+                drop: function (date, allDay) { // this function is called when something is dropped
+
+                    // retrieve the dropped element's stored Event Object
+                    var originalEventObject = $(this).data('eventObject');
+
+                    // we need to copy it, so that multiple events don't have a reference to the same object
+                    var copiedEventObject = $.extend({}, originalEventObject);
+
+                    // assign it the date that was reported
+                    copiedEventObject.start = date;
+                    copiedEventObject.allDay = allDay;
+
+                    // render the event on the calendar
+                    // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                    $('#fullcalendar').fullCalendar('renderEvent', copiedEventObject, true);
+
+                    // is the "remove after drop" checkbox checked?
+
+                    // if so, remove the element from the "Draggable Events" list
+                    //$(this).remove();
+
+                }
+            });
+//            this.external_events();
+        },
+
+        // === Adds an event if name is provided === //
+        add_event: function () {
+            if ($('#start_at').val() != '' && $("#end_at").val() != '') {
+                var start_at = $('#start_at').val(), end_at = $('#end_at').val();
+                //判断当前班次是否存在
+
+                //判断是否指定了时间区间和星期
+                if ($('#start_time').val()) {
+                    var start_time = $('#start_time'), end_time = start_time;
+                    if ($('#end_at').val() != '') {
+                       end_time = $('#end_time').val();
+                    }
+                    //判断是否需要星期
+                    if (start_time === end_time) {
+
+                    }else{
+
+                    }
+
+                    $("#scheduleForm").submit();
+
+                }
+
+                $('#external-events .panel-content').append('<div class="external-event ui-draggable label label-inverse">' + start_at + ' ~ ' + end_at + '</div>');
+                this.external_events();
+                $('#modal-add-event').modal('hide');
+                $('#event-name').val('');
+            } else {
+                this.show_error();
+            }
+        },
+
+        // === Initialize the draggable external events === //
+        external_events: function () {
+            /* initialize the external events
+             -----------------------------------------------------------------*/
+            $('#external-events div.external-event').each(function () {
+                // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+                // it doesn't need to have a start or end
+                var eventObject = {
+                    title: $.trim($(this).text()) // use the element's text as the event title
+                };
+
+                // store the Event Object in the DOM element so we can get to it later
+                $(this).data('eventObject', eventObject);
+
+                // make the event draggable using jQuery UI
+                $(this).draggable({
+                    zIndex: 999,
+                    revert: true,      // will cause the event to go back to its
+                    revertDuration: 0  //  original position after the drag
+                });
+            });
+        },
+
+        // === Show error if no event name is provided === //
+        show_error: function () {
+            $('#modal-error').remove();
+            $('<div class="modal-error-tip" id="modal-error">输入班次的开始和结束时间</div>').appendTo('#modal-add-event .modal-body');
+            $('#modal-error').delay('1500').fadeOut(700, function () {
+                $(this).remove();
+            });
+        }
+
+
+    };
+
+</script>
+
+
+<%= render :partial => "multilingual/show", :locals => {:main_data => @calendar} %>

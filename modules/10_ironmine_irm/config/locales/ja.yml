@@ -1049,7 +1049,10 @@ en:
   label_irm_todo_event_recurrence_weekly: Weekly
   label_irm_todo_event_recurrence_monthly: Monthly
   label_irm_todo_event_recurrence_yearly: Yearly
+  label_irm_todo_event_recurrence_every_day: Recurs every %{m} day(s) on
   label_irm_todo_event_recurrence_every_week: Recurs every %{m} week(s) on
+  label_irm_todo_event_recurrence_week_x: Week %{x}
+  label_irm_todo_event_recurrence_every_year: Recurs every %{m} year(s) on
   label_irm_todo_event_recurrence_day_of_every_month: On day %{n} of every %{m} month(s)
   label_irm_todo_event_recurrence_weekday_of_every_month: On the %{n} of every %{m} month(s)
   label_irm_todo_event_assigned_to: Assigned To

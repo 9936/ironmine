@@ -1,0 +1,18 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "110px"}) do |data| %>
+        <%= link_to(t(:edit), {:action => "edit", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show), {:action => "show", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:delete), {:action => "destroy", :id => data[:id]}, {:class => "action-link",:confirm => t(:label_are_you_sure),:method => :delete}) %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name)}) %>
+    <% builder.column(:time_mode, {:title => t(:label_slm_calendar_item_time_mode)}) do |data| %>
+      <%= time_mode_obj_meaning(data.time_mode_obj) %>
+    <% end %>
+    <% builder.column(:start_at, {:title => t(:label_slm_calendar_item_start_at)}) %>
+    <% builder.column(:end_at, {:title => t(:label_slm_calendar_item_end_at)}) %>
+    <% builder.column(:deadline, {:title => t(:label_slm_calendar_item_deadline)}) %>
+    <% builder.column(:relation_type, {:title => t(:label_slm_calendar_item_type)}) do |data|%>
+      <%= relation_type_meaning(data[:relation_type]) %>
+    <% end %>
+    <% builder.column(:description, {:title => t(:description)}) %>
+<% end %>
