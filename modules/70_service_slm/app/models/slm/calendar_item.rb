@@ -193,55 +193,110 @@ class Slm::CalendarItem < ActiveRecord::Base
 
       while start_time <= end_time
         year, month, day, wday = start_time.year, start_time.month, start_time.day, start_time.wday
-
+        unless week_days.include?(wday)
+          next
+        end
         years_obj[year] ||= {}
         start_end_key = "#{self.start_at.gsub(/:/, '_')}to#{self.end_at.gsub(/:/, '_')}"
         #该班次已经存在
         new_start_end_ats = year_month_day_schedules(available_items, year, month, day)
-        if !new_start_end_ats.any? && available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][start_end_key]
+        if new_start_end_ats.any?
           puts "============11================"
-          years_obj[year][month] = available_items[year.to_s][month][start_end_key]
-
-          #如果该天不在班次中直接加到班次中
-          unless available_items[year.to_s][month][start_end_key].include?(day)
-            years_obj[year][month] << day if week_days.include?(wday.to_s)
-          end
-        else
-          #new_start_end_ats = year_month_day_schedules(available_items, year, month, day)
-          if new_start_end_ats.any? #找出该天所包含的班次，如果有重叠的部分进行合并
-            puts "============22================"
-            month_obj ||= {}
-            new_start_end_ats.each do |new_start_end_at|
-              new_start_at, new_end_at = "#{'%02d' % new_start_end_at[0].hour}:#{'%02d' % new_start_end_at[0].min}", "#{'%02d' % new_start_end_at[1].hour}:#{'%02d' % new_start_end_at[1].min}"
-              new_start_end_key = "#{new_start_at.gsub(/:/, '_')}to#{new_end_at.gsub(/:/, '_')}"
-              if available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][new_start_end_key]
-                month_obj[month] = available_items[year.to_s][month][new_start_end_key]
-                unless available_items[year.to_s][month][new_start_end_key].include?(day)
-                  if week_days.include?(wday.to_s)
-                    month_obj[month] << day
-                    available_items[year.to_s][month][new_start_end_key] << day unless available_items[year.to_s][month][new_start_end_key].include?(day)
-                  end
-
-                end
-              else
-                available_items[year.to_s] ||= {}
-                available_items[year.to_s][month] ||= {}
-                available_items[year.to_s][month][new_start_end_key] ||= []
-
-                month_obj[month] ||= []
+          month_obj ||= {}
+          new_start_end_ats.each do |new_start_end_at|
+            new_start_at, new_end_at = "#{'%02d' % new_start_end_at[0].hour}:#{'%02d' % new_start_end_at[0].min}", "#{'%02d' % new_start_end_at[1].hour}:#{'%02d' % new_start_end_at[1].min}"
+            new_start_end_key = "#{new_start_at.gsub(/:/, '_')}to#{new_end_at.gsub(/:/, '_')}"
+            if available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][new_start_end_key]
+              month_obj[month] = available_items[year.to_s][month][new_start_end_key]
+              unless available_items[year.to_s][month][new_start_end_key].include?(day)
                 if week_days.include?(wday.to_s)
                   month_obj[month] << day
                   available_items[year.to_s][month][new_start_end_key] << day unless available_items[year.to_s][month][new_start_end_key].include?(day)
                 end
+
               end
-              save_calendar_item(self.calendar_id, new_start_at, new_end_at, month_obj, year)
+            else
+              available_items[year.to_s] ||= {}
+              available_items[year.to_s][month] ||= {}
+              available_items[year.to_s][month][new_start_end_key] ||= []
+
+              month_obj[month] ||= []
+              if week_days.include?(wday.to_s)
+                month_obj[month] << day
+                available_items[year.to_s][month][new_start_end_key] << day unless available_items[year.to_s][month][new_start_end_key].include?(day)
+              end
             end
-          else
-            puts "============33================"
-            years_obj[year][month] ||= []
-            years_obj[year][month] << day if week_days.include?(wday.to_s)
+            save_calendar_item(self.calendar_id, new_start_at, new_end_at, month_obj, year)
           end
+        elsif available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][start_end_key]
+          puts "============22================"
+          years_obj[year][month] = available_items[year.to_s][month][start_end_key]
+          #如果该天不在班次中直接加到班次中
+          unless available_items[year.to_s][month][start_end_key].include?(day)
+            if week_days.include?(wday.to_s)
+              years_obj[year][month] << day
+              available_items[year.to_s][month][start_end_key] << day unless available_items[year.to_s][month][start_end_key].include?(day)
+            end
+          end
+        else
+          puts "============33================"
+          available_items[year.to_s] ||= {}
+          available_items[year.to_s][month] ||= {}
+          available_items[year.to_s][month][start_end_key] ||= []
+
+          years_obj[year][month] ||= []
+
+          if week_days.include?(wday.to_s)
+            years_obj[year][month] << day
+            available_items[year.to_s][month][start_end_key] << day unless available_items[year.to_s][month][start_end_key].include?(day)
+          end
+
         end
+
+        #if !new_start_end_ats.any? && available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][start_end_key]
+        #  puts "============11================"
+        #  years_obj[year][month] = available_items[year.to_s][month][start_end_key]
+        #
+        #  #如果该天不在班次中直接加到班次中
+        #  unless available_items[year.to_s][month][start_end_key].include?(day)
+        #    years_obj[year][month] << day if week_days.include?(wday.to_s)
+        #  end
+        #else
+        #  #new_start_end_ats = year_month_day_schedules(available_items, year, month, day)
+        #  if new_start_end_ats.any? #找出该天所包含的班次，如果有重叠的部分进行合并
+        #    puts "============22================"
+        #    month_obj ||= {}
+        #    new_start_end_ats.each do |new_start_end_at|
+        #      new_start_at, new_end_at = "#{'%02d' % new_start_end_at[0].hour}:#{'%02d' % new_start_end_at[0].min}", "#{'%02d' % new_start_end_at[1].hour}:#{'%02d' % new_start_end_at[1].min}"
+        #      new_start_end_key = "#{new_start_at.gsub(/:/, '_')}to#{new_end_at.gsub(/:/, '_')}"
+        #      if available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][new_start_end_key]
+        #        month_obj[month] = available_items[year.to_s][month][new_start_end_key]
+        #        unless available_items[year.to_s][month][new_start_end_key].include?(day)
+        #          if week_days.include?(wday.to_s)
+        #            month_obj[month] << day
+        #            available_items[year.to_s][month][new_start_end_key] << day unless available_items[year.to_s][month][new_start_end_key].include?(day)
+        #          end
+        #
+        #        end
+        #      else
+        #        available_items[year.to_s] ||= {}
+        #        available_items[year.to_s][month] ||= {}
+        #        available_items[year.to_s][month][new_start_end_key] ||= []
+        #
+        #        month_obj[month] ||= []
+        #        if week_days.include?(wday.to_s)
+        #          month_obj[month] << day
+        #          available_items[year.to_s][month][new_start_end_key] << day unless available_items[year.to_s][month][new_start_end_key].include?(day)
+        #        end
+        #      end
+        #      save_calendar_item(self.calendar_id, new_start_at, new_end_at, month_obj, year)
+        #    end
+        #  else
+        #    puts "============33================"
+        #    years_obj[year][month] ||= []
+        #    years_obj[year][month] << day if week_days.include?(wday.to_s)
+        #  end
+        #end
 
         self.start_time = self.start_time + 1.day
       end

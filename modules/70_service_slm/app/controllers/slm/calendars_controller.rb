@@ -173,7 +173,7 @@ class Slm::CalendarsController < ApplicationController
     end
 
     respond_to do |format|
-      format.json {render :json=> events_result.to_json}
+      format.json {render :json=> events_result.uniq.to_json}
     end
   end
 end
