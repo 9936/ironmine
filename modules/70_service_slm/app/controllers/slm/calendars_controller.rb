@@ -135,7 +135,7 @@ class Slm::CalendarsController < ApplicationController
 
     if s_year == e_year
       (s_month..e_month).each do |month|
-        months << month
+        year_months[s_year] << month
       end
     else
       while start_time <= Time.parse("#{s_year}-12-31", start_time)
@@ -151,7 +151,7 @@ class Slm::CalendarsController < ApplicationController
 
     end
 
-    calendar_items = Slm::CalendarItem.with_calendar(calendar.id).with_years(year_months.keys)
+    calendar_items = Slm::CalendarItem.with_calendar(calendar.id).with_years(year_months.keys).ordered
 
     events_result = []
     calendar_items.each do |item|
@@ -163,8 +163,11 @@ class Slm::CalendarsController < ApplicationController
         end
         months.each do |month|
           month_obj[month].each do |day|
-            events_result << {:id => item.id, :title => "#{item[:start_at]} ~ #{item[:end_at]}", :start => "#{item[:calendar_year]}-#{month}-#{day}"}
-          end
+            start = "#{item[:calendar_year]}-#{month}-#{day}"
+            if Time.parse(start) > start_time && Time.parse(start) < end_time
+              events_result << {:id => item.id, :title => "#{item[:start_at]} ~ #{item[:end_at]}", :start => start}
+            end
+          end if month_obj[month] and month_obj[month].any?
         end
       end
     end
