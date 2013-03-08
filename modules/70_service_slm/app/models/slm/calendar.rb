@@ -28,12 +28,16 @@ class Slm::Calendar < ActiveRecord::Base
       time = Time.strptime(time, '%Y-%m-%d %T')
     end
 
-    years = []
-    year = time.year
-    years << year
-    years << year + 1
+    duration_seconds = duration * 60
 
-   items = Slm::CalendarItem.with_calendar(self.id).with_years(years).ordered
+    max_year = Slm::CalendarItem.max_calendar_year(self.id)
+    year = time.year
+
+    if year > max_year
+      return time + duration_seconds
+    end
+
+    items = Slm::CalendarItem.with_calendar(self.id).where("calendar_year BETWEEN ? AND ?", year, max_year).ordered
 
     calendar_items_obj = []
     items.each do |item|
@@ -44,9 +48,9 @@ class Slm::Calendar < ActiveRecord::Base
       calendar_items_obj << item_obj
     end
 
-    duration_seconds = duration * 60
+
     if calendar_items_obj.any?
-      next_working_time_at(time, duration_seconds, calendar_items_obj)
+      next_working_time_at(time, duration_seconds, calendar_items_obj, max_year)
     else
       time + duration_seconds
     end
@@ -159,10 +163,15 @@ class Slm::Calendar < ActiveRecord::Base
       item_option
     end
 
-    def next_working_time_at(time, duration = 0, calendar_items_obj=[])
+    def next_working_time_at(time, duration = 0, calendar_items_obj=[], max_year)
       unless duration > 0
         return time
       end
+
+      if time.year > max_year
+        return time + duration
+      end
+
 
       year, month, day = time.year, time.month, time.day
       schedule_days = {}
@@ -201,7 +210,7 @@ class Slm::Calendar < ActiveRecord::Base
       if work_seconds < duration
         time = time + 1.day
         time = Time.parse("00:00", time)
-        time = next_working_time_at(time, (duration - work_seconds), calendar_items_obj)
+        time = next_working_time_at(time, (duration - work_seconds), calendar_items_obj, max_year)
       else
         time = time + schedule_duration
       end

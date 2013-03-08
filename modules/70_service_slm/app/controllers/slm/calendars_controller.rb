@@ -164,9 +164,9 @@ class Slm::CalendarsController < ApplicationController
         months.each do |month|
           month_obj[month].each do |day|
             start = "#{item[:calendar_year]}-#{month}-#{day}"
-            if Time.parse(start) > start_time && Time.parse(start) < end_time
+            #if Time.parse(start) > start_time && Time.parse(start) < end_time
               events_result << {:id => item.id, :title => "#{item[:start_at]} ~ #{item[:end_at]}", :start => start}
-            end
+            #end
           end if month_obj[month] and month_obj[month].any?
         end
       end
