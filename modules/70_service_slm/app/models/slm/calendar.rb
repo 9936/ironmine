@@ -23,158 +23,191 @@ class Slm::Calendar < ActiveRecord::Base
     where("calendar_year=?", year)
   }
 
-  #计算当前工作日历下的工作时间
-  def working_time(start_time, end_time)
-    #获取所有为包含的规则
-    include_items = []
-    exclude_items = []
-    calendar_items.each do |item|
-      if item.relation_type.eql?('INCLUDE')
-        include_items << item
-      else
-        exclude_items << item
-      end
+  def next_working_time(time, duration = 0)
+    if time.is_a?(String)
+      time = Time.strptime(time, '%Y-%m-%d %T')
     end
 
-    exclude_rules = []
-    schedule_hash = {}
-    exclude_rules.eachd do |item|
-      exclude_rules << get_rules(item)
+    years = []
+    year = time.year
+    years << year
+    years << year + 1
+
+   items = Slm::CalendarItem.with_calendar(self.id).with_years(years).ordered
+
+    calendar_items_obj = []
+    items.each do |item|
+      item_obj = {}
+      item_obj[:calendar_obj]  = {item[:calendar_year] => eval(item[:calendar_obj])}
+      item_obj[:start_at] = item[:start_at]
+      item_obj[:end_at] = item[:end_at]
+      calendar_items_obj << item_obj
     end
 
-    include_rules.each do |item|
-      schedule_hash[item.id] ||= {}
-      schedule_hash[item.id][:schedule] = IceCube::Schedule.new(item.start_at, {:end_time => item.end_at})
-      schedule_hash[item.id][:duration] = item.end_at - item.start_at
-
-      #将自身的规则进行添加
-      schedule_hash[item.id][:schedule].add_recurrence_rule(get_rules(all_rule_item)[0])
-      #处理排除的规则
-      exclude_rules.each do |rule|
-        schedule_hash[item.id][:schedule].add_exception_rule(rule)
-      end
+    duration_seconds = duration * 60
+    if calendar_items_obj.any?
+      next_working_time_at(time, duration_seconds, calendar_items_obj)
+    else
+      time + duration_seconds
     end
-
-    schedule_hash.each do |k, v|
-      occurrences_array = v[:schedule].occurrences_between(st, et)
-      puts ""
-    end
-
-
   end
 
-  def work_time(start_time, end_time)
-    all_rule_item = nil
-    other_rule_items = []
-    calendar_items.each do |item|
-      if item.relation_type.eql?('ALL')
-        all_rule_item = item
-      else
-        other_rule_items << item
-      end
+  #计算当前工作日历下的工作时间
+  def working_time(start_time, end_time)
+    if start_time.is_a?(String)
+      start_time = Time.strptime(start_time, '%Y-%m-%d %T')
     end
 
-    if all_rule_item.present?
-      #处理主规则
-      schedule = IceCube::Schedule.new(all_start_time, {:end_time => all_end_time})
-      schedule.add_recurrence_rule(get_rules(all_rule_item)[0])
+    if end_time.is_a?(String)
+      end_time = Time.strptime(end_time, '%Y-%m-%d %T')
+    end
 
-      #处理其他的规则：包含或排除
-      other_rule_items.each do |item|
-        rules = get_rules(item)
-        rules.each do |rule|
-          if item.relation_type.eql?('INCLUDE')
-            schedule.add_recurrence_rule(rule)
+    if start_time > end_time
+      return 0
+    end
+
+    years = []
+    (start_time.year..end_time.year).each do |year|
+      years << year
+    end
+
+    total_work_time = 0
+
+    calendar_items = Slm::CalendarItem.with_calendar(self.id).with_years(years).ordered
+
+    end_year = end_time.year
+    end_month = end_time.month
+    end_day = end_time.day
+    end_hour = end_time.hour
+    end_minute = end_time.min
+
+    calendar_items_obj ||= {}
+
+    calendar_items.each do |item|
+      current_start_time = start_time.dup
+
+      while current_start_time <= end_time
+        start_year = current_start_time.year
+        start_month = current_start_time.month
+
+        calendar_items_obj[start_year] = eval(item[:calendar_obj])
+
+        if calendar_items_obj[start_year] && calendar_items_obj[start_year][start_month] && calendar_items_obj[start_year][start_month].any?
+
+          start_day = current_start_time.day
+
+          format_date_str = "#{start_year}-#{start_month}-#{start_day}"
+
+          item_option = format_item_time(item[:start_at], item[:end_at],format_date_str)
+          if start_year.eql?(end_year) && start_month.eql?(end_month) && start_day.eql?(end_day)
+            current_end_hour = end_hour
+            current_end_minute = end_minute
           else
-            schedule.add_exception_rule(rule)
+            current_end_hour = item_option[:end_at].hour
+            current_end_minute = item_option[:start_at].min
+          end
+          days = calendar_items_obj[start_year][start_month]
+          if days.include?(start_day)
+            start_hour = current_start_time.hour
+            start_minute = current_start_time.min
+
+            start_hour_minute = format_time(start_hour, start_minute, format_date_str)
+            end_hour_minute = format_time(current_end_hour, current_end_minute, format_date_str)
+
+            total_work_time += calculate_minutes(start_hour_minute, end_hour_minute , item_option)
+          end
+        end
+        #将current_start_time的时间设置到0点
+        current_start_time = Time.parse("00:00", current_start_time)
+        current_start_time += 1.day
+      end
+    end if calendar_items.any?
+    total_work_time
+  end
+
+  private
+    #获取指定班次的时间
+    def calculate_minutes(start_hour_minute, end_hour_minute, item)
+      item_start = item[:start_at]
+      item_end = item[:end_at]
+
+      duration_seconds = 0
+      if start_hour_minute < item_start
+        start_hour_minute = item_start
+      end
+
+      if end_hour_minute > item_end
+        end_hour_minute = item_end
+      end
+
+      if start_hour_minute < end_hour_minute
+        duration_seconds = end_hour_minute - start_hour_minute
+      end
+      duration_seconds
+    end
+
+    #将分钟和小时用固定的时间年月日进行格式化，便于比较操作
+    def format_time(hour, minute, format_date_str = "2013-01-01")
+      format_date_str = format_date_str + " #{hour}:#{minute}:00"
+      Time.strptime(format_date_str, '%Y-%m-%d %T')
+    end
+
+    def format_item_time(item_start, item_end, format_date_str= "2013-01-01")
+      item_option = {}
+      item_option[:start_at] = Time.strptime("#{format_date_str} #{item_start}:00", '%Y-%m-%d %T')
+      item_option[:end_at] = Time.strptime("#{format_date_str} #{item_end}:00", '%Y-%m-%d %T')
+      item_option
+    end
+
+    def next_working_time_at(time, duration = 0, calendar_items_obj=[])
+      unless duration > 0
+        return time
+      end
+
+      year, month, day = time.year, time.month, time.day
+      schedule_days = {}
+
+      calendar_items_obj.each do |item|
+        calendar_obj = item[:calendar_obj]
+        if calendar_obj and calendar_obj[year.to_s] && calendar_obj[year.to_s][month] && calendar_obj[year.to_s][month].include?(day)
+          schedule_days[day] ||= []
+          schedule_days[day] << item
+        end
+      end
+      work_seconds = 0
+
+      schedule_duration = duration
+      if schedule_days.any? && schedule_days[day].any?
+        schedule_days[day].each do |item|
+          item_option = format_item_time(item[:start_at], item[:end_at], "#{year}-#{month}-#{day}")
+
+          #时间不超出班次范围给予计算
+          if item_option[:start_at] > time
+            time = item_option[:start_at]
+          end
+          if item_option[:start_at] <= time && item_option[:end_at] >= time
+            work_seconds += calculate_minutes(time, (time + duration), item_option)
+
+            if work_seconds < duration
+              time = item_option[:end_at]
+              schedule_duration = schedule_duration - work_seconds
+            else
+              break
+            end
           end
         end
       end
 
-      occurrences_array = schedule.occurrences_between(start_time, end_time)
-
-
-      puts "=================#{occurrences_array}==============="
-    else
-      raise "there is no main rule in calendar #{self}"
-    end
-  end
-
-  def get_rules(item)
-    time_mode_obj = item.time_mode_obj
-    freq_str = time_mode_obj[:freq]
-    rules = []
-    start_time = item.start_at
-    end_time = item.end_at
-
-    if freq_str.eql?('DAILY')
-      interval = time_mode_obj[:daily][:interval]
-      if item.relation_type.eql?('INCLUDE')
-        rules << IceCube::Rule.daily(interval.to_i)
+      if work_seconds < duration
+        time = time + 1.day
+        time = Time.parse("00:00", time)
+        time = next_working_time_at(time, (duration - work_seconds), calendar_items_obj)
       else
-        get_months_and_days(start_time, end_time, interval).each do |month, month_days|
-          rules << IceCube::Rule.yearly.month_of_year(month).day_of_month(*month_days[:days])
-        end
+        time = time + schedule_duration
       end
-    elsif freq_str.eql?('WEEKLY')
-      week_days = time_mode_obj[:weekly][:days]
-      interval = time_mode_obj[:weekly][:interval]
-      days = get_weeks(week_days)
-      if item.relation_type.eql?('INCLUDE')
-        rules << IceCube::Rule.weekly(interval.to_i).day(*days)
-      else
-        get_months_and_days(start_time, end_time, interval).each do |month, month_days|
-          rules << IceCube::Rule.yearly.month_of_year(month).day(*days).day_of_month(*month_days[:days])
-        end
-      end
+
+      time
     end
-    rules
-  end
 
-
-  def get_weeks(week_days)
-    weeks = []
-    week_days.each do |week_day|
-      case week_day
-        when "MO"
-          weeks << :monday
-        when "TU"
-          weeks << :tuesday
-        when "WE"
-          weeks << :wednesday
-        when "TH"
-          weeks << :thursday
-        when "FR"
-          weeks << :friday
-        when "SA"
-          weeks << :saturday
-        when "SU"
-          weeks << :sunday
-        else
-          ""
-      end
-    end
-    weeks
-  end
-
-  def get_months_and_days(start_time, end_time, interval=1)
-    months_and_days = {}
-    if start_time.is_a?(Time) and end_time.is_a?(Time)
-      while start_time < end_time
-        month = start_time.month
-        months_and_days[month] ||= {}
-        months_and_days[month][:days] ||= []
-        day = start_time.day
-        months_and_days[month][:days] << day
-
-        start_time = start_time + interval.to_i.day
-      end
-    end
-    months_and_days
-  end
-
-  def month_and_day_and_hour(start_time, end_time)
-
-  end
 
 end
