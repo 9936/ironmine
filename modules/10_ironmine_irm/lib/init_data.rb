@@ -2803,7 +2803,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/custom_attributes" => ["index","new","create","edit","update","destroy","show","enable_global_custom_fields","active","disable","switch_status","multilingual_edit","multilingual_update","get_data"]
+              "irm/custom_attributes" => ["index","new","create","edit","update","destroy","show","enable_global_custom_fields","active","disable","switch_status","multilingual_edit","multilingual_update","get_data","switch_sequence"]
           }
       }
   }

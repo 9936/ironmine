@@ -693,23 +693,23 @@ class Skm::EntryHeadersController < ApplicationController
       end.results
       count = entry_headers.size
     else
-      entry_headers_scope = Skm::EntryHeader.
+      entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).
         list_all.
         with_author.
         published.
         current_entry.
         with_favorite_flag(Irm::Person.current.id)
-        entry_headers_scope = entry_headers_scope.with_columns([] << params[:column_id]) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
-        entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
-        entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
-        entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
-        entry_headers,count = paginate(entry_headers_scope)
+      #entry_headers_scope = entry_headers_scope.with_columns([] << params[:column_id]) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
+      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
+      entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
+      entry_headers,count = paginate(entry_headers_scope)
     end
 
     respond_to do |format|
       format.html  {
         @datas = entry_headers
-        @count = entry_headers.count
+        @count = count
       }
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json([:is_favorite, :entry_status_code, :full_title,
                                                                          :entry_title, :keyword_tags,:doc_number,:version_number,
@@ -718,7 +718,7 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def get_history_entries_data
-    entry_histories_scope = Skm::EntryHeader.list_all.history_entry.where(:doc_number => params[:doc_number])
+    entry_histories_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.history_entry.where(:doc_number => params[:doc_number])
     entry_histories,count = paginate(entry_histories_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_histories.to_grid_json(['0',:entry_status_code, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date_f], count)) }
@@ -730,16 +730,16 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def index_search_get_data
-    entry_headers_scope = Skm::EntryHeader.list_all.published.current_entry
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.published.current_entry
     entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:search_value]) if params[:search_value]
     entry_headers,count = paginate(entry_headers_scope)
 
-    if  !params[:search_value].nil? then
+    if !params[:search_value].nil? then
          @history = Skm::EntryOperateHistory.new({:operate_code=>"SKM_SEARCH",
                                                   :incident_id=>@incident_request.id ,
                                                   :search_key=>params[:search_value],
                                                   :result_count=>count});
-         @history.save;
+         @history.save
     end
 
     respond_to do |format|
@@ -748,8 +748,8 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def my_favorites_data
-    entry_headers_scope = Skm::EntryHeader.list_all.my_favorites(params[:person_id]).published.current_entry
-    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.my_favorites(params[:person_id]).published.current_entry
+    #entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
       format.html  {
@@ -794,7 +794,7 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def my_drafts_data
-    entry_headers_scope = Skm::EntryHeader.list_all.my_drafts(params[:person_id])
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.my_drafts(params[:person_id])
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:entry_status_code, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date], count)) }
@@ -805,14 +805,18 @@ class Skm::EntryHeadersController < ApplicationController
 
   end
   def my_unpublished_data
-    entry_headers_scope = Skm::EntryHeader.list_all.with_entry_status.current_entry.my_unpublished(params[:person_id])
-    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.with_entry_status.current_entry.my_unpublished(params[:person_id])
+    #entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
+
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:entry_status_code,:entry_status_name, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date], count)) }
       format.html  {
         @datas = entry_headers
-        @count = entry_headers.count
+        @count = count
       }
     end
   end
@@ -822,14 +826,17 @@ class Skm::EntryHeadersController < ApplicationController
   end
 
   def unpublished_data
-    entry_headers_scope = Skm::EntryHeader.list_all.with_author.with_entry_status.current_entry.unpublished
-    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.with_author.with_entry_status.current_entry.unpublished
+    #entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:entry_status_code,:entry_status_name, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date], count)) }
       format.html  {
         @datas = entry_headers
-        @count = entry_headers.count
+        @count = count
       }
     end
   end
@@ -838,14 +845,19 @@ class Skm::EntryHeadersController < ApplicationController
 
   end
   def wait_my_approve_data
-    entry_headers_scope = Skm::EntryHeader.list_all.with_author.current_entry.with_entry_status.wait_my_approve
-    entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+    entry_headers_scope = Skm::EntryHeader.within_accessible_columns(params[:column_id]).list_all.with_author.current_entry.with_entry_status.wait_my_approve
+    #entry_headers_scope = entry_headers_scope.with_columns(([] << params[:column_id]) & Skm::Column.current_person_accessible_columns) if params[:column_id] && params[:column_id].present? && params[:column_id] != "root"
+
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.doc_number",params[:doc_number]) if params[:doc_number]
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.keyword_tags",params[:keyword_tags]) if params[:keyword_tags]
+    entry_headers_scope = entry_headers_scope.match_value("#{Skm::EntryHeader.table_name}.entry_title",params[:entry_title]) if params[:entry_title]
+
     entry_headers,count = paginate(entry_headers_scope)
     respond_to do |format|
       format.json  {render :json => to_jsonp(entry_headers.to_grid_json(['0',:author_name,:entry_status_code,:entry_status_name, :full_title, :entry_title, :keyword_tags,:doc_number,:version_number, :published_date], count)) }
       format.html  {
         @datas = entry_headers
-        @count = entry_headers.count
+        @count = count
       }
     end
   end

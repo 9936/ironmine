@@ -69,6 +69,30 @@ Ironmine::Application.routes.draw do
       match '/service_agreements/:service_agreement_id/time_triggers/:id(.:format)' => "time_triggers#update", :via => :put
       match '/service_agreements/:service_agreement_id/time_triggers/:id/destroy(.:format)' => "time_triggers#destroy"
     end
+
+    #calendars
+    match '/calendars/:sid(/index)(.:format)' => "calendars#index", :via => :get
+    match '/calendars/:sid/get_data(.:format)' => "calendars#get_data"
+    match '/calendars/:sid/:id/edit(.:format)' => "calendars#edit", :via => :get
+    match '/calendars/:sid/:id(.:format)' => "calendars#update", :via => :put
+    match '/calendars/:sid/new(.:format)' => "calendars#new", :via => :get
+    match '/calendars/:sid/:id(.:format)' => "calendars#show", :via => :get
+    match '/calendars/:sid/:id/schedule_events(.:format)' => "calendars#schedule_events", :via => :get
+    match '/calendars/:sid/create(.:format)' => "calendars#create", :via => :post
+    match '/calendars/:sid/:id/multilingual_edit(.:format)' => "calendars#multilingual_edit", :via => :get
+    match '/calendars/:sid/:id/multilingual_update(.:format)' => "calendars#multilingual_update", :via => :put
+
+    #calendar items
+    match '/calendars/:sid/:calendar_id/calendar_items/get_data(.:format)' => "calendar_items#get_data"
+    match '/calendars/:sid/:calendar_id/calendar_items/:id/edit(.:format)' => "calendar_items#edit", :via => :get
+    match '/calendars/:sid/:calendar_id/calendar_items/:id(.:format)' => "calendar_items#update", :via => :put
+    match '/calendars/:sid/:calendar_id/calendar_items/new(.:format)' => "calendar_items#new", :via => :get
+    match '/calendars/:sid/:calendar_id/calendar_items/:id(.:format)' => "calendar_items#show", :via => :get
+    match '/calendars/:sid/:calendar_id/calendar_items/:id/destroy(.:format)' => "calendar_items#destroy"
+    match '/calendars/:sid/:calendar_id/calendar_items/create(.:format)' => "calendar_items#create", :via => :post
+    match '/calendars/:sid/:calendar_id/calendar_items/:id/multilingual_edit(.:format)' => "calendar_items#multilingual_edit", :via => :get
+    match '/calendars/:sid/:calendar_id/calendar_items/:id/multilingual_update(.:format)' => "calendar_items#multilingual_update", :via => :put
+
   end
 
 end

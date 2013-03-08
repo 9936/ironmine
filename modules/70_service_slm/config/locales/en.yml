@@ -146,3 +146,12 @@ en:
   label_slm_service_agreement_add_time_trigger: 时间触发器
   label_slm_service_agreement_duration_time: Duration
   #=========================    end service_agreements_controller=======================#
+  #========================= start calendar=======================#
+  label_slm_calendar: Work Calendar
+  label_irm_calendar_list: Calendars List
+  label_irm_calendar_new: New Calendar
+  label_irm_calendar_edit: Edit Calendar
+  slm_calendar_last_updated: Last Updated
+  label_slm_calendar_name: Calendar Name
+  label_slm_calendar_description: Calendar Description
+  #========================= end calendar=======================#
