@@ -154,9 +154,6 @@ class Slm::CalendarItem < ActiveRecord::Base
   def hand_calendar_item
     available_items = Slm::CalendarItem.available_items(self.calendar_id)
 
-    puts "===================#{available_items}==================="
-
-
     self.start_time = Time.strptime("#{self.start_time} 00:00:00", '%Y-%m-%d %T')
     if self.end_time.blank?
       self.end_time = self.start_time
@@ -173,10 +170,10 @@ class Slm::CalendarItem < ActiveRecord::Base
 
       while start_time <= end_time
         year, month, day, wday = start_time.year, start_time.month, start_time.day, start_time.wday
-        #unless week_days.include?(wday)
-        #  self.start_time = self.start_time + 1.day
-        #  next
-        #end
+        unless week_days.include?(wday.to_s)
+          self.start_time = self.start_time + 1.day
+          next
+        end
         years_obj[year] ||= {}
         start_end_key = "#{self.start_at.gsub(/:/, '_')}to#{self.end_at.gsub(/:/, '_')}"
         #该班次已经存在
