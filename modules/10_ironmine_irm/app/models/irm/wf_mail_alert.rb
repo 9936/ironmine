@@ -50,6 +50,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
     str_values = self.recipient_str.split(",").delete_if{|i| !i.present?}
     exists_values = Irm::WfMailRecipient.where(:wf_mail_alert_id=>self.id)
     exists_values.each do |value|
+      puts "=======================#{value.recipient_type}##{value.recipient_id}"
       if str_values.include?("#{value.recipient_type}##{value.recipient_id}")
         str_values.delete("#{value.recipient_type}##{value.recipient_id}")
       else
@@ -61,6 +62,7 @@ class Irm::WfMailAlert < ActiveRecord::Base
     str_values.each do |value_str|
       next unless value_str.strip.present?
       value = value_str.strip.split("#")
+      puts "==============#{value[1]}==================="
       self.wf_mail_recipients.build(:bo_code=>self.bo_code,:recipient_type=>value[0],:recipient_id=>value[1])
     end
   end
