@@ -1,31 +1,48 @@
 #-*- coding: utf-8 -*-
 Fwk::MenuAndFunctionManager.map do |map|
+
+
+  #====================================START:PERSONAL_SETTING======================================
+  map.menu :system_common_setting, {
+
+      :children => {
+        :service_management=>{
+            :type => "menu",
+            :entry => {
+                :sequence => 50,
+                :en => {:name => "Service Management", :description => "Service Management"},
+                :zh => {:name => "服务管理", :description => "服务管理"}
+            }
+        }
+      }
+  }
+  #====================================END:PERSONAL_SETTING======================================
   #====================================START:SERVICE_MANAGEMENT======================================
   map.menu :service_management, {
       :en => {:name => "Service Management", :description => "Service Management"},
       :zh => {:name => "服务管理", :description => "服务管理"},
       :children => {
-          :service_category => {
-              :type => "function",
-              :entry => {
-                  :sequence => 10,
-                  :en => {:name => "Category", :description => "Category"},
-                  :zh => {:name => "服务类别", :description => "定义运维服务类别"},
-              }},
-          :service_catalog => {
-              :type => "function",
-              :entry => {
-                  :sequence => 20,
-                  :en => {:name => "Catalog", :description => "Catalog"},
-                  :zh => {:name => "服务目录", :description => "定义运维服务目录"},
-              }},
+          #:service_category => {
+          #    :type => "function",
+          #    :entry => {
+          #        :sequence => 10,
+          #        :en => {:name => "Category", :description => "Category"},
+          #        :zh => {:name => "服务类别", :description => "定义运维服务类别"},
+          #    }},
+          #:service_catalog => {
+          #    :type => "function",
+          #    :entry => {
+          #        :sequence => 20,
+          #        :en => {:name => "Catalog", :description => "Catalog"},
+          #        :zh => {:name => "服务目录", :description => "定义运维服务目录"},
+          #    }},
           :service_agreement => {
               :type => "function",
               :entry => {
                   :sequence => 30,
                   :en => {:name => "Argeement", :description => "Argeement"},
                   :zh => {:name => "服务协议", :description => "定义服务协议（SLA）"},
-              }},
+              }}
       }
   }
   #====================================END:SERVICE_MANAGEMENT======================================
@@ -80,11 +97,14 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================START:SERVICE_AGREEMENT=================================
   map.function_group :service_agreement, {
       :en => {:name => "Argeement", :description => "Argeement"},
-      :zh => {:name => "服务协议", :description => "定义服务协议（SLA）"}, }
+      :zh => {:name => "服务协议", :description => "定义服务协议（SLA）"},
+  }
   map.function_group :service_agreement, {
       :zone_code => "SYSTEM_SETTING",
       :controller => "slm/service_agreements",
-      :action => "index"}
+      :action => "index",
+      :system_flag => 'Y'
+  }
   map.function_group :service_agreement, {
       :children => {
           :service_agreement => {
@@ -93,7 +113,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "slm/service_agreements" => ["create", "edit", "get_data", "index", "new", "show", "update"],
+              "slm/service_agreements" => ["create", "edit", "get_data", "index", "new", "show", "update","add_exists_action","save_exists_action","destroy_action"],
+              "slm/time_triggers" => ["create", "edit", "get_data", "index", "new", "show", "update","destroy"]
           },
       }
   }

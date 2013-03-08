@@ -68,5 +68,61 @@ module Slm::ServiceAgreementsHelper
     end
     value_options
   end
+
+
+  def service_agreement_time_triggers(service_agreement_id)
+    Slm::TimeTrigger.where(:service_agreement_id=>service_agreement_id)
+  end
+
+  def service_agreement_exists_actions(service_agreement_id)
+    values = []
+    bo_code = Slm::ServiceAgreement.find(service_agreement_id).business_object_code
+
+    label_name =Irm::BusinessObject.class_name_to_meaning(Irm::WfFieldUpdate.name)
+    code = Irm::BusinessObject.class_name_to_code(Irm::WfFieldUpdate.name)
+    values +=Irm::WfFieldUpdate.where(:bo_code=>bo_code).collect{|i| ["#{label_name}:#{i.name}","#{code}##{i.id}",{:type=>code,:query=>i.name}]}
+
+    label_name =Irm::BusinessObject.class_name_to_meaning(Irm::WfMailAlert.name)
+    code = Irm::BusinessObject.class_name_to_code(Irm::WfMailAlert.name)
+    values +=Irm::WfMailAlert.where(:bo_code=>bo_code).collect{|i| ["#{label_name}:#{i.name}","#{code}##{i.id}",{:type=>code,:query=>i.name}]}
+
+    values
+  end
+
+
+  def service_agreement_belongs_actions(time_trigger_id)
+    action_types = [[Irm::WfFieldUpdate,Irm::BusinessObject.class_name_to_code(Irm::WfFieldUpdate.name)],[Irm::WfMailAlert,Irm::BusinessObject.class_name_to_code(Irm::WfMailAlert.name)]]
+    service_agreement_actions = Slm::TimeTriggerAction.where(:time_trigger_id=>time_trigger_id)
+    actions = []
+    service_agreement_actions.each do |action|
+      action_type = action_types.detect{|i| i[0].name.eql?(action.action_type)}
+      actions<<"#{action_type[1]}##{action.action_id}"
+    end
+    actions.join(",")
+  end
+
+
+  def service_agreement_time_trigger_actions(time_trigger_id)
+    service_agreement_actions = Slm::TimeTriggerAction.where(:time_trigger_id=>time_trigger_id)
+    actions = []
+    service_agreement_actions.each do |action|
+      ref_action =  action.action_type.constantize.query(action.action_id).first
+      next unless ref_action
+      case action.action_type
+        when Irm::WfMailAlert.name
+          ref_action_options = {:action_type_name=>t("label_"+Irm::WfMailAlert.name.underscore.gsub("\/","_")),
+                                :edit_url_options=>{:controller=>"irm/wf_mail_alerts",:action=>"edit",:id=>action.action_id},
+                                :show_url_options=>{:controller=>"irm/wf_mail_alerts",:action=>"show",:id=>action.action_id},
+                                :ref_action=>ref_action,:action=>action}
+        when Irm::WfFieldUpdate.name
+          ref_action_options = {:action_type_name=>t("label_"+Irm::WfFieldUpdate.name.underscore.gsub("\/","_")),
+                                :edit_url_options=>{:controller=>"irm/wf_field_updates",:action=>"edit",:id=>action.action_id},
+                                :show_url_options=>{:controller=>"irm/wf_field_updates",:action=>"show",:id=>action.action_id},
+                                :ref_action=>ref_action,:action=>action}
+      end
+      actions << ref_action_options
+    end
+    actions
+  end
   
 end

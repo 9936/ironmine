@@ -1,0 +1,2 @@
+module Slm::TimeTriggersHelper
+end

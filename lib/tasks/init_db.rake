@@ -35,13 +35,23 @@ namespace :db do
       ActiveRecord::SchemaDumper.send(:include,Fwk::MysqlSchemaDumper)
     end
     ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+    type = ENV["TYPE"]
+    replace_path = "*"
+    if type.present?
+      if type.eql?("table")
+        replace_path = "migrate"
+      elsif type.eql?("data")
+        replace_path = "data"
+      else
+        replace_path = "null"
+      end
+    end
     # main app migrate
-    migrate_paths = ["db/*/*"]
+    migrate_paths = ["db/#{replace_path}"]
     # modules migrate
     Rails.application.paths["db/migrate"][0..Rails.application.paths["db/migrate"].length-2].each do |f|
-      migrate_paths << "#{f.to_s.gsub('migrate','')}/*"
+      migrate_paths << "#{f.to_s.gsub('migrate',replace_path)}"
     end if Rails.application.paths["db/migrate"].length > 1
-
     Fwk::Migrator::TableMigrator.migrate(migrate_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
     Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby
   end

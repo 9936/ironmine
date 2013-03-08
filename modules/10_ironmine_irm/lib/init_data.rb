@@ -392,13 +392,6 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :en => {:name => "Incident Setting", :description => "Incident Setting"},
                   :zh => {:name => "事故管理", :description => "事故管理"},
               }},
-          :service_management => {
-              :type => "menu",
-              :entry => {
-                  :sequence => 60,
-                  :en => {:name => "Service Management", :description => "Service Management"},
-                  :zh => {:name => "服务管理", :description => "服务管理"},
-              }},
           :knowledge_management => {
               :type => "menu",
               :entry => {
