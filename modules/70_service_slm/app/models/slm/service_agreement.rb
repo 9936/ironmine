@@ -102,7 +102,7 @@ class Slm::ServiceAgreement < ActiveRecord::Base
     bo = Irm::BusinessObject.where(:business_object_code => event.bo_code).first
     bo_instance = bo.bo_model_name.constantize.find(event.business_object_id)
     return unless bo_instance.respond_to?(:external_system_id)&&bo_instance.send(:external_system_id).present?
-    service_agreements = self.where(:business_object_code => event.bo_code, :external_system_id => bo_instance.send(:external_system_id))
+    service_agreements = self.where(:business_object_code => event.bo_code, :external_system_id => bo_instance.send(:external_system_id)).enabled
     if service_agreements.any?
       service_agreements.each do |sa|
         #处理符合开始条件的
@@ -111,8 +111,7 @@ class Slm::ServiceAgreement < ActiveRecord::Base
         if !sla_instance.present?
           start_bo_instance = sa.match_start(event)
           if start_bo_instance.present?
-            sla_instance = Slm::SlaInstance.prepare({:bo_type => bo_instance.class.name, :bo_id => bo_instance.id, :service_agreement_id => sa.id})
-            sla_instance.start
+            sla_instance = Slm::SlaInstance.start(sa,{:bo_type => bo_instance.class.name, :bo_id => bo_instance.id, :service_agreement_id => sa.id})
           end
         end
       end
@@ -128,12 +127,14 @@ class Slm::ServiceAgreement < ActiveRecord::Base
       end
       sla_bo_instance = sa.macth_stop(event)
       if sla_bo_instance.present?
-        slai.stop
+        slai.stop(sa,)
         next
       end
       sla_bo_instance = sa.macth_pause(event)
       if sla_bo_instance.present?
         slai.pause
+      else
+        slai.restart
       end
     end
   end
