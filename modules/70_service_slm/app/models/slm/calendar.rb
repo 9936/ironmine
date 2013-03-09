@@ -126,7 +126,7 @@ class Slm::Calendar < ActiveRecord::Base
         current_start_time += 1.day
       end
     end if calendar_items.any?
-    total_work_time
+    total_work_time / 60
   end
 
   private
