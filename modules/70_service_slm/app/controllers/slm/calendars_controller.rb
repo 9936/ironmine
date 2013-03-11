@@ -167,7 +167,7 @@ class Slm::CalendarsController < ApplicationController
             if Time.parse(start) > start_time && Time.parse(start) < end_time
               events_result << {:id => item.id, :title => "#{item[:start_at]} ~ #{item[:end_at]}", :start => start}
             end
-          end if month_obj[month] and month_obj[month].any?
+          end if month_obj[month] && month_obj[month].any?
         end
       end
     end

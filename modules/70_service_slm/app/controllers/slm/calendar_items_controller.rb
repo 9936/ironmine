@@ -43,16 +43,16 @@ class Slm::CalendarItemsController < ApplicationController
   # PUT /calendar_items/1
   # PUT /calendar_items/1.xml
   def update
-    @calendar_item = Slm::CalendarItem.find(params[:id])
-    @calendar_item.time_mode= YAML.dump(params[:time_mode_obj])
+    @calendar_item = Slm::CalendarItem.find(params[:calendar_item_id])
+    @calendar_item.start_time = params[:calendar_date]
+
+    if @calendar_item && @calendar_item.start_time.present?
+      @calendar_item.hand_calendar_item
+    end
+
     respond_to do |format|
-      if @calendar_item.update_attributes(params[:slm_calendar_item])
-        format.html { redirect_to({:controller => "slm/calendars", :action => "show", :id => params[:calendar_id]}, :notice => t(:successfully_updated)) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @calendar_item.errors, :status => :unprocessable_entity }
-      end
+      format.html { redirect_to({:controller => "slm/calendars", :action => "show", :id => params[:calendar_id]}, :notice => t(:successfully_created)) }
+      format.xml  { render :xml => @calendar_item, :status => :created, :location => @calendar_item }
     end
   end
 
@@ -60,11 +60,16 @@ class Slm::CalendarItemsController < ApplicationController
   # DELETE /calendar_items/1.xml
   def destroy
     @calendar_item = Slm::CalendarItem.find(params[:id])
-    @calendar_item.destroy
+    year = params[:year]
+    month = params[:month]
+    date = params[:date]
+
+    if year && month && date
+      @calendar_item.remove_schedule(year, month, date)
+    end
 
     respond_to do |format|
-      format.html { redirect_to(:controller => "slm/calendars", :action => "show", :id => params[:calendar_id]) }
-      format.xml  { head :ok }
+      format.json {render :json=> {:success => true}}
     end
   end
 
