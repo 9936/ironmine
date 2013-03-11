@@ -74,7 +74,15 @@
         <h3 class="sub-page-block-title"><%= t(:label_slm_service_agreement_start_rule_filter) %></h3>
       </div>
       <div class="sub-page-block-body">
-        <%= @start_rule_filter.meaning %>
+        <table class="show-table">
+          <tbody>
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3"><%= @start_rule_filter.meaning %></td>
+          </tr>
+          </tbody>
+        </table>
+
       </div>
     </div>
   </div>
@@ -85,7 +93,15 @@
         <h3 class="sub-page-block-title"><%= t(:label_slm_service_agreement_pause_rule_filter) %></h3>
       </div>
       <div class="sub-page-block-body">
-        <%= @pause_rule_filter.meaning %>
+        <table class="show-table">
+          <tbody>
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3"><%= @pause_rule_filter.meaning %></td>
+          </tr>
+          </tbody>
+        </table>
+
       </div>
     </div>
   </div>
@@ -96,7 +112,14 @@
         <h3 class="sub-page-block-title"><%= t(:label_slm_service_agreement_stop_rule_filter) %></h3>
       </div>
       <div class="sub-page-block-body">
-        <%= @stop_rule_filter.meaning %>
+        <table class="show-table">
+          <tbody>
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3"><%= @stop_rule_filter.meaning %></td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -107,7 +130,14 @@
         <h3 class="sub-page-block-title"><%= t(:label_slm_service_agreement_cancel_rule_filter) %></h3>
       </div>
       <div class="sub-page-block-body">
-        <%= @cancel_rule_filter.meaning %>
+        <table class="show-table">
+          <tbody>
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3"><%= @cancel_rule_filter.meaning %></td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

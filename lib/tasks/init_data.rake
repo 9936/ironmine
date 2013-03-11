@@ -442,6 +442,7 @@ namespace :irm do
       permissions.each do |controller,actions|
         actions.each do |action|
           route_permission = route_permissions.detect{|rp| rp[:controller].eql?(controller)&&rp[:action].eql?(action.to_s)}
+          next unless route_permission.present?
           #当function的为system_flag时，permission为“N”时候，警告用户
           if function_system_flag.eql?('Y') and route_permission[:system_flag].eql?('N')
             puts "#{BOLD}#{RED}The route match #{controller}/#{action.to_s} must include param [:sid]. #{CLEAR}"

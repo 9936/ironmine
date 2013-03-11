@@ -8,6 +8,8 @@ module Irm
         if(event&&event.end_at.nil?)
           Irm::Person.current = Irm::Person.find(event.created_by)
           #Delayed::Worker.logger.debug("RuleProcessJob Process Event id:#{event.id}  bo_code:#{event.bo_code}")
+          # 处理服务协议管理
+          Slm::ServiceAgreement.process(event)
 
           # 查找到所有适用的工作流规则
           wf_rules = []

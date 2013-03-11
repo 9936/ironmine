@@ -13,8 +13,8 @@ class CreateSlaTriggerTables < ActiveRecord::Migration
       t.string "last_phase_type", :limit => 30, :default => "START"
       t.datetime "last_phase_start_date"
       t.string "status_code", :limit => 30, :default => "ENABLED"
-      t.integer "created_by", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.integer "updated_by", :limit => 22, :null => false, :collate => "utf8_bin"
+      t.string "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "updated_by", :limit => 22,  :null => false, :collate => "utf8_bin"
       t.datetime "created_at"
       t.datetime "updated_at"
     end
@@ -29,8 +29,8 @@ class CreateSlaTriggerTables < ActiveRecord::Migration
       t.datetime "end_at"
       t.integer "duration"
       t.string "status_code", :limit => 30, :default => "ENABLED"
-      t.integer "created_by", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.integer "updated_by", :limit => 22, :null => false, :collate => "utf8_bin"
+      t.string "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "updated_by", :limit => 22,  :null => false, :collate => "utf8_bin"
       t.datetime "created_at"
       t.datetime "updated_at"
     end
@@ -43,8 +43,8 @@ class CreateSlaTriggerTables < ActiveRecord::Migration
       t.string "time_trigger_id", :limit => 22, :null => false, :collate => "utf8_bin"
       t.datetime "trigger_date"
       t.string "status_code", :limit => 30, :default => "ENABLED"
-      t.integer "created_by", :limit => 22, :null => false, :collate => "utf8_bin"
-      t.integer "updated_by", :limit => 22, :null => false, :collate => "utf8_bin"
+      t.string "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "updated_by", :limit => 22,  :null => false, :collate => "utf8_bin"
       t.datetime "created_at"
       t.datetime "updated_at"
     end

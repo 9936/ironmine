@@ -63,7 +63,7 @@ class Slm::TimeTriggersController < ApplicationController
 
     respond_to do |format|
       if @time_trigger.update_attributes(params[:slm_time_trigger])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:controller=>"slm/service_agreements",:action => "show",:id=>@time_trigger.service_agreement_id},  :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -79,7 +79,7 @@ class Slm::TimeTriggersController < ApplicationController
     @time_trigger.destroy
 
     respond_to do |format|
-      format.html { redirect_to(slm_time_triggers_url) }
+      format.html { redirect_to({:controller=>"slm/service_agreements",:action => "show",:id=>@time_trigger.service_agreement_id}) }
       format.xml  { head :ok }
     end
   end

@@ -113,8 +113,8 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "slm/service_agreements" => ["create", "edit", "get_data", "index", "new", "show", "update","add_exists_action","save_exists_action","destroy_action"],
-              "slm/time_triggers" => ["create", "edit", "get_data", "index", "new", "show", "update","destroy"]
+              "slm/service_agreements" => ["create", "edit", "get_data", "index", "new", "show", "update","add_exists_action","save_exists_action","destroy_action","show_relations"],
+              "slm/time_triggers" => ["create", "edit", "index", "new", "update","destroy"]
           },
       }
   }

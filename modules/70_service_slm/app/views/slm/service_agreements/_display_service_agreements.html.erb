@@ -1,0 +1,12 @@
+    <div class="page-block" id="pageBlock">
+      <table class="page-block-header" ><tr>
+        <td class="page-block-title">
+          <h2 class="block-title"><%=t(:label_slm_sla_instance_title)%></h2>
+        </td>
+        <td class="page-block-button">
+        </td>
+      </tr></table>
+      <div class="page-block-body">
+        <%= datatable("service_agreements",{:controller=>"slm/service_agreements",:action=>"show_relations",:sid=>sid,:bo_id=>bo_id,:bo_type=>bo_type},[],{})%>
+      </div>
+    </div>

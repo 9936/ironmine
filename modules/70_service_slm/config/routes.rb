@@ -60,6 +60,7 @@ Ironmine::Application.routes.draw do
       match '/service_agreements/add_exists_action/:id(.:format)' => "service_agreements#add_exists_action"
       match '/service_agreements/:id/save_exists_action(.:format)' => "service_agreements#save_exists_action", :via => :post
       match '/service_agreements/:id/destroy_action(.:format)' => "service_agreements#destroy_action"
+      match '/service_agreements/:bo_id/show_relations(.:format)' => "service_agreements#show_relations"
 
 
       # service_agreements time_triggers

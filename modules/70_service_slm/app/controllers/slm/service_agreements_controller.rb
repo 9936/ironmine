@@ -349,4 +349,32 @@ class Slm::ServiceAgreementsController < ApplicationController
       format.xml { head :ok }
     end
   end
+
+
+  def show_relations
+    sla_instances = Slm::SlaInstance.with_detail(I18n.locale).where(:bo_type=>params[:bo_type],:bo_id=>params[:bo_id])
+    sla_instances.each do |slai|
+      if "START".eql?(slai.last_phase_type)
+        calendar = slai.service_agreement.calendar
+        slai.current_duration = slai.current_duration.to_i+calendar.working_time(slai.last_phase_start_date,Time.now)
+        if  slai.current_duration < slai.max_duration
+          slai.end_at = calendar.next_working_time(Time.now,slai.max_duration-slai.current_duration)
+          slai.display_color = "green"
+        else
+          slai.display_color = "red"
+        end
+      end
+    end
+
+    respond_to do |format|
+      format.json {
+        render :json => to_jsonp(service_agreements.to_grid_json([:agreement_code, :name, :description, :status_meaning], count))
+      }
+      format.html {
+        @count = sla_instances.length
+        @datas = sla_instances
+      }
+    end
+  end
+
 end

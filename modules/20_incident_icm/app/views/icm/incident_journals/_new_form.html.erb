@@ -447,6 +447,9 @@
       </div>
     </div>
 <% end %>
+<% if self.respond_to?(:display_service_agreements) %>
+    <%= display_service_agreements(@incident_request.id,@incident_request.class.name,@incident_request.external_system_id) %>
+<% end %>
 
 <script type="text/javascript">
     $(function() {

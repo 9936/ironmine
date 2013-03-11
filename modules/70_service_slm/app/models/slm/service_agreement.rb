@@ -13,6 +13,8 @@ class Slm::ServiceAgreement < ActiveRecord::Base
 
   has_many :time_triggers
 
+  belongs_to :calendar
+
 
   before_validation :transform_time
   #加入activerecord的通用方法和scope
@@ -77,27 +79,28 @@ class Slm::ServiceAgreement < ActiveRecord::Base
 
   def pause_filter
     if self.id.present?
-      @pause_filter ||=Irm::RuleFilter.query_by_source("#{Slm::ServiceAgreement.name}St", self.id).first
+      @pause_filter ||=Irm::RuleFilter.query_by_source("#{Slm::ServiceAgreement.name}Pa", self.id).first
     end
     @pause_filter
   end
 
   def stop_filter
     if self.id.present?
-      @stop_filter ||=Irm::RuleFilter.query_by_source("#{Slm::ServiceAgreement.name}St", self.id).first
+      @stop_filter ||=Irm::RuleFilter.query_by_source("#{Slm::ServiceAgreement.name}Sp", self.id).first
     end
     @stop_filter
   end
 
   def cancel_filter
     if self.id.present?
-      @cancel_filter ||=Irm::RuleFilter.query_by_source("#{Slm::ServiceAgreement.name}St", self.id).first
+      @cancel_filter ||=Irm::RuleFilter.query_by_source("#{Slm::ServiceAgreement.name}Ca", self.id).first
     end
     @cancel_filter
   end
 
 
-  def self.process(event)
+  def self.process(event,force=false)
+    return unless force||!Irm::Event.exists?("id != '#{event.id}' AND end_at IS NULL")
     return unless self.where(:business_object_code => event.bo_code).enabled.count>0
     bo = Irm::BusinessObject.where(:business_object_code => event.bo_code).first
     bo_instance = bo.bo_model_name.constantize.find(event.business_object_id)
@@ -117,20 +120,20 @@ class Slm::ServiceAgreement < ActiveRecord::Base
       end
     end
 
-    sla_instances = Slm::SlaInstance.where(:bo_type => bo_instance.class.name, :bo_id => bo_instance.id).collect { |slai| slai.end_at.present? ? slai : nil }.compact
+    sla_instances = Slm::SlaInstance.where(:bo_type => bo_instance.class.name, :bo_id => bo_instance.id).collect { |slai| slai.end_at.present? ? nil : slai }.compact
     sla_instances.each do |slai|
-      sa = slai.servcie_agreement
-      sla_bo_instance = sa.macth_cancel(event)
+      sa = slai.service_agreement
+      sla_bo_instance = sa.match_cancel(event)
       if sla_bo_instance.present?
         slai.cancel
         next
       end
-      sla_bo_instance = sa.macth_stop(event)
+      sla_bo_instance = sa.match_stop(event)
       if sla_bo_instance.present?
-        slai.stop(sa,)
+        slai.stop
         next
       end
-      sla_bo_instance = sa.macth_pause(event)
+      sla_bo_instance = sa.match_pause(event)
       if sla_bo_instance.present?
         slai.pause
       else

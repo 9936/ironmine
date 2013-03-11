@@ -36,7 +36,7 @@ class Irm::RuleFilterCriterion < ActiveRecord::Base
       if ["LOOKUP_RELATION","MASTER_DETAIL_RELATION"].include?(object_attribute.category)
         ref_bo = Irm::BusinessObject.find(object_attribute.relation_bo_id)
         ref_attribute = Irm::ObjectAttribute.find(object_attribute.relation_object_attribute_id)
-        filter_value_meaning = ref_bo.lookup_label_value(self.filter_value,ref_attribute.attribute_name)
+        filter_value_meaning = ref_bo.lookup_label_value(self.filter_value,ref_attribute.attribute_name)[1]
       else
         filter_value_meaning = self.filter_value
       end

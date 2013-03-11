@@ -155,3 +155,17 @@ en:
   label_slm_calendar_name: Calendar Name
   label_slm_calendar_description: Calendar Description
   #========================= end calendar=======================#
+  #========================= start sla_instance=======================#
+  label_slm_sla_instance_title: Service agreement
+  label_slm_sla_instance_name: Name
+  label_slm_sla_instance_current_status: Status
+  label_slm_sla_instance_current_duration: Duration
+  label_slm_sla_instance_max_duration: Max duration
+  label_slm_sla_instance_start_at: Start
+  label_slm_sla_instance_end_at: End
+  #========================= end sla_instance=======================#
+  #========================= start time_trigger=======================#
+  label_slm_time_trigger: Time trigger
+  label_slm_time_trigger_new: New
+  label_slm_time_trigger_edit: Edit
+  #========================= end time_trigger=======================#

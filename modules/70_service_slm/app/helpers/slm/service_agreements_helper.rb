@@ -124,5 +124,12 @@ module Slm::ServiceAgreementsHelper
     end
     actions
   end
+
+  def display_service_agreements(bo_id,bo_type,sid)
+    if Slm::SlaInstance.where(:bo_id=>bo_id,:bo_type=>bo_type).count>0
+
+      render :partial=>"slm/service_agreements/display_service_agreements",:locals=>{:sid=>sid,:bo_id=>bo_id,:bo_type=>bo_type}
+    end
+  end
   
 end

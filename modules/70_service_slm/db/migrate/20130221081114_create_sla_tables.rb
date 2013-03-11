@@ -36,8 +36,8 @@ class CreateSlaTables < ActiveRecord::Migration
       t.string "language", :limit => 30
       t.string "source_lang", :limit => 30
       t.string "status_code", :limit => 30, :default => "ENABLED"
-      t.integer "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
-      t.integer "updated_by",:limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "updated_by", :limit => 22,  :null => false, :collate => "utf8_bin"
       t.datetime "created_at"
       t.datetime "updated_at"
     end
@@ -57,8 +57,8 @@ class CreateSlaTables < ActiveRecord::Migration
       t.string "service_agreement_id", :limit => 22,  :null => false, :collate => "utf8_bin"
       t.integer "duration_percent",  :null => false
       t.string "status_code", :limit => 30, :default => "ENABLED"
-      t.integer "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
-      t.integer "updated_by",:limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "updated_by", :limit => 22,  :null => false, :collate => "utf8_bin"
       t.datetime "created_at"
       t.datetime "updated_at"
     end
@@ -72,8 +72,8 @@ class CreateSlaTables < ActiveRecord::Migration
       t.string "action_type", :limit => 30, :null => false
       t.string "action_id", :limit => 22,:limit => 22,  :null => false, :collate => "utf8_bin"
       t.string "status_code", :limit => 30, :default => "ENABLED"
-      t.integer "created_by",:limit => 22,  :null => false, :collate => "utf8_bin"
-      t.integer "updated_by" ,:limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "updated_by", :limit => 22,  :null => false, :collate => "utf8_bin"
       t.datetime "created_at"
       t.datetime "updated_at"
     end
@@ -116,8 +116,8 @@ class CreateSlaTables < ActiveRecord::Migration
       t.string "language", :limit => 30
       t.string "source_lang", :limit => 30
       t.string "status_code", :limit => 30, :default => "ENABLED"
-      t.integer "created_by" ,:limit => 22,  :null => false, :collate => "utf8_bin"
-      t.integer "updated_by",:limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "updated_by", :limit => 22,  :null => false, :collate => "utf8_bin"
       t.datetime "created_at"
       t.datetime "updated_at"
     end
