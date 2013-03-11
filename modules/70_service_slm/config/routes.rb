@@ -42,20 +42,34 @@ Ironmine::Application.routes.draw do
     match '/service_catalogs/:service_catalog_id/service_breaks/:id(.:format)' => "service_breaks#destroy", :via => :delete
     match '/service_catalogs/:service_catalog_id/service_breaks/:id(.:format)' => "service_breaks#show", :via => :get
     #service_agreements
-    match '/service_agreements(/index)(.:format)' => "service_agreements#index", :via => :get
-    match '/service_agreements/get_data(.:format)' => "service_agreements#get_data"
-    match '/service_agreements/add_response_time_rule(.:format)' => "service_agreements#add_response_time_rule"
-    match '/service_agreements/add_solve_time_rule(.:format)' => "service_agreements#add_solve_time_rule"
-    match '/service_agreements/get_by_assignee_type(.:format)' => "service_agreements#get_by_assignee_type"
-    match '/service_agreements/:id/edit(.:format)' => "service_agreements#edit", :via => :get
-    match '/service_agreements/:id(.:format)' => "service_agreements#update", :via => :put
-    match '/service_agreements/new(.:format)' => "service_agreements#new", :via => :get
-    match '/service_agreements/:id(.:format)' => "service_agreements#show", :via => :get
-    match '/service_agreements/create(.:format)' => "service_agreements#create", :via => :post
-    match '/service_agreements/:id/multilingual_edit(.:format)' => "service_agreements#multilingual_edit", :via => :get
-    match '/service_agreements/:id/multilingual_update(.:format)' => "service_agreements#multilingual_update", :via => :put
-    match '/service_agreements/:id/match_filter_edit(.:format)' => "service_agreements#match_filter_edit", :via => :get
-    match '/service_agreements/:id/match_filter_update(.:format)' => "service_agreements#match_filter_update", :via => :put
+    scope "/:sid" do
+      match '/service_agreements(/index)(.:format)' => "service_agreements#index", :via => :get
+      match '/service_agreements/get_data(.:format)' => "service_agreements#get_data"
+      match '/service_agreements/add_response_time_rule(.:format)' => "service_agreements#add_response_time_rule"
+      match '/service_agreements/add_solve_time_rule(.:format)' => "service_agreements#add_solve_time_rule"
+      match '/service_agreements/get_by_assignee_type(.:format)' => "service_agreements#get_by_assignee_type"
+      match '/service_agreements/:id/edit(.:format)' => "service_agreements#edit", :via => :get
+      match '/service_agreements/:id(.:format)' => "service_agreements#update", :via => :put
+      match '/service_agreements/new(.:format)' => "service_agreements#new", :via => :get
+      match '/service_agreements/:id(.:format)' => "service_agreements#show", :via => :get
+      match '/service_agreements/create(.:format)' => "service_agreements#create", :via => :post
+      match '/service_agreements/:id/multilingual_edit(.:format)' => "service_agreements#multilingual_edit", :via => :get
+      match '/service_agreements/:id/multilingual_update(.:format)' => "service_agreements#multilingual_update", :via => :put
+      match '/service_agreements/:id/match_filter_edit(.:format)' => "service_agreements#match_filter_edit", :via => :get
+      match '/service_agreements/:id/match_filter_update(.:format)' => "service_agreements#match_filter_update", :via => :put
+      match '/service_agreements/add_exists_action/:id(.:format)' => "service_agreements#add_exists_action"
+      match '/service_agreements/:id/save_exists_action(.:format)' => "service_agreements#save_exists_action", :via => :post
+      match '/service_agreements/:id/destroy_action(.:format)' => "service_agreements#destroy_action"
+      match '/service_agreements/:bo_id/show_relations(.:format)' => "service_agreements#show_relations"
+
+
+      # service_agreements time_triggers
+      match '/service_agreements/:service_agreement_id/time_triggers/new(.:format)' => "time_triggers#new", :via => :get
+      match '/service_agreements/:service_agreement_id/time_triggers/create(.:format)' => "time_triggers#create", :via => :post
+      match '/service_agreements/:service_agreement_id/time_triggers/:id/edit(.:format)' => "time_triggers#edit", :via => :get
+      match '/service_agreements/:service_agreement_id/time_triggers/:id(.:format)' => "time_triggers#update", :via => :put
+      match '/service_agreements/:service_agreement_id/time_triggers/:id/destroy(.:format)' => "time_triggers#destroy"
+    end
 
     #calendars
     match '/calendars/:sid(/index)(.:format)' => "calendars#index", :via => :get

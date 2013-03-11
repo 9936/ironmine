@@ -3,8 +3,12 @@
     <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},:class => "action-link") %>&nbsp;|
     <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},:class => "action-link") %>
   <% end %>
-  <% builder.column(:agreement_code,{:title=>t(:label_slm_service_agreement_agreement_code),:searchable=>true})%>
   <% builder.column(:name,{:title=>t(:label_slm_service_agreement_name),:searchable=>true})%>
-  <% builder.column(:description,{:title=>t(:label_slm_service_agreement_description)})%>
-  <% builder.column(:status_meaning,{:title=>t(:label_slm_service_catalog_status_meaning)})%>
+  <% builder.column(:duration,{:title=>t(:label_slm_service_agreement_duration)}) do |data|%>
+        <%= data.duration_meaning %>
+  <% end %>
+  <% builder.column(:time_zone,{:title=>t(:label_slm_service_agreement_time_zone)})%>
+  <% builder.column(:status_code,{:title=>t(:status)}) do |data|%>
+        <%= check_img(data[:status_code]) %>
+  <% end %>
 <% end %>

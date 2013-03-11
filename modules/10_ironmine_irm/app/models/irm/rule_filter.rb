@@ -21,7 +21,6 @@ class Irm::RuleFilter < ActiveRecord::Base
   validate :validate_raw_condition_clause,:if=> Proc.new{|i| !i.raw_condition_clause.blank?}
 
   before_save :set_condition
-
   before_validation :require_multilingual
 
   def require_multilingual

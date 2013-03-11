@@ -1,0 +1,56 @@
+<%= fields_for "#{filter_name}_rule_filter",rule_filter,:builder => CustomFormBuilder do |f|%>
+  <div class="pbSubsection" id="<%= filter_name %>RuleFilterContent" href="<%= url_for(:controller=>"irm/filters",:action=>"operator_value",:filter_name=>filter_name,:seq_num=>"{seq_num}",:attribute_id=>"{attribute_id}") %>">
+    <%= f.hidden_field(:source_id) %>
+    <%= f.hidden_field(:source_type) %>
+    <%= f.hidden_field(:filter_type) %>
+    <%= f.hidden_field(:bo_code) %>
+    <table class="filter-table">
+      <thead>
+        <tr>
+          <td class="num-col"></td>
+          <td class="field-col"><%=t(:irm_filter_criterions_column_code)%></td>
+
+          <td class="operator-col">
+            <%=t(:irm_filter_criterions_operator_code)%>
+          </td>
+          <td class="value-col">
+            <%=t(:irm_filter_criterions_filter_value)%>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+      <%= f.fields_for :rule_filter_criterions,:builder => CustomFormBuilder do |sub_f|%>
+          <tr id="filter<%=sub_f.object.seq_num%>">
+            <td class="num-col"><label><%=sub_f.object.seq_num%></label></td>
+            <td class="field-col">
+              <%=sub_f.hidden_field(:seq_num)%>
+              <%=sub_f.hidden_field(:bo_code,:value=>rule_filter.bo_code)%>
+              <%=sub_f.blank_select(:attribute_name,available_view_column(rule_filter.bo_code),{:required=>true,:size=>10},{:class=>"filterColumnSelect",:chosen=>false,:ref=>sub_f.object.seq_num})%>
+            </td>
+            <%= render_exists_operator_and_value(rule_filter.bo_code,sub_f.object.attribute_name,sub_f)  %>
+          </tr>
+      <%end %>
+      <tr>
+        <td class="num-col"></td>
+        <td class="text-col" colspan="3"><%=(t :label_irm_view_filter_view_condition_clause)%></td>
+      </tr>
+      <tr>
+        <td class="num-col"></td>
+        <td class="text-col" colspan="3"><%=f.text_field :raw_condition_clause, :size=>60,:id=>"#{filter_name}RawConditionClause",:style=>"width:100%;"%></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+<%end%>
+
+<script type="text/javascript">
+  $(function(){
+      $("#<%= filter_name %>RuleFilterContent .filterColumnSelect").live("change",function(event){
+          rawConditionClause("<%= filter_name %>RawConditionClause",event);
+          refreshFilterOptions("<%= filter_name %>RuleFilterContent",event);
+      });
+  });
+</script>
+
+
+

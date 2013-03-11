@@ -315,7 +315,7 @@ var refreshFilterOptions = function(container,e) {
     var currentTarget  = $(e.currentTarget);
     var seq_num = currentTarget.attr("ref");
     var attribute_id = "";
-    var refreshNode = $("#filter"+seq_num);
+    var refreshNode = con.find("#filter"+seq_num);
 
     if(currentTarget.val()&&currentTarget.val()!=""){
        attribute_id = $(e.target).find("option[value="+$(e.target).val()+"]:first").attr("attribute_id")

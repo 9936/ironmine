@@ -58,10 +58,14 @@ module Fwk
             if column[:block].present?
               table_body.safe_concat capture(data,index, &column[:block])||""
             else
-              if data[column[:key]].present?
-                if data[column[:key]].is_a?(Time)
+              value = data[column[:key]]
+              if !value.present?&&value.respond_to?(column[:key])
+                value = value.send(column[:key])
+              end
+              if value.present?
+                if value.is_a?(Time)
                   table_body.safe_concat data[column[:key]].in_time_zone.strftime('%Y-%m-%d %H:%M:%S')
-                elsif data[column[:key]].is_a?(Date)
+                elsif value.is_a?(Date)
                   table_body.safe_concat data[column[:key]].strftime('%Y-%m-%d')
                 else
                   table_body.safe_concat (data[column[:key]]||"").to_s

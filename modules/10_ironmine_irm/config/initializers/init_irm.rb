@@ -44,6 +44,9 @@ begin
     class RollbackApproveError < ApproveError;
     end
   end
+
+rescue =>txt
+  puts txt
 end
 
 ::Ironmine::Acts::Searchable.searchable_entity = {

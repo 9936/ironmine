@@ -95,7 +95,8 @@ class Irm::FiltersController < ApplicationController
     @object_attribute = Irm::ObjectAttribute.query(params[:attribute_id]).first
     @rule_filter_criterion = Irm::RuleFilterCriterion.new(:seq_num=>params[:seq_num])
     num = (params[:seq_num]||1).to_i-1
-    @named_form = "irm_rule_filter[rule_filter_criterions_attributes][#{num}]"
+    filter_name = params[:filter_name]|| "irm"
+    @named_form = "#{filter_name}_rule_filter[rule_filter_criterions_attributes][#{num}]"
   end
 
 

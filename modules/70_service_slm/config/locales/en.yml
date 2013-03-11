@@ -78,6 +78,7 @@ en:
   label_slm_service_agreement_agreement_code: Code
   label_slm_service_agreement_name: Name
   label_slm_service_agreement_description: Description
+  label_slm_service_agreement_time_zone: Time Zone
   label_slm_service_agreement_service_company: Service Company
   label_slm_service_agreement_active_start_date: Start Date
   label_slm_service_agreement_active_date: Active Date
@@ -111,9 +112,9 @@ en:
   label_slm_service_agreement_fourth_elapse_time: Fourth Elapse Time
   label_slm_service_agreement_fourth_assignee_type: Fourth Assignee Type
   label_slm_service_agreement_fourth_escalation_assignee: Fourth Escalation Assignee
-  label_slm_service_agreement_response_day: Day
-  label_slm_service_agreement_response_hour: Hour
-  label_slm_service_agreement_response_minute: Minute
+  label_slm_service_agreement_duration_day: Day
+  label_slm_service_agreement_duration_hour: Hour
+  label_slm_service_agreement_duration_minute: Minute
   label_slm_service_agreement_solve_day: Day
   label_slm_service_agreement_solve_hour: Hour
   label_slm_service_agreement_solve_minute: Minute
@@ -133,8 +134,18 @@ en:
   label_action_match_filter_edit: Edit Match Filter
   label_slm_service_agreement_match_filter_edit: Edit Match Filter
   label_action_match_filter_update: Edit Match Filter
+  label_slm_service_agreement_duration: 最大耗时
+  label_slm_service_agreement_calendar: 工作日历
+  label_slm_service_agreement_filters: 服务协议条件
+  label_slm_service_agreement_start_rule_filter: 开始条件
+  label_slm_service_agreement_pause_rule_filter: 暂停条件
+  label_slm_service_agreement_stop_rule_filter: 停止条件
+  label_slm_service_agreement_cancel_rule_filter: 中止条件
+  label_slm_service_agreement_actions: 服务协议流程
+  label_slm_service_agreement_time_dependent_actions: 时间触发动作
+  label_slm_service_agreement_add_time_trigger: 时间触发器
+  label_slm_service_agreement_duration_time: Duration
   #=========================    end service_agreements_controller=======================#
-
   #========================= start calendar=======================#
   label_slm_calendar: Work Calendar
   label_irm_calendar_list: Calendars List
@@ -144,3 +155,17 @@ en:
   label_slm_calendar_name: Calendar Name
   label_slm_calendar_description: Calendar Description
   #========================= end calendar=======================#
+  #========================= start sla_instance=======================#
+  label_slm_sla_instance_title: Service agreement
+  label_slm_sla_instance_name: Name
+  label_slm_sla_instance_current_status: Status
+  label_slm_sla_instance_current_duration: Duration
+  label_slm_sla_instance_max_duration: Max duration
+  label_slm_sla_instance_start_at: Start
+  label_slm_sla_instance_end_at: End
+  #========================= end sla_instance=======================#
+  #========================= start time_trigger=======================#
+  label_slm_time_trigger: Time trigger
+  label_slm_time_trigger_new: New
+  label_slm_time_trigger_edit: Edit
+  #========================= end time_trigger=======================#

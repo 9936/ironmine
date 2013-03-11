@@ -77,10 +77,11 @@ zh:
   label_slm_service_agreement_agreement_code: 编码
   label_slm_service_agreement_name: 名称
   label_slm_service_agreement_description: 描述
+  label_slm_service_agreement_time_zone: 时区
   label_slm_service_agreement_active_start_date: 开始日期
   label_slm_service_agreement_active_date: 有效日期
   label_slm_service_agreement_active_end_date: 结束日期
-  label_slm_service_agreement_response_time: 相应时间
+  label_slm_service_agreement_response_time: 响应时间
   label_slm_service_agreement_resolve_time: 解决时间
   label_slm_service_agreement_business_object_code: 业务实体
   label_slm_service_agreement_rule_filter_code: 规则过滤编码
@@ -109,9 +110,9 @@ zh:
   label_slm_service_agreement_fourth_elapse_time: 第四次消耗时间
   label_slm_service_agreement_fourth_assignee_type: 第四次分配类型
   label_slm_service_agreement_fourth_escalation_assignee: 第四次分配人
-  label_slm_service_agreement_response_day: 天
-  label_slm_service_agreement_response_hour: 时
-  label_slm_service_agreement_response_minute: 分
+  label_slm_service_agreement_duration_day: 天
+  label_slm_service_agreement_duration_hour: 时
+  label_slm_service_agreement_duration_minute: 分
   label_slm_service_agreement_solve_day: 天
   label_slm_service_agreement_solve_hour: 时
   label_slm_service_agreement_solve_minute: 分
@@ -131,7 +132,18 @@ zh:
   label_action_match_filter_edit: 编辑匹配规则
   label_slm_service_agreement_match_filter_edit: 编辑服务协议匹配规则
   label_action_match_filter_update: 编辑匹配规则
-  #========================= end service_agreements_controller=======================#
+  label_slm_service_agreement_duration: 最大耗时
+  label_slm_service_agreement_calendar: 工作日历
+  label_slm_service_agreement_filters: 服务协议条件
+  label_slm_service_agreement_start_rule_filter: 开始条件
+  label_slm_service_agreement_pause_rule_filter: 暂停条件
+  label_slm_service_agreement_stop_rule_filter: 停止条件
+  label_slm_service_agreement_cancel_rule_filter: 中止条件
+  label_slm_service_agreement_actions: 服务协议流程
+  label_slm_service_agreement_time_dependent_actions: 时间触发动作
+  label_slm_service_agreement_add_time_trigger: 时间触发器
+  label_slm_service_agreement_duration_time: 耗时
+  #=========================    end service_agreements_controller=======================#
 
   #========================= start calendar=======================#
   label_slm_calendar: 工作日历
@@ -158,3 +170,17 @@ zh:
   label_slm_calendar_item_time_mode: 循环模式
 
   #========================= end calendar=======================#
+  #========================= start sla_instance=======================#
+  label_slm_sla_instance_title: 服务协议
+  label_slm_sla_instance_name: 名称
+  label_slm_sla_instance_current_status: 状态
+  label_slm_sla_instance_current_duration: 耗时
+  label_slm_sla_instance_max_duration: 最大耗时
+  label_slm_sla_instance_start_at: 开始时间
+  label_slm_sla_instance_end_at: 结束时间
+  #========================= end sla_instance=======================#
+  #========================= start time_trigger=======================#
+  label_slm_time_trigger: 时间触发器
+  label_slm_time_trigger_new: 新建
+  label_slm_time_trigger_edit: 编辑
+  #========================= end time_trigger=======================#

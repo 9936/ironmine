@@ -1,83 +1,201 @@
-<%= form_for(@service_agreement,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
-  <% content_for :form_block_common   do%>
-    <table class="form-table">
-      <tbody>
+<%= form_for(@service_agreement, :url => {:action => "create"}, :builder => CustomFormBuilder) do |f| %>
+    <% content_for :form_block_a do %>
+        <table class="form-table">
+          <tbody>
           <tr>
-            <td class="label-col"><label for="service_agreement_service_agreement_code"><%=t(:label_slm_service_agreement_agreement_code)%></label></td>
-            <td class="data-col"><%=f.text_field :agreement_code, :required=>true,:id=>"service_agreement_agreement_code"%></td>
-            <td class="label-col"><label for="service_agreement_active_start_date"><%=t(:label_slm_service_agreement_active_start_date)%></label></td>
-            <td class="data-col"><%= f.date_field :active_start_date, :id=>"service_agreement_active_start_date"%></td>
-          </tr>
-          <tr>
-            <td class="label-col"><label for="service_agreement_name"><%=t(:label_slm_service_agreement_name)%></label></td>
-            <td class="data-col"><%= f.text_field :name, :required=>true ,:id=>"service_agreement_system_name"%></td>
-            <td class="label-col"><label for="service_agreement_active_end_date"><%=t(:label_slm_service_agreement_active_end_date)%></label></td>
-            <td class="data-col"><%= f.date_field :active_end_date, :id=>"service_agreement_active_end_date"%></td>
-          </tr>
-          <tr>
-            <td class="label-col"><label for="service_agreement_response_time"><%=t(:label_slm_service_agreement_response_time)%></label></td>
-            <td class="data-col">
-              <%= f.text_field :response_day, :size => 2,:value=>get_day_count(@service_agreement.response_time),:id=>"service_agreement_response_day",:style=>"width:30px;"%>
-              <label><%=t(:label_slm_service_agreement_response_day)%></label>
-              <%= f.hour_select :response_hour, [],{:selected => get_hour_count(@service_agreement.response_time)},{:id=>"service_agreement_response_hour",:chosen => false}%>
-              <label><%=t(:label_slm_service_agreement_response_hour)%></label>
-              <%= f.minute_select :response_minute, [],{:selected => get_minute_count(@service_agreement.response_time)},{:id=>"service_agreement_response_minute", :chosen => false} %>
-              <label><%=t(:label_slm_service_agreement_response_minute)%></label>
+            <td class="label-col"><label for="wf_mail_alert_name"><%= t(:label_slm_service_agreement_name) %></label>
             </td>
-            <td class="label-col"><label for="service_agreement_resolve_time"><%=t(:label_slm_service_agreement_resolve_time)%></label></td>
-            <td class="data-col"><%= f.text_field :solve_day, :size => 2,:value=>get_day_count(@service_agreement.resolve_time),:id=>"service_agreement_response_day",:style=>"width:30px;"%>
-              <label><%=t(:label_slm_service_agreement_solve_day)%></label>
-              <%= f.hour_select :solve_hour, [],{:selected => get_hour_count(@service_agreement.resolve_time)},:id=>"service_agreement_response_hour",:chosen => false%>
-              <label><%=t(:label_slm_service_agreement_solve_hour)%></label>
-              <%= f.minute_select :solve_minute, [],{:selected => get_minute_count(@service_agreement.resolve_time)},:id=>"service_agreement_response_minute",:chosen => false%>
-              <label><%=t(:label_slm_service_agreement_solve_minute)%></label></td>
+            <td class="data-col"><%= f.text_field :name, :required => true, :size => 60, :id => "service_agreement_name" %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">
+              <%= f.hidden_field :business_object_code %>
+              <%= f.hidden_field :external_system_id %>
+            </td>
           </tr>
           <tr>
-            <td class="label-col"><label for="service_agreement_description"><%=t(:label_slm_service_agreement_description)%></label></td>
-            <td class="data-col"><%= f.text_area :description, :rows => 4,:id=>"service_agreement_system_description",:class=>"input-xlarge"%></td>
+            <td class="label-col">
+              <label for="service_agreement_response_time"><%= t(:label_slm_service_agreement_duration_time) %></label>
+            </td>
+            <td class="data-col">
+              <%= f.text_field :duration_day, :required => true, :size => 2, :id => "service_agreement_duration_day", :style => "width:30px;" %>
+              <label><%= t(:label_slm_service_agreement_duration_day) %></label>
+              <%= f.hour_select :duration_hour, [], {:selected => @service_agreement.duration_hour}, {:id => "service_agreement_duration_hour", :chosen => false} %>
+              <label><%= t(:label_slm_service_agreement_duration_hour) %></label>
+              <%= f.minute_select :duration_minute, [], {:selected => @service_agreement.duration_minute}, {:id => "service_agreement_duration_minute", :chosen => false} %>
+              <label><%= t(:label_slm_service_agreement_duration_minute) %></label>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="wf_mail_alert_name"><%= t(:label_slm_service_agreement_calendar) %></label>
+            </td>
+            <td class="data-col">
+              <%= f.blank_select(:calendar_id,available_calendars(params[:sid]),{},{:required=>true}) %>
+            </td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="label-col"><label for="time_zone_code"><%= t(:label_slm_service_agreement_time_zone) %></label>
+            </td>
+            <td class="data-col" colspan="3">
+              <%= f.time_zone_select :time_zone, nil %>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label-col">
+              <label for="service_agreement_description"><%= t(:label_slm_service_agreement_description) %></label></td>
+            <td class="data-col"><%= f.text_area :description, :rows => 4, :id => "service_agreement_system_description", :class => "input-xlarge" %></td>
             <td class="label-col empty"></td>
             <td class="data-col empty"></td>
           </tr>
-      </tbody>
-    </table>
-  <% end %>
-  <% content_for :form_buttons  do %>
-    <%= link_submit t(:save),{:class=>"btn btn-primary"}%>
-    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
-  <% end %>
 
-  <!--页面结构-->
-  <div class="page-block">
-    <table class="page-block-header">
-      <tr>
-        <td class="page-block-title">
-          <h2 class="block-title"><%=t(:label_slm_service_agreement_new)%></h2>
-        </td>
-        <td class="page-block-button">
-          <%= content_for :form_buttons   %>
-        </td>
-      </tr>
-    </table>
-    <%= error_for @service_agreement %>
-    <div class="page-block-body">
-      <div class="sub-page-block">
-        <!-- 一般信息 -->
-        <div class="sub-page-block-header">
-          <%= form_require_info %>
-          <h3 class="sub-page-block-title"><%=t(:label_common_info)%></h3>
-        </div>
-        <div class="sub-page-block-body">
-          <%= content_for :form_block_common   %>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_b do %>
+        <table class="form-table">
+          <tbody>
+
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3" width="82%">
+              <% if @start_rule_filter.present? %>
+                  <%= render :partial => "slm/service_agreements/rule_filter", :locals => {:rule_filter => @start_rule_filter, :filter_name => "start"} %>
+              <% end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_c do %>
+        <table class="form-table">
+          <tbody>
+
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3" width="82%">
+              <% if @start_rule_filter.present? %>
+                  <%= render :partial => "slm/service_agreements/rule_filter", :locals => {:rule_filter => @pause_rule_filter, :filter_name => "pause"} %>
+              <% end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_d do %>
+        <table class="form-table">
+          <tbody>
+
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3" width="82%">
+              <% if @start_rule_filter.present? %>
+                  <%= render :partial => "slm/service_agreements/rule_filter", :locals => {:rule_filter => @stop_rule_filter, :filter_name => "stop"} %>
+              <% end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_block_e do %>
+        <table class="form-table">
+          <tbody>
+
+          <tr>
+            <td class="label-col"></td>
+            <td class="data-3col" colspan="3" width="82%">
+              <% if @start_rule_filter.present? %>
+                  <%= render :partial => "slm/service_agreements/rule_filter", :locals => {:rule_filter => @cancel_rule_filter, :filter_name => "cancel"} %>
+              <% end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end %>
+    <% content_for :form_buttons do %>
+        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"} %>
+    <% end %>
+
+    <!--页面结构-->
+    <div class="page-block">
+      <table class="page-block-header">
+        <tr>
+          <td class="page-block-title">
+            <h2 class="block-title"><%= t(:label_slm_service_agreement_new) %></h2>
+          </td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
+      <%= error_for @service_agreement %>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <%= form_require_info %>
+            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_a %>
+          </div>
         </div>
       </div>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_slm_service_agreement_start_rule_filter) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_b %>
+          </div>
+        </div>
+      </div>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_slm_service_agreement_pause_rule_filter) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_c %>
+          </div>
+        </div>
+      </div>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_slm_service_agreement_stop_rule_filter) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_d %>
+          </div>
+        </div>
+      </div>
+      <div class="page-block-body">
+        <div class="sub-page-block">
+          <!-- 一般信息 -->
+          <div class="sub-page-block-header">
+            <h3 class="sub-page-block-title"><%= t(:label_slm_service_agreement_cancel_rule_filter) %></h3>
+          </div>
+          <div class="sub-page-block-body">
+            <%= content_for :form_block_e %>
+          </div>
+        </div>
+      </div>
+      <table class="page-block-footer">
+        <tr>
+          <td class="page-block-title"></td>
+          <td class="page-block-button">
+            <%= content_for :form_buttons %>
+          </td>
+        </tr>
+      </table>
     </div>
-    <table class="page-block-footer">
-      <tr>
-        <td class="page-block-title"></td>
-        <td class="page-block-button">
-          <%= content_for :form_buttons   %>
-        </td>
-      </tr>
-    </table>
-  </div>
 <% end %>
