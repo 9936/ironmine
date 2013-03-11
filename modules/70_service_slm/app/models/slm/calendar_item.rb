@@ -39,10 +39,10 @@ class Slm::CalendarItem < ActiveRecord::Base
     end
   end
 
-  def time_mode_obj
-    return @time_mode_obj if @time_mode_obj
-    @time_mode_obj = prepare_time_mode
-  end
+  #def time_mode_obj
+  #  return @time_mode_obj if @time_mode_obj
+  #  @time_mode_obj = prepare_time_mode
+  #end
 
   #Slm::CalendarItem.available_items('004m000B4lduu8duSzuvDc')
 
@@ -86,9 +86,11 @@ class Slm::CalendarItem < ActiveRecord::Base
         if s_item
           month_obj = eval(s_item[:calendar_obj])
 
-          month_obj[month].delete_if{|i| i == day}
-          s_item.calendar_obj = month_obj.to_s
-          s_item.save
+          if month_obj[month]
+            month_obj[month].delete_if{|i| i == day}
+            s_item.calendar_obj = month_obj.to_s
+            s_item.save
+          end
         end
       end
     end
@@ -178,6 +180,15 @@ class Slm::CalendarItem < ActiveRecord::Base
         start_end_key = "#{self.start_at.gsub(/:/, '_')}to#{self.end_at.gsub(/:/, '_')}"
         #该班次已经存在
         new_start_end_ats = year_month_day_schedules(available_items, year, month, day)
+
+        if available_items[year.to_s]
+          (1..12).each do |month_index|
+            if available_items[year.to_s][month_index] && available_items[year.to_s][month_index][start_end_key]
+              years_obj[year][month_index] = available_items[year.to_s][month_index][start_end_key]
+            end
+          end
+        end
+
         if new_start_end_ats.any?
           #puts "============11================"
           month_obj ||= {}
@@ -256,6 +267,21 @@ class Slm::CalendarItem < ActiveRecord::Base
                                  :calendar_year => s_year)
       end
     end
+  end
+
+  def remove_schedule(year, month, date)
+    if self.calendar_year.eql?(year.to_s)
+      current_calendar_obj = eval(self.calendar_obj)
+
+      if current_calendar_obj[month.to_i] && current_calendar_obj[month.to_i].any?
+        current_calendar_obj[month.to_i].delete_if{|i| i == date.to_i }
+        self.calendar_obj = current_calendar_obj.to_s
+
+        self.save
+      end
+    end
+
+
   end
 
   private
