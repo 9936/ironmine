@@ -244,7 +244,7 @@
         <div class="modal-body form-horizontal">
           <%= form_for(@calendar_item, :url => {:controller => "slm/calendar_items", :action => "update", :calendar_id => @calendar.id, :sid => params[:sid]}, :html => {:id => "scheduleUpdateForm", :class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
           <div class="control-group">
-            <label class="control-label"><%= t(:label_slm_calendar_item_scedule_) %>:</label>
+            <label class="control-label"><%= t(:label_slm_calendar_item_scedule_date) %>:</label>
             <div class="controls">
               <%= text_field_tag "calendar_date", "", :disabled => true, :class => "input-mini", :id => "calendarDate", :style => "width:100px;" %>
             </div>
