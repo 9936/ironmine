@@ -268,12 +268,15 @@ class Slm::CalendarItem < ActiveRecord::Base
   end
 
   def validate_params
+    at_reg = /^(0\d{1}|1\d{1}|2[0-3]):[0-5]\d{1}$/
+    time_reg = /^(\d{4})-(0\d{1}|1[0-2])-(0\d{1}|[12]\d{1}|3[01])$/
+
     if self.start_at && self.end_at && self.start_time
-      if self.start_at.match(/^\d{1,2}:\d{2}$/) && self.end_at.match(/^\d{1,2}:\d{2}$/) && self.start_time.match(/^\d{4}-\d{1,2}-\d{1,2}$/)
-        if self.end_time && self.end_time.match(/^\d{4}-\d{1,2}-\d{1,2}$/)
-          return true
-        else
+      if self.start_at.match(at_reg) && self.end_at.match(at_reg) && self.start_time.match(time_reg)
+        if self.end_time.present? && !self.end_time.match(time_reg)
           return false
+        else
+          return true
         end
       else
         return false
