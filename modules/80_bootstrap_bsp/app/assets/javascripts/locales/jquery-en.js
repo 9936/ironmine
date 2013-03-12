@@ -26,3 +26,16 @@ var irm_labels = {
     chr_only: "Can't allow to enter Chinese characters",
     uppercase: "Only allowed to enter Caps letters and underline."
 };
+
+var full_calendar_labels = {
+    monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+    monthNamesShort: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    dayNames: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+    dayNamesShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+    buttonText: {
+        today: 'today',
+        month: 'month',
+        week: 'week',
+        day: 'day'
+    }
+};

@@ -186,7 +186,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "slm/calendars" => ["index", "show", "schedule_events", "get_data","edit","update", "new", "create", "multilingual_edit", "multilingual_update"],
-              "slm/calendar_items" => ["destroy", "show", "get_data","edit","update", "new", "create", "multilingual_edit", "multilingual_update"]
+              "slm/calendar_items" => ["destroy", "remove", "update", "new", "create"]
           }
       }
   }

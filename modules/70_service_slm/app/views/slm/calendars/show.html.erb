@@ -1,4 +1,4 @@
-<% require_jscss([:fullcalendar, :jquery_ui]) %>
+<% require_jscss([:fullcalendar]) %>
 <%= common_title %>
 
 <style type="text/css">
@@ -234,26 +234,23 @@
   <%= link_to "", {:controller => "slm/calendar_items",:action => "destroy", :calendar_id => @calendar.id , :id=> "${calendar_item_id}", "_dom_id" => "fullcalendar", :format => "json"}, :style => "display:none", :id => "scheduleRemoveUrl" %>
   <div class="widget-title">
     <span class="icon"><i class="icon-calendar"></i></span>
-    <h5>日历</h5>
-
     <div class="buttons">
-      <a id="add-event" data-toggle="modal" href="#modal-add-event" class="btn btn-success"><i class="icon-plus icon-white"></i>新建班次</a>
-
+      <a id="add-event" data-toggle="modal" href="#modal-add-event" class="btn btn-success"><i class="icon-plus icon-white"></i><%= t(:label_slm_calendar_item_scedule_new) %></a>
       <div class="modal hide fade" id="addEventToDay">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h3>新增班次</h3>
+          <h3><%= t(:label_slm_calendar_item_scedule_new) %></h3>
         </div>
         <div class="modal-body form-horizontal">
           <%= form_for(@calendar_item, :url => {:controller => "slm/calendar_items", :action => "update", :calendar_id => @calendar.id, :sid => params[:sid]}, :html => {:id => "scheduleUpdateForm", :class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
           <div class="control-group">
-            <label class="control-label">日期:</label>
+            <label class="control-label"><%= t(:label_slm_calendar_item_scedule_date) %>:</label>
             <div class="controls">
               <%= text_field_tag "calendar_date", "", :disabled => true, :class => "input-mini", :id => "calendarDate", :style => "width:100px;" %>
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label">选择班次:</label>
+            <label class="control-label"><%= t(:label_slm_calendar_item_scedule_select) %>:</label>
             <div class="controls">
               <%= blank_select_tag "calendar_item_id", available_schedules(@calendar).collect{|i| ["#{i.start_at} ~ #{i.end_at}",i.id]},nil, :id => "calendarSchedules", %>
             </div>
@@ -261,21 +258,21 @@
           <% end %>
         </div>
         <div class="modal-footer">
-          <a href="#" class="btn" data-dismiss="modal">取消</a>
-          <a href="#" class="btn btn-primary" id="update-event-submit">确定</a>
+          <a href="javascript:vod(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
+          <a href="javascript:vod(0);" class="btn btn-primary" id="update-event-submit"><%= t(:save) %></a>
         </div>
       </div>
 
       <div class="modal hide fade" id="modal-add-event">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">×</button>
-          <h3>新建班次</h3>
+          <h3><%= t(:label_slm_calendar_item_scedule_new) %></h3>
         </div>
         <div class="modal-body form-horizontal">
           <%= form_for(@calendar_item, :url => {:controller => "slm/calendar_items", :action => "create", :calendar_id => @calendar.id, :sid => params[:sid]}, :html => {:id => "scheduleForm", :class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
               <%= f.hidden_field :calendar_id %>
               <div class="control-group">
-                <label class="control-label">班次开始时间:</label>
+                <label class="control-label"><%= t(:label_slm_calendar_item_start_at) %>:</label>
 
                 <div class="controls">
                   <%= f.text_field :start_at, :id => "start_at", :check_format => true, :required => true, :placeholder => "08:00" %>
@@ -284,17 +281,14 @@
               </div>
 
               <div class="control-group">
-                <label class="control-label">班次结束时间:</label>
-
+                <label class="control-label"><%= t(:label_slm_calendar_item_end_at) %>:</label>
                 <div class="controls">
                   <%= f.text_field :end_at, :id => "end_at", :required => true, :placeholder => "12:00" %>
                   <span class="help-inline"></span>
                 </div>
               </div>
-
               <div class="control-group">
-                <label class="control-label">应用到:</label>
-
+                <label class="control-label"><%= t(:label_slm_calendar_item_applay_time) %>:</label>
                 <div class="controls">
                   <%= f.text_field :start_time, :id => "start_time", :class => "input-mini", :style => "width: 90px;", :placeholder => "2013-01-01" %>
                   ～
@@ -304,8 +298,7 @@
                     <label class="checkbox"><input type="checkbox" name="week_str[]" value="2"><%= (t "date.day_names")[2] %></label>
                     <label class="checkbox"><input type="checkbox" name="week_str[]" value="3"><%= (t "date.day_names")[3] %></label>
                     <label class="checkbox"><input type="checkbox" name="week_str[]" value="4"><%= (t "date.day_names")[4] %></label>
-                    <label class="checkbox"><input type="checkbox" name="week_str[]" value="5"><%= (t "date.day_names")[5] %></label>
-                    <br/>
+                    <label class="checkbox"><input type="checkbox" name="week_str[]" value="5"><%= (t "date.day_names")[5] %></label><br/>
                     <label class="checkbox"><input type="checkbox" name="week_str[]" value="6"><%= (t "date.day_names")[6] %></label>
                     <label class="checkbox"><input type="checkbox" name="week_str[]" value="0"><%= (t "date.day_names")[0] %></label>
                   </div>
@@ -315,8 +308,8 @@
           <% end %>
         </div>
         <div class="modal-footer">
-          <a href="#" class="btn" data-dismiss="modal">取消</a>
-          <a href="#" id="add-event-submit" class="btn btn-primary">确定添加</a>
+          <a href="javascript:vod(0);" class="btn" data-dismiss="modal"><%=t(:cancel) %></a>
+          <a href="javascript:vod(0);" id="add-event-submit" class="btn btn-primary"><%= t(:save) %></a>
         </div>
       </div>
     </div>
@@ -326,11 +319,12 @@
       <div id="fullcalendar"></div>
     </div>
     <div id="external-events" class="panel-right">
-      <div class="panel-title"><h5>班次</h5></div>
+      <div class="panel-title"><h5><%= t(:label_slm_calendar_item_scedules) %></h5></div>
       <div class="panel-content">
         <% available_schedules(@calendar).each do |schedule| %>
-            <div id="<%= schedule.id %>" class="external-event label label-inverse">
-              <%= schedule.start_at %> ~ <%= schedule.end_at %>
+            <div id="<%= schedule.id %>" class="external-event label label-inverse"  style="padding: 4px 5px;">
+              <%= link_to raw('&times;'), {:controller => "slm/calendar_items", :action => "remove", :calendar_id => @calendar.id, :id => schedule.id}, :class => "close", :style =>"line-height: 15px;" %>
+              <span><%= schedule.start_at %> ~ <%= schedule.end_at %></span>
             </div>
         <% end %>
       </div>
@@ -347,10 +341,24 @@
             calendar.add_event();
         });
 
-        $('#update-event-submit').click(function (e) {
+        $('#update-event-submit').click(function () {
             calendar.update_event()
         });
 
+        $("#external-events .close").live('click', function(e){
+            if (!confirm("<%= t(:label_slm_calendar_item_tips_scedule_delete_confirm) %>?")){
+                return false;
+            }
+            var schedule = $(this).parent(), scheduleId = schedule.attr('id');
+
+            //运用ajax去后台执行删除操作
+
+            $.post($(this).attr("href"), function(data){
+                $('#fullcalendar').fullCalendar('removeEvents', scheduleId);
+                schedule.remove();
+            },"json");
+            e.preventDefault();
+        });
     });
     calendar = {
         init:function () {
@@ -368,6 +376,12 @@
                     center:'title',
                     right:'month,basicWeek,basicDay'
                 },
+                monthNames: full_calendar_labels['monthNames'],
+                monthNamesShort: full_calendar_labels['monthNames'],
+                dayNames: full_calendar_labels['dayNames'],
+                dayNamesShort: full_calendar_labels['dayNames'],
+                buttonText: full_calendar_labels['buttonText'],
+
                 dayClick: function(date) {
                     $("#calendarSchedules").html("");
                     var date_month = date.getMonth() + 1, date_day = date.getDate();
@@ -381,7 +395,7 @@
                         return event.start >= date && event.start < date2;
                     });
                     if (todayEvents.length == allOptions.length -1) {
-                        alert("请新建班次后再进行添加");
+                        alert("<%= t(:label_slm_calendar_item_tips_scedule_no) %>");
                     }else{
                         for(i=0; i<allOptions.length; i++){
                             var existsFlag = false;
@@ -402,14 +416,19 @@
                 editable: false,
                 events:$("#schedulesUrl").attr("href"),
                 eventClick:function (event, jsEvent, view) {
-                    var start = event.start;
-//                    $('#fullcalendar').fullCalendar('refetchEvents', function(e){
-//                        return event.title == e.title && e.start == event.start;
-//                    });
+                    var start = event.start,
+                        year = start.getFullYear(),
+                        month = start.getMonth() + 1,
+                        date = start.getDate();
+
+                    if (!confirm("<%= t(:label_slm_calendar_item_tips_scedule_delete_confirm) %>:"+ year + '-' + month + '-' + date + '  ' + event.title+'?')){
+                      return false;
+                    }
+
                     $.ajax({
                         url: $.tmpl(decodeURIComponent($("#scheduleRemoveUrl").attr("href")), {calendar_item_id: event.id}).text(),
                         data: {
-                            year: start.getFullYear(),month: start.getMonth() + 1,date: start.getDate()
+                            year: year,month: month,date: date
                         },
                         success:function () {
                            $('#fullcalendar').fullCalendar('refetchEvents');
@@ -424,24 +443,20 @@
                 eventMouseout:function (calEvent, domEvent) {
                     $("#events-layer").remove();
                 },
-                droppable: false, // this allows things to be dropped onto the calendar !!!
-                drop:function (date, allDay) { // this function is called when something is dropped
-                    alert(date);
-                    // retrieve the dropped element's stored Event Object
-                    var originalEventObject = $(this).data('eventObject');
-
-                    // we need to copy it, so that multiple events don't have a reference to the same object
-                    var copiedEventObject = $.extend({}, originalEventObject);
-
-                    // assign it the date that was reported
-                    copiedEventObject.start = date;
-                    copiedEventObject.allDay = allDay;
-
-                    $('#fullcalendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-                }
+                droppable: false//,
+//                drop:function (date, allDay) {
+//                    var originalEventObject = $(this).data('eventObject');
+//
+//                    var copiedEventObject = $.extend({}, originalEventObject);
+//
+//                    copiedEventObject.start = date;
+//                    copiedEventObject.allDay = allDay;
+//
+//                    $('#fullcalendar').fullCalendar('renderEvent', copiedEventObject, true);
+//
+//                }
             });
-            this.external_events();
+
         },
 
         update_event:function(){
@@ -450,7 +465,7 @@
                $("#scheduleUpdateForm").submit();
                $('#addEventToDay').modal('hide');
            }else{
-               this.show_error("请选择一个班次", 'addEventToDay');
+               this.show_error("<%= t(:label_slm_calendar_item_tips_scedule) %>", 'addEventToDay');
            }
         },
 
@@ -461,7 +476,7 @@
                 //检查参数的合法性
                 var at_reg = /^(0\d{1}|1\d{1}|2[0-3]):[0-5]\d{1}$/, time_reg = /^(\d{4})-(0\d{1}|1[0-2])-(0\d{1}|[12]\d{1}|3[01])$/;
                 if (!at_reg.test(start_at) || !at_reg.test(end_at)) {
-                    this.show_error("请输入正确格式的班次时间,如:08:00", 'modal-add-event');
+                    this.show_error("<%= t(:label_slm_calendar_item_tips_scedule_at_format) %>", 'modal-add-event');
                     return false;
                 }
                 //判断当前班次是否存在
@@ -474,52 +489,30 @@
                     }
 
                     if (!time_reg.test(start_time) || !time_reg.test(end_time)) {
-                        this.show_error("请输入正确格式的应用日期,如:2013-01-01", 'modal-add-event');
+                        this.show_error("<%= t(:label_slm_calendar_item_tips_scedule_time_format) %>", 'modal-add-event');
                         return false;
                     }
 
                     $("#scheduleForm").submit();
                     $('#external-events .panel-content').append('<div class="external-event ui-draggable label label-inverse">' + start_at + ' ~ ' + end_at + '</div>');
-                    this.external_events();
+
                     $('#modal-add-event').modal('hide');
                 } else {
-                    this.show_error("请至少选择应到的起始时间", 'modal-add-event');
+                    this.show_error("<%= t(:label_slm_calendar_item_tips_scedule_time_blank) %>", 'modal-add-event');
                 }
             } else {
-                this.show_error("输入班次的开始和结束时间", 'modal-add-event');
+                this.show_error("<%= t(:label_slm_calendar_item_tips_scedule_at_blank) %>", 'modal-add-event');
             }
-        },
-
-        // === Initialize the draggable external events === //
-        external_events:function () {
-            /* initialize the external events
-             -----------------------------------------------------------------*/
-//            $('#external-events div.external-event').each(function () {
-//                // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-//                // it doesn't need to have a start or end
-//                var eventObject = {title:$.trim($(this).text())};
-//                // store the Event Object in the DOM element so we can get to it later
-//                $(this).data('eventObject', eventObject);
-//
-//                // make the event draggable using jQuery UI
-//                $(this).draggable({
-//                    zIndex:999,
-//                    revert:true, // will cause the event to go back to its
-//                    revertDuration:0  //  original position after the drag
-//                });
-//            });
         },
 
         // === Show error if no event name is provided === //
         show_error:function (error_info, modal_id) {
             $('#modal-error').remove();
             $('<div class="modal-error-tip" id="modal-error">' + error_info + '</div>').appendTo('#'+ modal_id +' .modal-body');
-            $('#modal-error').delay('1500').fadeOut(700, function () {
+            $('#modal-error').delay('2000').fadeOut(700, function () {
                 $(this).remove();
             });
         }
-
-
     };
 
 </script>

@@ -153,4 +153,19 @@ en:
   slm_calendar_last_updated: Last Updated
   label_slm_calendar_name: Calendar Name
   label_slm_calendar_description: Calendar Description
+
+  label_slm_calendar_item_scedules: Schedules
+  label_slm_calendar_item_scedule_new: New Schedule
+  label_slm_calendar_item_scedule_select: Select Scedule
+  label_slm_calendar_item_scedule_date: Date
+  label_slm_calendar_item_start_at: Start At
+  label_slm_calendar_item_end_at: End At
+  label_slm_calendar_item_applay_time: Applay To
+  label_slm_calendar_item_tips_scedule: Please select a schedule
+  label_slm_calendar_item_tips_scedule_at_format: Please input the correct time format,eg:08:00
+  label_slm_calendar_item_tips_scedule_time_format: Please input the correct datetime format,eg:2013-01-01
+  label_slm_calendar_item_tips_scedule_time_blank: Plese input the start time at least.
+  label_slm_calendar_item_tips_scedule_at_blank: Please input the schedule's start and end time.
+  label_slm_calendar_item_tips_scedule_no: Plase new a shedule at first.
+  label_slm_calendar_item_tips_scedule_delete_confirm: Are you sure to delete
   #========================= end calendar=======================#
