@@ -36,14 +36,14 @@ Fwk::MenuAndFunctionManager.map do |map|
           #        :en => {:name => "Catalog", :description => "Catalog"},
           #        :zh => {:name => "服务目录", :description => "定义运维服务目录"},
           #    }},
-          :work_calendar => {
-              :type => "function",
-              :entry => {
-                  :sequence => 30,
-                  :en => {:name => "Work Calendar", :description => "Work Calendar"},
-                  :zh => {:name => "工作日历", :description => "工作日历"}
-              }
-          },
+          #:work_calendar => {
+          #    :type => "function",
+          #    :entry => {
+          #        :sequence => 30,
+          #        :en => {:name => "Work Calendar", :description => "Work Calendar"},
+          #        :zh => {:name => "工作日历", :description => "工作日历"}
+          #    }
+          #},
           :service_agreement => {
               :type => "function",
               :entry => {
@@ -131,32 +131,32 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================END:SERVICE_AGREEMENT=================================
 
   #=================================START:CALENDAR=================================
-  #map.menu :system_common_setting, {
-  #    :children => {
-  #        :system_service_management => {
-  #            :type => "menu",
-  #            :entry => {
-  #                :sequence => 40,
-  #                :en => {:name => "Service Management", :description => "Service Management"},
-  #                :zh => {:name => "服务管理", :description => "服务管理"}
-  #            }
-  #        }
-  #    }
-  #}
-  #map.menu :system_service_management, {
-  #    :en => {:name => "Service Management", :description => "Service Management"},
-  #    :zh => {:name => "服务管理", :description => "服务管理"},
-  #    :children => {
-  #        :work_calendar => {
-  #            :type => "function",
-  #            :entry => {
-  #                :sequence => 10,
-  #                :en => {:name => "Work Calendar", :description => "Work Calendar"},
-  #                :zh => {:name => "工作日历", :description => "工作日历"}
-  #            }
-  #        }
-  #    }
-  #}
+  map.menu :system_common_setting, {
+      :children => {
+          :system_service_management => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 40,
+                  :en => {:name => "Service Management", :description => "Service Management"},
+                  :zh => {:name => "服务管理", :description => "服务管理"}
+              }
+          }
+      }
+  }
+  map.menu :system_service_management, {
+      :en => {:name => "Service Management", :description => "Service Management"},
+      :zh => {:name => "服务管理", :description => "服务管理"},
+      :children => {
+          :work_calendar => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "Work Calendar", :description => "Work Calendar"},
+                  :zh => {:name => "工作日历", :description => "工作日历"}
+              }
+          }
+      }
+  }
   map.function_group :work_calendar, {
       :en => {:name => "Work Calendar", :description => "Work Calendar"},
       :zh => {:name => "工作日历", :description => "工作日历"},
