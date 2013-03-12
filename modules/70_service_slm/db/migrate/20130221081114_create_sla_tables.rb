@@ -11,13 +11,13 @@ class CreateSlaTables < ActiveRecord::Migration
       t.string "time_zone", :null => false
       t.string "calendar_id", :limit => 22
       t.string "duration"
-      t.string "start_rule_filter_id", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "start_rule_filter_id", :limit => 22, :collate => "utf8_bin"
       t.string "start_cux_rule_filter"
-      t.string "pause_rule_filter_id", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "pause_rule_filter_id", :limit => 22, :collate => "utf8_bin"
       t.string "pause_cux_rule_filter"
-      t.string "stop_rule_filter_id", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "stop_rule_filter_id", :limit => 22, :collate => "utf8_bin"
       t.string "stop_cux_rule_filter"
-      t.string "cancel_rule_filter_id", :limit => 22,  :null => false, :collate => "utf8_bin"
+      t.string "cancel_rule_filter_id", :limit => 22, :collate => "utf8_bin"
       t.string "cancel_cux_rule_filter"
       t.string "status_code", :limit => 30, :default => "ENABLED"
       t.string "created_by", :limit => 22,  :null => false, :collate => "utf8_bin"
