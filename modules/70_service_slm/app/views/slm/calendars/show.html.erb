@@ -402,14 +402,19 @@
                 editable: false,
                 events:$("#schedulesUrl").attr("href"),
                 eventClick:function (event, jsEvent, view) {
-                    var start = event.start;
-//                    $('#fullcalendar').fullCalendar('refetchEvents', function(e){
-//                        return event.title == e.title && e.start == event.start;
-//                    });
+                    var start = event.start,
+                        year = start.getFullYear(),
+                        month = start.getMonth() + 1,
+                        date = start.getDate();
+
+                    if (!confirm('是否要删除班次:'+ year + '-' + month + '-' + date + '  ' + event.title+'？')){
+                      return false;
+                    }
+
                     $.ajax({
                         url: $.tmpl(decodeURIComponent($("#scheduleRemoveUrl").attr("href")), {calendar_item_id: event.id}).text(),
                         data: {
-                            year: start.getFullYear(),month: start.getMonth() + 1,date: start.getDate()
+                            year: year,month: month,date: date
                         },
                         success:function () {
                            $('#fullcalendar').fullCalendar('refetchEvents');
