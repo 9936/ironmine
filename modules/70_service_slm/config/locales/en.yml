@@ -168,7 +168,7 @@ en:
   label_slm_calendar_item_tips_scedule_time_blank: Plese input the start time at least.
   label_slm_calendar_item_tips_scedule_at_blank: Please input the schedule's start and end time.
   label_slm_calendar_item_tips_scedule_no: Plase new a shedule at first.
-   label_slm_calendar_item_tips_scedule_delete_confirm: Are you sure to delete
+  label_slm_calendar_item_tips_scedule_delete_confirm: Are you sure to delete
   #========================= end calendar=======================#
   #========================= start sla_instance=======================#
   label_slm_sla_instance_title: Service agreement

@@ -406,7 +406,7 @@
                         month = start.getMonth() + 1,
                         date = start.getDate();
 
-                    if (!confirm('<%= t(:label_slm_calendar_item_tips_scedule_delete_confirm) %>:'+ year + '-' + month + '-' + date + '  ' + event.title+'?')){
+                    if (!confirm("<%= t(:label_slm_calendar_item_tips_scedule_delete_confirm) %>:"+ year + '-' + month + '-' + date + '  ' + event.title+'?')){
                       return false;
                     }
 
