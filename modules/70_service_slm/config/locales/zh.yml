@@ -154,20 +154,20 @@ zh:
   label_slm_calendar_name: 日历名称
   label_slm_calendar_description: 日历描述
 
-  label_slm_calendar_item: 日历项
-  label_slm_calendar_item_new: 新建日历项
-  label_slm_calendar_item_edit: 编辑日历项
-  label_slm_calendar_item_list: 日历项列表
-  label_slm_calendar_item_name: 日历名称
-  label_slm_calendar_item_description: 日历描述
-  label_slm_calendar_item_type: 类型
-  label_slm_calendar_item_type_all: 主规则
-  label_slm_calendar_item_type_include: 包含
-  label_slm_calendar_item_type_exclude: 排除
-  label_slm_calendar_item_start_at: 开始时间
+  label_slm_calendar_item_scedules: 班次
+  label_slm_calendar_item_scedule_new: 新建班次
+  label_slm_calendar_item_scedule_select: 选择班次
+  label_slm_calendar_item_scedule_date: 日期
+  label_slm_calendar_item_start_at: 开始时间点
   label_slm_calendar_item_end_at: 结束时间
-  label_slm_calendar_item_deadline: 截止日期
-  label_slm_calendar_item_time_mode: 循环模式
+  label_slm_calendar_item_applay_time: 应用到
+  label_slm_calendar_item_tips_scedule: 请选择一个班次
+  label_slm_calendar_item_tips_scedule_at_format: 请输入正确格式的班次时间,如:08:00
+  label_slm_calendar_item_tips_scedule_time_format: 请输入正确格式的应用日期,如:2013-01-01
+  label_slm_calendar_item_tips_scedule_time_blank: 请至少选择应到的起始时间
+  label_slm_calendar_item_tips_scedule_at_blank: 输入班次的开始和结束时间
+  label_slm_calendar_item_tips_scedule_no: 请新建班次后再进行添加
+  label_slm_calendar_item_tips_scedule_delete_confirm: 你确定要删除班次
 
   #========================= end calendar=======================#
   #========================= start sla_instance=======================#
