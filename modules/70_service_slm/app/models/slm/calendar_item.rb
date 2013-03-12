@@ -6,7 +6,7 @@ class Slm::CalendarItem < ActiveRecord::Base
 
   validates_presence_of :calendar_id
 
-  #acts_as_multilingual
+
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -39,10 +39,6 @@ class Slm::CalendarItem < ActiveRecord::Base
     end
   end
 
-  #def time_mode_obj
-  #  return @time_mode_obj if @time_mode_obj
-  #  @time_mode_obj = prepare_time_mode
-  #end
 
   #Slm::CalendarItem.available_items('004m000B4lduu8duSzuvDc')
 
@@ -154,100 +150,102 @@ class Slm::CalendarItem < ActiveRecord::Base
   end
 
   def hand_calendar_item
-    available_items = Slm::CalendarItem.available_items(self.calendar_id)
+    if validate_params
+      available_items = Slm::CalendarItem.available_items(self.calendar_id)
 
-    self.start_time = Time.strptime("#{self.start_time} 00:00:00", '%Y-%m-%d %T')
-    if self.end_time.blank?
-      self.end_time = self.start_time
-    end
-    self.end_time = Time.strptime("#{self.end_time} 00:00:00", '%Y-%m-%d %T')
-
-    if self.start_time <= self.end_time #and self.start_time.day != self.end_time.day
-      years_obj = {}
-      if self.weeks_str.present?
-        week_days = self.weeks_str
-      else
-        week_days = ["1", "2", "3", "4", "5", "6", "0"]
+      self.start_time = Time.strptime("#{self.start_time} 00:00:00", '%Y-%m-%d %T')
+      if self.end_time.blank?
+        self.end_time = self.start_time
       end
+      self.end_time = Time.strptime("#{self.end_time} 00:00:00", '%Y-%m-%d %T')
 
-      while start_time <= end_time
-        year, month, day, wday = start_time.year, start_time.month, start_time.day, start_time.wday
-        unless week_days.include?(wday.to_s)
-          self.start_time = self.start_time + 1.day
-          next
+      if self.start_time <= self.end_time #and self.start_time.day != self.end_time.day
+        years_obj = {}
+        if self.weeks_str.present?
+          week_days = self.weeks_str
+        else
+          week_days = ["1", "2", "3", "4", "5", "6", "0"]
         end
-        years_obj[year] ||= {}
-        start_end_key = "#{self.start_at.gsub(/:/, '_')}to#{self.end_at.gsub(/:/, '_')}"
-        #该班次已经存在
-        new_start_end_ats = year_month_day_schedules(available_items, year, month, day)
 
-        if available_items[year.to_s]
-          (1..12).each do |month_index|
-            if available_items[year.to_s][month_index] && available_items[year.to_s][month_index][start_end_key]
-              years_obj[year][month_index] = available_items[year.to_s][month_index][start_end_key]
+        while start_time <= end_time
+          year, month, day, wday = start_time.year, start_time.month, start_time.day, start_time.wday
+          unless week_days.include?(wday.to_s)
+            self.start_time = self.start_time + 1.day
+            next
+          end
+          years_obj[year] ||= {}
+          start_end_key = "#{self.start_at.gsub(/:/, '_')}to#{self.end_at.gsub(/:/, '_')}"
+          #该班次已经存在
+          new_start_end_ats = year_month_day_schedules(available_items, year, month, day)
+
+          if available_items[year.to_s]
+            (1..12).each do |month_index|
+              if available_items[year.to_s][month_index] && available_items[year.to_s][month_index][start_end_key]
+                years_obj[year][month_index] = available_items[year.to_s][month_index][start_end_key]
+              end
             end
           end
-        end
 
-        if new_start_end_ats.any?
-          #puts "============11================"
-          month_obj ||= {}
-          new_start_end_ats.each do |new_start_end_at|
-            new_start_at, new_end_at = "#{'%02d' % new_start_end_at[0].hour}:#{'%02d' % new_start_end_at[0].min}", "#{'%02d' % new_start_end_at[1].hour}:#{'%02d' % new_start_end_at[1].min}"
-            new_start_end_key = "#{new_start_at.gsub(/:/, '_')}to#{new_end_at.gsub(/:/, '_')}"
-            if available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][new_start_end_key]
-              month_obj[month] = available_items[year.to_s][month][new_start_end_key]
-              unless available_items[year.to_s][month][new_start_end_key].include?(day)
+          if new_start_end_ats.any?
+            #puts "============11================"
+            month_obj ||= {}
+            new_start_end_ats.each do |new_start_end_at|
+              new_start_at, new_end_at = "#{'%02d' % new_start_end_at[0].hour}:#{'%02d' % new_start_end_at[0].min}", "#{'%02d' % new_start_end_at[1].hour}:#{'%02d' % new_start_end_at[1].min}"
+              new_start_end_key = "#{new_start_at.gsub(/:/, '_')}to#{new_end_at.gsub(/:/, '_')}"
+              if available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][new_start_end_key]
+                month_obj[month] = available_items[year.to_s][month][new_start_end_key]
+                unless available_items[year.to_s][month][new_start_end_key].include?(day)
+                  if week_days.include?(wday.to_s)
+                    month_obj[month] << day
+                    available_items[year.to_s][month][new_start_end_key] << day unless available_items[year.to_s][month][new_start_end_key].include?(day)
+                  end
+
+                end
+              else
+                available_items[year.to_s] ||= {}
+                available_items[year.to_s][month] ||= {}
+                available_items[year.to_s][month][new_start_end_key] ||= []
+
+                month_obj[month] ||= []
                 if week_days.include?(wday.to_s)
                   month_obj[month] << day
                   available_items[year.to_s][month][new_start_end_key] << day unless available_items[year.to_s][month][new_start_end_key].include?(day)
                 end
-
               end
-            else
-              available_items[year.to_s] ||= {}
-              available_items[year.to_s][month] ||= {}
-              available_items[year.to_s][month][new_start_end_key] ||= []
-
-              month_obj[month] ||= []
+              save_calendar_item(self.calendar_id, new_start_at, new_end_at, month_obj, year)
+            end
+          elsif available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][start_end_key]
+            #puts "============22================"
+            years_obj[year][month] = available_items[year.to_s][month][start_end_key]
+            #如果该天不在班次中直接加到班次中
+            unless available_items[year.to_s][month][start_end_key].include?(day)
               if week_days.include?(wday.to_s)
-                month_obj[month] << day
-                available_items[year.to_s][month][new_start_end_key] << day unless available_items[year.to_s][month][new_start_end_key].include?(day)
+                years_obj[year][month] << day
+                available_items[year.to_s][month][start_end_key] << day unless available_items[year.to_s][month][start_end_key].include?(day)
               end
             end
-            save_calendar_item(self.calendar_id, new_start_at, new_end_at, month_obj, year)
-          end
-        elsif available_items[year.to_s] && available_items[year.to_s][month] && available_items[year.to_s][month][start_end_key]
-          #puts "============22================"
-          years_obj[year][month] = available_items[year.to_s][month][start_end_key]
-          #如果该天不在班次中直接加到班次中
-          unless available_items[year.to_s][month][start_end_key].include?(day)
+          else
+            #puts "============33================"
+            available_items[year.to_s] ||= {}
+            available_items[year.to_s][month] ||= {}
+            available_items[year.to_s][month][start_end_key] ||= []
+
+            years_obj[year][month] ||= []
+
             if week_days.include?(wday.to_s)
               years_obj[year][month] << day
               available_items[year.to_s][month][start_end_key] << day unless available_items[year.to_s][month][start_end_key].include?(day)
             end
-          end
-        else
-          #puts "============33================"
-          available_items[year.to_s] ||= {}
-          available_items[year.to_s][month] ||= {}
-          available_items[year.to_s][month][start_end_key] ||= []
 
-          years_obj[year][month] ||= []
-
-          if week_days.include?(wday.to_s)
-            years_obj[year][month] << day
-            available_items[year.to_s][month][start_end_key] << day unless available_items[year.to_s][month][start_end_key].include?(day)
           end
 
+          self.start_time = self.start_time + 1.day
         end
 
-        self.start_time = self.start_time + 1.day
+        years_obj.each do |year, month_obj|
+          save_calendar_item(self.calendar_id, self.start_at, self.end_at, month_obj, year)
+        end if years_obj.any?
       end
-
-      years_obj.each do |year, month_obj|
-        save_calendar_item(self.calendar_id, self.start_at, self.end_at, month_obj, year)
-      end if years_obj.any?
     end
 
   end
@@ -269,6 +267,22 @@ class Slm::CalendarItem < ActiveRecord::Base
     end
   end
 
+  def validate_params
+    if self.start_at && self.end_at && self.start_time
+      if self.start_at.match(/^\d{1,2}:\d{2}$/) && self.end_at.match(/^\d{1,2}:\d{2}$/) && self.start_time.match(/^\d{4}-\d{1,2}-\d{1,2}$/)
+        if self.end_time && self.end_time.match(/^\d{4}-\d{1,2}-\d{1,2}$/)
+          return true
+        else
+          return false
+        end
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
   def remove_schedule(year, month, date)
     if self.calendar_year.eql?(year.to_s)
       current_calendar_obj = eval(self.calendar_obj)
@@ -284,18 +298,4 @@ class Slm::CalendarItem < ActiveRecord::Base
 
   end
 
-  private
-  def prepare_time_mode
-    if self.time_mode.present?
-      return YAML.load(self.time_mode)
-    else
-      {
-          :freq => "DAILY",
-          :daily => {:type => "BYDAY", :interval => "1"},
-          :yearly => {:type => "BYEARY", :interval => "1"},
-          :weekly => {:interval => "1", :days => ["MO"]},
-          :monthly => {:type => "WEEK", :day => {:interval => "1", :dayno => "1"}, :week => {:interval => "1", :weekno => "1", :weekday => "MO"}}
-      }
-    end
-  end
 end
