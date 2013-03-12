@@ -36,22 +36,23 @@ Fwk::MenuAndFunctionManager.map do |map|
           #        :en => {:name => "Catalog", :description => "Catalog"},
           #        :zh => {:name => "服务目录", :description => "定义运维服务目录"},
           #    }},
-          :service_agreement => {
-              :type => "function",
-              :entry => {
-                  :sequence => 30,
-                  :en => {:name => "Argeement", :description => "Argeement"},
-                  :zh => {:name => "服务协议", :description => "定义服务协议（SLA）"},
-              }
-          },
           :work_calendar => {
               :type => "function",
               :entry => {
-                  :sequence => 40,
+                  :sequence => 30,
                   :en => {:name => "Work Calendar", :description => "Work Calendar"},
                   :zh => {:name => "工作日历", :description => "工作日历"}
               }
+          },
+          :service_agreement => {
+              :type => "function",
+              :entry => {
+                  :sequence => 40,
+                  :en => {:name => "Argeement", :description => "Argeement"},
+                  :zh => {:name => "服务协议", :description => "定义服务协议（SLA）"},
+              }
           }
+
       }
   }
   #====================================END:SERVICE_MANAGEMENT======================================
