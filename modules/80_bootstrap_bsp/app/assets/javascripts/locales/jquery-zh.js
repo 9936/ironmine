@@ -29,6 +29,19 @@ var irm_labels = {
     uppercase: "只允许输入大写字母和下划线"
 };
 
+var full_calendar_labels = {
+    monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+    monthNamesShort: ['一','二','三','四','五','六','七','八','九','十','十一','十二'],
+    dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+    dayNamesShort: ['日','一','二','三','四','五','六'],
+    buttonText: {
+        today: '今天',
+        month: '月视图',
+        week: '周视图',
+        day: '日视图'
+    }
+};
+
 if($.fn.datepicker.dpglobal){
     $.fn.datepicker.dpglobal.dates={
 	    days: ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"],
@@ -38,3 +51,5 @@ if($.fn.datepicker.dpglobal){
 	    monthsShort: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
     }
 }
+
+
