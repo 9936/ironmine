@@ -85,8 +85,7 @@ Ironmine::Application.routes.draw do
 
     #calendar items
     match '/calendars/:sid/:calendar_id/calendar_items/:id/edit(.:format)' => "calendar_items#edit", :via => :get
-    match '/calendars/:sid/:calendar_id/calendar_items/new(.:format)' => "calendar_items#new", :via => :get
-    match '/calendars/:sid/:calendar_id/calendar_items/:id(.:format)' => "calendar_items#show", :via => :get
+    match '/calendars/:sid/:calendar_id/calendar_items/:id/remove(.:format)' => "calendar_items#remove", :via => :post
     match '/calendars/:sid/:calendar_id/calendar_items/:id/destroy(.:format)' => "calendar_items#destroy"
     match '/calendars/:sid/:calendar_id/calendar_items/create(.:format)' => "calendar_items#create", :via => :post
     match '/calendars/:sid/:calendar_id/calendar_items/:id(.:format)' => "calendar_items#update"

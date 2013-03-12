@@ -322,8 +322,9 @@
       <div class="panel-title"><h5><%= t(:label_slm_calendar_item_scedules) %></h5></div>
       <div class="panel-content">
         <% available_schedules(@calendar).each do |schedule| %>
-            <div id="<%= schedule.id %>" class="external-event label label-inverse">
-              <%= schedule.start_at %> ~ <%= schedule.end_at %>
+            <div id="<%= schedule.id %>" class="external-event label label-inverse"  style="padding: 4px 5px;">
+              <%= link_to raw('&times;'), {:controller => "slm/calendar_items", :action => "remove", :calendar_id => @calendar.id, :id => schedule.id}, :class => "close", :style =>"line-height: 15px;" %>
+              <span><%= schedule.start_at %> ~ <%= schedule.end_at %></span>
             </div>
         <% end %>
       </div>
@@ -340,10 +341,24 @@
             calendar.add_event();
         });
 
-        $('#update-event-submit').click(function (e) {
+        $('#update-event-submit').click(function () {
             calendar.update_event()
         });
 
+        $("#external-events .close").live('click', function(e){
+            if (!confirm("<%= t(:label_slm_calendar_item_tips_scedule_delete_confirm) %>?")){
+                return false;
+            }
+            var schedule = $(this).parent(), scheduleId = schedule.attr('id');
+
+            //运用ajax去后台执行删除操作
+
+            $.post($(this).attr("href"), function(data){
+                $('#fullcalendar').fullCalendar('removeEvents', scheduleId);
+                schedule.remove();
+            },"json");
+            e.preventDefault();
+        });
     });
     calendar = {
         init:function () {
@@ -428,20 +443,18 @@
                 eventMouseout:function (calEvent, domEvent) {
                     $("#events-layer").remove();
                 },
-                droppable: false, // this allows things to be dropped onto the calendar !!!
-                drop:function (date, allDay) { // this function is called when something is dropped
-                    var originalEventObject = $(this).data('eventObject');
-
-                    // we need to copy it, so that multiple events don't have a reference to the same object
-                    var copiedEventObject = $.extend({}, originalEventObject);
-
-                    // assign it the date that was reported
-                    copiedEventObject.start = date;
-                    copiedEventObject.allDay = allDay;
-
-                    $('#fullcalendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-                }
+                droppable: false//,
+//                drop:function (date, allDay) {
+//                    var originalEventObject = $(this).data('eventObject');
+//
+//                    var copiedEventObject = $.extend({}, originalEventObject);
+//
+//                    copiedEventObject.start = date;
+//                    copiedEventObject.allDay = allDay;
+//
+//                    $('#fullcalendar').fullCalendar('renderEvent', copiedEventObject, true);
+//
+//                }
             });
 
         },
