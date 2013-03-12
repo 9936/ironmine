@@ -12,6 +12,6 @@ class Slm::SlaInstanceTrigger < ActiveRecord::Base
   after_create :generate_job
 
   def generate_job
-    Delayed::Job.enqueue(Slm::Jobs::ServiceAgreementTriggerJob.new({:sla_instance_trigger_id=>self.id}))
+    Delayed::Job.enqueue(Slm::Jobs::ServiceAgreementTriggerJob.new({:sla_instance_trigger_id=>self.id}),0,self.trigger_date)
   end
 end

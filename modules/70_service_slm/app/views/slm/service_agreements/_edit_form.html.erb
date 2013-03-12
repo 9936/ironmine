@@ -1,4 +1,4 @@
-<%= form_for(@service_agreement, :url => {:action => "create"}, :builder => CustomFormBuilder) do |f| %>
+<%= form_for(@service_agreement, :url => {:action => "update"}, :builder => CustomFormBuilder) do |f| %>
     <% content_for :form_block_a do %>
         <table class="form-table">
           <tbody>
@@ -30,7 +30,9 @@
           <tr>
             <td class="label-col"><label for="wf_mail_alert_name"><%= t(:label_slm_service_agreement_calendar) %></label>
             </td>
-            <td class="data-col"><%= f.text_field :calendar_id, :required => true, :size => 60, :id => "service_agreement_name" %></td>
+            <td class="data-col">
+              <%= f.blank_select(:calendar_id,available_calendars(params[:sid]),{},{:required=>true}) %>
+            </td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>

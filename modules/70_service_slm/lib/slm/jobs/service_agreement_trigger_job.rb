@@ -7,7 +7,7 @@ module Slm
 
         return unless sla_instance_trigger.present?
 
-        Irm::Person.current = Irm::Person.find(sla_instance_trigger.created_by)
+        Irm::Person.current = Irm::Person.unscoped.find(sla_instance_trigger.created_by)
 
         time_trigger = Slm::TimeTrigger.find(sla_instance_trigger.time_trigger_id)
 

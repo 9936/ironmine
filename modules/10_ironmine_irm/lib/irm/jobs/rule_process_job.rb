@@ -6,7 +6,7 @@ module Irm
         event = Irm::Event.find(event_id)
         # 确认事件是否已经被处理过
         if(event&&event.end_at.nil?)
-          Irm::Person.current = Irm::Person.find(event.created_by)
+          Irm::Person.current = Irm::Person.unscoped.find(event.created_by)
           #Delayed::Worker.logger.debug("RuleProcessJob Process Event id:#{event.id}  bo_code:#{event.bo_code}")
           # 处理服务协议管理
           Slm::ServiceAgreement.process(event)
