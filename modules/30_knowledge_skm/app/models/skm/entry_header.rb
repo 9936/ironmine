@@ -85,7 +85,7 @@ class Skm::EntryHeader < ActiveRecord::Base
   }
 
   scope :wait_my_approve, lambda {
-    where("#{table_name}.entry_status_code=? AND #{table_name}.id IN (?)", "WAIT_APPROVE", Skm::EntryApprovalPerson.query_approvals_by_person(Irm::Person.current.id).collect { |i| i[:entry_header_id] })
+    where("#{table_name}.entry_status_code IN (?) AND #{table_name}.id IN (?)", ["WAIT_APPROVE", "APPROVE_DENY"], Skm::EntryApprovalPerson.query_approvals_by_person(Irm::Person.current.id).collect { |i| i[:entry_header_id] })
   }
 
   scope :query_by_day, select("DATE_FORMAT(#{table_name}.created_at,'%Y-%m-%d') created_day,sum(1) entry_count").
