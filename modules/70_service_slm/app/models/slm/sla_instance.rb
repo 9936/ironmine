@@ -107,18 +107,17 @@ class Slm::SlaInstance < ActiveRecord::Base
       sip.save
 
     elsif action.eql?("RESTART")
-      sip =  self.sla_instance_phases.detect{|i| !sip.end_at.present?&&sip.phase_type.eql?("PAUSE")}
+      sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?&&i.phase_type.eql?("PAUSE")}
       return unless sip.present?
       sip.end_at = Time.now
       sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
-
       new_sip = self.sla_instance_phases.build(:start_at => Time.now, :phase_type => "START", :duration => 0)
       self.last_phase_start_date = new_sip.start_at
       self.last_phase_type = "START"
       self.current_status = "START"
       sip.save
     elsif action.eql?("STOP")
-      sip =  self.sla_instance_phases.detect{|i| !sip.end_at.present?}
+      sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?}
       return unless sip.present?
       sip.end_at = Time.now
       sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
@@ -132,7 +131,7 @@ class Slm::SlaInstance < ActiveRecord::Base
       sip.save
 
     elsif action.eql?("CANCEL")
-        sip =  self.sla_instance_phases.detect{|i| !sip.end_at.present?}
+        sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?}
         return unless sip.present?
         sip.end_at = Time.now
         sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
@@ -158,7 +157,7 @@ class Slm::SlaInstance < ActiveRecord::Base
     elsif action.eql?("RESTART")
       sa.time_triggers.each do |tt|
         # 如果已经过了时间则没必要生成trigger
-        next if sa.duration*tt.duration_percent.to_i/100<=self.current_duration
+        next if sa.duration.to_i*tt.duration_percent.to_i/100<=self.current_duration
         self.sla_instance_triggers.build(:time_trigger_id => tt.id, :trigger_date => sa.calendar.next_working_time(self.start_at, sa.duration.to_i*tt.duration_percent.to_i/100-self.current_duration.to_i))
       end
     elsif action.eql?("STOP")
