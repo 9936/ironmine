@@ -126,11 +126,11 @@
     }
 
     .panel-left {
-        margin-right: 250px;
+        margin-right: 150px;
     }
 
     .panel-right {
-        width: 249px;
+        width: 149px;
         background-color: #f2f2f2;
         border-left: 1px solid #dddddd;
         position: absolute;
@@ -443,18 +443,7 @@
                 eventMouseout:function (calEvent, domEvent) {
                     $("#events-layer").remove();
                 },
-                droppable: false//,
-//                drop:function (date, allDay) {
-//                    var originalEventObject = $(this).data('eventObject');
-//
-//                    var copiedEventObject = $.extend({}, originalEventObject);
-//
-//                    copiedEventObject.start = date;
-//                    copiedEventObject.allDay = allDay;
-//
-//                    $('#fullcalendar').fullCalendar('renderEvent', copiedEventObject, true);
-//
-//                }
+                droppable: false
             });
 
         },
