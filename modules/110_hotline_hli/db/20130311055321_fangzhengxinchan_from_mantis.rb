@@ -176,6 +176,7 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
 
     ir_result.each do |r|
       ir_id = Fwk::IdGenerator.instance.generate("icm_incident_requests")
+      ir_number = Irm::Sequence.nextval("Icm::IncidentRequest", opu)
       pt = r[14]
 
       title = r[7]
@@ -201,7 +202,7 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
                   external_system_id, incident_category_id, requested_by, organization_id, submitted_by, weight_value, contact_id, contact_number,
                   incident_status_id, priority_id, impact_range_id, urgence_id, close_reason_id, real_processing_time, support_group_id, support_person_id,
                   submitted_date,reply_count, last_request_date, last_response_date, opu_id, status_code, created_by, updated_by, created_at, updated_at)
-                VALUES ('REQUESTED_TO_PERFORM', 'CUSTOMER_SUBMIT', '#{ir_id}','#{r[0]}', '#{title}','#{content}','N',
+                VALUES ('REQUESTED_TO_PERFORM', 'CUSTOMER_SUBMIT', '#{ir_id}','#{ir_number}', '#{title}','#{content}','N',
                         '#{sys_id}','#{r[8]}','#{r[15]}','#{org}','#{r[15]}','#{r[4]}','#{r[15]}','#{contact_number}',
                         '#{r[5]}','#{r[24]}','#{r[25]}','#{r[26]}','#{close_reason_id}','#{pt}', '#{support_group}', '#{r[16]}',
                         '#{r[9]}','1','#{r[10]}', '#{r[10]}', '#{opu}', 'ENABLED', '#{r[20]}','#{r[21]}','#{r[9]}','#{r[10]}')
@@ -234,6 +235,7 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
         note = j[2].gsub("\\", /\\\\/.source).gsub("'", /\\'/.source)
         note = "<pre>" + note + "</pre>"
         j_id = Fwk::IdGenerator.instance.generate("icm_incident_journals")
+        j_number = Irm::Sequence.nextval("Icm::IncidentJournal", opu)
         #journal
         execute(%Q(INSERT INTO tmp_icm_incident_journals (id, journal_number, opu_id, incident_request_id, reply_type, replied_by, message_body,
                               status_code, created_by, updated_by, created_at, updated_at)
@@ -245,7 +247,7 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
         execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
                               status_code, created_by, updated_by, created_at, updated_at)
                        VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_histories")}', '#{opu}', '#{ir_id}',
-                              '#{j_id}', 'new_reply', '', '#{j[6]}',
+                              '#{j_id}', 'new_reply', '', '#{j_number}',
                               'ENABLED', '#{j[1]}', '#{j[1]}', '#{j[3]}', '#{j[3]}')))
 
         #journal elapse
