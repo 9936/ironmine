@@ -39,7 +39,7 @@ class Slm::ServiceAgreement < ActiveRecord::Base
   def duration_meaning
     untransform_time
     "#{self.duration_day} #{I18n.t(:label_slm_service_agreement_duration_day)}
-    #{ self.duration_hour}#{I18n.t(:label_slm_service_agreement_duration_day) }
+    #{ self.duration_hour}#{I18n.t(:label_slm_service_agreement_duration_hour) }
     #{self.duration_minute}#{I18n.t(:label_slm_service_agreement_duration_minute)}"
   end
 

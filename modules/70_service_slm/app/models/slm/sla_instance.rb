@@ -43,7 +43,7 @@ class Slm::SlaInstance < ActiveRecord::Base
   end
 
   def start
-    if !self.last_phase_start_date.present?&& !self.last_phase_type.present?
+    if !self.last_phase_start_date.present?
       self.calculate_phase(self.real_service_agreement, "START")
       self.sync_triggers(self.real_service_agreement, "START")
     end
