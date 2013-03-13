@@ -223,6 +223,9 @@ module Hli::IncidentRequestsControllerEx
         incident_requests.compact!
         incident_requests.each do |req|
           if params[:support_group_id].present?
+            unless params[:support_group_id].eql?(req.support_group_id)
+              req.switch_deletable_flag(req.support_group_id, Irm::Constant::SYS_YES)
+            end
             if params[:support_person_id]
                 perform_assignment(req.id,{:support_group_id=>params[:support_group_id],:support_person_id=>params[:support_person_id],:assign_dashboard=>true,:assign_dashboard_operator=>Irm::Person.current.id})
             else

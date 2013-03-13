@@ -313,6 +313,7 @@ class Icm::IncidentHistory < ActiveRecord::Base
       when "support_person_id"
         if self.new_value.present?
           self.incident_journal.incident_request.add_watcher(Irm::Person.find(self.new_value),false)
+          self.incident_journal.incident_request.switch_deletable_flag(self.old_value, Irm::Constant::SYS_YES) if self.old_value.present? && !self.old_value.eql?(self.new_value)
           Irm::Person.find(self.new_value).update_assign_date
         end
       when "charge_person_id"

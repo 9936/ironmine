@@ -63,6 +63,14 @@ module Ironmine
           person_watchers.exists?(person.id)
         end
 
+        def switch_deletable_flag(memeber_id, target_flag)
+          return unless target_flag.eql?('N') || target_flag.eql?('Y')
+          target = self.watchers.where("member_id = ?", member_id).first
+          target.update_attribute(:deletable_flag, target_flag)
+        rescue
+          nil
+        end
+
         module ClassMethods
           # Returns the objects that are watched by user
           def watched_by(person_id)
