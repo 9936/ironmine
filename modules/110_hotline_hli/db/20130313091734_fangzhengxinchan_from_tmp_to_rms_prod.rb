@@ -29,13 +29,13 @@ class FangzhengxinchanFromTmpToRmsProd < ActiveRecord::Migration
     #execute("INSERT INTO irm_organizations_tl SELECT * FROM tmp_irm_organizations_tl")
 
     #external system
-    execute("INSERT INTO irm_external_systems SELECT * FROM tmp_irm_external_systems")
-    execute("INSERT INTO irm_external_systems_tl SELECT * FROM tmp_irm_external_systems_tl")
+    #execute("INSERT INTO irm_external_systems SELECT * FROM tmp_irm_external_systems")
+    #execute("INSERT INTO irm_external_systems_tl SELECT * FROM tmp_irm_external_systems_tl")
 
     #运维组
-    group_1 = Irm::Group.where(:code=>'EBS_HELP_DESK').first
+    #group_1 = Irm::Group.where(:code=>'EBS_HELP_DESK').first
     #把所有项目组挂到运维组下
-    execute("UPDATE tmp_irm_groups ig SET ig.parent_group_id = '#{group_1.id}' WHERE ig.id <> '#{group_1.id}'")
+    #execute("UPDATE tmp_irm_groups ig SET ig.parent_group_id = '#{group_1.id}' WHERE ig.id <> '#{group_1.id}'")
     #用户组
     #group_2 = Irm::Group.where(:code=>'USER').first
     #
@@ -75,7 +75,7 @@ class FangzhengxinchanFromTmpToRmsProd < ActiveRecord::Migration
 
     #administrator
     #admin_numbers = "'1518'"
-    ebs_group = Irm::Group.where("code = ?", 'EBS_HELP_DESK')
+    #ebs_group = Irm::Group.where("code = ?", 'EBS_HELP_DESK')
     #all_systems = execute(%Q(SELECT
     #        ies.id '0'
     #    FROM
@@ -101,9 +101,9 @@ class FangzhengxinchanFromTmpToRmsProd < ActiveRecord::Migration
     #end
 
     #group
-    execute("INSERT INTO irm_groups SELECT * FROM tmp_irm_groups")
-    execute("INSERT INTO irm_groups_tl SELECT * FROM tmp_irm_groups_tl")
-    execute("INSERT INTO icm_support_groups SELECT * FROM tmp_icm_support_groups")
+    #execute("INSERT INTO irm_groups SELECT * FROM tmp_irm_groups")
+    #execute("INSERT INTO irm_groups_tl SELECT * FROM tmp_irm_groups_tl")
+    #execute("INSERT INTO icm_support_groups SELECT * FROM tmp_icm_support_groups")
     #people
     #execute("INSERT INTO irm_people SELECT * FROM tmp_irm_people")
   end

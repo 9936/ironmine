@@ -56,6 +56,8 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
     #Step 3: Query from mantis
     opu = Irm::OperationUnit.where("short_name = ?", "Hand").first.id
     org = Irm::Organization.where("short_name = ?", "HAND_EBS_SUPPORT").first.id
+    sys_id = "000q00040WFMClj2kKFovo"
+    sys = Irm::ExternalSystem.find(sys_id)
     project_ids = ['1']
 
     org_result = execute(%Q(SELECT '' '0', '' '1', '' '2', mp.id '3', IF(mp.enabled, 'ENABLED', 'OFFLINE') '4',
@@ -64,36 +66,36 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
     #hotline的每个项目，对应ironmine一个组、一个组织以及一个应用系统
     bo = Irm::BusinessObject.where(:bo_model_name => 'Icm::IncidentRequest').first
 
-    code = Irm::Sequence.nextval("Irm::Organization", opu)
-    #项目只迁移指定项目
-    org_result.each do |r|
-      ext_id = Fwk::IdGenerator.instance.generate("irm_external_systems")
-      group_id = Fwk::IdGenerator.instance.generate("irm_groups")
-
-      #external system
-      execute(%Q(INSERT INTO tmp_irm_external_systems (id, opu_id, external_system_code, external_hostname, external_ip_address, status_code, created_by, updated_by, created_at, updated_at)
-                  VALUES ('#{ext_id}', '#{opu}', '#{code}', '', '', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
-      execute(%Q(INSERT INTO tmp_irm_external_systems_tl (id, opu_id, external_system_id, system_name, system_description, language, source_lang, status_code, created_by, updated_by, created_at, updated_at)
-                  VALUES ('#{Fwk::IdGenerator.instance.generate("irm_external_systems_tl")}', '#{opu}', '#{ext_id}', '#{r[10]}', '#{r[10]}',
-                          'zh', 'zh', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
-      execute(%Q(INSERT INTO tmp_irm_external_systems_tl (id, opu_id, external_system_id, system_name, system_description, language, source_lang, status_code, created_by, updated_by, created_at, updated_at)
-                  VALUES ('#{Fwk::IdGenerator.instance.generate("irm_external_systems_tl")}', '#{opu}', '#{ext_id}', '#{r[10]}', '#{r[10]}',
-                          'en', 'zh', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
-
-      #group
-      execute(%Q(INSERT INTO tmp_irm_groups (id, opu_id, code, status_code, created_by, updated_by, created_at, updated_at)
-                  VALUES ('#{group_id}', '#{opu}', '#{code}', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
-      execute(%Q(INSERT INTO tmp_irm_groups_tl (id, opu_id, group_id, name, description, language, source_lang, status_code, created_by, updated_by, created_at, updated_at)
-                  VALUES ('#{Fwk::IdGenerator.instance.generate("irm_groups_tl")}', '#{opu}', '#{group_id}', '#{r[10]}', '#{r[10]}',
-                          'zh', 'zh', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
-      execute(%Q(INSERT INTO tmp_irm_groups_tl (id, opu_id, group_id, name, description, language, source_lang, status_code, created_by, updated_by, created_at, updated_at)
-                  VALUES ('#{Fwk::IdGenerator.instance.generate("irm_groups_tl")}', '#{opu}', '#{group_id}', '#{r[10]}', '#{r[10]}',
-                          'en', 'zh', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
-
-      execute(%Q(INSERT INTO tmp_icm_support_groups (id, opu_id, group_id, assignment_process_code, vendor_flag, oncall_flag, status_code, created_by, updated_by, created_at, updated_at)
-                  VALUES ('#{Fwk::IdGenerator.instance.generate("icm_support_groups")}', '#{opu}', '#{group_id}', 'NEVER_ASSIGN', 'N',
-                          'Y', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
-    end
+    #code = Irm::Sequence.nextval("Irm::Organization", opu)
+    ##项目只迁移指定项目
+    #org_result.each do |r|
+    #  ext_id = Fwk::IdGenerator.instance.generate("irm_external_systems")
+    #  group_id = Fwk::IdGenerator.instance.generate("irm_groups")
+    #
+    #  #external system
+    #  execute(%Q(INSERT INTO tmp_irm_external_systems (id, opu_id, external_system_code, external_hostname, external_ip_address, status_code, created_by, updated_by, created_at, updated_at)
+    #              VALUES ('#{ext_id}', '#{opu}', '#{code}', '', '', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
+    #  execute(%Q(INSERT INTO tmp_irm_external_systems_tl (id, opu_id, external_system_id, system_name, system_description, language, source_lang, status_code, created_by, updated_by, created_at, updated_at)
+    #              VALUES ('#{Fwk::IdGenerator.instance.generate("irm_external_systems_tl")}', '#{opu}', '#{ext_id}', '#{r[10]}', '#{r[10]}',
+    #                      'zh', 'zh', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
+    #  execute(%Q(INSERT INTO tmp_irm_external_systems_tl (id, opu_id, external_system_id, system_name, system_description, language, source_lang, status_code, created_by, updated_by, created_at, updated_at)
+    #              VALUES ('#{Fwk::IdGenerator.instance.generate("irm_external_systems_tl")}', '#{opu}', '#{ext_id}', '#{r[10]}', '#{r[10]}',
+    #                      'en', 'zh', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
+    #
+    #  #group
+    #  execute(%Q(INSERT INTO tmp_irm_groups (id, opu_id, code, status_code, created_by, updated_by, created_at, updated_at)
+    #              VALUES ('#{group_id}', '#{opu}', '#{code}', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
+    #  execute(%Q(INSERT INTO tmp_irm_groups_tl (id, opu_id, group_id, name, description, language, source_lang, status_code, created_by, updated_by, created_at, updated_at)
+    #              VALUES ('#{Fwk::IdGenerator.instance.generate("irm_groups_tl")}', '#{opu}', '#{group_id}', '#{r[10]}', '#{r[10]}',
+    #                      'zh', 'zh', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
+    #  execute(%Q(INSERT INTO tmp_irm_groups_tl (id, opu_id, group_id, name, description, language, source_lang, status_code, created_by, updated_by, created_at, updated_at)
+    #              VALUES ('#{Fwk::IdGenerator.instance.generate("irm_groups_tl")}', '#{opu}', '#{group_id}', '#{r[10]}', '#{r[10]}',
+    #                      'en', 'zh', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
+    #
+    #  execute(%Q(INSERT INTO tmp_icm_support_groups (id, opu_id, group_id, assignment_process_code, vendor_flag, oncall_flag, status_code, created_by, updated_by, created_at, updated_at)
+    #              VALUES ('#{Fwk::IdGenerator.instance.generate("icm_support_groups")}', '#{opu}', '#{group_id}', 'NEVER_ASSIGN', 'N',
+    #                      'Y', '#{r[4]}', '#{r[5]}', '#{r[6]}', '#{r[7]}', '#{r[8]}')))
+    #end
 
     #incident category
 
@@ -106,7 +108,7 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
       cn_id = Fwk::IdGenerator.instance.generate("icm_incident_categories_tl")
       en_id = Fwk::IdGenerator.instance.generate("icm_incident_categories_tl")
       cs_id = Fwk::IdGenerator.instance.generate("icm_incident_category_systems")
-      es = execute(%Q(SELECT id FROM tmp_irm_external_systems es WHERE es.external_system_code = '#{code}'))
+      es = execute(%Q(SELECT id FROM irm_external_systems es WHERE es.external_system_code = 'FZJTXCJT'))
       execute(%Q(INSERT INTO tmp_icm_incident_categories (id, opu_id, code, status_code, created_by, updated_by, created_at, updated_at)
               VALUES ('#{category_id}', '#{opu}', '#{c[0]}', 'ENABLED', '#{c[3]}', '#{c[4]}', '#{c[5]}', '#{c[6]}')))
       execute(%Q(INSERT INTO tmp_icm_incident_categories_tl (id, opu_id, incident_category_id, language, source_lang, name, description,
@@ -120,7 +122,7 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
             #category system relation
       execute(%Q(INSERT INTO tmp_icm_incident_category_systems (id, opu_id, incident_category_id, external_system_id,
                 status_code, created_by, updated_by, created_at, updated_at)
-                VALUES ('#{cs_id}', '#{opu}', '#{category_id}', '#{es.first[0]}', 'ENABLED', '#{c[3]}', '#{c[4]}', '#{c[5]}', '#{c[6]}'))) if es.size > 0
+                VALUES ('#{cs_id}', '#{opu}', '#{category_id}', '#{sys_id}', 'ENABLED', '#{c[3]}', '#{c[4]}', '#{c[5]}', '#{c[6]}')))
     end
 
 
@@ -187,7 +189,7 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
       end
       #0510
       support_group = "-1"
-      support_group = execute(%Q(select sg.id from tmp_icm_support_groups sg, tmp_irm_groups g WHERE sg.group_id = g.id AND g.code = '#{r[1]}'))
+      support_group = execute(%Q(select sg.id from icm_support_groups sg, irm_groups g WHERE sg.group_id = g.id AND g.code = 'FZJTXCJT'))
       if support_group.size == 0 or r[16].blank?
         support_group = ""
       else
@@ -200,7 +202,7 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
                   incident_status_id, priority_id, impact_range_id, urgence_id, close_reason_id, real_processing_time, support_group_id, support_person_id,
                   submitted_date,reply_count, last_request_date, last_response_date, opu_id, status_code, created_by, updated_by, created_at, updated_at)
                 VALUES ('REQUESTED_TO_PERFORM', 'CUSTOMER_SUBMIT', '#{ir_id}','#{r[0]}', '#{title}','#{content}','N',
-                        '#{r[17]}','#{r[8]}','#{r[15]}','#{org}','#{r[15]}','#{r[4]}','#{r[15]}','#{contact_number}',
+                        '#{sys_id}','#{r[8]}','#{r[15]}','#{org}','#{r[15]}','#{r[4]}','#{r[15]}','#{contact_number}',
                         '#{r[5]}','#{r[24]}','#{r[25]}','#{r[26]}','#{close_reason_id}','#{pt}', '#{support_group}', '#{r[16]}',
                         '#{r[9]}','1','#{r[10]}', '#{r[10]}', '#{opu}', 'ENABLED', '#{r[20]}','#{r[21]}','#{r[9]}','#{r[10]}')
                 ))
@@ -347,27 +349,6 @@ class FangzhengxinchanFromMantis < ActiveRecord::Migration
                 when '60'
                   new_value = '1'
               end if new_value.present?
-            when "project_id"
-              field_name = "external_system_id"
-              o = old_value
-              n = new_value
-              begin
-                old_value = execute(%Q(SELECT ie.id FROM tmp_irm_external_systems ie WHERE ie.external_system_code = '#{old_value}')).first[0] if old_value.present?
-                old_org = ''
-                old_org = execute(%Q(SELECT io.id FROM tmp_irm_organizations io WHERE io.short_name = '#{o}')).first[0] if old_value.present?
-              rescue
-              end
-              begin
-                new_value = execute(%Q(SELECT ie.id FROM tmp_irm_external_systems ie WHERE ie.external_system_code = '#{new_value}')).first[0] if new_value.present?
-                new_org = ''
-                new_org = execute(%Q(SELECT io.id FROM tmp_irm_organizations io WHERE io.short_name = '#{n}')).first[0] if new_value.present?
-              rescue
-              end
-              execute(%Q(INSERT INTO tmp_icm_incident_histories (id, opu_id, request_id, journal_id, property_key, old_value, new_value,
-                                    status_code, created_by, updated_by, created_at, updated_at)
-                             VALUES ('#{Fwk::IdGenerator.instance.generate("icm_incident_histories")}', '#{opu}', '#{ir_id}',
-                                    '#{j_id}', 'organization_id', '#{old_org}', '#{new_org}',
-                                    'ENABLED', '#{h[1]}', '#{h[1]}', '#{h[5]}', '#{h[5]}'))) if field_name.present? && (old_value.present? || new_value.present?)
             when "reporter_id"
               field_name = "requested_by"
               begin
