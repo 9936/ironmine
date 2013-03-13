@@ -159,8 +159,7 @@ class Irm::Person < ActiveRecord::Base
   }
 
   scope :without_approvals, lambda {|channel_id|
-    select("#{table_name}.*").
-        where("NOT EXISTS (SELECT * FROM #{Skm::ChannelApprovalPerson.table_name} cap WHERE cap.person_id = #{table_name}.id AND cap.channel_id = ?)", channel_id)
+    where("NOT EXISTS (SELECT * FROM #{Skm::ChannelApprovalPerson.table_name} cap WHERE cap.person_id = #{table_name}.id AND cap.channel_id = ?)", channel_id)
   }
 
   scope :with_channel_groups, lambda {|channel_id|

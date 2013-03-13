@@ -141,7 +141,7 @@ class Skm::ChannelsController < ApplicationController
 
   #添加审核人员相关的actions
   def get_approvals_data
-    people_scope =  Irm::Person.with_organization(I18n.locale).with_channel_groups(params[:id]).without_approvals(params[:id])
+    people_scope = Irm::Person.select("DISTINCT #{Irm::Person.table_name}.*").with_organization(I18n.locale).with_channel_groups(params[:id]).without_approvals(params[:id])
 
     #确保查询的人具有审核知识的权限
     people_scope = people_scope.with_profiles_by_function_code('APPROVE_SKM_ENTRIES')
