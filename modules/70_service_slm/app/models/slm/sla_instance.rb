@@ -95,57 +95,55 @@ class Slm::SlaInstance < ActiveRecord::Base
       self.last_phase_type = "START"
       self.current_status = "START"
     elsif action.eql?("PAUSE")
-      self.sla_instance_phases.each do |sip|
-        if !sip.end_at.present?&&sip.phase_type.eql?("START")
-          sip.end_at = Time.now
-          sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
-          self.current_duration = self.current_duration+sip.duration
-          new_sip = self.sla_instance_phases.build(:start_at => Time.now, :phase_type => "PAUSE", :duration => 0)
-          self.last_phase_start_date = new_sip.start_at
-          self.last_phase_type = "PAUSE"
-          self.current_status = "PAUSE"
-        end
-      end
-    elsif action.eql?("RESTART")
-      self.sla_instance_phases.each do |sip|
-        if !sip.end_at.present?&&sip.phase_type.eql?("PAUSE")
-          sip.end_at = Time.now
-          sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
+      sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?&&i.phase_type.eql?("START")}
+      return unless sip.present?
+      sip.end_at = Time.now
+      sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
+      self.current_duration = self.current_duration+sip.duration
+      new_sip = self.sla_instance_phases.build(:start_at => Time.now, :phase_type => "PAUSE", :duration => 0)
+      self.last_phase_start_date = new_sip.start_at
+      self.last_phase_type = "PAUSE"
+      self.current_status = "PAUSE"
+      sip.save
 
-          new_sip = self.sla_instance_phases.build(:start_at => Time.now, :phase_type => "START", :duration => 0)
-          self.last_phase_start_date = new_sip.start_at
-          self.last_phase_type = "START"
-          self.current_status = "START"
-        end
-      end
+    elsif action.eql?("RESTART")
+      sip =  self.sla_instance_phases.detect{|i| !sip.end_at.present?&&sip.phase_type.eql?("PAUSE")}
+      return unless sip.present?
+      sip.end_at = Time.now
+      sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
+
+      new_sip = self.sla_instance_phases.build(:start_at => Time.now, :phase_type => "START", :duration => 0)
+      self.last_phase_start_date = new_sip.start_at
+      self.last_phase_type = "START"
+      self.current_status = "START"
+      sip.save
     elsif action.eql?("STOP")
-      self.sla_instance_phases.each do |sip|
-        if !sip.end_at.present?
-          sip.end_at = Time.now
-          sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
-          if sip.phase_type.eql?("START")
-            self.current_duration = self.current_duration+sip.duration
-          end
-          self.last_phase_start_date = nil
-          self.last_phase_type = nil
-          self.current_status = "STOP"
-          self.end_at = sip.end_at
-        end
+      sip =  self.sla_instance_phases.detect{|i| !sip.end_at.present?}
+      return unless sip.present?
+      sip.end_at = Time.now
+      sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
+      if sip.phase_type.eql?("START")
+        self.current_duration = self.current_duration+sip.duration
       end
+      self.last_phase_start_date = nil
+      self.last_phase_type = nil
+      self.current_status = "STOP"
+      self.end_at = sip.end_at
+      sip.save
+
     elsif action.eql?("CANCEL")
-      self.sla_instance_phases.each do |sip|
-        if !sip.end_at.present?
-          sip.end_at = Time.now
-          sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
-          if sip.phase_type.eql?("START")
-            self.current_duration = self.current_duration+sip.duration
-          end
-          self.last_phase_start_date = nil
-          self.last_phase_type = nil
-          self.current_status = "CANCEL"
-          self.end_at = sip.end_at
+        sip =  self.sla_instance_phases.detect{|i| !sip.end_at.present?}
+        return unless sip.present?
+        sip.end_at = Time.now
+        sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
+        if sip.phase_type.eql?("START")
+          self.current_duration = self.current_duration+sip.duration
         end
-      end
+        self.last_phase_start_date = nil
+        self.last_phase_type = nil
+        self.current_status = "CANCEL"
+        self.end_at = sip.end_at
+        sip.save
     end
   end
 
