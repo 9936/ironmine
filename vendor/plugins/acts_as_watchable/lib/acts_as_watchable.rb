@@ -41,7 +41,7 @@ module Ironmine
 
         # Removes member from the watchers list
         def remove_watcher(member)
-          Irm::Watcher.delete_all "watchable_type = '#{self.class}' AND watchable_id = #{self.id} AND memeber_type='#{memeber.class.name}' AND memeber_id = #{member.id}"
+          Irm::Watcher.delete_all "watchable_type = '#{self.class}' AND watchable_id = #{self.id} AND member_type='#{member.class.name}' AND member_id = #{member.id}"
         end
 
         # Adds/removes watcher
@@ -63,12 +63,10 @@ module Ironmine
           person_watchers.exists?(person.id)
         end
 
-        def switch_deletable_flag(memeber_id, target_flag)
+        def switch_deletable_flag(member_id, target_flag)
           return unless target_flag.eql?('N') || target_flag.eql?('Y')
-          target = self.watchers.where("member_id = ?", member_id).first
-          target.update_attribute(:deletable_flag, target_flag)
-        rescue
-          nil
+          target = Irm::Watcher.where("member_id = ?", member_id).where("watchable_id = ?", self.id).where("watchable_type = ?", self.class).first
+          target.update_attribute(:deletable_flag, target_flag) if target
         end
 
         module ClassMethods
