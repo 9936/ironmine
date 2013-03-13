@@ -85,9 +85,22 @@ class Slm::ServiceAgreementsController < ApplicationController
   # PUT /service_agreements/1.xml
   def update
     @service_agreement = Slm::ServiceAgreement.find(params[:id])
-
+    @start_rule_filter = @service_agreement.start_filter
+    @pause_rule_filter = @service_agreement.pause_filter
+    @stop_rule_filter = @service_agreement.stop_filter
+    @cancel_rule_filter = @service_agreement.cancel_filter
+    @start_rule_filter.attributes = params[:start_rule_filter]
+    @pause_rule_filter.attributes = params[:pause_rule_filter]
+    @stop_rule_filter.attributes = params[:stop_rule_filter]
+    @cancel_rule_filter.attributes = params[:cancel_rule_filter]
+    @service_agreement.attributes = params[:slm_service_agreement]
     respond_to do |format|
-      if @service_agreement.update_attributes(params[:slm_service_agreement])
+      if @service_agreement.valid?&&@start_rule_filter.valid?&&@stop_rule_filter.valid?&&@pause_rule_filter.valid?&&@cancel_rule_filter.valid?
+        @service_agreement.save
+        @start_rule_filter.save
+        @stop_rule_filter.save
+        @pause_rule_filter.save
+        @cancel_rule_filter.save
         format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
         format.xml { head :ok }
       else

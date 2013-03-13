@@ -38,13 +38,13 @@ class Slm::TimeTriggersController < ApplicationController
   # GET /slm/time_triggers/1/edit
   def edit
     @time_trigger = Slm::TimeTrigger.find(params[:id])
+    @service_agreement = Slm::ServiceAgreement.multilingual.status_meaning.find(@time_trigger.service_agreement_id)
   end
 
   # POST /slm/time_triggers
   # POST /slm/time_triggers.xml
   def create
     @time_trigger = Slm::TimeTrigger.new(params[:slm_time_trigger])
-
     respond_to do |format|
       if @time_trigger.save
         format.html { redirect_to({:controller=>"slm/service_agreements",:action => "show",:id=>params[:service_agreement_id]}, :notice => t(:successfully_created)) }
