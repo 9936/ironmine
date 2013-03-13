@@ -100,7 +100,7 @@ class Slm::ServiceAgreement < ActiveRecord::Base
 
 
   def self.process(event,force=false)
-    return unless force||!Irm::Event.exists?("id != '#{event.id}' AND end_at IS NULL")
+    return unless force||!Irm::Event.where("id != ?",event.id).where(:event_code=>event.event_code,:business_object_id=>event.business_object_id,:bo_code=>event.bo_code,:end_at=>nil).first.present?
     return unless self.where(:business_object_code => event.bo_code).enabled.count>0
     bo = Irm::BusinessObject.where(:business_object_code => event.bo_code).first
     bo_instance = bo.bo_model_name.constantize.find(event.business_object_id)
