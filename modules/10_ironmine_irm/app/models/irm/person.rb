@@ -163,6 +163,20 @@ class Irm::Person < ActiveRecord::Base
         where("NOT EXISTS (SELECT * FROM #{Skm::ChannelApprovalPerson.table_name} cap WHERE cap.person_id = #{table_name}.id AND cap.channel_id = ?)", channel_id)
   }
 
+  scope :with_channel_groups, lambda {|channel_id|
+    joins("JOIN #{Irm::GroupMember.table_name} igm ON igm.person_id=#{table_name}.id").
+        joins("JOIN #{Skm::ChannelGroup.table_name} sc ON sc.group_id=igm.group_id").
+        where("sc.channel_id=?", channel_id)
+  }
+
+
+
+  scope :with_profiles_by_function_code, lambda {|function_code|
+    joins("JOIN #{Irm::ProfileFunction.table_name} ipf ON ipf.profile_id=#{table_name}.profile_id").
+      joins("JOIN #{Irm::Function.table_name} ifs ON ipf.function_id = ifs.id").
+        where("ifs.code=?", function_code)
+  }
+
   scope :group_memberable, lambda{|group_id|
     where("NOT EXISTS (SELECT 1 FROM #{Irm::GroupMember.table_name}  WHERE #{Irm::GroupMember.table_name}.person_id = #{table_name}.id AND #{Irm::GroupMember.table_name}.group_id = ?)",group_id).
     select("#{table_name}.id,#{table_name}.full_name person_name,#{table_name}.email_address")
