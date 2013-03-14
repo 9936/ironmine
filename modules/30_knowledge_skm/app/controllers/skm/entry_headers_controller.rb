@@ -237,12 +237,18 @@ class Skm::EntryHeadersController < ApplicationController
       entry_header = Skm::EntryHeader.find(params[:id])
       entry_approval_people = entry_header.entry_approval_people.collect(&:person_id)
       #更具传递过来的频道id获取该频道下面的支持组人员
-      group_ids = Skm::Channel.find(@entry_header[:channel_id]).groups.collect(&:id)
-      @group_members = Irm::GroupMember.select_all.with_person(I18n.locale).where(:group_id=>group_ids)
-      #这些人不在审批人员内
-      @group_members.delete_if{|i| entry_approval_people.include?(i[:person_id])} if entry_approval_people.any?
-      @group_members.delete_if{|i| entry_header[:author_id].to_s.eql?(i[:person_id].to_s)}
-      @group_members = @group_members.collect{|i|[i[:person_name],i[:person_id]]}.uniq
+      @group_members = Irm::Person.select("DISTINCT #{Irm::Person.table_name}.*").with_channel_groups(entry_header.channel_id).without_approvals(entry_header.channel_id)
+      @group_members = @group_members.with_profiles_by_function_code('APPROVE_SKM_ENTRIES')
+      @group_members.delete_if{|i| entry_approval_people.include?(i[:id])} if entry_approval_people.any?
+      @group_members.delete_if{|i| entry_header[:author_id].to_s.eql?(i[:id].to_s)}
+      @group_members = @group_members.collect{|i|[i[:full_name],i[:id]]}.uniq
+
+      #group_ids = Skm::Channel.find(@entry_header[:channel_id]).groups.collect(&:id)
+      #@group_members = Irm::GroupMember.select_all.with_person(I18n.locale).where(:group_id=>group_ids)
+      ##这些人不在审批人员内
+      #@group_members.delete_if{|i| entry_approval_people.include?(i[:person_id])} if entry_approval_people.any?
+      #@group_members.delete_if{|i| entry_header[:author_id].to_s.eql?(i[:person_id].to_s)}
+      #@group_members = @group_members.collect{|i|[i[:person_name],i[:person_id]]}.uniq
     else
       redirect_to :action => "wait_my_approve"
     end
@@ -367,6 +373,7 @@ class Skm::EntryHeadersController < ApplicationController
       session[:skm_entry_header]=params[:skm_entry_header]
       session[:skm_entry_details]=params[:skm_entry_details]
     end
+
     @entry_header = Skm::EntryHeader.new
     session[:skm_entry_header].each do |k, v|
       @entry_header[k.to_sym] = v
