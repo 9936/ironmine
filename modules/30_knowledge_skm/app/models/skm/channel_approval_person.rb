@@ -6,7 +6,7 @@ class Skm::ChannelApprovalPerson < ActiveRecord::Base
 
 
   scope :approval_people, lambda{|channel_id|
-    select("#{table_name}.person_id").
+    select("#{table_name}.id, #{table_name}.person_id").
         where("#{table_name}.channel_id=?", channel_id)
   }
 end
