@@ -192,6 +192,7 @@ en:
   label_icm_incident_journal_attachment_desc: Description
   label_icm_incident_journal_add_attachment: Add attachment
   label_icm_incident_journal_close: Close ticket
+  label_icm_incident_journal_close_date: Close Date
   label_icm_incident_journal_permanent_close: Permanently Close ticket
   label_icm_incident_journal_reopen: Ropen ticket
   label_icm_incident_joural_back_to_request: Back to incident

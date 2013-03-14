@@ -182,6 +182,7 @@ zh:
   label_icm_incident_journal_attachment_desc: 附件描述
   label_icm_incident_journal_add_attachment: 添加新附件
   label_icm_incident_journal_close: 关闭事故单
+  label_icm_incident_journal_close_date: 关闭日期
   label_icm_incident_journal_reopen: 重新打开事故单
   label_icm_incident_journal_permanent_close: 永久关闭事故单
   label_icm_incident_joural_back_to_request: 返回事故单

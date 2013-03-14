@@ -13,7 +13,7 @@ class Irm::EventManager
         bo_instance.event_change_attributes = {}
       end
       #消除重复的事件
-      return if Irm::Event.where(:bo_code=>bo.business_object_code,:business_object_id=>bo_model_id,:event_code=>"WORKFLOW_EVENT",:event_type=>event_type).count>0
+      return if Irm::Event.where(:bo_code=>bo.business_object_code,:business_object_id=>bo_model_id,:event_code=>"WORKFLOW_EVENT",:event_type=>event_type,:end_at=>nil).count>0
       event = Irm::Event.create(:bo_code=>bo.business_object_code,:business_object_id=>bo_model_id,:event_code=>"WORKFLOW_EVENT",:event_type=>event_type)
       Delayed::Job.enqueue(Irm::Jobs::RuleProcessJob.new(event.id),[{:bo_code => "IRM_EVENTS", :instance_id => event.id}], 0,timestamp)
     end
