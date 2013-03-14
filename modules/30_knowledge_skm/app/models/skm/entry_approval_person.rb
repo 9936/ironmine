@@ -10,6 +10,11 @@ class Skm::EntryApprovalPerson < ActiveRecord::Base
         where("#{self.table_name}.approval_flag=? AND #{table_name}.person_id=?", Irm::Constant::SYS_NO, person_id)
   }
 
+  scope :with_channel, lambda {|channel_id|
+    joins("JOIN #{Skm::EntryHeader.table_name} seh ON seh.id=#{table_name}.entry_header_id").
+        where("seh.channel_id=?", channel_id)
+  }
+
   scope :query_approval_deny_by_entry_header_id, lambda {|entry_header_id|
     where("#{self.table_name}.approval_flag=? AND #{table_name}.entry_header_id=?", Skm::EntryStatus::SYS_REFUSE, entry_header_id)
   }
