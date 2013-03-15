@@ -22,7 +22,7 @@ gem "spreadsheet", '0.6.5.9'
 
 gem "rufus-scheduler", '2.0.10'
 
-gem "paperclip", "2.4.1"
+gem "paperclip", "3.4.1"
 
 gem "delayed_job" , '2.1.4'
 
