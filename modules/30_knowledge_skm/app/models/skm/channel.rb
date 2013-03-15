@@ -37,8 +37,8 @@ class Skm::Channel < ActiveRecord::Base
   end
 
   def self.lov(origin_scope,params)
-    return origin_scope.where("EXISTS(SELECT * FROM irm_person_relations_v pr, #{Skm::ChannelGroup.table_name} cgvv WHERE pr.source_type = ? AND pr.person_id = ? AND pr.source_id = cgvv.group_id AND cgvv.channel_id = #{Skm::Channel.view_name}.id)",
-          "IRM__GROUP", Irm::Person.current.id)
+    return origin_scope.where("EXISTS(SELECT * FROM irm_person_relations_v pr, #{Skm::ChannelGroup.table_name} cgvv WHERE pr.source_type = ? AND pr.person_id = ? AND pr.source_id = cgvv.group_id AND cgvv.channel_id = #{Skm::Channel.view_name}.id AND #{Skm::Channel.view_name}.status_code=?)",
+          "IRM__GROUP", Irm::Person.current.id, "ENABLED")
   end
 
 end
