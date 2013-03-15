@@ -12,7 +12,7 @@ class Slm::ServiceAgreementsController < ApplicationController
   # GET /service_agreements/1
   # GET /service_agreements/1.xml
   def show
-    @service_agreement = Slm::ServiceAgreement.multilingual.status_meaning.find(params[:id])
+    @service_agreement = Slm::ServiceAgreement.with_calendar(I18n.locale).multilingual.status_meaning.find(params[:id])
     @service_agreement.untransform_time
     @start_rule_filter = Irm::RuleFilter.query_by_source("#{Slm::ServiceAgreement.name}St", @service_agreement.id).first
     @pause_rule_filter = Irm::RuleFilter.query_by_source("#{Slm::ServiceAgreement.name}Pa", @service_agreement.id).first

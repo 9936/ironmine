@@ -22,6 +22,12 @@ class Slm::ServiceAgreement < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope { default_filter }
 
+  scope :with_calendar, lambda {|language|
+    joins("JOIN #{Slm::CalendarsTl.table_name} ON #{Slm::CalendarsTl.table_name}.calendar_id = #{table_name}.calendar_id").
+        where("#{Slm::CalendarsTl.table_name}.language = ?", language).
+        select("#{Slm::CalendarsTl.table_name}.name calendar_name")
+  }
+
   #根据天，小时还有秒来区分
   def transform_time
     self.duration = self.duration_day.to_i * 86400 + self.duration_hour.to_i * 60 + self.duration_minute.to_i

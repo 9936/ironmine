@@ -26,7 +26,7 @@
         <td class="label-col"><label><%= t(:label_slm_service_agreement_duration) %></label></td>
         <td class="data-col">
           <%= @service_agreement.duration_day %><%= t(:label_slm_service_agreement_duration_day) %>
-          <%= @service_agreement.duration_hour %><%= t(:label_slm_service_agreement_duration_day) %>
+          <%= @service_agreement.duration_hour %><%= t(:label_slm_service_agreement_duration_hour) %>
           <%= @service_agreement.duration_minute %><%= t(:label_slm_service_agreement_duration_minute) %>
         </td>
         <td class="label-col"></td>
@@ -34,7 +34,7 @@
       </tr>
       <tr>
         <td class="label-col"><label><%= t(:label_slm_service_agreement_calendar) %></label></td>
-        <td class="data-col"><%= @service_agreement.calendar_id %></td>
+        <td class="data-col"><%= @service_agreement[:calendar_name]%></td>
         <td class="label-col"></td>
         <td class="data-col"></td>
       </tr>
