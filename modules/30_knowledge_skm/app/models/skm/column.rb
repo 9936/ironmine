@@ -78,7 +78,7 @@ class Skm::Column < ActiveRecord::Base
 
     all_columns = []
     groups.each do |g|
-      g.channels.each do |c|
+      g.channels.enabled.each do |c|
         all_columns = all_columns + c.columns.enabled
       end
     end

@@ -176,7 +176,13 @@
           <% builder.column(:person_id, {:title => t(:label_skm_entry_header_approval_person), :width => "150px"}) do |data| %>
              <%= Irm::Person.query_person_name(data[:person_id]).first[:person_name] if Irm::Person.query_person_name(data[:person_id]).first %>
           <% end %>
-          <% builder.column(:updated_at, {:title => t(:label_skm_entry_header_approval_date), :width => "150px"}) %>
+          <% builder.column(:updated_at, {:title => t(:label_skm_entry_header_approval_date), :width => "150px"}) do|data| %>
+            <% if data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+              <%= '' %>
+            <% else %>
+              <%= format_date data[:updated_at] %>
+            <% end %>
+          <% end %>
           <% builder.column(:note, {:title => t(:label_skm_entry_header_approval_note)}) do |data| %>
             <% if data[:approval_flag].eql?(Irm::Constant::SYS_YES) %>
               <span style="color:#468847"><%= data[:note] %></span>

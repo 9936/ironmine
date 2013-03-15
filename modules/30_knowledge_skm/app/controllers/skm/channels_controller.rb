@@ -202,8 +202,8 @@ class Skm::ChannelsController < ApplicationController
     approval_person = Skm::ChannelApprovalPerson.where("person_id =? AND channel_id = ? AND opu_id = ?",params[:person_id], params[:channel_id], Irm::OperationUnit.current.id).first
     unless approval_person.nil?
      if approval_person.destroy
-       #删除该用户下所有未审核的知识库标记记录
-       entry_approvals = Skm::EntryApprovalPerson.where("person_id=? AND opu_id = ?", params[:person_id], Irm::OperationUnit.current.id)
+       #删除该用户下在该频道未审核的知识库审核记录表中的记录
+       entry_approvals = Skm::EntryApprovalPerson.with_channel(params[:channel_id]).where("person_id=?", channel_person.person_id)
        if entry_approvals.any?
           entry_approvals.each do |entry_approval|
             #如果知识库仅为当前用户审核则将知识库自动发布
@@ -224,6 +224,25 @@ class Skm::ChannelsController < ApplicationController
   def remove_group
     @group_member = Skm::ChannelGroup.where("group_id =? AND channel_id = ? AND opu_id = ?",
                                             params[:group_id], params[:channel_id], Irm::OperationUnit.current.id).first
+
+    exists_person_ids = Skm::ChannelGroup.query_person_without_group(params[:channel_id], params[:group_id]).map(&:person_id)
+    Skm::ChannelApprovalPerson.approval_people(params[:channel_id]).each do |channel_person|
+      unless exists_person_ids.include?(channel_person.person_id)
+        #删除该成员在知识文章中没有审批的记录
+        entry_approvals = Skm::EntryApprovalPerson.with_channel(params[:channel_id]).where("person_id=?", channel_person.person_id)
+
+        if entry_approvals.any?
+          entry_approvals.each do |entry_approval|
+            #如果知识库仅为当前用户审核则将知识库自动发布
+            unless Skm::EntryApprovalPerson.has_other_approval_people?(entry_approval[:entry_header_id], entry_approval[:person_id])
+              Skm::EntryHeader.where("id=?", entry_approval[:entry_header_id]).update_all(:entry_status_code=>"PUBLISHED") #更新为发布状态
+            end
+            entry_approval.destroy
+          end
+        end
+        channel_person.destroy
+      end
+    end if exists_person_ids.any?
     @group_member.destroy
 
     respond_to do |format|
