@@ -230,10 +230,9 @@ class Irm::Person < ActiveRecord::Base
         with_notification_lang(I18n.locale)
   end
 
-  def self.lov(origin_scope,params)
-    puts params.to_json
-    return origin_scope
-  end
+  #def self.lov(origin_scope,params)
+  #  return origin_scope
+  #end
 
   #取得系统当前登陆人员
   def self.current
