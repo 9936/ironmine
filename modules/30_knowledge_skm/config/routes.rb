@@ -191,11 +191,25 @@ Rails.application.routes.draw do
       match '/books/new(.:format)' => "books#new", :via => :get
       match '/books/get_data(.:format)' => "books#get_data", :via => :get
       match '/books/create(.:format)' => "books#create", :via => :post
-      match '/books/get_data(.:format)' => "books#get_data"
       match '/books/:id/show(.:format)' => "books#show", :via => :get
       match '/books/:id/publish(.:format)' => "books#publish", :via => :get
       match '/book_wikis/:book_id/create(.:format)' => "book_wikis#create", :via => :post
       match '/book_wikis/:id/destroy(.:format)' => "book_wikis#destroy", :via => :delete
       match '/book_wikis/:book_id/order(.:format)' => "book_wikis#order", :via => :post
+
+      #Entry books
+      match '/entry_books(/index)(.:format)' => "entry_books#index", :via => :get
+      match '/entry_books/:id/edit(.:format)' => "entry_books#edit", :via => :get
+      match '/entry_books/:id/switch_sequence(.:format)' => "entry_books#switch_sequence"
+      match '/entry_books/:id/update(.:format)' => "entry_books#update", :via => :put
+      match '/entry_books/new(.:format)' => "entry_books#new", :via => :get
+      match '/entry_books/get_data(.:format)' => "entry_books#get_data", :via => :get
+      match '/entry_books/create(.:format)' => "entry_books#create", :via => :post
+      match '/entry_books/:id/show(.:format)' => "entry_books#show", :via => :get
+      match '/entry_books/:id/get_owner_entry_data(.:format)' => "entry_books#get_owner_entry_data", :via => :get
+      match '/entry_books/:id/add_entry(.:format)' => "entry_books#add_entry", :via => :post
+      match '/entry_books/:id/remove_entry(.:format)' => "entry_books#remove_entry", :via => :delete
+      match '/entry_books/:id/multilingual_edit(.:format)' => "entry_books#multilingual_edit", :via => :get
+      match '/entry_books/:id/multilingual_update(.:format)' => "entry_books#multilingual_update", :via => :put
     end
 end

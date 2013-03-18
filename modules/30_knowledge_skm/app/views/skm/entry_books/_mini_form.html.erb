@@ -1,0 +1,8 @@
+<%= form_tag({:controller => "skm/entry_books",:action => "add_entry",:id=>book.id,:_dom_id=>"entryBook"},{:remote=>true,:builder => CustomFormBuilder}) do %>
+    <div class="float-right" style="margin-left: 20px;">
+      <%= link_submit(t(:add), :class=>"btn") %>
+    </div>
+    <div  style="float:right;">
+      <%= lov_field_tag "entry_header_id", Skm::EntryHeader,{:style=>"width:150px;"}%>
+    </div>
+<% end %>

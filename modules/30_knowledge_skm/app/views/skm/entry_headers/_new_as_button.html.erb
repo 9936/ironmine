@@ -6,5 +6,9 @@
   <ul class="dropdown-menu">
     <li><%= link_to(t(:label_skm_entry_create_article),{:action => "new"}) %></li>
     <li><%= link_to(t(:label_skm_entry_create_video),{:action => "new_step_video_upload"}) %></li>
+    <% if allow_to_function?(:entry_books_manage) %>
+      <li class="divider"></li>
+      <li><%= link_to t(:label_skm_entry_book_new), {:controller => "skm/entry_books", :action => "new"} %></li>
+    <% end %>
   </ul>
 </div>

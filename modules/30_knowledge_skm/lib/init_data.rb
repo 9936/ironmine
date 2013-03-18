@@ -104,6 +104,14 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "skm/entry_headers" => ["unpublished_data", "unpublished"]
+          },
+          :entry_books_manage => {
+              :en => {:name => "Manage Entry Books", :description => "Manage Entry Books"},
+              :zh => {:name => "管理知识专题", :description => "管理知识专题"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "skm/entry_books" => ["index", "edit", "update", "new", "create", "get_data", "show", "add_entry", "remove_entry", "get_owner_entry_data", "multilingual_edit", "multilingual_update", "switch_sequence"]
           }
       }
   }

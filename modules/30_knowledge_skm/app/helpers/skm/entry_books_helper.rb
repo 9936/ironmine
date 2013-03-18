@@ -1,0 +1,2 @@
+module Skm::EntryBooksHelper
+end
