@@ -15,6 +15,8 @@ class Slm::ServiceAgreement < ActiveRecord::Base
 
   belongs_to :calendar
 
+  validates_presence_of :external_system_id, :calendar_id
+
 
   before_validation :transform_time
   #加入activerecord的通用方法和scope
@@ -26,6 +28,10 @@ class Slm::ServiceAgreement < ActiveRecord::Base
     joins("JOIN #{Slm::CalendarsTl.table_name} ON #{Slm::CalendarsTl.table_name}.calendar_id = #{table_name}.calendar_id").
         where("#{Slm::CalendarsTl.table_name}.language = ?", language).
         select("#{Slm::CalendarsTl.table_name}.name calendar_name")
+  }
+
+  scope :with_system, lambda {|external_system_id|
+    where("#{table_name}.external_system_id=?", external_system_id)
   }
 
   #根据天，小时还有秒来区分

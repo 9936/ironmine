@@ -168,7 +168,7 @@ class Slm::ServiceAgreementsController < ApplicationController
   end
 
   def get_data
-    service_agreements_scope = Slm::ServiceAgreement.multilingual.status_meaning
+    service_agreements_scope = Slm::ServiceAgreement.multilingual.status_meaning.with_system(Irm::ExternalSystem.current_system.id)
     service_agreements_scope = service_agreements_scope.match_value("slm_service_agreements_tl.name", params[:name])
     service_agreements_scope = service_agreements_scope.match_value("slm_service_agreements.agreement_code", params[:agreement_code])
     service_agreements, count = paginate(service_agreements_scope)
