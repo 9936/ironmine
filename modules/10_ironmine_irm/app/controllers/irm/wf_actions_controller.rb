@@ -10,7 +10,7 @@ class Irm::WfActionsController < ApplicationController
     elsif source_info.size>1&&["AP_SUBMIT", "AP_RECALL", "AP_FINAL_REJECT", "AP_FINAL_APPROVAL", "AP_STEP_APPROVAL", "AP_STEP_REJECT"].include?(source_info[0])
       return Irm::WfApprovalProcess.find(source_info[1]).bo_code
     elsif source_info.size>2&&"SLA_TIME_TRIGGER".eql?(source_info[0])
-      return Slm::ServiceAgreement.find(source_info[1]).business_object_code_code
+      return Slm::ServiceAgreement.find(source_info[1]).business_object_code
     end
   end
 
