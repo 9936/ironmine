@@ -34,7 +34,8 @@ class CreateEntryBooks < ActiveRecord::Migration
     create_table :skm_entry_books_relations, :force => true do |t|
       t.string "opu_id", :limit => 22, :collate => "utf8_bin"
       t.string "book_id", :limit => 22, :collate => "utf8_bin"
-      t.string "entry_header_id", :limit => 22, :collate => "utf8_bin"
+      t.string "relation_type", :limit => 30, :null => false
+      t.string "target_id", :limit => 22, :collate => "utf8_bin"
       t.integer "display_sequence", :default => 1
       t.string "status_code", :limit => 30, :null => false
       t.string "created_by", :limit => 22, :collate => "utf8_bin"

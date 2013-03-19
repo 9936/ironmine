@@ -1,7 +1,9 @@
 class Skm::EntryBookRelation < ActiveRecord::Base
   set_table_name :skm_entry_books_relations
 
-  validates_presence_of :entry_header_id, :scope => [:book_id]
+  belongs_to :entry_book, :foreign_key => "book_id"
+
+  validates_presence_of :target_id, :scope => [:book_id]
 
   before_create :build_sequence
 
@@ -10,9 +12,14 @@ class Skm::EntryBookRelation < ActiveRecord::Base
     self.order("display_sequence ASC")
   }
 
-  scope :query_by_book, lambda{|book_id|
-    joins("JOIN #{Skm::EntryHeader.table_name} seh ON #{table_name}.entry_header_id=seh.id").
-        where("#{table_name}.book_id=?", book_id).
+  scope :targets, lambda{|book_id|
+    where("#{table_name}.book_id=?", book_id)
+  }
+
+
+  scope :query_headers_by_book, lambda{|book_id|
+    joins("JOIN #{Skm::EntryHeader.table_name} seh ON #{table_name}.target_id=seh.id").
+        where("#{table_name}.book_id=? AND #{table_name}.relation_type=?", book_id, "ENTRYHEADER").
         select("#{table_name}.*, seh.entry_title, seh.doc_number, seh.id entry_header_id, seh.type_code, seh.published_date, seh.created_at entry_created_at, seh.updated_at entry_updated_at")
   }
 

@@ -111,7 +111,9 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/entry_books" => ["index", "edit", "update", "new", "create", "get_data", "show", "add_entry", "remove_entry", "get_owner_entry_data", "multilingual_edit", "multilingual_update", "switch_sequence"]
+              "skm/entry_books" => ["index", "edit", "update", "new", "create", "get_data", "show", "add_entry",
+                                    "remove_entry", "get_owner_entry_data", "multilingual_edit", "multilingual_update",
+                                    "switch_sequence","preview","export"]
           }
       }
   }

@@ -200,6 +200,8 @@ Rails.application.routes.draw do
       #Entry books
       match '/entry_books(/index)(.:format)' => "entry_books#index", :via => :get
       match '/entry_books/:id/edit(.:format)' => "entry_books#edit", :via => :get
+      match '/entry_books/:id/preview(.:format)' => "entry_books#preview", :via => :get
+      match '/entry_books/:id/export(.:format)' => "entry_books#export", :via => :get
       match '/entry_books/:id/switch_sequence(.:format)' => "entry_books#switch_sequence"
       match '/entry_books/:id/update(.:format)' => "entry_books#update", :via => :put
       match '/entry_books/new(.:format)' => "entry_books#new", :via => :get

@@ -1,8 +1,29 @@
-<%= form_tag({:controller => "skm/entry_books",:action => "add_entry",:id=>book.id,:_dom_id=>"entryBook"},{:remote=>true,:builder => CustomFormBuilder}) do %>
+<%= form_tag({:controller => "skm/entry_books",:action => "add_entry",:id=>book.id,:_dom_id=>"entryBook"},{:class => "form-inline",:remote=>true,:builder => CustomFormBuilder}) do %>
     <div class="float-right" style="margin-left: 20px;">
       <%= link_submit(t(:add), :class=>"btn") %>
     </div>
     <div  style="float:right;">
+      <%= select_tag_alias("relation_type", available_targets, nil, :id => "entryRelationType") %>
       <%= lov_field_tag "entry_header_id", Skm::EntryHeader,{:style=>"width:150px;"}%>
+      <%= lov_field_tag "entry_book_id", Skm::EntryBook,{:style=>"width:150px;"}%>
     </div>
 <% end %>
+
+<script type="text/javascript">
+  $(function(){
+     switch_target($("#entryRelationType").val());
+     $("#entryRelationType").change(function(){
+         switch_target($(this).val());
+     });
+
+     function switch_target(target){
+         if (target && target == 'ENTRYHEADER') {
+             $("#entry_header_idBox").show();
+             $("#entry_book_idBox").hide();
+         }else{
+             $("#entry_book_idBox").show();
+             $("#entry_header_idBox").hide();
+         }
+     }
+  });
+</script>
