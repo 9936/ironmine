@@ -6,10 +6,10 @@ module Ironmine
       end
 
       def USABLE_LANGUAGE
-         ['zh','en']
+         ['zh','en', 'ja']
       end
 
-      USABLE_LANGUAGE_CODING = {:zh => "gbk", :en => "utf8"}
+      USABLE_LANGUAGE_CODING = {:zh => "gbk", :en => "utf8", :ja => "utf8"}
 
       module ClassMethods
         # acts_as_multilingual

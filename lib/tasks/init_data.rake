@@ -4,8 +4,13 @@ namespace :irm do
   def merge_languages(tls, languages_hash)
     if tls and tls.any?
       tls.each do |tl|
-        tl.name = languages_hash[tl.language.to_sym][:name] if languages_hash[tl.language.to_sym][:name]
-        tl.description = languages_hash[tl.language.to_sym][:description]  if languages_hash[tl.language.to_sym][:description]
+        if languages_hash[tl.language.to_sym]
+          tl.name = languages_hash[tl.language.to_sym][:name] if languages_hash[tl.language.to_sym][:name]
+          tl.description = languages_hash[tl.language.to_sym][:description]  if languages_hash[tl.language.to_sym][:description]
+        elsif languages_hash[:en]
+          tl.name = languages_hash[:en][:name] if languages_hash[:en][:name]
+          tl.description = languages_hash[:en][:description]  if languages_hash[:en][:description]
+        end
       end
     end
     tls

@@ -1,2112 +1,1945 @@
-en:
+ja:
   #=========================usual custom=======================#
   errors:
-    already_exists_in_service_center: Email is used by someone in current Service center
-  access_denied: Access {{permission}} is Denied!
-  invalid_invitation_key: Invalid invitation key!
-  current_page_help: Current help page
-  #usual button
-  fresh: Resh
-  browse: Browse
-  after_n_fresh: Auto refresh in %{n} seconds
-  not_auto_refresh: Not auto refresih
-  fresh_time: Setting fresh time
-  result: Result
-  export: Export
-  export_xls: Export Excel
-  export_pdf: Export PDF
-  range: Range
-  unknow: Unknow
-  cancel: Cancel
-  next: Next
-  last: Previous
-  or: or
-  show: Show
-  edit: Edit
-  delete: Delete
-  delete_selected: Delete Selected
-  back: Back
-  disable: Disable
-  done: Done
-  loading: loading...
-  apply: Apply
-  clear: Clear
-  save: Save
-  new: New
-  update: Update
-  create: Create
-  confirm: Confirm
-  active: Active
-  add: Add
-  close: Close
-  permanent_close: Permanently Close
-  reopen: Reopen
-  copy:  Copy
-  operation: Options
-  content: Content
-  link: Link
-  save_and_new: Save And New
-  save_and_update_new: Save And Upload
-  multilingual: Multilingual
-  processing: Processing...
-  list: List
-  button_add_file: Add File
-  more: More
-  jump: Go to
-  name: Name
-  description: Description
-  actionview_instancetag_blank_option: Please Select
-  more_info: More Info
-  enable: Enable
-  disable: Disable
-  cut_image: Cut current picture
-  close: Close
-  default: Default
-  select: Options
-  select_ac: select
-  upload: upload
-  save_and_new: Save and new
-  edit_icon: Edit icon
-  error: Error
-  error_invalid_data: Error：invalid data。
-  error_value_existed: Error：value already existed.
-  check_error_msg_and_fix: Please review all of the following error message to correct the data。
-  operation: Operation
-  remove: Remove
-  search: Search
-  options: Options
-  move_up: Move up
-  move_down: Move down
-  save_page: Save page
-  none: None
-  save_as_draft: Save as draft
-  save_as_published: Publish
-  go_to_top: Go to top
-  step_n: "Step %{n}  "
-  step_n_total_m: "Step %{n} , total %{m} "
-  label_checked: Checked
-  label_unchecked: Uncheck
-  help: Help
-  pass: Pass
-  select_all: Select All
-  null_string: Blank
-  test: Test
-  duel_selectable: Selectable item
-  duel_selected: Selected item
-  else: else
-  up: Up
-  down: Down
-  notice: Notice
-  created_by: Created by
-  created_at: Created at
-  updated_by: Updated by
-  updated_at: Updated at
-  status: Status
-  no_data: No data available
-  label_alias: " Alias"
-  code: Code
-  collapse_all: Collapse All
-  expand_all: Expand All
-  system: System
-  global: Global
-  #usual words
-  notice_account_invalid_creditentials: Incorrect username or password
-  successfully_updated_password: Successfully Updated Password
-  successfully_updated: Successfully Updated
-  successfully_created: Successfully Created
-  successfully_copyed:  Successfully Copyed
-  successfully_deleted: Successfully Deleted
-  failed_updated: Failed Updated
-  failed_created: Failed Created
-  failed_copyed:  Failed Copyed
-  failed_deleted:  Failed Deleted
-  label_delete_confirm: Are you sure to delete this record?
-  label_no_data: No data available
-  label_sub_functions: Functions
-  label_common_info: Common Info
-  label_description_info: Description Info
-  label_is_required: Required Info
-  label_help_about_page: Page Help
-  label_detail_info: Detail Info
-  label_new_child: New child
-  error: Error
-  error_invalid_data: Error：Invalid Data。
-  check_error_msg_and_fix: Please check all error to correct data。
-  label_are_you_sure: Are you sure?
-  display_sequence: Display Sequence
-  display_color: Color
-  default_flag: Default
-  report: Report
-  common_report: Common Report
-  go_to_report: Go To Report
-  tool: Tools
-  new_event: New Event
-  my_event: My Events
-  my_all_count: My All Requests
-  help: Help
-  search: Search
-  remove: Remove
-  save_page: Keep
-  options: Options
-  label_irm_no_event: No Event
-  find: Find
-  my_view: My View
-  calendar_task: Calendar
-  upload: Upload
-  remember_user_name: Remember User Name
-  no_account: No Account
-  label_cancel_confirm: Data have not saved. Are you sure?
-  all: All
-  search_options: Search Options
-  search_all: Search
-  label_attachment_info: Attachment Info
-  input_keyword_you_want_to_search: Input keyword you want to search
-  display_all: Show All
-  upload_from_clipboard: Upload Image From Clipboard
-  kanban_mode: Kanban
-  list_mode: List
-  error_file_upload_limit: Attachment beyond the limit(Limit %{m} Kb, Now %{n} KB)
-  error_file_upload_limit_shot: Attachment beyond the limit(Limit %{m} Kb)
-  error_file_upload_repeat: Attached file upload repeatly.
-  error_file_upload_empty: Not Choose File,Please Choose Again!
-  file_upload_limit_alert: File limit %{m} KB
-  by_name: By name
-  by_date: By date
-  search_options_with_dot: Advanced Search
-  uncategory: Not classified
-  label_attachment_file_size_limit: File size limit %{limit}
-  label_attachment_file_type: File type limit %{type}
-  label_attachment_file_not_exists: The download link semms bad.
-  self: Self
-  hide: Hide
-  display: Show
-  lov_tooltip_text: Use '%' as wildcard.
-  lov_error_tooltip_text: No data found.
-  label_equal: Equal
-  label_unequal: Not Equal
-  label_include: Include
-  label_note: Note
-  label_note_text: As the operator is「Include」,the value character「%」mean any characters,for example:%value(end of 'value'),value%(start of 'value') or val%ue(start of 'val' and end of 'ue')
-  #=========================end usual custom=======================#
-  #=========================    irm lookup_types_controller=======================#
-  label_lookup_types: Lookup Type
-  label_lookup_types_code: Code
-  label_lookup_level: Range
-  label_meaning: Meaning
-  label_active_flag: Active
-  label_description: Description
-  label_start_date_active: Start Date Active
-  label_end_date_active: End Date Active
-  label_global_level: Golbal
-  label_extended_level: Extended
-  label_user_level: User
-  label_status_code: Status Code
-  label_add_another_lookup_value: add another lookup value
-  label_delete_last_lookup_value: delete last lookup value
-  label_new_lookup_type: New Lookup Type
-  label_irm_lookup_type_edit: Edit Lookup Type
-  label_irm_lookup_type_lookup_type: Lookup Type
-  label_irm_lookup_type_meaning: Meaning
-  label_irm_lookup_value_meaning: Meaning
-  lable_irm_lookup_type_editing_multilingual: Edit Language
-  label_irm_lookup_value_lookup_code: Code
-  label_lookup_code: Lookup Code
-  label_irm_lookup_value_meaning: Meaning
-  label_irm_lookup_value_description: Description
-  label_irm_lookup_type_description: Description
-  label_edit_lookup_type: Edit Lookup Type
-  label_new_lookup_type: New Lookup Type
-  label_list_lookup_types: Lookup Type List
-  label_add_lookup_code: Add Lookup Code
-  label_irm_lookup_type_new: New Lookup Type
-  label_irm_lookup_type_list: List Lookup Type
-  label_irm_lookup_type_info: Lookup Type Info
-  label_irm_lookup_type_show: Lookup Type
-  label_irm_lookup_value_index: Lookup Value Index
-  label_irm_lookup_value_list: Lookup Value List
-  label_lookup_value_new: New Lookup Value
-  label_irm_lookup_value_info: Lookup Value Info
-  label_lookup_value_edit: Lookup Value Edit
-  label_lookup_value_show: Lookup Value
-  #=========================end irm lookup_types_controller=======================#
-  #=========================    irm product_modules_controller=====================#
-  label_irm_product_module: Product Module
-  label_irm_product_module_new: Create Product Module
-  label_irm_product_module_edit: Edit Product Module
-  label_irm_product_module_list: Product Modules List
-  label_irm_product_module_product_short_name: Product Short Name
-  label_irm_product_module_name: Name
-  label_irm_product_module_description: Description
-  label_irm_product_module_installed_flag: Installed
-  #=========================end irm product_modules_controller================#
-  #=========================    irm languages_controller=======================#
-  label_irm_language: Language Module
-  label_irm_language_new: Create Language
-  label_irm_language_edit: Edit Language
-  label_irm_language_list: Language List
-  label_irm_language_language_code: Language Code
-  label_irm_language_info: Language Info
-  label_irm_language_description: Description
-  label_irm_language_installed_flag: Installed Flag
-  label_irm_language_status_code: Status
-  label_irm_language_show: Show Language
-  #=========================    irm languages_controller=======================#
-  #=========================    irm common_controller=======================#
-  label_irm_common_login: User login
-  label_irm_common_username: User Name
-  label_irm_common_password: Password
-  label_irm_common_logout: Logout
-  label_irm_common_system_setting: System setting
-  label_irm_common_forgot_password: Forget password？
-  label_irm_common_email: Email Address
-  label_irm_common_send: Send
-  label_irm_common_forgot_password_tooltip: <p>Verify you're entering the correct user name in the form of an email address (username@company.com).</p><p>Passwords are case sensitive, so ensure you don't have caps lock enabled.</p>
-  label_irm_common_reset_pwd_tooltip: Hi, Please fill your new password.
-  label_irm_common_email_sent: E-mail has sent to your mailbox, please reset your password within 30 minutes of receiving..
-  label_irm_recently_objects: Recent Items
-  notice_account_locked: Your account has been locked, please contact administrator!
-  label_irm_common_continue: Continue
-  #=========================    end common_controller=======================#
-  #=========================    irm menus_controller=======================#
-  label_irm_menu: Menu
-  label_irm_menu_new: Create Menu
-  label_irm_menu_edit: Edit Menu
-  label_irm_menu_list: Menus List
-  label_irm_menu_structure: Menus Tree
-  label_irm_menu_menu_code: Menu Code
-  label_irm_menu_icon: Icon
-  label_irm_menu_name: Name
-  label_irm_menu_name_full: Menu Name
-  label_irm_menu_description: Description
+    already_exists_in_service_center: 現在のサービスセンタで電子メールが誰かにより使われました。
+  access_denied: アクセス{{permission}}が拒否されました。
+  invalid_invitation_key: 無効な検証コード
+  current_page_help: ヘルプページ
 
-  label_irm_menu_entry_name: Menu Entry Name
-  label_irm_menu_entry_list: Entries List
-  label_irm_menu_entry_new: Create Menu Entry
-  label_irm_menu_entry_edit: Edit Menu Entry
-  label_irm_menu_entry_sub_menu: Sub Menu
-  label_irm_menu_entry_sub_menu_name: Sub Menu Name
-  label_irm_menu_entry_page_controller: Page controller
-  label_irm_menu_entry_page_action: Page action
-  label_irm_menu_entry_display_sequence: Display Sequence
-  label_irm_menu_entry_display_flag: Display
-  label_irm_menu_entry_prompt: Prompt
-  label_irm_menu_entry_description: Description
-  label_irm_menu_entry_add: Add Menu Entries
-  error_irm_menu_entry_permission_sub_menu_at_least_one: Input Sub Menu or Page At Least
-  error_irm_menu_entry_sub_menu_sub_group_must_only_one: Must and can only choose either sub menu or sub function group
-  label_irm_menu_entry_icon: Icon
-  label_irm_menu_entry_sub_function_group:  Sub Function Group
-  label_irm_menu_entry_sub_function_group_code: Sub Function Group Code
-  label_irm_menu_entry_sub_function_group_name: Sub Function Group Name
-  label_irm_menu_entry_css_name: Css
-  label_irm_menu_entry: Menu Entry
-  #=========================    end menus_controller=======================#
-  #=========================    irm permissions_controller=======================#
-  label_irm_permission: Permission
-  label_irm_permission_new: Ceeate Permission
-  label_irm_permission_edit: Edit Permission
-  label_irm_permission_permission_code: Permission Code
-  label_irm_permission_permission_type: Permission Type
-  label_irm_permission_name: Permission Name
-  label_irm_permission_description: Description
-  icm_rule_settinglabel_irm_permission_product_name: Product
-  label_irm_permission_page_controller: Controller
-  label_irm_permission_page_action: Action
-  label_irm_permission_param_count: Parameter Count
-  label_irm_permission_direct_get_flag: GET Method
-  label_irm_permission_function_name: Function Name
-  label_irm_permission_status_code: Status
-  label_irm_permission_list: Permissions List
-  label_irm_permission_product_name: Product
-  #=========================    end permissions_controller=======================#
-  #=========================    irm identities_controller=======================#
-  label_irm_identity_new: Create Identity
-  label_irm_identity_edit: Edit Identity
-  label_irm_identity_login_name: User name
-  label_irm_identity_password: Password
-  label_irm_identity_password_confirmation: Confirm Password
-  label_irm_identity_full_name: Full Name
-  label_irm_identity_email: Email
-  label_irm_identity_language_code: Language
-  label_irm_identity_status_code: Status
-  label_irm_identity_list: List identity
-  edit_password: Change password
-  label_irm_identity_old_password: Origin password
-  label_irm_identity_new_password: New password
-  label_irm_identity_new_password_confirmation: Confirm Password
-  label_irm_identity_edit_info: Edit personal info
-  label_irm_identity_edit_password: Edit personal password
-  label_irm_identity_last_login_at: Last Login Date
-  label_identity_anonymous: Anonymous
-  label_irm_identity_ldap_can_not_edit_password: You come from ldap server, who can not modify password here.
-  #=========================    end identities_controller=======================#
-  #=========================    irm global_settings_controller=======================#
-  label_irm_global_setting: Global Setting
-  label_irm_global_setting_edit: Edit Global Setting
-  label_irm_global_setting_theme_name: Theme
-  label_irm_global_setting_timezone: Timezone
-  label_irm_global_setting_upload_file_limit: Upload File Size Limit(KB)
-  label_irm_global_setting_logo: Logo
-  recommended_size: Recommended Resolution
-  label_irm_global_setting_error_page_info: Error Page Info
-  label_irm_global_setting_file_limit_tip: Upload File Size Exceeded Limit
-  #=========================    end global_settings_controller=======================#
-  #=========================    irm auth_sources_controller=======================#
-  label_irm_auth_source_name: Name
-  label_irm_auth_source_host: Host
-  label_irm_auth_source_port: Port
-  label_irm_auth_source_account: Account DN
-  label_irm_auth_source_account_password: Password
-  label_irm_auth_source_base_dn: Base DN
-  label_irm_auth_source_attr_login: login Name Attribute
-  label_irm_auth_source_attr_firstname: First Name Attribute
-  label_irm_auth_source_attr_lastname: Last Name Attribute
-  label_irm_auth_source_attr_email: Email Attribute
-  label_irm_auth_source_onthefly_register_flag: Copy
-  label_irm_auth_source: LDAP Auth Source
-  label_irm_auth_source_list: Auth Source List
-  label_irm_auth_source_new: New Auth Source
-  label_irm_auth_source_edit: Edit Auth Source
-  label_irm_auth_source_data_info: LDAP Data Information
-  #=========================    end auth_sources_controller=======================#
-  #=========================    irm ldap_sources_controller=======================#
-  label_irm_ldap_source_type: Source Type
-  label_irm_ldap_source_name: Name
-  label_irm_ldap_source_host: Host
-  label_irm_ldap_source_port: Port
-  label_irm_ldap_source_account: Account
-  label_irm_ldap_source_account_password: Password
-  label_irm_ldap_source_base_dn: Domain
-  label_irm_ldap_source_attr_login: Login Name Attribute
-  label_irm_ldap_source_attr_firstname: First Name Attribute
-  label_irm_ldap_source_attr_lastname: Last Name Attribute
-  label_irm_ldap_source_attr_email: Eamil Attribute
-  label_irm_ldap_source_onthefly_register_flag: Copy
-  label_irm_ldap_source: Ldap Source
-  label_irm_ldap_source_list: Ldap Source List
-  label_irm_ldap_source_new: New Ldap Source
-  label_irm_ldap_source_edit: Edit Ldap Source
-  label_irm_ldap_source_data_info: Ldap Data Attribute
-  label_irm_ldap_source_offline: LDAP Source is Unavailable
-  #=========================    end ldap_sources_controller=======================#
+  unknow: 不詳
+  cancel: 取消
+  next: 次のステップ
+  last: 前のステップ
+  or: または
+  show: 照会
+  edit: 編集
+  delete: 削除
+  delete_selected: 選択解除
+  back: 前画面
+  disable: 無効
+  done: 完了
+  loading: ダウンロード中
+  apply: 適用
+  clear: クリア
+  save: 保存
+  new: 新規
+  confirm: 確認
+  update: 更新
+  create: 登録
+  new: 新規
+  add: 追加
+  close: クローズ
+  permanent_close: パーマネントクローズ
+  reopen: 再開
+  multilingual: マルチ言語
+  active: アクティブ
+  status: ステータス
+  copy: コピー
+  list: 一覧
+  processing: 処理中
+  button_add_file: ファイル登録
+  more: 続き
+  jump: ジャンプ
+  name: 名称
+  description: 説明
+  actionview_instancetag_blank_option: 選択ください
+  more_info: 詳細
+  enable: 有効
+  disable: 無効
+  cut_image: 現在のイメージを切り取ります
+  close: クローズ
+  default: 初期値
+  select: オプション
+  select_ac: 選択
+  upload: アップロード
+  save_and_new: 保存および新規
+  save_and_update_new: 保存およびアップロード
+  edit_icon: アイコン編集
+  error: エラー
+  error_invalid_data: エラー:無効データ
+  error_value_existed: エラー:値が既に存在しています
+  check_error_msg_and_fix: データを修正するには、以下の全てのエラーメッセージを確認してください。
+  operation: 作業
+  content: 内容
+  link: リンク
+  remove: 削除
+  search: 検索
+  options: オプション
+  move_up: 上に移動
+  move_down: 下に移動
+  save_page: ページ保存
+  none: なし
+  save_as_draft: 下書きとして保存
+  save_as_published: 発行
+  go_to_top: トップへ
+  step_n: "ステップ %{n} "
+  step_n_total_m: "ステップ %{n} 、合計 %{m} "
+  label_checked: 選択済
+  label_unchecked: 未選択
+  help: ヘルプ
+  pass: 転送
+  select_all: 全選択
+  null_string: ブランク
+  test: テスト
+  duel_selectable: 選択可能な項目
+  duel_selected: 選択済項目
+  else: それ以外
+  up: 上に移動
+  down: 下に移動
+  notice: 注意
+  no_data: 利用可能のデータがありません
+  label_alias: 別名
+  uncategory: 未分類
+  code: コード
+  expand_all: すべてを展開
+  collapse_all: すべてを折畳
 
-  #=========================    irm ldap_auth_headers_controller=======================#
-  label_ldap_auth_header_list: Auth. header list
-  label_irm_ldap_auth_header_name: Name
-  label_irm_ldap_auth_header_new: New Auth Header
-  label_irm_ldap_auth_header_edit: Edit Auth Header
-  ldap_auth_header_ldap_source: Ldap Source
-  ldap_auth_header_auth_name: Name
-  ldap_auth_header_auth_cn: Domain
-  ldap_auth_header_description: Description
-  ldap_auth_header_status_code: Status
-  ldap_auth_header_ldap_login_name_attr: Login Attribute
-  ldap_auth_header_ldap_email_address_attr: Email Attribute
-  ldap_auth_header_template_person: SYNC person template
-  #=========================    end ldap_auth_headers_controller=======================#
-  #=========================    irm ldap=======================#
-  label_irm_ldap_auth_attribute_new: New Ldap Auth Attribute
-  label_irm_ldap_auth_attribute_edit: Edit Ldap Auth Attribute
-  label_ldap_auth_attribute: Auth Attribute
-  label_ldap_auth_attribute_local_attr: Person Attribute
-  label_ldap_auth_attribute_attr_type: Attribute Type
-  label_ldap_auth_attribute_ldap_attr: Ldap Attribute
-  label_ldap_auth_attribute_description: Description
-  label_ldap_auth_attribute_status_code: Status
+  notice_account_invalid_creditentials: ユーザ名またはパスワードが間違いました
+  successfully_updated_password: パスワードが修正されました
+  successfully_updated: データが更新されました
+  successfully_created: 新規データが登録されました
+  successfully_copyed: データがコピーされました
+  successfully_deleted: データが削除されました
+  failed_updated: データの更新に失敗しました
+  failed_created: データの登録に失敗しました
+  failed_copyed: データのコピーに失敗しました
+  failed_deleted: データの削除に失敗しました
+  label_delete_confirm: このデータを削除してもよろしいでしょうか
+  label_no_data: 利用可能のデータがありません
+  label_sub_functions: 機能
+  label_common_info: 一般情報
+  label_description_info: テキスト
+  label_is_required: 必須項目
+  label_help_about_page: ヘルプページ
+  label_detail_info: 詳細
+  label_are_you_sure: このデータを削除してもよろしいでしょうか
+  display_sequence: 表示順
+  display_color: カラー
+  default_flag: 初期値
+  report: レポート
+  common_report: 共通レポート
+  go_to_report: レポートに移動
+  tool: ツール
+  new_event: イベント登録
+  my_event: マイイベント
+  my_all_count: マイリスト
+  label_irm_no_event: イベントなし
+  find: 検索
+  my_view: マイビュー
+  calendar_task: カレンダー
+  remember_user_name: ユーザ名を覚えています
+  no_account: アカウントなし
+  label_cancel_confirm: データが保存されていないまま、削除してもよろしいでしょうか
+  all: すべて
+  search_options: 検索オプション
+  input_keyword_you_want_to_search: 検索するキーワードを入力してください
+  display_all: 全表示
+  upload_from_clipboard: クリップボードからイメージをアップロード
+  created_by: 登録者
+  created_at: 登録時間
+  updated_by: 更新者
+  updated_at: 更新時間
+  kanban_mode: 看板
+  list_mode: リスト
+  error_file_upload_limit: サイズを超えた添付ファイル（最大ファイルサイズ%{m} KB、現在アップロードされたサイズ％{n}KB）
+  error_file_upload_limit_shot: サイズを超えた添付ファイル（最大ファイルサイズ%{m} KB、現在アップロードされたサイズ_KB）
+  error_file_upload_repeat: 添付ファイルが繰り返しアップロードされました
+  error_file_upload_empty: ファイルを選択していないので、再選択してください。
+  file_upload_limit_alert: 最大ファイルサイズ %{m} KB
+  by_name: 名称別
+  by_date: 期日別
+  search_options_with_dot: 詳細検索
+  search_options: 検索オプション
+  search_all: 全検索
+  label_attachment_info: ファイル情報
+  label_attachment_file_size_limit: ファイルサイズ%{リミット}
+  label_attachment_file_type: ファイルタイプ %{タイプ}
 
-  label_irm_ldap_syn_header_list: Synchronous Organization
-  label_irm_ldap_syn_header: Synchronous Solution
-  label_irm_ldap_syn_header_new: New Synchronous Solution
-  label_irm_ldap_syn_header_syn_type: Type
-  label_irm_ldap_syn_header_syn_object: Business Object
-  label_irm_ldap_syn_header_syn_cn: Domain
-  label_irm_ldap_syn_header_syn_multi_language_flag: Multilanguage
-  label_irm_ldap_syn_header_ldap_filter: Filter
-  label_irm_ldap_syn_header_description: Description
-  label_irm_ldap_syn_header_status_code: Status
-  label_irm_ldap_syn_header_comp_title: Company
-  label_irm_ldap_syn_header_org_title: Organization
-  label_irm_ldap_syn_header_dept_title: Department
-  label_irm_ldap_syn_header_peo_title: Person
-  label_irm_ldap_syn_header_syn_name: Name
-  label_irm_ldap_syn_header_base_dn: Base DN
-  label_irm_ldap_syn_header_comp_level: Company Level
-  label_irm_ldap_syn_header_comp_filter: Company Filter
-  label_irm_ldap_syn_header_comp_desc: Company Description
-  label_irm_ldap_syn_header_org_level: Organization Level
-  label_irm_ldap_syn_header_org_filter: Organization Filter
-  label_irm_ldap_syn_header_org_desc: Organization Description
-  label_irm_ldap_syn_header_dept_level: Department Level
-  label_irm_ldap_syn_header_dept_filter: Department Filter
-  label_irm_ldap_syn_header_dept_desc: Department Description
-  label_irm_ldap_syn_header_peo_level: Person Level
-  label_irm_ldap_syn_header_peo_filter: Person Filter
-  label_irm_ldap_syn_header_peo_desc: Person Description
-  label_irm_ldap_syn_header_peo_auth_header: Person Description
-  label_irm_ldap_syn_header_comp_syn_flag: Company Sync Flag
-  label_irm_ldap_syn_header_org_syn_flag: Organization Sync Flag
-  label_irm_ldap_syn_header_dept_syn_flag: Department Sync Flag
-  label_irm_ldap_syn_header_peo_syn_flag: Person Sync Flag
-  label_irm_ldap_syn_header_ldap_auth_header: Person Attribute
-  label_irm_ldap_syn_attribute_comp_list: Comapny Attribute List
-  label_irm_ldap_syn_attribute_org_list: Organization Attribute List
-  label_irm_ldap_syn_attribute_dept_list: Department Attribute List
-  label_irm_ldap_syn_attribute_peo_list: Person Attribute List
 
-  label_irm_ldap_filter: Data Filter
-  label_irm_ldap_description: Description
-  label_irm_ldap_base_dn: Ldap Base DN
-  label_irm_ldap_syn_attribute_list: Attribute List
-  label_irm_ldap_syn_attribute: Synchronous Attribute
-  label_irm_ldap_syn_attribute_new: New Synchronous Attribute
-  label_irm_ldap_syn_attribute_local_attr: Local Attribue
-  label_irm_ldap_syn_attribute_ldap_attr: Default Attribute
-  label_irm_ldap_syn_attribute_ldap_attr_type: Attribute Type
-  label_irm_ldap_syn_attribute_language_code: Language Code
+  label_lookup_types: 検索タイプ
+  label_lookup_types_code: コード
+  label_lookup_level: 範囲
+  label_meaning: 意味
+  label_description: 説明
+  label_lookup_code: 検索コード
+  label_start_date_active: アクティブ開始日
+  label_end_date_active: アクティブ終了日
+  label_active_flag: 有効
+  label_global_level: グローバルレベル
+  label_extended_level: 拡大可能
+  label_user_level: ユーザーレベル
+  label_status_code: ステータスコード
+  label_add_another_lookup_value: 新規検索値追加
+  label_delete_last_lookup_value: 最後の行の検索値を削除します
+  label_new_lookup_type: 検索タイプ新規
+  label_irm_lookup_type_edit: 検索タイプ編集
+  label_irm_lookup_type_lookup_type: 検索タイプ
+  label_irm_lookup_type_meaning: 意味
+  lable_irm_lookup_type_editing_multilingual: マルチ言語編集
+  label_irm_lookup_value_lookup_code: コード
+  label_lookup_code: 検索コード
+  label_irm_lookup_value_meaning: 意味
+  label_irm_lookup_value_description: 説明
+  label_irm_lookup_type_description: 説明
+  label_edit_lookup_type: 検索タイプ編集
+  label_new_lookup_type: 検索タイプ登録
+  label_list_lookup_types: 検索タイプ一覧
+  label_add_lookup_code: 検索コード追加
+  label_irm_lookup_type_new: 検索タイプ新規
+  label_irm_lookup_type_list: 検索タイプ一覧
+  label_irm_lookup_type_info: 検索タイプ情報
+  label_irm_lookup_type_show: 検索タイプ
+  label_irm_lookup_value_index: 検索値インデックス
+  label_irm_lookup_value_list: 検索値一覧
+  label_lookup_value_new: 検索値新規
+  label_irm_lookup_value_info: 検索値情報
+  label_lookup_value_edit: 検索値編集
+  label_lookup_value_show: 検索値
 
-  label_irm_ldap_syn_attribute_null_able: Null Flag
-  label_irm_ldap_syn_attribute_description: Description
 
-  label_irm_ldap_syn_person_list: Synchronous List
-  label_irm_ldap_syn_person_new: Person Default Attribute
-  label_irm_ldap_syn_person_edit: Edit Person Default Value
-  label_irm_ldap_syn_person_name: Name
-  label_irm_ldap_syn_people_role: Role
-  #========================= end   irm ldap=======================#
-  #=========================    irm functions_controller=======================#
-  label_irm_function: Function
-  label_irm_function_list: Functions List
-  label_irm_function_new: Create Function
-  label_irm_function_edit: Edit Function
-  label_irm_function_function_code: Function Code
-  label_irm_function_group_code: Function group
-  label_irm_function_name: Name
-  label_irm_function_name_full: Function Name
-  label_irm_function_description: Description
-  label_irm_function_permission: Permission
-  label_irm_function_permission_add: Add/Remove Permission
-  label_irm_function_own_permission: Owned Permissions
-  label_irm_function_default_flag: Default
-  label_irm_function_public_flag: Public
-  #=========================    end functions_controller=======================#
-  #=========================    irm function_groups_controller=======================#
-  label_irm_function_group: Function Group
-  label_irm_function_group_list: Function Groups List
-  label_irm_function_group_new: Create Function Group
-  label_irm_function_group_edit: Edit Function Group
-  label_irm_function_group_group_code: Function Group Code
-  label_irm_function_group_name: Name
-  label_irm_function_group_description: Description
-  label_irm_function_group_function: Function
-  label_irm_function_group_function_add: Add/Remove Function
-  label_irm_function_group_own_function: Owned Functions
-  #=========================    end function_groups_controller=======================#  
-  #==================    irm mail_templates_controller=======================#
-  label_irm_mail_template_list: Notice Templates List
-  label_irm_mail_template_entity_code: Entity Code
-  label_irm_mail_template_template_code: Template Code
-  label_irm_mail_template_name: Template Name
-  label_irm_mail_template_description: Description
-  label_irm_mail_template_template_type: Template Type
-  label_irm_mail_template_subject: subject
-  label_irm_mail_template_new: New Notice Template
-  label_irm_mail_template_language_code: Template Language
-  label_irm_mail_template_type: Template Type
+  label_irm_product_module: 製品モジュール
+  label_irm_product_module_new: 製品モジュール登録
+  label_irm_product_module_edit: 製品モジュール編集
+  label_irm_product_module_list: 製品モジュール一覧
+  label_irm_product_module_product_short_name: 製品略称
+  label_irm_product_module_name: 製品名称
+  label_irm_product_module_description: 説明
+  label_irm_product_module_installed_flag: インストール
+
+
+  label_irm_language: 言語モジュール
+  label_irm_language_new: 言語登録
+  label_irm_language_edit: 言語編集
+  label_irm_language_list: 言語一覧
+  label_irm_language_language_code: 言語コード
+  label_irm_language_info: 言語情報
+  label_irm_language_description: 説明
+  label_irm_language_installed_flag: インストールフラグ
+  label_irm_language_status_code: ステータス
+  label_irm_language_show: 言語表示
+
+
+  label_irm_common_login: ログイン
+  label_irm_common_username: ユーザ名
+  label_irm_common_password: パスワード
+  label_irm_common_logout: ログアウト
+  label_irm_common_forgot_password: パスワードを紛失しましたか？
+  label_irm_recently_objects: 最近の項目
+  notice_account_locked: アカウントがロックされましたので、管理者に連絡してください！
+  label_irm_common_continue: 続行
+
+
+  label_irm_menu: メニュー
+  label_irm_menu_new: メニュー登録
+  label_irm_menu_edit: メニュー編集
+  label_irm_menu_list: メニューリスト
+  label_irm_menu_menu_code: メニューコード
+  label_irm_menu_icon: アイコン
+  label_irm_menu_name: 名称
+  label_irm_menu_name_full: メニュー名
+  label_irm_menu_description: 説明
+  label_irm_menu_icon: アイコン
+
+  label_irm_menu_entry_name: メニューエントリ名
+  label_irm_menu_entry_list: メニューエントリ一覧
+  label_irm_menu_entry_new: メニューエントリ登録
+  label_irm_menu_entry_edit: メニューエントリ編集
+  label_irm_menu_entry_sub_menu: サブメニュー
+  label_irm_menu_entry_sub_menu_name: サブメニュー名
+  label_irm_menu_entry_page_controller: ページコントロール
+  label_irm_menu_entry_page_action: ページアクション
+  label_irm_menu_entry_display_sequence: 表示順
+  label_irm_menu_entry_display_flag: 表示
+  label_irm_menu_entry_prompt: プロンプト
+  label_irm_menu_entry_description: 説明
+  label_irm_menu_entry_add: メニューエントリ追加
+  error_irm_menu_entry_permission_sub_menu_at_least_one: サブメニューまたはページを少なくとも１項を入力してください。
+  error_irm_menu_entry_sub_menu_sub_group_must_only_one: サブメニューまたはサブ機能グループのいずれかを選択する必要があります
+  label_irm_menu_entry_icon: アイコン
+  label_irm_menu_entry_sub_function_group: サブ機能グループ
+  label_irm_menu_entry_sub_function_group_code: サブ機能グループコード
+  label_irm_menu_entry_sub_function_group_name: サブ機能グループ名
+  label_irm_menu_entry_css_name: Css名
+  label_irm_menu_entry: メニューエントリ
+
+
+  label_irm_permission: 許可
+  label_irm_permission_new: 許可登録
+  label_irm_permission_edit: 許可編集
+  label_irm_permission_permission_code: 許可コード
+  label_irm_permission_permission_type: 許可タイプ
+  label_irm_permission_name: 許可名
+  label_irm_permission_description: 説明
+  icm_rule_settinglabel_irm_permission_product_name: 製品
+  label_irm_permission_page_controller: コントロール
+  label_irm_permission_page_action: アクション
+  label_irm_permission_param_count: パラメータ数量
+  label_irm_permission_direct_get_flag: GET方法
+  label_irm_permission_function_name: 機能名
+  label_irm_permission_status_code: ステータス
+  label_irm_permission_list: 許可一覧
+  label_irm_permission_product_name: 製品所属
+
+
+  label_irm_identity_new: アカウント新規
+  label_irm_identity_edit: アカウント編集
+  label_irm_identity_login_name: ユーザー名
+  label_irm_identity_password: パスワード
+  label_irm_identity_password_confirmation: パスワード確認
+  label_irm_identity_full_name: 名字
+  label_irm_identity_email: 電子メール
+  label_irm_identity_language_code: 言語
+  label_irm_identity_status_code: ステータス
+  label_irm_identity_list: アカウント一覧
+  edit_password: パスワード変更
+  label_irm_identity_old_password: 元のパスワード
+  label_irm_identity_new_password: 新規パスワード
+  label_irm_identity_new_password_confirmation: パスワード確認
+  label_irm_identity_edit_info: 個人情報編集
+  label_irm_identity_edit_password: 個人パスワード変更
+  label_irm_identity_last_login_at: 最終ログイン日
+  label_identity_anonymous: 匿名
+
+
+
+  label_irm_global_setting: グローバル設定
+  label_irm_global_setting_edit: グローバル設定編集
+  label_irm_global_setting_theme_name: 主題
+  label_irm_global_setting_timezone: タイムゾーン
+  label_irm_global_setting_upload_file_limit: アップロードファイルサイズ
+  label_irm_global_setting_logo: ロゴ
+  recommended_size: 推奨サイズ
+  label_irm_global_setting_error_page_info: エラーページ情報
+  label_irm_global_setting_file_limit_tip: アップロードするファイルサイズが制限を超えています
+
+
+  label_irm_auth_source_name: ソース名認証
+  label_irm_auth_source_host: ホスト
+  label_irm_auth_source_port: ポート
+  label_irm_auth_source_account: アカウント
+  label_irm_auth_source_account_password: パスワード
+  label_irm_auth_source_base_dn: ベースドメイン
+  label_irm_auth_source_attr_login: ユーザー名属性
+  label_irm_auth_source_attr_firstname: 名属性
+  label_irm_auth_source_attr_lastname: 姓属性
+  label_irm_auth_source_attr_email: 電子メール属性
+  label_irm_auth_source_onthefly_register_flag: コピー
+  label_irm_auth_source: 認証ソース
+  label_irm_auth_source_list: 認証ソース一覧
+  label_irm_auth_source_new: 認証ソース登録
+  label_irm_auth_source_edit: 認証ソース編集
+  label_irm_auth_source_data_info: LDAPデータ情報
+
+
+  label_irm_ldap_source_type: 認証ソースタイプ
+  label_irm_ldap_source_name: 認証ソース名
+  label_irm_ldap_source_host: ホスト
+  label_irm_ldap_source_port: ポート
+  label_irm_ldap_source_account: アカウント
+  label_irm_ldap_source_account_password: パスワード
+  label_irm_ldap_source_base_dn: ベースドメイン
+  label_irm_ldap_source_attr_login: ユーザー名属性
+  label_irm_ldap_source_attr_firstname: 名属性
+  label_irm_ldap_source_attr_lastname: 姓属性
+  label_irm_ldap_source_attr_email: 電子メール属性
+  label_irm_ldap_source_onthefly_register_flag: コピー
+  label_irm_ldap_source: 認証ソース
+  label_irm_ldap_source_list: 認証ソース一覧
+  label_irm_ldap_source_new: 認証ソース登録
+  label_irm_ldap_source_edit: 認証ソース編集
+  label_irm_ldap_source_data_info: LDAPデータ属性
+
+
+
+  label_ldap_auth_header_list: 認証ヘッダリスト
+  label_irm_ldap_auth_header_name: 認証ヘッダ名
+  label_irm_ldap_auth_header_new: 認証ヘッダ新規
+  label_irm_ldap_auth_header_edit: 認証ヘッダ編集
+  ldap_auth_header_ldap_source: LDAPソース
+  ldap_auth_header_auth_name: 認証ヘッダ名
+  ldap_auth_header_auth_cn: 認証ヘッダドメイン
+  ldap_auth_header_description: 認証ヘッダテキスト
+  ldap_auth_header_status_code: 認証ヘッダステータス
+  ldap_auth_header_ldap_login_name_attr: LDAPユーザー名属性
+  ldap_auth_header_ldap_email_address_attr: LDAP電子メール属性
+  ldap_auth_header_template_person: 従業員テンプレート
+
+
+  label_irm_ldap_auth_attribute_new: 認証ヘッダ属性新規
+  label_irm_ldap_auth_attribute_edit: 認証ヘッダ属性編集
+  label_ldap_auth_attribute: 認証ヘッダ属性
+  label_ldap_auth_attribute_local_attr: 認証属性
+  label_ldap_auth_attribute_attr_type: フィールドタイプ
+  label_ldap_auth_attribute_ldap_attr: LDAP認証
+  label_ldap_auth_attribute_description: テキスト
+  label_ldap_auth_attribute_status_code: ステータス
+
+  label_irm_ldap_syn_header_list: 同期ソリューションリスト
+  label_irm_ldap_syn_header: 同期ソリューション
+  label_irm_ldap_syn_header_new: 同期ソリューション新規
+  label_irm_ldap_syn_header_syn_type: 同期タイプ
+  label_irm_ldap_syn_header_syn_object: 同期業務対象
+  label_irm_ldap_syn_header_syn_cn: ドメイン
+  label_irm_ldap_syn_header_syn_multi_language_flag: マルチ言語同期
+  label_irm_ldap_syn_header_ldap_filter: フィルタリング
+  label_irm_ldap_syn_header_description: 同期ソリューション説明
+  label_irm_ldap_syn_header_status_code: ステータス
+  label_irm_ldap_syn_header_comp_title: 会社同期情報
+  label_irm_ldap_syn_header_org_title: 組織同期情報
+  label_irm_ldap_syn_header_dept_title: 部門同期情報
+  label_irm_ldap_syn_header_peo_title: 従業員同期情報
+  label_irm_ldap_syn_header_syn_name: ソリューション名
+  label_irm_ldap_syn_header_base_dn: ベースドメイン
+  label_irm_ldap_syn_header_comp_level: 会社レベル
+  label_irm_ldap_syn_header_comp_filter: 会社フィルタリング
+  label_irm_ldap_syn_header_comp_desc: 会社同期テキスト
+  label_irm_ldap_syn_header_org_level: 組織レベル
+  label_irm_ldap_syn_header_org_filter: 組織フィルタリング
+  label_irm_ldap_syn_header_org_desc: 組織同期テキスト
+  label_irm_ldap_syn_header_dept_level: 部門レベル
+  label_irm_ldap_syn_header_dept_filter: 部門フィルタリング
+  label_irm_ldap_syn_header_dept_desc: 部門同期テキスト
+  label_irm_ldap_syn_header_peo_level: 従業員レベル
+  label_irm_ldap_syn_header_peo_filter: 従業員フィルタリング
+  label_irm_ldap_syn_header_peo_desc: 従業員同期テキスト
+  label_irm_ldap_syn_header_peo_auth_header: 従業員同期テキスト
+  label_irm_ldap_syn_header_comp_syn_flag: 会社同期フラグ
+  label_irm_ldap_syn_header_org_syn_flag: 組織同期フラグ
+  label_irm_ldap_syn_header_dept_syn_flag: 部門同期フラグ
+  label_irm_ldap_syn_header_peo_syn_flag: 従業員同期フラグ
+  label_irm_ldap_syn_header_ldap_auth_header: 従業員同期属性
+  label_irm_ldap_syn_attribute_comp_list: 会社同期属性一覧
+  label_irm_ldap_syn_attribute_org_list: 組織同期属性一覧
+  label_irm_ldap_syn_attribute_dept_list: 部門同期属性一覧
+  label_irm_ldap_syn_attribute_peo_list: 従業員同期属性一覧
+
+  label_irm_ldap_filter: データフィルタリング
+  label_irm_ldap_description: コメント
+  label_irm_ldap_base_dn: LDAPバースドメイン
+  label_irm_ldap_syn_attribute_list: 同期属性リスト
+  label_irm_ldap_syn_attribute: 同期属性
+  label_irm_ldap_syn_attribute_new: 同期属性新規
+  label_irm_ldap_syn_attribute_local_attr: ローカルフィールド
+  label_irm_ldap_syn_attribute_ldap_attr: 初期値
+  label_irm_ldap_syn_attribute_ldap_attr_type: 値タイプ
+  label_irm_ldap_syn_attribute_language_code: 言語コード
+
+  label_irm_ldap_syn_attribute_null_able: 無効フラグ
+  label_irm_ldap_syn_attribute_description: 説明
+
+  label_irm_ldap_syn_person_list: 従業員初期値設定
+  label_irm_ldap_syn_person_new: 従業員初期値登録
+  label_irm_ldap_syn_person_edit: 従業員初期値編集
+  label_irm_ldap_syn_person_name: 初期値ソリューション名
+  label_irm_ldap_syn_people_role: ロール
+
+  label_irm_function: 機能
+  label_irm_function_list: 機能一覧
+  label_irm_function_new: 機能登録
+  label_irm_function_edit: 機能編集
+  label_irm_function_function_code: 機能コード
+  label_irm_function_group_code: 機能グループ
+  label_irm_function_name: 名称
+  label_irm_function_name_full: 機能名
+  label_irm_function_description: 説明
+  label_irm_function_permission: 管理権限
+  label_irm_function_permission_add: 追加/削除権限
+  label_irm_function_own_permission: 機能独自の権限
+  label_irm_function_default_flag: 初期値
+  label_irm_function_public_flag: パブリック
+
+
+  label_irm_function_group: 機能グループ
+  label_irm_function_group_list: 機能グループ一覧
+  label_irm_function_group_new: 機能グループ登録
+  label_irm_function_group_edit: 機能グループ編集
+  label_irm_function_group_group_code: 機能グループコード
+  label_irm_function_group_name: 名称
+  label_irm_function_group_description: 説明
+  label_irm_function_group_function: 管理機能
+  label_irm_function_group_function_add: 追加/削除機能
+  label_irm_function_group_own_function: 機能グループ独自の機能
+
+
+  label_irm_mail_template_list: 通知テンプレート一覧
+  label_irm_mail_template_entity_code: エンティティコード
+  label_irm_mail_template_template_code: テンプレートコード
+  label_irm_mail_template_name: テンプレート名
+  label_irm_mail_template_description: 説明
+  label_irm_mail_template_template_type: テンプレートタイプ
+  label_irm_mail_template_subject: 主題
+  label_irm_mail_template_new: 通知テンプレート新規
+  label_irm_mail_template_language_code: テンプレート言語
+  label_irm_mail_template_type: テンプレートタイプ
   label_irm_mail_html_template_type: html
-  label_irm_mail_simple_template_type: simple
-  label_irm_mail_template_mail_body: Mail Body
-  label_copy_mail_template: Copy Notice Template
-  label_test_mail_template: Test Notice Template
-  label_irm_mail_template_from: From
-  label_mail_template_plural: Notice Template
-  label_test_mail_template_info: Please input email address for testing notice template.Check your mailbox after submit.
-  label_test: Test
-  label_send_mail_successfully:  Successfully_send_mail,please check the your mailbox.
-  label_irm_mail_template_active_flag: Active
-  label_deliver_mail_template_result: The Test Mail has been sent,please check your mail box.
-  label_irm_mail_template_editing_mail_template: Notice Template Multilingual
-  label_irm_mail_template_status_code: Status Code
-  label_irm_mail_template_multilingual: Multilingual
-  label_irm_mail_template_multilingual_edit: Mutlilingual Edit
-  label_irm_mail_template_info: Notice Template Info
-  label_irm_mail_template_content: Notice Template Content
-  label_irm_mail_template_show: Notice Template
-  label_irm_mail_template_edit: Edit notice template
-  label_irm_mail_template_parameter_field: Notice Template parameters
-  label_irm_mail_template_parameter_bo: Business Object
-  label_irm_mail_template_parameter_field_name: Parameter name
-  label_irm_mail_template_parameter_field_key: Parameter value
-  #==================end irm mail_templates_controller=======================#
-  #=========================    irm currencies_controller=======================#
-  label_irm_currency_currency_code: Code
-  label_irm_currency_name: Name
-  label_irm_currency_precision: Precision
-  label_irm_currency_description: Description
-  label_irm_currency_status_code: Status Code
-  label_irm_currency_new: New Currency
-  label_irm_currency_edit: Edit Currency
-  label_irm_currency_list: List Currency
-  label_irm_currency_show: Currency
-  label_irm_currency_info: Currency Info
-  label_irm_currency_function_description: Show Currency Code Description
+  label_irm_mail_simple_template_type: 簡単
+  label_irm_mail_template_mail_body: メール本文
+  label_irm_mail_template_edit: 通知テンプレート編集
+  label_copy_mail_template: 通知テンプレートコピー
+  label_test_mail_template: 通知テンプレートテスト
+  label_irm_mail_template_from: 送信者
+  label_mail_template_plural: 通知テンプレート
+  label_test_mail_template_info: 通知テンプレートをテストするには、該当するメールアドレスを入力してください。後程テストメールが送信されますので、メールボックスをチェックしてください。
+  label_test: テスト
+  label_send_mail_successfully: メールは送信されました。受信トイレをチェックしてください。
+  label_irm_mail_template_active_flag: アクティブ
+  label_deliver_mail_template_result: メールは送信されました。受信トイレをチェックしてください。
+  label_irm_mail_template_editing_mail_template: 通知テンプレートマルチ言語
+  label_irm_mail_template_status_code: ステータスコード
+  label_irm_mail_template_multilingual: マルチ言語
+  label_irm_mail_template_multilingual_edit: マルチ言語編集
+  label_irm_mail_template_info: 通知テンプレート情報
+  label_irm_mail_template_content: テンプレート内容
+  label_irm_mail_template_show: 通知テンプレート
+  label_irm_mail_template_parameter_field: 通知テンプレートパラメータ
+  label_irm_mail_template_parameter_bo: パラメータ業務対象
+  label_irm_mail_template_parameter_field_name: パラメータ名
+  label_irm_mail_template_parameter_field_key: パラメータ値
+
+
+  label_irm_currency_currency_code: コード
+  label_irm_currency_name: 名称
+  label_irm_currency_precision: 精度
+  label_irm_currency_description: 説明
+  label_irm_currency_status_code: ステータスコード
+  label_irm_currency_new: 通貨新規
+  label_irm_currency_edit: 通貨編集
+  label_irm_currency_list: 通貨一覧
+  label_irm_currency_show: 通貨
+  label_irm_currency_info: 通貨情報
+  label_irm_currency_function_description: 通貨コードおよび説明の表示
   label_irm_currency_currencies_tls:
-    name: Name
-  #=========================end irm currencies_controller=======================#
-  #=========================    irm regions_controller=======================#
-  label_irm_region_region_code: Code
-  label_irm_region_name: Name
-  label_irm_region_description: Description
-  label_irm_region_status_code: Status Code
-  label_irm_region_new: New region
-  label_irm_region_edit: Edit region
-  label_irm_region_list: List region
-  label_irm_region_show: Show region
-  label_irm_region_info: Regin Info
-  label_irm_region_function_description: Define Region。
+  name: 名称
+
+
+  label_irm_region_region_code: コード
+  label_irm_region_name: 名称
+  label_irm_region_description: 説明
+  label_irm_region_status_code: ステータスコード
+  label_irm_region_new: 地域新規
+  label_irm_region_edit: 地域編集
+  label_irm_region_list: 地域一覧
+  label_irm_region_show: 地域表示
+  label_irm_region_info: 地域情報
+  label_irm_region_function_description: 地域定義
   label_irm_region_regions_tls:
-    name: Name
-  #=========================end irm regions_controller=======================#
-  #=========================    irm companies_controller=======================#
-  label_irm_company_company_short_name: Short Name
-  label_irm_company_name: Name
-  label_irm_company_company_type: Company Type
-  label_irm_company_description: Description
-  label_irm_company_status_code: Status Code
-  label_irm_company_new: New company
-  label_irm_company_edit: Edit company
-  label_irm_company_list: List company
+  name: 名称
+
+
+  label_irm_company_company_short_name: 略称
+  label_irm_company_name: 会社名
+  label_irm_company_company_type: 会社タイプ
+  label_irm_company_description: 説明
+  label_irm_company_status_code: ステータスコード
+  label_irm_company_new: 会社新規
+  label_irm_company_edit: 会社編集
+  label_irm_company_list: 会社一覧
   label_irm_company_companies_tls:
-    name: Name
-  label_irm_company_base_info: Base Info
-  label_irm_company_site_info: Site Info
-  label_irm_company_support_group: Support Group
-  label_irm_company_support_group_list: Support Group List
-  label_irm_company_time_zone: Time Zone
-  label_irm_company_hotline: HotLine
-  label_irm_company_cost_center: Cost Center
-  label_irm_company_currency_code: Currency Code
-  label_irm_company_budget_code: Budget Code
-  label_irm_company_home_page: Home Page
-  label_irm_company_site_name: Site Name
-  label_irm_company_site_group_name: Site Group Name
-  label_irm_company_organization: Organization Name
-  label_irm_company_department: Department Name
-  label_irm_company_site_maintenance: Site Manitance
-  label_irm_location_list: Location List
-  label_irm_location_new: New Location
-  label_irm_location_organization: Organization
-  label_irm_location_department: Department
-  label_irm_location_site_group: Site Group
-  label_irm_location_site: Site
-  label_irm_location_status: Status
-  label_irm_company_short_name: Short Name
-  label_irm_location_edit: Edit Site
-  label_irm_company_info: Company Info
-  label_irm_company_show: Company
-  label_irm_company: Company
-  label_irm_location_info: Location Info
-  label_irm_company_support_manager: Support Manager
-  #=========================end irm companies_controller=======================#
-  #=========================    irm login_records_controller=======================#
-  label_irm_login_record_list: User login records
-  label_irm_login_record_user_ip: User IP
-  label_irm_login_record_login_at: Login at
-  label_irm_login_record_logout_at: Logout at
-  label_irm_login_record_operate_system: Operating System
-  label_irm_login_record_browser: Browser
-  #=========================end irm login_records_controller=======================#
-  #=========================    irm organizations_controller=======================#
-  label_irm_organization_explosion: Organization and Subordinates
-  label_irm_organization_parent_org: Parent Organization
-  label_irm_organization_short_name: Code
-  label_irm_organization_name: Name
-  label_irm_organization_description: Description
-  label_irm_organization_status_code: Status Code
-  label_irm_organization_new: New Organization
-  label_irm_organization_edit: Edit Organization
-  label_irm_organization_list: List Organization
-  label_irm_organization_show: Show Organization
-  label_irm_organization_function_description: Define organization in company。
-  label_irm_organization: Organization
+  name: 名称
+  label_irm_company_base_info: 基本情報
+  label_irm_company_site_info: サイト情報
+  label_irm_company_support_group: サポートグループ
+  label_irm_company_time_zone: タイムゾーン
+  label_irm_company_hotline: ホットライン
+  label_irm_company_cost_center: 原価センタ
+  label_irm_company_currency_code: 通貨コード
+  label_irm_company_budget_code: 予算コード
+  label_irm_company_home_page: ホームページ
+  label_irm_company_site_name: サイト名
+  label_irm_company_site_group_name: サイトグループ名
+  label_irm_company_organization: 組織名
+  label_irm_company_department: 部門名
+  label_irm_company_site_maintenance: サイトメンテ
+  label_irm_location_list: 拠点一覧
+  label_irm_location_new: 拠点新規
+  label_irm_location_organization: 組織
+  label_irm_location_department: 部門
+  label_irm_location_site_group: サイトグループ
+  label_irm_location_site: サイト
+  label_irm_location_status: ステータスコード
+  label_irm_company_short_name: コード
+  label_irm_location_edit: サイト編集
+  label_irm_company_info: 会社情報
+  label_irm_company_show: 会社
+  label_irm_company: 会社
+  label_irm_location_info: 拠点情報
+  label_irm_company_support_manager: サポートマネージャ
+
+
+  label_irm_login_record_list: ユーザーログイン履歴
+  label_irm_login_record_user_ip: ユーザーIP
+  label_irm_login_record_login_at: ログイン時間
+  label_irm_login_record_logout_at: ログアウト時間
+  label_irm_login_record_operate_system: OS(オペレーティングシステム)
+  label_irm_login_record_browser: ブラウザ
+
+
+  label_irm_organization_explosion: 組織および従属組織
+  label_irm_organization_parent_org: 親組織
+  label_irm_organization_short_name: 略称
+  label_irm_organization_name: 名称
+  label_irm_organization_description: 説明
+  label_irm_organization_status_code: ステータスコード
+  label_irm_organization_new: 組織新規
+  label_irm_organization_edit: 組織編集
+  label_irm_organization_list: 組織一覧
+  label_irm_organization_show: 組織表示
+  label_irm_organization_function_description: 会社に組織を定義
+  label_irm_organization: 組織
   label_irm_organization_organizations_tls:
-    name: Name
-  label_irm_organization_structure: Organizational Structure
-  #=========================end irm organizations_controller=======================#
-  #=========================    irm value_sets_controller=======================#
-  label_irm_value_set: Value Set
-  label_irm_value_set_list: Value Sets List
-  label_irm_value_set_new: Create Value Set
-  label_irm_value_set_edit: Edit Value Set
-  label_irm_value_set_value_set_code: Value Set Code
-  label_irm_value_set_name: Value Set Name
-  label_irm_value_set_description: Description
-  label_irm_value_set_validation_type: Validation Type
-  #=========================end irm value_sets_controller=======================#
-  #=========================    irm flex_values_controller=======================#
-  label_irm_flex_value: Flex Value
-  label_irm_flex_value_list: Flex Values List
-  label_irm_flex_value_new: Create Flex Value
-  label_irm_flex_value_add: Add Flex Value
-  label_irm_flex_value_edit: Edit Flex Value
-  label_irm_flex_value_value_code: Flex Value Code
-  label_irm_flex_value_name: Flex Value Name
-  label_irm_flex_value_description: Description
-  label_irm_flex_value_position: Display Sequence
-  label_irm_flex_value_start_date_active: Start Date
-  label_irm_flex_value_end_date_active: End Date
-  #=========================end irm flex_values_controller=======================#
-  #=========================irm general_category_controller=======================#
-  label_irm_general_category: General Category
-  label_irm_general_category_list: General Categories List
-  label_irm_general_category_new: Create Category
-  label_irm_general_category_edit: Edit Category
-  label_irm_general_category_type: Category Type
-  label_irm_general_category_company: Company
-  label_irm_general_category_segment1: Segment1
-  label_irm_general_category_segment2: Segment2
-  label_irm_general_category_segment3: Segment3
-  label_irm_general_category_concact_segment: Segments Concact
-  error_segment_combination_existed: Same Combination Existed
-  #=========================end general_category_controller=======================#  
-  #=========================    irm site_groups_controller=======================#
-  label_irm_site_group_group_code: Code
-  label_irm_site_group_region_name: Region Name
-  label_irm_site_group_name: Name
-  label_irm_site_group_description: Description
-  label_irm_site_group_create_site: Create Site
-  label_irm_site_group_add_site: Add Site
-  label_irm_site_group_add_site: Add Site
-  label_irm_site_group_status_code: Status Code
-  label_irm_site_group_new: New Site Group
-  label_irm_site_group_edit: Edit Site Group
-  label_irm_site_group_list: List Site Group
-  label_irm_site_group_show: Site Group
-  label_irm_site_group_create_site: Create Site
+  name: 名称
+  label_irm_organization_structure: 組織構築
+
+
+  label_irm_value_set: 値セット
+  label_irm_value_set_list: 値セット一覧
+  label_irm_value_set_new: 値セット登録
+  label_irm_value_set_edit: 値セット編集
+  label_irm_value_set_value_set_code: 値セットコード
+  label_irm_value_set_name: 値セット名
+  label_irm_value_set_description: 説明
+  label_irm_value_set_validation_type: 検証タイプ
+
+
+  label_irm_flex_value: フレックス値
+  label_irm_flex_value_list: フレックス値一覧
+  label_irm_flex_value_new: フレックス値登録
+  label_irm_flex_value_add: フレックス値追加
+  label_irm_flex_value_edit: フレックス値編集
+  label_irm_flex_value_value_code: フレックス値コード
+  label_irm_flex_value_name: フレックス値名
+  label_irm_flex_value_description: 説明
+  label_irm_flex_value_position: 表示順
+  label_irm_flex_value_start_date_active: アクティブ開始日
+  label_irm_flex_value_end_date_active: アクティブ終了日
+
+
+  label_irm_site_group_group_code: コード
+  label_irm_site_group_region_name: 地域
+  label_irm_site_group_name: 名称
+  label_irm_site_group_create_site: サイト登録
+  label_irm_site_group_edit_site: サイト編集
+  label_irm_site_group_add_site: サイト追加
+  label_irm_site_group_description: 説明
+  label_irm_site_group_status_code: ステータスコード
+  label_irm_site_group_new: サイトグループ新規
+  label_irm_site_group_edit: サイトグループ編集
+  label_irm_site_group_list: サイトグループリスト
+  label_irm_site_group_show: サイトグループ
   label_irm_site_group_site_groups_tls:
-    name: Name
-  label_irm_site_new: New Site
-  label_irm_site_index: Site
-  label_irm_site_edit: Edit Site
-  label_irm_site_list: List Site
-  label_irm_site_site_code: Site Code
-  label_irm_site_name: Name
-  label_irm_site_info: Site Detail Info
-  label_irm_site_site_group_name: Site Group Name
-  label_irm_site_description: Description
-  label_irm_site_address_line: Address Line
-  label_irm_site_country: Country
-  label_irm_site_city: City
-  label_irm_site_postal_code: Postal Code
-  label_irm_site_state: Province
-  label_irm_site_timezone_code: TimeZone
-  label_add_another_site: Add Another Site
-  label_delete_last_site: Delete Last Site
-  label_irm_site_status_code: Status Code
-  label_irm_site_show: Site
-  label_action_select_site: Select Site
-  label_irm_site: Site
-  label_action_edit_assignment: Add People
-  #=========================end irm site_groups_controller=======================#
-  #=========================    irm support_groups_controller=======================#
-  label_irm_group: Group
-  label_irm_group_explosion: Group and subordinates
-  label_irm_group_company_name: Company Name
-  label_irm_group_organization_name: Organization Name
-  label_irm_group_group_code: Code
-  label_irm_group_name: Name
-  label_irm_group_description: Description
-  label_irm_group_status_code: Status Code
-  label_irm_group_new: New support_group
-  label_irm_group_edit: Edit support_group
-  label_irm_group_list: List support_group
+  name: 名称
+  label_irm_site_new: サイト新規
+  label_irm_site_index: サイト
+  label_irm_site_edit: サイト編集
+  label_irm_site_list: サイトリスト
+  label_irm_site_site_code: サイトコード
+  label_irm_site_name: 名称
+  label_irm_site_info: サイト詳細情報
+  label_irm_site_site_group_name: サイトグループ名
+  label_irm_site_description: 説明
+  label_irm_site_address_line: アドレス
+  label_irm_site_country: 国家
+  label_irm_site_city: 市町村
+  label_irm_site_postal_code: 郵便番号
+  label_irm_site_state: 都道府県
+  label_irm_site_timezone_code: タイムゾーン
+  label_add_another_site: サイト新規
+  label_delete_last_site: 最後の行のサイトを削除
+  label_irm_site_status_code: ステータスコード
+  label_irm_site_show: サイト
+  label_action_select_site: サイトの選択
+  label_irm_site: サイト
+  label_action_edit_assignment: 従業員の追加
+
+
+
+  label_irm_general_category: 一般カテゴリ
+  label_irm_general_category_list: 一般カテゴリ一覧
+  label_irm_general_category_new: カテゴリの登録
+  label_irm_general_category_edit: カテゴリの編集
+  label_irm_general_category_type: カテゴリタイプ
+  label_irm_general_category_company: 会社
+  label_irm_general_category_segment1: セグメント1
+  label_irm_general_category_segment2: セグメント2
+  label_irm_general_category_segment3: セグメント3
+  label_irm_general_category_concact_segment: セグメント組合せ
+  error_segment_combination_existed: 同じ会社の元では同じセグメント組合せが存在してはいけない
+
+
+  label_irm_group: グループ
+  label_irm_group_explosion: グループ及び付属
+  label_irm_group_company_name: 会社名
+  label_irm_group_organization_name: 組織名
+  label_irm_group_group_code: コード
+  label_irm_group_name: 名称
+  label_irm_group_description: 説明
+  label_irm_group_status_code: ステータスコード
+  label_irm_group_new: 新規サポートグループ
+  label_irm_group_edit: サポートグループの編集
+  label_irm_group_list: サポートグループ一覧
   label_irm_group_support_groups_tls:
-    name: Name
-  label_irm_group_oncall_flag: Oncall Group
-  label_irm_group_support_role: Support Group Role
-  label_irm_group_vendor_flag: Vendor Group
-  label_irm_group_base_info: Base Info
-  label_irm_group_member: Support Group Member
-  label_irm_group_choose_person: Choose Person
-  label_irm_group_add_person: Add Member
-  label_irm_group_show: Support Group
-  label_irm_group_person_name: Person Name
-  label_action_select_person: Choose support group member
-  label_action_new_from_person: Choose support group
-  label_irm_group_parent: Parent Group
-  label_irm_group_structure: Organizational Group Structure
-  #=========================end irm support_groups_controller=======================#
-  #=========================    irm people_controller=======================#
-  label_irm_person: Person
-  label_irm_person_login: Login
-  label_irm_person_name: Name
-  label_irm_person_list: Person List
-  label_irm_person_mobile_phone: Mobile Phone
-  label_irm_person_edit: Edit Person
-  label_irm_person_new: New Person
-  label_irm_person_show: Personal Info
-  label_irm_person_organization: Organization
-  label_irm_person_title: Title
-  label_irm_person_language: Language
-  label_irm_person_profile: Profile
-  label_irm_person_role: Role
-  label_irm_person_first_name: First Name
-  label_irm_person_last_name: Last Name
-  label_irm_person_full_name: Full Name
-  label_irm_person_job_title: Job Title
+  name: 名称
+  label_irm_group_oncall_flag: コールグループ
+  label_irm_group_support_role: サポートグループロール
+  label_irm_group_vendor_flag: 仕入先グループ
+  label_irm_group_base_info: 基本情報
+  label_irm_group_member: サポートグループメンバー
+  label_irm_group_choose_person: 従業員の選択
+  label_irm_group_add_person: メンバーの追加
+  label_irm_group_show: サポートグループ
+  label_irm_group_person_name: 従業員名前
+  label_action_select_person: サポートグループメンバーの選択
+  label_action_new_from_person: サポートグループの選択
+  label_irm_group_parent: 親グループ
+  label_irm_group_structure: 組織グループ構造
+
+
+  label_irm_person: 従業員
+  label_irm_person_login: ログインID
+  label_irm_person_name: 名称
+  label_irm_person_language: 言語
+  label_irm_person_list: 従業員一覧
+  label_irm_person_mobile_phone: 移動電話
+  label_irm_person_edit: 従業員の編集
+  label_irm_person_new: 新規従業員
+  label_irm_person_show: 個人情報
+  label_irm_person_organization: 組織
+  label_irm_person_title: タイトル
+  label_irm_person_first_name: 名
+  label_irm_person_last_name: 姓
+  label_irm_person_full_name: 姓名
+  label_irm_person_job_title: 職位
   label_irm_person_vip_flag: VIP
-  label_irm_person_support_staff_flag: Support Staff
-  label_irm_person_assignment_availability_flag: assignment availability
-  label_irm_person_status_enabled: Enabled
-  label_irm_person_email_address: Email Address
-  label_irm_person_home_phone: Home Phone
-  label_irm_person_home_address: Home Address
-  label_irm_person_time_zone: User Time Zone
-  label_irm_person_mobile_phone: Mobile Phone
-  label_irm_person_fax_number: Fax Number
-  label_irm_person_bussiness_phone: Bussiness Phone
-  label_irm_person_region_code: Region
-  label_irm_person_site_group_code: Site Group
-  label_irm_person_site_code: Site
-  label_irm_person_function_group_code: Function Group
-  label_irm_person_avatar: Avatar
-  label_irm_person_unrestricted_access_flag: Unrestricted Access
-  label_irm_person_notification_lang: Notification Language
-  label_irm_person_notification_flag: Notification Flag
-  label_irm_person_base_info: Base Info
-  label_irm_person_other_info: Other Info
-  label_irm_person_login_and_access: Login Access
-  label_irm_person_company_access: Company Access
-  label_irm_person_support_group: Support Group
-  label_irm_person_group: Group
-  label_irm_person_notification: Notification
-  label_irm_person_status_code: Status Code
-  label_irm_person_login_access_company: Company Name
-  label_irm_person_login_access_status_code: Status Code
-  label_irm_person_maintenance_company_access: Maintenance Company Access
-  label_irm_person_add_company_access: Add Company
-  label_irm_person_person_name: Full Name
-  label_irm_person_all_support_groups: All Support Groups
-  label_irm_person_choose_company: Choose Company
-  label_irm_person_info: Personal Info
-  label_irm_person_my_profile: My Profile
-  label_irm_person_other_info: Other Info
-  label_irm_person_company_access_flag: Company Access
-  label_irm_person_support_stuff_flag: Support Stuff
-  label_irm_person_owned_roles: Owned Roles
-  label_irm_person_available_roles: Available Roles
-  label_irm_person_avatar: Avatar
-  label_irm_person_avatar_new: Upload New Avatar
-  label_irm_person_avatar_crop: Crop Avatar
-  label_irm_person_avatar_edit: Edit Avatar
-  label_irm_person_avatar_current: Current Avatar
-  label_irm_person_avatar_best_size: Best size 100px * 100px
-  label_irm_person_approve_info: Approve Info
-  label_irm_person_delegate_approver: Delegate Approver
-  label_irm_person_approve_request_mail: Approve Request Mail
-  label_irm_person_delegate_manager: Manager
-  label_action_select_roles: Select Roles
-  label_action_add_roles: Select Roles
-  label_irm_person_add_to_support_group: Add to Support Group
-  label_irm_person_template_flag: Template
-  label_irm_person_admin_flag: Administrator
-  label_irm_person_security_flag: Security Flag
-  label_irm_person_access_system: Accessible Systems
-  label_irm_person_add_to_company: Add to Company
-  label_irm_person_add_to_system: Add to System
-  label_irm_person_password_info: Set Password
-  error_irm_person_new_old_password_same: New password can not be same as the old one.
-  label_irm_person_reset_password: Reset Password
-  label_irm_person_is_ldap: LDAP
-  label_irm_person_ldap_source: LDAP Source
-  #=========================end irm people_controller=======================#
-  #=========================irm id_flexes_controller=======================#
-  label_irm_id_flex: Flex
-  label_irm_id_flex_list: Flexes List
-  label_irm_id_flex_new: Create Flex
-  label_irm_id_flex_edit: Edit Flex
-  label_irm_id_flex_code: Flex Code
-  label_irm_id_flex_name: Name
-  label_irm_id_flex_name_full: Flex Name
-  label_irm_id_flex_description: Description
-  #=========================end id_flexes_controller=======================#
-  #=========================irm id_flex_structures_controller=======================#
-  label_irm_id_flex_structure: Flex Structure
-  label_irm_id_flex_structure_list: Flex Structures List
-  label_irm_id_flex_structure_new: Create Flex Structure
-  label_irm_id_flex_structure_edit: Edit Flex Structure
-  label_irm_id_flex_structure_name: Name
-  label_irm_id_flex_structure_name_full: Flex Structure Name
-  label_irm_id_flex_structure_code: Flex Structure Code
-  label_irm_id_flex_structure_description: Description
-  label_irm_id_flex_structure_concatenated_segment_delimiter: Delimiter
-  label_irm_id_flex_structure_id_flex_structure_name: name
-  label_flex_choice: Choose Flex
+  label_irm_person_support_staff_flag: サポートスタッフ
+  label_irm_person_assignment_availability_flag: 割当利用可能
+  label_irm_person_security_flag: セキュリティフラグ
+  label_irm_person_email_address: メールアドレス
+  label_irm_person_home_phone: 家庭電話
+  label_irm_person_home_address: 家庭アドレス
+  label_irm_person_mobile_phone: 移動電話
+  label_irm_person_fax_number: ファックス番号
+  label_irm_person_bussiness_phone: ビジネス電話
+  label_irm_person_region_code: 地域
+  label_irm_person_site_group_code: サイトグループ
+  label_irm_person_site_code: サイト
+  label_irm_person_function_group_code: 機能グループ
+  label_irm_person_avatar: プロフィール写真
+  label_irm_person_unrestricted_access_flag: 無制限アクセス
+  label_irm_person_notification_lang: 通知言語
+  label_irm_person_notification_flag: 通知フラグ
+  label_irm_person_base_info: 基本情報
+  label_irm_person_other_info: その他情報
+  label_irm_person_login_and_access: ログインアクセス
+  label_irm_person_company_access: 会社アクセス
+  label_irm_person_support_group: サポートグループ
+  label_irm_person_group: グループ
+  label_irm_person_notification: 通知
+  label_irm_person_status_code: ステータスコード
+  label_irm_person_login_access_company: 会社名
+  label_irm_person_login_access_status_code: ステータスコード
+  label_irm_person_maintenance_company_access: 会社アクセスのメンテナンス
+  label_irm_person_add_company_access: 会社の追加
+  label_irm_person_person_name: 姓名
+  label_irm_person_all_support_groups: 全サポートグループ
+  label_irm_person_choose_company: 会社の選択
+  label_irm_person_info: 個人情報
+  label_irm_person_my_profile: マイ概略
+  label_irm_person_other_info: その他情報
+  label_irm_person_company_access_flag: 会社アクセスするかどうか
+  label_irm_person_support_stuff_flag: グループをサポートするかどうか
+  label_irm_person_owned_roles: 自分のロール
+  label_irm_person_available_roles: 利用可能ロール
+  label_irm_person_avatar: プロフィール写真
+  label_irm_person_avatar_new: 新規プロフィール写真のアップロード
+  label_irm_person_avatar_crop: プロフィール写真の切り取り
+  label_irm_person_avatar_edit: プロフィール写真 の編集
+  label_irm_person_avatar_current: 現在プロフィール写真
+  label_irm_person_avatar_best_size: 理想サイズ:100px * 100px
+  label_irm_person_approve_info: 承認情報
+  label_irm_person_delegate_approver: 代理承認者
+  label_irm_person_approve_request_mail: 承認依頼メール
+  label_irm_person_delegate_manager: マネジャー
+  label_action_select_roles: ロールの選択
+  label_action_add_roles: ロールの選択
+  label_irm_person_add_to_support_group: サポートグループに追加
+  label_irm_person_template_flag: テンプレート
+  label_irm_person_profile: プロファイル
+  label_irm_person_role: ロール
+  label_irm_person_access_system: システムアクセス可能
+  label_irm_person_add_to_company: 会社に加入
+  label_irm_person_add_to_system: 外部システムに追加
+  label_irm_person_password_info: パスワードの設定
+  label_irm_person_save_and_add_system: 保存後にシステムを追加
+  label_irm_person_save_and_add_group: 保存後にグループを追加
+  error_irm_person_new_old_password_same: 新規パスワードが元のパスワードと同じになってはいけません
+  label_irm_person_reset_password: パスワードのリセット
 
-  label_irm_add_id_flex_segments: Flex Segments
-  label_irm_id_flex_segment: Flex Segment
-  label_irm_id_flex_segment_edit: Edit Flex Segment
-  label_irm_id_flex_segment_new: Create Flex Segment
-  label_irm_id_flex_segment_list: Flex Segments List
-  label_irm_id_flex_segment_name: Flex Segment Code
-  label_irm_id_flex_segment_segment_num: Display Sequence
-  label_irm_id_flex_segment_description: Description
-  label_irm_id_flex_segment_form_left_prompt: Prompt
-  #=========================end id_flex_structures_controller=======================#  
-  #=========================    irm company_access_controller=======================#
-  label_irm_company_access_new: New Company Access
-  label_irm_company_access_info: Company Access Info
-  #=========================end irm company_access_controller=======================#
-  #=========================    irm support_group_controller=======================#
-  label_irm_group_member_new: New Support Group Memeber
-  label_irm_select_result: Select Result
-  label_irm_group_member_group_list: List Support Group List
-  label_irm_group_member_info: Support Group Member
-  label_irm_group_member_select_group: Select Group For User
-  #=========================end irm  support_group_controller=======================#
-  #=========================    irm filters_controller=======================#
-  label_irm_filter: Filter
-  label_irm_new_view_filter: New view
-  label_irm_view_filter_new: New view filter
-  label_irm_view_filter_edit: Edit view filter
-  label_irm_view_filter_base_info: Step 1. Input View info
-  label_irm_view_filter_data_range: Step 2. Define Data range
-  label_irm_view_filter_criterion: Step 3. Define data filter criterion
-  label_irm_view_filter_access_control: Step 4. Access control
-  label_irm_view_filter_data_range_all: All
-  label_irm_view_filter_data_range_main: My
-  label_irm_view_filter_view_name: View name
-  label_irm_rule_filter_filter_description: View name
-  label_irm_view_filter_view_description: View Description
-  label_irm_view_filter_view_description: View Description
-  label_irm_view_filter_view_code: View unique name
-  label_irm_view_filter_view_condition_clause: Senior filter condition
-  label_irm_view_filter_default_flag: As default
-  label_irm_view_filter_restrict_visibility: Only for me
-  irm_filter_criterions_column_code: Field
-  irm_filter_criterions_operator_code: Operator
-  irm_filter_criterions_filter_value: Value
-  view_filter_use_invalid_seq_num: Invalid sequence number
-  view_filter_use_invalid_key_word: Invalid keyword
-  view_filter_use_invalid_syntax: Syntax Error
-  irm_view_filter: View Filter
-  label_irm_view_filter_restrict_visibility_for_me: Only for me
-  label_irm_view_filter_restrict_visibility_for_all: For all user
-  #=========================end irm filters_controller=======================#
-  #========================= irm roles ===================================
-  label_irm_role_list: Role list
-  label_irm_role_explosion: Role
-  label_irm_role_explosion: Role and Subordinates
-  label_irm_role_new: New role
-  label_irm_role_edit: Edit role
-  label_irm_role_code: Role code
-  label_irm_role_name: Role name
-  label_irm_role_description: Description
-  label_irm_role_menu: Menu
-  label_irm_role_type: Role Type
-  label_irm_role_report_group_code: Report group
-  label_irm_function_list: Function list
-  label_irm_role_hidden_flag: Hidden
-  label_irm_role_menu_code: Menu
-  label_irm_role_service_role_type: Role type
-  label_irm_role_report_to_role: Report To
-  label_irm_role_mode_list: List View
-  label_irm_role_mode_tree: Tree View
-  label_irm_role_structure: Organizational Role Structure
-  #=========================end irm roles ===================================
-  #========================= irm reports ===================================
-  label_irm_report_step_report_type: Report Type
-  label_irm_report_step_base_info: Basic Information
-  label_irm_report_step_column: Report Columns
-  label_irm_report_step_group: Group by Columns
-  label_irm_report_step_data_filter: Data Filter
-  label_irm_report_list: Report List
-  label_irm_report: Report
-  label_irm_report_code: Code
-  label_irm_report_program: Report Program
-  label_irm_report_name: Name
-  label_irm_report_category_code: Category
-  label_irm_report_status_code: Status
-  label_irm_report_new: New Report
-  label_irm_report_description: Description
-  label_irm_report_edit: Edit Report
-  label_irm_report_choose_report_type: Choose Report Type
-  label_irm_report_choose_display_column: Choose Report Column
-  label_irm_report_filter_company: Company
-  label_irm_report_time_range: Data Range
-  label_irm_report_filter_date_field: Date Field
-  label_irm_report_filter_date_from: from
-  label_irm_report_filter_date_to: to
-  label_irm_report_base_data_filter: Base Data Filter
-  label_irm_report_data_filter: Data Filter
-  label_irm_report_detail_display_flag: Show Detail Information
-  label_irm_report_run: Run
-  label_irm_report_report_type: Reprot Type
-  label_irm_report_record_count: Count
-  label_irm_report_records: records
-  label_irm_report_report_folder: Report Folder
-  label_irm_report_create_new: New Report
-  label_irm_report_custom: Custom
-  label_irm_report_run_immediate: Run Immediate
-  label_irm_report_run_schedule: Schedule
-  label_irm_report_choose_report_category: Report Catetory
-  label_action_edit_custom: Custom
-  label_action_run: Run
-  label_irm_report_new_custom: New Custom Report
-  label_irm_report_new_program: New Program Report
-  label_irm_report_edit_program: Edit Program Report
-  label_irm_report_apply_params: Apply Report Params
-  label_irm_report_chart_type: Chart Type
-  label_irm_report_record_count: Record Count
-  label_irm_report_params_config: Report Parameters Config
-  label_irm_report_params_default_value: Default Value
-  label_irm_report_auto_run_flag: Auto Run
-  #========================= end irm reports ===================================
-  #========================= irm report column ===================================
-  label_irm_report_setup_group_column_header: Set data column grouping
-  label_irm_report_setup_group_row_header: Set data line grouping
-  label_irm_report_group_column_field: Grouping column
-  label_irm_report_group_column_sort_type: Sort
-  label_irm_report_group_column_group_date_type: Date grouping way
-  #========================= end irm report column ===================================
-  #=========================start irm  report_lists_controllers=====================#
-  label_icm_incident_report_all: Incident Report Summary
-  label_csi_survey_report_all: Survey Report
-  label_please_input_search: Please Input and search report
-  #=========================end irm  report_lists_controllers=======================#
-  #=========================start irm  common_reports_controllers=====================#
-  label_irm_person_login_day: Date
-  label_irm_report_count: Count
-  #=========================end irm  common_reports_controllers=======================#
-  #=========================start irm  multilingual=====================#
-  label_multilingual_fields: Multilingual
-  label_multilingual_edit_files: Edit multilingual fields 
-  #=========================end irm  multilingual=====================#
-  #=========================start irm  multilingual=====================#
-  label_company_access_menu_label: Company
-  #=========================end irm  multilingual=====================#
-  #======================== bulletin controller ======================
-  label_irm_bulletin: Bulletin
-  label_irm_bulletin_new: Create Bulletin
-  label_irm_bulletin_edit: Edit Bulletin
-  label_irm_bulletin_list: Bulletins List
-  label_irm_bulletin_title: Title
-  label_irm_bulletin_content: Content
-  label_irm_bulletin_sticky_flag: Sticky
-  label_irm_bulletin_highlight_flag: Highlight
-  label_irm_bulletin_page_views: Views
-  label_irm_bulletin_published_date: Published Date
-  label_irm_bulletin_access: Access Control
-  label_irm_bulletin_access_list: Accessiable List
-  label_irm_bulletin_access_type: Access Type
-  label_irm_bulletin_add_access_line: Add Rule
-  label_irm_bulletin_access_availabel_companies: Company, Organization and Department
-  label_irm_bulletin_access_availabel_departments: Departments
-  label_irm_bulletin_access_availabel_roles: Role
-  label_irm_bulletin_add_to_access_rule: Add to access list
-  label_irm_bulletin_selected_companies: Company
-  label_irm_bulletin_selected_departments: Department
-  label_irm_bulletin_selected_roles: Role
-  label_irm_bulletin_selected_organizations: Organization
-  label_irm_bulletin_if_access_list_none: This bulletin is opened to all users if not limit accesiable list.
-  label_irm_bulletin_attachment: Attachments
-  error_irm_bulletin_content_can_not_blank: Bulletin content can not be blank
-  #======================== end bulletin controller ======================
-  #======================== bu_column controller ======================
-  label_irm_bu_column: Bulletin Column
-  label_irm_bu_column_code: Column Code
-  label_irm_bu_column_list: Column List
-  label_irm_bu_column_new: New Column
-  label_irm_bu_column_edit: Edit Column
-  label_irm_bu_column_parent: Parent Column
-  label_irm_bu_column_new_child: New Child Column
-  label_irm_bu_column_choice: Choose Columns
-  #======================== end bu_column controller ======================
-  #======================== watcher ======================
-  label_irm_watcher: Watcher
-  label_irm_watcher_new: Add Watcher
-  label_irm_watcher_list: Watcher List
-  label_irm_watcher_helper: You can only add youself as the watcher.
-  #======================== end watcher ======================
-  #======================== calendar events====================
-  label_action_calendar_view: Calendar
-  label_irm_todo_event: Events
-  label_irm_todo_event_new: Create Event
-  label_irm_todo_event_edit: Edit Event
-  label_irm_todo_event_start_at: Start Date
-  label_irm_todo_event_end_at: End Date
-  label_irm_todo_event_color: Color
-  label_irm_todo_event_name: Event Name
-  label_irm_wf_relation_object: Relation
-  label_irm_todo_event_location: Location
-  label_irm_todo_event_percent_complete: Percent Completed
-  label_irm_todo_event_recurrence: Recurrence
-  label_irm_todo_event_recurrence_new: Create Recurring Series of Events
-  label_irm_todo_event_recurrence_frequency: Frequency
-  label_irm_todo_event_recurrence_every_weekday: Every Workday
-  label_irm_todo_event_recurrence_every: Every
-  label_irm_todo_event_recurrence_day: Day
-  label_irm_todo_event_recurrence_daily: Daily
-  label_irm_todo_event_recurrence_weekly: Weekly
-  label_irm_todo_event_recurrence_monthly: Monthly
-  label_irm_todo_event_recurrence_yearly: Yearly
-  label_irm_todo_event_recurrence_every_day: Recurs every %{m} day(s) on
-  label_irm_todo_event_recurrence_every_week: Recurs every %{m} week(s) on
-  label_irm_todo_event_recurrence_week_x: Week %{x}
-  label_irm_todo_event_recurrence_every_year: Recurs every %{m} year(s) on
-  label_irm_todo_event_recurrence_day_of_every_month: On day %{n} of every %{m} month(s)
-  label_irm_todo_event_recurrence_weekday_of_every_month: On the %{n} of every %{m} month(s)
-  label_irm_todo_event_assigned_to: Assigned To
-  label_irm_todo_event_recurrence_edit: Edit Series
-  label_action_edit_recurrence: Edit Series
-  label_action_my_events_index: My Events
-  recurrence_occurs: Occurs
-  recurrence_byday: on day %{m}
-  recurrence_byday_week: on %{m}
-  recurrence_until: until %{m}
-  recurrence_daily: day(s)
-  recurrence_weekly: week(s)
-  recurrence_monthly: month(s)
-  recurrence_interval: every %{m}
-  label_irm_calendar_view: Calendar View
-  label_irm_todo_event_list_view: Events List View
-  label_action_portlet: Need To Do Task
-  #======================== end calendar tasks====================
-  #======================== business objects====================
-  label_business_object_list: Business Object
-  label_irm_business_object_business_object_code: Code
-  label_irm_business_object_name: Name
-  label_irm_business_object_name_full: BO Name
-  label_irm_business_object_bo_table_name: Table Name
-  label_irm_business_object_bo_model_name: Model Name
-  label_irm_business_object_auto_generate_flag: Auto Generate
-  label_irm_business_object_multilingual_flag: Multilingual
-  label_irm_business_object_new: New Business Object
-  label_irm_business_object_edit: Edit Business Object
-  label_irm_business_object_description: Description
-  label_irm_business_object_description_full: BO Description
-  label_irm_business_object_workflow_flag: Workflow
-  label_irm_business_object_api: API Information
-  label_irm_business_object_function: Function
-  label_irm_business_object_relation: Related BO Info.
-  label_irm_business_object_report_flag: Report
-  label_irm_business_object_standard_flag: Built-in BO
-  label_irm_business_object_data_access_flag: Data Access
-  label_irm_object_user_custom_attributes: User Custom Field
-  label_irm_object_user_custom_flag: Custom Field
-  label_irm_object_user_system_custom_flag: System Custom Field
-  label_action_new_cux: New Custom Field
-  label_action_create_cux: New Custom Field
-  label_custom_attributes_show: Show Custom Fields
-  label_custom_attributes_hide: Hide Custom Fields
-  #======================== end business objects====================
 
-  #======================== object rules====================
-  label_irm_object_rules: Template person rules
-  label_irm_ldap_auth_rule: Template person rules
-  label_irm_ldap_auth_rule_new: New Template person rule
-  label_irm_ldap_auth_rule_edit: Edit Template person rule
-  label_irm_ldap_auth_rule_filter: The filter
-  #======================== end object rules====================
+  label_irm_id_flex: フレックス
+  label_irm_id_flex_list: フレックス一覧
+  label_irm_id_flex_new: フレックスの登録
+  label_irm_id_flex_edit: フレックスの編集
+  label_irm_id_flex_code: フレックスコード
+  label_irm_id_flex_name: 名称
+  label_irm_id_flex_name_full: フレックス名
+  label_irm_id_flex_description: 説明
 
-  #======================== object attributes====================
-  label_irm_object_attributes: Object Attributes
-  label_irm_object_attribute_name: Name
-  label_irm_object_attribute_attribute_name: Attribute Name
-  label_irm_object_attribute_approval_page_field_flag: Approval
-  label_irm_object_attribute_filter_flag: Filter
-  label_irm_object_attribute_relation_bo_code: Relation BO
-  label_irm_object_attribute_relation_column: Relation Column
-  label_irm_object_attribute_relation_table_alias_name: Relation BO alias
-  label_irm_object_attribute_attribute_type: Attribute Type
-  label_irm_object_attribute_new: New Object Attributes
-  label_irm_object_attribute_choose_attribute_type: Choose Attribute Type
-  label_irm_object_attribute_exists_relation_flag: Already Relationed
-  label_irm_object_attribute_relation_type: Relation Type
+
+  label_irm_id_flex_structure: フレックス構造
+  label_irm_id_flex_structure_list: フレックス構造一覧
+  label_irm_id_flex_structure_new: フレックス構造の登録
+  label_irm_id_flex_structure_edit: フレックス構造の編集
+  label_irm_id_flex_structure_name: 名称
+  label_irm_id_flex_structure_name_full: フレックス構造名
+  label_irm_id_flex_structure_code: フレックス構造コード
+  label_irm_id_flex_structure_description: 説明
+  label_irm_id_flex_structure_concatenated_segment_delimiter: デリミタ
+  label_irm_id_flex_structure_id_flex_structure_name: 名称
+  label_flex_choice: フレックスの選択
+
+  label_irm_add_id_flex_segments: フレックスセグメントの管理
+  label_irm_id_flex_segment: フレックスセグメント
+  label_irm_id_flex_segment_edit: フレックスセグメントの編集
+  label_irm_id_flex_segment_new: フレックスセグメントの登録
+  label_irm_id_flex_segment_list: フレックスセグメント一覧
+  label_irm_id_flex_segment_name: セグメントコード
+  label_irm_id_flex_segment_segment_num: 順序の照会
+  label_irm_id_flex_segment_description: 説明
+  label_irm_id_flex_segment_form_left_prompt: セグメント名
+
+
+  label_irm_company_access_new: 新規会社アクセス
+  label_irm_company_access_info: 会社アクセス情報
+
+
+  label_irm_group_member_new: 新規サポートメンバー
+  label_irm_group_member_group_list: サポートグループ一覧
+  label_irm_group_member_info: サポートグループメンバー
+  label_irm_select_result: 検索結果
+  label_irm_group_member_select_group: ユーザグループの選択
+
+
+  label_irm_filter: フィルタ
+  label_irm_new_view_filter: 新規ビュー
+  label_irm_view_filter_new: 新規ビューフィルタ
+  label_irm_view_filter_edit: ビューフィルタの編集
+  label_irm_view_filter_base_info: ステップ1.ビュー情報を入力
+  label_irm_view_filter_data_range: ステップ2.データ範囲の定義
+  label_irm_view_filter_criterion: ステップ3.フィルタ条件の定義
+  label_irm_view_filter_access_control: ステップ4．アクセス制御
+  label_irm_view_filter_data_range_all: 全て
+  label_irm_view_filter_data_range_main: マイ
+  label_irm_view_filter_view_name: ビュー名称
+  label_irm_view_filter_view_code: ビュー唯一名称
+  label_irm_view_filter_view_condition_clause: シニアフィルタ条件
+  label_irm_view_filter_default_flag: デフォルト
+  label_irm_view_filter_restrict_visibility: 私のみ
+  irm_filter_criterions_column_code: 項目
+  irm_filter_criterions_operator_code: 演算子
+  irm_filter_criterions_filter_value: 値
+  view_filter_use_invalid_seq_num: 無効シーケンス番号
+  view_filter_use_invalid_key_word: 無効キーワード
+  view_filter_use_invalid_syntax: 構文エラー
+  irm_view_filter: ビュー
+  label_irm_view_filter_restrict_visibility_for_me: 私のみ
+  label_irm_view_filter_restrict_visibility_for_all: 全ユーザ
+
+
+  label_irm_role_list: ロール一覧
+  label_irm_role: ロール
+  label_irm_role_explosion: ロール及び従属
+  label_irm_role_new: 新規ロール
+  label_irm_role_edit: ロールの編集
+  label_irm_role_code: ロールコード
+  label_irm_role_name: ロール名
+  label_irm_role_description: 説明
+  label_irm_role_menu: メニュー
+  label_irm_role_type: ロールタイプ
+  label_irm_role_report_group_code: レポートグループ
+  label_irm_function_list: ファクション一覧
+  label_irm_role_hidden_flag: 非表示
+  label_irm_role_menu_code: メニュー
+  label_irm_role_service_role_type: ロールタイプ
+  label_irm_role_report_to_role: ～に報告する
+  label_irm_role_people_list: 現在ロール下の従業員
+  label_irm_role_edit_assignment: 割当先
+  label_irm_role_mode_list: ビュー一覧
+  label_irm_role_mode_tree: ツリービュー
+  label_irm_role_structure: 組織ロール構造
+
+
+  label_irm_report_step_report_type: レポートタイプ
+  label_irm_report_step_base_info: 基本情報
+  label_irm_report_step_column: レポート列
+  label_irm_report_step_group: データグループ
+  label_irm_report_step_data_filter: データフィルタ
+  label_irm_report_list: レポート一覧
+  label_irm_report: レポート
+  label_irm_report_code: コード
+  label_irm_report_program: レポートプログラム
+  label_irm_report_name: 名称
+  label_irm_report_category_code: カテゴリ
+  label_irm_report_status_code: ステータス
+  label_irm_report_new: 新規レポート
+  label_irm_report_description: 説明
+  label_irm_report_edit: レポートの編集
+  label_irm_report_choose_report_type: レポートタイプの選択
+  label_irm_report_choose_display_column: レポート列の選択
+  label_irm_report_filter_company: 会社
+  label_irm_report_time_range: 日付範囲
+  label_irm_report_filter_date_field: 日付項目
+  label_irm_report_filter_date_from: 開始
+  label_irm_report_filter_date_to: 終了
+  label_irm_report_base_data_filter: 基本データフィルタ
+  label_irm_report_data_filter: データフィルタ
+  label_irm_report_detail_display_flag: 詳細情報の照会
+  label_irm_report_run: 実行
+  label_irm_report_report_type: レポートタイプ
+  label_irm_report_record_count: カウンタ
+  label_irm_report_records: レコード
+  label_irm_report_report_folder: レポートフォルダ
+  label_irm_report_create_new: 新規レポート
+  label_irm_report_custom: カスタマイズ
+  label_irm_report_run_immediate: 即時実行
+  label_irm_report_run_schedule: 実行計画の登録
+  label_irm_report_choose_report_category: レポートカテゴリの選択
+  label_action_edit_custom: カスタム
+  label_action_run: 実行
+  label_irm_report_new_custom: 新規カスタムレポート
+  label_irm_report_new_program: 新規プログラムレポート
+  label_irm_report_edit_program: プログラムレポートの編集
+  label_irm_report_apply_params: レポートパラメータの適用
+  label_irm_report_chart_type: グラフタイプ
+  label_irm_report_record_count: カウンタ
+  label_irm_report_params_config: レポートパラメータ設定
+  label_irm_report_params_default_value: デフォルト値
+  label_irm_report_auto_run_flag: 自動実行
+
+
+  label_irm_report_setup_group_column_header: データ列グループの設定
+  label_irm_report_setup_group_row_header: データ行グループの設定
+  label_irm_report_group_column_field: グループ列
+  label_irm_report_group_column_sort_type: ソート
+  label_irm_report_group_column_group_date_type: 日付グループ方式
+
+
+  label_irm_report_request_history: レポート依頼履歴
+  label_irm_report_request_history_list: レポート依頼履歴一覧
+  label_irm_report_request_history_report: レポート
+  label_irm_report_request_history_executed_by: ～によって実行する
+  label_irm_report_request_history_start_at: 開始日付
+  label_irm_report_request_history_end_at: 終了日付
+  label_irm_report_request_history_execute_type: 実行方式
+  label_irm_report_request_history_elapse: 経過
+
+
+  label_icm_incident_report_all: インシデントレポート概要
+  label_csi_survey_report_all: 調査レポート
+  label_please_input_search: カスタマイズレポートを一致させるためにキーワードを入力してください
+
+
+  label_irm_person_login_day: 日付
+  label_irm_report_count: カウンタ
+
+
+  label_multilingual_fields: マルチリンガル
+  label_multilingual_edit_files: マルチリンガル項目の編集
+
+
+  label_company_access_menu_label: 会社
+
+
+  label_irm_bulletin: 告示
+  label_irm_bulletin_new: 告示の登録
+  label_irm_bulletin_edit: 告示の編集
+  label_irm_bulletin_list: 告示一覧
+  label_irm_bulletin_title: タイトル
+  label_irm_bulletin_content: コンテンツ
+  label_irm_bulletin_sticky_flag: スティック
+  label_irm_bulletin_highlight_flag: 強調表示
+  label_irm_bulletin_page_views: ビュー
+  label_irm_bulletin_published_date: 発行日付
+  label_irm_bulletin_access: アクセス制御
+  label_irm_bulletin_access_list: アクセス可能一覧
+  label_irm_bulletin_access_type: アクセスタイプ
+  label_irm_bulletin_add_access_line: ルール追加
+  label_irm_bulletin_add_to_access_rule: アクセス一覧に追加
+  label_irm_bulletin_access_availabel_companies: 会社、組織及び部門
+  label_irm_bulletin_access_availabel_departments: 部門
+  label_irm_bulletin_access_availabel_roles: ロール
+  label_irm_bulletin_selected_companies: 会社
+  label_irm_bulletin_selected_departments: 部門
+  label_irm_bulletin_selected_roles: ロール
+  label_irm_bulletin_selected_organizations: 組織
+  label_irm_bulletin_if_access_list_none: アクセス可能一覧が制限されていない場合、この公告が全ユーザに対して公開されます
+  label_irm_bulletin_attachment: 添付ファイル
+  error_irm_bulletin_content_can_not_blank: 公告コンテンツが空白となっていけません
+
+
+  label_irm_bu_column: 告示列
+  label_irm_bu_column_code: 列コード
+  label_irm_bu_column_list: 列一覧
+  label_irm_bu_column_new: 新規列
+  label_irm_bu_column_edit: 列の編集
+  label_irm_bu_column_parent: 親列
+  label_irm_bu_column_new_child: 新規サブ列
+  label_irm_bu_column_choice: 列の選択
+
+
+  label_irm_watcher: 監視者
+  label_irm_watcher_new: 監視者の追加
+  label_irm_watcher_list: 監視者一覧
+
+
+  label_action_calendar_view: カレンダー
+  label_irm_todo_event: イベント
+  label_irm_todo_event_new: イベントの登録
+  label_irm_todo_event_edit: イベントの編集
+  label_irm_todo_event_start_at: 開始日付
+  label_irm_todo_event_end_at: 終了日付
+  label_irm_todo_event_color: カラー
+  label_irm_todo_event_name: イベント名
+  label_irm_wf_relation_object: 関連
+  label_irm_todo_event_location: 場所
+  label_irm_todo_event_percent_complete: 完成パーセント
+  label_irm_todo_event_recurrence: 繰り返し
+  label_irm_todo_event_recurrence_new: イベントの一連繰返の登録
+  label_irm_todo_event_recurrence_frequency: 頻度
+  label_irm_todo_event_recurrence_every_weekday: 毎作業日
+  label_irm_todo_event_recurrence_every: 毎
+  label_irm_todo_event_recurrence_day: 日
+  label_irm_todo_event_recurrence_daily: 毎日
+  label_irm_todo_event_recurrence_weekly: 毎週
+  label_irm_todo_event_recurrence_monthly: 毎月
+  label_irm_todo_event_recurrence_yearly: 毎年
+  label_irm_todo_event_recurrence_every_week: %{m}の週ごとに繰返し
+  label_irm_todo_event_recurrence_day_of_every_month: %{m}ヶ月ごとの%{n}日に
+  label_irm_todo_event_recurrence_weekday_of_every_month: %{m}ヶ月ごとの%{n}に
+  label_irm_todo_event_assigned_to: に割当
+  label_irm_todo_event_recurrence_edit: 繰返一連の編集
+  label_irm_todo_event_priority: 優先度
+  label_irm_todo_event_event_status: イベントステータス
+  label_irm_todo_event_mail: Eメール
+  label_irm_todo_event_phone: 連絡番号
+  label_action_edit_recurrence: 繰り返一連の編集
+  label_action_my_events_index: マイイベント
+  recurrence_occurs: 発生
+  recurrence_byday: ～日につき％{ｍ}
+  recurrence_byday_week: ～で％{ｍ}
+  recurrence_until: ～まで％{ｍ}
+  recurrence_daily: ～日
+  recurrence_weekly: ～週間
+  recurrence_monthly: ～ヶ月
+  recurrence_interval: 各％{ｍ}
+  label_irm_calendar_view: カレンダービュー
+  label_irm_todo_event_list_view: イベント一覧ビュー
+
+
+  label_business_object_list: ビジネスオブジェクト
+  label_irm_business_object_business_object_code: コード
+  label_irm_business_object_name: 名称
+  label_irm_business_object_name_full: BO名
+  label_irm_business_object_bo_table_name: テーブル名
+  label_irm_business_object_bo_model_name: モジュール名
+  label_irm_business_object_auto_generate_flag: 自動生成
+  label_irm_business_object_multilingual_flag: マルチリンガル
+  label_irm_business_object_new: 新規ビジネスオブジェクト
+  label_irm_business_object_edit: ビジネスオブジェクトの編集
+  label_irm_business_object_description: 説明
+  label_irm_business_object_description_full: BO説明
+  label_irm_business_object_workflow_flag: 有効ワークフロー
+  label_irm_business_object_report_flag: 有効レポート
+  label_irm_business_object_standard_flag: BOにおいて設立
+  label_irm_business_object_function: 有効ファクション
+  label_irm_business_object_api: API情報
+  label_irm_object_attribute_new_table_column: 新規データベース属性
+  label_irm_object_attribute_new_model_attribute: 新規モジュール属性
+  label_irm_business_object_data_access_flag: データアクセス制御
+
+
+  label_irm_object_attributes: 属性
+  label_irm_object_attribute_name: 名称
+  label_irm_object_attribute_attribute_name: 属性名
+  label_irm_object_attribute_attribute_type: 属性タイプ
+  label_irm_object_attribute_category: カテゴリ
+  label_irm_object_attribute_field_type: 項目タイプ
+  label_irm_object_attribute_approval_page_field_flag: 承認
+  label_irm_object_attribute_filter_flag: フィルタ
+  label_irm_object_attribute_relation_bo_code: 関連BO
+  label_irm_object_attribute_relation_column: 関連列
+  label_irm_object_attribute_relation_table_alias_name: 関連BO別名
+  label_irm_object_attribute_new: 新規オブジェクト属性
+  label_irm_object_attribute_choose_attribute_type: 属性タイプ
+  label_irm_object_attribute_exists_relation_flag: 既に関連済み
+  label_irm_object_attribute_relation_type: 関連タイプ
   label_irm_object_attribute_lov_code: LOV
-  label_irm_object_attribute_where_clause: Relation criteria
-  label_irm_object_attribute_fill_attribute_info: Attribute Info
-  label_irm_object_attribute_data_type: Data Type
-  label_irm_object_attribute_data_length: Data Length
-  label_irm_object_attribute_edit: Edit Object Attribute
-  label_irm_object_attribute_description: Description
-  label_irm_object_attributes_test_information: Test Infomation
-  label_irm_object_attribute_invalid_exists_relation_table: Please use existed table alias
-  label_irm_object_attribute_invalid_model_attribute: Missing Attribute In BO
-  label_irm_object_attribute_person_flag: Person Attribute
-  label_irm_object_attribute_update_flag: Updateable
-  label_irm_object_attribute_change_type_link: Type
-  label_irm_object_attribute_change_type: Change Attribute Type
-  label_irm_object_standard_attributes: Standard Field
-  label_irm_object_custom_attributes: Custom Field
-  label_irm_object_attribute_approve_flag: Approve Field
-  label_irm_object_attribute_attribute_name_format: Can only input lowercase letters, underline, digital,and must start with letter.
-  label_irm_object_attribute_category: Category
-  label_irm_object_attribute_data_default_value: Default Value
-  label_irm_object_attribute_data_min_and_max_length: Min - Max Length
-  label_irm_object_attribute_data_length_help_text: 0 means unlimit
-  label_irm_object_attribute_data_required_default_value: Fixed Value
-  label_irm_object_attribute_data_required_help_text: Please enter a recored fixed value to fix exists records
-  label_irm_object_attribute_data_extra_info: Extra Info
-  label_irm_object_attribute_data_key_type: Key Type
-  label_irm_object_attribute_data_null_flag: nullable
-  label_irm_object_attribute_database_info: Database Information
-  label_irm_object_attribute_field_type: Field Type
-  label_irm_object_attribute_function: Function
-  label_irm_object_attribute_invalid_table_attribute: Invalid field in database
-  label_irm_object_attribute_label_flag: Label Field
-  label_irm_object_attribute_new_model_attribute: New Model Attribute
-  label_irm_object_attribute_new_table_column: New Table Column
-  label_irm_object_attribute_relation_bo: Relation Business Object
-  label_irm_object_attribute_relation_type: Relation Type
-  label_irm_object_attribute_relation_object_attribute: Relation Attribute
-  label_irm_object_attribute_required_flag: Required
-  label_irm_object_attribute_trigger_flag: Trace History
-  label_irm_object_attribute_pick_list_options: Options
-  label_irm_object_attribute_pick_list_default_value_error: The default value must included by pick list options
-  #======================== object attributes====================
-  #======================== list of values====================
-  label_irm_list_of_value_list: List of Value
-  label_irm_list_of_value_lov_code: Code
-  label_irm_list_of_value_name: Name
-  label_irm_list_of_value_description: Description
-  label_irm_list_of_value_bo_code: Business Object
-  label_irm_list_of_value_id_column: ID Col
-  label_irm_list_of_value_value_column: Value Col
-  label_irm_list_of_value_value_title: Vaule Title
-  label_irm_list_of_value_desc_column: Desc Col
-  label_irm_list_of_value_desc_title: Desc Title
-  label_irm_list_of_value_listable_flag: List
-  label_irm_list_of_value_value_column_width: Value Col Width
-  label_irm_list_of_value_desc_column_width: Desc Col Width
-  label_irm_list_of_value_addition_column: Additional Col
-  label_irm_list_of_value_addition_title: Additional Title
-  label_irm_list_of_value_addition_column_width: Additional Col Width
-  label_irm_list_of_value_where_clause: Where criteria
-  label_irm_list_of_value_query_clause: Query criteria
-  label_irm_list_of_value_addition_clause: Addition criteria
-  label_irm_list_of_value_new: New List of Value
-  label_irm_list_of_value_edit: Edit List of Value
-  label_irm_list_of_value_test_information: Test Result for List of Value
-  label_irm_list_of_value_go: Go
-  label_irm_list_of_value_use_percentages: You can use '%' as a wildcard.
-  #======================== end list of values====================
-  #======================== wf settings====================
-  label_irm_wf_setting_new: Workflow Setting
-  label_irm_wf_setting_default_workflow_person: Default workflow approver
-  label_irm_wf_setting_email_approval_flag: Enable Email Approval Response
-  #======================== end wf settings====================
-  #======================== wf rules====================
-  label_rule_filter_clause_and: And
-  label_rule_filter_clause_or: Or
-  label_irm_wf_rule_list: Workflow Rule
-  label_irm_wf_rule_new: New Workflow Rule
-  label_irm_wf_rule_edit: Edit Workflow Rule
-  label_irm_wf_rule_bo_code: Business Object
-  label_irm_wf_rule_name: Name
-  label_irm_wf_rule_rule_code: Code
-  label_irm_wf_rule_evaluate_criteria_rule: Evaluate Rule
-  label_irm_wf_rule_evaluate_rule_mode: Evaluate way
-  label_irm_wf_rule_status_code: Status
-  label_irm_wf_rule_evaluation_criteria: Evaluation Criteria
-  label_irm_wf_rule_filter: Evaluate filter Rule
-  label_irm_wf_rule_select_bo: Select Business Object
-  label_irm_wf_rule_config: Config Workflow Rule
-  label_irm_wf_rule_description: Description
-  label_irm_wf_rule_active: Active
-  label_irm_wf_rule_actions: Workflow Actions
-  label_irm_wf_rule_add_actions: Add Workflow Action
-  label_irm_wf_rule_immediate_actions: Immediate Action
-  label_irm_wf_rule_time_dependent_actions: Time Dependent
-  label_irm_wf_rule_action_type: Action Type
-  label_irm_wf_rule_action_description: Description
-  label_irm_wf_rule_add_time_trigger: Add Time Trigger
-  label_action_add_exists_action: Add Existed Action
-  #========================end wf rules====================
-  #======================== wf_rule_time_triggers====================
-  label_irm_wf_rule_time_trigger_new: New time trigger
-  label_irm_wf_rule_time_trigger_edit: Edit time trigger
-  label_irm_wf_rule_time_trigger_rule: Workflow rule
-  label_irm_wf_rule_trigger_datetime: Tigger Date
-  #========================end wf_rule_time_triggers====================
-  #======================== wf actions====================
-  label_irm_wf_action_rules: Rules Using This Action
-  label_irm_wf_action_processes: Approval Processes Using This Action
-  #======================== end wf actions====================
-  #======================== calendar tasks====================
-  label_irm_todo_task: Events
-  label_irm_todo_task_new: Create Event
-  label_irm_todo_task_edit: Edit Event
-  label_irm_todo_task_created_at: Created Date
-  label_irm_todo_task_start_at: Start Date
-  label_irm_todo_task_end_at: End Date
-  label_irm_todo_task_due_date: Due
-  label_irm_todo_task_color: Color
-  label_irm_todo_task_name: Event Name
-  label_irm_todo_task_location: Location
-  label_irm_todo_task_percent_complete: Percent Completed
-  label_irm_todo_task_recurrence: Recurrence
-  label_irm_todo_task_recurrence_new: Create Recurring Series of Events
-  label_irm_todo_task_recurrence_frequency: Frequency
-  label_irm_todo_task_recurrence_every_weekday: Every Weekday
-  label_irm_todo_task_recurrence_every: Every
-  label_irm_todo_task_recurrence_day: Day
-  label_irm_todo_task_recurrence_daily: Daily
-  label_irm_todo_task_recurrence_weekly: Weekly
-  label_irm_todo_task_recurrence_monthly: Monthly
-  label_irm_todo_task_recurrence_yearly: Yearly
-  label_irm_todo_task_recurrence_every_week: Recurs every %{m} week(s) on
-  label_irm_todo_task_recurrence_day_of_every_month: On day %{n} of every %{m} month(s)
-  label_irm_todo_task_recurrence_weekday_of_every_month: On the %{n} of every %{m} month(s)
-  label_irm_todo_task_assigned_to: Assigned To
-  label_irm_todo_task_recurrence_edit: Edit Series
-  label_action_my_tasks_index: My Tasks
-  label_irm_todo_task_task_status: Task Status
-  label_irm_todo_task_mail: Mail
-  label_irm_todo_task_phone: Tel
-  label_irm_todo_task_display_opts_open: All Open
-  label_irm_todo_task_display_opts_today: Today
-  label_irm_todo_task_display_opts_over_due: Overdue
-  label_irm_todo_task_display_opts_next_7_days: Next 7 Days
+  label_irm_object_attribute_where_clause: 関連基準
+  label_irm_object_attribute_fill_attribute_info: 属性情報
+  label_irm_object_attribute_database_info: データベース情報
+  label_irm_object_attribute_data_type: データタイプ
+  label_irm_object_attribute_data_length: データ長
+  label_irm_object_attribute_data_null_flag: NULL可能
+  label_irm_object_attribute_data_key_type: キータイプ
+  label_irm_object_attribute_data_default_value: デフォルト値
+  label_irm_object_attribute_data_extra_info: 追加情報
+  label_irm_object_attribute_edit: オブジェクト属性の編集
+  label_irm_object_attribute_description: 説明
+  label_irm_object_attributes_test_information: テスト情報
+  label_irm_object_attribute_invalid_exists_relation_table: 既存テーブル別名を使用してください
+  label_irm_object_attribute_invalid_model_attribute: BOには当該属性が存在しません
+  label_irm_object_attribute_person_flag: 従業員属性
+  label_irm_object_attribute_update_flag: 更新可能
+  label_irm_object_attribute_change_type_link: タイプ
+  label_irm_object_attribute_change_type: 属性タイプの変更
+  label_irm_object_standard_attributes: 標準項目
+  label_irm_object_custom_attributes: カスタム項目
+  label_irm_object_attribute_label_flag: ラベル項目
+  label_irm_object_attribute_required_flag: 入力必要項目
+  label_irm_business_object_relation: 関連BO情報
+  label_irm_object_attribute_relation_bo: 関連ビジネスオブジェクト
+  label_irm_object_attribute_relation_object_attribute: 関連属性
+  label_irm_object_attribute_relation_type: 関連タイプ
+  label_irm_object_attribute_function: ファクション
+  label_irm_object_attribute_approve_flag: Display at approve page
+  label_irm_object_attribute_attribute_name_format: 小文字、下線、数字のみ入力できます、しかも文字で始まる必要があります
+  label_irm_object_attribute_invalid_table_attribute: データベースにおいての無効項目
 
 
-  #======================== wf field updates====================
-  label_irm_wf_field_update: Field update
-  label_irm_wf_field_update_list: Field Update List
-  label_irm_wf_field_update_bo_code: Business Object
-  label_irm_wf_field_update_name: Name
-  label_irm_wf_field_update_field_update_code: Code
-  label_irm_wf_field_update_description: Description
-  label_irm_wf_field_update_object_attribute: Update Field
-  label_irm_wf_field_update_value_type: Data Type
-  label_irm_wf_field_update_value: Value
-  label_irm_wf_field_update_new: New Field Update
-  label_irm_wf_field_update_edit: Edit Field Update
-  label_irm_wf_field_update_set_value: Specify new field value
-  label_irm_wf_field_update_value_type_null_value: Null Value(null)
-  label_irm_wf_field_update_value_type_formula_value: Formula Value
-  label_irm_wf_field_update_value_type_options_value: Select from list of value
-  label_irm_wf_field_update_object_attribute_type_int: Integer
-  label_irm_wf_field_update_object_attribute_type_varchar: Text
-  label_irm_wf_field_update_object_attribute_type_datetime: DateTime
-  label_irm_insert_selected_formula_function: Insert Selected Function
-  check_syntax: Check Syntax
-  label_irm_formula_function_syntax_miss_parameter: Please fill formula textarea
-  label_irm_formula_function_syntax_return_value: The syntax of formula is right,return value is
-  #======================== end wf field updates====================
-  label_irm_wf_action_name: Action Name
-  label_irm_wf_action_type: Action Type
-  #======================== wf mail alert====================
-  label_irm_wf_mail_alert: Mail Alert
-  label_irm_wf_mail_alert_all: Send In All
-  label_irm_wf_mail_alert_default_language: Template Language
-  label_irm_wf_mail_alert_list: Mail Aler List
-  label_irm_wf_mail_alert_bo_code: Business Object
-  label_irm_wf_mail_alert_name: Name
-  label_irm_wf_mail_alert_mail_alert_code: Code
-  label_irm_wf_mail_alert_description: Description
-  label_irm_wf_mail_alert_mail_template_code: Notice Template
-  label_irm_wf_mail_recipients: Recipients
-  label_irm_wf_mail_recipient: Recipient
-  label_irm_wf_mail_alert_additional_email: Additional Email
-  label_irm_wf_mail_alert_from_email: From
-  label_irm_wf_mail_alert_new: New Mail Alert
-  label_irm_wf_mail_alert_edit: Edit Mail Alert
-  label_irm_wf_mail_alert_recipient_and_send: Recipient and Sender
-  label_irm_wf_mail_default_recipient: Please select recipient type.
-  label_irm_wf_mail_available_recipient: Available Recipient
-  label_irm_wf_mail_alert_selected_recipients: Selected Recipients
-  label_irm_wf_mail_alert_recipient_notice: Please select the recipient type and recipient, add them to the list of recipients; Note, Please do not add repeatly!
-  #========================  end wf mail alert====================
-  #======================== wf approval process====================
-  label_irm_wf_approval_process_info: Approval Process Information
-  label_irm_wf_approval_process_name: Name
-  label_irm_wf_approval_process_name: Approval Process Name
-  label_irm_wf_approval_process_process_order: Order
-  label_irm_wf_approval_process_process_code: Code
-  label_irm_wf_approval_process_mail_template: Approval Notice Template
-  label_irm_wf_approval_process_allow_submitter_recal: Allow Submitter Recall
-  label_irm_wf_approval_process_description: Description
-  label_irm_wf_approval_process_filter: Specify Entry Criteria
-  label_irm_wf_approval_process_editable_and_next_approver: Specify approver field and record editable attribute
-  label_irm_wf_approval_process_next_approver: Select field for auto-transfer approver
-  label_irm_wf_approval_process_next_approver_mode: Next Approver Mode
-  label_irm_wf_approval_process_record_editability: Record Editability Properties
-  label_irm_wf_approval_process_submit: Specify Initial Submitters
-  label_irm_wf_approval_process_init_submiter: Initial Submitters
-  label_irm_wf_approval_process_submit_config: Submission Settings
-  label_irm_wf_approval_process: Approval Process
-  label_irm_wf_approval_process_new: New Approval Process
-  label_irm_wf_approval_process_manage: Manage Approval Process
-  label_irm_wf_approval_process_active_list: Enabled Approval Process
-  label_irm_wf_approval_process_disable_list: Disabled Approval Process
-  label_irm_wf_approval_process_bo_code: Business Object
-  label_irm_person: Person
-  label_irm_role: Role
-  label_related_person: Relation Person
-  label_irm_wf_approval_process_display_history_flag: Display approval history information in approval page.
-  label_irm_wf_approval_process_evaluate: Record Editability
-  label_irm_wf_approval_action_ap_submit_actions: Initial Submission Actions
-  label_irm_wf_approval_action_ap_final_approval_actions: Final Approval Actions
-  label_irm_wf_approval_action_ap_final_reject_actions: Final Rejection Actions
-  label_irm_wf_approval_action_ap_recall_actions: Recall Actions
-  label_irm_wf_approval_process_add_exists_action: Add Existing
-  label_irm_wf_approval_add_actions: Add New
-  label_irm_wf_approval_action_ap_step_approval_actions: Approval Actions
-  label_irm_wf_approval_action_ap_step_reject_actions: Reject Actions
-  label_irm_wf_approval_process_reorder: Reorder
-  label_irm_wf_approval_process_can_not_find_next_approver: Can not find next approver
-  label_irm_wf_approval_process_can_not_find_match_process: Can not find the appropriate approval process
-  label_irm_wf_approval_process_edit_layout: Edit Approval Field Layout
-  label_irm_wf_approval_process_name_full: Name
-  label_irm_wf_approval_process_select_show_fields: Choose Display Fields
-  #========================end  wf approval process====================
-  #======================== wf approval step====================
-  label_irm_wf_approval_step: Approval Step
-  label_irm_wf_approval_step_new: New Approval Step
-  label_irm_wf_approval_step_process: Approval Process
-  label_irm_wf_approval_step_name: Name
-  label_irm_wf_approval_step_name_full: Step Name
-  label_irm_wf_approval_step_step_code: Code
-  label_irm_wf_approval_step_description: Description
-  label_irm_wf_approval_step_step_number: Step Number
-  label_irm_wf_approval_step_filter_config: Specify Entry Criteria
-  label_irm_wf_approval_step_filter: Criteria
-  label_irm_wf_approval_step_evaluate_mode_all: All records should enter this step.
-  label_irm_wf_approval_step_evaluate_mode_all_filter: Enter this step if satisfied the followings
-  label_irm_wf_approval_step_validate_step_number: Must greater than %{min} and less than%{max}
-  label_irm_wf_approval_step_select_approver: Select Approver
-  label_irm_wf_approval_ste_approver_type: Approver Type
-  label_irm_wf_approval_step_approver: Approver
-  label_irm_wf_approval_step_allow_delegation_approve: Allow delegate approver.
-  label_irm_wf_approval_step_approver_mode_by_approver: Allow the submitter choose the approver manually.
-  label_irm_wf_approval_step_approver_mode_process_default: Automatically assigned by user field of former approver
-  label_irm_wf_approval_step_approver_mode_auto: Automatically assign to approver(s).
-  label_irm_wf_approval_step_multiple_approver_mode: When multiple approvers are selected
-  label_irm_wf_approval_step_multiple_approver_mode_first_approved: Approve or reject based on the FIRST response.
-  label_irm_wf_approval_step_multiple_approver_mode_all_approved: Require UNANIMOUS approval from all selected approvers.
-  label_irm_wf_approval_step_reject_behavior: Reject Behavior
-  label_irm_wf_process_instance_comment: Comment
-  label_irm_wf_approval_step_reject_behavior_step_reject: Perform ONLY the rejection actions for this step and send the approval request back to the most recent approver. (Go Back 1 Step)
-  label_irm_wf_approval_step_reject_behavior_process_reject: Perform all rejection actions for this step AND all final rejection actions. (Final Rejection)
-  #======================== wf approval step====================
-  #======================== wf process instance====================
-  label_irm_process_instance_submit_error: Unable to Submit for Approval
-  label_irm_step_instance_step: Approval Step
-  label_irm_process_instance_process: Approval Process
-  label_irm_wf_process_instance_select_next_approver: Choose Approver
-  label_irm_wf_process_instance_next_approver: Next Approver
-  label_irm_wf_step_instance_submit: Approve / Reject
-  label_irm_wf_step_instance_comment: Comment
-  label_irm_wf_step_instance_approved: Approve
-  label_irm_wf_step_instance_reject: Reject
-  label_irm_wf_process_instance_next_created_at: Created at
-  label_irm_wf_step_instance_approval_status_code: Status
-  label_irm_wf_step_instance_assign_approver: Assign Approver
-  label_irm_wf_step_instance_actual_approver: Actual Approver
-  label_irm_wf_step_instance_assign_or_actual_approver: Assign/Actual Approver
-  label_irm_wf_process_instance_global_status: Status
-  label_irm_wf_process_approval_history: Approval History
-  label_irm_wf_step_instance_reassign: Reassign
-  label_irm_wf_step_instance_approve_or_reject: Approve / Reject
-  label_irm_wf_step_instance_reassing_approver: Reassign Approver
-  label_irm_wf_process_instance_submit: Submit for Approval
-  label_irm_wf_process_instance_recall: Recall Approval
-  label_irm_wf_process_instance_bo_instance: Business Object
-  label_irm_wf_process_instance_bo_model_name: Type
-  label_irm_wf_process_instance_submitter_name: Submitted by
-  label_irm_wf_process_instance_submitted_at: submitted at
-  label_irm_wf_process_instance_end_at: End at
-  label_irm_wf_my_process_step_instance: Items to Approve
-  label_action_submit: Submit
-  label_action_reassign: Reassign
-  label_irm_wf_step_instance_allow_mail_approve: Allow Approve by Mail
-  label_irm_wf_step_instance_not_allow_mail_approve: Not Allow Approve by Mail
-  #======================== end wf process instance====================
-
-  #======================== screen saver ===========================
-  label_screenshots: Insert screenshot from clipboard.
-  label_add_another_screenshot: Add another screenshot
-  label_button_paste: Paste image from clipboard
-  label_image: Screenshot
-  button_attach: Attach
-  button_cancel: Cancel
-  error_close_msg: Can not close applet, {0}
-  error_close_title: Error
-  error_attach_msg: Error, {0}
-  error_attach_title: Attaching error
-
-  #======================= delayed_jobs step ====================
-  label_irm_delayed_job_info: Delayed Job Info
-  label_irm_delayed_jobs_record: Delayed jobs log
-  label_irm_delayed_jobs_record_priority: Priority
-  label_irm_delayed_jobs_record_handler: Handler
-  label_irm_delayed_jobs_record_run_at: Run at
-  label_irm_delayed_jobs_record_end_at: End at
-  label_irm_delayed_jobs_record_status: Status
-  label_irm_delayed_jobs_record_item: Log Item
-  label_irm_delayed_jobs_record_item_content: Log content
-  label_irm_delayed_jobs_record_item_attempt: Attempt
-  label_irm_delayed_jobs_record_item_record_at: Record at
-  label_irm_delayed_jobs_record_error_info: Error info
-
-  label_irm_delayed_job_icm_group_assign_monitor: IR Group Assignment Job
-  label_irm_delayed_job_ir_rule_process_monitor: IR Rule Process Job
-  label_irm_delayed_job_wf_approval_mail_monitor: Approval Mail Job
-  label_action_item_list: Delayed Job Items List
-  label_clear_logs: Clear Logs
-  label_clear_logs_btn: Clear
-  label_period_x_days_ago: %{x} days ago
-  label_period_x_weeks_ago: %{x} weeks ago
-  label_period_x_months_ago: %{x} months ago
-  label_period_x_years_ago: %{x} years ago
-  label_period_log_clear_all: Clear all
-  label_clear_logs_alert_tips: Maybe there are too many logs records, so it will take a few minutes, please wait patiently.
-
-  label_irm_monitor_ir_rule_process: IR Rule Process Job
-  label_irm_delayed_job: Delayed Job Info
-  label_irm_monitor_approval_mail: Approval Mail Job
-  label_irm_monitor_icm_group_assign: IR Group Assignment Job
-  #======================= end delayed_jobs step ====================
-  #======================= report_type_category  ====================
-  label_irm_report_type_category_list: Report Catagory List
-  label_irm_report_type_category: Report Catagory
-  label_irm_report_type_category_code: Code
-  label_irm_report_type_category_name: Name
-  label_irm_report_type_category_description: Description
-  label_irm_report_type_category_new: New Report Catagory
-  label_irm_report_type_category_edit: Edit Report Catagory
-  #======================= end report_type_category  ====================
-  #======================= report_type  ====================
-  label_irm_report_type: Report Type
-  label_irm_report_type_list: Report Type List
-  label_irm_report_type_new: New Report Type
-  label_irm_report_type_edit: Edit Report Type
-  label_irm_report_type_define: Define Report Type
-  label_irm_report_type_business_object_select: Select Primary Business Object
-  label_irm_report_type_business_object: Primary Business Object
-  label_irm_report_type_code: Code
-  label_irm_report_type_name: Name
-  label_irm_report_type_description: Description
-  label_irm_report_type_category: Category
-  label_irm_report_type_define_record_sets: Define Record Sets
-  label_irm_report_type_object_relationship: Business Object Relationship
-  label_irm_report_type_click_to_relate_to_other_bo: (Click to relate another object)
-  label_irm_report_type_relate_to: %{master} to %{detail} Relationship
-  label_irm_report_type_relate_inner: Each "%{master}" record must have at least one related "%{detail}" record.
-  label_irm_report_type_relate_outer: %{master} records may or may not have related "%{detail}" records.
-  label_irm_report_type_relate_no_detail: The selected object has no further relatable objects.
-  label_irm_report_type_relate_limit: You can associate 4 objects to report type at most
-  label_irm_report_type_object_relationship_inner: with at least one related record from
-  label_irm_report_type_object_relationship_outer: with or without related records from
-  label_irm_report_type_usable_fields: Report usable fields
-  label_irm_report_type_edit_section_layout: Edit layout
-  label_irm_report_type_usable_field_source: Field Source
-  label_irm_report_type_usable_count: Selected field
-  label_action_edit_relation: Define Business Object Relations
-  #=======================end report_type  ====================
-  #======================= report_type section ====================
-  label_irm_report_type_define_field_and_section: Define Report Type Section and Field
-  rename: Rename
-  label_irm_report_type_section_name: Name
-  label_irm_report_type_field_default_selection_flag: Default Flag
-  label_irm_report_type_field_business_object: Business Object
-  label_irm_report_type_field_selectable_attribute: Report Type Fields
-  label_irm_report_type_usable_field_and_section: Report Type Section and Field
-  label_irm_report_type_section_delete_last: Reserve one report section at least
-  #=======================end report_type section ====================
-  #======================= kanbans ==================================
-  label_irm_kanban: Kanban
-  label_irm_kanban_code: Code
-  label_irm_kanban_refresh_interval: Refresh Interval(s)
-  label_irm_kanban_owned_lane: Owned Lane
-  label_irm_kanban_range: Range
-  label_irm_kanban_new: New Kanban
-  label_irm_kanban_edit: Edit Kanban
-  label_irm_kanban_range_desc: Only people within the range can use this kanban.
-  label_irm_kanban_add_lane: Add Lane
-  label_action_select_lanes: Available Lanes
-  label_irm_kanban_name: Kanban Name
-  label_irm_kanban_description: Kanban Description
-  label_irm_kanban_position: Kanban Position
-  #==================================================================
-  #======================= lanes ==================================
-  label_irm_lane: Lane
-  label_irm_lane_code: Lane Code
-  label_irm_lane_limit: Lane Limit
-  label_irm_lane_new: New Lane
-  label_irm_lane_edit: Edit Lane
-  label_irm_lane_add_card: Add Card
-  label_irm_lane_name: Lane Name
-  label_irm_lane_description: Lane Description
-  label_irm_lane_sequence: Display Sequence
-  #==================================================================
-  #======================= cards ==================================
-  label_irm_card: Card
-  label_irm_card_new: New Card
-  label_irm_card_edit: Edit Card
-  label_irm_card_code: Card Code
-  label_irm_card_rule: Card Rule
-  label_irm_card_rule_config: Card Rule Config
-  label_irm_card_background_color: Background Color
-  label_irm_font_color: Font Color
-  label_irm_card_title_column: Title Column
-  label_irm_card_date_column: Date Column
-  label_irm_card_description_column: Description Column
-  label_irm_card_column_config: Column Config
-  label_irm_card_rule_edit: Edit Card Rule
-  label_action_edit_rule: Edit Card Rule
-  label_action_select_cards: Available Cards
-  label_irm_card_available_color: Available Colors
-  label_irm_card_url: Card Url
-  label_irm_card_font_color: Font Color
-  label_irm_card_name: Card Name
-  label_irm_card_description: Card Description
-  label_irm_card_system_flag: System Flag
-  #==================================================================
-
-   #======================= report_folder ====================
-  label_irm_report_folder: Report Folder
-  label_irm_report_folder_all: All Folders
-  label_irm_report_folder_new: New Report Folder
-  label_irm_report_folder_new: Edit Report Folder
-  label_irm_report_folder_create_new_folder: New Report Folder
-  label_irm_report_folder_name: Name
-  label_irm_report_folder_code: Code
-  label_irm_report_folder_access_type: Access Type
-  label_irm_report_folder_member_type: Aceess Member
-  #=======================end report_folder ====================
-  #======================= report_trigger ====================
-  label_irm_report_trigger_new: New Report Trigger
-  label_irm_report_trigger_edit: Edit Report Trigger
-  label_irm_report_trigger_person: Running report users
-  label_irm_report_trigger_receiver_type: Email Receiver Type
-  label_irm_report_trigger_time_mode: Schedule
-  label_irm_report_trigger_start_at: Start
-  label_irm_report_trigger_end_at:  End
-  label_irm_report_trigger_start_time: Time
-  label_irm_report_trigger_delete: Cansel Schedule
-  label_irm_report_trigger_receiver_type_only_self: Only send to myself
-  label_irm_report_trigger_receiver_type_choose_staff: Send to selected person
-  #=======================end report_trigger ====================
-  #======================= tab ====================
-  label_irm_tab_list: Tab List
-  label_irm_tab: Tab
-  label_irm_tab_new: New Tab
-  label_irm_tab_edit: Edit Tab
-  label_irm_tab_code: Code
-  label_irm_tab_name: Name
-  label_irm_tab_description: Description
-  label_irm_tab_business_object: Business Object
-  label_irm_tab_function_group: Function Group
-  label_irm_tab_style_image: Icon
-  label_irm_tab_style_image_no: No.%{no} Icon
-  #=======================end tab====================
-  #======================= tab ====================
-  label_irm_application_list: Application List
-  label_irm_application: Application
-  label_irm_application_new: New Application
-  label_irm_application_edit: Edit Application
-  label_irm_application_name: Name
-  label_irm_application_description: Description
-  label_irm_application_business_object: Business Object
-  label_irm_application_function_group: Function Group
-  label_irm_application_tabs: Tabs
-  label_irm_application_default_tab: Default Tab
-  label_irm_application_code: Code
-  #=======================end tab====================
-  #======================= profiles ====================
-  label_irm_profile: Profile
-  label_irm_profile_list: Profile List
-  label_irm_profile_new: New
-  label_irm_profile_edit: Edit
-  label_irm_profile_code: Code
-  label_irm_profile_name: Name
-  label_irm_profile_description: Description
-  label_irm_profile_user_license: Profile Type
-  label_irm_profile_global_function_list: Global Function List
-  label_irm_profile_system_function_list: System Function List
-  label_irm_profile_application_list: Application List
-  label_irm_profile_application_visual: Display
-  label_irm_profile_application_default: Default
-  label_irm_profile_owned_kanban: Owned Kanbans
-  label_irm_profile_select_kanban: Select Kanban
-  label_irm_profile_kanban_position: Kanban Position
-  label_irm_profile_add_kanban: Add Kanban
-  label_irm_profile_edit_kanban: Edit Kanban
-  label_irm_profile_manage_lane: Manage Lane
-  label_irm_profile_add_lane: Add Lane
-  label_irm_profile_reorder_lane: Reorder
-  label_irm_profile_ir_page_kanban: Incident Index Kanban
-  label_irm_profile_select_copy_from: Clone from existing profile
-  label_irm_profile_existing_profile: Existing Profile
-  label_irm_profile_system_profile: System Profile
-  #=======================end profiles ====================
+  label_irm_list_of_value_list: 値一覧
+  label_irm_list_of_value_lov_code: コード
+  label_irm_list_of_value_name: 名称
+  label_irm_list_of_value_description: 説明
+  label_irm_list_of_value_bo_code: ビジネスオブジェクト
+  label_irm_list_of_value_id_column: ID列
+  label_irm_list_of_value_value_column: 値列
+  label_irm_list_of_value_value_title: 値タイトル
+  label_irm_list_of_value_desc_column: 説明列
+  label_irm_list_of_value_desc_title: 説明タイトル
+  label_irm_list_of_value_listable_flag: ドロップダウンリスト
+  label_irm_list_of_value_value_column_width: 値列幅
+  label_irm_list_of_value_desc_column_width: 説明列幅
+  label_irm_list_of_value_addition_column: 追加列
+  label_irm_list_of_value_addition_title: 追加列タイトル
+  label_irm_list_of_value_addition_column_width: 追加列幅
+  label_irm_list_of_value_where_clause: 条件
+  label_irm_list_of_value_query_clause: クエリ条件
+  label_irm_list_of_value_addition_clause: 追加条件
+  label_irm_list_of_value_new: 値の新規一覧
+  label_irm_list_of_value_edit: 値一覧の編集
+  label_irm_list_of_value_test_information: 値一覧のテスト結果
 
 
-  #======================= password policies ====================
-  label_irm_psw_policy: Password Policies
-  label_irm_psw_policy_expire_in: Password expiry
-  label_irm_psw_policy_enforce_history: Enforce password history
-  label_irm_psw_policy_min_length: Minimum password length
-  label_irm_psw_policy_complexity_requirement: Password complexity requirement
-  label_irm_psw_policy_question_requirement: Passowrd question requirement
-  label_irm_psw_policy_max_attempts: Maximum invalid login attempts
-  label_irm_psw_policy_lockout_period: Lockout effective period
-  label_irm_psw_policy_requirement: Password Requirement
-  label_irm_psw_policy_expire: Password is Expired
-  label_irm_psw_policy_last_upadated_at: Last Updated at
-  #======================= end password policies ====================
+  label_irm_wf_setting_new: ワークフロー設定
+  label_irm_wf_setting_default_workflow_person: デフォルトワークフロー承認者
+  label_irm_wf_setting_email_approval_flag: 有効Eメール承認レスポンス
 
-  #======================= Operation Unit ====================
-  label_irm_operation_unit_new: New Operation Unit
-  label_irm_operation_unit_edit: Operation Unit Setting
-  label_irm_operation_unit_name: Name
-  label_irm_operation_unit_short_name: Short Name
-  label_irm_operation_unit_default_language_code: Default Language Code
-  label_irm_operation_unit_default_time_zone_code: Default Time Zone
-  label_irm_operation_unit_description: Description
-  label_irm_operation_unit_license: License
-  label_irm_operation_unit_list: Operation Units
-  label_irm_operation_unit_admin: Administrator
-  #======================= end Operation Unit ====================
 
-  #=========================    irm external_systems_controller=======================#
-  label_irm_external_system_member: System Member
-  label_irm_external_system_list: System List
-  label_irm_external_system_external_system_code: Code
-  label_irm_external_system_system_name: System Name
-  label_irm_external_system_system_description: System Description
-  label_irm_external_system_external_hostname: Host Name
-  label_irm_external_system_external_ip_address: IP Address
-  label_irm_external_system:  System
-  label_irm_external_system_status_meaning: Status Meaning
-  label_irm_external_system_info: System Info
-  label_irm_external_system_select_system: Select System
-  label_irm_external_system_people: System Member
-  label_irm_external_system_select_people: Select people
-  label_irm_external_system_select_system_profile: Select System Profile
-  label_irm_external_system_save_selected: Save select people
-  label_irm_external_system_exists_people: System Exists People
-  label_irm_external_system_people_type: Type
-  label_irm_external_system_add_people: Add Member
-  error_irm_external_system_ip_invalid: IP invalid
-  label_irm_external_system_new:  New System
-  label_irm_external_system_edit: Edit System
-  #=========================    end external_systems_controller=======================#
-  #=========================    license=======================#
-  label_irm_license: License
-  label_irm_license_list: License list
-  label_irm_license_new: New License
-  label_irm_license_edit: Edit License
-  label_irm_license_name: Name
-  label_irm_license_code: Code
-  label_irm_license_description: Description
-  #=========================  end  license=======================#
-  #=========================    search layouts  =======================#
-  label_irm_search_layout: Search Layout
-  label_irm_search_layout_new: New Search Layout
-  label_irm_search_layout_edit: Edit Search Layout
-  label_irm_search_layout_code: Layout Category
-  label_irm_search_layout_columns: Show Attributes
-  #=========================  end search layouts  =======================#
-  #========================= rich text editor upload image window======================
-  label_irm_rich_editor_win_tab_from_clipboard: Upload from clipboard
-  label_irm_rich_editor_win_tab_from_file: Upload from image file
-  label_irm_rich_editor_win_tab_select_file: Select local image file
-  label_irm_rich_editor_win_tab_selected_file: Selected image
-  label_irm_rich_editor_win_tab_upload_image: Upload image
-  #========================= end ======================
+  label_rule_filter_clause_and: 及び
+  label_rule_filter_clause_or: あるいは
+  label_irm_wf_rule_list: ワークフロールール
+  label_irm_wf_rule_new: 新規ワークフロールール
+  label_irm_wf_rule_edit: ワークフロールールの編集
+  label_irm_wf_rule_bo_code: ビジネスオブジェクト
+  label_irm_wf_rule_name: 名称
+  label_irm_wf_rule_rule_code: コード
+  label_irm_wf_rule_evaluate_criteria_rule: 評価ルール
+  label_irm_wf_rule_evaluate_rule_mode: 評価方法
+  label_irm_wf_rule_status_code: ステータス
+  label_irm_wf_rule_evaluation_criteria: 評価基準
+  label_irm_wf_rule_filter: 評価フィルタルール
+  label_irm_wf_rule_select_bo: ビジネスオブジェクトの選択
+  label_irm_wf_rule_config: ワークフロールールの設定
+  label_irm_wf_rule_description: 説明
+  label_irm_wf_rule_active: アクティビティ
+  label_irm_wf_rule_actions: ワークフローアクション
+  label_irm_wf_rule_add_actions: ワークフローアクションの追加
+  label_irm_wf_rule_immediate_actions: 即時アクション
+  label_irm_wf_rule_time_dependent_actions: 時間依存
+  label_irm_wf_rule_action_type: アクションタイプ
+  label_irm_wf_rule_action_description: 説明
+  label_irm_wf_rule_add_time_trigger: タイムトリガーの追加
+  label_action_add_exists_action: 既存アクションの追加
 
-  #========================= mail setting =========================
-  label_irm_mail_from_address: Source email address
-  label_irm_mail_prefix: Email Prefix
-  label_irm_mail_protocol: Protocal
-  label_irm_mail_smtp_host_name: Send Server
-  label_irm_mail_imap_host_name: Receive Server
-  label_irm_mail_smtp_port: SMTP Port
-  label_irm_mail_timeout: Timeout
+
+  label_irm_wf_rule_time_trigger_new: 新規タイムトリガー
+  label_irm_wf_rule_time_trigger_edit: タイムトリガーの編集
+  label_irm_wf_rule_time_trigger_rule: ワークフロールール
+  label_irm_wf_rule_trigger_datetime: トリガー日付
+
+
+
+  label_irm_todo_task: タスク
+  label_irm_todo_task_new: イベントの登録
+  label_irm_todo_task_edit: イベントの編集
+  label_irm_todo_task_created_at: 日付の登録
+  label_irm_todo_task_start_at: 開始日
+  label_irm_todo_task_end_at: 終了日
+  label_irm_todo_task_due_date: 支払期日
+  label_irm_todo_task_color: カラー
+  label_irm_todo_task_name: イベント名
+  label_irm_todo_task_location: 場所
+  label_irm_todo_task_percent_complete: 完成パーセント
+  label_irm_todo_task_recurrence: 繰返し
+  label_irm_todo_task_recurrence_new: イベントの繰返一連の登録
+  label_irm_todo_task_recurrence_frequency: 頻度
+  label_irm_todo_task_recurrence_every_weekday: 毎作業日
+  label_irm_todo_task_recurrence_every: 毎
+  label_irm_todo_task_recurrence_day: 日
+  label_irm_todo_task_recurrence_daily: 毎日
+  label_irm_todo_task_recurrence_weekly: 毎週
+  label_irm_todo_task_recurrence_monthly: 毎月
+  label_irm_todo_task_recurrence_yearly: 毎年
+  label_irm_todo_task_recurrence_every_week: %{m}の週ごとに繰返
+  label_irm_todo_task_recurrence_day_of_every_month: %{m}ヶ月ごとの%{n}日に
+  label_irm_todo_task_recurrence_weekday_of_every_month: %{m}ヶ月ごとの%{n}に
+  label_irm_todo_task_assigned_to: ～に割当
+  label_irm_todo_task_recurrence_edit: 一連の編集
+  label_irm_todo_task_priority: 優先度
+  label_irm_todo_task_task_status: タスクステータス
+  label_irm_todo_task_mail: メール
+  label_irm_todo_task_phone: 電話
+  label_action_my_tasks_index: マイタスク
+  label_irm_todo_task_display_opts_open: 全開放
+  label_irm_todo_task_display_opts_today: 本日
+  label_irm_todo_task_display_opts_over_due: 期日超過
+  label_irm_todo_task_display_opts_next_7_days: 次の7日間
+  label_action_portlet: 実行必要なタスク
+
+
+
+  label_irm_wf_action_rules: このアクションを使用するルール
+  label_irm_wf_action_processes: このアクションを使用する承認プロセス
+  label_irm_wf_action_name: アクション名称
+  label_irm_wf_action_type: アクションタイプ
+
+
+  label_irm_wf_field_update: 項目更新
+  label_irm_wf_field_update_list: 項目更新一覧
+  label_irm_wf_field_update_bo_code: ビジネスオブジェクト
+  label_irm_wf_field_update_name: 名称
+  label_irm_wf_field_update_field_update_code: コード
+  label_irm_wf_field_update_description: 説明
+  label_irm_wf_field_update_object_attribute: 更新項目
+  label_irm_wf_field_update_value_type: データタイプ
+  label_irm_wf_field_update_value: 値
+  label_irm_wf_field_update_new: 新規項目更新
+  label_irm_wf_field_update_edit: 項目更新の編集
+  label_irm_wf_field_update_set_value: 新規項目値の指定
+  label_irm_wf_field_update_value_type_null_value: NULL値
+  label_irm_wf_field_update_value_type_formula_value: 数式値
+  label_irm_wf_field_update_value_type_options_value: 値一覧から選択
+  label_irm_wf_field_update_object_attribute_type_int: 整数タイプ
+  label_irm_wf_field_update_object_attribute_type_varchar: テキスト
+  label_irm_wf_field_update_object_attribute_type_datetime: 日時
+  label_irm_insert_selected_formula_function: 選択されたファクションを差し込みます
+  check_syntax: 構文のチェック
+  label_irm_formula_function_syntax_miss_parameter: 数式テキストエリアを書き込んでください
+  label_irm_formula_function_syntax_return_value: 数式の構文が正しい，リターンコードが
+
+
+  label_irm_wf_mail_alert:
+  label_irm_wf_mail_alert_list: メールアラートリスト
+  label_irm_wf_mail_alert_bo_code: ビジネスオブジェクト
+  label_irm_wf_mail_alert_name: 名称
+  label_irm_wf_mail_alert_mail_alert_code: コード
+  label_irm_wf_mail_alert_description: 説明
+  label_irm_wf_mail_alert_mail_template_code: 通知テンプレート
+  label_irm_wf_mail_recipients: 受信者
+  label_irm_wf_mail_recipient: 受信者
+  label_irm_wf_mail_alert_additional_email: 追加Eメール
+  label_irm_wf_mail_alert_from_email: 送信者
+  label_irm_wf_mail_alert_new: 新規メールアラート
+  label_irm_wf_mail_alert_edit: メールアラートの編集
+  label_irm_wf_mail_alert_recipient_and_send: 受信者及び送信者
+  label_irm_wf_mail_default_recipient: 受信者タイプを選択してください
+  label_irm_wf_mail_available_recipient: 利用可能な受信者
+  label_irm_wf_mail_alert_selected_recipients: 選択された受信者
+  label_irm_wf_mail_alert_recipient_notice: 受信者タイプ及び受信者を選択してください、そして彼らを受信者一覧に追加してください；注意：重複追加しないように
+
+
+  label_irm_wf_approval_process_info: 承認プロセス情報
+  label_irm_wf_approval_process_name: 名称
+  label_irm_wf_approval_process_name_full: 承認プロセス名
+  label_irm_wf_approval_process_process_order: 順序
+  label_irm_wf_approval_process_process_code: コード
+  label_irm_wf_approval_process_mail_template: 承認通知テンプレート
+  label_irm_wf_approval_process_allow_submitter_recal: 提出者のリコールを許可します
+  label_irm_wf_approval_process_description: 説明
+  label_irm_wf_approval_process_filter: エントリ基準を指定します
+  label_irm_wf_approval_process_editable_and_next_approver: 承認者項目を指定して編集可能な属性を記録します
+  label_irm_wf_approval_process_next_approver: 自動転送ための承認者項目を選択します
+  label_irm_wf_approval_process_next_approver_mode: 次の承認者コード
+  label_irm_wf_approval_process_record_editability: 編集可能なプロパティの記録
+  label_irm_wf_approval_process_submit: 第一提出者の指定
+  label_irm_wf_approval_process_init_submiter: 第一提出者
+  label_irm_wf_approval_process_submit_config: 提出設定
+  label_irm_wf_approval_process: 承認プロセス
+  label_irm_wf_approval_process_new: 新規承認プロセス
+  label_irm_wf_approval_process_manage: 承認プロセスの管理
+  label_irm_wf_approval_process_active_list: 有効承認プロセス
+  label_irm_wf_approval_process_disable_list: 無効承認プロセス
+  label_irm_wf_approval_process_bo_code: ビジネスオブジェクト
+  label_irm_person: 従業員
+  label_irm_role: ロール
+  label_related_person: 関連従業員
+  label_irm_wf_approval_process_display_history_flag: 承認ページに承認履歴情報を照会します
+  label_irm_wf_approval_process_evaluate: 基準
+  label_irm_wf_approval_action_ap_submit_actions: 初回提出アクション
+  label_irm_wf_approval_action_ap_final_approval_actions: 最終承認アクション
+  label_irm_wf_approval_action_ap_final_reject_actions: 最終拒否アクション
+  label_irm_wf_approval_action_ap_recall_actions: アクションのリコール
+  label_irm_wf_approval_process_add_exists_action: 現存追加
+  label_irm_wf_approval_add_actions: 新規追加
+  label_irm_wf_approval_action_ap_step_approval_actions: アクション承認
+  label_irm_wf_approval_action_ap_step_reject_actions: アクション拒否
+  label_irm_wf_approval_process_reorder: 再整理
+  label_irm_wf_approval_process_can_not_find_next_approver: 次の承認者が見つかりませんでした
+  label_irm_wf_approval_process_can_not_find_match_process: 適切な承認プロセスが見つかりませんでした
+  label_irm_wf_approval_process_edit_layout: ページのレイアウトを編集承認
+  label_irm_wf_approval_process_select_show_fields: 承認ページに表示する項目を選択
+
+
+  label_irm_wf_approval_step: 承認ステップ
+  label_irm_wf_approval_step_new: 新規承認ステップ
+  label_irm_wf_approval_step_process: 承認プロセス
+  label_irm_wf_approval_step_name: 名称
+  label_irm_wf_approval_step_name_full: 承認ステップ名称
+  label_irm_wf_approval_step_step_code: コード
+  label_irm_wf_approval_step_description: 説明
+  label_irm_wf_approval_step_step_number: ステップ番号
+  label_irm_wf_approval_step_filter_config: 指定ステップ番号
+  label_irm_wf_approval_step_filter: 条件
+  label_irm_wf_approval_step_evaluate_mode_all: すべての記録はこのステップに入ることが必要です
+  label_irm_wf_approval_step_evaluate_mode_all_filter: 以下の条件を満たせれば、このステップに入る
+  label_irm_wf_approval_step_validate_step_number: %{min}より大きく、%{max}より小さければならない
+  label_irm_wf_approval_step_select_approver: 承認者を選択する
+  label_irm_wf_approval_ste_approver_type: 承認者タイプ
+  label_irm_wf_approval_step_approver: 承認者
+  label_irm_wf_approval_step_allow_delegation_approve: 代理承認ができる
+  label_irm_wf_approval_step_approver_mode_by_approver: 提出人は承認者をマニュアルで選択することができる
+  label_irm_wf_approval_step_approver_mode_process_default: 使用前に承認者のユーザ項目は自動的に割当てる
+  label_irm_wf_approval_step_approver_mode_auto: 承認者へ自動的に割当てる
+  label_irm_wf_approval_step_multiple_approver_mode: 複数の承認者を選択する場合
+  label_irm_wf_approval_step_multiple_approver_mode_first_approved: 第一回回答の承認または拒否に基づく
+  label_irm_wf_approval_step_multiple_approver_mode_all_approved: すべての選定承認者は一致で承認することが必要です
+  label_irm_wf_approval_step_reject_behavior: 拒否行為
+  label_irm_wf_approval_step_reject_behavior_step_reject: このステップの拒否操作しか実行しなく、承認請求は最近の承認者に差し戻す。（ステップ1に戻す）
+  label_irm_wf_approval_step_reject_behavior_process_reject: このステップにすべての拒否操作とすべての最終拒否操作を実行する
+
+
+  label_irm_process_instance_submit_error: 提出できなく、承認を待つ
+  label_irm_step_instance_step: 承認ステップ
+  label_irm_process_instance_process: 承認プロセス
+  label_irm_wf_process_instance_select_next_approver: 次ステップの承認者を選択する
+  label_irm_wf_process_instance_next_approver: 次ステップの承認者
+  label_irm_wf_step_instance_submit: 承認請求を承認/拒否する
+  label_irm_wf_step_instance_comment: コメント
+  label_irm_wf_step_instance_approved: 承認
+  label_irm_wf_step_instance_reject: 拒否
+  label_irm_wf_process_instance_next_created_at: 時間
+  label_irm_wf_step_instance_approval_status_code: ステータス
+  label_irm_wf_step_instance_assign_approver: 承認者割当て
+  label_irm_wf_step_instance_actual_approver: 実際承認者
+  label_irm_wf_process_instance_global_status: 総ステータス
+  label_irm_wf_process_approval_history: 承認履歴
+  label_irm_wf_step_instance_reassign: 渡す
+  label_irm_wf_step_instance_approve_or_reject: 承認/拒否
+  label_irm_wf_step_instance_reassing_approver: 承認者に渡す
+  label_irm_wf_process_instance_submit: 提出して、承認を待つ
+  label_irm_wf_process_instance_recall: 承認の戻し
+  label_irm_wf_process_instance_bo_instance: 関連オプション
+  label_irm_wf_process_instance_bo_model_name: タイプ
+  label_irm_wf_process_instance_submitter_name: 提出人
+  label_irm_wf_process_instance_submitted_at: 提出日
+  label_irm_wf_process_instance_end_at: 提出時刻
+  label_irm_wf_my_process_step_instance: 終了日
+  label_action_submit: 承認の提出
+  label_action_reassign: 渡す
+  label_irm_wf_process_instance_comment: コメント
+  label_irm_wf_step_instance_allow_mail_approve: このメールを返信して承認できる。回答するときに、第一行目はAPPROVED/REJECT、第二行目は回答コメント
+  label_irm_wf_step_instance_not_allow_mail_approve: 今度の承認はメール承認を受け取りません。システムを登録して承認してください。
+
+
+
+  label_screenshots: クリップボードからスクリーンショットを挿入する
+  label_add_another_screenshot: 別のスクリーンショットの追加
+  label_button_paste: クリップボードから図のペースト
+  label_image: スクリーンショット
+  button_attach: 添付
+  button_cancel: 取消す
+  error_close_msg: Appletをクローズすることができない, {0}
+  error_close_title: エラー
+  error_attach_msg: エラー, {0}
+  error_attach_title: 添付エラー
+
+  label_irm_delayed_job_info: Delayed Job実行情報
+  label_irm_delayed_jobs_record: Delayed jobsログ
+  label_irm_delayed_jobs_record_priority: 優先順位
+  label_irm_delayed_jobs_record_handler: ハンドラプログラム
+  label_irm_delayed_jobs_record_run_at: 実行時刻
+  label_irm_delayed_jobs_record_end_at: 実行終了時刻
+  label_irm_delayed_jobs_record_status: 実行ステータス
+  label_irm_delayed_jobs_record_item: ログ明細
+  label_irm_delayed_jobs_record_item_content: ログ情報
+  label_irm_delayed_jobs_record_item_attempt: 試み回数
+  label_irm_delayed_jobs_record_item_record_at: 記録時刻
+
+
+  label_irm_delayed_job_icm_group_assign_monitor: IR グループ割当作業
+  label_irm_delayed_job_ir_rule_process_monitor: IR ルールプロセス作業
+  label_irm_delayed_job_wf_approval_mail_monitor: メール送信の承認作業
+  label_action_item_list: 詳細レコード
+
+  label_irm_monitor_ir_rule_process: IR ルールプロセス作業
+  label_irm_delayed_job: 延期作業の情報
+  label_irm_monitor_approval_mail: メール送信の承認作業
+  label_irm_monitor_icm_group_assign: IR グループ割当作業
+
+
+  label_irm_report_type_category_list: レポートカテゴリーリスト
+  label_irm_report_type_category: レポートカテゴリー
+  label_irm_report_type_category_code: コード
+  label_irm_report_type_category_name: 名称
+  label_irm_report_type_category_description: 説明
+  label_irm_report_type_category_new: 新規レポートカテゴリー
+  label_irm_report_type_category_edit: レポートカテゴリーの編集新規
+
+
+  label_irm_report_type: レポートタイプ
+  label_irm_report_type_list: レポートタイプリスト
+  label_irm_report_type_new: 新規レポートタイプ
+  label_irm_report_type_edit: レポートタイプの編集
+  label_irm_report_type_define: レポートタイプの定義
+  label_irm_report_type_business_object_select: 主業務対象を選択する
+  label_irm_report_type_business_object: 主業務対象
+  label_irm_report_type_code: コード
+  label_irm_report_type_name: 名称
+  label_irm_report_type_description: 説明
+  label_irm_report_type_category: レポートカテゴリー
+  label_irm_report_type_define_record_sets: レコードセットを定義する
+  label_irm_report_type_object_relationship: ビジネスオブジェクト関係
+  label_irm_report_type_click_to_relate_to_other_bo: （クリックして別のオブジェクトを関連する）
+  label_irm_report_type_relate_to: %{master} から %{detail} の関係
+  label_irm_report_type_relate_inner: 毎 %{master} が少なくとも一つ %{detail} に関連レコードがなければならない
+  label_irm_report_type_relate_outer: %{master} レコードに関連の %{detail} レコードがあるかあるいはないかもしれない
+  label_irm_report_type_relate_no_detail: 選択したオブジェクトに一層の関連オブジェクトがない
+  label_irm_report_type_relate_limit: 多くとも四つのオブジェクトをカスタマイズレポートタイプに関連できる
+  label_irm_report_type_object_relationship_inner: 最低でも一つの関連レコードがある
+  label_irm_report_type_object_relationship_outer: 関連レコードがあるかあるいはないかもしれない
+  label_irm_report_type_usable_fields: レポートに使用可能項目
+  label_irm_report_type_edit_section_layout: レイアウトを編集する
+  label_irm_report_type_usable_field_source: 項目源
+  label_irm_report_type_usable_count: 選択した項目
+  label_action_edit_relation: 業務オブジェクト関係を定義する
+
+
+  label_irm_report_type_define_field_and_section: レポートタイプのセクションと項目を定義する
+  rename: 名称の修正
+  label_irm_report_type_section_name: 名称
+  label_irm_report_type_field_default_selection_flag: 初期選択
+  label_irm_report_type_field_business_object: 業務オブジェクト
+  label_irm_report_type_field_selectable_attribute: レポートに使用可能項目
+  label_irm_report_type_usable_field_and_section: レポートタイプのセクションと項目
+  label_irm_report_type_section_delete_last: 最低でも一つのレポートセクションを保留する
+
+
+  label_irm_kanban: 看板
+  label_irm_kanban_code: 看板コード
+  label_irm_kanban_refresh_interval: インターバルの更新
+  label_irm_kanban_owned_lane: 所有レーン
+  label_irm_kanban_range: 看板の使用できる範囲
+  label_irm_kanban_new: 新規看板
+  label_irm_kanban_edit: 看板編集
+  label_irm_kanban_range_desc: 範囲中の人員がこの看板しか使用できる
+  label_irm_kanban_add_lane: 選択できるレーン
+  label_action_select_lanes: レーンを追加する
+  label_irm_kanban_name: 看板名
+  label_irm_kanban_description: 看板説明
+  label_irm_kanban_position: 看板位置
+
+
+  label_irm_lane: レーン
+  label_irm_lane_code: レーンコード
+  label_irm_lane_limit: レーン限度
+  label_irm_font_color: フォントカラー
+  label_irm_lane_owned_cards: 所有カード
+  label_irm_lane_new: 新規レーン
+  label_irm_lane_edit: レーン編集
+  label_irm_lane_add_card: カードの追加
+  label_irm_lane_name: レーン名
+  label_irm_lane_description: レーン説明
+  label_irm_lane_sequence: 順序の表示
+
+
+  label_irm_card: カード
+  label_irm_card_new: 新規カード
+  label_irm_card_edit: カード編集
+  label_irm_card_rule: カードルール
+  label_irm_card_rule_config: カードルールを設定する
+  label_irm_card_code: カードコード
+  label_irm_card_background_color: バックグラウンドカラー
+  label_irm_card_font_color: フォントカラー
+  label_irm_card_system_flag: システムフラグ
+  label_irm_card_title_column: タイトル列
+  label_irm_card_date_column: 日付列
+  label_irm_card_description_column: 説明列
+  label_irm_card_column_config: 列設定
+  label_irm_card_rule_edit: カードルールの編集
+  label_action_edit_rule: カードルールの編集
+  label_action_select_cards: 選択できるカード
+  label_irm_card_available_color: 選択できるカラー
+  label_irm_card_url: カードリンク
+  label_irm_card_name: カード名
+  label_irm_card_description: カード説明
+
+
+  label_irm_report_folder: レポートフォルダ
+  label_irm_report_folder_all: 全フォルダ
+  label_irm_report_folder_new: 新規レポートフォルダ
+  label_irm_report_folder_edit: レポートフォルダの編集
+  label_irm_report_folder_create_new_folder: 新規レポートフォルダ
+  label_irm_report_folder_name: 名称
+  label_irm_report_folder_code: コード
+  label_irm_report_folder_access_type: アクセスタイプ
+  label_irm_report_folder_member_type: アクセスタイプメンバー
+
+
+  label_irm_report_trigger_new: 新規レポート実行計画
+  label_irm_report_trigger_edit: レポート実行計画の編集
+  label_irm_report_trigger_person: レポートユーザを実行する
+  label_irm_report_trigger_receiver_type: メールレシーバタイプ
+  label_irm_report_trigger_time_mode: スケジュール
+  label_irm_report_trigger_start_at: 開始日付
+  label_irm_report_trigger_end_at: 終了日付
+  label_irm_report_trigger_start_time: 実行時刻
+  label_irm_report_trigger_delete: 取消す
+  label_irm_report_trigger_receiver_type_only_self: 自分のみに送付する
+  label_irm_report_trigger_receiver_type_choose_staff: 選択した人員に送付する
+
+
+  label_irm_tab_list: タブリスト
+  label_irm_tab: タブ
+  label_irm_tab_new: 新規タブ
+  label_irm_tab_edit: タブ編集
+  label_irm_tab_code: コード
+  label_irm_tab_name: 名称
+  label_irm_tab_description: 説明
+  label_irm_tab_business_object: 業務オブジェクト
+  label_irm_tab_function_group: 機能グループ
+  label_irm_tab_style_image: アイコン
+  label_irm_tab_style_image_no: アイコン %{no}
+
+
+  label_irm_application_list: アプリケーションリスト
+  label_irm_application: アプリケーション
+  label_irm_application_new: 新規アプリケーション
+  label_irm_application_edit: アプリケーション編集
+  label_irm_application_name: 名称
+  label_irm_application_description: 説明
+  label_irm_application_business_object: 業務オブジェクト
+  label_irm_application_function_group: 機能グループ
+  label_irm_application_tabs: 使用できるタブ
+  label_irm_application_default_tab: 初期タブ
+  label_irm_application_code: コード
+
+
+  label_irm_profile: プロファイル
+  label_irm_profile_list: プロファイルリスト
+  label_irm_profile_new: 新規
+  label_irm_profile_edit: 編集
+  label_irm_profile_code: コード
+  label_irm_profile_name: 名称
+  label_irm_profile_description: 説明
+  label_irm_profile_user_license: プロファイルタイプ
+  label_irm_profile_function_list: 機能リスト
+  label_irm_profile_application_list: アプリケーションリスト
+  label_irm_profile_application_visual: 表示
+  label_irm_profile_application_default: 初期
+  label_irm_profile_owned_kanban: 所有看板
+  label_irm_profile_select_kanban: 看板の選択
+  label_irm_profile_kanban_position: 看板位置
+  label_irm_profile_add_kanban: 看板の追加
+  label_irm_profile_edit_kanban: 看板の編集
+  label_irm_profile_manage_lane: レーンの管理
+  label_irm_profile_add_lane: レーンの追加
+  label_irm_profile_reorder_lane: 再配列
+  label_irm_profile_ir_page_kanban: 事故インデックス看板
+  label_irm_profile_select_copy_from: 存在したプロファイルをクローンする
+  label_irm_profile_existing_profile: 存在したプロファイル
+
+
+
+  label_irm_psw_policy: パスワードポリシー
+  label_irm_psw_policy_expire_in: パスワード有効期限
+  label_irm_psw_policy_enforce_history: パスワード履歴を強める
+  label_irm_psw_policy_min_length: 最低パスワード長
+  label_irm_psw_policy_complexity_requirement: パスワードの複雑性要求
+  label_irm_psw_policy_question_requirement: パスワードの問題要求
+  label_irm_psw_policy_max_attempts: 最大無効ログイン試み回数
+  label_irm_psw_policy_lockout_period: 有効期間をロックする
+  label_irm_psw_policy_requirement: パスワード要求
+  label_irm_psw_policy_expire: パスワードの有効期限が過ぎた
+  label_irm_psw_policy_last_upadated_at: 前回パスワードの更新時間
+
+
+  label_irm_operation_unit: 操作中心
+  label_irm_operation_unit_new: 新規操作中心
+  label_irm_operation_unit_edit: 操作中心設置
+  label_irm_operation_unit_name: 名称
+  label_irm_operation_unit_short_name: 略称
+  label_irm_operation_unit_default_language_code: 初期言語
+  label_irm_operation_unit_default_time_zone_code: 初期タイムゾーン
+  label_irm_operation_unit_description: 説明
+  label_irm_operation_unit_license: ライセンス
+  label_irm_operation_unit_list: 操作中心
+  label_irm_operation_unit_admin: 管理者
+
+
+
+
+
+  label_irm_external_system_member: 外部システムユーザ
+  label_irm_external_system_list: 外部システムリスト
+  label_irm_external_system_new: 新規外部システム
+  label_irm_external_system_edit: 外部システム編集
+  label_irm_external_system_external_system_code: コード
+  label_irm_external_system_system_name: システム名
+  label_irm_external_system_system_description: システム説明
+  label_irm_external_system_external_hostname: ホスト名
+  label_irm_external_system_external_ip_address: IPアドレス
+  label_irm_external_system_status_meaning: ステータス意味
+  label_irm_external_system: 外部システム
+  label_irm_external_system_info: 外部システム情報
+  label_irm_external_system_select_system: 追加した外部システムを選択する
+  label_irm_external_system_people: システムメンバー
+  label_irm_external_system_people_type: タイプ
+  label_irm_external_system_add_people: メンバーの追加
+  error_irm_external_system_ip_invalid: 無効IP
+
+
+  label_irm_license: ライセンス
+  label_irm_license_list: ライセンスリスト
+  label_irm_license_new: 新規ライセンス
+  label_irm_license_edit: ライセンスの編集
+  label_irm_license_name: 名称
+  label_irm_license_code: コード
+  label_irm_license_description: 説明
+
+
+  label_irm_search_layout: 検索レイアウト
+  label_irm_search_layout_new: 新規検索レイアウト
+  label_irm_search_layout_edit: 検索レイアウトの編集
+  label_irm_search_layout_code: レイアウトカテゴリー
+  label_irm_search_layout_columns: レイアウト列
+
+
+  label_irm_rich_editor_win_tab_from_clipboard: クリップボードからアップロード
+  label_irm_rich_editor_win_tab_from_file: 映像ファイルからアップロード
+  label_irm_rich_editor_win_tab_select_file: ローカル映像ファイルを選択する
+  label_irm_rich_editor_win_tab_selected_file: 選択した映像
+  label_irm_rich_editor_win_tab_upload_image: 映像のアップロード
+
+
+
+  label_irm_mail_from_address: 源メールアドレス
+  label_irm_mail_prefix: メールプレフィクス
+  label_irm_mail_protocol: プロトコル
+  label_irm_mail_smtp_host_name: 送信サーバ
+  label_irm_mail_imap_host_name: 受信サーバ
+  label_irm_mail_smtp_port: SMTPポート
+  label_irm_mail_timeout: タイムアウト
   label_irm_mail_tls: TLS
-  label_irm_mail_username: Username
-  label_irm_mail_password: Password
-  label_irm_mail_imap_port: POP/IMAP Port
-  label_irm_mail_setting: Email Server Configuration
-  label_irm_mail_edit_setting: Edit Email Server Configuration
-  label_irm_mail_smtp_server: SMTP Server
-  label_irm_mail_imap_server: POP/IMAP Server
-  label_irm_mail_server: Mail Server
-  label_irm_mail_authentication: Authentication
-  label_irm_mail_test: Test Smtp settings
-  label_irm_mail_test_label: Please enter a available email：
-  label_irm_mail_test_help: If you receive a email from the system means the smtp settings is corrently.
-  label_irm_mail_test_result: Please check your email： %{email}
+  label_irm_mail_username: ユーザ名
+  label_irm_mail_password: パスワード
+  label_irm_mail_imap_port: OP/IMAP　ポート
+  label_irm_mail_setting: メールサーバ設定
+  label_irm_mail_edit_setting: メールサーバ設定を編集する
+  label_irm_mail_smtp_server: SMTPサーバ
+  label_irm_mail_imap_server: POP/IMAPサーバ
+  label_irm_mail_server: メールサーバ
 
-  label_irm_mail_imap_protocol_choose: Choose form IMAP, POP.
-  label_irm_mail_imap_host_name_tip: POP/IMAP Email server.
-  label_irm_mail_imap_port_tip: Port for retrieving mail from POP/IMAP account. Default as:POP-100; IMAP-143.
-  label_irm_mail_imap_active_tip: If not checked will not receive mails.
-  label_irm_mail_timeout_tip: Timeout (in milliseconds). 0 indicates never timeout.
-  label_irm_mail_imap_username_tip: Username for login POP/IMAP.
-  label_irm_mail_imap_password_tip: Password for login POP/IMAP.
+  label_irm_mail_imap_protocol_choose: POP、IMAPから選択する
+  label_irm_mail_host_name_tip: メールホスト名
+  label_irm_mail_imap_host_name_tip: POP/IMAPメールサーバ
+  label_irm_mail_imap_port_tip: POP/IMAP口座からメールを検索する用ポート。（初期値：POP-100; IMAP-143）
+  label_irm_mail_timeout_tip: タイムアウト（ミリ秒）。0がタイムアウトなしを表示する
+  label_irm_mail_imap_username_tip: POP/IMAPにログイン用ユーザ名
+  label_irm_mail_imap_password_tip: POP/IMAPにログイン用パスワード
 
-  label_irm_mail_smtp_host_name_tip: SMTP Email server.
-  label_irm_mail_smtp_from_address_tip: System will use this emailbox to send email.
-  label_irm_mail_smtp_prefix_tip: Email title will use it as prefix, which is convenient for you to filter your emails.
-  label_irm_mail_smtp_port_tip: Port used by SMTP. Default as:SMTP-25.
-  label_irm_mail_smtp_username_tip: Username for login SMTP.
-  label_irm_mail_smtp_password_tip: Password for login SMTP.
-  label_irm_mail_smtp_active: Active SMTP Server
-  label_irm_mail_smtp_active_tip: If not checked will not deliver mails.
-  label_irm_mail_smtp_authentication_flag: Active Authentication
-  label_irm_mail_smtp_authentication_tip:  If your mail server requires authentication
-  #========================= end ==================================
-  #=========================    irm protlet_config=======================#
-  label_irm_portlet_config: Portal Configuration
-  label_irm_portlet_config_list: Configuration list
-  label_irm_portlet_config_info: Configuration Info
-  label_irm_portlet_config_portal_code: Portal Code
-  label_irm_portlet_config_person: User
-  label_irm_portlet_config_config: Configuration
-  #=========================end irm protlet_config=======================#
-  #======================= Portlets ====================
-  label_irm_portlet: Portlet
-  label_irm_portlet_new: New Portlet
-  label_irm_portlet_code: Code
-  label_irm_portlet_controller: Page Controller
-  label_irm_portlet_action: Page Action
-  label_irm_portlet_default_flag: Default Show
-  portlet_default_flag_yes: Yes
-  portlet_default_flag_no: No
-  label_irm_portlet_list: Portlet List
-  label_irm_portlet_name: Name
-  label_irm_portlet_description: Description
-  label_irm_portlet_custom_home_page: Add modulde
-  label_irm_portlet_change_layout: Setting Layout
-  lable_irm_portlet_cancle_button: Cancle Setting
-  label_irm_portlet_select_layout: Select A Layout：
-  #======================= end Portlets====================
-
-  #======================= portal layouts ====================
-  label_irm_portal_layout: Portal Layout
-  label_irm_portal_layout_list: Portal Layout List
-  label_irm_portal_layout_name: Layout Name
-  label_irm_portal_layout_description: Layout Description
-  label_irm_portal_layout_format: Layout Format
-  label_irm_portal_layout_format_error: Only numbers（1 or 2） splited by comma,eg. 1,2,2
-  #=======================  portal layouts====================
-
-  #======================= session times ====================
-  label_irm_session_setting: Session Setting
-  label_irm_session_time_out: Session Time Out
-  label_irm_session_time_out_value: Timeout value
-  label_irm_session_warn: For security Reasons, Your Ironmine Session is about to Timeout,What's your option?
-  #=======================  portal layouts====================
-  #=========================    irm data accesses=======================#
-  label_irm_data_access: Data Access Control
-  label_irm_data_access_list: Data Access List
-  label_irm_data_access_list_opu: Operation Unit Data Access
-  label_irm_data_access_list_org: Organization Data Access
-  label_irm_data_access_new: New Data Access
-  label_irm_data_access_edit: Edit Data Access
-  label_irm_data_access_business_object: Business Object
-  label_irm_data_access_access_level: Default Access Level
-  label_irm_data_access_all_business_object: All Business Object
-  label_irm_data_access_org_not_set: Not Set
-  label_irm_data_access_org_access_level: Organization
-  label_irm_data_access_opu_access_level: Operation Unit
-  label_irm_data_access_org: Organization Level Data Access
-  label_irm_data_access_hierarchy_access_flag: Access Flag
-  label_irm_incident_status_transform_event_error: Incident Status Event Error
-  label_irm_lane_owned_cards: Owned Cards
-  label_irm_mail_host_name_tip: Mail Host Name
-  label_irm_oauth_access_created: Oauth Access Created
-  label_irm_oauth_access_ip: Access Ip
-  label_irm_oauth_access_name: Access Name
-  label_irm_oauth_access_num: Access Num
-  label_irm_oauth_access_updated: Access Updated
-  label_irm_person_save_and_add_group: Save And Add Group
-  label_irm_person_save_and_add_system: Save And Add System
-  label_irm_rating_config: Rating Config
-  label_irm_rating_config_display_style: Tating Config Display Style
-  label_irm_rating_config_edit: Edit Rating Config
-  label_irm_rating_config_grade: Grade Rating Config
-  label_irm_rating_config_grade_grade: Grade
-  label_irm_rating_config_new: New Rating Config
-  label_irm_report_folder_edit: Edit Report Folder
-  label_irm_report_request_history: Report History
-  label_irm_report_request_history_elapse: Elapse
-  label_irm_report_request_history_end_at: End Date
-  label_irm_report_request_history_execute_type: Execute Type
-  label_irm_report_request_history_executed_by: Execute By
-  label_irm_report_request_history_list: History List
-  label_irm_report_request_history_report: History
-  label_irm_report_request_history_start_at: Start Date
-  label_irm_role_edit_assignment: Edit Assignment
-  label_irm_role_people_list: People List
-  label_irm_site_group_edit_site: Edit Site
-  label_irm_task_end_at: End Date
-  label_irm_task_mine: My Task
-  label_irm_task_start_at: Start Date
-  label_irm_task_status_name: Status
-  label_irm_task_title: Title
-  label_irm_task_type: Type
-  label_irm_todo_event_event_status: Event Status
-  label_irm_todo_event_mail: Event Mail
-  label_irm_todo_event_phone: Event Phone
-  label_irm_todo_event_priority: Event Priority
-  label_irm_todo_task_priority: Task Priority
-  #=========================end irm data accesses=======================#
-
-  #=========================    irm data share rules=======================#
-  label_irm_data_share_rule: Share Rules
-  label_irm_data_share_rule_step1: Step 1：Rule Name
-  label_irm_data_share_rule_step2: Step 2：Select The Data To Share
-  label_irm_data_share_rule_step3: Step 3：Select Which one To Share With
-  label_irm_data_share_rule_step4: Step 4：Select Access Level
-  label_irm_data_share_rule_belong_to: Belongs To
-  label_irm_data_share_rule_share_with: To Share With
-
-  #=========================end irm data share rules=======================#
-
-  #=========================    irm organization_infos=======================#
-  label_irm_organization_info: Organization Info
-  label_irm_organization_info_list: Organization Info List
-  label_irm_organization_info_new: New Organization Info
-  label_irm_organization_info_name: Name
-  label_irm_organization_info_value: Value
-  label_irm_organization_info_file: File
-  label_irm_organization_info_description: Description
-  label_irm_edit_attachment: Edit
-  #=========================end organization_infos=======================#
+  label_irm_mail_smtp_host_name_tip: SMTPメールサーバ
+  label_irm_mail_smtp_from_address_tip: システムはこのメールボックスでメールを送信する
+  label_irm_mail_smtp_prefix_tip: メールタイトルはそれを接頭辞として、メールを濾過することに便利になる
+  label_irm_mail_smtp_port_tip: SMTP用ポート。（初期値： SMTP-25）
+  label_irm_mail_smtp_username_tip: SMTPにログイン用ユーザ名
+  label_irm_mail_smtp_password_tip: SMTPにログイン用パスワード
 
 
-  #======================= Report incident request month summary ============
-  label_report_date_month: Month
-  label_report_incident_request_last_month_unclose: Last Month Unclose
-  label_report_incident_request_this_month_submit: Submitted This Month
-  label_report_incident_request_this_month_close: Closed This Month
-  label_report_incident_request_this_month_unclose: Unclosed This Month
-  #=====================Report incident request month summary end=================
 
-  #======================= Report incident request month processing time ============
-  label_report_submitted_date_and_priority: Submitted Date/Priority
-  #================================================================================
+  label_irm_portlet_config: ポータル配置
+  label_irm_portlet_config_list: 配置リスト
+  label_irm_portlet_config_info: 配置情報
+  label_irm_portlet_config_portal_code: ポータルコード
+  label_irm_portlet_config_person: ユーザ
+  label_irm_portlet_config_config: 配置
 
-  #========================== end incident_amount_by_month_cate report  ===============================
-  label_report_icm_incident_params_is_report:  Hotline
-  label_report_icm_incident_params_is_report_yes: Report
-  label_report_icm_incident_params_is_report_no: Not Report
-  #======================= Report incident request month detail ============
-  label_report_incident_request_support: Assign To
-  label_report_incident_request_journal: Journals
-  #================================================================================
-  #========================= incident_amount_by_month_cate report ====================================
-  label_report_icm_incident_category: Category
-  label_report_icm_incident_months: JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC,Total
-  label_report_icm_incident_total:  Total
-  label_report_icm_incident_status: Incident Status
-  label_report_icm_incident_status_col_header: Status,New,Closed,Unclosed,Total
-  label_report_icm_incident_params_year: Year
-  label_report_icm_incident_params_ym_s: Month from
-  label_report_icm_incident_params_ym_e: Month to
-  label_report_icm_incident_params_month: Month
-  label_report_icm_incident_report_date: Report Date
-  label_report_icm_incident_prior: Priority
-  #========================== end incident_amount_by_month_cate report  ===============================
-  #======================= Report incident request season detail ============
-  label_report_last_updated: Last Updated At
-  label_report_processing_time: Processing Time
-  label_report_continued_day: Continued Day
-  label_report_month: Month
-  label_report_quarter: Quarter
-  #================================================================================
 
-  #========================begin oauth_access_clients===================================
-  label_irm_oauth_access_client: Remote Access
-  label_irm_oauth_access_client_list: Remote Access List
-  label_irm_oauth_access_client_site_image_url: Site Image URL
-  label_irm_oauth_access_client_site_url: Site URL
-  label_irm_oauth_access_client_callback_url: Callback URL
-  label_irm_oauth_access_client_token: Token
-  label_irm_oauth_access_client_secret: Secret
-  #========================end oauth_access_clients=====================================
 
-  #============================== oauth_authorize ======================================
-  label_irm_oauth_grant_access: Grant Acess
-  label_irm_oauth_deny_access: Deny Acess
-  label_irm_oauth_client_not_found: Not Find Client
-  label_irm_oauth_code_unavailable: Unavailabled Code
-  label_irm_oauth_code_expired: Expired Code
-  label_irm_oauth_token_unavailable: Unavailabled Token
-  label_irm_oauth_username_or_password_error: Username Or Password Error
-  label_irm_oauth_ldap_error: There are somethin wrong with LDAP settings so that you can't login
-  #============================== end oauth_authorize ===================================
-  #============================== highest_priority_incident report ===================================
-  label_date: Date
-  label_highest_priority_incident_highest_amount: Highest Amount
-  label_total_amount: Amount
-  label_percentage: Percentage
-  label_statistic_date: Reference Date
-  #============================== end highest_priority_incident ===================================
-  #============================== first line solved report ===================================
-  label_first_line_solved_amount: First-line Solved
-  label_total_solved_amount: Solved Amount
-  #============================== end first line solved ===================================
-  #============================== icm average processing time report ===================================
-  label_total_solved_time: Total Solved Time(mins)
-  label_total_solved_average_time: Avg. Solved Time(mins/sheet)
-  #============================== end icm average processing time ===================================
-  #============================== icm wrong assign rate report ===================================
-  label_icm_total_wrong_assigned: Wrong Assigned
-  label_icm_wrong_assigned_rate: Wrong Assigned Rate
-  #============================== end icm wrong assign rate ===================================
-  #============================== icm secondary assign rate report ===================================
-  label_icm_total_secondary_assigned: Secondary Assigned
-  label_icm_secondary_assigned_rate: Secondary Assigned Rate
-  #============================== end icm secondary assign rate ===================================
-  #============================== skm solved rate report ===================================
-  label_skm_solved_amount: Skm Solved Amount
-  label_skm_solved_rate: Skm Solved Rate
-  #============================== end skm solved rate ===================================
-  #============================== icm once solved rate report ===================================
-  label_icm_once_solved_amount: Once Solved Amount
-  label_icm_once_solved_rate: Once Solved Rate
-  #============================== end icm once solved rate ===================================
-  #============================== icm reopen rate report ===================================
-  label_icm_reopen_amount: Reopen Amount
-  label_icm_reopen_rate: Reopen Rate
-  #============================== end icm reopen rate ===================================
-  #============================== icm upgrade rate report ===================================
-  label_icm_upgrade_amount: Upgrade Amount
-  label_icm_upgrade_rate: Upgrade Rate
-  #============================== end icm upgrade rate ===================================
-  #============================== icm incident amount by day report ===================================
-  label_icm_receive_amount: Received Amount
-  #============================== end icm incident amount by day  ===================================
-  #============================== icm helpdesk solved rate report ===================================
-  label_icm_helpdesk_solved_amount: Helpdesk Solved Amount
-  label_icm_helpdesk_solved_rate: Helpdesk Solved Rate
-  #============================== end icm helpdesk solved rate day  ===================================
-  #============================== chm rejected request rate report ===================================
-  label_chm_rejected_amount: Rejected Amount
-  label_chm_rejected_rate: Rejected Rate
-  label_chm_approval_amount: Approval Amount
-  #============================== end chm rejected request rate day  ===================================
-  #============================== chm rejected request rate report ===================================
-  label_icm_rank: Rank
-  label_icm_workload: Workload
-  label_icm_workload_rate: Rate
-  #============================== end chm rejected request rate day  ===================================
-  #============================== wiki ======================================
+
+  label_irm_portlet: ポートレット
+  label_irm_portlet_new: 新規ポートレット
+  label_irm_portlet_code: コード
+  label_irm_portlet_controller: ページコントローラ
+  label_irm_portlet_action: ページ活動
+  label_irm_portlet_default_flag: 初期表示
+  portlet_default_flag_yes: はい
+  portlet_default_flag_no: いいえ
+  label_irm_portlet_list: ポートレットリスト
+  label_irm_portlet_name: 名称
+  label_irm_portlet_description: 説明
+  label_irm_portlet_custom_home_page: モジュールの追加
+  label_irm_portlet_change_layout: レイアウトの設定
+  lable_irm_portlet_cancle_button: 取消す
+  label_irm_portlet_select_layout: レイアウトの選択
+
+
+
+  label_irm_portal_layout: ポータルレイアウト
+  label_irm_portal_layout_list: ポータルレイアウトリスト
+  label_irm_portal_layout_name: レイアウト名
+  label_irm_portal_layout_description: レイアウト説明
+  label_irm_portal_layout_format: レイアウト書式
+  label_irm_portal_layout_format_error: 数字（1または2）を入力して、コンマで分割しかできません（例：1,2,2）
+
+
+
+  label_irm_session_setting: セッション設定
+  label_irm_session_time_out: セッションタイムアウト
+  label_irm_session_time_out_value: タイムアウト値
+  label_irm_session_warn: セキュリティ原因で、Ironmineセッションがまもなくタイムアウトになります。何を選択しますか。
+
+
+
+  label_irm_data_access: データアクセスコントローラ
+  label_irm_data_access_list: データアクセスリスト
+  label_irm_data_access_list_opu: 操作中心データアクセス
+  label_irm_data_access_list_org: データアクセス組織
+  label_irm_data_access_new: 新規データアクセス
+  label_irm_data_access_edit: データアクセスの編集
+  label_irm_data_access_business_object: 業務オブジェクト
+  label_irm_data_access_access_level: 初期アクセスレベル
+  label_irm_data_access_all_business_object: 全業務オブジェクト
+  label_irm_data_access_org_not_set: 未設定
+  label_irm_data_access_org_access_level: 組織
+  label_irm_data_access_opu_access_level: 操作中心
+  label_irm_data_access_org: 組織レベル操作中心
+  label_irm_data_access_hierarchy_access_flag: アクセスフラグ
+
+
+
+  label_irm_data_share_rule: 共有ルール
+  label_irm_data_share_rule_step1: ステップ1：規則名
+  label_irm_data_share_rule_step2: ステップ2：共有したいデータを選択
+  label_irm_data_share_rule_step3: ステップ3：どれを共有するかことをを選択
+  label_irm_data_share_rule_step4: ステップ4：アクセスレベルを選択
+  label_irm_data_share_rule_belong_to: に属する
+  label_irm_data_share_rule_share_with: と共有する
+
+
+
+
+  label_irm_organization_info: 組織情報
+  label_irm_organization_info_list: 組織情報リスト
+  label_irm_organization_info_new: 新規組織情報
+  label_irm_organization_info_name: 名称
+  label_irm_organization_info_value: 値
+  label_irm_organization_info_file: ファイル
+  label_irm_organization_info_description: 説明
+  label_irm_edit_attachment: 編集
+
+
+
+  label_report_incident_request_last_month_unclose: 先月未解決数量
+  label_report_incident_request_this_month_submit: 今月受付数量
+  label_report_incident_request_this_month_close: 今月解決数量
+  label_report_incident_request_this_month_unclose: 今月未解決数量
+  label_report_date_month: 月
+
+
+
+  label_report_submitted_date_and_priority: 提出日付/優先順位
+
+
+
+  label_report_icm_incident_params_is_report: ホットライン
+  label_report_icm_incident_params_is_report_yes: レポート
+  label_report_icm_incident_params_is_report_no: レポートなし
+
+
+
+  label_report_icm_incident_category: カテゴリー
+  label_report_icm_incident_total: 額計
+
+
+
+
+  label_report_icm_incident_status: 事件ステータス
+  label_report_icm_incident_params_year: 年
+  label_report_icm_incident_months: 一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月,総計
+  label_report_icm_incident_status_col_header: ステータス、新規、クローズ、未解決、合計
+
+
+
+  label_report_icm_incident_category: カテゴリー
+  label_report_icm_incident_months: 一月、二月、三月、四月、五月、六月、七月、八月、九月、十月、十一月、十二月、総計
+  label_report_icm_incident_total: 額計
+  label_report_icm_incident_params_year: 年
+  label_report_icm_incident_params_ym_s: 月から
+  label_report_icm_incident_params_ym_e: 月まで
+  label_report_icm_incident_params_month: 月
+  label_report_icm_incident_report_date: レポート日付
+  label_report_icm_incident_prior: 優先順位
+
+
+
+  label_report_last_updated: 最後の更新
+  label_report_processing_time: 処理時間
+  label_report_continued_day: 持続日数
+  label_report_month: 月
+  label_report_quarter: 四半期
+
+
+
+  label_irm_oauth_access_client: リモートアクセス
+  label_irm_oauth_access_client_list: リモートアクセスリスト
+  label_irm_oauth_access_client_site_image_url: サイト映像URL
+  label_irm_oauth_access_client_site_url: サイトURL
+  label_irm_oauth_access_client_callback_url: URLのコールバック
+  label_irm_oauth_access_client_token: しるし
+  label_irm_oauth_access_client_secret: パースワード
+  label_irm_oauth_access_created: 登録日付
+  label_irm_oauth_access_updated: 前回のアクセス日付
+  label_irm_oauth_access_num: アクセス数
+  label_irm_oauth_access_ip: リモートIP
+  label_irm_oauth_access_name: アプリケーション名
+
+
+
+  label_irm_oauth_grant_access: 権限
+  label_irm_oauth_deny_access: 取消す
+  label_irm_oauth_client_not_found: クライアントを見つけない
+  label_irm_oauth_code_unavailable: 無効コード
+  label_irm_oauth_code_expired: 期限が切れたコード
+  label_irm_oauth_token_unavailable: 無効なしるし
+  label_irm_oauth_username_or_password_error: ユーザまたはパースワードエラー
+
+
+  label_irm_rating_config: 階級設定
+  label_irm_rating_config_grade: 階級オプション
+  label_irm_rating_config_grade_grade: グレード
+  label_irm_rating_config_display_style: 表示スタイル
+  label_irm_rating_config_new: 新規階級設定
+  label_irm_rating_config_edit: 階級設定の編集
+
+
+  label_date: 日付
+  label_highest_priority_incident_highest_amount: 最高優先順位
+  label_total_amount: 合計金額
+  label_percentage: パーセント
+  label_statistic_date: 参照日付
+
+
+  label_first_line_solved_amount: 優先解決
+  label_total_solved_amount: 解決済み件数量
+
+
+  label_total_solved_time: 解決総時間（分）
+  label_total_solved_average_time: 平均処理時間（分/毎）
+
+
+  label_icm_total_wrong_assigned: 割当不正
+  label_icm_wrong_assigned_rate: 割当不正のレート
+
+
+  label_icm_total_secondary_assigned: 二次割当
+  label_icm_secondary_assigned_rate: 二次割当レート
+
+
+  label_skm_solved_amount: Skm解決量
+  label_skm_solved_rate: Skm解決レート
+
+
+  label_icm_once_solved_amount: 一括解決量
+  label_icm_once_solved_rate: 一括解決レート
+
+
+  label_icm_to_rfc_amount: RFCの生成総計
+  label_icm_to_rfc_rate: RFCの生成レート
+
+
+  label_icm_reopen_amount: 再開量
+  label_icm_reopen_rate: 再開レート
+
+
+  label_icm_upgrade_amount: アップグレードレート
+  label_icm_upgrade_rate:
+
+
+  label_icm_receive_amount:
+
+
+  label_icm_helpdesk_solved_amount: ヘルプデスク解決量
+  label_icm_helpdesk_solved_rate: ヘルプデスク解レート
+
+
+  label_chm_rejected_amount: 拒否数
+  label_chm_rejected_rate: 拒否レート
+  label_chm_approval_amount:
+
+
+  label_icm_rank: ワークロード
+  label_icm_workload: レート
+  label_icm_workload_rate:
+
+
+
   label_irm_wiki: Wiki
-  label_irm_wiki_name: Name
-  label_irm_wiki_description: Description
-  label_irm_wiki_content_format: Format
-  label_irm_wiki_content: Content
-  label_irm_wiki_new: New Wiki
-  label_irm_wiki_edit: Edit Wiki
-  label_irm_wiki_history: History
-  label_irm_wiki_compare: Versions Compare
-  label_irm_wiki_revert: Revert
-  label_irm_wiki_revert_message:  Revert change between %{from} and %{to}
-  label_irm_wiki_default_commit_message: Message
-  label_irm_wiki_preview: Preview
-  #============================== end wiki  ===================================
-
-  #============================== start search page  ==============================
-  label_search_previous_page: Previous
-  label_search_next_page: Next
-  label_search_attachment: Attachment
-  label_before_forever: Unlimited
-  label_before_one_day: 24 Hours
-  label_before_one_week: 1 Week
-  label_before_one_month: 1 Month
-  label_before_one_year: 1 Year
-  label_search_result_count: %{count} Results found
-  label_search_options_setting: Search options setting
-  label_search_options_time: Search options time
-  label_search_no_result_alert_1: the keyword can't be blank；
-  label_search_no_result_alert_2: please try another keyword；
-  label_search_no_result_alert_3: check the search options setting；
-  label_search_no_result_alert_4: Searching result may exceed your specified range.
-  #============================== end search page  ==============================
+  label_irm_wiki_name: 名称
+  label_irm_wiki_description: 説明
+  label_irm_wiki_content_format: 書式
+  label_irm_wiki_content: 内容
+  label_irm_wiki_new: 新規Wiki
+  label_irm_wiki_edit: Wiki編集
+  label_irm_wiki_history: 履歴バージョン
+  label_irm_wiki_compare: バージョン比較
+  label_irm_wiki_revert: 回復
+  label_irm_wiki_revert_message: %{from} から  %{to} までのことを回復
+  label_irm_wiki_default_commit_message: メッセージ
+  label_irm_wiki_preview: プレビュー
 
 
-  #============================== start reset password  ==============================
-  label_back_to_login: Back to login page
-  lable_update_password_error: Invid url or the token is expired!
-  lable_new_password: New password
-  lable_new_password_confirm: New password confirm
-  label_update_password_successfully: Update password successlly!Please login with new password.
-  label_update_password_error: Error,please reset your new password.
-  label_error_email_not_existed: this email is not existd in system.
-  label_error_ldap_user: The user login as ldap and you can't reset password in the system.
-  label_error_email_or_username_blank: The Email or Username can't be blank.
-  label_error_username_required: The Username is required.
-  #============================== end reset password  ==============================
+  label_search_previous_page: 前ページ
+  label_search_next_page: 次のページ
+  label_search_attachment: 添付ファイル
+  label_before_forever: 無期限
+  label_before_one_day: 24時内
+  label_before_one_week: 1週間内
+  label_before_one_month: 一月内
+  label_before_one_year: 一年内
+  label_search_result_count:  %{count} の結果を捜す
+  label_search_options_setting: 検索オプション設定
+  label_search_options_time: 検索オプション時間
+  label_search_no_result_alert_1: 1.キーワードはブランクになることができない
+  label_search_no_result_alert_2: 2.別のキーワードを使用してください
+  label_search_no_result_alert_3: 3.検索オプション設定をチェックします
+  label_search_no_result_alert_4: 4.検索結果は指定範囲を超えます。
 
-  #============================== start report time ==============================
-  label_report_time_during: Range
-  label_report_time_cury: Current CY
-  label_report_time_prevy: Previous CY
-  label_report_time_prev2y: Previous 2 CY
-  label_report_time_ago2y: 2 CY Ago
-  label_report_time_nexty: Next CY
-  label_report_time_prevcury: Current and Previous CY
-  label_report_time_prevcur2y: Current and Previous 2 CY
-  label_report_time_curnexty: Current and Next CY
-  label_report_time_currentq: Current CQ
-  label_report_time_prevq: Previous CQ
-  label_report_time_nextq: Next CQ
-  label_report_time_curprevq: Current and Next CQ
-  label_report_time_curnextq: Current and Previous CQ
-  label_report_time_curnext3q: Current and Next 3 CQ
-  label_report_time_last_month: Last Month
-  label_report_time_current_month: This Month
-  label_report_time_next_month: Next Month
-  label_report_time_last_this_month: Current and Previous Month
-  label_report_time_next_this_month: Current and Next Month
-  label_report_time_last_week: Last Week
-  label_report_time_current_week: This Week
-  label_report_time_next_week: Next Month
-  label_report_time_custom: Custom
-  label_report_time_yesterday: Yesterday
-  label_report_time_today: Today
-  label_report_time_tomorrow: Tomorrow
-  label_report_time_future_n_days: Next %{n} days
-  label_report_time_ago_n_days: Last %{n} days
-  label_report_time_grouped_year: CY
-  label_report_time_grouped_season: Fiscal year
-  label_report_time_grouped_circle: Fiscal period
-  label_report_time_grouped_week: Fiscal week
-  label_report_time_grouped_calendar_year: Calendar year
-  label_report_time_grouped_calendar_season: Calendar quarter
-  label_report_time_grouped_calendar_month: Calendar month
-  label_report_time_grouped_calendar_week: Calendar week
-  label_report_time_grouped_calendar_day: Day
-  #============================== end report time  ==============================
-  #============================== start system setting  ==============================
-  label_irm_system: System setting
-  label_irm_system_custom_field: Custom Fields
-  label_irm_system_custom_model_field: %{model_name} Fields
-  label_irm_system_custom_business_object_list: Custom Fields's Business Object List
-  label_irm_system_custom_attribute: System Custom Fields
-  label_irm_custom_attribute: System Custom Fields
-  label_irm_system_custom_attribute_order: Reorder Custom Fields
-  label_irm_custom_attribute_show_all: Show All
-  label_irm_custom_attribute_show_required: Only show required
-  label_irm_system_custom_attribute_order_tip: Required fields are always displayed on the front
-  #============================== end system setting  ==============================
 
-  #============================== start mailer log  ==============================
-  label_irm_mailer_log: Mailer send logs
-  label_irm_mailer_log_reference_target: Send Target
-  label_irm_mailer_log_to_params: To params
-  label_irm_mailer_log_template_code: Template Code
-  label_irm_mailer_log_send_at: Send At
-  #============================== end mailer log  ==============================
 
-  label_total_data_size: Total %{m}
-  label_kpi_resolved_rate: Resolved Rate
-  label_kpi_ttr: Time To Resolve
-
-  label_irm_person_work_number: Number
+  label_back_to_login: ログインページに戻す
+  lable_update_password_error: 無効なリンクまたはしるしの期限が切れた
+  lable_new_password: 新しいパースワード
+  lable_new_password_confirm: 新しいパースワードの確認
+  label_update_password_successfully: パースワードの更新が成功しました！新しいパースワードでログインしてください。
+  label_update_password_error: エラー、新しいパースワードをリセットしてください。
+  label_error_email_not_existed: システムにこのメールがありません。
+  label_error_email_blank: メールはブランクになることができません。
