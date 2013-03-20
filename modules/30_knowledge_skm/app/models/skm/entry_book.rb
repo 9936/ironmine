@@ -19,6 +19,18 @@ class Skm::EntryBook < ActiveRecord::Base
         select("sebr.relation_type, sebr.id, #{table_name}.id entry_book_id")
   }
 
+
+  def self.lov(lov_scope, params)
+    if params[:lov_params].present?&&params[:lov_params].is_a?(Hash)&&params[:lov_params][:lktkn].present?
+      #根据不同的来源的lov进行特殊的过滤处理
+      if "entry_book_relation".eql?(params[:lov_params][:lktkn])&& params[:lov_params][:entry_book_id].present?
+        lov_scope = lov_scope.where("#{self.view_name}.id !=? AND NOT EXISTS(SELECT 1 FROM #{Skm::EntryBookRelation.table_name} sebr WHERE((#{self.view_name}.id=sebr.book_id OR #{self.view_name}.id=sebr.target_id) AND (sebr.relation_type='ENTRYBOOK') AND (sebr.book_id=? OR sebr.target_id=?) ))", params[:lov_params][:entry_book_id],params[:lov_params][:entry_book_id],params[:lov_params][:entry_book_id])
+      end
+    end
+    lov_scope
+  end
+
+
   def entry_books
     Skm::EntryBook.joins("JOIN #{Skm::EntryBookRelation.table_name} sebr ON #{table_name}.id=sebr.target_id").
         where("sebr.book_id=? AND sebr.relation_type=?", self.id, "ENTRYBOOK")

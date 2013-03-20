@@ -206,6 +206,13 @@ class Skm::EntryBooksController < ApplicationController
                        :encoding => 'utf-8',
                        :layout => "layouts/markdown_pdf.html.erb",
                        :book => true,
+                       :show_background_images => true,
+                       #:show_as_html => true,
+                       #:header => {
+                       #    :right => true,
+                       #    :content => "<img src='http://www.hand-china.com/cn/image/logo.jpg'/>"
+                       #},
+                       :no_background => false,
                        :page_size => 'A4',
                        :toc=>{:header_text=>t(:label_skm_wiki_table_of_content),:disable_back_links=>true}
       }
