@@ -15,7 +15,7 @@ module Skm::EntryBooksHelper
 
   def generate_entry_book(entry_book_id, h_num=1, h_num_str="")
     if h_num > 6
-      return
+      h_num = 6
     end
 
     entry_book = Skm::EntryBook.find(entry_book_id)
@@ -63,11 +63,22 @@ module Skm::EntryBooksHelper
         end
         #检查是否有附件存在
         if target.attachments && target.attachments.any?
-
+          num_in += 1
+          if h_num == 1
+            html += "<p class='h2-title'></p>"
+          end
+          html += "<h#{h_num + 1}>#{h_num_str}#{num_out}.#{num_in}. #{t(:label_irm_attachment)}</h#{h_num + 1}>"
+          html += "<ul>"
+          target.attachments.each do |a|
+            version = a.last_version_entity
+            html += "<li>"
+            html += raw("<a target='_blank' href='#{request.protocol}#{request.host_with_port}#{version.data.url}' >#{version.data.original_filename}</a>")
+            html += "</li>"
+          end
+          html += "</ul>"
         end
       end
     end
-
     html.html_safe
   end
 end
