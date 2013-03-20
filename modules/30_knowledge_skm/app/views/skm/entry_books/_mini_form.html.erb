@@ -4,7 +4,7 @@
     </div>
     <div  style="float:right;">
       <%= select_tag_alias("relation_type", available_targets, nil, :id => "entryRelationType") %>
-      <%= lov_field_tag "entry_header_id", Skm::EntryHeader,{:style=>"width:150px;"}%>
+      <%= lov_field_tag "entry_header_id", Skm::EntryHeader,{:style=>"width:150px;",:lov_params=>{:lktkn=>"entry_book", :entry_book_id=> book.id}}%>
       <%= lov_field_tag "entry_book_id", Skm::EntryBook,{:style=>"width:150px;"}%>
     </div>
 <% end %>
