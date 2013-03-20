@@ -1,5 +1,5 @@
 $(function(){
     $("#entryBookForm").html("<%= escape_javascript(render :partial=>"skm/entry_books/mini_form",:locals => {:book=>@entry_book})%>");
 
-    $("#entry_books").data("datatable").target.loadPage(1);
+    $("#entry_books").data("datatable").target.loadPage();
 });

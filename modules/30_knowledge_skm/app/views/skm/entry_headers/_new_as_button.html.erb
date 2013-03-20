@@ -1,6 +1,6 @@
 <div class="btn-group" style="float: left;display: inline-block;">
   <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-    <%= t(:button_skm_entry_header_new)  %>
+    <%= t(:label_action_new)  %>
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu">
@@ -8,7 +8,11 @@
     <li><%= link_to(t(:label_skm_entry_create_video),{:action => "new_step_video_upload"}) %></li>
     <% if allow_to_function?(:entry_books_manage) %>
       <li class="divider"></li>
-      <li><%= link_to t(:label_skm_entry_book_new), {:controller => "skm/entry_books", :action => "new"} %></li>
+      <li><%= link_to t(:label_skm_entry_book), {:controller => "skm/entry_books", :action => "new"} %></li>
     <% end %>
   </ul>
+</div>
+
+<div class="btn-group" style="float: left;display: inline-block;">
+  <%= link_to t(:label_skm_entry_book), {:controller => "skm/entry_books", :action => "index"}, :class => "btn" %>
 </div>
