@@ -250,3 +250,17 @@ ja:
   label_skm_book_wiki_order: 排序
   label_skm_book_publish: 发布
   #============================== end book  ===================================
+
+  #============================== Start Entry Book ======================================
+  label_skm_entry_book: Entry Book
+  label_skm_entry_book_list: Entry Book List
+  label_skm_entry_book_name: Name
+  label_skm_entry_book_relation_type: Type
+  label_skm_entry_book_description: Description
+  label_skm_entry_book_new: New Entry Book
+  label_skm_entry_book_edit: Edit Entry Book
+  label_skm_entry_book_preview: Preview
+  label_skm_entry_book_updated_at: Update Date
+  label_skm_entry_book_headers: Chapter
+  label_skm_entry_book_export: Export
+  #============================== End Entry Book ===================================

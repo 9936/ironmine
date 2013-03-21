@@ -271,9 +271,7 @@ zh:
   label_skm_entry_book_new: 新建知识专题
   label_skm_entry_book_edit: 编辑知识专题
   label_skm_entry_book_preview: 预览
-  label_skm_entry_book_publish: 发布
   label_skm_entry_book_updated_at: 更新日期
   label_skm_entry_book_headers: 知识专题章节
-  label_skm_entry_book_preview: 预览
   label_skm_entry_book_export: 导出
   #============================== End Entry Book ===================================
