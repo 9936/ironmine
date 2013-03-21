@@ -23,6 +23,11 @@ class Skm::EntryBookRelation < ActiveRecord::Base
         select("#{table_name}.*, seh.entry_title, seh.doc_number, seh.id entry_header_id, seh.type_code, seh.published_date, seh.created_at entry_created_at, seh.updated_at entry_updated_at")
   }
 
+  def self.merge_headers(old_header_id, new_header_id)
+    puts "============================================================================="
+    self. update_all({:target_id => new_header_id }, {:target_id => old_header_id, :relation_type => "ENTRYHEADER"})
+  end
+
   private
     #构建sequence
     def build_sequence

@@ -606,6 +606,8 @@ class Skm::EntryHeadersController < ApplicationController
             fas.each do |fa|
               fa.update_attribute(:entry_header_id, @entry_header.id)
             end
+            #同步专题中的知识到最新版本
+            Skm::EntryBookRelation.merge_headers(old_header.id, @entry_header.id)
             #同步关联的知识
             header_relations = Skm::EntryHeaderRelation.with_created_by.list_all(old_header.id)
             header_relations.each do |hr|
