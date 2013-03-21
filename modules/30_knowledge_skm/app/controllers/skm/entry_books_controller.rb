@@ -46,7 +46,7 @@ class Skm::EntryBooksController < ApplicationController
 
     respond_to do |format|
       if @entry_book.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:action => "show",:id => @entry_book.id }, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @entry_book, :status => :created, :location => @entry_book }
       else
         format.html { render :action => "new" }
@@ -62,7 +62,7 @@ class Skm::EntryBooksController < ApplicationController
 
     respond_to do |format|
       if @entry_book.update_attributes(params[:skm_entry_book])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:action => "show", :id => @entry_book.id }, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
