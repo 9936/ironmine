@@ -1,4 +1,9 @@
-<div class="markdown-body">
-  <div class="watermark">Hand-china.com</div>
+<style type="text/css">
+    .watermark {
+        background-size: contain;
+        background: url("<%= watermark %>") transparent;
+    }
+</style>
+<div class="markdown-body watermark">
   <%= generate_entry_book(@entry_book.id) %>
 </div>

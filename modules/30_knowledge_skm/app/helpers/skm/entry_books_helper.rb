@@ -81,4 +81,9 @@ module Skm::EntryBooksHelper
     end
     html.html_safe
   end
+
+
+  def watermark
+    "#{request.protocol}#{request.host_with_port}/images/logos/hand-china.jpg"
+  end
 end

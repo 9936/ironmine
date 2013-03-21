@@ -12,23 +12,15 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <style>
-        .watermarks {
+    <style type="text/css">
+        .watermark {
             background-size: contain;
-            background: url('http://www.hand-china.com/cn/image/logo.jpg');
-            top: 150px;
-            bottom: 0;
-            position: fixed;
-            opacity: 0.1;
-            display: block;
-            height: 100%;
-            width: 100%;
+            background: url('<%= watermark %>') transparent;
         }
     </style>
 
 
-    <div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
-      <div class="watermarks"></div>
+    <div class="markdown-body watermark" style="width: 551pt;text-align: left;margin: 0 auto;">
       <%= generate_entry_book(@entry_book.id) %>
     </div>
   </div>
