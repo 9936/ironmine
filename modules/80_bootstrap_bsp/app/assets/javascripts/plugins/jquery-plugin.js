@@ -1762,15 +1762,20 @@ jQuery.fn.menubutton = function () {
     Internal.prototype.buildDrag = function () {
         var me = this;
         if (me.data.options.dragOptions.dragAble) {
+            var pageBlock = $(me.$element.parents(".page-block")[0]),
+                html = $(".datatable", pageBlock).html();
             //为页面元素添加排序操作按钮
-            var orderBtn = $('<a href="javascript:void(0);" class="btn"><i class="icon-move"></i>' + $.i18n("reset_order_btn_text") + '</a>'),
-                pageBlock = $(me.$element.parents(".page-block")[0]),
-                saveBtn = $('<a href="javascript:void(0);" class="btn btn-success" style="display: none;"><i class="icon-ok icon-white"></i>' + $.i18n("save_btn_text") + '</a>'),
-                cancelBtn = $('<a href="javascript:void(0);" class="btn" style="margin-right:10px;display: none;">' + $.i18n("cancel_btn_text") + '</a>'),
+            var orderBtn = $('<a href="javascript:void(0);" class="btn btn-order"><i class="icon-move"></i>' + $.i18n("reset_order_btn_text") + '</a>'),
+                saveBtn = $('<a href="javascript:void(0);" class="btn btn-order btn-success" style="display: none;"><i class="icon-ok icon-white"></i>' + $.i18n("save_btn_text") + '</a>'),
+                cancelBtn = $('<a href="javascript:void(0);" class="btn btn-order" style="margin-right:10px;display: none;">' + $.i18n("cancel_btn_text") + '</a>'),
                 btns = $(".page-block-header .page-block-button .btn", pageBlock),
-                html = $(".datatable", pageBlock).html(),
                 url = me.data.options.dragOptions.saveUrl;
             url += url.indexOf("?") > 0 ? "&_dom_id=null" : "?_dom_id=" + me.$element.attr("id");
+
+            if (pageBlock.attr("order-btn") && pageBlock.attr("order-btn") === 'true') {
+                $(".page-block-header .page-block-button .btn-order", pageBlock).remove();
+            }
+
             orderBtn.bind("click", function () {
                 btns.css("display", "none");
                 $(this).hide();
@@ -1812,6 +1817,7 @@ jQuery.fn.menubutton = function () {
                 me.$element.trigger('customCallback');
             });
             $(".page-block-header .page-block-button", pageBlock).append(orderBtn).append(cancelBtn).append(saveBtn);
+            pageBlock.attr("order-btn", "true");
             //当配置了
             if (me.data.options.dragOptions.triggerClick) {
                 orderBtn.trigger("click");
