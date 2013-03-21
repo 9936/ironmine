@@ -1,0 +1,43 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "40px"}) do |data|%>
+      <%= link_to(t(:remove),{:controller => "skm/entry_books", :action=>"remove_entry",:id=> params[:id], :target_id => data[:entry_header_id],:_dom_id=>"entryBook"},:remote => true, :class => "action-link",:confirm => t(:label_are_you_sure) ,:method => :delete) %>
+    <% end %>
+    <% builder.column(:relation_type,{:title => t(:label_skm_entry_book_relation_type)}) do |data| %>
+      <%= type_meaning(data[:relation_type]) %>
+    <% end %>
+    <% builder.column(:entry_title,{:title=>t(:label_skm_entry_header_title)}) do |data|%>
+      <% if data[:relation_type].eql?("ENTRYHEADER") %>
+        <%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:entry_header_id]})%>
+      <% else %>
+         <%= link_to(data[:name], {:controller => "skm/entry_books", :action => "show", :id => data[:entry_book_id]})%>
+      <% end %>
+    <% end %>
+    <% builder.column(:published_date,{:title=>t(:label_skm_entry_header_published_date),:width=>"180px"}) do |data| %>
+       <% if data[:relation_type].eql?("ENTRYHEADER") %>
+         <%= format_date(data[:published_date]) %>
+       <% else %>
+         <%= "" %>
+       <% end %>
+    <% end %>
+    <% builder.column(:entry_created_at,{:title=>t(:created_at),:width=>"150px"}) do |data|%>
+        <% if data[:relation_type].eql?("ENTRYHEADER") %>
+            <%= format_date(data[:entry_created_at]) %>
+        <% else %>
+            <%= format_date(data[:created_at]) %>
+        <% end %>
+    <% end %>
+    <% builder.column(:entry_updated_at,{:title=>t(:updated_at),:width=>"150px"}) do |data| %>
+        <% if data[:relation_type].eql?("ENTRYHEADER") %>
+            <%= format_date(data[:entry_updated_at]) %>
+        <% else %>
+            <%= format_date(data[:updated_at]) %>
+        <% end %>
+    <% end %>
+    <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number)}) do |data|%>
+        <% if data[:relation_type].eql?("ENTRYHEADER") %>
+            <%= format_date(data[:entry_updated_at]) %>
+        <% else %>
+            <%= "" %>
+        <% end %>
+    <% end %>
+<% end %>

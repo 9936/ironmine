@@ -192,9 +192,14 @@ class Skm::EntryHeader < ActiveRecord::Base
   def self.lov(lov_scope, params)
     if params[:lov_params].present?&&params[:lov_params].is_a?(Hash)&&params[:lov_params][:lktkn].present?
       #根据lov的使用不同,进行不同的处理
-      if "entry_relation".eql?(params[:lov_params][:lktkn])&&params[:lov_params][:entry_header_id].present?
+      if "entry_relation".eql?(params[:lov_params][:lktkn])&& params[:lov_params][:entry_header_id].present?
         lov_scope = lov_scope.where("#{self.table_name}.history_flag='N' AND #{self.table_name}.entry_status_code='PUBLISHED' AND #{self.table_name}.id!= ? AND NOT EXISTS(SELECT 1 FROM #{Skm::EntryHeaderRelation.table_name} WHERE (#{Skm::EntryHeaderRelation.table_name}.target_id=#{self.table_name}.id AND #{Skm::EntryHeaderRelation.table_name}.source_id = ?) OR (#{Skm::EntryHeaderRelation.table_name}.target_id = ? AND #{Skm::EntryHeaderRelation.table_name}.source_id = #{self.table_name}.id))", params[:lov_params][:entry_header_id], params[:lov_params][:entry_header_id], params[:lov_params][:entry_header_id])
       end
+      #当是关联知识专题
+      if "entry_book".eql?(params[:lov_params][:lktkn]) && params[:lov_params][:entry_book_id].present?
+        lov_scope = lov_scope.where("#{self.table_name}.history_flag='N' AND #{self.table_name}.entry_status_code='PUBLISHED' AND NOT EXISTS(SELECT 1 FROM #{Skm::EntryBookRelation.table_name} sebr WHERE (sebr.relation_type='ENTRYHEADER' AND sebr.target_id=#{self.table_name}.id AND sebr.book_id=? ) )", params[:lov_params][:entry_book_id] )
+      end
+
     end
 
     lov_scope

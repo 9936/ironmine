@@ -50,8 +50,8 @@ gem 'sprockets','2.0.3'
 gem 'yajl-ruby','1.1.0'
 
 #Gems used to export data to pdf
-gem 'wicked_pdf'
-gem "wkhtmltopdf-binary"
+gem 'wicked_pdf', '0.9.4'
+gem "wkhtmltopdf-binary", '0.9.9.1'
 
 # wiki
 gem 'grit','2.5.0'
