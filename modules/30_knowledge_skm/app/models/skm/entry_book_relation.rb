@@ -24,7 +24,6 @@ class Skm::EntryBookRelation < ActiveRecord::Base
   }
 
   def self.merge_headers(old_header_id, new_header_id)
-    puts "============================================================================="
     self. update_all({:target_id => new_header_id }, {:target_id => old_header_id, :relation_type => "ENTRYHEADER"})
   end
 
