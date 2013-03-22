@@ -1039,5 +1039,11 @@ Rails.application.routes.draw do
     match '/attachments/:source_id/destroy_attachment/:id(.:format)' => "attachments#destroy_attachment", :via => :delete
     match '/attachments/create_attachment(.:format)' => "attachments#create_attachment", :via => :post
     match '/attachments/:id/download(.:format)' => "attachments#download"
+
+    #进程监控
+    match '/monitor_process(/index)(.:format)' => "monitor_process#index", :via => :get
+    match '/monitor_process/process_data(.:format)' => "monitor_process#process_data", :via => :get
+    match '/monitor_process/:id/start_process(.:format)' => "monitor_process#start_process"
+    match '/monitor_process/:id/stop_process(.:format)' => "monitor_process#stop_process"
   end
 end

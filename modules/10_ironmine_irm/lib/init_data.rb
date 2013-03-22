@@ -694,6 +694,14 @@ Fwk::MenuAndFunctionManager.map do |map|
                   :en => {:name => "Mailer Send Log", :description => "Mailer Send Log"},
                   :zh => {:name => "邮件发送日志", :description => "邮件发送日志"},
               }
+          },
+          :monitor_process => {
+              :type => "function",
+              :entry => {
+                  :sequence => 70,
+                  :en => {:name => "Processes Monitor", :description => "Processes Monitor"},
+                  :zh => {:name => "进程监控", :description => "进程监控"},
+              }
           }
       }
   }
@@ -2199,6 +2207,30 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
   #=================================END:MAILER_LOGS=================================
+
+
+  #=================================START:PROCESS MONITOR=================================
+  map.function_group :monitor_process, {
+      :en => {:name => "Process Monitor", :description => "Process Monitor"},
+      :zh => {:name => "进程监控", :description => "进程监控"}, }
+  map.function_group :monitor_process, {
+      :zone_code => "SYSTEM_SETTING",
+      :controller => "irm/monitor_process",
+      :action => "index"}
+  map.function_group :monitor_process, {
+      :children => {
+          :monitor_process => {
+              :en => {:name => "Manage Processes", :description => "Manage Processes"},
+              :zh => {:name => "管理常用进程", :description => "管理常用进程"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/monitor_process" => ["index", "process_data", "start_process", "stop_process"]
+          },
+      }
+  }
+  #process_monitor
+  #=================================END:PROCESS MONITOR=================================
 
   #=================================START:MONITOR_APPROVE_MAIL=================================
   map.function_group :monitor_approve_mail, {

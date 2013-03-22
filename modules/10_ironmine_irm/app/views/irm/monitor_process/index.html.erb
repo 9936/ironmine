@@ -1,0 +1,34 @@
+<%= app_title %>
+<!--页面结构-->
+<style type="text/css">
+    .datatable tbody tr.success > td {
+        background-color: #dff0d8;
+    }
+
+    .datatable tbody tr.error > td {
+        background-color: #f2dede;
+    }
+</style>
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_irm_monitor_proces_list) %></h2>
+      </td>
+      <td class="page-block-button"></td>
+      <td class="page-block-help" style="text-align: left;">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <div id="process_monitor" href="<%= url_for({:controller => 'irm/monitor_process', :action => 'process_data', :_dom_id => 'process_monitor'}) %>"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+      var target = $("#process_monitor"),url = target.attr("href");
+      target.load(url);
+  })
+</script>

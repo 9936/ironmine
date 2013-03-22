@@ -2113,9 +2113,23 @@ zh:
   label_irm_mailer_log_send_at: 发送时间
   #============================== end mailer log  ==============================
 
+  #============================== start process monitor  ==============================
+  label_irm_monitor_proces: 进程监控
+  label_irm_monitor_proces_list: 进程列表
+  label_irm_monitor_proces_status: 运行状态
+  label_irm_monitor_proces_num: 进程数
+  label_irm_monitor_proces_started: 运行中
+  label_irm_monitor_proces_stoped: 停止运行
+  label_irm_monitor_proces_stop: 停止
+  label_irm_monitor_proces_start: 开始
+  label_irm_monitor_proces_restart: 重启
+  #============================== end process monitor  ==============================
+
   label_total_data_size: 共 %{m} 条数据
 
   label_kpi_resolved_rate: 事故单解决率
   label_kpi_ttr: 平均处理时间
 
   label_irm_person_work_number: 工号
+
+

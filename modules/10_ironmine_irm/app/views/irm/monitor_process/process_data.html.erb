@@ -1,0 +1,17 @@
+<div class="datatable">
+  <div class="table-body include-header">
+    <table count="3">
+      <thead>
+      <tr>
+        <th><div><%= t(:name) %></div></th>
+        <th><div><%= t(:label_irm_monitor_proces_status) %></div></th>
+        <th><div><%= t(:label_irm_monitor_proces_num) %></div></th>
+        <th style="width: 30px;"><div><%= t(:operation) %></div></th>
+      </tr>
+      </thead>
+      <tbody>
+        <%= generate_tbody(@processes) %>
+      </tbody>
+    </table>
+  </div>
+</div>
