@@ -131,5 +131,32 @@ module Slm::ServiceAgreementsHelper
       render :partial=>"slm/service_agreements/display_service_agreements",:locals=>{:sid=>sid,:bo_id=>bo_id,:bo_type=>bo_type}
     end
   end
+
+  def generate_progress_bar(current_duration, max_duration)
+    current_duration = current_duration.to_f
+    progress_class = 'progress-info'
+    if current_duration > 0
+      max_duration = max_duration.to_f
+      progress = current_duration / max_duration * 100
+      #设置不同百分比显示不同的进度条颜色
+      if progress >= 50 && progress < 80
+        progress_class = 'progress-warning'
+      elsif progress >= 80
+        progress_class = 'progress-danger'
+      end
+
+      progress = "#{progress.round(2)}%"
+    else
+      progress = "0.00%"
+    end
+    current_max_str = "#{current_duration.to_i}/#{max_duration.to_i}"
+    html = "<label style='float: left;'>#{progress}(#{current_max_str})</label>"
+    html += "<div class='progress #{progress_class} progress-striped'>"
+    html += "<div class='bar' style='width: #{progress}' title='#{progress}'></div>"
+    html += '</div>'
+
+    html.html_safe
+  end
+
   
 end

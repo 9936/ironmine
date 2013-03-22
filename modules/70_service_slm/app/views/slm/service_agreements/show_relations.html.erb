@@ -1,8 +1,13 @@
+<style type="text/css">
+  .progress {
+      margin-bottom: 0;
+  }
+</style>
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:service_agreement_name,{:title=>t(:label_slm_sla_instance_name),:searchable=>true})%>
   <% builder.column(:current_status_name,{:title=>t(:label_slm_sla_instance_current_status),:searchable=>true})%>
   <% builder.column(:current_duration,{:title=>t(:label_slm_sla_instance_current_duration)+"/"+t(:label_slm_sla_instance_max_duration)}) do |data|%>
-        <%= data.current_duration %>/<%= data.max_duration %>
+    <%= generate_progress_bar(data.current_duration, data.max_duration) %>
   <% end %>
   <% builder.column(:start_at,{:title=>t(:label_slm_sla_instance_start_at)})%>
   <% builder.column(:end_at,{:title=>t(:label_slm_sla_instance_end_at)})%>
