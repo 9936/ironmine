@@ -63,17 +63,4 @@ class Irm::MonitorProcessController < ApplicationController
         false
       end
     end
-
-    ##操作delayed job
-    #def operate_delayed_job(args)
-    #  require 'delayed/command'
-    #
-    #  Delayed::Command.new(args).daemonize
-    #end
-    ##操作solr
-    #def operate_solr(task)
-    #  require 'rake'
-    #  Ironmine::Application.load_tasks
-    #  Rake::Task[task].invoke
-    #end
 end
