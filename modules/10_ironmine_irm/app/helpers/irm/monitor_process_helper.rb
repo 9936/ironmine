@@ -17,7 +17,12 @@ module Irm::MonitorProcessHelper
       else
         tr_class = 'error'
         status_name = t(:label_irm_monitor_proces_stoped)
-        action_link = link_to(t(:label_irm_monitor_proces_start) , {:controller => "irm/monitor_process", :action => "start_process", :id => process[:id], :_dom_id => "process_monitor" }, :class => "action-link", :remote => true)
+        if process[:id].eql?("delayed_job")
+          #action_link = link_to(t(:label_irm_monitor_proces_start), {},"data-toggle" => "modal", :href => "#delayedJobModal", :class => "action-link", :id => "delayed_job_start_next")
+          action_link = link_to(t(:label_irm_monitor_proces_start), {:controller => "irm/monitor_process", :action => "start_process", :id => process[:id], :_dom_id => "process_monitor" }, :class => "action-link", :id => "delayed_job_start")
+        else
+         action_link = link_to(t(:label_irm_monitor_proces_start) , {:controller => "irm/monitor_process", :action => "start_process", :id => process[:id], :_dom_id => "process_monitor" }, :class => "action-link", :remote => true)
+        end
       end
 
       html += "<tr class='#{tr_class}'>"

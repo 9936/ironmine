@@ -26,9 +26,41 @@
   </div>
 </div>
 
+<div id="delayedJobModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="delayedJobModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <h3 id="myModalLabel">进程数</h3>
+  </div>
+  <div class="modal-body">
+    <form class=" form-horizontal" data-remote="true">
+      <div class="control-group">
+        <label class="control-label" for="inputEmail">进程数</label>
+        <div class="controls">
+          <input type="number" id="processNum" name="process_num" value="1">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true"><%= t(:cancel) %></button>
+    <button class="btn btn-primary" id="submitBtn"><%= t(:label_irm_monitor_proces_post) %></button>
+  </div>
+</div>
+
 <script type="text/javascript">
   $(function(){
       var target = $("#process_monitor"),url = target.attr("href");
       target.load(url);
+      var modal = $("#delayedJobModal");
+      $("#delayed_job_start").live("click", function(e){
+          modal.modal();
+          $("form", modal).attr("action", $(this).attr("href"));
+          e.preventDefault();
+      });
+
+      $("#submitBtn").click(function(){
+          modal.modal('hide');
+          $("form", modal).submit();
+          $("#processNum").val(1);
+      });
   })
 </script>

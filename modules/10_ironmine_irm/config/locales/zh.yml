@@ -2123,6 +2123,7 @@ zh:
   label_irm_monitor_proces_stop: 停止
   label_irm_monitor_proces_start: 开始
   label_irm_monitor_proces_restart: 重启
+  label_irm_monitor_proces_post: 确定
   #============================== end process monitor  ==============================
 
   label_total_data_size: 共 %{m} 条数据
