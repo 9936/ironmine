@@ -53,13 +53,15 @@
             <th class="data-3col" style="text-align: left;padding-left: 10px;"><label><%= t(:label_irm_system_group_process_to) %></label></th>
           </tr>
           <% all_support_groups = support_group_process_rows(current_system.id) %>
+          <% current_group_process_data = current_group_process_data(@system_group_process.id) %>
           <% if all_support_groups.any? %>
           <tr class="label-column">
             <td class="label-col"><label><%= t(:label_irm_system_group_process_blank)%></label></td>
             <td><label> ===> </label></td>
             <td class="data-3col">
+              <% multiple = (current_group_process_data["0"] && current_group_process_data["0"].any? && current_group_process_data["0"].size > 1)? true : false %>
               <%= blank_select_tag("support_group_to_ids[0][]",
-                                   all_support_groups.collect{|i| [i[:group_name], i[:support_group_id]] },nil, {:class => "filter-select"}) %>
+                                   all_support_groups.collect{|i| [i[:group_name], i[:support_group_id]] },current_group_process_data["0"], {:class => "filter-select", :multiple => multiple}) %>
               <span class="switch-select" style="cursor: pointer;vertical-align: top;"> + </span>
             </td>
           </tr>
@@ -69,8 +71,9 @@
                 <td class="label-col" data-id="<%= group.support_group_id %>"><label><%= group[:group_name] %></label></td>
                 <td><label> ===> </label></td>
                 <td class="data-3col">
+                  <% multiple = (current_group_process_data[group.support_group_id] && current_group_process_data[group.support_group_id].any? && current_group_process_data[group.support_group_id].size > 1)? true : false %>
                   <%= blank_select_tag("support_group_to_ids[#{group.support_group_id}][]",
-                                       all_support_groups.reject{|i| i.support_group_id == group.support_group_id}.collect{|i| [i[:group_name], i[:support_group_id]] },nil, {:class => "filter-select"} ) %>
+                                       all_support_groups.reject{|i| i.support_group_id == group.support_group_id}.collect{|i| [i[:group_name], i[:support_group_id]] },current_group_process_data[group.support_group_id], {:class => "filter-select", :multiple => multiple} ) %>
                   <span class="switch-select" style="cursor: pointer;vertical-align: top;"> + </span>
                 </td>
               </tr>
