@@ -76,7 +76,7 @@
       <% end %>
     </div>
     <div class="btn-group">
-      <%= link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
+      <% link_to t(:export_pdf), {:controller=>"icm/incident_journals",:action=>"new",:request_id=> @incident_request.id,:format => "pdf"}, {:class => "btn btn-info",:target => "_blank"} %>
     </div>
   </div>
 <% end %>
