@@ -54,6 +54,7 @@ class Irm::MonitorProcessController < ApplicationController
   end
 
 
+
   private
     def running?(pid_file)
       begin
