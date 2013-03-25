@@ -197,6 +197,13 @@ class Skm::EntryBooksController < ApplicationController
     @entry_book = Skm::EntryBook.multilingual.find(params[:id])
   end
 
+  #pdf = WickedPdf.new.pdf_from_string("Hello pdf", {:print_media_type => false,
+  #:encoding => 'utf-8',
+  #    :wkhtmltopdf => '/usr/bin/wkhtmltopdf',
+  #    :book => true,
+  #:page_size => 'A4',
+  #    :toc => {:header_text => I18n.t(:label_skm_wiki_table_of_content), :disable_back_links => true}})
+
   def export
     @entry_book = Skm::EntryBook.multilingual.find(params[:id])
     respond_to do |format|
@@ -205,6 +212,7 @@ class Skm::EntryBooksController < ApplicationController
                        :print_media_type => false,
                        :encoding => 'utf-8',
                        :layout => "layouts/markdown_pdf.html.erb",
+                       :wkhtmltopdf => '/usr/bin/wkhtmltopdf',
                        :book => true,
                        #:show_background_images => true,
                        #:show_as_html => true,
