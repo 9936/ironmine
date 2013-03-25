@@ -212,7 +212,7 @@ class Skm::EntryBooksController < ApplicationController
                        :print_media_type => false,
                        :encoding => 'utf-8',
                        :layout => "layouts/markdown_pdf.html.erb",
-                       :wkhtmltopdf => '/usr/bin/wkhtmltopdf',
+                       :wkhtmltopdf => '/opt/wkhtmltopdf',
                        :book => true,
                        #:show_background_images => true,
                        #:show_as_html => true,
