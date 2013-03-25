@@ -447,7 +447,7 @@
       </div>
     </div>
 <% end %>
-<% if self.respond_to?(:display_service_agreements) %>
+<% if self.respond_to?(:display_service_agreements) && allow_to_function?(:view_service_agreement, @incident_request.external_system_id) %>
     <%= display_service_agreements(@incident_request.id,@incident_request.class.name,@incident_request.external_system_id) %>
 <% end %>
 
