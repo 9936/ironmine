@@ -215,7 +215,7 @@ class Skm::EntryBooksController < ApplicationController
                        #:wkhtmltopdf => '/opt/wkhtmltopdf',
                        :book => true,
                        #:show_background_images => true,
-                       :show_as_html => true,
+                       #:show_as_html => true,
                        #:no_background => false,
                        :page_size => 'A4',
                        :toc=>{:header_text=>"content",:disable_back_links=>true}
