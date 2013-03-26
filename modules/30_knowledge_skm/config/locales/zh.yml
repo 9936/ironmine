@@ -71,6 +71,7 @@ zh:
   label_skm_entry_header_my_favorites_list: 我收藏的文章列表
   label_skm_entry_header_my_unpublished_list: 我未发布的文章列表
   label_skm_entry_header_wait_my_approve_list: 待我审核的文章列表
+  label_skm_entry_header_publish_tip: 文章内容已被修改，是否保存为新的版本？
   #=========================entry headers approval================================
   label_skm_entry_header_approval_record: 审批记录
   label_skm_entry_header_approval_status: 审批状态

@@ -1,6 +1,8 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
   <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
-    <%= link_to(t(:edit),{:controller => "skm/entry_headers", :action=>"edit",:id=> data[:id]}, :class => "action-link") %>&nbsp;|
+    <% if can_edit_header?(data) %>
+      <%= link_to(t(:edit),{:controller => "skm/entry_headers", :action=>"edit",:id=> data[:id]}, :class => "action-link") %>&nbsp;|
+    <% end %>
     <%= link_to(t(:show),{:controller => "skm/entry_headers", :action=>"show",:id=> data[:id]}, :class => "action-link") %>
     <% if data[:is_favorite] == "N" %>
      &nbsp;| <%= link_to(t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => data[:id], :person_id => Irm::Person.current.id}, :class => "action-link") %>

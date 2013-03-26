@@ -203,7 +203,7 @@ class Skm::ChannelsController < ApplicationController
     unless approval_person.nil?
      if approval_person.destroy
        #删除该用户下在该频道未审核的知识库审核记录表中的记录
-       entry_approvals = Skm::EntryApprovalPerson.with_channel(params[:channel_id]).where("person_id=?", channel_person.person_id)
+       entry_approvals = Skm::EntryApprovalPerson.with_channel(params[:channel_id]).where("person_id=?", approval_person.person_id)
        if entry_approvals.any?
           entry_approvals.each do |entry_approval|
             #如果知识库仅为当前用户审核则将知识库自动发布

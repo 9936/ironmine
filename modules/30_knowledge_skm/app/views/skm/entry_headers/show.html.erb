@@ -15,8 +15,10 @@
       <% if @entry_header[:is_favorite] == Irm::Constant::SYS_NO %>
         <%= link_to t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => @entry_header.id, :person_id => Irm::Person.current.id},:class=>"btn btn-primary"%>
       <% end %>
-      <% if @entry_header.history_flag == Irm::Constant::SYS_NO %>
-        <%= link_to t(:edit), {:action => "edit", :id => @entry_header},:class=>"btn"%>
+      <% if @entry_header.history_flag == Irm::Constant::SYS_NO  %>
+        <% if can_edit_header?(@entry_header) %>
+          <%= link_to t(:edit), {:action => "edit", :id => @entry_header, :approval_flag => true },:class=>"btn"%>
+        <% end %>
       <% end %>
       <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
       <!-- 如果知识库没有发布则不能进行新建关联知识库和导出pdf数据 -->

@@ -95,7 +95,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/entry_headers" => ["approve_knowledge", "wait_my_approve", "wait_my_approve_data"],
+              "skm/entry_headers" => ["approve_knowledge", "wait_my_approve", "wait_my_approve_data","edit","update"],
           },
           :unpublished_skm_entries => {
               :en => {:name => "View Unpublished Skm Entries", :description => "View Unpublished Skm Entries"},

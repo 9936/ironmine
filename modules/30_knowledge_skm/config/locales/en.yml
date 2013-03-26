@@ -125,6 +125,7 @@ en:
   label_skm_entry_header_choice_people: Chose at least one people
   label_skm_entry_header_to_people: Has hand over to {{person_name}}
   label_skm_entry_header_to_people_save: Save
+  label_skm_entry_header_publish_tip: Do you want to save as a new version?
   #=========================skm FileManagement================================
   label_skm_file_management: Files
   label_skm_file_list: Files List

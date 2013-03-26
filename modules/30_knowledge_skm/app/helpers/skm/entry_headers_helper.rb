@@ -71,4 +71,15 @@ module Skm::EntryHeadersHelper
     Skm::EntryApprovalPerson.query_approval_deny_by_entry_header_id(entry_header_id).any?? true : false
   end
 
+  #知识频道的审核人员可以编辑知识
+  def can_edit_header?(entry_header)
+    if allow_to_function?(:edit_skm_entries)
+      true
+    elsif !entry_header[:channel_id] || entry_header[:author_id].eql?(Irm::Person.current.id)
+      false
+    else
+      Skm::ChannelApprovalPerson.where(:channel_id => entry_header[:channel_id], :person_id => Irm::Person.current.id).any?
+    end
+  end
+
 end
