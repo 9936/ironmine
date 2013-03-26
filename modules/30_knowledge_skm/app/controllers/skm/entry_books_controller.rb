@@ -46,7 +46,12 @@ class Skm::EntryBooksController < ApplicationController
 
     respond_to do |format|
       if @entry_book.save
-        format.html { redirect_to({:action => "show",:id => @entry_book.id }, :notice => t(:successfully_created)) }
+        entry_book_id = @entry_book.id
+        if params[:entry_book_id].present?
+          Skm::EntryBookRelation.create(:book_id => params[:entry_book_id], :target_id => @entry_book.id, :relation_type => "ENTRYBOOK")
+          entry_book_id = params[:entry_book_id]
+        end
+        format.html { redirect_to({:action => "show",:id => entry_book_id }, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @entry_book, :status => :created, :location => @entry_book }
       else
         format.html { render :action => "new" }
