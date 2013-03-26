@@ -1,6 +1,7 @@
 <%= app_title({:description => t(:new)}) %>
 <%= form_for(@entry_header,:url=>{:action=>"new"},:builder => CustomFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
   <%= f.hidden_field :entry_template_id %>
+  <%= hidden_field_tag("entry_book_id", params[:entry_book_id]) %>
   <% content_for :form_block_common   do%>
     <table class="form-table" cellpadding="0" cellspacing="0">
       <tbody>

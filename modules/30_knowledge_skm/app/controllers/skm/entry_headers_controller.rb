@@ -74,16 +74,16 @@ class Skm::EntryHeadersController < ApplicationController
     end
     if !params[:step] || params[:step] == "1"
       respond_to do |format|
-        format.html { redirect_to({:action=>"new_step_1"}) }
+        format.html { redirect_to({:action=>"new_step_1", :entry_book_id => params[:entry_book_id]}) }
       end    
     elsif params[:step] == "2"
       respond_to do |format|
-        format.html { redirect_to({:action=>"new_step_2"}) }
+        format.html { redirect_to({:action=>"new_step_2", :entry_book_id => params[:entry_book_id]}) }
       end
     elsif params[:step] == "3"
     #获取所有附件
       respond_to do |format|
-        format.html { redirect_to({:action=>"new_step_3"}) }
+        format.html { redirect_to({:action=>"new_step_3", :entry_book_id => params[:entry_book_id]}) }
       end
     elsif params[:step] == "4"
       files = params[:files]
@@ -107,7 +107,7 @@ class Skm::EntryHeadersController < ApplicationController
         t = session[:skm_entry_attachments]
         (session[:skm_entry_attachments] = (t ? t : []) + attached.collect(&:id)) if attached
         respond_to do |format|
-          format.html { redirect_to({:action=>"new_step_4"}) }
+          format.html { redirect_to({:action=>"new_step_4", :entry_book_id => params[:entry_book_id]}) }
         end
       end
     end
@@ -421,14 +421,22 @@ class Skm::EntryHeadersController < ApplicationController
         session[:skm_entry_header] = nil
         session[:skm_entry_details] = nil
         session[:skm_entry_attachments] = nil
-        if params[:status] == "DRAFT"
-          format.html { redirect_to({:action=>"my_drafts"}, :notice =>t(:successfully_created)) }
-        else
-          format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
 
+
+        if params[:entry_book_id].present?
+          Skm::EntryBookRelation.create(:book_id => params[:entry_book_id], :target_id => @entry_header.id, :relation_type => "ENTRYHEADER")
+          entry_book_id = params[:entry_book_id]
+          format.html { redirect_to({:controller => "skm/entry_books",:action => "show",:id => entry_book_id }, :notice => t(:successfully_created)) }
+        else
+          if params[:status] == "DRAFT"
+            format.html { redirect_to({:action=>"my_drafts"}, :notice =>t(:successfully_created)) }
+          else
+            format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+          end
+
+          format.json { render :json=>@entry_header.attributes}
+          format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
         end
-        format.json { render :json=>@entry_header.attributes}
-        format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @entry_header.errors, :status => :unprocessable_entity }
@@ -481,7 +489,13 @@ class Skm::EntryHeadersController < ApplicationController
             Skm::EntryApprovalPerson.create(:entry_header_id => @entry_header.id, :person_id => person[:person_id]) if !person[:person_id].eql?(Irm::Person.current.id)
           end
         end
-        format.html { redirect_to({:action => "video_show", :id => @entry_header.id})}
+        if params[:entry_book_id].present?
+          Skm::EntryBookRelation.create(:book_id => params[:entry_book_id], :target_id => @entry_header.id, :relation_type => "ENTRYHEADER")
+          entry_book_id = params[:entry_book_id]
+          format.html { redirect_to({:controller => "skm/entry_books", :action => "show",:id => entry_book_id }, :notice => t(:successfully_created)) }
+        else
+          format.html { redirect_to({:action => "video_show", :id => @entry_header.id})}
+        end
       else
         @video_description = params[:skm_video_description]
         video.attachment.destroy unless video.nil?

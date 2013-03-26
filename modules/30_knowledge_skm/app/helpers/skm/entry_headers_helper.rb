@@ -73,6 +73,9 @@ module Skm::EntryHeadersHelper
 
   #知识频道的审核人员可以编辑知识
   def can_edit_header?(entry_header)
+    if entry_header.is_a?(String)
+      entry_header = Skm::EntryHeader.where(:id => entry_header).first
+    end
     if allow_to_function?(:edit_skm_entries)
       true
     elsif !entry_header[:channel_id] || entry_header[:author_id].eql?(Irm::Person.current.id)

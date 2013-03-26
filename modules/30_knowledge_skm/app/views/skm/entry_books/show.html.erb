@@ -41,7 +41,20 @@
       <h2 class="block-title"><%= t(:label_skm_entry_book_headers) %></h2>
     </td>
     <td class="page-block-button">
-
+      <div class="btn-group" style="float: left;display: inline-block; padding-right: 20px;">
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+          <%= t(:label_action_new)  %>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to(t(:label_skm_entry_create_article),{:controller => "skm/entry_headers", :action => "new", :entry_book_id => @entry_book.id }) %></li>
+          <li><%= link_to(t(:label_skm_entry_create_video),{:controller => "skm/entry_headers",:action => "new_step_video_upload", :entry_book_id => @entry_book.id }) %></li>
+          <% if allow_to_function?(:entry_books_manage) %>
+              <li class="divider"></li>
+              <li><%= link_to t(:label_skm_entry_book), {:controller => "skm/entry_books", :action => "new", :entry_book_id => @entry_book.id } %></li>
+          <% end %>
+        </ul>
+      </div>
     </td>
     <td class="page-block-help" id="entryBookForm">
       <%= render :partial => "skm/entry_books/mini_form", :locals => {:book => @entry_book} %>
