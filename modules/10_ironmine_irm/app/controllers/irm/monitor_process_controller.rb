@@ -40,14 +40,14 @@ class Irm::MonitorProcessController < ApplicationController
 
   def start_process
     if params[:id].eql?("delayed_job")
-      cmd = "cd #{Rails.root} && RAILS_ENV=#{Rails.env} && script/delayed_job start"
+      cmd = "RAILS_ENV=#{Rails.env} && script/delayed_job start"
       if params[:process_num] && params[:process_num].to_i > 1
         cmd += " -n #{params[:process_num].to_i}"
       end
     elsif params[:id].eql?("scheduler")
-      cmd = "cd #{Rails.root} && RAILS_ENV=#{Rails.env} && script/scheduler start"
+      cmd = "RAILS_ENV=#{Rails.env} && script/scheduler start"
     elsif params[:id].eql?("solr")
-      cmd = "cd #{Rails.root} && RAILS_ENV=#{Rails.env} && rake sunspot:solr:start"
+      cmd = "RAILS_ENV=#{Rails.env} && rake sunspot:solr:start"
     else
       cmd = ""
     end
@@ -59,11 +59,11 @@ class Irm::MonitorProcessController < ApplicationController
 
   def stop_process
     if params[:id].eql?("delayed_job")
-      cmd = "cd #{Rails.root} && RAILS_ENV=#{Rails.env} && script/delayed_job stop"
+      cmd = "RAILS_ENV=#{Rails.env} && script/delayed_job stop"
     elsif params[:id].eql?("scheduler")
-      cmd = "cd #{Rails.root} && RAILS_ENV=#{Rails.env} && script/scheduler stop"
+      cmd = "RAILS_ENV=#{Rails.env} && script/scheduler stop"
     elsif params[:id].eql?("solr")
-      cmd = "cd #{Rails.root} && RAILS_ENV=#{Rails.env} && rake sunspot:solr:stop"
+      cmd = "RAILS_ENV=#{Rails.env} && rake sunspot:solr:stop"
     else
       cmd = ""
     end
