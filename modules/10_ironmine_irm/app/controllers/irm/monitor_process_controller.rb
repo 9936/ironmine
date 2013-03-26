@@ -51,9 +51,10 @@ class Irm::MonitorProcessController < ApplicationController
     else
       cmd = ""
     end
+    @result = {:cmd => cmd}
     #exec("#{Rails.root} && #{cmd}")
     Dir.chdir("#{Rails.root}"){
-      system(cmd)
+      @result[:result] = system(cmd)
       #%x[#{cmd}]
     }
   end
@@ -69,9 +70,10 @@ class Irm::MonitorProcessController < ApplicationController
     else
       cmd = ""
     end
+    @result = {:cmd => cmd}
     #exec("#{Rails.root} && #{cmd}")
     Dir.chdir("#{Rails.root}"){
-      system(cmd)
+      @result[:result] = system(cmd)
        #%x[#{cmd}]
     }
   end
