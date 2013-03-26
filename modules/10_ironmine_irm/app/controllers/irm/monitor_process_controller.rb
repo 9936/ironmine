@@ -51,7 +51,6 @@ class Irm::MonitorProcessController < ApplicationController
     else
       cmd = ""
     end
-    puts "=============#{cmd}============"
     Dir.chdir("#{Rails.root}"){
       %x[#{cmd}]
     }
@@ -68,7 +67,6 @@ class Irm::MonitorProcessController < ApplicationController
     else
       cmd = ""
     end
-    puts "=============#{cmd}============"
     Dir.chdir("#{Rails.root}"){
       %x[#{cmd}]
     }
