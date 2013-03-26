@@ -2113,6 +2113,19 @@ en:
   label_irm_mailer_log_send_at: Send At
   #============================== end mailer log  ==============================
 
+  #============================== start process monitor  ==============================
+  label_irm_monitor_proces: Monitor Process
+  label_irm_monitor_proces_list: Process List
+  label_irm_monitor_proces_status: Status
+  label_irm_monitor_proces_num: Num
+  label_irm_monitor_proces_started: Running
+  label_irm_monitor_proces_stoped: Stopped
+  label_irm_monitor_proces_stop: Stop
+  label_irm_monitor_proces_start: Start
+  label_irm_monitor_proces_restart: Restart
+  label_irm_monitor_proces_post: Post
+  #============================== end process monitor  ==============================
+
   label_total_data_size: Total %{m}
   label_kpi_resolved_rate: Resolved Rate
   label_kpi_ttr: Time To Resolve
