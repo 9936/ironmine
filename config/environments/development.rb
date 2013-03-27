@@ -39,10 +39,10 @@ Ironmine::Application.configure do
 
 
   # Do not compress assets
-  config.assets.compress = false
+  config.assets.compress = true
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  config.assets.debug = false
   #按照大小进行日志分割
   #config.logger = Logger.new(Rails.root.join("log",Rails.env + ".log"),3,5*1024*1024)
   #配置日志输出格式

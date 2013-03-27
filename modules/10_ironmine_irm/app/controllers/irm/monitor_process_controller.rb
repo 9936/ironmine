@@ -55,6 +55,7 @@ class Irm::MonitorProcessController < ApplicationController
     #exec("#{Rails.root} && #{cmd}")
     Dir.chdir("#{Rails.root}"){
       @result[:result] = %x[#{cmd}]
+      puts "=====#{cmd}======#{@result[:result]}============="
       #%x[#{cmd}]
     }
   end
@@ -74,6 +75,7 @@ class Irm::MonitorProcessController < ApplicationController
     #exec("#{Rails.root} && #{cmd}")
     Dir.chdir("#{Rails.root}"){
       @result[:result] = %x[#{cmd}]
+      puts "=====#{cmd}======#{@result[:result]}============="
        #%x[#{cmd}]
     }
   end
