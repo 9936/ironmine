@@ -9,7 +9,7 @@ class Skm::EntryHeader < ActiveRecord::Base
 
 
   validates_presence_of :entry_title, :channel_id
-  validate :uniq_entry_title
+  #validate :uniq_entry_title
 
   belongs_to :channel
 

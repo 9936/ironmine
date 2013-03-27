@@ -256,6 +256,8 @@ en:
   label_skm_entry_book: Entry Book
   label_skm_entry_book_list: Entry Book List
   label_skm_entry_book_name: Name
+  label_skm_entry_book_preference: Preference
+  label_skm_entry_book_preference_tip: Will copy the entry headers to current entry book.
   label_skm_entry_book_relation_type: Type
   label_skm_entry_book_description: Description
   label_skm_entry_book_new: New Entry Book

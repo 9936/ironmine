@@ -3,6 +3,10 @@ module Skm::EntryBooksHelper
     [[t(:label_skm_entry_header), "ENTRYHEADER"], [t(:label_skm_entry_book), "ENTRYBOOK"]]
   end
 
+  def available_entry_books
+    Skm::EntryBook.multilingual.collect{|i|[i[:name], i.id]}
+  end
+
   def type_meaning(code)
     meaning = ''
     if code.eql?("ENTRYHEADER")
