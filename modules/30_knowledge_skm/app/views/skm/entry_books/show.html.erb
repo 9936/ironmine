@@ -61,6 +61,7 @@
         $("td .display-container").live("click", function(){
             var display_container = $(this);
             var input = display_container.parent().find("input");
+            input.val($("span.display-name", display_container).html());
             display_container.hide(function(){
                 input.css("width", display_container.width()).show();
                 input.focus();
@@ -76,7 +77,7 @@
                             dataType: "json",
                             data: {target_id: target_id, display_name: value},
                             error: function(){},
-                            success: function(){ }
+                            success: function(){}
                         });
                         $("span.display-name", display_container).html(value);
                         display_container.show();

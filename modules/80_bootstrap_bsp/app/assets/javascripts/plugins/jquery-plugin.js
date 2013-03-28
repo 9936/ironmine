@@ -1779,6 +1779,7 @@ jQuery.fn.menubutton = function () {
             orderBtn.bind("click", function () {
                 btns.css("display", "none");
                 $(this).hide();
+                html = $(".datatable", pageBlock).html();
                 saveBtn.show();
                 cancelBtn.show();
                 $(".table-body table:first tbody:first", me.$element).dragsort({ itemSelector:"tr", dragSelector:"tr", dragEnd:afterDragHand, placeHolderTemplate:"<tr class='place-holder'></tr>" });
