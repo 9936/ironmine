@@ -119,6 +119,17 @@ class Skm::EntryBooksController < ApplicationController
     end
   end
 
+  def update_display_name
+    book_relation = Skm::EntryBookRelation.where(:book_id => params[:id] ,:target_id => params[:target_id]).first
+    book_relation.display_name = params[:display_name] if params[:display_name]
+    book_relation.save
+
+    respond_to do |format|
+      format.json { render :json => {:success => true}}
+    end
+
+  end
+
   # DELETE /entry_books/1
   # DELETE /entry_books/1.xml
   def destroy
@@ -221,12 +232,24 @@ class Skm::EntryBooksController < ApplicationController
     if entry_book_relations.any?
       relation_headers.each do |header|
         if entry_book_relations[header.entry_header_id.to_s].present?
+          if entry_book_relations[header.entry_header_id.to_s][:display_name].present?
+            header[:display_name] = entry_book_relations[header.entry_header_id.to_s][:display_name]
+          else
+            header[:display_name] = header[:entry_title]
+          end
+
           entry_book_relations[header.entry_header_id.to_s] = header
         end
       end
 
       relation_books.each do |book|
         if entry_book_relations[book.entry_book_id.to_s].present?
+          if entry_book_relations[book.entry_book_id.to_s][:display_name].present?
+            book[:display_name] = entry_book_relations[book.entry_book_id.to_s][:display_name]
+          else
+            book[:display_name] = book[:name]
+          end
+
           entry_book_relations[book.entry_book_id.to_s] = book
         end
       end

@@ -38,6 +38,58 @@
   </div>
 </div>
 
+<style type="text/css">
+  input.editable {
+      margin-bottom: 0 !important;
+      width: auto;
+      display: none;
+  }
+  .display-container {
+      cursor: pointer;
+      z-index: 100;
+  }
+
+  .display-container i {
+      margin-left: 4px;
+      overflow: hidden;
+  }
+
+</style>
+
+<script type="text/javascript">
+    $(function(){
+        $("td .display-container").live("click", function(){
+            var display_container = $(this);
+            var input = display_container.parent().find("input");
+            display_container.hide(function(){
+                input.css("width", display_container.width()).show();
+                input.focus();
+            });
+            input.unbind("blur").bind("blur", function(){
+                var value = $(this).val(), target_id = $(this).data("id");
+                var url = $("#displayNameUrl").attr("href");
+                if (value != '') {
+                    $(this).hide(function(){
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            dataType: "json",
+                            data: {target_id: target_id, display_name: value},
+                            error: function(){},
+                            success: function(){ }
+                        });
+                        $("span.display-name", display_container).html(value);
+                        display_container.show();
+                    });
+                }else{
+                    alert("<%= t(:label_skm_entry_book_chapter_title_blank) %>");
+                    $(this).focus();
+                }
+            });
+        });
+    })
+</script>
+
 <!-- 显示知识章节 -->
 <div class="page-block" id="entryBook">
   <table class="page-block-header"><tr>
@@ -65,6 +117,7 @@
     </td>
   </tr></table>
   <div class="page-block-body" id="book_entry_headers">
+    <%= link_to("", {:controller => "skm/entry_books", :action => "update_display_name", :id => @entry_book.id, :_dom_id => "NULL" }, :id => "displayNameUrl") %>
     <%= datatable("entry_books",{:action=>"get_owner_entry_data"},[],{:drag_sort => {:save_url => url_for(:controller => 'skm/entry_books', :action => 'switch_sequence', :id => @entry_book.id)} })%>
   </div>
 </div>

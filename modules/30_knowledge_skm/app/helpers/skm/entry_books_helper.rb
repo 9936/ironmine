@@ -17,6 +17,18 @@ module Skm::EntryBooksHelper
     meaning
   end
 
+  #def chapter_title(data)
+  #  chapter_name = data[:display_name]
+  #  unless chapter_name.present?
+  #    if data[:relation_type].eql?("ENTRYHEADER")
+  #      chapter_name = data[:entry_title]
+  #    elsif data[:relation_type].eql?("ENTRYBOOK")
+  #      chapter_name = data[:name]
+  #    end
+  #  end
+  #  chapter_name
+  #end
+
   def generate_entry_book(entry_book_id, h_num=1, h_num_str="")
     if h_num > 6
       h_num = 6
@@ -30,12 +42,24 @@ module Skm::EntryBooksHelper
     if entry_book_relations.any?
       relation_headers.each do |header|
         if entry_book_relations[header.id.to_s].present?
+          if entry_book_relations[header.id.to_s][:display_name].present?
+            header[:display_name] = entry_book_relations[header.id.to_s][:display_name]
+          else
+            header[:display_name] = header[:entry_title]
+          end
+
           entry_book_relations[header.id.to_s] = header
         end
       end
 
       relation_books.each do |book|
         if entry_book_relations[book.entry_book_id.to_s].present?
+          if entry_book_relations[book.entry_book_id.to_s][:display_name].present?
+            book[:display_name] =  entry_book_relations[book.entry_book_id.to_s][:display_name]
+          else
+            book[:display_name] =  book[:name]
+          end
+
           entry_book_relations[book.entry_book_id.to_s] = book
         end
       end
@@ -50,11 +74,11 @@ module Skm::EntryBooksHelper
         html += "<p class='h2-title'></p>"
       end
       if target[:relation_type].eql?("ENTRYBOOK")
-        html += "<h#{h_num}>#{h_num_str}#{num_out}. #{target[:name]}</h#{h_num}>"
+        html += "<h#{h_num}>#{h_num_str}#{num_out}. #{target[:display_name]}</h#{h_num}>"
         #下一个章节编号应该是: 1.1.
         html += generate_entry_book(target.entry_book_id, h_num + 1 , "#{h_num_str}#{num_out}.")
       else
-        html += "<h#{h_num}>#{h_num_str}#{num_out}. #{target.entry_title}</h#{h_num}>"
+        html += "<h#{h_num}>#{h_num_str}#{num_out}. #{target[:display_name]}</h#{h_num}>"
         #知识文章中的层级目录
         num_in = 0
         target.entry_details.each do |e|

@@ -14,12 +14,21 @@
     <% builder.column(:relation_type,{:title => t(:label_skm_entry_book_relation_type)}) do |data| %>
       <%= type_meaning(data[:relation_type]) %>
     <% end %>
-    <% builder.column(:entry_title,{:title=>t(:label_skm_entry_header_title)}) do |data|%>
+    <% builder.column(:display_name,{:title=>t(:label_skm_entry_book_chapter_title)}) do |data|%>
       <% if data[:relation_type].eql?("ENTRYHEADER") %>
-        <%= data[:entry_title] %>
+        <input type="text" class="editable" data-id="<%= data[:entry_header_id] %>" value="<%= data[:display_name] %>"/>
+        <span class="display-container"><span class="display-name"><%= data[:display_name] %></span><i class="icon-edit"></i></span>
       <% else %>
-         <%= data[:name] %>
+        <input type="text" class="editable" data-id="<%= data[:entry_book_id] %>" value="<%= data[:display_name] %>"/>
+        <span class="display-container"><span class="display-name"><%= data[:display_name] %></span><i class="icon-edit"></i></span>
       <% end %>
+    <% end %>
+    <% builder.column(:entry_title,{:title=>t(:label_skm_entry_header_title)}) do |data|%>
+        <% if data[:relation_type].eql?("ENTRYHEADER") %>
+          <%= data[:entry_title] %>
+        <% else %>
+          <%= data[:name] %>
+        <% end %>
     <% end %>
     <% builder.column(:published_date,{:title=>t(:label_skm_entry_header_published_date),:width=>"180px"}) do |data| %>
        <% if data[:relation_type].eql?("ENTRYHEADER") %>
@@ -44,7 +53,7 @@
     <% end %>
     <% builder.column(:doc_number,{:title=>t(:label_skm_entry_header_doc_number)}) do |data|%>
         <% if data[:relation_type].eql?("ENTRYHEADER") %>
-            <%= format_date(data[:entry_updated_at]) %>
+            <%= data[:doc_number] %>
         <% else %>
             <%= "" %>
         <% end %>
