@@ -208,7 +208,7 @@ class Skm::EntryHeadersController < ApplicationController
     respond_to do |format|
 
       if @entry_header.type_code == "VIDEO"
-        format.html { redirect_to({:action => "video_edit", :id => @entry_header})}
+        format.html { redirect_to({:action => "video_edit", :id => @entry_header, :entry_book_id => params[:entry_book_id]})}
       else
         format.html # show.html.erb
         format.xml  { render :xml => @entry_header }
@@ -539,7 +539,11 @@ class Skm::EntryHeadersController < ApplicationController
     atts = params[:skm_entry_header].merge({:relation_id => @video.attachment_id})
     respond_to do |format|
       if file_succ && !@entry_header.errors.any? && @entry_header.update_attributes(atts)
-        format.html { redirect_to({:action => "video_show", :id => params[:id]})}
+        if params[:entry_book_id].present?
+          format.html { redirect_to({:controller=> "skm/entry_books",:action => "show", :id => params[:entry_book_id]})}
+        else
+          format.html { redirect_to({:action => "video_show", :id => params[:id]})}
+        end
       else
         format.html { render :action => "video_edit"}
       end
