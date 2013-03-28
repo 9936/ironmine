@@ -266,4 +266,5 @@ en:
   label_skm_entry_book_updated_at: Update Date
   label_skm_entry_book_headers: Chapter
   label_skm_entry_book_export: Export
+  label_skm_entry_book_back_header: Back to headers
   #============================== End Entry Book ===================================

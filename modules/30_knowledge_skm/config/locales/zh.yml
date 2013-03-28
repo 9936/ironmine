@@ -268,7 +268,7 @@ zh:
   label_skm_entry_book_list: 知识专题列表
   label_skm_entry_book_name: 名称
   label_skm_entry_book_preference: 参考
-  label_skm_entry_book_preference_tip: 会将该专题下的所有知识复制到该专题下
+  label_skm_entry_book_preference_tip: 会将该专题下的所有知识复制到新专题下
   label_skm_entry_book_relation_type: 类型
   label_skm_entry_book_description: 描述
   label_skm_entry_book_new: 新建知识专题
@@ -277,4 +277,5 @@ zh:
   label_skm_entry_book_updated_at: 更新日期
   label_skm_entry_book_headers: 知识专题章节
   label_skm_entry_book_export: 导出
+  label_skm_entry_book_back_header: 返回知识库
   #============================== End Entry Book ===================================

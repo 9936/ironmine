@@ -6,7 +6,7 @@
       <h2 class="block-title"><%= t(:label_skm_entry_book) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:edit), {:action => "edit", :id => @entry_book},:class=>"btn"%>
+      <%= link_to t(:edit), {:action => "edit", :id => @entry_book},:class=>"btn btn-primary"%>
       <%= link_to t(:label_skm_entry_book_preview), {:action => "preview", :id => @entry_book},:target => "_blank", :class=>"btn"%>
       <%= link_to t(:label_skm_entry_book_export), {:action => "export", :id => @entry_book, :format => "pdf"},:target => "_blank",:class=>"btn"%>
       <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
