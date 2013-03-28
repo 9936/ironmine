@@ -645,7 +645,12 @@ class Skm::EntryHeadersController < ApplicationController
               end
             end
             if return_url.blank?
-              format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+              if params[:entry_book_id].present?
+                format.html { redirect_to({:controller => "skm/entry_books",:action=>"show", :id => params[:entry_book_id]}, :notice =>t(:successfully_created)) }
+              else
+                format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
+              end
+
               format.xml  { render :xml => @entry_header, :status => :created, :location => @entry_header }
             else
               format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }
@@ -684,7 +689,12 @@ class Skm::EntryHeadersController < ApplicationController
 
 
             if return_url.blank?
-              format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
+              if params[:entry_book_id].present?
+                format.html { redirect_to({:controller => "skm/entry_books",:action=>"show", :id => params[:entry_book_id]}, :notice =>t(:successfully_created)) }
+              else
+                format.html { redirect_to({:action=>"index"}, :notice => t(:successfully_updated)) }
+              end
+
               format.xml  { head :ok }
             else
               format.html { redirect_to(return_url, :notice =>t(:successfully_created)) }

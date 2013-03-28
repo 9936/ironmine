@@ -105,7 +105,12 @@ class Skm::EntryBooksController < ApplicationController
 
     respond_to do |format|
       if @entry_book.update_attributes(params[:skm_entry_book])
-        format.html { redirect_to({:action => "show", :id => @entry_book.id }, :notice => t(:successfully_updated)) }
+        if params[:entry_book_id].present?
+          entry_book_id = params[:entry_book_id]
+        else
+          entry_book_id = @entry_book.id
+        end
+        format.html { redirect_to({:action => "show", :id => entry_book_id }, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -212,7 +217,6 @@ class Skm::EntryBooksController < ApplicationController
     entry_book_relations = Skm::EntryBookRelation.order_by_sequence.targets(params[:id]).index_by(&:target_id)
     relation_headers = Skm::EntryBookRelation.query_headers_by_book(params[:id])
     relation_books = Skm::EntryBook.multilingual.query_books_by_relations(params[:id])
-
 
     if entry_book_relations.any?
       relation_headers.each do |header|
