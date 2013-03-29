@@ -1,6 +1,7 @@
 <%= app_title({:description => t(:new)}) %>
 <%= form_for(@entry_header,:url=>{:action=>"new"},:builder => CustomFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
   <%= f.hidden_field :entry_template_id %>
+  <%= hidden_field_tag("entry_book_id", params[:entry_book_id]) %>
   <% content_for :form_block_common   do%>
     <table class="form-table" cellpadding="0" cellspacing="0">
       <tbody>
@@ -24,7 +25,11 @@
   <% content_for :form_buttons  do %>
     <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()",:class => "btn "}%>
     <%= link_to t(:next), {}, {:href => "javascript:void(0);", :onclick => "submit_next()",:class => "btn btn-primary"}%>
-    <%= link_to t(:cancel), {:action => "index"}, :confirm => t(:label_cancel_confirm),:class => "btn cancel" %>
+    <% if params[:entry_book_id] %>
+      <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:confirm => t(:label_cancel_confirm), :class => "btn cancel"}%>
+    <% else %>
+      <%= link_to t(:cancel), {:action => "index"}, :confirm => t(:label_cancel_confirm),:class => "btn cancel" %>
+    <% end %>
   <% end %>
 
   <!--页面结构-->

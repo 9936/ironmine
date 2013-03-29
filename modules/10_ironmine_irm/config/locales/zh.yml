@@ -2118,10 +2118,10 @@ zh:
   label_irm_monitor_proces_list: 进程列表
   label_irm_monitor_proces_status: 运行状态
   label_irm_monitor_proces_num: 进程数
-  label_irm_monitor_proces_started: 运行中
+  label_irm_monitor_proces_started: 运行中...
   label_irm_monitor_proces_stoped: 停止运行
   label_irm_monitor_proces_stop: 停止
-  label_irm_monitor_proces_start: 开始
+  label_irm_monitor_proces_start: 启动
   label_irm_monitor_proces_restart: 重启
   label_irm_monitor_proces_post: 确定
   #============================== end process monitor  ==============================

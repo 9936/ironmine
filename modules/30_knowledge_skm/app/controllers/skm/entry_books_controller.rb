@@ -46,7 +46,50 @@ class Skm::EntryBooksController < ApplicationController
 
     respond_to do |format|
       if @entry_book.save
-        format.html { redirect_to({:action => "show",:id => @entry_book.id }, :notice => t(:successfully_created)) }
+        entry_book_id = @entry_book.id
+        if params[:entry_book_id].present?
+          Skm::EntryBookRelation.create(:book_id => params[:entry_book_id], :target_id => @entry_book.id, :relation_type => "ENTRYBOOK")
+          entry_book_id = params[:entry_book_id]
+        end
+        #处理参考专题
+        if params[:skm_entry_book][:preference_book_id].present?
+          #获取参考专题下的所有知识
+          entry_header_ids = Skm::EntryBookRelation.where(:book_id => @entry_book.preference_book_id, :relation_type => "ENTRYHEADER").collect{|i| i.target_id}
+          if entry_header_ids.any?
+            entry_headers = Skm::EntryHeader.where(:id => entry_header_ids, :type_code => 'ARTICLE')
+            entry_headers.each do |entry_header|
+              new_entry_header = Skm::EntryHeader.new(entry_header.attributes)
+              new_entry_header.entry_status_code = "PUBLISHED"
+              new_entry_header.published_date = Time.now
+              new_entry_header.doc_number = Skm::EntryHeader.generate_doc_number
+              new_entry_header.version_number = "1"
+              new_entry_header.author_id = Irm::Person.current.id
+              new_entry_header.source_type = entry_header.source_type
+              new_entry_header.source_id = entry_header.source_id
+
+              if new_entry_header.save
+                entry_details = Skm::EntryDetail.where(:entry_header_id => entry_header.id)
+                entry_details.each do |entry_detail|
+                  detail = Skm::EntryDetail.new(entry_detail.attributes)
+                  new_entry_header.entry_details << detail
+                end
+                #创建新旧知识关联
+                params[:relation_type] ||= 'RELATION'
+                Skm::EntryHeaderRelation.create(:source_id => entry_header.id, :target_id => new_entry_header.id, :relation_type => params[:relation_type])
+                #同步附件
+                entry_header.attachments.each do |at|
+                  begin
+                    Irm::AttachmentVersion.create_single_version_file(at.last_version_entity.data, at.last_version_entity.description, at.last_version_entity.category_id, Skm::EntryHeader.name, new_entry_header.id)
+                  rescue
+                  end
+                end
+                Skm::EntryBookRelation.create(:book_id => entry_book_id, :target_id => new_entry_header.id, :relation_type => "ENTRYHEADER")
+
+              end
+            end
+          end
+        end
+        format.html { redirect_to({:action => "show",:id => entry_book_id }, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @entry_book, :status => :created, :location => @entry_book }
       else
         format.html { render :action => "new" }
@@ -62,13 +105,29 @@ class Skm::EntryBooksController < ApplicationController
 
     respond_to do |format|
       if @entry_book.update_attributes(params[:skm_entry_book])
-        format.html { redirect_to({:action => "show", :id => @entry_book.id }, :notice => t(:successfully_updated)) }
+        if params[:entry_book_id].present?
+          entry_book_id = params[:entry_book_id]
+        else
+          entry_book_id = @entry_book.id
+        end
+        format.html { redirect_to({:action => "show", :id => entry_book_id }, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @entry_book.errors, :status => :unprocessable_entity }
       end
     end
+  end
+
+  def update_display_name
+    book_relation = Skm::EntryBookRelation.where(:book_id => params[:id] ,:target_id => params[:target_id]).first
+    book_relation.display_name = params[:display_name] if params[:display_name]
+    book_relation.save
+
+    respond_to do |format|
+      format.json { render :json => {:success => true}}
+    end
+
   end
 
   # DELETE /entry_books/1
@@ -170,16 +229,27 @@ class Skm::EntryBooksController < ApplicationController
     relation_headers = Skm::EntryBookRelation.query_headers_by_book(params[:id])
     relation_books = Skm::EntryBook.multilingual.query_books_by_relations(params[:id])
 
-
     if entry_book_relations.any?
       relation_headers.each do |header|
         if entry_book_relations[header.entry_header_id.to_s].present?
+          if entry_book_relations[header.entry_header_id.to_s][:display_name].present?
+            header[:display_name] = entry_book_relations[header.entry_header_id.to_s][:display_name]
+          else
+            header[:display_name] = header[:entry_title]
+          end
+
           entry_book_relations[header.entry_header_id.to_s] = header
         end
       end
 
       relation_books.each do |book|
         if entry_book_relations[book.entry_book_id.to_s].present?
+          if entry_book_relations[book.entry_book_id.to_s][:display_name].present?
+            book[:display_name] = entry_book_relations[book.entry_book_id.to_s][:display_name]
+          else
+            book[:display_name] = book[:name]
+          end
+
           entry_book_relations[book.entry_book_id.to_s] = book
         end
       end
@@ -205,7 +275,7 @@ class Skm::EntryBooksController < ApplicationController
                        :print_media_type => false,
                        :encoding => 'utf-8',
                        :layout => "layouts/markdown_pdf.html.erb",
-                       #:wkhtmltopdf => '/opt/wkhtmltopdf',
+                       #:wkhtmltopdf => '/usr/local/bin/wkhtmltopdf',
                        :book => true,
                        #:show_background_images => true,
                        #:show_as_html => true,

@@ -125,6 +125,7 @@ en:
   label_skm_entry_header_choice_people: Chose at least one people
   label_skm_entry_header_to_people: Has hand over to {{person_name}}
   label_skm_entry_header_to_people_save: Save
+  label_skm_entry_header_publish_tip: Do you want to save as a new version?
   #=========================skm FileManagement================================
   label_skm_file_management: Files
   label_skm_file_list: Files List
@@ -255,6 +256,8 @@ en:
   label_skm_entry_book: Entry Book
   label_skm_entry_book_list: Entry Book List
   label_skm_entry_book_name: Name
+  label_skm_entry_book_preference: Preference
+  label_skm_entry_book_preference_tip: Will copy the entry headers to current entry book.
   label_skm_entry_book_relation_type: Type
   label_skm_entry_book_description: Description
   label_skm_entry_book_new: New Entry Book
@@ -263,4 +266,5 @@ en:
   label_skm_entry_book_updated_at: Update Date
   label_skm_entry_book_headers: Chapter
   label_skm_entry_book_export: Export
+  label_skm_entry_book_back_header: Back to headers
   #============================== End Entry Book ===================================

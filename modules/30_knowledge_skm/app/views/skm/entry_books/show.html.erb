@@ -6,10 +6,14 @@
       <h2 class="block-title"><%= t(:label_skm_entry_book) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:edit), {:action => "edit", :id => @entry_book},:class=>"btn"%>
+      <%= link_to t(:edit), {:action => "edit", :id => @entry_book},:class=>"btn btn-primary"%>
       <%= link_to t(:label_skm_entry_book_preview), {:action => "preview", :id => @entry_book},:target => "_blank", :class=>"btn"%>
       <%= link_to t(:label_skm_entry_book_export), {:action => "export", :id => @entry_book, :format => "pdf"},:target => "_blank",:class=>"btn"%>
-      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+      <% if params[:entry_book_id].present? %>
+        <%= link_to t(:back), {:action => "show", :id => params[:entry_book_id]},:class=>"btn" %>
+      <% else %>
+        <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+      <% end %>
     </td>
   </tr></table>
   <div class="page-block-body">
@@ -34,6 +38,59 @@
   </div>
 </div>
 
+<style type="text/css">
+  input.editable {
+      margin-bottom: 0 !important;
+      width: auto;
+      display: none;
+  }
+  .display-container {
+      cursor: pointer;
+      z-index: 100;
+  }
+
+  .display-container i {
+      margin-left: 4px;
+      overflow: hidden;
+  }
+
+</style>
+
+<script type="text/javascript">
+    $(function(){
+        $("td .display-container").live("click", function(){
+            var display_container = $(this);
+            var input = display_container.parent().find("input");
+            input.val($("span.display-name", display_container).html());
+            display_container.hide(function(){
+                input.css("width", display_container.width()).show();
+                input.focus();
+            });
+            input.unbind("blur").bind("blur", function(){
+                var value = $(this).val(), target_id = $(this).data("id");
+                var url = $("#displayNameUrl").attr("href");
+                if (value != '') {
+                    $(this).hide(function(){
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            dataType: "json",
+                            data: {target_id: target_id, display_name: value},
+                            error: function(){},
+                            success: function(){}
+                        });
+                        $("span.display-name", display_container).html(value);
+                        display_container.show();
+                    });
+                }else{
+                    alert("<%= t(:label_skm_entry_book_chapter_title_blank) %>");
+                    $(this).focus();
+                }
+            });
+        });
+    })
+</script>
+
 <!-- 显示知识章节 -->
 <div class="page-block" id="entryBook">
   <table class="page-block-header"><tr>
@@ -41,13 +98,27 @@
       <h2 class="block-title"><%= t(:label_skm_entry_book_headers) %></h2>
     </td>
     <td class="page-block-button">
-
+      <div class="btn-group" style="float: left;display: inline-block; padding-right: 20px;">
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+          <%= t(:label_action_new)  %>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to(t(:label_skm_entry_create_article),{:controller => "skm/entry_headers", :action => "new", :entry_book_id => @entry_book.id }) %></li>
+          <li><%= link_to(t(:label_skm_entry_create_video),{:controller => "skm/entry_headers",:action => "new_step_video_upload", :entry_book_id => @entry_book.id }) %></li>
+          <% if allow_to_function?(:entry_books_manage) %>
+              <li class="divider"></li>
+              <li><%= link_to t(:label_skm_entry_book), {:controller => "skm/entry_books", :action => "new", :entry_book_id => @entry_book.id } %></li>
+          <% end %>
+        </ul>
+      </div>
     </td>
     <td class="page-block-help" id="entryBookForm">
       <%= render :partial => "skm/entry_books/mini_form", :locals => {:book => @entry_book} %>
     </td>
   </tr></table>
   <div class="page-block-body" id="book_entry_headers">
+    <%= link_to("", {:controller => "skm/entry_books", :action => "update_display_name", :id => @entry_book.id, :_dom_id => "NULL" }, :id => "displayNameUrl") %>
     <%= datatable("entry_books",{:action=>"get_owner_entry_data"},[],{:drag_sort => {:save_url => url_for(:controller => 'skm/entry_books', :action => 'switch_sequence', :id => @entry_book.id)} })%>
   </div>
 </div>

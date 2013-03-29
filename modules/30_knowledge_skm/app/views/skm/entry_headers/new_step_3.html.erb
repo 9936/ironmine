@@ -3,11 +3,17 @@
   <%= f.hidden_field :entry_template_id %>
   <%= f.hidden_field :entry_title %>
   <%= f.hidden_field :keyword_tags %>
+  <%= hidden_field_tag("entry_book_id", params[:entry_book_id]) %>
+
 
   <% content_for :form_buttons  do %>
     <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()",:class => "btn "}%>
     <%= link_to t(:next), {}, {:href => "javascript:void(0);", :onclick => "submit_next()",:class => "btn btn-primary"}%>
-    <%= link_to t(:cancel), {:action => "index"}, :confirm => t(:label_cancel_confirm),:class => "btn cancel" %>
+    <% if params[:entry_book_id] %>
+      <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:confirm => t(:label_cancel_confirm), :class => "btn cancel"}%>
+    <% else %>
+      <%= link_to t(:cancel), {:action => "index"}, :confirm => t(:label_cancel_confirm),:class => "btn cancel" %>
+    <% end %>
   <% end %>
 
   <!--页面结构-->

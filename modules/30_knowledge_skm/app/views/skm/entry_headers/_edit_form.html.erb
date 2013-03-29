@@ -1,5 +1,6 @@
 <%= app_title %>
 <%= form_for(@entry_header,:url=>{:action=>"update"},:builder => CustomFormBuilder, :html => {:name => "edit_form", :id => "edit_form",:multipart => true}) do |f| %>
+  <%= hidden_field_tag("entry_book_id", params[:entry_book_id]) %>
   <% content_for :form_block_common do%>
     <table class="form-table" cellpadding="0" cellspacing="0">
       <tbody>
@@ -24,7 +25,11 @@
   <% end %>
   <% content_for :form_buttons  do %>
     <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>
-    <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+    <% if params[:entry_book_id] %>
+      <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:class => "btn cancel"}%>
+    <% else %>
+      <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
+    <% end %>
   <% end %>
 
   <!--页面结构-->
@@ -90,7 +95,7 @@
 <% end %>
 <script type="text/javascript">
   function submit_draft(){
-    if (confirm("文章内容已被修改，是否保存为新的版本？")){
+    if (confirm("<%= t(:label_skm_entry_header_publish_tip) %>")){
         document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "DRAFT", :new => "1")%>";
     }else{
         document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "DRAFT")%>";
@@ -99,10 +104,15 @@
   }
 
   function submit_published(){
-    if (confirm("文章内容已被修改，是否保存为新的版本？")){
+    var edit_flag = '<%= allow_to_function?(:edit_skm_entries) %>';
+    if (edit_flag === 'false') {
         document.edit_form.action = document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "PUBLISHED", :new => "1")%>";
     }else{
-        document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "PUBLISHED")%>";
+        if (confirm("<%= t(:label_skm_entry_header_publish_tip) %>")){
+            document.edit_form.action = document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "PUBLISHED", :new => "1")%>";
+        }else{
+            document.edit_form.action = "<%= url_for(:controller => 'skm/entry_headers', :action => 'update', :status => "PUBLISHED")%>";
+        }
     }
     document.edit_form.submit();
   }

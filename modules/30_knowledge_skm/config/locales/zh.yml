@@ -71,6 +71,7 @@ zh:
   label_skm_entry_header_my_favorites_list: 我收藏的文章列表
   label_skm_entry_header_my_unpublished_list: 我未发布的文章列表
   label_skm_entry_header_wait_my_approve_list: 待我审核的文章列表
+  label_skm_entry_header_publish_tip: 文章内容已被修改，是否保存为新的版本？
   #=========================entry headers approval================================
   label_skm_entry_header_approval_record: 审批记录
   label_skm_entry_header_approval_status: 审批状态
@@ -266,6 +267,8 @@ zh:
   label_skm_entry_book: 知识专题
   label_skm_entry_book_list: 知识专题列表
   label_skm_entry_book_name: 名称
+  label_skm_entry_book_preference: 参考
+  label_skm_entry_book_preference_tip: 会将该专题下的所有知识复制到新专题下
   label_skm_entry_book_relation_type: 类型
   label_skm_entry_book_description: 描述
   label_skm_entry_book_new: 新建知识专题
@@ -274,4 +277,7 @@ zh:
   label_skm_entry_book_updated_at: 更新日期
   label_skm_entry_book_headers: 知识专题章节
   label_skm_entry_book_export: 导出
+  label_skm_entry_book_back_header: 返回知识库
+  label_skm_entry_book_chapter_title: 章节标题
+  label_skm_entry_book_chapter_title_blank: 章节标题不能为空
   #============================== End Entry Book ===================================

@@ -2,7 +2,7 @@ class Skm::EntryBook < ActiveRecord::Base
   set_table_name :skm_entry_books
 
   #多语言关系
-  attr_accessor :name,:description
+  attr_accessor :name,:description, :preference_book_id
   has_many :entry_books_tls, :foreign_key => "book_id",  :dependent => :destroy
   has_many :entry_book_relations, :foreign_key => "book_id",  :dependent => :destroy
 

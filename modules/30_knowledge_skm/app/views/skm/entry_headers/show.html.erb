@@ -15,10 +15,16 @@
       <% if @entry_header[:is_favorite] == Irm::Constant::SYS_NO %>
         <%= link_to t(:save_page), {:controller => "skm/entry_headers", :action => "add_favorites", :id => @entry_header.id, :person_id => Irm::Person.current.id},:class=>"btn btn-primary"%>
       <% end %>
-      <% if @entry_header.history_flag == Irm::Constant::SYS_NO %>
-        <%= link_to t(:edit), {:action => "edit", :id => @entry_header},:class=>"btn"%>
+      <% if @entry_header.history_flag == Irm::Constant::SYS_NO  %>
+        <% if can_edit_header?(@entry_header) %>
+          <%= link_to t(:edit), {:action => "edit", :id => @entry_header, :approval_flag => true },:class=>"btn"%>
+        <% end %>
       <% end %>
-      <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
+      <% if params[:entry_book_id].present? %>
+        <%= link_to t(:back), {:controller => "skm/entry_books",:action => "show", :id => params[:entry_book_id]},:class=>"btn cancel"%>
+    <% else %>
+        <%= link_to t(:back), {:action => "index"},:class=>"btn cancel"%>
+      <% end %>
       <!-- 如果知识库没有发布则不能进行新建关联知识库和导出pdf数据 -->
       <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
         <%= link_to t(:label_skm_entry_header_new_relation),{:action => "new_relation", :id => @entry_header.id }, :class => "btn btn-primary" %>

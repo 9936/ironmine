@@ -204,6 +204,7 @@ Rails.application.routes.draw do
       match '/entry_books/:id/export(.:format)' => "entry_books#export", :via => :get
       match '/entry_books/:id/switch_sequence(.:format)' => "entry_books#switch_sequence"
       match '/entry_books/:id/update(.:format)' => "entry_books#update", :via => :put
+      match '/entry_books/:id/update_display_name(.:format)' => "entry_books#update_display_name"
       match '/entry_books/new(.:format)' => "entry_books#new", :via => :get
       match '/entry_books/get_data(.:format)' => "entry_books#get_data", :via => :get
       match '/entry_books/create(.:format)' => "entry_books#create", :via => :post

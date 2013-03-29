@@ -95,7 +95,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "skm/entry_headers" => ["approve_knowledge", "wait_my_approve", "wait_my_approve_data"],
+              "skm/entry_headers" => ["approve_knowledge", "wait_my_approve", "wait_my_approve_data","edit","update"],
           },
           :unpublished_skm_entries => {
               :en => {:name => "View Unpublished Skm Entries", :description => "View Unpublished Skm Entries"},
@@ -113,7 +113,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "skm/entry_books" => ["index", "edit", "update", "new", "create", "get_data", "show", "add_entry",
                                     "remove_entry", "get_owner_entry_data", "multilingual_edit", "multilingual_update",
-                                    "switch_sequence","preview","export"]
+                                    "switch_sequence","preview","export","update_display_name"]
           }
       }
   }
