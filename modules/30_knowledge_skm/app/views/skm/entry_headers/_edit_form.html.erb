@@ -1,6 +1,7 @@
 <%= app_title %>
 <%= form_for(@entry_header,:url=>{:action=>"update"},:builder => CustomFormBuilder, :html => {:name => "edit_form", :id => "edit_form",:multipart => true}) do |f| %>
   <%= hidden_field_tag("entry_book_id", params[:entry_book_id]) %>
+  <%= hidden_field_tag("reference_flag", @reference_flag) %>
   <% content_for :form_block_common do%>
     <table class="form-table" cellpadding="0" cellspacing="0">
       <tbody>
@@ -24,7 +25,11 @@
     </table>
   <% end %>
   <% content_for :form_buttons  do %>
-    <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>
+    <% if @reference_flag.eql?('Y') %>
+      <%= link_submit(t(:save_as_published), :class => "btn btn-primary") %>
+    <% else %>
+      <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>
+    <% end %>
     <% if params[:entry_book_id] %>
       <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:class => "btn cancel"}%>
     <% else %>

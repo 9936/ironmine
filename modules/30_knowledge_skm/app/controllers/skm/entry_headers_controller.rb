@@ -228,6 +228,12 @@ class Skm::EntryHeadersController < ApplicationController
       if @entry_header.type_code == "VIDEO"
         format.html { redirect_to({:action => "video_edit", :id => @entry_header, :entry_book_id => params[:entry_book_id]})}
       else
+        if params[:entry_book_id].present?
+          entry_book_relation = Skm::EntryBookRelation.where(:book_id  => params[:entry_book_id], :target_id => @entry_header.id, :relation_type => "ENTRYHEADER").first
+          @reference_flag = entry_book_relation.reference_flag || "N"
+        else
+          @reference_flag = 'N'
+        end
         format.html # show.html.erb
         format.xml  { render :xml => @entry_header }
       end
@@ -599,7 +605,52 @@ class Skm::EntryHeadersController < ApplicationController
     end if params[:files]
 
     if file_flag
-      if params[:new]
+      if params[:entry_book_id].present? && params[:reference_flag].eql?("Y")
+        entry_header = Skm::EntryHeader.find(params[:id])
+        new_entry_header = Skm::EntryHeader.new(entry_header.attributes)
+        new_entry_header.entry_status_code = "PUBLISHED"
+        new_entry_header.published_date = Time.now
+        new_entry_header.doc_number = Skm::EntryHeader.generate_doc_number
+        new_entry_header.version_number = "1"
+        new_entry_header.author_id = Irm::Person.current.id
+        new_entry_header.source_type = entry_header.source_type
+        new_entry_header.source_id = entry_header.source_id
+
+        if new_entry_header.save
+          entry_details = Skm::EntryDetail.where(:entry_header_id => entry_header.id)
+          entry_details.each do |entry_detail|
+            detail = Skm::EntryDetail.new(entry_detail.attributes)
+            new_entry_header.entry_details << detail
+          end
+          #创建新旧知识关联
+          params[:relation_type] ||= 'RELATION'
+          Skm::EntryHeaderRelation.create(:source_id => entry_header.id, :target_id => new_entry_header.id, :relation_type => params[:relation_type])
+          #同步附件
+          entry_header.attachments.each do |at|
+            begin
+              Irm::AttachmentVersion.create_single_version_file(at.last_version_entity.data, at.last_version_entity.description, at.last_version_entity.category_id, Skm::EntryHeader.name, new_entry_header.id)
+            rescue
+            end
+          end
+          if params[:files]
+            files = params[:files]
+            #调用方法创建附件
+            begin
+              attached = Irm::AttachmentVersion.create_verison_files(files, Skm::EntryHeader.name, new_entry_header.id)
+            rescue
+              new_entry_header.errors << "FILE UPLOAD ERROR"
+            end
+          end
+          #更新专题中知识相关信息，其中需要将参考标记设置为'N',否则下次修改操作时候还会创建新的
+          entry_book_relation = Skm::EntryBookRelation.where(:book_id => params[:entry_book_id], :target_id => entry_header.id, :relation_type => "ENTRYHEADER").first
+          entry_book_relation.target_id = new_entry_header.id
+          entry_book_relation.reference_flag = 'N'
+          entry_book_relation.save
+          respond_to do |format|
+            format.html { redirect_to({:controller => "skm/entry_books",:action=>"show", :id => params[:entry_book_id]}) }
+          end
+        end
+      elsif params[:new]
         old_header = Skm::EntryHeader.find(params[:id])
 
         @entry_header = Skm::EntryHeader.new(old_header.attributes)

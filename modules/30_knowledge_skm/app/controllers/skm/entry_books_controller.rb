@@ -56,37 +56,42 @@ class Skm::EntryBooksController < ApplicationController
           #获取参考专题下的所有知识
           entry_header_ids = Skm::EntryBookRelation.where(:book_id => @entry_book.preference_book_id, :relation_type => "ENTRYHEADER").collect{|i| i.target_id}
           if entry_header_ids.any?
-            entry_headers = Skm::EntryHeader.where(:id => entry_header_ids, :type_code => 'ARTICLE')
-            entry_headers.each do |entry_header|
-              new_entry_header = Skm::EntryHeader.new(entry_header.attributes)
-              new_entry_header.entry_status_code = "PUBLISHED"
-              new_entry_header.published_date = Time.now
-              new_entry_header.doc_number = Skm::EntryHeader.generate_doc_number
-              new_entry_header.version_number = "1"
-              new_entry_header.author_id = Irm::Person.current.id
-              new_entry_header.source_type = entry_header.source_type
-              new_entry_header.source_id = entry_header.source_id
-
-              if new_entry_header.save
-                entry_details = Skm::EntryDetail.where(:entry_header_id => entry_header.id)
-                entry_details.each do |entry_detail|
-                  detail = Skm::EntryDetail.new(entry_detail.attributes)
-                  new_entry_header.entry_details << detail
-                end
-                #创建新旧知识关联
-                params[:relation_type] ||= 'RELATION'
-                Skm::EntryHeaderRelation.create(:source_id => entry_header.id, :target_id => new_entry_header.id, :relation_type => params[:relation_type])
-                #同步附件
-                entry_header.attachments.each do |at|
-                  begin
-                    Irm::AttachmentVersion.create_single_version_file(at.last_version_entity.data, at.last_version_entity.description, at.last_version_entity.category_id, Skm::EntryHeader.name, new_entry_header.id)
-                  rescue
-                  end
-                end
-                Skm::EntryBookRelation.create(:book_id => entry_book_id, :target_id => new_entry_header.id, :relation_type => "ENTRYHEADER")
-
-              end
+            entry_header_ids.each do |entry_header_id|
+              Skm::EntryBookRelation.create(:book_id => @entry_book.id, :target_id => entry_header_id, :relation_type => "ENTRYHEADER", :reference_flag => "Y")
             end
+
+
+            #entry_headers = Skm::EntryHeader.where(:id => entry_header_ids, :type_code => 'ARTICLE')
+            #entry_headers.each do |entry_header|
+            #  new_entry_header = Skm::EntryHeader.new(entry_header.attributes)
+            #  new_entry_header.entry_status_code = "PUBLISHED"
+            #  new_entry_header.published_date = Time.now
+            #  new_entry_header.doc_number = Skm::EntryHeader.generate_doc_number
+            #  new_entry_header.version_number = "1"
+            #  new_entry_header.author_id = Irm::Person.current.id
+            #  new_entry_header.source_type = entry_header.source_type
+            #  new_entry_header.source_id = entry_header.source_id
+            #
+            #  if new_entry_header.save
+            #    entry_details = Skm::EntryDetail.where(:entry_header_id => entry_header.id)
+            #    entry_details.each do |entry_detail|
+            #      detail = Skm::EntryDetail.new(entry_detail.attributes)
+            #      new_entry_header.entry_details << detail
+            #    end
+            #    #创建新旧知识关联
+            #    params[:relation_type] ||= 'RELATION'
+            #    Skm::EntryHeaderRelation.create(:source_id => entry_header.id, :target_id => new_entry_header.id, :relation_type => params[:relation_type])
+            #    #同步附件
+            #    entry_header.attachments.each do |at|
+            #      begin
+            #        Irm::AttachmentVersion.create_single_version_file(at.last_version_entity.data, at.last_version_entity.description, at.last_version_entity.category_id, Skm::EntryHeader.name, new_entry_header.id)
+            #      rescue
+            #      end
+            #    end
+            #    Skm::EntryBookRelation.create(:book_id => entry_book_id, :target_id => new_entry_header.id, :relation_type => "ENTRYHEADER")
+            #
+            #  end
+            #end
           end
         end
         format.html { redirect_to({:action => "show",:id => entry_book_id }, :notice => t(:successfully_created)) }
