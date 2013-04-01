@@ -9,6 +9,7 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
         with_requested_by(I18n.locale).
         with_incident_status(I18n.locale).
         with_supporter(I18n.locale).
+        with_submitted_by(I18n.locale).
         with_priority(I18n.locale).
         with_external_system(I18n.locale).
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
@@ -55,6 +56,7 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_summary),
                I18n.t(:label_irm_external_system),
                I18n.t(:label_icm_incident_request_requested_by),
+               I18n.t(:label_icm_incident_request_submitted_by),
                I18n.t(:label_icm_incident_request_support_person),
                I18n.t(:label_icm_incident_request_priority),
                I18n.t(:label_icm_incident_request_incident_category),
@@ -62,6 +64,7 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                I18n.t(:label_icm_incident_request_incident_status_code),
                I18n.t(:label_icm_incident_request_submitted_date),
                I18n.t(:label_icm_incident_request_last_date),
+               I18n.t(:label_icm_incident_request_estimated_date),
                I18n.t(:label_icm_incident_journal_close_date),
                I18n.t(:label_icm_close_reason)
                ]
@@ -72,19 +75,21 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
 
    
     statis.each do |s|
-      data = Array.new(14 + ex_attributes.size)
+      data = Array.new(16 + ex_attributes.size)
       data[0] = s[:request_number]
       data[1] = s[:title]
       data[2] = Irm::Sanitize.trans_html(Irm::Sanitize.sanitize(s[:summary],""))  unless s[:summary].nil?
       data[3] = s[:external_system_name]
       data[4] = s[:requested_name]
-      data[5] = s[:supporter_name]
-      data[6] = s[:priority_name]
-      data[7] = s[:incident_category_name]
-      data[8] = s[:incident_sub_category_name]
-      data[9] = s[:incident_status_name]
-      data[10] = s[:submitted_date]
-      data[11] = s[:last_response_date]
+      data[5] = s[:submitted_name]
+      data[6] = s[:supporter_name]
+      data[7] = s[:priority_name]
+      data[8] = s[:incident_category_name]
+      data[9] = s[:incident_sub_category_name]
+      data[10] = s[:incident_status_name]
+      data[11] = s[:submitted_date]
+      data[12] = s[:last_response_date]
+      data[13] = s[:estimated_date]
       # get close date
       last_close_journal = Icm::IncidentJournal.
                             where("incident_request_id = ?", s.id).
@@ -92,17 +97,17 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
                             select("created_at").
                             order("created_at DESC").limit(1)
       if last_close_journal.any?
-        data[12] = last_close_journal.first[:created_at]
+        data[14] = last_close_journal.first[:created_at]
       else
         if s.close?
-          data[12] = s[:last_response_date]
+          data[14] = s[:last_response_date]
         else
-          data[12] = ""
+          data[14] = ""
         end
       end
-      data[13] = s[:close_reason_name]
+      data[15] = s[:close_reason_name]
 
-      nc = 14
+      nc = 16
       ex_attributes.each do |ea|
         data[nc] = s[ea[:attribute_name].to_sym]
         nc = nc + 1
