@@ -74,16 +74,29 @@ class Skm::EntryHeadersController < ApplicationController
     end
     if !params[:step] || params[:step] == "1"
       respond_to do |format|
-        format.html { redirect_to({:action=>"new_step_1", :entry_book_id => params[:entry_book_id]}) }
+        if params[:entry_book_id].present?
+          format.html { redirect_to({:action=>"new_step_1", :entry_book_id => params[:entry_book_id]}) }
+        else
+          format.html { redirect_to({:action=>"new_step_1"}) }
+        end
+
       end    
     elsif params[:step] == "2"
       respond_to do |format|
-        format.html { redirect_to({:action=>"new_step_2", :entry_book_id => params[:entry_book_id]}) }
+        if params[:entry_book_id].present?
+          format.html { redirect_to({:action=>"new_step_2", :entry_book_id => params[:entry_book_id]}) }
+        else
+          format.html { redirect_to({:action=>"new_step_2"}) }
+        end
       end
     elsif params[:step] == "3"
     #获取所有附件
       respond_to do |format|
-        format.html { redirect_to({:action=>"new_step_3", :entry_book_id => params[:entry_book_id]}) }
+        if params[:entry_book_id].present?
+          format.html { redirect_to({:action=>"new_step_3", :entry_book_id => params[:entry_book_id]}) }
+        else
+          format.html { redirect_to({:action=>"new_step_3"}) }
+        end
       end
     elsif params[:step] == "4"
       files = params[:files]
@@ -107,7 +120,12 @@ class Skm::EntryHeadersController < ApplicationController
         t = session[:skm_entry_attachments]
         (session[:skm_entry_attachments] = (t ? t : []) + attached.collect(&:id)) if attached
         respond_to do |format|
-          format.html { redirect_to({:action=>"new_step_4", :entry_book_id => params[:entry_book_id]}) }
+          if params[:entry_book_id].present?
+            format.html { redirect_to({:action=>"new_step_4", :entry_book_id => params[:entry_book_id]}) }
+          else
+            format.html { redirect_to({:action=>"new_step_4"}) }
+          end
+
         end
       end
     end
