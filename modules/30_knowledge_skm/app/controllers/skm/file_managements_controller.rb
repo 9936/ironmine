@@ -98,8 +98,7 @@ class Skm::FileManagementsController < ApplicationController
           end
         end
       end
-
-      Irm::AttachmentVersion.update_version_files(@file, file, 0, 0) unless file_flag
+      Irm::AttachmentVersion.update_version_files(@file, file, 0, 0) if file_flag
     else
       @file.update_attribute(:description, infile[:description])
       @file.update_attribute(:file_category, infile[:file_category])
