@@ -42,7 +42,6 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     where("#{table_name}.source_type = ? AND #{table_name}.source_id = ?",Chm::ChangeRequest.name, request_id)
   }
 
-
   def image?
     self.image_flag.eql?(Irm::Constant::SYS_YES)
   end

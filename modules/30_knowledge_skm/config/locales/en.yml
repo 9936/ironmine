@@ -141,7 +141,10 @@ en:
   label_skm_file: File
   label_skm_file_private_tag: Private
   label_skm_file_add_line: Add file
-
+  label_skm_file_download: Download
+  label_skm_file_download_count: Download Num
+  label_skm_file_history_versions: History versions
+  label_action_get_version_files: Show history versions
   #=========================side bar==========================================
   label_skm_last_ten: Last Entries
   label_skm_navigate_menu: Navigator

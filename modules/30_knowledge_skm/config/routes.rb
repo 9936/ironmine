@@ -112,8 +112,11 @@ Rails.application.routes.draw do
       match '/file_managements/batch_create(.:format)' => "file_managements#batch_create", :via => :post
       match '/file_managements/get_data(.:format)' => "file_managements#get_data"
       match '/file_managements/:id/show(.:format)' => "file_managements#show", :via => :get
-      match '/file_managements/destroy(.:format)' => "file_managements#destroy"
+      match '/file_managements/:id/download(.:format)' => "file_managements#download", :via => :get
+      match '/file_managements/:id/destroy(.:format)' => "file_managements#destroy"
       match '/file_managements/:id/get_version_files(.:format)' => "file_managements#get_version_files"
+      match '/file_managements/:id/get_version_files(.:format)' => "file_managements#get_version_files"
+      match '/file_managements/:id/remove_version_file(.:format)' => "file_managements#remove_version_file"
 
       #skm_setting
       match '/skm_settings(/index)(.:format)' => "settings#index", :via => :get
