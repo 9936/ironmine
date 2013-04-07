@@ -541,9 +541,9 @@ function getSelectWidth(selectObj){
 function checkAttachment(target, limitSize){
     var fileSize = 0;
     if ( $.browser.msie ) {
-        var file_system = new ActiveXObject("Scripting.FileSystemObject");
-        var file = file_system.GetFile($(target).val());
-        fileSize = file.size;
+//        var file_system = new ActiveXObject("Scripting.FileSystemObject");
+//        var file = file_system.GetFile($(target).val());
+        fileSize = limitSize;
     }else{
         fileSize = target.files[0].size;
     }

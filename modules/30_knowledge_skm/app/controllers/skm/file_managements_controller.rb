@@ -98,8 +98,7 @@ class Skm::FileManagementsController < ApplicationController
           end
         end
       end
-
-      Irm::AttachmentVersion.update_version_files(@file, file, 0, 0) unless file_flag
+      Irm::AttachmentVersion.update_version_files(@file, file, 0, 0) if file_flag
     else
       @file.update_attribute(:description, infile[:description])
       @file.update_attribute(:file_category, infile[:file_category])
@@ -122,12 +121,22 @@ class Skm::FileManagementsController < ApplicationController
     end    
   end
 
+  def download
+    version = Irm::AttachmentVersion.find(params[:version_id])
+    if version.present?
+      Irm::AttachmentCounter.create(:version_id => version.id, :download_by => Irm::Person.current.id)
+      send_file "#{Rails.root}/public/upload/irm/attachment_versions/#{version[:id]}/original/#{version[:data_file_name]}"
+    end
+  end
+
   def show
     @history = Skm::FileOperateHistory.new({:operate_code=>"TEST_SHOW",
                                              :attachment_id=>params[:id],
                                              :version_id =>params[:version_id],
                                              :file_name=>params[:data_file_name]})
     @history.save
+
+
     redirect_to  "/upload/irm/attachment_versions/#{params[:version_id]}/original/#{params[:data_file_name]}"
   end
   
@@ -160,10 +169,14 @@ class Skm::FileManagementsController < ApplicationController
   end
 
   def get_version_files
-    
+    @history_versions = Irm::Attachment.find(params[:id]).history_versions
   end
   
   def remove_version_file
-    
+    @file_version = Irm::AttachmentVersion.find(params[:id])
+    @file_version.destroy
+    respond_to do |format|
+        format.html { redirect_to({:action=>"get_version_files", :id =>  @file_version.attachment_id }, :notice =>t(:successfully_created)) }
+    end
   end
 end

@@ -11,7 +11,7 @@ class Irm::Attachment < ActiveRecord::Base
   default_scope {default_filter}
 
   scope :list_all, lambda{
-    select("#{table_name}.*, av.id version_id, av.category_id category_id, av.data_file_name data_file_name, av.data_content_type data_content_type, av.data_file_size/1024 data_file_size, av.data_updated_at data_updated_at, fvt.meaning category_name").
+    select("#{table_name}.*, av.id version_id, av.category_id category_id, av.data_file_name data_file_name, av.download_count download_count, av.data_content_type data_content_type, av.data_file_size/1024 data_file_size, av.data_updated_at data_updated_at, fvt.meaning category_name").
         select("av.source_type source_type, av.source_id source_id").
     joins(", #{Irm::AttachmentVersion.table_name} av").
     joins(", #{Irm::LookupValue.table_name} fv").
@@ -30,5 +30,9 @@ class Irm::Attachment < ActiveRecord::Base
 
   def last_version_entity
     self.attachment_versions.where("id = ?", self.latest_version_id).first
+  end
+
+  def history_versions
+    attachment_versions.where("attachment_id=? AND id !=?", self.id, self.latest_version_id).order("created_at DESC")
   end
 end

@@ -85,4 +85,18 @@ module Skm::EntryHeadersHelper
     end
   end
 
+  def display_content(text)
+    text = text.gsub(/\r\n/, '<br/>')
+    if params[:format].eql?("pdf")
+      text.gsub(/\!\[\]\((.+?)\)/i){"<img class='page-break' src='#{request.protocol}#{request.host_with_port}#{$1}'/>"}
+    else
+      text.gsub(/\!\[\]\((.+?)\)/i){"<img src='#{$1}'/>"}
+    end
+  end
+
+  def display_image(text)
+    text.gsub(/\!\[\]\((.+?)\)/i){"<img src='#{$1}'/>"}
+    #text.gsub(/\[img\](.+?)\[\/img\]/i) {"![#{$1}](#{$1})"}
+  end
+
 end

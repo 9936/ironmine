@@ -71,7 +71,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "skm/columns" => ["get_columns_data"],
               "skm/entry_headers" => ["add_favorites", "data_grid", "get_data", "get_history_entries_data", "index", "index_search", "my_drafts", "my_drafts_data", "my_favorites", "my_favorites_data", "my_unpublished", "my_unpublished_data", "remove_favorite", "show", "video_show"],
               "skm/entry_templates" => ["get_owned_elements_data"],
-              "skm/file_managements" => ["batch_create", "create", "destroy", "edit", "get_data", "get_version_files", "index", "new", "show", "update"],
+              "skm/file_managements" => ["batch_create", "create", "destroy", "edit", "get_data", "get_version_files", "remove_version_file","index", "new", "show", "update", "download"],
           },
           :edit_skm_entries => {
               :en => {:name => "Edit Skm Entries", :description => "Edit Skm Entries"},

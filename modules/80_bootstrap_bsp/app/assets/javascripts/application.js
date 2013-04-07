@@ -17,6 +17,7 @@
 //= require plugins/jquery-treeview-async
 //= require plugins/jquery-application
 //= require plugins/jquery-chosen
+//= require plugins/jquery-caretpos
 //= require framework/bootstrap-datepicker
 //= require framework/bootstrap-colorpicker
 //= require framework/bootstrap-timepicker
