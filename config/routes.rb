@@ -1,7 +1,10 @@
 Ironmine::Application.routes.draw do
 
-  namespace :slm do resources :time_triggers end
 
-  get "delayed/index"
+  namespace :isp do resources :check_parameters end
+
+  namespace :isp do resources :check_items end
+
+  namespace :isp do resources :programs end
 
 end
