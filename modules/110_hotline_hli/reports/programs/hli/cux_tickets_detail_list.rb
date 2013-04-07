@@ -3,21 +3,20 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
     params||={}
 
     statis = Icm::IncidentRequest.
-        select_all.enabled.
+        select_all.
+        enabled.
         with_category(I18n.locale).
         with_close_reason(I18n.locale).
         with_requested_by(I18n.locale).
         with_incident_status(I18n.locale).
         with_supporter(I18n.locale).
-        with_submitted_by(I18n.locale).
+        with_submitted_by.
         with_priority(I18n.locale).
         with_external_system(I18n.locale).
         order("(#{Icm::IncidentRequest.table_name}.submitted_date) ASC")
-
     if params[:end_date].present?
       statis = statis.where("date_format(icm_incident_requests.submitted_date, '%Y-%m-%d') <= ?", Date.strptime("#{params[:end_date]}", '%Y-%m-%d').strftime("%Y-%m-%d"))
     end
-
 
     start_date = params[:start_date]
     unless params[:start_date].present?
@@ -42,11 +41,9 @@ class Hli::CuxTicketsDetailList < Irm::ReportManager::ReportBase
             where("field_type = ?", "SYSTEM_CUX_FIELD").order("display_sequence ASC")
       end
     end
-
     if params[:incident_category_id].present? && params[:incident_category_id].size > 0 && params[:incident_category_id][0].present?
       statis = statis.where("#{Icm::IncidentRequest.table_name}.incident_category_id IN (?)", params[:incident_category_id] + [])
     end
-
     datas = []
 
 
