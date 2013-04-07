@@ -1,2 +1,7 @@
 zh:
-  hello: hello
+  label_isp_program: 巡检方案
+  label_isp_program_list: 方案列表
+  label_isp_program_new: 新建方案
+  label_isp_program_edit: 编辑方案
+  label_isp_program_name: 方案名称
+  label_isp_program_description: 方案描述

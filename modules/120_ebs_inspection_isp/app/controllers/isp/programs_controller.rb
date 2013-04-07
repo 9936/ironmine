@@ -13,7 +13,7 @@ class Isp::ProgramsController < ApplicationController
   # GET /isp/programs/1
   # GET /isp/programs/1.xml
   def show
-    @isp_program = Isp::Program.find(params[:id])
+    @isp_program = Isp::Program.multilingual.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,7 +34,7 @@ class Isp::ProgramsController < ApplicationController
 
   # GET /isp/programs/1/edit
   def edit
-    @isp_program = Isp::Program.find(params[:id])
+    @isp_program = Isp::Program.multilingual.find(params[:id])
   end
 
   # POST /isp/programs
@@ -101,7 +101,7 @@ class Isp::ProgramsController < ApplicationController
 
   def get_data
     isp_programs_scope = Isp::Program.multilingual
-    isp_programs_scope = isp_programs_scope.match_value("isp_program.name",params[:name])
+    isp_programs_scope = isp_programs_scope.match_value("#{Isp::ProgramsTl.table_name}.name", params[:name])
     isp_programs,count = paginate(isp_programs_scope)
     respond_to do |format|
       format.html  {
