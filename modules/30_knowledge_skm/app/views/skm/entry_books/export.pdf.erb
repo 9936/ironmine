@@ -3,6 +3,7 @@
         background-size: contain;
         background: url("<%= watermark %>") transparent;
     }
+    img.page-break { clear:both; page-break-after:always; }
 </style>
 <div class="markdown-body watermark">
   <%= generate_entry_book(@entry_book.id) %>
