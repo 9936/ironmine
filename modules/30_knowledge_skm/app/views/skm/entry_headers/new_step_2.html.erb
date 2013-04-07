@@ -1,34 +1,40 @@
 <script type="text/javascript">
     $(function(){
-        var URI = "/common/create_upload_file.json";
+        var URI = "/common/create_upload_file";
         var token = $('meta[name="csrf-token"]').attr('content');
 
         $(".editor-toolbar input.file").live("change", function(){
             var copyInput = $(this).clone();
             var textarea = $(this).parent().parent().parent().find("textarea");
+            if(window.ActiveXObject) {
+                if(typeof uri == 'boolean')
+                    var frameSrc = 'javascript:false';
+                else if(typeof uri== 'string')
+                    var frameSrc = URI;
+            }
             var frameId = "ImageFrame" + (new Date).getTime(),
-                tmpFrame = $("<iframe class='tmp-ifame' id='"+frameId+"'></iframe>").appendTo(document.body),
-                tmpForm = $("<form />", {
-                    enctype:"multipart/form-data",
-                    encoding:"multipart/form-data",
-                    method:"POST",
-                    target:frameId,
-                    action:URI,
-                    class: "tmp-form"
-                }).appendTo(document.body);
+                    tmpFrame = $("<iframe class='tmp-ifame' id='"+frameId+"' name='"+frameId+"'></iframe>").appendTo(document.body),
+                    tmpForm = $("<form />", {
+                        enctype:"multipart/form-data",
+                        encoding:"multipart/form-data",
+                        method:"POST",
+                        target: frameId,
+                        name: frameId,
+                        action:URI,
+                        class: "tmp-form"
+                    }).appendTo(document.body);
             if (token) $('<input name="authenticity_token" type="hidden" value="'+ token +'"/>').appendTo(tmpForm);
             $(this).parent().append(copyInput);
             tmpForm.append($(this));
             tmpFrame.load(function(resp){
                 try {
-                    var content = tmpFrame.contents().find('body').text(),
-                        obj = $.parseJSON(content);
+                    var content = tmpFrame.contents().find('body').text();
                 } catch (e) {
-                    obj = {error:'Error'}
+                    var content = ""
                 }
 
-                if (obj.msg && obj.msg.url) {
-                    appendImage(textarea, obj.msg.url);
+                if (content) {
+                    appendImage(textarea, content);
                     tmpForm.remove();
                     tmpFrame.remove();
                 }
@@ -40,9 +46,9 @@
     })
     function appendImage(txtBox, src) {
         var caret_pos = txtBox.caretPos(),
-            src_merged = "![]("+ src +")\n";
+                src_merged = "![]("+ src +")\n";
         var source = txtBox.val(),
-            before_text = source.slice(0, caret_pos);
+                before_text = source.slice(0, caret_pos);
         txtBox.val(before_text + src_merged + source.slice(caret_pos + 1, source.count));
         txtBox.caretPos(caret_pos + src_merged.length);
         txtBox.focus();
