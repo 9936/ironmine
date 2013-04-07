@@ -71,11 +71,13 @@
               <tbody>
                   <%= fields_for("skm_entry_details[]", ed) do |ef| %>
                   <tr>
-                    <td class="data-col" style="padding: 2px 20px 2px 10px !important;"><% if ed.required_flag == "Y"%>
+                    <td class="data-col" style="padding: 2px 20px 2px 10px !important;">
+                      <%= render "skm/entry_headers/editor_toolbar" %>
+                      <% if ed.required_flag == "Y"%>
                         <%= ef.text_area :entry_content, {:rows => ed.default_rows, :style => "width:100%;", :required => true, :value => ed.entry_content} %>
-                        <% else %>
+                      <% else %>
                         <%= ef.text_area :entry_content, {:rows => ed.default_rows, :style => "width:100%;", :value => ed.entry_content} %>
-                        <% end %>
+                      <% end %>
                     </td>
                   </tr>
                   <% end %>
@@ -128,4 +130,55 @@
   function add_subject(tar){
         $("#tr_");
   }
+</script>
+
+<script type="text/javascript">
+    $(function(){
+        var URI = "/common/create_upload_file.json";
+        var token = $('meta[name="csrf-token"]').attr('content');
+
+        $(".editor-toolbar input.file").live("change", function(){
+            var copyInput = $(this).clone();
+            var textarea = $(this).parent().parent().parent().find("textarea");
+            var frameId = "ImageFrame" + (new Date).getTime(),
+                    tmpFrame = $("<iframe class='tmp-ifame' id='"+frameId+"'></iframe>").appendTo(document.body),
+                    tmpForm = $("<form />", {
+                        enctype:"multipart/form-data",
+                        encoding:"multipart/form-data",
+                        method:"POST",
+                        target:frameId,
+                        action:URI,
+                        class: "tmp-form"
+                    }).appendTo(document.body);
+            if (token) $('<input name="authenticity_token" type="hidden" value="'+ token +'"/>').appendTo(tmpForm);
+            $(this).parent().append(copyInput);
+            tmpForm.append($(this));
+            tmpFrame.load(function(resp){
+                try {
+                    var content = tmpFrame.contents().find('body').text(),
+                            obj = $.parseJSON(content);
+                } catch (e) {
+                    obj = {error:'Error'}
+                }
+
+                if (obj.msg && obj.msg.url) {
+                    appendImage(textarea, obj.msg.url);
+                    tmpForm.remove();
+                    tmpFrame.remove();
+                }
+            });
+            tmpForm.submit();
+        })
+
+
+    })
+    function appendImage(txtBox, src) {
+        var caret_pos = txtBox.caretPos(),
+                src_merged = "![]("+ src +")\n";
+        var source = txtBox.val(),
+                before_text = source.slice(0, caret_pos);
+        txtBox.val(before_text + src_merged + source.slice(caret_pos + 1, source.count));
+        txtBox.caretPos(caret_pos + src_merged.length);
+        txtBox.focus();
+    }
 </script>
