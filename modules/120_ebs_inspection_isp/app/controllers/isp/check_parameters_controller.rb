@@ -1,15 +1,4 @@
 class Isp::CheckParametersController < ApplicationController
-  # GET /isp/check_parameters
-  # GET /isp/check_parameters.xml
-  def index
-    @isp_check_parameters = Isp::CheckParameter.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @isp_check_parameters }
-    end
-  end
-
   # GET /isp/check_parameters/1
   # GET /isp/check_parameters/1.xml
   def show
@@ -24,7 +13,7 @@ class Isp::CheckParametersController < ApplicationController
   # GET /isp/check_parameters/new
   # GET /isp/check_parameters/new.xml
   def new
-    @isp_check_parameter = Isp::CheckParameter.new
+    @isp_check_parameter = Isp::CheckParameter.new(:program_id => params[:program_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,7 +33,7 @@ class Isp::CheckParametersController < ApplicationController
 
     respond_to do |format|
       if @isp_check_parameter.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller => "isp/programs", :id => @isp_check_parameter.program_id, :action => "show"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @isp_check_parameter, :status => :created, :location => @isp_check_parameter }
       else
         format.html { render :action => "new" }
@@ -60,7 +49,7 @@ class Isp::CheckParametersController < ApplicationController
 
     respond_to do |format|
       if @isp_check_parameter.update_attributes(params[:isp_check_parameter])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:controller => "isp/programs", :id => @isp_check_parameter.program_id, :action => "show"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -76,32 +65,14 @@ class Isp::CheckParametersController < ApplicationController
     @isp_check_parameter.destroy
 
     respond_to do |format|
-      format.html { redirect_to(isp_check_parameters_url) }
+      format.html { redirect_to({:controller => "isp/programs", :id => @isp_check_parameter.program_id, :action => "show"}) }
       format.xml  { head :ok }
     end
   end
 
-  def multilingual_edit
-    @isp_check_parameter = Isp::CheckParameter.find(params[:id])
-  end
-
-  def multilingual_update
-    @isp_check_parameter = Isp::CheckParameter.find(params[:id])
-    @isp_check_parameter.not_auto_mult=true
-    respond_to do |format|
-      if @isp_check_parameter.update_attributes(params[:isp_check_parameter])
-        format.html { redirect_to({:action => "show"}, :notice => 'Check parameter was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @isp_check_parameter.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
   def get_data
-    isp_check_parameters_scope = Isp::CheckParameter.multilingual
-    isp_check_parameters_scope = isp_check_parameters_scope.match_value("isp_check_parameter.name",params[:name])
+    isp_check_parameters_scope = Isp::CheckParameter.with_program(params[:program_id])
+    isp_check_parameters_scope = isp_check_parameters_scope.match_value("#{Isp::CheckParameter.table_name}.name",params[:name])
     isp_check_parameters,count = paginate(isp_check_parameters_scope)
     respond_to do |format|
       format.html  {

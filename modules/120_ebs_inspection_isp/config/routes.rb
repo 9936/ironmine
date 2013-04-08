@@ -19,11 +19,20 @@ Rails.application.routes.draw do
     match '/programs/:program_id/connections/:id(.:format)' => "connections#show", :via => :get
     match '/programs/:program_id/connections/:id/destroy(.:format)' => "connections#destroy", :via => :delete
     match '/programs/:program_id/connections/create(.:format)' => "connections#create", :via => :post
+
+    #check_parameters
+    match '/programs/:program_id/check_parameters/get_data(.:format)' => "check_parameters#get_data"
+    match '/programs/:program_id/check_parameters/:id/edit(.:format)' => "check_parameters#edit", :via => :get
+    match '/programs/:program_id/check_parameters/:id(.:format)' => "check_parameters#update", :via => :put
+    match '/programs/:program_id/check_parameters/new(.:format)' => "check_parameters#new", :via => :get
+    match '/programs/:program_id/check_parameters/:id(.:format)' => "check_parameters#show", :via => :get
+    match '/programs/:program_id/check_parameters/:id/destroy(.:format)' => "check_parameters#destroy", :via => :delete
+    match '/programs/:program_id/check_parameters/create(.:format)' => "check_parameters#create", :via => :post
   end
 
   #namespace :isp do
   #
-  #  resources :check_parameters
+  #  resources :check_check_parameters
   #
   #  resources :check_items
   #  resources :programs

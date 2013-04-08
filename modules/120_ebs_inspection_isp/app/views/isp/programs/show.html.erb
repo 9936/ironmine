@@ -52,4 +52,23 @@
     <%= datatable("isp_connection", {:controller => "isp/connections", :program_id => @isp_program.id,:action => "get_data"}, [], {:search_box => "searchBox", :paginator_box => "paginator"}) %>
   </div>
 </div>
+<!-- 参数列表 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_isp_parameter_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:controller => "isp/check_parameters", :program_id => @isp_program.id, :action => "new"}, :class => "btn" %>
+      </td>
+      <td class="page-block-help">
+        <div id="searchParameter"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("isp_parameter", {:controller => "isp/check_parameters", :program_id => @isp_program.id,:action => "get_data"}, [], {:search_box => "searchParameter", :paginator_box => "paginatorParameter"}) %>
+  </div>
+</div>
 <%= render :partial => "multilingual/show", :locals => {:main_data => @isp_program} %>
