@@ -1,19 +1,9 @@
 class Isp::CheckItemsController < ApplicationController
-  # GET /isp/check_items
-  # GET /isp/check_items.xml
-  def index
-    @isp_check_items = Isp::CheckItem.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @isp_check_items }
-    end
-  end
 
   # GET /isp/check_items/1
   # GET /isp/check_items/1.xml
   def show
-    @isp_check_item = Isp::CheckItem.find(params[:id])
+    @isp_check_item = Isp::CheckItem.with_connection.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +14,7 @@ class Isp::CheckItemsController < ApplicationController
   # GET /isp/check_items/new
   # GET /isp/check_items/new.xml
   def new
-    @isp_check_item = Isp::CheckItem.new
+    @isp_check_item = Isp::CheckItem.new(:program_id => params[:program_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,7 +34,7 @@ class Isp::CheckItemsController < ApplicationController
 
     respond_to do |format|
       if @isp_check_item.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller => "isp/programs", :id => @isp_check_item.program_id, :action => "show"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @isp_check_item, :status => :created, :location => @isp_check_item }
       else
         format.html { render :action => "new" }
@@ -60,7 +50,7 @@ class Isp::CheckItemsController < ApplicationController
 
     respond_to do |format|
       if @isp_check_item.update_attributes(params[:isp_check_item])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:controller => "isp/programs", :id => @isp_check_item.program_id, :action => "show"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -76,32 +66,14 @@ class Isp::CheckItemsController < ApplicationController
     @isp_check_item.destroy
 
     respond_to do |format|
-      format.html { redirect_to(isp_check_items_url) }
+      format.html { redirect_to({:controller => "isp/programs", :id => @isp_check_item.program_id, :action => "show"}) }
       format.xml  { head :ok }
     end
   end
 
-  def multilingual_edit
-    @isp_check_item = Isp::CheckItem.find(params[:id])
-  end
-
-  def multilingual_update
-    @isp_check_item = Isp::CheckItem.find(params[:id])
-    @isp_check_item.not_auto_mult=true
-    respond_to do |format|
-      if @isp_check_item.update_attributes(params[:isp_check_item])
-        format.html { redirect_to({:action => "show"}, :notice => 'Check item was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @isp_check_item.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
   def get_data
-    isp_check_items_scope = Isp::CheckItem.multilingual
-    isp_check_items_scope = isp_check_items_scope.match_value("isp_check_item.name",params[:name])
+    isp_check_items_scope = Isp::CheckItem.with_connection.with_program(params[:program_id])
+    isp_check_items_scope = isp_check_items_scope.match_value("#{Isp::CheckItem.table_name}.name",params[:name])
     isp_check_items,count = paginate(isp_check_items_scope)
     respond_to do |format|
       format.html  {

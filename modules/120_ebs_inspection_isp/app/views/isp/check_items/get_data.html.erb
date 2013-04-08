@@ -1,0 +1,13 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "120px"}) do |data| %>
+        <%= link_to(t(:edit), {:controller => "isp/check_items", :program_id => data[:program_id], :action => "edit", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show), {:controller => "isp/check_items", :program_id => data[:program_id],:action => "show", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:delete), {:controller => "isp/check_items", :program_id => data[:program_id],:action => "destroy", :id => data[:id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name), :searchable => true}) %>
+    <% builder.column(:connection_name, {:title => t(:label_isp_check_item_connection), :searchable => true}) %>
+    <% builder.column(:object_symbol, {:title => t(:label_isp_check_item_object_symbol)}) %>
+    <% builder.column(:script, {:title => t(:label_isp_check_item_script)}) %>
+    <% builder.column(:description, {:title => t(:description)}) %>
+    <% builder.column(:updated_at, {:title => t(:slm_calendar_last_updated)}) %>
+<% end %>

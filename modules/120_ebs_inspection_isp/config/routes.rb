@@ -28,6 +28,15 @@ Rails.application.routes.draw do
     match '/programs/:program_id/check_parameters/:id(.:format)' => "check_parameters#show", :via => :get
     match '/programs/:program_id/check_parameters/:id/destroy(.:format)' => "check_parameters#destroy", :via => :delete
     match '/programs/:program_id/check_parameters/create(.:format)' => "check_parameters#create", :via => :post
+
+    #check_items
+    match '/programs/:program_id/check_items/get_data(.:format)' => "check_items#get_data"
+    match '/programs/:program_id/check_items/:id/edit(.:format)' => "check_items#edit", :via => :get
+    match '/programs/:program_id/check_items/:id(.:format)' => "check_items#update", :via => :put
+    match '/programs/:program_id/check_items/new(.:format)' => "check_items#new", :via => :get
+    match '/programs/:program_id/check_items/:id(.:format)' => "check_items#show", :via => :get
+    match '/programs/:program_id/check_items/:id/destroy(.:format)' => "check_items#destroy", :via => :delete
+    match '/programs/:program_id/check_items/create(.:format)' => "check_items#create", :via => :post
   end
 
   #namespace :isp do

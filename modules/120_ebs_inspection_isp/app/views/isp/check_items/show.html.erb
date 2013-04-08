@@ -3,17 +3,55 @@
 <div class="show-block">
   <table class="page-block-header"><tr>
     <td class="page-block-title">
-      <h2 class="block-title"><%= t(:label_irm_check_item) %></h2>
+      <h2 class="block-title"><%= t(:label_isp_check_item) %></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:edit), {:action => "edit", :id => @check_item},:class=>"btn"%>
-      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+      <%= link_to t(:edit), {:controller => "isp/check_items",:action => "edit", :id => @isp_check_item},:class=>"btn"%>
+      <%= link_to t(:back), {:controller => "isp/programs", :id => @isp_check_item.program_id, :action => "show"},:class=>"btn" %>
     </td>
   </tr></table>
   <div class="page-block-body">
     <table class="show-table">
       <tbody>
-        
+      <table class="show-table">
+        <tbody>
+        <tr>
+          <td class="label-col"><label><%= t(:name) %></label></td>
+          <td class="data-col"><%= @isp_check_item[:name] %></td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:label_isp_check_item_connection) %></label></td>
+          <td class="data-col"><%= @isp_check_item[:connection_name] %></td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td class="label-col"><label><%= t(:label_isp_check_item_object_symbol) %></label></td>
+          <td class="data-col"><%= @isp_check_item[:object_symbol] %></td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td class="label-col"><label><%= t(:label_isp_check_item_script) %></label></td>
+          <td class="data-col"><%= @isp_check_item[:script] %></td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td class="label-col"><label><%= t(:description) %></label></td>
+          <td class="data-col">
+            <div><%= @isp_check_item[:description] %></div>
+          </td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
+        </tr>
+        </tbody>
+      </table>
       </tbody>
     </table>
   </div>

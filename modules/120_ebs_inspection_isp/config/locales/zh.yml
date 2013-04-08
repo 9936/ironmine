@@ -24,3 +24,12 @@ zh:
   label_isp_parameter_object_symbol: 符号
   label_isp_parameter_value: 参数值
 
+  label_isp_check_item: 巡检项
+  label_isp_check_item_list: 巡检项
+  label_isp_check_item_new: 新建巡检项
+  label_isp_check_item_edit: 编辑巡检项
+  label_isp_check_item_connection: 连接
+  label_isp_check_item_object_symbol: 符号
+  label_isp_check_item_script: 脚本
+
+
