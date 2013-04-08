@@ -5,3 +5,12 @@ zh:
   label_isp_program_edit: 编辑方案
   label_isp_program_name: 方案名称
   label_isp_program_description: 方案描述
+
+  label_isp_connection: 连接
+  label_isp_connection_list: 连接列表
+  label_isp_connection_new: 新建连接
+  label_isp_connection_edit: 编辑连接
+  label_isp_connection_type: 类型
+  label_isp_connection_host: 主机
+  label_isp_connection_username: 用户
+  label_isp_connection_password: 密码

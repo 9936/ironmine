@@ -7,7 +7,7 @@
         <h2 class="block-title"><%= t(:label_isp_program) %></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to t(:edit), {:action => "edit", :id => @isp_program}, :class => "btn" %>
+        <%= link_to t(:edit), {:action => "edit", :id => @isp_program}, :class => "btn btn-primary" %>
         <%= link_to t(:back), {:action => "index"}, :class => "btn" %>
       </td>
     </tr>
@@ -31,6 +31,25 @@
       </tr>
       </tbody>
     </table>
+  </div>
+</div>
+<!-- 连接列表 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_isp_connection_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:controller => "isp/connections", :program_id => @isp_program.id, :action => "new"}, :class => "btn" %>
+      </td>
+      <td class="page-block-help">
+        <div id="searchBox"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("isp_connection", {:controller => "isp/connections", :program_id => @isp_program.id,:action => "get_data"}, [], {:search_box => "searchBox", :paginator_box => "paginator"}) %>
   </div>
 </div>
 <%= render :partial => "multilingual/show", :locals => {:main_data => @isp_program} %>
