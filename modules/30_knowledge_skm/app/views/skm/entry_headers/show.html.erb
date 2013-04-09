@@ -1,6 +1,10 @@
 <%= common_title(:show_data=> "[#{@entry_header.doc_number}]  #{@entry_header.entry_title}".html_safe)%>
 <% require_jscss(:markdown) %>
 
+<style type="text/css">
+    .markdown-body img {border: none;}
+</style>
+
 <!--页面结构-->
 <div class="show-block">
   <table class="page-block-header"><tr>
