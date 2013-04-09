@@ -418,9 +418,15 @@ class Icm::IncidentRequest < ActiveRecord::Base
     return_val
   end
 
-  def concat_journals_with_text
+  def concat_journals_with_text(person_id = nil)
     return_val = ""
     journals = self.incident_journals.enabled.where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").order("created_at ASC")
+    if person_id
+      journals = self.incident_journals.enabled.
+          where("reply_type IN ('SUPPORTER_REPLY', 'OTHER_REPLY', 'CUSTOMER_REPLY')").
+          where("replied_by = ?", person_id).
+          order("created_at ASC")
+    end
     journals.each do |i|
       #break if i == journals.last
       person = Icm::IncidentJournal.with_replied_by_name.where("#{Icm::IncidentJournal.table_name}.id = ?", i.id).first
