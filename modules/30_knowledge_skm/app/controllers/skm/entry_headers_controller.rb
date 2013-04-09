@@ -234,6 +234,9 @@ class Skm::EntryHeadersController < ApplicationController
         else
           @reference_flag = 'N'
         end
+        if @reference_flag.eql?('Y')
+          @entry_header.entry_title = "#{@entry_header.entry_title}--#{I18n.t(:label_skm_entry_book_haeder_reference)}"
+        end
         format.html # show.html.erb
         format.xml  { render :xml => @entry_header }
       end
@@ -615,8 +618,9 @@ class Skm::EntryHeadersController < ApplicationController
         new_entry_header.author_id = Irm::Person.current.id
         new_entry_header.source_type = entry_header.source_type
         new_entry_header.source_id = entry_header.source_id
+        new_entry_header.entry_title = params[:skm_entry_header][:entry_title]
 
-        if new_entry_header.save
+        if new_entry_header.save && new_entry_header.update_attributes(params[:skm_entry_header])
           entry_details = Skm::EntryDetail.where(:entry_header_id => entry_header.id)
           entry_details.each do |entry_detail|
             detail = Skm::EntryDetail.new(entry_detail.attributes)
