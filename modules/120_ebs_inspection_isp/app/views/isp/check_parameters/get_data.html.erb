@@ -5,8 +5,12 @@
         <%= link_to(t(:delete), {:controller => "isp/check_parameters", :program_id => data[:program_id],:action => "destroy", :id => data[:id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>
     <% end %>
     <% builder.column(:name, {:title => t(:name), :searchable => true}) %>
-    <% builder.column(:param_type, {:title => t(:label_isp_parameter_param_type)}) %>
-    <% builder.column(:data_type, {:title => t(:label_isp_parameter_data_type)}) %>
+    <% builder.column(:param_type, {:title => t(:label_isp_parameter_param_type)}) do |data| %>
+      <%= param_type_meaning(data[:param_type]) %>
+    <% end %>
+    <% builder.column(:data_type, {:title => t(:label_isp_parameter_data_type)}) do |data| %>
+      <%= data_type_meaning(data[:data_type]) %>
+    <% end %>
     <% builder.column(:object_symbol, {:title => t(:label_isp_parameter_object_symbol)}) %>
     <% builder.column(:value, {:title => t(:label_isp_parameter_value)}) %>
     <% builder.column(:description, {:title => t(:description)}) %>

@@ -83,8 +83,8 @@ gem 'capistrano'
 gem 'rvm-capistrano', :require => false
 
 
-gem 'ruby-oci8'
-gem 'activerecord-oracle_enhanced-adapter'
+#gem 'ruby-oci8'
+#gem 'activerecord-oracle_enhanced-adapter'
 
 if RUBY_VERSION =~ /1.9/
   Encoding.default_external = Encoding::UTF_8

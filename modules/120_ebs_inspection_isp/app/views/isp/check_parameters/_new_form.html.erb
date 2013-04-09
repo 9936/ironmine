@@ -13,14 +13,14 @@
 
           <tr>
             <td class="label-col"><label><%=t(:label_isp_parameter_param_type)%></label></td>
-            <td class="data-col"><%= f.text_field :param_type, :required => true%></td>
+            <td class="data-col"><%= f.blank_select :param_type, available_param_types, :required => true%></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
 
           <tr>
             <td class="label-col"><label><%=t(:label_isp_parameter_data_type)%></label></td>
-            <td class="data-col"><%= f.text_field :data_type, :required => true%></td>
+            <td class="data-col"><%= f.blank_select :data_type,available_data_types, :required => true%></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>

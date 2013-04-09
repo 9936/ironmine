@@ -20,7 +20,11 @@ zh:
   label_isp_check_parameter_new: 新建参数
   label_isp_check_parameter_edit: 修改参数
   label_isp_parameter_param_type: 参数类型
+  label_isp_parameter_param_type_default: 默认
+  label_isp_parameter_param_type_input: 输入
   label_isp_parameter_data_type: 数据类型
+  label_isp_parameter_data_string: 字符
+  label_isp_parameter_data_number: 数字
   label_isp_parameter_object_symbol: 符号
   label_isp_parameter_value: 参数值
 
