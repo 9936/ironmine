@@ -401,7 +401,7 @@ class Skm::EntryHeadersController < ApplicationController
       session[:skm_entry_details]=params[:skm_entry_details]
     end
 
-    @entry_header = Skm::EntryHeader.new
+    @entry_header = Skm::EntryHeader.new(:tmp_source_ids => params[:skm_entry_header][:tmp_source_ids])
     session[:skm_entry_header].each do |k, v|
       @entry_header[k.to_sym] = v
     end

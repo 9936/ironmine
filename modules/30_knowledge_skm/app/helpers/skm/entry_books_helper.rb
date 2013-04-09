@@ -87,7 +87,7 @@ module Skm::EntryBooksHelper
             html += "<p class='h2-title'></p>"
           end
           html += "<h#{h_num + 1}>#{h_num_str}#{num_out}.#{num_in}. #{raw(e.element_name)}</h#{h_num + 1}>"
-          html += "<p>#{raw display_content(e.entry_content)}</p>"
+          html += "<p>#{raw display_content(target.id, e.entry_content)}</p>"
         end
         #检查是否有附件存在
         if target.attachments && target.attachments.any?

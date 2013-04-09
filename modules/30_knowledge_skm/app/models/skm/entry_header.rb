@@ -13,7 +13,10 @@ class Skm::EntryHeader < ActiveRecord::Base
 
   belongs_to :channel
 
-  attr_accessor :published_date_f, :full_title
+  attr_accessor :published_date_f, :full_title, :tmp_source_ids
+
+  after_save :merge_attachments
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
@@ -21,6 +24,13 @@ class Skm::EntryHeader < ActiveRecord::Base
 
 #  acts_as_recently_objects(:title => "entry_title",
 #                           :target_controller => "skm/entry_headers")
+
+  def merge_attachments
+    if self.tmp_source_ids && self.tmp_source_ids.split(",").any?
+      Irm::AttachmentVersion.where(:source_id => self.tmp_source_ids.split(",")).update_all(:source_id => self.id)
+    end
+  end
+
   def uniq_entry_title
     #puts self.inspect
     if (self.history_flag.eql?("N"))

@@ -35,7 +35,7 @@
     <div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
       <% @entry_header.entry_details.each do |e| %>
         <h1><%= raw(e.element_name) %></h1>
-        <p><%= raw(display_content(e.entry_content)) %></p>
+        <p><%= raw(display_content(@entry_header.id, e.entry_content)) %></p>
       <% end %>
       <!-- 显示附件列表信息 -->
       <% if @entry_header.attachments.any? %>
