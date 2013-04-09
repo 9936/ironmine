@@ -67,7 +67,7 @@
             <tbody>
               <tr>
                 <td class="data-col" style="padding: 2px 10px !important;">
-                  <pre><%= raw(display_image(e.entry_content)) %></pre>
+                  <pre><%= raw(display_content(@entry_header.id, e.entry_content)) %></pre>
                 </td>
               </tr>
             </tbody>

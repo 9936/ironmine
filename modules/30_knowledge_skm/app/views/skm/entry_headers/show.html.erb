@@ -3,6 +3,10 @@
 
 <style type="text/css">
     .markdown-body img {border: none;}
+    .digg-zone span,
+    .markdown-body table span {
+        margin-left: 0;
+    }
 </style>
 
 <!--页面结构-->
@@ -41,6 +45,16 @@
         <h1><%= raw(e.element_name) %></h1>
         <p><%= raw(display_content(@entry_header.id, e.entry_content)) %></p>
       <% end %>
+      <!-- 未发布的知识不能进行表态 -->
+      <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
+        <div class="sub-page-block">
+          <div class="sub-page-block-body">
+            <div class="digg-zone" id="diggZone">
+              <%= show_rating("SKM_RATING",@entry_header) %>
+            </div>
+          </div>
+        </div>
+      <%- end -%>
       <!-- 显示附件列表信息 -->
       <% if @entry_header.attachments.any? %>
         <h1><%= t(:label_irm_attachment)%></h1>
@@ -49,15 +63,15 @@
           <ul>
             <li>
               <%= raw("<a target='_blank' href='#{version.data.url}' >#{version.data.original_filename}</a>") %>
-              <!--<span class="hedit-link">[<%= link_to(t(:delete), {:controller => "skm/entry_headers", :action => "remove_exits_attachment", :entry_header_id => @entry_header.id, :att_id => a.latest_version_id},:confirm => t(:label_delete_confirm), :remote => "true") %>]</span>-->
+              <span class="hedit-link">[<%= link_to(t(:delete), {:controller => "skm/entry_headers", :action => "remove_exits_attachment", :entry_header_id => @entry_header.id, :att_id => a.latest_version_id},:confirm => t(:label_delete_confirm), :remote => "true") %>]</span>
             </li>
           </ul>
         <% end %>
       <% end %>
       <!-- 未发布的知识没有版本记录 -->
       <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
-        <h1><%= t(:label_skm_entry_header_versions) %></h1>
-          <div style="margin-left: 50px;">
+      <h1><%= t(:label_skm_entry_header_versions) %></h1>
+        <div style="margin-left: 50px;">
           <table style="margin-left: 0;">
             <tbody>
             <tr>
@@ -76,49 +90,97 @@
             <% end %>
             </tbody>
           </table>
-          </div>
+        </div>
+      <% else %>
+        <h1><%= t(:label_skm_entry_header_approval_record) %></h1>
+        <div style="margin-left: 50px;">
+          <table class="page-block-header" style="margin-left: 0;">
+            <tr>
+              <td class="page-block-help form-inline" style="width: 100%; border: none;">
+                <!-- 有拒绝的审批状态显示重新申请审核 -->
+                <%- if has_approval_deny?(@entry_header.id) %>
+                  <%= form_tag({:controller => "skm/entry_headers",:action => "reset_approve"},:style => "padding:0; margin:0; display:inline-block;") do %>
+                      <%= hidden_field_tag :entry_header_id, @entry_header.id %>
+                      <%= link_to t(:label_skm_entry_header_approval_reset),'reset_approve', :class => 'btn btn-primary submit', :style => "color: #fff;" %>
+                  <%- end -%>
+                <%- end %>
+                <strong><%= t(:label_skm_entry_header_approval_status_note) %>:</strong>
+                <span class="badge badge-success">
+                  <i class="icon-ok-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_y) %>
+                </span>
+                <span class="badge badge-important">
+                  <i class="icon-remove-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_r) %>
+                </span>
+                <span class="badge badge-info">
+                  <i class="icon-user icon-white"></i><%= t(:label_skm_entry_header_approval_status_c) %>
+                </span>
+                <span class="badge">
+                  <i class="icon-question-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_n) %>
+                </span>
+              </td>
+            </tr>
+          </table>
+          <table style="margin-left: 0px;">
+            <tbody>
+            <tr>
+              <th style="width: 60px;"><%= t(:label_skm_entry_header_approval_status) %></th>
+              <th><%= t(:label_skm_entry_header_approval_person) %></th>
+              <th><%= t(:label_skm_entry_header_approval_date) %></th>
+              <th><%= t(:label_skm_entry_header_approval_note) %></th>
+            </tr>
+            <% @entry_header.entry_approval_people.each do |data| %>
+                <tr>
+                  <td>
+                    <% if data[:approval_flag].eql?(Irm::Constant::SYS_YES) %>
+                    <span class="badge badge-success">
+                      <i class="icon-ok-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_y) %>
+                    </span>
+                    <% elsif data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+                      <span class="badge">
+                        <i class="icon-question-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_n) %>
+                      </span>
+                    <% elsif data[:approval_flag].eql?(Skm::EntryStatus::SYS_CHANGE) %>
+                      <span class="badge badge-info">
+                        <i class="icon-user icon-white"></i><%= t(:label_skm_entry_header_approval_status_c) %>
+                      </span>
+                    <% else %>
+                      <span class="badge badge-important">
+                        <i class="icon-remove-sign icon-white"></i><%= t(:label_skm_entry_header_approval_status_r) %>
+                    </span>
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= Irm::Person.query_person_name(data[:person_id]).first[:person_name] if Irm::Person.query_person_name(data[:person_id]).first %>
+                  </td>
+                  <td>
+                    <% if data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+                        <%= '' %>
+                    <% else %>
+                        <%= format_date data[:updated_at] %>
+                    <% end %>
+                  </td>
+                  <td>
+                    <% if data[:approval_flag].eql?(Irm::Constant::SYS_YES) %>
+                        <span style="color:#468847"><%= data[:note] %></span>
+                    <% elsif data[:approval_flag].eql?(Irm::Constant::SYS_NO) %>
+                        <span><%= data[:note] %></span>
+                    <% elsif data[:approval_flag].eql?(Skm::EntryStatus::SYS_CHANGE) %>
+                        <span style="color:#3A87AD"><%= data[:note] %></span>
+                    <% else %>
+                        <span style="color: #B94A48"><%= data[:note] %></span>
+                    <% end %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
       <% end %>
       <!-- 关联的知识 -->
       <h1><%= t(:label_skm_entry_header_relation_list) %></h1>
       <div style="margin-left: 50px;" id="entryHeaderRelation">
-      <table class="page-block-header" style="margin-left: 0;">
-        <tr>
-          <td class="page-block-help form-inline" style="border: none;">
-            <%= form_tag({:controller => "skm/entry_headers",:action => "add_relation", :source_id => @entry_header.id,:_dom_id=>"entryHeaderRelation"},{:remote=>true,:builder => CustomFormBuilder}) do %>
-                <div class="float-right" style="margin-left: 20px;">
-                  <%= link_submit(t(:add), :class=>"btn") %>
-                </div>
-                <div  style="float:right;">
-                  <%= lov_field_tag "skm_relation", Skm::EntryHeader,{:style=>"width:150px;",:lov_params=>{:lktkn=>"entry_relation", :entry_header_id=> @entry_header.id}}%>
-                </div>
-            <%- end -%>
-          </td>
-        </tr>
-      </table>
-
-      <% if @entry_relation.any? %>
-        <table style="margin-left: 0px;">
-          <tbody>
-            <tr>
-              <th style="width: 30px;"><%= t(:operation) %></th>
-              <th><%= t(:label_skm_entry_header_title) %></th>
-              <th><%= t(:label_skm_entry_header_published_date) %></th>
-              <th><%= t(:label_skm_entry_header_version) %></th>
-              <th><%= t(:label_skm_entry_header_doc_number) %></th>
-            </tr>
-            <% @entry_relation.each do |data| %>
-              <tr>
-                <td><%= link_to(t(:remove), {:controller=>"skm/entry_headers",:action=>"remove_relation",:id=>data[:relation_id],:source_id =>data[:entry_id],:_dom_id => "entryHeaderRelation"},:confirm => t(:label_are_you_sure) ,:remote=>true,:method => :delete, :class => "action-link") %></td>
-                <td><%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:entry_id]}) %></td>
-                <td><%= format_date data[:published_date] %></td>
-                <td><%= data[:version_number] %></td>
-                <td><%= data[:doc_number] %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-        </div>
-      <% end %>
+        <%= render :partial=> "skm/entry_headers/entry_header_relations",:locals=>{:datas=>@entry_relation, :entry_header_id => @entry_header.id }%>
+      </div>
     </div>
   </div>
 </div>

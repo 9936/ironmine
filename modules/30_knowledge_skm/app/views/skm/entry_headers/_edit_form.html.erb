@@ -31,7 +31,7 @@
         <% else %>
             <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>
         <% end %>
-        <% if params[:entry_book_id] %>
+        <% if params[:entry_book_id].present? %>
             <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:class => "btn cancel"}%>
         <% else %>
             <%= link_to t(:cancel), {:action => "index"}, {:class => "btn cancel"}%>
