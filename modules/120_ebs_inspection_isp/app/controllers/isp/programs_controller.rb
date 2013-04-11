@@ -44,7 +44,7 @@ class Isp::ProgramsController < ApplicationController
 
     respond_to do |format|
       if @isp_program.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:action => "show", :id => @isp_program}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @isp_program, :status => :created, :location => @isp_program }
       else
         format.html { render :action => "new" }
@@ -60,7 +60,7 @@ class Isp::ProgramsController < ApplicationController
 
     respond_to do |format|
       if @isp_program.update_attributes(params[:isp_program])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:action => "show", :id => @isp_program }, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
