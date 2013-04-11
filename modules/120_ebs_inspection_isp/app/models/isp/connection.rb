@@ -1,7 +1,8 @@
 class Isp::Connection < ActiveRecord::Base
   set_table_name :isp_connections
 
-  belongs_to :programs, :foreign_key => :program_id
+  belongs_to :program, :foreign_key => :program_id
+  has_many :check_items, :foreign_key => :connection_id, :dependent => :destroy
 
   validates_presence_of :name, :program_id, :connect_type, :host
 

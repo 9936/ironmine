@@ -1,7 +1,7 @@
 class Isp::CheckParameter < ActiveRecord::Base
   set_table_name :isp_check_parameters
 
-  belongs_to :params, :foreign_key => :param_id
+  belongs_to :program, :foreign_key => :program_id
   validates_presence_of :name, :program_id, :param_type, :data_type, :object_symbol, :value
 
   #加入activerecord的通用方法和scope

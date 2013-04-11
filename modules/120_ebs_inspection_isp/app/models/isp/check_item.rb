@@ -1,6 +1,9 @@
 class Isp::CheckItem < ActiveRecord::Base
   set_table_name :isp_check_items
 
+  belongs_to :program, :foreign_key => :program_id
+  belongs_to :connection, :foreign_key => :connection_id
+
   validates_presence_of :program_id, :connection_id, :name, :object_symbol, :script
   validates_uniqueness_of :connection_id, :scope => :program_id
 
