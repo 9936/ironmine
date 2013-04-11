@@ -1,1 +1,1 @@
-$("#exist_attachments_list").html('<%= escape_javascript(list_exist_attachments_during_create(@attachments))%>');
+$("#exist_attachments_list").html('<%= escape_javascript(render :partial=> "skm/entry_headers/exits_attachment_list",:locals=>{:datas=> @attachments })%>');

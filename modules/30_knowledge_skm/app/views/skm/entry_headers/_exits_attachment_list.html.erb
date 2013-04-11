@@ -1,0 +1,9 @@
+<% datas.each do |a| %>
+    <% version = a.last_version_entity %>
+    <ul>
+      <li>
+        <%= raw("<a target='_blank' href='#{version.data.url}' >#{version.data.original_filename}</a>") %>
+        <span class="hedit-link">[<%= link_to(t(:delete), {:controller => "skm/entry_headers", :action => "remove_exits_attachment", :entry_header_id => a.source_id, :att_id => a.latest_version_id},:confirm => t(:label_delete_confirm), :remote => "true") %>]</span>
+      </li>
+    </ul>
+<% end %>

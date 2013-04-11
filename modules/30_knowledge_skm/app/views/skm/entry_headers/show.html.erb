@@ -59,15 +59,9 @@
       <!-- 显示附件列表信息 -->
       <% if @entry_header.attachments.any? %>
         <h1><%= t(:label_irm_attachment)%></h1>
-        <% @entry_header.attachments.each do |a| %>
-          <% version = a.last_version_entity %>
-          <ul>
-            <li>
-              <%= raw("<a target='_blank' href='#{version.data.url}' >#{version.data.original_filename}</a>") %>
-              <span class="hedit-link">[<%= link_to(t(:delete), {:controller => "skm/entry_headers", :action => "remove_exits_attachment", :entry_header_id => @entry_header.id, :att_id => a.latest_version_id},:confirm => t(:label_delete_confirm), :remote => "true") %>]</span>
-            </li>
-          </ul>
-        <% end %>
+        <div id="exist_attachments_list">
+          <%= render :partial=> "skm/entry_headers/exits_attachment_list",:locals=>{:datas=> @entry_header.attachments }%>
+        </div>
       <% end %>
       <!-- 未发布的知识没有版本记录 -->
       <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
