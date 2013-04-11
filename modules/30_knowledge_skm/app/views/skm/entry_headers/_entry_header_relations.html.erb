@@ -25,7 +25,7 @@
     </tr>
     <% datas.each do |data| %>
       <tr>
-        <td><%= link_to(t(:remove), {:controller=>"skm/entry_headers",:action=>"remove_relation",:id=>data[:relation_id],:source_id =>data[:entry_id],:_dom_id => "entryHeaderRelation"},:confirm => t(:label_are_you_sure) ,:remote=>true,:method => :delete, :class => "action-link") %></td>
+        <td><%= link_to(t(:remove), {:controller=>"skm/entry_headers",:action=>"remove_relation",:id=>data[:relation_id],:source_id =>entry_header_id, :_dom_id => "entryHeaderRelation"},:confirm => t(:label_are_you_sure) ,:remote=>true,:method => :delete, :class => "action-link") %></td>
         <td><%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:entry_id]}) %></td>
         <td><%= format_date data[:published_date] %></td>
         <td><%= data[:version_number] %></td>
