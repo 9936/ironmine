@@ -4,6 +4,7 @@
     .markdown-body table span {
         margin-left: 0;
     }
+    .markdown-body .auto-page-break { page-break-before: auto;  page-break-inside: avoid; border: none; }
 </style>
 <div class="markdown-body" style="width: 551pt;text-align: left;margin: 0 auto;">
   <% @entry_header.entry_details.each do |e| %>
@@ -26,7 +27,7 @@
   <%- if @entry_header.entry_status_code.eql?(Skm::EntryStatus::PUBLISHED) -%>
       <h1><%= t(:label_skm_entry_header_versions) %></h1>
       <div style="margin-left: 50px;">
-        <table style="margin-left: 0;">
+        <table style="margin-left: 0;" class="auto-page-break">
           <tbody>
           <tr>
             <th><%= t(:label_skm_entry_header_title) %></th>
@@ -53,7 +54,7 @@
   <h1><%= t(:label_skm_entry_header_relation_list) %></h1>
   <div style="margin-left: 50px;" id="entryHeaderRelation">
     <% if @entry_relation.any? %>
-    <table style="margin-left: 0px;">
+    <table style="margin-left: 0px;" class="auto-page-break">
       <tbody>
       <tr>
         <th><%= t(:label_skm_entry_header_title) %></th>
