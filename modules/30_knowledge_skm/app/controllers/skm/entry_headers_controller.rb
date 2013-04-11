@@ -42,12 +42,14 @@ class Skm::EntryHeadersController < ApplicationController
           render :pdf => "[#{@entry_header.doc_number}]#{@entry_header.entry_title}",
                          :print_media_type => true,
                          :encoding => 'utf-8',
-                         :layout => 'layouts/pdf.html.erb',
+                         :layout => "layouts/markdown_pdf.html.erb",
                          :book => true,
+                         #:show_as_html => true,
                          :page_size => 'A4',
                          :toc => {
-                             :depth => 3,
-                             :header_text => t(:table_of_contents) }
+                             :header_text => t(:table_of_contents),
+                             :disable_back_links=>true
+                         }
         }
       end
 
