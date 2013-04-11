@@ -88,22 +88,22 @@ module Skm::EntryHeadersHelper
   def display_content(entry_header_id, text)
     text = text.gsub(/\r\n/, '<br/>')
     if params[:format].eql?("pdf")
-      text = text.gsub(/\!\[\]\((.+?)\)/i){"<img class='page-break' src='#{request.protocol}#{request.host_with_port}#{$1}'/>"}
+      text = text.gsub(/\!\[\]\((.+?)\)/i){"<span class='image-container'><img class='page-break' src='#{request.protocol}#{request.host_with_port}#{$1}'/></span>"}
     else
-      text = text.gsub(/\!\[\]\((.+?)\)/i){"<img src='#{$1}'/>"}
+      text = text.gsub(/\!\[\]\((.+?)\)/i){"<span class='image-container'><img src='#{$1}'/></span>"}
     end
     if params[:format].eql?("pdf")
       text.gsub(/\!(.+?\.(bmp|gif|jpg|jpe|jpeg|png))\!/){
         version = Irm::AttachmentVersion.where("source_id=? AND source_file_name=?", entry_header_id, $1).first
         if version.present?
-          "<img class='page-break' src='#{request.protocol}#{request.host_with_port}#{version.url}'/>"
+          "<span class='image-container'><img class='page-break' src='#{request.protocol}#{request.host_with_port}#{version.url}'/></span>"
         end
       }
     else
       text.gsub(/\!(.+?\.(bmp|gif|jpg|jpe|jpeg|png))\!/){
         version = Irm::AttachmentVersion.where("source_id=? AND source_file_name=?", entry_header_id, $1).first
         if version.present?
-          "<img src='#{version.url}'/>"
+          "<span class='image-container'><img src='#{version.url}'/></span>"
         end
       }
     end
