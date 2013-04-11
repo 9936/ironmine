@@ -1,5 +1,5 @@
 class Isp::CheckParameter < ActiveRecord::Base
-  set_table_name :sip_check_parameters
+  set_table_name :isp_check_parameters
 
   belongs_to :params, :foreign_key => :param_id
   validates_presence_of :name, :program_id, :param_type, :data_type, :object_symbol, :value

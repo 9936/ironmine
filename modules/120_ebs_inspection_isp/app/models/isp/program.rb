@@ -1,5 +1,5 @@
 class Isp::Program < ActiveRecord::Base
-  set_table_name :sip_programs
+  set_table_name :isp_programs
 
   #多语言关系
   attr_accessor :name,:description

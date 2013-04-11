@@ -1,5 +1,5 @@
 class Isp::CheckItem < ActiveRecord::Base
-  set_table_name :sip_check_items
+  set_table_name :isp_check_items
 
   validates_presence_of :program_id, :connection_id, :name, :object_symbol, :script
   validates_uniqueness_of :connection_id, :scope => :program_id

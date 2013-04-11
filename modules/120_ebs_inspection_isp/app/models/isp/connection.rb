@@ -1,5 +1,5 @@
 class Isp::Connection < ActiveRecord::Base
-  set_table_name :sip_connections
+  set_table_name :isp_connections
 
   belongs_to :programs, :foreign_key => :program_id
 
