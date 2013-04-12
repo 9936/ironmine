@@ -42,12 +42,14 @@ class Skm::EntryHeadersController < ApplicationController
           render :pdf => "[#{@entry_header.doc_number}]#{@entry_header.entry_title}",
                          :print_media_type => true,
                          :encoding => 'utf-8',
-                         :layout => 'layouts/pdf.html.erb',
+                         :layout => "layouts/markdown_pdf.html.erb",
                          :book => true,
+                         #:show_as_html => true,
                          :page_size => 'A4',
                          :toc => {
-                             :depth => 3,
-                             :header_text => t(:table_of_contents) }
+                             :header_text => t(:table_of_contents),
+                             :disable_back_links=>true
+                         }
         }
       end
 
@@ -234,6 +236,9 @@ class Skm::EntryHeadersController < ApplicationController
         else
           @reference_flag = 'N'
         end
+        if @reference_flag.eql?('Y')
+          @entry_header.entry_title = "#{@entry_header.entry_title}--#{I18n.t(:label_skm_entry_book_haeder_reference)}"
+        end
         format.html # show.html.erb
         format.xml  { render :xml => @entry_header }
       end
@@ -398,7 +403,7 @@ class Skm::EntryHeadersController < ApplicationController
       session[:skm_entry_details]=params[:skm_entry_details]
     end
 
-    @entry_header = Skm::EntryHeader.new
+    @entry_header = Skm::EntryHeader.new(:tmp_source_ids => params[:skm_entry_header][:tmp_source_ids])
     session[:skm_entry_header].each do |k, v|
       @entry_header[k.to_sym] = v
     end
@@ -615,8 +620,9 @@ class Skm::EntryHeadersController < ApplicationController
         new_entry_header.author_id = Irm::Person.current.id
         new_entry_header.source_type = entry_header.source_type
         new_entry_header.source_id = entry_header.source_id
+        new_entry_header.entry_title = params[:skm_entry_header][:entry_title]
 
-        if new_entry_header.save
+        if new_entry_header.save && new_entry_header.update_attributes(params[:skm_entry_header])
           entry_details = Skm::EntryDetail.where(:entry_header_id => entry_header.id)
           entry_details.each do |entry_detail|
             detail = Skm::EntryDetail.new(entry_detail.attributes)

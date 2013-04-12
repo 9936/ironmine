@@ -2,6 +2,7 @@
 
 <%= form_for(@entry_header,:url=>{:action=>"new"},:builder => CustomFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
   <%= hidden_field_tag("entry_book_id", params[:entry_book_id]) %>
+  <%= f.hidden_field :tmp_source_ids, :id => "tmpSourceIds" %>
   <% content_for :form_buttons  do %>
     <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()",:class => "btn "}%>
     <%= link_to t(:save_as_published), {}, :href => "javascript:void(0);", :onclick => "submit_published();",:class => "btn btn-primary"%>

@@ -147,6 +147,14 @@ class Irm::CommonController < ApplicationController
         version.data = data
       end
     end
+    #当上传文件时候临时生成一个Id
+    if params[:content_image].present?
+      version.category_id = Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "IMAGE")
+      version.source_type = "Skm::EntryHeader"
+      @tmp_id = Fwk::IdGenerator.instance.generate(Skm::EntryHeader.table_name)
+      version.source_id = @tmp_id
+    end
+
     flag, now = version.over_limit?(Irm::SystemParametersManager.upload_file_limit)
     version.save if flag
     Irm::AttachmentVersion.update_attachment_by_version(@file,version)
