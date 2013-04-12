@@ -19,19 +19,19 @@ class Isp::Connection < ActiveRecord::Base
   }
 
 
-  def test_sql
-    context = {"@12_port_and_dbname" => {:port => 1521, :database => "hrms", :password => "1q2w3e"}}
-    check_item = Isp::CheckItem.last
-    a = check_item.connection
-    a.execute(context, check_item)
-  end
-
-  def test_shell
-    context = {}
-    check_item = Isp::CheckItem.first
-    a = check_item.connection
-    a.execute(context, check_item)
-  end
+  #def test_sql
+  #  context = {"@12_port_and_dbname" => {:port => 1521, :database => "hrms", :password => "1q2w3e"}}
+  #  check_item = Isp::CheckItem.last
+  #  a = check_item.connection
+  #  a.execute(context, check_item)
+  #end
+  #
+  #def test_shell
+  #  context = {}
+  #  check_item = Isp::CheckItem.first
+  #  a = check_item.connection
+  #  a.execute(context, check_item)
+  #end
 
 
   def execute(context = {}, check_item)
