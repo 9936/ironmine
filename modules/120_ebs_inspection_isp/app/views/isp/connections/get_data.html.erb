@@ -10,6 +10,7 @@
       <%= connection_type_meaning(data[:connect_type]) %>
     <% end %>
     <% builder.column(:username, {:title => t(:label_isp_connection_username)}) %>
+    <% builder.column(:object_symbol, {:title => t(:label_isp_connection_object_symbol)}) %>
     <% builder.column(:description, {:title => t(:description)}) %>
     <% builder.column(:updated_at, {:title => t(:slm_calendar_last_updated)}) %>
 <% end %>
