@@ -41,7 +41,7 @@ namespace :irm do
               miss_language = model.new(t.attributes)
               miss_language.id = nil
               miss_language.language = language
-              #miss_language.save
+              miss_language.save
             end
           end
         end
