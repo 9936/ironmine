@@ -31,13 +31,26 @@ namespace :irm do
 
     ActiveRecord::Base.subclasses.each do |type|
       model = type.name.constantize
+
+      foreign_key = nil
       if model.table_name.match(/^[a-z]+[a-z|_]*_tl$/i)
+
         model.where("language = ?", "en").each do |t|
+          unless foreign_key.present?
+            t.attribute_names.each do |at|
+              if !at.eql?("opu_id") && at.match(/^[a-z|_]+_id$/i)
+                foreign_key = at
+                break
+              end
+            end
+          end
+
           languages.each do |language|
             if language.eql?("en")
               next
             end
-            unless model.where("language = ?", language).first
+            unless model.where("language = ? AND #{foreign_key}=?", language, t[foreign_key.to_sym]).first.present?
+              puts "Add #{language} record to #{model.table_name}"
               miss_language = model.new(t.attributes)
               miss_language.id = nil
               miss_language.language = language
