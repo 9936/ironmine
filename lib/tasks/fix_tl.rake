@@ -37,7 +37,7 @@ namespace :irm do
             if language.eql?("en")
               next
             end
-            unless model.where("language = ?", language)
+            unless model.where("language = ?", language).first
               miss_language = model.new(t.attributes)
               miss_language.id = nil
               miss_language.language = language
