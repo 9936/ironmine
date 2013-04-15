@@ -31,34 +31,67 @@ namespace :irm do
 
     ActiveRecord::Base.subclasses.each do |type|
       model = type.name.constantize
+      if model.respond_to?(:multilingual)&&model.respond_to?(:view_name)
+        lang_model = model.multilingual_options[:lang_model].constantize
+        lang_relation = model.multilingual_options[:lang_relation]
 
-      foreign_key = nil
-      if model.table_name.match(/^[a-z]+[a-z|_]*_tl$/i)
-
-        model.where("language = ?", "en").each do |t|
-          unless foreign_key.present?
-            t.attribute_names.each do |at|
-              if !at.eql?("opu_id") && at.match(/^[a-z|_]+_id$/i)
-                foreign_key = at
-                break
-              end
+        model.all.each do |mt|
+          current_languages = []
+          en_tl = nil
+          mt.send(lang_relation.to_sym).each do |lang|
+            if lang[:language].eql?("en")
+              en_tl = lang
             end
+            current_languages << lang[:language]
           end
-
-          languages.each do |language|
-            if language.eql?("en")
-              next
-            end
-            unless model.where("language = ? AND #{foreign_key}=?", language, t[foreign_key.to_sym]).first.present?
-              puts "Add #{language} record to #{model.table_name}"
-              miss_language = model.new(t.attributes)
+          missing_tls = languages - current_languages
+          if en_tl.present? && missing_tls.any?
+            missing_tls.each do |missing_tl|
+              puts "Add #{missing_tl} record to #{lang_model.table_name}"
+              miss_language = lang_model.new(en_tl.attributes)
               miss_language.id = nil
-              miss_language.language = language
+              miss_language.language = missing_tl
               miss_language.save
             end
+
           end
         end
+
       end
+
+
+
+      #foreign_key = nil
+      #
+      #if model.table_name.match(/^[a-z]+[a-z|_]*_tl$/i)
+      #
+      #  model.where("language = ?", "en").each do |t|
+      #    unless foreign_key.present?
+      #      t.attribute_names.each do |at|
+      #        if !at.eql?("opu_id") && at.match(/^[a-z|_]+_id$/i)
+      #          if t[at.to_sym].present?
+      #            foreign_key = at
+      #            break
+      #          end
+      #        end
+      #      end
+      #    end
+      #
+      #    ['zh','en', 'ja'].each do |language|
+      #      if language.eql?("en")
+      #        next
+      #      end
+      #      unless model.where("language = ? AND #{foreign_key}=?", language, t[foreign_key.to_sym]).first.present?
+      #        puts "Add #{language} record to #{model.table_name},  #{foreign_key}"
+      #
+      #        miss_language = model.new(t.attributes)
+      #        miss_language.id = nil
+      #        miss_language.language = language
+      #        miss_language.save
+      #      end
+      #    end
+      #  end
+      #end
     end
     puts "Fixed successfully......"
     ##查看表中的记录数是否已经填写
