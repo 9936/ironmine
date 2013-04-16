@@ -112,6 +112,7 @@
         // Construct the node container(s)
         var $nodeRow = $("<tr/>").addClass("node-cells");
         var $nodeCell = $("<td/>").addClass("node-cell").attr("colspan", 2);
+
         var $childNodes = $node.children("ul:first").children("li");
         var $nodeDiv;
 
@@ -129,11 +130,15 @@
         //Increaments the node count which is used to link the source list and the org chart
         nodeCount++;
         $node.data("tree-node", nodeCount);
+
         $nodeDiv = $("<div>").addClass("node")
             .data("tree-node", nodeCount)
             .attr("data-toggle", "popover")
-            .attr("data-content", "Hello, this is a popover tip.")
             .append($nodeContent);
+
+        if(level > 0){
+            $nodeDiv.attr("data-content", $node.data("tip-text"));
+        }
 
         // Expand and contract nodes
         if (opts.collapse && $childNodes.length > 0) {
@@ -165,7 +170,7 @@
 
         if($childNodes.length > 0) {
             // if it can be expanded then change the cursor
-            if(opts.opts.collapse){
+            if(opts.collapse){
                 $nodeDiv.css('cursor','n-resize');
             }
 

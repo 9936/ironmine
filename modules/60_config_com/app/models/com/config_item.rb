@@ -32,7 +32,9 @@ class Com::ConfigItem < ActiveRecord::Base
 
   def relation_items
     Com::ConfigItem.joins("JOIN #{Com::ConfigItemRelation.table_name} cir ON #{Com::ConfigItem.table_name}.id=cir.relation_config_item_id").
-        where("cir.config_item_id=?", self.id)
+        joins("JOIN #{Com::ConfigRelationTypesTl.table_name} crtl ON crtl.config_relation_type_id=cir.config_relation_type_id").
+        select("#{Com::ConfigItem.table_name}.*, crtl.name relation_type_name").
+        where("cir.config_item_id=? AND crtl.language=?", self.id, I18n.locale)
   end
 
 end
