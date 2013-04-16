@@ -14,9 +14,16 @@ class Com::ConfigItem < ActiveRecord::Base
   end
 
   scope :with_config_class,lambda{
+
     joins("LEFT OUTER JOIN #{Com::ConfigClass.view_name} ON #{table_name}.config_class_id=#{Com::ConfigClass.view_name}.id and #{Com::ConfigClass.view_name}.language='#{I18n.locale}'").
         select("#{Com::ConfigClass.view_name}.name config_class_name")
   }
+
+  scope :available, lambda{|config_item_id|
+     joins("JOIN #{Com::ConfigItemRelation.table_name} cir ON #{table_name}.id =cir.config_item_id").
+         where("cir.id !=? AND #{table_name}.id !=?", config_item_id, config_item_id)
+  }
+
   scope :with_managed_group,lambda{
     if Ironmine::Application.config.fwk.modules.include?("slm")
       joins("LEFT OUTER JOIN #{Icm::SupportGroup.multilingual_view_name} ON #{table_name}.managed_group_id=#{Icm::SupportGroup.multilingual_view_name}.id and #{Icm::SupportGroup.multilingual_view_name}.language='#{I18n.locale}'").
@@ -35,6 +42,19 @@ class Com::ConfigItem < ActiveRecord::Base
         joins("JOIN #{Com::ConfigRelationTypesTl.table_name} crtl ON crtl.config_relation_type_id=cir.config_relation_type_id").
         select("#{Com::ConfigItem.table_name}.*, crtl.name relation_type_name").
         where("cir.config_item_id=? AND crtl.language=?", self.id, I18n.locale)
+  end
+
+  def parent_nodes
+    items = []
+    parents = Com::ConfigItem.joins("JOIN #{Com::ConfigItemRelation.table_name} cir ON #{Com::ConfigItem.table_name}.id=cir.config_item_id").
+        where("cir.relation_config_item_id=?", self.id)
+    if parents.any?
+      parents.each do |item|
+        items << item
+        items += item.parent_nodes
+      end
+    end
+    items.uniq
   end
 
 end
