@@ -10,15 +10,14 @@ module Com::ConfigItemsHelper
 
   def build_org_chart(items, parent = nil)
     if parent.present?
-      html = "<ul>"
-      tip_text_pre = parent[:item_number]
+      html = "<ul data-tip-text='#{parent[:item_number]}'>"
+      #tip_text_pre = parent[:item_number]
     else
       html = "<ul id='org' style='display:none'>"
     end
     items.each do |item|
       if item[:relation_type_name].present?
-        tip_text = "#{tip_text_pre} #{item[:relation_type_name]} #{item[:item_number]}"
-        html += "<li data-tip-text='#{tip_text}'>#{item[:item_number]}"
+        html += "<li data-tip-text='#{item[:item_number]}' data-tip-ship='#{item[:relation_type_name]}'>#{item[:item_number]}"
       else
         html += "<li data-tip-text='#{item[:item_number]}'>#{item[:item_number]}"
       end

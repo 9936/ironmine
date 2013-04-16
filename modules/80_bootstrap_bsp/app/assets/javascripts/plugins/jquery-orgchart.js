@@ -137,7 +137,21 @@
             .append($nodeContent);
 
         if(level > 0){
-            $nodeDiv.attr("data-content", $node.data("tip-text"));
+            var tipText = ""
+            if($node.parent().data("tip-text")) {
+                tipText += $node.parent().data("tip-text") + "&nbsp;";
+            }
+            if($node.data("tip-ship")) {
+                tipText += "<span class='label label-info'>"+ $node.data("tip-ship") +"</span>"+ "&nbsp;";
+            }
+            if($node.data("tip-text")) {
+                tipText += $node.data("tip-text") + "&nbsp;";
+            }
+            if(tipText !== ""){
+                $nodeDiv.attr("data-content", tipText);
+            }
+
+
         }
 
         // Expand and contract nodes
