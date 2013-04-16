@@ -119,5 +119,9 @@
             collapse: false
         });
         $(".node").popover();
+
+        var chartModal = $("#chartModal");
+        chartModal.css("margin-left",- chartModal.width()/2)
+                .css("margin-top",- chartModal.height()/2);
     });
 </script>
