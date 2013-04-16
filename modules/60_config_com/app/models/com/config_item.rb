@@ -30,4 +30,9 @@ class Com::ConfigItem < ActiveRecord::Base
         select("#{Irm::Person.table_name}.full_name managed_person_name")
   }
 
+  def relation_items
+    Com::ConfigItem.joins("JOIN #{Com::ConfigItemRelation.table_name} cir ON #{Com::ConfigItem.table_name}.id=cir.relation_config_item_id").
+        where("cir.config_item_id=?", self.id)
+  end
+
 end
