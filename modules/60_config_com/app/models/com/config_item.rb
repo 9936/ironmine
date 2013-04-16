@@ -14,14 +14,14 @@ class Com::ConfigItem < ActiveRecord::Base
   end
 
   scope :with_config_class,lambda{
-
     joins("LEFT OUTER JOIN #{Com::ConfigClass.view_name} ON #{table_name}.config_class_id=#{Com::ConfigClass.view_name}.id and #{Com::ConfigClass.view_name}.language='#{I18n.locale}'").
         select("#{Com::ConfigClass.view_name}.name config_class_name")
   }
 
   scope :available, lambda{|config_item_id|
-     joins("JOIN #{Com::ConfigItemRelation.table_name} cir ON #{table_name}.id =cir.config_item_id").
-         where("cir.id !=? AND #{table_name}.id !=?", config_item_id, config_item_id)
+    select("#{table_name}.*").
+        where("NOT EXISTS (SELECT * FROM com_config_item_relations cir WHERE #{table_name}.id = cir.relation_config_item_id AND cir.config_item_id = '#{config_item_id}')").
+        where("#{table_name}.id !=?", config_item_id)
   }
 
   scope :with_managed_group,lambda{
