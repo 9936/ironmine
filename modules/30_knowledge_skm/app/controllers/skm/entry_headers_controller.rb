@@ -1184,4 +1184,41 @@ class Skm::EntryHeadersController < ApplicationController
       format.xml { render :xml => @entry_header }
     end
   end
+
+  def lov_search
+    unless params[:lksrch].present?
+      params[:lksrch] = "%"
+    end
+    render :layout => "frame"
+  end
+
+  def lov_result
+    @business_object = Irm::BusinessObject.find(params[:lktp])
+    @datas = []
+    @fields = []
+    unless params[:lksrch].present?
+      params[:lksrch] = "%"
+    end
+    if params[:lov_params].present?&&params[:lov_params].is_a?(String)&&params[:lov_params].include?("{")
+      params[:lov_params] = eval(params[:lov_params])
+    end
+    if params[:channel_id].present?
+      params[:lov_params] ||= {}
+      params[:lov_params][:channel_id] = params[:channel_id]
+    end
+    current_page = params[:page] ||= 1
+    if current_page.to_i < 1
+      current_page = 1
+    end
+
+    params[:count] = 5
+    params[:start] = (current_page.to_i - 1) * params[:count]
+    @fields,datas_scope = @business_object.lookup(params[:lksrch],params[:lkvfid],params)
+
+    @datas, @count = paginate(datas_scope)
+    respond_to do |format|
+      format.html {render :layout => "frame"}
+    end
+  end
+
 end

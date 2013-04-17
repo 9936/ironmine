@@ -113,7 +113,9 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "skm/entry_books" => ["index", "edit", "update", "new", "create", "get_data", "show", "add_entry",
                                     "remove_entry", "get_owner_entry_data", "multilingual_edit", "multilingual_update",
-                                    "switch_sequence","preview","export","update_display_name"]
+                                    "switch_sequence","preview","export","update_display_name"],
+
+              "skm/entry_headers" => ["lov_search", "lov_result"]
           }
       }
   }

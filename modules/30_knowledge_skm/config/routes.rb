@@ -37,6 +37,8 @@ Rails.application.routes.draw do
       match '/entry_templates/:detail_id/update_detail(.:format)' => "entry_templates#update_detail"
       #entry_headers
       match '/entry_headers(/index)(.:format)' => "entry_headers#index", :via => :get
+      match '/entry_headers/lov_search(.:format)' => "entry_headers#lov_search"
+      match '/entry_headers/lov_result(.:format)' => "entry_headers#lov_result"
       match '/entry_headers/:id/edit(.:format)' => "entry_headers#edit", :via => :get
       match '/entry_headers/portlet(.:format)' => "entry_headers#portlet", :via => :get
       match '/entry_headers/:id/update(.:format)' => "entry_headers#update", :via => [:put, :post]
