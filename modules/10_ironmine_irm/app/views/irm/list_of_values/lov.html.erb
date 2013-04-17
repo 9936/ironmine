@@ -7,7 +7,8 @@
 </head>
 <frameset border="0" frameborder="0" framespacing="0" cols="250" rows="100,*">
   <frame scrolling="auto" framespacing="0" marginheight="0" marginwidth="0" noresize="noresize" frameborder="0" id="searchFrame" name="searchFrame"
-         src="<%= url_for(:action=>"lov_search",
+         src="<%= url_for(:controller => @lov_params[:lov_search][:controller],
+                          :action=> @lov_params[:lov_search][:action],
                           :lkfm=>params[:lkfm],
                           :lkfid=>params[:lkfid],
                           :lkvfid=>params[:lkvfid],
@@ -15,7 +16,8 @@
                           :lksrch=>params[:lksrch],:lov_params=>params[:lov_params])%>"
   title="" />
   <frame scrolling="auto" framespacing="0" marginheight="0" marginwidth="0" frameborder="0" id="resultsFrame" name="resultsFrame"
-         src="<%= url_for(:action=>"lov_result",
+         src="<%= url_for(:controller => @lov_params[:lov_result][:controller],
+                          :action=> @lov_params[:lov_result][:action],
                           :lkfm=>params[:lkfm],
                           :lkfid=>params[:lkfid],
                           :lkvfid=>params[:lkvfid],
@@ -23,4 +25,5 @@
                           :lksrch=>params[:lksrch],:lov_params=>params[:lov_params])%>"
   title="" />
 </frameset>
+
 </html>

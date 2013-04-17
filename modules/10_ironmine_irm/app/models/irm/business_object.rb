@@ -216,8 +216,6 @@ class Irm::BusinessObject < ActiveRecord::Base
       datas = bo_model_name.constantize.send(:lov,datas,params)
     end
 
-    datas = datas.limit(15)
-
     return [fields,datas]
   end
 

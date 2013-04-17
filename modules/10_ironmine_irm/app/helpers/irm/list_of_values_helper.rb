@@ -40,19 +40,36 @@ module Irm::ListOfValuesHelper
     end
 
     lov_params = options.delete(:lov_params)
+    custom_params = options.delete(:custom_params)
+
     hidden_tag_str = hidden_field_tag(name,value,{:name=>options.delete(:name)||name,:id=>lov_field_id,:href=>url_for({:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id}.merge(:lov_params=>lov_params))})
     label_tag_str = text_field_tag("#{name.to_s.gsub("[","_").gsub("]","")}_label",label_value,options.merge(:id=>"#{lov_field_id}_label",:onchange=>"clearLookup('#{lov_field_id}')"))
+
+    lov_controller_action = {:controller => "irm/list_of_values",:action=>"lov"}
+    lov_result_controller_action = {:controller => "irm/list_of_values",:action=>"lov_result"}
+    if custom_params
+      if custom_params[:lov].present?
+        lov_controller_action = custom_params[:lov]
+      end
+
+      if custom_params[:lov_result]
+        lov_result_controller_action = custom_params[:lov_result]
+      end
+    end
+
 
     onblur_script = %Q(
       $(document).ready(function(){
          var relation_submit = "#{relation_submit}",
-             url = '#{url_for({:controller => "irm/list_of_values",:action=>"lov_result",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id}.merge(:lov_params=>lov_params))}',
+             url = '#{url_for(lov_result_controller_action.merge({:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id}).merge(:lov_params=>lov_params))}',
              lov_field_id = "#{lov_field_id}";
          checkLovResult(url,lov_field_id,relation_submit);
       });
     )
 
-    link_click_action = %Q(javascript:openLookup('#{url_for({:controller => "irm/list_of_values",:action=>"lov",:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id}.merge(:lov_params=>lov_params))}'+'&lksrch='+$('##{lov_field_id}_label').val(),670))
+
+
+    link_click_action = %Q(javascript:openLookup('#{url_for(lov_controller_action.merge({:lkfid=>lov_field_id,:lkvfid=>lov_value_field,:lktp=>bo.id}).merge(:lov_params=>lov_params))}'+'&lcps=#{custom_params}&lksrch='+$('##{lov_field_id}_label').val(),670))
 
     if limit_device?
       lov_link_str = link_to({},{:id => "#{lov_field_id}_btn",:class=>"btn lov-btn add-on",:href=>link_click_action,:onclick=>"setLastMousePosition(event)"}) do
@@ -124,5 +141,59 @@ module Irm::ListOfValuesHelper
     end
     data
   end
+
+  #分页显示记录
+  def lov_paginate(total=0, page = 1, per_page = 10, limit_page = 10)
+    #总的页码
+    total_page = total % per_page == 0? total/per_page : total/per_page + 1
+    page_html = '<div class="pagination" style="float: right;"><ul>'
+
+    if total_page >= page and page > 0 and total_page > 1
+      #计算显示的开始页码和结尾页码
+      start_page = page - (limit_page % 2 == 0? limit_page/2 - 1 : limit_page/2)
+      end_page = page + limit_page/2
+      if start_page < 1
+        start_page = 1
+        if total_page > limit_page
+          end_page = limit_page
+        else
+          end_page = total_page
+        end
+      end
+      if end_page > total_page
+        end_page = total_page
+        if (end_page - limit_page) > 0
+          start_page = end_page - limit_page + 1
+        else
+          start_page = 1
+        end
+      end
+      #显示前一页
+      if page > 1
+        page_html += "<li>"
+        page_html += link_to t(:label_search_previous_page), "javascript:void(0);", :page => page - 1
+        page_html += "</li>"
+      end
+      #显示中间页码
+      (start_page..end_page).each do |i|
+        if i.to_i.eql?(page.to_i)
+          page_html += '<li class="disabled">'
+          page_html += link_to i.to_s, "javascript:void(0);", :page => i
+        else
+          page_html += '<li>'
+          page_html += link_to i.to_s, "javascript:void(0);", :page => i
+        end
+        page_html += "</li>"
+      end
+      #显示下一页
+      if page < total_page
+        page_html += link_to t(:label_search_next_page), "javascript:void(0);", :page => page + 1
+      end
+    end
+    page_html += " </ul></div>"
+    page_html.html_safe
+  end
+
+
 
 end
