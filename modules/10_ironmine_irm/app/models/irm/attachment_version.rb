@@ -247,7 +247,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
                                 :file_category=>version.category_id,
                                 :file_size=>version.data_file_size,
                                 :description=>version.description,
-                                :private_flag=>version.private_flag,
+                                #:private_flag=>version.private_flag,
                                 :source_file_name => version.source_file_name)
   end
 
