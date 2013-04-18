@@ -24,6 +24,7 @@
           <% end %>
           <% builder.column(:download_count,{:title=>t(:label_skm_file_download_count),:width => "100px"})%>
           <% builder.column(:description,{:title=>t(:description),:searchable => true})%>
+          <% builder.column(:full_name,{:title=>t(:label_skm_file_created_by), :width => "100px"})%>
           <% builder.column(:data_file_size,{:title=>t(:label_skm_file_size), :width => "100px"})%>
           <% builder.column(:data_updated_at,{:title=>t(:label_skm_file_data_updated_at),:width=>"130px"})%>
       <% end %>

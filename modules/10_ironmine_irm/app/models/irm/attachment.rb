@@ -19,7 +19,7 @@ class Irm::Attachment < ActiveRecord::Base
     joins(", #{Irm::Person.table_name} p").
     where("fv.id = av.category_id").
     where("fv.id = fvt.lookup_value_id").
-    where("#{table_name}.created_by = p.id").
+    where("#{table_name}.updated_by = p.id").
     where("fvt.language = ?", I18n.locale).
     where("#{table_name}.latest_version_id = av.id")
   }
@@ -35,7 +35,4 @@ class Irm::Attachment < ActiveRecord::Base
     self.attachment_versions.where("id = ?", self.latest_version_id).first
   end
 
-  def history_versions
-    attachment_versions.where("attachment_id=? AND id !=?", self.id, self.latest_version_id).order("created_at DESC")
-  end
 end

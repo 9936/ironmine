@@ -169,7 +169,8 @@ class Skm::FileManagementsController < ApplicationController
   end
 
   def get_version_files
-    @history_versions = Irm::Attachment.find(params[:id]).history_versions
+    attachment = Irm::Attachment.find(params[:id])
+    @history_versions = Irm::AttachmentVersion.history_versions(attachment.id, attachment.latest_version_id)
   end
   
   def remove_version_file
