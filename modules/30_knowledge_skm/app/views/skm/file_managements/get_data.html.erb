@@ -6,7 +6,7 @@
       <% end %>
       <%= link_to(t(:label_skm_file_download),{:controller => "skm/file_managements", :action=>"download",:id=>data[:id], :version_id => data[:version_id],:data_file_name=> data[:data_file_name]}, :class => "action-link", :target => "_blank") %>&nbsp;|
       <%= link_to(t(:label_skm_file_history_versions),{:controller => "skm/file_managements", :action => "get_version_files", :id => data[:id]}, :class => "action-link") %>
-      <% if data[:created_by].eql?(Irm::Person.current.id) %>
+      <% if data[:created_by].eql?(Irm::Person.current.id) && data[:version_id].present? %>
         |<%= link_to(t(:label_action_version_details),{:controller => "skm/file_managements", :action => "version_details", :id => data[:version_id]}, :class => "action-link") %>
       <% end %>
     <% end %>
