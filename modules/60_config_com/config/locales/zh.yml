@@ -50,6 +50,8 @@ zh:
   label_com_config_item_error_no_such_attribute: 没有这个ID的属性
   label_com_config_item_error_value_required: %{name}：值不能为空
   label_com_config_item_config_status: 配置状态
+  label_com_config_item_org_chart: 结构图
+  label_com_config_item_org_chart_title: 配置项关联结构图
   #===========================end config item==============================#
 
 

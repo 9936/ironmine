@@ -19,7 +19,7 @@
           </tr>
           <tr>
             <td class="label-col"><label><%=(t :label_com_config_item_relation_config_item)%></label></td>
-            <td class="data-col"><%= f.select :relation_config_item_id, nullable_options_for_select(available_config_item, @config_item_relation.relation_config_item_id )
+            <td class="data-col"><%= f.select :relation_config_item_id, nullable_options_for_select(available_config_item(@config_item), @config_item_relation.relation_config_item_id )
             %></td>
     
             <td class="label-col"></td>

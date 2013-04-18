@@ -290,4 +290,5 @@ class Skm::EntryBooksController < ApplicationController
       }
     end
   end
+
 end

@@ -208,6 +208,10 @@ class Skm::EntryHeader < ActiveRecord::Base
       #当是关联知识专题
       if "entry_book".eql?(params[:lov_params][:lktkn]) && params[:lov_params][:entry_book_id].present?
         lov_scope = lov_scope.where("#{self.table_name}.history_flag='N' AND #{self.table_name}.entry_status_code='PUBLISHED' AND NOT EXISTS(SELECT 1 FROM #{Skm::EntryBookRelation.table_name} sebr WHERE (sebr.relation_type='ENTRYHEADER' AND sebr.target_id=#{self.table_name}.id AND sebr.book_id=? ) )", params[:lov_params][:entry_book_id] )
+        if params[:lov_params][:channel_id].present?
+          lov_scope = lov_scope.where("#{self.table_name}.channel_id=?", params[:lov_params][:channel_id])
+        end
+        lov_scope
       end
 
     end

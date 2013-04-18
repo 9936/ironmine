@@ -168,6 +168,15 @@ class Irm::ListOfValuesController < ApplicationController
   # lktp lookup type
   # lksrch lookup search
   def lov
+    @lov_params = {:lov_search => {:controller => "irm/list_of_values", :action => "lov_search"},
+                   :lov_result => {:controller => "irm/list_of_values", :action => "lov_result"}}
+    if params[:lcps].present?&&params[:lcps].is_a?(String)&&params[:lcps].include?("{")
+      custom_params = eval(params[:lcps])
+      if custom_params
+        @lov_params = @lov_params.merge(custom_params)
+      end
+    end
+
     render :layout => nil
   end
 
@@ -189,6 +198,7 @@ class Irm::ListOfValuesController < ApplicationController
       params[:lov_params] = eval(params[:lov_params])
     end
     @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid],params)
+    @datas = @datas.limit(15)
     respond_to do |format|
       format.html {render :layout => "frame"}
       format.json {
