@@ -1,0 +1,10 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:data_file_name,{:title=>t(:label_skm_file_name),:width=>"300px"}) do |data| %>
+      <%=data_version_file_name(@version) %>
+    <% end %>
+    <% builder.column(:full_name,{:title=>t(:label_skm_file_download_person), :width => "100px"})%>
+    <% builder.column(:created_at,{:title=>t(:label_skm_file_download_date),:width=>"130px"})%>
+    <% builder.column(:description,{:title=>t(:description)}) do |data| %>
+      <%= @version[:description] %>
+    <% end %>
+<% end %>

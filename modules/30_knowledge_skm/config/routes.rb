@@ -118,6 +118,8 @@ Rails.application.routes.draw do
       match '/file_managements/:id/destroy(.:format)' => "file_managements#destroy"
       match '/file_managements/:id/get_version_files(.:format)' => "file_managements#get_version_files"
       match '/file_managements/:id/get_version_files(.:format)' => "file_managements#get_version_files"
+      match '/file_managements/:id/version_details(.:format)' => "file_managements#version_details"
+      match '/file_managements/:id/download_data(.:format)' => "file_managements#download_data"
       match '/file_managements/:id/remove_version_file(.:format)' => "file_managements#remove_version_file"
 
       #skm_setting

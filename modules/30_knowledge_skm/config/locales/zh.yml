@@ -146,8 +146,12 @@ zh:
   label_skm_file_add_line: 增加附件
   label_skm_file_download: 下载
   label_skm_file_download_count: 下载次数
+  label_skm_file_download_people: 下载人员列表
+  label_skm_file_download_person: 下载人
+  label_skm_file_download_date: 下载日期
   label_skm_file_history_versions: 历史版本
   label_action_get_version_files: 查看历史版本
+  label_action_version_details: 下载记录
   label_skm_file_created_by: 上传者
   #=========================side bar==========================================
   label_skm_last_ten: 最近的文章

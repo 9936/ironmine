@@ -168,6 +168,16 @@ class Skm::FileManagementsController < ApplicationController
     end
   end
 
+  def version_details
+    @version = Irm::AttachmentVersion.find(params[:id])
+  end
+
+  def download_data
+    @version = Irm::AttachmentVersion.find(params[:id])
+    download_people_scope = Irm::AttachmentCounter.download_people(@version.id)
+    @datas,@count = paginate(download_people_scope)
+  end
+
   def get_version_files
     attachment = Irm::Attachment.find(params[:id])
     @history_versions = Irm::AttachmentVersion.history_versions(attachment.id, attachment.latest_version_id)
