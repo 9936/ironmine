@@ -150,6 +150,10 @@ ja:
   label_action_get_version_files: Show history versions
   label_action_version_details: Download logs
   label_skm_file_created_by: Author
+  lanel_skm_file_access_private: Private
+  label_skm_file_access_public: Public
+  label_skm_file_access_members: Designated members of visible
+  label_skm_file_access_types: Access Types
   #=========================side bar==========================================
   label_skm_last_ten: Last Entries
   label_skm_navigate_menu: Navigator
