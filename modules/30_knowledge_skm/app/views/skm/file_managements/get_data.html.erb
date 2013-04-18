@@ -13,9 +13,12 @@
     <% builder.column(:data_file_name,{:title=>t(:label_skm_file_name),:searchable => true,:width=>"300px"}) do |data| %>
       <%= data_file_name(data) %>
     <% end %>
-    <% builder.column(:download_count,{:title=>t(:label_skm_file_download_count),:width => "100px"})%>
-    <% builder.column(:description,{:title=>t(:description),:searchable => true})%>
+    <% builder.column(:access_type,{:title=>t(:label_skm_file_access_types),:width => "100px"}) do |data| %>
+      <%= access_type_meaning(data[:access_type]) %>
+    <% end %>
     <% builder.column(:full_name,{:title=>t(:label_skm_file_created_by), :width => "100px"})%>
     <% builder.column(:data_file_size,{:title=>t(:label_skm_file_size), :width => "100px"})%>
+    <% builder.column(:download_count,{:title=>t(:label_skm_file_download_count),:width => "100px"})%>
     <% builder.column(:data_updated_at,{:title=>t(:label_skm_file_data_updated_at),:width=>"130px"})%>
+    <% builder.column(:description,{:title=>t(:description),:searchable => true})%>
 <% end %>
