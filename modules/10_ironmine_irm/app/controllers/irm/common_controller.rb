@@ -233,6 +233,21 @@ class Irm::CommonController < ApplicationController
              where("#{incident_request_table}.incident_status_id = ?", close_statis)
     @ttr_persent = tmp_data.any? ? ((tmp_data.first[:diff]/tmp_data.first[:total].to_f * 100).round / 100.0).to_f : 0.to_f
 
+    intime = 0
+
+    sla_records = Slm::SlaInstance.all
+    sla_records.each do |slai|
+      if "START".eql?(slai.last_phase_type)
+        calendar = slai.service_agreement.calendar
+        slai.current_duration = slai.current_duration.to_i+calendar.working_time(slai.last_phase_start_date,Time.now)
+      end
+      if  slai.current_duration < slai.max_duration
+        intime = intime + 1
+      end
+    end
+
+    @sla_persent = sla_records.size == 0 ? 0.to_f : ((intime/sla_records.size.to_f * 100).round / 100.0).to_f
+
     respond_to do |format|
       format.html
     end
