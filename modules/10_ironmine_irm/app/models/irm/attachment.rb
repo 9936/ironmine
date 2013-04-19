@@ -15,7 +15,7 @@ class Irm::Attachment < ActiveRecord::Base
         joins("LEFT JOIN #{Irm::AttachmentMember.table_name} iam ON #{table_name}.id=iam.attachment_id").
         joins("LEFT JOIN #{Irm::Person.table_name} p ON #{table_name}.created_by = p.id").
         joins("LEFT JOIN #{Irm::AttachmentVersion.table_name} av ON(av.attachment_id=#{table_name}.id AND av.id = #{table_name}.latest_version_id)").
-        where("(#{table_name}.access_type='PUBLIC') OR (#{table_name}.access_type='PRIVATE' AND #{table_name}.created_by='#{person_id}' ) OR (#{table_name}.access_type='MEMBERS' AND (EXISTS(SELECT 1 FROM irm_person_relations_v iprv WHERE iprv.source_id=iam.member_id AND iprv.source_type=iam.member_type AND iprv.person_id = '#{person_id}' ) ) ) ")
+        where("(#{table_name}.access_type='PUBLIC' OR #{table_name}.created_by='#{person_id}') OR (#{table_name}.access_type='PRIVATE' AND #{table_name}.created_by='#{person_id}' ) OR (#{table_name}.access_type='MEMBERS' AND (EXISTS(SELECT 1 FROM irm_person_relations_v iprv WHERE iprv.source_id=iam.member_id AND iprv.source_type=iam.member_type AND iprv.person_id = '#{person_id}' ) ) ) ")
   }
 
   scope :list_all, lambda{
