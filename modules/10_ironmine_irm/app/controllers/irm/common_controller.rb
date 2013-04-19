@@ -246,7 +246,7 @@ class Irm::CommonController < ApplicationController
       end
     end
 
-    @sla_persent = sla_records.size == 0 ? 0.to_f : ((intime/sla_records.size.to_f * 100).round / 100.0).to_f
+    @sla_persent = sla_records.size == 0 ? 0.to_f : ((intime/sla_records.size.to_f * 100 * 100).round / 100.0).to_f
 
     respond_to do |format|
       format.html
