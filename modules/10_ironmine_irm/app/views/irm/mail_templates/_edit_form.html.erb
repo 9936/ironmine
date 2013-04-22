@@ -82,14 +82,17 @@
     <div class="tabs-container">
       <div class="mx-tabs">
          <ul class="mx-nav-tabs clear-fix" currentlang="<%= I18n.locale %>">
+           <% current_languages = @mail_template.mail_templates_tls.map(&:language) %>
            <% available_languages.each do |language| %>
-              <li <% if I18n.locale.to_s.eql?language[:language_code].to_s %> class="active" <% end %>><a class="language" data-toggle="tab" id="<%= language[:language_code]%>" ref="template<%= language[:language_code]%>" href="#template<%= language[:language_code]%>"><%= language[:description] %></a></li>
+              <% if current_languages.include?(language[:language_code].to_s)  %>
+                <li <% if I18n.locale.to_s.eql?language[:language_code].to_s %> class="active" <% end %>><a class="language" data-toggle="tab" id="<%= language[:language_code]%>" ref="template<%= language[:language_code]%>" href="#template<%= language[:language_code]%>"><%= language[:description] %></a></li>
+              <% end %>
            <% end %>
          </ul>
       </div>
       <div class="mx-tab-content">
         <%= f.fields_for :mail_templates_tls,:normal=>true do |tl_f|%>
-          <%= tl_f.hidden_field :mail_body, {:id => 'mail_body_value'+tl_f.object.language} %>
+          <%#= tl_f.hidden_field :mail_body, {:id => 'mail_body_value'+tl_f.object.language} %>
             <div class="mx-tab-pane<% if I18n.locale.to_s.eql?tl_f.object.language.to_s %> active <% end %>" id="template<%= tl_f.object.language%>">
               <table class="form-table" style="margin-top: 10px;">
                 <tbody>
@@ -108,11 +111,13 @@
 
                     <tr>
                       <td class="label-col"><label><%=t(:label_irm_mail_template_mail_body)%></label></td>
-                      <td class="data-2col" colspan="3" style="width: 618px; height: 201px;">
-                        <div class="requiredInput">
-                          <div class="requiredBlock"></div>
-                          <div id="editor<%= tl_f.object.language%>" class="editor"></div>
-                        </div>
+                      <!--<td class="data-2col" colspan="3" style="width: 618px; height: 201px;">-->
+                      <td class="data-2col">
+                        <%= tl_f.text_area :mail_body, :rows => 15, :style => "width: 500px;" %>
+                        <!--<div class="requiredInput">-->
+                          <!--<div class="requiredBlock"></div>-->
+                          <!--<div id="editor<%#= tl_f.object.language%>" class="editor"></div>-->
+                        <!--</div>-->
                       </td>
                     </tr>
                 </tbody>
@@ -172,60 +177,60 @@
   </div>
 <% end %>
 
-<% require_jscss(:aceditor) %>
+<%# require_jscss(:aceditor) %>
 <script type="text/javascript">
   $(document).ready(function(){
-      var languages = [];
-      var currentLanguage =  $(".mx-nav-tabs:first").attr("currentlang");
-      var currentIndex = 0;
-      var currentEditor;
-      var editors = new Array();
-
-      var htmlMode = "ace/mode/html";
-      var plainMode = "ace/mode/text";
-      var currentMode = $("input[name='irm_mail_template[template_type]'][checked]").val();
-      $(".mx-nav-tabs:first li a.language").each(function(){
-          languages.push({contentEl:$(this).attr("ref"),title:$(this).html,ref:$(this).attr("id")});
-      });
-      for(var i=0;i<languages.length;i++) {
-          var editor= ace.edit("editor"+languages[i].ref);
-          if(currentMode && currentMode == 'simple') {
-              editor.getSession().setMode(plainMode);
-          }else {
-              editor.getSession().setMode(htmlMode);
-          }
-          editor.getSession().setValue($("#mail_body_value"+languages[i].ref).val());
-          if(languages[i].ref == currentLanguage) {
-            currentIndex = i;
-            currentEditor = editor;
-          }
-          editors.push(editor);
-      }
-      //点击切换模式函数处理
-      $(".mx-nav-tabs li").bind("click",function(){
-          $("[name='irm_mail_template[template_type]']:radio:checked").trigger('click');
-      });
-      $("[name='irm_mail_template[template_type]']:radio").bind("click",function(){
-          if ($(this).val() && $(this).val() == 'simple') {
-             for(var i=0;i<editors.length;i++) {
-                editors[i].getSession().setMode(plainMode);
-                editors[i].getSession().setValue($("#mail_body_value"+languages[i].ref).val());
-             }
-          }else{
-             for(var i=0;i<editors.length;i++) {
-                editors[i].getSession().setMode(htmlMode);
-                editors[i].getSession().setValue($("#mail_body_value"+languages[i].ref).val());
-             }
-          }
-      });
-
-      //提交表单之前将编辑器中的内容保存到隐藏表单中
-      $("#mail_template").submit(function(){
-        for(var i=0;i<languages.length;i++) {
-            $(this).find("#mail_body_value"+languages[i].ref).val(editors[i].getSession().getValue());
-        }
-        this.submit();
-      });
+//      var languages = [];
+//      var currentLanguage =  $(".mx-nav-tabs:first").attr("currentlang");
+//      var currentIndex = 0;
+//      var currentEditor;
+//      var editors = new Array();
+//
+//      var htmlMode = "ace/mode/html";
+//      var plainMode = "ace/mode/text";
+//      var currentMode = $("input[name='irm_mail_template[template_type]'][checked]").val();
+//      $(".mx-nav-tabs:first li a.language").each(function(){
+//          languages.push({contentEl:$(this).attr("ref"),title:$(this).html,ref:$(this).attr("id")});
+//      });
+//      for(var i=0;i<languages.length;i++) {
+//          var editor= ace.edit("editor"+languages[i].ref);
+//          if(currentMode && currentMode == 'simple') {
+//              editor.getSession().setMode(plainMode);
+//          }else {
+//              editor.getSession().setMode(htmlMode);
+//          }
+//          editor.getSession().setValue($("#mail_body_value"+languages[i].ref).val());
+//          if(languages[i].ref == currentLanguage) {
+//            currentIndex = i;
+//            currentEditor = editor;
+//          }
+//          editors.push(editor);
+//      }
+//      //点击切换模式函数处理
+//      $(".mx-nav-tabs li").bind("click",function(){
+//          $("[name='irm_mail_template[template_type]']:radio:checked").trigger('click');
+//      });
+//      $("[name='irm_mail_template[template_type]']:radio").bind("click",function(){
+//          if ($(this).val() && $(this).val() == 'simple') {
+//             for(var i=0;i<editors.length;i++) {
+//                editors[i].getSession().setMode(plainMode);
+//                editors[i].getSession().setValue($("#mail_body_value"+languages[i].ref).val());
+//             }
+//          }else{
+//             for(var i=0;i<editors.length;i++) {
+//                editors[i].getSession().setMode(htmlMode);
+//                editors[i].getSession().setValue($("#mail_body_value"+languages[i].ref).val());
+//             }
+//          }
+//      });
+//
+//      //提交表单之前将编辑器中的内容保存到隐藏表单中
+//      $("#mail_template").submit(function(){
+//        for(var i=0;i<languages.length;i++) {
+//            $(this).find("#mail_body_value"+languages[i].ref).val(editors[i].getSession().getValue());
+//        }
+//        this.submit();
+//      });
       $("#parameter_bo").cascade("#parameter_field_name");
       $("#parameter_field_name").change(function(e){
           var target = $(e.target);

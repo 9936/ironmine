@@ -20,14 +20,14 @@
   div.control-items th {
       font-weight: bold;
   }
-  #editor {
-    width: 780px;
-    height: 200px;
- }
+  /*#editor {*/
+    /*width: 780px;*/
+    /*height: 200px;*/
+ /*}*/
 </style>
 <%= setting_title %>
 <%= form_for(@mail_template,:url=>{:action=>"create"},:html => {:id => "mail_template"}, :builder => CustomFormBuilder) do |f| %>
-<%= f.hidden_field :mail_body, {:id => 'mail_body_value'} %>
+<%#= f.hidden_field :mail_body, {:id => 'mail_body_value'} %>
   <% content_for :form_block_common   do%>
     <table class="form-table">
       <tbody>
@@ -83,11 +83,13 @@
          </tr>
          <tr>
            <td class="label-col"><label><%=t(:label_irm_mail_template_mail_body)%></label></td>
-           <td class="data-2col" style="width: 800px; height: 201px;">
-             <div class="form-field-required">
-               <span class="form-field-required-flag"></span>
-               <div id="editor"></div>
-             </div>
+           <!--<td class="data-2col" style="width: 800px; height: 201px;">-->
+           <td class="data-2col">
+             <%= f.text_area :mail_body, :rows => 15, :style => "width:500px;" %>
+             <!--<div class="form-field-required">-->
+               <!--<span class="form-field-required-flag"></span>-->
+               <!--<div id="editor"></div>-->
+             <!--</div>-->
            </td>
          </tr>
      </tbody>
@@ -133,28 +135,28 @@
     </table>
   </div>
 <% end %>
-<% require_jscss(:aceditor) %>
+<%# require_jscss(:aceditor) %>
 <script type="text/javascript">
-  window.onload = function() {
-    var editor = ace.edit("editor");
-    var htmlMode = "ace/mode/html";
-    var plainMode = "ace/mode/text";
-    editor.getSession().setMode(htmlMode);
-    editor.getSession().setValue($("#mail_body_value").val());
-    //提交表单之前将编辑器中的内容保存到隐藏表单中
-    $("#mail_template").submit(function(){
-        $(this).find("#mail_body_value").val(editor.getSession().getValue());
-        this.submit();
-    });
-    //点击切换模式函数处理
-    $("[name='irm_mail_template[template_type]']:radio"). bind("click",function(){
-        if ($(this).val() && $(this).val() == 'simple') {
-           editor.getSession().setMode(plainMode);
-        }else{
-           editor.getSession().setMode(htmlMode);
-        }
-    });
-  };
+//  window.onload = function() {
+//    var editor = ace.edit("editor");
+//    var htmlMode = "ace/mode/html";
+//    var plainMode = "ace/mode/text";
+//    editor.getSession().setMode(htmlMode);
+//    editor.getSession().setValue($("#mail_body_value").val());
+//    //提交表单之前将编辑器中的内容保存到隐藏表单中
+//    $("#mail_template").submit(function(){
+//        $(this).find("#mail_body_value").val(editor.getSession().getValue());
+//        this.submit();
+//    });
+//    //点击切换模式函数处理
+//    $("[name='irm_mail_template[template_type]']:radio"). bind("click",function(){
+//        if ($(this).val() && $(this).val() == 'simple') {
+//           editor.getSession().setMode(plainMode);
+//        }else{
+//           editor.getSession().setMode(htmlMode);
+//        }
+//    });
+//  };
   $(function(){
       $("#parameter_bo").cascade("#parameter_field_name");
       $("#parameter_field_name").change(function(e){
