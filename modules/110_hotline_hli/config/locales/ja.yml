@@ -1,97 +1,95 @@
 ja:
-  label_icm_incident_request_hotline: Hotline
-  label_icm_incident_request_hotline_y: Report
-  label_icm_incident_request_hotline_n: Not Report
-  label_icm_incident_request_client_info: Client Info
-  label_icm_incident_request_real_processing_time: Processing Time(H)
-  label_icm_incident_request_cancel_confirm: This request will be cancelled, are you sure?
-  label_icm_incident_request_enable_confirm: This request will be enabled, are you sure?
-  label_icm_incident_request_cancel_request: Cancel Request
-  label_icm_incident_request_enable_request: Enable Request
-  label_icm_incident_journal_edit_workload: Add Workload
-  label_icm_incident_journal_workload_type: Workload type
+  label_icm_incident_request_hotline: ホットライン
+  label_icm_incident_request_hotline_y: レポート
+  label_icm_incident_request_hotline_n: レポートなし
+  label_icm_incident_request_client_info: クライアント情報
+  label_icm_incident_request_client_info: クライアント情報
+  label_icm_incident_request_real_processing_time: 実際処理時間（時）
+  label_icm_incident_request_cancel_confirm: この請求は取消されることを確定しますか
+  label_icm_incident_request_enable_confirm: この請求は使用ことを確定しますか
+  label_icm_incident_request_cancel_request: 取消請求
+  label_icm_incident_request_enable_request: 取消請求
+  label_icm_incident_journal_edit_workload: ワークロード登録
 
-  label_icm_incident_journal_history: Journal Histories
-  label_icm_incident_journal_created_by: Created by
-  label_icm_incident_journal_event: Event
-  label_icm_incident_journal_new_value: New value
-  label_icm_incident_journal_date: Date
+  label_icm_incident_journal_history: 請求履歴
+  label_icm_incident_journal_created_by: 勘定
+  label_icm_incident_journal_event: イベント
+  label_icm_incident_journal_new_value: 修正
+  label_icm_incident_journal_date: 日付
 
-  label_icm_incident_request_remove_journal: Remove Journal
-  label_report_incident_request_update_priority: Update urgence and impact range
+  label_report_incident_request_update_priority: 緊急度と影響範囲更新
 
-  label_icm_incident_request_impact_range: Impact Range
-  label_icm_incident_request_urgence: Urgence
-  label_icm_incident_request_new_reply: Reply
-  label_icm_incident_request_add_watcher: Add Watcher
-  label_icm_incident_request_remove_watcher: Remove Watcher
-  label_icm_incident_request_add_relation: Add Relation
-  label_icm_incident_request_remove_relation: Remove Relation
-  label_icm_incident_request_incident_request: Create Request
-  label_icm_incident_request_attachment: New Attachment
-  label_icm_incident_request_remove_attachment: Remove Attachment
-  label_icm_incident_request_contact_way: Contact
+  label_icm_incident_request_impact_range: 影響範囲
+  label_icm_incident_request_urgence: 緊急度
+  label_icm_incident_request_new_reply: 返答
+  label_icm_incident_request_add_watcher: 監視者追加
+  label_icm_incident_request_remove_watcher: 監視者削除
+  label_icm_incident_request_add_relation: 関連追加
+  label_icm_incident_request_remove_relation: 関連削除
+  label_icm_incident_request_incident_request: 請求登録
+  label_icm_incident_request_attachment: 添付ファイルアップロード
+  label_icm_incident_request_remove_attachment: 添付ファイル削除
+  label_icm_incident_request_contact_way: 連絡と電話番号
+  label_icm_incident_request_remove_journal: 返答削除
+  label_icm_incident_request_contact_number_tip_a: 連絡先名称が入力しなければならなリません。
+  label_icm_incident_request_contact_number_tip_b: 実際の連絡先名称が入力しなければならない。でなければ、請求の処理プロセスを影響する可能性があります。
 
-  label_icm_incident_request_contact_number_tip_a: 请务必输入联系人名字！
-  label_icm_incident_request_contact_number_tip_b: 请务必输入实际联系人名字, 否则有可能影响问题处理进度
+   #========================= hotline project ====================================
+  label_irm_project_new: 新規プロジェクト
+  label_irm_project_name: 名称
+  label_irm_project_description: 説明
+  label_irm_project_code: プロジェクトコード
+  label_irm_project_info: プロジェクト情報
+  label_irm_project_customer_list: 得意先
+  label_irm_project_support_group: サポートグループ
+  label_irm_project: ホットラインプロジェクト
+  label_irm_project_add_person: 得意先メンバー追加
+  label_action_add_person: 得意先勘定追加
+  label_irm_project_add_supporter: メンテナンスメンバー追加
+   #========================== end hotline project  ===============================
 
-  #========================= hotline project ====================================
-  label_irm_project_new: New Project
-  label_irm_project_name: Name
-  label_irm_project_description: Description
-  label_irm_project_code: Project Code
-  label_irm_project_info: Project Information
-  label_irm_project_customer_list: Customers
-  label_irm_project_support_group: Support Group
-  label_action_add_person: Add Customer Account
-  label_irm_project: Hotline Project
-  #========================== end hotline project  ===============================
 
+   #======================= Report incident request month summary ============
+  label_report_incident_request_last_month_unclose: 先月未解決数量
+  label_report_incident_request_this_month_submit: 今月受付数量
+  label_report_incident_request_this_month_close: 今月解決数量
+  label_report_incident_request_this_month_unclose: 今月未解決数量
+  label_report_date_month: 月
+   #======================= Report incident request month summary end=========
 
-  #======================= Report incident request month summary ============
-  label_report_date_month: Month
-  label_report_incident_request_last_month_unclose: Last Month Unclose
-  label_report_incident_request_this_month_submit: Submitted This Month
-  label_report_incident_request_this_month_close: Closed This Month
-  label_report_incident_request_this_month_unclose: Unclosed This Month
-  #=====================Report incident request month summary end=================
+   #======================= Report incident request month processing time ============
+  label_report_submitted_date_and_priority: 提出日付/優先順位
+   #================================================================================
 
-  #======================= Report incident request month processing time ============
-  label_report_submitted_date_and_priority: Submitted Date/Priority
-  #================================================================================
-  #======================= Report incident request month detail ============
-  label_report_incident_request_support: Assign To
-  label_report_incident_request_journal: Journals
-  #================================================================================
-  #========================= incident_amount_by_month_cate report ====================================
-  label_report_icm_incident_category: Category
-  label_report_icm_incident_months: JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC,Total
-  label_report_icm_incident_total:  Total
-  label_report_icm_incident_params_year:  Year
-  label_report_icm_incident_params_ym_s:  Date From
-  label_report_icm_incident_params_ym_e:  Date To
-  label_report_icm_incident_params_month:  Month
-  label_report_icm_incident_report_date:  Report Date
-  label_report_icm_incident_prior:  Priority
-  #========================== end incident_amount_by_month_cate report  ===============================
+   #========================= incident_amount_by_month_cate report ====================================
+  label_report_icm_incident_category: カテゴリー
+  label_report_icm_incident_months: 一月、二月、三月、四月、五月、六月、七月、八月、九月、十月、十一月、十二月、総計
+  label_report_icm_incident_total: 額計
+  label_report_icm_incident_params_year: 年
+  label_report_icm_incident_params_ym_s: 月から
+  label_report_icm_incident_params_ym_e: 月まで
+  label_report_icm_incident_params_month: 月
+  label_report_icm_incident_report_date: レポート日付
+  label_report_icm_incident_prior: 優先順位
+   #========================== end incident_amount_by_month_cate report  ===============================
 
-  #========================== template report  ===================================
-  message_report_template_subject: 您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成
-  message_report_template_content: 您%{m}的时候在HISMS系统中提交的模板报表请求已经执行完成。本次递交模板:%{n}，执行参数:%{o}。执行结果请查阅附件。
-  message_report_template_running: 您提交的请求正在执行，执行完毕后，结果会发到您的联系邮箱。您现在可以关闭本页面。
-  #========================== end template report  ===============================
+   #========================== template report  ===================================
+  message_report_template_subject: %{m} の時に、システムHISMS で提出したテンプレートレポート請求が実行完了しました。
+  message_report_template_content: %{m} の時に、システムHISMS で提出したテンプレートレポート請求が実行完了しました。現提出テンプレート：%{n}、実行パラメータ：%{o}。実行結果は添付ファイルをご参照してください。
+  message_report_template_running: 提出した請求は実行中です。実行完了後、結果のメールは送信します。このページをクローズしてよいです。
+   #========================== end template report  ===============================
 
-  # reports
-  label_percentage: PCT
-  label_amount: Amount
-  label_total_data_size: Total %{m}
-  label_project: Project
-  label_reporter: Reporter
-  label_report_number: Number
-  label_report_request_submit_date: Reported At
-  label_report_request_last_updated: Last Updated At
-  label_report_request_workload: Workload
-  label_action_show_template: Running template report
+   #报表相关
+  label_percentage: 比率
+  label_amount: 数量
+  label_total_data_size: 総計 %{m}
+  label_project: プロジェクト
+  label_reporter: 報告者
+  label_report_number: 番号
+  label_report_request_submit_date: 報告日付
+  label_report_request_last_updated: 最後更新日付
+  label_report_request_workload: ワークロード
+  label_action_show_template: テンプレートレポート実行中
   label_icm_incident_request_update_workload: Update Workload
   label_report_rank: Rank
   label_report_share: Rate
