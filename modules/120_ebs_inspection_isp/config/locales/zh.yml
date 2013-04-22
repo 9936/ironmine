@@ -1,11 +1,14 @@
 zh:
+  #=========================Start Program=======================#
   label_isp_program: 巡检方案
   label_isp_program_list: 方案列表
   label_isp_program_new: 新建方案
   label_isp_program_edit: 编辑方案
   label_isp_program_name: 方案名称
   label_isp_program_description: 方案描述
+  #=========================End Program=======================#
 
+  #=========================Start Connection=======================#
   label_isp_connection: 连接
   label_isp_connection_list: 连接列表
   label_isp_connection_new: 新建连接
@@ -15,11 +18,13 @@ zh:
   label_isp_connection_username: 用户
   label_isp_connection_password: 密码
   label_isp_connection_object_symbol: 符号
+  #=========================End Connection=======================#
 
-  label_isp_check_parameter: 巡检参数
+  #=========================Start Check Parameter=======================#
+  label_isp_parameter: 巡检参数
   label_isp_parameter_list: 参数列表
-  label_isp_check_parameter_new: 新建参数
-  label_isp_check_parameter_edit: 修改参数
+  label_isp_parameter_new: 新建参数
+  label_isp_parameter_edit: 修改参数
   label_isp_parameter_param_type: 参数类型
   label_isp_parameter_param_type_default: 默认
   label_isp_parameter_param_type_input: 输入
@@ -28,7 +33,9 @@ zh:
   label_isp_parameter_data_number: 数字
   label_isp_parameter_object_symbol: 符号
   label_isp_parameter_value: 参数值
+  #=========================End Check Parameter=======================#
 
+  #=========================Start Check Item=======================#
   label_isp_check_item: 巡检项
   label_isp_check_item_list: 巡检项
   label_isp_check_item_new: 新建巡检项
@@ -36,5 +43,5 @@ zh:
   label_isp_check_item_connection: 连接
   label_isp_check_item_object_symbol: 符号
   label_isp_check_item_script: 脚本
-
+  #=========================Start Check Item=======================#
 
