@@ -73,7 +73,7 @@ class Skm::FileManagementsController < ApplicationController
   end
   
   def edit
-    @file = Irm::Attachment.list_all.where("#{Irm::Attachment.table_name}.id = ?", params[:id]).first()
+    @file = Irm::Attachment.accessible(Irm::Person.current.id).where("#{Irm::Attachment.table_name}.id = ?", params[:id]).first
   end
 
   def update

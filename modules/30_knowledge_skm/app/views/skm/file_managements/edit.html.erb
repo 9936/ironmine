@@ -54,7 +54,7 @@
         </table>
     <% end %>
     <% content_for :form_buttons  do %>
-        <%= link_to t(:save), {},{:href => "javascript:void(0);", :onclick => "save()",:class=>"btn btn-primary"} %>
+        <%= link_to t(:save), {},{:href => "javascript:void(0);", :onclick => "save()",:class=>"btn btn-primary", :type => "submit"} %>
         <%= link_to t(:cancel), {:action => "index"},:class=>"btn cancel"%>
     <% end %>
 
@@ -94,7 +94,7 @@
 <script type="text/javascript">
     function save(){
         document.file_form.action = "update";
-        document.file_form.submit();
+//        document.file_form.submit();
     }
 
     function clear_file(){
