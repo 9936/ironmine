@@ -6,6 +6,7 @@ zh:
   label_isp_program_edit: 编辑方案
   label_isp_program_name: 方案名称
   label_isp_program_description: 方案描述
+  label_isp_program_new_execute: 执行方案
   #=========================End Program=======================#
 
   #=========================Start Connection=======================#
@@ -45,3 +46,11 @@ zh:
   label_isp_check_item_script: 脚本
   #=========================Start Check Item=======================#
 
+  #=========================Start isp check template=======================#
+  label_isp_check_template: 展示模板
+  label_isp_check_template_list: 模板列表
+  label_isp_check_template_new: 新建模板
+  label_isp_check_template_edit: 修改模板
+  label_isp_check_template_template_type: 模板类型
+  label_isp_check_template_body: 内容
+  #=========================end isp check template=======================#

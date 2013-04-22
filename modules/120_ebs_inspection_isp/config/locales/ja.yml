@@ -6,6 +6,7 @@ ja:
   label_isp_program_edit: Edit Program
   label_isp_program_name: Program Name
   label_isp_program_description: Program Description
+  label_isp_program_new_execute: New Execute
   #=========================End Program=======================#
 
   #=========================Start Connection=======================#
@@ -44,3 +45,12 @@ ja:
   label_isp_check_item_object_symbol: Symbol
   label_isp_check_item_script: Script
   #=========================Start Check Item=======================#
+
+  #=========================Start isp check template=======================#
+  label_isp_check_template: Check Template
+  label_isp_check_template_list: Template List
+  label_isp_check_template_new: New Template
+  label_isp_check_template_edit: Edit Template
+  label_isp_check_template_template_type: Template Type
+  label_isp_check_template_body: Template Body
+  #=========================End isp check template=======================#

@@ -111,4 +111,26 @@ class Isp::ProgramsController < ApplicationController
       format.json {render :json=>to_jsonp(isp_programs.to_grid_json([:name,:description,:status_meaning],count))}
     end
   end
+
+  def new_execute
+    @program = Isp::Program.multilingual.find(params[:id])
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @program }
+    end
+  end
+
+  def create_execute
+    @program = Isp::Program.find(params[:id])
+    @program.attributes = params[:isp_program]
+    execute_context = {}
+    @program.connections.each do |c|
+      execute_context.merge!({c.object_symbol=>{:username=>c.username,:password=>c.password,:host=>c.host}})
+    end
+    @program.check_parameters.each do |p|
+      execute_context.merge!({p.object_symbol=>p.value})
+    end
+    results = @program.execute(execute_context)
+    @doc = @program.generate_report(results)
+  end
 end
