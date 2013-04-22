@@ -107,9 +107,9 @@ module Irm::SettingHelper
     odd_index.each do |i|
       tr = ""
       e = entries[i]
-      tr << content_tag(:td,("• "+link_to(e[:name],e[:url_options].merge({:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]}))).html_safe,{:class=>"data-2col"}) if e
+      tr << content_tag(:td,("• "+link_to(e[:description],e[:url_options].merge({:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]}))).html_safe,{:class=>"data-2col"}) if e
       e = entries[i+1]
-      tr << content_tag(:td,("• "+link_to(e[:name],e[:url_options].merge({:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]}))).html_safe,{:class=>"data-2col"}) if e
+      tr << content_tag(:td,("• "+link_to(e[:description],e[:url_options].merge({:controller=>e[:controller],:action=>e[:action],:mi=>e[:menu_entry_id]}))).html_safe,{:class=>"data-2col"}) if e
       content << content_tag(:tr,tr.html_safe)
     end
     raw content
@@ -122,7 +122,7 @@ module Irm::SettingHelper
     if(entry[:entry_type].eql?("MENU"))
        generate_entries_table(entry[:menu_entry_id])
     else
-      tr = content_tag(:td,("•"+link_to(entry[:name],entry[:url_options].merge({:controller=>entry[:controller],:action=>entry[:action],:mi=>entry[:menu_entry_id]}))).html_safe,{:class=>"data-2col"}) if entry
+      tr = content_tag(:td,("•"+link_to(entry[:description],entry[:url_options].merge({:controller=>entry[:controller],:action=>entry[:action],:mi=>entry[:menu_entry_id]}))).html_safe,{:class=>"data-2col"}) if entry
       content_tag(:tr,tr.html_safe).html_safe
     end
   end
