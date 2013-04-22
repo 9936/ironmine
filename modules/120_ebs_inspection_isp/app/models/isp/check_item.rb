@@ -20,4 +20,9 @@ class Isp::CheckItem < ActiveRecord::Base
     joins("JOIN #{Isp::Connection.table_name} ispc ON #{table_name}.connection_id=ispc.id").
         select("#{table_name}.*, ispc.name connection_name")
   }
+
+
+  def execute(context)
+    self.connection.execute(context,self)
+  end
 end

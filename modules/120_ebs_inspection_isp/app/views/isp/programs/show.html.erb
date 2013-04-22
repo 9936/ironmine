@@ -8,6 +8,7 @@
       </td>
       <td class="page-block-button">
         <%= link_to t(:edit), {:action => "edit", :id => @isp_program}, :class => "btn btn-primary" %>
+        <%= link_to t(:execute), {:action=>"new_execute"}, :id => "executeTrigger", :class => "btn btn-primary" %>
         <%= link_to t(:back), {:action => "index"}, :class => "btn" %>
       </td>
     </tr>
@@ -49,7 +50,7 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("isp_connection", {:controller => "isp/connections", :program_id => @isp_program.id,:action => "get_data"}, [], {:search_box => "searchBox", :paginator_box => "paginator"}) %>
+    <%= datatable("isp_connection", {:controller => "isp/connections", :program_id => @isp_program.id, :action => "get_data"}, [], {:search_box => "searchBox", :paginator_box => "paginator"}) %>
   </div>
 </div>
 <!-- 参数列表 -->
@@ -68,7 +69,7 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("isp_parameter", {:controller => "isp/check_parameters", :program_id => @isp_program.id,:action => "get_data"}, [], {:search_box => "searchParameter", :paginator_box => "paginatorParameter"}) %>
+    <%= datatable("isp_parameter", {:controller => "isp/check_parameters", :program_id => @isp_program.id, :action => "get_data"}, [], {:search_box => "searchParameter", :paginator_box => "paginatorParameter"}) %>
   </div>
 </div>
 <!-- 巡检项列表 -->
@@ -87,8 +88,31 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("isp_item", {:controller => "isp/check_items", :program_id => @isp_program.id,:action => "get_data"}, [], {:search_box => "searchItem", :paginator_box => "paginatorItem"}) %>
+    <%= datatable("isp_item", {:controller => "isp/check_items", :program_id => @isp_program.id, :action => "get_data"}, [], {:search_box => "searchItem", :paginator_box => "paginatorItem"}) %>
+  </div>
+</div>
+
+<!-- 模板列表 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_isp_check_template_list) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:controller => "isp/check_templates", :program_id => @isp_program.id, :action => "new"}, :class => "btn" %>
+      </td>
+      <td class="page-block-help">
+        <div id="searchTemplate"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("isp_template", {:controller => "isp/check_templates", :program_id => @isp_program.id, :action => "get_data"}, [], {:search_box => "searchTemplate", :paginator_box => "paginatorTemplate"}) %>
   </div>
 </div>
 
 <%= render :partial => "multilingual/show", :locals => {:main_data => @isp_program} %>
+
+
+

@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     match '/programs/create(.:format)' => "programs#create", :via => :post
     match '/programs/:id/multilingual_edit(.:format)' => "programs#multilingual_edit", :via => :get
     match '/programs/:id/multilingual_update(.:format)' => "programs#multilingual_update", :via => :put
+    match '/programs/:id/new_execute(.:format)' => "programs#new_execute", :via => :get
+    match '/programs/:id/create_execute(.:format)' => "programs#create_execute", :via => :put
+
 
     #connections
     match '/programs/:program_id/connections/get_data(.:format)' => "connections#get_data"
@@ -37,13 +40,17 @@ Rails.application.routes.draw do
     match '/programs/:program_id/check_items/:id(.:format)' => "check_items#show", :via => :get
     match '/programs/:program_id/check_items/:id/destroy(.:format)' => "check_items#destroy", :via => :delete
     match '/programs/:program_id/check_items/create(.:format)' => "check_items#create", :via => :post
+
+    #check_templates
+    match '/programs/:program_id/check_templates/get_data(.:format)' => "check_templates#get_data"
+    match '/programs/:program_id/check_templates/:id/edit(.:format)' => "check_templates#edit", :via => :get
+    match '/programs/:program_id/check_templates/:id(.:format)' => "check_templates#update", :via => :put
+    match '/programs/:program_id/check_templates/new(.:format)' => "check_templates#new", :via => :get
+    match '/programs/:program_id/check_templates/:id(.:format)' => "check_templates#show", :via => :get
+    match '/programs/:program_id/check_templates/:id/destroy(.:format)' => "check_templates#destroy", :via => :delete
+    match '/programs/:program_id/check_templates/create(.:format)' => "check_templates#create", :via => :post
+
   end
 
-  #namespace :isp do
-  #
-  #  resources :check_check_parameters
-  #
-  #  resources :check_items
-  #  resources :programs
-  #end
+
 end

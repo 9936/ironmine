@@ -55,6 +55,7 @@ class Isp::Connection < ActiveRecord::Base
   private
     def hand_object_symbol(context)
       if context && context[self.object_symbol]
+        self.username = context[self.object_symbol][:username] if context[self.object_symbol][:username].present?
         self.password = context[self.object_symbol][:password] if context[self.object_symbol][:password].present?
         self.port = context[self.object_symbol][:port] if context[self.object_symbol][:port].present?
         self.database = context[self.object_symbol][:database] if context[self.object_symbol][:database].present?
@@ -80,7 +81,7 @@ class Isp::Connection < ActiveRecord::Base
 
     def execute_shell(shell_script)
       require 'net/ssh'
-
+      puts self.to_json
       Net::SSH.start(self.host, self.username, :password => self.password) do |ssh|
         result = ssh.exec!(shell_script)
         #ssh.open_channel do |ch|
