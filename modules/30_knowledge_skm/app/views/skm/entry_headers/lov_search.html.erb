@@ -10,7 +10,7 @@
     <%= hidden_params_field(:lktp) %>
     <%= hidden_field_tag(:page) %>
     <%= hidden_params_field(:lov_params) %>
-
+    <label><%= t(:label_skm_entry_header_lov_channel) %>:</label>
     <%= blank_select_tag("channel_id", current_available_channels) %>
     <input type="text" class="input-medium search-query" id="lksrch"  placeholder="<%= t(:search) %>" maxlength="80" name="lksrch" size="20" value="<%=params[:lksrch]%>">
     <button type="submit" class="btn" name="go" title="<%= I18n.t(:label_irm_list_of_value_go)%>"><%= I18n.t(:label_irm_list_of_value_go)%></button>
