@@ -7,6 +7,10 @@ zh:
   label_isp_program_name: 方案名称
   label_isp_program_description: 方案描述
   label_isp_program_new_execute: 执行方案
+  label_isp_program_new_execute_run: 立即执行
+  label_isp_program_new_execute_trigger: 执行计划
+  label_isp_program_new_execute_trigger_person: 执行计划人员
+  label_isp_program_new_execute_trigger_receiver: 结果接收人员
   #=========================End Program=======================#
 
   #=========================Start Connection=======================#

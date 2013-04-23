@@ -120,6 +120,32 @@ class Isp::ProgramsController < ApplicationController
     end
   end
 
+  def new_trigger
+    @program = Isp::Program.multilingual.find(params[:id])
+    if @program.program_triggers.any?
+      @program_trigger = @program.program_triggers.first
+    else
+      @program_trigger = Isp::ProgramTrigger.new(:program_id => params[:id])
+      @program.program_triggers = [@program_trigger]
+    end
+    #@program_trigger = Isp::ProgramTrigger.new(:program_id => params[:id])
+  end
+
+  def create_trigger
+    @program_trigger = Isp::ProgramTrigger.new(params[:isp_program_trigger])
+    @program_trigger.time_mode= YAML.dump(params[:time_mode_obj])
+    respond_to do |format|
+      if @program_trigger.save
+        @program_trigger.create_receiver_from_str
+        format.html { redirect_to({:action => "new_execute",:id=>@program_trigger.program_id}, :notice => t(:successfully_created)) }
+        format.xml  { render :xml => @program_trigger, :status => :created, :location => @program_trigger }
+      else
+        format.html { render :action => "new_trigger" }
+        format.xml  { render :xml => @program_trigger.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
   def create_execute
     @program = Isp::Program.find(params[:id])
     @program.attributes = params[:isp_program]

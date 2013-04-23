@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     match '/programs/:id/multilingual_update(.:format)' => "programs#multilingual_update", :via => :put
     match '/programs/:id/new_execute(.:format)' => "programs#new_execute", :via => :get
     match '/programs/:id/create_execute(.:format)' => "programs#create_execute", :via => :put
+    match '/programs/:id/new_trigger(.:format)' => "programs#new_trigger", :via => :get
+    match '/programs/:id/create_trigger(.:format)' => "programs#create_trigger", :via => :post
 
 
     #connections

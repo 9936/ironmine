@@ -8,6 +8,7 @@ class Isp::Program < ActiveRecord::Base
   has_many :check_parameters, :foreign_key => :program_id, :dependent => :destroy
   has_many :check_items, :foreign_key => :program_id, :dependent => :destroy
   has_many :check_templates, :foreign_key => :program_id, :dependent => :destroy
+  has_many :program_triggers, :foreign_key => :program_id, :dependent => :destroy
 
   acts_as_multilingual
   #加入activerecord的通用方法和scope
