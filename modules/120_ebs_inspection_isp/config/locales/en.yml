@@ -7,6 +7,8 @@ en:
   label_isp_program_name: Program Name
   label_isp_program_description: Program Description
   label_isp_program_new_execute: New Execute
+  label_isp_program_new_execute_run: Execute Now
+  label_isp_program_new_execute_trigger: Execute Trigger
   #=========================End Program=======================#
 
   #=========================Start Connection=======================#

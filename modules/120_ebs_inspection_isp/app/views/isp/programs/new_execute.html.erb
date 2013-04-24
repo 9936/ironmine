@@ -1,4 +1,4 @@
-<%= common_title(:action_meaning=>t(:label_isp_program_new_execute)) %>
+<%= common_title(:action_meaning => t(:label_isp_program_new_execute)) %>
 <%= form_for(@program, :url => {:action => "create_execute"}, :builder => CustomFormBuilder) do |f| %>
     <% content_for :form_block_common do %>
         <table class="show-table">
@@ -25,54 +25,21 @@
           <table>
             <thead>
             <tr>
-              <th style="width:30px">
-                <div><%= t(:name) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_connection_type) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_connection_host) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_connection_username) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_connection_password) %></div>
-              </th>
+              <th style="width:30px"><div><%= t(:name) %></div></th>
+              <th style="width:30px"><div><%= t(:label_isp_connection_type) %></div></th>
+              <th style="width:30px"><div><%= t(:label_isp_connection_host) %></div></th>
+              <th style="width:30px"><div><%= t(:label_isp_connection_username) %></div></th>
+              <th style="width:30px"><div><%= t(:label_isp_connection_password) %></div></th>
             </tr>
             </thead>
             <tbody>
             <%= f.fields_for :connections, :builder => CustomFormBuilder do |c_f| %>
                 <tr>
-                  <td>
-                    <div><%= c_f.object.name %></div>
-                  </td>
-
-                  <td>
-                          <span>
-                            <div>
-                              <div><%= c_f.object.connect_type %></div>
-                            </div>
-                          </span>
-                  </td>
-                  <td>
-                          <span>
-                            <div>
-                              <div><%= c_f.object.host %></div>
-                            </div>
-                          </span>
-                  </td>
-                  <td>
-                          <span>
-                            <div> <%= c_f.text_field :username, :required => true, :size => 20 %></div>
-                          </span>
-                  </td>
-                  <td>
-                          <span>
-                            <div> <%= c_f.text_field :password, :required => true, :size => 20 %></div>
-                          </span>
-                  </td>
+                  <td><div><%= c_f.object.name %></div></td>
+                  <td><span><div><div><%= c_f.object.connect_type %></div></div></span></td>
+                  <td><span><div><div><%= c_f.object.host %></div></div></span></td>
+                  <td><span><div> <%= c_f.text_field :username, :required => true, :size => 20 %></div></span></td>
+                  <td><span><div> <%= c_f.text_field :password, :required => true, :size => 20 %></div></span></td>
                 </tr>
             <% end %>
             </tbody>
@@ -84,46 +51,19 @@
           <table>
             <thead>
             <tr>
-              <th style="width:30px">
-                <div><%= t(:name) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_parameter_object_symbol) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_parameter_data_type) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_parameter_value) %></div>
-              </th>
+              <th style="width:30px"><div><%= t(:name) %></div></th>
+              <th style="width:30px"><div><%= t(:label_isp_parameter_object_symbol) %></div></th>
+              <th style="width:30px"><div><%= t(:label_isp_parameter_data_type) %></div></th>
+              <th style="width:30px"><div><%= t(:label_isp_parameter_value) %></div></th>
             </tr>
             </thead>
             <tbody>
             <%= f.fields_for :check_parameters, :builder => CustomFormBuilder do |c_f| %>
                 <tr>
-                  <td>
-                    <div><%= c_f.object.name %></div>
-                  </td>
-
-                  <td>
-                              <span>
-                                <div>
-                                  <div><%= c_f.object.object_symbol %></div>
-                                </div>
-                              </span>
-                  </td>
-                  <td>
-                              <span>
-                                <div>
-                                  <div><%= c_f.object.data_type %></div>
-                                </div>
-                              </span>
-                  </td>
-                  <td>
-                              <span>
-                                <div> <%= c_f.text_field :value, :required => true, :size => 20 %></div>
-                              </span>
-                  </td>
+                  <td><div><%= c_f.object.name %></div></td>
+                  <td><span><div><div><%= c_f.object.object_symbol %></div></div></span></td>
+                  <td><span><div><div><%= c_f.object.data_type %></div></div></span></td>
+                  <td><span><div> <%= c_f.text_field :value, :required => true, :size => 20 %></div></span></td>
                 </tr>
             <% end %>
             </tbody>
