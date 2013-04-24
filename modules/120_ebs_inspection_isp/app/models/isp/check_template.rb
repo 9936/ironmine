@@ -20,7 +20,7 @@ class Isp::CheckTemplate < ActiveRecord::Base
     str = body.render context.stringify_keys
 
     preview = Ironmine::WIKI.preview_page(self.name, str, self.content_format)
-    doc = Nokogiri::HTML::DocumentFragment.parse(preview.formatted_data.force_encoding("utf-8"))
+    doc = preview.formatted_data.force_encoding("utf-8")
 
   end
 end

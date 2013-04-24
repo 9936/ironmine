@@ -45,11 +45,9 @@ class Isp::Connection < ActiveRecord::Base
         result = execute_sql(script)
       end
     end
-    if self.object_symbol.present?
-      {self.object_symbol => result}
-    else
-      result
-    end
+
+    result
+
   end
 
   private

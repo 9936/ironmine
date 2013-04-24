@@ -1,5 +1,5 @@
 <%= common_title %>
-<%= form_for(@check_template, :url => {:action => "create"}, :builder => CustomFormBuilder) do |f| %>
+<%= form_for(@check_template, :url => {:action => "update"}, :builder => CustomFormBuilder) do |f| %>
     <%= f.hidden_field :program_id %>
     <% content_for :form_block_a do %>
         <table class="form-table">
