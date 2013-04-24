@@ -1,6 +1,9 @@
 class Isp::CheckItem < ActiveRecord::Base
   set_table_name :isp_check_items
 
+
+  has_many :alert_filters, :foreign_key => :check_item_id, :dependent => :destroy
+
   belongs_to :program, :foreign_key => :program_id
   belongs_to :connection, :foreign_key => :connection_id
 

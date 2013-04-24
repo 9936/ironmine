@@ -11,8 +11,6 @@
     </td>
   </tr></table>
   <div class="page-block-body">
-    <table class="show-table">
-      <tbody>
       <table class="show-table">
         <tbody>
         <tr>
@@ -52,7 +50,25 @@
         </tr>
         </tbody>
       </table>
-      </tbody>
-    </table>
+  </div>
+</div>
+
+<!-- 警告条件 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_isp_alert_filter) %></h2>
+      </td>
+      <td class="page-block-button">
+        <%= link_to t(:new), {:controller => "isp/alert_filters", :check_item_id => @isp_check_item.id, :action => "new"}, :class => "btn" %>
+      </td>
+      <td class="page-block-help">
+        <div id="searchAlertFilter"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("isp_alert_filters", {:controller => "isp/alert_filters", :check_item_id => @isp_check_item.id, :action => "get_data"}, [], {:search_box => "searchAlertFilter", :paginator_box => "paginatorAlterFilter"}) %>
   </div>
 </div>

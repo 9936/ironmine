@@ -51,6 +51,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "isp/connections" => ["show", "new", "create","edit","update", "get_data","destroy"],
               "isp/check_parameters" => ["show", "new", "create","edit","update", "get_data","destroy"],
               "isp/check_items" => ["show", "new", "create","edit","update", "get_data","destroy"],
+              "isp/alert_filters" => ["show", "new", "create","edit","update", "get_data","destroy","get_operator_data"],
               "isp/check_templates" => ["show", "new", "create","edit","update", "get_data","destroy"]
           }
       }

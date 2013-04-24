@@ -43,6 +43,16 @@ Rails.application.routes.draw do
     match '/programs/:program_id/check_items/:id/destroy(.:format)' => "check_items#destroy", :via => :delete
     match '/programs/:program_id/check_items/create(.:format)' => "check_items#create", :via => :post
 
+    #alert_filters
+    match '/check_items/:check_item_id/alert_filters/get_data(.:format)' => "alert_filters#get_data"
+    match '/check_items/:check_item_id/alert_filters/get_operator_data(.:format)' => "alert_filters#get_operator_data"
+    match '/check_items/:check_item_id/alert_filters/:id/edit(.:format)' => "alert_filters#edit", :via => :get
+    match '/check_items/:check_item_id/alert_filters/:id(.:format)' => "alert_filters#update", :via => :put
+    match '/check_items/:check_item_id/alert_filters/new(.:format)' => "alert_filters#new", :via => :get
+    match '/check_items/:check_item_id/alert_filters/:id(.:format)' => "alert_filters#show", :via => :get
+    match '/check_items/:check_item_id/alert_filters/:id/destroy(.:format)' => "alert_filters#destroy", :via => :delete
+    match '/check_items/:check_item_id/alert_filters/create(.:format)' => "alert_filters#create", :via => :post
+
     #check_templates
     match '/programs/:program_id/check_templates/get_data(.:format)' => "check_templates#get_data"
     match '/programs/:program_id/check_templates/:id/edit(.:format)' => "check_templates#edit", :via => :get

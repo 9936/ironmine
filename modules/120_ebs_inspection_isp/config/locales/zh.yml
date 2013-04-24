@@ -34,7 +34,7 @@ zh:
   label_isp_parameter_param_type_default: 默认
   label_isp_parameter_param_type_input: 输入
   label_isp_parameter_data_type: 数据类型
-  label_isp_parameter_data_string: 字符
+  label_isp_parameter_data_string: 文本
   label_isp_parameter_data_number: 数字
   label_isp_parameter_object_symbol: 符号
   label_isp_parameter_value: 参数值
@@ -48,7 +48,7 @@ zh:
   label_isp_check_item_connection: 连接
   label_isp_check_item_object_symbol: 符号
   label_isp_check_item_script: 脚本
-  #=========================Start Check Item=======================#
+  #=========================End Check Item=======================#
 
   #=========================Start isp check template=======================#
   label_isp_check_template: 展示模板
@@ -58,3 +58,12 @@ zh:
   label_isp_check_template_template_type: 模板类型
   label_isp_check_template_body: 内容
   #=========================end isp check template=======================#
+
+  #=========================Start Alert Filters=======================#
+  label_isp_alert_filter: 警告条件
+  label_isp_alert_filter_new: 新建条件
+  label_isp_alert_filter_edit: 编辑条件
+  label_isp_alert_filter_result_type: 值类型
+  label_isp_alert_filter_operation: 操作符号
+  label_isp_alert_filter_value: 值
+  #=========================End Alert Filters=======================#
