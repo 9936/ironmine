@@ -2,7 +2,7 @@ class Isp::CheckTemplate < ActiveRecord::Base
   set_table_name :isp_check_templates
 
   belongs_to :program, :foreign_key => :program_id
-  validates_presence_of :name, :program_id,:template_type, :object_symbol, :body
+  validates_presence_of :name, :program_id, :body
 
   attr_accessor_with_default :content_format,"markdown"
 
@@ -20,7 +20,7 @@ class Isp::CheckTemplate < ActiveRecord::Base
     str = body.render context.stringify_keys
 
     preview = Ironmine::WIKI.preview_page(self.name, str, self.content_format)
-    doc = Nokogiri::HTML::DocumentFragment.parse(page.formatted_data.force_encoding("utf-8"))
+    doc = Nokogiri::HTML::DocumentFragment.parse(preview.formatted_data.force_encoding("utf-8"))
 
   end
 end

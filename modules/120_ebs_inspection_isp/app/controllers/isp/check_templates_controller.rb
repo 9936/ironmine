@@ -24,7 +24,7 @@ class Isp::CheckTemplatesController < ApplicationController
   # GET /isp/check_templates/new
   # GET /isp/check_templates/new.xml
   def new
-    @check_template = Isp::CheckTemplate.new
+    @check_template = Isp::CheckTemplate.new(:program_id=>params[:program_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,7 +44,7 @@ class Isp::CheckTemplatesController < ApplicationController
 
     respond_to do |format|
       if @check_template.save
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller => "isp/programs", :id => @check_template.program_id, :action => "show"}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @check_template, :status => :created, :location => @check_template }
       else
         format.html { render :action => "new" }
@@ -60,7 +60,7 @@ class Isp::CheckTemplatesController < ApplicationController
 
     respond_to do |format|
       if @check_template.update_attributes(params[:isp_check_template])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:controller => "isp/programs", :id => @check_template.program_id, :action => "show"}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
