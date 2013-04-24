@@ -11,10 +11,11 @@
           <%= link_to t(:edit), {:action => "edit", :id => @isp_program}, :class => "btn btn-primary" %>
         </div>
         <div class="btn-group" style="display: inline-block;">
+          <%= link_to t(:label_isp_program_new_execute_run), {:action=>"new_execute"}, :class => "btn" %>
           <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            <%= t(:label_isp_program_new_execute)  %>
             <span class="caret"></span>
           </a>
+
           <ul class="dropdown-menu">
             <li><%= link_to t(:label_isp_program_new_execute_run), {:action=>"new_execute"}, :id => "executeTrigger" %></li>
             <li><%= link_to t(:label_isp_program_new_execute_trigger), {:action=>"new_trigger"} %></li>
