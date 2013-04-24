@@ -19,7 +19,7 @@ class Isp::ProgramSchedule < ActiveRecord::Base
     end
 
     def enqueue_delayed_job
-      Delayed::Job.enqueue(Isp::Jobs::ProgramScheduleJob.new(self.id), 0,self.run_at)
+      Delayed::Job.enqueue(Isp::Jobs::ProgramScheduleJob.new(self.id), 0, self.run_at)
     end
 
 end

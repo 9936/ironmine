@@ -1,6 +1,6 @@
 class Isp::ProgramTrigger < ActiveRecord::Base
   set_table_name :isp_program_triggers
-  attr_accessor :receiver_str
+  attr_accessor :receiver_str, :isp_program_str
 
   validates_uniqueness_of :program_id
   validates_presence_of :program_id, :start_at, :end_at, :person_id
@@ -10,6 +10,10 @@ class Isp::ProgramTrigger < ActiveRecord::Base
   belongs_to :program
 
   after_save :setup_schedule
+
+  def self.query_trigger(program_id)
+    self.where("#{table_name}.program_id=?", program_id).first
+  end
 
   def create_receiver_from_str
     if(!self.receiver_type.eql?("CHOOSE_STAFF"))
@@ -46,7 +50,7 @@ class Isp::ProgramTrigger < ActiveRecord::Base
       return [self.created_by]
     end
 
-    person_ids = Irm::ReportReceiver.where(:report_trigger_id=>self.id).query_person_ids.collect{|i| i[:person_id]}
+    person_ids = Isp::ProgramReceiver.where(:program_trigger_id=>self.id).query_person_ids.collect{|i| i[:person_id]}
     person_ids.uniq!
     person_ids
   end
@@ -165,7 +169,7 @@ class Isp::ProgramTrigger < ActiveRecord::Base
       schedule_datetimes.each do |t|
         rs = Isp::ProgramSchedule.where(:program_trigger_id => trigger_id,:run_at_str=>t.to_i.to_s).first
         unless rs
-          Isp::ProgramSchedule.create(:program_trigger_id => trigger_id,:run_at=>t)
+          Isp::ProgramSchedule.create(:program_trigger_id => trigger_id,:run_at=>t,:isp_program => self.isp_program_str)
         end
       end
     end
