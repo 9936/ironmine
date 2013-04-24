@@ -27,7 +27,7 @@
 
           <tr>
             <td class="label-col"><label><%=t(:label_isp_parameter_object_symbol)%></label></td>
-            <td class="data-col"><%= f.text_field :object_symbol, :required => true%></td>
+            <td class="data-col"><%= f.text_field :object_symbol, :required => true, :irm_lowercase_chr_only => true %></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
