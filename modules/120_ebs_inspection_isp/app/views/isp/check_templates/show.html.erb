@@ -7,7 +7,7 @@
         <h2 class="block-title"><%= t(:label_isp_check_template) %></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to t(:edit), {:controller => "isp/check_template",:action => "edit", :id => @check_template}, :class => "btn" %>
+        <%= link_to t(:edit), {:controller => "isp/check_templates",:action => "edit", :program_id => @check_template.program_id, :id => @check_template.id}, :class => "btn" %>
         <%= link_to t(:back), {:controller => "isp/programs", :id => @check_template.program_id, :action => "show"}, :class => "btn" %>
       </td>
     </tr>

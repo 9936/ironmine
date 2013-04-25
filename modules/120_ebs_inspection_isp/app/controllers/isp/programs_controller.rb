@@ -162,7 +162,7 @@ class Isp::ProgramsController < ApplicationController
     @program.check_parameters.each do |p|
       execute_context.merge!({p.object_symbol=>p.value})
     end
-    results = @program.execute(execute_context)
-    @doc = @program.generate_report(results)
+    @results = @program.execute(execute_context)
+    @doc = @program.generate_report(@results)
   end
 end
