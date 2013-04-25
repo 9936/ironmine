@@ -36,31 +36,31 @@
         color: #005580;
     }
 </style>
+
 <script type="text/javascript">
-    $(function(){
-        $("#gollum-editor-template-content li a").live("click", function(){
-            setValue($(this).data("value"));
-        });
-    });
+  $(function(){
+      $("#gollum-editor-template-content li a").live("click", function(){
+          setValue($(this).data("value"));
+      });
+  });
 
-    function setValue(paramsValue){
-        $("#gollum-editor-body").val($("#gollum-editor-body").val() + paramsValue);
-        hideTemplate();
-    }
+  function setValue(paramsValue){
+      $("#gollum-editor-body").val($("#gollum-editor-body").val() + paramsValue);
+      hideTemplate();
+  }
 
-    function hideTemplate(){
-        if ( $.browser.msie ) {
-            $('#gollum-editor-template').css('display', 'none');
-        } else {
-            $('#gollum-editor-template').animate({
-                opacity: 0
-            }, 200, function() {
-                $('#gollum-editor-template').animate({ height: 'hide' }, 200);
-            });
-        }
-    }
+  function hideTemplate(){
+      if ( $.browser.msie ) {
+          $('#gollum-editor-template').css('display', 'none');
+      } else {
+          $('#gollum-editor-template').animate({
+              opacity: 0
+          }, 200, function() {
+              $('#gollum-editor-template').animate({ height: 'hide' }, 200);
+          });
+      }
+  }
 </script>
-
 <div id="gollum-editor" class="edit">
   <fieldset id="gollum-editor-fields">
     <div id="gollum-editor-function-bar">
@@ -110,14 +110,12 @@
 
     <div id="gollum-editor-template" class="jaws">
       <ul id="gollum-editor-template-parent">
-        <li><a href="javascript:void(0);">Symbol <%= t(:label_isp_program_params) %></a></li>
+        <li><a href="javascript:void(0);">Symbol <%= t(:label_isp_program_params) %> </a></li>
       </ul>
       <div id="gollum-editor-template-wrapper">
         <div id="gollum-editor-template-content">
           <ul>
-            <% @param_symbols.each do |symbol| %>
-              <li><a href="javascript:void(0);" data-value="{{<%= symbol %>}}"><%= symbol %></a></li>
-            <% end %>
+            <li><a href="#" data-value="{{<%= f.object.check_item.object_symbol %>}}"><%= f.object.check_item.object_symbol %></a></li>
           </ul>
         </div>
       </div>
@@ -148,7 +146,7 @@
     </div>
 
 
-    <%= f.text_area :body, {:required => true, :full => true, :style => "width:95%", :id => "gollum-editor-body", "data-markup-lang" => f.object.content_format} %>
+    <%= f.text_area :display_template, {:required => true, :full => true, :style => "width:95%", :id => "gollum-editor-body", "data-markup-lang" => f.object.content_format} %>
   </fieldset>
   </form>
 </div>

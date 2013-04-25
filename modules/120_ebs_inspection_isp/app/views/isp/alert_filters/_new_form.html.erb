@@ -27,6 +27,12 @@
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
+          <tr>
+            <td class="label-col"><label for="content"><%= t(:label_isp_alert_filter_display_template) %></label></td>
+            <td class="data-3col" colspan="3">
+              <%= render :partial => "isp/alert_filters/editor", :locals => {:f => f} %>
+            </td>
+          </tr>
           </tbody>
         </table>
     <% end %>

@@ -50,4 +50,29 @@ class Isp::Program < ActiveRecord::Base
     str
   end
 
+  #{"shell_symbol"=>{:username=>"root", :password=>"handoracle", :host=>"172.20.0.12"}, "cpu_num"=>"2\n", "delayed_job"=>"root      7597  7595  7 10:41 ?        00:00:00 bash -c ps -ef|grep delayed\nroot      7620  7597  0 10:41 ?        00:00:00 grep delayed\n"}
+  #检查警告
+  def check_alert(results)
+    alert_results = ""
+    self.check_items.each do |check_item|
+      alert_filters = check_item.alert_filters
+      if alert_filters.any?
+        #巡检的结果中有对应的值
+        #alert_results[check_item.object_symbol.to_s] ||= []
+        check_item_result = results[check_item.object_symbol.to_s]
+
+        #去除掉空格和换行
+        check_item_result = check_item_result.gsub(/\n/,"")
+        alert_filters.each do |alert_filter|
+          alert_check_result = alert_filter.check_result(check_item.object_symbol, check_item_result)
+
+          if alert_check_result.present?
+            alert_results << alert_check_result
+          end
+        end
+      end
+    end
+    alert_results
+  end
+
 end

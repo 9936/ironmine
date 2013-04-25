@@ -163,6 +163,9 @@ class Isp::ProgramsController < ApplicationController
       execute_context.merge!({p.object_symbol=>p.value})
     end
     @results = @program.execute(execute_context)
+
+    @doc_alerts = @program.check_alert(@results)
+
     @doc = @program.generate_report(@results)
   end
 end
