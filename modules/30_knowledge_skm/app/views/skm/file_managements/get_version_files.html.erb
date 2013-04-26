@@ -15,15 +15,21 @@
   <div class="page-block-body">
     <div>
       <%=datatable_view({:count=>@history_versions.count,:datas=>@history_versions}) do |builder|%>
-          <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
+          <% builder.column(:id,{:title=>t(:operation), :width => "130px"}) do |data|%>
             <%= link_to(t(:remove),{:controller => "skm/file_managements", :action=>"remove_version_file",:id=> data[:id]}, :class => "action-link",:confirm => t(:label_are_you_sure)) %>&nbsp;|
             <%= link_to(t(:label_skm_file_download),{:controller => "skm/file_managements", :action => "download",:id=>data[:attachment_id], :version_id => data[:id],:data_file_name=> data[:data_file_name]}, :class => "action-link", :target => "_blank") %>
+            <% if data[:created_by].eql?(Irm::Person.current.id) %>
+              |<%= link_to(t(:label_action_version_details),{:controller => "skm/file_managements", :action => "version_details", :id => data[:id]}, :class => "action-link") %>
+            <% else %>
+              <%= "" %>
+            <% end %>
           <% end %>
           <% builder.column(:data_file_name,{:title=>t(:label_skm_file_name),:searchable => true,:width=>"300px"}) do |data|%>
             <%= data_version_file_name data %>
           <% end %>
           <% builder.column(:download_count,{:title=>t(:label_skm_file_download_count),:width => "100px"})%>
           <% builder.column(:description,{:title=>t(:description),:searchable => true})%>
+          <% builder.column(:full_name,{:title=>t(:label_skm_file_created_by), :width => "100px"})%>
           <% builder.column(:data_file_size,{:title=>t(:label_skm_file_size), :width => "100px"})%>
           <% builder.column(:data_updated_at,{:title=>t(:label_skm_file_data_updated_at),:width=>"130px"})%>
       <% end %>

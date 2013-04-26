@@ -1,0 +1,48 @@
+<style type="text/css">
+  a {color: #08C;}
+</style>
+<body style="padding:5px;">
+<!--页面结构-->
+<% label_field = @fields.detect{|i| i[:label]};value_field = @fields.detect{|i| i[:value_field]} %>
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <% @fields.each do |field| %>
+      <% next if field[:hidden] %>
+      <th><%= field[:name] %></th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% @datas.each_with_index do |data,index| %>
+    <tr>
+      <% @fields.each do |field| %>
+        <% next if field[:hidden] %>
+        <% if field[:label] %>
+          <td >
+            <%= lookup_pick_link(params[:lkfid],data[value_field[:key]],data[label_field[:key]],data.attributes)%>
+          </td>
+        <% else %>
+          <td>
+            <%= handler_lov_data(data[field[:key].to_sym]) %>
+          </td>
+        <% end %>
+      <% end %>
+    </tr>
+  <% end -%>
+  </tbody>
+</table>
+
+<%= lov_paginate(@count, params[:page].to_i ||= 1, params[:count].to_i) %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+     $(".pagination a").bind("click", function(){
+         var searchFrom = window.parent.frames["searchFrame"].document.getElementById("theForm");
+         window.parent.frames["searchFrame"].document.getElementById("page").value = $(this).attr("page");
+         searchFrom.submit();
+     });
+  });
+</script>
+
+</body>

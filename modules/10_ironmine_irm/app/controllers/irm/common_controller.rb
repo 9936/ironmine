@@ -147,6 +147,14 @@ class Irm::CommonController < ApplicationController
         version.data = data
       end
     end
+    #当上传文件时候临时生成一个Id
+    if params[:content_image].present?
+      version.category_id = Irm::LookupValue.get_code_id("SKM_FILE_CATEGORIES", "IMAGE")
+      version.source_type = "Skm::EntryHeader"
+      @tmp_id = Fwk::IdGenerator.instance.generate(Skm::EntryHeader.table_name)
+      version.source_id = @tmp_id
+    end
+
     flag, now = version.over_limit?(Irm::SystemParametersManager.upload_file_limit)
     version.save if flag
     Irm::AttachmentVersion.update_attachment_by_version(@file,version)
@@ -224,6 +232,21 @@ class Irm::CommonController < ApplicationController
                    )).
              where("#{incident_request_table}.incident_status_id = ?", close_statis)
     @ttr_persent = tmp_data.any? ? ((tmp_data.first[:diff]/tmp_data.first[:total].to_f * 100).round / 100.0).to_f : 0.to_f
+
+    intime = 0
+
+    sla_records = Slm::SlaInstance.all
+    sla_records.each do |slai|
+      if "START".eql?(slai.last_phase_type)
+        calendar = slai.service_agreement.calendar
+        slai.current_duration = slai.current_duration.to_i+calendar.working_time(slai.last_phase_start_date,Time.now)
+      end
+      if  slai.current_duration < slai.max_duration
+        intime = intime + 1
+      end
+    end
+
+    @sla_persent = sla_records.size == 0 ? 0.to_f : ((intime/sla_records.size.to_f * 100 * 100).round / 100.0).to_f
 
     respond_to do |format|
       format.html

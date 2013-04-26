@@ -42,6 +42,12 @@ class Irm::AttachmentVersion < ActiveRecord::Base
     where("#{table_name}.source_type = ? AND #{table_name}.source_id = ?",Chm::ChangeRequest.name, request_id)
   }
 
+  scope :history_versions, lambda{|attachment_id, latest_version_id|
+    joins("JOIN #{Irm::Person.table_name} p ON p.id=#{table_name}.updated_by").
+        where("#{table_name}.attachment_id=? AND #{table_name}.id !=?",attachment_id, latest_version_id).
+        select("#{table_name}.*, p.full_name")
+  }
+
   def image?
     self.image_flag.eql?(Irm::Constant::SYS_YES)
   end
@@ -241,7 +247,7 @@ class Irm::AttachmentVersion < ActiveRecord::Base
                                 :file_category=>version.category_id,
                                 :file_size=>version.data_file_size,
                                 :description=>version.description,
-                                :private_flag=>version.private_flag,
+                                #:private_flag=>version.private_flag,
                                 :source_file_name => version.source_file_name)
   end
 

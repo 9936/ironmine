@@ -42,12 +42,14 @@ class Skm::EntryHeadersController < ApplicationController
           render :pdf => "[#{@entry_header.doc_number}]#{@entry_header.entry_title}",
                          :print_media_type => true,
                          :encoding => 'utf-8',
-                         :layout => 'layouts/pdf.html.erb',
+                         :layout => "layouts/markdown_pdf.html.erb",
                          :book => true,
+                         #:show_as_html => true,
                          :page_size => 'A4',
                          :toc => {
-                             :depth => 3,
-                             :header_text => t(:table_of_contents) }
+                             :header_text => t(:table_of_contents),
+                             :disable_back_links=>true
+                         }
         }
       end
 
@@ -234,6 +236,9 @@ class Skm::EntryHeadersController < ApplicationController
         else
           @reference_flag = 'N'
         end
+        if @reference_flag.eql?('Y')
+          @entry_header.entry_title = "#{@entry_header.entry_title}--#{I18n.t(:label_skm_entry_book_haeder_reference)}"
+        end
         format.html # show.html.erb
         format.xml  { render :xml => @entry_header }
       end
@@ -398,7 +403,7 @@ class Skm::EntryHeadersController < ApplicationController
       session[:skm_entry_details]=params[:skm_entry_details]
     end
 
-    @entry_header = Skm::EntryHeader.new
+    @entry_header = Skm::EntryHeader.new(:tmp_source_ids => params[:skm_entry_header][:tmp_source_ids])
     session[:skm_entry_header].each do |k, v|
       @entry_header[k.to_sym] = v
     end
@@ -615,8 +620,9 @@ class Skm::EntryHeadersController < ApplicationController
         new_entry_header.author_id = Irm::Person.current.id
         new_entry_header.source_type = entry_header.source_type
         new_entry_header.source_id = entry_header.source_id
+        new_entry_header.entry_title = params[:skm_entry_header][:entry_title]
 
-        if new_entry_header.save
+        if new_entry_header.save && new_entry_header.update_attributes(params[:skm_entry_header])
           entry_details = Skm::EntryDetail.where(:entry_header_id => entry_header.id)
           entry_details.each do |entry_detail|
             detail = Skm::EntryDetail.new(entry_detail.attributes)
@@ -1178,4 +1184,55 @@ class Skm::EntryHeadersController < ApplicationController
       format.xml { render :xml => @entry_header }
     end
   end
+
+  def lov_search
+    unless params[:lksrch].present?
+      params[:lksrch] = "%"
+    end
+    render :layout => "frame"
+  end
+
+  def lov_result
+    @business_object = Irm::BusinessObject.find(params[:lktp])
+    @datas = []
+    @fields = []
+    unless params[:lksrch].present?
+      params[:lksrch] = "%"
+    end
+    if params[:lov_params].present?&&params[:lov_params].is_a?(String)&&params[:lov_params].include?("{")
+      params[:lov_params] = eval(params[:lov_params])
+    end
+    if params[:channel_id].present?
+      params[:lov_params] ||= {}
+      params[:lov_params][:channel_id] = params[:channel_id]
+    end
+    current_page = params[:page] ||= 1
+    if current_page.to_i < 1
+      current_page = 1
+    end
+
+    params[:count] = 5
+    params[:start] = (current_page.to_i - 1) * params[:count]
+    @fields,datas_scope = @business_object.lookup(params[:lksrch],params[:lkvfid],params)
+
+    @datas, @count = paginate(datas_scope)
+    respond_to do |format|
+      format.html {render :layout => "frame"}
+      format.json {
+        if @datas.count == 1
+          label_field = @fields.detect{|i| i[:label]}
+          value_field = @fields.detect{|i| i[:value_field]}
+          data = @datas.first
+          value = data[value_field[:key]]
+          label = data[label_field[:key]]
+          status = 'success'
+        else
+          value = label = false
+          status = 'fail'
+        end
+        render :json => {:value=> value, :label => label, :status => status, :num => @datas.count}
+      }
+    end
+  end
+
 end

@@ -9,11 +9,14 @@ class Skm::EntryHeader < ActiveRecord::Base
 
 
   validates_presence_of :entry_title, :channel_id
-  #validate :uniq_entry_title
+  validate :uniq_entry_title
 
   belongs_to :channel
 
-  attr_accessor :published_date_f, :full_title
+  attr_accessor :published_date_f, :full_title, :tmp_source_ids
+
+  after_save :merge_attachments
+
   #加入activerecord的通用方法和scope
   query_extend
   # 对运维中心数据进行隔离
@@ -21,6 +24,13 @@ class Skm::EntryHeader < ActiveRecord::Base
 
 #  acts_as_recently_objects(:title => "entry_title",
 #                           :target_controller => "skm/entry_headers")
+
+  def merge_attachments
+    if self.tmp_source_ids && self.tmp_source_ids.split(",").any?
+      Irm::AttachmentVersion.where(:source_id => self.tmp_source_ids.split(",")).update_all(:source_id => self.id)
+    end
+  end
+
   def uniq_entry_title
     #puts self.inspect
     if (self.history_flag.eql?("N"))
@@ -198,6 +208,10 @@ class Skm::EntryHeader < ActiveRecord::Base
       #当是关联知识专题
       if "entry_book".eql?(params[:lov_params][:lktkn]) && params[:lov_params][:entry_book_id].present?
         lov_scope = lov_scope.where("#{self.table_name}.history_flag='N' AND #{self.table_name}.entry_status_code='PUBLISHED' AND NOT EXISTS(SELECT 1 FROM #{Skm::EntryBookRelation.table_name} sebr WHERE (sebr.relation_type='ENTRYHEADER' AND sebr.target_id=#{self.table_name}.id AND sebr.book_id=? ) )", params[:lov_params][:entry_book_id] )
+        if params[:lov_params][:channel_id].present?
+          lov_scope = lov_scope.where("#{self.table_name}.channel_id=?", params[:lov_params][:channel_id])
+        end
+        lov_scope
       end
 
     end

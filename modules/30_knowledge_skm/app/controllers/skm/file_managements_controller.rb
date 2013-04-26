@@ -73,7 +73,7 @@ class Skm::FileManagementsController < ApplicationController
   end
   
   def edit
-    @file = Irm::Attachment.list_all.where("#{Irm::Attachment.table_name}.id = ?", params[:id]).first()
+    @file = Irm::Attachment.accessible(Irm::Person.current.id).where("#{Irm::Attachment.table_name}.id = ?", params[:id]).first
   end
 
   def update
@@ -102,14 +102,17 @@ class Skm::FileManagementsController < ApplicationController
     else
       @file.update_attribute(:description, infile[:description])
       @file.update_attribute(:file_category, infile[:file_category])
-      @file.update_attribute(:private_flag, infile[:private_flag])
+      #@file.update_attribute(:private_flag, infile[:private_flag])
       file = Irm::AttachmentVersion.where(:id => @file.latest_version_id)
       if file.any?
-        file.first().update_attributes(:private_flag => @file.private_flag,
+        file.first().update_attributes(#:private_flag => @file.private_flag,
                                :description => @file.description,
                                :category_id => @file.file_category)
       end
     end
+    #更新访问权限
+    @file.update_attribute(:access_type, params[:access_type])
+    @file.create_member_from_str(params[:member_str])
     respond_to do |format|
       if file_flag && @file.save
         format.html { redirect_to({:action=>"index"}, :notice =>t(:successfully_created)) }
@@ -141,7 +144,7 @@ class Skm::FileManagementsController < ApplicationController
   end
   
   def get_data
-    files_scope = Irm::Attachment.list_all
+    files_scope = Irm::Attachment.accessible(Irm::Person.current.id)
     files_scope = files_scope.match_value("#{Irm::AttachmentVersion.table_name}.data_file_name",params[:data_file_name])
     files_scope = files_scope.match_value("#{Irm::Attachment.table_name}.description",params[:description])
 
@@ -151,7 +154,7 @@ class Skm::FileManagementsController < ApplicationController
         @datas = files
         @count = count
       }
-      format.json  {render :json => to_jsonp(files.to_grid_json(['0',:private_flag, :category_id,:description, :data_file_name, :data_content_type, :data_file_size, :data_updated_at, :status_code, :category_name, :version_id], count)) }
+      format.json  {render :json => to_jsonp(files.to_grid_json(['0', :category_id,:description, :data_file_name, :data_content_type, :data_file_size, :data_updated_at, :status_code, :category_name, :version_id], count)) }
     end
   end
 
@@ -168,8 +171,19 @@ class Skm::FileManagementsController < ApplicationController
     end
   end
 
+  def version_details
+    @version = Irm::AttachmentVersion.find(params[:id])
+  end
+
+  def download_data
+    @version = Irm::AttachmentVersion.find(params[:id])
+    download_people_scope = Irm::AttachmentCounter.download_people(@version.id)
+    @datas,@count = paginate(download_people_scope)
+  end
+
   def get_version_files
-    @history_versions = Irm::Attachment.find(params[:id]).history_versions
+    attachment = Irm::Attachment.find(params[:id])
+    @history_versions = Irm::AttachmentVersion.history_versions(attachment.id, attachment.latest_version_id)
   end
   
   def remove_version_file

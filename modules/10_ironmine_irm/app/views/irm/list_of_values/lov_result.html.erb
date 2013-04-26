@@ -10,13 +10,13 @@
     </tr></table>
     <div class="page-block-body">
       <% if @datas.any? %>
-          <% if lookup_context.template_exists?("#{@business_object.bo_model_name.pluralize.underscore}/lov",[],true) %>
-              <%= render :partial => "#{@business_object.bo_model_name.pluralize.underscore}/lov" %>
-          <% else %>
-              <%= render :partial => "lov_result" %>
-          <% end %>
+        <% if lookup_context.template_exists?("#{@business_object.bo_model_name.pluralize.underscore}/lov",[],true) %>
+          <%= render :partial => "#{@business_object.bo_model_name.pluralize.underscore}/lov" %>
+        <% else %>
+          <%= render :partial => "lov_result" %>
+        <% end %>
       <% else %>
-        <%=   render :partial => "helper/datatable_no_data" %>
+        <%= render :partial => "helper/datatable_no_data" %>
       <% end %>
     </div>
   </div>
