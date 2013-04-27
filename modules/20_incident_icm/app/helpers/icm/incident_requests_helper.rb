@@ -207,7 +207,7 @@ module Icm::IncidentRequestsHelper
          end
           ret << content_tag(:tr,
                   content_tag(:td,
-                              delete_content +
+                              raw(delete_content) +
                               content_tag(:div,
                                           link_to(w[:request_number] + "#" + w[:title], {:controller => "icm/incident_journals", :action => "new", :request_id => w[:request_id]},
                                                   {:class => "request_info ellipsis",:style => "width:150px;",:title=>w[:request_number] + "#" + w[:title], :request_id => w[:request_id], :request_name => w[:request_number] + "#" + w[:title]}),
