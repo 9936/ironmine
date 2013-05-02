@@ -5,10 +5,10 @@ class Isp::CheckItem < ActiveRecord::Base
   has_many :alert_filters, :foreign_key => :check_item_id, :dependent => :destroy
 
   belongs_to :program, :foreign_key => :program_id
-  belongs_to :connection, :foreign_key => :connection_id
+  belongs_to :conn, :class_name => "Isp::Connection", :foreign_key => :connection_id
 
   validates_presence_of :program_id, :connection_id, :name, :object_symbol, :script
-  validates_uniqueness_of :connection_id, :scope => :program_id
+  #validates_uniqueness_of :connection_id, :scope => :program_id
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -26,6 +26,6 @@ class Isp::CheckItem < ActiveRecord::Base
 
 
   def execute(context)
-    self.connection.execute(context,self)
+    self.conn.execute(context,self)
   end
 end

@@ -1,6 +1,7 @@
 zh:
   #=========================Start Program=======================#
   label_isp_program: 巡检方案
+  label_isp_program_params: 参数
   label_isp_program_list: 方案列表
   label_isp_program_new: 新建方案
   label_isp_program_edit: 编辑方案
@@ -66,4 +67,10 @@ zh:
   label_isp_alert_filter_result_type: 值类型
   label_isp_alert_filter_operation: 操作符号
   label_isp_alert_filter_value: 值
+  label_isp_alert_filter_display_template: 展示模板
+  label_isp_alert_filter_e: 等于
+  label_isp_alert_filter_n: 不等于
+  label_isp_alert_filter_g: 大于
+  label_isp_alert_filter_l: 小于
+  label_isp_alert_filter_result: 检测结果：%{target} %{operation} 警告值：%{value}
   #=========================End Alert Filters=======================#

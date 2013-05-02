@@ -50,4 +50,28 @@ class Isp::Program < ActiveRecord::Base
     str
   end
 
+
+  #检查警告
+  def check_alert(results)
+    alert_results = ""
+    self.check_items.each do |check_item|
+      alert_filters = check_item.alert_filters
+      if alert_filters.any?
+        #巡检的结果中有对应的值
+        check_item_result = results[check_item.object_symbol.to_s]
+
+        #去除换行
+        check_item_result = check_item_result.gsub(/\n/," ")
+        alert_filters.each do |alert_filter|
+          alert_check_result = alert_filter.check_result(check_item.object_symbol, check_item_result)
+
+          if alert_check_result.present?
+            alert_results << alert_check_result
+          end
+        end
+      end
+    end
+    alert_results
+  end
+
 end

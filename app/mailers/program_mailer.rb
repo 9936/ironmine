@@ -14,10 +14,15 @@ class ProgramMailer < ActionMailer::Base
       execute_context.merge!({p.object_symbol=>p.value})
     end
     results = program.execute(execute_context)
+
+
     @doc = program.generate_report(results)
     if @doc.blank?
       @doc = "There is no data."
     end
+
+    #检查警告条件
+    @doc_alerts = program.check_alert(results)
 
 
     subject = "#{program[:name]}-#{program_schedule.run_at.strftime('%Y-%m-%d %H:%M:%S')}"

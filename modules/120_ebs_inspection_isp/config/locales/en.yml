@@ -1,6 +1,7 @@
 en:
   #=========================Start Program=======================#
   label_isp_program: Program
+  label_isp_program_params: Params
   label_isp_program_list: Program List
   label_isp_program_new: New Program
   label_isp_program_edit: Edit Program
@@ -9,6 +10,8 @@ en:
   label_isp_program_new_execute: New Execute
   label_isp_program_new_execute_run: Execute Now
   label_isp_program_new_execute_trigger: Execute Trigger
+  label_isp_program_new_execute_trigger_person: Execute Trigger Person
+  label_isp_program_new_execute_trigger_receiver: Trigger Receivers
   #=========================End Program=======================#
 
   #=========================Start Connection=======================#
@@ -56,3 +59,18 @@ en:
   label_isp_check_template_template_type: Template Type
   label_isp_check_template_body: Template Body
   #=========================End isp check template=======================#
+
+  #=========================Start Alert Filters=======================#
+  label_isp_alert_filter: Alert Filter
+  label_isp_alert_filter_new: New Alert Filter
+  label_isp_alert_filter_edit: Edit Alert Filter
+  label_isp_alert_filter_result_type: Value Type
+  label_isp_alert_filter_operation: Operation
+  label_isp_alert_filter_value: Value
+  label_isp_alert_filter_display_template: Display Template
+  label_isp_alert_filter_e: Equal
+  label_isp_alert_filter_n: Not Equal
+  label_isp_alert_filter_g: Greater Than
+  label_isp_alert_filter_l: Less Than
+  label_isp_alert_filter_result: The Check Result：%{target} %{operation} Alert value：%{value}
+  #=========================End Alert Filters=======================#

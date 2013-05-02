@@ -1,4 +1,5 @@
 class Isp::CheckTemplatesController < ApplicationController
+
   # GET /isp/check_templates
   # GET /isp/check_templates.xml
   def index
@@ -26,6 +27,8 @@ class Isp::CheckTemplatesController < ApplicationController
   def new
     @check_template = Isp::CheckTemplate.new(:program_id=>params[:program_id])
 
+    find_param_symbols
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @check_template }
@@ -35,6 +38,7 @@ class Isp::CheckTemplatesController < ApplicationController
   # GET /isp/check_templates/1/edit
   def edit
     @check_template = Isp::CheckTemplate.find(params[:id])
+    find_param_symbols
   end
 
   # POST /isp/check_templates
@@ -111,4 +115,24 @@ class Isp::CheckTemplatesController < ApplicationController
       format.json {render :json=>to_jsonp(check_templates.to_grid_json([:name,:description,:status_meaning],count))}
     end
   end
+
+  private
+    def find_param_symbols
+      @param_symbols = []
+
+      program = @check_template.program
+
+      program.connections.each do |conn|
+        @param_symbols << conn.object_symbol
+      end
+
+      program.check_parameters.each do |cp|
+        @param_symbols << cp.object_symbol
+      end
+
+      program.check_items.each do |ci|
+        @param_symbols << ci.object_symbol
+      end
+
+    end
 end

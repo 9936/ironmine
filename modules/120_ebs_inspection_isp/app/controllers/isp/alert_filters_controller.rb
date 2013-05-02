@@ -1,10 +1,10 @@
 class Isp::AlertFiltersController < ApplicationController
   def show
-    @check_item_alert_filter = Isp::AlertFilter.find(params[:id])
+    @alert_filter = Isp::AlertFilter.with_operation_meaning.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @check_item_alert_filter }
+      format.xml  { render :xml => @alert_filter }
     end
   end
 
@@ -21,7 +21,7 @@ class Isp::AlertFiltersController < ApplicationController
 
   # GET /alert_filters/1/edit
   def edit
-    @check_item_alert_filter = Isp::AlertFilter.find(params[:id])
+    @alert_filter = Isp::AlertFilter.find(params[:id])
   end
 
   # POST /alert_filters
@@ -32,7 +32,6 @@ class Isp::AlertFiltersController < ApplicationController
     respond_to do |format|
       if @alert_filter.save
         check_item = @alert_filter.check_item
-
         format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id, :program_id => check_item.program_id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @alert_filter, :status => :created, :location => @alert_filter }
       else
@@ -63,15 +62,16 @@ class Isp::AlertFiltersController < ApplicationController
   # PUT /alert_filters/1
   # PUT /alert_filters/1.xml
   def update
-    @check_item_alert_filter = Isp::AlertFilter.find(params[:id])
+    @alert_filter = Isp::AlertFilter.find(params[:id])
 
     respond_to do |format|
-      if @check_item_alert_filter.update_attributes(params[:check_item_alert_filter])
-        format.html { redirect_to({:action => "index"}, :notice => t(:successfully_updated)) }
+      if @alert_filter.update_attributes(params[:isp_alert_filter])
+        check_item = @alert_filter.check_item
+        format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id, :program_id => check_item.program_id}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @check_item_alert_filter.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @alert_filter.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -79,11 +79,12 @@ class Isp::AlertFiltersController < ApplicationController
   # DELETE /alert_filters/1
   # DELETE /alert_filters/1.xml
   def destroy
-    @check_item_alert_filter = Isp::AlertFilter.find(params[:id])
-    @check_item_alert_filter.destroy
+    @alert_filter = Isp::AlertFilter.find(params[:id])
+    @alert_filter.destroy
 
     respond_to do |format|
-      format.html { redirect_to(check_item_alert_filters_url) }
+      check_item = @alert_filter.check_item
+      format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id, :program_id => check_item.program_id}) }
       format.xml  { head :ok }
     end
   end

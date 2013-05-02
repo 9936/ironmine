@@ -79,20 +79,34 @@ class Isp::Connection < ActiveRecord::Base
 
     def execute_shell(shell_script)
       require 'net/ssh'
-      puts self.to_json
+      require 'net/sftp'
+
+      tmp_script_file = "#{(Time.now.to_f * 10E7).to_i}.sh"
+
+      file = File.new("#{Rails.root}/tmp/#{tmp_script_file}", "w")
+      file.puts "BASH=`which bash`"
+
+      script_lines = shell_script.split("\r\n")
+      script_lines.each do |script_line|
+        file.puts script_line
+      end
+
+      file.close
+
+
+
+      #cmd = "touch #{tmp_script_file}"
+      #cmd << " && echo '#!/bin/sh' >> #{tmp_script_file}"
+      #cmd << " && echo '#{shell_script}' >> #{tmp_script_file}"
+      #cmd << " && chmod +x #{tmp_script_file}"
+      #cmd << " && ./#{tmp_script_file}"
+
       Net::SSH.start(self.host, self.username, :password => self.password) do |ssh|
-        result = ssh.exec!(shell_script)
-        #ssh.open_channel do |ch|
-        #  ch.exec "#{shell_script}" do |ch, success|
-        #    abort "could not execute command" unless success
-        #
-        #    ch.on_data do |ch, data|
-        #      print data
-        #      ch.exec shell_script
-        #    end
-        #  end
-        #end
-        ssh.loop
+        ssh.sftp.upload!("#{Rails.root}/tmp/#{tmp_script_file}", "#{tmp_script_file}")
+        result = ssh.exec!("chmod +x #{tmp_script_file} && $BASH ./#{tmp_script_file}")
+        ssh.exec!("rm -f #{tmp_script_file}")
+        `rm -f #{Rails.root}/tmp/#{tmp_script_file}`
+        #ssh.loop
         result
       end
     end

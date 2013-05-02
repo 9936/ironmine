@@ -1,5 +1,5 @@
 <%= common_title %>
-<%= form_for(@alert_filter, :url => {:action => "create"}, :builder => CustomFormBuilder) do |f| %>
+<%= form_for(@alert_filter, :url => {:action => "update"}, :builder => CustomFormBuilder) do |f| %>
     <%= f.hidden_field :check_item_id %>
     <% content_for :form_block_a do %>
         <table class="form-table">
@@ -17,7 +17,7 @@
                                                                                     :depend=>"isp_alert_filter_type",
                                                                                     :blank=> "--- #{t(:actionview_instancetag_blank_option)} ---",
                                                                                     :href=>url_for(:controller=>"isp/alert_filters", :action=>"get_operator_data",:format=>"json",
-                                                                                                                                      :result_type=>"${isp_alert_filter_type}") } %></td>
+                                                                                                   :result_type=>"${isp_alert_filter_type}") } %></td>
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
@@ -27,12 +27,14 @@
             <td class="label-col empty">&nbsp;</td>
             <td class="data-col empty">&nbsp;</td>
           </tr>
+
           <tr>
             <td class="label-col"><label for="content"><%= t(:label_isp_alert_filter_display_template) %></label></td>
             <td class="data-3col" colspan="3">
               <%= render :partial => "isp/alert_filters/editor", :locals => {:f => f} %>
             </td>
           </tr>
+
           </tbody>
         </table>
     <% end %>
@@ -45,7 +47,7 @@
       <table class="page-block-header">
         <tr>
           <td class="page-block-title">
-            <h2 class="block-title"><%= t(:label_isp_alert_filter_new) %></h2>
+            <h2 class="block-title"><%= t(:label_isp_alert_filter_edit) %></h2>
           </td>
           <td class="page-block-button">
             <%= content_for :form_buttons %>
