@@ -63,7 +63,11 @@ class Isp::Program < ActiveRecord::Base
         #去除换行
         check_item_result = check_item_result.gsub(/\n/," ")
         alert_filters.each do |alert_filter|
-          alert_check_result = alert_filter.check_result(check_item.object_symbol, check_item_result)
+          begin
+            alert_check_result = alert_filter.check_result(check_item.object_symbol, check_item_result)
+          rescue
+            alert_check_result = ""
+          end
 
           if alert_check_result.present?
             alert_results << alert_check_result

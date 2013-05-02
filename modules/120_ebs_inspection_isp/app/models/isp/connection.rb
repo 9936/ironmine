@@ -101,13 +101,22 @@ class Isp::Connection < ActiveRecord::Base
       #cmd << " && chmod +x #{tmp_script_file}"
       #cmd << " && ./#{tmp_script_file}"
 
-      Net::SSH.start(self.host, self.username, :password => self.password) do |ssh|
-        ssh.sftp.upload!("#{Rails.root}/tmp/#{tmp_script_file}", "#{tmp_script_file}")
-        result = ssh.exec!("chmod +x #{tmp_script_file} && $BASH ./#{tmp_script_file}")
-        ssh.exec!("rm -f #{tmp_script_file}")
+      begin
+        Net::SSH.start(self.host, self.username, :password => self.password) do |ssh|
+          ssh.sftp.upload!("#{Rails.root}/tmp/#{tmp_script_file}", "#{tmp_script_file}")
+          result = ssh.exec!("chmod +x #{tmp_script_file} && $BASH ./#{tmp_script_file}")
+          ssh.exec!("rm -f #{tmp_script_file}")
+          `rm -f #{Rails.root}/tmp/#{tmp_script_file}`
+          result
+        end
+      rescue Net::SSH::AuthenticationFailed => ea
         `rm -f #{Rails.root}/tmp/#{tmp_script_file}`
-        #ssh.loop
-        result
+        I18n.t(:label_isp_connection_exception, :host => self.host)
+      rescue Net::SSH::Exception => e
+        `rm -f #{Rails.root}/tmp/#{tmp_script_file}`
+        e.message
       end
+
+
     end
 end

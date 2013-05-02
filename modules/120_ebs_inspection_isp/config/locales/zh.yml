@@ -24,6 +24,7 @@ zh:
   label_isp_connection_username: 用户
   label_isp_connection_password: 密码
   label_isp_connection_object_symbol: 符号
+  label_isp_connection_exception: 无法连接到%{host}，检查帐号和密码是否正确
   #=========================End Connection=======================#
 
   #=========================Start Check Parameter=======================#
