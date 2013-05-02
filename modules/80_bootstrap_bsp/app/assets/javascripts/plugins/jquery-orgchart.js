@@ -113,6 +113,9 @@
         var $nodeRow = $("<tr/>").addClass("node-cells");
         var $nodeCell = $("<td/>").addClass("node-cell").attr("colspan", 2);
 
+
+
+
         var $childNodes = $node.children("ul:first").children("li");
         var $nodeDiv;
 
@@ -135,6 +138,7 @@
             .data("tree-node", nodeCount)
             .attr("data-toggle", "popover")
             .append($nodeContent);
+
 
         if(level > 0){
             var tipText = ""
@@ -180,6 +184,18 @@
 
         $nodeCell.append($nodeDiv);
         $nodeRow.append($nodeCell);
+
+        //添加目标箭头
+        if(level > 0){
+            var $nodeArrowRow = $("<tr/>").addClass("line-arrow-down-box");
+            var $nodeArrowCell = $("<td/>").addClass("line-arrow-cell").attr("colspan", 2);
+            $nodeArrowCell.append($("<div>").addClass("line-arrow-down"));
+            if($childNodes.length > 1) {
+                $nodeArrowCell.attr("colspan", $childNodes.length * 2);
+            }
+            $nodeArrowRow.append($nodeArrowCell);
+            $tbody.append($nodeArrowRow);
+        }
         $tbody.append($nodeRow);
 
         if($childNodes.length > 0) {
