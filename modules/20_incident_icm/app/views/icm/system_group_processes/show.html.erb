@@ -46,9 +46,9 @@
   </tr></table>
   <div class="page-block-body" style="height: 600px;">
     <div id="holder"></div>
-    <div class="support-group-node" id="0" data-relations="<%= @relation_hash['0'] %>">无支持组</div>
+    <div class="support-group-node" id="0" data-relations="<%= @relation_hash['0'] %>"><%= t(:label_irm_system_group_process_blank)%></div>
     <% support_group_process_rows(current_system.id).each do |support_group| %>
-      <div id="<%= support_group[:support_group_id] %>" data-relations='<%= @relation_hash[support_group[:support_group_id].to_s] %>' class="support-group-node"><%= support_group[:group_name] %></div>
+      <div id="<%= support_group[:support_group_id] %>" data-relations='<%= @relation_hash[support_group[:support_group_id].to_s] %>' class="support-group-node"><%= truncate(support_group[:group_name],{:length => 10})  %></div>
     <% end %>
 
     <script type="text/javascript">
@@ -69,7 +69,7 @@
 
                 var color = Raphael.getColor();
                 var transform = "r" + angle + " 320 300";
-                var node = $(nodes[node_index])
+                var node = $(nodes[node_index]);
 
                 var circle = r.circle(320, 510, 40).attr({stroke: color, fill: color, transform: transform, "fill-opacity": .4});
 
@@ -81,6 +81,7 @@
                 angle += 360/nodes.length;
                 node_index += 1;
             }
+
             for(var i= 0, ii = nodes.length; i< ii; i++){
                 var node = $(nodes[i]);
                 var relations = eval(node.data("relations"));
@@ -97,9 +98,9 @@
             var point = getStartEnd(obj.obj1, obj.obj2);
             var path1 = getArr(point.start.x, point.start.y, point.end.x, point.end.y, 10);
             if (obj.arrPath) {
-                obj.arrPath.attr({ path:path1,stroke: "#808080", fill: "none", "stroke-width": 3,"fill-opacity": 0.3 });
+                obj.arrPath.attr({ path:path1,stroke: "#808080", fill: "none", "stroke-width": 2,"fill-opacity": 0.3 });
             } else {
-                obj.arrPath = this.path(path1).attr({stroke: "#808080", fill: "none", "stroke-width": 3, "fill-opacity": 0.3});
+                obj.arrPath = this.path(path1).attr({stroke: "#808080", fill: "none", "stroke-width": 2, "fill-opacity": 0.3});
             }
             return obj;
         };
