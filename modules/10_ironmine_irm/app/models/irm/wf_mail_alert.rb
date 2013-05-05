@@ -104,9 +104,9 @@ class Irm::WfMailAlert < ActiveRecord::Base
 
 
     # loop send mail
-    bo_create_by = bo.respond_to?(:created_by)? bo.created_by : "nocreatedby" # do not send to creater
+    bo_update_by = bo.respond_to?(:updated_by)? bo.created_by : "nocreatedby" # do not send to creater
 
-    recipient_ids.delete_if{|i| i.eql?(bo_create_by)}
+    recipient_ids.delete_if{|i| i.eql?(bo_update_by)}
 
     #记录到邮件发送日志表
     logger_options = {
