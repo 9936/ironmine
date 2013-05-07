@@ -1,6 +1,5 @@
 <%= common_title %>
 <%= form_for(@isp_check_item, :url => {:action => "update"}, :builder => CustomFormBuilder) do |f| %>
-    <%= f.hidden_field :program_id %>
     <% content_for :form_block_a do %>
         <table class="form-table">
           <tbody>
@@ -11,12 +10,6 @@
             <td class="data-col empty">&nbsp;</td>
           </tr>
 
-          <tr>
-            <td class="label-col"><label><%= t(:label_isp_check_item_connection) %></label></td>
-            <td class="data-col"><%= f.select :connection_id, available_connections(@isp_check_item.program_id), :required => true %></td>
-            <td class="label-col empty">&nbsp;</td>
-            <td class="data-col empty">&nbsp;</td>
-          </tr>
 
           <tr>
             <td class="label-col"><label><%= t(:label_isp_check_item_object_symbol) %></label></td>

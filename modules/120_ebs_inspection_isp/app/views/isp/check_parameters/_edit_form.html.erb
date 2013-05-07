@@ -1,6 +1,6 @@
 <%= common_title({:model_meaning=>t(:label_isp_parameter)}) %>
 <%= form_for(@isp_check_parameter, :url => {:action => "update"}, :builder => CustomFormBuilder) do |f| %>
-    <%= f.hidden_field :program_id %>
+    <%= f.hidden_field :check_item_id %>
     <% content_for :form_block_a do %>
         <table class="form-table">
           <tbody>

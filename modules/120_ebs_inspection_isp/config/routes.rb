@@ -26,23 +26,34 @@ Rails.application.routes.draw do
     match '/programs/:program_id/connections/:id/destroy(.:format)' => "connections#destroy", :via => :delete
     match '/programs/:program_id/connections/create(.:format)' => "connections#create", :via => :post
 
-    #check_parameters
-    match '/programs/:program_id/check_parameters/get_data(.:format)' => "check_parameters#get_data"
-    match '/programs/:program_id/check_parameters/:id/edit(.:format)' => "check_parameters#edit", :via => :get
-    match '/programs/:program_id/check_parameters/:id(.:format)' => "check_parameters#update", :via => :put
-    match '/programs/:program_id/check_parameters/new(.:format)' => "check_parameters#new", :via => :get
-    match '/programs/:program_id/check_parameters/:id(.:format)' => "check_parameters#show", :via => :get
-    match '/programs/:program_id/check_parameters/:id/destroy(.:format)' => "check_parameters#destroy", :via => :delete
-    match '/programs/:program_id/check_parameters/create(.:format)' => "check_parameters#create", :via => :post
+    #check_templates
+    match '/programs/:program_id/check_templates/get_data(.:format)' => "check_templates#get_data"
+    match '/programs/:program_id/check_templates/:id/edit(.:format)' => "check_templates#edit", :via => :get
+    match '/programs/:program_id/check_templates/:id(.:format)' => "check_templates#update", :via => :put
+    match '/programs/:program_id/check_templates/new(.:format)' => "check_templates#new", :via => :get
+    match '/programs/:program_id/check_templates/:id(.:format)' => "check_templates#show", :via => :get
+    match '/programs/:program_id/check_templates/:id/destroy(.:format)' => "check_templates#destroy", :via => :delete
+    match '/programs/:program_id/check_templates/create(.:format)' => "check_templates#create", :via => :post
+
 
     #check_items
-    match '/programs/:program_id/check_items/get_data(.:format)' => "check_items#get_data"
-    match '/programs/:program_id/check_items/:id/edit(.:format)' => "check_items#edit", :via => :get
-    match '/programs/:program_id/check_items/:id(.:format)' => "check_items#update", :via => :put
-    match '/programs/:program_id/check_items/new(.:format)' => "check_items#new", :via => :get
-    match '/programs/:program_id/check_items/:id(.:format)' => "check_items#show", :via => :get
-    match '/programs/:program_id/check_items/:id/destroy(.:format)' => "check_items#destroy", :via => :delete
-    match '/programs/:program_id/check_items/create(.:format)' => "check_items#create", :via => :post
+    match '/check_items(/index)(.:format)' => "check_items#index", :via => :get
+    match '/check_items/get_data(.:format)' => "check_items#get_data"
+    match '/check_items/:id/edit(.:format)' => "check_items#edit", :via => :get
+    match '/check_items/:id(.:format)' => "check_items#update", :via => :put
+    match '/check_items/new(.:format)' => "check_items#new", :via => :get
+    match '/check_items/:id(.:format)' => "check_items#show", :via => :get
+    match '/check_items/:id/destroy(.:format)' => "check_items#destroy", :via => :delete
+    match '/check_items/create(.:format)' => "check_items#create", :via => :post
+
+    #check_parameters
+    match '/check_items/:check_item_id/check_parameters/get_data(.:format)' => "check_parameters#get_data"
+    match '/check_items/:check_item_id/check_parameters/:id/edit(.:format)' => "check_parameters#edit", :via => :get
+    match '/check_items/:check_item_id/check_parameters/:id(.:format)' => "check_parameters#update", :via => :put
+    match '/check_items/:check_item_id/check_parameters/new(.:format)' => "check_parameters#new", :via => :get
+    match '/check_items/:check_item_id/check_parameters/:id(.:format)' => "check_parameters#show", :via => :get
+    match '/check_items/:check_item_id/check_parameters/:id/destroy(.:format)' => "check_parameters#destroy", :via => :delete
+    match '/check_items/:check_item_id/check_parameters/create(.:format)' => "check_parameters#create", :via => :post
 
     #alert_filters
     match '/check_items/:check_item_id/alert_filters/get_data(.:format)' => "alert_filters#get_data"
@@ -54,14 +65,7 @@ Rails.application.routes.draw do
     match '/check_items/:check_item_id/alert_filters/:id/destroy(.:format)' => "alert_filters#destroy", :via => :delete
     match '/check_items/:check_item_id/alert_filters/create(.:format)' => "alert_filters#create", :via => :post
 
-    #check_templates
-    match '/programs/:program_id/check_templates/get_data(.:format)' => "check_templates#get_data"
-    match '/programs/:program_id/check_templates/:id/edit(.:format)' => "check_templates#edit", :via => :get
-    match '/programs/:program_id/check_templates/:id(.:format)' => "check_templates#update", :via => :put
-    match '/programs/:program_id/check_templates/new(.:format)' => "check_templates#new", :via => :get
-    match '/programs/:program_id/check_templates/:id(.:format)' => "check_templates#show", :via => :get
-    match '/programs/:program_id/check_templates/:id/destroy(.:format)' => "check_templates#destroy", :via => :delete
-    match '/programs/:program_id/check_templates/create(.:format)' => "check_templates#create", :via => :post
+
 
   end
 
