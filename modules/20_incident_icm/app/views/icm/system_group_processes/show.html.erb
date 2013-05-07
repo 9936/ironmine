@@ -2,7 +2,7 @@
 <% require_jscss([:raphael]) %>
 <style type="text/css">
 
-    #holder {
+    #holder,#modelHolder {
         /*background: #333;*/
         /*top: 250px;*/
         /*left: 250px;*/
@@ -18,21 +18,10 @@
         /*overflow: hidden;*/
     }
 
-    .support-group-node {
+    .support-group-node, #show-all-btn {
         display: none;
-        /*display: inline-block;*/
     }
-    .test {
 
-        /*position: absolute;*/
-        /*padding: 5px 10px;*/
-        /*width: 100%;*/
-        /*min-width: 60px;*/
-        /*height: 30px;*/
-        /*top: 0px;*/
-        /*z-index: 0;*/
-        /*display: inline-block;*/
-    }
 </style>
 
 <!--页面结构-->
@@ -42,12 +31,16 @@
       <h2 class="block-title"></h2>
     </td>
     <td class="page-block-button">
-      <%= link_to t(:edit), {:action => "edit", :id => @system_group_process},:class=>"btn"%>
-      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+      <div id="btn-box">
+        <%= link_to t(:edit), {:action => "edit", :id => @system_group_process},:class=>"btn"%>
+        <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+      </div>
+      <a href="javascript:void(0);" id="show-all-btn" class="btn btn-primary ">显示全部</a>
     </td>
   </tr></table>
   <div class="page-block-body" style="height: 600px;">
     <div id="holder"></div>
+    <div id="modelHolder"></div>
     <div class="support-group-node" id="0" data-relations="<%= @relation_hash['0'] %>"><%= t(:label_irm_system_group_process_blank)%></div>
     <% support_group_process_rows(current_system.id).each do |support_group| %>
       <div id="<%= support_group[:support_group_id] %>" data-relations='<%= @relation_hash[support_group[:support_group_id].to_s] %>' class="support-group-node"><%= truncate(support_group[:group_name],{:length => 10})  %></div>
@@ -55,9 +48,9 @@
 
     <script type="text/javascript">
         $(function () {
-
             //用来存储节点的顺序
             var connections = [];
+            var show_all = true;
             //创建绘图对象
             var r = Raphael("holder", 800, 800);
             //绘制节点
@@ -78,9 +71,28 @@
 
                 var circle = r.rect(320-x, 300 + y, 60, 40, 4).attr({stroke: color, fill: color, "fill-opacity": .4});
                 circle.id = node.attr("id");
-                circle.click(function () {showRect(this.id, nodes); });
+                circle.click(function () {
+                    if(show_all) {
+                        for (var i = connections.length; i--;) {
+                            if(connections[i][0] != this.id ) {
+                                connections[i][1].hide();
+                                connections[i][2].hide();
+                            }
+                        }
+                        show_all = false;
+                    }else{
+                        for (var i = connections.length; i--;) {
+                            connections[i][1].show();
+                            connections[i][2].show();
+                        }
+                        show_all = true;
+                    }
+
+                    r.safari();
+//                  showRect(this.id, nodes);
+                });
                 var text = r.text(320 - x + 30, 300 + y + 20, node.text()).attr({stroke: "#333", fill: color, "fill-opacity": .4});
-//                text.click(function () { $('#raphaelModal').modal("show")});
+                text.click(function () { $('#raphaelModal').modal("show")});
                 circles[node.attr("id")] = circle;
                 angle += 360/nodes.length;
                 node_index += 1;
@@ -94,7 +106,7 @@
 
                 if(relations && relations.length > 0) {
                     for(var j = 0; j < relations.length; j++) {
-                        r.connection(circles[node.attr("id")], circles[relations[j]]);
+                        connections.push(r.connection(circles[node.attr("id")], circles[relations[j]], node.attr("id")));
                     }
                 }
             }
@@ -102,88 +114,32 @@
         });
 
 
-        Raphael.fn.connection = function (obj1, obj2) {
+        Raphael.fn.connection = function (obj1, obj2, id) {
             var bb1 = obj1.getBBox(), bb2 = obj2.getBBox();
-            var end_x = bb2.x + 30, end_y = bb2.y + 40;
+//            var point = getStartEnd(obj1, obj2);
+//            var path1 = getArr(point.start.x, point.start.y, point.end.x, point.end.y, 10);
+
+            var end_x =  bb2.x + 30, end_y = bb2.y + 40;
+            if(bb1.x == bb2.x){
+                end_x -= 20;
+            }
+//            var end_x =  point.end.x, end_y = point.end.y;
             var star = ["M", end_x, end_y, "l", 10, 18, "l", -20, 0, "l", 10, -18, "M", end_x, end_y + 18, "l", 0, 10];
-            this.path(star).attr({stroke: Raphael.getColor(), fill: "#fff", "stroke-width": 2});
+            var starObj = this.path(star).attr({stroke: Raphael.getColor(), fill: "#fff", "stroke-width": 2});
 
             var start_x = bb1.x + 30, start_y = bb1.y;
+            if(bb1.x == bb2.x) {
+                start_x += 20;
+            }
+//            var start_x = point.start.x, start_y = point.start.y;
             end_y += 28;
 
             var j = Math.max(Math.abs(end_y - start_y) / 2, 40);
             var line = ["M", end_x, end_y, "C", end_x, end_y + j, start_x, start_y - j, start_x, start_y];
-            this.path(line).attr({stroke: Raphael.getColor(),"stroke-width": 2});
+            var lineObj = this.path(line).attr({stroke: Raphael.getColor(),"stroke-width": 2});
             this.safari();
+            return [id, starObj, lineObj]
         };
-
-//        Raphael.fn.drawArr = function (obj) {
-//            var point = getStartEnd(obj.obj1, obj.obj2);
-//            var path1 = getArr(point.start.x, point.start.y, point.end.x, point.end.y, 10);
-//            if (obj.arrPath) {
-//                obj.arrPath.attr({ path:path1,stroke: "#808080", fill: "none", "stroke-width": 2,"fill-opacity": 0.3 });
-//            } else {
-//                obj.arrPath = this.path(path1).attr({stroke: "#808080", fill: "none", "stroke-width": 2, "fill-opacity": 0.3});
-//            }
-//            return obj;
-//        };
-//        function getStartEnd(obj1, obj2) {
-//            var bb1 = obj1.getBBox(),
-//                    bb2 = obj2.getBBox();
-//            var p = [
-//                { x:bb1.x + bb1.width / 2, y:bb1.y - 1 },
-//                { x:bb1.x + bb1.width / 2, y:bb1.y + bb1.height + 1 },
-//                { x:bb1.x - 1, y:bb1.y + bb1.height / 2 },
-//                { x:bb1.x + bb1.width + 1, y:bb1.y + bb1.height / 2 },
-//                { x:bb2.x + bb2.width / 2, y:bb2.y - 1 },
-//                { x:bb2.x + bb2.width / 2, y:bb2.y + bb2.height + 1 },
-//                { x:bb2.x - 1, y:bb2.y + bb2.height / 2 },
-//                { x:bb2.x + bb2.width + 1, y:bb2.y + bb2.height / 2 }
-//            ];
-//            var d = {}, dis = [];
-//            for (var i = 0; i < 4; i++) {
-//                for (var j = 4; j < 8; j++) {
-//                    var dx = Math.abs(p[i].x - p[j].x),
-//                            dy = Math.abs(p[i].y - p[j].y);
-//                    if (
-//                            (i == j - 4) ||
-//                                    (((i != 3 && j != 6) || p[i].x < p[j].x) &&
-//                                            ((i != 2 && j != 7) || p[i].x > p[j].x) &&
-//                                            ((i != 0 && j != 5) || p[i].y > p[j].y) &&
-//                                            ((i != 1 && j != 4) || p[i].y < p[j].y))
-//                            ) {
-//                        dis.push(dx + dy);
-//                        d[dis[dis.length - 1]] = [i, j];
-//                    }
-//                }
-//            }
-//            if (dis.length == 0) {
-//                var res = [0, 4];
-//            } else {
-//                res = d[Math.min.apply(Math, dis)];
-//            }
-//            var result = {};
-//            result.start = {};
-//            result.end = {};
-//            result.start.x = p[res[0]].x;
-//            result.start.y = p[res[0]].y;
-//            result.end.x = p[res[1]].x;
-//            result.end.y = p[res[1]].y;
-//
-//            return result;
-//        }
-//        //获取组成箭头的三条线段的路径
-//        function getArr(x1, y1, x2, y2, size) {
-//            var angle = Raphael.angle(x1, y1, x2, y2);//得到两点之间的角度
-//            var a45 = Raphael.rad(angle - 45);//角度转换成弧度
-//            var a45m = Raphael.rad(angle + 45);
-//            var x2a = x2 + Math.cos(a45) * size;
-//            var y2a = y2 + Math.sin(a45) * size;
-//            var x2b = x2 + Math.cos(a45m) * size;
-//            var y2b = y2 + Math.sin(a45m) * size;
-//            var result = ["M", x1, y1, "L", x2, y2, "L", x2a, y2a, "M", x2, y2, "L", x2b, y2b];
-//            return result;
-//        }
 
           function showRect(id, nodes){
               var holderModal = $("#modelHolder").html("");
@@ -197,7 +153,6 @@
               for(var i=0; i < nodes.length; i++){
                   var node = $(nodes[i]);
                   var relations = eval(node.data("relations"));
-                  console.log($.inArray(id, relations));
                   if(node.attr("id") === id && relations) {
                       targetRelations["to"] = relations;
                       for(var j=0; j< relations.length; j++){
@@ -212,6 +167,9 @@
                       }
                   }
               }
+              if(modalNodes.length == 1){
+                  return;
+              }
               Raphael.getColor.reset();
 
               var node_index = 0;
@@ -220,9 +178,9 @@
                   var x = Math.sin(Raphael.rad(angle)) * 150;
                   var y = Math.cos(Raphael.rad(angle)) * 150;
                   var color = Raphael.getColor();
-                  var transform = "r" + angle + " 220 240";
-                  var rect = r.rect(220-x, 200 + y, 60, 40, 4).attr({stroke: color, fill: color, "fill-opacity": .4});
-//                  r.text(220 - x + 30, 200 + y + 20, "Hello").attr({stroke: "#333", fill: color, "fill-opacity": .4});
+                  var transform = "r" + angle + " 320 200";
+                  var rect = r.rect(320-x, 200 + y, 60, 40, 4).attr({stroke: color, fill: color, "fill-opacity": .4});
+                  r.text(320-x + 30, 200 + y + 20, $("#"+modalNodes[node_index]).text()).attr({stroke: "#333", fill: color, "fill-opacity": .4});
 
                   modalRects[modalNodes[node_index]] = rect;
                   angle += 360/modalNodes.length;
@@ -237,26 +195,13 @@
               for(var i = 0; i<targetRelations["from"].length; i++) {
                   r.connection(modalRects[targetRelations["from"][i]],modalRects[id]);
               }
-
-              $('#raphaelModal').modal("show");
+              $("#holder").hide();
+              $("#modelHolder").show();
+              $("#btn-box").hide();
+              $("#show-all-btn").show();
           }
 
-
     </script>
-  </div>
-
-  <div id="raphaelModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="raphaelModalLabel" aria-hidden="true">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="myModalLabel">Modal header</h3>
-    </div>
-    <div class="modal-body" style="max-height: 600px;">
-      <div id="modelHolder" style="height: 450px;"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      <button class="btn btn-primary">Save changes</button>
-    </div>
   </div>
 
 </div>
