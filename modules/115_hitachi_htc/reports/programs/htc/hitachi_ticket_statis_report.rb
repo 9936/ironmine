@@ -16,9 +16,9 @@ class Htc::HitachiTicketStatisReport < Irm::ReportManager::ReportBase
       people = people.where("EXISTS (SELECT * FROM #{Irm::GroupMember.table_name} gm WHERE gm.person_id = #{Irm::Person.table_name}.id)")
     end
 
-    open_status = Icm::IncidentStatus.where("incident_status_code NOT IN (?)", ["CLOSE", "SOLVED"]).collect(&:id)
+    open_status = Icm::IncidentStatus.where("incident_status_code NOT IN (?)", ["CLOSED", "SOLVED"]).collect(&:id)
     resolved_status = Icm::IncidentStatus.where("incident_status_code IN (?)", ["SOLVED"]).collect(&:id)
-    close_status = Icm::IncidentStatus.where("incident_status_code IN (?)", ["CLOSE"]).collect(&:id)
+    close_status = Icm::IncidentStatus.where("incident_status_code IN (?)", ["CLOSED"]).collect(&:id)
 
     on_hand_open = Icm::IncidentRequest.
         where("incident_status_id IN (?)", open_status).
