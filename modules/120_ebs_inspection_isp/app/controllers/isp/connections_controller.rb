@@ -88,8 +88,8 @@ class Isp::ConnectionsController < ApplicationController
   end
 
   def remove_item
-    @isp_connection_item = Isp::ConnectionItem.find(params[:connection_item_id])
-    @isp_connection_item.destroy
+    @isp_connection_item = Isp::ConnectionItem.query_by_conn_item(params[:id], params[:check_item_id]).first
+    @isp_connection_item.destroy if @isp_connection_item.present?
 
     respond_to do |format|
       format.html { redirect_to(:controller => "isp/programs", :id => params[:program_id], :action => "show") }

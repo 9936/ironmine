@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     match '/programs/:program_id/connections/:id/add_items(.:format)' => "connections#add_items", :via => :get
     match '/programs/:program_id/connections/:id/save_items(.:format)' => "connections#save_items", :via => :post
     match '/programs/:program_id/connections/:id/get_items_data(.:format)' => "connections#get_items_data", :via => :get
-    match '/programs/:program_id/connections/:connection_item_id/remove_item(.:format)' => "connections#remove_item", :via => :delete
+    match '/programs/:program_id/connections/:id/check_item_id/remove_item(.:format)' => "connections#remove_item", :via => :delete
 
     #check_templates
     match '/programs/:program_id/check_templates/get_data(.:format)' => "check_templates#get_data"

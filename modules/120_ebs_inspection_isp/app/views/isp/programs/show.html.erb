@@ -161,7 +161,7 @@
                     <tr>
                       <td style="width: 80px;">
                         <%= link_to(t(:show), {:controller => "isp/check_items",:action => "show", :id => item[:id]}, {:class => "action-link"}) %>&nbsp;|
-                        <%= link_to(t(:delete), {:controller => "isp/connections",:action => "remove_item", :program_id=> @isp_program.id, :connection_item_id => item[:connection_item_id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>
+                        <%= link_to(t(:delete), {:controller => "isp/connections",:action => "remove_item", :program_id=> @isp_program.id,:id => data[:id] , :check_item_id => item[:id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>
                       </td>
                       <td><%= item[:name] %></td>
                       <td><%= item[:object_symbol] %></td>
