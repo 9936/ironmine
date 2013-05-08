@@ -1,0 +1,7 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:name, {:title => t(:name), :searchable => true}) %>
+    <% builder.column(:object_symbol, {:title => t(:label_isp_check_item_object_symbol)}) %>
+    <% builder.column(:script, {:title => t(:label_isp_check_item_script)}) %>
+    <% builder.column(:description, {:title => t(:description)}) %>
+    <% builder.column(:updated_at, {:title => t(:slm_calendar_last_updated)}) %>
+<% end %>

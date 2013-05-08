@@ -5,8 +5,8 @@ class Isp::Program < ActiveRecord::Base
   attr_accessor :name,:description
   has_many :programs_tls, :dependent => :destroy
   has_many :connections, :foreign_key => :program_id, :dependent => :destroy
-  has_many :check_parameters, :foreign_key => :program_id, :dependent => :destroy
-  has_many :check_items, :foreign_key => :program_id, :dependent => :destroy
+
+  #has_many :check_items, :foreign_key => :program_id, :dependent => :destroy
   has_many :check_templates, :foreign_key => :program_id, :dependent => :destroy
   has_many :program_triggers, :foreign_key => :program_id, :dependent => :destroy
 
@@ -19,7 +19,7 @@ class Isp::Program < ActiveRecord::Base
   attr_accessor :execute_context
 
 
-  accepts_nested_attributes_for :connections,:check_parameters
+  accepts_nested_attributes_for :connections#,:check_parameters
 
 
   def execute(execute_context={})

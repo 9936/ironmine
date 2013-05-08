@@ -11,14 +11,14 @@
           <%= link_to t(:edit), {:action => "edit", :id => @isp_program}, :class => "btn btn-primary" %>
         </div>
         <div class="btn-group" style="display: inline-block;">
-          <%= link_to t(:label_isp_program_new_execute), {:action=>"new_execute"}, :class => "btn" %>
+          <%= link_to t(:label_isp_program_new_execute), {:action => "new_execute"}, :class => "btn" %>
           <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
             <span class="caret"></span>
           </a>
 
           <ul class="dropdown-menu">
-            <li><%= link_to t(:label_isp_program_new_execute_run), {:action=>"new_execute"}, :id => "executeTrigger" %></li>
-            <li><%= link_to t(:label_isp_program_new_execute_trigger), {:action=>"new_trigger"} %></li>
+            <li><%= link_to t(:label_isp_program_new_execute_run), {:action => "new_execute"}, :id => "executeTrigger" %></li>
+            <li><%= link_to t(:label_isp_program_new_execute_trigger), {:action => "new_trigger"} %></li>
           </ul>
         </div>
         <div class="btn-group" style="display: inline-block;">
@@ -50,6 +50,7 @@
   </div>
 </div>
 <!-- 连接列表 -->
+
 <div class="page-block">
   <table class="page-block-header">
     <tr>
@@ -65,7 +66,121 @@
     </tr>
   </table>
   <div class="page-block-body">
-    <%= datatable("isp_connection", {:controller => "isp/connections", :program_id => @isp_program.id, :action => "get_data"}, [], {:search_box => "searchBox", :paginator_box => "paginator"}) %>
+    <style type="text/css">
+      tr.master {
+          background-color: #e5e5e5 !important;
+      }
+      tr.details td {
+          padding: 0;
+      }
+      tr.details td table th {
+          border: none;
+          padding: 4px 10px 4px 5px;
+          border-left: 1px solid #CBCBCB;
+          border-bottom: 1px solid #CBCBCB;
+          background: none;
+          background-color:#EDF5FF;
+      }
+      tr.details td table td {
+          padding: 9px 10px 9px 5px;
+      }
+      tr.details td table td.title {
+          font-weight: bold;
+          width: 106px;
+          text-align: center;
+          border-left: none;
+          border-right: 1px solid #CBCBCB;
+      }
+      tr.details td table td.item-title {
+          background-color: #e0edff;
+          /*border-right: 1px solid #CBCBCB;*/
+      }
+    </style>
+    <div class="datatable">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 180px;"><div><%= t(:operation) %></div></th>
+              <th><div><%= t(:name) %></div></th>
+              <th><div><%= t(:label_isp_connection_host) %></div></th>
+              <th><div><%= t(:label_isp_connection_type) %></div></th>
+              <th><div><%= t(:label_isp_connection_username) %></div></th>
+              <th><div><%= t(:label_isp_connection_object_symbol) %></div></th>
+              <th><div><%= t(:description) %></div></th>
+              <th><div><%= t(:slm_calendar_last_updated) %></div></th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @isp_program.connections.each do |data| %>
+            <tr class="master">
+              <td>
+                <div>
+                  <%= link_to(t(:edit), {:controller => "isp/connections", :program_id => data[:program_id], :action => "edit", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+                  <%= link_to(t(:show), {:controller => "isp/connections", :program_id => data[:program_id],:action => "show", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+                  <%= link_to(t(:delete), {:controller => "isp/connections", :program_id => data[:program_id],:action => "destroy", :id => data[:id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>&nbsp;|
+                  <%= link_to(t(:label_isp_connection_add_item), {:controller => "isp/connections", :program_id => data[:program_id],:action => "add_items", :id => data[:id]}, {:class => "action-link"}) %>
+                </div>
+              </td>
+              <td>
+                <div><%= data[:name] %></div>
+              </td>
+              <td>
+                <div><%= data[:host] %></div>
+              </td>
+              <td>
+                <div><%= connection_type_meaning(data[:connect_type]) %></div>
+              </td>
+              <td>
+                <div><%= data[:username] %></div>
+              </td>
+              <td>
+                <div><%= data[:object_symbol] %></div>
+              </td>
+              <td>
+                <div><%= data[:description] %></div>
+              </td>
+              <td>
+                <div><%= format_date data[:updated_at] %></div>
+              </td>
+            </tr>
+            <tr class="details">
+              <td colspan="8" style="border-bottom: none;">
+                <table>
+                  <tbody>
+                    <tr style="background-color: #fff;">
+                      <td class="title" rowspan="<%= data.check_items.count + 1 %>"><%= t(:label_isp_check_item_list) %></td>
+                      <td class="item-title"><%= t(:operation) %></td>
+                      <td class="item-title"><%= t(:name) %></td>
+                      <td class="item-title"><%= t(:label_isp_check_item_object_symbol) %></td>
+                      <td class="item-title"><%= t(:label_isp_check_item_script) %></td>
+                      <td class="item-title"><%= t(:slm_calendar_last_updated) %></td>
+                      <td class="item-title"><%= t(:description) %></td>
+                    </tr>
+                    <% data.check_items.each do |item| %>
+                    <tr>
+                      <td style="width: 80px;">
+                        <%= link_to(t(:show), {:controller => "isp/check_items",:action => "show", :id => item[:id]}, {:class => "action-link"}) %>&nbsp;|
+                        <%= link_to(t(:delete), {:controller => "isp/connections",:action => "remove_item", :program_id=> @isp_program.id, :connection_item_id => item[:connection_item_id]}, {:class => "action-link",:method => :delete, :confirm => t(:label_are_you_sure)}) %>
+                      </td>
+                      <td><%= item[:name] %></td>
+                      <td><%= item[:object_symbol] %></td>
+                      <td><%= item[:script] %></td>
+                      <td><%= format_date item[:updated_at] %></td>
+                      <td><%= item[:description] %></td>
+                    </tr>
+                    <% end if data.check_items.any? %>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <%#= datatable("isp_connection", {:controller => "isp/connections", :program_id => @isp_program.id, :action => "get_data"}, [], {:search_box => "searchBox", :paginator_box => "paginator"}) %>
   </div>
 </div>
 

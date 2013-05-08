@@ -5,7 +5,8 @@ class Isp::Connection < ActiveRecord::Base
   attr_accessor :port,:database
 
   belongs_to :program, :foreign_key => :program_id
-  has_many :check_items, :foreign_key => :connection_id, :dependent => :destroy
+  #has_many :check_items, :foreign_key => :connection_id, :dependent => :destroy
+  has_many :connection_items, :foreign_key => :connection_id, :dependent => :destroy
 
   validates_presence_of :name, :program_id, :connect_type, :host
 
@@ -18,20 +19,10 @@ class Isp::Connection < ActiveRecord::Base
     where("#{table_name}.program_id=?", program_id)
   }
 
+  def check_items
+    Isp::CheckItem.query_by_connection(self.id)
+  end
 
-  #def test_sql
-  #  context = {"@12_port_and_dbname" => {:port => 1521, :database => "hrms", :password => "1q2w3e"}}
-  #  check_item = Isp::CheckItem.last
-  #  a = check_item.connection
-  #  a.execute(context, check_item)
-  #end
-  #
-  #def test_shell
-  #  context = {}
-  #  check_item = Isp::CheckItem.first
-  #  a = check_item.connection
-  #  a.execute(context, check_item)
-  #end
 
 
   def execute(context = {}, check_item)

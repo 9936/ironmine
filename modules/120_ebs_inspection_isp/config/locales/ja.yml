@@ -25,6 +25,8 @@ ja:
   label_isp_connection_password: Password
   label_isp_connection_object_symbol: Symbol
   label_isp_connection_exception: Can't connect to %{host},please check the username or password.
+  label_isp_connection_add_item: Add Check Item
+  label_isp_connection_save_selected: Save Selected
   #=========================End Connection=======================#
 
   #=========================Start Check Parameter=======================#
