@@ -32,7 +32,7 @@ class Isp::AlertFiltersController < ApplicationController
     respond_to do |format|
       if @alert_filter.save
         check_item = @alert_filter.check_item
-        format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id, :program_id => check_item.program_id}, :notice => t(:successfully_created)) }
+        format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id}, :notice => t(:successfully_created)) }
         format.xml  { render :xml => @alert_filter, :status => :created, :location => @alert_filter }
       else
         format.html { render :action => "new" }
@@ -67,7 +67,7 @@ class Isp::AlertFiltersController < ApplicationController
     respond_to do |format|
       if @alert_filter.update_attributes(params[:isp_alert_filter])
         check_item = @alert_filter.check_item
-        format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id, :program_id => check_item.program_id}, :notice => t(:successfully_updated)) }
+        format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id}, :notice => t(:successfully_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -84,7 +84,7 @@ class Isp::AlertFiltersController < ApplicationController
 
     respond_to do |format|
       check_item = @alert_filter.check_item
-      format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id, :program_id => check_item.program_id}) }
+      format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id}) }
       format.xml  { head :ok }
     end
   end
