@@ -1,0 +1,26 @@
+<table  class="form-table baseFilter"  id="baseFilter">
+  <tbody>
+    <tr>
+      <td></td>
+      <td>
+        <fieldset>
+          <legend>
+            <%= t(:label_report_date_month) %>
+          </legend>
+          <table>
+            <tr>
+              <td>
+                <div style="white-space:nowrap">
+                  <%= select_date program_params[:start].present? ? Date.strptime("#{program_params[:start][:year]}-#{program_params[:start][:month]}", "%Y-%m") : Time.now,
+                                  :prefix => 'program_params[start]', :order =>[:year, :month], :include_blank => false %>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </td>
+
+      <td width="80%"></td>
+    </tr>
+  </tbody>
+</table>
