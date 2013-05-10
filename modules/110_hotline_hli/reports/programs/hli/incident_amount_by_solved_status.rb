@@ -7,7 +7,16 @@ class Hli::IncidentAmountBySolvedStatus < Irm::ReportManager::ReportBase
 
     category_codes = ["HOTLINE_ZIXUN", "HOTLINE_XUQIU", "HOTLINE_WENTI", "HOTLINE_XIEZHU"]
 
-    main_data = Icm::IncidentRequest.unscoped.where("hotline = ?", "Y")
+    system_ids = []
+
+    if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
+      system_ids << params[:external_system_id]
+    else
+      current_acc_systems = Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id)
+      system_ids = system_ids + current_acc_systems
+    end
+
+    main_data = Icm::IncidentRequest.unscoped.enabled.where("external_system_id IN (?)", system_ids).where("hotline = ?", "Y")
     #本月接单数
     this_month_new = main_data.
         select("count(1) this_month_new").
@@ -15,13 +24,13 @@ class Hli::IncidentAmountBySolvedStatus < Irm::ReportManager::ReportBase
     #本月解决数
     this_month_resolved = main_data.
         select("count(1) this_month_resolved").
-        where("EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.reply_type = ? AND date_format(ij.created_at, '%Y-%m') = ?)",
+        where("EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND date_format(ij.created_at, '%Y-%m') = ?)",
               "CLOSE", Date.strptime("#{params[:start][:year]}-#{params[:start][:month]}", '%Y-%m'))
     #上月未解决数
     pre_month_unsolved = main_data.
         select("count(1) pre_month_unsolved").
-        where("NOT EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.reply_type = ? AND date_format(ij.created_at, '%Y-%m') < ?)",
-              "CLOSE", Date.strptime("#{params[:start][:year]}-#{params[:start][:month]}", '%Y-%m') - 1.month)
+        where("NOT EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND date_format(ij.created_at, '%Y-%m') < ?)",
+              "CLOSE", Date.strptime("#{params[:start][:year]}-#{params[:start][:month]}", '%Y-%m'))
 
     datas = []
     headers = [
