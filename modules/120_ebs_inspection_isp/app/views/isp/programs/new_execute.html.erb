@@ -80,7 +80,7 @@
             <tr class="master">
               <td><%= c_f.object.name %></td>
               <td><%= c_f.object.connect_type %></td>
-              <td><%= c_f.object.host %></td>
+              <td><%= c_f.text_field :host, :required => true, :size => 20 %></td>
               <td><%= c_f.text_field :username, :required => true, :size => 20 %></td>
               <td><%= c_f.text_field :password, :required => true, :size => 20 %></td>
             </tr>
@@ -108,7 +108,6 @@
                                 <td style="background-color: #ddd9d9;"><%= t(:name) %></td>
                                 <td style="background-color: #ddd9d9;"><%= t(:label_isp_parameter_value) %></td>
                               </tr>
-                              <%# check_item_index = 0 %>
                               <% check_item.check_parameters.each do |parameter| %>
                               <tr>
                                 <td><%= parameter[:name] %></td>
@@ -116,7 +115,6 @@
                                   <%= text_field_tag("isp_check_item[#{c_f.object.id}][#{check_item.id}][#{parameter.id}][value]", parameter[:value], :required => true) %>
                                 </td>
                               </tr>
-                              <%# check_item_index += 1 %>
                               <% end %>
                             </tbody>
                           </table>
