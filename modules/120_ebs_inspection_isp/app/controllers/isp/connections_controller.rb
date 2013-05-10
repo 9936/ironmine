@@ -24,6 +24,7 @@ class Isp::ConnectionsController < ApplicationController
   # GET /isp/connections/1/edit
   def edit
     @isp_connection = Isp::Connection.find(params[:id])
+    @isp_connection.hand_host
   end
 
   # POST /isp/connections

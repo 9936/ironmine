@@ -65,7 +65,7 @@ class Isp::CheckParametersController < ApplicationController
     @isp_check_parameter.destroy
 
     respond_to do |format|
-      format.html { redirect_to({:controller => "isp/programs", :id => @isp_check_parameter.program_id, :action => "show"}) }
+      format.html { redirect_to({:controller => "isp/check_items", :id => @isp_check_parameter.check_item_id, :action => "show"}) }
       format.xml  { head :ok }
     end
   end

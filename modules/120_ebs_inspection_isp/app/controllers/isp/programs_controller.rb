@@ -113,10 +113,6 @@ class Isp::ProgramsController < ApplicationController
   end
 
   def new_execute
-    #puts "==============================="
-    #a = Isp::Program.includes(:connections => [{:check_items => :check_parameters}])
-    #puts a
-    #puts "==============================="
     @program = Isp::Program.includes(:connections => [{:check_items => :check_parameters}]).multilingual.find(params[:id])
     respond_to do |format|
       format.html # new.html.erb

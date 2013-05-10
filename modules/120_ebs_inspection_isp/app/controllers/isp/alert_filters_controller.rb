@@ -83,8 +83,7 @@ class Isp::AlertFiltersController < ApplicationController
     @alert_filter.destroy
 
     respond_to do |format|
-      check_item = @alert_filter.check_item
-      format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => check_item.id}) }
+      format.html { redirect_to({:controller => "isp/check_items", :action => "show", :id => alert_filter.check_item_id}) }
       format.xml  { head :ok }
     end
   end

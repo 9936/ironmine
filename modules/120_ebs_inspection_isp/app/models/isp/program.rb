@@ -24,6 +24,7 @@ class Isp::Program < ActiveRecord::Base
 
   def execute(execute_context={})
     self.connections.each do |conn|
+      conn.hand_host
       execute_context[conn.object_symbol] ||= {}
       execute_context[conn.object_symbol].merge!(conn.execute(execute_context))
     end

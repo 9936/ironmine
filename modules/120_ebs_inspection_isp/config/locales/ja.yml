@@ -21,6 +21,8 @@ ja:
   label_isp_connection_edit: Edit Connection
   label_isp_connection_type: Type
   label_isp_connection_host: Host
+  label_isp_connection_port: Port
+  label_isp_connection_database: Database
   label_isp_connection_username: Username
   label_isp_connection_password: Password
   label_isp_connection_object_symbol: Symbol
