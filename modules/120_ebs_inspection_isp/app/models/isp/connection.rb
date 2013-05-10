@@ -106,6 +106,8 @@ class Isp::Connection < ActiveRecord::Base
         I18n.t(:label_isp_connection_exception, :host => self.host)
       rescue Net::SSH::Exception => e
         e.message
+      rescue Errno::ECONNREFUSED => ee
+         "#{ee.message}\n" << I18n.t(:label_isp_connection_econnrefused, :host => self.host)
       end
     end
 

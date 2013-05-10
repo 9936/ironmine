@@ -25,6 +25,7 @@ zh:
   label_isp_connection_password: 密码
   label_isp_connection_object_symbol: 符号
   label_isp_connection_exception: 无法连接到%{host}，检查帐号和密码是否正确
+  label_isp_connection_econnrefused: 无法连接到%{host}
   label_isp_connection_add_item: 添加巡检项
   label_isp_connection_save_selected: 保存所选项
   #=========================End Connection=======================#
