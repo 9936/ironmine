@@ -20,26 +20,26 @@ class Isp::Connection < ActiveRecord::Base
     where("#{table_name}.program_id=?", program_id)
   }
 
-  #def check_items
-  #  Isp::CheckItem.query_by_connection(self.id)
-  #end
 
 
 
-  def execute(context = {}, check_item)
-    script = check_item.script
-    hand_object_symbol(context)
-    result = nil
-    if script.present?
-      if self.connect_type.eql?("SHELL")
-        result = execute_shell(script)
-      elsif self.connect_type.eql?("SQL")
-        result = execute_sql(script)
+  def execute(context = {})
+    result = {}
+    self.check_items.each do |check_item|
+      context[self.object_symbol].merge!(check_item.execute(context[self.object_symbol]))
+
+      script = check_item.script
+      hand_object_symbol(context)
+
+      if script.present?
+        if self.connect_type.eql?("SHELL")
+          result[check_item.object_symbol] = execute_shell(script)
+        elsif self.connect_type.eql?("SQL")
+          result[check_item.object_symbol] = execute_sql(script)
+        end
       end
     end
-
     result
-
   end
 
   private

@@ -2,7 +2,7 @@ module Isp
   module Jobs
     class ProgramScheduleJob<Struct.new(:program_schedule_id)
       def perform
-        #a = Isp::Jobs::ProgramScheduleJob.new('004v00094rvrWKkqlcJcTA')
+        #a = Isp::Jobs::ProgramScheduleJob.new('004v000B4scOyAqJAntjKi')
         #a.perform
         Irm::Person.current = Irm::Person.anonymous
         program_schedule = Isp::ProgramSchedule.unscoped.where(:id => program_schedule_id,:run_status=>"PENDING").first

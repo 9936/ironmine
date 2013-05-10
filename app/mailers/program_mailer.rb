@@ -5,17 +5,22 @@ class ProgramMailer < ActionMailer::Base
     send_options = mail_options
 
     program = Isp::Program.multilingual.find(program_id)
-    program.attributes = eval(program_schedule[:isp_program])
+
+    program_check_item_hash = eval(program_schedule[:isp_program])
+    program.attributes = program_check_item_hash[:isp_program]
     execute_context = {}
     program.connections.each do |c|
+      #设置巡检项中的参数
+      c.check_items.each do |check_item|
+        check_item.check_parameters.each do |p|
+          p.value = program_check_item_hash[:isp_check_item][c.id][check_item.id][p.id][:value]
+        end
+      end
+
       execute_context.merge!({c.object_symbol=>{:username=>c.username,:password=>c.password,:host=>c.host}})
     end
-    program.check_parameters.each do |p|
-      execute_context.merge!({p.object_symbol=>p.value})
-    end
+
     results = program.execute(execute_context)
-
-
     @doc = program.generate_report(results)
     if @doc.blank?
       @doc = "There is no data."

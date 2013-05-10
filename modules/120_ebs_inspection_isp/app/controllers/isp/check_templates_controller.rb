@@ -124,15 +124,14 @@ class Isp::CheckTemplatesController < ApplicationController
 
       program.connections.each do |conn|
         @param_symbols << conn.object_symbol
-      end
 
-      program.check_parameters.each do |cp|
-        @param_symbols << cp.object_symbol
-      end
+        conn.check_items.each do |ci|
+          @param_symbols << "#{conn.object_symbol}.#{ci.object_symbol}"
 
-      program.check_items.each do |ci|
-        @param_symbols << ci.object_symbol
+          ci.check_parameters.each do |cp|
+            @param_symbols << "#{conn.object_symbol}.#{cp.object_symbol}"
+          end
+        end
       end
-
     end
 end

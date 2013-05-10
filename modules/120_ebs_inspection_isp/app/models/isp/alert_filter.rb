@@ -38,7 +38,7 @@ class Isp::AlertFilter < ActiveRecord::Base
     def compare_str(target)
       case self.operation
         when "E"
-          return ["#{target} == #{self.value} || '#{target}'.eql?('#{self.value}')", I18n.t(:label_isp_alert_filter_result, :target => target, :operation => I18n.t(:label_isp_alert_filter_e), :value => self.value )]
+          return ["'#{target}'.eql?('#{self.value}')", I18n.t(:label_isp_alert_filter_result, :target => target, :operation => I18n.t(:label_isp_alert_filter_e), :value => self.value )]
         when "G"
           return ["#{target} > #{self.value}", I18n.t(:label_isp_alert_filter_result, :target => target, :operation => I18n.t(:label_isp_alert_filter_g), :value => self.value )]
         when "L"

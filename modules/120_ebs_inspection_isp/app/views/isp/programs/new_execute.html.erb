@@ -1,9 +1,15 @@
 <%= common_title(:action_meaning => t(:label_isp_program_new_execute)) %>
 <style type="text/css">
+    .datatable table td > div,
+    .datatable table th > div {
+        padding: 0 !important;
+    }
     .datatable table th {
-        background: none;
-        padding: 9px 10px 9px 5px;
+        padding: 5px 10px 5px 5px;
         border-right: none;
+    }
+    .datatable table td {
+        padding: 5px 5px 5px 10px;
     }
     tr.master {
         background-color: #e5e5e5 !important;
@@ -22,7 +28,7 @@
         background-color:#EDF5FF;
     }
     tr.details td table td {
-        padding: 9px 10px 9px 5px;
+        padding: 5px 10px 5px 5px;
     }
     tr.details td table td.title {
         font-weight: bold;
@@ -30,10 +36,10 @@
         text-align: center;
         border-left: none;
         border-right: 1px solid #CBCBCB;
+        background-color: #e0edff;
     }
     tr.details td table td.item-title {
         background-color: #e0edff;
-        /*border-right: 1px solid #CBCBCB;*/
     }
 </style>
 <%= form_for(@program, :url => {:action => "create_execute"}, :builder => CustomFormBuilder) do |f| %>
@@ -92,23 +98,31 @@
                         <td><%= check_item.name %></td>
                         <td><%= check_item.script %></td>
                       </tr>
+                      <% if check_item.check_parameters.count > 0 %>
                       <tr class="item-details">
                         <td colspan="2" style="padding: 0; border-bottom: none;">
                           <table>
                             <tbody>
                               <tr>
-                                <td rowspan="2" class="title">参数</td>
-                                <td>参数名称</td>
-                                <td>参数值</td>
+                                <td style="background-color: #ddd9d9;" rowspan="<%= check_item.check_parameters.count + 1 %>" class="title">参数</td>
+                                <td style="background-color: #ddd9d9;"><%= t(:name) %></td>
+                                <td style="background-color: #ddd9d9;"><%= t(:label_isp_parameter_value) %></td>
                               </tr>
+                              <%# check_item_index = 0 %>
+                              <% check_item.check_parameters.each do |parameter| %>
                               <tr>
-                                <td>mysql安装路径</td>
-                                <td>参数值</td>
+                                <td><%= parameter[:name] %></td>
+                                <td>
+                                  <%= text_field_tag("isp_check_item[#{c_f.object.id}][#{check_item.id}][#{parameter.id}][value]", parameter[:value], :required => true) %>
+                                </td>
                               </tr>
+                              <%# check_item_index += 1 %>
+                              <% end %>
                             </tbody>
                           </table>
                         </td>
                       </tr>
+                      <% end %>
                     <% end %>
                   </tbody>
                 </table>
@@ -118,81 +132,9 @@
           </tbody>
         </table>
       </div>
-        <!--<div class="datatable">-->
-          <!--<table>-->
-            <!--<thead>-->
-            <!--<tr>-->
-              <!--<th style="width:30px">-->
-                <!--<div><%= t(:name) %></div>-->
-              <!--</th>-->
-              <!--<th style="width:30px">-->
-                <!--<div><%= t(:label_isp_connection_type) %></div>-->
-              <!--</th>-->
-              <!--<th style="width:30px">-->
-                <!--<div><%= t(:label_isp_connection_host) %></div>-->
-              <!--</th>-->
-              <!--<th style="width:30px">-->
-                <!--<div><%= t(:label_isp_connection_username) %></div>-->
-              <!--</th>-->
-              <!--<th style="width:30px">-->
-                <!--<div><%= t(:label_isp_connection_password) %></div>-->
-              <!--</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-            <!--<%= f.fields_for :connections, :builder => CustomFormBuilder do |c_f| %>-->
-                <!--<tr>-->
-                  <!--<td>-->
-                    <!--<div><%= c_f.object.name %></div>-->
-                  <!--</td>-->
-                  <!--<td><span><div>-->
-                    <!--<div><%= c_f.object.connect_type %></div>-->
-                  <!--</div></span></td>-->
-                  <!--<td><span><div>-->
-                    <!--<div><%= c_f.object.host %></div>-->
-                  <!--</div></span></td>-->
-                  <!--<td><span><div> <%= c_f.text_field :username, :required => true, :size => 20 %></div></span></td>-->
-                  <!--<td><span><div> <%= c_f.text_field :password, :required => true, :size => 20 %></div></span></td>-->
-                <!--</tr>-->
-            <!--<% end %>-->
-            <!--</tbody>-->
-          <!--</table>-->
-        <!--</div>-->
-    <% end %>
-    <% content_for :form_block_param do %>
-        <div class="datatable">
-          <table>
-            <thead>
-            <tr>
-              <th style="width:30px">
-                <div><%= t(:name) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_parameter_object_symbol) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_parameter_data_type) %></div>
-              </th>
-              <th style="width:30px">
-                <div><%= t(:label_isp_parameter_value) %></div>
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <%#= f.fields_for :check_parameters, :builder => CustomFormBuilder do |c_f| %>
-            <!--<tr>-->
-            <!--<td><div><%#= c_f.object.name %></div></td>-->
-            <!--<td><span><div><div><%#= c_f.object.object_symbol %></div></div></span></td>-->
-            <!--<td><span><div><div><%#= c_f.object.data_type %></div></div></span></td>-->
-            <!--<td><span><div> <%#= c_f.text_field :value, :required => true, :size => 20 %></div></span></td>-->
-            <!--</tr>-->
-            <%# end %>
-            </tbody>
-          </table>
-        </div>
     <% end %>
     <% content_for :form_buttons do %>
-        <%= link_submit t(:save), {:class => "btn btn-primary"} %>
+        <%= link_submit t(:execute), {:class => "btn btn-primary"} %>
         <%= link_back t(:cancel), {}, {:class => "btn cancel"} %>
     <% end %>
     <!--页面结构-->
@@ -200,49 +142,15 @@
       <table class="page-block-header">
         <tr>
           <td class="page-block-title">
-            <h2 class="block-title"><%= t(:label_isp_program_new) %></h2>
+            <h2 class="block-title"><%= @program[:name] %></h2>
           </td>
           <td class="page-block-button">
             <%= content_for :form_buttons %>
-
           </td>
         </tr>
       </table>
       <div class="page-block-body">
-        <%= error_for @program %>
-        <div class="sub-page-block">
-          <div class="sub-page-block-header">
-            <%= form_require_info %>
-            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
-          </div>
-          <div class="sub-page-block-body">
-            <%= content_for :form_block_common %>
-          </div>
-        </div>
-
-      </div>
-      <div class="page-block-body">
-        <div class="sub-page-block">
-          <div class="sub-page-block-header">
-            <h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>
-          </div>
-          <div class="sub-page-block-body">
-            <%= content_for :form_block_connection %>
-          </div>
-        </div>
-
-      </div>
-      <div class="page-block-body">
-        <div class="sub-page-block">
-          <!--<div class="sub-page-block-header">-->
-          <!--<h3 class="sub-page-block-title"><%= t(:label_common_info) %></h3>-->
-          <!--</div>-->
-          <div class="sub-page-block-body">
-
-            <%#= content_for :form_block_param %>
-          </div>
-        </div>
-
+        <%= content_for :form_block_connection %>
       </div>
 
       <table class="page-block-footer">

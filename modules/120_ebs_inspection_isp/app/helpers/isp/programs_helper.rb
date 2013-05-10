@@ -10,8 +10,10 @@ module Isp::ProgramsHelper
   def rowspan(check_items)
     count = check_items.count + 1
     check_items.each do |check_item|
-      count += check_item.check_parameters.count
-      count += 1
+      if check_item.check_parameters.count > 0
+        count += check_item.check_parameters.count
+        count += 1
+      end
     end
     count
   end

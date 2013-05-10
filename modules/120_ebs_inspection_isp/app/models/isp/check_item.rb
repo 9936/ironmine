@@ -15,6 +15,8 @@ class Isp::CheckItem < ActiveRecord::Base
   # 对运维中心数据进行隔离
   default_scope {default_filter}
 
+  accepts_nested_attributes_for :check_parameters
+
   scope :query_available_items, lambda{|connection_id|
     where("NOT EXISTS(SELECT 1 FROM #{Isp::ConnectionItem.table_name} isp_ci WHERE (isp_ci.check_item_id=#{table_name}.id AND isp_ci.connection_id = '#{connection_id}'))")
   }
@@ -36,6 +38,11 @@ class Isp::CheckItem < ActiveRecord::Base
 
 
   def execute(context)
-    self.conn.execute(context,self)
+    self.check_parameters.each do |p|
+      #context[self.conn.object_symbol] ||= {}
+      context.merge!({p.object_symbol => p.value})
+    end
+    context
+    #self.conn.execute(context,self)
   end
 end
