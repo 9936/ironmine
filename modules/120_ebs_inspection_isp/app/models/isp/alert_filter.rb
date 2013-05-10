@@ -36,6 +36,10 @@ class Isp::AlertFilter < ActiveRecord::Base
 
   private
     def compare_str(target)
+      if (self.operation.eql?("G") || self.operation.eql?("L")) && target.match(/\A[+-]?\d+?(_?\d+)*(\.\d+e?\d*)?\Z/) == nil
+        return ["", ""]
+      end
+
       case self.operation
         when "E"
           return ["'#{target}'.eql?('#{self.value}')", I18n.t(:label_isp_alert_filter_result, :target => target, :operation => I18n.t(:label_isp_alert_filter_e), :value => self.value )]
