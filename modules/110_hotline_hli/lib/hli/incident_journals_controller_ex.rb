@@ -220,8 +220,7 @@ module Hli::IncidentJournalsControllerEx
         @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
         perform_create
         respond_to do |format|
-          if @incident_request.hotline.eql?("Y")
-            if @incident_request.incident_category_id.blank? || @incident_request.incident_sub_category_id.blank?
+          if @incident_request.hotline.eql?("Y") && (@incident_request.incident_category_id.blank? || @incident_request.incident_sub_category_id.blank?)
               @incident_request.errors.add(:incident_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_category_id.blank?
               @incident_request.errors.add(:incident_sub_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_sub_category_id.blank?
               @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
@@ -238,7 +237,6 @@ module Hli::IncidentJournalsControllerEx
                       where("ip.assignment_availability_flag = ?", Irm::Constant::SYS_YES).
                       where("#{Icm::IncidentJournal.table_name}.incident_request_id = ?", @incident_request.id) unless @supporters.any?
               format.html { render :action => "edit_close", :layout => "application_full" }
-            end
           elsif @incident_request.save
             Icm::IncidentWorkload.where("incident_request_id = ?", @incident_request.id).each do |t|
               t.destroy
