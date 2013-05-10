@@ -12,6 +12,7 @@ ja:
   label_isp_program_new_execute_trigger: Execute Trigger
   label_isp_program_new_execute_trigger_person: Execute Trigger Person
   label_isp_program_new_execute_trigger_receiver: Trigger Receivers
+  label_isp_program_execute: Execute
   #=========================End Program=======================#
 
   #=========================Start Connection=======================#

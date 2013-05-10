@@ -12,6 +12,7 @@ zh:
   label_isp_program_new_execute_trigger: 执行计划
   label_isp_program_new_execute_trigger_person: 执行计划人员
   label_isp_program_new_execute_trigger_receiver: 结果接收人员
+  label_isp_program_execute: 执行
   #=========================End Program=======================#
 
   #=========================Start Connection=======================#
