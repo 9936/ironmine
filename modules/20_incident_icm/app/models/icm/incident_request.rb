@@ -655,7 +655,7 @@ class Icm::IncidentRequest < ActiveRecord::Base
     while true
       self.request_number = Irm::Sequence.nextval(self.class.name)
       #check if request number is repeated
-      if Icm::IncidentRequst.where("request_number = ?", self.request_number).where("id <> ?", self.id).size > 0
+      if Icm::IncidentRequest.where("request_number = ?", self.request_number).where("id <> ?", self.id).size > 0
         next
       else
         break
