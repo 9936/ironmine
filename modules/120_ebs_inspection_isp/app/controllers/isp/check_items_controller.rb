@@ -1,4 +1,6 @@
 class Isp::CheckItemsController < ApplicationController
+  layout "application_full"
+
   def index
 
   end

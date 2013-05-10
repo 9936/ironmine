@@ -7,7 +7,8 @@
         <h2 class="block-title"><%= t(:label_isp_program_list) %></h2>
       </td>
       <td class="page-block-button">
-        <%= link_to t(:new), {:action => "new"}, :class => "btn" %>
+        <%= link_to t(:new), {:action => "new"}, :class => "btn btn-primary" %>
+        <%= link_to t(:label_isp_check_item_list), {:controller => "isp/check_items", :action => "index"}, :class => "btn" %>
       </td>
       <td class="page-block-help">
         <div id="searchBox"></div>

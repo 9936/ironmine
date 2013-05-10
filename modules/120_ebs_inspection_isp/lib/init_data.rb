@@ -1,41 +1,41 @@
 #-*- coding: utf-8 -*-
 Fwk::MenuAndFunctionManager.map do |map|
-  #====================================START:INSPECTION======================================
-  map.menu :management_setting, {
-      :children => {
-          :ebs_inspection=>{
-              :type => "menu",
-              :entry => {
-                  :sequence => 140,
-                  :en => {:name => "EBS inspection", :description => "EBS inspection"},
-                  :zh => {:name => "EBS巡检", :description => "EBS巡检"}
-              }
-          }
-      }
-  }
-  #====================================END:INSPECTION======================================
-  map.menu :ebs_inspection, {
-      :en => {:name => "EBS inspection", :description => "EBS inspection"},
-      :zh => {:name => "EBS巡检", :description => "EBS巡检"},
-      :children => {
-          :programs => {
-              :type => "function",
-              :entry => {
-                  :sequence => 10,
-                  :en => {:name => "Inspection Programs", :description => "Inspection Programs"},
-                  :zh => {:name => "巡检方案", :description => "巡检方案"}
-              }
-          },
-          :check_items => {
-              :type => "function",
-              :entry => {
-                  :sequence => 20,
-                  :en => {:name => "Inspection Items", :description => "Inspection Items"},
-                  :zh => {:name => "巡检项", :description => "巡检项"}
-              }
-          }
-      }
-  }
+  ##====================================START:INSPECTION======================================
+  #map.menu :management_setting, {
+  #    :children => {
+  #        :ebs_inspection=>{
+  #            :type => "menu",
+  #            :entry => {
+  #                :sequence => 140,
+  #                :en => {:name => "EBS inspection", :description => "EBS inspection"},
+  #                :zh => {:name => "EBS巡检", :description => "EBS巡检"}
+  #            }
+  #        }
+  #    }
+  #}
+  ##====================================END:INSPECTION======================================
+  #map.menu :ebs_inspection, {
+  #    :en => {:name => "EBS inspection", :description => "EBS inspection"},
+  #    :zh => {:name => "EBS巡检", :description => "EBS巡检"},
+  #    :children => {
+  #        :programs => {
+  #            :type => "function",
+  #            :entry => {
+  #                :sequence => 10,
+  #                :en => {:name => "Inspection Programs", :description => "Inspection Programs"},
+  #                :zh => {:name => "巡检方案", :description => "巡检方案"}
+  #            }
+  #        },
+  #        :check_items => {
+  #            :type => "function",
+  #            :entry => {
+  #                :sequence => 20,
+  #                :en => {:name => "Inspection Items", :description => "Inspection Items"},
+  #                :zh => {:name => "巡检项", :description => "巡检项"}
+  #            }
+  #        }
+  #    }
+  #}
   #====================================START:PROGRAMS======================================
   map.function_group :programs, {
       :en => {:name => "Inspection Programs", :description => "Inspection Programs"},

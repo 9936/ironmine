@@ -10,6 +10,7 @@
         <div class="btn-group" style="display: inline-block;">
           <%= link_to t(:edit), {:action => "edit", :id => @isp_program}, :class => "btn btn-primary" %>
         </div>
+        <% if @isp_program.connections.any? %>
         <div class="btn-group" style="display: inline-block;">
           <%= link_to t(:label_isp_program_new_execute), {:action => "new_execute"}, :class => "btn" %>
           <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -21,6 +22,7 @@
             <li><%= link_to t(:label_isp_program_new_execute_trigger), {:action => "new_trigger"} %></li>
           </ul>
         </div>
+        <% end %>
         <div class="btn-group" style="display: inline-block;">
           <%= link_to t(:back), {:action => "index"}, :class => "btn" %>
         </div>
@@ -165,7 +167,7 @@
                       </td>
                       <td><%= item[:name] %></td>
                       <td><%= item[:object_symbol] %></td>
-                      <td><%= item[:script] %></td>
+                      <td title="<%= item[:script] %>"><%= truncate(item[:script], {:length => 100}) %></td>
                       <td><%= format_date item[:updated_at] %></td>
                       <td><%= item[:description] %></td>
                     </tr>

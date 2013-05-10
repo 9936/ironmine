@@ -1,4 +1,6 @@
 class Isp::ConnectionsController < ApplicationController
+  layout "application_full"
+
   # GET /isp/connections/1
   # GET /isp/connections/1.xml
   def show

@@ -1,4 +1,5 @@
 class Isp::ProgramsController < ApplicationController
+  layout "application_full"
   # GET /isp/programs
   # GET /isp/programs.xml
   def index
