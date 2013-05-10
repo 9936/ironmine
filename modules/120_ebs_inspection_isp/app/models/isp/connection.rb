@@ -25,6 +25,30 @@ class Isp::Connection < ActiveRecord::Base
 
   def execute(context = {})
     result = {}
+    #将连接中的SHELL和SQL分开
+    shell_check_items = []
+    sql_check_items = []
+
+    self.check_items.each do |check_item|
+      if self.connect_type.eql?("SHELL")
+        shell_check_items << check_item
+      elsif self.connect_type.eql?("SQL")
+        sql_check_items << check_item
+      end
+    end
+
+    if shell_check_items.any?
+      ssh_conn = get_ssh_connection
+    else
+      ssh_conn = nil
+    end
+
+    if sql_check_items.any?
+      sql_conn = get_sql_connection
+    else
+      sql_conn = nil
+    end
+
     self.check_items.each do |check_item|
       context[self.object_symbol].merge!(check_item.execute(context[self.object_symbol]))
 
@@ -33,12 +57,21 @@ class Isp::Connection < ActiveRecord::Base
 
       if script.present?
         if self.connect_type.eql?("SHELL")
-          result[check_item.object_symbol] = execute_shell(script)
+          if ssh_conn.is_a?(Net::SSH::Connection::Session)
+            result[check_item.object_symbol] = execute_shell(ssh_conn, script)
+          else
+            result[check_item.object_symbol] = ssh_conn
+          end
+
         elsif self.connect_type.eql?("SQL")
-          result[check_item.object_symbol] = execute_sql(script)
+          result[check_item.object_symbol] = execute_sql(sql_conn, script)
         end
       end
     end
+
+    ssh_conn.close if ssh_conn.is_a?(Net::SSH::Connection::Session)
+    ssh_conn = nil
+
     result
   end
 
@@ -53,14 +86,30 @@ class Isp::Connection < ActiveRecord::Base
 
     end
 
-    def execute_sql(sql_script)
-      conn = Isp::OracleAdapter.establish_connection(:adapter => "oracle_enhanced",
-                                                     :host => self.host,
-                                                     :port => self.port,
-                                                     :database => self.database,
-                                                     :username => self.username,
-                                                     :password => self.password).connection
 
+    def get_sql_connection
+      @conn ||= Isp::OracleAdapter.establish_connection(:adapter => "oracle_enhanced",
+                                                        :host => self.host,
+                                                        :port => self.port,
+                                                        :database => self.database,
+                                                        :username => self.username,
+                                                        :password => self.password).connection
+    end
+
+    def get_ssh_connection
+      require 'net/ssh'
+      require 'net/sftp'
+
+      begin
+        @ssh ||= Net::SSH.start(self.host, self.username, :password => self.password)
+      rescue Net::SSH::AuthenticationFailed => ea
+        I18n.t(:label_isp_connection_exception, :host => self.host)
+      rescue Net::SSH::Exception => e
+        e.message
+      end
+    end
+
+    def execute_sql(conn, sql_script)
       begin
         result = conn.execute(sql_script).fetch
       rescue
@@ -69,10 +118,8 @@ class Isp::Connection < ActiveRecord::Base
       result
     end
 
-    def execute_shell(shell_script)
-      require 'net/ssh'
-      require 'net/sftp'
 
+    def execute_shell(ssh, shell_script)
       tmp_script_file = "#{(Time.now.to_f * 10E7).to_i}.sh"
 
       file = File.new("#{Rails.root}/tmp/#{tmp_script_file}", "w")
@@ -85,30 +132,10 @@ class Isp::Connection < ActiveRecord::Base
 
       file.close
 
-
-
-      #cmd = "touch #{tmp_script_file}"
-      #cmd << " && echo '#!/bin/sh' >> #{tmp_script_file}"
-      #cmd << " && echo '#{shell_script}' >> #{tmp_script_file}"
-      #cmd << " && chmod +x #{tmp_script_file}"
-      #cmd << " && ./#{tmp_script_file}"
-
-      begin
-        Net::SSH.start(self.host, self.username, :password => self.password) do |ssh|
-          ssh.sftp.upload!("#{Rails.root}/tmp/#{tmp_script_file}", "#{tmp_script_file}")
-          result = ssh.exec!("chmod +x #{tmp_script_file} && $BASH ./#{tmp_script_file}")
-          ssh.exec!("rm -f #{tmp_script_file}")
-          `rm -f #{Rails.root}/tmp/#{tmp_script_file}`
-          result
-        end
-      rescue Net::SSH::AuthenticationFailed => ea
-        `rm -f #{Rails.root}/tmp/#{tmp_script_file}`
-        I18n.t(:label_isp_connection_exception, :host => self.host)
-      rescue Net::SSH::Exception => e
-        `rm -f #{Rails.root}/tmp/#{tmp_script_file}`
-        e.message
-      end
-
-
+      ssh.sftp.upload!("#{Rails.root}/tmp/#{tmp_script_file}", "#{tmp_script_file}")
+      result = ssh.exec!("chmod +x #{tmp_script_file} && $BASH ./#{tmp_script_file}")
+      ssh.exec!("rm -f #{tmp_script_file}")
+      `rm -f #{Rails.root}/tmp/#{tmp_script_file}`
+      result
     end
 end
