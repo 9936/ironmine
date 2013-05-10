@@ -50,28 +50,11 @@ class Isp::Connection < ActiveRecord::Base
 
   def execute(context = {})
     result = {}
-    #将连接中的SHELL和SQL分开
-    shell_check_items = []
-    sql_check_items = []
 
-    self.check_items.each do |check_item|
-      if self.connect_type.eql?("SHELL")
-        shell_check_items << check_item
-      elsif self.connect_type.eql?("SQL")
-        sql_check_items << check_item
-      end
-    end
-
-    if shell_check_items.any?
+    if self.connect_type.eql?("SHELL")
       ssh_conn = get_ssh_connection
-    else
-      ssh_conn = nil
-    end
-
-    if sql_check_items.any?
+    elsif self.connect_type.eql?("SQL")
       sql_conn = get_sql_connection
-    else
-      sql_conn = nil
     end
 
     self.check_items.each do |check_item|
@@ -98,7 +81,6 @@ class Isp::Connection < ActiveRecord::Base
     end
 
     ssh_conn.close if ssh_conn.is_a?(Net::SSH::Connection::Session)
-    ssh_conn = nil
 
     result
   end
