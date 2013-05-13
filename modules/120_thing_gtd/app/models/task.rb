@@ -4,9 +4,9 @@ class Gtd::Task < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :start_at
   serialize :url, Hash
-  serialize :rrule, Hash
-  belongs_to :source, :polymorphic => true
-  belongs_to :calendar
+  serialize :rule, Hash
+  #belongs_to :source, :polymorphic => true
+  #belongs_to :calendar
 
   #加入activerecord的通用方法和scope
   query_extend
