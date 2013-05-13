@@ -5,8 +5,8 @@ class Isp::Program < ActiveRecord::Base
   attr_accessor :name,:description
   has_many :programs_tls, :dependent => :destroy
   has_many :connections, :foreign_key => :program_id, :dependent => :destroy
-  has_many :check_parameters, :foreign_key => :program_id, :dependent => :destroy
-  has_many :check_items, :foreign_key => :program_id, :dependent => :destroy
+
+  #has_many :check_items, :foreign_key => :program_id, :dependent => :destroy
   has_many :check_templates, :foreign_key => :program_id, :dependent => :destroy
   has_many :program_triggers, :foreign_key => :program_id, :dependent => :destroy
 
@@ -19,14 +19,16 @@ class Isp::Program < ActiveRecord::Base
   attr_accessor :execute_context
 
 
-  accepts_nested_attributes_for :connections,:check_parameters
+  accepts_nested_attributes_for :connections
 
 
   def execute(execute_context={})
-    self.check_items.each do |check_item|
-      #依次执行
-      execute_context.merge!(check_item.object_symbol=>check_item.execute(execute_context))
+    self.connections.each do |conn|
+      conn.hand_host
+      execute_context[conn.object_symbol] ||= {}
+      execute_context[conn.object_symbol].merge!(conn.execute(execute_context))
     end
+
     execute_context
   end
 
@@ -35,9 +37,9 @@ class Isp::Program < ActiveRecord::Base
     self.connections.each do |con|
       input_params << con
     end
-    self.check_parameters.each do |param|
-      input_params << param
-    end
+    #self.check_parameters.each do |param|
+    #  input_params << param
+    #end
   end
 
 
@@ -54,23 +56,33 @@ class Isp::Program < ActiveRecord::Base
   #检查警告
   def check_alert(results)
     alert_results = ""
-    self.check_items.each do |check_item|
-      alert_filters = check_item.alert_filters
-      if alert_filters.any?
-        #巡检的结果中有对应的值
-        check_item_result = results[check_item.object_symbol.to_s]
+    #遍历连接中的巡检项目
+    self.connections.each do |conn|
+      conn.check_items.each do |check_item|
+        alert_filters = check_item.alert_filters
+        if alert_filters.any?
+          #巡检的结果中有对应的值
+          check_item_result = results[conn.object_symbol.to_s][check_item.object_symbol.to_s]
 
-        #去除换行
-        check_item_result = check_item_result.gsub(/\n/," ")
-        alert_filters.each do |alert_filter|
-          alert_check_result = alert_filter.check_result(check_item.object_symbol, check_item_result)
+          if check_item_result.present?
+            #去除换行
+            check_item_result = check_item_result.gsub(/\n/," ")
+            alert_filters.each do |alert_filter|
+              begin
+                alert_check_result = alert_filter.check_result(check_item.object_symbol, check_item_result)
+              rescue
+                alert_check_result = ""
+              end
 
-          if alert_check_result.present?
-            alert_results << alert_check_result
+              if alert_check_result.present?
+                alert_results << alert_check_result
+              end
+            end
           end
         end
       end
     end
+
     alert_results
   end
 

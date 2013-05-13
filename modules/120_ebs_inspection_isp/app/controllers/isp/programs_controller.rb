@@ -1,4 +1,5 @@
 class Isp::ProgramsController < ApplicationController
+  layout "application_full"
   # GET /isp/programs
   # GET /isp/programs.xml
   def index
@@ -113,7 +114,7 @@ class Isp::ProgramsController < ApplicationController
   end
 
   def new_execute
-    @program = Isp::Program.multilingual.find(params[:id])
+    @program = Isp::Program.includes(:connections => [{:check_items => :check_parameters}]).multilingual.find(params[:id])
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @program }
@@ -121,7 +122,7 @@ class Isp::ProgramsController < ApplicationController
   end
 
   def new_trigger
-    @program = Isp::Program.multilingual.find(params[:id])
+    @program = Isp::Program.includes(:connections => [{:check_items => :check_parameters}]).multilingual.find(params[:id])
     if @program.program_triggers.any?
       @program_trigger = @program.program_triggers.first
     else
@@ -137,7 +138,7 @@ class Isp::ProgramsController < ApplicationController
     @program_trigger = Isp::ProgramTrigger.new(params[:isp_program_trigger])
     @program_trigger.time_mode= YAML.dump(params[:time_mode_obj])
 
-    @program_trigger.isp_program_str = params[:isp_program].to_s
+    @program_trigger.isp_program_str = {:isp_program => params[:isp_program], :isp_check_item => params[:isp_check_item] }.to_s
 
     respond_to do |format|
       if @program_trigger.save
@@ -154,18 +155,23 @@ class Isp::ProgramsController < ApplicationController
 
   def create_execute
     @program = Isp::Program.find(params[:id])
+
     @program.attributes = params[:isp_program]
+
     execute_context = {}
     @program.connections.each do |c|
+      #设置巡检项中的参数
+      c.check_items.each do |check_item|
+        check_item.check_parameters.each do |p|
+          p.value = params[:isp_check_item][c.id][check_item.id][p.id][:value]
+        end
+      end
+
       execute_context.merge!({c.object_symbol=>{:username=>c.username,:password=>c.password,:host=>c.host}})
     end
-    @program.check_parameters.each do |p|
-      execute_context.merge!({p.object_symbol=>p.value})
-    end
+
     @results = @program.execute(execute_context)
-
     @doc_alerts = @program.check_alert(@results)
-
     @doc = @program.generate_report(@results)
   end
 end
