@@ -1,10 +1,10 @@
-class Irm::TodoTasksController < ApplicationController
+class Gtd::TasksController < ApplicationController
   def index
 
   end
 
   def get_data
-    tasks_scope = Irm::TodoTask.with_all.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
+    tasks_scope = Gtd::Task.with_all.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
     tasks_scope = tasks_scope.with_open#只查询打开的
     tasks,count = paginate(tasks_scope)
     respond_to do |format|
@@ -15,7 +15,7 @@ class Irm::TodoTasksController < ApplicationController
 
   def get_top_data
 
-    tasks_scope = Irm::TodoTask.with_all.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
+    tasks_scope = Gtd::Task.with_all.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
     if params[:opts] && params[:opts] == "open"
       tasks_scope = tasks_scope.with_open
     elsif params[:opts] && params[:opts] == "overdue"
@@ -35,7 +35,7 @@ class Irm::TodoTasksController < ApplicationController
   end
 
   def new
-    @task = Irm::TodoTask.new
+    @task = Gtd::Task.new
     #防止在新建页面, 从侧边栏又选择新建任务时,完成后又回到新建页面
     @return_url=request.env['HTTP_REFERER'] if request.env['HTTP_REFERER'] != url_for(:controller => "todo_tasks", :action => "new")
     respond_to do |format|
@@ -44,7 +44,7 @@ class Irm::TodoTasksController < ApplicationController
   end
 
   def create
-    @task = Irm::TodoTask.new(params[:irm_todo_task])
+    @task = Gtd::Task.new(params[:irm_todo_task])
 
     @task.start_at = Time.now
     @task.calendar_id = Irm::Calendar.current_calendar(params[:assigned_to]).id
@@ -120,12 +120,12 @@ class Irm::TodoTasksController < ApplicationController
   end
 
   def edit
-    @task = Irm::TodoTask.find(params[:id])
+    @task = Gtd::Task.find(params[:id])
     @return_url=request.env['HTTP_REFERER']
   end
 
   def update
-    @task = Irm::TodoTask.find(params[:id])
+    @task = Gtd::Task.find(params[:id])
 
     calendar_id = Irm::Calendar.current_calendar(params[:assigned_to]).id
     return_url = params[:return_url]
@@ -146,7 +146,7 @@ class Irm::TodoTasksController < ApplicationController
   end
 
   def show
-    @task = Irm::TodoTask.with_all.with_task_status.with_calendar.with_priority.where("#{Irm::TodoTask.table_name}.id = ?", params[:id]).first
+    @task = Gtd::Task.with_all.with_task_status.with_calendar.with_priority.where("#{Gtd::Task.table_name}.id = ?", params[:id]).first
   end
 
   def my_tasks_index
@@ -154,7 +154,7 @@ class Irm::TodoTasksController < ApplicationController
   end
 
   def my_tasks_get_data
-    my_tasks_scope = Irm::TodoTask.with_all.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
+    my_tasks_scope = Gtd::Task.with_all.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
     my_tasks,count = paginate(my_tasks_scope)
     respond_to do |format|
       format.json {render :json => to_jsonp(my_tasks.to_grid_json([:name,:start_at,:end_at,:due_date, :color,:status_code, :assigned_name, :priority_name, :event_status_name], count))}

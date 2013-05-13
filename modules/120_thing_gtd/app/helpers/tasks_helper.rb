@@ -1,4 +1,4 @@
-module Irm::TodoTasksHelper
+module Gtd::TasksHelper
   def available_tasks_list_options
     [[I18n.t(:label_irm_todo_task_display_opts_open), "open"],
      [I18n.t(:label_irm_todo_task_display_opts_today), "today"],

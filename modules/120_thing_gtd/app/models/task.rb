@@ -1,6 +1,6 @@
-class Irm::TodoEvent < ActiveRecord::Base
-  set_table_name :irm_todo_events
-  has_event_calendar
+class Gtd::Task < ActiveRecord::Base
+  set_table_name :gtd_tasks
+
   validates_presence_of :name
   validates_presence_of :start_at
   serialize :url, Hash
@@ -12,8 +12,6 @@ class Irm::TodoEvent < ActiveRecord::Base
   query_extend
   # 对运维中心数据进行隔离
   default_scope {default_filter}
-
-  before_save :before_save
 
   scope :with_all, lambda{select("#{table_name}.*")}
 
@@ -33,17 +31,37 @@ class Irm::TodoEvent < ActiveRecord::Base
         where("lv2.lookup_code = #{table_name}.priority")
   }
 
-  scope :with_event_status, lambda{
-    select("lvt.meaning event_status_name").
+  scope :with_task_status, lambda{
+    select("lvt.meaning task_status_name").
         joins(", #{Irm::LookupValue.table_name} lv, #{Irm::LookupValuesTl.table_name} lvt").
         where("lvt.language = ?", I18n.locale).
         where("lvt.lookup_value_id = lv.id").
         where("lv.lookup_type = ?", "IRM_TODO_EVENT_STATUS").
-        where("lv.lookup_code = #{table_name}.event_status")
+        where("lv.lookup_code = #{table_name}.task_status")
+  }
+
+  scope :with_open, lambda{
+    where("#{table_name}.task_status <> ?", "COMPLETED")
+  }
+
+  scope :with_overdue, lambda{
+    where("#{table_name}.due_date < ?", Time.strptime(Time.now.strftime("%F"), "%F"))
+  }
+
+  scope :with_in7day, lambda{
+    where("#{table_name}.due_date >= ? AND #{table_name}.due_date < ?",
+          Time.strptime(Time.now.strftime("%F"), "%F"),
+          Time.strptime(Time.now.strftime("%F"), "%F") + 7.days)
   }
 
   scope :uncompleted, lambda{
-    where("#{table_name}.event_status <> ?", "COMPLETED")
+    where("#{table_name}.task_status <> ?", "COMPLETED")
+  }
+
+  scope :with_today, lambda{
+    where("#{table_name}.due_date >= ? AND #{table_name}.due_date < ?",
+          Time.strptime(Time.now.strftime("%F"), "%F"),
+          Time.strptime(Time.now.strftime("%F"), "%F") + 1.day)
   }
 
   scope :assigned_to, lambda{|person_id|
@@ -67,14 +85,13 @@ class Irm::TodoEvent < ActiveRecord::Base
     occurrences_array = []
     if self.rrule && !self.rrule.blank?
       ical_task =   RiCal.Calendar do |cal|
-                      cal.event do |event|
-                        event.description = self.description
-                        event.dtstart =  DateTime.parse(self.start_at.strftime("%FT%T%z")) #4712-01-01T00:00:00+00:00
-                        event.dtend = DateTime.parse(self.end_at.strftime("%FT%T%z"))
-                        event.location = self.location
-                        event.rrule = self.rrule_string#"FREQ=MONTHLY;INTERVAL=1;UNTIL=20110430T045959Z;BYDAY=MO,SU"
+                      cal.event do |todo|
+                        todo.description = self.description
+                        todo.dtstart =  DateTime.parse(self.start_at.strftime("%FT%T%z")) #4712-01-01T00:00:00+00:00
+                        todo.dtend = DateTime.parse(self.start_at.strftime("%FT%T%z"))
+                        todo.rrule = self.rrule_string#"FREQ=MONTHLY;INTERVAL=1;UNTIL=20110430T045959Z;BYDAY=MO,SU"
                       end
-                    end
+      end
       occurrences_array = ical_task.events.first.occurrences(:starting => self.start_at, :before => self.start_at + 10.months).map(&:start_time)
     end
     occurrences_array
@@ -83,9 +100,9 @@ class Irm::TodoEvent < ActiveRecord::Base
   def copy_recurrences
     self.occurrences.each do |o|
       next if o.strftime("%F") == self.start_at.strftime("%F")
-      new_task = Irm::TodoEvent.new(self.attributes)
+      new_task = Irm::TodoTask.new(self.attributes)
       new_task.start_at = DateTime.parse(o.strftime("%F") + "T"  + self.start_at.strftime("%T%z"))
-      new_task.end_at = DateTime.parse(o.strftime("%F") + "T"  + self.end_at.strftime("%T%z"))
+      new_task.due_date = new_task.start_at + 1.day
       new_task.created_at = Time.now
       new_task.updated_at = Time.now
       new_task.parent_id = self.id
@@ -98,39 +115,17 @@ class Irm::TodoEvent < ActiveRecord::Base
     after = self.start_at.strftime("%F") if self.start_at - after > 1.day
 
     if self.parent_id && !self.parent_id.blank?
-      tasks = Irm::TodoEvent.where("parent_id = ? AND start_at > ? AND id <> ?", self.parent_id, after, self.id)
+      tasks = Irm::TodoTask.where("parent_id = ? AND start_at > ? AND id <> ?", self.parent_id, after, self.id)
       tasks.each do |t|
         t.destroy
       end
 
       self.update_attribute(:parent_id, "")
     else
-      tasks = Irm::TodoEvent.where("parent_id = ? AND start_at > ?", self.id, after)
+      tasks = Irm::TodoTask.where("parent_id = ? AND start_at > ?", self.id, after)
       tasks.each do |t|
         t.destroy
       end
-    end
-  end
-
-  def self.complete_task(source, person_id)
-    s = Irm::TodoEvent.with_all.enabled.uncompleted.with_calendar.assigned_to(person_id)
-        where("source_type = ? AND source_id = ?", source.class.name, source.id).
-        where("start_at < ?", Time.now)
-
-    if s.any?
-      s.first.update_attribute(:event_status, "COMPLETED")
-    end
-
-  end
-
-  private
-  def before_save()
-    if !self.priority || self.priority.blank?
-      self.priority = "NORMAL"
-    end
-
-    if !self.event_status || self.event_status.blank?
-      self.event_status = "NOT_STARTED"
     end
   end
 end
