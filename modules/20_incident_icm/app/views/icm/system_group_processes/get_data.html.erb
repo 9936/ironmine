@@ -3,9 +3,10 @@
   .popover .popover-content {min-height: 50px;}
 </style>
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation), :width => "120px"}) do |data|%>
+    <% builder.column(:id,{:title=>t(:operation), :width => "80px"}) do |data|%>
       <%= link_to(t(:edit),{:action=>"edit",:id=>data[:id]},{:class => "action-link"}) %>&nbsp;|
-      <a href="javascript:void(0);" class="action-link" rel="popover" data-content="<%= render :partial =>"groups_processes", :locals => {:group_processes => @processes_hash[data[:id]] } %>" data-original-title="<%= t(:label_icm_system_group_process) %>"><%= t :label_irm_system_group_process_show %></a>
+      <%= link_to(t(:show),{:action=>"show",:id=>data[:id]},{:class => "action-link"}) %>
+      <!--<a href="javascript:void(0);" class="action-link" rel="popover" data-content="<%= render :partial =>"groups_processes", :locals => {:group_processes => @processes_hash[data[:id]] } %>" data-original-title="<%= t(:label_icm_system_group_process) %>"><%= t :label_irm_system_group_process_show %></a>-->
     <% end %>
     <% builder.column(:external_system_id,{:title=>t(:label_icm_incident_request_target_system)}) do |data|%>
         <%= data[:external_system_name] %>

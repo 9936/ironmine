@@ -652,7 +652,15 @@ class Icm::IncidentRequest < ActiveRecord::Base
   def generate_request_number
     #count = self.class.count
     #self.request_number = count
-    self.request_number = Irm::Sequence.nextval(self.class.name)
+    while true
+      self.request_number = Irm::Sequence.nextval(self.class.name)
+      #check if request number is repeated
+      if Icm::IncidentRequest.where("request_number = ?", self.request_number).where("id <> ?", self.id).size > 0
+        next
+      else
+        break
+      end
+    end
     self.save
     self.add_watcher(Irm::Person.find(self.support_person_id),false) if self.support_person_id.present?
     self.add_watcher(Irm::Person.find(self.requested_by),false)

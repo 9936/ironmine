@@ -50,3 +50,23 @@
     border-style: solid !important;
     border-color: #E05E00 !important;
 }
+
+.node-container table {
+    width: 100%;
+}
+
+.line-arrow-down-box {
+    line-height: 8px;
+}
+
+.line-arrow-down {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-right: 2px;
+    vertical-align: top;
+    border-top: 8px solid #000000;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    content: "";
+}
