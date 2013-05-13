@@ -114,6 +114,7 @@ class Icm::IncidentCategoriesController < ApplicationController
           query_with_system_ids_and_self_and_name(Irm::Person.current.system_ids, Irm::Person.current.id, params[:external_system_name])
     end
     incident_categories_scope = incident_categories_scope.match_value("#{Icm::IncidentCategoriesTl.table_name}.name",params[:name])
+    incident_categories_scope = incident_categories_scope.match_value("#{Icm::IncidentCategory.table_name}.code",params[:code])
     incident_categories,count = paginate(incident_categories_scope)
     respond_to do |format|
       format.json {render :json=>to_jsonp(incident_categories.to_grid_json([:code,:name,:description,:external_system_name,:status_meaning],count))}

@@ -1,0 +1,17 @@
+<table  class="form-table baseFilter"  id="baseFilter">
+  <tbody>
+    <tr>
+      <td>
+        <label for="loginPerson_label"><%= t(:label_irm_group_member_select_group) %></label>
+        <div style="white-space:nowrap">
+          <%= select_tag_multiple(
+                      "program_params[support_group_id][]",
+                      nullable_options_for_select(available_support_group, program_params[:support_group_id]),
+                      "program_params[support_group_mul]",
+                      program_params[:support_group_mul] ? program_params[:support_group_mul] : 'N', true)%>
+        </div>
+      </td>
+      <td width="80%"></td>
+    </tr>
+  </tbody>
+</table>
