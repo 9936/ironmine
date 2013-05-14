@@ -1,69 +1,84 @@
-<%= setting_show_title(:show_data => @task.name) %>
-
-<div id="ep" class="detail-block page-block">
-  <div class="pbHeader">
-    <table cellpadding="0" cellspacing="0" border="0">
+<%= common_title %>
+<!--页面结构-->
+<div class="show-block">
+  <table class="page-block-header"><tr>
+    <td class="page-block-title">
+      <h2 class="block-title"><%=t(:label_gtd_task)%></h2>
+    </td>
+    <td class="page-block-button">
+      <%= link_to t(:edit), {:action => "edit", :id => @task.id},:class=>"btn btn-primary"%>
+      <%= link_to t(:back), {:action => "index"},:class=>"btn" %>
+    </td>
+  </tr></table>
+  <div class="page-block-body">
+    <table class="show-table">
       <tbody>
+      <tr>
+        <td class="label-col"><label><%=t(:name)%></label></td>
+        <td class="data-col"><%= @task.name %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:description)%></label></td>
+        <td class="data-col"><%= @task.description %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_gtd_task_assigned_to)%></label></td>
+        <td class="data-col"><%= @task[:full_name] %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+        <td class="label-col"><label><%=t(:label_gtd_task_member_type)%></label></td>
+        <td class="data-col"><%= t("label_gtd_task_member_#{@task.member_type.downcase}") %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <% unless @task.member_type.eql?("PRIVATE") %>
+        <% if @task.member_type.eql?("MEMBER") %>
+          <tr>
+            <td class="label-col"><label><%= t(:label_gtd_task_member_member) %></label></td>
+            <td class="data-3col">
+              <%= available_members(@task.member_ids).join(", ") %>
+            </td>
+          </tr>
+        <% end %>
         <tr>
-          <td class="pbTitle"><h2 class="mainTitle"></h2></td>
-          <td id="topButtonRow" class="pbButton">
-            <div class="button"><%= link_to t(:edit), {:action => "edit", :id => @task}%></div>
-            <div class="button"><%= link_to t(:back), {:action => "index", :controller => "irm/home"}%></div>
-          </td>
+          <td class="label-col"><label><%=t(:label_gtd_task_access_type)%></label></td>
+          <td class="data-col"><%= t("label_gtd_task_access_#{@task.access_type.downcase}") %></td>
+          <td class="label-col empty">&nbsp;</td>
+          <td class="data-col empty">&nbsp;</td>
         </tr>
+      <% end %>
+      <tr>
+        <td class="label-col"><label><%=t(:label_gtd_task_plan_start_at)%></label></td>
+        <td class="data-col"><%= format_date @task.plan_start_at %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_gtd_task_plan_end_at)%></label></td>
+        <td class="data-col"><%= format_date @task.plan_end_at %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_gtd_task_start_at)%></label></td>
+        <td class="data-col"><%= format_date @task.start_at %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label-col"><label><%=t(:label_gtd_task_end_at)%></label></td>
+        <td class="data-col"><%= format_date @task.end_at %></td>
+        <td class="label-col empty">&nbsp;</td>
+        <td class="data-col empty">&nbsp;</td>
+      </tr>
       </tbody>
     </table>
   </div>
-  <div class="pbBody">
-    <div class="pbSubheader tertiaryPalette">&nbsp;
-      <h3><%=t(:label_common_info)%><span class="titleSeparatingColon"></span></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%=(t :label_irm_todo_task_name)%></label></td>
-              <td class="dataCol"><%= @task.name%></td>
-              <td class="labelCol"><label><%=(t :label_irm_todo_task_created_at)%></label></td>
-              <td class="dataCol"><%= @task.created_at.strftime("%F")%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%=t :label_irm_todo_task_assigned_to%></label></td>
-              <td class="dataCol"><%= @task.assigned_name%></td>
-              <td class="labelCol"><label><%=(t :label_irm_todo_task_due_date)%></label></td>
-              <td class="dataCol"><%= @task.due_date.strftime("%F") if @task.due_date %></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_todo_task_priority %></label></td>
-              <td class="dataCol"><%= @task.priority_name %></td>
-            </tr>
-            <tr>
-
-              <td class="labelCol"><label><%=(t :label_irm_wf_relation_object)%></label></td>
-              <td class="dataCol" colspan="3"><%= link_to(eval(@task.source_type).find(@task.source_id).to_s, url_for(@task.url)) if @task.source_type && @task.source_id && @task.url%></td>
-            </tr>
-            <tr>
-              <td class="labelCol"><label><%= t :label_irm_todo_task_task_status %></label></td>
-              <td class="dataCol"><%= @task.task_status_name %></td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="pbSubheader tertiaryPalette">&nbsp;
-      <h3><%=t(:label_description_info)%><span class="titleSeparatingColon"></span></h3>
-    </div>
-    <div class="pbSubsection">
-      <table class="detailList" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-            <tr>
-              <td class="labelCol"><label><%= t :description %></label></td>
-              <td class="data2Col"><%= @task.description %></td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
-<% content_for :sidebar do %>
-    <%= render :partial =>"/irm/common/recently_objects" %>
-<% end %>

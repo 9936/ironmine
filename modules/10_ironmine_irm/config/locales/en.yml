@@ -1030,48 +1030,48 @@ en:
   label_irm_watcher_helper: You can only add youself as the watcher.
   #======================== end watcher ======================
   #======================== calendar events====================
-#  label_action_calendar_view: Calendar
-#  label_irm_todo_event: Events
-#  label_irm_todo_event_new: Create Event
-#  label_irm_todo_event_edit: Edit Event
-#  label_irm_todo_event_start_at: Start Date
-#  label_irm_todo_event_end_at: End Date
-#  label_irm_todo_event_color: Color
-#  label_irm_todo_event_name: Event Name
-#  label_irm_wf_relation_object: Relation
-#  label_irm_todo_event_location: Location
-#  label_irm_todo_event_percent_complete: Percent Completed
-#  label_irm_todo_event_recurrence: Recurrence
-#  label_irm_todo_event_recurrence_new: Create Recurring Series of Events
-#  label_irm_todo_event_recurrence_frequency: Frequency
-#  label_irm_todo_event_recurrence_every_weekday: Every Workday
-#  label_irm_todo_event_recurrence_every: Every
-#  label_irm_todo_event_recurrence_day: Day
-#  label_irm_todo_event_recurrence_daily: Daily
-#  label_irm_todo_event_recurrence_weekly: Weekly
-#  label_irm_todo_event_recurrence_monthly: Monthly
-#  label_irm_todo_event_recurrence_yearly: Yearly
-#  label_irm_todo_event_recurrence_every_day: Recurs every %{m} day(s) on
-#  label_irm_todo_event_recurrence_every_week: Recurs every %{m} week(s) on
-#  label_irm_todo_event_recurrence_week_x: Week %{x}
-#  label_irm_todo_event_recurrence_every_year: Recurs every %{m} year(s) on
-#  label_irm_todo_event_recurrence_day_of_every_month: On day %{n} of every %{m} month(s)
-#  label_irm_todo_event_recurrence_weekday_of_every_month: On the %{n} of every %{m} month(s)
-#  label_irm_todo_event_assigned_to: Assigned To
-#  label_irm_todo_event_recurrence_edit: Edit Series
-#  label_action_edit_recurrence: Edit Series
-#  label_action_my_events_index: My Events
-#  recurrence_occurs: Occurs
-#  recurrence_byday: on day %{m}
-#  recurrence_byday_week: on %{m}
-#  recurrence_until: until %{m}
-#  recurrence_daily: day(s)
-#  recurrence_weekly: week(s)
-#  recurrence_monthly: month(s)
-#  recurrence_interval: every %{m}
-#  label_irm_calendar_view: Calendar View
-#  label_irm_todo_event_list_view: Events List View
-#  label_action_portlet: Need To Do Task
+  label_action_calendar_view: Calendar
+  label_irm_todo_event: Events
+  label_irm_todo_event_new: Create Event
+  label_irm_todo_event_edit: Edit Event
+  label_irm_todo_event_start_at: Start Date
+  label_irm_todo_event_end_at: End Date
+  label_irm_todo_event_color: Color
+  label_irm_todo_event_name: Event Name
+  label_irm_wf_relation_object: Relation
+  label_irm_todo_event_location: Location
+  label_irm_todo_event_percent_complete: Percent Completed
+  label_irm_todo_event_recurrence: Recurrence
+  label_irm_todo_event_recurrence_new: Create Recurring Series of Events
+  label_irm_todo_event_recurrence_frequency: Frequency
+  label_irm_todo_event_recurrence_every_weekday: Every Workday
+  label_irm_todo_event_recurrence_every: Every
+  label_irm_todo_event_recurrence_day: Day
+  label_irm_todo_event_recurrence_daily: Daily
+  label_irm_todo_event_recurrence_weekly: Weekly
+  label_irm_todo_event_recurrence_monthly: Monthly
+  label_irm_todo_event_recurrence_yearly: Yearly
+  label_irm_todo_event_recurrence_every_day: Recurs every %{m} day(s) on
+  label_irm_todo_event_recurrence_every_week: Recurs every %{m} week(s) on
+  label_irm_todo_event_recurrence_week_x: Week %{x}
+  label_irm_todo_event_recurrence_every_year: Recurs every %{m} year(s) on
+  label_irm_todo_event_recurrence_day_of_every_month: On day %{n} of every %{m} month(s)
+  label_irm_todo_event_recurrence_weekday_of_every_month: On the %{n} of every %{m} month(s)
+  label_irm_todo_event_assigned_to: Assigned To
+  label_irm_todo_event_recurrence_edit: Edit Series
+  label_action_edit_recurrence: Edit Series
+  label_action_my_events_index: My Events
+  recurrence_occurs: Occurs
+  recurrence_byday: on day %{m}
+  recurrence_byday_week: on %{m}
+  recurrence_until: until %{m}
+  recurrence_daily: day(s)
+  recurrence_weekly: week(s)
+  recurrence_monthly: month(s)
+  recurrence_interval: every %{m}
+  label_irm_calendar_view: Calendar View
+  label_irm_todo_event_list_view: Events List View
+  label_action_portlet: Need To Do Task
   #======================== end calendar tasks====================
   #======================== business objects====================
   label_business_object_list: Business Object

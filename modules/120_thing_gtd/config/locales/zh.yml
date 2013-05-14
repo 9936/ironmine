@@ -1,2 +1,26 @@
 zh:
-  hello: Hello
+  #=========================Start Task=======================#
+  label_gtd_task: 任务
+  label_gtd_task_list: 任务列表
+  label_gtd_task_new: 新建任务
+  label_gtd_task_edit: 编辑任务
+  label_gtd_task_system: 系统
+  label_gtd_task_assigned_to: 责任人
+  label_gtd_task_repeat: 重复
+  label_gtd_task_type: 任务类型
+  label_gtd_task_type_task: 任务
+  label_gtd_task_type_instance: 任务实例
+  label_gtd_task_member_type: 权限
+  label_gtd_task_member_public: 公开
+  label_gtd_task_member_private: 私有
+  label_gtd_task_member_member: 指定成员
+  label_gtd_task_access_type: 参与人员权限
+  label_gtd_task_access_read: 只读
+  label_gtd_task_access_edit: 编辑
+  label_gtd_task_plan_start_at: 计划开始时间
+  label_gtd_task_plan_end_at: 计划结束时间
+  label_gtd_task_start_at: 开始时间
+  label_gtd_task_end_at: 结束时间
+  label_gtd_task_duration: 持续时间
+  #=========================End Task=======================#
+

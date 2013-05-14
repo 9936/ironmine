@@ -14,7 +14,20 @@ module Fwk::ArrayToJson
         couples = elem.attributes.symbolize_keys
         attributes.each do |atr|
           value = get_atr_value(elem, atr, couples)
-          value = escape_javascript(value) if value and value.is_a? String
+          #if value and value.is_a? String
+          #  ##将单引号转义一下，因为JSON串中的字符串类型可以单引号引起来的
+          #  #value = value.gsub("'", "\\'")
+          #  ##将双引号转义一下，因为JSON串中的字符串类型可以单引号引起来的
+          #  #value = value.gsub("\"", "\\\"")
+          #  ##将回车换行转换一下，因为JSON串中字符串不能出现显式的回车换行
+          #  #value = value.gsub("\r\n", "\\u000d\\u000a")
+          #  ##将换行转换一下，因为JSON串中字符串不能出现显式的换行
+          #  #value = value.gsub("\n", "\\u000a")
+          #  value = escape_javascript(value)
+          #end
+
+
+
           if(value.is_a? Time)
             if options[:date_to_distance]&&(options[:date_to_distance].is_a? Array)&&options[:date_to_distance].include?(atr)
               value = I18n.t(:ago,:message=>distance_of_time_in_words(Time.now, value))
@@ -22,7 +35,7 @@ module Fwk::ArrayToJson
               value = value.strftime('%Y-%m-%d %H:%M:%S')
             end
           end
-          value.is_a?(Array) ? json<<%Q("#{atr}":#{value.to_json},) : json << %Q("#{atr}":"#{value}",)
+          value.is_a?(Array) ? json<<%Q("#{atr}":#{value.to_json},) : json << %Q("#{atr}":"#{value.html_safe}",)
         end
         json.chop! << "},"
       end
@@ -33,6 +46,7 @@ module Fwk::ArrayToJson
   end
 
   private
+
   def get_atr_value(elem, atr, couples)
     if atr.to_s.include?('.')
       value = get_nested_atr_value(elem, atr.to_s.split('.').reverse)

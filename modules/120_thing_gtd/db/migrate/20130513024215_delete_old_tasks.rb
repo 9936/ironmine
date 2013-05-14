@@ -14,15 +14,14 @@ class DeleteOldTasks < ActiveRecord::Migration
       t.string "rule_type", :limit => 30
       t.integer "duration"
       t.datetime "plan_start_at"
-      t.datetime "plan_end_date"
+      t.datetime "plan_end_at"
       t.datetime "start_at"
-      t.datetime "end_date"
+      t.datetime "end_at"
       t.string "assigned_to", :limit => 22, :collate => "utf8_bin"
       t.string "execute_status", :limit => 30
       t.string "notify_program_id", :limit => 22, :collate => "utf8_bin"
       t.string "parent_id", :limit => 22, :collate => "utf8_bin"
       t.string "incident_request_id", :limit => 22, :collate => "utf8_bin"
-      t.string "who", :limit => 22, :collate => "utf8_bin"
       t.string "status_code", :limit => 30, :default => "ENABLED", :null => false
       t.string "created_by", :limit => 22, :collate => "utf8_bin"
       t.string "updated_by", :limit => 22, :collate => "utf8_bin"
