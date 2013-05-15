@@ -1,0 +1,5 @@
+$(function(){
+    $("#assign<%=@type.classify%>Form").html("<%= escape_javascript(render :partial=>"gtd/task_assigns/mini_form",:locals =>{:task_assign => @task_assign,:lov_name=>"task_assign_#{@type}",:member_type=>@type,:dom_id=>"assign#{@type.classify}"})%>");
+
+    $("#task_assign_<%=@type%>_people").data("datatable").target.loadPage();
+});

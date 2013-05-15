@@ -1,0 +1,8 @@
+<%= form_tag({:controller => "gtd/task_assigns",:action => "add_member",:type=>member_type,:id=>task_assign.id,:_dom_id=>dom_id},{:class => "form-inline",:remote=>true,:builder => CustomFormBuilder}) do %>
+    <div class="float-right" style="margin-left: 20px;">
+      <%= link_submit(t(:add), :class=>"btn") %>
+    </div>
+    <div  style="float:right;">
+      <%= lov_field_tag :person_id, Irm::Person,{:id=>"#{member_type}_person_id",:style=>"width:150px;",:lov_params=>{:lktkn=>"person_from",:data_method=>"task_assign_lov", :task_assign_id=> task_assign.id}}%>
+    </div>
+<% end %>
