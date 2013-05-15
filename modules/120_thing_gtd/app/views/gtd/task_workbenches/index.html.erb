@@ -1,0 +1,206 @@
+<%= common_title %>
+
+<style type="text/css">
+    .widget-box {
+        background: none repeat scroll 0 0 #F9F9F9;
+        border-top: 1px solid #CDCDCD;
+        border-left: 1px solid #CDCDCD;
+        border-right: 1px solid #CDCDCD;
+        clear: both;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        position: relative;
+    }
+
+    .widget-box.widget-calendar, .widget-box.widget-chat {
+        overflow: hidden !important;
+    }
+
+    .accordion .widget-box {
+        margin-top: -2px;
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+
+    .widget-box.widget-plain {
+        background: transparent;
+        border: none;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .widget-title, .table th {
+        background-color: #efefef;
+        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
+        background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -moz-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -ms-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -o-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fdfdfd', endColorstr = '#eaeaea', GradientType = 0); /* IE6-9 */
+        border-bottom: 1px solid #CDCDCD;
+        height: 36px;
+    }
+
+    .widget-title .nav-tabs {
+        border-bottom: 0 none;
+    }
+
+    .widget-title .nav-tabs li a {
+        border-bottom: medium none !important;
+        border-left: 1px solid #DDDDDD;
+        border-radius: 0 0 0 0;
+        border-right: 1px solid #DDDDDD;
+        border-top: medium none;
+        color: #999999;
+        margin: 0;
+        outline: medium none;
+        padding: 9px 10px 8px;
+        font-weight: bold;
+        text-shadow: 0 1px 0 #FFFFFF;
+    }
+
+    .widget-title .nav-tabs li:first-child a {
+        border-left: medium none !important;
+    }
+
+    .widget-title .nav-tabs li a:hover {
+        background-color: transparent !important;
+        border-color: #D6D6D6;
+        border-width: 0 1px;
+        color: #666666;
+    }
+
+    .widget-title .nav-tabs li.active a {
+        background-color: #F9F9F9 !important;
+        color: #444444;
+    }
+
+    .widget-title span.icon {
+        border-right: 1px solid #cdcdcd;
+        padding: 9px 10px 7px 11px;
+        float: left;
+        opacity: .7;
+        line-height: 20px;
+    }
+
+    .widget-title h5 {
+        color: #666666;
+        text-shadow: 0 1px 0 #ffffff;
+        float: left;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px;
+        line-height: 12px;
+        margin: 0;
+    }
+
+    .widget-title .buttons {
+        float: left;
+        margin: 6px 0 0 60px;
+    }
+
+    .widget-title .label {
+        padding: 3px 5px 2px;
+        float: right;
+        margin: 9px 15px 0 0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
+    }
+
+    .widget-calendar .widget-title .label {
+        margin-right: 190px;
+    }
+
+    .widget-content {
+        padding: 0;
+        border-bottom: 1px solid #cdcdcd;
+    }
+
+    .widget-box.widget-plain .widget-content {
+        padding: 12px 0 0;
+    }
+
+    .widget-box.collapsible .collapse.in .widget-content {
+        border-bottom: 1px solid #CDCDCD;
+    }
+
+    .panel-left {
+        width: 223px;
+        background-color: #f2f2f2;
+        border-right: 1px solid #dddddd;
+        position: absolute;
+        left: 0;
+        top: 37px;
+        height: 450px;
+        /*margin-right: 150px;*/
+    }
+
+    .panel-right {
+        margin-left: 224px;
+        height: 450px;
+    }
+
+    .panel-left .panel-title {
+        width: 100%;
+        background-color: #ececec;
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .panel-left .panel-title h5 {
+        font-size: 12px;
+        color: #777777;
+        text-shadow: 0 1px 0 #ffffff;
+        padding: 6px 10px 5px;
+        margin: 0;
+        display: block;
+    }
+
+    .panel-left .panel-content {
+        padding: 10px;
+    }
+    .datepicker.dropdown-menu {
+        border-color: #cdcdcd;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    .datepicker::before,
+    .datepicker::after {
+        border-left: 0;
+        border-right: 0;
+    }
+
+</style>
+<!--页面结构-->
+<div class="widget-box widget-calendar">
+  <div class="widget-title">
+    <div class="buttons">
+      <%= link_to url_for(:controller => "gtd/tasks", :action => "new"), :class => "btn btn-success" do %>
+          <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="widget-content nopadding">
+    <div class="panel-left">
+      <input type="text" id="calendar" style="margin-top: -34px; margin-left: -1px; z-index: 0; visibility: hidden;"/>
+    </div>
+
+    <div class="panel-right">
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+      $("#calendar").datepicker("show").on('changeDate', function(ev){
+          if (ev.date.valueOf() > endDate.valueOf()){
+
+          } else {
+
+          }
+          $('#calendar').datepicker('hide');
+      });
+  });
+</script>

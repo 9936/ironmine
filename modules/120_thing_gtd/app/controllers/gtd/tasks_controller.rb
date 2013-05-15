@@ -114,27 +114,27 @@ class Gtd::TasksController < ApplicationController
     @task = Gtd::Task.with_all.with_assigned_person.find(params[:id])#with_all.with_task_status.with_calendar.with_priority.where("#{Gtd::Task.table_name}.id = ?", params[:id]).first
   end
 
-  def my_tasks_index
-
-  end
-
-  def my_tasks_get_data
-    my_tasks_scope = Gtd::Task.with_all.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
-    my_tasks,count = paginate(my_tasks_scope)
-    respond_to do |format|
-      format.json {render :json => to_jsonp(my_tasks.to_grid_json([:name,:start_at,:end_at,:due_date, :color,:status_code, :assigned_name, :priority_name, :event_status_name], count))}
-    end
-  end
-
-  def edit_recurrence
-
-  end
-
-  def update_recurrence
-
-  end
-
-  def portlet
-      render :layout => false
-  end
+  #def my_tasks_index
+  #
+  #end
+  #
+  #def my_tasks_get_data
+  #  my_tasks_scope = Gtd::Task.with_all.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
+  #  my_tasks,count = paginate(my_tasks_scope)
+  #  respond_to do |format|
+  #    format.json {render :json => to_jsonp(my_tasks.to_grid_json([:name,:start_at,:end_at,:due_date, :color,:status_code, :assigned_name, :priority_name, :event_status_name], count))}
+  #  end
+  #end
+  #
+  #def edit_recurrence
+  #
+  #end
+  #
+  #def update_recurrence
+  #
+  #end
+  #
+  #def portlet
+  #    render :layout => false
+  #end
 end

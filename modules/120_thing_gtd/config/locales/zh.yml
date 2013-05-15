@@ -31,3 +31,7 @@ zh:
   label_gtd_task_view_calendar: 日历视图
   #=========================End Task=======================#
 
+  #=========================Start Task Workbenches=======================#
+  label_gtd_task_workbench: 任务工作台
+  #=========================End Task Workbenches=======================#
+
