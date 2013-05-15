@@ -15,7 +15,48 @@ class Gtd::TasksController < ApplicationController
         @datas = tasks
         @count = count
       }
-      format.json  {render :json => to_jsonp(tasks.to_grid_json([:name,:start_at,:end_at], count)) }
+
+    end
+  end
+
+  def get_calendar_data
+    tasks = Gtd::Task.with_all.with_assigned_person
+    #将task按照是否重复进行分别处理
+    tasks_event = []
+    start_time = Time.at(params[:start].to_i)
+    end_time = Time.at(params[:end].to_i)
+    tasks.each do |task|
+      task_members = Irm::Person.query_by_ids(task.member_ids).collect{|i| i.full_name}
+
+
+      if task.repeat.eql?("N")
+        tasks_event << {:url => "#",
+                        :id => task.id,
+                        :title => task[:name],
+                        :start => task[:start_at],
+                        :end => task[:end_at],
+                        :assigned => task[:full_name],
+                        :members => task_members.join(", "),
+                        :description => task[:description],
+                        :system => task[:external_system_name] }
+      else
+        freq_meaning = I18n.t("label_gtd_task_rule_#{task[:rule_type].downcase}")
+
+        task.get_occurrences(start_time, end_time).each do |rh|
+          tasks_event << {:url => "#",
+                          :id => task.id,
+                          :title => "[#{freq_meaning}] #{task[:name]}",
+                          :start => rh,
+                          :assigned => task[:full_name],
+                          :members => task_members.join(", "),
+                          :description => task[:description],
+                          :system => task[:external_system_name] }
+        end
+      end
+    end
+
+    respond_to do |format|
+      format.json {render :json=> tasks_event.to_json}
     end
   end
 

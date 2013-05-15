@@ -17,12 +17,19 @@ class Gtd::Task < ActiveRecord::Base
   attr_accessor :member_str
   has_many :task_members, :foreign_key => :task_id, :dependent => :destroy
 
-  scope :with_all, lambda{select("#{table_name}.*")}
+  scope :with_all, lambda{
+    select("#{table_name}.*").with_external_system(I18n.locale)
+  }
 
 
   scope :with_assigned_person, lambda {
     joins("JOIN #{Irm::Person.table_name} p ON p.id = #{table_name}.assigned_to").
         select("p.full_name")
+  }
+
+  scope :with_external_system, lambda{|language|
+    joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").
+        select("external_system.system_name external_system_name")
   }
 
 
@@ -84,6 +91,61 @@ class Gtd::Task < ActiveRecord::Base
   def time_mode_obj
     return @time_mode_obj if @time_mode_obj
     @time_mode_obj =  prepare_time_mode
+  end
+
+  #计算指定时间内的按照循环规则重复的时间
+  def get_occurrences(start_time, end_time)
+    start_date =  self.start_at.to_datetime
+    end_date = self.end_at.to_datetime
+
+    if start_time > end_date || end_time < start_date
+      return []
+    end
+
+    if start_time > start_date && start_time <= end_date
+      start_date = start_time
+    end
+
+    if end_time < end_date && end_time >= start_date
+      end_date = end_time
+    end
+
+    if end_date > self.end_at.to_datetime
+      end_date = self.end_at.to_datetime
+    end
+    #取得rrule hash字符串
+    rrule_hash =  self.to_rrule_hash
+    rrule_i = RiCal::PropertyValue::RecurrenceRule.new(nil, rrule_hash.merge(:until =>end_date))
+
+    # 为了取得今天开始两天内的有效执行计划需要将开始日期提前一天
+    default_start_date = start_date-1.days
+    # 如果是间隔大于1类型的执行计划需要重新调整开始日期
+    if rrule_hash[:interval]&&rrule_hash[:interval]>1
+      case rrule_hash[:freq]
+        when "DAILY"
+          default_start_date = start_date-rrule_hash[:interval].days
+        when "WEEKLY"
+          default_start_date = start_date-rrule_hash[:interval].weeks
+        when "MONTHLY"
+          default_start_date = start_date-rrule_hash[:interval].months
+      end
+    end
+
+    default_start_time = RiCal::PropertyValue::DateTime.new(nil, :value =>default_start_date)
+    component = Struct.new(:default_start_time, :default_duration)
+    component_instance = component.new(default_start_time,nil)
+    enum = rrule_i.enumerator(component_instance)
+    occurrences = []
+    while 1 do
+      occurrence = enum.next_occurrence
+      if occurrence.nil?
+        break
+      end
+      occurrence_datetime = occurrence.dtstart.to_datetime
+      #occurrence_datetime = occurrence_datetime.change(:hour=>self.start_time.hour,:min=>self.start_time.min,:sec=>self.start_time.sec)
+      occurrences << occurrence_datetime  if occurrence_datetime>= start_date# && occurrence_datetime>DateTime.now
+    end
+    occurrences
   end
 
   def to_rrule_hash

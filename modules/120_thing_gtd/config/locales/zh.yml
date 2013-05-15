@@ -7,6 +7,10 @@ zh:
   label_gtd_task_system: 系统
   label_gtd_task_assigned_to: 责任人
   label_gtd_task_repeat: 重复
+  label_gtd_task_rule_type: 重复频率
+  label_gtd_task_rule_weekly: 周
+  label_gtd_task_rule_daily: 日
+  label_gtd_task_rule_monthly: 月
   label_gtd_task_type: 任务类型
   label_gtd_task_type_task: 任务
   label_gtd_task_type_instance: 任务实例
@@ -22,5 +26,8 @@ zh:
   label_gtd_task_start_at: 开始时间
   label_gtd_task_end_at: 结束时间
   label_gtd_task_duration: 持续时间
+
+  label_gtd_task_view_list: 列表视图
+  label_gtd_task_view_calendar: 日历视图
   #=========================End Task=======================#
 

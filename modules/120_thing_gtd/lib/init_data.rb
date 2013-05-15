@@ -18,7 +18,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "gtd/tasks" => ["create", "edit", "edit_recurrence", "get_data", "index", "my_tasks_get_data", "my_tasks_index",
-                              "new","get_assigned_data", "show", "update", "update_recurrence"],
+                              "new","get_assigned_data", "show", "update", "update_recurrence", "get_calendar_data"],
           }
       }
   }
