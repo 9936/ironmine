@@ -96,7 +96,7 @@
                     <% c_f.object.check_items.each do |check_item| %>
                       <tr>
                         <td><%= check_item.name %></td>
-                        <td><%= truncate(check_item.script, {:length => 200}) %></td>
+                        <td title="<%= check_item.script %>"><%= truncate(check_item.script, {:length => 200}) %></td>
                       </tr>
                       <% if check_item.check_parameters.count > 0 %>
                       <tr class="item-details">
