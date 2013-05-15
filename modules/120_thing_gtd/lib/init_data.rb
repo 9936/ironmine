@@ -6,7 +6,7 @@ Fwk::MenuAndFunctionManager.map do |map|
       :zh => {:name => "任务", :description => "任务"}
   }
   map.function_group :task, {
-      :zone_code => "HOME_PAGE",
+      :zone_code => "TASK",
       :controller => "gtd/tasks",
       :action => "index"}
   map.function_group :task, {
@@ -17,8 +17,9 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "Y",
               :login_flag => "N",
               :public_flag => "N",
-              "gtd/tasks" => ["create", "edit", "edit_recurrence", "get_data", "index", "my_tasks_get_data", "my_tasks_index",
-                              "new","get_assigned_data", "show", "update", "update_recurrence", "get_calendar_data"],
+               ##"edit_recurrence", "update_recurrence", "my_tasks_get_data", "my_tasks_index",
+              "gtd/tasks" => ["create","update", "edit", "get_data", "index", "new","get_assigned_data", "show", "get_calendar_data"],
+              "gtd/task_workbenches" => ["index"]
           }
       }
   }
