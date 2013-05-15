@@ -95,9 +95,14 @@
         margin: 0;
     }
 
-    .widget-title .buttons {
+    .widget-title .left-buttons {
         float: left;
         margin: 6px 0 0 60px;
+    }
+
+    .widget-title .right-buttons {
+        float: right;
+        margin: 6px 20px 0 0;
     }
 
     .widget-title .label {
@@ -114,6 +119,7 @@
     .widget-content {
         padding: 0;
         border-bottom: 1px solid #cdcdcd;
+        height: auto;
     }
 
     .widget-box.widget-plain .widget-content {
@@ -126,42 +132,57 @@
 
     .panel-left {
         width: 223px;
-        background-color: #f2f2f2;
-        border-right: 1px solid #dddddd;
+        /*background-color: #f2f2f2;*/
         position: absolute;
         left: 0;
         top: 37px;
-        height: 450px;
-        /*margin-right: 150px;*/
+        min-height: 250px;
     }
 
     .panel-right {
-        margin-left: 224px;
-        height: 450px;
+        margin-left: 223px;
+        min-height: 250px;
+        border-left: 1px solid #dddddd;
+        /*height: 450px;*/
     }
 
-    .panel-left .panel-title {
+    .panel-right .panel-title {
         width: 100%;
         background-color: #ececec;
-        border-bottom: 1px solid #dddddd;
+        /*border-bottom: 1px solid #dddddd;*/
+        padding: 6px 10px 5px;
     }
 
-    .panel-left .panel-title h5 {
+    .panel-right .panel-title h5 {
         font-size: 12px;
         color: #777777;
         text-shadow: 0 1px 0 #ffffff;
-        padding: 6px 10px 5px;
         margin: 0;
-        display: block;
+        display: inline-block;
+        width: 100px;
+        text-align: right;
     }
 
-    .panel-left .panel-content {
-        padding: 10px;
+    .panel-right .filter-item {
+        display: block;
+        padding: 5px;
+    }
+    .panel-right .filter-item .btn {
+        margin-right: 10px;
+        min-width: 80px;
+    }
+
+    .panel-right .panel-content {
+        padding: 0;
     }
     .datepicker.dropdown-menu {
         border-color: #cdcdcd;
         box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
         border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
     }
     .datepicker::before,
     .datepicker::after {
@@ -173,10 +194,16 @@
 <!--页面结构-->
 <div class="widget-box widget-calendar">
   <div class="widget-title">
-    <div class="buttons">
+    <div class="left-buttons">
       <%= link_to url_for(:controller => "gtd/tasks", :action => "new"), :class => "btn btn-success" do %>
           <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
       <% end %>
+    </div>
+
+    <div class="right-buttons">
+      <a href="#" class="btn btn-primary">今日任务清单</a>
+      <a href="#" class="btn btn-info">导出Excel</a>
+      <a href="#" class="btn btn-info">导出Pdf</a>
     </div>
   </div>
 
@@ -187,6 +214,35 @@
     </div>
 
     <div class="panel-right">
+      <div class="panel-title">
+        <div class="filter-item">
+          <h5>过滤器：</h5>
+          <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 分派给我的</a>
+          <a href="#" class="btn btn-success">我创建的</a>
+          <a href="#" class="btn btn-success">我参与的</a>
+          <a href="#" class="btn btn-success">我分派的</a>
+        </div>
+
+        <div class="filter-item">
+          <h5>状态：</h5>
+          <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 全部</a>
+          <a href="#" class="btn btn-success">待处理</a>
+          <a href="#" class="btn btn-success">处理中</a>
+          <a href="#" class="btn btn-success">已完成</a>
+        </div>
+
+        <div class="filter-item">
+          <h5>类型：</h5>
+          <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 全部</a>
+          <a href="#" class="btn btn-success">每天</a>
+          <a href="#" class="btn btn-success">每周</a>
+          <a href="#" class="btn btn-success">每月</a>
+        </div>
+      </div>
+
+      <div class="panel-content">
+        <%= datatable("gtd_tasks", {:controller => "gtd/tasks",  :action => "get_data"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
+      </div>
 
     </div>
   </div>
