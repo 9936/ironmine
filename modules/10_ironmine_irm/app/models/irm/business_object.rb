@@ -211,8 +211,10 @@ class Irm::BusinessObject < ActiveRecord::Base
     end
 
     datas = eval(generate_query_by_attributes(fields.collect{|i| i[:key].to_sym},true,true)).where("#{self.bo_table_name}.#{label_attribute.attribute_name} like ?","#{search}")
-
-    if self.bo_model_name.constantize.respond_to?(:lov)
+    params[:search] = search
+    if params[:lov_params][:data_method].present?&&self.bo_model_name.constantize.respond_to?(params[:lov_params][:data_method].to_sym)
+      datas = bo_model_name.constantize.send(params[:lov_params][:data_method].to_sym,datas,params)
+    elsif self.bo_model_name.constantize.respond_to?(:lov)
       datas = bo_model_name.constantize.send(:lov,datas,params)
     end
 
