@@ -19,6 +19,18 @@ Rails.application.routes.draw do
     #Task Workbenches
     match '/task_workbenches(/index)(.:format)' => "task_workbenches#index", :via => :get
 
+    #task_assigns
+    match '/task_assigns/:sid(/index)(.:format)' => "task_assigns#index", :via => :get
+    match '/task_assigns/:sid/:id/show(.:format)' => "task_assigns#show", :via => :get
+    match '/task_assigns/:sid/new(.:format)' => "task_assigns#new", :via => :get
+    match '/task_assigns/:sid/create(.:format)' => "task_assigns#create", :via => :post
+    match '/task_assigns/:sid/:id/edit(.:format)' => "task_assigns#edit", :via => :get
+    match '/task_assigns/:sid/:id(.:format)' => "task_assigns#update", :via => :put
+    match '/task_assigns/:sid/get_data(.:format)' => "task_assigns#get_data"
+    match '/task_assigns/:sid/:id/add_member(.:format)' => "task_assigns#add_member"
+    match '/task_assigns/:sid/:id/get_to_people_data(.:format)' => "task_assigns#get_to_people_data"
+    match '/task_assigns/:sid/:id/get_from_people_data(.:format)' => "task_assigns#get_from_people_data"
+    match '/task_assigns/:sid/:id/delete_member(.:format)' => "task_assigns#delete_member"
 
   end
 end

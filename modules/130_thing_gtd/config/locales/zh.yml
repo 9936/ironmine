@@ -34,4 +34,13 @@ zh:
   #=========================Start Task Workbenches=======================#
   label_gtd_task_workbench: 任务工作台
   #=========================End Task Workbenches=======================#
-
+  #=========================    gtd task_assigns_controller  =======================#
+  label_gtd_task_assign_name: 名称
+  label_gtd_task_assign_description: 描述
+  label_gtd_task_assign_new: 新建
+  label_gtd_task_assign_edit: 编辑
+  label_gtd_task_assign_list: 列表
+  label_gtd_task_assign: 任务分排层次
+  label_gtd_task_assign_people_from: 分派人员
+  label_gtd_task_assign_people_to: 被分派人员
+  #=========================    end gtd task_assigns_controller =======================#
