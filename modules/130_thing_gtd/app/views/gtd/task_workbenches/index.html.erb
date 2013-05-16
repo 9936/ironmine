@@ -42,46 +42,31 @@
         height: 36px;
     }
 
-    .widget-title .nav-tabs {
-        border-bottom: 0 none;
+    .datatable table th {
+        background: none;
+        background-color: #efefef;
+        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
+        background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -moz-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -ms-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -o-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fdfdfd', endColorstr = '#eaeaea', GradientType = 0); /* IE6-9 */
+        border-bottom: 1px solid #CDCDCD;
+        height: 36px;
+        border-right: none;
     }
 
-    .widget-title .nav-tabs li a {
-        border-bottom: medium none !important;
-        border-left: 1px solid #DDDDDD;
-        border-radius: 0 0 0 0;
-        border-right: 1px solid #DDDDDD;
-        border-top: medium none;
-        color: #999999;
+    .datatable table th, .datatable table th a {
+        vertical-align: middle;
+    }
+
+    .widget-title table {
+        width: 100%;
+    }
+
+    .widget-title table td {
         margin: 0;
-        outline: medium none;
-        padding: 9px 10px 8px;
-        font-weight: bold;
-        text-shadow: 0 1px 0 #FFFFFF;
-    }
-
-    .widget-title .nav-tabs li:first-child a {
-        border-left: medium none !important;
-    }
-
-    .widget-title .nav-tabs li a:hover {
-        background-color: transparent !important;
-        border-color: #D6D6D6;
-        border-width: 0 1px;
-        color: #666666;
-    }
-
-    .widget-title .nav-tabs li.active a {
-        background-color: #F9F9F9 !important;
-        color: #444444;
-    }
-
-    .widget-title span.icon {
-        border-right: 1px solid #cdcdcd;
-        padding: 9px 10px 7px 11px;
-        float: left;
-        opacity: .7;
-        line-height: 20px;
     }
 
     .widget-title h5 {
@@ -100,20 +85,14 @@
         margin: 6px 0 0 60px;
     }
 
+    .widget-title .middle-title {
+        text-align: center;
+        padding: 5px;
+    }
+
     .widget-title .right-buttons {
         float: right;
         margin: 6px 20px 0 0;
-    }
-
-    .widget-title .label {
-        padding: 3px 5px 2px;
-        float: right;
-        margin: 9px 15px 0 0;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
-    }
-
-    .widget-calendar .widget-title .label {
-        margin-right: 190px;
     }
 
     .widget-content {
@@ -165,8 +144,9 @@
 
     .panel-right .filter-item {
         display: block;
-        padding: 5px;
+        padding: 3px;
     }
+
     .panel-right .filter-item .btn {
         margin-right: 10px;
         min-width: 80px;
@@ -175,6 +155,7 @@
     .panel-right .panel-content {
         padding: 0;
     }
+
     .datepicker.dropdown-menu {
         border-color: #cdcdcd;
         box-shadow: none;
@@ -184,6 +165,7 @@
         -webkit-border-radius: 0;
         -moz-border-radius: 0;
     }
+
     .datepicker::before,
     .datepicker::after {
         border-left: 0;
@@ -194,23 +176,27 @@
 <!--页面结构-->
 <div class="widget-box widget-calendar">
   <div class="widget-title">
-    <div class="left-buttons">
-      <%= link_to url_for(:controller => "gtd/tasks", :action => "new"), :class => "btn btn-success" do %>
-          <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
-      <% end %>
-    </div>
-
-    <div class="right-buttons">
-      <a href="#" class="btn btn-primary">今日任务清单</a>
-      <a href="#" class="btn btn-info">导出Excel</a>
-      <a href="#" class="btn btn-info">导出Pdf</a>
-    </div>
+    <table>
+      <tr>
+        <td class="left-buttons">
+          <%= link_to url_for(:controller => "gtd/tasks", :action => "new"), :class => "btn btn-success" do %>
+              <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
+          <% end %>
+        </td>
+        <td class="middle-title"><h3></h3></td>
+        <td class="right-buttons">
+          <a href="#" class="btn btn-primary">今日任务清单</a>
+          <a href="#" class="btn btn-info">导出Excel</a>
+          <a href="#" class="btn btn-info">导出Pdf</a>
+        </td>
+      </tr>
+    </table>
   </div>
 
 
   <div class="widget-content nopadding">
     <div class="panel-left">
-      <input type="text" id="calendar" style="margin-top: -34px; margin-left: -1px; z-index: 0; visibility: hidden;"/>
+      <input type="text" id="calendar" data-always="true" style="margin-top: -34px; margin-left: -1px; z-index: 0; visibility: hidden;"/>
     </div>
 
     <div class="panel-right">
@@ -218,30 +204,30 @@
         <div class="filter-item">
           <h5>过滤器：</h5>
           <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 分派给我的</a>
-          <a href="#" class="btn btn-success">我创建的</a>
-          <a href="#" class="btn btn-success">我参与的</a>
-          <a href="#" class="btn btn-success">我分派的</a>
+          <a href="#" class="btn">我创建的</a>
+          <a href="#" class="btn">我参与的</a>
+          <a href="#" class="btn">我分派的</a>
         </div>
 
         <div class="filter-item">
           <h5>状态：</h5>
           <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 全部</a>
-          <a href="#" class="btn btn-success">待处理</a>
-          <a href="#" class="btn btn-success">处理中</a>
-          <a href="#" class="btn btn-success">已完成</a>
+          <a href="#" class="btn">待处理</a>
+          <a href="#" class="btn">处理中</a>
+          <a href="#" class="btn">已完成</a>
         </div>
 
         <div class="filter-item">
           <h5>类型：</h5>
           <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 全部</a>
-          <a href="#" class="btn btn-success">每天</a>
-          <a href="#" class="btn btn-success">每周</a>
-          <a href="#" class="btn btn-success">每月</a>
+          <a href="#" class="btn btn-danger">每天</a>
+          <a href="#" class="btn btn-danger">每周</a>
+          <a href="#" class="btn btn-danger">每月</a>
         </div>
       </div>
 
       <div class="panel-content">
-        <%= datatable("gtd_tasks", {:controller => "gtd/tasks",  :action => "get_data"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
+        <%= datatable("gtd_task_instances", {:controller => "gtd/tasks", :action => "get_data"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
       </div>
 
     </div>
@@ -249,14 +235,27 @@
 </div>
 
 <script type="text/javascript">
-  $(function(){
-      $("#calendar").datepicker("show").on('changeDate', function(ev){
-          if (ev.date.valueOf() > endDate.valueOf()){
+    $(function () {
+        setDateTitle(new Date());
+        $("#calendar").datepicker("show").on('changeDate', function (ev) {
+            var date = ev.date;
+            setDateTitle(date);
+            var params = {date:date.valueOf()};
 
-          } else {
 
-          }
-          $('#calendar').datepicker('hide');
-      });
-  });
+            var current_target = $("#gtd_task_instances").data("datatable").target;
+            current_target.data.options.searchOptions = params;
+            current_target.loadPage(1);
+        });
+
+    });
+
+    function setDateTitle(date){
+
+        var d = date.getDate();
+        var m = date.getMonth() + 1;
+        var y = date.getFullYear();
+        $(".widget-title .middle-title h3").text(y + "-" + m + "-" + d);
+    }
+
 </script>

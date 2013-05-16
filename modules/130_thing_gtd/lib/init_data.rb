@@ -60,7 +60,7 @@ Fwk::MenuAndFunctionManager.map do |map|
       :system_flag => 'Y'
   }
   map.function_group :system_task_assign, {
-          :zone_code => "HOME_PAGE",
+          :zone_code => "TASK",
           :controller => "gtd/task_assigns",
           :action => "index"
   }
@@ -77,6 +77,6 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
 
-    #=================================END:SYSTEM TASK=================================
+  #=================================END:SYSTEM TASK=================================
 
 end

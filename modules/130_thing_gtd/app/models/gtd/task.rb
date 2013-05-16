@@ -8,6 +8,7 @@ class Gtd::Task < ActiveRecord::Base
   before_save :setting_rule
   after_save :create_member_from_str
   before_validation :transform_time
+  after_find :untransform_time
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -36,6 +37,33 @@ class Gtd::Task < ActiveRecord::Base
   scope :assigned_to, lambda{|person_id|
     where("#{table_name}.assigned_to = ?", person_id)
   }
+
+  #根据指定时间生成任务实例
+  def generate_task_instances(end_time)
+    #end_time必须要大于开始时间
+    end_time = end_time.to_datetime
+    start_date =  self.start_at.to_datetime
+    end_date = self.end_at.to_datetime
+    if end_time > end_date
+      end_time = end_date
+    elsif end_time < start_date
+      return
+    end
+    occurrences = get_occurrences(start_date, end_time)
+    #根据持续时间计算结束日期
+
+    occurrences.each do |occurrence|
+      occurrence_end = occurrence + self.duration_day.day + self.duration_hour.hour + self.duration_minute.minute
+      task_instance = Gtd::Task.new(self.attributes)
+      task_instance.parent_id = self.id
+      task_instance.repeat = 'N'
+      task_instance.rule = nil
+
+      task_instance.start_at = occurrence
+      task_instance.end_at = occurrence_end
+      task_instance.save
+    end
+  end
 
   def setting_rule
     if self.repeat and self.repeat.eql?("Y")
