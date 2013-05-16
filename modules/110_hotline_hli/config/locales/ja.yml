@@ -1,7 +1,7 @@
 ja:
   label_icm_incident_request_hotline: ホットライン
   label_icm_incident_request_hotline_y: レポート
-  label_icm_incident_request_hotline_n: レポートなし
+  label_icm_incident_request_hotline_n: その他
   label_icm_incident_request_client_info: クライアント情報
   label_icm_incident_request_client_info: クライアント情報
   label_icm_incident_request_real_processing_time: 実際処理時間（時）
@@ -32,7 +32,7 @@ ja:
   label_icm_incident_request_contact_way: 連絡と電話番号
   label_icm_incident_request_remove_journal: 返答削除
   label_icm_incident_request_contact_number_tip_a: 連絡先名称が入力しなければならなリません。
-  label_icm_incident_request_contact_number_tip_b: 実際の連絡先名称が入力しなければならない。でなければ、請求の処理プロセスを影響する可能性があります。
+  label_icm_incident_request_contact_number_tip_b: 実際の連絡先名称を入力して下さい。未入力の場合、依頼案件の処理プロセスに影響する可能性があります。
 
    #========================= hotline project ====================================
   label_irm_project_new: 新規プロジェクト
@@ -87,9 +87,12 @@ ja:
   label_reporter: 報告者
   label_report_number: 番号
   label_report_request_submit_date: 報告日付
-  label_report_request_last_updated: 最後更新日付
+  label_report_request_last_updated: 最終更新日付
   label_report_request_workload: ワークロード
   label_action_show_template: テンプレートレポート実行中
   label_icm_incident_request_update_workload: Update Workload
   label_report_rank: Rank
   label_report_share: Rate
+
+
+  label_hil_include_journal_history: 返答履歴を含む

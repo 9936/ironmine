@@ -104,10 +104,10 @@ ja:
   label_icm_incident_request_number: 番号
   label_icm_incident_request_summary: 概要
   label_icm_incident_requset_addition_info: 追加情報
-  label_icm_incident_request_requested_by: 請求者
-  label_icm_incident_request_requested_by_org: 請求者組織
-  label_icm_incident_request_requested_by_role: 請求者ロール
-  label_icm_incident_request_requested_by_profile: 請求者プロファイル
+  label_icm_incident_request_requested_by: 依頼者
+  label_icm_incident_request_requested_by_org: 依頼者組織
+  label_icm_incident_request_requested_by_role: 依頼者ロール
+  label_icm_incident_request_requested_by_profile: 依頼者プロファイル
   label_icm_incident_request_contact: 連絡者
   label_icm_incident_request_urgence_code: 緊急度
   label_icm_incident_request_impact_range_code: 影響範囲
@@ -166,7 +166,7 @@ ja:
   label_icm_incident_request_relation_types: ～に関する
   label_icm_incident_request_relation_type: 関連タイプ
   label_icm_incident_request_relation: 関連インシデント依頼
-  label_icm_incident_request_estimated_date: 予定完了日
+  label_icm_incident_request_estimated_date: 対応完了希望日
   label_icm_incident_request_relation_config_items: カスタマイズ項目
   label_irm_incident_status_transform_event_error: One incident could only use once in same line
   #========================= end icm incident_requests_controller=======================#
@@ -332,7 +332,7 @@ ja:
 
 
   #======================= Report incident request month detail ============
-  label_report_incident_request_support: ～に割当てる
+  label_report_incident_request_support: 割当先
   label_report_incident_request_journal: 解決履歴
   #================================================================================
   label_icm_incident_request_watcher: 監視者
