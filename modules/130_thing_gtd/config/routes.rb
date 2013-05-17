@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
     #Task Workbenches
     match '/task_workbenches(/index)(.:format)' => "task_workbenches#index", :via => :get
+    match '/task_workbenches/get_instance_data(.:format)' => "task_workbenches#get_instance_data", :via => :get
 
     #task_assigns
     match '/task_assigns/:sid(/index)(.:format)' => "task_assigns#index", :via => :get

@@ -5,10 +5,12 @@ class Gtd::Task < ActiveRecord::Base
 
   validates_presence_of :name ,:plan_start_at, :plan_end_at, :external_system_id, :assigned_to, :access_type
 
-  before_save :setting_rule
-  after_save :create_member_from_str
+  before_save :setting_rule, :setting_status
+  after_save :create_member_from_str, :update_task_instances
   before_validation :transform_time
   after_find :untransform_time
+
+  has_many :task_instances, :class_name => "Gtd::Task", :foreign_key => :parent_id, :dependent => :destroy
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -20,6 +22,10 @@ class Gtd::Task < ActiveRecord::Base
 
   scope :with_all, lambda{
     select("#{table_name}.*").with_external_system(I18n.locale)
+  }
+
+  scope :only_tasks, lambda {
+    where("#{table_name}.parent_id IS NULL")
   }
 
 
@@ -38,36 +44,84 @@ class Gtd::Task < ActiveRecord::Base
     where("#{table_name}.assigned_to = ?", person_id)
   }
 
+  scope :query_instances_by_day, lambda{|date_time|
+      where("#{table_name}.start_at <=? AND #{table_name}.end_at >=? AND (parent_id IS NOT NULL OR #{table_name}.repeat='N')", date_time, date_time)
+  }
+
+  scope :with_rule_type, lambda{|rule_types|
+    where(:rule_type => rule_types)
+  }
+
+  scope :with_status, lambda{|status|
+    where(:execute_status => status)
+  }
+
+  scope :with_filter, lambda{|filter|
+    #分派给我的
+    if filter.eql?("0")
+      where(:assigned_to => Irm::Person.current.id)
+    #我创建的
+    elsif filter.eql?("1")
+      where(:created_by => Irm::Person.current.id)
+    #我参与的
+    elsif filter.eql?("2")
+      joins("JOIN #{Gtd::TaskMember.table_name} gtm ON (gtm.task_id=#{table_name}.id OR gtm.task_id = #{table_name}.parent_id)").
+          joins("JOIN #{Irm::Person.relation_view_name} prv ON prv.source_type=gtm.member_type AND prv.source_id=gtm.member_id").
+          where("prv.person_id=?", Irm::Person.current.id)
+    #我分派的
+
+    end
+  }
+
+
+  def update_task_instances
+    self.task_instances.map(&:destroy)
+    self.generate_task_instances(Time.zone.now + 1.month)
+  end
+
   #根据指定时间生成任务实例
   def generate_task_instances(end_time)
-    #end_time必须要大于开始时间
-    end_time = end_time.to_datetime
-    start_date =  self.start_at.to_datetime
-    end_date = self.end_at.to_datetime
-    if end_time > end_date
-      end_time = end_date
-    elsif end_time < start_date
-      return
-    end
-    occurrences = get_occurrences(start_date, end_time)
-    #根据持续时间计算结束日期
+    if self.repeat.eql?('Y')
+      #end_time必须要大于开始时间
+      end_time = end_time.to_datetime
+      start_date =  self.start_at.to_datetime
+      end_date = self.end_at.to_datetime
+      if end_time > end_date
+        end_time = end_date
+      elsif end_time < start_date
+        return
+      end
+      occurrences = get_occurrences(start_date, end_time)
+      #根据持续时间计算结束日期
 
-    occurrences.each do |occurrence|
-      occurrence_end = occurrence + self.duration_day.day + self.duration_hour.hour + self.duration_minute.minute
-      task_instance = Gtd::Task.new(self.attributes)
-      task_instance.parent_id = self.id
-      task_instance.repeat = 'N'
-      task_instance.rule = nil
+      occurrences.each do |occurrence|
+        occurrence_end = occurrence + self.duration_day.to_i.day + self.duration_hour.to_i.hour + self.duration_minute.to_i.minute
+        task_instance = Gtd::Task.where(:parent_id => self.id, :start_at => occurrence, :end_at => occurrence_end).first
+        unless task_instance.present?
+          task_instance = Gtd::Task.new(self.attributes)
+          task_instance.parent_id = self.id
+          task_instance.repeat = 'N'
 
-      task_instance.start_at = occurrence
-      task_instance.end_at = occurrence_end
-      task_instance.save
+          task_instance.start_at = occurrence
+          task_instance.end_at = occurrence_end
+          task_instance.save
+        end
+      end
     end
   end
+
+  def setting_status
+    if self.execute_status.blank?
+      self.execute_status = "WAITING"
+    end
+  end
+
 
   def setting_rule
     if self.repeat and self.repeat.eql?("Y")
       self.rule_type = self.time_mode_obj[:freq]
+    elsif self.parent_id.present?
+      self.rule = nil
     else
       self.rule = nil
       self.rule_type = nil

@@ -33,7 +33,27 @@ zh:
 
   #=========================Start Task Workbenches=======================#
   label_gtd_task_workbench: 任务工作台
+  label_gtd_task_workbench_filter: 过滤器
+  label_gtd_task_workbench_filter_assigned_to_me: 分派给我的
+  label_gtd_task_workbench_filter_created_by_me: 我创建的
+  label_gtd_task_workbench_filter_relation_me: 我参与的
+  label_gtd_task_workbench_filter_assigned_from_me: 我分派的
+  label_gtd_task_workbench_all: 全部
+  label_gtd_task_workbench_status: 状态
+  label_gtd_task_workbench_status_waiting: 待处理
+  label_gtd_task_workbench_status_process: 处理中
+  label_gtd_task_workbench_status_done: 已完成
+  label_gtd_task_workbench_type: 重复类型
+  label_gtd_task_workbench_type_no: 不重复
+  label_gtd_task_workbench_type_daily: 每天重复
+  label_gtd_task_workbench_type_weekly: 每周重复
+  label_gtd_task_workbench_type_monthly: 每月重复
+  label_gtd_task_workbench_today_instances: 今日任务清单
+  label_gtd_task_workbench_export_excel: 导出Excel
+  label_gtd_task_workbench_export_pdf: 导出Pdf
+
   #=========================End Task Workbenches=======================#
+
   #=========================    gtd task_assigns_controller  =======================#
   label_gtd_task_assign_name: 名称
   label_gtd_task_assign_description: 描述

@@ -158,6 +158,7 @@
 
     .datepicker.dropdown-menu {
         border-color: #cdcdcd;
+        /*border-top: none;*/
         box-shadow: none;
         -webkit-box-shadow: none;
         -moz-box-shadow: none;
@@ -170,6 +171,19 @@
     .datepicker::after {
         border-left: 0;
         border-right: 0;
+    }
+
+    .filter-item .custom-checkbox,
+    .filter-item .custom-radio {
+        position: relative;
+        display: inline-block;
+    }
+
+    .filter-item .custom-checkbox input,
+    .filter-item .custom-radio input {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
     }
 
 </style>
@@ -185,49 +199,49 @@
         </td>
         <td class="middle-title"><h3></h3></td>
         <td class="right-buttons">
-          <a href="#" class="btn btn-primary">今日任务清单</a>
-          <a href="#" class="btn btn-info">导出Excel</a>
-          <a href="#" class="btn btn-info">导出Pdf</a>
+          <a href="#" class="btn btn-primary"><%= t(:label_gtd_task_workbench_today_instances) %></a>
+          <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_excel) %></a>
+          <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_pdf) %></a>
         </td>
       </tr>
     </table>
   </div>
 
 
-  <div class="widget-content nopadding">
+  <div class="widget-content nopadding" id="widget-content">
     <div class="panel-left">
-      <input type="text" id="calendar" data-always="true" style="margin-top: -34px; margin-left: -1px; z-index: 0; visibility: hidden;"/>
+      <input type="text" id="calendar" data-always="true" style="margin-top: -34px;margin-left: -1px; z-index: 0; visibility: hidden;"/>
     </div>
 
     <div class="panel-right">
       <div class="panel-title">
-        <div class="filter-item">
-          <h5>过滤器：</h5>
-          <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 分派给我的</a>
-          <a href="#" class="btn">我创建的</a>
-          <a href="#" class="btn">我参与的</a>
-          <a href="#" class="btn">我分派的</a>
+        <div class="filter-item" id="filter">
+          <h5><%= t(:label_gtd_task_workbench_filter) %>：</h5>
+          <input type="radio" name="filter" value="0" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_filter_assigned_to_me) %>"/>
+          <input type="radio" name="filter" value="1" data-label-text="<%= t(:label_gtd_task_workbench_filter_created_by_me) %>"/>
+          <input type="radio" name="filter" value="2" data-label-text="<%= t(:label_gtd_task_workbench_filter_relation_me) %>"/>
+          <input type="radio" name="filter" value="3" data-label-text="<%= t(:label_gtd_task_workbench_filter_assigned_from_me) %>"/>
         </div>
 
-        <div class="filter-item">
-          <h5>状态：</h5>
-          <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 全部</a>
-          <a href="#" class="btn">待处理</a>
-          <a href="#" class="btn">处理中</a>
-          <a href="#" class="btn">已完成</a>
+        <div class="filter-item" id="status">
+          <h5><%= t(:label_gtd_task_workbench_status) %>：</h5>
+          <input type="checkbox" value="ALL" checked="checked" data-all="true" data-label-text="<%= t(:label_gtd_task_workbench_all) %>"/>
+          <input type="checkbox" value="WAITING" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_status_waiting) %>"/>
+          <input type="checkbox" value="PROCESS" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_status_process) %>"/>
+          <input type="checkbox" value="DONE" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_status_done) %>"/>
         </div>
 
-        <div class="filter-item">
-          <h5>类型：</h5>
-          <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 全部</a>
-          <a href="#" class="btn btn-danger">每天</a>
-          <a href="#" class="btn btn-danger">每周</a>
-          <a href="#" class="btn btn-danger">每月</a>
+        <div class="filter-item" id="types">
+          <h5><%= t(:label_gtd_task_workbench_type) %>：</h5>
+          <input type="checkbox" value="ALL" checked="checked" data-all="true" data-label-text="<%= t(:label_gtd_task_workbench_all) %>"/>
+          <input type="checkbox" value="DAILY" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_type_daily) %>"/>
+          <input type="checkbox" value="WEEKLY" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_type_weekly) %>"/>
+          <input type="checkbox" value="MONTHLy" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_type_monthly) %>"/>
         </div>
       </div>
 
       <div class="panel-content">
-        <%= datatable("gtd_task_instances", {:controller => "gtd/tasks", :action => "get_data"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
+        <%= datatable("gtd_task_instances", {:controller => "gtd/task_workbenches", :action => "get_instance_data", "_dom_id" => "widget-content"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
       </div>
 
     </div>
@@ -236,22 +250,104 @@
 
 <script type="text/javascript">
     $(function () {
+        var dateValue = null;
+        var current_target = $("#gtd_task_instances").data("datatable").target;
+
+        $(".filter-item input").each(function () {
+            var $this = $(this), parent = $this.parent(),
+                    container = $("<div/>"),
+                    labelText = $this.data("label-text"),
+                    label = $("<label class='btn'/>");
+
+            if ($this.data("all")) {
+                label.attr("data-all", true);
+            }
+
+            label.text(labelText);
+            if ($this.is(":checked")) {
+                label.addClass("btn-danger");
+            }
+
+            if ($this.attr("type") === "checkbox") {
+                container.addClass("custom-checkbox");
+                $this.bind("click", function (e) {
+                    if ($(this).is(":checked")) {
+                        //检查当前是否控制其他checkbox选择的
+                        if ($(this).data("all")) {
+                            $("input", parent).removeAttr("checked");
+                            $("label", parent).removeClass("btn-danger");
+                        } else {
+                            $("input[data-all]", parent).removeAttr("checked");
+                            $("label[data-all]", parent).removeClass("btn-danger");
+                            $this.removeAttr("checked");
+                        }
+                        label.removeClass("btn-danger");
+                    } else {
+                        if ($(this).data("all")) {
+                            $("input", parent).attr("checked", true);
+                            $("label", parent).addClass("btn-danger");
+                        } else {
+                            $this.attr("checked", true);
+                            if ($("input", parent).length == $("input[checked]", parent).length + 1) {
+                                $("input[data-all]", parent).attr("checked", true);
+                                $("label[data-all]", parent).addClass("btn-danger");
+                            }
+                        }
+                        label.addClass("btn-danger");
+                    }
+                    reloadInstance(current_target, dateValue);
+                    return false;
+                });
+            } else {
+                container.addClass("custom-radio");
+                $this.bind("click", function () {
+                    $("label", parent).removeClass("btn-danger");
+                    label.addClass("btn-danger");
+                    setTimeout(function () {
+                        reloadInstance(current_target, dateValue);
+                    }, 1);
+                });
+            }
+
+            label.bind("click", function (e) {
+                $this.trigger("click");
+            });
+
+            container.append($this).append(label);
+            parent.append(container);
+        });
+
+
         setDateTitle(new Date());
         $("#calendar").datepicker("show").on('changeDate', function (ev) {
             var date = ev.date;
             setDateTitle(date);
-            var params = {date:date.valueOf()};
+            dateValue = date.valueOf();
+            reloadInstance(current_target, dateValue);
+        });
 
+        function reloadInstance(current_target, dateValue) {
+            var rule_types = [], status = [];
 
-            var current_target = $("#gtd_task_instances").data("datatable").target;
+            var filter = $("#filter input:checked").val();
+
+            $("#status input:checked").each(function () {
+                status.push($(this).val());
+            });
+
+            $("#types input:checked").each(function () {
+                rule_types.push($(this).val());
+            });
+
+            var params = {'date':dateValue, 'filter':filter, 'rule_types[]':rule_types, 'status[]':status};
+
             current_target.data.options.searchOptions = params;
             current_target.loadPage(1);
-        });
+        }
 
     });
 
-    function setDateTitle(date){
-
+    function setDateTitle(date) {
         var d = date.getDate();
         var m = date.getMonth() + 1;
         var y = date.getFullYear();

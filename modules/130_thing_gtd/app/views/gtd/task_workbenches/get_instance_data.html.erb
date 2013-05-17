@@ -1,0 +1,23 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "80px"}) do |data| %>
+        <%= link_to(t(:edit), {:controller => "gtd/tasks", :action => "edit", :id => data[:id]}, {:class => "action-link"}) %>&nbsp;|
+        <%= link_to(t(:show), {:controller => "gtd/tasks", :action => "show", :id => data[:id]}, {:class => "action-link"}) %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name), :width => "25%", :searchable => true}) %>
+    <% builder.column(:assigned_to, {:title => t(:label_gtd_task_assigned_to)}) do |data| %>
+        <%= data[:full_name] %>
+    <% end %>
+    <% builder.column(:execute_status, {:title => t(:label_gtd_task_workbench_status)}) do |data| %>
+        <span class="label label-warning"><%= t("label_gtd_task_workbench_status_#{data[:execute_status].downcase}") %></span>
+    <% end %>
+    <% builder.column(:start_at, {:title => t(:label_gtd_task_start_at)}) %>
+    <% builder.column(:end_at, {:title => t(:label_gtd_task_end_at)}) %>
+    <% builder.column(:description, {:title => t(:description)}) %>
+    <% builder.column(:rule_type, {:title => t(:label_gtd_task_rule_type)}) do |data| %>
+      <% if data[:rule_type].present? %>
+        <span class="badge badge-success"><%= t("label_gtd_task_workbench_type_#{data[:rule_type].downcase}") %></span>
+      <% else %>
+        <span class="badge"><%= t(:label_gtd_task_workbench_type_no) %></span>
+      <% end %>
+    <% end %>
+<% end %>
