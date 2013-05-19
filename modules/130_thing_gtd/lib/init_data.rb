@@ -19,7 +19,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
                ##"edit_recurrence", "update_recurrence", "my_tasks_get_data", "my_tasks_index",
               "gtd/tasks" => ["create","update", "edit", "get_data", "index", "new","get_assigned_data", "show", "get_calendar_data"],
-              "gtd/task_workbenches" => ["index"]
+              "gtd/task_workbenches" => ["index","get_instance_data"]
           }
       }
   }
@@ -60,7 +60,7 @@ Fwk::MenuAndFunctionManager.map do |map|
       :system_flag => 'Y'
   }
   map.function_group :system_task_assign, {
-          :zone_code => "HOME_PAGE",
+          :zone_code => "TASK",
           :controller => "gtd/task_assigns",
           :action => "index"
   }
@@ -77,6 +77,6 @@ Fwk::MenuAndFunctionManager.map do |map|
       }
   }
 
-    #=================================END:SYSTEM TASK=================================
+  #=================================END:SYSTEM TASK=================================
 
 end

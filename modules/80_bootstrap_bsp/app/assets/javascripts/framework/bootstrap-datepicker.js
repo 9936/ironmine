@@ -50,6 +50,7 @@
 		this.viewMode = 0;
 		this.weekStart = options.weekStart||this.element.data('date-weekstart')||0;
 		this.weekEnd = this.weekStart == 0 ? 6 : this.weekStart - 1;
+        this.always = this.element.data('always') ? true : false;
 		this.fillDow();
 		this.fillMonths();
 		this.update();
@@ -275,7 +276,9 @@
 								type: 'changeDate',
 								date: this.date
 							});
-                            this.picker.hide();
+                            if(!this.always) {
+                                this.picker.hide();
+                            }
 						}
 						break;
 				}

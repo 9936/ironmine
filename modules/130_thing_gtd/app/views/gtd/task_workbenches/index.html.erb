@@ -42,46 +42,31 @@
         height: 36px;
     }
 
-    .widget-title .nav-tabs {
-        border-bottom: 0 none;
+    .datatable table th {
+        background: none;
+        background-color: #efefef;
+        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
+        background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -moz-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -ms-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -o-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fdfdfd', endColorstr = '#eaeaea', GradientType = 0); /* IE6-9 */
+        border-bottom: 1px solid #CDCDCD;
+        height: 36px;
+        border-right: none;
     }
 
-    .widget-title .nav-tabs li a {
-        border-bottom: medium none !important;
-        border-left: 1px solid #DDDDDD;
-        border-radius: 0 0 0 0;
-        border-right: 1px solid #DDDDDD;
-        border-top: medium none;
-        color: #999999;
+    .datatable table th, .datatable table th a {
+        vertical-align: middle;
+    }
+
+    .widget-title table {
+        width: 100%;
+    }
+
+    .widget-title table td {
         margin: 0;
-        outline: medium none;
-        padding: 9px 10px 8px;
-        font-weight: bold;
-        text-shadow: 0 1px 0 #FFFFFF;
-    }
-
-    .widget-title .nav-tabs li:first-child a {
-        border-left: medium none !important;
-    }
-
-    .widget-title .nav-tabs li a:hover {
-        background-color: transparent !important;
-        border-color: #D6D6D6;
-        border-width: 0 1px;
-        color: #666666;
-    }
-
-    .widget-title .nav-tabs li.active a {
-        background-color: #F9F9F9 !important;
-        color: #444444;
-    }
-
-    .widget-title span.icon {
-        border-right: 1px solid #cdcdcd;
-        padding: 9px 10px 7px 11px;
-        float: left;
-        opacity: .7;
-        line-height: 20px;
     }
 
     .widget-title h5 {
@@ -100,20 +85,14 @@
         margin: 6px 0 0 60px;
     }
 
+    .widget-title .middle-title {
+        text-align: center;
+        padding: 5px;
+    }
+
     .widget-title .right-buttons {
         float: right;
         margin: 6px 20px 0 0;
-    }
-
-    .widget-title .label {
-        padding: 3px 5px 2px;
-        float: right;
-        margin: 9px 15px 0 0;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
-    }
-
-    .widget-calendar .widget-title .label {
-        margin-right: 190px;
     }
 
     .widget-content {
@@ -165,8 +144,9 @@
 
     .panel-right .filter-item {
         display: block;
-        padding: 5px;
+        padding: 3px;
     }
+
     .panel-right .filter-item .btn {
         margin-right: 10px;
         min-width: 80px;
@@ -175,8 +155,10 @@
     .panel-right .panel-content {
         padding: 0;
     }
+
     .datepicker.dropdown-menu {
         border-color: #cdcdcd;
+        /*border-top: none;*/
         box-shadow: none;
         -webkit-box-shadow: none;
         -moz-box-shadow: none;
@@ -184,64 +166,82 @@
         -webkit-border-radius: 0;
         -moz-border-radius: 0;
     }
+
     .datepicker::before,
     .datepicker::after {
         border-left: 0;
         border-right: 0;
     }
 
+    .filter-item .custom-checkbox,
+    .filter-item .custom-radio {
+        position: relative;
+        display: inline-block;
+    }
+
+    .filter-item .custom-checkbox input,
+    .filter-item .custom-radio input {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+    }
+
 </style>
 <!--页面结构-->
 <div class="widget-box widget-calendar">
   <div class="widget-title">
-    <div class="left-buttons">
-      <%= link_to url_for(:controller => "gtd/tasks", :action => "new"), :class => "btn btn-success" do %>
-          <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
-      <% end %>
-    </div>
-
-    <div class="right-buttons">
-      <a href="#" class="btn btn-primary">今日任务清单</a>
-      <a href="#" class="btn btn-info">导出Excel</a>
-      <a href="#" class="btn btn-info">导出Pdf</a>
-    </div>
+    <table>
+      <tr>
+        <td class="left-buttons">
+          <%= link_to url_for(:controller => "gtd/tasks", :action => "new"), :class => "btn btn-success" do %>
+              <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
+          <% end %>
+        </td>
+        <td class="middle-title"><h3></h3></td>
+        <td class="right-buttons">
+          <a href="#" class="btn btn-primary"><%= t(:label_gtd_task_workbench_today_instances) %></a>
+          <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_excel) %></a>
+          <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_pdf) %></a>
+        </td>
+      </tr>
+    </table>
   </div>
 
 
-  <div class="widget-content nopadding">
+  <div class="widget-content nopadding" id="widget-content">
     <div class="panel-left">
-      <input type="text" id="calendar" style="margin-top: -34px; margin-left: -1px; z-index: 0; visibility: hidden;"/>
+      <input type="text" id="calendar" data-always="true" style="margin-top: -34px;margin-left: -1px; z-index: 0; visibility: hidden;"/>
     </div>
 
     <div class="panel-right">
       <div class="panel-title">
-        <div class="filter-item">
-          <h5>过滤器：</h5>
-          <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 分派给我的</a>
-          <a href="#" class="btn btn-success">我创建的</a>
-          <a href="#" class="btn btn-success">我参与的</a>
-          <a href="#" class="btn btn-success">我分派的</a>
+        <div class="filter-item" id="filter">
+          <h5><%= t(:label_gtd_task_workbench_filter) %>：</h5>
+          <input type="radio" name="filter" value="0" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_filter_assigned_to_me) %>"/>
+          <input type="radio" name="filter" value="1" data-label-text="<%= t(:label_gtd_task_workbench_filter_created_by_me) %>"/>
+          <input type="radio" name="filter" value="2" data-label-text="<%= t(:label_gtd_task_workbench_filter_relation_me) %>"/>
+          <input type="radio" name="filter" value="3" data-label-text="<%= t(:label_gtd_task_workbench_filter_assigned_from_me) %>"/>
         </div>
 
-        <div class="filter-item">
-          <h5>状态：</h5>
-          <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 全部</a>
-          <a href="#" class="btn btn-success">待处理</a>
-          <a href="#" class="btn btn-success">处理中</a>
-          <a href="#" class="btn btn-success">已完成</a>
+        <div class="filter-item" id="status">
+          <h5><%= t(:label_gtd_task_workbench_status) %>：</h5>
+          <input type="checkbox" value="ALL" checked="checked" data-all="true" data-label-text="<%= t(:label_gtd_task_workbench_all) %>"/>
+          <input type="checkbox" value="WAITING" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_status_waiting) %>"/>
+          <input type="checkbox" value="PROCESS" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_status_process) %>"/>
+          <input type="checkbox" value="DONE" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_status_done) %>"/>
         </div>
 
-        <div class="filter-item">
-          <h5>类型：</h5>
-          <a href="#" class="btn btn-danger"><i class="icon-ok icon-white"></i> 全部</a>
-          <a href="#" class="btn btn-success">每天</a>
-          <a href="#" class="btn btn-success">每周</a>
-          <a href="#" class="btn btn-success">每月</a>
+        <div class="filter-item" id="types">
+          <h5><%= t(:label_gtd_task_workbench_type) %>：</h5>
+          <input type="checkbox" value="ALL" checked="checked" data-all="true" data-label-text="<%= t(:label_gtd_task_workbench_all) %>"/>
+          <input type="checkbox" value="DAILY" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_type_daily) %>"/>
+          <input type="checkbox" value="WEEKLY" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_type_weekly) %>"/>
+          <input type="checkbox" value="MONTHLy" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_type_monthly) %>"/>
         </div>
       </div>
 
       <div class="panel-content">
-        <%= datatable("gtd_tasks", {:controller => "gtd/tasks",  :action => "get_data"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
+        <%= datatable("gtd_task_instances", {:controller => "gtd/task_workbenches", :action => "get_instance_data", "_dom_id" => "widget-content"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
       </div>
 
     </div>
@@ -249,14 +249,109 @@
 </div>
 
 <script type="text/javascript">
-  $(function(){
-      $("#calendar").datepicker("show").on('changeDate', function(ev){
-          if (ev.date.valueOf() > endDate.valueOf()){
+    $(function () {
+        var dateValue = null;
+        var current_target = $("#gtd_task_instances").data("datatable").target;
 
-          } else {
+        $(".filter-item input").each(function () {
+            var $this = $(this), parent = $this.parent(),
+                    container = $("<div/>"),
+                    labelText = $this.data("label-text"),
+                    label = $("<label class='btn'/>");
 
-          }
-          $('#calendar').datepicker('hide');
-      });
-  });
+            if ($this.data("all")) {
+                label.attr("data-all", true);
+            }
+
+            label.text(labelText);
+            if ($this.is(":checked")) {
+                label.addClass("btn-danger");
+            }
+
+            if ($this.attr("type") === "checkbox") {
+                container.addClass("custom-checkbox");
+                $this.bind("click", function (e) {
+                    if ($(this).is(":checked")) {
+                        //检查当前是否控制其他checkbox选择的
+                        if ($(this).data("all")) {
+                            $("input", parent).removeAttr("checked");
+                            $("label", parent).removeClass("btn-danger");
+                        } else {
+                            $("input[data-all]", parent).removeAttr("checked");
+                            $("label[data-all]", parent).removeClass("btn-danger");
+                            $this.removeAttr("checked");
+                        }
+                        label.removeClass("btn-danger");
+                    } else {
+                        if ($(this).data("all")) {
+                            $("input", parent).attr("checked", true);
+                            $("label", parent).addClass("btn-danger");
+                        } else {
+                            $this.attr("checked", true);
+                            if ($("input", parent).length == $("input[checked]", parent).length + 1) {
+                                $("input[data-all]", parent).attr("checked", true);
+                                $("label[data-all]", parent).addClass("btn-danger");
+                            }
+                        }
+                        label.addClass("btn-danger");
+                    }
+                    reloadInstance(current_target, dateValue);
+                    return false;
+                });
+            } else {
+                container.addClass("custom-radio");
+                $this.bind("click", function () {
+                    $("label", parent).removeClass("btn-danger");
+                    label.addClass("btn-danger");
+                    setTimeout(function () {
+                        reloadInstance(current_target, dateValue);
+                    }, 1);
+                });
+            }
+
+            label.bind("click", function (e) {
+                $this.trigger("click");
+            });
+
+            container.append($this).append(label);
+            parent.append(container);
+        });
+
+
+        setDateTitle(new Date());
+        $("#calendar").datepicker("show").on('changeDate', function (ev) {
+            var date = ev.date;
+            setDateTitle(date);
+            dateValue = date.valueOf();
+            reloadInstance(current_target, dateValue);
+        });
+
+        function reloadInstance(current_target, dateValue) {
+            var rule_types = [], status = [];
+
+            var filter = $("#filter input:checked").val();
+
+            $("#status input:checked").each(function () {
+                status.push($(this).val());
+            });
+
+            $("#types input:checked").each(function () {
+                rule_types.push($(this).val());
+            });
+
+            var params = {'date':dateValue, 'filter':filter, 'rule_types[]':rule_types, 'status[]':status};
+
+            current_target.data.options.searchOptions = params;
+            current_target.loadPage(1);
+        }
+
+    });
+
+    function setDateTitle(date) {
+        var d = date.getDate();
+        var m = date.getMonth() + 1;
+        var y = date.getFullYear();
+        $(".widget-title .middle-title h3").text(y + "-" + m + "-" + d);
+    }
+
 </script>

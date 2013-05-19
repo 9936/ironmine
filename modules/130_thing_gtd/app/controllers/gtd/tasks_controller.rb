@@ -6,7 +6,7 @@ class Gtd::TasksController < ApplicationController
   end
 
   def get_data
-    tasks_scope = Gtd::Task.with_all.with_assigned_person#.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
+    tasks_scope = Gtd::Task.only_tasks.with_all.with_assigned_person#.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
     #tasks_scope = tasks_scope.with_open#只查询打开的
     tasks_scope = tasks_scope.match_value("#{Gtd::Task.table_name}.name", params[:name])
     tasks,count = paginate(tasks_scope)
@@ -23,8 +23,8 @@ class Gtd::TasksController < ApplicationController
     tasks = Gtd::Task.with_all.with_assigned_person
     #将task按照是否重复进行分别处理
     tasks_event = []
-    start_time = Time.at(params[:start].to_i)
-    end_time = Time.at(params[:end].to_i)
+    start_time = Time.zone.at(params[:start].to_i)
+    end_time = Time.zone.at(params[:end].to_i)
     tasks.each do |task|
       task_members = Irm::Person.query_by_ids(task.member_ids).collect{|i| i.full_name}
 
