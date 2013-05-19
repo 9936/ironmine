@@ -391,6 +391,9 @@ Rails.application.routes.draw do
     match '/groups/:id/new_skm_channels(.:format)' => "groups#new_skm_channels", :via => :get
     match '/groups/:id/create_skm_channels(.:format)' => "groups#create_skm_channels"
     match '/groups/:id/remove_skm_channel(.:format)' => "groups#remove_skm_channel"
+    match '/groups/:member_id/sync_admin_flag(.:format)' => "groups#sync_admin_flag"
+
+
     #group_members
     match '/group_members/:id/new(.:format)' => "group_members#new", :via => :get
     match '/group_members/:id/create(.:format)' => "group_members#create", :via => :post

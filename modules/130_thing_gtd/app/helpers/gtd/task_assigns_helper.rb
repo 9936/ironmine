@@ -1,2 +1,0 @@
-module Gtd::TaskAssignsHelper
-end

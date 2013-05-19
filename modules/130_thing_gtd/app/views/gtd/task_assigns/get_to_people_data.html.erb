@@ -1,8 +1,0 @@
-<%=datatable_view({:columns=>[:id,:full_name,:email_address,:system_profile,:organization_name],:count=>@count,:datas=>@datas}) do |builder|%>
-  <% builder.column(:full_name,{:title=>t(:label_irm_person_full_name),:searchable=>true, :width => "20%"})%>
-  <% builder.column(:email_address,{:title=>t(:label_irm_person_email_address),:searchable=>true, :width => "25%"})%>
-  <% builder.column(:system_profile,{:title=>t(:label_irm_profile_system_profile)}) do |data|%>
-    <%= data[:system_profile_name] %>
-  <% end %>
-  <% builder.column(:organization_name,{:title=>t(:label_irm_organization),:searchable=>true})%>
-<% end %>
