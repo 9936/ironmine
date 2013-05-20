@@ -35,4 +35,9 @@ module Gtd::TasksHelper
     Irm::Person.query_by_ids(person_ids).collect{|i| i.full_name}
   end
 
+  def available_assigned_person
+    Irm::Person.joins("JOIN gtd_task_assign_explosions_v gtav ON gtav.assign_person_id = #{Irm::Person.table_name}.id").
+        where("gtav.person_id=?", Irm::Person.current.id).collect{|i|[i[:full_name], i.id]}
+  end
+
 end

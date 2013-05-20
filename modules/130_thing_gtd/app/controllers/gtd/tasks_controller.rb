@@ -68,14 +68,14 @@ class Gtd::TasksController < ApplicationController
     end
   end
 
-  def get_assigned_data
-    assigned_scope = Irm::Person.enabled.with_external_system(params[:external_system_id]).order("full_name_pinyin")#.offset(210).limit(1)
-    assigned_scope = assigned_scope.uniq
-    assigned = assigned_scope.collect { |i| {:label => i[:full_name], :value => i.id, :id => i.id} }
-    respond_to do |format|
-      format.json { render :json => assigned.to_grid_json([:label, :value], assigned.count) }
-    end
-  end
+  #def get_assigned_data
+  #  assigned_scope = Irm::Person.enabled.with_external_system(params[:external_system_id]).order("full_name_pinyin")#.offset(210).limit(1)
+  #  assigned_scope = assigned_scope.uniq
+  #  assigned = assigned_scope.collect { |i| {:label => i[:full_name], :value => i.id, :id => i.id} }
+  #  respond_to do |format|
+  #    format.json { render :json => assigned.to_grid_json([:label, :value], assigned.count) }
+  #  end
+  #end
 
   def create
     @task = Gtd::Task.new(params[:gtd_task])

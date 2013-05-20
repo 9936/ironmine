@@ -5,7 +5,7 @@ zh:
   label_gtd_task_new: 新建任务
   label_gtd_task_edit: 编辑任务
   label_gtd_task_system: 系统
-  label_gtd_task_assigned_to: 责任人
+  label_gtd_task_assigned_to: 处理人
   label_gtd_task_repeat: 重复
   label_gtd_task_rule_type: 重复频率
   label_gtd_task_rule_weekly: 周
