@@ -204,7 +204,7 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
       link_click_action = %Q(javascript:dateFieldChooseToday('#{field_id}','#{date_text}'))
     end
     link_str = ""
-    link_str = @template.link_to("[#{link_text}]",{},{:href=>link_click_action}) unless options[:nobutton]
+    link_str = @template.link_to(" [#{link_text}]",{},{:href=>link_click_action}) unless options[:nobutton]
     content += link_str
     wrapped_field(@template.content_tag(:div,content,{:class=>"date-field"},false),field,options)
   end
