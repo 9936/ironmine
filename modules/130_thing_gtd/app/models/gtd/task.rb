@@ -99,6 +99,9 @@ class Gtd::Task < ActiveRecord::Base
         task_instance = Gtd::Task.where(:parent_id => self.id, :start_at => occurrence, :end_at => occurrence_end).first
         unless task_instance.present?
           task_instance = Gtd::Task.new(self.attributes)
+          #任务实例名称为任务名称加日期,如：工作周报2013-05-06
+          task_instance.name = "#{self.name}#{occurrence.strftime('%Y-%m-%d')}"
+
           task_instance.parent_id = self.id
           task_instance.repeat = 'N'
 
