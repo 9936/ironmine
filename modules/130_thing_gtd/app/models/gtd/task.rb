@@ -5,7 +5,7 @@ class Gtd::Task < ActiveRecord::Base
 
   validates_presence_of :name ,:plan_start_at, :plan_end_at, :assigned_to, :access_type
 
-  before_save :setting_rule, :setting_status
+  before_save :init_task
   after_save :create_member_from_str, :update_task_instances
   before_validation :transform_time
   after_find :untransform_time
@@ -113,14 +113,13 @@ class Gtd::Task < ActiveRecord::Base
     end
   end
 
-  def setting_status
+  def init_task
+    #初始化任务状态
     if self.execute_status.blank?
       self.execute_status = "WAITING"
     end
-  end
 
-
-  def setting_rule
+    #初始化重复类型
     if self.repeat and self.repeat.eql?("Y")
       self.rule_type = self.time_mode_obj[:freq]
     elsif self.parent_id.present?
@@ -129,7 +128,12 @@ class Gtd::Task < ActiveRecord::Base
       self.rule = nil
       self.rule_type = nil
     end
-
+    #初始化任务类型
+    if self.parent_id.blank?
+      self.task_type = "TASK"
+    else
+      self.task_type = "INSTANCE"
+    end
   end
 
   def create_member_from_str
