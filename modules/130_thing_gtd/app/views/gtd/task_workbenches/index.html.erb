@@ -355,4 +355,9 @@
         $(".widget-title .middle-title h3").text(y + "-" + m + "-" + d);
     }
 
+    function updateInstance(){
+        var current_target = $("#gtd_task_instances").data("datatable").target;
+        current_target.loadPage(1);
+    }
+
 </script>
