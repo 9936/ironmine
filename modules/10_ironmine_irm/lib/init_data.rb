@@ -1857,7 +1857,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/groups" => ["create", "edit", "index", "multilingual_edit", "multilingual_update", "new", "show", "update"],
+              "irm/groups" => ["create", "edit", "index", "multilingual_edit", "multilingual_update", "new", "show", "update","sync_admin_flag"],
               #"irm/group_members" => ["create", "create_from_person", "delete", "delete_from_person", "get_data", "get_data_from_person", "get_memberable_data", "new", "new_from_person"],
               "irm/group_members" => ["create", "delete", "get_data", "get_memberable_data", "new"],
           },

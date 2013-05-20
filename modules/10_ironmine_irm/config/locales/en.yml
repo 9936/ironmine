@@ -721,6 +721,7 @@ en:
   label_irm_group_new: New support_group
   label_irm_group_edit: Edit support_group
   label_irm_group_list: List support_group
+  label_irm_group_member_admin_flag: Admin
   label_irm_group_support_groups_tls:
     name: Name
   label_irm_group_oncall_flag: Oncall Group
