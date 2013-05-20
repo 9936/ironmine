@@ -2,12 +2,24 @@ class Gtd::TaskWorkbenchesController < ApplicationController
   layout "application_full"
 
   def index
+    @task_instance = Gtd::Task.last
     #tasks = Gtd::Task.all
     #tasks.each do |task|
     #  task.generate_task_instances(Time.now)
     #end
 
   end
+
+  def edit
+    @task_instance = Gtd::Task.find(params[:id])
+    render :layout => false
+  end
+
+  def update
+    @task_instance = Gtd::Task.find(params[:id])
+    @task_instance.update_attributes(params[:gtd_task])
+  end
+
 
   def get_instance_data
     if params[:date].present?

@@ -53,7 +53,7 @@
         background-image: -linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fdfdfd', endColorstr = '#eaeaea', GradientType = 0); /* IE6-9 */
         border-bottom: 1px solid #CDCDCD;
-        height: 36px;
+        height: 30px;
         border-right: none;
     }
 
@@ -210,7 +210,7 @@
 
   <div class="widget-content nopadding" id="widget-content">
     <div class="panel-left">
-      <input type="text" id="calendar" data-always="true" style="margin-top: -34px;margin-left: -1px; z-index: 0; visibility: hidden;"/>
+      <input type="text" id="calendar" value="" data-always="true" style="margin-top: -34px;margin-left: -1px; z-index: 0; visibility: hidden;"/>
     </div>
 
     <div class="panel-right">
@@ -241,12 +241,13 @@
       </div>
 
       <div class="panel-content">
-        <%= datatable("gtd_task_instances", {:controller => "gtd/task_workbenches", :action => "get_instance_data", "_dom_id" => "widget-content"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
+        <%= datatable("gtd_task_instances", {:controller => "gtd/task_workbenches", :action => "get_instance_data"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
       </div>
 
     </div>
   </div>
 </div>
+
 
 <script type="text/javascript">
     $(function () {

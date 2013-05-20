@@ -3,7 +3,7 @@ class Gtd::Task < ActiveRecord::Base
 
   attr_accessor :duration_day, :duration_hour, :duration_minute
 
-  validates_presence_of :name ,:plan_start_at, :plan_end_at, :assigned_to, :access_type
+  validates_presence_of :name ,:plan_start_at, :plan_end_at, :assigned_to, :access_type, :start_at, :end_at
 
   before_save :init_task
   after_save :create_member_from_str, :update_task_instances
