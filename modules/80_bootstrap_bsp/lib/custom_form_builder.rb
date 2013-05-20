@@ -198,7 +198,14 @@ class CustomFormBuilder  < ActionView::Helpers::FormBuilder
       content = date_time_tag + date_tag_str +@template.raw("&nbsp;-&nbsp;")+ time_tag_str
       content += @template.javascript_tag(script)
     else
-      date_tag_str = self.text_field(field,options.merge(:id=>field_id,:size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:normal=>true,:autocomplete => "off"))
+      @object || @template_object.instance_variable_get("@#{@object_name}")
+      begin
+        date = Time.parse("#{@object.send(method).to_s.capitalize}").strftime('%Y-%m-%d')
+        date_tag_str = self.text_field(field,options.merge(:value => date,:id=>field_id,:size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:normal=>true,:autocomplete => "off"))
+      rescue
+        date_tag_str = self.text_field(field,options.merge(:id=>field_id,:size=>10,:class=>"date-input",:onfocus=>"initDateField(this)",:normal=>true,:autocomplete => "off"))
+      end
+
       link_text  = datetime.strftime('%Y-%m-%d')
       content = date_tag_str
       link_click_action = %Q(javascript:dateFieldChooseToday('#{field_id}','#{date_text}'))
