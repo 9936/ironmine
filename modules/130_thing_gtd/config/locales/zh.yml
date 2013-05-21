@@ -32,6 +32,8 @@ zh:
   label_gtd_task_view_calendar: 日历视图
 
   label_action_today: 今日任务清单【%{today}】
+  label_gtd_task_info: 任务详细信息
+  label_gtd_task_instance_info: 任务实例详细信息
   #=========================End Task=======================#
 
   #=========================Start Task Workbenches=======================#
