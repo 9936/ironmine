@@ -9,7 +9,13 @@
         <%= data[:full_name] %>
     <% end %>
     <% builder.column(:execute_status, {:title => t(:label_gtd_task_workbench_status)}) do |data| %>
+      <% if data[:execute_status].eql?("WAITING") %>
         <span class="label label-warning"><%= t("label_gtd_task_workbench_status_#{data[:execute_status].downcase}") %></span>
+      <% elsif data[:execute_status].eql?("PROCESS") %>
+        <span class="label label-success"><%= t("label_gtd_task_workbench_status_#{data[:execute_status].downcase}") %></span>
+      <% else %>
+        <span class="label"><%= t("label_gtd_task_workbench_status_#{data[:execute_status].downcase}") %></span>
+      <% end %>
     <% end %>
     <% builder.column(:start_at, {:title => t(:label_gtd_task_start_at)}) %>
     <% builder.column(:end_at, {:title => t(:label_gtd_task_end_at)}) %>
