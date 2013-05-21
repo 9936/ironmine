@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  <h3 id="myModalLabel">修改任务实例</h3>
+  <h3><%= t(:label_gtd_task_workbench_edit_task) %></h3>
 </div>
 <%= form_for(@task_instance, :url => {:action => "update", :id => @task_instance.id}, :html => {:class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
     <div class="modal-body form-horizontal">
@@ -9,15 +9,6 @@
 
         <div class="controls">
           <%= f.select :execute_status, available_task_status, :required => true %>
-          <span class="help-inline"></span>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label"><%= t(:label_gtd_task_workbench_status) %>:</label>
-
-        <div class="controls">
-          <%= f.text_field :name %>
           <span class="help-inline"></span>
         </div>
       </div>

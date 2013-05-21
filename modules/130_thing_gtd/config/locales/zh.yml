@@ -51,6 +51,7 @@ zh:
   label_gtd_task_workbench_today_instances: 今日任务清单
   label_gtd_task_workbench_export_excel: 导出Excel
   label_gtd_task_workbench_export_pdf: 导出Pdf
+  label_gtd_task_workbench_edit_task: 修改任务实例
 
   #=========================End Task Workbenches=======================#
 

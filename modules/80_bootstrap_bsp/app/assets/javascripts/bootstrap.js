@@ -11,7 +11,7 @@ $(function(){
   });
 
   function openModal(href){
-      var modalTitle = "Loading....",
+      var modalTitle = $.i18n("loading"),
           modalDialog = $("#linkModal");
       if(modalDialog.length == 0){
           modalDialog = buildModal();
