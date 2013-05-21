@@ -18,9 +18,14 @@ Rails.application.routes.draw do
 
     #task_orkbenches
     match '/task_workbenches(/index)(.:format)' => "task_workbenches#index", :via => :get
+    match '/task_workbenches/today(.:format)' => "task_workbenches#today", :via => :get
     match '/task_workbenches/:id/edit(.:format)' => "task_workbenches#edit", :via => :get
+    match '/task_workbenches/:id/done(.:format)' => "task_workbenches#done", :via => :get
+    match '/task_workbenches/:id/update_done(.:format)' => "task_workbenches#update_done", :via => :put
     match '/task_workbenches/:id(.:format)' => "task_workbenches#update", :via => :put
+    match '/task_workbenches/:id/show(.:format)' => "task_workbenches#show", :via => :get
     match '/task_workbenches/get_instance_data(.:format)' => "task_workbenches#get_instance_data", :via => :get
+    match '/task_workbenches/today_instance_data(.:format)' => "task_workbenches#today_instance_data", :via => :get
 
   end
 end

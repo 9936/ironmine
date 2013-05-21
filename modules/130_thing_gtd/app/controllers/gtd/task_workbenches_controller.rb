@@ -18,9 +18,64 @@ class Gtd::TaskWorkbenchesController < ApplicationController
     if cookies[:date_value].present?
       @filter_params[:date] = Time.zone.at(cookies[:date_value].first(10).to_i).strftime('%Y-%m-%d')
     else
-      @filter_params[:date] = Time.now.strftime('%Y-%m-%d')
+      @filter_params[:date] = Time.zone.now.strftime('%Y-%m-%d')
     end
 
+  end
+
+  def today
+    @filter_params = {}
+    if cookies[:task_rule_types].present?
+      @filter_params[:rule_types] = cookies[:task_rule_types].split(",")
+    end
+
+    if cookies[:task_status].present?
+      @filter_params[:status] = cookies[:task_status].split(",")
+    end
+  end
+
+  def today_instance_data
+    if cookies[:task_rule_types].present?
+      params[:rule_types] = cookies[:task_rule_types].split(",")
+    end
+
+    if cookies[:task_status].present?
+      params[:status] = cookies[:task_status].split(",")
+    end
+    tasks_scope = Gtd::Task.with_all.with_assigned_person.query_instances_by_day(Time.zone.now.strftime('%Y-%m-%d'))
+    #对状态进行过滤
+    if params[:status] && params[:status].any? && !params[:status].include?("ALL")
+      tasks_scope = tasks_scope.with_status(params[:status])
+    end
+    #对类型进行过滤
+    if params[:rule_types] && params[:rule_types].any? && !params[:rule_types].include?("ALL")
+      tasks_scope = tasks_scope.with_rule_type(params[:rule_types])
+    end
+
+    tasks,count = paginate(tasks_scope)
+    respond_to do |format|
+      format.html {
+        @datas = tasks
+        @count = count
+      }
+    end
+  end
+
+  def done
+    @task_instance = Gtd::Task.find(params[:id])
+    render :layout => false
+  end
+
+  def show
+    @task_instance = Gtd::Task.with_all.with_assigned_person.find(params[:id])
+    if @task_instance.parent_id.present?
+      @task =  Gtd::Task.with_all.with_assigned_person.find(@task_instance.parent_id)
+    end
+  end
+
+  def update_done
+    @task_instance = Gtd::Task.find(params[:id])
+    @task_instance.update_attributes(params[:gtd_task])
   end
 
   def edit
@@ -79,7 +134,6 @@ class Gtd::TaskWorkbenchesController < ApplicationController
         @datas = tasks
         @count = count
       }
-
     end
   end
 

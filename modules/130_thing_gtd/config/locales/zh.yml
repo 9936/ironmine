@@ -26,19 +26,22 @@ zh:
   label_gtd_task_start_at: 开始时间
   label_gtd_task_end_at: 结束时间
   label_gtd_task_duration: 持续时间
+  label_gtd_task_note: 任务记录
 
   label_gtd_task_view_list: 列表视图
   label_gtd_task_view_calendar: 日历视图
+
+  label_action_today: 今日任务清单【%{today}】
   #=========================End Task=======================#
 
   #=========================Start Task Workbenches=======================#
   label_gtd_task_workbench: 任务工作台
+  label_gtd_task_workbench_done: 完成
   label_gtd_task_workbench_filter: 过滤器
   label_gtd_task_workbench_filter_zero: 分派给我的
   label_gtd_task_workbench_filter_one: 我创建的
   label_gtd_task_workbench_filter_two: 我参与的
   label_gtd_task_workbench_filter_three: 我分派的
-#  label_gtd_task_workbench_all: 全部
   label_gtd_task_workbench_status: 状态
   label_gtd_task_workbench_status_all: 全部
   label_gtd_task_workbench_status_waiting: 待处理

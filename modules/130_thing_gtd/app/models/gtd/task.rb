@@ -44,6 +44,7 @@ class Gtd::Task < ActiveRecord::Base
     where("#{table_name}.assigned_to = ?", person_id)
   }
 
+
   scope :query_instances_by_day, lambda{|date_time|
       where("#{table_name}.start_at <=? AND #{table_name}.end_at >=? AND (parent_id IS NOT NULL OR #{table_name}.repeat='N')", date_time, date_time)
   }

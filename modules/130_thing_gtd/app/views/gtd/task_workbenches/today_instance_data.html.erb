@@ -1,0 +1,32 @@
+<%= datatable_view({:count => @count, :datas => @datas}) do |builder| %>
+    <% builder.column(:id, {:title => t(:operation), :width => "120px"}) do |data| %>
+        <%= link_to(t(:edit), {:controller => "gtd/task_workbenches", :action => "edit", :id => data[:id], :today => true}, {:class => "action-link",:rel => "modal"}) %>&nbsp;|
+        <%= link_to(t(:show), {:controller => "gtd/task_workbenches", :action => "show", :id => data[:id]}, {:class => "action-link",:rel => "modal" }) %>
+        <% unless data[:execute_status].eql?("DONE") %>
+            |&nbsp;<%= link_to(t(:label_gtd_task_workbench_done), {:controller => "gtd/task_workbenches", :action => "done", :id => data[:id]}, {:class => "action-link",:rel => "modal"}) %>
+        <% end %>
+    <% end %>
+    <% builder.column(:name, {:title => t(:name), :width => "25%"}) %>
+    <% builder.column(:assigned_to, {:title => t(:label_gtd_task_assigned_to)}) do |data| %>
+        <%= data[:full_name] %>
+    <% end %>
+    <% builder.column(:execute_status, {:title => t(:label_gtd_task_workbench_status)}) do |data| %>
+        <% if data[:execute_status].eql?("WAITING") %>
+            <span class="label label-warning"><%= t("label_gtd_task_workbench_status_#{data[:execute_status].downcase}") %></span>
+        <% elsif data[:execute_status].eql?("PROCESS") %>
+            <span class="label label-success"><%= t("label_gtd_task_workbench_status_#{data[:execute_status].downcase}") %></span>
+        <% else %>
+            <span class="label"><%= t("label_gtd_task_workbench_status_#{data[:execute_status].downcase}") %></span>
+        <% end %>
+    <% end %>
+    <% builder.column(:start_at, {:title => t(:label_gtd_task_start_at)}) %>
+    <% builder.column(:end_at, {:title => t(:label_gtd_task_end_at)}) %>
+    <% builder.column(:description, {:title => t(:description)}) %>
+    <% builder.column(:rule_type, {:title => t(:label_gtd_task_rule_type)}) do |data| %>
+        <% if data[:rule_type].present? %>
+            <span class="badge badge-success"><%= t("label_gtd_task_workbench_type_#{data[:rule_type].downcase}") %></span>
+        <% else %>
+            <span class="badge"><%= t(:label_gtd_task_workbench_type_no) %></span>
+        <% end %>
+    <% end %>
+<% end %>

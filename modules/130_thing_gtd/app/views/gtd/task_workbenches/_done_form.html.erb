@@ -2,42 +2,31 @@
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
   <h3><%= t(:label_gtd_task_workbench_edit_task) %></h3>
 </div>
-<%= form_for(@task_instance, :url => {:action => "update", :id => @task_instance.id, :today => params[:today]}, :html => {:class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
+<%= form_for(@task_instance, :url => {:action => "update_done", :id => @task_instance.id}, :html => {:class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
     <div class="modal-body form-horizontal">
       <div class="control-group">
         <label class="control-label"><%= t(:label_gtd_task_workbench_status) %>:</label>
 
         <div class="controls">
-          <%= f.select :execute_status, available_task_status, :required => true %>
+          <%= f.select :execute_status, available_task_status, {:required => true}, :style => "min-width:150px;" %>
           <span class="help-inline"></span>
         </div>
       </div>
-
-      <% unless params[:today].present? %>
-      <div class="control-group">
-        <label class="control-label"><%= t(:label_gtd_task_assigned_to) %>:</label>
-
-        <div class="controls">
-          <%= f.select :assigned_to, available_assigned_person, :required => true %>
-          <span class="help-inline"></span>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label"><%= t(:label_gtd_task_start_at) %>:</label>
-
-        <div class="controls">
-          <%= f.date_field :start_at, :required => true %>
-          <span class="help-inline"></span>
-        </div>
-      </div>
-      <% end %>
 
       <div class="control-group">
         <label class="control-label"><%= t(:label_gtd_task_end_at) %>:</label>
 
         <div class="controls">
           <%= f.date_field :end_at, :required => true %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_gtd_task_note) %>:</label>
+
+        <div class="controls">
+          <%= f.text_area :note, :rows => 3, :class => "input-xlarge" %>
           <span class="help-inline"></span>
         </div>
       </div>

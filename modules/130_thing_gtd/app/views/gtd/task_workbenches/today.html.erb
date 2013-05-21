@@ -1,4 +1,4 @@
-<%= common_title %>
+<%= common_title({:action_meaning => t(:label_action_today, :today => Time.zone.now.strftime('%Y-%m-%d'))}) %>
 
 <style type="text/css">
     .widget-box {
@@ -12,7 +12,7 @@
         position: relative;
     }
 
-    .widget-box.widget-calendar, .widget-box.widget-chat {
+    .widget-box.widget-calendar {
         overflow: hidden !important;
     }
 
@@ -82,7 +82,7 @@
 
     .widget-title .left-buttons {
         float: left;
-        margin: 6px 0 0 60px;
+        margin: 6px 0 0 10px;
     }
 
     .widget-title .middle-title {
@@ -109,20 +109,10 @@
         border-bottom: 1px solid #CDCDCD;
     }
 
-    .panel-left {
-        width: 223px;
-        /*background-color: #f2f2f2;*/
-        position: absolute;
-        left: 0;
-        top: 37px;
-        min-height: 250px;
-    }
 
     .panel-right {
-        margin-left: 223px;
-        min-height: 250px;
+        /*min-height: 250px;*/
         border-left: 1px solid #dddddd;
-        /*height: 450px;*/
     }
 
     .panel-right .panel-title {
@@ -156,26 +146,6 @@
         padding: 0;
     }
 
-    .mini-calendar.dropdown-menu {
-        border-color: #cdcdcd;
-        /*border-top: none;*/
-        box-shadow: none;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        border-radius: 0;
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-    }
-
-    .mini-calendar::before,
-    .mini-calendar::after {
-        border-left: 0;
-        border-right: 0;
-    }
-    .modal-open .mini-calendar.dropdown-menu {
-        z-index: 99;
-    }
-
     .filter-item .custom-checkbox,
     .filter-item .custom-radio {
         position: relative;
@@ -197,12 +167,12 @@
       <tr>
         <td class="left-buttons">
           <%= link_to url_for(:controller => "gtd/tasks", :action => "new"), :class => "btn btn-success" do %>
-            <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
+              <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
           <% end %>
         </td>
-        <td class="middle-title"><h3><%= @filter_params[:date] %></h3></td>
+        <td class="middle-title"><h3></h3></td>
         <td class="right-buttons">
-          <%= link_to t(:label_gtd_task_workbench_today_instances), {:controller => "gtd/task_workbenches", :action => "today"}, :class => "btn btn-primary" %>
+          <%= link_to t(:label_gtd_task_workbench), {:controller => "gtd/task_workbenches", :action => "index"}, :class => "btn btn-primary" %>
           <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_excel) %></a>
           <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_pdf) %></a>
         </td>
@@ -212,32 +182,16 @@
 
 
   <div class="widget-content nopadding" id="widget-content">
-    <div class="panel-left">
-      <input type="text" id="calendar" value="<%= @filter_params[:date] %>" data-date-format="yyyy-mm-dd" data-always="true" style="margin-top: -34px;margin-left: -1px; z-index: 0; visibility: hidden;"/>
-    </div>
-
     <div class="panel-right">
       <div class="panel-title">
-        <div class="filter-item" id="filter">
-          <h5><%= t(:label_gtd_task_workbench_filter) %>：</h5>
-          <% ["zero", "one", "two", "three"].each do |item| %>
-            <% if @filter_params[:filter].eql?(item) %>
-              <input type="radio" name="filter" value="<%= item %>" checked="checked" data-label-text="<%= t("label_gtd_task_workbench_filter_#{item}") %>"/>
-            <% else %>
-              <input type="radio" name="filter" value="<%= item %>" data-label-text="<%= t("label_gtd_task_workbench_filter_#{item}") %>"/>
-            <% end %>
-          <% end %>
-
-        </div>
-
         <div class="filter-item" id="status">
           <h5><%= t(:label_gtd_task_workbench_status) %>：</h5>
           <% ["ALL", "WAITING", "PROCESS", "DONE"].each do |item| %>
-            <% if @filter_params[:status].include?(item) %>
-              <input type="checkbox" value="<%= item %>" checked="checked" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_status_#{item.downcase}") %>"/>
-            <% else %>
-              <input type="checkbox" value="<%= item %>" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_status_#{item.downcase}") %>"/>
-            <% end %>
+              <% if @filter_params[:status].include?(item) %>
+                  <input type="checkbox" value="<%= item %>" checked="checked" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_status_#{item.downcase}") %>"/>
+              <% else %>
+                  <input type="checkbox" value="<%= item %>" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_status_#{item.downcase}") %>"/>
+              <% end %>
           <% end %>
 
         </div>
@@ -245,17 +199,17 @@
         <div class="filter-item" id="types">
           <h5><%= t(:label_gtd_task_workbench_type) %>：</h5>
           <% ["ALL", "DAILY", "WEEKLY", "MONTHLy"].each do |item| %>
-            <% if @filter_params[:rule_types].include?(item) %>
-              <input type="checkbox" value="<%= item %>" checked="checked" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_type_#{item.downcase}") %>"/>
-            <% else %>
-              <input type="checkbox" value="<%= item %>" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_type_#{item.downcase}") %>"/>
-            <% end %>
+              <% if @filter_params[:rule_types].include?(item) %>
+                  <input type="checkbox" value="<%= item %>" checked="checked" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_type_#{item.downcase}") %>"/>
+              <% else %>
+                  <input type="checkbox" value="<%= item %>" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_type_#{item.downcase}") %>"/>
+              <% end %>
           <% end %>
         </div>
       </div>
 
       <div class="panel-content">
-        <%= datatable("gtd_task_instances", {:controller => "gtd/task_workbenches", :action => "get_instance_data"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
+        <%= datatable("gtd_task_instances", {:controller => "gtd/task_workbenches", :action => "today_instance_data"}, [], {:search_box => "searchTask", :paginator_box => "paginatorTask"}) %>
       </div>
 
     </div>
@@ -332,26 +286,12 @@
             parent.append(container);
         });
 
-
-//        setDateTitle(new Date());
-        $("#calendar").datepicker("show").on('changeDate', function (ev) {
-            var date = ev.date;
-            setDateTitle(date);
-            dateValue = date.valueOf();
-            $.cookie("date_value", "");
-            $.cookie("date_value", dateValue);
-            reloadInstance(current_target, dateValue);
-        });
-
         function reloadInstance(current_target, dateValue) {
             var rule_types = [], status = [];
 
             //设置cookie过期时间为5分钟
             var cookie_date = new Date(), minutes = 5;
             cookie_date.setTime(cookie_date.getTime() + (minutes * 60 * 1000));
-
-
-            var filter = $("#filter input:checked").val();
 
             $("#status input:checked").each(function () {
                 status.push($(this).val());
@@ -362,27 +302,18 @@
             });
 
             $.cookie("task_rule_types", "");
-            $.cookie("task_filter", "");
             $.cookie("task_status", "");
 
             $.cookie("task_rule_types", rule_types);
-            $.cookie("task_filter", filter);
             $.cookie("task_status", status);
 
-            var params = {'date':dateValue, 'filter':filter, 'rule_types[]':rule_types, 'status[]':status};
+            var params = {'date':dateValue, 'rule_types[]':rule_types, 'status[]':status};
 
             current_target.data.options.searchOptions = params;
             current_target.loadPage(1);
         }
 
     });
-
-    function setDateTitle(date) {
-        var d = date.getDate();
-        var m = date.getMonth() + 1;
-        var y = date.getFullYear();
-        $(".widget-title .middle-title h3").text(y + "-" + m + "-" + d);
-    }
 
     function updateInstance(){
         var current_target = $("#gtd_task_instances").data("datatable").target;
