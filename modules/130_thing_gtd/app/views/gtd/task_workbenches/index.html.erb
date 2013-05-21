@@ -156,7 +156,7 @@
         padding: 0;
     }
 
-    .datepicker.dropdown-menu {
+    .mini-calendar.dropdown-menu {
         border-color: #cdcdcd;
         /*border-top: none;*/
         box-shadow: none;
@@ -167,10 +167,13 @@
         -moz-border-radius: 0;
     }
 
-    .datepicker::before,
-    .datepicker::after {
+    .mini-calendar::before,
+    .mini-calendar::after {
         border-left: 0;
         border-right: 0;
+    }
+    .modal-open .mini-calendar.dropdown-menu {
+        z-index: 99;
     }
 
     .filter-item .custom-checkbox,
