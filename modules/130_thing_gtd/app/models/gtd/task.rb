@@ -58,13 +58,13 @@ class Gtd::Task < ActiveRecord::Base
 
   scope :with_filter, lambda{|filter|
     #分派给我的
-    if filter.eql?("0")
+    if filter.eql?("zero")
       where(:assigned_to => Irm::Person.current.id)
     #我创建的
-    elsif filter.eql?("1")
+    elsif filter.eql?("one")
       where(:created_by => Irm::Person.current.id)
     #我参与的
-    elsif filter.eql?("2")
+    elsif filter.eql?("two")
       joins("JOIN #{Gtd::TaskMember.table_name} gtm ON (gtm.task_id=#{table_name}.id OR gtm.task_id = #{table_name}.parent_id)").
           joins("JOIN #{Irm::Person.relation_view_name} prv ON prv.source_type=gtm.member_type AND prv.source_id=gtm.member_id").
           where("prv.person_id=?", Irm::Person.current.id)

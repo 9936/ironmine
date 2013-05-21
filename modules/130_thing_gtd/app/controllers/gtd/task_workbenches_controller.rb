@@ -2,11 +2,24 @@ class Gtd::TaskWorkbenchesController < ApplicationController
   layout "application_full"
 
   def index
-    @task_instance = Gtd::Task.last
-    #tasks = Gtd::Task.all
-    #tasks.each do |task|
-    #  task.generate_task_instances(Time.now)
-    #end
+    @filter_params = {}
+    if cookies[:task_rule_types].present?
+      @filter_params[:rule_types] = cookies[:task_rule_types].split(",")
+    end
+
+    if cookies[:task_status].present?
+      @filter_params[:status] = cookies[:task_status].split(",")
+    end
+
+    if cookies[:task_filter].present?
+      @filter_params[:filter] = cookies[:task_filter]
+    end
+
+    if cookies[:date_value].present?
+      @filter_params[:date] = Time.zone.at(cookies[:date_value].first(10).to_i).strftime('%Y-%m-%d')
+    else
+      @filter_params[:date] = Time.now.strftime('%Y-%m-%d')
+    end
 
   end
 
@@ -22,13 +35,31 @@ class Gtd::TaskWorkbenchesController < ApplicationController
 
 
   def get_instance_data
+    if cookies[:task_rule_types].present?
+      params[:rule_types] = cookies[:task_rule_types].split(",")
+    end
+
+    if cookies[:task_status].present?
+      params[:status] = cookies[:task_status].split(",")
+    end
+
+    if cookies[:task_filter].present?
+      params[:filter] = cookies[:task_filter]
+    end
+
+    if cookies[:date_value].present?
+      params[:date] = cookies[:date_value]
+    end
+
+
     if params[:date].present?
       date = Time.zone.at(params[:date].first(10).to_i).change(:hour=>0,:min=>0,:sec=>0)
     else
       date = Time.zone.now.change(:hour=>0,:min=>0,:sec=>0)
     end
 
-    params[:filter] ||= "0"
+    #默认为分派给我的
+    params[:filter] ||= "zero"
 
     tasks_scope = Gtd::Task.with_all.with_assigned_person.query_instances_by_day(date)
     tasks_scope = tasks_scope.with_filter(params[:filter])

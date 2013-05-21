@@ -197,10 +197,10 @@
       <tr>
         <td class="left-buttons">
           <%= link_to url_for(:controller => "gtd/tasks", :action => "new"), :class => "btn btn-success" do %>
-              <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
+            <i class="icon-plus icon-white"></i><%= t(:label_gtd_task_new) %>
           <% end %>
         </td>
-        <td class="middle-title"><h3></h3></td>
+        <td class="middle-title"><h3><%= @filter_params[:date] %></h3></td>
         <td class="right-buttons">
           <a href="#" class="btn btn-primary"><%= t(:label_gtd_task_workbench_today_instances) %></a>
           <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_excel) %></a>
@@ -213,33 +213,44 @@
 
   <div class="widget-content nopadding" id="widget-content">
     <div class="panel-left">
-      <input type="text" id="calendar" value="" data-always="true" style="margin-top: -34px;margin-left: -1px; z-index: 0; visibility: hidden;"/>
+      <input type="text" id="calendar" value="<%= @filter_params[:date] %>" data-date-format="yyyy-mm-dd" data-always="true" style="margin-top: -34px;margin-left: -1px; z-index: 0; visibility: hidden;"/>
     </div>
 
     <div class="panel-right">
       <div class="panel-title">
         <div class="filter-item" id="filter">
           <h5><%= t(:label_gtd_task_workbench_filter) %>：</h5>
-          <input type="radio" name="filter" value="0" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_filter_assigned_to_me) %>"/>
-          <input type="radio" name="filter" value="1" data-label-text="<%= t(:label_gtd_task_workbench_filter_created_by_me) %>"/>
-          <input type="radio" name="filter" value="2" data-label-text="<%= t(:label_gtd_task_workbench_filter_relation_me) %>"/>
-          <input type="radio" name="filter" value="3" data-label-text="<%= t(:label_gtd_task_workbench_filter_assigned_from_me) %>"/>
+          <% ["zero", "one", "two", "three"].each do |item| %>
+            <% if @filter_params[:filter].eql?(item) %>
+              <input type="radio" name="filter" value="<%= item %>" checked="checked" data-label-text="<%= t("label_gtd_task_workbench_filter_#{item}") %>"/>
+            <% else %>
+              <input type="radio" name="filter" value="<%= item %>" data-label-text="<%= t("label_gtd_task_workbench_filter_#{item}") %>"/>
+            <% end %>
+          <% end %>
+
         </div>
 
         <div class="filter-item" id="status">
           <h5><%= t(:label_gtd_task_workbench_status) %>：</h5>
-          <input type="checkbox" value="ALL" checked="checked" data-all="true" data-label-text="<%= t(:label_gtd_task_workbench_all) %>"/>
-          <input type="checkbox" value="WAITING" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_status_waiting) %>"/>
-          <input type="checkbox" value="PROCESS" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_status_process) %>"/>
-          <input type="checkbox" value="DONE" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_status_done) %>"/>
+          <% ["ALL", "WAITING", "PROCESS", "DONE"].each do |item| %>
+            <% if @filter_params[:status].include?(item) %>
+              <input type="checkbox" value="<%= item %>" checked="checked" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_status_#{item.downcase}") %>"/>
+            <% else %>
+              <input type="checkbox" value="<%= item %>" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_status_#{item.downcase}") %>"/>
+            <% end %>
+          <% end %>
+
         </div>
 
         <div class="filter-item" id="types">
           <h5><%= t(:label_gtd_task_workbench_type) %>：</h5>
-          <input type="checkbox" value="ALL" checked="checked" data-all="true" data-label-text="<%= t(:label_gtd_task_workbench_all) %>"/>
-          <input type="checkbox" value="DAILY" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_type_daily) %>"/>
-          <input type="checkbox" value="WEEKLY" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_type_weekly) %>"/>
-          <input type="checkbox" value="MONTHLy" checked="checked" data-label-text="<%= t(:label_gtd_task_workbench_type_monthly) %>"/>
+          <% ["ALL", "DAILY", "WEEKLY", "MONTHLy"].each do |item| %>
+            <% if @filter_params[:rule_types].include?(item) %>
+              <input type="checkbox" value="<%= item %>" checked="checked" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_type_#{item.downcase}") %>"/>
+            <% else %>
+              <input type="checkbox" value="<%= item %>" <% if item.eql?("ALL") %> data-all="true" <% end %> data-label-text="<%= t("label_gtd_task_workbench_type_#{item.downcase}") %>"/>
+            <% end %>
+          <% end %>
         </div>
       </div>
 
@@ -322,16 +333,23 @@
         });
 
 
-        setDateTitle(new Date());
+//        setDateTitle(new Date());
         $("#calendar").datepicker("show").on('changeDate', function (ev) {
             var date = ev.date;
             setDateTitle(date);
             dateValue = date.valueOf();
+            $.cookie("date_value", "");
+            $.cookie("date_value", dateValue);
             reloadInstance(current_target, dateValue);
         });
 
         function reloadInstance(current_target, dateValue) {
             var rule_types = [], status = [];
+
+            //设置cookie过期时间为5分钟
+            var cookie_date = new Date(), minutes = 5;
+            cookie_date.setTime(cookie_date.getTime() + (minutes * 60 * 1000));
+
 
             var filter = $("#filter input:checked").val();
 
@@ -342,6 +360,14 @@
             $("#types input:checked").each(function () {
                 rule_types.push($(this).val());
             });
+
+            $.cookie("task_rule_types", "");
+            $.cookie("task_filter", "");
+            $.cookie("task_status", "");
+
+            $.cookie("task_rule_types", rule_types);
+            $.cookie("task_filter", filter);
+            $.cookie("task_status", status);
 
             var params = {'date':dateValue, 'filter':filter, 'rule_types[]':rule_types, 'status[]':status};
 
