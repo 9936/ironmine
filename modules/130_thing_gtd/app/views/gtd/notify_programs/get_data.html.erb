@@ -4,9 +4,6 @@
         <%= link_to(t(:show), {:action => "show", :id => data[:id]}, {:class => "action-link"}) %>
     <% end %>
     <% builder.column(:name, {:title => t(:name), :width => "25%", :searchable => true}) %>
-    <% builder.column(:task_type, {:title => t(:label_gtd_notify_program_task_type)}) do |data| %>
-      <%= t("label_gtd_notify_program_task_type_#{data[:task_type].downcase}") %>
-    <% end %>
     <% builder.column(:notify_type, {:title => t(:label_gtd_notify_program_notify_type)}) do |data| %>
         <%= t("label_gtd_notify_program_notify_type_#{data[:notify_type].downcase}") %>
     <% end %>

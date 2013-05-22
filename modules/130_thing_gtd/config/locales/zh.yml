@@ -74,12 +74,8 @@ zh:
   label_gtd_notify_program_list: 工作管理方案列表
   label_gtd_notify_program_new: 新建
   label_gtd_notify_program_edit: 编辑
-  label_gtd_notify_program_task_type: 工作类型
   label_gtd_notify_program_name: 名称
   label_gtd_notify_program_description: 描述
-  label_gtd_notify_program_task_type_daily: 每日保障工作
-  label_gtd_notify_program_task_type_weekly: 每周保障工作
-  label_gtd_notify_program_task_type_monthly: 每月保障工作
   label_gtd_notify_program_notify_type: 处理方式
   label_gtd_notify_program_notify_type_email: 通过邮件向处理人发送工作信息
   label_gtd_notify_program_notify_type_incident: 自动创建工作事故单

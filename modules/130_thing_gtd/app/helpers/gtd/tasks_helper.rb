@@ -12,11 +12,11 @@ module Gtd::TasksHelper
      [I18n.t(:label_irm_todo_task_display_opts_next_7_days), "in7day"]]
   end
 
-  #def available_task_types
-  #  [[t(:label_gtd_task_type_task), "TASK"],
-  #   [t(:label_gtd_task_type_instance), "INSTANCE"]
-  #  ]
-  #end
+  def available_task_types
+    [[t(:label_gtd_task_type_task), "TASK"],
+     [t(:label_gtd_task_type_instance), "INSTANCE"]
+    ]
+  end
 
   def available_member_types
     [[t(:label_gtd_task_member_public), "PUBLIC"],

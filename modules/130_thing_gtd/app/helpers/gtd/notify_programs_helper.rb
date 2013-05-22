@@ -1,10 +1,10 @@
 module Gtd::NotifyProgramsHelper
-  def available_task_types
-    [[t(:label_gtd_notify_program_task_type_daily), "DAILY"],
-     [t(:label_gtd_notify_program_task_type_weekly), "WEEKLY"],
-     [t(:label_gtd_notify_program_task_type_monthly), "MONTHLY"]
-    ]
-  end
+  #def available_task_types
+  #  [[t(:label_gtd_notify_program_task_type_daily), "DAILY"],
+  #   [t(:label_gtd_notify_program_task_type_weekly), "WEEKLY"],
+  #   [t(:label_gtd_notify_program_task_type_monthly), "MONTHLY"]
+  #  ]
+  #end
 
   def available_notify_types
     [[t(:label_gtd_notify_program_notify_type_email), "EMAIL"],

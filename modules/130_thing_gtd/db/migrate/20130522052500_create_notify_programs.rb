@@ -2,7 +2,6 @@ class CreateNotifyPrograms < ActiveRecord::Migration
   def change
     create_table :gtd_notify_programs, :force => true do |t|
       t.string "opu_id", :limit => 22, :collate => "utf8_bin"
-      t.string "task_type", :limit => 30
       t.string "notify_type",:limit => 20, :default => "EMAIL"
       t.string "wf_mail_alert_id", :limit => 22, :collate => "utf8_bin"
       t.text "incident_request_hash"

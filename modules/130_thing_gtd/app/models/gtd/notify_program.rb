@@ -5,7 +5,7 @@ class Gtd::NotifyProgram < ActiveRecord::Base
   attr_accessor :name,:description, :urgence_id, :impact_range_id
   has_many :notify_programs_tls, :dependent => :destroy
 
-  validates_presence_of :task_type, :notify_type
+  validates_presence_of :notify_type
 
   validates_presence_of :urgence_id,:impact_range_id, :if => Proc.new { |i| i.notify_type == 'INCIDENT' }
   validates_presence_of :wf_mail_alert_id, :if => Proc.new { |i| i.notify_type == 'EMAIL' }
