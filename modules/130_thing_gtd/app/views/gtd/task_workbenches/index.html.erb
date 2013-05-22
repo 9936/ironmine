@@ -202,6 +202,7 @@
         </td>
         <td class="middle-title"><h3><%= @filter_params[:date] %></h3></td>
         <td class="right-buttons">
+          <%= link_to t(:label_gtd_task_management), {:controller => "gtd/tasks", :action => "index"}, :class => "btn btn-primary" %>
           <%= link_to t(:label_gtd_task_workbench_today_instances), {:controller => "gtd/task_workbenches", :action => "today"}, :class => "btn btn-primary" %>
           <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_excel) %></a>
           <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_pdf) %></a>

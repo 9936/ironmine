@@ -67,6 +67,7 @@ zh:
   label_gtd_task_workbench_edit_task: 修改日常保障工作实例
   label_gtd_task_workbench_show_task: 查看日常保障工作实例
   label_gtd_task_workbench_done_task: 完成日常保障工作实例
+  label_gtd_task_management: 管理
   #=========================End Task Workbenches=======================#
 
   #=========================Start gtd Programes=======================#

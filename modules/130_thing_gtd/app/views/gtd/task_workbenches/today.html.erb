@@ -179,6 +179,7 @@
         </td>
         <td class="middle-title"><h3></h3></td>
         <td class="right-buttons">
+          <%= link_to t(:label_gtd_task_management), {:controller => "gtd/tasks", :action => "index"}, :class => "btn btn-primary" %>
           <%= link_to t(:label_gtd_task_workbench), {:controller => "gtd/task_workbenches", :action => "index"}, :class => "btn btn-primary" %>
           <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_excel) %></a>
           <a href="#" class="btn btn-info"><%= t(:label_gtd_task_workbench_export_pdf) %></a>
