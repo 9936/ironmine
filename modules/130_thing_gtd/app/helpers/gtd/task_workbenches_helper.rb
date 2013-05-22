@@ -6,4 +6,5 @@ module Gtd::TaskWorkbenchesHelper
      [t(:label_gtd_task_workbench_status_done), "DONE"]
     ]
   end
+
 end

@@ -40,4 +40,38 @@ module Gtd::TasksHelper
         where("gtav.person_id=?", Irm::Person.current.id).collect{|i|[i[:full_name], i.id]}
   end
 
+  #将任务的重复规则转变为文字含义
+  def week_to_num
+    {"MO" => 1, "TU" => 2, "WE" => 3, "TH" => 4, "FR" => 5, "SA" => 6, "SU" => 0}
+  end
+  def rule_meaning(task)
+    if task.present? && task.repeat.eql?("Y")
+      rule_hash = task.to_rrule_hash
+      meaning = ""
+      rule_hash[:interval] ||= 1
+      if rule_hash[:interval] && rule_hash[:interval]> 0
+        case rule_hash[:freq]
+          when "DAILY"
+            meaning << t(:label_gtd_task_rule_n_daily, :n => rule_hash[:interval])
+
+          when "WEEKLY"
+            meaning << t(:label_gtd_task_rule_n_weekly, :n => rule_hash[:interval])
+            rule_hash[:byday].each do |week_day|
+              meaning << t("date.day_names")[week_to_num[week_day]]
+              meaning << ","
+            end
+          when "MONTHLY"
+            meaning << t(:label_gtd_task_rule_n_monthly, :n => rule_hash[:interval])
+            if rule_hash[:bysetpos].present? && rule_hash[:bysetpos] > 0
+              meaning << t(:label_gtd_task_n_setpos, :n => rule_hash[:bysetpos])
+              meaning << t("date.day_names")[week_to_num[rule_hash[:byday]]]
+            elsif rule_hash[:bymonthday].present?
+              meaning << t(:label_gtd_task_n_monthday, :n => rule_hash[:bymonthday][0])
+            end
+        end
+      end
+      meaning
+    end
+  end
+
 end

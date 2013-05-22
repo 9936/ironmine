@@ -1,19 +1,22 @@
 zh:
   #=========================Start Task=======================#
-  label_gtd_task: 任务
-  label_gtd_task_list: 任务列表
-  label_gtd_task_new: 新建任务
-  label_gtd_task_edit: 编辑任务
+  label_gtd_task: 日常保障工作
+  label_gtd_task_list: 工作列表
+  label_gtd_task_new: 新建日常保障工作
+  label_gtd_task_edit: 编辑日常保障工作
   label_gtd_task_system: 系统
   label_gtd_task_assigned_to: 处理人
   label_gtd_task_repeat: 重复
   label_gtd_task_rule_type: 重复频率
   label_gtd_task_rule_weekly: 周
+  label_gtd_task_rule_n_weekly: 在每%{n}周的
   label_gtd_task_rule_daily: 日
+  label_gtd_task_rule_n_daily: 每%{n}天
   label_gtd_task_rule_monthly: 月
-  label_gtd_task_type: 任务类型
-  label_gtd_task_type_task: 任务
-  label_gtd_task_type_instance: 任务实例
+  label_gtd_task_rule_n_monthly: 在每%{n}个月的
+  label_gtd_task_type: 日常保障工作类型
+  label_gtd_task_type_task: 日常保障工作
+  label_gtd_task_type_instance: 日常保障工作实例
   label_gtd_task_member_type: 权限
   label_gtd_task_member_public: 公开
   label_gtd_task_member_private: 私有
@@ -26,18 +29,21 @@ zh:
   label_gtd_task_start_at: 开始时间
   label_gtd_task_end_at: 结束时间
   label_gtd_task_duration: 持续时间
-  label_gtd_task_note: 任务记录
+  label_gtd_task_note: 工作记录
+  label_gtd_task_execute_plan: 执行计划
+  label_gtd_task_n_setpos: 第%{n}个
+  label_gtd_task_n_monthday: 第%{n}天
 
   label_gtd_task_view_list: 列表视图
   label_gtd_task_view_calendar: 日历视图
 
-  label_action_today: 今日任务清单【%{today}】
-  label_gtd_task_info: 任务详细信息
-  label_gtd_task_instance_info: 任务实例详细信息
+  label_action_today: 今日工作清单【%{today}】
+  label_gtd_task_info: 日常保障工作详细信息
+  label_gtd_task_instance_info: 日常保障工作实例详细信息
   #=========================End Task=======================#
 
   #=========================Start Task Workbenches=======================#
-  label_gtd_task_workbench: 任务工作台
+  label_gtd_task_workbench: 日常保障工作台
   label_gtd_task_workbench_done: 完成
   label_gtd_task_workbench_filter: 过滤器
   label_gtd_task_workbench_filter_zero: 分派给我的
@@ -55,10 +61,12 @@ zh:
   label_gtd_task_workbench_type_daily: 每天重复
   label_gtd_task_workbench_type_weekly: 每周重复
   label_gtd_task_workbench_type_monthly: 每月重复
-  label_gtd_task_workbench_today_instances: 今日任务清单
+  label_gtd_task_workbench_today_instances: 今日工作清单
   label_gtd_task_workbench_export_excel: 导出Excel
   label_gtd_task_workbench_export_pdf: 导出Pdf
-  label_gtd_task_workbench_edit_task: 修改任务实例
+  label_gtd_task_workbench_edit_task: 修改日常保障工作实例
+  label_gtd_task_workbench_show_task: 查看日常保障工作实例
+  label_gtd_task_workbench_done_task: 完成日常保障工作实例
 
   #=========================End Task Workbenches=======================#
 

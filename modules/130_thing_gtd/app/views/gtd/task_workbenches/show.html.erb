@@ -32,7 +32,6 @@
         clear: both;
     }
     .modal-body .controls .control-text {
-        height: 24px;
         line-height: 24px;
         display: block;
     }
@@ -42,7 +41,7 @@
 </style>
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  <h3>&nbsp;</h3>
+  <h3><%= t(:label_gtd_task_workbench_show_task) %></h3>
 </div>
 <div class="modal-body form-horizontal">
   <div class="navbar">
@@ -118,6 +117,16 @@
         <span class="control-text"><%= available_members(@task.member_ids).join(", ") %></span>
       </div>
     </div>
+
+    <% if @task.repeat.eql?('Y') %>
+    <div class="control-group">
+      <label class="control-label"><%= t(:label_gtd_task_execute_plan) %>:</label>
+      <div class="controls">
+        <span class="control-text"><%= rule_meaning(@task) %></span>
+      </div>
+    </div>
+    <% end %>
+
 
   <% end %>
 
