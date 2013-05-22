@@ -5,14 +5,20 @@ class Gtd::TaskWorkbenchesController < ApplicationController
     @filter_params = {}
     if cookies[:task_rule_types].present?
       @filter_params[:rule_types] = cookies[:task_rule_types].split(",")
+    else
+      @filter_params[:rule_types] = ["ALL", "DAILY", "WEEKLY", "MONTHLy"]
     end
 
     if cookies[:task_status].present?
       @filter_params[:status] = cookies[:task_status].split(",")
+    else
+      @filter_params[:status] = ["ALL", "WAITING", "PROCESS", "DONE"]
     end
 
     if cookies[:task_filter].present?
       @filter_params[:filter] = cookies[:task_filter]
+    else
+      @filter_params[:filter] = "zero"
     end
 
     if cookies[:date_value].present?
@@ -27,10 +33,14 @@ class Gtd::TaskWorkbenchesController < ApplicationController
     @filter_params = {}
     if cookies[:task_rule_types].present?
       @filter_params[:rule_types] = cookies[:task_rule_types].split(",")
+    else
+      @filter_params[:rule_types] = ["ALL", "DAILY", "WEEKLY", "MONTHLy"]
     end
 
     if cookies[:task_status].present?
       @filter_params[:status] = cookies[:task_status].split(",")
+    else
+      @filter_params[:status] = ["ALL", "WAITING", "PROCESS", "DONE"]
     end
   end
 
@@ -42,7 +52,7 @@ class Gtd::TaskWorkbenchesController < ApplicationController
     if cookies[:task_status].present?
       params[:status] = cookies[:task_status].split(",")
     end
-    tasks_scope = Gtd::Task.with_all.with_assigned_person.query_instances_by_day(Time.zone.now.strftime('%Y-%m-%d'))
+    tasks_scope = Gtd::Task.with_all.with_assigned_person.with_assigned_me.query_instances_by_day(Time.zone.now.strftime('%Y-%m-%d'))
     #对状态进行过滤
     if params[:status] && params[:status].any? && !params[:status].include?("ALL")
       tasks_scope = tasks_scope.with_status(params[:status])
@@ -51,6 +61,7 @@ class Gtd::TaskWorkbenchesController < ApplicationController
     if params[:rule_types] && params[:rule_types].any? && !params[:rule_types].include?("ALL")
       tasks_scope = tasks_scope.with_rule_type(params[:rule_types])
     end
+
 
     tasks,count = paginate(tasks_scope)
     respond_to do |format|

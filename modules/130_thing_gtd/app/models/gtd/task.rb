@@ -34,6 +34,10 @@ class Gtd::Task < ActiveRecord::Base
         select("p.full_name")
   }
 
+  scope :with_assigned_me, lambda {
+    where("#{table_name}.assigned_to=?", Irm::Person.current.id)
+  }
+
   scope :with_external_system, lambda{|language|
     joins("LEFT OUTER JOIN #{Irm::ExternalSystem.view_name} external_system ON external_system.id = #{table_name}.external_system_id AND external_system.language = '#{language}'").
         select("external_system.system_name external_system_name")
