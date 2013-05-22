@@ -27,5 +27,16 @@ Rails.application.routes.draw do
     match '/task_workbenches/get_instance_data(.:format)' => "task_workbenches#get_instance_data", :via => :get
     match '/task_workbenches/today_instance_data(.:format)' => "task_workbenches#today_instance_data", :via => :get
 
+    #notify programs
+    match '/notify_programs(/index)(.:format)' => "notify_programs#index", :via => :get
+    match '/notify_programs/new(.:format)' => "notify_programs#new", :via => :get
+    match '/notify_programs/create(.:format)' => "notify_programs#create", :via => :post
+    match '/notify_programs/:id/edit(.:format)' => "notify_programs#edit", :via => :get
+    match '/notify_programs/:id(.:format)' => "notify_programs#update", :via => :put
+    match '/notify_programs/:id/show(.:format)' => "notify_programs#show", :via => :get
+    match '/notify_programs/get_data(.:format)' => "notify_programs#get_data"
+    match '/notify_programs/:id/multilingual_edit(.:format)' => "notify_programs#multilingual_edit", :via => :get
+    match '/notify_programs/:id/multilingual_update(.:format)' => "notify_programs#multilingual_update", :via => :put
+
   end
 end

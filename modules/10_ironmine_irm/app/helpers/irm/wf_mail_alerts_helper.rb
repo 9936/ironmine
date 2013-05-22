@@ -10,4 +10,8 @@ module Irm::WfMailAlertsHelper
     end
     object_attributes.collect{|i|[i[:name],i.attribute_name]}
   end
+
+  def available_mail_alerts
+    Irm::WfMailAlert.enabled.collect{|i|[i[:name], i[:id]]}
+  end
 end
