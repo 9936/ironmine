@@ -17,6 +17,9 @@
             <i class="icon-calendar"></i> <%= t(:label_gtd_task_view_calendar) %>
           <% end %>
         <% end %>
+        <%= link_to t(:label_gtd_task_workbench_today_instances), {:controller => "gtd/task_workbenches", :action => "today"}, :class => "btn btn-primary" %>
+        <%= link_to t(:label_gtd_task_workbench), {:controller => "gtd/task_workbenches", :action => "index"}, :class => "btn btn-primary" %>
+
       </td>
       <td class="page-block-help">
         <div id="searchTask"></div>
