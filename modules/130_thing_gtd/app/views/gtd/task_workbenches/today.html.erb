@@ -111,8 +111,15 @@
 
 
     .panel-right {
-        /*min-height: 250px;*/
+        margin-left: 223px;
+        min-height: 250px;
         border-left: 1px solid #dddddd;
+    }
+
+    .panel-right.without-panel-left {
+        border-left: none;
+        margin-left: 0;
+        min-height: 0;
     }
 
     .panel-right .panel-title {
@@ -182,7 +189,7 @@
 
 
   <div class="widget-content nopadding" id="widget-content">
-    <div class="panel-right">
+    <div class="panel-right without-panel-left">
       <div class="panel-title">
         <div class="filter-item" id="status">
           <h5><%= t(:label_gtd_task_workbench_status) %>：</h5>
