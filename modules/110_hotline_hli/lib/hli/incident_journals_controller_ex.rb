@@ -220,9 +220,14 @@ module Hli::IncidentJournalsControllerEx
         @incident_request.incident_status_id = Icm::IncidentStatus.transform(@incident_request.incident_status_id,@incident_journal.reply_type,@incident_request.external_system_id)
         perform_create
         respond_to do |format|
-          if @incident_request.hotline.eql?("Y") && (@incident_request.incident_category_id.blank? || @incident_request.incident_sub_category_id.blank?)
+          if @incident_request.hotline.eql?("Y") &&
+              (@incident_request.incident_category_id.blank? || @incident_request.incident_sub_category_id.blank?) &&
+              (@incident_request.attribute3.blank? || @incident_request.attribute4.blank?)
+
               @incident_request.errors.add(:incident_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_category_id.blank?
               @incident_request.errors.add(:incident_sub_category_id, I18n.t(:error_invalid_data)) if @incident_request.incident_sub_category_id.blank?
+              @incident_request.errors.add(:attribute3, I18n.t(:error_invalid_data)) if @incident_request.attribute3.blank?
+              @incident_request.errors.add(:attribute4, I18n.t(:error_invalid_data)) if @incident_request.attribute4.blank?
               @supporters = Icm::IncidentWorkload.joins(",#{Irm::Person.table_name} ip").joins(",#{Irm::LookupValue.view_name} lv").
                           where("lv.language = ?", I18n.locale).where("lv.lookup_type = ?", "WORKLOAD_TYPE").
                           where("lv.lookup_code = #{Icm::IncidentWorkload.table_name}.workload_type").
