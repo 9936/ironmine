@@ -40,6 +40,34 @@ Fwk::MenuAndFunctionManager.map do |map|
   #=================================END:TASK=================================
 
   #=================================START:NOTIFY PROGRAM=================================
+  map.menu :management_setting, {
+      :children => {
+          :task_setting => {
+              :type => "menu",
+              :entry => {
+                  :sequence => 140,
+                  :en => {:name => "Task Setting", :description => "Task Setting"},
+                  :zh => {:name => "日常保障工作", :description => "日常保障工作"}
+              }
+          }
+      }
+  }
+
+  map.menu :task_setting, {
+      :en => {:name => "Task Setting", :description => "Task Setting"},
+      :zh => {:name => "日常保障工作", :description => "日常保障工作"},
+      :children => {
+          :notify_program => {
+              :type => "function",
+              :entry => {
+                  :sequence => 10,
+                  :en => {:name => "Notify Program", :description => "Notify Program"},
+                  :zh => {:name => "工作管理方案", :description => "工作管理方案"},
+              }
+          }
+      }
+  }
+
   map.function_group :notify_program, {
       :en => {:name => "Notify Program", :description => "Notify Program"},
       :zh => {:name => "工作管理方案", :description => "工作管理方案"}

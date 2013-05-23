@@ -1,5 +1,4 @@
 class Gtd::NotifyProgramsController < ApplicationController
-  layout "application_full"
   # GET /notify_programs
   # GET /notify_programs.xml
   def index
