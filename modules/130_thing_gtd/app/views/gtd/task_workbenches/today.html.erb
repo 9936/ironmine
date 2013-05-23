@@ -309,11 +309,11 @@
                 rule_types.push($(this).val());
             });
 
-            $.cookie("task_rule_types", "");
-            $.cookie("task_status", "");
+            $.cookie("today_rule_types", "");
+            $.cookie("today_status", "");
 
-            $.cookie("task_rule_types", rule_types);
-            $.cookie("task_status", status);
+            $.cookie("today_rule_types", rule_types);
+            $.cookie("today_status", status);
 
             var params = {'date':dateValue, 'rule_types[]':rule_types, 'status[]':status};
 

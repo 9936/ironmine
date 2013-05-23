@@ -166,7 +166,7 @@
                   <td class="label-col"><label><%= t(:label_gtd_task_duration) %></label></td>
                   <td class="data-2col">
                     <span id="duration-day-span">
-                      <%= f.text_field :duration_day,:size => 2, :required => true, :id => "duration_day", :style => "width:30px;" %>
+                      <%= f.text_field :duration_day,:size => 2, :required => true, :id => "duration_day",:irm_number_only => true, :style => "width:30px;" %>
                       <label><%= t(:label_slm_service_agreement_duration_day) %></label>
                     </span>
                     <%= f.hour_select :duration_hour, [], {:selected => @task.duration_hour}, {:id => "duration_hour", :chosen => false} %>
@@ -180,35 +180,37 @@
             </td>
           </tr>
 
-          <tr>
+          <!-- 重复任务需要填写的项目 -->
+          <tr class="task-repeat">
             <td class="label-col"><label for="task_plan_start_at"><%=t(:label_gtd_task_plan_start_at)%></label></td>
             <td class="data-2col">
-              <%= f.date_field(:plan_start_at,:value =>calendar_date(@task.plan_start_at),:id=>"task_plan_start_at",:class=>"date",:required=>true,:size=>12)%>
+              <%= f.text_field :plan_start_at, :id => "task_plan_start_time", :size => 10, :required => true, :style => "width:80px;"  %>
             </td>
           </tr>
 
-          <tr>
+          <tr class="task-repeat">
+            <td class="label-col"><label><%=t(:label_gtd_task_from_to_date)%></label></td>
+            <td class="data-2col">
+              <%= f.date_field(:start_at,:value =>calendar_date(@task.start_at),:id=>"task_start_at",:class=>"date",:required=>true,:size=>12, :tip => false)%>
+              <label style="width: 20px;text-align: center"> ~ </label>
+              <%= f.date_field(:end_at,:value =>calendar_date(@task.end_at),:id=>"task_end_at",:class=>"date",:required=>true,:size=>12, :tip => false)%>
+            </td>
+          </tr>
+
+          <!-- 不重复任务填写项目 -->
+          <tr class="task-norepeat">
+            <td class="label-col"><label for="task_plan_start_at"><%=t(:label_gtd_task_plan_start_at)%></label></td>
+            <td class="data-2col">
+              <%= f.date_field(:plan_start_at,:value =>calendar_date(@task.plan_start_at),:id=>"task_plan_start_at",:class=>"date", :with_time => true ,:required=>true,:size=>12)%>
+            </td>
+          </tr>
+
+          <tr class="task-norepeat">
             <td class="label-col"><label for="task_plan_end_at"><%=t(:label_gtd_task_plan_end_at)%></label></td>
             <td class="data-2col">
-              <%= f.date_field(:plan_end_at,:value =>calendar_date(@task.plan_end_at),:id=>"task_plan_end_at",:class=>"date",:required=>true,:size=>12)%>
+              <%= f.date_field(:plan_end_at,:value => calendar_date(@task.plan_end_at),:id=>"task_plan_end_at",:class=>"date", :with_time => true , :required=>true,:size=>12)%>
             </td>
           </tr>
-
-          <tr>
-            <td class="label-col"><label for="task_start_at"><%=t(:label_gtd_task_start_at)%></label></td>
-            <td class="data-2col">
-              <%= f.date_field(:start_at,:value =>calendar_date(@task.start_at),:id=>"task_start_at",:class=>"date",:required=>true,:size=>12)%>
-            </td>
-          </tr>
-
-          <tr>
-            <td class="label-col"><label for="task_end_at"><%=t(:label_gtd_task_end_at)%></label></td>
-            <td class="data-2col">
-              <%= f.date_field(:end_at,:value =>calendar_date(@task.end_at),:id=>"task_end_at",:class=>"date",:required=>true,:size=>12)%>
-            </td>
-          </tr>
-
-
         </tbody>
       </table>
     <% end %>
@@ -256,9 +258,16 @@
 
 <script type="text/javascript">
     $(function(){
-//        if($("#external_system_id")){
-//            $("#external_system_id").cascade("#assigned_to_id");
-//        }
+        $("#task_plan_start_time").timepicker({
+            minuteStep: 1,
+            secondStep: 5,
+            showInputs: false,
+            modalBackdrop: true,
+            showSeconds: true,
+            showMeridian: false
+        });
+
+
         $("input.receiverType").click(function(e){
             if($(e.target).val()=="CHOOSE_STAFF"){
                 $("#duelSearchBox").css("display","");
@@ -278,8 +287,20 @@
         function checkRepeat(){
             if($("#gtd_task_repeat").is(":checked")) {
                 $("#repeat-container").show();
+                $("#repeat-container input, #repeat-container select").removeAttr("disabled");
+
+                $("tr.task-norepeat").hide();
+                $("tr.task-norepeat input").attr("disabled", true);
+                $("tr.task-repeat").show();
+                $("tr.task-repeat input").removeAttr("disabled");
             }else{
                 $("#repeat-container").hide();
+                $("#repeat-container input,#repeat-container select").attr("disabled", true);
+
+                $("tr.task-repeat").hide();
+                $("tr.task-repeat input").attr("disabled", true);
+                $("tr.task-norepeat").show();
+                $("tr.task-norepeat input").removeAttr("disabled");
             }
         }
 

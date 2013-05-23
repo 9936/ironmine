@@ -17,7 +17,7 @@
         <label class="control-label"><%= t(:label_gtd_task_end_at) %>:</label>
 
         <div class="controls">
-          <%= f.date_field :end_at, :required => true %>
+          <%= f.date_field :end_at, :required => true, :with_time => true %>
           <span class="help-inline"></span>
         </div>
       </div>

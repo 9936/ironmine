@@ -83,22 +83,15 @@ class Gtd::TasksController < ApplicationController
 
 
   def new
-    @task = Gtd::Task.new
+    @task = Gtd::Task.new(:duration_day => 0)
     respond_to do |format|
       format.html
     end
   end
 
-  #def get_assigned_data
-  #  assigned_scope = Irm::Person.enabled.with_external_system(params[:external_system_id]).order("full_name_pinyin")#.offset(210).limit(1)
-  #  assigned_scope = assigned_scope.uniq
-  #  assigned = assigned_scope.collect { |i| {:label => i[:full_name], :value => i.id, :id => i.id} }
-  #  respond_to do |format|
-  #    format.json { render :json => assigned.to_grid_json([:label, :value], assigned.count) }
-  #  end
-  #end
-
   def create
+    #{"name"=>"", "external_system_id"=>"", "assigned_to"=>"000100012i8IyyjJaqMaJ6", "description"=>"", "member_type"=>"PUBLIC", "member_str"=>"", "access_type"=>"READ", "repeat"=>"Y", "duration_day"=>"0", "duration_hour"=>"0", "duration_minute"=>"0", "plan_start_at"=>"11:18:50", "start_at"=>"2013-05-01", "end_at"=>"2013-05-31"}
+    #
     @task = Gtd::Task.new(params[:gtd_task])
     @task.rule = YAML.dump(params[:time_mode_obj])
     respond_to do |format|

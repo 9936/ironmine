@@ -3,7 +3,10 @@ class Gtd::Task < ActiveRecord::Base
 
   attr_accessor :duration_day, :duration_hour, :duration_minute
 
-  validates_presence_of :name ,:plan_start_at, :plan_end_at, :assigned_to, :access_type, :start_at, :end_at
+  validates_presence_of :name ,:plan_start_at, :assigned_to, :access_type
+  validates_presence_of :duration_day, :duration_hour, :duration_minute, :start_at, :end_at, :if => Proc.new { |i| i.repeat == 'Y' }
+  validates_format_of :duration_day, :duration_hour, :duration_minute, :with => /\d+/, :if => Proc.new { |i| i.repeat == 'Y' }
+  validates_presence_of :plan_end_at, :if => Proc.new { |i| i.repeat == 'N' }
 
   before_save :init_task
   after_save :create_member_from_str, :update_task_instances
@@ -50,7 +53,7 @@ class Gtd::Task < ActiveRecord::Base
 
 
   scope :query_instances_by_day, lambda{|date_time|
-      where("#{table_name}.start_at <=? AND #{table_name}.end_at >=? AND (parent_id IS NOT NULL OR #{table_name}.repeat='N')", date_time, date_time)
+    where("#{table_name}.plan_start_at <? AND #{table_name}.plan_end_at >=? AND (#{table_name}.parent_id IS NOT NULL OR (#{table_name}.repeat='N' AND #{table_name}.parent_id IS NULL))", date_time + 1.day, date_time)
   }
 
   scope :with_rule_type, lambda{|rule_types|
@@ -80,40 +83,52 @@ class Gtd::Task < ActiveRecord::Base
 
 
   def update_task_instances
-    self.task_instances.map(&:destroy)
-    self.generate_task_instances(Time.zone.now + 1.month)
+    Gtd::Task.delete_all("parent_id = '#{self.id}'")
+    #self.task_instances.map(&:destroy)
+    if self.repeat.eql?('Y')
+      self.generate_task_instances(self.start_at + 1.month)
+    end
   end
 
   #根据指定时间生成任务实例
   def generate_task_instances(end_time)
-    if self.repeat.eql?('Y')
-      #end_time必须要大于开始时间
-      end_time = end_time.to_datetime
-      start_date =  self.start_at.to_datetime
-      end_date = self.end_at.to_datetime
-      if end_time > end_date
-        end_time = end_date
-      elsif end_time < start_date
-        return
-      end
-      occurrences = get_occurrences(start_date, end_time)
-      #根据持续时间计算结束日期
+    #end_time必须要大于开始时间
+    end_time = end_time.to_datetime
 
-      occurrences.each do |occurrence|
-        occurrence_end = occurrence + self.duration_day.to_i.day + self.duration_hour.to_i.hour + self.duration_minute.to_i.minute
-        task_instance = Gtd::Task.where(:parent_id => self.id, :start_at => occurrence, :end_at => occurrence_end).first
-        unless task_instance.present?
-          task_instance = Gtd::Task.new(self.attributes)
-          #任务实例名称为任务名称加日期,如：工作周报2013-05-06
-          task_instance.name = "#{self.name}#{occurrence.strftime('%Y-%m-%d')}"
+    start_date =  self.start_at.to_datetime
+    end_date = self.end_at.to_datetime
+    if end_time > end_date
+      end_time = end_date
+    elsif end_time < start_date
+      return
+    end
+    occurrences = get_occurrences(start_date, end_time)
 
-          task_instance.parent_id = self.id
-          task_instance.repeat = 'N'
+    #根据持续时间计算结束日期
+    #start_time_arr = self.plan_start_at.strftime('%H:%M:%S').split(":")
+    hour = self.plan_start_at.hour
+    minute = self.plan_start_at.min
+    second = self.plan_start_at.sec
 
-          task_instance.start_at = occurrence
-          task_instance.end_at = occurrence_end
-          task_instance.save
-        end
+    occurrences.each do |occurrence|
+      occurrence = occurrence.change(:hour=> hour,:min => minute,:sec => second)
+      occurrence_end = occurrence + self.duration_day.to_i.day + self.duration_hour.to_i.hour + self.duration_minute.to_i.minute
+
+      task_instance = Gtd::Task.where(:parent_id => self.id, :start_at => occurrence, :end_at => occurrence_end).first
+      unless task_instance.present?
+        task_instance = Gtd::Task.new(self.attributes)
+        #任务实例名称为任务名称加日期,如：工作周报2013-05-06
+        task_instance.name = "#{self.name}#{occurrence.strftime('%Y-%m-%d')}"
+
+        task_instance.parent_id = self.id
+        task_instance.repeat = 'N'
+
+        task_instance.plan_start_at = occurrence
+        task_instance.plan_end_at = occurrence_end
+        task_instance.start_at = nil
+        task_instance.end_at = nil
+
+        task_instance.save
       end
     end
   end
@@ -133,6 +148,7 @@ class Gtd::Task < ActiveRecord::Base
       self.rule = nil
       self.rule_type = nil
     end
+
     #初始化任务类型
     if self.parent_id.blank?
       self.task_type = "TASK"

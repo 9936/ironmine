@@ -1,15 +1,13 @@
 <style type="text/css">
+    .navbar {
+        margin-bottom: 0;
+    }
     .navbar-inner {
-        min-height: 40px;
+        min-height: 20px;
         padding-right: 20px;
         padding-left: 20px;
         background-color: #fafafa;
-        background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
-        background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
-        background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
-        background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
-        background-repeat: repeat-x;
+        background-image: none;
         border: 1px solid #d4d4d4;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
@@ -31,6 +29,12 @@
     .navbar-inner:after {
         clear: both;
     }
+
+    .navbar-inner .brand {
+        font-size: 15px;
+        padding: 8px;
+    }
+
     .modal-body .controls .control-text {
         line-height: 24px;
         display: block;
@@ -71,16 +75,16 @@
   </div>
 
   <div class="control-group">
-    <label class="control-label"><%= t(:label_gtd_task_start_at) %>:</label>
+    <label class="control-label"><%= t(:label_gtd_task_plan_start_at) %>:</label>
     <div class="controls">
-      <span class="control-text"><%= format_date @task_instance[:start_at] %></span>
+      <span class="control-text"><%= format_date @task_instance[:plan_start_at] %></span>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label"><%= t(:label_gtd_task_end_at) %>:</label>
+    <label class="control-label"><%= t(:label_gtd_task_plan_end_at) %>:</label>
     <div class="controls">
-      <span class="control-text"><%= format_date @task_instance[:end_at] %></span>
+      <span class="control-text"><%= format_date @task_instance[:plan_end_at] %></span>
     </div>
   </div>
   <% if @task.present? %>

@@ -16,8 +16,8 @@
         <span class="label"><%= t("label_gtd_task_workbench_status_#{data[:execute_status].downcase}") %></span>
       <% end %>
     <% end %>
-    <% builder.column(:start_at, {:title => t(:label_gtd_task_start_at)}) %>
-    <% builder.column(:end_at, {:title => t(:label_gtd_task_end_at)}) %>
+    <% builder.column(:plan_start_at, {:title => t(:label_gtd_task_plan_start_at)}) %>
+    <% builder.column(:plan_end_at, {:title => t(:label_gtd_task_plan_end_at)}) %>
     <% builder.column(:description, {:title => t(:description)}) %>
     <% builder.column(:rule_type, {:title => t(:label_gtd_task_rule_type)}) do |data| %>
       <% if data[:rule_type].present? %>

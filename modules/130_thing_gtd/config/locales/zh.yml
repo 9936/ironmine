@@ -28,6 +28,7 @@ zh:
   label_gtd_task_plan_end_at: 计划结束时间
   label_gtd_task_start_at: 开始时间
   label_gtd_task_end_at: 结束时间
+  label_gtd_task_from_to_date: 起止日期
   label_gtd_task_duration: 持续时间
   label_gtd_task_note: 工作记录
   label_gtd_task_execute_plan: 执行计划

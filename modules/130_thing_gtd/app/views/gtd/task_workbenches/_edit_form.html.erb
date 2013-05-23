@@ -24,20 +24,20 @@
       </div>
 
       <div class="control-group">
-        <label class="control-label"><%= t(:label_gtd_task_start_at) %>:</label>
+        <label class="control-label"><%= t(:label_gtd_task_plan_start_at) %>:</label>
 
         <div class="controls">
-          <%= f.date_field :start_at, :required => true %>
+          <%= f.date_field :plan_start_at, :required => true, :with_time => true %>
           <span class="help-inline"></span>
         </div>
       </div>
       <% end %>
 
       <div class="control-group">
-        <label class="control-label"><%= t(:label_gtd_task_end_at) %>:</label>
+        <label class="control-label"><%= t(:label_gtd_task_plan_end_at) %>:</label>
 
         <div class="controls">
-          <%= f.date_field :end_at, :required => true %>
+          <%= f.date_field :plan_end_at, :required => true, :with_time => true %>
           <span class="help-inline"></span>
         </div>
       </div>

@@ -31,28 +31,28 @@ class Gtd::TaskWorkbenchesController < ApplicationController
 
   def today
     @filter_params = {}
-    if cookies[:task_rule_types].present?
-      @filter_params[:rule_types] = cookies[:task_rule_types].split(",")
+    if cookies[:today_rule_types].present?
+      @filter_params[:rule_types] = cookies[:today_rule_types].split(",")
     else
       @filter_params[:rule_types] = ["ALL", "DAILY", "WEEKLY", "MONTHLy"]
     end
 
-    if cookies[:task_status].present?
-      @filter_params[:status] = cookies[:task_status].split(",")
+    if cookies[:today_status].present?
+      @filter_params[:status] = cookies[:today_status].split(",")
     else
       @filter_params[:status] = ["ALL", "WAITING", "PROCESS", "DONE"]
     end
   end
 
   def today_instance_data
-    if cookies[:task_rule_types].present?
-      params[:rule_types] = cookies[:task_rule_types].split(",")
+    if cookies[:today_rule_types].present?
+      params[:rule_types] = cookies[:today_rule_types].split(",")
     end
 
-    if cookies[:task_status].present?
-      params[:status] = cookies[:task_status].split(",")
+    if cookies[:today_status].present?
+      params[:status] = cookies[:today_status].split(",")
     end
-    tasks_scope = Gtd::Task.with_all.with_assigned_person.with_assigned_me.query_instances_by_day(Time.zone.now.strftime('%Y-%m-%d'))
+    tasks_scope = Gtd::Task.with_all.with_assigned_person.with_assigned_me.query_instances_by_day(Time.zone.now.change(:hour=>0,:min=>0,:sec=>0))
     #对状态进行过滤
     if params[:status] && params[:status].any? && !params[:status].include?("ALL")
       tasks_scope = tasks_scope.with_status(params[:status])
