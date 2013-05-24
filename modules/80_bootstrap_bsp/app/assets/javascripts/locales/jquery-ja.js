@@ -5,7 +5,7 @@ var irm_labels = {
     paginatorNext: "次のページ",
     paginatorBeforePage: "第",
     paginatorAfterPage: "ページ、総計${totalPage}ページ",
-    paginatorRecord: "表示のは第 ${start} - ${end}行，総計 ${totalCount} 行",
+    paginatorRecord: "表示は第 ${start} - ${end}行，総計 ${totalCount} 行",
     paginatorBeforeSize: "ページ毎の表示",
     paginatorAfterSize: "行、 ",
     paginatorRefresh: "リフレッシュ",

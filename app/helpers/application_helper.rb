@@ -301,6 +301,9 @@ module ApplicationHelper
           scroll_options[:height]=235
         end
 
+        if scroll_options[:auto_height]
+          scroll_options[:autoHeight]=true
+        end
       end
 
       table_options << ",scrollOptions:#{scroll_options.to_json}"
