@@ -8,9 +8,8 @@ class Hli::IncidentAmountBySolvedStatus < Irm::ReportManager::ReportBase
     category_codes = ["HOTLINE_ZIXUN", "HOTLINE_XUQIU", "HOTLINE_WENTI", "HOTLINE_XIEZHU"]
 
     system_ids = []
-
     if params[:external_system_id].present? && params[:external_system_id].size > 0 && params[:external_system_id][0].present?
-      system_ids << params[:external_system_id]
+      system_ids = system_ids + params[:external_system_id]
     else
       current_acc_systems = Irm::ExternalSystem.multilingual.order_with_name.with_person(params[:running_person_id]).enabled.collect(&:id)
       system_ids = system_ids + current_acc_systems
@@ -20,16 +19,16 @@ class Hli::IncidentAmountBySolvedStatus < Irm::ReportManager::ReportBase
     #本月接单数
     this_month_new = main_data.
         select("count(1) this_month_new").
-        where("date_format(submitted_date, '%Y-%m') = ?", Date.strptime("#{params[:start][:year]}-#{params[:start][:month]}", '%Y-%m'))
+        where("date_format(submitted_date, '%Y-%m-01') = ?", Date.strptime("#{params[:start][:year]}-#{params[:start][:month]}", '%Y-%m'))
     #本月解决数
     this_month_resolved = main_data.
         select("count(1) this_month_resolved").
-        where("EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND date_format(ij.created_at, '%Y-%m') = ?)",
+        where("EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND date_format(ij.created_at, '%Y-%m-01') = ?)",
               "CLOSE", Date.strptime("#{params[:start][:year]}-#{params[:start][:month]}", '%Y-%m'))
     #上月未解决数
     pre_month_unsolved = main_data.
         select("count(1) pre_month_unsolved").
-        where("NOT EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND date_format(ij.created_at, '%Y-%m') < ?)",
+        where("NOT EXISTS (SELECT * FROM icm_incident_journals ij WHERE ij.incident_request_id = icm_incident_requests.id AND ij.reply_type = ? AND date_format(ij.created_at, '%Y-%m-01') < ?)",
               "CLOSE", Date.strptime("#{params[:start][:year]}-#{params[:start][:month]}", '%Y-%m'))
 
     datas = []
@@ -58,7 +57,7 @@ class Hli::IncidentAmountBySolvedStatus < Irm::ReportManager::ReportBase
       data[2] = p_this_month_new.first[:this_month_new]
       p_this_month_resolved = this_month_resolved.where("incident_category_id = ?", c[:category_id])
       data[3] = p_this_month_resolved.first[:this_month_resolved]
-      data[4] = (data[1].to_i - data[3].to_i).to_s
+      data[4] = (data[1].to_i + data[2] - data[3].to_i).to_s
 
       datas << data
     end

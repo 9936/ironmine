@@ -1,5 +1,5 @@
 <%= common_title %>
-<%= form_for(@time_trigger,:url=>{:action=>"create"},:builder => CustomFormBuilder) do |f| %>
+<%= form_for(@time_trigger,:url=>{:action=>"update"},:builder => CustomFormBuilder) do |f| %>
   <% content_for :form_block_a   do%>
         <%= f.hidden_field(:service_agreement_id) %>
                 <table class="form-table">

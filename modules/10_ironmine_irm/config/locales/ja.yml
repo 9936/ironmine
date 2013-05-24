@@ -87,13 +87,14 @@ ja:
   up: 上に移動
   down: 下に移動
   notice: 注意
-  no_data: 利用可能のデータがありません
+  no_data: 利用可能なデータがありません
   label_alias: 別名
   uncategory: 未分類
   code: コード
   expand_all: すべてを展開
   collapse_all: すべてを折畳
 
+  notice_require_login_again: ユーザ名がを未登録、またはセッション期限が切れました。再登録してください。
   notice_account_invalid_creditentials: ユーザ名またはパスワードが間違いました
   successfully_updated_password: パスワードが修正されました
   successfully_updated: データが更新されました
@@ -105,7 +106,7 @@ ja:
   failed_copyed: データのコピーに失敗しました
   failed_deleted: データの削除に失敗しました
   label_delete_confirm: このデータを削除してもよろしいでしょうか
-  label_no_data: 利用可能のデータがありません
+  label_no_data: 利用可能なデータがありません
   label_sub_functions: 機能
   label_common_info: 一般情報
   label_description_info: テキスト
@@ -127,7 +128,7 @@ ja:
   find: 検索
   my_view: マイビュー
   calendar_task: カレンダー
-  remember_user_name: ユーザ名を覚えています
+  remember_user_name: ユーザ名を記憶します
   no_account: アカウントなし
   label_cancel_confirm: データが保存されていないまま、削除してもよろしいでしょうか
   all: すべて
@@ -949,10 +950,10 @@ ja:
   label_company_access_menu_label: 会社
 
 
-  label_irm_bulletin: 告示
-  label_irm_bulletin_new: 告示の登録
-  label_irm_bulletin_edit: 告示の編集
-  label_irm_bulletin_list: 告示一覧
+  label_irm_bulletin: 告知
+  label_irm_bulletin_new: 告知の登録
+  label_irm_bulletin_edit: 告知の編集
+  label_irm_bulletin_list: 告知一覧
   label_irm_bulletin_title: タイトル
   label_irm_bulletin_content: コンテンツ
   label_irm_bulletin_sticky_flag: スティック
@@ -971,12 +972,12 @@ ja:
   label_irm_bulletin_selected_departments: 部門
   label_irm_bulletin_selected_roles: ロール
   label_irm_bulletin_selected_organizations: 組織
-  label_irm_bulletin_if_access_list_none: アクセス可能一覧が制限されていない場合、この公告が全ユーザに対して公開されます
+  label_irm_bulletin_if_access_list_none: アクセス可能一覧が制限されていない場合、この告知が全ユーザに対して公開されます
   label_irm_bulletin_attachment: 添付ファイル
   error_irm_bulletin_content_can_not_blank: 公告コンテンツが空白となっていけません
 
 
-  label_irm_bu_column: 告示列
+  label_irm_bu_column: 告知列
   label_irm_bu_column_code: 列コード
   label_irm_bu_column_list: 列一覧
   label_irm_bu_column_new: 新規列
@@ -1772,7 +1773,7 @@ ja:
 
   label_report_icm_incident_params_is_report: ホットライン
   label_report_icm_incident_params_is_report_yes: レポート
-  label_report_icm_incident_params_is_report_no: レポートなし
+  label_report_icm_incident_params_is_report_no: その他
 
 
 
