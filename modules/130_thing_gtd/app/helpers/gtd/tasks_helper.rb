@@ -40,6 +40,10 @@ module Gtd::TasksHelper
         where("gtav.person_id=?", Irm::Person.current.id).collect{|i|[i[:full_name], i.id]}
   end
 
+  def available_notify_programs
+    Gtd::NotifyProgram.enabled.multilingual.collect{|i|[i[:name], i.id, "notify-type" => i[:notify_type]]}
+  end
+
   #将任务的重复规则转变为文字含义
   def week_to_num
     {"MO" => 1, "TU" => 2, "WE" => 3, "TH" => 4, "FR" => 5, "SA" => 6, "SU" => 0}

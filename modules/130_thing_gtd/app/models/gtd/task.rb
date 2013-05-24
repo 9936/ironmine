@@ -14,6 +14,7 @@ class Gtd::Task < ActiveRecord::Base
   after_find :untransform_time
 
   has_many :task_instances, :class_name => "Gtd::Task", :foreign_key => :parent_id, :dependent => :destroy
+  belongs_to :notify_program, :foreign_key => :notify_program_id
 
   #加入activerecord的通用方法和scope
   query_extend
@@ -25,6 +26,19 @@ class Gtd::Task < ActiveRecord::Base
 
   scope :with_all, lambda{
     select("#{table_name}.*").with_external_system(I18n.locale)
+  }
+
+  def self.tomorrow_tasks
+    tomorrow = Time.now.change(:hour => 0, :min => 0, :sec => 0) + 1.day
+    with_all.
+        with_assigned_person.
+        with_notify_program.
+        query_instances_by_day(tomorrow)
+  end
+
+  scope :with_notify_program, lambda {
+    joins("JOIN #{Gtd::NotifyProgram.table_name} np ON np.id = #{table_name}.notify_program_id").
+        select("np.notify_type, np.wf_mail_alert_id, np.incident_request_hash")
   }
 
   scope :only_tasks, lambda {
@@ -258,6 +272,7 @@ class Gtd::Task < ActiveRecord::Base
     occurrences
   end
 
+
   def to_rrule_hash
     mode_obj = self.time_mode_obj
     rrule_hash = {:freq=>mode_obj[:freq]}
@@ -323,10 +338,93 @@ class Gtd::Task < ActiveRecord::Base
     self.duration_minute ||= self.duration%60
   end
 
+  #生成任务实例的通知方式
+  def generate_notify
+    if self.notify_program.present?
+      Irm::Person.current = Irm::Person.find(self.assigned_to)
+
+      if self.notify_program.notify_type.eql?("EMAIL")
+        generate_email_notify
+      elsif self.notify_program.notify_type.eql?("INCIDENT")
+        generate_incident_notify
+      end
+    end
+  end
+
 
 
 
   private
+    def generate_email_notify
+      if self.notify_program.wf_mail_alert_id.present?
+        mail_alert = Irm::WfMailAlert.find(self.notify_program.wf_mail_alert_id)
+        mail_alert.perform(self)
+      end
+    end
+
+    def generate_incident_notify
+      if self.notify_program.incident_request_hash.present? and self.external_system_id.present?
+        incident_hash = eval(self.notify_program.incident_request_hash)
+        incident_hash[:requested_by] = self.assigned_to
+        incident_hash[:external_system_id] = self.external_system_id
+        incident_hash[:title] = self.name
+        incident_hash[:summary] = self.description
+        watchers = Irm::Person.where(:id => self.member_ids)
+        incident_request = Icm::IncidentRequest.new(incident_hash)
+
+        incident_request = prepared_for_create(incident_request)
+
+        #将自定义的必填字段用默认值进行设置
+        incident_request.merge_required_default_values
+
+        if incident_request.save!
+          watchers.each do |watcher|
+            incident_request.add_watcher(watcher, false)
+          end
+          #事故单创建成功后将id插入到对应的任务中
+          self.incident_request_id = incident_request.id
+          self.save
+
+          Icm::IncidentHistory.create({:request_id => incident_request.id,
+                                       :journal_id => "",
+                                       :property_key => "incident_request_id",
+                                       :old_value => incident_request.title,
+                                       :new_value => ""})
+          #如果没有填写support_group, 插入Delay Job任务
+          if incident_request.support_group_id.nil? || incident_request.support_group_id.blank?
+            Delayed::Job.enqueue(Icm::Jobs::GroupAssignmentJob.new(incident_request.id), [{:bo_code => "ICM_INCIDENT_REQUESTS", :instance_id => incident_request.id}])
+          end
+        end
+
+      end
+    end
+
+    def prepared_for_create(incident_request)
+      incident_request.submitted_by = Irm::Person.current.id
+      incident_request.submitted_date = Time.now
+      incident_request.last_request_date = Time.now
+      incident_request.last_response_date = Time.now
+      incident_request.next_reply_user_license="SUPPORTER"
+      if incident_request.incident_status_id.nil?||incident_request.incident_status_id.blank?
+        incident_request.incident_status_id = Icm::IncidentStatus.default_id
+      end
+      if incident_request.request_type_code.nil?||incident_request.request_type_code.blank?
+        incident_request.request_type_code = "REQUESTED_TO_CHANGE"
+      end
+
+      if incident_request.report_source_code.nil?||incident_request.report_source_code.blank?
+        incident_request.report_source_code = "CUSTOMER_SUBMIT"
+      end
+      if incident_request.requested_by.present?
+        incident_request.contact_id = incident_request.requested_by
+      end
+
+      if !incident_request.contact_number.present?&&incident_request.contact_id.present?
+        incident_request.contact_number = Irm::Person.find(incident_request.contact_id).bussiness_phone
+      end
+      incident_request
+    end
+
     def prepare_time_mode
       if self.rule.present?
         return YAML.load(self.rule)

@@ -6,6 +6,8 @@ zh:
   label_gtd_task_edit: 编辑日常保障工作
   label_gtd_task_system: 系统
   label_gtd_task_assigned_to: 处理人
+  label_gtd_task_notify_program: 通知方案
+  label_gtd_task_notify_program_tip: 通知方案为创建事故单，其中系统不能为空
   label_gtd_task_repeat: 重复
   label_gtd_task_rule_type: 重复频率
   label_gtd_task_rule_weekly: 周

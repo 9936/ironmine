@@ -68,6 +68,13 @@
           </tr>
 
           <tr>
+            <td class="label-col"><label><%= t(:label_gtd_task_notify_program) %></label></td>
+            <td class="data-col"><%= f.blank_select :notify_program_id, available_notify_programs, {}, :id => "notify-program" %></td>
+            <td class="label-col empty">&nbsp;</td>
+            <td class="data-col empty">&nbsp;</td>
+          </tr>
+
+          <tr>
             <td class="label-col"><label><%= t(:label_gtd_task_repeat) %></label></td>
             <td class="data-col"><%= f.check_box :repeat %></td>
             <td class="label-col empty">&nbsp;</td>
@@ -266,6 +273,35 @@
             showSeconds: true,
             showMeridian: false
         });
+
+        $("#notify-program").change(function(){
+            var current_type = getNotifyType();
+            if(current_type == "INCIDENT" && $("#external_system_id").val() == ""){
+               alert("<%= t(:label_gtd_task_notify_program_tip) %>");
+               $("#notify-program").focus();
+            }
+        });
+
+        $("#external_system_id").change(function(){
+            if($(this).val() == "" && getNotifyType() == "INCIDENT"){
+                alert("<%= t(:label_gtd_task_notify_program_tip) %>");
+                $("#external_system_id").focus();
+            }
+        });
+
+        function getNotifyType(){
+            var current_value = $("#notify-program").val(),
+                current_type = "EMAIL";
+            if (current_value != "") {
+                $("#notify-program option").each(function(){
+                    if($(this).attr("value") == current_value) {
+                        current_type = $(this).attr("notify-type");
+                    }
+                });
+            }
+            return current_type
+        }
+
 
 
         $("input.receiverType").click(function(e){

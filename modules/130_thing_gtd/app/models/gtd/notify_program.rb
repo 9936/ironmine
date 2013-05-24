@@ -4,6 +4,7 @@ class Gtd::NotifyProgram < ActiveRecord::Base
   #多语言关系
   attr_accessor :name,:description, :urgence_id, :impact_range_id
   has_many :notify_programs_tls, :dependent => :destroy
+  has_many :tasks, :foreign_key => :notify_program_id
 
   validates_presence_of :notify_type
 
