@@ -344,8 +344,10 @@ class Gtd::Task < ActiveRecord::Base
       Irm::Person.current = Irm::Person.find(self.assigned_to)
 
       if self.notify_program.notify_type.eql?("EMAIL")
+        puts "====================11111"
         generate_email_notify
       elsif self.notify_program.notify_type.eql?("INCIDENT")
+        puts "====================22222"
         generate_incident_notify
       end
     end
