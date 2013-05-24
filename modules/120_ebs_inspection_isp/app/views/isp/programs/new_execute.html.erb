@@ -96,7 +96,7 @@
                     <% c_f.object.check_items.each do |check_item| %>
                       <tr>
                         <td><%= check_item.name %></td>
-                        <td><%= check_item.script %></td>
+                        <td title="<%= check_item.script %>"><%= truncate(check_item.script, {:length => 200}) %></td>
                       </tr>
                       <% if check_item.check_parameters.count > 0 %>
                       <tr class="item-details">
@@ -104,7 +104,7 @@
                           <table>
                             <tbody>
                               <tr>
-                                <td style="background-color: #ddd9d9;" rowspan="<%= check_item.check_parameters.count + 1 %>" class="title">参数</td>
+                                <td style="background-color: #ddd9d9;" rowspan="<%= check_item.check_parameters.count + 1 %>" class="title"><%= t(:label_isp_program_params) %></td>
                                 <td style="background-color: #ddd9d9;"><%= t(:name) %></td>
                                 <td style="background-color: #ddd9d9;"><%= t(:label_isp_parameter_value) %></td>
                               </tr>
