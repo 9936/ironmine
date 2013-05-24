@@ -32,6 +32,7 @@ class CreateNotifyPrograms < ActiveRecord::Migration
     add_index "gtd_notify_programs_tl", ["notify_program_id"], :name => "GTD_NOTIFT_PROGRAMS_TL_N1"
 
     execute('CREATE OR REPLACE VIEW gtd_notify_programs_vl AS SELECT t.*,tl.id lang_id,tl.name,tl.description,tl.language,tl.source_lang
-             FROM gtd_notify_programs t,gtd_notify_programs_tl tl WHERE t.id = tl.notify_program_id')
+                                                     FROM gtd_notify_programs t,gtd_notify_programs_tl tl
+                                                     WHERE t.id = tl.notify_program_id')
   end
 end
