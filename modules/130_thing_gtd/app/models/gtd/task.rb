@@ -36,6 +36,18 @@ class Gtd::Task < ActiveRecord::Base
         query_instances_by_day(tomorrow)
   end
 
+  def self.today_need_instance_tasks
+    today = Time.now.change(:hour => 0, :min => 0, :sec => 0)
+    with_all.
+        only_tasks.
+        with_repeat.
+        at_instance_updated_at(today)
+  end
+
+  scope :at_instance_updated_at, lambda {|date_time|
+     where("#{table_name}.instance_updated_at>=? AND #{table_name}.instance_updated_at<?", date_time, date_time + 1.day)
+  }
+
   scope :with_notify_program, lambda {
     joins("JOIN #{Gtd::NotifyProgram.table_name} np ON np.id = #{table_name}.notify_program_id").
         select("np.notify_type, np.wf_mail_alert_id, np.incident_request_hash")
@@ -43,6 +55,10 @@ class Gtd::Task < ActiveRecord::Base
 
   scope :only_tasks, lambda {
     where("#{table_name}.parent_id IS NULL")
+  }
+
+  scope :with_repeat, lambda {
+    where("#{table_name}.repeat='Y'")
   }
 
 
@@ -128,23 +144,38 @@ class Gtd::Task < ActiveRecord::Base
       occurrence = occurrence.change(:hour=> hour,:min => minute,:sec => second)
       occurrence_end = occurrence + self.duration_day.to_i.day + self.duration_hour.to_i.hour + self.duration_minute.to_i.minute
 
-      task_instance = Gtd::Task.where(:parent_id => self.id, :start_at => occurrence, :end_at => occurrence_end).first
+      task_instance = Gtd::Task.where(:parent_id => self.id, :plan_start_at => occurrence, :plan_end_at => occurrence_end).first
       unless task_instance.present?
-        task_instance = Gtd::Task.new(self.attributes)
+        task_hash = {:opu_id => self.opu_id,
+                     :external_system_id => self.external_system_id,
+                     :description => self.description,
+                     :repeat => 'N',
+                     :rule_type => self.rule_type,
+                     :member_type => self.member_type,
+                     :access_type => self.access_type,
+                     :assigned_to => self.assigned_to,
+                     :execute_status => self.execute_status,
+                     :notify_program_id => self.notify_program_id,
+                     :created_by => self.created_by,
+                     :updated_by => self.updated_by }
+        #task_instance = Gtd::Task.new(self.attributes)
+        task_instance = Gtd::Task.new(task_hash)
+
         #任务实例名称为任务名称加日期,如：工作周报2013-05-06
         task_instance.name = "#{self.name}#{occurrence.strftime('%Y-%m-%d')}"
-
         task_instance.parent_id = self.id
-        task_instance.repeat = 'N'
 
         task_instance.plan_start_at = occurrence
         task_instance.plan_end_at = occurrence_end
-        task_instance.start_at = nil
-        task_instance.end_at = nil
+        #task_instance.start_at = nil
+        #task_instance.end_at = nil
+        #task_instance.instance_updated_at = nil
 
-        task_instance.save
+        task_instance.save!
       end
     end
+
+    self.update_column(:instance_updated_at, end_time)
   end
 
   def init_task
@@ -163,9 +194,10 @@ class Gtd::Task < ActiveRecord::Base
       self.rule_type = nil
     end
 
-    #初始化任务类型
+    #初始化任务类型以及实例生成日期
     if self.parent_id.blank?
       self.task_type = "TASK"
+      #self.instance_updated_at = self.start_at + 1.month if self.repeat.eql?("Y")
     else
       self.task_type = "INSTANCE"
     end
