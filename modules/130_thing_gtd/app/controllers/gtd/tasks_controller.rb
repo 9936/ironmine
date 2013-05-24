@@ -5,26 +5,26 @@ class Gtd::TasksController < ApplicationController
 
   end
 
-  def today
-    @filter_params = {}
-    if cookies[:task_rule_types].present?
-      @filter_params[:rule_types] = cookies[:task_rule_types].split(",")
-    end
-
-    if cookies[:task_status].present?
-      @filter_params[:status] = cookies[:task_status].split(",")
-    end
-
-    if cookies[:task_filter].present?
-      @filter_params[:filter] = cookies[:task_filter]
-    end
-
-    if cookies[:date_value].present?
-      @filter_params[:date] = Time.zone.at(cookies[:date_value].first(10).to_i).strftime('%Y-%m-%d')
-    else
-      @filter_params[:date] = Time.now.strftime('%Y-%m-%d')
-    end
-  end
+  #def today
+  #  @filter_params = {}
+  #  if cookies[:task_rule_types].present?
+  #    @filter_params[:rule_types] = cookies[:task_rule_types].split(",")
+  #  end
+  #
+  #  if cookies[:task_status].present?
+  #    @filter_params[:status] = cookies[:task_status].split(",")
+  #  end
+  #
+  #  if cookies[:task_filter].present?
+  #    @filter_params[:filter] = cookies[:task_filter]
+  #  end
+  #
+  #  if cookies[:date_value].present?
+  #    @filter_params[:date] = Time.zone.at(cookies[:date_value].first(10).to_i).strftime('%Y-%m-%d')
+  #  else
+  #    @filter_params[:date] = Time.now.strftime('%Y-%m-%d')
+  #  end
+  #end
 
   def get_data
     tasks_scope = Gtd::Task.only_tasks.with_all.with_assigned_person#.with_task_status.with_priority.uncompleted.with_calendar.assigned_to(Irm::Person.current.id)
@@ -54,8 +54,8 @@ class Gtd::TasksController < ApplicationController
         tasks_event << {:url => "#",
                         :id => task.id,
                         :title => task[:name],
-                        :start => task[:start_at],
-                        :end => task[:end_at],
+                        :start => task[:plan_start_at],
+                        :end => task[:plan_end_at],
                         :assigned => task[:full_name],
                         :members => task_members.join(", "),
                         :description => task[:description],
