@@ -2686,7 +2686,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
-              "irm/oauth_access_clients" => ["create", "destroy", "edit", "get_data", "index", "new", "show", "update"],
+              "irm/oauth_access_clients" => ["create", "destroy", "edit", "get_data", "index", "new", "show", "update", "get_access_data"],
           },
       }
   }

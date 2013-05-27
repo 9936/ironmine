@@ -1,0 +1,8 @@
+<%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
+    <% builder.column(:ip_address,{:title=>t(:label_irm_oauth_access_ip),:width=>"150px"}) %>
+    <% builder.column(:user_name, {:title => t(:label_irm_oauth_access_user)}) do |data| %>
+      <%= data[:user_name] %>
+    <% end %>
+    <% builder.column(:updated_at,{:title=>t(:label_irm_oauth_access_updated)})%>
+    <% builder.column(:times,{:title=>t(:label_irm_oauth_access_num)})%>
+<% end %>

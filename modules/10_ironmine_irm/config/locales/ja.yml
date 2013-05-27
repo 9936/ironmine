@@ -1813,6 +1813,7 @@ ja:
   label_irm_oauth_access_client: リモートアクセス
   label_irm_oauth_access_client_list: リモートアクセスリスト
   label_irm_oauth_access_client_site_image_url: サイト映像URL
+  label_irm_oauth_access_client_ip: IP
   label_irm_oauth_access_client_site_url: サイトURL
   label_irm_oauth_access_client_callback_url: URLのコールバック
   label_irm_oauth_access_client_token: しるし
@@ -1822,9 +1823,12 @@ ja:
   label_irm_oauth_access_num: アクセス数
   label_irm_oauth_access_ip: リモートIP
   label_irm_oauth_access_name: アプリケーション名
+  label_irm_oauth_access_user: User
+  label_irm_oauth_access_total: Access Total
 
 
-
+  label_irm_oauth_grant_access_application: 授权应用
+  label_irm_oauth_grant_access_application_tip: 使用你的Hisms帐号访问 %{client} ，并同时登录Hisms
   label_irm_oauth_grant_access: 権限
   label_irm_oauth_deny_access: 取消す
   label_irm_oauth_client_not_found: クライアントを見つけない

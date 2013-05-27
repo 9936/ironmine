@@ -1829,6 +1829,8 @@ en:
   label_irm_oauth_access_created: Oauth Access Created
   label_irm_oauth_access_ip: Access Ip
   label_irm_oauth_access_name: Access Name
+  label_irm_oauth_access_user: User
+  label_irm_oauth_access_total: Access Total
   label_irm_oauth_access_num: Access Num
   label_irm_oauth_access_updated: Access Updated
   label_irm_person_save_and_add_group: Save And Add Group
@@ -1932,6 +1934,7 @@ en:
   label_irm_oauth_access_client: Remote Access
   label_irm_oauth_access_client_list: Remote Access List
   label_irm_oauth_access_client_site_image_url: Site Image URL
+  label_irm_oauth_access_client_ip: IP Address
   label_irm_oauth_access_client_site_url: Site URL
   label_irm_oauth_access_client_callback_url: Callback URL
   label_irm_oauth_access_client_token: Token
@@ -1939,6 +1942,8 @@ en:
   #========================end oauth_access_clients=====================================
 
   #============================== oauth_authorize ======================================
+  label_irm_oauth_grant_access_application: 授权应用
+  label_irm_oauth_grant_access_application_tip: 使用你的Hisms帐号访问 %{client} ，并同时登录Hisms
   label_irm_oauth_grant_access: Grant Acess
   label_irm_oauth_deny_access: Deny Acess
   label_irm_oauth_client_not_found: Not Find Client

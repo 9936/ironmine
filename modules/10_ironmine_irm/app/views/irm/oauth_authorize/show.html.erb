@@ -3,58 +3,50 @@
 <head>
   <%= render :partial => "irm/common/application_title" %>
   <!--加载基础javascript与css-->
-  <% ie6? ? require_jscss(:default_ie6):require_jscss(:default) %>
+  <% ie6? ? require_jscss(:default_ie6) : require_jscss(:default) %>
   <!--生成javascript与css 标签-->
-  <%=render_required_jscss%>
+  <%= render_required_jscss %>
+  <style type="text/css">
+      body {
+          padding-top: 20px;
+          padding-bottom: 40px;
+          background-color: #f5f5f5;
+      }
+
+      .form-oauth {
+          max-width: 300px;
+          padding: 19px 29px 29px;
+          margin: 0 auto 20px;
+          background-color: #fff;
+          border: 1px solid #e5e5e5;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          border-radius: 5px;
+          -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+          -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+      }
+  </style>
 </head>
-<body style="margin: 0;">
-    <div id="contentWrapper">
-        <div id="pageHeader" class="page-header">
-            <table id="phHeader" class="phHeader" cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-                <tr>
-                  <td class="left">
-                    <%= render :partial => "irm/common/app_top_logo"%>
-                  </td>
-                  <td class="right vtop">
-                    <div class="multiforce">
-                      <div class="messages"></div>
-                      <div>
-                        <%= current_application_menu %>
-                        <span class="navLinks" style="float:right">
-                          <span class="linkElements">
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <%= form_tag '/oauth/authorize', {:method => 'post'} do %>
-              <%= hidden_field_tag :response_type, params[:response_type] %>
-              <%= hidden_field_tag :client_id, params[:client_id] %>
-              <%= hidden_field_tag :redirect_uri, params[:redirect_uri] %>
-              <%= hidden_field_tag :scope, params[:scope] %>
-            <table width=100% border=0 height=80>
-              <tr>
-                <td align=left valign=top>
-                    <table border=0 cellspacing=0 cellpadding=5 height=80>
-                      <tr>
-                        <td valign=top>应用授权</td>
-                      </tr>
-                    </table>
-                </td>
-              </tr>
-              <tr>
-                <td align=center class="pbButton">
-                  <div class="button"><%= submit_tag t(:label_irm_oauth_grant_access)%></div>
-                  <div class="button"><%= link_back t(:label_irm_oauth_deny_access) %></div>
-                </td>
-              </tr>
-            </table>
-            <% end %>
-        </div>
-    </div>
+<body>
+
+<div class="container">
+  <div style="margin: 0 auto;text-align: center; margin-bottom: 20px;">
+    <%= render :partial => "irm/common/app_top_logo" %>
+  </div>
+  <%= form_tag '/oauth/authorize', {:method => 'post', :class => "form-oauth"} do %>
+      <h2 class="form-signin-heading"><%= t(:label_irm_oauth_grant_access_application) %></h2>
+      <p class="tip"><%= t(:label_irm_oauth_grant_access_application_tip, :client => @client.name) %></p>
+      <%= hidden_field_tag :response_type, params[:response_type] %>
+      <%= hidden_field_tag :client_id, params[:client_id] %>
+      <%= hidden_field_tag :redirect_uri, params[:redirect_uri] %>
+      <%= hidden_field_tag :scope, params[:scope] %>
+      <p style="text-align: center;">
+        <%= link_submit t(:label_irm_oauth_grant_access), :class => "btn btn-primary" %>
+        <%= link_back t(:label_irm_oauth_deny_access), {}, :class => "btn" %>
+      </p>
+  <% end %>
+</div>
+</div> <!-- /container -->
 </body>
 </html>
