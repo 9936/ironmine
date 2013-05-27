@@ -134,7 +134,7 @@
 
         <div class="page-block-template form-horizontal" style="margin-top: 20px;">
           <div class="control-group">
-            <label class="control-label" for="inputEmail"><%= t(:label_isp_program_execute_template) %></label>
+            <label class="control-label"><%= t(:label_isp_program_execute_template) %></label>
             <div class="controls">
               <%= f.select :template_id, @program.check_templates.collect{|i|[i[:name], i.id]}, {}, :class => "input-xlarge" %>
             </div>
