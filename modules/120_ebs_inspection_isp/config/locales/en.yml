@@ -13,6 +13,7 @@ en:
   label_isp_program_new_execute_trigger_person: Execute Trigger Person
   label_isp_program_new_execute_trigger_receiver: Trigger Receivers
   label_isp_program_execute: Execute
+  label_isp_program_execute_template: Execute Template
   #=========================End Program=======================#
 
   #=========================Start Connection=======================#

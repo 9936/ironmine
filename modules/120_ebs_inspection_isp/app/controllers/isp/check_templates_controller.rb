@@ -1,4 +1,5 @@
 class Isp::CheckTemplatesController < ApplicationController
+  layout "application_full"
 
   # GET /isp/check_templates
   # GET /isp/check_templates.xml

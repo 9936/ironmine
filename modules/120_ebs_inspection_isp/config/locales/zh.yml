@@ -13,6 +13,7 @@ zh:
   label_isp_program_new_execute_trigger_person: 执行计划人员
   label_isp_program_new_execute_trigger_receiver: 结果接收人员
   label_isp_program_execute: 执行
+  label_isp_program_execute_template: 巡检报告模板
   #=========================End Program=======================#
 
   #=========================Start Connection=======================#

@@ -2,13 +2,15 @@ class Isp::Program < ActiveRecord::Base
   set_table_name :isp_programs
 
   #多语言关系
-  attr_accessor :name,:description
+  attr_accessor :name,:description, :template_id
   has_many :programs_tls, :dependent => :destroy
   has_many :connections, :foreign_key => :program_id, :dependent => :destroy
 
-  #has_many :check_items, :foreign_key => :program_id, :dependent => :destroy
   has_many :check_templates, :foreign_key => :program_id, :dependent => :destroy
   has_many :program_triggers, :foreign_key => :program_id, :dependent => :destroy
+
+  validates_presence_of :template_id
+
 
   acts_as_multilingual
   #加入activerecord的通用方法和scope
@@ -45,10 +47,12 @@ class Isp::Program < ActiveRecord::Base
 
   def generate_report(context)
     str = ""
-
-    self.check_templates.each do  |ct|
-      str << ct.generate_html(context)
+    template = Isp::CheckTemplate.where(:id => self.template_id).first
+    unless template.present?
+      template = self.check_templates.first
     end
+    str << template.generate_html(context)
+
     str
   end
 
