@@ -35,7 +35,7 @@ module Fwk::ArrayToJson
               value = value.strftime('%Y-%m-%d %H:%M:%S')
             end
           end
-          value.is_a?(Array) ? json<<%Q("#{atr}":#{value.to_json},) : json << %Q("#{atr}":"#{value.html_safe}",)
+          value.is_a?(Array) ? json<<%Q("#{atr}":#{value.to_json},) : json << %Q("#{atr}":"#{value}",)
         end
         json.chop! << "},"
       end
