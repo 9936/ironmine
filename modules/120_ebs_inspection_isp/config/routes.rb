@@ -39,6 +39,10 @@ Rails.application.routes.draw do
     match '/programs/:program_id/check_templates/:id/destroy(.:format)' => "check_templates#destroy", :via => :delete
     match '/programs/:program_id/check_templates/create(.:format)' => "check_templates#create", :via => :post
 
+    #program_histories
+    match '/programs/:program_id/program_histories/get_data(.:format)' => "program_histories#get_data"
+    match '/programs/:program_id/program_histories/:id(.:format)' => "program_histories#show", :via => :get
+    match '/programs/:program_id/program_histories/:id/destroy(.:format)' => "program_histories#destroy", :via => :delete
 
     #check_items
     match '/check_items(/index)(.:format)' => "check_items#index", :via => :get

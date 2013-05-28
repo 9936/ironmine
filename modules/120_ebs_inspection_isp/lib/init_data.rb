@@ -55,9 +55,10 @@ Fwk::MenuAndFunctionManager.map do |map|
               :login_flag => "N",
               :public_flag => "N",
               "isp/programs" => ["index", "show", "new", "create","edit","update","multilingual_edit", "multilingual_update",
-                                 "get_data","new_execute","create_execute", "new_trigger", "create_trigger"],
+                                  "get_data","new_execute","create_execute", "new_trigger", "create_trigger"],
               "isp/connections" => ["show", "new", "create","edit","update", "get_data","destroy", "add_items", "save_items", "get_items_data", "remove_item"],
-              "isp/check_templates" => ["show", "new", "create","edit","update", "get_data","destroy"]
+              "isp/check_templates" => ["show", "new", "create","edit","update", "get_data","destroy"],
+              "isp/program_histories" => ["get_data", "show", "destroy"]
           }
       }
   }

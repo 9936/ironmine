@@ -82,3 +82,10 @@ ja:
   label_isp_alert_filter_l: Less Than
   label_isp_alert_filter_result: The Check Result：%{target} %{operation} Alert value：%{value}
   #=========================End Alert Filters=======================#
+
+  #=========================Start History=======================#
+  label_isp_program_history: Program Execute History
+  label_isp_program_history_execute_at: Execute At
+  label_isp_program_history_report_content: Execute Result
+  label_isp_program_history_conn_info: Check Connection Infos
+  #=========================End History=======================#

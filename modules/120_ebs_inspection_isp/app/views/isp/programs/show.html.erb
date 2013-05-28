@@ -52,7 +52,6 @@
   </div>
 </div>
 <!-- 连接列表 -->
-
 <div class="page-block">
   <table class="page-block-header">
     <tr>
@@ -181,12 +180,8 @@
         </table>
       </div>
     </div>
-
-    <%#= datatable("isp_connection", {:controller => "isp/connections", :program_id => @isp_program.id, :action => "get_data"}, [], {:search_box => "searchBox", :paginator_box => "paginator"}) %>
   </div>
 </div>
-
-
 
 <!-- 模板列表 -->
 <div class="page-block">
@@ -205,6 +200,23 @@
   </table>
   <div class="page-block-body">
     <%= datatable("isp_template", {:controller => "isp/check_templates", :program_id => @isp_program.id, :action => "get_data"}, [], {:search_box => "searchTemplate", :paginator_box => "paginatorTemplate"}) %>
+  </div>
+</div>
+
+<!-- 模板列表 -->
+<div class="page-block">
+  <table class="page-block-header">
+    <tr>
+      <td class="page-block-title">
+        <h2 class="block-title"><%= t(:label_isp_program_history) %></h2>
+      </td>
+      <td class="page-block-help">
+        <div id="searchHistory"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="page-block-body">
+    <%= datatable("isp_history", {:controller => "isp/program_histories", :program_id => @isp_program.id, :action => "get_data"}, [], {:search_box => "searchHistory", :paginator_box => "paginatorHistory"}) %>
   </div>
 </div>
 

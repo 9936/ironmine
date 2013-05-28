@@ -39,9 +39,35 @@ class Isp::Program < ActiveRecord::Base
     self.connections.each do |con|
       input_params << con
     end
-    #self.check_parameters.each do |param|
-    #  input_params << param
-    #end
+  end
+
+  #将执行记录添加到历史信息表中
+  def add_history(report_content)
+    program_history = Isp::ProgramHistory.new(:program_id => self.id, :execute_at => Time.now, :report_content => report_content)
+
+    if program_history.save
+      self.connections.each do |conn|
+        scripts = []
+        conn_history = Isp::ConnHistory.new(:program_history_id => program_history.id,
+                                            :host => conn.host,
+                                            :username => conn.username,
+                                            :password => conn.password)
+        if conn.connect_type.eql?("SQL")
+          conn_history.host = "#{conn.host}:#{conn.port}/#{conn.database}"
+        end
+
+        conn.check_items.each do |check_item|
+          scripts << check_item.script
+          #将参数保存到历史表中
+          check_item.check_parameters.each do |p|
+            conn_history.parameter_histories.build(:name => p.name, :value => p.value)
+          end
+        end
+
+        conn_history.script = scripts.to_s
+        conn_history.save
+      end
+    end
   end
 
 
@@ -52,6 +78,8 @@ class Isp::Program < ActiveRecord::Base
       template = self.check_templates.first
     end
     str << template.generate_html(context)
+
+    add_history(str)
 
     str
   end

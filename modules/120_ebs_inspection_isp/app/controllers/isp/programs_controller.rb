@@ -170,6 +170,7 @@ class Isp::ProgramsController < ApplicationController
       execute_context.merge!({c.object_symbol=>{:username=>c.username,:password=>c.password,:host=>c.host}})
     end
 
+
     @results = @program.execute(execute_context)
     @doc_alerts = @program.check_alert(@results)
     @doc = @program.generate_report(@results)

@@ -82,3 +82,10 @@ zh:
   label_isp_alert_filter_l: 小于
   label_isp_alert_filter_result: 检测结果：%{target} %{operation} 警告值：%{value}
   #=========================End Alert Filters=======================#
+
+  #=========================Start History=======================#
+  label_isp_program_history: 方案执行历史
+  label_isp_program_history_execute_at: 执行时间
+  label_isp_program_history_report_content: 执行结果
+  label_isp_program_history_conn_info: 巡检连接信息
+  #=========================End History=======================#
