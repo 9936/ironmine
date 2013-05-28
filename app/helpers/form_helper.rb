@@ -89,7 +89,7 @@ module FormHelper
       link_click_action = %Q(javascript:dateFieldChooseToday('#{field_id}','#{link_text}'))
     end
     link_str = ""
-    link_str = link_to("[#{link_text}]",{},{:href=>link_click_action}) unless options[:nobutton]
+    link_str = link_to(" [#{link_text}]",{},{:href=>link_click_action}) unless options[:nobutton]
     content += link_str
     wrapped_field(content_tag(:div,content,{:class=>"date-field"},false),options)
   end

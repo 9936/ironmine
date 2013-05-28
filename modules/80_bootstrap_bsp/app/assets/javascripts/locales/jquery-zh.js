@@ -27,7 +27,8 @@ var irm_labels = {
     number_only: "只允许输入数字",
     chr_only: "不能输入中文字符",
     uppercase: "只允许输入大写字母和下划线",
-    lowercase_chr_only: "只允许输入小写字母、数字和下划线"
+    lowercase_chr_only: "只允许输入小写字母、数字和下划线",
+    loading: "加载中..."
 };
 
 var full_calendar_labels = {

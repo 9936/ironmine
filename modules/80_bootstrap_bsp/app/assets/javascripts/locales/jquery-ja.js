@@ -27,7 +27,8 @@ var irm_labels = {
     number_and_cross: "数字とハイフンのみ入力できる",
     number_only: "数字のみ入力できる",
     chr_only: "中国の文字を入力できない",
-    uppercase: "大文字とアンダーバーのみ入力できる"
+    uppercase: "大文字とアンダーバーのみ入力できる",
+    loading: "Loading..."
 };
 
 var full_calendar_labels = {

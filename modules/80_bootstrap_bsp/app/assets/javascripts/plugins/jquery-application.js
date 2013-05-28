@@ -14,6 +14,15 @@ $(function(){
     $(document).ajaxError(function(event, jqXHR, ajaxOptions,error){
     });
     $(document).ajaxComplete(function(event, jqXHR, ajaxOptions){
+        //var ignore_script = getAjaxParams(ajaxOptions,"ignore_script");
+        //console.debug(ignore_script);
+        //if(ignore_script == "false"&&jqXHR.responseText){
+        //
+        //    $(jqXHR.responseText).closest("script").each(function(i) {
+        //        console.debug($(this).text());
+        //        eval($(this).text());
+        //    });
+        //}
         var _dom_id = get_dom_id(ajaxOptions);
         if (typeof _dom_id != 'undefined' && _dom_id != null && _dom_id.length > 0) {
             $("#"+_dom_id).removeClass("table-placeholder");
@@ -502,6 +511,10 @@ function getContrastYIQ(hexcolor){
 //START =================================Ajax 监听帮助函数================================
 function get_dom_id(ajaxOptions) {
 
+    return getAjaxParams(ajaxOptions,"_dom_id");
+}
+function getAjaxParams(ajaxOptions,paramName) {
+
     var url = ajaxOptions.url||"",data=  ajaxOptions.data||"";
     if(url.indexOf("?")>-1){
         url = url.substring(url.indexOf("?")+1,url.length);
@@ -510,7 +523,7 @@ function get_dom_id(ajaxOptions) {
         url = ""
     }
     data = data.substring(data.indexOf("?")+1,data.length);
-    return $.extend({},$.deserialize(data),$.deserialize(url))["_dom_id"]
+    return $.extend({},$.deserialize(data),$.deserialize(url))[paramName];
 }
 //end =================================Ajax 监听帮助函数================================
 

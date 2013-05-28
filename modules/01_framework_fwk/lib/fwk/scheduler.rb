@@ -73,7 +73,8 @@ module Fwk
 
       config.fwk.modules.each do |module_name|
         next if module_name.eql?("fwk")
-        scheduler_path =  "#{config.fwk.module_path(module_name)}/lib/#{module_name}/scheduler"
+        scheduler_path =  "#{config.fwk.module_path(module_name)}/lib/#{module_name}/scheduler.rb"
+
         if File.exist?(scheduler_path)
           "#{module_name}/scheduler".classify.constantize.new(scheduler,logger).perform
         end
