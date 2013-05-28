@@ -23,14 +23,38 @@
             <td class="data-2col"><%=text_area_tag "file[0][description]", @file[:description], {:rows => 3, :cols => 35}%></td>
           </tr>
           <tr>
-            <td class="label-col"><label><%=(t :label_skm_file_private_tag)%></label></td>
-            <td class="data-2col"><%=check_box_tag "file[0][private_flag]", nil, @file[:private_flag] == "Y"%></td>
+            <td class="label-col">
+              <label><%=t(:label_skm_file_access_types)%></label>
+            </td>
+            <td class="data-2col">
+              <% assess_checked = {@file.access_type.to_s => true}  %>
+              <div>
+                <%= radio_button_tag "access_type", "PRIVATE", assess_checked["PRIVATE"], :class => "accessType" %>
+                <label><%= t(:lanel_skm_file_access_private) %></label>
+              </div>
+              <div>
+                <%= radio_button_tag "access_type", "PUBLIC", assess_checked["PUBLIC"], :class => "accessType" %>
+                <label><%= t(:label_skm_file_access_public) %></label>
+              </div>
+              <div>
+                <%= radio_button_tag "access_type", "MEMBERS", assess_checked["MEMBERS"], :class => "accessType" %>
+                <label><%= t(:label_skm_file_access_members) %></label>
+              </div>
+            </td>
           </tr>
+
+          <tr id="member_strDuelSelect">
+            <td class="label-col"></td>
+            <td class="data-2col">
+              <%= render :partial => "irm/duel_select/tmpl",:locals => {:types=>duel_types,:sources=>duel_values,:str_value_field=>:member_str,:str_value=> @file.get_member_str,:order=>true,:size=>7} %>
+            </td>
+          </tr>
+
           </tbody>
         </table>
     <% end %>
     <% content_for :form_buttons  do %>
-        <%= link_to t(:save), {},{:href => "javascript:void(0);", :onclick => "save()",:class=>"btn btn-primary"} %>
+        <%= link_to t(:save), {},{:href => "javascript:void(0);", :onclick => "save()",:class=>"btn btn-primary", :type => "submit"} %>
         <%= link_to t(:cancel), {:action => "index"},:class=>"btn cancel"%>
     <% end %>
 
@@ -70,12 +94,30 @@
 <script type="text/javascript">
     function save(){
         document.file_form.action = "update";
-        document.file_form.submit();
+//        document.file_form.submit();
     }
 
     function clear_file(){
         $("#file_0_file").val('').trigger('change');
     }
+
+    $(function(){
+        $("input.accessType").click(function(e){
+            if($(e.target).val()=="MEMBERS"){
+                $("#member_strDuelSelect").css("display","");
+            }
+            else{
+                $("#member_strDuelSelect").css("display","none");
+            }
+            if($(e.target).val()=="PRIVATE"){
+                $("#accessType").css("display","none");
+            }else{
+                $("#accessType").css("display","");
+            }
+        });
+        $.checkRadioButton("input.accessType");
+    });
+
 </script>
 
 <%= content_for :sidebar do%>

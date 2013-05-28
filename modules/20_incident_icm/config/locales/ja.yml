@@ -3,149 +3,147 @@
 
 ja:
   #=========================    icm rule_settings_controller=======================#
-  label_icm_rule_setting_new: New rule setting
-  label_icm_rule_setting_list: List rule setting
-  label_icm_rule_setting_company: Company
-  label_icm_rule_setting_report_date_changable: Report date changable
-  label_icm_rule_setting_respond_date_changable: Respond date changable
-  label_icm_rule_setting_auto_closure_days: Auto close days
-  label_icm_rule_setting_assignment_process_code: Assignment process
-  label_icm_rule_setting_slove_date_changable: slove date changable
-  label_icm_rule_setting_auto_assignable: Auot assign
-  label_icm_rule_setting_description: Description
-  label_icm_rule_setting_edit: Edit rule setting
-  label_icm_rule_setting_info: Rule Setting Info
-  label_icm_rule_setting_show: Rule Setting
-  label_icm_rule_setting_status_code: Status Code
+  label_icm_rule_setting_new: ルール設定新規
+  label_icm_rule_setting_list: ルール設定一覧
+  label_icm_rule_setting_company: 会社
+  label_icm_rule_setting_report_date_changable: レポート日を変更
+  label_icm_rule_setting_respond_date_changable: 応答日を変更
+  label_icm_rule_setting_auto_closure_days: 依頼日を自動クローズ
+  label_icm_rule_setting_assignment_process_code: 割当プロセス
+  label_icm_rule_setting_slove_date_changable: 解決日付を変更
+  label_icm_rule_setting_auto_assignable: 自動割当
+  label_icm_rule_setting_description: 説明
+  label_icm_rule_setting_edit: ルール設定の編集
+  label_icm_rule_setting_info: インシデントルール詳細
+  label_icm_rule_setting_show: インシデントルール
+  label_icm_rule_setting_status_code: ステータスコード
   #========================= end icm rule_settings_controller=======================#
   #=========================    icm impact_ranges_controller=======================#
-  label_icm_impact_range: Impact range
-  label_icm_impact_range_list: Impact range list
-  label_icm_impact_range_new: New impate range
-  label_icm_impact_range_impact_code: Impate code
-  label_icm_impact_range_company: Company
-  label_icm_impact_range_weight_values: Weight value
-  label_icm_impact_range_name: Name
-  label_icm_impact_range_description: Description
-  label_icm_impact_range_edit: Edit impate range
+  label_icm_impact_range: 影響範囲
+  label_icm_impact_range_list: 影響範囲一覧
+  label_icm_impact_range_new: 影響範囲新規
+  label_icm_impact_range_impact_code: 略称
+  label_icm_impact_range_company: 会社
+  label_icm_impact_range_weight_values: 重量値
+  label_icm_impact_range_name: 名称
+  label_icm_impact_range_description: 説明
+  label_icm_impact_range_edit: 影響範囲編集
   #========================= end icm impact_ranges_controller=======================#
   #=========================    icm urgence_codes_controller=======================#
-  label_icm_urgence_code: Urgency
-  label_icm_urgence_code_list: List urgence code
-  label_icm_urgence_code_new: New urgence code
-  label_icm_urgence_code_urgency_code: Code
-  label_icm_urgence_code_company: Company
-  label_icm_urgence_code_weight_values: Weight values
-  label_icm_urgence_code_name: Name
-  label_icm_urgence_code_description: Description
-  label_icm_urgence_code_edit: Edit urgence code
-  label_icm_urgence_code_info: Urgency Detail Info
-  label_icm_urgence_code_show: Urgency
-  label_icm_urgence_code_status_code: Status Code
+  label_icm_urgence_code: 緊急度
+  label_icm_urgence_code_list: 緊急度一覧
+  label_icm_urgence_code_new: 緊急度新規
+  label_icm_urgence_code_urgency_code: 略称
+  label_icm_urgence_code_company: 会社
+  label_icm_urgence_code_weight_values: 重量値
+  label_icm_urgence_code_name: 名称
+  label_icm_urgence_code_description: 説明
+  label_icm_urgence_code_edit: 緊急度編集
+  label_icm_urgence_code_info: 緊急度詳細
+  label_icm_urgence_code_show: 緊急度
+  label_icm_urgence_code_status_code: ステータスコード
   #========================= end icm urgence_codes_controller=======================#
   #=========================    icm priority_codes_controller=======================#
-  label_icm_priority_code_list: Priority codes list
-  label_icm_priority_code_new: New priority code
-  label_icm_priority_code_company: Company
-  label_icm_priority_code_priority_code: Code
-  label_icm_priority_code_name: Name
-  label_icm_priority_code_description: Description
-  label_icm_priority_code_edit: Edit priority code
-  label_icm_priority_code_info: Priority Code Deatail Info
-  label_icm_priority_code_show: Priority Code
-  label_icm_priority_code_status_code: Status Code
-  label_icm_priority_code_weight_values: Weight Value
+  label_icm_priority_code_list: 優先度一覧
+  label_icm_priority_code_new: 優先度範囲新規
+  label_icm_priority_code_company: 会社
+  label_icm_priority_code_weight_values: 重量値
+  label_icm_priority_code_priority_code: コード
+  label_icm_priority_code_name: 名称
+  label_icm_priority_code_description: 説明
+  label_icm_priority_code_edit: 優先度範囲編集
+  label_icm_priority_code_info: 優先度詳細
+  label_icm_priority_code_show: 優先度
+  label_icm_priority_code_status_code: ステータスコード
   #========================= end icm priority_codes_controller=======================#
   #=========================    icm close_reasons_controller=======================#
-  label_icm_close_reason: Root Cause
-  label_icm_close_reason_list: Root Cause list
-  label_icm_close_reason_new: New close reason
-  label_icm_close_reason_company: Company
-  label_icm_close_reason_close_code: Code
-  label_icm_close_reason_name: Name
-  label_icm_close_reason_category: Catetory
-  label_icm_close_reason_description: Description
-  label_icm_close_reason_edit: Edit close reason
+  label_icm_close_reason_list: クローズ理由一覧
+  label_icm_close_reason: クローズ理由
+  label_icm_close_reason_new: クローズ理由新規
+  label_icm_close_reason_company: 会社
+  label_icm_close_reason_close_code: コード
+  label_icm_close_reason_name: 名称
+  label_icm_close_reason_category: カテゴリ
+  label_icm_close_reason_description: 説明
+  label_icm_close_reason_edit: クローズ理由編集
   #========================= end icm close_reasons_controller=======================#
   #=========================    icm incident_phases_controller=======================#
-  label_icm_incident_phase: Incident Phase
-  label_icm_incident_phase_list: Incident phase list
-  label_icm_incident_phase_new: New incident phase
-  label_icm_incident_phase_phase_code: Code
-  label_icm_incident_phase_company: Company
-  label_icm_incident_phase_name: Name
-  label_icm_incident_phase_description: Description
-  label_icm_incident_phase_edit: Edit incident phase
+  label_icm_incident_phase_list: インシデントフェーズ一覧
+  label_icm_incident_phase: インシデントフェーズ
+  label_icm_incident_phase_new: インシデントフェーズ新規
+  label_icm_incident_phase_phase_code: 略称
+  label_icm_incident_phase_company: 会社
+  label_icm_incident_phase_name: 名称
+  label_icm_incident_phase_description: 説明
+  label_icm_incident_phase_edit: インシデントフェーズ編集
   #========================= end icm incident_phases_controller=======================#
   #=========================    icm incident_statuses_controller=======================#
-  label_icm_incident_status_list: Incident status list
-  label_icm_incident_status_edit: Edit incident status
-  label_icm_incident_status_name: Name
-  label_icm_incident_status_incident_status_code: Code
-  label_icm_incident_status_phase_code: Incident phase
-  label_icm_incident_status_new: New incident status
-  label_icm_incident_status_description: Description
-  label_icm_incident_status_info: Incident Status Info
-  label_icm_incident_status_new: New Incident Status
-  label_icm_incident_status_list: List Incident Status
-  label_icm_incident_status_show: Incident Status
-  label_icm_incident_close_flag: Close
-  label_icm_incident_permanent_close_flag: Permanently Close
+  label_icm_incident_status_list: インシデントステータス一覧
+  label_icm_incident_status_edit: インシデントステータス編集
+  label_icm_incident_status_name: 名称
+  label_icm_incident_status_incident_status_code: 略称
+  label_icm_incident_status_phase_code: インシデントフェーズ
+  label_icm_incident_status_new: インシデントステータス新規
+  label_icm_incident_status_description: 説明
+  label_icm_incident_status_info: インシデントステータス情報
+  label_icm_incident_status_show: インシデントステータス
+  label_icm_incident_close_flag: クローズ
+  label_icm_incident_permanent_close_flag: パーマネントクローズ
   label_icm_incident_status_next_status: Next Status
   #========================= end icm incident_statuses_controller=======================#
   #=========================    icm incident_requests_controller=======================#
-  label_icm_reply: Reply
-  label_icm_incident_request: Ticket
-  label_icm_incident_request_list: Ticket list
-  label_icm_incident_request_new: New ticket
-  label_icm_incident_request_edit: Edit ticket
-  label_icm_incident_request_short_new: New ticket
-  label_icm_incident_request_service_code: Service
-  label_icm_incident_requset_base_info: Base information
-  label_icm_incident_request_title: Title
-  label_icm_incident_request_number: No.
-  label_icm_incident_request_summary: Summary
-  label_icm_incident_requset_addition_info: Additional information
-  label_icm_incident_request_requested_by: Requester
-  label_icm_incident_request_requested_by_org: Requester Org.
-  label_icm_incident_request_requested_by_role: Requester Role
-  label_icm_incident_request_requested_by_profile: Requester Profile
-  label_icm_incident_request_contact: Contact
-  label_icm_incident_request_urgence_code: Urgency
-  label_icm_incident_request_impact_range_code: Impact range
-  label_icm_incident_request_support_group: Support group
-  label_icm_incident_request_support_person: Supporter
-  label_icm_incident_request_request_type_code: Request type
-  label_icm_incident_request_incident_status_code: Status
-  label_icm_incident_request_report_source_code: Report source
-  label_icm_incident_request_request_number: Serial number
-  label_icm_incident_request_request_number_shot: No.
-  label_icm_incident_request_contact_number: Contact number
-  label_icm_incident_request_priority: Priority
-  label_icm_incident_request_organization: Organization
-  label_icm_incident_request_last_date: Last Response
-  label_incident_request: Ticket
-  label_incident_request_title: Ticket Title
-  label_icm_incident_request_submitted_by: Submit by
-  label_icm_incident_request_incident_phase_code: Phase
-  label_icm_incident_request_submitted_date: Create(User Submit) date
-  label_icm_incident_request_close_reason_code: Close reason
-  label_icm_wait_for_me_request_count: Requests Waiting for Me
-  label_icm_reply_today_count: Today Replied
-  label_icm_request_submitted_today_count: Today Submitted
-  label_icm_my_un_solved_request: My Unsolved Requests
-  label_icm_my_solved_request: My Solved Requests
-  label_icm_save_as_skm: Save As SKM Entry
-  label_icm_incident_auto_assign: System Auto Assign
-  label_icm_incident_assign_dashboard: Assigned by Assign DashBoard
-  label_icm_incident_request_attachment_list: Attachment List
-  label_icm_incident_request_target_system: System
-  label_action_assign_dashboard: Assign DashBoard
-  label_icm_incident_request_assignable_list: Tickets to be assigned
-  label_icm_incident_request_assign: Assign
-  error_icm_requested_by_can_not_blank: Requestor can't be blank
-  label_icm_incident_request_view_filter_data_range_all: My related
-  label_icm_incident_request_view_filter_data_range_main: My engaged
+  label_icm_reply: 返答
+  label_icm_incident_request: インシデント依頼
+  label_icm_incident_request_list: インシデント依頼一覧
+  label_icm_incident_request_new: インシデント依頼新規
+  label_icm_incident_request_edit: インシデント依頼編集
+  label_icm_incident_request_short_new: インシデント依頼新規
+  label_icm_incident_request_service_code: サービス
+  label_icm_incident_requset_base_info: 基本情報
+  label_icm_incident_request_title: タイトル
+  label_icm_incident_request_number: 番号
+  label_icm_incident_request_summary: 概要
+  label_icm_incident_requset_addition_info: 追加情報
+  label_icm_incident_request_requested_by: 依頼者
+  label_icm_incident_request_requested_by_org: 依頼者組織
+  label_icm_incident_request_requested_by_role: 依頼者ロール
+  label_icm_incident_request_requested_by_profile: 依頼者プロファイル
+  label_icm_incident_request_contact: 連絡者
+  label_icm_incident_request_urgence_code: 緊急度
+  label_icm_incident_request_impact_range_code: 影響範囲
+  label_icm_incident_request_support_group: サポートグループ
+  label_icm_incident_request_support_person: サポーター
+  label_icm_incident_request_request_type_code: 依頼タイプ
+  label_icm_incident_request_incident_status_code: ステータス
+  label_icm_incident_request_report_source_code: 依頼レポートのソースコード
+  label_icm_incident_request_request_number: シリアル番号
+  label_icm_incident_request_request_number_shot: 番号
+  label_icm_incident_request_contact_number: 電話番号
+  label_icm_incident_request_priority: 優先度
+  label_icm_incident_request_organization: 組織
+  label_icm_incident_request_last_date: 更新日
+  label_incident_request: インシデント依頼
+  label_incident_request_title: インシデント依頼タイトル
+  label_icm_incident_request_submitted_by: レポーター
+  label_icm_incident_request_incident_phase_code: フェーズ
+  label_icm_incident_request_submitted_date: 登録日
+  label_icm_incident_request_close_reason_code: クローズ理由
+  label_icm_wait_for_me_request_count: 返答待ちのインシデント依頼
+  label_icm_reply_today_count: 本日返答済のインシデント依頼
+  label_icm_request_submitted_today_count: 本日提出されたインシデント依頼
+  label_icm_my_un_solved_request: 未解決のインシデント依頼
+  label_icm_my_solved_request: 解決済のインシデント依頼
+  label_icm_save_as_skm: SKMエントリーとして保存
+  label_icm_incident_auto_assign: システム自動割当
+  label_icm_incident_assign_dashboard: 割当ダッシュボード別に割当
+  label_icm_incident_request_attachment_list: 添付ファイル一覧
+  label_icm_incident_request_target_system: システム
+  label_action_assign_dashboard: 割当ダッシュボード
+  label_icm_incident_request_assignable_list: 割当られるインシデント依頼
+  label_icm_incident_request_assign: 割当
+  error_icm_requested_by_can_not_blank: 請求者はブランクにすることができません。
+  label_icm_incident_request_view_filter_data_range_all: 私に関する
+  label_icm_incident_request_view_filter_data_range_main: 私の従事
   label_icm_incident_journal_upgrade: Upgrade
   label_icm_incident_request_assign_me: New Coming Tickets
   label_icm_incident_request_assign_me_receive: Accept
@@ -154,10 +152,10 @@ ja:
   label_icm_incident_request_incident_status: Change Status
   label_icm_incident_request_upgrade: Upgrade
   label_icm_incident_status_edit_transform: Incident status transform
-  label_icm_incident_request_relation: Related Requests
-  label_icm_incident_request_incident_category: Category
-  label_icm_incident_request_incident_sub_category: Subcategory
-  label_icm_create_relate_change_request: Create RFC
+  label_icm_incident_request_relation: 関連インシデント依頼
+  label_icm_incident_request_incident_category: カテゴリ
+  label_icm_incident_request_incident_sub_category: サブカテゴリ
+  label_icm_create_relate_change_request: RFC登録
   label_icm_incident_category_apply_system: Apply System
   label_icm_incident_category_system: Category System
   label_icm_incident_request_relation_new: New Relation Ticket
@@ -165,117 +163,119 @@ ja:
   label_icm_incident_request_relation_error_exists: Don't add the same ticket again！
   label_icm_incident_request_relation_error_no_target: The target request can't be blank！
   label_icm_incident_request_relation_source: Source ticket
-  label_icm_incident_request_relation_types: Relation Types
-  label_icm_incident_request_relation_type: Relation
-  label_icm_incident_request_relation: Relation Types
-  label_icm_incident_request_estimated_date: Expected completion date
-  label_icm_incident_request_relation_config_items: Config Item
+  label_icm_incident_request_relation_types: ～に関する
+  label_icm_incident_request_relation_type: 関連タイプ
+  label_icm_incident_request_relation: 関連インシデント依頼
+  label_icm_incident_request_estimated_date: 対応完了希望日
+  label_icm_incident_request_relation_config_items: カスタマイズ項目
   label_irm_incident_status_transform_event_error: One incident could only use once in same line
   #========================= end icm incident_requests_controller=======================#
   #=========================    icm incident_journals_controller=======================#
-  label_icm_incident_reply_support_group_id: Referred group
-  label_icm_incident_reply_support_person_id: Referred person
-  apply_skm: Search Service Knowledge
-  label_icm_incident_reply_incident_status_code: New Incident Status
-  label_icm_incident_journal_list: Replies
+  label_icm_incident_reply_support_group_id: 窓口グループ
+  label_icm_incident_reply_support_person_id: 窓口
+  apply_skm: SKM検索
+  label_icm_incident_reply_incident_status_code: 新しいステータス
+  label_icm_incident_journal_list: 履歴
   label_icm_incident_all_journal_list: All Replies
   label_icm_incident_journal_message_body: Reply Message
-  label_icm_incident_journal_person: Replied by
-  label_icm_incident_journal_content: Replied content
-  label_icm_incident_journal_date: Replied date
-  label_icm_incident_journal_new: Reply
-  label_icm_incident_journal_back_to_request_list: Back to list
-  label_icm_incident_request_base_info: Base information
-  label_icm_incident_request_status_info: Status information
-  label_icm_incident_journal_reply: Comments
-  label_icm_incident_journal_attachment: Attachments
-  label_icm_incident_journal_attachment_desc: Description
-  label_icm_incident_journal_add_attachment: Add attachment
-  label_icm_incident_journal_close: Close ticket
-  label_icm_incident_journal_permanent_close: Permanently Close ticket
-  label_icm_incident_journal_reopen: Ropen ticket
-  label_icm_incident_joural_back_to_request: Back to incident
+  label_icm_incident_journal_person: 返答者
+  label_icm_incident_journal_content: 返答内容
+  label_icm_incident_journal_date: 返答日付
+  label_icm_incident_journal_new: 返答
+  label_icm_incident_journal_back_to_request_list: インシデント依頼に戻る
+  label_icm_incident_request_base_info: 基本情報
+  label_icm_incident_request_status_info: ステータス情報
+  label_icm_incident_journal_reply: コメント
+  label_icm_incident_journal_attachment: 添付ファイル
+  label_icm_incident_journal_attachment_desc: 説明
+  label_icm_incident_journal_add_attachment: 添付ファイル追加
+  label_icm_incident_journal_close: インシデント依頼のクローズ
+  label_icm_incident_journal_permanent_close: インシデント依頼のパーマネントクローズ
+  label_icm_incident_journal_reopen: インシデント依頼の再開
+  label_icm_incident_joural_back_to_request: インシデント依頼に戻る
   label_icm_incident_joural_recover: Recover
-  label_icm_reply_title: reply at %{message} ago
-  label_icm_submit_title: submit at %{message} ago
-  label_action_edit_pass: Pass ticket
-  label_action_update_pass: Pass ticket
-  label_action_edit_close: Close ticket
-  label_action_update_close: Close ticket
-  label_icm_incident_journal_pass: Pass ticket
-  label_action_short_create: Create
+  label_icm_reply_title: %{message} の前に回答
+  label_icm_submit_title: %{message} の前に提出
+  label_action_edit_pass: インシデント依頼のパス
+  label_action_update_pass: インシデント依頼のパス
+  label_action_edit_close: インシデント依頼のクローズ
+  label_action_update_close: インシデント依頼のクローズ
+  label_icm_incident_journal_pass: インシデント依頼のパス
+  label_action_short_create: 登録
   label_icm_incident_journal_message_body: Message
-  label_icm_incident_journal_message_body_not_blank: can't be blank.
-  label_icm_incident_journal_message_body_not_repeat: can not submit twice.
+  label_icm_incident_journal_message_body_not_blank: 情報を登録してください
+  label_icm_incident_journal_message_body_not_repeat: 同じの回答が二度提出できない
   #========================= end icm incident_journals_controller=======================#
 
   #=========================    icm incident_reports_controller=======================#
-  label_icm_urgency_name: Urgency Name
-  label_icm_incident_month: Month
-  label_icm_urgency_count: Urgency Count
-  label_icm_report_source_name: Source Type
-  label_icm_report_source_count: Source Type Count
-  label_icm_report_type_name: Request Type
-  label_icm_report_type_count: Request Type Count
-  label_icm_report_time_frame: Time Frame
-  label_icm_report_time_frame_column: Column
-  label_icm_report_time_frame_start_time: Start Time
-  label_icm_report_time_frame_end_time: End Time
-  label_icm_report_param: Report Param
+  label_icm_urgency_name: 緊急度
+  label_icm_incident_month: 月
+  label_icm_urgency_count: インシデント依頼数量
+  label_icm_report_source_name: ソースタイプ
+  label_icm_report_source_count: ソースタイプ数量
+  label_icm_report_type_name: 請求タイプ
+  label_icm_report_type_count: ソースタイプ数量
+  label_icm_report_time_frame: 期間
+  label_icm_report_time_frame_column: 列
+  label_icm_report_time_frame_start_time: 開始時間
+  label_icm_report_time_frame_end_time: 終了時間
+  label_icm_report_param: レポートオプション
   #========================= end icm incident_reports_controller=======================#
   #========================= icm group_assignments_controller =========================#
-  label_icm_group_assignment: Support Group Assignment
-  label_icm_group_assignment_rule: Support Group Assignment Rule
-  label_icm_group_assignment_list: Support Group Assignment List
-  label_icm_group_assignment_new: Create Support Group Assignment
-  label_icm_group_assignment_edit: Edit Support Group Assignment
-  label_icm_group_assignment_c_company: Company
-  label_icm_group_assignment_c_department: Department
-  label_icm_group_assignment_c_person: Staff
-  label_icm_group_assignment_c_site_group: Site Group
-  label_icm_group_assignment_c_site: Site
-  label_icm_group_assignment_type: Assignment Type
-  label_icm_group_assignment_detail: Assigned Source Target
+  label_icm_group_assignment: サポートグループ割当
+  label_icm_group_assignment_rule: サポートグループ割当規則
+  label_icm_group_assignment_list: サポートグループ割当一覧
+  label_icm_group_assignment_new: サポートグループ割当登録
+  label_icm_group_assignment_edit: サポートグループ割当編集
+  label_icm_group_assignment_c_company: 会社
+  label_icm_group_assignment_c_department: 部門
+  label_icm_group_assignment_c_person: スタッフ
+  label_icm_group_assignment_c_site_group: サイトグループ
+  label_icm_group_assignment_c_site: サイト
+  label_icm_group_assignment_type: 割当タイプ
+  label_icm_group_assignment_detail: 割当されるソース対象
   #========================= end icm group_assignments_controller =========================#  
   #========================= icm support_groups =========================#
-  label_icm_support_group: Support Group
-  label_icm_support_group_new: New Support Group
-  label_icm_support_group_edit: Edit Support Group
+  label_icm_support_group: サポートグループ
+  label_icm_support_group_new: サポートグループの登録
+  label_icm_support_group_edit: サポートグループの編集
   label_icm_support_group_show: Show Support Group
-  label_icm_support_group_code: Code
-  label_icm_support_group_name: Name
-  label_icm_support_group_assignment_process_code: Assign Process
-  label_icm_support_group_oncall_flag: Oncall
-  label_icm_support_group_vendor_flag: Vendor
+  label_icm_support_group_code: コード
+  label_icm_support_group_name: 名称
+  label_icm_support_group_assignment_process_code: 割当プロセス
+  label_icm_support_group_oncall_flag: 待命グループ
+  label_icm_support_group_vendor_flag: 仕入先グループ
   label_icm_support_group_add_group_notice: Please add person group
   label_icm_support_group_assign_person: Assign Person
   #=========================  end icm support_groups =========================#
   #========================= mail request ====================================
-  label_icm_mail_request: Mail Request
-  label_icm_mail_request_new: Create Mail Request
-  label_icm_mail_request_edit: Edit Mail Request
-  label_icm_mail_request_info: Mail Configuration Info
-  label_icm_mail_request_default_info: Request Info
+  label_icm_mail_request: メール請求ルール
+  label_icm_mail_request_new: メール請求ルールの登録
+  label_icm_mail_request_edit: メール請求ルールの編集
+  label_icm_mail_request_info: メール設定情報
+  label_icm_mail_request_default_info: メール初期情報
   #========================== end mail request ===============================
   #========================= incident category ====================================
-  label_icm_incident_category: Incident Category
-  label_icm_incident_category_new: New Incident Category
-  label_icm_incident_category_list: Incident Category List
-  label_icm_incident_category_edit: Edit Incident Category
-  label_icm_incident_category_code: Code
-  label_icm_incident_category_name: Name
-  label_icm_incident_category_external_system: System
-  label_icm_incident_category_description: Description
+  label_icm_incident_category: インシデント依頼カテゴリー
+  label_icm_incident_category_list: インシデント依頼カテゴリーリスト
+  label_icm_incident_category_new: インシデント依頼カテゴリーリストの登録
+  label_icm_incident_category_edit: インシデント依頼カテゴリーリストの編集
+  label_icm_incident_category_code: コード
+  label_icm_incident_category_name: システム
+  label_icm_incident_category_external_system: 名称
+  label_icm_incident_category_description: 説明
+  label_icm_incident_category_apply_system: 応用システム
+  label_icm_incident_category_system: 応用システムが使用できるインシデント依頼
   #========================== end incident category  ===============================
   #========================= incident category ====================================
-  label_icm_incident_sub_category: Incident Sub Category
-  label_icm_incident_sub_category_list: Incident Sub Category List
-  label_icm_incident_sub_category_new: New Incident Sub Category
-  label_icm_incident_sub_category_edit: Edit Incident Sub Category
-  label_icm_incident_sub_category_code: Code
-  label_icm_incident_sub_category_name: Name
-  label_icm_incident_sub_category_external_system: System
-  label_icm_incident_sub_category_description: Description
+  label_icm_incident_sub_category: インシデント依頼サブカテゴリ
+  label_icm_incident_sub_category_list: インシデント依頼サブカテゴリ一覧
+  label_icm_incident_sub_category_new: インシデント依頼サブカテゴリ新規
+  label_icm_incident_sub_category_edit: インシデント依頼サブカテゴリ編集
+  label_icm_incident_sub_category_code: コード
+  label_icm_incident_sub_category_name: 名称
+  label_icm_incident_sub_category_external_system: システム
+  label_icm_incident_sub_category_description: 説明
   #========================== end incident category  ===============================
   label_icm_incident_request_watcher: Watcher
   label_icm_incident_request_update_journal: Update Reply
@@ -329,3 +329,11 @@ ja:
   label_icm_incident_request_contact_way: Contact
   label_icm_incident_request_remove_journal: Remove Journal
   label_icm_incident_request_recover_journal: Recover Journal
+
+
+  #======================= Report incident request month detail ============
+  label_report_incident_request_support: 割当先
+  label_report_incident_request_journal: 解決履歴
+  #================================================================================
+  label_icm_incident_request_watcher: 監視者
+  label_icm_incident_request_update_journal: 返答更新

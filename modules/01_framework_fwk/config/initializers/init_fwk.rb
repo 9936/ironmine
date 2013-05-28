@@ -109,6 +109,8 @@ rails_config.fwk.jscss.merge!({
                                   :search => {:css => ["search"], :js => []},
                                   :dragsort => {:js => ["plugins/jquery-dragsort"]},
                                   :pdf => {:css => ["pdf"],:js => ["pdf"]},
-                                  :fullcalendar => {:css =>["plugins/fullcalendar"], :js => ["plugins/fullcalendar"]}
+                                  :fullcalendar => {:css =>["plugins/fullcalendar"], :js => ["plugins/fullcalendar"]},
+                                  :raphael => {:css =>[], :js => ["plugins/raphael"]},
+                                  :orgchart => {:css => ["plugins/jquery-orgchart"], :js => ["plugins/jquery-orgchart"]}
                               })
 

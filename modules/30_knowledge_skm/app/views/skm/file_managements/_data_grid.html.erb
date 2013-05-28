@@ -6,13 +6,13 @@
     </td>
     <td class="page-block-button">
       <%= link_to t(:label_skm_upload_new_file), {:action => "new"}, :class => "btn btn-primary" %>
-      <%= link_to t(:label_skm_upload_batch_file), {:action => "batch_new"},:class=> "btn" %>
+      <%#= link_to t(:label_skm_upload_batch_file), {:action => "batch_new"},:class=> "btn" %>
     </td>
     <td class="page-block-help">
       <div id="searchBox"></div>
     </td>
   </tr></table>
   <div class="page-block-body">
-    <%= datatable("skm_files_list",{:action=>"get_data"},[], {:search_box=>"searchBox",:paginator_box=>"filesPaginatorBox",:html=>true})%>
+    <%= datatable("skm_files_list",{:action=>"get_data"},[], {:search_box=>"searchBox",:paginator_box=>"filesPaginatorBox"})%>
   </div>
 </div>

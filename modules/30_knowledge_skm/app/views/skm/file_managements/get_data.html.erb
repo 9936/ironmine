@@ -1,16 +1,24 @@
 <%=datatable_view({:count=>@count,:datas=>@datas}) do |builder|%>
-    <% builder.column(:id,{:title=>t(:operation), :width => "170px"}) do |data|%>
-      <%= link_to(t(:edit),{:controller => "skm/file_managements", :action => "edit", :id => data[:id]}, :class => "action-link") %>&nbsp;|
+    <% builder.column(:id,{:title=>t(:operation), :width => "220px"}) do |data|%>
+      <% if data[:created_by].eql?(Irm::Person.current.id) %>
+        <%= link_to(t(:edit),{:controller => "skm/file_managements", :action => "edit", :id => data[:id]}, :class => "action-link") %>&nbsp;|
+        <%= link_to(t(:remove),{:controller => "skm/file_managements", :action=>"destroy",:id=> data[:id]}, :class => "action-link",:confirm => t(:label_are_you_sure)) %>&nbsp;|
+      <% end %>
       <%= link_to(t(:label_skm_file_download),{:controller => "skm/file_managements", :action=>"download",:id=>data[:id], :version_id => data[:version_id],:data_file_name=> data[:data_file_name]}, :class => "action-link", :target => "_blank") %>&nbsp;|
-      <%= link_to(t(:remove),{:controller => "skm/file_managements", :action=>"destroy",:id=> data[:id]}, :class => "action-link",:confirm => t(:label_are_you_sure)) %>&nbsp;|
       <%= link_to(t(:label_skm_file_history_versions),{:controller => "skm/file_managements", :action => "get_version_files", :id => data[:id]}, :class => "action-link") %>
+      <% if data[:created_by].eql?(Irm::Person.current.id) && data[:version_id].present? %>
+        |<%= link_to(t(:label_action_version_details),{:controller => "skm/file_managements", :action => "version_details", :id => data[:version_id]}, :class => "action-link") %>
+      <% end %>
     <% end %>
     <% builder.column(:data_file_name,{:title=>t(:label_skm_file_name),:searchable => true,:width=>"300px"}) do |data| %>
-      <%=  data_file_name(data) %>
+      <%= data_file_name(data) %>
     <% end %>
-    <% builder.column(:download_count,{:title=>t(:label_skm_file_download_count),:width => "100px"})%>
-    <% builder.column(:category_name,{:title=>t(:label_skm_file_category), :width => "60px"})%>
-    <% builder.column(:description,{:title=>t(:description),:searchable => true})%>
+    <% builder.column(:access_type,{:title=>t(:label_skm_file_access_types),:width => "100px"}) do |data| %>
+      <%= access_type_meaning(data[:access_type]) %>
+    <% end %>
+    <% builder.column(:full_name,{:title=>t(:label_skm_file_created_by), :width => "100px"})%>
     <% builder.column(:data_file_size,{:title=>t(:label_skm_file_size), :width => "100px"})%>
+    <% builder.column(:download_count,{:title=>t(:label_skm_file_download_count),:width => "100px"})%>
     <% builder.column(:data_updated_at,{:title=>t(:label_skm_file_data_updated_at),:width=>"130px"})%>
+    <% builder.column(:description,{:title=>t(:description),:searchable => true})%>
 <% end %>

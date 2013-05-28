@@ -51,6 +51,29 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
   #====================================END:KNOWLEDGE_MANAGEMENT======================================
 
+
+  #=================================START:FILES_MANAGEMENT=================================
+
+  #=================================START:FILES_MANAGEMENT=================================
+  map.function_group :files_management, {
+      :en => {:name => "Files Management", :description => "Files Management"},
+      :zh => {:name => "文件", :description => "文件管理"}, }
+  map.function_group :files_management, {
+      :zone_code => "KNOWLEDGE_MANAGEMENT",
+      :controller => "skm/file_managements",
+      :action => "index"}
+  map.function_group :files_management, {
+      :children => {
+        :files_management => {
+            :en => {:name => "Files Management", :description => "Files Management"},
+            :zh => {:name => "文件管理", :description => "文件管理"},
+            :default_flag => "N",
+            :login_flag => "N",
+            :public_flag => "N",
+            "skm/file_managements" => ["batch_create", "create", "destroy", "edit", "get_data", "get_version_files","version_details", "download_data", "remove_version_file","index", "new", "show", "update", "download"]
+        }
+      }
+  }
   #=================================START:KNOWLEDGE_MANAGEMENT=================================
   map.function_group :knowledge_management, {
       :en => {:name => "Knowledge Management", :description => "Knowledge Management"},
@@ -70,8 +93,7 @@ Fwk::MenuAndFunctionManager.map do |map|
               "icm/incident_journals" => ["apply_entry_header", "apply_entry_header_link", "get_entry_header_data"],
               "skm/columns" => ["get_columns_data"],
               "skm/entry_headers" => ["add_favorites", "data_grid", "get_data", "get_history_entries_data", "index", "index_search", "my_drafts", "my_drafts_data", "my_favorites", "my_favorites_data", "my_unpublished", "my_unpublished_data", "remove_favorite", "show", "video_show"],
-              "skm/entry_templates" => ["get_owned_elements_data"],
-              "skm/file_managements" => ["batch_create", "create", "destroy", "edit", "get_data", "get_version_files", "remove_version_file","index", "new", "show", "update", "download"],
+              "skm/entry_templates" => ["get_owned_elements_data"]
           },
           :edit_skm_entries => {
               :en => {:name => "Edit Skm Entries", :description => "Edit Skm Entries"},
@@ -113,7 +135,9 @@ Fwk::MenuAndFunctionManager.map do |map|
               :public_flag => "N",
               "skm/entry_books" => ["index", "edit", "update", "new", "create", "get_data", "show", "add_entry",
                                     "remove_entry", "get_owner_entry_data", "multilingual_edit", "multilingual_update",
-                                    "switch_sequence","preview","export","update_display_name"]
+                                    "switch_sequence","preview","export","update_display_name"],
+
+              "skm/entry_headers" => ["lov_search", "lov_result"]
           }
       }
   }

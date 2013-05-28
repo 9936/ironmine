@@ -1,63 +1,7 @@
-<script type="text/javascript">
-    $(function(){
-        var URI = "/common/create_upload_file";
-        var token = $('meta[name="csrf-token"]').attr('content');
-
-        $(".editor-toolbar input.file").live("change", function(){
-            var copyInput = $(this).clone();
-            var textarea = $(this).parent().parent().parent().find("textarea");
-            if(window.ActiveXObject) {
-                if(typeof uri == 'boolean')
-                    var frameSrc = 'javascript:false';
-                else if(typeof uri== 'string')
-                    var frameSrc = URI;
-            }
-            var frameId = "ImageFrame" + (new Date).getTime(),
-                    tmpFrame = $("<iframe class='tmp-ifame' id='"+frameId+"' name='"+frameId+"'></iframe>").appendTo(document.body),
-                    tmpForm = $("<form />", {
-                        enctype:"multipart/form-data",
-                        encoding:"multipart/form-data",
-                        method:"POST",
-                        target: frameId,
-                        name: frameId,
-                        action:URI,
-                        class: "tmp-form"
-                    }).appendTo(document.body);
-            if (token) $('<input name="authenticity_token" type="hidden" value="'+ token +'"/>').appendTo(tmpForm);
-            $(this).parent().append(copyInput);
-            tmpForm.append($(this));
-            tmpFrame.load(function(resp){
-                try {
-                    var content = tmpFrame.contents().find('body').text();
-                } catch (e) {
-                    var content = ""
-                }
-
-                if (content) {
-                    appendImage(textarea, content);
-                    tmpForm.remove();
-                    tmpFrame.remove();
-                }
-            });
-            tmpForm.submit();
-        })
-
-
-    })
-    function appendImage(txtBox, src) {
-        var caret_pos = txtBox.caretPos(),
-                src_merged = "![]("+ src +")\n";
-        var source = txtBox.val(),
-                before_text = source.slice(0, caret_pos);
-        txtBox.val(before_text + src_merged + source.slice(caret_pos + 1, source.count));
-        txtBox.caretPos(caret_pos + src_merged.length);
-        txtBox.focus();
-    }
-</script>
-
 <%= app_title({:description => t(:new)}) %>
 <%= form_for(@entry_header, :url => {:action => "new"}, :builder => CustomFormBuilder, :html => {:name => "new_skm_entry_header"}) do |f| %>
     <%= f.hidden_field :entry_template_id %>
+    <%= f.hidden_field :tmp_source_ids, :id => "tmpSourceIds" %>
     <%= hidden_field_tag("entry_book_id", params[:entry_book_id]) %>
     <% content_for :form_block_common do %>
         <table class="form-table" cellpadding="0" cellspacing="0">
@@ -80,8 +24,8 @@
 
 
     <% content_for :form_buttons do %>
-        <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()", :class => "btn "} %>
-        <%= link_to t(:next), {}, {:href => "javascript:void(0);", :onclick => "submit_next()", :class => "btn btn-primary"} %>
+        <%= link_to t(:last), {}, {:href => "javascript:void(0);", :onclick => "submit_last()", :class => "btn ", :type => "submit"} %>
+        <%= link_to t(:next), {}, {:href => "javascript:void(0);", :onclick => "submit_next()", :class => "btn btn-primary", :type => "submit"} %>
         <% if params[:entry_book_id] %>
             <%= link_to t(:cancel), {:controller => "skm/entry_books", :action => "show", :id => params[:entry_book_id]}, {:confirm => t(:label_cancel_confirm), :class => "btn cancel"} %>
         <% else %>
@@ -199,11 +143,76 @@
 <script type="text/javascript">
     function submit_next() {
         document.new_skm_entry_header.action = "new?step=3";
-        document.new_skm_entry_header.submit();
+//        document.new_skm_entry_header.submit();
     }
 
     function submit_last() {
         document.new_skm_entry_header.action = "new?step=1";
-        document.new_skm_entry_header.submit();
+//        document.new_skm_entry_header.submit();
+    }
+</script>
+
+<script type="text/javascript">
+    $(function(){
+        var URI = "/common/create_upload_file";
+        var token = $('meta[name="csrf-token"]').attr('content');
+
+        $(".editor-toolbar input.file").live("change", function(){
+            var copyInput = $(this).clone();
+            var textarea = $(this).parent().parent().parent().find("textarea");
+            if(window.ActiveXObject) {
+                if(typeof uri == 'boolean')
+                    var frameSrc = 'javascript:false';
+                else if(typeof uri== 'string')
+                    var frameSrc = URI;
+            }
+            var frameId = "ImageFrame" + (new Date).getTime(),
+                    tmpFrame = $("<iframe class='tmp-ifame' id='"+frameId+"' name='"+frameId+"'></iframe>").appendTo(document.body),
+                    tmpForm = $("<form />", {
+                        enctype:"multipart/form-data",
+                        encoding:"multipart/form-data",
+                        method:"POST",
+                        target: frameId,
+                        name: frameId,
+                        action:URI,
+                        class: "tmp-form"
+                    }).appendTo(document.body);
+            if (token) $('<input name="authenticity_token" type="hidden" value="'+ token +'"/>').appendTo(tmpForm);
+            $(this).parent().append(copyInput);
+            tmpForm.append($("<input type='hidden' value='true' name='content_image' />"));
+            tmpForm.append($(this));
+            tmpFrame.load(function(resp){
+                try {
+                    var content = tmpFrame.contents().find('body').text();
+                } catch (e) {
+                    var content = ""
+                }
+
+                if (content) {
+                    content = content.split(",");
+                    if ( $("#tmpSourceIds").val()) {
+                        $("#tmpSourceIds").val($("#tmpSourceIds").val() + "," + content[1]);
+                    }else{
+                        $("#tmpSourceIds").val(content[1]);
+                    }
+                    appendImage(textarea, content[0]);
+                    tmpForm.remove();
+                    tmpFrame.remove();
+                }
+            });
+            tmpForm.submit();
+        })
+
+
+    })
+    function appendImage(txtBox, src) {
+        src = src.replace(/^.*[\\\/]|\?.*/, '').replace(/\?.*/,'');
+        var caret_pos = txtBox.caretPos(),
+                src_merged = "!"+ src +"!\n";
+        var source = txtBox.val(),
+                before_text = source.slice(0, caret_pos);
+        txtBox.val(before_text + src_merged + source.slice(caret_pos + 1, source.count));
+        txtBox.caretPos(caret_pos + src_merged.length);
+        txtBox.focus();
     }
 </script>

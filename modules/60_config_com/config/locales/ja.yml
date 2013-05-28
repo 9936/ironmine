@@ -44,6 +44,8 @@ en:
   label_com_config_item_error_no_such_attribute: No Such Attribute ID
   label_com_config_item_error_value_required: %{name} ：Value Is Required
   label_com_config_item_config_status: Config Status
+  label_com_config_item_org_chart: Structure Chart
+  label_com_config_item_org_chart_title: Config Items Structure Chart
   #===========================end config item==============================#
 
   #==========================config item==================================#

@@ -1,5 +1,5 @@
 # Include hook code here
 require File.dirname(__FILE__) + '/lib/acts_as_multilingual'
-Ironmine::Acts::Multilingual::USABLE_LANGUAGE = Proc.new{['en','zh']}
+Ironmine::Acts::Multilingual::USABLE_LANGUAGE = Proc.new{['en','zh', 'ja']}
 ActiveRecord::Base.send(:include, Ironmine::Acts::Multilingual)
 ActionView::Base.send(:include,MultilingualHelper)

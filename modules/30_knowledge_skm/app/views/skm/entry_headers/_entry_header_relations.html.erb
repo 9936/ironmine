@@ -1,32 +1,37 @@
-<div class="page-block">
-  <table class="page-block-header">
+<table class="page-block-header" style="margin-left: 0;">
+  <tr>
+    <td class="page-block-help form-inline" style="border: none;">
+    <%= form_tag({:controller => "skm/entry_headers",:action => "add_relation", :source_id => entry_header_id,:_dom_id=>"entryHeaderRelation"},{:remote=>true,:builder => CustomFormBuilder}) do %>
+      <div class="float-right" style="margin-left: 20px;">
+        <%= link_submit(t(:add), :class=>"btn") %>
+      </div>
+      <div  style="float:right;">
+        <%= lov_field_tag "skm_relation", Skm::EntryHeader,{:style=>"width:150px;",:lov_params=>{:lktkn=>"entry_relation", :entry_header_id=> entry_header_id}}%>
+      </div>
+    <%- end -%>
+    </td>
+  </tr>
+</table>
+
+<% if datas.any? %>
+  <table style="margin-left: 0px;">
+    <tbody>
     <tr>
-      <td class="page-block-title">
-        <h2 class="block-title"><%= t(:label_skm_entry_header_relation_list) %></h2>
-      </td>
-      <td class="page-block-help form-inline">
-        <%= form_tag({:controller => "skm/entry_headers",:action => "add_relation", :source_id => entry_header_id,:_dom_id=>"entryHeaderRelation"},{:remote=>true,:builder => CustomFormBuilder}) do %>
-            <div class="float-right" style="margin-left: 20px;">
-              <%= link_submit(t(:add), :class=>"btn") %>
-            </div>
-            <div  style="float:right;">
-              <%= lov_field_tag "skm_relation", Skm::EntryHeader,{:style=>"width:150px;",:lov_params=>{:lktkn=>"entry_relation", :entry_header_id=> entry_header_id}}%>
-            </div>
-        <%- end -%>
-      </td>
+      <th style="width: 30px;"><%= t(:operation) %></th>
+      <th><%= t(:label_skm_entry_header_title) %></th>
+      <th><%= t(:label_skm_entry_header_published_date) %></th>
+      <th><%= t(:label_skm_entry_header_version) %></th>
+      <th><%= t(:label_skm_entry_header_doc_number) %></th>
     </tr>
-  </table>
-  <div class="page-block-body">
-    <%= datatable_view({:count => datas.count, :datas => datas}) do |builder| %>
-        <% builder.column(:id, {:title => t(:operation),:width => '30px'}) do |data| %>
-          <%= link_to(t(:remove), {:controller=>"skm/entry_headers",:action=>"remove_relation",:id=>data[:relation_id],:source_id =>data[:entry_id],:_dom_id => "entryHeaderRelation"},:confirm => t(:label_are_you_sure) ,:remote=>true,:method => :delete, :class => "action-link") %>
-        <%- end -%>
-        <% builder.column(:entry_title, {:title => t(:label_skm_entry_header_title)}) do |data| %>
-          <%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:entry_id]}) %>
-        <% end %>
-        <% builder.column(:published_date, {:title => t(:label_skm_entry_header_published_date), :width => "150px"}) %>
-        <% builder.column(:version_number, {:title => t(:label_skm_entry_header_version)}) %>
-        <% builder.column(:doc_number, {:title => t(:label_skm_entry_header_doc_number), :width => "120px"}) %>
+    <% datas.each do |data| %>
+      <tr>
+        <td><%= link_to(t(:remove), {:controller=>"skm/entry_headers",:action=>"remove_relation",:id=>data[:relation_id],:source_id =>entry_header_id, :_dom_id => "entryHeaderRelation"},:confirm => t(:label_are_you_sure) ,:remote=>true,:method => :delete, :class => "action-link") %></td>
+        <td><%= link_to(data[:entry_title], {:controller => "skm/entry_headers", :action => "show", :id => data[:entry_id]}) %></td>
+        <td><%= format_date data[:published_date] %></td>
+        <td><%= data[:version_number] %></td>
+        <td><%= data[:doc_number] %></td>
+      </tr>
     <% end %>
-  </div>
-</div>
+    </tbody>
+  </table>
+<% end %>

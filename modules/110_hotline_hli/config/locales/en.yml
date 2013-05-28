@@ -9,6 +9,7 @@ en:
   label_icm_incident_request_cancel_request: Cancel Request
   label_icm_incident_request_enable_request: Enable Request
   label_icm_incident_journal_edit_workload: Add Workload
+  label_icm_incident_journal_workload_type: Workload type
 
   label_icm_incident_journal_history: Journal Histories
   label_icm_incident_journal_created_by: Created by
@@ -94,3 +95,5 @@ en:
   label_icm_incident_request_update_workload: Update Workload
   label_report_rank: Rank
   label_report_share: Rate
+
+  label_hil_include_journal_history: Include Journal History

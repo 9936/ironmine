@@ -54,4 +54,10 @@ module Irm::PeopleHelper
      end
    end
 
+   def person_time_zone(time_zone)
+     Time.zone = time_zone
+     time_zone_meaning = Time.zone.to_s
+     Time.zone = Irm::Person.current.time_zone || 'Beijing'
+     time_zone_meaning
+   end
 end

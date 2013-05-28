@@ -10,6 +10,7 @@ zh:
   label_icm_incident_request_cancel_request: 取消问题
   label_icm_incident_request_enable_request: 启用问题
   label_icm_incident_journal_edit_workload: 登记工时
+  label_icm_incident_journal_workload_type: 工时类型
 
   label_icm_incident_journal_history: 问题历史
   label_icm_incident_journal_created_by: 账号
@@ -94,3 +95,5 @@ zh:
   label_icm_incident_request_update_workload: 登记工时
   label_report_rank: 排名
   label_report_share: 占有率
+
+  label_hil_include_journal_history: 包含回复历史

@@ -14,4 +14,17 @@ module Skm::FileManagementsHelper
       data[:data_file_name]
     end
   end
+
+  def access_type_meaning(type)
+    case type
+      when "PRIVATE"
+        return t(:lanel_skm_file_access_private)
+      when "PUBLIC"
+        return t(:label_skm_file_access_public)
+      when "MEMBERS"
+        return t(:label_skm_file_access_members)
+      else
+        return ""
+    end
+  end
 end

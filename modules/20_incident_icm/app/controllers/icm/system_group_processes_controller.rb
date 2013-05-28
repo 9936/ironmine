@@ -10,14 +10,14 @@ class Icm::SystemGroupProcessesController < ApplicationController
 
   # GET /system_support_group_filters/1
   # GET /system_support_group_filters/1.xml
-  def show
-    @system_support_group_filter = Icm::SystemGroupProcess.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @system_support_group_filter }
-    end
-  end
+  #def show
+  #  @system_support_group_filter = Icm::SystemGroupProcess.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    format.html # show.html.erb
+  #    format.xml  { render :xml => @system_support_group_filter }
+  #  end
+  #end
 
   # GET /system_support_group_filters/new
   # GET /system_support_group_filters/new.xml
@@ -154,6 +154,15 @@ class Icm::SystemGroupProcessesController < ApplicationController
     end
     respond_to do |format|
       format.json  {render :json => {:success => true}}
+    end
+  end
+
+  def show
+    @system_group_process = Icm::SystemGroupProcess.find(params[:id])
+    @relation_hash = {}
+    Icm::GroupProcessRelation.list_all.where(:group_process_id => @system_group_process.id).each do |relation|
+      @relation_hash[relation[:support_group_from]] ||= []
+      @relation_hash[relation[:support_group_from]] << relation[:support_group_to]
     end
   end
 

@@ -49,20 +49,19 @@ class Irm::ProjectsController < ApplicationController
 
   def create
     auto_code = Irm::Sequence.nextval(Irm::Organization.name)
+    languages = Irm::Language.where("1=1")
     #创建组织
     organization = Irm::Organization.new(:parent_org_id => Irm::Organization.where("short_name = ?", "HAND_SUPPORT_CUSTOMER").first.id,
                                          :opu_id => Irm::Person.current.opu_id,
                                          :short_name => auto_code,
                                          :hotline => 'Y',
                                          :not_auto_mult => true)
-    organization.organizations_tls.build(:language=>'zh',
-                                         :source_lang=>'en',
-                                         :name=> params[:project_name],
-                                         :description=> params[:project_description])
-    organization.organizations_tls.build(:language=>'en',
-                                         :source_lang=>'en',
-                                         :name=> params[:project_name],
-                                         :description=> params[:project_description])
+    languages.each do |l|
+      organization.organizations_tls.build(:language=>l.language_code,
+                                           :source_lang=>'en',
+                                           :name=> params[:project_name],
+                                           :description=> params[:project_description])
+    end
 
     #创建应用系统
     external_system = Irm::ExternalSystem.new(:opu_id => Irm::Person.current.opu_id,
@@ -70,28 +69,25 @@ class Irm::ProjectsController < ApplicationController
                                               :external_system_code => auto_code,
                                               :external_ip_address => "000.000.000.000",
                                               :not_auto_mult=>true)
-    external_system.external_systems_tls.build(:language => 'zh',
-                                               :source_lang => 'en',
-                                               :system_name => params[:project_name],
-                                               :system_description => params[:project_description])
-    external_system.external_systems_tls.build(:language => 'en',
-                                               :source_lang => 'en',
-                                               :system_name => params[:project_name],
-                                               :system_description => params[:project_description])
+    languages.each do |l|
+      external_system.external_systems_tls.build(:language => l.language_code,
+                                                 :source_lang => 'en',
+                                                 :system_name => params[:project_name],
+                                                 :system_description => params[:project_description])
+    end
 
     #创建项目二级运维组
     group = Irm::Group.new(:opu_id => Irm::Person.current.opu_id,
                            :parent_group_id => Irm::Group.where("code = ?", "EBS_HELP_DESK").first.id,
                            :code => auto_code,
                            :not_auto_mult => true)
-    group.groups_tls.build(:language => 'zh',
-                           :source_lang => 'en',
-                           :name => params[:project_name],
-                           :description => params[:project_description])
-    group.groups_tls.build(:language => 'en',
-                           :source_lang => 'en',
-                           :name => params[:project_name],
-                           :description => params[:project_description])
+    languages.each do |l|
+      group.groups_tls.build(:language => l.language_code,
+                             :source_lang => 'en',
+                             :name => params[:project_name],
+                             :description => params[:project_description])
+    end
+
     @errors = ""
     bo = Irm::BusinessObject.where(:bo_model_name => 'Icm::IncidentRequest').first
     respond_to do |format|

@@ -87,13 +87,14 @@ ja:
   up: 上に移動
   down: 下に移動
   notice: 注意
-  no_data: 利用可能のデータがありません
+  no_data: 利用可能なデータがありません
   label_alias: 別名
   uncategory: 未分類
   code: コード
   expand_all: すべてを展開
   collapse_all: すべてを折畳
 
+  notice_require_login_again: ユーザ名がを未登録、またはセッション期限が切れました。再登録してください。
   notice_account_invalid_creditentials: ユーザ名またはパスワードが間違いました
   successfully_updated_password: パスワードが修正されました
   successfully_updated: データが更新されました
@@ -105,7 +106,7 @@ ja:
   failed_copyed: データのコピーに失敗しました
   failed_deleted: データの削除に失敗しました
   label_delete_confirm: このデータを削除してもよろしいでしょうか
-  label_no_data: 利用可能のデータがありません
+  label_no_data: 利用可能なデータがありません
   label_sub_functions: 機能
   label_common_info: 一般情報
   label_description_info: テキスト
@@ -127,7 +128,7 @@ ja:
   find: 検索
   my_view: マイビュー
   calendar_task: カレンダー
-  remember_user_name: ユーザ名を覚えています
+  remember_user_name: ユーザ名を記憶します
   no_account: アカウントなし
   label_cancel_confirm: データが保存されていないまま、削除してもよろしいでしょうか
   all: すべて
@@ -949,10 +950,10 @@ ja:
   label_company_access_menu_label: 会社
 
 
-  label_irm_bulletin: 告示
-  label_irm_bulletin_new: 告示の登録
-  label_irm_bulletin_edit: 告示の編集
-  label_irm_bulletin_list: 告示一覧
+  label_irm_bulletin: 告知
+  label_irm_bulletin_new: 告知の登録
+  label_irm_bulletin_edit: 告知の編集
+  label_irm_bulletin_list: 告知一覧
   label_irm_bulletin_title: タイトル
   label_irm_bulletin_content: コンテンツ
   label_irm_bulletin_sticky_flag: スティック
@@ -971,12 +972,12 @@ ja:
   label_irm_bulletin_selected_departments: 部門
   label_irm_bulletin_selected_roles: ロール
   label_irm_bulletin_selected_organizations: 組織
-  label_irm_bulletin_if_access_list_none: アクセス可能一覧が制限されていない場合、この公告が全ユーザに対して公開されます
+  label_irm_bulletin_if_access_list_none: アクセス可能一覧が制限されていない場合、この告知が全ユーザに対して公開されます
   label_irm_bulletin_attachment: 添付ファイル
   error_irm_bulletin_content_can_not_blank: 公告コンテンツが空白となっていけません
 
 
-  label_irm_bu_column: 告示列
+  label_irm_bu_column: 告知列
   label_irm_bu_column_code: 列コード
   label_irm_bu_column_list: 列一覧
   label_irm_bu_column_new: 新規列
@@ -991,48 +992,48 @@ ja:
   label_irm_watcher_list: 監視者一覧
 
 
-  label_action_calendar_view: カレンダー
-  label_irm_todo_event: イベント
-  label_irm_todo_event_new: イベントの登録
-  label_irm_todo_event_edit: イベントの編集
-  label_irm_todo_event_start_at: 開始日付
-  label_irm_todo_event_end_at: 終了日付
-  label_irm_todo_event_color: カラー
-  label_irm_todo_event_name: イベント名
-  label_irm_wf_relation_object: 関連
-  label_irm_todo_event_location: 場所
-  label_irm_todo_event_percent_complete: 完成パーセント
-  label_irm_todo_event_recurrence: 繰り返し
-  label_irm_todo_event_recurrence_new: イベントの一連繰返の登録
-  label_irm_todo_event_recurrence_frequency: 頻度
-  label_irm_todo_event_recurrence_every_weekday: 毎作業日
-  label_irm_todo_event_recurrence_every: 毎
-  label_irm_todo_event_recurrence_day: 日
-  label_irm_todo_event_recurrence_daily: 毎日
-  label_irm_todo_event_recurrence_weekly: 毎週
-  label_irm_todo_event_recurrence_monthly: 毎月
-  label_irm_todo_event_recurrence_yearly: 毎年
-  label_irm_todo_event_recurrence_every_week: %{m}の週ごとに繰返し
-  label_irm_todo_event_recurrence_day_of_every_month: %{m}ヶ月ごとの%{n}日に
-  label_irm_todo_event_recurrence_weekday_of_every_month: %{m}ヶ月ごとの%{n}に
-  label_irm_todo_event_assigned_to: に割当
-  label_irm_todo_event_recurrence_edit: 繰返一連の編集
-  label_irm_todo_event_priority: 優先度
-  label_irm_todo_event_event_status: イベントステータス
-  label_irm_todo_event_mail: Eメール
-  label_irm_todo_event_phone: 連絡番号
-  label_action_edit_recurrence: 繰り返一連の編集
-  label_action_my_events_index: マイイベント
-  recurrence_occurs: 発生
-  recurrence_byday: ～日につき％{ｍ}
-  recurrence_byday_week: ～で％{ｍ}
-  recurrence_until: ～まで％{ｍ}
-  recurrence_daily: ～日
-  recurrence_weekly: ～週間
-  recurrence_monthly: ～ヶ月
-  recurrence_interval: 各％{ｍ}
-  label_irm_calendar_view: カレンダービュー
-  label_irm_todo_event_list_view: イベント一覧ビュー
+#  label_action_calendar_view: カレンダー
+#  label_irm_todo_event: イベント
+#  label_irm_todo_event_new: イベントの登録
+#  label_irm_todo_event_edit: イベントの編集
+#  label_irm_todo_event_start_at: 開始日付
+#  label_irm_todo_event_end_at: 終了日付
+#  label_irm_todo_event_color: カラー
+#  label_irm_todo_event_name: イベント名
+#  label_irm_wf_relation_object: 関連
+#  label_irm_todo_event_location: 場所
+#  label_irm_todo_event_percent_complete: 完成パーセント
+#  label_irm_todo_event_recurrence: 繰り返し
+#  label_irm_todo_event_recurrence_new: イベントの一連繰返の登録
+#  label_irm_todo_event_recurrence_frequency: 頻度
+#  label_irm_todo_event_recurrence_every_weekday: 毎作業日
+#  label_irm_todo_event_recurrence_every: 毎
+#  label_irm_todo_event_recurrence_day: 日
+#  label_irm_todo_event_recurrence_daily: 毎日
+#  label_irm_todo_event_recurrence_weekly: 毎週
+#  label_irm_todo_event_recurrence_monthly: 毎月
+#  label_irm_todo_event_recurrence_yearly: 毎年
+#  label_irm_todo_event_recurrence_every_week: %{m}の週ごとに繰返し
+#  label_irm_todo_event_recurrence_day_of_every_month: %{m}ヶ月ごとの%{n}日に
+#  label_irm_todo_event_recurrence_weekday_of_every_month: %{m}ヶ月ごとの%{n}に
+#  label_irm_todo_event_assigned_to: に割当
+#  label_irm_todo_event_recurrence_edit: 繰返一連の編集
+#  label_irm_todo_event_priority: 優先度
+#  label_irm_todo_event_event_status: イベントステータス
+#  label_irm_todo_event_mail: Eメール
+#  label_irm_todo_event_phone: 連絡番号
+#  label_action_edit_recurrence: 繰り返一連の編集
+#  label_action_my_events_index: マイイベント
+#  recurrence_occurs: 発生
+#  recurrence_byday: ～日につき％{ｍ}
+#  recurrence_byday_week: ～で％{ｍ}
+#  recurrence_until: ～まで％{ｍ}
+#  recurrence_daily: ～日
+#  recurrence_weekly: ～週間
+#  recurrence_monthly: ～ヶ月
+#  recurrence_interval: 各％{ｍ}
+#  label_irm_calendar_view: カレンダービュー
+#  label_irm_todo_event_list_view: イベント一覧ビュー
 
 
   label_business_object_list: ビジネスオブジェクト
@@ -1772,7 +1773,7 @@ ja:
 
   label_report_icm_incident_params_is_report: ホットライン
   label_report_icm_incident_params_is_report_yes: レポート
-  label_report_icm_incident_params_is_report_no: レポートなし
+  label_report_icm_incident_params_is_report_no: その他
 
 
 
