@@ -167,13 +167,13 @@ class Slm::SlaInstance < ActiveRecord::Base
     end
   end
 
-  def work_time(sa,start_time,end_time)
+  def working_time(sa,start_time,end_time)
     calendar = sa.calendar
     time_zone = sa.time_zone
     if time_zone.present?
-      return calendar.work_time_with_zone(time_zone,start_time,end_time)
+      return calendar.working_time_with_zone(time_zone,start_time,end_time)
     else
-      return calendar.work_time(start_time,end_time)
+      return calendar.working_time(start_time,end_time)
     end
 
   end
