@@ -111,27 +111,27 @@
 
         });
 
-        Raphael.fn.connection = function (obj1, obj2, id) {
-            var bb1 = obj1.getBBox(), bb2 = obj2.getBBox();
-            var end_x = bb2.x + 30, end_y = bb2.y + 40;
-            if (bb1.x == bb2.x) {
-                end_x -= 20;
-            }
-            var star = ["M", end_x, end_y, "l", 10, 18, "l", -20, 0, "l", 10, -18, "M", end_x, end_y + 18, "l", 0, 10];
-            var starObj = this.path(star).attr({stroke:Raphael.getColor(), fill:"#fff", "stroke-width":2});
-
-            var start_x = bb1.x + 30, start_y = bb1.y;
-            if (bb1.x == bb2.x) {
-                start_x += 20;
-            }
-            end_y += 28;
-
-            var j = Math.max(Math.abs(end_y - start_y) / 2, 40);
-            var line = ["M", end_x, end_y, "C", end_x, end_y + j, start_x, start_y - j, start_x, start_y];
-            var lineObj = this.path(line).attr({stroke:Raphael.getColor(), "stroke-width":2});
-            this.safari();
-            return [id, starObj, lineObj]
-        };
+//        Raphael.fn.connection = function (obj1, obj2, id) {
+//            var bb1 = obj1.getBBox(), bb2 = obj2.getBBox();
+//            var end_x = bb2.x + 30, end_y = bb2.y + 40;
+//            if (bb1.x == bb2.x) {
+//                end_x -= 20;
+//            }
+//            var star = ["M", end_x, end_y, "l", 10, 18, "l", -20, 0, "l", 10, -18, "M", end_x, end_y + 18, "l", 0, 10];
+//            var starObj = this.path(star).attr({stroke:Raphael.getColor(), fill:"#fff", "stroke-width":2});
+//
+//            var start_x = bb1.x + 30, start_y = bb1.y;
+//            if (bb1.x == bb2.x) {
+//                start_x += 20;
+//            }
+//            end_y += 28;
+//
+//            var j = Math.max(Math.abs(end_y - start_y) / 2, 40);
+//            var line = ["M", end_x, end_y, "C", end_x, end_y + j, start_x, start_y - j, start_x, start_y];
+//            var lineObj = this.path(line).attr({stroke:Raphael.getColor(), "stroke-width":2});
+//            this.safari();
+//            return [id, starObj, lineObj]
+//        };
     </script>
   </div>
 
