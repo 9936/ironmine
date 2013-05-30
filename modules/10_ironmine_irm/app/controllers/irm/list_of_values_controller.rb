@@ -197,6 +197,7 @@ class Irm::ListOfValuesController < ApplicationController
     if params[:lov_params].present?&&params[:lov_params].is_a?(String)&&params[:lov_params].include?("{")
       params[:lov_params] = eval(params[:lov_params])
     end
+    params[:lov_params] ||= {}
     @fields,@datas = @business_object.lookup(params[:lksrch],params[:lkvfid],params)
     @datas = @datas.limit(15)
     respond_to do |format|
