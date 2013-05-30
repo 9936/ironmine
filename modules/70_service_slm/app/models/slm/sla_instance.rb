@@ -98,7 +98,7 @@ class Slm::SlaInstance < ActiveRecord::Base
       sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?&&i.phase_type.eql?("START")}
       return unless sip.present?
       sip.end_at = Time.now
-      sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
+      sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
       self.current_duration = self.current_duration+sip.duration
       new_sip = self.sla_instance_phases.build(:start_at => Time.now, :phase_type => "PAUSE", :duration => 0)
       self.last_phase_start_date = new_sip.start_at
@@ -110,7 +110,7 @@ class Slm::SlaInstance < ActiveRecord::Base
       sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?&&i.phase_type.eql?("PAUSE")}
       return unless sip.present?
       sip.end_at = Time.now
-      sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
+      sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
       new_sip = self.sla_instance_phases.build(:start_at => Time.now, :phase_type => "START", :duration => 0)
       self.last_phase_start_date = new_sip.start_at
       self.last_phase_type = "START"
@@ -120,7 +120,7 @@ class Slm::SlaInstance < ActiveRecord::Base
       sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?}
       return unless sip.present?
       sip.end_at = Time.now
-      sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
+      sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
       if sip.phase_type.eql?("START")
         self.current_duration = self.current_duration+sip.duration
       end
@@ -134,7 +134,7 @@ class Slm::SlaInstance < ActiveRecord::Base
         sip =  self.sla_instance_phases.detect{|i| !i.end_at.present?}
         return unless sip.present?
         sip.end_at = Time.now
-        sip.duration = sa.calendar.working_time(sip.start_at, sip.end_at)
+        sip.duration = self.working_time(sa,sip.start_at, sip.end_at)
         if sip.phase_type.eql?("START")
           self.current_duration = self.current_duration+sip.duration
         end
@@ -150,7 +150,7 @@ class Slm::SlaInstance < ActiveRecord::Base
   def sync_triggers(sa, action)
     if action.eql?("START")
       sa.time_triggers.each do |tt|
-        self.sla_instance_triggers.build(:time_trigger_id => tt.id, :trigger_date => sa.calendar.next_working_time(self.start_at, sa.duration.to_i*tt.duration_percent.to_i/100))
+        self.sla_instance_triggers.build(:time_trigger_id => tt.id, :trigger_date => self.next_working_time(sa,self.start_at, sa.duration.to_i*tt.duration_percent.to_i/100))
       end
     elsif action.eql?("PAUSE")
       self.sla_instance_triggers.each { |i| i.destroy }
@@ -158,7 +158,7 @@ class Slm::SlaInstance < ActiveRecord::Base
       sa.time_triggers.each do |tt|
         # 如果已经过了时间则没必要生成trigger
         next if sa.duration.to_i*tt.duration_percent.to_i/100<=self.current_duration
-        self.sla_instance_triggers.build(:time_trigger_id => tt.id, :trigger_date => sa.calendar.next_working_time(self.start_at, sa.duration.to_i*tt.duration_percent.to_i/100-self.current_duration.to_i))
+        self.sla_instance_triggers.build(:time_trigger_id => tt.id, :trigger_date => self.next_working_time(sa,self.start_at, sa.duration.to_i*tt.duration_percent.to_i/100-self.current_duration.to_i))
       end
     elsif action.eql?("STOP")
       self.sla_instance_triggers.each { |i| i.destroy }
@@ -166,4 +166,26 @@ class Slm::SlaInstance < ActiveRecord::Base
       self.sla_instance_triggers.each { |i| i.destroy }
     end
   end
+
+  def work_time(sa,start_time,end_time)
+    calendar = sa.calendar
+    time_zone = sa.time_zone
+    if time_zone.present?
+      return calendar.work_time_with_zone(time_zone,start_time,end_time)
+    else
+      return calendar.work_time(start_time,end_time)
+    end
+
+  end
+
+  def next_working_time(sa,time,duration)
+    calendar = sa.calendar
+    time_zone = sa.time_zone
+    if time_zone.present?
+      return calendar.next_working_time_with_zone(time_zone,time,duration)
+    else
+      return calendar.next_working_time(time,duration)
+    end
+  end
+
 end
