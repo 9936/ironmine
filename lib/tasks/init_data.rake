@@ -526,7 +526,8 @@ namespace :irm do
                                      :param_classify => p[:type] || p["type"],
                                      :required_flag => p[:required] || p["required"],
                                      :example_value => p[:example_value] || p["example_value"],
-                                     :default_value => p[:default_value] || p["default_value"]
+                                     :default_value => p[:default_value] || p["default_value"],
+                                     :description => p[:description] || p["description"]
                 )
               end
             end
