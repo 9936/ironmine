@@ -24,6 +24,10 @@ namespace :irm do
       false
     end
   end
+  #判断某一hash中是否存在着api_flag = 'Y'
+  def api_flag?(options={})
+    (options[:api_flag] and options[:api_flag].to_s.upcase.eql?('Y'))? true : false
+  end
 
   task :initdata => :environment do
     CLEAR   = "\e[0m"
@@ -41,8 +45,15 @@ namespace :irm do
         if File::exists?(data_file_path)
          require data_file_path
         end
+        api_data_file_path = File.join(Rails.root,rails_config.fwk.module_folder,rails_config.fwk.module_mapping[module_name],'lib','api_data.rb')
+        if File::exists?(api_data_file_path)
+          require api_data_file_path
+        end
       end
     end
+    #初始化API参数信息
+    puts "Starting init API params......"
+    api_controllers = Fwk::ApiParamsManager.api_controllers
 
     #初始化function groups
     puts "Starting init function groups......"
@@ -72,6 +83,9 @@ namespace :irm do
       #判断system_flag
       group_system_flag = system_flag?(group)
 
+      #判断api_flag
+      group_api_flag = api_flag?(group)
+
       group[:languages] ||= {}
       group[:languages][:zh] = group[:zh] if group[:zh]
       group[:languages][:en] = group[:en] if group[:en]
@@ -81,6 +95,13 @@ namespace :irm do
       else
         group[:system_flag] = 'N'
       end
+
+      if group_api_flag
+        group[:api_flag] = group[:api_flag]
+      else
+        group[:api_flag] = 'N'
+      end
+
       if group and group[:zone_code].present? and group[:code].present? and group[:controller].present? and group[:action].present?
         need_delete_groups.delete_if{|i| i[:code].to_s.eql?(group[:code].to_s)} if group.present?
         function_group = Irm::FunctionGroup.where(:code => group[:code]).first
@@ -115,6 +136,7 @@ namespace :irm do
           success_create_groups << group[:code] unless success_create_groups.include?(group[:code])
         end
         function_group.system_flag = group[:system_flag]    #设置system_flag
+        function_group.api_flag = group[:api_flag]          #设置api_flag
         #########################################################################################
         #保存function_group中的function
         #########################################################################################
@@ -179,6 +201,12 @@ namespace :irm do
                 tmp_function.system_flag = 'Y'
               else
                 tmp_function.system_flag = 'N'
+              end
+              #如果group_api_flag = 'Y',将所有的function的的system_flag 设置为'Y'
+              if group_api_flag
+                tmp_function.api_flag = 'Y'
+              else
+                tmp_function.api_flag = 'N'
               end
               ###################################################################################################
               tmp_function.save
@@ -423,9 +451,19 @@ namespace :irm do
         except_params_count = r[:path].scan(except_path_regex).delete_if{|i| !i.any?}.count
         #从path中获取sid
         system_flag = r[:path].scan(/:sid/).any?? 'Y' : 'N'
+        #从path中获取verb
+        api_method = r[:verb]
+        if api_method.present?
+          if api_method.eql?("PUT") || api_method.eql?("DELETE")
+            api_method = "POST"
+          end
+        else
+          api_method = "ALL"
+        end
+
         params_count = params_count - except_params_count
         permission_params = eval(r[:reqs])
-        permission_params.merge!({:params_count=>params_count,:system_flag => system_flag,:direct_get_flag=>r[:verb].include?("GET") ? Irm::Constant::SYS_YES : Irm::Constant::SYS_NO})
+        permission_params.merge!({:params_count=>params_count, :api_method => api_method, :system_flag => system_flag,:direct_get_flag=>r[:verb].include?("GET") ? Irm::Constant::SYS_YES : Irm::Constant::SYS_NO})
         route_permissions<<permission_params
       end
     end
@@ -443,6 +481,8 @@ namespace :irm do
       tmp_function = Irm::Function.where(:code => function_code).first
       next unless tmp_function.present?
       function_system_flag = tmp_function.system_flag
+      function_api_flag = tmp_function.api_flag
+
       permissions =  function[:permissions]
       permissions.each do |controller,actions|
         actions.each do |action|
@@ -454,6 +494,7 @@ namespace :irm do
             next
           end
 
+
           if route_permission.nil?
             puts "#{BOLD}#{RED}No route match #{controller}/#{action.to_s}#{CLEAR}"
             next
@@ -461,9 +502,9 @@ namespace :irm do
           not_inited_route_permissions.delete_if{|rp| rp[:controller].eql?(controller)&&rp[:action].eql?(action.to_s)}
           permission = Irm::Permission.query_by_function_code(function_code.to_s.upcase).where(:controller=>controller,:action=>action.to_s).readonly(false).first
           if permission
-            permission.update_attributes({:system_flag => route_permission[:system_flag],:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag],:status_code=>"ENABLED"})
+            permission.update_attributes({:system_flag => route_permission[:system_flag],:api_flag => function_api_flag, :params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag],:status_code=>"ENABLED"})
           else
-            permission = Irm::Permission.new(:system_flag => route_permission[:system_flag],:code=>Irm::Permission.url_key(controller,action).upcase,:function_code=>function_code.to_s.upcase,:controller=>controller,:action=>action.to_s,:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag])
+            permission = Irm::Permission.new(:system_flag => route_permission[:system_flag],:api_flag => function_api_flag,:code=>Irm::Permission.url_key(controller,action).upcase,:function_code=>function_code.to_s.upcase,:controller=>controller,:action=>action.to_s,:params_count=>route_permission[:params_count],:direct_get_flag=>route_permission[:direct_get_flag])
             permission.save
             if permission.errors.any?
               puts "#{BOLD}#{RED}Add [#{function_code}]#{controller}/#{action} errors:#{permission.errors}#{CLEAR}"
@@ -471,6 +512,26 @@ namespace :irm do
               puts "Add [#{function_code}]#{controller}/#{action} to permissions successful"
             end
           end
+
+          if function_api_flag.eql?("Y") && permission.id.present?
+            Irm::ApiParam.delete_all("permission_id = '#{permission.id}'")
+            if api_controllers[controller].present? && api_controllers[controller].any?
+              api_params = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || []
+
+              api_params[:params].each do |p|
+                Irm::ApiParam.create(:permission_id => permission.id,
+                                     :method => route_permission[:api_method],
+                                     :name => p[:name] || p["name"],
+                                     :param_type => p[:type] || p["type"],
+                                     :param_classify => p[:type] || p["type"],
+                                     :required_flag => p[:required] || p["required"],
+                                     :example_value => p[:example_value] || p["example_value"],
+                                     :default_value => p[:default_value] || p["default_value"]
+                )
+              end
+            end
+          end
+
         end
       end
 

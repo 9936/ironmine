@@ -2878,6 +2878,12 @@ Fwk::MenuAndFunctionManager.map do |map|
   }
 
 
+  #=================================API TOOLS=================================
+  map.function :login_function, {
+      "irm/api_tools" => ["index"]
+  }
+
+
 end
 
 

@@ -346,4 +346,35 @@ Fwk::MenuAndFunctionManager.map do |map|
   map.function :edit_relation, {
       "skm/entry_headers" => ["add_relation", "remove_relation"]
   }
+
+  #=================================START:SKM API=================================
+  map.function_group :skm_entry_header_api, {
+      :en => {:name => "Entry Header API", :description => "Entry Header API"},
+      :zh => {:name => "知识库API", :description => "知识库API"} }
+  map.function_group :skm_entry_header_api, {
+      :zone_code => "API",
+      :controller => "skm/api_entry_headers",
+      :action => "index",
+      :api_flag => "Y" }
+  map.function_group :skm_entry_header_api, {
+      :children => {
+          :skm_add_api => {
+              :en => {:name => "Add Entry Header", :description => "Add Entry Header"},
+              :zh => {:name => "创建知识", :description => "创建知识"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "skm/api_entry_headers" => ["add"],
+          },
+          :skm_show_api => {
+              :en => {:name => "Show Entry Header", :description => "Show Entry Header"},
+              :zh => {:name => "查看知识", :description => "查看知识"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "skm/api_entry_headers" => ["show"]
+          },
+      }
+  }
+  #=================================END:SKM API=================================
 end

@@ -3,6 +3,7 @@ class Irm::Permission < ActiveRecord::Base
 
   
   belongs_to :function
+  has_many :api_params, :foreign_key => :permission_id, :dependent => :destroy
 
   attr_accessor :function_code
 
