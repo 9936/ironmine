@@ -55,7 +55,7 @@ module Icm::IncidentRequestsHelper
     else
       all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
     end
-    all_groups.collect{|i|[i[:name], i[:id]]}
+    all_groups.uniq.collect{|i|[i[:name], i[:id]]}
   end
 
   def available_support_group_relation_group(sid = '')
@@ -65,7 +65,7 @@ module Icm::IncidentRequestsHelper
       all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
     end
 
-    all_groups.uniq.collect{|i|[i[:name], i[:group_id]]}
+    all_groups.collect{|i|[i[:name], i[:group_id]]}
   end
 
   def available_urgence_code
