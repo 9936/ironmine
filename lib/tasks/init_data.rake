@@ -519,11 +519,19 @@ namespace :irm do
               api_params = api_controllers[controller][action.to_sym] || api_controllers[controller][action.to_s] || []
 
               api_params[:params].each do |p|
+                classify = p[:classify] || p["classify"] || []
+                classify= classify.collect {|i| i.to_s.upcase}
+                if classify.count > 1
+                  classify = "BOTH"
+                else
+                  classify = classify.first
+                end
+
                 Irm::ApiParam.create(:permission_id => permission.id,
                                      :method => route_permission[:api_method],
                                      :name => p[:name] || p["name"],
                                      :param_type => p[:type] || p["type"],
-                                     :param_classify => p[:type] || p["type"],
+                                     :param_classify => classify,
                                      :required_flag => p[:required] || p["required"],
                                      :example_value => p[:example_value] || p["example_value"],
                                      :default_value => p[:default_value] || p["default_value"],
