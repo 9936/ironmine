@@ -2879,10 +2879,27 @@ Fwk::MenuAndFunctionManager.map do |map|
 
 
   #=================================API TOOLS=================================
-  map.function :login_function, {
-      "irm/api_tools" => ["index","function_data", "function_params"]
+  #=================================START:SKM API=================================
+  map.function_group :api_test_tool, {
+      :en => {:name => "API Test Tool", :description => "API Test Tool"},
+      :zh => {:name => "API测试工具", :description => "API测试工具"} }
+  map.function_group :api_test_tool, {
+      :zone_code => "API",
+      :controller => "irm/api_tools",
+      :action => "index"
   }
-
+  map.function_group :api_test_tool, {
+      :children => {
+          :api_test_tool => {
+              :en => {:name => "API Test Tool", :description => "API Test Tool"},
+              :zh => {:name => "API测试工具", :description => "API测试工具"},
+              :default_flag => "N",
+              :login_flag => "N",
+              :public_flag => "N",
+              "irm/api_tools" => ["index","function_data", "function_params"]
+          }
+      }
+  }
 
 end
 
