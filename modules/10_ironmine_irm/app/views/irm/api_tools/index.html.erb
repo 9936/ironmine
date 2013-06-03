@@ -152,7 +152,7 @@
           <div class="control-group">
             <label class="control-label"><%= t(:label_irm_api_tool_doc) %>：</label>
             <div class="control-text">
-              <%= link_to t(:label_irm_api_tool_doc_see), "javascript:void(0);", :class => "action-link" %>
+              <%= link_to t(:label_irm_api_tool_doc_see), "javascript:void(0);", :class => "action-link", :id=>"api-doc" %>
             </div>
           </div>
           <!-- 提交参数 -->
@@ -207,6 +207,12 @@
             }else{
                 paramsBox.html("");
                 $("#api-submit-btn").addClass("disabled");
+            }
+        });
+
+        $("#api-doc").bind("click", function(){
+            if($("#api_function").val()) {
+                openModal("/api_tools/"+$("#api_function").val()+"/doc");
             }
         });
 

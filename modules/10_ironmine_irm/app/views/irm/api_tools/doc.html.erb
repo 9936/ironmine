@@ -1,0 +1,80 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3>常见返回对象数据结构</h3>
+</div>
+<div class="modal-body form-horizontal">
+  <div class="accordion">
+    <div class="accordion-group">
+      <div class="accordion-heading" style="background-color: #fafafa;">
+        <a style="color: #3C7CB3; font-weight: bold;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseInput"><%= t(:label_irm_api_tool_input) %></a>
+      </div>
+      <div id="collapseInput" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <table class="table table-condensed">
+            <thead>
+            <tr>
+              <th><%= t(:name) %></th>
+              <th><%= t(:label_irm_api_tool_doc_type) %></th>
+              <th><%= t(:label_irm_api_tool_doc_required) %></th>
+              <th><%= t(:label_irm_api_tool_doc_example_vlue) %></th>
+              <th><%= t(:label_irm_api_tool_doc_defalt_vlue) %></th>
+              <th><%= t(:descriptin) %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @input_params.each do |p| %>
+              <tr>
+                <td><%= p[:name] %></td>
+                <td><%= p[:type] %></td>
+                <td><%= p[:required_flag] %></td>
+                <td><%= p[:example_value] %></td>
+                <td><%= p[:default_value] %></td>
+                <td><%= p[:description] %></td>
+            </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-group" style="margin-top: 20px;">
+      <div class="accordion-heading" style="background-color: #fafafa;">
+        <a style="color: #3C7CB3; font-weight: bold;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOutput"><%= t(:label_irm_api_tool_result) %></a>
+      </div>
+      <div id="collapseOutput" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <table class="table table-condensed">
+            <thead>
+            <tr>
+              <th><%= t(:name) %></th>
+              <th><%= t(:label_irm_api_tool_doc_type) %></th>
+              <th><%= t(:label_irm_api_tool_doc_required) %></th>
+              <th><%= t(:label_irm_api_tool_doc_example_vlue) %></th>
+              <th><%= t(:label_irm_api_tool_doc_defalt_vlue) %></th>
+              <th><%= t(:descriptin) %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @input_params.each do |p| %>
+                <tr>
+                  <td><%= p[:name] %></td>
+                  <td><%= p[:type] %></td>
+                  <td><%= p[:required_flag] %></td>
+                  <td><%= p[:example_value] %></td>
+                  <td><%= p[:default_value] %></td>
+                  <td><%= p[:description] %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<div class="modal-footer">
+  <%= link_to t(:close), "#", :class => "btn", "data-dismiss" => "modal", "aria-hidden" => "true" %>
+</div>

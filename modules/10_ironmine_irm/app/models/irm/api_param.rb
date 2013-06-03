@@ -10,4 +10,9 @@ class Irm::ApiParam < ActiveRecord::Base
     joins("JOIN #{Irm::Permission.table_name} p ON p.id=#{table_name}.permission_id").
       where("p.function_id=? AND (#{table_name}.param_classify='INPUT' OR #{table_name}.param_classify='BOTH')", function_id)
   }
+
+  scope :query_by_function, lambda{|function_id|
+    joins("JOIN #{Irm::Permission.table_name} p ON p.id=#{table_name}.permission_id").
+        where("p.function_id=?", function_id)
+  }
 end

@@ -30,7 +30,21 @@ class Irm::ApiToolsController < ApplicationController
 
   #查看API对应permission的文档
   def doc
-    #
+    #查找出所有的字段信息
+    all_params = Irm::ApiParam.query_by_function(params[:function_id])
+
+    @input_params = []
+    @output_params = []
+    all_params.each do |p|
+      if p[:param_classify].eql?("INPUT")
+        @input_params << p
+      elsif p[:param_classify].eql?("OUTPUT")
+        @output_params << p
+      else
+        @input_params << p
+        @output_params << p
+      end
+    end
   end
 
 end
