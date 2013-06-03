@@ -43,7 +43,6 @@ module Icm::IncidentRequestsHelper
       if object_target.present?
         #查找出合适的匹配的流程
         group_process_id = Icm::SystemGroupProcess.get_group_process(sid, object_target.incident_category_id, object_target.incident_sub_category_id, object_target.urgence_id, object_target.impact_range_id)
-        puts "============11#{group_process_id}11============"
         if group_process_id.present?
 
           current_support_id = object_target.support_group_id
@@ -56,7 +55,6 @@ module Icm::IncidentRequestsHelper
     else
       all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
     end
-    puts "=============#{all_groups.to_sql}============="
     all_groups.collect{|i|[i[:name], i[:id]]}
   end
 
@@ -67,7 +65,7 @@ module Icm::IncidentRequestsHelper
       all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
     end
 
-    all_groups.collect{|i|[i[:name], i[:group_id]]}
+    all_groups.uniq.collect{|i|[i[:name], i[:group_id]]}
   end
 
   def available_urgence_code
