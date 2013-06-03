@@ -43,12 +43,14 @@ module Icm::IncidentRequestsHelper
       if object_target.present?
         #查找出合适的匹配的流程
         group_process_id = Icm::SystemGroupProcess.get_group_process(sid, object_target.incident_category_id, object_target.incident_sub_category_id, object_target.urgence_id, object_target.impact_range_id)
+        puts "============11#{group_process_id}11============"
         if group_process_id.present?
+
           current_support_id = object_target.support_group_id
           unless current_support_id.present?
             current_support_id = '0'
           end
-          all_groups = all_groups.with_group_process(current_support_id, group_process_id)
+          all_groups = all_groups.with_group_process(current_support_id, group_process_id).uniq
         end
       end
     else
