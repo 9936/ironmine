@@ -23,6 +23,13 @@ class Slm::Calendar < ActiveRecord::Base
     where("calendar_year=?", year)
   }
 
+  def next_working_time_with_zone(zone,time, duration = 0)
+    distance = time.utc_offset - time.in_time_zone(zone).utc_offset
+    time = time - distance
+    origin_time = next_working_time(time,duration)
+    return origin_time+distance
+  end
+
   def next_working_time(time, duration = 0)
     if time.is_a?(String)
       time = Time.strptime(time, '%Y-%m-%d %T')
@@ -54,6 +61,13 @@ class Slm::Calendar < ActiveRecord::Base
     else
       time + duration_seconds
     end
+  end
+
+  def working_time_with_zone(zone,start_time, end_time)
+    distance = start_time.utc_offset - start_time.in_time_zone(zone).utc_offset
+    start_time = start_time - distance
+    end_time =  end_time - distance
+    working_time(start_time, end_time)
   end
 
   #计算当前工作日历下的工作时间

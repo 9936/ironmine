@@ -44,6 +44,7 @@ module Icm::IncidentRequestsHelper
         #查找出合适的匹配的流程
         group_process_id = Icm::SystemGroupProcess.get_group_process(sid, object_target.incident_category_id, object_target.incident_sub_category_id, object_target.urgence_id, object_target.impact_range_id)
         if group_process_id.present?
+
           current_support_id = object_target.support_group_id
           unless current_support_id.present?
             current_support_id = '0'
@@ -54,8 +55,7 @@ module Icm::IncidentRequestsHelper
     else
       all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
     end
-
-    all_groups.collect{|i|[i[:name], i[:id]]}
+    all_groups.uniq.collect{|i|[i[:name], i[:id]]}
   end
 
   def available_support_group_relation_group(sid = '')

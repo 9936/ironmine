@@ -40,7 +40,7 @@ class Irm::OauthAuthorizeController < ApplicationController
     end
     #刷新令牌相应的处理
     if params[:grant_type] == "refresh_token"
-      #禁止再次进系刷新，设置为过期状态
+      #禁止再次进行刷新，设置为过期状态
       @expired_token.update_attribute("expire_at", Time.now)
       @token = Irm::OauthToken.create(client_id: @client.id, oauth_code_id: @expired_token.oauth_code_id,relation_oauth_token_id: @expired_token.id, user_id: @expired_token.user_id)
     end
