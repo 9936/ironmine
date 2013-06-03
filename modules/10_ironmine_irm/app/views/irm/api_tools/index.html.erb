@@ -31,6 +31,11 @@
         display: block;
     }
 
+    .side-bar .control-text .action-link {
+        color: #3c7cb3;
+        font-weight: normal;
+    }
+
     .form-horizontal .control-group {
         margin-bottom: 8px;
     }
@@ -143,6 +148,13 @@
             </div>
           </div>
 
+          <!-- API 文档 -->
+          <div class="control-group">
+            <label class="control-label"><%= t(:label_irm_api_tool_doc) %>：</label>
+            <div class="control-text">
+              <%= link_to t(:label_irm_api_tool_doc_see), "javascript:void(0);", :class => "action-link" %>
+            </div>
+          </div>
           <!-- 提交参数 -->
           <div class="control-group">
             <label class="control-label"><%= t(:label_irm_api_tool_params) %>：</label>

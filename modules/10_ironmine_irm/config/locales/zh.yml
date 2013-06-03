@@ -2146,6 +2146,8 @@ zh:
   label_irm_api_tool_type: API分类
   label_irm_api_tool_name: API名称
   label_irm_api_tool_method: 提交方式
+  label_irm_api_tool_doc: API文档
+  label_irm_api_tool_doc_see: 点击获取文档
   label_irm_api_tool_params: API参数
   label_irm_api_tool_params_help: 说明
   label_irm_api_tool_params_example: 如

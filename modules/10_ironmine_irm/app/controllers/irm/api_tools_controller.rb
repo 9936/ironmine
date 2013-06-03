@@ -28,35 +28,9 @@ class Irm::ApiToolsController < ApplicationController
 
   end
 
-  #调用API操作
-  def execute
-    #根据function_id获取对应的permission
-    permission = Irm::Permission.query_by_function_id(params[:api_type]).first
-
-
-    if permission.present?
-      request_url =  {:controller => permission[:controller] ,:action => permission[:action],:format => "json"}
-      if params[:obj].present? &&  params[:obj].any?
-        request_url.merge!(params[:obj])
-      end
-      request_url = url_for(request_url)
-
-      if params[:http_method].eql?("GET")
-        response = Faraday.get request_url
-      else
-        response = Faraday.post request_url
-      end
-      @execute_result = {}
-      @execute_result[:url] = request_url
-      #@execute_result[:json] = response.body
-
-      #puts "=========#{response.body}============="
-      #request_params = {}
-      #redirect_url[:method] = params[:http_method]
-      #request_params[:url] = "#{request.base_url}/#{permission[:controller]}/#{permission[:action]}.json"
-      #redirect_to(redirect_url)
-    end
-
+  #查看API对应permission的文档
+  def doc
+    #
   end
 
 end
