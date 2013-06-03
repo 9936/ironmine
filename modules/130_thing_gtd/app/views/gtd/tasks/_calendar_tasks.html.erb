@@ -1,0 +1,225 @@
+<% require_jscss([:fullcalendar]) %>
+<style type="text/css">
+    .widget-box {
+        background: none repeat scroll 0 0 #F9F9F9;
+        border-top: 1px solid #CDCDCD;
+        border-left: 1px solid #CDCDCD;
+        border-right: 1px solid #CDCDCD;
+        clear: both;
+        /*margin-top: 16px;*/
+        margin-bottom: 16px;
+        position: relative;
+    }
+
+    .widget-box.widget-calendar, .widget-box.widget-chat {
+        overflow: hidden !important;
+    }
+
+    .accordion .widget-box {
+        margin-top: -2px;
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+
+    .widget-box.widget-plain {
+        background: transparent;
+        border: none;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .widget-title, .table th, div.dataTables_wrapper .ui-widget-header {
+        background-color: #efefef;
+        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
+        background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -moz-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -ms-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -o-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        background-image: -linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fdfdfd', endColorstr = '#eaeaea', GradientType = 0); /* IE6-9 */
+        border-bottom: 1px solid #CDCDCD;
+        height: 36px;
+    }
+
+    .widget-title .nav-tabs {
+        border-bottom: 0 none;
+    }
+
+    .widget-title .nav-tabs li a {
+        border-bottom: medium none !important;
+        border-left: 1px solid #DDDDDD;
+        border-radius: 0 0 0 0;
+        border-right: 1px solid #DDDDDD;
+        border-top: medium none;
+        color: #999999;
+        margin: 0;
+        outline: medium none;
+        padding: 9px 10px 8px;
+        font-weight: bold;
+        text-shadow: 0 1px 0 #FFFFFF;
+    }
+
+    .widget-title .nav-tabs li:first-child a {
+        border-left: medium none !important;
+    }
+
+    .widget-title .nav-tabs li a:hover {
+        background-color: transparent !important;
+        border-color: #D6D6D6;
+        border-width: 0 1px;
+        color: #666666;
+    }
+
+    .widget-title .nav-tabs li.active a {
+        background-color: #F9F9F9 !important;
+        color: #444444;
+    }
+
+    .widget-title span.icon {
+        border-right: 1px solid #cdcdcd;
+        padding: 9px 10px 7px 11px;
+        float: left;
+        opacity: .7;
+        line-height: 20px;
+    }
+
+    .widget-title h5 {
+        color: #666666;
+        text-shadow: 0 1px 0 #ffffff;
+        float: left;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px;
+        line-height: 12px;
+        margin: 0;
+    }
+
+    .widget-title .buttons {
+        float: right;
+        margin: 8px 10px 0 0;
+    }
+
+    .widget-title .label {
+        padding: 3px 5px 2px;
+        float: right;
+        margin: 9px 15px 0 0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset, 0 1px 0 #ffffff;
+    }
+
+    .widget-calendar .widget-title .label {
+        margin-right: 190px;
+    }
+
+    .widget-content {
+        padding: 0;
+        border-bottom: 1px solid #cdcdcd;
+    }
+
+    .widget-box.widget-plain .widget-content {
+        padding: 12px 0 0;
+    }
+
+    .widget-box.collapsible .collapse.in .widget-content {
+        border-bottom: 1px solid #CDCDCD;
+    }
+
+    .fc-event-skin,
+    .external-event.label-inverse {
+        background-color: #3366CC !important;
+        background-image: -moz-linear-gradient(top, #3366CC 0%, #3366CC 100%);
+    }
+
+    .modal-body table tr {
+        border-bottom: none;
+    }
+
+</style>
+
+<div class="widget-box widget-calendar">
+  <%= link_to "", {:action => "get_calendar_data", "_dom_id" => "fullcalendar", :format => "json"}, :style => "display:none", :id => "tasksUrl" %>
+  <div class="widget-title">
+    <span class="icon"><i class="icon-calendar"></i></span>
+  </div>
+  <div class="widget-content nopadding">
+    <div id="fullcalendar"></div>
+  </div>
+</div>
+
+<div class="modal hide" id="taskModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="task-title"><%= t(:label_gtd_task) %></h3>
+  </div>
+  <div class="modal-body">
+    <table class="show-table">
+      <tbody>
+        <tr>
+          <td class="label-col"><label><%= t(:label_gtd_task_system) %></label></td>
+          <td class="data-col task-system"></td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:label_gtd_task_assigned_to) %></label></td>
+          <td class="data-col task-assigned"></td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:label_gtd_task_member_member) %></label></td>
+          <td class="data-col task-members"></td>
+        </tr>
+        <tr>
+          <td class="label-col"><label><%= t(:description) %></label></td>
+          <td class="data-col task-description"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true"><%= t(:close) %></button>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        calendar.init();
+    });
+    calendar = {
+        init:function () {
+            // Prepare the dates
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+
+
+            $('#fullcalendar').fullCalendar({
+                header:{
+                    left:'prev,next',
+                    center:'title',
+                    right:'month,basicWeek,basicDay'
+                },
+                monthNames:full_calendar_labels['monthNames'],
+                monthNamesShort:full_calendar_labels['monthNames'],
+                dayNames:full_calendar_labels['dayNames'],
+                dayNamesShort:full_calendar_labels['dayNames'],
+                buttonText:full_calendar_labels['buttonText'],
+
+                editable:false,
+                events:$("#tasksUrl").attr("href"),
+                eventClick: function(task) {
+                    console.log(task);
+                    // opens events in a popup window
+                    $("#taskModal .task-title").text(task.title);
+                    $("#taskModal .task-assigned").text(task.assigned);
+                    $("#taskModal .task-system").text(task.system);
+                    $("#taskModal .task-members").text(task.members);
+                    $("#taskModal .task-description").text(task.description);
+                    $("#taskModal").modal("show");
+                    return false;
+                },
+                droppable:false
+            });
+
+        }
+    };
+
+</script>
+

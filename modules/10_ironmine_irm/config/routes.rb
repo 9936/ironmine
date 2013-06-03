@@ -391,6 +391,9 @@ Rails.application.routes.draw do
     match '/groups/:id/new_skm_channels(.:format)' => "groups#new_skm_channels", :via => :get
     match '/groups/:id/create_skm_channels(.:format)' => "groups#create_skm_channels"
     match '/groups/:id/remove_skm_channel(.:format)' => "groups#remove_skm_channel"
+    match '/groups/:member_id/sync_admin_flag(.:format)' => "groups#sync_admin_flag"
+
+
     #group_members
     match '/group_members/:id/new(.:format)' => "group_members#new", :via => :get
     match '/group_members/:id/create(.:format)' => "group_members#create", :via => :post
@@ -573,37 +576,37 @@ Rails.application.routes.draw do
     match '/watchers/:sid/delete_watcher(.:format)' => "watchers#delete_watcher"
     match '/watchers/order(.:format)' => "watchers#order"
 
-    #    match '/calendar_tasks(/:year(/:month))' => 'calendar_tasks#index', :as => :calendar_task, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-    match '/todo_events(/index)(.:format)' => "todo_events#index", :via => :get
-    match '/todo_events/new(.:format)' => "todo_events#new", :via => :get
-    match '/todo_events/create(.:format)' => "todo_events#create", :via => :post
-    match '/todo_events/:id/edit(.:format)' => "todo_events#edit", :via => :get
-    match '/todo_events/:id(.:format)' => "todo_events#update", :via => :put
-    match '/todo_events/get_data(.:format)' => "todo_events#get_data"
-    match '/todo_events/get_top_data(.:format)' => "todo_events#get_top_data"
-    match '/todo_events/:id/show(.:format)' => "todo_events#show", :via => :get
-    match '/todo_events/:id/edit_recurrence(.:format)' => "todo_events#edit_recurrence", :via => :get
-    match '/todo_events/:id/update_recurrence(.:format)' => "todo_events#update_recurrence", :via => :put
-    match '/todo_events/:id/quick_show(.:format)' => "todo_events#quick_show", :via => :get
-    match '/todo_events/my_events_index(.:format)' => "todo_events#my_events_index", :via => :get
-    match '/todo_events/my_events_get_data(.:format)' => "todo_events#my_events_get_data"
-    match '/todo_events/calendar_view(.:format)' => "todo_events#calendar_view"
-
-    match '/todo_tasks(/index)(.:format)' => "todo_tasks#index", :via => :get
-    match '/todo_tasks/new(.:format)' => "todo_tasks#new", :via => :get
-    match '/todo_tasks/create(.:format)' => "todo_tasks#create", :via => :post
-    match '/todo_tasks/:id/edit(.:format)' => "todo_tasks#edit", :via => :get
-    match '/todo_tasks/:id(.:format)' => "todo_tasks#update", :via => :put
-    match '/todo_tasks/get_data(.:format)' => "todo_tasks#get_data"
-    match '/todo_tasks/get_top_data(.:format)' => "todo_tasks#get_top_data"
-    match '/todo_tasks/:id/show(.:format)' => "todo_tasks#show", :via => :get
-    match '/todo_tasks/:id/edit_recurrence(.:format)' => "todo_tasks#edit_recurrence", :via => :get
-    match '/todo_tasks/:id/update_recurrence(.:format)' => "todo_tasks#update_recurrence", :via => :put
-    match '/todo_tasks/my_tasks_index(.:format)' => "todo_tasks#my_tasks_index", :via => :get
-    match '/todo_tasks/my_tasks_get_data(.:format)' => "todo_tasks#my_tasks_get_data"
-    match '/todo_tasks/portlet(.:format)' => "todo_tasks#portlet", :via => :get
-
-    match '/calendars(/:year(/:month))' => 'calendars#get_full_calendar', :as => :calendar_task, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+    ##    match '/calendar_tasks(/:year(/:month))' => 'calendar_tasks#index', :as => :calendar_task, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+    #match '/todo_events(/index)(.:format)' => "todo_events#index", :via => :get
+    #match '/todo_events/new(.:format)' => "todo_events#new", :via => :get
+    #match '/todo_events/create(.:format)' => "todo_events#create", :via => :post
+    #match '/todo_events/:id/edit(.:format)' => "todo_events#edit", :via => :get
+    #match '/todo_events/:id(.:format)' => "todo_events#update", :via => :put
+    #match '/todo_events/get_data(.:format)' => "todo_events#get_data"
+    #match '/todo_events/get_top_data(.:format)' => "todo_events#get_top_data"
+    #match '/todo_events/:id/show(.:format)' => "todo_events#show", :via => :get
+    #match '/todo_events/:id/edit_recurrence(.:format)' => "todo_events#edit_recurrence", :via => :get
+    #match '/todo_events/:id/update_recurrence(.:format)' => "todo_events#update_recurrence", :via => :put
+    #match '/todo_events/:id/quick_show(.:format)' => "todo_events#quick_show", :via => :get
+    #match '/todo_events/my_events_index(.:format)' => "todo_events#my_events_index", :via => :get
+    #match '/todo_events/my_events_get_data(.:format)' => "todo_events#my_events_get_data"
+    #match '/todo_events/calendar_view(.:format)' => "todo_events#calendar_view"
+    #
+    #match '/todo_tasks(/index)(.:format)' => "todo_tasks#index", :via => :get
+    #match '/todo_tasks/new(.:format)' => "todo_tasks#new", :via => :get
+    #match '/todo_tasks/create(.:format)' => "todo_tasks#create", :via => :post
+    #match '/todo_tasks/:id/edit(.:format)' => "todo_tasks#edit", :via => :get
+    #match '/todo_tasks/:id(.:format)' => "todo_tasks#update", :via => :put
+    #match '/todo_tasks/get_data(.:format)' => "todo_tasks#get_data"
+    #match '/todo_tasks/get_top_data(.:format)' => "todo_tasks#get_top_data"
+    #match '/todo_tasks/:id/show(.:format)' => "todo_tasks#show", :via => :get
+    #match '/todo_tasks/:id/edit_recurrence(.:format)' => "todo_tasks#edit_recurrence", :via => :get
+    #match '/todo_tasks/:id/update_recurrence(.:format)' => "todo_tasks#update_recurrence", :via => :put
+    #match '/todo_tasks/my_tasks_index(.:format)' => "todo_tasks#my_tasks_index", :via => :get
+    #match '/todo_tasks/my_tasks_get_data(.:format)' => "todo_tasks#my_tasks_get_data"
+    #match '/todo_tasks/portlet(.:format)' => "todo_tasks#portlet", :via => :get
+    #
+    #match '/calendars(/:year(/:month))' => 'calendars#get_full_calendar', :as => :calendar_task, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     # business object
     match '/business_objects(/index)(.:format)' => "business_objects#index", :via => :get
     match '/business_objects/new(.:format)' => "business_objects#new", :via => :get

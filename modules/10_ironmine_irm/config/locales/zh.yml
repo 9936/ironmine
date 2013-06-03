@@ -711,6 +711,7 @@ zh:
   label_irm_group_new: 新建支持组
   label_irm_group_edit: 编辑支持组
   label_irm_group_list: 支持组列表
+  label_irm_group_member_admin_flag: 组管理员
   label_irm_group_support_groups_tls:
     name: 名称
   label_irm_group_oncall_flag: 待命组

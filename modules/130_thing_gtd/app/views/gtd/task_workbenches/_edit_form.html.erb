@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3><%= t(:label_gtd_task_workbench_edit_task) %></h3>
+</div>
+<%= form_for(@task_instance, :url => {:action => "update", :id => @task_instance.id, :today => params[:today]}, :html => {:class => "modal-form"}, :builder => CustomFormBuilder) do |f| %>
+    <div class="modal-body form-horizontal">
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_gtd_task_workbench_status) %>:</label>
+
+        <div class="controls">
+          <%= f.select :execute_status, available_task_status, :required => true %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <% unless params[:today].present? %>
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_gtd_task_assigned_to) %>:</label>
+
+        <div class="controls">
+          <%= f.select :assigned_to, available_assigned_person, :required => true %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_gtd_task_plan_start_at) %>:</label>
+
+        <div class="controls">
+          <%= f.date_field :plan_start_at, :required => true, :with_time => true %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <% end %>
+
+      <div class="control-group">
+        <label class="control-label"><%= t(:label_gtd_task_plan_end_at) %>:</label>
+
+        <div class="controls">
+          <%= f.date_field :plan_end_at, :required => true, :with_time => true %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= link_to t(:cancel), "#", :class => "btn", "data-dismiss"=>"modal", "aria-hidden" => "true" %>
+      <%= link_submit t(:save), :class => "btn btn-primary" %>
+    </div>
+<% end %>
