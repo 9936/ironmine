@@ -16,6 +16,10 @@ class Irm::Permission < ActiveRecord::Base
 
   before_validation :setup_parent
 
+  scope :query_by_function_id, lambda {|function_id|
+    where("#{table_name}.function_id=?", function_id)
+  }
+
   scope :query_by_function_code,lambda{|function_code|
     joins("JOIN #{Irm::Function.table_name} ON #{table_name}.function_id = #{Irm::Function.table_name}.id").
     where("#{Irm::Function.table_name}.code = ?",function_code)

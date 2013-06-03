@@ -360,7 +360,7 @@ Fwk::MenuAndFunctionManager.map do |map|
       :children => {
           :skm_add_api => {
               :en => {:name => "Add Entry Header", :description => "Add Entry Header"},
-              :zh => {:name => "创建知识", :description => "创建知识"},
+              :zh => {:name => "创建知识接口", :description => "创建知识接口"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",
@@ -368,7 +368,7 @@ Fwk::MenuAndFunctionManager.map do |map|
           },
           :skm_show_api => {
               :en => {:name => "Show Entry Header", :description => "Show Entry Header"},
-              :zh => {:name => "查看知识", :description => "查看知识"},
+              :zh => {:name => "查看知识接口", :description => "查看知识接口"},
               :default_flag => "N",
               :login_flag => "N",
               :public_flag => "N",

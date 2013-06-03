@@ -2138,4 +2138,20 @@ zh:
 
   label_irm_person_work_number: 工号
 
+  #==============================Start Api tools==============================
+  label_irm_api_tool: API 测试工具
+  label_irm_api_tool_request: 请求
+  label_irm_api_tool_result: 返回结果
+  label_irm_api_tool_result_format: 结果类型
+  label_irm_api_tool_type: API分类
+  label_irm_api_tool_name: API名称
+  label_irm_api_tool_method: 提交方式
+  label_irm_api_tool_params: API参数
+  label_irm_api_tool_params_help: 说明
+  label_irm_api_tool_params_example: 如
+  label_irm_api_tool_submit: 调用API接口
+  label_irm_api_tool_request_method: 请求方式
+  label_irm_api_tool_request_url: 请求URL
+  label_irm_api_tool_request_params: 请求参数
+  #==============================End Api tools==============================
 

@@ -5,4 +5,9 @@ class Irm::ApiParam < ActiveRecord::Base
 
   validates_presence_of :permission_id
   validates_uniqueness_of :permission_id, :scope => [:name]
+
+  scope :with_permission_by_function, lambda {|function_id|
+    joins("JOIN #{Irm::Permission.table_name} p ON p.id=#{table_name}.permission_id").
+      where("p.function_id=? AND (#{table_name}.param_classify='INPUT' OR #{table_name}.param_classify='BOTH')", function_id)
+  }
 end

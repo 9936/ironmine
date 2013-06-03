@@ -25,6 +25,10 @@ class Irm::Function < ActiveRecord::Base
     where(:system_flag => system_flag)
   }
 
+  scope :query_by_function_group,lambda{|function_group_id|
+    where("#{table_name}.function_group_id=?", function_group_id)
+  }
+
   scope :with_function_group,lambda{|language|
     joins("JOIN #{Irm::FunctionGroup.view_name} ON #{Irm::FunctionGroup.view_name}.id = #{table_name}.function_group_id AND #{Irm::FunctionGroup.view_name}.language='#{language}'").
     select("#{Irm::FunctionGroup.view_name}.zone_code,#{Irm::FunctionGroup.view_name}.name function_group_name")
