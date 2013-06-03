@@ -13,7 +13,6 @@ Rails.application.routes.draw do
     match '/api_tools(/index)(.:format)' => "api_tools#index", :via => :get
     match '/api_tools/function_data(.:format)' => "api_tools#function_data", :via => :get
     match '/api_tools/function_params(.:format)' => "api_tools#function_params", :via => :get
-    match '/api_tools/execute(.:format)' => "api_tools#execute", :via => :post
   end
 
   scope :module => "irm" do

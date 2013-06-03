@@ -16,7 +16,7 @@
     }
 
     .side-content textarea {
-        width: 700px;;
+        width: 100%;
     }
 
     .side-content dl dt {
@@ -101,7 +101,7 @@
   <table class="split-table" id="api-container">
     <tr>
       <td class="side-bar">
-        <%= form_tag({:controller=>"irm/api_tools",:action=>"execute", "_dom_id" => "api-container"}, {:class => "form-horizontal", :id => "api-form", :method => "post", :remote => true }) do %>
+        <%= form_tag({}, {:class => "form-horizontal", :id => "api-form"}) do %>
           <div class="control-group">
             <label class="control-label"><%= t(:label_irm_api_tool_result_format) %>：</label>
 
@@ -206,6 +206,8 @@
                 return false;
             }else{
                 var url = $form.attr("action"), method = $form.attr("method");
+//                url += "?_dom_id =api-container";
+
                 var requestMethod = "<%= t(:label_irm_api_tool_request_method) %> : " + method,
                     requestUrl = "<%= "#{t(:label_irm_api_tool_request_url)}: #{@api_base_url}" %>" + $form.attr("action");
                 $(".api-input", $form).attr("disabled", true);
@@ -215,7 +217,6 @@
                     url: url,
                     data: $form.serialize(),
                     type: method,
-//                    dataType: "html",
                     beforeSend: function(){
                         $("#api-request").val(requestBody);
                     },
