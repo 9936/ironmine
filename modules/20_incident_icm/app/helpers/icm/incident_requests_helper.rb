@@ -50,13 +50,13 @@ module Icm::IncidentRequestsHelper
           unless current_support_id.present?
             current_support_id = '0'
           end
-          all_groups = all_groups.with_group_process(current_support_id, group_process_id).uniq
+          all_groups = all_groups.with_group_process(current_support_id, group_process_id)
         end
       end
     else
       all_groups = Icm::SupportGroup.enabled.oncall.with_group(I18n.locale).select_all
     end
-
+    puts "=============#{all_groups.to_sql}============="
     all_groups.collect{|i|[i[:name], i[:id]]}
   end
 
